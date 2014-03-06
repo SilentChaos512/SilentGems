@@ -1,0 +1,21 @@
+[
+{
+  "modid": "SilentGems",
+  "name": "Silent's Gems",
+  "description": "When diamonds won't cut it.",
+  "version": "0.5.04",
+  "mcversion": "1.6.4",
+  "url": "",
+  "updateUrl": "",
+  "authors": [
+    "SilentChaos512"
+  ],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]
