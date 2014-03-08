@@ -7,6 +7,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.enchantment.ModEnchantments;
+import silent.gems.item.ChaosGem;
 import silent.gems.item.TorchBandolier;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
@@ -19,12 +20,18 @@ public class ItemTickHandler implements IScheduledTickHandler {
     public void tickStart(EnumSet<TickType> type, Object... tickData) {
 
         EntityPlayer player = (EntityPlayer) tickData[0];
+        
+        int torchBandolierId = SRegistry.getItem(Names.TORCH_BANDOLIER).itemID;
+        int chaosGemId = SRegistry.getItem(Names.CHAOS_GEM).itemID;
 
         for (ItemStack stack : player.inventory.mainInventory) {
             if (stack != null) {
-                if (stack.itemID == SRegistry.getItem(Names.TORCH_BANDOLIER).itemID && stack.stackTagCompound != null
+                if (stack.itemID == torchBandolierId && stack.stackTagCompound != null
                         && stack.stackTagCompound.getBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL)) {
                     ((TorchBandolier) stack.getItem()).absorbTorches(stack, player);
+                }
+                else if (stack.itemID == chaosGemId) {
+                   ((ChaosGem) stack.getItem()).doTick(stack, player); 
                 }
             }
         }

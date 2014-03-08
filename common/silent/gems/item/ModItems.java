@@ -14,12 +14,15 @@ import silent.gems.item.tool.GemShovel;
 import silent.gems.item.tool.GemSword;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
+import silent.gems.recipe.ChaosRuneRecipe;
 import silent.gems.recipe.EnchantToolRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 
 public class ModItems {
 
+    private final static int CHAOS_GEM_ID = 6014;
+    private final static int CHAOS_RUNE_ID = 6015;
     private final static int CRAFTING_MATERIAL_ID = 6005;
     private final static int DEBUG_ITEM_ID = 6020;
     private final static int ENCHANT_TOKEN_ID = 6004;
@@ -34,6 +37,8 @@ public class ModItems {
     
     public static void init() {
         
+        SRegistry.registerItem(ChaosGem.class, Names.CHAOS_GEM, CHAOS_GEM_ID);
+        SRegistry.registerItem(ChaosRune.class, Names.CHAOS_RUNE, CHAOS_RUNE_ID);
         SRegistry.registerItem(CraftingMaterial.class, Names.CRAFTING_MATERIALS, CRAFTING_MATERIAL_ID);
         SRegistry.registerItem(DebugItem.class, Names.DEBUG_ITEM, DEBUG_ITEM_ID);
         SRegistry.registerItem(EnchantToken.class, Names.ENCHANT_TOKEN, ENCHANT_TOKEN_ID);
@@ -66,6 +71,7 @@ public class ModItems {
     
     public static void initItemRecipes() {
         
+        GameRegistry.addRecipe(new ChaosRuneRecipe());
         GameRegistry.addRecipe(new EnchantToolRecipe());
     }
     

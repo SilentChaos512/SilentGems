@@ -81,4 +81,16 @@ public class LogHelper {
 
         return coord(tags.getInteger("X"), tags.getInteger("Y"), tags.getInteger("Z"));
     }
+    
+    public static void list(Object... objects) {
+        
+        String s = "";
+        for (int i = 0; i < objects.length; ++i) {
+            if (i != 0) {
+                s += ", ";
+            }
+            s += objects[i];
+        }
+        log(Level.WARNING, "[DEBUG] " + s);
+    }
 }

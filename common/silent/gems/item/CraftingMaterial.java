@@ -23,7 +23,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class CraftingMaterial extends ItemSG {
 
     public static final String[] names = { Names.ORNATE_STICK, Names.MYSTERY_GOO, Names.YARN_BALL, Names.CHAOS_ESSENCE,
-            Names.CHAOS_ESSENCE_PLUS };
+            Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME };
 
     public CraftingMaterial(int id) {
 
@@ -68,6 +68,13 @@ public class CraftingMaterial extends ItemSG {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public boolean hasEffect(ItemStack stack, int pass) {
+
+        return stack.getItemDamage() == getStack(Names.CHAOS_ESSENCE_PLUS).getItemDamage();
+    }
+
+    @Override
     public String getUnlocalizedName(ItemStack stack) {
 
         return getUnlocalizedName(names[stack.getItemDamage()]);
@@ -93,5 +100,8 @@ public class CraftingMaterial extends ItemSG {
                 Strings.ORE_DICT_GEM_SHARD));
         RecipeHelper.addSurround(getStack(Names.CHAOS_ESSENCE_PLUS, 1), new ItemStack(Item.ingotGold), new Object[] { Item.redstone,
                 getStack(Names.CHAOS_ESSENCE) });
+        GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.PLUME, 1), " f ", "fsf", " f ", 'f', Item.feather, 's',
+                Strings.ORE_DICT_GEM_BASIC));
+        RecipeHelper.addSurround(getStack(Names.GOLDEN_PLUME, 1), getStack(Names.PLUME), Item.ingotGold);
     }
 }

@@ -30,6 +30,8 @@ public class Strings {
     public final static String REPAIRABLE = "Repairable";
     public final static String SIGIL_NO_EFFECT = "SigilNoEffect";
     public final static String SIGIL_TELEPORT_NOT_LINKED = "SigilTeleportNotLinked";
+    public final static String STATE_DISABLED = "StateDisabled";
+    public final static String STATE_ENABLED = "StateEnabled";
     public final static String TELEPORTER_INVALID = "TeleporterInvalid";
     public final static String TELEPORTER_LINK_START = "TeleporterLinkStart";
     public final static String TELEPORTER_LINK_END = "TeleporterLinkEnd";
@@ -52,10 +54,16 @@ public class Strings {
      * Localization prefix
      */
     public static final String RESOURCE_PREFIX = Reference.MOD_ID.toLowerCase() + ":";
+    public static final String BUFF_RESOURCE_PREFIX = "buff." + RESOURCE_PREFIX;
     
     /*
      * NBT related constants
      */
+    public static final String CHAOS_GEM_BUFF_LIST = "buff";
+    public static final String CHAOS_GEM_BUFF_ID = "id";
+    public static final String CHAOS_GEM_BUFF_LEVEL = "lvl";
+    public static final String CHAOS_GEM_CHARGE = "charge";
+    public static final String CHAOS_GEM_ENABLED = "enabled";
     public static final String SIGIL_EFFECT_ID = "EffectID";
     public static final String SIGIL_COLOR = "Color";
     public static final String SIGIL_POWER = "Power";

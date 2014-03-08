@@ -10,6 +10,7 @@ import silent.gems.enchantment.ModEnchantments;
 import silent.gems.entity.ModEntities;
 import silent.gems.item.ModItems;
 import silent.gems.lib.Reference;
+import silent.gems.lib.buff.ChaosBuff;
 import silent.gems.world.GemsWorldGenerator;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -39,6 +40,7 @@ public class SilentGems {
         ModBlocks.init();
         ModItems.init();
         ModEnchantments.init();
+        ChaosBuff.init();
         
         ModItems.initItemRecipes();
 

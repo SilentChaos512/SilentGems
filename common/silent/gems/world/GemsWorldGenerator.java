@@ -58,9 +58,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
             }
         }
         
-        if (Config.WORLD_SPAWN_GLOW_ROSES.value) {
-            generateFlowers(world, random, chunkX, chunkZ);
-        }
+        generateFlowers(world, random, chunkX, chunkZ);
     }
 
     private void generateNether() {

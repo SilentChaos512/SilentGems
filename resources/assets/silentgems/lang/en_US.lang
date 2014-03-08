@@ -54,11 +54,14 @@ tile.silentgems:GlowRose11.name=Onyx Glow Rose
 
 item.silentgems:Chaos Essence.name=Chaos Essence
 item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence
+item.silentgems:ChaosRune.name=Chaos Rune
 item.silentgems:DebugItem.name=Debug Item
 item.silentgems:Enchantment Token.name=Enchantment Token
+item.silentgems:GoldenPlume.name=Golden Plume
 item.silentgems:KittySummon.name=Summon Kitty
 item.silentgems:Mystery Goo.name=Mystery Goo
 item.silentgems:Ornate Stick.name=Ornate Stick
+item.silentgems:Plume.name=Plume
 item.silentgems:PotatoStick.name=Potato on a Stick
 item.silentgems:Sigil.name=Sigil
 item.silentgems:Sigil Rune.name=Sigil Rune
@@ -231,9 +234,17 @@ enchantment.Ice Aspect=Ice Aspect
 enchantment.Mending=Mending
 enchantment.Nihil=Nihil
 
-# Death messages
-
-death.attack.abyssMeteor=%1$s was crushed by a meteor
+# Chaos Buffs
+buff.silentgems:none=Empty
+buff.silentgems:fireResist=Fire Resistance
+buff.silentgems:flight=Flight
+buff.silentgems:haste=Haste
+buff.silentgems:jump=Jump
+buff.silentgems:nightVision=Night Vision
+buff.silentgems:regen=Regeneration
+buff.silentgems:resist=Resistance
+buff.silentgems:speed=Speed
+buff.silentgems:waterBreathing=Water Breathing
 
 # Sigil
 
@@ -314,6 +325,7 @@ misc.silentgems:Tool.Sword=Sword
 
 misc.silentgems:BookWillNotOpen=For some strange reason, you cannot open this book.
 misc.silentgems:Chaos Essence=Shiny power!
+misc.silentgems:ChaosEssencePlus=Maximum shiny!
 misc.silentgems:CraftingMaterials=Crafting material.
 misc.silentgems:DebugItem=No one here but us space chickens!
 misc.silentgems:Dyeable=Can be dyed.
@@ -325,11 +337,15 @@ misc.silentgems:EnchantmentToken1=Used to enchant Abyss tools.
 misc.silentgems:EnchantmentToken2=Can apply to:
 misc.silentgems:EnchantmentToken3=Craft with an appropriate tool (shapeless).
 misc.silentgems:Food=Foodstuffs.
+misc.silentgems:GoldenPlume=A bunch of shiny feathers.
 misc.silentgems:KittySummon=A much less annoying way to get cats.
 misc.silentgems:Mystery Goo=Feels right at home in space.
 misc.silentgems:Ornate Stick=Bling bling.
+misc.silentgems:Plume=A bunch of feathers.
 misc.silentgems:PotatoStick=Totally not like the Mindcrack logo.
 misc.silentgems:Repairable=Can be repaired.
+misc.silentgems:StateDisabled=Disabled
+misc.silentgems:StateEnabled=Enabled
 misc.silentgems:SigilNoEffect=No effect. Craft with some Sigil Runes.
 misc.silentgems:SigilTeleportLinked=Sigil linked!
 misc.silentgems:SigilTeleportNotLinked=No destination set. Try right-clicking an Abyss Teleporter.
