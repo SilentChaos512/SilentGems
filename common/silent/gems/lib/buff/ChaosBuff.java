@@ -63,11 +63,18 @@ public class ChaosBuff {
     public void apply(EntityPlayer player, int level) {
 
         if (potionId > -1) {
-            player.addPotionEffect(new PotionEffect(potionId, (potionId == Potion.nightVision.id ? 240 : 50), level - 1, true));
+            player.addPotionEffect(new PotionEffect(potionId, 250, level - 1, true));
         }
 
         // Apply other effects here.
         // TODO
+    }
+    
+    public void remove(EntityPlayer player) {
+        
+        if (potionId > -1) {
+            player.removePotionEffect(potionId);
+        }
     }
 
     public String getDisplayName(int level) {
