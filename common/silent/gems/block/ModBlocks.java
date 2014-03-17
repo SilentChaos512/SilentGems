@@ -13,6 +13,7 @@ public class ModBlocks {
     private final static int GEM_BRICK_ID = 3203;
     private final static int GEM_ORE_ID = 3200;
     private final static int GLOW_ROSE_ID = 3204;
+    private final static int TELEPORTER_ID = 3205;
     
     public static void init() {
         
@@ -21,6 +22,7 @@ public class ModBlocks {
         SRegistry.registerBlock(GemBrick.class, Names.GEM_BRICK, GEM_BRICK_ID, GemBrickItemBlock.class);
         SRegistry.registerBlock(GemOre.class, Names.GEM_ORE, GEM_ORE_ID, GemOreItemBlock.class);
         SRegistry.registerBlock(GlowRose.class, Names.GLOW_ROSE, GLOW_ROSE_ID, GlowRoseItemBlock.class);
+        SRegistry.registerBlock(Teleporter.class, Names.TELEPORTER, TELEPORTER_ID, TeleporterItemBlock.class);
         
         /*
          * Set harvest levels

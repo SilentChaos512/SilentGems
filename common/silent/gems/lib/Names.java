@@ -11,6 +11,7 @@ public class Names {
     public final static String GEM_BRICK = "GemBrick";
     public final static String GEM_ORE = "GemOre";
     public final static String GLOW_ROSE = "GlowRose";
+    public final static String TELEPORTER = "Teleporter";
     
     /*
      * Items
@@ -34,6 +35,7 @@ public class Names {
     public final static String SIGIL = "Sigil";
     public final static String SIGIL_RUNE = "SigilRune";
     public final static String SUGAR_COOKIE = "SugarCookie";
+    public final static String TELEPORTER_LINKER = "TeleporterLinker";
     public final static String TORCH_BANDOLIER = "Torch Bandolier";
     public final static String YARN_BALL = "Yarn Ball";
     

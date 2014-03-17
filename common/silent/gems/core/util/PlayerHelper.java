@@ -38,17 +38,19 @@ public class PlayerHelper {
     
     public static void addChatMessage(EntityPlayer player, String key, boolean fromLocalizationFile) {
 
-        if (fromLocalizationFile) {
-            player.addChatMessage(LocalizationHelper.getMessageText(key, ""));
-        }
-        else {
-            player.addChatMessage(key);
+        if (!player.worldObj.isRemote) {
+            if (fromLocalizationFile) {
+                player.addChatMessage(LocalizationHelper.getMessageText(key, ""));
+            }
+            else {
+                player.addChatMessage(key);
+            }
         }
     }
     
     public static void addChatMessage(EntityPlayer player, String key, EnumChatFormatting format, boolean fromLocalizationFile) {
         
-        if (player.worldObj.isRemote) {
+        if (!player.worldObj.isRemote) {
             if (fromLocalizationFile) {
                 player.addChatMessage(LocalizationHelper.getMessageText(key, format));
             }

@@ -12,6 +12,7 @@ import silent.gems.item.tool.GemHoe;
 import silent.gems.item.tool.GemPickaxe;
 import silent.gems.item.tool.GemShovel;
 import silent.gems.item.tool.GemSword;
+import silent.gems.item.tool.TeleporterLinker;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import silent.gems.recipe.ChaosRuneRecipe;
@@ -32,6 +33,7 @@ public class ModItems {
     private final static int KITTY_SUMMON_ID = 6013;
     private final static int SIGIL_ID = 6011;
     private final static int SIGIL_RUNE_ID = 6012;
+    private final static int TELEPORTER_LINKER_ID = 6009;
     private final static int TOOL_START_ID = 6060;
     private final static int TORCH_BANDOLIER_ID = 6010;
     
@@ -48,6 +50,7 @@ public class ModItems {
         SRegistry.registerItem(KittySummon.class, Names.KITTY_SUMMON, KITTY_SUMMON_ID);
 //        SRegistry.registerItem(Sigil.class, Names.SIGIL, SIGIL_ID);
 //        SRegistry.registerItem(SigilRune.class, Names.SIGIL_RUNE, SIGIL_RUNE_ID);
+        SRegistry.registerItem(TeleporterLinker.class, Names.TELEPORTER_LINKER, TELEPORTER_LINKER_ID);
         SRegistry.registerItem(TorchBandolier.class, Names.TORCH_BANDOLIER, TORCH_BANDOLIER_ID);
         
         // Register tools.

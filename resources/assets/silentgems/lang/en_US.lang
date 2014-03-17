@@ -49,6 +49,18 @@ tile.silentgems:GlowRose8.name=Iolite Glow Rose
 tile.silentgems:GlowRose9.name=Amethyst Glow Rose
 tile.silentgems:GlowRose10.name=Morganite Glow Rose
 tile.silentgems:GlowRose11.name=Onyx Glow Rose
+tile.silentgems:Teleporter0.name=Ruby Teleporter
+tile.silentgems:Teleporter1.name=Garnet Teleporter
+tile.silentgems:Teleporter2.name=Topaz Teleporter
+tile.silentgems:Teleporter3.name=Heliodor Teleporter
+tile.silentgems:Teleporter4.name=Peridot Teleporter
+tile.silentgems:Teleporter5.name=Emerald Teleporter
+tile.silentgems:Teleporter6.name=Aquamarine Teleporter
+tile.silentgems:Teleporter7.name=Sapphire Teleporter
+tile.silentgems:Teleporter8.name=Iolite Teleporter
+tile.silentgems:Teleporter9.name=Amethyst Teleporter
+tile.silentgems:Teleporter10.name=Morganite Teleporter
+tile.silentgems:Teleporter11.name=Onyx Teleporter
 
 # Item localizations
 
@@ -66,7 +78,7 @@ item.silentgems:PotatoStick.name=Potato on a Stick
 item.silentgems:Sigil.name=Sigil
 item.silentgems:Sigil Rune.name=Sigil Rune
 item.silentgems:SugarCookie.name=Sugar Cookie
-item.silentgems:Teleporter Linker.name=Teleporter Linker
+item.silentgems:TeleporterLinker.name=Teleporter Linker
 item.silentgems:Torch Bandolier.name=Torch Bandolier
 item.silentgems:Yarn Ball.name=Ball of Yarn
 
@@ -351,11 +363,13 @@ misc.silentgems:SigilTeleportLinked=Sigil linked!
 misc.silentgems:SigilTeleportNotLinked=No destination set. Try right-clicking an Abyss Teleporter.
 misc.silentgems:SugarCookie=I swear they were here a minute ago!
 misc.silentgems:TeleportDestinationInvalid=Invalid teleport destination.
-misc.silentgems:TeleporterInvalid=Invalid location for teleport.
-misc.silentgems:TeleporterLinkEnd=Teleporter link created.
-misc.silentgems:TeleporterLinkFail=Teleporter link failed.
-misc.silentgems:TeleporterLinkStart=Teleporter link started.
-misc.silentgems:TeleporterNoDestination=No destination set.
+misc.silentgems:Teleporter.Invalid=Invalid location for teleport.
+misc.silentgems:Teleporter.LinkEnd=Teleporter link created.
+misc.silentgems:Teleporter.LinkFail=Teleporter link failed. (Try chunk loading first teleporter.)
+misc.silentgems:Teleporter.LinkStart=Teleporter link started.
+misc.silentgems:Teleporter.NoDestination=No destination set.
+misc.silentgems:TeleporterLinker.Active=Linked to:
+misc.silentgems:TeleporterLinker.Inactive=Not linked.
 misc.silentgems:Tool.Axe=Axe
 misc.silentgems:Tool.Hoe=Hoe
 misc.silentgems:Tool.Pickaxe=Pickaxe

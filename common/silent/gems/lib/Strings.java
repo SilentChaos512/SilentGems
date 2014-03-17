@@ -32,12 +32,14 @@ public class Strings {
     public final static String SIGIL_TELEPORT_NOT_LINKED = "SigilTeleportNotLinked";
     public final static String STATE_DISABLED = "StateDisabled";
     public final static String STATE_ENABLED = "StateEnabled";
-    public final static String TELEPORTER_INVALID = "TeleporterInvalid";
-    public final static String TELEPORTER_LINK_START = "TeleporterLinkStart";
-    public final static String TELEPORTER_LINK_END = "TeleporterLinkEnd";
-    public final static String TELEPORTER_LINK_FAIL = "TeleporterLinkFail";
+    public final static String TELEPORTER_INVALID = "Teleporter.Invalid";
+    public final static String TELEPORTER_LINK_START = "Teleporter.LinkStart";
+    public final static String TELEPORTER_LINK_END = "Teleporter.LinkEnd";
+    public final static String TELEPORTER_LINK_FAIL = "Teleporter.LinkFail";
+    public final static String TELEPORTER_LINKER_ACTIVE = "TeleporterLinker.Active";
+    public final static String TELEPORTER_LINKER_INACTIVE = "TeleporterLinker.Inactive";
     public final static String TELEPORTER_SIGIL_LINK = "SigilTeleportLinked";
-    public final static String TELEPORTER_NO_DESTINATION = "TeleporterNoDestination";
+    public final static String TELEPORTER_NO_DESTINATION = "Teleporter.NoDestination";
     public final static String TOOL_AXE = "Tool.Axe";
     public final static String TOOL_HOE = "Tool.Hoe";
     public final static String TOOL_PICKAXE = "Tool.Pickaxe";
@@ -68,6 +70,7 @@ public class Strings {
     public static final String SIGIL_COLOR = "Color";
     public static final String SIGIL_POWER = "Power";
     public static final String SIGIL_SPEED = "Speed";
+    public static final String TELEPORTER_LINKER_STATE = "state";
     public static final String TORCH_BANDOLIER_AUTO_FILL = "AutoFill";
 
     /*
