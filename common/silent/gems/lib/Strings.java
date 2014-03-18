@@ -32,6 +32,7 @@ public class Strings {
     public final static String SIGIL_TELEPORT_NOT_LINKED = "SigilTeleportNotLinked";
     public final static String STATE_DISABLED = "StateDisabled";
     public final static String STATE_ENABLED = "StateEnabled";
+    public final static String TELEPORTER_DESTINATION_OBSTRUCTED = "Teleporter.DestinationObstructed";
     public final static String TELEPORTER_INVALID = "Teleporter.Invalid";
     public final static String TELEPORTER_LINK_START = "Teleporter.LinkStart";
     public final static String TELEPORTER_LINK_END = "Teleporter.LinkEnd";

@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
@@ -61,6 +62,12 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
             // Destination above y=0?
             if (tile.destY <= 0) {
                 PlayerHelper.addChatMessage(player, Strings.TELEPORTER_NO_DESTINATION, true);
+                return true;
+            }
+            // Destination not obstructed?
+            LogHelper.list(tile.destX, tile.destY, tile.destZ, tile.destD);
+            if (MinecraftServer.getServer().worldServerForDimension(tile.destD).isBlockOpaqueCube(tile.destX, tile.destY + 2, tile.destZ)) {
+                PlayerHelper.addChatMessage(player, Strings.TELEPORTER_DESTINATION_OBSTRUCTED, true);
                 return true;
             }
 
@@ -123,11 +130,13 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
             if (t1 == null) {
                 PlayerHelper.addChatMessage(player, Strings.TELEPORTER_LINK_FAIL, EnumChatFormatting.DARK_RED, true);
                 LogHelper.warning("A teleporter link failed because teleporter 1 could not be found.");
+                linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
                 return false;
             }
             else if (t2 == null) {
                 PlayerHelper.addChatMessage(player, Strings.TELEPORTER_LINK_FAIL, EnumChatFormatting.DARK_RED, true);
                 LogHelper.warning("A teleporter link failed because teleporter 2 could not be found.");
+                linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
                 return false;
             }
 

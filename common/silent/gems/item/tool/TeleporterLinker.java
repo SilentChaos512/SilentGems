@@ -14,6 +14,8 @@ import silent.gems.item.ItemSG;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TeleporterLinker extends ItemSG {
 
@@ -46,6 +48,14 @@ public class TeleporterLinker extends ItemSG {
         else {
             list.add(LocalizationHelper.getMessageText(Strings.TELEPORTER_LINKER_INACTIVE, EnumChatFormatting.RED));
         }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean hasEffect(ItemStack stack, int pass) {
+
+        return stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TELEPORTER_LINKER_STATE)
+                && stack.stackTagCompound.getBoolean(Strings.TELEPORTER_LINKER_STATE);
     }
 
     @Override
