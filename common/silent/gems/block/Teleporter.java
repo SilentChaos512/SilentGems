@@ -123,8 +123,8 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
         if (linker.stackTagCompound.getBoolean(Strings.TELEPORTER_LINKER_STATE)) {
             // Active state, link teleporters and set inactive.
             TileEntityTeleporter t1, t2;
-            t1 = (TileEntityTeleporter) world.getBlockTileEntity(sx, sy, sz);
-            t2 = (TileEntityTeleporter) world.getBlockTileEntity(x, y, z);
+            t1 = (TileEntityTeleporter) MinecraftServer.getServer().worldServerForDimension(sd).getBlockTileEntity(sx, sy, sz);
+            t2 = (TileEntityTeleporter) MinecraftServer.getServer().worldServerForDimension(player.dimension).getBlockTileEntity(x, y, z);
 
             // Safety check
             if (t1 == null) {
