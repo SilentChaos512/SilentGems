@@ -1,4 +1,4 @@
-package silent.gems.block;
+package silent.gems.item.block;
 
 import silent.gems.lib.Names;
 
