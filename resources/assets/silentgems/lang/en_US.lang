@@ -49,6 +49,7 @@ tile.silentgems:GlowRose8.name=Iolite Glow Rose
 tile.silentgems:GlowRose9.name=Amethyst Glow Rose
 tile.silentgems:GlowRose10.name=Morganite Glow Rose
 tile.silentgems:GlowRose11.name=Onyx Glow Rose
+tile.silentgems:MiscBlocks0.name=Chaos Essence Block
 tile.silentgems:Teleporter0.name=Ruby Teleporter
 tile.silentgems:Teleporter1.name=Garnet Teleporter
 tile.silentgems:Teleporter2.name=Topaz Teleporter
@@ -256,6 +257,7 @@ buff.silentgems:nightVision=Night Vision
 buff.silentgems:regen=Regeneration
 buff.silentgems:resist=Resistance
 buff.silentgems:speed=Speed
+buff.silentgems:strength=Strength
 buff.silentgems:waterBreathing=Water Breathing
 
 # Sigil
@@ -345,7 +347,7 @@ misc.silentgems:EmptyEffect=Empty
 misc.silentgems:EnchantmentIceAspect=Slows the target.
 misc.silentgems:EnchantmentMending=Randomly repairs the tool.
 misc.silentgems:EnchantmentNihil=Dispels potion effects on the target.
-misc.silentgems:EnchantmentToken1=Used to enchant Abyss tools.
+misc.silentgems:EnchantmentToken1=Used to enchant gem tools.
 misc.silentgems:EnchantmentToken2=Can apply to:
 misc.silentgems:EnchantmentToken3=Craft with an appropriate tool (shapeless).
 misc.silentgems:Food=Foodstuffs.

@@ -19,7 +19,7 @@ public class Textures {
     // Armor sprite sheets
 
     // GUI textures
-    // None yet.
+    public final static ResourceLocation GUI_SHINY_CRAFTER = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LOCATION + "ShinyCrafter.png");
 
     // Model textures
     public final static ResourceLocation ITEM_SIGIL = ResourceLocationHelper.getResourceLocation(MODEL_SHEET_LOCATION + "Sigil.png");

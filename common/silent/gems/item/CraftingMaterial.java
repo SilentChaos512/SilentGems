@@ -102,6 +102,6 @@ public class CraftingMaterial extends ItemSG {
                 getStack(Names.CHAOS_ESSENCE) });
         GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.PLUME, 1), " f ", "fsf", " f ", 'f', Item.feather, 's',
                 Strings.ORE_DICT_GEM_BASIC));
-        RecipeHelper.addSurround(getStack(Names.GOLDEN_PLUME, 1), getStack(Names.PLUME), Item.ingotGold);
+        RecipeHelper.addSurround(getStack(Names.GOLDEN_PLUME, 1), getStack(Names.PLUME), getStack(Names.CHAOS_ESSENCE), Item.ingotGold);
     }
 }

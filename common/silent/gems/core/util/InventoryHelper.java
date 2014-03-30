@@ -1,6 +1,9 @@
 package silent.gems.core.util;
 
+import java.util.ArrayList;
+
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -58,5 +61,32 @@ public class InventoryHelper {
             int l = world.getBlockId(x, y, z);
             return (Block.blocksList[l] != null && Block.blocksList[l].canPlaceTorchOnTop(world, x, y, z));
         }
+    }
+    
+    public static ItemStack getItemOfTypeFromPlayer(EntityPlayer player, int itemID) {
+        
+        for (ItemStack stack : player.inventory.mainInventory) {
+            if (stack != null && stack.itemID == itemID) {
+                return stack;
+            }
+        }
+        
+        return null;
+    }
+    
+    public static ItemStack[] getAllItemsOfType(EntityPlayer player, int itemID) {
+        
+        ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
+        for (ItemStack stack : player.inventory.mainInventory) {
+            if (stack != null && stack.itemID == itemID) {
+                stacks.add(stack);
+            }
+        }
+        
+        ItemStack[] result = new ItemStack[stacks.size()];
+        for (int i = 0; i < stacks.size(); ++i) {
+            result[i] = stacks.get(i);
+        }
+        return result;
     }
 }

@@ -13,7 +13,9 @@ public class Config {
      * Misc
      */
     
-    public static ConfigOptionInt CHAOS_GEM_MAX_CHARGE = new ConfigOptionInt("ChaosGem.MaxCharge", 1800);
+    public static ConfigOptionDouble CHAOS_GEM_FLIGHT_MAX_SPEED = new ConfigOptionDouble("ChaosGem.FlightMaxSpeed", 25.0);
+    public static ConfigOptionInt CHAOS_GEM_MAX_BUFFS = new ConfigOptionInt("ChaosGem.MaxBuffsPerGem", 2);
+    public static ConfigOptionInt CHAOS_GEM_MAX_CHARGE = new ConfigOptionInt("ChaosGem.MaxCharge", 1200);
     public static ConfigOptionInt FOOD_SUPPORT_DURATION = new ConfigOptionInt("Food.SupportDuration", 600);
     
     /*
@@ -80,6 +82,8 @@ public class Config {
             /*
              * Misc
              */
+            CHAOS_GEM_FLIGHT_MAX_SPEED.loadValue(c, CATEGORY_ITEM_PROPERTIES);
+            CHAOS_GEM_MAX_BUFFS.loadValue(c, CATEGORY_ITEM_PROPERTIES);
             CHAOS_GEM_MAX_CHARGE.loadValue(c, CATEGORY_ITEM_PROPERTIES);
             FOOD_SUPPORT_DURATION.loadValue(c, CATEGORY_ITEM_PROPERTIES);
             

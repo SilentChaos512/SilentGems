@@ -1,6 +1,10 @@
 package silent.gems.core.proxy;
 
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 import silent.gems.client.renderer.item.RenderSigil;
+import silent.gems.core.handler.ClientTickHandler;
+import silent.gems.core.handler.PlayerTickHandler;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.lib.Names;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -46,8 +50,8 @@ public class ClientProxy extends CommonProxy {
     public void registerTickHandlers() {
 
         super.registerTickHandlers();
-//        TickRegistry.registerTickHandler(new PlayerClientTickHandler(), Side.CLIENT);
-//        TickRegistry.registerTickHandler(new RenderTickHandler(), Side.CLIENT);
+        TickRegistry.registerTickHandler(new PlayerTickHandler(), Side.CLIENT);
+        TickRegistry.registerTickHandler(new ClientTickHandler(), Side.CLIENT);
     }
 
     @Override

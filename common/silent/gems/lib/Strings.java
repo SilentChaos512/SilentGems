@@ -73,6 +73,9 @@ public class Strings {
     public static final String SIGIL_SPEED = "Speed";
     public static final String TELEPORTER_LINKER_STATE = "state";
     public static final String TORCH_BANDOLIER_AUTO_FILL = "AutoFill";
+    public static final String NBT_TE_STATE_KEY = "teState";
+    public static final String NBT_CUSTOM_NAME = "CustomName";
+    public static final String NBT_TE_DIRECTION_KEY = "teDirection";
 
     /*
      * Enchantment name constants
@@ -94,6 +97,8 @@ public class Strings {
     /*
      * Container related constants
      */
+    public final static String CONTAINER_SHINY_CRAFTER_NAME = "container.silentgems:" + Names.SHINY_CRAFTER;
+    public final static String CONTAINER_INVENTORY = "container.inventory";
     
     /*
      * Easter eggs

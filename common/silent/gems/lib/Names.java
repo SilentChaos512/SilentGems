@@ -6,11 +6,14 @@ public class Names {
     /*
      * Blocks
      */
+    public final static String CHAOS_ESSENCE_BLOCK = "ChaosEssenceBlock";
     public final static String CHAOS_ORE = "ChaosOre";
     public final static String GEM_BLOCK = "GemBlock";
     public final static String GEM_BRICK = "GemBrick";
     public final static String GEM_ORE = "GemOre";
     public final static String GLOW_ROSE = "GlowRose";
+    public final static String MISC_BLOCKS = "MiscBlocks";
+    public final static String SHINY_CRAFTER = "ShinyCrafter";
     public final static String TELEPORTER = "Teleporter";
     
     /*

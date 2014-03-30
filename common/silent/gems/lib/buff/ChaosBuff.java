@@ -50,6 +50,7 @@ public class ChaosBuff {
         addBuff("resist", 2, Potion.resistance.id, Item.leather);
         addBuff("fireResist", 1, Potion.fireResistance.id, Item.blazeRod);
         addBuff("waterBreathing", 1, Potion.waterBreathing.id, Block.blockLapis);
+        addBuff("strength", 2, Potion.damageBoost.id, Item.redstone);
     }
 
     private static void addBuff(String name, int maxLevel, int potionId, Object material) {
@@ -58,6 +59,17 @@ public class ChaosBuff {
         all.add(buff);
         GameRegistry.addShapedRecipe(new ItemStack(SRegistry.getItem(Names.CHAOS_RUNE), 1, lastId), "mcm", "cmc", "rcr", 'm', material,
                 'c', CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS), 'r', Item.redstone);
+    }
+    
+    public static ChaosBuff getBuffByName(String name) {
+        
+        for (ChaosBuff buff : all) {
+            if (buff.name.equals(name)) {
+                return buff;
+            }
+        }
+        
+        return null;
     }
 
     public void apply(EntityPlayer player, int level) {
