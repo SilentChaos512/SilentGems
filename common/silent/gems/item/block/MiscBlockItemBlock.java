@@ -9,7 +9,6 @@ public class MiscBlockItemBlock extends ItemBlockSG {
 
         super(id);
         setHasSubtypes(true);
-        setHasGemSubtypes(true);
         setUnlocalizedName(Names.MISC_BLOCKS);
     }
 

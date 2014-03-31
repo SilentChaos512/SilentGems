@@ -60,7 +60,11 @@ public class PlayerTickHandler implements ITickHandler {
         
         PlayerInputMap movementInput = PlayerInputMap.getInputMapFor(player.username);
         boolean jumpkey = movementInput.jumpKey;
-        double thrust = 0.1 * ChaosGem.getBuffLevel(chaosGem, ChaosBuff.getBuffByName("flight"));
+        // Get thrust level
+        int flightLevel = ChaosGem.getBuffLevel(chaosGem, ChaosBuff.getBuffByName("flight"));
+        //double thrust = 0.1 + 0.05 * (ChaosGem.getBuffLevel(chaosGem, ChaosBuff.getBuffByName("flight")) - 1);
+        //double thrust = 0.1 * flightLevel;
+        double thrust = 0.1 + 0.05 * (flightLevel - 1);
         
         if (jumpkey && player.motionY < 0.5) {
             //LogHelper.derp();

@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import silent.gems.block.MushroomBlock;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.core.util.RecipeHelper;
@@ -23,7 +24,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class CraftingMaterial extends ItemSG {
 
     public static final String[] names = { Names.ORNATE_STICK, Names.MYSTERY_GOO, Names.YARN_BALL, Names.CHAOS_ESSENCE,
-            Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME };
+            Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME, Names.AMANITA_DUST };
 
     public CraftingMaterial(int id) {
 
@@ -103,5 +104,6 @@ public class CraftingMaterial extends ItemSG {
         GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.PLUME, 1), " f ", "fsf", " f ", 'f', Item.feather, 's',
                 Strings.ORE_DICT_GEM_BASIC));
         RecipeHelper.addSurround(getStack(Names.GOLDEN_PLUME, 1), getStack(Names.PLUME), getStack(Names.CHAOS_ESSENCE), Item.ingotGold);
+        GameRegistry.addShapelessRecipe(getStack(Names.AMANITA_DUST, 4), MushroomBlock.getStack(Names.FLY_AMANITA));
     }
 }

@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import silent.gems.block.GlowRose;
+import silent.gems.block.MushroomBlock;
 import silent.gems.configuration.Config;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.lib.EnumGem;
@@ -74,10 +75,12 @@ public class GemsWorldGenerator implements IWorldGenerator {
     private void generateFlowers(World world, Random random, int chunkX, int chunkZ) {
         
         int i, x, y, z, m;
+        
+        // Glow roses
         GlowRose flower = (GlowRose) SRegistry.getBlock(Names.GLOW_ROSE);
         for (i = 0; i < Config.WORLD_FLOWERS_PER_CHUNK.value; ++i) {
             x = chunkX + random.nextInt(16);
-            y = 160;
+            y = random.nextInt(80) + 40;
             z = chunkZ + random.nextInt(16);
             m = random.nextInt(EnumGem.all().length);
             
@@ -86,6 +89,24 @@ public class GemsWorldGenerator implements IWorldGenerator {
 
             if (flower.canBlockStay(world, x, y, z)) {
                 world.setBlock(x, y, z, flower.blockID, m, 2);
+            }
+        }
+        
+        // Mushrooms
+        MushroomBlock mushroom = (MushroomBlock) SRegistry.getBlock(Names.MUSHROOM_BLOCK);
+        if (random.nextInt(Config.WORLD_MUSHROOM_RARITY.value) == 0) {
+            x = chunkX + random.nextInt(16);
+            y = 160;
+            z = chunkZ + random.nextInt(16);
+            m = random.nextInt(MushroomBlock.names.length);
+            
+            // Find any valid block.
+            for (; y > 5; --y) {
+                if (world.isAirBlock(x, y + 1, z) && mushroom.canBlockStay(world, x, y, z)) {
+                    // FIXME: Mushrooms are sometimes floating one block above ground.
+                    world.setBlock(x, y + 1, z, mushroom.blockID, m, 2);
+                    y = 0;
+                }
             }
         }
     }

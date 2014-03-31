@@ -48,7 +48,8 @@ public class Config {
     public static ConfigOptionInt WORLD_CHAOS_ORE_CLUSTER_COUNT = new ConfigOptionInt("World.ChaosOre.ClusterCount", 1);
     public static ConfigOptionInt WORLD_CHAOS_ORE_CLUSTER_SIZE = new ConfigOptionInt("World.ChaosOre.ClusterSize", 16);
     public static ConfigOptionInt WORLD_CHAOS_ORE_MAX_HEIGHT = new ConfigOptionInt("World.ChaosOre.MaxHeight", 20);
-    public static ConfigOptionInt WORLD_FLOWERS_PER_CHUNK = new ConfigOptionInt("World.FlowersPerChunk", 2);
+    public static ConfigOptionInt WORLD_FLOWERS_PER_CHUNK = new ConfigOptionInt("World.FlowersPerChunk", 1);
+    public static ConfigOptionInt WORLD_MUSHROOM_RARITY = new ConfigOptionInt("World.MushroomRarity", 4);
     
     /*
      * **************
@@ -109,6 +110,7 @@ public class Config {
             WORLD_CHAOS_ORE_CLUSTER_SIZE.loadValue(c, CATEGORY_WORLD_GEN);
             WORLD_CHAOS_ORE_MAX_HEIGHT.loadValue(c, CATEGORY_WORLD_GEN);
             WORLD_FLOWERS_PER_CHUNK.loadValue(c, CATEGORY_WORLD_GEN);
+            WORLD_MUSHROOM_RARITY.loadValue(c, CATEGORY_WORLD_GEN);
         }
         catch (Exception e) {
             LogHelper.severe("Oh noes!!! Couldn't load configuration file properly!");

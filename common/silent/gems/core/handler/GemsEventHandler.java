@@ -35,7 +35,7 @@ public class GemsEventHandler {
                     if (event.world.getBlockId(x, y, z) == Block.tallGrass.blockID) {
                         event.world.setBlockToAir(x, y, z);
                     }
-                    if (flower.canBlockStay(event.world, x, y, z)) {
+                    if (event.world.isAirBlock(x, y, z) && flower.canBlockStay(event.world, x, y, z)) {
                         m = random.nextInt(EnumGem.all().length);
                         event.world.setBlock(x, y, z, flower.blockID, m, 2);
                     }
