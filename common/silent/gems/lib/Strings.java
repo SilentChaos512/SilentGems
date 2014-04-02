@@ -19,6 +19,7 @@ public class Strings {
      * Messages
      */
     public final static String BAD_BOOK = "BookWillNotOpen";
+    public final static String CHAOS_GEM_LOW_POWER = "ChaosGem.LowPower";
     public final static String DYEABLE = "Dyeable";
     public final static String EFFECT_EMPTY = "EmptyEffect";
     public final static String ENCHANT_ICE_ASPECT = "EnchantmentIceAspect";

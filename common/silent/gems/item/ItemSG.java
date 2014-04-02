@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
+import net.minecraft.util.StatCollector;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Reference;
@@ -103,6 +104,11 @@ public class ItemSG extends Item {
         else {
             list.add(new ItemStack(this, 1, 0));
         }
+    }
+
+    public String getLocalizedName(ItemStack stack) {
+
+        return StatCollector.translateToLocal(getUnlocalizedName(stack) + ".name");
     }
 
     public ItemStack getStack() {

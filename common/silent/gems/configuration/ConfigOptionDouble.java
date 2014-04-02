@@ -1,5 +1,6 @@
 package silent.gems.configuration;
 
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.Configuration;
 import silent.gems.core.util.LogHelper;
 
@@ -36,6 +37,7 @@ public class ConfigOptionDouble extends ConfigOption {
             if (value < 0.1) {
                 value = 0.1;
             }
+            value = (double) MathHelper.clamp_float((float) value, 0.1f, 100.0f);
         }
         else {
             LogHelper.warning("No validation code for config settings " + name + " found!");

@@ -15,6 +15,7 @@ import silent.gems.configuration.Config;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.core.util.LogHelper;
+import silent.gems.core.util.PlayerHelper;
 import silent.gems.core.util.RecipeHelper;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
@@ -275,6 +276,12 @@ public class ChaosGem extends ItemSG {
             // Disable if out of charge.
             if (charge <= 0) {
                 stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_ENABLED, false);
+            }
+            // Warn player if low on charge.
+            if (Config.CHAOS_GEM_MAX_CHARGE.value > 0 && charge == Config.CHAOS_GEM_MAX_CHARGE.value / 10) {
+                String s = LocalizationHelper.getMessageText(Strings.CHAOS_GEM_LOW_POWER);
+                s = String.format(s, ((ItemSG) stack.getItem()).getLocalizedName(stack));
+                PlayerHelper.addChatMessage(player, s, EnumChatFormatting.YELLOW, false);
             }
         }
         else if (charge < Config.CHAOS_GEM_MAX_CHARGE.value) {

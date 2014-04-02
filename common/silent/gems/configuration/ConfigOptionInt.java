@@ -1,5 +1,6 @@
 package silent.gems.configuration;
 
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.Configuration;
 import silent.gems.core.util.LogHelper;
 
@@ -32,8 +33,14 @@ public class ConfigOptionInt extends ConfigOption {
     @Override
     public ConfigOption validate() {
 
-        if (false) {
-            // derp
+        if (name.equals(Config.CHAOS_ESSENCE_PER_ORE.name)) {
+            value = MathHelper.clamp_int(value, 1, 8);
+        }
+        else if (name.equals(Config.CHAOS_GEM_MAX_BUFFS.name)) {
+            value = MathHelper.clamp_int(value, 1, 8);
+        }
+        else if (name.equals(Config.CHAOS_GEM_MAX_CHARGE.name)) {
+            value = value < 0 ? 0 : value;
         }
         // Mistake catcher
         else {

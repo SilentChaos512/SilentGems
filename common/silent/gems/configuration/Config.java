@@ -13,6 +13,7 @@ public class Config {
      * Misc
      */
     
+    public static ConfigOptionInt CHAOS_ESSENCE_PER_ORE = new ConfigOptionInt("ChaosEssence.PerOre", 1);
     public static ConfigOptionDouble CHAOS_GEM_FLIGHT_MAX_SPEED = new ConfigOptionDouble("ChaosGem.FlightMaxSpeed", 25.0);
     public static ConfigOptionInt CHAOS_GEM_MAX_BUFFS = new ConfigOptionInt("ChaosGem.MaxBuffsPerGem", 2);
     public static ConfigOptionInt CHAOS_GEM_MAX_CHARGE = new ConfigOptionInt("ChaosGem.MaxCharge", 1200);
@@ -49,7 +50,7 @@ public class Config {
     public static ConfigOptionInt WORLD_CHAOS_ORE_CLUSTER_SIZE = new ConfigOptionInt("World.ChaosOre.ClusterSize", 16);
     public static ConfigOptionInt WORLD_CHAOS_ORE_MAX_HEIGHT = new ConfigOptionInt("World.ChaosOre.MaxHeight", 20);
     public static ConfigOptionInt WORLD_FLOWERS_PER_CHUNK = new ConfigOptionInt("World.FlowersPerChunk", 1);
-    public static ConfigOptionInt WORLD_MUSHROOM_RARITY = new ConfigOptionInt("World.MushroomRarity", 4);
+    public static ConfigOptionInt WORLD_MUSHROOM_RARITY = new ConfigOptionInt("World.MushroomRarity", 8);
     
     /*
      * **************
@@ -83,9 +84,10 @@ public class Config {
             /*
              * Misc
              */
-            CHAOS_GEM_FLIGHT_MAX_SPEED.loadValue(c, CATEGORY_ITEM_PROPERTIES);
-            CHAOS_GEM_MAX_BUFFS.loadValue(c, CATEGORY_ITEM_PROPERTIES);
-            CHAOS_GEM_MAX_CHARGE.loadValue(c, CATEGORY_ITEM_PROPERTIES);
+            CHAOS_ESSENCE_PER_ORE.loadValue(c, CATEGORY_ITEM_PROPERTIES).validate();
+            CHAOS_GEM_FLIGHT_MAX_SPEED.loadValue(c, CATEGORY_ITEM_PROPERTIES).validate();
+            CHAOS_GEM_MAX_BUFFS.loadValue(c, CATEGORY_ITEM_PROPERTIES).validate();
+            CHAOS_GEM_MAX_CHARGE.loadValue(c, CATEGORY_ITEM_PROPERTIES).validate();
             FOOD_SUPPORT_DURATION.loadValue(c, CATEGORY_ITEM_PROPERTIES);
             
             /*
