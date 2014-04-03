@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import silent.gems.configuration.Config;
 import silent.gems.control.PlayerInputMap;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.InventoryHelper;
@@ -62,9 +63,8 @@ public class PlayerTickHandler implements ITickHandler {
         boolean jumpkey = movementInput.jumpKey;
         // Get thrust level
         int flightLevel = ChaosGem.getBuffLevel(chaosGem, ChaosBuff.getBuffByName("flight"));
-        //double thrust = 0.1 + 0.05 * (ChaosGem.getBuffLevel(chaosGem, ChaosBuff.getBuffByName("flight")) - 1);
-        //double thrust = 0.1 * flightLevel;
-        double thrust = 0.1 + 0.05 * (flightLevel - 1);
+        double t = Config.CHAOS_GEM_FLIGHT_THRUST.value;
+        double thrust = t + t * (flightLevel - 1) / 2;
         
         if (jumpkey && player.motionY < 0.5) {
             //LogHelper.derp();

@@ -30,7 +30,7 @@ public class GemsEventHandler {
                     x = event.X + random.nextInt(9) - 4;
                     y = event.Y + 1;
                     z = event.Z + random.nextInt(9) - 4;
-                    LogHelper.debug(LogHelper.coord(x, y, z));
+                    //LogHelper.debug(LogHelper.coord(x, y, z));
                     // Get rid of tall grass, it seems to spawn first.
                     if (event.world.getBlockId(x, y, z) == Block.tallGrass.blockID) {
                         event.world.setBlockToAir(x, y, z);
