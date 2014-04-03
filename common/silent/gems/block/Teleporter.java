@@ -65,7 +65,7 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
                 return true;
             }
             // Destination not obstructed?
-            LogHelper.list(tile.destX, tile.destY, tile.destZ, tile.destD);
+            //LogHelper.list(tile.destX, tile.destY, tile.destZ, tile.destD);
             if (MinecraftServer.getServer().worldServerForDimension(tile.destD).isBlockOpaqueCube(tile.destX, tile.destY + 2, tile.destZ)) {
                 PlayerHelper.addChatMessage(player, Strings.TELEPORTER_DESTINATION_OBSTRUCTED, true);
                 return true;
@@ -101,6 +101,10 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
 
     private boolean linkTeleporters(World world, int x, int y, int z, EntityPlayer player) {
 
+        if (world.isRemote) {
+            return true;
+        }
+        
         ItemStack linker = player.inventory.getCurrentItem();
 
         if (linker.stackTagCompound == null) {
