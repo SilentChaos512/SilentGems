@@ -8,11 +8,13 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import silent.gems.lib.Reference;
 import silent.gems.network.packet.PacketPlayerUpdate;
 import silent.gems.network.packet.PacketSG;
+import silent.gems.network.packet.PacketTest;
 
 
 public enum PacketTypeHandler {
 
-    PLAYER_UPDATE(PacketPlayerUpdate.class);
+    PLAYER_UPDATE(PacketPlayerUpdate.class),
+    TEST_PACKET(PacketTest.class);
     
     private Class <? extends PacketSG> clazz;
     

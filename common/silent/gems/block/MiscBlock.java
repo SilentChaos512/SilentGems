@@ -1,17 +1,23 @@
 package silent.gems.block;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.world.World;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.item.CraftingMaterial;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
+import silent.gems.network.packet.PacketTest;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class MiscBlock extends BlockSG {
 
@@ -62,5 +68,22 @@ public class MiscBlock extends BlockSG {
 
         GameRegistry.addShapedRecipe(getStack(Names.CHAOS_ESSENCE_BLOCK), "ccc", "ccc", "ccc", 'c',
                 CraftingMaterial.getStack(Names.CHAOS_ESSENCE));
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float hitX, float hitY, float hitZ) {
+
+        PacketTest packet = new PacketTest("You clicked my block. Good job.");
+
+        Side side = FMLCommonHandler.instance().getEffectiveSide();
+        if (side == Side.SERVER) {
+            EntityPlayerMP playerMP = (EntityPlayerMP) player;
+        }
+        else if (side == Side.CLIENT) {
+            EntityClientPlayerMP playerMP = (EntityClientPlayerMP) player;
+            playerMP.sendQueue.addToSendQueue(packet.packetType.populatePacket(packet));
+        }
+
+        return false;
     }
 }

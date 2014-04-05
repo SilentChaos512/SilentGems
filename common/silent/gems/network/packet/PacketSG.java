@@ -76,6 +76,6 @@ public abstract class PacketSG {
     
     public Packet131MapData getPacket131() {
         
-        return PacketDispatcher.getTinyPacket((Object) SilentGems.instance, (short) packetType.ordinal(), populate());
+        return PacketDispatcher.getTinyPacket(SilentGems.instance, (short) packetType.ordinal(), populate());
     }
 }
