@@ -3,11 +3,17 @@ package silent.gems.item;
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
 import net.minecraftforge.oredict.OreDictionary;
+
+import org.lwjgl.input.Keyboard;
+
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.EnumGem;
@@ -29,6 +35,42 @@ public class Gem extends ItemSG {
         setMaxDamage(0);
         setCreativeTab(CreativeTabs.tabMaterials);
         setUnlocalizedName(Names.GEM_ITEM);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+
+        boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
+
+        if (shifted) {
+            int id = stack.getItemDamage() & 0xF;
+            boolean supercharged = stack.getItemDamage() > 15;
+            EnumToolMaterial material = EnumGem.all()[id].getToolMaterial(supercharged);
+            
+            list.add(LocalizationHelper.getMessageText(Strings.GEM_MATERIAL_TOOL_PROPERTIES));
+            
+            // Durability
+            String format = "%s: %d";
+            String s = LocalizationHelper.getMessageText(Strings.GEM_MATERIAL_MAX_USES, "");
+            s = String.format(format, s, material.getMaxUses());
+            list.add(s);
+            
+            // Efficiency
+            format = "%s: %.1f";
+            s = LocalizationHelper.getMessageText(Strings.GEM_MATERIAL_EFFICIENCY, "");
+            s = String.format(format, s, material.getEfficiencyOnProperMaterial());
+            list.add(s);
+            
+            // Damage
+            format = "%s: %d";
+            s = LocalizationHelper.getMessageText(Strings.GEM_MATERIAL_DAMAGE, "");
+            s = String.format(format, s, (int) material.getDamageVsEntity());
+            list.add(s);
+        }
+        else {
+            list.add(LocalizationHelper.getMessageText(Strings.PRESS_SHIFT, EnumChatFormatting.GRAY));
+        }
     }
 
     @Override

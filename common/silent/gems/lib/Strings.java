@@ -28,6 +28,7 @@ public class Strings {
     public final static String ENCHANT_TOKEN_1 = "EnchantmentToken1";
     public final static String ENCHANT_TOKEN_2 = "EnchantmentToken2";
     public final static String ENCHANT_TOKEN_3 = "EnchantmentToken3";
+    public final static String PRESS_SHIFT = "PressShift";
     public final static String REPAIRABLE = "Repairable";
     public final static String SIGIL_NO_EFFECT = "SigilNoEffect";
     public final static String SIGIL_TELEPORT_NOT_LINKED = "SigilTeleportNotLinked";
@@ -48,6 +49,14 @@ public class Strings {
     public final static String TOOL_SHOVEL = "Tool.Shovel";
     public final static String TOOL_SIGIL = "Tool.Sigil";
     public final static String TOOL_SWORD = "Tool.Sword";
+    
+    /*
+     * Item information
+     */
+    public final static String GEM_MATERIAL_DAMAGE = "Gem.Damage";
+    public final static String GEM_MATERIAL_EFFICIENCY = "Gem.Efficiency";
+    public final static String GEM_MATERIAL_MAX_USES = "Gem.MaxUses";
+    public final static String GEM_MATERIAL_TOOL_PROPERTIES = "Gem.ToolProperties";
     
     /*
      * Configuration file strings
