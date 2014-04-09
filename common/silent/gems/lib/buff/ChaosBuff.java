@@ -42,15 +42,15 @@ public class ChaosBuff {
 
         //addBuff("none", 1, -1, Item.ingotIron);
         addBuff("speed", 4, Potion.moveSpeed.id, Item.ingotGold);
-        addBuff("haste", 4, Potion.digSpeed.id, Item.carrot);
-        addBuff("jump", 4, Potion.jump.id, Item.feather);
+        addBuff("haste", 4, Potion.digSpeed.id, Item.goldenCarrot);
+        addBuff("jump", 4, Potion.jump.id, CraftingMaterial.getStack(Names.PLUME));
         addBuff("flight", 4, -1, CraftingMaterial.getStack(Names.GOLDEN_PLUME));
         addBuff("nightVision", 1, Potion.nightVision.id, Item.goldenCarrot);
         addBuff("regen", 2, Potion.regeneration.id, Item.ghastTear);
-        addBuff("resist", 2, Potion.resistance.id, Item.leather);
+        addBuff("resist", 2, Potion.resistance.id, Item.plateLeather);
         addBuff("fireResist", 1, Potion.fireResistance.id, Item.blazeRod);
         addBuff("waterBreathing", 1, Potion.waterBreathing.id, Block.blockLapis);
-        addBuff("strength", 2, Potion.damageBoost.id, Item.redstone);
+        addBuff("strength", 2, Potion.damageBoost.id, Block.blockRedstone);
     }
 
     private static void addBuff(String name, int maxLevel, int potionId, Object material) {

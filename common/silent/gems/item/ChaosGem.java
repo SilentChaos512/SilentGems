@@ -45,6 +45,8 @@ public class ChaosGem extends ItemSG {
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
         if (stack.stackTagCompound == null) {
+            // Information on how to use.
+            list.add(LocalizationHelper.getMessageText(Strings.CHAOS_GEM_1, EnumChatFormatting.DARK_GRAY));
             return;
         }
 
@@ -61,6 +63,7 @@ public class ChaosGem extends ItemSG {
         list.add(EnumChatFormatting.YELLOW + String.format("%d / %d", k, Config.CHAOS_GEM_MAX_CHARGE.value));
 
         if (stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
+            // Display list of effects.
             NBTTagList tags = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
             NBTTagCompound t;
             int id, lvl;
@@ -70,6 +73,10 @@ public class ChaosGem extends ItemSG {
                 lvl = t.getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
                 list.add(ChaosBuff.all.get(id).getDisplayName(lvl));
             }
+        }
+        else {
+            // Information on how to use.
+            list.add(LocalizationHelper.getMessageText(Strings.CHAOS_GEM_1, EnumChatFormatting.DARK_GRAY));
         }
     }
 
@@ -297,7 +304,7 @@ public class ChaosGem extends ItemSG {
     public void addRecipes() {
 
         for (int i = 0; i < EnumGem.all().length; ++i) {
-            RecipeHelper.addSurround(new ItemStack(this, 1, i), new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 1, i),
+            RecipeHelper.addSurround(new ItemStack(this, 1, i), new ItemStack(SRegistry.getBlock(Names.GEM_BLOCK), 1, i),
                     CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS));
         }
     }

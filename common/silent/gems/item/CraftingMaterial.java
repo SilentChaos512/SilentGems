@@ -99,9 +99,9 @@ public class CraftingMaterial extends ItemSG {
         // RecipeHelper.addSurround(getStack(Names.YARN_BALL), new ItemStack(Item.goldNugget), Item.silk);
         GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.YARN_BALL, 1), "sss", "sgs", "sss", 's', Item.silk, 'g',
                 Strings.ORE_DICT_GEM_SHARD));
-        RecipeHelper.addSurround(getStack(Names.CHAOS_ESSENCE_PLUS, 1), new ItemStack(Item.ingotGold), new Object[] { Item.redstone,
+        RecipeHelper.addSurround(getStack(Names.CHAOS_ESSENCE_PLUS, 1), new ItemStack(Item.glowstone), new Object[] { Item.redstone,
                 getStack(Names.CHAOS_ESSENCE) });
-        GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.PLUME, 1), " f ", "fsf", " f ", 'f', Item.feather, 's',
+        GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.PLUME, 1), "fff", "fsf", "fff", 'f', Item.feather, 's',
                 Strings.ORE_DICT_GEM_BASIC));
         RecipeHelper.addSurround(getStack(Names.GOLDEN_PLUME, 1), getStack(Names.PLUME), getStack(Names.CHAOS_ESSENCE), Item.ingotGold);
         GameRegistry.addShapelessRecipe(getStack(Names.AMANITA_DUST, 4), MushroomBlock.getStack(Names.FLY_AMANITA));
