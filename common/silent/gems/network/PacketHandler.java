@@ -19,7 +19,7 @@ public class PacketHandler implements IPacketHandler, ITinyPacketHandler {
     @Override
     public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
 
-        LogHelper.derp("PacketHandler.onPacketData");
+        //LogHelper.derp("PacketHandler.onPacketData");
         PacketSG packetSG = PacketTypeHandler.buildPacket(packet.data);
         packetSG.execute(manager, player);
     }

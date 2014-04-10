@@ -10,8 +10,10 @@ import net.minecraft.network.INetworkManager;
 import silent.gems.control.PlayerInputMap;
 import silent.gems.core.util.LogHelper;
 import silent.gems.network.PacketTypeHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
+import cpw.mods.fml.relauncher.Side;
 
 
 public class PacketPlayerUpdate extends PacketSG {
@@ -49,11 +51,13 @@ public class PacketPlayerUpdate extends PacketSG {
     @Override
     public void execute(INetworkManager manager, Player player) {
         
-        EntityPlayerMP playerMP = (EntityPlayerMP) player;
-        PacketPlayerUpdate updatePacket = new PacketPlayerUpdate(player, inputMap);
-        playerMP.motionX = inputMap.motionX;
-        playerMP.motionY = inputMap.motionY;
-        playerMP.motionZ = inputMap.motionZ;
-        PacketDispatcher.sendPacketToAllAround(playerMP.posX, playerMP.posY, playerMP.posZ, 128, playerMP.dimension, updatePacket.getPacket131());
+        if (FMLCommonHandler.instance().getSide() == Side.SERVER) {
+            EntityPlayerMP playerMP = (EntityPlayerMP) player;
+            PacketPlayerUpdate updatePacket = new PacketPlayerUpdate(player, inputMap);
+            playerMP.motionX = inputMap.motionX;
+            playerMP.motionY = inputMap.motionY;
+            playerMP.motionZ = inputMap.motionZ;
+            PacketDispatcher.sendPacketToAllAround(playerMP.posX, playerMP.posY, playerMP.posZ, 128, playerMP.dimension, PacketTypeHandler.populatePacket(updatePacket));
+        }
     }
 }

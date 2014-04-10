@@ -4,8 +4,10 @@ import java.util.EnumSet;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.network.packet.Packet;
 import silent.gems.control.PlayerInputMap;
 import silent.gems.lib.Reference;
+import silent.gems.network.PacketTypeHandler;
 import silent.gems.network.packet.PacketPlayerUpdate;
 import silent.gems.network.packet.PacketSG;
 import cpw.mods.fml.common.ITickHandler;
@@ -38,7 +40,8 @@ public class ClientTickHandler implements ITickHandler {
             if (inputMap.hasChanged()) {
                 inputMap.refresh();
                 PacketSG inputPacket = new PacketPlayerUpdate((Player) player, inputMap);
-                player.sendQueue.addToSendQueue(inputPacket.getPacket131());
+                //player.sendQueue.addToSendQueue(inputPacket.getPacket131());
+                player.sendQueue.addToSendQueue(PacketTypeHandler.populatePacket(inputPacket));
             }
         }
     }

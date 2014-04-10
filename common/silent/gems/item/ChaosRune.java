@@ -40,10 +40,10 @@ public class ChaosRune extends ItemSG {
         }
         
         // Temporary
-        if (d == ChaosBuff.getBuffByName("flight").id) {
-            list.add(EnumChatFormatting.RED + "Buggy on servers (kicks for flying).");
-            list.add(EnumChatFormatting.RED + "Trying to fix :(");
-        }
+//        if (d == ChaosBuff.getBuffByName("flight").id) {
+//            list.add(EnumChatFormatting.RED + "Buggy on servers (kicks for flying).");
+//            list.add(EnumChatFormatting.RED + "Trying to fix :(");
+//        }
         
         // Information on how to use.
         list.add(LocalizationHelper.getMessageText(Strings.CHAOS_RUNE_1, EnumChatFormatting.DARK_GRAY));
