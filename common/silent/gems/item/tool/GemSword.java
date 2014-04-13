@@ -8,9 +8,11 @@ import silent.gems.item.ItemSG;
 import silent.gems.lib.Names;
 import silent.gems.lib.Reference;
 import silent.gems.lib.Strings;
+import silent.gems.material.ModMaterials;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.Icon;
@@ -107,6 +109,12 @@ public class GemSword extends ItemSword {
     public static void addRecipe(ItemStack tool, int gemId, boolean supercharged) {
 
         ItemStack material = new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 1, gemId + (supercharged ? 16 : 0));
+        
+        // Fish tools
+        if (gemId == ModMaterials.FISH_GEM_ID) {
+            material = new ItemStack(Item.fishRaw);
+        }
+        
         if (supercharged) {
             GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { " g ", " g ", " s ", 'g', material, 's',
                     new ItemStack(SRegistry.getItem(Names.CRAFTING_MATERIALS), 1, 0) }));

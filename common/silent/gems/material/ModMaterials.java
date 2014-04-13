@@ -4,6 +4,8 @@ import net.minecraft.item.EnumToolMaterial;
 import net.minecraftforge.common.EnumHelper;
 
 public class ModMaterials {
+    
+    public final static int FISH_GEM_ID = 42;
 
     public final static EnumToolMaterial toolRegRuby        = EnumHelper.addToolMaterial("GemRegRuby",       2, 768,  8.0f, 3, 10);
     public final static EnumToolMaterial toolRegGarnet      = EnumHelper.addToolMaterial("GemRegGarnet",     2, 512,  8.0f, 3, 10);
@@ -35,4 +37,6 @@ public class ModMaterials {
     public final static EnumToolMaterial toolSupAmethyst    = EnumHelper.addToolMaterial("GemSupAmethyst",   ml, 512 * dm,  8.0f + ea, 3 + da, 10);
     public final static EnumToolMaterial toolSupMorganite   = EnumHelper.addToolMaterial("GemSupMorganite",  ml, 512 * dm, 10.0f + ea, 4 + da, 10);
     public final static EnumToolMaterial toolSupOnyx        = EnumHelper.addToolMaterial("GemSupOnyx",       ml, 384 * dm, 10.0f + ea, 5 + da, 10);
+    
+    public final static EnumToolMaterial toolFish           = EnumHelper.addToolMaterial("GemFish", 3, 64, 3.0f, 2.0f, 20);
 }

@@ -15,6 +15,7 @@ import silent.gems.item.tool.GemSword;
 import silent.gems.item.tool.TeleporterLinker;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
+import silent.gems.material.ModMaterials;
 import silent.gems.recipe.ChaosRuneRecipe;
 import silent.gems.recipe.EnchantToolRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -70,6 +71,15 @@ public class ModItems {
             SRegistry.registerItem(GemAxe.class, "Axe" + s, ++id, "", params);
             SRegistry.registerItem(GemHoe.class, "Hoe" + s, ++id, "", params);
         }
+        
+        params[0] = ModMaterials.toolFish;
+        params[1] = ModMaterials.FISH_GEM_ID;
+        params[2] = false;
+        SRegistry.registerItem(GemSword.class, "SwordFish", ++id, "", params);
+        SRegistry.registerItem(GemPickaxe.class, "PickaxeFish", ++id, "", params);
+        SRegistry.registerItem(GemShovel.class, "ShovelFish", ++id, "", params);
+        SRegistry.registerItem(GemAxe.class, "AxeFish", ++id, "", params);
+        SRegistry.registerItem(GemHoe.class, "HoeFish", ++id, "", params);
     }
     
     public static void initItemRecipes() {

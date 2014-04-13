@@ -3,6 +3,7 @@ package silent.gems.item.tool;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
+import silent.gems.material.ModMaterials;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -10,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
@@ -86,6 +88,12 @@ public class GemPickaxe extends ItemToolSG {
     public static void addRecipe(ItemStack tool, int gemId, boolean supercharged) {
 
         ItemStack material = new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 1, gemId + (supercharged ? 16 : 0));
+        
+        // Fish tools
+        if (gemId == ModMaterials.FISH_GEM_ID) {
+            material = new ItemStack(Item.fishRaw);
+        }
+        
         if (supercharged) {
             GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { "ggg", " s ", " s ", 'g', material, 's',
                     new ItemStack(SRegistry.getItem(Names.CRAFTING_MATERIALS), 1, 0) }));
