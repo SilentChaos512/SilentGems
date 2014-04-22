@@ -18,15 +18,15 @@ public class Strings {
     /*
      * Messages
      */
-    public final static String BAD_BOOK = "BookWillNotOpen";
+//    public final static String BAD_BOOK = "BookWillNotOpen";
     public final static String CHAOS_GEM_1 = "ChaosGem";
     public final static String CHAOS_GEM_LOW_POWER = "ChaosGem.LowPower";
     public final static String CHAOS_RUNE_1 = "ChaosRune";
     public final static String DYEABLE = "Dyeable";
     public final static String EFFECT_EMPTY = "EmptyEffect";
-    public final static String ENCHANT_ICE_ASPECT = "EnchantmentIceAspect";
+//    public final static String ENCHANT_ICE_ASPECT = "EnchantmentIceAspect";
     public final static String ENCHANT_MENDING = "EnchantmentMending";
-    public final static String ENCHANT_NIHIL = "EnchantmentNihil";
+//    public final static String ENCHANT_NIHIL = "EnchantmentNihil";
     public final static String ENCHANT_TOKEN_1 = "EnchantmentToken1";
     public final static String ENCHANT_TOKEN_2 = "EnchantmentToken2";
     public final static String ENCHANT_TOKEN_3 = "EnchantmentToken3";
@@ -84,6 +84,11 @@ public class Strings {
     public static final String SIGIL_POWER = "Power";
     public static final String SIGIL_SPEED = "Speed";
     public static final String TELEPORTER_LINKER_STATE = "state";
+    public static final String TOOL_ICON_DECO = "Deco";
+    public static final String TOOL_ICON_HEAD_LEFT = "HeadL";
+    public static final String TOOL_ICON_HEAD_MIDDLE = "HeadM";
+    public static final String TOOL_ICON_HEAD_RIGHT = "HeadR";
+    public static final String TOOL_ICON_ROD = "Rod";
     public static final String TORCH_BANDOLIER_AUTO_FILL = "AutoFill";
     public static final String NBT_TE_STATE_KEY = "teState";
     public static final String NBT_CUSTOM_NAME = "CustomName";
@@ -93,14 +98,14 @@ public class Strings {
      * Enchantment name constants
      */
     public final static String MENDING_NAME = "Mending";
-    public final static String NIHIL_NAME = "Nihil";
-    public final static String ICE_ASPECT_NAME = "Ice Aspect";
+//    public final static String NIHIL_NAME = "Nihil";
+//    public final static String ICE_ASPECT_NAME = "Ice Aspect";
     
     /*
      * Entity name constants
      */
-    public final static String ENTITY_PROJECTILE_MAGIC_NAME = "Magic Projectile";
-    public final static String ENTITY_CRIMSON_CREEPER_NAME = "Crimson Creeper";
+//    public final static String ENTITY_PROJECTILE_MAGIC_NAME = "Magic Projectile";
+//    public final static String ENTITY_CRIMSON_CREEPER_NAME = "Crimson Creeper";
 
     /*
      * Tile entity name constants

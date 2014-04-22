@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -14,15 +15,18 @@ import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ForgeHooks;
 import silent.gems.core.registry.SRegistry;
+import silent.gems.core.util.LogHelper;
+import silent.gems.core.util.NBTHelper;
 import silent.gems.item.ItemSG;
 import silent.gems.item.TorchBandolier;
+import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
+import silent.gems.lib.Strings;
 
 import com.google.common.collect.Multimap;
 
@@ -40,6 +44,14 @@ public class ItemToolSG extends ItemSG {
     protected int gemId;
     protected Icon iconRod, iconHead;
     
+    protected static boolean sharedTexturesLoaded = false;
+    public static Icon iconBlank = null;
+    public static Icon[] iconToolDeco = null;
+//    public static Icon[] iconToolHeadL = null;
+//    public static Icon[] iconToolHeadM = null;
+//    public static Icon[] iconToolHeadR = null;
+    public static Icon[] iconToolRod = null;
+    
     public ItemToolSG(int id, float baseDamage, EnumToolMaterial toolMaterial, int gemId, boolean supercharged, Block[] blocksEffectiveAgainst) {
 
         super(id);
@@ -56,6 +68,18 @@ public class ItemToolSG extends ItemSG {
         this.damageVsEntity = baseDamage + toolMaterial.getDamageVsEntity();
         this.setCreativeTab(CreativeTabs.tabTools);
     }
+    
+//    @Override
+//    @SideOnly(Side.CLIENT)
+//    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+//
+//        list.add("Debug:");
+//        list.add("Deco: " + NBTHelper.getByte(stack, Strings.TOOL_ICON_DECO));
+//        list.add("HeadL: " + NBTHelper.getByte(stack, Strings.TOOL_ICON_HEAD_LEFT));
+//        list.add("HeadM: " + NBTHelper.getByte(stack, Strings.TOOL_ICON_HEAD_MIDDLE));
+//        list.add("HeadR: " + NBTHelper.getByte(stack, Strings.TOOL_ICON_HEAD_RIGHT));
+//        list.add("Rod: " + NBTHelper.getByte(stack, Strings.TOOL_ICON_ROD));
+//    }
 
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY,
@@ -110,7 +134,7 @@ public class ItemToolSG extends ItemSG {
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack stack, int pass) {
 
-        return stack.isItemEnchanted();
+        return stack.isItemEnchanted() && pass == 5;
     }
     
     @SideOnly(Side.CLIENT)
@@ -122,13 +146,41 @@ public class ItemToolSG extends ItemSG {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public Icon getIconFromDamageForRenderPass(int meta, int pass) {
+    public int getRenderPasses(int meta) {
+        
+        return 6;
+    }
+    
+    @SideOnly(Side.CLIENT)
+    @Override
+    public Icon getIcon(ItemStack stack, int pass) {
         
         if (pass == 0) {
             return iconRod;
         }
+        else if (pass == 1) {
+            if (supercharged) {
+                if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_DECO)) {
+                    byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_DECO);
+                    if (b >= 0 && b < iconToolDeco.length - 1) {
+                        return iconToolDeco[b];
+                    }
+                }
+                return iconToolDeco[iconToolDeco.length - 1];
+            }
+            return iconBlank;
+        }
+        else if (pass == 5) {
+            if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_ROD)) {
+                byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_ROD);
+                if (b >= 0 && b < iconToolRod.length) {
+                    return iconToolRod[b];
+                }
+            }
+            return iconBlank;
+        }
         else {
-            return iconHead;
+            return iconBlank;
         }
     }
 

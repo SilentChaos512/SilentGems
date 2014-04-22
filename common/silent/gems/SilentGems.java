@@ -1,5 +1,7 @@
 package silent.gems;
 
+import java.util.Random;
+
 import net.minecraftforge.common.MinecraftForge;
 import silent.gems.block.ModBlocks;
 import silent.gems.configuration.Config;
@@ -29,6 +31,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION_NUMBER)
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { Reference.CHANNEL_NAME }, packetHandler = PacketHandler.class)
 public class SilentGems {
+    
+    public Random random = new Random();
 
     @Instance(Reference.MOD_ID)
     public static SilentGems instance;

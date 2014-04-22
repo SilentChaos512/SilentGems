@@ -17,6 +17,7 @@ import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import silent.gems.material.ModMaterials;
 import silent.gems.recipe.ChaosRuneRecipe;
+import silent.gems.recipe.DecorateToolRecipe;
 import silent.gems.recipe.EnchantToolRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -85,6 +86,7 @@ public class ModItems {
     public static void initItemRecipes() {
         
         GameRegistry.addRecipe(new ChaosRuneRecipe());
+        GameRegistry.addRecipe(new DecorateToolRecipe());
         GameRegistry.addRecipe(new EnchantToolRecipe());
     }
     

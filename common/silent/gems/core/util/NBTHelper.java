@@ -1,5 +1,6 @@
 package silent.gems.core.util;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class NBTHelper {
@@ -34,5 +35,25 @@ public class NBTHelper {
     public static boolean hasValidXYZD(NBTTagCompound tags) {
 
         return tags.hasKey("X") && tags.hasKey("Y") && tags.hasKey("Z") && tags.hasKey("D") && tags.getInteger("Y") != 0;
+    }
+    
+    public static byte getByte(ItemStack stack, String key) {
+        
+        if (stack != null && stack.stackTagCompound != null && stack.stackTagCompound.hasKey(key)) {
+            return stack.stackTagCompound.getByte(key);
+        }
+        else {
+            return (byte) -1;
+        }
+    }
+    
+    public static String getString(ItemStack stack, String key) {
+        
+        if (stack != null && stack.stackTagCompound != null && stack.stackTagCompound.hasKey(key)) {
+            return stack.stackTagCompound.getString(key);
+        }
+        else {
+            return "null";
+        }
     }
 }

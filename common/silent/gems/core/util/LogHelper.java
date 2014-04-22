@@ -73,6 +73,11 @@ public class LogHelper {
         
         log(Level.WARNING, "Derp! " + message);
     }
+    
+    public static void yay() {
+        
+        log(Level.WARNING, "Yay!");
+    }
 
     // Prints XYZ coordinates in a nice format.
     public static String coord(int x, int y, int z) {

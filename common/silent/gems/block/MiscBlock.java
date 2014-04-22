@@ -68,6 +68,7 @@ public class MiscBlock extends BlockSG {
 
         GameRegistry.addShapedRecipe(getStack(Names.CHAOS_ESSENCE_BLOCK), "ccc", "ccc", "ccc", 'c',
                 CraftingMaterial.getStack(Names.CHAOS_ESSENCE));
+        GameRegistry.addShapelessRecipe(CraftingMaterial.getStack(Names.CHAOS_ESSENCE, 9), getStack(Names.CHAOS_ESSENCE_BLOCK));
     }
 
     @Override
