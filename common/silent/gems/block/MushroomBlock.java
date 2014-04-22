@@ -73,9 +73,9 @@ public class MushroomBlock extends BlockSG implements IPlantable {
     @Override
     public void updateTick(World world, int x, int y, int z, Random random) {
 
-        if (random.nextInt(10) == 0) { // was 25 and 0
+        if (random.nextInt(25) == 0) {
             byte b0 = 4;
-            int l = 10; // was 5
+            int l = 5;
             int i1;
             int j1;
             int k1;
