@@ -4,7 +4,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import silent.gems.core.registry.SRegistry;
+import silent.gems.core.util.LogHelper;
 import silent.gems.item.ItemSG;
+import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import silent.gems.lib.Reference;
 import silent.gems.lib.Strings;
@@ -25,6 +27,13 @@ public class GemSword extends ItemSword {
     private boolean supercharged;
     private EnumToolMaterial toolMaterial;
     private Icon iconRod, iconHead;
+    
+    public static Icon iconBlank = null;
+    public static Icon[] iconToolDeco = null;
+    public static Icon[] iconToolRod = null;
+    public static Icon[] iconToolHeadL = null;
+    public static Icon[] iconToolHeadM = null;
+    public static Icon[] iconToolHeadR = null;
 
     public GemSword(int id, EnumToolMaterial toolMaterial, int gemId, boolean supercharged) {
 
@@ -36,11 +45,78 @@ public class GemSword extends ItemSword {
         addRecipe(new ItemStack(this), gemId, supercharged);
     }
     
-//    @Override
-//    public float func_82803_g() {
-//        
-//        return this.weaponDamage;
-//    }
+    @SideOnly(Side.CLIENT)
+    @Override
+    public Icon getIcon(ItemStack stack, int pass) {
+        
+        if (pass == 0) {
+            // Rod
+            return iconRod;
+        }
+        else if (pass == 1) {
+            // HeadM
+            if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_MIDDLE)) {
+                byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_MIDDLE);
+                if (b >= 0 && b < iconToolHeadM.length) {
+                    return iconToolHeadM[b];
+                }
+            }
+            return iconHead;
+        }
+        else if (pass == 2) {
+            // HeadL
+            if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_LEFT)) {
+                byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_LEFT);
+                if (b >= 0 && b < iconToolHeadL.length) {
+                    return iconToolHeadL[b];
+                }
+            }
+            return iconBlank;
+        }
+        else if (pass == 3) {
+            // HeadR
+            if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_RIGHT)) {
+                byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_RIGHT);
+                if (b >= 0 && b < iconToolHeadR.length) {
+                    return iconToolHeadR[b];
+                }
+            }
+            return iconBlank;
+        }
+        else if (pass == 4) {
+            // Rod wool
+            if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_ROD)) {
+                byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_ROD);
+                if (b >= 0 && b < iconToolRod.length) {
+                    return iconToolRod[b];
+                }
+            }
+            return iconBlank;
+        }
+        else if (pass == 5) {
+            // Rod decoration
+            if (supercharged) {
+                if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_DECO)) {
+                    byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_DECO);
+                    if (b >= 0 && b < iconToolDeco.length - 1) {
+                        return iconToolDeco[b];
+                    }
+                }
+                return iconToolDeco[iconToolDeco.length - 1];
+            }
+            return iconBlank;
+        }
+        else {
+            return iconBlank;
+        }
+    }
+    
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int getRenderPasses(int meta) {
+        
+        return 6;
+    }
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
@@ -73,6 +149,41 @@ public class GemSword extends ItemSword {
         s += gemId;
         
         iconHead = iconRegister.registerIcon(s);
+        
+        // Deco
+        String str = Strings.RESOURCE_PREFIX + "SwordDeco";
+        iconToolDeco = new Icon[EnumGem.all().length + 1];
+        for (int i = 0; i < EnumGem.all().length; ++i) {
+            iconToolDeco[i] = iconRegister.registerIcon(str + i);
+        }
+        iconToolDeco[iconToolDeco.length - 1] = iconRegister.registerIcon(str);
+        
+        // Rod
+        str = Strings.RESOURCE_PREFIX + "SwordWool";
+        iconToolRod = new Icon[16];
+        for (int i = 0; i < 16; ++i) {
+            iconToolRod[i] = iconRegister.registerIcon(str + i);
+        }
+        
+        // Blank texture
+        iconBlank = iconRegister.registerIcon(Strings.RESOURCE_PREFIX + "Blank");
+        
+        // HeadL
+        str = Strings.RESOURCE_PREFIX + "Sword";
+        iconToolHeadL = new Icon[EnumGem.all().length];
+        for (int i = 0; i < EnumGem.all().length; ++i) {
+            iconToolHeadL[i] = iconRegister.registerIcon(str + i + "L");
+        }
+        // HeadM
+        iconToolHeadM = new Icon[EnumGem.all().length];
+        for (int i = 0; i < EnumGem.all().length; ++i) {
+            iconToolHeadM[i] = iconRegister.registerIcon(str + i);
+        }
+        // HeadR
+        iconToolHeadR = new Icon[EnumGem.all().length];
+        for (int i = 0; i < EnumGem.all().length; ++i) {
+            iconToolHeadR[i] = iconRegister.registerIcon(str + i + "R");
+        }
     }
     
     @SideOnly(Side.CLIENT)
@@ -82,16 +193,11 @@ public class GemSword extends ItemSword {
         return true;
     }
     
-    @SideOnly(Side.CLIENT)
     @Override
-    public Icon getIconFromDamageForRenderPass(int meta, int pass) {
-        
-        if (pass == 0) {
-            return iconRod;
-        }
-        else {
-            return iconHead;
-        }
+    @SideOnly(Side.CLIENT)
+    public boolean hasEffect(ItemStack stack, int pass) {
+
+        return stack.isItemEnchanted() && pass == 5;
     }
 
     @Override
@@ -123,26 +229,4 @@ public class GemSword extends ItemSword {
             GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { " g ", " g ", " s ", 'g', material, 's', "stickWood" }));
         }
     }
-
-//    @Override
-//    public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase player) {
-//
-//        int lvl;
-//
-//        // Nihil enchantment
-//        if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.nihil.effectId, stack) > 0) {
-//            target.curePotionEffects(new ItemStack(Item.bucketMilk));
-//            // Chaos cost of Nihil
-//            ChaosHandler.addChaos(Config.CHAOS_COST_NIHIL.value);
-//        }
-//
-//        // Ice aspect enchantment
-//        lvl = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.iceAspect.effectId, stack);
-//        if (lvl > 0) {
-//            // Slow down the target.
-//            target.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, lvl, false));
-//        }
-//
-//        return super.hitEntity(stack, target, player);
-//    }
 }

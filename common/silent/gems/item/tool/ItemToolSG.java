@@ -47,9 +47,6 @@ public class ItemToolSG extends ItemSG {
     protected static boolean sharedTexturesLoaded = false;
     public static Icon iconBlank = null;
     public static Icon[] iconToolDeco = null;
-//    public static Icon[] iconToolHeadL = null;
-//    public static Icon[] iconToolHeadM = null;
-//    public static Icon[] iconToolHeadR = null;
     public static Icon[] iconToolRod = null;
     
     public ItemToolSG(int id, float baseDamage, EnumToolMaterial toolMaterial, int gemId, boolean supercharged, Block[] blocksEffectiveAgainst) {
@@ -68,18 +65,6 @@ public class ItemToolSG extends ItemSG {
         this.damageVsEntity = baseDamage + toolMaterial.getDamageVsEntity();
         this.setCreativeTab(CreativeTabs.tabTools);
     }
-    
-//    @Override
-//    @SideOnly(Side.CLIENT)
-//    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-//
-//        list.add("Debug:");
-//        list.add("Deco: " + NBTHelper.getByte(stack, Strings.TOOL_ICON_DECO));
-//        list.add("HeadL: " + NBTHelper.getByte(stack, Strings.TOOL_ICON_HEAD_LEFT));
-//        list.add("HeadM: " + NBTHelper.getByte(stack, Strings.TOOL_ICON_HEAD_MIDDLE));
-//        list.add("HeadR: " + NBTHelper.getByte(stack, Strings.TOOL_ICON_HEAD_RIGHT));
-//        list.add("Rod: " + NBTHelper.getByte(stack, Strings.TOOL_ICON_ROD));
-//    }
 
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY,

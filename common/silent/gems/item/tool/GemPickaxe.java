@@ -11,7 +11,6 @@ import net.minecraft.util.Icon;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import silent.gems.core.registry.SRegistry;
-import silent.gems.core.util.LogHelper;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
@@ -21,7 +20,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class GemPickaxe extends ItemToolSG {
-    
+
     protected static boolean pickaxeTexturesLoaded = false;
     public static Icon[] iconToolHeadL = null;
     public static Icon[] iconToolHeadM = null;
@@ -33,17 +32,17 @@ public class GemPickaxe extends ItemToolSG {
         MinecraftForge.setToolClass(this, "pickaxe", toolMaterial.getHarvestLevel());
         addRecipe(new ItemStack(this), gemId, supercharged);
     }
-    
+
     @SideOnly(Side.CLIENT)
     @Override
     public Icon getIcon(ItemStack stack, int pass) {
-        
+
         if (pass == 2) {
             // HeadM
             if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_MIDDLE)) {
                 byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_MIDDLE);
                 if (b >= 0 && b < iconToolHeadM.length) {
-                    //LogHelper.debug(iconToolHeadM[b]);
+                    // LogHelper.debug(iconToolHeadM[b]);
                     return iconToolHeadM[b];
                 }
             }
@@ -94,7 +93,8 @@ public class GemPickaxe extends ItemToolSG {
     public float getStrVsBlock(ItemStack stack, Block block) {
 
         return block != null
-                && (block.blockMaterial == Material.iron || block.blockMaterial == Material.anvil || block.blockMaterial == Material.rock || block.blockMaterial == Material.glass) ? this.efficiencyOnProperMaterial
+                && (block.blockMaterial == Material.iron || block.blockMaterial == Material.anvil || block.blockMaterial == Material.rock
+                        || block.blockMaterial == Material.glass || block.blockMaterial == Material.circuits) ? this.efficiencyOnProperMaterial
                 : super.getStrVsBlock(stack, block);
     }
 
@@ -129,7 +129,7 @@ public class GemPickaxe extends ItemToolSG {
         s += gemId;
 
         iconHead = iconRegister.registerIcon(s);
-        
+
         // Shared decoration textures.
         // Deco
         String str = Strings.RESOURCE_PREFIX + "ToolDeco";
@@ -138,17 +138,17 @@ public class GemPickaxe extends ItemToolSG {
             iconToolDeco[i] = iconRegister.registerIcon(str + i);
         }
         iconToolDeco[iconToolDeco.length - 1] = iconRegister.registerIcon(str);
-        
+
         // Rod
         str = Strings.RESOURCE_PREFIX + "RodWool";
         iconToolRod = new Icon[16];
         for (int i = 0; i < 16; ++i) {
             iconToolRod[i] = iconRegister.registerIcon(str + i);
         }
-        
+
         // Blank texture
         iconBlank = iconRegister.registerIcon(Strings.RESOURCE_PREFIX + "Blank");
-        
+
         // Pickaxe decoration textures
         // HeadL
         str = Strings.RESOURCE_PREFIX + "Pickaxe";

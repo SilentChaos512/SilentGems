@@ -4,6 +4,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import silent.gems.core.registry.SRegistry;
+import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import silent.gems.lib.Reference;
 import silent.gems.lib.Strings;
@@ -23,6 +24,13 @@ public class GemHoe extends ItemHoe {
     private boolean supercharged;
     private EnumToolMaterial toolMaterial;
     private Icon iconRod, iconHead;
+    
+    public static Icon iconBlank = null;
+    public static Icon[] iconToolDeco = null;
+    public static Icon[] iconToolRod = null;
+    public static Icon[] iconToolHeadL = null;
+    public static Icon[] iconToolHeadM = null;
+    public static Icon[] iconToolHeadR = null;
 
     public GemHoe(int id, EnumToolMaterial toolMaterial, int gemId, boolean supercharged) {
 
@@ -51,6 +59,73 @@ public class GemHoe extends ItemHoe {
     
     @SideOnly(Side.CLIENT)
     @Override
+    public Icon getIcon(ItemStack stack, int pass) {
+        
+        if (pass == 0) {
+            // Rod
+            return iconRod;
+        }
+        else if (pass == 1) {
+            // Rod decoration
+            if (supercharged) {
+                if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_DECO)) {
+                    byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_DECO);
+                    if (b >= 0 && b < iconToolDeco.length - 1) {
+                        return iconToolDeco[b];
+                    }
+                }
+                return iconToolDeco[iconToolDeco.length - 1];
+            }
+            return iconBlank;
+        }
+        if (pass == 2) {
+            // HeadM
+            if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_MIDDLE)) {
+                byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_MIDDLE);
+                if (b >= 0 && b < iconToolHeadM.length) {
+                    //LogHelper.debug(iconToolHeadM[b]);
+                    return iconToolHeadM[b];
+                }
+            }
+            return iconHead;
+        }
+        else if (pass == 3) {
+            // HeadL
+            if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_LEFT)) {
+                byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_LEFT);
+                if (b >= 0 && b < iconToolHeadL.length) {
+                    return iconToolHeadL[b];
+                }
+            }
+            return iconBlank;
+        }
+        else if (pass == 4) {
+            // HeadR
+            if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_RIGHT)) {
+                byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_RIGHT);
+                if (b >= 0 && b < iconToolHeadR.length) {
+                    return iconToolHeadR[b];
+                }
+            }
+            return iconBlank;
+        }
+        else if (pass == 5) {
+            // Rod wool
+            if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_ROD)) {
+                byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_ROD);
+                if (b >= 0 && b < iconToolRod.length) {
+                    return iconToolRod[b];
+                }
+            }
+            return iconBlank;
+        }
+        else {
+            return iconBlank;
+        }
+    }
+    
+    @SideOnly(Side.CLIENT)
+    @Override
     public void registerIcons(IconRegister iconRegister) {
 
         String s = Strings.RESOURCE_PREFIX + "Hoe";
@@ -65,6 +140,41 @@ public class GemHoe extends ItemHoe {
         s += gemId;
         
         iconHead = iconRegister.registerIcon(s);
+        
+        // Deco
+        String str = Strings.RESOURCE_PREFIX + "ToolDeco";
+        iconToolDeco = new Icon[EnumGem.all().length + 1];
+        for (int i = 0; i < EnumGem.all().length; ++i) {
+            iconToolDeco[i] = iconRegister.registerIcon(str + i);
+        }
+        iconToolDeco[iconToolDeco.length - 1] = iconRegister.registerIcon(str);
+        
+        // Rod
+        str = Strings.RESOURCE_PREFIX + "RodWool";
+        iconToolRod = new Icon[16];
+        for (int i = 0; i < 16; ++i) {
+            iconToolRod[i] = iconRegister.registerIcon(str + i);
+        }
+        
+        // Blank texture
+        iconBlank = iconRegister.registerIcon(Strings.RESOURCE_PREFIX + "Blank");
+        
+        // HeadL
+        str = Strings.RESOURCE_PREFIX + "Hoe";
+        iconToolHeadL = new Icon[EnumGem.all().length];
+        for (int i = 0; i < EnumGem.all().length; ++i) {
+            iconToolHeadL[i] = iconRegister.registerIcon(str + i + "L");
+        }
+        // HeadM
+        iconToolHeadM = new Icon[EnumGem.all().length];
+        for (int i = 0; i < EnumGem.all().length; ++i) {
+            iconToolHeadM[i] = iconRegister.registerIcon(str + i);
+        }
+        // HeadR
+        iconToolHeadR = new Icon[EnumGem.all().length];
+        for (int i = 0; i < EnumGem.all().length; ++i) {
+            iconToolHeadR[i] = iconRegister.registerIcon(str + i + "R");
+        }
     }
     
     @SideOnly(Side.CLIENT)
@@ -76,14 +186,9 @@ public class GemHoe extends ItemHoe {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public Icon getIconFromDamageForRenderPass(int meta, int pass) {
+    public int getRenderPasses(int meta) {
         
-        if (pass == 0) {
-            return iconRod;
-        }
-        else {
-            return iconHead;
-        }
+        return 6;
     }
 
     @Override
