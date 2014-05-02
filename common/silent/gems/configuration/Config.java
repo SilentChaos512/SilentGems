@@ -12,34 +12,36 @@ public class Config {
     /*
      * Misc
      */
-    
+
     public static ConfigOptionInt CHAOS_ESSENCE_PER_ORE = new ConfigOptionInt("ChaosEssence.PerOre", 1);
+    public static ConfigOptionDouble CHAOS_GEM_CAPACITY_UPGRADE_INCREASE = new ConfigOptionDouble("ChaosGem.CapacityUpgradeIncrease", 0.25);
     public static ConfigOptionDouble CHAOS_GEM_FLIGHT_MAX_SPEED = new ConfigOptionDouble("ChaosGem.FlightMaxSpeed", 25.0);
     public static ConfigOptionDouble CHAOS_GEM_FLIGHT_THRUST = new ConfigOptionDouble("ChaosGem.FlightThrust", 0.1);
-    public static ConfigOptionInt CHAOS_GEM_MAX_BUFFS = new ConfigOptionInt("ChaosGem.MaxBuffsPerGem", 2);
-    public static ConfigOptionInt CHAOS_GEM_MAX_CHARGE = new ConfigOptionInt("ChaosGem.MaxCharge", 1200);
+    public static ConfigOptionInt CHAOS_GEM_MAX_BUFFS = new ConfigOptionInt("ChaosGem.MaxBuffsPerGem", 3);
+    public static ConfigOptionInt CHAOS_GEM_MAX_CHARGE = new ConfigOptionInt("ChaosGem.MaxCharge", 10000);
+    public static ConfigOptionInt CHAOS_GEM_RECHARGE_RATE = new ConfigOptionInt("ChaosGem.RechargeRate", 40);
     public static ConfigOptionInt FOOD_SUPPORT_DURATION = new ConfigOptionInt("Food.SupportDuration", 600);
-    
+
     /*
      * Graphics
      */
-    
+
     // Nothing... yet
-    
+
     /*
      * Audio
      */
-    
+
     // Nothing... yet
-    
+
     /*
      * Sigil config settings
      */
 
-    public static ConfigOptionInt SIGIL_USE_DURATION = new ConfigOptionInt("Sigil.BaseUseDuration", 30);
-    public static ConfigOptionInt SIGIL_PROJECTILE_DAMAGE = new ConfigOptionInt("Sigil.BaseProjectileDamage", 8);
-    public static ConfigOptionInt SIGIL_SUPPORT_DURATION = new ConfigOptionInt("Sigil.BaseSupportDuration", 2400);
-    
+//    public static ConfigOptionInt SIGIL_USE_DURATION = new ConfigOptionInt("Sigil.BaseUseDuration", 30);
+//    public static ConfigOptionInt SIGIL_PROJECTILE_DAMAGE = new ConfigOptionInt("Sigil.BaseProjectileDamage", 8);
+//    public static ConfigOptionInt SIGIL_SUPPORT_DURATION = new ConfigOptionInt("Sigil.BaseSupportDuration", 2400);
+
     /*
      * World generation config settings
      */
@@ -52,15 +54,14 @@ public class Config {
     public static ConfigOptionInt WORLD_CHAOS_ORE_MAX_HEIGHT = new ConfigOptionInt("World.ChaosOre.MaxHeight", 20);
     public static ConfigOptionInt WORLD_FLOWERS_PER_CHUNK = new ConfigOptionInt("World.FlowersPerChunk", 1);
     public static ConfigOptionInt WORLD_MUSHROOM_RARITY = new ConfigOptionInt("World.MushroomRarity", 24);
-    
+
     /*
      * **************
-     * Config Handler
-     * **************
+     * Config Handler **************
      */
-    
+
     private static Configuration c;
-    
+
     /*
      * Config categories
      */
@@ -74,36 +75,41 @@ public class Config {
     public static final String CATEGORY_BLOCK_PROPERTIES = Configuration.CATEGORY_BLOCK + Configuration.CATEGORY_SPLITTER + "properties";
     public static final String CATEGORY_ITEM_PROPERTIES = Configuration.CATEGORY_ITEM + Configuration.CATEGORY_SPLITTER + "properties";
     public static final String CATEGORY_DURABILITY = Configuration.CATEGORY_ITEM + Configuration.CATEGORY_SPLITTER + "durability";
-    
+
     public static void init(File file) {
-        
+
         c = new Configuration(file);
-        
+
         try {
             c.load();
-            
+
             /*
              * Misc
              */
-            CHAOS_ESSENCE_PER_ORE.loadValue(c, CATEGORY_ITEM_PROPERTIES).validate();
+            CHAOS_ESSENCE_PER_ORE.loadValue(c, CATEGORY_ITEM_PROPERTIES, "The number of Chaos Essence you get for smelting one Chaos Ore")
+                    .validate();
+            CHAOS_GEM_CAPACITY_UPGRADE_INCREASE.loadValue(c, CATEGORY_ITEM_PROPERTIES,
+                    "The capacity increase (as a fraction) for each level of the Capacity upgrade on a Chaos Gem");
             CHAOS_GEM_FLIGHT_MAX_SPEED.loadValue(c, CATEGORY_ITEM_PROPERTIES).validate();
             CHAOS_GEM_FLIGHT_THRUST.loadValue(c, CATEGORY_ITEM_PROPERTIES).validate();
-            CHAOS_GEM_MAX_BUFFS.loadValue(c, CATEGORY_ITEM_PROPERTIES).validate();
-            CHAOS_GEM_MAX_CHARGE.loadValue(c, CATEGORY_ITEM_PROPERTIES).validate();
-            FOOD_SUPPORT_DURATION.loadValue(c, CATEGORY_ITEM_PROPERTIES);
-            
+            CHAOS_GEM_MAX_BUFFS.loadValue(c, CATEGORY_ITEM_PROPERTIES, "The number of unique upgrades you can put on a Chaos Gem")
+                    .validate();
+            CHAOS_GEM_MAX_CHARGE.loadValue(c, CATEGORY_ITEM_PROPERTIES, "The base maximum charge level for Chaos Gems").validate();
+            CHAOS_GEM_RECHARGE_RATE.loadValue(c, CATEGORY_ITEM_PROPERTIES, "The amount of charge a Chaos Gem gains for every second deactivated.");
+            FOOD_SUPPORT_DURATION.loadValue(c, CATEGORY_ITEM_PROPERTIES, "The base duration for special effects from food");
+
             /*
              * Enchantment ids
              */
             ModEnchantments.MENDING_ID = getEnchantmentId(Names.MENDING, ModEnchantments.MENDING_ID_DEFAULT);
-            
+
             /*
              * Sigil
              */
-            SIGIL_USE_DURATION.loadValue(c, CATEGORY_ITEM_PROPERTIES);
-            SIGIL_PROJECTILE_DAMAGE.loadValue(c, CATEGORY_ITEM_PROPERTIES);
-            SIGIL_SUPPORT_DURATION.loadValue(c, CATEGORY_ITEM_PROPERTIES);
-            
+//            SIGIL_USE_DURATION.loadValue(c, CATEGORY_ITEM_PROPERTIES);
+//            SIGIL_PROJECTILE_DAMAGE.loadValue(c, CATEGORY_ITEM_PROPERTIES);
+//            SIGIL_SUPPORT_DURATION.loadValue(c, CATEGORY_ITEM_PROPERTIES);
+
             /*
              * World gen
              */
@@ -123,14 +129,14 @@ public class Config {
             c.save();
         }
     }
-    
+
     public static int getBlockId(String name, int default_id) {
 
         return c.getBlock(name, default_id).getInt(default_id);
     }
-    
+
     public static int getBlockId(String name, int default_id, String comment) {
-        
+
         return c.getBlock(name, default_id, comment).getInt(default_id);
     }
 
@@ -153,9 +159,9 @@ public class Config {
 
         return c.get(category, name, default_value, comment).getInt(default_value);
     }
-    
+
     public static void save() {
-        
+
         c.save();
     }
 }

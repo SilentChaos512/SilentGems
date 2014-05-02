@@ -1,10 +1,15 @@
 package silent.gems.item.block;
 
+import java.util.List;
+
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
 import silent.gems.core.registry.SRegistry;
+import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Strings;
 
@@ -19,6 +24,15 @@ public class ItemBlockSG extends ItemBlock {
         super(id);
         setHasSubtypes(true);
         setUnlocalizedName(Integer.toString(id));
+    }
+    
+    @Override
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+        
+        String s = LocalizationHelper.getMessageText(itemName, EnumChatFormatting.DARK_GRAY);
+        if (!s.equals(EnumChatFormatting.DARK_GRAY + LocalizationHelper.MISC_PREFIX + itemName)) {
+            list.add(s);
+        }
     }
     
     @Override

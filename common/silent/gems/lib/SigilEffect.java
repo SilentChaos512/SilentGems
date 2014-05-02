@@ -77,8 +77,10 @@ public class SigilEffect {
         
         Sigil sigil = (Sigil) stack.getItem();
         int power = sigil.getPowerLevel(stack);
-        int time = Config.SIGIL_SUPPORT_DURATION.value * power;
-        int damage = Config.SIGIL_PROJECTILE_DAMAGE.value;
+//        int time = Config.SIGIL_SUPPORT_DURATION.value * power;
+//        int damage = Config.SIGIL_PROJECTILE_DAMAGE.value;
+        int time = 0;
+        int damage = 0;
         damage += damage * power / 4;
         int color = sigil.getColor(stack);
         

@@ -18,8 +18,7 @@ public class ChaosRuneRecipe implements IRecipe {
 
         int numGems = 0;
         int numRunes = 0;
-        
-        final int chaosGemId = SRegistry.getItem(Names.CHAOS_GEM).itemID;
+
         final int chaosRuneId = SRegistry.getItem(Names.CHAOS_RUNE).itemID;
         
         ItemStack stack, gem = null, rune = null;
@@ -28,7 +27,7 @@ public class ChaosRuneRecipe implements IRecipe {
         for (int i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
             stack = inventorycrafting.getStackInSlot(i);
             if (stack != null) {
-                if (stack.itemID == chaosGemId) {
+                if (stack.getItem() instanceof ChaosGem) {
                     ++numGems;
                     gem = stack;
                 }
@@ -50,15 +49,14 @@ public class ChaosRuneRecipe implements IRecipe {
     public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
 
         ItemStack gem = null, rune = null, stack = null;
-        
-        final int chaosGemId = SRegistry.getItem(Names.CHAOS_GEM).itemID;
+
         final int chaosRuneId = SRegistry.getItem(Names.CHAOS_RUNE).itemID;
         
         // Find ingredients
         for (int i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
             stack = inventorycrafting.getStackInSlot(i);
             if (stack != null) {
-                if (stack.itemID == chaosGemId) {
+                if (stack.getItem() instanceof ChaosGem) {
                     gem = stack;
                 }
                 else if (stack.itemID == chaosRuneId) {

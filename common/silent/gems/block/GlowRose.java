@@ -9,12 +9,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.oredict.OreDictionary;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
@@ -147,5 +149,23 @@ public class GlowRose extends BlockSG implements IPlantable {
         for (int i = 0; i < EnumGem.all().length; ++i) {
             GameRegistry.addShapelessRecipe(new ItemStack(this, 1, i), Block.plantRed, Item.glowstone, EnumGem.all()[i].getShard());
         }
+        
+        // Flowers to dye.
+        int k = 2;
+        GameRegistry.addShapelessRecipe(new ItemStack(Item.dyePowder, k, 0), new ItemStack(this, 1, EnumGem.ONYX.id));
+        GameRegistry.addShapelessRecipe(new ItemStack(Item.dyePowder, k, 1), new ItemStack(this, 1, EnumGem.RUBY.id));
+        GameRegistry.addShapelessRecipe(new ItemStack(Item.dyePowder, k, 2), new ItemStack(this, 1, EnumGem.EMERALD.id));
+        // 3-brown
+        GameRegistry.addShapelessRecipe(new ItemStack(Item.dyePowder, k, 4), new ItemStack(this, 1, EnumGem.SAPPHIRE.id));
+        GameRegistry.addShapelessRecipe(new ItemStack(Item.dyePowder, k, 5), new ItemStack(this, 1, EnumGem.AMETHYST.id));
+        // 6-cyan
+        // 7-light gray
+        // 8-gray
+        GameRegistry.addShapelessRecipe(new ItemStack(Item.dyePowder, k, 9), new ItemStack(this, 1, EnumGem.MORGANITE.id));
+        GameRegistry.addShapelessRecipe(new ItemStack(Item.dyePowder, k, 10), new ItemStack(this, 1, EnumGem.PERIDOT.id));
+        GameRegistry.addShapelessRecipe(new ItemStack(Item.dyePowder, k, 11), new ItemStack(this, 1, EnumGem.HELIODOR.id));
+        GameRegistry.addShapelessRecipe(new ItemStack(Item.dyePowder, k, 12), new ItemStack(this, 1, EnumGem.AQUAMARINE.id));
+        // 13-magenta
+        GameRegistry.addShapelessRecipe(new ItemStack(Item.dyePowder, k, 14), new ItemStack(this, 1, EnumGem.TOPAZ.id));
     }
 }

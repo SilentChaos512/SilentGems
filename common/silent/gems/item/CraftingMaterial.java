@@ -11,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import silent.gems.block.MushroomBlock;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.core.util.RecipeHelper;
@@ -24,7 +23,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class CraftingMaterial extends ItemSG {
 
     public static final String[] names = { Names.ORNATE_STICK, Names.MYSTERY_GOO, Names.YARN_BALL, Names.CHAOS_ESSENCE,
-            Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME, Names.AMANITA_DUST };
+            Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME, Names.CHAOS_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER };
 
     public CraftingMaterial(int id) {
 
@@ -93,17 +92,30 @@ public class CraftingMaterial extends ItemSG {
     @Override
     public void addRecipes() {
 
+        // Ornate Stick
         GameRegistry.addRecipe(getStack(Names.ORNATE_STICK, 4), "gig", "geg", "gig", 'g', Item.ingotGold, 'i', Item.ingotIron, 'e',
                 CraftingMaterial.getStack(Names.CHAOS_ESSENCE));
+        // Mystery Goo
         GameRegistry.addRecipe(getStack(Names.MYSTERY_GOO, 1), "mmm", "mam", "mmm", 'm', Block.cobblestoneMossy, 'a', Item.appleRed);
-        // RecipeHelper.addSurround(getStack(Names.YARN_BALL), new ItemStack(Item.goldNugget), Item.silk);
+        // Yarn Ball
         GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.YARN_BALL, 1), "sss", "sgs", "sss", 's', Item.silk, 'g',
                 Strings.ORE_DICT_GEM_SHARD));
+        // Refined Chaos Essence
         RecipeHelper.addSurround(getStack(Names.CHAOS_ESSENCE_PLUS, 1), new ItemStack(Item.glowstone), new Object[] { Item.redstone,
                 getStack(Names.CHAOS_ESSENCE) });
+        // Plume
         GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.PLUME, 1), "fff", "fsf", "fff", 'f', Item.feather, 's',
                 Strings.ORE_DICT_GEM_BASIC));
+        // Golden Plume
         RecipeHelper.addSurround(getStack(Names.GOLDEN_PLUME, 1), getStack(Names.PLUME), getStack(Names.CHAOS_ESSENCE), Item.ingotGold);
-        GameRegistry.addShapelessRecipe(getStack(Names.AMANITA_DUST, 4), MushroomBlock.getStack(Names.FLY_AMANITA));
+        // Chaos Shard
+        GameRegistry.addShapedRecipe(getStack(Names.CHAOS_SHARD, 24), "ccc", "cnc", "ccc", 'c', getStack(Names.CHAOS_ESSENCE_PLUS), 'n',
+                Item.netherStar);
+        // Chaos Capacitor
+        GameRegistry.addShapedRecipe(getStack(Names.CHAOS_CAPACITOR, 3), "srs", "ses", "srs", 's', getStack(Names.CHAOS_SHARD), 'r',
+                Item.redstone, 'e', Item.emerald);
+        // Chaos Booster
+        GameRegistry.addShapedRecipe(getStack(Names.CHAOS_BOOSTER, 3), "sgs", "ses", "sgs", 's', getStack(Names.CHAOS_SHARD), 'g',
+                Item.glowstone, 'e', Item.emerald);
     }
 }

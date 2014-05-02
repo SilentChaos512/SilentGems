@@ -22,10 +22,13 @@ public class Names {
      * Items
      */
     public final static String AMANITA_DUST = "AmanitaDust";
+    public final static String CHAOS_BOOSTER = "ChaosBooster";
+    public final static String CHAOS_CAPACITOR = "ChaosCapacitor";
     public final static String CHAOS_ESSENCE = "Chaos Essence";
     public final static String CHAOS_ESSENCE_PLUS = "ChaosEssencePlus";
     public final static String CHAOS_GEM = "ChaosGem";
     public final static String CHAOS_RUNE = "ChaosRune";
+    public final static String CHAOS_SHARD = "ChaosShard";
     public final static String CRAFTING_MATERIALS = "CraftingMaterials";
     public final static String DEBUG_ITEM = "DebugItem";
     public final static String ENCHANT_TOKEN = "Enchantment Token";

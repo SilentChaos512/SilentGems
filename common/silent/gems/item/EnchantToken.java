@@ -167,8 +167,8 @@ public class EnchantToken extends ItemSG {
                 l.add(LocalizationHelper.getMessageText(Strings.TOOL_AXE, Strings.EMPTY));
             if ((k & T_HOE) != 0)
                 l.add(LocalizationHelper.getMessageText(Strings.TOOL_HOE, Strings.EMPTY));
-            if ((k & T_SIGIL) != 0)
-                l.add(LocalizationHelper.getMessageText(Strings.TOOL_SIGIL, Strings.EMPTY));
+//            if ((k & T_SIGIL) != 0)
+//                l.add(LocalizationHelper.getMessageText(Strings.TOOL_SIGIL, Strings.EMPTY));
 
             StringBuilder sb = new StringBuilder();
 
@@ -300,21 +300,11 @@ public class EnchantToken extends ItemSG {
             if (k == ModEnchantments.mending.effectId) {
                 list.add(LocalizationHelper.getMessageText(Strings.ENCHANT_MENDING, EnumChatFormatting.DARK_GRAY));
             }
-            // TODO: Uncomment this.
-//            if (k == ModEnchantments.iceAspect.effectId) {
-//                list.add(LocalizationHelper.getMessageText(Strings.ENCHANT_ICE_ASPECT, EnumChatFormatting.DARK_GRAY));
-//            }
-//            else if (k == ModEnchantments.mending.effectId) {
-//                list.add(LocalizationHelper.getMessageText(Strings.ENCHANT_MENDING, EnumChatFormatting.DARK_GRAY));
-//            }
-//            else if (k == ModEnchantments.nihil.effectId) {
-//                list.add(LocalizationHelper.getMessageText(Strings.ENCHANT_NIHIL, EnumChatFormatting.DARK_GRAY));
-//            }
             // List of valid tools.
             list.add(LocalizationHelper.getMessageText(Strings.ENCHANT_TOKEN_2, Strings.EMPTY));
             list.add(validToolsFor(k));
             // XP level cost
-            list.add(EnumChatFormatting.DARK_GREEN + "Costs " + enchants.get(k).xpCost + " levels to use.");
+//            list.add(EnumChatFormatting.DARK_GREEN + "Costs " + enchants.get(k).xpCost + " levels to use.");
             list.add(LocalizationHelper.getMessageText(Strings.ENCHANT_TOKEN_3, EnumChatFormatting.DARK_GRAY));
         }
     }

@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import silent.gems.core.util.LocalizationHelper;
+import silent.gems.core.util.LogHelper;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -31,6 +32,7 @@ public class TorchBandolier extends ItemSG {
         setMaxDamage(MAX_DAMAGE);
         setMaxStackSize(1);
         setCreativeTab(CreativeTabs.tabTools);
+        setUnlocalizedName(Names.TORCH_BANDOLIER);
     }
 
     @Override
@@ -43,19 +45,21 @@ public class TorchBandolier extends ItemSG {
         }
 
         // Item description
-        list.add(LocalizationHelper.getMessageText(Names.TORCH_BANDOLIER));
+        list.add(LocalizationHelper.getMessageText(itemName + "1"));
         // Auto-fill mode
         if (stack.stackTagCompound.hasKey(Strings.TORCH_BANDOLIER_AUTO_FILL)
                 && stack.stackTagCompound.getBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL)) {
-            list.add(LocalizationHelper.getMessageText(Names.TORCH_BANDOLIER + "AutoFillOn", EnumChatFormatting.GREEN));
+            list.add(LocalizationHelper.getMessageText(Names.TORCH_BANDOLIER + ".AutoFillOn", EnumChatFormatting.GREEN));
         }
         else {
-            list.add(LocalizationHelper.getMessageText(Names.TORCH_BANDOLIER + "AutoFillOff", EnumChatFormatting.RED));
+            list.add(LocalizationHelper.getMessageText(Names.TORCH_BANDOLIER + ".AutoFillOff", EnumChatFormatting.RED));
         }
         if (stack.getItemDamage() < MAX_DAMAGE) {
             list.add((new StringBuilder()).append(EnumChatFormatting.YELLOW).append(MAX_DAMAGE - stack.getItemDamage()).append(" / ")
                     .append(MAX_DAMAGE).toString());
         }
+        // How to use
+        list.add(LocalizationHelper.getMessageText(itemName + "2", EnumChatFormatting.DARK_GRAY));
     }
 
     @Override
@@ -100,10 +104,10 @@ public class TorchBandolier extends ItemSG {
 
             if (world.isRemote) {
                 if (autoFill) {
-                    player.addChatMessage(LocalizationHelper.getMessageText(Names.TORCH_BANDOLIER + "AutoFillOn", EnumChatFormatting.GREEN));
+                    player.addChatMessage(LocalizationHelper.getMessageText(Names.TORCH_BANDOLIER + ".AutoFillOn", EnumChatFormatting.GREEN));
                 }
                 else {
-                    player.addChatMessage(LocalizationHelper.getMessageText(Names.TORCH_BANDOLIER + "AutoFillOff", EnumChatFormatting.RED));
+                    player.addChatMessage(LocalizationHelper.getMessageText(Names.TORCH_BANDOLIER + ".AutoFillOff", EnumChatFormatting.RED));
                 }
             }
         }
@@ -112,27 +116,36 @@ public class TorchBandolier extends ItemSG {
     }
 
     public ItemStack absorbTorches(ItemStack stack, EntityPlayer player) {
-
-        ItemStack torches;
-        for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
-            torches = player.inventory.getStackInSlot(i);
-            if (torches != null && torches.itemID == Block.torchWood.blockID) {
-                int damage = stack.getItemDamage();
-
-                // Decrease damage value of torch bandolier, reduce stack
-                // size of torch stack.
-                if (damage - torches.stackSize < 0) {
-                    stack.damageItem(-damage, player);
-                    torches.stackSize -= damage;
-                }
-                else {
-                    stack.damageItem(-torches.stackSize, player);
-                    torches.stackSize = 0;
-                }
-
-                // If torch stack is empty, get rid of it.
-                if (torches.stackSize <= 0) {
-                    player.inventory.setInventorySlotContents(i, null);
+        
+        if (stack.stackTagCompound == null) {
+            stack.stackTagCompound = new NBTTagCompound();
+            stack.stackTagCompound.setBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL, true);
+        }
+        
+        if (stack.stackTagCompound.getBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL)) {
+            ItemStack torches;
+            for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
+                torches = player.inventory.getStackInSlot(i);
+                if (torches != null && torches.itemID == Block.torchWood.blockID) {
+                    int damage = stack.getItemDamage();
+    
+                    // Decrease damage value of torch bandolier, reduce stack
+                    // size of torch stack.
+                    if (damage - torches.stackSize < 0) {
+                        //stack.damageItem(-damage, player);
+                        stack.setItemDamage(0);
+                        torches.stackSize -= damage;
+                    }
+                    else {
+                        //stack.damageItem(-torches.stackSize, player);
+                        stack.setItemDamage(damage - torches.stackSize);
+                        torches.stackSize = 0;
+                    }
+    
+                    // If torch stack is empty, get rid of it.
+                    if (torches.stackSize <= 0) {
+                        player.inventory.setInventorySlotContents(i, null);
+                    }
                 }
             }
         }
@@ -147,7 +160,7 @@ public class TorchBandolier extends ItemSG {
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY,
             float hitZ) {
 
-        if (stack.getItemDamage() == MAX_DAMAGE) {
+        if (stack.getItemDamage() == MAX_DAMAGE && !player.capabilities.isCreativeMode) {
             return false;
         }
 

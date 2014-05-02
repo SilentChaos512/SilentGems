@@ -2,6 +2,7 @@ package silent.gems.item;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -10,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import silent.gems.configuration.Config;
 import silent.gems.core.registry.SRegistry;
@@ -25,16 +27,19 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ChaosGem extends ItemSG {
+    
+    public final static int MAX_STACK_DAMAGE = 10;
+//    protected Icon[] damageBar = new Icon[11];
 
-    public ChaosGem(int id) {
+    public ChaosGem(int id, int sub) {
 
         super(id);
-        icons = new Icon[EnumGem.all().length];
+//        icons = new Icon[EnumGem.all().length];
         setMaxStackSize(1);
-        setHasSubtypes(true);
-        setHasGemSubtypes(true);
-        setUnlocalizedName(Names.CHAOS_GEM);
-        setMaxDamage(0);
+//        setHasSubtypes(true);
+//        setHasGemSubtypes(true);
+        setUnlocalizedName(Names.CHAOS_GEM + sub);
+        setMaxDamage(MAX_STACK_DAMAGE);
         setCreativeTab(CreativeTabs.tabTools);
         rarity = EnumRarity.rare;
     }
@@ -60,7 +65,7 @@ public class ChaosGem extends ItemSG {
         }
 
         int k = stack.stackTagCompound.getInteger(Strings.CHAOS_GEM_CHARGE);
-        list.add(EnumChatFormatting.YELLOW + String.format("%d / %d", k, Config.CHAOS_GEM_MAX_CHARGE.value));
+        list.add(EnumChatFormatting.YELLOW + String.format("%d / %d", k, getMaxChargeLevel(stack)));
 
         if (stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
             // Display list of effects.
@@ -274,31 +279,163 @@ public class ChaosGem extends ItemSG {
         }
 
         // Update charge level
+        final int maxCharge = getMaxChargeLevel(stack);
         if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_CHARGE)) {
             stack.stackTagCompound.setInteger(Strings.CHAOS_GEM_CHARGE, Config.CHAOS_GEM_MAX_CHARGE.value);
         }
         int charge = stack.stackTagCompound.getInteger(Strings.CHAOS_GEM_CHARGE);
         if (enabled) {
-            --charge;
+            charge -= getTotalChargeDrain(stack);
             // Disable if out of charge.
             if (charge <= 0) {
+                charge = 0;
                 stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_ENABLED, false);
             }
             // Warn player if low on charge.
-            if (Config.CHAOS_GEM_MAX_CHARGE.value > 0 && charge == Config.CHAOS_GEM_MAX_CHARGE.value / 10) {
-                String s = LocalizationHelper.getMessageText(Strings.CHAOS_GEM_LOW_POWER);
-                s = String.format(s, ((ItemSG) stack.getItem()).getLocalizedName(stack));
-                PlayerHelper.addChatMessage(player, s, EnumChatFormatting.YELLOW, false);
+//            if (maxCharge > 0 && charge == maxCharge / 10) {
+//                String s = LocalizationHelper.getMessageText(Strings.CHAOS_GEM_LOW_POWER);
+//                s = String.format(s, ((ItemSG) stack.getItem()).getLocalizedName(stack));
+//                PlayerHelper.addChatMessage(player, s, EnumChatFormatting.YELLOW, false);
+//            }
+        }
+        else if (charge < maxCharge) {
+            charge += getRechargeAmount(stack);
+            if (charge > maxCharge) {
+                charge = maxCharge;
             }
         }
-        else if (charge < Config.CHAOS_GEM_MAX_CHARGE.value) {
-            ++charge;
+        else if (charge > maxCharge) {
+            charge = maxCharge;
         }
-        else if (charge > Config.CHAOS_GEM_MAX_CHARGE.value) {
-            charge = Config.CHAOS_GEM_MAX_CHARGE.value;
-        }
-        stack.stackTagCompound.setInteger(Strings.CHAOS_GEM_CHARGE, charge);
+        stack = setChargeLevel(stack, charge);
     }
+    
+    public static int getChargeLevel(ItemStack gem) {
+        
+        if (gem != null && gem.stackTagCompound != null && gem.stackTagCompound.hasKey(Strings.CHAOS_GEM_CHARGE)) {
+            return gem.stackTagCompound.getInteger(Strings.CHAOS_GEM_CHARGE);
+        }
+        else {
+            return -1;
+        }
+    }
+    
+    public static int getMaxChargeLevel(ItemStack gem) {
+        
+        int maxCharge = Config.CHAOS_GEM_MAX_CHARGE.value;
+        
+        if (gem != null && gem.stackTagCompound != null) {
+            int capacityLevel = getBuffLevel(gem, ChaosBuff.getBuffByName(ChaosBuff.CAPACITY));
+            return maxCharge + capacityLevel * maxCharge / 4;
+        }
+        else {
+            return maxCharge;
+        }
+    }
+    
+    public static int getRechargeAmount(ItemStack gem) {
+        
+        int amount = Config.CHAOS_GEM_RECHARGE_RATE.value;
+        
+        if (gem != null && gem.stackTagCompound != null) {
+            int boosterLevel = getBuffLevel(gem, ChaosBuff.getBuffByName(ChaosBuff.BOOSTER));
+            return amount + boosterLevel * amount / 4;
+        }
+        else {
+            return amount;
+        }
+    }
+    
+    public static int getTotalChargeDrain(ItemStack gem) {
+        
+        int drain = 0;
+        
+        if (gem != null && gem.stackTagCompound != null) {
+            NBTTagList list = (NBTTagList) gem.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
+            NBTTagCompound tag;
+            short id;
+            for (int i = 0; i < list.tagCount(); ++i) {
+                tag = (NBTTagCompound) list.tagAt(i);
+                id = tag.getShort(Strings.CHAOS_GEM_BUFF_ID);
+                drain += ChaosBuff.all.get(id).cost;
+            }
+        }
+        
+        return drain;
+    }
+    
+    public static ItemStack setChargeLevel(ItemStack gem, int charge) {
+        
+        if (gem != null && gem.stackTagCompound != null && gem.stackTagCompound.hasKey(Strings.CHAOS_GEM_CHARGE)) {
+            int maxCharge = getMaxChargeLevel(gem);
+            charge = MathHelper.clamp_int(charge, 0, maxCharge);
+            int damage = MAX_STACK_DAMAGE - (MAX_STACK_DAMAGE * charge / maxCharge);
+            
+            // Save actual charge level in NBT. Item damage is only for display purposes.
+            gem.stackTagCompound.setInteger(Strings.CHAOS_GEM_CHARGE, charge);
+            gem.setItemDamage(damage);
+        }
+        
+        return gem;
+    }
+    
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public Icon getIcon(ItemStack stack, int pass) {
+//        
+//        if (pass == 0) {
+//            return super.getIconFromDamage(stack.getItemDamage());
+//        }
+//        else if (pass == 1) {
+//            int charge = getChargeLevel(stack);
+//            int maxCharge = getMaxChargeLevel(stack);
+//            int barIcon = 10 * charge / maxCharge;
+//            barIcon = MathHelper.clamp_int(barIcon, 0, 10);
+//            return damageBar[barIcon];
+//        }
+//        else {
+//            return super.getIcon(stack, pass);
+//        }
+//    }
+//    
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public boolean requiresMultipleRenderPasses() {
+//        
+//        return true;
+//    }
+//    
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public int getRenderPasses(int meta) {
+//        
+//        return 2;
+//    }
+//    
+//    @Override
+//    @SideOnly(Side.CLIENT)
+//    public void registerIcons(IconRegister reg) {
+//        
+//        super.registerIcons(reg);
+//        
+//        damageBar[0] = reg.registerIcon(Strings.RESOURCE_PREFIX + "Blank");
+//        for (int i = 1; i <= 10; ++i) {
+//            damageBar[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + "Damage" + i);
+//        }
+//    }
+    
+//    @Override
+//    public int getDisplayDamage(ItemStack stack) {
+//        
+//        if (stack != null && stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_CHARGE)) {
+//            int charge = stack.stackTagCompound.getInteger(Strings.CHAOS_GEM_CHARGE);
+//            int maxCharge = getMaxChargeLevel(stack);
+//            return 100 - (100 * charge / maxCharge);
+//        }
+//        else {
+//            return 0;
+//        }
+//    }
 
     @Override
     public void addRecipes() {

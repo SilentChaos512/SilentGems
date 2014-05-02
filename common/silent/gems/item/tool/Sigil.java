@@ -209,7 +209,8 @@ public class Sigil extends ItemSG {
 
         int speed = getSpeedLevel(stack) - 1;
 
-        return (int) (Config.SIGIL_USE_DURATION.value * (1.0 - 0.15 * speed));
+        //return (int) (Config.SIGIL_USE_DURATION.value * (1.0 - 0.15 * speed));
+        return 32;
     }
 
     @Override

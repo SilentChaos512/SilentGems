@@ -31,7 +31,7 @@ public class TeleporterLinker extends ItemSG {
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-
+        
         // Verify NBT
         if (stack.stackTagCompound == null) {
             stack.stackTagCompound = new NBTTagCompound();
@@ -48,6 +48,8 @@ public class TeleporterLinker extends ItemSG {
         else {
             list.add(LocalizationHelper.getMessageText(Strings.TELEPORTER_LINKER_INACTIVE, EnumChatFormatting.RED));
         }
+        
+        list.add(LocalizationHelper.getMessageText(itemName, EnumChatFormatting.DARK_GRAY));
     }
 
     @Override

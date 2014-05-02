@@ -16,6 +16,19 @@ import silent.gems.lib.Strings;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ChaosBuff {
+    
+    public final static String SPEED = "speed";
+    public final static String HASTE = "haste";
+    public final static String JUMP = "jump";
+    public final static String FLIGHT = "flight";
+    public final static String NIGHT_VISION = "nightVision";
+    public final static String REGENERATION = "regen";
+    public final static String RESISTANCE = "resist";
+    public final static String FIRE_RESISTANCE = "fireResist";
+    public final static String WATER_BREATHING = "waterBreathing";
+    public final static String STRENGTH = "strength";
+    public final static String CAPACITY = "capacity";
+    public final static String BOOSTER = "booster";
 
     public final static ArrayList<ChaosBuff> all = new ArrayList<ChaosBuff>();
 
@@ -23,15 +36,17 @@ public class ChaosBuff {
     public final String name;
     public final int maxLevel;
     public final int potionId;
+    public final int cost;
 
     private static int lastId = -1;
 
-    public ChaosBuff(int id, String name, int maxLevel, int potionId) {
+    public ChaosBuff(int id, String name, int maxLevel, int potionId, int cost) {
 
         this.id = id;
         this.name = name;
         this.maxLevel = maxLevel;
         this.potionId = potionId;
+        this.cost = cost;
     }
 
     public static void init() {
@@ -41,21 +56,23 @@ public class ChaosBuff {
         }
 
         //addBuff("none", 1, -1, Item.ingotIron);
-        addBuff("speed", 4, Potion.moveSpeed.id, Item.ingotGold);
-        addBuff("haste", 4, Potion.digSpeed.id, Item.goldenCarrot);
-        addBuff("jump", 4, Potion.jump.id, CraftingMaterial.getStack(Names.PLUME));
-        addBuff("flight", 4, -1, CraftingMaterial.getStack(Names.GOLDEN_PLUME));
-        addBuff("nightVision", 1, Potion.nightVision.id, Item.goldenCarrot);
-        addBuff("regen", 2, Potion.regeneration.id, Item.ghastTear);
-        addBuff("resist", 2, Potion.resistance.id, Item.plateLeather);
-        addBuff("fireResist", 1, Potion.fireResistance.id, Item.blazeRod);
-        addBuff("waterBreathing", 1, Potion.waterBreathing.id, Block.blockLapis);
-        addBuff("strength", 2, Potion.damageBoost.id, Block.blockRedstone);
+        addBuff(SPEED,              4, Potion.moveSpeed.id,         20, Item.ingotGold);
+        addBuff(HASTE,              4, Potion.digSpeed.id,          20, Item.goldenCarrot);
+        addBuff(JUMP,               4, Potion.jump.id,              10, CraftingMaterial.getStack(Names.PLUME));
+        addBuff(FLIGHT,             4, -1,                          80, CraftingMaterial.getStack(Names.GOLDEN_PLUME));
+        addBuff(NIGHT_VISION,       1, Potion.nightVision.id,       10, Item.goldenCarrot);
+        addBuff(REGENERATION,       2, Potion.regeneration.id,      50, Item.ghastTear);
+        addBuff(RESISTANCE,         2, Potion.resistance.id,        40, Item.plateLeather);
+        addBuff(FIRE_RESISTANCE,    1, Potion.fireResistance.id,    40, Item.blazeRod);
+        addBuff(WATER_BREATHING,    1, Potion.waterBreathing.id,    40, Block.blockLapis);
+        addBuff(STRENGTH,           2, Potion.damageBoost.id,       40, Block.blockRedstone);
+        addBuff(CAPACITY,           4, -1,                           0, CraftingMaterial.getStack(Names.CHAOS_CAPACITOR));
+        addBuff(BOOSTER,            4, -1,                           0, CraftingMaterial.getStack(Names.CHAOS_BOOSTER));
     }
 
-    private static void addBuff(String name, int maxLevel, int potionId, Object material) {
+    private static void addBuff(String name, int maxLevel, int potionId, int cost, Object material) {
 
-        ChaosBuff buff = new ChaosBuff(++lastId, name, maxLevel, potionId);
+        ChaosBuff buff = new ChaosBuff(++lastId, name, maxLevel, potionId, cost);
         all.add(buff);
         GameRegistry.addShapedRecipe(new ItemStack(SRegistry.getItem(Names.CHAOS_RUNE), 1, lastId), "mcm", "cmc", "rcr", 'm', material,
                 'c', CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS), 'r', Item.redstone);

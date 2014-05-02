@@ -24,7 +24,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModItems {
 
-    private final static int CHAOS_GEM_ID = 6014;
+    private final static int CHAOS_GEM_START_ID = 6030;
     private final static int CHAOS_RUNE_ID = 6015;
     private final static int CRAFTING_MATERIAL_ID = 6005;
     private final static int DEBUG_ITEM_ID = 6020;
@@ -41,7 +41,6 @@ public class ModItems {
     
     public static void init() {
         
-        SRegistry.registerItem(ChaosGem.class, Names.CHAOS_GEM, CHAOS_GEM_ID);
         SRegistry.registerItem(ChaosRune.class, Names.CHAOS_RUNE, CHAOS_RUNE_ID);
         SRegistry.registerItem(CraftingMaterial.class, Names.CRAFTING_MATERIALS, CRAFTING_MATERIAL_ID);
         SRegistry.registerItem(DebugItem.class, Names.DEBUG_ITEM, DEBUG_ITEM_ID);
@@ -55,8 +54,13 @@ public class ModItems {
         SRegistry.registerItem(TeleporterLinker.class, Names.TELEPORTER_LINKER, TELEPORTER_LINKER_ID);
         SRegistry.registerItem(TorchBandolier.class, Names.TORCH_BANDOLIER, TORCH_BANDOLIER_ID);
         
+        // Register chaos gems.
+        int id = CHAOS_GEM_START_ID - 1;
+        for (int i = 0; i < EnumGem.all().length; ++i) {
+            SRegistry.registerItem(ChaosGem.class, Names.CHAOS_GEM + i, ++id, "", new Object[] { i });
+        }
         // Register tools.
-        int id = TOOL_START_ID - 1;
+        id = TOOL_START_ID - 1;
         int gem;
         Object[] params = new Object[] { null, 0, false }; // Constructor parameters
         for (int i = 0; i < 24; ++i) {

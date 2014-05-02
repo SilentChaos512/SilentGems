@@ -36,7 +36,7 @@ public class PlayerTickHandler implements ITickHandler {
         
         // Chaos gem with flight
         //ItemStack chaosGem = InventoryHelper.getItemOfTypeFromPlayer(player, SRegistry.getItem(Names.CHAOS_GEM).itemID);
-        for (ItemStack chaosGem : InventoryHelper.getAllItemsOfType(player, SRegistry.getItem(Names.CHAOS_GEM).itemID)) {
+        for (ItemStack chaosGem : InventoryHelper.getAllChaosGems(player)) {
             boolean flightGemFound = false;
             if (chaosGem != null && !flightGemFound) {
                 int level = ChaosGem.getBuffLevel(chaosGem, ChaosBuff.getBuffByName("flight"));

@@ -30,6 +30,8 @@ public class Strings {
     public final static String ENCHANT_TOKEN_1 = "EnchantmentToken1";
     public final static String ENCHANT_TOKEN_2 = "EnchantmentToken2";
     public final static String ENCHANT_TOKEN_3 = "EnchantmentToken3";
+    public final static String GEM_DECORATE_1 = "Gem.Decorate1";
+    public final static String GEM_DECORATE_2 = "Gem.Decorate2";
     public final static String PRESS_SHIFT = "PressShift";
     public final static String REPAIRABLE = "Repairable";
     public final static String SIGIL_NO_EFFECT = "SigilNoEffect";

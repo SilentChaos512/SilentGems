@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import silent.gems.item.ChaosGem;
 import silent.gems.item.tool.GemAxe;
 import silent.gems.item.tool.GemHoe;
 import silent.gems.item.tool.GemPickaxe;
@@ -79,6 +80,22 @@ public class InventoryHelper {
         ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
         for (ItemStack stack : player.inventory.mainInventory) {
             if (stack != null && stack.itemID == itemID) {
+                stacks.add(stack);
+            }
+        }
+        
+        ItemStack[] result = new ItemStack[stacks.size()];
+        for (int i = 0; i < stacks.size(); ++i) {
+            result[i] = stacks.get(i);
+        }
+        return result;
+    }
+    
+    public static ItemStack[] getAllChaosGems(EntityPlayer player) {
+        
+        ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
+        for (ItemStack stack : player.inventory.mainInventory) {
+            if (stack != null && stack.getItem() instanceof ChaosGem) {
                 stacks.add(stack);
             }
         }

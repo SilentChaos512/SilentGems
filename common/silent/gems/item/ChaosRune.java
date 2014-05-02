@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import silent.gems.core.util.LocalizationHelper;
@@ -23,6 +24,7 @@ public class ChaosRune extends ItemSG {
         setMaxDamage(0);
         setCreativeTab(CreativeTabs.tabMaterials);
         setUnlocalizedName(Names.CHAOS_RUNE);
+        rarity = EnumRarity.rare;
     }
 
     @SideOnly(Side.CLIENT)
@@ -32,8 +34,9 @@ public class ChaosRune extends ItemSG {
         int d = stack.getItemDamage();
 
         if (d >= 0 && d < ChaosBuff.all.size()) {
-            list.add(EnumChatFormatting.AQUA
+            list.add(EnumChatFormatting.GOLD
                     + LocalizationHelper.getLocalizedString(Strings.BUFF_RESOURCE_PREFIX + ChaosBuff.all.get(d).name));
+            list.add(LocalizationHelper.getMessageText(itemName + "." + ChaosBuff.all.get(d).name));
         }
         else {
             list.add(EnumChatFormatting.RED + "Invalid meta value!");

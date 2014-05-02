@@ -67,6 +67,12 @@ public class Gem extends ItemSG {
             s = LocalizationHelper.getMessageText(Strings.GEM_MATERIAL_DAMAGE, "");
             s = String.format(format, s, (int) material.getDamageVsEntity());
             list.add(s);
+            
+            // Decorate tool hint.
+            if (stack.getItemDamage() < EnumGem.all().length) {
+                list.add(LocalizationHelper.getMessageText(Strings.GEM_DECORATE_1, EnumChatFormatting.DARK_GRAY));
+                list.add(LocalizationHelper.getMessageText(Strings.GEM_DECORATE_2, EnumChatFormatting.DARK_GRAY));
+            }
         }
         else {
             list.add(LocalizationHelper.getMessageText(Strings.PRESS_SHIFT, EnumChatFormatting.GRAY));

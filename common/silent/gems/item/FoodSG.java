@@ -3,6 +3,7 @@ package silent.gems.item;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -166,7 +167,7 @@ public class FoodSG extends ItemSG {
 
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, 0), " p", "s ", 'p', Item.bakedPotato, 's', "stickWood"));
         GameRegistry.addShapedRecipe(new ItemStack(this, 8, 1), " s ", "www", " s ", 's', Item.sugar, 'w', Item.wheat);
-        RecipeHelper.addSurround(new ItemStack(this, 8, 2), CraftingMaterial.getStack(Names.AMANITA_DUST), Item.wheat);
+        RecipeHelper.addSurround(new ItemStack(this, 8, 2), new ItemStack(Block.mushroomRed), Item.wheat);
     }
     
     public static class SecretDonutEffect {
