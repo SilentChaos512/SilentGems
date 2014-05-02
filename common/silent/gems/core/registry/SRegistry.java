@@ -1,6 +1,7 @@
 package silent.gems.core.registry;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.minecraft.block.Block;
@@ -17,6 +18,7 @@ public class SRegistry {
 
     private final static HashMap<String, Block> blocks = new HashMap<String, Block>();
     private final static HashMap<String, Item> items = new HashMap<String, Item>();
+    private final static ArrayList<String> idConflicts = new ArrayList<String>();
 
     /**
      * Add a Block to the hash map and registers it in the GameRegistry.
@@ -93,6 +95,12 @@ public class SRegistry {
         else {
             id = Config.getBlockId(key, defaultId);
         }
+        
+        // ID conflict detection.
+        if (Block.blocksList[id] != null) {
+            idConflicts.add(id + ": " + Block.blocksList[id].getUnlocalizedName() + ", " + key);
+        }
+        
         int i;
 
         try {
@@ -158,6 +166,12 @@ public class SRegistry {
         else {
             id = Config.getItemId(key, defaultId);
         }
+        
+        // ID conflict detection.
+        if (Item.itemsList[id] != null) {
+            idConflicts.add(id + ": " + Item.itemsList[id].getUnlocalizedName() + ", " + key);
+        }
+        
         int i;
 
         try {
@@ -292,5 +306,21 @@ public class SRegistry {
         else {
             return null;
         }
+    }
+    
+    public static int getNumberOfIDConflicts() {
+        
+        return idConflicts.size();
+    }
+    
+    public static String getIDConflictsString() {
+        
+        String result = "Silent's Gems has ID conflicts! Please fix them:\n";
+        
+        for (String s : idConflicts) {
+            result += s + "\n";
+        }
+        
+        return result;
     }
 }

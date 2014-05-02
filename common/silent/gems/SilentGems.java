@@ -1,6 +1,9 @@
 package silent.gems;
 
+import java.util.HashMap;
 import java.util.Random;
+
+import org.omg.CORBA.Environment;
 
 import net.minecraftforge.common.MinecraftForge;
 import silent.gems.block.ModBlocks;
@@ -41,7 +44,7 @@ public class SilentGems {
     public static CommonProxy proxy;
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
+    public void preInit(FMLPreInitializationEvent event) throws IDConflictException {
 
         LogHelper.init();
 
@@ -51,6 +54,11 @@ public class SilentGems {
         ModItems.init();
         ModEnchantments.init();
         ChaosBuff.init();
+        
+        // ID conflicts?
+        if (SRegistry.getNumberOfIDConflicts() > 0) {
+            throw new IDConflictException(SRegistry.getIDConflictsString());
+        }
         
         ModItems.initItemRecipes();
 
@@ -86,5 +94,13 @@ public class SilentGems {
     public void postInit(FMLPostInitializationEvent event) {
 
         // TODO
+    }
+    
+    public class IDConflictException extends Exception {
+
+        public IDConflictException(String message) {
+            
+            super(message);
+        }
     }
 }
