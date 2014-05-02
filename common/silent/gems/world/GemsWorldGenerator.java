@@ -47,9 +47,9 @@ public class GemsWorldGenerator implements IWorldGenerator {
                     Config.WORLD_GEM_CLUSTER_SIZE.value, Block.stone.blockID).generate(world, random, x, y, z);
         }
 
-        // Chaos ores. 25% chance.
+        // Chaos ores. Chance of failure.
         for (i = 0; i < Config.WORLD_CHAOS_ORE_CLUSTER_COUNT.value; ++i) {
-            if (random.nextInt(4) == 0) {
+            if (random.nextInt(Config.WORLD_CHAOS_ORE_RARITY.value) == 0) {
                 x = chunkX + random.nextInt(16);
                 y = random.nextInt(Config.WORLD_CHAOS_ORE_MAX_HEIGHT.value);
                 z = chunkZ + random.nextInt(16);

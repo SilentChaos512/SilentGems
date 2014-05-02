@@ -42,6 +42,9 @@ public class ConfigOptionInt extends ConfigOption {
         else if (name.equals(Config.CHAOS_GEM_MAX_CHARGE.name)) {
             value = value < 0 ? 0 : value;
         }
+        else if (name.equals(Config.WORLD_CHAOS_ORE_RARITY.name)) {
+            value = value < 1 ? 1 : value;
+        }
         // Mistake catcher
         else {
             LogHelper.warning("No validation code for config setting " + name + " found!");
