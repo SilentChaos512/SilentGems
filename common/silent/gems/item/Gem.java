@@ -41,7 +41,7 @@ public class Gem extends ItemSG {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
-        boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
+        boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
 
         if (shifted) {
             int id = stack.getItemDamage() & 0xF;
@@ -70,12 +70,12 @@ public class Gem extends ItemSG {
             
             // Decorate tool hint.
             if (stack.getItemDamage() < EnumGem.all().length) {
-                list.add(LocalizationHelper.getMessageText(Strings.GEM_DECORATE_1, EnumChatFormatting.DARK_GRAY));
-                list.add(LocalizationHelper.getMessageText(Strings.GEM_DECORATE_2, EnumChatFormatting.DARK_GRAY));
+                list.add(LocalizationHelper.getMessageText(Strings.GEM_DECORATE_1, EnumChatFormatting.DARK_AQUA));
+                list.add(LocalizationHelper.getMessageText(Strings.GEM_DECORATE_2, EnumChatFormatting.DARK_AQUA));
             }
         }
         else {
-            list.add(LocalizationHelper.getMessageText(Strings.PRESS_SHIFT, EnumChatFormatting.GRAY));
+            list.add(LocalizationHelper.getMessageText(Strings.PRESS_SHIFT));
         }
     }
 

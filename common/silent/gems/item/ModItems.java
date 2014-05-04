@@ -12,6 +12,7 @@ import silent.gems.item.tool.GemHoe;
 import silent.gems.item.tool.GemPickaxe;
 import silent.gems.item.tool.GemShovel;
 import silent.gems.item.tool.GemSword;
+import silent.gems.item.tool.ReturnHome;
 import silent.gems.item.tool.TeleporterLinker;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
@@ -33,6 +34,7 @@ public class ModItems {
     private final static int GEM_ITEM_ID = 6000;
     private final static int GEM_SHARD_ID = 6001;
     private final static int KITTY_SUMMON_ID = 6013;
+    private final static int RETURN_HOME_ID = 6011;
     private final static int SIGIL_ID = 6011;
     private final static int SIGIL_RUNE_ID = 6012;
     private final static int TELEPORTER_LINKER_ID = 6009;
@@ -49,6 +51,7 @@ public class ModItems {
         SRegistry.registerItem(Gem.class, Names.GEM_ITEM, GEM_ITEM_ID);
         SRegistry.registerItem(GemShard.class, Names.GEM_SHARD, GEM_SHARD_ID);
         SRegistry.registerItem(KittySummon.class, Names.KITTY_SUMMON, KITTY_SUMMON_ID);
+        SRegistry.registerItem(ReturnHome.class, Names.RETURN_HOME, RETURN_HOME_ID);
 //        SRegistry.registerItem(Sigil.class, Names.SIGIL, SIGIL_ID);
 //        SRegistry.registerItem(SigilRune.class, Names.SIGIL_RUNE, SIGIL_RUNE_ID);
         SRegistry.registerItem(TeleporterLinker.class, Names.TELEPORTER_LINKER, TELEPORTER_LINKER_ID);

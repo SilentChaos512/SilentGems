@@ -41,6 +41,7 @@ public class Names {
     public final static String ORNATE_STICK = "Ornate Stick";
     public final static String PLUME = "Plume";
     public final static String POTATO_STICK = "PotatoStick";
+    public final static String RETURN_HOME = "ReturnHome";
     public final static String SECRET_DONUT = "SecretDonut";
     public final static String SIGIL = "Sigil";
     public final static String SIGIL_RUNE = "SigilRune";

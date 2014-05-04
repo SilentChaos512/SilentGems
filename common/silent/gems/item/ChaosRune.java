@@ -34,19 +34,18 @@ public class ChaosRune extends ItemSG {
         int d = stack.getItemDamage();
 
         if (d >= 0 && d < ChaosBuff.all.size()) {
+            // Name
             list.add(EnumChatFormatting.GOLD
                     + LocalizationHelper.getLocalizedString(Strings.BUFF_RESOURCE_PREFIX + ChaosBuff.all.get(d).name));
+            // Cost
+            String s = LocalizationHelper.getMessageText(Strings.CHAOS_RUNE_COST, "");
+            list.add(EnumChatFormatting.DARK_GREEN + String.format(s, ChaosBuff.all.get(d).cost));
+            // Buff description
             list.add(LocalizationHelper.getMessageText(itemName + "." + ChaosBuff.all.get(d).name));
         }
         else {
             list.add(EnumChatFormatting.RED + "Invalid meta value!");
         }
-        
-        // Temporary
-//        if (d == ChaosBuff.getBuffByName("flight").id) {
-//            list.add(EnumChatFormatting.RED + "Buggy on servers (kicks for flying).");
-//            list.add(EnumChatFormatting.RED + "Trying to fix :(");
-//        }
         
         // Information on how to use.
         list.add(LocalizationHelper.getMessageText(Strings.CHAOS_RUNE_1, EnumChatFormatting.DARK_GRAY));

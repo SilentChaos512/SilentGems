@@ -20,8 +20,10 @@ public class Strings {
      */
 //    public final static String BAD_BOOK = "BookWillNotOpen";
     public final static String CHAOS_GEM_1 = "ChaosGem";
+    public final static String CHAOS_GEM_CHARGE_PER_SECOND = "ChaosGem.ChargePerSecond";
     public final static String CHAOS_GEM_LOW_POWER = "ChaosGem.LowPower";
     public final static String CHAOS_RUNE_1 = "ChaosRune";
+    public final static String CHAOS_RUNE_COST = "ChaosRune.CostTooltip";
     public final static String DYEABLE = "Dyeable";
     public final static String EFFECT_EMPTY = "EmptyEffect";
 //    public final static String ENCHANT_ICE_ASPECT = "EnchantmentIceAspect";
@@ -32,8 +34,12 @@ public class Strings {
     public final static String ENCHANT_TOKEN_3 = "EnchantmentToken3";
     public final static String GEM_DECORATE_1 = "Gem.Decorate1";
     public final static String GEM_DECORATE_2 = "Gem.Decorate2";
+    public final static String PRESS_CTRL = "PressCtrl";
     public final static String PRESS_SHIFT = "PressShift";
     public final static String REPAIRABLE = "Repairable";
+    public final static String RETURN_HOME_LINKED = "ReturnHome.Linked";
+    public final static String RETURN_HOME_LINKED_TO = "ReturnHome.LinkedTo";
+    public final static String RETURN_HOME_NOT_BOUND = "ReturnHome.NotBound";
     public final static String SIGIL_NO_EFFECT = "SigilNoEffect";
     public final static String SIGIL_TELEPORT_NOT_LINKED = "SigilTeleportNotLinked";
     public final static String STATE_DISABLED = "StateDisabled";

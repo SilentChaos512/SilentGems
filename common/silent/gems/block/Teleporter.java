@@ -54,6 +54,11 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
         }
         // Link teleport sigils
         // TODO
+        
+        // Link return home charm
+        if (PlayerHelper.isPlayerHoldingItem(player, SRegistry.getItem(Names.RETURN_HOME))) {
+            return linkReturnHome(world, x, y, z, player);
+        }
 
         TileEntityTeleporter tile = (TileEntityTeleporter) world.getBlockTileEntity(x, y, z);
 
@@ -96,6 +101,17 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
             LogHelper.warning("Teleporter at " + LogHelper.coord(x, y, z) + " not found!");
         }
 
+        return true;
+    }
+    
+    private boolean linkReturnHome(World world, int x, int y, int z, EntityPlayer player) {
+        
+        ItemStack charm = player.inventory.getCurrentItem();
+        if (charm.stackTagCompound == null) {
+            charm.stackTagCompound = new NBTTagCompound();
+        }
+        NBTHelper.setXYZD(charm.stackTagCompound, x, y, z, player.dimension);
+        PlayerHelper.addChatMessage(player, Strings.RETURN_HOME_LINKED, true);
         return true;
     }
 
