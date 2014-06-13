@@ -3,8 +3,8 @@
   "modid": "SilentGems",
   "name": "Silent's Gems",
   "description": "When diamonds won't cut it.",
-  "version": "1.0.02",
-  "mcversion": "1.6.4",
+  "version": "1.0.00-beta",
+  "mcversion": "1.7.2",
   "url": "",
   "updateUrl": "",
   "authors": [

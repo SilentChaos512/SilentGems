@@ -2,86 +2,79 @@ package silent.gems.item.block;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Icon;
-import silent.gems.core.registry.SRegistry;
+import net.minecraft.util.IIcon;
+import silent.gems.block.BlockSG;
 import silent.gems.core.util.LocalizationHelper;
-import silent.gems.lib.EnumGem;
 import silent.gems.lib.Strings;
 
-
-public class ItemBlockSG extends ItemBlock {
+public class ItemBlockSG extends ItemBlockWithMetadata {
 
     protected boolean gemSubtypes = false;
-    protected String itemName = "";
+    protected Block block;
+    protected String itemName = "null";
     
-    public ItemBlockSG(int id) {
+    public ItemBlockSG(Block block) {
 
-        super(id);
-        setHasSubtypes(true);
-        setUnlocalizedName(Integer.toString(id));
+        super(block, block);
+        
+        // Block and block name
+        this.block = block;
+        this.itemName = block.getUnlocalizedName().substring(5);
+        
+        // Subtypes?
+        if (block instanceof BlockSG) {
+            BlockSG b = (BlockSG) block;
+            gemSubtypes = b.getHasGemSubtypes();
+            hasSubtypes = b.getHasSubtypes();
+        }
     }
-    
+
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
         
-        String s = LocalizationHelper.getMessageText(itemName, EnumChatFormatting.DARK_GRAY);
-        if (!s.equals(EnumChatFormatting.DARK_GRAY + LocalizationHelper.MISC_PREFIX + itemName)) {
-            list.add(s);
+        int i = 1;
+        String s = LocalizationHelper.getBlockDescription(itemName, i);
+        while (!s.equals(LocalizationHelper.getBlockDescriptionKey(itemName, i)) && i < 8) {
+            list.add(EnumChatFormatting.ITALIC + s);
+            s = LocalizationHelper.getBlockDescription(itemName, ++i);
+        }
+        
+        if (i == 1) {
+            s = LocalizationHelper.getBlockDescription(itemName, 0);
+            if (!s.equals(LocalizationHelper.getBlockDescriptionKey(itemName, 0))) {
+                list.add(EnumChatFormatting.ITALIC + LocalizationHelper.getBlockDescription(itemName, 0));
+            }
         }
     }
     
     @Override
-    public Icon getIconFromDamage(int meta) {
-
-        if (hasSubtypes && SRegistry.getBlockSG(itemName) != null) {
-            return SRegistry.getBlockSG(itemName).icons[meta];
+    public IIcon getIconFromDamage(int meta) {
+        
+        if (hasSubtypes && block instanceof BlockSG) {
+            BlockSG b = (BlockSG) block;
+            if (b.icons != null && meta < b.icons.length) {
+                return b.icons[meta];
+            }
         }
-        else {
-            return super.getIconFromDamage(meta);
-        }
+        return super.getIconFromDamage(meta);
     }
-
-    @Override
-    public int getMetadata(int meta) {
-
-        return meta;
-    }
-
+    
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-
-        int d = stack.getItemDamage();
         
-        if (gemSubtypes && d < EnumGem.all().length) {
-            return getUnlocalizedName(itemName + EnumGem.all()[d].id);
-        }
-        else if (hasSubtypes) {
-            return getUnlocalizedName(itemName + "-" + Integer.toString(d));
-        }
-        else {
-            return getUnlocalizedName(itemName);
-        }
-    }
-
-    public String getUnlocalizedName(String tileName) {
-
-        return (new StringBuilder()).append("tile.").append(Strings.RESOURCE_PREFIX).append(tileName).toString();
-    }
-    
-    @Override
-    public Item setUnlocalizedName(String itemName) {
+        StringBuilder sb = new StringBuilder("tile.");
+        sb.append(Strings.RESOURCE_PREFIX);
+        sb.append(itemName);
         
-        this.itemName = itemName;
-        return super.setUnlocalizedName(itemName);
-    }
-    
-    public void setHasGemSubtypes(boolean value) {
-        
-        gemSubtypes = value;
+        if (hasSubtypes) {
+            sb.append(stack.getItemDamage());
+        }
+
+        return sb.toString();
     }
 }

@@ -18,20 +18,15 @@ import silent.gems.core.util.RecipeHelper;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
 import silent.gems.lib.buff.ChaosBuff;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ChaosGem extends ItemSG {
 
     public final static int MAX_STACK_DAMAGE = 10;
 
-    public final int gemId;
+    private final int gemId;
 
-    // protected Icon[] damageBar = new Icon[11];
+    public ChaosGem(int gemId) {
 
-    public ChaosGem(int id, int gemId) {
-
-        super(id);
         this.gemId = gemId;
         setMaxStackSize(1);
         setUnlocalizedName(Names.CHAOS_GEM + gemId);
@@ -40,24 +35,55 @@ public class ChaosGem extends ItemSG {
         rarity = EnumRarity.rare;
     }
 
+    public static void addBuff(ItemStack stack, ChaosBuff buff) {
+
+        int k = getBuffLevel(stack, buff);
+
+        if (stack.stackTagCompound == null) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+        if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
+            stack.stackTagCompound.setTag(Strings.CHAOS_GEM_BUFF_LIST, new NBTTagList());
+        }
+
+        NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
+        if (k == 0) {
+            // Buff not already on list, add it.
+            NBTTagCompound tag = new NBTTagCompound();
+            tag.setShort(Strings.CHAOS_GEM_BUFF_ID, (short) buff.id);
+            tag.setShort(Strings.CHAOS_GEM_BUFF_LEVEL, (short) 1);
+            list.appendTag(tag);
+        }
+        else {
+            // Increase buff level.
+            NBTTagCompound tag;
+            for (int i = 0; i < list.tagCount(); ++i) {
+                tag = (NBTTagCompound) list.getCompoundTagAt(i);
+                k = tag.getShort(Strings.CHAOS_GEM_BUFF_ID);
+                if (k == buff.id) {
+                    k = tag.getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
+                    tag.setShort(Strings.CHAOS_GEM_BUFF_LEVEL, (short) (k + 1));
+                }
+            }
+        }
+    }
+
     @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
         if (stack.stackTagCompound == null) {
             // Information on how to use.
-            list.add(LocalizationHelper.getMessageText(Strings.CHAOS_GEM_1, EnumChatFormatting.DARK_GRAY));
+            list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0));
             return;
         }
 
         boolean enabled = stack.stackTagCompound.getBoolean(Strings.CHAOS_GEM_ENABLED);
 
         if (enabled) {
-            list.add(LocalizationHelper.getMessageText(Strings.STATE_ENABLED, EnumChatFormatting.GREEN));
+            list.add(EnumChatFormatting.GREEN + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Enabled"));
         }
         else {
-            list.add(LocalizationHelper.getMessageText(Strings.STATE_DISABLED, EnumChatFormatting.RED));
+            list.add(EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Disabled"));
         }
 
         // Charge level
@@ -67,7 +93,7 @@ public class ChaosGem extends ItemSG {
         // Charge change rate
         k = enabled ? -getTotalChargeDrain(stack) : getRechargeAmount(stack);
         list.add(EnumChatFormatting.DARK_GRAY + (k >= 0 ? "+" : "") + k + " "
-                + LocalizationHelper.getMessageText(Strings.CHAOS_GEM_CHARGE_PER_SECOND, ""));
+                + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "ChargePerSecond"));
 
         if (stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
             // Display list of effects.
@@ -75,7 +101,7 @@ public class ChaosGem extends ItemSG {
             NBTTagCompound t;
             int id, lvl;
             for (int i = 0; i < tags.tagCount(); ++i) {
-                t = (NBTTagCompound) tags.tagAt(i);
+                t = (NBTTagCompound) tags.getCompoundTagAt(i);
                 id = t.getShort(Strings.CHAOS_GEM_BUFF_ID);
                 lvl = t.getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
                 list.add(ChaosBuff.all.get(id).getDisplayName(lvl));
@@ -83,57 +109,35 @@ public class ChaosGem extends ItemSG {
         }
         else {
             // Information on how to use.
-            list.add(LocalizationHelper.getMessageText(Strings.CHAOS_GEM_1, EnumChatFormatting.DARK_GRAY));
+            list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0));
         }
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack stack, int pass) {
+    public void addRecipes() {
 
-        return stack.stackTagCompound != null && stack.stackTagCompound.getBoolean(Strings.CHAOS_GEM_ENABLED);
+        RecipeHelper.addSurround(new ItemStack(this), new ItemStack(SRegistry.getBlock(Names.GEM_BLOCK), 1, gemId),
+                CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS));
     }
 
-    public static boolean isEnabled(ItemStack stack) {
-
-        return stack != null && stack.stackTagCompound != null & stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_ENABLED)
-                && stack.stackTagCompound.getBoolean(Strings.CHAOS_GEM_ENABLED);
-    }
-
-    @Override
-    public boolean onDroppedByPlayer(ItemStack stack, EntityPlayer player) {
-
-        // Set disabled
-        if (stack.stackTagCompound != null) {
-            stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_ENABLED, false);
-        }
-
-        return true;
-    }
-
-    @Override
-    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+    private void applyEffects(ItemStack stack, EntityPlayer player) {
 
         if (stack.stackTagCompound == null) {
-            stack.setTagCompound(new NBTTagCompound());
+            stack.stackTagCompound = new NBTTagCompound();
         }
-        if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_ENABLED)) {
-            stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_ENABLED, false);
-        }
-
-        // Enable/disable
-        boolean b = stack.stackTagCompound.getBoolean(Strings.CHAOS_GEM_ENABLED);
-        if (stack.stackTagCompound.getInteger(Strings.CHAOS_GEM_CHARGE) > 0) {
-            stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_ENABLED, !b);
-            if (b) {
-                removeEffects(stack, player);
-            }
-            else {
-                applyEffects(stack, player);
-            }
+        if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
+            stack.stackTagCompound.setTag(Strings.CHAOS_GEM_BUFF_LIST, new NBTTagList());
         }
 
-        return stack;
+        NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
+        NBTTagCompound tag;
+        short id, lvl;
+        for (int i = 0; i < list.tagCount(); ++i) {
+            tag = (NBTTagCompound) list.getCompoundTagAt(i);
+            id = tag.getShort(Strings.CHAOS_GEM_BUFF_ID);
+            lvl = tag.getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
+            ChaosBuff.all.get(id).apply(player, lvl);
+        }
     }
 
     public static boolean canAddBuff(ItemStack stack, ChaosBuff buff) {
@@ -151,122 +155,7 @@ public class ChaosGem extends ItemSG {
         return k < buff.maxLevel;
     }
 
-    public static void addBuff(ItemStack stack, ChaosBuff buff) {
-
-        int k = getBuffLevel(stack, buff);
-
-        if (stack.stackTagCompound == null) {
-            stack.setTagCompound(new NBTTagCompound());
-        }
-        if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
-            stack.stackTagCompound.setTag(Strings.CHAOS_GEM_BUFF_LIST, new NBTTagList(Strings.CHAOS_GEM_BUFF_LIST));
-        }
-
-        NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
-        if (k == 0) {
-            // Buff not already on list, add it.
-            NBTTagCompound tag = new NBTTagCompound();
-            tag.setShort(Strings.CHAOS_GEM_BUFF_ID, (short) buff.id);
-            tag.setShort(Strings.CHAOS_GEM_BUFF_LEVEL, (short) 1);
-            list.appendTag(tag);
-        }
-        else {
-            // Increase buff level.
-            NBTTagCompound tag;
-            for (int i = 0; i < list.tagCount(); ++i) {
-                tag = (NBTTagCompound) list.tagAt(i);
-                k = tag.getShort(Strings.CHAOS_GEM_BUFF_ID);
-                if (k == buff.id) {
-                    k = tag.getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
-                    tag.setShort(Strings.CHAOS_GEM_BUFF_LEVEL, (short) (k + 1));
-                }
-            }
-        }
-
-        // return stack;
-    }
-
-    public static int getBuffCount(ItemStack stack) {
-
-        // Does buff tag list exist?
-        if (stack == null || stack.stackTagCompound == null || !stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
-            return 0;
-        }
-        else {
-            NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
-            return list.tagCount();
-        }
-    }
-
-    public static int getBuffLevel(ItemStack stack, ChaosBuff buff) {
-
-        // Does buff tag list exist?
-        if (stack == null || buff == null || stack.stackTagCompound == null || !stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
-            return 0;
-        }
-        else {
-            NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
-
-            // Does the specified buff exist on list?
-            for (int i = 0; i < list.tagCount(); ++i) {
-                if (((NBTTagCompound) list.tagAt(i)).getShort(Strings.CHAOS_GEM_BUFF_ID) == buff.id) {
-                    return ((NBTTagCompound) list.tagAt(i)).getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
-                }
-            }
-
-            // Not there
-            return 0;
-        }
-    }
-
-    private void applyEffects(ItemStack stack, EntityPlayer player) {
-
-        if (stack.stackTagCompound == null) {
-            stack.stackTagCompound = new NBTTagCompound();
-        }
-        if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
-            stack.stackTagCompound.setTag(Strings.CHAOS_GEM_BUFF_LIST, new NBTTagList(Strings.CHAOS_GEM_BUFF_LIST));
-        }
-
-        NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
-        NBTTagCompound tag;
-        short id, lvl;
-        for (int i = 0; i < list.tagCount(); ++i) {
-            tag = (NBTTagCompound) list.tagAt(i);
-            id = tag.getShort(Strings.CHAOS_GEM_BUFF_ID);
-            lvl = tag.getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
-            // LogHelper.list(id, lvl, ChaosBuff.all.get(id));
-            ChaosBuff.all.get(id).apply(player, lvl);
-        }
-    }
-
-    private void removeEffects(ItemStack stack, EntityPlayer player) {
-
-        if (stack.stackTagCompound == null) {
-            stack.stackTagCompound = new NBTTagCompound();
-        }
-        if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
-            stack.stackTagCompound.setTag(Strings.CHAOS_GEM_BUFF_LIST, new NBTTagList(Strings.CHAOS_GEM_BUFF_LIST));
-        }
-
-        NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
-        NBTTagCompound tag;
-        short id, lvl;
-        for (int i = 0; i < list.tagCount(); ++i) {
-            tag = (NBTTagCompound) list.tagAt(i);
-            id = tag.getShort(Strings.CHAOS_GEM_BUFF_ID);
-            ChaosBuff.all.get(id).remove(player);
-        }
-    }
-
     public void doTick(ItemStack stack, EntityPlayer player) {
-
-        // String s = "";
-        // int random = SilentGems.instance.random.nextInt(4);
-        // for (int i = 0; i < random; ++i) {
-        // s += " ";
-        // }
-        // LogHelper.debug(s + "derp!");
 
         if (player.worldObj.isRemote) {
             return;
@@ -276,7 +165,7 @@ public class ChaosGem extends ItemSG {
             stack.setTagCompound(new NBTTagCompound());
         }
         if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
-            stack.stackTagCompound.setTag(Strings.CHAOS_GEM_BUFF_LIST, new NBTTagList(Strings.CHAOS_GEM_BUFF_LIST));
+            stack.stackTagCompound.setTag(Strings.CHAOS_GEM_BUFF_LIST, new NBTTagList());
         }
 
         boolean enabled = stack.stackTagCompound.getBoolean(Strings.CHAOS_GEM_ENABLED);
@@ -304,12 +193,6 @@ public class ChaosGem extends ItemSG {
                 charge = 0;
                 stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_ENABLED, false);
             }
-            // Warn player if low on charge.
-            // if (maxCharge > 0 && charge == maxCharge / 10) {
-            // String s = LocalizationHelper.getMessageText(Strings.CHAOS_GEM_LOW_POWER);
-            // s = String.format(s, ((ItemSG) stack.getItem()).getLocalizedName(stack));
-            // PlayerHelper.addChatMessage(player, s, EnumChatFormatting.YELLOW, false);
-            // }
         }
         else if (charge < maxCharge) {
             charge += getRechargeAmount(stack);
@@ -321,6 +204,39 @@ public class ChaosGem extends ItemSG {
             charge = maxCharge;
         }
         stack = setChargeLevel(stack, charge);
+    }
+
+    public static int getBuffCount(ItemStack stack) {
+
+        // Does buff tag list exist?
+        if (stack == null || stack.stackTagCompound == null || !stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
+            return 0;
+        }
+        else {
+            NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
+            return list.tagCount();
+        }
+    }
+
+    public static int getBuffLevel(ItemStack stack, ChaosBuff buff) {
+
+        // Does buff tag list exist?
+        if (stack == null || buff == null || stack.stackTagCompound == null || !stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
+            return 0;
+        }
+        else {
+            NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
+
+            // Does the specified buff exist on list?
+            for (int i = 0; i < list.tagCount(); ++i) {
+                if (((NBTTagCompound) list.getCompoundTagAt(i)).getShort(Strings.CHAOS_GEM_BUFF_ID) == buff.id) {
+                    return ((NBTTagCompound) list.getCompoundTagAt(i)).getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
+                }
+            }
+
+            // Not there
+            return 0;
+        }
     }
 
     public static int getChargeLevel(ItemStack gem) {
@@ -368,13 +284,80 @@ public class ChaosGem extends ItemSG {
             NBTTagCompound tag;
             short id;
             for (int i = 0; i < list.tagCount(); ++i) {
-                tag = (NBTTagCompound) list.tagAt(i);
+                tag = (NBTTagCompound) list.getCompoundTagAt(i);
                 id = tag.getShort(Strings.CHAOS_GEM_BUFF_ID);
                 drain += ChaosBuff.all.get(id).cost;
             }
         }
 
         return drain;
+    }
+
+    @Override
+    public boolean hasEffect(ItemStack stack, int pass) {
+
+        return stack.stackTagCompound != null && stack.stackTagCompound.getBoolean(Strings.CHAOS_GEM_ENABLED);
+    }
+
+    public static boolean isEnabled(ItemStack stack) {
+
+        return stack != null && stack.stackTagCompound != null & stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_ENABLED)
+                && stack.stackTagCompound.getBoolean(Strings.CHAOS_GEM_ENABLED);
+    }
+
+    @Override
+    public boolean onDroppedByPlayer(ItemStack stack, EntityPlayer player) {
+
+        // Set disabled
+        if (stack.stackTagCompound != null) {
+            stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_ENABLED, false);
+        }
+
+        return true;
+    }
+
+    @Override
+    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+
+        if (stack.stackTagCompound == null) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+        if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_ENABLED)) {
+            stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_ENABLED, false);
+        }
+
+        // Enable/disable
+        boolean b = stack.stackTagCompound.getBoolean(Strings.CHAOS_GEM_ENABLED);
+        if (stack.stackTagCompound.getInteger(Strings.CHAOS_GEM_CHARGE) > 0) {
+            stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_ENABLED, !b);
+            if (b) {
+                removeEffects(stack, player);
+            }
+            else {
+                applyEffects(stack, player);
+            }
+        }
+
+        return stack;
+    }
+
+    private void removeEffects(ItemStack stack, EntityPlayer player) {
+
+        if (stack.stackTagCompound == null) {
+            stack.stackTagCompound = new NBTTagCompound();
+        }
+        if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
+            stack.stackTagCompound.setTag(Strings.CHAOS_GEM_BUFF_LIST, new NBTTagList());
+        }
+
+        NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
+        NBTTagCompound tag;
+        short id, lvl;
+        for (int i = 0; i < list.tagCount(); ++i) {
+            tag = (NBTTagCompound) list.getCompoundTagAt(i);
+            id = tag.getShort(Strings.CHAOS_GEM_BUFF_ID);
+            ChaosBuff.all.get(id).remove(player);
+        }
     }
 
     public static ItemStack setChargeLevel(ItemStack gem, int charge) {
@@ -390,70 +373,5 @@ public class ChaosGem extends ItemSG {
         }
 
         return gem;
-    }
-
-    // @SideOnly(Side.CLIENT)
-    // @Override
-    // public Icon getIcon(ItemStack stack, int pass) {
-    //
-    // if (pass == 0) {
-    // return super.getIconFromDamage(stack.getItemDamage());
-    // }
-    // else if (pass == 1) {
-    // int charge = getChargeLevel(stack);
-    // int maxCharge = getMaxChargeLevel(stack);
-    // int barIcon = 10 * charge / maxCharge;
-    // barIcon = MathHelper.clamp_int(barIcon, 0, 10);
-    // return damageBar[barIcon];
-    // }
-    // else {
-    // return super.getIcon(stack, pass);
-    // }
-    // }
-    //
-    // @SideOnly(Side.CLIENT)
-    // @Override
-    // public boolean requiresMultipleRenderPasses() {
-    //
-    // return true;
-    // }
-    //
-    // @SideOnly(Side.CLIENT)
-    // @Override
-    // public int getRenderPasses(int meta) {
-    //
-    // return 2;
-    // }
-    //
-    // @Override
-    // @SideOnly(Side.CLIENT)
-    // public void registerIcons(IconRegister reg) {
-    //
-    // super.registerIcons(reg);
-    //
-    // damageBar[0] = reg.registerIcon(Strings.RESOURCE_PREFIX + "Blank");
-    // for (int i = 1; i <= 10; ++i) {
-    // damageBar[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + "Damage" + i);
-    // }
-    // }
-
-    // @Override
-    // public int getDisplayDamage(ItemStack stack) {
-    //
-    // if (stack != null && stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_CHARGE)) {
-    // int charge = stack.stackTagCompound.getInteger(Strings.CHAOS_GEM_CHARGE);
-    // int maxCharge = getMaxChargeLevel(stack);
-    // return 100 - (100 * charge / maxCharge);
-    // }
-    // else {
-    // return 0;
-    // }
-    // }
-
-    @Override
-    public void addRecipes() {
-
-        RecipeHelper.addSurround(new ItemStack(this), new ItemStack(SRegistry.getBlock(Names.GEM_BLOCK), 1, gemId),
-                CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS));
     }
 }

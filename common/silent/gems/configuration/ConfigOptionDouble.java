@@ -1,7 +1,7 @@
 package silent.gems.configuration;
 
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
 import silent.gems.core.util.LogHelper;
 
 public class ConfigOptionDouble extends ConfigOption {
@@ -33,15 +33,15 @@ public class ConfigOptionDouble extends ConfigOption {
     @Override
     public ConfigOption validate() {
 
-        if (name.equals(Config.CHAOS_GEM_FLIGHT_MAX_SPEED.name)) {
-            value = (double) MathHelper.clamp_float((float) value, 0.1f, 100.0f);
-        }
-        else if (name.equals(Config.CHAOS_GEM_FLIGHT_THRUST.name)) {
-            value = (double) MathHelper.clamp_float((float) value, 0.01f, 1.0f);
-        }
-        else {
-            LogHelper.warning("No validation code for config settings " + name + " found!");
-        }
+//        if (name.equals(Config.CHAOS_GEM_FLIGHT_MAX_SPEED.name)) {
+//            value = (double) MathHelper.clamp_float((float) value, 0.1f, 100.0f);
+//        }
+//        else if (name.equals(Config.CHAOS_GEM_FLIGHT_THRUST.name)) {
+//            value = (double) MathHelper.clamp_float((float) value, 0.01f, 1.0f);
+//        }
+//        else {
+//            LogHelper.warning("No validation code for config settings " + name + " found!");
+//        }
 
         return this;
     }

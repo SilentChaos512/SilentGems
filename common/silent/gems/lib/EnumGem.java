@@ -1,11 +1,9 @@
 package silent.gems.lib;
 
-import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
 import silent.gems.core.registry.SRegistry;
-import silent.gems.core.util.LogHelper;
 import silent.gems.material.ModMaterials;
-
 
 public enum EnumGem {
 
@@ -78,7 +76,7 @@ public enum EnumGem {
      * Gets the tool material for this gem, if there is one.
      * @return
      */
-    public EnumToolMaterial getToolMaterial(boolean supercharged) {
+    public ToolMaterial getToolMaterial(boolean supercharged) {
         
         if (supercharged) {
             if (id == RUBY.id)

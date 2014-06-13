@@ -1,7 +1,7 @@
 package silent.gems.configuration;
 
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
 import silent.gems.core.util.LogHelper;
 
 public class ConfigOptionInt extends ConfigOption {

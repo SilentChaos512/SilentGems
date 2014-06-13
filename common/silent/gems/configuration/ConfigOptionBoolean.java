@@ -1,6 +1,7 @@
 package silent.gems.configuration;
 
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
+
 
 public class ConfigOptionBoolean extends ConfigOption {
 

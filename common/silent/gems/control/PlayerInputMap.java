@@ -6,12 +6,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import silent.gems.core.util.LogHelper;
-
-/**
- * Copied from MachineMuse's Powersuits
- *
- */
 public class PlayerInputMap {
 
     protected static Map<String, PlayerInputMap> playerInputs = new HashMap();

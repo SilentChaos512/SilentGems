@@ -3,41 +3,75 @@ package silent.gems.item;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import silent.gems.core.util.LocalizationHelper;
-import silent.gems.core.util.LogHelper;
+import silent.gems.core.util.PlayerHelper;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TorchBandolier extends ItemSG {
 
-    public final static int SLOTS = 16;
-    public final static int MAX_DAMAGE = SLOTS * 64;
+    public final static String AUTO_FILL_OFF = "AutoFillOff";
+    public final static String AUTO_FILL_ON = "AutoFillOn";
+    public final static int MAX_DAMAGE = 1024;
 
-    public TorchBandolier(int id) {
+    public TorchBandolier() {
 
-        super(id);
         setMaxDamage(MAX_DAMAGE);
         setMaxStackSize(1);
         setCreativeTab(CreativeTabs.tabTools);
         setUnlocalizedName(Names.TORCH_BANDOLIER);
     }
 
+    public ItemStack absorbTorches(ItemStack stack, EntityPlayer player) {
+
+        if (stack.stackTagCompound == null) {
+            stack.stackTagCompound = new NBTTagCompound();
+            stack.stackTagCompound.setBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL, true);
+        }
+
+        if (stack.stackTagCompound.getBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL)) {
+            ItemStack torches;
+            for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
+                torches = player.inventory.getStackInSlot(i);
+                // Is the stack torches? Is this the best way? It's not pretty.
+                if (torches != null && Item.getIdFromItem(torches.getItem()) == Block.getIdFromBlock(Blocks.torch)) {
+                    int damage = stack.getItemDamage();
+
+                    // Decrease damage value of torch bandolier, reduce stack size of torch stack.
+                    if (damage - torches.stackSize < 0) {
+                        stack.setItemDamage(0);
+                        torches.stackSize -= damage;
+                    }
+                    else {
+                        stack.setItemDamage(damage - torches.stackSize);
+                        torches.stackSize = 0;
+                    }
+
+                    // If torch stack is empty, get rid of it.
+                    if (torches.stackSize <= 0) {
+                        player.inventory.setInventorySlotContents(i, null);
+                    }
+                }
+            }
+        }
+
+        return stack;
+    }
+
     @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
         if (stack.stackTagCompound == null) {
@@ -45,48 +79,39 @@ public class TorchBandolier extends ItemSG {
         }
 
         // Item description
-        list.add(LocalizationHelper.getMessageText(itemName + "1"));
+        list.add(LocalizationHelper.getItemDescription(itemName, 1));
         // Auto-fill mode
         if (stack.stackTagCompound.hasKey(Strings.TORCH_BANDOLIER_AUTO_FILL)
                 && stack.stackTagCompound.getBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL)) {
-            list.add(LocalizationHelper.getMessageText(Names.TORCH_BANDOLIER + ".AutoFillOn", EnumChatFormatting.GREEN));
+            list.add(EnumChatFormatting.GREEN + LocalizationHelper.getOtherItemKey(itemName, AUTO_FILL_ON));
         }
         else {
-            list.add(LocalizationHelper.getMessageText(Names.TORCH_BANDOLIER + ".AutoFillOff", EnumChatFormatting.RED));
+            list.add(EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(itemName, AUTO_FILL_OFF));
         }
         if (stack.getItemDamage() < MAX_DAMAGE) {
             list.add((new StringBuilder()).append(EnumChatFormatting.YELLOW).append(MAX_DAMAGE - stack.getItemDamage()).append(" / ")
                     .append(MAX_DAMAGE).toString());
         }
         // How to use
-        list.add(LocalizationHelper.getMessageText(itemName + "2", EnumChatFormatting.DARK_GRAY));
+        list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(itemName, 2));
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack) {
+    public void addRecipes() {
 
-        return getUnlocalizedName(Names.TORCH_BANDOLIER);
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
+                Items.leather, 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
+            new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE), 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC }));
     }
-
-    @SideOnly(Side.CLIENT)
+    
     @Override
-    public void registerIcons(IconRegister reg) {
-
-        itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + Names.TORCH_BANDOLIER);
+    public void getSubItems(Item item, CreativeTabs tab, List list) {
+        
+        list.add(new ItemStack(this, 1, 0));
+        list.add(new ItemStack(this, 1, MAX_DAMAGE));
     }
 
-    private void resetTagCompound(ItemStack stack) {
-
-        if (stack.stackTagCompound == null) {
-            stack.stackTagCompound = new NBTTagCompound();
-        }
-
-        stack.stackTagCompound.setBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL, true);
-    }
-
-    /**
-     * Absorb torches when player sneak-right-clicks.
-     */
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
@@ -104,48 +129,12 @@ public class TorchBandolier extends ItemSG {
 
             if (world.isRemote) {
                 if (autoFill) {
-                    player.addChatMessage(LocalizationHelper.getMessageText(Names.TORCH_BANDOLIER + ".AutoFillOn", EnumChatFormatting.GREEN));
+                    PlayerHelper.addChatMessage(player,
+                            EnumChatFormatting.GREEN + LocalizationHelper.getOtherItemKey(itemName, AUTO_FILL_ON));
                 }
                 else {
-                    player.addChatMessage(LocalizationHelper.getMessageText(Names.TORCH_BANDOLIER + ".AutoFillOff", EnumChatFormatting.RED));
-                }
-            }
-        }
-
-        return stack;
-    }
-
-    public ItemStack absorbTorches(ItemStack stack, EntityPlayer player) {
-        
-        if (stack.stackTagCompound == null) {
-            stack.stackTagCompound = new NBTTagCompound();
-            stack.stackTagCompound.setBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL, true);
-        }
-        
-        if (stack.stackTagCompound.getBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL)) {
-            ItemStack torches;
-            for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
-                torches = player.inventory.getStackInSlot(i);
-                if (torches != null && torches.itemID == Block.torchWood.blockID) {
-                    int damage = stack.getItemDamage();
-    
-                    // Decrease damage value of torch bandolier, reduce stack
-                    // size of torch stack.
-                    if (damage - torches.stackSize < 0) {
-                        //stack.damageItem(-damage, player);
-                        stack.setItemDamage(0);
-                        torches.stackSize -= damage;
-                    }
-                    else {
-                        //stack.damageItem(-torches.stackSize, player);
-                        stack.setItemDamage(damage - torches.stackSize);
-                        torches.stackSize = 0;
-                    }
-    
-                    // If torch stack is empty, get rid of it.
-                    if (torches.stackSize <= 0) {
-                        player.inventory.setInventorySlotContents(i, null);
-                    }
+                    PlayerHelper.addChatMessage(player,
+                            EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(itemName, AUTO_FILL_OFF));
                 }
             }
         }
@@ -154,7 +143,7 @@ public class TorchBandolier extends ItemSG {
     }
 
     /**
-     * Place a torch, if possible. Mostly the same code Abyss tools use to place blocks.
+     * Place a torch, if possible. Mostly the same code gem tools use to place blocks.
      */
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY,
@@ -166,7 +155,7 @@ public class TorchBandolier extends ItemSG {
 
         boolean used = false;
 
-        ItemStack fakeTorchStack = new ItemStack(Block.torchWood);
+        ItemStack fakeTorchStack = new ItemStack(Blocks.torch);
         Item torch = fakeTorchStack.getItem();
 
         ForgeDirection d = ForgeDirection.VALID_DIRECTIONS[side];
@@ -183,10 +172,12 @@ public class TorchBandolier extends ItemSG {
         return used;
     }
 
-    @Override
-    public void addRecipes() {
+    private void resetTagCompound(ItemStack stack) {
 
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
-                Item.leather, 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC }));
+        if (stack.stackTagCompound == null) {
+            stack.stackTagCompound = new NBTTagCompound();
+        }
+
+        stack.stackTagCompound.setBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL, true);
     }
 }

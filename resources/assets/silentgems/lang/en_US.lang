@@ -1,5 +1,9 @@
 # Block localizations
 
+tile.silentgems:ChaosOre.name=Chaos Ore
+
+tile.silentgems:FluffyPlant.name=Fluffy Puff Plant
+
 tile.silentgems:GemBlock0.name=Ruby Block
 tile.silentgems:GemBlock1.name=Garnet Block
 tile.silentgems:GemBlock2.name=Topaz Block
@@ -12,6 +16,7 @@ tile.silentgems:GemBlock8.name=Iolite Block
 tile.silentgems:GemBlock9.name=Amethyst Block
 tile.silentgems:GemBlock10.name=Morganite Block
 tile.silentgems:GemBlock11.name=Onyx Block
+
 tile.silentgems:GemBrick0.name=Ruby-Speckled Brick
 tile.silentgems:GemBrick1.name=Garnet-Speckled Brick
 tile.silentgems:GemBrick2.name=Topaz-Speckled Brick
@@ -24,7 +29,7 @@ tile.silentgems:GemBrick8.name=Iolite-Speckled Brick
 tile.silentgems:GemBrick9.name=Amethyst-Speckled Brick
 tile.silentgems:GemBrick10.name=Morganite-Speckled Brick
 tile.silentgems:GemBrick11.name=Onyx-Speckled Brick
-tile.silentgems:ChaosOre.name=Chaos Ore
+
 tile.silentgems:GemOre0.name=Ruby Ore
 tile.silentgems:GemOre1.name=Garnet Ore
 tile.silentgems:GemOre2.name=Topaz Ore
@@ -37,6 +42,7 @@ tile.silentgems:GemOre8.name=Iolite Ore
 tile.silentgems:GemOre9.name=Amethyst Ore
 tile.silentgems:GemOre10.name=Morganite Ore
 tile.silentgems:GemOre11.name=Onyx Ore
+
 tile.silentgems:GlowRose0.name=Ruby Glow Rose
 tile.silentgems:GlowRose1.name=Garnet Glow Rose
 tile.silentgems:GlowRose2.name=Topaz Glow Rose
@@ -49,8 +55,9 @@ tile.silentgems:GlowRose8.name=Iolite Glow Rose
 tile.silentgems:GlowRose9.name=Amethyst Glow Rose
 tile.silentgems:GlowRose10.name=Morganite Glow Rose
 tile.silentgems:GlowRose11.name=Onyx Glow Rose
+
 tile.silentgems:MiscBlocks-0.name=Chaos Essence Block
-tile.silentgems:MushroomBlock-0.name=Fly Amanita
+
 tile.silentgems:Teleporter0.name=Ruby Teleporter
 tile.silentgems:Teleporter1.name=Garnet Teleporter
 tile.silentgems:Teleporter2.name=Topaz Teleporter
@@ -63,44 +70,27 @@ tile.silentgems:Teleporter8.name=Iolite Teleporter
 tile.silentgems:Teleporter9.name=Amethyst Teleporter
 tile.silentgems:Teleporter10.name=Morganite Teleporter
 tile.silentgems:Teleporter11.name=Onyx Teleporter
+tile.silentgems:Teleporter.DestinationInvalid=Invalid teleport destination.
+tile.silentgems:Teleporter.DestinationObstructed=Destination obstructed.
+tile.silentgems:Teleporter.Link.End=Teleporter link created.
+tile.silentgems:Teleporter.Link.Fail=Teleporter link failed. (Try chunk loading first teleporter.)
+tile.silentgems:Teleporter.Link.Start=Teleporter link started.
+tile.silentgems:Teleporter.NoDestination=No destination set.
+tile.silentgems:Teleporter.ReturnHomeBound=Bound to Teleporter!
 
 # Item localizations
 
 item.silentgems:ChaosBooster.name=Chaos Booster
-item.silentgems:ChaosCapacitor.name=Chaos Capacitor
-item.silentgems:ChaosShard.name=Chaos Shard
-item.silentgems:Chaos Essence.name=Chaos Essence
-item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence
-item.silentgems:ChaosRune.name=Chaos Rune
-item.silentgems:DebugItem.name=Debug Item
-item.silentgems:Enchantment Token.name=Enchantment Token
-item.silentgems:GoldenPlume.name=Golden Plume
-item.silentgems:KittySummon.name=Summon Kitty
-item.silentgems:Mystery Goo.name=Mystery Goo
-item.silentgems:Ornate Stick.name=Ornate Stick
-item.silentgems:Plume.name=Plume
-item.silentgems:PotatoStick.name=Potato on a Stick
-item.silentgems:ReturnHome.name=Return Home Charm
-item.silentgems:SecretDonut.name=Secret Donut
-item.silentgems:Sigil.name=Sigil
-item.silentgems:Sigil Rune.name=Sigil Rune
-item.silentgems:SugarCookie.name=Sugar Cookie
-item.silentgems:TeleporterLinker.name=Teleporter Linker
-item.silentgems:Torch Bandolier.name=Torch Bandolier
-item.silentgems:Yarn Ball.name=Ball of Yarn
+item.silentgems:ChaosBooster.desc=Not as bad as it sounds.
 
-item.silentgems:GemShard0.name=Ruby Shard
-item.silentgems:GemShard1.name=Garnet Shard
-item.silentgems:GemShard2.name=Topaz Shard
-item.silentgems:GemShard3.name=Heliodor Shard
-item.silentgems:GemShard4.name=Peridot Shard
-item.silentgems:GemShard5.name=Emerald Shard
-item.silentgems:GemShard6.name=Aquamarine Shard
-item.silentgems:GemShard7.name=Sapphire Shard
-item.silentgems:GemShard8.name=Iolite Shard
-item.silentgems:GemShard9.name=Amethyst Shard
-item.silentgems:GemShard10.name=Morganite Shard
-item.silentgems:GemShard11.name=Onyx Shard
+item.silentgems:ChaosCapacitor.name=Chaos Capacitor
+item.silentgems:ChaosCapacitor.desc=Storage for awesome.
+
+item.silentgems:Chaos Essence.name=Chaos Essence
+item.silentgems:Chaos Essence.desc=Shiny power!
+
+item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence
+item.silentgems:ChaosEssencePlus.desc=Maximum shiny!
 
 item.silentgems:ChaosGem0.name=Chaos Ruby
 item.silentgems:ChaosGem1.name=Chaos Garnet
@@ -114,6 +104,123 @@ item.silentgems:ChaosGem8.name=Chaos Iolite
 item.silentgems:ChaosGem9.name=Chaos Amethyst
 item.silentgems:ChaosGem10.name=Chaos Morganite
 item.silentgems:ChaosGem11.name=Chaos Onyx
+item.silentgems:ChaosGem.desc=Craft with Chaos Runes to get effects.
+item.silentgems:ChaosGem.ChargePerSecond=charge/s
+item.silentgems:ChaosGem.Disabled=Disabled
+item.silentgems:ChaosGem.Enabled=Enabled
+
+item.silentgems:ChaosRune.name=Chaos Rune
+item.silentgems:ChaosRune.desc=Craft with Chaos gems to give them effects.
+item.silentgems:ChaosRune.Cost=Costs %d charge/second to use.
+item.silentgems:ChaosRune.MaxLevel=Max level is %d.
+item.silentgems:ChaosRune.booster=Improves recharge rate.
+item.silentgems:ChaosRune.capacity=Improves maximum charge.
+item.silentgems:ChaosRune.fireResist=Good for hot baths!
+item.silentgems:ChaosRune.flight=Like having a rocket on your back!
+item.silentgems:ChaosRune.haste=Make holes faster!
+item.silentgems:ChaosRune.jump=Vertical mobility upgrade!
+item.silentgems:ChaosRune.nightVision=See things better!
+item.silentgems:ChaosRune.regen=Better than a bandage!
+item.silentgems:ChaosRune.resist=Sort of like armor!
+item.silentgems:ChaosRune.speed=Get around faster!
+item.silentgems:ChaosRune.strength=Raise your power level!
+item.silentgems:ChaosRune.waterBreathing=Swim with the fishes!
+
+item.silentgems:ChaosShard.name=Chaos Shard
+item.silentgems:ChaosShard.desc=What could go wrong?
+
+# CraftingMaterials
+item.silentgems:CraftingMaterials.desc=Crafting material.
+
+item.silentgems:DebugItem.name=Debug Item
+item.silentgems:DebugItem.desc=No one here but us space chickens!
+
+item.silentgems:EnchantmentToken.name=Enchantment Token
+item.silentgems:EnchantmentToken.desc1=Used to enchant gem tools.
+item.silentgems:EnchantmentToken.desc2=Can apply to:
+item.silentgems:EnchantmentToken.desc3=Craft with an appropriate tool (shapeless).
+item.silentgems:EnchantmentToken.Empty=Empty
+item.silentgems:EnchantmentToken.enchantment.Mending=Randomly repairs the tool.
+
+item.silentgems:FluffySeed.name=Fluffy Puff
+item.silentgems:FluffySeed.desc=Can be planted, or crafted into soft things.
+
+# Food
+item.silentgems:Food.desc=Foodstuffs.
+
+# Gem
+item.silentgems:Gem.Decorate1=Can be crafted with gem tools
+item.silentgems:Gem.Decorate2=to retexture the tools.
+
+item.silentgems:GoldenPlume.name=Golden Plume
+item.silentgems:GoldenPlume.desc=A bunch of shiny feathers.
+
+item.silentgems:MeatyStew.name=Meaty Stew
+item.silentgems:MeatyStew.desc=A simple feast!
+
+item.silentgems:MeatyStewUncooked.name=Uncooked Meaty Stew
+item.silentgems:MeatyStewUncooked.desc=You might want to heat it up first.
+
+item.silentgems:Mystery Goo.name=Mystery Goo
+item.silentgems:Mystery Goo.desc=Feels right at home in space.
+
+item.silentgems:Ornate Stick.name=Ornate Stick
+item.silentgems:Ornate Stick.desc=Bling bling.
+
+item.silentgems:Plume.name=Plume
+item.silentgems:Plume.desc=A bunch of feathers.
+
+item.silentgems:PotatoStick.name=Potato on a Stick
+item.silentgems:PotatoStick.desc=Totally not like the Mindcrack logo.
+
+item.silentgems:RawhideBone.name=Rawhide Bone
+item.silentgems:RawhideBone.desc=<TODO>
+
+item.silentgems:ReturnHome.name=Return Home Charm
+item.silentgems:ReturnHome.desc1=Hold right-click to use.
+item.silentgems:ReturnHome.desc2=There's no place like home!
+item.silentgems:ReturnHome.Bound=Linked to Teleporter!
+item.silentgems:ReturnHome.BoundTo=Bound to: %s
+item.silentgems:ReturnHome.NotBound=Not bound. Right-click on a Teleporter.
+
+item.silentgems:SecretDonut.name=Secret Donut
+item.silentgems:SecretDonut.desc=You cannot comprehend the nature of this donut.
+
+item.silentgems:SugarCookie.name=Sugar Cookie
+item.silentgems:SugarCookie.desc=I swear they were here a minute ago!
+
+item.silentgems:SummonKitty.name=Summon Kitty
+item.silentgems:SummonKitty.desc=A much less annoying way to get cats.
+
+item.silentgems:SummonPuppy.name=Summon Puppy
+item.silentgems:SummonPuppy.desc=Trouble finding those pesky wolves?
+
+item.silentgems:TeleporterLinker.name=Teleporter Linker
+item.silentgems:TeleporterLinker.desc=Used to link Teleporters.
+item.silentgems:TeleporterLinker.Active=Linked to:
+item.silentgems:TeleporterLinker.Inactive=Not linked.
+
+item.silentgems:TorchBandolier.name=Torch Bandolier
+item.silentgems:TorchBandolier.desc1=Can store and dispense torches.
+item.silentgems:TorchBandolier.desc2=Sneak-right click to change modes.
+item.silentgems:TorchBandolier.AutoFillOff=Auto-fill mode OFF.
+item.silentgems:TorchBandolier.AutoFillOn=Auto-fill mode ON.
+
+item.silentgems:Yarn Ball.name=Ball of Yarn
+item.silentgems:Yarn Ball.desc=It's not shiny, but cats seem to like it.
+
+item.silentgems:GemShard0.name=Ruby Shard
+item.silentgems:GemShard1.name=Garnet Shard
+item.silentgems:GemShard2.name=Topaz Shard
+item.silentgems:GemShard3.name=Heliodor Shard
+item.silentgems:GemShard4.name=Peridot Shard
+item.silentgems:GemShard5.name=Emerald Shard
+item.silentgems:GemShard6.name=Aquamarine Shard
+item.silentgems:GemShard7.name=Sapphire Shard
+item.silentgems:GemShard8.name=Iolite Shard
+item.silentgems:GemShard9.name=Amethyst Shard
+item.silentgems:GemShard10.name=Morganite Shard
+item.silentgems:GemShard11.name=Onyx Shard
 
 # Tool localization
 
@@ -249,14 +356,11 @@ tool.silentgems:Hoe11Plus.name=Supercharged Onyx Hoe
 
 # Entity localization
 
-entity.Crimson Creeper.name=Crimson Creeper
-entity.Grumbling.name=Grumbling
+
 
 # Enchantment localization
 
-enchantment.Ice Aspect=Ice Aspect
 enchantment.Mending=Mending
-enchantment.Nihil=Nihil
 
 # Chaos Buffs
 buff.silentgems:none=Empty
@@ -272,46 +376,6 @@ buff.silentgems:resist=Resistance
 buff.silentgems:speed=Speed
 buff.silentgems:strength=Strength
 buff.silentgems:waterBreathing=Water Breathing
-
-# Sigil
-
-sigil.silentgems:Empty=Empty
-sigil.silentgems:Amplify=Power
-sigil.silentgems:Cloak=Cloak
-sigil.silentgems:Earthquake=Earthquake
-sigil.silentgems:Fireball=Fireball
-sigil.silentgems:FireResistance=Fire Resistance
-sigil.silentgems:Haste=Haste
-sigil.silentgems:Healing=Healing
-sigil.silentgems:Icebolt=Icebolt
-sigil.silentgems:Jump=Jump
-sigil.silentgems:Lightning=Lightning
-sigil.silentgems:Regeneration=Regeneration
-sigil.silentgems:Remedy=Remedy
-sigil.silentgems:Resistance=Resistance
-sigil.silentgems:Speed=Cast Time
-sigil.silentgems:Strength=Strength
-sigil.silentgems:Swiftness=Swiftness
-sigil.silentgems:Teleport=Teleport
-
-# Colors
-
-color.silentgems:black=Black
-color.silentgems:red=Red
-color.silentgems:green=Green
-color.silentgems:brown=Brown
-color.silentgems:blue=Blue
-color.silentgems:purple=Purple
-color.silentgems:cyan=Cyan
-color.silentgems:silver=Light Gray
-color.silentgems:gray=Gray
-color.silentgems:pink=Pink
-color.silentgems:lime=Lime
-color.silentgems:yellow=Yellow
-color.silentgems:lightBlue=Light Blue
-color.silentgems:magenta=Magenta
-color.silentgems:orange=Orange
-color.silentgems:white=White
 
 # Gem localizations
 
@@ -341,97 +405,18 @@ gems.silentgems:25.name=Supercharged Amethyst
 gems.silentgems:26.name=Supercharged Morganite
 gems.silentgems:27.name=Supercharged Onyx
 
+item.silentgems:Gem.Damage=Damage
+item.silentgems:Gem.Efficiency=Mining Speed
+item.silentgems:Gem.MaxUses=Durability
+item.silentgems:Gem.ToolProperties=Properties
+
 # Misc text
 
 misc.silentgems:Tool.Axe=Axe
 misc.silentgems:Tool.Hoe=Hoe
 misc.silentgems:Tool.Pickaxe=Pickaxe
 misc.silentgems:Tool.Shovel=Shovel
-misc.silentgems:Tool.Sigil=Sigil
 misc.silentgems:Tool.Sword=Sword
 
-misc.silentgems:AmanitaDust=Makes the rainbow-ghost-people-things come out!
-misc.silentgems:BookWillNotOpen=For some strange reason, you cannot open this book.
-misc.silentgems:ChaosBooster=Not as bad as it sounds.
-misc.silentgems:ChaosCapacitor=Storage for awesome.
-misc.silentgems:ChaosShard=Tiny Nether Star bits?
-misc.silentgems:ChaosGem.LowPower=Your %s is getting weak...
-misc.silentgems:Chaos Essence=Shiny power!
-misc.silentgems:ChaosEssencePlus=Maximum shiny!
-misc.silentgems:ChaosGem=Craft with Chaos Runes to get effects.
-misc.silentgems:ChaosGem.ChargePerSecond=charge/s
-misc.silentgems:ChaosRune=Craft with Chaos Gems to give them effects.
-misc.silentgems:ChaosRune.CostTooltip=Costs %d charge/second to use.
-misc.silentgems:ChaosRune.MaxLevelTooltip=Max level is %d.
-misc.silentgems:ChaosRune.booster=Improves recharge rate.
-misc.silentgems:ChaosRune.capacity=Improves maximum charge.
-misc.silentgems:ChaosRune.fireResist=Good for hot baths!
-misc.silentgems:ChaosRune.flight=Like having a rocket on your back!
-misc.silentgems:ChaosRune.haste=Make holes faster!
-misc.silentgems:ChaosRune.jump=Vertical mobility upgrade!
-misc.silentgems:ChaosRune.nightVision=See things better!
-misc.silentgems:ChaosRune.regen=Better than a bandage!
-misc.silentgems:ChaosRune.resist=Sort of like armor!
-misc.silentgems:ChaosRune.speed=Get around faster!
-misc.silentgems:ChaosRune.strength=Raise your power level!
-misc.silentgems:ChaosRune.waterBreathing=Swim with the fishes!
-misc.silentgems:CraftingMaterials=Crafting material.
-misc.silentgems:DebugItem=No one here but us space chickens!
-misc.silentgems:Dyeable=Can be dyed.
-misc.silentgems:EmptyEffect=Empty
-misc.silentgems:EnchantmentIceAspect=Slows the target.
-misc.silentgems:EnchantmentMending=Randomly repairs the tool.
-misc.silentgems:EnchantmentNihil=Dispels potion effects on the target.
-misc.silentgems:EnchantmentToken1=Used to enchant gem tools.
-misc.silentgems:EnchantmentToken2=Can apply to:
-misc.silentgems:EnchantmentToken3=Craft with an appropriate tool (shapeless).
-misc.silentgems:Food=Foodstuffs.
-misc.silentgems:Gem.Damage=Damage
-misc.silentgems:Gem.Decorate1=Can be crafted with gem tools
-misc.silentgems:Gem.Decorate2=to retexture the tools.
-misc.silentgems:Gem.Efficiency=Mining Speed
-misc.silentgems:Gem.MaxUses=Durability
-misc.silentgems:Gem.ToolProperties=Properties
-misc.silentgems:GoldenPlume=A bunch of shiny feathers.
-misc.silentgems:KittySummon=A much less annoying way to get cats.
-misc.silentgems:Mystery Goo=Feels right at home in space.
-misc.silentgems:Ornate Stick=Bling bling.
-misc.silentgems:Plume=A bunch of feathers.
-misc.silentgems:PotatoStick=Totally not like the Mindcrack logo.
 misc.silentgems:PressCtrl=<Press Ctrl>
 misc.silentgems:PressShift=<Press Shift>
-misc.silentgems:Repairable=Can be repaired.
-misc.silentgems:ReturnHome1=There's no place like home!
-misc.silentgems:ReturnHome2=Hold right-click to use.
-misc.silentgems:ReturnHome.Linked=Linked to Teleporter!
-misc.silentgems:ReturnHome.LinkedTo=Bound to: %s
-misc.silentgems:ReturnHome.NotBound=Not bound. Right-click on a Teleporter.
-misc.silentgems:SecretDonut=You cannot comprehend the nature of this donut.
-misc.silentgems:StateDisabled=Disabled
-misc.silentgems:StateEnabled=Enabled
-misc.silentgems:SigilNoEffect=No effect. Craft with some Sigil Runes.
-misc.silentgems:SigilTeleportLinked=Sigil linked!
-misc.silentgems:SigilTeleportNotLinked=No destination set. Try right-clicking an Abyss Teleporter.
-misc.silentgems:SugarCookie=I swear they were here a minute ago!
-misc.silentgems:Teleporter=Link them with a Teleporter Linker.
-misc.silentgems:Teleporter.DestinationInvalid=Invalid teleport destination.
-misc.silentgems:Teleporter.DestinationObstructed=Destination obstructed.
-misc.silentgems:Teleporter.Invalid=Invalid location for teleport.
-misc.silentgems:Teleporter.LinkEnd=Teleporter link created.
-misc.silentgems:Teleporter.LinkFail=Teleporter link failed. (Try chunk loading first teleporter.)
-misc.silentgems:Teleporter.LinkStart=Teleporter link started.
-misc.silentgems:Teleporter.NoDestination=No destination set.
-misc.silentgems:TeleporterLinker=Used to link Teleporters.
-misc.silentgems:TeleporterLinker.Active=Linked to:
-misc.silentgems:TeleporterLinker.Inactive=Not linked.
-misc.silentgems:Tool.Axe=Axe
-misc.silentgems:Tool.Hoe=Hoe
-misc.silentgems:Tool.Pickaxe=Pickaxe
-misc.silentgems:Tool.Shovel=Shovel
-misc.silentgems:Tool.Sigil=Sigil
-misc.silentgems:Tool.Sword=Sword
-misc.silentgems:Torch Bandolier1=Can store and place torches.
-misc.silentgems:Torch Bandolier2=Sneak-right click to change modes.
-misc.silentgems:Torch Bandolier.AutoFillOff=Auto-fill mode OFF.
-misc.silentgems:Torch Bandolier.AutoFillOn=Auto-fill mode ON.
-misc.silentgems:Yarn Ball=It's not shiny, but cats seem to like it.

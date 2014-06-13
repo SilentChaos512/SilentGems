@@ -1,14 +1,14 @@
 package silent.gems.recipe;
 
-import silent.gems.core.registry.SRegistry;
-import silent.gems.core.util.LogHelper;
-import silent.gems.item.ChaosGem;
-import silent.gems.lib.Names;
-import silent.gems.lib.buff.ChaosBuff;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
+import silent.gems.core.registry.SRegistry;
+import silent.gems.item.ChaosGem;
+import silent.gems.item.ChaosRune;
+import silent.gems.lib.Names;
+import silent.gems.lib.buff.ChaosBuff;
 
 
 public class ChaosRuneRecipe implements IRecipe {
@@ -18,8 +18,6 @@ public class ChaosRuneRecipe implements IRecipe {
 
         int numGems = 0;
         int numRunes = 0;
-
-        final int chaosRuneId = SRegistry.getItem(Names.CHAOS_RUNE).itemID;
         
         ItemStack stack, gem = null, rune = null;
         
@@ -31,7 +29,7 @@ public class ChaosRuneRecipe implements IRecipe {
                     ++numGems;
                     gem = stack;
                 }
-                else if (stack.itemID == chaosRuneId) {
+                else if (stack.getItem() instanceof ChaosRune) {
                     ++numRunes;
                     rune = stack;
                 }
@@ -50,8 +48,6 @@ public class ChaosRuneRecipe implements IRecipe {
 
         ItemStack gem = null, rune = null, stack = null;
 
-        final int chaosRuneId = SRegistry.getItem(Names.CHAOS_RUNE).itemID;
-        
         // Find ingredients
         for (int i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
             stack = inventorycrafting.getStackInSlot(i);
@@ -59,7 +55,7 @@ public class ChaosRuneRecipe implements IRecipe {
                 if (stack.getItem() instanceof ChaosGem) {
                     gem = stack;
                 }
-                else if (stack.itemID == chaosRuneId) {
+                else if (stack.getItem() instanceof ChaosRune) {
                     rune = stack;
                 }
             }

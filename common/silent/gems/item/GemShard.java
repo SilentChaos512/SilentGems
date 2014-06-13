@@ -1,12 +1,9 @@
 package silent.gems.item;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
-import silent.gems.configuration.Config;
-import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
@@ -15,9 +12,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class GemShard extends ItemSG {
 
-    public GemShard(int id) {
-        super(id);
-        icons = new Icon[EnumGem.all().length];
+    public GemShard() {
+        
+        icons = new IIcon[EnumGem.all().length];
         setMaxStackSize(64);
         setHasSubtypes(true);
         setHasGemSubtypes(true);
@@ -25,7 +22,7 @@ public class GemShard extends ItemSG {
         setMaxDamage(0);
         setCreativeTab(CreativeTabs.tabMaterials);
     }
-
+    
     @Override
     public void addRecipes() {
         

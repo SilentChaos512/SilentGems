@@ -16,6 +16,7 @@ local.properties
 .settings/
 .loadpath
 build.properties
+.gradle
 
 # External tool builders
 .externalToolBuilders/

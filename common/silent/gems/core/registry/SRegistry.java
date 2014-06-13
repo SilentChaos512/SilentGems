@@ -1,24 +1,21 @@
 package silent.gems.core.registry;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import silent.gems.block.BlockSG;
-import silent.gems.configuration.Config;
 import silent.gems.core.util.LogHelper;
 import silent.gems.item.ItemSG;
-import silent.gems.lib.Strings;
+import silent.gems.item.block.ItemBlockSG;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class SRegistry {
 
     private final static HashMap<String, Block> blocks = new HashMap<String, Block>();
     private final static HashMap<String, Item> items = new HashMap<String, Item>();
-    private final static ArrayList<String> idConflicts = new ArrayList<String>();
 
     /**
      * Add a Block to the hash map and registers it in the GameRegistry.
@@ -27,12 +24,10 @@ public class SRegistry {
      *            The Block class to register.
      * @param key
      *            The name of the Block.
-     * @param defaultId
-     *            The default ID. The ID that is used is loaded from the config file.
      */
-    public static void registerBlock(Class<? extends Block> blockClass, String key, int defaultId) {
+    public static void registerBlock(Class<? extends Block> blockClass, String key) {
 
-        registerBlock(blockClass, key, defaultId, ItemBlock.class, "");
+        registerBlock(blockClass, key, ItemBlockSG.class);
     }
 
     /**
@@ -42,65 +37,14 @@ public class SRegistry {
      *            The Block class to register.
      * @param key
      *            The name of the Block.
-     * @param defaultId
-     *            The default ID. The ID that is used is loaded from the config file.
-     * @param comment
-     *            A comment for the config file.
-     */
-    public static void registerBlock(Class<? extends Block> blockClass, String key, int defaultId, String comment) {
-
-        registerBlock(blockClass, key, defaultId, ItemBlock.class, comment);
-    }
-
-    /**
-     * Add a Block to the hash map and registers it in the GameRegistry.
-     * 
-     * @param blockClass
-     *            The Block class to register.
-     * @param key
-     *            The name of the Block.
-     * @param defaultId
-     *            The default ID. The ID that is used is loaded from the config file.
      * @param itemBlockClass
      *            The ItemBlock to use.
-     */
-    public static void registerBlock(Class<? extends Block> blockClass, String key, int defaultId, Class<? extends ItemBlock> itemBlockClass) {
-
-        registerBlock(blockClass, key, defaultId, itemBlockClass, "");
-    }
-
-    /**
-     * Add a Block to the hash map and registers it in the GameRegistry.
-     * 
-     * @param blockClass
-     *            The Block class to register.
-     * @param key
-     *            The name of the Block.
-     * @param defaultId
-     *            The default ID. The ID that is used is loaded from the config file.
-     * @param itemBlockClass
-     *            The ItemBlock to use.
-     * @param comment
-     *            A comment for the config file.
      * @param constructorParams
      *            The list of parameters for the constructor (minus the ID).
      */
-    public static void registerBlock(Class<? extends Block> blockClass, String key, int defaultId,
-            Class<? extends ItemBlock> itemBlockClass, String comment, Object... constructorParams) {
+    public static void registerBlock(Class<? extends Block> blockClass, String key,
+            Class<? extends ItemBlock> itemBlockClass, Object... constructorParams) {
 
-        int id;
-        if (!comment.equals(Strings.EMPTY)) {
-            id = Config.getBlockId(key, defaultId, comment);
-        }
-        else {
-            id = Config.getBlockId(key, defaultId);
-        }
-        
-        // ID conflict detection.
-        if (Block.blocksList[id] != null) {
-            idConflicts.add(id + ": " + Block.blocksList[id].getUnlocalizedName() + ", " + key);
-        }
-        
         int i;
 
         try {
@@ -110,15 +54,8 @@ public class SRegistry {
             // Get the constructor for this Block.
             Constructor<?> c = blockClass.getDeclaredConstructor(paramClasses);
 
-            // Create the parameters list for the constructor, including id.
-            Object[] params = new Object[constructorParams.length + 1];
-            params[0] = id;
-            for (i = 0; i < constructorParams.length; ++i) {
-                params[i + 1] = constructorParams[i];
-            }
-
             // Instantiate and add to hash map.
-            Block block = (Block) c.newInstance(params);
+            Block block = (Block) c.newInstance(constructorParams);
             blocks.put(key, block);
             GameRegistry.registerBlock(block, itemBlockClass, key);
         }
@@ -135,43 +72,11 @@ public class SRegistry {
      *            The Item to add.
      * @param key
      *            The name of the Item.
-     * @param defaultId
-     *            The default ID. The ID that is used is loaded from the config file.
-     */
-    public static void registerItem(Class<? extends Item> itemClass, String key, int defaultId) {
-
-        registerItem(itemClass, key, defaultId, "");
-    }
-
-    /**
-     * Creates a new Item instance and add it to the hash map.
-     * 
-     * @param itemClass
-     *            The Item to add.
-     * @param key
-     *            The name of the Item.
-     * @param defaultId
-     *            The default ID. The ID that is used is loaded from the config file.
-     * @param comment
-     *            A comment for the config file.
      * @param constructorParams
      *            The list of parameters for the constructor (minus the ID).
      */
-    public static void registerItem(Class<? extends Item> itemClass, String key, int defaultId, String comment, Object... constructorParams) {
+    public static void registerItem(Class<? extends Item> itemClass, String key, Object... constructorParams) {
 
-        int id;
-        if (!comment.equals(Strings.EMPTY)) {
-            id = Config.getItemId(key, defaultId, comment);
-        }
-        else {
-            id = Config.getItemId(key, defaultId);
-        }
-        
-        // ID conflict detection.
-        if (Item.itemsList[id] != null) {
-            idConflicts.add(id + ": " + Item.itemsList[id].getUnlocalizedName() + ", " + key);
-        }
-        
         int i;
 
         try {
@@ -181,15 +86,8 @@ public class SRegistry {
             // Get the constructor for this Item.
             Constructor<?> c = itemClass.getDeclaredConstructor(paramClasses);
 
-            // Create the parameters list for the constructor, including id.
-            Object[] params = new Object[constructorParams.length + 1];
-            params[0] = id;
-            for (i = 0; i < constructorParams.length; ++i) {
-                params[i + 1] = constructorParams[i];
-            }
-
             // Instantiate and add to hash map.
-            Item item = (Item) c.newInstance(params);
+            Item item = (Item) c.newInstance(constructorParams);
             items.put(key, item);
             GameRegistry.registerItem(item, key);
         }
@@ -201,18 +99,17 @@ public class SRegistry {
 
     private static Class[] getParameterClasses(Object[] params) {
 
-        Class[] result = new Class[params.length + 1];
-        result[0] = int.class;
+        Class[] result = new Class[params.length];
         for (int i = 0; i < params.length; ++i) {
-            result[i + 1] = params[i].getClass();
-            if (result[i + 1] == Integer.class) {
-                result[i + 1] = int.class;
+            result[i] = params[i].getClass();
+            if (result[i] == Integer.class) {
+                result[i] = int.class;
             }
-            else if (result[i + 1] == Float.class) {
-                result[i + 1] = float.class;
+            else if (result[i] == Float.class) {
+                result[i] = float.class;
             }
-            else if (result[i + 1] == Boolean.class) {
-                result[i + 1] = boolean.class;
+            else if (result[i] == Boolean.class) {
+                result[i] = boolean.class;
             }
         }
         return result;
@@ -225,15 +122,15 @@ public class SRegistry {
     public static void addRecipesAndOreDictEntries() {
 
         for (Block block : blocks.values()) {
-            if (block instanceof BlockSG) {
-                ((BlockSG) block).addRecipes();
-                ((BlockSG) block).addOreDict();
+            if (block instanceof IAddRecipe) {
+                ((IAddRecipe) block).addRecipes();
+                ((IAddRecipe) block).addOreDict();
             }
         }
         for (Item item : items.values()) {
-            if (item instanceof ItemSG) {
-                ((ItemSG) item).addRecipes();
-                ((ItemSG) item).addOreDict();
+            if (item instanceof IAddRecipe) {
+                ((IAddRecipe) item).addRecipes();
+                ((IAddRecipe) item).addOreDict();
             }
         }
     }
@@ -306,21 +203,5 @@ public class SRegistry {
         else {
             return null;
         }
-    }
-    
-    public static int getNumberOfIDConflicts() {
-        
-        return idConflicts.size();
-    }
-    
-    public static String getIDConflictsString() {
-        
-        String result = "Silent's Gems has ID conflicts! Please fix them:\n";
-        
-        for (String s : idConflicts) {
-            result += s + "\n";
-        }
-        
-        return result;
     }
 }

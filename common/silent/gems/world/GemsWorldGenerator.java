@@ -2,7 +2,9 @@ package silent.gems.world;
 
 import java.util.Random;
 
+import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -11,7 +13,7 @@ import silent.gems.configuration.Config;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
-import cpw.mods.fml.common.IWorldGenerator;
+
 
 public class GemsWorldGenerator implements IWorldGenerator {
 
@@ -43,8 +45,8 @@ public class GemsWorldGenerator implements IWorldGenerator {
             x = chunkX + random.nextInt(16);
             y = random.nextInt(Config.WORLD_GEM_MAX_HEIGHT.value);
             z = chunkZ + random.nextInt(16);
-            new WorldGenMinable(SRegistry.getBlock(Names.GEM_ORE).blockID, random.nextInt(EnumGem.all().length),
-                    Config.WORLD_GEM_CLUSTER_SIZE.value, Block.stone.blockID).generate(world, random, x, y, z);
+            new WorldGenMinable(SRegistry.getBlock(Names.GEM_ORE), random.nextInt(EnumGem.all().length),
+                    Config.WORLD_GEM_CLUSTER_SIZE.value, Blocks.stone).generate(world, random, x, y, z);
         }
 
         // Chaos ores. Chance of failure.
@@ -53,8 +55,8 @@ public class GemsWorldGenerator implements IWorldGenerator {
                 x = chunkX + random.nextInt(16);
                 y = random.nextInt(Config.WORLD_CHAOS_ORE_MAX_HEIGHT.value);
                 z = chunkZ + random.nextInt(16);
-                new WorldGenMinable(SRegistry.getBlock(Names.CHAOS_ORE).blockID, 0, Config.WORLD_CHAOS_ORE_CLUSTER_SIZE.value,
-                        Block.stone.blockID).generate(world, random, x, y, z);
+                new WorldGenMinable(SRegistry.getBlock(Names.CHAOS_ORE), 0, Config.WORLD_CHAOS_ORE_CLUSTER_SIZE.value,
+                        Blocks.stone).generate(world, random, x, y, z);
             }
         }
         
@@ -87,7 +89,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
             for (; y > 40 && world.isAirBlock(x, y - 1, z); --y);
 
             if (flower.canBlockStay(world, x, y, z)) {
-                world.setBlock(x, y, z, flower.blockID, m, 2);
+                world.setBlock(x, y, z, flower, m, 2);
             }
         }
     }

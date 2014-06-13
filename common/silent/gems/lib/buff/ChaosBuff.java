@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -15,8 +17,9 @@ import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
 import cpw.mods.fml.common.registry.GameRegistry;
 
+
 public class ChaosBuff {
-    
+
     public final static String SPEED = "speed";
     public final static String HASTE = "haste";
     public final static String JUMP = "jump";
@@ -56,16 +59,16 @@ public class ChaosBuff {
         }
 
         //addBuff("none", 1, -1, Item.ingotIron);
-        addBuff(SPEED,              4, Potion.moveSpeed.id,         20, Item.ingotGold);
-        addBuff(HASTE,              4, Potion.digSpeed.id,          20, Item.glowstone);
+        addBuff(SPEED,              4, Potion.moveSpeed.id,         20, Items.gold_ingot);
+        addBuff(HASTE,              4, Potion.digSpeed.id,          20, Items.glowstone_dust);
         addBuff(JUMP,               4, Potion.jump.id,              10, CraftingMaterial.getStack(Names.PLUME));
         addBuff(FLIGHT,             4, -1,                          80, CraftingMaterial.getStack(Names.GOLDEN_PLUME));
-        addBuff(NIGHT_VISION,       1, Potion.nightVision.id,       10, Item.goldenCarrot);
-        addBuff(REGENERATION,       2, Potion.regeneration.id,      50, Item.ghastTear);
-        addBuff(RESISTANCE,         2, Potion.resistance.id,        40, Item.plateLeather);
-        addBuff(FIRE_RESISTANCE,    1, Potion.fireResistance.id,    40, Item.blazeRod);
-        addBuff(WATER_BREATHING,    1, Potion.waterBreathing.id,    40, Block.blockLapis);
-        addBuff(STRENGTH,           2, Potion.damageBoost.id,       40, Block.blockRedstone);
+        addBuff(NIGHT_VISION,       1, Potion.nightVision.id,       10, Items.golden_carrot);
+        addBuff(REGENERATION,       2, Potion.regeneration.id,      50, Items.ghast_tear);
+        addBuff(RESISTANCE,         2, Potion.resistance.id,        40, Items.leather_chestplate);
+        addBuff(FIRE_RESISTANCE,    1, Potion.fireResistance.id,    40, Items.blaze_rod);
+        addBuff(WATER_BREATHING,    1, Potion.waterBreathing.id,    40, Blocks.lapis_block);
+        addBuff(STRENGTH,           2, Potion.damageBoost.id,       40, Blocks.redstone_block);
         addBuff(CAPACITY,           4, -1,                           0, CraftingMaterial.getStack(Names.CHAOS_CAPACITOR));
         addBuff(BOOSTER,            4, -1,                           0, CraftingMaterial.getStack(Names.CHAOS_BOOSTER));
     }
@@ -75,7 +78,7 @@ public class ChaosBuff {
         ChaosBuff buff = new ChaosBuff(++lastId, name, maxLevel, potionId, cost);
         all.add(buff);
         GameRegistry.addShapedRecipe(new ItemStack(SRegistry.getItem(Names.CHAOS_RUNE), 1, lastId), "mcm", "cmc", "rcr", 'm', material,
-                'c', CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS), 'r', Item.redstone);
+                'c', CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS), 'r', Items.redstone);
     }
     
     public static ChaosBuff getBuffByName(String name) {
@@ -96,13 +99,20 @@ public class ChaosBuff {
         }
 
         // Apply other effects here.
-        // TODO
+        if (name.equals(FLIGHT)) {
+            player.capabilities.allowFlying = true;
+        }
     }
     
     public void remove(EntityPlayer player) {
         
         if (potionId > -1) {
             player.removePotionEffect(potionId);
+        }
+        
+        // Apply other effects here.
+        if (name.equals(FLIGHT)) {
+            player.capabilities.allowFlying = false;
         }
     }
 

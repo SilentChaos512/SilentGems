@@ -4,12 +4,12 @@ import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
 
 import org.lwjgl.input.Keyboard;
@@ -25,10 +25,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class Gem extends ItemSG {
 
-    public Gem(int id) {
+    public Gem() {
 
-        super(id);
-        icons = new Icon[EnumGem.all().length];
+        super();
+
+        icons = new IIcon[EnumGem.all().length];
         setMaxStackSize(64);
         setHasSubtypes(true);
         setHasGemSubtypes(true);
@@ -37,8 +38,8 @@ public class Gem extends ItemSG {
         setUnlocalizedName(Names.GEM_ITEM);
     }
 
-    @Override
     @SideOnly(Side.CLIENT)
+    @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
         boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
@@ -46,85 +47,36 @@ public class Gem extends ItemSG {
         if (shifted) {
             int id = stack.getItemDamage() & 0xF;
             boolean supercharged = stack.getItemDamage() > 15;
-            EnumToolMaterial material = EnumGem.all()[id].getToolMaterial(supercharged);
-            
-            list.add(LocalizationHelper.getMessageText(Strings.GEM_MATERIAL_TOOL_PROPERTIES));
-            
+            ToolMaterial material = EnumGem.all()[id].getToolMaterial(supercharged);
+
+            list.add(EnumChatFormatting.ITALIC + LocalizationHelper.getOtherItemKey(itemName, "ToolProperties"));
+
             // Durability
             String format = "%s: %d";
-            String s = LocalizationHelper.getMessageText(Strings.GEM_MATERIAL_MAX_USES, "");
+            String s = LocalizationHelper.getOtherItemKey(itemName, "MaxUses");
             s = String.format(format, s, material.getMaxUses());
             list.add(s);
-            
+
             // Efficiency
             format = "%s: %.1f";
-            s = LocalizationHelper.getMessageText(Strings.GEM_MATERIAL_EFFICIENCY, "");
+            s = LocalizationHelper.getOtherItemKey(itemName, "Efficiency");
             s = String.format(format, s, material.getEfficiencyOnProperMaterial());
             list.add(s);
-            
+
             // Damage
             format = "%s: %d";
-            s = LocalizationHelper.getMessageText(Strings.GEM_MATERIAL_DAMAGE, "");
+            s = LocalizationHelper.getOtherItemKey(itemName, "Damage");
             s = String.format(format, s, (int) material.getDamageVsEntity());
             list.add(s);
             
             // Decorate tool hint.
             if (stack.getItemDamage() < EnumGem.all().length) {
-                list.add(LocalizationHelper.getMessageText(Strings.GEM_DECORATE_1, EnumChatFormatting.DARK_AQUA));
-                list.add(LocalizationHelper.getMessageText(Strings.GEM_DECORATE_2, EnumChatFormatting.DARK_AQUA));
+                list.add(EnumChatFormatting.DARK_AQUA + LocalizationHelper.getOtherItemKey(itemName, "Decorate1"));
+                list.add(EnumChatFormatting.DARK_AQUA + LocalizationHelper.getOtherItemKey(itemName, "Decorate2"));
             }
         }
         else {
-            list.add(LocalizationHelper.getMessageText(Strings.PRESS_SHIFT));
-        }
-    }
-
-    @Override
-    public boolean hasEffect(ItemStack stack, int pass) {
-
-        return (stack.getItemDamage() & 16) == 16;
-    }
-
-    @Override
-    public EnumRarity getRarity(ItemStack stack) {
-
-        return (stack.getItemDamage() & 16) == 16 ? EnumRarity.rare : EnumRarity.common;
-    }
-
-    @Override
-    public String getUnlocalizedName(ItemStack stack) {
-
-        return LocalizationHelper.GEMS_PREFIX + stack.getItemDamage();
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public Icon getIconFromDamage(int meta) {
-
-        return icons[meta & 15];
-    }
-
-    @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(int itemID, CreativeTabs tabs, List list) {
-
-        for (int i = 0; i < icons.length; ++i) {
-            list.add(new ItemStack(this, 1, i));
-            list.add(new ItemStack(this, 1, i | 16));
-        }
-    }
-
-    @Override
-    public void addRecipes() {
-
-        /*
-         * Supercharged gems
-         */
-        ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
-        for (int i = 0; i < icons.length; ++i) {
-            GameRegistry.addShapedRecipe(new ItemStack(this, 1, i | 16), "ere", "ege", "ere", 'e', chaosEssence, 'r', Item.redstone, 'g',
-                    new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 1, i));
+            list.add(EnumChatFormatting.ITALIC + LocalizationHelper.getMiscText(Strings.PRESS_SHIFT));
         }
     }
 
@@ -147,5 +99,53 @@ public class Gem extends ItemSG {
         for (int i = 0; i < EnumGem.all().length; ++i) {
             OreDictionary.registerOre(Strings.ORE_DICT_GEM_BASIC, new ItemStack(this, 1, i));
         }
+    }
+
+    @Override
+    public void addRecipes() {
+
+        ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
+        for (int i = 0; i < icons.length; ++i) {
+            GameRegistry.addShapedRecipe(new ItemStack(this, 1, i | 16), "ere", "ege", "ere", 'e', chaosEssence, 'r', Items.redstone, 'g',
+                    new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 1, i));
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public IIcon getIconFromDamage(int meta) {
+
+        return icons[meta & 15];
+    }
+
+    @Override
+    public EnumRarity getRarity(ItemStack stack) {
+
+        return (stack.getItemDamage() & 16) == 16 ? EnumRarity.rare : EnumRarity.common;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void getSubItems(Item item, CreativeTabs tabs, List list) {
+
+        int i;
+        for (i = 0; i < icons.length; ++i) {
+            list.add(new ItemStack(this, 1, i));
+        }
+        for (i = 16; i < 16 + icons.length; ++i) {
+            list.add(new ItemStack(this, 1, i));
+        }
+    }
+
+    @Override
+    public String getUnlocalizedName(ItemStack stack) {
+
+        return LocalizationHelper.GEMS_PREFIX + stack.getItemDamage();
+    }
+
+    @Override
+    public boolean hasEffect(ItemStack stack, int pass) {
+
+        return (stack.getItemDamage() & 16) == 16;
     }
 }

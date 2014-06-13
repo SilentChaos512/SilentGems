@@ -1,13 +1,22 @@
 package silent.gems.core.util;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class NBTHelper {
 
     /**
-     * Sets the X, Y, Z, and D tags used by blocks/items such as the Abyss
-     * Teleporter and Teleporter Linker.
+     * Check that tag compound has X, Y, Z, and D tags, and that Y is not zero.
+     * 
+     * @param tags
+     * @return
+     */
+    public static boolean hasValidXYZD(NBTTagCompound tags) {
+
+        return tags.hasKey("X") && tags.hasKey("Y") && tags.hasKey("Z") && tags.hasKey("D") && tags.getInteger("Y") != 0;
+    }
+
+    /**
+     * Sets the X, Y, Z, and D tags used by blocks/items such as the Teleporter and Teleporter Linker.
      * 
      * @param tags
      * @param x
@@ -24,36 +33,5 @@ public class NBTHelper {
         tags.setInteger("D", d);
 
         return tags;
-    }
-
-    /**
-     * Check that tag compound has X, Y, Z, and D tags, and that Y is not zero.
-     * 
-     * @param tags
-     * @return
-     */
-    public static boolean hasValidXYZD(NBTTagCompound tags) {
-
-        return tags.hasKey("X") && tags.hasKey("Y") && tags.hasKey("Z") && tags.hasKey("D") && tags.getInteger("Y") != 0;
-    }
-    
-    public static byte getByte(ItemStack stack, String key) {
-        
-        if (stack != null && stack.stackTagCompound != null && stack.stackTagCompound.hasKey(key)) {
-            return stack.stackTagCompound.getByte(key);
-        }
-        else {
-            return (byte) -1;
-        }
-    }
-    
-    public static String getString(ItemStack stack, String key) {
-        
-        if (stack != null && stack.stackTagCompound != null && stack.stackTagCompound.hasKey(key)) {
-            return stack.stackTagCompound.getString(key);
-        }
-        else {
-            return "null";
-        }
     }
 }

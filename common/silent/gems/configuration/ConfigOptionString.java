@@ -1,6 +1,6 @@
 package silent.gems.configuration;
 
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
 import silent.gems.core.util.LogHelper;
 
 public class ConfigOptionString extends ConfigOption {
@@ -32,14 +32,13 @@ public class ConfigOptionString extends ConfigOption {
     @Override
     public ConfigOption validate() {
 
-        // Enable sounds
-        if (false) {
-            // derp
-        }
-        // Mistake catcher
-        else {
-            LogHelper.warning("No validation code for config setting " + name + " found!");
-        }
+//        if (false) {
+//            // derp
+//        }
+//        // Mistake catcher
+//        else {
+//            LogHelper.warning("No validation code for config setting " + name + " found!");
+//        }
 
         return this;
     }

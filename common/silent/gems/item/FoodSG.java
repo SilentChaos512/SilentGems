@@ -4,71 +4,145 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import silent.gems.configuration.Config;
 import silent.gems.core.util.LocalizationHelper;
+import silent.gems.core.util.LogHelper;
+import silent.gems.core.util.PlayerHelper;
 import silent.gems.core.util.RecipeHelper;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
 
 public class FoodSG extends ItemSG {
 
-    public final static String[] names = { Names.POTATO_STICK, Names.SUGAR_COOKIE, Names.SECRET_DONUT };
-    public final static int[] foodLevel = { 8, 2, 6 };
-    public final static float[] saturationLevel = { 0.8f, 0.4f, 0.8f };
-    public final static boolean[] alwaysEdible = { false, true, false };
+    public final static String[] names = { Names.POTATO_STICK, Names.SUGAR_COOKIE, Names.SECRET_DONUT, Names.MEATY_STEW_UNCOOKED, Names.MEATY_STEW };
+    public final static int[] foodLevel = { 8, 2, 6, 4, 12 };
+    public final static float[] saturationLevel = { 0.8f, 0.4f, 0.8f, 0.6f, 1.6f };
+    public final static boolean[] alwaysEdible = { false, true, false, false, false };
     
-    //public final static HashMap<Integer, Float> secretDonutEffects = new HashMap<Integer, Float>();
     public final static ArrayList<SecretDonutEffect> secretDonutEffects = new ArrayList<SecretDonutEffect>();
-    
     public final static int SECRET_DONUT_CHANCE = 20;
-
-    public FoodSG(int id) {
-
-        super(id);
-        icons = new Icon[names.length];
+    
+    public FoodSG() {
+        
+        icons = new IIcon[names.length];
         setMaxStackSize(64);
         setHasSubtypes(true);
         setMaxDamage(0);
         setCreativeTab(CreativeTabs.tabFood);
         setUnlocalizedName(Names.FOOD);
         
-        // Add secret donut effects.
+     // Add secret donut effects.
         secretDonutEffects.clear();
-        secretDonutEffects.add(new SecretDonutEffect(Potion.blindness.id, 0.5f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.confusion.id, 0.75f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.damageBoost.id, 1.5f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.digSlowdown.id, 2.0f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.digSpeed.id, 2.0f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.fireResistance.id, 4.0f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.hunger.id, 0.5f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.invisibility.id, 0.33f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.jump.id, 1.0f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.moveSlowdown.id, 2.0f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.moveSpeed.id, 2.0f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.nightVision.id, 0.66f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.poison.id, 0.5f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.regeneration.id, 0.33f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.resistance.id, 0.33f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.waterBreathing.id, 2.0f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.weakness.id, 1.5f));
-        secretDonutEffects.add(new SecretDonutEffect(Potion.wither.id, 0.33f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.blindness.id,       0.5f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.confusion.id,       0.5f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.damageBoost.id,     1.5f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.digSlowdown.id,     2.0f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.digSpeed.id,        2.0f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.fireResistance.id,  4.0f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.hunger.id,          0.5f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.invisibility.id,    0.5f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.jump.id,            1.0f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.moveSlowdown.id,    2.0f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.moveSpeed.id,       2.0f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.nightVision.id,     1.0f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.poison.id,          0.5f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.regeneration.id,    0.5f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.resistance.id,      0.5f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.waterBreathing.id,  2.0f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.weakness.id,        1.5f));
+        secretDonutEffects.add(new SecretDonutEffect(Potion.wither.id,          0.5f));
+    }
+    
+    @Override
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+        
+        if (stack.getItemDamage() < names.length) {
+            list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(Names.FOOD, 0));
+            list.add(LocalizationHelper.getItemDescription(names[stack.getItemDamage()], 0));
+        }
+    }
+    
+    @Override
+    public void addOreDict() {
+        
+        // This fixes a crash caused by cooking Meaty Stew in a TC4 Infernal Furnace.
+        OreDictionary.registerOre("foodMeatyStewUncooked", getStack(Names.MEATY_STEW_UNCOOKED, 1));
+    }
+    
+    @Override
+    public void addRecipes() {
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.POTATO_STICK, 1), " p", "s ", 'p', Items.baked_potato, 's', "stickWood"));
+        GameRegistry.addShapedRecipe(getStack(Names.SUGAR_COOKIE, 8), " s ", "www", " s ", 's', Items.sugar, 'w', Items.wheat);
+        RecipeHelper.addSurround(getStack(Names.SECRET_DONUT, 8), new ItemStack(Blocks.red_mushroom), Items.wheat);
+        Item[] meats = { Items.beef, Items.porkchop, Items.chicken };
+        for (Item meat : meats) {
+            GameRegistry.addShapelessRecipe(getStack(Names.MEATY_STEW_UNCOOKED, 1), Items.bowl, meat, Items.potato, Items.carrot);
+        }
+        GameRegistry.addSmelting(getStack(Names.MEATY_STEW_UNCOOKED, 1), getStack(Names.MEATY_STEW, 1), 3);
+    }
+    
+    private void addSecretDonutEffect(World world, EntityPlayer player) {
+
+        SecretDonutEffect effect = secretDonutEffects.get(world.rand.nextInt(secretDonutEffects.size()));
+        player.addPotionEffect(new PotionEffect(effect.potionId, (int) (Config.FOOD_SUPPORT_DURATION.value * effect.durationMulti), 0, true));
+    }
+    
+    @Override
+    public EnumAction getItemUseAction(ItemStack stack) {
+
+        return EnumAction.eat;
+    }
+    
+    @Override
+    public int getMaxItemUseDuration(ItemStack stack) {
+
+        if (stack.getItemDamage() == 1) {
+            return 16;
+        }
+        else {
+            return 32;
+        }
     }
 
+    public ItemStack getStack(String name, int count) {
+        
+        for (int i = 0; i < names.length; ++i) {
+            if (names[i].equals(name)) {
+                return new ItemStack(this, count, i);
+            }
+        }
+        return null;
+    }
+    
+    @Override
+    public String getUnlocalizedName(ItemStack stack) {
+        
+        if (stack.getItemDamage() < names.length) {
+            return getUnlocalizedName(names[stack.getItemDamage()]);
+        }
+        else {
+            return super.getUnlocalizedName(stack);
+        }
+    }
+    
     @Override
     public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player) {
 
@@ -81,6 +155,7 @@ public class FoodSG extends ItemSG {
             if (d == 0) {
                 // Potato on a stick
                 player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, Config.FOOD_SUPPORT_DURATION.value, 0, true));
+                PlayerHelper.addItemToInventoryOrDrop(player, new ItemStack(Items.stick));
             }
             else if (d == 1) {
                 // Sugar cookie
@@ -100,34 +175,15 @@ public class FoodSG extends ItemSG {
                     }
                 }
             }
+            else if (d == 3 || d == 4) {
+                // Meaty Stew
+                PlayerHelper.addItemToInventoryOrDrop(player, new ItemStack(Items.bowl));
+            }
         }
 
         return stack;
     }
     
-    private void addSecretDonutEffect(World world, EntityPlayer player) {
-
-        SecretDonutEffect effect = secretDonutEffects.get(world.rand.nextInt(secretDonutEffects.size()));
-        player.addPotionEffect(new PotionEffect(effect.potionId, (int) (Config.FOOD_SUPPORT_DURATION.value * effect.durationMulti), 0, true));
-    }
-
-    @Override
-    public int getMaxItemUseDuration(ItemStack stack) {
-
-        if (stack.getItemDamage() == 1) {
-            return 16;
-        }
-        else {
-            return 32;
-        }
-    }
-
-    @Override
-    public EnumAction getItemUseAction(ItemStack stack) {
-
-        return EnumAction.eat;
-    }
-
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
@@ -137,37 +193,13 @@ public class FoodSG extends ItemSG {
 
         return stack;
     }
-
+    
     @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-
-        list.add(LocalizationHelper.getMessageText(Names.FOOD, EnumChatFormatting.DARK_GRAY));
-        list.add(LocalizationHelper.getMessageText(names[stack.getItemDamage()]));
-    }
-
-    @Override
-    public String getUnlocalizedName(ItemStack stack) {
-
-        return getUnlocalizedName(names[stack.getItemDamage()]);
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons(IconRegister iconRegister) {
+    public void registerIcons(IIconRegister iconRegister) {
 
         for (int i = 0; i < names.length; ++i) {
             icons[i] = iconRegister.registerIcon(Strings.RESOURCE_PREFIX + names[i]);
         }
-    }
-
-    @Override
-    public void addRecipes() {
-
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, 0), " p", "s ", 'p', Item.bakedPotato, 's', "stickWood"));
-        GameRegistry.addShapedRecipe(new ItemStack(this, 8, 1), " s ", "www", " s ", 's', Item.sugar, 'w', Item.wheat);
-        RecipeHelper.addSurround(new ItemStack(this, 8, 2), new ItemStack(Block.mushroomRed), Item.wheat);
     }
     
     public static class SecretDonutEffect {

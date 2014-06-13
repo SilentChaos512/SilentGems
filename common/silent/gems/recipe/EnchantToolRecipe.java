@@ -1,12 +1,12 @@
 package silent.gems.recipe;
 
-import silent.gems.core.util.InventoryHelper;
-import silent.gems.item.EnchantToken;
-import silent.gems.item.tool.Sigil;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
+import silent.gems.core.util.InventoryHelper;
+import silent.gems.item.EnchantToken;
+
 
 public class EnchantToolRecipe implements IRecipe {
 
@@ -22,7 +22,7 @@ public class EnchantToolRecipe implements IRecipe {
         for (int i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
             stack = inventorycrafting.getStackInSlot(i);
             if (stack != null) {
-                if (InventoryHelper.isGemTool(stack) || stack.getItem() instanceof Sigil) {
+                if (InventoryHelper.isGemTool(stack)) {
                     ++numTools;
                     tool = stack;
                 }
@@ -49,7 +49,7 @@ public class EnchantToolRecipe implements IRecipe {
         for (int i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
             s = inventorycrafting.getStackInSlot(i);
             if (s != null) {
-                if (InventoryHelper.isGemTool(s) || s.getItem() instanceof Sigil) {
+                if (InventoryHelper.isGemTool(s)) {
                     tool = s;
                 }
                 else if (s.getItem() instanceof EnchantToken) {

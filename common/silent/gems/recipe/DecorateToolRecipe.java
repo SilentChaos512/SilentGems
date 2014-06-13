@@ -1,6 +1,6 @@
 package silent.gems.recipe;
 
-import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -8,15 +8,17 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import silent.gems.SilentGems;
-import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.InventoryHelper;
 import silent.gems.core.util.LogHelper;
+import silent.gems.item.Gem;
+import silent.gems.item.tool.GemAxe;
 import silent.gems.item.tool.GemHoe;
+import silent.gems.item.tool.GemPickaxe;
+import silent.gems.item.tool.GemShovel;
 import silent.gems.item.tool.GemSword;
-import silent.gems.item.tool.ItemToolSG;
-import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
 import silent.gems.material.ModMaterials;
+
 
 public class DecorateToolRecipe implements IRecipe {
 
@@ -25,10 +27,6 @@ public class DecorateToolRecipe implements IRecipe {
         if (row >= 0 && row < gridWidth) {
             int slot = row + column * gridWidth;
             if (slot > 0 && slot < inventorycrafting.getSizeInventory()) {
-                // debug
-                // if (inventorycrafting.getStackInSlot(slot) != null) {
-                // LogHelper.list(row, column, slot, inventorycrafting.getStackInSlot(slot));
-                // }
                 return inventorycrafting.getStackInSlot(slot);
             }
         }
@@ -45,7 +43,6 @@ public class DecorateToolRecipe implements IRecipe {
         int toolSlot = -1;
         int i, row, column;
 
-        final int gemId = SRegistry.getItem(Names.GEM_ITEM).itemID;
         final int gridWidth = inventorycrafting.getSizeInventory() == 4 ? 2 : 3;
 
         ItemStack stack, tool = null;
@@ -54,14 +51,14 @@ public class DecorateToolRecipe implements IRecipe {
         for (i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
             stack = inventorycrafting.getStackInSlot(i);
             if (stack != null) {
-                if (stack.itemID == gemId) {
+                if (stack.getItem() instanceof Gem) {
                     // Only regular gems, not supercharged.
                     if (stack.getItemDamage() > 15) {
                         return false;
                     }
                     ++numGems;
                 }
-                else if (stack.itemID == Block.cloth.blockID) {
+                else if (InventoryHelper.isStackBlock(stack, Blocks.wool)) {
                     ++numWool;
                 }
                 else if (InventoryHelper.isGemTool(stack)) {
@@ -95,23 +92,26 @@ public class DecorateToolRecipe implements IRecipe {
         // LogHelper.list(row, column, toolSlot);
 
         // Slots directly adjacent to tool may be a gem, wool, or null.
-        int[] ids = new int[4];
+        Item[] items = new Item[4];
         stack = getStackInRowAndColumn(inventorycrafting, row - 1, column, gridWidth);
-        ids[0] = stack == null ? -1 : stack.itemID;
+        items[0] = stack == null ? null : stack.getItem();
         stack = getStackInRowAndColumn(inventorycrafting, row + 1, column, gridWidth);
-        ids[1] = stack == null ? -1 : stack.itemID;
+        items[1] = stack == null ? null : stack.getItem();
         stack = getStackInRowAndColumn(inventorycrafting, row, column - 1, gridWidth);
-        ids[2] = stack == null ? -1 : stack.itemID;
+        items[2] = stack == null ? null : stack.getItem();
         stack = getStackInRowAndColumn(inventorycrafting, row, column + 1, gridWidth);
-        ids[3] = stack == null ? -1 : stack.itemID;
+        items[3] = stack == null ? null : stack.getItem();
 
+        // Count gems adjacent to tool.
         int adjGems = 0;
-        for (i = 0; i < ids.length; ++i) {
-            if (ids[i] == gemId) {
-                ++adjGems;
-            }
-            if (ids[i] != -1 && ids[i] != gemId && ids[i] != Block.cloth.blockID) {
-                return false;
+        for (i = 0; i < items.length; ++i) {
+            if (items[i] != null) {
+                if (items[i] instanceof Gem) {
+                    ++adjGems;
+                }
+                else if (!InventoryHelper.isItemBlock(items[i], Blocks.wool)) {
+                    return false;
+                }
             }
         }
 
@@ -119,25 +119,7 @@ public class DecorateToolRecipe implements IRecipe {
         if (adjGems != numGems) {
             return false;
         }
-
-        // Other slots may be wool or null.
-        // Calculate slot index for adjacent slots. Reuse ids array.
-        // ids[0] = (row - 1) + column * gridWidth;
-        // ids[1] = (row + 1) + column * gridWidth;
-        // ids[2] = row + (column - 1) * gridWidth;
-        // ids[3] = row + (column + 1) * gridWidth;
-        //
-        // for (i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
-        // if (i != ids[0] && i != ids[1] && i != ids[2] && i != ids[3]) {
-        // stack = inventorycrafting.getStackInSlot(i);
-        // if (stack != null && stack.itemID != Block.cloth.blockID) {
-        // LogHelper.debug(stack.itemID);
-        // return false;
-        // }
-        // }
-        // }
-
-        // LogHelper.yay();
+        
         return true;
     }
 
@@ -148,7 +130,6 @@ public class DecorateToolRecipe implements IRecipe {
 
         int i, row, column, toolSlot = 0, gemCount = 0;
 
-        final int gemId = SRegistry.getItem(Names.GEM_ITEM).itemID;
         final int gridWidth = inventorycrafting.getSizeInventory() == 4 ? 2 : 3;
 
         // Find tool and count gems.
@@ -159,7 +140,7 @@ public class DecorateToolRecipe implements IRecipe {
                     tool = stack;
                     toolSlot = i;
                 }
-                else if (stack.itemID == gemId) {
+                else if (stack.getItem() instanceof Gem) {
                     ++gemCount;
                 }
             }
@@ -184,12 +165,12 @@ public class DecorateToolRecipe implements IRecipe {
 
         // Deco
         stack = getStackInRowAndColumn(inventorycrafting, row, column + 1, gridWidth);
-        if (stack != null && stack.itemID == gemId) {
+        if (stack != null && stack.getItem() instanceof Gem) {
             result.stackTagCompound.setByte(Strings.TOOL_ICON_DECO, (byte) stack.getItemDamage());
         }
         // HeadL
         stack = getStackInRowAndColumn(inventorycrafting, row - 1, column, gridWidth);
-        if (stack != null && stack.itemID == gemId) {
+        if (stack != null && stack.getItem() instanceof Gem) {
             result.stackTagCompound.setByte(Strings.TOOL_ICON_HEAD_LEFT, (byte) stack.getItemDamage());
         }
         else if (!result.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_LEFT)
@@ -198,7 +179,7 @@ public class DecorateToolRecipe implements IRecipe {
         }
         // HeadM
         stack = getStackInRowAndColumn(inventorycrafting, row, column - 1, gridWidth);
-        if (stack != null && stack.itemID == gemId) {
+        if (stack != null && stack.getItem() instanceof Gem) {
             result.stackTagCompound.setByte(Strings.TOOL_ICON_HEAD_MIDDLE, (byte) stack.getItemDamage());
         }
         else if (!result.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_MIDDLE)
@@ -207,7 +188,7 @@ public class DecorateToolRecipe implements IRecipe {
         }
         // HeadR
         stack = getStackInRowAndColumn(inventorycrafting, row + 1, column, gridWidth);
-        if (stack != null && stack.itemID == gemId) {
+        if (stack != null && stack.getItem() instanceof Gem) {
             result.stackTagCompound.setByte(Strings.TOOL_ICON_HEAD_RIGHT, (byte) stack.getItemDamage());
         }
         else if (!result.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_RIGHT)
@@ -217,7 +198,7 @@ public class DecorateToolRecipe implements IRecipe {
         // Rod
         for (i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
             stack = inventorycrafting.getStackInSlot(i);
-            if (stack != null && stack.itemID == Block.cloth.blockID) {
+            if (stack != null && InventoryHelper.isStackBlock(stack, Blocks.wool)) {
                 result.stackTagCompound.setByte(Strings.TOOL_ICON_ROD, (byte) stack.getItemDamage());
             }
         }
@@ -247,21 +228,27 @@ public class DecorateToolRecipe implements IRecipe {
         Item item = stack.getItem();
         Byte b = -1;
 
-        if (item instanceof ItemToolSG) {
-            b = (byte) ((ItemToolSG) item).getGemId();
-        }
-        else if (item instanceof GemSword) {
+        if (item instanceof GemSword) {
             b = (byte) ((GemSword) item).getGemId();
+        }
+        else if (item instanceof GemPickaxe) {
+            b = (byte) ((GemPickaxe) item).getGemId();
+        }
+        else if (item instanceof GemShovel) {
+            b = (byte) ((GemShovel) item).getGemId();
+        }
+        else if (item instanceof GemAxe) {
+            b = (byte) ((GemAxe) item).getGemId();
         }
         else if (item instanceof GemHoe) {
             b = (byte) ((GemHoe) item).getGemId();
         }
 
+        // Eliminate "supercharged" damage difference.
         if (b != -1 && b != ModMaterials.FISH_GEM_ID) {
             b = (byte) (b & 15);
         }
 
         return b;
     }
-
 }

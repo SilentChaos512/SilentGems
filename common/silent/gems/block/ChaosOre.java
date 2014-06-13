@@ -12,26 +12,29 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ChaosOre extends BlockSG {
 
-    public ChaosOre(int id) {
+	public ChaosOre() {
 
-        super(id, Material.rock);
-        setHardness(3.0f);
-        setResistance(5.0f);
-        setStepSound(Block.soundStoneFootstep);
-        setCreativeTab(CreativeTabs.tabBlock);
-        setUnlocalizedName(Names.CHAOS_ORE);
-    }
+		super(Material.rock);
 
-    @Override
-    public void addRecipes() {
+		setHardness(3.0f);
+		setResistance(5.0f);
+		setStepSound(Block.soundTypeStone);
+		setHarvestLevel("pickaxe", 2);
 
-        GameRegistry.addSmelting(blockID,
-                new ItemStack(SRegistry.getItem(Names.CRAFTING_MATERIALS), Config.CHAOS_ESSENCE_PER_ORE.value, 3), 0.5f);
-    }
+		setUnlocalizedName(Names.CHAOS_ORE);
+	}
 
-    @Override
-    public void addOreDict() {
+	@Override
+	public void addOreDict() {
 
-        OreDictionary.registerOre("oreChaos", this);
-    }
+		OreDictionary.registerOre("oreChaos", this);
+	}
+
+	@Override
+	public void addRecipes() {
+
+		GameRegistry.addSmelting(this,
+				new ItemStack(SRegistry.getItem(Names.CRAFTING_MATERIALS),
+						Config.CHAOS_ESSENCE_PER_ORE.value, 3), 0.5f);
+	}
 }

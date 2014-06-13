@@ -1,16 +1,16 @@
 package silent.gems.item;
 
-import silent.gems.lib.Names;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import silent.gems.lib.Names;
 
 public class DebugItem extends ItemSG {
 
-    public DebugItem(int id) {
+    public DebugItem() {
 
-        super(id);
+        setMaxStackSize(1);
         setUnlocalizedName(Names.DEBUG_ITEM);
     }
 
@@ -21,8 +21,8 @@ public class DebugItem extends ItemSG {
         int k = player.getFoodStats().getFoodLevel();
         player.getFoodStats().setFoodLevel(k > 2 ? k - 2 : k);
         // Remove potion effect.
-        player.curePotionEffects(new ItemStack(Item.bucketMilk));
-        
+        player.curePotionEffects(new ItemStack(Items.milk_bucket));
+
         return stack;
     }
 }

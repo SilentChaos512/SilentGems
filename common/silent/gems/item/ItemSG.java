@@ -2,86 +2,72 @@ package silent.gems.item;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
+import silent.gems.core.registry.IAddRecipe;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.EnumGem;
-import silent.gems.lib.Reference;
 import silent.gems.lib.Strings;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemSG extends Item {
+public class ItemSG extends Item implements IAddRecipe {
 
-    public Icon[] icons = null;
+    public IIcon[] icons = null;
     protected boolean gemSubtypes = false;
-    protected String itemName = "";
+    protected String itemName = "null";
     protected boolean isGlowing = false;
     protected EnumRarity rarity = EnumRarity.common;
 
-    public ItemSG(int id) {
+    public ItemSG() {
 
-        super(id - Reference.SHIFTED_ID_RANGE_CORRECTION);
-        setUnlocalizedName(Integer.toString(id));
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
-        String s = LocalizationHelper.getMessageText(itemName);
-        if (!s.equals(EnumChatFormatting.ITALIC + LocalizationHelper.MISC_PREFIX + itemName)) {
-            list.add(s);
+        int i = 1;
+        String s = LocalizationHelper.getItemDescription(itemName, i);
+        while (!s.equals(LocalizationHelper.getItemDescriptionKey(itemName, i)) && i < 8) {
+            list.add(EnumChatFormatting.ITALIC + s);
+            s = LocalizationHelper.getItemDescription(itemName, ++i);
+        }
+
+        if (i == 1) {
+            s = LocalizationHelper.getItemDescription(itemName, 0);
+            if (!s.equals(LocalizationHelper.getItemDescriptionKey(itemName, 0))) {
+                list.add(EnumChatFormatting.ITALIC + LocalizationHelper.getItemDescription(itemName, 0));
+            }
         }
     }
 
+    /**
+     * Should be overridden if the deriving class needs ore dictionary entries.
+     */
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister reg) {
+    public void addOreDict() {
 
-        if (gemSubtypes) {
-            registerIconsForGemSubtypes(reg);
-        }
-        else {
-            itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName);
-        }
     }
 
-    @SideOnly(Side.CLIENT)
-    public void registerIconsForGemSubtypes(IconRegister reg) {
-
-        if (icons == null || icons.length != EnumGem.all().length) {
-            icons = new Icon[EnumGem.all().length];
-        }
-
-        for (int i = 0; i < EnumGem.all().length; ++i) {
-            icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + this.itemName + EnumGem.all()[i].id);
-        }
-    }
-
+    /**
+     * Adds all recipes to make this item to the GameRegistry. Used to separate out recipe code so that ModItems is
+     * easier to read.
+     */
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack stack, int pass) {
+    public void addRecipes() {
 
-        return isGlowing;
     }
 
-    @Override
-    public EnumRarity getRarity(ItemStack itemStack) {
-
-        return rarity;
-    }
-
-    @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIconFromDamage(int meta) {
+    @Override
+    public IIcon getIconFromDamage(int meta) {
 
         if (hasSubtypes && icons != null && meta < icons.length) {
             return icons[meta];
@@ -91,10 +77,20 @@ public class ItemSG extends Item {
         }
     }
 
+    public String getLocalizedName(ItemStack stack) {
+
+        return StatCollector.translateToLocal(getUnlocalizedName(stack) + ".name");
+    }
+
     @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public EnumRarity getRarity(ItemStack stack) {
+
+        return rarity;
+    }
+
     @SideOnly(Side.CLIENT)
-    public void getSubItems(int itemID, CreativeTabs tabs, List list) {
+    @Override
+    public void getSubItems(Item item, CreativeTabs tab, List list) {
 
         if (hasSubtypes) {
             for (int i = 0; i < icons.length; ++i) {
@@ -106,57 +102,53 @@ public class ItemSG extends Item {
         }
     }
 
-    public String getLocalizedName(ItemStack stack) {
-
-        return StatCollector.translateToLocal(getUnlocalizedName(stack) + ".name");
-    }
-
-    public ItemStack getStack() {
-
-        return new ItemStack(this);
-    }
-
-    public ItemStack getStack(int meta) {
-
-        return new ItemStack(this, 1, meta);
-    }
-
-    public ItemStack getStack(int count, int meta) {
-
-        return new ItemStack(this, count, meta);
-    }
-
     @Override
     public String getUnlocalizedName(ItemStack stack) {
 
         int d = stack.getItemDamage();
+        String s = LocalizationHelper.ITEM_PREFIX + itemName;
 
-        if (gemSubtypes && d < EnumGem.all().length) {
-            return getUnlocalizedName(itemName + d, "item");
+        if ((gemSubtypes && d < EnumGem.all().length) || hasSubtypes) {
+            s += d;
         }
-        else if (hasSubtypes) {
-            return getUnlocalizedName(itemName + "-" + Integer.toString(d), "item");
-        }
-        else {
-            return getUnlocalizedName(itemName, "item");
-        }
+
+        return s;
     }
 
     public String getUnlocalizedName(String itemName) {
 
-        return getUnlocalizedName(itemName, "item");
+        return LocalizationHelper.ITEM_PREFIX + itemName;
     }
 
-    public String getUnlocalizedName(String itemName, String prefix) {
-
-        return (new StringBuilder()).append(prefix).append(".").append(Strings.RESOURCE_PREFIX).append(itemName).toString();
-    }
-
+    @SideOnly(Side.CLIENT)
     @Override
-    public Item setUnlocalizedName(String itemName) {
+    public boolean hasEffect(ItemStack stack, int pass) {
 
-        this.itemName = itemName;
-        return super.setUnlocalizedName(itemName);
+        return isGlowing;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void registerIcons(IIconRegister reg) {
+
+        if (gemSubtypes) {
+            registerIconsForGemSubtypes(reg);
+        }
+        else {
+            itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName);
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void registerIconsForGemSubtypes(IIconRegister reg) {
+
+        if (icons == null || icons.length != EnumGem.all().length) {
+            icons = new IIcon[EnumGem.all().length];
+        }
+
+        for (int i = 0; i < EnumGem.all().length; ++i) {
+            icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + this.itemName + EnumGem.all()[i].id);
+        }
     }
 
     public void setHasGemSubtypes(boolean value) {
@@ -164,18 +156,10 @@ public class ItemSG extends Item {
         gemSubtypes = value;
     }
 
-    /**
-     * Adds all recipes to make this item to the GameRegistry. Used to separate out recipe code so that ModItems is
-     * easier to read.
-     */
-    public void addRecipes() {
+    @Override
+    public Item setUnlocalizedName(String itemName) {
 
-    }
-
-    /**
-     * Should be overridden if the deriving class needs ore dictionary entries.
-     */
-    public void addOreDict() {
-
+        this.itemName = itemName;
+        return this;
     }
 }
