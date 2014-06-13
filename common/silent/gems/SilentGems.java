@@ -44,7 +44,7 @@ public class SilentGems {
     public static CommonProxy proxy;
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event) throws IDConflictException {
+    public void preInit(FMLPreInitializationEvent event) {
 
         LogHelper.init();
 
@@ -57,7 +57,7 @@ public class SilentGems {
         
         // ID conflicts?
         if (SRegistry.getNumberOfIDConflicts() > 0) {
-            throw new IDConflictException(SRegistry.getIDConflictsString());
+            LogHelper.debug(SRegistry.getIDConflictsString());
         }
         
         ModItems.initItemRecipes();
@@ -94,13 +94,5 @@ public class SilentGems {
     public void postInit(FMLPostInitializationEvent event) {
 
         // TODO
-    }
-    
-    public class IDConflictException extends Exception {
-
-        public IDConflictException(String message) {
-            
-            super(message);
-        }
     }
 }

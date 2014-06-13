@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import silent.gems.core.util.LogHelper;
 import silent.gems.enchantment.ModEnchantments;
 import silent.gems.item.ChaosGem;
 import silent.gems.item.TorchBandolier;
@@ -18,6 +19,8 @@ public class ItemTickHandler implements IScheduledTickHandler {
     public void tickStart(EnumSet<TickType> type, Object... tickData) {
 
         EntityPlayer player = (EntityPlayer) tickData[0];
+        
+//        LogHelper.derpRand();
 
         for (ItemStack stack : player.inventory.mainInventory) {
             if (stack != null) {

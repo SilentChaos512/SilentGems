@@ -362,6 +362,7 @@ misc.silentgems:ChaosGem=Craft with Chaos Runes to get effects.
 misc.silentgems:ChaosGem.ChargePerSecond=charge/s
 misc.silentgems:ChaosRune=Craft with Chaos Gems to give them effects.
 misc.silentgems:ChaosRune.CostTooltip=Costs %d charge/second to use.
+misc.silentgems:ChaosRune.MaxLevelTooltip=Max level is %d.
 misc.silentgems:ChaosRune.booster=Improves recharge rate.
 misc.silentgems:ChaosRune.capacity=Improves maximum charge.
 misc.silentgems:ChaosRune.fireResist=Good for hot baths!

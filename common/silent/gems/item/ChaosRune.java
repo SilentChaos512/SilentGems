@@ -40,6 +40,9 @@ public class ChaosRune extends ItemSG {
             // Cost
             String s = LocalizationHelper.getMessageText(Strings.CHAOS_RUNE_COST, "");
             list.add(EnumChatFormatting.DARK_GREEN + String.format(s, ChaosBuff.all.get(d).cost));
+            // Max Level
+            s = LocalizationHelper.getMessageText(Strings.CHAOS_RUNE_MAX_LEVEL, "");
+            list.add(EnumChatFormatting.DARK_GREEN + String.format(s, ChaosBuff.all.get(d).maxLevel));
             // Buff description
             list.add(LocalizationHelper.getMessageText(itemName + "." + ChaosBuff.all.get(d).name));
         }

@@ -220,4 +220,9 @@ public class GemHoe extends ItemHoe {
             GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { "gg ", " s ", " s ", 'g', material, 's', "stickWood" }));
         }
     }
+    
+    public int getGemId() {
+        
+        return gemId;
+    }
 }

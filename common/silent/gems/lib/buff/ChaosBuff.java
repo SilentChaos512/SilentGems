@@ -57,7 +57,7 @@ public class ChaosBuff {
 
         //addBuff("none", 1, -1, Item.ingotIron);
         addBuff(SPEED,              4, Potion.moveSpeed.id,         20, Item.ingotGold);
-        addBuff(HASTE,              4, Potion.digSpeed.id,          20, Item.goldenCarrot);
+        addBuff(HASTE,              4, Potion.digSpeed.id,          20, Item.glowstone);
         addBuff(JUMP,               4, Potion.jump.id,              10, CraftingMaterial.getStack(Names.PLUME));
         addBuff(FLIGHT,             4, -1,                          80, CraftingMaterial.getStack(Names.GOLDEN_PLUME));
         addBuff(NIGHT_VISION,       1, Potion.nightVision.id,       10, Item.goldenCarrot);
@@ -92,7 +92,7 @@ public class ChaosBuff {
     public void apply(EntityPlayer player, int level) {
 
         if (potionId > -1) {
-            player.addPotionEffect(new PotionEffect(potionId, 250, level - 1, true));
+            player.addPotionEffect(new PotionEffect(potionId, 2500, level - 1, true));
         }
 
         // Apply other effects here.

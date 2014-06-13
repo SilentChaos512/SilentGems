@@ -15,7 +15,6 @@ import silent.gems.configuration.Config;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.core.util.RecipeHelper;
-import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
 import silent.gems.lib.buff.ChaosBuff;
@@ -26,16 +25,16 @@ public class ChaosGem extends ItemSG {
 
     public final static int MAX_STACK_DAMAGE = 10;
 
+    public final int gemId;
+
     // protected Icon[] damageBar = new Icon[11];
 
-    public ChaosGem(int id, int sub) {
+    public ChaosGem(int id, int gemId) {
 
         super(id);
-        // icons = new Icon[EnumGem.all().length];
+        this.gemId = gemId;
         setMaxStackSize(1);
-        // setHasSubtypes(true);
-        // setHasGemSubtypes(true);
-        setUnlocalizedName(Names.CHAOS_GEM + sub);
+        setUnlocalizedName(Names.CHAOS_GEM + gemId);
         setMaxDamage(MAX_STACK_DAMAGE);
         setCreativeTab(CreativeTabs.tabTools);
         rarity = EnumRarity.rare;
@@ -67,8 +66,8 @@ public class ChaosGem extends ItemSG {
 
         // Charge change rate
         k = enabled ? -getTotalChargeDrain(stack) : getRechargeAmount(stack);
-        list.add(EnumChatFormatting.DARK_GRAY + (k >= 0 ? "+" : "") + k
-                + " " + LocalizationHelper.getMessageText(Strings.CHAOS_GEM_CHARGE_PER_SECOND, ""));
+        list.add(EnumChatFormatting.DARK_GRAY + (k >= 0 ? "+" : "") + k + " "
+                + LocalizationHelper.getMessageText(Strings.CHAOS_GEM_CHARGE_PER_SECOND, ""));
 
         if (stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
             // Display list of effects.
@@ -262,6 +261,17 @@ public class ChaosGem extends ItemSG {
 
     public void doTick(ItemStack stack, EntityPlayer player) {
 
+        // String s = "";
+        // int random = SilentGems.instance.random.nextInt(4);
+        // for (int i = 0; i < random; ++i) {
+        // s += " ";
+        // }
+        // LogHelper.debug(s + "derp!");
+
+        if (player.worldObj.isRemote) {
+            return;
+        }
+
         if (stack.stackTagCompound == null) {
             stack.setTagCompound(new NBTTagCompound());
         }
@@ -443,9 +453,7 @@ public class ChaosGem extends ItemSG {
     @Override
     public void addRecipes() {
 
-        for (int i = 0; i < EnumGem.all().length; ++i) {
-            RecipeHelper.addSurround(new ItemStack(this, 1, i), new ItemStack(SRegistry.getBlock(Names.GEM_BLOCK), 1, i),
-                    CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS));
-        }
+        RecipeHelper.addSurround(new ItemStack(this), new ItemStack(SRegistry.getBlock(Names.GEM_BLOCK), 1, gemId),
+                CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS));
     }
 }

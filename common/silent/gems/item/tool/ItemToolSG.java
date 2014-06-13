@@ -239,4 +239,9 @@ public class ItemToolSG extends ItemSG {
         }
         return getStrVsBlock(stack, block);
     }
+    
+    public int getGemId() {
+        
+        return gemId;
+    }
 }

@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.nbt.NBTTagCompound;
+import silent.gems.SilentGems;
 import silent.gems.lib.Reference;
 import cpw.mods.fml.common.FMLLog;
 
@@ -72,6 +73,15 @@ public class LogHelper {
     public static void derp(String message) {
         
         log(Level.WARNING, "Derp! " + message);
+    }
+    
+    public static void derpRand() {
+        
+        String s = "";
+        for (int i = 0; i < SilentGems.instance.random.nextInt(4); ++i) {
+            s += " ";
+        }
+        log(Level.WARNING, s + "Derp!");
     }
     
     public static void yay() {

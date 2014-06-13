@@ -229,4 +229,9 @@ public class GemSword extends ItemSword {
             GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { " g ", " g ", " s ", 'g', material, 's', "stickWood" }));
         }
     }
+    
+    public int getGemId() {
+        
+        return gemId;
+    }
 }

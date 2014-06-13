@@ -71,20 +71,20 @@ public class MiscBlock extends BlockSG {
         GameRegistry.addShapelessRecipe(CraftingMaterial.getStack(Names.CHAOS_ESSENCE, 9), getStack(Names.CHAOS_ESSENCE_BLOCK));
     }
 
-    @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float hitX, float hitY, float hitZ) {
-
-        PacketTest packet = new PacketTest("You clicked my block. Good job.");
-
-        Side side = FMLCommonHandler.instance().getEffectiveSide();
-        if (side == Side.SERVER) {
-            EntityPlayerMP playerMP = (EntityPlayerMP) player;
-        }
-        else if (side == Side.CLIENT) {
-            EntityClientPlayerMP playerMP = (EntityClientPlayerMP) player;
-            playerMP.sendQueue.addToSendQueue(packet.packetType.populatePacket(packet));
-        }
-
-        return false;
-    }
+//    @Override
+//    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float hitX, float hitY, float hitZ) {
+//
+//        PacketTest packet = new PacketTest("You clicked my block. Good job.");
+//
+//        Side side = FMLCommonHandler.instance().getEffectiveSide();
+//        if (side == Side.SERVER) {
+//            EntityPlayerMP playerMP = (EntityPlayerMP) player;
+//        }
+//        else if (side == Side.CLIENT) {
+//            EntityClientPlayerMP playerMP = (EntityClientPlayerMP) player;
+//            playerMP.sendQueue.addToSendQueue(packet.packetType.populatePacket(packet));
+//        }
+//
+//        return false;
+//    }
 }
