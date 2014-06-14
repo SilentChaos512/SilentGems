@@ -12,13 +12,14 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import silent.gems.core.registry.IAddRecipe;
+import silent.gems.core.registry.IAddThaumcraftStuff;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Strings;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemSG extends Item implements IAddRecipe {
+public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff {
 
     public IIcon[] icons = null;
     protected boolean gemSubtypes = false;
@@ -63,6 +64,11 @@ public class ItemSG extends Item implements IAddRecipe {
     @Override
     public void addRecipes() {
 
+    }
+    
+    @Override
+    public void addThaumcraftStuff() {
+        
     }
 
     @SideOnly(Side.CLIENT)

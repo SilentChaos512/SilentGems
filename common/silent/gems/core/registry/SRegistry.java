@@ -116,7 +116,7 @@ public class SRegistry {
     }
 
     /**
-     * Calls the addRecipes and addOreDict methods of all Blocks and Items that can be cast to BlockSG and ItemSG.
+     * Calls the addRecipes and addOreDict methods of all Blocks and Items that can be cast to IAddRecipe.
      * Should be called after registering all Blocks and Items.
      */
     public static void addRecipesAndOreDictEntries() {
@@ -131,6 +131,24 @@ public class SRegistry {
             if (item instanceof IAddRecipe) {
                 ((IAddRecipe) item).addRecipes();
                 ((IAddRecipe) item).addOreDict();
+            }
+        }
+    }
+    
+    /**
+     * Calls the addThaumcraftStuff method of all Blocks and Items that can be cast to IAddThaumcraftStuff.
+     * TC4 API says to register aspects after TC, so does this need to go in post-init?
+     */
+    public static void addThaumcraftStuff() {
+        
+        for (Block block : blocks.values()) {
+            if (block instanceof IAddThaumcraftStuff) {
+                ((IAddThaumcraftStuff) block).addThaumcraftStuff();
+            }
+        }
+        for (Item item : items.values()) {
+            if (item instanceof IAddThaumcraftStuff) {
+                ((IAddThaumcraftStuff) item).addThaumcraftStuff();
             }
         }
     }

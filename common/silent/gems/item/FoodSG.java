@@ -96,7 +96,7 @@ public class FoodSG extends ItemSG {
         for (Item meat : meats) {
             GameRegistry.addShapelessRecipe(getStack(Names.MEATY_STEW_UNCOOKED, 1), Items.bowl, meat, Items.potato, Items.carrot);
         }
-        GameRegistry.addSmelting(getStack(Names.MEATY_STEW_UNCOOKED, 1), getStack(Names.MEATY_STEW, 1), 3);
+        GameRegistry.addSmelting(getStack(Names.MEATY_STEW_UNCOOKED, 1), getStack(Names.MEATY_STEW, 1), 0.5f);
     }
     
     private void addSecretDonutEffect(World world, EntityPlayer player) {

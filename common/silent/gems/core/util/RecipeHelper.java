@@ -5,20 +5,39 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-
 public class RecipeHelper {
 
     /**
-     * Adds one recipe consisting of a center item with 1-4 different items (2-8
-     * of each) surrounding it.
+     * Adds two recipes, such as gems becoming blocks and vice versa, etc.
+     * 
+     * @param small
+     *            The item being compressed (ie the gem/ingot/nugget)
+     * @param big
+     *            The compression result (ie the block)
+     * @param count
+     *            The number of "small" used to make "big". This should be either 4 or 9. Defaults to 9.
+     */
+    public static void addCompressionRecipe(ItemStack small, ItemStack big, int count) {
+
+        if (count == 4) {
+            GameRegistry.addShapelessRecipe(big, small, small, small, small);
+        }
+        else {
+            GameRegistry.addShapelessRecipe(big, small, small, small, small, small, small, small, small, small);
+        }
+        small.stackSize = count != 4 && count != 9 ? 9 : count;
+        GameRegistry.addShapelessRecipe(small, big);
+    }
+
+    /**
+     * Adds one recipe consisting of a center item with 1-4 different items (2-8 of each) surrounding it.
      * 
      * @param output
      *            The item being crafted.
      * @param middleStack
      *            The item in the middle of the crafting grid.
      * @param surroundingObjects
-     *            The item(s) surrounding the middle item. Order affects the
-     *            recipe.
+     *            The item(s) surrounding the middle item. Order affects the recipe.
      */
     public static void addSurround(ItemStack output, ItemStack middleStack, Object... surroundingObjects) {
 

@@ -2,6 +2,7 @@ package silent.gems.block;
 
 import java.util.Random;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
@@ -14,25 +15,26 @@ import silent.gems.SilentGems;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
+import thaumcraft.api.ThaumcraftApi;
 
 public class GemOre extends BlockSG {
 
-	public GemOre() {
-		
-		super(Material.rock);
-		
-		icons = new IIcon[EnumGem.all().length];
-		setHardness(3.0f);
-		setResistance(5.0f);
-		setStepSound(Block.soundTypeStone);
-		setHarvestLevel("pickaxe", 2);
-		
-		setHasSubtypes(true);
-		setHasGemSubtypes(true);
-		setUnlocalizedName(Names.GEM_ORE);
-	}
-	
-	@Override
+    public GemOre() {
+
+        super(Material.rock);
+
+        icons = new IIcon[EnumGem.all().length];
+        setHardness(3.0f);
+        setResistance(5.0f);
+        setStepSound(Block.soundTypeStone);
+        setHarvestLevel("pickaxe", 2);
+
+        setHasSubtypes(true);
+        setHasGemSubtypes(true);
+        setUnlocalizedName(Names.GEM_ORE);
+    }
+
+    @Override
     public void addOreDict() {
 
         OreDictionary.registerOre("oreRuby", new ItemStack(this, 1, EnumGem.RUBY.id));
@@ -48,48 +50,63 @@ public class GemOre extends BlockSG {
         OreDictionary.registerOre("oreMorganite", new ItemStack(this, 1, EnumGem.MORGANITE.id));
         OreDictionary.registerOre("oreOnyx", new ItemStack(this, 1, EnumGem.ONYX.id));
     }
-	
-	@Override
-	public int damageDropped(int meta) {
-		
-		return meta;
-	}
-	
-//	@Override
-//    public void dropBlockAsItemWithChance(World world, int x, int y, int z, int par5, float par6, int par7) {
-//
-//        super.dropBlockAsItemWithChance(world, x, y, z, par5, par6, par7);
-//
-//        if (getItemDropped(par5, world.rand, par7) != blockID) {
-//            int j1 = 1 + world.rand.nextInt(5);
-//            dropXpOnBlockBreak(world, x, y, z, j1);
-//        }
-//    }
-	
-	@Override
-    public int getExpDrop(IBlockAccess world, int meta, int fortune)
-    {
-        if (this.getItemDropped(meta, SilentGems.instance.random, fortune) != Item.getItemFromBlock(this))
-        {
+
+    @Override
+    public void addRecipes() {
+
+        for (int i = 0; i < EnumGem.all().length; ++i) {
+            GameRegistry.addSmelting(new ItemStack(this, 1, i), EnumGem.all()[i].getItem(), 0.5f);
+        }
+    }
+
+    @Override
+    public void addThaumcraftStuff() {
+
+        for (int i = 0; i < EnumGem.all().length; ++i) {
+            ThaumcraftApi.addSmeltingBonus(new ItemStack(this, 1, i), new ItemStack(EnumGem.all()[i].getShard().getItem(), 0, i));
+        }
+    }
+
+    @Override
+    public int damageDropped(int meta) {
+
+        return meta;
+    }
+
+    // @Override
+    // public void dropBlockAsItemWithChance(World world, int x, int y, int z, int par5, float par6, int par7) {
+    //
+    // super.dropBlockAsItemWithChance(world, x, y, z, par5, par6, par7);
+    //
+    // if (getItemDropped(par5, world.rand, par7) != blockID) {
+    // int j1 = 1 + world.rand.nextInt(5);
+    // dropXpOnBlockBreak(world, x, y, z, j1);
+    // }
+    // }
+
+    @Override
+    public int getExpDrop(IBlockAccess world, int meta, int fortune) {
+
+        if (this.getItemDropped(meta, SilentGems.instance.random, fortune) != Item.getItemFromBlock(this)) {
             return 1 + SilentGems.instance.random.nextInt(5);
         }
         return 0;
     }
 
-	@Override
-	public Item getItemDropped(int par1, Random random, int par2) {
-		
-		return SRegistry.getItem(Names.GEM_ITEM);
-	}
-	
-	@Override
-	public int quantityDropped(Random random) {
-		
-		return 1;
-	}
-	
-	@Override
-	public int quantityDroppedWithBonus(int par1, Random random) {
+    @Override
+    public Item getItemDropped(int par1, Random random, int par2) {
+
+        return SRegistry.getItem(Names.GEM_ITEM);
+    }
+
+    @Override
+    public int quantityDropped(Random random) {
+
+        return 1;
+    }
+
+    @Override
+    public int quantityDroppedWithBonus(int par1, Random random) {
 
         if (par1 > 0) {
             int j = random.nextInt(par1 + 2) - 1;

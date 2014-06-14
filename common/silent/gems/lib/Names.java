@@ -46,6 +46,7 @@ public class Names {
     public final static String CHAOS_CAPACITOR = "ChaosCapacitor";
     public final static String CHAOS_ESSENCE = "Chaos Essence";
     public final static String CHAOS_ESSENCE_PLUS = "ChaosEssencePlus";
+    public final static String CHAOS_ESSENCE_SHARD = "ChaosEssenceShard";
     public final static String CHAOS_SHARD = "ChaosShard";
     public final static String GOLDEN_PLUME = "GoldenPlume";
     public final static String MYSTERY_GOO = "Mystery Goo";

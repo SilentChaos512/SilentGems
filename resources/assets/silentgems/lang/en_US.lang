@@ -56,7 +56,7 @@ tile.silentgems:GlowRose9.name=Amethyst Glow Rose
 tile.silentgems:GlowRose10.name=Morganite Glow Rose
 tile.silentgems:GlowRose11.name=Onyx Glow Rose
 
-tile.silentgems:MiscBlocks-0.name=Chaos Essence Block
+tile.silentgems:MiscBlocks0.name=Chaos Essence Block
 
 tile.silentgems:Teleporter0.name=Ruby Teleporter
 tile.silentgems:Teleporter1.name=Garnet Teleporter

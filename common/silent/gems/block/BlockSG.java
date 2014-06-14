@@ -10,12 +10,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import silent.gems.core.registry.IAddRecipe;
+import silent.gems.core.registry.IAddThaumcraftStuff;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Strings;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockSG extends Block implements IAddRecipe {
+public class BlockSG extends Block implements IAddRecipe, IAddThaumcraftStuff {
 
 	public IIcon[] icons = null;
 	public boolean hasSubtypes = false;
@@ -33,21 +34,20 @@ public class BlockSG extends Block implements IAddRecipe {
 		setBlockTextureName(Strings.RESOURCE_PREFIX + blockName);
 	}
 	
-	/**
-     * Should be overridden if the deriving class needs ore dictionary entries.
-     */
 	@Override
     public void addOreDict() {
 
     }
-	
-	/**
-     * This should be overridden in any deriving class.
-     */
+
 	@Override
     public void addRecipes() {
 
     }
+	
+	@Override
+	public void addThaumcraftStuff() {
+	    
+	}
 	
 	@Override
 	public int damageDropped(int meta) {

@@ -10,12 +10,16 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.core.util.RecipeHelper;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
+import thaumcraft.api.ThaumcraftApi;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -24,7 +28,7 @@ public class CraftingMaterial extends ItemSG {
 
     public static final String[] names = { Names.ORNATE_STICK, Names.MYSTERY_GOO, Names.YARN_BALL, Names.CHAOS_ESSENCE,
             Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME, Names.CHAOS_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER,
-            Names.RAWHIDE_BONE };
+            Names.RAWHIDE_BONE, Names.CHAOS_ESSENCE_SHARD };
 
     public CraftingMaterial() {
 
@@ -44,6 +48,13 @@ public class CraftingMaterial extends ItemSG {
 
         list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(Names.CRAFTING_MATERIALS, 0));
         list.add(EnumChatFormatting.ITALIC + LocalizationHelper.getItemDescription(names[stack.getItemDamage()], 0));
+    }
+    
+    @Override
+    public void addOreDict() {
+        
+        OreDictionary.registerOre("gemChaos", getStack(Names.CHAOS_ESSENCE));
+        OreDictionary.registerOre("nuggetChaos", getStack(Names.CHAOS_ESSENCE_SHARD));
     }
 
     @Override
@@ -76,8 +87,16 @@ public class CraftingMaterial extends ItemSG {
                 Items.glowstone_dust, 'e', Items.emerald);
         // Rawhide bone
         GameRegistry.addShapedRecipe(getStack(Names.RAWHIDE_BONE, 1), " l ", "lbl", " l ", 'l', Items.leather, 'b', Items.bone);
+        // Chaos Essence Shard
+        RecipeHelper.addCompressionRecipe(getStack(Names.CHAOS_ESSENCE_SHARD), getStack(Names.CHAOS_ESSENCE), 9);
     }
-
+    
+    @Override
+    public void addThaumcraftStuff() {
+        
+        ThaumcraftApi.registerObjectTag(getStack(Names.CHAOS_ESSENCE), (new AspectList()).add(Aspect.GREED, 4).add(Aspect.ENTROPY, 2));
+    }
+    
     public static ItemStack getStack(String name) {
 
         for (int i = 0; i < names.length; ++i) {

@@ -71,7 +71,8 @@ public class SilentGems {
 	@EventHandler
     public void postInit(FMLPostInitializationEvent event) {
 
-        // TODO
+	    // Is this the right place for this?
+        SRegistry.addThaumcraftStuff();
     }
 	
 //	@EventHandler

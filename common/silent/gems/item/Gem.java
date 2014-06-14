@@ -19,6 +19,9 @@ import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
+import thaumcraft.api.ThaumcraftApi;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -109,6 +112,23 @@ public class Gem extends ItemSG {
             GameRegistry.addShapedRecipe(new ItemStack(this, 1, i | 16), "ere", "ege", "ere", 'e', chaosEssence, 'r', Items.redstone, 'g',
                     new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 1, i));
         }
+    }
+    
+    @Override
+    public void addThaumcraftStuff() {
+        
+        ThaumcraftApi.registerObjectTag(EnumGem.RUBY.getItem(), (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.WEAPON, 2));
+        ThaumcraftApi.registerObjectTag(EnumGem.GARNET.getItem(), (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.FIRE, 2));
+        ThaumcraftApi.registerObjectTag(EnumGem.TOPAZ.getItem(), (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.EARTH, 2));
+        ThaumcraftApi.registerObjectTag(EnumGem.HELIODOR.getItem(), (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.GREED, 2));
+        ThaumcraftApi.registerObjectTag(EnumGem.PERIDOT.getItem(), (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.DEATH, 2));
+        ThaumcraftApi.registerObjectTag(EnumGem.EMERALD.getItem(), (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.MOTION, 2));
+        ThaumcraftApi.registerObjectTag(EnumGem.AQUAMARINE.getItem(), (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.AURA, 2));
+        ThaumcraftApi.registerObjectTag(EnumGem.SAPPHIRE.getItem(), (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.ARMOR, 2));
+        ThaumcraftApi.registerObjectTag(EnumGem.IOLITE.getItem(), (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.CLOTH, 2));
+        ThaumcraftApi.registerObjectTag(EnumGem.AMETHYST.getItem(), (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.POISON, 2));
+        ThaumcraftApi.registerObjectTag(EnumGem.MORGANITE.getItem(), (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.MAN, 2));
+        ThaumcraftApi.registerObjectTag(EnumGem.ONYX.getItem(), (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.DARKNESS, 2));
     }
 
     @SideOnly(Side.CLIENT)
