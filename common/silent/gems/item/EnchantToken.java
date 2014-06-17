@@ -22,6 +22,7 @@ import silent.gems.item.tool.GemAxe;
 import silent.gems.item.tool.GemHoe;
 import silent.gems.item.tool.GemPickaxe;
 import silent.gems.item.tool.GemShovel;
+import silent.gems.item.tool.GemSickle;
 import silent.gems.item.tool.GemSword;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
@@ -32,7 +33,7 @@ public class EnchantToken extends ItemSG {
 
     public static class EnchData {
 
-        public byte validTools;
+        public int validTools;
         public Enchantment enchantment;
 
         public String getName() {
@@ -47,13 +48,14 @@ public class EnchantToken extends ItemSG {
     }
 
     // These constants are used to store which tools an enchantment is valid for. See init().
-    public final static byte T_ARMOR = 64;
-    public final static byte T_BOW = 32;
-    public final static byte T_SWORD = 16;
-    public final static byte T_PICKAXE = 8;
-    public final static byte T_SHOVEL = 4;
-    public final static byte T_AXE = 2;
-    public final static byte T_HOE = 1;
+    public final static int T_ARMOR = 128;
+    public final static int T_BOW = 64;
+    public final static int T_SICKLE = 32;
+    public final static int T_SWORD = 16;
+    public final static int T_PICKAXE = 8;
+    public final static int T_SHOVEL = 4;
+    public final static int T_AXE = 2;
+    public final static int T_HOE = 1;
 
     /**
      * Stores the enchantments that there are tokens for.
@@ -80,17 +82,17 @@ public class EnchantToken extends ItemSG {
         }
 
         addEnchantment(Enchantment.baneOfArthropods, T_SWORD | T_PICKAXE | T_SHOVEL);
-        addEnchantment(Enchantment.efficiency, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE);
+        addEnchantment(Enchantment.efficiency, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE);
         addEnchantment(Enchantment.fireAspect, T_SWORD);
-        addEnchantment(Enchantment.fortune, T_PICKAXE | T_SHOVEL | T_AXE | T_HOE);
+        addEnchantment(Enchantment.fortune, T_PICKAXE | T_SHOVEL | T_AXE | T_HOE | T_SICKLE);
         addEnchantment(Enchantment.knockback, T_SWORD | T_AXE | T_HOE);
         addEnchantment(Enchantment.looting, T_SWORD);
-        addEnchantment(Enchantment.sharpness, T_SWORD | T_AXE);
-        addEnchantment(Enchantment.silkTouch, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE);
+        addEnchantment(Enchantment.sharpness, T_SWORD | T_AXE | T_SICKLE);
+        addEnchantment(Enchantment.silkTouch, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE);
         addEnchantment(Enchantment.smite, T_SWORD | T_AXE | T_HOE);
-        addEnchantment(Enchantment.unbreaking, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE);
+        addEnchantment(Enchantment.unbreaking, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE | T_SICKLE);
 
-        addEnchantment(ModEnchantments.mending, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE);
+        addEnchantment(ModEnchantments.mending, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE | T_SICKLE);
     }
 
     /**
@@ -103,10 +105,10 @@ public class EnchantToken extends ItemSG {
 
         EnchData data = new EnchantToken.EnchData();
         data.enchantment = e;
-        data.validTools = (byte) validTools;
+        data.validTools = validTools;
         enchants.put(e.effectId, data);
     }
-    
+
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
@@ -125,9 +127,6 @@ public class EnchantToken extends ItemSG {
             if (!s.equals(LocalizationHelper.ITEM_PREFIX + itemName + "." + enchants.get(k).enchantment.getName())) {
                 list.add(EnumChatFormatting.DARK_GRAY + s);
             }
-//            if (k == ModEnchantments.mending.effectId) {
-//                list.add(LocalizationHelper.getMessageText(Strings.ENCHANT_MENDING, EnumChatFormatting.DARK_GRAY));
-//            }
             // List of valid tools.
             list.add(LocalizationHelper.getItemDescription(itemName, 2));
             list.add(validToolsFor(k));
@@ -135,7 +134,7 @@ public class EnchantToken extends ItemSG {
             list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(itemName, 3));
         }
     }
-    
+
     @Override
     public void addRecipes() {
 
@@ -144,22 +143,23 @@ public class EnchantToken extends ItemSG {
 
         GameRegistry.addShapedRecipe(new ItemStack(this, 8, 0), "ggg", "rer", "ggg", 'g', Items.gold_ingot, 'r', Items.redstone, 'e',
                 chaosEssence);
-        
+
         int gemCount = 2;
-        addTokenRecipe(Enchantment.baneOfArthropods.effectId,   EnumGem.AMETHYST.getItem(),     gemCount, Items.spider_eye,     4, baseToken);
-        addTokenRecipe(Enchantment.efficiency.effectId,         EnumGem.EMERALD.getItem(),      gemCount, Items.gold_ingot,     2, baseToken);
-        addTokenRecipe(Enchantment.fireAspect.effectId,         EnumGem.GARNET.getItem(),       gemCount, Items.blaze_powder,   4, baseToken);
-        addTokenRecipe(Enchantment.fortune.effectId,            EnumGem.HELIODOR.getItem(),     gemCount, Items.diamond,        3, baseToken);
-        addTokenRecipe(Enchantment.knockback.effectId,          EnumGem.AQUAMARINE.getItem(),   gemCount, Items.feather,        5, baseToken);
-        addTokenRecipe(Enchantment.looting.effectId,            EnumGem.TOPAZ.getItem(),        gemCount, Items.emerald,        2, baseToken);
-        addTokenRecipe(Enchantment.sharpness.effectId,          EnumGem.RUBY.getItem(),         gemCount, Items.flint,          5, baseToken);
-        addTokenRecipe(Enchantment.silkTouch.effectId,          EnumGem.IOLITE.getItem(),       gemCount, Items.emerald,        3, baseToken);
-        addTokenRecipe(Enchantment.smite.effectId,              EnumGem.PERIDOT.getItem(),      gemCount, Items.rotten_flesh,   5, baseToken);
-        addTokenRecipe(Enchantment.unbreaking.effectId,         EnumGem.SAPPHIRE.getItem(),     gemCount, Items.iron_ingot,     5, baseToken);
-        
-        addTokenRecipe(ModEnchantments.mending.effectId,        EnumGem.MORGANITE.getItem(),    gemCount, CraftingMaterial.getStack(Names.MYSTERY_GOO), 2, baseToken);
+        addTokenRecipe(Enchantment.baneOfArthropods.effectId, EnumGem.AMETHYST.getItem(), gemCount, Items.spider_eye, 4, baseToken);
+        addTokenRecipe(Enchantment.efficiency.effectId, EnumGem.EMERALD.getItem(), gemCount, Items.gold_ingot, 2, baseToken);
+        addTokenRecipe(Enchantment.fireAspect.effectId, EnumGem.GARNET.getItem(), gemCount, Items.blaze_powder, 4, baseToken);
+        addTokenRecipe(Enchantment.fortune.effectId, EnumGem.HELIODOR.getItem(), gemCount, Items.diamond, 3, baseToken);
+        addTokenRecipe(Enchantment.knockback.effectId, EnumGem.AQUAMARINE.getItem(), gemCount, Items.feather, 5, baseToken);
+        addTokenRecipe(Enchantment.looting.effectId, EnumGem.TOPAZ.getItem(), gemCount, Items.emerald, 2, baseToken);
+        addTokenRecipe(Enchantment.sharpness.effectId, EnumGem.RUBY.getItem(), gemCount, Items.flint, 5, baseToken);
+        addTokenRecipe(Enchantment.silkTouch.effectId, EnumGem.IOLITE.getItem(), gemCount, Items.emerald, 3, baseToken);
+        addTokenRecipe(Enchantment.smite.effectId, EnumGem.PERIDOT.getItem(), gemCount, Items.rotten_flesh, 5, baseToken);
+        addTokenRecipe(Enchantment.unbreaking.effectId, EnumGem.SAPPHIRE.getItem(), gemCount, Items.iron_ingot, 5, baseToken);
+
+        addTokenRecipe(ModEnchantments.mending.effectId, EnumGem.MORGANITE.getItem(), gemCount,
+                CraftingMaterial.getStack(Names.MYSTERY_GOO), 2, baseToken);
     }
-    
+
     private void addTokenRecipe(int key, ItemStack gem, int gemCount, ItemStack otherMaterial, int otherCount, ItemStack baseToken) {
 
         String row1 = gemCount == 1 ? " g " : (gemCount == 2 ? "g g" : "ggg");
@@ -168,7 +168,7 @@ public class EnchantToken extends ItemSG {
 
         GameRegistry.addShapedRecipe(new ItemStack(this, 1, key), row1, row2, row3, 'g', gem, 'm', otherMaterial, 't', baseToken);
     }
-    
+
     private void addTokenRecipe(int key, ItemStack gem, int gemCount, Block otherMaterial, int otherCount, ItemStack baseToken) {
 
         addTokenRecipe(key, gem, gemCount, new ItemStack(otherMaterial), otherCount, baseToken);
@@ -199,7 +199,7 @@ public class EnchantToken extends ItemSG {
 
         if ((tool.getItem() instanceof GemSword && (k & T_SWORD) != 0) || (tool.getItem() instanceof GemPickaxe && (k & T_PICKAXE) != 0)
                 || (tool.getItem() instanceof GemShovel && (k & T_SHOVEL) != 0) || (tool.getItem() instanceof GemAxe && (k & T_AXE) != 0)
-                || (tool.getItem() instanceof GemHoe && (k & T_HOE) != 0)) {
+                || (tool.getItem() instanceof GemHoe && (k & T_HOE) != 0) || (tool.getItem() instanceof GemSickle && (k & T_SICKLE) != 0)) {
             // Token and tool type match. Does tool have any enchantments?
             if (tool.hasTagCompound()) {
                 if (!tool.stackTagCompound.hasKey("ench")) {
@@ -231,7 +231,7 @@ public class EnchantToken extends ItemSG {
 
         return false;
     }
-    
+
     /**
      * Applies the token's enchantment to the tool. Need to check canApplyTokenToTool before calling.
      * 
@@ -266,9 +266,9 @@ public class EnchantToken extends ItemSG {
             }
         }
     }
-    
+
     public static String getEnchantmentName(int key) {
-        
+
         if (enchants.containsKey(key)) {
             return LocalizationHelper.getLocalizedString(enchants.get(key).getName());
         }
@@ -276,13 +276,13 @@ public class EnchantToken extends ItemSG {
             return "";
         }
     }
-    
+
     @Override
     public EnumRarity getRarity(ItemStack stack) {
 
         return stack.getItemDamage() == 0 ? EnumRarity.common : EnumRarity.rare;
     }
-    
+
     @Override
     public void getSubItems(Item item, CreativeTabs tabs, List list) {
 
@@ -292,10 +292,10 @@ public class EnchantToken extends ItemSG {
             list.add(new ItemStack(this, 1, k));
         }
     }
-    
+
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        
+
         return getUnlocalizedName(itemName);
     }
 
@@ -331,6 +331,9 @@ public class EnchantToken extends ItemSG {
             }
             if ((k & T_HOE) != 0) {
                 list.add(LocalizationHelper.getMiscText(Strings.TOOL_HOE));
+            }
+            if ((k & T_SICKLE) != 0) {
+                list.add(LocalizationHelper.getMiscText(Strings.TOOL_SICKLE));
             }
             if ((k & T_BOW) != 0) {
                 list.add(LocalizationHelper.getMiscText(Strings.TOOL_BOW));

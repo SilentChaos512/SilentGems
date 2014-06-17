@@ -92,6 +92,9 @@ item.silentgems:Chaos Essence.desc=Shiny power!
 item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence
 item.silentgems:ChaosEssencePlus.desc=Maximum shiny!
 
+item.silentgems:ChaosEssenceShard.name=Chaos Essence Shard
+item.silentgems:ChaosEssenceShard.desc=Useless by itself.
+
 item.silentgems:ChaosGem0.name=Chaos Ruby
 item.silentgems:ChaosGem1.name=Chaos Garnet
 item.silentgems:ChaosGem2.name=Chaos Topaz
@@ -438,10 +441,13 @@ item.silentgems:Gem.ToolProperties=Properties
 
 # Misc text
 
+misc.silentgems:Tool.Armor=Armor
 misc.silentgems:Tool.Axe=Axe
+misc.silentgems:Tool.Bow=Bow
 misc.silentgems:Tool.Hoe=Hoe
 misc.silentgems:Tool.Pickaxe=Pickaxe
 misc.silentgems:Tool.Shovel=Shovel
+misc.silentgems:Tool.Sickle=Sickle
 misc.silentgems:Tool.Sword=Sword
 
 misc.silentgems:PressCtrl=<Press Ctrl>

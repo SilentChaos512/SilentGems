@@ -52,6 +52,7 @@ public class Strings {
     public final static String TOOL_HOE = "Tool.Hoe";
     public final static String TOOL_PICKAXE = "Tool.Pickaxe";
     public final static String TOOL_SHOVEL = "Tool.Shovel";
+    public final static String TOOL_SICKLE = "Tool.Sickle";
     public final static String TOOL_SWORD = "Tool.Sword";
     
     /*
