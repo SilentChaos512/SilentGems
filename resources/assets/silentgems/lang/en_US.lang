@@ -354,6 +354,32 @@ tool.silentgems:Hoe9Plus.name=Supercharged Amethyst Hoe
 tool.silentgems:Hoe10Plus.name=Supercharged Morganite Hoe
 tool.silentgems:Hoe11Plus.name=Supercharged Onyx Hoe
 
+tool.silentgems:Sickle0.name=Ruby Sickle
+tool.silentgems:Sickle1.name=Garnet Sickle
+tool.silentgems:Sickle2.name=Topaz Sickle
+tool.silentgems:Sickle3.name=Heliodor Sickle
+tool.silentgems:Sickle4.name=Peridot Sickle
+tool.silentgems:Sickle5.name=Emerald Sickle
+tool.silentgems:Sickle6.name=Aquamarine Sickle
+tool.silentgems:Sickle7.name=Sapphire Sickle
+tool.silentgems:Sickle8.name=Iolite Sickle
+tool.silentgems:Sickle9.name=Amethyst Sickle
+tool.silentgems:Sickle10.name=Morganite Sickle
+tool.silentgems:Sickle11.name=Onyx Sickle
+tool.silentgems:Sickle42.name=SickleFish
+tool.silentgems:Sickle0Plus.name=Supercharged Ruby Sickle
+tool.silentgems:Sickle1Plus.name=Supercharged Garnet Sickle
+tool.silentgems:Sickle2Plus.name=Supercharged Topaz Sickle
+tool.silentgems:Sickle3Plus.name=Supercharged Heliodor Sickle
+tool.silentgems:Sickle4Plus.name=Supercharged Peridot Sickle
+tool.silentgems:Sickle5Plus.name=Supercharged Emerald Sickle
+tool.silentgems:Sickle6Plus.name=Supercharged Aquamarine Sickle
+tool.silentgems:Sickle7Plus.name=Supercharged Sapphire Sickle
+tool.silentgems:Sickle8Plus.name=Supercharged Iolite Sickle
+tool.silentgems:Sickle9Plus.name=Supercharged Amethyst Sickle
+tool.silentgems:Sickle10Plus.name=Supercharged Morganite Sickle
+tool.silentgems:Sickle11Plus.name=Supercharged Onyx Sickle
+
 # Entity localization
 
 

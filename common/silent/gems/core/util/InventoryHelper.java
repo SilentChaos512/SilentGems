@@ -7,6 +7,7 @@ import silent.gems.item.tool.GemAxe;
 import silent.gems.item.tool.GemHoe;
 import silent.gems.item.tool.GemPickaxe;
 import silent.gems.item.tool.GemShovel;
+import silent.gems.item.tool.GemSickle;
 import silent.gems.item.tool.GemSword;
 
 public class InventoryHelper {
@@ -19,7 +20,7 @@ public class InventoryHelper {
         if (stack != null) {
             Item item = stack.getItem();
             return (item instanceof GemSword) || item instanceof GemPickaxe || item instanceof GemShovel || item instanceof GemAxe
-                    || item instanceof GemHoe;
+                    || item instanceof GemHoe || item instanceof GemSickle;
         }
         return false;
     }

@@ -9,12 +9,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import silent.gems.SilentGems;
 import silent.gems.core.util.InventoryHelper;
-import silent.gems.core.util.LogHelper;
 import silent.gems.item.Gem;
 import silent.gems.item.tool.GemAxe;
 import silent.gems.item.tool.GemHoe;
 import silent.gems.item.tool.GemPickaxe;
 import silent.gems.item.tool.GemShovel;
+import silent.gems.item.tool.GemSickle;
 import silent.gems.item.tool.GemSword;
 import silent.gems.lib.Strings;
 import silent.gems.material.ModMaterials;
@@ -242,6 +242,9 @@ public class DecorateToolRecipe implements IRecipe {
         }
         else if (item instanceof GemHoe) {
             b = (byte) ((GemHoe) item).getGemId();
+        }
+        else if (item instanceof GemSickle) {
+            b = (byte) ((GemSickle) item).getGemId();
         }
 
         // Eliminate "supercharged" damage difference.

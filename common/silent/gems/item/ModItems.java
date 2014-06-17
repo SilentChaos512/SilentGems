@@ -5,6 +5,7 @@ import silent.gems.item.tool.GemAxe;
 import silent.gems.item.tool.GemHoe;
 import silent.gems.item.tool.GemPickaxe;
 import silent.gems.item.tool.GemShovel;
+import silent.gems.item.tool.GemSickle;
 import silent.gems.item.tool.GemSword;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
@@ -49,6 +50,7 @@ public class ModItems {
             SRegistry.registerItem(GemShovel.class, "Shovel" + s, params);
             SRegistry.registerItem(GemAxe.class, "Axe" + s, params);
             SRegistry.registerItem(GemHoe.class, "Hoe" + s, params);
+            SRegistry.registerItem(GemSickle.class, "Sickle" + s, params);
         }
         
         params[0] = ModMaterials.toolFish;
@@ -59,6 +61,7 @@ public class ModItems {
         SRegistry.registerItem(GemShovel.class, "ShovelFish", params);
         SRegistry.registerItem(GemAxe.class, "AxeFish", params);
         SRegistry.registerItem(GemHoe.class, "HoeFish", params);
+        SRegistry.registerItem(GemSickle.class, "SickleFish", params);
         
         // Debug Item
         SRegistry.registerItem(DebugItem.class, Names.DEBUG_ITEM);
