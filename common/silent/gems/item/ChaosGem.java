@@ -337,7 +337,7 @@ public class ChaosGem extends ItemSG {
                 applyEffects(stack, player);
             }
         }
-
+        
         return stack;
     }
 

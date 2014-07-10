@@ -1,22 +1,23 @@
 package silent.gems.core.handler;
 
-import java.awt.Event;
 import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
+import silent.gems.SilentGems;
 import silent.gems.block.GlowRose;
 import silent.gems.configuration.Config;
 import silent.gems.control.PlayerInputMap;
@@ -30,8 +31,12 @@ import silent.gems.item.tool.GemSickle;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import silent.gems.lib.buff.ChaosBuff;
+import silent.gems.network.MessagePlayerUpdate;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class GemsEventHandler {
 
@@ -44,7 +49,7 @@ public class GemsEventHandler {
         if (event.harvester != null && event.harvester.inventory.getCurrentItem() != null
                 && event.harvester.inventory.getCurrentItem().getItem() instanceof GemSickle) {
             ItemStack sickle = event.harvester.inventory.getCurrentItem();
-            
+
             // Check a 3x3x3 cube.
             for (int z = event.z - 1; z < event.z + 2; ++z) {
                 for (int y = event.y - 1; y < event.y + 2; ++y) {
@@ -127,18 +132,42 @@ public class GemsEventHandler {
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 
-        if (event.player.worldObj.isRemote) {
-            return;
+        if (event.side == Side.CLIENT) {
+            // Input map update
+            handlePlayerInput();
         }
+        else {
+            // Every tick:
+            tickFlight(event.player);
 
-        // Every tick:
-        tickFlight(event.player);
+            ++tickPlayer;
+            if (tickPlayer >= 40) { // This ticks once per second. Why is it not 20?
+                tickPlayer = 0;
+                // Every second:
+                tickInventory(event.player);
+            }
+        }
+    }
 
-        ++tickPlayer;
-        if (tickPlayer >= 40) { // This ticks once per second. Why is it not 20?
-            tickPlayer = 0;
-            // Every second:
-            tickInventory(event.player);
+    @SideOnly(Side.CLIENT)
+    private void handlePlayerInput() {
+
+        EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+        if (player != null) {
+            PlayerInputMap inputMap = PlayerInputMap.getInputMapFor(player.getCommandSenderName());
+            inputMap.forwardKey = Math.signum(player.movementInput.moveForward);
+            inputMap.strafeKey = Math.signum(player.movementInput.moveStrafe);
+            inputMap.jumpKey = player.movementInput.jump;
+            inputMap.sneakKey = player.movementInput.sneak;
+            inputMap.motionX = player.motionX;
+            inputMap.motionY = player.motionY;
+            inputMap.motionZ = player.motionZ;
+
+            if (inputMap.hasChanged()) {
+                inputMap.refresh();
+//                MessagePlayerUpdate message = new MessagePlayerUpdate((EntityPlayer) player, inputMap);
+//                SilentGems.network.sendToAllAround(message, new TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 160));
+            }
         }
     }
 
@@ -152,9 +181,9 @@ public class GemsEventHandler {
                 level = ChaosGem.getBuffLevel(stack, flight);
                 if (level > 0 && ChaosGem.isEnabled(stack)) {
                     handleFlight(player, stack);
+                    player.fallDistance = (float) computeFallHeightFromVelocity(MathHelper.clamp_float((float) player.motionY, -1000.0f, 0.0f));
                     return;
                 }
-                player.fallDistance = (float) computeFallHeightFromVelocity(MathHelper.clamp_float((float) player.motionY, -1000.0f, 0.0f));
             }
         }
     }
@@ -190,16 +219,18 @@ public class GemsEventHandler {
 
         PlayerInputMap movementInput = PlayerInputMap.getInputMapFor(player.getCommandSenderName());
         boolean jumpkey = movementInput.jumpKey;
-        if (jumpkey) {
-            LogHelper.derpRand();
-        }
+        // if (jumpkey) {
+        // LogHelper.derpRand();
+        // }
         // Get thrust level
         int flightLevel = ChaosGem.getBuffLevel(chaosGem, ChaosBuff.getBuffByName(ChaosBuff.FLIGHT));
         double t = Config.CHAOS_GEM_FLIGHT_THRUST.value;
         double thrust = t + t * (flightLevel - 1) / 2;
 
         if (jumpkey && player.motionY < 0.5) {
+            // LogHelper.derpRand();
             thrust = PlayerHelper.thrust(player, thrust);
+            // LogHelper.debug(thrust);
         }
     }
 }

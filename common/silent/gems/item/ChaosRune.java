@@ -46,6 +46,10 @@ public class ChaosRune extends ItemSG {
             list.add(EnumChatFormatting.DARK_GREEN + String.format(s, ChaosBuff.all.get(d).maxLevel));
             // Buff description
             list.add(LocalizationHelper.getOtherItemKey(itemName, ChaosBuff.all.get(d).name));
+            // Flight broken?
+            if (ChaosBuff.all.get(d).name.equals(ChaosBuff.FLIGHT) && ChaosBuff.FLIGHT_IS_BROKEN) {
+                list.add(EnumChatFormatting.RED + "Broke like a bad joke");
+            }
         }
         else {
             list.add(EnumChatFormatting.RED + "Invalid meta value!");

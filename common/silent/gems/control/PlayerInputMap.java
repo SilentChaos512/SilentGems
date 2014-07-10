@@ -1,7 +1,8 @@
 package silent.gems.control;
 
+import io.netty.buffer.ByteBuf;
+
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,42 +43,30 @@ public class PlayerInputMap {
         lastSentMap = new PlayerInputMap(this);
     }
 
-    public boolean writeToStream(DataOutputStream stream) {
+    public boolean writeToStream(ByteBuf buf) {
 
-        try {
-            stream.writeFloat(forwardKey);
-            stream.writeFloat(strafeKey);
-            stream.writeBoolean(jumpKey);
-            stream.writeBoolean(sneakKey);
-            stream.writeBoolean(downKey);
-            stream.writeDouble(motionX);
-            stream.writeDouble(motionY);
-            stream.writeDouble(motionZ);
-            return true;
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        buf.writeFloat(forwardKey);
+        buf.writeFloat(strafeKey);
+        buf.writeBoolean(jumpKey);
+        buf.writeBoolean(sneakKey);
+        buf.writeBoolean(downKey);
+        buf.writeDouble(motionX);
+        buf.writeDouble(motionY);
+        buf.writeDouble(motionZ);
+        return true;
     }
 
-    public boolean readFromStream(DataInputStream stream) {
+    public boolean readFromStream(ByteBuf buf) {
 
-        try {
-            forwardKey = stream.readFloat();
-            strafeKey = stream.readFloat();
-            jumpKey = stream.readBoolean();
-            sneakKey = stream.readBoolean();
-            downKey = stream.readBoolean();
-            motionX = stream.readDouble();
-            motionY = stream.readDouble();
-            motionZ = stream.readDouble();
-            return true;
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        forwardKey = buf.readFloat();
+        strafeKey = buf.readFloat();
+        jumpKey = buf.readBoolean();
+        sneakKey = buf.readBoolean();
+        downKey = buf.readBoolean();
+        motionX = buf.readDouble();
+        motionY = buf.readDouble();
+        motionZ = buf.readDouble();
+        return true;
     }
 
     @Override

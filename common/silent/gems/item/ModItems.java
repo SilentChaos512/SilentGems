@@ -22,6 +22,7 @@ public class ModItems {
 		SRegistry.registerItem(Gem.class, Names.GEM_ITEM);
 		SRegistry.registerItem(GemShard.class, Names.GEM_SHARD);
 		SRegistry.registerItem(CraftingMaterial.class, Names.CRAFTING_MATERIALS);
+		SRegistry.registerItem(GemRod.class, Names.GEM_ROD);
 		SRegistry.registerItem(FoodSG.class, Names.FOOD);
 		SRegistry.registerItem(TorchBandolier.class, Names.TORCH_BANDOLIER);
 		SRegistry.registerItem(TeleporterLinker.class, Names.TELEPORTER_LINKER);

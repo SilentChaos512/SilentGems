@@ -12,6 +12,8 @@ import silent.gems.enchantment.ModEnchantments;
 import silent.gems.item.ModItems;
 import silent.gems.lib.Reference;
 import silent.gems.lib.buff.ChaosBuff;
+import silent.gems.network.MessagePlayerUpdate;
+import silent.gems.network.MyMessage;
 import silent.gems.world.GemsWorldGenerator;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -21,10 +23,12 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION_NUMBER)
-//@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { Reference.CHANNEL_NAME }, packetHandler = PacketHandler.class)
 public class SilentGems {
 
 	public Random random = new Random();
@@ -34,6 +38,8 @@ public class SilentGems {
 	
 	@SidedProxy(clientSide = "silent.gems.core.proxy.ClientProxy", serverSide = "silent.gems.core.proxy.CommonProxy")
 	public static CommonProxy proxy;
+	
+	public static SimpleNetworkWrapper network;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -56,6 +62,10 @@ public class SilentGems {
 		
 		MinecraftForge.EVENT_BUS.register(new GemsEventHandler());
 		FMLCommonHandler.instance().bus().register(new GemsEventHandler());
+		
+		network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID);
+		int discriminator = -1;
+		network.registerMessage(MessagePlayerUpdate.Handler.class, MessagePlayerUpdate.class, ++discriminator, Side.SERVER);
 	}
 	
 	@EventHandler

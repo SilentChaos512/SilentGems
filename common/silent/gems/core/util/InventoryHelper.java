@@ -3,6 +3,7 @@ package silent.gems.core.util;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import silent.gems.item.tool.GemAxe;
 import silent.gems.item.tool.GemHoe;
 import silent.gems.item.tool.GemPickaxe;
@@ -33,5 +34,16 @@ public class InventoryHelper {
     public static boolean isStackBlock(ItemStack stack, Block block) {
         
         return Block.getIdFromBlock(block) == Item.getIdFromItem(stack.getItem());
+    }
+    
+    public static boolean matchesOreDict(ItemStack stack, String oreName) {
+        
+        int[] ids = OreDictionary.getOreIDs(stack);
+        for (int i = 0; i < ids.length; ++i) {
+            if (OreDictionary.getOreName(ids[i]).equals(oreName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

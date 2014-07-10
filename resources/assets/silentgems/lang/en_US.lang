@@ -116,11 +116,13 @@ item.silentgems:ChaosRune.name=Chaos Rune
 item.silentgems:ChaosRune.desc=Craft with Chaos gems to give them effects.
 item.silentgems:ChaosRune.Cost=Costs %d charge/second to use.
 item.silentgems:ChaosRune.MaxLevel=Max level is %d.
+item.silentgems:ChaosRune.absorption=More hearts!
 item.silentgems:ChaosRune.booster=Improves recharge rate.
 item.silentgems:ChaosRune.capacity=Improves maximum charge.
 item.silentgems:ChaosRune.fireResist=Good for hot baths!
 item.silentgems:ChaosRune.flight=Like having a rocket on your back!
 item.silentgems:ChaosRune.haste=Make holes faster!
+item.silentgems:ChaosRune.invisibility=Better than covering your eyes!
 item.silentgems:ChaosRune.jump=Vertical mobility upgrade!
 item.silentgems:ChaosRune.nightVision=See things better!
 item.silentgems:ChaosRune.regen=Better than a bandage!
@@ -154,6 +156,32 @@ item.silentgems:Food.desc=Foodstuffs.
 # Gem
 item.silentgems:Gem.Decorate1=Can be crafted with gem tools
 item.silentgems:Gem.Decorate2=to retexture the tools.
+
+item.silentgems:GemRod0.name=Ruby Rod
+item.silentgems:GemRod1.name=Garnet Rod
+item.silentgems:GemRod2.name=Topaz Rod
+item.silentgems:GemRod3.name=Heliodor Rod
+item.silentgems:GemRod4.name=Peridot Rod
+item.silentgems:GemRod5.name=Emerald Rod
+item.silentgems:GemRod6.name=Aquamarine Rod
+item.silentgems:GemRod7.name=Sapphire Rod
+item.silentgems:GemRod8.name=Iolite Rod
+item.silentgems:GemRod9.name=Amethyst Rod
+item.silentgems:GemRod10.name=Morganite Rod
+item.silentgems:GemRod11.name=Onyx Rod
+
+item.silentgems:GemShard0.name=Ruby Shard
+item.silentgems:GemShard1.name=Garnet Shard
+item.silentgems:GemShard2.name=Topaz Shard
+item.silentgems:GemShard3.name=Heliodor Shard
+item.silentgems:GemShard4.name=Peridot Shard
+item.silentgems:GemShard5.name=Emerald Shard
+item.silentgems:GemShard6.name=Aquamarine Shard
+item.silentgems:GemShard7.name=Sapphire Shard
+item.silentgems:GemShard8.name=Iolite Shard
+item.silentgems:GemShard9.name=Amethyst Shard
+item.silentgems:GemShard10.name=Morganite Shard
+item.silentgems:GemShard11.name=Onyx Shard
 
 item.silentgems:GoldenPlume.name=Golden Plume
 item.silentgems:GoldenPlume.desc=A bunch of shiny feathers.
@@ -212,18 +240,7 @@ item.silentgems:TorchBandolier.AutoFillOn=Auto-fill mode ON.
 item.silentgems:Yarn Ball.name=Ball of Yarn
 item.silentgems:Yarn Ball.desc=It's not shiny, but cats seem to like it.
 
-item.silentgems:GemShard0.name=Ruby Shard
-item.silentgems:GemShard1.name=Garnet Shard
-item.silentgems:GemShard2.name=Topaz Shard
-item.silentgems:GemShard3.name=Heliodor Shard
-item.silentgems:GemShard4.name=Peridot Shard
-item.silentgems:GemShard5.name=Emerald Shard
-item.silentgems:GemShard6.name=Aquamarine Shard
-item.silentgems:GemShard7.name=Sapphire Shard
-item.silentgems:GemShard8.name=Iolite Shard
-item.silentgems:GemShard9.name=Amethyst Shard
-item.silentgems:GemShard10.name=Morganite Shard
-item.silentgems:GemShard11.name=Onyx Shard
+
 
 # Tool localization
 
@@ -393,11 +410,13 @@ enchantment.Mending=Mending
 
 # Chaos Buffs
 buff.silentgems:none=Empty
+buff.silentgems:absorption=Absorption
 buff.silentgems:booster=Boost
 buff.silentgems:capacity=Capacity
 buff.silentgems:fireResist=Fire Resistance
 buff.silentgems:flight=Flight
 buff.silentgems:haste=Haste
+buff.silentgems:invisibility=Invisibility
 buff.silentgems:jump=Jump
 buff.silentgems:nightVision=Night Vision
 buff.silentgems:regen=Regeneration

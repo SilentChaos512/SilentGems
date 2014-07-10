@@ -26,6 +26,7 @@ public class Names {
     public final static String FLUFFY_SEED = "FluffySeed";
     public final static String FOOD = "Food";
     public final static String GEM_ITEM = "Gem";
+    public final static String GEM_ROD = "GemRod";
     public final static String GEM_SHARD = "GemShard";
     public final static String MEATY_STEW = "MeatyStew";
     public final static String MEATY_STEW_UNCOOKED = "MeatyStewUncooked";
@@ -48,6 +49,11 @@ public class Names {
     public final static String CHAOS_ESSENCE_PLUS = "ChaosEssencePlus";
     public final static String CHAOS_ESSENCE_SHARD = "ChaosEssenceShard";
     public final static String CHAOS_SHARD = "ChaosShard";
+    public final static String FANCY_STICK_COPPER = "FancyStickCopper";
+    public final static String FANCY_STICK_IRON = "FancyStickIron";
+    public final static String FANCY_STICK_SILVER = "FancyStickSilver";
+    public final static String FANCY_STICK_TIN = "FancyStickTin";
+    public final static String GILDED_STRING = "GildedString";
     public final static String GOLDEN_PLUME = "GoldenPlume";
     public final static String MYSTERY_GOO = "Mystery Goo";
     public final static String ORNATE_STICK = "Ornate Stick";

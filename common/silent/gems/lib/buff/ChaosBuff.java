@@ -19,6 +19,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 
 public class ChaosBuff {
+    
+    public final static boolean FLIGHT_IS_BROKEN = true;
 
     public final static String SPEED = "speed";
     public final static String HASTE = "haste";
@@ -32,6 +34,8 @@ public class ChaosBuff {
     public final static String STRENGTH = "strength";
     public final static String CAPACITY = "capacity";
     public final static String BOOSTER = "booster";
+    public final static String ABSORPTION = "absorption";
+    public final static String INVISIBILITY = "invisibility";
 
     public final static ArrayList<ChaosBuff> all = new ArrayList<ChaosBuff>();
 
@@ -71,14 +75,18 @@ public class ChaosBuff {
         addBuff(STRENGTH,           2, Potion.damageBoost.id,       40, Blocks.redstone_block);
         addBuff(CAPACITY,           4, -1,                           0, CraftingMaterial.getStack(Names.CHAOS_CAPACITOR));
         addBuff(BOOSTER,            4, -1,                           0, CraftingMaterial.getStack(Names.CHAOS_BOOSTER));
+        addBuff(ABSORPTION,         1, Potion.field_76444_x.id,     50, Items.golden_apple);
+        addBuff(INVISIBILITY,       1, Potion.invisibility.id,      40, Items.fermented_spider_eye); 
     }
 
     private static void addBuff(String name, int maxLevel, int potionId, int cost, Object material) {
 
         ChaosBuff buff = new ChaosBuff(++lastId, name, maxLevel, potionId, cost);
         all.add(buff);
-        GameRegistry.addShapedRecipe(new ItemStack(SRegistry.getItem(Names.CHAOS_RUNE), 1, lastId), "mcm", "cmc", "rcr", 'm', material,
-                'c', CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS), 'r', Items.redstone);
+        if (!(name.equals(FLIGHT) && FLIGHT_IS_BROKEN)) {
+            GameRegistry.addShapedRecipe(new ItemStack(SRegistry.getItem(Names.CHAOS_RUNE), 1, lastId), "mcm", "cmc", "rcr", 'm', material,
+                    'c', CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS), 'r', Items.redstone);
+        }
     }
     
     public static ChaosBuff getBuffByName(String name) {
@@ -100,7 +108,7 @@ public class ChaosBuff {
 
         // Apply other effects here.
         if (name.equals(FLIGHT)) {
-            player.capabilities.allowFlying = true;
+            //player.capabilities.allowFlying = true;
         }
     }
     
