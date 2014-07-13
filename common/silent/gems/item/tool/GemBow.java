@@ -81,6 +81,8 @@ public class GemBow extends ItemBow {
         // TODO register icons!
         
         String s = Strings.RESOURCE_PREFIX + "Bow";
+        
+        super.registerIcons(reg); // temp
     }
     
     public int getGemId() {

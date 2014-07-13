@@ -2,6 +2,7 @@ package silent.gems.item;
 
 import silent.gems.core.registry.SRegistry;
 import silent.gems.item.tool.GemAxe;
+import silent.gems.item.tool.GemBow;
 import silent.gems.item.tool.GemHoe;
 import silent.gems.item.tool.GemPickaxe;
 import silent.gems.item.tool.GemShovel;
@@ -22,7 +23,7 @@ public class ModItems {
 		SRegistry.registerItem(Gem.class, Names.GEM_ITEM);
 		SRegistry.registerItem(GemShard.class, Names.GEM_SHARD);
 		SRegistry.registerItem(CraftingMaterial.class, Names.CRAFTING_MATERIALS);
-		SRegistry.registerItem(GemRod.class, Names.GEM_ROD);
+//		SRegistry.registerItem(GemRod.class, Names.GEM_ROD);
 		SRegistry.registerItem(FoodSG.class, Names.FOOD);
 		SRegistry.registerItem(TorchBandolier.class, Names.TORCH_BANDOLIER);
 		SRegistry.registerItem(TeleporterLinker.class, Names.TELEPORTER_LINKER);
@@ -52,6 +53,9 @@ public class ModItems {
             SRegistry.registerItem(GemAxe.class, "Axe" + s, params);
             SRegistry.registerItem(GemHoe.class, "Hoe" + s, params);
             SRegistry.registerItem(GemSickle.class, "Sickle" + s, params);
+//            if (i < 12) {
+//                SRegistry.registerItem(GemBow.class, "Bow" + s, new Object[] { params[0], params[1] });
+//            }
         }
         
         params[0] = ModMaterials.toolFish;
