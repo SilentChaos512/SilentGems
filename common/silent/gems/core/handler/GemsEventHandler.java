@@ -85,10 +85,10 @@ public class GemsEventHandler {
             boolean isSilkTouching, int fortuneLevel) {
 
         // Debug
-        if (block instanceof IShearable) {
-            LogHelper.list(((IShearable) block).isShearable(sickle, world, x, y, z), isSilkTouching);
-        }
-        LogHelper.list(block.getUnlocalizedName(), meta);
+//        if (block instanceof IShearable) {
+//            LogHelper.list(((IShearable) block).isShearable(sickle, world, x, y, z), isSilkTouching);
+//        }
+//        LogHelper.list(block.getUnlocalizedName(), meta);
 
         // For some reason, silk touch is set to false for things like vines.
         if (!isSilkTouching && EnchantmentHelper.getEnchantmentLevel(Enchantment.silkTouch.effectId, sickle) > 0) {

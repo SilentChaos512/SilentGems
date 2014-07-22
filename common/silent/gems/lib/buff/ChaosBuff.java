@@ -20,7 +20,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ChaosBuff {
     
-    public final static boolean FLIGHT_IS_BROKEN = true;
+    /**
+     * LOL
+     */
+    public final static boolean FLIGHT_IS_BROKEN = false;
 
     public final static String SPEED = "speed";
     public final static String HASTE = "haste";
@@ -66,7 +69,7 @@ public class ChaosBuff {
         addBuff(SPEED,              4, Potion.moveSpeed.id,         20, Items.gold_ingot);
         addBuff(HASTE,              4, Potion.digSpeed.id,          20, Items.glowstone_dust);
         addBuff(JUMP,               4, Potion.jump.id,              10, CraftingMaterial.getStack(Names.PLUME));
-        addBuff(FLIGHT,             4, -1,                          80, CraftingMaterial.getStack(Names.GOLDEN_PLUME));
+        addBuff(FLIGHT,             1, -1,                         120, CraftingMaterial.getStack(Names.GOLDEN_PLUME));
         addBuff(NIGHT_VISION,       1, Potion.nightVision.id,       10, Items.golden_carrot);
         addBuff(REGENERATION,       2, Potion.regeneration.id,      50, Items.ghast_tear);
         addBuff(RESISTANCE,         2, Potion.resistance.id,        40, Items.leather_chestplate);
@@ -108,7 +111,7 @@ public class ChaosBuff {
 
         // Apply other effects here.
         if (name.equals(FLIGHT)) {
-            //player.capabilities.allowFlying = true;
+            player.capabilities.allowFlying = true;
         }
     }
     
@@ -121,6 +124,7 @@ public class ChaosBuff {
         // Apply other effects here.
         if (name.equals(FLIGHT)) {
             player.capabilities.allowFlying = false;
+            player.capabilities.isFlying = false;
         }
     }
 
