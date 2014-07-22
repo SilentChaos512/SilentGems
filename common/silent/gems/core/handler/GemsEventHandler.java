@@ -63,6 +63,7 @@ public class GemsEventHandler {
                                         event.world, x, y, z, event.isSilkTouching, event.fortuneLevel)) {
                                     event.drops.add(stack);
                                 }
+                                
                                 // Break block
                                 event.world.setBlockToAir(x, y, z);
                                 break;
@@ -71,13 +72,17 @@ public class GemsEventHandler {
                     }
                 }
             }
+            
+            if (sickle.attemptDamageItem(1, random)) {
+//                sickle.stackSize = 0;
+//                sickle = null;
+                event.harvester.inventory.setInventorySlotContents(event.harvester.inventory.currentItem, null);
+            }
         }
     }
 
     private ArrayList<ItemStack> getSickleDropsForBlock(ItemStack sickle, Block block, int meta, World world, int x, int y, int z,
             boolean isSilkTouching, int fortuneLevel) {
-
-        sickle.attemptDamageItem(1, random);
 
         // Debug
         if (block instanceof IShearable) {
