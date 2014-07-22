@@ -48,11 +48,11 @@ public class GemHoe extends ItemHoe {
         }
 
         if (supercharged) {
-            GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { "gg ", " s ", " s ", 'g', material, 's',
+            GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { "gg", " s", " s", 'g', material, 's',
                     CraftingMaterial.getStack(Names.ORNATE_STICK) }));
         }
         else {
-            GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { "gg ", " s ", " s ", 'g', material, 's', "stickWood" }));
+            GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { "gg", " s", " s", 'g', material, 's', "stickWood" }));
         }
     }
 

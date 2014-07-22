@@ -56,11 +56,11 @@ public class GemShovel extends ItemSpade {
         }
 
         if (supercharged) {
-            GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { " g ", " s ", " s ", 'g', material, 's',
+            GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { "g", "s", "s", 'g', material, 's',
                     new ItemStack(SRegistry.getItem(Names.CRAFTING_MATERIALS), 1, 0) }));
         }
         else {
-            GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { " g ", " s ", " s ", 'g', material, 's', "stickWood" }));
+            GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { "g", "s", "s", 'g', material, 's', "stickWood" }));
         }
     }
 

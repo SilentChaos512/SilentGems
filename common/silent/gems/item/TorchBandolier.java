@@ -102,6 +102,8 @@ public class TorchBandolier extends ItemSG {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
                 Items.leather, 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
+            "materialLeather", 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
             new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE), 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC }));
     }
     
