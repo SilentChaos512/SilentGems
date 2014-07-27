@@ -28,14 +28,11 @@ public class DecorateToolRecipe implements IRecipe {
 
     public ItemStack getStackInRowAndColumn(InventoryCrafting inventorycrafting, int row, int column, int gridWidth) {
 
-        if (row >= 0 && row < gridWidth) {
+        if (row >= 0 && row < gridWidth && column >= 0 && column < gridWidth) {
             int slot = row + column * gridWidth;
-            if (slot > 0 && slot < inventorycrafting.getSizeInventory()) {
+            if (slot >= 0 && slot < inventorycrafting.getSizeInventory()) {
                 return inventorycrafting.getStackInSlot(slot);
             }
-        }
-        else {
-            LogHelper.derp("DecorateToolRecipe.getStackInRowAndColumn");
         }
         
         return null;
@@ -104,19 +101,9 @@ public class DecorateToolRecipe implements IRecipe {
         // Get tool row/column
         row = toolSlot % gridWidth;
         column = toolSlot / gridWidth;
-        // LogHelper.list(row, column, toolSlot);
 
         // Slots directly adjacent to tool may be a gem, wool, rod, or null.
-        // Item[] items = new Item[4];
         ItemStack[] stacks = new ItemStack[4];
-        // stack = getStackInRowAndColumn(inventorycrafting, row - 1, column, gridWidth);
-        // items[0] = stack == null ? null : stack.getItem();
-        // stack = getStackInRowAndColumn(inventorycrafting, row + 1, column, gridWidth);
-        // items[1] = stack == null ? null : stack.getItem();
-        // stack = getStackInRowAndColumn(inventorycrafting, row, column - 1, gridWidth);
-        // items[2] = stack == null ? null : stack.getItem();
-        // stack = getStackInRowAndColumn(inventorycrafting, row, column + 1, gridWidth);
-        // items[3] = stack == null ? null : stack.getItem();
         stacks[0] = getStackInRowAndColumn(inventorycrafting, row - 1, column, gridWidth);
         stacks[1] = getStackInRowAndColumn(inventorycrafting, row + 1, column, gridWidth);
         stacks[2] = getStackInRowAndColumn(inventorycrafting, row, column - 1, gridWidth);

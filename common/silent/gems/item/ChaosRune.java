@@ -29,6 +29,7 @@ public class ChaosRune extends ItemSG {
         rarity = EnumRarity.rare;
     }
     
+    @SuppressWarnings("unused")
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
