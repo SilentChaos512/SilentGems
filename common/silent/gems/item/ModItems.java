@@ -37,6 +37,8 @@ public class ModItems {
         for (int i = 0; i < EnumGem.all().length; ++i) {
             SRegistry.registerItem(ChaosGem.class, Names.CHAOS_GEM + i, new Object[] { i });
         }
+        SRegistry.registerItem(ChaosGem.class, Names.CHAOS_GEM + ChaosGem.CHEATY_GEM_ID, new Object[] { ChaosGem.CHEATY_GEM_ID });
+        
         // Register tools.
         int gem;
         Object[] params = new Object[] { null, 0, false }; // Constructor parameters

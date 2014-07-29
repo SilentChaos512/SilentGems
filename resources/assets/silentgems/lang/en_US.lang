@@ -107,8 +107,10 @@ item.silentgems:ChaosGem8.name=Chaos Iolite
 item.silentgems:ChaosGem9.name=Chaos Amethyst
 item.silentgems:ChaosGem10.name=Chaos Morganite
 item.silentgems:ChaosGem11.name=Chaos Onyx
+item.silentgems:ChaosGem42.name=Super Cheaty Chaos Gem
 item.silentgems:ChaosGem.desc=Craft with Chaos Runes to get effects.
 item.silentgems:ChaosGem.ChargePerSecond=charge/s
+item.silentgems:ChaosGem.Cheaty=Cheater!
 item.silentgems:ChaosGem.Disabled=Disabled
 item.silentgems:ChaosGem.Enabled=Enabled
 

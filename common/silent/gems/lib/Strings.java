@@ -31,6 +31,7 @@ public class Strings {
     public static final String CHAOS_GEM_BUFF_LIST = "buff";
     public static final String CHAOS_GEM_BUFF_LEVEL = "lvl";
     public static final String CHAOS_GEM_CHARGE = "charge";
+    public static final String CHAOS_GEM_CHEATY = "cheaty";
     public static final String CHAOS_GEM_ENABLED = "enabled";
     public static final String TELEPORTER_LINKER_STATE = "state";
     public static final String TOOL_ICON_DECO = "Deco";

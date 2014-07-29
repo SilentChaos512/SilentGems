@@ -22,6 +22,7 @@ import silent.gems.lib.buff.ChaosBuff;
 public class ChaosGem extends ItemSG {
 
     public final static int MAX_STACK_DAMAGE = 10;
+    public final static int CHEATY_GEM_ID = 42;
 
     private final int gemId;
 
@@ -86,30 +87,35 @@ public class ChaosGem extends ItemSG {
             list.add(EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Disabled"));
         }
 
-        // Charge level
-        int k = stack.stackTagCompound.getInteger(Strings.CHAOS_GEM_CHARGE);
-        list.add(EnumChatFormatting.YELLOW + String.format("%d / %d", k, getMaxChargeLevel(stack)));
-
-        // Charge change rate
-        k = enabled ? -getTotalChargeDrain(stack) : getRechargeAmount(stack);
-        list.add(EnumChatFormatting.DARK_GRAY + (k >= 0 ? "+" : "") + k + " "
-                + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "ChargePerSecond"));
-
-        if (stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
-            // Display list of effects.
-            NBTTagList tags = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
-            NBTTagCompound t;
-            int id, lvl;
-            for (int i = 0; i < tags.tagCount(); ++i) {
-                t = (NBTTagCompound) tags.getCompoundTagAt(i);
-                id = t.getShort(Strings.CHAOS_GEM_BUFF_ID);
-                lvl = t.getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
-                list.add(ChaosBuff.all.get(id).getDisplayName(lvl));
-            }
+        if (isCheatyGem(stack)) {
+            list.add(EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Cheaty"));
         }
         else {
-            // Information on how to use.
-            list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0));
+            // Charge level
+            int k = stack.stackTagCompound.getInteger(Strings.CHAOS_GEM_CHARGE);
+            list.add(EnumChatFormatting.YELLOW + String.format("%d / %d", k, getMaxChargeLevel(stack)));
+    
+            // Charge change rate
+            k = enabled ? -getTotalChargeDrain(stack) : getRechargeAmount(stack);
+            list.add(EnumChatFormatting.DARK_GRAY + (k >= 0 ? "+" : "") + k + " "
+                    + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "ChargePerSecond"));
+    
+            if (stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
+                // Display list of effects.
+                NBTTagList tags = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
+                NBTTagCompound t;
+                int id, lvl;
+                for (int i = 0; i < tags.tagCount(); ++i) {
+                    t = (NBTTagCompound) tags.getCompoundTagAt(i);
+                    id = t.getShort(Strings.CHAOS_GEM_BUFF_ID);
+                    lvl = t.getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
+                    list.add(ChaosBuff.all.get(id).getDisplayName(lvl));
+                }
+            }
+            else {
+                // Information on how to use.
+                list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0));
+            }
         }
     }
 
@@ -127,6 +133,9 @@ public class ChaosGem extends ItemSG {
         }
         if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
             stack.stackTagCompound.setTag(Strings.CHAOS_GEM_BUFF_LIST, new NBTTagList());
+        }
+        if (this.gemId == CHEATY_GEM_ID && !stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_CHEATY)) {
+            stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_CHEATY, true);
         }
 
         NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
@@ -178,6 +187,11 @@ public class ChaosGem extends ItemSG {
             else {
                 removeEffects(stack, player);
             }
+        }
+
+        // Cheaty gem? Don't do charge
+        if (isCheatyGem(stack)) {
+            return;
         }
 
         // Update charge level
@@ -337,7 +351,7 @@ public class ChaosGem extends ItemSG {
                 applyEffects(stack, player);
             }
         }
-        
+
         return stack;
     }
 
@@ -373,5 +387,11 @@ public class ChaosGem extends ItemSG {
         }
 
         return gem;
+    }
+
+    public static boolean isCheatyGem(ItemStack gem) {
+
+        return gem != null && gem.stackTagCompound != null && gem.stackTagCompound.hasKey(Strings.CHAOS_GEM_CHEATY)
+                && gem.stackTagCompound.getBoolean(Strings.CHAOS_GEM_CHEATY);
     }
 }
