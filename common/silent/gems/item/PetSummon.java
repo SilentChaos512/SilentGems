@@ -102,7 +102,7 @@ public class PetSummon extends ItemSG {
 
             // Make it tame and set master.
             pet.setTamed(true);
-            pet.setOwner(player.getCommandSenderName());
+            pet.func_152115_b(player.getUniqueID().toString());
             world.setEntityState(pet, (byte) 7);
 
             // Set cat skin.
