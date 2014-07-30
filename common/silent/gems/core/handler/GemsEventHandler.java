@@ -11,18 +11,18 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
-import silent.gems.SilentGems;
 import silent.gems.block.GlowRose;
 import silent.gems.configuration.Config;
 import silent.gems.control.PlayerInputMap;
 import silent.gems.core.registry.SRegistry;
-import silent.gems.core.util.LogHelper;
 import silent.gems.core.util.PlayerHelper;
 import silent.gems.enchantment.ModEnchantments;
 import silent.gems.item.ChaosGem;
@@ -30,11 +30,11 @@ import silent.gems.item.TorchBandolier;
 import silent.gems.item.tool.GemSickle;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
+import silent.gems.lib.Strings;
 import silent.gems.lib.buff.ChaosBuff;
-import silent.gems.network.MessagePlayerUpdate;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -42,7 +42,25 @@ public class GemsEventHandler {
 
     private Random random = new Random();
     private int tickPlayer = 0;
-
+    
+    @SubscribeEvent
+    public void onItemCraftedEvent(ItemCraftedEvent event) {
+        
+        if (event.craftMatrix instanceof InventoryCrafting) {
+            if (TorchBandolier.matchesRecipe((InventoryCrafting) event.craftMatrix, event.player.worldObj)) {
+                ItemStack gem = ((InventoryCrafting) event.craftMatrix).getStackInRowAndColumn(1, 1);
+                if (gem != null) {
+                    int k = gem.getItemDamage();
+                    if (event.crafting.stackTagCompound == null) {
+                        event.crafting.stackTagCompound = new NBTTagCompound();
+                    }
+                    event.crafting.stackTagCompound.setByte(Strings.TORCH_BANDOLIER_GEM, (byte) k);
+                    event.crafting.stackTagCompound.setBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL, true);
+                }
+            }
+        }
+    }
+    
     @SubscribeEvent
     public void onHarvestDropsEvent(HarvestDropsEvent event) {
 

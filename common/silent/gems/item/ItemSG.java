@@ -71,7 +71,6 @@ public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff {
         
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
     public IIcon getIconFromDamage(int meta) {
 
@@ -94,7 +93,6 @@ public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff {
         return rarity;
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list) {
 
@@ -126,14 +124,12 @@ public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff {
         return LocalizationHelper.ITEM_PREFIX + itemName;
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
     public boolean hasEffect(ItemStack stack, int pass) {
 
         return isGlowing;
     }
-
-    @SideOnly(Side.CLIENT)
+    
     @Override
     public void registerIcons(IIconRegister reg) {
 
@@ -145,7 +141,6 @@ public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff {
         }
     }
 
-    @SideOnly(Side.CLIENT)
     public void registerIconsForGemSubtypes(IIconRegister reg) {
 
         if (icons == null || icons.length != EnumGem.all().length) {

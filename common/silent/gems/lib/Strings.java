@@ -41,6 +41,7 @@ public class Strings {
     public static final String TOOL_ICON_HEAD_RIGHT = "HeadR";
     public static final String TOOL_ICON_ROD = "Rod"; // This is actually the wool, it was added before rods :(
     public static final String TORCH_BANDOLIER_AUTO_FILL = "AutoFill";
+    public static final String TORCH_BANDOLIER_GEM = "Gem";
     public static final String NBT_TE_STATE_KEY = "teState";
     public static final String NBT_CUSTOM_NAME = "CustomName";
     public static final String NBT_TE_DIRECTION_KEY = "teDirection";

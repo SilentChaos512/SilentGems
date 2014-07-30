@@ -53,10 +53,10 @@ public class SilentGems {
 		ModEnchantments.init();
 		ChaosBuff.init();
 		
-		ModItems.initItemRecipes();
-		
 		SRegistry.addRecipesAndOreDictEntries();
 		ModItems.addRandomChestGenLoot();
+		
+		ModItems.initItemRecipes();
 		
 		Config.save();
 		

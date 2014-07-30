@@ -3,20 +3,24 @@ package silent.gems.item;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.core.util.PlayerHelper;
+import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -26,6 +30,13 @@ public class TorchBandolier extends ItemSG {
     public final static String AUTO_FILL_OFF = "AutoFillOff";
     public final static String AUTO_FILL_ON = "AutoFillOn";
     public final static int MAX_DAMAGE = 1024;
+    
+    protected static ShapedOreRecipe recipe1;
+    protected static ShapedOreRecipe recipe2;
+    protected static ShapedOreRecipe recipe3;
+    
+    public final static IIcon[] gemIcons = new IIcon[EnumGem.all().length];
+    public static IIcon iconBlank;
 
     public TorchBandolier() {
 
@@ -99,12 +110,16 @@ public class TorchBandolier extends ItemSG {
     @Override
     public void addRecipes() {
 
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
-                Items.leather, 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
-            "materialLeather", 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
-            new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE), 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC }));
+        recipe1 = new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
+                Items.leather, 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC });
+        recipe2 = new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
+            "materialLeather", 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC });
+        recipe3 = new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
+            new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE), 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC });
+        
+        GameRegistry.addRecipe(recipe1);
+        GameRegistry.addRecipe(recipe2);
+        GameRegistry.addRecipe(recipe3);
     }
     
     @Override
@@ -181,5 +196,50 @@ public class TorchBandolier extends ItemSG {
         }
 
         stack.stackTagCompound.setBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL, true);
+    }
+    
+    @Override
+    public void registerIcons(IIconRegister reg) {
+
+        itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName);
+        iconBlank = reg.registerIcon(Strings.RESOURCE_PREFIX + "Blank");
+        for (int i = 0; i < gemIcons.length; ++i) {
+            gemIcons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName + "_Gem" + i);
+        }
+    }
+    
+    @Override
+    public boolean requiresMultipleRenderPasses() {
+
+        return true;
+    }
+    
+    @Override
+    public int getRenderPasses(int meta) {
+
+        return 2;
+    }
+    
+    @Override
+    public IIcon getIcon(ItemStack stack, int pass) {
+
+        if (pass == 0) {
+            return itemIcon;
+        }
+        else if (pass == 1) {
+            if (stack != null && stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TORCH_BANDOLIER_GEM)) {
+                int k = stack.stackTagCompound.getByte(Strings.TORCH_BANDOLIER_GEM);
+                if (k >= 0 && k < gemIcons.length) {
+                    return gemIcons[k];
+                }
+            }
+        }
+        
+        return iconBlank;
+    }
+    
+    public static boolean matchesRecipe(InventoryCrafting inv, World world) {
+        
+        return recipe1.matches(inv, world) || recipe2.matches(inv, world) || recipe3.matches(inv, world);
     }
 }

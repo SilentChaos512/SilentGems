@@ -14,6 +14,7 @@ import silent.gems.material.ModMaterials;
 import silent.gems.recipe.ChaosRuneRecipe;
 import silent.gems.recipe.DecorateToolRecipe;
 import silent.gems.recipe.EnchantToolRecipe;
+import silent.gems.recipe.TorchBandolierRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModItems {
@@ -79,6 +80,7 @@ public class ModItems {
         GameRegistry.addRecipe(new ChaosRuneRecipe());
         GameRegistry.addRecipe(new DecorateToolRecipe());
         GameRegistry.addRecipe(new EnchantToolRecipe());
+        GameRegistry.addRecipe(new TorchBandolierRecipe());
     }
 
     public static void addRandomChestGenLoot() {
