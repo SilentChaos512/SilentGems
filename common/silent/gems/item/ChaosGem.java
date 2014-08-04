@@ -94,12 +94,12 @@ public class ChaosGem extends ItemSG {
             // Charge level
             int k = stack.stackTagCompound.getInteger(Strings.CHAOS_GEM_CHARGE);
             list.add(EnumChatFormatting.YELLOW + String.format("%d / %d", k, getMaxChargeLevel(stack)));
-    
+
             // Charge change rate
             k = enabled ? -getTotalChargeDrain(stack) : getRechargeAmount(stack);
             list.add(EnumChatFormatting.DARK_GRAY + (k >= 0 ? "+" : "") + k + " "
                     + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "ChargePerSecond"));
-    
+
             if (stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
                 // Display list of effects.
                 NBTTagList tags = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
@@ -122,8 +122,10 @@ public class ChaosGem extends ItemSG {
     @Override
     public void addRecipes() {
 
-        RecipeHelper.addSurround(new ItemStack(this), new ItemStack(SRegistry.getBlock(Names.GEM_BLOCK), 1, gemId),
-                CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS));
+        if (this.gemId != CHEATY_GEM_ID) {
+            RecipeHelper.addSurround(new ItemStack(this), new ItemStack(SRegistry.getBlock(Names.GEM_BLOCK), 1, gemId),
+                    CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS));
+        }
     }
 
     private void applyEffects(ItemStack stack, EntityPlayer player) {
