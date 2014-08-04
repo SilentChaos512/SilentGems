@@ -13,7 +13,6 @@ import silent.gems.item.ModItems;
 import silent.gems.lib.Reference;
 import silent.gems.lib.buff.ChaosBuff;
 import silent.gems.network.MessagePlayerUpdate;
-import silent.gems.network.MyMessage;
 import silent.gems.world.GemsWorldGenerator;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
