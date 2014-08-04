@@ -99,23 +99,22 @@ public class ChaosGem extends ItemSG {
             k = enabled ? -getTotalChargeDrain(stack) : getRechargeAmount(stack);
             list.add(EnumChatFormatting.DARK_GRAY + (k >= 0 ? "+" : "") + k + " "
                     + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "ChargePerSecond"));
-
-            if (stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
-                // Display list of effects.
-                NBTTagList tags = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
-                NBTTagCompound t;
-                int id, lvl;
-                for (int i = 0; i < tags.tagCount(); ++i) {
-                    t = (NBTTagCompound) tags.getCompoundTagAt(i);
-                    id = t.getShort(Strings.CHAOS_GEM_BUFF_ID);
-                    lvl = t.getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
-                    list.add(ChaosBuff.all.get(id).getDisplayName(lvl));
-                }
+        }
+        if (stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
+            // Display list of effects.
+            NBTTagList tags = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
+            NBTTagCompound t;
+            int id, lvl;
+            for (int i = 0; i < tags.tagCount(); ++i) {
+                t = (NBTTagCompound) tags.getCompoundTagAt(i);
+                id = t.getShort(Strings.CHAOS_GEM_BUFF_ID);
+                lvl = t.getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
+                list.add(ChaosBuff.all.get(id).getDisplayName(lvl));
             }
-            else {
-                // Information on how to use.
-                list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0));
-            }
+        }
+        else {
+            // Information on how to use.
+            list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0));
         }
     }
 
