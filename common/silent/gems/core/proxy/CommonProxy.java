@@ -1,12 +1,13 @@
 package silent.gems.core.proxy;
 
+import net.minecraft.item.ItemStack;
 import silent.gems.lib.Names;
 import silent.gems.tile.TileTeleporter;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CommonProxy {
 
-	public CommonProxy() {
+    public CommonProxy() {
 
     }
 
@@ -21,6 +22,10 @@ public class CommonProxy {
     }
 
     public void registerKeyHandlers() {
+
+    }
+
+    public void doNEICheck(ItemStack stack) {
 
     }
 }
