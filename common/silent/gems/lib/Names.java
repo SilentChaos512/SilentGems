@@ -10,6 +10,10 @@ public class Names {
 	public final static String FLUFFY_PLANT = "FluffyPlant";
 	public final static String GEM_BLOCK = "GemBlock";
 	public final static String GEM_BRICK = "GemBrick";
+	public final static String GEM_LAMP = "GemLamp";
+	public final static String GEM_LAMP_LIT = "GemLamp.Lit";
+	public final static String GEM_LAMP_INV = "GemLamp.Inverted";
+	public final static String GEM_LAMP_INV_LIT = "GemLamp.Inverted.Lit";
 	public final static String GEM_ORE = "GemOre";
 	public final static String GLOW_ROSE = "GlowRose";
     public final static String MISC_BLOCKS = "MiscBlocks";

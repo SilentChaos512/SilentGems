@@ -3,6 +3,14 @@
 tile.silentgems:ChaosOre.name=Chaos Ore
 
 tile.silentgems:FluffyPlant.name=Fluffy Puff Plant
+tile.silentgems:FluffyPlant0.name=Fluffy Puff Plant
+tile.silentgems:FluffyPlant1.name=Fluffy Puff Plant
+tile.silentgems:FluffyPlant2.name=Fluffy Puff Plant
+tile.silentgems:FluffyPlant3.name=Fluffy Puff Plant
+tile.silentgems:FluffyPlant4.name=Fluffy Puff Plant
+tile.silentgems:FluffyPlant5.name=Fluffy Puff Plant
+tile.silentgems:FluffyPlant6.name=Fluffy Puff Plant
+tile.silentgems:FluffyPlant7.name=Fluffy Puff Plant
 
 tile.silentgems:GemBlock0.name=Ruby Block
 tile.silentgems:GemBlock1.name=Garnet Block
@@ -29,6 +37,19 @@ tile.silentgems:GemBrick8.name=Iolite-Speckled Brick
 tile.silentgems:GemBrick9.name=Amethyst-Speckled Brick
 tile.silentgems:GemBrick10.name=Morganite-Speckled Brick
 tile.silentgems:GemBrick11.name=Onyx-Speckled Brick
+
+tile.silentgems:GemLamp0.name=Ruby Lamp
+tile.silentgems:GemLamp1.name=Garnet Lamp
+tile.silentgems:GemLamp2.name=Topaz Lamp
+tile.silentgems:GemLamp3.name=Heliodor Lamp
+tile.silentgems:GemLamp4.name=Peridot Lamp
+tile.silentgems:GemLamp5.name=Emerald Lamp
+tile.silentgems:GemLamp6.name=Aquamarine Lamp
+tile.silentgems:GemLamp7.name=Sapphire Lamp
+tile.silentgems:GemLamp8.name=Iolite Lamp
+tile.silentgems:GemLamp9.name=Amethyst Lamp
+tile.silentgems:GemLamp10.name=Morganite Lamp
+tile.silentgems:GemLamp11.name=Onyx Lamp
 
 tile.silentgems:GemOre0.name=Ruby Ore
 tile.silentgems:GemOre1.name=Garnet Ore
