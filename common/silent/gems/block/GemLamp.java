@@ -26,7 +26,12 @@ public class GemLamp extends BlockSG {
         super(Material.redstoneLight);
         this.lit = lit;
         this.inverted = inverted;
-        this.setCreativeTab(CreativeTabs.tabDecorations);
+        if (!lit) {
+            this.setCreativeTab(CreativeTabs.tabDecorations);
+        }
+        else {
+            this.setCreativeTab(null);
+        }
         this.setHasGemSubtypes(true);
         this.setHasSubtypes(true);
 

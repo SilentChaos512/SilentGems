@@ -13,7 +13,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class GemBrick extends BlockSG {
 
-    public GemBrick() {
+    public GemBrick(String name) {
 
         super(Material.rock);
         
@@ -24,7 +24,7 @@ public class GemBrick extends BlockSG {
         setCreativeTab(CreativeTabs.tabBlock);
         setHasSubtypes(true);
         setHasGemSubtypes(true);
-        setUnlocalizedName(Names.GEM_BRICK);
+        setUnlocalizedName(name);
     }
 
     @Override
@@ -32,8 +32,15 @@ public class GemBrick extends BlockSG {
 
         String s1 = "sss";
         String s2 = "sgs";
-        for (int i = 0; i < EnumGem.all().length; ++i) {
-            GameRegistry.addShapedRecipe(new ItemStack(this, 8, i), s1, s2, s1, 'g', EnumGem.all()[i].getShard(), 's', Blocks.stonebrick);
+        if (this.blockName.equals(Names.GEM_BRICK_COATED)) {
+            for (int i = 0; i < EnumGem.all().length; ++i) {
+                GameRegistry.addShapedRecipe(new ItemStack(this, 8, i), s1, s2, s1, 'g', EnumGem.all()[i].getItem(), 's', Blocks.stonebrick);
+            }
+        }
+        else {
+            for (int i = 0; i < EnumGem.all().length; ++i) {
+                GameRegistry.addShapedRecipe(new ItemStack(this, 8, i), s1, s2, s1, 'g', EnumGem.all()[i].getShard(), 's', Blocks.stonebrick);
+            }
         }
     }
 }

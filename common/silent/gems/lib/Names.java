@@ -9,7 +9,8 @@ public class Names {
 	public final static String CHAOS_ORE = "ChaosOre";
 	public final static String FLUFFY_PLANT = "FluffyPlant";
 	public final static String GEM_BLOCK = "GemBlock";
-	public final static String GEM_BRICK = "GemBrick";
+	public final static String GEM_BRICK_COATED = "GemBrick";
+	public final static String GEM_BRICK_SPECKLED = "GemBrick.Speckled";
 	public final static String GEM_LAMP = "GemLamp";
 	public final static String GEM_LAMP_LIT = "GemLamp.Lit";
 	public final static String GEM_LAMP_INV = "GemLamp.Inverted";

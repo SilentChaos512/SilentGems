@@ -11,7 +11,8 @@ public class ModBlocks {
         SRegistry.registerBlock(GemOre.class, Names.GEM_ORE);
         SRegistry.registerBlock(ChaosOre.class, Names.CHAOS_ORE);
         SRegistry.registerBlock(GemBlock.class, Names.GEM_BLOCK);
-        SRegistry.registerBlock(GemBrick.class, Names.GEM_BRICK);
+        SRegistry.registerBlock(GemBrick.class, Names.GEM_BRICK_COATED, ItemBlockSG.class, new Object[] { Names.GEM_BRICK_COATED });
+        SRegistry.registerBlock(GemBrick.class, Names.GEM_BRICK_SPECKLED, ItemBlockSG.class, new Object[] { Names.GEM_BRICK_SPECKLED });
         SRegistry.registerBlock(MiscBlock.class, Names.MISC_BLOCKS);
         SRegistry.registerBlock(GlowRose.class, Names.GLOW_ROSE);
         SRegistry.registerBlock(Teleporter.class, Names.TELEPORTER);
