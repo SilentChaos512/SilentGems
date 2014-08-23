@@ -2,6 +2,8 @@ package silent.gems;
 
 import java.util.Random;
 
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import silent.gems.block.ModBlocks;
 import silent.gems.configuration.Config;
@@ -10,6 +12,7 @@ import silent.gems.core.proxy.CommonProxy;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.enchantment.ModEnchantments;
 import silent.gems.item.ModItems;
+import silent.gems.lib.Names;
 import silent.gems.lib.Reference;
 import silent.gems.lib.buff.ChaosBuff;
 import silent.gems.network.MessagePlayerUpdate;
@@ -89,4 +92,12 @@ public class SilentGems {
 //	    
 //	    NetworkRegistry.INSTANCE.newChannel(Reference.CHANNEL_NAME, new PacketHandler());
 //	}
+	
+	public static CreativeTabs tabSilentGems = new CreativeTabs("tabSilentGems") {
+	    
+	    @Override
+	    public Item getTabIconItem() {
+	        return SRegistry.getItem(Names.GEM_ITEM);
+	    }
+	};
 }

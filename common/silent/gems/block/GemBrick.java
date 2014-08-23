@@ -21,7 +21,6 @@ public class GemBrick extends BlockSG {
         setHardness(3.0f);
         setResistance(5.0f);
         setStepSound(Block.soundTypeStone);
-        setCreativeTab(CreativeTabs.tabBlock);
         setHasSubtypes(true);
         setHasGemSubtypes(true);
         setUnlocalizedName(name);

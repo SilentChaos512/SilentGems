@@ -18,7 +18,6 @@ public class TeleporterLinker extends ItemSG {
     public TeleporterLinker() {
 
         setMaxStackSize(1);
-        setCreativeTab(CreativeTabs.tabTools);
         setUnlocalizedName(Names.TELEPORTER_LINKER);
     }
 

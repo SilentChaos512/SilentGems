@@ -32,7 +32,6 @@ public class ChaosGem extends ItemSG {
         setMaxStackSize(1);
         setUnlocalizedName(Names.CHAOS_GEM + gemId);
         setMaxDamage(MAX_STACK_DAMAGE);
-        setCreativeTab(CreativeTabs.tabTools);
         rarity = EnumRarity.rare;
     }
 

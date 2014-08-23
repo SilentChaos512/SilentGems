@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import silent.gems.SilentGems;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.EnumGem;
@@ -38,6 +39,7 @@ public class GemSword extends ItemSword {
         this.toolMaterial = toolMaterial;
         this.setMaxDamage(toolMaterial.getMaxUses());
         addRecipe(new ItemStack(this), gemId, supercharged);
+        this.setCreativeTab(SilentGems.tabSilentGems);
     }
     
     public static void addRecipe(ItemStack tool, int gemId, boolean supercharged) {

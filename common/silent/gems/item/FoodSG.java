@@ -48,7 +48,6 @@ public class FoodSG extends ItemFood implements IAddRecipe {
         setMaxStackSize(64);
         setHasSubtypes(true);
         setMaxDamage(0);
-        setCreativeTab(CreativeTabs.tabFood);
         setUnlocalizedName(Names.FOOD);
 
         // Add secret donut effects.

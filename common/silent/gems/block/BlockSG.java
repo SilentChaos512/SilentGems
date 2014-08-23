@@ -9,6 +9,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import silent.gems.SilentGems;
 import silent.gems.core.registry.IAddRecipe;
 import silent.gems.core.registry.IAddThaumcraftStuff;
 import silent.gems.lib.EnumGem;
@@ -30,7 +31,7 @@ public class BlockSG extends Block implements IAddRecipe, IAddThaumcraftStuff {
 		setHardness(3.0f);
 		setResistance(10.0f);
 		setStepSound(Block.soundTypeMetal);
-		setCreativeTab(CreativeTabs.tabBlock);
+		setCreativeTab(SilentGems.tabSilentGems);
 		setBlockTextureName(Strings.RESOURCE_PREFIX + blockName);
 	}
 	

@@ -19,7 +19,6 @@ public class GemRod extends ItemSG {
         setHasGemSubtypes(true);
         setUnlocalizedName(Names.GEM_ROD);
         setMaxDamage(0);
-        setCreativeTab(CreativeTabs.tabMaterials);
     }
 
     @Override

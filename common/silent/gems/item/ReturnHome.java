@@ -36,7 +36,6 @@ public class ReturnHome extends ItemSG {
         super();
 
         setMaxStackSize(1);
-        setCreativeTab(CreativeTabs.tabTools);
         setUnlocalizedName(Names.RETURN_HOME);
 
         rarity = EnumRarity.uncommon;

@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import silent.gems.SilentGems;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.item.CraftingMaterial;
@@ -22,6 +23,7 @@ public class GemBow extends ItemBow {
         this.gemId = gemId;
         this.setMaxDamage(toolMaterial.getMaxUses());
         addRecipe(new ItemStack(this), gemId);
+        this.setCreativeTab(SilentGems.tabSilentGems);
     }
     
     public static void addRecipe(ItemStack tool, int gemId) {

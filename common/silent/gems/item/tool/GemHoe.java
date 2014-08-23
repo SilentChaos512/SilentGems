@@ -6,6 +6,7 @@ import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import silent.gems.SilentGems;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.item.CraftingMaterial;
@@ -36,6 +37,7 @@ public class GemHoe extends ItemHoe {
         this.supercharged = supercharged;
         this.setMaxDamage(toolMaterial.getMaxUses());
         addRecipe(new ItemStack(this), gemId, supercharged);
+        this.setCreativeTab(SilentGems.tabSilentGems);
     }
 
     public static void addRecipe(ItemStack tool, int gemId, boolean supercharged) {

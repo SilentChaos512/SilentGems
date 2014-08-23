@@ -20,7 +20,6 @@ public class GemShard extends ItemSG {
         setHasGemSubtypes(true);
         setUnlocalizedName(Names.GEM_SHARD);
         setMaxDamage(0);
-        setCreativeTab(CreativeTabs.tabMaterials);
     }
     
     @Override

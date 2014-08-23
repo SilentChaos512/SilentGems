@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
+import silent.gems.SilentGems;
 import silent.gems.core.registry.IAddRecipe;
 import silent.gems.core.registry.IAddThaumcraftStuff;
 import silent.gems.core.util.LocalizationHelper;
@@ -29,6 +30,7 @@ public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff {
 
     public ItemSG() {
 
+        setCreativeTab(SilentGems.tabSilentGems);
     }
 
     @Override

@@ -24,7 +24,6 @@ public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
     public FluffyPlantSeeds() {
         
         super(SRegistry.getBlock(Names.FLUFFY_PLANT), Blocks.farmland);
-        this.setCreativeTab(CreativeTabs.tabMaterials);
         this.setUnlocalizedName(Names.FLUFFY_SEED);
         MinecraftForge.addGrassSeed(new ItemStack(this), 2);
     }

@@ -42,7 +42,6 @@ public class TorchBandolier extends ItemSG {
 
         setMaxDamage(MAX_DAMAGE);
         setMaxStackSize(1);
-        setCreativeTab(CreativeTabs.tabTools);
         setUnlocalizedName(Names.TORCH_BANDOLIER);
     }
 

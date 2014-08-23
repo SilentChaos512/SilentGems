@@ -37,7 +37,6 @@ public class Gem extends ItemSG {
         setHasSubtypes(true);
         setHasGemSubtypes(true);
         setMaxDamage(0);
-        setCreativeTab(CreativeTabs.tabMaterials);
         setUnlocalizedName(Names.GEM_ITEM);
     }
 

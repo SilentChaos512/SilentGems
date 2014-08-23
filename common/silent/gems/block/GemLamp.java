@@ -11,6 +11,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import silent.gems.SilentGems;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.RecipeHelper;
 import silent.gems.lib.EnumGem;
@@ -27,7 +28,7 @@ public class GemLamp extends BlockSG {
         this.lit = lit;
         this.inverted = inverted;
         if (!lit) {
-            this.setCreativeTab(CreativeTabs.tabDecorations);
+            this.setCreativeTab(SilentGems.tabSilentGems);
         }
         else {
             this.setCreativeTab(null);

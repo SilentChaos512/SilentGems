@@ -41,7 +41,6 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
         setHardness(12.0f);
         setResistance(12.0f);
         setStepSound(Block.soundTypeGlass);
-        setCreativeTab(CreativeTabs.tabBlock);
         setHasSubtypes(true);
         setHasGemSubtypes(true);
         setUnlocalizedName(Names.TELEPORTER);

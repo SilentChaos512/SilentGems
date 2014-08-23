@@ -40,7 +40,6 @@ public class CraftingMaterial extends ItemSG {
         setMaxStackSize(64);
         setHasSubtypes(true);
         setMaxDamage(0);
-        setCreativeTab(CreativeTabs.tabMaterials);
         setUnlocalizedName(Names.CRAFTING_MATERIALS);
     }
 

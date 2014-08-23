@@ -19,7 +19,6 @@ public class GemBlock extends BlockSG {
         setHardness(3.0f);
         setResistance(5.0f);
         setStepSound(Block.soundTypeStone);
-        setCreativeTab(CreativeTabs.tabBlock);
         setHasSubtypes(true);
         setHasGemSubtypes(true);
         setUnlocalizedName(Names.GEM_BLOCK);

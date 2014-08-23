@@ -18,6 +18,7 @@ public class Names {
 	public final static String GEM_ORE = "GemOre";
 	public final static String GLOW_ROSE = "GlowRose";
     public final static String MISC_BLOCKS = "MiscBlocks";
+    public final static String SMOOTH_WOOL = "SmoothWool";
     public final static String TELEPORTER = "Teleporter";
 	
 	/*

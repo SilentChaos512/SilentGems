@@ -14,6 +14,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import silent.gems.SilentGems;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.item.TorchBandolier;
@@ -46,6 +47,7 @@ public class GemPickaxe extends ItemPickaxe {
         this.supercharged = supercharged;
         this.setMaxDamage(toolMaterial.getMaxUses());
         addRecipe(new ItemStack(this), gemId, supercharged);
+        this.setCreativeTab(SilentGems.tabSilentGems);
     }
     
     public static void addRecipe(ItemStack tool, int gemId, boolean supercharged) {

@@ -24,7 +24,6 @@ public class ChaosRune extends ItemSG {
         setMaxStackSize(16);
         setHasSubtypes(true);
         setMaxDamage(0);
-        setCreativeTab(CreativeTabs.tabMaterials);
         setUnlocalizedName(Names.CHAOS_RUNE);
         rarity = EnumRarity.rare;
     }

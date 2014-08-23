@@ -20,7 +20,6 @@ public class MiscBlock extends BlockSG {
         super(Material.iron);
         icons = new IIcon[names.length];
         setHasSubtypes(true);
-        setCreativeTab(CreativeTabs.tabMaterials);
         setUnlocalizedName(Names.MISC_BLOCKS);
     }
     
