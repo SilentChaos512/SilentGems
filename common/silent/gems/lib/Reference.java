@@ -6,6 +6,6 @@ public class Reference {
     
     public final static String MOD_ID = "SilentGems";
     public final static String MOD_NAME = "Silent's Gems";
-    public final static String VERSION_NUMBER = "1.1.03";
+    public final static String VERSION_NUMBER = "1.1.04";
     public final static String CHANNEL_NAME = MOD_ID;
 }

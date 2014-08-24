@@ -25,6 +25,7 @@ public class GemLamp extends BlockSG {
     public GemLamp(boolean lit, boolean inverted) {
 
         super(Material.redstoneLight);
+        this.setHardness(0.3f);
         this.lit = lit;
         this.inverted = inverted;
         if (!lit) {

@@ -18,6 +18,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import silent.gems.SilentGems;
 import silent.gems.configuration.Config;
 import silent.gems.core.registry.IAddRecipe;
 import silent.gems.core.util.LocalizationHelper;
@@ -49,6 +50,7 @@ public class FoodSG extends ItemFood implements IAddRecipe {
         setHasSubtypes(true);
         setMaxDamage(0);
         setUnlocalizedName(Names.FOOD);
+        setCreativeTab(SilentGems.tabSilentGems);
 
         // Add secret donut effects.
         secretDonutEffects.clear();
