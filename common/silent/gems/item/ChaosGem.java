@@ -2,7 +2,6 @@ package silent.gems.item;
 
 import java.util.List;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -25,10 +24,12 @@ public class ChaosGem extends ItemSG {
     public final static int CHEATY_GEM_ID = 42;
 
     private final int gemId;
+    public final boolean isCheaty;
 
     public ChaosGem(int gemId) {
 
         this.gemId = gemId;
+        this.isCheaty = gemId == CHEATY_GEM_ID;
         setMaxStackSize(1);
         setUnlocalizedName(Names.CHAOS_GEM + gemId);
         setMaxDamage(MAX_STACK_DAMAGE);
@@ -86,8 +87,8 @@ public class ChaosGem extends ItemSG {
             list.add(EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Disabled"));
         }
 
-        if (isCheatyGem(stack)) {
-            list.add(EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Cheaty"));
+        if (this.isCheaty) {
+            list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Cheaty"));
         }
         else {
             // Charge level
@@ -190,7 +191,7 @@ public class ChaosGem extends ItemSG {
         }
 
         // Cheaty gem? Don't do charge
-        if (isCheatyGem(stack)) {
+        if (this.isCheaty) {
             return;
         }
 
@@ -339,6 +340,9 @@ public class ChaosGem extends ItemSG {
         if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_ENABLED)) {
             stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_ENABLED, false);
         }
+        if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_CHARGE)) {
+            stack.stackTagCompound.setInteger(Strings.CHAOS_GEM_CHARGE, Config.CHAOS_GEM_MAX_CHARGE.value);
+        }
 
         // Enable/disable
         boolean b = stack.stackTagCompound.getBoolean(Strings.CHAOS_GEM_ENABLED);
@@ -387,11 +391,5 @@ public class ChaosGem extends ItemSG {
         }
 
         return gem;
-    }
-
-    public static boolean isCheatyGem(ItemStack gem) {
-
-        return gem != null && gem.stackTagCompound != null && gem.stackTagCompound.hasKey(Strings.CHAOS_GEM_CHEATY)
-                && gem.stackTagCompound.getBoolean(Strings.CHAOS_GEM_CHEATY);
     }
 }
