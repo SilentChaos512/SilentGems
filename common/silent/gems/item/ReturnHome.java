@@ -65,7 +65,7 @@ public class ReturnHome extends ItemSG {
             }
         }
         else {
-            list.add(EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(itemName, BOUND_TO));
+            list.add(EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(itemName, NOT_BOUND));
         }
     }
 
@@ -94,7 +94,7 @@ public class ReturnHome extends ItemSG {
         if (stack != null && stack.stackTagCompound != null && NBTHelper.hasValidXYZD(stack.stackTagCompound)) {
             player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
         }
-        else {
+        else if (!world.isRemote) {
             PlayerHelper.addChatMessage(player, LocalizationHelper.getOtherItemKey(itemName, NOT_BOUND));
         }
 

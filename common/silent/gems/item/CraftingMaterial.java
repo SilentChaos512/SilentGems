@@ -29,8 +29,7 @@ public class CraftingMaterial extends ItemSG {
     public final static int HIDE_AFTER_META = 12;
     public final static String[] names = { Names.ORNATE_STICK, Names.MYSTERY_GOO, Names.YARN_BALL, Names.CHAOS_ESSENCE,
             Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME, Names.CHAOS_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER,
-            Names.RAWHIDE_BONE, Names.CHAOS_ESSENCE_SHARD, Names.FANCY_STICK_IRON, Names.FANCY_STICK_COPPER, Names.FANCY_STICK_TIN,
-            Names.FANCY_STICK_SILVER, Names.GILDED_STRING };
+            Names.RAWHIDE_BONE, Names.CHAOS_ESSENCE_SHARD };
 
     public CraftingMaterial() {
 
@@ -55,11 +54,6 @@ public class CraftingMaterial extends ItemSG {
 
         OreDictionary.registerOre("gemChaos", getStack(Names.CHAOS_ESSENCE));
         OreDictionary.registerOre("nuggetChaos", getStack(Names.CHAOS_ESSENCE_SHARD));
-        OreDictionary.registerOre(Strings.ORE_DICT_STICK_FANCY, getStack(Names.ORNATE_STICK));
-        OreDictionary.registerOre(Strings.ORE_DICT_STICK_FANCY, getStack(Names.FANCY_STICK_IRON));
-        OreDictionary.registerOre(Strings.ORE_DICT_STICK_FANCY, getStack(Names.FANCY_STICK_COPPER));
-        OreDictionary.registerOre(Strings.ORE_DICT_STICK_FANCY, getStack(Names.FANCY_STICK_TIN));
-        OreDictionary.registerOre(Strings.ORE_DICT_STICK_FANCY, getStack(Names.FANCY_STICK_SILVER));
     }
 
     @Override
@@ -96,21 +90,6 @@ public class CraftingMaterial extends ItemSG {
         GameRegistry.addShapedRecipe(getStack(Names.RAWHIDE_BONE, 1), " l ", "lbl", " l ", 'l', Items.leather, 'b', Items.bone);
         // Chaos Essence Shard
         RecipeHelper.addCompressionRecipe(getStack(Names.CHAOS_ESSENCE_SHARD), chaosEssence, 9);
-        // Fancy sticks
-        // addFancyStickRecipe(Names.FANCY_STICK_IRON, "ingotIron");
-        // addFancyStickRecipe(Names.FANCY_STICK_COPPER, "ingotCopper");
-        // addFancyStickRecipe(Names.FANCY_STICK_TIN, "ingotTin");
-        // addFancyStickRecipe(Names.FANCY_STICK_SILVER, "ingotSilver");
-        // Gilded string
-        // GameRegistry.addShapedRecipe(getStack(Names.GILDED_STRING, 3), "gsg", "gcg", "gsg", 'g', Items.gold_nugget,
-        // 's', Items.string, 'c',
-        // chaosEssence);
-    }
-
-    private void addFancyStickRecipe(String stickName, String materialName) {
-
-        GameRegistry.addRecipe(new ShapedOreRecipe(getStack(stickName, 4), "m m", "mcm", "m m", 'm', materialName, 'c',
-                getStack(Names.CHAOS_ESSENCE)));
     }
 
     @Override

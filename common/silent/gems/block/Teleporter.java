@@ -189,7 +189,7 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
                 player.travelToDimension(tile.destD);
             }
             player.setPositionAndUpdate(tile.destX + 0.5, tile.destY + 1, tile.destZ + 0.5);
-            player.worldObj.playSoundAtEntity(player, "mob.enderman.portal", 1.0f, 1.0f); // TODO: Doesn't seem to work anymore...
+            world.playSoundAtEntity(player, "mob.endermen.portal", 1.0f, 1.0f);
         }
         else {
             LogHelper.warning("Teleporter at " + LogHelper.coord(x, y, z) + " not found!");
