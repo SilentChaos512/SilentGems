@@ -2,20 +2,22 @@ package silent.gems.block;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import silent.gems.SilentGems;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.RecipeHelper;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
+import silent.gems.lib.Strings;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class GemLamp extends BlockSG {
 
@@ -28,7 +30,7 @@ public class GemLamp extends BlockSG {
         this.setHardness(0.3f);
         this.lit = lit;
         this.inverted = inverted;
-        if (!lit) {
+        if (this.lit == this.inverted) {
             this.setCreativeTab(SilentGems.tabSilentGems);
         }
         else {
@@ -57,11 +59,21 @@ public class GemLamp extends BlockSG {
     public void onBlockAdded(World world, int x, int y, int z) {
 
         if (!world.isRemote) {
-            if (this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
-                world.scheduleBlockUpdate(x, y, z, this, 4);
+            if (this.inverted) {
+                if (!this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
+                    world.scheduleBlockUpdate(x, y, z, this, 4);
+                }
+                else if (this.lit && world.isBlockIndirectlyGettingPowered(x, y, z)) {
+                    world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP_INV), world.getBlockMetadata(x, y, z), 2);
+                }
             }
-            else if (!this.lit && world.isBlockIndirectlyGettingPowered(x, y, z)) {
-                world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP_LIT), world.getBlockMetadata(x, y, z), 2);
+            else {
+                if (this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
+                    world.scheduleBlockUpdate(x, y, z, this, 4);
+                }
+                else if (!this.lit && world.isBlockIndirectlyGettingPowered(x, y, z)) {
+                    world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP_LIT), world.getBlockMetadata(x, y, z), 2);
+                }
             }
         }
     }
@@ -70,11 +82,21 @@ public class GemLamp extends BlockSG {
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 
         if (!world.isRemote) {
-            if (this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
-                world.scheduleBlockUpdate(x, y, z, this, 4);
+            if (this.inverted) {
+                if (!this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
+                    world.scheduleBlockUpdate(x, y, z, this, 4);
+                }
+                else if (this.lit && world.isBlockIndirectlyGettingPowered(x, y, z)) {
+                    world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP_INV), world.getBlockMetadata(x, y, z), 2);
+                }
             }
-            else if (!this.lit && world.isBlockIndirectlyGettingPowered(x, y, z)) {
-                world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP_LIT), world.getBlockMetadata(x, y, z), 2);
+            else {
+                if (this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
+                    world.scheduleBlockUpdate(x, y, z, this, 4);
+                }
+                else if (!this.lit && world.isBlockIndirectlyGettingPowered(x, y, z)) {
+                    world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP_LIT), world.getBlockMetadata(x, y, z), 2);
+                }
             }
         }
     }
@@ -82,27 +104,51 @@ public class GemLamp extends BlockSG {
     @Override
     public void updateTick(World world, int x, int y, int z, Random random) {
 
-        if (!world.isRemote && this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
-            world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP), world.getBlockMetadata(x, y, z), 2);
+        if (!world.isRemote) {
+            if (inverted) {
+                if (!this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
+                    world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP_INV_LIT), world.getBlockMetadata(x, y, z), 2);
+                }
+            }
+            else {
+                if (this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
+                    world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP), world.getBlockMetadata(x, y, z), 2);
+                }
+            }
         }
     }
 
     @Override
     public Item getItemDropped(int par1, Random random, int par3) {
 
-        return Item.getItemFromBlock(SRegistry.getBlock(Names.GEM_LAMP));
+        if (this.inverted) {
+            return Item.getItemFromBlock(SRegistry.getBlock(Names.GEM_LAMP_INV_LIT));
+        }
+        else {
+            return Item.getItemFromBlock(SRegistry.getBlock(Names.GEM_LAMP));
+        }
     }
 
     @Override
     public Item getItem(World world, int x, int y, int z) {
 
-        return Item.getItemFromBlock(SRegistry.getBlock(Names.GEM_LAMP));
+        if (this.inverted) {
+            return Item.getItemFromBlock(SRegistry.getBlock(Names.GEM_LAMP_INV_LIT));
+        }
+        else {
+            return Item.getItemFromBlock(SRegistry.getBlock(Names.GEM_LAMP));
+        }
     }
 
     @Override
     protected ItemStack createStackedBlock(int par1) {
 
-        return new ItemStack(SRegistry.getBlock(Names.GEM_LAMP));
+        if (this.inverted) {
+            return new ItemStack(SRegistry.getBlock(Names.GEM_LAMP_INV_LIT));
+        }
+        else {
+            return new ItemStack(SRegistry.getBlock(Names.GEM_LAMP));
+        }
     }
 
     @Override
@@ -114,11 +160,23 @@ public class GemLamp extends BlockSG {
                         Items.glowstone_dust });
             }
         }
-        else if (!lit && inverted) {
+        else if (lit && inverted) {
             for (int i = 0; i < EnumGem.all().length; ++i) {
                 GameRegistry.addShapelessRecipe(new ItemStack(this, 1, i), new ItemStack(SRegistry.getBlock(Names.GEM_LAMP), 1, i),
                         Blocks.redstone_torch);
             }
+        }
+    }
+
+    @Override
+    public void registerBlockIcons(IIconRegister reg) {
+
+        if (icons == null || icons.length != EnumGem.all().length) {
+            icons = new IIcon[EnumGem.all().length];
+        }
+
+        for (int i = 0; i < EnumGem.all().length; ++i) {
+            icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + (this.lit ? Names.GEM_LAMP_LIT : Names.GEM_LAMP) + i);
         }
     }
 }

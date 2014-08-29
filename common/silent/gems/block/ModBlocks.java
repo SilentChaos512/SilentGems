@@ -18,6 +18,8 @@ public class ModBlocks {
         SRegistry.registerBlock(Teleporter.class, Names.TELEPORTER);
         SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP, ItemBlockSG.class, new Object[] { false, false });
         SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_LIT, ItemBlockSG.class, new Object[] { true, false });
+        SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_INV_LIT, ItemBlockSG.class, new Object[] { true, true });
+        SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_INV, ItemBlockSG.class, new Object[] { false, true });
         SRegistry.registerBlock(FluffyPlantBlock.class, Names.FLUFFY_PLANT);
     }
 }

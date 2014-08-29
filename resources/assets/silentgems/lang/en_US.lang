@@ -94,6 +94,32 @@ tile.silentgems:GemLamp.Lit9.name=Amethyst Lamp
 tile.silentgems:GemLamp.Lit10.name=Morganite Lamp
 tile.silentgems:GemLamp.Lit11.name=Onyx Lamp
 
+tile.silentgems:GemLamp.Inverted0.name=Ruby Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted1.name=Garnet Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted2.name=Topaz Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.name=Heliodor Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.name=Peridot Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.name=Emerald Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.name=Aquamarine Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.name=Sapphire Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.name=Iolite Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.name=Amethyst Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.name=Morganite Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.name=Onyx Lamp (Inverted)
+
+tile.silentgems:GemLamp.Inverted.Lit0.name=Ruby Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.Lit1.name=Garnet Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.Lit2.name=Topaz Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.Lit3.name=Heliodor Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.Lit4.name=Peridot Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.Lit5.name=Emerald Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.Lit6.name=Aquamarine Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.Lit7.name=Sapphire Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.Lit8.name=Iolite Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.Lit9.name=Amethyst Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.Lit10.name=Morganite Lamp (Inverted)
+tile.silentgems:GemLamp.Inverted.Lit11.name=Onyx Lamp (Inverted)
+
 tile.silentgems:GemOre0.name=Ruby Ore
 tile.silentgems:GemOre1.name=Garnet Ore
 tile.silentgems:GemOre2.name=Topaz Ore
