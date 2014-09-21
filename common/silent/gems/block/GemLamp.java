@@ -117,6 +117,12 @@ public class GemLamp extends BlockSG {
             }
         }
     }
+    
+    @Override
+    protected boolean canSilkHarvest() {
+        
+        return false;
+    }
 
     @Override
     public Item getItemDropped(int par1, Random random, int par3) {
