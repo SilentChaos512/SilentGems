@@ -334,6 +334,14 @@ item.silentgems:Yarn Ball.desc=It's not shiny, but cats seem to like it.
 
 
 
+# Armor localization
+item.silentgems:CottonBoots.name=Cotton Boots
+item.silentgems:CottonChestplate.name=Cotton Tunic
+item.silentgems:CottonHelmet.name=Cotton Cap
+item.silentgems:CottonLeggings.name=Cotton Pants
+
+
+
 # Tool localization
 
 tool.silentgems:Sword0.name=Ruby Sword

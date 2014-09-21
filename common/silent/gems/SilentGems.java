@@ -15,6 +15,7 @@ import silent.gems.item.ModItems;
 import silent.gems.lib.Names;
 import silent.gems.lib.Reference;
 import silent.gems.lib.buff.ChaosBuff;
+import silent.gems.network.MessageChaosGemToggle;
 import silent.gems.network.MessagePlayerUpdate;
 import silent.gems.world.GemsWorldGenerator;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -68,6 +69,7 @@ public class SilentGems {
 		network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID);
 		int discriminator = -1;
 		network.registerMessage(MessagePlayerUpdate.Handler.class, MessagePlayerUpdate.class, ++discriminator, Side.SERVER);
+		network.registerMessage(MessageChaosGemToggle.Handler.class, MessageChaosGemToggle.class, ++discriminator, Side.SERVER);
 	}
 	
 	@EventHandler

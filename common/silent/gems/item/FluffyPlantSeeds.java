@@ -11,6 +11,7 @@ import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
 import silent.gems.core.registry.IAddRecipe;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
@@ -37,6 +38,7 @@ public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
     @Override
     public void addOreDict() {
         
+        OreDictionary.registerOre("materialCotton", this);
     }
 
     @Override

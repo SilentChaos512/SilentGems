@@ -1,6 +1,7 @@
 package silent.gems.item;
 
 import silent.gems.core.registry.SRegistry;
+import silent.gems.item.armor.ArmorSG;
 import silent.gems.item.tool.GemAxe;
 import silent.gems.item.tool.GemBow;
 import silent.gems.item.tool.GemHoe;
@@ -70,6 +71,12 @@ public class ModItems {
         SRegistry.registerItem(GemAxe.class, "AxeFish", params);
         SRegistry.registerItem(GemHoe.class, "HoeFish", params);
         SRegistry.registerItem(GemSickle.class, "SickleFish", params);
+        
+        // Register armor
+        SRegistry.registerItem(ArmorSG.class, "CottonHelmet", new Object[] { ArmorSG.materialCotton, 0, 0, "CottonHelmet" });
+        SRegistry.registerItem(ArmorSG.class, "CottonChestplate", new Object[] { ArmorSG.materialCotton, 0, 1, "CottonChestplate" });
+        SRegistry.registerItem(ArmorSG.class, "CottonLeggings", new Object[] { ArmorSG.materialCotton, 0, 2, "CottonLeggings" });
+        SRegistry.registerItem(ArmorSG.class, "CottonBoots", new Object[] { ArmorSG.materialCotton, 0, 3, "CottonBoots" });
         
         // Debug Item
         SRegistry.registerItem(DebugItem.class, Names.DEBUG_ITEM);

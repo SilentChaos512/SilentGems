@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import silent.gems.client.key.KeyTracker;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
@@ -54,7 +55,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void registerKeyHandlers() {
 
-        // TODO
+        KeyTracker.init();
     }
 
     @Override

@@ -26,18 +26,17 @@ public class Config {
      * World generation config settings
      */
 
-    public static ConfigOptionInt WORLD_GEM_CLUSTER_COUNT = new ConfigOptionInt("World.Gem.ClusterCount", 5);
+    public static ConfigOptionInt WORLD_GEM_CLUSTER_COUNT = new ConfigOptionInt("World.Gem.ClusterCount", 4);
     public static ConfigOptionInt WORLD_GEM_CLUSTER_SIZE = new ConfigOptionInt("World.Gem.ClusterSize", 8);
     public static ConfigOptionInt WORLD_GEM_MAX_HEIGHT = new ConfigOptionInt("World.Gem.MaxHeight", 40);
     public static ConfigOptionInt WORLD_CHAOS_ORE_CLUSTER_COUNT = new ConfigOptionInt("World.ChaosOre.ClusterCount", 1);
     public static ConfigOptionInt WORLD_CHAOS_ORE_CLUSTER_SIZE = new ConfigOptionInt("World.ChaosOre.ClusterSize", 20);
     public static ConfigOptionInt WORLD_CHAOS_ORE_MAX_HEIGHT = new ConfigOptionInt("World.ChaosOre.MaxHeight", 20);
-    public static ConfigOptionInt WORLD_CHAOS_ORE_RARITY = new ConfigOptionInt("World.ChaosOre.Rarity", 2);
+    public static ConfigOptionInt WORLD_CHAOS_ORE_RARITY = new ConfigOptionInt("World.ChaosOre.Rarity", 1);
     public static ConfigOptionInt WORLD_FLOWERS_PER_CHUNK = new ConfigOptionInt("World.FlowersPerChunk", 1);
 
     /*
-     * **************
-     * Config Handler **************
+     * Config Handler
      */
 
     private static Configuration c;

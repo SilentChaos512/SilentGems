@@ -23,6 +23,9 @@ import silent.gems.core.util.PlayerHelper;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
+import thaumcraft.api.ThaumcraftApi;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TorchBandolier extends ItemSG {
@@ -30,11 +33,11 @@ public class TorchBandolier extends ItemSG {
     public final static String AUTO_FILL_OFF = "AutoFillOff";
     public final static String AUTO_FILL_ON = "AutoFillOn";
     public final static int MAX_DAMAGE = 1024;
-    
+
     protected static ShapedOreRecipe recipe1;
     protected static ShapedOreRecipe recipe2;
     protected static ShapedOreRecipe recipe3;
-    
+
     public final static IIcon[] gemIcons = new IIcon[EnumGem.all().length];
     public static IIcon iconBlank;
 
@@ -109,21 +112,28 @@ public class TorchBandolier extends ItemSG {
     @Override
     public void addRecipes() {
 
-        recipe1 = new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
-                Items.leather, 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC });
-        recipe2 = new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
-            "materialLeather", 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC });
+        recipe1 = new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l', Items.leather,
+                's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC });
+        recipe2 = new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l', "materialLeather",
+                's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC });
         recipe3 = new ShapedOreRecipe(new ItemStack(this, 1, MAX_DAMAGE), true, new Object[] { "lll", "sgs", "lll", 'l',
-            new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE), 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC });
-        
+                new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE), 's', "stickWood", 'g', Strings.ORE_DICT_GEM_BASIC });
+
         GameRegistry.addRecipe(recipe1);
         GameRegistry.addRecipe(recipe2);
         GameRegistry.addRecipe(recipe3);
     }
-    
+
+    @Override
+    public void addThaumcraftStuff() {
+
+        ThaumcraftApi.registerObjectTag(new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE),
+                (new AspectList()).add(Aspect.LIGHT, 8).add(Aspect.VOID, 4).add(Aspect.CRYSTAL, 2));
+    }
+
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list) {
-        
+
         list.add(new ItemStack(this, 1, 0));
         list.add(new ItemStack(this, 1, MAX_DAMAGE));
     }
@@ -196,7 +206,7 @@ public class TorchBandolier extends ItemSG {
 
         stack.stackTagCompound.setBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL, true);
     }
-    
+
     @Override
     public void registerIcons(IIconRegister reg) {
 
@@ -206,19 +216,19 @@ public class TorchBandolier extends ItemSG {
             gemIcons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName + "_Gem" + i);
         }
     }
-    
+
     @Override
     public boolean requiresMultipleRenderPasses() {
 
         return true;
     }
-    
+
     @Override
     public int getRenderPasses(int meta) {
 
         return 2;
     }
-    
+
     @Override
     public IIcon getIcon(ItemStack stack, int pass) {
 
@@ -233,12 +243,12 @@ public class TorchBandolier extends ItemSG {
                 }
             }
         }
-        
+
         return iconBlank;
     }
-    
+
     public static boolean matchesRecipe(InventoryCrafting inv, World world) {
-        
+
         return recipe1.matches(inv, world) || recipe2.matches(inv, world) || recipe3.matches(inv, world);
     }
 }

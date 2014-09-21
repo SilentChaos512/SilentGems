@@ -18,7 +18,7 @@ buildscript {
 apply plugin: "forge"
 
 archivesBaseName = "SilentGems"
-version = "1.7.10-1.1.04-beta"
+version = "1.7.10-1.2.01"
 minecraft.version = "1.7.10-10.13.0.1180"
 
 repositories {
