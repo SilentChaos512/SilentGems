@@ -11,30 +11,29 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 
-
 public class MessageChaosGemToggle implements IMessage {
-    
-    private String username;
-    
+
+    private boolean all;
+
     public MessageChaosGemToggle() {
-        
+
     }
-    
-    public MessageChaosGemToggle(EntityPlayer player) {
-        
-        this.username = player.getCommandSenderName();
+
+    public MessageChaosGemToggle(boolean all) {
+
+        this.all = all;
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
-
-        this.username = ByteBufUtils.readUTF8String(buf);
+        
+        this.all = ByteBufUtils.readVarShort(buf) != 0;
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
 
-        ByteBufUtils.writeUTF8String(buf, this.username);
+        ByteBufUtils.writeVarShort(buf, this.all ? 1 : 0);
     }
 
     public static class Handler implements IMessageHandler<MessageChaosGemToggle, IMessage> {
@@ -48,11 +47,13 @@ public class MessageChaosGemToggle implements IMessage {
                 for (ItemStack stack : player.inventory.mainInventory) {
                     if (stack != null && stack.getItem() instanceof ChaosGem) {
                         ((ChaosGem) stack.getItem()).onItemRightClick(stack, player.worldObj, player);
-                        return null;
+                        if (!message.all) {
+                            return null;
+                        }
                     }
                 }
             }
-            
+
             return null;
         }
     }
