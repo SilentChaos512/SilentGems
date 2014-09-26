@@ -38,7 +38,7 @@ public class GemPickaxe extends ItemPickaxe {
     public static IIcon[] iconToolHeadM = null;
     public static IIcon[] iconToolHeadR = null;
     
-    public static final Material[] extraEffectiveMaterials = { Material.circuits, Material.glass };
+    public static final Material[] extraEffectiveMaterials = { Material.circuits, Material.glass, Material.piston };
     
     public GemPickaxe(ToolMaterial toolMaterial, int gemId, boolean supercharged) {
 
