@@ -14,13 +14,14 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class ArmorSG extends ItemArmor implements IAddRecipe {
 
     public final static ArmorMaterial materialCotton = EnumHelper.addArmorMaterial("gemsCotton", 4, new int[] { 1, 2, 2, 1 }, 17);
-    
+//    public final static ArmorMaterial materialHeadphones = EnumHelper.addArmorMaterial("headphones", 12, new int[] { 5, 1, 2, 0 }, 20);
+
     private final String itemName;
 
     public ArmorSG(ArmorMaterial material, int renderIndex, int armorType, String name) {
 
         super(material, renderIndex, armorType);
-        
+
         itemName = name;
         setCreativeTab(SilentGems.tabSilentGems);
         setUnlocalizedName(name);
@@ -56,16 +57,16 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
         // TODO Auto-generated method stub
 
     }
-    
+
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        
+
         return LocalizationHelper.ITEM_PREFIX + itemName;
     }
-    
+
     @Override
     public void registerIcons(IIconRegister reg) {
-        
+
         itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName);
     }
 }

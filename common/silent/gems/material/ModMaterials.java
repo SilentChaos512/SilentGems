@@ -5,9 +5,9 @@ import net.minecraftforge.common.util.EnumHelper;
 
 public class ModMaterials {
 
-	public final static int FISH_GEM_ID = 42;
+	  public final static int FISH_GEM_ID = 42;
 	
-	public final static ToolMaterial toolRegRuby        = EnumHelper.addToolMaterial("GemRegRuby",       2, 768,  8.0f, 3.0f, 10);
+	  public final static ToolMaterial toolRegRuby        = EnumHelper.addToolMaterial("GemRegRuby",       2, 768,  8.0f, 3.0f, 10);
     public final static ToolMaterial toolRegGarnet      = EnumHelper.addToolMaterial("GemRegGarnet",     2, 512,  8.0f, 3.0f, 10);
     public final static ToolMaterial toolRegTopaz       = EnumHelper.addToolMaterial("GemRegTopaz",      2, 512, 10.0f, 4.0f, 10);
     public final static ToolMaterial toolRegHeliodor    = EnumHelper.addToolMaterial("GemRegHeliodor",   2, 384, 12.0f, 5.0f, 10);

@@ -12,6 +12,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
+import silent.gems.core.util.LogHelper;
 import silent.gems.item.CraftingMaterial;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
