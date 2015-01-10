@@ -4,9 +4,9 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
@@ -15,7 +15,7 @@ import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import silent.gems.configuration.Config;
-import silent.gems.core.util.LogHelper;
+import silent.gems.core.registry.SRegistry;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -39,22 +39,30 @@ public class GlowRose extends BlockSG implements IPlantable {
   @Override
   public void addRecipes() {
 
+    Item dyeSG = SRegistry.getItem(Names.DYE);
+
     // Flowers to dye.
     int k = 2;
-    GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 0), new ItemStack(this, 1,
+    // 0=black
+    GameRegistry.addShapelessRecipe(new ItemStack(dyeSG, k, 0), new ItemStack(this, 1,
         EnumGem.ONYX.id));
+    // 1=red
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 1), new ItemStack(this, 1,
         EnumGem.RUBY.id));
+    // 2=green
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 2), new ItemStack(this, 1,
         EnumGem.EMERALD.id));
-    // 3-brown
-    GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 4), new ItemStack(this, 1,
+    // 3=brown
+    // 4=blue
+    GameRegistry.addShapelessRecipe(new ItemStack(dyeSG, k, 4), new ItemStack(this, 1,
         EnumGem.SAPPHIRE.id));
+    // 5=purple
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 5), new ItemStack(this, 1,
         EnumGem.AMETHYST.id));
-    // 6-cyan
-    // 7-light gray
-    // 8-gray
+    // 6=cyan
+    // 7=light gray
+    // 8=gray
+    // 9=pink
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 9), new ItemStack(this, 1,
         EnumGem.MORGANITE.id));
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 10), new ItemStack(this, 1,

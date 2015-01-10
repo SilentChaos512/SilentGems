@@ -232,6 +232,9 @@ item.silentgems:CraftingMaterials.desc=Crafting material.
 item.silentgems:DebugItem.name=Debug Item
 item.silentgems:DebugItem.desc=No one here but us space chickens!
 
+item.silentgems:DyeBlack.name=Black Dye
+item.silentgems:DyeBlue.name=Blue Dye
+
 item.silentgems:EnchantmentToken.name=Enchantment Token
 item.silentgems:EnchantmentToken.desc1=Used to enchant gem tools.
 item.silentgems:EnchantmentToken.desc2=Can apply to:

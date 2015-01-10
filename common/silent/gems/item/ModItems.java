@@ -33,6 +33,7 @@ public class ModItems {
         SRegistry.registerItem(PetSummon.class, Names.SUMMON_PET);
         SRegistry.registerItem(EnchantToken.class, Names.ENCHANT_TOKEN);
         SRegistry.registerItem(ChaosRune.class, Names.CHAOS_RUNE);
+        SRegistry.registerItem(DyeSG.class, Names.DYE);
 
         // Register chaos gems.
         for (int i = 0; i < EnumGem.all().length; ++i) {
