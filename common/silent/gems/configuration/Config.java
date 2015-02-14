@@ -37,7 +37,7 @@ public class Config {
    */
 
   public static ConfigOptionInt WORLD_GEM_CLUSTER_COUNT = new ConfigOptionInt(
-      "World.Gem.ClusterCount", 4);
+      "World.Gem.ClusterCount", 6);
   public static ConfigOptionInt WORLD_GEM_CLUSTER_SIZE = new ConfigOptionInt(
       "World.Gem.ClusterSize", 8);
   public static ConfigOptionInt WORLD_GEM_MAX_HEIGHT = new ConfigOptionInt("World.Gem.MaxHeight",
@@ -45,7 +45,7 @@ public class Config {
   public static ConfigOptionInt WORLD_CHAOS_ORE_CLUSTER_COUNT = new ConfigOptionInt(
       "World.ChaosOre.ClusterCount", 1);
   public static ConfigOptionInt WORLD_CHAOS_ORE_CLUSTER_SIZE = new ConfigOptionInt(
-      "World.ChaosOre.ClusterSize", 20);
+      "World.ChaosOre.ClusterSize", 18);
   public static ConfigOptionInt WORLD_CHAOS_ORE_MAX_HEIGHT = new ConfigOptionInt(
       "World.ChaosOre.MaxHeight", 20);
   public static ConfigOptionInt WORLD_CHAOS_ORE_RARITY = new ConfigOptionInt(

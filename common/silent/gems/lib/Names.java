@@ -6,6 +6,7 @@ public class Names {
    * Blocks
    */
   public static final String CHAOS_ESSENCE_BLOCK = "ChaosEssenceBlock";
+  public static final String CHAOS_ESSENCE_BLOCK_OLD = "ChaosEssenceBlock_Old";
   public static final String CHAOS_ORE = "ChaosOre";
   public static final String FLUFFY_PLANT = "FluffyPlant";
   public static final String GEM_BLOCK = "GemBlock";
@@ -24,8 +25,14 @@ public class Names {
   /*
    * Items
    */
+  public static final String CHAOS_ESSENCE = "ChaosEssence";
   public static final String CHAOS_GEM = "ChaosGem";
+  public static final String CHAOS_REFINER = "ChaosRefiner";
   public static final String CHAOS_RUNE = "ChaosRune";
+  public static final String COTTON_HELMET = "CottonHelmet";
+  public static final String COTTON_CHESTPLATE = "CottonChestplate";
+  public static final String COTTON_LEGGINGS = "CottonLeggings";
+  public static final String COTTON_BOOTS = "CottonBoots";
   public static final String CRAFTING_MATERIALS = "CraftingMaterials";
   public static final String DEBUG_ITEM = "DebugItem";
   public static final String DYE = "Dye";
@@ -52,8 +59,8 @@ public class Names {
    */
   public static final String CHAOS_BOOSTER = "ChaosBooster";
   public static final String CHAOS_CAPACITOR = "ChaosCapacitor";
-  public static final String CHAOS_ESSENCE = "Chaos Essence";
-  public static final String CHAOS_ESSENCE_PLUS = "ChaosEssencePlus";
+  public static final String CHAOS_ESSENCE_OLD = "ChaosEssence_Old";
+  public static final String CHAOS_ESSENCE_PLUS_OLD = "ChaosEssencePlus_Old";
   public static final String CHAOS_ESSENCE_SHARD = "ChaosEssenceShard";
   public static final String CHAOS_SHARD = "ChaosShard";
   public static final String FANCY_STICK_COPPER = "FancyStickCopper";
@@ -62,11 +69,11 @@ public class Names {
   public static final String FANCY_STICK_TIN = "FancyStickTin";
   public static final String GILDED_STRING = "GildedString";
   public static final String GOLDEN_PLUME = "GoldenPlume";
-  public static final String MYSTERY_GOO = "Mystery Goo";
-  public static final String ORNATE_STICK = "Ornate Stick";
+  public static final String MYSTERY_GOO = "MysteryGoo";
+  public static final String ORNATE_STICK = "OrnateStick";
   public static final String PLUME = "Plume";
   public static final String RAWHIDE_BONE = "RawhideBone";
-  public static final String YARN_BALL = "Yarn Ball";
+  public static final String YARN_BALL = "YarnBall";
 
   /*
    * Enchantments

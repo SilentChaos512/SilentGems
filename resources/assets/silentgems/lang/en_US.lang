@@ -4,6 +4,10 @@ itemGroup.tabSilentGems=Silent's Gems
 
 # Block localizations
 
+tile.silentgems:ChaosEssenceBlock0.name=Raw Chaos Essence Block
+tile.silentgems:ChaosEssenceBlock1.name=Chaos Essence Block
+tile.silentgems:ChaosEssenceBlock2.name=Enriched Chaos Essence Block
+
 tile.silentgems:ChaosOre.name=Chaos Ore
 
 tile.silentgems:FluffyPlant.name=Fluffy Puff Plant
@@ -146,7 +150,8 @@ tile.silentgems:GlowRose9.name=Amethyst Glow Rose
 tile.silentgems:GlowRose10.name=Morganite Glow Rose
 tile.silentgems:GlowRose11.name=Onyx Glow Rose
 
-tile.silentgems:MiscBlocks0.name=Chaos Essence Block
+tile.silentgems:MiscBlocks0.name=Chaos Essence Block (Deprecated)
+tile.silentgems:MiscBlocks0.desc=Crafting into the new version.
 
 tile.silentgems:Teleporter0.name=Ruby Teleporter
 tile.silentgems:Teleporter1.name=Garnet Teleporter
@@ -168,6 +173,8 @@ tile.silentgems:Teleporter.Link.Start=Teleporter link started.
 tile.silentgems:Teleporter.NoDestination=No destination set.
 tile.silentgems:Teleporter.ReturnHomeBound=Bound to Teleporter!
 
+
+
 # Item localizations
 
 item.silentgems:ChaosBooster.name=Chaos Booster
@@ -176,14 +183,27 @@ item.silentgems:ChaosBooster.desc=Not as bad as it sounds.
 item.silentgems:ChaosCapacitor.name=Chaos Capacitor
 item.silentgems:ChaosCapacitor.desc=Storage for awesome.
 
-item.silentgems:Chaos Essence.name=Chaos Essence
-item.silentgems:Chaos Essence.desc=Shiny power!
+item.silentgems:ChaosEssence.name=Chaos Essence (Deprecated)
+item.silentgems:ChaosEssence.desc=Craft into the new version.
 
-item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence
-item.silentgems:ChaosEssencePlus.desc=Maximum shiny!
+item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence (Deprecated)
+item.silentgems:ChaosEssencePlus.desc=Craft into the new version.
+
+item.silentgems:ChaosEssence0.name=Raw Chaos Essence
+item.silentgems:ChaosEssence0.desc1=It needs further
+item.silentgems:ChaosEssence0.desc2=processing...
+
+item.silentgems:ChaosEssence1.name=Chaos Essence
+item.silentgems:ChaosEssence1.desc=Shiny power!
+
+item.silentgems:ChaosEssence2.name=Enriched Chaos Essence
+item.silentgems:ChaosEssence2.desc=Maximum shiny!
 
 item.silentgems:ChaosEssenceShard.name=Chaos Essence Shard
 item.silentgems:ChaosEssenceShard.desc=Useless by itself.
+
+item.silentgems:ChaosRefiner.name=Chaos Refiner
+item.silentgems:ChaosRefiner.desc=(Maybe temporary?)
 
 item.silentgems:ChaosGem0.name=Chaos Ruby
 item.silentgems:ChaosGem1.name=Chaos Garnet
@@ -287,11 +307,11 @@ item.silentgems:MeatyStew.desc=A simple feast!
 item.silentgems:MeatyStewUncooked.name=Uncooked Meaty Stew
 item.silentgems:MeatyStewUncooked.desc=You might want to heat it up first.
 
-item.silentgems:Mystery Goo.name=Mystery Goo
-item.silentgems:Mystery Goo.desc=Feels right at home in space.
+item.silentgems:MysteryGoo.name=Mystery Goo
+item.silentgems:MysteryGoo.desc=Feels right at home in space.
 
-item.silentgems:Ornate Stick.name=Ornate Stick
-item.silentgems:Ornate Stick.desc=Bling bling.
+item.silentgems:OrnateStick.name=Ornate Stick
+item.silentgems:OrnateStick.desc=Bling bling.
 
 item.silentgems:Plume.name=Plume
 item.silentgems:Plume.desc=A bunch of feathers.
@@ -332,8 +352,8 @@ item.silentgems:TorchBandolier.desc2=Sneak-right click to change modes.
 item.silentgems:TorchBandolier.AutoFillOff=Auto-fill mode OFF.
 item.silentgems:TorchBandolier.AutoFillOn=Auto-fill mode ON.
 
-item.silentgems:Yarn Ball.name=Ball of Yarn
-item.silentgems:Yarn Ball.desc=It's not shiny, but cats seem to like it.
+item.silentgems:YarnBall.name=Ball of Yarn
+item.silentgems:YarnBall.desc=It's not shiny, but cats seem to like it.
 
 
 

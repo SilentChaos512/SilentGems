@@ -4,15 +4,14 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlockWithMetadata;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import silent.gems.block.BlockSG;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.Strings;
 
-public class ItemBlockSG extends ItemBlockWithMetadata {
+public class ItemBlockSG extends ItemBlock {
 
     protected boolean gemSubtypes = false;
     protected Block block;
@@ -20,7 +19,8 @@ public class ItemBlockSG extends ItemBlockWithMetadata {
     
     public ItemBlockSG(Block block) {
 
-        super(block, block);
+        super(block);
+        this.setMaxDamage(0);
         
         // Block and block name
         this.block = block;
@@ -28,10 +28,16 @@ public class ItemBlockSG extends ItemBlockWithMetadata {
         
         // Subtypes?
         if (block instanceof BlockSG) {
-            BlockSG b = (BlockSG) block;
-            gemSubtypes = b.getHasGemSubtypes();
-            hasSubtypes = b.getHasSubtypes();
+            BlockSG blockSG = (BlockSG) block;
+            gemSubtypes = blockSG.getHasGemSubtypes();
+            this.setHasSubtypes(blockSG.getHasSubtypes());
         }
+    }
+    
+    @Override
+    public int getMetadata(int meta) {
+      
+      return meta;
     }
 
     @Override
@@ -52,29 +58,29 @@ public class ItemBlockSG extends ItemBlockWithMetadata {
         }
     }
     
-    @Override
-    public IIcon getIconFromDamage(int meta) {
-        
-        if (hasSubtypes && block instanceof BlockSG) {
-            BlockSG b = (BlockSG) block;
-            if (b.icons != null && meta < b.icons.length) {
-                return b.icons[meta];
-            }
-        }
-        return super.getIconFromDamage(meta);
-    }
+//    @Override
+//    public IIcon getIconFromDamage(int meta) {
+//        
+//        if (hasSubtypes && block instanceof BlockSG) {
+//            BlockSG b = (BlockSG) block;
+//            if (b.icons != null && meta < b.icons.length) {
+//                return b.icons[meta];
+//            }
+//        }
+//        return super.getIconFromDamage(meta);
+//    }
     
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         
-        StringBuilder sb = new StringBuilder("tile.");
-        sb.append(Strings.RESOURCE_PREFIX);
-        sb.append(itemName);
+        String s = "tile.";
+        s += Strings.RESOURCE_PREFIX;
+        s += itemName;
         
         if (hasSubtypes) {
-            sb.append(stack.getItemDamage());
+            s += stack.getItemDamage();
         }
 
-        return sb.toString();
+        return s;
     }
 }

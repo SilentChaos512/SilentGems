@@ -2,35 +2,62 @@ package silent.gems.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import silent.gems.SilentGems;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class GemBlock extends BlockSG {
+  
+  public static final PropertyEnum VARIANT = PropertyEnum.create("variant", EnumGem.class);
 
-    public GemBlock() {
+  public GemBlock() {
 
-        super(Material.iron);
-        icons = new IIcon[EnumGem.all().length];
-        setHardness(3.0f);
-        setResistance(5.0f);
-        setStepSound(Block.soundTypeStone);
-        setHasSubtypes(true);
-        setHasGemSubtypes(true);
-        setUnlocalizedName(Names.GEM_BLOCK);
+    super(EnumGem.all().length, Material.iron);
+    setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY));
+
+    setHardness(3.0f);
+    setResistance(5.0f);
+    setStepSound(Block.soundTypeMetal);
+    
+    setHasSubtypes(true);
+    setHasGemSubtypes(true);
+    setUnlocalizedName(Names.GEM_BLOCK);
+  }
+  
+  @Override
+  public IBlockState getStateFromMeta(int meta) {
+    
+    return this.getDefaultState().withProperty(VARIANT, EnumGem.byId(meta));
+  }
+  
+  @Override
+  public int getMetaFromState(IBlockState state) {
+    
+    return ((EnumGem) state.getValue(VARIANT)).getId();
+  }
+  
+  @Override
+  protected BlockState createBlockState() {
+    
+    return new BlockState(this, new IProperty[] { VARIANT });
+  }
+
+  @Override
+  public void addRecipes() {
+
+    String s = "ggg";
+    for (int i = 0; i < EnumGem.all().length; ++i) {
+      GameRegistry.addShapedRecipe(new ItemStack(this, 1, i), s, s, s, 'g',
+          EnumGem.all()[i].getItem());
+      GameRegistry.addShapelessRecipe(new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 9, i),
+          new ItemStack(this, 1, i));
     }
-
-    @Override
-    public void addRecipes() {
-
-        String s = "ggg";
-        for (int i = 0; i < EnumGem.all().length; ++i) {
-            GameRegistry.addShapedRecipe(new ItemStack(this, 1, i), s, s, s, 'g', EnumGem.all()[i].getItem());
-            GameRegistry.addShapelessRecipe(new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 9, i), new ItemStack(this, 1, i));
-        }
-    }
+  }
 }

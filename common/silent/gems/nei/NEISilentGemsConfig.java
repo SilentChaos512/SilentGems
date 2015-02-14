@@ -16,11 +16,12 @@ public class NEISilentGemsConfig implements IConfigureNEI {
     public void loadConfig() {
 
         API.hideItem(new ItemStack(SRegistry.getBlock(Names.FLUFFY_PLANT)));
+        API.hideItem(new ItemStack(SRegistry.getItem(Names.DEBUG_ITEM)));
         for (int i = 0; i < EnumGem.all().length; ++i) {
             API.hideItem(new ItemStack(SRegistry.getBlock(Names.GEM_LAMP_LIT), 1, i));
             API.hideItem(new ItemStack(SRegistry.getBlock(Names.GEM_LAMP_INV), 1, i));
         }
-        for (int i = CraftingMaterial.HIDE_AFTER_META; i < CraftingMaterial.names.length; ++i) {
+        for (int i = CraftingMaterial.HIDE_AFTER_META; i < CraftingMaterial.NAMES.length; ++i) {
             API.hideItem(new ItemStack(SRegistry.getItem(Names.CRAFTING_MATERIALS), 1, i));
         }
     }

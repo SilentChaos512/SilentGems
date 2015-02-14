@@ -18,8 +18,12 @@ buildscript {
 apply plugin: "forge"
 
 archivesBaseName = "SilentGems"
-version = "1.7.10-1.2.01"
-minecraft.version = "1.7.10-10.13.2.1230"
+version = "1.8-1.3.00-beta"
+minecraft.version = "1.8-11.14.0.1299"
+
+minecraft {
+    mappings = "snapshot_nodoc_20150203"
+}
 
 repositories {
     mavenCentral()
@@ -30,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    compile "codechicken:NotEnoughItems:1.7.10-1.0.2.15:dev"
+    compile "codechicken:NotEnoughItems:1.8-1.0.5.82:dev"
 }
 
 sourceSets {

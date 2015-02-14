@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"variant=ruby": { "model": "SilentGems:GemOre0" },
+    "variant=garnet": { "model": "SilentGems:GemOre1" },
+    "variant=topaz": { "model": "SilentGems:GemOre2" },
+    "variant=heliodor": { "model": "SilentGems:GemOre3" },
+    "variant=peridot": { "model": "SilentGems:GemOre4" },
+    "variant=emerald": { "model": "SilentGems:GemOre5" },
+    "variant=aquamarine": { "model": "SilentGems:GemOre6" },
+    "variant=sapphire": { "model": "SilentGems:GemOre7" },
+    "variant=iolite": { "model": "SilentGems:GemOre8" },
+    "variant=amethyst": { "model": "SilentGems:GemOre9" },
+    "variant=morganite": { "model": "SilentGems:GemOre10" },
+    "variant=onyx": { "model": "SilentGems:GemOre11" }
+	}
+}
