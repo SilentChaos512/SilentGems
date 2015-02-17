@@ -23,7 +23,7 @@ public class CraftingMaterial extends ItemSG {
   public final static String[] NAMES = { Names.ORNATE_STICK, Names.MYSTERY_GOO, Names.YARN_BALL,
       Names.CHAOS_ESSENCE_OLD, Names.CHAOS_ESSENCE_PLUS_OLD, Names.PLUME, Names.GOLDEN_PLUME,
       Names.CHAOS_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER, Names.RAWHIDE_BONE,
-      Names.CHAOS_ESSENCE_SHARD };
+      Names.CHAOS_ESSENCE_SHARD, Names.GILDED_STRING };
 
   public CraftingMaterial() {
 
@@ -85,6 +85,9 @@ public class CraftingMaterial extends ItemSG {
         Items.leather, 'b', Items.bone);
     // Chaos Essence Shard
     RecipeHelper.addCompressionRecipe(getStack(Names.CHAOS_ESSENCE_SHARD), chaosEssence, 9);
+    // Gilded String
+    GameRegistry.addShapedRecipe(getStack(Names.GILDED_STRING), "sgs", "sgs", "sgs", 's',
+        Items.string, 'g', Items.gold_nugget);
   }
 
   @Override

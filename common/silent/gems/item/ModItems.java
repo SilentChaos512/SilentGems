@@ -6,6 +6,7 @@ import net.minecraftforge.oredict.RecipeSorter.Category;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.item.armor.ArmorSG;
 import silent.gems.item.tool.GemAxe;
+import silent.gems.item.tool.GemBow;
 import silent.gems.item.tool.GemHoe;
 import silent.gems.item.tool.GemPickaxe;
 import silent.gems.item.tool.GemShovel;
@@ -86,7 +87,7 @@ public class ModItems {
     for (int i = 0; i < 24; ++i) {
       boolean supercharged = i >= 12;
       gem = supercharged ? i - 12 : i;
-      params[0] = EnumGem.values()[gem].getToolMaterial(supercharged);
+      params[0] = EnumGem.byId(gem).getToolMaterial(supercharged);
       params[1] = gem;
       params[2] = supercharged;
       String s = gem + (supercharged ? "Plus" : "");
@@ -107,6 +108,14 @@ public class ModItems {
     SRegistry.registerItem(GemAxe.class, "AxeFish", params);
     SRegistry.registerItem(GemHoe.class, "HoeFish", params);
     SRegistry.registerItem(GemSickle.class, "SickleFish", params);
+    
+    // Gem bows
+    params = new Object[] { null, 0 };
+    for (int i = 0; i < EnumGem.count(); ++i) {
+      params[0] = EnumGem.byId(i).getToolMaterial(false);
+      params[1] = i;
+      SRegistry.registerItem(GemBow.class, "Bow" + i, params);
+    }
 
     // Register armor
     SRegistry.registerItem(ArmorSG.class, Names.COTTON_HELMET, new Object[] { ArmorSG.materialCotton, 0,
