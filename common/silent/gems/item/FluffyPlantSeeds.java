@@ -11,18 +11,20 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import silent.gems.SilentGems;
 import silent.gems.core.registry.IAddRecipe;
+import silent.gems.core.registry.IHasVariants;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.Names;
-import silent.gems.lib.Strings;
 
-public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
+public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe, IHasVariants {
 
   public FluffyPlantSeeds() {
 
     super(SRegistry.getBlock(Names.FLUFFY_PLANT), Blocks.farmland);
     this.setUnlocalizedName(Names.FLUFFY_SEED);
+    this.setCreativeTab(SilentGems.tabSilentGems);
     MinecraftForge.addGrassSeed(new ItemStack(this), 2);
   }
 
@@ -51,5 +53,23 @@ public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
   public String getUnlocalizedName(ItemStack stack) {
 
     return LocalizationHelper.ITEM_PREFIX + Names.FLUFFY_SEED;
+  }
+
+  @Override
+  public String[] getVariantNames() {
+
+    return new String[] { getFullName() };
+  }
+
+  @Override
+  public String getName() {
+
+    return Names.FLUFFY_SEED;
+  }
+
+  @Override
+  public String getFullName() {
+
+    return SilentGems.MOD_ID + ":" + getName();
   }
 }
