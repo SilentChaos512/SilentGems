@@ -15,7 +15,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import silent.gems.SilentGems;
 import silent.gems.configuration.Config;
@@ -25,13 +24,12 @@ import silent.gems.core.util.LocalizationHelper;
 import silent.gems.core.util.PlayerHelper;
 import silent.gems.core.util.RecipeHelper;
 import silent.gems.lib.Names;
-import silent.gems.lib.Reference;
 
 public class FoodSG extends ItemFood implements IAddRecipe, IHasVariants {
 
   public final static String[] NAMES = { Names.POTATO_STICK, Names.SUGAR_COOKIE,
       Names.SECRET_DONUT, Names.MEATY_STEW_UNCOOKED, Names.MEATY_STEW };
-  
+
   public final static int[] foodLevel = { 8, 2, 6, 4, 12 };
   public final static float[] saturationLevel = { 0.8f, 0.4f, 0.8f, 0.6f, 1.6f };
   public final static boolean[] alwaysEdible = { false, true, false, false, false };
@@ -81,14 +79,6 @@ public class FoodSG extends ItemFood implements IAddRecipe, IHasVariants {
   }
 
   @Override
-  public void addOreDict() {
-
-    // This fixes a crash caused by cooking Meaty Stew in a TC4 Infernal Furnace (this probably doesn't matter
-    // anymore, Forge issue)
-    OreDictionary.registerOre("foodMeatyStewUncooked", getStack(Names.MEATY_STEW_UNCOOKED, 1));
-  }
-
-  @Override
   public void addRecipes() {
 
     // Potato on a Stick
@@ -109,27 +99,32 @@ public class FoodSG extends ItemFood implements IAddRecipe, IHasVariants {
     GameRegistry.addSmelting(getStack(Names.MEATY_STEW_UNCOOKED, 1), getStack(Names.MEATY_STEW, 1),
         0.5f);
   }
-  
+
+  @Override
+  public void addOreDict() {
+
+  }
+
   @Override
   public String[] getVariantNames() {
-    
+
     String[] result = new String[NAMES.length];
     for (int i = 0; i < result.length; ++i) {
-      result[i] = Reference.MOD_ID + ":" + NAMES[i];
+      result[i] = SilentGems.MOD_ID + ":" + NAMES[i];
     }
     return result;
   }
-  
+
   @Override
   public String getName() {
-    
+
     return Names.FOOD;
   }
-  
+
   @Override
   public String getFullName() {
-    
-    return Reference.MOD_ID + ":" + Names.FOOD;
+
+    return SilentGems.MOD_ID + ":" + Names.FOOD;
   }
 
   private void addSecretDonutEffect(World world, EntityPlayer player) {
@@ -217,14 +212,6 @@ public class FoodSG extends ItemFood implements IAddRecipe, IHasVariants {
     super.onFoodEaten(stack, world, player);
   }
 
-//  @Override
-//  public void registerIcons(IIconRegister iconRegister) {
-//
-//    for (int i = 0; i < names.length; ++i) {
-//      icons[i] = iconRegister.registerIcon(Strings.RESOURCE_PREFIX + names[i]);
-//    }
-//  }
-
   @Override
   public int getHealAmount(ItemStack stack) {
 
@@ -242,16 +229,6 @@ public class FoodSG extends ItemFood implements IAddRecipe, IHasVariants {
 
     return false;
   }
-
-//  @Override
-//  public IIcon getIconFromDamage(int meta) {
-//
-//    if (hasSubtypes && icons != null && meta < icons.length) {
-//      return icons[meta];
-//    } else {
-//      return super.getIconFromDamage(meta);
-//    }
-//  }
 
   @Override
   public void getSubItems(Item item, CreativeTabs tab, List list) {

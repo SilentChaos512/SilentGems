@@ -44,7 +44,7 @@ public class TorchBandolierRecipe implements IRecipe {
       if (stack != null) {
         if (stack.getItem() instanceof TorchBandolier) {
           bandolier = stack;
-        } else if (stack.getItem() instanceof Gem && stack.getItemDamage() < EnumGem.all().length) {
+        } else if (stack.getItem() instanceof Gem && stack.getItemDamage() < EnumGem.count()) {
           gem = stack;
         }
       }

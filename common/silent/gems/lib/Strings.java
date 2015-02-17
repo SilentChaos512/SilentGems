@@ -1,13 +1,13 @@
 package silent.gems.lib;
 
-public class Strings {
+import silent.gems.SilentGems;
 
-	public final static String EMPTY = "";
+public class Strings {
 	
 	/*
      * Localization prefix
      */
-    public static final String RESOURCE_PREFIX = Reference.MOD_ID.toLowerCase() + ":";
+    public static final String RESOURCE_PREFIX = SilentGems.MOD_ID.toLowerCase() + ":";
     public static final String BUFF_RESOURCE_PREFIX = "buff." + RESOURCE_PREFIX;
     
     /*
@@ -19,10 +19,7 @@ public class Strings {
     /*
      * Item information
      */
-//    public final static String GEM_MATERIAL_DAMAGE = "Gem.Damage";
-//    public final static String GEM_MATERIAL_EFFICIENCY = "Gem.Efficiency";
-//    public final static String GEM_MATERIAL_MAX_USES = "Gem.MaxUses";
-//    public final static String GEM_MATERIAL_TOOL_PROPERTIES = "Gem.ToolProperties";
+    // Nothing
     
     /*
      * NBT related constants
@@ -39,7 +36,7 @@ public class Strings {
     public static final String TOOL_ICON_HEAD_LEFT = "HeadL";
     public static final String TOOL_ICON_HEAD_MIDDLE = "HeadM";
     public static final String TOOL_ICON_HEAD_RIGHT = "HeadR";
-    public static final String TOOL_ICON_ROD = "Rod"; // This is actually the wool, it was added before rods :(
+    public static final String TOOL_ICON_ROD = "Rod";
     public static final String TORCH_BANDOLIER_AUTO_FILL = "AutoFill";
     public static final String TORCH_BANDOLIER_GEM = "Gem";
     public static final String NBT_TE_STATE_KEY = "teState";

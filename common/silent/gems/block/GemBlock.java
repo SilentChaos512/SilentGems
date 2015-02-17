@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import silent.gems.SilentGems;
 import silent.gems.core.registry.SRegistry;
+import silent.gems.core.util.RecipeHelper;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 
@@ -19,11 +20,11 @@ public class GemBlock extends BlockSG {
 
   public GemBlock() {
 
-    super(EnumGem.all().length, Material.iron);
+    super(EnumGem.count(), Material.iron);
     setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY));
 
     setHardness(3.0f);
-    setResistance(5.0f);
+    setResistance(30.0f);
     setStepSound(Block.soundTypeMetal);
     
     setHasSubtypes(true);
@@ -51,13 +52,11 @@ public class GemBlock extends BlockSG {
 
   @Override
   public void addRecipes() {
-
-    String s = "ggg";
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      GameRegistry.addShapedRecipe(new ItemStack(this, 1, i), s, s, s, 'g',
-          EnumGem.all()[i].getItem());
-      GameRegistry.addShapelessRecipe(new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 9, i),
-          new ItemStack(this, 1, i));
+    
+    for (int i = 0; i < EnumGem.count(); ++i) {
+      ItemStack gem = EnumGem.values()[i].getItem();
+      ItemStack block = EnumGem.values()[i].getBlock();
+      RecipeHelper.addCompressionRecipe(gem, block, 9);
     }
   }
 }

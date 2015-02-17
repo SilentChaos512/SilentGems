@@ -183,11 +183,11 @@ item.silentgems:ChaosBooster.desc=Not as bad as it sounds.
 item.silentgems:ChaosCapacitor.name=Chaos Capacitor
 item.silentgems:ChaosCapacitor.desc=Storage for awesome.
 
-item.silentgems:ChaosEssence.name=Chaos Essence (Deprecated)
-item.silentgems:ChaosEssence.desc=Craft into the new version.
+item.silentgems:ChaosEssence_Old.name=Chaos Essence (Deprecated)
+item.silentgems:ChaosEssence_Old.desc=Craft into the new version.
 
-item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence (Deprecated)
-item.silentgems:ChaosEssencePlus.desc=Craft into the new version.
+item.silentgems:ChaosEssencePlus_Old.name=Enriched Chaos Essence (Deprecated)
+item.silentgems:ChaosEssencePlus_Old.desc=Craft into the new version.
 
 item.silentgems:ChaosEssence0.name=Raw Chaos Essence
 item.silentgems:ChaosEssence0.desc1=It needs further
@@ -203,7 +203,8 @@ item.silentgems:ChaosEssenceShard.name=Chaos Essence Shard
 item.silentgems:ChaosEssenceShard.desc=Useless by itself.
 
 item.silentgems:ChaosRefiner.name=Chaos Refiner
-item.silentgems:ChaosRefiner.desc=(Maybe temporary?)
+item.silentgems:ChaosRefiner.desc1=Doesn't get consumed.
+item.silentgems:ChaosRefiner.desc2=(Maybe temporary?)
 
 item.silentgems:ChaosGem0.name=Chaos Ruby
 item.silentgems:ChaosGem1.name=Chaos Garnet
@@ -271,6 +272,8 @@ item.silentgems:Food.desc=Foodstuffs.
 # Gem
 item.silentgems:Gem.Decorate1=Can be crafted with gem tools
 item.silentgems:Gem.Decorate2=to retexture the tools.
+item.silentgems:Gem.Decorate3=(Texture changing does not work
+item.silentgems:Gem.Decorate4=at this time.)
 
 item.silentgems:GemRod0.name=Ruby Rod
 item.silentgems:GemRod1.name=Garnet Rod

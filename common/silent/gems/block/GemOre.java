@@ -16,8 +16,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import silent.gems.SilentGems;
-import silent.gems.core.registry.IAddRecipe;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
@@ -28,11 +26,11 @@ public class GemOre extends BlockSG {
 
   public GemOre() {
 
-    super(EnumGem.all().length, Material.rock);
+    super(EnumGem.count(), Material.rock);
     setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY));
     
     setHardness(3.0f);
-    setResistance(5.0f);
+    setResistance(15.0f);
     setStepSound(Block.soundTypeStone);
     setHarvestLevel("pickaxe", 2);
 
@@ -44,25 +42,25 @@ public class GemOre extends BlockSG {
   @Override
   public void addOreDict() {
 
-    OreDictionary.registerOre("oreRuby", new ItemStack(this, 1, EnumGem.RUBY.id));
-    OreDictionary.registerOre("oreGarnet", new ItemStack(this, 1, EnumGem.GARNET.id));
-    OreDictionary.registerOre("oreTopaz", new ItemStack(this, 1, EnumGem.TOPAZ.id));
-    OreDictionary.registerOre("oreHeliodor", new ItemStack(this, 1, EnumGem.HELIODOR.id));
-    OreDictionary.registerOre("orePeridot", new ItemStack(this, 1, EnumGem.PERIDOT.id));
-    OreDictionary.registerOre("oreEmerald", new ItemStack(this, 1, EnumGem.EMERALD.id));
-    OreDictionary.registerOre("oreAquamarine", new ItemStack(this, 1, EnumGem.AQUAMARINE.id));
-    OreDictionary.registerOre("oreSapphire", new ItemStack(this, 1, EnumGem.SAPPHIRE.id));
-    OreDictionary.registerOre("oreIolite", new ItemStack(this, 1, EnumGem.IOLITE.id));
-    OreDictionary.registerOre("oreAmethyst", new ItemStack(this, 1, EnumGem.AMETHYST.id));
-    OreDictionary.registerOre("oreMorganite", new ItemStack(this, 1, EnumGem.MORGANITE.id));
-    OreDictionary.registerOre("oreOnyx", new ItemStack(this, 1, EnumGem.ONYX.id));
+    OreDictionary.registerOre("oreRuby", new ItemStack(this, 1, EnumGem.RUBY.getId()));
+    OreDictionary.registerOre("oreGarnet", new ItemStack(this, 1, EnumGem.GARNET.getId()));
+    OreDictionary.registerOre("oreTopaz", new ItemStack(this, 1, EnumGem.TOPAZ.getId()));
+    OreDictionary.registerOre("oreHeliodor", new ItemStack(this, 1, EnumGem.HELIODOR.getId()));
+    OreDictionary.registerOre("orePeridot", new ItemStack(this, 1, EnumGem.PERIDOT.getId()));
+    OreDictionary.registerOre("oreEmerald", new ItemStack(this, 1, EnumGem.EMERALD.getId()));
+    OreDictionary.registerOre("oreAquamarine", new ItemStack(this, 1, EnumGem.AQUAMARINE.getId()));
+    OreDictionary.registerOre("oreSapphire", new ItemStack(this, 1, EnumGem.SAPPHIRE.getId()));
+    OreDictionary.registerOre("oreIolite", new ItemStack(this, 1, EnumGem.IOLITE.getId()));
+    OreDictionary.registerOre("oreAmethyst", new ItemStack(this, 1, EnumGem.AMETHYST.getId()));
+    OreDictionary.registerOre("oreMorganite", new ItemStack(this, 1, EnumGem.MORGANITE.getId()));
+    OreDictionary.registerOre("oreOnyx", new ItemStack(this, 1, EnumGem.ONYX.getId()));
   }
 
   @Override
   public void addRecipes() {
 
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      GameRegistry.addSmelting(new ItemStack(this, 1, i), EnumGem.all()[i].getItem(), 0.5f);
+    for (int i = 0; i < EnumGem.count(); ++i) {
+      GameRegistry.addSmelting(new ItemStack(this, 1, i), EnumGem.byId(i).getItem(), 0.5f);
     }
   }
 
@@ -84,8 +82,8 @@ public class GemOre extends BlockSG {
   @Override
   public void getSubBlocks(Item item, CreativeTabs tab, List list) {
     
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      list.add(new ItemStack(item, 1, EnumGem.all()[i].getId()));
+    for (int i = 0; i < EnumGem.count(); ++i) {
+      list.add(new ItemStack(item, 1, EnumGem.byId(i).getId()));
     }
   }
   

@@ -50,7 +50,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
       y = random.nextInt(Config.WORLD_GEM_MAX_HEIGHT.value);
       z = chunkZ + random.nextInt(16);
       pos = new BlockPos(x, y, z);
-      int meta = random.nextInt(EnumGem.all().length);
+      int meta = random.nextInt(EnumGem.count());
       EnumGem gemType = EnumGem.byId(meta);
       state = block.getDefaultState().withProperty(GemOre.VARIANT, gemType);
       count = random.nextInt(Config.WORLD_GEM_CLUSTER_SIZE.value);
@@ -94,7 +94,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
       int z = chunkZ + random.nextInt(16);
       BlockPos pos = new BlockPos(x, y, z);
       
-      int meta = random.nextInt(EnumGem.all().length);
+      int meta = random.nextInt(EnumGem.count());
       EnumGem gemType = EnumGem.byId(meta);
       IBlockState state = flower.getDefaultState().withProperty(GlowRose.VARIANT, gemType);
 

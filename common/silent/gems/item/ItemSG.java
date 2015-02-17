@@ -15,11 +15,9 @@ import silent.gems.core.registry.IAddThaumcraftStuff;
 import silent.gems.core.registry.IHasVariants;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.EnumGem;
-import silent.gems.lib.Reference;
 
 public class ItemSG extends Item implements IAddRecipe, IHasVariants, IAddThaumcraftStuff {
 
-  // public IIcon[] icons = null;
   protected int subItemCount = 1;
   protected boolean gemSubtypes = false;
   protected String itemName = "null";
@@ -72,17 +70,6 @@ public class ItemSG extends Item implements IAddRecipe, IHasVariants, IAddThaumc
 
   }
 
-  // @Override
-  // public IIcon getIconFromDamage(int meta) {
-  //
-  // if (hasSubtypes && icons != null && meta < icons.length) {
-  // return icons[meta];
-  // }
-  // else {
-  // return super.getIconFromDamage(meta);
-  // }
-  // }
-
   public String getLocalizedName(ItemStack stack) {
 
     return StatCollector.translateToLocal(getUnlocalizedName(stack) + ".name");
@@ -131,7 +118,7 @@ public class ItemSG extends Item implements IAddRecipe, IHasVariants, IAddThaumc
 
   public String getFullName() {
 
-    return Reference.MOD_ID + ":" + itemName;
+    return SilentGems.MOD_ID + ":" + itemName;
   }
 
   @Override
@@ -140,7 +127,7 @@ public class ItemSG extends Item implements IAddRecipe, IHasVariants, IAddThaumc
     int d = stack.getItemDamage();
     String s = LocalizationHelper.ITEM_PREFIX + itemName;
 
-    if ((gemSubtypes && d < EnumGem.all().length) || hasSubtypes) {
+    if ((gemSubtypes && d < EnumGem.count()) || hasSubtypes) {
       s += d;
     }
 
@@ -157,28 +144,6 @@ public class ItemSG extends Item implements IAddRecipe, IHasVariants, IAddThaumc
 
     return isGlowing;
   }
-
-  // @Override
-  // public void registerIcons(IIconRegister reg) {
-  //
-  // if (gemSubtypes) {
-  // registerIconsForGemSubtypes(reg);
-  // }
-  // else {
-  // itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName);
-  // }
-  // }
-
-  // public void registerIconsForGemSubtypes(IIconRegister reg) {
-  //
-  // if (icons == null || icons.length != EnumGem.all().length) {
-  // icons = new IIcon[EnumGem.all().length];
-  // }
-  //
-  // for (int i = 0; i < EnumGem.all().length; ++i) {
-  // icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + this.itemName + EnumGem.all()[i].id);
-  // }
-  // }
 
   public void setHasGemSubtypes(boolean value) {
 

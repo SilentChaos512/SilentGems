@@ -16,37 +16,10 @@ import silent.gems.item.tool.GemSword;
 
 public class InventoryHelper {
 
-//  public static void breakExtraBlock(ItemStack stack, World world, int x, int y, int z, int side,
-//      EntityPlayer player) {
-//
-//    if (world.isAirBlock(x, y, z)) {
-//      return;
-//    }
-//
-//    Block block = world.getBlock(x, y, z);
-//    int meta = world.getBlockMetadata(x, y, z);
-//
-//    // TODO: Check for effective material?
-//
-//    if (!ForgeHooks.canHarvestBlock(block, player, meta)
-//        || ForgeHooks.blockStrength(block, player, world, x, y, z) <= 0.0001f) {
-//      return;
-//    }
-//
-//    if (player.capabilities.isCreativeMode) {
-//      block.onBlockHarvested(world, x, y, z, meta, player);
-//      if (block.removedByPlayer(world, player, x, y, z, false)) {
-//        block.onBlockDestroyedByPlayer(world, x, y, z, meta);
-//      }
-//
-//      if (!world.isRemote) {
-//        // TODO: send update to client?
-//      }
-//    }
-//  }
-
-  /*
-   * Returns true if the ItemStack is a gem sword/pickaxe/shovel/axe/hoe.
+  /**
+   * Returns true if the ItemStack is a gem sword/pickaxe/shovel/axe/hoe/sickle.
+   * @param stack
+   * @return
    */
   public static boolean isGemTool(ItemStack stack) {
 

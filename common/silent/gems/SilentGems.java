@@ -25,18 +25,21 @@ import silent.gems.core.registry.SRegistry;
 import silent.gems.enchantment.ModEnchantments;
 import silent.gems.item.ModItems;
 import silent.gems.lib.Names;
-import silent.gems.lib.Reference;
 import silent.gems.lib.buff.ChaosBuff;
 import silent.gems.network.MessageChaosGemToggle;
-import silent.gems.network.MessagePlayerUpdate;
 import silent.gems.world.GemsWorldGenerator;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION_NUMBER)
+@Mod(modid = SilentGems.MOD_ID, name = SilentGems.MOD_NAME, version = SilentGems.VERSION_NUMBER)
 public class SilentGems {
+  
+  public static final String MOD_ID = "SilentGems";
+  public static final String MOD_NAME = "Silent's Gems";
+  public static final String VERSION_NUMBER = "1.3.00";
+  public static final String CHANNEL_NAME = MOD_ID;
 
   public Random random = new Random();
 
-  @Instance(Reference.MOD_ID)
+  @Instance(SilentGems.MOD_ID)
   public static SilentGems instance;
 
   @SidedProxy(clientSide = "silent.gems.core.proxy.ClientProxy", serverSide = "silent.gems.core.proxy.CommonProxy")
@@ -63,10 +66,8 @@ public class SilentGems {
     MinecraftForge.EVENT_BUS.register(new GemsEventHandler());
     FMLCommonHandler.instance().bus().register(new GemsEventHandler());
 
-    network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID);
+    network = NetworkRegistry.INSTANCE.newSimpleChannel(SilentGems.MOD_ID);
     int discriminator = -1;
-    network.registerMessage(MessagePlayerUpdate.Handler.class, MessagePlayerUpdate.class,
-        ++discriminator, Side.SERVER);
     network.registerMessage(MessageChaosGemToggle.Handler.class, MessageChaosGemToggle.class,
         ++discriminator, Side.SERVER);
   }
@@ -92,11 +93,11 @@ public class SilentGems {
     SRegistry.addThaumcraftStuff();
   }
 
-  // @EventHandler
-  // public void serverLoad(FMLServerStartingEvent event) {
-  //
-  // NetworkRegistry.INSTANCE.newChannel(Reference.CHANNEL_NAME, new PacketHandler());
-  // }
+//   @EventHandler
+//   public void serverLoad(FMLServerStartingEvent event) {
+//  
+//     NetworkRegistry.INSTANCE.newChannel(SilentGems.CHANNEL_NAME, new PacketHandler());
+//   }
 
   public static CreativeTabs tabSilentGems = new CreativeTabs("tabSilentGems") {
 

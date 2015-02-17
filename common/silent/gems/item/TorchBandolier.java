@@ -33,9 +33,6 @@ public class TorchBandolier extends ItemSG {
   protected static ShapedOreRecipe recipe2;
   protected static ShapedOreRecipe recipe3;
 
-//  public final static IIcon[] gemIcons = new IIcon[EnumGem.all().length];
-//  public static IIcon iconBlank;
-
   public TorchBandolier() {
 
     super(1);
@@ -182,12 +179,8 @@ public class TorchBandolier extends ItemSG {
     ItemStack fakeTorchStack = new ItemStack(Blocks.torch);
     Item torch = fakeTorchStack.getItem();
 
-//    int px = x + d.offsetX;
-//    int py = y + d.offsetY;
-//    int pz = z + d.offsetZ;
     BlockPos torchPos = pos.offset(side);
 
-//    used = torch.onItemUse(fakeTorchStack, player, world, x, y, z, side, hitX, hitY, hitZ);
     used = torch.onItemUse(fakeTorchStack, player, world, torchPos, side, hitX, hitY, hitZ);
     if (used) {
       stack.damageItem(1, player);
@@ -204,46 +197,6 @@ public class TorchBandolier extends ItemSG {
 
     stack.getTagCompound().setBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL, true);
   }
-
-//  @Override
-//  public void registerIcons(IIconRegister reg) {
-//
-//    itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName);
-//    iconBlank = reg.registerIcon(Strings.RESOURCE_PREFIX + "Blank");
-//    for (int i = 0; i < gemIcons.length; ++i) {
-//      gemIcons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName + "_Gem" + i);
-//    }
-//  }
-
-//  @Override
-//  public boolean requiresMultipleRenderPasses() {
-//
-//    return true;
-//  }
-
-//  @Override
-//  public int getRenderPasses(int meta) {
-//
-//    return 2;
-//  }
-
-//  @Override
-//  public IIcon getIcon(ItemStack stack, int pass) {
-//
-//    if (pass == 0) {
-//      return itemIcon;
-//    } else if (pass == 1) {
-//      if (stack != null && stack.stackTagCompound != null
-//          && stack.stackTagCompound.hasKey(Strings.TORCH_BANDOLIER_GEM)) {
-//        int k = stack.stackTagCompound.getByte(Strings.TORCH_BANDOLIER_GEM);
-//        if (k >= 0 && k < gemIcons.length) {
-//          return gemIcons[k];
-//        }
-//      }
-//    }
-//
-//    return iconBlank;
-//  }
 
   public static boolean matchesRecipe(InventoryCrafting inv, World world) {
 

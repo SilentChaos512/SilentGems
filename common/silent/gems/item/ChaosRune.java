@@ -8,9 +8,9 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import silent.gems.SilentGems;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.Names;
-import silent.gems.lib.Reference;
 import silent.gems.lib.Strings;
 import silent.gems.lib.buff.ChaosBuff;
 
@@ -80,7 +80,7 @@ public class ChaosRune extends ItemSG {
   @Override
   public String getFullName() {
     
-    return Reference.MOD_ID + ":" + Names.CHAOS_RUNE;
+    return SilentGems.MOD_ID + ":" + Names.CHAOS_RUNE;
   }
 
   @Override

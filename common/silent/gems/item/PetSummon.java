@@ -2,13 +2,10 @@ package silent.gems.item;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityWolf;
@@ -26,9 +23,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import silent.gems.SilentGems;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.Names;
-import silent.gems.lib.Reference;
 import silent.gems.lib.Strings;
 
 public class PetSummon extends ItemSG {
@@ -75,7 +72,7 @@ public class PetSummon extends ItemSG {
 
     String[] result = new String[NAMES.length];
     for (int i = 0; i < result.length; ++i) {
-      result[i] = Reference.MOD_ID + ":" + NAMES[i];
+      result[i] = SilentGems.MOD_ID + ":" + NAMES[i];
     }
     return result;
   }
@@ -122,9 +119,6 @@ public class PetSummon extends ItemSG {
         d0 = 0.5D;
       }
 
-      // Entity entity = spawnCreature(world, stack.getMetadata(), (double) pos.getX() + 0.5D,
-      // (double) pos.getY() + d0, (double) pos.getZ() + 0.5D);
-
       EntityTameable pet;
       if (stack.getItemDamage() == 0) {
         pet = new EntityOcelot(world);
@@ -139,7 +133,6 @@ public class PetSummon extends ItemSG {
           MathHelper.wrapAngleTo180_float(world.rand.nextFloat() * 360.0F), 0.0F);
       pet.rotationYawHead = pet.rotationYaw;
       pet.renderYawOffset = pet.rotationYaw;
-      // pet.func_180482_a(world.getDifficultyForLocation(new BlockPos(pet)), (IEntityLivingData)null);
       world.spawnEntityInWorld(pet);
       pet.playLivingSound();
 
@@ -172,12 +165,4 @@ public class PetSummon extends ItemSG {
       return true;
     }
   }
-
-  // @Override
-  // public void registerIcons(IIconRegister iconRegister) {
-  //
-  // for (int i = 0; i < NAMES.length; ++i) {
-  // icons[i] = iconRegister.registerIcon(Strings.RESOURCE_PREFIX + NAMES[i]);
-  // }
-  // }
 }

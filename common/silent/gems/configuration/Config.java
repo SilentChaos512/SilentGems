@@ -62,21 +62,14 @@ public class Config {
   /*
    * Config categories
    */
-  public static final String CATEGORY_KEYBIND = "keybindings";
-  public static final String CATEGORY_GRAPHICS = "graphics";
-  public static final String CATEGORY_AUDIO = "audio";
   public static final String CATEGORY_ENCHANTMENT = "enchantment";
   public static final String CATEGORY_WORLD = "world";
   public static final String CATEGORY_WORLD_GEN = CATEGORY_WORLD + Configuration.CATEGORY_SPLITTER
       + "generation";
-  public static final String CATEGORY_WORLD_STRUCTURE = CATEGORY_WORLD
-      + Configuration.CATEGORY_SPLITTER + "structure";
   public static final String CATEGORY_BLOCK_PROPERTIES = "block" + Configuration.CATEGORY_SPLITTER
       + "properties";
   public static final String CATEGORY_ITEM_PROPERTIES = "item" + Configuration.CATEGORY_SPLITTER
       + "properties";
-  public static final String CATEGORY_DURABILITY = "item" + Configuration.CATEGORY_SPLITTER
-      + "durability";
 
   public static void init(File file) {
 

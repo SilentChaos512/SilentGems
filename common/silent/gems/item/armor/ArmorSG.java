@@ -9,12 +9,11 @@ import silent.gems.SilentGems;
 import silent.gems.core.registry.IAddRecipe;
 import silent.gems.core.registry.IHasVariants;
 import silent.gems.core.util.LocalizationHelper;
-import silent.gems.lib.Reference;
 
 public class ArmorSG extends ItemArmor implements IAddRecipe, IHasVariants {
 
-  public final static ArmorMaterial materialCotton = EnumHelper.addArmorMaterial("gemsCotton", "cotton", 4,
-      new int[] { 1, 2, 2, 1 }, 17);
+  public final static ArmorMaterial materialCotton = EnumHelper.addArmorMaterial("gemsCotton",
+      "cotton", 4, new int[] { 1, 2, 2, 1 }, 17);
   // public final static ArmorMaterial materialHeadphones = EnumHelper.addArmorMaterial("headphones", 12, new int[] { 5,
   // 1, 2, 0 }, 20);
 
@@ -28,22 +27,22 @@ public class ArmorSG extends ItemArmor implements IAddRecipe, IHasVariants {
     setCreativeTab(SilentGems.tabSilentGems);
     setUnlocalizedName(name);
   }
-  
+
   @Override
   public String getName() {
-    
+
     return itemName;
   }
-  
+
   @Override
   public String getFullName() {
-    
-    return Reference.MOD_ID + ":" + itemName;
+
+    return SilentGems.MOD_ID + ":" + itemName;
   }
-  
+
   @Override
   public String[] getVariantNames() {
-    
+
     return new String[] { getFullName() };
   }
 
@@ -75,8 +74,6 @@ public class ArmorSG extends ItemArmor implements IAddRecipe, IHasVariants {
   @Override
   public void addOreDict() {
 
-    // TODO Auto-generated method stub
-
   }
 
   @Override
@@ -84,10 +81,4 @@ public class ArmorSG extends ItemArmor implements IAddRecipe, IHasVariants {
 
     return LocalizationHelper.ITEM_PREFIX + itemName;
   }
-
-//  @Override
-//  public void registerIcons(IIconRegister reg) {
-//
-//    itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName);
-//  }
 }

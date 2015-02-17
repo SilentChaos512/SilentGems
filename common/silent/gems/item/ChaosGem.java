@@ -30,7 +30,7 @@ public class ChaosGem extends ItemSG {
 
   public ChaosGem(int gemId) {
 
-    super(EnumGem.all().length + 1);
+    super(EnumGem.count() + 1);
 
     this.gemId = gemId;
     this.isCheaty = gemId == CHEATY_GEM_ID;

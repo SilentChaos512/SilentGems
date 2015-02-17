@@ -9,7 +9,6 @@ import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.item.CraftingMaterial;
 import silent.gems.lib.Names;
-import silent.gems.lib.Reference;
 
 public class GemBow extends ItemBow implements IHasVariants {
 
@@ -40,7 +39,7 @@ public class GemBow extends ItemBow implements IHasVariants {
   @Override
   public String getFullName() {
 
-    return Reference.MOD_ID + ":" + getName();
+    return SilentGems.MOD_ID + ":" + getName();
   }
 
   public static void addRecipe(ItemStack tool, int gemId) {
@@ -49,26 +48,6 @@ public class GemBow extends ItemBow implements IHasVariants {
     GameRegistry.addShapedRecipe(tool, " rs", "r s", " rs", 'r', material, 's',
         CraftingMaterial.getStack(Names.GILDED_STRING));
   }
-
-//  @Override
-//  public IIcon getIcon(ItemStack stack, int pass) {
-//
-//    return super.getIcon(stack, pass);
-//    // TODO Fancy decorations!
-//  }
-
-//  @Override
-//  public int getRenderPasses(int meta) {
-//
-//    // TODO: How many?
-//    return 6;
-//  }
-
-//  @Override
-//  public boolean requiresMultipleRenderPasses() {
-//
-//    return true;
-//  }
 
   @Override
   public boolean getIsRepairable(ItemStack stack1, ItemStack stack2) {
@@ -87,16 +66,6 @@ public class GemBow extends ItemBow implements IHasVariants {
 
     return LocalizationHelper.TOOL_PREFIX + "Bow" + gemId;
   }
-
-//  @Override
-//  public void registerIcons(IIconRegister reg) {
-//
-//    // TODO register icons!
-//
-//    String s = Strings.RESOURCE_PREFIX + "Bow";
-//
-//    super.registerIcons(reg); // temp
-//  }
 
   public int getGemId() {
 

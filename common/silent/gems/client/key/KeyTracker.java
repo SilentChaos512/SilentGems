@@ -9,7 +9,6 @@ import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import org.lwjgl.input.Keyboard;
 
 import silent.gems.SilentGems;
-import silent.gems.lib.Reference;
 import silent.gems.network.MessageChaosGemToggle;
 
 public class KeyTracker {
@@ -27,9 +26,10 @@ public class KeyTracker {
   public KeyTracker() {
 
     chaosGemToggleFirst = new KeyBinding("Chaos Gem - Toggle First", Keyboard.KEY_F,
-        Reference.MOD_NAME);
+        SilentGems.MOD_NAME);
     ClientRegistry.registerKeyBinding(chaosGemToggleFirst);
-    chaosGemToggleAll = new KeyBinding("Chaos Gem - Toggle All", Keyboard.KEY_H, Reference.MOD_NAME);
+    chaosGemToggleAll = new KeyBinding("Chaos Gem - Toggle All", Keyboard.KEY_H,
+        SilentGems.MOD_NAME);
     ClientRegistry.registerKeyBinding(chaosGemToggleAll);
   }
 

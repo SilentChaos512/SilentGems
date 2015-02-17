@@ -7,8 +7,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +15,6 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.entity.player.BonemealEvent;
@@ -28,10 +25,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import silent.gems.block.GlowRose;
-import silent.gems.configuration.Config;
-import silent.gems.control.PlayerInputMap;
 import silent.gems.core.registry.SRegistry;
-import silent.gems.core.util.PlayerHelper;
 import silent.gems.enchantment.ModEnchantments;
 import silent.gems.item.ChaosGem;
 import silent.gems.item.TorchBandolier;
@@ -39,7 +33,6 @@ import silent.gems.item.tool.GemSickle;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
-import silent.gems.lib.buff.ChaosBuff;
 
 public class GemsEventHandler {
 
@@ -101,14 +94,13 @@ public class GemsEventHandler {
       }
 
       if (sickle.attemptDamageItem(1, random)) {
-        // sickle.stackSize = 0;
-        // sickle = null;
         event.harvester.inventory.setInventorySlotContents(event.harvester.inventory.currentItem,
             null);
       }
     }
   }
 
+  // TODO: Sickles are broken?
   private List<ItemStack> getSickleDropsForBlock(World world, BlockPos pos, ItemStack sickle,
       boolean silkTouch, int fortune) {
 
@@ -152,8 +144,9 @@ public class GemsEventHandler {
           }
           if (event.block.getBlock() == Blocks.air
               && flower.canBlockStay(event.world, event.pos, event.block)) {
-            meta = random.nextInt(EnumGem.all().length);
-            IBlockState newState = flower.getDefaultState(); // TODO: metadata?
+            meta = random.nextInt(EnumGem.count());
+            IBlockState newState = flower.getDefaultState().withProperty(GlowRose.VARIANT,
+                EnumGem.byId(meta));
             event.world.setBlockState(event.pos, newState, 2);
           }
         }
@@ -168,9 +161,6 @@ public class GemsEventHandler {
       // Input map update
       handlePlayerInput();
     } else {
-      // Every tick:
-//      tickFlight(event.player);
-
       ++tickPlayer;
       if (tickPlayer >= 40) { // This ticks once per second. Why is it not 20?
         tickPlayer = 0;
@@ -183,25 +173,6 @@ public class GemsEventHandler {
   @SideOnly(Side.CLIENT)
   private void handlePlayerInput() {
 
-    EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-    if (player != null) {
-      PlayerInputMap inputMap = PlayerInputMap.getInputMapFor(player.getCommandSenderEntity()
-          .getName());
-      inputMap.forwardKey = Math.signum(player.movementInput.moveForward);
-      inputMap.strafeKey = Math.signum(player.movementInput.moveStrafe);
-      inputMap.jumpKey = player.movementInput.jump;
-      inputMap.sneakKey = player.movementInput.sneak;
-      inputMap.motionX = player.motionX;
-      inputMap.motionY = player.motionY;
-      inputMap.motionZ = player.motionZ;
-
-      if (inputMap.hasChanged()) {
-        inputMap.refresh();
-        // MessagePlayerUpdate message = new MessagePlayerUpdate((EntityPlayer) player, inputMap);
-        // SilentGems.network.sendToAllAround(message, new TargetPoint(player.dimension, player.posX, player.posY,
-        // player.posZ, 160));
-      }
-    }
   }
 
   private void tickInventory(EntityPlayer player) {

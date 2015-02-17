@@ -8,14 +8,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import silent.gems.SilentGems;
 import silent.gems.block.ChaosEssenceBlock;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.core.util.RecipeHelper;
 import silent.gems.lib.Names;
-import silent.gems.lib.Reference;
 import silent.gems.lib.Strings;
 
 public class CraftingMaterial extends ItemSG {
@@ -49,9 +48,9 @@ public class CraftingMaterial extends ItemSG {
   public void addRecipes() {
 
     int meta = ChaosEssenceBlock.EnumType.REGULAR.getMetadata();
-    ItemStack chaosEssence = new ItemStack(SRegistry.getItem(Names.CHAOS_ESSENCE), 1, meta);
+    ItemStack chaosEssence = new ItemStack(ModItems.chaosEssence, 1, meta);
     meta = ChaosEssenceBlock.EnumType.REFINED.getMetadata();
-    ItemStack chaosEssencePlus = new ItemStack(SRegistry.getItem(Names.CHAOS_ESSENCE), 1, meta);
+    ItemStack chaosEssencePlus = new ItemStack(ModItems.chaosEssence, 1, meta);
 
     // Ornate stick
     GameRegistry.addRecipe(getStack(Names.ORNATE_STICK, 4), "gig", "geg", "gig", 'g',
@@ -62,9 +61,9 @@ public class CraftingMaterial extends ItemSG {
     // Yarn ball
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.YARN_BALL, 1), "sss", "sgs", "sss",
         's', Items.string, 'g', Strings.ORE_DICT_GEM_SHARD));
+    // Chaos essence
+    GameRegistry.addShapelessRecipe(chaosEssence, getStack(Names.CHAOS_ESSENCE_OLD));
     // Refined chaos essence
-//    RecipeHelper.addSurround(getStack(Names.CHAOS_ESSENCE_PLUS_OLD, 1), new ItemStack(
-//        Items.glowstone_dust), new Object[] { Items.redstone, chaosEssence });
     GameRegistry.addShapelessRecipe(chaosEssencePlus, getStack(Names.CHAOS_ESSENCE_PLUS_OLD));
     // Plume
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.PLUME, 1), "fff", "fsf", "fff", 'f',
@@ -100,7 +99,7 @@ public class CraftingMaterial extends ItemSG {
     
     String[] result = new String[NAMES.length];
     for (int i = 0; i < result.length; ++i) {
-      result[i] = Reference.MOD_ID + ":" + NAMES[i];
+      result[i] = SilentGems.MOD_ID + ":" + NAMES[i];
     }
     return result;
   }
@@ -109,7 +108,7 @@ public class CraftingMaterial extends ItemSG {
 
     for (int i = 0; i < NAMES.length; ++i) {
       if (NAMES[i].equals(name)) {
-        return new ItemStack(SRegistry.getItem(Names.CRAFTING_MATERIALS), 1, i);
+        return new ItemStack(ModItems.craftingMaterial, 1, i);
       }
     }
 
@@ -120,7 +119,7 @@ public class CraftingMaterial extends ItemSG {
 
     for (int i = 0; i < NAMES.length; ++i) {
       if (NAMES[i].equals(name)) {
-        return new ItemStack(SRegistry.getItem(Names.CRAFTING_MATERIALS), count, i);
+        return new ItemStack(ModItems.craftingMaterial, count, i);
       }
     }
 
@@ -149,12 +148,4 @@ public class CraftingMaterial extends ItemSG {
 
     return stack.getItemDamage() == getStack(Names.CHAOS_ESSENCE_PLUS_OLD).getItemDamage();
   }
-
-  // @Override
-  // public void registerIcons(IIconRegister iconRegister) {
-  //
-  // for (int i = 0; i < NAMES.length; ++i) {
-  // icons[i] = iconRegister.registerIcon(Strings.RESOURCE_PREFIX + NAMES[i]);
-  // }
-  // }
 }

@@ -13,7 +13,6 @@ import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.RecipeHelper;
 import silent.gems.lib.Names;
 
-
 public class ChaosEssenceBlock extends BlockSG {
   
   public static final PropertyEnum VARIANT = PropertyEnum.create("variant", EnumType.class);

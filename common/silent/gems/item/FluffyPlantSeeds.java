@@ -52,10 +52,4 @@ public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
 
     return LocalizationHelper.ITEM_PREFIX + Names.FLUFFY_SEED;
   }
-
-//  @Override
-//  public void registerIcons(IIconRegister reg) {
-//
-//    itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + Names.FLUFFY_SEED);
-//  }
 }

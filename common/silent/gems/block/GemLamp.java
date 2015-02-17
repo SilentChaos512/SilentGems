@@ -31,7 +31,7 @@ public class GemLamp extends BlockSG {
 
   public GemLamp(boolean lit, boolean inverted) {
 
-    super(EnumGem.all().length, Material.redstoneLight);
+    super(EnumGem.count(), Material.redstoneLight);
     setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY));
     
     // Lit/inverted
@@ -44,6 +44,7 @@ public class GemLamp extends BlockSG {
     }
     
     this.setHardness(0.3f);
+    this.setResistance(3.0f);
     
     this.setHasGemSubtypes(true);
     this.setHasSubtypes(true);
@@ -187,28 +188,17 @@ public class GemLamp extends BlockSG {
   public void addRecipes() {
 
     if (!lit && !inverted) {
-      for (int i = 0; i < EnumGem.all().length; ++i) {
-        RecipeHelper.addSurround(new ItemStack(this, 1, i), EnumGem.all()[i].getItem(),
-            new Object[] { Items.redstone, Items.glowstone_dust });
+      for (int i = 0; i < EnumGem.count(); ++i) {
+        ItemStack lamp = new ItemStack(this, 1, i);
+        ItemStack gem = EnumGem.byId(i).getItem();
+        RecipeHelper.addSurround(lamp, gem, new Object[] { Items.redstone, Items.glowstone_dust });
       }
     } else if (lit && inverted) {
-      for (int i = 0; i < EnumGem.all().length; ++i) {
-        GameRegistry.addShapelessRecipe(new ItemStack(this, 1, i),
-            new ItemStack(SRegistry.getBlock(Names.GEM_LAMP), 1, i), Blocks.redstone_torch);
+      for (int i = 0; i < EnumGem.count(); ++i) {
+        ItemStack lamp = new ItemStack(this, 1, i);
+        ItemStack regLamp = new ItemStack(ModBlocks.gemLamp, 1, i);
+        GameRegistry.addShapelessRecipe(lamp, regLamp, Blocks.redstone_torch);
       }
     }
   }
-
-//  @Override
-//  public void registerBlockIcons(IIconRegister reg) {
-//
-//    if (icons == null || icons.length != EnumGem.all().length) {
-//      icons = new IIcon[EnumGem.all().length];
-//    }
-//
-//    for (int i = 0; i < EnumGem.all().length; ++i) {
-//      icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX
-//          + (this.lit ? Names.GEM_LAMP_LIT : Names.GEM_LAMP) + i);
-//    }
-//  }
 }

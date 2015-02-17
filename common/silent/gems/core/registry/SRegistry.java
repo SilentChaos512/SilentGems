@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -16,7 +15,6 @@ import silent.gems.block.BlockSG;
 import silent.gems.core.util.LogHelper;
 import silent.gems.item.ItemSG;
 import silent.gems.item.block.ItemBlockSG;
-import silent.gems.lib.Reference;
 
 public class SRegistry {
 
@@ -31,9 +29,9 @@ public class SRegistry {
    * @param key
    *          The name of the Block.
    */
-  public static void registerBlock(Class<? extends Block> blockClass, String key) {
+  public static Block registerBlock(Class<? extends Block> blockClass, String key) {
 
-    registerBlock(blockClass, key, ItemBlockSG.class);
+    return registerBlock(blockClass, key, ItemBlockSG.class);
   }
 
   /**
@@ -48,7 +46,7 @@ public class SRegistry {
    * @param constructorParams
    *          The list of parameters for the constructor (minus the ID).
    */
-  public static void registerBlock(Class<? extends Block> blockClass, String key,
+  public static Block registerBlock(Class<? extends Block> blockClass, String key,
       Class<? extends ItemBlock> itemBlockClass, Object... constructorParams) {
 
     int i;
@@ -64,9 +62,11 @@ public class SRegistry {
       Block block = (Block) c.newInstance(constructorParams);
       blocks.put(key, block);
       GameRegistry.registerBlock(block, itemBlockClass, key);
+      return block;
     } catch (Exception e) {
       LogHelper.severe("Failed to register block " + key);
       e.printStackTrace();
+      return null;
     }
   }
 
@@ -80,7 +80,7 @@ public class SRegistry {
    * @param constructorParams
    *          The list of parameters for the constructor (minus the ID).
    */
-  public static void registerItem(Class<? extends Item> itemClass, String key,
+  public static Item registerItem(Class<? extends Item> itemClass, String key,
       Object... constructorParams) {
 
     int i;
@@ -96,9 +96,11 @@ public class SRegistry {
       Item item = (Item) c.newInstance(constructorParams);
       items.put(key, item);
       GameRegistry.registerItem(item, key);
+      return item;
     } catch (Exception e) {
       LogHelper.severe("Failed to register item " + key);
       e.printStackTrace();
+      return null;
     }
   }
 
@@ -191,6 +193,9 @@ public class SRegistry {
     }
   }
   
+  /**
+   * Register models for all variants.
+   */
   public static void clientInit() {
     
     // Blocks
@@ -202,7 +207,6 @@ public class SRegistry {
         int count = variants.length;
         for (int i = 0; i < count; ++i) {
           if (variants[i] != null) {
-//            ModelResourceLocation model = new ModelResourceLocation(var.getFullName() + (count == 1 ? "" : i), "inventory");
             ModelResourceLocation model = new ModelResourceLocation(variants[i], "inventory");
             Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, i, model);
           }
@@ -218,7 +222,6 @@ public class SRegistry {
         int count = variants.length;
         for (int i = 0; i < count; ++i) {
           if (variants[i] != null) {
-//            ModelResourceLocation model = new ModelResourceLocation(var.getFullName() + (count == 1 ? "" : i), "inventory");
             ModelResourceLocation model = new ModelResourceLocation(variants[i], "inventory");
             Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, i, model);
           }
@@ -226,52 +229,6 @@ public class SRegistry {
       }
     }
   }
-
-//  public static void registerAllTextures() {
-//
-//    RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-//
-//    // Blocks
-//    for (String key : blocks.keySet()) {
-//      Block block = blocks.get(key);
-//      if (block instanceof BlockSG) {
-//        BlockSG blockSG = (BlockSG) block;
-//        int subBlockCount = blockSG.getSubBlockCount();
-//        Item item = Item.getItemFromBlock(block);
-//        
-//        renderItem.getItemModelMesher().register(item, 0,
-//            new ModelResourceLocation(blockSG.getFullName(), "inventory"));
-//        
-//        // Register model variants
-//        ModelBakery.addVariantName(item, blockSG.getVariantNames());
-////        for (int i = 0; i < subBlockCount; ++i) {
-////          renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), i,
-////              new ModelResourceLocation(blockSG.getFullName() + (subBlockCount > 1 ? i : ""),
-////                  "inventory"));
-////        }
-//      } else {
-//        renderItem.getItemModelMesher().register(Item.getItemFromBlock(block), 0,
-//            new ModelResourceLocation(Reference.MOD_ID + ":" + key, "inventory"));
-//      }
-//    }
-//
-//    // Items
-//    for (String key : items.keySet()) {
-//      Item item = items.get(key);
-//      if (item instanceof ItemSG) {
-//        ItemSG itemSG = (ItemSG) item;
-//        int subItemCount = itemSG.getSubItemCount();
-//        for (int i = 0; i < subItemCount; ++i) {
-//          renderItem.getItemModelMesher().register(item, i,
-//              new ModelResourceLocation(itemSG.getFullName() + (subItemCount > 1 ? i : ""),
-//                  "inventory"));
-//        }
-//      } else {
-//        renderItem.getItemModelMesher().register(item, 0,
-//            new ModelResourceLocation(Reference.MOD_ID + ":" + key, "inventory"));
-//      }
-//    }
-//  }
 
   /**
    * Gets the Block registered with the given key.

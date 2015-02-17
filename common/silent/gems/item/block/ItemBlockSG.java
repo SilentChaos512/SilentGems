@@ -58,18 +58,6 @@ public class ItemBlockSG extends ItemBlock {
         }
     }
     
-//    @Override
-//    public IIcon getIconFromDamage(int meta) {
-//        
-//        if (hasSubtypes && block instanceof BlockSG) {
-//            BlockSG b = (BlockSG) block;
-//            if (b.icons != null && meta < b.icons.length) {
-//                return b.icons[meta];
-//            }
-//        }
-//        return super.getIconFromDamage(meta);
-//    }
-    
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         

@@ -19,7 +19,6 @@ public class ModMaterials {
     public final static ToolMaterial toolRegAmethyst    = EnumHelper.addToolMaterial("GemRegAmethyst",   2, 512,  8.0f, 3.0f, 10);
     public final static ToolMaterial toolRegMorganite   = EnumHelper.addToolMaterial("GemRegMorganite",  2, 512, 10.0f, 4.0f, 10);
     public final static ToolMaterial toolRegOnyx        = EnumHelper.addToolMaterial("GemRegOnyx",       2, 384, 10.0f, 6.0f, 10);
-//    public final static ToolMaterial toolRegOpal 		= EnumHelper.addToolMaterial("GemRegOpal",	     2, 512, 10.0f, 4.0f, 10);
     
     private final static int dm = 4;
     private final static float ea = 4.0f;
@@ -38,7 +37,6 @@ public class ModMaterials {
     public final static ToolMaterial toolSupAmethyst    = EnumHelper.addToolMaterial("GemSupAmethyst",   ml, 512 * dm,  8.0f + ea, 3.0f + da, 14);
     public final static ToolMaterial toolSupMorganite   = EnumHelper.addToolMaterial("GemSupMorganite",  ml, 512 * dm, 10.0f + ea, 4.0f + da, 14);
     public final static ToolMaterial toolSupOnyx        = EnumHelper.addToolMaterial("GemSupOnyx",       ml, 384 * dm, 10.0f + ea, 6.0f + da, 14);
-//    public final static ToolMaterial toolSupOpal		= EnumHelper.addToolMaterial("GemSupOpal",       ml, 512 * dm, 10.0f + ea, 4.0f + da, 12);
     
     public final static ToolMaterial toolFish           = EnumHelper.addToolMaterial("GemFish", 3, 64, 3.0f, 1.0f, 20);
 }

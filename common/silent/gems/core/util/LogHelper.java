@@ -7,7 +7,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.FMLLog;
 import silent.gems.SilentGems;
-import silent.gems.lib.Reference;
 
 public class LogHelper {
 
@@ -20,7 +19,7 @@ public class LogHelper {
   private final static String SEVERE = "[SEVERE]";
   private final static String WARNING = "[WARNING]";
 
-  private static Logger logger = Logger.getLogger(Reference.MOD_ID);
+  private static Logger logger = Logger.getLogger(SilentGems.MOD_ID);
 
   public static void init() {
 
@@ -28,9 +27,8 @@ public class LogHelper {
   }
 
   public static void log(String logLevel, Object object) {
-
-    // logger.log(logLevel, object.toString());
-    System.out.println((new Date()).toString() + " [" + Reference.MOD_ID + "] " + logLevel + " "
+    
+    System.out.println((new Date()).toString() + " [" + SilentGems.MOD_ID + "] " + logLevel + " "
         + object.toString());
   }
 

@@ -30,10 +30,11 @@ public class GlowRose extends BlockSG implements IPlantable {
 
   public GlowRose() {
 
-    super(EnumGem.all().length, Material.plants);
+    super(EnumGem.count(), Material.plants);
     setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY));
     
     this.setHardness(0.0f);
+    this.setResistance(0.0f);
     this.setStepSound(Block.soundTypeGrass);
     this.setTickRandomly(true);
     
@@ -55,35 +56,35 @@ public class GlowRose extends BlockSG implements IPlantable {
     int k = 2;
     // 0=black
     GameRegistry.addShapelessRecipe(new ItemStack(dyeSG, k, 0), new ItemStack(this, 1,
-        EnumGem.ONYX.id));
+        EnumGem.ONYX.getId()));
     // 1=red
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 1), new ItemStack(this, 1,
-        EnumGem.RUBY.id));
+        EnumGem.RUBY.getId()));
     // 2=green
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 2), new ItemStack(this, 1,
-        EnumGem.EMERALD.id));
+        EnumGem.EMERALD.getId()));
     // 3=brown
     // 4=blue
     GameRegistry.addShapelessRecipe(new ItemStack(dyeSG, k, 4), new ItemStack(this, 1,
-        EnumGem.SAPPHIRE.id));
+        EnumGem.SAPPHIRE.getId()));
     // 5=purple
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 5), new ItemStack(this, 1,
-        EnumGem.AMETHYST.id));
+        EnumGem.AMETHYST.getId()));
     // 6=cyan
     // 7=light gray
     // 8=gray
     // 9=pink
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 9), new ItemStack(this, 1,
-        EnumGem.MORGANITE.id));
+        EnumGem.MORGANITE.getId()));
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 10), new ItemStack(this, 1,
-        EnumGem.PERIDOT.id));
+        EnumGem.PERIDOT.getId()));
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 11), new ItemStack(this, 1,
-        EnumGem.HELIODOR.id));
+        EnumGem.HELIODOR.getId()));
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 12), new ItemStack(this, 1,
-        EnumGem.AQUAMARINE.id));
+        EnumGem.AQUAMARINE.getId()));
     // 13-magenta
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 14), new ItemStack(this, 1,
-        EnumGem.TOPAZ.id));
+        EnumGem.TOPAZ.getId()));
   }
   
   @Override
@@ -146,23 +147,11 @@ public class GlowRose extends BlockSG implements IPlantable {
     return state;
   }
 
-  // @Override
-  // public int getPlantMetadata(IBlockAccess world, int x, int y, int z) {
-  //
-  // return world.getBlockMetadata(x, y, z);
-  // }
-
   @Override
   public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) {
 
     return EnumPlantType.Plains;
   }
-
-//  @Override
-//  public int getRenderType() {
-//
-//    return 1;
-//  }
 
   @Override
   public boolean isOpaqueCube() {
@@ -183,12 +172,6 @@ public class GlowRose extends BlockSG implements IPlantable {
     super.onNeighborBlockChange(world, pos, state, neighborBlock);
     this.checkAndDropBlock(world, pos, state);
   }
-
-  // @Override
-  // public boolean renderAsNormalBlock() {
-  //
-  // return false;
-  // }
 
   @Override
   public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {

@@ -11,8 +11,7 @@ public class GemRod extends ItemSG {
 
   public GemRod() {
 
-    super(EnumGem.all().length);
-//    icons = new IIcon[EnumGem.all().length];
+    super(EnumGem.count());
     setMaxStackSize(64);
     setHasSubtypes(true);
     setHasGemSubtypes(true);
@@ -23,16 +22,16 @@ public class GemRod extends ItemSG {
   @Override
   public void addRecipes() {
 
-    for (int i = 0; i < EnumGem.all().length; ++i) {
+    for (int i = 0; i < EnumGem.count(); ++i) {
       GameRegistry.addShapelessRecipe(new ItemStack(this, 1, i),
-          CraftingMaterial.getStack(Names.ORNATE_STICK), EnumGem.all()[i].getItem());
+          CraftingMaterial.getStack(Names.ORNATE_STICK), EnumGem.byId(i).getItem());
     }
   }
 
   @Override
   public void addOreDict() {
 
-    for (int i = 0; i < EnumGem.all().length; ++i) {
+    for (int i = 0; i < EnumGem.count(); ++i) {
       OreDictionary.registerOre(Strings.ORE_DICT_STICK_FANCY, new ItemStack(this, 1, i));
     }
   }

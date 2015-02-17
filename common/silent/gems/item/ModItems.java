@@ -20,27 +20,61 @@ import silent.gems.recipe.EnchantToolRecipe;
 import silent.gems.recipe.TorchBandolierRecipe;
 
 public class ModItems {
+  
+  public static Gem gem;
+  public static GemShard gemShard;
+  public static ChaosEssence chaosEssence;
+  public static ChaosRefiner chaosRefiner;
+  public static CraftingMaterial craftingMaterial;
+  public static FoodSG food;
+  public static TorchBandolier torchBandolier;
+  public static TeleporterLinker teleporterLinker;
+  public static FluffyPlantSeeds fluffyPuff;
+  public static ReturnHome returnHome;
+  public static PetSummon petSummon;
+  public static EnchantToken enchantmentToken;
+  public static ChaosRune chaosRune;
+  public static DyeSG dye;
 
   public static void init() {
 
-    SRegistry.registerItem(Gem.class, Names.GEM_ITEM);
-    SRegistry.registerItem(GemShard.class, Names.GEM_SHARD);
-    SRegistry.registerItem(ChaosEssence.class, Names.CHAOS_ESSENCE);
-    SRegistry.registerItem(ChaosRefiner.class, Names.CHAOS_REFINER);
-    SRegistry.registerItem(CraftingMaterial.class, Names.CRAFTING_MATERIALS);
+    gem = (Gem) SRegistry.registerItem(Gem.class, Names.GEM_ITEM);
+    
+    gemShard = (GemShard) SRegistry.registerItem(GemShard.class, Names.GEM_SHARD);
+    
+    chaosEssence = (ChaosEssence) SRegistry.registerItem(ChaosEssence.class, Names.CHAOS_ESSENCE);
+    
+    chaosRefiner = (ChaosRefiner) SRegistry.registerItem(ChaosRefiner.class, Names.CHAOS_REFINER);
+    
+    craftingMaterial = (CraftingMaterial) SRegistry.registerItem(CraftingMaterial.class,
+        Names.CRAFTING_MATERIALS);
+    
     // SRegistry.registerItem(GemRod.class, Names.GEM_ROD);
-    SRegistry.registerItem(FoodSG.class, Names.FOOD);
-    SRegistry.registerItem(TorchBandolier.class, Names.TORCH_BANDOLIER);
-    SRegistry.registerItem(TeleporterLinker.class, Names.TELEPORTER_LINKER);
-    SRegistry.registerItem(FluffyPlantSeeds.class, Names.FLUFFY_SEED);
-    SRegistry.registerItem(ReturnHome.class, Names.RETURN_HOME);
-    SRegistry.registerItem(PetSummon.class, Names.SUMMON_PET);
-    SRegistry.registerItem(EnchantToken.class, Names.ENCHANT_TOKEN);
-    SRegistry.registerItem(ChaosRune.class, Names.CHAOS_RUNE);
-    SRegistry.registerItem(DyeSG.class, Names.DYE);
+    
+    food = (FoodSG) SRegistry.registerItem(FoodSG.class, Names.FOOD);
+    
+    torchBandolier = (TorchBandolier) SRegistry.registerItem(TorchBandolier.class,
+        Names.TORCH_BANDOLIER);
+    
+    teleporterLinker = (TeleporterLinker) SRegistry.registerItem(TeleporterLinker.class,
+        Names.TELEPORTER_LINKER);
+    
+    fluffyPuff = (FluffyPlantSeeds) SRegistry.registerItem(FluffyPlantSeeds.class,
+        Names.FLUFFY_SEED);
+    
+    returnHome = (ReturnHome) SRegistry.registerItem(ReturnHome.class, Names.RETURN_HOME);
+    
+    petSummon = (PetSummon) SRegistry.registerItem(PetSummon.class, Names.SUMMON_PET);
+    
+    enchantmentToken = (EnchantToken) SRegistry.registerItem(EnchantToken.class,
+        Names.ENCHANT_TOKEN);
+    
+    chaosRune = (ChaosRune) SRegistry.registerItem(ChaosRune.class, Names.CHAOS_RUNE);
+    
+    dye = (DyeSG) SRegistry.registerItem(DyeSG.class, Names.DYE);
 
     // Register chaos gems.
-    for (int i = 0; i < EnumGem.all().length; ++i) {
+    for (int i = 0; i < EnumGem.count(); ++i) {
       SRegistry.registerItem(ChaosGem.class, Names.CHAOS_GEM + i, new Object[] { i });
     }
     SRegistry.registerItem(ChaosGem.class, Names.CHAOS_GEM + ChaosGem.CHEATY_GEM_ID,

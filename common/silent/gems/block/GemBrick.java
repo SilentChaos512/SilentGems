@@ -7,8 +7,11 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import silent.gems.core.util.RecipeHelper;
+import silent.gems.item.ModItems;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 
@@ -18,11 +21,11 @@ public class GemBrick extends BlockSG {
 
   public GemBrick(String name) {
 
-    super(EnumGem.all().length, Material.rock);
+    super(EnumGem.count(), Material.rock);
     setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY));
 
     setHardness(3.0f);
-    setResistance(5.0f);
+    setResistance(30.0f);
     setStepSound(Block.soundTypeStone);
     
     setHasSubtypes(true);
@@ -32,19 +35,20 @@ public class GemBrick extends BlockSG {
 
   @Override
   public void addRecipes() {
-
-    String s1 = "sss";
-    String s2 = "sgs";
+    
+    ItemStack bricks = new ItemStack(Blocks.stonebrick);
+    Item gem;
+    
     if (this.blockName.equals(Names.GEM_BRICK_COATED)) {
-      for (int i = 0; i < EnumGem.all().length; ++i) {
-        GameRegistry.addShapedRecipe(new ItemStack(this, 8, i), s1, s2, s1, 'g',
-            EnumGem.all()[i].getItem(), 's', Blocks.stonebrick);
-      }
+      gem = ModItems.gem;
     } else {
-      for (int i = 0; i < EnumGem.all().length; ++i) {
-        GameRegistry.addShapedRecipe(new ItemStack(this, 8, i), s1, s2, s1, 'g',
-            EnumGem.all()[i].getShard(), 's', Blocks.stonebrick);
-      }
+      gem = ModItems.gemShard;
+    }
+    
+    for (int i = 0; i < EnumGem.count(); ++i) {
+      ItemStack gemStack = new ItemStack(gem, 1, i);
+      ItemStack result = new ItemStack(this, 8, i);
+      RecipeHelper.addSurround(result, gemStack, bricks);
     }
   }
   

@@ -1,7 +1,5 @@
 package silent.gems.recipe;
 
-import java.util.ArrayList;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -232,13 +230,13 @@ public class DecorateToolRecipe implements IRecipe {
       if (d == CraftingMaterial.getMetaFor(Names.ORNATE_STICK)) {
         return -1;
       } else if (d == CraftingMaterial.getMetaFor(Names.FANCY_STICK_IRON)) {
-        return EnumGem.all().length;
+        return EnumGem.count();
       } else if (d == CraftingMaterial.getMetaFor(Names.FANCY_STICK_COPPER)) {
-        return EnumGem.all().length + 1;
+        return EnumGem.count() + 1;
       } else if (d == CraftingMaterial.getMetaFor(Names.FANCY_STICK_TIN)) {
-        return EnumGem.all().length + 2;
+        return EnumGem.count() + 2;
       } else if (d == CraftingMaterial.getMetaFor(Names.FANCY_STICK_SILVER)) {
-        return EnumGem.all().length + 3;
+        return EnumGem.count() + 3;
       }
     }
 

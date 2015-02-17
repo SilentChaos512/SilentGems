@@ -21,8 +21,8 @@ public enum EnumGem implements IStringSerializable {
     MORGANITE(10, "Morganite"),
     ONYX(11, "Onyx");
 
-    public final int id;
-    public final String name;
+    private final int id;
+    private final String name;
     
     private EnumGem(int id, String name) {
         
@@ -43,15 +43,15 @@ public enum EnumGem implements IStringSerializable {
     
     public static EnumGem byId(int id) {
       
-      if (id < 0 || id >= all().length) {
+      if (id < 0 || id >= values().length) {
         id = 0;
       }
-      return all()[id];
+      return values()[id];
     }
     
-    public static EnumGem[] all() {
-        
-        return values();
+    public static int count() {
+      
+      return values().length;
     }
     
     /**

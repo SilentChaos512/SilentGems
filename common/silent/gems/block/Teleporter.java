@@ -26,6 +26,7 @@ import silent.gems.core.util.LogHelper;
 import silent.gems.core.util.NBTHelper;
 import silent.gems.core.util.PlayerHelper;
 import silent.gems.item.ChaosEssence;
+import silent.gems.item.ModItems;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
@@ -44,11 +45,11 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
 
   public Teleporter() {
 
-    super(EnumGem.all().length, Material.iron);
+    super(EnumGem.count(), Material.iron);
     setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY));
 
     setHardness(12.0f);
-    setResistance(12.0f);
+    setResistance(150.0f);
     setStepSound(Block.soundTypeGlass);
 
     setHasSubtypes(true);
@@ -78,11 +79,18 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
   public void addRecipes() {
 
     ItemStack chaosEssence = ChaosEssence.getByType(ChaosEssenceBlock.EnumType.REFINED);
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      GameRegistry.addShapedRecipe(new ItemStack(this, 2, i), "cec", " g ", "cec", 'c',
-          chaosEssence, 'e', Items.ender_pearl, 'g', EnumGem.all()[i].getBlock());
-      GameRegistry.addShapelessRecipe(new ItemStack(this, 1, i), new ItemStack(this, 1,
-          OreDictionary.WILDCARD_VALUE), EnumGem.all()[i].getItem());
+    ItemStack anyTeleporter = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
+    
+    for (int i = 0; i < EnumGem.count(); ++i) {
+      ItemStack teleporter = new ItemStack(this, 2, i);
+      ItemStack gemBlock = new ItemStack(ModBlocks.gemBlock, 1, i);
+      ItemStack gem = new ItemStack(ModItems.gem, 1, i);
+      
+      // Normal recipe
+      GameRegistry.addShapedRecipe(teleporter, "cec", " g ", "cec", 'c', chaosEssence, 'e',
+          Items.ender_pearl, 'g', gemBlock);
+      // Recoloring recipe
+      GameRegistry.addShapelessRecipe(teleporter, anyTeleporter, gem);
     }
   }
 
@@ -191,11 +199,6 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
       NBTHelper.setXYZD(tags, x, y, z, player.dimension);
       PlayerHelper.addChatMessage(player,
           LocalizationHelper.getOtherBlockKey(blockName, LINK_START));
-
-      // TODO Force chunk load?
-      // I'm not doing this now because I'm afraid I don't fully understand
-      // the implications of forcing chunks to stay loaded, although it never
-      // caused any problems before.
     }
 
     linker.setTagCompound(tags);
@@ -238,12 +241,6 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
             LocalizationHelper.getOtherBlockKey(blockName, DESTINATION_OBSTRUCTED));
         return true;
       }
-      // if (MinecraftServer.getServer().worldServerForDimension(tile.destD)
-      // .isBlockNormalCubeDefault(tile.destX, tile.destY + 2, tile.destZ, true)) {
-      // PlayerHelper.addChatMessage(player,
-      // LocalizationHelper.getOtherBlockKey(blockName, DESTINATION_OBSTRUCTED));
-      // return true;
-      // }
 
       // Teleport player if everything is OK.
       if (tile.destD != player.dimension) {
