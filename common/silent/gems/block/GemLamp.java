@@ -8,6 +8,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -20,7 +21,6 @@ import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.RecipeHelper;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
-import silent.gems.lib.Strings;
 
 public class GemLamp extends BlockSG {
   
@@ -149,7 +149,7 @@ public class GemLamp extends BlockSG {
   }
 
   @Override
-  protected boolean canSilkHarvest() {
+  public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
 
     return false;
   }
