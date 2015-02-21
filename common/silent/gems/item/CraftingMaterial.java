@@ -86,7 +86,7 @@ public class CraftingMaterial extends ItemSG {
     // Chaos Essence Shard
     RecipeHelper.addCompressionRecipe(getStack(Names.CHAOS_ESSENCE_SHARD), chaosEssence, 9);
     // Gilded String
-    GameRegistry.addShapedRecipe(getStack(Names.GILDED_STRING), "sgs", "sgs", "sgs", 's',
+    GameRegistry.addShapedRecipe(getStack(Names.GILDED_STRING, 3), "gsg", "gsg", "gsg", 's',
         Items.string, 'g', Items.gold_nugget);
   }
 

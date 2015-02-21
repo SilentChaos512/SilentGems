@@ -301,6 +301,9 @@ item.silentgems:GemShard9.name=Amethyst Shard
 item.silentgems:GemShard10.name=Morganite Shard
 item.silentgems:GemShard11.name=Onyx Shard
 
+item.silentgems:GildedString.name=Gilded String
+item.silentgems:GildedString.desc=Shiny string.
+
 item.silentgems:GoldenPlume.name=Golden Plume
 item.silentgems:GoldenPlume.desc=A bunch of shiny feathers.
 
