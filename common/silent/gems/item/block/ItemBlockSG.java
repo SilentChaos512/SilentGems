@@ -8,6 +8,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import silent.gems.block.BlockSG;
+import silent.gems.block.GlowRose;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.Strings;
 
@@ -31,6 +32,9 @@ public class ItemBlockSG extends ItemBlock {
             BlockSG blockSG = (BlockSG) block;
             gemSubtypes = blockSG.getHasGemSubtypes();
             this.setHasSubtypes(blockSG.getHasSubtypes());
+        } else if (block instanceof GlowRose) {
+          gemSubtypes = true;
+          this.setHasSubtypes(true);
         }
     }
     

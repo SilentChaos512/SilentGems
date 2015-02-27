@@ -1,50 +1,59 @@
 package silent.gems.block;
 
-import java.util.Random;
+import java.util.List;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockBush;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import silent.gems.SilentGems;
 import silent.gems.configuration.Config;
+import silent.gems.core.registry.IAddRecipe;
+import silent.gems.core.registry.IHasVariants;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 
-public class GlowRose extends BlockSG implements IPlantable {
+public class GlowRose extends BlockBush implements IAddRecipe, IHasVariants {
   
   public static final PropertyEnum VARIANT = PropertyEnum.create("variant", EnumGem.class);
 
   public GlowRose() {
 
-    super(EnumGem.count(), Material.plants);
+    super(Material.plants);
     setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY));
-    
-    this.setHardness(0.0f);
-    this.setResistance(0.0f);
-    this.setStepSound(Block.soundTypeGrass);
-    this.setTickRandomly(true);
-    
-    float f = 0.2F;
-    this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 3.0F, 0.5F + f);
     this.lightValue = Config.GLOW_ROSE_LIGHT_LEVEL.value;
-    
-    setHasGemSubtypes(true);
-    setHasSubtypes(true);
+
     setUnlocalizedName(Names.GLOW_ROSE);
+  }
+  
+  @Override
+  public String getName() {
+    
+    return Names.GLOW_ROSE;
+  }
+  
+  @Override
+  public String getFullName() {
+    
+    return SilentGems.MOD_ID + ":" + getName();
+  }
+  
+  @Override
+  public String[] getVariantNames() {
+    
+    String[] names = new String[EnumGem.count()];
+    for (int i = 0; i < names.length; ++i) {
+      names[i] = getFullName() + i;
+    }
+    return names;
   }
 
   @Override
@@ -88,6 +97,31 @@ public class GlowRose extends BlockSG implements IPlantable {
   }
   
   @Override
+  public void addOreDict() {
+    
+  }
+  
+  @Override
+  public String getUnlocalizedName() {
+    
+    return "tile." + Names.GLOW_ROSE;
+  }
+  
+  @Override
+  public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
+    
+    for (int i = 0; i < EnumGem.count(); ++i) {
+      subItems.add(new ItemStack(this, 1, i));
+    }
+  }
+  
+  @Override
+  public int damageDropped(IBlockState state) {
+
+    return this.getMetaFromState(state);
+  }
+  
+  @Override
   public IBlockState getStateFromMeta(int meta) {
     
     return this.getDefaultState().withProperty(VARIANT, EnumGem.byId(meta));
@@ -103,79 +137,5 @@ public class GlowRose extends BlockSG implements IPlantable {
   protected BlockState createBlockState() {
     
     return new BlockState(this, new IProperty[] { VARIANT });
-  }
-
-  public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
-
-    return this.canPlaceBlockOn(world.getBlockState(pos.down(1)).getBlock());
-  }
-
-  @Override
-  public boolean canPlaceBlockAt(World world, BlockPos pos) {
-
-    return super.canPlaceBlockAt(world, pos)
-        && world.getBlockState(pos.down()).getBlock()
-            .canSustainPlant(world, pos.down(), net.minecraft.util.EnumFacing.UP, this);
-  }
-
-  protected boolean canPlaceBlockOn(Block block) {
-
-    return block == Blocks.grass || block == Blocks.dirt || block == Blocks.farmland;
-  }
-
-  protected void checkAndDropBlock(World world, BlockPos pos, IBlockState state) {
-
-    if (!this.canBlockStay(world, pos, state)) {
-      this.dropBlockAsItem(world, pos, state, 0);
-      world.setBlockState(pos, Blocks.air.getDefaultState(), 3);
-    }
-  }
-
-  @Override
-  public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-
-    return null;
-  }
-
-  @Override
-  public IBlockState getPlant(net.minecraft.world.IBlockAccess world, BlockPos pos) {
-
-    IBlockState state = world.getBlockState(pos);
-    if (state.getBlock() != this) {
-      return getDefaultState();
-    }
-    return state;
-  }
-
-  @Override
-  public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) {
-
-    return EnumPlantType.Plains;
-  }
-
-  @Override
-  public boolean isOpaqueCube() {
-
-    return false;
-  }
-  
-  @Override
-  public boolean isFullCube() {
-    
-    return false;
-  }
-
-  @Override
-  public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state,
-      Block neighborBlock) {
-
-    super.onNeighborBlockChange(world, pos, state, neighborBlock);
-    this.checkAndDropBlock(world, pos, state);
-  }
-
-  @Override
-  public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
-
-    this.checkAndDropBlock(world, pos, state);
   }
 }

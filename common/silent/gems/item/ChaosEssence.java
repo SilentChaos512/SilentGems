@@ -7,6 +7,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import silent.gems.block.ChaosEssenceBlock.EnumType;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LocalizationHelper;
@@ -41,7 +42,8 @@ public class ChaosEssence extends ItemSG {
 
     // Raw -> Regular
     ItemStack result = new ItemStack(essenceRegular.getItem(), 8, essenceRegular.getItemDamage());
-    RecipeHelper.addSurround(result, refiner, essenceRaw);
+//    RecipeHelper.addSurround(result, refiner, essenceRaw);
+    GameRegistry.addShapelessRecipe(essenceRegular, itemRefiner, essenceRaw);
     // Regular -> Refined
     RecipeHelper.addSurround(essenceRefined, glowstone, new Object[] { Items.redstone,
         essenceRegular });

@@ -25,8 +25,9 @@ public class RecipeHelper {
       GameRegistry.addShapelessRecipe(big, small, small, small, small, small, small, small, small,
           small);
     }
-    small.stackSize = count != 4 && count != 9 ? 9 : count;
-    GameRegistry.addShapelessRecipe(small, big);
+    ItemStack smallCopy = small.copy();
+    smallCopy.stackSize = count != 4 && count != 9 ? 9 : count;
+    GameRegistry.addShapelessRecipe(smallCopy, big);
   }
 
   /**

@@ -11,6 +11,7 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import silent.gems.block.GemOre;
 import silent.gems.block.GlowRose;
+import silent.gems.block.ModBlocks;
 import silent.gems.configuration.Config;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.core.util.LogHelper;
@@ -44,7 +45,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
     IBlockState state;
 
     // Gem ores.
-    block = SRegistry.getBlock(Names.GEM_ORE);
+    block = ModBlocks.gemOre;
     for (i = 0; i < Config.WORLD_GEM_CLUSTER_COUNT.value; ++i) {
       x = chunkX + random.nextInt(16);
       y = random.nextInt(Config.WORLD_GEM_MAX_HEIGHT.value);
@@ -53,12 +54,12 @@ public class GemsWorldGenerator implements IWorldGenerator {
       int meta = random.nextInt(EnumGem.count());
       EnumGem gemType = EnumGem.byId(meta);
       state = block.getDefaultState().withProperty(GemOre.VARIANT, gemType);
-      count = random.nextInt(Config.WORLD_GEM_CLUSTER_SIZE.value);
+      count = Config.WORLD_GEM_CLUSTER_SIZE.value;
       new WorldGenMinable(state, count).generate(world, random, pos);
     }
 
     // Chaos ores. Chance of failure.
-    block = SRegistry.getBlock(Names.CHAOS_ORE);
+    block = ModBlocks.chaosOre;
     for (i = 0; i < Config.WORLD_CHAOS_ORE_CLUSTER_COUNT.value; ++i) {
       if (random.nextInt(Config.WORLD_CHAOS_ORE_RARITY.value) == 0) {
         x = chunkX + random.nextInt(16);
@@ -66,7 +67,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
         z = chunkZ + random.nextInt(16);
         pos = new BlockPos(x, y, z);
         state = block.getDefaultState();
-        count = random.nextInt(Config.WORLD_CHAOS_ORE_CLUSTER_SIZE.value);
+        count = Config.WORLD_CHAOS_ORE_CLUSTER_SIZE.value;
         new WorldGenMinable(state, count).generate(world, random, pos);
       }
     }
@@ -76,18 +77,16 @@ public class GemsWorldGenerator implements IWorldGenerator {
 
   private void generateNether() {
 
-    // TODO
   }
 
   private void generateEnd() {
 
-    // TODO
   }
 
   private void generateFlowers(World world, Random random, int chunkX, int chunkZ) {
 
     // Glow roses
-    GlowRose flower = (GlowRose) SRegistry.getBlock(Names.GLOW_ROSE);
+    GlowRose flower = ModBlocks.glowRose;
     for (int i = 0; i < Config.WORLD_FLOWERS_PER_CHUNK.value; ++i) {
       int x = chunkX + random.nextInt(16);
       int y = random.nextInt(80) + 40;

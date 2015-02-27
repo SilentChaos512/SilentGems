@@ -53,7 +53,7 @@ public class CraftingMaterial extends ItemSG {
     ItemStack chaosEssencePlus = new ItemStack(ModItems.chaosEssence, 1, meta);
 
     // Ornate stick
-    GameRegistry.addRecipe(getStack(Names.ORNATE_STICK, 4), "gig", "geg", "gig", 'g',
+    GameRegistry.addRecipe(getStack(Names.ORNATE_STICK, 8), "gig", "geg", "gig", 'g',
         Items.gold_ingot, 'i', Items.iron_ingot, 'e', chaosEssence);
     // Mystery goo
     GameRegistry.addRecipe(getStack(Names.MYSTERY_GOO, 1), "mmm", "mam", "mmm", 'm',
