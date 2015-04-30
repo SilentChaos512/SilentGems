@@ -4,10 +4,6 @@ itemGroup.tabSilentGems=Silent's Gems
 
 # Block localizations
 
-tile.silentgems:ChaosEssenceBlock0.name=Raw Chaos Essence Block
-tile.silentgems:ChaosEssenceBlock1.name=Chaos Essence Block
-tile.silentgems:ChaosEssenceBlock2.name=Enriched Chaos Essence Block
-
 tile.silentgems:ChaosOre.name=Chaos Ore
 
 tile.silentgems:FluffyPlant.name=Fluffy Puff Plant
@@ -150,8 +146,7 @@ tile.silentgems:GlowRose9.name=Amethyst Glow Rose
 tile.silentgems:GlowRose10.name=Morganite Glow Rose
 tile.silentgems:GlowRose11.name=Onyx Glow Rose
 
-tile.silentgems:MiscBlocks0.name=Chaos Essence Block (Deprecated)
-tile.silentgems:MiscBlocks0.desc=Crafting into the new version.
+tile.silentgems:MiscBlocks0.name=Chaos Essence Block
 
 tile.silentgems:Teleporter0.name=Ruby Teleporter
 tile.silentgems:Teleporter1.name=Garnet Teleporter
@@ -173,8 +168,6 @@ tile.silentgems:Teleporter.Link.Start=Teleporter link started.
 tile.silentgems:Teleporter.NoDestination=No destination set.
 tile.silentgems:Teleporter.ReturnHomeBound=Bound to Teleporter!
 
-
-
 # Item localizations
 
 item.silentgems:ChaosBooster.name=Chaos Booster
@@ -183,28 +176,14 @@ item.silentgems:ChaosBooster.desc=Not as bad as it sounds.
 item.silentgems:ChaosCapacitor.name=Chaos Capacitor
 item.silentgems:ChaosCapacitor.desc=Storage for awesome.
 
-item.silentgems:ChaosEssence_Old.name=Chaos Essence (Deprecated)
-item.silentgems:ChaosEssence_Old.desc=Craft into the new version.
+item.silentgems:Chaos Essence.name=Chaos Essence
+item.silentgems:Chaos Essence.desc=Shiny power!
 
-item.silentgems:ChaosEssencePlus_Old.name=Enriched Chaos Essence (Deprecated)
-item.silentgems:ChaosEssencePlus_Old.desc=Craft into the new version.
-
-item.silentgems:ChaosEssence0.name=Raw Chaos Essence
-item.silentgems:ChaosEssence0.desc1=It needs further
-item.silentgems:ChaosEssence0.desc2=processing...
-
-item.silentgems:ChaosEssence1.name=Chaos Essence
-item.silentgems:ChaosEssence1.desc=Shiny power!
-
-item.silentgems:ChaosEssence2.name=Enriched Chaos Essence
-item.silentgems:ChaosEssence2.desc=Maximum shiny!
+item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence
+item.silentgems:ChaosEssencePlus.desc=Maximum shiny!
 
 item.silentgems:ChaosEssenceShard.name=Chaos Essence Shard
 item.silentgems:ChaosEssenceShard.desc=Useless by itself.
-
-item.silentgems:ChaosRefiner.name=Chaos Refiner
-item.silentgems:ChaosRefiner.desc1=Doesn't get consumed.
-item.silentgems:ChaosRefiner.desc2=(Maybe temporary?)
 
 item.silentgems:ChaosGem0.name=Chaos Ruby
 item.silentgems:ChaosGem1.name=Chaos Garnet
@@ -257,11 +236,14 @@ item.silentgems:DyeBlack.name=Black Dye
 item.silentgems:DyeBlue.name=Blue Dye
 
 item.silentgems:EnchantmentToken.name=Enchantment Token
-item.silentgems:EnchantmentToken.desc1=Used to enchant gem tools.
+item.silentgems:EnchantmentToken.desc1=Used to enchant tools.
 item.silentgems:EnchantmentToken.desc2=Can apply to:
 item.silentgems:EnchantmentToken.desc3=Craft with an appropriate tool (shapeless).
 item.silentgems:EnchantmentToken.Empty=Empty
+item.silentgems:EnchantmentToken.GemToolsOnly=Gem tools only!
+item.silentgems:EnchantmentToken.BadToken=Bad token! Did an enchantment ID get changed?
 item.silentgems:EnchantmentToken.enchantment.Mending=Randomly repairs the tool.
+item.silentgems:EnchantmentToken.enchantment.AreaOfEffect=Allow tools to mine a 3x3 area.
 
 item.silentgems:FluffySeed.name=Fluffy Puff
 item.silentgems:FluffySeed.desc=Can be planted, or crafted into soft things.
@@ -272,8 +254,6 @@ item.silentgems:Food.desc=Foodstuffs.
 # Gem
 item.silentgems:Gem.Decorate1=Can be crafted with gem tools
 item.silentgems:Gem.Decorate2=to retexture the tools.
-item.silentgems:Gem.Decorate3=(Texture changing does not work
-item.silentgems:Gem.Decorate4=at this time.)
 
 item.silentgems:GemRod0.name=Ruby Rod
 item.silentgems:GemRod1.name=Garnet Rod
@@ -301,9 +281,6 @@ item.silentgems:GemShard9.name=Amethyst Shard
 item.silentgems:GemShard10.name=Morganite Shard
 item.silentgems:GemShard11.name=Onyx Shard
 
-item.silentgems:GildedString.name=Gilded String
-item.silentgems:GildedString.desc=Shiny string.
-
 item.silentgems:GoldenPlume.name=Golden Plume
 item.silentgems:GoldenPlume.desc=A bunch of shiny feathers.
 
@@ -313,11 +290,11 @@ item.silentgems:MeatyStew.desc=A simple feast!
 item.silentgems:MeatyStewUncooked.name=Uncooked Meaty Stew
 item.silentgems:MeatyStewUncooked.desc=You might want to heat it up first.
 
-item.silentgems:MysteryGoo.name=Mystery Goo
-item.silentgems:MysteryGoo.desc=Feels right at home in space.
+item.silentgems:Mystery Goo.name=Mystery Goo
+item.silentgems:Mystery Goo.desc=Feels right at home in space.
 
-item.silentgems:OrnateStick.name=Ornate Stick
-item.silentgems:OrnateStick.desc=Bling bling.
+item.silentgems:Ornate Stick.name=Ornate Stick
+item.silentgems:Ornate Stick.desc=Bling bling.
 
 item.silentgems:Plume.name=Plume
 item.silentgems:Plume.desc=A bunch of feathers.
@@ -358,8 +335,8 @@ item.silentgems:TorchBandolier.desc2=Sneak-right click to change modes.
 item.silentgems:TorchBandolier.AutoFillOff=Auto-fill mode OFF.
 item.silentgems:TorchBandolier.AutoFillOn=Auto-fill mode ON.
 
-item.silentgems:YarnBall.name=Ball of Yarn
-item.silentgems:YarnBall.desc=It's not shiny, but cats seem to like it.
+item.silentgems:Yarn Ball.name=Ball of Yarn
+item.silentgems:Yarn Ball.desc=It's not shiny, but cats seem to like it.
 
 
 
@@ -529,19 +506,6 @@ tool.silentgems:Sickle9Plus.name=Supercharged Amethyst Sickle
 tool.silentgems:Sickle10Plus.name=Supercharged Morganite Sickle
 tool.silentgems:Sickle11Plus.name=Supercharged Onyx Sickle
 
-tool.silentgems:Bow0.name=Ruby Bow
-tool.silentgems:Bow1.name=Garnet Bow
-tool.silentgems:Bow2.name=Topaz Bow
-tool.silentgems:Bow3.name=Heliodor Bow
-tool.silentgems:Bow4.name=Peridot Bow
-tool.silentgems:Bow5.name=Beryl Bow
-tool.silentgems:Bow6.name=Aquamarine Bow
-tool.silentgems:Bow7.name=Sapphire Bow
-tool.silentgems:Bow8.name=Iolite Bow
-tool.silentgems:Bow9.name=Amethyst Bow
-tool.silentgems:Bow10.name=Morganite Bow
-tool.silentgems:Bow11.name=Onyx Bow
-
 # Entity localization
 
 
@@ -549,6 +513,7 @@ tool.silentgems:Bow11.name=Onyx Bow
 # Enchantment localization
 
 enchantment.Mending=Mending
+enchantment.AreaOfEffect=Area Miner
 
 # Chaos Buffs
 buff.silentgems:none=Empty

@@ -4,15 +4,15 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import silent.gems.block.BlockSG;
-import silent.gems.block.GlowRose;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.Strings;
 
-public class ItemBlockSG extends ItemBlock {
+public class ItemBlockSG extends ItemBlockWithMetadata {
 
     protected boolean gemSubtypes = false;
     protected Block block;
@@ -20,8 +20,7 @@ public class ItemBlockSG extends ItemBlock {
     
     public ItemBlockSG(Block block) {
 
-        super(block);
-        this.setMaxDamage(0);
+        super(block, block);
         
         // Block and block name
         this.block = block;
@@ -29,19 +28,10 @@ public class ItemBlockSG extends ItemBlock {
         
         // Subtypes?
         if (block instanceof BlockSG) {
-            BlockSG blockSG = (BlockSG) block;
-            gemSubtypes = blockSG.getHasGemSubtypes();
-            this.setHasSubtypes(blockSG.getHasSubtypes());
-        } else if (block instanceof GlowRose) {
-          gemSubtypes = true;
-          this.setHasSubtypes(true);
+            BlockSG b = (BlockSG) block;
+            gemSubtypes = b.getHasGemSubtypes();
+            hasSubtypes = b.getHasSubtypes();
         }
-    }
-    
-    @Override
-    public int getMetadata(int meta) {
-      
-      return meta;
     }
 
     @Override
@@ -63,16 +53,28 @@ public class ItemBlockSG extends ItemBlock {
     }
     
     @Override
+    public IIcon getIconFromDamage(int meta) {
+        
+        if (hasSubtypes && block instanceof BlockSG) {
+            BlockSG b = (BlockSG) block;
+            if (b.icons != null && meta < b.icons.length) {
+                return b.icons[meta];
+            }
+        }
+        return super.getIconFromDamage(meta);
+    }
+    
+    @Override
     public String getUnlocalizedName(ItemStack stack) {
         
-        String s = "tile.";
-        s += Strings.RESOURCE_PREFIX;
-        s += itemName;
+        StringBuilder sb = new StringBuilder("tile.");
+        sb.append(Strings.RESOURCE_PREFIX);
+        sb.append(itemName);
         
         if (hasSubtypes) {
-            s += stack.getItemDamage();
+            sb.append(stack.getItemDamage());
         }
 
-        return s;
+        return sb.toString();
     }
 }

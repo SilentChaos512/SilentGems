@@ -27,6 +27,8 @@ public class Config {
       "ChaosGem.MaxBuffsPerGem", 3);
   public static ConfigOptionInt CHAOS_GEM_MAX_CHARGE = new ConfigOptionInt("ChaosGem.MaxCharge",
       10000);
+  public static ConfigOptionBoolean ENCHANTMENT_TOKENS_ON_ANY_TOOL = new ConfigOptionBoolean(
+      "EnchantmentToken.CanApplyToAnyTool", true);
   public static ConfigOptionInt FOOD_SUPPORT_DURATION = new ConfigOptionInt("Food.SupportDuration",
       600);
   public static ConfigOptionInt GLOW_ROSE_LIGHT_LEVEL = new ConfigOptionInt("GlowRose.LightLevel",
@@ -37,7 +39,7 @@ public class Config {
    */
 
   public static ConfigOptionInt WORLD_GEM_CLUSTER_COUNT = new ConfigOptionInt(
-      "World.Gem.ClusterCount", 5);
+      "World.Gem.ClusterCount", 4);
   public static ConfigOptionInt WORLD_GEM_CLUSTER_SIZE = new ConfigOptionInt(
       "World.Gem.ClusterSize", 8);
   public static ConfigOptionInt WORLD_GEM_MAX_HEIGHT = new ConfigOptionInt("World.Gem.MaxHeight",
@@ -45,11 +47,11 @@ public class Config {
   public static ConfigOptionInt WORLD_CHAOS_ORE_CLUSTER_COUNT = new ConfigOptionInt(
       "World.ChaosOre.ClusterCount", 1);
   public static ConfigOptionInt WORLD_CHAOS_ORE_CLUSTER_SIZE = new ConfigOptionInt(
-      "World.ChaosOre.ClusterSize", 18);
+      "World.ChaosOre.ClusterSize", 20);
   public static ConfigOptionInt WORLD_CHAOS_ORE_MAX_HEIGHT = new ConfigOptionInt(
       "World.ChaosOre.MaxHeight", 20);
   public static ConfigOptionInt WORLD_CHAOS_ORE_RARITY = new ConfigOptionInt(
-      "World.ChaosOre.Rarity", 2);
+      "World.ChaosOre.Rarity", 1);
   public static ConfigOptionInt WORLD_FLOWERS_PER_CHUNK = new ConfigOptionInt(
       "World.FlowersPerChunk", 1);
 
@@ -62,14 +64,21 @@ public class Config {
   /*
    * Config categories
    */
+  public static final String CATEGORY_KEYBIND = "keybindings";
+  public static final String CATEGORY_GRAPHICS = "graphics";
+  public static final String CATEGORY_AUDIO = "audio";
   public static final String CATEGORY_ENCHANTMENT = "enchantment";
   public static final String CATEGORY_WORLD = "world";
   public static final String CATEGORY_WORLD_GEN = CATEGORY_WORLD + Configuration.CATEGORY_SPLITTER
       + "generation";
+  public static final String CATEGORY_WORLD_STRUCTURE = CATEGORY_WORLD
+      + Configuration.CATEGORY_SPLITTER + "structure";
   public static final String CATEGORY_BLOCK_PROPERTIES = "block" + Configuration.CATEGORY_SPLITTER
       + "properties";
   public static final String CATEGORY_ITEM_PROPERTIES = "item" + Configuration.CATEGORY_SPLITTER
       + "properties";
+  public static final String CATEGORY_DURABILITY = "item" + Configuration.CATEGORY_SPLITTER
+      + "durability";
 
   public static void init(File file) {
 
@@ -94,6 +103,8 @@ public class Config {
           "The base maximum charge level for Chaos Gems").validate();
       CHAOS_GEM_RECHARGE_RATE.loadValue(c, CATEGORY_ITEM_PROPERTIES,
           "The amount of charge a Chaos Gem gains for every second deactivated.");
+      ENCHANTMENT_TOKENS_ON_ANY_TOOL.loadValue(c, CATEGORY_ITEM_PROPERTIES,
+          "Allows Enchantment Tokens to be used on appropriate tools from other mods.");
       FOOD_SUPPORT_DURATION.loadValue(c, CATEGORY_ITEM_PROPERTIES,
           "The base duration for special effects from food");
       GLOW_ROSE_LIGHT_LEVEL.loadValue(c, CATEGORY_BLOCK_PROPERTIES,
@@ -104,6 +115,7 @@ public class Config {
        */
       ModEnchantments.MENDING_ID = getEnchantmentId(Names.MENDING,
           ModEnchantments.MENDING_ID_DEFAULT);
+      ModEnchantments.AOE_ID = getEnchantmentId(Names.AOE, ModEnchantments.AOE_ID_DEFAULT);
 
       /*
        * World gen

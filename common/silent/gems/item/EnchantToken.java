@@ -9,16 +9,25 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemAxe;
+import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import silent.gems.block.ChaosEssenceBlock;
+
+import org.lwjgl.input.Keyboard;
+
+import silent.gems.configuration.Config;
 import silent.gems.core.util.LocalizationHelper;
+import silent.gems.core.util.LogHelper;
 import silent.gems.enchantment.ModEnchantments;
 import silent.gems.item.tool.GemAxe;
 import silent.gems.item.tool.GemHoe;
@@ -29,6 +38,7 @@ import silent.gems.item.tool.GemSword;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
 import silent.gems.lib.Strings;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class EnchantToken extends ItemSG {
 
@@ -36,6 +46,7 @@ public class EnchantToken extends ItemSG {
 
     public int validTools;
     public Enchantment enchantment;
+    public boolean gemToolsOnly;
 
     public String getName() {
 
@@ -65,25 +76,11 @@ public class EnchantToken extends ItemSG {
 
   public EnchantToken() {
 
-    super(enchants.keySet().size());
+    super();
     setMaxStackSize(64);
     setHasSubtypes(true);
     setMaxDamage(0);
     setUnlocalizedName(Names.ENCHANT_TOKEN);
-  }
-  
-  @Override
-  public String[] getVariantNames() {
-    
-    String[] results = new String[256];
-    for (int i = 0; i < results.length; ++i) {
-      if (i == 0 || enchants.containsKey(i)) {
-        results[i] = this.getFullName();
-      } else {
-        results[i] = null;
-      }
-    }
-    return results;
   }
 
   /**
@@ -109,6 +106,7 @@ public class EnchantToken extends ItemSG {
 
     addEnchantment(ModEnchantments.mending, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE
         | T_SICKLE);
+    addEnchantment(ModEnchantments.aoe, T_PICKAXE | T_SHOVEL | T_AXE);
   }
 
   /**
@@ -122,32 +120,55 @@ public class EnchantToken extends ItemSG {
     EnchData data = new EnchantToken.EnchData();
     data.enchantment = e;
     data.validTools = validTools;
+    data.gemToolsOnly = e.effectId == ModEnchantments.aoe.effectId
+        || !Config.ENCHANTMENT_TOKENS_ON_ANY_TOOL.value;
     enchants.put(e.effectId, data);
   }
 
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
-    final int k = stack.getItemDamage();
+    final int meta = stack.getItemDamage();
+    final boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
+        || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
     String s;
-
-    if (k == 0) {
+    
+    if (meta == 0) {
       list.add(EnumChatFormatting.GOLD + LocalizationHelper.getOtherItemKey(itemName, "Empty"));
       list.add(LocalizationHelper.getItemDescription(itemName, 1));
-    } else if (enchants.containsKey(k)) {
+      return;
+    } else if (enchants.containsKey(meta)) {
       // Enchantment name.
-      list.add(EnumChatFormatting.GOLD + getEnchantmentName(k));
+      list.add(EnumChatFormatting.GOLD + getEnchantmentName(meta));
+    } else {
+      // Bad token!
+      list.add(EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(itemName, "BadToken"));
+      return;
+    }
+    
+    // Check for null values?
+    if (enchants.get(meta) == null || enchants.get(meta).enchantment == null) {
+      return;
+    }
+
+    if (shifted) {
       // Enchantment description.
-      s = LocalizationHelper.getOtherItemKey(itemName, enchants.get(k).enchantment.getName());
+      s = LocalizationHelper.getOtherItemKey(itemName, enchants.get(meta).enchantment.getName());
       if (!s.equals(LocalizationHelper.ITEM_PREFIX + itemName + "."
-          + enchants.get(k).enchantment.getName())) {
+          + enchants.get(meta).enchantment.getName())) {
         list.add(EnumChatFormatting.DARK_GRAY + s);
+      }
+      // For gem tools only?
+      if (enchants.get(meta).gemToolsOnly) {
+        list.add(EnumChatFormatting.YELLOW + LocalizationHelper.getOtherItemKey(itemName, "GemToolsOnly"));
       }
       // List of valid tools.
       list.add(LocalizationHelper.getItemDescription(itemName, 2));
-      list.add(validToolsFor(k));
+      list.add(validToolsFor(meta));
       // How to use.
       list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(itemName, 3));
+    } else {
+      list.add(EnumChatFormatting.ITALIC + LocalizationHelper.getMiscText(Strings.PRESS_SHIFT));
     }
   }
 
@@ -155,7 +176,7 @@ public class EnchantToken extends ItemSG {
   public void addRecipes() {
 
     ItemStack baseToken = new ItemStack(this, 1, 0);
-    ItemStack chaosEssence = ChaosEssence.getByType(ChaosEssenceBlock.EnumType.REGULAR);
+    ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
 
     GameRegistry.addShapedRecipe(new ItemStack(this, 8, 0), "ggg", "rer", "ggg", 'g',
         Items.gold_ingot, 'r', Items.redstone, 'e', chaosEssence);
@@ -184,6 +205,8 @@ public class EnchantToken extends ItemSG {
 
     addTokenRecipe(ModEnchantments.mending.effectId, EnumGem.MORGANITE.getItem(), gemCount,
         CraftingMaterial.getStack(Names.MYSTERY_GOO), 2, baseToken);
+    addTokenRecipe(ModEnchantments.aoe.effectId, EnumGem.ONYX.getItem(), gemCount, Blocks.tnt, 3,
+        baseToken);
   }
 
   private void addTokenRecipe(int key, ItemStack gem, int gemCount, ItemStack otherMaterial,
@@ -224,18 +247,30 @@ public class EnchantToken extends ItemSG {
       return false;
     }
 
-    EnchData enchData = enchants.get(k);
+    EnchData e = enchants.get(k);
     k = enchants.get(k).validTools;
 
-    if ((tool.getItem() instanceof GemSword && (k & T_SWORD) != 0)
-        || (tool.getItem() instanceof GemPickaxe && (k & T_PICKAXE) != 0)
-        || (tool.getItem() instanceof GemShovel && (k & T_SHOVEL) != 0)
-        || (tool.getItem() instanceof GemAxe && (k & T_AXE) != 0)
-        || (tool.getItem() instanceof GemHoe && (k & T_HOE) != 0)
-        || (tool.getItem() instanceof GemSickle && (k & T_SICKLE) != 0)) {
+    // Check that tool type matches token.
+    boolean flag = false;
+    if (e.gemToolsOnly) {
+      flag |= tool.getItem() instanceof GemSword && (k & T_SWORD) != 0;
+      flag |= tool.getItem() instanceof GemPickaxe && (k & T_PICKAXE) != 0;
+      flag |= tool.getItem() instanceof GemShovel && (k & T_SHOVEL) != 0;
+      flag |= tool.getItem() instanceof GemAxe && (k & T_AXE) != 0;
+      flag |= tool.getItem() instanceof GemHoe && (k & T_HOE) != 0;
+      flag |= tool.getItem() instanceof GemSickle && (k & T_SICKLE) != 0;
+    } else {
+      flag |= tool.getItem() instanceof ItemSword && (k & T_SWORD) != 0;
+      flag |= tool.getItem() instanceof ItemPickaxe && (k & T_PICKAXE) != 0;
+      flag |= tool.getItem() instanceof ItemSpade && (k & T_SHOVEL) != 0;
+      flag |= tool.getItem() instanceof ItemAxe && (k & T_AXE) != 0;
+      flag |= tool.getItem() instanceof ItemHoe && (k & T_HOE) != 0;
+    }
+
+    if (flag) {
       // Token and tool type match. Does tool have any enchantments?
       if (tool.hasTagCompound()) {
-        if (!tool.getTagCompound().hasKey("ench")) {
+        if (!tool.stackTagCompound.hasKey("ench")) {
           return true;
         }
       } else if (!tool.hasTagCompound()) {
@@ -243,19 +278,18 @@ public class EnchantToken extends ItemSG {
       }
 
       // Does tool already have this enchantment? If so, can it be upgraded?
-      k = EnchantmentHelper.getEnchantmentLevel(enchData.enchantment.effectId, tool);
+      k = EnchantmentHelper.getEnchantmentLevel(e.enchantment.effectId, tool);
       if (k == 0) {
         // Tool does not have this enchantment. Does it conflict with existing enchants?
         for (int i = 0; i < tool.getEnchantmentTagList().tagCount(); ++i) {
           k = ((NBTTagCompound) tool.getEnchantmentTagList().getCompoundTagAt(i)).getShort("id");
-          Enchantment enchant = Enchantment.getEnchantmentById(k);
-          if (!enchData.enchantment.canApplyTogether(enchant)
-              || !enchant.canApplyTogether(enchData.enchantment)) {
+          if (!e.enchantment.canApplyTogether(Enchantment.enchantmentsList[k])
+              || !Enchantment.enchantmentsList[k].canApplyTogether(e.enchantment)) {
             return false;
           }
         }
         return true;
-      } else if (k < enchData.getMaxLevel()) {
+      } else if (k < e.getMaxLevel()) {
         // Tool has enchantment, but it can be leveled up.
         return true;
       }
@@ -281,10 +315,10 @@ public class EnchantToken extends ItemSG {
       tool.addEnchantment(e.enchantment, 0);
     }
 
-    if (tool.getTagCompound() == null) {
+    if (tool.stackTagCompound == null) {
       tool.setTagCompound(new NBTTagCompound());
     }
-    if (!tool.getTagCompound().hasKey("ench")) {
+    if (!tool.stackTagCompound.hasKey("ench")) {
       tool.setTagInfo("ench", new NBTTagList());
     }
 
@@ -311,7 +345,7 @@ public class EnchantToken extends ItemSG {
   @Override
   public EnumRarity getRarity(ItemStack stack) {
 
-    return stack.getItemDamage() == 0 ? EnumRarity.COMMON : EnumRarity.RARE;
+    return stack.getItemDamage() == 0 ? EnumRarity.common : EnumRarity.rare;
   }
 
   @Override
@@ -331,7 +365,7 @@ public class EnchantToken extends ItemSG {
   }
 
   @Override
-  public boolean hasEffect(ItemStack stack) {
+  public boolean hasEffect(ItemStack stack, int pass) {
 
     return stack.getItemDamage() != 0;
   }

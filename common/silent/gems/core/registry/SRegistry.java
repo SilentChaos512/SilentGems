@@ -1,20 +1,16 @@
 package silent.gems.core.registry;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import silent.gems.block.BlockSG;
 import silent.gems.core.util.LogHelper;
 import silent.gems.item.ItemSG;
 import silent.gems.item.block.ItemBlockSG;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class SRegistry {
 
@@ -29,9 +25,9 @@ public class SRegistry {
    * @param key
    *          The name of the Block.
    */
-  public static Block registerBlock(Class<? extends Block> blockClass, String key) {
+  public static void registerBlock(Class<? extends Block> blockClass, String key) {
 
-    return registerBlock(blockClass, key, ItemBlockSG.class);
+    registerBlock(blockClass, key, ItemBlockSG.class);
   }
 
   /**
@@ -46,7 +42,7 @@ public class SRegistry {
    * @param constructorParams
    *          The list of parameters for the constructor (minus the ID).
    */
-  public static Block registerBlock(Class<? extends Block> blockClass, String key,
+  public static void registerBlock(Class<? extends Block> blockClass, String key,
       Class<? extends ItemBlock> itemBlockClass, Object... constructorParams) {
 
     int i;
@@ -62,11 +58,9 @@ public class SRegistry {
       Block block = (Block) c.newInstance(constructorParams);
       blocks.put(key, block);
       GameRegistry.registerBlock(block, itemBlockClass, key);
-      return block;
     } catch (Exception e) {
       LogHelper.severe("Failed to register block " + key);
       e.printStackTrace();
-      return null;
     }
   }
 
@@ -80,7 +74,7 @@ public class SRegistry {
    * @param constructorParams
    *          The list of parameters for the constructor (minus the ID).
    */
-  public static Item registerItem(Class<? extends Item> itemClass, String key,
+  public static void registerItem(Class<? extends Item> itemClass, String key,
       Object... constructorParams) {
 
     int i;
@@ -96,11 +90,9 @@ public class SRegistry {
       Item item = (Item) c.newInstance(constructorParams);
       items.put(key, item);
       GameRegistry.registerItem(item, key);
-      return item;
     } catch (Exception e) {
       LogHelper.severe("Failed to register item " + key);
       e.printStackTrace();
-      return null;
     }
   }
 
@@ -154,78 +146,6 @@ public class SRegistry {
     for (Item item : items.values()) {
       if (item instanceof IAddThaumcraftStuff) {
         ((IAddThaumcraftStuff) item).addThaumcraftStuff();
-      }
-    }
-  }
-  
-  public static String[] removeNullElements(String[] names) {
-    
-    ArrayList<String> list = new ArrayList<String>();
-    for (String name : names) {
-      if (name != null) {
-        list.add(name);
-      }
-    }
-    return list.toArray(new String[] {});
-  }
-  
-  /**
-   * Registers model variant names.
-   */
-  public static void clientPreInit() {
-    
-    // Blocks
-    for (Block block : blocks.values()) {
-      if (block instanceof IHasVariants) {
-        IHasVariants var = (IHasVariants) block;
-        String[] names = removeNullElements(var.getVariantNames());
-        ModelBakery.addVariantName(Item.getItemFromBlock(block), names);
-      }
-    }
-    
-    // Items
-    for (Item item : items.values()) {
-      if (item instanceof IHasVariants) {
-        IHasVariants var = (IHasVariants) item;
-        String[] names = removeNullElements(var.getVariantNames());
-        ModelBakery.addVariantName(item, names);
-      }
-    }
-  }
-  
-  /**
-   * Register models for all variants.
-   */
-  public static void clientInit() {
-    
-    // Blocks
-    for (Block block : blocks.values()) {
-      Item item = Item.getItemFromBlock(block);
-      if (block instanceof IHasVariants) {
-        IHasVariants var = (IHasVariants) block;
-        String[] variants = var.getVariantNames();
-        int count = variants.length;
-        for (int i = 0; i < count; ++i) {
-          if (variants[i] != null) {
-            ModelResourceLocation model = new ModelResourceLocation(variants[i], "inventory");
-            Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, i, model);
-          }
-        }
-      }
-    }
-    
-    // Items
-    for (Item item : items.values()) {
-      if (item instanceof IHasVariants) {
-        IHasVariants var = (IHasVariants) item;
-        String[] variants = var.getVariantNames();
-        int count = variants.length;
-        for (int i = 0; i < count; ++i) {
-          if (variants[i] != null) {
-            ModelResourceLocation model = new ModelResourceLocation(variants[i], "inventory");
-            Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, i, model);
-          }
-        }
       }
     }
   }

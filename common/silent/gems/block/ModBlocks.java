@@ -6,59 +6,20 @@ import silent.gems.lib.Names;
 
 public class ModBlocks {
 
-  public static ChaosEssenceBlock chaosEssenceBlock;
-  public static ChaosOre chaosOre;
-  public static FluffyPlantBlock fluffyPlant;
-  public static GemBlock gemBlock;
-  public static GemBrick gemBrickCoated;
-  public static GemBrick gemBrickSpeckled;
-  public static GemLamp gemLamp;
-  public static GemLamp gemLampLit;
-  public static GemLamp gemLampInv;
-  public static GemLamp gemLampInvLit;
-  public static GemOre gemOre;
-  public static GlowRose glowRose;
-  public static MiscBlock miscBlocks;
-  public static Teleporter teleporter;
+    public static void init() {
 
-  public static void init() {
-
-    Class clazz = ItemBlockSG.class;
-
-    gemOre = (GemOre) SRegistry.registerBlock(GemOre.class, Names.GEM_ORE);
-
-    chaosOre = (ChaosOre) SRegistry.registerBlock(ChaosOre.class, Names.CHAOS_ORE);
-
-    gemBlock = (GemBlock) SRegistry.registerBlock(GemBlock.class, Names.GEM_BLOCK);
-
-    gemBrickCoated = (GemBrick) SRegistry.registerBlock(GemBrick.class, Names.GEM_BRICK_COATED,
-        clazz, new Object[] { Names.GEM_BRICK_COATED });
-
-    gemBrickSpeckled = (GemBrick) SRegistry.registerBlock(GemBrick.class, Names.GEM_BRICK_SPECKLED,
-        clazz, new Object[] { Names.GEM_BRICK_SPECKLED });
-
-    miscBlocks = (MiscBlock) SRegistry.registerBlock(MiscBlock.class, Names.MISC_BLOCKS);
-
-    chaosEssenceBlock = (ChaosEssenceBlock) SRegistry.registerBlock(ChaosEssenceBlock.class,
-        Names.CHAOS_ESSENCE_BLOCK);
-
-    glowRose = (GlowRose) SRegistry.registerBlock(GlowRose.class, Names.GLOW_ROSE);
-
-    teleporter = (Teleporter) SRegistry.registerBlock(Teleporter.class, Names.TELEPORTER);
-
-    gemLamp = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP, clazz,
-        new Object[] { false, false });
-
-    gemLampLit = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_LIT, clazz,
-        new Object[] { true, false });
-
-    gemLampInvLit = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_INV_LIT, clazz,
-        new Object[] { true, true });
-
-    gemLampInv = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_INV, clazz,
-        new Object[] { false, true });
-
-    fluffyPlant = (FluffyPlantBlock) SRegistry.registerBlock(FluffyPlantBlock.class,
-        Names.FLUFFY_PLANT);
-  }
+        SRegistry.registerBlock(GemOre.class, Names.GEM_ORE);
+        SRegistry.registerBlock(ChaosOre.class, Names.CHAOS_ORE);
+        SRegistry.registerBlock(GemBlock.class, Names.GEM_BLOCK);
+        SRegistry.registerBlock(GemBrick.class, Names.GEM_BRICK_COATED, ItemBlockSG.class, new Object[] { Names.GEM_BRICK_COATED });
+        SRegistry.registerBlock(GemBrick.class, Names.GEM_BRICK_SPECKLED, ItemBlockSG.class, new Object[] { Names.GEM_BRICK_SPECKLED });
+        SRegistry.registerBlock(MiscBlock.class, Names.MISC_BLOCKS);
+        SRegistry.registerBlock(GlowRose.class, Names.GLOW_ROSE);
+        SRegistry.registerBlock(Teleporter.class, Names.TELEPORTER);
+        SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP, ItemBlockSG.class, new Object[] { false, false });
+        SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_LIT, ItemBlockSG.class, new Object[] { true, false });
+        SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_INV_LIT, ItemBlockSG.class, new Object[] { true, true });
+        SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_INV, ItemBlockSG.class, new Object[] { false, true });
+        SRegistry.registerBlock(FluffyPlantBlock.class, Names.FLUFFY_PLANT);
+    }
 }

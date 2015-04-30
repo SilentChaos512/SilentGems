@@ -3,7 +3,12 @@ package silent.gems.core.util;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemAxe;
+import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.oredict.OreDictionary;
@@ -16,10 +21,37 @@ import silent.gems.item.tool.GemSword;
 
 public class InventoryHelper {
 
-  /**
-   * Returns true if the ItemStack is a gem sword/pickaxe/shovel/axe/hoe/sickle.
-   * @param stack
-   * @return
+  public static void breakExtraBlock(ItemStack stack, World world, int x, int y, int z, int side,
+      EntityPlayer player) {
+
+    if (world.isAirBlock(x, y, z)) {
+      return;
+    }
+
+    Block block = world.getBlock(x, y, z);
+    int meta = world.getBlockMetadata(x, y, z);
+
+    // TODO: Check for effective material?
+
+    if (!ForgeHooks.canHarvestBlock(block, player, meta)
+        || ForgeHooks.blockStrength(block, player, world, x, y, z) <= 0.0001f) {
+      return;
+    }
+
+    if (player.capabilities.isCreativeMode) {
+      block.onBlockHarvested(world, x, y, z, meta, player);
+      if (block.removedByPlayer(world, player, x, y, z, false)) {
+        block.onBlockDestroyedByPlayer(world, x, y, z, meta);
+      }
+
+      if (!world.isRemote) {
+        // TODO: send update to client?
+      }
+    }
+  }
+
+  /*
+   * Returns true if the ItemStack is a gem sword/pickaxe/shovel/axe/hoe.
    */
   public static boolean isGemTool(ItemStack stack) {
 
@@ -27,6 +59,15 @@ public class InventoryHelper {
       Item item = stack.getItem();
       return (item instanceof GemSword) || item instanceof GemPickaxe || item instanceof GemShovel
           || item instanceof GemAxe || item instanceof GemHoe || item instanceof GemSickle;
+    }
+    return false;
+  }
+
+  public static boolean isTool(ItemStack stack) {
+    if (stack != null) {
+      Item item = stack.getItem();
+      return (item instanceof ItemSword) || item instanceof ItemPickaxe || item instanceof ItemSpade
+          || item instanceof ItemAxe || item instanceof ItemHoe || item instanceof GemSickle;
     }
     return false;
   }

@@ -2,11 +2,10 @@ package silent.gems.lib;
 
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IStringSerializable;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.material.ModMaterials;
 
-public enum EnumGem implements IStringSerializable {
+public enum EnumGem {
 
     RUBY(0, "Ruby"),
     GARNET(1, "Garnet"),
@@ -21,37 +20,20 @@ public enum EnumGem implements IStringSerializable {
     MORGANITE(10, "Morganite"),
     ONYX(11, "Onyx");
 
-    private final int id;
-    private final String name;
+    public final byte id;
+    public final byte rank;
+    public final String name;
     
     private EnumGem(int id, String name) {
         
-        this.id = id;
+        this.id = (byte) id;
+        this.rank = 1;
         this.name = name;
     }
     
-    @Override
-    public String getName() {
-
-      return name;
-    }
-    
-    public int getId() {
-      
-      return id;
-    }
-    
-    public static EnumGem byId(int id) {
-      
-      if (id < 0 || id >= values().length) {
-        id = 0;
-      }
-      return values()[id];
-    }
-    
-    public static int count() {
-      
-      return values().length;
+    public static EnumGem[] all() {
+        
+        return values();
     }
     
     /**

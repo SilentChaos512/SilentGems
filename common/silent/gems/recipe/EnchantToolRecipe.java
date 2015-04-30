@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import silent.gems.core.util.InventoryHelper;
+import silent.gems.core.util.LogHelper;
 import silent.gems.item.EnchantToken;
 
 public class EnchantToolRecipe implements IRecipe {
@@ -21,7 +22,7 @@ public class EnchantToolRecipe implements IRecipe {
     for (int i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
       stack = inventorycrafting.getStackInSlot(i);
       if (stack != null) {
-        if (InventoryHelper.isGemTool(stack)) {
+        if (InventoryHelper.isTool(stack)) {
           ++numTools;
           tool = stack;
         } else if (stack.getItem() instanceof EnchantToken) {
@@ -47,7 +48,7 @@ public class EnchantToolRecipe implements IRecipe {
     for (int i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
       s = inventorycrafting.getStackInSlot(i);
       if (s != null) {
-        if (InventoryHelper.isGemTool(s)) {
+        if (InventoryHelper.isTool(s)) {
           tool = s;
         } else if (s.getItem() instanceof EnchantToken) {
           token = s;
@@ -71,30 +72,15 @@ public class EnchantToolRecipe implements IRecipe {
   @Override
   public int getRecipeSize() {
 
-    // What's this?
+    // TODO What's this?
     return 2;
   }
 
   @Override
   public ItemStack getRecipeOutput() {
 
-    // What's this?
+    // TODO What's this?
     return null;
   }
 
-  @Override
-  public ItemStack[] getRemainingItems(InventoryCrafting inv) {
-
-    for (int i = 0; i < inv.getSizeInventory(); ++i) {
-      ItemStack stack = inv.getStackInSlot(i);
-      if (stack != null) {
-        --stack.stackSize;
-        if (stack.stackSize <= 0) {
-          stack = null;
-        }
-        inv.setInventorySlotContents(i, stack);
-      }
-    }
-    return new ItemStack[] {};
-  }
 }

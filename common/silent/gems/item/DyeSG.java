@@ -2,19 +2,22 @@ package silent.gems.item;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
-import silent.gems.SilentGems;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.Names;
+import silent.gems.lib.Strings;
 
 public class DyeSG extends ItemSG {
 
+  IIcon iconBlack;
+  IIcon iconBlue;
+  
   public DyeSG() {
-
-    super(16);
 
     setMaxStackSize(64);
     setHasSubtypes(true);
@@ -28,24 +31,36 @@ public class DyeSG extends ItemSG {
     OreDictionary.registerOre("dyeBlack", new ItemStack(this, 1, 0));
     OreDictionary.registerOre("dyeBlue", new ItemStack(this, 1, 4));
   }
-
+  
   @Override
-  public String[] getVariantNames() {
-
-    String s = SilentGems.MOD_ID + ":";
-    return new String[] { s + "DyeBlack", null, null, null, s + "DyeBlue" };
+  public IIcon getIconFromDamage(int meta) {
+    
+    if (meta == 0) {
+      return iconBlack;
+    } else if (meta == 4) {
+      return iconBlue;
+    } else {
+      return null;
+    }
   }
-
+  
+  @Override
+  public void registerIcons(IIconRegister reg) {
+    
+    iconBlack = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName + "Black");
+    iconBlue = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName + "Blue");
+  }
+  
   @Override
   public void getSubItems(Item item, CreativeTabs tab, List list) {
-
+    
     list.add(new ItemStack(this, 1, 0));
     list.add(new ItemStack(this, 1, 4));
   }
-
+  
   @Override
   public String getUnlocalizedName(ItemStack stack) {
-
+    
     String s = LocalizationHelper.ITEM_PREFIX + itemName;
     if (stack.getItemDamage() == 0) {
       return s + "Black";

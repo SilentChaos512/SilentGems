@@ -1,59 +1,39 @@
 package silent.gems.block;
 
-import java.util.List;
+import java.util.Random;
 
-import net.minecraft.block.BlockBush;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import silent.gems.SilentGems;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.util.ForgeDirection;
 import silent.gems.configuration.Config;
-import silent.gems.core.registry.IAddRecipe;
-import silent.gems.core.registry.IHasVariants;
 import silent.gems.core.registry.SRegistry;
 import silent.gems.lib.EnumGem;
 import silent.gems.lib.Names;
+import cpw.mods.fml.common.registry.GameRegistry;
 
-public class GlowRose extends BlockBush implements IAddRecipe, IHasVariants {
-  
-  public static final PropertyEnum VARIANT = PropertyEnum.create("variant", EnumGem.class);
+public class GlowRose extends BlockSG implements IPlantable {
 
   public GlowRose() {
 
     super(Material.plants);
-    setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY));
+    this.setHardness(0.0f);
+    this.setStepSound(Block.soundTypeGrass);
+    this.setTickRandomly(true);
+    float f = 0.2F;
+    this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 3.0F, 0.5F + f);
     this.lightValue = Config.GLOW_ROSE_LIGHT_LEVEL.value;
-
+    setHasGemSubtypes(true);
+    setHasSubtypes(true);
     setUnlocalizedName(Names.GLOW_ROSE);
-  }
-  
-  @Override
-  public String getName() {
-    
-    return Names.GLOW_ROSE;
-  }
-  
-  @Override
-  public String getFullName() {
-    
-    return SilentGems.MOD_ID + ":" + getName();
-  }
-  
-  @Override
-  public String[] getVariantNames() {
-    
-    String[] names = new String[EnumGem.count()];
-    for (int i = 0; i < names.length; ++i) {
-      names[i] = getFullName() + i;
-    }
-    return names;
   }
 
   @Override
@@ -65,77 +45,114 @@ public class GlowRose extends BlockBush implements IAddRecipe, IHasVariants {
     int k = 2;
     // 0=black
     GameRegistry.addShapelessRecipe(new ItemStack(dyeSG, k, 0), new ItemStack(this, 1,
-        EnumGem.ONYX.getId()));
+        EnumGem.ONYX.id));
     // 1=red
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 1), new ItemStack(this, 1,
-        EnumGem.RUBY.getId()));
+        EnumGem.RUBY.id));
     // 2=green
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 2), new ItemStack(this, 1,
-        EnumGem.EMERALD.getId()));
+        EnumGem.EMERALD.id));
     // 3=brown
     // 4=blue
     GameRegistry.addShapelessRecipe(new ItemStack(dyeSG, k, 4), new ItemStack(this, 1,
-        EnumGem.SAPPHIRE.getId()));
+        EnumGem.SAPPHIRE.id));
     // 5=purple
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 5), new ItemStack(this, 1,
-        EnumGem.AMETHYST.getId()));
+        EnumGem.AMETHYST.id));
     // 6=cyan
     // 7=light gray
     // 8=gray
     // 9=pink
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 9), new ItemStack(this, 1,
-        EnumGem.MORGANITE.getId()));
+        EnumGem.MORGANITE.id));
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 10), new ItemStack(this, 1,
-        EnumGem.PERIDOT.getId()));
+        EnumGem.PERIDOT.id));
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 11), new ItemStack(this, 1,
-        EnumGem.HELIODOR.getId()));
+        EnumGem.HELIODOR.id));
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 12), new ItemStack(this, 1,
-        EnumGem.AQUAMARINE.getId()));
+        EnumGem.AQUAMARINE.id));
     // 13-magenta
     GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 14), new ItemStack(this, 1,
-        EnumGem.TOPAZ.getId()));
+        EnumGem.TOPAZ.id));
   }
-  
+
   @Override
-  public void addOreDict() {
-    
+  public boolean canBlockStay(World world, int x, int y, int z) {
+
+    return world.getBlock(x, y - 1, z).canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, this);
   }
-  
+
   @Override
-  public String getUnlocalizedName() {
-    
-    return "tile." + Names.GLOW_ROSE;
+  public boolean canPlaceBlockAt(World world, int x, int y, int z) {
+
+    return super.canPlaceBlockAt(world, x, y, z) && this.canBlockStay(world, x, y, z);
   }
-  
-  @Override
-  public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
-    
-    for (int i = 0; i < EnumGem.count(); ++i) {
-      subItems.add(new ItemStack(this, 1, i));
+
+  protected boolean canPlaceBlockOn(Block block) {
+
+    return block == Blocks.grass || block == Blocks.dirt || block == Blocks.farmland;
+  }
+
+  protected void checkAndDropBlock(World world, int x, int y, int z) {
+
+    if (!this.canBlockStay(world, x, y, z)) {
+      this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+      world.setBlock(x, y, z, getBlockById(0), 0, 2);
     }
   }
-  
-  @Override
-  public int damageDropped(IBlockState state) {
 
-    return this.getMetaFromState(state);
-  }
-  
   @Override
-  public IBlockState getStateFromMeta(int meta) {
-    
-    return this.getDefaultState().withProperty(VARIANT, EnumGem.byId(meta));
+  public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+
+    return null;
   }
-  
+
   @Override
-  public int getMetaFromState(IBlockState state) {
-    
-    return ((EnumGem) state.getValue(VARIANT)).getId();
+  public Block getPlant(IBlockAccess world, int x, int y, int z) {
+
+    return this;
   }
-  
+
   @Override
-  protected BlockState createBlockState() {
-    
-    return new BlockState(this, new IProperty[] { VARIANT });
+  public int getPlantMetadata(IBlockAccess world, int x, int y, int z) {
+
+    return world.getBlockMetadata(x, y, z);
+  }
+
+  @Override
+  public EnumPlantType getPlantType(IBlockAccess world, int x, int y, int z) {
+
+    return EnumPlantType.Plains;
+  }
+
+  @Override
+  public int getRenderType() {
+
+    return 1;
+  }
+
+  @Override
+  public boolean isOpaqueCube() {
+
+    return false;
+  }
+
+  @Override
+  public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+
+    super.onNeighborBlockChange(world, x, y, z, block);
+    this.checkAndDropBlock(world, x, y, z);
+  }
+
+  @Override
+  public boolean renderAsNormalBlock() {
+
+    return false;
+  }
+
+  @Override
+  public void updateTick(World world, int x, int y, int z, Random random) {
+
+    this.checkAndDropBlock(world, x, y, z);
   }
 }

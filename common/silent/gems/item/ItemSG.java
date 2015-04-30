@@ -2,36 +2,39 @@ package silent.gems.item;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import silent.gems.SilentGems;
 import silent.gems.core.registry.IAddRecipe;
 import silent.gems.core.registry.IAddThaumcraftStuff;
-import silent.gems.core.registry.IHasVariants;
 import silent.gems.core.util.LocalizationHelper;
 import silent.gems.lib.EnumGem;
+import silent.gems.lib.Strings;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemSG extends Item implements IAddRecipe, IHasVariants, IAddThaumcraftStuff {
+public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff {
 
-  protected int subItemCount = 1;
+  public IIcon[] icons = null;
   protected boolean gemSubtypes = false;
   protected String itemName = "null";
   protected boolean isGlowing = false;
-  protected EnumRarity rarity = EnumRarity.COMMON;
+  protected EnumRarity rarity = EnumRarity.common;
 
-  public ItemSG(int subItemCount) {
+  public ItemSG() {
 
     setCreativeTab(SilentGems.tabSilentGems);
-    this.subItemCount = subItemCount;
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
     int i = 1;
     String s = LocalizationHelper.getItemDescription(itemName, i);
@@ -70,6 +73,16 @@ public class ItemSG extends Item implements IAddRecipe, IHasVariants, IAddThaumc
 
   }
 
+  @Override
+  public IIcon getIconFromDamage(int meta) {
+
+    if (hasSubtypes && icons != null && meta < icons.length) {
+      return icons[meta];
+    } else {
+      return super.getIconFromDamage(meta);
+    }
+  }
+
   public String getLocalizedName(ItemStack stack) {
 
     return StatCollector.translateToLocal(getUnlocalizedName(stack) + ".name");
@@ -85,40 +98,12 @@ public class ItemSG extends Item implements IAddRecipe, IHasVariants, IAddThaumc
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
     if (hasSubtypes) {
-      for (int i = 0; i < subItemCount; ++i) {
+      for (int i = 0; i < icons.length; ++i) {
         list.add(new ItemStack(this, 1, i));
       }
     } else {
       list.add(new ItemStack(this, 1, 0));
     }
-  }
-
-  public int getSubItemCount() {
-
-    return subItemCount;
-  }
-  
-  @Override
-  public String[] getVariantNames() {
-
-    if (hasSubtypes) {
-      String[] names = new String[subItemCount];
-      for (int i = 0; i < names.length; ++i) {
-        names[i] = getFullName() + i;
-      }
-      return names;
-    }
-    return new String[] { getFullName() };
-  }
-
-  public String getName() {
-
-    return itemName;
-  }
-
-  public String getFullName() {
-
-    return SilentGems.MOD_ID + ":" + itemName;
   }
 
   @Override
@@ -127,7 +112,7 @@ public class ItemSG extends Item implements IAddRecipe, IHasVariants, IAddThaumc
     int d = stack.getItemDamage();
     String s = LocalizationHelper.ITEM_PREFIX + itemName;
 
-    if ((gemSubtypes && d < EnumGem.count()) || hasSubtypes) {
+    if ((gemSubtypes && d < EnumGem.all().length) || hasSubtypes) {
       s += d;
     }
 
@@ -140,9 +125,30 @@ public class ItemSG extends Item implements IAddRecipe, IHasVariants, IAddThaumc
   }
 
   @Override
-  public boolean hasEffect(ItemStack stack) {
+  public boolean hasEffect(ItemStack stack, int pass) {
 
     return isGlowing;
+  }
+
+  @Override
+  public void registerIcons(IIconRegister reg) {
+
+    if (gemSubtypes) {
+      registerIconsForGemSubtypes(reg);
+    } else {
+      itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName);
+    }
+  }
+
+  public void registerIconsForGemSubtypes(IIconRegister reg) {
+
+    if (icons == null || icons.length != EnumGem.all().length) {
+      icons = new IIcon[EnumGem.all().length];
+    }
+
+    for (int i = 0; i < EnumGem.all().length; ++i) {
+      icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + this.itemName + EnumGem.all()[i].id);
+    }
   }
 
   public void setHasGemSubtypes(boolean value) {

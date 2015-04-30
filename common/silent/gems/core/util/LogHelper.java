@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraftforge.fml.common.FMLLog;
 import silent.gems.SilentGems;
+import silent.gems.lib.Reference;
+import cpw.mods.fml.common.FMLLog;
 
 public class LogHelper {
 
@@ -19,7 +19,7 @@ public class LogHelper {
   private final static String SEVERE = "[SEVERE]";
   private final static String WARNING = "[WARNING]";
 
-  private static Logger logger = Logger.getLogger(SilentGems.MOD_ID);
+  private static Logger logger = Logger.getLogger(Reference.MOD_ID);
 
   public static void init() {
 
@@ -27,8 +27,9 @@ public class LogHelper {
   }
 
   public static void log(String logLevel, Object object) {
-    
-    System.out.println((new Date()).toString() + " [" + SilentGems.MOD_ID + "] " + logLevel + " "
+
+    // logger.log(logLevel, object.toString());
+    System.out.println((new Date()).toString() + " [" + Reference.MOD_ID + "] " + logLevel + " "
         + object.toString());
   }
 
@@ -103,11 +104,6 @@ public class LogHelper {
   public static String coord(int x, int y, int z) {
 
     return "(" + x + ", " + y + ", " + z + ")";
-  }
-
-  public static String coord(BlockPos pos) {
-
-    return coord(pos.getX(), pos.getY(), pos.getZ());
   }
 
   public static String coordFromNBT(NBTTagCompound tags) {
