@@ -41,9 +41,10 @@ public class TorchBandolier extends ItemSG {
 
   public TorchBandolier() {
 
-    setMaxDamage(MAX_DAMAGE);
-    setMaxStackSize(1);
-    setUnlocalizedName(Names.TORCH_BANDOLIER);
+    this.setMaxDamage(MAX_DAMAGE);
+    this.setNoRepair();
+    this.setMaxStackSize(1);
+    this.setUnlocalizedName(Names.TORCH_BANDOLIER);
   }
 
   public ItemStack absorbTorches(ItemStack stack, EntityPlayer player) {
@@ -80,6 +81,11 @@ public class TorchBandolier extends ItemSG {
     }
 
     return stack;
+  }
+  
+  public int getTorchCount(ItemStack stack) {
+    
+    return this.MAX_DAMAGE - stack.getItemDamage();
   }
 
   @Override
