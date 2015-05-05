@@ -67,7 +67,7 @@ public class TorchBandolierRecipe implements IRecipe {
   @Override
   public int getRecipeSize() {
 
-    return 9;
+    return 10;
   }
 
   @Override

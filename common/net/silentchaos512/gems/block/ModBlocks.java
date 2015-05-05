@@ -6,20 +6,41 @@ import net.silentchaos512.gems.lib.Names;
 
 public class ModBlocks {
 
-    public static void init() {
+  public static GemOre gemOre;
+  public static ChaosOre chaosOre;
+  public static GemBlock gemBlock;
+  public static GemBrick gemBrickCoated;
+  public static GemBrick gemBrickSpeckled;
+  public static MiscBlock miscBlock;
+  public static GlowRose glowRose;
+  public static Teleporter teleporter;
+  public static GemLamp gemLamp;
+  public static GemLamp gemLampLit;
+  public static GemLamp gemLampInvertedLit;
+  public static GemLamp gemLampInverted;
+  public static FluffyPlantBlock fluffyPlant;
 
-        SRegistry.registerBlock(GemOre.class, Names.GEM_ORE);
-        SRegistry.registerBlock(ChaosOre.class, Names.CHAOS_ORE);
-        SRegistry.registerBlock(GemBlock.class, Names.GEM_BLOCK);
-        SRegistry.registerBlock(GemBrick.class, Names.GEM_BRICK_COATED, ItemBlockSG.class, new Object[] { Names.GEM_BRICK_COATED });
-        SRegistry.registerBlock(GemBrick.class, Names.GEM_BRICK_SPECKLED, ItemBlockSG.class, new Object[] { Names.GEM_BRICK_SPECKLED });
-        SRegistry.registerBlock(MiscBlock.class, Names.MISC_BLOCKS);
-        SRegistry.registerBlock(GlowRose.class, Names.GLOW_ROSE);
-        SRegistry.registerBlock(Teleporter.class, Names.TELEPORTER);
-        SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP, ItemBlockSG.class, new Object[] { false, false });
-        SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_LIT, ItemBlockSG.class, new Object[] { true, false });
-        SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_INV_LIT, ItemBlockSG.class, new Object[] { true, true });
-        SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_INV, ItemBlockSG.class, new Object[] { false, true });
-        SRegistry.registerBlock(FluffyPlantBlock.class, Names.FLUFFY_PLANT);
-    }
+  public static void init() {
+
+    gemOre = (GemOre) SRegistry.registerBlock(GemOre.class, Names.GEM_ORE);
+    chaosOre = (ChaosOre) SRegistry.registerBlock(ChaosOre.class, Names.CHAOS_ORE);
+    gemBlock = (GemBlock) SRegistry.registerBlock(GemBlock.class, Names.GEM_BLOCK);
+    gemBrickCoated = (GemBrick) SRegistry.registerBlock(GemBrick.class, Names.GEM_BRICK_COATED,
+        ItemBlockSG.class, Names.GEM_BRICK_COATED);
+    gemBrickSpeckled = (GemBrick) SRegistry.registerBlock(GemBrick.class, Names.GEM_BRICK_SPECKLED,
+        ItemBlockSG.class, Names.GEM_BRICK_SPECKLED);
+    miscBlock = (MiscBlock) SRegistry.registerBlock(MiscBlock.class, Names.MISC_BLOCKS);
+    glowRose = (GlowRose) SRegistry.registerBlock(GlowRose.class, Names.GLOW_ROSE);
+    teleporter = (Teleporter) SRegistry.registerBlock(Teleporter.class, Names.TELEPORTER);
+    gemLamp = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP, ItemBlockSG.class,
+        false, false);
+    gemLampLit = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_LIT,
+        ItemBlockSG.class, true, false);
+    gemLampInvertedLit = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_INV_LIT,
+        ItemBlockSG.class, true, true);
+    gemLampInverted = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_INV,
+        ItemBlockSG.class, false, true);
+    fluffyPlant = (FluffyPlantBlock) SRegistry.registerBlock(FluffyPlantBlock.class,
+        Names.FLUFFY_PLANT);
+  }
 }

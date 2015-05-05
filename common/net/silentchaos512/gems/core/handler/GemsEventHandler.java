@@ -5,36 +5,19 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import net.minecraft.network.play.server.S23PacketBlockChange;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.entity.player.BonemealEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.silentchaos512.gems.block.GlowRose;
-import net.silentchaos512.gems.configuration.Config;
-import net.silentchaos512.gems.control.PlayerInputMap;
 import net.silentchaos512.gems.core.registry.SRegistry;
-import net.silentchaos512.gems.core.util.LogHelper;
-import net.silentchaos512.gems.core.util.PlayerHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.ChaosGem;
 import net.silentchaos512.gems.item.TorchBandolier;
@@ -47,7 +30,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class GemsEventHandler {
 
@@ -75,13 +57,6 @@ public class GemsEventHandler {
 
   @SubscribeEvent
   public void onHarvestDropsEvent(HarvestDropsEvent event) {
-
-//    if (event.harvester != null) {
-//      ItemStack itemStack = event.harvester.inventory.getCurrentItem();
-//      if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.AOE_ID, itemStack) > 0) {
-//        handleAoEDrops(event);
-//      }
-//    }
 
     if (event.harvester != null && event.harvester.inventory.getCurrentItem() != null
         && event.harvester.inventory.getCurrentItem().getItem() instanceof GemSickle) {
@@ -112,73 +87,11 @@ public class GemsEventHandler {
       }
 
       if (sickle.attemptDamageItem(1, random)) {
-        // sickle.stackSize = 0;
-        // sickle = null;
         event.harvester.inventory.setInventorySlotContents(event.harvester.inventory.currentItem,
             null);
       }
     }
   }
-
-  private void handleAoEDrops(HarvestDropsEvent event) {
-
-//    ItemStack tool = event.harvester.inventory.getCurrentItem();
-//    EntityPlayer player = event.harvester;
-//
-//    if (!(tool.getItem() instanceof ItemTool) || event.block == null
-//        || !ForgeHooks.isToolEffective(tool, event.block, event.blockMetadata)) {
-//      return;
-//    }
-//
-//    MovingObjectPosition mop = raytraceFromEntity(event.world, event.harvester, false, 4.5);
-//    int sideHit = mop.sideHit;
-//
-//    int xRange = 1;
-//    int yRange = 1;
-//    int zRange = 0;
-//    switch (sideHit) {
-//      case 0:
-//      case 1:
-//        yRange = 0;
-//        zRange = 1;
-//        break;
-//      case 2:
-//      case 3:
-//        xRange = 1;
-//        zRange = 0;
-//        break;
-//      case 4:
-//      case 5:
-//        xRange = 0;
-//        zRange = 1;
-//        break;
-//    }
-//
-//    int x = event.x;
-//    int y = event.y;
-//    int z = event.z;
-//
-//    for (int xPos = x - xRange; xPos <= x + xRange; xPos++) {
-//      for (int yPos = y - yRange; yPos <= y + yRange; yPos++) {
-//        for (int zPos = z - zRange; zPos <= z + zRange; zPos++) {
-//          // don't break the originally already broken block, duh
-//          if (xPos == x && yPos == y && zPos == z) {
-//            continue;
-//          }
-//
-//          if (!tool.getItem().onBlockStartBreak(tool, xPos, yPos, zPos, player)) {
-//            breakExtraBlock(tool, event.world, xPos, yPos, zPos, sideHit, player, x, y, z);
-//          }
-//        }
-//      }
-//    }
-
-    // return tool.getItem().onBlockStartBreak(tool, x, y, z, player);
-  }
-
-
-
-  
 
   private ArrayList<ItemStack> getSickleDropsForBlock(ItemStack sickle, Block block, int meta,
       World world, int x, int y, int z, boolean isSilkTouching, int fortuneLevel) {
@@ -231,8 +144,6 @@ public class GemsEventHandler {
   public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 
     if (event.side == Side.CLIENT) {
-      // Input map update
-      handlePlayerInput();
     } else {
       // Every tick:
       tickFlight(event.player);
@@ -246,29 +157,6 @@ public class GemsEventHandler {
     }
   }
 
-  @SideOnly(Side.CLIENT)
-  private void handlePlayerInput() {
-
-    EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
-    if (player != null) {
-      PlayerInputMap inputMap = PlayerInputMap.getInputMapFor(player.getCommandSenderName());
-      inputMap.forwardKey = Math.signum(player.movementInput.moveForward);
-      inputMap.strafeKey = Math.signum(player.movementInput.moveStrafe);
-      inputMap.jumpKey = player.movementInput.jump;
-      inputMap.sneakKey = player.movementInput.sneak;
-      inputMap.motionX = player.motionX;
-      inputMap.motionY = player.motionY;
-      inputMap.motionZ = player.motionZ;
-
-      if (inputMap.hasChanged()) {
-        inputMap.refresh();
-        // MessagePlayerUpdate message = new MessagePlayerUpdate((EntityPlayer) player, inputMap);
-        // SilentGems.network.sendToAllAround(message, new TargetPoint(player.dimension, player.posX, player.posY,
-        // player.posZ, 160));
-      }
-    }
-  }
-
   private void tickFlight(EntityPlayer player) {
 
     // Look for a Chaos gem with Flight.
@@ -277,11 +165,8 @@ public class GemsEventHandler {
     for (ItemStack stack : player.inventory.mainInventory) {
       if (stack != null && stack.getItem() instanceof ChaosGem) {
         level = ChaosGem.getBuffLevel(stack, flight);
-        if (level > 0 && ChaosGem.isEnabled(stack)) {
-          handleFlight(player, stack);
-          player.fallDistance = (float) computeFallHeightFromVelocity(MathHelper.clamp_float(
-              (float) player.motionY, -1000.0f, 0.0f));
-          return;
+        if (level > 0) {
+          player.capabilities.allowFlying = ChaosGem.isEnabled(stack); // Does nothing?
         }
       }
     }
@@ -298,37 +183,6 @@ public class GemsEventHandler {
         }
         ModEnchantments.mending.tryActivate(player, stack);
       }
-    }
-  }
-
-  // Flight stuff
-
-  // Stolen from MachineMuses' Powersuits :)
-  public static final double DEFAULT_GRAVITY = -0.0784000015258789;
-
-  public static double computeFallHeightFromVelocity(double velocity) {
-
-    double ticks = velocity / DEFAULT_GRAVITY;
-    double distance = -0.5 * DEFAULT_GRAVITY * ticks * ticks;
-    return distance;
-  }
-
-  private void handleFlight(EntityPlayer player, ItemStack chaosGem) {
-
-    PlayerInputMap movementInput = PlayerInputMap.getInputMapFor(player.getCommandSenderName());
-    boolean jumpkey = movementInput.jumpKey;
-    // if (jumpkey) {
-    // LogHelper.derpRand();
-    // }
-    // Get thrust level
-    int flightLevel = ChaosGem.getBuffLevel(chaosGem, ChaosBuff.getBuffByName(ChaosBuff.FLIGHT));
-    double t = Config.CHAOS_GEM_FLIGHT_THRUST.value;
-    double thrust = t + t * (flightLevel - 1) / 2;
-
-    if (jumpkey && player.motionY < 0.5) {
-      // LogHelper.derpRand();
-      thrust = PlayerHelper.thrust(player, thrust);
-      // LogHelper.debug(thrust);
     }
   }
 }

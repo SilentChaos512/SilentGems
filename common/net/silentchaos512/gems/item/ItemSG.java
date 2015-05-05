@@ -17,8 +17,6 @@ import net.silentchaos512.gems.core.registry.IAddThaumcraftStuff;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Strings;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff {
 

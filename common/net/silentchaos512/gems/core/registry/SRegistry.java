@@ -25,9 +25,9 @@ public class SRegistry {
    * @param key
    *          The name of the Block.
    */
-  public static void registerBlock(Class<? extends Block> blockClass, String key) {
+  public static Block registerBlock(Class<? extends Block> blockClass, String key) {
 
-    registerBlock(blockClass, key, ItemBlockSG.class);
+    return registerBlock(blockClass, key, ItemBlockSG.class);
   }
 
   /**
@@ -42,7 +42,7 @@ public class SRegistry {
    * @param constructorParams
    *          The list of parameters for the constructor (minus the ID).
    */
-  public static void registerBlock(Class<? extends Block> blockClass, String key,
+  public static Block registerBlock(Class<? extends Block> blockClass, String key,
       Class<? extends ItemBlock> itemBlockClass, Object... constructorParams) {
 
     int i;
@@ -58,9 +58,11 @@ public class SRegistry {
       Block block = (Block) c.newInstance(constructorParams);
       blocks.put(key, block);
       GameRegistry.registerBlock(block, itemBlockClass, key);
+      return block;
     } catch (Exception e) {
       LogHelper.severe("Failed to register block " + key);
       e.printStackTrace();
+      return null;
     }
   }
 
@@ -74,7 +76,7 @@ public class SRegistry {
    * @param constructorParams
    *          The list of parameters for the constructor (minus the ID).
    */
-  public static void registerItem(Class<? extends Item> itemClass, String key,
+  public static Item registerItem(Class<? extends Item> itemClass, String key,
       Object... constructorParams) {
 
     int i;
@@ -90,9 +92,11 @@ public class SRegistry {
       Item item = (Item) c.newInstance(constructorParams);
       items.put(key, item);
       GameRegistry.registerItem(item, key);
+      return item;
     } catch (Exception e) {
       LogHelper.severe("Failed to register item " + key);
       e.printStackTrace();
+      return null;
     }
   }
 

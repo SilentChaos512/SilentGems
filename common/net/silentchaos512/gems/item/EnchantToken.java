@@ -24,7 +24,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.item.tool.GemHoe;
@@ -132,7 +131,7 @@ public class EnchantToken extends ItemSG {
     final boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
         || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
     String s;
-    
+
     if (meta == 0) {
       list.add(EnumChatFormatting.GOLD + LocalizationHelper.getOtherItemKey(itemName, "Empty"));
       list.add(LocalizationHelper.getItemDescription(itemName, 1));
@@ -145,7 +144,7 @@ public class EnchantToken extends ItemSG {
       list.add(EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(itemName, "BadToken"));
       return;
     }
-    
+
     // Check for null values?
     if (enchants.get(meta) == null || enchants.get(meta).enchantment == null) {
       return;
@@ -160,7 +159,8 @@ public class EnchantToken extends ItemSG {
       }
       // For gem tools only?
       if (enchants.get(meta).gemToolsOnly) {
-        list.add(EnumChatFormatting.YELLOW + LocalizationHelper.getOtherItemKey(itemName, "GemToolsOnly"));
+        list.add(EnumChatFormatting.YELLOW
+            + LocalizationHelper.getOtherItemKey(itemName, "GemToolsOnly"));
       }
       // List of valid tools.
       list.add(LocalizationHelper.getItemDescription(itemName, 2));

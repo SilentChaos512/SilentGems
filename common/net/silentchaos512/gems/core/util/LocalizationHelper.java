@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.core.util;
 
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
 public class LocalizationHelper {
@@ -40,21 +39,6 @@ public class LocalizationHelper {
 
     return StatCollector.translateToLocal(key).trim();
   }
-
-  // public static String getMessageText(String key) {
-  //
-  // return getMessageText(key, EnumChatFormatting.ITALIC);
-  // }
-  //
-  // public static String getMessageText(String key, EnumChatFormatting format) {
-  //
-  // return getMessageText(key, format.toString());
-  // }
-  //
-  // public static String getMessageText(String key, String format) {
-  //
-  // return (new StringBuilder()).append(format).append(getLocalizedString(MISC_PREFIX + key)).toString();
-  // }
 
   public static String getMiscText(String key) {
 

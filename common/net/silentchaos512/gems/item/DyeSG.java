@@ -16,7 +16,7 @@ public class DyeSG extends ItemSG {
 
   IIcon iconBlack;
   IIcon iconBlue;
-  
+
   public DyeSG() {
 
     setMaxStackSize(64);
@@ -31,10 +31,10 @@ public class DyeSG extends ItemSG {
     OreDictionary.registerOre("dyeBlack", new ItemStack(this, 1, 0));
     OreDictionary.registerOre("dyeBlue", new ItemStack(this, 1, 4));
   }
-  
+
   @Override
   public IIcon getIconFromDamage(int meta) {
-    
+
     if (meta == 0) {
       return iconBlack;
     } else if (meta == 4) {
@@ -43,24 +43,24 @@ public class DyeSG extends ItemSG {
       return null;
     }
   }
-  
+
   @Override
   public void registerIcons(IIconRegister reg) {
-    
+
     iconBlack = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName + "Black");
     iconBlue = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName + "Blue");
   }
-  
+
   @Override
   public void getSubItems(Item item, CreativeTabs tab, List list) {
-    
+
     list.add(new ItemStack(this, 1, 0));
     list.add(new ItemStack(this, 1, 4));
   }
-  
+
   @Override
   public String getUnlocalizedName(ItemStack stack) {
-    
+
     String s = LocalizationHelper.ITEM_PREFIX + itemName;
     if (stack.getItemDamage() == 0) {
       return s + "Black";
