@@ -1,6 +1,10 @@
 package net.silentchaos512.gems.item;
 
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.armor.ArmorSG;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.item.tool.GemHoe;
@@ -10,10 +14,12 @@ import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.item.tool.GemSword;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.material.ModMaterials;
 import net.silentchaos512.gems.recipe.ChaosRuneRecipe;
 import net.silentchaos512.gems.recipe.DecorateToolRecipe;
 import net.silentchaos512.gems.recipe.EnchantToolRecipe;
+import net.silentchaos512.gems.recipe.TorchBandolierExtractRecipe;
 import net.silentchaos512.gems.recipe.TorchBandolierRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -104,10 +110,27 @@ public class ModItems {
 
   public static void initItemRecipes() {
 
-    GameRegistry.addRecipe(new ChaosRuneRecipe());
-    GameRegistry.addRecipe(new DecorateToolRecipe());
-    GameRegistry.addRecipe(new EnchantToolRecipe());
-    GameRegistry.addRecipe(new TorchBandolierRecipe());
+    String afterShapeless = "after:minecraft:shapeless";
+    addRecipeHandler(ChaosRuneRecipe.class, "ChaosRune", Category.SHAPELESS, afterShapeless);
+    addRecipeHandler(DecorateToolRecipe.class, "DecorateTool", Category.SHAPED, afterShapeless);
+    addRecipeHandler(EnchantToolRecipe.class, "EnchantTool", Category.SHAPELESS, afterShapeless);
+    addRecipeHandler(TorchBandolierRecipe.class, "TorchBandolierDecorate", Category.SHAPELESS,
+        afterShapeless);
+    addRecipeHandler(TorchBandolierExtractRecipe.class, "TorchBandolierExtract",
+        Category.SHAPELESS, afterShapeless);
+  }
+
+  private static void addRecipeHandler(Class<? extends IRecipe> recipeClass, String name,
+      Category category, String dependancies) {
+
+    try {
+      IRecipe recipe = recipeClass.newInstance();
+      GameRegistry.addRecipe(recipe);
+      RecipeSorter.INSTANCE.register(Strings.RESOURCE_PREFIX + name, recipeClass, category,
+          dependancies);
+    } catch (Exception ex) {
+      LogHelper.severe("Failed to register recipe class: " + recipeClass.toString());
+    }
   }
 
   public static void addRandomChestGenLoot() {
@@ -115,5 +138,4 @@ public class ModItems {
     // TODO Auto-generated method stub
 
   }
-
 }

@@ -18,6 +18,7 @@ import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.silentchaos512.gems.block.GlowRose;
 import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.core.util.PlayerHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.ChaosGem;
 import net.silentchaos512.gems.item.TorchBandolier;
@@ -26,6 +27,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.lib.buff.ChaosBuff;
+import net.silentchaos512.gems.recipe.TorchBandolierExtractRecipe;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -40,9 +42,12 @@ public class GemsEventHandler {
   public void onItemCraftedEvent(ItemCraftedEvent event) {
 
     if (event.craftMatrix instanceof InventoryCrafting) {
-      if (TorchBandolier
-          .matchesRecipe((InventoryCrafting) event.craftMatrix, event.player.worldObj)) {
-        ItemStack gem = ((InventoryCrafting) event.craftMatrix).getStackInRowAndColumn(1, 1);
+      InventoryCrafting inv = (InventoryCrafting) event.craftMatrix;
+      EntityPlayer player = event.player;
+      World world = player.worldObj;
+      if (TorchBandolier.matchesRecipe(inv, world)) {
+        // Decorate a newly crafted Torch Bandolier with the gem used.
+        ItemStack gem = inv.getStackInRowAndColumn(1, 1);
         if (gem != null) {
           int k = gem.getItemDamage();
           if (event.crafting.stackTagCompound == null) {
@@ -51,6 +56,18 @@ public class GemsEventHandler {
           event.crafting.stackTagCompound.setByte(Strings.TORCH_BANDOLIER_GEM, (byte) k);
           event.crafting.stackTagCompound.setBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL, true);
         }
+      } else if ((new TorchBandolierExtractRecipe()).matches(inv, world)) {
+        // Return the Torch Bandolier that torches were extracted from.
+        ItemStack bandolier = null;
+        for (int i = 0; i < inv.getSizeInventory(); ++i) {
+          bandolier = inv.getStackInSlot(i);
+          if (bandolier != null && bandolier.getItem() instanceof TorchBandolier) {
+            break;
+          }
+        }
+        
+        bandolier.attemptDamageItem(event.crafting.stackSize, world.rand);
+        PlayerHelper.addItemToInventoryOrDrop(player, bandolier);
       }
     }
   }
