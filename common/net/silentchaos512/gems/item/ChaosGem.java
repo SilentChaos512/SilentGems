@@ -30,10 +30,11 @@ public class ChaosGem extends ItemSG {
 
     this.gemId = gemId;
     this.isCheaty = gemId == CHEATY_GEM_ID;
-    setMaxStackSize(1);
-    setUnlocalizedName(Names.CHAOS_GEM + gemId);
-    setMaxDamage(MAX_STACK_DAMAGE);
-    rarity = EnumRarity.rare;
+    this.setMaxStackSize(1);
+    this.setNoRepair();
+    this.setMaxDamage(MAX_STACK_DAMAGE);
+    this.setUnlocalizedName(Names.CHAOS_GEM + gemId);
+    this.rarity = EnumRarity.rare;
   }
 
   public static void addBuff(ItemStack stack, ChaosBuff buff) {
