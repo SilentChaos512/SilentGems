@@ -110,7 +110,8 @@ public class ReturnHome extends ItemSG {
         return;
       }
 
-      // TODO teleport player
+      // Reset velocity and teleport.
+      player.fallDistance = 0.0f;
       teleportPlayer(stack, player);
       world.playSoundAtEntity(player, "mob.endermen.portal", 1.0f, 1.0f);
     }
