@@ -3,6 +3,7 @@ package net.silentchaos512.gems.core.util;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAxe;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemSpade;
@@ -46,7 +47,7 @@ public class InventoryHelper {
       Item item = stack.getItem();
       return (item instanceof ItemSword) || item instanceof ItemPickaxe
           || item instanceof ItemSpade || item instanceof ItemAxe || item instanceof ItemHoe
-          || item instanceof GemSickle;
+          || item instanceof GemSickle || item instanceof ItemBow;
     }
     return false;
   }

@@ -14,6 +14,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAxe;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemSpade;
@@ -24,6 +25,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.item.tool.GemHoe;
@@ -277,6 +279,7 @@ public class EnchantToken extends ItemSG {
       flag |= tool.getItem() instanceof ItemSpade && (k & T_SHOVEL) != 0;
       flag |= tool.getItem() instanceof ItemAxe && (k & T_AXE) != 0;
       flag |= tool.getItem() instanceof ItemHoe && (k & T_HOE) != 0;
+      flag |= tool.getItem() instanceof ItemBow && (k & T_BOW) != 0;
     }
 
     if (flag) {
