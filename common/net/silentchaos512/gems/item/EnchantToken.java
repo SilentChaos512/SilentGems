@@ -93,15 +93,19 @@ public class EnchantToken extends ItemSG {
 
     addEnchantment(Enchantment.baneOfArthropods, T_SWORD | T_PICKAXE | T_SHOVEL);
     addEnchantment(Enchantment.efficiency, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE);
+    addEnchantment(Enchantment.flame, T_BOW);
     addEnchantment(Enchantment.fireAspect, T_SWORD);
     addEnchantment(Enchantment.fortune, T_PICKAXE | T_SHOVEL | T_AXE | T_HOE | T_SICKLE);
+    addEnchantment(Enchantment.infinity, T_BOW);
     addEnchantment(Enchantment.knockback, T_SWORD | T_AXE | T_HOE);
     addEnchantment(Enchantment.looting, T_SWORD);
+    addEnchantment(Enchantment.power, T_BOW);
+    addEnchantment(Enchantment.punch, T_BOW);
     addEnchantment(Enchantment.sharpness, T_SWORD | T_AXE | T_SICKLE);
     addEnchantment(Enchantment.silkTouch, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE);
     addEnchantment(Enchantment.smite, T_SWORD | T_AXE | T_HOE);
     addEnchantment(Enchantment.unbreaking, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE
-        | T_SICKLE);
+        | T_SICKLE | T_BOW);
 
     addEnchantment(ModEnchantments.mending, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE
         | T_SICKLE);
@@ -186,14 +190,22 @@ public class EnchantToken extends ItemSG {
         Items.spider_eye, 4, baseToken);
     addTokenRecipe(Enchantment.efficiency.effectId, EnumGem.EMERALD.getItem(), gemCount,
         Items.gold_ingot, 2, baseToken);
+    addTokenRecipe(Enchantment.flame.effectId, EnumGem.GARNET.getItem(), gemCount, Items.blaze_rod,
+        2, baseToken);
     addTokenRecipe(Enchantment.fireAspect.effectId, EnumGem.GARNET.getItem(), gemCount,
         Items.blaze_powder, 4, baseToken);
     addTokenRecipe(Enchantment.fortune.effectId, EnumGem.HELIODOR.getItem(), gemCount,
         Items.diamond, 3, baseToken);
+    addTokenRecipe(Enchantment.infinity.effectId, EnumGem.AMETHYST.getItem(), gemCount,
+        Items.ender_eye, 4, baseToken);
     addTokenRecipe(Enchantment.knockback.effectId, EnumGem.AQUAMARINE.getItem(), gemCount,
         Items.feather, 5, baseToken);
     addTokenRecipe(Enchantment.looting.effectId, EnumGem.TOPAZ.getItem(), gemCount, Items.emerald,
         2, baseToken);
+    addTokenRecipe(Enchantment.power.effectId, EnumGem.RUBY.getItem(), gemCount, Items.arrow, 5,
+        baseToken);
+    addTokenRecipe(Enchantment.punch.effectId, EnumGem.AQUAMARINE.getItem(), gemCount,
+        Blocks.piston, 2, baseToken);
     addTokenRecipe(Enchantment.sharpness.effectId, EnumGem.RUBY.getItem(), gemCount, Items.flint,
         5, baseToken);
     addTokenRecipe(Enchantment.silkTouch.effectId, EnumGem.IOLITE.getItem(), gemCount,
