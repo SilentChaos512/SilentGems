@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -46,6 +47,11 @@ public class BlockSG extends Block implements IAddRecipe, IAddThaumcraftStuff {
   @Override
   public void addThaumcraftStuff() {
 
+  }
+  
+  public EnumRarity getRarity(ItemStack stack) {
+    
+    return EnumRarity.common;
   }
 
   @Override

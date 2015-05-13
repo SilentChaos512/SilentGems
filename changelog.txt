@@ -6,3 +6,4 @@ Silent's Gems - Changelog
 - Return Home resets fall distance (no more fall damage when teleporting).
 - Added Enchantment Tokens for bows.
 - Unbreaking Enchantment Token now works on bows.
+- Enriched Chaos Essence blocks, because why not?

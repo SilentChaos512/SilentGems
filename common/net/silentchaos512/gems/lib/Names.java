@@ -6,6 +6,7 @@ public class Names {
    * Blocks
    */
   public static final String CHAOS_ESSENCE_BLOCK = "ChaosEssenceBlock";
+  public static final String CHAOS_ESSENCE_BLOCK_REFINED = "ChaosEssenceBlockRefined";
   public static final String CHAOS_ORE = "ChaosOre";
   public static final String FLUFFY_PLANT = "FluffyPlant";
   public static final String GEM_BLOCK = "GemBlock";

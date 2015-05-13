@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -49,6 +50,16 @@ public class ItemBlockSG extends ItemBlockWithMetadata {
       if (!s.equals(LocalizationHelper.getBlockDescriptionKey(itemName, 0))) {
         list.add(EnumChatFormatting.ITALIC + LocalizationHelper.getBlockDescription(itemName, 0));
       }
+    }
+  }
+  
+  @Override
+  public EnumRarity getRarity(ItemStack stack) {
+    
+    if (this.block instanceof BlockSG) {
+      return ((BlockSG) this.block).getRarity(stack);
+    } else {
+      return super.getRarity(stack);
     }
   }
 

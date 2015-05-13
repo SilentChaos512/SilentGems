@@ -2,6 +2,7 @@ package net.silentchaos512.gems.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.silentchaos512.gems.core.util.RecipeHelper;
@@ -11,7 +12,8 @@ import net.silentchaos512.gems.lib.Strings;
 
 public class MiscBlock extends BlockSG {
 
-  public final static String[] names = { Names.CHAOS_ESSENCE_BLOCK };
+  public final static String[] names = { Names.CHAOS_ESSENCE_BLOCK,
+      Names.CHAOS_ESSENCE_BLOCK_REFINED };
 
   public MiscBlock() {
 
@@ -25,8 +27,21 @@ public class MiscBlock extends BlockSG {
   public void addRecipes() {
 
     ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
+    ItemStack chaosEssenceRefined = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
     ItemStack block = this.getStack(Names.CHAOS_ESSENCE_BLOCK);
+    ItemStack blockRefined = this.getStack(Names.CHAOS_ESSENCE_BLOCK_REFINED);
     RecipeHelper.addCompressionRecipe(chaosEssence, block, 9);
+    RecipeHelper.addCompressionRecipe(chaosEssenceRefined, blockRefined, 9);
+  }
+  
+  @Override
+  public EnumRarity getRarity(ItemStack stack) {
+    
+    if (stack.getItemDamage() == 1) {
+      return EnumRarity.rare;
+    } else {
+      return super.getRarity(stack);
+    }
   }
 
   public static ItemStack getStack(String name) {

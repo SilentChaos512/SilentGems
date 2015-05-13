@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
@@ -99,6 +100,16 @@ public class CraftingMaterial extends ItemSG {
 
     ThaumcraftApi.registerObjectTag(getStack(Names.CHAOS_ESSENCE),
         (new AspectList()).add(Aspect.GREED, 4).add(Aspect.ENTROPY, 2));
+  }
+  
+  @Override
+  public EnumRarity getRarity(ItemStack stack) {
+    
+    if (stack.getItemDamage() == getMetaFor(Names.CHAOS_ESSENCE_PLUS)) {
+      return EnumRarity.rare;
+    } else {
+      return super.getRarity(stack);
+    }
   }
 
   public static ItemStack getStack(String name) {
