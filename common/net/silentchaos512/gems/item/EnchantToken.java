@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -23,6 +25,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
@@ -70,6 +73,13 @@ public class EnchantToken extends ItemSG {
   public final static int T_AXE = 2;
   public final static int T_HOE = 1;
 
+  private IIcon iconAny;
+  private IIcon iconArmor;
+  private IIcon iconBow;
+  private IIcon iconEmpty;
+  private IIcon iconSword;
+  private IIcon iconTool;
+
   /**
    * Stores the enchantments that there are tokens for.
    */
@@ -110,7 +120,7 @@ public class EnchantToken extends ItemSG {
         | T_SICKLE | T_BOW);
 
     addEnchantment(ModEnchantments.mending, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE
-        | T_SICKLE);
+        | T_SICKLE | T_BOW);
     addEnchantment(ModEnchantments.aoe, T_PICKAXE | T_SHOVEL | T_AXE);
   }
 
@@ -437,5 +447,43 @@ public class EnchantToken extends ItemSG {
     }
 
     return "";
+  }
+
+  @Override
+  public void registerIcons(IIconRegister reg) {
+
+    String str = Strings.RESOURCE_PREFIX + Names.ENCHANT_TOKEN + "_";
+    iconAny = reg.registerIcon(str + "Any");
+    iconArmor = reg.registerIcon(str + "Armor");
+    iconBow = reg.registerIcon(str + "Bow");
+    iconEmpty = reg.registerIcon(str + "Empty");
+    iconSword = reg.registerIcon(str + "Sword");
+    iconTool = reg.registerIcon(str + "Tool");
+  }
+
+  @Override
+  public IIcon getIconFromDamage(int meta) {
+
+    if (enchants.containsKey(meta)) {
+      EnumEnchantmentType type = enchants.get(meta).enchantment.type;
+      switch (type) {
+        case weapon:
+          return iconSword;
+        case digger:
+          return iconTool;
+        case bow:
+          return iconBow;
+        case armor:
+        case armor_feet:
+        case armor_legs:
+        case armor_torso:
+        case armor_head:
+          return iconArmor;
+        default:
+          return iconAny;
+      }
+    }
+
+    return iconEmpty;
   }
 }

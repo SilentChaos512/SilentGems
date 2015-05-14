@@ -1,9 +1,10 @@
 Silent's Gems - Changelog
 
 1.3.0.0 - Beta
-- Torch Bandolier and Chaos Gems can no longer be "repaired".
 - Torch Bandolier extraction recipe. Just place it in a crafting grid to get a stack of torches out.
 - Return Home resets fall distance (no more fall damage when teleporting).
+- New enchantment token textures (should make finding the right one a little easier)
 - Added Enchantment Tokens for bows.
-- Unbreaking Enchantment Token now works on bows.
+- Unbreaking and Mending Enchantment Tokens now work on bows.
 - Enriched Chaos Essence blocks, because why not?
+- (Bugfix) Torch Bandolier and Chaos Gems can no longer be "repaired".
