@@ -9,6 +9,13 @@ import net.silentchaos512.gems.lib.Names;
 
 public class Config {
 
+  // TODO: Organize all the things!
+
+  /*
+   * Items
+   */
+  public static int returnHomeUseTime = 24;
+
   /*
    * Tools
    */
@@ -99,6 +106,13 @@ public class Config {
       c.load();
 
       /*
+       * Items
+       */
+      returnHomeUseTime = c.getInt("ReturnHome.UseTime", CATEGORY_ITEM_PROPERTIES,
+          returnHomeUseTime, 0, 200,
+          "The number of ticks a player must hold right-click to activate the Return Home.");
+
+      /*
        * Tools
        */
       miningLevelRegular = c.getInt("Tool.MiningLevel.Regular", CATEGORY_ITEM_PROPERTIES,
@@ -111,10 +125,12 @@ public class Config {
       /*
        * Misc
        */
-      hideFlavorTextAlways = c.getBoolean("Tooltips.HideFlavorText.Always", CATEGORY_ITEM_PROPERTIES,
-          hideFlavorTextAlways, "Always hide the potentially funny, but useless item descriptions.");
+      hideFlavorTextAlways = c.getBoolean("Tooltips.HideFlavorText.Always",
+          CATEGORY_ITEM_PROPERTIES, hideFlavorTextAlways,
+          "Always hide the potentially funny, but useless item descriptions.");
       hideFlavorTextUntilShift = c.getBoolean("Tooltips.HideFlavorText.UntilShift",
-          CATEGORY_ITEM_PROPERTIES, hideFlavorTextUntilShift, "Hide the flavor text until shift is pressed.");
+          CATEGORY_ITEM_PROPERTIES, hideFlavorTextUntilShift,
+          "Hide the flavor text until shift is pressed.");
       CHAOS_ESSENCE_PER_ORE.loadValue(c, CATEGORY_ITEM_PROPERTIES,
           "The number of Chaos Essence you get for smelting one Chaos Ore").validate();
       CHAOS_GEM_CAPACITY_UPGRADE_INCREASE

@@ -14,6 +14,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.NBTHelper;
@@ -113,7 +114,7 @@ public class ReturnHome extends ItemSG {
       int timeUsed = this.getMaxItemUseDuration(stack) - itemInUseCount;
 
       // Did player use item long enough?
-      if (timeUsed < 24) {
+      if (timeUsed < Config.returnHomeUseTime) {
         return;
       }
 
