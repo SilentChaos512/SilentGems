@@ -17,6 +17,7 @@ public class Names {
   public static final String GEM_LAMP_INV = "GemLamp.Inverted";
   public static final String GEM_LAMP_INV_LIT = "GemLamp.Inverted.Lit";
   public static final String GEM_ORE = "GemOre";
+  public static final String GHOST_BLOCK = "GhostBlock";
   public static final String GLOW_ROSE = "GlowRose";
   public static final String MISC_BLOCKS = "MiscBlocks";
   public static final String SMOOTH_WOOL = "SmoothWool";
@@ -36,6 +37,7 @@ public class Names {
   public static final String GEM_ITEM = "Gem";
   public static final String GEM_ROD = "GemRod";
   public static final String GEM_SHARD = "GemShard";
+  public static final String HOLDING_GEM = "HoldingGem";
   public static final String MEATY_STEW = "MeatyStew";
   public static final String MEATY_STEW_UNCOOKED = "MeatyStewUncooked";
   public static final String POTATO_STICK = "PotatoStick";

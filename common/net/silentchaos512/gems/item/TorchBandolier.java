@@ -17,6 +17,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.silentchaos512.gems.api.IPlaceable;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.PlayerHelper;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -27,7 +28,7 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class TorchBandolier extends ItemSG {
+public class TorchBandolier extends ItemSG implements IPlaceable {
 
   public final static String AUTO_FILL_OFF = "AutoFillOff";
   public final static String AUTO_FILL_ON = "AutoFillOn";
@@ -45,6 +46,12 @@ public class TorchBandolier extends ItemSG {
     this.setNoRepair();
     this.setMaxStackSize(1);
     this.setUnlocalizedName(Names.TORCH_BANDOLIER);
+  }
+  
+  @Override
+  public Block getBlockPlaced(ItemStack stack) {
+    
+    return Blocks.torch;
   }
 
   public ItemStack absorbTorches(ItemStack stack, EntityPlayer player) {

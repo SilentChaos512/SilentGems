@@ -1,6 +1,9 @@
 package net.silentchaos512.gems.block;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.item.HoldingGem;
 import net.silentchaos512.gems.item.block.ItemBlockSG;
 import net.silentchaos512.gems.lib.Names;
 
@@ -19,6 +22,7 @@ public class ModBlocks {
   public static GemLamp gemLampInvertedLit;
   public static GemLamp gemLampInverted;
   public static FluffyPlantBlock fluffyPlant;
+  public static HoldingGemBlock holdingGemBlock;
 
   public static void init() {
 
@@ -42,5 +46,7 @@ public class ModBlocks {
         ItemBlockSG.class, false, true);
     fluffyPlant = (FluffyPlantBlock) SRegistry.registerBlock(FluffyPlantBlock.class,
         Names.FLUFFY_PLANT);
+    holdingGemBlock = (HoldingGemBlock) SRegistry.registerBlock(HoldingGemBlock.class,
+        Names.HOLDING_GEM, HoldingGem.class);
   }
 }

@@ -25,7 +25,7 @@ public class EnchantmentMending extends Enchantment {
   @Override
   public boolean canApply(ItemStack stack) {
 
-    // This enchantment is for gem tools and books.
+    // TODO: Fix this so mending books can be applied to non-gem tools?
     if (InventoryHelper.isGemTool(stack) || stack.getItem() instanceof ItemBook) {
       return stack.isItemStackDamageable() ? true : super.canApply(stack);
     }

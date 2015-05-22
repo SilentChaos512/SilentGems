@@ -3,7 +3,6 @@ package net.silentchaos512.gems.item.tool;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,11 +18,11 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.IPlaceable;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
-import net.silentchaos512.gems.item.TorchBandolier;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
@@ -229,7 +228,7 @@ public class GemAxe extends ItemAxe {
       nextStack = player.inventory.getStackInSlot(itemSlot);
       if (nextStack != null) {
         Item item = nextStack.getItem();
-        if (item instanceof ItemBlock || item instanceof TorchBandolier) {
+        if (item instanceof ItemBlock || item instanceof IPlaceable) {
           ForgeDirection d = ForgeDirection.VALID_DIRECTIONS[side];
 
           int px = x + d.offsetX;

@@ -19,6 +19,7 @@ import net.silentchaos512.gems.material.ModMaterials;
 import net.silentchaos512.gems.recipe.ChaosRuneRecipe;
 import net.silentchaos512.gems.recipe.DecorateToolRecipe;
 import net.silentchaos512.gems.recipe.EnchantToolRecipe;
+import net.silentchaos512.gems.recipe.HoldingGemSetRecipe;
 import net.silentchaos512.gems.recipe.TorchBandolierExtractRecipe;
 import net.silentchaos512.gems.recipe.TorchBandolierRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -30,6 +31,7 @@ public class ModItems {
   public static CraftingMaterial craftingMaterial;
   public static FoodSG food;
   public static TorchBandolier torchBandolier;
+  public static HoldingGem holdingGem;
   public static TeleporterLinker teleporterLinker;
   public static FluffyPlantSeeds fluffyPuff;
   public static ReturnHome returnHome;
@@ -48,6 +50,7 @@ public class ModItems {
     food = (FoodSG) SRegistry.registerItem(FoodSG.class, Names.FOOD);
     torchBandolier = (TorchBandolier) SRegistry.registerItem(TorchBandolier.class,
         Names.TORCH_BANDOLIER);
+    holdingGem = (HoldingGem) SRegistry.registerItem(HoldingGem.class, Names.HOLDING_GEM);
     teleporterLinker = (TeleporterLinker) SRegistry.registerItem(TeleporterLinker.class,
         Names.TELEPORTER_LINKER);
     fluffyPuff = (FluffyPlantSeeds) SRegistry.registerItem(FluffyPlantSeeds.class,
@@ -118,6 +121,7 @@ public class ModItems {
         afterShapeless);
     addRecipeHandler(TorchBandolierExtractRecipe.class, "TorchBandolierExtract",
         Category.SHAPELESS, afterShapeless);
+    addRecipeHandler(HoldingGemSetRecipe.class, "HoldingGemSet", Category.SHAPELESS, afterShapeless);
   }
 
   private static void addRecipeHandler(Class<? extends IRecipe> recipeClass, String name,
