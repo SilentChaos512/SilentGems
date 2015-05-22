@@ -26,7 +26,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CraftingMaterial extends ItemSG {
 
-  public final static int HIDE_AFTER_META = 12;
+  public final static int HIDE_AFTER_META = 99;
   public final static String[] names = { Names.ORNATE_STICK, Names.MYSTERY_GOO, Names.YARN_BALL,
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME,
       Names.CHAOS_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER, Names.RAWHIDE_BONE,

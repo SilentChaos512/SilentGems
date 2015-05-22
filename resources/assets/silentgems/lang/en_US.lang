@@ -312,6 +312,8 @@ item.silentgems:ReturnHome.desc2=There's no place like home!
 item.silentgems:ReturnHome.Bound=Linked to Teleporter!
 item.silentgems:ReturnHome.BoundTo=Bound to: %s
 item.silentgems:ReturnHome.NotBound=Not bound. Right-click on a Teleporter.
+item.silentgems:ReturnHome.NotSane=Destination Y is less than or equal to zero! Try re-linking!
+item.silentgems:ReturnHome.NotSafe=Destination obstructed! There is a solid block at head level!
 
 item.silentgems:SecretDonut.name=Secret Donut
 item.silentgems:SecretDonut.desc=You cannot comprehend this donut.
