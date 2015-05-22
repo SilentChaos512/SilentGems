@@ -10,6 +10,13 @@ import net.silentchaos512.gems.lib.Names;
 public class Config {
 
   /*
+   * Tools
+   */
+  public static int miningLevelRegular = 2;
+  public static int miningLevelSuper = 4;
+  public static int miningLevelFish = 3;
+
+  /*
    * Misc
    */
 
@@ -33,13 +40,15 @@ public class Config {
       600);
   public static ConfigOptionInt GLOW_ROSE_LIGHT_LEVEL = new ConfigOptionInt("GlowRose.LightLevel",
       10);
+  public static ConfigOptionInt HOLDING_GEM_MAX_ITEMS = new ConfigOptionInt("HoldingGem.MaxItems",
+      4096);
 
   /*
    * World generation config settings
    */
 
   public static ConfigOptionInt WORLD_GEM_CLUSTER_COUNT = new ConfigOptionInt(
-      "World.Gem.ClusterCount", 4);
+      "World.Gem.ClusterCount", 6);
   public static ConfigOptionInt WORLD_GEM_CLUSTER_SIZE = new ConfigOptionInt(
       "World.Gem.ClusterSize", 8);
   public static ConfigOptionInt WORLD_GEM_MAX_HEIGHT = new ConfigOptionInt("World.Gem.MaxHeight",
@@ -88,6 +97,16 @@ public class Config {
       c.load();
 
       /*
+       * Tools
+       */
+      miningLevelRegular = c.getInt("Tool.MiningLevel.Regular", CATEGORY_ITEM_PROPERTIES,
+          miningLevelRegular, 0, 100, "The mining level of regular gem tools.");
+      miningLevelSuper = c.getInt("Tool.MiningLevel.Super", CATEGORY_ITEM_PROPERTIES,
+          miningLevelSuper, 0, 100, "The mining level of supercharged gem tools.");
+      miningLevelFish = c.getInt("Tool.MiningLevel.Fish", CATEGORY_ITEM_PROPERTIES,
+          miningLevelFish, 0, 100, "The mining level of the gag fish tools.");
+
+      /*
        * Misc
        */
       CHAOS_ESSENCE_PER_ORE.loadValue(c, CATEGORY_ITEM_PROPERTIES,
@@ -109,6 +128,8 @@ public class Config {
           "The base duration for special effects from food");
       GLOW_ROSE_LIGHT_LEVEL.loadValue(c, CATEGORY_BLOCK_PROPERTIES,
           "The light level glow roses emit, must be between 0 and 15 inclusive.").validate();
+      HOLDING_GEM_MAX_ITEMS.loadValue(c, CATEGORY_ITEM_PROPERTIES,
+          "The number of blocks the Holding Gem can store.");
 
       /*
        * Enchantment ids

@@ -7,4 +7,5 @@ Silent's Gems - Changelog
 - Added Enchantment Tokens for bows.
 - Unbreaking and Mending Enchantment Tokens now work on bows.
 - Enriched Chaos Essence blocks, because why not?
+- Tool mining levels are now configurable.
 - (Bugfix) Torch Bandolier and Chaos Gems can no longer be "repaired".
