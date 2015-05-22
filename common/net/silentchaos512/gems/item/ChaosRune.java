@@ -2,6 +2,8 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -30,6 +32,9 @@ public class ChaosRune extends ItemSG {
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
+    boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
+        || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+
     int d = stack.getItemDamage();
 
     if (d >= 0 && d < ChaosBuff.all.size()) {
@@ -37,20 +42,25 @@ public class ChaosRune extends ItemSG {
       list.add(EnumChatFormatting.GOLD
           + LocalizationHelper.getLocalizedString(Strings.BUFF_RESOURCE_PREFIX
               + ChaosBuff.all.get(d).name));
-      // Cost
-      String s = LocalizationHelper.getOtherItemKey(itemName, COST);
-      list.add(EnumChatFormatting.DARK_GREEN + String.format(s, ChaosBuff.all.get(d).cost));
-      // Max Level
-      s = LocalizationHelper.getOtherItemKey(itemName, MAX_LEVEL);
-      list.add(EnumChatFormatting.DARK_GREEN + String.format(s, ChaosBuff.all.get(d).maxLevel));
-      // Buff description
-      list.add(LocalizationHelper.getOtherItemKey(itemName, ChaosBuff.all.get(d).name));
+      if (shifted) {
+        // Cost
+        String s = LocalizationHelper.getOtherItemKey(itemName, COST);
+        list.add(EnumChatFormatting.DARK_GREEN + String.format(s, ChaosBuff.all.get(d).cost));
+        // Max Level
+        s = LocalizationHelper.getOtherItemKey(itemName, MAX_LEVEL);
+        list.add(EnumChatFormatting.DARK_GREEN + String.format(s, ChaosBuff.all.get(d).maxLevel));
+        // Buff description
+        if (this.showFlavorText()) {
+          list.add(LocalizationHelper.getOtherItemKey(itemName, ChaosBuff.all.get(d).name));
+        }
+        // Information on how to use.
+        list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(itemName, 0));
+      } else {
+        list.add(EnumChatFormatting.ITALIC + LocalizationHelper.getMiscText(Strings.PRESS_SHIFT));
+      }
     } else {
       list.add(EnumChatFormatting.RED + "Invalid meta value!");
     }
-
-    // Information on how to use.
-    list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(itemName, 0));
   }
 
   @Override

@@ -22,7 +22,7 @@ public class ModBlocks {
   public static GemLamp gemLampInvertedLit;
   public static GemLamp gemLampInverted;
   public static FluffyPlantBlock fluffyPlant;
-  public static HoldingGemBlock holdingGemBlock;
+//  public static HoldingGemBlock holdingGemBlock;
 
   public static void init() {
 
@@ -46,7 +46,7 @@ public class ModBlocks {
         ItemBlockSG.class, false, true);
     fluffyPlant = (FluffyPlantBlock) SRegistry.registerBlock(FluffyPlantBlock.class,
         Names.FLUFFY_PLANT);
-    holdingGemBlock = (HoldingGemBlock) SRegistry.registerBlock(HoldingGemBlock.class,
-        Names.HOLDING_GEM, HoldingGem.class);
+//    holdingGemBlock = (HoldingGemBlock) SRegistry.registerBlock(HoldingGemBlock.class,
+//        Names.HOLDING_GEM, HoldingGem.class);
   }
 }

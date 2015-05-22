@@ -2,6 +2,8 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -47,10 +49,10 @@ public class TorchBandolier extends ItemSG implements IPlaceable {
     this.setMaxStackSize(1);
     this.setUnlocalizedName(Names.TORCH_BANDOLIER);
   }
-  
+
   @Override
   public Block getBlockPlaced(ItemStack stack) {
-    
+
     return Blocks.torch;
   }
 
@@ -89,14 +91,17 @@ public class TorchBandolier extends ItemSG implements IPlaceable {
 
     return stack;
   }
-  
+
   public int getTorchCount(ItemStack stack) {
-    
+
     return this.MAX_DAMAGE - stack.getItemDamage();
   }
 
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+
+    boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
+        || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
 
     if (stack.stackTagCompound == null) {
       resetTagCompound(stack);
@@ -116,8 +121,14 @@ public class TorchBandolier extends ItemSG implements IPlaceable {
       list.add((new StringBuilder()).append(EnumChatFormatting.YELLOW)
           .append(MAX_DAMAGE - stack.getItemDamage()).append(" / ").append(MAX_DAMAGE).toString());
     }
-    // How to use
-    list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(itemName, 2));
+
+    if (shifted) {
+      // How to use
+      list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(itemName, 2));
+      list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(itemName, 3));
+    } else {
+      list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getMiscText(Strings.PRESS_SHIFT));
+    }
   }
 
   @Override

@@ -2,6 +2,8 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +14,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.registry.IAddThaumcraftStuff;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
@@ -47,6 +50,14 @@ public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff {
         list.add(EnumChatFormatting.ITALIC + LocalizationHelper.getItemDescription(itemName, 0));
       }
     }
+  }
+
+  public static boolean showFlavorText() {
+
+    boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
+        || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+    return !Config.hideFlavorTextAlways
+        && ((Config.hideFlavorTextUntilShift && shifted) || !Config.hideFlavorTextUntilShift);
   }
 
   /**

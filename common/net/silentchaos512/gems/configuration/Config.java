@@ -20,6 +20,8 @@ public class Config {
    * Misc
    */
 
+  public static boolean hideFlavorTextAlways = false;
+  public static boolean hideFlavorTextUntilShift = true;
   public static ConfigOptionInt CHAOS_ESSENCE_PER_ORE = new ConfigOptionInt("ChaosEssence.PerOre",
       1);
   public static ConfigOptionDouble CHAOS_GEM_CAPACITY_UPGRADE_INCREASE = new ConfigOptionDouble(
@@ -109,6 +111,10 @@ public class Config {
       /*
        * Misc
        */
+      hideFlavorTextAlways = c.getBoolean("Tooltips.HideFlavorText.Always", CATEGORY_ITEM_PROPERTIES,
+          hideFlavorTextAlways, "Always hide the potentially funny, but useless item descriptions.");
+      hideFlavorTextUntilShift = c.getBoolean("Tooltips.HideFlavorText.UntilShift",
+          CATEGORY_ITEM_PROPERTIES, hideFlavorTextUntilShift, "Hide the flavor text until shift is pressed.");
       CHAOS_ESSENCE_PER_ORE.loadValue(c, CATEGORY_ITEM_PROPERTIES,
           "The number of Chaos Essence you get for smelting one Chaos Ore").validate();
       CHAOS_GEM_CAPACITY_UPGRADE_INCREASE

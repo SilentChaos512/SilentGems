@@ -50,7 +50,9 @@ public class ReturnHome extends ItemSG {
     // How to use
     list.add(EnumChatFormatting.AQUA + LocalizationHelper.getItemDescription(itemName, 1));
     // Item description
-    list.add(EnumChatFormatting.ITALIC + LocalizationHelper.getItemDescription(itemName, 2));
+    if (this.showFlavorText()) {
+      list.add(EnumChatFormatting.ITALIC + LocalizationHelper.getItemDescription(itemName, 2));
+    }
 
     // Display coordinates if modifier key is held.
     if (stack.stackTagCompound != null && NBTHelper.hasValidXYZD(stack.stackTagCompound)) {

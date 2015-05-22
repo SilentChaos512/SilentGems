@@ -37,8 +37,10 @@ public class PetSummon extends ItemSG {
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
-    list.add(EnumChatFormatting.ITALIC
-        + LocalizationHelper.getItemDescription(NAMES[stack.getItemDamage()], 0));
+    if (this.showFlavorText()) {
+      list.add(EnumChatFormatting.ITALIC
+          + LocalizationHelper.getItemDescription(NAMES[stack.getItemDamage()], 0));
+    }
   }
 
   @Override

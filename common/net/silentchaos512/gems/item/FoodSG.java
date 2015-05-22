@@ -3,6 +3,8 @@ package net.silentchaos512.gems.item;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -79,7 +81,9 @@ public class FoodSG extends ItemFood implements IAddRecipe {
 
     if (stack.getItemDamage() < names.length) {
       list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(Names.FOOD, 0));
-      list.add(LocalizationHelper.getItemDescription(names[stack.getItemDamage()], 0));
+      if (ItemSG.showFlavorText()) {
+        list.add(LocalizationHelper.getItemDescription(names[stack.getItemDamage()], 0));
+      }
     }
   }
 

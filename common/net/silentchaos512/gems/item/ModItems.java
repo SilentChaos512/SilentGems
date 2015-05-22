@@ -121,7 +121,7 @@ public class ModItems {
         afterShapeless);
     addRecipeHandler(TorchBandolierExtractRecipe.class, "TorchBandolierExtract",
         Category.SHAPELESS, afterShapeless);
-    addRecipeHandler(HoldingGemSetRecipe.class, "HoldingGemSet", Category.SHAPELESS, afterShapeless);
+//    addRecipeHandler(HoldingGemSetRecipe.class, "HoldingGemSet", Category.SHAPELESS, afterShapeless);
   }
 
   private static void addRecipeHandler(Class<? extends IRecipe> recipeClass, String name,

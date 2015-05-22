@@ -2,6 +2,8 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -12,6 +14,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.lib.Names;
@@ -45,8 +48,11 @@ public class CraftingMaterial extends ItemSG {
 
     list.add(EnumChatFormatting.DARK_GRAY
         + LocalizationHelper.getItemDescription(Names.CRAFTING_MATERIALS, 0));
-    list.add(EnumChatFormatting.ITALIC
-        + LocalizationHelper.getItemDescription(names[stack.getItemDamage()], 0));
+
+    if (this.showFlavorText()) {
+      list.add(EnumChatFormatting.ITALIC
+          + LocalizationHelper.getItemDescription(names[stack.getItemDamage()], 0));
+    }
   }
 
   @Override
@@ -101,10 +107,10 @@ public class CraftingMaterial extends ItemSG {
     ThaumcraftApi.registerObjectTag(getStack(Names.CHAOS_ESSENCE),
         (new AspectList()).add(Aspect.GREED, 4).add(Aspect.ENTROPY, 2));
   }
-  
+
   @Override
   public EnumRarity getRarity(ItemStack stack) {
-    
+
     if (stack.getItemDamage() == getMetaFor(Names.CHAOS_ESSENCE_PLUS)) {
       return EnumRarity.rare;
     } else {

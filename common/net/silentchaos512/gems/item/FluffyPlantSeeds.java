@@ -2,6 +2,8 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -11,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
+import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
@@ -30,8 +33,10 @@ public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
-    list.add(EnumChatFormatting.ITALIC
-        + LocalizationHelper.getItemDescription(Names.FLUFFY_SEED, 0));
+    if (ItemSG.showFlavorText()) {
+      list.add(EnumChatFormatting.ITALIC
+          + LocalizationHelper.getItemDescription(Names.FLUFFY_SEED, 0));
+    }
   }
 
   @Override

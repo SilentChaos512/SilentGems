@@ -314,7 +314,7 @@ item.silentgems:ReturnHome.BoundTo=Bound to: %s
 item.silentgems:ReturnHome.NotBound=Not bound. Right-click on a Teleporter.
 
 item.silentgems:SecretDonut.name=Secret Donut
-item.silentgems:SecretDonut.desc=You cannot comprehend the nature of this donut.
+item.silentgems:SecretDonut.desc=You cannot comprehend this donut.
 
 item.silentgems:SugarCookie.name=Sugar Cookie
 item.silentgems:SugarCookie.desc=I swear they were here a minute ago!
@@ -333,6 +333,7 @@ item.silentgems:TeleporterLinker.Inactive=Not linked.
 item.silentgems:TorchBandolier.name=Torch Bandolier
 item.silentgems:TorchBandolier.desc1=Can store and dispense torches.
 item.silentgems:TorchBandolier.desc2=Sneak-right click to change modes.
+item.silentgems:TorchBandolier.desc3=Place in a crafting grid to extract torches.
 item.silentgems:TorchBandolier.AutoFillOff=Auto-fill mode OFF.
 item.silentgems:TorchBandolier.AutoFillOn=Auto-fill mode ON.
 
