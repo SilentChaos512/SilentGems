@@ -72,43 +72,43 @@ public class GemsEventHandler {
     }
   }
 
-  @SubscribeEvent
-  public void onHarvestDropsEvent(HarvestDropsEvent event) {
-
-    if (event.harvester != null && event.harvester.inventory.getCurrentItem() != null
-        && event.harvester.inventory.getCurrentItem().getItem() instanceof GemSickle) {
-      ItemStack sickle = event.harvester.inventory.getCurrentItem();
-
-      // Check a 3x3x3 cube.
-      for (int z = event.z - 1; z < event.z + 2; ++z) {
-        for (int y = event.y - 1; y < event.y + 2; ++y) {
-          for (int x = event.x - 1; x < event.x + 2; ++x) {
-            Block block = event.world.getBlock(x, y, z);
-            // Is the block a material the sickle will harvest?
-            for (Material material : GemSickle.effectiveMaterials) {
-              if (block.getMaterial() == material) {
-                // Get drops from block, considering silk touch.
-                for (ItemStack stack : getSickleDropsForBlock(sickle, block,
-                    event.world.getBlockMetadata(x, y, z), event.world, x, y, z,
-                    event.isSilkTouching, event.fortuneLevel)) {
-                  event.drops.add(stack);
-                }
-
-                // Break block
-                event.world.setBlockToAir(x, y, z);
-                break;
-              }
-            }
-          }
-        }
-      }
-
-      if (sickle.attemptDamageItem(1, random)) {
-        event.harvester.inventory.setInventorySlotContents(event.harvester.inventory.currentItem,
-            null);
-      }
-    }
-  }
+//  @SubscribeEvent
+//  public void onHarvestDropsEvent(HarvestDropsEvent event) {
+//
+//    if (event.harvester != null && event.harvester.inventory.getCurrentItem() != null
+//        && event.harvester.inventory.getCurrentItem().getItem() instanceof GemSickle) {
+//      ItemStack sickle = event.harvester.inventory.getCurrentItem();
+//
+//      // Check a 3x3x3 cube.
+//      for (int z = event.z - 1; z < event.z + 2; ++z) {
+//        for (int y = event.y - 1; y < event.y + 2; ++y) {
+//          for (int x = event.x - 1; x < event.x + 2; ++x) {
+//            Block block = event.world.getBlock(x, y, z);
+//            // Is the block a material the sickle will harvest?
+//            for (Material material : GemSickle.effectiveMaterials) {
+//              if (block.getMaterial() == material) {
+//                // Get drops from block, considering silk touch.
+//                for (ItemStack stack : getSickleDropsForBlock(sickle, block,
+//                    event.world.getBlockMetadata(x, y, z), event.world, x, y, z,
+//                    event.isSilkTouching, event.fortuneLevel)) {
+//                  event.drops.add(stack);
+//                }
+//
+//                // Break block
+//                event.world.setBlockToAir(x, y, z);
+//                break;
+//              }
+//            }
+//          }
+//        }
+//      }
+//
+//      if (sickle.attemptDamageItem(1, random)) {
+//        event.harvester.inventory.setInventorySlotContents(event.harvester.inventory.currentItem,
+//            null);
+//      }
+//    }
+//  }
 
   private ArrayList<ItemStack> getSickleDropsForBlock(ItemStack sickle, Block block, int meta,
       World world, int x, int y, int z, boolean isSilkTouching, int fortuneLevel) {

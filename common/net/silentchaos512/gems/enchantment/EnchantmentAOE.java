@@ -150,7 +150,7 @@ public class EnchantmentAOE extends Enchantment {
     }
   }
 
-  private static void breakExtraBlock(ItemStack tool, World world, int x, int y, int z,
+  public static void breakExtraBlock(ItemStack tool, World world, int x, int y, int z,
       int sidehit, EntityPlayer playerEntity, int refX, int refY, int refZ) {
 
     if (world.isAirBlock(x, y, z))

@@ -20,13 +20,12 @@ public class RecipeHelper {
   public static void addCompressionRecipe(ItemStack small, ItemStack big, int count) {
 
     if (count == 4) {
-      GameRegistry.addShapelessRecipe(big, small, small, small, small);
+      GameRegistry.addShapedRecipe(big, "ss", "ss", 's', small);
     } else {
-      GameRegistry.addShapelessRecipe(big, small, small, small, small, small, small, small, small,
-          small);
+      GameRegistry.addShapedRecipe(big, "sss", "sss", "sss", 's', small);
     }
     small.stackSize = count != 4 && count != 9 ? 9 : count;
-    GameRegistry.addShapelessRecipe(small, big);
+    GameRegistry.addShapedRecipe(small, "b", 'b', big);
   }
 
   /**

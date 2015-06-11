@@ -34,12 +34,6 @@ public class EnchantmentMending extends Enchantment {
   }
 
   @Override
-  public boolean canApplyTogether(Enchantment enchant) {
-
-    return super.canApplyTogether(enchant) && enchant.effectId != Enchantment.unbreaking.effectId;
-  }
-
-  @Override
   public int getMinEnchantability(int par1) {
 
     return 5 + (par1 - 1) * 8;

@@ -289,6 +289,7 @@ public class EnchantToken extends ItemSG {
       flag |= tool.getItem() instanceof ItemSpade && (k & T_SHOVEL) != 0;
       flag |= tool.getItem() instanceof ItemAxe && (k & T_AXE) != 0;
       flag |= tool.getItem() instanceof ItemHoe && (k & T_HOE) != 0;
+      flag |= tool.getItem() instanceof GemSickle && (k & T_SICKLE) != 0;
       flag |= tool.getItem() instanceof ItemBow && (k & T_BOW) != 0;
     }
 

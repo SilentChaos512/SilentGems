@@ -18,6 +18,7 @@ local.properties
 build.properties
 .gradle
 common/thaumcraft
+libs
 
 # External tool builders
 .externalToolBuilders/
