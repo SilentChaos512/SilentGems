@@ -1,7 +1,0 @@
-{
-	"variants": {
-		"variant=raw": { "model": "SilentGems:ChaosEssenceBlock0" },
-    "variant=regular": { "model": "SilentGems:ChaosEssenceBlock1" },
-    "variant=refined": { "model": "SilentGems:ChaosEssenceBlock2" }
-	}
-}

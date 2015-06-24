@@ -2,13 +2,13 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
@@ -16,42 +16,68 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class CraftingMaterial extends ItemSG {
+public class CraftingMaterial extends ItemSG implements IFuelHandler {
 
+  /**
+   * Hide items in NEI with a meta greater than this. Not really used at this time.
+   */
   public final static int HIDE_AFTER_META = 99;
-  public final static String[] names = { Names.ORNATE_STICK, Names.MYSTERY_GOO, Names.YARN_BALL,
+  /**
+   * The names of each sub-item. This list cannot be rearranged, as the index determines the meta.
+   */
+  public final static String[] NAMES = { Names.ORNATE_STICK, Names.MYSTERY_GOO, Names.YARN_BALL,
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME,
       Names.CHAOS_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER, Names.RAWHIDE_BONE,
-      Names.CHAOS_ESSENCE_SHARD };
+      Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL };
+  /**
+   * The order that items appear in NEI.
+   */
+  public final static String[] SORTED_NAMES = { Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS,
+      Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.ORNATE_STICK, Names.MYSTERY_GOO,
+      Names.PLUME, Names.GOLDEN_PLUME, Names.YARN_BALL, Names.RAWHIDE_BONE, Names.CHAOS_SHARD,
+      Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER };
 
   public CraftingMaterial() {
 
     super();
 
-    icons = new IIcon[names.length];
+    icons = new IIcon[NAMES.length];
     setMaxStackSize(64);
     setHasSubtypes(true);
     setMaxDamage(0);
     setUnlocalizedName(Names.CRAFTING_MATERIALS);
+
+    // Derp check.
+    if (NAMES.length != SORTED_NAMES.length) {
+      LogHelper.warning("CraftingMaterial: NAMES and SORTED_NAMES contain a different number of "
+          + "items! This is not a serious problem.");
+    }
   }
 
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
-    list.add(EnumChatFormatting.DARK_GRAY
-        + LocalizationHelper.getItemDescription(Names.CRAFTING_MATERIALS, 0));
+    String str = "";
+    if (stack.getItemDamage() == getMetaFor(Names.CHAOS_COAL)) {
+      str = LocalizationHelper.getOtherItemKey(this.itemName, "fuel");
+    } else {
+      str = LocalizationHelper.getItemDescription(this.itemName, 0);
+    }
+    list.add(EnumChatFormatting.DARK_GRAY + str);
 
     if (this.showFlavorText()) {
-      list.add(EnumChatFormatting.ITALIC
-          + LocalizationHelper.getItemDescription(names[stack.getItemDamage()], 0));
+      str = LocalizationHelper.getItemDescription(NAMES[stack.getItemDamage()], 0);
+      list.add(EnumChatFormatting.ITALIC + str);
     }
   }
 
@@ -64,6 +90,8 @@ public class CraftingMaterial extends ItemSG {
 
   @Override
   public void addRecipes() {
+
+    GameRegistry.registerFuelHandler(this);
 
     ItemStack chaosEssence = getStack(Names.CHAOS_ESSENCE);
 
@@ -99,6 +127,8 @@ public class CraftingMaterial extends ItemSG {
         Items.leather, 'b', Items.bone);
     // Chaos Essence Shard
     RecipeHelper.addCompressionRecipe(getStack(Names.CHAOS_ESSENCE_SHARD), chaosEssence, 9);
+    // Chaos Coal
+    RecipeHelper.addSurround(getStack(Names.CHAOS_COAL), chaosEssence, Items.coal);
   }
 
   @Override
@@ -120,8 +150,8 @@ public class CraftingMaterial extends ItemSG {
 
   public static ItemStack getStack(String name) {
 
-    for (int i = 0; i < names.length; ++i) {
-      if (names[i].equals(name)) {
+    for (int i = 0; i < NAMES.length; ++i) {
+      if (NAMES[i].equals(name)) {
         return new ItemStack(ModItems.craftingMaterial, 1, i);
       }
     }
@@ -131,8 +161,8 @@ public class CraftingMaterial extends ItemSG {
 
   public static ItemStack getStack(String name, int count) {
 
-    for (int i = 0; i < names.length; ++i) {
-      if (names[i].equals(name)) {
+    for (int i = 0; i < NAMES.length; ++i) {
+      if (NAMES[i].equals(name)) {
         return new ItemStack(ModItems.craftingMaterial, count, i);
       }
     }
@@ -142,8 +172,8 @@ public class CraftingMaterial extends ItemSG {
 
   public static int getMetaFor(String name) {
 
-    for (int i = 0; i < names.length; ++i) {
-      if (names[i].equals(name)) {
+    for (int i = 0; i < NAMES.length; ++i) {
+      if (NAMES[i].equals(name)) {
         return i;
       }
     }
@@ -152,9 +182,31 @@ public class CraftingMaterial extends ItemSG {
   }
 
   @Override
+  public void getSubItems(Item item, CreativeTabs tab, List list) {
+
+    int i = 0;
+    for (; i < SORTED_NAMES.length; ++i) {
+      list.add(getStack(SORTED_NAMES[i]));
+    }
+    for (; i < NAMES.length; ++i) {
+      list.add(getStack(NAMES[i]));
+    }
+  }
+
+  @Override
+  public int getBurnTime(ItemStack stack) {
+
+    if (stack != null && stack.getItem() == this
+        && stack.getItemDamage() == getStack(Names.CHAOS_COAL).getItemDamage()) {
+      return Config.chaosCoalBurnTime;
+    }
+    return 0;
+  }
+
+  @Override
   public String getUnlocalizedName(ItemStack stack) {
 
-    return getUnlocalizedName(names[stack.getItemDamage()]);
+    return getUnlocalizedName(NAMES[stack.getItemDamage()]);
   }
 
   @Override
@@ -166,8 +218,8 @@ public class CraftingMaterial extends ItemSG {
   @Override
   public void registerIcons(IIconRegister iconRegister) {
 
-    for (int i = 0; i < names.length; ++i) {
-      icons[i] = iconRegister.registerIcon(Strings.RESOURCE_PREFIX + names[i]);
+    for (int i = 0; i < NAMES.length; ++i) {
+      icons[i] = iconRegister.registerIcon(Strings.RESOURCE_PREFIX + NAMES[i]);
     }
   }
 }

@@ -31,7 +31,7 @@ public class ModItems {
   public static CraftingMaterial craftingMaterial;
   public static FoodSG food;
   public static TorchBandolier torchBandolier;
-  public static HoldingGem holdingGem;
+//  public static HoldingGem holdingGem;
   public static TeleporterLinker teleporterLinker;
   public static FluffyPlantSeeds fluffyPuff;
   public static ReturnHome returnHome;
@@ -50,7 +50,7 @@ public class ModItems {
     food = (FoodSG) SRegistry.registerItem(FoodSG.class, Names.FOOD);
     torchBandolier = (TorchBandolier) SRegistry.registerItem(TorchBandolier.class,
         Names.TORCH_BANDOLIER);
-    holdingGem = (HoldingGem) SRegistry.registerItem(HoldingGem.class, Names.HOLDING_GEM);
+//    holdingGem = (HoldingGem) SRegistry.registerItem(HoldingGem.class, Names.HOLDING_GEM);
     teleporterLinker = (TeleporterLinker) SRegistry.registerItem(TeleporterLinker.class,
         Names.TELEPORTER_LINKER);
     fluffyPuff = (FluffyPlantSeeds) SRegistry.registerItem(FluffyPlantSeeds.class,

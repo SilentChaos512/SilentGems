@@ -5,6 +5,7 @@ public class Names {
   /*
    * Blocks
    */
+  public static final String CHAOS_COAL_BLOCK = "ChaosCoalBlock";
   public static final String CHAOS_ESSENCE_BLOCK = "ChaosEssenceBlock";
   public static final String CHAOS_ESSENCE_BLOCK_REFINED = "ChaosEssenceBlockRefined";
   public static final String CHAOS_ORE = "ChaosOre";
@@ -55,6 +56,7 @@ public class Names {
    */
   public static final String CHAOS_BOOSTER = "ChaosBooster";
   public static final String CHAOS_CAPACITOR = "ChaosCapacitor";
+  public static final String CHAOS_COAL = "ChaosCoal";
   public static final String CHAOS_ESSENCE = "Chaos Essence";
   public static final String CHAOS_ESSENCE_PLUS = "ChaosEssencePlus";
   public static final String CHAOS_ESSENCE_SHARD = "ChaosEssenceShard";

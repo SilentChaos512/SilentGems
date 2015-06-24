@@ -19,7 +19,7 @@ public class NEISilentGemsConfig implements IConfigureNEI {
       API.hideItem(new ItemStack(ModBlocks.gemLampLit, 1, i));
       API.hideItem(new ItemStack(ModBlocks.gemLampInverted, 1, i));
     }
-    for (int i = CraftingMaterial.HIDE_AFTER_META; i < CraftingMaterial.names.length; ++i) {
+    for (int i = CraftingMaterial.HIDE_AFTER_META; i < CraftingMaterial.NAMES.length; ++i) {
       API.hideItem(new ItemStack(ModItems.craftingMaterial, 1, i));
     }
     API.hideItem(new ItemStack(ModItems.debugItem));

@@ -14,6 +14,7 @@ public class Config {
   /*
    * Items
    */
+  public static int chaosCoalBurnTime = 6400;
   public static int returnHomeUseTime = 24;
 
   /*
@@ -108,6 +109,9 @@ public class Config {
       /*
        * Items
        */
+      chaosCoalBurnTime = c.getInt("ChaosCoal.BurnTime", CATEGORY_ITEM_PROPERTIES,
+          chaosCoalBurnTime, 0, Integer.MAX_VALUE,
+          "The burn time of Chaos Coal. Vanilla coal is 1600.");
       returnHomeUseTime = c.getInt("ReturnHome.UseTime", CATEGORY_ITEM_PROPERTIES,
           returnHomeUseTime, 0, 200,
           "The number of ticks a player must hold right-click to activate the Return Home.");

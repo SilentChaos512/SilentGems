@@ -1,5 +1,11 @@
 Silent's Gems - Changelog
 
+1.2.08 (?)
+Added: Chaos Coal and Chaos Coal Blocks. Four times the energy of coal (configurable).
+
+1.2.07b
+Fixed: Sickles for real this time, I think.
+
 1.2.07
 
 Added: New enchantment token textures (should make finding the right one a little easier).
