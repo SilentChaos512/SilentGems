@@ -1,5 +1,7 @@
 package net.silentchaos512.gems.item;
 
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.RecipeSorter.Category;
@@ -19,7 +21,6 @@ import net.silentchaos512.gems.material.ModMaterials;
 import net.silentchaos512.gems.recipe.ChaosRuneRecipe;
 import net.silentchaos512.gems.recipe.DecorateToolRecipe;
 import net.silentchaos512.gems.recipe.EnchantToolRecipe;
-import net.silentchaos512.gems.recipe.HoldingGemSetRecipe;
 import net.silentchaos512.gems.recipe.TorchBandolierExtractRecipe;
 import net.silentchaos512.gems.recipe.TorchBandolierRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -31,7 +32,7 @@ public class ModItems {
   public static CraftingMaterial craftingMaterial;
   public static FoodSG food;
   public static TorchBandolier torchBandolier;
-//  public static HoldingGem holdingGem;
+  // public static HoldingGem holdingGem;
   public static TeleporterLinker teleporterLinker;
   public static FluffyPlantSeeds fluffyPuff;
   public static ReturnHome returnHome;
@@ -50,7 +51,7 @@ public class ModItems {
     food = (FoodSG) SRegistry.registerItem(FoodSG.class, Names.FOOD);
     torchBandolier = (TorchBandolier) SRegistry.registerItem(TorchBandolier.class,
         Names.TORCH_BANDOLIER);
-//    holdingGem = (HoldingGem) SRegistry.registerItem(HoldingGem.class, Names.HOLDING_GEM);
+    // holdingGem = (HoldingGem) SRegistry.registerItem(HoldingGem.class, Names.HOLDING_GEM);
     teleporterLinker = (TeleporterLinker) SRegistry.registerItem(TeleporterLinker.class,
         Names.TELEPORTER_LINKER);
     fluffyPuff = (FluffyPlantSeeds) SRegistry.registerItem(FluffyPlantSeeds.class,
@@ -62,19 +63,22 @@ public class ModItems {
     chaosRune = (ChaosRune) SRegistry.registerItem(ChaosRune.class, Names.CHAOS_RUNE);
     dye = (DyeSG) SRegistry.registerItem(DyeSG.class, Names.DYE);
 
-    // Register chaos gems.
+    /*
+     * Chaos Gems
+     */
     for (int i = 0; i < EnumGem.all().length; ++i) {
       SRegistry.registerItem(ChaosGem.class, Names.CHAOS_GEM + i, i);
     }
     SRegistry.registerItem(ChaosGem.class, Names.CHAOS_GEM + ChaosGem.CHEATY_GEM_ID,
         ChaosGem.CHEATY_GEM_ID);
 
-    // Register tools.
-    int gem;
+    /*
+     * Tools
+     */
     Object[] params = new Object[] { null, 0, false }; // Constructor parameters
     for (int i = 0; i < 24; ++i) {
       boolean supercharged = i >= 12;
-      gem = supercharged ? i - 12 : i;
+      int gem = supercharged ? i - 12 : i;
       params[0] = EnumGem.values()[gem].getToolMaterial(supercharged);
       params[1] = gem;
       params[2] = supercharged;
@@ -97,15 +101,34 @@ public class ModItems {
     SRegistry.registerItem(GemHoe.class, "HoeFish", params);
     SRegistry.registerItem(GemSickle.class, "SickleFish", params);
 
-    // Register armor
-    SRegistry.registerItem(ArmorSG.class, "CottonHelmet", new Object[] { ArmorSG.materialCotton, 0,
-        0, "CottonHelmet" });
-    SRegistry.registerItem(ArmorSG.class, "CottonChestplate", new Object[] {
-        ArmorSG.materialCotton, 0, 1, "CottonChestplate" });
-    SRegistry.registerItem(ArmorSG.class, "CottonLeggings", new Object[] { ArmorSG.materialCotton,
-        0, 2, "CottonLeggings" });
-    SRegistry.registerItem(ArmorSG.class, "CottonBoots", new Object[] { ArmorSG.materialCotton, 0,
-        3, "CottonBoots" });
+    /*
+     * Armor
+     */
+    for (int i = 0; i < 24; ++i) {
+      boolean supercharged = i >= 12;
+      int gem = supercharged ? i - 12 : i;
+      String s = gem + (supercharged ? "Plus" : "");
+      ArmorMaterial material = EnumGem.values()[gem].getArmorMaterial(supercharged);
+      ItemStack craftingItem = new ItemStack(ModItems.gem, 1, (supercharged ? 16 + i : i));
+      
+      String name = "Helmet" + s;
+      SRegistry.registerItem(ArmorSG.class, name, material, 0, 0, name, craftingItem);
+      name = "Chestplate" + s;
+      SRegistry.registerItem(ArmorSG.class, name, material, 0, 1, name, craftingItem);
+      name = "Leggings" + s;
+      SRegistry.registerItem(ArmorSG.class, name, material, 0, 2, name, craftingItem);
+      name = "Boots" + s;
+      SRegistry.registerItem(ArmorSG.class, name, material, 0, 3, name, craftingItem);
+    }
+    
+    SRegistry.registerItem(ArmorSG.class, "CottonHelmet", ArmorSG.materialCotton, 0, 0,
+        "CottonHelmet");
+    SRegistry.registerItem(ArmorSG.class, "CottonChestplate", ArmorSG.materialCotton, 0, 1,
+        "CottonChestplate");
+    SRegistry.registerItem(ArmorSG.class, "CottonLeggings", ArmorSG.materialCotton, 0, 2,
+        "CottonLeggings");
+    SRegistry.registerItem(ArmorSG.class, "CottonBoots", ArmorSG.materialCotton, 0, 3,
+        "CottonBoots");
 
     // Debug Item
     debugItem = (DebugItem) SRegistry.registerItem(DebugItem.class, Names.DEBUG_ITEM);
@@ -121,7 +144,7 @@ public class ModItems {
         afterShapeless);
     addRecipeHandler(TorchBandolierExtractRecipe.class, "TorchBandolierExtract",
         Category.SHAPELESS, afterShapeless);
-//    addRecipeHandler(HoldingGemSetRecipe.class, "HoldingGemSet", Category.SHAPELESS, afterShapeless);
+    // addRecipeHandler(HoldingGemSetRecipe.class, "HoldingGemSet", Category.SHAPELESS, afterShapeless);
   }
 
   private static void addRecipeHandler(Class<? extends IRecipe> recipeClass, String name,

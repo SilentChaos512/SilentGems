@@ -1,13 +1,15 @@
 package net.silentchaos512.gems.item.armor;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Strings;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -16,35 +18,41 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
   public final static ArmorMaterial materialCotton = EnumHelper.addArmorMaterial("gemsCotton", 4,
       new int[] { 1, 2, 2, 1 }, 17);
 
-  private final String itemName;
+  private String itemName;
+  private ItemStack craftingItem;
 
   public ArmorSG(ArmorMaterial material, int renderIndex, int armorType, String name) {
 
+    this(material, renderIndex, armorType, name, new ItemStack(ModItems.fluffyPuff));
+  }
+
+  public ArmorSG(ArmorMaterial material, int renderIndex, int armorType, String name,
+      ItemStack craftingItem) {
+
     super(material, renderIndex, armorType);
 
-    itemName = name;
-    setCreativeTab(SilentGems.tabSilentGems);
-    setUnlocalizedName(name);
+    this.craftingItem = craftingItem;
+    this.setCreativeTab(SilentGems.tabSilentGems);
+    this.setUnlocalizedName(name);
   }
 
   @Override
   public void addRecipes() {
 
-    if (this.getArmorMaterial() == materialCotton) {
-      addArmorRecipe("materialCotton", this.armorType);
-    }
-  }
-
-  private void addArmorRecipe(Object material, int armorType) {
-
-    if (armorType == 0) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(this, true, "mmm", "m m", 'm', material));
-    } else if (armorType == 1) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(this, true, "m m", "mmm", "mmm", 'm', material));
-    } else if (armorType == 2) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(this, true, "mmm", "m m", "m m", 'm', material));
-    } else if (armorType == 3) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(this, true, "m m", "m m", 'm', material));
+    ItemStack result = new ItemStack(this);
+    switch (this.armorType) {
+      case 0:
+        GameRegistry.addShapedRecipe(result, "mmm", "m m", 'm', this.craftingItem);
+        break;
+      case 1:
+        GameRegistry.addShapedRecipe(result, "m m", "mmm", "mmm", 'm', this.craftingItem);
+        break;
+      case 2:
+        GameRegistry.addShapedRecipe(result, "mmm", "m m", "m m", 'm', this.craftingItem);
+        break;
+      case 3:
+        GameRegistry.addShapedRecipe(result, "m m", "m m", 'm', this.craftingItem);
+        break;
     }
   }
 
@@ -60,8 +68,22 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
   }
 
   @Override
+  public Item setUnlocalizedName(String name) {
+
+    this.itemName = name;
+    return super.setUnlocalizedName(name);
+  }
+
+  @Override
   public void registerIcons(IIconRegister reg) {
 
-    itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName);
+    itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + this.itemName);
+  }
+
+  @Override
+  public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
+
+    return Strings.RESOURCE_PREFIX + "textures/armor/" + this.itemName + "_"
+        + (this.armorType == 2 ? "2" : "1") + ".png";
   }
 }

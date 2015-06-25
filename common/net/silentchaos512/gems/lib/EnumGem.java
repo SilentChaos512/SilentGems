@@ -1,9 +1,9 @@
 package net.silentchaos512.gems.lib;
 
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.material.ModMaterials;
 
@@ -128,6 +128,65 @@ public enum EnumGem {
         return ModMaterials.toolRegMorganite;
       else if (id == ONYX.id)
         return ModMaterials.toolRegOnyx;
+      else
+        return null;
+    }
+  }
+  
+  public ArmorMaterial getArmorMaterial(boolean supercharged) {
+
+    if (supercharged) {
+      if (id == RUBY.id)
+        return ModMaterials.armorSupRuby;
+      else if (id == GARNET.id)
+        return ModMaterials.armorSupGarnet;
+      else if (id == TOPAZ.id)
+        return ModMaterials.armorSupTopaz;
+      else if (id == HELIODOR.id)
+        return ModMaterials.armorSupHeliodor;
+      else if (id == PERIDOT.id)
+        return ModMaterials.armorSupPeridot;
+      else if (id == EMERALD.id)
+        return ModMaterials.armorSupEmerald;
+      else if (id == AQUAMARINE.id)
+        return ModMaterials.armorSupAquamarine;
+      else if (id == SAPPHIRE.id)
+        return ModMaterials.armorSupSapphire;
+      else if (id == IOLITE.id)
+        return ModMaterials.armorSupIolite;
+      else if (id == AMETHYST.id)
+        return ModMaterials.armorSupAmethyst;
+      else if (id == MORGANITE.id)
+        return ModMaterials.armorSupMorganite;
+      else if (id == ONYX.id)
+        return ModMaterials.armorSupOnyx;
+      else
+        return null;
+    } else {
+      if (id == RUBY.id)
+        return ModMaterials.armorRegRuby;
+      else if (id == GARNET.id)
+        return ModMaterials.armorRegGarnet;
+      else if (id == TOPAZ.id)
+        return ModMaterials.armorRegTopaz;
+      else if (id == HELIODOR.id)
+        return ModMaterials.armorRegHeliodor;
+      else if (id == PERIDOT.id)
+        return ModMaterials.armorRegPeridot;
+      else if (id == EMERALD.id)
+        return ModMaterials.armorRegEmerald;
+      else if (id == AQUAMARINE.id)
+        return ModMaterials.armorRegAquamarine;
+      else if (id == SAPPHIRE.id)
+        return ModMaterials.armorRegSapphire;
+      else if (id == IOLITE.id)
+        return ModMaterials.armorRegIolite;
+      else if (id == AMETHYST.id)
+        return ModMaterials.armorRegAmethyst;
+      else if (id == MORGANITE.id)
+        return ModMaterials.armorRegMorganite;
+      else if (id == ONYX.id)
+        return ModMaterials.armorRegOnyx;
       else
         return null;
     }

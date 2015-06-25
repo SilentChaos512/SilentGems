@@ -63,16 +63,16 @@ public class ModMaterials {
   public static final ArmorMaterial armorRegMorganite = EnumHelper.addArmorMaterial("GemArmorRegMorganite", 20, armorRegReduction, 10);
   public static final ArmorMaterial armorRegOnyx = EnumHelper.addArmorMaterial("GemArmorRegOnyx", 16, armorRegReduction, 10);
   
-  public static final ArmorMaterial armorSupRuby = EnumHelper.addArmorMaterial("GemArmorSupRuby", 24, armorSupReduction, 10);
-  public static final ArmorMaterial armorSupGarnet = EnumHelper.addArmorMaterial("GemArmorSupGarnet", 20, armorSupReduction, 10);
-  public static final ArmorMaterial armorSupTopaz = EnumHelper.addArmorMaterial("GemArmorSupTopaz", 20, armorSupReduction, 10);
-  public static final ArmorMaterial armorSupHeliodor = EnumHelper.addArmorMaterial("GemArmorSupHeliodor", 16, armorSupReduction, 10);
-  public static final ArmorMaterial armorSupPeridot = EnumHelper.addArmorMaterial("GemArmorSupPeridot", 20, armorSupReduction, 10);
-  public static final ArmorMaterial armorSupEmerald = EnumHelper.addArmorMaterial("GemArmorSupEmerald", 20, armorSupReduction, 10);
-  public static final ArmorMaterial armorSupAquamarine = EnumHelper.addArmorMaterial("GemArmorSupAquamarine", 16, armorSupReduction, 10);
-  public static final ArmorMaterial armorSupSapphire = EnumHelper.addArmorMaterial("GemArmorSupSapphire", 24, armorSupReduction, 10);
-  public static final ArmorMaterial armorSupIolite = EnumHelper.addArmorMaterial("GemArmorSupIolite", 24, armorSupReduction, 10);
-  public static final ArmorMaterial armorSupAmethyst = EnumHelper.addArmorMaterial("GemArmorSupAmethyst", 20, armorSupReduction, 10);
-  public static final ArmorMaterial armorSupMorganite = EnumHelper.addArmorMaterial("GemArmorSupMorganite", 20, armorSupReduction, 10);
-  public static final ArmorMaterial armorSupOnyx = EnumHelper.addArmorMaterial("GemArmorSupOnyx", 16, armorSupReduction, 10);
+  public static final ArmorMaterial armorSupRuby = EnumHelper.addArmorMaterial("GemArmorSupRuby", 48, armorSupReduction, 14);
+  public static final ArmorMaterial armorSupGarnet = EnumHelper.addArmorMaterial("GemArmorSupGarnet", 40, armorSupReduction, 14);
+  public static final ArmorMaterial armorSupTopaz = EnumHelper.addArmorMaterial("GemArmorSupTopaz", 40, armorSupReduction, 14);
+  public static final ArmorMaterial armorSupHeliodor = EnumHelper.addArmorMaterial("GemArmorSupHeliodor", 32, armorSupReduction, 14);
+  public static final ArmorMaterial armorSupPeridot = EnumHelper.addArmorMaterial("GemArmorSupPeridot", 40, armorSupReduction, 14);
+  public static final ArmorMaterial armorSupEmerald = EnumHelper.addArmorMaterial("GemArmorSupEmerald", 40, armorSupReduction, 14);
+  public static final ArmorMaterial armorSupAquamarine = EnumHelper.addArmorMaterial("GemArmorSupAquamarine", 32, armorSupReduction, 14);
+  public static final ArmorMaterial armorSupSapphire = EnumHelper.addArmorMaterial("GemArmorSupSapphire", 48, armorSupReduction, 14);
+  public static final ArmorMaterial armorSupIolite = EnumHelper.addArmorMaterial("GemArmorSupIolite", 48, armorSupReduction, 14);
+  public static final ArmorMaterial armorSupAmethyst = EnumHelper.addArmorMaterial("GemArmorSupAmethyst", 40, armorSupReduction, 14);
+  public static final ArmorMaterial armorSupMorganite = EnumHelper.addArmorMaterial("GemArmorSupMorganite", 40, armorSupReduction, 14);
+  public static final ArmorMaterial armorSupOnyx = EnumHelper.addArmorMaterial("GemArmorSupOnyx", 32, armorSupReduction, 14);
 }
