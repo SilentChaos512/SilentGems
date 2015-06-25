@@ -223,22 +223,22 @@ public class DecorateToolRecipe implements IRecipe {
       return -1;
     }
 
-    if (rod.getItem() instanceof GemRod) {
-      return rod.getItemDamage();
-    } else if (rod.getItem() instanceof CraftingMaterial) {
-      int d = rod.getItemDamage();
-      if (d == CraftingMaterial.getMetaFor(Names.ORNATE_STICK)) {
-        return -1;
-      } else if (d == CraftingMaterial.getMetaFor(Names.FANCY_STICK_IRON)) {
-        return EnumGem.all().length;
-      } else if (d == CraftingMaterial.getMetaFor(Names.FANCY_STICK_COPPER)) {
-        return EnumGem.all().length + 1;
-      } else if (d == CraftingMaterial.getMetaFor(Names.FANCY_STICK_TIN)) {
-        return EnumGem.all().length + 2;
-      } else if (d == CraftingMaterial.getMetaFor(Names.FANCY_STICK_SILVER)) {
-        return EnumGem.all().length + 3;
-      }
-    }
+//    if (rod.getItem() instanceof GemRod) {
+//      return rod.getItemDamage();
+//    } else if (rod.getItem() instanceof CraftingMaterial) {
+//      int d = rod.getItemDamage();
+//      if (d == CraftingMaterial.getMetaFor(Names.ORNATE_STICK)) {
+//        return -1;
+//      }else if (d == CraftingMaterial.getMetaFor(Names.FANCY_STICK_IRON)) {
+//        return EnumGem.all().length;
+//      } else if (d == CraftingMaterial.getMetaFor(Names.FANCY_STICK_COPPER)) {
+//        return EnumGem.all().length + 1;
+//      } else if (d == CraftingMaterial.getMetaFor(Names.FANCY_STICK_TIN)) {
+//        return EnumGem.all().length + 2;
+//      } else if (d == CraftingMaterial.getMetaFor(Names.FANCY_STICK_SILVER)) {
+//        return EnumGem.all().length + 3;
+//      }
+//    }
 
     return -1;
   }

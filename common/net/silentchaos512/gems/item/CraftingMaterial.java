@@ -37,14 +37,14 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
    */
   public final static String[] NAMES = { Names.ORNATE_STICK, Names.MYSTERY_GOO, Names.YARN_BALL,
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME,
-      Names.CHAOS_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER, Names.RAWHIDE_BONE,
+      Names.NETHER_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER, Names.RAWHIDE_BONE,
       Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL };
   /**
    * The order that items appear in NEI.
    */
   public final static String[] SORTED_NAMES = { Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS,
       Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.ORNATE_STICK, Names.MYSTERY_GOO,
-      Names.PLUME, Names.GOLDEN_PLUME, Names.YARN_BALL, Names.RAWHIDE_BONE, Names.CHAOS_SHARD,
+      Names.PLUME, Names.GOLDEN_PLUME, Names.YARN_BALL, Names.RAWHIDE_BONE, Names.NETHER_SHARD,
       Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER };
 
   public CraftingMaterial() {
@@ -114,14 +114,14 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     RecipeHelper.addSurround(getStack(Names.GOLDEN_PLUME, 1), getStack(Names.PLUME), chaosEssence,
         Items.gold_ingot);
     // Chaos Shard
-    GameRegistry.addShapedRecipe(getStack(Names.CHAOS_SHARD, 24), "ccc", "cnc", "ccc", 'c',
+    GameRegistry.addShapedRecipe(getStack(Names.NETHER_SHARD, 24), "ccc", "cnc", "ccc", 'c',
         getStack(Names.CHAOS_ESSENCE_PLUS), 'n', Items.nether_star);
     // Chaos Capacitor
     GameRegistry.addShapedRecipe(getStack(Names.CHAOS_CAPACITOR, 3), "srs", "ses", "srs", 's',
-        getStack(Names.CHAOS_SHARD), 'r', Items.redstone, 'e', Items.emerald);
+        getStack(Names.NETHER_SHARD), 'r', Items.redstone, 'e', Items.emerald);
     // Chaos Booster
     GameRegistry.addShapedRecipe(getStack(Names.CHAOS_BOOSTER, 3), "sgs", "ses", "sgs", 's',
-        getStack(Names.CHAOS_SHARD), 'g', Items.glowstone_dust, 'e', Items.emerald);
+        getStack(Names.NETHER_SHARD), 'g', Items.glowstone_dust, 'e', Items.emerald);
     // Rawhide bone
     GameRegistry.addShapedRecipe(getStack(Names.RAWHIDE_BONE, 1), " l ", "lbl", " l ", 'l',
         Items.leather, 'b', Items.bone);

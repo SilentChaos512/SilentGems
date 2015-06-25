@@ -60,14 +60,10 @@ public class Names {
   public static final String CHAOS_ESSENCE = "Chaos Essence";
   public static final String CHAOS_ESSENCE_PLUS = "ChaosEssencePlus";
   public static final String CHAOS_ESSENCE_SHARD = "ChaosEssenceShard";
-  public static final String CHAOS_SHARD = "ChaosShard";
-  public static final String FANCY_STICK_COPPER = "FancyStickCopper";
-  public static final String FANCY_STICK_IRON = "FancyStickIron";
-  public static final String FANCY_STICK_SILVER = "FancyStickSilver";
-  public static final String FANCY_STICK_TIN = "FancyStickTin";
   public static final String GILDED_STRING = "GildedString";
   public static final String GOLDEN_PLUME = "GoldenPlume";
   public static final String MYSTERY_GOO = "Mystery Goo";
+  public static final String NETHER_SHARD = "NetherShard";
   public static final String ORNATE_STICK = "Ornate Stick";
   public static final String PLUME = "Plume";
   public static final String RAWHIDE_BONE = "RawhideBone";
