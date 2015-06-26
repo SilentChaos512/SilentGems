@@ -1,10 +1,14 @@
 package net.silentchaos512.gems.configuration;
 
 import java.io.File;
+import java.util.ArrayList;
 
+import net.minecraft.util.WeightedRandom;
 import net.minecraftforge.common.config.Configuration;
 import net.silentchaos512.gems.core.util.LogHelper;
+import net.silentchaos512.gems.core.util.WeightedRandomItemSG;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
+import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 
 public class Config {
@@ -73,6 +77,8 @@ public class Config {
       "World.ChaosOre.Rarity", 1);
   public static ConfigOptionInt WORLD_FLOWERS_PER_CHUNK = new ConfigOptionInt(
       "World.FlowersPerChunk", 1);
+
+  public static ArrayList<WeightedRandomItemSG> GEM_WEIGHTS = new ArrayList<WeightedRandomItemSG>();
 
   /*
    * Config Handler
@@ -175,6 +181,13 @@ public class Config {
       WORLD_CHAOS_ORE_MAX_HEIGHT.loadValue(c, CATEGORY_WORLD_GEN);
       WORLD_CHAOS_ORE_RARITY.loadValue(c, CATEGORY_WORLD_GEN).validate();
       WORLD_FLOWERS_PER_CHUNK.loadValue(c, CATEGORY_WORLD_GEN);
+
+      // Gem weights
+      for (EnumGem gem : EnumGem.values()) {
+        int k = c.getInt("World.Gem.Weight" + gem.name, CATEGORY_WORLD_GEN, 10, 1, 1000,
+            "How like this gem is to be selected when spawning a vein of gem ore");
+        GEM_WEIGHTS.add(new WeightedRandomItemSG(k, gem.id));
+      }
     } catch (Exception e) {
       LogHelper.severe("Oh noes!!! Couldn't load configuration file properly!");
     } finally {

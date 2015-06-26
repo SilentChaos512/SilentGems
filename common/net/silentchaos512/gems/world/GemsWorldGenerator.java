@@ -3,12 +3,16 @@ package net.silentchaos512.gems.world;
 import java.util.Random;
 
 import net.minecraft.init.Blocks;
+import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.silentchaos512.gems.block.GlowRose;
+import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.core.util.LogHelper;
+import net.silentchaos512.gems.core.util.WeightedRandomItemSG;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -34,15 +38,17 @@ public class GemsWorldGenerator implements IWorldGenerator {
 
   private void generateSurface(World world, Random random, int chunkX, int chunkZ) {
 
-    int i, x, y, z;
+    int i, x, y, z, meta;
 
     // Gem ores.
     for (i = 0; i < Config.WORLD_GEM_CLUSTER_COUNT.value; ++i) {
       x = chunkX + random.nextInt(16);
       y = random.nextInt(Config.WORLD_GEM_MAX_HEIGHT.value);
       z = chunkZ + random.nextInt(16);
-      new WorldGenMinable(SRegistry.getBlock(Names.GEM_ORE), random.nextInt(EnumGem.all().length),
-          Config.WORLD_GEM_CLUSTER_SIZE.value, Blocks.stone).generate(world, random, x, y, z);
+//      WeightedRandomItemSG w = (WeightedRandomItemSG) WeightedRandom.getRandomItem(random, Config.GEM_WEIGHTS);
+      meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, Config.GEM_WEIGHTS)).getMeta();
+      new WorldGenMinable(ModBlocks.gemOre, meta, Config.WORLD_GEM_CLUSTER_SIZE.value, Blocks.stone)
+          .generate(world, random, x, y, z);
     }
 
     // Chaos ores. Chance of failure.
@@ -51,9 +57,8 @@ public class GemsWorldGenerator implements IWorldGenerator {
         x = chunkX + random.nextInt(16);
         y = random.nextInt(Config.WORLD_CHAOS_ORE_MAX_HEIGHT.value);
         z = chunkZ + random.nextInt(16);
-        new WorldGenMinable(SRegistry.getBlock(Names.CHAOS_ORE), 0,
-            Config.WORLD_CHAOS_ORE_CLUSTER_SIZE.value, Blocks.stone).generate(world, random, x, y,
-            z);
+        new WorldGenMinable(ModBlocks.chaosOre, 0, Config.WORLD_CHAOS_ORE_CLUSTER_SIZE.value,
+            Blocks.stone).generate(world, random, x, y, z);
       }
     }
 
