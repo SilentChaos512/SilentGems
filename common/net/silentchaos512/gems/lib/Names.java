@@ -59,6 +59,7 @@ public class Names {
   public static final String CHAOS_COAL = "ChaosCoal";
   public static final String CHAOS_ESSENCE = "Chaos Essence";
   public static final String CHAOS_ESSENCE_PLUS = "ChaosEssencePlus";
+  public static final String CHAOS_ESSENCE_PLUS_2 = "ChaosEssencePlus2";
   public static final String CHAOS_ESSENCE_SHARD = "ChaosEssenceShard";
   public static final String GILDED_STRING = "GildedString";
   public static final String GOLDEN_PLUME = "GoldenPlume";

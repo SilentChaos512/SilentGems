@@ -2,7 +2,6 @@ package net.silentchaos512.gems.client.key;
 
 import net.minecraft.client.settings.KeyBinding;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.lib.Reference;
 import net.silentchaos512.gems.network.MessageChaosGemToggle;
 
 import org.lwjgl.input.Keyboard;
@@ -28,9 +27,9 @@ public class KeyTracker {
 
     // TODO: Combine into one, using shift to specify all?
     chaosGemToggleFirst = new KeyBinding("Chaos Gem - Toggle First", Keyboard.KEY_F,
-        Reference.MOD_NAME);
+        SilentGems.MOD_NAME);
     ClientRegistry.registerKeyBinding(chaosGemToggleFirst);
-    chaosGemToggleAll = new KeyBinding("Chaos Gem - Toggle All", Keyboard.KEY_H, Reference.MOD_NAME);
+    chaosGemToggleAll = new KeyBinding("Chaos Gem - Toggle All", Keyboard.KEY_H, SilentGems.MOD_NAME);
     ClientRegistry.registerKeyBinding(chaosGemToggleAll);
   }
 

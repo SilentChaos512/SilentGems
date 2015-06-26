@@ -1,5 +1,7 @@
 package net.silentchaos512.gems.lib;
 
+import net.silentchaos512.gems.SilentGems;
+
 public class Strings {
 
   public final static String EMPTY = "";
@@ -7,7 +9,7 @@ public class Strings {
   /*
    * Localization prefix
    */
-  public static final String RESOURCE_PREFIX = Reference.MOD_ID.toLowerCase() + ":";
+  public static final String RESOURCE_PREFIX = SilentGems.MOD_ID.toLowerCase() + ":";
   public static final String BUFF_RESOURCE_PREFIX = "buff." + RESOURCE_PREFIX;
 
   /*

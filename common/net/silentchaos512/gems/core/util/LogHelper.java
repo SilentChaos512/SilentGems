@@ -5,12 +5,11 @@ import java.util.logging.Logger;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.lib.Reference;
 import cpw.mods.fml.common.FMLLog;
 
 public class LogHelper {
 
-  private static Logger logger = Logger.getLogger(Reference.MOD_ID);
+  private static Logger logger = Logger.getLogger(SilentGems.MOD_ID);
 
   public static void init() {
 

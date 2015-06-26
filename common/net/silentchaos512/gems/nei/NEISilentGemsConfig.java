@@ -1,11 +1,11 @@
 package net.silentchaos512.gems.nei;
 
 import net.minecraft.item.ItemStack;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.Reference;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 
@@ -34,7 +34,7 @@ public class NEISilentGemsConfig implements IConfigureNEI {
   @Override
   public String getVersion() {
 
-    return Reference.VERSION_NUMBER;
+    return SilentGems.VERSION_NUMBER;
   }
 
 }
