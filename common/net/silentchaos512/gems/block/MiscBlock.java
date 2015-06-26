@@ -45,6 +45,10 @@ public class MiscBlock extends BlockSG implements IFuelHandler {
     ItemStack blockRefined = this.getStack(Names.CHAOS_ESSENCE_BLOCK_REFINED);
     RecipeHelper.addCompressionRecipe(chaosEssence, block, 9);
     RecipeHelper.addCompressionRecipe(chaosEssenceRefined, blockRefined, 9);
+    
+    ItemStack chaosCoal = CraftingMaterial.getStack(Names.CHAOS_COAL);
+    ItemStack chaosCoalBlock = this.getStack(Names.CHAOS_COAL_BLOCK);
+    RecipeHelper.addCompressionRecipe(chaosCoal, chaosCoalBlock, 9);
   }
   
   @Override

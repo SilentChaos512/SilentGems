@@ -128,7 +128,8 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     // Chaos Essence Shard
     RecipeHelper.addCompressionRecipe(getStack(Names.CHAOS_ESSENCE_SHARD), chaosEssence, 9);
     // Chaos Coal
-    RecipeHelper.addSurround(getStack(Names.CHAOS_COAL), chaosEssence, Items.coal);
+    RecipeHelper.addSurround(getStack(Names.CHAOS_COAL, 8), chaosEssence, new ItemStack(Items.coal,
+        1, OreDictionary.WILDCARD_VALUE));
   }
 
   @Override
