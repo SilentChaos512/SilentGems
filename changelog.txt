@@ -2,6 +2,7 @@ Silent's Gems - Changelog
 
 1.2.08 (?)
 Added: Chaos Coal and Chaos Coal Blocks. Four times the energy of coal (configurable).
+Added: Configurable weights for gem spawns. This allows certain gems to be made more or less common, instead of being totally random like before.
 
 1.2.07b
 Fixed: Sickles for real this time, I think.

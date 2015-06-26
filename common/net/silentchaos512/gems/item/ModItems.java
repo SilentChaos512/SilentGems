@@ -109,7 +109,7 @@ public class ModItems {
       int gem = supercharged ? i - 12 : i;
       String s = gem + (supercharged ? "Plus" : "");
       ArmorMaterial material = EnumGem.values()[gem].getArmorMaterial(supercharged);
-      ItemStack craftingItem = new ItemStack(ModItems.gem, 1, (supercharged ? 16 + i : i));
+      ItemStack craftingItem = new ItemStack(ModItems.gem, 1, (supercharged ? gem | 16 : gem));
       
       String name = "Helmet" + s;
       SRegistry.registerItem(ArmorSG.class, name, material, 0, 0, name, craftingItem);
