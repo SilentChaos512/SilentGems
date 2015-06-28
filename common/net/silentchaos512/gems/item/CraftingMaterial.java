@@ -130,6 +130,9 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     // Chaos Coal
     RecipeHelper.addSurround(getStack(Names.CHAOS_COAL, 8), chaosEssence, new ItemStack(Items.coal,
         1, OreDictionary.WILDCARD_VALUE));
+    // Chaos Coal -> Torches
+    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.torch, 16), "c", "s", 'c',
+        getStack(Names.CHAOS_COAL), 's', "stickWood"));
   }
 
   @Override
