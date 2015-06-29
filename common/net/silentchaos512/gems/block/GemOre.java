@@ -2,6 +2,7 @@ package net.silentchaos512.gems.block;
 
 import java.util.Random;
 
+import cofh.api.modhelpers.ThermalExpansionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
@@ -54,7 +55,17 @@ public class GemOre extends BlockSG {
   public void addRecipes() {
 
     for (int i = 0; i < EnumGem.all().length; ++i) {
+      ItemStack ore = new ItemStack(this, 1, i);
+      ItemStack gem = new ItemStack(ModItems.gem, 1, i);
+      ItemStack gemBonus = new ItemStack(ModItems.gem, 2, i);
+      
+      // Vanilla smelting
       GameRegistry.addSmelting(new ItemStack(this, 1, i), EnumGem.all()[i].getItem(), 0.5f);
+      // Redstone furnace
+      ThermalExpansionHelper.addFurnaceRecipe(1600, ore, gem);
+      // Pulverizer
+      ThermalExpansionHelper.addPulverizerRecipe(4000, ore, gemBonus);
+      // TODO: SAG Mill?
     }
   }
 

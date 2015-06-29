@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.block;
 
+import cofh.api.modhelpers.ThermalExpansionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
@@ -35,7 +36,17 @@ public class ChaosOre extends BlockSG {
 
     ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE,
         Config.CHAOS_ESSENCE_PER_ORE.value);
+    ItemStack chaosOre = new ItemStack(this);
     GameRegistry.addSmelting(this, chaosEssence, 0.5f);
+
+    // Redstone furnace
+    ThermalExpansionHelper.addFurnaceRecipe(1600, chaosOre, chaosEssence);
+
+    // Pulverizer
+    ItemStack chaosEssenceBonus = CraftingMaterial.getStack(Names.CHAOS_ESSENCE,
+        2 * Config.CHAOS_ESSENCE_PER_ORE.value);
+    ThermalExpansionHelper.addPulverizerRecipe(4000, chaosOre, chaosEssenceBonus);
+    // TODO: SAG Mill?
   }
 
   @Override
