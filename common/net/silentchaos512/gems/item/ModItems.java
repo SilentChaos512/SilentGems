@@ -112,13 +112,14 @@ public class ModItems {
       ItemStack craftingItem = new ItemStack(ModItems.gem, 1, (supercharged ? gem | 16 : gem));
       
       String name = "Helmet" + s;
-      SRegistry.registerItem(ArmorSG.class, name, material, 0, 0, name, craftingItem);
+      String texture = "GemArmor" + gem;
+      SRegistry.registerItem(ArmorSG.class, name, material, 0, 0, name, texture, craftingItem);
       name = "Chestplate" + s;
-      SRegistry.registerItem(ArmorSG.class, name, material, 0, 1, name, craftingItem);
+      SRegistry.registerItem(ArmorSG.class, name, material, 0, 1, name, texture, craftingItem);
       name = "Leggings" + s;
-      SRegistry.registerItem(ArmorSG.class, name, material, 0, 2, name, craftingItem);
+      SRegistry.registerItem(ArmorSG.class, name, material, 0, 2, name, texture, craftingItem);
       name = "Boots" + s;
-      SRegistry.registerItem(ArmorSG.class, name, material, 0, 3, name, craftingItem);
+      SRegistry.registerItem(ArmorSG.class, name, material, 0, 3, name, texture, craftingItem);
     }
     
     SRegistry.registerItem(ArmorSG.class, "CottonHelmet", ArmorSG.materialCotton, 0, 0,

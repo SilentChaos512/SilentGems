@@ -19,18 +19,20 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
       new int[] { 1, 2, 2, 1 }, 17);
 
   private String itemName;
+  private String textureName;
   private ItemStack craftingItem;
 
   public ArmorSG(ArmorMaterial material, int renderIndex, int armorType, String name) {
 
-    this(material, renderIndex, armorType, name, new ItemStack(ModItems.fluffyPuff));
+    this(material, renderIndex, armorType, name, "FluffyArmor", new ItemStack(ModItems.fluffyPuff));
   }
 
-  public ArmorSG(ArmorMaterial material, int renderIndex, int armorType, String name,
+  public ArmorSG(ArmorMaterial material, int renderIndex, int armorType, String name, String textureName,
       ItemStack craftingItem) {
 
     super(material, renderIndex, armorType);
 
+    this.textureName = textureName;
     this.craftingItem = craftingItem;
     this.setCreativeTab(SilentGems.tabSilentGems);
     this.setUnlocalizedName(name);
@@ -77,13 +79,14 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
   @Override
   public void registerIcons(IIconRegister reg) {
 
-    itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + this.itemName);
+    String s = this.itemName.replaceFirst("Plus$", "");
+    itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + s);
   }
 
   @Override
   public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
 
-    return Strings.RESOURCE_PREFIX + "textures/armor/" + this.itemName + "_"
+    return Strings.RESOURCE_PREFIX + "textures/armor/" + this.textureName + "_"
         + (this.armorType == 2 ? "2" : "1") + ".png";
   }
 }
