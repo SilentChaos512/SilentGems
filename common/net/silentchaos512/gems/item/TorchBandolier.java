@@ -160,8 +160,8 @@ public class TorchBandolier extends ItemSG implements IPlaceable {
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
     // Both a full and empty version, for cheaty purposes.
-    list.add(new ItemStack(this, 1, 0));
     list.add(new ItemStack(this, 1, MAX_DAMAGE));
+    list.add(new ItemStack(this, 1, 0));
   }
 
   @Override

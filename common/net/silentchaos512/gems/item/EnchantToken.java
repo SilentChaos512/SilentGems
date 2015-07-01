@@ -15,6 +15,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemHoe;
@@ -26,10 +27,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
+import net.silentchaos512.gems.item.armor.ArmorSG;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.item.tool.GemHoe;
 import net.silentchaos512.gems.item.tool.GemPickaxe;
@@ -63,15 +65,21 @@ public class EnchantToken extends ItemSG {
     }
   }
 
+  private static final ArrayList<Integer> metas = new ArrayList<Integer>();
+  public static final int META_BLANK = 256;
+
   // These constants are used to store which tools an enchantment is valid for. See init().
-  public final static int T_ARMOR = 128;
-  public final static int T_BOW = 64;
-  public final static int T_SICKLE = 32;
-  public final static int T_SWORD = 16;
-  public final static int T_PICKAXE = 8;
-  public final static int T_SHOVEL = 4;
-  public final static int T_AXE = 2;
-  public final static int T_HOE = 1;
+  public static final int T_BOOTS = 1024;
+  public static final int T_LEGGINGS = 512;
+  public static final int T_CHESTPLATE = 256;
+  public static final int T_HELMET = 128;
+  public static final int T_BOW = 64;
+  public static final int T_SICKLE = 32;
+  public static final int T_SWORD = 16;
+  public static final int T_PICKAXE = 8;
+  public static final int T_SHOVEL = 4;
+  public static final int T_AXE = 2;
+  public static final int T_HOE = 1;
 
   private IIcon iconAny;
   private IIcon iconArmor;
@@ -102,23 +110,42 @@ public class EnchantToken extends ItemSG {
     if (!enchants.isEmpty()) {
       return;
     }
+    
+    // All
+    addEnchantment(Enchantment.unbreaking, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE
+        | T_SICKLE | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS);
 
+    // Melee weapons
     addEnchantment(Enchantment.baneOfArthropods, T_SWORD | T_PICKAXE | T_SHOVEL);
-    addEnchantment(Enchantment.efficiency, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE);
-    addEnchantment(Enchantment.flame, T_BOW);
     addEnchantment(Enchantment.fireAspect, T_SWORD);
-    addEnchantment(Enchantment.fortune, T_PICKAXE | T_SHOVEL | T_AXE | T_HOE | T_SICKLE);
-    addEnchantment(Enchantment.infinity, T_BOW);
     addEnchantment(Enchantment.knockback, T_SWORD | T_AXE | T_HOE);
     addEnchantment(Enchantment.looting, T_SWORD);
+    addEnchantment(Enchantment.sharpness, T_SWORD | T_AXE | T_SICKLE);
+    addEnchantment(Enchantment.smite, T_SWORD | T_AXE | T_HOE);
+
+    // Ranged weapons
+    addEnchantment(Enchantment.flame, T_BOW);
+    addEnchantment(Enchantment.infinity, T_BOW);
     addEnchantment(Enchantment.power, T_BOW);
     addEnchantment(Enchantment.punch, T_BOW);
-    addEnchantment(Enchantment.sharpness, T_SWORD | T_AXE | T_SICKLE);
-    addEnchantment(Enchantment.silkTouch, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE);
-    addEnchantment(Enchantment.smite, T_SWORD | T_AXE | T_HOE);
-    addEnchantment(Enchantment.unbreaking, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE
-        | T_SICKLE | T_BOW);
 
+    // Digging tools
+    addEnchantment(Enchantment.efficiency, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE);
+    addEnchantment(Enchantment.fortune, T_PICKAXE | T_SHOVEL | T_AXE | T_HOE | T_SICKLE);
+    addEnchantment(Enchantment.silkTouch, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE);
+
+    // Armor
+    final int allArmor = T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS;
+    addEnchantment(Enchantment.aquaAffinity, T_HELMET);
+    addEnchantment(Enchantment.blastProtection, allArmor);
+    addEnchantment(Enchantment.featherFalling, T_BOOTS);
+    addEnchantment(Enchantment.fireProtection, allArmor);
+    addEnchantment(Enchantment.projectileProtection, allArmor);
+    addEnchantment(Enchantment.protection, allArmor);
+    addEnchantment(Enchantment.respiration, T_HELMET);
+    addEnchantment(Enchantment.thorns, allArmor);
+
+    // This mod
     addEnchantment(ModEnchantments.mending, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE
         | T_SICKLE | T_BOW);
     addEnchantment(ModEnchantments.aoe, T_PICKAXE | T_SHOVEL | T_AXE);
@@ -132,6 +159,7 @@ public class EnchantToken extends ItemSG {
    */
   private static void addEnchantment(Enchantment e, int validTools) {
 
+    metas.add(e.effectId);
     EnchData data = new EnchantToken.EnchData();
     data.enchantment = e;
     data.validTools = validTools;
@@ -148,7 +176,7 @@ public class EnchantToken extends ItemSG {
         || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
     String s;
 
-    if (meta == 0) {
+    if (meta == META_BLANK) {
       list.add(EnumChatFormatting.GOLD + LocalizationHelper.getOtherItemKey(itemName, "Empty"));
       list.add(LocalizationHelper.getItemDescription(itemName, 1));
       return;
@@ -181,6 +209,10 @@ public class EnchantToken extends ItemSG {
       // List of valid tools.
       list.add(LocalizationHelper.getItemDescription(itemName, 2));
       list.add(validToolsFor(meta));
+      // Max level
+      s = LocalizationHelper.getOtherItemKey(itemName, "MaxLevel");
+      s += " " + enchants.get(meta).enchantment.getMaxLevel();
+      list.add(s);
       // How to use.
       list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(itemName, 3));
     } else {
@@ -191,42 +223,73 @@ public class EnchantToken extends ItemSG {
   @Override
   public void addRecipes() {
 
-    ItemStack baseToken = new ItemStack(this, 1, 0);
+    ItemStack baseToken = new ItemStack(this, 1, META_BLANK);
     ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
 
-    GameRegistry.addShapedRecipe(new ItemStack(this, 8, 0), "ggg", "rer", "ggg", 'g',
+    // Base token recipe
+    GameRegistry.addShapedRecipe(new ItemStack(this, 8, META_BLANK), "ggg", "rer", "ggg", 'g',
         Items.gold_ingot, 'r', Items.redstone, 'e', chaosEssence);
+    // Uncrafting token
+    GameRegistry.addShapelessRecipe(new ItemStack(this, 1, META_BLANK), new ItemStack(this, 1,
+        OreDictionary.WILDCARD_VALUE));
 
     int gemCount = 2;
-    addTokenRecipe(Enchantment.baneOfArthropods.effectId, EnumGem.AMETHYST.getItem(), gemCount,
-        Items.spider_eye, 4, baseToken);
+    
+    // All
+    addTokenRecipe(Enchantment.unbreaking.effectId, EnumGem.SAPPHIRE.getItem(), gemCount,
+        Items.iron_ingot, 5, baseToken);
+    
+    // Digging tools
     addTokenRecipe(Enchantment.efficiency.effectId, EnumGem.EMERALD.getItem(), gemCount,
         Items.gold_ingot, 2, baseToken);
-    addTokenRecipe(Enchantment.flame.effectId, EnumGem.GARNET.getItem(), gemCount, Items.blaze_rod,
-        2, baseToken);
-    addTokenRecipe(Enchantment.fireAspect.effectId, EnumGem.GARNET.getItem(), gemCount,
-        Items.blaze_powder, 4, baseToken);
     addTokenRecipe(Enchantment.fortune.effectId, EnumGem.HELIODOR.getItem(), gemCount,
         Items.diamond, 3, baseToken);
-    addTokenRecipe(Enchantment.infinity.effectId, EnumGem.AMETHYST.getItem(), gemCount,
-        Items.ender_eye, 4, baseToken);
+    addTokenRecipe(Enchantment.silkTouch.effectId, EnumGem.IOLITE.getItem(), gemCount,
+        Items.emerald, 3, baseToken);
+
+    // Melee weapons
+    addTokenRecipe(Enchantment.baneOfArthropods.effectId, EnumGem.AMETHYST.getItem(), gemCount,
+        Items.spider_eye, 4, baseToken);
+    addTokenRecipe(Enchantment.fireAspect.effectId, EnumGem.GARNET.getItem(), gemCount,
+        Items.blaze_powder, 4, baseToken);
     addTokenRecipe(Enchantment.knockback.effectId, EnumGem.AQUAMARINE.getItem(), gemCount,
         Items.feather, 5, baseToken);
     addTokenRecipe(Enchantment.looting.effectId, EnumGem.TOPAZ.getItem(), gemCount, Items.emerald,
         2, baseToken);
+    addTokenRecipe(Enchantment.sharpness.effectId, EnumGem.RUBY.getItem(), gemCount, Items.flint,
+        5, baseToken);
+    addTokenRecipe(Enchantment.smite.effectId, EnumGem.PERIDOT.getItem(), gemCount,
+        Items.rotten_flesh, 5, baseToken);
+
+    // Ranged weapons
+    addTokenRecipe(Enchantment.flame.effectId, EnumGem.GARNET.getItem(), gemCount, Items.blaze_rod,
+        2, baseToken);
+    addTokenRecipe(Enchantment.infinity.effectId, EnumGem.AMETHYST.getItem(), gemCount,
+        Items.ender_eye, 4, baseToken);
     addTokenRecipe(Enchantment.power.effectId, EnumGem.RUBY.getItem(), gemCount, Items.arrow, 5,
         baseToken);
     addTokenRecipe(Enchantment.punch.effectId, EnumGem.AQUAMARINE.getItem(), gemCount,
         Blocks.piston, 2, baseToken);
-    addTokenRecipe(Enchantment.sharpness.effectId, EnumGem.RUBY.getItem(), gemCount, Items.flint,
-        5, baseToken);
-    addTokenRecipe(Enchantment.silkTouch.effectId, EnumGem.IOLITE.getItem(), gemCount,
-        Items.emerald, 3, baseToken);
-    addTokenRecipe(Enchantment.smite.effectId, EnumGem.PERIDOT.getItem(), gemCount,
-        Items.rotten_flesh, 5, baseToken);
-    addTokenRecipe(Enchantment.unbreaking.effectId, EnumGem.SAPPHIRE.getItem(), gemCount,
-        Items.iron_ingot, 5, baseToken);
 
+    // Armor
+    addTokenRecipe(Enchantment.aquaAffinity.effectId, EnumGem.SAPPHIRE.getItem(), gemCount,
+        Blocks.lapis_block, 2, baseToken);
+    addTokenRecipe(Enchantment.blastProtection.effectId, EnumGem.TOPAZ.getItem(), gemCount,
+        Items.gunpowder, 5, baseToken);
+    addTokenRecipe(Enchantment.featherFalling.effectId, EnumGem.AQUAMARINE.getItem(), gemCount,
+        CraftingMaterial.getStack(Names.PLUME), 1, baseToken);
+    addTokenRecipe(Enchantment.fireProtection.effectId, EnumGem.GARNET.getItem(), gemCount,
+        Items.magma_cream, 2, baseToken);
+    addTokenRecipe(Enchantment.projectileProtection.effectId, EnumGem.HELIODOR.getItem(), gemCount,
+        Items.arrow, 4, baseToken);
+    addTokenRecipe(Enchantment.protection.effectId, EnumGem.AMETHYST.getItem(), 2,
+        Blocks.iron_bars, 4, baseToken);
+    addTokenRecipe(Enchantment.respiration.effectId, EnumGem.IOLITE.getItem(), gemCount,
+        new ItemStack(Items.fish, 1, 3), 1, baseToken);
+    addTokenRecipe(Enchantment.thorns.effectId, EnumGem.EMERALD.getItem(), gemCount,
+        new ItemStack(Blocks.double_plant, 1, 4), 2, baseToken);
+
+    // This mod
     addTokenRecipe(ModEnchantments.mending.effectId, EnumGem.MORGANITE.getItem(), gemCount,
         CraftingMaterial.getStack(Names.MYSTERY_GOO), 2, baseToken);
     addTokenRecipe(ModEnchantments.aoe.effectId, EnumGem.ONYX.getItem(), gemCount, Blocks.tnt, 3,
@@ -283,6 +346,10 @@ public class EnchantToken extends ItemSG {
       flag |= tool.getItem() instanceof GemAxe && (k & T_AXE) != 0;
       flag |= tool.getItem() instanceof GemHoe && (k & T_HOE) != 0;
       flag |= tool.getItem() instanceof GemSickle && (k & T_SICKLE) != 0;
+      flag |= tool.getItem() instanceof ArmorSG && (k & T_HELMET) != 0;
+      flag |= tool.getItem() instanceof ArmorSG && (k & T_CHESTPLATE) != 0;
+      flag |= tool.getItem() instanceof ArmorSG && (k & T_LEGGINGS) != 0;
+      flag |= tool.getItem() instanceof ArmorSG && (k & T_BOOTS) != 0;
     } else {
       flag |= tool.getItem() instanceof ItemSword && (k & T_SWORD) != 0;
       flag |= tool.getItem() instanceof ItemPickaxe && (k & T_PICKAXE) != 0;
@@ -291,6 +358,10 @@ public class EnchantToken extends ItemSG {
       flag |= tool.getItem() instanceof ItemHoe && (k & T_HOE) != 0;
       flag |= tool.getItem() instanceof GemSickle && (k & T_SICKLE) != 0;
       flag |= tool.getItem() instanceof ItemBow && (k & T_BOW) != 0;
+      flag |= tool.getItem() instanceof ItemArmor && (k & T_HELMET) != 0;
+      flag |= tool.getItem() instanceof ItemArmor && (k & T_CHESTPLATE) != 0;
+      flag |= tool.getItem() instanceof ItemArmor && (k & T_LEGGINGS) != 0;
+      flag |= tool.getItem() instanceof ItemArmor && (k & T_BOOTS) != 0;
     }
 
     if (flag) {
@@ -377,9 +448,9 @@ public class EnchantToken extends ItemSG {
   @Override
   public void getSubItems(Item item, CreativeTabs tabs, List list) {
 
-    list.add(new ItemStack(this, 1, 0));
+    list.add(new ItemStack(this, 1, META_BLANK));
 
-    for (int k : enchants.keySet()) {
+    for (int k : metas) {
       list.add(new ItemStack(this, 1, k));
     }
   }
@@ -393,7 +464,7 @@ public class EnchantToken extends ItemSG {
   @Override
   public boolean hasEffect(ItemStack stack, int pass) {
 
-    return stack.getItemDamage() != 0;
+    return stack.getItemDamage() != META_BLANK;
   }
 
   /**
@@ -429,8 +500,17 @@ public class EnchantToken extends ItemSG {
       if ((k & T_BOW) != 0) {
         list.add(LocalizationHelper.getMiscText(Strings.TOOL_BOW));
       }
-      if ((k & T_ARMOR) != 0) {
-        list.add(LocalizationHelper.getMiscText(Strings.TOOL_ARMOR));
+      if ((k & T_HELMET) != 0) {
+        list.add(LocalizationHelper.getMiscText(Strings.TOOL_HELMET));
+      }
+      if ((k & T_CHESTPLATE) != 0) {
+        list.add(LocalizationHelper.getMiscText(Strings.TOOL_CHESTPLATE));
+      }
+      if ((k & T_LEGGINGS) != 0) {
+        list.add(LocalizationHelper.getMiscText(Strings.TOOL_LEGGINGS));
+      }
+      if ((k & T_BOOTS) != 0) {
+        list.add(LocalizationHelper.getMiscText(Strings.TOOL_BOOTS));
       }
 
       String s = "";

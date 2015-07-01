@@ -4,7 +4,7 @@ import net.silentchaos512.gems.SilentGems;
 
 public class Strings {
 
-  public final static String EMPTY = "";
+  public static final String EMPTY = "";
 
   /*
    * Localization prefix
@@ -15,16 +15,16 @@ public class Strings {
   /*
    * Messages
    */
-  public final static String PRESS_CTRL = "PressCtrl";
-  public final static String PRESS_SHIFT = "PressShift";
+  public static final String PRESS_CTRL = "PressCtrl";
+  public static final String PRESS_SHIFT = "PressShift";
 
   /*
    * Item information
    */
-  // public final static String GEM_MATERIAL_DAMAGE = "Gem.Damage";
-  // public final static String GEM_MATERIAL_EFFICIENCY = "Gem.Efficiency";
-  // public final static String GEM_MATERIAL_MAX_USES = "Gem.MaxUses";
-  // public final static String GEM_MATERIAL_TOOL_PROPERTIES = "Gem.ToolProperties";
+  // public static final String GEM_MATERIAL_DAMAGE = "Gem.Damage";
+  // public static final String GEM_MATERIAL_EFFICIENCY = "Gem.Efficiency";
+  // public static final String GEM_MATERIAL_MAX_USES = "Gem.MaxUses";
+  // public static final String GEM_MATERIAL_TOOL_PROPERTIES = "Gem.ToolProperties";
 
   /*
    * NBT related constants
@@ -51,19 +51,22 @@ public class Strings {
   /*
    * Tool constants
    */
-  public final static String TOOL_ARMOR = "Tool.Armor";
-  public final static String TOOL_AXE = "Tool.Axe";
-  public final static String TOOL_BOW = "Tool.Bow";
-  public final static String TOOL_HOE = "Tool.Hoe";
-  public final static String TOOL_PICKAXE = "Tool.Pickaxe";
-  public final static String TOOL_SHOVEL = "Tool.Shovel";
-  public final static String TOOL_SICKLE = "Tool.Sickle";
-  public final static String TOOL_SWORD = "Tool.Sword";
+  public static final String TOOL_AXE = "Tool.Axe";
+  public static final String TOOL_BOW = "Tool.Bow";
+  public static final String TOOL_HOE = "Tool.Hoe";
+  public static final String TOOL_PICKAXE = "Tool.Pickaxe";
+  public static final String TOOL_SHOVEL = "Tool.Shovel";
+  public static final String TOOL_SICKLE = "Tool.Sickle";
+  public static final String TOOL_SWORD = "Tool.Sword";
+  public static final String TOOL_HELMET = "Tool.Helmet";
+  public static final String TOOL_CHESTPLATE = "Tool.Chestplate";
+  public static final String TOOL_LEGGINGS = "Tool.Leggings";
+  public static final String TOOL_BOOTS = "Tool.Boots";
 
   /*
    * Ore dictionary keys
    */
-  public final static String ORE_DICT_GEM_BASIC = "gemSilentBasic";
-  public final static String ORE_DICT_GEM_SHARD = "gemSilentShard";
-  public final static String ORE_DICT_STICK_FANCY = "stickSilentFancy";
+  public static final String ORE_DICT_GEM_BASIC = "gemSilentBasic";
+  public static final String ORE_DICT_GEM_SHARD = "gemSilentShard";
+  public static final String ORE_DICT_STICK_FANCY = "stickSilentFancy";
 }

@@ -1,7 +1,10 @@
 package net.silentchaos512.gems.item.armor;
 
+import java.util.List;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -9,6 +12,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.item.Gem;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Strings;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -27,8 +31,8 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
     this(material, renderIndex, armorType, name, "FluffyArmor", new ItemStack(ModItems.fluffyPuff));
   }
 
-  public ArmorSG(ArmorMaterial material, int renderIndex, int armorType, String name, String textureName,
-      ItemStack craftingItem) {
+  public ArmorSG(ArmorMaterial material, int renderIndex, int armorType, String name,
+      String textureName, ItemStack craftingItem) {
 
     super(material, renderIndex, armorType);
 
@@ -61,6 +65,14 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
   @Override
   public void addOreDict() {
 
+  }
+
+  @Override
+  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+
+    if (this.craftingItem.getItem() instanceof Gem) {
+      list.add(LocalizationHelper.getMiscText("ArmorTextures"));
+    }
   }
 
   @Override

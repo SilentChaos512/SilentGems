@@ -249,6 +249,7 @@ item.silentgems:EnchantmentToken.desc3=Craft with an appropriate tool (shapeless
 item.silentgems:EnchantmentToken.Empty=Empty
 item.silentgems:EnchantmentToken.GemToolsOnly=Gem tools only!
 item.silentgems:EnchantmentToken.BadToken=Bad token! Did an enchantment ID get changed?
+item.silentgems:EnchantmentToken.MaxLevel=Maximum level:
 item.silentgems:EnchantmentToken.enchantment.Mending=Randomly repairs the tool.
 item.silentgems:EnchantmentToken.enchantment.AreaOfEffect=Allow tools to mine a 3x3 area.
 
@@ -673,7 +674,6 @@ item.silentgems:Gem.ToolProperties=Properties
 
 # Misc text
 
-misc.silentgems:Tool.Armor=Armor
 misc.silentgems:Tool.Axe=Axe
 misc.silentgems:Tool.Bow=Bow
 misc.silentgems:Tool.Hoe=Hoe
@@ -681,6 +681,11 @@ misc.silentgems:Tool.Pickaxe=Pickaxe
 misc.silentgems:Tool.Shovel=Shovel
 misc.silentgems:Tool.Sickle=Sickle
 misc.silentgems:Tool.Sword=Sword
+misc.silentgems:Tool.Helmet=Helmet
+misc.silentgems:Tool.Chestplate=Chestplate
+misc.silentgems:Tool.Leggings=Leggings
+misc.silentgems:Tool.Boots=Boots
 
 misc.silentgems:PressCtrl=<Press Ctrl>
 misc.silentgems:PressShift=<Press Shift>
+misc.silentgems:ArmorTextures=Textures not final!
