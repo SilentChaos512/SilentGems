@@ -1,5 +1,8 @@
 package net.silentchaos512.gems.recipe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -9,77 +12,82 @@ import net.silentchaos512.gems.core.util.InventoryHelper;
 import net.silentchaos512.gems.item.EnchantToken;
 
 public class EnchantToolRecipe implements IRecipe {
+  
+  private ItemStack getResult(ItemStack tool, List<ItemStack> tokens) {
+    
+    if (tool == null || tokens == null || tokens.isEmpty()) {
+      return null;
+    }
+    
+    ItemStack result = tool.copy();
+    
+    for (ItemStack token : tokens) {
+      if (EnchantToken.capApplyTokenToTool(token, result)) {
+        EnchantToken.enchantTool(token, result);
+      } else {
+        return null;
+      }
+    }
+    
+    return result;
+  }
 
   @Override
   public boolean matches(InventoryCrafting inventorycrafting, World world) {
 
-    int numTools = 0;
-    int numTokens = 0;
-
-    ItemStack stack, token = null, tool = null;
+    ItemStack stack = null;
+    ItemStack tool = null;
+    ArrayList<ItemStack> tokens = new ArrayList<ItemStack>();
 
     // Count valid ingredients and look for invalid
     for (int i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
       stack = inventorycrafting.getStackInSlot(i);
       if (stack != null) {
         if (InventoryHelper.isTool(stack) || stack.getItem() instanceof ItemArmor) {
-          ++numTools;
           tool = stack;
         } else if (stack.getItem() instanceof EnchantToken) {
-          ++numTokens;
-          token = stack;
+          tokens.add(stack);
         } else {
           // Invalid item
           return false;
         }
       }
     }
-
-    return numTools <= 1 && numTokens <= 1 && token != null && tool != null
-        && EnchantToken.capApplyTokenToTool(token, tool);
+    
+    return this.getResult(tool, tokens) != null;
   }
 
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
 
-    ItemStack tool = null, token = null, s = null;
+    ItemStack stack = null;
+    ItemStack tool = null;
+    ArrayList<ItemStack> tokens = new ArrayList<ItemStack>();
 
     // Find ingredients.
     for (int i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
-      s = inventorycrafting.getStackInSlot(i);
-      if (s != null) {
-        if (InventoryHelper.isTool(s) || s.getItem() instanceof ItemArmor) {
-          tool = s;
-        } else if (s.getItem() instanceof EnchantToken) {
-          token = s;
+      stack = inventorycrafting.getStackInSlot(i);
+      if (stack != null) {
+        if (InventoryHelper.isTool(stack) || stack.getItem() instanceof ItemArmor) {
+          tool = stack;
+        } else if (stack.getItem() instanceof EnchantToken) {
+          tokens.add(stack);
         }
       }
     }
 
-    if (tool == null || token == null) {
-      return null;
-    }
-
-    ItemStack result = tool.copy();
-
-    if (EnchantToken.capApplyTokenToTool(token, tool)) {
-      EnchantToken.enchantTool(token, result);
-    }
-
-    return result;
+    return this.getResult(tool, tokens);
   }
 
   @Override
   public int getRecipeSize() {
 
-    // TODO What's this?
-    return 2;
+    return 9;
   }
 
   @Override
   public ItemStack getRecipeOutput() {
 
-    // TODO What's this?
     return null;
   }
 
