@@ -6,6 +6,7 @@ Added: Armor Enchantment Tokens.
 Added: Recipe to craft Enchantment Tokens back into the blank version.
 Added: Chaos Coal and Chaos Coal Blocks. Four times the energy of coal (configurable). Crafted with coal and chaos essence.
 Added: Configurable weights for gem spawns. This allows certain gems to be made more or less common, instead of being totally random like before.
+Changed: Multiple enchantment tokens can be applied at once. Just put one tool/armor item in the crafting grid and put tokens in any free slots.
 Changed: Blank Enchantment Tokens now have a meta of 256, instead of 0. This was necessary because Enchantment Token meta values match enchantment IDs. Protection's ID is 0. Enjoy your free protection tokens!
 Changed: Enchantment Tokens are ordered by group, instead of meta.
 
