@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.recipe;
 
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
@@ -21,7 +22,7 @@ public class EnchantToolRecipe implements IRecipe {
     for (int i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
       stack = inventorycrafting.getStackInSlot(i);
       if (stack != null) {
-        if (InventoryHelper.isTool(stack)) {
+        if (InventoryHelper.isTool(stack) || stack.getItem() instanceof ItemArmor) {
           ++numTools;
           tool = stack;
         } else if (stack.getItem() instanceof EnchantToken) {
@@ -47,7 +48,7 @@ public class EnchantToolRecipe implements IRecipe {
     for (int i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
       s = inventorycrafting.getStackInSlot(i);
       if (s != null) {
-        if (InventoryHelper.isTool(s)) {
+        if (InventoryHelper.isTool(s) || s.getItem() instanceof ItemArmor) {
           tool = s;
         } else if (s.getItem() instanceof EnchantToken) {
           token = s;

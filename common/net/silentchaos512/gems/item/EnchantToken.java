@@ -30,6 +30,7 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.armor.ArmorSG;
 import net.silentchaos512.gems.item.tool.GemAxe;
@@ -48,6 +49,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class EnchantToken extends ItemSG {
 
+  /**
+   * An internal helper class. This is needed because each enchantment requires some extra data to go with it. Maybe
+   * there was another way to handle this, but it works.
+   */
   public static class EnchData {
 
     public int validTools;
@@ -65,10 +70,11 @@ public class EnchantToken extends ItemSG {
     }
   }
 
-  private static final ArrayList<Integer> metas = new ArrayList<Integer>();
-  public static final int META_BLANK = 256;
+  private static final ArrayList<Integer> metas = new ArrayList<Integer>(); // Used to sort tokens in getSubItems.
+  public static final int META_BLANK = 256; // Previously, the blank tokens were 0, but that's the ID of Protection.
 
-  // These constants are used to store which tools an enchantment is valid for. See init().
+  // I store which items an enchantment token can be applied to in a single integer. Each bit represents one item class,
+  // these constants are the positions of the respective bit.
   public static final int T_BOOTS = 1024;
   public static final int T_LEGGINGS = 512;
   public static final int T_CHESTPLATE = 256;
@@ -110,7 +116,7 @@ public class EnchantToken extends ItemSG {
     if (!enchants.isEmpty()) {
       return;
     }
-    
+
     // All
     addEnchantment(Enchantment.unbreaking, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE
         | T_SICKLE | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS);
@@ -152,7 +158,7 @@ public class EnchantToken extends ItemSG {
   }
 
   /**
-   * Adds an enchantment to the hash map. validTools is appended to the enchantment name after VALID_TOOL_SEP.
+   * Adds an enchantment to the hash map.
    * 
    * @param e
    * @param validTools
@@ -211,7 +217,7 @@ public class EnchantToken extends ItemSG {
       list.add(validToolsFor(meta));
       // Max level
       s = LocalizationHelper.getOtherItemKey(itemName, "MaxLevel");
-      s += " " + enchants.get(meta).enchantment.getMaxLevel();
+      s += " " + enchants.get(meta).getMaxLevel();
       list.add(s);
       // How to use.
       list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(itemName, 3));
@@ -234,11 +240,11 @@ public class EnchantToken extends ItemSG {
         OreDictionary.WILDCARD_VALUE));
 
     int gemCount = 2;
-    
+
     // All
     addTokenRecipe(Enchantment.unbreaking.effectId, EnumGem.SAPPHIRE.getItem(), gemCount,
         Items.iron_ingot, 5, baseToken);
-    
+
     // Digging tools
     addTokenRecipe(Enchantment.efficiency.effectId, EnumGem.EMERALD.getItem(), gemCount,
         Items.gold_ingot, 2, baseToken);
@@ -286,8 +292,8 @@ public class EnchantToken extends ItemSG {
         Blocks.iron_bars, 4, baseToken);
     addTokenRecipe(Enchantment.respiration.effectId, EnumGem.IOLITE.getItem(), gemCount,
         new ItemStack(Items.fish, 1, 3), 1, baseToken);
-    addTokenRecipe(Enchantment.thorns.effectId, EnumGem.EMERALD.getItem(), gemCount,
-        new ItemStack(Blocks.double_plant, 1, 4), 2, baseToken);
+    addTokenRecipe(Enchantment.thorns.effectId, EnumGem.EMERALD.getItem(), gemCount, new ItemStack(
+        Blocks.double_plant, 1, 4), 2, baseToken);
 
     // This mod
     addTokenRecipe(ModEnchantments.mending.effectId, EnumGem.MORGANITE.getItem(), gemCount,
@@ -324,44 +330,63 @@ public class EnchantToken extends ItemSG {
    * conflict, and the enchantment can be "leveled up".
    * 
    * @param token
+   *          The Enchantment Token
    * @param tool
+   *          Not necessarily a tool, but that's what enchantment tokens were originally for!
    * @return
    */
   public static boolean capApplyTokenToTool(ItemStack token, ItemStack tool) {
 
-    int k = token.getItemDamage();
-    if (!enchants.containsKey(k)) {
+    if (token == null || tool == null) {
+      // This has never happened, but...
       return false;
     }
 
-    EnchData e = enchants.get(k);
-    k = enchants.get(k).validTools;
+    int tokenMeta = token.getItemDamage();
+    if (!enchants.containsKey(tokenMeta)) {
+      // Bad token, maybe an enchantment ID was changed, or the token was spawned in with 'give'.
+      return false;
+    }
+
+    EnchData e = enchants.get(tokenMeta);
+    int validTools = enchants.get(tokenMeta).validTools;
 
     // Check that tool type matches token.
-    boolean flag = false;
+    boolean flag = false; // Just to avoid gigantic 'if' statements.
+    Item itemTool = tool.getItem();
     if (e.gemToolsOnly) {
-      flag |= tool.getItem() instanceof GemSword && (k & T_SWORD) != 0;
-      flag |= tool.getItem() instanceof GemPickaxe && (k & T_PICKAXE) != 0;
-      flag |= tool.getItem() instanceof GemShovel && (k & T_SHOVEL) != 0;
-      flag |= tool.getItem() instanceof GemAxe && (k & T_AXE) != 0;
-      flag |= tool.getItem() instanceof GemHoe && (k & T_HOE) != 0;
-      flag |= tool.getItem() instanceof GemSickle && (k & T_SICKLE) != 0;
-      flag |= tool.getItem() instanceof ArmorSG && (k & T_HELMET) != 0;
-      flag |= tool.getItem() instanceof ArmorSG && (k & T_CHESTPLATE) != 0;
-      flag |= tool.getItem() instanceof ArmorSG && (k & T_LEGGINGS) != 0;
-      flag |= tool.getItem() instanceof ArmorSG && (k & T_BOOTS) != 0;
+      // This enchantment can only be applied to gem tools (respects config, I think).
+      flag |= itemTool instanceof GemSword && (validTools & T_SWORD) != 0;
+      flag |= itemTool instanceof GemPickaxe && (validTools & T_PICKAXE) != 0;
+      flag |= itemTool instanceof GemShovel && (validTools & T_SHOVEL) != 0;
+      flag |= itemTool instanceof GemAxe && (validTools & T_AXE) != 0;
+      flag |= itemTool instanceof GemHoe && (validTools & T_HOE) != 0;
+      flag |= itemTool instanceof GemSickle && (validTools & T_SICKLE) != 0;
+
+      if (itemTool instanceof ArmorSG) {
+        ArmorSG armor = (ArmorSG) itemTool;
+        flag |= armor.armorType == 0 && (validTools & T_HELMET) != 0;
+        flag |= armor.armorType == 1 && (validTools & T_CHESTPLATE) != 0;
+        flag |= armor.armorType == 2 && (validTools & T_LEGGINGS) != 0;
+        flag |= armor.armorType == 3 && (validTools & T_BOOTS) != 0;
+      }
     } else {
-      flag |= tool.getItem() instanceof ItemSword && (k & T_SWORD) != 0;
-      flag |= tool.getItem() instanceof ItemPickaxe && (k & T_PICKAXE) != 0;
-      flag |= tool.getItem() instanceof ItemSpade && (k & T_SHOVEL) != 0;
-      flag |= tool.getItem() instanceof ItemAxe && (k & T_AXE) != 0;
-      flag |= tool.getItem() instanceof ItemHoe && (k & T_HOE) != 0;
-      flag |= tool.getItem() instanceof GemSickle && (k & T_SICKLE) != 0;
-      flag |= tool.getItem() instanceof ItemBow && (k & T_BOW) != 0;
-      flag |= tool.getItem() instanceof ItemArmor && (k & T_HELMET) != 0;
-      flag |= tool.getItem() instanceof ItemArmor && (k & T_CHESTPLATE) != 0;
-      flag |= tool.getItem() instanceof ItemArmor && (k & T_LEGGINGS) != 0;
-      flag |= tool.getItem() instanceof ItemArmor && (k & T_BOOTS) != 0;
+      // This enchantment can be applied to items not from this mod! Sickles don't count :(
+      flag |= itemTool instanceof ItemSword && (validTools & T_SWORD) != 0;
+      flag |= itemTool instanceof ItemPickaxe && (validTools & T_PICKAXE) != 0;
+      flag |= itemTool instanceof ItemSpade && (validTools & T_SHOVEL) != 0;
+      flag |= itemTool instanceof ItemAxe && (validTools & T_AXE) != 0;
+      flag |= itemTool instanceof ItemHoe && (validTools & T_HOE) != 0;
+      flag |= itemTool instanceof GemSickle && (validTools & T_SICKLE) != 0;
+      flag |= itemTool instanceof ItemBow && (validTools & T_BOW) != 0;
+
+      if (itemTool instanceof ItemArmor) {
+        ItemArmor armor = (ItemArmor) itemTool;
+        flag |= armor.armorType == 0 && (validTools & T_HELMET) != 0;
+        flag |= armor.armorType == 1 && (validTools & T_CHESTPLATE) != 0;
+        flag |= armor.armorType == 2 && (validTools & T_LEGGINGS) != 0;
+        flag |= armor.armorType == 3 && (validTools & T_BOOTS) != 0;
+      }
     }
 
     if (flag) {
@@ -375,18 +400,19 @@ public class EnchantToken extends ItemSG {
       }
 
       // Does tool already have this enchantment? If so, can it be upgraded?
-      k = EnchantmentHelper.getEnchantmentLevel(e.enchantment.effectId, tool);
-      if (k == 0) {
+      int level = EnchantmentHelper.getEnchantmentLevel(e.enchantment.effectId, tool);
+      if (level == 0) {
         // Tool does not have this enchantment. Does it conflict with existing enchants?
         for (int i = 0; i < tool.getEnchantmentTagList().tagCount(); ++i) {
-          k = ((NBTTagCompound) tool.getEnchantmentTagList().getCompoundTagAt(i)).getShort("id");
-          if (!e.enchantment.canApplyTogether(Enchantment.enchantmentsList[k])
-              || !Enchantment.enchantmentsList[k].canApplyTogether(e.enchantment)) {
+          int id = ((NBTTagCompound) tool.getEnchantmentTagList().getCompoundTagAt(i))
+              .getShort("id");
+          if (!e.enchantment.canApplyTogether(Enchantment.enchantmentsList[id])
+              || !Enchantment.enchantmentsList[id].canApplyTogether(e.enchantment)) {
             return false;
           }
         }
         return true;
-      } else if (k < e.getMaxLevel()) {
+      } else if (level < e.getMaxLevel()) {
         // Tool has enchantment, but it can be leveled up.
         return true;
       }
@@ -403,12 +429,12 @@ public class EnchantToken extends ItemSG {
    */
   public static void enchantTool(ItemStack token, ItemStack tool) {
 
-    int k = token.getItemDamage();
-    EnchData e = enchants.get(k);
-    k = EnchantmentHelper.getEnchantmentLevel(e.enchantment.effectId, tool);
+    int meta = token.getItemDamage();
+    EnchData e = enchants.get(meta);
+    int level = EnchantmentHelper.getEnchantmentLevel(e.enchantment.effectId, tool);
 
     // Adding enchantment is easy, leveling it up is a bit harder.
-    if (k == 0) {
+    if (level == 0) {
       tool.addEnchantment(e.enchantment, 0);
     }
 
@@ -422,10 +448,10 @@ public class EnchantToken extends ItemSG {
     NBTTagCompound t;
     for (int i = 0; i < tool.getEnchantmentTagList().tagCount(); ++i) {
       t = (NBTTagCompound) tool.getEnchantmentTagList().getCompoundTagAt(i);
-      k = t.getShort("id");
-      if (k == e.enchantment.effectId) {
-        k = t.getShort("lvl");
-        t.setShort("lvl", (short) (k + 1));
+      int id = t.getShort("id");
+      if (id == e.enchantment.effectId) {
+        level = t.getShort("lvl");
+        t.setShort("lvl", (short) (level + 1));
       }
     }
   }
@@ -442,7 +468,7 @@ public class EnchantToken extends ItemSG {
   @Override
   public EnumRarity getRarity(ItemStack stack) {
 
-    return stack.getItemDamage() == 0 ? EnumRarity.common : EnumRarity.rare;
+    return stack.getItemDamage() == META_BLANK ? EnumRarity.common : EnumRarity.rare;
   }
 
   @Override
@@ -468,7 +494,7 @@ public class EnchantToken extends ItemSG {
   }
 
   /**
-   * Creates a String listing the tools this enchantment can be applied to.
+   * Creates a String listing the tools this enchantment can be applied to. This is for display purposes only.
    * 
    * @param key
    * @return
