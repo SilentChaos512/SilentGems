@@ -18,6 +18,7 @@ import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
+import cofh.api.modhelpers.ThermalExpansionHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class GlowRose extends BlockSG implements IPlantable {
@@ -39,41 +40,44 @@ public class GlowRose extends BlockSG implements IPlantable {
   @Override
   public void addRecipes() {
 
+    Item dye = Items.dye;
     Item dyeSG = SRegistry.getItem(Names.DYE);
 
     // Flowers to dye.
-    int k = 2;
     // 0=black
-    GameRegistry.addShapelessRecipe(new ItemStack(dyeSG, k, 0), new ItemStack(this, 1,
-        EnumGem.ONYX.id));
+    addFlowerToDyeRecipe(new ItemStack(dyeSG, 1, 0), new ItemStack(this, 1, EnumGem.ONYX.id));
     // 1=red
-    GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 1), new ItemStack(this, 1,
-        EnumGem.RUBY.id));
+    addFlowerToDyeRecipe(new ItemStack(dye, 1, 1), new ItemStack(this, 1, EnumGem.RUBY.id));
+    addFlowerToDyeRecipe(new ItemStack(dye, 1, 1), new ItemStack(this, 1, EnumGem.GARNET.id));
     // 2=green
-    GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 2), new ItemStack(this, 1,
-        EnumGem.EMERALD.id));
+    addFlowerToDyeRecipe(new ItemStack(dye, 1, 2), new ItemStack(this, 1, EnumGem.EMERALD.id));
     // 3=brown
     // 4=blue
-    GameRegistry.addShapelessRecipe(new ItemStack(dyeSG, k, 4), new ItemStack(this, 1,
-        EnumGem.SAPPHIRE.id));
+    addFlowerToDyeRecipe(new ItemStack(dyeSG, 1, 4), new ItemStack(this, 1, EnumGem.SAPPHIRE.id));
+    addFlowerToDyeRecipe(new ItemStack(dyeSG, 1, 4), new ItemStack(this, 1, EnumGem.IOLITE.id));
     // 5=purple
-    GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 5), new ItemStack(this, 1,
-        EnumGem.AMETHYST.id));
+    addFlowerToDyeRecipe(new ItemStack(dye, 1, 5), new ItemStack(this, 1, EnumGem.AMETHYST.id));
     // 6=cyan
     // 7=light gray
     // 8=gray
     // 9=pink
-    GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 9), new ItemStack(this, 1,
-        EnumGem.MORGANITE.id));
-    GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 10), new ItemStack(this, 1,
-        EnumGem.PERIDOT.id));
-    GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 11), new ItemStack(this, 1,
-        EnumGem.HELIODOR.id));
-    GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 12), new ItemStack(this, 1,
-        EnumGem.AQUAMARINE.id));
+    addFlowerToDyeRecipe(new ItemStack(dye, 1, 9), new ItemStack(this, 1, EnumGem.MORGANITE.id));
+    // 10=lime
+    addFlowerToDyeRecipe(new ItemStack(dye, 1, 10), new ItemStack(this, 1, EnumGem.PERIDOT.id));
+    // 11=yellow
+    addFlowerToDyeRecipe(new ItemStack(dye, 1, 11), new ItemStack(this, 1, EnumGem.HELIODOR.id));
+    // 12=light blue
+    addFlowerToDyeRecipe(new ItemStack(dye, 1, 12), new ItemStack(this, 1, EnumGem.AQUAMARINE.id));
     // 13-magenta
-    GameRegistry.addShapelessRecipe(new ItemStack(Items.dye, k, 14), new ItemStack(this, 1,
-        EnumGem.TOPAZ.id));
+    // 14-orange
+    addFlowerToDyeRecipe(new ItemStack(dye, 1, 14), new ItemStack(this, 1, EnumGem.TOPAZ.id));
+  }
+
+  private void addFlowerToDyeRecipe(ItemStack dye, ItemStack flower) {
+
+    GameRegistry.addShapelessRecipe(new ItemStack(dye.getItem(), 2, dye.getItemDamage()), flower);
+    ThermalExpansionHelper.addPulverizerRecipe(1600, flower,
+        new ItemStack(dye.getItem(), 4, dye.getItemDamage()));
   }
 
   @Override
