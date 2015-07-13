@@ -15,6 +15,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
@@ -53,12 +55,11 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
 
     ItemStack essencePlus = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
     ItemStack anyTeleporter = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      ItemStack gem = EnumGem.all()[i].getItem();
-      ItemStack gemBlock = EnumGem.all()[i].getBlock();
-      GameRegistry.addShapedRecipe(new ItemStack(this, 2, i), "cec", " g ", "cec", 'c',
-          essencePlus, 'e', Items.ender_pearl, 'g', gemBlock);
-      GameRegistry.addShapelessRecipe(new ItemStack(this, 1, i), anyTeleporter, gem);
+    for (EnumGem gem : EnumGem.values()) {
+      GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 2, gem.id), "cec", " g ",
+          "cec", 'c', essencePlus, 'e', Items.ender_pearl, 'g', gem.getBlockOreName()));
+      GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, gem.id), anyTeleporter,
+          gem.getItemOreName()));
     }
   }
 

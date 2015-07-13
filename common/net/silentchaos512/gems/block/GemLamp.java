@@ -153,14 +153,14 @@ public class GemLamp extends BlockSG {
   public void addRecipes() {
 
     if (!lit && !inverted) {
-      for (int i = 0; i < EnumGem.all().length; ++i) {
-        RecipeHelper.addSurround(new ItemStack(this, 1, i), EnumGem.all()[i].getItem(),
+      for (EnumGem gem : EnumGem.values()) {
+        RecipeHelper.addSurroundOre(new ItemStack(this, 1, gem.id), gem.getItemOreName(),
             Items.redstone, Items.glowstone_dust);
       }
     } else if (lit && inverted) {
-      for (int i = 0; i < EnumGem.all().length; ++i) {
-        GameRegistry.addShapelessRecipe(new ItemStack(this, 1, i), new ItemStack(ModBlocks.gemLamp,
-            1, i), Blocks.redstone_torch);
+      for (EnumGem gem : EnumGem.values()) {
+        GameRegistry.addShapelessRecipe(new ItemStack(this, 1, gem.id), new ItemStack(
+            ModBlocks.gemLamp, 1, gem.id), Blocks.redstone_torch);
       }
     }
   }

@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,12 +20,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class MiscBlock extends BlockSG implements IFuelHandler {
 
-  public final static String[] names = {
-    Names.CHAOS_ESSENCE_BLOCK,
-    Names.CHAOS_ESSENCE_BLOCK_REFINED,
-    "reserved",
-    Names.CHAOS_COAL_BLOCK
-  };
+  public final static String[] names = { Names.CHAOS_ESSENCE_BLOCK,
+      Names.CHAOS_ESSENCE_BLOCK_REFINED, "reserved", Names.CHAOS_COAL_BLOCK };
 
   public MiscBlock() {
 
@@ -36,21 +33,23 @@ public class MiscBlock extends BlockSG implements IFuelHandler {
 
   @Override
   public void addRecipes() {
-    
+
     GameRegistry.registerFuelHandler(this);
 
     ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
     ItemStack chaosEssenceRefined = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
-    ItemStack block = this.getStack(Names.CHAOS_ESSENCE_BLOCK);
-    ItemStack blockRefined = this.getStack(Names.CHAOS_ESSENCE_BLOCK_REFINED);
-    RecipeHelper.addCompressionRecipe(chaosEssence, block, 9);
-    RecipeHelper.addCompressionRecipe(chaosEssenceRefined, blockRefined, 9);
-    
+    ItemStack essenceBlock = this.getStack(Names.CHAOS_ESSENCE_BLOCK);
+    ItemStack refinedEssenceBlock = this.getStack(Names.CHAOS_ESSENCE_BLOCK_REFINED);
+    RecipeHelper.addCompressionRecipe(chaosEssence, essenceBlock, 9);
+    RecipeHelper.addCompressionRecipe(chaosEssenceRefined, refinedEssenceBlock, 9);
+
     ItemStack chaosCoal = CraftingMaterial.getStack(Names.CHAOS_COAL);
     ItemStack chaosCoalBlock = this.getStack(Names.CHAOS_COAL_BLOCK);
     RecipeHelper.addCompressionRecipe(chaosCoal, chaosCoalBlock, 9);
+    RecipeHelper.addSurround(this.getStack(Names.CHAOS_COAL_BLOCK, 8), essenceBlock,
+        Blocks.coal_block);
   }
-  
+
   @Override
   public int getBurnTime(ItemStack stack) {
 
@@ -60,10 +59,10 @@ public class MiscBlock extends BlockSG implements IFuelHandler {
     }
     return 0;
   }
-  
+
   @Override
   public EnumRarity getRarity(ItemStack stack) {
-    
+
     if (stack.getItemDamage() == 1) {
       return EnumRarity.rare;
     } else {
@@ -92,7 +91,7 @@ public class MiscBlock extends BlockSG implements IFuelHandler {
 
     return null;
   }
-  
+
   @Override
   public void getSubBlocks(Item item, CreativeTabs tab, List list) {
 

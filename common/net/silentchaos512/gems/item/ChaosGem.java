@@ -124,7 +124,7 @@ public class ChaosGem extends ItemSG {
   public void addRecipes() {
 
     if (this.gemId != CHEATY_GEM_ID) {
-      RecipeHelper.addSurround(new ItemStack(this), EnumGem.all()[gemId].getBlock(),
+      RecipeHelper.addSurroundOre(new ItemStack(this), EnumGem.all()[gemId].getBlockOreName(),
           CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS));
     }
   }

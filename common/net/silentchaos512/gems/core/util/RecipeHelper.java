@@ -3,6 +3,7 @@ package net.silentchaos512.gems.core.util;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RecipeHelper {
@@ -84,6 +85,35 @@ public class RecipeHelper {
         // Too many things!
         LogHelper.warning("Failed to add a weird recipe for " + output.toString());
       }
+    }
+  }
+
+  public static void addSurroundOre(ItemStack output, Object middle, Object... stacks) {
+
+    switch (stacks.length) {
+      case 0:
+        // No surrounding stacks?
+        LogHelper.warning("Failed to add a weird recipe for " + output.toString());
+        break;
+      case 1:
+        GameRegistry.addRecipe(new ShapedOreRecipe(output, "xxx", "xcx", "xxx", 'c', middle, 'x',
+            stacks[0]));
+        break;
+      case 2:
+        GameRegistry.addRecipe(new ShapedOreRecipe(output, "xyx", "ycy", "xyx", 'c', middle, 'x',
+            stacks[0], 'y', stacks[1]));
+        break;
+      case 3:
+        GameRegistry.addRecipe(new ShapedOreRecipe(output, " xy", "zcz", "yx ", 'c', middle, 'x',
+            stacks[0], 'y', stacks[1], 'z', stacks[2]));
+        break;
+      case 4:
+        GameRegistry.addRecipe(new ShapedOreRecipe(output, "xyz", "dcd", "zyx", 'c', middle, 'x',
+            stacks[0], 'y', stacks[1], 'z', stacks[2], 'd', stacks[3]));
+        break;
+      default:
+        // Too many things!
+        LogHelper.warning("Failed to add a weird recipe for " + output.toString());
     }
   }
 }

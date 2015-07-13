@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -110,10 +111,9 @@ public class Gem extends ItemSG {
   public void addRecipes() {
 
     ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
-    for (int i = 0; i < icons.length; ++i) {
-      GameRegistry.addShapedRecipe(new ItemStack(this, 1, i | 16), "ere", "ege", "ere", 'e',
-          chaosEssence, 'r', Items.redstone, 'g', new ItemStack(SRegistry.getItem(Names.GEM_ITEM),
-              1, i));
+    for (EnumGem gem : EnumGem.values()) {
+      GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, gem.id | 16), "ere", "ege",
+          "ere", 'e', "gemChaos", 'r', "dustRedstone", 'g', gem.getItemOreName()));
     }
   }
 

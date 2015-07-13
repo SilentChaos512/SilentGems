@@ -10,7 +10,7 @@ import net.silentchaos512.gems.material.ModMaterials;
 public enum EnumGem {
 
   RUBY(0, "Ruby"), GARNET(1, "Garnet"), TOPAZ(2, "Topaz"), HELIODOR(3, "Heliodor"), PERIDOT(4,
-      "Peridot"), EMERALD(5, "Emerald"), AQUAMARINE(6, "Aquamarine"), SAPPHIRE(7, "Sapphire"), IOLITE(
+      "Peridot"), EMERALD(5, "Beryl"), AQUAMARINE(6, "Aquamarine"), SAPPHIRE(7, "Sapphire"), IOLITE(
       8, "Iolite"), AMETHYST(9, "Amethyst"), MORGANITE(10, "Morganite"), ONYX(11, "Onyx");
 
   public final byte id;
