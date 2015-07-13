@@ -38,6 +38,11 @@ public enum EnumGem {
 
     return new ItemStack(ModBlocks.gemBlock, 1, id);
   }
+  
+  public String getBlockOreName() {
+    
+    return "block" + this.name;
+  }
 
   /**
    * Gets an ItemStack of one of the corresponding Gem.
@@ -47,6 +52,11 @@ public enum EnumGem {
   public ItemStack getItem() {
 
     return new ItemStack(ModItems.gem, 1, id);
+  }
+  
+  public String getItemOreName() {
+    
+    return "gem" + this.name;
   }
 
   /**
@@ -58,6 +68,11 @@ public enum EnumGem {
 
     return new ItemStack(ModBlocks.gemOre, 1, id);
   }
+  
+  public String getOreBlockOreName() {
+    
+    return "ore" + this.name;
+  }
 
   /**
    * Gets an ItemStack of one of the corresponding GemShard, if there is one.
@@ -67,6 +82,11 @@ public enum EnumGem {
   public ItemStack getShard() {
 
     return new ItemStack(ModItems.gemShard, 1, id);
+  }
+  
+  public String getShardOreName() {
+    
+    return "nugget" + this.name;
   }
 
   /**
