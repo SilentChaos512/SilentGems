@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+1.3.00-beta02
+Added: Redstone Teleporters. They work just like normal gem teleporters, but can also be activated by a redstone pulse.
+
 1.3.00-beta01
 Added: Gem/Chaos ores and Glow Roses can now be pulverized.
 Added: Gem armor. Textures need work, I know.

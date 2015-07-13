@@ -16,6 +16,11 @@ public class Config {
   // TODO: Organize all the things!
 
   /*
+   * Blocks
+   */
+  public static float redstoneTeleporterSearchRange = 3.0f;
+
+  /*
    * Items
    */
   public static int chaosCoalBurnTime = 6400;
@@ -111,6 +116,14 @@ public class Config {
 
     try {
       c.load();
+
+      /*
+       * Blocks
+       */
+      redstoneTeleporterSearchRange = c
+          .getFloat("RedstoneTeleporter.SearchRadius", CATEGORY_BLOCK_PROPERTIES,
+              redstoneTeleporterSearchRange, 0.0f, 128.0f,
+              "The radius (in blocks) in which redstone-powered teleporters will select entities to teleport.");
 
       /*
        * Items

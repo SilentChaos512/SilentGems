@@ -23,6 +23,7 @@ public class Names {
   public static final String MISC_BLOCKS = "MiscBlocks";
   public static final String SMOOTH_WOOL = "SmoothWool";
   public static final String TELEPORTER = "Teleporter";
+  public static final String TELEPORTER_REDSTONE = "RedstoneTeleporter";
 
   /*
    * Items

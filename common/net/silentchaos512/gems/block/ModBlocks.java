@@ -17,12 +17,14 @@ public class ModBlocks {
   public static MiscBlock miscBlock;
   public static GlowRose glowRose;
   public static Teleporter teleporter;
+  public static BlockRedstoneTeleporter redstoneTeleporter;
   public static GemLamp gemLamp;
   public static GemLamp gemLampLit;
   public static GemLamp gemLampInvertedLit;
   public static GemLamp gemLampInverted;
   public static FluffyPlantBlock fluffyPlant;
-//  public static HoldingGemBlock holdingGemBlock;
+
+  // public static HoldingGemBlock holdingGemBlock;
 
   public static void init() {
 
@@ -36,6 +38,8 @@ public class ModBlocks {
     miscBlock = (MiscBlock) SRegistry.registerBlock(MiscBlock.class, Names.MISC_BLOCKS);
     glowRose = (GlowRose) SRegistry.registerBlock(GlowRose.class, Names.GLOW_ROSE);
     teleporter = (Teleporter) SRegistry.registerBlock(Teleporter.class, Names.TELEPORTER);
+    redstoneTeleporter = (BlockRedstoneTeleporter) SRegistry.registerBlock(
+        BlockRedstoneTeleporter.class, Names.TELEPORTER_REDSTONE);
     gemLamp = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP, ItemBlockSG.class,
         false, false);
     gemLampLit = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_LIT,
@@ -46,7 +50,7 @@ public class ModBlocks {
         ItemBlockSG.class, false, true);
     fluffyPlant = (FluffyPlantBlock) SRegistry.registerBlock(FluffyPlantBlock.class,
         Names.FLUFFY_PLANT);
-//    holdingGemBlock = (HoldingGemBlock) SRegistry.registerBlock(HoldingGemBlock.class,
-//        Names.HOLDING_GEM, HoldingGem.class);
+    // holdingGemBlock = (HoldingGemBlock) SRegistry.registerBlock(HoldingGemBlock.class,
+    // Names.HOLDING_GEM, HoldingGem.class);
   }
 }

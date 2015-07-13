@@ -3,6 +3,8 @@ package net.silentchaos512.gems.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -11,13 +13,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.oredict.OreDictionary;
-import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.NBTHelper;
 import net.silentchaos512.gems.core.util.PlayerHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
@@ -48,11 +52,13 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
   public void addRecipes() {
 
     ItemStack essencePlus = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
+    ItemStack anyTeleporter = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
     for (int i = 0; i < EnumGem.all().length; ++i) {
+      ItemStack gem = EnumGem.all()[i].getItem();
+      ItemStack gemBlock = EnumGem.all()[i].getBlock();
       GameRegistry.addShapedRecipe(new ItemStack(this, 2, i), "cec", " g ", "cec", 'c',
-          essencePlus, 'e', Items.ender_pearl, 'g', EnumGem.all()[i].getBlock());
-      GameRegistry.addShapelessRecipe(new ItemStack(this, 1, i), new ItemStack(this, 1,
-          OreDictionary.WILDCARD_VALUE), EnumGem.all()[i].getItem());
+          essencePlus, 'e', Items.ender_pearl, 'g', gemBlock);
+      GameRegistry.addShapelessRecipe(new ItemStack(this, 1, i), anyTeleporter, gem);
     }
   }
 
@@ -73,8 +79,8 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
       charm.stackTagCompound = new NBTTagCompound();
     }
     NBTHelper.setXYZD(charm.stackTagCompound, x, y, z, player.dimension);
-    PlayerHelper.addChatMessage(player,
-        LocalizationHelper.getOtherBlockKey(blockName, RETURN_HOME_BOUND));
+    String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, RETURN_HOME_BOUND);
+    PlayerHelper.addChatMessage(player, str);
     return true;
   }
 
@@ -97,7 +103,6 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
       linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
     }
 
-    boolean state = linker.stackTagCompound.getBoolean(Strings.TELEPORTER_LINKER_STATE);
     int sx = linker.stackTagCompound.getInteger("X");
     int sy = linker.stackTagCompound.getInteger("Y");
     int sz = linker.stackTagCompound.getInteger("Z");
@@ -113,20 +118,16 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
 
       // Safety check
       if (t1 == null) {
-        PlayerHelper
-            .addChatMessage(
-                player,
-                EnumChatFormatting.DARK_RED
-                    + LocalizationHelper.getOtherBlockKey(blockName, LINK_FAIL));
+        // Teleporter 1 not found.
+        String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, LINK_FAIL);
+        PlayerHelper.addChatMessage(player, EnumChatFormatting.DARK_RED + str);
         LogHelper.warning("A teleporter link failed because teleporter 1 could not be found.");
         linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
         return false;
       } else if (t2 == null) {
-        PlayerHelper
-            .addChatMessage(
-                player,
-                EnumChatFormatting.DARK_RED
-                    + LocalizationHelper.getOtherBlockKey(blockName, LINK_FAIL));
+        // Teleporter 2 not found.
+        String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, LINK_FAIL);
+        PlayerHelper.addChatMessage(player, EnumChatFormatting.DARK_RED + str);
         LogHelper.warning("A teleporter link failed because teleporter 2 could not be found.");
         linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
         return false;
@@ -142,20 +143,16 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
       t2.destZ = sz;
       t2.destD = sd;
 
-      PlayerHelper.addChatMessage(player, LocalizationHelper.getOtherBlockKey(blockName, LINK_END));
+      String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, LINK_END);
+      PlayerHelper.addChatMessage(player, str);
 
       linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
     } else {
       // Inactive state, set active state and location data.
       linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, true);
       NBTHelper.setXYZD(linker.stackTagCompound, x, y, z, player.dimension);
-      PlayerHelper.addChatMessage(player,
-          LocalizationHelper.getOtherBlockKey(blockName, LINK_START));
-
-      // TODO Force chunk load?
-      // I'm not doing this now because I'm afraid I don't fully understand
-      // the implications of forcing chunks to stay loaded, although it never
-      // caused any problems before.
+      String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, LINK_START);
+      PlayerHelper.addChatMessage(player, str);
     }
 
     return true;
@@ -170,12 +167,12 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
     }
 
     // Link teleporters
-    if (PlayerHelper.isPlayerHoldingItem(player, SRegistry.getItem(Names.TELEPORTER_LINKER))) {
+    if (PlayerHelper.isPlayerHoldingItem(player, ModItems.teleporterLinker)) {
       return linkTeleporters(world, x, y, z, player);
     }
 
     // Link return home charm
-    if (PlayerHelper.isPlayerHoldingItem(player, SRegistry.getItem(Names.RETURN_HOME))) {
+    if (PlayerHelper.isPlayerHoldingItem(player, ModItems.returnHome)) {
       return linkReturnHome(world, x, y, z, player);
     }
 
@@ -184,29 +181,57 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
     if (tile != null) {
       // Safety checks:
       if (tile.destY <= 0) {
-        PlayerHelper.addChatMessage(player,
-            LocalizationHelper.getOtherBlockKey(blockName, NO_DESTINATION));
+        // Destination not sane.
+        String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, NO_DESTINATION);
+        PlayerHelper.addChatMessage(player, str);
         return true;
       }
 
       // Destination not obstructed
-      if (MinecraftServer.getServer().worldServerForDimension(tile.destD)
-          .isBlockNormalCubeDefault(tile.destX, tile.destY + 2, tile.destZ, true)) {
-        PlayerHelper.addChatMessage(player,
-            LocalizationHelper.getOtherBlockKey(blockName, DESTINATION_OBSTRUCTED));
+      if (!this.isDestinationSafe(tile.destX, tile.destY, tile.destZ, tile.destD)) {
+        // Destination not safe.
+        String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, DESTINATION_OBSTRUCTED);
+        PlayerHelper.addChatMessage(player, str);
         return true;
       }
 
-      // Teleport player if everything is OK.
-      if (tile.destD != player.dimension) {
-        player.travelToDimension(tile.destD);
-      }
-      player.setPositionAndUpdate(tile.destX + 0.5, tile.destY + 1, tile.destZ + 0.5);
-      world.playSoundAtEntity(player, "mob.endermen.portal", 1.0f, 1.0f);
+      this.teleporterEntityTo(player, tile.destX, tile.destY, tile.destZ, tile.destD);
     } else {
       LogHelper.warning("Teleporter at " + LogHelper.coord(x, y, z) + " not found!");
     }
 
     return true;
+  }
+
+  protected boolean isDestinationSafe(int x, int y, int z, int dimension) {
+
+    // Check for obstructions at player head level. This may need additional tuning...
+    WorldServer server = MinecraftServer.getServer().worldServerForDimension(dimension);
+    return !server.isBlockNormalCubeDefault(x, y + 2, z, true);
+  }
+
+  protected void teleporterEntityTo(Entity entity, int x, int y, int z, int dimension) {
+
+    // Change dimensions?
+    if (dimension != entity.dimension) {
+      entity.travelToDimension(dimension); // FIXME: Does this also spawn Nether portals?
+    }
+
+    float soundPitch = SilentGems.instance.random.nextFloat();
+    soundPitch = soundPitch * 0.3f + 0.7f;
+    // Sound at source
+    entity.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0f, soundPitch);
+
+    if (entity instanceof EntityLivingBase) {
+      // TODO: Is this necessary?
+      EntityLivingBase entityLivingBase = (EntityLivingBase) entity;
+      entityLivingBase.setPositionAndUpdate(x + 0.5, y + 1.0, z + 0.5);
+    } else {
+      LogHelper.derp();
+      entity.setPosition(x + 0.5, y + 1.0, z + 0.5);
+    }
+
+    // Sound at destination
+    entity.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0f, soundPitch);
   }
 }
