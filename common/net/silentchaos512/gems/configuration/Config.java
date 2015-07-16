@@ -18,7 +18,7 @@ public class Config {
   /*
    * Blocks
    */
-  public static float redstoneTeleporterSearchRange = 3.0f;
+  public static float redstoneTeleporterSearchRange = 2.5f;
 
   /*
    * Items

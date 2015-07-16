@@ -7,6 +7,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.PlayerHelper;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -46,7 +47,7 @@ public class BlockRedstoneTeleporter extends Teleporter {
   @Override
   public void onNeighborBlockChange(World world, int x, int y, int z, Block neighborBlock) {
 
-    final double searchRange = 2.0; // TODO: Replace with Config option.
+    final double searchRange = Config.redstoneTeleporterSearchRange;
 
     TileTeleporter tile = (TileTeleporter) world.getTileEntity(x, y, z);
     if (!world.isRemote && world.isBlockIndirectlyGettingPowered(x, y, z)) {
