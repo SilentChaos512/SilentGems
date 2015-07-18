@@ -4,6 +4,7 @@ Silent's Gems - Changelog
 Added: Redstone Teleporters. They work just like normal gem teleporters, but can also be activated by a redstone pulse.
 Added: Ore dictionary entries for gem blocks.
 Added: Recipe to craft Chaos Coal Blocks from Chaos Essence Blocks and Coal Blocks.
+Changed: Mending now works on armor.
 Changed: Many recipes now use the ore dictionary.
 Changed: Internal name of Beryl to Beryl (was Emerald). Config option for the weight of Beryl will change its name as well.
 

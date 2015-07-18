@@ -201,5 +201,11 @@ public class GemsEventHandler {
         ModEnchantments.mending.tryActivate(player, stack);
       }
     }
+    
+    for (ItemStack stack : player.inventory.armorInventory) {
+      if (stack != null) {
+        ModEnchantments.mending.tryActivate(player, stack);
+      }
+    }
   }
 }
