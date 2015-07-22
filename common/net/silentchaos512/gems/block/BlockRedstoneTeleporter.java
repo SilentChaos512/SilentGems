@@ -1,5 +1,7 @@
 package net.silentchaos512.gems.block;
 
+import org.apache.http.message.BasicHttpEntityEnclosingRequest;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -7,6 +9,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.PlayerHelper;
@@ -27,10 +31,15 @@ public class BlockRedstoneTeleporter extends Teleporter {
   @Override
   public void addRecipes() {
 
-    for (int i = 0; i < EnumGem.values().length; ++i) {
-      ItemStack result = new ItemStack(this, 1, i);
-      ItemStack teleporter = new ItemStack(ModBlocks.teleporter, 1, i);
-      GameRegistry.addShapelessRecipe(result, teleporter, Items.redstone);
+    for (EnumGem gem : EnumGem.values()) {
+      ItemStack redstoneTeleporter = new ItemStack(this, 1, gem.id);
+      ItemStack basicTeleporter = new ItemStack(ModBlocks.teleporter, 1, gem.id);
+      // Base recipe
+      GameRegistry.addShapelessRecipe(redstoneTeleporter, basicTeleporter, Items.redstone);
+      // Recolor recipe
+      ItemStack anyRedstoneTeleporter = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
+      GameRegistry.addRecipe(new ShapelessOreRecipe(redstoneTeleporter, anyRedstoneTeleporter, gem
+          .getItemOreName()));
     }
   }
 

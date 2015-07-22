@@ -7,6 +7,8 @@ Added: Recipe to craft Chaos Coal Blocks from Chaos Essence Blocks and Coal Bloc
 Changed: Mending now works on armor.
 Changed: Many recipes now use the ore dictionary.
 Changed: Internal name of Beryl to Beryl (was Emerald). Config option for the weight of Beryl will change its name as well.
+Fixed: Flight Chaos Gems not resetting fall distance
+Fixed: Flight Chaos Gems not being activated by hotkeys.
 
 1.3.00-beta01
 Added: Gem/Chaos ores and Glow Roses can now be pulverized.
