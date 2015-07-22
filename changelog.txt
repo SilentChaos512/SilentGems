@@ -2,6 +2,7 @@ Silent's Gems - Changelog
 
 1.3.00-beta02
 Added: Redstone Teleporters. They work just like normal gem teleporters, but can also be activated by a redstone pulse.
+Added: Teleporter Anchors. Teleporters can be linked to them, but anchors are not capable of teleporting. Useful for building complex networks of teleports.
 Added: Ore dictionary entries for gem blocks.
 Added: Recipe to craft Chaos Coal Blocks from Chaos Essence Blocks and Coal Blocks.
 Changed: Mending now works on armor.

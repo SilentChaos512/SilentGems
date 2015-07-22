@@ -3,7 +3,7 @@ package net.silentchaos512.gems.item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
-import net.silentchaos512.gems.core.util.RecipeHelper;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
@@ -24,10 +24,13 @@ public class GemShard extends ItemSG {
   @Override
   public void addRecipes() {
 
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      ItemStack shard = new ItemStack(this, 1, i);
-      ItemStack gem = EnumGem.all()[i].getItem();
-      RecipeHelper.addCompressionRecipe(shard, gem, 9);
+    for (EnumGem gem : EnumGem.values()) {
+      // Shards --> Gem
+      GameRegistry.addRecipe(new ShapedOreRecipe(gem.getItem(), "sss", "sss", "sss", 's', gem.getShardOreName()));
+      // Gems --> Shards
+      ItemStack shards = gem.getShard();
+      shards.stackSize = 9;
+      GameRegistry.addRecipe(new ShapedOreRecipe(shards, "g", 'g', gem.getItemOreName()));
     }
   }
 

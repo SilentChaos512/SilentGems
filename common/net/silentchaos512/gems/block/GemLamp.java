@@ -155,7 +155,7 @@ public class GemLamp extends BlockSG {
     if (!lit && !inverted) {
       for (EnumGem gem : EnumGem.values()) {
         RecipeHelper.addSurroundOre(new ItemStack(this, 1, gem.id), gem.getItemOreName(),
-            Items.redstone, Items.glowstone_dust);
+            "dustRedstone", "dustGlowstone");
       }
     } else if (lit && inverted) {
       for (EnumGem gem : EnumGem.values()) {

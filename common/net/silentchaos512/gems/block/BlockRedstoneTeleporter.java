@@ -35,7 +35,8 @@ public class BlockRedstoneTeleporter extends Teleporter {
       ItemStack redstoneTeleporter = new ItemStack(this, 1, gem.id);
       ItemStack basicTeleporter = new ItemStack(ModBlocks.teleporter, 1, gem.id);
       // Base recipe
-      GameRegistry.addShapelessRecipe(redstoneTeleporter, basicTeleporter, Items.redstone);
+      GameRegistry.addRecipe(new ShapelessOreRecipe(redstoneTeleporter, basicTeleporter,
+          "dustRedstone"));
       // Recolor recipe
       ItemStack anyRedstoneTeleporter = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
       GameRegistry.addRecipe(new ShapelessOreRecipe(redstoneTeleporter, anyRedstoneTeleporter, gem
