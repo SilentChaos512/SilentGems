@@ -171,6 +171,19 @@ tile.silentgems:Teleporter.Link.Start=Teleporter link started.
 tile.silentgems:Teleporter.NoDestination=No destination set.
 tile.silentgems:Teleporter.ReturnHomeBound=Bound to Teleporter!
 
+tile.silentgems:RedstoneTeleporter0.name=Ruby Redstone Teleporter
+tile.silentgems:RedstoneTeleporter1.name=Garnet Redstone Teleporter
+tile.silentgems:RedstoneTeleporter2.name=Topaz Redstone Teleporter
+tile.silentgems:RedstoneTeleporter3.name=Heliodor Redstone Teleporter
+tile.silentgems:RedstoneTeleporter4.name=Peridot Redstone Teleporter
+tile.silentgems:RedstoneTeleporter5.name=Beryl Redstone Teleporter
+tile.silentgems:RedstoneTeleporter6.name=Aquamarine Redstone Teleporter
+tile.silentgems:RedstoneTeleporter7.name=Sapphire Redstone Teleporter
+tile.silentgems:RedstoneTeleporter8.name=Iolite Redstone Teleporter
+tile.silentgems:RedstoneTeleporter9.name=Amethyst Redstone Teleporter
+tile.silentgems:RedstoneTeleporter10.name=Morganite Redstone Teleporter
+tile.silentgems:RedstoneTeleporter11.name=Onyx Redstone Teleporter
+
 # Item localizations
 
 item.silentgems:ChaosBooster.name=Chaos Booster
