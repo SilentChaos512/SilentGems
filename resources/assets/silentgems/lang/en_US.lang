@@ -184,6 +184,10 @@ tile.silentgems:RedstoneTeleporter9.name=Amethyst Redstone Teleporter
 tile.silentgems:RedstoneTeleporter10.name=Morganite Redstone Teleporter
 tile.silentgems:RedstoneTeleporter11.name=Onyx Redstone Teleporter
 
+tile.silentgems:TeleporterAnchor.name=Teleporter Anchor
+tile.silentgems:TeleporterAnchor.desc1=Cannot teleport anything, but
+tile.silentgems:TeleporterAnchor.desc2=teleporters can link to it.
+
 # Item localizations
 
 item.silentgems:ChaosBooster.name=Chaos Booster

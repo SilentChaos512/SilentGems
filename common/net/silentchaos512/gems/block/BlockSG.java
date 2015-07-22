@@ -121,13 +121,13 @@ public class BlockSG extends Block implements IAddRecipe, IAddThaumcraftStuff {
 
   public Block setHasGemSubtypes(boolean value) {
 
-    gemSubtypes = true;
+    this.gemSubtypes = value;
     return this;
   }
 
   public Block setHasSubtypes(boolean value) {
 
-    hasSubtypes = true;
+    this.hasSubtypes = value;
     return this;
   }
 

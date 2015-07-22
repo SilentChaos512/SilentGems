@@ -24,6 +24,7 @@ public class Names {
   public static final String SMOOTH_WOOL = "SmoothWool";
   public static final String TELEPORTER = "Teleporter";
   public static final String TELEPORTER_REDSTONE = "RedstoneTeleporter";
+  public static final String TELEPORTER_ANCHOR = "TeleporterAnchor";
 
   /*
    * Items

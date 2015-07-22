@@ -18,6 +18,7 @@ public class ModBlocks {
   public static GlowRose glowRose;
   public static Teleporter teleporter;
   public static BlockRedstoneTeleporter redstoneTeleporter;
+  public static BlockTeleporterAnchor teleporterAnchor;
   public static GemLamp gemLamp;
   public static GemLamp gemLampLit;
   public static GemLamp gemLampInvertedLit;
@@ -40,6 +41,8 @@ public class ModBlocks {
     teleporter = (Teleporter) SRegistry.registerBlock(Teleporter.class, Names.TELEPORTER);
     redstoneTeleporter = (BlockRedstoneTeleporter) SRegistry.registerBlock(
         BlockRedstoneTeleporter.class, Names.TELEPORTER_REDSTONE);
+    teleporterAnchor = (BlockTeleporterAnchor) SRegistry.registerBlock(BlockTeleporterAnchor.class,
+        Names.TELEPORTER_ANCHOR);
     gemLamp = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP, ItemBlockSG.class,
         false, false);
     gemLampLit = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_LIT,

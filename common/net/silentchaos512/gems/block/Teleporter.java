@@ -32,12 +32,14 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Teleporter extends BlockSG implements ITileEntityProvider {
 
-  public final static String DESTINATION_OBSTRUCTED = "DestinationObstructed";
-  public final static String LINK_END = "Link.End";
-  public final static String LINK_FAIL = "Link.Fail";
-  public final static String LINK_START = "Link.Start";
-  public final static String NO_DESTINATION = "NoDestination";
-  public final static String RETURN_HOME_BOUND = "ReturnHomeBound";
+  public static final String DESTINATION_OBSTRUCTED = "DestinationObstructed";
+  public static final String LINK_END = "Link.End";
+  public static final String LINK_FAIL = "Link.Fail";
+  public static final String LINK_START = "Link.Start";
+  public static final String NO_DESTINATION = "NoDestination";
+  public static final String RETURN_HOME_BOUND = "ReturnHomeBound";
+
+  protected boolean isAnchor = false;
 
   public Teleporter() {
 
@@ -163,18 +165,30 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
   public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
       float hitX, float hitY, float hitZ) {
 
+    boolean playerHoldingLinker = PlayerHelper.isPlayerHoldingItem(player,
+        ModItems.teleporterLinker);
+    boolean playerHoldingReturnHome = PlayerHelper.isPlayerHoldingItem(player, ModItems.returnHome);
+
     if (world.isRemote) {
-      return true;
+      if (playerHoldingLinker || playerHoldingReturnHome) {
+        return true;
+      }
+      return !this.isAnchor;
     }
 
     // Link teleporters
-    if (PlayerHelper.isPlayerHoldingItem(player, ModItems.teleporterLinker)) {
+    if (playerHoldingLinker) {
       return linkTeleporters(world, x, y, z, player);
     }
 
     // Link return home charm
-    if (PlayerHelper.isPlayerHoldingItem(player, ModItems.returnHome)) {
+    if (playerHoldingReturnHome) {
       return linkReturnHome(world, x, y, z, player);
+    }
+
+    // Is this an anchor? If so, don't continue.
+    if (this.isAnchor) {
+      return false;
     }
 
     TileTeleporter tile = (TileTeleporter) world.getTileEntity(x, y, z);
