@@ -3,13 +3,13 @@ package net.silentchaos512.gems.lib.buff;
 import java.util.ArrayList;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;

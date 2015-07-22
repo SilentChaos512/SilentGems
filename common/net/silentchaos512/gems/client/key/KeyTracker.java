@@ -1,7 +1,11 @@
 package net.silentchaos512.gems.client.key;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.item.ChaosGem;
 import net.silentchaos512.gems.network.MessageChaosGemToggle;
 
 import org.lwjgl.input.Keyboard;
@@ -26,10 +30,11 @@ public class KeyTracker {
   public KeyTracker() {
 
     // TODO: Combine into one, using shift to specify all?
-    chaosGemToggleFirst = new KeyBinding("Chaos Gem - Toggle First", Keyboard.KEY_F,
+    chaosGemToggleFirst = new KeyBinding("Chaos Gem - Toggle First", Keyboard.KEY_G,
         SilentGems.MOD_NAME);
     ClientRegistry.registerKeyBinding(chaosGemToggleFirst);
-    chaosGemToggleAll = new KeyBinding("Chaos Gem - Toggle All", Keyboard.KEY_H, SilentGems.MOD_NAME);
+    chaosGemToggleAll = new KeyBinding("Chaos Gem - Toggle All", Keyboard.KEY_H,
+        SilentGems.MOD_NAME);
     ClientRegistry.registerKeyBinding(chaosGemToggleAll);
   }
 
@@ -42,14 +47,35 @@ public class KeyTracker {
 
   private void handleChaosGemToggleFirst() {
 
-    if (chaosGemToggleFirst.getIsKeyPressed()) {
+    boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
+        || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+    if (chaosGemToggleFirst.getIsKeyPressed() && !shifted) {
+      // Client
+      EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+      for (ItemStack stack : player.inventory.mainInventory) {
+        if (stack != null && stack.getItem() instanceof ChaosGem) {
+          ((ChaosGem) stack.getItem()).onItemRightClick(stack, player.worldObj, player);
+          break;
+        }
+      }
+      // Server
       SilentGems.network.sendToServer(new MessageChaosGemToggle(false));
     }
   }
 
   private void handleChaosGemToggleAll() {
 
-    if (chaosGemToggleAll.getIsKeyPressed()) {
+    boolean shiftToggle = chaosGemToggleFirst.getIsKeyPressed()
+        && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT));
+    if (chaosGemToggleAll.getIsKeyPressed() || shiftToggle) {
+      // Client
+      EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+      for (ItemStack stack : player.inventory.mainInventory) {
+        if (stack != null && stack.getItem() instanceof ChaosGem) {
+          ((ChaosGem) stack.getItem()).onItemRightClick(stack, player.worldObj, player);
+        }
+      }
+      // Server
       SilentGems.network.sendToServer(new MessageChaosGemToggle(true));
     }
   }
