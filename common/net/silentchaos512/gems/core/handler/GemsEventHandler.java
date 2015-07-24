@@ -181,8 +181,9 @@ public class GemsEventHandler {
       if (stack != null && stack.getItem() instanceof ChaosGem) {
         level = ChaosGem.getBuffLevel(stack, flight);
         if (level > 0) {
-          player.capabilities.allowFlying = ChaosGem.isEnabled(stack); // Does nothing?
-          player.fallDistance = 0.0f;
+          if (ChaosGem.isEnabled(stack)) {
+            player.fallDistance = 0.0f;
+          }
         }
       }
     }

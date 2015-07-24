@@ -116,6 +116,7 @@ public class ChaosBuff {
     if (name.equals(FLIGHT)) {
       player.capabilities.allowFlying = false;
       player.capabilities.isFlying = false;
+      player.fallDistance = 0.0f;
     }
   }
 
