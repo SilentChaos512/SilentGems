@@ -3,6 +3,7 @@ package net.silentchaos512.gems.core.proxy;
 import java.util.Iterator;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.core.registry.SRegistry;
@@ -75,5 +76,11 @@ public class ClientProxy extends CommonProxy {
 //                }
 //            }
 //        }
+    }
+    
+    @Override
+    public void spawnParticles(EntityFX particleFX) {
+      
+      Minecraft.getMinecraft().effectRenderer.addEffect(particleFX);
     }
 }

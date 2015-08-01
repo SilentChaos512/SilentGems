@@ -2,8 +2,10 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -13,15 +15,24 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.RecipeHelper;
+import net.silentchaos512.gems.energy.IChaosStorage;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.lib.buff.ChaosBuff;
 
-public class ChaosGem extends ItemSG {
+import org.lwjgl.input.Keyboard;
 
-  public final static int MAX_STACK_DAMAGE = 10;
-  public final static int CHEATY_GEM_ID = 42;
+public class ChaosGem extends ItemSG implements IChaosStorage {
+
+  public static final int MAX_STACK_DAMAGE = 100;
+  public static final int CHEATY_GEM_ID = 42;
+
+  public static final String NBT_CHARGE = "charge";
+  public static final String NBT_ENABLED = "enabled";
+  public static final String NBT_BUFF_LIST = "buff";
+  public static final String NBT_BUFF_ID = "id";
+  public static final String NBT_BUFF_LEVEL = "lvl";
+  // public static final String NBT_CHEATY = "cheaty";
 
   private final int gemId;
   public final boolean isCheaty;
@@ -37,49 +48,41 @@ public class ChaosGem extends ItemSG {
     this.rarity = EnumRarity.rare;
   }
 
-  public static void addBuff(ItemStack stack, ChaosBuff buff) {
+  @Override
+  public void getSubItems(Item item, CreativeTabs tab, List list) {
 
-    int k = getBuffLevel(stack, buff);
+    ItemStack stack = new ItemStack(this);
+    stack.setTagCompound(new NBTTagCompound());
+    stack.stackTagCompound.setInteger(NBT_CHARGE, this.getMaxEnergyStored(stack));
+    list.add(stack);
+  }
 
-    if (stack.stackTagCompound == null) {
-      stack.setTagCompound(new NBTTagCompound());
-    }
-    if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
-      stack.stackTagCompound.setTag(Strings.CHAOS_GEM_BUFF_LIST, new NBTTagList());
-    }
+  @Override
+  public void addRecipes() {
 
-    NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
-    if (k == 0) {
-      // Buff not already on list, add it.
-      NBTTagCompound tag = new NBTTagCompound();
-      tag.setShort(Strings.CHAOS_GEM_BUFF_ID, (short) buff.id);
-      tag.setShort(Strings.CHAOS_GEM_BUFF_LEVEL, (short) 1);
-      list.appendTag(tag);
-    } else {
-      // Increase buff level.
-      NBTTagCompound tag;
-      for (int i = 0; i < list.tagCount(); ++i) {
-        tag = (NBTTagCompound) list.getCompoundTagAt(i);
-        k = tag.getShort(Strings.CHAOS_GEM_BUFF_ID);
-        if (k == buff.id) {
-          k = tag.getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
-          tag.setShort(Strings.CHAOS_GEM_BUFF_LEVEL, (short) (k + 1));
-        }
-      }
+    if (this.gemId != CHEATY_GEM_ID) {
+      RecipeHelper.addSurroundOre(new ItemStack(this), EnumGem.all()[gemId].getBlockOreName(),
+          CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS));
     }
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
 
-    if (stack.stackTagCompound == null) {
+    if (this.getBuffList(stack).tagCount() == 0) {
       // Information on how to use.
       list.add(EnumChatFormatting.DARK_GRAY
           + LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0));
       return;
     }
 
-    boolean enabled = stack.stackTagCompound.getBoolean(Strings.CHAOS_GEM_ENABLED);
+    boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
+        || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+    String str;
+
+    boolean enabled = stack.stackTagCompound.getBoolean(NBT_ENABLED);
+    int energy = this.getEnergyStored(stack);
+    int capacity = this.getMaxEnergyStored(stack);
 
     if (enabled) {
       list.add(EnumChatFormatting.GREEN
@@ -94,23 +97,24 @@ public class ChaosGem extends ItemSG {
           + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Cheaty"));
     } else {
       // Charge level
-      int k = stack.stackTagCompound.getInteger(Strings.CHAOS_GEM_CHARGE);
-      list.add(EnumChatFormatting.YELLOW + String.format("%d / %d", k, getMaxChargeLevel(stack)));
+      // TODO: Formatting?
+      list.add(EnumChatFormatting.YELLOW + String.format("%d / %d", energy, capacity));
 
       // Charge change rate
-      k = enabled ? -getTotalChargeDrain(stack) : getRechargeAmount(stack);
-      list.add(EnumChatFormatting.DARK_GRAY + (k >= 0 ? "+" : "") + k + " "
-          + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "ChargePerSecond"));
+      str = LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "CostPerTick");
+      str = String.format(str, this.getTotalChargeDrain(stack));
+      list.add(EnumChatFormatting.DARK_GRAY + str);
     }
-    if (stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
+
+    if (stack.stackTagCompound.hasKey(NBT_BUFF_LIST)) {
       // Display list of effects.
-      NBTTagList tags = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
+      NBTTagList tags = (NBTTagList) stack.stackTagCompound.getTag(NBT_BUFF_LIST);
       NBTTagCompound t;
       int id, lvl;
       for (int i = 0; i < tags.tagCount(); ++i) {
         t = (NBTTagCompound) tags.getCompoundTagAt(i);
-        id = t.getShort(Strings.CHAOS_GEM_BUFF_ID);
-        lvl = t.getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
+        id = t.getShort(NBT_BUFF_ID);
+        lvl = t.getShort(NBT_BUFF_LEVEL);
         list.add(ChaosBuff.all.get(id).getDisplayName(lvl));
       }
     } else {
@@ -121,131 +125,146 @@ public class ChaosGem extends ItemSG {
   }
 
   @Override
-  public void addRecipes() {
+  public int getDamage(ItemStack stack) {
 
-    if (this.gemId != CHEATY_GEM_ID) {
-      RecipeHelper.addSurroundOre(new ItemStack(this), EnumGem.all()[gemId].getBlockOreName(),
-          CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS));
-    }
+    int value = (int) (MAX_STACK_DAMAGE * this.getDurabilityForDisplay(stack));
+    return MathHelper.clamp_int(value, 0, MAX_STACK_DAMAGE - 1);
+  }
+
+  @Override
+  public void setDamage(ItemStack stack, int damage) {
+
+  }
+
+  @Override
+  public double getDurabilityForDisplay(ItemStack stack) {
+
+    int energy = this.getEnergyStored(stack);
+    int capacity = this.getMaxEnergyStored(stack);
+    return (double) (capacity - energy) / (double) capacity;
+  }
+
+  @Override
+  public boolean showDurabilityBar(ItemStack stack) {
+
+    return this.getEnergyStored(stack) < this.getMaxEnergyStored(stack);
+  }
+
+  @Override
+  public boolean hasEffect(ItemStack stack, int pass) {
+
+    return this.isEnabled(stack);
   }
 
   private void applyEffects(ItemStack stack, EntityPlayer player) {
 
-    if (stack.stackTagCompound == null) {
-      stack.stackTagCompound = new NBTTagCompound();
-    }
-    if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
-      stack.stackTagCompound.setTag(Strings.CHAOS_GEM_BUFF_LIST, new NBTTagList());
-    }
-    if (this.gemId == CHEATY_GEM_ID && !stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_CHEATY)) {
-      stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_CHEATY, true);
-    }
-
-    NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
+    NBTTagList list = this.getBuffList(stack);
     NBTTagCompound tag;
     short id, lvl;
     for (int i = 0; i < list.tagCount(); ++i) {
       tag = (NBTTagCompound) list.getCompoundTagAt(i);
-      id = tag.getShort(Strings.CHAOS_GEM_BUFF_ID);
-      lvl = tag.getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
+      id = tag.getShort(NBT_BUFF_ID);
+      lvl = tag.getShort(NBT_BUFF_LEVEL);
       ChaosBuff.all.get(id).apply(player, lvl);
     }
   }
 
-  public static boolean canAddBuff(ItemStack stack, ChaosBuff buff) {
+  private void removeEffects(ItemStack stack, EntityPlayer player) {
+
+    NBTTagList list = this.getBuffList(stack);
+    NBTTagCompound tag;
+    short id, lvl;
+    for (int i = 0; i < list.tagCount(); ++i) {
+      tag = (NBTTagCompound) list.getCompoundTagAt(i);
+      id = tag.getShort(NBT_BUFF_ID);
+      ChaosBuff.all.get(id).remove(player);
+    }
+  }
+
+  public NBTTagList getBuffList(ItemStack stack) {
+
+    if (stack != null) {
+      if (stack.stackTagCompound == null) {
+        stack.setTagCompound(new NBTTagCompound());
+      }
+
+      if (stack.stackTagCompound.hasKey(NBT_BUFF_LIST)) {
+        return (NBTTagList) stack.stackTagCompound.getTag(NBT_BUFF_LIST);
+      } else {
+        stack.stackTagCompound.setTag(NBT_BUFF_LIST, new NBTTagList());
+        return (NBTTagList) stack.stackTagCompound.getTag(NBT_BUFF_LIST);
+      }
+    }
+
+    return null;
+  }
+
+  public boolean canAddBuff(ItemStack stack, ChaosBuff buff) {
 
     if (buff == null || stack == null) {
       return false;
     }
     // Get the level of this buff currently on the gem (0 if none).
-    int k = getBuffLevel(stack, buff);
+    int level = getBuffLevel(stack, buff);
     // Don't allow more than a certain number of buffs per gem.
-    if (k == 0 && getBuffCount(stack) >= Config.CHAOS_GEM_MAX_BUFFS.value) {
+    if (level == 0 && getBuffCount(stack) >= Config.CHAOS_GEM_MAX_BUFFS.value) {
       return false;
     }
     // Limit level to max.
-    return k < buff.maxLevel;
+    return level < buff.maxLevel;
   }
 
-  public void doTick(ItemStack stack, EntityPlayer player) {
+  public void addBuff(ItemStack stack, ChaosBuff buff) {
 
-    if (player.worldObj.isRemote) {
-      return;
-    }
+    int level = getBuffLevel(stack, buff);
 
-    if (stack.stackTagCompound == null) {
-      stack.setTagCompound(new NBTTagCompound());
-    }
-    if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
-      stack.stackTagCompound.setTag(Strings.CHAOS_GEM_BUFF_LIST, new NBTTagList());
-    }
-
-    boolean enabled = stack.stackTagCompound.getBoolean(Strings.CHAOS_GEM_ENABLED);
-
-    // Apply effects?
-    if (stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
-      if (enabled) {
-        applyEffects(stack, player);
-      } else {
-        removeEffects(stack, player);
+    NBTTagList list = this.getBuffList(stack);
+    if (level == 0) {
+      // Buff not already on list, add it.
+      NBTTagCompound tag = new NBTTagCompound();
+      tag.setShort(NBT_BUFF_ID, (short) buff.id);
+      tag.setShort(NBT_BUFF_LEVEL, (short) 1);
+      list.appendTag(tag);
+    } else {
+      // Increase buff level.
+      NBTTagCompound tag;
+      for (int i = 0; i < list.tagCount(); ++i) {
+        tag = (NBTTagCompound) list.getCompoundTagAt(i);
+        int id = tag.getShort(NBT_BUFF_ID);
+        if (id == buff.id) {
+          level = tag.getShort(NBT_BUFF_LEVEL);
+          tag.setShort(NBT_BUFF_LEVEL, (short) (level + 1));
+        }
       }
     }
-
-    // Cheaty gem? Don't do charge
-    if (this.isCheaty) {
-      return;
-    }
-
-    // Update charge level
-    final int maxCharge = getMaxChargeLevel(stack);
-    if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_CHARGE)) {
-      stack.stackTagCompound
-          .setInteger(Strings.CHAOS_GEM_CHARGE, Config.CHAOS_GEM_MAX_CHARGE.value);
-    }
-    int charge = stack.stackTagCompound.getInteger(Strings.CHAOS_GEM_CHARGE);
-    if (enabled) {
-      charge -= getTotalChargeDrain(stack);
-      // Disable if out of charge.
-      if (charge <= 0) {
-        charge = 0;
-        stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_ENABLED, false);
-      }
-    } else if (charge < maxCharge) {
-      charge += getRechargeAmount(stack);
-      if (charge > maxCharge) {
-        charge = maxCharge;
-      }
-    } else if (charge > maxCharge) {
-      charge = maxCharge;
-    }
-    stack = setChargeLevel(stack, charge);
   }
 
-  public static int getBuffCount(ItemStack stack) {
+  public int getBuffCount(ItemStack stack) {
 
     // Does buff tag list exist?
     if (stack == null || stack.stackTagCompound == null
-        || !stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
+        || !stack.stackTagCompound.hasKey(NBT_BUFF_LIST)) {
       return 0;
     } else {
-      NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
+      NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(NBT_BUFF_LIST);
       return list.tagCount();
     }
   }
 
-  public static int getBuffLevel(ItemStack stack, ChaosBuff buff) {
+  public int getBuffLevel(ItemStack stack, ChaosBuff buff) {
 
     // Does buff tag list exist?
     if (stack == null || buff == null || stack.stackTagCompound == null
-        || !stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
+        || !stack.stackTagCompound.hasKey(NBT_BUFF_LIST)) {
       return 0;
     } else {
-      NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
+      NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(NBT_BUFF_LIST);
 
       // Does the specified buff exist on list?
       for (int i = 0; i < list.tagCount(); ++i) {
-        if (((NBTTagCompound) list.getCompoundTagAt(i)).getShort(Strings.CHAOS_GEM_BUFF_ID) == buff.id) {
-          return ((NBTTagCompound) list.getCompoundTagAt(i)).getShort(Strings.CHAOS_GEM_BUFF_LEVEL);
+        NBTTagCompound tag = list.getCompoundTagAt(i);
+        if (tag.getShort(NBT_BUFF_ID) == buff.id) {
+          return tag.getShort(NBT_BUFF_LEVEL);
         }
       }
 
@@ -254,143 +273,146 @@ public class ChaosGem extends ItemSG {
     }
   }
 
-  public static int getChargeLevel(ItemStack gem) {
-
-    if (gem != null && gem.stackTagCompound != null
-        && gem.stackTagCompound.hasKey(Strings.CHAOS_GEM_CHARGE)) {
-      return gem.stackTagCompound.getInteger(Strings.CHAOS_GEM_CHARGE);
-    } else {
-      return -1;
-    }
-  }
-
-  public static int getMaxChargeLevel(ItemStack gem) {
-
-    int maxCharge = Config.CHAOS_GEM_MAX_CHARGE.value;
-
-    if (gem != null && gem.stackTagCompound != null) {
-      int capacityLevel = getBuffLevel(gem, ChaosBuff.getBuffByName(ChaosBuff.CAPACITY));
-      return maxCharge + capacityLevel * maxCharge / 4;
-    } else {
-      return maxCharge;
-    }
-  }
-
-  public static int getRechargeAmount(ItemStack gem) {
-
-    int amount = Config.CHAOS_GEM_RECHARGE_RATE.value;
-
-    if (gem != null && gem.stackTagCompound != null) {
-      int boosterLevel = getBuffLevel(gem, ChaosBuff.getBuffByName(ChaosBuff.BOOSTER));
-      return amount + boosterLevel * amount / 4;
-    } else {
-      return amount;
-    }
-  }
-
-  public static int getTotalChargeDrain(ItemStack gem) {
+  public int getTotalChargeDrain(ItemStack stack) {
 
     int drain = 0;
 
-    if (gem != null && gem.stackTagCompound != null) {
-      NBTTagList list = (NBTTagList) gem.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
+    if (stack != null) {
+      NBTTagList list = this.getBuffList(stack);
       NBTTagCompound tag;
-      short id;
+      int id;
+      int level;
       for (int i = 0; i < list.tagCount(); ++i) {
         tag = (NBTTagCompound) list.getCompoundTagAt(i);
-        id = tag.getShort(Strings.CHAOS_GEM_BUFF_ID);
-        drain += ChaosBuff.all.get(id).cost;
+        id = tag.getShort(NBT_BUFF_ID);
+        level = tag.getShort(NBT_BUFF_LEVEL);
+        drain += ChaosBuff.all.get(id).getCostPerTick(level);
       }
     }
 
     return drain;
   }
 
-  @Override
-  public boolean hasEffect(ItemStack stack, int pass) {
-
-    return stack.stackTagCompound != null
-        && stack.stackTagCompound.getBoolean(Strings.CHAOS_GEM_ENABLED);
-  }
-
-  public static boolean isEnabled(ItemStack stack) {
+  public boolean isEnabled(ItemStack stack) {
 
     return stack != null && stack.stackTagCompound != null
-        & stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_ENABLED)
-        && stack.stackTagCompound.getBoolean(Strings.CHAOS_GEM_ENABLED);
+        && stack.stackTagCompound.hasKey(NBT_ENABLED)
+        && stack.stackTagCompound.getBoolean(NBT_ENABLED);
+  }
+
+  public void setEnabled(ItemStack stack, boolean value) {
+
+    if (stack != null) {
+      if (stack.stackTagCompound == null) {
+        stack.setTagCompound(new NBTTagCompound());
+      }
+
+      stack.stackTagCompound.setBoolean(NBT_ENABLED, value);
+    }
+  }
+
+  public void doTick(ItemStack stack, EntityPlayer player) {
+
+    if (player.worldObj.isRemote) {
+      return;
+    }
+
+    boolean enabled = this.isEnabled(stack);
+
+    // Apply effects?
+    if (enabled) {
+      applyEffects(stack, player);
+    } else {
+//      removeEffects(stack, player);
+      return;
+    }
+
+    // Cheaty gem? Don't do charge
+    if (this.isCheaty) {
+      return;
+    }
+
+    // Update charge level
+    this.extractEnergy(stack, this.getTotalChargeDrain(stack), false);
+    // Disable if out of charge.
+    if (this.getEnergyStored(stack) <= 0) {
+      this.setEnabled(stack, false);
+      this.removeEffects(stack, player);
+    }
+    // TODO: Self-recharging gem upgrades?
   }
 
   @Override
   public boolean onDroppedByPlayer(ItemStack stack, EntityPlayer player) {
 
     // Set disabled
-    if (stack.stackTagCompound != null) {
-      stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_ENABLED, false);
-    }
-
+    this.setEnabled(stack, false);
+    this.removeEffects(stack, player);
     return true;
   }
 
   @Override
   public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
-    if (stack.stackTagCompound == null) {
-      stack.setTagCompound(new NBTTagCompound());
-    }
-    if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_ENABLED)) {
-      stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_ENABLED, false);
-    }
-    if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_CHARGE)) {
-      stack.stackTagCompound
-          .setInteger(Strings.CHAOS_GEM_CHARGE, Config.CHAOS_GEM_MAX_CHARGE.value);
-    }
-
     // Enable/disable
-    boolean b = stack.stackTagCompound.getBoolean(Strings.CHAOS_GEM_ENABLED);
-    if (stack.stackTagCompound.getInteger(Strings.CHAOS_GEM_CHARGE) > 0) {
-      stack.stackTagCompound.setBoolean(Strings.CHAOS_GEM_ENABLED, !b);
-      if (b) {
-        removeEffects(stack, player);
+    if (this.getEnergyStored(stack) > 0) {
+      this.setEnabled(stack, !this.isEnabled(stack));
+      if (this.isEnabled(stack)) {
+        this.applyEffects(stack, player);
       } else {
-        applyEffects(stack, player);
+        this.removeEffects(stack, player);
       }
     }
 
     return stack;
   }
 
-  private void removeEffects(ItemStack stack, EntityPlayer player) {
+  @Override
+  public int receiveEnergy(ItemStack stack, int maxReceive, boolean simulate) {
+
+    int energy = this.getEnergyStored(stack);
+    int capacity = this.getMaxEnergyStored(stack);
+    int received = Math.min(capacity - energy, maxReceive);
+
+    if (!simulate) {
+      stack.stackTagCompound.setInteger(NBT_CHARGE, energy + received);
+    }
+
+    return received;
+  }
+
+  @Override
+  public int extractEnergy(ItemStack stack, int maxExtract, boolean simulate) {
+
+    int energy = this.getEnergyStored(stack);
+    int capacity = this.getMaxEnergyStored(stack);
+    int extracted = Math.min(energy, maxExtract);
+
+    if (!simulate) {
+      stack.stackTagCompound.setInteger(NBT_CHARGE, energy - extracted);
+    }
+
+    return extracted;
+  }
+
+  @Override
+  public int getEnergyStored(ItemStack stack) {
 
     if (stack.stackTagCompound == null) {
-      stack.stackTagCompound = new NBTTagCompound();
-    }
-    if (!stack.stackTagCompound.hasKey(Strings.CHAOS_GEM_BUFF_LIST)) {
-      stack.stackTagCompound.setTag(Strings.CHAOS_GEM_BUFF_LIST, new NBTTagList());
+      stack.setTagCompound(new NBTTagCompound());
     }
 
-    NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(Strings.CHAOS_GEM_BUFF_LIST);
-    NBTTagCompound tag;
-    short id, lvl;
-    for (int i = 0; i < list.tagCount(); ++i) {
-      tag = (NBTTagCompound) list.getCompoundTagAt(i);
-      id = tag.getShort(Strings.CHAOS_GEM_BUFF_ID);
-      ChaosBuff.all.get(id).remove(player);
+    if (stack.stackTagCompound.hasKey(NBT_CHARGE)) {
+      return stack.stackTagCompound.getInteger(NBT_CHARGE);
+    } else {
+      stack.stackTagCompound.setInteger(NBT_CHARGE, 0);
+      return 0;
     }
   }
 
-  public static ItemStack setChargeLevel(ItemStack gem, int charge) {
+  @Override
+  public int getMaxEnergyStored(ItemStack stack) {
 
-    if (gem != null && gem.stackTagCompound != null
-        && gem.stackTagCompound.hasKey(Strings.CHAOS_GEM_CHARGE)) {
-      int maxCharge = getMaxChargeLevel(gem);
-      charge = MathHelper.clamp_int(charge, 0, maxCharge);
-      int damage = MAX_STACK_DAMAGE - (MAX_STACK_DAMAGE * charge / maxCharge);
-
-      // Save actual charge level in NBT. Item damage is only for display purposes.
-      gem.stackTagCompound.setInteger(Strings.CHAOS_GEM_CHARGE, charge);
-      gem.setItemDamage(damage);
-    }
-
-    return gem;
+    return 1000000; // FIXME: Chaos gem max charge?
   }
 }

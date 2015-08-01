@@ -44,8 +44,8 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
   public Teleporter() {
 
     super(Material.iron);
-    setHardness(12.0f);
-    setResistance(12.0f);
+    setHardness(15.0f);
+    setResistance(2000.0f);
     setStepSound(Block.soundTypeGlass);
     setHasSubtypes(true);
     setHasGemSubtypes(true);
@@ -242,7 +242,6 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
       EntityLivingBase entityLivingBase = (EntityLivingBase) entity;
       entityLivingBase.setPositionAndUpdate(x + 0.5, y + 1.0, z + 0.5);
     } else {
-      LogHelper.derp();
       entity.setPosition(x + 0.5, y + 1.0, z + 0.5);
     }
 

@@ -56,7 +56,11 @@ public class EnchantToolRecipe implements IRecipe {
       stack = inventorycrafting.getStackInSlot(i);
       if (stack != null) {
         if (InventoryHelper.isTool(stack) || stack.getItem() instanceof ItemArmor) {
-          tool = stack;
+          if (stack.getItem().getItemEnchantability() > 0) {
+            tool = stack;
+          } else {
+            return false;
+          }
         } else if (stack.getItem() instanceof EnchantToken) {
           tokens.add(stack);
         } else {

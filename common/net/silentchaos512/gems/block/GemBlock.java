@@ -16,7 +16,7 @@ public class GemBlock extends BlockSG {
     super(Material.iron);
     icons = new IIcon[EnumGem.all().length];
     setHardness(3.0f);
-    setResistance(5.0f);
+    setResistance(30.0f);
     setStepSound(Block.soundTypeStone);
     setHasSubtypes(true);
     setHasGemSubtypes(true);

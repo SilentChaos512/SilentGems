@@ -25,7 +25,7 @@ public class GemOre extends BlockSG {
 
     icons = new IIcon[EnumGem.all().length];
     setHardness(3.0f);
-    setResistance(5.0f);
+    setResistance(15.0f);
     setStepSound(Block.soundTypeStone);
     setHarvestLevel("pickaxe", 2);
 

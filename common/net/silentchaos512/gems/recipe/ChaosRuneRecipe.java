@@ -4,6 +4,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.item.ChaosGem;
 import net.silentchaos512.gems.item.ChaosRune;
 import net.silentchaos512.gems.lib.buff.ChaosBuff;
@@ -34,9 +35,14 @@ public class ChaosRuneRecipe implements IRecipe {
         }
       }
     }
+    
+    if (gem == null) {
+      return false;
+    }
 
+    ChaosGem chaosGem = (ChaosGem) gem.getItem();
     return numGems == 1 && numRunes == 1
-        && ChaosGem.canAddBuff(gem, ChaosBuff.all.get(rune.getItemDamage()));
+        && chaosGem.canAddBuff(gem, ChaosBuff.all.get(rune.getItemDamage()));
   }
 
   @Override
@@ -63,8 +69,9 @@ public class ChaosRuneRecipe implements IRecipe {
     ItemStack result = gem.copy();
 
     ChaosBuff buff = ChaosBuff.all.get(rune.getItemDamage());
-    if (ChaosGem.canAddBuff(result, buff)) {
-      ChaosGem.addBuff(result, buff);
+    ChaosGem chaosGem = (ChaosGem) gem.getItem();
+    if (chaosGem.canAddBuff(result, buff)) {
+      chaosGem.addBuff(result, buff);
     }
 
     return result;

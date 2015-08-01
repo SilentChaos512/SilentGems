@@ -5,10 +5,12 @@ public class Names {
   /*
    * Blocks
    */
+  public static final String CHAOS_ALTAR = "ChaosAltar";
   public static final String CHAOS_COAL_BLOCK = "ChaosCoalBlock";
   public static final String CHAOS_ESSENCE_BLOCK = "ChaosEssenceBlock";
   public static final String CHAOS_ESSENCE_BLOCK_REFINED = "ChaosEssenceBlockRefined";
   public static final String CHAOS_ORE = "ChaosOre";
+  public static final String CHAOS_PYLON = "ChaosPylon";
   public static final String FLUFFY_PLANT = "FluffyPlant";
   public static final String GEM_BLOCK = "GemBlock";
   public static final String GEM_BRICK_COATED = "GemBrick";

@@ -11,6 +11,7 @@ import net.silentchaos512.gems.core.handler.GemsEventHandler;
 import net.silentchaos512.gems.core.proxy.CommonProxy;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
+import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.buff.ChaosBuff;
@@ -68,6 +69,8 @@ public class SilentGems {
 
     MinecraftForge.EVENT_BUS.register(new GemsEventHandler());
     FMLCommonHandler.instance().bus().register(new GemsEventHandler());
+    
+    NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandlerSilentGems());
 
     network = NetworkRegistry.INSTANCE.newSimpleChannel(SilentGems.MOD_ID);
     int discriminator = -1;

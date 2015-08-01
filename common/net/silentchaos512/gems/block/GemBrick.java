@@ -17,8 +17,8 @@ public class GemBrick extends BlockSG {
     super(Material.rock);
 
     icons = new IIcon[EnumGem.all().length];
-    setHardness(3.0f);
-    setResistance(5.0f);
+    setHardness(2.0f);
+    setResistance(30.0f);
     setStepSound(Block.soundTypeStone);
     setHasSubtypes(true);
     setHasGemSubtypes(true);

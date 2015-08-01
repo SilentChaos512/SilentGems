@@ -61,13 +61,13 @@ public class ChaosBuff {
     addBuff(SPEED, 4, Potion.moveSpeed.id, 20, "ingotGold");
     addBuff(HASTE, 4, Potion.digSpeed.id, 20, "dustGlowstone");
     addBuff(JUMP, 4, Potion.jump.id, 10, CraftingMaterial.getStack(Names.PLUME));
-    addBuff(FLIGHT, 1, -1, 120, CraftingMaterial.getStack(Names.GOLDEN_PLUME));
+    addBuff(FLIGHT, 1, -1, 100, CraftingMaterial.getStack(Names.GOLDEN_PLUME));
     addBuff(NIGHT_VISION, 1, Potion.nightVision.id, 10, Items.golden_carrot);
-    addBuff(REGENERATION, 2, Potion.regeneration.id, 50, Items.ghast_tear);
-    addBuff(RESISTANCE, 2, Potion.resistance.id, 40, Items.leather_chestplate);
-    addBuff(FIRE_RESISTANCE, 1, Potion.fireResistance.id, 40, Items.blaze_rod);
-    addBuff(WATER_BREATHING, 1, Potion.waterBreathing.id, 40, "blockLapis");
-    addBuff(STRENGTH, 2, Potion.damageBoost.id, 40, "blockRedstone");
+    addBuff(REGENERATION, 2, Potion.regeneration.id, 40, Items.ghast_tear);
+    addBuff(RESISTANCE, 2, Potion.resistance.id, 30, Items.leather_chestplate);
+    addBuff(FIRE_RESISTANCE, 1, Potion.fireResistance.id, 30, Items.blaze_rod);
+    addBuff(WATER_BREATHING, 1, Potion.waterBreathing.id, 30, "blockLapis");
+    addBuff(STRENGTH, 2, Potion.damageBoost.id, 30, "blockRedstone");
     addBuff(CAPACITY, 4, -1, 0, CraftingMaterial.getStack(Names.CHAOS_CAPACITOR));
     addBuff(BOOSTER, 4, -1, 0, CraftingMaterial.getStack(Names.CHAOS_BOOSTER));
     addBuff(ABSORPTION, 1, Potion.field_76444_x.id, 50, Items.golden_apple);
@@ -93,6 +93,11 @@ public class ChaosBuff {
 
     return null;
   }
+  
+  public int getCostPerTick(int level) {
+    
+    return (int) (this.cost * (1 + 0.15f * (level - 1)));
+  }
 
   public void apply(EntityPlayer player, int level) {
 
@@ -103,6 +108,7 @@ public class ChaosBuff {
     // Apply other effects here.
     if (name.equals(FLIGHT)) {
       player.capabilities.allowFlying = true;
+      player.fallDistance = 0;
     }
   }
 

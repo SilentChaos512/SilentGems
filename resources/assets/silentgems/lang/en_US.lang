@@ -226,6 +226,7 @@ item.silentgems:ChaosGem.ChargePerSecond=charge/s
 item.silentgems:ChaosGem.Cheaty=Cheater!
 item.silentgems:ChaosGem.Disabled=Disabled
 item.silentgems:ChaosGem.Enabled=Enabled
+item.silentgems:ChaosGem.CostPerTick=Cost: %d chaos/t
 
 item.silentgems:ChaosRune.name=Chaos Rune
 item.silentgems:ChaosRune.desc=Craft with Chaos gems to give them effects.

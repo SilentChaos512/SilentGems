@@ -8,7 +8,7 @@ import net.minecraft.item.ItemBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.silentchaos512.gems.core.util.InventoryHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
+import net.silentchaos512.gems.item.armor.ArmorSG;
 import net.silentchaos512.gems.lib.Names;
 
 public class EnchantmentMending extends Enchantment {
@@ -26,7 +26,9 @@ public class EnchantmentMending extends Enchantment {
   public boolean canApply(ItemStack stack) {
 
     // TODO: Fix this so mending books can be applied to non-gem tools?
-    if (InventoryHelper.isGemTool(stack) || stack.getItem() instanceof ItemBook) {
+    if (stack.getItem().isDamageable()
+        && (InventoryHelper.isGemTool(stack) || stack.getItem() instanceof ArmorSG || stack
+            .getItem() instanceof ItemBook)) {
       return stack.isItemStackDamageable() ? true : super.canApply(stack);
     }
 

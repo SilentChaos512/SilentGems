@@ -1,13 +1,15 @@
 package net.silentchaos512.gems.energy;
 
+import net.minecraft.item.ItemStack;
+
 public interface IChaosStorage {
 
-  int receiveEnergy(int maxReceive, boolean simulate);
+  int receiveEnergy(ItemStack stack, int maxReceive, boolean simulate);
 
-  int extractEnergy(int maxExtract, boolean simulate);
+  int extractEnergy(ItemStack stack, int maxExtract, boolean simulate);
 
-  int getEnergyStored();
+  int getEnergyStored(ItemStack stack);
 
-  int getMaxEnergyStored();
+  int getMaxEnergyStored(ItemStack stack);
 
 }

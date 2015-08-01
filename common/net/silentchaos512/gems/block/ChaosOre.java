@@ -17,8 +17,8 @@ public class ChaosOre extends BlockSG {
 
     super(Material.rock);
 
-    setHardness(3.0f);
-    setResistance(5.0f);
+    setHardness(4.0f);
+    setResistance(15.0f);
     setStepSound(Block.soundTypeStone);
     setHarvestLevel("pickaxe", 2);
 

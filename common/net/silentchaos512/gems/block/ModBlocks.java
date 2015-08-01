@@ -23,6 +23,8 @@ public class ModBlocks {
   public static GemLamp gemLampLit;
   public static GemLamp gemLampInvertedLit;
   public static GemLamp gemLampInverted;
+  public static BlockChaosAltar chaosAltar;
+  public static BlockChaosPylon chaosPylon;
   public static FluffyPlantBlock fluffyPlant;
 
   // public static HoldingGemBlock holdingGemBlock;
@@ -51,6 +53,8 @@ public class ModBlocks {
         ItemBlockSG.class, true, true);
     gemLampInverted = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_INV,
         ItemBlockSG.class, false, true);
+    chaosAltar = (BlockChaosAltar) SRegistry.registerBlock(BlockChaosAltar.class, Names.CHAOS_ALTAR);
+    chaosPylon = (BlockChaosPylon) SRegistry.registerBlock(BlockChaosPylon.class, Names.CHAOS_PYLON);
     fluffyPlant = (FluffyPlantBlock) SRegistry.registerBlock(FluffyPlantBlock.class,
         Names.FLUFFY_PLANT);
     // holdingGemBlock = (HoldingGemBlock) SRegistry.registerBlock(HoldingGemBlock.class,

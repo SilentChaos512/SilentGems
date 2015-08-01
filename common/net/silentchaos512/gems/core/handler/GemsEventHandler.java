@@ -9,6 +9,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -16,7 +17,6 @@ import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.silentchaos512.gems.block.GlowRose;
 import net.silentchaos512.gems.core.registry.SRegistry;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.PlayerHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.ChaosGem;
@@ -34,7 +34,6 @@ import cpw.mods.fml.relauncher.Side;
 public class GemsEventHandler {
 
   private Random random = new Random();
-  private int tickPlayer = 0;
 
   @SubscribeEvent
   public void onItemCraftedEvent(ItemCraftedEvent event) {
@@ -63,69 +62,10 @@ public class GemsEventHandler {
             break;
           }
         }
-        
+
         bandolier.attemptDamageItem(event.crafting.stackSize, world.rand);
         PlayerHelper.addItemToInventoryOrDrop(player, bandolier);
       }
-    }
-  }
-
-//  @SubscribeEvent
-//  public void onHarvestDropsEvent(HarvestDropsEvent event) {
-//
-//    if (event.harvester != null && event.harvester.inventory.getCurrentItem() != null
-//        && event.harvester.inventory.getCurrentItem().getItem() instanceof GemSickle) {
-//      ItemStack sickle = event.harvester.inventory.getCurrentItem();
-//
-//      // Check a 3x3x3 cube.
-//      for (int z = event.z - 1; z < event.z + 2; ++z) {
-//        for (int y = event.y - 1; y < event.y + 2; ++y) {
-//          for (int x = event.x - 1; x < event.x + 2; ++x) {
-//            Block block = event.world.getBlock(x, y, z);
-//            // Is the block a material the sickle will harvest?
-//            for (Material material : GemSickle.effectiveMaterials) {
-//              if (block.getMaterial() == material) {
-//                // Get drops from block, considering silk touch.
-//                for (ItemStack stack : getSickleDropsForBlock(sickle, block,
-//                    event.world.getBlockMetadata(x, y, z), event.world, x, y, z,
-//                    event.isSilkTouching, event.fortuneLevel)) {
-//                  event.drops.add(stack);
-//                }
-//
-//                // Break block
-//                event.world.setBlockToAir(x, y, z);
-//                break;
-//              }
-//            }
-//          }
-//        }
-//      }
-//
-//      if (sickle.attemptDamageItem(1, random)) {
-//        event.harvester.inventory.setInventorySlotContents(event.harvester.inventory.currentItem,
-//            null);
-//      }
-//    }
-//  }
-
-  private ArrayList<ItemStack> getSickleDropsForBlock(ItemStack sickle, Block block, int meta,
-      World world, int x, int y, int z, boolean isSilkTouching, int fortuneLevel) {
-
-    // For some reason, silk touch is set to false for things like vines.
-    if (!isSilkTouching
-        && EnchantmentHelper.getEnchantmentLevel(Enchantment.silkTouch.effectId, sickle) > 0) {
-      isSilkTouching = true;
-    }
-
-    if (block instanceof IShearable && ((IShearable) block).isShearable(sickle, world, x, y, z)
-        && isSilkTouching) {
-      return ((IShearable) block).onSheared(sickle, world, x, y, z, fortuneLevel);
-    } else if (isSilkTouching) {
-      ArrayList<ItemStack> result = new ArrayList<ItemStack>();
-      result.add(new ItemStack(block, 1, meta));
-      return result;
-    } else {
-      return block.getDrops(world, x, y, z, meta, fortuneLevel);
     }
   }
 
@@ -158,53 +98,32 @@ public class GemsEventHandler {
   @SubscribeEvent
   public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 
+    // Some things I only want to do once per second, not every tick.
+    boolean isSecond = event.player.worldObj.getTotalWorldTime() % 20 == 0;
+
     if (event.side == Side.CLIENT) {
     } else {
-      // Every tick:
-      tickFlight(event.player);
-
-      ++tickPlayer;
-      if (tickPlayer >= 40) { // This ticks once per second. Why is it not 20?
-        tickPlayer = 0;
-        // Every second:
-        tickInventory(event.player);
-      }
-    }
-  }
-
-  private void tickFlight(EntityPlayer player) {
-
-    // Look for a Chaos gem with Flight.
-    int level;
-    ChaosBuff flight = ChaosBuff.getBuffByName(ChaosBuff.FLIGHT);
-    for (ItemStack stack : player.inventory.mainInventory) {
-      if (stack != null && stack.getItem() instanceof ChaosGem) {
-        level = ChaosGem.getBuffLevel(stack, flight);
-        if (level > 0) {
-          if (ChaosGem.isEnabled(stack)) {
-            player.fallDistance = 0.0f;
+      for (ItemStack stack : event.player.inventory.mainInventory) {
+        if (stack != null) {
+          Item item = stack.getItem();
+          if (item instanceof ChaosGem) {
+            ChaosGem chaosGem = (ChaosGem) item;
+            chaosGem.doTick(stack, event.player);
+          } else if (item instanceof TorchBandolier && isSecond) {
+            TorchBandolier torchBandolier = (TorchBandolier) item;
+            torchBandolier.absorbTorches(stack, event.player);
+          } else if (isSecond) {
+            ModEnchantments.mending.tryActivate(event.player, stack);
           }
         }
       }
-    }
-  }
 
-  private void tickInventory(EntityPlayer player) {
-
-    for (ItemStack stack : player.inventory.mainInventory) {
-      if (stack != null) {
-        if (stack.getItem() instanceof TorchBandolier) {
-          ((TorchBandolier) stack.getItem()).absorbTorches(stack, player);
-        } else if (stack.getItem() instanceof ChaosGem) {
-          ((ChaosGem) stack.getItem()).doTick(stack, player);
+      if (isSecond) {
+        for (ItemStack stack : event.player.inventory.armorInventory) {
+          if (stack != null) {
+            ModEnchantments.mending.tryActivate(event.player, stack);
+          }
         }
-        ModEnchantments.mending.tryActivate(player, stack);
-      }
-    }
-    
-    for (ItemStack stack : player.inventory.armorInventory) {
-      if (stack != null) {
-        ModEnchantments.mending.tryActivate(player, stack);
       }
     }
   }
