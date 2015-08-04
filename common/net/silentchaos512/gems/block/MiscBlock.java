@@ -55,7 +55,7 @@ public class MiscBlock extends BlockSG implements IFuelHandler {
 
     if (stack != null && stack.getItem() == Item.getItemFromBlock(this)
         && stack.getItemDamage() == getStack(Names.CHAOS_COAL_BLOCK).getItemDamage()) {
-      return Config.chaosCoalBurnTime * 9;
+      return Config.chaosCoalBurnTime * 10;
     }
     return 0;
   }
