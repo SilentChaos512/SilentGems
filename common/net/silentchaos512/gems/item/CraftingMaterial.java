@@ -33,19 +33,19 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
    */
   public final static int HIDE_AFTER_META = 99;
   /**
-   * The names of each sub-item. This list cannot be rearranged, as the index determines the meta.
+   * The NAMES of each sub-item. This list cannot be rearranged, as the index determines the meta.
    */
   public final static String[] NAMES = { Names.ORNATE_STICK, Names.MYSTERY_GOO, Names.YARN_BALL,
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME,
       Names.NETHER_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER, Names.RAWHIDE_BONE,
-      Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.CHAOS_ESSENCE_PLUS_2 };
+      Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.CHAOS_ESSENCE_PLUS_2, Names.NETHER_CLUSTER };
   /**
    * The order that items appear in NEI.
    */
   public final static String[] SORTED_NAMES = { Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS,
       Names.CHAOS_ESSENCE_PLUS_2, Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.ORNATE_STICK,
       Names.MYSTERY_GOO, Names.PLUME, Names.GOLDEN_PLUME, Names.YARN_BALL, Names.RAWHIDE_BONE,
-      Names.NETHER_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER };
+      Names.NETHER_SHARD, Names.NETHER_CLUSTER, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER };
 
   public CraftingMaterial() {
 
@@ -60,7 +60,7 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     // Derp check.
     if (NAMES.length != SORTED_NAMES.length) {
       LogHelper.warning("CraftingMaterial: NAMES and SORTED_NAMES contain a different number of "
-          + "items! This is not a serious problem.");
+          + "items! This may cause some items to not show up!");
     }
   }
 
@@ -96,8 +96,8 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     ItemStack chaosEssence = getStack(Names.CHAOS_ESSENCE);
 
     // Ornate stick
-    GameRegistry.addRecipe(getStack(Names.ORNATE_STICK, 4), "gig", "geg", "gig", 'g',
-        Items.gold_ingot, 'i', Items.iron_ingot, 'e', chaosEssence);
+    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.ORNATE_STICK, 8), "gig", "geg",
+        "gig", 'g', "ingotGold", 'i', "ingotIron", 'e', "gemChaos"));
     // Mystery goo
     GameRegistry.addRecipe(getStack(Names.MYSTERY_GOO, 1), "mmm", "mam", "mmm", 'm',
         Blocks.mossy_cobblestone, 'a', Items.apple);
@@ -105,17 +105,24 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.YARN_BALL, 1), "sss", "sgs", "sss",
         's', Items.string, 'g', Strings.ORE_DICT_GEM_SHARD));
     // Refined chaos essence
-    RecipeHelper.addSurround(getStack(Names.CHAOS_ESSENCE_PLUS, 1), new ItemStack(
-        Items.glowstone_dust), new Object[] { Items.redstone, chaosEssence });
+    RecipeHelper.addSurroundOre(getStack(Names.CHAOS_ESSENCE_PLUS, 1), "dustGlowstone",
+        "dustRedstone", "gemChaos");
     // Plume
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.PLUME, 1), "fff", "fsf", "fff", 'f',
         Items.feather, 's', Strings.ORE_DICT_GEM_BASIC));
     // Golden plume
-    RecipeHelper.addSurround(getStack(Names.GOLDEN_PLUME, 1), getStack(Names.PLUME), chaosEssence,
-        Items.gold_ingot);
-    // Chaos Shard
+    RecipeHelper.addSurroundOre(getStack(Names.GOLDEN_PLUME, 1), getStack(Names.PLUME), "gemChaos",
+        "ingotGold");
+    // Nether Shard
     GameRegistry.addShapedRecipe(getStack(Names.NETHER_SHARD, 24), "ccc", "cnc", "ccc", 'c',
         getStack(Names.CHAOS_ESSENCE_PLUS), 'n', Items.nether_star);
+    // Nether Shard -> Cluster
+    ItemStack netherCluster = getStack(Names.NETHER_CLUSTER);
+    GameRegistry.addShapedRecipe(netherCluster, "sss", "s s", "sss", 's',
+        getStack(Names.NETHER_SHARD));
+    // Nether Cluster -> Star
+    GameRegistry.addShapelessRecipe(new ItemStack(Items.nether_star), netherCluster, netherCluster,
+        netherCluster);
     // Chaos Capacitor
     GameRegistry.addShapedRecipe(getStack(Names.CHAOS_CAPACITOR, 3), "srs", "ses", "srs", 's',
         getStack(Names.NETHER_SHARD), 'r', Items.redstone, 'e', Items.emerald);
@@ -128,7 +135,7 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     // Chaos Essence Shard
     RecipeHelper.addCompressionRecipe(getStack(Names.CHAOS_ESSENCE_SHARD), chaosEssence, 9);
     // Chaos Coal
-    RecipeHelper.addSurround(getStack(Names.CHAOS_COAL, 8), chaosEssence, new ItemStack(Items.coal,
+    RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 8), "gemChaos", new ItemStack(Items.coal,
         1, OreDictionary.WILDCARD_VALUE));
     // Chaos Coal -> Torches
     GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.torch, 16), "c", "s", 'c',

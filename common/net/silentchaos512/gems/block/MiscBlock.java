@@ -20,15 +20,16 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class MiscBlock extends BlockSG implements IFuelHandler {
 
-  public final static String[] names = { Names.CHAOS_ESSENCE_BLOCK,
+  public final static String[] NAMES = { Names.CHAOS_ESSENCE_BLOCK,
       Names.CHAOS_ESSENCE_BLOCK_REFINED, "reserved", Names.CHAOS_COAL_BLOCK };
 
   public MiscBlock() {
 
     super(Material.iron);
-    icons = new IIcon[names.length];
-    setHasSubtypes(true);
-    setUnlocalizedName(Names.MISC_BLOCKS);
+    this.icons = new IIcon[NAMES.length];
+    this.setResistance(30.0f);
+    this.setHasSubtypes(true);
+    this.setUnlocalizedName(Names.MISC_BLOCKS);
   }
 
   @Override
@@ -36,6 +37,7 @@ public class MiscBlock extends BlockSG implements IFuelHandler {
 
     GameRegistry.registerFuelHandler(this);
 
+    // Chaos essence blocks
     ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
     ItemStack chaosEssenceRefined = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
     ItemStack essenceBlock = this.getStack(Names.CHAOS_ESSENCE_BLOCK);
@@ -43,6 +45,7 @@ public class MiscBlock extends BlockSG implements IFuelHandler {
     RecipeHelper.addCompressionRecipe(chaosEssence, essenceBlock, 9);
     RecipeHelper.addCompressionRecipe(chaosEssenceRefined, refinedEssenceBlock, 9);
 
+    // Chaos coal block
     ItemStack chaosCoal = CraftingMaterial.getStack(Names.CHAOS_COAL);
     ItemStack chaosCoalBlock = this.getStack(Names.CHAOS_COAL_BLOCK);
     RecipeHelper.addCompressionRecipe(chaosCoal, chaosCoalBlock, 9);
@@ -72,8 +75,8 @@ public class MiscBlock extends BlockSG implements IFuelHandler {
 
   public static ItemStack getStack(String name) {
 
-    for (int i = 0; i < names.length; ++i) {
-      if (names[i].equals(name)) {
+    for (int i = 0; i < NAMES.length; ++i) {
+      if (NAMES[i].equals(name)) {
         return new ItemStack(ModBlocks.miscBlock, 1, i);
       }
     }
@@ -83,8 +86,8 @@ public class MiscBlock extends BlockSG implements IFuelHandler {
 
   public static ItemStack getStack(String name, int count) {
 
-    for (int i = 0; i < names.length; ++i) {
-      if (names[i].equals(name)) {
+    for (int i = 0; i < NAMES.length; ++i) {
+      if (NAMES[i].equals(name)) {
         return new ItemStack(ModBlocks.miscBlock, count, i);
       }
     }
@@ -96,17 +99,15 @@ public class MiscBlock extends BlockSG implements IFuelHandler {
   public void getSubBlocks(Item item, CreativeTabs tab, List list) {
 
     for (int i = 0; i < 4; ++i) {
-      if (i != 2) { // TODO: Change later
-        list.add(new ItemStack(this, 1, i));
-      }
+      list.add(new ItemStack(this, 1, i));
     }
   }
 
   @Override
   public void registerBlockIcons(IIconRegister iconRegister) {
 
-    for (int i = 0; i < names.length; ++i) {
-      icons[i] = iconRegister.registerIcon(Strings.RESOURCE_PREFIX + names[i]);
+    for (int i = 0; i < NAMES.length; ++i) {
+      icons[i] = iconRegister.registerIcon(Strings.RESOURCE_PREFIX + NAMES[i]);
     }
   }
 }

@@ -68,6 +68,7 @@ public class Names {
   public static final String GILDED_STRING = "GildedString";
   public static final String GOLDEN_PLUME = "GoldenPlume";
   public static final String MYSTERY_GOO = "Mystery Goo";
+  public static final String NETHER_CLUSTER = "NetherCluster";
   public static final String NETHER_SHARD = "NetherShard";
   public static final String ORNATE_STICK = "Ornate Stick";
   public static final String PLUME = "Plume";

@@ -55,8 +55,8 @@ public class TileChaosPylon extends TileEntity {
     // Last known altar coords are no good, try to find a new altar.
     LogHelper.debug("Pylon at (" + xCoord + ", " + yCoord + ", " + zCoord
         + ") searching for new altar...");
-    for (int x = this.xCoord - SEARCH_RADIUS; x < this.xCoord + SEARCH_RADIUS; ++x) {
-      for (int z = this.zCoord - SEARCH_RADIUS; z < this.zCoord + SEARCH_RADIUS; ++z) {
+    for (int x = this.xCoord - SEARCH_RADIUS; x < this.xCoord + SEARCH_RADIUS + 1; ++x) {
+      for (int z = this.zCoord - SEARCH_RADIUS; z < this.zCoord + SEARCH_RADIUS + 1; ++z) {
         tile = this.worldObj.getTileEntity(x, this.yCoord, z);
         if (tile != null && tile instanceof TileChaosAltar) {
           LogHelper.debug("Pylon found new altar at (" + x + ", " + yCoord + ", " + z + ")!");
@@ -115,11 +115,10 @@ public class TileChaosPylon extends TileEntity {
     double z = this.zCoord + 0.5;
 
     for (int i = 0; i < 16; ++i) {
-      double motionX = SilentGems.instance.random.nextGaussian() * 0.002;
-      double motionY = SilentGems.instance.random.nextGaussian() * 0.002;
-      double motionZ = SilentGems.instance.random.nextGaussian() * 0.002;
-      EntityFX particleFX = new EntityParticleFXTest(this.worldObj, x, this.yCoord + 0.75, z,
-          motionX, motionY, motionZ, 2.0f, 30);
+      double motionX = SilentGems.instance.random.nextGaussian() * 0.0004;
+      double motionY = SilentGems.instance.random.nextGaussian() * 0.0004;
+      double motionZ = SilentGems.instance.random.nextGaussian() * 0.0004;
+      EntityFX particleFX = new EntityParticleFXTest(this.worldObj, x, this.yCoord + 0.75, z, motionX, motionY, motionZ);
       SilentGems.proxy.spawnParticles(particleFX);
 //      this.worldObj.spawnParticle("cloud", x, this.yCoord + 0.5, z, motionX, motionY, motionZ);
       x += stepX;
