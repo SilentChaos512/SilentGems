@@ -27,7 +27,7 @@ public class BlockChaosPylon extends BlockSG implements ITileEntityProvider {
 
     ItemStack result = new ItemStack(this);
     ItemStack refinedEssenceBlock = MiscBlock.getStack(Names.CHAOS_ESSENCE_BLOCK_REFINED);
-    GameRegistry.addRecipe(new ShapedOreRecipe(result, "lel", "lol", "ooo", 'l', "gemLapis", 'e',
+    GameRegistry.addRecipe(new ShapedOreRecipe(result, " e ", "lol", "lol", 'l', "gemLapis", 'e',
         refinedEssenceBlock, 'o', Blocks.obsidian));
   }
 

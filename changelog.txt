@@ -4,7 +4,10 @@ Silent's Gems - Changelog
 Added: Chaos Altar and Pylon, part of a new energy-generation system.
 Changed: Chaos gem energy consumption to per tick, instead of per second. This is more reliable.
 Changed: Chaos gem default max capacity to 1 million (you may need to update configs).
-Changed: Default Chaos Coal burn time to 3200 and blocks to 10x (matches coal coke from Railcraft).
+Changed: Flight chaos gem effect will only drain charge when the user is flying.
+Changed: Chaos coal is a bit more expensive.
+Changed: Texture of Chaos Essence Block
+Fixed: Area Miner dig speed being too nerfed.
 
 1.3.00-beta02
 Added: Redstone Teleporters. They work just like normal gem teleporters, but can also be activated by a redstone pulse.

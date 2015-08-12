@@ -45,8 +45,8 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
 
     ItemStack result = new ItemStack(this);
     ItemStack refinedEssenceBlock = MiscBlock.getStack(Names.CHAOS_ESSENCE_BLOCK_REFINED);
-    GameRegistry.addRecipe(new ShapedOreRecipe(result, "eoe", "ooo", 'e', refinedEssenceBlock, 'o',
-        Blocks.obsidian));
+    GameRegistry.addRecipe(new ShapedOreRecipe(result, " d ", "eoe", "ooo", 'e', refinedEssenceBlock, 'o',
+        Blocks.obsidian, 'd', "gemDiamond"));
   }
 
   @Override

@@ -9,13 +9,13 @@ public class EntityParticleFXTest extends EntityCritFX {
   
   public EntityParticleFXTest(World world, double posX, double posY, double posZ) {
     
-    this(world, posX, posY, posZ, 0.0001, 0.0001, 0.0001, 1.0f, 20);
+    this(world, posX, posY, posZ, 0.0001, 0.0001, 0.0001, 1.0f, 15);
   }
 
   public EntityParticleFXTest(World world, double posX, double posY, double posZ, double motionX,
       double motionY, double motionZ) {
 
-    this(world, posX, posY, posZ, motionX, motionY, motionZ, 1.0f, 10);
+    this(world, posX, posY, posZ, motionX, motionY, motionZ, 1.0f, 15);
   }
 
   public EntityParticleFXTest(World world, double posX, double posY, double posZ, double motionX,
@@ -49,9 +49,9 @@ public class EntityParticleFXTest extends EntityCritFX {
     }
     
     this.moveEntity(this.motionX, this.motionY, this.motionZ);
-    this.motionX *= 1.5;
-    this.motionY *= 1.5;
-    this.motionZ *= 1.5;
+    this.motionX *= 1.36;
+    this.motionY *= 1.36;
+    this.motionZ *= 1.36;
     
     this.particleAlpha *= 0.875f;
   }
