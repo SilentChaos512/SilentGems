@@ -35,14 +35,18 @@ public class ChaosRuneRecipe implements IRecipe {
         }
       }
     }
-    
-    if (gem == null) {
+
+    if (gem == null || rune == null) {
       return false;
     }
 
     ChaosGem chaosGem = (ChaosGem) gem.getItem();
-    return numGems == 1 && numRunes == 1
-        && chaosGem.canAddBuff(gem, ChaosBuff.all.get(rune.getItemDamage()));
+    int id = rune.getItemDamage();
+    ChaosBuff buff = null;
+    if (id >= 0 && id <= ChaosBuff.values().length) {
+      buff = ChaosBuff.values()[id];
+    }
+    return numGems == 1 && numRunes == 1 && buff != null && chaosGem.canAddBuff(gem, buff);
   }
 
   @Override
@@ -68,7 +72,7 @@ public class ChaosRuneRecipe implements IRecipe {
 
     ItemStack result = gem.copy();
 
-    ChaosBuff buff = ChaosBuff.all.get(rune.getItemDamage());
+    ChaosBuff buff = ChaosBuff.values()[rune.getItemDamage()];
     ChaosGem chaosGem = (ChaosGem) gem.getItem();
     if (chaosGem.canAddBuff(result, buff)) {
       chaosGem.addBuff(result, buff);

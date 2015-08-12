@@ -16,82 +16,47 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ChaosBuff {
-
-  public final static String SPEED = "speed";
-  public final static String HASTE = "haste";
-  public final static String JUMP = "jump";
-  public final static String FLIGHT = "flight";
-  public final static String NIGHT_VISION = "nightVision";
-  public final static String REGENERATION = "regen";
-  public final static String RESISTANCE = "resist";
-  public final static String FIRE_RESISTANCE = "fireResist";
-  public final static String WATER_BREATHING = "waterBreathing";
-  public final static String STRENGTH = "strength";
-  public final static String CAPACITY = "capacity";
-  public final static String BOOSTER = "booster";
-  public final static String ABSORPTION = "absorption";
-  public final static String INVISIBILITY = "invisibility";
-
-  public final static ArrayList<ChaosBuff> all = new ArrayList<ChaosBuff>();
+public enum ChaosBuff {
+  
+  SPEED(0, "speed", 4, Potion.moveSpeed.id, 20, "ingotGold"),
+  HASTE(1, "haste", 4, Potion.digSpeed.id, 20, "dustGlowstone"),
+  JUMP(2, "jump", 4, Potion.jump.id, 10, CraftingMaterial.getStack(Names.PLUME)),
+  FLIGHT(3, "flight", 1, -1, 100, CraftingMaterial.getStack(Names.GOLDEN_PLUME)),
+  NIGHT_VISION(4, "nightVision", 1, Potion.nightVision.id, 10, Items.golden_carrot),
+  REGENERATION(5, "regeneration", 2, Potion.regeneration.id, 40, Items.ghast_tear),
+  RESISTANCE(6, "resistance", 2, Potion.resistance.id, 30, Items.leather_chestplate),
+  FIRE_RESISTANCE(7, "fireResistance", 1, Potion.fireResistance.id, 30, Items.blaze_rod),
+  WATER_BREATHING(8, "waterBreathing", 1, Potion.waterBreathing.id, 30, "blockLapis"),
+  STRENGTH(9, "strength", 2, Potion.damageBoost.id, 30, "blockRedstone"),
+  CAPACITY(10, "capacity", 4, -1, 0, CraftingMaterial.getStack(Names.CHAOS_CAPACITOR)),
+  BOOSTER(11, "booster", 4, -1, 0, CraftingMaterial.getStack(Names.CHAOS_BOOSTER)),
+  ABSORPTION(12, "absorption", 1, Potion.field_76444_x.id, 50, Items.golden_apple),
+  INVISIBILITY(13, "invisibility", 1, Potion.invisibility.id, 40, Items.fermented_spider_eye);
 
   public final int id;
   public final String name;
   public final int maxLevel;
   public final int potionId;
   public final int cost;
+  public final Object material;
 
-  private static int lastId = -1;
-
-  public ChaosBuff(int id, String name, int maxLevel, int potionId, int cost) {
+  private ChaosBuff(int id, String name, int maxLevel, int potionId, int cost, Object material) {
 
     this.id = id;
     this.name = name;
     this.maxLevel = maxLevel;
     this.potionId = potionId;
     this.cost = cost;
+    this.material = material;
   }
-
-  public static void init() {
-
-    if (!all.isEmpty()) {
-      return;
+  
+  public static void initRecipes() {
+    
+    ItemStack refinedEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
+    for (ChaosBuff buff : values()) {
+      GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.chaosRune, 1, buff.id),
+          "mcm", "cmc", "rcr", 'm', buff.material, 'c', refinedEssence, 'r', "dustRedstone"));
     }
-
-    addBuff(SPEED, 4, Potion.moveSpeed.id, 20, "ingotGold");
-    addBuff(HASTE, 4, Potion.digSpeed.id, 20, "dustGlowstone");
-    addBuff(JUMP, 4, Potion.jump.id, 10, CraftingMaterial.getStack(Names.PLUME));
-    addBuff(FLIGHT, 1, -1, 100, CraftingMaterial.getStack(Names.GOLDEN_PLUME));
-    addBuff(NIGHT_VISION, 1, Potion.nightVision.id, 10, Items.golden_carrot);
-    addBuff(REGENERATION, 2, Potion.regeneration.id, 40, Items.ghast_tear);
-    addBuff(RESISTANCE, 2, Potion.resistance.id, 30, Items.leather_chestplate);
-    addBuff(FIRE_RESISTANCE, 1, Potion.fireResistance.id, 30, Items.blaze_rod);
-    addBuff(WATER_BREATHING, 1, Potion.waterBreathing.id, 30, "blockLapis");
-    addBuff(STRENGTH, 2, Potion.damageBoost.id, 30, "blockRedstone");
-    addBuff(CAPACITY, 4, -1, 0, CraftingMaterial.getStack(Names.CHAOS_CAPACITOR));
-    addBuff(BOOSTER, 4, -1, 0, CraftingMaterial.getStack(Names.CHAOS_BOOSTER));
-    addBuff(ABSORPTION, 1, Potion.field_76444_x.id, 50, Items.golden_apple);
-    addBuff(INVISIBILITY, 1, Potion.invisibility.id, 40, Items.fermented_spider_eye);
-  }
-
-  private static void addBuff(String name, int maxLevel, int potionId, int cost, Object material) {
-
-    ChaosBuff buff = new ChaosBuff(++lastId, name, maxLevel, potionId, cost);
-    all.add(buff);
-    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.chaosRune, 1, lastId), "mcm",
-        "cmc", "rcr", 'm', material, 'c', CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS), 'r',
-        Items.redstone));
-  }
-
-  public static ChaosBuff getBuffByName(String name) {
-
-    for (ChaosBuff buff : all) {
-      if (buff.name.equals(name)) {
-        return buff;
-      }
-    }
-
-    return null;
   }
   
   public int getCostPerTick(int level) {
@@ -106,9 +71,9 @@ public class ChaosBuff {
     }
 
     // Apply other effects here.
-    if (name.equals(FLIGHT)) {
+    if (this.id == FLIGHT.id) {
       player.capabilities.allowFlying = true;
-      player.fallDistance = 0;
+      player.fallDistance = 0.0f;
     }
   }
 
@@ -119,7 +84,7 @@ public class ChaosBuff {
     }
 
     // Apply other effects here.
-    if (name.equals(FLIGHT)) {
+    if (this.id == FLIGHT.id) {
       player.capabilities.allowFlying = false;
       player.capabilities.isFlying = false;
       player.fallDistance = 0.0f;

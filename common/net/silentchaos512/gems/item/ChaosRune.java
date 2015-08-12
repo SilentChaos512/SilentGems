@@ -35,23 +35,23 @@ public class ChaosRune extends ItemSG {
     boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
         || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
 
-    int d = stack.getItemDamage();
+    int meta = stack.getItemDamage();
 
-    if (d >= 0 && d < ChaosBuff.all.size()) {
+    if (meta >= 0 && meta < ChaosBuff.values().length) {
+      ChaosBuff buff = ChaosBuff.values()[meta];
       // Name
       list.add(EnumChatFormatting.GOLD
-          + LocalizationHelper.getLocalizedString(Strings.BUFF_RESOURCE_PREFIX
-              + ChaosBuff.all.get(d).name));
+          + LocalizationHelper.getLocalizedString(Strings.BUFF_RESOURCE_PREFIX + buff.name));
       if (shifted) {
         // Cost
         String s = LocalizationHelper.getOtherItemKey(itemName, COST);
-        list.add(EnumChatFormatting.DARK_GREEN + String.format(s, ChaosBuff.all.get(d).cost));
+        list.add(EnumChatFormatting.DARK_GREEN + String.format(s, buff.cost));
         // Max Level
         s = LocalizationHelper.getOtherItemKey(itemName, MAX_LEVEL);
-        list.add(EnumChatFormatting.DARK_GREEN + String.format(s, ChaosBuff.all.get(d).maxLevel));
+        list.add(EnumChatFormatting.DARK_GREEN + String.format(s, buff.maxLevel));
         // Buff description
         if (this.showFlavorText()) {
-          list.add(LocalizationHelper.getOtherItemKey(itemName, ChaosBuff.all.get(d).name));
+          list.add(LocalizationHelper.getOtherItemKey(itemName, buff.name));
         }
         // Information on how to use.
         list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(itemName, 0));
@@ -66,7 +66,7 @@ public class ChaosRune extends ItemSG {
   @Override
   public void getSubItems(Item item, CreativeTabs tabs, List list) {
 
-    for (int i = 0; i < ChaosBuff.all.size(); ++i) {
+    for (int i = 0; i < ChaosBuff.values().length; ++i) {
       list.add(new ItemStack(this, 1, i));
     }
   }

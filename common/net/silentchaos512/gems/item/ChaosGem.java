@@ -102,7 +102,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
 
       // Charge change rate
       str = LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "CostPerTick");
-      str = String.format(str, this.getTotalChargeDrain(stack));
+      str = String.format(str, this.getTotalChargeDrain(stack, player));
       list.add(EnumChatFormatting.DARK_GRAY + str);
     }
 
@@ -115,7 +115,12 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
         t = (NBTTagCompound) tags.getCompoundTagAt(i);
         id = t.getShort(NBT_BUFF_ID);
         lvl = t.getShort(NBT_BUFF_LEVEL);
-        list.add(ChaosBuff.all.get(id).getDisplayName(lvl));
+        if (id >= 0 && id < ChaosBuff.values().length) {
+          list.add(ChaosBuff.values()[id].getDisplayName(lvl));
+        } else {
+          str = LocalizationHelper.getOtherItemKey(Names.CHAOS_RUNE, "BadRune");
+          list.add(str);
+        }
       }
     } else {
       // Information on how to use.
@@ -165,7 +170,9 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
       tag = (NBTTagCompound) list.getCompoundTagAt(i);
       id = tag.getShort(NBT_BUFF_ID);
       lvl = tag.getShort(NBT_BUFF_LEVEL);
-      ChaosBuff.all.get(id).apply(player, lvl);
+      if (id >= 0 && id < ChaosBuff.values().length) {
+        ChaosBuff.values()[id].apply(player, lvl);
+      }
     }
   }
 
@@ -177,7 +184,9 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
     for (int i = 0; i < list.tagCount(); ++i) {
       tag = (NBTTagCompound) list.getCompoundTagAt(i);
       id = tag.getShort(NBT_BUFF_ID);
-      ChaosBuff.all.get(id).remove(player);
+      if (id >= 0 && id < ChaosBuff.values().length) {
+        ChaosBuff.values()[id].remove(player);
+      }
     }
   }
 
@@ -273,7 +282,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
     }
   }
 
-  public int getTotalChargeDrain(ItemStack stack) {
+  public int getTotalChargeDrain(ItemStack stack, EntityPlayer player) {
 
     int drain = 0;
 
@@ -282,11 +291,15 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
       NBTTagCompound tag;
       int id;
       int level;
+      boolean isEffectFlight;
       for (int i = 0; i < list.tagCount(); ++i) {
         tag = (NBTTagCompound) list.getCompoundTagAt(i);
         id = tag.getShort(NBT_BUFF_ID);
         level = tag.getShort(NBT_BUFF_LEVEL);
-        drain += ChaosBuff.all.get(id).getCostPerTick(level);
+        isEffectFlight = id == ChaosBuff.FLIGHT.id;
+        if ((isEffectFlight && player.capabilities.isFlying) || !isEffectFlight) {
+          drain += ChaosBuff.values()[id].getCostPerTick(level);
+        }
       }
     }
 
@@ -333,7 +346,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
     }
 
     // Update charge level
-    this.extractEnergy(stack, this.getTotalChargeDrain(stack), false);
+    this.extractEnergy(stack, this.getTotalChargeDrain(stack, player), false);
     // Disable if out of charge.
     if (this.getEnergyStored(stack) <= 0) {
       this.setEnabled(stack, false);

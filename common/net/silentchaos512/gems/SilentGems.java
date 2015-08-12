@@ -51,19 +51,11 @@ public class SilentGems {
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
 
-    // LogHelper.init();
-
     Config.init(event.getSuggestedConfigurationFile());
 
     ModBlocks.init();
     ModItems.init();
     ModEnchantments.init();
-    ChaosBuff.init();
-
-    SRegistry.addRecipesAndOreDictEntries();
-    ModItems.addRandomChestGenLoot();
-
-    ModItems.initItemRecipes();
 
     Config.save();
 
@@ -81,10 +73,19 @@ public class SilentGems {
   @EventHandler
   public void load(FMLInitializationEvent event) {
 
+    // Proxies
     proxy.registerTileEntities();
     proxy.registerRenderers();
     proxy.registerKeyHandlers();
+    
+    // Recipes and ore dictionary.
+    SRegistry.addRecipesAndOreDictEntries();
+    ModItems.initItemRecipes();
+    ChaosBuff.initRecipes();
+    
+    ModItems.addRandomChestGenLoot();
 
+    // World generators
     GameRegistry.registerWorldGenerator(new GemsWorldGenerator(), 0);
   }
 
