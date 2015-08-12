@@ -23,7 +23,7 @@ public class Config {
   /*
    * Items
    */
-  public static int chaosCoalBurnTime = 3200;
+  public static int chaosCoalBurnTime = 6400;
   public static int returnHomeUseTime = 24;
 
   /*

@@ -49,8 +49,10 @@ public class MiscBlock extends BlockSG implements IFuelHandler {
     ItemStack chaosCoal = CraftingMaterial.getStack(Names.CHAOS_COAL);
     ItemStack chaosCoalBlock = this.getStack(Names.CHAOS_COAL_BLOCK);
     RecipeHelper.addCompressionRecipe(chaosCoal, chaosCoalBlock, 9);
-    RecipeHelper.addSurround(this.getStack(Names.CHAOS_COAL_BLOCK, 8), essenceBlock,
-        Blocks.coal_block);
+    GameRegistry.addShapedRecipe(this.getStack(Names.CHAOS_COAL_BLOCK, 4), " c ", "cec", " c ", 'c',
+        Blocks.coal_block, 'e', essenceBlock);
+    // RecipeHelper.addSurround(this.getStack(Names.CHAOS_COAL_BLOCK, 8), essenceBlock,
+    // Blocks.coal_block);
   }
 
   @Override

@@ -38,7 +38,8 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
   public final static String[] NAMES = { Names.ORNATE_STICK, Names.MYSTERY_GOO, Names.YARN_BALL,
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME,
       Names.NETHER_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER, Names.RAWHIDE_BONE,
-      Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.CHAOS_ESSENCE_PLUS_2, Names.NETHER_CLUSTER };
+      Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.CHAOS_ESSENCE_PLUS_2,
+      Names.NETHER_CLUSTER };
   /**
    * The order that items appear in NEI.
    */
@@ -96,8 +97,8 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     ItemStack chaosEssence = getStack(Names.CHAOS_ESSENCE);
 
     // Ornate stick
-    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.ORNATE_STICK, 8), "gig", "geg",
-        "gig", 'g', "ingotGold", 'i', "ingotIron", 'e', "gemChaos"));
+    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.ORNATE_STICK, 8), "gig", "geg", "gig",
+        'g', "ingotGold", 'i', "ingotIron", 'e', "gemChaos"));
     // Mystery goo
     GameRegistry.addRecipe(getStack(Names.MYSTERY_GOO, 1), "mmm", "mam", "mmm", 'm',
         Blocks.mossy_cobblestone, 'a', Items.apple);
@@ -135,8 +136,11 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     // Chaos Essence Shard
     RecipeHelper.addCompressionRecipe(getStack(Names.CHAOS_ESSENCE_SHARD), chaosEssence, 9);
     // Chaos Coal
-    RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 8), "gemChaos", new ItemStack(Items.coal,
-        1, OreDictionary.WILDCARD_VALUE));
+    ItemStack anyCoal = new ItemStack(Items.coal, 1, OreDictionary.WILDCARD_VALUE);
+    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.CHAOS_COAL, 4), " c ", "cec", " c ",
+        'c', anyCoal, 'e', "gemChaos"));
+    // RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 8), "gemChaos", new ItemStack(Items.coal,
+    // 1, OreDictionary.WILDCARD_VALUE));
     // Chaos Coal -> Torches
     GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.torch, 16), "c", "s", 'c',
         getStack(Names.CHAOS_COAL), 's', "stickWood"));
