@@ -2,7 +2,10 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -19,8 +22,6 @@ import net.silentchaos512.gems.energy.IChaosStorage;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.buff.ChaosBuff;
-
-import org.lwjgl.input.Keyboard;
 
 public class ChaosGem extends ItemSG implements IChaosStorage {
 
@@ -324,12 +325,14 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
     }
   }
 
-  public void doTick(ItemStack stack, EntityPlayer player) {
+  @Override
+  public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5) {
 
-    if (player.worldObj.isRemote) {
+    if (world.isRemote || !(entity instanceof EntityPlayer)) {
       return;
     }
 
+    EntityPlayer player = (EntityPlayer) entity;
     boolean enabled = this.isEnabled(stack);
 
     // Apply effects?

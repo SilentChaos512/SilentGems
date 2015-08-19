@@ -15,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.entity.player.BonemealEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.silentchaos512.gems.block.GlowRose;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.PlayerHelper;
@@ -104,17 +105,8 @@ public class GemsEventHandler {
     if (event.side == Side.CLIENT) {
     } else {
       for (ItemStack stack : event.player.inventory.mainInventory) {
-        if (stack != null) {
-          Item item = stack.getItem();
-          if (item instanceof ChaosGem) {
-            ChaosGem chaosGem = (ChaosGem) item;
-            chaosGem.doTick(stack, event.player);
-          } else if (item instanceof TorchBandolier && isSecond) {
-            TorchBandolier torchBandolier = (TorchBandolier) item;
-            torchBandolier.absorbTorches(stack, event.player);
-          } else if (isSecond) {
-            ModEnchantments.mending.tryActivate(event.player, stack);
-          }
+        if (stack != null && isSecond) {
+          ModEnchantments.mending.tryActivate(event.player, stack);
         }
       }
 
@@ -126,5 +118,11 @@ public class GemsEventHandler {
         }
       }
     }
+  }
+  
+  @SubscribeEvent
+  public void onItemPickup(EntityItemPickupEvent event) {
+    
+    ;
   }
 }

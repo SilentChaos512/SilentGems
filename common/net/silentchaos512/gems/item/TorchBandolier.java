@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -32,14 +33,15 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TorchBandolier extends ItemSG implements IPlaceable {
 
-  public final static String AUTO_FILL_OFF = "AutoFillOff";
-  public final static String AUTO_FILL_ON = "AutoFillOn";
-  public final static int MAX_DAMAGE = 1024;
+  public static final String AUTO_FILL_OFF = "AutoFillOff";
+  public static final String AUTO_FILL_ON = "AutoFillOn";
+  public static final int MAX_DAMAGE = 1024;
+  public static final int ABSORB_DELAY = 20;
 
   protected static ShapedOreRecipe recipe1;
   protected static ShapedOreRecipe recipe2;
 
-  public final static IIcon[] gemIcons = new IIcon[EnumGem.all().length];
+  public static final IIcon[] gemIcons = new IIcon[EnumGem.all().length];
   public static IIcon iconBlank;
 
   public TorchBandolier() {
@@ -54,6 +56,16 @@ public class TorchBandolier extends ItemSG implements IPlaceable {
   public Block getBlockPlaced(ItemStack stack) {
 
     return Blocks.torch;
+  }
+
+  @Override
+  public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5) {
+
+    if (!world.isRemote && world.getTotalWorldTime() % ABSORB_DELAY == 0) {
+      if (entity instanceof EntityPlayer) {
+        absorbTorches(stack, (EntityPlayer) entity);
+      }
+    }
   }
 
   public ItemStack absorbTorches(ItemStack stack, EntityPlayer player) {
@@ -112,10 +124,11 @@ public class TorchBandolier extends ItemSG implements IPlaceable {
     // Auto-fill mode
     if (stack.stackTagCompound.hasKey(Strings.TORCH_BANDOLIER_AUTO_FILL)
         && stack.stackTagCompound.getBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL)) {
-      list.add(EnumChatFormatting.GREEN
-          + LocalizationHelper.getOtherItemKey(itemName, AUTO_FILL_ON));
+      list.add(
+          EnumChatFormatting.GREEN + LocalizationHelper.getOtherItemKey(itemName, AUTO_FILL_ON));
     } else {
-      list.add(EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(itemName, AUTO_FILL_OFF));
+      list.add(
+          EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(itemName, AUTO_FILL_OFF));
     }
     if (stack.getItemDamage() < MAX_DAMAGE) {
       list.add((new StringBuilder()).append(EnumChatFormatting.YELLOW)
@@ -142,8 +155,8 @@ public class TorchBandolier extends ItemSG implements IPlaceable {
     recipe1 = new ShapedOreRecipe(bandolier, true, "lll", "sgs", "lll", 'l', Items.leather, 's',
         "stickWood", 'g', anyGem);
     // Wool recipe
-    recipe2 = new ShapedOreRecipe(bandolier, true, "lll", "sgs", "lll", 'l', wool, 's',
-        "stickWood", 'g', anyGem);
+    recipe2 = new ShapedOreRecipe(bandolier, true, "lll", "sgs", "lll", 'l', wool, 's', "stickWood",
+        'g', anyGem);
 
     GameRegistry.addRecipe(recipe1);
     GameRegistry.addRecipe(recipe2);
@@ -181,11 +194,8 @@ public class TorchBandolier extends ItemSG implements IPlaceable {
 
       if (world.isRemote) {
         if (autoFill) {
-          PlayerHelper
-              .addChatMessage(
-                  player,
-                  EnumChatFormatting.GREEN
-                      + LocalizationHelper.getOtherItemKey(itemName, AUTO_FILL_ON));
+          PlayerHelper.addChatMessage(player, EnumChatFormatting.GREEN
+              + LocalizationHelper.getOtherItemKey(itemName, AUTO_FILL_ON));
         } else {
           PlayerHelper.addChatMessage(player,
               EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(itemName, AUTO_FILL_OFF));

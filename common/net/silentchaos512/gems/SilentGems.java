@@ -58,9 +58,6 @@ public class SilentGems {
     ModEnchantments.init();
 
     Config.save();
-
-    MinecraftForge.EVENT_BUS.register(new GemsEventHandler());
-    FMLCommonHandler.instance().bus().register(new GemsEventHandler());
     
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandlerSilentGems());
 
@@ -77,6 +74,9 @@ public class SilentGems {
     proxy.registerTileEntities();
     proxy.registerRenderers();
     proxy.registerKeyHandlers();
+    
+    // Event handler
+    FMLCommonHandler.instance().bus().register(new GemsEventHandler());
     
     // Recipes and ore dictionary.
     SRegistry.addRecipesAndOreDictEntries();
