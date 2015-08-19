@@ -18,6 +18,8 @@ public class Config {
   /*
    * Blocks
    */
+  public static int pylonBurnerGenerationRate = 10;
+  public static int pylonPassiveGenerationRate = 1;
   public static float redstoneTeleporterSearchRange = 2.5f;
 
   /*
@@ -49,8 +51,8 @@ public class Config {
       "ChaosGem.FlightThrust", 0.1);
   public static ConfigOptionInt CHAOS_GEM_RECHARGE_RATE = new ConfigOptionInt(
       "ChaosGem.RechargeRate", 40);
-  public static ConfigOptionInt CHAOS_GEM_MAX_BUFFS = new ConfigOptionInt(
-      "ChaosGem.MaxBuffsPerGem", 3);
+  public static ConfigOptionInt CHAOS_GEM_MAX_BUFFS = new ConfigOptionInt("ChaosGem.MaxBuffsPerGem",
+      3);
   public static ConfigOptionInt CHAOS_GEM_MAX_CHARGE = new ConfigOptionInt("ChaosGem.MaxCharge",
       10000);
   public static ConfigOptionBoolean ENCHANTMENT_TOKENS_ON_ANY_TOOL = new ConfigOptionBoolean(
@@ -120,10 +122,15 @@ public class Config {
       /*
        * Blocks
        */
-      redstoneTeleporterSearchRange = c
-          .getFloat("RedstoneTeleporter.SearchRadius", CATEGORY_BLOCK_PROPERTIES,
-              redstoneTeleporterSearchRange, 0.0f, 128.0f,
-              "The radius (in blocks) in which redstone-powered teleporters will select entities to teleport.");
+      pylonBurnerGenerationRate = c.getInt("ChaosPylon.Burner.GenerationRate",
+          CATEGORY_BLOCK_PROPERTIES, pylonBurnerGenerationRate, 1, 100,
+          "The energy generation rate and the amount of energy produced per unit of burn time of the fuel.");
+      pylonPassiveGenerationRate = c.getInt("ChaosPylon.Passive.GenerationRate",
+          CATEGORY_BLOCK_PROPERTIES, pylonPassiveGenerationRate, 0, Integer.MAX_VALUE,
+          "The energy generation rate of passive pylons, in chaos per tick.");
+      redstoneTeleporterSearchRange = c.getFloat("RedstoneTeleporter.SearchRadius",
+          CATEGORY_BLOCK_PROPERTIES, redstoneTeleporterSearchRange, 0.0f, 128.0f,
+          "The radius (in blocks) in which redstone-powered teleporters will select entities to teleport.");
 
       /*
        * Items
@@ -142,8 +149,8 @@ public class Config {
           miningLevelRegular, 0, 100, "The mining level of regular gem tools.");
       miningLevelSuper = c.getInt("Tool.MiningLevel.Super", CATEGORY_ITEM_PROPERTIES,
           miningLevelSuper, 0, 100, "The mining level of supercharged gem tools.");
-      miningLevelFish = c.getInt("Tool.MiningLevel.Fish", CATEGORY_ITEM_PROPERTIES,
-          miningLevelFish, 0, 100, "The mining level of the gag fish tools.");
+      miningLevelFish = c.getInt("Tool.MiningLevel.Fish", CATEGORY_ITEM_PROPERTIES, miningLevelFish,
+          0, 100, "The mining level of the gag fish tools.");
 
       /*
        * Misc
@@ -156,15 +163,15 @@ public class Config {
           "Hide the flavor text until shift is pressed.");
       CHAOS_ESSENCE_PER_ORE.loadValue(c, CATEGORY_ITEM_PROPERTIES,
           "The number of Chaos Essence you get for smelting one Chaos Ore").validate();
-      CHAOS_GEM_CAPACITY_UPGRADE_INCREASE
-          .loadValue(c, CATEGORY_ITEM_PROPERTIES,
-              "The capacity increase (as a fraction) for each level of the Capacity upgrade on a Chaos Gem");
+      CHAOS_GEM_CAPACITY_UPGRADE_INCREASE.loadValue(c, CATEGORY_ITEM_PROPERTIES,
+          "The capacity increase (as a fraction) for each level of the Capacity upgrade on a Chaos Gem");
       CHAOS_GEM_FLIGHT_MAX_SPEED.loadValue(c, CATEGORY_ITEM_PROPERTIES).validate();
       CHAOS_GEM_FLIGHT_THRUST.loadValue(c, CATEGORY_ITEM_PROPERTIES).validate();
       CHAOS_GEM_MAX_BUFFS.loadValue(c, CATEGORY_ITEM_PROPERTIES,
           "The number of unique upgrades you can put on a Chaos Gem").validate();
-      CHAOS_GEM_MAX_CHARGE.loadValue(c, CATEGORY_ITEM_PROPERTIES,
-          "The base maximum charge level for Chaos Gems").validate();
+      CHAOS_GEM_MAX_CHARGE
+          .loadValue(c, CATEGORY_ITEM_PROPERTIES, "The base maximum charge level for Chaos Gems")
+          .validate();
       CHAOS_GEM_RECHARGE_RATE.loadValue(c, CATEGORY_ITEM_PROPERTIES,
           "The amount of charge a Chaos Gem gains for every second deactivated.");
       ENCHANTMENT_TOKENS_ON_ANY_TOOL.loadValue(c, CATEGORY_ITEM_PROPERTIES,

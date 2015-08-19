@@ -4,6 +4,13 @@ itemGroup.tabSilentGems=Silent's Gems
 
 # Block localizations
 
+tile.silentgems:ChaosAltar.name=Chaos Altar
+tile.silentgems:ChaosAltar.desc=WIP, but functional. Temporary textures.
+
+tile.silentgems:ChaosPylon0.name=Passive Chaos Pylon
+tile.silentgems:ChaosPylon1.name=Burner Chaos Pylon
+tile.silentgems:ChaosPylon.desc=WIP, but functional. Temporary textures.
+
 tile.silentgems:ChaosOre.name=Chaos Ore
 
 tile.silentgems:FluffyPlant.name=Fluffy Puff Plant

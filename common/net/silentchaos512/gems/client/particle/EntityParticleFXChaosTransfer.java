@@ -3,22 +3,22 @@ package net.silentchaos512.gems.client.particle;
 import net.minecraft.client.particle.EntityCritFX;
 import net.minecraft.world.World;
 
-public class EntityParticleFXTest extends EntityCritFX {
+public class EntityParticleFXChaosTransfer extends EntityCritFX {
 
   // protected ResourceLocation particleTexture;
   
-  public EntityParticleFXTest(World world, double posX, double posY, double posZ) {
+  public EntityParticleFXChaosTransfer(World world, double posX, double posY, double posZ) {
     
     this(world, posX, posY, posZ, 0.0001, 0.0001, 0.0001, 1.0f, 15);
   }
 
-  public EntityParticleFXTest(World world, double posX, double posY, double posZ, double motionX,
+  public EntityParticleFXChaosTransfer(World world, double posX, double posY, double posZ, double motionX,
       double motionY, double motionZ) {
 
     this(world, posX, posY, posZ, motionX, motionY, motionZ, 1.0f, 15);
   }
 
-  public EntityParticleFXTest(World world, double posX, double posY, double posZ, double motionX,
+  public EntityParticleFXChaosTransfer(World world, double posX, double posY, double posZ, double motionX,
       double motionY, double motionZ, float scale, int maxAge) {
 
     super(world, posX, posY, posZ, 0.0, 0.0, 0.0);
@@ -28,7 +28,7 @@ public class EntityParticleFXTest extends EntityCritFX {
     this.motionZ = motionZ;
     // this.particleTextureIndexX = 0;
     // this.particleTextureIndexY = 0;
-    this.particleRed = 0.6f;
+    this.particleRed = 0.0f;
     this.particleGreen = 0.2f;
     this.particleBlue = 0.8f;
     this.particleScale = scale;

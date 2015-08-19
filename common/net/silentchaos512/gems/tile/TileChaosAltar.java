@@ -26,7 +26,6 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
     energyStored = tags.getInteger("Energy");
 
     NBTTagList tagList = tags.getTagList("Items", 10);
-
     for (int i = 0; i < tagList.tagCount(); ++i) {
       NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
       byte slot = tagCompound.getByte("Slot");
@@ -44,7 +43,6 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
     tags.setInteger("Energy", energyStored);
 
     NBTTagList tagList = new NBTTagList();
-
     for (int i = 0; i < this.inventory.length; ++i) {
       if (this.inventory[i] != null) {
         NBTTagCompound tagCompound = new NBTTagCompound();
@@ -76,6 +74,9 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
       amountReceived = amount;
       this.energyStored += amount;
     }
+    
+    this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+    
     return amountReceived;
   }
 
@@ -103,6 +104,9 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
         IChaosStorage chaosStorage = (IChaosStorage) stack.getItem();
         int amount = chaosStorage.receiveEnergy(stack, Math.min(this.energyStored, 1000), false);
         this.energyStored -= amount;
+        if (amount != 0) {
+          this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+        }
 
         // Move full item to second slot
         if (chaosStorage.getEnergyStored(stack) == chaosStorage.getMaxEnergyStored(stack)) {
@@ -112,8 +116,6 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
           }
         }
       }
-      this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-      // this.markDirty();
     }
   }
 

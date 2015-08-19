@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.silentchaos512.gems.block.BlockSG;
+import net.silentchaos512.gems.core.registry.IHasSubtypes;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.lib.Strings;
 
@@ -30,8 +31,13 @@ public class ItemBlockSG extends ItemBlockWithMetadata {
     // Subtypes?
     if (block instanceof BlockSG) {
       BlockSG b = (BlockSG) block;
-      gemSubtypes = b.getHasGemSubtypes();
-      hasSubtypes = b.getHasSubtypes();
+      this.gemSubtypes = b.getHasGemSubtypes();
+      this.hasSubtypes = b.getHasSubtypes();
+    } else if (block instanceof IHasSubtypes) {
+      IHasSubtypes b = (IHasSubtypes) block;
+      this.hasSubtypes = b.getHasSubtypes();
+    } else {
+      this.hasSubtypes = false;
     }
   }
 
@@ -52,10 +58,10 @@ public class ItemBlockSG extends ItemBlockWithMetadata {
       }
     }
   }
-  
+
   @Override
   public EnumRarity getRarity(ItemStack stack) {
-    
+
     if (this.block instanceof BlockSG) {
       return ((BlockSG) this.block).getRarity(stack);
     } else {
@@ -78,14 +84,10 @@ public class ItemBlockSG extends ItemBlockWithMetadata {
   @Override
   public String getUnlocalizedName(ItemStack stack) {
 
-    StringBuilder sb = new StringBuilder("tile.");
-    sb.append(Strings.RESOURCE_PREFIX);
-    sb.append(itemName);
-
+    String result = "tile." + Strings.RESOURCE_PREFIX + this.itemName;
     if (hasSubtypes) {
-      sb.append(stack.getItemDamage());
+      result += stack.getItemDamage();
     }
-
-    return sb.toString();
+    return result;
   }
 }

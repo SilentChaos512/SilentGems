@@ -1,12 +1,12 @@
 package net.silentchaos512.gems.core.proxy;
 
-import net.minecraft.client.particle.EntityFX;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosAltar;
 import net.silentchaos512.gems.tile.TileChaosPylon;
 import net.silentchaos512.gems.tile.TileTeleporter;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CommonProxy {
 
@@ -33,8 +33,9 @@ public class CommonProxy {
   public void doNEICheck(ItemStack stack) {
 
   }
-  
-  public void spawnParticles(EntityFX particleFX) {
-    
+
+  public void spawnParticles(String type, World world, double x, double y, double z, double motionX,
+      double motionY, double motionZ) {
+
   }
 }
