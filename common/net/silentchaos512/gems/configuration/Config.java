@@ -45,24 +45,14 @@ public class Config {
       1);
   public static ConfigOptionDouble CHAOS_GEM_CAPACITY_UPGRADE_INCREASE = new ConfigOptionDouble(
       "ChaosGem.CapacityUpgradeIncrease", 0.25);
-  public static ConfigOptionDouble CHAOS_GEM_FLIGHT_MAX_SPEED = new ConfigOptionDouble(
-      "ChaosGem.FlightMaxSpeed", 25.0);
-  public static ConfigOptionDouble CHAOS_GEM_FLIGHT_THRUST = new ConfigOptionDouble(
-      "ChaosGem.FlightThrust", 0.1);
-  public static ConfigOptionInt CHAOS_GEM_RECHARGE_RATE = new ConfigOptionInt(
-      "ChaosGem.RechargeRate", 40);
   public static ConfigOptionInt CHAOS_GEM_MAX_BUFFS = new ConfigOptionInt("ChaosGem.MaxBuffsPerGem",
       3);
-  public static ConfigOptionInt CHAOS_GEM_MAX_CHARGE = new ConfigOptionInt("ChaosGem.MaxCharge",
-      10000);
   public static ConfigOptionBoolean ENCHANTMENT_TOKENS_ON_ANY_TOOL = new ConfigOptionBoolean(
       "EnchantmentToken.CanApplyToAnyTool", true);
   public static ConfigOptionInt FOOD_SUPPORT_DURATION = new ConfigOptionInt("Food.SupportDuration",
       600);
   public static ConfigOptionInt GLOW_ROSE_LIGHT_LEVEL = new ConfigOptionInt("GlowRose.LightLevel",
       10);
-  public static ConfigOptionInt HOLDING_GEM_MAX_ITEMS = new ConfigOptionInt("HoldingGem.MaxItems",
-      4096);
 
   /*
    * World generation config settings
@@ -165,23 +155,12 @@ public class Config {
           "The number of Chaos Essence you get for smelting one Chaos Ore").validate();
       CHAOS_GEM_CAPACITY_UPGRADE_INCREASE.loadValue(c, CATEGORY_ITEM_PROPERTIES,
           "The capacity increase (as a fraction) for each level of the Capacity upgrade on a Chaos Gem");
-      CHAOS_GEM_FLIGHT_MAX_SPEED.loadValue(c, CATEGORY_ITEM_PROPERTIES).validate();
-      CHAOS_GEM_FLIGHT_THRUST.loadValue(c, CATEGORY_ITEM_PROPERTIES).validate();
-      CHAOS_GEM_MAX_BUFFS.loadValue(c, CATEGORY_ITEM_PROPERTIES,
-          "The number of unique upgrades you can put on a Chaos Gem").validate();
-      CHAOS_GEM_MAX_CHARGE
-          .loadValue(c, CATEGORY_ITEM_PROPERTIES, "The base maximum charge level for Chaos Gems")
-          .validate();
-      CHAOS_GEM_RECHARGE_RATE.loadValue(c, CATEGORY_ITEM_PROPERTIES,
-          "The amount of charge a Chaos Gem gains for every second deactivated.");
       ENCHANTMENT_TOKENS_ON_ANY_TOOL.loadValue(c, CATEGORY_ITEM_PROPERTIES,
           "Allows Enchantment Tokens to be used on appropriate tools from other mods.");
       FOOD_SUPPORT_DURATION.loadValue(c, CATEGORY_ITEM_PROPERTIES,
           "The base duration for special effects from food");
       GLOW_ROSE_LIGHT_LEVEL.loadValue(c, CATEGORY_BLOCK_PROPERTIES,
           "The light level glow roses emit, must be between 0 and 15 inclusive.").validate();
-      HOLDING_GEM_MAX_ITEMS.loadValue(c, CATEGORY_ITEM_PROPERTIES,
-          "The number of blocks the Holding Gem can store.");
 
       /*
        * Enchantment ids

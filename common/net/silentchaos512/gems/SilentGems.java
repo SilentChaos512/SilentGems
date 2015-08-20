@@ -16,6 +16,7 @@ import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.buff.ChaosBuff;
 import net.silentchaos512.gems.network.MessageChaosGemToggle;
+import net.silentchaos512.gems.network.MessageDisableFlight;
 import net.silentchaos512.gems.world.GemsWorldGenerator;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -58,13 +59,15 @@ public class SilentGems {
     ModEnchantments.init();
 
     Config.save();
-    
+
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandlerSilentGems());
 
     network = NetworkRegistry.INSTANCE.newSimpleChannel(SilentGems.MOD_ID);
     int discriminator = -1;
     network.registerMessage(MessageChaosGemToggle.Handler.class, MessageChaosGemToggle.class,
         ++discriminator, Side.SERVER);
+    network.registerMessage(MessageDisableFlight.Handler.class, MessageDisableFlight.class,
+        ++discriminator, Side.CLIENT);
   }
 
   @EventHandler
@@ -74,15 +77,15 @@ public class SilentGems {
     proxy.registerTileEntities();
     proxy.registerRenderers();
     proxy.registerKeyHandlers();
-    
+
     // Event handler
     FMLCommonHandler.instance().bus().register(new GemsEventHandler());
-    
+
     // Recipes and ore dictionary.
     SRegistry.addRecipesAndOreDictEntries();
     ModItems.initItemRecipes();
     ChaosBuff.initRecipes();
-    
+
     ModItems.addRandomChestGenLoot();
 
     // World generators

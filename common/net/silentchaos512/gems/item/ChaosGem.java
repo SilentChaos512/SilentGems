@@ -16,6 +16,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.configuration.Config;
+import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.energy.IChaosStorage;
@@ -34,6 +35,9 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
   public static final String NBT_BUFF_ID = "id";
   public static final String NBT_BUFF_LEVEL = "lvl";
   // public static final String NBT_CHEATY = "cheaty";
+  
+  // This is a tag for players, but I put it here anyway.
+  public static final String NBT_FLIGHT_TIME = "ChaosGem.FlightTime";
 
   private final int gemId;
   public final boolean isCheaty;
@@ -190,6 +194,15 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
       }
     }
   }
+  
+  public static void removeFlight(EntityPlayer player) {
+    
+    if (!player.capabilities.isCreativeMode) {
+      player.capabilities.allowFlying = false;
+      player.capabilities.isFlying = false;
+      player.fallDistance = 0;
+    }
+  }
 
   public NBTTagList getBuffList(ItemStack stack) {
 
@@ -300,6 +313,8 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
         isEffectFlight = id == ChaosBuff.FLIGHT.id;
         if ((isEffectFlight && player.capabilities.isFlying) || !isEffectFlight) {
           drain += ChaosBuff.values()[id].getCostPerTick(level);
+        } else if (isEffectFlight && player.motionY < -0.88) {
+          drain += ChaosBuff.values()[id].getCostPerTick(level) / 10;
         }
       }
     }
@@ -343,7 +358,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
       return;
     }
 
-    // Cheaty gem? Don't do charge
+    // Cheaty gem or creative? Don't do charge
     if (this.isCheaty) {
       return;
     }

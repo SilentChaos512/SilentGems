@@ -79,7 +79,6 @@ public class TorchBandolier extends ItemSG implements IPlaceable {
       ItemStack torches;
       for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
         torches = player.inventory.getStackInSlot(i);
-        // Is the stack torches? Is this the best way? It's not pretty.
         if (torches != null
             && Item.getIdFromItem(torches.getItem()) == Block.getIdFromBlock(Blocks.torch)) {
           int damage = stack.getItemDamage();

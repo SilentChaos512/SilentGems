@@ -22,6 +22,7 @@ public class TileChaosPylon extends TileEntity implements IInventory {
   public static final int SEARCH_RADIUS = 4;
   public static final int SEARCH_HEIGHT = 1;
   public static final int TRANSFER_DELAY = 10;
+  public static final int ALTAR_SEARCH_DELAY = 200;
   public static final int PARTICLE_DELAY = 100;
   public static final int PARTICLE_COUNT = 16;
 
@@ -86,10 +87,14 @@ public class TileChaosPylon extends TileEntity implements IInventory {
 
   public int getMaxEnergyStored() {
 
-    return 100000; // TODO: Config?
+    return 10000; // TODO: Config?
   }
 
   public TileEntity getAltar() {
+    
+    if (worldObj.isRemote) {
+      return null;
+    }
 
     // Get last known altar, if it exists.
     TileEntity tile = this.worldObj.getTileEntity(lastAltarX, lastAltarY, lastAltarZ);
@@ -98,18 +103,20 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     }
 
     // Last known altar coords are no good, try to find a new altar.
-    LogHelper.debug(
-        "Pylon at (" + xCoord + ", " + yCoord + ", " + zCoord + ") searching for new altar...");
-    for (int y = yCoord - SEARCH_HEIGHT; y < yCoord + SEARCH_HEIGHT + 1; ++y) {
-      for (int x = xCoord - SEARCH_RADIUS; x < xCoord + SEARCH_RADIUS + 1; ++x) {
-        for (int z = zCoord - SEARCH_RADIUS; z < zCoord + SEARCH_RADIUS + 1; ++z) {
-          tile = worldObj.getTileEntity(x, y, z);
-          if (tile != null && tile instanceof TileChaosAltar) {
-            LogHelper.debug("Pylon found new altar at (" + x + ", " + y + ", " + z + ")!");
-            lastAltarX = x;
-            lastAltarY = y;
-            lastAltarZ = z;
-            return tile;
+    if (worldObj.getTotalWorldTime() % ALTAR_SEARCH_DELAY == 0) {
+      LogHelper.debug(
+          "Pylon at (" + xCoord + ", " + yCoord + ", " + zCoord + ") searching for new altar...");
+      for (int y = yCoord - SEARCH_HEIGHT; y < yCoord + SEARCH_HEIGHT + 1; ++y) {
+        for (int x = xCoord - SEARCH_RADIUS; x < xCoord + SEARCH_RADIUS + 1; ++x) {
+          for (int z = zCoord - SEARCH_RADIUS; z < zCoord + SEARCH_RADIUS + 1; ++z) {
+            tile = worldObj.getTileEntity(x, y, z);
+            if (tile != null && tile instanceof TileChaosAltar) {
+              LogHelper.debug("Pylon found new altar at (" + x + ", " + y + ", " + z + ")!");
+              lastAltarX = x;
+              lastAltarY = y;
+              lastAltarZ = z;
+              return tile;
+            }
           }
         }
       }
@@ -153,12 +160,12 @@ public class TileChaosPylon extends TileEntity implements IInventory {
       // Transfer energy
       if (worldObj.getTotalWorldTime() % TRANSFER_DELAY == 0) {
         sendEnergyToAltar();
-//        if (sendEnergyToAltar()) {
-//          spawnParticlesToAltar();
-//        }
+        // if (sendEnergyToAltar()) {
+        // spawnParticlesToAltar();
+        // }
       }
     }
-    
+
     // FIXME: Particles - don't spawn when no energy is transfered?
     if (worldObj.getTotalWorldTime() % PARTICLE_DELAY == 0) {
       spawnParticlesToAltar();
@@ -184,7 +191,7 @@ public class TileChaosPylon extends TileEntity implements IInventory {
   }
 
   private void burnFuel() {
-    
+
     boolean markForUpdate = false;
 
     if (burnTimeRemaining > 0) {
@@ -205,7 +212,7 @@ public class TileChaosPylon extends TileEntity implements IInventory {
         }
       }
     }
-    
+
     if (markForUpdate) {
       worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
@@ -268,7 +275,8 @@ public class TileChaosPylon extends TileEntity implements IInventory {
       double motionX = SilentGems.instance.random.nextGaussian() * 0.0004;
       double motionY = SilentGems.instance.random.nextGaussian() * 0.0004;
       double motionZ = SilentGems.instance.random.nextGaussian() * 0.0004;
-      SilentGems.proxy.spawnParticles("chaosTransfer", worldObj, x, y, z, motionX, motionY, motionZ);
+      SilentGems.proxy.spawnParticles("chaosTransfer", worldObj, x, y, z, motionX, motionY,
+          motionZ);
       x += stepX;
       y += stepY;
       z += stepZ;

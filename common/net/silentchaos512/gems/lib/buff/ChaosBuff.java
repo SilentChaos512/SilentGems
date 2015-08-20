@@ -10,6 +10,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
+import net.silentchaos512.gems.item.ChaosGem;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
@@ -61,19 +62,21 @@ public enum ChaosBuff {
   
   public int getCostPerTick(int level) {
     
-    return (int) (this.cost * (1 + 0.15f * (level - 1)));
+    return (int) (this.cost * (1 + 0.20f * (level - 1)));
   }
 
   public void apply(EntityPlayer player, int level) {
 
     if (potionId > -1) {
-      player.addPotionEffect(new PotionEffect(potionId, 2500, level - 1, true));
+      int time = potionId == NIGHT_VISION.potionId ? 400 : 40;
+      player.addPotionEffect(new PotionEffect(potionId, time, level - 1, true));
     }
 
     // Apply other effects here.
     if (this.id == FLIGHT.id) {
       player.capabilities.allowFlying = true;
       player.fallDistance = 0.0f;
+      player.getEntityData().setByte(ChaosGem.NBT_FLIGHT_TIME, (byte) 40);
     }
   }
 
@@ -85,9 +88,8 @@ public enum ChaosBuff {
 
     // Apply other effects here.
     if (this.id == FLIGHT.id) {
-      player.capabilities.allowFlying = false;
-      player.capabilities.isFlying = false;
-      player.fallDistance = 0.0f;
+      ChaosGem.removeFlight(player);
+      player.getEntityData().setByte(ChaosGem.NBT_FLIGHT_TIME, (byte) 0);
     }
   }
 

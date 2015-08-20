@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -16,8 +17,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GlowRose;
 import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.PlayerHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.ChaosGem;
@@ -26,6 +29,8 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.lib.buff.ChaosBuff;
+import net.silentchaos512.gems.network.MessageChaosGemToggle;
+import net.silentchaos512.gems.network.MessageDisableFlight;
 import net.silentchaos512.gems.recipe.TorchBandolierExtractRecipe;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -104,25 +109,33 @@ public class GemsEventHandler {
 
     if (event.side == Side.CLIENT) {
     } else {
+      // Chaos gem flight removal
+      NBTTagCompound tags = event.player.getEntityData();
+      if (!tags.hasKey(ChaosGem.NBT_FLIGHT_TIME)) {
+        tags.setByte(ChaosGem.NBT_FLIGHT_TIME, (byte) 0);
+      }
+      int flightTime = tags.getByte(ChaosGem.NBT_FLIGHT_TIME);
+      if (flightTime > 0) {
+        // This prevents the lingering effects when a chaos gem is removed from the player's inventory to another.
+        if (--flightTime == 0) {
+          SilentGems.instance.network.sendTo(new MessageDisableFlight(), (EntityPlayerMP) event.player);
+          ChaosGem.removeFlight(event.player);
+        }
+        tags.setByte(ChaosGem.NBT_FLIGHT_TIME, (byte) flightTime);
+      }
+
+      // Mending (main)
       for (ItemStack stack : event.player.inventory.mainInventory) {
         if (stack != null && isSecond) {
           ModEnchantments.mending.tryActivate(event.player, stack);
         }
       }
-
-      if (isSecond) {
-        for (ItemStack stack : event.player.inventory.armorInventory) {
-          if (stack != null) {
-            ModEnchantments.mending.tryActivate(event.player, stack);
-          }
+      // Mending (armor)
+      for (ItemStack stack : event.player.inventory.armorInventory) {
+        if (stack != null && isSecond) {
+          ModEnchantments.mending.tryActivate(event.player, stack);
         }
       }
     }
-  }
-  
-  @SubscribeEvent
-  public void onItemPickup(EntityItemPickupEvent event) {
-    
-    ;
   }
 }

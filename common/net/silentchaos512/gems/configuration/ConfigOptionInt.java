@@ -37,8 +37,6 @@ public class ConfigOptionInt extends ConfigOption {
       value = MathHelper.clamp_int(value, 1, 8);
     } else if (name.equals(Config.CHAOS_GEM_MAX_BUFFS.name)) {
       value = MathHelper.clamp_int(value, 1, 8);
-    } else if (name.equals(Config.CHAOS_GEM_MAX_CHARGE.name)) {
-      value = value < 0 ? 0 : value;
     } else if (name.equals(Config.WORLD_CHAOS_ORE_RARITY.name)) {
       value = value < 1 ? 1 : value;
     } else if (name.equals(Config.GLOW_ROSE_LIGHT_LEVEL.name)) {

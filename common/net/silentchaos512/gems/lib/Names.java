@@ -67,6 +67,7 @@ public class Names {
   public static final String CHAOS_ESSENCE_SHARD = "ChaosEssenceShard";
   public static final String GILDED_STRING = "GildedString";
   public static final String GOLDEN_PLUME = "GoldenPlume";
+  public static final String MINI_PYLON = "MiniPylon";
   public static final String MYSTERY_GOO = "Mystery Goo";
   public static final String NETHER_CLUSTER = "NetherCluster";
   public static final String NETHER_SHARD = "NetherShard";

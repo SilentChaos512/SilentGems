@@ -105,7 +105,8 @@ public class HoldingGem extends ItemBlock implements IAddRecipe {
 
   public int getMaxContainedItemCount(ItemStack stack) {
 
-    return Config.HOLDING_GEM_MAX_ITEMS.value;
+    return 4096;
+//    return Config.HOLDING_GEM_MAX_ITEMS.value;
   }
 
   public String getContainedItemName(ItemStack stack) {
