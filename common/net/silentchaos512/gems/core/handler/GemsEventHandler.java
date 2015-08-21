@@ -30,7 +30,7 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.lib.buff.ChaosBuff;
 import net.silentchaos512.gems.network.MessageChaosGemToggle;
-import net.silentchaos512.gems.network.MessageDisableFlight;
+import net.silentchaos512.gems.network.MessageSetFlight;
 import net.silentchaos512.gems.recipe.TorchBandolierExtractRecipe;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -118,7 +118,7 @@ public class GemsEventHandler {
       if (flightTime > 0) {
         // This prevents the lingering effects when a chaos gem is removed from the player's inventory to another.
         if (--flightTime == 0) {
-          SilentGems.instance.network.sendTo(new MessageDisableFlight(), (EntityPlayerMP) event.player);
+          SilentGems.instance.network.sendTo(new MessageSetFlight(false), (EntityPlayerMP) event.player);
           ChaosGem.removeFlight(event.player);
         }
         tags.setByte(ChaosGem.NBT_FLIGHT_TIME, (byte) flightTime);

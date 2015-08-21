@@ -4,7 +4,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.ChaosGem;
 import net.silentchaos512.gems.item.ChaosRune;
 import net.silentchaos512.gems.lib.buff.ChaosBuff;

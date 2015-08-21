@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.energy.IChaosStorage;
 import net.silentchaos512.gems.lib.EnumGem;

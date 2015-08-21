@@ -16,7 +16,7 @@ import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.buff.ChaosBuff;
 import net.silentchaos512.gems.network.MessageChaosGemToggle;
-import net.silentchaos512.gems.network.MessageDisableFlight;
+import net.silentchaos512.gems.network.MessageSetFlight;
 import net.silentchaos512.gems.world.GemsWorldGenerator;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -66,7 +66,7 @@ public class SilentGems {
     int discriminator = -1;
     network.registerMessage(MessageChaosGemToggle.Handler.class, MessageChaosGemToggle.class,
         ++discriminator, Side.SERVER);
-    network.registerMessage(MessageDisableFlight.Handler.class, MessageDisableFlight.class,
+    network.registerMessage(MessageSetFlight.Handler.class, MessageSetFlight.class,
         ++discriminator, Side.CLIENT);
   }
 

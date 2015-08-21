@@ -153,6 +153,8 @@ public class Config {
           "Hide the flavor text until shift is pressed.");
       CHAOS_ESSENCE_PER_ORE.loadValue(c, CATEGORY_ITEM_PROPERTIES,
           "The number of Chaos Essence you get for smelting one Chaos Ore").validate();
+      CHAOS_GEM_MAX_BUFFS.loadValue(c, CATEGORY_ITEM_PROPERTIES,
+          "The maximum number of unique effects that can be put on a Chaos Gem").validate();
       CHAOS_GEM_CAPACITY_UPGRADE_INCREASE.loadValue(c, CATEGORY_ITEM_PROPERTIES,
           "The capacity increase (as a fraction) for each level of the Capacity upgrade on a Chaos Gem");
       ENCHANTMENT_TOKENS_ON_ANY_TOOL.loadValue(c, CATEGORY_ITEM_PROPERTIES,

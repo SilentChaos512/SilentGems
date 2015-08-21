@@ -10,6 +10,7 @@ Changed: Chaos coal is a bit more expensive.
 Changed: Texture of Chaos Essence Block
 Fixed: Chaos gems draining charge twice per tick.
 Fixed: Chaos gem effects lingering when leaving player inventory (includes infinite flight).
+Fixed: Flight chaos gems not working after being removed from an inventory while activated.
 Fixed: Area Miner dig speed being too nerfed.
 Coming Soon: Chaos gem automatic recharge and capacity upgrades (Capacity and Booster runes no longer work).
 

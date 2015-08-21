@@ -3,11 +3,13 @@ package net.silentchaos512.gems.lib.buff;
 import java.util.ArrayList;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.ChaosGem;
@@ -15,6 +17,7 @@ import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
+import net.silentchaos512.gems.network.MessageSetFlight;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public enum ChaosBuff {
@@ -76,7 +79,12 @@ public enum ChaosBuff {
     if (this.id == FLIGHT.id) {
       player.capabilities.allowFlying = true;
       player.fallDistance = 0.0f;
+      // Prevents "lingering" flight effect, which allowed infinite flight.
       player.getEntityData().setByte(ChaosGem.NBT_FLIGHT_TIME, (byte) 40);
+      // Send an "allow flight" message to the client, but only once per second.
+      if (player.ticksExisted % 20 == 0 && player instanceof EntityPlayerMP) {
+        SilentGems.instance.network.sendTo(new MessageSetFlight(true), (EntityPlayerMP) player);
+      }
     }
   }
 

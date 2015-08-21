@@ -10,6 +10,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.silentchaos512.gems.energy.IChaosStorage;
+import net.silentchaos512.gems.item.ChaosGem;
 
 public class TileChaosAltar extends TileEntity implements ISidedInventory {
 
@@ -100,12 +101,18 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
     if (!this.worldObj.isRemote) {
       ItemStack stack = getStackInSlot(0);
       if (stack != null && stack.getItem() instanceof IChaosStorage) {
-        // LogHelper.debug(this.energyStored);
+        // Charge storage items.
         IChaosStorage chaosStorage = (IChaosStorage) stack.getItem();
         int amount = chaosStorage.receiveEnergy(stack, Math.min(this.energyStored, 1000), false);
         this.energyStored -= amount;
         if (amount != 0) {
           this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+        }
+        
+        // Disable chaos gems for convience.
+        if (stack.getItem() instanceof ChaosGem) {
+          ChaosGem chaosGem = (ChaosGem) stack.getItem();
+          chaosGem.setEnabled(stack, false);
         }
 
         // Move full item to second slot
