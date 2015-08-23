@@ -18,7 +18,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.material.ModMaterials;
-import net.silentchaos512.gems.recipe.ChaosRuneRecipe;
+import net.silentchaos512.gems.recipe.ChaosGemUpgradeRecipe;
 import net.silentchaos512.gems.recipe.DecorateToolRecipe;
 import net.silentchaos512.gems.recipe.EnchantToolRecipe;
 import net.silentchaos512.gems.recipe.TorchBandolierExtractRecipe;
@@ -138,7 +138,7 @@ public class ModItems {
   public static void initItemRecipes() {
 
     String afterShapeless = "after:minecraft:shapeless";
-    addRecipeHandler(ChaosRuneRecipe.class, "ChaosRune", Category.SHAPELESS, afterShapeless);
+    addRecipeHandler(ChaosGemUpgradeRecipe.class, "ChaosRune", Category.SHAPELESS, afterShapeless);
     addRecipeHandler(DecorateToolRecipe.class, "DecorateTool", Category.SHAPED, afterShapeless);
     addRecipeHandler(EnchantToolRecipe.class, "EnchantTool", Category.SHAPELESS, afterShapeless);
     addRecipeHandler(TorchBandolierRecipe.class, "TorchBandolierDecorate", Category.SHAPELESS,

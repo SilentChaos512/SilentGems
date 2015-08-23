@@ -35,8 +35,8 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
   public static final String NBT_BUFF_LIST = "buff";
   public static final String NBT_BUFF_ID = "id";
   public static final String NBT_BUFF_LEVEL = "lvl";
-  // public static final String NBT_CHEATY = "cheaty";
-  
+  public static final String NBT_MINI_PYLON = "pylons";
+
   // This is a tag for players, but I put it here anyway.
   public static final String NBT_FLIGHT_TIME = "ChaosGem.FlightTime";
 
@@ -77,8 +77,8 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
 
     if (this.getBuffList(stack).tagCount() == 0) {
       // Information on how to use.
-      list.add(EnumChatFormatting.DARK_GRAY
-          + LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0));
+      list.add(
+          EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0));
       return;
     }
 
@@ -94,8 +94,8 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
       list.add(EnumChatFormatting.GREEN
           + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Enabled"));
     } else {
-      list.add(EnumChatFormatting.RED
-          + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Disabled"));
+      list.add(
+          EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Disabled"));
     }
 
     if (this.isCheaty) {
@@ -130,8 +130,8 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
       }
     } else {
       // Information on how to use.
-      list.add(EnumChatFormatting.DARK_GRAY
-          + LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0));
+      list.add(
+          EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0));
     }
   }
 
@@ -195,9 +195,9 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
       }
     }
   }
-  
+
   public static void removeFlight(EntityPlayer player) {
-    
+
     if (!player.capabilities.isCreativeMode) {
       player.capabilities.allowFlying = false;
       player.capabilities.isFlying = false;
@@ -297,6 +297,26 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
     }
   }
 
+  public boolean canAddMiniPylon(ItemStack stack) {
+
+    if (stack.stackTagCompound == null) {
+      stack.setTagCompound(new NBTTagCompound());
+    }
+
+    int pylonCount = 0;
+    if (stack.stackTagCompound.hasKey(NBT_MINI_PYLON)) {
+      pylonCount = stack.stackTagCompound.getInteger(NBT_MINI_PYLON);
+    }
+
+    return pylonCount < 1; // TODO: Config?
+  }
+
+  public void addMiniPylon(ItemStack stack) {
+
+    int pylonCount = stack.stackTagCompound.getInteger(NBT_MINI_PYLON);
+    stack.stackTagCompound.setInteger(NBT_MINI_PYLON, pylonCount + 1);
+  }
+
   public int getTotalChargeDrain(ItemStack stack, EntityPlayer player) {
 
     int drain = 0;
@@ -321,6 +341,16 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
     }
 
     return drain;
+  }
+
+  public int getSelfRechargeAmount(ItemStack stack) {
+
+    if (stack != null && stack.stackTagCompound != null) {
+      if (stack.stackTagCompound.hasKey(NBT_MINI_PYLON)) {
+        return stack.stackTagCompound.getInteger(NBT_MINI_PYLON);
+      }
+    }
+    return 0;
   }
 
   public boolean isEnabled(ItemStack stack) {
@@ -350,12 +380,15 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
 
     EntityPlayer player = (EntityPlayer) entity;
     boolean enabled = this.isEnabled(stack);
+    
+    // Mini pylons (self recharge)
+    receiveEnergy(stack, getSelfRechargeAmount(stack), false);
 
     // Apply effects?
     if (enabled) {
       applyEffects(stack, player);
     } else {
-//      removeEffects(stack, player);
+      // removeEffects(stack, player);
       return;
     }
 
@@ -371,7 +404,6 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
       this.setEnabled(stack, false);
       this.removeEffects(stack, player);
     }
-    // TODO: Self-recharging gem upgrades?
   }
 
   @Override

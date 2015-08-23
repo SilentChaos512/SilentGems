@@ -6,8 +6,10 @@ Removed: Unused config options.
 Changed: Chaos gem energy consumption to per tick, instead of per second.
 Changed: Chaos gem default max capacity to 1 million (you may need to update configs).
 Changed: Flight chaos gem effect will only drain charge when the user is flying (100/t) or falling fast (10/t).
+Changed: Chaos gem crafting allows multiple runes (and other things) to be applied at once.
 Changed: Chaos coal is a bit more expensive.
 Changed: Texture of Chaos Essence Block
+Changed: Base Enchantment Token recipe makes 12. Efficiency uses glowstone dust instead of gold ingots.
 Fixed: Chaos gems draining charge twice per tick.
 Fixed: Chaos gem effects lingering when leaving player inventory (includes infinite flight).
 Fixed: Flight chaos gems not working after being removed from an inventory while activated.

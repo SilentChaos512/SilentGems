@@ -233,7 +233,7 @@ public class EnchantToken extends ItemSG {
     ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
 
     // Base token recipe
-    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 8, META_BLANK), "ggg", "rer", "ggg", 'g',
+    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 12, META_BLANK), "ggg", "rer", "ggg", 'g',
         "ingotGold", 'r', "dustRedstone", 'e', "gemChaos"));
     // Uncrafting token
     GameRegistry.addShapelessRecipe(new ItemStack(this, 1, META_BLANK), new ItemStack(this, 1,
@@ -247,7 +247,7 @@ public class EnchantToken extends ItemSG {
 
     // Digging tools
     addTokenRecipe(Enchantment.efficiency.effectId, EnumGem.EMERALD.getItemOreName(), gemCount,
-        "ingotGold", 2, baseToken);
+        "dustGlowstone", 4, baseToken);
     addTokenRecipe(Enchantment.fortune.effectId, EnumGem.HELIODOR.getItemOreName(), gemCount,
         "gemDiamond", 3, baseToken);
     addTokenRecipe(Enchantment.silkTouch.effectId, EnumGem.IOLITE.getItemOreName(), gemCount,
