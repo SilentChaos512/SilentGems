@@ -31,7 +31,7 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.tile.TileTeleporter;
 
-public class Teleporter extends BlockSG implements ITileEntityProvider {
+public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
 
   public static final String DESTINATION_OBSTRUCTED = "DestinationObstructed";
   public static final String LINK_END = "Link.End";
@@ -42,7 +42,7 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
 
   protected boolean isAnchor = false;
 
-  public Teleporter() {
+  public BlockTeleporter() {
 
     super(Material.iron);
     setHardness(15.0f);

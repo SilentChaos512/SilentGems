@@ -20,7 +20,7 @@ import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.tile.TileTeleporter;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class BlockRedstoneTeleporter extends Teleporter {
+public class BlockRedstoneTeleporter extends BlockTeleporter {
 
   public BlockRedstoneTeleporter() {
 

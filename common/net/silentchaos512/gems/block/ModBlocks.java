@@ -16,7 +16,7 @@ public class ModBlocks {
   public static GemBrick gemBrickSpeckled;
   public static MiscBlock miscBlock;
   public static GlowRose glowRose;
-  public static Teleporter teleporter;
+  public static BlockTeleporter teleporter;
   public static BlockRedstoneTeleporter redstoneTeleporter;
   public static BlockTeleporterAnchor teleporterAnchor;
   public static GemLamp gemLamp;
@@ -40,7 +40,7 @@ public class ModBlocks {
         ItemBlockSG.class, Names.GEM_BRICK_SPECKLED);
     miscBlock = (MiscBlock) SRegistry.registerBlock(MiscBlock.class, Names.MISC_BLOCKS);
     glowRose = (GlowRose) SRegistry.registerBlock(GlowRose.class, Names.GLOW_ROSE);
-    teleporter = (Teleporter) SRegistry.registerBlock(Teleporter.class, Names.TELEPORTER);
+    teleporter = (BlockTeleporter) SRegistry.registerBlock(BlockTeleporter.class, Names.TELEPORTER);
     redstoneTeleporter = (BlockRedstoneTeleporter) SRegistry.registerBlock(
         BlockRedstoneTeleporter.class, Names.TELEPORTER_REDSTONE);
     teleporterAnchor = (BlockTeleporterAnchor) SRegistry.registerBlock(BlockTeleporterAnchor.class,

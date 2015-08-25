@@ -7,7 +7,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.lib.Names;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class BlockTeleporterAnchor extends Teleporter {
+public class BlockTeleporterAnchor extends BlockTeleporter {
 
   public BlockTeleporterAnchor() {
 
