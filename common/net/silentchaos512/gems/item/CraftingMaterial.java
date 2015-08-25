@@ -137,9 +137,9 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     // Chaos Essence Shard
     RecipeHelper.addCompressionRecipe(getStack(Names.CHAOS_ESSENCE_SHARD), chaosEssence, 9);
     // Chaos Coal
-    ItemStack anyCoal = new ItemStack(Items.coal, 1, OreDictionary.WILDCARD_VALUE);
-    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.CHAOS_COAL, 4), " c ", "cec", " c ",
-        'c', anyCoal, 'e', "gemChaos"));
+    RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 8), "gemChaos", Items.coal);
+    RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 4), "gemChaos",
+        new ItemStack(Items.coal, 1, 1));
     // RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 8), "gemChaos", new ItemStack(Items.coal,
     // 1, OreDictionary.WILDCARD_VALUE));
     // Chaos Coal -> Torches

@@ -2,50 +2,70 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.NBTHelper;
 import net.silentchaos512.gems.core.util.PlayerHelper;
+import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 
-import org.lwjgl.input.Keyboard;
-
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 public class ReturnHome extends ItemSG {
 
-  public final static String BOUND_TO = "BoundTo";
-  public final static String NOT_BOUND = "NotBound";
-  public final static String NOT_SANE = "NotSane";
-  public final static String NOT_SAFE = "NotSafe";
+  public static final int MAX_DAMAGE = 64;
+
+  public static final String BOUND_TO = "BoundTo";
+  public static final String NOT_BOUND = "NotBound";
+  public static final String NOT_SANE = "NotSane";
+  public static final String NOT_SAFE = "NotSafe";
+
+  public static final String NBT_GEM = "Gem";
+
+  private final ItemStack[] subItems;
 
   public ReturnHome() {
 
     super();
 
     setMaxStackSize(1);
+    setMaxDamage(MAX_DAMAGE);
+    setNoRepair();
     setUnlocalizedName(Names.RETURN_HOME);
-
     rarity = EnumRarity.uncommon;
+
+    // Create gem subtypes
+    subItems = new ItemStack[EnumGem.values().length];
+    ItemStack stack;
+    for (int i = 0; i < EnumGem.values().length; ++i) {
+      stack = new ItemStack(this);
+      setGem(stack, i);
+      subItems[i] = stack;
+    }
   }
 
-  @SideOnly(Side.CLIENT)
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
@@ -74,11 +94,37 @@ public class ReturnHome extends ItemSG {
     }
   }
 
+  public int getGem(ItemStack stack) {
+
+    if (stack == null) {
+      return 0;
+    } else if (stack.stackTagCompound == null) {
+      stack.setTagCompound(new NBTTagCompound());
+    }
+
+    return stack.stackTagCompound.getInteger(NBT_GEM);
+  }
+
+  public void setGem(ItemStack stack, int gem) {
+
+    if (stack == null || gem < 0 || gem >= EnumGem.values().length) {
+      return;
+    } else if (stack.stackTagCompound == null) {
+      stack.setTagCompound(new NBTTagCompound());
+    }
+
+    stack.stackTagCompound.setInteger(NBT_GEM, gem);
+  }
+
   @Override
   public void addRecipes() {
 
-    GameRegistry.addShapedRecipe(new ItemStack(this), " s ", "s s", "gcg", 's', Items.string, 'g',
-        Items.gold_ingot, 'c', CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS));
+    ItemStack essence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
+    for (ItemStack stack : subItems) {
+      String gem = EnumGem.values()[getGem(stack)].getItemOreName();
+      GameRegistry.addRecipe(new ShapedOreRecipe(stack, " s ", "sgs", "ici", 's', Items.string, 'g',
+          gem, 'i', "ingotGold", 'c', essence));
+    }
   }
 
   @Override
@@ -91,6 +137,36 @@ public class ReturnHome extends ItemSG {
   public int getMaxItemUseDuration(ItemStack stack) {
 
     return 133700;
+  }
+
+  @Override
+  public void getSubItems(Item item, CreativeTabs tab, List list) {
+
+    for (ItemStack stack : subItems) {
+      list.add(stack);
+    }
+  }
+
+  @Override
+  public void registerIcons(IIconRegister reg) {
+
+    icons = new IIcon[EnumGem.values().length];
+    for (int i = 0; i < EnumGem.values().length; ++i) {
+      icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName + i);
+    }
+  }
+
+  @Override
+  public IIcon getIcon(ItemStack stack, int pass) {
+
+    int gem = MathHelper.clamp_int(getGem(stack), 0, EnumGem.values().length - 1);
+    return icons[gem];
+  }
+
+  @Override
+  public boolean requiresMultipleRenderPasses() {
+
+    return true; // The ItemStack-sensitive getIcon isn't called unless this is true.
   }
 
   @Override
@@ -178,21 +254,28 @@ public class ReturnHome extends ItemSG {
     int dd = tags.getInteger("D");
 
     // Dismount and teleport mount
-    // This doesn't work very well.
     if (player.ridingEntity != null) {
       Entity mount = player.ridingEntity;
       player.mountEntity((Entity) null);
       if (dd != mount.dimension) {
-        mount.travelToDimension(dd);
+        mount.travelToDimension(dd); // TODO: Will this spawn Nether portals?
       }
       mount.setLocationAndAngles(dx + 0.5, dy + 1.0, dz + 0.5, mount.rotationYaw,
           mount.rotationPitch);
     }
 
     // Teleport player
-    if (dd != player.dimension) {
-      player.travelToDimension(dd);
+    if (dd != player.worldObj.provider.dimensionId) {
+      if (player instanceof EntityPlayerMP) {
+        EntityPlayerMP playerMP = (EntityPlayerMP) player;
+        playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dd);
+      }
     }
     player.setPositionAndUpdate(dx + 0.5, dy + 1.0, dz + 0.5);
+
+    // Damage item
+    if (!player.capabilities.isCreativeMode) {
+      stack.attemptDamageItem(1, player.worldObj.rand);
+    }
   }
 }

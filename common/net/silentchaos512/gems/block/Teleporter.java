@@ -1,11 +1,13 @@
 package net.silentchaos512.gems.block;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,7 +30,6 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.tile.TileTeleporter;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Teleporter extends BlockSG implements ITileEntityProvider {
 
@@ -229,7 +230,13 @@ public class Teleporter extends BlockSG implements ITileEntityProvider {
 
     // Change dimensions?
     if (dimension != entity.dimension) {
-      entity.travelToDimension(dimension); // FIXME: Does this also spawn Nether portals?
+      if (entity instanceof EntityPlayerMP) {
+        EntityPlayerMP playerMP = (EntityPlayerMP) entity;
+        // Doesn't fix the problem.
+        playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dimension);
+      } else {
+        entity.travelToDimension(dimension); // FIXME: Does this also spawn Nether portals?
+      }
     }
 
     float soundPitch = SilentGems.instance.random.nextFloat();
