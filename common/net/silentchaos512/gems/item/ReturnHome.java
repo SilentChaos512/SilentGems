@@ -29,9 +29,11 @@ import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.NBTHelper;
 import net.silentchaos512.gems.core.util.PlayerHelper;
+import net.silentchaos512.gems.core.util.TeleportUtil;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
+import net.silentchaos512.gems.world.TeleporterGems;
 
 public class ReturnHome extends ItemSG {
 
@@ -258,20 +260,29 @@ public class ReturnHome extends ItemSG {
       Entity mount = player.ridingEntity;
       player.mountEntity((Entity) null);
       if (dd != mount.dimension) {
-        mount.travelToDimension(dd); // TODO: Will this spawn Nether portals?
+        mount.travelToDimension(dd); // FIXME: Will this spawn Nether portals?
       }
       mount.setLocationAndAngles(dx + 0.5, dy + 1.0, dz + 0.5, mount.rotationYaw,
           mount.rotationPitch);
     }
 
     // Teleport player
-    if (dd != player.worldObj.provider.dimensionId) {
-      if (player instanceof EntityPlayerMP) {
-        EntityPlayerMP playerMP = (EntityPlayerMP) player;
-        playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dd);
-      }
+    if (player instanceof EntityPlayerMP) {
+      TeleportUtil.teleportPlayerTo((EntityPlayerMP) player, dx, dy, dz, dd);
     }
-    player.setPositionAndUpdate(dx + 0.5, dy + 1.0, dz + 0.5);
+//    int oldDimension = player.worldObj.provider.dimensionId;
+//    if (dd != oldDimension) {
+//      if (player instanceof EntityPlayerMP) {
+//        WorldServer worldServer = MinecraftServer.getServer().worldServerForDimension(dd);
+//        EntityPlayerMP playerMP = (EntityPlayerMP) player;
+//        playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dd,
+//            new TeleporterGems(worldServer));
+//        if (oldDimension == 1) {
+//          worldServer.spawnEntityInWorld(playerMP);
+//        }
+//      }
+//    }
+//    player.setPositionAndUpdate(dx + 0.5, dy + 1.0, dz + 0.5);
 
     // Damage item
     if (!player.capabilities.isCreativeMode) {

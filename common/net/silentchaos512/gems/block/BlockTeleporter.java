@@ -24,6 +24,7 @@ import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.NBTHelper;
 import net.silentchaos512.gems.core.util.PlayerHelper;
+import net.silentchaos512.gems.core.util.TeleportUtil;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -229,28 +230,37 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
   protected void teleporterEntityTo(Entity entity, int x, int y, int z, int dimension) {
 
     // Change dimensions?
-    if (dimension != entity.dimension) {
-      if (entity instanceof EntityPlayerMP) {
-        EntityPlayerMP playerMP = (EntityPlayerMP) entity;
-        // Doesn't fix the problem.
-        playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dimension);
-      } else {
-        entity.travelToDimension(dimension); // FIXME: Does this also spawn Nether portals?
-      }
-    }
+//    if (dimension != entity.dimension) {
+//      if (entity instanceof EntityPlayerMP) {
+//        EntityPlayerMP playerMP = (EntityPlayerMP) entity;
+//        playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dimension);
+//      } else {
+//        entity.travelToDimension(dimension); // FIXME: Does this also spawn Nether portals?
+//      }
+//    }
 
+    // Calculate sound pitch.
     float soundPitch = SilentGems.instance.random.nextFloat();
     soundPitch = soundPitch * 0.3f + 0.7f;
+
     // Sound at source
     entity.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0f, soundPitch);
 
-    if (entity instanceof EntityLivingBase) {
-      // TODO: Is this necessary?
-      EntityLivingBase entityLivingBase = (EntityLivingBase) entity;
-      entityLivingBase.setPositionAndUpdate(x + 0.5, y + 1.0, z + 0.5);
+    // Teleport
+    if (entity instanceof EntityPlayerMP) {
+      TeleportUtil.teleportPlayerTo((EntityPlayerMP) entity, x, y, z, dimension);
     } else {
-      entity.setPosition(x + 0.5, y + 1.0, z + 0.5);
+      TeleportUtil.teleportEntityTo(entity, x, y, z, dimension);
     }
+//    if (entity instanceof EntityPlayerMP) {
+//      TeleportUtil.teleportPlayerTo((EntityPlayerMP) entity, x, y, z, dimension);
+//    } else if (entity instanceof EntityLivingBase) {
+//      // TODO: Is this necessary?
+//      EntityLivingBase entityLivingBase = (EntityLivingBase) entity;
+//      entityLivingBase.setPositionAndUpdate(x + 0.5, y + 1.0, z + 0.5);
+//    } else {
+//      entity.setPosition(x + 0.5, y + 1.0, z + 0.5);
+//    }
 
     // Sound at destination
     entity.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0f, soundPitch);
