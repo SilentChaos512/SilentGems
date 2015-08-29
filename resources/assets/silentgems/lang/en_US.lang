@@ -155,7 +155,7 @@ tile.silentgems:GlowRose11.name=Onyx Glow Rose
 
 tile.silentgems:MiscBlocks0.name=Chaos Essence Block
 tile.silentgems:MiscBlocks1.name=Enriched Chaos Essence Block
-tile.silentgems:MiscBlocks2.name=reserved
+tile.silentgems:MiscBlocks2.name=Crystallized Chaos Essence Block
 tile.silentgems:MiscBlocks3.name=Chaos Coal Block
 
 tile.silentgems:Teleporter0.name=Ruby Teleporter
@@ -197,20 +197,21 @@ tile.silentgems:TeleporterAnchor.desc2=teleporters can link to it.
 
 # Item localizations
 
-item.silentgems:ChaosBooster.name=Chaos Booster
-item.silentgems:ChaosBooster.desc=Not as bad as it sounds.
+item.silentgems:ChaosBooster.name=Chaos Booster (Deprecated)
 
-item.silentgems:ChaosCapacitor.name=Chaos Capacitor
-item.silentgems:ChaosCapacitor.desc=Storage for awesome.
+item.silentgems:ChaosCapacitor.name=Chaos Capacitor (Deprecated)
 
 item.silentgems:ChaosCoal.name=Chaos Coal
 item.silentgems:ChaosCoal.desc=Lasts longer than regular coal.
 
 item.silentgems:Chaos Essence.name=Chaos Essence
-item.silentgems:Chaos Essence.desc=Shiny power!
+item.silentgems:Chaos Essence.desc=Too soft for tools, but can strengthen gems.
 
 item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence
-item.silentgems:ChaosEssencePlus.desc=Maximum shiny!
+item.silentgems:ChaosEssencePlus.desc=Can conduct some kind of energy.
+
+item.silentgems:ChaosEssencePlus2.name=Crystallized Chaos Essence
+item.silentgems:ChaosEssencePlus2.desc=It might be durable enough to make tools...
 
 item.silentgems:ChaosEssenceShard.name=Chaos Essence Shard
 item.silentgems:ChaosEssenceShard.desc=Useless by itself.
@@ -253,9 +254,6 @@ item.silentgems:ChaosRune.speed=Get around faster!
 item.silentgems:ChaosRune.strength=Raise your power level!
 item.silentgems:ChaosRune.waterBreathing=Swim with the fishes!
 item.silentgems:ChaosRune.BadRune=Unknown effect!
-
-item.silentgems:ChaosShard.name=Chaos Shard
-item.silentgems:ChaosShard.desc=What could go wrong?
 
 # CraftingMaterials
 item.silentgems:CraftingMaterials.desc=Crafting material
@@ -323,8 +321,17 @@ item.silentgems:MeatyStew.desc=A simple feast!
 item.silentgems:MeatyStewUncooked.name=Uncooked Meaty Stew
 item.silentgems:MeatyStewUncooked.desc=You might want to heat it up first.
 
+item.silentgems:MiniPylon.name=Mini Pylon
+item.silentgems:MiniPylon.desc=Passive chaos on the go! (Craft with Chaos gems)
+
 item.silentgems:Mystery Goo.name=Mystery Goo
 item.silentgems:Mystery Goo.desc=Feels right at home in space.
+
+item.silentgems:NetherShard.name=Nether Shard
+item.silentgems:NetherShard.desc=TODO
+
+item.silentgems:NetherCluster.name=Nether Cluster
+item.silentgems:NetherCluster.desc=TODO
 
 item.silentgems:Ornate Stick.name=Ornate Stick
 item.silentgems:Ornate Stick.desc=Bling bling.
@@ -650,8 +657,8 @@ enchantment.AreaOfEffect=Area Miner
 # Chaos Buffs
 buff.silentgems:none=Empty
 buff.silentgems:absorption=Absorption
-buff.silentgems:booster=Boost
-buff.silentgems:capacity=Capacity
+buff.silentgems:booster=Boost (Deprecated)
+buff.silentgems:capacity=Capacity (Deprecated)
 buff.silentgems:fireResistance=Fire Resistance
 buff.silentgems:flight=Flight
 buff.silentgems:haste=Haste

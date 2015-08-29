@@ -9,6 +9,7 @@ public class Names {
   public static final String CHAOS_COAL_BLOCK = "ChaosCoalBlock";
   public static final String CHAOS_ESSENCE_BLOCK = "ChaosEssenceBlock";
   public static final String CHAOS_ESSENCE_BLOCK_REFINED = "ChaosEssenceBlockRefined";
+  public static final String CHAOS_ESSENCE_BLOCK_CRYSTALLIZED = "ChaosEssenceBlockCrystallized";
   public static final String CHAOS_ORE = "ChaosOre";
   public static final String CHAOS_PYLON = "ChaosPylon";
   public static final String FLUFFY_PLANT = "FluffyPlant";
@@ -31,6 +32,7 @@ public class Names {
   /*
    * Items
    */
+  public static final String CHAOS_BATTERY = "ChaosBattery";
   public static final String CHAOS_GEM = "ChaosGem";
   public static final String CHAOS_RUNE = "ChaosRune";
   public static final String CRAFTING_MATERIALS = "CraftingMaterials";

@@ -2,6 +2,8 @@ package net.silentchaos512.gems.block;
 
 import java.util.List;
 
+import cpw.mods.fml.common.IFuelHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -15,13 +17,12 @@ import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
-import cpw.mods.fml.common.IFuelHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class MiscBlock extends BlockSG implements IFuelHandler {
 
   public final static String[] NAMES = { Names.CHAOS_ESSENCE_BLOCK,
-      Names.CHAOS_ESSENCE_BLOCK_REFINED, "reserved", Names.CHAOS_COAL_BLOCK };
+      Names.CHAOS_ESSENCE_BLOCK_REFINED, Names.CHAOS_ESSENCE_BLOCK_CRYSTALLIZED,
+      Names.CHAOS_COAL_BLOCK };
 
   public MiscBlock() {
 
@@ -38,21 +39,22 @@ public class MiscBlock extends BlockSG implements IFuelHandler {
     GameRegistry.registerFuelHandler(this);
 
     // Chaos essence blocks
-    ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
-    ItemStack chaosEssenceRefined = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
-    ItemStack essenceBlock = this.getStack(Names.CHAOS_ESSENCE_BLOCK);
-    ItemStack refinedEssenceBlock = this.getStack(Names.CHAOS_ESSENCE_BLOCK_REFINED);
-    RecipeHelper.addCompressionRecipe(chaosEssence, essenceBlock, 9);
-    RecipeHelper.addCompressionRecipe(chaosEssenceRefined, refinedEssenceBlock, 9);
+    ItemStack essence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
+    ItemStack essenceRefined = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
+    ItemStack essenceCrystallized = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS_2);
+    ItemStack blockEssence = this.getStack(Names.CHAOS_ESSENCE_BLOCK);
+    ItemStack blockRefinedEssence = this.getStack(Names.CHAOS_ESSENCE_BLOCK_REFINED);
+    ItemStack blockCrystallizedEssence = this.getStack(Names.CHAOS_ESSENCE_BLOCK_CRYSTALLIZED);
+    RecipeHelper.addCompressionRecipe(essence, blockEssence, 9);
+    RecipeHelper.addCompressionRecipe(essenceRefined, blockRefinedEssence, 9);
+    RecipeHelper.addCompressionRecipe(essenceCrystallized, blockCrystallizedEssence, 9);
 
     // Chaos coal block
     ItemStack chaosCoal = CraftingMaterial.getStack(Names.CHAOS_COAL);
     ItemStack chaosCoalBlock = this.getStack(Names.CHAOS_COAL_BLOCK);
     RecipeHelper.addCompressionRecipe(chaosCoal, chaosCoalBlock, 9);
-    GameRegistry.addShapedRecipe(this.getStack(Names.CHAOS_COAL_BLOCK, 4), " c ", "cec", " c ", 'c',
-        Blocks.coal_block, 'e', essenceBlock);
-    // RecipeHelper.addSurround(this.getStack(Names.CHAOS_COAL_BLOCK, 8), essenceBlock,
-    // Blocks.coal_block);
+    RecipeHelper.addSurround(this.getStack(Names.CHAOS_COAL_BLOCK, 8), blockEssence,
+        Blocks.coal_block);
   }
 
   @Override
@@ -68,8 +70,11 @@ public class MiscBlock extends BlockSG implements IFuelHandler {
   @Override
   public EnumRarity getRarity(ItemStack stack) {
 
-    if (stack.getItemDamage() == 1) {
+    int meta = stack.getItemDamage();
+    if (meta == 1) {
       return EnumRarity.rare;
+    } else if (meta == 2) {
+      return EnumRarity.epic;
     } else {
       return super.getRarity(stack);
     }

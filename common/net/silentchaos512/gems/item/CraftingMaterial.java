@@ -2,6 +2,8 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import cpw.mods.fml.common.IFuelHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +16,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
@@ -23,19 +26,17 @@ import net.silentchaos512.gems.lib.Strings;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
-import cpw.mods.fml.common.IFuelHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CraftingMaterial extends ItemSG implements IFuelHandler {
 
   /**
    * Hide items in NEI with a meta greater than this. Not really used at this time.
    */
-  public final static int HIDE_AFTER_META = 99;
+  public static final int HIDE_AFTER_META = 99;
   /**
    * The NAMES of each sub-item. This list cannot be rearranged, as the index determines the meta.
    */
-  public final static String[] NAMES = { Names.ORNATE_STICK, Names.MYSTERY_GOO, Names.YARN_BALL,
+  public static final String[] NAMES = { Names.ORNATE_STICK, Names.MYSTERY_GOO, Names.YARN_BALL,
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME,
       Names.NETHER_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER, Names.RAWHIDE_BONE,
       Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.CHAOS_ESSENCE_PLUS_2, Names.NETHER_CLUSTER,
@@ -43,11 +44,13 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
   /**
    * The order that items appear in NEI.
    */
-  public final static String[] SORTED_NAMES = { Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS,
+  public static final String[] SORTED_NAMES = { Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS,
       Names.CHAOS_ESSENCE_PLUS_2, Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.ORNATE_STICK,
       Names.MINI_PYLON, Names.MYSTERY_GOO, Names.PLUME, Names.GOLDEN_PLUME, Names.YARN_BALL,
       Names.RAWHIDE_BONE, Names.NETHER_SHARD, Names.NETHER_CLUSTER, Names.CHAOS_CAPACITOR,
       Names.CHAOS_BOOSTER };
+
+  public static final int[] HAS_EFFECT_META = { 4, 13 };
 
   public CraftingMaterial() {
 
@@ -78,7 +81,14 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     list.add(EnumChatFormatting.DARK_GRAY + str);
 
     if (this.showFlavorText()) {
-      str = LocalizationHelper.getItemDescription(NAMES[stack.getItemDamage()], 0);
+      String name;
+      int meta = stack.getItemDamage();
+      if (meta >= 0 && meta < NAMES.length) {
+        name = NAMES[meta];
+      } else {
+        name = "Unknown";
+      }
+      str = LocalizationHelper.getItemDescription(name, 0);
       list.add(EnumChatFormatting.ITALIC + str);
     }
   }
@@ -96,6 +106,7 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     GameRegistry.registerFuelHandler(this);
 
     ItemStack chaosEssence = getStack(Names.CHAOS_ESSENCE);
+    ItemStack refinedEssence = getStack(Names.CHAOS_ESSENCE_PLUS);
 
     // Ornate stick
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.ORNATE_STICK, 8), "gig", "geg", "gig",
@@ -107,8 +118,7 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.YARN_BALL, 1), "sss", "sgs", "sss",
         's', Items.string, 'g', Strings.ORE_DICT_GEM_SHARD));
     // Refined chaos essence
-    RecipeHelper.addSurroundOre(getStack(Names.CHAOS_ESSENCE_PLUS, 1), "dustGlowstone",
-        "dustRedstone", "gemChaos");
+    RecipeHelper.addSurroundOre(refinedEssence, "dustGlowstone", "dustRedstone", "gemChaos");
     // Plume
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.PLUME, 1), "fff", "fsf", "fff", 'f',
         Items.feather, 's', Strings.ORE_DICT_GEM_BASIC));
@@ -117,7 +127,7 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
         "ingotGold");
     // Nether Shard
     GameRegistry.addShapedRecipe(getStack(Names.NETHER_SHARD, 24), "ccc", "cnc", "ccc", 'c',
-        getStack(Names.CHAOS_ESSENCE_PLUS), 'n', Items.nether_star);
+        refinedEssence, 'n', Items.nether_star);
     // Nether Shard -> Cluster
     ItemStack netherCluster = getStack(Names.NETHER_CLUSTER);
     GameRegistry.addShapedRecipe(netherCluster, "sss", "s s", "sss", 's',
@@ -126,11 +136,11 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     GameRegistry.addShapelessRecipe(new ItemStack(Items.nether_star), netherCluster, netherCluster,
         netherCluster);
     // Chaos Capacitor
-    GameRegistry.addShapedRecipe(getStack(Names.CHAOS_CAPACITOR, 3), "srs", "ses", "srs", 's',
-        getStack(Names.NETHER_SHARD), 'r', Items.redstone, 'e', Items.emerald);
+    // GameRegistry.addShapedRecipe(getStack(Names.CHAOS_CAPACITOR, 3), "srs", "ses", "srs", 's',
+    // getStack(Names.NETHER_SHARD), 'r', Items.redstone, 'e', Items.emerald);
     // Chaos Booster
-    GameRegistry.addShapedRecipe(getStack(Names.CHAOS_BOOSTER, 3), "sgs", "ses", "sgs", 's',
-        getStack(Names.NETHER_SHARD), 'g', Items.glowstone_dust, 'e', Items.emerald);
+    // GameRegistry.addShapedRecipe(getStack(Names.CHAOS_BOOSTER, 3), "sgs", "ses", "sgs", 's',
+    // getStack(Names.NETHER_SHARD), 'g', Items.glowstone_dust, 'e', Items.emerald);
     // Rawhide bone
     GameRegistry.addShapedRecipe(getStack(Names.RAWHIDE_BONE, 1), " l ", "lbl", " l ", 'l',
         Items.leather, 'b', Items.bone);
@@ -140,11 +150,15 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 8), "gemChaos", Items.coal);
     RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 4), "gemChaos",
         new ItemStack(Items.coal, 1, 1));
-    // RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 8), "gemChaos", new ItemStack(Items.coal,
-    // 1, OreDictionary.WILDCARD_VALUE));
     // Chaos Coal -> Torches
     GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.torch, 16), "c", "s", 'c',
         getStack(Names.CHAOS_COAL), 's', "stickWood"));
+    // Mini Pylon
+    GameRegistry.addShapedRecipe(getStack(Names.MINI_PYLON), " e ", "epe", " e ", 'e',
+        refinedEssence, 'p', new ItemStack(ModBlocks.chaosPylon, 1, 0));
+    // Crystallized chaos essence (tier 3)
+    RecipeHelper.addSurroundOre(getStack(Names.CHAOS_ESSENCE_PLUS_2), Strings.ORE_DICT_GEM_BASIC,
+        getStack(Names.NETHER_SHARD), refinedEssence);
   }
 
   @Override
@@ -157,8 +171,11 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
   @Override
   public EnumRarity getRarity(ItemStack stack) {
 
-    if (stack.getItemDamage() == getMetaFor(Names.CHAOS_ESSENCE_PLUS)) {
+    int meta = stack.getItemDamage();
+    if (meta == getMetaFor(Names.CHAOS_ESSENCE_PLUS)) {
       return EnumRarity.rare;
+    } else if (meta == getMetaFor(Names.CHAOS_ESSENCE_PLUS_2)) {
+      return EnumRarity.epic;
     } else {
       return super.getRarity(stack);
     }
@@ -222,13 +239,25 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
   @Override
   public String getUnlocalizedName(ItemStack stack) {
 
-    return getUnlocalizedName(NAMES[stack.getItemDamage()]);
+    String name;
+    int meta = stack.getItemDamage();
+    if (meta >= 0 && meta < NAMES.length) {
+      name = NAMES[meta];
+    } else {
+      name = "Unknown";
+    }
+    return getUnlocalizedName(name);
   }
 
   @Override
   public boolean hasEffect(ItemStack stack, int pass) {
 
-    return stack.getItemDamage() == getStack(Names.CHAOS_ESSENCE_PLUS).getItemDamage();
+    for (int k : HAS_EFFECT_META) {
+      if (stack.getItemDamage() == k) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override

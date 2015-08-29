@@ -21,7 +21,7 @@ import net.silentchaos512.gems.network.MessageSetFlight;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public enum ChaosBuff {
-  
+
   SPEED(0, "speed", 4, Potion.moveSpeed.id, 20, "ingotGold"),
   HASTE(1, "haste", 4, Potion.digSpeed.id, 20, "dustGlowstone"),
   JUMP(2, "jump", 4, Potion.jump.id, 10, CraftingMaterial.getStack(Names.PLUME)),
@@ -32,8 +32,8 @@ public enum ChaosBuff {
   FIRE_RESISTANCE(7, "fireResistance", 1, Potion.fireResistance.id, 30, Items.blaze_rod),
   WATER_BREATHING(8, "waterBreathing", 1, Potion.waterBreathing.id, 30, "blockLapis"),
   STRENGTH(9, "strength", 2, Potion.damageBoost.id, 30, "blockRedstone"),
-  CAPACITY(10, "capacity", 4, -1, 0, CraftingMaterial.getStack(Names.CHAOS_CAPACITOR)),
-  BOOSTER(11, "booster", 4, -1, 0, CraftingMaterial.getStack(Names.CHAOS_BOOSTER)),
+  CAPACITY(10, "capacity", 4, -1, 0, null),
+  BOOSTER(11, "booster", 4, -1, 0, null),
   ABSORPTION(12, "absorption", 1, Potion.field_76444_x.id, 50, Items.golden_apple),
   INVISIBILITY(13, "invisibility", 1, Potion.invisibility.id, 40, Items.fermented_spider_eye);
 
@@ -53,18 +53,22 @@ public enum ChaosBuff {
     this.cost = cost;
     this.material = material;
   }
-  
+
   public static void initRecipes() {
-    
+
     ItemStack refinedEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
+    String redstone = "dustRedstone";
     for (ChaosBuff buff : values()) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.chaosRune, 1, buff.id),
-          "mcm", "cmc", "rcr", 'm', buff.material, 'c', refinedEssence, 'r', "dustRedstone"));
+      if (buff.material != null) {
+        ItemStack result = new ItemStack(ModItems.chaosRune, 1, buff.id);
+        GameRegistry.addRecipe(new ShapedOreRecipe(result, "mcm", "cmc", "rcr", 'm', buff.material,
+            'c', refinedEssence, 'r', redstone));
+      }
     }
   }
-  
+
   public int getCostPerTick(int level) {
-    
+
     return (int) (this.cost * (1 + 0.20f * (level - 1)));
   }
 
