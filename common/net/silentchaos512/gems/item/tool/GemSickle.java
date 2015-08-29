@@ -1,15 +1,12 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.util.ArrayList;
-import java.util.Random;
+import com.google.common.collect.Sets;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -17,7 +14,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.network.play.server.S23PacketBlockChange;
-import net.minecraft.stats.StatList;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
@@ -28,16 +24,12 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
-import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.item.CraftingMaterial;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.material.ModMaterials;
-
-import com.google.common.collect.Sets;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class GemSickle extends ItemTool {
 
@@ -68,8 +60,7 @@ public class GemSickle extends ItemTool {
 
   public static void addRecipe(ItemStack tool, int gemId, boolean supercharged) {
 
-    ItemStack material = new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 1, gemId
-        + (supercharged ? 16 : 0));
+    ItemStack material = new ItemStack(ModItems.gem, 1, gemId + (supercharged ? 16 : 0));
 
     // Fish tools
     if (gemId == ModMaterials.FISH_GEM_ID) {
@@ -77,11 +68,11 @@ public class GemSickle extends ItemTool {
     }
 
     if (supercharged) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { " g", "gg", "s ", 'g',
-          material, 's', CraftingMaterial.getStack(Names.ORNATE_STICK) }));
+      GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, " g", "gg", "s ", 'g', material, 's',
+          CraftingMaterial.getStack(Names.ORNATE_STICK)));
     } else {
-      GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { " g", "gg", "s ", 'g',
-          material, 's', "stickWood" }));
+      GameRegistry.addRecipe(
+          new ShapedOreRecipe(tool, true, " g", "gg", "s ", 'g', material, 's', "stickWood"));
     }
   }
 
@@ -116,7 +107,8 @@ public class GemSickle extends ItemTool {
     } else if (pass == 1) {
       // Rod decoration
       if (supercharged) {
-        if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_DECO)) {
+        if (stack.stackTagCompound != null
+            && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_DECO)) {
           byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_DECO);
           if (b >= 0 && b < iconToolDeco.length - 1) {
             return iconToolDeco[b];
@@ -172,8 +164,8 @@ public class GemSickle extends ItemTool {
   @Override
   public boolean getIsRepairable(ItemStack stack1, ItemStack stack2) {
 
-    ItemStack material = new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 1, gemId
-        + (supercharged ? 16 : 0));
+    ItemStack material = new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 1,
+        gemId + (supercharged ? 16 : 0));
     if (material.getItem() == stack2.getItem()
         && material.getItemDamage() == stack2.getItemDamage()) {
       return true;
@@ -199,9 +191,9 @@ public class GemSickle extends ItemTool {
 
     return stack.isItemEnchanted() && pass == 5;
   }
-  
+
   private boolean isEffectiveOnMaterial(Material material) {
-    
+
     for (Material m : effectiveMaterials) {
       if (material == m) {
         return true;
@@ -227,7 +219,7 @@ public class GemSickle extends ItemTool {
 
     Block block = player.worldObj.getBlock(x, y, z);
     int meta = player.worldObj.getBlockMetadata(x, y, z);
-    
+
     if (!this.isEffectiveOnMaterial(block.getMaterial())) {
       LogHelper.debug(this.isEffectiveOnMaterial(block.getMaterial()));
       return false;
@@ -259,7 +251,7 @@ public class GemSickle extends ItemTool {
 
     EntityPlayerMP playerMP = (EntityPlayerMP) player;
     Block block = player.worldObj.getBlock(x, y, z);
-    
+
     boolean effectiveOnBlock = false;
     for (Material mat : effectiveMaterials) {
       if (mat == block.getMaterial()) {
@@ -276,7 +268,7 @@ public class GemSickle extends ItemTool {
     if (event.isCanceled()) {
       return;
     }
-    
+
     int meta = world.getBlockMetadata(x, y, z);
     if (playerMP.capabilities.isCreativeMode) {
       block.onBlockHarvested(world, x, y, z, meta, player);
@@ -288,25 +280,25 @@ public class GemSickle extends ItemTool {
       }
       return;
     }
-    
+
     player.getCurrentEquippedItem().func_150999_a(world, block, x, y, z, player);
-    
+
     if (!world.isRemote) {
       block.onBlockHarvested(world, x, y, z, meta, playerMP);
-      
+
       if (block.removedByPlayer(world, playerMP, x, y, z, true)) {
         block.onBlockDestroyedByPlayer(world, x, y, z, meta);
         block.harvestBlock(world, player, x, y, z, meta);
         block.dropXpOnBlockBreak(world, x, y, z, event.getExpToDrop());
       }
-      
+
       playerMP.playerNetServerHandler.sendPacket(new S23PacketBlockChange(x, y, z, world));
     } else {
       world.playAuxSFX(2001, x, y, z, Block.getIdFromBlock(block) + (meta << 12));
       if (block.removedByPlayer(world, playerMP, x, y, z, true)) {
         block.onBlockDestroyedByPlayer(world, x, y, z, meta);
       }
-      
+
       sickle.func_150999_a(world, block, x, y, z, playerMP);
       if (sickle.stackSize == 0) {
         player.destroyCurrentEquippedItem();

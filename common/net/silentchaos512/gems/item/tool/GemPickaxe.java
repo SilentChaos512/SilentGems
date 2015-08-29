@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.item.tool;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -21,11 +22,12 @@ import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
+import net.silentchaos512.gems.item.CraftingMaterial;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.material.ModMaterials;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class GemPickaxe extends ItemPickaxe {
 
@@ -55,8 +57,7 @@ public class GemPickaxe extends ItemPickaxe {
 
   public static void addRecipe(ItemStack tool, int gemId, boolean supercharged) {
 
-    ItemStack material = new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 1, gemId
-        + (supercharged ? 16 : 0));
+    ItemStack material = new ItemStack(ModItems.gem, 1, gemId + (supercharged ? 16 : 0));
 
     // Fish tools
     if (gemId == ModMaterials.FISH_GEM_ID) {
@@ -64,11 +65,11 @@ public class GemPickaxe extends ItemPickaxe {
     }
 
     if (supercharged) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { "ggg", " s ", " s ",
-          'g', material, 's', new ItemStack(SRegistry.getItem(Names.CRAFTING_MATERIALS), 1, 0) }));
+      GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, "ggg", " s ", " s ", 'g', material,
+          's', CraftingMaterial.getStack(Names.ORNATE_STICK)));
     } else {
-      GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, new Object[] { "ggg", " s ", " s ",
-          'g', material, 's', "stickWood" }));
+      GameRegistry.addRecipe(
+          new ShapedOreRecipe(tool, true, "ggg", " s ", " s ", 'g', material, 's', "stickWood"));
     }
   }
 
@@ -76,20 +77,6 @@ public class GemPickaxe extends ItemPickaxe {
   public float getDigSpeed(ItemStack stack, Block block, int meta) {
 
     float speed = efficiencyOnProperMaterial;
-    // Area miner:
-    if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.aoe.effectId, stack) > 0) {
-      // Speed reduction, because we're mining multiple blocks at once!
-      speed -= EnchantmentAOE.DIG_SPEED_REDUCTION;
-
-      // Round up to at least one.
-      if (speed < 1.0f) {
-        speed = 1.0f;
-      }
-
-      // Deduct more speed to compensate for efficiency/
-      // int efficiencyLevel = EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, stack);
-      // speed -= 0.6f * efficiencyLevel;
-    }
 
     if (EnchantmentAOE.isToolEffective(stack, block, meta)) {
       return speed;
@@ -118,7 +105,8 @@ public class GemPickaxe extends ItemPickaxe {
     } else if (pass == 1) {
       // Rod decoration
       if (supercharged) {
-        if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_DECO)) {
+        if (stack.stackTagCompound != null
+            && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_DECO)) {
           byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_DECO);
           if (b >= 0 && b < iconToolDeco.length - 1) {
             return iconToolDeco[b];
@@ -174,8 +162,8 @@ public class GemPickaxe extends ItemPickaxe {
   @Override
   public boolean getIsRepairable(ItemStack stack1, ItemStack stack2) {
 
-    ItemStack material = new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 1, gemId
-        + (supercharged ? 16 : 0));
+    ItemStack material = new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 1,
+        gemId + (supercharged ? 16 : 0));
     if (material.getItem() == stack2.getItem()
         && material.getItemDamage() == stack2.getItemDamage()) {
       return true;

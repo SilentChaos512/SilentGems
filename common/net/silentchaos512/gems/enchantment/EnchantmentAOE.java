@@ -27,8 +27,8 @@ import net.silentchaos512.gems.lib.Names;
 
 public class EnchantmentAOE extends Enchantment {
   
-//  public static final float DIG_SPEED_MULTIPLIER = 0.25f;
-  public static final float DIG_SPEED_REDUCTION = 8.0f;
+  public static final float DIG_SPEED_MULTIPLIER = 0.2f;
+//  public static final float DIG_SPEED_REDUCTION = 8.0f;
 
   protected EnchantmentAOE(int par1, int par2, EnumEnchantmentType par3EnumEnchantmentType) {
 
