@@ -25,7 +25,7 @@ public enum ChaosBuff {
   SPEED(0, "speed", 4, Potion.moveSpeed.id, 20, "ingotGold"),
   HASTE(1, "haste", 4, Potion.digSpeed.id, 20, "dustGlowstone"),
   JUMP(2, "jump", 4, Potion.jump.id, 10, CraftingMaterial.getStack(Names.PLUME)),
-  FLIGHT(3, "flight", 1, -1, 100, CraftingMaterial.getStack(Names.GOLDEN_PLUME)),
+  FLIGHT(3, "flight", 1, -1, 80, CraftingMaterial.getStack(Names.GOLDEN_PLUME)),
   NIGHT_VISION(4, "nightVision", 1, Potion.nightVision.id, 10, Items.golden_carrot),
   REGENERATION(5, "regeneration", 2, Potion.regeneration.id, 40, Items.ghast_tear),
   RESISTANCE(6, "resistance", 2, Potion.resistance.id, 30, Items.leather_chestplate),

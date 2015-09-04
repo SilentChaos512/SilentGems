@@ -335,6 +335,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
         if ((isEffectFlight && player.capabilities.isFlying) || !isEffectFlight) {
           drain += ChaosBuff.values()[id].getCostPerTick(level);
         } else if (isEffectFlight && player.motionY < -0.88) {
+          // Flight fall damage protection
           drain += ChaosBuff.values()[id].getCostPerTick(level) / 10;
         }
       }
