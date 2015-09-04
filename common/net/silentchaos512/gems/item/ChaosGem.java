@@ -75,41 +75,52 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
 
+    String s;
+
     if (this.getBuffList(stack).tagCount() == 0) {
       // Information on how to use.
-      list.add(
-          EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0));
+      s = LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0);
+      list.add(EnumChatFormatting.DARK_GRAY + s);
       return;
     }
 
     boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
         || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
-    String str;
 
     boolean enabled = stack.stackTagCompound.getBoolean(NBT_ENABLED);
     int energy = this.getEnergyStored(stack);
     int capacity = this.getMaxEnergyStored(stack);
 
+    // Enabled/disabled
     if (enabled) {
-      list.add(EnumChatFormatting.GREEN
-          + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Enabled"));
+      s = LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Enabled");
+      list.add(EnumChatFormatting.GREEN + s);
     } else {
-      list.add(
-          EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Disabled"));
+      s = LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Disabled");
+      list.add(EnumChatFormatting.RED + s);
     }
 
     if (this.isCheaty) {
-      list.add(EnumChatFormatting.DARK_GRAY
-          + LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Cheaty"));
+      // Cheaty gems don't display charge.
+      s = LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "Cheaty");
+      list.add(EnumChatFormatting.DARK_GRAY + s);
     } else {
       // Charge level
-      // TODO: Formatting?
-      list.add(EnumChatFormatting.YELLOW + String.format("%d / %d", energy, capacity));
+      s = String.format("%d / %d", energy, capacity);
+      list.add(EnumChatFormatting.YELLOW + s);
 
-      // Charge change rate
-      str = LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "CostPerTick");
-      str = String.format(str, this.getTotalChargeDrain(stack, player));
-      list.add(EnumChatFormatting.DARK_GRAY + str);
+      if (shifted) {
+        // Charge change rate
+        s = LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "CostPerTick");
+        s = String.format(s, this.getTotalChargeDrain(stack, player));
+        list.add(EnumChatFormatting.DARK_GRAY + s);
+
+        // Mini pylon count
+        int pylonCount = stack.stackTagCompound.getInteger(NBT_MINI_PYLON);
+        s = LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "MiniPylon");
+        s = String.format("%s: %d", s, pylonCount);
+        list.add(EnumChatFormatting.DARK_GRAY + s);
+      }
     }
 
     if (stack.stackTagCompound.hasKey(NBT_BUFF_LIST)) {
@@ -124,8 +135,8 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
         if (id >= 0 && id < ChaosBuff.values().length) {
           list.add(ChaosBuff.values()[id].getDisplayName(lvl));
         } else {
-          str = LocalizationHelper.getOtherItemKey(Names.CHAOS_RUNE, "BadRune");
-          list.add(str);
+          s = LocalizationHelper.getOtherItemKey(Names.CHAOS_RUNE, "BadRune");
+          list.add(s);
         }
       }
     } else {
@@ -381,7 +392,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
 
     EntityPlayer player = (EntityPlayer) entity;
     boolean enabled = this.isEnabled(stack);
-    
+
     // Mini pylons (self recharge)
     receiveEnergy(stack, getSelfRechargeAmount(stack), false);
 
