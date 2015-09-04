@@ -2,9 +2,13 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,20 +16,14 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
-
-import org.lwjgl.input.Keyboard;
-
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class Gem extends ItemSG {
 
@@ -53,26 +51,43 @@ public class Gem extends ItemSG {
       boolean supercharged = stack.getItemDamage() > 15;
       ToolMaterial material = EnumGem.all()[id].getToolMaterial(supercharged);
 
-      list.add(EnumChatFormatting.ITALIC
-          + LocalizationHelper.getOtherItemKey(itemName, "ToolProperties"));
+      list.add(
+          EnumChatFormatting.ITALIC + LocalizationHelper.getOtherItemKey(itemName, "ToolProperties"));
+      String separator = EnumChatFormatting.DARK_GRAY
+          + LocalizationHelper.getOtherItemKey(itemName, "Separator");
+      list.add(separator);
+
+      String formatInt = EnumChatFormatting.GOLD + "%s:" + EnumChatFormatting.RESET + " %d";
+      String formatFloat = EnumChatFormatting.GOLD+ "%s:" + EnumChatFormatting.RESET + " %.1f";
 
       // Durability
-      String format = "%s: %d";
       String s = LocalizationHelper.getOtherItemKey(itemName, "MaxUses");
-      s = String.format(format, s, material.getMaxUses());
+      s = String.format(formatInt, s, material.getMaxUses());
       list.add(s);
 
       // Efficiency
-      format = "%s: %.1f";
       s = LocalizationHelper.getOtherItemKey(itemName, "Efficiency");
-      s = String.format(format, s, material.getEfficiencyOnProperMaterial());
+      s = String.format(formatFloat, s, material.getEfficiencyOnProperMaterial());
       list.add(s);
 
       // Damage
-      format = "%s: %d";
       s = LocalizationHelper.getOtherItemKey(itemName, "Damage");
-      s = String.format(format, s, (int) material.getDamageVsEntity());
+      s = String.format(formatInt, s, (int) material.getDamageVsEntity());
       list.add(s);
+
+      // Enchantability
+      s = LocalizationHelper.getOtherItemKey(itemName, "Enchantability");
+      s = String.format(formatInt, s, material.getEnchantability());
+      list.add(s);
+
+      // Spawn weight
+      if (stack.getItemDamage() < EnumGem.values().length) {
+        s = LocalizationHelper.getOtherItemKey(itemName, "SpawnWeight");
+        s = String.format(formatInt, s, Config.GEM_WEIGHTS.get(id).itemWeight);
+        list.add(s);
+      }
+
+      list.add(separator);
 
       // Decorate tool hint.
       if (stack.getItemDamage() < EnumGem.all().length) {

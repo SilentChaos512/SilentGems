@@ -706,8 +706,11 @@ gems.silentgems:27.name=Supercharged Onyx
 
 item.silentgems:Gem.Damage=Damage
 item.silentgems:Gem.Efficiency=Mining Speed
+item.silentgems:Gem.Enchantability=Enchantability
 item.silentgems:Gem.MaxUses=Durability
+item.silentgems:Gem.SpawnWeight=Spawn Weight
 item.silentgems:Gem.ToolProperties=Properties
+item.silentgems:Gem.Separator=----------------
 
 # Misc text
 
