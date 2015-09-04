@@ -1,13 +1,17 @@
 Silent's Gems - Changelog
 
+1.3.00-beta05
+Changed: Redstone teleporter will only play sounds once per operation.
+
 1.3.00-beta04
 Added: Mini Pylon. Craft it with a Chaos gem to give it passive chaos production. Max 1 (configurable).
 Added: Crystallized Chaos Essence (tier 3). Currently unused.
+Changed: Hid unused chaos runes and their crafting components.
 Fixed: Return Home Charm and Teleporters spawning Nether portals (hopefully).
 Fixed: World not loading when using Return Home or Teleporter from The End.
 Fixed: Area Miner speeds being stupid. All Area Miner tools should now be exactly five times slower than regular tools.
 Fixed: Chaos coal block recipe.
-Fixed: Crash with non-existant crafting materials.
+Fixed: Crash with non-existent crafting materials.
 
 1.3.00-beta03
 Added: Chaos Altar and Pylons (passive and burner), part of a new work-in-progress energy-generation system. Just for chaos gems right now.

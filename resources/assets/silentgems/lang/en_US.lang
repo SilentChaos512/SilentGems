@@ -2,6 +2,11 @@
 
 itemGroup.tabSilentGems=Silent's Gems
 
+# Containers
+
+container.silentgems:ChaosAltar=Chaos Altar
+container.silentgems:BurnerPylon=Burner Pylon
+
 # Block localizations
 
 tile.silentgems:ChaosAltar.name=Chaos Altar

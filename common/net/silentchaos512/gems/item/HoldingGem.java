@@ -12,8 +12,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
