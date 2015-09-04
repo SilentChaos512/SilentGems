@@ -27,6 +27,7 @@ public class NEISilentGemsConfig implements IConfigureNEI {
     API.hideItem(CraftingMaterial.getStack(Names.CHAOS_CAPACITOR));
     API.hideItem(new ItemStack(ModItems.chaosRune, 1, 10)); // Capacity
     API.hideItem(new ItemStack(ModItems.chaosRune, 1, 11)); // Boost
+    API.hideItem(new ItemStack(ModItems.chaosRune, 1, 12)); // Absorption
     API.hideItem(new ItemStack(ModItems.debugItem));
   }
 

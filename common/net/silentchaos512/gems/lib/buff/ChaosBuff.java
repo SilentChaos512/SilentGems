@@ -34,7 +34,7 @@ public enum ChaosBuff {
   STRENGTH(9, "strength", 2, Potion.damageBoost.id, 30, "blockRedstone"),
   CAPACITY(10, "capacity", 4, -1, 0, null),
   BOOSTER(11, "booster", 4, -1, 0, null),
-  ABSORPTION(12, "absorption", 1, Potion.field_76444_x.id, 50, Items.golden_apple),
+  ABSORPTION(12, "absorption", 1, -1, 50, null),
   INVISIBILITY(13, "invisibility", 1, Potion.invisibility.id, 40, Items.fermented_spider_eye);
 
   public final int id;
