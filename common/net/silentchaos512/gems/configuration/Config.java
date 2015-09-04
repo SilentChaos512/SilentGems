@@ -28,6 +28,7 @@ public class Config {
   public static int chaosCoalBurnTime = 6400;
   public static int returnHomeUseTime = 24;
   public static int returnHomeMaxUses = 64;
+  public static int chaosGemMaxMiniPylons = 5;
 
   /*
    * Tools
@@ -135,6 +136,9 @@ public class Config {
       returnHomeMaxUses = c.getInt("ReturnHome.MaxUses", CATEGORY_ITEM_PROPERTIES,
           returnHomeMaxUses, 0, Integer.MAX_VALUE,
           "The number of times a Return Home Charm can be used before breaking. Set to 0 for infinite.");
+      chaosGemMaxMiniPylons = c.getInt("ChaosGem.MaxMiniPylons", CATEGORY_ITEM_PROPERTIES,
+          chaosGemMaxMiniPylons, 0, Integer.MAX_VALUE,
+          "The most mini pylons that can be added to a chaos gem.");
 
       /*
        * Tools

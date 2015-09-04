@@ -327,7 +327,7 @@ item.silentgems:MeatyStewUncooked.name=Uncooked Meaty Stew
 item.silentgems:MeatyStewUncooked.desc=You might want to heat it up first.
 
 item.silentgems:MiniPylon.name=Mini Pylon
-item.silentgems:MiniPylon.desc=Passive chaos on the go! (Craft with Chaos gems)
+item.silentgems:MiniPylon.desc=Craft with chaos gems. Causes them to generate 1 chaos/t.
 
 item.silentgems:Mystery Goo.name=Mystery Goo
 item.silentgems:Mystery Goo.desc=Feels right at home in space.

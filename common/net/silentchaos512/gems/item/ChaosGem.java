@@ -308,7 +308,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
       pylonCount = stack.stackTagCompound.getInteger(NBT_MINI_PYLON);
     }
 
-    return pylonCount < 1; // TODO: Config?
+    return pylonCount < Config.chaosGemMaxMiniPylons;
   }
 
   public void addMiniPylon(ItemStack stack) {
