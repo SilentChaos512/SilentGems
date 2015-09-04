@@ -212,7 +212,14 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
         return true;
       }
 
+      // Teleport player
       this.teleporterEntityTo(player, tile.destX, tile.destY, tile.destZ, tile.destD);
+      // Play sounds
+      float soundPitch = SilentGems.instance.random.nextFloat();
+      soundPitch = soundPitch * 0.3f + 0.7f;
+      world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "mob.endermen.portal", 1.0f, soundPitch);
+      world.playSoundEffect(tile.destX + 0.5, tile.destY + 0.5, tile.destZ + 0.5,
+          "mob.endermen.portal", 1.0f, soundPitch);
     } else {
       LogHelper.warning("Teleporter at " + LogHelper.coord(x, y, z) + " not found!");
     }
@@ -230,21 +237,21 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
   protected void teleporterEntityTo(Entity entity, int x, int y, int z, int dimension) {
 
     // Change dimensions?
-//    if (dimension != entity.dimension) {
-//      if (entity instanceof EntityPlayerMP) {
-//        EntityPlayerMP playerMP = (EntityPlayerMP) entity;
-//        playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dimension);
-//      } else {
-//        entity.travelToDimension(dimension); // FIXME: Does this also spawn Nether portals?
-//      }
-//    }
+    // if (dimension != entity.dimension) {
+    // if (entity instanceof EntityPlayerMP) {
+    // EntityPlayerMP playerMP = (EntityPlayerMP) entity;
+    // playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dimension);
+    // } else {
+    // entity.travelToDimension(dimension); // FIXME: Does this also spawn Nether portals?
+    // }
+    // }
 
     // Calculate sound pitch.
-    float soundPitch = SilentGems.instance.random.nextFloat();
-    soundPitch = soundPitch * 0.3f + 0.7f;
+//    float soundPitch = SilentGems.instance.random.nextFloat();
+//    soundPitch = soundPitch * 0.3f + 0.7f;
 
     // Sound at source
-    entity.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0f, soundPitch);
+//    entity.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0f, soundPitch);
 
     // Teleport
     if (entity instanceof EntityPlayerMP) {
@@ -252,17 +259,17 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
     } else {
       TeleportUtil.teleportEntityTo(entity, x, y, z, dimension);
     }
-//    if (entity instanceof EntityPlayerMP) {
-//      TeleportUtil.teleportPlayerTo((EntityPlayerMP) entity, x, y, z, dimension);
-//    } else if (entity instanceof EntityLivingBase) {
-//      // TODO: Is this necessary?
-//      EntityLivingBase entityLivingBase = (EntityLivingBase) entity;
-//      entityLivingBase.setPositionAndUpdate(x + 0.5, y + 1.0, z + 0.5);
-//    } else {
-//      entity.setPosition(x + 0.5, y + 1.0, z + 0.5);
-//    }
+    // if (entity instanceof EntityPlayerMP) {
+    // TeleportUtil.teleportPlayerTo((EntityPlayerMP) entity, x, y, z, dimension);
+    // } else if (entity instanceof EntityLivingBase) {
+    // // TODO: Is this necessary?
+    // EntityLivingBase entityLivingBase = (EntityLivingBase) entity;
+    // entityLivingBase.setPositionAndUpdate(x + 0.5, y + 1.0, z + 0.5);
+    // } else {
+    // entity.setPosition(x + 0.5, y + 1.0, z + 0.5);
+    // }
 
     // Sound at destination
-    entity.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0f, soundPitch);
+//    entity.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0f, soundPitch);
   }
 }

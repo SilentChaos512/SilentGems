@@ -11,6 +11,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.PlayerHelper;
@@ -35,12 +36,12 @@ public class BlockRedstoneTeleporter extends BlockTeleporter {
       ItemStack redstoneTeleporter = new ItemStack(this, 1, gem.id);
       ItemStack basicTeleporter = new ItemStack(ModBlocks.teleporter, 1, gem.id);
       // Base recipe
-      GameRegistry.addRecipe(new ShapelessOreRecipe(redstoneTeleporter, basicTeleporter,
-          "dustRedstone"));
+      GameRegistry
+          .addRecipe(new ShapelessOreRecipe(redstoneTeleporter, basicTeleporter, "dustRedstone"));
       // Recolor recipe
       ItemStack anyRedstoneTeleporter = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
-      GameRegistry.addRecipe(new ShapelessOreRecipe(redstoneTeleporter, anyRedstoneTeleporter, gem
-          .getItemOreName()));
+      GameRegistry.addRecipe(
+          new ShapelessOreRecipe(redstoneTeleporter, anyRedstoneTeleporter, gem.getItemOreName()));
     }
   }
 
@@ -67,11 +68,20 @@ public class BlockRedstoneTeleporter extends BlockTeleporter {
       double dx = x + 0.5;
       double dy = y + 0.5;
       double dz = z + 0.5;
+      boolean playSound = false;
       for (int i = 0; i < world.loadedEntityList.size(); ++i) {
         Entity entity = (Entity) world.loadedEntityList.get(i);
         if (entity != null && entity.getDistanceSq(dx, dy, dz) < searchRange) {
           this.teleporterEntityTo(entity, tile.destX, tile.destY, tile.destZ, tile.destD);
+          playSound = true;
         }
+      }
+
+      if (playSound) {
+        float soundPitch = SilentGems.instance.random.nextFloat();
+        soundPitch = soundPitch * 0.3f + 0.7f;
+        world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "mob.endermen.portal", 1.0f, soundPitch);
+        world.playSoundEffect(dx, dy, dz, "mob.endermen.portal", 1.0f, soundPitch);
       }
     }
   }
