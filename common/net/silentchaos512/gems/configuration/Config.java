@@ -27,6 +27,7 @@ public class Config {
    */
   public static int chaosCoalBurnTime = 6400;
   public static int returnHomeUseTime = 24;
+  public static int returnHomeMaxUses = 64;
 
   /*
    * Tools
@@ -131,6 +132,9 @@ public class Config {
       returnHomeUseTime = c.getInt("ReturnHome.UseTime", CATEGORY_ITEM_PROPERTIES,
           returnHomeUseTime, 0, 200,
           "The number of ticks a player must hold right-click to activate the Return Home.");
+      returnHomeMaxUses = c.getInt("ReturnHome.MaxUses", CATEGORY_ITEM_PROPERTIES,
+          returnHomeMaxUses, 0, Integer.MAX_VALUE,
+          "The number of times a Return Home Charm can be used before breaking. Set to 0 for infinite.");
 
       /*
        * Tools

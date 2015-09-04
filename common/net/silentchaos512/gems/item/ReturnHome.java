@@ -37,8 +37,6 @@ import net.silentchaos512.gems.world.TeleporterGems;
 
 public class ReturnHome extends ItemSG {
 
-  public static final int MAX_DAMAGE = 64;
-
   public static final String BOUND_TO = "BoundTo";
   public static final String NOT_BOUND = "NotBound";
   public static final String NOT_SANE = "NotSane";
@@ -53,7 +51,7 @@ public class ReturnHome extends ItemSG {
     super();
 
     setMaxStackSize(1);
-    setMaxDamage(MAX_DAMAGE);
+    setMaxDamage(Config.returnHomeMaxUses);
     setNoRepair();
     setUnlocalizedName(Names.RETURN_HOME);
     rarity = EnumRarity.uncommon;
