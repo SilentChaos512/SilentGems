@@ -20,6 +20,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.NBTHelper;
@@ -57,13 +58,15 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
   @Override
   public void addRecipes() {
 
-    ItemStack essencePlus = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
-    ItemStack anyTeleporter = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
-    for (EnumGem gem : EnumGem.values()) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 2, gem.id), "cec", " g ",
-          "cec", 'c', essencePlus, 'e', Items.ender_pearl, 'g', gem.getBlockOreName()));
-      GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, gem.id), anyTeleporter,
-          gem.getItemOreName()));
+    if (!Config.recipeTeleporterDisabled) {
+      ItemStack essencePlus = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
+      ItemStack anyTeleporter = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
+      for (EnumGem gem : EnumGem.values()) {
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 2, gem.id), "cec", " g ",
+            "cec", 'c', essencePlus, 'e', Items.ender_pearl, 'g', gem.getBlockOreName()));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, gem.id), anyTeleporter,
+            gem.getItemOreName()));
+      }
     }
   }
 
@@ -247,11 +250,11 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
     // }
 
     // Calculate sound pitch.
-//    float soundPitch = SilentGems.instance.random.nextFloat();
-//    soundPitch = soundPitch * 0.3f + 0.7f;
+    // float soundPitch = SilentGems.instance.random.nextFloat();
+    // soundPitch = soundPitch * 0.3f + 0.7f;
 
     // Sound at source
-//    entity.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0f, soundPitch);
+    // entity.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0f, soundPitch);
 
     // Teleport
     if (entity instanceof EntityPlayerMP) {
@@ -270,6 +273,6 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
     // }
 
     // Sound at destination
-//    entity.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0f, soundPitch);
+    // entity.worldObj.playSoundAtEntity(entity, "mob.endermen.portal", 1.0f, soundPitch);
   }
 }

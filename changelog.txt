@@ -3,6 +3,7 @@ Silent's Gems - Changelog
 1.3.00-beta05
 Added: Extra tooltip info for gems (enchantability and spawn weights).
 Added: Config for Return Home durability, set to 0 for infinite uses.
+Added: Configs for disabling teleporter recipes.
 Removed: Absorption chaos runes, they were extremely broken.
 Changed: Gems have different enchantabilities now.
 Changed: Chaos gem toolips. Mini pylon count is displayed. That and cost are hidden until shift is pressed.

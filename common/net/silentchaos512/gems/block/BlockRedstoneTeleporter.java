@@ -32,16 +32,18 @@ public class BlockRedstoneTeleporter extends BlockTeleporter {
   @Override
   public void addRecipes() {
 
-    for (EnumGem gem : EnumGem.values()) {
-      ItemStack redstoneTeleporter = new ItemStack(this, 1, gem.id);
-      ItemStack basicTeleporter = new ItemStack(ModBlocks.teleporter, 1, gem.id);
-      // Base recipe
-      GameRegistry
-          .addRecipe(new ShapelessOreRecipe(redstoneTeleporter, basicTeleporter, "dustRedstone"));
-      // Recolor recipe
-      ItemStack anyRedstoneTeleporter = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
-      GameRegistry.addRecipe(
-          new ShapelessOreRecipe(redstoneTeleporter, anyRedstoneTeleporter, gem.getItemOreName()));
+    if (!Config.recipeRedstoneTeleporterDisabled) {
+      for (EnumGem gem : EnumGem.values()) {
+        ItemStack redstoneTeleporter = new ItemStack(this, 1, gem.id);
+        ItemStack basicTeleporter = new ItemStack(ModBlocks.teleporter, 1, gem.id);
+        // Base recipe
+        GameRegistry
+            .addRecipe(new ShapelessOreRecipe(redstoneTeleporter, basicTeleporter, "dustRedstone"));
+        // Recolor recipe
+        ItemStack anyRedstoneTeleporter = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
+        GameRegistry.addRecipe(new ShapelessOreRecipe(redstoneTeleporter, anyRedstoneTeleporter,
+            gem.getItemOreName()));
+      }
     }
   }
 

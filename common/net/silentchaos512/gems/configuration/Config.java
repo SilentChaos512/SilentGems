@@ -38,6 +38,13 @@ public class Config {
   public static int miningLevelFish = 3;
 
   /*
+   * Recipes
+   */
+  public static boolean recipeTeleporterDisabled = false;
+  public static boolean recipeRedstoneTeleporterDisabled = false;
+  public static boolean recipeTeleporterAnchorDisabled = false;
+
+  /*
    * Misc
    */
 
@@ -89,9 +96,9 @@ public class Config {
    * Config categories
    */
   public static final String CATEGORY_KEYBIND = "keybindings";
-  public static final String CATEGORY_GRAPHICS = "graphics";
   public static final String CATEGORY_AUDIO = "audio";
   public static final String CATEGORY_ENCHANTMENT = "enchantment";
+  public static final String CATEGORY_RECIPE = "recipes";
   public static final String CATEGORY_WORLD = "world";
   public static final String CATEGORY_WORLD_GEN = CATEGORY_WORLD + Configuration.CATEGORY_SPLITTER
       + "generation";
@@ -139,6 +146,17 @@ public class Config {
       chaosGemMaxMiniPylons = c.getInt("ChaosGem.MaxMiniPylons", CATEGORY_ITEM_PROPERTIES,
           chaosGemMaxMiniPylons, 0, Integer.MAX_VALUE,
           "The most mini pylons that can be added to a chaos gem.");
+
+      /*
+       * Recipes
+       */
+      recipeTeleporterDisabled = c.getBoolean("Teleporter.Disabled", CATEGORY_RECIPE,
+          recipeTeleporterDisabled, "Set to true to disable teleporter recipes");
+      recipeRedstoneTeleporterDisabled = c.getBoolean("RedstoneTeleporter.Disabled",
+          CATEGORY_RECIPE, recipeRedstoneTeleporterDisabled,
+          "Set to true to disable redstone teleporter recipes.");
+      recipeTeleporterAnchorDisabled = c.getBoolean("TeleporterAnchor.Disabled", CATEGORY_RECIPE,
+          recipeTeleporterAnchorDisabled, "Set to true to disable teleporter anchor recipes.");
 
       /*
        * Tools
