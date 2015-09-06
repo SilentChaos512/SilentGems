@@ -140,6 +140,9 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     NBTTagCompound tags = new NBTTagCompound();
     tags.setInteger("BurnTime", burnTimeRemaining);
     tags.setInteger("CurrentItemBurnTime", currentItemBurnTime);
+    tags.setInteger("AltarX", lastAltarX);
+    tags.setInteger("AltarY", lastAltarY);
+    tags.setInteger("AltarZ", lastAltarZ);
     return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, tags);
   }
 
@@ -148,6 +151,9 @@ public class TileChaosPylon extends TileEntity implements IInventory {
 
     burnTimeRemaining = packet.func_148857_g().getInteger("BurnTime");
     currentItemBurnTime = packet.func_148857_g().getInteger("CurrentItemBurnTime");
+    lastAltarX = packet.func_148857_g().getInteger("AltarX");
+    lastAltarY = packet.func_148857_g().getInteger("AltarY");
+    lastAltarZ = packet.func_148857_g().getInteger("AltarZ");
   }
 
   @Override
