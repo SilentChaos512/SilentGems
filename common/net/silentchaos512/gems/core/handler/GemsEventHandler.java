@@ -13,10 +13,12 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GlowRose;
 import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.PlayerHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.ChaosGem;
@@ -100,19 +102,14 @@ public class GemsEventHandler {
     if (event.side == Side.CLIENT) {
     } else {
       // Chaos gem flight removal
-      NBTTagCompound tags = event.player.getEntityData();
-      if (!tags.hasKey(ChaosGem.NBT_FLIGHT_TIME)) {
-        tags.setByte(ChaosGem.NBT_FLIGHT_TIME, (byte) 0);
-      }
-      int flightTime = tags.getByte(ChaosGem.NBT_FLIGHT_TIME);
-      if (flightTime > 0) {
-        // This prevents the lingering effects when a chaos gem is removed from the player's inventory to another.
-        if (--flightTime == 0) {
+      GemsExtendedPlayer properties = GemsExtendedPlayer.get(event.player);
+      if (properties != null) {
+        if (properties.tickFlightTime()) {
+          // This prevents the lingering effects when a chaos gem is removed from the player's inventory to another.
           SilentGems.instance.network.sendTo(new MessageSetFlight(false),
               (EntityPlayerMP) event.player);
           ChaosGem.removeFlight(event.player);
         }
-        tags.setByte(ChaosGem.NBT_FLIGHT_TIME, (byte) flightTime);
       }
 
       // Mending (main)

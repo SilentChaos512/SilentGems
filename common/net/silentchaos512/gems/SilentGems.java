@@ -7,7 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.configuration.Config;
-import net.silentchaos512.gems.core.handler.BreakHandler;
+import net.silentchaos512.gems.core.handler.GemsForgeEventHandler;
 import net.silentchaos512.gems.core.handler.GemsEventHandler;
 import net.silentchaos512.gems.core.proxy.CommonProxy;
 import net.silentchaos512.gems.core.registry.SRegistry;
@@ -81,7 +81,7 @@ public class SilentGems {
 
     // Event handler
     FMLCommonHandler.instance().bus().register(new GemsEventHandler());
-    MinecraftForge.EVENT_BUS.register(new BreakHandler());
+    MinecraftForge.EVENT_BUS.register(new GemsForgeEventHandler());
 
     // Recipes and ore dictionary.
     SRegistry.addRecipesAndOreDictEntries();

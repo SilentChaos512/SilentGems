@@ -9,7 +9,8 @@ Changed: Gems have different enchantabilities now.
 Changed: Chaos gem toolips. Mini pylon count is displayed. That and cost are hidden until shift is pressed.
 Changed: Max mini pylons to five per chaos gem.
 Changed: Cost of flight to 80 chaos/t (from 100).
-Changed: Redstone teleporter will only play sounds once per operation.
+Fixed: Infinite flight (again).
+Known new bug: Redstone teleporters don't play sound
 
 1.3.00-beta04
 Added: Mini Pylon. Craft it with a Chaos gem to give it passive chaos production. Max 1 (configurable).

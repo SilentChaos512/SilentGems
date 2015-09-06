@@ -10,6 +10,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.core.handler.GemsExtendedPlayer;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.ChaosGem;
@@ -84,7 +85,10 @@ public enum ChaosBuff {
       player.capabilities.allowFlying = true;
       player.fallDistance = 0.0f;
       // Prevents "lingering" flight effect, which allowed infinite flight.
-      player.getEntityData().setByte(ChaosGem.NBT_FLIGHT_TIME, (byte) 40);
+      GemsExtendedPlayer properties = GemsExtendedPlayer.get(player);
+      if (properties != null) {
+        properties.refreshFlightTime();
+      }
       // Send an "allow flight" message to the client, but only once per second.
       if (player.ticksExisted % 20 == 0 && player instanceof EntityPlayerMP) {
         SilentGems.instance.network.sendTo(new MessageSetFlight(true), (EntityPlayerMP) player);
@@ -101,7 +105,6 @@ public enum ChaosBuff {
     // Apply other effects here.
     if (this.id == FLIGHT.id) {
       ChaosGem.removeFlight(player);
-      player.getEntityData().setByte(ChaosGem.NBT_FLIGHT_TIME, (byte) 0);
     }
   }
 
