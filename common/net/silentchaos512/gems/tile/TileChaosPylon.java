@@ -91,20 +91,22 @@ public class TileChaosPylon extends TileEntity implements IInventory {
   }
 
   public TileEntity getAltar() {
-    
-//    if (worldObj.isRemote) {
-//      return null;
-//    }
+
+    // if (worldObj.isRemote) {
+    // return null;
+    // }
 
     // Get last known altar, if it exists.
-    TileEntity tile = this.worldObj.getTileEntity(lastAltarX, lastAltarY, lastAltarZ);
+    TileEntity tile = worldObj.getTileEntity(lastAltarX, lastAltarY, lastAltarZ);
     if (tile != null && tile instanceof TileChaosAltar) {
       return tile;
     }
 
+    boolean searching = false;
     // Last known altar coords are no good, try to find a new altar.
     if (worldObj.getTotalWorldTime() % ALTAR_SEARCH_DELAY == 0) {
       // Debug(?) info
+      searching = true;
       String str = LogHelper.coord(xCoord, yCoord, zCoord);
       str = "Pylon at " + str + " searching for new altar...";
       LogHelper.info(str);
@@ -128,9 +130,11 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     }
 
     // None found
-    String str = LogHelper.coord(xCoord, yCoord, zCoord);
-    str = "Pylon at " + str + " could not find an altar!";
-    LogHelper.info(str);
+    if (searching) {
+      String str = LogHelper.coord(xCoord, yCoord, zCoord);
+      str = "Pylon at " + str + " could not find an altar!";
+      LogHelper.info(str);
+    }
     return null;
   }
 
