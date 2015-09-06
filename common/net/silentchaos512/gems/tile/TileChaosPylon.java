@@ -92,9 +92,9 @@ public class TileChaosPylon extends TileEntity implements IInventory {
 
   public TileEntity getAltar() {
     
-    if (worldObj.isRemote) {
-      return null;
-    }
+//    if (worldObj.isRemote) {
+//      return null;
+//    }
 
     // Get last known altar, if it exists.
     TileEntity tile = this.worldObj.getTileEntity(lastAltarX, lastAltarY, lastAltarZ);
