@@ -10,6 +10,7 @@ Changed: Chaos gem toolips. Mini pylon count is displayed. That and cost are hid
 Changed: Max mini pylons to five per chaos gem.
 Changed: Cost of flight to 80 chaos/t (from 100).
 Fixed: Infinite flight (again).
+Fixed: No pylon particles when playing on servers.
 Known new bug: Redstone teleporters don't play sound
 
 1.3.00-beta04

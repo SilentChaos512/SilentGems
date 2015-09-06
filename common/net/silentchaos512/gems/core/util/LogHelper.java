@@ -8,20 +8,9 @@ import net.silentchaos512.gems.SilentGems;
 
 public class LogHelper {
 
-  public static void init() {
-
-//    logger.setParent((Logger) FMLLog.getLogger());
-  }
-
-//  public static void log(Level level, Object object) {
-//
-//    logger.log(level, object);
-//  }
-
   public static void severe(Object object) {
 
     SilentGems.logger.error(object);
-    System.out.println(object);
   }
 
   public static void debug(Object object) {
@@ -33,13 +22,11 @@ public class LogHelper {
   public static void warning(Object object) {
 
     SilentGems.logger.warn(object);
-    System.out.println(object);
   }
 
   public static void info(Object object) {
 
     SilentGems.logger.info(object);
-    System.out.println(object);
   }
 
   /**

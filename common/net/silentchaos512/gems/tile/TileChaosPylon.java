@@ -104,14 +104,19 @@ public class TileChaosPylon extends TileEntity implements IInventory {
 
     // Last known altar coords are no good, try to find a new altar.
     if (worldObj.getTotalWorldTime() % ALTAR_SEARCH_DELAY == 0) {
-      LogHelper.debug(
-          "Pylon at (" + xCoord + ", " + yCoord + ", " + zCoord + ") searching for new altar...");
+      // Debug(?) info
+      String str = LogHelper.coord(xCoord, yCoord, zCoord);
+      str = "Pylon at " + str + " searching for new altar...";
+      LogHelper.info(str);
+      // Search
       for (int y = yCoord - SEARCH_HEIGHT; y < yCoord + SEARCH_HEIGHT + 1; ++y) {
         for (int x = xCoord - SEARCH_RADIUS; x < xCoord + SEARCH_RADIUS + 1; ++x) {
           for (int z = zCoord - SEARCH_RADIUS; z < zCoord + SEARCH_RADIUS + 1; ++z) {
             tile = worldObj.getTileEntity(x, y, z);
             if (tile != null && tile instanceof TileChaosAltar) {
-              LogHelper.debug("Pylon found new altar at (" + x + ", " + y + ", " + z + ")!");
+              str = LogHelper.coord(x, y, z);
+              str = "Pylon found new altar at " + str + "!";
+              LogHelper.info(str);
               lastAltarX = x;
               lastAltarY = y;
               lastAltarZ = z;
@@ -123,6 +128,9 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     }
 
     // None found
+    String str = LogHelper.coord(xCoord, yCoord, zCoord);
+    str = "Pylon at " + str + " could not find an altar!";
+    LogHelper.info(str);
     return null;
   }
 

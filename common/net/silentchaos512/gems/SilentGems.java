@@ -2,6 +2,7 @@ package net.silentchaos512.gems;
 
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -44,7 +45,7 @@ public class SilentGems {
   public final static String CHANNEL_NAME = MOD_ID;
 
   public Random random = new Random();
-  public static Logger logger;
+  public static Logger logger = LogManager.getLogger(MOD_NAME);
 
   @Instance(SilentGems.MOD_ID)
   public static SilentGems instance;
@@ -57,7 +58,7 @@ public class SilentGems {
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
 
-    logger = event.getModLog();
+//    logger = event.getModLog();
     Config.init(event.getSuggestedConfigurationFile());
 
     ModBlocks.init();
@@ -74,6 +75,7 @@ public class SilentGems {
         ++discriminator, Side.SERVER);
     network.registerMessage(MessageSetFlight.Handler.class, MessageSetFlight.class,
         ++discriminator, Side.CLIENT);
+    LogHelper.info("Pre init done.");
   }
 
   @EventHandler
@@ -97,6 +99,7 @@ public class SilentGems {
 
     // World generators
     GameRegistry.registerWorldGenerator(new GemsWorldGenerator(), 0);
+    LogHelper.info("Init done.");
   }
 
   @EventHandler
@@ -104,6 +107,7 @@ public class SilentGems {
 
     // Is this the right place for this?
     SRegistry.addThaumcraftStuff();
+    LogHelper.info("Post init done.");
   }
 
   // @EventHandler

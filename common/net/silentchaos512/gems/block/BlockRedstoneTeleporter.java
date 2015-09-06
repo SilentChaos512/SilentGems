@@ -25,7 +25,6 @@ public class BlockRedstoneTeleporter extends BlockTeleporter {
 
   public BlockRedstoneTeleporter() {
 
-    super();
     this.setUnlocalizedName(Names.TELEPORTER_REDSTONE);
   }
 
