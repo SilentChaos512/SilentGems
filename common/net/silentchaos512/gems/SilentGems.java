@@ -2,23 +2,8 @@ package net.silentchaos512.gems;
 
 import java.util.Random;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraftforge.common.MinecraftForge;
-import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.configuration.Config;
-import net.silentchaos512.gems.core.handler.GemsForgeEventHandler;
-import net.silentchaos512.gems.core.handler.GemsEventHandler;
-import net.silentchaos512.gems.core.proxy.CommonProxy;
-import net.silentchaos512.gems.core.registry.SRegistry;
-import net.silentchaos512.gems.enchantment.ModEnchantments;
-import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
-import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.buff.ChaosBuff;
-import net.silentchaos512.gems.network.MessageChaosGemToggle;
-import net.silentchaos512.gems.network.MessageSetFlight;
-import net.silentchaos512.gems.world.GemsWorldGenerator;
+import org.apache.logging.log4j.Logger;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -31,6 +16,24 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
+import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.configuration.Config;
+import net.silentchaos512.gems.core.handler.GemsEventHandler;
+import net.silentchaos512.gems.core.handler.GemsForgeEventHandler;
+import net.silentchaos512.gems.core.proxy.CommonProxy;
+import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.core.util.LogHelper;
+import net.silentchaos512.gems.enchantment.ModEnchantments;
+import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
+import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.lib.buff.ChaosBuff;
+import net.silentchaos512.gems.network.MessageChaosGemToggle;
+import net.silentchaos512.gems.network.MessageSetFlight;
+import net.silentchaos512.gems.world.GemsWorldGenerator;
 
 @Mod(modid = SilentGems.MOD_ID, name = SilentGems.MOD_NAME, version = SilentGems.VERSION_NUMBER)
 public class SilentGems {
@@ -41,6 +44,7 @@ public class SilentGems {
   public final static String CHANNEL_NAME = MOD_ID;
 
   public Random random = new Random();
+  public static Logger logger;
 
   @Instance(SilentGems.MOD_ID)
   public static SilentGems instance;
@@ -53,6 +57,7 @@ public class SilentGems {
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
 
+    logger = event.getModLog();
     Config.init(event.getSuggestedConfigurationFile());
 
     ModBlocks.init();

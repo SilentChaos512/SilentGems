@@ -221,7 +221,6 @@ public class GemSickle extends ItemTool {
     int meta = player.worldObj.getBlockMetadata(x, y, z);
 
     if (!this.isEffectiveOnMaterial(block.getMaterial())) {
-      LogHelper.debug(this.isEffectiveOnMaterial(block.getMaterial()));
       return false;
     }
 

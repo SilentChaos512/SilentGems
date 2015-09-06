@@ -26,9 +26,9 @@ public class GemsExtendedPlayer implements IExtendedEntityProperties {
 
     player.registerExtendedProperties(PROPERTY_NAME, new GemsExtendedPlayer(player));
   }
-  
+
   public static final GemsExtendedPlayer get(EntityPlayer player) {
-    
+
     return (GemsExtendedPlayer) player.getExtendedProperties(PROPERTY_NAME);
   }
 
@@ -36,9 +36,9 @@ public class GemsExtendedPlayer implements IExtendedEntityProperties {
   public void saveNBTData(NBTTagCompound compound) {
 
     NBTTagCompound properties = new NBTTagCompound();
-    
+
     properties.setByte("FlightTime", (byte) flightTime);
-    
+
     compound.setTag(PROPERTY_NAME, properties);
   }
 
@@ -46,8 +46,10 @@ public class GemsExtendedPlayer implements IExtendedEntityProperties {
   public void loadNBTData(NBTTagCompound compound) {
 
     NBTTagCompound properties = (NBTTagCompound) compound.getTag(PROPERTY_NAME);
-    
-    flightTime = (int) properties.getByte("FlightTime");
+
+    if (properties != null) {
+      flightTime = (int) properties.getByte("FlightTime");
+    }
   }
 
   @Override
@@ -59,23 +61,23 @@ public class GemsExtendedPlayer implements IExtendedEntityProperties {
 
     flightTime = FLIGHT_TIME_AMOUNT;
   }
-  
+
   public boolean tickFlightTime() {
-    
+
     if (flightTime > 0) {
       --flightTime;
       return flightTime == 0;
     }
     return false;
   }
-  
+
   public int getFlightTime() {
-    
+
     return flightTime;
   }
-  
+
   public void setFlightTime(int value) {
-    
+
     flightTime = value;
   }
 }
