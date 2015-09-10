@@ -82,7 +82,8 @@ public class BlockRedstoneTeleporter extends BlockTeleporter {
         float soundPitch = SilentGems.instance.random.nextFloat();
         soundPitch = soundPitch * 0.3f + 0.7f;
         world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "mob.endermen.portal", 1.0f, soundPitch);
-        world.playSoundEffect(dx, dy, dz, "mob.endermen.portal", 1.0f, soundPitch);
+        world.playSoundEffect(tile.destX + 0.5, tile.destY + 0.5, tile.destZ + 0.5,
+            "mob.endermen.portal", 1.0f, soundPitch);
       }
     }
   }

@@ -80,8 +80,10 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
 
     if (this.getBuffList(stack).tagCount() == 0) {
       // Information on how to use.
-      s = LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0);
-      list.add(EnumChatFormatting.DARK_GRAY + s);
+      for (int i = 1; i < 3; ++i) {
+        s = LocalizationHelper.getItemDescription(Names.CHAOS_GEM, i);
+        list.add(EnumChatFormatting.DARK_GRAY + s);
+      }
       return;
     }
 
@@ -142,8 +144,10 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
       }
     } else {
       // Information on how to use.
-      list.add(
-          EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(Names.CHAOS_GEM, 0));
+      for (int i = 1; i < 3; ++i) {
+        s = LocalizationHelper.getItemDescription(Names.CHAOS_GEM, i);
+        list.add(EnumChatFormatting.DARK_GRAY + s);
+      }
     }
   }
 

@@ -216,7 +216,8 @@ item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence
 item.silentgems:ChaosEssencePlus.desc=Can conduct some kind of energy.
 
 item.silentgems:ChaosEssencePlus2.name=Crystallized Chaos Essence
-item.silentgems:ChaosEssencePlus2.desc=It might be durable enough to make tools...
+item.silentgems:ChaosEssencePlus2.desc=Currently unused.
+item.silentgems:ChaosEssencePlus2.desc1=It might be durable enough to make tools...
 
 item.silentgems:ChaosEssenceShard.name=Chaos Essence Shard
 item.silentgems:ChaosEssenceShard.desc=Useless by itself.
@@ -234,7 +235,8 @@ item.silentgems:ChaosGem9.name=Chaos Amethyst
 item.silentgems:ChaosGem10.name=Chaos Morganite
 item.silentgems:ChaosGem11.name=Chaos Onyx
 item.silentgems:ChaosGem42.name=Super Cheaty Chaos Gem
-item.silentgems:ChaosGem.desc=Craft with Chaos Runes to get effects.
+item.silentgems:ChaosGem.desc1=Craft with Chaos Runes to get effects.
+item.silentgems:ChaosGem.desc2=Charge in a Chaos Altar.
 item.silentgems:ChaosGem.Cheaty=Cheater!
 item.silentgems:ChaosGem.Disabled=Disabled
 item.silentgems:ChaosGem.Enabled=Enabled
