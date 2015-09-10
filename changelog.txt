@@ -1,17 +1,20 @@
 Silent's Gems - Changelog
 
+1.3.00-beta06
+Fixed: Return Home Charm not breaking.
+
 1.3.00-beta05
-Added: Extra tooltip info for gems (enchantability and spawn weights).
+Added: Extra tool tip info for gems (enchantability and spawn weights).
 Added: Config for Return Home durability, set to 0 for infinite uses.
 Added: Configs for disabling teleporter recipes.
+Added: Container localizations.
 Removed: Absorption chaos runes, they were extremely broken.
 Changed: Gems have different enchantabilities now.
-Changed: Chaos gem toolips. Mini pylon count is displayed. That and cost are hidden until shift is pressed.
+Changed: Chaos gem tool tips. Mini pylon count is displayed. That and cost are hidden until shift is pressed.
 Changed: Max mini pylons to five per chaos gem.
 Changed: Cost of flight to 80 chaos/t (from 100).
 Fixed: Infinite flight (again).
 Fixed: No pylon particles when playing on servers.
-Known new bug: Redstone teleporters don't play sound
 
 1.3.00-beta04
 Added: Mini Pylon. Craft it with a Chaos gem to give it passive chaos production. Max 1 (configurable).

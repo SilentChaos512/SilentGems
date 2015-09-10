@@ -284,7 +284,9 @@ public class ReturnHome extends ItemSG {
 
     // Damage item
     if (!player.capabilities.isCreativeMode) {
-      stack.attemptDamageItem(1, player.worldObj.rand);
+      if (stack.attemptDamageItem(1, player.worldObj.rand)) {
+        player.destroyCurrentEquippedItem();
+      }
     }
   }
 }
