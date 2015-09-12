@@ -63,6 +63,7 @@ public class Names {
   public static final String CHAOS_BOOSTER = "ChaosBooster";
   public static final String CHAOS_CAPACITOR = "ChaosCapacitor";
   public static final String CHAOS_COAL = "ChaosCoal";
+  public static final String CHAOS_CORE = "ChaosCore";
   public static final String CHAOS_ESSENCE = "Chaos Essence";
   public static final String CHAOS_ESSENCE_PLUS = "ChaosEssencePlus";
   public static final String CHAOS_ESSENCE_PLUS_2 = "ChaosEssencePlus2";

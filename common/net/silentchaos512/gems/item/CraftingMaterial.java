@@ -40,17 +40,17 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME,
       Names.NETHER_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER, Names.RAWHIDE_BONE,
       Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.CHAOS_ESSENCE_PLUS_2, Names.NETHER_CLUSTER,
-      Names.MINI_PYLON };
+      Names.MINI_PYLON, Names.CHAOS_CORE };
   /**
    * The order that items appear in NEI.
    */
   public static final String[] SORTED_NAMES = { Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS,
-      Names.CHAOS_ESSENCE_PLUS_2, Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.ORNATE_STICK,
-      Names.MINI_PYLON, Names.MYSTERY_GOO, Names.PLUME, Names.GOLDEN_PLUME, Names.YARN_BALL,
-      Names.RAWHIDE_BONE, Names.NETHER_SHARD, Names.NETHER_CLUSTER, Names.CHAOS_CAPACITOR,
-      Names.CHAOS_BOOSTER };
+      Names.CHAOS_ESSENCE_PLUS_2, Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_CORE, Names.CHAOS_COAL,
+      Names.ORNATE_STICK, Names.MINI_PYLON, Names.MYSTERY_GOO, Names.PLUME, Names.GOLDEN_PLUME,
+      Names.YARN_BALL, Names.RAWHIDE_BONE, Names.NETHER_SHARD, Names.NETHER_CLUSTER,
+      Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER };
 
-  public static final int[] HAS_EFFECT_META = { 4, 13 };
+  // public static final int[] HAS_EFFECT_META = { 4, 13 };
 
   public CraftingMaterial() {
 
@@ -126,7 +126,7 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     RecipeHelper.addSurroundOre(getStack(Names.GOLDEN_PLUME, 1), getStack(Names.PLUME), "gemChaos",
         "ingotGold");
     // Nether Shard
-    GameRegistry.addShapedRecipe(getStack(Names.NETHER_SHARD, 24), "ccc", "cnc", "ccc", 'c',
+    GameRegistry.addShapedRecipe(getStack(Names.NETHER_SHARD, 24), " c ", "cnc", " c ", 'c',
         refinedEssence, 'n', Items.nether_star);
     // Nether Shard -> Cluster
     ItemStack netherCluster = getStack(Names.NETHER_CLUSTER);
@@ -159,6 +159,9 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     // Crystallized chaos essence (tier 3)
     RecipeHelper.addSurroundOre(getStack(Names.CHAOS_ESSENCE_PLUS_2), Strings.ORE_DICT_GEM_BASIC,
         getStack(Names.NETHER_SHARD), refinedEssence);
+    // Chaos Core
+    GameRegistry.addShapedRecipe(getStack(Names.CHAOS_CORE), " e ", "eqe", " e ", 'e',
+        refinedEssence, 'q', new ItemStack(Blocks.quartz_block, 1, OreDictionary.WILDCARD_VALUE));
   }
 
   @Override
@@ -249,16 +252,16 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     return getUnlocalizedName(name);
   }
 
-  @Override
-  public boolean hasEffect(ItemStack stack, int pass) {
-
-    for (int k : HAS_EFFECT_META) {
-      if (stack.getItemDamage() == k) {
-        return true;
-      }
-    }
-    return false;
-  }
+  // @Override
+  // public boolean hasEffect(ItemStack stack, int pass) {
+  //
+  // for (int k : HAS_EFFECT_META) {
+  // if (stack.getItemDamage() == k) {
+  // return true;
+  // }
+  // }
+  // return false;
+  // }
 
   @Override
   public void registerIcons(IIconRegister iconRegister) {

@@ -65,13 +65,12 @@ public class BlockChaosPylon extends BlockContainer
 
     ItemStack passivePylon = new ItemStack(this, 1, 0);
     ItemStack burnerPylon = new ItemStack(this, 1, 1);
-    ItemStack refinedEssenceBlock = MiscBlock.getStack(Names.CHAOS_ESSENCE_BLOCK_REFINED);
-    ItemStack refinedEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
+    ItemStack chaosCore = CraftingMaterial.getStack(Names.CHAOS_CORE);
 
-    GameRegistry.addRecipe(new ShapedOreRecipe(passivePylon, "lel", "lol", " o ", 'l', "gemLapis",
-        'e', refinedEssenceBlock, 'o', Blocks.obsidian));
-    GameRegistry.addRecipe(new ShapedOreRecipe(burnerPylon, " p ", "eee", " f ", 'p', passivePylon, 'e',
-        refinedEssence, 'f', Blocks.furnace));
+    GameRegistry.addRecipe(new ShapedOreRecipe(passivePylon, "lel", "lol", "ooo", 'l', "gemLapis",
+        'e', chaosCore, 'o', Blocks.obsidian));
+    GameRegistry.addRecipe(new ShapedOreRecipe(burnerPylon, " p ", "rer", "ofo", 'p', passivePylon, 'e',
+        chaosCore, 'f', Blocks.furnace, 'r', "dustRedstone", 'o', Blocks.obsidian));
   }
 
   @Override

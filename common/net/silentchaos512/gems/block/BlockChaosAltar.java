@@ -17,6 +17,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
+import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.tile.TileChaosAltar;
@@ -51,9 +52,9 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
   public void addRecipes() {
 
     ItemStack result = new ItemStack(this);
-    ItemStack refinedEssenceBlock = MiscBlock.getStack(Names.CHAOS_ESSENCE_BLOCK_REFINED);
+    ItemStack chaosCore = CraftingMaterial.getStack(Names.CHAOS_CORE);
     GameRegistry.addRecipe(new ShapedOreRecipe(result, " d ", "eoe", "ooo", 'e',
-        refinedEssenceBlock, 'o', Blocks.obsidian, 'd', "gemDiamond"));
+        chaosCore, 'o', Blocks.obsidian, 'd', "gemDiamond"));
   }
 
   @Override
