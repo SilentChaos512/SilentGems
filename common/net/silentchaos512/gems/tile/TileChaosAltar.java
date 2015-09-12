@@ -108,12 +108,6 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
         if (amount != 0) {
           this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
         }
-        
-        // Disable chaos gems for convience.
-        if (stack.getItem() instanceof ChaosGem) {
-          ChaosGem chaosGem = (ChaosGem) stack.getItem();
-          chaosGem.setEnabled(stack, false);
-        }
 
         // Move full item to second slot
         if (chaosStorage.getEnergyStored(stack) == chaosStorage.getMaxEnergyStored(stack)) {
