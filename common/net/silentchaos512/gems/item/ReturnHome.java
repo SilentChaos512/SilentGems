@@ -51,7 +51,7 @@ public class ReturnHome extends ItemSG {
     super();
 
     setMaxStackSize(1);
-    setMaxDamage(Config.returnHomeMaxUses);
+    setMaxDamage(Config.RETURN_HOME_MAX_USES);
     setNoRepair();
     setUnlocalizedName(Names.RETURN_HOME);
     rarity = EnumRarity.uncommon;
@@ -190,7 +190,7 @@ public class ReturnHome extends ItemSG {
       int timeUsed = this.getMaxItemUseDuration(stack) - itemInUseCount;
 
       // Did player use item long enough?
-      if (timeUsed < Config.returnHomeUseTime) {
+      if (timeUsed < Config.RETURN_HOME_USE_TIME) {
         return;
       }
 

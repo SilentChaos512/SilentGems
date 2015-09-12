@@ -31,7 +31,7 @@ public class BlockRedstoneTeleporter extends BlockTeleporter {
   @Override
   public void addRecipes() {
 
-    if (!Config.recipeRedstoneTeleporterDisabled) {
+    if (!Config.RECIPE_REDSTONE_TELEPORTER_DISABLED) {
       for (EnumGem gem : EnumGem.values()) {
         ItemStack redstoneTeleporter = new ItemStack(this, 1, gem.id);
         ItemStack basicTeleporter = new ItemStack(ModBlocks.teleporter, 1, gem.id);
@@ -59,7 +59,7 @@ public class BlockRedstoneTeleporter extends BlockTeleporter {
   @Override
   public void onNeighborBlockChange(World world, int x, int y, int z, Block neighborBlock) {
 
-    final double searchRange = Config.redstoneTeleporterSearchRange;
+    final double searchRange = Config.REDSTONE_TELEPORTER_SEARCH_RANGE;
 
     TileTeleporter tile = (TileTeleporter) world.getTileEntity(x, y, z);
     if (!world.isRemote && world.isBlockIndirectlyGettingPowered(x, y, z)) {

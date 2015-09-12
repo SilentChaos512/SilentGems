@@ -32,8 +32,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class FoodSG extends ItemFood implements IAddRecipe {
 
-  public final static String[] names = { Names.POTATO_STICK, Names.SUGAR_COOKIE,
-      Names.SECRET_DONUT, Names.MEATY_STEW_UNCOOKED, Names.MEATY_STEW };
+  public final static String[] names = { Names.POTATO_STICK, Names.SUGAR_COOKIE, Names.SECRET_DONUT,
+      Names.MEATY_STEW_UNCOOKED, Names.MEATY_STEW };
   public final static int[] foodLevel = { 8, 2, 6, 4, 12 };
   public final static float[] saturationLevel = { 0.8f, 0.4f, 0.8f, 0.6f, 1.6f };
   public final static boolean[] alwaysEdible = { false, true, false, false, false };
@@ -122,7 +122,7 @@ public class FoodSG extends ItemFood implements IAddRecipe {
     SecretDonutEffect effect = secretDonutEffects
         .get(world.rand.nextInt(secretDonutEffects.size()));
     player.addPotionEffect(new PotionEffect(effect.potionId,
-        (int) (Config.FOOD_SUPPORT_DURATION.value * effect.durationMulti), 0, true));
+        (int) (Config.FOOD_SUPPORT_DURATION * effect.durationMulti), 0, true));
   }
 
   @Override
@@ -172,15 +172,15 @@ public class FoodSG extends ItemFood implements IAddRecipe {
       int d = stack.getItemDamage();
       if (d == 0) {
         // Potato on a stick
-        player.addPotionEffect(new PotionEffect(Potion.damageBoost.id,
-            Config.FOOD_SUPPORT_DURATION.value, 0, true));
+        player.addPotionEffect(
+            new PotionEffect(Potion.damageBoost.id, Config.FOOD_SUPPORT_DURATION, 0, true));
         PlayerHelper.addItemToInventoryOrDrop(player, new ItemStack(Items.stick));
       } else if (d == 1) {
         // Sugar cookie
-        player.addPotionEffect(new PotionEffect(Potion.digSpeed.id,
-            Config.FOOD_SUPPORT_DURATION.value, 0, true));
-        player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id,
-            Config.FOOD_SUPPORT_DURATION.value, 0, true));
+        player.addPotionEffect(
+            new PotionEffect(Potion.digSpeed.id, Config.FOOD_SUPPORT_DURATION, 0, true));
+        player.addPotionEffect(
+            new PotionEffect(Potion.moveSpeed.id, Config.FOOD_SUPPORT_DURATION, 0, true));
       } else if (d == 2) {
         // Secret donut
         // 100% chance of first effect.

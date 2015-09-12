@@ -8,7 +8,7 @@ import net.silentchaos512.gems.configuration.Config;
 public class ModMaterials {
 
 	public static final int FISH_GEM_ID = 42;
-	private static int mlr = Config.miningLevelRegular;
+	private static int mlr = Config.MINING_LEVEL_REGULAR;
 	
 	public static final ToolMaterial toolRegRuby        = EnumHelper.addToolMaterial("GemRegRuby",       mlr, 768,  8.0f, 3.0f, 10);
   public static final ToolMaterial toolRegGarnet      = EnumHelper.addToolMaterial("GemRegGarnet",     mlr, 512,  8.0f, 3.0f, 13);
@@ -26,7 +26,7 @@ public class ModMaterials {
   private static final int dm = 4;
   private static final float ea = 4.0f;
   private static final float da = 2.0f;
-  private static final int mls = Config.miningLevelSuper;
+  private static final int mls = Config.MINING_LEVEL_SUPER;
 
   public static final ToolMaterial toolSupRuby        = EnumHelper.addToolMaterial("GemSupRuby",       mls, 768 * dm,  8.0f + ea, 3.0f + da, 16);
   public static final ToolMaterial toolSupGarnet      = EnumHelper.addToolMaterial("GemSupGarnet",     mls, 512 * dm,  8.0f + ea, 3.0f + da, 19);
@@ -41,7 +41,7 @@ public class ModMaterials {
   public static final ToolMaterial toolSupMorganite   = EnumHelper.addToolMaterial("GemSupMorganite",  mls, 512 * dm, 10.0f + ea, 4.0f + da, 18);
   public static final ToolMaterial toolSupOnyx        = EnumHelper.addToolMaterial("GemSupOnyx",       mls, 384 * dm, 10.0f + ea, 6.0f + da, 14);
 
-  public static final ToolMaterial toolFish           = EnumHelper.addToolMaterial("GemFish", Config.miningLevelFish, 64, 3.0f, 1.0f, 20);
+  public static final ToolMaterial toolFish           = EnumHelper.addToolMaterial("GemFish", Config.MINING_LEVEL_FISH, 64, 3.0f, 1.0f, 20);
   
   /*
    * Armor

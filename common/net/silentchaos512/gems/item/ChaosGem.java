@@ -247,7 +247,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
     // Get the level of this buff currently on the gem (0 if none).
     int level = getBuffLevel(stack, buff);
     // Don't allow more than a certain number of buffs per gem.
-    if (level == 0 && getBuffCount(stack) >= Config.CHAOS_GEM_MAX_BUFFS.value) {
+    if (level == 0 && getBuffCount(stack) >= Config.CHAOS_GEM_MAX_BUFFS) {
       return false;
     }
     // Limit level to max.
@@ -324,7 +324,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
       pylonCount = stack.stackTagCompound.getInteger(NBT_MINI_PYLON);
     }
 
-    return pylonCount < Config.chaosGemMaxMiniPylons;
+    return pylonCount < Config.CHAOS_GEM_MAX_MINI_PYLON;
   }
 
   public void addMiniPylon(ItemStack stack) {

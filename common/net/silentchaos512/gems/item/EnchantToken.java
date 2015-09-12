@@ -118,8 +118,8 @@ public class EnchantToken extends ItemSG {
     }
 
     // All
-    addEnchantment(Enchantment.unbreaking, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE
-        | T_SICKLE | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS);
+    addEnchantment(Enchantment.unbreaking, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE | T_SICKLE
+        | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS);
 
     // Melee weapons
     addEnchantment(Enchantment.baneOfArthropods, T_SWORD | T_PICKAXE | T_SHOVEL);
@@ -170,7 +170,7 @@ public class EnchantToken extends ItemSG {
     data.enchantment = e;
     data.validTools = validTools;
     data.gemToolsOnly = e.effectId == ModEnchantments.aoe.effectId
-        || !Config.ENCHANTMENT_TOKENS_ON_ANY_TOOL.value;
+        || !Config.ENCHANTMENT_TOKENS_ON_ANY_TOOL;
     enchants.put(e.effectId, data);
   }
 
@@ -233,11 +233,11 @@ public class EnchantToken extends ItemSG {
     ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
 
     // Base token recipe
-    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 12, META_BLANK), "ggg", "rer", "ggg", 'g',
-        "ingotGold", 'r', "dustRedstone", 'e', "gemChaos"));
+    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 12, META_BLANK), "ggg", "rer",
+        "ggg", 'g', "ingotGold", 'r', "dustRedstone", 'e', "gemChaos"));
     // Uncrafting token
-    GameRegistry.addShapelessRecipe(new ItemStack(this, 1, META_BLANK), new ItemStack(this, 1,
-        OreDictionary.WILDCARD_VALUE));
+    GameRegistry.addShapelessRecipe(new ItemStack(this, 1, META_BLANK),
+        new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE));
 
     int gemCount = 2;
 
@@ -254,26 +254,26 @@ public class EnchantToken extends ItemSG {
         "gemEmerald", 3, baseToken);
 
     // Melee weapons
-    addTokenRecipe(Enchantment.baneOfArthropods.effectId, EnumGem.AMETHYST.getItemOreName(), gemCount,
-        Items.spider_eye, 4, baseToken);
+    addTokenRecipe(Enchantment.baneOfArthropods.effectId, EnumGem.AMETHYST.getItemOreName(),
+        gemCount, Items.spider_eye, 4, baseToken);
     addTokenRecipe(Enchantment.fireAspect.effectId, EnumGem.GARNET.getItemOreName(), gemCount,
         Items.blaze_powder, 4, baseToken);
     addTokenRecipe(Enchantment.knockback.effectId, EnumGem.AQUAMARINE.getItemOreName(), gemCount,
         Items.feather, 5, baseToken);
-    addTokenRecipe(Enchantment.looting.effectId, EnumGem.TOPAZ.getItemOreName(), gemCount, "gemEmerald",
-        2, baseToken);
-    addTokenRecipe(Enchantment.sharpness.effectId, EnumGem.RUBY.getItemOreName(), gemCount, Items.flint,
-        5, baseToken);
+    addTokenRecipe(Enchantment.looting.effectId, EnumGem.TOPAZ.getItemOreName(), gemCount,
+        "gemEmerald", 2, baseToken);
+    addTokenRecipe(Enchantment.sharpness.effectId, EnumGem.RUBY.getItemOreName(), gemCount,
+        Items.flint, 5, baseToken);
     addTokenRecipe(Enchantment.smite.effectId, EnumGem.PERIDOT.getItemOreName(), gemCount,
         Items.rotten_flesh, 5, baseToken);
 
     // Ranged weapons
-    addTokenRecipe(Enchantment.flame.effectId, EnumGem.GARNET.getItemOreName(), gemCount, Items.blaze_rod,
-        2, baseToken);
+    addTokenRecipe(Enchantment.flame.effectId, EnumGem.GARNET.getItemOreName(), gemCount,
+        Items.blaze_rod, 2, baseToken);
     addTokenRecipe(Enchantment.infinity.effectId, EnumGem.AMETHYST.getItemOreName(), gemCount,
         Items.ender_eye, 4, baseToken);
-    addTokenRecipe(Enchantment.power.effectId, EnumGem.RUBY.getItemOreName(), gemCount, Items.arrow, 5,
-        baseToken);
+    addTokenRecipe(Enchantment.power.effectId, EnumGem.RUBY.getItemOreName(), gemCount, Items.arrow,
+        5, baseToken);
     addTokenRecipe(Enchantment.punch.effectId, EnumGem.AQUAMARINE.getItemOreName(), gemCount,
         Blocks.piston, 2, baseToken);
 
@@ -282,24 +282,24 @@ public class EnchantToken extends ItemSG {
         "blockLapis", 2, baseToken);
     addTokenRecipe(Enchantment.blastProtection.effectId, EnumGem.TOPAZ.getItemOreName(), gemCount,
         Items.gunpowder, 5, baseToken);
-    addTokenRecipe(Enchantment.featherFalling.effectId, EnumGem.AQUAMARINE.getItemOreName(), gemCount,
-        CraftingMaterial.getStack(Names.PLUME), 1, baseToken);
+    addTokenRecipe(Enchantment.featherFalling.effectId, EnumGem.AQUAMARINE.getItemOreName(),
+        gemCount, CraftingMaterial.getStack(Names.PLUME), 1, baseToken);
     addTokenRecipe(Enchantment.fireProtection.effectId, EnumGem.GARNET.getItemOreName(), gemCount,
         Items.magma_cream, 2, baseToken);
-    addTokenRecipe(Enchantment.projectileProtection.effectId, EnumGem.HELIODOR.getItemOreName(), gemCount,
-        Items.arrow, 4, baseToken);
+    addTokenRecipe(Enchantment.projectileProtection.effectId, EnumGem.HELIODOR.getItemOreName(),
+        gemCount, Items.arrow, 4, baseToken);
     addTokenRecipe(Enchantment.protection.effectId, EnumGem.AMETHYST.getItemOreName(), 2,
         Blocks.iron_bars, 4, baseToken);
     addTokenRecipe(Enchantment.respiration.effectId, EnumGem.IOLITE.getItemOreName(), gemCount,
         new ItemStack(Items.fish, 1, 3), 1, baseToken);
-    addTokenRecipe(Enchantment.thorns.effectId, EnumGem.EMERALD.getItemOreName(), gemCount, new ItemStack(
-        Blocks.double_plant, 1, 4), 2, baseToken);
+    addTokenRecipe(Enchantment.thorns.effectId, EnumGem.EMERALD.getItemOreName(), gemCount,
+        new ItemStack(Blocks.double_plant, 1, 4), 2, baseToken);
 
     // This mod
     addTokenRecipe(ModEnchantments.mending.effectId, EnumGem.MORGANITE.getItemOreName(), gemCount,
         CraftingMaterial.getStack(Names.MYSTERY_GOO), 2, baseToken);
-    addTokenRecipe(ModEnchantments.aoe.effectId, EnumGem.ONYX.getItemOreName(), gemCount, Blocks.tnt, 3,
-        baseToken);
+    addTokenRecipe(ModEnchantments.aoe.effectId, EnumGem.ONYX.getItemOreName(), gemCount,
+        Blocks.tnt, 3, baseToken);
   }
 
   private void addTokenRecipe(int key, String gem, int gemCount, Object otherMaterial,
@@ -309,8 +309,8 @@ public class EnchantToken extends ItemSG {
     String row2 = otherCount < 4 ? " t " : "mtm";
     String row3 = otherCount == 1 ? " m " : (otherCount == 2 || otherCount == 4 ? "m m" : "mmm");
 
-    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, key), row1, row2, row3, 'g', gem, 'm',
-        otherMaterial, 't', baseToken));
+    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, key), row1, row2, row3, 'g',
+        gem, 'm', otherMaterial, 't', baseToken));
   }
 
   private void addTokenRecipe(int key, String gem, int gemCount, Block otherMaterial,
@@ -319,8 +319,8 @@ public class EnchantToken extends ItemSG {
     addTokenRecipe(key, gem, gemCount, new ItemStack(otherMaterial), otherCount, baseToken);
   }
 
-  private void addTokenRecipe(int key, String gem, int gemCount, Item otherMaterial,
-      int otherCount, ItemStack baseToken) {
+  private void addTokenRecipe(int key, String gem, int gemCount, Item otherMaterial, int otherCount,
+      ItemStack baseToken) {
 
     addTokenRecipe(key, gem, gemCount, new ItemStack(otherMaterial), otherCount, baseToken);
   }

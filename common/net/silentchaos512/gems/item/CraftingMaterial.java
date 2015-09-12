@@ -234,7 +234,7 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
 
     if (stack != null && stack.getItem() == this
         && stack.getItemDamage() == getStack(Names.CHAOS_COAL).getItemDamage()) {
-      return Config.chaosCoalBurnTime;
+      return Config.CHAOS_COAL_BURN_TIME;
     }
     return 0;
   }

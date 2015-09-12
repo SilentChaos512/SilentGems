@@ -35,7 +35,7 @@ public class ChaosOre extends BlockSG {
   public void addRecipes() {
 
     ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE,
-        Config.CHAOS_ESSENCE_PER_ORE.value);
+        Config.CHAOS_ESSENCE_PER_ORE);
     ItemStack chaosOre = new ItemStack(this);
     GameRegistry.addSmelting(this, chaosEssence, 0.5f);
 
@@ -44,7 +44,7 @@ public class ChaosOre extends BlockSG {
 
     // Pulverizer
     ItemStack chaosEssenceBonus = CraftingMaterial.getStack(Names.CHAOS_ESSENCE,
-        2 * Config.CHAOS_ESSENCE_PER_ORE.value);
+        2 * Config.CHAOS_ESSENCE_PER_ORE);
     ThermalExpansionHelper.addPulverizerRecipe(4000, chaosOre, chaosEssenceBonus);
     // TODO: SAG Mill?
   }

@@ -195,10 +195,10 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     BlockChaosPylon.Type type = getPylonType();
     if (type != null) {
       if (type == BlockChaosPylon.Type.PASSIVE) {
-        return Config.pylonPassiveGenerationRate;
+        return Config.PYLON_PASSIVE_GENERATION_RATE;
       } else if (type == BlockChaosPylon.Type.BURNER) {
         if (burnTimeRemaining > 0) {
-          return Config.pylonBurnerGenerationRate;
+          return Config.PYLON_BURNER_GENERATION_RATE;
         }
       } else {
         LogHelper.warning("TileChaosPylon.getEnergyProduced: Unknown pylon type!");

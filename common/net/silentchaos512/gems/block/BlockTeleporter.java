@@ -58,7 +58,7 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
   @Override
   public void addRecipes() {
 
-    if (!Config.recipeTeleporterDisabled) {
+    if (!Config.RECIPE_TELEPORTER_DISABLED) {
       ItemStack essencePlus = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
       ItemStack anyTeleporter = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
       for (EnumGem gem : EnumGem.values()) {

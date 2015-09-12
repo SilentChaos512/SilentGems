@@ -33,20 +33,6 @@ public class ConfigOptionInt extends ConfigOption {
   @Override
   public ConfigOption validate() {
 
-    if (name.equals(Config.CHAOS_ESSENCE_PER_ORE.name)) {
-      value = MathHelper.clamp_int(value, 1, 8);
-    } else if (name.equals(Config.CHAOS_GEM_MAX_BUFFS.name)) {
-      value = MathHelper.clamp_int(value, 1, 8);
-    } else if (name.equals(Config.WORLD_CHAOS_ORE_RARITY.name)) {
-      value = value < 1 ? 1 : value;
-    } else if (name.equals(Config.GLOW_ROSE_LIGHT_LEVEL.name)) {
-      value = MathHelper.clamp_int(value, 0, 15);
-    }
-    // Mistake catcher
-    else {
-      LogHelper.warning("No validation code for config setting " + name + " found!");
-    }
-
     return this;
   }
 

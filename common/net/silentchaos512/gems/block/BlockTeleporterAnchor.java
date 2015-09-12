@@ -22,7 +22,7 @@ public class BlockTeleporterAnchor extends BlockTeleporter {
   @Override
   public void addRecipes() {
 
-    if (!Config.recipeTeleporterAnchorDisabled) {
+    if (!Config.RECIPE_TELEPORTER_ANCHOR_DISABLED) {
       GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 4), "cec", " i ", "cec", 'c',
           "gemChaos", 'e', Items.ender_pearl, 'i', Blocks.iron_block));
     }

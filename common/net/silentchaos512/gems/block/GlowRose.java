@@ -31,7 +31,7 @@ public class GlowRose extends BlockSG implements IPlantable {
     this.setTickRandomly(true);
     float f = 0.2F;
     this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 3.0F, 0.5F + f);
-    this.lightValue = Config.GLOW_ROSE_LIGHT_LEVEL.value;
+    this.lightValue = Config.GLOW_ROSE_LIGHT_LEVEL;
     setHasGemSubtypes(true);
     setHasSubtypes(true);
     setUnlocalizedName(Names.GLOW_ROSE);

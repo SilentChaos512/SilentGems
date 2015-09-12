@@ -56,8 +56,8 @@ public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff {
 
     boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
         || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
-    return !Config.hideFlavorTextAlways
-        && ((Config.hideFlavorTextUntilShift && shifted) || !Config.hideFlavorTextUntilShift);
+    return !Config.HIDE_FLAVOR_TEXT_ALWAYS && ((Config.HIDE_FLAVOR_TEXT_UNTIL_SHIFT && shifted)
+        || !Config.HIDE_FLAVOR_TEXT_UNTIL_SHIFT);
   }
 
   /**
