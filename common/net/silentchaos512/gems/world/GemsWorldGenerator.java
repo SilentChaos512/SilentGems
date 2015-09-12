@@ -2,6 +2,7 @@ package net.silentchaos512.gems.world;
 
 import java.util.Random;
 
+import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
@@ -11,11 +12,9 @@ import net.silentchaos512.gems.block.GlowRose;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.SRegistry;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.WeightedRandomItemSG;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import cpw.mods.fml.common.IWorldGenerator;
 
 public class GemsWorldGenerator implements IWorldGenerator {
 
@@ -41,23 +40,24 @@ public class GemsWorldGenerator implements IWorldGenerator {
     int i, x, y, z, meta;
 
     // Gem ores.
-    for (i = 0; i < Config.WORLD_GEM_CLUSTER_COUNT.value; ++i) {
+    for (i = 0; i < Config.WORLD_GEM_CLUSTER_COUNT; ++i) {
       x = chunkX + random.nextInt(16);
-      y = random.nextInt(Config.WORLD_GEM_MAX_HEIGHT.value);
+      y = random.nextInt(Config.WORLD_GEM_MAX_HEIGHT);
       z = chunkZ + random.nextInt(16);
-//      WeightedRandomItemSG w = (WeightedRandomItemSG) WeightedRandom.getRandomItem(random, Config.GEM_WEIGHTS);
-      meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, Config.GEM_WEIGHTS)).getMeta();
-      new WorldGenMinable(ModBlocks.gemOre, meta, Config.WORLD_GEM_CLUSTER_SIZE.value, Blocks.stone)
+      // WeightedRandomItemSG w = (WeightedRandomItemSG) WeightedRandom.getRandomItem(random, Config.GEM_WEIGHTS);
+      meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, Config.GEM_WEIGHTS))
+          .getMeta();
+      new WorldGenMinable(ModBlocks.gemOre, meta, Config.WORLD_GEM_CLUSTER_SIZE, Blocks.stone)
           .generate(world, random, x, y, z);
     }
 
     // Chaos ores. Chance of failure.
-    for (i = 0; i < Config.WORLD_CHAOS_ORE_CLUSTER_COUNT.value; ++i) {
-      if (random.nextInt(Config.WORLD_CHAOS_ORE_RARITY.value) == 0) {
+    for (i = 0; i < Config.WORLD_CHAOS_ORE_CLUSTER_COUNT; ++i) {
+      if (random.nextInt(Config.WORLD_CHAOS_ORE_RARITY) == 0) {
         x = chunkX + random.nextInt(16);
-        y = random.nextInt(Config.WORLD_CHAOS_ORE_MAX_HEIGHT.value);
+        y = random.nextInt(Config.WORLD_CHAOS_ORE_MAX_HEIGHT);
         z = chunkZ + random.nextInt(16);
-        new WorldGenMinable(ModBlocks.chaosOre, 0, Config.WORLD_CHAOS_ORE_CLUSTER_SIZE.value,
+        new WorldGenMinable(ModBlocks.chaosOre, 0, Config.WORLD_CHAOS_ORE_CLUSTER_SIZE,
             Blocks.stone).generate(world, random, x, y, z);
       }
     }
@@ -81,7 +81,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
 
     // Glow roses
     GlowRose flower = (GlowRose) SRegistry.getBlock(Names.GLOW_ROSE);
-    for (i = 0; i < Config.WORLD_FLOWERS_PER_CHUNK.value; ++i) {
+    for (i = 0; i < Config.WORLD_FLOWERS_PER_CHUNK; ++i) {
       x = chunkX + random.nextInt(16);
       y = random.nextInt(80) + 40;
       z = chunkZ + random.nextInt(16);
