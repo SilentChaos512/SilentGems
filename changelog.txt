@@ -1,6 +1,8 @@
 Silent's Gems - Changelog
 
 1.3.00-beta06
+Changed: Recipes for Altars and Pylons.
+Fixed: Burner Pylon eating containers like buckets and lava crystals.
 Fixed: Return Home Charm not breaking.
 
 1.3.00-beta05

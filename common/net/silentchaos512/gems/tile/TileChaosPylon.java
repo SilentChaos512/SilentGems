@@ -224,7 +224,7 @@ public class TileChaosPylon extends TileEntity implements IInventory {
           currentItemBurnTime = burnTimeRemaining = fuelBurnTime;
           --inventory[0].stackSize;
           if (inventory[0].stackSize == 0) {
-            inventory[0] = null;
+            inventory[0] = inventory[0].getItem().getContainerItem(inventory[0]);
           }
           markForUpdate = true;
         }
