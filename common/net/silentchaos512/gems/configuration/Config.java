@@ -20,7 +20,7 @@ public class Config {
   public static int GLOW_ROSE_LIGHT_LEVEL = 10;
   public static int PYLON_BURNER_GENERATION_RATE = 10;
   public static int PYLON_PASSIVE_GENERATION_RATE = 1;
-  public static float REDSTONE_TELEPORTER_SEARCH_RANGE = 2.5f;
+  public static float REDSTONE_TELEPORTER_SEARCH_RANGE = 2.0f;
 
   /*
    * Items

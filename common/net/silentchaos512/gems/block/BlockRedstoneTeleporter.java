@@ -59,7 +59,8 @@ public class BlockRedstoneTeleporter extends BlockTeleporter {
   @Override
   public void onNeighborBlockChange(World world, int x, int y, int z, Block neighborBlock) {
 
-    final double searchRange = Config.REDSTONE_TELEPORTER_SEARCH_RANGE;
+    final double searchRange = Config.REDSTONE_TELEPORTER_SEARCH_RANGE
+        * Config.REDSTONE_TELEPORTER_SEARCH_RANGE;
 
     TileTeleporter tile = (TileTeleporter) world.getTileEntity(x, y, z);
     if (!world.isRemote && world.isBlockIndirectlyGettingPowered(x, y, z)) {
@@ -70,11 +71,13 @@ public class BlockRedstoneTeleporter extends BlockTeleporter {
       double dy = y + 0.5;
       double dz = z + 0.5;
       boolean playSound = false;
+      // Check all entities, teleport those close to the teleporter.
       for (int i = 0; i < world.loadedEntityList.size(); ++i) {
         Entity entity = (Entity) world.loadedEntityList.get(i);
         if (entity != null && entity.getDistanceSq(dx, dy, dz) < searchRange) {
-          this.teleporterEntityTo(entity, tile.destX, tile.destY, tile.destZ, tile.destD);
-          playSound = true;
+          if (teleporterEntityTo(entity, tile.destX, tile.destY, tile.destZ, tile.destD)) {
+            playSound = true;
+          }
         }
       }
 

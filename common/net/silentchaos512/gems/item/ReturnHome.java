@@ -284,17 +284,6 @@ public class ReturnHome extends ItemSG {
     int dz = tags.getInteger("Z");
     int dd = tags.getInteger("D");
 
-    // Dismount and teleport mount
-    if (player.ridingEntity != null) {
-      Entity mount = player.ridingEntity;
-      player.mountEntity((Entity) null);
-      if (dd != mount.dimension) {
-        mount.travelToDimension(dd); // FIXME: Will this spawn Nether portals?
-      }
-      mount.setLocationAndAngles(dx + 0.5, dy + 1.0, dz + 0.5, mount.rotationYaw,
-          mount.rotationPitch);
-    }
-
     // Teleport player
     if (player instanceof EntityPlayerMP) {
       TeleportUtil.teleportPlayerTo((EntityPlayerMP) player, dx, dy, dz, dd);
