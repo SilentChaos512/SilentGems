@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+1.3.00-beta07
+Changed: Return Home now glows when ready to teleport.
+
 1.3.00-beta06
 Changed: Recipes for Altars and Pylons.
 Changed: Altars no longer disable Chaos Gems.

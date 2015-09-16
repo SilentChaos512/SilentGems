@@ -43,6 +43,7 @@ public class ReturnHome extends ItemSG {
   public static final String NOT_SAFE = "NotSafe";
 
   public static final String NBT_GEM = "Gem";
+  public static final String NBT_CHARGED = "IsCharged";
 
   private final ItemStack[] subItems;
 
@@ -140,6 +141,12 @@ public class ReturnHome extends ItemSG {
   }
 
   @Override
+  public boolean hasEffect(ItemStack stack, int pass) {
+
+    return stack.stackTagCompound != null && stack.stackTagCompound.getBoolean(NBT_CHARGED);
+  }
+
+  @Override
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
     for (ItemStack stack : subItems) {
@@ -183,8 +190,32 @@ public class ReturnHome extends ItemSG {
   }
 
   @Override
+  public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
+
+    if (player.worldObj.isRemote) {
+      int timeUsed = getMaxItemUseDuration(stack) - count;
+      if (timeUsed >= Config.RETURN_HOME_USE_TIME) {
+        stack.stackTagCompound.setBoolean(NBT_CHARGED, true);
+      }
+    }
+  }
+  
+  @Override
+  public void onUpdate(ItemStack stack, World world, Entity entity, int k, boolean b) {
+
+    if (entity instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) entity;
+      if (player.getCurrentEquippedItem() != stack) {
+        stack.stackTagCompound.setBoolean(NBT_CHARGED, false);
+      }
+    }
+  }
+
+  @Override
   public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player,
       int itemInUseCount) {
+    
+    stack.stackTagCompound.setBoolean(NBT_CHARGED, false);
 
     if (!world.isRemote) {
       int timeUsed = this.getMaxItemUseDuration(stack) - itemInUseCount;
@@ -268,19 +299,6 @@ public class ReturnHome extends ItemSG {
     if (player instanceof EntityPlayerMP) {
       TeleportUtil.teleportPlayerTo((EntityPlayerMP) player, dx, dy, dz, dd);
     }
-//    int oldDimension = player.worldObj.provider.dimensionId;
-//    if (dd != oldDimension) {
-//      if (player instanceof EntityPlayerMP) {
-//        WorldServer worldServer = MinecraftServer.getServer().worldServerForDimension(dd);
-//        EntityPlayerMP playerMP = (EntityPlayerMP) player;
-//        playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dd,
-//            new TeleporterGems(worldServer));
-//        if (oldDimension == 1) {
-//          worldServer.spawnEntityInWorld(playerMP);
-//        }
-//      }
-//    }
-//    player.setPositionAndUpdate(dx + 0.5, dy + 1.0, dz + 0.5);
 
     // Damage item
     if (!player.capabilities.isCreativeMode) {
