@@ -39,6 +39,7 @@ public class ItemRendererChaosPylon implements IItemRenderer{
 
         if (type==ItemRenderType.ENTITY)
         {
+            GL11.glScaled(1.5, 1.5, 1.5);
             GL11.glTranslated(-0.5, -0.5, -0.5);
             GL11.glPushMatrix();
 
@@ -49,6 +50,7 @@ public class ItemRendererChaosPylon implements IItemRenderer{
         if (type==ItemRenderType.INVENTORY)
         {
             GL11.glTranslated(-0.5,-0.5,-0.5);
+            GL11.glScaled(2.0, 2.0, 2.0);
             GL11.glPushMatrix();
             TileEntityRendererDispatcher.instance.renderTileEntityAt(tileEntity,0.0,0.0,0.0,0.0f);
             GL11.glPopMatrix();
@@ -56,7 +58,8 @@ public class ItemRendererChaosPylon implements IItemRenderer{
 
         if (type==ItemRenderType.EQUIPPED)
         {
-            GL11.glTranslated(0.0,0.0,0.0);
+        	GL11.glScaled(1.75, 1.75, 1.75);
+            GL11.glTranslated(-.25,-.25,-.25);
             GL11.glPushMatrix();
             TileEntityRendererDispatcher.instance.renderTileEntityAt(tileEntity,0.0,0.0,0.0,0.0f);
             GL11.glPopMatrix();
@@ -64,6 +67,7 @@ public class ItemRendererChaosPylon implements IItemRenderer{
 
         if (type==ItemRenderType.EQUIPPED_FIRST_PERSON)
         {
+        	GL11.glScaled(1.75, 1.75, 1.75);
             GL11.glTranslated(0.0,0.0,0.0);
             GL11.glPushMatrix();
             TileEntityRendererDispatcher.instance.renderTileEntityAt(tileEntity,0.0,0.0,0.0,0.0f);
