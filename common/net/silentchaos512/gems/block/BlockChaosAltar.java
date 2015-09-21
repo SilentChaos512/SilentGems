@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
@@ -63,27 +64,28 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
     return "tile." + Names.CHAOS_ALTAR;
   }
 
-  @Override
-  public void registerBlockIcons(IIconRegister reg) {
-
-    String prefix = Strings.RESOURCE_PREFIX + Names.CHAOS_ALTAR + "_";
-    iconTop = reg.registerIcon(prefix + "Top");
-    iconSide = reg.registerIcon(prefix + "Side");
-    iconBottom = reg.registerIcon(prefix + "Bottom");
-  }
-
-  @Override
-  public IIcon getIcon(int side, int meta) {
-
-    switch (side) {
-      case 0:
-        return iconBottom;
-      case 1:
-        return iconTop;
-      default:
-        return iconSide;
-    }
-  }
+// Commented out by M4thG33k (see additions at the end of the file)
+//  @Override
+//  public void registerBlockIcons(IIconRegister reg) {
+//
+//    String prefix = Strings.RESOURCE_PREFIX + Names.CHAOS_ALTAR + "_";
+//    iconTop = reg.registerIcon(prefix + "Top");
+//    iconSide = reg.registerIcon(prefix + "Side");
+//    iconBottom = reg.registerIcon(prefix + "Bottom");
+//  }
+//
+//  @Override
+//  public IIcon getIcon(int side, int meta) {
+//
+//    switch (side) {
+//      case 0:
+//        return iconBottom;
+//      case 1:
+//        return iconTop;
+//      default:
+//        return iconSide;
+//    }
+//  }
 
   @Override
   public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
@@ -144,4 +146,41 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
       }
     }
   }
+  
+  /* ADDED BY MATHG33K */
+  @Override
+  public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
+  {
+    return false;
+  }
+
+  @Override
+  public boolean isOpaqueCube() {
+    return false;
+  }
+
+  @Override
+  public boolean renderAsNormalBlock() {
+    return false;
+  }
+
+  //the following changes the block bounds (so it's not considered a full block...you can remove this if you really want)
+
+  @Override
+  public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+    this.setBlockBounds(0.0f,0.0f,0.0f,1.0f,0.75f,1.0f);
+  }
+
+  //re-added these two methods in order to have the "block breaking" particles look similar to the actual block...
+  @Override
+  public void registerBlockIcons(IIconRegister reg) {
+    iconTop = reg.registerIcon(Blocks.obsidian.getIcon(0,0).getIconName());
+  }
+
+  @Override
+  public IIcon getIcon(int side, int meta) {
+    return iconTop;
+  }
+
+  /* END ADDED BY MATHG33K */
 }

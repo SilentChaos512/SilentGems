@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
@@ -80,8 +81,9 @@ public class BlockChaosPylon extends BlockContainer
 
   @Override
   public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-
-    return new TileChaosPylon();
+	TileChaosPylon toReturn = new TileChaosPylon();
+	toReturn.setPylonTypeInteger(p_149915_2_); //use the metadata of the block to set the pylon type
+    return toReturn;
   }
 
   @Override
@@ -113,32 +115,33 @@ public class BlockChaosPylon extends BlockContainer
     }
   }
 
-  @Override
-  public void registerBlockIcons(IIconRegister reg) {
-
-    for (int i = 0; i < Type.values().length; ++i) {
-      String prefix = Strings.RESOURCE_PREFIX + Names.CHAOS_PYLON + i + "_";
-      iconTop[i] = reg.registerIcon(prefix + "Top");
-      iconBottom[i] = reg.registerIcon(prefix + "Bottom");
-      iconSide[i] = reg.registerIcon(prefix + "Side");
-      iconSideA[i] = reg.registerIcon(prefix + "SideA");
-      iconSideB[i] = reg.registerIcon(prefix + "SideB");
-      iconSideAB[i] = reg.registerIcon(prefix + "SideAB");
-    }
-  }
-
-  @Override
-  public IIcon getIcon(int side, int meta) {
-
-    switch (side) {
-      case 0:
-        return iconBottom[meta];
-      case 1:
-        return iconTop[meta];
-      default:
-        return iconSide[meta];
-    }
-  }
+// Commented out by M4thG33k (see additions at the end of file)
+//  @Override
+//  public void registerBlockIcons(IIconRegister reg) {
+//
+//    for (int i = 0; i < Type.values().length; ++i) {
+//      String prefix = Strings.RESOURCE_PREFIX + Names.CHAOS_PYLON + i + "_";
+//      iconTop[i] = reg.registerIcon(prefix + "Top");
+//      iconBottom[i] = reg.registerIcon(prefix + "Bottom");
+//      iconSide[i] = reg.registerIcon(prefix + "Side");
+//      iconSideA[i] = reg.registerIcon(prefix + "SideA");
+//      iconSideB[i] = reg.registerIcon(prefix + "SideB");
+//      iconSideAB[i] = reg.registerIcon(prefix + "SideAB");
+//    }
+//  }
+//
+//  @Override
+//  public IIcon getIcon(int side, int meta) {
+//
+//    switch (side) {
+//      case 0:
+//        return iconBottom[meta];
+//      case 1:
+//        return iconTop[meta];
+//      default:
+//        return iconSide[meta];
+//    }
+//  }
 
   @Override
   public int damageDropped(int meta) {
@@ -200,4 +203,42 @@ public class BlockChaosPylon extends BlockContainer
       }
     }
   }
+  
+  /*ADDED BY M4THG33K*/
+  @Override
+  public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
+    return false;
+  }
+
+  @Override
+  public boolean isOpaqueCube()
+  {
+    return false;
+  }
+
+  @Override
+  public boolean renderAsNormalBlock()
+  {
+    return false;
+  }
+
+  //put these methods back in to help fix the "block break" particles
+  @Override
+  public void registerBlockIcons(IIconRegister reg) {
+    iconTop[0] = reg.registerIcon(Strings.RESOURCE_PREFIX + "SilentChaosPassivePylonSquare");
+    iconTop[1] = reg.registerIcon(Strings.RESOURCE_PREFIX + "SilentChaosBurnerPylonSquare");
+  }
+
+  @Override
+  public IIcon getIcon(int side, int meta) {
+    return iconTop[meta];
+  }
+
+  @Override
+  public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+    this.setBlockBounds(0.2f,0.1f,0.2f,0.8f,0.9f,0.8f);
+  }
+
+  /*END ADDED BY M4THG33K*/
+  
 }

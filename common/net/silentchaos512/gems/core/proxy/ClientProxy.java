@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.particle.EntityParticleFXChaosTransfer;
+import net.silentchaos512.gems.client.renderers.ModRenderers;
 
 public class ClientProxy extends CommonProxy {
 
@@ -16,6 +17,9 @@ public class ClientProxy extends CommonProxy {
     registerRenderersItems();
     registerRenderersMobs();
     registerRenderersProjectiles();
+    
+    //added by M4thG33k
+    ModRenderers.init();
   }
 
   private void registerRenderersProjectiles() {
