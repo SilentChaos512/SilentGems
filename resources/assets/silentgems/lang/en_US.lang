@@ -664,7 +664,7 @@ enchantment.AreaOfEffect=Area Miner
 
 # Chaos Buffs
 buff.silentgems:none=Empty
-buff.silentgems:absorption=Absorption
+buff.silentgems:absorption=Absorption (Deprecated)
 buff.silentgems:booster=Boost (Deprecated)
 buff.silentgems:capacity=Capacity (Deprecated)
 buff.silentgems:fireResistance=Fire Resistance

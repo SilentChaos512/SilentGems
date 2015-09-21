@@ -1,7 +1,9 @@
 Silent's Gems - Changelog
 
 1.3.00-beta07
-Changed: Return Home now glows when ready to teleport.
+Added: Return Home now glows when ready to teleport.
+Removed: Cross-dimension teleporting of non-player entities.
+Fixed: Redstone teleporter range calculations being off. Changed default range to 2.0 (actually larger after fix).
 
 1.3.00-beta06
 Changed: Recipes for Altars and Pylons.
