@@ -34,6 +34,23 @@ public class TileChaosPylon extends TileEntity implements IInventory {
   protected int lastAltarZ;
 
   protected ItemStack[] inventory = new ItemStack[1];
+  
+  //ADDED BY M4THG33K
+
+  protected int timer = 0;
+  protected int pylonType = -1; //used for rendering; set by external sources. a value of -1 means "something is wrong"
+
+  public int getTimer(){ return timer;}
+  public int getPylonTypeInteger(){ return pylonType;}
+
+  public void setTimer(int n){
+    timer = n;
+  }
+  public void setPylonTypeInteger(int myType){
+	  pylonType = myType;
+  }
+
+  //END ADDED BY M4THG33K
 
   @Override
   public void readFromNBT(NBTTagCompound tags) {
@@ -56,6 +73,16 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     }
 
     currentItemBurnTime = TileEntityFurnace.getItemBurnTime(inventory[0]);
+    
+    //read the pylonType info
+    if (tags.hasKey("MyPylonType"))
+    {
+    	pylonType = tags.getInteger("MyPylonType");
+    }
+    else
+    {
+    	pylonType = -1; //default to error texture. Break/replace current blocks to fix
+    }
   }
 
   @Override
@@ -78,6 +105,9 @@ public class TileChaosPylon extends TileEntity implements IInventory {
       }
     }
     tags.setTag("Items", tagList);
+    
+    //save pylon type
+    tags.setInteger("MyPylonType",pylonType);
   }
 
   public int getEnergyStored() {
@@ -182,6 +212,11 @@ public class TileChaosPylon extends TileEntity implements IInventory {
         // spawnParticlesToAltar();
         // }
       }
+    }
+    else{
+    	//update the timer - client side only; if you want each pylon/altar to have a unique
+    	//animation, we will have to move this somewhere else and rework the code a bit more
+    	timer = (timer+1)%360;
     }
 
     // FIXME: Particles - don't spawn when no energy is transfered?

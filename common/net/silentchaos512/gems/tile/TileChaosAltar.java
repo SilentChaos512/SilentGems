@@ -19,6 +19,20 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
   protected int[] slotsTop = new int[] { 0 };
   protected int[] slotsSide = new int[] { 0 };
   protected int energyStored = 0;
+  
+  //ADDED BY M4THG33K
+  protected int timer = 0; //a timer to help in the rendering animations
+
+  public int getTimer()
+  {
+    return timer;
+  }
+
+  public void setTimer(int n)
+  {
+    timer = n;
+  }
+  //END ADDED BY M4THG33K
 
   @Override
   public void readFromNBT(NBTTagCompound tags) {
@@ -117,6 +131,11 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
           }
         }
       }
+    }
+    else{
+    	//update the timer - client side only; if you want each pylon/altar to have a unique
+    	//animation, we will have to move this somewhere else and rework the code a bit more
+    	timer = (timer+1)%360;
     }
   }
 
