@@ -50,9 +50,9 @@ public class ChaosRune extends ItemSG {
         s = LocalizationHelper.getOtherItemKey(itemName, MAX_LEVEL);
         list.add(EnumChatFormatting.DARK_GREEN + String.format(s, buff.maxLevel));
         // Buff description
-        if (this.showFlavorText()) {
-          list.add(LocalizationHelper.getOtherItemKey(itemName, buff.name));
-        }
+//        if (this.showFlavorText()) {
+//          list.add(LocalizationHelper.getOtherItemKey(itemName, buff.name));
+//        }
         // Information on how to use.
         list.add(EnumChatFormatting.DARK_GRAY + LocalizationHelper.getItemDescription(itemName, 0));
       } else {

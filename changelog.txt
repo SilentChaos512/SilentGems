@@ -1,5 +1,7 @@
 Silent's Gems - Changelog
 
+1.3.00-RC1
+
 1.3.00-beta07
 Added: Altar and Pylon models (M4thG33k)
 Added: Return Home now glows when ready to teleport.

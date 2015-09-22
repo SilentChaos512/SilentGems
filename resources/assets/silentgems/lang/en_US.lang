@@ -10,11 +10,13 @@ container.silentgems:BurnerPylon=Burner Pylon
 # Block localizations
 
 tile.silentgems:ChaosAltar.name=Chaos Altar
-tile.silentgems:ChaosAltar.desc=WIP, but functional. Temporary textures.
+tile.silentgems:ChaosAltar.desc1=Charges items that can store Chaos energy.
+tile.silentgems:ChaosAltar.desc2=Requires pylons to be placed nearby.
 
 tile.silentgems:ChaosPylon0.name=Passive Chaos Pylon
 tile.silentgems:ChaosPylon1.name=Burner Chaos Pylon
-tile.silentgems:ChaosPylon.desc=WIP, but functional. Temporary textures.
+tile.silentgems:ChaosPylon.desc1=Generates Chaos energy and sends it to a
+tile.silentgems:ChaosPylon.desc2=nearby altar.
 
 tile.silentgems:ChaosOre.name=Chaos Ore
 
@@ -206,6 +208,9 @@ item.silentgems:ChaosBooster.name=Chaos Booster (Deprecated)
 
 item.silentgems:ChaosCapacitor.name=Chaos Capacitor (Deprecated)
 
+item.silentgems:ChaosCore.name=Chaos Core
+item.silentgems:ChaosCore.desc=No, it won't go critical! I'm 99.9999% sure!
+
 item.silentgems:ChaosCoal.name=Chaos Coal
 item.silentgems:ChaosCoal.desc=Lasts longer than regular coal.
 
@@ -216,11 +221,11 @@ item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence
 item.silentgems:ChaosEssencePlus.desc=Can conduct some kind of energy.
 
 item.silentgems:ChaosEssencePlus2.name=Crystallized Chaos Essence
-item.silentgems:ChaosEssencePlus2.desc=Currently unused.
+item.silentgems:ChaosEssencePlus2.desc=Currently unused. Feel free to speculate.
 item.silentgems:ChaosEssencePlus2.desc1=It might be durable enough to make tools...
 
 item.silentgems:ChaosEssenceShard.name=Chaos Essence Shard
-item.silentgems:ChaosEssenceShard.desc=Useless by itself.
+item.silentgems:ChaosEssenceShard.desc=Are you some kind of wizard, or something?
 
 item.silentgems:ChaosGem0.name=Chaos Ruby
 item.silentgems:ChaosGem1.name=Chaos Garnet
@@ -240,27 +245,13 @@ item.silentgems:ChaosGem.desc2=Charge in a Chaos Altar.
 item.silentgems:ChaosGem.Cheaty=Cheater!
 item.silentgems:ChaosGem.Disabled=Disabled
 item.silentgems:ChaosGem.Enabled=Enabled
-item.silentgems:ChaosGem.CostPerTick=Cost: %d chaos/t
+item.silentgems:ChaosGem.CostPerTick=Cost: %d Chaos/t
 item.silentgems:ChaosGem.MiniPylon=Mini Pylons
 
 item.silentgems:ChaosRune.name=Chaos Rune
 item.silentgems:ChaosRune.desc=Craft with Chaos gems to give them effects.
 item.silentgems:ChaosRune.Cost=Costs %d charge/second to use.
 item.silentgems:ChaosRune.MaxLevel=Max level is %d.
-item.silentgems:ChaosRune.absorption=More hearts!
-item.silentgems:ChaosRune.booster=Improves recharge rate.
-item.silentgems:ChaosRune.capacity=Improves maximum charge.
-item.silentgems:ChaosRune.fireResistance=Good for hot baths!
-item.silentgems:ChaosRune.flight=Like having a rocket on your back!
-item.silentgems:ChaosRune.haste=Make holes faster!
-item.silentgems:ChaosRune.invisibility=Better than covering your eyes!
-item.silentgems:ChaosRune.jump=Vertical mobility upgrade!
-item.silentgems:ChaosRune.nightVision=See things better!
-item.silentgems:ChaosRune.regeneration=Better than a bandage!
-item.silentgems:ChaosRune.resistance=Sort of like armor!
-item.silentgems:ChaosRune.speed=Get around faster!
-item.silentgems:ChaosRune.strength=Raise your power level!
-item.silentgems:ChaosRune.waterBreathing=Swim with the fishes!
 item.silentgems:ChaosRune.BadRune=Unknown effect!
 
 # CraftingMaterials
@@ -281,7 +272,7 @@ item.silentgems:EnchantmentToken.Empty=Empty
 item.silentgems:EnchantmentToken.GemToolsOnly=Gem tools only!
 item.silentgems:EnchantmentToken.BadToken=Bad token! Did an enchantment ID get changed?
 item.silentgems:EnchantmentToken.MaxLevel=Maximum level:
-item.silentgems:EnchantmentToken.enchantment.Mending=Randomly repairs the tool.
+item.silentgems:EnchantmentToken.enchantment.Mending=Randomly repairs the item.
 item.silentgems:EnchantmentToken.enchantment.AreaOfEffect=Allow tools to mine a 3x3 area.
 
 item.silentgems:FluffySeed.name=Fluffy Puff
@@ -330,13 +321,13 @@ item.silentgems:MeatyStewUncooked.name=Uncooked Meaty Stew
 item.silentgems:MeatyStewUncooked.desc=You might want to heat it up first.
 
 item.silentgems:MiniPylon.name=Mini Pylon
-item.silentgems:MiniPylon.desc=Craft with chaos gems. Causes them to generate 1 chaos/t.
+item.silentgems:MiniPylon.desc=Craft with chaos gems. Causes them to generate 1 Chaos/t.
 
 item.silentgems:Mystery Goo.name=Mystery Goo
 item.silentgems:Mystery Goo.desc=Feels right at home in space.
 
 item.silentgems:NetherShard.name=Nether Shard
-item.silentgems:NetherShard.desc=TODO
+item.silentgems:NetherShard.desc=Math is fun! 6x4=24
 
 item.silentgems:NetherCluster.name=Nether Cluster
 item.silentgems:NetherCluster.desc=TODO
@@ -366,7 +357,7 @@ item.silentgems:SecretDonut.name=Secret Donut
 item.silentgems:SecretDonut.desc=You cannot comprehend this donut.
 
 item.silentgems:SugarCookie.name=Sugar Cookie
-item.silentgems:SugarCookie.desc=I swear they were here a minute ago!
+item.silentgems:SugarCookie.desc=They go so fast!
 
 item.silentgems:SummonKitty.name=Summon Kitty
 item.silentgems:SummonKitty.desc=A much less annoying way to get cats.
@@ -731,4 +722,3 @@ misc.silentgems:Tool.Boots=Boots
 
 misc.silentgems:PressCtrl=<Press Ctrl>
 misc.silentgems:PressShift=<Press Shift>
-misc.silentgems:ArmorTextures=Textures not final!
