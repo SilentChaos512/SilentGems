@@ -3,6 +3,7 @@ Silent's Gems - Changelog
 1.3.00-beta07
 Added: Altar and Pylon models (M4thG33k)
 Added: Return Home now glows when ready to teleport.
+Added: Better armor textures.
 Removed: Cross-dimension teleporting of non-player entities. May add it back in if I find a fix for the Nether portal spawns.
 Fixed: Redstone teleporter range calculations being off. Changed default range to 2.0 (actually larger after fix).
 
