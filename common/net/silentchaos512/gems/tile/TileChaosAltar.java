@@ -13,6 +13,8 @@ import net.silentchaos512.gems.energy.IChaosStorage;
 import net.silentchaos512.gems.item.ChaosGem;
 
 public class TileChaosAltar extends TileEntity implements ISidedInventory {
+  
+  public static final int BLOCK_UPDATE_DELAY = 200;
 
   protected ItemStack[] inventory = new ItemStack[2];
   protected int[] slotsBottom = new int[] { 1 };
@@ -130,6 +132,10 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
             this.setInventorySlotContents(0, null);
           }
         }
+      }
+      
+      if (worldObj.getTotalWorldTime() % BLOCK_UPDATE_DELAY == 0) {
+        worldObj.notifyBlockChange(xCoord, yCoord, zCoord, blockType);
       }
     }
     else{

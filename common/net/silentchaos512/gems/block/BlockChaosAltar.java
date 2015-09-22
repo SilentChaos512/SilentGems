@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.Names;
@@ -54,8 +55,8 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
 
     ItemStack result = new ItemStack(this);
     ItemStack chaosCore = CraftingMaterial.getStack(Names.CHAOS_CORE);
-    GameRegistry.addRecipe(new ShapedOreRecipe(result, " d ", "eoe", "ooo", 'e',
-        chaosCore, 'o', Blocks.obsidian, 'd', "gemDiamond"));
+    GameRegistry.addRecipe(new ShapedOreRecipe(result, " d ", "eoe", "ooo", 'e', chaosCore, 'o',
+        Blocks.obsidian, 'd', "gemDiamond"));
   }
 
   @Override
@@ -113,49 +114,72 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
             }
 
             float f3 = 0.05F;
-            entityitem.motionX = (double) ((float) SilentGems.instance.random.nextGaussian() * f3);
-            entityitem.motionY = (double) ((float) SilentGems.instance.random.nextGaussian() * f3
-                + 0.2F);
-            entityitem.motionZ = (double) ((float) SilentGems.instance.random.nextGaussian() * f3);
+            entityitem.motionX = (double) (SilentGems.instance.random.nextGaussian() * f3);
+            entityitem.motionY = (double) (SilentGems.instance.random.nextGaussian() * f3 + 0.2F);
+            entityitem.motionZ = (double) (SilentGems.instance.random.nextGaussian() * f3);
             world.spawnEntityInWorld(entityitem);
           }
         }
       }
     }
   }
-  
+
+  @Override
+  public boolean hasComparatorInputOverride() {
+
+    return true;
+  }
+
+  @Override
+  public int getComparatorInputOverride(World world, int x, int y, int z, int par5) {
+
+    TileEntity tile = world.getTileEntity(x, y, z);
+    if (tile != null && tile instanceof TileChaosAltar) {
+      TileChaosAltar altar = (TileChaosAltar) tile;
+      float storedRatio = (float) altar.getEnergyStored() / altar.getMaxEnergyStored();
+      return (int) (15 * storedRatio);
+    }
+    return 0;
+  }
+
   /* ADDED BY MATHG33K */
   @Override
-  public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
-  {
+  public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
+
     return false;
   }
 
   @Override
   public boolean isOpaqueCube() {
+
     return false;
   }
 
   @Override
   public boolean renderAsNormalBlock() {
+
     return false;
   }
 
-  //the following changes the block bounds (so it's not considered a full block...you can remove this if you really want)
+  // the following changes the block bounds (so it's not considered a full block...you can remove this if you really
+  // want)
 
   @Override
   public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-    this.setBlockBounds(0.0f,0.0f,0.0f,1.0f,0.75f,1.0f);
+
+    this.setBlockBounds(0.0f, 0.0f, 0.0f, 1.0f, 0.75f, 1.0f);
   }
 
-  //re-added these two methods in order to have the "block breaking" particles look similar to the actual block...
+  // re-added these two methods in order to have the "block breaking" particles look similar to the actual block...
   @Override
   public void registerBlockIcons(IIconRegister reg) {
-    iconTop = reg.registerIcon(Blocks.obsidian.getIcon(0,0).getIconName());
+
+    iconTop = reg.registerIcon(Blocks.obsidian.getIcon(0, 0).getIconName());
   }
 
   @Override
   public IIcon getIcon(int side, int meta) {
+
     return iconTop;
   }
 
