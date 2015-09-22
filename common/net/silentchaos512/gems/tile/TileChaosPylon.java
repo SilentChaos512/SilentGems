@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.tile;
 
-import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -13,7 +12,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.BlockChaosPylon;
-import net.silentchaos512.gems.client.particle.EntityParticleFXChaosTransfer;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LogHelper;
 
