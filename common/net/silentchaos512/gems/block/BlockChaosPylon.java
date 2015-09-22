@@ -46,7 +46,7 @@ public class BlockChaosPylon extends BlockContainer
   public BlockChaosPylon() {
 
     super(Material.iron);
-    this.setHardness(7.0f);
+    this.setHardness(6.0f);
     this.setResistance(1000.0f);
     this.setCreativeTab(SilentGems.tabSilentGems);
   }

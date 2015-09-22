@@ -32,7 +32,7 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
   public BlockChaosAltar() {
 
     super(Material.iron);
-    this.setHardness(15.0f);
+    this.setHardness(12.0f);
     this.setResistance(6000.0f);
     this.setStepSound(Block.soundTypeMetal);
     this.setCreativeTab(SilentGems.tabSilentGems);
@@ -63,29 +63,6 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
 
     return "tile." + Names.CHAOS_ALTAR;
   }
-
-// Commented out by M4thG33k (see additions at the end of the file)
-//  @Override
-//  public void registerBlockIcons(IIconRegister reg) {
-//
-//    String prefix = Strings.RESOURCE_PREFIX + Names.CHAOS_ALTAR + "_";
-//    iconTop = reg.registerIcon(prefix + "Top");
-//    iconSide = reg.registerIcon(prefix + "Side");
-//    iconBottom = reg.registerIcon(prefix + "Bottom");
-//  }
-//
-//  @Override
-//  public IIcon getIcon(int side, int meta) {
-//
-//    switch (side) {
-//      case 0:
-//        return iconBottom;
-//      case 1:
-//        return iconTop;
-//      default:
-//        return iconSide;
-//    }
-//  }
 
   @Override
   public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
