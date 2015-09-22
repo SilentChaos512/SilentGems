@@ -5,21 +5,19 @@ import net.minecraft.world.World;
 
 public class EntityParticleFXChaosTransfer extends EntityCritFX {
 
-  // protected ResourceLocation particleTexture;
-  
   public EntityParticleFXChaosTransfer(World world, double posX, double posY, double posZ) {
     
-    this(world, posX, posY, posZ, 0.0001, 0.0001, 0.0001, 1.0f, 15);
+    this(world, posX, posY, posZ, 0.0001, 0.0001, 0.0001, 1.0f, 10, 0.0f, 0.2f, 0.8f);
   }
 
   public EntityParticleFXChaosTransfer(World world, double posX, double posY, double posZ, double motionX,
       double motionY, double motionZ) {
 
-    this(world, posX, posY, posZ, motionX, motionY, motionZ, 1.0f, 15);
+    this(world, posX, posY, posZ, motionX, motionY, motionZ, 1.0f, 10, 0.0f, 0.2f, 0.8f);
   }
 
   public EntityParticleFXChaosTransfer(World world, double posX, double posY, double posZ, double motionX,
-      double motionY, double motionZ, float scale, int maxAge) {
+      double motionY, double motionZ, float scale, int maxAge, float red, float green, float blue) {
 
     super(world, posX, posY, posZ, 0.0, 0.0, 0.0);
     // this.particleTexture = new ResourceLocation("silentgems:textures/particle/test.png");
@@ -28,9 +26,9 @@ public class EntityParticleFXChaosTransfer extends EntityCritFX {
     this.motionZ = motionZ;
     // this.particleTextureIndexX = 0;
     // this.particleTextureIndexY = 0;
-    this.particleRed = 0.0f;
-    this.particleGreen = 0.2f;
-    this.particleBlue = 0.8f;
+    this.particleRed = red;
+    this.particleGreen = green;
+    this.particleBlue = blue;
     this.particleScale = scale;
     this.particleMaxAge = maxAge;
     this.noClip = true;
@@ -49,11 +47,11 @@ public class EntityParticleFXChaosTransfer extends EntityCritFX {
     }
     
     this.moveEntity(this.motionX, this.motionY, this.motionZ);
-    this.motionX *= 1.36;
-    this.motionY *= 1.36;
-    this.motionZ *= 1.36;
+    this.motionX *= 1.05;
+    this.motionY *= 1.05;
+    this.motionZ *= 1.05;
     
-    this.particleAlpha *= 0.875f;
+    this.particleAlpha *= 0.75f;
   }
 
   // @Override

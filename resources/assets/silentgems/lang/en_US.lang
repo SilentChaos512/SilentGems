@@ -250,7 +250,7 @@ item.silentgems:ChaosGem.MiniPylon=Mini Pylons
 
 item.silentgems:ChaosRune.name=Chaos Rune
 item.silentgems:ChaosRune.desc=Craft with Chaos gems to give them effects.
-item.silentgems:ChaosRune.Cost=Costs %d charge/second to use.
+item.silentgems:ChaosRune.Cost=Costs %d Chaos/t to use.
 item.silentgems:ChaosRune.MaxLevel=Max level is %d.
 item.silentgems:ChaosRune.BadRune=Unknown effect!
 

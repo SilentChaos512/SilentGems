@@ -20,9 +20,9 @@ public class TileChaosPylon extends TileEntity implements IInventory {
   public static final int SEARCH_RADIUS = 4;
   public static final int SEARCH_HEIGHT = 1;
   public static final int TRANSFER_DELAY = 10;
-  public static final int ALTAR_SEARCH_DELAY = 200;
+  public static final int ALTAR_SEARCH_DELAY = 100;
   public static final int PARTICLE_DELAY = 100;
-  public static final int PARTICLE_COUNT = 16;
+  public static final int PARTICLE_COUNT = 8;
 
   protected int energyStored;
   protected int burnTimeRemaining;
@@ -32,23 +32,33 @@ public class TileChaosPylon extends TileEntity implements IInventory {
   protected int lastAltarZ;
 
   protected ItemStack[] inventory = new ItemStack[1];
-  
-  //ADDED BY M4THG33K
+
+  // ADDED BY M4THG33K
 
   protected int timer = 0;
-  protected int pylonType = -1; //used for rendering; set by external sources. a value of -1 means "something is wrong"
+  protected int pylonType = -1; // used for rendering; set by external sources. a value of -1 means "something is wrong"
 
-  public int getTimer(){ return timer;}
-  public int getPylonTypeInteger(){ return pylonType;}
+  public int getTimer() {
 
-  public void setTimer(int n){
+    return timer;
+  }
+
+  public int getPylonTypeInteger() {
+
+    return pylonType;
+  }
+
+  public void setTimer(int n) {
+
     timer = n;
   }
-  public void setPylonTypeInteger(int myType){
-	  pylonType = myType;
+
+  public void setPylonTypeInteger(int myType) {
+
+    pylonType = myType;
   }
 
-  //END ADDED BY M4THG33K
+  // END ADDED BY M4THG33K
 
   @Override
   public void readFromNBT(NBTTagCompound tags) {
@@ -71,15 +81,12 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     }
 
     currentItemBurnTime = TileEntityFurnace.getItemBurnTime(inventory[0]);
-    
-    //read the pylonType info
-    if (tags.hasKey("MyPylonType"))
-    {
-    	pylonType = tags.getInteger("MyPylonType");
-    }
-    else
-    {
-    	pylonType = -1; //default to error texture. Break/replace current blocks to fix
+
+    // read the pylonType info
+    if (tags.hasKey("MyPylonType")) {
+      pylonType = tags.getInteger("MyPylonType");
+    } else {
+      pylonType = -1; // default to error texture. Break/replace current blocks to fix
     }
   }
 
@@ -103,9 +110,9 @@ public class TileChaosPylon extends TileEntity implements IInventory {
       }
     }
     tags.setTag("Items", tagList);
-    
-    //save pylon type
-    tags.setInteger("MyPylonType",pylonType);
+
+    // save pylon type
+    tags.setInteger("MyPylonType", pylonType);
   }
 
   public int getEnergyStored() {
@@ -210,16 +217,17 @@ public class TileChaosPylon extends TileEntity implements IInventory {
         // spawnParticlesToAltar();
         // }
       }
-    }
-    else{
-    	//update the timer - client side only; if you want each pylon/altar to have a unique
-    	//animation, we will have to move this somewhere else and rework the code a bit more
-    	timer = (timer+1)%360;
+    } else {
+      // update the timer - client side only; if you want each pylon/altar to have a unique
+      // animation, we will have to move this somewhere else and rework the code a bit more
+      timer = (timer + 1) % 360;
     }
 
     // FIXME: Particles - don't spawn when no energy is transfered?
     if (worldObj.getTotalWorldTime() % PARTICLE_DELAY == 0) {
-      spawnParticlesToAltar();
+      if (!spawnParticlesToAltar()) {
+        spawnBadPlacementParticles();
+      }
     }
   }
 
@@ -305,11 +313,11 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     return false;
   }
 
-  private void spawnParticlesToAltar() {
+  private boolean spawnParticlesToAltar() {
 
     TileEntity altar = getAltar();
     if (altar == null) {
-      return;
+      return false;
     }
 
     double diffX = altar.xCoord - xCoord;
@@ -322,7 +330,7 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     double y = yCoord + 0.75;
     double z = zCoord + 0.5;
 
-    for (int i = 0; i < 16; ++i) {
+    for (int i = 0; i < PARTICLE_COUNT; ++i) {
       double motionX = SilentGems.instance.random.nextGaussian() * 0.0004;
       double motionY = SilentGems.instance.random.nextGaussian() * 0.0004;
       double motionZ = SilentGems.instance.random.nextGaussian() * 0.0004;
@@ -331,6 +339,22 @@ public class TileChaosPylon extends TileEntity implements IInventory {
       x += stepX;
       y += stepY;
       z += stepZ;
+    }
+
+    return true;
+  }
+
+  private void spawnBadPlacementParticles() {
+
+    double x = xCoord + 0.5;
+    double y = yCoord + 0.75;
+    double z = zCoord + 0.5;
+
+    for (int i = 0; i < PARTICLE_COUNT * 2; ++i) {
+      double motionX = SilentGems.instance.random.nextGaussian() * 0.02;
+      double motionY = SilentGems.instance.random.nextGaussian() * 0.02;
+      double motionZ = SilentGems.instance.random.nextGaussian() * 0.02;
+      SilentGems.proxy.spawnParticles("chaosNoAltar", worldObj, x, y, z, motionX, motionY, motionZ);
     }
   }
 

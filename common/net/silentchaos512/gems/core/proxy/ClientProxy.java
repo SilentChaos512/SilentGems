@@ -17,8 +17,8 @@ public class ClientProxy extends CommonProxy {
     registerRenderersItems();
     registerRenderersMobs();
     registerRenderersProjectiles();
-    
-    //added by M4thG33k
+
+    // added by M4thG33k
     ModRenderers.init();
   }
 
@@ -85,6 +85,9 @@ public class ClientProxy extends CommonProxy {
 
     if (type.equals("chaosTransfer")) {
       particleFX = new EntityParticleFXChaosTransfer(world, x, y, z, motionX, motionY, motionZ);
+    } else if (type.equals("chaosNoAltar")) {
+      particleFX = new EntityParticleFXChaosTransfer(world, x, y, z, motionX, motionY, motionZ,
+          1.0f, 15, 1.0f, 0.0f, 0.0f);
     }
 
     if (particleFX != null) {
