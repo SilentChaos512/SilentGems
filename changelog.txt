@@ -1,6 +1,8 @@
 Silent's Gems - Changelog
 
 1.3.00-RC1
+Added: Missing textures and localizations
+Added: Particles for pylons that can't find an altar.
 
 1.3.00-beta07
 Added: Altar and Pylon models (M4thG33k)
