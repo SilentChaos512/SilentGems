@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+1.3.01
+Changed: Altar/pylon textures (downsized, altar colors tweaked)
+Changed: Most armor textures (increased brightness & constrast for a shinier look)
+
 1.3.00-RC1
 Added: Missing textures and localizations
 Added: Particles for pylons that can't find an altar.
