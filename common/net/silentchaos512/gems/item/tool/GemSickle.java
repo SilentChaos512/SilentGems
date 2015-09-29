@@ -5,7 +5,6 @@ import com.google.common.collect.Sets;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -21,28 +20,18 @@ import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.material.ModMaterials;
 
 public class GemSickle extends ItemTool {
 
-  private int gemId;
-  private boolean supercharged;
-  private IIcon iconRod, iconHead;
-
-  public static IIcon iconBlank = null;
-  public static IIcon[] iconToolDeco = null;
-  public static IIcon[] iconToolRod = null;
-  public static IIcon[] iconToolHeadL = null;
-  public static IIcon[] iconToolHeadM = null;
-  public static IIcon[] iconToolHeadR = null;
+  public final int gemId;
+  public final boolean supercharged;
 
   public static final Material[] effectiveMaterials = new Material[] { Material.cactus,
       Material.leaves, Material.plants, Material.vine, Material.web };
@@ -103,64 +92,7 @@ public class GemSickle extends ItemTool {
   @Override
   public IIcon getIcon(ItemStack stack, int pass) {
 
-    if (pass == 0) {
-      // Rod
-      return iconRod;
-    } else if (pass == 1) {
-      // Rod decoration
-      if (supercharged) {
-        if (stack.stackTagCompound != null
-            && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_DECO)) {
-          byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_DECO);
-          if (b >= 0 && b < iconToolDeco.length - 1) {
-            return iconToolDeco[b];
-          }
-        }
-        return iconToolDeco[iconToolDeco.length - 1];
-      }
-      return iconBlank;
-    } else if (pass == 2) {
-      // Rod wool
-      if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_ROD)) {
-        byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_ROD);
-        if (b >= 0 && b < iconToolRod.length) {
-          return iconToolRod[b];
-        }
-      }
-      return iconBlank;
-    } else if (pass == 3) {
-      // HeadM
-      if (stack.stackTagCompound != null
-          && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_MIDDLE)) {
-        byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_MIDDLE);
-        if (b >= 0 && b < iconToolHeadM.length) {
-          return iconToolHeadM[b];
-        }
-      }
-      return iconHead;
-    } else if (pass == 4) {
-      // HeadL
-      if (stack.stackTagCompound != null
-          && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_LEFT)) {
-        byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_LEFT);
-        if (b >= 0 && b < iconToolHeadL.length) {
-          return iconToolHeadL[b];
-        }
-      }
-      return iconBlank;
-    } else if (pass == 5) {
-      // HeadR
-      if (stack.stackTagCompound != null
-          && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_RIGHT)) {
-        byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_RIGHT);
-        if (b >= 0 && b < iconToolHeadR.length) {
-          return iconToolHeadR[b];
-        }
-      }
-      return iconBlank;
-    } else {
-      return iconBlank;
-    }
+    return ToolRenderHelper.instance.getIcon(stack, pass, gemId, supercharged);
   }
 
   @Override
@@ -179,7 +111,7 @@ public class GemSickle extends ItemTool {
   @Override
   public int getRenderPasses(int meta) {
 
-    return 6;
+    return ToolRenderHelper.RENDER_PASS_COUNT;
   }
 
   @Override
@@ -304,57 +236,6 @@ public class GemSickle extends ItemTool {
       if (sickle.stackSize == 0) {
         player.destroyCurrentEquippedItem();
       }
-    }
-  }
-
-  @Override
-  public void registerIcons(IIconRegister iconRegister) {
-
-    String s = Strings.RESOURCE_PREFIX + "Sickle";
-
-    if (supercharged) {
-      iconRod = iconRegister.registerIcon(s + "_RodOrnate");
-    } else {
-      iconRod = iconRegister.registerIcon(s + "_RodNormal");
-    }
-
-    s += gemId;
-
-    iconHead = iconRegister.registerIcon(s);
-
-    // Deco
-    String str = Strings.RESOURCE_PREFIX + "ToolDeco";
-    iconToolDeco = new IIcon[EnumGem.all().length + 1];
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      iconToolDeco[i] = iconRegister.registerIcon(str + i);
-    }
-    iconToolDeco[iconToolDeco.length - 1] = iconRegister.registerIcon(str);
-
-    // Rod
-    str = Strings.RESOURCE_PREFIX + "SickleWool";
-    iconToolRod = new IIcon[16];
-    for (int i = 0; i < 16; ++i) {
-      iconToolRod[i] = iconRegister.registerIcon(str + i);
-    }
-
-    // Blank texture
-    iconBlank = iconRegister.registerIcon(Strings.RESOURCE_PREFIX + "Blank");
-
-    // HeadL
-    str = Strings.RESOURCE_PREFIX + "Sickle";
-    iconToolHeadL = new IIcon[EnumGem.all().length];
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      iconToolHeadL[i] = iconRegister.registerIcon(str + i + "L");
-    }
-    // HeadM
-    iconToolHeadM = new IIcon[EnumGem.all().length];
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      iconToolHeadM[i] = iconRegister.registerIcon(str + i);
-    }
-    // HeadR
-    iconToolHeadR = new IIcon[EnumGem.all().length];
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      iconToolHeadR[i] = iconRegister.registerIcon(str + i + "R");
     }
   }
 

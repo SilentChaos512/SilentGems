@@ -29,6 +29,7 @@ public class NEISilentGemsConfig implements IConfigureNEI {
     API.hideItem(new ItemStack(ModItems.chaosRune, 1, 11)); // Boost
     API.hideItem(new ItemStack(ModItems.chaosRune, 1, 12)); // Absorption
     API.hideItem(new ItemStack(ModItems.debugItem));
+    API.hideItem(new ItemStack(ModItems.toolRenderHelper));
   }
 
   @Override

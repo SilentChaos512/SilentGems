@@ -1,36 +1,25 @@
 package net.silentchaos512.gems.item.tool;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.material.ModMaterials;
 
 public class GemSword extends ItemSword {
 
-  private final int gemId;
-  private final boolean supercharged;
+  public final int gemId;
+  public final boolean supercharged;
   private final ToolMaterial toolMaterial;
-  private IIcon iconRod;
-  private IIcon iconHead;
-
-  public static IIcon iconBlank = null;
-  public static IIcon[] iconToolDeco = null;
-  public static IIcon[] iconToolRod = null;
-  public static IIcon[] iconToolHeadL = null;
-  public static IIcon[] iconToolHeadM = null;
-  public static IIcon[] iconToolHeadR = null;
 
   public GemSword(ToolMaterial toolMaterial, int gemId, boolean supercharged) {
 
@@ -71,64 +60,7 @@ public class GemSword extends ItemSword {
   @Override
   public IIcon getIcon(ItemStack stack, int pass) {
 
-    if (pass == 0) {
-      // Rod
-      return iconRod;
-    } else if (pass == 1) {
-      // HeadM
-      if (stack.stackTagCompound != null
-          && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_MIDDLE)) {
-        byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_MIDDLE);
-        if (b >= 0 && b < iconToolHeadM.length) {
-          return iconToolHeadM[b];
-        }
-      }
-      return iconHead;
-    } else if (pass == 2) {
-      // HeadL
-      if (stack.stackTagCompound != null
-          && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_LEFT)) {
-        byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_LEFT);
-        if (b >= 0 && b < iconToolHeadL.length) {
-          return iconToolHeadL[b];
-        }
-      }
-      return iconBlank;
-    } else if (pass == 3) {
-      // HeadR
-      if (stack.stackTagCompound != null
-          && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_RIGHT)) {
-        byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_RIGHT);
-        if (b >= 0 && b < iconToolHeadR.length) {
-          return iconToolHeadR[b];
-        }
-      }
-      return iconBlank;
-    } else if (pass == 4) {
-      // Rod decoration
-      if (supercharged) {
-        if (stack.stackTagCompound != null
-            && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_DECO)) {
-          byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_DECO);
-          if (b >= 0 && b < iconToolDeco.length - 1) {
-            return iconToolDeco[b];
-          }
-        }
-        return iconToolDeco[iconToolDeco.length - 1];
-      }
-      return iconBlank;
-    } else if (pass == 5) {
-      // Rod wool
-      if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey(Strings.TOOL_ICON_ROD)) {
-        byte b = stack.stackTagCompound.getByte(Strings.TOOL_ICON_ROD);
-        if (b >= 0 && b < iconToolRod.length) {
-          return iconToolRod[b];
-        }
-      }
-      return iconBlank;
-    } else {
-      return iconBlank;
-    }
+    return ToolRenderHelper.instance.getIcon(stack, pass, gemId, supercharged);
   }
 
   @Override
@@ -147,7 +79,7 @@ public class GemSword extends ItemSword {
   @Override
   public int getRenderPasses(int meta) {
 
-    return 6;
+    return ToolRenderHelper.RENDER_PASS_COUNT;
   }
 
   @Override
@@ -160,57 +92,6 @@ public class GemSword extends ItemSword {
   public boolean hasEffect(ItemStack stack, int pass) {
 
     return stack.isItemEnchanted() && pass == 5;
-  }
-
-  @Override
-  public void registerIcons(IIconRegister iconRegister) {
-
-    String s = Strings.RESOURCE_PREFIX + "Sword";
-
-    if (supercharged) {
-      iconRod = iconRegister.registerIcon(s + "_RodOrnate");
-    } else {
-      iconRod = iconRegister.registerIcon(s + "_RodNormal");
-    }
-
-    s += gemId;
-
-    iconHead = iconRegister.registerIcon(s);
-
-    // Deco
-    String str = Strings.RESOURCE_PREFIX + "SwordDeco";
-    iconToolDeco = new IIcon[EnumGem.all().length + 1];
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      iconToolDeco[i] = iconRegister.registerIcon(str + i);
-    }
-    iconToolDeco[iconToolDeco.length - 1] = iconRegister.registerIcon(str);
-
-    // Rod
-    str = Strings.RESOURCE_PREFIX + "SwordWool";
-    iconToolRod = new IIcon[16];
-    for (int i = 0; i < 16; ++i) {
-      iconToolRod[i] = iconRegister.registerIcon(str + i);
-    }
-
-    // Blank texture
-    iconBlank = iconRegister.registerIcon(Strings.RESOURCE_PREFIX + "Blank");
-
-    // HeadL
-    str = Strings.RESOURCE_PREFIX + "Sword";
-    iconToolHeadL = new IIcon[EnumGem.all().length];
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      iconToolHeadL[i] = iconRegister.registerIcon(str + i + "L");
-    }
-    // HeadM
-    iconToolHeadM = new IIcon[EnumGem.all().length];
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      iconToolHeadM[i] = iconRegister.registerIcon(str + i);
-    }
-    // HeadR
-    iconToolHeadR = new IIcon[EnumGem.all().length];
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      iconToolHeadR[i] = iconRegister.registerIcon(str + i + "R");
-    }
   }
 
   @Override

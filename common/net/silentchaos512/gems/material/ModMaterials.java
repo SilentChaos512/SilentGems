@@ -7,8 +7,9 @@ import net.silentchaos512.gems.configuration.Config;
 
 public class ModMaterials {
 
-	public static final int FISH_GEM_ID = 42;
-	public static final int FLINT_GEM_ID = 43;
+	public static final int FISH_GEM_ID = 12;
+	public static final int FLINT_GEM_ID = 13;
+
 	private static int mlr = Config.MINING_LEVEL_REGULAR;
 	
 	public static final ToolMaterial toolRegRuby        = EnumHelper.addToolMaterial("GemRegRuby",       mlr, 768,  8.0f, 3.0f, 10);

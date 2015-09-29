@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.RecipeSorter.Category;
+import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.armor.ArmorSG;
@@ -41,6 +42,7 @@ public class ModItems {
   public static ChaosRune chaosRune;
   public static DyeSG dye;
   public static DebugItem debugItem;
+  public static ToolRenderHelper toolRenderHelper;
 
   public static void init() {
 
@@ -75,18 +77,19 @@ public class ModItems {
     /*
      * Tools
      */
+
     Object[] params = new Object[] { null, 0, false }; // Constructor parameters
 
     // Flint tools
-//    params[0] = ModMaterials.toolFlint;
-//    params[1] = ModMaterials.FLINT_GEM_ID;
-//    params[2] = false;
-//    SRegistry.registerItem(GemSword.class, "SwordFlint", params);
-//    SRegistry.registerItem(GemPickaxe.class, "PickaxeFlint", params);
-//    SRegistry.registerItem(GemShovel.class, "ShovelFlint", params);
-//    SRegistry.registerItem(GemAxe.class, "AxeFlint", params);
-//    SRegistry.registerItem(GemHoe.class, "HoeFlint", params);
-//    SRegistry.registerItem(GemSickle.class, "SickleFlint", params);
+     params[0] = ModMaterials.toolFlint;
+     params[1] = ModMaterials.FLINT_GEM_ID;
+     params[2] = false;
+     SRegistry.registerItem(GemSword.class, "SwordFlint", params);
+     SRegistry.registerItem(GemPickaxe.class, "PickaxeFlint", params);
+     SRegistry.registerItem(GemShovel.class, "ShovelFlint", params);
+     SRegistry.registerItem(GemAxe.class, "AxeFlint", params);
+     SRegistry.registerItem(GemHoe.class, "HoeFlint", params);
+     SRegistry.registerItem(GemSickle.class, "SickleFlint", params);
 
     // Gem tools
     for (int i = 0; i < 24; ++i) {
@@ -147,6 +150,11 @@ public class ModItems {
 
     // Debug Item
     debugItem = (DebugItem) SRegistry.registerItem(DebugItem.class, Names.DEBUG_ITEM);
+
+    // Fake item ToolRenderHelper
+    toolRenderHelper = (ToolRenderHelper) SRegistry.registerItem(ToolRenderHelper.class,
+        "ToolRenderHelper");
+    ToolRenderHelper.init();
   }
 
   public static void initItemRecipes() {
