@@ -76,6 +76,19 @@ public class ModItems {
      * Tools
      */
     Object[] params = new Object[] { null, 0, false }; // Constructor parameters
+
+    // Flint tools
+//    params[0] = ModMaterials.toolFlint;
+//    params[1] = ModMaterials.FLINT_GEM_ID;
+//    params[2] = false;
+//    SRegistry.registerItem(GemSword.class, "SwordFlint", params);
+//    SRegistry.registerItem(GemPickaxe.class, "PickaxeFlint", params);
+//    SRegistry.registerItem(GemShovel.class, "ShovelFlint", params);
+//    SRegistry.registerItem(GemAxe.class, "AxeFlint", params);
+//    SRegistry.registerItem(GemHoe.class, "HoeFlint", params);
+//    SRegistry.registerItem(GemSickle.class, "SickleFlint", params);
+
+    // Gem tools
     for (int i = 0; i < 24; ++i) {
       boolean supercharged = i >= 12;
       int gem = supercharged ? i - 12 : i;
@@ -90,6 +103,7 @@ public class ModItems {
       SRegistry.registerItem(GemHoe.class, "Hoe" + s, params);
       SRegistry.registerItem(GemSickle.class, "Sickle" + s, params);
     }
+
     // Fish tools.
     params[0] = ModMaterials.toolFish;
     params[1] = ModMaterials.FISH_GEM_ID;
@@ -110,7 +124,7 @@ public class ModItems {
       String s = gem + (supercharged ? "Plus" : "");
       ArmorMaterial material = EnumGem.values()[gem].getArmorMaterial(supercharged);
       ItemStack craftingItem = new ItemStack(ModItems.gem, 1, (supercharged ? gem | 16 : gem));
-      
+
       String name = "Helmet" + s;
       String texture = "GemArmor" + gem;
       SRegistry.registerItem(ArmorSG.class, name, material, 0, 0, name, texture, craftingItem);
@@ -121,7 +135,7 @@ public class ModItems {
       name = "Boots" + s;
       SRegistry.registerItem(ArmorSG.class, name, material, 0, 3, name, texture, craftingItem);
     }
-    
+
     SRegistry.registerItem(ArmorSG.class, "CottonHelmet", ArmorSG.materialCotton, 0, 0,
         "CottonHelmet");
     SRegistry.registerItem(ArmorSG.class, "CottonChestplate", ArmorSG.materialCotton, 0, 1,
@@ -143,8 +157,8 @@ public class ModItems {
     addRecipeHandler(EnchantToolRecipe.class, "EnchantTool", Category.SHAPELESS, afterShapeless);
     addRecipeHandler(TorchBandolierRecipe.class, "TorchBandolierDecorate", Category.SHAPELESS,
         afterShapeless);
-    addRecipeHandler(TorchBandolierExtractRecipe.class, "TorchBandolierExtract",
-        Category.SHAPELESS, afterShapeless);
+    addRecipeHandler(TorchBandolierExtractRecipe.class, "TorchBandolierExtract", Category.SHAPELESS,
+        afterShapeless);
     // addRecipeHandler(HoldingGemSetRecipe.class, "HoldingGemSet", Category.SHAPELESS, afterShapeless);
   }
 

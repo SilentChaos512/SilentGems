@@ -56,9 +56,11 @@ public class GemShovel extends ItemSpade {
 
     ItemStack material = new ItemStack(ModItems.gem, 1, gemId + (supercharged ? 16 : 0));
 
-    // Fish tools
+    // Fish/flint tools
     if (gemId == ModMaterials.FISH_GEM_ID) {
       material = new ItemStack(Items.fish);
+    } else if (gemId == ModMaterials.FLINT_GEM_ID) {
+      material = new ItemStack(Items.flint);
     }
 
     if (supercharged) {

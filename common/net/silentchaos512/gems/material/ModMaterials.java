@@ -8,6 +8,7 @@ import net.silentchaos512.gems.configuration.Config;
 public class ModMaterials {
 
 	public static final int FISH_GEM_ID = 42;
+	public static final int FLINT_GEM_ID = 43;
 	private static int mlr = Config.MINING_LEVEL_REGULAR;
 	
 	public static final ToolMaterial toolRegRuby        = EnumHelper.addToolMaterial("GemRegRuby",       mlr, 768,  8.0f, 3.0f, 10);
@@ -41,6 +42,7 @@ public class ModMaterials {
   public static final ToolMaterial toolSupMorganite   = EnumHelper.addToolMaterial("GemSupMorganite",  mls, 512 * dm, 10.0f + ea, 4.0f + da, 18);
   public static final ToolMaterial toolSupOnyx        = EnumHelper.addToolMaterial("GemSupOnyx",       mls, 384 * dm, 10.0f + ea, 6.0f + da, 14);
 
+  public static final ToolMaterial toolFlint          = EnumHelper.addToolMaterial("GemFlint", 1, 192, 6.0f, 2.0f, 8);
   public static final ToolMaterial toolFish           = EnumHelper.addToolMaterial("GemFish", Config.MINING_LEVEL_FISH, 64, 3.0f, 1.0f, 20);
   
   /*
