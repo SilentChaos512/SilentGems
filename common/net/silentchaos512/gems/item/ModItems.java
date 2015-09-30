@@ -78,18 +78,23 @@ public class ModItems {
      * Tools
      */
 
+    // Fake item ToolRenderHelper
+    toolRenderHelper = (ToolRenderHelper) SRegistry.registerItem(ToolRenderHelper.class,
+        "ToolRenderHelper");
+    ToolRenderHelper.init();
+
     Object[] params = new Object[] { null, 0, false }; // Constructor parameters
 
     // Flint tools
-     params[0] = ModMaterials.toolFlint;
-     params[1] = ModMaterials.FLINT_GEM_ID;
-     params[2] = false;
-     SRegistry.registerItem(GemSword.class, "SwordFlint", params);
-     SRegistry.registerItem(GemPickaxe.class, "PickaxeFlint", params);
-     SRegistry.registerItem(GemShovel.class, "ShovelFlint", params);
-     SRegistry.registerItem(GemAxe.class, "AxeFlint", params);
-     SRegistry.registerItem(GemHoe.class, "HoeFlint", params);
-     SRegistry.registerItem(GemSickle.class, "SickleFlint", params);
+    params[0] = ModMaterials.toolFlint;
+    params[1] = ModMaterials.FLINT_GEM_ID;
+    params[2] = false;
+    SRegistry.registerItem(GemSword.class, "SwordFlint", params);
+    SRegistry.registerItem(GemPickaxe.class, "PickaxeFlint", params);
+    SRegistry.registerItem(GemShovel.class, "ShovelFlint", params);
+    SRegistry.registerItem(GemAxe.class, "AxeFlint", params);
+    SRegistry.registerItem(GemHoe.class, "HoeFlint", params);
+    SRegistry.registerItem(GemSickle.class, "SickleFlint", params);
 
     // Gem tools
     for (int i = 0; i < 24; ++i) {
@@ -150,11 +155,6 @@ public class ModItems {
 
     // Debug Item
     debugItem = (DebugItem) SRegistry.registerItem(DebugItem.class, Names.DEBUG_ITEM);
-
-    // Fake item ToolRenderHelper
-    toolRenderHelper = (ToolRenderHelper) SRegistry.registerItem(ToolRenderHelper.class,
-        "ToolRenderHelper");
-    ToolRenderHelper.init();
   }
 
   public static void initItemRecipes() {

@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.item.tool;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
@@ -97,5 +98,13 @@ public class GemHoe extends ItemHoe {
   public boolean requiresMultipleRenderPasses() {
 
     return true;
+  }
+  
+  @Override
+  public void registerIcons(IIconRegister reg) {
+
+    if (gemId >= 0 && gemId < ToolRenderHelper.HEAD_TYPE_COUNT) {
+      itemIcon = ToolRenderHelper.instance.hoeIcons.headM[gemId];
+    }
   }
 }

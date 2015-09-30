@@ -2,6 +2,7 @@ package net.silentchaos512.gems.item.tool;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -162,6 +163,14 @@ public class GemShovel extends ItemSpade {
   public boolean requiresMultipleRenderPasses() {
 
     return true;
+  }
+  
+  @Override
+  public void registerIcons(IIconRegister reg) {
+
+    if (gemId >= 0 && gemId < ToolRenderHelper.HEAD_TYPE_COUNT) {
+      itemIcon = ToolRenderHelper.instance.shovelIcons.headM[gemId];
+    }
   }
 
   @Override

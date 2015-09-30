@@ -3,6 +3,7 @@ package net.silentchaos512.gems.item.tool;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +28,7 @@ import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.material.ModMaterials;
 
 public class GemAxe extends ItemAxe {
@@ -184,6 +186,14 @@ public class GemAxe extends ItemAxe {
   public boolean requiresMultipleRenderPasses() {
 
     return true;
+  }
+  
+  @Override
+  public void registerIcons(IIconRegister reg) {
+
+    if (gemId >= 0 && gemId < ToolRenderHelper.HEAD_TYPE_COUNT) {
+      itemIcon = ToolRenderHelper.instance.axeIcons.headM[gemId];
+    }
   }
 
   @Override
