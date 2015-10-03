@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.item.tool.GemPickaxe;
 import net.silentchaos512.gems.item.tool.GemShovel;
@@ -28,32 +29,27 @@ public class TippedToolRecipe implements IRecipe {
     int upgradeValue = 0;
     ItemStack stack;
     Item item;
+    int meta;
 
     // Find tool and upgrade
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
       if (stack != null) {
         item = stack.getItem();
+        meta = stack.getItemDamage();
         if (item instanceof GemPickaxe || item instanceof GemShovel || item instanceof GemAxe) {
           // Tool
           if (tool != null) {
             return null;
           }
           tool = stack.copy();
-        } else if (item == Items.iron_ingot) {
-          // Iron
+        } else if (item == ModItems.toolUpgrade && (meta == 0 || meta == 1)) {
+          // Upgrade
           if (upgrade != null) {
             return null;
           }
           upgrade = stack;
-          upgradeValue = 1;
-        } else if (item == Items.diamond) {
-          // Diamond
-          if (upgrade != null) {
-            return null;
-          }
-          upgrade = stack;
-          upgradeValue = 2;
+          upgradeValue = meta + 1;
         } else {
           // Invalid
           return null;

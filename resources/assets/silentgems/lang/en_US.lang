@@ -278,6 +278,12 @@ item.silentgems:EnchantmentToken.enchantment.AreaOfEffect=Allow tools to mine a 
 item.silentgems:FluffySeed.name=Fluffy Puff
 item.silentgems:FluffySeed.desc=Can be planted, or crafted into soft things.
 
+# Tool Upgrades
+item.silentgems:IronTipUpgrade.name=Upgrade: Iron-Tipped
+item.silentgems:DiamondTipUpgrade.name=Upgrade: Diamond-Tipped
+item.silentgems:TipUpgrade.desc1=Raises mining level to %d (if lower).
+item.silentgems:TipUpgrade.desc2=Raises durability by %d.
+
 # Food
 item.silentgems:Food.desc=Foodstuffs.
 

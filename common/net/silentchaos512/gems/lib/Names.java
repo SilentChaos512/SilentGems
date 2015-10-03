@@ -55,6 +55,7 @@ public class Names {
   public static final String SUMMON_PUPPY = "SummonPuppy";
   public static final String SUMMON_PET = "SummonPet";
   public static final String TELEPORTER_LINKER = "TeleporterLinker";
+  public static final String TOOL_UPGRADE = "ToolUpgrade";
   public static final String TORCH_BANDOLIER = "TorchBandolier";
 
   /*
@@ -78,6 +79,12 @@ public class Names {
   public static final String PLUME = "Plume";
   public static final String RAWHIDE_BONE = "RawhideBone";
   public static final String YARN_BALL = "Yarn Ball";
+  
+  /*
+   * Tool Upgrades
+   */
+  public static final String UPGRADE_IRON_TIP = "IronTipUpgrade";
+  public static final String UPGRADE_DIAMOND_TIP = "DiamondTipUpgrade";
 
   /*
    * Enchantments

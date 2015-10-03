@@ -40,6 +40,7 @@ public class ModItems {
   public static ReturnHome returnHome;
   public static PetSummon petSummon;
   public static EnchantToken enchantmentToken;
+  public static ItemToolUpgrade toolUpgrade;
   public static ChaosRune chaosRune;
   public static DyeSG dye;
   public static DebugItem debugItem;
@@ -63,6 +64,7 @@ public class ModItems {
     petSummon = (PetSummon) SRegistry.registerItem(PetSummon.class, Names.SUMMON_PET);
     enchantmentToken = (EnchantToken) SRegistry.registerItem(EnchantToken.class,
         Names.ENCHANT_TOKEN);
+    toolUpgrade = (ItemToolUpgrade) SRegistry.registerItem(ItemToolUpgrade.class, Names.TOOL_UPGRADE);
     chaosRune = (ChaosRune) SRegistry.registerItem(ChaosRune.class, Names.CHAOS_RUNE);
     dye = (DyeSG) SRegistry.registerItem(DyeSG.class, Names.DYE);
 
