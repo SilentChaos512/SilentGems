@@ -81,6 +81,9 @@ public class GemShovel extends ItemSpade {
   public int getHarvestLevel(ItemStack stack, String toolClass) {
     
     int level = super.getHarvestLevel(stack, toolClass);
+    if (level < 0) {
+      return level;
+    }
 
     if (stack.stackTagCompound != null) {
       int tip = stack.stackTagCompound.getByte(Strings.TOOL_ICON_TIP);
