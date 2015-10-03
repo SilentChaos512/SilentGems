@@ -22,6 +22,7 @@ import net.silentchaos512.gems.material.ModMaterials;
 import net.silentchaos512.gems.recipe.ChaosGemUpgradeRecipe;
 import net.silentchaos512.gems.recipe.DecorateToolRecipe;
 import net.silentchaos512.gems.recipe.EnchantToolRecipe;
+import net.silentchaos512.gems.recipe.TippedToolRecipe;
 import net.silentchaos512.gems.recipe.TorchBandolierExtractRecipe;
 import net.silentchaos512.gems.recipe.TorchBandolierRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -167,6 +168,7 @@ public class ModItems {
         afterShapeless);
     addRecipeHandler(TorchBandolierExtractRecipe.class, "TorchBandolierExtract", Category.SHAPELESS,
         afterShapeless);
+    addRecipeHandler(TippedToolRecipe.class, "TippedTool", Category.SHAPELESS, afterShapeless);
     // addRecipeHandler(HoldingGemSetRecipe.class, "HoldingGemSet", Category.SHAPELESS, afterShapeless);
   }
 

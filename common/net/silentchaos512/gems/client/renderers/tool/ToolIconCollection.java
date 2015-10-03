@@ -13,6 +13,7 @@ public class ToolIconCollection {
   public IIcon[] headL;
   public IIcon[] headM;
   public IIcon[] headR;
+  public IIcon[] tip;
 
   public ToolIconCollection() {
 
@@ -22,5 +23,6 @@ public class ToolIconCollection {
     headL = new IIcon[ToolRenderHelper.HEAD_TYPE_COUNT];
     headM = new IIcon[ToolRenderHelper.HEAD_TYPE_COUNT];
     headR = new IIcon[ToolRenderHelper.HEAD_TYPE_COUNT];
+    tip = new IIcon[ToolRenderHelper.TIP_TYPE_COUNT];
   }
 }

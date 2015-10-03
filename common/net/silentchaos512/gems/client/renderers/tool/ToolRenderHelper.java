@@ -42,6 +42,8 @@ public class ToolRenderHelper extends Item {
   public static final int ROD_DECO_TYPE_COUNT = 13;
   // The number of wool grip types (shouldn't change)
   public static final int ROD_WOOL_TYPE_COUNT = 16;
+  // The number of mining tool tips.
+  public static final int TIP_TYPE_COUNT = 2;
 
   // Render pass IDs and count
   public static final int PASS_ROD = 0;
@@ -50,7 +52,8 @@ public class ToolRenderHelper extends Item {
   public static final int PASS_HEAD_R = 3;
   public static final int PASS_ROD_DECO = 4;
   public static final int PASS_ROD_WOOL = 5;
-  public static final int RENDER_PASS_COUNT = 6;
+  public static final int PASS_TIP = 6;
+  public static final int RENDER_PASS_COUNT = 7;
 
   /*
    * Icons
@@ -140,6 +143,9 @@ public class ToolRenderHelper extends Item {
     for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       pickaxeIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
+    for (i = 0; i < TIP_TYPE_COUNT; ++i) {
+      pickaxeIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
+    }
 
     pickaxeIcons.rodDeco = iconMainRodDeco;
     pickaxeIcons.rodWool = iconMainRodWool;
@@ -161,6 +167,9 @@ public class ToolRenderHelper extends Item {
     for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       shovelIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
+    for (i = 0; i < TIP_TYPE_COUNT; ++i) {
+      shovelIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
+    }
 
     shovelIcons.rodDeco = iconMainRodDeco;
     shovelIcons.rodWool = iconMainRodWool;
@@ -181,6 +190,9 @@ public class ToolRenderHelper extends Item {
     }
     for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       axeIcons.headR[i] = reg.registerIcon(item + i + "R");
+    }
+    for (i = 0; i < TIP_TYPE_COUNT; ++i) {
+      axeIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
     }
 
     axeIcons.rodDeco = iconMainRodDeco;
@@ -267,6 +279,8 @@ public class ToolRenderHelper extends Item {
         return getHeadLeftIcon(icons, stack, gemId);
       case PASS_HEAD_R:
         return getHeadRightIcon(icons, stack, gemId);
+      case PASS_TIP:
+        return getTipIcon(icons, stack, gemId);
       default:
         return iconBlank;
     }
@@ -350,6 +364,22 @@ public class ToolRenderHelper extends Item {
       return icons.headR[gemId];
     } else {
       return iconError;
+    }
+  }
+  
+  public IIcon getTipIcon(ToolIconCollection icons, ItemStack stack, int gemId) {
+    
+    if (hasKey(stack, Strings.TOOL_ICON_TIP)) {
+      int k = stack.stackTagCompound.getByte(Strings.TOOL_ICON_TIP);
+      k -= 1;
+      if (k < 0) {
+        return iconBlank;
+      } else if (k > TIP_TYPE_COUNT - 1) {
+        return iconError;
+      }
+      return icons.tip[k];
+    } else {
+      return iconBlank;
     }
   }
 }

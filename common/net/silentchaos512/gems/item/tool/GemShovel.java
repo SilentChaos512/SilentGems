@@ -19,6 +19,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IPlaceable;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
+import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
@@ -26,6 +27,7 @@ import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.material.ModMaterials;
 
 public class GemShovel extends ItemSpade {
@@ -73,6 +75,44 @@ public class GemShovel extends ItemSpade {
     }
 
     return super.getDigSpeed(stack, block, meta);
+  }
+  
+  @Override
+  public int getHarvestLevel(ItemStack stack, String toolClass) {
+    
+    int level = super.getHarvestLevel(stack, toolClass);
+
+    if (stack.stackTagCompound != null) {
+      int tip = stack.stackTagCompound.getByte(Strings.TOOL_ICON_TIP);
+      if (tip == 1 && level < 2) {
+        // Iron tip
+        level = 2;
+      } else if (tip == 2 && level < 3) {
+        // Diamond tip
+        level = 3;
+      }
+    }
+    
+    return level;
+  }
+  
+  @Override
+  public int getMaxDamage(ItemStack stack) {
+    
+    int uses = super.getMaxDamage(stack);
+    
+    if (stack.stackTagCompound != null) {
+      int tip = stack.stackTagCompound.getByte(Strings.TOOL_ICON_TIP);
+      if (tip == 1) {
+        // Iron tip
+        uses += Config.DURABILITY_BOOST_IRON_TIP;
+      } else if (tip == 2) {
+        // Diamond tip
+        uses += Config.DURABILITY_BOOST_DIAMOND_TIP;
+      }
+    }
+    
+    return uses;
   }
 
   public int getGemId() {

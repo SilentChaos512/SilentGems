@@ -25,6 +25,27 @@ import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.material.ModMaterials;
 
 public class DecorateToolRecipe implements IRecipe {
+  
+//  private ItemStack getResult(InventoryCrafting inv) { // incomplete
+//    
+//    final int gridWidth = inv.getSizeInventory() == 4 ? 2 : 3;
+//    
+//    int i;
+//    int toolRow;
+//    int toolColumn;
+//    ItemStack stack;
+//    
+//    // Find tool, count gems
+//    ItemStack tool;
+//    int gemCount;
+//
+//    for (i = 0; i < inv.getSizeInventory(); ++i) {
+//      stack = inv.getStackInSlot(i);
+//      if (InventoryHelper.isGemTool(stack)) {
+//        tool = stack;
+//      } // TODO
+//    }
+//  }
 
   public ItemStack getStackInRowAndColumn(InventoryCrafting inventorycrafting, int row, int column,
       int gridWidth) {
