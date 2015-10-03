@@ -84,12 +84,12 @@ public class GemShovel extends ItemSpade {
 
     if (stack.stackTagCompound != null) {
       int tip = stack.stackTagCompound.getByte(Strings.TOOL_ICON_TIP);
-      if (tip == 1 && level < 2) {
+      if (tip == 1 && level < Config.MINING_LEVEL_IRON_TIP) {
         // Iron tip
-        level = 2;
-      } else if (tip == 2 && level < 3) {
+        level = Config.MINING_LEVEL_IRON_TIP;
+      } else if (tip == 2 && level < Config.MINING_LEVEL_DIAMOND_TIP) {
         // Diamond tip
-        level = 3;
+        level = Config.MINING_LEVEL_DIAMOND_TIP;
       }
     }
     

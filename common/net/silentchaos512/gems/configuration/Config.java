@@ -39,6 +39,8 @@ public class Config {
   public static int MINING_LEVEL_REGULAR = 2;
   public static int MINING_LEVEL_SUPER = 4;
   public static int MINING_LEVEL_FISH = 3;
+  public static int MINING_LEVEL_IRON_TIP = 2;
+  public static int MINING_LEVEL_DIAMOND_TIP = 3;
   public static int DURABILITY_BOOST_IRON_TIP = 128;
   public static int DURABILITY_BOOST_DIAMOND_TIP = 512;
 
@@ -164,6 +166,12 @@ public class Config {
           MINING_LEVEL_SUPER, 0, 100, "The mining level of supercharged gem tools.");
       MINING_LEVEL_FISH = c.getInt("Tool.MiningLevel.Fish", CATEGORY_ITEM_PROPERTIES,
           MINING_LEVEL_FISH, 0, 100, "The mining level of the gag fish tools.");
+      MINING_LEVEL_IRON_TIP = c.getInt("Tool.MiningLevel.IronTip", CATEGORY_ITEM_PROPERTIES,
+          MINING_LEVEL_IRON_TIP, 0, 100,
+          "The mining level of tools with the iron-tipped upgrade (if it's not already higher).");
+      MINING_LEVEL_DIAMOND_TIP = c.getInt("Tool.MiningLevel.DiamondTip", CATEGORY_ITEM_PROPERTIES,
+          MINING_LEVEL_DIAMOND_TIP, 0, 100,
+          "The mining level of tools with the diamond-tipped upgrade (if it's not already higher).");
       DURABILITY_BOOST_IRON_TIP = c.getInt("Tool.DurabilityBoost.Iron", CATEGORY_ITEM_PROPERTIES,
           DURABILITY_BOOST_IRON_TIP, 0, Short.MAX_VALUE,
           "The value added to the durability (max damage) of tools with the 'iron-tipped' upgrade.");
