@@ -36,13 +36,19 @@ public class ItemToolUpgrade extends ItemSG {
     int meta = stack.getItemDamage();
     String line;
     
+    // Mining level
     line = LocalizationHelper.getItemDescription("TipUpgrade", 1);
     line = String.format(line, meta == 0 ? Config.MINING_LEVEL_IRON_TIP : Config.MINING_LEVEL_DIAMOND_TIP);
     list.add(EnumChatFormatting.GREEN + line);
     
+    // Durability boost
     line = LocalizationHelper.getItemDescription("TipUpgrade", 2);
     line = String.format(line, meta == 0 ? Config.DURABILITY_BOOST_IRON_TIP : Config.DURABILITY_BOOST_DIAMOND_TIP);
     list.add(EnumChatFormatting.GREEN + line);
+    
+    // How to use
+    line = LocalizationHelper.getItemDescription("TipUpgrade", 3);
+    list.add(EnumChatFormatting.DARK_GRAY + line);
   }
 
   @Override

@@ -1,8 +1,9 @@
 Silent's Gems - Changelog
 
 1.3.02
-Added: Flint tools (between stone and iron)
-Added: Tool "tip" upgrades: adds an iron/diamond coating to the tool to increase mining level and durability.
+Added: Flint tools (more durable and faster than stone, same mining level)
+Added: Iron-Tipped Upgrade. Raises mining level of a tool to 2 and durability by 128 (configurable).
+Added: Diamond-Tipped Upgrade. Raises mining level of a tool to 3 and durability by 512 (configurable).
 
 1.3.01
 Changed: Altar/pylon textures (downsized, altar colors tweaked)
