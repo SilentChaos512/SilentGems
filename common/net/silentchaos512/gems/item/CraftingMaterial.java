@@ -217,6 +217,11 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     return -1;
   }
 
+  public static boolean doesStackMatch(ItemStack stack, String name) {
+
+    return stack.getItem() instanceof CraftingMaterial && stack.getItemDamage() == getMetaFor(name);
+  }
+
   @Override
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
