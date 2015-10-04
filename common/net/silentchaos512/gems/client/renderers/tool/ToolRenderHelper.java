@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.item.tool.GemHoe;
@@ -302,9 +303,9 @@ public class ToolRenderHelper extends Item {
     if (!supercharged) {
       return iconBlank;
     }
-
-    if (hasKey(stack, Strings.TOOL_ICON_DECO)) {
-      int k = stack.stackTagCompound.getByte(Strings.TOOL_ICON_DECO);
+    
+    int k = ToolHelper.getToolRodDeco(stack);
+    if (k > -1) {
       k = MathHelper.clamp_int(k, 0, ROD_DECO_TYPE_COUNT - 1);
       return icons.rodDeco[k];
     }
@@ -313,8 +314,8 @@ public class ToolRenderHelper extends Item {
 
   public IIcon getRodWoolIcon(ToolIconCollection icons, ItemStack stack, boolean supercharged) {
 
-    if (hasKey(stack, Strings.TOOL_ICON_ROD)) {
-      int k = stack.stackTagCompound.getByte(Strings.TOOL_ICON_ROD);
+    int k = ToolHelper.getToolRodWool(stack);
+    if (k > -1) {
       k = MathHelper.clamp_int(k, 0, ROD_WOOL_TYPE_COUNT - 1);
       return icons.rodWool[k];
     }
@@ -324,8 +325,8 @@ public class ToolRenderHelper extends Item {
 
   public IIcon getHeadMiddleIcon(ToolIconCollection icons, ItemStack stack, int gemId) {
 
-    if (hasKey(stack, Strings.TOOL_ICON_HEAD_MIDDLE)) {
-      int k = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_MIDDLE);
+    int k = ToolHelper.getToolHeadMiddle(stack);
+    if (k > -1) {
       k = MathHelper.clamp_int(k, 0, HEAD_TYPE_COUNT - 1);
       return icons.headM[k];
     }
@@ -339,8 +340,8 @@ public class ToolRenderHelper extends Item {
 
   public IIcon getHeadLeftIcon(ToolIconCollection icons, ItemStack stack, int gemId) {
 
-    if (hasKey(stack, Strings.TOOL_ICON_HEAD_LEFT)) {
-      int k = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_LEFT);
+    int k = ToolHelper.getToolHeadLeft(stack);
+    if (k > -1) {
       k = MathHelper.clamp_int(k, 0, HEAD_TYPE_COUNT - 1);
       return icons.headL[k];
     }
@@ -354,8 +355,8 @@ public class ToolRenderHelper extends Item {
 
   public IIcon getHeadRightIcon(ToolIconCollection icons, ItemStack stack, int gemId) {
 
-    if (hasKey(stack, Strings.TOOL_ICON_HEAD_RIGHT)) {
-      int k = stack.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_RIGHT);
+    int k = ToolHelper.getToolHeadRight(stack);
+    if (k > -1) {
       k = MathHelper.clamp_int(k, 0, HEAD_TYPE_COUNT - 1);
       return icons.headR[k];
     }
@@ -368,9 +369,9 @@ public class ToolRenderHelper extends Item {
   }
   
   public IIcon getTipIcon(ToolIconCollection icons, ItemStack stack, int gemId) {
-    
-    if (hasKey(stack, Strings.TOOL_ICON_TIP)) {
-      int k = stack.stackTagCompound.getByte(Strings.TOOL_ICON_TIP);
+
+    int k = ToolHelper.getToolHeadTip(stack);
+    if (k > -1) {
       k -= 1;
       if (k < 0) {
         return iconBlank;

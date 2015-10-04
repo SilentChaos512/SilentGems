@@ -3,6 +3,8 @@ package net.silentchaos512.gems.core.util;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.Gem;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.item.tool.GemHoe;
@@ -10,10 +12,18 @@ import net.silentchaos512.gems.item.tool.GemPickaxe;
 import net.silentchaos512.gems.item.tool.GemShovel;
 import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.item.tool.GemSword;
-import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.material.ModMaterials;
 
 public class ToolHelper {
+
+  public static final String NBT_ROOT = SilentGems.MOD_ID + "Tool";
+  public static final String NBT_HEAD_L = "HeadL";
+  public static final String NBT_HEAD_M = "HeadM";
+  public static final String NBT_HEAD_R = "HeadR";
+  public static final String NBT_ROD = "Rod";
+  public static final String NBT_ROD_DECO = "RodDeco";
+  public static final String NBT_ROD_WOOL = "RodWool";
+  public static final String NBT_TIP = "Tip";
 
   /**
    * Gets the "gem ID", or base material ID for a tool. Note that the regular and supercharged gems have the same ID
@@ -103,68 +113,110 @@ public class ToolHelper {
   // NBT helper methods
   // ==========================================================================
 
-  public static int getToolHeadLeft(ItemStack tool) {
+  private static int getTag(String name, ItemStack tool) {
 
-    if (!tool.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_LEFT)) {
+    // Create tag compound, if needed.
+    if (tool.stackTagCompound == null) {
+      tool.setTagCompound(new NBTTagCompound());
+    }
+
+    // Create root tag, if needed.
+    if (!tool.stackTagCompound.hasKey(NBT_ROOT)) {
+      tool.stackTagCompound.setTag(NBT_ROOT, new NBTTagCompound());
+    }
+
+    // Get the requested value.
+    NBTTagCompound tags = (NBTTagCompound) tool.stackTagCompound.getTag(NBT_ROOT);
+    if (!tags.hasKey(name)) {
       return -1;
     }
-    return tool.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_LEFT);
+    return tags.getByte(name);
+  }
+
+  private static void setTag(String name, int value, ItemStack tool) {
+
+    // Create tag compound, if needed.
+    if (tool.stackTagCompound == null) {
+      tool.setTagCompound(new NBTTagCompound());
+    }
+
+    // Create root tag, if needed.
+    if (!tool.stackTagCompound.hasKey(NBT_ROOT)) {
+      tool.stackTagCompound.setTag(NBT_ROOT, new NBTTagCompound());
+    }
+
+    // Set the tag.
+    NBTTagCompound tags = (NBTTagCompound) tool.stackTagCompound.getTag(NBT_ROOT);
+    tags.setByte(name, (byte) value);
+  }
+
+  public static int getToolHeadLeft(ItemStack tool) {
+
+    return getTag(NBT_HEAD_L, tool);
   }
 
   public static void setToolHeadLeft(ItemStack tool, int id) {
 
-    tool.stackTagCompound.setByte(Strings.TOOL_ICON_HEAD_LEFT, (byte) id);
+    setTag(NBT_HEAD_L, id, tool);
   }
 
   public static int getToolHeadMiddle(ItemStack tool) {
 
-    if (!tool.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_MIDDLE)) {
-      return -1;
-    }
-    return tool.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_MIDDLE);
+    return getTag(NBT_HEAD_M, tool);
   }
 
   public static void setToolHeadMiddle(ItemStack tool, int id) {
 
-    tool.stackTagCompound.setByte(Strings.TOOL_ICON_HEAD_MIDDLE, (byte) id);
+    setTag(NBT_HEAD_M, id, tool);
   }
 
   public static int getToolHeadRight(ItemStack tool) {
 
-    if (!tool.stackTagCompound.hasKey(Strings.TOOL_ICON_HEAD_RIGHT)) {
-      return -1;
-    }
-    return tool.stackTagCompound.getByte(Strings.TOOL_ICON_HEAD_RIGHT);
+    return getTag(NBT_HEAD_R, tool);
   }
 
   public static void setToolHeadRight(ItemStack tool, int id) {
 
-    tool.stackTagCompound.setByte(Strings.TOOL_ICON_HEAD_RIGHT, (byte) id);
+    setTag(NBT_HEAD_R, id, tool);
   }
-  
+
   public static int getToolRodDeco(ItemStack tool) {
-    
-    if (!tool.stackTagCompound.hasKey(Strings.TOOL_ICON_DECO)) {
-      return -1;
-    }
-    return tool.stackTagCompound.getByte(Strings.TOOL_ICON_DECO);
+
+    return getTag(NBT_ROD_DECO, tool);
   }
 
   public static void setToolRodDeco(ItemStack tool, int id) {
 
-    tool.stackTagCompound.setByte(Strings.TOOL_ICON_DECO, (byte) id);
+    setTag(NBT_ROD_DECO, id, tool);
   }
-  
+
   public static int getToolRodWool(ItemStack tool) {
-    
-    if (!tool.stackTagCompound.hasKey(Strings.TOOL_ICON_ROD)) {
-      return -1;
-    }
-    return tool.stackTagCompound.getByte(Strings.TOOL_ICON_ROD);
+
+    return getTag(NBT_ROD_WOOL, tool);
   }
-  
+
   public static void setToolRodWool(ItemStack tool, int id) {
-    
-    tool.stackTagCompound.setByte(Strings.TOOL_ICON_ROD, (byte) id);
+
+    setTag(NBT_ROD_WOOL, id, tool);
+  }
+
+  public static int getToolRod(ItemStack tool, int id) {
+
+    return getTag(NBT_ROD, tool);
+  }
+
+  public static void setToolRod(ItemStack tool, int id) {
+
+    setTag(NBT_ROD, id, tool);
+  }
+
+  public static int getToolHeadTip(ItemStack tool) {
+
+    return getTag(NBT_TIP, tool);
+  }
+
+  public static void setToolHeadTip(ItemStack tool, int id) {
+
+    setTag(NBT_TIP, id, tool);
   }
 }

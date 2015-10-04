@@ -22,6 +22,7 @@ import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.CraftingMaterial;
@@ -95,7 +96,7 @@ public class GemPickaxe extends ItemPickaxe {
     }
 
     if (stack.stackTagCompound != null) {
-      int tip = stack.stackTagCompound.getByte(Strings.TOOL_ICON_TIP);
+      int tip = ToolHelper.getToolHeadTip(stack);
       if (tip == 1 && level < Config.MINING_LEVEL_IRON_TIP) {
         // Iron tip
         level = Config.MINING_LEVEL_IRON_TIP;
@@ -114,7 +115,7 @@ public class GemPickaxe extends ItemPickaxe {
     int uses = super.getMaxDamage(stack);
     
     if (stack.stackTagCompound != null) {
-      int tip = stack.stackTagCompound.getByte(Strings.TOOL_ICON_TIP);
+      int tip = ToolHelper.getToolHeadTip(stack);
       if (tip == 1) {
         // Iron tip
         uses += Config.DURABILITY_BOOST_IRON_TIP;

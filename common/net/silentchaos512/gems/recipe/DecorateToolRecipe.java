@@ -235,13 +235,13 @@ public class DecorateToolRecipe implements IRecipe {
     for (i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
       if (stack != null) {
-        // Wool ("Rod")
+        // Wool
         if (InventoryHelper.isStackBlock(stack, Blocks.wool)) {
-          result.stackTagCompound.setByte(Strings.TOOL_ICON_ROD, (byte) stack.getItemDamage());
+          ToolHelper.setToolRodWool(result, stack.getItemDamage());
         }
-        // Rod ("Handle")
+        // Rod (handle)
         else if (InventoryHelper.matchesOreDict(stack, Strings.ORE_DICT_STICK_FANCY)) {
-          result.stackTagCompound.setByte(Strings.TOOL_ICON_HANDLE, (byte) getToolRodId(stack));
+          ToolHelper.setToolRod(tool, getToolRodId(stack));
         }
       }
     }
