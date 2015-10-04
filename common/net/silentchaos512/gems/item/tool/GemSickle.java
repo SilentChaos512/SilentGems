@@ -50,7 +50,7 @@ public class GemSickle extends ItemTool {
     addRecipe(new ItemStack(this), gemId, supercharged);
     this.setCreativeTab(SilentGems.tabSilentGems);
   }
-  
+
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
 
@@ -104,18 +104,17 @@ public class GemSickle extends ItemTool {
 
     return ToolRenderHelper.instance.getIcon(stack, pass, gemId, supercharged);
   }
+  
+  @Override
+  public int getMaxDamage(ItemStack stack) {
+
+    return super.getMaxDamage(stack) + ToolHelper.getDurabilityBoost(stack);
+  }
 
   @Override
   public boolean getIsRepairable(ItemStack stack1, ItemStack stack2) {
 
-    ItemStack material = new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 1,
-        gemId + (supercharged ? 16 : 0));
-    if (material.getItem() == stack2.getItem()
-        && material.getItemDamage() == stack2.getItemDamage()) {
-      return true;
-    } else {
-      return super.getIsRepairable(stack1, stack2);
-    }
+    return ToolHelper.getIsRepairable(stack1, stack2);
   }
 
   @Override
@@ -133,7 +132,7 @@ public class GemSickle extends ItemTool {
   @Override
   public boolean hasEffect(ItemStack stack, int pass) {
 
-    return stack.isItemEnchanted() && pass == 5;
+    return ToolHelper.hasEffect(stack, pass);
   }
 
   private boolean isEffectiveOnMaterial(Material material) {
@@ -254,7 +253,7 @@ public class GemSickle extends ItemTool {
 
     return true;
   }
-  
+
   @Override
   public void registerIcons(IIconRegister reg) {
 

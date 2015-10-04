@@ -72,18 +72,17 @@ public class GemHoe extends ItemHoe {
 
     return ToolRenderHelper.instance.getIcon(stack, pass, gemId, supercharged);
   }
+  
+  @Override
+  public int getMaxDamage(ItemStack stack) {
+
+    return super.getMaxDamage(stack) + ToolHelper.getDurabilityBoost(stack);
+  }
 
   @Override
   public boolean getIsRepairable(ItemStack stack1, ItemStack stack2) {
 
-    ItemStack material = new ItemStack(SRegistry.getItem(Names.GEM_ITEM), 1,
-        gemId + (supercharged ? 16 : 0));
-    if (material.getItem() == stack2.getItem()
-        && material.getItemDamage() == stack2.getItemDamage()) {
-      return true;
-    } else {
-      return super.getIsRepairable(stack1, stack2);
-    }
+    return ToolHelper.getIsRepairable(stack1, stack2);
   }
 
   @Override
@@ -101,7 +100,7 @@ public class GemHoe extends ItemHoe {
   @Override
   public boolean hasEffect(ItemStack stack, int pass) {
 
-    return stack.isItemEnchanted() && pass == 5;
+    return ToolHelper.hasEffect(stack, pass);
   }
 
   @Override

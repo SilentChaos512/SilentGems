@@ -2,24 +2,42 @@ package net.silentchaos512.gems.core.util;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.IPlaceable;
+import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
+import net.silentchaos512.gems.configuration.Config;
+import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.item.Gem;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.item.tool.GemHoe;
 import net.silentchaos512.gems.item.tool.GemPickaxe;
 import net.silentchaos512.gems.item.tool.GemShovel;
 import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.item.tool.GemSword;
+import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
 
+/**
+ * The purpose of this class is to have shared code for tools in one place, to make updating/expanding the mod easier.
+ */
 public class ToolHelper {
 
+  /*
+   * NBT constants
+   */
   public static final String NBT_ROOT = SilentGems.MOD_ID + "Tool";
   public static final String NBT_HEAD_L = "HeadL";
   public static final String NBT_HEAD_M = "HeadM";
@@ -116,11 +134,12 @@ public class ToolHelper {
   // ==========================================================================
   // Tooltip helpers
   // ==========================================================================
-  
-  public static void addInformation(ItemStack tool, EntityPlayer player, List list, boolean advanced) {
+
+  public static void addInformation(ItemStack tool, EntityPlayer player, List list,
+      boolean advanced) {
 
     String line;
-    
+
     // Old NBT warning.
     if (hasOldNBT(tool)) {
       line = LocalizationHelper.getMiscText("Tool.OldNBT1");
@@ -128,7 +147,7 @@ public class ToolHelper {
       line = LocalizationHelper.getMiscText("Tool.OldNBT2");
       list.add(EnumChatFormatting.DARK_BLUE + line);
     }
-    
+
     // Tipped upgrade
     int tip = getToolHeadTip(tool);
     if (tip == 1) {
@@ -138,6 +157,97 @@ public class ToolHelper {
       line = LocalizationHelper.getMiscText("Tool.DiamondTipped");
       list.add(EnumChatFormatting.AQUA + line);
     }
+  }
+
+  // ==========================================================================
+  // Mining, using, repairing, etc
+  // ==========================================================================
+
+  public static boolean getIsRepairable(ItemStack tool, ItemStack material) {
+
+    int baseMaterial = getToolGemId(tool);
+    boolean supercharged = getToolIsSupercharged(tool);
+    ItemStack correctMaterial = null;
+
+    if (baseMaterial < EnumGem.values().length) {
+      // Gem tools.
+      correctMaterial = new ItemStack(ModItems.gem, 1, baseMaterial | (supercharged ? 0x10 : 0));
+    } else if (baseMaterial == ModMaterials.FLINT_GEM_ID) {
+      // Flint tools.
+      correctMaterial = new ItemStack(Items.flint);
+    } else if (baseMaterial == ModMaterials.FISH_GEM_ID) {
+      // Fish tools.
+      correctMaterial = new ItemStack(Items.fish);
+    }
+
+    return correctMaterial != null && correctMaterial.getItem() == material.getItem()
+        && correctMaterial.getItemDamage() == material.getItemDamage();
+  }
+
+  public static int getDurabilityBoost(ItemStack tool) {
+
+    int tip = getToolHeadTip(tool);
+    switch (tip) {
+      case 2:
+        return Config.DURABILITY_BOOST_DIAMOND_TIP;
+      case 1:
+        return Config.DURABILITY_BOOST_IRON_TIP;
+      default:
+        return 0;
+    }
+  }
+
+  /**
+   * This controls the block placing ability of mining tools.
+   */
+  public static boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y,
+      int z, int side, float hitX, float hitY, float hitZ) {
+
+    boolean used = false;
+    int toolSlot = player.inventory.currentItem;
+    int itemSlot = toolSlot + 1;
+    ItemStack nextStack = null;
+
+    if (toolSlot < 8) {
+      nextStack = player.inventory.getStackInSlot(itemSlot);
+      if (nextStack != null) {
+        Item item = nextStack.getItem();
+        if (item instanceof ItemBlock || item instanceof IPlaceable) {
+          ForgeDirection d = ForgeDirection.VALID_DIRECTIONS[side];
+
+          int px = x + d.offsetX;
+          int py = y + d.offsetY;
+          int pz = z + d.offsetZ;
+          int playerX = (int) Math.floor(player.posX);
+          int playerY = (int) Math.floor(player.posY);
+          int playerZ = (int) Math.floor(player.posZ);
+
+          // Check for overlap with player, except for torches and torch bandolier
+          if (Item.getIdFromItem(item) != Block.getIdFromBlock(Blocks.torch)
+              && item != SRegistry.getItem(Names.TORCH_BANDOLIER) && px == playerX
+              && (py == playerY || py == playerY + 1 || py == playerY - 1) && pz == playerZ) {
+            return false;
+          }
+
+          used = item.onItemUse(nextStack, player, world, x, y, z, side, hitX, hitY, hitZ);
+          if (nextStack.stackSize < 1) {
+            nextStack = null;
+            player.inventory.setInventorySlotContents(itemSlot, null);
+          }
+        }
+      }
+    }
+
+    return used;
+  }
+
+  // ==========================================================================
+  // Rendering
+  // ==========================================================================
+
+  public static boolean hasEffect(ItemStack tool, int pass) {
+
+    return tool.isItemEnchanted() && pass == ToolRenderHelper.RENDER_PASS_COUNT - 1;
   }
 
   // ==========================================================================
