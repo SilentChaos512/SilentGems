@@ -1,5 +1,7 @@
 package net.silentchaos512.gems.item.tool;
 
+import java.util.List;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -47,6 +49,12 @@ public class GemPickaxe extends ItemPickaxe {
     this.setMaxDamage(toolMaterial.getMaxUses());
     addRecipe(new ItemStack(this), gemId, supercharged);
     this.setCreativeTab(SilentGems.tabSilentGems);
+  }
+  
+  @Override
+  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+
+    ToolHelper.addInformation(stack, player, list, advanced);
   }
 
   public static void addRecipe(ItemStack tool, int gemId, boolean supercharged) {

@@ -734,5 +734,10 @@ misc.silentgems:Tool.Chestplate=Chestplate
 misc.silentgems:Tool.Leggings=Leggings
 misc.silentgems:Tool.Boots=Boots
 
+misc.silentgems:Tool.OldNBT1=DON'T PANIC. Place me in
+misc.silentgems:Tool.OldNBT2=your inventory then relog.
+misc.silentgems:Tool.IronTipped=Iron-Tipped
+misc.silentgems:Tool.DiamondTipped=Diamond-Tipped
+
 misc.silentgems:PressCtrl=<Press Ctrl>
 misc.silentgems:PressShift=<Press Shift>

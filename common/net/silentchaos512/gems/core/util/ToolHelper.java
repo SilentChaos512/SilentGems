@@ -1,9 +1,13 @@
 package net.silentchaos512.gems.core.util;
 
+import java.util.List;
+
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.Gem;
 import net.silentchaos512.gems.item.tool.GemAxe;
@@ -107,6 +111,25 @@ public class ToolHelper {
     } else {
       return -1;
     }
+  }
+
+  // ==========================================================================
+  // Tooltip helpers
+  // ==========================================================================
+  
+  public static void addInformation(ItemStack tool, EntityPlayer player, List list, boolean advanced) {
+
+    String line;
+    
+    // Old NBT warning.
+    if (hasOldNBT(tool)) {
+      line = LocalizationHelper.getMiscText("Tool.OldNBT1");
+      list.add(EnumChatFormatting.DARK_BLUE + line);
+      line = LocalizationHelper.getMiscText("Tool.OldNBT2");
+      list.add(EnumChatFormatting.DARK_BLUE + line);
+    }
+    
+    // TODO More tooltip stuff!
   }
 
   // ==========================================================================
@@ -219,28 +242,33 @@ public class ToolHelper {
 
     setTag(NBT_TIP, id, tool);
   }
-  
+
   private static int getOldTag(ItemStack tool, String name) {
-    
+
     if (!tool.stackTagCompound.hasKey(name)) {
       return -1;
     }
     return tool.stackTagCompound.getByte(name);
   }
-  
+
   private static void removeOldTag(ItemStack tool, String name) {
-    
+
     tool.stackTagCompound.removeTag(name);
   }
-  
+
+  public static boolean hasOldNBT(ItemStack tool) {
+
+    return convertToNewNBT(tool.copy());
+  }
+
   public static boolean convertToNewNBT(ItemStack tool) {
-    
+
     if (tool == null || tool.stackTagCompound == null || !InventoryHelper.isGemTool(tool)) {
       return false;
     }
-    
+
     boolean updated = false;
-    
+
     int headL = getOldTag(tool, "HeadL");
     int headM = getOldTag(tool, "HeadM");
     int headR = getOldTag(tool, "HeadR");
@@ -248,7 +276,7 @@ public class ToolHelper {
     int rodWool = getOldTag(tool, "Rod");
     int rod = getOldTag(tool, "Handle");
     int tip = getOldTag(tool, "Tip");
-    
+
     if (headL > -1) {
       setToolHeadLeft(tool, headL);
       removeOldTag(tool, "HeadL");
@@ -284,7 +312,7 @@ public class ToolHelper {
       removeOldTag(tool, "Tip");
       updated = true;
     }
-    
+
     return updated;
   }
 }

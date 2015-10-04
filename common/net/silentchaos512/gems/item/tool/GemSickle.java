@@ -1,5 +1,7 @@
 package net.silentchaos512.gems.item.tool;
 
+import java.util.List;
+
 import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -24,6 +26,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
@@ -46,6 +49,12 @@ public class GemSickle extends ItemTool {
     this.setMaxDamage(toolMaterial.getMaxUses());
     addRecipe(new ItemStack(this), gemId, supercharged);
     this.setCreativeTab(SilentGems.tabSilentGems);
+  }
+  
+  @Override
+  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+
+    ToolHelper.addInformation(stack, player, list, advanced);
   }
 
   public static void addRecipe(ItemStack tool, int gemId, boolean supercharged) {
