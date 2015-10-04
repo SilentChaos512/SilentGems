@@ -49,6 +49,8 @@ public class ItemToolUpgrade extends ItemSG {
     // How to use
     line = LocalizationHelper.getItemDescription("TipUpgrade", 3);
     list.add(EnumChatFormatting.DARK_GRAY + line);
+    line = LocalizationHelper.getItemDescription("TipUpgrade", 4);
+    list.add(EnumChatFormatting.DARK_GRAY + line);
   }
 
   @Override

@@ -283,7 +283,8 @@ item.silentgems:IronTipUpgrade.name=Upgrade: Iron-Tipped
 item.silentgems:DiamondTipUpgrade.name=Upgrade: Diamond-Tipped
 item.silentgems:TipUpgrade.desc1=Raises mining level to %d (if lower).
 item.silentgems:TipUpgrade.desc2=Raises durability by %d.
-item.silentgems:TipUpgrade.desc3=Crafting with a mining tool to apply.
+item.silentgems:TipUpgrade.desc3=Craft with a mining tool to apply.
+item.silentgems:TipUpgrade.desc4=Only works for tools from this mod.
 
 # Food
 item.silentgems:Food.desc=Foodstuffs.
