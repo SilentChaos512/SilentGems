@@ -5,13 +5,16 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.silentchaos512.gems.core.util.InventoryHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
+import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 
 public class GemsForgeEventHandler {
-  
+
   @SubscribeEvent
   public void onEntityConstructing(EntityConstructing event) {
 
@@ -24,6 +27,24 @@ public class GemsForgeEventHandler {
         && event.entity.getExtendedProperties(GemsExtendedPlayer.PROPERTY_NAME) == null) {
       event.entity.registerExtendedProperties(GemsExtendedPlayer.PROPERTY_NAME,
           new GemsExtendedPlayer((EntityPlayer) event.entity));
+    }
+  }
+
+  @SubscribeEvent
+  public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+
+    if (event.entity instanceof EntityPlayer) {
+      // Check for gem tools and update to the new NBT.
+      EntityPlayer player = (EntityPlayer) event.entity;
+      for (ItemStack stack : player.inventory.mainInventory) {
+        if (InventoryHelper.isGemTool(stack)) {
+          if (ToolHelper.convertToNewNBT(stack)) {
+            String str = "Updated %s's %s to the new NBT system.";
+            str = String.format(str, player.getCommandSenderName(), stack.getDisplayName());
+            LogHelper.info(str);
+          }
+        }
+      }
     }
   }
 

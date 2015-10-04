@@ -219,4 +219,72 @@ public class ToolHelper {
 
     setTag(NBT_TIP, id, tool);
   }
+  
+  private static int getOldTag(ItemStack tool, String name) {
+    
+    if (!tool.stackTagCompound.hasKey(name)) {
+      return -1;
+    }
+    return tool.stackTagCompound.getByte(name);
+  }
+  
+  private static void removeOldTag(ItemStack tool, String name) {
+    
+    tool.stackTagCompound.removeTag(name);
+  }
+  
+  public static boolean convertToNewNBT(ItemStack tool) {
+    
+    if (tool == null || tool.stackTagCompound == null || !InventoryHelper.isGemTool(tool)) {
+      return false;
+    }
+    
+    boolean updated = false;
+    
+    int headL = getOldTag(tool, "HeadL");
+    int headM = getOldTag(tool, "HeadM");
+    int headR = getOldTag(tool, "HeadR");
+    int rodDeco = getOldTag(tool, "Deco");
+    int rodWool = getOldTag(tool, "Rod");
+    int rod = getOldTag(tool, "Handle");
+    int tip = getOldTag(tool, "Tip");
+    
+    if (headL > -1) {
+      setToolHeadLeft(tool, headL);
+      removeOldTag(tool, "HeadL");
+      updated = true;
+    }
+    if (headM > -1) {
+      setToolHeadMiddle(tool, headM);
+      removeOldTag(tool, "HeadM");
+      updated = true;
+    }
+    if (headR > -1) {
+      setToolHeadRight(tool, headR);
+      removeOldTag(tool, "HeadR");
+      updated = true;
+    }
+    if (rodDeco > -1) {
+      setToolRodDeco(tool, rodDeco);
+      removeOldTag(tool, "Deco");
+      updated = true;
+    }
+    if (rodWool > -1) {
+      setToolRodWool(tool, rodWool);
+      removeOldTag(tool, "Rod");
+      updated = true;
+    }
+    if (rod > -1) {
+      setToolRod(tool, rod);
+      removeOldTag(tool, "Handle");
+      updated = true;
+    }
+    if (tip > -1) {
+      setToolHeadTip(tool, tip);
+      removeOldTag(tool, "Tip");
+      updated = true;
+    }
+    
+    return updated;
+  }
 }

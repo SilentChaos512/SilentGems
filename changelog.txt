@@ -7,6 +7,8 @@ Added: Diamond-Tipped Upgrade. Raises mining level of a tool to 3 and durability
 Added: Supercharged gems can now repair tools (by decorating). Restores four times as much durability.
 Added: Flint can be used for decorating, but it will only repair flint tools (1/2 each).
 Changed: Regular gem tools get a 2x repair bonus from decorating, flint tools 4x.
+Internal Changes: Tool icon registration and rendering. Mostly just to make expanding the mod easier. It may reduce memory usage and load times a bit.
+Internal Changes: Tool NBT has changed. Your tools' NBT should update automatically when you log in with the tool in your inventory. If you have tools in a chest/bag/etc., place them into your main inventory, then relog.
 
 1.3.01
 Changed: Altar/pylon textures (downsized, altar colors tweaked)

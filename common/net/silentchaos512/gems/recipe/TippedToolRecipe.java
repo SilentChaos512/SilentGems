@@ -87,5 +87,4 @@ public class TippedToolRecipe implements IRecipe {
     // TODO Auto-generated method stub
     return null;
   }
-
 }
