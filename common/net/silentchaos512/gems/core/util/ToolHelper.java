@@ -129,7 +129,15 @@ public class ToolHelper {
       list.add(EnumChatFormatting.DARK_BLUE + line);
     }
     
-    // TODO More tooltip stuff!
+    // Tipped upgrade
+    int tip = getToolHeadTip(tool);
+    if (tip == 1) {
+      line = LocalizationHelper.getMiscText("Tool.IronTipped");
+      list.add(EnumChatFormatting.WHITE + line);
+    } else if (tip == 2) {
+      line = LocalizationHelper.getMiscText("Tool.DiamondTipped");
+      list.add(EnumChatFormatting.AQUA + line);
+    }
   }
 
   // ==========================================================================
