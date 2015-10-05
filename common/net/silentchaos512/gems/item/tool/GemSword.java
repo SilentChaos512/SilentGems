@@ -4,6 +4,7 @@ import java.util.List;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -12,7 +13,6 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
-import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
@@ -116,5 +116,22 @@ public class GemSword extends ItemSword {
     if (gemId >= 0 && gemId < ToolRenderHelper.HEAD_TYPE_COUNT) {
       itemIcon = ToolRenderHelper.instance.swordIcons.headM[gemId];
     }
+  }
+  
+  @Override
+  public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z, EntityPlayer player) {
+
+    boolean canceled = super.onBlockStartBreak(stack, x, y, z, player);
+    if (!canceled) {
+      ToolHelper.onBlockStartBreak(stack, x, y, z, player);
+    }
+    return canceled;
+  }
+  
+  @Override
+  public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
+
+    ToolHelper.hitEntity(stack);
+    return super.hitEntity(stack, entity1, entity2);
   }
 }

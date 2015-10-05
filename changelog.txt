@@ -8,7 +8,7 @@ Added: Supercharged gems can now repair tools (by decorating). Restores four tim
 Added: Flint can be used for decorating, but it will only repair flint tools (1/2 each).
 Added: Tool statistics (work in progress)
 Changed: Regular gem tools get a 2x repair bonus from decorating, flint tools 4x.
-Changed: All Onyx tool textures (higher contrast, so they're not just black)
+Changed: All Onyx tool textures
 Changed: Pickaxe textures (removed a few pixels from the L and R parts, making the middle slightly larger)
 Changed: Rod wool textures
 Internal Changes: Tool NBT has changed. Your tools' NBT should update automatically when you log in with the tool in your inventory. If you have tools in a chest/bag/etc., place them into your main inventory, then relog.

@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -173,5 +174,12 @@ public class GemPickaxe extends ItemPickaxe {
       ToolHelper.onBlockStartBreak(stack, x, y, z, player);
     }
     return canceled;
+  }
+  
+  @Override
+  public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
+
+    ToolHelper.hitEntity(stack);
+    return super.hitEntity(stack, entity1, entity2);
   }
 }

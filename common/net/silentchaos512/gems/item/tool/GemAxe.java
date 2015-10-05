@@ -185,4 +185,11 @@ public class GemAxe extends ItemAxe {
     }
     return canceled;
   }
+  
+  @Override
+  public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
+
+    ToolHelper.hitEntity(stack);
+    return super.hitEntity(stack, entity1, entity2);
+  }
 }

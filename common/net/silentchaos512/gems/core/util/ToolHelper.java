@@ -34,7 +34,6 @@ import net.silentchaos512.gems.item.tool.GemSword;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
-import scala.tools.nsc.backend.icode.Members.Local;
 
 /**
  * The purpose of this class is to have shared code for tools in one place, to make updating/expanding the mod easier.
@@ -56,6 +55,7 @@ public class ToolHelper {
 
   public static final String NBT_ROOT_STATS = SilentGems.MOD_ID + "Stats";
   public static final String NBT_STATS_MINED = "BlocksMined";
+  public static final String NBT_STATS_HITS = "HitsLanded";
   public static final String NBT_STATS_REDECORATED = "Redecorated";
 
   /**
@@ -186,6 +186,12 @@ public class ToolHelper {
       // Blocks mined
       amount = getStatBlocksMined(tool);
       line = LocalizationHelper.getMiscText("Tool.Stats.Mined");
+      line = String.format(line, amount);
+      list.add(line);
+      
+      // Hits landed
+      amount = getStatHitsLanded(tool);
+      line = LocalizationHelper.getMiscText("Tool.Stats.Hits");
       line = String.format(line, amount);
       list.add(line);
 
@@ -342,6 +348,11 @@ public class ToolHelper {
     return false;
   }
 
+  public static void hitEntity(ItemStack tool) {
+    
+    ToolHelper.incrementStatHitsLanded(tool, 1);
+  }
+
   // ==========================================================================
   // Rendering
   // ==========================================================================
@@ -429,9 +440,9 @@ public class ToolHelper {
     tags.setInteger(name, value);
   }
 
-  /*
-   * Tool design NBT
-   */
+  // ---------------
+  // Tool design NBT
+  // ---------------
 
   public static int getToolHeadLeft(ItemStack tool) {
 
@@ -503,9 +514,9 @@ public class ToolHelper {
     setTagByte(NBT_TIP, id, tool);
   }
 
-  /*
-   * Statistics NBT
-   */
+  // --------------
+  // Statistics NBT
+  // --------------
 
   public static int getStatBlocksMined(ItemStack tool) {
 
@@ -515,6 +526,16 @@ public class ToolHelper {
   public static void incrementStatBlocksMined(ItemStack tool, int amount) {
 
     setTagInt(NBT_STATS_MINED, getStatBlocksMined(tool) + amount, tool);
+  }
+
+  public static int getStatHitsLanded(ItemStack tool) {
+
+    return getTagInt(NBT_STATS_HITS, tool);
+  }
+
+  public static void incrementStatHitsLanded(ItemStack tool, int amount) {
+
+    setTagInt(NBT_STATS_HITS, getStatHitsLanded(tool) + amount, tool);
   }
 
   public static int getStatRedecorated(ItemStack tool) {
@@ -527,9 +548,9 @@ public class ToolHelper {
     setTagInt(NBT_STATS_REDECORATED, getStatRedecorated(tool) + amount, tool);
   }
 
-  /*
-   * NBT converter methods
-   */
+  // ---------------------
+  // NBT converter methods
+  // ---------------------
 
   private static int getOldTag(ItemStack tool, String name) {
 

@@ -741,6 +741,7 @@ misc.silentgems:Tool.DiamondTipped=Diamond-Tipped
 
 misc.silentgems:Tool.Stats.Header=Statistics
 misc.silentgems:Tool.Stats.Mined=Blocks mined: %d
+misc.silentgems:Tool.Stats.Hits=Hits landed: %d
 misc.silentgems:Tool.Stats.Redecorated=Redecorated: %d time(s)
 misc.silentgems:Tool.Stats.Separator=---------------------
 

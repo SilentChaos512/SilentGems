@@ -4,6 +4,7 @@ import java.util.List;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemHoe;
@@ -115,5 +116,22 @@ public class GemHoe extends ItemHoe {
     if (gemId >= 0 && gemId < ToolRenderHelper.HEAD_TYPE_COUNT) {
       itemIcon = ToolRenderHelper.instance.hoeIcons.headM[gemId];
     }
+  }
+  
+  @Override
+  public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z, EntityPlayer player) {
+
+    boolean canceled = super.onBlockStartBreak(stack, x, y, z, player);
+    if (!canceled) {
+      ToolHelper.onBlockStartBreak(stack, x, y, z, player);
+    }
+    return canceled;
+  }
+  
+  @Override
+  public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
+
+    ToolHelper.hitEntity(stack);
+    return super.hitEntity(stack, entity1, entity2);
   }
 }

@@ -163,12 +163,14 @@ public class GemSickle extends ItemTool {
     Block block = player.worldObj.getBlock(x, y, z);
     int meta = player.worldObj.getBlockMetadata(x, y, z);
 
-    if (!this.isEffectiveOnMaterial(block.getMaterial())) {
+    if (!isEffectiveOnMaterial(block.getMaterial())) {
+      ToolHelper.incrementStatBlocksMined(sickle, 1);
       return false;
     }
 
     int xRange = 4;
     int zRange = 4;
+    int blocksBroken = 1;
 
     for (int xPos = x - xRange; xPos <= x + xRange; ++xPos) {
       for (int zPos = z - zRange; zPos <= z + zRange; ++zPos) {
@@ -176,19 +178,22 @@ public class GemSickle extends ItemTool {
           continue;
         }
 
-        this.breakExtraBlock(sickle, player.worldObj, xPos, y, zPos, 0, player, x, y, z);
+        if (breakExtraBlock(sickle, player.worldObj, xPos, y, zPos, 0, player, x, y, z)) {
+          ++blocksBroken;
+        }
       }
     }
 
     sickle.attemptDamageItem(1, player.worldObj.rand);
+    ToolHelper.incrementStatBlocksMined(sickle, blocksBroken);
     return super.onBlockStartBreak(sickle, x, y, z, player);
   }
 
-  private void breakExtraBlock(ItemStack sickle, World world, int x, int y, int z, int sideHit,
+  private boolean breakExtraBlock(ItemStack sickle, World world, int x, int y, int z, int sideHit,
       EntityPlayer player, int refX, int refY, int refZ) {
 
     if (world.isAirBlock(x, y, z) || !(player instanceof EntityPlayerMP)) {
-      return;
+      return false;
     }
 
     EntityPlayerMP playerMP = (EntityPlayerMP) player;
@@ -202,13 +207,13 @@ public class GemSickle extends ItemTool {
       }
     }
     if (!effectiveOnBlock) {
-      return;
+      return false;
     }
 
     BlockEvent.BreakEvent event = ForgeHooks.onBlockBreakEvent(world,
         playerMP.theItemInWorldManager.getGameType(), playerMP, x, y, z);
     if (event.isCanceled()) {
-      return;
+      return false;
     }
 
     int meta = world.getBlockMetadata(x, y, z);
@@ -220,7 +225,7 @@ public class GemSickle extends ItemTool {
       if (!world.isRemote) {
         playerMP.playerNetServerHandler.sendPacket(new S23PacketBlockChange(x, y, z, world));
       }
-      return;
+      return true;
     }
 
     player.getCurrentEquippedItem().func_150999_a(world, block, x, y, z, player);
@@ -246,6 +251,8 @@ public class GemSickle extends ItemTool {
         player.destroyCurrentEquippedItem();
       }
     }
+    
+    return true;
   }
 
   @Override
@@ -260,5 +267,12 @@ public class GemSickle extends ItemTool {
     if (gemId >= 0 && gemId < ToolRenderHelper.HEAD_TYPE_COUNT) {
       itemIcon = ToolRenderHelper.instance.sickleIcons.headM[gemId];
     }
+  }
+  
+  @Override
+  public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
+
+    ToolHelper.hitEntity(stack);
+    return super.hitEntity(stack, entity1, entity2);
   }
 }
