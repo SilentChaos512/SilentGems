@@ -26,9 +26,9 @@ import net.silentchaos512.gems.item.tool.GemPickaxe;
 import net.silentchaos512.gems.lib.Names;
 
 public class EnchantmentAOE extends Enchantment {
-  
+
   public static final float DIG_SPEED_MULTIPLIER = 0.2f;
-//  public static final float DIG_SPEED_REDUCTION = 8.0f;
+  // public static final float DIG_SPEED_REDUCTION = 8.0f;
 
   protected EnchantmentAOE(int par1, int par2, EnumEnchantmentType par3EnumEnchantmentType) {
 
@@ -71,15 +71,15 @@ public class EnchantmentAOE extends Enchantment {
     return StatCollector.translateToLocal("enchantment." + Names.AOE) + " "
         + StatCollector.translateToLocal("enchantment.level." + par1);
   }
-  
+
   public static boolean isToolEffective(ItemStack tool, Block block, int meta) {
-    
+
     boolean toolEffective = ForgeHooks.isToolEffective(tool, block, meta);
-    
+
     if (tool.getItem().canHarvestBlock(block, tool)) {
       return true;
     }
-    
+
     if (tool.getItem() instanceof GemPickaxe) {
       for (Material m : GemPickaxe.extraEffectiveMaterials) {
         if (block.getMaterial() == m) {
@@ -96,23 +96,23 @@ public class EnchantmentAOE extends Enchantment {
     return toolEffective;
   }
 
-  public static void tryActivate(ItemStack tool, int x, int y, int z, EntityPlayer player) {
+  public static int tryActivate(ItemStack tool, int x, int y, int z, EntityPlayer player) {
 
     Block block = player.worldObj.getBlock(x, y, z);
     int meta = player.worldObj.getBlockMetadata(x, y, z);
-    
+
     if (!(tool.getItem() instanceof ItemTool) || block == null) {
-      return;
+      return 0;
     }
-    
+
     boolean toolEffective = isToolEffective(tool, block, meta);
     if (!toolEffective) {
-      return;
+      return 0;
     }
 
     MovingObjectPosition mop = raytraceFromEntity(player.worldObj, player, false, 4.5);
     if (mop == null) {
-      return;
+      return 0;
     }
     int sideHit = mop.sideHit;
 
@@ -136,6 +136,8 @@ public class EnchantmentAOE extends Enchantment {
         zRange = 1;
         break;
     }
+    
+    int blocksBroken = 0;
 
     for (int xPos = x - xRange; xPos <= x + xRange; xPos++) {
       for (int yPos = y - yRange; yPos <= y + yRange; yPos++) {
@@ -144,52 +146,60 @@ public class EnchantmentAOE extends Enchantment {
             continue;
           }
 
-          breakExtraBlock(tool, player.worldObj, xPos, yPos, zPos, sideHit, player, x, y, z);
+          if (breakExtraBlock(tool, player.worldObj, xPos, yPos, zPos, sideHit, player, x, y, z)) {
+            ++blocksBroken;
+          }
         }
       }
     }
+    
+    return blocksBroken;
   }
 
-  public static void breakExtraBlock(ItemStack tool, World world, int x, int y, int z,
-      int sidehit, EntityPlayer playerEntity, int refX, int refY, int refZ) {
+  public static boolean breakExtraBlock(ItemStack tool, World world, int x, int y, int z, int sidehit,
+      EntityPlayer playerEntity, int refX, int refY, int refZ) {
 
     if (world.isAirBlock(x, y, z))
-      return;
+      return false;
 
-    if (!(playerEntity instanceof EntityPlayerMP))
-      return;
+    if (!(playerEntity instanceof EntityPlayerMP)) {
+      return false;
+    }
+    
     EntityPlayerMP player = (EntityPlayerMP) playerEntity;
 
     Block block = world.getBlock(x, y, z);
     int meta = world.getBlockMetadata(x, y, z);
 
     if (!isToolEffective(tool, block, world.getBlockMetadata(x, y, z))) {
-      return;
+      return false;
     }
 
     Block refBlock = world.getBlock(refX, refY, refZ);
     float refStrength = ForgeHooks.blockStrength(refBlock, player, world, refX, refY, refZ);
     float strength = ForgeHooks.blockStrength(block, player, world, x, y, z);
 
-//    LogHelper.list(Block.getIdFromBlock(refBlock), refStrength, strength, refStrength / strength);
+    // LogHelper.list(Block.getIdFromBlock(refBlock), refStrength, strength, refStrength / strength);
     if (!ForgeHooks.canHarvestBlock(block, player, meta) || refStrength / strength > 10f) {
-      return;
+      return false;
     }
 
     BlockEvent.BreakEvent event = ForgeHooks.onBlockBreakEvent(world,
         player.theItemInWorldManager.getGameType(), player, x, y, z);
-    if (event.isCanceled())
-      return;
+    if (event.isCanceled()) {
+      return false;
+    }
 
     if (player.capabilities.isCreativeMode) {
       block.onBlockHarvested(world, x, y, z, meta, player);
-      if (block.removedByPlayer(world, player, x, y, z, false))
+      if (block.removedByPlayer(world, player, x, y, z, false)) {
         block.onBlockDestroyedByPlayer(world, x, y, z, meta);
+      }
 
       if (!world.isRemote) {
         player.playerNetServerHandler.sendPacket(new S23PacketBlockChange(x, y, z, world));
       }
-      return;
+      return true;
     }
 
     player.getCurrentEquippedItem().func_150999_a(world, block, x, y, z, player);
@@ -220,6 +230,8 @@ public class EnchantmentAOE extends Enchantment {
         }
       }
     }
+    
+    return true;
   }
 
   private static MovingObjectPosition raytraceFromEntity(World world, Entity player, boolean par3,

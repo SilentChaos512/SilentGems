@@ -98,24 +98,9 @@ public class GemAxe extends ItemAxe {
 
   @Override
   public int getHarvestLevel(ItemStack stack, String toolClass) {
-
+    
     int level = super.getHarvestLevel(stack, toolClass);
-    if (level < 0) {
-      return level;
-    }
-
-    if (stack.stackTagCompound != null) {
-      int tip = ToolHelper.getToolHeadTip(stack);
-      if (tip == 1 && level < Config.MINING_LEVEL_IRON_TIP) {
-        // Iron tip
-        level = Config.MINING_LEVEL_IRON_TIP;
-      } else if (tip == 2 && level < Config.MINING_LEVEL_DIAMOND_TIP) {
-        // Diamond tip
-        level = Config.MINING_LEVEL_DIAMOND_TIP;
-      }
-    }
-
-    return level;
+    return ToolHelper.getAdjustedMiningLevel(stack, level);
   }
 
   @Override
@@ -194,10 +179,10 @@ public class GemAxe extends ItemAxe {
   @Override
   public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z, EntityPlayer player) {
 
-    if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.aoe.effectId, stack) > 0) {
-      EnchantmentAOE.tryActivate(stack, x, y, z, player);
+    boolean canceled = super.onBlockStartBreak(stack, x, y, z, player);
+    if (!canceled) {
+      ToolHelper.onBlockStartBreak(stack, x, y, z, player);
     }
-
-    return super.onBlockStartBreak(stack, x, y, z, player);
+    return canceled;
   }
 }

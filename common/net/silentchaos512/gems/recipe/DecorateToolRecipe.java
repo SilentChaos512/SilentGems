@@ -38,89 +38,6 @@ public class DecorateToolRecipe implements IRecipe {
   public boolean matches(InventoryCrafting inv, World world) {
 
     return getCraftingResult(inv) != null;
-//    int numTools = 0;
-//    int numGems = 0;
-//    int numRods = 0;
-//    int numWool = 0;
-//    int toolSlot = -1;
-//    int i, row, column;
-//
-//    final int gridWidth = inventorycrafting.getSizeInventory() == 4 ? 2 : 3;
-//
-//    ItemStack stack, tool = null;
-//
-//    // Count valid ingredients and look for invalid
-//    for (i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
-//      stack = inventorycrafting.getStackInSlot(i);
-//      if (stack != null) {
-//        if (stack.getItem() instanceof Gem) {
-//          // Only regular gems, not supercharged.
-//          if (stack.getItemDamage() > 15) {
-//            return false;
-//          }
-//          ++numGems;
-//        } else if (InventoryHelper.isStackBlock(stack, Blocks.wool)) {
-//          ++numWool;
-//        } else if (InventoryHelper.isGemTool(stack)) {
-//          ++numTools;
-//          toolSlot = i;
-//          tool = stack;
-//        } else if (InventoryHelper.matchesOreDict(stack, Strings.ORE_DICT_STICK_FANCY)) {
-//          ++numRods;
-//        } else {
-//          // Invalid item
-//          return false;
-//        }
-//      }
-//    }
-//
-//    // Need exactly one tool.
-//    if (numTools != 1) {
-//      return false;
-//    }
-//    // No more than one wool.
-//    if (numWool > 1) {
-//      return false;
-//    }
-//    // No more than one rod.
-//    if (numRods > 1) {
-//      return false;
-//    }
-//    // At least one gem, wool, or rod
-//    if (numWool == 0 && numGems == 0 && numRods == 0) {
-//      return false;
-//    }
-//
-//    // Get tool row/column
-//    row = toolSlot % gridWidth;
-//    column = toolSlot / gridWidth;
-//
-//    // Slots directly adjacent to tool may be a gem, wool, rod, or null.
-//    ItemStack[] stacks = new ItemStack[4];
-//    stacks[0] = getStackInRowAndColumn(inventorycrafting, row - 1, column, gridWidth);
-//    stacks[1] = getStackInRowAndColumn(inventorycrafting, row + 1, column, gridWidth);
-//    stacks[2] = getStackInRowAndColumn(inventorycrafting, row, column - 1, gridWidth);
-//    stacks[3] = getStackInRowAndColumn(inventorycrafting, row, column + 1, gridWidth);
-//
-//    // Count gems adjacent to tool.
-//    int adjGems = 0;
-//    for (i = 0; i < stacks.length; ++i) {
-//      if (stacks[i] != null) {
-//        if (stacks[i].getItem() instanceof Gem) {
-//          ++adjGems;
-//        } else if (!InventoryHelper.isStackBlock(stacks[i], Blocks.wool)
-//            && !InventoryHelper.matchesOreDict(stacks[i], Strings.ORE_DICT_STICK_FANCY)) {
-//          return false;
-//        }
-//      }
-//    }
-//
-//    // Make sure gems are only adjacent to tool.
-//    if (adjGems != numGems) {
-//      return false;
-//    }
-//
-//    return true;
   }
 
   @Override
@@ -248,6 +165,9 @@ public class DecorateToolRecipe implements IRecipe {
 
     // Repair with gems.
     result.attemptDamageItem(-repairAmount, SilentGems.instance.random);
+    
+    // Increase redecorated counter.
+    ToolHelper.incrementStatRedecorated(result, 1);
 
     return result;
   }

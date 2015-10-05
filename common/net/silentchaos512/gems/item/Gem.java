@@ -51,14 +51,14 @@ public class Gem extends ItemSG {
       boolean supercharged = stack.getItemDamage() > 15;
       ToolMaterial material = EnumGem.all()[id].getToolMaterial(supercharged);
 
-      list.add(
-          EnumChatFormatting.ITALIC + LocalizationHelper.getOtherItemKey(itemName, "ToolProperties"));
+      list.add(EnumChatFormatting.ITALIC
+          + LocalizationHelper.getOtherItemKey(itemName, "ToolProperties"));
       String separator = EnumChatFormatting.DARK_GRAY
           + LocalizationHelper.getOtherItemKey(itemName, "Separator");
       list.add(separator);
 
       String formatInt = EnumChatFormatting.GOLD + "%s:" + EnumChatFormatting.RESET + " %d";
-      String formatFloat = EnumChatFormatting.GOLD+ "%s:" + EnumChatFormatting.RESET + " %.1f";
+      String formatFloat = EnumChatFormatting.GOLD + "%s:" + EnumChatFormatting.RESET + " %.1f";
 
       // Durability
       String s = LocalizationHelper.getOtherItemKey(itemName, "MaxUses");
@@ -90,12 +90,10 @@ public class Gem extends ItemSG {
       list.add(separator);
 
       // Decorate tool hint.
-      if (stack.getItemDamage() < EnumGem.all().length) {
-        list.add(EnumChatFormatting.DARK_AQUA
-            + LocalizationHelper.getOtherItemKey(itemName, "Decorate1"));
-        list.add(EnumChatFormatting.DARK_AQUA
-            + LocalizationHelper.getOtherItemKey(itemName, "Decorate2"));
-      }
+      s = LocalizationHelper.getOtherItemKey(itemName, "Decorate1");
+      list.add(EnumChatFormatting.DARK_AQUA + s);
+      s = LocalizationHelper.getOtherItemKey(itemName, "Decorate2");
+      list.add(EnumChatFormatting.DARK_AQUA + s);
     } else {
       list.add(EnumChatFormatting.ITALIC + LocalizationHelper.getMiscText(Strings.PRESS_SHIFT));
     }
