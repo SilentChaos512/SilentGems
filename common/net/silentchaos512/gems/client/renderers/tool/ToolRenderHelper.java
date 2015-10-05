@@ -40,7 +40,7 @@ public class ToolRenderHelper extends Item {
   // The number of rod types
   public static final int ROD_TYPE_COUNT = 2;
   // The number of rod gem decorations
-  public static final int ROD_DECO_TYPE_COUNT = 13;
+  public static final int ROD_DECO_TYPE_COUNT = 14;
   // The number of wool grip types (shouldn't change)
   public static final int ROD_WOOL_TYPE_COUNT = 16;
   // The number of mining tool tips.
@@ -309,7 +309,7 @@ public class ToolRenderHelper extends Item {
       k = MathHelper.clamp_int(k, 0, ROD_DECO_TYPE_COUNT - 1);
       return icons.rodDeco[k];
     }
-    return icons.rodDeco[ROD_DECO_TYPE_COUNT - 1];
+    return icons.rodDeco[12];
   }
 
   public IIcon getRodWoolIcon(ToolIconCollection icons, ItemStack stack, boolean supercharged) {
