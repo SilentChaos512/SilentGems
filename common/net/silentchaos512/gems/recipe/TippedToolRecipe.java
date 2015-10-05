@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.GemAxe;
@@ -64,7 +65,7 @@ public class TippedToolRecipe implements IRecipe {
       if (result.stackTagCompound == null) {
         // Create NBT if needed.
         result.setTagCompound(new NBTTagCompound());
-      } else if (ToolHelper.getToolHeadTip(result) > -1) {
+      } else if (ToolHelper.getToolHeadTip(result) >= upgradeValue) {
         // Can't upgrade a tool that has already been upgraded.
         return null;
       }
