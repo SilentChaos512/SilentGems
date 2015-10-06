@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.core.util.InventoryHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.ModItems;
@@ -39,7 +40,7 @@ public class TippedToolRecipe implements IRecipe {
       if (stack != null) {
         item = stack.getItem();
         meta = stack.getItemDamage();
-        if (item instanceof GemPickaxe || item instanceof GemShovel || item instanceof GemAxe) {
+        if (InventoryHelper.isGemTool(stack)) {
           // Tool
           if (tool != null) {
             return null;

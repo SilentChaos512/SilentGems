@@ -117,6 +117,10 @@ public class ToolRenderHelper extends Item {
     for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       swordIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
+    
+    for (i = 0; i < TIP_TYPE_COUNT; ++i) {
+      swordIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
+    }
 
     item = domain + "SwordDeco";
     for (i = 0; i < ROD_DECO_TYPE_COUNT; ++i) {
@@ -216,6 +220,9 @@ public class ToolRenderHelper extends Item {
     for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       hoeIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
+    for (i = 0; i < TIP_TYPE_COUNT; ++i) {
+      hoeIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
+    }
 
     hoeIcons.rodDeco = iconMainRodDeco;
     hoeIcons.rodWool = iconMainRodWool;
@@ -236,6 +243,9 @@ public class ToolRenderHelper extends Item {
     }
     for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       sickleIcons.headR[i] = reg.registerIcon(item + i + "R");
+    }
+    for (i = 0; i < TIP_TYPE_COUNT; ++i) {
+      sickleIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
     }
 
     sickleIcons.rodDeco = iconMainRodDeco;
