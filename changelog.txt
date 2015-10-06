@@ -6,15 +6,15 @@ Added: Iron-Tipped Upgrade. Raises mining level of a tool to 2 and durability by
 Added: Diamond-Tipped Upgrade. Raises mining level of a tool to 3 and durability by 512 (configurable).
 Added: Supercharged gems can now repair tools (by decorating). Restores four times as much durability.
 Added: Flint can be used for decorating, but it will only repair flint tools (1/2 each).
-Added: Tool statistics (work in progress)
+Added: Tool statistics (work in progress, currently tracks blocks mined, hits landed, and times redecorated)
 Changed: Regular gem tools get a 2x repair bonus from decorating, flint tools 4x.
-Changed: All Onyx tool textures
+Changed: Most onyx textures (they should be much better!)
 Changed: Pickaxe textures (removed a few pixels from the L and R parts, making the middle slightly larger)
-Changed: Rod wool textures
+Changed: Rod wool textures (a bit of shading for depth)
 Internal Changes: Tool NBT has changed. Your tools' NBT should update automatically when you log in with the tool in your inventory. If you have tools in a chest/bag/etc., place them into your main inventory, then relog.
-Internal Changes: Lots of changes with tools to make expanding/updating the mod easier. Should have no side effects.
+Internal Changes: Lots of changes with tools to make expanding/updating the mod easier. Should have no side effects, but report any bugs.
 
-TLDR: Lots of tool changes and minor texture changes!
+TLDR: Flint tools! Tool upgrades! Tool statistics!
 
 1.3.01
 Changed: Altar/pylon textures (downsized, altar colors tweaked)
