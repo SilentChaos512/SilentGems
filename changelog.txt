@@ -14,7 +14,7 @@ Changed: Rod wool textures
 Internal Changes: Tool NBT has changed. Your tools' NBT should update automatically when you log in with the tool in your inventory. If you have tools in a chest/bag/etc., place them into your main inventory, then relog.
 Internal Changes: Lots of changes with tools to make expanding/updating the mod easier. Should have no side effects.
 
-TLDR: Lots of tool changes!
+TLDR: Lots of tool changes and minor texture changes!
 
 1.3.01
 Changed: Altar/pylon textures (downsized, altar colors tweaked)
