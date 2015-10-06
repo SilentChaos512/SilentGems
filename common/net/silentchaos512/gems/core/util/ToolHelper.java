@@ -44,7 +44,7 @@ public class ToolHelper {
    * NBT constants
    */
 
-  public static final String NBT_ROOT_TOOL = SilentGems.MOD_ID + "Tool";
+  public static final String NBT_ROOT = SilentGems.MOD_ID + "Tool";
   public static final String NBT_HEAD_L = "HeadL";
   public static final String NBT_HEAD_M = "HeadM";
   public static final String NBT_HEAD_R = "HeadR";
@@ -53,7 +53,6 @@ public class ToolHelper {
   public static final String NBT_ROD_WOOL = "RodWool";
   public static final String NBT_TIP = "Tip";
 
-  public static final String NBT_ROOT_STATS = SilentGems.MOD_ID + "Stats";
   public static final String NBT_STATS_MINED = "BlocksMined";
   public static final String NBT_STATS_HITS = "HitsLanded";
   public static final String NBT_STATS_REDECORATED = "Redecorated";
@@ -374,12 +373,12 @@ public class ToolHelper {
     }
 
     // Create root tag, if needed.
-    if (!tool.stackTagCompound.hasKey(NBT_ROOT_TOOL)) {
-      tool.stackTagCompound.setTag(NBT_ROOT_TOOL, new NBTTagCompound());
+    if (!tool.stackTagCompound.hasKey(NBT_ROOT)) {
+      tool.stackTagCompound.setTag(NBT_ROOT, new NBTTagCompound());
     }
 
     // Get the requested value.
-    NBTTagCompound tags = (NBTTagCompound) tool.stackTagCompound.getTag(NBT_ROOT_TOOL);
+    NBTTagCompound tags = (NBTTagCompound) tool.stackTagCompound.getTag(NBT_ROOT);
     if (!tags.hasKey(name)) {
       return -1;
     }
@@ -394,12 +393,12 @@ public class ToolHelper {
     }
 
     // Create root tag, if needed.
-    if (!tool.stackTagCompound.hasKey(NBT_ROOT_TOOL)) {
-      tool.stackTagCompound.setTag(NBT_ROOT_TOOL, new NBTTagCompound());
+    if (!tool.stackTagCompound.hasKey(NBT_ROOT)) {
+      tool.stackTagCompound.setTag(NBT_ROOT, new NBTTagCompound());
     }
 
     // Set the tag.
-    NBTTagCompound tags = (NBTTagCompound) tool.stackTagCompound.getTag(NBT_ROOT_TOOL);
+    NBTTagCompound tags = (NBTTagCompound) tool.stackTagCompound.getTag(NBT_ROOT);
     tags.setByte(name, (byte) value);
   }
 
@@ -411,12 +410,12 @@ public class ToolHelper {
     }
 
     // Create root tag, if needed.
-    if (!tool.stackTagCompound.hasKey(NBT_ROOT_TOOL)) {
-      tool.stackTagCompound.setTag(NBT_ROOT_TOOL, new NBTTagCompound());
+    if (!tool.stackTagCompound.hasKey(NBT_ROOT)) {
+      tool.stackTagCompound.setTag(NBT_ROOT, new NBTTagCompound());
     }
 
     // Get the requested value.
-    NBTTagCompound tags = (NBTTagCompound) tool.stackTagCompound.getTag(NBT_ROOT_TOOL);
+    NBTTagCompound tags = (NBTTagCompound) tool.stackTagCompound.getTag(NBT_ROOT);
     if (!tags.hasKey(name)) {
       return 0; // NOTE: This is 0, where the byte version is -1!
     }
@@ -431,12 +430,12 @@ public class ToolHelper {
     }
 
     // Create root tag, if needed.
-    if (!tool.stackTagCompound.hasKey(NBT_ROOT_TOOL)) {
-      tool.stackTagCompound.setTag(NBT_ROOT_TOOL, new NBTTagCompound());
+    if (!tool.stackTagCompound.hasKey(NBT_ROOT)) {
+      tool.stackTagCompound.setTag(NBT_ROOT, new NBTTagCompound());
     }
 
     // Set the tag.
-    NBTTagCompound tags = (NBTTagCompound) tool.stackTagCompound.getTag(NBT_ROOT_TOOL);
+    NBTTagCompound tags = (NBTTagCompound) tool.stackTagCompound.getTag(NBT_ROOT);
     tags.setInteger(name, value);
   }
 
