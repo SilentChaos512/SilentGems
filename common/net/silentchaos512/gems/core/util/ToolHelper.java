@@ -168,19 +168,51 @@ public class ToolHelper {
 
   public static void addInformation(ItemStack tool, EntityPlayer player, List list,
       boolean advanced) {
+    
+    boolean keyControl = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
+        || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
+    boolean keyShift = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
+        || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
 
     String line;
 
     // Old NBT warning.
     if (hasOldNBT(tool)) {
-      line = LocalizationHelper.getMiscText("Tool.OldNBT1");
-      list.add(EnumChatFormatting.DARK_BLUE + line);
-      line = LocalizationHelper.getMiscText("Tool.OldNBT2");
-      list.add(EnumChatFormatting.DARK_BLUE + line);
+      addInformationOldNBT(tool, player, list, advanced);
       return;
     }
 
-    // Tipped upgrade
+    // Tool Upgrades
+    addInformationUpgrades(tool, player, list, advanced);
+
+    // Statistics
+    if (keyControl) {
+      addInformationStatistics(tool, player, list, advanced);
+    } else {
+      line = LocalizationHelper.getMiscText("PressCtrl");
+      list.add(EnumChatFormatting.YELLOW + line);
+    }
+    
+    // Decoration debug
+    if (keyControl && keyShift) {
+      addInformationDecoDebug(tool, player, list, advanced);
+    }
+
+    // Chaos tools
+    int gemId = getToolGemId(tool);
+    if (gemId == ModMaterials.CHAOS_GEM_ID) {
+      // No flying penalty
+      line = LocalizationHelper.getMiscText("Tool.NoFlyingPenalty");
+      list.add(EnumChatFormatting.AQUA + line);
+    }
+  }
+
+  private static void addInformationUpgrades(ItemStack tool, EntityPlayer player, List list,
+      boolean advanced) {
+
+    String line;
+    
+    // Tipped upgrades
     int tip = getToolHeadTip(tool);
     if (tip == 1) {
       line = LocalizationHelper.getMiscText("Tool.IronTipped");
@@ -189,51 +221,61 @@ public class ToolHelper {
       line = LocalizationHelper.getMiscText("Tool.DiamondTipped");
       list.add(EnumChatFormatting.AQUA + line);
     }
+  }
 
-    // Statistics test
-    boolean keyControl = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
-        || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
+  private static void addInformationStatistics(ItemStack tool, EntityPlayer player, List list,
+      boolean advanced) {
+
+    String line;
     int amount;
+    String separator = EnumChatFormatting.DARK_GRAY
+        + LocalizationHelper.getMiscText("Tool.Stats.Separator");
+    // Header
+    line = LocalizationHelper.getMiscText("Tool.Stats.Header");
+    list.add(EnumChatFormatting.YELLOW + line);
+    list.add(separator);
 
-    if (keyControl) {
-      String separator = EnumChatFormatting.DARK_GRAY
-          + LocalizationHelper.getMiscText("Tool.Stats.Separator");
-      // Header
-      line = LocalizationHelper.getMiscText("Tool.Stats.Header");
-      list.add(EnumChatFormatting.YELLOW + line);
-      list.add(separator);
+    // Blocks mined
+    amount = getStatBlocksMined(tool);
+    line = LocalizationHelper.getMiscText("Tool.Stats.Mined");
+    line = String.format(line, amount);
+    list.add(line);
 
-      // Blocks mined
-      amount = getStatBlocksMined(tool);
-      line = LocalizationHelper.getMiscText("Tool.Stats.Mined");
-      line = String.format(line, amount);
-      list.add(line);
+    // Hits landed
+    amount = getStatHitsLanded(tool);
+    line = LocalizationHelper.getMiscText("Tool.Stats.Hits");
+    line = String.format(line, amount);
+    list.add(line);
 
-      // Hits landed
-      amount = getStatHitsLanded(tool);
-      line = LocalizationHelper.getMiscText("Tool.Stats.Hits");
-      line = String.format(line, amount);
-      list.add(line);
+    // Redecorated count
+    amount = getStatRedecorated(tool);
+    line = LocalizationHelper.getMiscText("Tool.Stats.Redecorated");
+    line = String.format(line, amount);
+    list.add(line);
 
-      // Redecorated count
-      amount = getStatRedecorated(tool);
-      line = LocalizationHelper.getMiscText("Tool.Stats.Redecorated");
-      line = String.format(line, amount);
-      list.add(line);
-
-      list.add(separator);
-    } else {
-      line = LocalizationHelper.getMiscText("PressCtrl");
-      list.add(EnumChatFormatting.YELLOW + line);
-    }
+    list.add(separator);
+  }
+  
+  private static void addInformationDecoDebug(ItemStack tool, EntityPlayer player, List list, boolean advanced) {
     
-    // Chaos tools
-    int gemId = getToolGemId(tool);
-    if (gemId == ModMaterials.CHAOS_GEM_ID) {
-      // No flying penalty
-      line = LocalizationHelper.getMiscText("Tool.NoFlyingPenalty");
-      list.add(EnumChatFormatting.AQUA + line);
-    }
+    String line = "Deco:";
+    line += " HL:" + getToolHeadLeft(tool);
+    line += " HM:" + getToolHeadMiddle(tool);
+    line += " HR:" + getToolHeadRight(tool);
+    line += " RD:" + getToolRodDeco(tool);
+    line += " RW:" + getToolRodWool(tool);
+    line += " R:" + getToolRod(tool);
+    line += " T:" + getToolHeadTip(tool);
+    list.add(EnumChatFormatting.DARK_GRAY + line);
+  }
+  
+  private static void addInformationOldNBT(ItemStack tool, EntityPlayer player, List list, boolean advanced) {
+    
+    String line;
+    line = LocalizationHelper.getMiscText("Tool.OldNBT1");
+    list.add(EnumChatFormatting.DARK_BLUE + line);
+    line = LocalizationHelper.getMiscText("Tool.OldNBT2");
+    list.add(EnumChatFormatting.DARK_BLUE + line);
   }
 
   // ==========================================================================
@@ -513,7 +555,7 @@ public class ToolHelper {
     setTagByte(NBT_ROD_WOOL, id, tool);
   }
 
-  public static int getToolRod(ItemStack tool, int id) {
+  public static int getToolRod(ItemStack tool) {
 
     return getTagByte(NBT_ROD, tool);
   }
