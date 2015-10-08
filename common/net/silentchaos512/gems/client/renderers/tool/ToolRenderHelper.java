@@ -36,7 +36,7 @@ public class ToolRenderHelper extends Item {
    */
 
   // The number of head types
-  public static final int HEAD_TYPE_COUNT = 14;
+  public static final int HEAD_TYPE_COUNT = 15;
   // The number of rod types
   public static final int ROD_TYPE_COUNT = 2;
   // The number of rod gem decorations
@@ -392,5 +392,13 @@ public class ToolRenderHelper extends Item {
     } else {
       return iconBlank;
     }
+  }
+
+  /**
+   * This is actually for the tools themselves.
+   */
+  public boolean hasEffect(ItemStack tool, int pass) {
+  
+    return tool.isItemEnchanted() && pass == RENDER_PASS_COUNT - 1;
   }
 }

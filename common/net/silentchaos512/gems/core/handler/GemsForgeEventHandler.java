@@ -12,6 +12,7 @@ import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
+import net.silentchaos512.gems.material.ModMaterials;
 
 public class GemsForgeEventHandler {
 
@@ -53,6 +54,13 @@ public class GemsForgeEventHandler {
 
     ItemStack heldItem = event.entityPlayer.getCurrentEquippedItem();
     if (heldItem != null) {
+      // Chaos Tools: No penalty for mining while flying.
+      if (event.entityPlayer.capabilities.isFlying && InventoryHelper.isGemTool(heldItem)) {
+        if (ToolHelper.getToolGemId(heldItem) == ModMaterials.CHAOS_GEM_ID) {
+          event.newSpeed *= 5;
+        }
+      }
+
       // Reduce speed of Area Miner tools.
       int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.aoe.effectId, heldItem);
       if (level > 0) {

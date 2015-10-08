@@ -98,6 +98,17 @@ public class ModItems {
     SRegistry.registerItem(GemAxe.class, "AxeFlint", params);
     SRegistry.registerItem(GemHoe.class, "HoeFlint", params);
     SRegistry.registerItem(GemSickle.class, "SickleFlint", params);
+    
+    // Chaos tools
+    params[0] = ModMaterials.toolChaos;
+    params[1] = ModMaterials.CHAOS_GEM_ID;
+    params[2] = true;
+    SRegistry.registerItem(GemSword.class, "SwordChaos", params);
+    SRegistry.registerItem(GemPickaxe.class, "PickaxeChaos", params);
+    SRegistry.registerItem(GemShovel.class, "ShovelChaos", params);
+    SRegistry.registerItem(GemAxe.class, "AxeChaos", params);
+    SRegistry.registerItem(GemHoe.class, "HoeChaos", params);
+    SRegistry.registerItem(GemSickle.class, "SickleChaos", params);
 
     // Gem tools
     for (int i = 0; i < 24; ++i) {

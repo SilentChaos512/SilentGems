@@ -9,6 +9,7 @@ public class ModMaterials {
 
 	public static final int FISH_GEM_ID = 12;
 	public static final int FLINT_GEM_ID = 13;
+	public static final int CHAOS_GEM_ID = 14;
 
 	private static int mlr = Config.MINING_LEVEL_REGULAR;
 	
@@ -45,6 +46,7 @@ public class ModMaterials {
 
   public static final ToolMaterial toolFlint          = EnumHelper.addToolMaterial("GemFlint", 1, 192, 6.0f, 2.0f, 8);
   public static final ToolMaterial toolFish           = EnumHelper.addToolMaterial("GemFish", Config.MINING_LEVEL_FISH, 64, 3.0f, 1.0f, 20);
+  public static final ToolMaterial toolChaos          = EnumHelper.addToolMaterial("GemChaos", mls, 4096, 20.0f, 12.0f, 20);
   
   /*
    * Armor

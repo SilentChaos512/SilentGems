@@ -18,11 +18,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IPlaceable;
-import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
+import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.Gem;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.GemAxe;
@@ -132,12 +132,33 @@ public class ToolHelper {
     Item item = material.getItem();
     if (item instanceof Gem) {
       return material.getItemDamage() & 0xF;
+    } else if (CraftingMaterial.doesStackMatch(material, Names.CHAOS_ESSENCE_PLUS_2)) {
+      return ModMaterials.CHAOS_GEM_ID;
     } else if (item == Items.flint) {
       return ModMaterials.FLINT_GEM_ID;
     } else if (item == Items.fish) {
       return ModMaterials.FISH_GEM_ID;
     } else {
       return -1;
+    }
+  }
+
+  public static ItemStack getCraftingMaterial(int gemId, boolean supercharged) {
+
+    if (gemId < EnumGem.values().length) {
+      return new ItemStack(ModItems.gem, 1, gemId | (supercharged ? 0x10 : 0));
+    }
+
+    switch (gemId) {
+      case ModMaterials.CHAOS_GEM_ID:
+        return CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS_2);
+      case ModMaterials.FLINT_GEM_ID:
+        return new ItemStack(Items.flint);
+      case ModMaterials.FISH_GEM_ID:
+        return new ItemStack(Items.fish);
+      default:
+        LogHelper.warning("ToolHelper.getCraftingMaterial: Unknown gem ID: " + gemId);
+        return null;
     }
   }
 
@@ -187,7 +208,7 @@ public class ToolHelper {
       line = LocalizationHelper.getMiscText("Tool.Stats.Mined");
       line = String.format(line, amount);
       list.add(line);
-      
+
       // Hits landed
       amount = getStatHitsLanded(tool);
       line = LocalizationHelper.getMiscText("Tool.Stats.Hits");
@@ -204,6 +225,14 @@ public class ToolHelper {
     } else {
       line = LocalizationHelper.getMiscText("PressCtrl");
       list.add(EnumChatFormatting.YELLOW + line);
+    }
+    
+    // Chaos tools
+    int gemId = getToolGemId(tool);
+    if (gemId == ModMaterials.CHAOS_GEM_ID) {
+      // No flying penalty
+      line = LocalizationHelper.getMiscText("Tool.NoFlyingPenalty");
+      list.add(EnumChatFormatting.AQUA + line);
     }
   }
 
@@ -348,17 +377,8 @@ public class ToolHelper {
   }
 
   public static void hitEntity(ItemStack tool) {
-    
+
     ToolHelper.incrementStatHitsLanded(tool, 1);
-  }
-
-  // ==========================================================================
-  // Rendering
-  // ==========================================================================
-
-  public static boolean hasEffect(ItemStack tool, int pass) {
-
-    return tool.isItemEnchanted() && pass == ToolRenderHelper.RENDER_PASS_COUNT - 1;
   }
 
   // ==========================================================================

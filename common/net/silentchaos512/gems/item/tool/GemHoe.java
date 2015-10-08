@@ -45,14 +45,7 @@ public class GemHoe extends ItemHoe {
 
   public static void addRecipe(ItemStack tool, int gemId, boolean supercharged) {
 
-    ItemStack material = new ItemStack(ModItems.gem, 1, gemId + (supercharged ? 16 : 0));
-
-    // Fish/flint tools
-    if (gemId == ModMaterials.FISH_GEM_ID) {
-      material = new ItemStack(Items.fish);
-    } else if (gemId == ModMaterials.FLINT_GEM_ID) {
-      material = new ItemStack(Items.flint);
-    }
+    ItemStack material = ToolHelper.getCraftingMaterial(gemId, supercharged);
 
     if (supercharged) {
       GameRegistry.addRecipe(new ShapedOreRecipe(tool, true, "gg", " s", " s", 'g', material, 's',
@@ -101,7 +94,7 @@ public class GemHoe extends ItemHoe {
   @Override
   public boolean hasEffect(ItemStack stack, int pass) {
 
-    return ToolHelper.hasEffect(stack, pass);
+    return ToolRenderHelper.instance.hasEffect(stack, pass);
   }
 
   @Override

@@ -221,8 +221,7 @@ item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence
 item.silentgems:ChaosEssencePlus.desc=Can conduct some kind of energy.
 
 item.silentgems:ChaosEssencePlus2.name=Crystallized Chaos Essence
-item.silentgems:ChaosEssencePlus2.desc=Currently unused. Feel free to speculate.
-item.silentgems:ChaosEssencePlus2.desc1=It might be durable enough to make tools...
+item.silentgems:ChaosEssencePlus2.desc=It might be durable enough to make tools...
 
 item.silentgems:ChaosEssenceShard.name=Chaos Essence Shard
 item.silentgems:ChaosEssenceShard.desc=Are you some kind of wizard, or something?
@@ -522,6 +521,7 @@ tool.silentgems:Sword8Plus.name=Supercharged Iolite Sword
 tool.silentgems:Sword9Plus.name=Supercharged Amethyst Sword
 tool.silentgems:Sword10Plus.name=Supercharged Morganite Sword
 tool.silentgems:Sword11Plus.name=Supercharged Onyx Sword
+tool.silentgems:Sword14Plus.name=Chaos Sword
 
 tool.silentgems:Pickaxe0.name=Ruby Pickaxe
 tool.silentgems:Pickaxe1.name=Garnet Pickaxe
@@ -549,6 +549,7 @@ tool.silentgems:Pickaxe8Plus.name=Supercharged Iolite Pickaxe
 tool.silentgems:Pickaxe9Plus.name=Supercharged Amethyst Pickaxe
 tool.silentgems:Pickaxe10Plus.name=Supercharged Morganite Pickaxe
 tool.silentgems:Pickaxe11Plus.name=Supercharged Onyx Pickaxe
+tool.silentgems:Pickaxe14Plus.name=Chaos Pickaxe
 
 tool.silentgems:Shovel0.name=Ruby Shovel
 tool.silentgems:Shovel1.name=Garnet Shovel
@@ -576,6 +577,7 @@ tool.silentgems:Shovel8Plus.name=Supercharged Iolite Shovel
 tool.silentgems:Shovel9Plus.name=Supercharged Amethyst Shovel
 tool.silentgems:Shovel10Plus.name=Supercharged Morganite Shovel
 tool.silentgems:Shovel11Plus.name=Supercharged Onyx Shovel
+tool.silentgems:Shovel14Plus.name=Chaos Shovel
 
 tool.silentgems:Axe0.name=Ruby Axe
 tool.silentgems:Axe1.name=Garnet Axe
@@ -603,6 +605,7 @@ tool.silentgems:Axe8Plus.name=Supercharged Iolite Axe
 tool.silentgems:Axe9Plus.name=Supercharged Amethyst Axe
 tool.silentgems:Axe10Plus.name=Supercharged Morganite Axe
 tool.silentgems:Axe11Plus.name=Supercharged Onyx Axe
+tool.silentgems:Axe14Plus.name=Chaos Axe
 
 tool.silentgems:Hoe0.name=Ruby Hoe
 tool.silentgems:Hoe1.name=Garnet Hoe
@@ -630,6 +633,7 @@ tool.silentgems:Hoe8Plus.name=Supercharged Iolite Hoe
 tool.silentgems:Hoe9Plus.name=Supercharged Amethyst Hoe
 tool.silentgems:Hoe10Plus.name=Supercharged Morganite Hoe
 tool.silentgems:Hoe11Plus.name=Supercharged Onyx Hoe
+tool.silentgems:Hoe14Plus.name=Chaos Hoe
 
 tool.silentgems:Sickle0.name=Ruby Sickle
 tool.silentgems:Sickle1.name=Garnet Sickle
@@ -657,6 +661,7 @@ tool.silentgems:Sickle8Plus.name=Supercharged Iolite Sickle
 tool.silentgems:Sickle9Plus.name=Supercharged Amethyst Sickle
 tool.silentgems:Sickle10Plus.name=Supercharged Morganite Sickle
 tool.silentgems:Sickle11Plus.name=Supercharged Onyx Sickle
+tool.silentgems:Sickle14Plus.name=Chaos Sickle
 
 # Entity localization
 
@@ -738,6 +743,7 @@ misc.silentgems:Tool.OldNBT1=DON'T PANIC. Place me in your
 misc.silentgems:Tool.OldNBT2=inventory, then log out and back in.
 misc.silentgems:Tool.IronTipped=Iron-Tipped
 misc.silentgems:Tool.DiamondTipped=Diamond-Tipped
+misc.silentgems:Tool.NoFlyingPenalty=No speed penalty when flying.
 
 misc.silentgems:Tool.Stats.Header=Statistics
 misc.silentgems:Tool.Stats.Mined=Blocks mined: %d
