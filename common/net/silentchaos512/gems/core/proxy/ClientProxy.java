@@ -11,6 +11,12 @@ import net.silentchaos512.gems.client.particle.EntityParticleFXChaosTransfer;
 import net.silentchaos512.gems.client.renderers.ModRenderers;
 import net.silentchaos512.gems.client.renderers.tool.ToolItemRenderer;
 import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.item.tool.GemAxe;
+import net.silentchaos512.gems.item.tool.GemHoe;
+import net.silentchaos512.gems.item.tool.GemPickaxe;
+import net.silentchaos512.gems.item.tool.GemShovel;
+import net.silentchaos512.gems.item.tool.GemSickle;
+import net.silentchaos512.gems.item.tool.GemSword;
 import net.silentchaos512.gems.lib.EnumGem;
 
 public class ClientProxy extends CommonProxy {
@@ -41,36 +47,26 @@ public class ClientProxy extends CommonProxy {
 
   private void registerRenderersItems() {
 
-    String[] tools = { "Sword", "Pickaxe", "Shovel", "Axe", "Hoe", "Sickle" };
+    Item[] swords = SRegistry.getAllItemsOfType(GemSword.class);
+    Item[] pickaxes = SRegistry.getAllItemsOfType(GemPickaxe.class);
+    Item[] shovels = SRegistry.getAllItemsOfType(GemShovel.class);
+    Item[] axes = SRegistry.getAllItemsOfType(GemAxe.class);
+    Item[] hoes = SRegistry.getAllItemsOfType(GemHoe.class);
+    Item[] sickles = SRegistry.getAllItemsOfType(GemSickle.class);
     
-    // Main gem tools
-    for (int j = 0; j < 2; ++j) {
-      boolean supercharged = j == 1;
-      for (int i = 0; i < EnumGem.values().length; ++i) {
-        for (String tool : tools) {
-          registerToolRenderer(tool + i, supercharged);
-        }
-      }
-    }
-    
-    // Flint
-    for (String tool : tools) {
-      registerToolRenderer(tool + "Flint", false);
-    }
-    // Fish
-    for (String tool : tools) {
-      registerToolRenderer(tool + "Fish", false);
-    }
-    // Chaos
-    for (String tool : tools) {
-      registerToolRenderer(tool + "Chaos", false);
-    }
+    registerToolRenderers(swords);
+    registerToolRenderers(pickaxes);
+    registerToolRenderers(shovels);
+    registerToolRenderers(axes);
+    registerToolRenderers(hoes);
+    registerToolRenderers(sickles);
   }
-  
-  private void registerToolRenderer(String mainName, boolean supercharged) {
-    
-    Item item = SRegistry.getItem(mainName + (supercharged ? "Plus" : ""));
-    MinecraftForgeClient.registerItemRenderer(item, new ToolItemRenderer());
+
+  private void registerToolRenderers(Item[] items) {
+
+    for (Item item : items) {
+      MinecraftForgeClient.registerItemRenderer(item, new ToolItemRenderer());
+    }
   }
 
   private void registerRenderersBlocks() {

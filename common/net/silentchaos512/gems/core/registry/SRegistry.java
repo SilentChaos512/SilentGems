@@ -1,8 +1,10 @@
 package net.silentchaos512.gems.core.registry;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -10,7 +12,6 @@ import net.silentchaos512.gems.block.BlockSG;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.ItemSG;
 import net.silentchaos512.gems.item.block.ItemBlockSG;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class SRegistry {
 
@@ -152,6 +153,17 @@ public class SRegistry {
         ((IAddThaumcraftStuff) item).addThaumcraftStuff();
       }
     }
+  }
+  
+  public static Item[] getAllItemsOfType(Class<? extends Item> clazz) {
+    
+    ArrayList<Item> result = new ArrayList<Item>();
+    for (Item item: items.values()) {
+      if (item.getClass() == clazz) {
+        result.add(item);
+      }
+    }
+    return result.toArray(new Item[result.size()]);
   }
 
   /**
