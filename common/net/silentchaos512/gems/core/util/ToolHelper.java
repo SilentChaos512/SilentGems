@@ -168,7 +168,7 @@ public class ToolHelper {
 
   public static void addInformation(ItemStack tool, EntityPlayer player, List list,
       boolean advanced) {
-    
+
     boolean keyControl = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
         || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
     boolean keyShift = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
@@ -192,7 +192,7 @@ public class ToolHelper {
       line = LocalizationHelper.getMiscText("PressCtrl");
       list.add(EnumChatFormatting.YELLOW + line);
     }
-    
+
     // Decoration debug
     if (keyControl && keyShift) {
       addInformationDecoDebug(tool, player, list, advanced);
@@ -201,9 +201,14 @@ public class ToolHelper {
     // Chaos tools
     int gemId = getToolGemId(tool);
     if (gemId == ModMaterials.CHAOS_GEM_ID) {
+      Item item = tool.getItem();
+      // Work in progress warning
+      list.add(EnumChatFormatting.RED + "Work in Progress");
       // No flying penalty
-      line = LocalizationHelper.getMiscText("Tool.NoFlyingPenalty");
-      list.add(EnumChatFormatting.AQUA + line);
+      if (item instanceof GemPickaxe || item instanceof GemShovel || item instanceof GemAxe) {
+        line = LocalizationHelper.getMiscText("Tool.NoFlyingPenalty");
+        list.add(EnumChatFormatting.AQUA + line);
+      }
     }
   }
 
@@ -211,7 +216,7 @@ public class ToolHelper {
       boolean advanced) {
 
     String line;
-    
+
     // Tipped upgrades
     int tip = getToolHeadTip(tool);
     if (tip == 1) {
@@ -230,6 +235,7 @@ public class ToolHelper {
     int amount;
     String separator = EnumChatFormatting.DARK_GRAY
         + LocalizationHelper.getMiscText("Tool.Stats.Separator");
+
     // Header
     line = LocalizationHelper.getMiscText("Tool.Stats.Header");
     list.add(EnumChatFormatting.YELLOW + line);
@@ -255,9 +261,10 @@ public class ToolHelper {
 
     list.add(separator);
   }
-  
-  private static void addInformationDecoDebug(ItemStack tool, EntityPlayer player, List list, boolean advanced) {
-    
+
+  private static void addInformationDecoDebug(ItemStack tool, EntityPlayer player, List list,
+      boolean advanced) {
+
     String line = "Deco:";
     line += " HL:" + getToolHeadLeft(tool);
     line += " HM:" + getToolHeadMiddle(tool);
@@ -268,9 +275,10 @@ public class ToolHelper {
     line += " T:" + getToolHeadTip(tool);
     list.add(EnumChatFormatting.DARK_GRAY + line);
   }
-  
-  private static void addInformationOldNBT(ItemStack tool, EntityPlayer player, List list, boolean advanced) {
-    
+
+  private static void addInformationOldNBT(ItemStack tool, EntityPlayer player, List list,
+      boolean advanced) {
+
     String line;
     line = LocalizationHelper.getMiscText("Tool.OldNBT1");
     list.add(EnumChatFormatting.DARK_BLUE + line);

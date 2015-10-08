@@ -114,13 +114,8 @@ public class SilentGems {
     int toolsPerClass = ToolRenderHelper.instance.getPossibleToolCombinations();
     LogHelper.info("Tools per class: " + toolsPerClass);
     LogHelper.info("Total possible tools: " + 6 * toolsPerClass);
+    LogHelper.info("Note I can't guarantee that these numbers are correct.");
   }
-
-  // @EventHandler
-  // public void serverLoad(FMLServerStartingEvent event) {
-  //
-  // NetworkRegistry.INSTANCE.newChannel(SilentGems.CHANNEL_NAME, new PacketHandler());
-  // }
 
   public static CreativeTabs tabSilentGems = new CreativeTabs("tabSilentGems") {
 
