@@ -2,11 +2,16 @@ package net.silentchaos512.gems.core.proxy;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.particle.EntityParticleFXChaosTransfer;
 import net.silentchaos512.gems.client.renderers.ModRenderers;
+import net.silentchaos512.gems.client.renderers.tool.ToolItemRenderer;
+import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.lib.EnumGem;
 
 public class ClientProxy extends CommonProxy {
 
@@ -36,8 +41,36 @@ public class ClientProxy extends CommonProxy {
 
   private void registerRenderersItems() {
 
-    // TODO Auto-generated method stub
-
+    String[] tools = { "Sword", "Pickaxe", "Shovel", "Axe", "Hoe", "Sickle" };
+    
+    // Main gem tools
+    for (int j = 0; j < 2; ++j) {
+      boolean supercharged = j == 1;
+      for (int i = 0; i < EnumGem.values().length; ++i) {
+        for (String tool : tools) {
+          registerToolRenderer(tool + i, supercharged);
+        }
+      }
+    }
+    
+    // Flint
+    for (String tool : tools) {
+      registerToolRenderer(tool + "Flint", false);
+    }
+    // Fish
+    for (String tool : tools) {
+      registerToolRenderer(tool + "Fish", false);
+    }
+    // Chaos
+    for (String tool : tools) {
+      registerToolRenderer(tool + "Chaos", false);
+    }
+  }
+  
+  private void registerToolRenderer(String mainName, boolean supercharged) {
+    
+    Item item = SRegistry.getItem(mainName + (supercharged ? "Plus" : ""));
+    MinecraftForgeClient.registerItemRenderer(item, new ToolItemRenderer());
   }
 
   private void registerRenderersBlocks() {

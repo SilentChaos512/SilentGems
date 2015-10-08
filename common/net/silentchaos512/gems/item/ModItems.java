@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.item;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -25,7 +26,6 @@ import net.silentchaos512.gems.recipe.EnchantToolRecipe;
 import net.silentchaos512.gems.recipe.TippedToolRecipe;
 import net.silentchaos512.gems.recipe.TorchBandolierExtractRecipe;
 import net.silentchaos512.gems.recipe.TorchBandolierRecipe;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModItems {
 
@@ -64,7 +64,8 @@ public class ModItems {
     petSummon = (PetSummon) SRegistry.registerItem(PetSummon.class, Names.SUMMON_PET);
     enchantmentToken = (EnchantToken) SRegistry.registerItem(EnchantToken.class,
         Names.ENCHANT_TOKEN);
-    toolUpgrade = (ItemToolUpgrade) SRegistry.registerItem(ItemToolUpgrade.class, Names.TOOL_UPGRADE);
+    toolUpgrade = (ItemToolUpgrade) SRegistry.registerItem(ItemToolUpgrade.class,
+        Names.TOOL_UPGRADE);
     chaosRune = (ChaosRune) SRegistry.registerItem(ChaosRune.class, Names.CHAOS_RUNE);
     dye = (DyeSG) SRegistry.registerItem(DyeSG.class, Names.DYE);
 
@@ -98,7 +99,7 @@ public class ModItems {
     SRegistry.registerItem(GemAxe.class, "AxeFlint", params);
     SRegistry.registerItem(GemHoe.class, "HoeFlint", params);
     SRegistry.registerItem(GemSickle.class, "SickleFlint", params);
-    
+
     // Chaos tools
     params[0] = ModMaterials.toolChaos;
     params[1] = ModMaterials.CHAOS_GEM_ID;
