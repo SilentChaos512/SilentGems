@@ -40,7 +40,7 @@ public class ToolRenderHelper extends Item {
   // The number of rod types
   public static final int ROD_TYPE_COUNT = 2;
   // The number of rod gem decorations
-  public static final int ROD_DECO_TYPE_COUNT = 14;
+  public static final int ROD_DECO_TYPE_COUNT = 15;
   // The number of wool grip types (shouldn't change)
   public static final int ROD_WOOL_TYPE_COUNT = 16;
   // The number of mining tool tips.
@@ -117,7 +117,7 @@ public class ToolRenderHelper extends Item {
     for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       swordIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
-    
+
     for (i = 0; i < TIP_TYPE_COUNT; ++i) {
       swordIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
     }
@@ -313,7 +313,7 @@ public class ToolRenderHelper extends Item {
     if (!supercharged) {
       return iconBlank;
     }
-    
+
     int k = ToolHelper.getToolRodDeco(stack);
     if (k > -1) {
       k = MathHelper.clamp_int(k, 0, ROD_DECO_TYPE_COUNT - 1);
@@ -377,7 +377,7 @@ public class ToolRenderHelper extends Item {
       return iconError;
     }
   }
-  
+
   public IIcon getTipIcon(ToolIconCollection icons, ItemStack stack, int gemId) {
 
     int k = ToolHelper.getToolHeadTip(stack);
@@ -398,7 +398,14 @@ public class ToolRenderHelper extends Item {
    * This is actually for the tools themselves.
    */
   public boolean hasEffect(ItemStack tool, int pass) {
-  
+
     return tool.isItemEnchanted() && pass == RENDER_PASS_COUNT - 1;
+  }
+
+  public int getPossibleToolCombinations() {
+
+    return HEAD_TYPE_COUNT * HEAD_TYPE_COUNT * HEAD_TYPE_COUNT * ROD_TYPE_COUNT
+        * ROD_DECO_TYPE_COUNT * (ROD_WOOL_TYPE_COUNT + 1) * (TIP_TYPE_COUNT + 1);
+
   }
 }

@@ -21,6 +21,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.handler.GemsEventHandler;
 import net.silentchaos512.gems.core.handler.GemsForgeEventHandler;
@@ -108,6 +109,11 @@ public class SilentGems {
     // Is this the right place for this?
     SRegistry.addThaumcraftStuff();
     LogHelper.info("Post init done.");
+    
+    // Calculate possible tool combinations
+    int toolsPerClass = ToolRenderHelper.instance.getPossibleToolCombinations();
+    LogHelper.info("Tools per class: " + toolsPerClass);
+    LogHelper.info("Total possible tools: " + 6 * toolsPerClass);
   }
 
   // @EventHandler
