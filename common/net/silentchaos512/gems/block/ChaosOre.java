@@ -20,7 +20,7 @@ public class ChaosOre extends BlockSG {
     setHardness(4.0f);
     setResistance(15.0f);
     setStepSound(Block.soundTypeStone);
-    setHarvestLevel("pickaxe", 2);
+    setHarvestLevel("pickaxe", 3);
 
     setUnlocalizedName(Names.CHAOS_ORE);
   }
