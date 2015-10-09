@@ -62,7 +62,7 @@ public class ToolRenderHelper extends Item {
 
   // Shared
   public IIcon iconBlank;           // A completely transparent texture.
-  public IIcon iconError;           // Maybe unused?
+  public IIcon iconError;           // Shows up if I screw up.
   public IIcon[] iconMainRodDeco;   // Rod decoration used by most tools.
   public IIcon[] iconMainRodWool;   // Rod wool grip used by most tools.
 
@@ -284,7 +284,6 @@ public class ToolRenderHelper extends Item {
       case PASS_ROD_WOOL:
         return getRodWoolIcon(icons, stack, supercharged);
       case PASS_HEAD_M:
-        // LogHelper.debug(getHeadMiddleIcon(icons, stack, gemId));
         return getHeadMiddleIcon(icons, stack, gemId);
       case PASS_HEAD_L:
         return getHeadLeftIcon(icons, stack, gemId);

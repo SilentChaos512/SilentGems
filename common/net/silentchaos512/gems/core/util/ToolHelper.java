@@ -203,7 +203,7 @@ public class ToolHelper {
     if (gemId == ModMaterials.CHAOS_GEM_ID) {
       Item item = tool.getItem();
       // Work in progress warning
-      list.add(EnumChatFormatting.RED + "Work in Progress");
+      list.add(EnumChatFormatting.RED + "Work in progress, suggestions welcome.");
       // No flying penalty
       if (item instanceof GemPickaxe || item instanceof GemShovel || item instanceof GemAxe) {
         line = LocalizationHelper.getMiscText("Tool.NoFlyingPenalty");
