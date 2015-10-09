@@ -46,8 +46,7 @@ public class BlockRedstoneTeleporter extends BlockTeleporter {
 
     icons = new IIcon[EnumGem.values().length];
     for (int i = 0; i < icons.length; ++i) {
-      // Same icons as base teleporters.
-      icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + Names.TELEPORTER + i);
+      icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + Names.TELEPORTER + "Redstone" + i);
     }
   }
 

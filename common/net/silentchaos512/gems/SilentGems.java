@@ -59,7 +59,7 @@ public class SilentGems {
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
 
-//    logger = event.getModLog();
+    // logger = event.getModLog();
     Config.init(event.getSuggestedConfigurationFile());
 
     ModBlocks.init();
@@ -74,8 +74,8 @@ public class SilentGems {
     int discriminator = -1;
     network.registerMessage(MessageChaosGemToggle.Handler.class, MessageChaosGemToggle.class,
         ++discriminator, Side.SERVER);
-    network.registerMessage(MessageSetFlight.Handler.class, MessageSetFlight.class,
-        ++discriminator, Side.CLIENT);
+    network.registerMessage(MessageSetFlight.Handler.class, MessageSetFlight.class, ++discriminator,
+        Side.CLIENT);
     LogHelper.info("Pre init done.");
   }
 
@@ -109,12 +109,14 @@ public class SilentGems {
     // Is this the right place for this?
     SRegistry.addThaumcraftStuff();
     LogHelper.info("Post init done.");
-    
+
     // Calculate possible tool combinations
-    int toolsPerClass = ToolRenderHelper.instance.getPossibleToolCombinations();
-    LogHelper.info("Tools per class: " + toolsPerClass);
-    LogHelper.info("Total possible tools: " + 6 * toolsPerClass);
-    LogHelper.info("Note I can't guarantee that these numbers are correct.");
+    if (event.getSide() == Side.CLIENT) {
+      int toolsPerClass = ToolRenderHelper.instance.getPossibleToolCombinations();
+      LogHelper.info("Tools per class: " + toolsPerClass);
+      LogHelper.info("Total possible tools: " + 6 * toolsPerClass);
+      LogHelper.info("Note I can't guarantee that these numbers are correct.");
+    }
   }
 
   public static CreativeTabs tabSilentGems = new CreativeTabs("tabSilentGems") {
