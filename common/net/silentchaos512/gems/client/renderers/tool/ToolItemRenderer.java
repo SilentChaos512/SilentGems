@@ -82,23 +82,24 @@ public class ToolItemRenderer implements IItemRenderer {
     int iconParts = ToolRenderHelper.RENDER_PASS_COUNT;
 
     IIcon[] tempParts = new IIcon[iconParts];
-    label: {
-      if (!isInventory && ent instanceof EntityPlayer) {
-        EntityPlayer player = (EntityPlayer) ent;
-        ItemStack itemInUse = player.getItemInUse();
-        if (itemInUse != null) {
-          int useCount = player.getItemInUseCount();
-          for (int i = iconParts; i-- > 0;) {
-            // HERE
-            tempParts[i] = ToolRenderHelper.instance.getIcon(itemInUse, i, gemId, supercharged); // TODO: Using sensitive version?
-          }
-          break label;
-        }
-      }
-      for (int i = iconParts; i-- > 0;) {
-        // HERE
-        tempParts[i] = ToolRenderHelper.instance.getIcon(item, i, gemId, supercharged);
-      }
+//    label: {
+//      if (!isInventory && ent instanceof EntityPlayer) {
+//        EntityPlayer player = (EntityPlayer) ent;
+//        ItemStack itemInUse = player.getItemInUse();
+//        if (itemInUse != null) {
+//          int useCount = player.getItemInUseCount();
+//          for (int i = iconParts; i-- > 0;) {
+//            tempParts[i] = ToolRenderHelper.instance.getIcon(item, i, gemId, supercharged); // TODO: Use itemInUse?
+//          }
+//          break label;
+//        }
+//      }
+//      for (int i = iconParts; i-- > 0;) {
+//        tempParts[i] = ToolRenderHelper.instance.getIcon(item, i, gemId, supercharged);
+//      }
+//    }
+    for (int i = iconParts; i-- > 0;) {
+      tempParts[i] = ToolRenderHelper.instance.getIcon(item, i, gemId, supercharged);
     }
 
     int count = 0;
@@ -178,8 +179,9 @@ public class ToolItemRenderer implements IItemRenderer {
           GL11.glTranslatef(0, -4 / 16f, 0);
           break;
         case ENTITY:
+          GL11.glRotatef(180, 0, 1, 0);
           if (!noEntityTranslation)
-            GL11.glTranslatef(-0.5f, 0f, depth); // correction of the rotation point when items lie on the ground
+            GL11.glTranslatef(-0.5f, -0.25f, depth); // correction of the rotation point when items lie on the ground
           break;
         default:
       }
