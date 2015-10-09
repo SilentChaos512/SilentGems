@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.configuration.Config;
+import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.Names;
 import thaumcraft.api.ThaumcraftApi;
@@ -46,7 +47,9 @@ public class ChaosOre extends BlockSG {
     ItemStack chaosEssenceBonus = CraftingMaterial.getStack(Names.CHAOS_ESSENCE,
         2 * Config.CHAOS_ESSENCE_PER_ORE);
     ThermalExpansionHelper.addPulverizerRecipe(4000, chaosOre, chaosEssenceBonus);
-    // TODO: SAG Mill?
+
+    // Sag Mill
+    RecipeHelper.addSagMillRecipe("Chaos", 4000, "");
   }
 
   @Override

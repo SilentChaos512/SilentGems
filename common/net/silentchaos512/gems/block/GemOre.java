@@ -11,6 +11,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
@@ -65,7 +66,8 @@ public class GemOre extends BlockSG {
       ThermalExpansionHelper.addFurnaceRecipe(1600, ore, gem);
       // Pulverizer
       ThermalExpansionHelper.addPulverizerRecipe(4000, ore, gemBonus);
-      // TODO: SAG Mill?
+      // Sag mill
+      RecipeHelper.addSagMillRecipe(EnumGem.values()[i].name, 3000, "");
     }
   }
 

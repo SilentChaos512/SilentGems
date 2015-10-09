@@ -3,7 +3,9 @@ package net.silentchaos512.gems.core.util;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RecipeHelper {
@@ -115,5 +117,28 @@ public class RecipeHelper {
         // Too many things!
         LogHelper.warning("Failed to add a weird recipe for " + output.toString());
     }
+  }
+  
+  // Thanks, AOBD :)
+  private static final String xmlMessage = "<recipeGroup name=\"SilentGems\">" + 
+                                            "<recipe name=\"%sOre\" energyCost=\"%d\">" +
+                                                "<input>" +
+                                                    "<itemStack oreDictionary=\"ore%s\" />" +
+                                               "</input>" +
+                                               "<output>" +
+                                                   "<itemStack oreDictionary=\"gem%s\" number=\"2\" />" +      
+                                                   "<itemStack oreDictionary=\"gem%s\" number=\"1\" chance=\"0.1\" />" +       
+                                                   "<itemStack modID=\"minecraft\" itemName=\"cobblestone\" chance=\"0.15\"/>" +
+                                               "</output>" +
+                                           "</recipe>" + 
+                                       "</recipeGroup>";
+  
+  public static void addSagMillRecipe(String input, int energy, String extra) {
+    
+    if (OreDictionary.getOres(extra).isEmpty()) {
+      extra = input;
+    }
+    FMLInterModComms.sendMessage("EnderIO", "recipe:sagmill",
+        String.format(xmlMessage, input, energy, input, input, extra));
   }
 }
