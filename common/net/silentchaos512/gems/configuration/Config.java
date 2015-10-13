@@ -38,7 +38,7 @@ public class Config {
    */
   public static int MINING_LEVEL_REGULAR = 2;
   public static int MINING_LEVEL_SUPER = 4;
-  public static int MINING_LEVEL_FISH = 3;
+  public static int MINING_LEVEL_FISH = 0;
   public static int MINING_LEVEL_IRON_TIP = 2;
   public static int MINING_LEVEL_DIAMOND_TIP = 3;
   public static int DURABILITY_BOOST_IRON_TIP = 128;
@@ -68,7 +68,7 @@ public class Config {
   public static int WORLD_CHAOS_ORE_CLUSTER_SIZE = 20;
   public static int WORLD_CHAOS_ORE_MAX_HEIGHT = 20;
   public static int WORLD_CHAOS_ORE_RARITY = 1;
-  public static int WORLD_FLOWERS_PER_CHUNK = 4;
+  public static int WORLD_FLOWERS_PER_CHUNK = 2;
 
   public static ArrayList<WeightedRandomItemSG> GEM_WEIGHTS = new ArrayList<WeightedRandomItemSG>();
 
