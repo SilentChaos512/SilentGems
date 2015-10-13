@@ -11,6 +11,7 @@ import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.armor.ArmorSG;
 import net.silentchaos512.gems.item.tool.GemAxe;
+import net.silentchaos512.gems.item.tool.GemBow;
 import net.silentchaos512.gems.item.tool.GemHoe;
 import net.silentchaos512.gems.item.tool.GemPickaxe;
 import net.silentchaos512.gems.item.tool.GemShovel;
@@ -99,6 +100,7 @@ public class ModItems {
     SRegistry.registerItem(GemAxe.class, "AxeFlint", params);
     SRegistry.registerItem(GemHoe.class, "HoeFlint", params);
     SRegistry.registerItem(GemSickle.class, "SickleFlint", params);
+    SRegistry.registerItem(GemBow.class, "BowFlint", params);
 
     // Chaos tools
     params[0] = ModMaterials.toolChaos;
@@ -110,6 +112,7 @@ public class ModItems {
     SRegistry.registerItem(GemAxe.class, "AxeChaos", params);
     SRegistry.registerItem(GemHoe.class, "HoeChaos", params);
     SRegistry.registerItem(GemSickle.class, "SickleChaos", params);
+    SRegistry.registerItem(GemBow.class, "BowChaos", params);
 
     // Gem tools
     for (int i = 0; i < 24; ++i) {
@@ -125,6 +128,7 @@ public class ModItems {
       SRegistry.registerItem(GemAxe.class, "Axe" + s, params);
       SRegistry.registerItem(GemHoe.class, "Hoe" + s, params);
       SRegistry.registerItem(GemSickle.class, "Sickle" + s, params);
+      SRegistry.registerItem(GemBow.class, "Bow" + s, params);
     }
 
     // Fish tools.

@@ -40,6 +40,9 @@ import net.silentchaos512.gems.material.ModMaterials;
  */
 public class ToolHelper {
 
+  public static final String[] TOOL_CLASSES = { "Sword", "Pickaxe", "Shovel", "Axe", "Hoe",
+      "Sickle", "Bow" };
+
   /*
    * NBT constants
    */

@@ -8,13 +8,13 @@ import net.minecraft.util.MathHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.GemAxe;
+import net.silentchaos512.gems.item.tool.GemBow;
 import net.silentchaos512.gems.item.tool.GemHoe;
 import net.silentchaos512.gems.item.tool.GemPickaxe;
 import net.silentchaos512.gems.item.tool.GemShovel;
 import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.item.tool.GemSword;
 import net.silentchaos512.gems.lib.Strings;
-import net.silentchaos512.gems.material.ModMaterials;
 
 /**
  * This must be an Item in order to contain item icons. Why Minecraft won't let you register icons elsewhere, I don't
@@ -39,6 +39,8 @@ public class ToolRenderHelper extends Item {
   public static final int HEAD_TYPE_COUNT = 15;
   // The number of rod types
   public static final int ROD_TYPE_COUNT = 2;
+  // The number of bow stages
+  public static final int BOW_STAGE_COUNT = 4;
   // The number of rod gem decorations
   public static final int ROD_DECO_TYPE_COUNT = 15;
   // The number of wool grip types (shouldn't change)
@@ -73,6 +75,11 @@ public class ToolRenderHelper extends Item {
   public final ToolIconCollection axeIcons = new ToolIconCollection();
   public final ToolIconCollection hoeIcons = new ToolIconCollection();
   public final ToolIconCollection sickleIcons = new ToolIconCollection();
+  public final ToolIconCollection bowIcons = new ToolIconCollection();
+
+  // Bow oddities
+  public IIcon[] bowMainNormal;
+  public IIcon[] bowMainOrnate;
 
   @Override
   public void registerIcons(IIconRegister reg) {
@@ -117,7 +124,6 @@ public class ToolRenderHelper extends Item {
     for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       swordIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
-
     for (i = 0; i < TIP_TYPE_COUNT; ++i) {
       swordIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
     }
@@ -141,11 +147,7 @@ public class ToolRenderHelper extends Item {
 
     for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       pickaxeIcons.headL[i] = reg.registerIcon(item + i + "L");
-    }
-    for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       pickaxeIcons.headM[i] = reg.registerIcon(item + i);
-    }
-    for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       pickaxeIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
     for (i = 0; i < TIP_TYPE_COUNT; ++i) {
@@ -165,11 +167,7 @@ public class ToolRenderHelper extends Item {
 
     for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       shovelIcons.headL[i] = reg.registerIcon(item + i + "L");
-    }
-    for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       shovelIcons.headM[i] = reg.registerIcon(item + i);
-    }
-    for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       shovelIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
     for (i = 0; i < TIP_TYPE_COUNT; ++i) {
@@ -189,11 +187,7 @@ public class ToolRenderHelper extends Item {
 
     for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       axeIcons.headL[i] = reg.registerIcon(item + i + "L");
-    }
-    for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       axeIcons.headM[i] = reg.registerIcon(item + i);
-    }
-    for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       axeIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
     for (i = 0; i < TIP_TYPE_COUNT; ++i) {
@@ -213,11 +207,7 @@ public class ToolRenderHelper extends Item {
 
     for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       hoeIcons.headL[i] = reg.registerIcon(item + i + "L");
-    }
-    for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       hoeIcons.headM[i] = reg.registerIcon(item + i);
-    }
-    for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       hoeIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
     for (i = 0; i < TIP_TYPE_COUNT; ++i) {
@@ -237,11 +227,7 @@ public class ToolRenderHelper extends Item {
 
     for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       sickleIcons.headL[i] = reg.registerIcon(item + i + "L");
-    }
-    for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       sickleIcons.headM[i] = reg.registerIcon(item + i);
-    }
-    for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
       sickleIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
     for (i = 0; i < TIP_TYPE_COUNT; ++i) {
@@ -252,6 +238,38 @@ public class ToolRenderHelper extends Item {
     item += "Wool";
     for (i = 0; i < ROD_WOOL_TYPE_COUNT; ++i) {
       sickleIcons.rodWool[i] = reg.registerIcon(item + i);
+    }
+
+    /*
+     * Bows
+     */
+
+    item = domain + "Bow";
+    bowMainNormal = new IIcon[BOW_STAGE_COUNT];
+    bowMainOrnate = new IIcon[BOW_STAGE_COUNT];
+    for (i = 0; i < BOW_STAGE_COUNT; ++i) {
+      bowMainNormal[i] = reg.registerIcon(item + "_MainNormal" + i);
+      bowMainOrnate[i] = reg.registerIcon(item + "_MainOrnate" + i);
+    }
+    bowIcons.rod[0] = bowMainNormal[0];
+    bowIcons.rod[1] = bowMainOrnate[0];
+
+    for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
+      bowIcons.headL[i] = reg.registerIcon(item + i + "L");
+      bowIcons.headM[i] = reg.registerIcon(item + i);
+      bowIcons.headR[i] = reg.registerIcon(item + i + "R");
+    }
+    for (i = 0; i < TIP_TYPE_COUNT; ++i) {
+      bowIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
+    }
+
+    item = domain + "BowDeco";
+    for (i = 0; i < ROD_DECO_TYPE_COUNT; ++i) {
+      bowIcons.rodDeco[i] = reg.registerIcon(item + i);
+    }
+    item = domain + "BowWool";
+    for (i = 0; i < ROD_WOOL_TYPE_COUNT; ++i) {
+      bowIcons.rodWool[i] = reg.registerIcon(item + i);
     }
   }
 
@@ -272,6 +290,8 @@ public class ToolRenderHelper extends Item {
       icons = hoeIcons;
     } else if (item instanceof GemSickle) {
       icons = sickleIcons;
+    } else if (item instanceof GemBow) {
+      icons = bowIcons;
     } else {
       return iconError;
     }
