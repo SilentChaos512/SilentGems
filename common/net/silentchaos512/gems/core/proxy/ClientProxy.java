@@ -21,6 +21,8 @@ import net.silentchaos512.gems.lib.EnumGem;
 
 public class ClientProxy extends CommonProxy {
 
+  public static final boolean USE_TOOL_IITEMRENDERER = false;
+
   @Override
   public void registerRenderers() {
 
@@ -47,19 +49,21 @@ public class ClientProxy extends CommonProxy {
 
   private void registerRenderersItems() {
 
-    Item[] swords = SRegistry.getAllItemsOfType(GemSword.class);
-    Item[] pickaxes = SRegistry.getAllItemsOfType(GemPickaxe.class);
-    Item[] shovels = SRegistry.getAllItemsOfType(GemShovel.class);
-    Item[] axes = SRegistry.getAllItemsOfType(GemAxe.class);
-    Item[] hoes = SRegistry.getAllItemsOfType(GemHoe.class);
-    Item[] sickles = SRegistry.getAllItemsOfType(GemSickle.class);
-    
-    registerToolRenderers(swords);
-    registerToolRenderers(pickaxes);
-    registerToolRenderers(shovels);
-    registerToolRenderers(axes);
-    registerToolRenderers(hoes);
-    registerToolRenderers(sickles);
+    if (USE_TOOL_IITEMRENDERER) {
+      Item[] swords = SRegistry.getAllItemsOfType(GemSword.class);
+      Item[] pickaxes = SRegistry.getAllItemsOfType(GemPickaxe.class);
+      Item[] shovels = SRegistry.getAllItemsOfType(GemShovel.class);
+      Item[] axes = SRegistry.getAllItemsOfType(GemAxe.class);
+      Item[] hoes = SRegistry.getAllItemsOfType(GemHoe.class);
+      Item[] sickles = SRegistry.getAllItemsOfType(GemSickle.class);
+
+      registerToolRenderers(swords);
+      registerToolRenderers(pickaxes);
+      registerToolRenderers(shovels);
+      registerToolRenderers(axes);
+      registerToolRenderers(hoes);
+      registerToolRenderers(sickles);
+    }
   }
 
   private void registerToolRenderers(Item[] items) {
