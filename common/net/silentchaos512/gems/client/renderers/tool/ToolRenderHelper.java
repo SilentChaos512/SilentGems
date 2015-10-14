@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.GemAxe;
@@ -391,6 +392,7 @@ public class ToolRenderHelper extends Item {
 
     if (stack.getItem() instanceof GemBow) {
       // Bow arrow texture.
+      LogHelper.derp();
       return icons.rodWool[0];
     }
     
