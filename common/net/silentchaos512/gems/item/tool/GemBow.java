@@ -17,6 +17,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.ArrowNockEvent;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
@@ -84,13 +86,13 @@ public class GemBow extends ItemBow implements IAddRecipe {
 
     return toolMaterial.getEnchantability();
   }
-  
+
   @Override
   public boolean isFull3D() {
-    
+
     return true;
   }
-  
+
   @Override
   public IIcon getIcon(ItemStack stack, int pass) {
 
@@ -191,6 +193,23 @@ public class GemBow extends ItemBow implements IAddRecipe {
   public boolean hasEffect(ItemStack stack, int pass) {
 
     return ToolRenderHelper.instance.hasEffect(stack, pass);
+  }
+
+  public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+
+    ArrowNockEvent event = new ArrowNockEvent(player, stack);
+    MinecraftForge.EVENT_BUS.post(event);
+    if (event.isCanceled()) {
+      return event.result;
+    }
+
+    if (player.capabilities.isCreativeMode
+        || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0
+        || player.inventory.hasItem(Items.arrow)) {
+      player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
+    }
+
+    return stack;
   }
 
   @Override
