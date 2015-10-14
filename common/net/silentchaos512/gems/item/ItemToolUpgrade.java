@@ -14,6 +14,8 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
+import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 
@@ -35,22 +37,57 @@ public class ItemToolUpgrade extends ItemSG {
 
     int meta = stack.getItemDamage();
     String line;
+
+    switch (meta) {
+      case 0:
+      case 1:
+        // Tipped upgrades
+        
+        // Mining level
+        line = LocalizationHelper.getItemDescription("TipUpgrade", 1);
+        line = String.format(line,
+            meta == 0 ? Config.MINING_LEVEL_IRON_TIP : Config.MINING_LEVEL_DIAMOND_TIP);
+        list.add(EnumChatFormatting.GREEN + line);
+
+        // Durability boost
+        line = LocalizationHelper.getItemDescription("TipUpgrade", 2);
+        line = String.format(line,
+            meta == 0 ? Config.DURABILITY_BOOST_IRON_TIP : Config.DURABILITY_BOOST_DIAMOND_TIP);
+        list.add(EnumChatFormatting.GREEN + line);
+
+        // How to use
+        line = LocalizationHelper.getItemDescription("TipUpgrade", 3);
+        list.add(EnumChatFormatting.DARK_GRAY + line);
+        line = LocalizationHelper.getItemDescription("TipUpgrade", 4);
+        list.add(EnumChatFormatting.DARK_GRAY + line);
+        break;
+    }
+  }
+
+  public ItemStack applyToTool(ItemStack tool, ItemStack upgrade) {
+
+    if (tool == null || upgrade == null) {
+      return null;
+    }
+
+    int meta = upgrade.getItemDamage();
+    ItemStack result = tool.copy();
     
-    // Mining level
-    line = LocalizationHelper.getItemDescription("TipUpgrade", 1);
-    line = String.format(line, meta == 0 ? Config.MINING_LEVEL_IRON_TIP : Config.MINING_LEVEL_DIAMOND_TIP);
-    list.add(EnumChatFormatting.GREEN + line);
-    
-    // Durability boost
-    line = LocalizationHelper.getItemDescription("TipUpgrade", 2);
-    line = String.format(line, meta == 0 ? Config.DURABILITY_BOOST_IRON_TIP : Config.DURABILITY_BOOST_DIAMOND_TIP);
-    list.add(EnumChatFormatting.GREEN + line);
-    
-    // How to use
-    line = LocalizationHelper.getItemDescription("TipUpgrade", 3);
-    list.add(EnumChatFormatting.DARK_GRAY + line);
-    line = LocalizationHelper.getItemDescription("TipUpgrade", 4);
-    list.add(EnumChatFormatting.DARK_GRAY + line);
+    switch (meta) {
+      case 0:
+      case 1:
+        // Tipped upgrades
+        int currentTip = ToolHelper.getToolHeadTip(result);
+        int upgradeValue = meta + 1;
+        if (upgradeValue <= currentTip) {
+          return null;
+        }
+        ToolHelper.setToolHeadTip(result, upgradeValue);
+        return result;
+      default:
+        LogHelper.debug("Unknown tool upgrade: meta = " + meta);
+        return null;
+    }
   }
 
   @Override

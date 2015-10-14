@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.recipe;
 
-import net.minecraft.init.Items;
+import java.util.ArrayList;
+
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -8,15 +9,10 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.core.util.InventoryHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.gems.item.tool.GemAxe;
-import net.silentchaos512.gems.item.tool.GemPickaxe;
-import net.silentchaos512.gems.item.tool.GemShovel;
-import net.silentchaos512.gems.lib.Strings;
 
-public class TippedToolRecipe implements IRecipe {
+public class RecipeToolUpgrade implements IRecipe {
 
   @Override
   public boolean matches(InventoryCrafting inv, World world) {
@@ -28,13 +24,12 @@ public class TippedToolRecipe implements IRecipe {
   public ItemStack getCraftingResult(InventoryCrafting inv) {
 
     ItemStack tool = null;
-    ItemStack upgrade = null;
-    int upgradeValue = 0;
+    ArrayList<ItemStack> upgrades = new ArrayList<ItemStack>();
     ItemStack stack;
     Item item;
     int meta;
 
-    // Find tool and upgrade
+    // Find tool and upgrades
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
       if (stack != null) {
@@ -45,14 +40,10 @@ public class TippedToolRecipe implements IRecipe {
           if (tool != null) {
             return null;
           }
-          tool = stack.copy();
-        } else if (item == ModItems.toolUpgrade && (meta == 0 || meta == 1)) {
+          tool = stack;
+        } else if (item == ModItems.toolUpgrade) {
           // Upgrade
-          if (upgrade != null) {
-            return null;
-          }
-          upgrade = stack;
-          upgradeValue = meta + 1;
+          upgrades.add(stack);
         } else {
           // Invalid
           return null;
@@ -60,17 +51,12 @@ public class TippedToolRecipe implements IRecipe {
       }
     }
 
-    if (tool != null && upgrade != null) {
+    if (tool != null && !upgrades.isEmpty()) {
       // Apply
       ItemStack result = tool.copy();
-      if (result.stackTagCompound == null) {
-        // Create NBT if needed.
-        result.setTagCompound(new NBTTagCompound());
-      } else if (ToolHelper.getToolHeadTip(result) >= upgradeValue) {
-        // Can't upgrade a tool that has already been upgraded.
-        return null;
+      for (ItemStack upgrade : upgrades) {
+        result = ModItems.toolUpgrade.applyToTool(result, upgrade);
       }
-      ToolHelper.setToolHeadTip(result, upgradeValue);
       return result;
     }
 
@@ -80,7 +66,7 @@ public class TippedToolRecipe implements IRecipe {
   @Override
   public int getRecipeSize() {
 
-    return 2;
+    return 9;
   }
 
   @Override
