@@ -37,6 +37,15 @@ public class InventoryHelper {
     return false;
   }
 
+  public static boolean isGemMiningTool(ItemStack stack) {
+
+    if (stack != null) {
+      Item item = stack.getItem();
+      return item instanceof GemPickaxe || item instanceof GemShovel || item instanceof GemAxe;
+    }
+    return false;
+  }
+
   /**
    * Convenience method for detecting tools, vanilla and modded (with the exception of sickles)
    * 

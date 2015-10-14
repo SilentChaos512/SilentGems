@@ -40,7 +40,7 @@ public class EnchantmentAOE extends Enchantment {
   public boolean canApply(ItemStack stack) {
 
     // This enchantment is for gem tools and books.
-    if (InventoryHelper.isGemTool(stack) || stack.getItem() instanceof ItemBook) {
+    if (InventoryHelper.isGemMiningTool(stack) || stack.getItem() instanceof ItemBook) {
       return stack.isItemStackDamageable() ? true : super.canApply(stack);
     }
 
