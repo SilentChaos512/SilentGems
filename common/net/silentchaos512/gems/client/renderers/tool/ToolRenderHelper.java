@@ -283,14 +283,14 @@ public class ToolRenderHelper extends Item {
       bow2Icons.rodDeco[i] = bow0Icons.rodDeco[i];
       bow3Icons.rodDeco[i] = bow0Icons.rodDeco[i];
     }
-    item = domain + "BowWool";
+    item = domain + "Bow_Arrow";
     for (i = 0; i < ROD_WOOL_TYPE_COUNT; ++i) {
       // Using the wool arrays for arrow textures, to avoid adding a render pass and because I'm not sure what to
       // do for wool on bows... A bit of a hack, but this whole class is, in a way.
       bow0Icons.rodWool[i] = iconBlank;
-      bow1Icons.rodWool[i] = i == 0 ? reg.registerIcon("Bow_Arrow1") : iconBlank;
-      bow2Icons.rodWool[i] = i == 0 ? reg.registerIcon("Bow_Arrow2") : iconBlank;
-      bow3Icons.rodWool[i] = i == 0 ? reg.registerIcon("Bow_Arrow3") : iconBlank;
+      bow1Icons.rodWool[i] = i == 0 ? reg.registerIcon(item + 1) : iconBlank;
+      bow2Icons.rodWool[i] = i == 0 ? reg.registerIcon(item + 2) : iconBlank;
+      bow3Icons.rodWool[i] = i == 0 ? reg.registerIcon(item + 3) : iconBlank;
       // bow0Icons.rodWool[i] = reg.registerIcon(item + i);
       // bow1Icons.rodWool[i] = bow0Icons.rodWool[i];
       // bow2Icons.rodWool[i] = bow0Icons.rodWool[i];
@@ -392,7 +392,6 @@ public class ToolRenderHelper extends Item {
 
     if (stack.getItem() instanceof GemBow) {
       // Bow arrow texture.
-      LogHelper.derp();
       return icons.rodWool[0];
     }
     
