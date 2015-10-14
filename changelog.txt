@@ -6,6 +6,7 @@ Added: Chaos tools: late game tools with special abilities (WIP)
 Changed: Chaos Ore mining level to 3 (obsidian). Hint: use the diamond-tipped upgrade!
 Changed: Crystallized Chaos Essence textures (item and block)
 Changed: Teleporter textures. Regular and redstone versions have slightly different textures now.
+Fixed: Area Miner appearing on non-mining tools.
 
 1.3.02
 Added: Flint tools (more durable and faster than stone, same mining level)

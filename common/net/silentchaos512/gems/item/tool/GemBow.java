@@ -13,7 +13,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -24,7 +23,6 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.Names;
@@ -32,6 +30,7 @@ import net.silentchaos512.gems.lib.Names;
 public class GemBow extends ItemBow implements IAddRecipe {
 
   // public static final String NBT_USING_INDEX = "SGBowUsingIndex";
+  public static final float ENCHANTABILITY_MULTIPLIER = 0.45f;
 
   public final int gemId;
   public final boolean supercharged;
@@ -84,7 +83,7 @@ public class GemBow extends ItemBow implements IAddRecipe {
   @Override
   public int getItemEnchantability() {
 
-    return toolMaterial.getEnchantability();
+    return (int) (toolMaterial.getEnchantability() * ENCHANTABILITY_MULTIPLIER);
   }
 
   @Override

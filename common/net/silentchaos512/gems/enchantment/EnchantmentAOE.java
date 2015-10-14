@@ -7,7 +7,6 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
@@ -20,7 +19,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.world.BlockEvent;
 import net.silentchaos512.gems.core.util.InventoryHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.item.tool.GemPickaxe;
 import net.silentchaos512.gems.lib.Names;
@@ -136,7 +134,7 @@ public class EnchantmentAOE extends Enchantment {
         zRange = 1;
         break;
     }
-    
+
     int blocksBroken = 0;
 
     for (int xPos = x - xRange; xPos <= x + xRange; xPos++) {
@@ -152,12 +150,12 @@ public class EnchantmentAOE extends Enchantment {
         }
       }
     }
-    
+
     return blocksBroken;
   }
 
-  public static boolean breakExtraBlock(ItemStack tool, World world, int x, int y, int z, int sidehit,
-      EntityPlayer playerEntity, int refX, int refY, int refZ) {
+  public static boolean breakExtraBlock(ItemStack tool, World world, int x, int y, int z,
+      int sidehit, EntityPlayer playerEntity, int refX, int refY, int refZ) {
 
     if (world.isAirBlock(x, y, z))
       return false;
@@ -165,7 +163,7 @@ public class EnchantmentAOE extends Enchantment {
     if (!(playerEntity instanceof EntityPlayerMP)) {
       return false;
     }
-    
+
     EntityPlayerMP player = (EntityPlayerMP) playerEntity;
 
     Block block = world.getBlock(x, y, z);
@@ -230,7 +228,7 @@ public class EnchantmentAOE extends Enchantment {
         }
       }
     }
-    
+
     return true;
   }
 
