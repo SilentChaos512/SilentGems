@@ -318,6 +318,9 @@ item.silentgems:GemShard9.name=Amethyst Shard
 item.silentgems:GemShard10.name=Morganite Shard
 item.silentgems:GemShard11.name=Onyx Shard
 
+item.silentgems:GildedString.name=Gilded String
+item.silentgems:GildedString.desc=Because gold makes everything better!
+
 item.silentgems:GoldenPlume.name=Golden Plume
 item.silentgems:GoldenPlume.desc=A bunch of shiny feathers.
 
@@ -662,6 +665,34 @@ tool.silentgems:Sickle9Plus.name=Supercharged Amethyst Sickle
 tool.silentgems:Sickle10Plus.name=Supercharged Morganite Sickle
 tool.silentgems:Sickle11Plus.name=Supercharged Onyx Sickle
 tool.silentgems:Sickle14Plus.name=Chaos Sickle
+
+tool.silentgems:Bow0.name=Ruby Bow
+tool.silentgems:Bow1.name=Garnet Bow
+tool.silentgems:Bow2.name=Topaz Bow
+tool.silentgems:Bow3.name=Heliodor Bow
+tool.silentgems:Bow4.name=Peridot Bow
+tool.silentgems:Bow5.name=Beryl Bow
+tool.silentgems:Bow6.name=Aquamarine Bow
+tool.silentgems:Bow7.name=Sapphire Bow
+tool.silentgems:Bow8.name=Iolite Bow
+tool.silentgems:Bow9.name=Amethyst Bow
+tool.silentgems:Bow10.name=Morganite Bow
+tool.silentgems:Bow11.name=Onyx Bow
+tool.silentgems:Bow12.name=BowFish
+tool.silentgems:Bow13.name=Flint Bow
+tool.silentgems:Bow0Plus.name=Supercharged Ruby Bow
+tool.silentgems:Bow1Plus.name=Supercharged Garnet Bow
+tool.silentgems:Bow2Plus.name=Supercharged Topaz Bow
+tool.silentgems:Bow3Plus.name=Supercharged Heliodor Bow
+tool.silentgems:Bow4Plus.name=Supercharged Peridot Bow
+tool.silentgems:Bow5Plus.name=Supercharged Beryl Bow
+tool.silentgems:Bow6Plus.name=Supercharged Aquamarine Bow
+tool.silentgems:Bow7Plus.name=Supercharged Sapphire Bow
+tool.silentgems:Bow8Plus.name=Supercharged Iolite Bow
+tool.silentgems:Bow9Plus.name=Supercharged Amethyst Bow
+tool.silentgems:Bow10Plus.name=Supercharged Morganite Bow
+tool.silentgems:Bow11Plus.name=Supercharged Onyx Bow
+tool.silentgems:Bow14Plus.name=Chaos Bow
 
 # Entity localization
 

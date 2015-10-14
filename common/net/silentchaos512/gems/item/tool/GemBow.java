@@ -3,38 +3,45 @@ package net.silentchaos512.gems.item.tool;
 import java.util.List;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
-import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.Strings;
 
 public class GemBow extends ItemBow implements IAddRecipe {
+
+  // public static final String NBT_USING_INDEX = "SGBowUsingIndex";
 
   public final int gemId;
   public final boolean supercharged;
   public final double arrowDamage;
+  public final ToolMaterial toolMaterial;
 
   public GemBow(ToolMaterial toolMaterial, int gemId, boolean supercharged) {
 
     this.gemId = gemId;
     this.supercharged = supercharged;
     this.arrowDamage = (double) (toolMaterial.getDamageVsEntity()) / 2.0 + 0.5;
+    this.toolMaterial = toolMaterial;
     this.setMaxDamage(toolMaterial.getMaxUses());
     this.setCreativeTab(SilentGems.tabSilentGems);
   }
@@ -73,16 +80,88 @@ public class GemBow extends ItemBow implements IAddRecipe {
   }
 
   @Override
+  public int getItemEnchantability() {
+
+    return toolMaterial.getEnchantability();
+  }
+  
+  @Override
+  public boolean isFull3D() {
+    
+    return true;
+  }
+  
+  @Override
   public IIcon getIcon(ItemStack stack, int pass) {
 
     return ToolRenderHelper.instance.getIcon(stack, pass, gemId, supercharged);
   }
 
   @Override
+  public IIcon getIcon(ItemStack stack, int pass, EntityPlayer player, ItemStack usingItem,
+      int useRemaining) {
+
+    return ToolRenderHelper.instance.getIcon(stack, pass, gemId, supercharged, usingItem,
+        useRemaining);
+  }
+
+  @Override
   public void registerIcons(IIconRegister reg) {
 
-    // TODO
+    if (gemId >= 0 && gemId < ToolRenderHelper.HEAD_TYPE_COUNT) {
+      itemIcon = ToolRenderHelper.instance.bow0Icons.headM[gemId];
+    }
   }
+
+  // @Override
+  // public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
+  //
+  // // Client side only.
+  // // TODO: Effect on servers?
+  // if (!player.worldObj.isRemote) {
+  // return;
+  // }
+  //
+  // count = getMaxItemUseDuration(stack) - count;
+  // if (count >= 18) {
+  // setUsingIndex(stack, 3);
+  // } else if (count > 13) {
+  // setUsingIndex(stack, 2);
+  // } else if (count > 0) {
+  // setUsingIndex(stack, 1);
+  // }
+  // }
+
+  public int getUsingIndex(ItemStack stack, int useRemaining) {
+
+    int k = getMaxItemUseDuration(stack) - useRemaining;
+    if (useRemaining == 0) {
+      return 0;
+    } else if (k >= 18) {
+      return 3;
+    } else if (k > 13) {
+      return 2;
+    } else if (k > 0) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  // public int getUsingIndex(ItemStack stack) {
+  //
+  // if (stack.stackTagCompound != null) {
+  // return stack.stackTagCompound.getByte(NBT_USING_INDEX);
+  // }
+  // return 0;
+  // }
+  //
+  // private void setUsingIndex(ItemStack stack, int index) {
+  //
+  // if (getUsingIndex(stack) != index) {
+  // stack.stackTagCompound.setByte(NBT_USING_INDEX, (byte) index);
+  // }
+  // }
 
   @Override
   public int getRenderPasses(int meta) {
@@ -112,6 +191,75 @@ public class GemBow extends ItemBow implements IAddRecipe {
   public boolean hasEffect(ItemStack stack, int pass) {
 
     return ToolRenderHelper.instance.hasEffect(stack, pass);
+  }
+
+  @Override
+  public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn,
+      int timeLeft) {
+
+    // setUsingIndex(stack, 0);
+
+    int j = this.getMaxItemUseDuration(stack) - timeLeft;
+    net.minecraftforge.event.entity.player.ArrowLooseEvent event = new net.minecraftforge.event.entity.player.ArrowLooseEvent(
+        playerIn, stack, j);
+    if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))
+      return;
+    j = event.charge;
+
+    boolean flag = playerIn.capabilities.isCreativeMode
+        || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
+
+    if (flag || playerIn.inventory.hasItem(Items.arrow)) {
+      float f = (float) j / 20.0F;
+      f = (f * f + f * 2.0F) / 3.0F;
+
+      if ((double) f < 0.1D) {
+        return;
+      }
+
+      if (f > 1.0F) {
+        f = 1.0F;
+      }
+
+      EntityArrow entityarrow = new EntityArrow(worldIn, playerIn, f * 2.0F);
+      entityarrow.setDamage(this.arrowDamage);
+
+      if (f == 1.0F) {
+        entityarrow.setIsCritical(true);
+      }
+
+      int k = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, stack);
+
+      if (k > 0) {
+        entityarrow.setDamage(entityarrow.getDamage() + (double) k * 0.5D + 0.5D);
+      }
+
+      int l = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, stack);
+
+      if (l > 0) {
+        entityarrow.setKnockbackStrength(l);
+      }
+
+      if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, stack) > 0) {
+        entityarrow.setFire(100);
+      }
+
+      stack.damageItem(1, playerIn);
+      worldIn.playSoundAtEntity(playerIn, "random.bow", 1.0F,
+          1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+
+      if (flag) {
+        entityarrow.canBePickedUp = 2;
+      } else {
+        playerIn.inventory.consumeInventoryItem(Items.arrow);
+      }
+
+      playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+
+      if (!worldIn.isRemote) {
+        worldIn.spawnEntityInWorld(entityarrow);
+      }
+    }
   }
 
   @Override

@@ -1,6 +1,8 @@
 package net.silentchaos512.gems.client.renderers.tool;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -75,11 +77,10 @@ public class ToolRenderHelper extends Item {
   public final ToolIconCollection axeIcons = new ToolIconCollection();
   public final ToolIconCollection hoeIcons = new ToolIconCollection();
   public final ToolIconCollection sickleIcons = new ToolIconCollection();
-  public final ToolIconCollection bowIcons = new ToolIconCollection();
-
-  // Bow oddities
-  public IIcon[] bowMainNormal;
-  public IIcon[] bowMainOrnate;
+  public final ToolIconCollection bow0Icons = new ToolIconCollection();
+  public final ToolIconCollection bow1Icons = new ToolIconCollection();
+  public final ToolIconCollection bow2Icons = new ToolIconCollection();
+  public final ToolIconCollection bow3Icons = new ToolIconCollection();
 
   @Override
   public void registerIcons(IIconRegister reg) {
@@ -245,35 +246,64 @@ public class ToolRenderHelper extends Item {
      */
 
     item = domain + "Bow";
-    bowMainNormal = new IIcon[BOW_STAGE_COUNT];
-    bowMainOrnate = new IIcon[BOW_STAGE_COUNT];
-    for (i = 0; i < BOW_STAGE_COUNT; ++i) {
-      bowMainNormal[i] = reg.registerIcon(item + "_MainNormal" + i);
-      bowMainOrnate[i] = reg.registerIcon(item + "_MainOrnate" + i);
+    for (i = 0; i < ROD_TYPE_COUNT; ++i) {
+      String str = item + (i == 0 ? "_MainNormal" : "_MainOrnate");
+      bow0Icons.rod[i] = reg.registerIcon(str + 0);
+      bow1Icons.rod[i] = reg.registerIcon(str + 1);
+      bow2Icons.rod[i] = reg.registerIcon(str + 2);
+      bow3Icons.rod[i] = reg.registerIcon(str + 3);
     }
-    bowIcons.rod[0] = bowMainNormal[0];
-    bowIcons.rod[1] = bowMainOrnate[0];
 
     for (i = 0; i < HEAD_TYPE_COUNT; ++i) {
-      bowIcons.headL[i] = reg.registerIcon(item + i + "L");
-      bowIcons.headM[i] = reg.registerIcon(item + i);
-      bowIcons.headR[i] = reg.registerIcon(item + i + "R");
+      bow0Icons.headL[i] = reg.registerIcon(item + i + "L");
+      bow0Icons.headM[i] = reg.registerIcon(item + i);
+      bow0Icons.headR[i] = reg.registerIcon(item + i + "R");
+      bow1Icons.headL[i] = bow0Icons.headL[i];
+      bow1Icons.headM[i] = bow0Icons.headM[i];
+      bow1Icons.headR[i] = bow0Icons.headR[i];
+      bow2Icons.headL[i] = bow0Icons.headL[i];
+      bow2Icons.headM[i] = bow0Icons.headM[i];
+      bow2Icons.headR[i] = bow0Icons.headR[i];
+      bow3Icons.headL[i] = reg.registerIcon(item + i + "L_3");
+      bow3Icons.headM[i] = reg.registerIcon(item + i + "_3");
+      bow3Icons.headR[i] = reg.registerIcon(item + i + "R_3");
     }
     for (i = 0; i < TIP_TYPE_COUNT; ++i) {
-      bowIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
+      bow0Icons.tip[i] = reg.registerIcon(item + "Tip" + i);
+      bow1Icons.tip[i] = bow0Icons.tip[i];
+      bow2Icons.tip[i] = bow0Icons.tip[i];
+      bow3Icons.tip[i] = reg.registerIcon(item + "Tip" + i + "_3");
     }
 
     item = domain + "BowDeco";
     for (i = 0; i < ROD_DECO_TYPE_COUNT; ++i) {
-      bowIcons.rodDeco[i] = reg.registerIcon(item + i);
+      bow0Icons.rodDeco[i] = reg.registerIcon(item + i);
+      bow1Icons.rodDeco[i] = bow0Icons.rodDeco[i];
+      bow2Icons.rodDeco[i] = bow0Icons.rodDeco[i];
+      bow3Icons.rodDeco[i] = bow0Icons.rodDeco[i];
     }
     item = domain + "BowWool";
     for (i = 0; i < ROD_WOOL_TYPE_COUNT; ++i) {
-      bowIcons.rodWool[i] = reg.registerIcon(item + i);
+      // Using the wool arrays for arrow textures, to avoid adding a render pass and because I'm not sure what to
+      // do for wool on bows... A bit of a hack, but this whole class is, in a way.
+      bow0Icons.rodWool[i] = iconBlank;
+      bow1Icons.rodWool[i] = i == 0 ? reg.registerIcon("Bow_Arrow1") : iconBlank;
+      bow2Icons.rodWool[i] = i == 0 ? reg.registerIcon("Bow_Arrow2") : iconBlank;
+      bow3Icons.rodWool[i] = i == 0 ? reg.registerIcon("Bow_Arrow3") : iconBlank;
+      // bow0Icons.rodWool[i] = reg.registerIcon(item + i);
+      // bow1Icons.rodWool[i] = bow0Icons.rodWool[i];
+      // bow2Icons.rodWool[i] = bow0Icons.rodWool[i];
+      // bow3Icons.rodWool[i] = reg.registerIcon(item + i + "_3");
     }
   }
 
   public IIcon getIcon(ItemStack stack, int pass, int gemId, boolean supercharged) {
+
+    return getIcon(stack, pass, gemId, supercharged, stack, stack.getMaxItemUseDuration());
+  }
+
+  public IIcon getIcon(ItemStack stack, int pass, int gemId, boolean supercharged,
+      ItemStack usingItem, int useRemaining) {
 
     ToolIconCollection icons;
     Item item = stack.getItem();
@@ -291,7 +321,23 @@ public class ToolRenderHelper extends Item {
     } else if (item instanceof GemSickle) {
       icons = sickleIcons;
     } else if (item instanceof GemBow) {
-      icons = bowIcons;
+      int index = ((GemBow) item).getUsingIndex(stack, useRemaining);
+      switch (index) {
+        case 0:
+          icons = bow0Icons;
+          break;
+        case 1:
+          icons = bow1Icons;
+          break;
+        case 2:
+          icons = bow2Icons;
+          break;
+        case 3:
+          icons = bow3Icons;
+          break;
+        default:
+          icons = bow0Icons;
+      }
     } else {
       return iconError;
     }
@@ -343,6 +389,11 @@ public class ToolRenderHelper extends Item {
 
   public IIcon getRodWoolIcon(ToolIconCollection icons, ItemStack stack, boolean supercharged) {
 
+    if (stack.getItem() instanceof GemBow) {
+      // Bow arrow texture.
+      return icons.rodWool[0];
+    }
+    
     int k = ToolHelper.getToolRodWool(stack);
     if (k > -1) {
       k = MathHelper.clamp_int(k, 0, ROD_WOOL_TYPE_COUNT - 1);

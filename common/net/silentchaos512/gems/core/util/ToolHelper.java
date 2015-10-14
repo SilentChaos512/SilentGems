@@ -26,6 +26,7 @@ import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.Gem;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.GemAxe;
+import net.silentchaos512.gems.item.tool.GemBow;
 import net.silentchaos512.gems.item.tool.GemHoe;
 import net.silentchaos512.gems.item.tool.GemPickaxe;
 import net.silentchaos512.gems.item.tool.GemShovel;
@@ -87,6 +88,8 @@ public class ToolHelper {
       return ((GemHoe) item).gemId;
     } else if (item instanceof GemSickle) {
       return ((GemSickle) item).gemId;
+    } else if (item instanceof GemBow) {
+      return ((GemBow) item).gemId;
     } else {
       LogHelper.debug("Called ToolHelper.getToolGemId on a non-Gems tool!");
       return -1;
@@ -118,6 +121,8 @@ public class ToolHelper {
       return ((GemHoe) item).supercharged;
     } else if (item instanceof GemSickle) {
       return ((GemSickle) item).supercharged;
+    } else if (item instanceof GemBow) {
+      return ((GemBow) item).supercharged;
     } else {
       LogHelper.debug("Called ToolHelper.getToolIsSupercharged on a non-Gems tool!");
       return false;
