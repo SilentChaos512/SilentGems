@@ -40,15 +40,16 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME,
       Names.NETHER_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER, Names.RAWHIDE_BONE,
       Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.CHAOS_ESSENCE_PLUS_2, Names.NETHER_CLUSTER,
-      Names.MINI_PYLON, Names.CHAOS_CORE, Names.GILDED_STRING };
+      Names.MINI_PYLON, Names.CHAOS_CORE, Names.GILDED_STRING, Names.IRON_POTATO };
   /**
    * The order that items appear in NEI.
    */
   public static final String[] SORTED_NAMES = { Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS,
-      Names.CHAOS_ESSENCE_PLUS_2, Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_CORE, Names.CHAOS_COAL,
-      Names.ORNATE_STICK, Names.GILDED_STRING, Names.MINI_PYLON, Names.MYSTERY_GOO, Names.PLUME,
-      Names.GOLDEN_PLUME, Names.YARN_BALL, Names.RAWHIDE_BONE, Names.NETHER_SHARD,
-      Names.NETHER_CLUSTER, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER };
+      Names.CHAOS_ESSENCE_PLUS_2, Names.CHAOS_ESSENCE_SHARD, Names.NETHER_SHARD,
+      Names.NETHER_CLUSTER, Names.CHAOS_CORE, Names.CHAOS_COAL, Names.ORNATE_STICK,
+      Names.GILDED_STRING, Names.MINI_PYLON, Names.MYSTERY_GOO, Names.PLUME, Names.GOLDEN_PLUME,
+      Names.YARN_BALL, Names.RAWHIDE_BONE, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER,
+      Names.IRON_POTATO };
 
   // public static final int[] HAS_EFFECT_META = { 4, 13 };
 

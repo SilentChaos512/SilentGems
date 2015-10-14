@@ -321,6 +321,9 @@ item.silentgems:GemShard11.name=Onyx Shard
 item.silentgems:GildedString.name=Gilded String
 item.silentgems:GildedString.desc=Because gold makes everything better!
 
+item.silentgems:IronPotato.name=Iron Potato
+item.silentgems:IronPotato.desc=The potato that does not compromise.
+
 item.silentgems:GoldenPlume.name=Golden Plume
 item.silentgems:GoldenPlume.desc=A bunch of shiny feathers.
 
