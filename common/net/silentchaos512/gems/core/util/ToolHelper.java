@@ -60,6 +60,7 @@ public class ToolHelper {
 
   public static final String NBT_STATS_MINED = "BlocksMined";
   public static final String NBT_STATS_HITS = "HitsLanded";
+  public static final String NBT_STATS_SHOTS_FIRED = "ShotsFired";
   public static final String NBT_STATS_REDECORATED = "Redecorated";
 
   /**
@@ -261,6 +262,14 @@ public class ToolHelper {
     line = LocalizationHelper.getMiscText("Tool.Stats.Hits");
     line = String.format(line, amount);
     list.add(line);
+    
+    // Shots fired (bows only)
+    if (tool.getItem() instanceof GemBow) {
+      amount = getStatShotsFired(tool);
+      line = LocalizationHelper.getMiscText("Tool.Stats.ShotsFired");
+      line = String.format(line, amount);
+      list.add(line);
+    }
 
     // Redecorated count
     amount = getStatRedecorated(tool);
@@ -634,6 +643,16 @@ public class ToolHelper {
   public static void incrementStatRedecorated(ItemStack tool, int amount) {
 
     setTagInt(NBT_STATS_REDECORATED, getStatRedecorated(tool) + amount, tool);
+  }
+  
+  public static int getStatShotsFired(ItemStack tool) {
+    
+    return getTagInt(NBT_STATS_SHOTS_FIRED, tool);
+  }
+  
+  public static void incrementStatShotsFired(ItemStack tool, int amount) {
+    
+    setTagInt(NBT_STATS_SHOTS_FIRED, getStatShotsFired(tool) + amount, tool);
   }
 
   // ---------------------

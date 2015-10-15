@@ -245,6 +245,8 @@ public class GemBow extends ItemBow implements IAddRecipe {
       }
 
       playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
+      // Shots fired statistics
+      ToolHelper.incrementStatShotsFired(stack, 1);
 
       if (!worldIn.isRemote) {
         worldIn.spawnEntityInWorld(entityarrow);
