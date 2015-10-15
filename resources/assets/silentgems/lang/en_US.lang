@@ -278,12 +278,14 @@ item.silentgems:FluffySeed.name=Fluffy Puff
 item.silentgems:FluffySeed.desc=Can be planted, or crafted into soft things.
 
 # Tool Upgrades
-item.silentgems:IronTipUpgrade.name=Upgrade: Iron-Tipped
-item.silentgems:DiamondTipUpgrade.name=Upgrade: Diamond-Tipped
+item.silentgems:UpgradeIronTip.name=Upgrade: Iron-Tipped
+item.silentgems:UpgradeDiamondTip.name=Upgrade: Diamond-Tipped
 item.silentgems:TipUpgrade.desc1=Raises mining level to %d (if lower).
 item.silentgems:TipUpgrade.desc2=Raises durability by %d.
-item.silentgems:TipUpgrade.desc3=Craft with a tool to apply.
-item.silentgems:TipUpgrade.desc4=Only works for tools from this mod.
+item.silentgems:UpgradeNoGlint.name=Upgrade: No Glint
+item.silentgems:UpgradeNoGlint.desc1=Removes the enchanted "glow" from a tool.
+item.silentgems:UpgradeNoGlint.desc2=Reverses the effect if applied again.
+item.silentgems:ToolUpgrade.HowToUse=Craft with a tool from this mod.
 
 # Food
 item.silentgems:Food.desc=Foodstuffs.
@@ -389,6 +391,9 @@ item.silentgems:TorchBandolier.desc2=Sneak-right click to change modes.
 item.silentgems:TorchBandolier.desc3=Place in a crafting grid to extract torches.
 item.silentgems:TorchBandolier.AutoFillOff=Auto-fill mode OFF.
 item.silentgems:TorchBandolier.AutoFillOn=Auto-fill mode ON.
+
+item.silentgems:UpgradeBase.name=Tool Upgrade Base
+item.silentgems:UpgradeBase.desc=Used for crafting tool upgrades.
 
 item.silentgems:Yarn Ball.name=Ball of Yarn
 item.silentgems:Yarn Ball.desc=It's not shiny, but cats seem to like it.

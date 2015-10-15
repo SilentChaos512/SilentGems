@@ -30,7 +30,7 @@ public class InventoryHelper {
 
     if (stack != null) {
       Item item = stack.getItem();
-      return (item instanceof GemSword) || item instanceof GemPickaxe || item instanceof GemShovel
+      return item instanceof GemSword || item instanceof GemPickaxe || item instanceof GemShovel
           || item instanceof GemAxe || item instanceof GemHoe || item instanceof GemSickle
           || item instanceof GemBow;
     }
@@ -56,7 +56,7 @@ public class InventoryHelper {
 
     if (stack != null) {
       Item item = stack.getItem();
-      return (item instanceof ItemSword) || item instanceof ItemPickaxe || item instanceof ItemSpade
+      return item instanceof ItemSword || item instanceof ItemPickaxe || item instanceof ItemSpade
           || item instanceof ItemAxe || item instanceof ItemHoe || item instanceof GemSickle
           || item instanceof ItemBow;
     }

@@ -394,7 +394,7 @@ public class ToolRenderHelper extends Item {
       // Bow arrow texture.
       return icons.rodWool[0];
     }
-    
+
     int k = ToolHelper.getToolRodWool(stack);
     if (k > -1) {
       k = MathHelper.clamp_int(k, 0, ROD_WOOL_TYPE_COUNT - 1);
@@ -470,7 +470,8 @@ public class ToolRenderHelper extends Item {
    */
   public boolean hasEffect(ItemStack tool, int pass) {
 
-    return tool.isItemEnchanted() && pass == RENDER_PASS_COUNT - 1;
+    return tool.isItemEnchanted() && pass == RENDER_PASS_COUNT - 1
+        && !ToolHelper.getToolNoGlint(tool);
   }
 
   public int getPossibleToolCombinations() {

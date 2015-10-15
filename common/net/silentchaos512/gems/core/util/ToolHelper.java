@@ -56,6 +56,7 @@ public class ToolHelper {
   public static final String NBT_ROD_DECO = "RodDeco";
   public static final String NBT_ROD_WOOL = "RodWool";
   public static final String NBT_TIP = "Tip";
+  public static final String NBT_NO_GLINT = "NoGlint";
 
   public static final String NBT_STATS_MINED = "BlocksMined";
   public static final String NBT_STATS_HITS = "HitsLanded";
@@ -589,6 +590,16 @@ public class ToolHelper {
   public static void setToolHeadTip(ItemStack tool, int id) {
 
     setTagByte(NBT_TIP, id, tool);
+  }
+
+  public static boolean getToolNoGlint(ItemStack tool) {
+
+    return getTagByte(NBT_NO_GLINT, tool) > 0;
+  }
+
+  public static void setToolNoGlint(ItemStack tool, boolean value) {
+
+    setTagByte(NBT_NO_GLINT, value ? 1 : 0, tool);
   }
 
   // --------------

@@ -79,13 +79,15 @@ public class Names {
   public static final String ORNATE_STICK = "Ornate Stick";
   public static final String PLUME = "Plume";
   public static final String RAWHIDE_BONE = "RawhideBone";
+  public static final String UPGRADE_BASE = "UpgradeBase";
   public static final String YARN_BALL = "Yarn Ball";
   
   /*
    * Tool Upgrades
    */
-  public static final String UPGRADE_IRON_TIP = "IronTipUpgrade";
-  public static final String UPGRADE_DIAMOND_TIP = "DiamondTipUpgrade";
+  public static final String UPGRADE_IRON_TIP = "UpgradeIronTip";
+  public static final String UPGRADE_DIAMOND_TIP = "UpgradeDiamondTip";
+  public static final String UPGRADE_NO_GLINT = "UpgradeNoGlint";
 
   /*
    * Enchantments

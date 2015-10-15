@@ -16,6 +16,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
@@ -40,16 +41,17 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.PLUME, Names.GOLDEN_PLUME,
       Names.NETHER_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER, Names.RAWHIDE_BONE,
       Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.CHAOS_ESSENCE_PLUS_2, Names.NETHER_CLUSTER,
-      Names.MINI_PYLON, Names.CHAOS_CORE, Names.GILDED_STRING, Names.IRON_POTATO };
+      Names.MINI_PYLON, Names.CHAOS_CORE, Names.GILDED_STRING, Names.IRON_POTATO,
+      Names.UPGRADE_BASE };
   /**
    * The order that items appear in NEI.
    */
   public static final String[] SORTED_NAMES = { Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS,
       Names.CHAOS_ESSENCE_PLUS_2, Names.CHAOS_ESSENCE_SHARD, Names.NETHER_SHARD,
       Names.NETHER_CLUSTER, Names.CHAOS_CORE, Names.CHAOS_COAL, Names.ORNATE_STICK,
-      Names.GILDED_STRING, Names.MINI_PYLON, Names.MYSTERY_GOO, Names.PLUME, Names.GOLDEN_PLUME,
-      Names.YARN_BALL, Names.RAWHIDE_BONE, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER,
-      Names.IRON_POTATO };
+      Names.GILDED_STRING, Names.UPGRADE_BASE, Names.MINI_PYLON, Names.MYSTERY_GOO, Names.PLUME,
+      Names.GOLDEN_PLUME, Names.YARN_BALL, Names.RAWHIDE_BONE, Names.IRON_POTATO,
+      Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER };
 
   // public static final int[] HAS_EFFECT_META = { 4, 13 };
 
@@ -166,6 +168,9 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     // Gilded String
     GameRegistry.addShapedRecipe(getStack(Names.GILDED_STRING, 3), "gsg", "gsg", "gsg", 's',
         Items.string, 'g', Items.gold_nugget);
+    // Upgrade Base
+    GameRegistry.addRecipe(new ShapelessOreRecipe(getStack(Names.UPGRADE_BASE, 4), Items.flint,
+        Items.flint, "plankWood", "stickWood"));
   }
 
   @Override

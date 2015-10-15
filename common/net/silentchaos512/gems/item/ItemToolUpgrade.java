@@ -21,7 +21,8 @@ import net.silentchaos512.gems.lib.Strings;
 
 public class ItemToolUpgrade extends ItemSG {
 
-  public static final String[] NAMES = { Names.UPGRADE_IRON_TIP, Names.UPGRADE_DIAMOND_TIP };
+  public static final String[] NAMES = { Names.UPGRADE_IRON_TIP, Names.UPGRADE_DIAMOND_TIP,
+      Names.UPGRADE_NO_GLINT };
 
   public ItemToolUpgrade() {
 
@@ -37,31 +38,39 @@ public class ItemToolUpgrade extends ItemSG {
 
     int meta = stack.getItemDamage();
     String line;
+    String item;
 
     switch (meta) {
       case 0:
       case 1:
         // Tipped upgrades
-        
+        item = "TipUpgrade";
         // Mining level
-        line = LocalizationHelper.getItemDescription("TipUpgrade", 1);
+        line = LocalizationHelper.getItemDescription(item, 1);
         line = String.format(line,
             meta == 0 ? Config.MINING_LEVEL_IRON_TIP : Config.MINING_LEVEL_DIAMOND_TIP);
         list.add(EnumChatFormatting.GREEN + line);
 
         // Durability boost
-        line = LocalizationHelper.getItemDescription("TipUpgrade", 2);
+        line = LocalizationHelper.getItemDescription(item, 2);
         line = String.format(line,
             meta == 0 ? Config.DURABILITY_BOOST_IRON_TIP : Config.DURABILITY_BOOST_DIAMOND_TIP);
         list.add(EnumChatFormatting.GREEN + line);
-
-        // How to use
-        line = LocalizationHelper.getItemDescription("TipUpgrade", 3);
-        list.add(EnumChatFormatting.DARK_GRAY + line);
-        line = LocalizationHelper.getItemDescription("TipUpgrade", 4);
-        list.add(EnumChatFormatting.DARK_GRAY + line);
+        break;
+      case 2:
+        // No glint
+        item = Names.UPGRADE_NO_GLINT;
+        // Effect
+        line = LocalizationHelper.getItemDescription(item, 1);
+        list.add(EnumChatFormatting.GREEN + line);
+        line = LocalizationHelper.getItemDescription(item, 2);
+        list.add(EnumChatFormatting.GREEN + line);
         break;
     }
+
+    // How to use
+    line = LocalizationHelper.getOtherItemKey("ToolUpgrade", "HowToUse");
+    list.add(EnumChatFormatting.DARK_GRAY + line);
   }
 
   public ItemStack applyToTool(ItemStack tool, ItemStack upgrade) {
@@ -72,7 +81,7 @@ public class ItemToolUpgrade extends ItemSG {
 
     int meta = upgrade.getItemDamage();
     ItemStack result = tool.copy();
-    
+
     switch (meta) {
       case 0:
       case 1:
@@ -84,6 +93,11 @@ public class ItemToolUpgrade extends ItemSG {
         }
         ToolHelper.setToolHeadTip(result, upgradeValue);
         return result;
+      case 2:
+        // No glint
+        boolean currentValue = ToolHelper.getToolNoGlint(result);
+        ToolHelper.setToolNoGlint(result, !currentValue);
+        return result;
       default:
         LogHelper.debug("Unknown tool upgrade: meta = " + meta);
         return null;
@@ -93,10 +107,11 @@ public class ItemToolUpgrade extends ItemSG {
   @Override
   public void addRecipes() {
 
-    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 0), "ingotIron",
-        Items.flint, "plankWood", "stickWood"));
-    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 1), "gemDiamond",
-        Items.flint, "plankWood", "stickWood"));
+    ItemStack base = CraftingMaterial.getStack(Names.UPGRADE_BASE);
+
+    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 0), "ingotIron", base));
+    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 1), "gemDiamond", base));
+    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 2), "dyeBlack", base));
   }
 
   public ItemStack getStack(String name) {
