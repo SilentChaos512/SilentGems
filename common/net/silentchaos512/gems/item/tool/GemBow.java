@@ -23,13 +23,13 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.Names;
 
 public class GemBow extends ItemBow implements IAddRecipe {
 
-  // public static final String NBT_USING_INDEX = "SGBowUsingIndex";
   public static final float ENCHANTABILITY_MULTIPLIER = 0.45f;
 
   public final int gemId;
@@ -114,33 +114,15 @@ public class GemBow extends ItemBow implements IAddRecipe {
     }
   }
 
-  // @Override
-  // public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
-  //
-  // // Client side only.
-  // // TODO: Effect on servers?
-  // if (!player.worldObj.isRemote) {
-  // return;
-  // }
-  //
-  // count = getMaxItemUseDuration(stack) - count;
-  // if (count >= 18) {
-  // setUsingIndex(stack, 3);
-  // } else if (count > 13) {
-  // setUsingIndex(stack, 2);
-  // } else if (count > 0) {
-  // setUsingIndex(stack, 1);
-  // }
-  // }
-
   public int getUsingIndex(ItemStack stack, int useRemaining) {
 
     int k = getMaxItemUseDuration(stack) - useRemaining;
+    float drawSpeed = getDrawDelay(stack);
     if (useRemaining == 0) {
       return 0;
-    } else if (k >= 18) {
+    } else if (k >= (int) (0.9f * drawSpeed)) { // was k >= 18
       return 3;
-    } else if (k > 13) {
+    } else if (k > (int) (0.65f * drawSpeed)) { // was k > 13
       return 2;
     } else if (k > 0) {
       return 1;
@@ -148,21 +130,12 @@ public class GemBow extends ItemBow implements IAddRecipe {
       return 0;
     }
   }
-
-  // public int getUsingIndex(ItemStack stack) {
-  //
-  // if (stack.stackTagCompound != null) {
-  // return stack.stackTagCompound.getByte(NBT_USING_INDEX);
-  // }
-  // return 0;
-  // }
-  //
-  // private void setUsingIndex(ItemStack stack, int index) {
-  //
-  // if (getUsingIndex(stack) != index) {
-  // stack.stackTagCompound.setByte(NBT_USING_INDEX, (byte) index);
-  // }
-  // }
+  
+  public float getDrawDelay(ItemStack stack) {
+    
+    float f = toolMaterial.getEfficiencyOnProperMaterial();
+    return 38.4f - 1.4f * f;
+  }
 
   @Override
   public int getRenderPasses(int meta) {
@@ -194,6 +167,7 @@ public class GemBow extends ItemBow implements IAddRecipe {
     return ToolRenderHelper.instance.hasEffect(stack, pass);
   }
 
+  // Same as vanilla bow, except it can be fired without arrows with infinity.
   public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
     ArrowNockEvent event = new ArrowNockEvent(player, stack);
@@ -215,8 +189,6 @@ public class GemBow extends ItemBow implements IAddRecipe {
   public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn,
       int timeLeft) {
 
-    // setUsingIndex(stack, 0);
-
     int j = this.getMaxItemUseDuration(stack) - timeLeft;
     net.minecraftforge.event.entity.player.ArrowLooseEvent event = new net.minecraftforge.event.entity.player.ArrowLooseEvent(
         playerIn, stack, j);
@@ -228,7 +200,7 @@ public class GemBow extends ItemBow implements IAddRecipe {
         || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
 
     if (flag || playerIn.inventory.hasItem(Items.arrow)) {
-      float f = (float) j / 20.0F;
+      float f = (float) j / getDrawDelay(stack); // was j / 20
       f = (f * f + f * 2.0F) / 3.0F;
 
       if ((double) f < 0.1D) {
