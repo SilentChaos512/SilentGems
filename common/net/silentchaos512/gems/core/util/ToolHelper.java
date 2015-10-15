@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -245,6 +246,7 @@ public class ToolHelper {
     int amount;
     String separator = EnumChatFormatting.DARK_GRAY
         + LocalizationHelper.getMiscText("Tool.Stats.Separator");
+    boolean isBow = tool.getItem() instanceof GemBow;
 
     // Header
     line = LocalizationHelper.getMiscText("Tool.Stats.Header");
@@ -257,14 +259,14 @@ public class ToolHelper {
     line = String.format(line, amount);
     list.add(line);
 
-    // Hits landed
+    // Hits landed (I would like this to register error hits, WIP)
     amount = getStatHitsLanded(tool);
     line = LocalizationHelper.getMiscText("Tool.Stats.Hits");
     line = String.format(line, amount);
     list.add(line);
-    
+
     // Shots fired (bows only)
-    if (tool.getItem() instanceof GemBow) {
+    if (isBow) {
       amount = getStatShotsFired(tool);
       line = LocalizationHelper.getMiscText("Tool.Stats.ShotsFired");
       line = String.format(line, amount);
@@ -406,10 +408,20 @@ public class ToolHelper {
           int playerZ = (int) Math.floor(player.posZ);
 
           // Check for overlap with player, except for torches and torch bandolier
-          if (Item.getIdFromItem(item) != Block.getIdFromBlock(Blocks.torch)
-              && item != SRegistry.getItem(Names.TORCH_BANDOLIER) && px == playerX
-              && (py == playerY || py == playerY + 1 || py == playerY - 1) && pz == playerZ) {
-            return false;
+          // if (Item.getIdFromItem(item) != Block.getIdFromBlock(Blocks.torch)
+          // && item != SRegistry.getItem(Names.TORCH_BANDOLIER) && px == playerX
+          // && (py == playerY || py == playerY + 1 || py == playerY - 1) && pz == playerZ) {
+          // return false;
+          // }
+          AxisAlignedBB blockBounds = AxisAlignedBB.getBoundingBox(px, py, pz, px + 1, py + 1,
+              pz + 1);
+          AxisAlignedBB playerBounds = player.boundingBox;
+
+          if (item instanceof ItemBlock) {
+            Block block = ((ItemBlock) item).field_150939_a;
+            if (block.getMaterial().blocksMovement() && playerBounds.intersectsWith(blockBounds)) {
+              return false;
+            }
           }
 
           used = item.onItemUse(nextStack, player, world, x, y, z, side, hitX, hitY, hitZ);
@@ -644,14 +656,14 @@ public class ToolHelper {
 
     setTagInt(NBT_STATS_REDECORATED, getStatRedecorated(tool) + amount, tool);
   }
-  
+
   public static int getStatShotsFired(ItemStack tool) {
-    
+
     return getTagInt(NBT_STATS_SHOTS_FIRED, tool);
   }
-  
+
   public static void incrementStatShotsFired(ItemStack tool, int amount) {
-    
+
     setTagInt(NBT_STATS_SHOTS_FIRED, getStatShotsFired(tool) + amount, tool);
   }
 
