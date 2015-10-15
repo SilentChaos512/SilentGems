@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
@@ -56,7 +57,8 @@ public class EnchantToolRecipe implements IRecipe {
       stack = inventorycrafting.getStackInSlot(i);
       if (stack != null) {
         if (InventoryHelper.isTool(stack) || stack.getItem() instanceof ItemArmor) {
-          if (stack.getItem().getItemEnchantability(stack) > 0) {
+          if (stack.getItem() instanceof ItemHoe
+              || stack.getItem().getItemEnchantability(stack) > 0) {
             tool = stack;
           } else {
             return false;
