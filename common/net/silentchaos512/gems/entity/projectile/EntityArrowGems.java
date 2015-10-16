@@ -30,7 +30,10 @@ public class EntityArrowGems extends EntityArrow {
     this.firingBow = bow;
   }
 
+  // I wanted to allow bows to track hits, but arrows have so many private fields... Not sure what to do at the moment.
 //  public void onUpdate() {
+//    
+//    EntityArrow.class.getDeclaredField("field_145791_d").setAccessible(true);
 //
 //    super.onUpdate();
 //

@@ -266,7 +266,7 @@ public class ToolHelper {
       list.add(line);
     }
 
-    // Hits landed (I would like this to register error hits, WIP)
+    // Hits landed (I would like this to register arrow hits, WIP)
     amount = getStatHitsLanded(tool);
     line = LocalizationHelper.getMiscText("Tool.Stats.Hits");
     line = String.format(line, amount);
