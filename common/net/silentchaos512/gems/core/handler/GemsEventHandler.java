@@ -4,28 +4,38 @@ import java.util.Random;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.achievement.GemsAchievement;
 import net.silentchaos512.gems.block.GlowRose;
+import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.core.util.InventoryHelper;
 import net.silentchaos512.gems.core.util.PlayerHelper;
+import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.ChaosGem;
+import net.silentchaos512.gems.item.CraftingMaterial;
+import net.silentchaos512.gems.item.EnchantToken;
+import net.silentchaos512.gems.item.Gem;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.TorchBandolier;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.network.MessageSetFlight;
-import net.silentchaos512.gems.recipe.TorchBandolierExtractRecipe;
 
 public class GemsEventHandler {
 
@@ -38,6 +48,16 @@ public class GemsEventHandler {
       InventoryCrafting inv = (InventoryCrafting) event.craftMatrix;
       EntityPlayer player = event.player;
       World world = player.worldObj;
+
+      if (event.crafting.getItem() instanceof TorchBandolier) {
+        // Torch bandolier achievement
+        player.addStat(GemsAchievement.torchBandolier, 1);
+      }
+      if (event.crafting.getItem() instanceof EnchantToken) {
+        // Enchantment token achievement
+        player.addStat(GemsAchievement.enchantToken, 1);
+      }
+      
       if (TorchBandolier.matchesRecipe(inv, world)) {
         // Decorate a newly crafted Torch Bandolier with the gem used.
         ItemStack gem = inv.getStackInRowAndColumn(1, 1);
@@ -49,7 +69,7 @@ public class GemsEventHandler {
           event.crafting.stackTagCompound.setByte(Strings.TORCH_BANDOLIER_GEM, (byte) k);
           event.crafting.stackTagCompound.setBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL, true);
         }
-      } else if ((new TorchBandolierExtractRecipe()).matches(inv, world)) {
+      } else if (ModItems.recipeTorchBandolierExtract.matches(inv, world)) {
         // Return the Torch Bandolier that torches were extracted from.
         ItemStack bandolier = null;
         for (int i = 0; i < inv.getSizeInventory(); ++i) {
@@ -62,9 +82,39 @@ public class GemsEventHandler {
         bandolier.attemptDamageItem(event.crafting.stackSize, world.rand);
         PlayerHelper.addItemToInventoryOrDrop(player, bandolier);
       }
+      if (InventoryHelper.isGemTool(event.crafting)) {
+        // First tool achievement
+        player.addStat(GemsAchievement.firstTool, 1);
+        // Iron-Tipped achievement
+        if (ToolHelper.getToolHeadTip(event.crafting) >= 1) {
+          player.addStat(GemsAchievement.ironTipped, 1);
+        }
+        // Diamond-Tipped achievement
+        if (ToolHelper.getToolHeadTip(event.crafting) >= 2) {
+          player.addStat(GemsAchievement.diamondTipped, 1);
+        }
+      }
+      if (ModItems.recipeDecorateTool.matches(inv, world)) {
+        // Redecorate achievement
+        player.addStat(GemsAchievement.redecorated, 1);
+      }
     }
   }
 
+  @SubscribeEvent
+  public void onItemPickup(ItemPickupEvent event) {
+    
+    ItemStack stack = event.pickedUp.getEntityItem();
+    Item item = stack.getItem();
+    if (item instanceof Gem) {
+      event.player.addStat(GemsAchievement.acquireGems, 1);
+    } else if (Block.getBlockFromItem(item) == ModBlocks.chaosOre) {
+      event.player.addStat(GemsAchievement.acquireChaos, 1);
+    } else if (CraftingMaterial.doesStackMatch(stack, Names.IRON_POTATO)) {
+      event.player.addStat(GemsAchievement.ironPotato, 1);
+    }
+  }
+  
   @SubscribeEvent
   public void onUseBonemeal(BonemealEvent event) {
 

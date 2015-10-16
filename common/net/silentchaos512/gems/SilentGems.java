@@ -19,7 +19,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.MinecraftForge;
+import net.silentchaos512.gems.achievement.GemsAchievement;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.configuration.Config;
@@ -97,6 +99,9 @@ public class SilentGems {
     ChaosBuff.initRecipes();
 
     ModItems.addRandomChestGenLoot();
+    
+    // Achievements
+    AchievementPage.registerAchievementPage(GemsAchievement.createPage());
 
     // World generators
     GameRegistry.registerWorldGenerator(new GemsWorldGenerator(), 0);
@@ -114,7 +119,7 @@ public class SilentGems {
     if (event.getSide() == Side.CLIENT) {
       int toolsPerClass = ToolRenderHelper.instance.getPossibleToolCombinations();
       LogHelper.info("Tools per class: " + toolsPerClass);
-      LogHelper.info("Total possible tools: " + 6 * toolsPerClass);
+      LogHelper.info("Total possible tools: " + 7 * toolsPerClass);
       LogHelper.info("Note I can't guarantee that these numbers are correct.");
     }
   }

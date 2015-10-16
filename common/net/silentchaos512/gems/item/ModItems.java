@@ -176,21 +176,33 @@ public class ModItems {
     debugItem = (DebugItem) SRegistry.registerItem(DebugItem.class, Names.DEBUG_ITEM);
   }
 
+  // Recipes
+  public static IRecipe recipeChaosGemUpgrade;
+  public static IRecipe recipeDecorateTool;
+  public static IRecipe recipeEnchantTool;
+  public static IRecipe recipeTorchBandolier;
+  public static IRecipe recipeTorchBandolierExtract;
+  public static IRecipe recipeToolUpgrade;
+
   public static void initItemRecipes() {
 
     String afterShapeless = "after:minecraft:shapeless";
-    addRecipeHandler(ChaosGemUpgradeRecipe.class, "ChaosRune", Category.SHAPELESS, afterShapeless);
-    addRecipeHandler(DecorateToolRecipe.class, "DecorateTool", Category.SHAPED, afterShapeless);
-    addRecipeHandler(EnchantToolRecipe.class, "EnchantTool", Category.SHAPELESS, afterShapeless);
-    addRecipeHandler(TorchBandolierRecipe.class, "TorchBandolierDecorate", Category.SHAPELESS,
+    recipeChaosGemUpgrade = addRecipeHandler(ChaosGemUpgradeRecipe.class, "ChaosRune",
+        Category.SHAPELESS, afterShapeless);
+    recipeDecorateTool = addRecipeHandler(DecorateToolRecipe.class, "DecorateTool", Category.SHAPED,
         afterShapeless);
-    addRecipeHandler(TorchBandolierExtractRecipe.class, "TorchBandolierExtract", Category.SHAPELESS,
+    recipeEnchantTool = addRecipeHandler(EnchantToolRecipe.class, "EnchantTool", Category.SHAPELESS,
         afterShapeless);
-    addRecipeHandler(RecipeToolUpgrade.class, "TippedTool", Category.SHAPELESS, afterShapeless);
+    recipeTorchBandolier = addRecipeHandler(TorchBandolierRecipe.class, "TorchBandolierDecorate",
+        Category.SHAPELESS, afterShapeless);
+    recipeTorchBandolierExtract = addRecipeHandler(TorchBandolierExtractRecipe.class,
+        "TorchBandolierExtract", Category.SHAPELESS, afterShapeless);
+    recipeToolUpgrade = addRecipeHandler(RecipeToolUpgrade.class, "ToolUpgrade", Category.SHAPELESS,
+        afterShapeless);
     // addRecipeHandler(HoldingGemSetRecipe.class, "HoldingGemSet", Category.SHAPELESS, afterShapeless);
   }
 
-  private static void addRecipeHandler(Class<? extends IRecipe> recipeClass, String name,
+  private static IRecipe addRecipeHandler(Class<? extends IRecipe> recipeClass, String name,
       Category category, String dependancies) {
 
     try {
@@ -198,9 +210,11 @@ public class ModItems {
       GameRegistry.addRecipe(recipe);
       RecipeSorter.INSTANCE.register(Strings.RESOURCE_PREFIX + name, recipeClass, category,
           dependancies);
+      return recipe;
     } catch (Exception ex) {
       LogHelper.severe("Failed to register recipe class: " + recipeClass.toString());
     }
+    return null;
   }
 
   public static void addRandomChestGenLoot() {

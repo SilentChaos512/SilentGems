@@ -17,6 +17,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.achievement.GemsAchievement;
 import net.silentchaos512.gems.api.IPlaceable;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
@@ -472,7 +473,19 @@ public class ToolHelper {
       amount += EnchantmentAOE.tryActivate(stack, x, y, z, player);
     }
     // Increase number of blocks mined statistic.
-    ToolHelper.incrementStatBlocksMined(stack, amount);
+    incrementStatBlocksMined(stack, amount);
+    
+    // Mining achievements
+    amount = getStatBlocksMined(stack);
+    if (amount >= 1000) {
+      player.addStat(GemsAchievement.mined1K, 1);
+    }
+    if (amount >= 10000) {
+      player.addStat(GemsAchievement.mined10K, 1);
+    }
+    if (amount >= 100000) {
+      player.addStat(GemsAchievement.mined100K, 1);
+    }
 
     return false;
   }

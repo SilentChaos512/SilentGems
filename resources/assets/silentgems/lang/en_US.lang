@@ -764,6 +764,32 @@ item.silentgems:Gem.SpawnWeight=Spawn Weight
 item.silentgems:Gem.ToolProperties=Properties
 item.silentgems:Gem.Separator=----------------
 
+# Achievements
+
+achievement.FirstTool=My First Tool!
+achievement.FirstTool.desc=Make a tool from Silent's Gems! You won't be disappointed!
+achievement.Redecorated=Tool Decorating?
+achievement.Redecorated.desc=Customize and repair a tool by crafting it with gems (and maybe other things).
+achievement.IronTipped=Iron-Tipped!
+achievement.IronTipped.desc=Apply an Iron-Tipped upgrade to a tool so you can mine more ores!
+achievement.DiamondTipped=Diamond-Tipped!
+achievement.DiamondTipped.desc=Apply a Diamond-Tipped upgrade to a tool to raise it's mining level even more!
+achievement.TorchBandolier=So Many Torches!
+achievement.TorchBandolier.desc=Craft a Torch Bandolier. Great for caving expeditions!
+achievement.EnchantToken=Alternative Enchanting
+achievement.EnchantToken.desc=Craft enchantment tokens for less random enchanting results.
+achievement.GetGems=Shinies Acquired!
+achievement.GetGems.desc=Mine gems with an iron-level pickaxe to craft better tools!
+achievement.GetChaos=Chaos Acquired!
+achievement.GetChaos.desc=Mine chaos ore with a diamond-level pickaxe! It has many uses!
+achievement.Mined1K=I'm Just Getting Started!
+achievement.Mined1K.desc=Mine 1000 blocks with a single tool. Not really that impressive.
+achievement.Mined10K=Trusty Tool
+achievement.Mined10K.desc=Mine 10,000 blocks with a single tool. Good job!
+achievement.Mined100K=Seek Professional Help
+achievement.Mined100K.desc=Mine 100,000 blocks with a single tool. You might have issues.
+achievement.IronPotato=Studly Spud
+achievement.IronPotato.desc=How did you do that?
 # Misc text
 
 misc.silentgems:Tool.Axe=Axe

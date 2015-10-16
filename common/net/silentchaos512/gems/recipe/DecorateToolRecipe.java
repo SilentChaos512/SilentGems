@@ -88,6 +88,9 @@ public class DecorateToolRecipe implements IRecipe {
     if (toolCount != 1 || woolCount > 1 || rodCount > 1 || tool == null) {
       return null;
     }
+    if (materialCount + woolCount + rodCount == 0) {
+      return null;
+    }
 
     // The base material for the tool, needed in some cases.
     byte baseGem = (byte) ToolHelper.getToolGemId(tool);
