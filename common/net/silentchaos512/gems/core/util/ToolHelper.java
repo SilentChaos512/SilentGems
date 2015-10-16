@@ -399,9 +399,18 @@ public class ToolHelper {
     int toolSlot = player.inventory.currentItem;
     int itemSlot = toolSlot + 1;
     ItemStack nextStack = null;
+    ItemStack lastStack = player.inventory.getStackInSlot(8); // Slot 9 in hotbar
 
     if (toolSlot < 8) {
+      // Get stack in slot after tool.
       nextStack = player.inventory.getStackInSlot(itemSlot);
+
+      // If there's nothing there we can use, try slot 9 instead.
+      if (nextStack == null || (!(nextStack.getItem() instanceof ItemBlock)
+          && !(nextStack.getItem() instanceof IPlaceable))) {
+        nextStack = lastStack;
+      }
+
       if (nextStack != null) {
         Item item = nextStack.getItem();
         if (item instanceof ItemBlock || item instanceof IPlaceable) {
