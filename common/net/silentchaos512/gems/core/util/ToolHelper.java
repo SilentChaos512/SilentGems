@@ -7,7 +7,6 @@ import org.lwjgl.input.Keyboard;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -20,7 +19,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IPlaceable;
 import net.silentchaos512.gems.configuration.Config;
-import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.CraftingMaterial;
@@ -59,7 +57,8 @@ public class ToolHelper {
   public static final String NBT_TIP = "Tip";
   public static final String NBT_NO_GLINT = "NoGlint";
 
-  public static final String NBT_STATS_MINED = "BlocksMined";
+  public static final String NBT_STATS_BLOCKS_MINED = "BlocksMined";
+  public static final String NBT_STATS_BLOCKS_PLACED = "BlocksPlaced";
   public static final String NBT_STATS_HITS = "HitsLanded";
   public static final String NBT_STATS_SHOTS_FIRED = "ShotsFired";
   public static final String NBT_STATS_REDECORATED = "Redecorated";
@@ -259,6 +258,14 @@ public class ToolHelper {
     line = String.format(line, amount);
     list.add(line);
 
+    // Blocks placed (mining tools only)
+    if (InventoryHelper.isGemMiningTool(tool)) {
+      amount = getStatBlocksPlaced(tool);
+      line = LocalizationHelper.getMiscText("Tool.Stats.Placed");
+      line = String.format(line, amount);
+      list.add(line);
+    }
+
     // Hits landed (I would like this to register error hits, WIP)
     amount = getStatHitsLanded(tool);
     line = LocalizationHelper.getMiscText("Tool.Stats.Hits");
@@ -413,11 +420,12 @@ public class ToolHelper {
           // && (py == playerY || py == playerY + 1 || py == playerY - 1) && pz == playerZ) {
           // return false;
           // }
-          AxisAlignedBB blockBounds = AxisAlignedBB.getBoundingBox(px, py, pz, px + 1, py + 1,
-              pz + 1);
-          AxisAlignedBB playerBounds = player.boundingBox;
 
+          // Check for block overlap with player, if necessary.
           if (item instanceof ItemBlock) {
+            AxisAlignedBB blockBounds = AxisAlignedBB.getBoundingBox(px, py, pz, px + 1, py + 1,
+                pz + 1);
+            AxisAlignedBB playerBounds = player.boundingBox;
             Block block = ((ItemBlock) item).field_150939_a;
             if (block.getMaterial().blocksMovement() && playerBounds.intersectsWith(blockBounds)) {
               return false;
@@ -431,6 +439,10 @@ public class ToolHelper {
           }
         }
       }
+    }
+
+    if (used) {
+      incrementStatBlocksPlaced(stack, 1);
     }
 
     return used;
@@ -629,12 +641,22 @@ public class ToolHelper {
 
   public static int getStatBlocksMined(ItemStack tool) {
 
-    return getTagInt(NBT_STATS_MINED, tool);
+    return getTagInt(NBT_STATS_BLOCKS_MINED, tool);
   }
 
   public static void incrementStatBlocksMined(ItemStack tool, int amount) {
 
-    setTagInt(NBT_STATS_MINED, getStatBlocksMined(tool) + amount, tool);
+    setTagInt(NBT_STATS_BLOCKS_MINED, getStatBlocksMined(tool) + amount, tool);
+  }
+
+  public static int getStatBlocksPlaced(ItemStack tool) {
+
+    return getTagInt(NBT_STATS_BLOCKS_PLACED, tool);
+  }
+
+  public static void incrementStatBlocksPlaced(ItemStack tool, int amount) {
+
+    setTagInt(NBT_STATS_BLOCKS_PLACED, getStatBlocksPlaced(tool) + amount, tool);
   }
 
   public static int getStatHitsLanded(ItemStack tool) {

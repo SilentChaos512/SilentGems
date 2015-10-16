@@ -786,6 +786,7 @@ misc.silentgems:Tool.NoFlyingPenalty=No speed penalty when flying.
 
 misc.silentgems:Tool.Stats.Header=Statistics
 misc.silentgems:Tool.Stats.Mined=Blocks mined: %d
+misc.silentgems:Tool.Stats.Placed=Blocks placed: %d
 misc.silentgems:Tool.Stats.Hits=Hits landed: %d
 misc.silentgems:Tool.Stats.ShotsFired=Shots fired: %d
 misc.silentgems:Tool.Stats.Redecorated=Redecorated: %d time(s)

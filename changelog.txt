@@ -4,6 +4,7 @@ Silent's Gems - Changelog
 Added: Bows (Yes, they can be decorated!)
 Added: Chaos tools: late game tools with special abilities (WIP, need suggestions)
 Added: SAG Mill recipes for ores (Ender IO)
+Added: Blocks placed (mining tools) and shots fired (bows) statistics
 Improved: Right-click to place collision detection.
 Changed: Chaos Ore mining level to 3 (obsidian). Hint: use the diamond-tipped upgrade!
 Changed: Crystallized Chaos Essence textures (item and block)

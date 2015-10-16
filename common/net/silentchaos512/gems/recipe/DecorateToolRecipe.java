@@ -144,7 +144,7 @@ public class DecorateToolRecipe implements IRecipe {
     
     // Right number of adjacent materials?
     if (adjacentMaterials != materialCount) {
-      LogHelper.debug(adjacentMaterials + ", " + materialCount);
+//      LogHelper.debug(adjacentMaterials + ", " + materialCount);
       return null;
     }
 

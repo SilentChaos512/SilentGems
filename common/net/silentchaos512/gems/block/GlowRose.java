@@ -16,6 +16,7 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import cofh.api.modhelpers.ThermalExpansionHelper;
@@ -76,6 +77,7 @@ public class GlowRose extends BlockSG implements IPlantable {
   private void addFlowerToDyeRecipe(ItemStack dye, ItemStack flower) {
 
     GameRegistry.addShapelessRecipe(new ItemStack(dye.getItem(), 2, dye.getItemDamage()), flower);
+    // Pulverizer
     ThermalExpansionHelper.addPulverizerRecipe(1600, flower,
         new ItemStack(dye.getItem(), 4, dye.getItemDamage()));
   }
