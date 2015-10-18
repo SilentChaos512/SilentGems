@@ -13,13 +13,14 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.lib.Names;
 
 public class EnchantmentLumberjack extends Enchantment {
 
-  public static final float DIG_SPEED_MULTIPLIER = 0.05f;
+  public static final float DIG_SPEED_MULTIPLIER = 0.1f;
 
   protected EnchantmentLumberjack(int effectId, int weight, EnumEnchantmentType type) {
 

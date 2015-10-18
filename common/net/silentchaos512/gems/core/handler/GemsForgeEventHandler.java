@@ -55,7 +55,7 @@ public class GemsForgeEventHandler {
 
     ItemStack heldItem = event.entityPlayer.getCurrentEquippedItem();
     EntityPlayer player = event.entityPlayer;
-    
+
     if (heldItem != null) {
       // Chaos Tools: No penalty for mining while flying.
       if (player.capabilities.isFlying && InventoryHelper.isGemTool(heldItem)) {
@@ -71,9 +71,11 @@ public class GemsForgeEventHandler {
       }
       level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lumberjack.effectId, heldItem);
       if (level > 0 && !player.isSneaking()) {
-        if (EnchantmentLumberjack.detectTree(player.worldObj, event.x, event.y, event.z,
-            event.block))
+        boolean isWood = event.block.isWood(player.worldObj, event.x, event.y, event.z);
+        if (isWood && EnchantmentLumberjack.detectTree(player.worldObj, event.x, event.y, event.z,
+            event.block)) {
           event.newSpeed *= EnchantmentLumberjack.DIG_SPEED_MULTIPLIER;
+        }
       }
     }
   }
