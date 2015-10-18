@@ -271,8 +271,10 @@ item.silentgems:EnchantmentToken.Empty=Empty
 item.silentgems:EnchantmentToken.GemToolsOnly=Gem tools only!
 item.silentgems:EnchantmentToken.BadToken=Bad token! Did an enchantment ID get changed?
 item.silentgems:EnchantmentToken.MaxLevel=Maximum level:
+item.silentgems:EnchantmentToken.ReducedSpeed=Reduces mining speed to %d%%.
 item.silentgems:EnchantmentToken.enchantment.Mending=Randomly repairs the item.
 item.silentgems:EnchantmentToken.enchantment.AreaOfEffect=Allow tools to mine a 3x3 area.
+item.silentgems:EnchantmentToken.enchantment.Lumberjack=Chops down entire trees at once. Sneak to disable.
 
 item.silentgems:FluffySeed.name=Fluffy Puff
 item.silentgems:FluffySeed.desc=Can be planted, or crafted into soft things.
@@ -710,6 +712,7 @@ tool.silentgems:Bow14Plus.name=Chaos Bow
 
 enchantment.Mending=Mending
 enchantment.AreaOfEffect=Area Miner
+enchantment.Lumberjack=Lumberjack
 
 # Chaos Buffs
 buff.silentgems:none=Empty

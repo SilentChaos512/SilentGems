@@ -44,6 +44,12 @@ public class EnchantmentAOE extends Enchantment {
 
     return false;
   }
+  
+  @Override
+  public boolean canApplyTogether(Enchantment e) {
+    
+    return e != ModEnchantments.lumberjack && super.canApplyTogether(e);
+  }
 
   @Override
   public int getMinEnchantability(int par1) {

@@ -195,6 +195,8 @@ public class Config {
       ModEnchantments.MENDING_ID = getEnchantmentId(Names.MENDING,
           ModEnchantments.MENDING_ID_DEFAULT);
       ModEnchantments.AOE_ID = getEnchantmentId(Names.AOE, ModEnchantments.AOE_ID_DEFAULT);
+      ModEnchantments.LUMBERJACK_ID = getEnchantmentId(Names.LUMBERJACK,
+          ModEnchantments.LUMBERJACK_ID_DEFAULT);
 
       /*
        * World gen

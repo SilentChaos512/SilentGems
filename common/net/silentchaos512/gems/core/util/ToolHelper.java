@@ -21,6 +21,7 @@ import net.silentchaos512.gems.achievement.GemsAchievement;
 import net.silentchaos512.gems.api.IPlaceable;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
+import net.silentchaos512.gems.enchantment.EnchantmentLumberjack;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.Gem;
@@ -468,13 +469,15 @@ public class ToolHelper {
 
     // Number of blocks broken.
     int amount = 1;
-    // Try to activate Area Miner enchantment.
-    if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.AOE_ID, stack) > 0) {
+    // Try to activate Lumberjack or Area Miner enchantments.
+    if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.LUMBERJACK_ID, stack) > 0) {
+      amount += EnchantmentLumberjack.tryActivate(stack, x, y, z, player);
+    } else if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.AOE_ID, stack) > 0) {
       amount += EnchantmentAOE.tryActivate(stack, x, y, z, player);
     }
     // Increase number of blocks mined statistic.
     incrementStatBlocksMined(stack, amount);
-    
+
     // Mining achievements
     amount = getStatBlocksMined(stack);
     if (amount >= 1000) {

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -31,7 +34,8 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
+import net.silentchaos512.gems.enchantment.EnchantmentAOE;
+import net.silentchaos512.gems.enchantment.EnchantmentLumberjack;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.armor.ArmorSG;
 import net.silentchaos512.gems.item.tool.GemAxe;
@@ -43,10 +47,6 @@ import net.silentchaos512.gems.item.tool.GemSword;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
-
-import org.lwjgl.input.Keyboard;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class EnchantToken extends ItemSG {
 
@@ -156,6 +156,7 @@ public class EnchantToken extends ItemSG {
     addEnchantment(ModEnchantments.mending, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE
         | T_SICKLE | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS);
     addEnchantment(ModEnchantments.aoe, T_PICKAXE | T_SHOVEL | T_AXE);
+    addEnchantment(ModEnchantments.lumberjack, T_AXE);
   }
 
   /**
@@ -171,6 +172,7 @@ public class EnchantToken extends ItemSG {
     data.enchantment = e;
     data.validTools = validTools;
     data.gemToolsOnly = e.effectId == ModEnchantments.aoe.effectId
+        || e.effectId == ModEnchantments.lumberjack.effectId
         || !Config.ENCHANTMENT_TOKENS_ON_ANY_TOOL;
     enchants.put(e.effectId, data);
   }
@@ -207,6 +209,16 @@ public class EnchantToken extends ItemSG {
       if (!s.equals(LocalizationHelper.ITEM_PREFIX + itemName + "."
           + enchants.get(meta).enchantment.getName())) {
         list.add(EnumChatFormatting.DARK_GRAY + s);
+      }
+      // Reduced speed?
+      if (meta == ModEnchantments.AOE_ID || meta == ModEnchantments.LUMBERJACK_ID) {
+        s = LocalizationHelper.getOtherItemKey(itemName, "ReducedSpeed");
+        if (meta == ModEnchantments.AOE_ID) {
+          s = String.format(s, (int) (EnchantmentAOE.DIG_SPEED_MULTIPLIER * 100));
+        } else if (meta == ModEnchantments.LUMBERJACK_ID) {
+          s = String.format(s, (int) (EnchantmentLumberjack.DIG_SPEED_MULTIPLIER * 100));
+        }
+        list.add(EnumChatFormatting.RED + s);
       }
       // For gem tools only?
       if (enchants.get(meta).gemToolsOnly) {
@@ -301,6 +313,8 @@ public class EnchantToken extends ItemSG {
         CraftingMaterial.getStack(Names.MYSTERY_GOO), 2, baseToken);
     addTokenRecipe(ModEnchantments.aoe.effectId, EnumGem.ONYX.getItemOreName(), gemCount,
         Blocks.tnt, 3, baseToken);
+    addTokenRecipe(ModEnchantments.lumberjack.effectId, EnumGem.EMERALD.getItemOreName(), gemCount,
+        Items.golden_axe, 4, baseToken);
   }
 
   private void addTokenRecipe(int key, String gem, int gemCount, Object otherMaterial,

@@ -11,6 +11,7 @@ import net.silentchaos512.gems.core.util.InventoryHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
+import net.silentchaos512.gems.enchantment.EnchantmentLumberjack;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.material.ModMaterials;
 
@@ -53,18 +54,26 @@ public class GemsForgeEventHandler {
   public void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
 
     ItemStack heldItem = event.entityPlayer.getCurrentEquippedItem();
+    EntityPlayer player = event.entityPlayer;
+    
     if (heldItem != null) {
       // Chaos Tools: No penalty for mining while flying.
-      if (event.entityPlayer.capabilities.isFlying && InventoryHelper.isGemTool(heldItem)) {
+      if (player.capabilities.isFlying && InventoryHelper.isGemTool(heldItem)) {
         if (ToolHelper.getToolGemId(heldItem) == ModMaterials.CHAOS_GEM_ID) {
           event.newSpeed *= 5;
         }
       }
 
-      // Reduce speed of Area Miner tools.
+      // Reduce speed of Area Miner and Lumberjack tools.
       int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.aoe.effectId, heldItem);
       if (level > 0) {
         event.newSpeed *= EnchantmentAOE.DIG_SPEED_MULTIPLIER;
+      }
+      level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lumberjack.effectId, heldItem);
+      if (level > 0 && !player.isSneaking()) {
+        if (EnchantmentLumberjack.detectTree(player.worldObj, event.x, event.y, event.z,
+            event.block))
+          event.newSpeed *= EnchantmentLumberjack.DIG_SPEED_MULTIPLIER;
       }
     }
   }

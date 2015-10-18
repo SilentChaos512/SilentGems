@@ -12,11 +12,16 @@ public class ModEnchantments {
   public final static int AOE_ID_DEFAULT = 129;
   public static int AOE_ID;
   public static EnchantmentAOE aoe;
+  
+  public static final int LUMBERJACK_ID_DEFAULT = 130;
+  public static int LUMBERJACK_ID;
+  public static EnchantmentLumberjack lumberjack;
 
   public static void init() {
 
     mending = new EnchantmentMending(MENDING_ID, 1, EnumEnchantmentType.all);
     aoe = new EnchantmentAOE(AOE_ID, 1, EnumEnchantmentType.digger);
+    lumberjack = new EnchantmentLumberjack(LUMBERJACK_ID, 1, EnumEnchantmentType.digger);
 
     EnchantToken.init();
   }

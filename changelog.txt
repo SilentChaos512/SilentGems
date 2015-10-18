@@ -1,7 +1,7 @@
 Silent's Gems - Changelog
 
 1.3.04
--
+Added: Lumberjack enchantment. Chops entire trees. Sneak to disable. Conflicts with Area Miner.
 
 1.3.03
 Added: Bows (Yes, they can be decorated!)
