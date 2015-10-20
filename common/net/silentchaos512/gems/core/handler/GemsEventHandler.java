@@ -162,13 +162,13 @@ public class GemsEventHandler {
 
       // Mending (main)
       for (ItemStack stack : event.player.inventory.mainInventory) {
-        if (stack != null && isSecond) {
+        if (isSecond && stack != null) {
           ModEnchantments.mending.tryActivate(event.player, stack);
         }
       }
       // Mending (armor)
       for (ItemStack stack : event.player.inventory.armorInventory) {
-        if (stack != null && isSecond) {
+        if (isSecond && stack != null) {
           ModEnchantments.mending.tryActivate(event.player, stack);
         }
       }

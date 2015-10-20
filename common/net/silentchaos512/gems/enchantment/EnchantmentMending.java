@@ -6,6 +6,7 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBook;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.silentchaos512.gems.core.util.InventoryHelper;
 import net.silentchaos512.gems.item.armor.ArmorSG;
@@ -13,8 +14,8 @@ import net.silentchaos512.gems.lib.Names;
 
 public class EnchantmentMending extends Enchantment {
 
-  // The chance of the nth enchantment level repairing the tool each tick.
-  private final static int[] rates = { 12, 10, 8, 6, 4, 2, 1, 1, 1, 1 };
+  // The chance of the nth enchantment level repairing the tool each second, at y=256.
+  private final static int[] rates = { 32, 24, 16, 12, 8, 6, 4, 3, 2, 1 };
 
   protected EnchantmentMending(int par1, int par2, EnumEnchantmentType par3EnumEnchantmentType) {
 
@@ -26,9 +27,8 @@ public class EnchantmentMending extends Enchantment {
   public boolean canApply(ItemStack stack) {
 
     // TODO: Fix this so mending books can be applied to non-gem tools?
-    if (stack.getItem().isDamageable()
-        && (InventoryHelper.isGemTool(stack) || stack.getItem() instanceof ArmorSG || stack
-            .getItem() instanceof ItemBook)) {
+    if (stack.getItem().isDamageable() && (InventoryHelper.isGemTool(stack)
+        || stack.getItem() instanceof ArmorSG || stack.getItem() instanceof ItemBook)) {
       return stack.isItemStackDamageable() ? true : super.canApply(stack);
     }
 
@@ -60,6 +60,9 @@ public class EnchantmentMending extends Enchantment {
         + StatCollector.translateToLocal("enchantment.level." + par1);
   }
 
+  private static final float A = -1f / (256f * 256f);
+  private static final float B = 1f / 128f;
+
   public void tryActivate(EntityPlayer player, ItemStack itemStack) {
 
     if (itemStack.getItemDamage() == 0 || !itemStack.isItemStackDamageable()) {
@@ -75,7 +78,14 @@ public class EnchantmentMending extends Enchantment {
       lvl = 10;
     }
 
-    if (player.worldObj.rand.nextInt(rates[lvl - 1]) == 0) {
+    // Calculate repair chance with elevation bonus.
+    float x = (float) player.posY;
+    x = MathHelper.clamp_float(x, 1f, 256f);
+    float elevationMulti = x * (A * x + B);
+    int chance = (int) (rates[lvl - 1] * (1f / elevationMulti));
+    // LogHelper.debug(elevationMulti + ", " + chance);
+
+    if (player.worldObj.rand.nextInt(chance) == 0) {
       itemStack.setItemDamage(itemStack.getItemDamage() - 1);
     }
   }
