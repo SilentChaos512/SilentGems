@@ -272,8 +272,8 @@ item.silentgems:EnchantmentToken.GemToolsOnly=Gem tools only!
 item.silentgems:EnchantmentToken.BadToken=Bad token! Did an enchantment ID get changed?
 item.silentgems:EnchantmentToken.MaxLevel=Maximum level:
 item.silentgems:EnchantmentToken.ReducedSpeed=Reduces mining speed to %d%%.
-item.silentgems:EnchantmentToken.enchantment.Mending=Randomly repairs the item.
-item.silentgems:EnchantmentToken.enchantment.AreaOfEffect=Allow tools to mine a 3x3 area.
+item.silentgems:EnchantmentToken.enchantment.Mending=Repairs the item. More effective at high elevations.
+item.silentgems:EnchantmentToken.enchantment.AreaOfEffect=Allow tools to mine a 3x3 area. Sneak to disable.
 item.silentgems:EnchantmentToken.enchantment.Lumberjack=Chops down entire trees at once. Sneak to disable.
 
 item.silentgems:FluffySeed.name=Fluffy Puff
