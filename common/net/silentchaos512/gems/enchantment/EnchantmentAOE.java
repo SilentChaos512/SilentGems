@@ -44,10 +44,10 @@ public class EnchantmentAOE extends Enchantment {
 
     return false;
   }
-  
+
   @Override
   public boolean canApplyTogether(Enchantment e) {
-    
+
     return e != ModEnchantments.lumberjack && super.canApplyTogether(e);
   }
 
@@ -105,7 +105,7 @@ public class EnchantmentAOE extends Enchantment {
     Block block = player.worldObj.getBlock(x, y, z);
     int meta = player.worldObj.getBlockMetadata(x, y, z);
 
-    if (!(tool.getItem() instanceof ItemTool) || block == null) {
+    if (!(tool.getItem() instanceof ItemTool) || block == null || player.isSneaking()) {
       return 0;
     }
 

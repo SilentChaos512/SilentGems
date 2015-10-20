@@ -66,7 +66,7 @@ public class GemsForgeEventHandler {
 
       // Reduce speed of Area Miner and Lumberjack tools.
       int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.aoe.effectId, heldItem);
-      if (level > 0) {
+      if (level > 0 && !player.isSneaking()) {
         event.newSpeed *= EnchantmentAOE.DIG_SPEED_MULTIPLIER;
       }
       level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lumberjack.effectId, heldItem);
