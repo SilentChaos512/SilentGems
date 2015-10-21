@@ -57,7 +57,7 @@ public class GemsEventHandler {
         // Enchantment token achievement
         player.addStat(GemsAchievement.enchantToken, 1);
       }
-      
+
       if (TorchBandolier.matchesRecipe(inv, world)) {
         // Decorate a newly crafted Torch Bandolier with the gem used.
         ItemStack gem = inv.getStackInRowAndColumn(1, 1);
@@ -70,18 +70,23 @@ public class GemsEventHandler {
           event.crafting.stackTagCompound.setBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL, true);
         }
       } else if (ModItems.recipeTorchBandolierExtract.matches(inv, world)) {
-        // Return the Torch Bandolier that torches were extracted from.
-        ItemStack bandolier = null;
+        // Give player the extracted torches.
+        ItemStack oldBandolier = null;
+        ItemStack newBandolier;
         for (int i = 0; i < inv.getSizeInventory(); ++i) {
-          bandolier = inv.getStackInSlot(i);
-          if (bandolier != null && bandolier.getItem() instanceof TorchBandolier) {
+          oldBandolier = inv.getStackInSlot(i);
+          if (oldBandolier != null && oldBandolier.getItem() instanceof TorchBandolier) {
             break;
           }
         }
 
-        bandolier.attemptDamageItem(event.crafting.stackSize, world.rand);
-        PlayerHelper.addItemToInventoryOrDrop(player, bandolier);
+        if (oldBandolier != null) {
+          newBandolier = event.crafting;
+          int count = newBandolier.getItemDamage() - oldBandolier.getItemDamage();
+          PlayerHelper.addItemToInventoryOrDrop(player, new ItemStack(Blocks.torch, count));
+        }
       }
+
       if (InventoryHelper.isGemTool(event.crafting)) {
         // First tool achievement
         player.addStat(GemsAchievement.firstTool, 1);
@@ -103,7 +108,7 @@ public class GemsEventHandler {
 
   @SubscribeEvent
   public void onItemPickup(ItemPickupEvent event) {
-    
+
     ItemStack stack = event.pickedUp.getEntityItem();
     Item item = stack.getItem();
     if (item instanceof Gem) {
@@ -114,7 +119,7 @@ public class GemsEventHandler {
       event.player.addStat(GemsAchievement.ironPotato, 1);
     }
   }
-  
+
   @SubscribeEvent
   public void onUseBonemeal(BonemealEvent event) {
 

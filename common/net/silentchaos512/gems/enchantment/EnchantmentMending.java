@@ -60,6 +60,7 @@ public class EnchantmentMending extends Enchantment {
         + StatCollector.translateToLocal("enchantment.level." + par1);
   }
 
+  // I'm using a quadratic equation for the elevation bonus multiplier.
   private static final float A = -1f / (256f * 256f);
   private static final float B = 1f / 128f;
 

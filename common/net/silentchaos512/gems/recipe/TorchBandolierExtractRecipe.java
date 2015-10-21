@@ -1,25 +1,13 @@
 package net.silentchaos512.gems.recipe;
 
-import java.lang.reflect.Field;
-
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ContainerPlayer;
-import net.minecraft.inventory.ContainerWorkbench;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.core.util.PlayerHelper;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.TorchBandolier;
-
-import com.google.common.base.Throwables;
-
-import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class TorchBandolierExtractRecipe implements IRecipe {
 
@@ -71,8 +59,10 @@ public class TorchBandolierExtractRecipe implements IRecipe {
     // How many torches to extract?
     int torchCount = ModItems.torchBandolier.getTorchCount(bandolier);
     torchCount = torchCount > 64 ? 64 : torchCount;
+    ItemStack result = bandolier.copy();
+    result.attemptDamageItem(torchCount, SilentGems.instance.random);
 
-    return new ItemStack(Blocks.torch, torchCount);
+    return result;
   }
 
   @Override
