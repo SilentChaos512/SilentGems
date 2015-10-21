@@ -313,7 +313,7 @@ public class EnchantToken extends ItemSG {
         CraftingMaterial.getStack(Names.MYSTERY_GOO), 2, baseToken);
     addTokenRecipe(ModEnchantments.aoe.effectId, EnumGem.ONYX.getItemOreName(), gemCount,
         Blocks.tnt, 3, baseToken);
-    addTokenRecipe(ModEnchantments.lumberjack.effectId, EnumGem.EMERALD.getItemOreName(), gemCount,
+    addTokenRecipe(ModEnchantments.lumberjack.effectId, EnumGem.PERIDOT.getItemOreName(), gemCount,
         Items.golden_axe, 4, baseToken);
   }
 
