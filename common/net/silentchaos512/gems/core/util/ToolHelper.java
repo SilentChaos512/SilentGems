@@ -411,6 +411,7 @@ public class ToolHelper {
       if (nextStack == null || (!(nextStack.getItem() instanceof ItemBlock)
           && !(nextStack.getItem() instanceof IPlaceable))) {
         nextStack = lastStack;
+        itemSlot = 8;
       }
 
       if (nextStack != null) {
