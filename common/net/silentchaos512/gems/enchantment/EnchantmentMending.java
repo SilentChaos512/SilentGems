@@ -15,7 +15,7 @@ import net.silentchaos512.gems.lib.Names;
 public class EnchantmentMending extends Enchantment {
 
   // The chance of the nth enchantment level repairing the tool each second, at y=256.
-  private final static int[] rates = { 32, 24, 16, 12, 8, 6, 4, 3, 2, 1 };
+  private final static int[] rates = { 64, 48, 32, 24, 16, 12, 8, 4, 2, 1 };
 
   protected EnchantmentMending(int par1, int par2, EnumEnchantmentType par3EnumEnchantmentType) {
 
@@ -83,7 +83,7 @@ public class EnchantmentMending extends Enchantment {
     float x = (float) player.posY;
     x = MathHelper.clamp_float(x, 1f, 256f);
     float elevationMulti = x * (A * x + B);
-    int chance = (int) (rates[lvl - 1] * (1f / elevationMulti));
+    int chance = (int) (rates[lvl - 1] / elevationMulti);
     // LogHelper.debug(elevationMulti + ", " + chance);
 
     if (player.worldObj.rand.nextInt(chance) == 0) {

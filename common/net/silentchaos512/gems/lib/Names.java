@@ -42,7 +42,6 @@ public class Names {
   public static final String FLUFFY_SEED = "FluffySeed";
   public static final String FOOD = "Food";
   public static final String GEM_ITEM = "Gem";
-  public static final String GEM_ROD = "GemRod";
   public static final String GEM_SHARD = "GemShard";
   public static final String HOLDING_GEM = "HoldingGem";
   public static final String MEATY_STEW = "MeatyStew";
@@ -55,6 +54,7 @@ public class Names {
   public static final String SUMMON_PUPPY = "SummonPuppy";
   public static final String SUMMON_PET = "SummonPet";
   public static final String TELEPORTER_LINKER = "TeleporterLinker";
+  public static final String TOOL_ROD = "ToolRod";
   public static final String TOOL_UPGRADE = "ToolUpgrade";
   public static final String TORCH_BANDOLIER = "TorchBandolier";
 
