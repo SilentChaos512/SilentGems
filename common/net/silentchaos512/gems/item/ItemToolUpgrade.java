@@ -21,8 +21,21 @@ import net.silentchaos512.gems.lib.Strings;
 
 public class ItemToolUpgrade extends ItemSG {
 
+  /**
+   * The names of each sub-item. Order determines metadata, so this list cannot be rearranged.
+   */
   public static final String[] NAMES = { Names.UPGRADE_IRON_TIP, Names.UPGRADE_DIAMOND_TIP,
-      Names.UPGRADE_NO_GLINT };
+      Names.UPGRADE_NO_GLINT, Names.UPGRADE_EMERALD_TIP };
+  /**
+   * The order in which items will appear in NEI. This can be resorted freely with no ill effects.
+   */
+  public static final String[] SORTED_NAMES = { Names.UPGRADE_IRON_TIP, Names.UPGRADE_DIAMOND_TIP,
+      Names.UPGRADE_EMERALD_TIP, Names.UPGRADE_NO_GLINT };
+
+  public static final int META_IRON_TIPPED = 0;
+  public static final int META_DIAMOND_TIPPED = 1;
+  public static final int META_EMERALD_TIPPED = 3;
+  public static final int META_NO_GLINT = 2;
 
   public ItemToolUpgrade() {
 
@@ -31,6 +44,11 @@ public class ItemToolUpgrade extends ItemSG {
     setHasSubtypes(true);
     setMaxDamage(0);
     setUnlocalizedName(Names.TOOL_UPGRADE);
+
+    if (NAMES.length != SORTED_NAMES.length) {
+      LogHelper.warning("ItemToolUpgrade: NAMES and SORTED_NAMES contain a different number of "
+          + "items! This may cause some items to not show up!");
+    }
   }
 
   @Override
@@ -41,23 +59,23 @@ public class ItemToolUpgrade extends ItemSG {
     String item;
 
     switch (meta) {
-      case 0:
-      case 1:
+      case META_IRON_TIPPED:
+      case META_DIAMOND_TIPPED:
+      case META_EMERALD_TIPPED:
         // Tipped upgrades
         item = "TipUpgrade";
         // Mining level
         line = LocalizationHelper.getItemDescription(item, 1);
-        line = String.format(line,
-            meta == 0 ? Config.MINING_LEVEL_IRON_TIP : Config.MINING_LEVEL_DIAMOND_TIP);
+        int value = getDurabilityBonusForTippedUpgrade(meta);
+        line = String.format(line, getBoostedMiningLevelForTippedUpgrade(meta));
         list.add(EnumChatFormatting.GREEN + line);
 
         // Durability boost
         line = LocalizationHelper.getItemDescription(item, 2);
-        line = String.format(line,
-            meta == 0 ? Config.DURABILITY_BOOST_IRON_TIP : Config.DURABILITY_BOOST_DIAMOND_TIP);
+        line = String.format(line, getDurabilityBonusForTippedUpgrade(meta));
         list.add(EnumChatFormatting.GREEN + line);
         break;
-      case 2:
+      case META_NO_GLINT:
         // No glint
         item = Names.UPGRADE_NO_GLINT;
         // Effect
@@ -66,11 +84,41 @@ public class ItemToolUpgrade extends ItemSG {
         line = LocalizationHelper.getItemDescription(item, 2);
         list.add(EnumChatFormatting.GREEN + line);
         break;
+      default:
+        list.add(EnumChatFormatting.RED + "Error!");
     }
 
     // How to use
     line = LocalizationHelper.getOtherItemKey("ToolUpgrade", "HowToUse");
     list.add(EnumChatFormatting.DARK_GRAY + line);
+  }
+
+  private int getBoostedMiningLevelForTippedUpgrade(int meta) {
+
+    switch (meta) {
+      case META_IRON_TIPPED:
+        return Config.MINING_LEVEL_IRON_TIP;
+      case META_DIAMOND_TIPPED:
+        return Config.MINING_LEVEL_DIAMOND_TIP;
+      case META_EMERALD_TIPPED:
+        return Config.MINING_LEVEL_EMERALD_TIP;
+      default:
+        return 0;
+    }
+  }
+
+  private int getDurabilityBonusForTippedUpgrade(int meta) {
+
+    switch (meta) {
+      case META_IRON_TIPPED:
+        return Config.DURABILITY_BOOST_IRON_TIP;
+      case META_DIAMOND_TIPPED:
+        return Config.DURABILITY_BOOST_DIAMOND_TIP;
+      case META_EMERALD_TIPPED:
+        return Config.DURABILITY_BOOST_EMERALD_TIP;
+      default:
+        return 0;
+    }
   }
 
   public ItemStack applyToTool(ItemStack tool, ItemStack upgrade) {
@@ -83,17 +131,18 @@ public class ItemToolUpgrade extends ItemSG {
     ItemStack result = tool.copy();
 
     switch (meta) {
-      case 0:
-      case 1:
+      case META_IRON_TIPPED:
+      case META_DIAMOND_TIPPED:
+      case META_EMERALD_TIPPED:
         // Tipped upgrades
         int currentTip = ToolHelper.getToolHeadTip(result);
-        int upgradeValue = meta + 1;
+        int upgradeValue = meta <= 1 ? meta + 1 : meta;
         if (upgradeValue <= currentTip) {
           return null;
         }
         ToolHelper.setToolHeadTip(result, upgradeValue);
         return result;
-      case 2:
+      case META_NO_GLINT:
         // No glint
         boolean currentValue = ToolHelper.getToolNoGlint(result);
         ToolHelper.setToolNoGlint(result, !currentValue);
@@ -112,6 +161,7 @@ public class ItemToolUpgrade extends ItemSG {
     GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 0), "ingotIron", base));
     GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 1), "gemDiamond", base));
     GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 2), "dyeBlack", base));
+    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 3), "gemEmerald", base));
   }
 
   public ItemStack getStack(String name) {
@@ -150,8 +200,12 @@ public class ItemToolUpgrade extends ItemSG {
   @Override
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
-    for (int i = 0; i < NAMES.length; ++i) {
-      list.add(new ItemStack(item, 1, i));
+    int i = 0;
+    for (; i < SORTED_NAMES.length; ++i) {
+      list.add(getStack(SORTED_NAMES[i]));
+    }
+    for (; i < NAMES.length; ++i) {
+      list.add(getStack(NAMES[i]));
     }
   }
 

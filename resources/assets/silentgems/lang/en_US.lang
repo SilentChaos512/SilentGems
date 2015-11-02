@@ -282,6 +282,7 @@ item.silentgems:FluffySeed.desc=Can be planted, or crafted into soft things.
 # Tool Upgrades
 item.silentgems:UpgradeIronTip.name=Upgrade: Iron-Tipped
 item.silentgems:UpgradeDiamondTip.name=Upgrade: Diamond-Tipped
+item.silentgems:UpgradeEmeraldTip.name=Upgrade: Emerald-Tipped
 item.silentgems:TipUpgrade.desc1=Raises mining level to %d (if lower).
 item.silentgems:TipUpgrade.desc2=Raises durability by %d.
 item.silentgems:UpgradeNoGlint.name=Upgrade: No Glint
@@ -811,6 +812,7 @@ misc.silentgems:Tool.OldNBT1=DON'T PANIC. Place me in your
 misc.silentgems:Tool.OldNBT2=inventory, then log out and back in.
 misc.silentgems:Tool.IronTipped=Iron-Tipped
 misc.silentgems:Tool.DiamondTipped=Diamond-Tipped
+misc.silentgems:Tool.EmeraldTipped=Emerald-Tipped
 misc.silentgems:Tool.NoFlyingPenalty=No speed penalty when flying.
 
 misc.silentgems:Tool.Stats.Header=Statistics

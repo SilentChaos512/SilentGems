@@ -49,7 +49,7 @@ public class ToolRenderHelper extends Item {
   // The number of wool grip types (shouldn't change)
   public static final int ROD_WOOL_TYPE_COUNT = 16;
   // The number of mining tool tips.
-  public static final int TIP_TYPE_COUNT = 2;
+  public static final int TIP_TYPE_COUNT = 3;
 
   // Render pass IDs and count
   public static final int PASS_ROD = 0;

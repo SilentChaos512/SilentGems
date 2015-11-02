@@ -91,11 +91,12 @@ public class GemsEventHandler {
         // First tool achievement
         player.addStat(GemsAchievement.firstTool, 1);
         // Iron-Tipped achievement
-        if (ToolHelper.getToolHeadTip(event.crafting) >= 1) {
+        int tip = ToolHelper.getToolHeadTip(event.crafting);
+        if (tip == 1 || tip == 2) {
           player.addStat(GemsAchievement.ironTipped, 1);
         }
         // Diamond-Tipped achievement
-        if (ToolHelper.getToolHeadTip(event.crafting) >= 2) {
+        if (tip == 2) {
           player.addStat(GemsAchievement.diamondTipped, 1);
         }
       }

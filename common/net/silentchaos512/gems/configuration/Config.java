@@ -42,8 +42,10 @@ public class Config {
   public static int MINING_LEVEL_FISH = 0;
   public static int MINING_LEVEL_IRON_TIP = 2;
   public static int MINING_LEVEL_DIAMOND_TIP = 3;
+  public static int MINING_LEVEL_EMERALD_TIP = 2;
   public static int DURABILITY_BOOST_IRON_TIP = 128;
   public static int DURABILITY_BOOST_DIAMOND_TIP = 512;
+  public static int DURABILITY_BOOST_EMERALD_TIP = 1024;
 
   /*
    * Recipes
@@ -164,23 +166,29 @@ public class Config {
        * Tools
        */
       MINING_LEVEL_REGULAR = c.getInt("Tool.MiningLevel.Regular", CATEGORY_ITEM_PROPERTIES,
-          MINING_LEVEL_REGULAR, 0, 100, "The mining level of regular gem tools.");
+          MINING_LEVEL_REGULAR, 0, 10000, "The mining level of regular gem tools.");
       MINING_LEVEL_SUPER = c.getInt("Tool.MiningLevel.Super", CATEGORY_ITEM_PROPERTIES,
-          MINING_LEVEL_SUPER, 0, 100, "The mining level of supercharged gem tools.");
+          MINING_LEVEL_SUPER, 0, 10000, "The mining level of supercharged gem tools.");
       MINING_LEVEL_FISH = c.getInt("Tool.MiningLevel.Fish", CATEGORY_ITEM_PROPERTIES,
-          MINING_LEVEL_FISH, 0, 100, "The mining level of the gag fish tools.");
+          MINING_LEVEL_FISH, 0, 10000, "The mining level of the gag fish tools.");
       MINING_LEVEL_IRON_TIP = c.getInt("Tool.MiningLevel.IronTip", CATEGORY_ITEM_PROPERTIES,
-          MINING_LEVEL_IRON_TIP, 0, 100,
+          MINING_LEVEL_IRON_TIP, 0, 10000,
           "The mining level of tools with the iron-tipped upgrade (if it's not already higher).");
       MINING_LEVEL_DIAMOND_TIP = c.getInt("Tool.MiningLevel.DiamondTip", CATEGORY_ITEM_PROPERTIES,
-          MINING_LEVEL_DIAMOND_TIP, 0, 100,
+          MINING_LEVEL_DIAMOND_TIP, 0, 10000,
           "The mining level of tools with the diamond-tipped upgrade (if it's not already higher).");
+      MINING_LEVEL_EMERALD_TIP = c.getInt("Tool.MiningLevel.EmeraldTip", CATEGORY_ITEM_PROPERTIES,
+          MINING_LEVEL_EMERALD_TIP, 0, 10000,
+          "The mining level of tools with the emerald-tipped upgrade (if it's not already higher).");
       DURABILITY_BOOST_IRON_TIP = c.getInt("Tool.DurabilityBoost.Iron", CATEGORY_ITEM_PROPERTIES,
           DURABILITY_BOOST_IRON_TIP, 0, Short.MAX_VALUE,
           "The value added to the durability (max damage) of tools with the 'iron-tipped' upgrade.");
       DURABILITY_BOOST_DIAMOND_TIP = c.getInt("Tool.DurabilityBoost.Diamond",
           CATEGORY_ITEM_PROPERTIES, DURABILITY_BOOST_DIAMOND_TIP, 0, Short.MAX_VALUE,
           "The value added to the durability (max damage) of tools with the 'diamond-tipped' upgrade.");
+      DURABILITY_BOOST_EMERALD_TIP = c.getInt("Tool.DurabilityBoost.Emerald",
+          CATEGORY_ITEM_PROPERTIES, DURABILITY_BOOST_EMERALD_TIP, 0, Short.MAX_VALUE,
+          "The value added to the durability (max damage) of tools with the 'emerald-tipped' upgrade.");
 
       /*
        * Misc

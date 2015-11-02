@@ -237,6 +237,9 @@ public class ToolHelper {
     } else if (tip == 2) {
       line = LocalizationHelper.getMiscText("Tool.DiamondTipped");
       list.add(EnumChatFormatting.AQUA + line);
+    } else if (tip == 3) {
+      line = LocalizationHelper.getMiscText("Tool.EmeraldTipped");
+      list.add(EnumChatFormatting.GREEN + line);
     }
   }
 
@@ -355,6 +358,8 @@ public class ToolHelper {
 
     int tip = getToolHeadTip(tool);
     switch (tip) {
+      case 3:
+        return Config.DURABILITY_BOOST_EMERALD_TIP;
       case 2:
         return Config.DURABILITY_BOOST_DIAMOND_TIP;
       case 1:
