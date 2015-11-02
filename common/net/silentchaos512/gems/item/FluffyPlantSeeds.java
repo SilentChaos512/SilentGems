@@ -26,16 +26,16 @@ public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
   public FluffyPlantSeeds() {
 
     super(SRegistry.getBlock(Names.FLUFFY_PLANT), Blocks.farmland);
-    this.setUnlocalizedName(Names.FLUFFY_SEED);
-    MinecraftForge.addGrassSeed(new ItemStack(this), 2);
+    setUnlocalizedName(Names.FLUFFY_SEED);
+    MinecraftForge.addGrassSeed(new ItemStack(this), Config.FLUFFY_PUFF_SEED_WEIGHT);
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
 
     if (ItemSG.showFlavorText()) {
-      list.add(EnumChatFormatting.ITALIC
-          + LocalizationHelper.getItemDescription(Names.FLUFFY_SEED, 0));
+      String s = LocalizationHelper.getItemDescription(Names.FLUFFY_SEED, 0);
+      list.add(EnumChatFormatting.ITALIC + s);
     }
   }
 

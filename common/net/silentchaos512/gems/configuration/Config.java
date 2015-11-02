@@ -32,6 +32,7 @@ public class Config {
   public static int CHAOS_GEM_MAX_MINI_PYLON = 5;
   public static int CHAOS_GEM_MAX_BUFFS = 3;
   public static int FOOD_SUPPORT_DURATION = 600;
+  public static int FLUFFY_PUFF_SEED_WEIGHT = 2;
 
   /*
    * Tools
@@ -145,6 +146,8 @@ public class Config {
       CHAOS_GEM_MAX_MINI_PYLON = c.getInt("ChaosGem.MaxMiniPylons", CATEGORY_ITEM_PROPERTIES,
           CHAOS_GEM_MAX_MINI_PYLON, 0, Integer.MAX_VALUE,
           "The most mini pylons that can be added to a chaos gem.");
+      FLUFFY_PUFF_SEED_WEIGHT = c.getInt("FluffyPuff.SeedWeight", CATEGORY_ITEM_PROPERTIES, 2, 0,
+          Integer.MAX_VALUE, "Weight of fluffy puff drops from grass. Wheat seeds are 10.");
 
       /*
        * Recipes
