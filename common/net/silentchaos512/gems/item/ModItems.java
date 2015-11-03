@@ -2,8 +2,11 @@ package net.silentchaos512.gems.item;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
@@ -219,7 +222,17 @@ public class ModItems {
 
   public static void addRandomChestGenLoot() {
 
-    // TODO Auto-generated method stub
-
+    // Add loot to bonus chest.
+    ItemStack stack;
+    WeightedRandomChestContent content;
+    // Flint
+    stack = new ItemStack(Items.flint);
+    content = new WeightedRandomChestContent(stack, 3, 7, 12);
+    ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(content);
+    // Sugar cookies
+    stack = new ItemStack(food, 1, 1);
+    content = new WeightedRandomChestContent(stack, 4, 8, 8);
+    ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(content);
+    
   }
 }

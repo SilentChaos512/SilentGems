@@ -1,5 +1,11 @@
 Silent's Gems - Changelog
 
+1.3.05
+Added: Emerald-Tipped upgrade. More bonus durability, but only mining level 2 (configurable).
+Added: Config for fluffy puff drop weight.
+Added: Bonus chest loot (flint and sugar cookies)
+
+
 1.3.04
 Added: Lumberjack enchantment. Chops entire trees. Sneak to disable. Conflicts with Area Miner.
 Added: Different textures for supercharged armor.
