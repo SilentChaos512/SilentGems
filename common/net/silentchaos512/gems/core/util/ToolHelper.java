@@ -61,6 +61,7 @@ public class ToolHelper {
 
   public static final String NBT_STATS_BLOCKS_MINED = "BlocksMined";
   public static final String NBT_STATS_BLOCKS_PLACED = "BlocksPlaced";
+  public static final String NBT_STATS_BLOCKS_TILLED = "BlocksTilled";
   public static final String NBT_STATS_HITS = "HitsLanded";
   public static final String NBT_STATS_SHOTS_FIRED = "ShotsFired";
   public static final String NBT_STATS_REDECORATED = "Redecorated";
@@ -267,6 +268,14 @@ public class ToolHelper {
     if (InventoryHelper.isGemMiningTool(tool)) {
       amount = getStatBlocksPlaced(tool);
       line = LocalizationHelper.getMiscText("Tool.Stats.Placed");
+      line = String.format(line, amount);
+      list.add(line);
+    }
+    
+    // Blocks tilled (hoes only)
+    if (tool.getItem() instanceof GemHoe) {
+      amount = getStatBlocksTilled(tool);
+      line = LocalizationHelper.getMiscText("Tool.Stats.Tilled");
       line = String.format(line, amount);
       list.add(line);
     }
@@ -688,6 +697,16 @@ public class ToolHelper {
   public static void incrementStatBlocksPlaced(ItemStack tool, int amount) {
 
     setTagInt(NBT_STATS_BLOCKS_PLACED, getStatBlocksPlaced(tool) + amount, tool);
+  }
+  
+  public static int getStatBlocksTilled(ItemStack tool) {
+    
+    return getTagInt(NBT_STATS_BLOCKS_TILLED, tool);
+  }
+  
+  public static void incrementStatBlocksTilled(ItemStack tool, int amount) {
+    
+    setTagInt(NBT_STATS_BLOCKS_TILLED, getStatBlocksTilled(tool) + amount, tool);
   }
 
   public static int getStatHitsLanded(ItemStack tool) {

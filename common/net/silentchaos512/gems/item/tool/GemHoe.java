@@ -10,6 +10,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
@@ -126,5 +127,17 @@ public class GemHoe extends ItemHoe {
 
     ToolHelper.hitEntity(stack);
     return super.hitEntity(stack, entity1, entity2);
+  }
+  
+  @Override
+  public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int par7, float hitX, float hitY, float hitZ) {
+
+    boolean success = super.onItemUse(stack, player, world, x, y, z, par7, hitX, hitY, hitZ);
+
+    if (success) {
+      ToolHelper.incrementStatBlocksTilled(stack, 1);
+    }
+
+    return success;
   }
 }
