@@ -410,6 +410,13 @@ public class ToolHelper {
    */
   public static boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y,
       int z, int side, float hitX, float hitY, float hitZ) {
+    
+    if (!Config.RIGHT_CLICK_TO_PLACE_ENABLED) {
+      return false;
+    }
+    if (Config.RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY && !player.isSneaking()) {
+      return false;
+    }
 
     boolean used = false;
     int toolSlot = player.inventory.currentItem;

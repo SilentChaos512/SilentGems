@@ -59,6 +59,8 @@ public class Config {
    */
   public static boolean HIDE_FLAVOR_TEXT_ALWAYS = false;
   public static boolean HIDE_FLAVOR_TEXT_UNTIL_SHIFT = true;
+  public static boolean RIGHT_CLICK_TO_PLACE_ENABLED = true;
+  public static boolean RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY = false;
 
   /*
    * World generation config settings
@@ -84,21 +86,16 @@ public class Config {
   /*
    * Config categories
    */
-  public static final String CATEGORY_KEYBIND = "keybindings";
-  public static final String CATEGORY_AUDIO = "audio";
   public static final String CATEGORY_ENCHANTMENT = "enchantment";
   public static final String CATEGORY_RECIPE = "recipes";
   public static final String CATEGORY_WORLD = "world";
   public static final String CATEGORY_WORLD_GEN = CATEGORY_WORLD + Configuration.CATEGORY_SPLITTER
       + "generation";
-  public static final String CATEGORY_WORLD_STRUCTURE = CATEGORY_WORLD
-      + Configuration.CATEGORY_SPLITTER + "structure";
   public static final String CATEGORY_BLOCK_PROPERTIES = "block" + Configuration.CATEGORY_SPLITTER
       + "properties";
   public static final String CATEGORY_ITEM_PROPERTIES = "item" + Configuration.CATEGORY_SPLITTER
       + "properties";
-  public static final String CATEGORY_DURABILITY = "item" + Configuration.CATEGORY_SPLITTER
-      + "durability";
+  public static final String CATEGORY_MISC = "misc";
 
   public static void init(File file) {
 
@@ -199,6 +196,16 @@ public class Config {
       HIDE_FLAVOR_TEXT_UNTIL_SHIFT = c.getBoolean("Tooltips.HideFlavorText.UntilShift",
           CATEGORY_ITEM_PROPERTIES, HIDE_FLAVOR_TEXT_UNTIL_SHIFT,
           "Hide the flavor text until shift is pressed.");
+      
+      String category = CATEGORY_MISC + Configuration.CATEGORY_SPLITTER + "right_click_to_place";
+      c.setCategoryComment(category, "Mining tools have the ability to place blocks in the slot "
+          + "after them (or in slot 9 if that doesn't work) by right-clicking.");
+      RIGHT_CLICK_TO_PLACE_ENABLED = c.getBoolean("Enabled", category, RIGHT_CLICK_TO_PLACE_ENABLED,
+          "If set to false, the ability of mining tools to place blocks by right-clicking will be completely disabled.");
+      RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY = c.getBoolean("OnlyOnSneak", category,
+          RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY,
+          "If set to true and right-click to place is enabled, this ability will only activate "
+              + "while sneaking (holding shift, normally).");
 
       /*
        * Enchantment ids
