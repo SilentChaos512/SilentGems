@@ -2,8 +2,7 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -18,9 +17,9 @@ import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
 
@@ -56,11 +55,12 @@ public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
     // Feather
     GameRegistry.addShapedRecipe(new ItemStack(Items.feather), " ff", "ff ", "f  ", 'f', this);
     // Fluffy Fabric
+    ItemStack puff = new ItemStack(this);
     ItemStack fabric = CraftingMaterial.getStack(Names.FLUFFY_FABRIC);
-    GameRegistry.addShapedRecipe(fabric, "ff", "ff", 'f', this);
+    RecipeHelper.addCompressionRecipe(puff, fabric, 4);
     // Fluffy block
     ItemStack block = new ItemStack(ModBlocks.fluffyBlock);
-    GameRegistry.addShapedRecipe(block, "ff", "ff", 'f', fabric);
+    RecipeHelper.addCompressionRecipe(fabric, block, 4);
     // Book
     ItemStack book = new ItemStack(Items.book);
     ItemStack paper = new ItemStack(Items.paper);
