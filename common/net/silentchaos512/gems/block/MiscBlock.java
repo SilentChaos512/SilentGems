@@ -105,8 +105,8 @@ public class MiscBlock extends BlockSG implements IFuelHandler {
   @Override
   public void getSubBlocks(Item item, CreativeTabs tab, List list) {
 
-    for (int i = 0; i < 4; ++i) {
-      list.add(new ItemStack(this, 1, i));
+    for (int i = 0; i < NAMES.length; ++i) {
+      list.add(new ItemStack(item, 1, i));
     }
   }
 

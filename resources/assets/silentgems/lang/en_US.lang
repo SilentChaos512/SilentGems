@@ -20,6 +20,9 @@ tile.silentgems:ChaosPylon.desc2=nearby altar.
 
 tile.silentgems:ChaosOre.name=Chaos Ore
 
+tile.silentgems:FluffyBlock.name=Fluffy Block
+tile.silentgems:FluffyBlock.desc=Prevents fall damage.
+
 tile.silentgems:FluffyPlant.name=Fluffy Puff Plant
 tile.silentgems:FluffyPlant0.name=Fluffy Puff Plant
 tile.silentgems:FluffyPlant1.name=Fluffy Puff Plant
@@ -275,6 +278,9 @@ item.silentgems:EnchantmentToken.ReducedSpeed=Reduces mining speed to %d%%.
 item.silentgems:EnchantmentToken.enchantment.Mending=Repairs the item. More effective at high elevations.
 item.silentgems:EnchantmentToken.enchantment.AreaOfEffect=Allow tools to mine a 3x3 area. Sneak to disable.
 item.silentgems:EnchantmentToken.enchantment.Lumberjack=Chops down entire trees at once. Sneak to disable.
+
+item.silentgems:FluffyFabric.name=Fluffy Fabric
+item.silentgems:FluffyFabric.desc=TODO
 
 item.silentgems:FluffySeed.name=Fluffy Puff
 item.silentgems:FluffySeed.desc=Can be planted, or crafted into soft things.

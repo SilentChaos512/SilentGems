@@ -26,6 +26,7 @@ public class ModBlocks {
   public static BlockChaosAltar chaosAltar;
   public static BlockChaosPylon chaosPylon;
   public static FluffyPlantBlock fluffyPlant;
+  public static BlockFluffyBlock fluffyBlock;
 
   // public static HoldingGemBlock holdingGemBlock;
 
@@ -57,6 +58,7 @@ public class ModBlocks {
     chaosPylon = (BlockChaosPylon) SRegistry.registerBlock(BlockChaosPylon.class, Names.CHAOS_PYLON);
     fluffyPlant = (FluffyPlantBlock) SRegistry.registerBlock(FluffyPlantBlock.class,
         Names.FLUFFY_PLANT);
+    fluffyBlock = (BlockFluffyBlock) SRegistry.registerBlock(BlockFluffyBlock.class, Names.FLUFFY_BLOCK);
     // holdingGemBlock = (HoldingGemBlock) SRegistry.registerBlock(HoldingGemBlock.class,
     // Names.HOLDING_GEM, HoldingGem.class);
   }

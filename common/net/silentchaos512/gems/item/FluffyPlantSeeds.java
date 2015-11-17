@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
+import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.registry.SRegistry;
@@ -51,6 +52,10 @@ public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
     GameRegistry.addShapedRecipe(new ItemStack(Items.string), "ff", 'f', this);
     GameRegistry.addShapedRecipe(new ItemStack(Blocks.wool), "fff", "f f", "fff", 'f', this);
     GameRegistry.addShapedRecipe(new ItemStack(Items.feather), " ff", "ff ", "f  ", 'f', this);
+    ItemStack fabric = CraftingMaterial.getStack(Names.FLUFFY_FABRIC);
+    GameRegistry.addShapedRecipe(fabric, "ff", "ff", 'f', this);
+    ItemStack block = new ItemStack(ModBlocks.fluffyBlock);
+    GameRegistry.addShapedRecipe(block, "ff", "ff", 'f', fabric);
   }
 
   @Override

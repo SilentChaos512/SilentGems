@@ -12,6 +12,7 @@ public class Names {
   public static final String CHAOS_ESSENCE_BLOCK_CRYSTALLIZED = "ChaosEssenceBlockCrystallized";
   public static final String CHAOS_ORE = "ChaosOre";
   public static final String CHAOS_PYLON = "ChaosPylon";
+  public static final String FLUFFY_BLOCK = "FluffyBlock";
   public static final String FLUFFY_PLANT = "FluffyPlant";
   public static final String GEM_BLOCK = "GemBlock";
   public static final String GEM_BRICK_COATED = "GemBrick";
@@ -69,6 +70,7 @@ public class Names {
   public static final String CHAOS_ESSENCE_PLUS = "ChaosEssencePlus";
   public static final String CHAOS_ESSENCE_PLUS_2 = "ChaosEssencePlus2";
   public static final String CHAOS_ESSENCE_SHARD = "ChaosEssenceShard";
+  public static final String FLUFFY_FABRIC = "FluffyFabric";
   public static final String GILDED_STRING = "GildedString";
   public static final String GOLDEN_PLUME = "GoldenPlume";
   public static final String IRON_POTATO = "IronPotato";
