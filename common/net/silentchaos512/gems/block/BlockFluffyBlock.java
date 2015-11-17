@@ -13,7 +13,7 @@ public class BlockFluffyBlock extends BlockSG {
 
     super(Material.cloth);
 
-    setHardness(0.8f);
+    setHardness(0.125f);
     setResistance(3.0f);
     setStepSound(Block.soundTypeCloth);
 
