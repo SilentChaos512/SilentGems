@@ -30,6 +30,7 @@ import net.silentchaos512.gems.core.handler.GemsForgeEventHandler;
 import net.silentchaos512.gems.core.proxy.CommonProxy;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LogHelper;
+import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.item.ModItems;
@@ -119,7 +120,7 @@ public class SilentGems {
     if (event.getSide() == Side.CLIENT) {
       int toolsPerClass = ToolRenderHelper.instance.getPossibleToolCombinations();
       LogHelper.info("Tools per class: " + toolsPerClass);
-      LogHelper.info("Total possible tools: " + 7 * toolsPerClass);
+      LogHelper.info("Total possible tools: " + ToolHelper.TOOL_CLASSES.length * toolsPerClass);
       LogHelper.info("Note I can't guarantee that these numbers are correct.");
     }
   }
