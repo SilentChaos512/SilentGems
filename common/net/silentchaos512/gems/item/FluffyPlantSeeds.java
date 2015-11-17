@@ -49,13 +49,22 @@ public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
   @Override
   public void addRecipes() {
 
+    // String
     GameRegistry.addShapedRecipe(new ItemStack(Items.string), "ff", 'f', this);
+    // Wool
     GameRegistry.addShapedRecipe(new ItemStack(Blocks.wool), "fff", "f f", "fff", 'f', this);
+    // Feather
     GameRegistry.addShapedRecipe(new ItemStack(Items.feather), " ff", "ff ", "f  ", 'f', this);
+    // Fluffy Fabric
     ItemStack fabric = CraftingMaterial.getStack(Names.FLUFFY_FABRIC);
     GameRegistry.addShapedRecipe(fabric, "ff", "ff", 'f', this);
+    // Fluffy block
     ItemStack block = new ItemStack(ModBlocks.fluffyBlock);
     GameRegistry.addShapedRecipe(block, "ff", "ff", 'f', fabric);
+    // Book
+    ItemStack book = new ItemStack(Items.book);
+    ItemStack paper = new ItemStack(Items.paper);
+    GameRegistry.addShapelessRecipe(book, paper, paper, paper, fabric);
   }
 
   @Override

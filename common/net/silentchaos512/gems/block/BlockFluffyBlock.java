@@ -23,17 +23,13 @@ public class BlockFluffyBlock extends BlockSG {
   @Override
   public void onFallenUpon(World world, int x, int y, int z, Entity entity, float distance) {
 
+    // Count the number of fluffy blocks that are stacked up.
     int stackedBlocks = 0;
     for (int depth = 0; y - depth > 0 && world.getBlock(x, y - depth, z) == this; ++depth) {
-      LogHelper.debug("y=" + (y - depth));
-      if (world.getBlock(x, y - depth, z) == this) {
-        ++stackedBlocks;
-      }
+      ++stackedBlocks;
     }
 
     // Reduce fall distance by 10 blocks per stacked block
-    LogHelper.debug(entity.fallDistance + ", " +  distance + ", " + stackedBlocks);
     entity.fallDistance -= Math.min(10 * stackedBlocks, distance);
-    LogHelper.debug(entity.fallDistance);
   }
 }

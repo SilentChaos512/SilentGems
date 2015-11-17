@@ -6,11 +6,12 @@ Added: Emerald-Tipped upgrade. More bonus durability, but only mining level 2 (c
 Added: Blocks tilled statistic for hoes.
 Added: Config for fluffy puff drop weight.
 Added: Configs for right-click-to-place. It can be disabled entirely, or only allowed when sneaking.
-Added: Fluffy Fabric (crafting item)
+Added: Fluffy Fabric (crafting item).
 Added: Fluffy Block: reduces fall damage when landed on.
-Added: Bonus chest loot (flint and sugar cookies)
-Changed: Cotton armor names to Fluffy (internal names unchanged)
-Changed: Fluffy armor recipes
+Added: Bonus chest loot (flint and sugar cookies).
+Added: A book recipe.
+Changed: Cotton armor names to Fluffy (internal names unchanged).
+Changed: Fluffy armor recipes.
 
 
 1.3.04
