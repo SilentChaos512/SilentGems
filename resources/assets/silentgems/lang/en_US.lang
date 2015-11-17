@@ -21,7 +21,9 @@ tile.silentgems:ChaosPylon.desc2=nearby altar.
 tile.silentgems:ChaosOre.name=Chaos Ore
 
 tile.silentgems:FluffyBlock.name=Fluffy Block
-tile.silentgems:FluffyBlock.desc=Prevents fall damage.
+tile.silentgems:FluffyBlock.desc1=Reduces fall damage. The amount depends
+tile.silentgems:FluffyBlock.desc2=on the number of blocks that are below
+tile.silentgems:FluffyBlock.desc3=the top-most block.
 
 tile.silentgems:FluffyPlant.name=Fluffy Puff Plant
 tile.silentgems:FluffyPlant0.name=Fluffy Puff Plant
