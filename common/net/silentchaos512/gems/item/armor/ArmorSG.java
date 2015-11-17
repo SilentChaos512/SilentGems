@@ -13,7 +13,9 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 
 public class ArmorSG extends ItemArmor implements IAddRecipe {
@@ -28,7 +30,8 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
 
   public ArmorSG(ArmorMaterial material, int renderIndex, int armorType, String name) {
 
-    this(material, renderIndex, armorType, name, "FluffyArmor", new ItemStack(ModItems.fluffyPuff));
+    this(material, renderIndex, armorType, name, "FluffyArmor",
+        CraftingMaterial.getStack(Names.FLUFFY_FABRIC));
   }
 
   public ArmorSG(ArmorMaterial material, int renderIndex, int armorType, String name,
@@ -79,22 +82,22 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
     this.itemName = name;
     return super.setUnlocalizedName(name);
   }
-  
+
   @Override
   public boolean requiresMultipleRenderPasses() {
 
     return extraIcon != null;
   }
-  
+
   @Override
   public int getRenderPasses(int meta) {
-    
+
     return extraIcon == null ? 1 : 2;
   }
-  
+
   @Override
   public IIcon getIcon(ItemStack stack, int pass) {
-    
+
     if (extraIcon != null) {
       if (pass == 0) {
         return extraIcon;
