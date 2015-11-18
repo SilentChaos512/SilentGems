@@ -13,7 +13,6 @@ Added: A book recipe.
 Changed: Cotton armor names to Fluffy (internal names unchanged).
 Changed: Fluffy armor recipes.
 
-
 1.3.04
 Added: Lumberjack enchantment. Chops entire trees. Sneak to disable. Conflicts with Area Miner.
 Added: Different textures for supercharged armor.
