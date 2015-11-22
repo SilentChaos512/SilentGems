@@ -93,6 +93,8 @@ public class ToolRenderHelper {
 
   @SubscribeEvent
   public void onModelBake(ModelBakeEvent event) {
+    
+    IBakedModel testModel = null;
 
     LogHelper.info("Swapping tool models for smart models...");
 
@@ -100,7 +102,11 @@ public class ToolRenderHelper {
       Object object = event.modelRegistry.getObject(modelLocation);
       if (object instanceof IBakedModel) {
         IBakedModel existingModel = (IBakedModel) object;
+        if (testModel == null) {
+          testModel = existingModel;
+        }
         ToolSmartModel customModel = new ToolSmartModel(existingModel);
+        customModel.test = testModel;
         event.modelRegistry.putObject(modelLocation, customModel);
       }
     }
@@ -201,7 +207,7 @@ public class ToolRenderHelper {
 
   private TextureAtlasSprite registerSprite(TextureStitchEvent.Pre event, String name) {
 
-    return event.map.registerSprite(new ResourceLocation(SilentGems.MOD_ID, name));
+    return event.map.registerSprite(new ResourceLocation(SilentGems.MOD_ID, "items/" + name));
   }
 
   private ToolSpriteCollection getCollectionByName(String toolClass, int index) {
