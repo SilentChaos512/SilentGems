@@ -49,6 +49,7 @@ public class ModItems {
   public static DyeSG dye;
   public static DebugItem debugItem;
   public static ChaosEssence chaosEssence;
+  public static ToolRenderHelper toolRenderHelper;
 
   public static void init() {
 
@@ -87,6 +88,10 @@ public class ModItems {
     /*
      * Tools
      */
+
+    toolRenderHelper = (ToolRenderHelper) SRegistry.registerItem(ToolRenderHelper.class,
+        "ToolRenderHelper");
+    ToolRenderHelper.init();
 
     Object[] params = new Object[] { null, 0, false }; // Constructor parameters
 

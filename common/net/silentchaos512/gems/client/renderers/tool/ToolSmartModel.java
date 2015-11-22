@@ -8,7 +8,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
@@ -21,10 +20,8 @@ import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.ISmartItemModel;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.RenderHelperQ;
 import net.silentchaos512.gems.core.util.InventoryHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 
 @SuppressWarnings("deprecation")
@@ -33,7 +30,6 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
 
   private final IBakedModel baseModel;
   private ItemStack tool;
-  public IBakedModel test;
 
   public ToolSmartModel(IBakedModel baseModel) {
 
@@ -81,22 +77,26 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
   @Override
   public List getGeneralQuads() {
 
-    return test.getGeneralQuads();
-//    int gemId = ToolHelper.getToolGemId(tool);
-//    boolean supercharged = ToolHelper.getToolIsSupercharged(tool);
-//    List<BakedQuad> quads = Lists.newArrayList(baseModel.getGeneralQuads());
-//    TextureAtlasSprite sprite;
-//    for (int pass = 0; pass < ToolRenderHelper.RENDER_PASS_COUNT; ++pass) {
-//      sprite = ToolRenderHelper.instance.getIcon(tool, pass, gemId, supercharged);
-////      LogHelper.info(pass + ", " + sprite);
-//      quads.add(makeQuad(sprite, pass));
-//    }
-//    return quads;
+    int gemId = ToolHelper.getToolGemId(tool);
+    boolean supercharged = ToolHelper.getToolIsSupercharged(tool);
+
+    List<BakedQuad> quads = Lists.newArrayList(baseModel.getGeneralQuads());
+    IBakedModel model;
+
+    for (int pass = 0; pass < ToolRenderHelper.RENDER_PASS_COUNT; ++pass) {
+      model = ToolRenderHelper.instance.getModel(tool, pass, gemId, supercharged);
+      // LogHelper.info(pass + ", " + sprite);
+      if (model != null) {
+        quads.addAll(model.getGeneralQuads());
+      }
+    }
+    return quads;
   }
-  
+
   private BakedQuad makeQuad(TextureAtlasSprite sprite, int pass) {
 
-    return RenderHelperQ.createBakedQuadForFace(0.5f, 1, 0.5f, 1, 0.0001f * pass, 0, sprite, EnumFacing.SOUTH);
+    return RenderHelperQ.createBakedQuadForFace(0.5f, 1, 0.5f, 1, 0.0001f * pass, 0, sprite,
+        EnumFacing.SOUTH);
   }
 
   @Override

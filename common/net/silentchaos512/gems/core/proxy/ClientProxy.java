@@ -27,7 +27,7 @@ public class ClientProxy extends CommonProxy {
   public void preInit() {
     
     super.preInit();
-    ToolRenderHelper.init();
+//    ToolRenderHelper.init();
     SRegistry.clientPreInit();
   }
   
