@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemMeshDefinition;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,14 +19,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.configuration.Config;
+import net.silentchaos512.gems.core.registry.IRegisterModels;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.NBTHelper;
@@ -33,7 +37,6 @@ import net.silentchaos512.gems.core.util.TeleportUtil;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
-import net.silentchaos512.gems.world.TeleporterGems;
 
 public class ReturnHome extends ItemSG {
 
@@ -46,6 +49,7 @@ public class ReturnHome extends ItemSG {
   public static final String NBT_CHARGED = "IsCharged";
 
   private final ItemStack[] subItems;
+  private ModelResourceLocation[] models;
 
   public ReturnHome() {
 
@@ -55,7 +59,7 @@ public class ReturnHome extends ItemSG {
     setMaxDamage(Config.RETURN_HOME_MAX_USES);
     setNoRepair();
     setUnlocalizedName(Names.RETURN_HOME);
-    rarity = EnumRarity.uncommon;
+    rarity = EnumRarity.UNCOMMON;
 
     // Create gem subtypes
     subItems = new ItemStack[EnumGem.values().length];
@@ -66,9 +70,55 @@ public class ReturnHome extends ItemSG {
       subItems[i] = stack;
     }
   }
+  
+  private int getTagInteger(ItemStack stack, String key) {
+
+    if (stack != null) {
+      if (!stack.hasTagCompound()) {
+        return 0;
+      } else {
+        return stack.getTagCompound().getInteger(key);
+      }
+    }
+    return 0;
+  }
+  
+  private void setTagInteger(ItemStack stack, String key, int value) {
+    
+    if (stack != null) {
+      if (!stack.hasTagCompound()) {
+        stack.setTagCompound(new NBTTagCompound());
+      }
+      stack.getTagCompound().setInteger(key, value);
+    }
+  }
+  
+  private boolean getTagBoolean(ItemStack stack, String key) {
+
+    if (stack != null) {
+      if (!stack.hasTagCompound()) {
+        return false;
+      } else {
+        return stack.getTagCompound().getBoolean(key);
+      }
+    }
+    return false;
+  }
+  
+  private void setTagBoolean(ItemStack stack, String key, boolean value) {
+    
+    if (stack != null) {
+      if (!stack.hasTagCompound()) {
+        stack.setTagCompound(new NBTTagCompound());
+      }
+      stack.getTagCompound().setBoolean(key, value);
+    }
+  }
 
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+    
+    list.add(EnumChatFormatting.ITALIC + "Yes, I know they all have the same texture!");
 
     // Is ctrl key down?
     boolean modifier = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
@@ -82,10 +132,10 @@ public class ReturnHome extends ItemSG {
     }
 
     // Display coordinates if modifier key is held.
-    if (stack.stackTagCompound != null && NBTHelper.hasValidXYZD(stack.stackTagCompound)) {
+    if (NBTHelper.hasValidXYZD(stack.getTagCompound())) {
       if (modifier) {
         String s = LocalizationHelper.getOtherItemKey(itemName, BOUND_TO);
-        s = String.format(s, LogHelper.coordFromNBT(stack.stackTagCompound));
+        s = String.format(s, LogHelper.coordFromNBT(stack.getTagCompound()));
         list.add(EnumChatFormatting.GREEN + s);
       } else {
         list.add(LocalizationHelper.getMiscText(Strings.PRESS_CTRL));
@@ -97,24 +147,12 @@ public class ReturnHome extends ItemSG {
 
   public int getGem(ItemStack stack) {
 
-    if (stack == null) {
-      return 0;
-    } else if (stack.stackTagCompound == null) {
-      stack.setTagCompound(new NBTTagCompound());
-    }
-
-    return stack.stackTagCompound.getInteger(NBT_GEM);
+    return getTagInteger(stack, NBT_GEM);
   }
 
   public void setGem(ItemStack stack, int gem) {
 
-    if (stack == null || gem < 0 || gem >= EnumGem.values().length) {
-      return;
-    } else if (stack.stackTagCompound == null) {
-      stack.setTagCompound(new NBTTagCompound());
-    }
-
-    stack.stackTagCompound.setInteger(NBT_GEM, gem);
+    setTagInteger(stack, NBT_GEM, gem);
   }
 
   @Override
@@ -131,7 +169,7 @@ public class ReturnHome extends ItemSG {
   @Override
   public EnumAction getItemUseAction(ItemStack stack) {
 
-    return EnumAction.bow;
+    return EnumAction.BOW;
   }
 
   @Override
@@ -141,10 +179,45 @@ public class ReturnHome extends ItemSG {
   }
 
   @Override
-  public boolean hasEffect(ItemStack stack, int pass) {
+  public boolean hasEffect(ItemStack stack) {
 
-    return stack.stackTagCompound != null && stack.stackTagCompound.getBoolean(NBT_CHARGED);
+    return getTagBoolean(stack, NBT_CHARGED);
   }
+  
+  @Override
+  public String[] getVariantNames() {
+    
+//    String[] result = new String[EnumGem.values().length];
+//    for (int i = 0; i < result.length; ++i) {
+//      result[i] = getFullName() + i;
+//    }
+//    return result;
+    return new String[] { getFullName() + "0" };
+  }
+  
+//  @Override
+//  public void registerModels() {
+//    
+//    models = new ModelResourceLocation[EnumGem.values().length];
+//    String[] variants = getVariantNames();
+//    for (int i = 0; i < variants.length; ++i) {
+//      models[i] = new ModelResourceLocation(variants[i]);
+//    }
+//    
+//    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+//    // FIXME: Return home models.
+////    for (ModelResourceLocation model : models) {
+////      mesher.register(this, 0, model);
+////    }
+//    mesher.register(this, 0, models[0]);
+//  }
+  
+//  @Override
+//  public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining) {
+//    
+//    int gem = getGem(stack);
+//    return models[MathHelper.clamp_int(gem, 0, EnumGem.values().length - 1)];
+//  }
 
   @Override
   public void getSubItems(Item item, CreativeTabs tab, List list) {
@@ -155,32 +228,9 @@ public class ReturnHome extends ItemSG {
   }
 
   @Override
-  public void registerIcons(IIconRegister reg) {
-
-    icons = new IIcon[EnumGem.values().length];
-    for (int i = 0; i < EnumGem.values().length; ++i) {
-      icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName + i);
-    }
-  }
-
-  @Override
-  public IIcon getIcon(ItemStack stack, int pass) {
-
-    int gem = MathHelper.clamp_int(getGem(stack), 0, EnumGem.values().length - 1);
-    return icons[gem];
-  }
-
-  @Override
-  public boolean requiresMultipleRenderPasses() {
-
-    return true; // The ItemStack-sensitive getIcon isn't called unless this is true.
-  }
-
-  @Override
   public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
-    if (stack != null && stack.stackTagCompound != null
-        && NBTHelper.hasValidXYZD(stack.stackTagCompound)) {
+    if (NBTHelper.hasValidXYZD(stack.getTagCompound())) {
       player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
     } else if (!world.isRemote) {
       PlayerHelper.addChatMessage(player, LocalizationHelper.getOtherItemKey(itemName, NOT_BOUND));
@@ -195,7 +245,7 @@ public class ReturnHome extends ItemSG {
     if (player.worldObj.isRemote) {
       int timeUsed = getMaxItemUseDuration(stack) - count;
       if (timeUsed >= Config.RETURN_HOME_USE_TIME) {
-        stack.stackTagCompound.setBoolean(NBT_CHARGED, true);
+        setTagBoolean(stack, NBT_CHARGED, true);
       }
     }
   }
@@ -206,7 +256,7 @@ public class ReturnHome extends ItemSG {
     if (entity instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) entity;
       if (player.getCurrentEquippedItem() != stack) {
-        stack.stackTagCompound.setBoolean(NBT_CHARGED, false);
+        setTagBoolean(stack, NBT_CHARGED, false);
       }
     }
   }
@@ -215,7 +265,7 @@ public class ReturnHome extends ItemSG {
   public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player,
       int itemInUseCount) {
     
-    stack.stackTagCompound.setBoolean(NBT_CHARGED, false);
+    setTagBoolean(stack, NBT_CHARGED, false);
 
     if (!world.isRemote) {
       int timeUsed = this.getMaxItemUseDuration(stack) - itemInUseCount;
@@ -252,28 +302,28 @@ public class ReturnHome extends ItemSG {
 
   private boolean isDestinationAboveZero(ItemStack stack) {
 
-    return stack.stackTagCompound.getInteger("Y") > 0;
+    return getTagInteger(stack, "Y") > 0;
   }
 
   private boolean isDestinationObstructed(ItemStack stack, World world) {
 
-    NBTTagCompound tags = stack.stackTagCompound;
+    NBTTagCompound tags = stack.getTagCompound();
     int dx = tags.getInteger("X");
     int dy = tags.getInteger("Y");
     int dz = tags.getInteger("Z");
     int dd = tags.getInteger("D");
 
     WorldServer worldServer = MinecraftServer.getServer().worldServerForDimension(dd);
-    return !worldServer.isBlockNormalCubeDefault(dx, dy + 2, dz, true);
+    return !worldServer.isBlockNormalCube(new BlockPos(dx, dy + 2, dz), true);
   }
 
   private void teleportPlayer(ItemStack stack, EntityPlayer player) {
 
-    if (stack.stackTagCompound == null) {
+    if (!stack.hasTagCompound()) {
       return;
     }
 
-    NBTTagCompound tags = stack.stackTagCompound;
+    NBTTagCompound tags = stack.getTagCompound();
     if (!NBTHelper.hasValidXYZD(tags) || tags.getInteger("Y") <= 0) {
       LogHelper.warning("Invalid location for teleport effect");
       return;

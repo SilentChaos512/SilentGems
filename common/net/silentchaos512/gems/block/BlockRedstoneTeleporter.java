@@ -1,19 +1,18 @@
 package net.silentchaos512.gems.block;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.tile.TileTeleporter;
 
 public class BlockRedstoneTeleporter extends BlockTeleporter {
@@ -42,25 +41,21 @@ public class BlockRedstoneTeleporter extends BlockTeleporter {
   }
 
   @Override
-  public void registerBlockIcons(IIconRegister reg) {
-
-    icons = new IIcon[EnumGem.values().length];
-    for (int i = 0; i < icons.length; ++i) {
-      icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + Names.TELEPORTER + "Redstone" + i);
-    }
-  }
-
-  @Override
-  public void onNeighborBlockChange(World world, int x, int y, int z, Block neighborBlock) {
+  public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state,
+      Block neighborBlock) {
 
     final double searchRange = Config.REDSTONE_TELEPORTER_SEARCH_RANGE
         * Config.REDSTONE_TELEPORTER_SEARCH_RANGE;
 
-    TileTeleporter tile = (TileTeleporter) world.getTileEntity(x, y, z);
-    if (!world.isRemote && world.isBlockIndirectlyGettingPowered(x, y, z)) {
+    TileTeleporter tile = (TileTeleporter) world.getTileEntity(pos);
+    if (!world.isRemote && world.isBlockIndirectlyGettingPowered(pos) != 0) { // TODO: Is != 0 correct here?
       if (!this.isDestinationSafe(tile.destX, tile.destY, tile.destZ, tile.destD)) {
         return;
       }
+      final int x = pos.getX();
+      final int y = pos.getY();
+      final int z = pos.getZ();
+
       double dx = x + 0.5;
       double dy = y + 0.5;
       double dz = z + 0.5;

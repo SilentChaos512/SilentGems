@@ -2,8 +2,6 @@ package net.silentchaos512.gems.item.tool;
 
 import java.util.List;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,21 +12,22 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
+import net.silentchaos512.gems.core.registry.IHasVariants;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.Names;
 
-public class GemBow extends ItemBow implements IAddRecipe {
+public class GemBow extends ItemBow implements IAddRecipe, IHasVariants {
 
   public static final float ENCHANTABILITY_MULTIPLIER = 0.45f;
 
@@ -45,6 +44,24 @@ public class GemBow extends ItemBow implements IAddRecipe {
     this.toolMaterial = toolMaterial;
     this.setMaxDamage(toolMaterial.getMaxUses());
     this.setCreativeTab(SilentGems.tabSilentGems);
+  }
+  
+  @Override
+  public String[] getVariantNames() {
+
+    return ToolRenderHelper.instance.getVariantNames(new ItemStack(this));
+  }
+
+  @Override
+  public String getName() {
+
+    return ToolRenderHelper.instance.getName(new ItemStack(this));
+  }
+
+  @Override
+  public String getFullName() {
+
+    return ToolRenderHelper.instance.getFullName(new ItemStack(this));
   }
 
   @Override
@@ -92,28 +109,6 @@ public class GemBow extends ItemBow implements IAddRecipe {
     return true;
   }
 
-  @Override
-  public IIcon getIcon(ItemStack stack, int pass) {
-
-    return ToolRenderHelper.instance.getIcon(stack, pass, gemId, supercharged);
-  }
-
-  @Override
-  public IIcon getIcon(ItemStack stack, int pass, EntityPlayer player, ItemStack usingItem,
-      int useRemaining) {
-
-    return ToolRenderHelper.instance.getIcon(stack, pass, gemId, supercharged, usingItem,
-        useRemaining);
-  }
-
-  @Override
-  public void registerIcons(IIconRegister reg) {
-
-    if (gemId >= 0 && gemId < ToolRenderHelper.HEAD_TYPE_COUNT) {
-      itemIcon = ToolRenderHelper.instance.bow0Icons.headM[gemId];
-    }
-  }
-
   public int getUsingIndex(ItemStack stack, int useRemaining) {
 
     int k = getMaxItemUseDuration(stack) - useRemaining;
@@ -130,23 +125,11 @@ public class GemBow extends ItemBow implements IAddRecipe {
       return 0;
     }
   }
-  
+
   public float getDrawDelay(ItemStack stack) {
-    
+
     float f = toolMaterial.getEfficiencyOnProperMaterial();
     return 38.4f - 1.4f * f;
-  }
-
-  @Override
-  public int getRenderPasses(int meta) {
-
-    return ToolRenderHelper.RENDER_PASS_COUNT;
-  }
-
-  @Override
-  public boolean requiresMultipleRenderPasses() {
-
-    return true;
   }
 
   @Override
@@ -162,10 +145,18 @@ public class GemBow extends ItemBow implements IAddRecipe {
   }
 
   @Override
-  public boolean hasEffect(ItemStack stack, int pass) {
+  public boolean hasEffect(ItemStack stack) {
 
-    return ToolRenderHelper.instance.hasEffect(stack, pass);
+    return ToolRenderHelper.instance.hasEffect(stack);
   }
+  
+  @Override
+  public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
+      boolean slotChanged) {
+
+    return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
+  }
+
 
   // Same as vanilla bow, except it can be fired without arrows with infinity.
   public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
@@ -255,11 +246,11 @@ public class GemBow extends ItemBow implements IAddRecipe {
   }
 
   @Override
-  public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z, EntityPlayer player) {
+  public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
 
-    boolean canceled = super.onBlockStartBreak(stack, x, y, z, player);
+    boolean canceled = super.onBlockStartBreak(stack, pos, player);
     if (!canceled) {
-      ToolHelper.onBlockStartBreak(stack, x, y, z, player);
+      ToolHelper.onBlockStartBreak(stack, pos, player);
     }
     return canceled;
   }

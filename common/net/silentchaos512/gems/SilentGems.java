@@ -5,22 +5,22 @@ import java.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 import net.silentchaos512.gems.achievement.GemsAchievement;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
@@ -30,6 +30,7 @@ import net.silentchaos512.gems.core.handler.GemsForgeEventHandler;
 import net.silentchaos512.gems.core.proxy.CommonProxy;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LogHelper;
+import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.item.ModItems;
@@ -61,7 +62,6 @@ public class SilentGems {
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
 
-    // logger = event.getModLog();
     Config.init(event.getSuggestedConfigurationFile());
 
     ModBlocks.init();
@@ -69,6 +69,8 @@ public class SilentGems {
     ModEnchantments.init();
 
     Config.save();
+
+    proxy.preInit();
 
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandlerSilentGems());
 
@@ -84,22 +86,18 @@ public class SilentGems {
   @EventHandler
   public void load(FMLInitializationEvent event) {
 
-    // Proxies
-    proxy.registerTileEntities();
-    proxy.registerRenderers();
-    proxy.registerKeyHandlers();
-
     // Event handler
     FMLCommonHandler.instance().bus().register(new GemsEventHandler());
+    FMLCommonHandler.instance().bus().register(ToolRenderHelper.instance);
     MinecraftForge.EVENT_BUS.register(new GemsForgeEventHandler());
 
     // Recipes and ore dictionary.
     SRegistry.addRecipesAndOreDictEntries();
     ModItems.initItemRecipes();
     ChaosBuff.initRecipes();
-
     ModItems.addRandomChestGenLoot();
-    
+    proxy.init();
+
     // Achievements
     AchievementPage.registerAchievementPage(GemsAchievement.createPage());
 
@@ -113,13 +111,14 @@ public class SilentGems {
 
     // Is this the right place for this?
     SRegistry.addThaumcraftStuff();
+    proxy.postInit();
     LogHelper.info("Post init done.");
 
     // Calculate possible tool combinations
     if (event.getSide() == Side.CLIENT) {
       int toolsPerClass = ToolRenderHelper.instance.getPossibleToolCombinations();
       LogHelper.info("Tools per class: " + toolsPerClass);
-      LogHelper.info("Total possible tools: " + 7 * toolsPerClass);
+      LogHelper.info("Total possible tools: " + ToolHelper.TOOL_CLASSES.length * toolsPerClass);
       LogHelper.info("Note I can't guarantee that these numbers are correct.");
     }
   }

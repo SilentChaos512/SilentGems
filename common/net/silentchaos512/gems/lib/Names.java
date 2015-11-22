@@ -12,6 +12,7 @@ public class Names {
   public static final String CHAOS_ESSENCE_BLOCK_CRYSTALLIZED = "ChaosEssenceBlockCrystallized";
   public static final String CHAOS_ORE = "ChaosOre";
   public static final String CHAOS_PYLON = "ChaosPylon";
+  public static final String FLUFFY_BLOCK = "FluffyBlock";
   public static final String FLUFFY_PLANT = "FluffyPlant";
   public static final String GEM_BLOCK = "GemBlock";
   public static final String GEM_BRICK_COATED = "GemBrick";
@@ -28,6 +29,7 @@ public class Names {
   public static final String TELEPORTER = "Teleporter";
   public static final String TELEPORTER_REDSTONE = "RedstoneTeleporter";
   public static final String TELEPORTER_ANCHOR = "TeleporterAnchor";
+  public static final String CHAOS_ESSENCE_BLOCK_OLD = "ChaosEssenceBlock";
 
   /*
    * Items
@@ -57,6 +59,7 @@ public class Names {
   public static final String TOOL_ROD = "ToolRod";
   public static final String TOOL_UPGRADE = "ToolUpgrade";
   public static final String TORCH_BANDOLIER = "TorchBandolier";
+  public static final String CHAOS_ESSENCE_OLD = "ChaosEssence";
 
   /*
    * Crafting materials
@@ -65,23 +68,24 @@ public class Names {
   public static final String CHAOS_CAPACITOR = "ChaosCapacitor";
   public static final String CHAOS_COAL = "ChaosCoal";
   public static final String CHAOS_CORE = "ChaosCore";
-  public static final String CHAOS_ESSENCE = "Chaos Essence";
+  public static final String CHAOS_ESSENCE = "ChaosEssence";
   public static final String CHAOS_ESSENCE_PLUS = "ChaosEssencePlus";
   public static final String CHAOS_ESSENCE_PLUS_2 = "ChaosEssencePlus2";
   public static final String CHAOS_ESSENCE_SHARD = "ChaosEssenceShard";
+  public static final String FLUFFY_FABRIC = "FluffyFabric";
   public static final String GILDED_STRING = "GildedString";
   public static final String GOLDEN_PLUME = "GoldenPlume";
   public static final String IRON_POTATO = "IronPotato";
   public static final String MINI_PYLON = "MiniPylon";
-  public static final String MYSTERY_GOO = "Mystery Goo";
+  public static final String MYSTERY_GOO = "MysteryGoo";
   public static final String NETHER_CLUSTER = "NetherCluster";
   public static final String NETHER_SHARD = "NetherShard";
-  public static final String ORNATE_STICK = "Ornate Stick";
+  public static final String ORNATE_STICK = "OrnateStick";
   public static final String PLUME = "Plume";
   public static final String RAWHIDE_BONE = "RawhideBone";
   public static final String UPGRADE_BASE = "UpgradeBase";
-  public static final String YARN_BALL = "Yarn Ball";
-  
+  public static final String YARN_BALL = "YarnBall";
+
   /*
    * Tool Upgrades
    */
@@ -96,4 +100,35 @@ public class Names {
   public static final String AOE = "AreaOfEffect";
   public static final String LUMBERJACK = "Lumberjack";
   public static final String MENDING = "Mending";
+
+  /**
+   * Converts the String to lowercase_with_underscores, for 1.9 compatibility in the future (assuming I'm understanding
+   * things correctly).
+   * 
+   * Internal names will use the constants above, but blockstates will use these.
+   * 
+   * @param name
+   * @return The lowercase_with_underscores String.
+   */
+  public static String convert(String name) {
+
+    return name;
+//    String str = "";
+//    // For each character...
+//    for (char c : name.toCharArray()) {
+//      // Convert uppercase letters...
+//      if (Character.isUpperCase(c)) {
+//        // Insert an underscore before, but not if it's the first character.
+//        if (!str.isEmpty()) {
+//          str += "_";
+//        }
+//        // to lowercase
+//        str += Character.toLowerCase(c);
+//      } else {
+//        // Lowercase letter
+//        str += c;
+//      }
+//    }
+//    return str;
+  }
 }

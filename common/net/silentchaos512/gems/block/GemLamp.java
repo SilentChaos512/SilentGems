@@ -4,110 +4,142 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.Strings;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class GemLamp extends BlockSG {
+
+  public static final PropertyEnum VARIANT = PropertyEnum.create("variant", EnumGem.class);
 
   private final boolean lit;
   private final boolean inverted;
 
   public GemLamp(boolean lit, boolean inverted) {
 
-    super(Material.redstoneLight);
-    this.setHardness(0.3f);
+    super(EnumGem.values().length, Material.redstoneLight);
+    setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY));
+
     this.lit = lit;
     this.inverted = inverted;
-    if (this.lit == this.inverted) {
+    if (lit == inverted) {
       this.setCreativeTab(SilentGems.tabSilentGems);
     } else {
       this.setCreativeTab(null);
     }
+
+    setHardness(0.3f);
+    setResistance(3.0f);
     this.setHasGemSubtypes(true);
     this.setHasSubtypes(true);
 
     if (lit && inverted) {
-      this.setLightLevel(1.0f);
-      this.setUnlocalizedName(Names.GEM_LAMP_INV_LIT);
+      setLightLevel(1.0f);
+      setUnlocalizedName(Names.GEM_LAMP_INV_LIT);
     } else if (lit) {
-      this.setLightLevel(1.0f);
-      this.setUnlocalizedName(Names.GEM_LAMP_LIT);
+      setLightLevel(1.0f);
+      setUnlocalizedName(Names.GEM_LAMP_LIT);
     } else if (inverted) {
-      this.setUnlocalizedName(Names.GEM_LAMP_INV);
+      setUnlocalizedName(Names.GEM_LAMP_INV);
     } else {
-      this.setUnlocalizedName(Names.GEM_LAMP);
+      setUnlocalizedName(Names.GEM_LAMP);
     }
   }
 
   @Override
-  public void onBlockAdded(World world, int x, int y, int z) {
+  public IBlockState getStateFromMeta(int meta) {
 
-    if (!world.isRemote) {
-      if (this.inverted) {
-        if (!this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
-          world.scheduleBlockUpdate(x, y, z, this, 4);
-        } else if (this.lit && world.isBlockIndirectlyGettingPowered(x, y, z)) {
-          world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP_INV),
-              world.getBlockMetadata(x, y, z), 2);
-        }
-      } else {
-        if (this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
-          world.scheduleBlockUpdate(x, y, z, this, 4);
-        } else if (!this.lit && world.isBlockIndirectlyGettingPowered(x, y, z)) {
-          world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP_LIT),
-              world.getBlockMetadata(x, y, z), 2);
-        }
-      }
-    }
+    return this.getDefaultState().withProperty(VARIANT, EnumGem.get(meta));
   }
 
   @Override
-  public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+  public int getMetaFromState(IBlockState state) {
 
-    if (!world.isRemote) {
-      if (this.inverted) {
-        if (!this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
-          world.scheduleBlockUpdate(x, y, z, this, 4);
-        } else if (this.lit && world.isBlockIndirectlyGettingPowered(x, y, z)) {
-          world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP_INV),
-              world.getBlockMetadata(x, y, z), 2);
-        }
-      } else {
-        if (this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
-          world.scheduleBlockUpdate(x, y, z, this, 4);
-        } else if (!this.lit && world.isBlockIndirectlyGettingPowered(x, y, z)) {
-          world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP_LIT),
-              world.getBlockMetadata(x, y, z), 2);
-        }
-      }
-    }
+    return ((EnumGem) state.getValue(VARIANT)).id;
   }
 
   @Override
-  public void updateTick(World world, int x, int y, int z, Random random) {
+  protected BlockState createBlockState() {
+
+    return new BlockState(this, new IProperty[] { VARIANT });
+  }
+
+  private void setState(World world, BlockPos pos, String name, EnumGem gem) {
+
+    world.setBlockState(pos, SRegistry.getBlock(name).getDefaultState().withProperty(VARIANT, gem),
+        2);
+  }
+
+  @Override
+  public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
 
     if (!world.isRemote) {
+      boolean isPowered = world.isBlockPowered(pos);
+      EnumGem gem = EnumGem.get(this.getMetaFromState(state));
       if (inverted) {
-        if (!this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
-          world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP_INV_LIT),
-              world.getBlockMetadata(x, y, z), 2);
+        if (!lit && !isPowered) {
+          setState(world, pos, Names.GEM_LAMP_INV_LIT, gem);
+        } else if (lit && isPowered) {
+          setState(world, pos, Names.GEM_LAMP_INV, gem);
         }
       } else {
-        if (this.lit && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
-          world.setBlock(x, y, z, SRegistry.getBlock(Names.GEM_LAMP),
-              world.getBlockMetadata(x, y, z), 2);
+        if (lit && !isPowered) {
+          setState(world, pos, Names.GEM_LAMP, gem);
+        } else if (!lit && isPowered) {
+          setState(world, pos, Names.GEM_LAMP_LIT, gem);
+        }
+      }
+    }
+  }
+
+  @Override
+  public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state,
+      Block neighborBlock) {
+
+    if (!world.isRemote) {
+      boolean isPowered = world.isBlockPowered(pos);
+      EnumGem gem = EnumGem.get(this.getMetaFromState(state));
+      if (inverted) {
+        if (!lit && !isPowered) {
+          world.scheduleUpdate(pos, this, 4);
+        } else if (lit && isPowered) {
+          setState(world, pos, Names.GEM_LAMP_INV, gem);
+        }
+      } else {
+        if (lit && !isPowered) {
+          world.scheduleUpdate(pos, this, 4);
+        } else if (!lit && isPowered) {
+          setState(world, pos, Names.GEM_LAMP_LIT, gem);
+        }
+      }
+    }
+  }
+
+  @Override
+  public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
+
+    if (!world.isRemote) {
+      boolean isPowered = world.isBlockPowered(pos);
+      EnumGem gem = EnumGem.get(this.getMetaFromState(state));
+      if (inverted) {
+        if (!lit && !isPowered) {
+          setState(world, pos, Names.GEM_LAMP_INV_LIT, gem);
+        }
+      } else {
+        if (lit && !isPowered) {
+          setState(world, pos, Names.GEM_LAMP, gem);
         }
       }
     }
@@ -120,32 +152,32 @@ public class GemLamp extends BlockSG {
   }
 
   @Override
-  public Item getItemDropped(int par1, Random random, int par3) {
+  public Item getItemDropped(IBlockState state, Random random, int fortune) {
 
-    if (this.inverted) {
-      return Item.getItemFromBlock(SRegistry.getBlock(Names.GEM_LAMP_INV_LIT));
+    if (inverted) {
+      return Item.getItemFromBlock(ModBlocks.gemLampInvertedLit);
     } else {
-      return Item.getItemFromBlock(SRegistry.getBlock(Names.GEM_LAMP));
+      return Item.getItemFromBlock(ModBlocks.gemLamp);
     }
   }
 
   @Override
-  public Item getItem(World world, int x, int y, int z) {
+  public Item getItem(World world, BlockPos pos) {
 
-    if (this.inverted) {
-      return Item.getItemFromBlock(SRegistry.getBlock(Names.GEM_LAMP_INV_LIT));
+    if (inverted) {
+      return Item.getItemFromBlock(ModBlocks.gemLampInvertedLit);
     } else {
-      return Item.getItemFromBlock(SRegistry.getBlock(Names.GEM_LAMP));
+      return Item.getItemFromBlock(ModBlocks.gemLamp);
     }
   }
 
   @Override
-  protected ItemStack createStackedBlock(int par1) {
+  protected ItemStack createStackedBlock(IBlockState state) {
 
-    if (this.inverted) {
-      return new ItemStack(SRegistry.getBlock(Names.GEM_LAMP_INV_LIT));
+    if (inverted) {
+      return new ItemStack(ModBlocks.gemLampInvertedLit);
     } else {
-      return new ItemStack(SRegistry.getBlock(Names.GEM_LAMP));
+      return new ItemStack(ModBlocks.gemLamp);
     }
   }
 
@@ -159,22 +191,9 @@ public class GemLamp extends BlockSG {
       }
     } else if (lit && inverted) {
       for (EnumGem gem : EnumGem.values()) {
-        GameRegistry.addShapelessRecipe(new ItemStack(this, 1, gem.id), new ItemStack(
-            ModBlocks.gemLamp, 1, gem.id), Blocks.redstone_torch);
+        GameRegistry.addShapelessRecipe(new ItemStack(this, 1, gem.id),
+            new ItemStack(ModBlocks.gemLamp, 1, gem.id), Blocks.redstone_torch);
       }
-    }
-  }
-
-  @Override
-  public void registerBlockIcons(IIconRegister reg) {
-
-    if (icons == null || icons.length != EnumGem.all().length) {
-      icons = new IIcon[EnumGem.all().length];
-    }
-
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX
-          + (this.lit ? Names.GEM_LAMP_LIT : Names.GEM_LAMP) + i);
     }
   }
 }

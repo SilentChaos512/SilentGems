@@ -2,23 +2,19 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.Strings;
 
 public class DyeSG extends ItemSG {
 
-  IIcon iconBlack;
-  IIcon iconBlue;
-
   public DyeSG() {
 
+    super(2);
     setMaxStackSize(64);
     setHasSubtypes(true);
     setMaxDamage(0);
@@ -31,24 +27,18 @@ public class DyeSG extends ItemSG {
     OreDictionary.registerOre("dyeBlack", new ItemStack(this, 1, 0));
     OreDictionary.registerOre("dyeBlue", new ItemStack(this, 1, 4));
   }
-
+  
   @Override
-  public IIcon getIconFromDamage(int meta) {
+  public String[] getVariantNames() {
 
-    if (meta == 0) {
-      return iconBlack;
-    } else if (meta == 4) {
-      return iconBlue;
-    } else {
-      return null;
+    String prefix = SilentGems.MOD_ID + ":";
+    String[] array = { prefix + "DyeBlack", null, null, null, prefix + "DyeBlue" };
+    for (int i = 0; i < array.length; ++i) {
+      if (array[i] != null) {
+        array[i] = Names.convert(array[i]);
+      }
     }
-  }
-
-  @Override
-  public void registerIcons(IIconRegister reg) {
-
-    iconBlack = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName + "Black");
-    iconBlue = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName + "Blue");
+    return array;
   }
 
   @Override

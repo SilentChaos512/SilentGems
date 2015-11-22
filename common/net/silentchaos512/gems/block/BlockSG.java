@@ -4,34 +4,33 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.registry.IAddThaumcraftStuff;
-import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.Strings;
+import net.silentchaos512.gems.core.registry.IHasVariants;
+import net.silentchaos512.gems.lib.Names;
 
-public class BlockSG extends Block implements IAddRecipe, IAddThaumcraftStuff {
+public class BlockSG extends Block implements IAddRecipe, IHasVariants, IAddThaumcraftStuff {
 
-  public IIcon[] icons = null;
+  protected int subBlockCount;
   public boolean hasSubtypes = false;
   protected boolean gemSubtypes = false;
   protected String blockName = "null";
 
-  public BlockSG(Material material) {
+  public BlockSG(int subBlockCount, Material material) {
 
     super(material);
 
+    this.subBlockCount = subBlockCount;
     setHardness(3.0f);
     setResistance(10.0f);
     setStepSound(Block.soundTypeMetal);
     setCreativeTab(SilentGems.tabSilentGems);
-    setBlockTextureName(Strings.RESOURCE_PREFIX + blockName);
   }
 
   @Override
@@ -48,16 +47,16 @@ public class BlockSG extends Block implements IAddRecipe, IAddThaumcraftStuff {
   public void addThaumcraftStuff() {
 
   }
-  
+
   public EnumRarity getRarity(ItemStack stack) {
-    
-    return EnumRarity.common;
+
+    return EnumRarity.COMMON;
   }
 
   @Override
-  public int damageDropped(int meta) {
+  public int damageDropped(IBlockState state) {
 
-    return hasSubtypes ? meta : 0;
+    return hasSubtypes ? this.getMetaFromState(state) : 0;
   }
 
   public boolean getHasGemSubtypes() {
@@ -71,20 +70,10 @@ public class BlockSG extends Block implements IAddRecipe, IAddThaumcraftStuff {
   }
 
   @Override
-  public IIcon getIcon(int side, int meta) {
-
-    if (hasSubtypes && meta < icons.length) {
-      return icons[meta];
-    } else {
-      return blockIcon;
-    }
-  }
-
-  @Override
   public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
 
     if (hasSubtypes) {
-      for (int i = 0; i < icons.length; ++i) {
+      for (int i = 0; i < subBlockCount; ++i) {
         subItems.add(new ItemStack(this, 1, i));
       }
     } else {
@@ -92,31 +81,40 @@ public class BlockSG extends Block implements IAddRecipe, IAddThaumcraftStuff {
     }
   }
 
+  public int getSubBlockCount() {
+
+    return subBlockCount;
+  }
+
+  @Override
+  public String getName() {
+
+    return blockName; // TODO: Convert to lowercase_with_underscores? Where is this used?
+  }
+
+  @Override
+  public String getFullName() {
+
+    return Names.convert(SilentGems.MOD_ID + ":" + blockName);
+  }
+
+  @Override
+  public String[] getVariantNames() {
+
+    if (hasSubtypes) {
+      String[] names = new String[subBlockCount];
+      for (int i = 0; i < names.length; ++i) {
+        names[i] = getFullName() + i;
+      }
+      return names;
+    }
+    return new String[] { getFullName() };
+  }
+
   @Override
   public String getUnlocalizedName() {
 
     return "tile." + this.blockName;
-  }
-
-  @Override
-  public void registerBlockIcons(IIconRegister reg) {
-
-    if (gemSubtypes) {
-      registerIconsForGemSubtypes(reg);
-    } else {
-      blockIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + blockName);
-    }
-  }
-
-  public void registerIconsForGemSubtypes(IIconRegister reg) {
-
-    if (icons == null || icons.length != EnumGem.all().length) {
-      icons = new IIcon[EnumGem.all().length];
-    }
-
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + this.blockName + i);
-    }
   }
 
   public Block setHasGemSubtypes(boolean value) {
@@ -134,7 +132,6 @@ public class BlockSG extends Block implements IAddRecipe, IAddThaumcraftStuff {
   public Block setUnlocalizedName(String blockName) {
 
     this.blockName = blockName;
-    setBlockName(blockName);
     return this;
   }
 }

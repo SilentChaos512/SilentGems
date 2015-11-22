@@ -1,41 +1,39 @@
 package net.silentchaos512.gems.block;
 
-import java.util.Random;
+import java.util.List;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockBush;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.EnumPlantType;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.configuration.Config;
+import net.silentchaos512.gems.core.registry.IAddRecipe;
+import net.silentchaos512.gems.core.registry.IHasSubtypes;
+import net.silentchaos512.gems.core.registry.IHasVariants;
 import net.silentchaos512.gems.core.registry.SRegistry;
-import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import cofh.api.modhelpers.ThermalExpansionHelper;
-import cpw.mods.fml.common.registry.GameRegistry;
 
-public class GlowRose extends BlockSG implements IPlantable {
+public class GlowRose extends BlockBush implements IAddRecipe, IHasVariants, IHasSubtypes {
+
+  public static final PropertyEnum VARIANT = PropertyEnum.create("variant", EnumGem.class);
 
   public GlowRose() {
 
     super(Material.plants);
-    this.setHardness(0.0f);
-    this.setStepSound(Block.soundTypeGrass);
-    this.setTickRandomly(true);
-    float f = 0.2F;
-    this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 3.0F, 0.5F + f);
-    this.lightValue = Config.GLOW_ROSE_LIGHT_LEVEL;
-    setHasGemSubtypes(true);
-    setHasSubtypes(true);
+    setDefaultState(blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY));
+
+    lightValue = Config.GLOW_ROSE_LIGHT_LEVEL;
     setUnlocalizedName(Names.GLOW_ROSE);
+    setCreativeTab(SilentGems.tabSilentGems);
   }
 
   @Override
@@ -78,87 +76,84 @@ public class GlowRose extends BlockSG implements IPlantable {
 
     GameRegistry.addShapelessRecipe(new ItemStack(dye.getItem(), 2, dye.getItemDamage()), flower);
     // Pulverizer
-    ThermalExpansionHelper.addPulverizerRecipe(1600, flower,
-        new ItemStack(dye.getItem(), 4, dye.getItemDamage()));
+//    ThermalExpansionHelper.addPulverizerRecipe(1600, flower,
+//        new ItemStack(dye.getItem(), 4, dye.getItemDamage()));
   }
 
   @Override
-  public boolean canBlockStay(World world, int x, int y, int z) {
+  public void addOreDict() {
 
-    return world.getBlock(x, y - 1, z).canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, this);
   }
 
   @Override
-  public boolean canPlaceBlockAt(World world, int x, int y, int z) {
+  public String getName() {
 
-    return super.canPlaceBlockAt(world, x, y, z) && this.canBlockStay(world, x, y, z);
+    return Names.GLOW_ROSE;
   }
 
-  protected boolean canPlaceBlockOn(Block block) {
+  @Override
+  public String getFullName() {
 
-    return block == Blocks.grass || block == Blocks.dirt || block == Blocks.farmland;
+    return SilentGems.MOD_ID + ":" + getName();
   }
 
-  protected void checkAndDropBlock(World world, int x, int y, int z) {
+  @Override
+  public String[] getVariantNames() {
 
-    if (!this.canBlockStay(world, x, y, z)) {
-      this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-      world.setBlock(x, y, z, getBlockById(0), 0, 2);
+    String[] names = new String[EnumGem.values().length];
+    for (int i = 0; i < names.length; ++i) {
+      names[i] = getFullName() + i;
+    }
+    return names;
+  }
+
+  @Override
+  public String getUnlocalizedName() {
+
+    return "tile." + Names.GLOW_ROSE;
+  }
+
+  @Override
+  public void getSubBlocks(Item item, CreativeTabs tab, List subItems) {
+
+    for (EnumGem gem : EnumGem.values()) {
+      subItems.add(new ItemStack(item, 1, gem.id));
     }
   }
 
   @Override
-  public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+  public boolean hasSubtypes() {
 
-    return null;
+    return true;
   }
 
   @Override
-  public Block getPlant(IBlockAccess world, int x, int y, int z) {
+  public boolean hasGemSubtypes() {
 
-    return this;
+    return true;
   }
 
   @Override
-  public int getPlantMetadata(IBlockAccess world, int x, int y, int z) {
+  public int damageDropped(IBlockState state) {
 
-    return world.getBlockMetadata(x, y, z);
+    return this.getMetaFromState(state);
   }
 
   @Override
-  public EnumPlantType getPlantType(IBlockAccess world, int x, int y, int z) {
+  public IBlockState getStateFromMeta(int meta) {
 
-    return EnumPlantType.Plains;
+    return this.getDefaultState().withProperty(VARIANT, EnumGem.get(meta));
   }
 
   @Override
-  public int getRenderType() {
+  public int getMetaFromState(IBlockState state) {
 
-    return 1;
+    return ((EnumGem) state.getValue(VARIANT)).id;
   }
 
   @Override
-  public boolean isOpaqueCube() {
+  protected BlockState createBlockState() {
 
-    return false;
-  }
-
-  @Override
-  public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-
-    super.onNeighborBlockChange(world, x, y, z, block);
-    this.checkAndDropBlock(world, x, y, z);
-  }
-
-  @Override
-  public boolean renderAsNormalBlock() {
-
-    return false;
-  }
-
-  @Override
-  public void updateTick(World world, int x, int y, int z, Random random) {
-
-    this.checkAndDropBlock(world, x, y, z);
+    return new BlockState(this, new IProperty[] { VARIANT });
   }
 }

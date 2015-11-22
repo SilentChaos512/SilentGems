@@ -1,53 +1,38 @@
 package net.silentchaos512.gems.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
-import net.minecraft.util.IIcon;
-import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.core.registry.IHasVariants;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.Strings;
 
-public class FluffyPlantBlock extends BlockCrops {
+public class FluffyPlantBlock extends BlockCrops implements IHasVariants {
 
-  private IIcon[] icons;
+  protected String blockName; // TODO: Is this used?
 
   public FluffyPlantBlock() {
 
-    this.setBlockName(Names.FLUFFY_PLANT);
-    this.setBlockTextureName(Strings.RESOURCE_PREFIX + Names.FLUFFY_PLANT);
+    setUnlocalizedName(Names.FLUFFY_PLANT);
   }
 
   @Override
-  protected Item func_149866_i() {
+  protected Item getSeed() {
 
-    return SRegistry.getItem(Names.FLUFFY_SEED);
+    return ModItems.fluffyPuff;
   }
 
   @Override
-  protected Item func_149865_P() {
+  protected Item getCrop() {
 
-    return SRegistry.getItem(Names.FLUFFY_SEED);
-  }
-
-  @Override
-  public IIcon getIcon(int side, int meta) {
-
-    if (meta < 7) {
-      if (meta == 6) {
-        meta = 5;
-      }
-
-      return this.icons[meta >> 1];
-    } else {
-      return this.icons[3];
-    }
+    return ModItems.fluffyPuff;
   }
 
   @Override
   public int getRenderType() {
 
-    return 1;
+    return 3;
   }
 
   @Override
@@ -57,12 +42,32 @@ public class FluffyPlantBlock extends BlockCrops {
   }
 
   @Override
-  public void registerBlockIcons(IIconRegister reg) {
+  public Block setUnlocalizedName(String value) {
 
-    this.icons = new IIcon[4];
+    this.blockName = value;
+    super.setUnlocalizedName(value);
+    return this;
+  }
 
-    for (int i = 0; i < this.icons.length; ++i) {
-      this.icons[i] = reg.registerIcon(this.getTextureName() + i);
+  @Override
+  public String[] getVariantNames() {
+
+    String[] result = new String[4];
+    for (int i = 0; i < result.length; ++i) {
+      result[i] = getFullName() + i;
     }
+    return result;
+  }
+
+  @Override
+  public String getName() {
+
+    return Names.FLUFFY_PLANT;
+  }
+
+  @Override
+  public String getFullName() {
+
+    return SilentGems.MOD_ID + ":" + Names.FLUFFY_PLANT;
   }
 }

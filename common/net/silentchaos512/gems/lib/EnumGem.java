@@ -3,30 +3,50 @@ package net.silentchaos512.gems.lib;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.MathHelper;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.material.ModMaterials;
 
-public enum EnumGem {
+public enum EnumGem implements IStringSerializable {
 
-  RUBY(0, "Ruby"), GARNET(1, "Garnet"), TOPAZ(2, "Topaz"), HELIODOR(3, "Heliodor"), PERIDOT(4,
-      "Peridot"), EMERALD(5, "Beryl"), AQUAMARINE(6, "Aquamarine"), SAPPHIRE(7, "Sapphire"), IOLITE(
-      8, "Iolite"), AMETHYST(9, "Amethyst"), MORGANITE(10, "Morganite"), ONYX(11, "Onyx");
+  RUBY(0, "Ruby"),
+  GARNET(1, "Garnet"),
+  TOPAZ(2, "Topaz"),
+  HELIODOR(3, "Heliodor"),
+  PERIDOT(4, "Peridot"),
+  EMERALD(5, "Beryl"),
+  AQUAMARINE(6, "Aquamarine"),
+  SAPPHIRE(7, "Sapphire"),
+  IOLITE(8, "Iolite"),
+  AMETHYST(9, "Amethyst"),
+  MORGANITE(10, "Morganite"),
+  ONYX(11, "Onyx");
 
   public final byte id;
-  public final byte rank;
   public final String name;
 
   private EnumGem(int id, String name) {
 
     this.id = (byte) id;
-    this.rank = 1;
     this.name = name;
   }
 
-  public static EnumGem[] all() {
+  /**
+   * Gets the gem with the given meta (id). The meta is clamped to the bounds of the values array.
+   * @param meta
+   * @return
+   */
+  public static EnumGem get(int meta) {
 
-    return values();
+    return values()[MathHelper.clamp_int(meta, 0, values().length - 1)];
+  }
+  
+  @Override
+  public String getName() {
+
+    return name;
   }
 
   /**
@@ -38,9 +58,9 @@ public enum EnumGem {
 
     return new ItemStack(ModBlocks.gemBlock, 1, id);
   }
-  
+
   public String getBlockOreName() {
-    
+
     return "block" + this.name;
   }
 
@@ -53,9 +73,9 @@ public enum EnumGem {
 
     return new ItemStack(ModItems.gem, 1, id);
   }
-  
+
   public String getItemOreName() {
-    
+
     return "gem" + this.name;
   }
 
@@ -68,9 +88,9 @@ public enum EnumGem {
 
     return new ItemStack(ModBlocks.gemOre, 1, id);
   }
-  
+
   public String getOreBlockOreName() {
-    
+
     return "ore" + this.name;
   }
 
@@ -83,9 +103,9 @@ public enum EnumGem {
 
     return new ItemStack(ModItems.gemShard, 1, id);
   }
-  
+
   public String getShardOreName() {
-    
+
     return "nugget" + this.name;
   }
 
@@ -152,7 +172,7 @@ public enum EnumGem {
         return null;
     }
   }
-  
+
   public ArmorMaterial getArmorMaterial(boolean supercharged) {
 
     if (supercharged) {

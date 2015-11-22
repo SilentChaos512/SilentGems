@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.tile;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -8,14 +9,17 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.IChatComponent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.BlockChaosPylon;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LogHelper;
 
-public class TileChaosPylon extends TileEntity implements IInventory {
+public class TileChaosPylon extends TileEntity implements IInventory, IUpdatePlayerListBox {
 
   public static final int SEARCH_RADIUS = 4;
   public static final int SEARCH_HEIGHT = 1;
@@ -128,7 +132,7 @@ public class TileChaosPylon extends TileEntity implements IInventory {
   public TileEntity getAltar() {
 
     // Get last known altar, if it exists.
-    TileEntity tile = worldObj.getTileEntity(lastAltarX, lastAltarY, lastAltarZ);
+    TileEntity tile = worldObj.getTileEntity(new BlockPos(lastAltarX, lastAltarY, lastAltarZ));
     if (tile != null && tile instanceof TileChaosAltar) {
       return tile;
     }
@@ -136,20 +140,15 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     boolean searching = false;
     // Last known altar coords are no good, try to find a new altar.
     if (worldObj.getTotalWorldTime() % ALTAR_SEARCH_DELAY == 0) {
-      // Debug(?) info
-//      searching = true;
-//      String str = LogHelper.coord(xCoord, yCoord, zCoord);
-//      str = "Pylon at " + str + " searching for new altar...";
-//      LogHelper.info(str);
       // Search
+      final int xCoord = pos.getX();
+      final int yCoord = pos.getY();
+      final int zCoord = pos.getZ();
       for (int y = yCoord - SEARCH_HEIGHT; y < yCoord + SEARCH_HEIGHT + 1; ++y) {
         for (int x = xCoord - SEARCH_RADIUS; x < xCoord + SEARCH_RADIUS + 1; ++x) {
           for (int z = zCoord - SEARCH_RADIUS; z < zCoord + SEARCH_RADIUS + 1; ++z) {
-            tile = worldObj.getTileEntity(x, y, z);
+            tile = worldObj.getTileEntity(new BlockPos(x, y, z));
             if (tile != null && tile instanceof TileChaosAltar) {
-//              str = LogHelper.coord(x, y, z);
-//              str = "Pylon found new altar at " + str + "!";
-//              LogHelper.info(str);
               lastAltarX = x;
               lastAltarY = y;
               lastAltarZ = z;
@@ -161,11 +160,6 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     }
 
     // None found
-//    if (searching) {
-//      String str = LogHelper.coord(xCoord, yCoord, zCoord);
-//      str = "Pylon at " + str + " could not find an altar!";
-//      LogHelper.info(str);
-//    }
     return null;
   }
 
@@ -178,21 +172,22 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     tags.setInteger("AltarX", lastAltarX);
     tags.setInteger("AltarY", lastAltarY);
     tags.setInteger("AltarZ", lastAltarZ);
-    return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, tags);
+    return new S35PacketUpdateTileEntity(pos, 1, tags);
   }
 
   @Override
   public void onDataPacket(NetworkManager network, S35PacketUpdateTileEntity packet) {
 
-    burnTimeRemaining = packet.func_148857_g().getInteger("BurnTime");
-    currentItemBurnTime = packet.func_148857_g().getInteger("CurrentItemBurnTime");
-    lastAltarX = packet.func_148857_g().getInteger("AltarX");
-    lastAltarY = packet.func_148857_g().getInteger("AltarY");
-    lastAltarZ = packet.func_148857_g().getInteger("AltarZ");
+    NBTTagCompound tags = packet.getNbtCompound();
+    burnTimeRemaining = tags.getInteger("BurnTime");
+    currentItemBurnTime = tags.getInteger("CurrentItemBurnTime");
+    lastAltarX = tags.getInteger("AltarX");
+    lastAltarY = tags.getInteger("AltarY");
+    lastAltarZ = tags.getInteger("AltarZ");
   }
 
   @Override
-  public void updateEntity() {
+  public void update() {
 
     if (!worldObj.isRemote) {
       // Produce energy
@@ -219,7 +214,6 @@ public class TileChaosPylon extends TileEntity implements IInventory {
       timer = (timer + 1) % 360;
     }
 
-    // FIXME: Particles - don't spawn when no energy is transfered?
     if (worldObj.getTotalWorldTime() % PARTICLE_DELAY == 0) {
       if (!spawnParticlesToAltar()) {
         spawnBadPlacementParticles();
@@ -269,7 +263,7 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     }
 
     if (markForUpdate) {
-      worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+      worldObj.markBlockForUpdate(pos);
     }
   }
 
@@ -316,15 +310,15 @@ public class TileChaosPylon extends TileEntity implements IInventory {
       return false;
     }
 
-    double diffX = altar.xCoord - xCoord;
-    double diffY = altar.yCoord - yCoord;
-    double diffZ = altar.zCoord - zCoord;
+    double diffX = altar.getPos().getX() - pos.getX();
+    double diffY = altar.getPos().getY() - pos.getY();
+    double diffZ = altar.getPos().getZ() - pos.getZ();
     double stepX = diffX / PARTICLE_COUNT;
     double stepY = diffY / PARTICLE_COUNT;
     double stepZ = diffZ / PARTICLE_COUNT;
-    double x = xCoord + 0.5;
-    double y = yCoord + 0.75;
-    double z = zCoord + 0.5;
+    double x = pos.getX() + 0.5;
+    double y = pos.getY() + 0.75;
+    double z = pos.getZ() + 0.5;
 
     for (int i = 0; i < PARTICLE_COUNT; ++i) {
       double motionX = SilentGems.instance.random.nextGaussian() * 0.0004;
@@ -342,9 +336,9 @@ public class TileChaosPylon extends TileEntity implements IInventory {
 
   private void spawnBadPlacementParticles() {
 
-    double x = xCoord + 0.5;
-    double y = yCoord + 0.75;
-    double z = zCoord + 0.5;
+    double x = pos.getX() + 0.5;
+    double y = pos.getY() + 0.75;
+    double z = pos.getZ() + 0.5;
 
     for (int i = 0; i < PARTICLE_COUNT * 2; ++i) {
       double motionX = SilentGems.instance.random.nextGaussian() * 0.02;
@@ -356,7 +350,8 @@ public class TileChaosPylon extends TileEntity implements IInventory {
 
   public BlockChaosPylon.Type getPylonType() {
 
-    int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+    IBlockState state = worldObj.getBlockState(pos);
+    int meta = state.getBlock().getMetaFromState(state);
     if (meta >= 0 && meta < BlockChaosPylon.Type.values().length) {
       return BlockChaosPylon.Type.values()[meta];
     }
@@ -428,18 +423,6 @@ public class TileChaosPylon extends TileEntity implements IInventory {
   }
 
   @Override
-  public String getInventoryName() {
-
-    return "container.silentgems:BurnerPylon";
-  }
-
-  @Override
-  public boolean hasCustomInventoryName() {
-
-    return false;
-  }
-
-  @Override
   public int getInventoryStackLimit() {
 
     return 64;
@@ -448,24 +431,77 @@ public class TileChaosPylon extends TileEntity implements IInventory {
   @Override
   public boolean isUseableByPlayer(EntityPlayer player) {
 
-    return worldObj.getTileEntity(xCoord, yCoord, zCoord) != this ? false
-        : player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D,
-            (double) zCoord + 0.5D) <= 64.0D;
-  }
-
-  @Override
-  public void openInventory() {
-
-  }
-
-  @Override
-  public void closeInventory() {
-
+    return worldObj.getTileEntity(pos) != this ? false
+        : player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D,
+            (double) pos.getZ() + 0.5D) <= 64.0D;
   }
 
   @Override
   public boolean isItemValidForSlot(int slot, ItemStack stack) {
 
     return true;
+  }
+
+  @Override
+  public String getName() {
+
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public boolean hasCustomName() {
+
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public IChatComponent getDisplayName() {
+
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public void openInventory(EntityPlayer player) {
+
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void closeInventory(EntityPlayer player) {
+
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public int getField(int id) {
+
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public void setField(int id, int value) {
+
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public int getFieldCount() {
+
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public void clear() {
+
+    // TODO Auto-generated method stub
+    
   }
 }

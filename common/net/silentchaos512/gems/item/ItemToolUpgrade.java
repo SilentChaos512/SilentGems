@@ -2,16 +2,14 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
@@ -39,7 +37,7 @@ public class ItemToolUpgrade extends ItemSG {
 
   public ItemToolUpgrade() {
 
-    icons = new IIcon[NAMES.length];
+    super(NAMES.length);
     setMaxStackSize(64);
     setHasSubtypes(true);
     setMaxDamage(0);
@@ -208,6 +206,16 @@ public class ItemToolUpgrade extends ItemSG {
       list.add(getStack(NAMES[i]));
     }
   }
+  
+  @Override
+  public String[] getVariantNames() {
+    
+    String[] result = new String[NAMES.length];
+    for (int i = 0; i < result.length; ++i) {
+      result[i] = Names.convert(SilentGems.MOD_ID + ":" + NAMES[i]);
+    }
+    return result;
+  }
 
   @Override
   public String getUnlocalizedName(ItemStack stack) {
@@ -220,13 +228,5 @@ public class ItemToolUpgrade extends ItemSG {
       name = "Unknown";
     }
     return getUnlocalizedName(name);
-  }
-
-  @Override
-  public void registerIcons(IIconRegister reg) {
-
-    for (int i = 0; i < NAMES.length; ++i) {
-      icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + NAMES[i]);
-    }
   }
 }

@@ -1,25 +1,22 @@
 package net.silentchaos512.gems.lib.buff;
 
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.handler.GemsExtendedPlayer;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.ChaosGem;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.network.MessageSetFlight;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public enum ChaosBuff {
 
@@ -76,8 +73,8 @@ public enum ChaosBuff {
   public void apply(EntityPlayer player, int level) {
 
     if (potionId > -1) {
-      int time = potionId == NIGHT_VISION.potionId ? 400 : 40;
-      player.addPotionEffect(new PotionEffect(potionId, time, level - 1, true));
+      int time = potionId == NIGHT_VISION.potionId ? 400 : 2;
+      player.addPotionEffect(new PotionEffect(potionId, time, level - 1, true, false));
     }
 
     // Apply other effects here.

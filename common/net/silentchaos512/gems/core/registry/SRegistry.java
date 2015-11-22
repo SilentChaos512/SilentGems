@@ -4,19 +4,26 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.block.BlockSG;
+import net.silentchaos512.gems.core.util.InventoryHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.ItemSG;
 import net.silentchaos512.gems.item.block.ItemBlockSG;
 
 public class SRegistry {
 
-  private final static HashMap<String, Block> blocks = new HashMap<String, Block>();
-  private final static HashMap<String, Item> items = new HashMap<String, Item>();
+  private static final HashMap<String, Block> blocks = new HashMap<String, Block>();
+  private static final HashMap<String, Item> items = new HashMap<String, Item>();
+  
+  public static final ArrayList<ModelResourceLocation> toolBaseModels = new ArrayList<ModelResourceLocation>();
 
   /**
    * Add a Block to the hash map and registers it in the GameRegistry.
@@ -45,8 +52,6 @@ public class SRegistry {
    */
   public static Block registerBlock(Class<? extends Block> blockClass, String key,
       Class<? extends ItemBlock> itemBlockClass, Object... constructorParams) {
-
-    int i;
 
     try {
       // Create an array of the classes in the constructor parameters and the int for id.
@@ -79,8 +84,6 @@ public class SRegistry {
    */
   public static Item registerItem(Class<? extends Item> itemClass, String key,
       Object... constructorParams) {
-
-    int i;
 
     try {
       // Create an array of the classes in the constructor parameters and the int for id.
@@ -154,11 +157,101 @@ public class SRegistry {
       }
     }
   }
-  
-  public static Item[] getAllItemsOfType(Class<? extends Item> clazz) {
+
+  public static String[] removeNullElements(String[] names) {
+
+    ArrayList<String> list = new ArrayList<String>();
+    for (String name : names) {
+      if (name != null) {
+        list.add(name);
+      }
+    }
+    return list.toArray(new String[] {});
+  }
+
+  /**
+   * Registers model variant names.
+   */
+  public static void clientPreInit() {
+
+    // Blocks (IHasVariants)
+    for (Block block : blocks.values()) {
+      if (block instanceof IHasVariants) {
+        IHasVariants var = (IHasVariants) block;
+        String[] names = removeNullElements(var.getVariantNames());
+        ModelBakery.addVariantName(Item.getItemFromBlock(block), names);
+      }
+    }
+
+    // Items (IHasVariants)
+    for (Item item : items.values()) {
+      if (item instanceof IHasVariants) {
+        IHasVariants var = (IHasVariants) item;
+        String[] names = removeNullElements(var.getVariantNames());
+        ModelBakery.addVariantName(item, names);
+      }
+    }
+  }
+
+  /**
+   * Register models for all variants.
+   */
+  public static void clientInit() {
+
+    // Blocks (IRegisterModels)
+    for (Block block : blocks.values()) {
+      if (block instanceof IRegisterModels) {
+        ((IRegisterModels) block).registerModels();
+      }
+    }
+
+    // Blocks (IHasVariants)
+    for (Block block : blocks.values()) {
+      Item item = Item.getItemFromBlock(block);
+      if (block instanceof IHasVariants && !(block instanceof IRegisterModels)) {
+        IHasVariants var = (IHasVariants) block;
+        String[] variants = var.getVariantNames();
+        int count = variants.length;
+        for (int i = 0; i < count; ++i) {
+          if (variants[i] != null) {
+            ModelResourceLocation model = new ModelResourceLocation(variants[i], "inventory");
+            Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, i, model);
+          }
+        }
+      }
+    }
     
+    // Items (IRegisterModels)
+    for (Item item : items.values()) {
+      if (item instanceof IRegisterModels) {
+        ((IRegisterModels) item).registerModels();
+      }
+    }
+
+    // Items (IHasVariants)
+    for (Item item : items.values()) {
+      if (item instanceof IHasVariants && !(item instanceof IRegisterModels)) {
+        IHasVariants var = (IHasVariants) item;
+        String[] variants = var.getVariantNames();
+        int count = variants.length;
+        for (int i = 0; i < count; ++i) {
+          if (variants[i] != null) {
+            ModelResourceLocation model = new ModelResourceLocation(variants[i], "inventory");
+            Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, i, model);
+            // Tool model?
+            if (InventoryHelper.isGemTool(new ItemStack(item))) {
+              toolBaseModels.add(model);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  public static Item[] getAllItemsOfType(Class<? extends Item> clazz) {
+
     ArrayList<Item> result = new ArrayList<Item>();
-    for (Item item: items.values()) {
+    for (Item item : items.values()) {
       if (item.getClass() == clazz) {
         result.add(item);
       }

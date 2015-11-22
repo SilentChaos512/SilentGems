@@ -125,4 +125,19 @@ public class ChaosGemUpgradeRecipe implements IRecipe {
     return null;
   }
 
+  @Override
+  public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+
+    for (int i = 0; i < inv.getSizeInventory(); ++i) {
+      ItemStack stack = inv.getStackInSlot(i);
+      if (stack != null) {
+        --stack.stackSize;
+        if (stack.stackSize <= 0) {
+          stack = null;
+        }
+        inv.setInventorySlotContents(i, stack);
+      }
+    }
+    return new ItemStack[] {};
+  }
 }

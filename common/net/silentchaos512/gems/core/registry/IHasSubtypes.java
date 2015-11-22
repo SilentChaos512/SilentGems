@@ -2,5 +2,6 @@ package net.silentchaos512.gems.core.registry;
 
 public interface IHasSubtypes {
 
-  public boolean getHasSubtypes();
+  public boolean hasSubtypes();
+  public boolean hasGemSubtypes();
 }

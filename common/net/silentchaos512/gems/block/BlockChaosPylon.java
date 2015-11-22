@@ -2,12 +2,13 @@ package net.silentchaos512.gems.block;
 
 import java.util.List;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,43 +17,64 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.registry.IHasSubtypes;
 import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.item.CraftingMaterial;
+import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.tile.TileChaosPylon;
 
 public class BlockChaosPylon extends BlockContainer
     implements ITileEntityProvider, IAddRecipe, IHasSubtypes {
 
-  public static enum Type {
-    PASSIVE, BURNER;
+  public static enum Type implements IStringSerializable {
+
+    PASSIVE("Passive"), BURNER("Burner");
+
+    private final String name;
+
+    private Type(String name) {
+
+      this.name = name;
+    }
+
+    @Override
+    public String getName() {
+
+      return name;
+    }
+    
+    public static Type get(int meta) {
+      
+      return values()[MathHelper.clamp_int(meta, 0, values().length - 1)];
+    }
   }
 
-  private IIcon[] iconTop = new IIcon[Type.values().length];
-  private IIcon[] iconBottom = new IIcon[Type.values().length];
-  private IIcon[] iconSide = new IIcon[Type.values().length];
-  private IIcon[] iconSideA = new IIcon[Type.values().length];
-  private IIcon[] iconSideB = new IIcon[Type.values().length];
-  private IIcon[] iconSideAB = new IIcon[Type.values().length];
+  public static final PropertyEnum VARIANT = PropertyEnum.create("variant", Type.class);
 
   public BlockChaosPylon() {
 
     super(Material.iron);
-    this.setHardness(6.0f);
-    this.setResistance(1000.0f);
-    this.setCreativeTab(SilentGems.tabSilentGems);
+    setDefaultState(blockState.getBaseState().withProperty(VARIANT, Type.PASSIVE));
+
+    setHardness(6.0f);
+    setResistance(1000.0f);
+    setCreativeTab(SilentGems.tabSilentGems);
   }
 
-  public Type getType(int meta) {
+  public Type getType(IBlockState state) {
 
+    int meta = getMetaFromState(state);
     if (meta >= 0 && meta < Type.values().length) {
       return Type.values()[meta];
     }
@@ -86,19 +108,20 @@ public class BlockChaosPylon extends BlockContainer
   }
 
   @Override
-  public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
-      float hitX, float hitY, float hitZ) {
+  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
+      EnumFacing side, float hitX, float hitY, float hitZ) {
 
-    Type type = this.getType(world.getBlockMetadata(x, y, z));
+    Type type = getType(state);
 
     if (world.isRemote) {
       return type == Type.BURNER;
     }
 
     if (type == Type.BURNER) {
-      TileEntity tile = world.getTileEntity(x, y, z);
+      TileEntity tile = world.getTileEntity(pos);
       if (tile instanceof TileChaosPylon) {
-        player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_BURNER_PYLON, world, x, y, z);
+        player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_BURNER_PYLON, world, pos.getX(),
+            pos.getY(), pos.getZ());
       }
       return true;
     }
@@ -113,39 +136,29 @@ public class BlockChaosPylon extends BlockContainer
       list.add(new ItemStack(item, 1, i));
     }
   }
+  
+  @Override
+  public IBlockState getStateFromMeta(int meta) {
 
-  // Commented out by M4thG33k (see additions at the end of file)
-  // @Override
-  // public void registerBlockIcons(IIconRegister reg) {
-  //
-  // for (int i = 0; i < Type.values().length; ++i) {
-  // String prefix = Strings.RESOURCE_PREFIX + Names.CHAOS_PYLON + i + "_";
-  // iconTop[i] = reg.registerIcon(prefix + "Top");
-  // iconBottom[i] = reg.registerIcon(prefix + "Bottom");
-  // iconSide[i] = reg.registerIcon(prefix + "Side");
-  // iconSideA[i] = reg.registerIcon(prefix + "SideA");
-  // iconSideB[i] = reg.registerIcon(prefix + "SideB");
-  // iconSideAB[i] = reg.registerIcon(prefix + "SideAB");
-  // }
-  // }
-  //
-  // @Override
-  // public IIcon getIcon(int side, int meta) {
-  //
-  // switch (side) {
-  // case 0:
-  // return iconBottom[meta];
-  // case 1:
-  // return iconTop[meta];
-  // default:
-  // return iconSide[meta];
-  // }
-  // }
+    return this.getDefaultState().withProperty(VARIANT, Type.get(meta));
+  }
 
   @Override
-  public int damageDropped(int meta) {
+  public int getMetaFromState(IBlockState state) {
 
-    return meta & 3;
+    return ((Type) state.getValue(VARIANT)).ordinal();
+  }
+
+  @Override
+  protected BlockState createBlockState() {
+
+    return new BlockState(this, new IProperty[] { VARIANT });
+  }
+
+  @Override
+  public int damageDropped(IBlockState state) {
+
+    return getMetaFromState(state);
   }
 
   @Override
@@ -155,15 +168,21 @@ public class BlockChaosPylon extends BlockContainer
   }
 
   @Override
-  public boolean getHasSubtypes() {
+  public boolean hasSubtypes() {
 
     return true;
   }
 
   @Override
-  public void breakBlock(World world, int x, int y, int z, Block block, int par6) {
+  public boolean hasGemSubtypes() {
 
-    TileChaosPylon tilePylon = (TileChaosPylon) world.getTileEntity(x, y, z);
+    return false;
+  }
+
+  @Override
+  public void breakBlock(World world, BlockPos pos, IBlockState state) {
+
+    TileChaosPylon tilePylon = (TileChaosPylon) world.getTileEntity(pos);
 
     if (tilePylon != null) {
       for (int i = 0; i < tilePylon.getSizeInventory(); ++i) {
@@ -182,8 +201,8 @@ public class BlockChaosPylon extends BlockContainer
             }
 
             stack.stackSize -= j1;
-            EntityItem entityitem = new EntityItem(world, (double) ((float) x + f),
-                (double) ((float) y + f1), (double) ((float) z + f2),
+            EntityItem entityitem = new EntityItem(world, (double) ((float) pos.getX() + f),
+                (double) ((float) pos.getY() + f1), (double) ((float) pos.getZ() + f2),
                 new ItemStack(stack.getItem(), j1, stack.getItemDamage()));
 
             if (stack.hasTagCompound()) {
@@ -205,7 +224,7 @@ public class BlockChaosPylon extends BlockContainer
 
   /* ADDED BY M4THG33K */
   @Override
-  public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
+  public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
 
     return false;
   }
@@ -217,27 +236,7 @@ public class BlockChaosPylon extends BlockContainer
   }
 
   @Override
-  public boolean renderAsNormalBlock() {
-
-    return false;
-  }
-
-  // put these methods back in to help fix the "block break" particles
-  @Override
-  public void registerBlockIcons(IIconRegister reg) {
-
-    iconTop[0] = reg.registerIcon(Strings.RESOURCE_PREFIX + "SilentChaosPassivePylonSquare");
-    iconTop[1] = reg.registerIcon(Strings.RESOURCE_PREFIX + "SilentChaosBurnerPylonSquare");
-  }
-
-  @Override
-  public IIcon getIcon(int side, int meta) {
-
-    return iconTop[meta];
-  }
-
-  @Override
-  public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+  public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
 
     this.setBlockBounds(0.2f, 0.1f, 0.2f, 0.8f, 0.9f, 0.8f);
   }

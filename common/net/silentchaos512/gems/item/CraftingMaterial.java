@@ -2,9 +2,6 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
-import cpw.mods.fml.common.IFuelHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -13,10 +10,12 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
+import net.minecraftforge.fml.common.IFuelHandler;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
@@ -24,9 +23,6 @@ import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
-import thaumcraft.api.ThaumcraftApi;
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
 
 public class CraftingMaterial extends ItemSG implements IFuelHandler {
 
@@ -42,24 +38,21 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
       Names.NETHER_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER, Names.RAWHIDE_BONE,
       Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.CHAOS_ESSENCE_PLUS_2, Names.NETHER_CLUSTER,
       Names.MINI_PYLON, Names.CHAOS_CORE, Names.GILDED_STRING, Names.IRON_POTATO,
-      Names.UPGRADE_BASE };
+      Names.UPGRADE_BASE, Names.FLUFFY_FABRIC };
   /**
    * The order that items appear in NEI.
    */
   public static final String[] SORTED_NAMES = { Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS,
       Names.CHAOS_ESSENCE_PLUS_2, Names.CHAOS_ESSENCE_SHARD, Names.NETHER_SHARD,
       Names.NETHER_CLUSTER, Names.CHAOS_CORE, Names.CHAOS_COAL, Names.ORNATE_STICK,
-      Names.GILDED_STRING, Names.UPGRADE_BASE, Names.MINI_PYLON, Names.MYSTERY_GOO, Names.PLUME,
-      Names.GOLDEN_PLUME, Names.YARN_BALL, Names.RAWHIDE_BONE, Names.IRON_POTATO,
-      Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER };
-
-  // public static final int[] HAS_EFFECT_META = { 4, 13 };
+      Names.FLUFFY_FABRIC, Names.GILDED_STRING, Names.UPGRADE_BASE, Names.MINI_PYLON,
+      Names.MYSTERY_GOO, Names.PLUME, Names.GOLDEN_PLUME, Names.YARN_BALL, Names.RAWHIDE_BONE,
+      Names.IRON_POTATO, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER };
 
   public CraftingMaterial() {
 
-    super();
+    super(NAMES.length);
 
-    icons = new IIcon[NAMES.length];
     setMaxStackSize(64);
     setHasSubtypes(true);
     setMaxDamage(0);
@@ -176,8 +169,8 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
   @Override
   public void addThaumcraftStuff() {
 
-    ThaumcraftApi.registerObjectTag(getStack(Names.CHAOS_ESSENCE),
-        (new AspectList()).add(Aspect.GREED, 4).add(Aspect.ENTROPY, 2));
+    // ThaumcraftApi.registerObjectTag(getStack(Names.CHAOS_ESSENCE),
+    // (new AspectList()).add(Aspect.DESIRE, 4).add(Aspect.ENTROPY, 2));
   }
 
   @Override
@@ -185,9 +178,9 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
 
     int meta = stack.getItemDamage();
     if (meta == getMetaFor(Names.CHAOS_ESSENCE_PLUS)) {
-      return EnumRarity.rare;
+      return EnumRarity.RARE;
     } else if (meta == getMetaFor(Names.CHAOS_ESSENCE_PLUS_2)) {
-      return EnumRarity.epic;
+      return EnumRarity.EPIC;
     } else {
       return super.getRarity(stack);
     }
@@ -244,6 +237,16 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
   }
 
   @Override
+  public String[] getVariantNames() {
+
+    String[] result = new String[NAMES.length];
+    for (int i = 0; i < result.length; ++i) {
+      result[i] = Names.convert(SilentGems.MOD_ID + ":" + NAMES[i]);
+    }
+    return result;
+  }
+
+  @Override
   public int getBurnTime(ItemStack stack) {
 
     if (stack != null && stack.getItem() == this
@@ -264,24 +267,5 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
       name = "Unknown";
     }
     return getUnlocalizedName(name);
-  }
-
-  // @Override
-  // public boolean hasEffect(ItemStack stack, int pass) {
-  //
-  // for (int k : HAS_EFFECT_META) {
-  // if (stack.getItemDamage() == k) {
-  // return true;
-  // }
-  // }
-  // return false;
-  // }
-
-  @Override
-  public void registerIcons(IIconRegister iconRegister) {
-
-    for (int i = 0; i < NAMES.length; ++i) {
-      icons[i] = iconRegister.registerIcon(Strings.RESOURCE_PREFIX + NAMES[i]);
-    }
   }
 }

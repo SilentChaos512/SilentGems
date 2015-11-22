@@ -2,12 +2,8 @@ package net.silentchaos512.gems.core.handler;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -15,8 +11,14 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.BonemealEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.achievement.GemsAchievement;
 import net.silentchaos512.gems.block.GlowRose;
@@ -63,11 +65,11 @@ public class GemsEventHandler {
         ItemStack gem = inv.getStackInRowAndColumn(1, 1);
         if (gem != null) {
           int k = gem.getItemDamage();
-          if (event.crafting.stackTagCompound == null) {
-            event.crafting.stackTagCompound = new NBTTagCompound();
+          if (!event.crafting.hasTagCompound()) {
+            event.crafting.setTagCompound(new NBTTagCompound());
           }
-          event.crafting.stackTagCompound.setByte(Strings.TORCH_BANDOLIER_GEM, (byte) k);
-          event.crafting.stackTagCompound.setBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL, true);
+          event.crafting.getTagCompound().setByte(Strings.TORCH_BANDOLIER_GEM, (byte) k);
+          event.crafting.getTagCompound().setBoolean(Strings.TORCH_BANDOLIER_AUTO_FILL, true);
         }
       } else if (ModItems.recipeTorchBandolierExtract.matches(inv, world)) {
         // Give player the extracted torches.
@@ -124,23 +126,28 @@ public class GemsEventHandler {
   @SubscribeEvent
   public void onUseBonemeal(BonemealEvent event) {
 
+    World world = event.world;
     if (event.block == Blocks.grass) {
-      if (!event.world.isRemote) {
+      if (!world.isRemote) {
         // Spawn some Glow Roses?
         int k = random.nextInt(6) - 1;
         int x, y, z, m;
+        BlockPos targetPos;
+        IBlockState state;
         GlowRose flower = (GlowRose) SRegistry.getBlock(Names.GLOW_ROSE);
         for (int i = 0; i < k; ++i) {
-          x = event.x + random.nextInt(9) - 4;
-          y = event.y + 1;
-          z = event.z + random.nextInt(9) - 4;
+          x = event.pos.getX() + random.nextInt(9) - 4;
+          y = event.pos.getY() + 1;
+          z = event.pos.getZ() + random.nextInt(9) - 4;
+          targetPos = new BlockPos(x, y, z);
           // Get rid of tall grass, it seems to spawn first.
-          if (event.world.getBlock(x, y, z) == Blocks.tallgrass) {
-            event.world.setBlockToAir(x, y, z);
+          if (world.getBlockState(targetPos) == Blocks.tallgrass) {
+            world.setBlockToAir(targetPos);
           }
-          if (event.world.isAirBlock(x, y, z) && flower.canBlockStay(event.world, x, y, z)) {
-            m = random.nextInt(EnumGem.all().length);
-            event.world.setBlock(x, y, z, flower, m, 2);
+          m = random.nextInt(EnumGem.values().length);
+          state = flower.getDefaultState().withProperty(GlowRose.VARIANT, EnumGem.get(m));
+          if (world.isAirBlock(targetPos) && flower.canBlockStay(world, targetPos, state)) {
+            world.setBlockState(targetPos, state, 2);
           }
         }
       }

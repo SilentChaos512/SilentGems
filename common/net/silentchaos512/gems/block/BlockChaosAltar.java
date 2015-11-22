@@ -1,34 +1,29 @@
 package net.silentchaos512.gems.block;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.tile.TileChaosAltar;
 
 public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
-
-  private IIcon iconTop;
-  private IIcon iconSide;
-  private IIcon iconBottom;
 
   public BlockChaosAltar() {
 
@@ -66,26 +61,27 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
   }
 
   @Override
-  public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
-      float hitX, float hitY, float hitZ) {
+  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
+      EnumFacing side, float hitX, float hitY, float hitZ) {
 
     if (world.isRemote) {
       return true;
     }
 
-    TileEntity tile = world.getTileEntity(x, y, z);
+    TileEntity tile = world.getTileEntity(pos);
 
     if (tile instanceof TileChaosAltar) {
-      player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_ALTAR, world, x, y, z);
+      player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_ALTAR, world, pos.getX(),
+          pos.getY(), pos.getZ());
     }
 
     return true;
   }
 
   @Override
-  public void breakBlock(World world, int x, int y, int z, Block block, int par6) {
+  public void breakBlock(World world, BlockPos pos, IBlockState state) {
 
-    TileChaosAltar tileAltar = (TileChaosAltar) world.getTileEntity(x, y, z);
+    TileChaosAltar tileAltar = (TileChaosAltar) world.getTileEntity(pos);
 
     if (tileAltar != null) {
       for (int i = 0; i < tileAltar.getSizeInventory(); ++i) {
@@ -104,8 +100,8 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
             }
 
             stack.stackSize -= j1;
-            EntityItem entityitem = new EntityItem(world, (double) ((float) x + f),
-                (double) ((float) y + f1), (double) ((float) z + f2),
+            EntityItem entityitem = new EntityItem(world, (double) ((float) pos.getX() + f),
+                (double) ((float) pos.getY() + f1), (double) ((float) pos.getZ() + f2),
                 new ItemStack(stack.getItem(), j1, stack.getItemDamage()));
 
             if (stack.hasTagCompound()) {
@@ -131,9 +127,9 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
   }
 
   @Override
-  public int getComparatorInputOverride(World world, int x, int y, int z, int par5) {
+  public int getComparatorInputOverride(World world, BlockPos pos) {
 
-    TileEntity tile = world.getTileEntity(x, y, z);
+    TileEntity tile = world.getTileEntity(pos);
     if (tile != null && tile instanceof TileChaosAltar) {
       TileChaosAltar altar = (TileChaosAltar) tile;
       float storedRatio = (float) altar.getEnergyStored() / altar.getMaxEnergyStored();
@@ -144,7 +140,7 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
 
   /* ADDED BY MATHG33K */
   @Override
-  public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
+  public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
 
     return false;
   }
@@ -155,33 +151,33 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
     return false;
   }
 
-  @Override
-  public boolean renderAsNormalBlock() {
-
-    return false;
-  }
+//  @Override
+//  public boolean renderAsNormalBlock() {
+//
+//    return false;
+//  }
 
   // the following changes the block bounds (so it's not considered a full block...you can remove this if you really
   // want)
 
   @Override
-  public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+  public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
 
     this.setBlockBounds(0.0f, 0.0f, 0.0f, 1.0f, 0.75f, 1.0f);
   }
 
   // re-added these two methods in order to have the "block breaking" particles look similar to the actual block...
-  @Override
-  public void registerBlockIcons(IIconRegister reg) {
-
-    iconTop = reg.registerIcon(Blocks.obsidian.getIcon(0, 0).getIconName());
-  }
-
-  @Override
-  public IIcon getIcon(int side, int meta) {
-
-    return iconTop;
-  }
+//  @Override
+//  public void registerBlockIcons(IIconRegister reg) {
+//
+//    iconTop = reg.registerIcon(Blocks.obsidian.getIcon(0, 0).getIconName());
+//  }
+//
+//  @Override
+//  public IIcon getIcon(int side, int meta) {
+//
+//    return iconTop;
+//  }
 
   /* END ADDED BY MATHG33K */
 }

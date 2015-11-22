@@ -1,9 +1,6 @@
 package net.silentchaos512.gems.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.silentchaos512.gems.core.registry.SRegistry;
-import net.silentchaos512.gems.item.HoldingGem;
 import net.silentchaos512.gems.item.block.ItemBlockSG;
 import net.silentchaos512.gems.lib.Names;
 
@@ -26,6 +23,8 @@ public class ModBlocks {
   public static BlockChaosAltar chaosAltar;
   public static BlockChaosPylon chaosPylon;
   public static FluffyPlantBlock fluffyPlant;
+  public static BlockFluffyBlock fluffyBlock;
+  public static ChaosEssenceBlock chaosEssenceBlockOld;
 
   // public static HoldingGemBlock holdingGemBlock;
 
@@ -41,8 +40,8 @@ public class ModBlocks {
     miscBlock = (MiscBlock) SRegistry.registerBlock(MiscBlock.class, Names.MISC_BLOCKS);
     glowRose = (GlowRose) SRegistry.registerBlock(GlowRose.class, Names.GLOW_ROSE);
     teleporter = (BlockTeleporter) SRegistry.registerBlock(BlockTeleporter.class, Names.TELEPORTER);
-    redstoneTeleporter = (BlockRedstoneTeleporter) SRegistry.registerBlock(
-        BlockRedstoneTeleporter.class, Names.TELEPORTER_REDSTONE);
+    redstoneTeleporter = (BlockRedstoneTeleporter) SRegistry
+        .registerBlock(BlockRedstoneTeleporter.class, Names.TELEPORTER_REDSTONE);
     teleporterAnchor = (BlockTeleporterAnchor) SRegistry.registerBlock(BlockTeleporterAnchor.class,
         Names.TELEPORTER_ANCHOR);
     gemLamp = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP, ItemBlockSG.class,
@@ -53,10 +52,16 @@ public class ModBlocks {
         ItemBlockSG.class, true, true);
     gemLampInverted = (GemLamp) SRegistry.registerBlock(GemLamp.class, Names.GEM_LAMP_INV,
         ItemBlockSG.class, false, true);
-    chaosAltar = (BlockChaosAltar) SRegistry.registerBlock(BlockChaosAltar.class, Names.CHAOS_ALTAR);
-    chaosPylon = (BlockChaosPylon) SRegistry.registerBlock(BlockChaosPylon.class, Names.CHAOS_PYLON);
+    chaosAltar = (BlockChaosAltar) SRegistry.registerBlock(BlockChaosAltar.class,
+        Names.CHAOS_ALTAR);
+    chaosPylon = (BlockChaosPylon) SRegistry.registerBlock(BlockChaosPylon.class,
+        Names.CHAOS_PYLON);
     fluffyPlant = (FluffyPlantBlock) SRegistry.registerBlock(FluffyPlantBlock.class,
         Names.FLUFFY_PLANT);
+    fluffyBlock = (BlockFluffyBlock) SRegistry.registerBlock(BlockFluffyBlock.class,
+        Names.FLUFFY_BLOCK);
+    chaosEssenceBlockOld = (ChaosEssenceBlock) SRegistry.registerBlock(ChaosEssenceBlock.class,
+        Names.CHAOS_ESSENCE_BLOCK_OLD);
     // holdingGemBlock = (HoldingGemBlock) SRegistry.registerBlock(HoldingGemBlock.class,
     // Names.HOLDING_GEM, HoldingGem.class);
   }

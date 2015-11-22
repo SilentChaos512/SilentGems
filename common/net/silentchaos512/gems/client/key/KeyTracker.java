@@ -1,19 +1,18 @@
 package net.silentchaos512.gems.client.key;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.ChaosGem;
 import net.silentchaos512.gems.network.MessageChaosGemToggle;
-
-import org.lwjgl.input.Keyboard;
-
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 
 public class KeyTracker {
 
@@ -49,7 +48,7 @@ public class KeyTracker {
 
     boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
         || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
-    if (chaosGemToggleFirst.getIsKeyPressed() && !shifted) {
+    if (chaosGemToggleFirst.isPressed() && !shifted) {
       // Client
       EntityPlayer player = Minecraft.getMinecraft().thePlayer;
       for (ItemStack stack : player.inventory.mainInventory) {
@@ -65,9 +64,9 @@ public class KeyTracker {
 
   private void handleChaosGemToggleAll() {
 
-    boolean shiftToggle = chaosGemToggleFirst.getIsKeyPressed()
+    boolean shiftToggle = chaosGemToggleFirst.isPressed()
         && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT));
-    if (chaosGemToggleAll.getIsKeyPressed() || shiftToggle) {
+    if (chaosGemToggleAll.isPressed() || shiftToggle) {
       // Client
       EntityPlayer player = Minecraft.getMinecraft().thePlayer;
       for (ItemStack stack : player.inventory.mainInventory) {

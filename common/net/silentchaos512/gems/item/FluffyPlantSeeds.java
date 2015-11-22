@@ -2,9 +2,6 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -12,16 +9,19 @@ import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
+import net.silentchaos512.gems.core.registry.IHasVariants;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.Strings;
-import cpw.mods.fml.common.registry.GameRegistry;
 
-public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
+public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe, IHasVariants {
 
   public FluffyPlantSeeds() {
 
@@ -48,9 +48,23 @@ public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
   @Override
   public void addRecipes() {
 
+    // String
     GameRegistry.addShapedRecipe(new ItemStack(Items.string), "ff", 'f', this);
+    // Wool
     GameRegistry.addShapedRecipe(new ItemStack(Blocks.wool), "fff", "f f", "fff", 'f', this);
+    // Feather
     GameRegistry.addShapedRecipe(new ItemStack(Items.feather), " ff", "ff ", "f  ", 'f', this);
+    // Fluffy Fabric
+    ItemStack puff = new ItemStack(this);
+    ItemStack fabric = CraftingMaterial.getStack(Names.FLUFFY_FABRIC);
+    RecipeHelper.addCompressionRecipe(puff, fabric, 4);
+    // Fluffy block
+    ItemStack block = new ItemStack(ModBlocks.fluffyBlock);
+    RecipeHelper.addCompressionRecipe(fabric, block, 4);
+    // Book
+    ItemStack book = new ItemStack(Items.book);
+    ItemStack paper = new ItemStack(Items.paper);
+    GameRegistry.addShapelessRecipe(book, paper, paper, paper, fabric);
   }
 
   @Override
@@ -60,8 +74,20 @@ public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
   }
 
   @Override
-  public void registerIcons(IIconRegister reg) {
+  public String[] getVariantNames() {
 
-    itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + Names.FLUFFY_SEED);
+    return new String[] { getFullName() };
+  }
+
+  @Override
+  public String getName() {
+
+    return Names.FLUFFY_SEED;
+  }
+
+  @Override
+  public String getFullName() {
+
+    return SilentGems.MOD_ID + ":" + getName();
   }
 }

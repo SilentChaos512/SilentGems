@@ -12,8 +12,8 @@ public class NBTHelper {
    */
   public static boolean hasValidXYZD(NBTTagCompound tags) {
 
-    return tags.hasKey("X") && tags.hasKey("Y") && tags.hasKey("Z") && tags.hasKey("D")
-        && tags.getInteger("Y") != 0;
+    return tags != null && tags.hasKey("X") && tags.hasKey("Y") && tags.hasKey("Z")
+        && tags.hasKey("D") && tags.getInteger("Y") != 0;
   }
 
   /**

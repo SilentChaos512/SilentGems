@@ -4,16 +4,15 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.configuration.Config;
@@ -21,17 +20,11 @@ import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
-import thaumcraft.api.ThaumcraftApi;
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
 
 public class Gem extends ItemSG {
 
   public Gem() {
 
-    super();
-
-    icons = new IIcon[EnumGem.all().length];
     setMaxStackSize(64);
     setHasSubtypes(true);
     setHasGemSubtypes(true);
@@ -39,7 +32,6 @@ public class Gem extends ItemSG {
     setUnlocalizedName(Names.GEM_ITEM);
   }
 
-  @SideOnly(Side.CLIENT)
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
@@ -49,7 +41,7 @@ public class Gem extends ItemSG {
     if (shifted) {
       int id = stack.getItemDamage() & 0xF;
       boolean supercharged = stack.getItemDamage() > 15;
-      ToolMaterial material = EnumGem.all()[id].getToolMaterial(supercharged);
+      ToolMaterial material = EnumGem.get(id).getToolMaterial(supercharged);
 
       list.add(EnumChatFormatting.ITALIC
           + LocalizationHelper.getOtherItemKey(itemName, "ToolProperties"));
@@ -102,21 +94,10 @@ public class Gem extends ItemSG {
   @Override
   public void addOreDict() {
 
-    OreDictionary.registerOre("gemRuby", new ItemStack(this, 1, EnumGem.RUBY.id));
-    OreDictionary.registerOre("gemGarnet", new ItemStack(this, 1, EnumGem.GARNET.id));
-    OreDictionary.registerOre("gemTopaz", new ItemStack(this, 1, EnumGem.TOPAZ.id));
-    OreDictionary.registerOre("gemHeliodor", new ItemStack(this, 1, EnumGem.HELIODOR.id));
-    OreDictionary.registerOre("gemPeridot", new ItemStack(this, 1, EnumGem.PERIDOT.id));
-    OreDictionary.registerOre("gemBeryl", new ItemStack(this, 1, EnumGem.EMERALD.id));
-    OreDictionary.registerOre("gemAquamarine", new ItemStack(this, 1, EnumGem.AQUAMARINE.id));
-    OreDictionary.registerOre("gemSapphire", new ItemStack(this, 1, EnumGem.SAPPHIRE.id));
-    OreDictionary.registerOre("gemIolite", new ItemStack(this, 1, EnumGem.IOLITE.id));
-    OreDictionary.registerOre("gemAmethyst", new ItemStack(this, 1, EnumGem.AMETHYST.id));
-    OreDictionary.registerOre("gemMorganite", new ItemStack(this, 1, EnumGem.MORGANITE.id));
-    OreDictionary.registerOre("gemOnyx", new ItemStack(this, 1, EnumGem.ONYX.id));
-
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      OreDictionary.registerOre(Strings.ORE_DICT_GEM_BASIC, new ItemStack(this, 1, i));
+    for (EnumGem gem : EnumGem.values()) {
+      ItemStack item = gem.getItem();
+      OreDictionary.registerOre(gem.getItemOreName(), item);
+      OreDictionary.registerOre(Strings.ORE_DICT_GEM_BASIC, item);
     }
   }
 
@@ -133,43 +114,36 @@ public class Gem extends ItemSG {
   @Override
   public void addThaumcraftStuff() {
 
-    ThaumcraftApi.registerObjectTag(EnumGem.RUBY.getItem(),
-        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.WEAPON, 2));
-    ThaumcraftApi.registerObjectTag(EnumGem.GARNET.getItem(),
-        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.FIRE, 2));
-    ThaumcraftApi.registerObjectTag(EnumGem.TOPAZ.getItem(),
-        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.EARTH, 2));
-    ThaumcraftApi.registerObjectTag(EnumGem.HELIODOR.getItem(),
-        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.GREED, 2));
-    ThaumcraftApi.registerObjectTag(EnumGem.PERIDOT.getItem(),
-        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.DEATH, 2));
-    ThaumcraftApi.registerObjectTag(EnumGem.EMERALD.getItem(),
-        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.MOTION, 2));
-    ThaumcraftApi.registerObjectTag(EnumGem.AQUAMARINE.getItem(),
-        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.AURA, 2));
-    ThaumcraftApi.registerObjectTag(EnumGem.SAPPHIRE.getItem(),
-        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.ARMOR, 2));
-    ThaumcraftApi.registerObjectTag(EnumGem.IOLITE.getItem(),
-        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.CLOTH, 2));
-    ThaumcraftApi.registerObjectTag(EnumGem.AMETHYST.getItem(),
-        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.POISON, 2));
-    ThaumcraftApi.registerObjectTag(EnumGem.MORGANITE.getItem(),
-        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.MAN, 2));
-    ThaumcraftApi.registerObjectTag(EnumGem.ONYX.getItem(),
-        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.DARKNESS, 2));
-  }
-
-  @SideOnly(Side.CLIENT)
-  @Override
-  public IIcon getIconFromDamage(int meta) {
-
-    return icons[meta & 15];
+//    ThaumcraftApi.registerObjectTag(EnumGem.RUBY.getItem(),
+//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.TOOL, 2));
+//    ThaumcraftApi.registerObjectTag(EnumGem.GARNET.getItem(),
+//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.FIRE, 2));
+//    ThaumcraftApi.registerObjectTag(EnumGem.TOPAZ.getItem(),
+//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.EARTH, 2));
+//    ThaumcraftApi.registerObjectTag(EnumGem.HELIODOR.getItem(),
+//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.DESIRE, 2));
+//    ThaumcraftApi.registerObjectTag(EnumGem.PERIDOT.getItem(),
+//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.DEATH, 2));
+//    ThaumcraftApi.registerObjectTag(EnumGem.EMERALD.getItem(),
+//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.MOTION, 2));
+//    ThaumcraftApi.registerObjectTag(EnumGem.AQUAMARINE.getItem(),
+//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.AURA, 2));
+//    ThaumcraftApi.registerObjectTag(EnumGem.SAPPHIRE.getItem(),
+//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.PROTECT, 2));
+//    ThaumcraftApi.registerObjectTag(EnumGem.IOLITE.getItem(),
+//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.MECHANISM, 2));
+//    ThaumcraftApi.registerObjectTag(EnumGem.AMETHYST.getItem(),
+//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.AVERSION, 2));
+//    ThaumcraftApi.registerObjectTag(EnumGem.MORGANITE.getItem(),
+//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.MAN, 2));
+//    ThaumcraftApi.registerObjectTag(EnumGem.ONYX.getItem(),
+//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.DARKNESS, 2));
   }
 
   @Override
   public EnumRarity getRarity(ItemStack stack) {
 
-    return (stack.getItemDamage() & 16) == 16 ? EnumRarity.rare : EnumRarity.common;
+    return (stack.getItemDamage() & 16) == 16 ? EnumRarity.RARE : EnumRarity.COMMON;
   }
 
   @SideOnly(Side.CLIENT)
@@ -177,12 +151,35 @@ public class Gem extends ItemSG {
   public void getSubItems(Item item, CreativeTabs tabs, List list) {
 
     int i;
-    for (i = 0; i < icons.length; ++i) {
-      list.add(new ItemStack(this, 1, i));
+    for (i = 0; i < EnumGem.values().length; ++i) {
+      list.add(new ItemStack(item, 1, i));
     }
-    for (i = 16; i < 16 + icons.length; ++i) {
-      list.add(new ItemStack(this, 1, i));
+    for (i = 16; i < 16 + EnumGem.values().length; ++i) {
+      list.add(new ItemStack(item, 1, i));
     }
+  }
+  
+  @Override
+  public String[] getVariantNames() {
+
+    int gemCount = EnumGem.values().length;
+    String[] result = new String[28];
+
+    int i = 0;
+    // Regular gems
+    for (; i < gemCount; ++i) {
+      result[i] = getFullName() + i;
+    }
+    // Blanks
+    for (; i < 16; ++i) {
+      result[i] = null;
+    }
+    // Supercharged gems
+    for (; i < 28; ++i) {
+      result[i] = getFullName() + i;
+    }
+
+    return result;
   }
 
   @Override
@@ -192,7 +189,7 @@ public class Gem extends ItemSG {
   }
 
   @Override
-  public boolean hasEffect(ItemStack stack, int pass) {
+  public boolean hasEffect(ItemStack stack) {
 
     return (stack.getItemDamage() & 16) == 16;
   }

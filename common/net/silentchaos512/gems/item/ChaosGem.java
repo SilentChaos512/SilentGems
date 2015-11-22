@@ -16,8 +16,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.configuration.Config;
-import net.silentchaos512.gems.core.handler.GemsExtendedPlayer;
-import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.RecipeHelper;
@@ -48,27 +46,70 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
 
     this.gemId = gemId;
     this.isCheaty = gemId == CHEATY_GEM_ID;
-    this.setMaxStackSize(1);
-    this.setNoRepair();
-    this.setMaxDamage(MAX_STACK_DAMAGE);
-    this.setUnlocalizedName(Names.CHAOS_GEM + gemId);
-    this.rarity = EnumRarity.rare;
+    setMaxStackSize(1);
+    setNoRepair();
+    setMaxDamage(MAX_STACK_DAMAGE);
+    setUnlocalizedName(Names.CHAOS_GEM + gemId);
+    rarity = EnumRarity.RARE;
+  }
+
+  private int getTagInteger(ItemStack gem, String key) {
+
+    if (gem != null) {
+      if (!gem.hasTagCompound()) {
+        return 0;
+      } else {
+        return gem.getTagCompound().getInteger(key);
+      }
+    }
+    return 0;
+  }
+
+  private void setTagInteger(ItemStack gem, String key, int value) {
+
+    if (gem != null) {
+      if (!gem.hasTagCompound()) {
+        gem.setTagCompound(new NBTTagCompound());
+      }
+      gem.getTagCompound().setInteger(key, value);
+    }
+  }
+
+  private boolean getTagBoolean(ItemStack gem, String key) {
+
+    if (gem != null) {
+      if (!gem.hasTagCompound()) {
+        return false;
+      } else {
+        return gem.getTagCompound().getBoolean(key);
+      }
+    }
+    return false;
+  }
+
+  private void setTagBoolean(ItemStack gem, String key, boolean value) {
+
+    if (gem != null) {
+      if (!gem.hasTagCompound()) {
+        gem.setTagCompound(new NBTTagCompound());
+      }
+      gem.getTagCompound().setBoolean(key, value);
+    }
   }
 
   @Override
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
     ItemStack stack = new ItemStack(this);
-    stack.setTagCompound(new NBTTagCompound());
-    stack.stackTagCompound.setInteger(NBT_CHARGE, this.getMaxEnergyStored(stack));
+    setTagInteger(stack, NBT_CHARGE, getMaxEnergyStored(stack));
     list.add(stack);
   }
 
   @Override
   public void addRecipes() {
 
-    if (this.gemId != CHEATY_GEM_ID) {
-      RecipeHelper.addSurroundOre(new ItemStack(this), EnumGem.all()[gemId].getBlockOreName(),
+    if (gemId != CHEATY_GEM_ID) {
+      RecipeHelper.addSurroundOre(new ItemStack(this), EnumGem.get(gemId).getBlockOreName(),
           CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS));
     }
   }
@@ -90,9 +131,9 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
     boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
         || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
 
-    boolean enabled = stack.stackTagCompound.getBoolean(NBT_ENABLED);
-    int energy = this.getEnergyStored(stack);
-    int capacity = this.getMaxEnergyStored(stack);
+    boolean enabled = getTagBoolean(stack, NBT_ENABLED);
+    int energy = getEnergyStored(stack);
+    int capacity = getMaxEnergyStored(stack);
 
     // Enabled/disabled
     if (enabled) {
@@ -119,20 +160,20 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
         list.add(EnumChatFormatting.DARK_GRAY + s);
 
         // Mini pylon count
-        int pylonCount = stack.stackTagCompound.getInteger(NBT_MINI_PYLON);
+        int pylonCount = getTagInteger(stack, NBT_MINI_PYLON);
         s = LocalizationHelper.getOtherItemKey(Names.CHAOS_GEM, "MiniPylon");
         s = String.format("%s: %d", s, pylonCount);
         list.add(EnumChatFormatting.DARK_GRAY + s);
       }
     }
 
-    if (stack.stackTagCompound.hasKey(NBT_BUFF_LIST)) {
+    NBTTagList buffList = getBuffList(stack);
+    if (buffList != null && buffList.tagCount() != 0) {
       // Display list of effects.
-      NBTTagList tags = (NBTTagList) stack.stackTagCompound.getTag(NBT_BUFF_LIST);
       NBTTagCompound t;
       int id, lvl;
-      for (int i = 0; i < tags.tagCount(); ++i) {
-        t = (NBTTagCompound) tags.getCompoundTagAt(i);
+      for (int i = 0; i < buffList.tagCount(); ++i) {
+        t = (NBTTagCompound) buffList.getCompoundTagAt(i);
         id = t.getShort(NBT_BUFF_ID);
         lvl = t.getShort(NBT_BUFF_LEVEL);
         if (id >= 0 && id < ChaosBuff.values().length) {
@@ -154,7 +195,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
   @Override
   public int getDamage(ItemStack stack) {
 
-    int value = (int) (MAX_STACK_DAMAGE * this.getDurabilityForDisplay(stack));
+    int value = (int) (MAX_STACK_DAMAGE * getDurabilityForDisplay(stack));
     return MathHelper.clamp_int(value, 0, MAX_STACK_DAMAGE - 1);
   }
 
@@ -163,29 +204,39 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
 
   }
 
+  /**
+   * Fixes bobbing effect when charge is draining.
+   */
+  @Override
+  public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
+      boolean slotChanged) {
+
+    return slotChanged;
+  }
+
   @Override
   public double getDurabilityForDisplay(ItemStack stack) {
 
-    int energy = this.getEnergyStored(stack);
-    int capacity = this.getMaxEnergyStored(stack);
+    int energy = getEnergyStored(stack);
+    int capacity = getMaxEnergyStored(stack);
     return (double) (capacity - energy) / (double) capacity;
   }
 
   @Override
   public boolean showDurabilityBar(ItemStack stack) {
 
-    return this.getEnergyStored(stack) < this.getMaxEnergyStored(stack);
+    return getEnergyStored(stack) < getMaxEnergyStored(stack);
   }
 
   @Override
-  public boolean hasEffect(ItemStack stack, int pass) {
+  public boolean hasEffect(ItemStack stack) {
 
-    return this.isEnabled(stack);
+    return isEnabled(stack);
   }
 
   private void applyEffects(ItemStack stack, EntityPlayer player) {
 
-    NBTTagList list = this.getBuffList(stack);
+    NBTTagList list = getBuffList(stack);
     NBTTagCompound tag;
     short id, lvl;
     for (int i = 0; i < list.tagCount(); ++i) {
@@ -200,7 +251,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
 
   private void removeEffects(ItemStack stack, EntityPlayer player) {
 
-    NBTTagList list = this.getBuffList(stack);
+    NBTTagList list = getBuffList(stack);
     NBTTagCompound tag;
     short id, lvl;
     for (int i = 0; i < list.tagCount(); ++i) {
@@ -224,15 +275,17 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
   public NBTTagList getBuffList(ItemStack stack) {
 
     if (stack != null) {
-      if (stack.stackTagCompound == null) {
-        stack.setTagCompound(new NBTTagCompound());
+      NBTTagCompound root = stack.getTagCompound();
+
+      if (root == null) {
+        root = new NBTTagCompound();
       }
 
-      if (stack.stackTagCompound.hasKey(NBT_BUFF_LIST)) {
-        return (NBTTagList) stack.stackTagCompound.getTag(NBT_BUFF_LIST);
+      if (root.hasKey(NBT_BUFF_LIST)) {
+        return (NBTTagList) root.getTag(NBT_BUFF_LIST);
       } else {
-        stack.stackTagCompound.setTag(NBT_BUFF_LIST, new NBTTagList());
-        return (NBTTagList) stack.stackTagCompound.getTag(NBT_BUFF_LIST);
+        root.setTag(NBT_BUFF_LIST, new NBTTagList());
+        return (NBTTagList) root.getTag(NBT_BUFF_LIST);
       }
     }
 
@@ -258,7 +311,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
 
     int level = getBuffLevel(stack, buff);
 
-    NBTTagList list = this.getBuffList(stack);
+    NBTTagList list = getBuffList(stack);
     if (level == 0) {
       // Buff not already on list, add it.
       NBTTagCompound tag = new NBTTagCompound();
@@ -281,56 +334,35 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
 
   public int getBuffCount(ItemStack stack) {
 
-    // Does buff tag list exist?
-    if (stack == null || stack.stackTagCompound == null
-        || !stack.stackTagCompound.hasKey(NBT_BUFF_LIST)) {
-      return 0;
-    } else {
-      NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(NBT_BUFF_LIST);
-      return list.tagCount();
-    }
+    NBTTagList buffList = getBuffList(stack);
+    return buffList == null ? 0 : buffList.tagCount();
   }
 
   public int getBuffLevel(ItemStack stack, ChaosBuff buff) {
 
-    // Does buff tag list exist?
-    if (stack == null || buff == null || stack.stackTagCompound == null
-        || !stack.stackTagCompound.hasKey(NBT_BUFF_LIST)) {
-      return 0;
-    } else {
-      NBTTagList list = (NBTTagList) stack.stackTagCompound.getTag(NBT_BUFF_LIST);
-
-      // Does the specified buff exist on list?
-      for (int i = 0; i < list.tagCount(); ++i) {
-        NBTTagCompound tag = list.getCompoundTagAt(i);
+    NBTTagList buffList = getBuffList(stack);
+    if (buffList != null) {
+      for (int i = 0; i < buffList.tagCount(); ++i) {
+        NBTTagCompound tag = buffList.getCompoundTagAt(i);
         if (tag.getShort(NBT_BUFF_ID) == buff.id) {
           return tag.getShort(NBT_BUFF_LEVEL);
         }
       }
-
-      // Not there
-      return 0;
     }
+
+    return 0;
   }
 
   public boolean canAddMiniPylon(ItemStack stack) {
 
-    if (stack.stackTagCompound == null) {
-      stack.setTagCompound(new NBTTagCompound());
-    }
-
-    int pylonCount = 0;
-    if (stack.stackTagCompound.hasKey(NBT_MINI_PYLON)) {
-      pylonCount = stack.stackTagCompound.getInteger(NBT_MINI_PYLON);
-    }
-
+    int pylonCount = getTagInteger(stack, NBT_MINI_PYLON);
     return pylonCount < Config.CHAOS_GEM_MAX_MINI_PYLON;
   }
 
   public void addMiniPylon(ItemStack stack) {
 
-    int pylonCount = stack.stackTagCompound.getInteger(NBT_MINI_PYLON);
-    stack.stackTagCompound.setInteger(NBT_MINI_PYLON, pylonCount + 1);
+    int pylonCount = getTagInteger(stack, NBT_MINI_PYLON);
+    setTagInteger(stack, NBT_MINI_PYLON, pylonCount + 1);
   }
 
   public int getTotalChargeDrain(ItemStack stack, EntityPlayer player) {
@@ -338,7 +370,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
     int drain = 0;
 
     if (stack != null) {
-      NBTTagList list = this.getBuffList(stack);
+      NBTTagList list = getBuffList(stack);
       NBTTagCompound tag;
       int id;
       int level;
@@ -362,30 +394,17 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
 
   public int getSelfRechargeAmount(ItemStack stack) {
 
-    if (stack != null && stack.stackTagCompound != null) {
-      if (stack.stackTagCompound.hasKey(NBT_MINI_PYLON)) {
-        return stack.stackTagCompound.getInteger(NBT_MINI_PYLON);
-      }
-    }
-    return 0;
+    return getTagInteger(stack, NBT_MINI_PYLON);
   }
 
   public boolean isEnabled(ItemStack stack) {
 
-    return stack != null && stack.stackTagCompound != null
-        && stack.stackTagCompound.hasKey(NBT_ENABLED)
-        && stack.stackTagCompound.getBoolean(NBT_ENABLED);
+    return getTagBoolean(stack, NBT_ENABLED);
   }
 
   public void setEnabled(ItemStack stack, boolean value) {
 
-    if (stack != null) {
-      if (stack.stackTagCompound == null) {
-        stack.setTagCompound(new NBTTagCompound());
-      }
-
-      stack.stackTagCompound.setBoolean(NBT_ENABLED, value);
-    }
+    setTagBoolean(stack, NBT_ENABLED, value);
   }
 
   @Override
@@ -415,11 +434,11 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
     }
 
     // Update charge level
-    this.extractEnergy(stack, this.getTotalChargeDrain(stack, player), false);
+    extractEnergy(stack, this.getTotalChargeDrain(stack, player), false);
     // Disable if out of charge.
-    if (this.getEnergyStored(stack) <= 0) {
-      this.setEnabled(stack, false);
-      this.removeEffects(stack, player);
+    if (getEnergyStored(stack) <= 0) {
+      setEnabled(stack, false);
+      removeEffects(stack, player);
     }
   }
 
@@ -427,8 +446,8 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
   public boolean onDroppedByPlayer(ItemStack stack, EntityPlayer player) {
 
     // Set disabled
-    this.setEnabled(stack, false);
-    this.removeEffects(stack, player);
+    setEnabled(stack, false);
+    removeEffects(stack, player);
     return true;
   }
 
@@ -436,12 +455,12 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
   public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
     // Enable/disable
-    if (this.getEnergyStored(stack) > 0) {
-      this.setEnabled(stack, !this.isEnabled(stack));
-      if (this.isEnabled(stack)) {
-        this.applyEffects(stack, player);
+    if (getEnergyStored(stack) > 0) {
+      setEnabled(stack, !isEnabled(stack));
+      if (isEnabled(stack)) {
+        applyEffects(stack, player);
       } else {
-        this.removeEffects(stack, player);
+        removeEffects(stack, player);
       }
     }
 
@@ -451,12 +470,12 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
   @Override
   public int receiveEnergy(ItemStack stack, int maxReceive, boolean simulate) {
 
-    int energy = this.getEnergyStored(stack);
-    int capacity = this.getMaxEnergyStored(stack);
+    int energy = getEnergyStored(stack);
+    int capacity = getMaxEnergyStored(stack);
     int received = Math.min(capacity - energy, maxReceive);
 
     if (!simulate) {
-      stack.stackTagCompound.setInteger(NBT_CHARGE, energy + received);
+      setTagInteger(stack, NBT_CHARGE, energy + received);
     }
 
     return received;
@@ -470,7 +489,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
     int extracted = Math.min(energy, maxExtract);
 
     if (!simulate) {
-      stack.stackTagCompound.setInteger(NBT_CHARGE, energy - extracted);
+      setTagInteger(stack, NBT_CHARGE, energy - extracted);
     }
 
     return extracted;
@@ -479,21 +498,12 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
   @Override
   public int getEnergyStored(ItemStack stack) {
 
-    if (stack.stackTagCompound == null) {
-      stack.setTagCompound(new NBTTagCompound());
-    }
-
-    if (stack.stackTagCompound.hasKey(NBT_CHARGE)) {
-      return stack.stackTagCompound.getInteger(NBT_CHARGE);
-    } else {
-      stack.stackTagCompound.setInteger(NBT_CHARGE, 0);
-      return 0;
-    }
+    return getTagInteger(stack, NBT_CHARGE);
   }
 
   @Override
   public int getMaxEnergyStored(ItemStack stack) {
 
-    return 1000000; // FIXME: Chaos gem max charge?
+    return 1000000;
   }
 }

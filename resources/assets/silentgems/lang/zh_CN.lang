@@ -177,8 +177,8 @@ item.silentgems:ChaosBooster.desc=并不是和它听起来一样差。
 item.silentgems:ChaosCapacitor.name=混沌石电容器
 item.silentgems:ChaosCapacitor.desc=用来存储极好的东西。
 
-item.silentgems:Chaos Essence.name=混沌石
-item.silentgems:Chaos Essence.desc=闪耀的能量！
+item.silentgems:ChaosEssence.name=混沌石
+item.silentgems:ChaosEssence.desc=闪耀的能量！
 
 item.silentgems:ChaosEssencePlus.name=浓缩的混沌石
 item.silentgems:ChaosEssencePlus.desc=极度闪耀！
@@ -291,11 +291,11 @@ item.silentgems:MeatyStew.desc=一顿简单的食物！
 item.silentgems:MeatyStewUncooked.name=没熟的肉汤
 item.silentgems:MeatyStewUncooked.desc=你也许想要先煮熟它。
 
-item.silentgems:Mystery Goo.name=神秘的粘性物
-item.silentgems:Mystery Goo.desc=体验如家一般的舒适空间。
+item.silentgems:MysteryGoo.name=神秘的粘性物
+item.silentgems:MysteryGoo.desc=体验如家一般的舒适空间。
 
-item.silentgems:Ornate Stick.name=华丽的棍子
-item.silentgems:Ornate Stick.desc=珠光宝气。
+item.silentgems:OrnateStick.name=华丽的棍子
+item.silentgems:OrnateStick.desc=珠光宝气。
 
 item.silentgems:Plume.name=羽毛串
 item.silentgems:Plume.desc=一串羽毛。
@@ -339,8 +339,8 @@ item.silentgems:TorchBandolier.desc3=把它放在合成栏里以取出其中的�
 item.silentgems:TorchBandolier.AutoFillOff=自动装填模式关闭。
 item.silentgems:TorchBandolier.AutoFillOn=自动装填模式开启。
 
-item.silentgems:Yarn Ball.name=毛线球
-item.silentgems:Yarn Ball.desc=它并不闪亮，但是小猫好像很喜欢它。
+item.silentgems:YarnBall.name=毛线球
+item.silentgems:YarnBall.desc=它并不闪亮，但是小猫好像很喜欢它。
 
 
 

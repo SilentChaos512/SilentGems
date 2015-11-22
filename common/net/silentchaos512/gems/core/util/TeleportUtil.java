@@ -1,7 +1,6 @@
 package net.silentchaos512.gems.core.util;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
@@ -12,7 +11,7 @@ public class TeleportUtil {
 
   public static boolean teleportPlayerTo(EntityPlayerMP player, int x, int y, int z, int dimension) {
 
-    int oldDimension = player.worldObj.provider.dimensionId;
+    int oldDimension = player.worldObj.provider.getDimensionId();
     if (dimension != oldDimension) {
       WorldServer worldServer = MinecraftServer.getServer().worldServerForDimension(dimension);
       
@@ -39,7 +38,7 @@ public class TeleportUtil {
   
   public static boolean teleportEntityTo(Entity entity, int x, int y, int z, int dimension) {
     
-    int oldDimension = entity.worldObj.provider.dimensionId;
+    int oldDimension = entity.worldObj.provider.getDimensionId();
     if (dimension != oldDimension) {
       return false; // TODO: Fix cross-dimension entity teleportation?
 //      MinecraftServer.getServer().worldServerForDimension(dimension);

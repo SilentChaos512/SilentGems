@@ -8,11 +8,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 import net.silentchaos512.gems.energy.IChaosStorage;
-import net.silentchaos512.gems.item.ChaosGem;
 
-public class TileChaosAltar extends TileEntity implements ISidedInventory {
+public class TileChaosAltar extends TileEntity implements ISidedInventory, IUpdatePlayerListBox {
   
   public static final int BLOCK_UPDATE_DELAY = 200;
 
@@ -47,7 +49,7 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
       NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
       byte slot = tagCompound.getByte("Slot");
 
-      if (slot >= 0 && slot < this.inventory.length) {
+      if (slot >= 0 && slot < inventory.length) {
         this.inventory[slot] = ItemStack.loadItemStackFromNBT(tagCompound);
       }
     }
@@ -60,7 +62,7 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
     tags.setInteger("Energy", energyStored);
 
     NBTTagList tagList = new NBTTagList();
-    for (int i = 0; i < this.inventory.length; ++i) {
+    for (int i = 0; i < inventory.length; ++i) {
       if (this.inventory[i] != null) {
         NBTTagCompound tagCompound = new NBTTagCompound();
         tagCompound.setByte("Slot", (byte) i);
@@ -84,15 +86,15 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
   public int receiveEnergy(int amount) {
 
     int amountReceived = 0;
-    if (this.energyStored + amount > this.getMaxEnergyStored()) {
-      amountReceived = this.getMaxEnergyStored() - this.energyStored;
-      this.energyStored = this.getMaxEnergyStored();
+    if (energyStored + amount > getMaxEnergyStored()) {
+      amountReceived = getMaxEnergyStored() - energyStored;
+      energyStored = getMaxEnergyStored();
     } else {
       amountReceived = amount;
-      this.energyStored += amount;
+      energyStored += amount;
     }
     
-    this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+    this.worldObj.markBlockForUpdate(pos);
     
     return amountReceived;
   }
@@ -101,28 +103,28 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
   public Packet getDescriptionPacket() {
 
     NBTTagCompound tags = new NBTTagCompound();
-    tags.setInteger("Energy", this.getEnergyStored());
-    return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, tags);
+    tags.setInteger("Energy", getEnergyStored());
+    return new S35PacketUpdateTileEntity(pos, 1, tags);
   }
 
   @Override
   public void onDataPacket(NetworkManager network, S35PacketUpdateTileEntity packet) {
 
-    this.energyStored = packet.func_148857_g().getInteger("Energy");
+    this.energyStored = packet.getNbtCompound().getInteger("Energy");
   }
 
   @Override
-  public void updateEntity() {
+  public void update() {
 
     if (!this.worldObj.isRemote) {
       ItemStack stack = getStackInSlot(0);
       if (stack != null && stack.getItem() instanceof IChaosStorage) {
         // Charge storage items.
         IChaosStorage chaosStorage = (IChaosStorage) stack.getItem();
-        int amount = chaosStorage.receiveEnergy(stack, Math.min(this.energyStored, 1000), false);
-        this.energyStored -= amount;
+        int amount = chaosStorage.receiveEnergy(stack, Math.min(energyStored, 1000), false);
+        energyStored -= amount;
         if (amount != 0) {
-          this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+          this.worldObj.markBlockForUpdate(pos);
         }
 
         // Move full item to second slot
@@ -135,13 +137,13 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
       }
       
       if (worldObj.getTotalWorldTime() % BLOCK_UPDATE_DELAY == 0) {
-        worldObj.notifyBlockChange(xCoord, yCoord, zCoord, blockType);
+        worldObj.notifyBlockOfStateChange(pos, blockType);
       }
     }
     else{
     	//update the timer - client side only; if you want each pylon/altar to have a unique
     	//animation, we will have to move this somewhere else and rework the code a bit more
-    	timer = (timer+1)%360;
+    	timer = (timer + 1) % 360;
     }
   }
 
@@ -204,18 +206,6 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
   }
 
   @Override
-  public String getInventoryName() {
-
-    return "container.silentgems:ChaosAltar";
-  }
-
-  @Override
-  public boolean hasCustomInventoryName() {
-
-    return false;
-  }
-
-  @Override
   public int getInventoryStackLimit() {
 
     return 64;
@@ -224,21 +214,11 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
   @Override
   public boolean isUseableByPlayer(EntityPlayer player) {
 
-    return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false
-        : player.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D,
-            (double) this.zCoord + 0.5D) <= 64.0D;
+    return this.worldObj.getTileEntity(pos) != this ? false
+        : player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D,
+            (double) pos.getZ() + 0.5D) <= 64.0D;
   }
-
-  @Override
-  public void openInventory() {
-
-  }
-
-  @Override
-  public void closeInventory() {
-
-  }
-
+  
   @Override
   public boolean isItemValidForSlot(int slot, ItemStack stack) {
 
@@ -251,28 +231,98 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory {
     return false;
   }
 
-  @Override
-  public int[] getAccessibleSlotsFromSide(int side) {
+//  @Override
+//  public int[] getAccessibleSlotsFromSide(EnumFacing side) {
+//
+//    switch (side) {
+//      case DOWN:
+//        return slotsBottom;
+//      case UP:
+//        return slotsTop;
+//      default:
+//        return slotsSide;
+//    }
+//  }
 
-    switch (side) {
-      case 0:
-        return slotsBottom;
-      case 1:
-        return slotsTop;
-      default:
-        return slotsSide;
-    }
-  }
-
   @Override
-  public boolean canInsertItem(int slot, ItemStack stack, int side) {
+  public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
 
     return this.isItemValidForSlot(slot, stack);
   }
 
   @Override
-  public boolean canExtractItem(int slot, ItemStack stack, int side) {
+  public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
 
-    return side == 0; // TODO: Is this right?
+    return side == EnumFacing.DOWN;
+  }
+
+  @Override
+  public void openInventory(EntityPlayer player) {
+
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void closeInventory(EntityPlayer player) {
+
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public int getField(int id) {
+
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public void setField(int id, int value) {
+
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public int getFieldCount() {
+
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public void clear() {
+
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public String getName() {
+
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public boolean hasCustomName() {
+
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public IChatComponent getDisplayName() {
+
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public int[] getSlotsForFace(EnumFacing side) {
+
+    // TODO Auto-generated method stub
+    return null;
   }
 }

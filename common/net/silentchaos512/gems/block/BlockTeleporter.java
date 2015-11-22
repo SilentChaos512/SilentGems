@@ -1,11 +1,13 @@
 package net.silentchaos512.gems.block;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -13,9 +15,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -35,6 +40,8 @@ import net.silentchaos512.gems.tile.TileTeleporter;
 
 public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
 
+  public static final PropertyEnum VARIANT = PropertyEnum.create("variant", EnumGem.class);
+
   public static final String DESTINATION_OBSTRUCTED = "DestinationObstructed";
   public static final String LINK_END = "Link.End";
   public static final String LINK_FAIL = "Link.Fail";
@@ -46,7 +53,11 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
 
   public BlockTeleporter() {
 
-    super(Material.iron);
+    super(EnumGem.values().length, Material.iron);
+    if (!(this instanceof BlockTeleporterAnchor)) {
+      setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY));
+    }
+
     setHardness(15.0f);
     setResistance(2000.0f);
     setStepSound(Block.soundTypeGlass);
@@ -76,17 +87,36 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
     return new TileTeleporter();
   }
 
+  @Override
+  public IBlockState getStateFromMeta(int meta) {
+
+    return this.getDefaultState().withProperty(VARIANT, EnumGem.get(meta));
+  }
+
+  @Override
+  public int getMetaFromState(IBlockState state) {
+
+    return ((EnumGem) state.getValue(VARIANT)).id;
+  }
+
+  @Override
+  protected BlockState createBlockState() {
+
+    return new BlockState(this, new IProperty[] { VARIANT });
+  }
+
   private boolean linkReturnHome(World world, int x, int y, int z, EntityPlayer player) {
 
     if (world.isRemote) {
       return true;
     }
 
-    ItemStack charm = player.inventory.getCurrentItem();
-    if (charm.stackTagCompound == null) {
-      charm.stackTagCompound = new NBTTagCompound();
+    // TODO: Does Return Home linking work like this? (was charm.stackTagCompound)
+    NBTTagCompound root = player.getCurrentEquippedItem().getTagCompound();
+    if (root == null) {
+      root = new NBTTagCompound();
     }
-    NBTHelper.setXYZD(charm.stackTagCompound, x, y, z, player.dimension);
+    NBTHelper.setXYZD(root, x, y, z, player.dimension);
     String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, RETURN_HOME_BOUND);
     PlayerHelper.addChatMessage(player, str);
     return true;
@@ -98,31 +128,31 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
       return true;
     }
 
-    ItemStack linker = player.inventory.getCurrentItem();
-
-    if (linker.stackTagCompound == null) {
-      linker.stackTagCompound = new NBTTagCompound();
-      linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
-      NBTHelper.setXYZD(linker.stackTagCompound, 0, 0, 0, 0);
+    // TODO: Does linking work with this code?
+    NBTTagCompound root = player.inventory.getCurrentItem().getTagCompound();
+    if (root == null) {
+      root = new NBTTagCompound();
+      root.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
+      NBTHelper.setXYZD(root, 0, 0, 0, 0);
     }
 
     // Safety check
-    if (!NBTHelper.hasValidXYZD(linker.stackTagCompound)) {
-      linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
+    if (!NBTHelper.hasValidXYZD(root)) {
+      root.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
     }
 
-    int sx = linker.stackTagCompound.getInteger("X");
-    int sy = linker.stackTagCompound.getInteger("Y");
-    int sz = linker.stackTagCompound.getInteger("Z");
-    int sd = linker.stackTagCompound.getInteger("D");
+    int sx = root.getInteger("X");
+    int sy = root.getInteger("Y");
+    int sz = root.getInteger("Z");
+    int sd = root.getInteger("D");
 
-    if (linker.stackTagCompound.getBoolean(Strings.TELEPORTER_LINKER_STATE)) {
+    if (root.getBoolean(Strings.TELEPORTER_LINKER_STATE)) {
       // Active state, link teleporters and set inactive.
       TileTeleporter t1, t2;
       t1 = (TileTeleporter) MinecraftServer.getServer().worldServerForDimension(sd)
-          .getTileEntity(sx, sy, sz);
+          .getTileEntity(new BlockPos(sx, sy, sz));
       t2 = (TileTeleporter) MinecraftServer.getServer().worldServerForDimension(player.dimension)
-          .getTileEntity(x, y, z);
+          .getTileEntity(new BlockPos(x, y, z));
 
       // Safety check
       if (t1 == null) {
@@ -130,14 +160,14 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
         String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, LINK_FAIL);
         PlayerHelper.addChatMessage(player, EnumChatFormatting.DARK_RED + str);
         LogHelper.warning("A teleporter link failed because teleporter 1 could not be found.");
-        linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
+        root.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
         return false;
       } else if (t2 == null) {
         // Teleporter 2 not found.
         String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, LINK_FAIL);
         PlayerHelper.addChatMessage(player, EnumChatFormatting.DARK_RED + str);
         LogHelper.warning("A teleporter link failed because teleporter 2 could not be found.");
-        linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
+        root.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
         return false;
       }
 
@@ -154,11 +184,11 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
       String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, LINK_END);
       PlayerHelper.addChatMessage(player, str);
 
-      linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
+      root.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
     } else {
       // Inactive state, set active state and location data.
-      linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, true);
-      NBTHelper.setXYZD(linker.stackTagCompound, x, y, z, player.dimension);
+      root.setBoolean(Strings.TELEPORTER_LINKER_STATE, true);
+      NBTHelper.setXYZD(root, x, y, z, player.dimension);
       String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, LINK_START);
       PlayerHelper.addChatMessage(player, str);
     }
@@ -167,8 +197,8 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
   }
 
   @Override
-  public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side,
-      float hitX, float hitY, float hitZ) {
+  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
+      EnumFacing side, float hitX, float hitY, float hitZ) {
 
     boolean playerHoldingLinker = PlayerHelper.isPlayerHoldingItem(player,
         ModItems.teleporterLinker);
@@ -180,6 +210,10 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
       }
       return !this.isAnchor;
     }
+
+    final int x = pos.getX();
+    final int y = pos.getY();
+    final int z = pos.getZ();
 
     // Link teleporters
     if (playerHoldingLinker) {
@@ -196,7 +230,7 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
       return false;
     }
 
-    TileTeleporter tile = (TileTeleporter) world.getTileEntity(x, y, z);
+    TileTeleporter tile = (TileTeleporter) world.getTileEntity(pos);
 
     if (tile != null) {
       // Safety checks:
@@ -233,8 +267,9 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
   protected boolean isDestinationSafe(int x, int y, int z, int dimension) {
 
     // Check for obstructions at player head level. This may need additional tuning...
+    BlockPos pos = new BlockPos(x, y, z);
     WorldServer server = MinecraftServer.getServer().worldServerForDimension(dimension);
-    return !server.isBlockNormalCubeDefault(x, y + 2, z, true);
+    return !server.isBlockNormalCube(pos.up(2), false);
   }
 
   protected boolean teleporterEntityTo(Entity entity, int x, int y, int z, int dimension) {

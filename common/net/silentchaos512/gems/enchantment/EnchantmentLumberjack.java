@@ -2,19 +2,19 @@ package net.silentchaos512.gems.enchantment;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBook;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
-import net.silentchaos512.gems.core.util.LogHelper;
-import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.lib.Names;
 
@@ -24,7 +24,7 @@ public class EnchantmentLumberjack extends Enchantment {
 
   protected EnchantmentLumberjack(int effectId, int weight, EnumEnchantmentType type) {
 
-    super(effectId, weight, type);
+    super(effectId, new ResourceLocation("lumberjack"), weight, type);
     setName(Names.LUMBERJACK);
   }
 
@@ -37,10 +37,10 @@ public class EnchantmentLumberjack extends Enchantment {
     }
     return false;
   }
-  
+
   @Override
   public boolean canApplyTogether(Enchantment e) {
-    
+
     return e != ModEnchantments.aoe && super.canApplyTogether(e);
   }
 
@@ -76,16 +76,17 @@ public class EnchantmentLumberjack extends Enchantment {
     }
 
     World world = player.worldObj;
-    final Block wood = world.getBlock(x, y, z);
+    BlockPos pos = new BlockPos(x, y, z);
+    IBlockState state = world.getBlockState(pos);
+    final Block wood = state.getBlock();
 
     if (wood == null) {
       return 0;
     }
 
-    if (wood.isWood(world, x, y, z) || wood.getMaterial() == Material.sponge) {
+    if (wood.isWood(world, pos) || wood.getMaterial() == Material.sponge) {
       if (detectTree(world, x, y, z, wood)) {
-        int meta = world.getBlockMetadata(x, y, z);
-        int k = breakTree(world, x, y, z, x, y, z, tool, wood, meta, player);
+        int k = breakTree(world, x, y, z, x, y, z, tool, state, player);
         return k > 0 ? k - 1 : 0;
       }
     }
@@ -99,7 +100,7 @@ public class EnchantmentLumberjack extends Enchantment {
     boolean foundTop = false;
     do {
       ++height;
-      Block block = world.getBlock(x, height, z);
+      Block block = world.getBlockState(new BlockPos(x, height, z)).getBlock();
       if (block != wood) {
         --height;
         foundTop = true;
@@ -111,8 +112,9 @@ public class EnchantmentLumberjack extends Enchantment {
       for (int xPos = x - 1; xPos <= x + 1; xPos++) {
         for (int yPos = height - 1; yPos <= height + 1; yPos++) {
           for (int zPos = z - 1; zPos <= z + 1; zPos++) {
-            Block leaves = world.getBlock(xPos, yPos, zPos);
-            if (leaves != null && leaves.isLeaves(world, xPos, yPos, zPos))
+            BlockPos pos = new BlockPos(xPos, yPos, zPos);
+            IBlockState leaves = world.getBlockState(pos);
+            if (leaves != null && leaves.getBlock().isLeaves(world, pos))
               ++numLeaves;
           }
         }
@@ -123,27 +125,38 @@ public class EnchantmentLumberjack extends Enchantment {
   }
 
   private static int breakTree(World world, int x, int y, int z, int xStart, int yStart, int zStart,
-      ItemStack tool, Block block, int meta, EntityPlayer player) {
+      ItemStack tool, IBlockState state, EntityPlayer player) {
 
     int blocksBroken = 0;
+
     GemAxe axe = (GemAxe) tool.getItem();
+    Block block = state.getBlock();
+    BlockPos pos = new BlockPos(x, y, z);
+
+    Block localBlock;
+    IBlockState localState;
+    BlockPos localPos;
+
+    int meta = block.getMetaFromState(state);
+    int localMeta;
 
     for (int xPos = x - 1; xPos <= x + 1; ++xPos) {
       for (int yPos = y; yPos <= y + 1; ++yPos) {
         for (int zPos = z - 1; zPos <= z + 1; ++zPos) {
-          Block localBlock = world.getBlock(xPos, yPos, zPos);
+          localPos = new BlockPos(xPos, yPos, zPos);
+          localState = world.getBlockState(localPos);
+          localBlock = localState.getBlock();
           if (block == localBlock) {
-            int localMeta = world.getBlockMetadata(xPos, yPos, zPos);
-            int harvestLevel = localBlock.getHarvestLevel(localMeta);
+            int harvestLevel = localBlock.getHarvestLevel(localState);
             float localHardness = localBlock == null ? Float.MAX_VALUE
-                : localBlock.getBlockHardness(world, xPos, yPos, zPos);
+                : localBlock.getBlockHardness(world, localPos);
 
             if (harvestLevel <= axe.getHarvestLevel(tool, "axe") && localHardness >= 0) {
               boolean cancel = false;
 
               // Block break event
-              BlockEvent.BreakEvent event = new BlockEvent.BreakEvent(x, y, z, world, localBlock,
-                  localMeta, player);
+              BlockEvent.BreakEvent event = new BlockEvent.BreakEvent(world, localPos, localState,
+                  player);
               // event.setCanceled(cancel);
               MinecraftForge.EVENT_BUS.post(event);
               cancel = event.isCanceled();
@@ -155,19 +168,20 @@ public class EnchantmentLumberjack extends Enchantment {
               if (9 * xDist * xDist + yDist * yDist + 9 * zDist * zDist < 2500) {
                 if (cancel) {
                   blocksBroken += breakTree(world, xPos, yPos, zPos, xStart, yStart, zStart, tool,
-                      block, meta, player);
+                      state, player);
                 } else {
+                  localMeta = localBlock.getMetaFromState(localState);
                   if (localBlock == block && localMeta % 4 == meta % 4) {
                     if (!player.capabilities.isCreativeMode) {
-                      localBlock.harvestBlock(world, player, x, y, z, localMeta);
-                      axe.onBlockDestroyed(tool, world, localBlock, xPos, yPos, zPos, player);
+                      localBlock.harvestBlock(world, player, pos, state, null);
+                      axe.onBlockDestroyed(tool, world, localBlock, localPos, player);
                       ++blocksBroken;
                     }
 
-                    world.setBlockToAir(xPos, yPos, zPos);
+                    world.setBlockToAir(localPos);
                     if (!world.isRemote) {
                       blocksBroken += breakTree(world, xPos, yPos, zPos, xStart, yStart, zStart,
-                          tool, block, meta, player);
+                          tool, state, player);
                     }
                   }
                 }

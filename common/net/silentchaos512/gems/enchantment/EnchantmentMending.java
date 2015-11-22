@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.silentchaos512.gems.core.util.InventoryHelper;
 import net.silentchaos512.gems.item.armor.ArmorSG;
@@ -19,7 +20,7 @@ public class EnchantmentMending extends Enchantment {
 
   protected EnchantmentMending(int par1, int par2, EnumEnchantmentType par3EnumEnchantmentType) {
 
-    super(par1, par2, par3EnumEnchantmentType);
+    super(par1, new ResourceLocation("mending"), par2, par3EnumEnchantmentType);
     setName(Names.MENDING);
   }
 

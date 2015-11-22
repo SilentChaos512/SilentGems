@@ -1,12 +1,12 @@
 package net.silentchaos512.gems.item;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
@@ -48,7 +48,7 @@ public class ModItems {
   public static ChaosRune chaosRune;
   public static DyeSG dye;
   public static DebugItem debugItem;
-  public static ToolRenderHelper toolRenderHelper;
+  public static ChaosEssence chaosEssence;
 
   public static void init() {
 
@@ -72,11 +72,13 @@ public class ModItems {
         Names.TOOL_UPGRADE);
     chaosRune = (ChaosRune) SRegistry.registerItem(ChaosRune.class, Names.CHAOS_RUNE);
     dye = (DyeSG) SRegistry.registerItem(DyeSG.class, Names.DYE);
+    chaosEssence = (ChaosEssence) SRegistry.registerItem(ChaosEssence.class,
+        Names.CHAOS_ESSENCE_OLD);
 
     /*
      * Chaos Gems
      */
-    for (int i = 0; i < EnumGem.all().length; ++i) {
+    for (int i = 0; i < EnumGem.values().length; ++i) {
       SRegistry.registerItem(ChaosGem.class, Names.CHAOS_GEM + i, i);
     }
     SRegistry.registerItem(ChaosGem.class, Names.CHAOS_GEM + ChaosGem.CHEATY_GEM_ID,
@@ -85,11 +87,6 @@ public class ModItems {
     /*
      * Tools
      */
-
-    // Fake item ToolRenderHelper
-    toolRenderHelper = (ToolRenderHelper) SRegistry.registerItem(ToolRenderHelper.class,
-        "ToolRenderHelper");
-    ToolRenderHelper.init();
 
     Object[] params = new Object[] { null, 0, false }; // Constructor parameters
 
@@ -233,6 +230,6 @@ public class ModItems {
     stack = new ItemStack(food, 1, 1);
     content = new WeightedRandomChestContent(stack, 4, 8, 8);
     ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST).addItem(content);
-    
+
   }
 }

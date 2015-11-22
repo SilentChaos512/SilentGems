@@ -6,9 +6,10 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -29,10 +30,12 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.configuration.Config;
+import net.silentchaos512.gems.core.registry.IRegisterModels;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.enchantment.EnchantmentLumberjack;
@@ -48,7 +51,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 
-public class EnchantToken extends ItemSG {
+public class EnchantToken extends ItemSG implements IRegisterModels {
 
   /**
    * An internal helper class. This is needed because each enchantment requires some extra data to go with it. Maybe
@@ -87,18 +90,26 @@ public class EnchantToken extends ItemSG {
   public static final int T_SHOVEL = 4;
   public static final int T_AXE = 2;
   public static final int T_HOE = 1;
-
-  private IIcon iconAny;
-  private IIcon iconArmor;
-  private IIcon iconBow;
-  private IIcon iconEmpty;
-  private IIcon iconSword;
-  private IIcon iconTool;
+  
+  /*
+   * Models keys
+   */
+  public static final String KEY_ANY = "Any";
+  public static final String KEY_ARMOR = "Armor";
+  public static final String KEY_BOW = "Bow";
+  public static final String KEY_EMPTY = "Empty";
+  public static final String KEY_SWORD = "Sword";
+  public static final String KEY_TOOL = "Tool";
 
   /**
    * Stores the enchantments that there are tokens for.
    */
   public static HashMap<Integer, EnchData> enchants = new HashMap<Integer, EnchData>();
+  
+  /**
+   * Stores the different models we use for different enchantment types.
+   */
+  private HashMap<String, ModelResourceLocation> models = new HashMap<String, ModelResourceLocation>();
 
   public EnchantToken() {
 
@@ -407,7 +418,7 @@ public class EnchantToken extends ItemSG {
     if (flag) {
       // Token and tool type match. Does tool have any enchantments?
       if (tool.hasTagCompound()) {
-        if (!tool.stackTagCompound.hasKey("ench")) {
+        if (!tool.getTagCompound().hasKey("ench")) {
           return true;
         }
       } else if (!tool.hasTagCompound()) {
@@ -421,8 +432,8 @@ public class EnchantToken extends ItemSG {
         for (int i = 0; i < tool.getEnchantmentTagList().tagCount(); ++i) {
           int id = ((NBTTagCompound) tool.getEnchantmentTagList().getCompoundTagAt(i))
               .getShort("id");
-          if (!e.enchantment.canApplyTogether(Enchantment.enchantmentsList[id])
-              || !Enchantment.enchantmentsList[id].canApplyTogether(e.enchantment)) {
+          if (!e.enchantment.canApplyTogether(Enchantment.getEnchantmentById(id))
+              || !Enchantment.getEnchantmentById(id).canApplyTogether(e.enchantment)) {
             return false;
           }
         }
@@ -453,10 +464,10 @@ public class EnchantToken extends ItemSG {
       tool.addEnchantment(e.enchantment, 0);
     }
 
-    if (tool.stackTagCompound == null) {
+    if (!tool.hasTagCompound()) {
       tool.setTagCompound(new NBTTagCompound());
     }
-    if (!tool.stackTagCompound.hasKey("ench")) {
+    if (!tool.getTagCompound().hasKey("ench")) {
       tool.setTagInfo("ench", new NBTTagList());
     }
 
@@ -483,7 +494,7 @@ public class EnchantToken extends ItemSG {
   @Override
   public EnumRarity getRarity(ItemStack stack) {
 
-    return stack.getItemDamage() == META_BLANK ? EnumRarity.common : EnumRarity.rare;
+    return stack.getItemDamage() == META_BLANK ? EnumRarity.COMMON : EnumRarity.RARE;
   }
 
   @Override
@@ -503,9 +514,69 @@ public class EnchantToken extends ItemSG {
   }
 
   @Override
-  public boolean hasEffect(ItemStack stack, int pass) {
+  public boolean hasEffect(ItemStack stack) {
 
     return stack.getItemDamage() != META_BLANK;
+  }
+  
+  @Override
+  public String[] getVariantNames() {
+    
+    String[] types = { KEY_ANY, KEY_ARMOR, KEY_BOW, KEY_EMPTY, KEY_SWORD, KEY_TOOL };
+    String[] result = new String[types.length];
+    
+    for (int i = 0; i < types.length; ++i) {
+      result[i] = SilentGems.MOD_ID + ":" + Names.ENCHANT_TOKEN + "_" + types[i];
+    }
+    
+    return result;
+  }
+  
+  @Override
+  public void registerModels() {
+
+    String[] types = { KEY_ANY, KEY_ARMOR, KEY_BOW, KEY_EMPTY, KEY_SWORD, KEY_TOOL };
+    String[] modelNames = getVariantNames();
+
+    for (int i = 0; i < modelNames.length; ++i) {
+      ModelResourceLocation model = new ModelResourceLocation(modelNames[i], "inventory");
+      models.put(types[i], model);
+    }
+    
+    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+    for (int i = 0; i < 256; ++i) {
+      if (enchants.containsKey(i)) {
+        mesher.register(this, i, getModel(new ItemStack(this, 1, i), null, 0));
+      }
+    }
+    mesher.register(this, META_BLANK, models.get(KEY_EMPTY));
+  }
+  
+  @Override
+  public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining) {
+    
+    int meta = stack.getItemDamage();
+    if (enchants.containsKey(meta)) {
+      EnumEnchantmentType type = enchants.get(meta).enchantment.type;
+      switch (type) {
+        case WEAPON:
+          return models.get(KEY_SWORD);
+        case DIGGER:
+          return models.get(KEY_TOOL);
+        case BOW:
+          return models.get(KEY_BOW);
+        case ARMOR:
+        case ARMOR_FEET:
+        case ARMOR_LEGS:
+        case ARMOR_TORSO:
+        case ARMOR_HEAD:
+          return models.get(KEY_ARMOR);
+        default:
+          return models.get(KEY_ANY);
+      }
+    }
+    
+    return models.get(KEY_EMPTY);
   }
 
   /**
@@ -569,43 +640,5 @@ public class EnchantToken extends ItemSG {
     }
 
     return "";
-  }
-
-  @Override
-  public void registerIcons(IIconRegister reg) {
-
-    String str = Strings.RESOURCE_PREFIX + Names.ENCHANT_TOKEN + "_";
-    iconAny = reg.registerIcon(str + "Any");
-    iconArmor = reg.registerIcon(str + "Armor");
-    iconBow = reg.registerIcon(str + "Bow");
-    iconEmpty = reg.registerIcon(str + "Empty");
-    iconSword = reg.registerIcon(str + "Sword");
-    iconTool = reg.registerIcon(str + "Tool");
-  }
-
-  @Override
-  public IIcon getIconFromDamage(int meta) {
-
-    if (enchants.containsKey(meta)) {
-      EnumEnchantmentType type = enchants.get(meta).enchantment.type;
-      switch (type) {
-        case weapon:
-          return iconSword;
-        case digger:
-          return iconTool;
-        case bow:
-          return iconBow;
-        case armor:
-        case armor_feet:
-        case armor_legs:
-        case armor_torso:
-        case armor_head:
-          return iconArmor;
-        default:
-          return iconAny;
-      }
-    }
-
-    return iconEmpty;
   }
 }

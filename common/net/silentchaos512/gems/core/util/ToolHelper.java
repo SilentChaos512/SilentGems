@@ -13,9 +13,10 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.achievement.GemsAchievement;
 import net.silentchaos512.gems.api.IPlaceable;
@@ -271,7 +272,7 @@ public class ToolHelper {
       line = String.format(line, amount);
       list.add(line);
     }
-    
+
     // Blocks tilled (hoes only)
     if (tool.getItem() instanceof GemHoe) {
       amount = getStatBlocksTilled(tool);
@@ -408,8 +409,15 @@ public class ToolHelper {
   /**
    * This controls the block placing ability of mining tools.
    */
-  public static boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y,
-      int z, int side, float hitX, float hitY, float hitZ) {
+  public static boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+      EnumFacing side, float hitX, float hitY, float hitZ) {
+
+    if (!Config.RIGHT_CLICK_TO_PLACE_ENABLED) {
+      return false;
+    }
+    if (Config.RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY && !player.isSneaking()) {
+      return false;
+    }
 
     boolean used = false;
     int toolSlot = player.inventory.currentItem;
@@ -431,34 +439,26 @@ public class ToolHelper {
       if (nextStack != null) {
         Item item = nextStack.getItem();
         if (item instanceof ItemBlock || item instanceof IPlaceable) {
-          ForgeDirection d = ForgeDirection.VALID_DIRECTIONS[side];
-
-          int px = x + d.offsetX;
-          int py = y + d.offsetY;
-          int pz = z + d.offsetZ;
+          BlockPos targetPos = pos.offset(side);
           int playerX = (int) Math.floor(player.posX);
           int playerY = (int) Math.floor(player.posY);
           int playerZ = (int) Math.floor(player.posZ);
 
-          // Check for overlap with player, except for torches and torch bandolier
-          // if (Item.getIdFromItem(item) != Block.getIdFromBlock(Blocks.torch)
-          // && item != SRegistry.getItem(Names.TORCH_BANDOLIER) && px == playerX
-          // && (py == playerY || py == playerY + 1 || py == playerY - 1) && pz == playerZ) {
-          // return false;
-          // }
-
           // Check for block overlap with player, if necessary.
           if (item instanceof ItemBlock) {
-            AxisAlignedBB blockBounds = AxisAlignedBB.getBoundingBox(px, py, pz, px + 1, py + 1,
+            int px = targetPos.getX();
+            int py = targetPos.getY();
+            int pz = targetPos.getZ();
+            AxisAlignedBB blockBounds = AxisAlignedBB.fromBounds(px, py, pz, px + 1, py + 1,
                 pz + 1);
-            AxisAlignedBB playerBounds = player.boundingBox;
-            Block block = ((ItemBlock) item).field_150939_a;
+            AxisAlignedBB playerBounds = player.getEntityBoundingBox();
+            Block block = ((ItemBlock) item).getBlock();
             if (block.getMaterial().blocksMovement() && playerBounds.intersectsWith(blockBounds)) {
               return false;
             }
           }
 
-          used = item.onItemUse(nextStack, player, world, x, y, z, side, hitX, hitY, hitZ);
+          used = item.onItemUse(nextStack, player, world, pos, side, hitX, hitY, hitZ);
           if (nextStack.stackSize < 1) {
             nextStack = null;
             player.inventory.setInventorySlotContents(itemSlot, null);
@@ -479,9 +479,11 @@ public class ToolHelper {
    * 
    * @return False in all cases, because this method is only called when Item.onBlockStartBreak returns false.
    */
-  public static boolean onBlockStartBreak(ItemStack stack, int x, int y, int z,
-      EntityPlayer player) {
+  public static boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
 
+    final int x = pos.getX();
+    final int y = pos.getY();
+    final int z = pos.getZ();
     // Number of blocks broken.
     int amount = 1;
     // Try to activate Lumberjack or Area Miner enchantments.
@@ -520,17 +522,17 @@ public class ToolHelper {
   private static int getTagByte(String name, ItemStack tool) {
 
     // Create tag compound, if needed.
-    if (tool.stackTagCompound == null) {
+    if (!tool.hasTagCompound()) {
       tool.setTagCompound(new NBTTagCompound());
     }
 
     // Create root tag, if needed.
-    if (!tool.stackTagCompound.hasKey(NBT_ROOT)) {
-      tool.stackTagCompound.setTag(NBT_ROOT, new NBTTagCompound());
+    if (!tool.getTagCompound().hasKey(NBT_ROOT)) {
+      tool.getTagCompound().setTag(NBT_ROOT, new NBTTagCompound());
     }
 
     // Get the requested value.
-    NBTTagCompound tags = (NBTTagCompound) tool.stackTagCompound.getTag(NBT_ROOT);
+    NBTTagCompound tags = (NBTTagCompound) tool.getTagCompound().getTag(NBT_ROOT);
     if (!tags.hasKey(name)) {
       return -1;
     }
@@ -540,34 +542,34 @@ public class ToolHelper {
   private static void setTagByte(String name, int value, ItemStack tool) {
 
     // Create tag compound, if needed.
-    if (tool.stackTagCompound == null) {
+    if (!tool.hasTagCompound()) {
       tool.setTagCompound(new NBTTagCompound());
     }
 
     // Create root tag, if needed.
-    if (!tool.stackTagCompound.hasKey(NBT_ROOT)) {
-      tool.stackTagCompound.setTag(NBT_ROOT, new NBTTagCompound());
+    if (!tool.getTagCompound().hasKey(NBT_ROOT)) {
+      tool.getTagCompound().setTag(NBT_ROOT, new NBTTagCompound());
     }
 
     // Set the tag.
-    NBTTagCompound tags = (NBTTagCompound) tool.stackTagCompound.getTag(NBT_ROOT);
+    NBTTagCompound tags = (NBTTagCompound) tool.getTagCompound().getTag(NBT_ROOT);
     tags.setByte(name, (byte) value);
   }
 
   private static int getTagInt(String name, ItemStack tool) {
 
     // Create tag compound, if needed.
-    if (tool.stackTagCompound == null) {
+    if (!tool.hasTagCompound()) {
       tool.setTagCompound(new NBTTagCompound());
     }
 
     // Create root tag, if needed.
-    if (!tool.stackTagCompound.hasKey(NBT_ROOT)) {
-      tool.stackTagCompound.setTag(NBT_ROOT, new NBTTagCompound());
+    if (!tool.getTagCompound().hasKey(NBT_ROOT)) {
+      tool.getTagCompound().setTag(NBT_ROOT, new NBTTagCompound());
     }
 
     // Get the requested value.
-    NBTTagCompound tags = (NBTTagCompound) tool.stackTagCompound.getTag(NBT_ROOT);
+    NBTTagCompound tags = (NBTTagCompound) tool.getTagCompound().getTag(NBT_ROOT);
     if (!tags.hasKey(name)) {
       return 0; // NOTE: This is 0, where the byte version is -1!
     }
@@ -577,17 +579,17 @@ public class ToolHelper {
   private static void setTagInt(String name, int value, ItemStack tool) {
 
     // Create tag compound, if needed.
-    if (tool.stackTagCompound == null) {
+    if (!tool.hasTagCompound()) {
       tool.setTagCompound(new NBTTagCompound());
     }
 
     // Create root tag, if needed.
-    if (!tool.stackTagCompound.hasKey(NBT_ROOT)) {
-      tool.stackTagCompound.setTag(NBT_ROOT, new NBTTagCompound());
+    if (!tool.getTagCompound().hasKey(NBT_ROOT)) {
+      tool.getTagCompound().setTag(NBT_ROOT, new NBTTagCompound());
     }
 
     // Set the tag.
-    NBTTagCompound tags = (NBTTagCompound) tool.stackTagCompound.getTag(NBT_ROOT);
+    NBTTagCompound tags = (NBTTagCompound) tool.getTagCompound().getTag(NBT_ROOT);
     tags.setInteger(name, value);
   }
 
@@ -698,14 +700,14 @@ public class ToolHelper {
 
     setTagInt(NBT_STATS_BLOCKS_PLACED, getStatBlocksPlaced(tool) + amount, tool);
   }
-  
+
   public static int getStatBlocksTilled(ItemStack tool) {
-    
+
     return getTagInt(NBT_STATS_BLOCKS_TILLED, tool);
   }
-  
+
   public static void incrementStatBlocksTilled(ItemStack tool, int amount) {
-    
+
     setTagInt(NBT_STATS_BLOCKS_TILLED, getStatBlocksTilled(tool) + amount, tool);
   }
 
@@ -745,15 +747,15 @@ public class ToolHelper {
 
   private static int getOldTag(ItemStack tool, String name) {
 
-    if (!tool.stackTagCompound.hasKey(name)) {
+    if (!tool.getTagCompound().hasKey(name)) {
       return -1;
     }
-    return tool.stackTagCompound.getByte(name);
+    return tool.getTagCompound().getByte(name);
   }
 
   private static void removeOldTag(ItemStack tool, String name) {
 
-    tool.stackTagCompound.removeTag(name);
+    tool.getTagCompound().removeTag(name);
   }
 
   public static boolean hasOldNBT(ItemStack tool) {
@@ -763,7 +765,7 @@ public class ToolHelper {
 
   public static boolean convertToNewNBT(ItemStack tool) {
 
-    if (tool == null || tool.stackTagCompound == null || !InventoryHelper.isGemTool(tool)) {
+    if (tool == null || !tool.hasTagCompound() || !InventoryHelper.isGemTool(tool)) {
       return false;
     }
 

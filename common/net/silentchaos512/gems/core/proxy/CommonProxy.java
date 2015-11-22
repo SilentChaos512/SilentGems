@@ -1,8 +1,8 @@
 package net.silentchaos512.gems.core.proxy;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosAltar;
 import net.silentchaos512.gems.tile.TileChaosPylon;
@@ -11,6 +11,21 @@ import net.silentchaos512.gems.tile.TileTeleporter;
 public class CommonProxy {
 
   public CommonProxy() {
+
+  }
+
+  public void preInit() {
+
+  }
+
+  public void init() {
+
+    registerTileEntities();
+    registerRenderers();
+    registerKeyHandlers();
+  }
+
+  public void postInit() {
 
   }
 

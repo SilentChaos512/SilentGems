@@ -6,10 +6,8 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.core.util.InventoryHelper;
-import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.ModItems;
 
 public class RecipeToolUpgrade implements IRecipe {
@@ -74,5 +72,21 @@ public class RecipeToolUpgrade implements IRecipe {
 
     // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+
+    for (int i = 0; i < inv.getSizeInventory(); ++i) {
+      ItemStack stack = inv.getStackInSlot(i);
+      if (stack != null) {
+        --stack.stackSize;
+        if (stack.stackSize <= 0) {
+          stack = null;
+        }
+        inv.setInventorySlotContents(i, stack);
+      }
+    }
+    return new ItemStack[] {};
   }
 }

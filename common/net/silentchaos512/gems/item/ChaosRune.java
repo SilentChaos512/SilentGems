@@ -26,7 +26,7 @@ public class ChaosRune extends ItemSG {
     setHasSubtypes(true);
     setMaxDamage(0);
     setUnlocalizedName(Names.CHAOS_RUNE);
-    rarity = EnumRarity.rare;
+    rarity = EnumRarity.RARE;
   }
 
   @Override
@@ -75,5 +75,15 @@ public class ChaosRune extends ItemSG {
   public String getUnlocalizedName(ItemStack stack) {
 
     return getUnlocalizedName(itemName);
+  }
+  
+  @Override
+  public String[] getVariantNames() {
+    
+    String[] result = new String[ChaosBuff.values().length];
+    for (int i = 0; i < result.length; ++i) {
+      result[i] = getFullName();
+    }
+    return result;
   }
 }

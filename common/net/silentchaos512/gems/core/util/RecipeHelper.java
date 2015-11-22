@@ -3,10 +3,10 @@ package net.silentchaos512.gems.core.util;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import cpw.mods.fml.common.event.FMLInterModComms;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class RecipeHelper {
 
@@ -27,8 +27,9 @@ public class RecipeHelper {
     } else {
       GameRegistry.addShapedRecipe(big, "sss", "sss", "sss", 's', small);
     }
-    small.stackSize = count != 4 && count != 9 ? 9 : count;
-    GameRegistry.addShapedRecipe(small, "b", 'b', big);
+    ItemStack result = small.copy();
+    result.stackSize = count != 4 && count != 9 ? 9 : count;
+    GameRegistry.addShapedRecipe(result, "b", 'b', big);
   }
 
   /**

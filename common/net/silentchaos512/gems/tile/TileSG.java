@@ -2,35 +2,17 @@ package net.silentchaos512.gems.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.silentchaos512.gems.lib.Strings;
 
 public class TileSG extends TileEntity {
 
-  protected ForgeDirection orientation;
   protected byte state;
   protected String customName;
 
   public TileSG() {
 
-    orientation = ForgeDirection.SOUTH;
     state = 0;
     customName = "";
-  }
-
-  public ForgeDirection getOrientation() {
-
-    return orientation;
-  }
-
-  public void setOrientation(ForgeDirection orientation) {
-
-    this.orientation = orientation;
-  }
-
-  public void setOrientation(int orientation) {
-
-    this.orientation = ForgeDirection.getOrientation(orientation);
   }
 
   public short getState() {
@@ -63,11 +45,6 @@ public class TileSG extends TileEntity {
 
     super.readFromNBT(nbtTagCompound);
 
-    if (nbtTagCompound.hasKey(Strings.NBT_TE_DIRECTION_KEY)) {
-      orientation = ForgeDirection.getOrientation(nbtTagCompound
-          .getByte(Strings.NBT_TE_DIRECTION_KEY));
-    }
-
     if (nbtTagCompound.hasKey(Strings.NBT_TE_STATE_KEY)) {
       state = nbtTagCompound.getByte(Strings.NBT_TE_STATE_KEY);
     }
@@ -82,7 +59,6 @@ public class TileSG extends TileEntity {
 
     super.writeToNBT(nbtTagCompound);
 
-    nbtTagCompound.setByte(Strings.NBT_TE_DIRECTION_KEY, (byte) orientation.ordinal());
     nbtTagCompound.setByte(Strings.NBT_TE_STATE_KEY, state);
 
     if (this.hasCustomName()) {
@@ -93,9 +69,8 @@ public class TileSG extends TileEntity {
   @Override
   public String toString() {
 
-    return String
-        .format(
-            "TileSG Data - Class: %s, xCoord: %d, yCoord: %d, zCoord: %d, customName: '%s', orientation: %s, state: %d\n",
-            this.getClass().getSimpleName(), xCoord, yCoord, zCoord, customName, orientation, state);
+    return String.format(
+        "TileSG Data - Class: %s, xCoord: %d, yCoord: %d, zCoord: %d, customName: '%s', state: %d\n",
+        this.getClass().getSimpleName(), pos.getX(), pos.getY(), pos.getZ(), customName, state);
   }
 }

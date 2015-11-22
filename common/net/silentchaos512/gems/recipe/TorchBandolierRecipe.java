@@ -44,7 +44,8 @@ public class TorchBandolierRecipe implements IRecipe {
       if (stack != null) {
         if (stack.getItem() instanceof TorchBandolier) {
           bandolier = stack;
-        } else if (stack.getItem() instanceof Gem && stack.getItemDamage() < EnumGem.all().length) {
+        } else if (stack.getItem() instanceof Gem
+            && stack.getItemDamage() < EnumGem.values().length) {
           gem = stack;
         }
       }
@@ -55,11 +56,11 @@ public class TorchBandolierRecipe implements IRecipe {
     }
 
     result = bandolier.copy();
-    if (result.stackTagCompound == null) {
-      result.stackTagCompound = new NBTTagCompound();
+    if (!result.hasTagCompound()) {
+      result.setTagCompound(new NBTTagCompound());
     }
     int k = gem.getItemDamage();
-    result.stackTagCompound.setByte(Strings.TORCH_BANDOLIER_GEM, (byte) k);
+    result.getTagCompound().setByte(Strings.TORCH_BANDOLIER_GEM, (byte) k);
 
     return result;
   }
@@ -76,4 +77,19 @@ public class TorchBandolierRecipe implements IRecipe {
     return null;
   }
 
+  @Override
+  public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+
+    for (int i = 0; i < inv.getSizeInventory(); ++i) {
+      ItemStack stack = inv.getStackInSlot(i);
+      if (stack != null) {
+        --stack.stackSize;
+        if (stack.stackSize <= 0) {
+          stack = null;
+        }
+        inv.setInventorySlotContents(i, stack);
+      }
+    }
+    return new ItemStack[] {};
+  }
 }

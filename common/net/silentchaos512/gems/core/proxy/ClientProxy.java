@@ -9,7 +9,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.particle.EntityParticleFXChaosTransfer;
 import net.silentchaos512.gems.client.renderers.ModRenderers;
-import net.silentchaos512.gems.client.renderers.tool.ToolItemRenderer;
+import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.item.tool.GemHoe;
@@ -21,7 +21,22 @@ import net.silentchaos512.gems.lib.EnumGem;
 
 public class ClientProxy extends CommonProxy {
 
-  public static final boolean USE_TOOL_IITEMRENDERER = false;
+//  public static final boolean USE_TOOL_IITEMRENDERER = false;
+  
+  @Override
+  public void preInit() {
+    
+    super.preInit();
+    ToolRenderHelper.init();
+    SRegistry.clientPreInit();
+  }
+  
+  @Override
+  public void init() {
+    
+    super.init();
+    SRegistry.clientInit();
+  }
 
   @Override
   public void registerRenderers() {
@@ -49,40 +64,34 @@ public class ClientProxy extends CommonProxy {
 
   private void registerRenderersItems() {
 
-    if (USE_TOOL_IITEMRENDERER) {
-      Item[] swords = SRegistry.getAllItemsOfType(GemSword.class);
-      Item[] pickaxes = SRegistry.getAllItemsOfType(GemPickaxe.class);
-      Item[] shovels = SRegistry.getAllItemsOfType(GemShovel.class);
-      Item[] axes = SRegistry.getAllItemsOfType(GemAxe.class);
-      Item[] hoes = SRegistry.getAllItemsOfType(GemHoe.class);
-      Item[] sickles = SRegistry.getAllItemsOfType(GemSickle.class);
-
-      registerToolRenderers(swords);
-      registerToolRenderers(pickaxes);
-      registerToolRenderers(shovels);
-      registerToolRenderers(axes);
-      registerToolRenderers(hoes);
-      registerToolRenderers(sickles);
-    }
+//    if (USE_TOOL_IITEMRENDERER) {
+//      Item[] swords = SRegistry.getAllItemsOfType(GemSword.class);
+//      Item[] pickaxes = SRegistry.getAllItemsOfType(GemPickaxe.class);
+//      Item[] shovels = SRegistry.getAllItemsOfType(GemShovel.class);
+//      Item[] axes = SRegistry.getAllItemsOfType(GemAxe.class);
+//      Item[] hoes = SRegistry.getAllItemsOfType(GemHoe.class);
+//      Item[] sickles = SRegistry.getAllItemsOfType(GemSickle.class);
+//
+//      registerToolRenderers(swords);
+//      registerToolRenderers(pickaxes);
+//      registerToolRenderers(shovels);
+//      registerToolRenderers(axes);
+//      registerToolRenderers(hoes);
+//      registerToolRenderers(sickles);
+//    }
   }
 
   private void registerToolRenderers(Item[] items) {
 
-    for (Item item : items) {
-      MinecraftForgeClient.registerItemRenderer(item, new ToolItemRenderer());
-    }
+//    for (Item item : items) {
+//      MinecraftForgeClient.registerItemRenderer(item, new ToolItemRenderer());
+//    }
   }
 
   private void registerRenderersBlocks() {
 
     // TODO Auto-generated method stub
 
-  }
-
-  @Override
-  public void registerTileEntities() {
-
-    super.registerTileEntities();
   }
 
   @Override

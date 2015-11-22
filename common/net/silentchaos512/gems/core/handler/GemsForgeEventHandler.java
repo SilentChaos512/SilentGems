@@ -1,12 +1,14 @@
 package net.silentchaos512.gems.core.handler;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.silentchaos512.gems.core.util.InventoryHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
@@ -42,7 +44,7 @@ public class GemsForgeEventHandler {
         if (InventoryHelper.isGemTool(stack)) {
           if (ToolHelper.convertToNewNBT(stack)) {
             String str = "Updated %s's %s to the new NBT system.";
-            str = String.format(str, player.getCommandSenderName(), stack.getDisplayName());
+            str = String.format(str, player.getName(), stack.getDisplayName());
             LogHelper.info(str);
           }
         }
@@ -71,9 +73,13 @@ public class GemsForgeEventHandler {
       }
       level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lumberjack.effectId, heldItem);
       if (level > 0 && !player.isSneaking()) {
-        boolean isWood = event.block.isWood(player.worldObj, event.x, event.y, event.z);
-        if (isWood && EnchantmentLumberjack.detectTree(player.worldObj, event.x, event.y, event.z,
-            event.block)) {
+        IBlockState state = event.state;
+        Block block = state.getBlock();
+        boolean isWood = block.isWood(event.entity.worldObj, event.pos);
+        final int x = event.pos.getX();
+        final int y = event.pos.getY();
+        final int z = event.pos.getZ();
+        if (isWood && EnchantmentLumberjack.detectTree(player.worldObj, x, y, z, block)) {
           event.newSpeed *= EnchantmentLumberjack.DIG_SPEED_MULTIPLIER;
         }
       }

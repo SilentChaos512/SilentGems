@@ -6,11 +6,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TeleporterLinker extends ItemSG {
 
@@ -24,17 +24,18 @@ public class TeleporterLinker extends ItemSG {
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
 
     // Verify NBT
-    if (stack.stackTagCompound == null) {
-      stack.stackTagCompound = new NBTTagCompound();
+    if (!stack.hasTagCompound()) {
+      stack.setTagCompound(new NBTTagCompound());
     }
-    if (!stack.stackTagCompound.hasKey(Strings.TELEPORTER_LINKER_STATE)) {
-      stack.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
+    NBTTagCompound root = stack.getTagCompound();
+    if (!root.hasKey(Strings.TELEPORTER_LINKER_STATE)) {
+      root.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
     }
 
     // Display state and coords (if active)
-    if (stack.stackTagCompound.getBoolean(Strings.TELEPORTER_LINKER_STATE)) {
+    if (root.getBoolean(Strings.TELEPORTER_LINKER_STATE)) {
       list.add(EnumChatFormatting.GREEN + LocalizationHelper.getOtherItemKey(itemName, "Active"));
-      list.add(LogHelper.coordFromNBT(stack.stackTagCompound));
+      list.add(LogHelper.coordFromNBT(root));
     } else {
       list.add(EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(itemName, "Inactive"));
     }
@@ -51,10 +52,11 @@ public class TeleporterLinker extends ItemSG {
   }
 
   @Override
-  public boolean hasEffect(ItemStack stack, int pass) {
+  public boolean hasEffect(ItemStack stack) {
 
-    return stack.stackTagCompound != null
-        && stack.stackTagCompound.hasKey(Strings.TELEPORTER_LINKER_STATE)
-        && stack.stackTagCompound.getBoolean(Strings.TELEPORTER_LINKER_STATE);
+    NBTTagCompound root = stack.getTagCompound();
+    return root != null
+        && root.hasKey(Strings.TELEPORTER_LINKER_STATE)
+        && root.getBoolean(Strings.TELEPORTER_LINKER_STATE);
   }
 }

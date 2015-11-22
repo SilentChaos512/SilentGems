@@ -13,12 +13,23 @@ tile.silentgems:ChaosAltar.name=Chaos Altar
 tile.silentgems:ChaosAltar.desc1=Charges items that can store Chaos energy.
 tile.silentgems:ChaosAltar.desc2=Requires pylons to be placed nearby.
 
+tile.silentgems:ChaosEssenceBlock0.name=Raw Chaos Essence Block (Deprecated)
+tile.silentgems:ChaosEssenceBlock1.name=Chaos Essence Block (Deprecated)
+tile.silentgems:ChaosEssenceBlock2.name=Enriched Chaos Essence Block (Deprecated)
+tile.silentgems:ChaosEssenceBlock.desc1=Craft back into the old version.
+tile.silentgems:ChaosEssenceBlock.desc2=Sorry for the trouble!
+
 tile.silentgems:ChaosPylon0.name=Passive Chaos Pylon
 tile.silentgems:ChaosPylon1.name=Burner Chaos Pylon
 tile.silentgems:ChaosPylon.desc1=Generates Chaos energy and sends it to a
 tile.silentgems:ChaosPylon.desc2=nearby altar.
 
 tile.silentgems:ChaosOre.name=Chaos Ore
+
+tile.silentgems:FluffyBlock.name=Fluffy Block
+tile.silentgems:FluffyBlock.desc1=Reduces fall damage. The amount depends
+tile.silentgems:FluffyBlock.desc2=on the number of blocks that are below
+tile.silentgems:FluffyBlock.desc3=the top-most block.
 
 tile.silentgems:FluffyPlant.name=Fluffy Puff Plant
 tile.silentgems:FluffyPlant0.name=Fluffy Puff Plant
@@ -214,8 +225,8 @@ item.silentgems:ChaosCore.desc=No, it won't go critical! I'm 99.9999% sure!
 item.silentgems:ChaosCoal.name=Chaos Coal
 item.silentgems:ChaosCoal.desc=Lasts longer than regular coal.
 
-item.silentgems:Chaos Essence.name=Chaos Essence
-item.silentgems:Chaos Essence.desc=Too soft for tools, but can strengthen gems.
+item.silentgems:ChaosEssence.name=Chaos Essence
+item.silentgems:ChaosEssence.desc=Too soft for tools, but can strengthen gems.
 
 item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence
 item.silentgems:ChaosEssencePlus.desc=Can conduct some kind of energy.
@@ -247,6 +258,12 @@ item.silentgems:ChaosGem.Enabled=Enabled
 item.silentgems:ChaosGem.CostPerTick=Cost: %d Chaos/t
 item.silentgems:ChaosGem.MiniPylon=Mini Pylons
 
+item.silentgems:ChaosEssence0.name=Raw Chaos Essence (Deprecated)
+item.silentgems:ChaosEssence1.name=Chaos Essence (Deprecated)
+item.silentgems:ChaosEssence2.name=Enriched Chaos Essence (Deprecated)
+item.silentgems:ChaosEssence.desc1=Craft back into the old version.
+item.silentgems:ChaosEssence.desc2=Sorry for the trouble!
+
 item.silentgems:ChaosRune.name=Chaos Rune
 item.silentgems:ChaosRune.desc=Craft with Chaos gems to give them effects.
 item.silentgems:ChaosRune.Cost=Costs %d Chaos/t to use.
@@ -275,6 +292,9 @@ item.silentgems:EnchantmentToken.ReducedSpeed=Reduces mining speed to %d%%.
 item.silentgems:EnchantmentToken.enchantment.Mending=Repairs the item. More effective at high elevations.
 item.silentgems:EnchantmentToken.enchantment.AreaOfEffect=Allow tools to mine a 3x3 area. Sneak to disable.
 item.silentgems:EnchantmentToken.enchantment.Lumberjack=Chops down entire trees at once. Sneak to disable.
+
+item.silentgems:FluffyFabric.name=Fluffy Fabric
+item.silentgems:FluffyFabric.desc=TODO
 
 item.silentgems:FluffySeed.name=Fluffy Puff
 item.silentgems:FluffySeed.desc=Can be planted, or crafted into soft things.
@@ -341,8 +361,8 @@ item.silentgems:MeatyStewUncooked.desc=You might want to heat it up first.
 item.silentgems:MiniPylon.name=Mini Pylon
 item.silentgems:MiniPylon.desc=Craft with chaos gems. Causes them to generate 1 Chaos/t.
 
-item.silentgems:Mystery Goo.name=Mystery Goo
-item.silentgems:Mystery Goo.desc=Feels right at home in space.
+item.silentgems:MysteryGoo.name=Mystery Goo
+item.silentgems:MysteryGoo.desc=Feels right at home in space.
 
 item.silentgems:NetherShard.name=Nether Shard
 item.silentgems:NetherShard.desc=Math is fun!
@@ -350,8 +370,8 @@ item.silentgems:NetherShard.desc=Math is fun!
 item.silentgems:NetherCluster.name=Nether Cluster
 item.silentgems:NetherCluster.desc=Put it back together!
 
-item.silentgems:Ornate Stick.name=Ornate Stick
-item.silentgems:Ornate Stick.desc=Bling bling.
+item.silentgems:OrnateStick.name=Ornate Stick
+item.silentgems:OrnateStick.desc=Bling bling.
 
 item.silentgems:Plume.name=Plume
 item.silentgems:Plume.desc=A bunch of feathers.
@@ -398,8 +418,8 @@ item.silentgems:TorchBandolier.AutoFillOn=Auto-fill mode ON.
 item.silentgems:UpgradeBase.name=Tool Upgrade Base
 item.silentgems:UpgradeBase.desc=Used for crafting tool upgrades.
 
-item.silentgems:Yarn Ball.name=Ball of Yarn
-item.silentgems:Yarn Ball.desc=It's not shiny, but cats seem to like it.
+item.silentgems:YarnBall.name=Ball of Yarn
+item.silentgems:YarnBall.desc=It's not shiny, but cats seem to like it.
 
 
 
@@ -500,10 +520,10 @@ item.silentgems:Boots8Plus.name=Supercharged Iolite Boots
 item.silentgems:Boots9Plus.name=Supercharged Amethyst Boots
 item.silentgems:Boots10Plus.name=Supercharged Morganite Boots
 item.silentgems:Boots11Plus.name=Supercharged Onyx Boots
-item.silentgems:CottonBoots.name=Cotton Boots
-item.silentgems:CottonChestplate.name=Cotton Tunic
-item.silentgems:CottonHelmet.name=Cotton Cap
-item.silentgems:CottonLeggings.name=Cotton Pants
+item.silentgems:CottonBoots.name=Fluffy Boots
+item.silentgems:CottonChestplate.name=Fluffy Tunic
+item.silentgems:CottonHelmet.name=Fluffy Cap
+item.silentgems:CottonLeggings.name=Fluffy Pants
 
 
 

@@ -4,33 +4,38 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.registry.IAddThaumcraftStuff;
+import net.silentchaos512.gems.core.registry.IHasVariants;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.Strings;
+import net.silentchaos512.gems.lib.Names;
 
-public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff {
+public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff, IHasVariants {
 
-  public IIcon[] icons = null;
+  protected int subItemCount = 1;
   protected boolean gemSubtypes = false;
   protected String itemName = "null";
   protected boolean isGlowing = false;
-  protected EnumRarity rarity = EnumRarity.common;
+  protected EnumRarity rarity = EnumRarity.COMMON;
 
   public ItemSG() {
+    
+    this(1);
+  }
 
+  public ItemSG(int subItemCount) {
+
+    this.subItemCount = subItemCount;
     setCreativeTab(SilentGems.tabSilentGems);
   }
 
@@ -82,16 +87,6 @@ public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff {
 
   }
 
-  @Override
-  public IIcon getIconFromDamage(int meta) {
-
-    if (hasSubtypes && icons != null && meta < icons.length) {
-      return icons[meta];
-    } else {
-      return super.getIconFromDamage(meta);
-    }
-  }
-
   public String getLocalizedName(ItemStack stack) {
 
     return StatCollector.translateToLocal(getUnlocalizedName(stack) + ".name");
@@ -107,25 +102,53 @@ public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff {
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
     if (hasSubtypes) {
-      for (int i = 0; i < icons.length; ++i) {
-        list.add(new ItemStack(this, 1, i));
+      for (int i = 0; i < subItemCount; ++i) {
+        list.add(new ItemStack(item, 1, i));
       }
     } else {
-      list.add(new ItemStack(this, 1, 0));
+      list.add(new ItemStack(item, 1, 0));
     }
+  }
+
+  public int getSubItemCount() {
+
+    return subItemCount;
+  }
+
+  @Override
+  public String[] getVariantNames() {
+
+    if (hasSubtypes) {
+      String[] names = new String[subItemCount];
+      for (int i = 0; i < names.length; ++i) {
+        names[i] = getFullName() + i;
+      }
+      return names;
+    }
+    return new String[] { getFullName() };
+  }
+
+  public String getName() {
+
+    return itemName;
+  }
+
+  public String getFullName() {
+
+    return Names.convert(SilentGems.MOD_ID + ":" + itemName);
   }
 
   @Override
   public String getUnlocalizedName(ItemStack stack) {
 
-    int d = stack.getItemDamage();
-    String s = LocalizationHelper.ITEM_PREFIX + itemName;
+    int meta = stack.getItemDamage();
+    String str = LocalizationHelper.ITEM_PREFIX + itemName;
 
-    if ((gemSubtypes && d < EnumGem.all().length) || hasSubtypes) {
-      s += d;
+    if ((gemSubtypes && meta < EnumGem.values().length) || hasSubtypes) {
+      str += meta;
     }
 
-    return s;
+    return str;
   }
 
   public String getUnlocalizedName(String itemName) {
@@ -134,35 +157,15 @@ public class ItemSG extends Item implements IAddRecipe, IAddThaumcraftStuff {
   }
 
   @Override
-  public boolean hasEffect(ItemStack stack, int pass) {
+  public boolean hasEffect(ItemStack stack) {
 
     return isGlowing;
-  }
-
-  @Override
-  public void registerIcons(IIconRegister reg) {
-
-    if (gemSubtypes) {
-      registerIconsForGemSubtypes(reg);
-    } else {
-      itemIcon = reg.registerIcon(Strings.RESOURCE_PREFIX + itemName);
-    }
-  }
-
-  public void registerIconsForGemSubtypes(IIconRegister reg) {
-
-    if (icons == null || icons.length != EnumGem.all().length) {
-      icons = new IIcon[EnumGem.all().length];
-    }
-
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      icons[i] = reg.registerIcon(Strings.RESOURCE_PREFIX + this.itemName + EnumGem.all()[i].id);
-    }
   }
 
   public void setHasGemSubtypes(boolean value) {
 
     gemSubtypes = value;
+    subItemCount = EnumGem.values().length;
   }
 
   @Override

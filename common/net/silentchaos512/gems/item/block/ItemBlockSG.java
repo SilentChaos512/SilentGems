@@ -3,18 +3,18 @@ package net.silentchaos512.gems.item.block;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockGlowstone;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.ItemBlockWithMetadata;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.silentchaos512.gems.block.BlockSG;
 import net.silentchaos512.gems.core.registry.IHasSubtypes;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.lib.Strings;
 
-public class ItemBlockSG extends ItemBlockWithMetadata {
+public class ItemBlockSG extends ItemBlock {
 
   protected boolean gemSubtypes = false;
   protected Block block;
@@ -22,7 +22,8 @@ public class ItemBlockSG extends ItemBlockWithMetadata {
 
   public ItemBlockSG(Block block) {
 
-    super(block, block);
+    super(block);
+    this.setMaxDamage(0);
 
     // Block and block name
     this.block = block;
@@ -30,14 +31,13 @@ public class ItemBlockSG extends ItemBlockWithMetadata {
 
     // Subtypes?
     if (block instanceof BlockSG) {
-      BlockSG b = (BlockSG) block;
-      this.gemSubtypes = b.getHasGemSubtypes();
-      this.hasSubtypes = b.getHasSubtypes();
+      BlockSG blockSG = (BlockSG) block;
+      gemSubtypes = blockSG.getHasGemSubtypes();
+      setHasSubtypes(blockSG.getHasSubtypes());
     } else if (block instanceof IHasSubtypes) {
       IHasSubtypes b = (IHasSubtypes) block;
-      this.hasSubtypes = b.getHasSubtypes();
-    } else {
-      this.hasSubtypes = false;
+      hasSubtypes = b.hasSubtypes();
+      gemSubtypes = b.hasGemSubtypes();
     }
   }
 
@@ -63,31 +63,25 @@ public class ItemBlockSG extends ItemBlockWithMetadata {
   public EnumRarity getRarity(ItemStack stack) {
 
     if (this.block instanceof BlockSG) {
-      return ((BlockSG) this.block).getRarity(stack);
+      return ((BlockSG) block).getRarity(stack);
     } else {
       return super.getRarity(stack);
     }
   }
 
   @Override
-  public IIcon getIconFromDamage(int meta) {
-
-    if (hasSubtypes && block instanceof BlockSG) {
-      BlockSG b = (BlockSG) block;
-      if (b.icons != null && meta < b.icons.length) {
-        return b.icons[meta];
-      }
-    }
-    return super.getIconFromDamage(meta);
-  }
-
-  @Override
   public String getUnlocalizedName(ItemStack stack) {
 
-    String result = "tile." + Strings.RESOURCE_PREFIX + this.itemName;
+    String result = "tile." + Strings.RESOURCE_PREFIX + itemName;
     if (hasSubtypes) {
       result += stack.getItemDamage();
     }
     return result;
+  }
+  
+  @Override
+  public int getMetadata(int meta) {
+    
+    return meta;
   }
 }

@@ -19,9 +19,9 @@ public class ModEnchantments {
 
   public static void init() {
 
-    mending = new EnchantmentMending(MENDING_ID, 1, EnumEnchantmentType.all);
-    aoe = new EnchantmentAOE(AOE_ID, 1, EnumEnchantmentType.digger);
-    lumberjack = new EnchantmentLumberjack(LUMBERJACK_ID, 1, EnumEnchantmentType.digger);
+    mending = new EnchantmentMending(MENDING_ID, 1, EnumEnchantmentType.ALL);
+    aoe = new EnchantmentAOE(AOE_ID, 1, EnumEnchantmentType.DIGGER);
+    lumberjack = new EnchantmentLumberjack(LUMBERJACK_ID, 1, EnumEnchantmentType.DIGGER);
 
     EnchantToken.init();
   }
