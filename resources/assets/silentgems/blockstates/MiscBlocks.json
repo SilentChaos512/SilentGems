@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"variant=chaosessenceblock": { "model": "SilentGems:MiscBlocks0" },
+    "variant=chaosessenceblockrefined": { "model": "SilentGems:MiscBlocks1" },
+    "variant=chaosessenceblockcrystallized": { "model": "SilentGems:MiscBlocks2" },
+    "variant=chaoscoalblock": { "model": "SilentGems:MiscBlocks3" }
+	}
+}

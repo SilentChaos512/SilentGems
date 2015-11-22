@@ -1,0 +1,16 @@
+{
+	"variants": {
+		"variant=ruby": { "model": "SilentGems:GemBrick.Speckled0" },
+    "variant=garnet": { "model": "SilentGems:GemBrick.Speckled1" },
+    "variant=topaz": { "model": "SilentGems:GemBrick.Speckled2" },
+    "variant=heliodor": { "model": "SilentGems:GemBrick.Speckled3" },
+    "variant=peridot": { "model": "SilentGems:GemBrick.Speckled4" },
+    "variant=beryl": { "model": "SilentGems:GemBrick.Speckled5" },
+    "variant=aquamarine": { "model": "SilentGems:GemBrick.Speckled6" },
+    "variant=sapphire": { "model": "SilentGems:GemBrick.Speckled7" },
+    "variant=iolite": { "model": "SilentGems:GemBrick.Speckled8" },
+    "variant=amethyst": { "model": "SilentGems:GemBrick.Speckled9" },
+    "variant=morganite": { "model": "SilentGems:GemBrick.Speckled10" },
+    "variant=onyx": { "model": "SilentGems:GemBrick.Speckled11" }
+	}
+}
