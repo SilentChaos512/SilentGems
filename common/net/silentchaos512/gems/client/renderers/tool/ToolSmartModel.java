@@ -8,12 +8,14 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.model.IPerspectiveAwareModel;
@@ -22,7 +24,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.client.RenderHelperQ;
 import net.silentchaos512.gems.core.util.InventoryHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
+import net.silentchaos512.gems.item.ModItems;
 
 @SuppressWarnings("deprecation")
 @SideOnly(Side.CLIENT)
@@ -48,11 +52,10 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
   @Override
   public Pair<IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
 
-    // TODO: Finish this!
     switch (cameraTransformType) {
       case FIRST_PERSON:
         RenderItem.applyVanillaTransform(baseModel.getItemCameraTransforms().firstPerson);
-        return Pair.of(baseModel, null);
+        break;
       case GUI:
         RenderItem.applyVanillaTransform(this.getItemCameraTransforms().gui);
         break;
@@ -81,15 +84,27 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
     boolean supercharged = ToolHelper.getToolIsSupercharged(tool);
 
     List<BakedQuad> quads = Lists.newArrayList(baseModel.getGeneralQuads());
+    // LogHelper.debug(quads.size());
     IBakedModel model;
 
     for (int pass = 0; pass < ToolRenderHelper.RENDER_PASS_COUNT; ++pass) {
       model = ToolRenderHelper.instance.getModel(tool, pass, gemId, supercharged);
-      // LogHelper.info(pass + ", " + sprite);
+      // LogHelper.debug(ToolRenderHelper.instance.modelBlank);
       if (model != null) {
         quads.addAll(model.getGeneralQuads());
       }
     }
+
+    // Test
+    model = Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
+        .getItemModel(new ItemStack(ModItems.food));
+    // LogHelper.debug(model);
+    if (model != null) {
+      // LogHelper.debug(model.getGeneralQuads().size());
+      quads.addAll(model.getGeneralQuads());
+      // quads.addAll(model.getFaceQuads(EnumFacing.SOUTH));
+    }
+
     return quads;
   }
 
