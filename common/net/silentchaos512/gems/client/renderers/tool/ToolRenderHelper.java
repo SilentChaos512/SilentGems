@@ -1,6 +1,8 @@
 package net.silentchaos512.gems.client.renderers.tool;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.IBakedModel;
@@ -8,12 +10,13 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.RegistrySimple;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.core.registry.IHasVariants;
+import net.silentchaos512.gems.core.registry.IRegisterModels;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
@@ -26,6 +29,7 @@ import net.silentchaos512.gems.item.tool.GemShovel;
 import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.item.tool.GemSword;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
 
 /**
@@ -33,7 +37,7 @@ import net.silentchaos512.gems.material.ModMaterials;
  */
 @SuppressWarnings("deprecation")
 @SideOnly(Side.CLIENT)
-public class ToolRenderHelper extends Item {
+public class ToolRenderHelper extends Item implements IHasVariants, IRegisterModels {
 
   public static ToolRenderHelper instance;
 
@@ -75,13 +79,13 @@ public class ToolRenderHelper extends Item {
    * Models
    */
 
-  RegistrySimple models = new RegistrySimple();
+  HashMap<Integer, String> modelKeys = new HashMap<Integer, String>();
 
   // Shared
-  public IBakedModel modelBlank; // A completely transparent texture.
-  public IBakedModel modelError; // Shows up if I screw up.
-  public IBakedModel[] modelMainRodDeco; // Rod decoration used by most tools.
-  public IBakedModel[] modelMainRodWool; // Rod wool grip used by most tools.
+  public ModelResourceLocation modelBlank; // A completely transparent texture.
+  public ModelResourceLocation modelError; // Shows up if I screw up.
+  public ModelResourceLocation[] modelMainRodDeco; // Rod decoration used by most tools.
+  public ModelResourceLocation[] modelMainRodWool; // Rod wool grip used by most tools.
 
   // Specific tool icon collections.
   public final ToolModelCollection swordModels = new ToolModelCollection();
@@ -109,62 +113,74 @@ public class ToolRenderHelper extends Item {
       }
     }
 
+    LogHelper.info("Done with tool models!");
+  }
+
+  @Override
+  public void registerModels() {
+
+    registerModels(false);
+  }
+  
+  public void registerModels(boolean dryRun) {
+
     LogHelper.info("Registering tool part models...");
+    registerIndex = 0;
 
     // Shared models
-    modelBlank = registerModel(event, "Blank");
-    modelError = registerModel(event, "Error");
-    modelMainRodDeco = new IBakedModel[ROD_DECO_TYPE_COUNT];
+    modelBlank = registerModel("Blank", dryRun);
+    modelError = registerModel("Error", dryRun);
+    modelMainRodDeco = new ModelResourceLocation[ROD_DECO_TYPE_COUNT];
     for (int i = 0; i < modelMainRodDeco.length; ++i) {
-      modelMainRodDeco[i] = registerModel(event, "ToolDeco" + i);
+      modelMainRodDeco[i] = registerModel("ToolDeco" + i, dryRun);
     }
-    modelMainRodWool = new IBakedModel[ROD_WOOL_TYPE_COUNT];
+    modelMainRodWool = new ModelResourceLocation[ROD_WOOL_TYPE_COUNT];
     for (int i = 0; i < modelMainRodWool.length; ++i) {
-      modelMainRodWool[i] = registerModel(event, "RodWool" + i);
+      modelMainRodWool[i] = registerModel("RodWool" + i, dryRun);
     }
 
     // Tool-specific models
     for (String toolClass : ToolHelper.TOOL_CLASSES) {
-      registerModelsForCollection(event, toolClass, 0);
+      registerModelsForCollection(toolClass, 0, dryRun);
       if (toolClass.equals("Bow")) {
-        registerModelsForCollection(event, toolClass, 1);
-        registerModelsForCollection(event, toolClass, 2);
-        registerModelsForCollection(event, toolClass, 3);
+        registerModelsForCollection(toolClass, 1, dryRun);
+        registerModelsForCollection(toolClass, 2, dryRun);
+        registerModelsForCollection(toolClass, 3, dryRun);
       }
     }
 
-    LogHelper.info("Done with tool models!");
+    LogHelper.info("Done with tool part models!");
   }
 
-  private void registerModelsForCollection(ModelBakeEvent event, String toolClass, int index) {
+  private void registerModelsForCollection(String toolClass, int index, boolean dryRun) {
 
     ToolModelCollection models = getCollectionByName(toolClass, 0);
     String strIndex = index == 3 ? "_3" : ""; // Index 3 is fully drawn bows
     // Head parts
     for (int head = 0; head < HEAD_TYPE_COUNT; ++head) {
-      models.headM[head] = registerModel(event, toolClass + head + strIndex);
-      models.headL[head] = registerModel(event, toolClass + head + "L" + strIndex);
-      models.headR[head] = registerModel(event, toolClass + head + "R" + strIndex);
+      models.headM[head] = registerModel(toolClass + head + strIndex, dryRun);
+      models.headL[head] = registerModel(toolClass + head + "L" + strIndex, dryRun);
+      models.headR[head] = registerModel(toolClass + head + "R" + strIndex, dryRun);
     }
 
     // Rods
     if (toolClass.equals("Bow")) {
-      models.rod[0] = registerModel(event, toolClass + "_MainNormal" + index);
-      models.rod[1] = registerModel(event, toolClass + "_MainOrnate" + index);
+      models.rod[0] = registerModel(toolClass + "_MainNormal" + index, dryRun);
+      models.rod[1] = registerModel(toolClass + "_MainOrnate" + index, dryRun);
     } else {
-      models.rod[0] = registerModel(event, toolClass + "_RodNormal");
-      models.rod[1] = registerModel(event, toolClass + "_RodOrnate");
+      models.rod[0] = registerModel(toolClass + "_RodNormal", dryRun);
+      models.rod[1] = registerModel(toolClass + "_RodOrnate", dryRun);
     }
 
     // Tips
     for (int tip = 0; tip < TIP_TYPE_COUNT; ++tip) {
-      models.tip[tip] = registerModel(event, toolClass + "Tip" + tip);
+      models.tip[tip] = registerModel(toolClass + "Tip" + tip, dryRun);
     }
 
     // Deco bits (swords and bows, others use main)
     if (toolClass.equals("Sword") || toolClass.equals("Bow")) {
       for (int deco = 0; deco < ROD_DECO_TYPE_COUNT; ++deco) {
-        models.rodDeco[deco] = registerModel(event, toolClass + "Deco" + deco);
+        models.rodDeco[deco] = registerModel(toolClass + "Deco" + deco, dryRun);
       }
     } else {
       models.rodDeco = modelMainRodDeco;
@@ -173,7 +189,7 @@ public class ToolRenderHelper extends Item {
     // Wool (swords and sickles, others use main, bows register arrows)
     if (toolClass.equals("Sword") || toolClass.equals("Sickle")) {
       for (int wool = 0; wool < ROD_WOOL_TYPE_COUNT; ++wool) {
-        models.rodWool[wool] = registerModel(event, toolClass + "Wool" + wool);
+        models.rodWool[wool] = registerModel(toolClass + "Wool" + wool, dryRun);
       }
     } else if (toolClass.equals("Bow")) {
       // Bows use first index of the wool array for arrows (just reusing the render pass).
@@ -182,7 +198,7 @@ public class ToolRenderHelper extends Item {
         if (i > 0 || index == 0) {
           models.rodWool[i] = modelBlank;
         } else {
-          models.rodWool[i] = registerModel(event, "Bow_Arrow" + index);
+          models.rodWool[i] = registerModel("Bow_Arrow" + index, dryRun);
         }
       }
     } else {
@@ -190,23 +206,50 @@ public class ToolRenderHelper extends Item {
     }
   }
 
-  private IBakedModel registerModel(ModelBakeEvent event, String name) {
+  private static int registerIndex = 0;
+  private static int modelCount = 0;
 
-    ModelResourceLocation modelLocation = new ModelResourceLocation(
-        SilentGems.MOD_ID + ":item/" + name, "inventory");
+  private ModelResourceLocation registerModel(String name, boolean dryRun) {
 
-    try {
-      event.modelLoader.getModel(modelLocation);
-      // IBakedModel model = (IBakedModel) event.modelRegistry.getObject(modelLocation);
-      IBakedModel model = Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
-          .getModelManager().getModel(modelLocation);
-      LogHelper.debug(model);
-      return model;
-    } catch (IOException e) {
-      LogHelper.warning("Could not load model: " + name);
-      e.printStackTrace();
-      return null;
+    ModelResourceLocation location = new ModelResourceLocation(SilentGems.MOD_ID + ":" + name,
+        "inventory");
+    
+    if (!dryRun) {
+      // If not simulating, we should actually register the model.
+      Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(this, registerIndex++,
+          location);
+    } else {
+      // Otherwise, we're just calculating model count and pairing up integer keys with the names.
+      modelKeys.put(registerIndex++, name);
     }
+    
+    modelCount = Math.max(registerIndex, modelCount);
+    return location;
+  }
+
+  @Override
+  public String[] getVariantNames() {
+
+    // Need the model count. Simulate registering models...
+    registerModels(true);
+
+    List<String> list = new ArrayList<String>();
+    for (int i = 0; i < modelCount; ++i) {
+      list.add(SilentGems.MOD_ID + ":" + modelKeys.get(i));
+    }
+    return list.toArray(new String[list.size()]);
+  }
+
+  @Override
+  public String getName() {
+
+    return "ToolRenderItem";
+  }
+
+  @Override
+  public String getFullName() {
+
+    return Names.convert(SilentGems.MOD_ID + ":" + getName());
   }
 
   private ToolModelCollection getCollectionByName(String toolClass, int index) {
@@ -328,12 +371,13 @@ public class ToolRenderHelper extends Item {
 
   }
 
-  public IBakedModel getModel(ItemStack stack, int pass, int gemId, boolean supercharged) {
+  public ModelResourceLocation getModel(ItemStack stack, int pass, int gemId,
+      boolean supercharged) {
 
     return getModel(stack, pass, gemId, supercharged, stack, stack.getMaxItemUseDuration());
   }
 
-  public IBakedModel getModel(ItemStack stack, int pass, int gemId, boolean supercharged,
+  public ModelResourceLocation getModel(ItemStack stack, int pass, int gemId, boolean supercharged,
       ItemStack usingItem, int useRemaining) {
 
     ToolModelCollection models;
@@ -398,12 +442,13 @@ public class ToolRenderHelper extends Item {
     return stack.hasTagCompound() && stack.getTagCompound().hasKey(key);
   }
 
-  public IBakedModel getRodModel(ToolModelCollection icons, ItemStack stack, boolean supercharged) {
+  public ModelResourceLocation getRodModel(ToolModelCollection icons, ItemStack stack,
+      boolean supercharged) {
 
     return supercharged ? icons.rod[1] : icons.rod[0];
   }
 
-  public IBakedModel getRodDecoModel(ToolModelCollection icons, ItemStack stack,
+  public ModelResourceLocation getRodDecoModel(ToolModelCollection icons, ItemStack stack,
       boolean supercharged) {
 
     // Regular tools have no rod decoration!
@@ -419,7 +464,7 @@ public class ToolRenderHelper extends Item {
     return icons.rodDeco[12];
   }
 
-  public IBakedModel getRodWoolModel(ToolModelCollection icons, ItemStack stack,
+  public ModelResourceLocation getRodWoolModel(ToolModelCollection icons, ItemStack stack,
       boolean supercharged) {
 
     if (stack.getItem() instanceof GemBow) {
@@ -436,7 +481,8 @@ public class ToolRenderHelper extends Item {
     return modelBlank;
   }
 
-  public IBakedModel getHeadMiddleModel(ToolModelCollection icons, ItemStack stack, int gemId) {
+  public ModelResourceLocation getHeadMiddleModel(ToolModelCollection icons, ItemStack stack,
+      int gemId) {
 
     int k = ToolHelper.getToolHeadMiddle(stack);
     if (k > -1) {
@@ -451,7 +497,8 @@ public class ToolRenderHelper extends Item {
     }
   }
 
-  public IBakedModel getHeadLeftModel(ToolModelCollection icons, ItemStack stack, int gemId) {
+  public ModelResourceLocation getHeadLeftModel(ToolModelCollection icons, ItemStack stack,
+      int gemId) {
 
     int k = ToolHelper.getToolHeadLeft(stack);
     if (k > -1) {
@@ -466,7 +513,8 @@ public class ToolRenderHelper extends Item {
     }
   }
 
-  public IBakedModel getHeadRightModel(ToolModelCollection icons, ItemStack stack, int gemId) {
+  public ModelResourceLocation getHeadRightModel(ToolModelCollection icons, ItemStack stack,
+      int gemId) {
 
     int k = ToolHelper.getToolHeadRight(stack);
     if (k > -1) {
@@ -481,7 +529,7 @@ public class ToolRenderHelper extends Item {
     }
   }
 
-  public IBakedModel getTipModel(ToolModelCollection icons, ItemStack stack, int gemId) {
+  public ModelResourceLocation getTipModel(ToolModelCollection icons, ItemStack stack, int gemId) {
 
     int k = ToolHelper.getToolHeadTip(stack);
     if (k > -1) {
