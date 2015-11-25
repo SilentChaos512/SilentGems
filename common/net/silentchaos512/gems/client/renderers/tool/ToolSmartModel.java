@@ -70,7 +70,7 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
       default:
         break;
     }
-    return Pair.of(this, null);
+    return Pair.of((IBakedModel) this, (Matrix4f) null);
   }
 
   @Override

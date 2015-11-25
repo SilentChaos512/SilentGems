@@ -253,38 +253,36 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
   }
 
   private ToolModelCollection getCollectionByName(String toolClass, int index) {
-
-    switch (toolClass) {
-      case "Sword":
-        return swordModels;
-      case "Pickaxe":
-        return pickaxeModels;
-      case "Shovel":
-        return shovelModels;
-      case "Axe":
-        return axeModels;
-      case "Hoe":
-        return hoeModels;
-      case "Sickle":
-        return sickleModels;
-      case "Bow": {
-        switch (index) {
-          case 0:
-            return bow0Models;
-          case 1:
-            return bow1Models;
-          case 2:
-            return bow2Models;
-          case 3:
-            return bow3Models;
-          default:
-            LogHelper.severe("ToolRenderHelper.getCollectionByName: Unknown bow index: " + index);
-            return null;
-        }
+    
+    if (toolClass.equals("Sword")) {
+      return swordModels;
+    } else if (toolClass.equals("Pickaxe")) {
+      return pickaxeModels;
+    } else if (toolClass.equals("Shovel")) {
+      return shovelModels;
+    } else if (toolClass.equals("Axe")) {
+      return axeModels;
+    } else if (toolClass.equals("Hoe")) {
+      return hoeModels;
+    } else if (toolClass.equals("Sickle")) {
+      return sickleModels;
+    } else if (toolClass.equals("Bow")) {
+      switch (index) {
+        case 0:
+          return bow0Models;
+        case 1:
+          return bow1Models;
+        case 2:
+          return bow2Models;
+        case 3:
+          return bow3Models;
+        default:
+          LogHelper.severe("ToolRenderHelper.getCollectionByName: Unknown bow index: " + index);
+          return null;
       }
-      default:
-        LogHelper.severe("ToolRenderHelper.getCollectionByName: Unknown tool class: " + toolClass);
-        return null;
+    } else {
+      LogHelper.severe("ToolRenderHelper.getCollectionByName: Unknown tool class: " + toolClass);
+      return null;
     }
   }
 
