@@ -219,7 +219,7 @@ public class DecorateToolRecipe implements IRecipe {
     boolean materialIsSuperGem = materialIsGem && material.getItemDamage() >= 0x10;
     boolean materialIsFlint = material.getItem() == Items.flint;
 
-    if (baseMaterial < EnumGem.values().length) {
+    if (baseMaterial < EnumGem.values().length || baseMaterial == ModMaterials.CHAOS_GEM_ID) {
       // Gem tools
       // Regular tools: regular gems = 1/4, super = 1, other = 0
       // Super tools: regular gems = 1/8, super = 1/2, other = 0
