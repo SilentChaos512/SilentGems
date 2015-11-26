@@ -158,7 +158,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     String strIndex = index == 3 ? "_3" : ""; // Index 3 is fully drawn bows
     // Head parts
     for (int head = 0; head < HEAD_TYPE_COUNT; ++head) {
-      models.headM[head] = registerModel(toolClass + head + strIndex, dryRun);
+      models.headM[head] = registerModel(toolClass + head + "M" + strIndex, dryRun);
       models.headL[head] = registerModel(toolClass + head + "L" + strIndex, dryRun);
       models.headR[head] = registerModel(toolClass + head + "R" + strIndex, dryRun);
     }

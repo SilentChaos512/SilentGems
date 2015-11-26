@@ -1,8 +1,7 @@
 {
   "parent": "builtin/generated",
   "textures": {
-    "layer0": "SilentGems:items/Bow_MainOrnate0",
-    "layer1": "SilentGems:items/Bow10"
+    "layer0": "SilentGems:items/Bow10"
   },
   "display": {
     "thirdperson": {

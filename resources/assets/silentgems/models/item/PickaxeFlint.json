@@ -1,8 +1,7 @@
 {
   "parent": "builtin/generated",
   "textures": {
-    "layer0": "SilentGems:items/Pickaxe_RodNormal",
-    "layer1": "SilentGems:items/Pickaxe13"
+    "layer0": "SilentGems:items/Pickaxe13"
   },
   "display": {
     "thirdperson": {

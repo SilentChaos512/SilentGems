@@ -15,8 +15,11 @@ def createAllDirs():
     createDirIfNeeded('output/models/block')
     createDirIfNeeded('output/models/item')
 
-def writeJSON(part_name, scale):
-    filename = part_name + '.json'
+def writeJSON(filename, scale, part_name=''):
+    if part_name == '':
+        part_name = filename
+
+    filename = filename + '.json'
     print("Writing", filename)
     f = open('output/models/item/' + filename, 'w')
     
@@ -69,11 +72,11 @@ for tool in TOOL_CLASSES:
     # Heads
     for i in range(HEAD_COUNT):
         name = tool + str(i)
-        writeJSON(name, scale_head_inner)
+        writeJSON(name + 'M', scale_head_inner, part_name = name)
         writeJSON(name + 'L', scale_head_outer)
         writeJSON(name + 'R', scale_head_outer)
         if tool == 'Bow':
-            writeJSON(name + '_3', scale_head_inner)
+            writeJSON(name + 'M_3', scale_head_inner, part_name = name + '_3')
             writeJSON(name + 'L_3', scale_head_outer)
             writeJSON(name + 'R_3', scale_head_outer)
 

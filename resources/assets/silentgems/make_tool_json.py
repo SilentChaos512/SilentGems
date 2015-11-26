@@ -22,24 +22,26 @@ def writeJSON(filename, tool, plus, toolClass):
     f.write('  "parent": "builtin/generated",\n')
     f.write('  "textures": {\n')
 
-    rod_type = ''
-    if (toolClass == 'Bow'):
-        rod_type = toolClass + '_Main' + ('Ornate0' if plus else 'Normal0')
-    else:
-        rod_type = toolClass + '_Rod' + ('Ornate' if plus else 'Normal')
-    deco_type = 'SwordDeco12' if toolClass == 'Sword' else 'ToolDeco12'
+#    rod_type = ''
+#    if (toolClass == 'Bow'):
+#        rod_type = toolClass + '_Main' + ('Ornate0' if plus else 'Normal0')
+#    else:
+#        rod_type = toolClass + '_Rod' + ('Ornate' if plus else 'Normal')
+#    deco_type = 'SwordDeco12' if toolClass == 'Sword' else 'ToolDeco12'
     tool_texture = tool.replace('Fish', '12').replace('Flint', '13').replace('Chaos', '14')
 
-    if plus:
-        f.write('    "layer0": "SilentGems:items/' + rod_type + '",\n')
-        if toolClass != 'Bow':
-            f.write('    "layer1": "SilentGems:items/' + tool_texture + '",\n')
-            f.write('    "layer2": "SilentGems:items/' + deco_type + '"\n')
-        else:
-            f.write('    "layer1": "SilentGems:items/' + tool_texture + '"\n') # no comma
-    else:
-        f.write('    "layer0": "SilentGems:items/' + rod_type + '",\n')
-        f.write('    "layer1": "SilentGems:items/' + tool_texture + '"\n') # no comma
+#    if plus:
+#        f.write('    "layer0": "SilentGems:items/' + rod_type + '",\n')
+#        if toolClass != 'Bow':
+#            f.write('    "layer1": "SilentGems:items/' + tool_texture + '",\n')
+#            f.write('    "layer2": "SilentGems:items/' + deco_type + '"\n')
+#        else:
+#            f.write('    "layer1": "SilentGems:items/' + tool_texture + '"\n') # no comma
+#    else:
+#        f.write('    "layer0": "SilentGems:items/' + rod_type + '",\n')
+#        f.write('    "layer1": "SilentGems:items/' + tool_texture + '"\n') # no comma
+
+    f.write('    "layer0": "SilentGems:items/' + tool_texture + '"\n')
 
     f.write('  },\n')
     f.write('  "display": {\n')

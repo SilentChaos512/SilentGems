@@ -1,8 +1,7 @@
 {
   "parent": "builtin/generated",
   "textures": {
-    "layer0": "SilentGems:items/Hoe_RodNormal",
-    "layer1": "SilentGems:items/Hoe13"
+    "layer0": "SilentGems:items/Hoe13"
   },
   "display": {
     "thirdperson": {

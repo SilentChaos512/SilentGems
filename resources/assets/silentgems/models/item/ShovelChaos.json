@@ -1,9 +1,7 @@
 {
   "parent": "builtin/generated",
   "textures": {
-    "layer0": "SilentGems:items/Shovel_RodOrnate",
-    "layer1": "SilentGems:items/Shovel14",
-    "layer2": "SilentGems:items/ToolDeco12"
+    "layer0": "SilentGems:items/Shovel14"
   },
   "display": {
     "thirdperson": {

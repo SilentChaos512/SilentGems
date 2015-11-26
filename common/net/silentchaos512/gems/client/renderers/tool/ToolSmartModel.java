@@ -27,6 +27,7 @@ import net.minecraftforge.client.model.ISmartItemModel;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.core.util.InventoryHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.ModItems;
 
@@ -89,7 +90,8 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
     int gemId = ToolHelper.getToolGemId(tool);
     boolean supercharged = ToolHelper.getToolIsSupercharged(tool);
 
-    List<BakedQuad> quads = Lists.newArrayList(baseModel.getGeneralQuads());
+//    List<BakedQuad> quads = Lists.newArrayList(baseModel.getGeneralQuads());
+    List<BakedQuad> quads = Lists.newArrayList();
     ModelResourceLocation modelLocation;
     IBakedModel model;
 
@@ -97,19 +99,21 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
         .getModelManager();
     for (int pass = 0; pass < ToolRenderHelper.RENDER_PASS_COUNT; ++pass) {
       modelLocation = ToolRenderHelper.instance.getModel(tool, pass, gemId, supercharged);
-      // LogHelper.debug(modelLocation);
-      // LogHelper.debug(modelLocation);
       model = manager.getModel(modelLocation);
       if (model != null && !(model instanceof ToolSmartModel)) {
+//        LogHelper.debug(model.getGeneralQuads().size() + " " + modelLocation);
+        if (model.getGeneralQuads().size() == 0) {
+          LogHelper.warning("Model has no quads!: " + modelLocation);
+        }
         quads.addAll(model.getGeneralQuads());
         // LogHelper.debug(model.getGeneralQuads().size());
       }
     }
 
     // Test
-    model = Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
-        .getItemModel(new ItemStack(ModItems.toolRenderHelper));
-    quads.addAll(model.getGeneralQuads());
+//    model = Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
+//        .getItemModel(new ItemStack(ModItems.toolRenderHelper));
+//    quads.addAll(model.getGeneralQuads());
     // LogHelper.debug(ModItems.toolRenderHelper.modelKeys);
     // LogHelper.debug(model.getGeneralQuads().size());
 

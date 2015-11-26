@@ -1,8 +1,7 @@
 {
   "parent": "builtin/generated",
   "textures": {
-    "layer0": "SilentGems:items/Axe_RodNormal",
-    "layer1": "SilentGems:items/Axe12"
+    "layer0": "SilentGems:items/Axe12"
   },
   "display": {
     "thirdperson": {

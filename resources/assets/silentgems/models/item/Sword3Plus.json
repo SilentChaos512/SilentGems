@@ -1,9 +1,7 @@
 {
   "parent": "builtin/generated",
   "textures": {
-    "layer0": "SilentGems:items/Sword_RodOrnate",
-    "layer1": "SilentGems:items/Sword3",
-    "layer2": "SilentGems:items/SwordDeco12"
+    "layer0": "SilentGems:items/Sword3"
   },
   "display": {
     "thirdperson": {

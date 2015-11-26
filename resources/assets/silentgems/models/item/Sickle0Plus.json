@@ -1,9 +1,7 @@
 {
   "parent": "builtin/generated",
   "textures": {
-    "layer0": "SilentGems:items/Sickle_RodOrnate",
-    "layer1": "SilentGems:items/Sickle0",
-    "layer2": "SilentGems:items/ToolDeco12"
+    "layer0": "SilentGems:items/Sickle0"
   },
   "display": {
     "thirdperson": {
