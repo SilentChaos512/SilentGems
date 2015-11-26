@@ -27,15 +27,33 @@ import net.minecraftforge.client.model.ISmartItemModel;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.core.util.InventoryHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
-import net.silentchaos512.gems.item.ModItems;
 
+/**
+ * Controls the rendering of tools.
+ * 
+ * In 1.7, tools used multiple IIcons for different parts of the tool. IIcons are no more, so we use multiple
+ * IBakedModels instead. Technically, these "part models" are registered for different metavalues of the
+ * ToolRenderHelper fake item.
+ * 
+ * In spite of the radical underlying changes, this is fairly similar to 1.7 on the surface. ToolRenderHelper registers,
+ * stores, and retrieves the models (or their resource locations, specifically). This class utilizes the models,
+ * combining the quads from each model to create a new, dynamic model.
+ * 
+ * @author SilentChaos512
+ *
+ */
 @SuppressWarnings("deprecation")
 @SideOnly(Side.CLIENT)
 public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
 
+  /**
+   * The base model of the tool. This may not have any meaningful function.
+   */
   private final IBakedModel baseModel;
+  /**
+   * The tool being rendered. The NBT of the tool determines the models used.
+   */
   private ItemStack tool;
 
   public ToolSmartModel(IBakedModel baseModel) {
@@ -43,6 +61,13 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
     this.baseModel = baseModel;
   }
 
+  /**
+   * Gives the smart model a chance to set its state (variables, etc) before rendering.
+   * 
+   * @param stack
+   *          The tool.
+   * @return The modified smart model.
+   */
   @Override
   public IBakedModel handleItemState(ItemStack stack) {
 
@@ -52,6 +77,14 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
     return this;
   }
 
+  /**
+   * Handles transformations for various perspectives. Not sure what the returned values are for. Returning a
+   * transformation matrix has strange effects, so I don't recommend it.
+   * 
+   * @param cameraTransformType
+   *          The perspective (ie first person, third person, etc)
+   * @return A pair of the baked model (this) and a Matrix4f (always null)
+   */
   @Override
   public Pair<IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
 
@@ -80,6 +113,12 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
     return baseModel.getFaceQuads(face);
   }
 
+  /**
+   * Gets the quads of all the part models combined. This does NOT include the base model quads, as they would be
+   * redundant.
+   * 
+   * @return A list of quads
+   */
   @Override
   public List getGeneralQuads() {
 
@@ -87,44 +126,33 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
       return new ArrayList<BakedQuad>();
     }
 
+    // The base tool specs are used if the tool part hasn't been modified (ie, is -1)
     int gemId = ToolHelper.getToolGemId(tool);
     boolean supercharged = ToolHelper.getToolIsSupercharged(tool);
 
-//    List<BakedQuad> quads = Lists.newArrayList(baseModel.getGeneralQuads());
     List<BakedQuad> quads = Lists.newArrayList();
     ModelResourceLocation modelLocation;
     IBakedModel model;
 
+    // Assigning the model manager to a variable for readability.
     ModelManager manager = Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
         .getModelManager();
+
+    // We're using "render passes". Basically just adapting the 1.7 code wherever possible.
     for (int pass = 0; pass < ToolRenderHelper.RENDER_PASS_COUNT; ++pass) {
+      // Get resource location from ToolRenderHelper.
       modelLocation = ToolRenderHelper.instance.getModel(tool, pass, gemId, supercharged);
+      // Get the actual tool part model.
       model = manager.getModel(modelLocation);
+      // Some safety checks...
       if (model != null && !(model instanceof ToolSmartModel)) {
-//        LogHelper.debug(model.getGeneralQuads().size() + " " + modelLocation);
-        if (model.getGeneralQuads().size() == 0) {
-          LogHelper.warning("Model has no quads!: " + modelLocation);
-        }
+        // Add the quads from the part to the tool.
         quads.addAll(model.getGeneralQuads());
-        // LogHelper.debug(model.getGeneralQuads().size());
       }
     }
 
-    // Test
-//    model = Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
-//        .getItemModel(new ItemStack(ModItems.toolRenderHelper));
-//    quads.addAll(model.getGeneralQuads());
-    // LogHelper.debug(ModItems.toolRenderHelper.modelKeys);
-    // LogHelper.debug(model.getGeneralQuads().size());
-
     return quads;
   }
-
-  // private BakedQuad makeQuad(TextureAtlasSprite sprite, int pass) {
-  //
-  // return RenderHelperQ.createBakedQuadForFace(0.5f, 1, 0.5f, 1, 0.0001f * pass, 0, sprite,
-  // EnumFacing.SOUTH);
-  // }
 
   @Override
   public boolean isAmbientOcclusion() {
@@ -150,23 +178,33 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
     return baseModel.getTexture();
   }
 
+  /**
+   * Gets information on the transformations that should be applied in various perspectives. This is used in
+   * handlePerspective! These should be identical to the transformations applied to vanilla tools. Transformations in
+   * the JSON files are ignored, unfortunately.
+   * 
+   * @return
+   */
   @Override
   public ItemCameraTransforms getItemCameraTransforms() {
 
     Vector3f rotation, translation, scale;
 
+    // Third Person
     rotation = new Vector3f(0f, 90f, -35f);
     translation = new Vector3f(0f, 1.25f, -3.5f);
     translation.scale(0.0625f);
     scale = new Vector3f(0.85f, 0.85f, 0.85f);
     ItemTransformVec3f thirdPerson = new ItemTransformVec3f(rotation, translation, scale);
 
+    // First Person
     rotation = new Vector3f(0f, -135f, 25f);
     translation = new Vector3f(0f, 4f, 2f);
     translation.scale(0.0625f);
     scale = new Vector3f(1.7f, 1.7f, 1.7f);
     ItemTransformVec3f firstPerson = new ItemTransformVec3f(rotation, translation, scale);
 
+    // Head and GUI are default.
     return new ItemCameraTransforms(thirdPerson, firstPerson, ItemTransformVec3f.DEFAULT,
         ItemTransformVec3f.DEFAULT);
   }

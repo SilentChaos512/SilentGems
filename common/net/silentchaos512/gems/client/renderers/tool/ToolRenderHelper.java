@@ -33,14 +33,22 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
 
 /**
- * This no longer needs to be an item.
+ * A "fake" item that registers models for tool parts and handles retrieving the correct model resource locations for
+ * tools. Note that you may see the word "icon" in this file. If you do, assume it should be "model", as parts of this
+ * file are directly from 1.7.
  */
 @SuppressWarnings("deprecation")
 @SideOnly(Side.CLIENT)
 public class ToolRenderHelper extends Item implements IHasVariants, IRegisterModels {
 
+  /**
+   * The instanceof of the item, for easy retrieval.
+   */
   public static ToolRenderHelper instance;
 
+  /**
+   * Sets instance.
+   */
   public static void init() {
 
     if (instance == null) {
@@ -87,7 +95,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
   public ModelResourceLocation[] modelMainRodDeco; // Rod decoration used by most tools.
   public ModelResourceLocation[] modelMainRodWool; // Rod wool grip used by most tools.
 
-  // Specific tool icon collections.
+  // Specific tool model collections.
   public final ToolModelCollection swordModels = new ToolModelCollection();
   public final ToolModelCollection pickaxeModels = new ToolModelCollection();
   public final ToolModelCollection shovelModels = new ToolModelCollection();
@@ -99,16 +107,32 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
   public final ToolModelCollection bow2Models = new ToolModelCollection();
   public final ToolModelCollection bow3Models = new ToolModelCollection();
 
+  /**
+   * Incremented throughtout model registration, both simulated and not. Reset when registerModels is called.
+   */
+  private static int registerIndex = 0;
+  /**
+   * Stores the total number of part models after registerModels (either simulated or not) is called.
+   */
+  private static int modelCount = 0;
+
+  /**
+   * Swaps the base tool models for ToolSmartModel.
+   * 
+   * @param event
+   */
   @SubscribeEvent
   public void onModelBake(ModelBakeEvent event) {
 
     LogHelper.info("Swapping tool models for smart models...");
 
+    // SRegistry keeps a list of all tool models registered.
     for (ModelResourceLocation modelLocation : SRegistry.toolBaseModels) {
       Object object = event.modelRegistry.getObject(modelLocation);
       if (object instanceof IBakedModel) {
         IBakedModel existingModel = (IBakedModel) object;
         ToolSmartModel customModel = new ToolSmartModel(existingModel);
+        // Replace existing model with the smart model.
         event.modelRegistry.putObject(modelLocation, customModel);
       }
     }
@@ -116,18 +140,32 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     LogHelper.info("Done with tool models!");
   }
 
+  /**
+   * Called in SRegistry for all blocks/items that implement IRegisterModels. This is the chance to register whatever
+   * models we need!
+   */
   @Override
   public void registerModels() {
 
     registerModels(false);
   }
-  
+
+  /**
+   * Registers models, or simulates it to get a model count.
+   * 
+   * @param dryRun
+   *          If true, registration is not done, but the number of models will be calculated and stored in modelCount.
+   */
   public void registerModels(boolean dryRun) {
 
-    LogHelper.info("Registering tool part models...");
+    if (!dryRun) {
+      LogHelper.info("Registering tool part models...");
+    }
+
+    // Reset registerIndex, but not modelCount!
     registerIndex = 0;
 
-    // Shared models
+    // Shared models (includes shared rod deco/wool models)
     modelBlank = registerModel("Blank", dryRun);
     modelError = registerModel("Error", dryRun);
     modelMainRodDeco = new ModelResourceLocation[ROD_DECO_TYPE_COUNT];
@@ -149,13 +187,23 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
       }
     }
 
-    LogHelper.info("Done with tool part models!");
+    if (!dryRun) {
+      LogHelper.info("Done with tool part models!");
+    }
   }
 
+  /**
+   * Registers all models for a specific collection.
+   * 
+   * @param toolClass
+   * @param index
+   * @param dryRun
+   */
   private void registerModelsForCollection(String toolClass, int index, boolean dryRun) {
 
     ToolModelCollection models = getCollectionByName(toolClass, 0);
     String strIndex = index == 3 ? "_3" : ""; // Index 3 is fully drawn bows
+
     // Head parts
     for (int head = 0; head < HEAD_TYPE_COUNT; ++head) {
       models.headM[head] = registerModel(toolClass + head + "M" + strIndex, dryRun);
@@ -206,14 +254,18 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     }
   }
 
-  private static int registerIndex = 0;
-  private static int modelCount = 0;
-
+  /**
+   * Registers a specific model.
+   * 
+   * @param name
+   * @param dryRun
+   * @return
+   */
   private ModelResourceLocation registerModel(String name, boolean dryRun) {
 
     ModelResourceLocation location = new ModelResourceLocation(SilentGems.MOD_ID + ":" + name,
         "inventory");
-    
+
     if (!dryRun) {
       // If not simulating, we should actually register the model.
       Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(this, registerIndex++,
@@ -222,11 +274,14 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
       // Otherwise, we're just calculating model count and pairing up integer keys with the names.
       modelKeys.put(registerIndex++, name);
     }
-    
+
     modelCount = Math.max(registerIndex, modelCount);
     return location;
   }
 
+  /**
+   * Gets the names of all models.
+   */
   @Override
   public String[] getVariantNames() {
 
@@ -240,20 +295,28 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     return list.toArray(new String[list.size()]);
   }
 
+  // Required by IHasVariants, but not used.
   @Override
   public String getName() {
 
-    return "ToolRenderItem";
+    return Names.convert("ToolRenderItem"); // Note: it's bad practice to hard-code the name!
   }
 
+  // Required by IHasVariants, but not used.
   @Override
   public String getFullName() {
 
     return Names.convert(SilentGems.MOD_ID + ":" + getName());
   }
 
+  /**
+   * Gets the model collection for the specified tool class and animation index.
+   * @param toolClass
+   * @param index
+   * @return
+   */
   private ToolModelCollection getCollectionByName(String toolClass, int index) {
-    
+
     if (toolClass.equals("Sword")) {
       return swordModels;
     } else if (toolClass.equals("Pickaxe")) {
@@ -286,6 +349,11 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     }
   }
 
+  /**
+   * Gets the base name of the tool.
+   * @param tool
+   * @return
+   */
   public String getName(ItemStack tool) {
 
     Item item = tool.getItem();
@@ -333,11 +401,21 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     return toolClass + toolType + (supercharged && gemId < EnumGem.values().length ? "Plus" : "");
   }
 
+  /**
+   * Gets the full unlocalized name of the tool.
+   * @param tool
+   * @return
+   */
   public String getFullName(ItemStack tool) {
 
     return SilentGems.MOD_ID + ":" + getName(tool);
   }
 
+  /**
+   * Gets the variant names for the tool.
+   * @param tool
+   * @return
+   */
   public String[] getVariantNames(ItemStack tool) {
 
     return new String[] { getFullName(tool) };
@@ -348,6 +426,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
    */
   public boolean hasEffect(ItemStack tool) {
 
+    // FIXME: The effect is insanely powerful! Why?
     return tool.isItemEnchanted() && !ToolHelper.getToolNoGlint(tool);
   }
 
@@ -360,21 +439,41 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     return slotChanged;
   }
 
+  /**
+   * Attempts to get the number of possible permutations for a single tool type. I believe this is correct, but not sure.
+   * @return
+   */
   public int getPossibleToolCombinations() {
 
-    // Attempts to get the number of possible permutations for a single tool type.
-    // I believe this is correct, but not sure.
     return HEAD_TYPE_COUNT * HEAD_TYPE_COUNT * HEAD_TYPE_COUNT * ROD_TYPE_COUNT
         * ROD_DECO_TYPE_COUNT * (ROD_WOOL_TYPE_COUNT + 1) * (TIP_TYPE_COUNT + 1);
 
   }
 
+  /**
+   * Gets the part model for the given tool and render pass.
+   * @param stack The tool
+   * @param pass The render pass
+   * @param gemId The gem ID of the base tool
+   * @param supercharged The supercharged value of the base tool
+   * @return The appropriate tool part model
+   */
   public ModelResourceLocation getModel(ItemStack stack, int pass, int gemId,
       boolean supercharged) {
 
     return getModel(stack, pass, gemId, supercharged, stack, stack.getMaxItemUseDuration());
   }
 
+  /**
+   * Gets the part model for the given tool, render pass, and use time.
+   * @param stack The tool
+   * @param pass The render pass
+   * @param gemId The gem ID of the base tool
+   * @param supercharged The supercharged value of the base tool
+   * @param usingItem Also the tool?
+   * @param useRemaining Use time remaining
+   * @return
+   */
   public ModelResourceLocation getModel(ItemStack stack, int pass, int gemId, boolean supercharged,
       ItemStack usingItem, int useRemaining) {
 
@@ -394,7 +493,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     } else if (item instanceof GemSickle) {
       models = sickleModels;
     } else if (item instanceof GemBow) {
-      int index = ((GemBow) item).getUsingIndex(stack, useRemaining);
+      int index = ((GemBow) item).getUsingIndex(stack, useRemaining); // FIXME: Bow animations!
       switch (index) {
         case 0:
           models = bow0Models;
@@ -435,11 +534,10 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     }
   }
 
-  public boolean hasKey(ItemStack stack, String key) {
-
-    return stack.hasTagCompound() && stack.getTagCompound().hasKey(key);
-  }
-
+  /*
+   * The following methods get part models for various "render passes".
+   */
+  
   public ModelResourceLocation getRodModel(ToolModelCollection icons, ItemStack stack,
       boolean supercharged) {
 
