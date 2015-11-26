@@ -2,6 +2,7 @@ package net.silentchaos512.gems.item.tool;
 
 import java.util.List;
 
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,6 +24,7 @@ import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.registry.IHasVariants;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.Names;
@@ -45,7 +47,7 @@ public class GemBow extends ItemBow implements IAddRecipe, IHasVariants {
     this.setMaxDamage(toolMaterial.getMaxUses());
     this.setCreativeTab(SilentGems.tabSilentGems);
   }
-  
+
   @Override
   public String[] getVariantNames() {
 
@@ -109,6 +111,13 @@ public class GemBow extends ItemBow implements IAddRecipe, IHasVariants {
     return true;
   }
 
+  @Override
+  public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining) {
+
+    int index = getUsingIndex(stack, useRemaining);
+    return ToolRenderHelper.instance.getSmartModel(index);
+  }
+
   public int getUsingIndex(ItemStack stack, int useRemaining) {
 
     int k = getMaxItemUseDuration(stack) - useRemaining;
@@ -149,14 +158,13 @@ public class GemBow extends ItemBow implements IAddRecipe, IHasVariants {
 
     return ToolRenderHelper.instance.hasEffect(stack);
   }
-  
+
   @Override
   public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
       boolean slotChanged) {
 
     return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
   }
-
 
   // Same as vanilla bow, except it can be fired without arrows with infinity.
   public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {

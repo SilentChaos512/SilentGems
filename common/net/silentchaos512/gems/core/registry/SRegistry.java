@@ -239,9 +239,9 @@ public class SRegistry {
             ModelResourceLocation model = new ModelResourceLocation(variants[i], "inventory");
             Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, i, model);
             // Tool model?
-            if (InventoryHelper.isGemTool(new ItemStack(item))) {
-              toolBaseModels.add(model);
-            }
+//            if (InventoryHelper.isGemTool(new ItemStack(item))) {
+//              toolBaseModels.add(model);
+//            }
           }
         }
       }

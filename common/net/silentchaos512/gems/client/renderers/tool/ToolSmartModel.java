@@ -27,6 +27,7 @@ import net.minecraftforge.client.model.ISmartItemModel;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.core.util.InventoryHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 
 /**
@@ -52,13 +53,18 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
    */
   private final IBakedModel baseModel;
   /**
+   * Used by bows to determine which frame of the animation it should display.
+   */
+  public final int animationFrame;
+  /**
    * The tool being rendered. The NBT of the tool determines the models used.
    */
   private ItemStack tool;
 
-  public ToolSmartModel(IBakedModel baseModel) {
+  public ToolSmartModel(IBakedModel baseModel, int animationFrame) {
 
     this.baseModel = baseModel;
+    this.animationFrame = animationFrame;
   }
 
   /**
@@ -73,6 +79,9 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
 
     if (InventoryHelper.isGemTool(stack)) {
       tool = stack;
+      if (animationFrame != 0) {
+        LogHelper.debug(animationFrame);
+      }
     }
     return this;
   }
@@ -141,13 +150,18 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
     // We're using "render passes". Basically just adapting the 1.7 code wherever possible.
     for (int pass = 0; pass < ToolRenderHelper.RENDER_PASS_COUNT; ++pass) {
       // Get resource location from ToolRenderHelper.
-      modelLocation = ToolRenderHelper.instance.getModel(tool, pass, gemId, supercharged);
+      modelLocation = ToolRenderHelper.instance.getModel(tool, pass, gemId, supercharged,
+          animationFrame);
       // Get the actual tool part model.
       model = manager.getModel(modelLocation);
       // Some safety checks...
+      // LogHelper.debug(animationFrame);
       if (model != null && !(model instanceof ToolSmartModel)) {
         // Add the quads from the part to the tool.
         quads.addAll(model.getGeneralQuads());
+        // if (animationFrame != 0) {
+        // LogHelper.debug(model.getGeneralQuads().size());
+        // }
       }
     }
 
