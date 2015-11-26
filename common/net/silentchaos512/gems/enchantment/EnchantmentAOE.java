@@ -126,7 +126,7 @@ public class EnchantmentAOE extends Enchantment {
     if (mop == null) {
       return 0;
     }
-    int sideHit = mop.subHit; // TODO: Was sideHit. Is this right?
+    int sideHit = mop.sideHit.getIndex();
 
     int xRange = 1;
     int yRange = 1;
