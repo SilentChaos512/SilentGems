@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -24,9 +26,11 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.renderers.SmartModelReturnHome;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.IRegisterModels;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
@@ -38,7 +42,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 
-public class ReturnHome extends ItemSG {
+public class ReturnHome extends ItemSG implements IRegisterModels {
 
   public static final String BOUND_TO = "BoundTo";
   public static final String NOT_BOUND = "NotBound";
@@ -52,8 +56,6 @@ public class ReturnHome extends ItemSG {
   private ModelResourceLocation[] models;
 
   public ReturnHome() {
-
-    super();
 
     setMaxStackSize(1);
     setMaxDamage(Config.RETURN_HOME_MAX_USES);
@@ -70,7 +72,7 @@ public class ReturnHome extends ItemSG {
       subItems[i] = stack;
     }
   }
-  
+
   private int getTagInteger(ItemStack stack, String key) {
 
     if (stack != null) {
@@ -82,9 +84,9 @@ public class ReturnHome extends ItemSG {
     }
     return 0;
   }
-  
+
   private void setTagInteger(ItemStack stack, String key, int value) {
-    
+
     if (stack != null) {
       if (!stack.hasTagCompound()) {
         stack.setTagCompound(new NBTTagCompound());
@@ -92,7 +94,7 @@ public class ReturnHome extends ItemSG {
       stack.getTagCompound().setInteger(key, value);
     }
   }
-  
+
   private boolean getTagBoolean(ItemStack stack, String key) {
 
     if (stack != null) {
@@ -104,9 +106,9 @@ public class ReturnHome extends ItemSG {
     }
     return false;
   }
-  
+
   private void setTagBoolean(ItemStack stack, String key, boolean value) {
-    
+
     if (stack != null) {
       if (!stack.hasTagCompound()) {
         stack.setTagCompound(new NBTTagCompound());
@@ -117,8 +119,6 @@ public class ReturnHome extends ItemSG {
 
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
-    
-    list.add(EnumChatFormatting.ITALIC + "Yes, I know they all have the same texture!");
 
     // Is ctrl key down?
     boolean modifier = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
@@ -183,41 +183,53 @@ public class ReturnHome extends ItemSG {
 
     return getTagBoolean(stack, NBT_CHARGED);
   }
-  
+
   @Override
   public String[] getVariantNames() {
-    
-//    String[] result = new String[EnumGem.values().length];
-//    for (int i = 0; i < result.length; ++i) {
-//      result[i] = getFullName() + i;
-//    }
-//    return result;
-    return new String[] { getFullName() + "0" };
+
+    List<String> list = Lists.newArrayList();
+    list.add(getFullName());
+    for (EnumGem gem : EnumGem.values()) {
+      list.add(getFullName() + gem.id);
+    }
+    return list.toArray(new String[list.size()]);
   }
-  
-//  @Override
-//  public void registerModels() {
-//    
-//    models = new ModelResourceLocation[EnumGem.values().length];
-//    String[] variants = getVariantNames();
-//    for (int i = 0; i < variants.length; ++i) {
-//      models[i] = new ModelResourceLocation(variants[i]);
-//    }
-//    
-//    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-//    // FIXME: Return home models.
-////    for (ModelResourceLocation model : models) {
-////      mesher.register(this, 0, model);
-////    }
-//    mesher.register(this, 0, models[0]);
-//  }
-  
-//  @Override
-//  public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining) {
-//    
-//    int gem = getGem(stack);
-//    return models[MathHelper.clamp_int(gem, 0, EnumGem.values().length - 1)];
-//  }
+
+  @Override
+  public void registerModels() {
+
+    int i;
+    models = new ModelResourceLocation[EnumGem.values().length];
+    String[] variants = getVariantNames();
+    for (i = 0; i < models.length; ++i) {
+      models[i] = new ModelResourceLocation(variants[i + 1], "inventory");
+    }
+
+    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+    mesher.register(this, 0, new ModelResourceLocation(variants[0], "inventory"));
+    for (i = 0; i < models.length; ++i) {
+      mesher.register(this, i + 1, models[i]);
+    }
+  }
+
+  @Override
+  public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining) {
+
+    int gem = getGem(stack);
+    return models[MathHelper.clamp_int(gem, 0, EnumGem.values().length - 1)];
+  }
+
+  @SuppressWarnings("deprecation")
+  public void onModelBake(ModelBakeEvent event) {
+
+    ModelResourceLocation modelLocation = new ModelResourceLocation(getFullName(), "inventory");
+    Object object = event.modelRegistry.getObject(modelLocation);
+    if (object instanceof IBakedModel) {
+      IBakedModel existingModel = (IBakedModel) object;
+      SmartModelReturnHome customModel = new SmartModelReturnHome(existingModel);
+      event.modelRegistry.putObject(modelLocation, customModel);
+    }
+  }
 
   @Override
   public void getSubItems(Item item, CreativeTabs tab, List list) {
@@ -249,7 +261,7 @@ public class ReturnHome extends ItemSG {
       }
     }
   }
-  
+
   @Override
   public void onUpdate(ItemStack stack, World world, Entity entity, int k, boolean b) {
 
@@ -264,7 +276,7 @@ public class ReturnHome extends ItemSG {
   @Override
   public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player,
       int itemInUseCount) {
-    
+
     setTagBoolean(stack, NBT_CHARGED, false);
 
     if (!world.isRemote) {

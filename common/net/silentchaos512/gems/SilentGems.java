@@ -89,7 +89,6 @@ public class SilentGems {
     // Event handler
     FMLCommonHandler.instance().bus().register(new GemsEventHandler());
     MinecraftForge.EVENT_BUS.register(new GemsForgeEventHandler());
-    MinecraftForge.EVENT_BUS.register(ToolRenderHelper.instance);
 
     // Recipes and ore dictionary.
     SRegistry.addRecipesAndOreDictEntries();

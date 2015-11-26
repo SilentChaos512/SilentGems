@@ -121,7 +121,6 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
    * 
    * @param event
    */
-  @SubscribeEvent
   public void onModelBake(ModelBakeEvent event) {
 
     LogHelper.info("Swapping tool models for smart models...");
