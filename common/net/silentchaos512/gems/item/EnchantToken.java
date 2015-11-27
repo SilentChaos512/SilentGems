@@ -23,6 +23,7 @@ import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -76,6 +77,7 @@ public class EnchantToken extends ItemSG {
 
   // I store which items an enchantment token can be applied to in a single integer. Each bit represents one item class,
   // these constants are the positions of the respective bit.
+  public static final int T_SHEARS = 2048;
   public static final int T_BOOTS = 1024;
   public static final int T_LEGGINGS = 512;
   public static final int T_CHESTPLATE = 256;
@@ -120,7 +122,7 @@ public class EnchantToken extends ItemSG {
 
     // All
     addEnchantment(Enchantment.unbreaking, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE | T_SICKLE
-        | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS);
+        | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS | T_SHEARS);
 
     // Melee weapons
     addEnchantment(Enchantment.baneOfArthropods, T_SWORD | T_PICKAXE | T_SHOVEL);
@@ -137,9 +139,9 @@ public class EnchantToken extends ItemSG {
     addEnchantment(Enchantment.punch, T_BOW);
 
     // Digging tools
-    addEnchantment(Enchantment.efficiency, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE);
+    addEnchantment(Enchantment.efficiency, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE | T_SHEARS);
     addEnchantment(Enchantment.fortune, T_PICKAXE | T_SHOVEL | T_AXE | T_HOE | T_SICKLE);
-    addEnchantment(Enchantment.silkTouch, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE);
+    addEnchantment(Enchantment.silkTouch, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE | T_SHEARS);
 
     // Armor
     final int allArmor = T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS;
@@ -154,7 +156,7 @@ public class EnchantToken extends ItemSG {
 
     // This mod
     addEnchantment(ModEnchantments.mending, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE
-        | T_SICKLE | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS);
+        | T_SICKLE | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS | T_SHEARS);
     addEnchantment(ModEnchantments.aoe, T_PICKAXE | T_SHOVEL | T_AXE);
     addEnchantment(ModEnchantments.lumberjack, T_AXE);
   }
@@ -394,6 +396,7 @@ public class EnchantToken extends ItemSG {
       flag |= itemTool instanceof ItemHoe && (validTools & T_HOE) != 0;
       flag |= itemTool instanceof GemSickle && (validTools & T_SICKLE) != 0;
       flag |= itemTool instanceof ItemBow && (validTools & T_BOW) != 0;
+      flag |= itemTool instanceof ItemShears && (validTools & T_SHEARS) != 0;
 
       if (itemTool instanceof ItemArmor) {
         ItemArmor armor = (ItemArmor) itemTool;
@@ -540,6 +543,9 @@ public class EnchantToken extends ItemSG {
       }
       if ((k & T_BOW) != 0) {
         list.add(LocalizationHelper.getMiscText(Strings.TOOL_BOW));
+      }
+      if ((k & T_SHEARS) != 0) {
+        list.add(LocalizationHelper.getMiscText(Strings.TOOL_SHEARS));
       }
       if ((k & T_HELMET) != 0) {
         list.add(LocalizationHelper.getMiscText(Strings.TOOL_HELMET));
