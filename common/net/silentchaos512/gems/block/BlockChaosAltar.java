@@ -18,12 +18,13 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
+import net.silentchaos512.gems.core.registry.IHasVariants;
 import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosAltar;
 
-public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
+public class BlockChaosAltar extends BlockContainer implements IAddRecipe, IHasVariants {
 
   public BlockChaosAltar() {
 
@@ -58,6 +59,24 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
   public String getUnlocalizedName() {
 
     return "tile." + Names.CHAOS_ALTAR;
+  }
+
+  @Override
+  public String getName() {
+
+    return Names.CHAOS_ALTAR;
+  }
+
+  @Override
+  public String getFullName() {
+
+    return Names.convert(SilentGems.MOD_ID + ":" + getName());
+  }
+
+  @Override
+  public String[] getVariantNames() {
+
+    return new String[] { getFullName() };
   }
 
   @Override
@@ -138,24 +157,24 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
     return 0;
   }
 
-  /* ADDED BY MATHG33K */
   @Override
-  public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
+  public int getRenderType() {
 
-    return false;
+    return 3;
   }
+
+  /* ADDED BY MATHG33K */
+  // @Override
+  // public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
+  //
+  // return true;
+  // }
 
   @Override
   public boolean isOpaqueCube() {
 
     return false;
   }
-
-//  @Override
-//  public boolean renderAsNormalBlock() {
-//
-//    return false;
-//  }
 
   // the following changes the block bounds (so it's not considered a full block...you can remove this if you really
   // want)
@@ -165,19 +184,6 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe {
 
     this.setBlockBounds(0.0f, 0.0f, 0.0f, 1.0f, 0.75f, 1.0f);
   }
-
-  // re-added these two methods in order to have the "block breaking" particles look similar to the actual block...
-//  @Override
-//  public void registerBlockIcons(IIconRegister reg) {
-//
-//    iconTop = reg.registerIcon(Blocks.obsidian.getIcon(0, 0).getIconName());
-//  }
-//
-//  @Override
-//  public IIcon getIcon(int side, int meta) {
-//
-//    return iconTop;
-//  }
 
   /* END ADDED BY MATHG33K */
 }

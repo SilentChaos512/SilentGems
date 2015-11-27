@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"variant=passive": { "model": "SilentGems:ChaosPylon0" },
+    "variant=burner": { "model": "SilentGems:ChaosPylon1" }
+	}
+}

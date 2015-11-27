@@ -2,6 +2,8 @@ package net.silentchaos512.gems.block;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -28,14 +30,14 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.registry.IHasSubtypes;
+import net.silentchaos512.gems.core.registry.IHasVariants;
 import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.item.CraftingMaterial;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosPylon;
 
 public class BlockChaosPylon extends BlockContainer
-    implements ITileEntityProvider, IAddRecipe, IHasSubtypes {
+    implements ITileEntityProvider, IAddRecipe, IHasSubtypes, IHasVariants {
 
   public static enum Type implements IStringSerializable {
 
@@ -53,9 +55,9 @@ public class BlockChaosPylon extends BlockContainer
 
       return name;
     }
-    
+
     public static Type get(int meta) {
-      
+
       return values()[MathHelper.clamp_int(meta, 0, values().length - 1)];
     }
   }
@@ -136,7 +138,7 @@ public class BlockChaosPylon extends BlockContainer
       list.add(new ItemStack(item, 1, i));
     }
   }
-  
+
   @Override
   public IBlockState getStateFromMeta(int meta) {
 
@@ -222,7 +224,6 @@ public class BlockChaosPylon extends BlockContainer
     }
   }
 
-  /* ADDED BY M4THG33K */
   @Override
   public boolean shouldSideBeRendered(IBlockAccess world, BlockPos pos, EnumFacing side) {
 
@@ -236,11 +237,36 @@ public class BlockChaosPylon extends BlockContainer
   }
 
   @Override
+  public int getRenderType() {
+
+    return 3;
+  }
+
+  @Override
   public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
 
     this.setBlockBounds(0.2f, 0.1f, 0.2f, 0.8f, 0.9f, 0.8f);
   }
 
-  /* END ADDED BY M4THG33K */
+  @Override
+  public String[] getVariantNames() {
 
+    List<String> list = Lists.newArrayList();
+    for (int i = 0; i < Type.values().length; ++i) {
+      list.add(getFullName() + i);
+    }
+    return list.toArray(new String[list.size()]);
+  }
+
+  @Override
+  public String getName() {
+
+    return Names.CHAOS_PYLON;
+  }
+
+  @Override
+  public String getFullName() {
+
+    return Names.convert(SilentGems.MOD_ID + ":" + getName());
+  }
 }
