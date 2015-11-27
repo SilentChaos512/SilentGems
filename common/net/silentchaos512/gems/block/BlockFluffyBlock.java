@@ -22,7 +22,7 @@ public class BlockFluffyBlock extends BlockSG {
     icons = new IIcon[16];
     setHasSubtypes(true);
 
-    setHardness(0.125f);
+    setHardness(0.8f);
     setResistance(3.0f);
     setStepSound(Block.soundTypeCloth);
 
