@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
@@ -45,6 +47,19 @@ public class EnchantToolRecipe implements IRecipe {
     return result;
   }
 
+  private boolean isToolOrArmor(ItemStack stack) {
+
+    Item item = stack.getItem();
+    return InventoryHelper.isTool(stack) || item instanceof ItemArmor || item instanceof ItemShears;
+  }
+
+  private boolean isEnchantableItem(ItemStack stack) {
+
+    Item item = stack.getItem();
+    return item instanceof ItemHoe || item instanceof ItemShears
+        || item.getItemEnchantability(stack) > 0;
+  }
+
   @Override
   public boolean matches(InventoryCrafting inventorycrafting, World world) {
 
@@ -56,9 +71,8 @@ public class EnchantToolRecipe implements IRecipe {
     for (int i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
       stack = inventorycrafting.getStackInSlot(i);
       if (stack != null) {
-        if (InventoryHelper.isTool(stack) || stack.getItem() instanceof ItemArmor) {
-          if (stack.getItem() instanceof ItemHoe
-              || stack.getItem().getItemEnchantability(stack) > 0) {
+        if (isToolOrArmor(stack)) {
+          if (isEnchantableItem(stack)) {
             tool = stack;
           } else {
             return false;
@@ -86,7 +100,7 @@ public class EnchantToolRecipe implements IRecipe {
     for (int i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
       stack = inventorycrafting.getStackInSlot(i);
       if (stack != null) {
-        if (InventoryHelper.isTool(stack) || stack.getItem() instanceof ItemArmor) {
+        if (isToolOrArmor(stack)) {
           tool = stack;
         } else if (stack.getItem() instanceof EnchantToken) {
           tokens.add(stack);
