@@ -57,6 +57,7 @@ public class GemsForgeEventHandler {
     EntityPlayer player = event.entityPlayer;
 
     if (heldItem != null) {
+      // Shears on Fluffy Blocks
       // Chaos Tools: No penalty for mining while flying.
       if (player.capabilities.isFlying && InventoryHelper.isGemTool(heldItem)) {
         if (ToolHelper.getToolGemId(heldItem) == ModMaterials.CHAOS_GEM_ID) {
