@@ -66,8 +66,12 @@ public class GemsForgeEventHandler {
     if (heldItem != null) {
       // Shears on Fluffy Blocks
       if (heldItem.getItem() instanceof ItemShears) {
+        int efficiency = EnchantmentHelper.getEfficiencyModifier(player);
         if (event.state.getBlock() == ModBlocks.fluffyBlock) {
           event.newSpeed *= 4;
+          if (efficiency > 0) {
+            event.newSpeed += (efficiency * efficiency + 1);
+          }
         }
       }
 
