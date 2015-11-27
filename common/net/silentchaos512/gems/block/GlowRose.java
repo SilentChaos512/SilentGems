@@ -30,6 +30,7 @@ public class GlowRose extends BlockBush implements IAddRecipe, IHasVariants, IHa
 
     super(Material.plants);
     setDefaultState(blockState.getBaseState().withProperty(VARIANT, EnumGem.RUBY));
+    setStepSound(soundTypeGrass);
 
     lightValue = Config.GLOW_ROSE_LIGHT_LEVEL;
     setUnlocalizedName(Names.GLOW_ROSE);

@@ -1,5 +1,5 @@
 {
-  "parent": "SilentGems:block/GlowRose10",
+  "parent": "builtin/generated",
   "textures": {
     "layer0": "SilentGems:blocks/GlowRose10"
   },
