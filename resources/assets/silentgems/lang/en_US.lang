@@ -26,7 +26,22 @@ tile.silentgems:ChaosPylon.desc2=nearby altar.
 
 tile.silentgems:ChaosOre.name=Chaos Ore
 
-tile.silentgems:FluffyBlock.name=Fluffy Block
+tile.silentgems:FluffyBlock0.name=Fluffy Block (White)
+tile.silentgems:FluffyBlock1.name=Fluffy Block (Orange)
+tile.silentgems:FluffyBlock2.name=Fluffy Block (Magenta)
+tile.silentgems:FluffyBlock3.name=Fluffy Block (Light Blue)
+tile.silentgems:FluffyBlock4.name=Fluffy Block (Yellow)
+tile.silentgems:FluffyBlock5.name=Fluffy Block (Lime)
+tile.silentgems:FluffyBlock6.name=Fluffy Block (Pink)
+tile.silentgems:FluffyBlock7.name=Fluffy Block (Gray)
+tile.silentgems:FluffyBlock8.name=Fluffy Block (Light Gray)
+tile.silentgems:FluffyBlock9.name=Fluffy Block (Cyan)
+tile.silentgems:FluffyBlock10.name=Fluffy Block (Purple)
+tile.silentgems:FluffyBlock11.name=Fluffy Block (Blue)
+tile.silentgems:FluffyBlock12.name=Fluffy Block (Brown)
+tile.silentgems:FluffyBlock13.name=Fluffy Block (Green)
+tile.silentgems:FluffyBlock14.name=Fluffy Block (Red)
+tile.silentgems:FluffyBlock15.name=Fluffy Block (Black)
 tile.silentgems:FluffyBlock.desc1=Reduces fall damage. The amount depends
 tile.silentgems:FluffyBlock.desc2=on the number of blocks that are below
 tile.silentgems:FluffyBlock.desc3=the top-most block.

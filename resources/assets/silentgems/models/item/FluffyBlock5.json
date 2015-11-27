@@ -1,5 +1,5 @@
 {
-  "parent": "SilentGems:block/FluffyBlock",
+  "parent": "SilentGems:block/FluffyBlock5",
   "display": {
     "thirdperson": {
       "rotation": [ 10, -45, 170 ],

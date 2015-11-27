@@ -89,7 +89,7 @@ public class BlockSG extends Block implements IAddRecipe, IHasVariants, IAddThau
   @Override
   public String getName() {
 
-    return blockName; // TODO: Convert to lowercase_with_underscores? Where is this used?
+    return blockName;
   }
 
   @Override
