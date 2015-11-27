@@ -28,7 +28,7 @@ public class BlockFluffyBlock extends BlockSG {
     setHasSubtypes(true);
     setDefaultState(blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
 
-    setHardness(0.125f);
+    setHardness(0.8f);
     setResistance(3.0f);
     setStepSound(Block.soundTypeCloth);
     setHarvestLevel("", 0);

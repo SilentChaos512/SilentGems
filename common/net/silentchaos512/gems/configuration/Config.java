@@ -3,7 +3,6 @@ package net.silentchaos512.gems.configuration;
 import java.io.File;
 import java.util.ArrayList;
 
-import net.minecraft.util.WeightedRandom;
 import net.minecraftforge.common.config.Configuration;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.WeightedRandomItemSG;
@@ -17,6 +16,7 @@ public class Config {
    * Blocks
    */
   public static int CHAOS_ESSENCE_PER_ORE = 1;
+  public static int FLUFFY_BLOCK_DISTANCE_REDUCTION = 8;
   public static int GLOW_ROSE_LIGHT_LEVEL = 10;
   public static int PYLON_BURNER_GENERATION_RATE = 10;
   public static int PYLON_PASSIVE_GENERATION_RATE = 1;
@@ -107,6 +107,10 @@ public class Config {
       /*
        * Blocks
        */
+      FLUFFY_BLOCK_DISTANCE_REDUCTION = c.getInt("FluffyBlock.FallDistanceReduction",
+          CATEGORY_BLOCK_PROPERTIES, FLUFFY_BLOCK_DISTANCE_REDUCTION, 0, Integer.MAX_VALUE,
+          "The amount that each stacked fluffy block will reduce an entity's fall distance when landed upon."
+              + " Set to 0 to disable the feature.");
       GLOW_ROSE_LIGHT_LEVEL = c.getInt("GlowRose.LightLevel", CATEGORY_BLOCK_PROPERTIES,
           GLOW_ROSE_LIGHT_LEVEL, 0, 15, "The light level glow roses emit.");
       PYLON_BURNER_GENERATION_RATE = c.getInt("ChaosPylon.Burner.GenerationRate",
@@ -196,7 +200,7 @@ public class Config {
       HIDE_FLAVOR_TEXT_UNTIL_SHIFT = c.getBoolean("Tooltips.HideFlavorText.UntilShift",
           CATEGORY_ITEM_PROPERTIES, HIDE_FLAVOR_TEXT_UNTIL_SHIFT,
           "Hide the flavor text until shift is pressed.");
-      
+
       String category = CATEGORY_MISC + Configuration.CATEGORY_SPLITTER + "right_click_to_place";
       c.setCategoryComment(category, "Mining tools have the ability to place blocks in the slot "
           + "after them (or in slot 9 if that doesn't work) by right-clicking.");

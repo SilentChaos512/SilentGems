@@ -4,12 +4,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.util.InventoryHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
@@ -62,6 +64,13 @@ public class GemsForgeEventHandler {
     EntityPlayer player = event.entityPlayer;
 
     if (heldItem != null) {
+      // Shears on Fluffy Blocks
+      if (heldItem.getItem() instanceof ItemShears) {
+        if (event.state.getBlock() == ModBlocks.fluffyBlock) {
+          event.newSpeed *= 4;
+        }
+      }
+
       // Chaos Tools: No penalty for mining while flying.
       if (player.capabilities.isFlying && InventoryHelper.isGemTool(heldItem)) {
         if (ToolHelper.getToolGemId(heldItem) == ModMaterials.CHAOS_GEM_ID) {
