@@ -2,6 +2,7 @@ Silent's Gems - Changelog
 
 1.3.6
 Added: Dyed Fluffy Blocks
+Added: Config for Fluffy Block fall distance reduction.
 Changed: Fluffy Blocks break faster with shears. Hardness raised.
 Fixed: An incorrect log message when decorating Chaos tools.
 

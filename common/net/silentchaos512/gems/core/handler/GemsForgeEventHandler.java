@@ -61,11 +61,15 @@ public class GemsForgeEventHandler {
     if (heldItem != null) {
       // Shears on Fluffy Blocks
       if (heldItem.getItem() instanceof ItemShears) {
+        int efficiency = EnchantmentHelper.getEfficiencyModifier(player);
         if (event.block == ModBlocks.fluffyBlock) {
           event.newSpeed *= 4;
+          if (efficiency > 0) {
+            event.newSpeed += (efficiency * efficiency + 1);
+          }
         }
       }
-      
+
       // Chaos Tools: No penalty for mining while flying.
       if (player.capabilities.isFlying && InventoryHelper.isGemTool(heldItem)) {
         if (ToolHelper.getToolGemId(heldItem) == ModMaterials.CHAOS_GEM_ID) {
