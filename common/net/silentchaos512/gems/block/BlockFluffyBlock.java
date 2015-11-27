@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
+import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
@@ -53,7 +54,8 @@ public class BlockFluffyBlock extends BlockSG {
     }
 
     // Reduce fall distance by 10 blocks per stacked block
-    entity.fallDistance -= Math.min(10 * stackedBlocks, distance);
+    entity.fallDistance -= Math.min(Config.FLUFFY_BLOCK_DISTANCE_REDUCTION * stackedBlocks,
+        distance);
   }
 
   @Override
