@@ -3,7 +3,6 @@ package net.silentchaos512.gems.configuration;
 import java.io.File;
 import java.util.ArrayList;
 
-import net.minecraft.util.WeightedRandom;
 import net.minecraftforge.common.config.Configuration;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.WeightedRandomItemSG;
@@ -34,6 +33,8 @@ public class Config {
   public static int CHAOS_GEM_MAX_BUFFS = 3;
   public static int FOOD_SUPPORT_DURATION = 600;
   public static int FLUFFY_PUFF_SEED_WEIGHT = 2;
+  public static int FLUFFY_BOOTS_DAMAGE_REDUCTION = 6;
+  public static int FLUFFY_BOOTS_DAMAGE_TAKEN = 20;
 
   /*
    * Tools
@@ -152,6 +153,12 @@ public class Config {
           "The most mini pylons that can be added to a chaos gem.");
       FLUFFY_PUFF_SEED_WEIGHT = c.getInt("FluffyPuff.SeedWeight", CATEGORY_ITEM_PROPERTIES, 2, 0,
           Integer.MAX_VALUE, "Weight of fluffy puff drops from grass. Wheat seeds are 10.");
+      FLUFFY_BOOTS_DAMAGE_REDUCTION = c.getInt("FluffyBoots.MaxDamageReduction",
+          CATEGORY_ITEM_PROPERTIES, FLUFFY_BOOTS_DAMAGE_REDUCTION, 0, Integer.MAX_VALUE,
+          "The most fall damage (half hearts) that fluffy boots can prevent per fall.");
+      FLUFFY_BOOTS_DAMAGE_TAKEN = c.getInt("FluffyBoots.MaxDamageToBoots", CATEGORY_ITEM_PROPERTIES,
+          FLUFFY_BOOTS_DAMAGE_TAKEN, 0, Integer.MAX_VALUE,
+          "The most damage that fluffy boots can take (durability lost) per fall.");
 
       /*
        * Recipes

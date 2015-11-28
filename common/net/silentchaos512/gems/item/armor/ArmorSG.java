@@ -20,8 +20,8 @@ import net.silentchaos512.gems.lib.Strings;
 
 public class ArmorSG extends ItemArmor implements IAddRecipe {
 
-  public static final ArmorMaterial materialCotton = EnumHelper.addArmorMaterial("gemsCotton", 4,
-      new int[] { 1, 2, 2, 1 }, 17);
+  public static final ArmorMaterial materialCotton = EnumHelper.addArmorMaterial("gemsCotton", 6,
+      new int[] { 1, 3, 2, 2 }, 17);
 
   private String itemName;
   private String textureName;
