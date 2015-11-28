@@ -11,14 +11,13 @@ import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.registry.IHasVariants;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
-import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 
 public class ArmorSG extends ItemArmor implements IAddRecipe, IHasVariants {
 
   public static final ArmorMaterial materialCotton = EnumHelper.addArmorMaterial("gemsCotton",
-      "cotton", 4, new int[] { 1, 2, 2, 1 }, 17);
+      "cotton", 6, new int[] { 1, 3, 2, 2 }, 17);
 
   private String itemName;
   private String textureName;
