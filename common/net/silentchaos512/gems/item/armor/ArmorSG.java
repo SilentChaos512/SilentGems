@@ -8,11 +8,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.EnumHelper;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
@@ -73,72 +71,6 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
   }
 
   @Override
-  public boolean hasColor(ItemStack stack) {
-
-    return getArmorMaterial() != materialCotton ? false
-        : (!stack.hasTagCompound() ? false
-            : (!stack.getTagCompound().hasKey("display", 10) ? false
-                : stack.getTagCompound().getCompoundTag("display").hasKey("color", 3)));
-  }
-
-  @Override
-  public int getColor(ItemStack stack) {
-
-    if (getArmorMaterial() != materialCotton) {
-      return -1;
-    } else {
-      NBTTagCompound nbttagcompound = stack.getTagCompound();
-
-      if (nbttagcompound == null) {
-        return 0xFFFF;
-      } else {
-        NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
-        return nbttagcompound1 == null ? 0xFFFFFF
-            : (nbttagcompound1.hasKey("color", 3) ? nbttagcompound1.getInteger("color") : 0xFFFFFF);
-      }
-    }
-  }
-
-  @Override
-  public void removeColor(ItemStack stack) {
-
-    if (getArmorMaterial() == materialCotton) {
-      NBTTagCompound nbttagcompound = stack.getTagCompound();
-
-      if (nbttagcompound != null) {
-        NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
-
-        if (nbttagcompound1.hasKey("color")) {
-          nbttagcompound1.removeTag("color");
-        }
-      }
-    }
-  }
-
-  @Override
-  public void func_82813_b(ItemStack stack, int color) {
-
-    if (getArmorMaterial() != materialCotton) {
-      return;
-    } else {
-      NBTTagCompound nbttagcompound = stack.getTagCompound();
-
-      if (nbttagcompound == null) {
-        nbttagcompound = new NBTTagCompound();
-        stack.setTagCompound(nbttagcompound);
-      }
-
-      NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
-
-      if (!nbttagcompound.hasKey("display", 10)) {
-        nbttagcompound.setTag("display", nbttagcompound1);
-      }
-
-      nbttagcompound1.setInteger("color", color);
-    }
-  }
-
-  @Override
   public String getUnlocalizedName(ItemStack stack) {
 
     return LocalizationHelper.ITEM_PREFIX + itemName;
@@ -154,20 +86,24 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
   @Override
   public boolean requiresMultipleRenderPasses() {
 
-    return extraIcon != null || getArmorMaterial() == materialCotton;
+    return extraIcon != null;
   }
 
   @Override
   public int getRenderPasses(int meta) {
 
-    return extraIcon == null || getArmorMaterial() != materialCotton ? 1 : 2;
+    return extraIcon == null ? 1 : 2;
   }
 
   @Override
   public IIcon getIcon(ItemStack stack, int pass) {
-    
-    if (pass == 1) {
-      return extraIcon != null ? extraIcon : ToolRenderHelper.instance.iconBlank;
+
+    if (extraIcon != null) {
+      if (pass == 0) {
+        return extraIcon;
+      } else {
+        return itemIcon;
+      }
     } else {
       return itemIcon;
     }
