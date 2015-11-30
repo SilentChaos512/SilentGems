@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -111,12 +112,12 @@ public class GemBow extends ItemBow implements IAddRecipe, IHasVariants {
     return true;
   }
 
-  @Override
-  public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining) {
-
-    int index = getUsingIndex(stack, useRemaining);
-    return ToolRenderHelper.instance.getSmartModel(index);
-  }
+  // @Override
+  // public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining) {
+  //
+  // int index = getUsingIndex(stack, useRemaining);
+  // return ToolRenderHelper.instance.getSmartModel(index);
+  // }
 
   public int getUsingIndex(ItemStack stack, int useRemaining) {
 
@@ -132,6 +133,27 @@ public class GemBow extends ItemBow implements IAddRecipe, IHasVariants {
       return 1;
     } else {
       return 0;
+    }
+  }
+
+  @Override
+  public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
+
+    if (player.worldObj.isRemote) {
+      int oldFrame = ToolHelper.getAnimationFrame(stack);
+      int newFrame = getUsingIndex(stack, count);
+      if (newFrame != oldFrame) {
+        ToolHelper.setAnimationFrame(stack, newFrame);
+      }
+    }
+  }
+
+  @Override
+  public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot,
+      boolean isSelected) {
+
+    if (!isSelected) {
+      ToolHelper.setAnimationFrame(stack, 0);
     }
   }
 
@@ -187,6 +209,8 @@ public class GemBow extends ItemBow implements IAddRecipe, IHasVariants {
   @Override
   public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn,
       int timeLeft) {
+
+    ToolHelper.setAnimationFrame(stack, 0);
 
     int j = this.getMaxItemUseDuration(stack) - timeLeft;
     net.minecraftforge.event.entity.player.ArrowLooseEvent event = new net.minecraftforge.event.entity.player.ArrowLooseEvent(

@@ -146,7 +146,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
       Object object = event.modelRegistry.getObject(modelLocation);
       if (object instanceof IBakedModel) {
         IBakedModel existingModel = (IBakedModel) object;
-        ToolSmartModel customModel = new ToolSmartModel(existingModel, i);
+        ToolSmartModel customModel = new ToolSmartModel(existingModel);
         event.modelRegistry.putObject(modelLocation, customModel);
       }
     }
@@ -237,7 +237,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
 
     // Tips
     for (int tip = 0; tip < TIP_TYPE_COUNT; ++tip) {
-      models.tip[tip] = registerModel(prefix + "Tip" + tip, dryRun);
+      models.tip[tip] = registerModel(prefix + "Tip" + tip + strIndex, dryRun);
     }
 
     // Deco bits (swords and bows, others use main)
@@ -437,12 +437,12 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
    */
   public String[] getVariantNames(ItemStack tool) {
 
-    List<String> list = Lists.newArrayList();
-    for (int i = 0; i < getAnimationFrameCount(tool); ++i) {
-      list.add(SMART_MODEL_NAME + i);
-    }
-    return list.toArray(new String[list.size()]);
-    // return new String[] { getFullName(tool) };
+//    List<String> list = Lists.newArrayList();
+//    for (int i = 0; i < getAnimationFrameCount(tool); ++i) {
+//      list.add(SMART_MODEL_NAME + i);
+//    }
+//    return list.toArray(new String[list.size()]);
+     return new String[] { SMART_MODEL_NAME + "0" };
   }
 
   public int getAnimationFrameCount(ItemStack tool) {
@@ -480,15 +480,15 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
         * ROD_DECO_TYPE_COUNT * (ROD_WOOL_TYPE_COUNT + 1) * (TIP_TYPE_COUNT + 1);
   }
 
-  /**
-   * Gets the smart model for the given animation frame. Used by bows.
-   * @param animationFrame
-   * @return
-   */
-  public ModelResourceLocation getSmartModel(int animationFrame) {
-
-    return smartModels[MathHelper.clamp_int(animationFrame, 0, BOW_STAGE_COUNT - 1)];
-  }
+//  /**
+//   * Gets the smart model for the given animation frame. Used by bows.
+//   * @param animationFrame
+//   * @return
+//   */
+//  public ModelResourceLocation getSmartModel(int animationFrame) {
+//
+//    return smartModels[MathHelper.clamp_int(animationFrame, 0, BOW_STAGE_COUNT - 1)];
+//  }
 
   /**
    * Gets the part model for the given tool and render pass.

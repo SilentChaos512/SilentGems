@@ -59,6 +59,7 @@ public class ToolHelper {
   public static final String NBT_ROD_WOOL = "RodWool";
   public static final String NBT_TIP = "Tip";
   public static final String NBT_NO_GLINT = "NoGlint";
+  public static final String NBT_ANIMATION_FRAME = "AnimationFrame";
 
   public static final String NBT_STATS_BLOCKS_MINED = "BlocksMined";
   public static final String NBT_STATS_BLOCKS_PLACED = "BlocksPlaced";
@@ -739,6 +740,20 @@ public class ToolHelper {
   public static void incrementStatShotsFired(ItemStack tool, int amount) {
 
     setTagInt(NBT_STATS_SHOTS_FIRED, getStatShotsFired(tool) + amount, tool);
+  }
+
+  // ---------------------
+  // Rendering NBT methods
+  // ---------------------
+  
+  public static int getAnimationFrame(ItemStack tool) {
+    
+    return getTagInt(NBT_ANIMATION_FRAME, tool);
+  }
+  
+  public static void setAnimationFrame(ItemStack tool, int value) {
+    
+    setTagInt(NBT_ANIMATION_FRAME, value, tool);
   }
 
   // ---------------------

@@ -52,19 +52,19 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
    * The base model of the tool. This may not have any meaningful function.
    */
   private final IBakedModel baseModel;
-  /**
-   * Used by bows to determine which frame of the animation it should display.
-   */
-  public final int animationFrame;
+//  /**
+//   * Used by bows to determine which frame of the animation it should display.
+//   */
+//  public final int animationFrame;
   /**
    * The tool being rendered. The NBT of the tool determines the models used.
    */
   private ItemStack tool;
 
-  public ToolSmartModel(IBakedModel baseModel, int animationFrame) {
+  public ToolSmartModel(IBakedModel baseModel/*, int animationFrame*/) {
 
     this.baseModel = baseModel;
-    this.animationFrame = animationFrame;
+//    this.animationFrame = animationFrame;
   }
 
   /**
@@ -79,9 +79,9 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
 
     if (InventoryHelper.isGemTool(stack)) {
       tool = stack;
-      if (animationFrame != 0) {
-        LogHelper.debug(animationFrame);
-      }
+//      if (animationFrame != 0) {
+//        LogHelper.debug(animationFrame);
+//      }
     }
     return this;
   }
@@ -151,7 +151,7 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
     for (int pass = 0; pass < ToolRenderHelper.RENDER_PASS_COUNT; ++pass) {
       // Get resource location from ToolRenderHelper.
       modelLocation = ToolRenderHelper.instance.getModel(tool, pass, gemId, supercharged,
-          animationFrame);
+          ToolHelper.getAnimationFrame(tool));
       // Get the actual tool part model.
       model = manager.getModel(modelLocation);
       // Some safety checks...

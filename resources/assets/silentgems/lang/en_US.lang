@@ -12,6 +12,7 @@ container.silentgems:BurnerPylon=Burner Pylon
 tile.silentgems:ChaosAltar.name=Chaos Altar
 tile.silentgems:ChaosAltar.desc1=Charges items that can store Chaos energy.
 tile.silentgems:ChaosAltar.desc2=Requires pylons to be placed nearby.
+tile.silentgems:ChaosAltar.desc3=(Placeholder Model)
 
 tile.silentgems:ChaosEssenceBlock0.name=Raw Chaos Essence Block (Deprecated)
 tile.silentgems:ChaosEssenceBlock1.name=Chaos Essence Block (Deprecated)
@@ -23,6 +24,7 @@ tile.silentgems:ChaosPylon0.name=Passive Chaos Pylon
 tile.silentgems:ChaosPylon1.name=Burner Chaos Pylon
 tile.silentgems:ChaosPylon.desc1=Generates Chaos energy and sends it to a
 tile.silentgems:ChaosPylon.desc2=nearby altar.
+tile.silentgems:ChaosPylon.desc3=(Placeholder Model)
 
 tile.silentgems:ChaosOre.name=Chaos Ore
 
