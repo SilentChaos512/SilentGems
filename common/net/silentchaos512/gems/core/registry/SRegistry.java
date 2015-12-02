@@ -10,10 +10,8 @@ import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.block.BlockSG;
-import net.silentchaos512.gems.core.util.InventoryHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.ItemSG;
 import net.silentchaos512.gems.item.block.ItemBlockSG;
@@ -22,7 +20,7 @@ public class SRegistry {
 
   private static final HashMap<String, Block> blocks = new HashMap<String, Block>();
   private static final HashMap<String, Item> items = new HashMap<String, Item>();
-  
+
   public static final ArrayList<ModelResourceLocation> toolBaseModels = new ArrayList<ModelResourceLocation>();
 
   /**
@@ -220,7 +218,7 @@ public class SRegistry {
         }
       }
     }
-    
+
     // Items (IRegisterModels)
     for (Item item : items.values()) {
       if (item instanceof IRegisterModels) {
@@ -239,9 +237,9 @@ public class SRegistry {
             ModelResourceLocation model = new ModelResourceLocation(variants[i], "inventory");
             Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, i, model);
             // Tool model?
-//            if (InventoryHelper.isGemTool(new ItemStack(item))) {
-//              toolBaseModels.add(model);
-//            }
+            // if (InventoryHelper.isGemTool(new ItemStack(item))) {
+            // toolBaseModels.add(model);
+            // }
           }
         }
       }

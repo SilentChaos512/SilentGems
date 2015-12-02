@@ -15,6 +15,9 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
@@ -136,6 +139,7 @@ public class GemsForgeEventHandler {
     }
   }
 
+  @SideOnly(Side.CLIENT)
   @SubscribeEvent
   public void onModelBake(ModelBakeEvent event) {
 

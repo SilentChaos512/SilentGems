@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -38,7 +36,6 @@ import net.silentchaos512.gems.material.ModMaterials;
  * file are directly from 1.7.
  */
 @SuppressWarnings("deprecation")
-@SideOnly(Side.CLIENT)
 public class ToolRenderHelper extends Item implements IHasVariants, IRegisterModels {
 
   /**
@@ -90,12 +87,17 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
    */
 
   private HashMap<Integer, String> modelKeys = new HashMap<Integer, String>();
+  @SideOnly(Side.CLIENT)
   private ModelResourceLocation[] smartModels = new ModelResourceLocation[BOW_STAGE_COUNT];
 
   // Shared
+  @SideOnly(Side.CLIENT)
   public ModelResourceLocation modelBlank; // A completely transparent texture.
+  @SideOnly(Side.CLIENT)
   public ModelResourceLocation modelError; // Shows up if I screw up.
+  @SideOnly(Side.CLIENT)
   public ModelResourceLocation[] modelMainRodDeco; // Rod decoration used by most tools.
+  @SideOnly(Side.CLIENT)
   public ModelResourceLocation[] modelMainRodWool; // Rod wool grip used by most tools.
 
   // Specific tool model collections.
@@ -124,6 +126,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
    * 
    * @param event
    */
+  @SideOnly(Side.CLIENT)
   public void onModelBake(ModelBakeEvent event) {
 
     LogHelper.info("Swapping tool models for smart models...");
@@ -158,6 +161,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
    * Called in SRegistry for all blocks/items that implement IRegisterModels. This is the chance to register whatever
    * models we need!
    */
+  @SideOnly(Side.CLIENT)
   @Override
   public void registerModels() {
 
@@ -170,6 +174,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
    * @param dryRun
    *          If true, registration is not done, but the number of models will be calculated and stored in modelCount.
    */
+  @SideOnly(Side.CLIENT)
   public void registerModels(boolean dryRun) {
 
     if (!dryRun) {
@@ -213,6 +218,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
    * @param index
    * @param dryRun
    */
+  @SideOnly(Side.CLIENT)
   private void registerModelsForCollection(String toolClass, int index, boolean dryRun) {
 
     ToolModelCollection models = getCollectionByName(toolClass, index);
@@ -276,6 +282,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
    * @param dryRun
    * @return
    */
+  @SideOnly(Side.CLIENT)
   private ModelResourceLocation registerModel(String name, boolean dryRun) {
 
     ModelResourceLocation location = new ModelResourceLocation(SilentGems.MOD_ID + ":" + name,
@@ -331,6 +338,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
    * @param index
    * @return
    */
+  @SideOnly(Side.CLIENT)
   private ToolModelCollection getCollectionByName(String toolClass, int index) {
 
     if (toolClass.equals("Sword")) {
@@ -503,6 +511,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
    *          The supercharged value of the base tool
    * @return The appropriate tool part model
    */
+  @SideOnly(Side.CLIENT)
   public ModelResourceLocation getModel(ItemStack stack, int pass, int gemId,
       boolean supercharged) {
 
@@ -526,6 +535,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
    *          Use time remaining
    * @return
    */
+  @SideOnly(Side.CLIENT)
   public ModelResourceLocation getModel(ItemStack stack, int pass, int gemId, boolean supercharged,
       int animationFrame) {
 
@@ -589,12 +599,14 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
    * The following methods get part models for various "render passes".
    */
 
+  @SideOnly(Side.CLIENT)
   public ModelResourceLocation getRodModel(ToolModelCollection icons, ItemStack stack,
       boolean supercharged) {
 
     return supercharged ? icons.rod[1] : icons.rod[0];
   }
 
+  @SideOnly(Side.CLIENT)
   public ModelResourceLocation getRodDecoModel(ToolModelCollection icons, ItemStack stack,
       boolean supercharged) {
 
@@ -611,6 +623,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     return icons.rodDeco[12];
   }
 
+  @SideOnly(Side.CLIENT)
   public ModelResourceLocation getRodWoolModel(ToolModelCollection icons, ItemStack stack,
       boolean supercharged) {
 
@@ -628,6 +641,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     return modelBlank;
   }
 
+  @SideOnly(Side.CLIENT)
   public ModelResourceLocation getHeadMiddleModel(ToolModelCollection icons, ItemStack stack,
       int gemId) {
 
@@ -644,6 +658,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     }
   }
 
+  @SideOnly(Side.CLIENT)
   public ModelResourceLocation getHeadLeftModel(ToolModelCollection icons, ItemStack stack,
       int gemId) {
 
@@ -660,6 +675,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     }
   }
 
+  @SideOnly(Side.CLIENT)
   public ModelResourceLocation getHeadRightModel(ToolModelCollection icons, ItemStack stack,
       int gemId) {
 
@@ -676,6 +692,7 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     }
   }
 
+  @SideOnly(Side.CLIENT)
   public ModelResourceLocation getTipModel(ToolModelCollection icons, ItemStack stack, int gemId) {
 
     int k = ToolHelper.getToolHeadTip(stack);
