@@ -115,9 +115,9 @@ public class GemsForgeEventHandler {
   @SubscribeEvent
   public void onLivingAttack(LivingAttackEvent event) {
 
-    if (event.source == DamageSource.fall) {
-      EntityLivingBase entityLivingBase = event.entityLiving;
-      ItemStack wornBoots = entityLivingBase.getCurrentArmor(0);
+    if (event.source == DamageSource.fall && event.entityLiving instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) event.entityLiving;
+      ItemStack wornBoots = player.inventory.armorItemInSlot(0);
       Item fluffyBoots = SRegistry.getItem("CottonBoots");
       if (wornBoots != null && wornBoots.getItem() == fluffyBoots) {
         // Reduce/negate fall damage
@@ -125,15 +125,15 @@ public class GemsForgeEventHandler {
         event.setCanceled(true);
         if (newDamage > 0) {
           // We create a new damage source instead of using DamageSource.fall so this code isn't called again.
-          entityLivingBase.attackEntityFrom(new DamageSource("fall").setDamageBypassesArmor(),
+          player.attackEntityFrom(new DamageSource("fall").setDamageBypassesArmor(),
               newDamage);
         }
         // Damage/destroy boots
         int damageToBoots = Math.min(Config.FLUFFY_BOOTS_DAMAGE_TAKEN, (int) (event.ammount / 2));
         if (wornBoots.attemptDamageItem(damageToBoots, SilentGems.instance.random)) {
-          entityLivingBase.renderBrokenItemStack(wornBoots); // Does nothing?
-          entityLivingBase.playSound("random.break", 1f, 1f); // Does nothing?
-          entityLivingBase.setCurrentItemOrArmor(1, null);
+          player.renderBrokenItemStack(wornBoots); // Does nothing?
+          player.playSound("random.break", 1f, 1f); // Does nothing?
+          player.setCurrentItemOrArmor(1, null);
         }
       }
     }
