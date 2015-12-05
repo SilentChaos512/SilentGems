@@ -4,6 +4,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -11,6 +12,8 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.configuration.Config;
+import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.PlayerHelper;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
@@ -69,6 +72,14 @@ public class BlockRedstoneTeleporter extends BlockTeleporter {
       for (int i = 0; i < world.loadedEntityList.size(); ++i) {
         Entity entity = (Entity) world.loadedEntityList.get(i);
         if (entity != null && entity.getDistanceSq(dx, dy, dz) < searchRange) {
+          if (entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            // XP Drain.
+            if (!checkAndDrainXP(player, x, y, z, player.dimension, tile.destX, tile.destY,
+                tile.destZ, tile.destD)) {
+              continue;
+            }
+          }
           if (teleporterEntityTo(entity, tile.destX, tile.destY, tile.destZ, tile.destD)) {
             playSound = true;
           }

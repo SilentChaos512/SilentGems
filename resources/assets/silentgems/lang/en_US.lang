@@ -203,6 +203,7 @@ tile.silentgems:Teleporter.Link.End=Teleporter link created.
 tile.silentgems:Teleporter.Link.Fail=Teleporter link failed. (Try chunk loading first teleporter.)
 tile.silentgems:Teleporter.Link.Start=Teleporter link started.
 tile.silentgems:Teleporter.NoDestination=No destination set.
+tile.silentgems:Teleporter.NotEnoughXP=Not enough XP (%d / %d)
 tile.silentgems:Teleporter.ReturnHomeBound=Bound to Teleporter!
 
 tile.silentgems:RedstoneTeleporter0.name=Ruby Redstone Teleporter

@@ -40,6 +40,7 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
   public static final String LINK_FAIL = "Link.Fail";
   public static final String LINK_START = "Link.Start";
   public static final String NO_DESTINATION = "NoDestination";
+  public static final String NOT_ENOUGH_XP = "NotEnoughXP";
   public static final String RETURN_HOME_BOUND = "ReturnHomeBound";
 
   protected boolean isAnchor = false;
@@ -215,6 +216,12 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
         return true;
       }
 
+      // XP Drain.
+      if (!checkAndDrainXP(player, x, y, z, player.dimension, tile.destX, tile.destY, tile.destZ,
+          tile.destD)) {
+        return true;
+      }
+
       // Teleport player
       this.teleporterEntityTo(player, tile.destX, tile.destY, tile.destZ, tile.destD);
       // Play sounds
@@ -228,6 +235,39 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
     }
 
     return true;
+  }
+
+  protected boolean checkAndDrainXP(EntityPlayer player, int x, int y, int z, int dim, int destX,
+      int destY, int destZ, int destDim) {
+
+    // Not enough XP?
+    int xpCost = getRequiredXP(player, x, y, z, player.dimension, destX, destY, destZ, destDim);
+    if (xpCost > player.experienceTotal) {
+      String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, NOT_ENOUGH_XP);
+      str = String.format(str, player.experienceTotal, xpCost);
+      PlayerHelper.addChatMessage(player, str);
+      return false;
+    }
+
+    // Drain XP
+    PlayerHelper.removeExperience(player, xpCost);
+    return true;
+  }
+
+  protected int getRequiredXP(EntityPlayer player, int x, int y, int z, int dim, int destX,
+      int destY, int destZ, int destDim) {
+
+    if (dim != destDim) {
+      return Config.TELEPORTER_XP_CROSS_DIMENSION;
+    }
+
+    double distance = Math.sqrt((x - destX) * (x - destX) + (z - destZ) * (z - destZ));
+
+    if (distance < Config.TELEPORTER_XP_FREE_RANGE) {
+      return 0;
+    } else {
+      return (int) (Config.TELEPORTER_XP_PER_1K_BLOCKS * distance / 1000);
+    }
   }
 
   protected boolean isDestinationSafe(int x, int y, int z, int dimension) {

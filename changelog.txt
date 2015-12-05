@@ -1,12 +1,28 @@
 Silent's Gems - Changelog
 
+1.3.7
+
+
+1.3.6b (MC 1.8 only)
+Fixed: Server crashes
+
 1.3.6
+--- 1.7.10 and 1.8 ---
 Added: Dyed Fluffy Blocks
 Added: Config for Fluffy Block fall distance reduction. Default reduced to 8.
 Added: Enchantment Tokens work on shears.
 Added: Fluffy Boots now reduce fall damage when worn (configurable)
 Changed: Fluffy Blocks break faster with shears. Hardness raised.
+Changed: Fluffy armor is now slightly better than leather.
 Fixed: An incorrect log message when decorating Chaos tools.
+
+--- 1.8 Specific Changes ---
+Added: Placeholder altar and pylon models.
+Fixed: Area Miner mining the wrong blocks.
+Fixed: Tool decorating should be fully working.
+Fixed: Bow animations.
+Fixed: Glow Rose item rendering.
+Fixed: Return Home Charm rendering.
 
 1.3.5
 Added: Emerald-Tipped upgrade. More bonus durability, but only mining level 2 (configurable).
