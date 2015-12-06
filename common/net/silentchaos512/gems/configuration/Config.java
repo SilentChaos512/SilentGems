@@ -23,7 +23,7 @@ public class Config {
   public static float REDSTONE_TELEPORTER_SEARCH_RANGE = 2.0f;
   public static int TELEPORTER_XP_PER_1K_BLOCKS = 120;
   public static int TELEPORTER_XP_CROSS_DIMENSION = 160;
-  public static int TELEPORTER_XP_FREE_RANGE = 64;
+  public static int TELEPORTER_XP_FREE_RANGE = 32;
   public static boolean TELEPORTER_ALLOW_DUMB = true;
 
   /*

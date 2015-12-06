@@ -2,15 +2,16 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
+import net.silentchaos512.gems.core.util.DimensionalPosition;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TeleporterLinker extends ItemSG {
 
@@ -32,9 +33,12 @@ public class TeleporterLinker extends ItemSG {
     }
 
     // Display state and coords (if active)
-    if (stack.stackTagCompound.getBoolean(Strings.TELEPORTER_LINKER_STATE)) {
+    if (isLinked(stack)) {
       list.add(EnumChatFormatting.GREEN + LocalizationHelper.getOtherItemKey(itemName, "Active"));
-      list.add(LogHelper.coordFromNBT(stack.stackTagCompound));
+      DimensionalPosition pos = getLinkedPosition(stack);
+      String posStr = LocalizationHelper.getMiscText("DimensionalPosition");
+      posStr = String.format(posStr, pos.x, pos.y, pos.z, pos.d);
+      list.add(posStr);
     } else {
       list.add(EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(itemName, "Inactive"));
     }
@@ -53,8 +57,23 @@ public class TeleporterLinker extends ItemSG {
   @Override
   public boolean hasEffect(ItemStack stack, int pass) {
 
-    return stack.stackTagCompound != null
-        && stack.stackTagCompound.hasKey(Strings.TELEPORTER_LINKER_STATE)
-        && stack.stackTagCompound.getBoolean(Strings.TELEPORTER_LINKER_STATE);
+    return isLinked(stack);
+  }
+  
+  public boolean isLinked(ItemStack stack) {
+    
+    NBTTagCompound tags = stack.getTagCompound();
+    if (tags != null) {
+      return tags.getBoolean(Strings.TELEPORTER_LINKER_STATE);
+    }
+    return false;
+  }
+  
+  public DimensionalPosition getLinkedPosition(ItemStack stack) {
+    
+    if (!stack.hasTagCompound()) {
+      return new DimensionalPosition(0, 0, 0, 0);
+    }
+    return DimensionalPosition.fromNBT(stack.getTagCompound());
   }
 }

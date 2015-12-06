@@ -411,6 +411,8 @@ item.silentgems:TeleporterLinker.name=Teleporter Linker
 item.silentgems:TeleporterLinker.desc=Used to link Teleporters.
 item.silentgems:TeleporterLinker.Active=Linked to:
 item.silentgems:TeleporterLinker.Inactive=Not linked.
+item.silentgems:TeleporterLinker.Distance=Distance: %d
+item.silentgems:TeleporterLinker.DifferentDimension=Dimension Hop
 
 item.silentgems:TorchBandolier.name=Torch Bandolier
 item.silentgems:TorchBandolier.desc1=Can store and dispense torches.
@@ -851,3 +853,4 @@ misc.silentgems:Tool.Stats.Separator=---------------------
 
 misc.silentgems:PressCtrl=<Press Ctrl>
 misc.silentgems:PressShift=<Press Shift>
+misc.silentgems:DimensionalPosition=(%d, %d, %d) in dimension %d

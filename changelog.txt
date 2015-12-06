@@ -1,7 +1,8 @@
 Silent's Gems - Changelog
 
 1.3.7
-
+Changed: Teleporters drain XP (configurable) when teleporting players. By default short distances are free, teleporting to a different dimension has a flat cost, and long distances require linearly increasing amounts of XP.
+Changed: Teleporter linker displays the distance to the linked teleporter (note that Y-coordinates are ignored)
 
 1.3.6b (MC 1.8 only)
 Fixed: Server crashes

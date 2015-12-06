@@ -1,6 +1,9 @@
 package net.silentchaos512.gems.core.handler;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -16,15 +20,61 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.core.util.DimensionalPosition;
 import net.silentchaos512.gems.core.util.InventoryHelper;
+import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.enchantment.EnchantmentLumberjack;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
+import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.item.TeleporterLinker;
+import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
 
 public class GemsForgeEventHandler {
+
+  @SubscribeEvent
+  public void onRenderGameOverlay(RenderGameOverlayEvent event) {
+
+    if (event.type == RenderGameOverlayEvent.ElementType.TEXT) {
+      Minecraft mc = Minecraft.getMinecraft();
+      EntityPlayer player = mc.thePlayer;
+
+      ItemStack heldItem = mc.thePlayer.getHeldItem();
+      if (heldItem != null && heldItem.getItem() == ModItems.teleporterLinker) {
+        TeleporterLinker linker = (TeleporterLinker) heldItem.getItem();
+
+        ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+        FontRenderer fontRender = mc.fontRenderer;
+        int width = res.getScaledWidth();
+        int height = res.getScaledHeight();
+
+        String str;
+        if (linker.isLinked(heldItem)) {
+          DimensionalPosition pos = linker.getLinkedPosition(heldItem);
+          double x = pos.x - player.posX;
+          double z = pos.z - player.posZ;
+          int distance = (int) Math.sqrt(x * x + z * z);
+          str = LocalizationHelper.getOtherItemKey(Names.TELEPORTER_LINKER, "Distance");
+          str = String.format(str, distance);
+
+          int textX = width / 2 - fontRender.getStringWidth(str) / 2;
+          int textY = height * 3 / 5;
+          // Text colored differently depending on situation.
+          int color = 0xffff00; // Outside free range, same dimension
+          if (pos.d != player.dimension) {
+            color = 0xff6600; // Different dimension
+            str = LocalizationHelper.getOtherItemKey(Names.TELEPORTER_LINKER, "DifferentDimension");
+          } else if (distance < Config.TELEPORTER_XP_FREE_RANGE) {
+            color = 0x00aaff; // Inside free range
+          }
+          fontRender.drawStringWithShadow(str, textX, textY, color);
+        }
+      }
+    }
+  }
 
   @SubscribeEvent
   public void onEntityConstructing(EntityConstructing event) {
