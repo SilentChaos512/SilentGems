@@ -40,6 +40,7 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
   public static final String LINK_END = "Link.End";
   public static final String LINK_FAIL = "Link.Fail";
   public static final String LINK_START = "Link.Start";
+  public static final String LINK_SOURCE_IS_DESTINATION = "Link.SourceIsDestination";
   public static final String NO_DESTINATION = "NoDestination";
   public static final String NOT_ENOUGH_XP = "NotEnoughXP";
   public static final String RETURN_HOME_BOUND = "ReturnHomeBound";
@@ -144,6 +145,15 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
         LogHelper.warning("A teleporter link failed because teleporter 2 could not be found.");
         linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
         return false;
+      }
+
+      // Are source and destination the same?
+      if (x == sx && y == sy && z == sz && player.dimension == sd) {
+        String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER,
+            LINK_SOURCE_IS_DESTINATION);
+        PlayerHelper.addChatMessage(player, str);
+        linker.stackTagCompound.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
+        return true;
       }
 
       // Set destinations for both teleporters.
