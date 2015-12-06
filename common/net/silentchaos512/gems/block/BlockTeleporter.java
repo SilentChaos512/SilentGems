@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -21,6 +20,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.configuration.Config;
+import net.silentchaos512.gems.core.util.DimensionalPosition;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.NBTHelper;
@@ -36,6 +36,7 @@ import net.silentchaos512.gems.tile.TileTeleporter;
 public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
 
   public static final String DESTINATION_OBSTRUCTED = "DestinationObstructed";
+  public static final String DESTINATION_NO_TELEPORTER = "DestinationNoTeleporter";
   public static final String LINK_END = "Link.End";
   public static final String LINK_FAIL = "Link.Fail";
   public static final String LINK_START = "Link.Start";
@@ -62,9 +63,12 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
     if (!Config.RECIPE_TELEPORTER_DISABLED) {
       ItemStack essencePlus = CraftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
       ItemStack anyTeleporter = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
+
       for (EnumGem gem : EnumGem.values()) {
+        // Main recipe
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 2, gem.id), "cec", " g ",
             "cec", 'c', essencePlus, 'e', Items.ender_pearl, 'g', gem.getBlockOreName()));
+        // Recolor recipe
         GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, gem.id), anyTeleporter,
             gem.getItemOreName()));
       }
@@ -198,18 +202,29 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
     }
 
     TileTeleporter tile = (TileTeleporter) world.getTileEntity(x, y, z);
-
     if (tile != null) {
+      DimensionalPosition destination = new DimensionalPosition(tile.destX, tile.destY, tile.destZ,
+          tile.destD);
+      DimensionalPosition source = new DimensionalPosition(x, y, z, player.dimension);
+
       // Safety checks:
-      if (tile.destY <= 0) {
+      if (destination.y <= 0) {
         // Destination not sane.
         String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, NO_DESTINATION);
         PlayerHelper.addChatMessage(player, str);
         return true;
       }
 
+      // Is this a "dumb" teleport and are they allowed if so?
+      if (!isDestinationAllowedIfDumb(destination)) {
+        String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER,
+            DESTINATION_NO_TELEPORTER);
+        PlayerHelper.addChatMessage(player, str);
+        return true;
+      }
+
       // Destination not obstructed
-      if (!this.isDestinationSafe(tile.destX, tile.destY, tile.destZ, tile.destD)) {
+      if (!isDestinationSafe(destination)) {
         // Destination not safe.
         String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, DESTINATION_OBSTRUCTED);
         PlayerHelper.addChatMessage(player, str);
@@ -217,13 +232,12 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
       }
 
       // XP Drain.
-      if (!checkAndDrainXP(player, x, y, z, player.dimension, tile.destX, tile.destY, tile.destZ,
-          tile.destD)) {
+      if (!checkAndDrainXP(player, source, destination)) {
         return true;
       }
 
       // Teleport player
-      this.teleporterEntityTo(player, tile.destX, tile.destY, tile.destZ, tile.destD);
+      teleporterEntityTo(player, destination);
       // Play sounds
       float soundPitch = SilentGems.instance.random.nextFloat();
       soundPitch = soundPitch * 0.3f + 0.7f;
@@ -237,11 +251,11 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
     return true;
   }
 
-  protected boolean checkAndDrainXP(EntityPlayer player, int x, int y, int z, int dim, int destX,
-      int destY, int destZ, int destDim) {
+  protected boolean checkAndDrainXP(EntityPlayer player, DimensionalPosition source,
+      DimensionalPosition destination) {
 
     // Not enough XP?
-    int xpCost = getRequiredXP(player, x, y, z, player.dimension, destX, destY, destZ, destDim);
+    int xpCost = getRequiredXP(player, source, destination);
     if (xpCost > player.experienceTotal) {
       String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER, NOT_ENOUGH_XP);
       str = String.format(str, player.experienceTotal, xpCost);
@@ -254,14 +268,14 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
     return true;
   }
 
-  protected int getRequiredXP(EntityPlayer player, int x, int y, int z, int dim, int destX,
-      int destY, int destZ, int destDim) {
+  protected int getRequiredXP(EntityPlayer player, DimensionalPosition source,
+      DimensionalPosition destination) {
 
-    if (dim != destDim) {
+    if (source.d != destination.d) {
       return Config.TELEPORTER_XP_CROSS_DIMENSION;
     }
 
-    double distance = Math.sqrt((x - destX) * (x - destX) + (z - destZ) * (z - destZ));
+    double distance = getDistanceBetweenTeleporters(source, destination);
 
     if (distance < Config.TELEPORTER_XP_FREE_RANGE) {
       return 0;
@@ -270,20 +284,46 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
     }
   }
 
-  protected boolean isDestinationSafe(int x, int y, int z, int dimension) {
+  /**
+   * Calculates the distance between two points. Used to calculate XP cost of teleports.
+   * 
+   * @param source
+   * @param destination
+   * @return
+   */
+  public double getDistanceBetweenTeleporters(DimensionalPosition source,
+      DimensionalPosition destination) {
 
-    // Check for obstructions at player head level. This may need additional tuning...
-    WorldServer server = MinecraftServer.getServer().worldServerForDimension(dimension);
-    return !server.isBlockNormalCubeDefault(x, y + 2, z, true);
+    double x = source.x - destination.x;
+    double z = source.z - destination.z;
+    return Math.sqrt(x * x + z * z);
   }
 
-  protected boolean teleporterEntityTo(Entity entity, int x, int y, int z, int dimension) {
+  protected boolean isDestinationSafe(DimensionalPosition pos) {
+
+    // Check for obstructions at player head level. This may need additional tuning...
+    WorldServer server = MinecraftServer.getServer().worldServerForDimension(pos.d);
+    return !server.isBlockNormalCubeDefault(pos.x, pos.y + 2, pos.z, true);
+  }
+
+  protected boolean isDestinationAllowedIfDumb(DimensionalPosition pos) {
+
+    // Dumb teleports are when a teleport is performed without a teleporter at the destination.
+    // By default this is allowed.
+    if (Config.TELEPORTER_ALLOW_DUMB) {
+      return true;
+    }
+    WorldServer server = MinecraftServer.getServer().worldServerForDimension(pos.d);
+    return server.getBlock(pos.x, pos.y, pos.z) instanceof BlockTeleporter;
+  }
+
+  protected boolean teleporterEntityTo(Entity entity, DimensionalPosition pos) {
 
     // Teleport
     if (entity instanceof EntityPlayerMP) {
-      return TeleportUtil.teleportPlayerTo((EntityPlayerMP) entity, x, y, z, dimension);
+      return TeleportUtil.teleportPlayerTo((EntityPlayerMP) entity, pos.x, pos.y, pos.z, pos.d);
     } else {
-      return TeleportUtil.teleportEntityTo(entity, x, y, z, dimension);
+      return TeleportUtil.teleportEntityTo(entity, pos.x, pos.y, pos.z, pos.d);
     }
   }
 }

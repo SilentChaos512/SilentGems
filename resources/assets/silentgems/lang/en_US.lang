@@ -199,6 +199,7 @@ tile.silentgems:Teleporter10.name=Morganite Teleporter
 tile.silentgems:Teleporter11.name=Onyx Teleporter
 tile.silentgems:Teleporter.DestinationInvalid=Invalid teleport destination.
 tile.silentgems:Teleporter.DestinationObstructed=Destination obstructed.
+tile.silentgems:Teleporter.DestinationNoTeleporter=No teleporter/anchor at destination.
 tile.silentgems:Teleporter.Link.End=Teleporter link created.
 tile.silentgems:Teleporter.Link.Fail=Teleporter link failed. (Try chunk loading first teleporter.)
 tile.silentgems:Teleporter.Link.Start=Teleporter link started.

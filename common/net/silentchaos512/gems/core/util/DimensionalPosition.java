@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.core.util;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class DimensionalPosition {
@@ -16,10 +17,7 @@ public class DimensionalPosition {
 
   public static DimensionalPosition fromNBT(NBTTagCompound tags) {
 
-    return new DimensionalPosition(
-        tags.getInteger("X"),
-        tags.getInteger("Y"),
-        tags.getInteger("Z"),
+    return new DimensionalPosition(tags.getInteger("X"), tags.getInteger("Y"), tags.getInteger("Z"),
         tags.getInteger("D"));
   }
 }
