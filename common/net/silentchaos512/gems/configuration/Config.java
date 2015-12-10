@@ -39,6 +39,7 @@ public class Config {
   public static int FLUFFY_PUFF_SEED_WEIGHT = 2;
   public static int FLUFFY_BOOTS_DAMAGE_REDUCTION = 6;
   public static int FLUFFY_BOOTS_DAMAGE_TAKEN = 20;
+  public static float LIFE_ESSENCE_DROP_RATE = 0.075f;
 
   /*
    * Tools
@@ -225,6 +226,11 @@ public class Config {
           FLUFFY_BOOTS_DAMAGE_TAKEN, 0, Integer.MAX_VALUE,
           "The most damage that fluffy boots can take (durability lost) per fall.");
 
+      LIFE_ESSENCE_DROP_RATE = c.getFloat(
+          "LifeEssence.DropRate", CATEGORY_ITEM_PROPERTIES,
+          LIFE_ESSENCE_DROP_RATE, 0f, 1f,
+          "The chance of an entity dropping life essence when it dies.");
+
       /*
        * Recipes
        */
@@ -364,11 +370,6 @@ public class Config {
   public static int getEnchantmentId(String name, int default_id) {
 
     return c.get(CATEGORY_ENCHANTMENT, name, default_id).getInt(default_id);
-  }
-
-  public static int getGeneralInt(String category, String name, int default_value, String comment) {
-
-    return c.get(category, name, default_value, comment).getInt(default_value);
   }
 
   public static void save() {

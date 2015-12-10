@@ -5,6 +5,7 @@ Added: Config to disallow "dumb" teleports. If set to false, Teleporters will on
 Changed: Teleporters drain XP (configurable) when teleporting players. By default short distances are free, teleporting to a different dimension has a flat cost, and long distances require linearly increasing amounts of XP.
 Changed: Teleporters can no longer be linked to themselves. Trying will still deactivate the linker.
 Changed: Teleporter linker displays the distance to the linked teleporter (note that Y-coordinates are ignored)
+Fixed: Regeneration chaos gems not working.
 
 1.3.6b (MC 1.8 only)
 Fixed: Server crashes

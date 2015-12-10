@@ -6,6 +6,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemShears;
@@ -15,6 +16,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
@@ -28,6 +30,7 @@ import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.enchantment.EnchantmentLumberjack;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
+import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.TeleporterLinker;
 import net.silentchaos512.gems.lib.Names;
@@ -176,6 +179,22 @@ public class GemsForgeEventHandler {
           }
         }
       }
+    }
+  }
+
+  @SubscribeEvent
+  public void onLivingDropsEvent(LivingDropsEvent event) {
+
+    // Drop Life Essence?
+    float chance = Config.LIFE_ESSENCE_DROP_RATE;
+    if (event.source.damageType.equals("player")) {
+      chance *= (event.lootingLevel / 6f + 1f);
+    }
+
+    if (SilentGems.instance.random.nextFloat() <= chance) {
+      event.drops.add(new EntityItem(event.entity.worldObj, event.entity.posX,
+          event.entity.posY + event.entity.height / 2f, event.entity.posZ,
+          CraftingMaterial.getStack(Names.LIFE_ESSENCE)));
     }
   }
 }
