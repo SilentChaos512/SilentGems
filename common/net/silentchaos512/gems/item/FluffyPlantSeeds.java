@@ -33,10 +33,8 @@ public class FluffyPlantSeeds extends ItemSeeds implements IAddRecipe {
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
 
-    if (ItemSG.showFlavorText()) {
-      String s = LocalizationHelper.getItemDescription(Names.FLUFFY_SEED, 0);
-      list.add(EnumChatFormatting.ITALIC + s);
-    }
+    String s = LocalizationHelper.getItemDescription(Names.FLUFFY_SEED, 0);
+    list.add(EnumChatFormatting.GREEN + s);
   }
 
   @Override

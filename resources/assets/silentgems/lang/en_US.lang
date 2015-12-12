@@ -303,7 +303,7 @@ item.silentgems:FluffyFabric.name=Fluffy Fabric
 item.silentgems:FluffyFabric.desc=TODO
 
 item.silentgems:FluffySeed.name=Fluffy Puff
-item.silentgems:FluffySeed.desc=Can be planted, or crafted into soft things.
+item.silentgems:FluffySeed.desc=Plant it to grow more!
 
 # Tool Upgrades
 item.silentgems:UpgradeIronTip.name=Upgrade: Iron-Tipped
