@@ -39,7 +39,7 @@ public class Config {
   public static int FLUFFY_PUFF_SEED_WEIGHT = 2;
   public static int FLUFFY_BOOTS_DAMAGE_REDUCTION = 6;
   public static int FLUFFY_BOOTS_DAMAGE_TAKEN = 20;
-  public static float LIFE_ESSENCE_DROP_RATE = 0.075f;
+  public static float LIFE_ESSENCE_DROP_RATE = 0.06f;
 
   /*
    * Tools

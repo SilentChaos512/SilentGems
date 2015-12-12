@@ -30,12 +30,13 @@ public class CommonProxy {
 
   }
 
-  public void doNEICheck(ItemStack stack) {
+  public void spawnParticles(String type, World world, double x, double y, double z, double motionX,
+      double motionY, double motionZ) {
 
   }
 
-  public void spawnParticles(String type, World world, double x, double y, double z, double motionX,
-      double motionY, double motionZ) {
+  public void spawnParticles(String type, int color, World world, double x, double y, double z,
+      double motionX, double motionY, double motionZ) {
 
   }
 }

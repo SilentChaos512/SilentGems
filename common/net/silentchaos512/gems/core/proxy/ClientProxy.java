@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.core.proxy;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.item.Item;
@@ -7,21 +8,27 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.silentchaos512.gems.client.key.KeyTracker;
+import net.silentchaos512.gems.client.particle.EntityFXChaosCharge;
 import net.silentchaos512.gems.client.particle.EntityParticleFXChaosTransfer;
 import net.silentchaos512.gems.client.renderers.ModRenderers;
+import net.silentchaos512.gems.client.renderers.entity.RenderProjectileChaosOrb;
 import net.silentchaos512.gems.client.renderers.tool.ToolItemRenderer;
 import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.entity.projectile.EntityProjectileChaosOrb;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.item.tool.GemHoe;
 import net.silentchaos512.gems.item.tool.GemPickaxe;
 import net.silentchaos512.gems.item.tool.GemShovel;
 import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.item.tool.GemSword;
-import net.silentchaos512.gems.lib.EnumGem;
 
 public class ClientProxy extends CommonProxy {
 
   public static final boolean USE_TOOL_IITEMRENDERER = false;
+
+  public static final String FX_CHAOS_TRANSFER = "chaosTransfer";
+  public static final String FX_CHAOS_NO_ALTAR = "chaosNoAltar";
+  public static final String FX_CHAOS_CHARGE = "chaosCharge";
 
   @Override
   public void registerRenderers() {
@@ -37,8 +44,8 @@ public class ClientProxy extends CommonProxy {
 
   private void registerRenderersProjectiles() {
 
-    // TODO Auto-generated method stub
-
+    RenderingRegistry.registerEntityRenderingHandler(EntityProjectileChaosOrb.class,
+        new RenderProjectileChaosOrb());
   }
 
   private void registerRenderersMobs() {
@@ -92,35 +99,25 @@ public class ClientProxy extends CommonProxy {
   }
 
   @Override
-  public void doNEICheck(ItemStack stack) {
-
-    // if (Minecraft.getMinecraft().thePlayer != null) {
-    // Iterator modIT = Loader.instance().getModList().iterator();
-    // ModContainer modc;
-    // while (modIT.hasNext()) {
-    // modc = (ModContainer) modIT.next();
-    // if ("Not Enough Items".equals(modc.getName().trim())) {
-    // codechicken.nei.api.API.hideItem(new ItemStack(SRegistry.getBlock(Names.FLUFFY_PLANT)));
-    // for (int i = 0; i < EnumGem.all().length; ++i) {
-    // codechicken.nei.api.API.hideItem(new ItemStack(SRegistry.getBlock(Names.GEM_LAMP_LIT), 1, i));
-    // }
-    // return;
-    // }
-    // }
-    // }
-  }
-
-  @Override
   public void spawnParticles(String type, World world, double x, double y, double z, double motionX,
       double motionY, double motionZ) {
 
+    spawnParticles(type, 0xFFFFFF, world, x, y, z, motionX, motionY, motionZ);
+  }
+
+  @Override
+  public void spawnParticles(String type, int color, World world, double x, double y, double z,
+      double motionX, double motionY, double motionZ) {
+
     EntityFX particleFX = null;
 
-    if (type.equals("chaosTransfer")) {
+    if (type.equals(FX_CHAOS_TRANSFER)) {
       particleFX = new EntityParticleFXChaosTransfer(world, x, y, z, motionX, motionY, motionZ);
-    } else if (type.equals("chaosNoAltar")) {
+    } else if (type.equals(FX_CHAOS_NO_ALTAR)) {
       particleFX = new EntityParticleFXChaosTransfer(world, x, y, z, motionX, motionY, motionZ,
           1.0f, 15, 1.0f, 0.0f, 0.0f);
+    } else if (type.equals(FX_CHAOS_CHARGE)) {
+      particleFX = new EntityFXChaosCharge(world, x, y, z, motionX, motionY, motionZ);
     }
 
     if (particleFX != null) {

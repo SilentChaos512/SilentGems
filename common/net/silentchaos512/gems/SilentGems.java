@@ -32,6 +32,7 @@ import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
+import net.silentchaos512.gems.entity.ModEntities;
 import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
@@ -68,6 +69,7 @@ public class SilentGems {
     ModBlocks.init();
     ModItems.init();
     ModEnchantments.init();
+    ModEntities.init();
 
     Config.save();
 
