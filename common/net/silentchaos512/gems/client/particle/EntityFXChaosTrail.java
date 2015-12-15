@@ -43,7 +43,7 @@ public class EntityFXChaosTrail extends EntityFX {
   @Override
   public void onUpdate() {
 
-    if (this.particleAge++ >= this.particleMaxAge - 1) {
+    if (this.particleAge++ >= this.particleMaxAge) {
       this.setDead();
     }
     

@@ -1,6 +1,8 @@
 package net.silentchaos512.gems.core.handler;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
@@ -40,6 +42,7 @@ import net.silentchaos512.gems.material.ModMaterials;
 
 public class GemsForgeEventHandler {
 
+  @SideOnly(Side.CLIENT)
   @SubscribeEvent
   public void onRenderGameOverlay(RenderGameOverlayEvent event) {
 

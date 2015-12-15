@@ -314,7 +314,7 @@ public class TileChaosPylon extends TileEntity implements IInventory {
   private boolean spawnParticlesToAltar() {
 
     // Don't spawn particles on minimal.
-    if (Minecraft.getMinecraft().gameSettings.particleSetting == 2) {
+    if (SilentGems.proxy.getParticleSettings() == 2) {
       return true;
     }
 
@@ -353,7 +353,7 @@ public class TileChaosPylon extends TileEntity implements IInventory {
   private void spawnBadPlacementParticles() {
 
     // Don't spawn particles on minimal.
-    if (Minecraft.getMinecraft().gameSettings.particleSetting == 2) {
+    if (SilentGems.proxy.getParticleSettings() == 2) {
       return;
     }
 

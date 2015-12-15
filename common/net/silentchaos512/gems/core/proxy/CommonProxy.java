@@ -39,4 +39,9 @@ public class CommonProxy {
       double motionX, double motionY, double motionZ) {
 
   }
+  
+  public int getParticleSettings() {
+
+    return 0;
+  }
 }

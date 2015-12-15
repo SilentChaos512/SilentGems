@@ -88,7 +88,7 @@ public class EntityProjectileChaosOrb extends EntityThrowable
       setDead();
     }
 
-    if (Minecraft.getMinecraft().gameSettings.particleSetting == 0) {
+    if (SilentGems.proxy.getParticleSettings() == 0) {
       double mx = worldObj.rand.nextGaussian() * 0.02f;
       double my = worldObj.rand.nextGaussian() * 0.02f;
       double mz = worldObj.rand.nextGaussian() * 0.02f;

@@ -138,4 +138,10 @@ public class ClientProxy extends CommonProxy {
       Minecraft.getMinecraft().effectRenderer.addEffect(particleFX);
     }
   }
+  
+  @Override
+  public int getParticleSettings() {
+    
+    return Minecraft.getMinecraft().gameSettings.particleSetting;
+  }
 }

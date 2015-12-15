@@ -61,7 +61,7 @@ public class EntityParticleFXChaosTransfer extends EntityFX {
     this.particleAlpha += 0.8f * 1f / MAX_AGE;
 
     // Spawn trail particles
-    if (Minecraft.getMinecraft().gameSettings.particleSetting == 0) {
+    if (SilentGems.proxy.getParticleSettings() == 0) {
       double mx = worldObj.rand.nextGaussian() * 0.025;
       double my = worldObj.rand.nextGaussian() * 0.025;
       double mz = worldObj.rand.nextGaussian() * 0.025;
