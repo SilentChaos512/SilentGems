@@ -1,8 +1,11 @@
 package net.silentchaos512.gems.item.tool;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +18,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
-import net.silentchaos512.gems.core.proxy.ClientProxy;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
@@ -25,6 +27,9 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
 
 public class GemSword extends ItemSword {
+
+  public static final String NBT_SHOT_CHARGED = "ShotCharged";
+  public static final String NBT_SHOT_FIRED = "ShotFired";
 
   public final int gemId;
   public final boolean supercharged;
@@ -140,8 +145,9 @@ public class GemSword extends ItemSword {
       return false;
     }
 
-    if (stack.getTagCompound().getBoolean("ShotCharged")) {
-      stack.getTagCompound().setBoolean("ShotCharged", false);
+    if (getShotCharged(stack) && !getShotFired(stack)) {
+      setShotCharged(stack, false);
+      setShotFired(stack, true);
       float damage = toolMaterial.getDamageVsEntity();
       int color = ToolHelper.getToolHeadRight(stack);
       EntityProjectileChaosOrb shot = new EntityProjectileChaosOrb(world, entityLiving, damage,
@@ -159,12 +165,14 @@ public class GemSword extends ItemSword {
       return;
     }
 
-    // TODO Charge projectile
     int time = getMaxItemUseDuration(stack) - count;
     Vec3 vec = player.getLookVec();
     vec.rotateAroundY(-0.5f);
 
-    if (time < 10 && !stack.getTagCompound().getBoolean("ShotCharged")) {
+    if (time < 10) {
+      setShotFired(stack, false);
+
+      // Charging particles (TODO)
       double posX = player.posX + vec.xCoord;
       double posY = player.posY + vec.yCoord + 0.4;
       double posZ = player.posZ + vec.zCoord;
@@ -180,8 +188,8 @@ public class GemSword extends ItemSword {
           posZ - 10 * motionZ, motionX, motionY, motionZ);
       // SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_CHARGE, color, player.worldObj,
       // player.posX, player.posY, player.posZ, motionX, motionY, motionZ);
-    } else if (time > 20 && !stack.getTagCompound().getBoolean("ShotCharged")) {
-      stack.getTagCompound().setBoolean("ShotCharged", true);
+    } else if (time > 20 && !getShotCharged(stack)) {
+      setShotCharged(stack, true);
       double posX = player.posX + vec.xCoord;
       double posY = player.posY + vec.yCoord + 0.4;
       double posZ = player.posZ + vec.zCoord;
@@ -198,5 +206,53 @@ public class GemSword extends ItemSword {
             motionZ);
       }
     }
+
+    // Prevent re-equip animation FIXME
+    try {
+      setItemReequipProgress(1f);
+    } catch (Exception ex) {
+      LogHelper.warning(ex.getMessage());
+    }
+  }
+
+  private boolean getShotCharged(ItemStack stack) {
+
+    return stack.hasTagCompound() && stack.getTagCompound().getBoolean(NBT_SHOT_CHARGED);
+  }
+
+  private void setShotCharged(ItemStack stack, boolean value) {
+
+    stack.getTagCompound().setBoolean(NBT_SHOT_CHARGED, value);
+  }
+
+  private boolean getShotFired(ItemStack stack) {
+
+    return stack.hasTagCompound() && stack.getTagCompound().getBoolean(NBT_SHOT_FIRED);
+  }
+
+  private void setShotFired(ItemStack stack, boolean value) {
+
+    stack.getTagCompound().setBoolean(NBT_SHOT_FIRED, value);
+  }
+
+  Field itemRenderPrevEquippedProgress = null;
+  Field itemRenderEquippedProgress = null;
+
+  private void setItemReequipProgress(float value) throws NoSuchFieldException, SecurityException,
+      IllegalArgumentException, IllegalAccessException {
+
+    if (itemRenderPrevEquippedProgress == null) {
+      itemRenderPrevEquippedProgress = ItemRenderer.class.getDeclaredField("prevEquippedProgress");
+    }
+    itemRenderPrevEquippedProgress.setAccessible(true);
+    itemRenderPrevEquippedProgress.setFloat(Minecraft.getMinecraft().entityRenderer.itemRenderer,
+        value);
+
+    if (itemRenderEquippedProgress == null) {
+      itemRenderEquippedProgress = ItemRenderer.class.getDeclaredField("equippedProgress");
+    }
+    itemRenderEquippedProgress.setAccessible(true);
+    itemRenderEquippedProgress.setFloat(Minecraft.getMinecraft().entityRenderer.itemRenderer,
+        value);
   }
 }

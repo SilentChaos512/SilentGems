@@ -109,6 +109,7 @@ public class EntityProjectileChaosOrb extends EntityThrowable
     if (mop.typeOfHit == MovingObjectType.ENTITY && mop.entityHit != shootingEntity) {
       // Collide with Entity?
       mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, shootingEntity), damage);
+//      worldObj.createExplosion(this, posX, posY, posZ, 1.25f, false);
       setDead();
     } else if (mop.typeOfHit == MovingObjectType.BLOCK) {
       // Collide with Block?
@@ -133,7 +134,7 @@ public class EntityProjectileChaosOrb extends EntityThrowable
             motionX *= -0.95;
             break;
         }
-        // spawnHitParticles(12);
+         spawnHitParticles(16);
         worldObj.playSoundAtEntity(this, "dig.stone", 0.5f, 0.65f);
       } else if (boundingBox != null) {
         setDead();
@@ -153,7 +154,7 @@ public class EntityProjectileChaosOrb extends EntityThrowable
   protected void spawnHitParticles(int count) {
 
     double mX, mY, mZ;
-    for (int i = 0; i < 64; ++i) {
+    for (int i = 0; i < count; ++i) {
       mX = rand.nextGaussian() * 0.05;
       mY = rand.nextGaussian() * 0.05;
       mZ = rand.nextGaussian() * 0.05;
