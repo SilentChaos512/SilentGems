@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.tile;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -12,6 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.BlockChaosPylon;
+import net.silentchaos512.gems.client.particle.EntityParticleFXChaosTransfer;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LogHelper;
 
@@ -22,7 +24,7 @@ public class TileChaosPylon extends TileEntity implements IInventory {
   public static final int TRANSFER_DELAY = 10;
   public static final int ALTAR_SEARCH_DELAY = 100;
   public static final int PARTICLE_DELAY = 100;
-  public static final int PARTICLE_COUNT = 8;
+  public static final int PARTICLE_COUNT = 1;
 
   protected int energyStored;
   protected int burnTimeRemaining;
@@ -137,19 +139,19 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     // Last known altar coords are no good, try to find a new altar.
     if (worldObj.getTotalWorldTime() % ALTAR_SEARCH_DELAY == 0) {
       // Debug(?) info
-//      searching = true;
-//      String str = LogHelper.coord(xCoord, yCoord, zCoord);
-//      str = "Pylon at " + str + " searching for new altar...";
-//      LogHelper.info(str);
+      // searching = true;
+      // String str = LogHelper.coord(xCoord, yCoord, zCoord);
+      // str = "Pylon at " + str + " searching for new altar...";
+      // LogHelper.info(str);
       // Search
       for (int y = yCoord - SEARCH_HEIGHT; y < yCoord + SEARCH_HEIGHT + 1; ++y) {
         for (int x = xCoord - SEARCH_RADIUS; x < xCoord + SEARCH_RADIUS + 1; ++x) {
           for (int z = zCoord - SEARCH_RADIUS; z < zCoord + SEARCH_RADIUS + 1; ++z) {
             tile = worldObj.getTileEntity(x, y, z);
             if (tile != null && tile instanceof TileChaosAltar) {
-//              str = LogHelper.coord(x, y, z);
-//              str = "Pylon found new altar at " + str + "!";
-//              LogHelper.info(str);
+              // str = LogHelper.coord(x, y, z);
+              // str = "Pylon found new altar at " + str + "!";
+              // LogHelper.info(str);
               lastAltarX = x;
               lastAltarY = y;
               lastAltarZ = z;
@@ -161,11 +163,11 @@ public class TileChaosPylon extends TileEntity implements IInventory {
     }
 
     // None found
-//    if (searching) {
-//      String str = LogHelper.coord(xCoord, yCoord, zCoord);
-//      str = "Pylon at " + str + " could not find an altar!";
-//      LogHelper.info(str);
-//    }
+    // if (searching) {
+    // String str = LogHelper.coord(xCoord, yCoord, zCoord);
+    // str = "Pylon at " + str + " could not find an altar!";
+    // LogHelper.info(str);
+    // }
     return null;
   }
 
@@ -311,36 +313,49 @@ public class TileChaosPylon extends TileEntity implements IInventory {
 
   private boolean spawnParticlesToAltar() {
 
+    // Don't spawn particles on minimal.
+    if (Minecraft.getMinecraft().gameSettings.particleSetting == 2) {
+      return true;
+    }
+
     TileEntity altar = getAltar();
     if (altar == null) {
       return false;
     }
 
     double diffX = altar.xCoord - xCoord;
-    double diffY = altar.yCoord - yCoord;
+    double diffY = altar.yCoord + 0.5 - yCoord;
     double diffZ = altar.zCoord - zCoord;
-    double stepX = diffX / PARTICLE_COUNT;
-    double stepY = diffY / PARTICLE_COUNT;
-    double stepZ = diffZ / PARTICLE_COUNT;
+    // double stepX = diffX / 8;
+    // double stepY = diffY / 8;
+    // double stepZ = diffZ / 8;
     double x = xCoord + 0.5;
-    double y = yCoord + 0.75;
+    double y = yCoord + 0.5;
     double z = zCoord + 0.5;
 
     for (int i = 0; i < PARTICLE_COUNT; ++i) {
-      double motionX = SilentGems.instance.random.nextGaussian() * 0.0004;
-      double motionY = SilentGems.instance.random.nextGaussian() * 0.0004;
-      double motionZ = SilentGems.instance.random.nextGaussian() * 0.0004;
+      double motionX = SilentGems.instance.random.nextGaussian() * 0.0008
+          + diffX / (EntityParticleFXChaosTransfer.MAX_AGE - 1);
+      double motionY = SilentGems.instance.random.nextGaussian() * 0.0008
+          + diffY / (EntityParticleFXChaosTransfer.MAX_AGE - 1);
+      double motionZ = SilentGems.instance.random.nextGaussian() * 0.0008
+          + diffZ / (EntityParticleFXChaosTransfer.MAX_AGE - 1);
       SilentGems.proxy.spawnParticles("chaosTransfer", worldObj, x, y, z, motionX, motionY,
           motionZ);
-      x += stepX;
-      y += stepY;
-      z += stepZ;
+      // x += stepX;
+      // y += stepY;
+      // z += stepZ;
     }
 
     return true;
   }
 
   private void spawnBadPlacementParticles() {
+
+    // Don't spawn particles on minimal.
+    if (Minecraft.getMinecraft().gameSettings.particleSetting == 2) {
+      return;
+    }
 
     double x = xCoord + 0.5;
     double y = yCoord + 0.75;

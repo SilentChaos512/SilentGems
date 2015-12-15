@@ -9,11 +9,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.particle.EntityFXChaosCharge;
+import net.silentchaos512.gems.client.particle.EntityFXChaosTrail;
 import net.silentchaos512.gems.client.particle.EntityParticleFXChaosTransfer;
 import net.silentchaos512.gems.client.renderers.ModRenderers;
 import net.silentchaos512.gems.client.renderers.entity.RenderProjectileChaosOrb;
 import net.silentchaos512.gems.client.renderers.tool.ToolItemRenderer;
 import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.entity.projectile.EntityProjectileChaosOrb;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.item.tool.GemHoe;
@@ -25,10 +27,6 @@ import net.silentchaos512.gems.item.tool.GemSword;
 public class ClientProxy extends CommonProxy {
 
   public static final boolean USE_TOOL_IITEMRENDERER = false;
-
-  public static final String FX_CHAOS_TRANSFER = "chaosTransfer";
-  public static final String FX_CHAOS_NO_ALTAR = "chaosNoAltar";
-  public static final String FX_CHAOS_CHARGE = "chaosCharge";
 
   @Override
   public void registerRenderers() {
@@ -98,11 +96,16 @@ public class ClientProxy extends CommonProxy {
     KeyTracker.init();
   }
 
+  public static final String FX_CHAOS_TRANSFER = "chaosTransfer";
+  public static final String FX_CHAOS_NO_ALTAR = "chaosNoAltar";
+  public static final String FX_CHAOS_CHARGE = "chaosCharge";
+  public static final String FX_CHAOS_TRAIL = "chaosTrail";
+
   @Override
   public void spawnParticles(String type, World world, double x, double y, double z, double motionX,
       double motionY, double motionZ) {
 
-    spawnParticles(type, 0xFFFFFF, world, x, y, z, motionX, motionY, motionZ);
+    spawnParticles(type, -1, world, x, y, z, motionX, motionY, motionZ);
   }
 
   @Override
@@ -110,14 +113,25 @@ public class ClientProxy extends CommonProxy {
       double motionX, double motionY, double motionZ) {
 
     EntityFX particleFX = null;
+    float red = (color >> 16 & 255) / 255f;
+    float green = (color >> 8 & 255) / 255f;
+    float blue = (color & 255) / 255f;
 
     if (type.equals(FX_CHAOS_TRANSFER)) {
       particleFX = new EntityParticleFXChaosTransfer(world, x, y, z, motionX, motionY, motionZ);
     } else if (type.equals(FX_CHAOS_NO_ALTAR)) {
       particleFX = new EntityParticleFXChaosTransfer(world, x, y, z, motionX, motionY, motionZ,
-          1.0f, 15, 1.0f, 0.0f, 0.0f);
+          EntityParticleFXChaosTransfer.MAX_SCALE, EntityParticleFXChaosTransfer.MAX_AGE, 1.0f,
+          0.0f, 0.0f);
     } else if (type.equals(FX_CHAOS_CHARGE)) {
       particleFX = new EntityFXChaosCharge(world, x, y, z, motionX, motionY, motionZ);
+    } else if (type.equals(FX_CHAOS_TRAIL)) {
+      if (color > -1) {
+        particleFX = new EntityFXChaosTrail(world, x, y, z, motionX, motionY, motionZ,
+            EntityFXChaosTrail.MAX_SCALE, EntityFXChaosTrail.MAX_AGE * 4, red, green, blue);
+      } else {
+        particleFX = new EntityFXChaosTrail(world, x, y, z, motionX, motionY, motionZ);
+      }
     }
 
     if (particleFX != null) {

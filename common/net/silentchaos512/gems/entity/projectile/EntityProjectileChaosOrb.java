@@ -3,6 +3,7 @@ package net.silentchaos512.gems.entity.projectile;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -12,6 +13,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.core.proxy.ClientProxy;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.material.ModMaterials;
 
@@ -20,7 +23,7 @@ public class EntityProjectileChaosOrb extends EntityThrowable
 
   public static final double RENDER_DISTANCE_WEIGHT = 10D;
   public static final float SIZE = 0.5F;
-  public static final int MAX_LIFE = 100;
+  public static final int MAX_LIFE = 120;
   public static final int[] COLORS = { 0xE61D1D, 0xE63F1D, 0xE6601D, 0xE6C41D, 0xA3E61D, 0x2EE61D,
       0x1DC4E6, 0x1D3FE6, 0x3F1DE6, 0x821DE6, 0xEF70C5, 0x010101, 0x6B9F93, 0x474747, 0xD7B5FF };
 
@@ -84,12 +87,20 @@ public class EntityProjectileChaosOrb extends EntityThrowable
     if (ticksExisted > MAX_LIFE) {
       setDead();
     }
+
+    if (Minecraft.getMinecraft().gameSettings.particleSetting == 0) {
+      double mx = worldObj.rand.nextGaussian() * 0.02f;
+      double my = worldObj.rand.nextGaussian() * 0.02f;
+      double mz = worldObj.rand.nextGaussian() * 0.02f;
+      SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_TRAIL, color, worldObj, posX, posY, posZ,
+          mx, my, mz);
+    }
   }
 
   @Override
   public float getGravityVelocity() {
 
-    return gravity ? 0.03f : 0f;
+    return gravity ? 0.02f : 0f;
   }
 
   @Override
@@ -111,15 +122,15 @@ public class EntityProjectileChaosOrb extends EntityThrowable
         switch (mop.sideHit) {
           case 0:
           case 1:
-            motionY *= -1.0;
+            motionY *= -0.95;
             break;
           case 2:
           case 3:
-            motionZ *= -1.0;
+            motionZ *= -0.95;
             break;
           case 4:
           case 5:
-            motionX *= -1.0;
+            motionX *= -0.95;
             break;
         }
         // spawnHitParticles(12);
