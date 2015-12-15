@@ -227,6 +227,12 @@ tile.silentgems:TeleporterAnchor.desc2=teleporters can link to it.
 
 # Item localizations
 
+item.silentgems:BrokenTool.name=Broken Tool
+item.silentgems:BrokenTool.desc1=Oh, no! You broke it. How could you?
+item.silentgems:BrokenTool.desc2=But you can fix it! Just craft with a
+item.silentgems:BrokenTool.desc3=valid repair material!
+item.silentgems:BrokenTool.Invalid=Invalid!
+
 item.silentgems:ChaosBooster.name=Chaos Booster (Deprecated)
 
 item.silentgems:ChaosCapacitor.name=Chaos Capacitor (Deprecated)

@@ -295,6 +295,14 @@ public class ToolRenderHelper extends Item {
     }
   }
 
+  @Override
+  public IIcon getIcon(ItemStack stack, int pass) {
+
+    int gemId = ToolHelper.getToolGemId(stack);
+    boolean supercharged = ToolHelper.getToolIsSupercharged(stack);
+    return getIcon(stack, pass, gemId, supercharged);
+  }
+
   public IIcon getIcon(ItemStack stack, int pass, int gemId, boolean supercharged) {
 
     return getIcon(stack, pass, gemId, supercharged, stack, stack.getMaxItemUseDuration());

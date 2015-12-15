@@ -17,6 +17,7 @@ import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
@@ -26,6 +27,7 @@ import net.silentchaos512.gems.core.util.DimensionalPosition;
 import net.silentchaos512.gems.core.util.InventoryHelper;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
+import net.silentchaos512.gems.core.util.PlayerHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.enchantment.EnchantmentLumberjack;
@@ -195,6 +197,15 @@ public class GemsForgeEventHandler {
       event.drops.add(new EntityItem(event.entity.worldObj, event.entity.posX,
           event.entity.posY + event.entity.height / 2f, event.entity.posZ,
           CraftingMaterial.getStack(Names.LIFE_ESSENCE)));
+    }
+  }
+
+  @SubscribeEvent
+  public void onPlayerDestroyItem(PlayerDestroyItemEvent event) {
+
+    if (InventoryHelper.isGemTool(event.original)) {
+      ItemStack brokenTool = ModItems.brokenTool.getFromTool(event.original);
+      PlayerHelper.addItemToInventoryOrDrop(event.entityPlayer, brokenTool);
     }
   }
 }
