@@ -21,6 +21,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.configuration.Config;
@@ -37,6 +38,7 @@ import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.TeleporterLinker;
+import net.silentchaos512.gems.item.tool.GemSword;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
 

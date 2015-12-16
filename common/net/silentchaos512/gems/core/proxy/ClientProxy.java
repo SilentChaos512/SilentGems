@@ -1,8 +1,11 @@
 package net.silentchaos512.gems.core.proxy;
 
+import java.lang.reflect.Field;
+
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -128,7 +131,7 @@ public class ClientProxy extends CommonProxy {
     } else if (type.equals(FX_CHAOS_TRAIL)) {
       if (color > -1) {
         particleFX = new EntityFXChaosTrail(world, x, y, z, motionX, motionY, motionZ,
-            EntityFXChaosTrail.MAX_SCALE, EntityFXChaosTrail.MAX_AGE * 4, red, green, blue);
+            EntityFXChaosTrail.MAX_SCALE * 1.5f, EntityFXChaosTrail.MAX_AGE * 4, red, green, blue);
       } else {
         particleFX = new EntityFXChaosTrail(world, x, y, z, motionX, motionY, motionZ);
       }
@@ -138,10 +141,38 @@ public class ClientProxy extends CommonProxy {
       Minecraft.getMinecraft().effectRenderer.addEffect(particleFX);
     }
   }
-  
+
   @Override
   public int getParticleSettings() {
-    
+
     return Minecraft.getMinecraft().gameSettings.particleSetting;
+  }
+
+  Field itemRenderPrevEquippedProgress = null;
+  Field itemRenderEquippedProgress = null;
+
+  @Override
+  public void setItemRendererEquipProgress(float f) {
+
+    ItemRenderer itemRenderer = Minecraft.getMinecraft().entityRenderer.itemRenderer;
+    if (itemRenderer != null) {
+      try {
+        if (itemRenderPrevEquippedProgress == null) {
+          itemRenderPrevEquippedProgress = ItemRenderer.class
+              .getDeclaredField("prevEquippedProgress");
+          itemRenderPrevEquippedProgress.setAccessible(true);
+        }
+        itemRenderPrevEquippedProgress.setFloat(itemRenderer, f);
+
+        if (itemRenderEquippedProgress == null) {
+          itemRenderEquippedProgress = ItemRenderer.class.getDeclaredField("equippedProgress");
+          itemRenderEquippedProgress.setAccessible(true);
+        }
+        itemRenderEquippedProgress.setFloat(itemRenderer, f);
+      } catch (Exception ex) {
+        LogHelper
+            .warning("Exception in ClientProxy.setItemRendererEquipProgress" + ex.getMessage());
+      }
+    }
   }
 }

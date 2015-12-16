@@ -54,6 +54,9 @@ public class EntityProjectileChaosOrb extends EntityThrowable
     setSize(SIZE, SIZE);
 
     float speedMulti = 0.7f;
+    motionX += shooter.motionX;
+    motionY += shooter.motionY;
+    motionZ += shooter.motionZ;
     motionX *= speedMulti;
     motionY *= speedMulti;
     motionZ *= speedMulti;
@@ -89,9 +92,9 @@ public class EntityProjectileChaosOrb extends EntityThrowable
     }
 
     if (SilentGems.proxy.getParticleSettings() == 0) {
-      double mx = worldObj.rand.nextGaussian() * 0.02f;
-      double my = worldObj.rand.nextGaussian() * 0.02f;
-      double mz = worldObj.rand.nextGaussian() * 0.02f;
+      double mx = worldObj.rand.nextGaussian() * 0.01f;
+      double my = worldObj.rand.nextGaussian() * 0.01f;
+      double mz = worldObj.rand.nextGaussian() * 0.01f;
       SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_TRAIL, color, worldObj, posX, posY, posZ,
           mx, my, mz);
     }

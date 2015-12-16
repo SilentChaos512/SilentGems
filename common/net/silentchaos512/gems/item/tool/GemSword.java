@@ -3,6 +3,7 @@ package net.silentchaos512.gems.item.tool;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -29,7 +30,8 @@ import net.silentchaos512.gems.material.ModMaterials;
 public class GemSword extends ItemSword {
 
   public static final String NBT_SHOT_CHARGED = "ShotCharged";
-  public static final String NBT_SHOT_FIRED = "ShotFired";
+
+  public static final int CHARGE_DELAY = 20;
 
   public final int gemId;
   public final boolean supercharged;
@@ -145,17 +147,25 @@ public class GemSword extends ItemSword {
       return false;
     }
 
-    if (getShotCharged(stack) && !getShotFired(stack)) {
+    if (getShotCharged(stack)) {
       setShotCharged(stack, false);
-      setShotFired(stack, true);
       float damage = toolMaterial.getDamageVsEntity();
       int color = ToolHelper.getToolHeadRight(stack);
       EntityProjectileChaosOrb shot = new EntityProjectileChaosOrb(world, entityLiving, damage,
-          color, false);
+          color, true);
       world.spawnEntityInWorld(shot);
     }
 
     return super.onEntitySwing(entityLiving, stack);
+  }
+
+  @Override
+  public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player,
+      int itemInUseCount) {
+
+    if (getMaxItemUseDuration(stack) - itemInUseCount > CHARGE_DELAY) {
+      setShotCharged(stack, true);
+    }
   }
 
   @Override
@@ -170,8 +180,6 @@ public class GemSword extends ItemSword {
     vec.rotateAroundY(-0.5f);
 
     if (time < 10) {
-      setShotFired(stack, false);
-
       // Charging particles (TODO)
       double posX = player.posX + vec.xCoord;
       double posY = player.posY + vec.yCoord + 0.4;
@@ -188,8 +196,8 @@ public class GemSword extends ItemSword {
           posZ - 10 * motionZ, motionX, motionY, motionZ);
       // SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_CHARGE, color, player.worldObj,
       // player.posX, player.posY, player.posZ, motionX, motionY, motionZ);
-    } else if (time > 20 && !getShotCharged(stack)) {
-      setShotCharged(stack, true);
+    } else if (time == CHARGE_DELAY) {
+      // setShotCharged(stack, true);
       double posX = player.posX + vec.xCoord;
       double posY = player.posY + vec.yCoord + 0.4;
       double posZ = player.posZ + vec.zCoord;
@@ -206,16 +214,9 @@ public class GemSword extends ItemSword {
             motionZ);
       }
     }
-
-    // Prevent re-equip animation FIXME
-    try {
-      setItemReequipProgress(1f);
-    } catch (Exception ex) {
-      LogHelper.warning(ex.getMessage());
-    }
   }
 
-  private boolean getShotCharged(ItemStack stack) {
+  public boolean getShotCharged(ItemStack stack) {
 
     return stack.hasTagCompound() && stack.getTagCompound().getBoolean(NBT_SHOT_CHARGED);
   }
@@ -223,36 +224,5 @@ public class GemSword extends ItemSword {
   private void setShotCharged(ItemStack stack, boolean value) {
 
     stack.getTagCompound().setBoolean(NBT_SHOT_CHARGED, value);
-  }
-
-  private boolean getShotFired(ItemStack stack) {
-
-    return stack.hasTagCompound() && stack.getTagCompound().getBoolean(NBT_SHOT_FIRED);
-  }
-
-  private void setShotFired(ItemStack stack, boolean value) {
-
-    stack.getTagCompound().setBoolean(NBT_SHOT_FIRED, value);
-  }
-
-  Field itemRenderPrevEquippedProgress = null;
-  Field itemRenderEquippedProgress = null;
-
-  private void setItemReequipProgress(float value) throws NoSuchFieldException, SecurityException,
-      IllegalArgumentException, IllegalAccessException {
-
-    if (itemRenderPrevEquippedProgress == null) {
-      itemRenderPrevEquippedProgress = ItemRenderer.class.getDeclaredField("prevEquippedProgress");
-    }
-    itemRenderPrevEquippedProgress.setAccessible(true);
-    itemRenderPrevEquippedProgress.setFloat(Minecraft.getMinecraft().entityRenderer.itemRenderer,
-        value);
-
-    if (itemRenderEquippedProgress == null) {
-      itemRenderEquippedProgress = ItemRenderer.class.getDeclaredField("equippedProgress");
-    }
-    itemRenderEquippedProgress.setAccessible(true);
-    itemRenderEquippedProgress.setFloat(Minecraft.getMinecraft().entityRenderer.itemRenderer,
-        value);
   }
 }

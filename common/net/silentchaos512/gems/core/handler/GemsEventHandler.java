@@ -8,6 +8,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -32,9 +33,11 @@ import net.silentchaos512.gems.item.EnchantToken;
 import net.silentchaos512.gems.item.Gem;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.TorchBandolier;
+import net.silentchaos512.gems.item.tool.GemSword;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
+import net.silentchaos512.gems.material.ModMaterials;
 import net.silentchaos512.gems.network.MessageSetFlight;
 
 public class GemsEventHandler {
@@ -143,6 +146,23 @@ public class GemsEventHandler {
             event.world.setBlock(x, y, z, flower, m, 2);
           }
         }
+      }
+    }
+  }
+
+  @SubscribeEvent
+  public void onClientTick(TickEvent.ClientTickEvent event) {
+
+    EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+    if (player == null) {
+      return;
+    }
+
+    ItemStack stack = player.getHeldItem();
+    if (stack != null) {
+      if (stack.getItem() instanceof GemSword && player.isUsingItem()
+          && ToolHelper.getToolGemId(stack) == ModMaterials.CHAOS_GEM_ID) {
+        SilentGems.proxy.setItemRendererEquipProgress(1f);
       }
     }
   }
