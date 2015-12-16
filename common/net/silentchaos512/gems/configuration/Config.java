@@ -39,7 +39,7 @@ public class Config {
   public static int FLUFFY_PUFF_SEED_WEIGHT = 2;
   public static int FLUFFY_BOOTS_DAMAGE_REDUCTION = 6;
   public static int FLUFFY_BOOTS_DAMAGE_TAKEN = 20;
-  public static float LIFE_ESSENCE_DROP_RATE = 0.06f;
+  public static float LIFE_ESSENCE_DROP_RATE = 0.04f;
 
   /*
    * Tools
@@ -110,220 +110,175 @@ public class Config {
 
     try {
       c.load();
-      
+
       String category;
 
       /*
        * Blocks
        */
-      
-      GLOW_ROSE_LIGHT_LEVEL = c.getInt(
-          "GlowRose.LightLevel", CATEGORY_BLOCK_PROPERTIES,
-          GLOW_ROSE_LIGHT_LEVEL, 0, 15,
-          "The light level glow roses emit.");
-      
-      FLUFFY_BLOCK_DISTANCE_REDUCTION = c.getInt(
-          "FluffyBlock.FallDistanceReduction", CATEGORY_BLOCK_PROPERTIES,
-          FLUFFY_BLOCK_DISTANCE_REDUCTION, 0, Integer.MAX_VALUE,
+
+      GLOW_ROSE_LIGHT_LEVEL = c.getInt("GlowRose.LightLevel", CATEGORY_BLOCK_PROPERTIES,
+          GLOW_ROSE_LIGHT_LEVEL, 0, 15, "The light level glow roses emit.");
+
+      FLUFFY_BLOCK_DISTANCE_REDUCTION = c.getInt("FluffyBlock.FallDistanceReduction",
+          CATEGORY_BLOCK_PROPERTIES, FLUFFY_BLOCK_DISTANCE_REDUCTION, 0, Integer.MAX_VALUE,
           "The amount that each stacked fluffy block will reduce an entity's fall distance when landed upon."
-          + " Set to 0 to disable the feature.");
-      
-      PYLON_BURNER_GENERATION_RATE = c.getInt(
-          "ChaosPylon.Burner.GenerationRate", CATEGORY_BLOCK_PROPERTIES,
-          PYLON_BURNER_GENERATION_RATE, 1, 100,
+              + " Set to 0 to disable the feature.");
+
+      PYLON_BURNER_GENERATION_RATE = c.getInt("ChaosPylon.Burner.GenerationRate",
+          CATEGORY_BLOCK_PROPERTIES, PYLON_BURNER_GENERATION_RATE, 1, 100,
           "The energy generation rate and the amount of energy produced per unit of burn time of the fuel.");
-      
-      PYLON_PASSIVE_GENERATION_RATE = c.getInt(
-          "ChaosPylon.Passive.GenerationRate", CATEGORY_BLOCK_PROPERTIES,
-          PYLON_PASSIVE_GENERATION_RATE, 0, Integer.MAX_VALUE,
+
+      PYLON_PASSIVE_GENERATION_RATE = c.getInt("ChaosPylon.Passive.GenerationRate",
+          CATEGORY_BLOCK_PROPERTIES, PYLON_PASSIVE_GENERATION_RATE, 0, Integer.MAX_VALUE,
           "The energy generation rate of passive pylons, in chaos per tick.");
-      REDSTONE_TELEPORTER_SEARCH_RANGE = c.getFloat(
-          "RedstoneTeleporter.SearchRadius", CATEGORY_BLOCK_PROPERTIES,
-          REDSTONE_TELEPORTER_SEARCH_RANGE, 0.0f, 32.0f,
+      REDSTONE_TELEPORTER_SEARCH_RANGE = c.getFloat("RedstoneTeleporter.SearchRadius",
+          CATEGORY_BLOCK_PROPERTIES, REDSTONE_TELEPORTER_SEARCH_RANGE, 0.0f, 32.0f,
           "The radius (in blocks) in which redstone-powered teleporters will select entities to teleport.");
-      
-      TELEPORTER_XP_PER_1K_BLOCKS = c.getInt(
-          "Teleporter.XPPer1KBlocks", CATEGORY_BLOCK_PROPERTIES,
+
+      TELEPORTER_XP_PER_1K_BLOCKS = c.getInt("Teleporter.XPPer1KBlocks", CATEGORY_BLOCK_PROPERTIES,
           TELEPORTER_XP_PER_1K_BLOCKS, 0, Integer.MAX_VALUE,
           "The cost of teleporting 1000 blocks with Teleporters, assuming the player teleporters beyond the free range.\n"
-          + "Note this is only defined in terms 1K blocks for simplicity. Teleporting 500 blocks will cost half this amount, for example.\n"
-          + "Distance calculation ignores Y-coordinates. The 'free range' is not subtracted.\n"
-          + "Set to 0 to bring back old behavior.");
+              + "Note this is only defined in terms 1K blocks for simplicity. Teleporting 500 blocks will cost half this amount, for example.\n"
+              + "Distance calculation ignores Y-coordinates. The 'free range' is not subtracted.\n"
+              + "Set to 0 to bring back old behavior.");
 
-      TELEPORTER_XP_CROSS_DIMENSION = c.getInt(
-          "Teleporter.XPForCrossDimension", CATEGORY_BLOCK_PROPERTIES,
-          TELEPORTER_XP_CROSS_DIMENSION, 0, Integer.MAX_VALUE,
+      TELEPORTER_XP_CROSS_DIMENSION = c.getInt("Teleporter.XPForCrossDimension",
+          CATEGORY_BLOCK_PROPERTIES, TELEPORTER_XP_CROSS_DIMENSION, 0, Integer.MAX_VALUE,
           "The cost of teleporting to a different dimension with Teleporters.\n"
-          + "'Distance' doesn't matter, it's a flat cost.");
-      
-      TELEPORTER_XP_FREE_RANGE = c.getInt(
-          "Teleporter.XPFreeRange", CATEGORY_BLOCK_PROPERTIES,
+              + "'Distance' doesn't matter, it's a flat cost.");
+
+      TELEPORTER_XP_FREE_RANGE = c.getInt("Teleporter.XPFreeRange", CATEGORY_BLOCK_PROPERTIES,
           TELEPORTER_XP_FREE_RANGE, 0, Integer.MAX_VALUE,
           "XP will be drained if the player teleports further than this distance with Teleporter blocks.\n"
-          + "Distance calculation ignores Y-coordinates. Setting to 0 will always drain XP.");
-      
-      TELEPORTER_ALLOW_DUMB = c.getBoolean(
-          "Teleporter.AllowDumbTeleports", CATEGORY_BLOCK_PROPERTIES,
-          TELEPORTER_ALLOW_DUMB,
+              + "Distance calculation ignores Y-coordinates. Setting to 0 will always drain XP.");
+
+      TELEPORTER_ALLOW_DUMB = c.getBoolean("Teleporter.AllowDumbTeleports",
+          CATEGORY_BLOCK_PROPERTIES, TELEPORTER_ALLOW_DUMB,
           "Allows a Teleporter to work even if a Teleporter or Anchor is not present at the destination. Set to false to require a receiving block.");
 
       /*
        * Items
        */
-      
-      CHAOS_ESSENCE_PER_ORE = c.getInt(
-          "ChaosEssence.PerOre", CATEGORY_ITEM_PROPERTIES,
+
+      CHAOS_ESSENCE_PER_ORE = c.getInt("ChaosEssence.PerOre", CATEGORY_ITEM_PROPERTIES,
           CHAOS_ESSENCE_PER_ORE, 1, 8,
           "The number of Chaos Essence you get for smelting one Chaos Ore");
-      
-      FOOD_SUPPORT_DURATION = c.getInt(
-          "Food.SupportDuration", CATEGORY_ITEM_PROPERTIES,
-          FOOD_SUPPORT_DURATION, 0, 6000,
-          "The base duration for special effects from food");
-      
-      ENCHANTMENT_TOKENS_ON_ANY_TOOL = c.getBoolean(
-          "EnchantmentToken.CanApplyToAnyTool", CATEGORY_ITEM_PROPERTIES,
-          ENCHANTMENT_TOKENS_ON_ANY_TOOL,
+
+      FOOD_SUPPORT_DURATION = c.getInt("Food.SupportDuration", CATEGORY_ITEM_PROPERTIES,
+          FOOD_SUPPORT_DURATION, 0, 6000, "The base duration for special effects from food");
+
+      ENCHANTMENT_TOKENS_ON_ANY_TOOL = c.getBoolean("EnchantmentToken.CanApplyToAnyTool",
+          CATEGORY_ITEM_PROPERTIES, ENCHANTMENT_TOKENS_ON_ANY_TOOL,
           "Allows Enchantment Tokens to be used on appropriate tools from other mods and vanilla.");
-      
-      CHAOS_COAL_BURN_TIME = c.getInt(
-          "ChaosCoal.BurnTime", CATEGORY_ITEM_PROPERTIES,
+
+      CHAOS_COAL_BURN_TIME = c.getInt("ChaosCoal.BurnTime", CATEGORY_ITEM_PROPERTIES,
           CHAOS_COAL_BURN_TIME, 0, Integer.MAX_VALUE,
           "The burn time of Chaos Coal. Vanilla coal is 1600.");
-      
-      RETURN_HOME_USE_TIME = c.getInt(
-          "ReturnHome.UseTime", CATEGORY_ITEM_PROPERTIES,
+
+      RETURN_HOME_USE_TIME = c.getInt("ReturnHome.UseTime", CATEGORY_ITEM_PROPERTIES,
           RETURN_HOME_USE_TIME, 0, 200,
           "The number of ticks a player must hold right-click to activate the Return Home.");
-      
-      RETURN_HOME_MAX_USES = c.getInt(
-          "ReturnHome.MaxUses", CATEGORY_ITEM_PROPERTIES,
+
+      RETURN_HOME_MAX_USES = c.getInt("ReturnHome.MaxUses", CATEGORY_ITEM_PROPERTIES,
           RETURN_HOME_MAX_USES, 0, Integer.MAX_VALUE,
           "The number of times a Return Home Charm can be used before breaking. Set to 0 for infinite.");
-      
-      CHAOS_GEM_MAX_BUFFS = c.getInt(
-          "ChaosGem.MaxBuffsPerGem", CATEGORY_ITEM_PROPERTIES,
+
+      CHAOS_GEM_MAX_BUFFS = c.getInt("ChaosGem.MaxBuffsPerGem", CATEGORY_ITEM_PROPERTIES,
           CHAOS_GEM_MAX_BUFFS, 1, 8,
           "The maximum number of unique effects that can be put on a Chaos Gem");
-      
-      CHAOS_GEM_MAX_MINI_PYLON = c.getInt(
-          "ChaosGem.MaxMiniPylons", CATEGORY_ITEM_PROPERTIES,
+
+      CHAOS_GEM_MAX_MINI_PYLON = c.getInt("ChaosGem.MaxMiniPylons", CATEGORY_ITEM_PROPERTIES,
           CHAOS_GEM_MAX_MINI_PYLON, 0, Integer.MAX_VALUE,
           "The most mini pylons that can be added to a chaos gem.");
-      
-      FLUFFY_PUFF_SEED_WEIGHT = c.getInt(
-          "FluffyPuff.SeedWeight", CATEGORY_ITEM_PROPERTIES,
+
+      FLUFFY_PUFF_SEED_WEIGHT = c.getInt("FluffyPuff.SeedWeight", CATEGORY_ITEM_PROPERTIES,
           FLUFFY_PUFF_SEED_WEIGHT, 0, Integer.MAX_VALUE,
           "Weight of fluffy puff drops from grass. Wheat seeds are 10.");
-      
-      FLUFFY_BOOTS_DAMAGE_REDUCTION = c.getInt(
-          "FluffyBoots.MaxDamageReduction", CATEGORY_ITEM_PROPERTIES,
-          FLUFFY_BOOTS_DAMAGE_REDUCTION, 0, Integer.MAX_VALUE,
+
+      FLUFFY_BOOTS_DAMAGE_REDUCTION = c.getInt("FluffyBoots.MaxDamageReduction",
+          CATEGORY_ITEM_PROPERTIES, FLUFFY_BOOTS_DAMAGE_REDUCTION, 0, Integer.MAX_VALUE,
           "The most fall damage (half hearts) that fluffy boots can prevent per fall.");
-      
-      FLUFFY_BOOTS_DAMAGE_TAKEN = c.getInt(
-          "FluffyBoots.MaxDamageToBoots", CATEGORY_ITEM_PROPERTIES,
+
+      FLUFFY_BOOTS_DAMAGE_TAKEN = c.getInt("FluffyBoots.MaxDamageToBoots", CATEGORY_ITEM_PROPERTIES,
           FLUFFY_BOOTS_DAMAGE_TAKEN, 0, Integer.MAX_VALUE,
           "The most damage that fluffy boots can take (durability lost) per fall.");
 
-      LIFE_ESSENCE_DROP_RATE = c.getFloat(
-          "LifeEssence.DropRate", CATEGORY_ITEM_PROPERTIES,
+      LIFE_ESSENCE_DROP_RATE = c.getFloat("LifeEssence.DropRate", CATEGORY_ITEM_PROPERTIES,
           LIFE_ESSENCE_DROP_RATE, 0f, 1f,
           "The chance of an entity dropping life essence when it dies.");
 
       /*
        * Recipes
        */
-      
-      RECIPE_TELEPORTER_DISABLED = c.getBoolean(
-          "Teleporter.Disabled", CATEGORY_RECIPE,
-          RECIPE_TELEPORTER_DISABLED,
-          "Set to true to disable teleporter recipes");
-      
-      RECIPE_REDSTONE_TELEPORTER_DISABLED = c.getBoolean(
-          "RedstoneTeleporter.Disabled", CATEGORY_RECIPE,
-          RECIPE_REDSTONE_TELEPORTER_DISABLED,
+
+      RECIPE_TELEPORTER_DISABLED = c.getBoolean("Teleporter.Disabled", CATEGORY_RECIPE,
+          RECIPE_TELEPORTER_DISABLED, "Set to true to disable teleporter recipes");
+
+      RECIPE_REDSTONE_TELEPORTER_DISABLED = c.getBoolean("RedstoneTeleporter.Disabled",
+          CATEGORY_RECIPE, RECIPE_REDSTONE_TELEPORTER_DISABLED,
           "Set to true to disable redstone teleporter recipes.");
-      
-      RECIPE_TELEPORTER_ANCHOR_DISABLED = c.getBoolean(
-          "TeleporterAnchor.Disabled", CATEGORY_RECIPE,
-          RECIPE_TELEPORTER_ANCHOR_DISABLED,
-          "Set to true to disable teleporter anchor recipes.");
+
+      RECIPE_TELEPORTER_ANCHOR_DISABLED = c.getBoolean("TeleporterAnchor.Disabled", CATEGORY_RECIPE,
+          RECIPE_TELEPORTER_ANCHOR_DISABLED, "Set to true to disable teleporter anchor recipes.");
 
       /*
        * Tools
        */
-      
-      MINING_LEVEL_REGULAR = c.getInt(
-          "Tool.MiningLevel.Regular", CATEGORY_ITEM_PROPERTIES,
-          MINING_LEVEL_REGULAR, 0, 10000,
-          "The mining level of regular gem tools.");
-      
-      MINING_LEVEL_SUPER = c.getInt(
-          "Tool.MiningLevel.Super", CATEGORY_ITEM_PROPERTIES,
-          MINING_LEVEL_SUPER, 0, 10000,
-          "The mining level of supercharged gem tools.");
-      
-      MINING_LEVEL_FISH = c.getInt(
-          "Tool.MiningLevel.Fish", CATEGORY_ITEM_PROPERTIES,
-          MINING_LEVEL_FISH, 0, 10000,
-          "The mining level of the gag fish tools.");
-      
-      MINING_LEVEL_IRON_TIP = c.getInt(
-          "Tool.MiningLevel.IronTip", CATEGORY_ITEM_PROPERTIES,
+
+      MINING_LEVEL_REGULAR = c.getInt("Tool.MiningLevel.Regular", CATEGORY_ITEM_PROPERTIES,
+          MINING_LEVEL_REGULAR, 0, 10000, "The mining level of regular gem tools.");
+
+      MINING_LEVEL_SUPER = c.getInt("Tool.MiningLevel.Super", CATEGORY_ITEM_PROPERTIES,
+          MINING_LEVEL_SUPER, 0, 10000, "The mining level of supercharged gem tools.");
+
+      MINING_LEVEL_FISH = c.getInt("Tool.MiningLevel.Fish", CATEGORY_ITEM_PROPERTIES,
+          MINING_LEVEL_FISH, 0, 10000, "The mining level of the gag fish tools.");
+
+      MINING_LEVEL_IRON_TIP = c.getInt("Tool.MiningLevel.IronTip", CATEGORY_ITEM_PROPERTIES,
           MINING_LEVEL_IRON_TIP, 0, 10000,
           "The mining level of tools with the iron-tipped upgrade (if it's not already higher).");
-      
-      MINING_LEVEL_DIAMOND_TIP = c.getInt(
-          "Tool.MiningLevel.DiamondTip", CATEGORY_ITEM_PROPERTIES,
+
+      MINING_LEVEL_DIAMOND_TIP = c.getInt("Tool.MiningLevel.DiamondTip", CATEGORY_ITEM_PROPERTIES,
           MINING_LEVEL_DIAMOND_TIP, 0, 10000,
           "The mining level of tools with the diamond-tipped upgrade (if it's not already higher).");
-      
-      MINING_LEVEL_EMERALD_TIP = c.getInt(
-          "Tool.MiningLevel.EmeraldTip", CATEGORY_ITEM_PROPERTIES,
+
+      MINING_LEVEL_EMERALD_TIP = c.getInt("Tool.MiningLevel.EmeraldTip", CATEGORY_ITEM_PROPERTIES,
           MINING_LEVEL_EMERALD_TIP, 0, 10000,
           "The mining level of tools with the emerald-tipped upgrade (if it's not already higher).");
-      
-      DURABILITY_BOOST_IRON_TIP = c.getInt(
-          "Tool.DurabilityBoost.Iron", CATEGORY_ITEM_PROPERTIES,
+
+      DURABILITY_BOOST_IRON_TIP = c.getInt("Tool.DurabilityBoost.Iron", CATEGORY_ITEM_PROPERTIES,
           DURABILITY_BOOST_IRON_TIP, 0, Short.MAX_VALUE,
           "The value added to the durability (max damage) of tools with the 'iron-tipped' upgrade.");
-      
-      DURABILITY_BOOST_DIAMOND_TIP = c.getInt(
-          "Tool.DurabilityBoost.Diamond", CATEGORY_ITEM_PROPERTIES,
-          DURABILITY_BOOST_DIAMOND_TIP, 0, Short.MAX_VALUE,
+
+      DURABILITY_BOOST_DIAMOND_TIP = c.getInt("Tool.DurabilityBoost.Diamond",
+          CATEGORY_ITEM_PROPERTIES, DURABILITY_BOOST_DIAMOND_TIP, 0, Short.MAX_VALUE,
           "The value added to the durability (max damage) of tools with the 'diamond-tipped' upgrade.");
-      
-      DURABILITY_BOOST_EMERALD_TIP = c.getInt(
-          "Tool.DurabilityBoost.Emerald", CATEGORY_ITEM_PROPERTIES,
-          DURABILITY_BOOST_EMERALD_TIP, 0, Short.MAX_VALUE,
+
+      DURABILITY_BOOST_EMERALD_TIP = c.getInt("Tool.DurabilityBoost.Emerald",
+          CATEGORY_ITEM_PROPERTIES, DURABILITY_BOOST_EMERALD_TIP, 0, Short.MAX_VALUE,
           "The value added to the durability (max damage) of tools with the 'emerald-tipped' upgrade.");
 
       /*
        * Misc
        */
-      HIDE_FLAVOR_TEXT_ALWAYS = c.getBoolean(
-          "Tooltips.HideFlavorText.Always", CATEGORY_ITEM_PROPERTIES,
-          HIDE_FLAVOR_TEXT_ALWAYS,
+      HIDE_FLAVOR_TEXT_ALWAYS = c.getBoolean("Tooltips.HideFlavorText.Always",
+          CATEGORY_ITEM_PROPERTIES, HIDE_FLAVOR_TEXT_ALWAYS,
           "Always hide the potentially funny and often useless item descriptions.");
-      HIDE_FLAVOR_TEXT_UNTIL_SHIFT = c.getBoolean(
-          "Tooltips.HideFlavorText.UntilShift", CATEGORY_ITEM_PROPERTIES,
-          HIDE_FLAVOR_TEXT_UNTIL_SHIFT,
+      HIDE_FLAVOR_TEXT_UNTIL_SHIFT = c.getBoolean("Tooltips.HideFlavorText.UntilShift",
+          CATEGORY_ITEM_PROPERTIES, HIDE_FLAVOR_TEXT_UNTIL_SHIFT,
           "Hide the flavor text until shift is pressed.");
 
       category = CATEGORY_MISC + Configuration.CATEGORY_SPLITTER + "right_click_to_place";
       c.setCategoryComment(category, "Mining tools have the ability to place blocks in the slot "
           + "after them (or in slot 9 if that doesn't work) by right-clicking.");
-      
-      RIGHT_CLICK_TO_PLACE_ENABLED = c.getBoolean(
-          "Enabled", category,
-          RIGHT_CLICK_TO_PLACE_ENABLED,
+
+      RIGHT_CLICK_TO_PLACE_ENABLED = c.getBoolean("Enabled", category, RIGHT_CLICK_TO_PLACE_ENABLED,
           "If set to false, the ability of mining tools to place blocks by right-clicking will be completely disabled.");
-      RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY = c.getBoolean(
-          "OnlyOnSneak", category,
+      RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY = c.getBoolean("OnlyOnSneak", category,
           RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY,
           "If set to true and right-click to place is enabled, this ability will only activate "
-          + "while sneaking (holding shift, normally).");
+              + "while sneaking (holding shift, normally).");
 
       /*
        * Enchantment ids
@@ -333,6 +288,8 @@ public class Config {
       ModEnchantments.AOE_ID = getEnchantmentId(Names.AOE, ModEnchantments.AOE_ID_DEFAULT);
       ModEnchantments.LUMBERJACK_ID = getEnchantmentId(Names.LUMBERJACK,
           ModEnchantments.LUMBERJACK_ID_DEFAULT);
+      ModEnchantments.LIFE_STEAL_ID = getEnchantmentId(Names.LIFE_STEAL,
+          ModEnchantments.LIFE_STEAL_ID_DEFAULT);
 
       /*
        * World gen

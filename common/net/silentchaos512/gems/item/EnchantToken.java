@@ -139,9 +139,11 @@ public class EnchantToken extends ItemSG {
     addEnchantment(Enchantment.punch, T_BOW);
 
     // Digging tools
-    addEnchantment(Enchantment.efficiency, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE | T_SHEARS);
+    addEnchantment(Enchantment.efficiency,
+        T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE | T_SHEARS);
     addEnchantment(Enchantment.fortune, T_PICKAXE | T_SHOVEL | T_AXE | T_HOE | T_SICKLE);
-    addEnchantment(Enchantment.silkTouch, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE | T_SHEARS);
+    addEnchantment(Enchantment.silkTouch,
+        T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE | T_SHEARS);
 
     // Armor
     final int allArmor = T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS;
@@ -159,6 +161,7 @@ public class EnchantToken extends ItemSG {
         | T_SICKLE | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS | T_SHEARS);
     addEnchantment(ModEnchantments.aoe, T_PICKAXE | T_SHOVEL | T_AXE);
     addEnchantment(ModEnchantments.lumberjack, T_AXE);
+    addEnchantment(ModEnchantments.lifeSteal, T_SWORD);
   }
 
   /**
@@ -317,6 +320,8 @@ public class EnchantToken extends ItemSG {
         Blocks.tnt, 3, baseToken);
     addTokenRecipe(ModEnchantments.lumberjack.effectId, EnumGem.PERIDOT.getItemOreName(), gemCount,
         Items.golden_axe, 4, baseToken);
+    addTokenRecipe(ModEnchantments.lifeSteal.effectId, EnumGem.MORGANITE.getItemOreName(), gemCount,
+        CraftingMaterial.getStack(Names.LIFE_ESSENCE), 2, baseToken);
   }
 
   private void addTokenRecipe(int key, String gem, int gemCount, Object otherMaterial,

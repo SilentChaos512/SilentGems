@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +15,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -21,7 +24,6 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.configuration.Config;
@@ -38,7 +40,6 @@ import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.TeleporterLinker;
-import net.silentchaos512.gems.item.tool.GemSword;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
 
@@ -184,6 +185,20 @@ public class GemsForgeEventHandler {
             entityLivingBase.playSound("random.break", 1f, 1f); // Does nothing?
             entityLivingBase.setCurrentItemOrArmor(1, null);
           }
+        }
+      }
+    } else if (event.source instanceof EntityDamageSource) {
+      EntityDamageSource source = (EntityDamageSource) event.source;
+      Entity entity = source.getEntity();
+      if (entity instanceof EntityPlayer) {
+        EntityPlayer player = (EntityPlayer) entity;
+        ItemStack heldItem = player.getHeldItem();
+        if (heldItem != null) {
+          int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal.effectId,
+              heldItem);
+          float healAmount = MathHelper.clamp_float(level * event.ammount / 20f, 0f, 2f);
+          LogHelper.list(level, event.ammount, healAmount);
+          player.heal(healAmount);
         }
       }
     }
