@@ -145,6 +145,7 @@ public class GemSword extends ItemSword {
       return false;
     }
 
+    // Fire a chaos orb?
     if (getShotCharged(stack)) {
       setShotCharged(stack, false);
       int sharpness = EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, stack);
@@ -153,6 +154,8 @@ public class GemSword extends ItemSword {
       EntityProjectileChaosOrb shot = new EntityProjectileChaosOrb(world, entityLiving, damage,
           color, true);
       world.spawnEntityInWorld(shot);
+      // Damage the sword
+      stack.attemptDamageItem(1, itemRand);
     }
 
     return super.onEntitySwing(entityLiving, stack);
@@ -186,9 +189,9 @@ public class GemSword extends ItemSword {
           double posX = player.posX + vec.xCoord;
           double posY = player.posY + vec.yCoord - 0.1;
           double posZ = player.posZ + vec.zCoord;
-          double motionX = player.worldObj.rand.nextGaussian() * 0.05 + player.motionX;
-          double motionY = player.worldObj.rand.nextGaussian() * 0.05 + player.motionY;
-          double motionZ = player.worldObj.rand.nextGaussian() * 0.05 + player.motionZ;
+          double motionX = itemRand.nextGaussian() * 0.05 + player.motionX;
+          double motionY = itemRand.nextGaussian() * 0.05 + player.motionY;
+          double motionZ = itemRand.nextGaussian() * 0.05 + player.motionZ;
 
           int colorIndex = ToolHelper.getToolHeadRight(stack);
           colorIndex = colorIndex < 0 ? ModMaterials.CHAOS_GEM_ID : colorIndex;
@@ -218,9 +221,9 @@ public class GemSword extends ItemSword {
             EntityProjectileChaosOrb.COLORS.length)];
 
         for (int i = 0; i < 16; ++i) {
-          double motionX = player.worldObj.rand.nextGaussian() * 0.01;
-          double motionY = player.worldObj.rand.nextGaussian() * 0.05;
-          double motionZ = player.worldObj.rand.nextGaussian() * 0.01;
+          double motionX = itemRand.nextGaussian() * 0.01;
+          double motionY = itemRand.nextGaussian() * 0.05;
+          double motionZ = itemRand.nextGaussian() * 0.01;
           SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_CHARGE, color, player.worldObj, posX,
               posY, posZ, motionX, motionY, motionZ);
         }
