@@ -123,16 +123,22 @@ public class ClientProxy extends CommonProxy {
     if (type.equals(FX_CHAOS_TRANSFER)) {
       particleFX = new EntityParticleFXChaosTransfer(world, x, y, z, motionX, motionY, motionZ);
     } else if (type.equals(FX_CHAOS_NO_ALTAR)) {
+      // Chaos transfer (no target)
       particleFX = new EntityParticleFXChaosTransfer(world, x, y, z, motionX, motionY, motionZ,
           EntityParticleFXChaosTransfer.MAX_SCALE, EntityParticleFXChaosTransfer.MAX_AGE, 1.0f,
           0.0f, 0.0f);
     } else if (type.equals(FX_CHAOS_CHARGE)) {
-      particleFX = new EntityFXChaosCharge(world, x, y, z, motionX, motionY, motionZ);
+      // Chaos sword charging up
+      particleFX = new EntityFXChaosCharge(world, x, y, z, motionX, motionY, motionZ,
+          EntityFXChaosCharge.MAX_SCALE, EntityFXChaosCharge.MAX_AGE, red, green, blue);
     } else if (type.equals(FX_CHAOS_TRAIL)) {
+      // Chaos trails
       if (color > -1) {
+        // Chaos orb
         particleFX = new EntityFXChaosTrail(world, x, y, z, motionX, motionY, motionZ,
             EntityFXChaosTrail.MAX_SCALE * 1.5f, EntityFXChaosTrail.MAX_AGE * 4, red, green, blue);
       } else {
+        // Pylon transfer to target
         particleFX = new EntityFXChaosTrail(world, x, y, z, motionX, motionY, motionZ);
       }
     }
@@ -146,33 +152,5 @@ public class ClientProxy extends CommonProxy {
   public int getParticleSettings() {
 
     return Minecraft.getMinecraft().gameSettings.particleSetting;
-  }
-
-  Field itemRenderPrevEquippedProgress = null;
-  Field itemRenderEquippedProgress = null;
-
-  @Override
-  public void setItemRendererEquipProgress(float f) {
-
-    ItemRenderer itemRenderer = Minecraft.getMinecraft().entityRenderer.itemRenderer;
-    if (itemRenderer != null) {
-      try {
-        if (itemRenderPrevEquippedProgress == null) {
-          itemRenderPrevEquippedProgress = ItemRenderer.class
-              .getDeclaredField("prevEquippedProgress");
-          itemRenderPrevEquippedProgress.setAccessible(true);
-        }
-        itemRenderPrevEquippedProgress.setFloat(itemRenderer, f);
-
-        if (itemRenderEquippedProgress == null) {
-          itemRenderEquippedProgress = ItemRenderer.class.getDeclaredField("equippedProgress");
-          itemRenderEquippedProgress.setAccessible(true);
-        }
-        itemRenderEquippedProgress.setFloat(itemRenderer, f);
-      } catch (Exception ex) {
-        LogHelper
-            .warning("Exception in ClientProxy.setItemRendererEquipProgress" + ex.getMessage());
-      }
-    }
   }
 }

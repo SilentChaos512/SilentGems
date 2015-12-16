@@ -12,6 +12,9 @@ import net.silentchaos512.gems.entity.projectile.EntityProjectileChaosOrb;
 
 public class RenderProjectileChaosOrb extends Render {
 
+  private static final ResourceLocation particleTextures = new ResourceLocation(
+      "textures/particle/particles.png");
+
   public static final ResourceLocation TEXTURE = new ResourceLocation(
       SilentGems.MOD_ID.toLowerCase(), "textures/effects/ChaosOrb.png");
 
@@ -31,34 +34,43 @@ public class RenderProjectileChaosOrb extends Render {
     }
 
     GL11.glPushMatrix();
+
     GL11.glTranslated(posX, posY, posZ);
-    GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-    float f2 = 0.35f;
+    GL11.glEnable(GL11.GL_BLEND);
+    GL11.glDepthMask(false);
+    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+    GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
+    float f2 = 0.7f;
     GL11.glScalef(f2, f2, f2);
 
-    bindTexture(TEXTURE);
+//    bindTexture(TEXTURE);
+    bindTexture(particleTextures);
     Tessellator tess = Tessellator.instance;
 
     GL11.glRotatef(180f - renderManager.playerViewY, 0f, 1f, 0f);
     GL11.glRotatef(-renderManager.playerViewX, 1f, 0f, 0f);
 
-    float uMin = 0f;
-    float uMax = 1f;
-    float vMin = 0f;
-    float vMax = 1f;
+    float uMin = 0.25f;
+    float uMax = uMin + 0.25f;
+    float vMin = 0.125f;
+    float vMax = vMin + 0.25f;
     float f7 = 1f;
     float f8 = 0.5f;
     float f9 = 0.25f;
 
     tess.startDrawingQuads();
-    tess.setColorRGBA(colorR, colorG, colorB, 64);
+    tess.setColorRGBA(colorR, colorG, colorB, 255);
     tess.setNormal(0f, 1f, 0f);
     tess.addVertexWithUV(0f - f8, 0f - f9, 0d, uMin, vMax);
     tess.addVertexWithUV(f7 - f8, 0.0F - f9, 0.0D, uMax, vMax);
     tess.addVertexWithUV(f7 - f8, 1.0F - f9, 0.0D, uMax, vMin);
     tess.addVertexWithUV(0.0F - f8, 1.0F - f9, 0.0D, uMin, vMin);
     tess.draw();
-    GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+
+    GL11.glDisable(GL11.GL_BLEND);
+    GL11.glDepthMask(true);
+    GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+
     GL11.glPopMatrix();
   }
 

@@ -1,13 +1,11 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -19,8 +17,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
+import net.silentchaos512.gems.core.proxy.ClientProxy;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.entity.projectile.EntityProjectileChaosOrb;
 import net.silentchaos512.gems.item.CraftingMaterial;
@@ -149,7 +147,8 @@ public class GemSword extends ItemSword {
 
     if (getShotCharged(stack)) {
       setShotCharged(stack, false);
-      float damage = toolMaterial.getDamageVsEntity();
+      int sharpness = EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, stack);
+      float damage = toolMaterial.getDamageVsEntity() * 0.75f + sharpness;
       int color = ToolHelper.getToolHeadRight(stack);
       EntityProjectileChaosOrb shot = new EntityProjectileChaosOrb(world, entityLiving, damage,
           color, true);
@@ -171,47 +170,53 @@ public class GemSword extends ItemSword {
   @Override
   public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
 
-    if (gemId != ModMaterials.CHAOS_GEM_ID) {
+    if (gemId != ModMaterials.CHAOS_GEM_ID || !player.worldObj.isRemote) {
       return;
     }
 
     int time = getMaxItemUseDuration(stack) - count;
     Vec3 vec = player.getLookVec();
-    vec.rotateAroundY(-0.5f);
+    // vec.rotateAroundY(-0.5f);
+    // vec.rotateAroundZ(0.5f);
 
-    if (time < 10) {
-      // Charging particles (TODO)
-      double posX = player.posX + vec.xCoord;
-      double posY = player.posY + vec.yCoord + 0.4;
-      double posZ = player.posZ + vec.zCoord;
-      double motionX = player.worldObj.rand.nextGaussian() * 0.25;
-      double motionY = player.worldObj.rand.nextGaussian() * 0.25;
-      double motionZ = player.worldObj.rand.nextGaussian() * 0.25;
+    if (time < CHARGE_DELAY / 2 && !getShotCharged(stack)) {
+      for (int i = 0; i < 4; ++i) {
+        // Charging particles
+        double posX = player.posX + vec.xCoord;
+        double posY = player.posY + vec.yCoord - 0.1;
+        double posZ = player.posZ + vec.zCoord;
+        double motionX = player.worldObj.rand.nextGaussian() * 0.05 + player.motionX;
+        double motionY = player.worldObj.rand.nextGaussian() * 0.05 + player.motionY;
+        double motionZ = player.worldObj.rand.nextGaussian() * 0.05 + player.motionZ;
 
-      int gemId = ToolHelper.getToolHeadRight(stack);
-      int color = EntityProjectileChaosOrb.COLORS[MathHelper.clamp_int(gemId, 0,
-          EntityProjectileChaosOrb.COLORS.length)];
+        int colorIndex = ToolHelper.getToolHeadRight(stack);
+        colorIndex = colorIndex < 0 ? ModMaterials.CHAOS_GEM_ID : colorIndex;
+        int color = EntityProjectileChaosOrb.COLORS[MathHelper.clamp_int(colorIndex, 0,
+            EntityProjectileChaosOrb.COLORS.length)];
 
-      player.worldObj.spawnParticle("fireworksSpark", posX - 10 * motionX, posY - 10 * motionY,
-          posZ - 10 * motionZ, motionX, motionY, motionZ);
-      // SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_CHARGE, color, player.worldObj,
-      // player.posX, player.posY, player.posZ, motionX, motionY, motionZ);
+        // player.worldObj.spawnParticle("fireworksSpark", posX - 10 * motionX, posY - 10 * motionY,
+        // posZ - 10 * motionZ, motionX, motionY, motionZ);
+        SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_CHARGE, color, player.worldObj,
+            posX - 10 * motionX, posY - 10 * motionY, posZ - 10 * motionZ, motionX, motionY,
+            motionZ);
+      }
     } else if (time == CHARGE_DELAY) {
       // setShotCharged(stack, true);
       double posX = player.posX + vec.xCoord;
-      double posY = player.posY + vec.yCoord + 0.4;
+      double posY = player.posY + vec.yCoord - 0.1;
       double posZ = player.posZ + vec.zCoord;
 
-      int gemId = ToolHelper.getToolHeadRight(stack);
-      int color = EntityProjectileChaosOrb.COLORS[MathHelper.clamp_int(gemId, 0,
+      int colorIndex = ToolHelper.getToolHeadRight(stack);
+      colorIndex = colorIndex < 0 ? ModMaterials.CHAOS_GEM_ID : colorIndex;
+      int color = EntityProjectileChaosOrb.COLORS[MathHelper.clamp_int(colorIndex, 0,
           EntityProjectileChaosOrb.COLORS.length)];
 
       for (int i = 0; i < 16; ++i) {
-        double motionX = player.worldObj.rand.nextGaussian() * 0.15;
-        double motionY = player.worldObj.rand.nextGaussian() * 0.15;
-        double motionZ = player.worldObj.rand.nextGaussian() * 0.15;
-        player.worldObj.spawnParticle("fireworksSpark", posX, posY, posZ, motionX, motionY,
-            motionZ);
+        double motionX = player.worldObj.rand.nextGaussian() * 0.01;
+        double motionY = player.worldObj.rand.nextGaussian() * 0.05;
+        double motionZ = player.worldObj.rand.nextGaussian() * 0.01;
+        SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_CHARGE, color, player.worldObj, posX,
+            posY, posZ, motionX, motionY, motionZ);
       }
     }
   }

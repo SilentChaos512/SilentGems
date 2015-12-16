@@ -151,23 +151,6 @@ public class GemsEventHandler {
   }
 
   @SubscribeEvent
-  public void onClientTick(TickEvent.ClientTickEvent event) {
-
-    EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-    if (player == null) {
-      return;
-    }
-
-    ItemStack stack = player.getHeldItem();
-    if (stack != null) {
-      if (stack.getItem() instanceof GemSword && player.isUsingItem()
-          && ToolHelper.getToolGemId(stack) == ModMaterials.CHAOS_GEM_ID) {
-        SilentGems.proxy.setItemRendererEquipProgress(1f);
-      }
-    }
-  }
-
-  @SubscribeEvent
   public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 
     // Some things I only want to do once per second, not every tick.
