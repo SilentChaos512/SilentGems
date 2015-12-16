@@ -364,6 +364,9 @@ item.silentgems:IronPotato.desc=The potato that does not compromise.
 item.silentgems:GoldenPlume.name=Golden Plume
 item.silentgems:GoldenPlume.desc=A bunch of shiny feathers.
 
+item.silentgems:LifeEssence.name=Life Essence
+item.silentgems:LifeEssence.desc=A heart, how creative. Not.
+
 item.silentgems:MeatyStew.name=Meaty Stew
 item.silentgems:MeatyStew.desc=A simple feast!
 

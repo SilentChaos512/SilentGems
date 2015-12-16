@@ -180,43 +180,50 @@ public class GemSword extends ItemSword {
     // vec.rotateAroundZ(0.5f);
 
     if (time < CHARGE_DELAY / 2 && !getShotCharged(stack)) {
-      for (int i = 0; i < 4; ++i) {
-        // Charging particles
+      // Charging particles
+      if (SilentGems.proxy.getParticleSettings() == 0) {
+        for (int i = 0; i < 4; ++i) {
+          double posX = player.posX + vec.xCoord;
+          double posY = player.posY + vec.yCoord - 0.1;
+          double posZ = player.posZ + vec.zCoord;
+          double motionX = player.worldObj.rand.nextGaussian() * 0.05 + player.motionX;
+          double motionY = player.worldObj.rand.nextGaussian() * 0.05 + player.motionY;
+          double motionZ = player.worldObj.rand.nextGaussian() * 0.05 + player.motionZ;
+
+          int colorIndex = ToolHelper.getToolHeadRight(stack);
+          colorIndex = colorIndex < 0 ? ModMaterials.CHAOS_GEM_ID : colorIndex;
+          int color = EntityProjectileChaosOrb.COLORS[MathHelper.clamp_int(colorIndex, 0,
+              EntityProjectileChaosOrb.COLORS.length)];
+
+          // player.worldObj.spawnParticle("fireworksSpark", posX - 10 * motionX, posY - 10 * motionY,
+          // posZ - 10 * motionZ, motionX, motionY, motionZ);
+          SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_CHARGE, color, player.worldObj,
+              posX - 10 * motionX, posY - 10 * motionY, posZ - 10 * motionZ, motionX, motionY,
+              motionZ);
+        }
+      }
+    } else if (time == CHARGE_DELAY) {
+      // Play a sound
+      player.playSound("random.fizz", 0.25f, 1.5f);
+
+      // Full charge particles.
+      if (SilentGems.proxy.getParticleSettings() < 2) {
         double posX = player.posX + vec.xCoord;
         double posY = player.posY + vec.yCoord - 0.1;
         double posZ = player.posZ + vec.zCoord;
-        double motionX = player.worldObj.rand.nextGaussian() * 0.05 + player.motionX;
-        double motionY = player.worldObj.rand.nextGaussian() * 0.05 + player.motionY;
-        double motionZ = player.worldObj.rand.nextGaussian() * 0.05 + player.motionZ;
 
         int colorIndex = ToolHelper.getToolHeadRight(stack);
         colorIndex = colorIndex < 0 ? ModMaterials.CHAOS_GEM_ID : colorIndex;
         int color = EntityProjectileChaosOrb.COLORS[MathHelper.clamp_int(colorIndex, 0,
             EntityProjectileChaosOrb.COLORS.length)];
 
-        // player.worldObj.spawnParticle("fireworksSpark", posX - 10 * motionX, posY - 10 * motionY,
-        // posZ - 10 * motionZ, motionX, motionY, motionZ);
-        SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_CHARGE, color, player.worldObj,
-            posX - 10 * motionX, posY - 10 * motionY, posZ - 10 * motionZ, motionX, motionY,
-            motionZ);
-      }
-    } else if (time == CHARGE_DELAY) {
-      // setShotCharged(stack, true);
-      double posX = player.posX + vec.xCoord;
-      double posY = player.posY + vec.yCoord - 0.1;
-      double posZ = player.posZ + vec.zCoord;
-
-      int colorIndex = ToolHelper.getToolHeadRight(stack);
-      colorIndex = colorIndex < 0 ? ModMaterials.CHAOS_GEM_ID : colorIndex;
-      int color = EntityProjectileChaosOrb.COLORS[MathHelper.clamp_int(colorIndex, 0,
-          EntityProjectileChaosOrb.COLORS.length)];
-
-      for (int i = 0; i < 16; ++i) {
-        double motionX = player.worldObj.rand.nextGaussian() * 0.01;
-        double motionY = player.worldObj.rand.nextGaussian() * 0.05;
-        double motionZ = player.worldObj.rand.nextGaussian() * 0.01;
-        SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_CHARGE, color, player.worldObj, posX,
-            posY, posZ, motionX, motionY, motionZ);
+        for (int i = 0; i < 16; ++i) {
+          double motionX = player.worldObj.rand.nextGaussian() * 0.01;
+          double motionY = player.worldObj.rand.nextGaussian() * 0.05;
+          double motionZ = player.worldObj.rand.nextGaussian() * 0.01;
+          SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_CHARGE, color, player.worldObj, posX,
+              posY, posZ, motionX, motionY, motionZ);
+        }
       }
     }
   }
