@@ -217,6 +217,13 @@ public class ToolHelper {
       Item item = tool.getItem();
       // Work in progress warning
       list.add(EnumChatFormatting.RED + "Work in progress, suggestions welcome.");
+      // Chaos sword
+      if (item instanceof GemSword) {
+        for (int i = 1; i < 4; ++i) {
+          line = LocalizationHelper.getMiscText("Tool.FireChaosOrbs" + i);
+          list.add(EnumChatFormatting.AQUA + line);
+        }
+      }
       // No flying penalty
       if (item instanceof GemPickaxe || item instanceof GemShovel || item instanceof GemAxe) {
         line = LocalizationHelper.getMiscText("Tool.NoFlyingPenalty");
@@ -271,7 +278,7 @@ public class ToolHelper {
       line = String.format(line, amount);
       list.add(line);
     }
-    
+
     // Blocks tilled (hoes only)
     if (tool.getItem() instanceof GemHoe) {
       amount = getStatBlocksTilled(tool);
@@ -410,7 +417,7 @@ public class ToolHelper {
    */
   public static boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y,
       int z, int side, float hitX, float hitY, float hitZ) {
-    
+
     if (!Config.RIGHT_CLICK_TO_PLACE_ENABLED) {
       return false;
     }
@@ -705,14 +712,14 @@ public class ToolHelper {
 
     setTagInt(NBT_STATS_BLOCKS_PLACED, getStatBlocksPlaced(tool) + amount, tool);
   }
-  
+
   public static int getStatBlocksTilled(ItemStack tool) {
-    
+
     return getTagInt(NBT_STATS_BLOCKS_TILLED, tool);
   }
-  
+
   public static void incrementStatBlocksTilled(ItemStack tool, int amount) {
-    
+
     setTagInt(NBT_STATS_BLOCKS_TILLED, getStatBlocksTilled(tool) + amount, tool);
   }
 
