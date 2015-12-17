@@ -17,6 +17,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -33,10 +34,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class FoodSG extends ItemFood implements IAddRecipe {
 
   public final static String[] names = { Names.POTATO_STICK, Names.SUGAR_COOKIE, Names.SECRET_DONUT,
-      Names.MEATY_STEW_UNCOOKED, Names.MEATY_STEW };
-  public final static int[] foodLevel = { 8, 2, 6, 4, 12 };
-  public final static float[] saturationLevel = { 0.8f, 0.4f, 0.8f, 0.6f, 1.6f };
-  public final static boolean[] alwaysEdible = { false, true, false, false, false };
+      Names.MEATY_STEW_UNCOOKED, Names.MEATY_STEW, Names.CANDY_CANE };
+  public final static int[] foodLevel = { 8, 2, 6, 4, 12, 2 };
+  public final static float[] saturationLevel = { 0.8f, 0.4f, 0.8f, 0.6f, 1.6f, 0.2f };
+  public final static boolean[] alwaysEdible = { false, true, false, false, false, true };
 
   public final static ArrayList<SecretDonutEffect> secretDonutEffects = new ArrayList<SecretDonutEffect>();
   public final static int SECRET_DONUT_CHANCE = 20;
@@ -115,6 +116,9 @@ public class FoodSG extends ItemFood implements IAddRecipe {
     }
     GameRegistry.addSmelting(getStack(Names.MEATY_STEW_UNCOOKED, 1), getStack(Names.MEATY_STEW, 1),
         0.5f);
+    // Candy Cane
+    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.CANDY_CANE, 8), "ss", "rs", " s", 's',
+        Items.sugar, 'r', "dyeRed"));
   }
 
   private void addSecretDonutEffect(World world, EntityPlayer player) {
@@ -196,6 +200,10 @@ public class FoodSG extends ItemFood implements IAddRecipe {
       } else if (d == 3 || d == 4) {
         // Meaty Stew
         PlayerHelper.addItemToInventoryOrDrop(player, new ItemStack(Items.bowl));
+      } else if (d == 5) {
+        // Candy Cane
+        player.addPotionEffect(
+            new PotionEffect(Potion.regeneration.id, Config.FOOD_SUPPORT_DURATION / 6, 0, true));
       }
     }
 
@@ -213,13 +221,21 @@ public class FoodSG extends ItemFood implements IAddRecipe {
   @Override
   public int func_150905_g(ItemStack stack) {
 
-    return foodLevel[stack.getItemDamage()];
+    int meta = stack.getItemDamage();
+    if (meta < 0 || meta >= names.length) {
+      return 0;
+    }
+    return foodLevel[meta];
   }
 
   @Override
   public float func_150906_h(ItemStack stack) {
 
-    return saturationLevel[stack.getItemDamage()];
+    int meta = stack.getItemDamage();
+    if (meta < 0 || meta >= names.length) {
+      return 0f;
+    }
+    return saturationLevel[meta];
   }
 
   @Override

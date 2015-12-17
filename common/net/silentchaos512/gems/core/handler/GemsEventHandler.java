@@ -5,6 +5,7 @@ import java.util.Random;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
@@ -35,6 +36,7 @@ import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.TorchBandolier;
 import net.silentchaos512.gems.item.tool.GemSword;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.HolidayCheer;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.material.ModMaterials;
@@ -152,12 +154,17 @@ public class GemsEventHandler {
 
   @SubscribeEvent
   public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+    
+    if (event.phase != Phase.START) {
+      return;
+    }
 
     // Some things I only want to do once per second, not every tick.
     boolean isSecond = event.player.worldObj.getTotalWorldTime() % 20 == 0;
 
     if (event.side == Side.CLIENT) {
     } else {
+      HolidayCheer.tryGiveCandy(event.player);
       // Chaos gem flight removal
       GemsExtendedPlayer properties = GemsExtendedPlayer.get(event.player);
       if (properties != null) {

@@ -40,6 +40,7 @@ import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.TeleporterLinker;
+import net.silentchaos512.gems.lib.HolidayCheer;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
 
@@ -106,8 +107,10 @@ public class GemsForgeEventHandler {
   public void onEntityJoinWorld(EntityJoinWorldEvent event) {
 
     if (event.entity instanceof EntityPlayer) {
-      // Check for gem tools and update to the new NBT.
       EntityPlayer player = (EntityPlayer) event.entity;
+      HolidayCheer.greetPlayer(player);
+
+      // Check for gem tools and update to the new NBT.
       for (ItemStack stack : player.inventory.mainInventory) {
         if (InventoryHelper.isGemTool(stack)) {
           if (ToolHelper.convertToNewNBT(stack)) {
@@ -197,7 +200,6 @@ public class GemsForgeEventHandler {
           int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal.effectId,
               heldItem);
           float healAmount = MathHelper.clamp_float(level * event.ammount / 20f, 0f, 2f);
-          LogHelper.list(level, event.ammount, healAmount);
           player.heal(healAmount);
         }
       }

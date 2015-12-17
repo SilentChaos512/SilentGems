@@ -34,6 +34,7 @@ public class Names {
    * Items
    */
   public static final String BROKEN_TOOL = "BrokenTool";
+  public static final String CANDY_CANE = "CandyCane";
   public static final String CHAOS_BATTERY = "ChaosBattery";
   public static final String CHAOS_GEM = "ChaosGem";
   public static final String CHAOS_RUNE = "ChaosRune";
