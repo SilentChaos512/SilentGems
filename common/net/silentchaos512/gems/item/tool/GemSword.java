@@ -186,12 +186,12 @@ public class GemSword extends ItemSword {
       // Charging particles
       if (SilentGems.proxy.getParticleSettings() == 0) {
         for (int i = 0; i < 4; ++i) {
-          double posX = player.posX + vec.xCoord;
+          double posX = player.posX + vec.xCoord + player.motionX * 10;
           double posY = player.posY + vec.yCoord - 0.1;
-          double posZ = player.posZ + vec.zCoord;
-          double motionX = itemRand.nextGaussian() * 0.05 + player.motionX;
-          double motionY = itemRand.nextGaussian() * 0.05 + player.motionY;
-          double motionZ = itemRand.nextGaussian() * 0.05 + player.motionZ;
+          double posZ = player.posZ + vec.zCoord + player.motionZ * 10;
+          double motionX = itemRand.nextGaussian() * 0.05;
+          double motionY = itemRand.nextGaussian() * 0.05;
+          double motionZ = itemRand.nextGaussian() * 0.05;
 
           int colorIndex = ToolHelper.getToolHeadRight(stack);
           colorIndex = colorIndex < 0 ? ModMaterials.CHAOS_GEM_ID : colorIndex;
@@ -207,7 +207,7 @@ public class GemSword extends ItemSword {
       }
     } else if (time == CHARGE_DELAY) {
       // Play a sound
-      player.playSound("random.fizz", 0.25f, 1.5f);
+      player.playSound("random.fizz", 0.2f, (float) (1.25f + itemRand.nextGaussian() * 0.1f));
 
       // Full charge particles.
       if (SilentGems.proxy.getParticleSettings() < 2) {

@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
@@ -87,10 +88,18 @@ public class EntityProjectileChaosOrb extends EntityThrowable
 
     super.onUpdate();
 
+    Vec3 vec1 = Vec3.createVectorHelper(posX, posY, posZ);
+    Vec3 vec2 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
+    MovingObjectPosition mop = worldObj.func_147447_a(vec1, vec2, false, true, false);
+    if (mop != null) {
+      onImpact(mop);
+    }
+
     if (ticksExisted > MAX_LIFE) {
       setDead();
     }
 
+    // Tail particles
     if (SilentGems.proxy.getParticleSettings() == 0) {
       double mx = worldObj.rand.nextGaussian() * 0.01f;
       double my = worldObj.rand.nextGaussian() * 0.01f;
@@ -112,7 +121,7 @@ public class EntityProjectileChaosOrb extends EntityThrowable
     if (mop.typeOfHit == MovingObjectType.ENTITY && mop.entityHit != shootingEntity) {
       // Collide with Entity?
       mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, shootingEntity), damage);
-//      worldObj.createExplosion(this, posX, posY, posZ, 1.25f, false);
+      // worldObj.createExplosion(this, posX, posY, posZ, 1.25f, false);
       setDead();
     } else if (mop.typeOfHit == MovingObjectType.BLOCK) {
       // Collide with Block?
@@ -137,7 +146,7 @@ public class EntityProjectileChaosOrb extends EntityThrowable
             motionX *= -0.95;
             break;
         }
-         spawnHitParticles(16);
+        spawnHitParticles(16);
         worldObj.playSoundAtEntity(this, "dig.stone", 0.5f, 0.65f);
       } else if (boundingBox != null) {
         setDead();
@@ -149,7 +158,8 @@ public class EntityProjectileChaosOrb extends EntityThrowable
   public void setDead() {
 
     spawnHitParticles(64);
-    worldObj.playSoundAtEntity(this, "fireworks.blast", 0.75f, 0.75f);
+    float f = (float) (0.75f + rand.nextGaussian() * 0.05f);
+    worldObj.playSoundAtEntity(this, "fireworks.blast", 0.75f, f);
 
     super.setDead();
   }
@@ -163,6 +173,11 @@ public class EntityProjectileChaosOrb extends EntityThrowable
       mZ = rand.nextGaussian() * 0.05;
       worldObj.spawnParticle("smoke", posX, posY, posZ, mX, mY, mZ);
     }
+  }
+  
+  @Override
+  protected void setOnFireFromLava() {
+
   }
 
   @Override

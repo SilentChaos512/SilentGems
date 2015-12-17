@@ -13,8 +13,7 @@ import net.silentchaos512.gems.item.ModItems;
 
 public class HolidayCheer {
 
-  public static final String[] HOLIDAYS = { "Present", "Candy", "Reindeer", "Elf",
-      "Why Is There a Tree in Your House?" };
+  public static final String[] HOLIDAYS = { "Present", "Candy", "Reindeer", "Elf" };
 
   public static final int CANDY_TRY_DELAY = 600 * 20; // Check/try things every 10 minutes.
   public static final float CANDY_RATE = 0.15f;
@@ -22,7 +21,7 @@ public class HolidayCheer {
 
   public static Calendar today = Calendar.getInstance();
   private static boolean rightDay = today.get(Calendar.MONTH) == Calendar.DECEMBER
-      && today.get(Calendar.DATE) == 25;
+      && today.get(Calendar.DATE) == 16;
 
   public static boolean isRightDay() {
 
