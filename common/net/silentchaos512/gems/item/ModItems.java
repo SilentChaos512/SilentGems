@@ -22,6 +22,7 @@ import net.silentchaos512.gems.item.tool.GemPickaxe;
 import net.silentchaos512.gems.item.tool.GemShovel;
 import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.item.tool.GemSword;
+import net.silentchaos512.gems.item.tool.ItemBrokenTool;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
@@ -29,6 +30,7 @@ import net.silentchaos512.gems.material.ModMaterials;
 import net.silentchaos512.gems.recipe.ChaosGemUpgradeRecipe;
 import net.silentchaos512.gems.recipe.DecorateToolRecipe;
 import net.silentchaos512.gems.recipe.EnchantToolRecipe;
+import net.silentchaos512.gems.recipe.RecipeToolRepair;
 import net.silentchaos512.gems.recipe.RecipeToolUpgrade;
 import net.silentchaos512.gems.recipe.TorchBandolierExtractRecipe;
 import net.silentchaos512.gems.recipe.TorchBandolierRecipe;
@@ -52,6 +54,7 @@ public class ModItems {
   public static DebugItem debugItem;
   public static ChaosEssence chaosEssence;
   public static ToolRenderHelperBase toolRenderHelper;
+  public static ItemBrokenTool brokenTool;
 
   public static void init() {
 
@@ -75,6 +78,8 @@ public class ModItems {
         Names.TOOL_UPGRADE);
     chaosRune = (ChaosRune) SRegistry.registerItem(ChaosRune.class, Names.CHAOS_RUNE);
     dye = (DyeSG) SRegistry.registerItem(DyeSG.class, Names.DYE);
+    brokenTool = (ItemBrokenTool) SRegistry.registerItem(ItemBrokenTool.class, Names.BROKEN_TOOL);
+
     chaosEssence = (ChaosEssence) SRegistry.registerItem(ChaosEssence.class,
         Names.CHAOS_ESSENCE_OLD);
 
@@ -190,10 +195,11 @@ public class ModItems {
 
   // Recipes
   public static IRecipe recipeChaosGemUpgrade;
-  public static IRecipe recipeDecorateTool;
+  public static DecorateToolRecipe recipeDecorateTool;
   public static IRecipe recipeEnchantTool;
   public static IRecipe recipeTorchBandolier;
   public static IRecipe recipeTorchBandolierExtract;
+  public static RecipeToolRepair recipeToolRepair;
   public static IRecipe recipeToolUpgrade;
 
   public static void initItemRecipes() {
@@ -201,14 +207,16 @@ public class ModItems {
     String afterShapeless = "after:minecraft:shapeless";
     recipeChaosGemUpgrade = addRecipeHandler(ChaosGemUpgradeRecipe.class, "ChaosRune",
         Category.SHAPELESS, afterShapeless);
-    recipeDecorateTool = addRecipeHandler(DecorateToolRecipe.class, "DecorateTool", Category.SHAPED,
-        afterShapeless);
+    recipeDecorateTool = (DecorateToolRecipe) addRecipeHandler(DecorateToolRecipe.class,
+        "DecorateTool", Category.SHAPED, afterShapeless);
     recipeEnchantTool = addRecipeHandler(EnchantToolRecipe.class, "EnchantTool", Category.SHAPELESS,
         afterShapeless);
     recipeTorchBandolier = addRecipeHandler(TorchBandolierRecipe.class, "TorchBandolierDecorate",
         Category.SHAPELESS, afterShapeless);
     recipeTorchBandolierExtract = addRecipeHandler(TorchBandolierExtractRecipe.class,
         "TorchBandolierExtract", Category.SHAPELESS, afterShapeless);
+    recipeToolRepair = (RecipeToolRepair) addRecipeHandler(RecipeToolRepair.class, "ToolRepair",
+        Category.SHAPELESS, afterShapeless);
     recipeToolUpgrade = addRecipeHandler(RecipeToolUpgrade.class, "ToolUpgrade", Category.SHAPELESS,
         afterShapeless);
     // addRecipeHandler(HoldingGemSetRecipe.class, "HoldingGemSet", Category.SHAPELESS, afterShapeless);

@@ -26,9 +26,7 @@ import net.silentchaos512.gems.item.tool.GemPickaxe;
 import net.silentchaos512.gems.item.tool.GemShovel;
 import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.item.tool.GemSword;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.material.ModMaterials;
 
 /**
  * A "fake" item that registers models for tool parts and handles retrieving the correct model resource locations for
@@ -36,7 +34,13 @@ import net.silentchaos512.gems.material.ModMaterials;
  * file are directly from 1.7.
  */
 @SuppressWarnings("deprecation")
-public class ToolRenderHelper extends ToolRenderHelperBase implements IHasVariants, IRegisterModels {
+public class ToolRenderHelper extends ToolRenderHelperBase
+    implements IHasVariants, IRegisterModels {
+
+  public static ToolRenderHelper getInstance() {
+
+    return (ToolRenderHelper) instance;
+  }
 
   /*
    * Models
@@ -44,8 +48,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase implements IHasVarian
 
   private HashMap<Integer, String> modelKeys = new HashMap<Integer, String>();
 
-//  @SideOnly(Side.CLIENT)
-//  private ModelResourceLocation[] smartModels = new ModelResourceLocation[BOW_STAGE_COUNT];
+  // @SideOnly(Side.CLIENT)
+  // private ModelResourceLocation[] smartModels = new ModelResourceLocation[BOW_STAGE_COUNT];
 
   // Shared
   public ModelResourceLocation modelBlank; // A completely transparent texture.
@@ -85,26 +89,37 @@ public class ToolRenderHelper extends ToolRenderHelperBase implements IHasVarian
     LogHelper.info("Swapping tool models for smart models...");
 
     // SRegistry keeps a list of all tool models registered.
-//    for (ModelResourceLocation modelLocation : SRegistry.toolBaseModels) {
-//      Object object = event.modelRegistry.getObject(modelLocation);
-//      if (object instanceof IBakedModel) {
-//        IBakedModel existingModel = (IBakedModel) object;
-//        ToolSmartModel customModel = new ToolSmartModel(existingModel);
-//        // Replace existing model with the smart model.
-//        event.modelRegistry.putObject(modelLocation, customModel);
-//      }
-//    }
+    // for (ModelResourceLocation modelLocation : SRegistry.toolBaseModels) {
+    // Object object = event.modelRegistry.getObject(modelLocation);
+    // if (object instanceof IBakedModel) {
+    // IBakedModel existingModel = (IBakedModel) object;
+    // ToolSmartModel customModel = new ToolSmartModel(existingModel);
+    // // Replace existing model with the smart model.
+    // event.modelRegistry.putObject(modelLocation, customModel);
+    // }
+    // }
 
+    // "Frames" no longer used, right?
     for (int i = 0; i < BOW_STAGE_COUNT; ++i) {
       ModelResourceLocation modelLocation = new ModelResourceLocation(SMART_MODEL_NAME + i,
           "inventory");
-//      smartModels[i] = modelLocation;
+      // smartModels[i] = modelLocation;
       Object object = event.modelRegistry.getObject(modelLocation);
       if (object instanceof IBakedModel) {
         IBakedModel existingModel = (IBakedModel) object;
         ToolSmartModel customModel = new ToolSmartModel(existingModel);
         event.modelRegistry.putObject(modelLocation, customModel);
       }
+    }
+
+    // Broken tool model
+    ModelResourceLocation modelLocation = new ModelResourceLocation(BROKEN_SMART_MODEL_NAME,
+        "inventory");
+    Object object = event.modelRegistry.getObject(modelLocation);
+    if (object instanceof IBakedModel) {
+      IBakedModel existingModel = (IBakedModel) object;
+      BrokenToolSmartModel customModel = new BrokenToolSmartModel(existingModel);
+      event.modelRegistry.putObject(modelLocation, customModel);
     }
   }
 
@@ -324,15 +339,12 @@ public class ToolRenderHelper extends ToolRenderHelperBase implements IHasVarian
     }
   }
 
-  // /**
-  // * Gets the smart model for the given animation frame. Used by bows.
-  // * @param animationFrame
-  // * @return
-  // */
-  // public ModelResourceLocation getSmartModel(int animationFrame) {
-  //
-  // return smartModels[MathHelper.clamp_int(animationFrame, 0, BOW_STAGE_COUNT - 1)];
-  // }
+  public ModelResourceLocation getModel(ItemStack stack, int pass) {
+
+    int gemId = ToolHelper.getToolGemId(stack);
+    boolean supercharged = ToolHelper.getToolIsSupercharged(stack);
+    return getModel(stack, pass, gemId, supercharged);
+  }
 
   /**
    * Gets the part model for the given tool and render pass.

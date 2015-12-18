@@ -3,7 +3,6 @@ package net.silentchaos512.gems.item;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.tool.GemAxe;
@@ -37,6 +36,7 @@ public class ToolRenderHelperBase extends Item {
    * Constants
    */
 
+  public static final String BROKEN_SMART_MODEL_NAME = SilentGems.MOD_ID + ":SmartToolBroken";
   public static final String SMART_MODEL_NAME = SilentGems.MOD_ID + ":SmartTool";
 
   // The number of head types
