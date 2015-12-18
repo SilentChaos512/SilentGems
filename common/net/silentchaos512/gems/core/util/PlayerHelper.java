@@ -45,4 +45,22 @@ public class PlayerHelper {
       return false;
     }
   }
+
+  public static void removeExperience(EntityPlayer player, int amount) {
+
+    player.addScore((-1) * amount);
+    int j = Integer.MIN_VALUE + player.experienceTotal;
+
+    if (amount < j) {
+      amount = j;
+    }
+
+    player.experience -= (float) amount / (float) player.xpBarCap();
+
+    for (player.experienceTotal -= amount; player.experience <= 0.0F; player.experience /= (float) player
+        .xpBarCap()) {
+      player.experience = (player.experience + 1.0F) * (float) player.xpBarCap();
+      player.addExperienceLevel(-1);
+    }
+  }
 }

@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.ChaosGem;
 import net.silentchaos512.gems.network.MessageChaosGemToggle;
 
@@ -64,7 +65,7 @@ public class KeyTracker {
 
   private void handleChaosGemToggleAll() {
 
-    boolean shiftToggle = chaosGemToggleFirst.isPressed()
+    boolean shiftToggle = chaosGemToggleFirst.isKeyDown()
         && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT));
     if (chaosGemToggleAll.isPressed() || shiftToggle) {
       // Client

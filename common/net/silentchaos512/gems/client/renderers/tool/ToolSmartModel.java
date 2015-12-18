@@ -150,7 +150,8 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
     // We're using "render passes". Basically just adapting the 1.7 code wherever possible.
     for (int pass = 0; pass < ToolRenderHelper.RENDER_PASS_COUNT; ++pass) {
       // Get resource location from ToolRenderHelper.
-      modelLocation = ToolRenderHelper.instance.getModel(tool, pass, gemId, supercharged,
+      ToolRenderHelper renderHelper = (ToolRenderHelper) ToolRenderHelper.instance;
+      modelLocation = renderHelper.getModel(tool, pass, gemId, supercharged,
           ToolHelper.getAnimationFrame(tool));
       // Get the actual tool part model.
       model = manager.getModel(modelLocation);

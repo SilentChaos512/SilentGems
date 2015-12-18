@@ -6,7 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
@@ -49,7 +51,7 @@ public class ModItems {
   public static DyeSG dye;
   public static DebugItem debugItem;
   public static ChaosEssence chaosEssence;
-  public static ToolRenderHelper toolRenderHelper;
+  public static ToolRenderHelperBase toolRenderHelper;
 
   public static void init() {
 
@@ -89,8 +91,13 @@ public class ModItems {
      * Tools
      */
 
-    toolRenderHelper = (ToolRenderHelper) SRegistry.registerItem(ToolRenderHelper.class,
-        "ToolRenderHelper");
+    if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+      toolRenderHelper = (ToolRenderHelperBase) SRegistry.registerItem(ToolRenderHelper.class,
+          "ToolRenderHelper");
+    } else {
+      toolRenderHelper = (ToolRenderHelperBase) SRegistry.registerItem(ToolRenderHelperBase.class,
+          "ToolRenderHelper");
+    }
     ToolRenderHelper.init();
 
     Object[] params = new Object[] { null, 0, false }; // Constructor parameters

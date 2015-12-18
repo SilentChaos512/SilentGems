@@ -7,8 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.silentchaos512.gems.core.util.DimensionalPosition;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 
@@ -33,9 +33,12 @@ public class TeleporterLinker extends ItemSG {
     }
 
     // Display state and coords (if active)
-    if (root.getBoolean(Strings.TELEPORTER_LINKER_STATE)) {
+    if (isLinked(stack)) {
       list.add(EnumChatFormatting.GREEN + LocalizationHelper.getOtherItemKey(itemName, "Active"));
-      list.add(LogHelper.coordFromNBT(root));
+      DimensionalPosition pos = getLinkedPosition(stack);
+      String posStr = LocalizationHelper.getMiscText("DimensionalPosition");
+      posStr = String.format(posStr, pos.x, pos.y, pos.z, pos.d);
+      list.add(posStr);
     } else {
       list.add(EnumChatFormatting.RED + LocalizationHelper.getOtherItemKey(itemName, "Inactive"));
     }
@@ -54,9 +57,23 @@ public class TeleporterLinker extends ItemSG {
   @Override
   public boolean hasEffect(ItemStack stack) {
 
-    NBTTagCompound root = stack.getTagCompound();
-    return root != null
-        && root.hasKey(Strings.TELEPORTER_LINKER_STATE)
-        && root.getBoolean(Strings.TELEPORTER_LINKER_STATE);
+    return isLinked(stack);
+  }
+  
+public boolean isLinked(ItemStack stack) {
+    
+    NBTTagCompound tags = stack.getTagCompound();
+    if (tags != null) {
+      return tags.getBoolean(Strings.TELEPORTER_LINKER_STATE);
+    }
+    return false;
+  }
+  
+  public DimensionalPosition getLinkedPosition(ItemStack stack) {
+    
+    if (!stack.hasTagCompound()) {
+      return new DimensionalPosition(0, 0, 0, 0);
+    }
+    return DimensionalPosition.fromNBT(stack.getTagCompound());
   }
 }

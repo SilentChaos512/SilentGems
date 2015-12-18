@@ -18,7 +18,7 @@ import net.silentchaos512.gems.core.registry.IHasVariants;
 import net.silentchaos512.gems.core.registry.IRegisterModels;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.item.ToolRenderHelperBase;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.item.tool.GemBow;
 import net.silentchaos512.gems.item.tool.GemHoe;
@@ -36,68 +36,21 @@ import net.silentchaos512.gems.material.ModMaterials;
  * file are directly from 1.7.
  */
 @SuppressWarnings("deprecation")
-public class ToolRenderHelper extends Item implements IHasVariants, IRegisterModels {
-
-  /**
-   * The instanceof of the item, for easy retrieval.
-   */
-  public static ToolRenderHelper instance;
-
-  /**
-   * Sets instance.
-   */
-  public static void init() {
-
-    if (instance == null) {
-      instance = ModItems.toolRenderHelper;
-    }
-  }
-
-  /*
-   * Constants
-   */
-
-  public static final String SMART_MODEL_NAME = SilentGems.MOD_ID + ":SmartTool";
-
-  // The number of head types
-  public static final int HEAD_TYPE_COUNT = 15;
-  // The number of rod types
-  public static final int ROD_TYPE_COUNT = 2;
-  // The number of bow stages
-  public static final int BOW_STAGE_COUNT = 4;
-  // The number of rod gem decorations
-  public static final int ROD_DECO_TYPE_COUNT = 15;
-  // The number of wool grip types (shouldn't change)
-  public static final int ROD_WOOL_TYPE_COUNT = 16;
-  // The number of mining tool tips.
-  public static final int TIP_TYPE_COUNT = 3;
-
-  // Render pass IDs and count
-  public static final int PASS_ROD = 0;
-  public static final int PASS_HEAD_M = 1;
-  public static final int PASS_HEAD_L = 2;
-  public static final int PASS_HEAD_R = 3;
-  public static final int PASS_ROD_DECO = 4;
-  public static final int PASS_ROD_WOOL = 5;
-  public static final int PASS_TIP = 6;
-  public static final int RENDER_PASS_COUNT = 7;
+public class ToolRenderHelper extends ToolRenderHelperBase implements IHasVariants, IRegisterModels {
 
   /*
    * Models
    */
 
   private HashMap<Integer, String> modelKeys = new HashMap<Integer, String>();
-  @SideOnly(Side.CLIENT)
-  private ModelResourceLocation[] smartModels = new ModelResourceLocation[BOW_STAGE_COUNT];
+
+//  @SideOnly(Side.CLIENT)
+//  private ModelResourceLocation[] smartModels = new ModelResourceLocation[BOW_STAGE_COUNT];
 
   // Shared
-  @SideOnly(Side.CLIENT)
   public ModelResourceLocation modelBlank; // A completely transparent texture.
-  @SideOnly(Side.CLIENT)
   public ModelResourceLocation modelError; // Shows up if I screw up.
-  @SideOnly(Side.CLIENT)
   public ModelResourceLocation[] modelMainRodDeco; // Rod decoration used by most tools.
-  @SideOnly(Side.CLIENT)
   public ModelResourceLocation[] modelMainRodWool; // Rod wool grip used by most tools.
 
   // Specific tool model collections.
@@ -132,20 +85,20 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     LogHelper.info("Swapping tool models for smart models...");
 
     // SRegistry keeps a list of all tool models registered.
-    // for (ModelResourceLocation modelLocation : SRegistry.toolBaseModels) {
-    // Object object = event.modelRegistry.getObject(modelLocation);
-    // if (object instanceof IBakedModel) {
-    // IBakedModel existingModel = (IBakedModel) object;
-    // ToolSmartModel customModel = new ToolSmartModel(existingModel);
-    // // Replace existing model with the smart model.
-    // event.modelRegistry.putObject(modelLocation, customModel);
-    // }
-    // }
+//    for (ModelResourceLocation modelLocation : SRegistry.toolBaseModels) {
+//      Object object = event.modelRegistry.getObject(modelLocation);
+//      if (object instanceof IBakedModel) {
+//        IBakedModel existingModel = (IBakedModel) object;
+//        ToolSmartModel customModel = new ToolSmartModel(existingModel);
+//        // Replace existing model with the smart model.
+//        event.modelRegistry.putObject(modelLocation, customModel);
+//      }
+//    }
 
     for (int i = 0; i < BOW_STAGE_COUNT; ++i) {
       ModelResourceLocation modelLocation = new ModelResourceLocation(SMART_MODEL_NAME + i,
           "inventory");
-      smartModels[i] = modelLocation;
+//      smartModels[i] = modelLocation;
       Object object = event.modelRegistry.getObject(modelLocation);
       if (object instanceof IBakedModel) {
         IBakedModel existingModel = (IBakedModel) object;
@@ -153,8 +106,6 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
         event.modelRegistry.putObject(modelLocation, customModel);
       }
     }
-
-    LogHelper.info("Done with tool models!");
   }
 
   /**
@@ -373,130 +324,15 @@ public class ToolRenderHelper extends Item implements IHasVariants, IRegisterMod
     }
   }
 
-  /**
-   * Gets the base name of the tool.
-   * 
-   * @param tool
-   * @return
-   */
-  public String getName(ItemStack tool) {
-
-    Item item = tool.getItem();
-    String toolClass;
-    String toolType;
-
-    // Get tool class
-    if (item instanceof GemSword) {
-      toolClass = "Sword";
-    } else if (item instanceof GemPickaxe) {
-      toolClass = "Pickaxe";
-    } else if (item instanceof GemShovel) {
-      toolClass = "Shovel";
-    } else if (item instanceof GemAxe) {
-      toolClass = "Axe";
-    } else if (item instanceof GemHoe) {
-      toolClass = "Hoe";
-    } else if (item instanceof GemSickle) {
-      toolClass = "Sickle";
-    } else if (item instanceof GemBow) {
-      toolClass = "Bow";
-    } else {
-      LogHelper.debug("ToolRenderHelper.getName: Unknown tool class! " + tool.toString());
-      toolClass = "Unknown";
-    }
-
-    // Get "material"
-    int gemId = ToolHelper.getToolGemId(tool);
-    switch (gemId) {
-      case ModMaterials.CHAOS_GEM_ID:
-        toolType = "Chaos";
-        break;
-      case ModMaterials.FLINT_GEM_ID:
-        toolType = "Flint";
-        break;
-      case ModMaterials.FISH_GEM_ID:
-        toolType = "Fish";
-        break;
-      default:
-        toolType = Integer.toString(gemId);
-        break;
-    }
-
-    boolean supercharged = ToolHelper.getToolIsSupercharged(tool);
-    return toolClass + toolType + (supercharged && gemId < EnumGem.values().length ? "Plus" : "");
-  }
-
-  /**
-   * Gets the full unlocalized name of the tool.
-   * 
-   * @param tool
-   * @return
-   */
-  public String getFullName(ItemStack tool) {
-
-    return SilentGems.MOD_ID + ":" + getName(tool);
-  }
-
-  /**
-   * Gets the variant names for the tool.
-   * 
-   * @param tool
-   * @return
-   */
-  public String[] getVariantNames(ItemStack tool) {
-
-//    List<String> list = Lists.newArrayList();
-//    for (int i = 0; i < getAnimationFrameCount(tool); ++i) {
-//      list.add(SMART_MODEL_NAME + i);
-//    }
-//    return list.toArray(new String[list.size()]);
-     return new String[] { SMART_MODEL_NAME + "0" };
-  }
-
-  public int getAnimationFrameCount(ItemStack tool) {
-
-    return tool.getItem() instanceof GemBow ? BOW_STAGE_COUNT : 1;
-  }
-
-  /**
-   * Determines whether or not to use the enchanted glow.
-   */
-  public boolean hasEffect(ItemStack tool) {
-
-    // FIXME: The effect is insanely powerful! Why?
-    return tool.isItemEnchanted() && !ToolHelper.getToolNoGlint(tool);
-  }
-
-  /**
-   * Prevents the bobbing caused by tools updating their damage or NBT.
-   */
-  public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
-      boolean slotChanged) {
-
-    return slotChanged;
-  }
-
-  /**
-   * Attempts to get the number of possible permutations for a single tool type. I believe this is correct, but not
-   * sure.
-   * 
-   * @return
-   */
-  public int getPossibleToolCombinations() {
-
-    return HEAD_TYPE_COUNT * HEAD_TYPE_COUNT * HEAD_TYPE_COUNT * ROD_TYPE_COUNT
-        * ROD_DECO_TYPE_COUNT * (ROD_WOOL_TYPE_COUNT + 1) * (TIP_TYPE_COUNT + 1);
-  }
-
-//  /**
-//   * Gets the smart model for the given animation frame. Used by bows.
-//   * @param animationFrame
-//   * @return
-//   */
-//  public ModelResourceLocation getSmartModel(int animationFrame) {
-//
-//    return smartModels[MathHelper.clamp_int(animationFrame, 0, BOW_STAGE_COUNT - 1)];
-//  }
+  // /**
+  // * Gets the smart model for the given animation frame. Used by bows.
+  // * @param animationFrame
+  // * @return
+  // */
+  // public ModelResourceLocation getSmartModel(int animationFrame) {
+  //
+  // return smartModels[MathHelper.clamp_int(animationFrame, 0, BOW_STAGE_COUNT - 1)];
+  // }
 
   /**
    * Gets the part model for the given tool and render pass.

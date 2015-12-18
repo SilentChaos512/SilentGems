@@ -3,6 +3,7 @@ package net.silentchaos512.gems.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -11,6 +12,8 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.configuration.Config;
+import net.silentchaos512.gems.core.util.DimensionalPosition;
+import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileTeleporter;
@@ -49,7 +52,18 @@ public class BlockRedstoneTeleporter extends BlockTeleporter {
 
     TileTeleporter tile = (TileTeleporter) world.getTileEntity(pos);
     if (!world.isRemote && world.isBlockIndirectlyGettingPowered(pos) != 0) { // TODO: Is != 0 correct here?
-      if (!this.isDestinationSafe(tile.destX, tile.destY, tile.destZ, tile.destD)) {
+      DimensionalPosition destination = new DimensionalPosition(tile.destX, tile.destY, tile.destZ,
+          tile.destD);
+
+      // Is this a "dumb" teleport and are they allowed if so?
+      if (!isDestinationAllowedIfDumb(destination)) {
+        String str = LocalizationHelper.getOtherBlockKey(Names.TELEPORTER,
+            DESTINATION_NO_TELEPORTER);
+        return;
+      }
+
+      // Destination safe?
+      if (!this.isDestinationSafe(destination)) {
         return;
       }
       final int x = pos.getX();
@@ -61,10 +75,22 @@ public class BlockRedstoneTeleporter extends BlockTeleporter {
       double dz = z + 0.5;
       boolean playSound = false;
       // Check all entities, teleport those close to the teleporter.
+      DimensionalPosition source = null;
       for (int i = 0; i < world.loadedEntityList.size(); ++i) {
         Entity entity = (Entity) world.loadedEntityList.get(i);
         if (entity != null && entity.getDistanceSq(dx, dy, dz) < searchRange) {
-          if (teleporterEntityTo(entity, tile.destX, tile.destY, tile.destZ, tile.destD)) {
+          // Get source position (have to have the entity for this because dim?)
+          if (source == null) {
+            source = new DimensionalPosition(x, y, z, entity.dimension);
+          }
+          if (entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            // XP Drain.
+            if (!checkAndDrainXP(player, source, destination)) {
+              continue;
+            }
+          }
+          if (teleporterEntityTo(entity, destination)) {
             playSound = true;
           }
         }

@@ -21,6 +21,10 @@ public class Config {
   public static int PYLON_BURNER_GENERATION_RATE = 10;
   public static int PYLON_PASSIVE_GENERATION_RATE = 1;
   public static float REDSTONE_TELEPORTER_SEARCH_RANGE = 2.0f;
+  public static int TELEPORTER_XP_PER_1K_BLOCKS = 120;
+  public static int TELEPORTER_XP_CROSS_DIMENSION = 160;
+  public static int TELEPORTER_XP_FREE_RANGE = 32;
+  public static boolean TELEPORTER_ALLOW_DUMB = true;
 
   /*
    * Items
@@ -124,6 +128,31 @@ public class Config {
       REDSTONE_TELEPORTER_SEARCH_RANGE = c.getFloat("RedstoneTeleporter.SearchRadius",
           CATEGORY_BLOCK_PROPERTIES, REDSTONE_TELEPORTER_SEARCH_RANGE, 0.0f, 32.0f,
           "The radius (in blocks) in which redstone-powered teleporters will select entities to teleport.");
+      
+      TELEPORTER_XP_PER_1K_BLOCKS = c.getInt(
+          "Teleporter.XPPer1KBlocks", CATEGORY_BLOCK_PROPERTIES,
+          TELEPORTER_XP_PER_1K_BLOCKS, 0, Integer.MAX_VALUE,
+          "The cost of teleporting 1000 blocks with Teleporters, assuming the player teleporters beyond the free range.\n"
+          + "Note this is only defined in terms 1K blocks for simplicity. Teleporting 500 blocks will cost half this amount, for example.\n"
+          + "Distance calculation ignores Y-coordinates. The 'free range' is not subtracted.\n"
+          + "Set to 0 to bring back old behavior.");
+
+      TELEPORTER_XP_CROSS_DIMENSION = c.getInt(
+          "Teleporter.XPForCrossDimension", CATEGORY_BLOCK_PROPERTIES,
+          TELEPORTER_XP_CROSS_DIMENSION, 0, Integer.MAX_VALUE,
+          "The cost of teleporting to a different dimension with Teleporters.\n"
+          + "'Distance' doesn't matter, it's a flat cost.");
+      
+      TELEPORTER_XP_FREE_RANGE = c.getInt(
+          "Teleporter.XPFreeRange", CATEGORY_BLOCK_PROPERTIES,
+          TELEPORTER_XP_FREE_RANGE, 0, Integer.MAX_VALUE,
+          "XP will be drained if the player teleports further than this distance with Teleporter blocks.\n"
+          + "Distance calculation ignores Y-coordinates. Setting to 0 will always drain XP.");
+      
+      TELEPORTER_ALLOW_DUMB = c.getBoolean(
+          "Teleporter.AllowDumbTeleports", CATEGORY_BLOCK_PROPERTIES,
+          TELEPORTER_ALLOW_DUMB,
+          "Allows a Teleporter to work even if a Teleporter or Anchor is not present at the destination. Set to false to require a receiving block.");
 
       /*
        * Items

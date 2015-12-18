@@ -207,10 +207,12 @@ tile.silentgems:Teleporter10.name=Morganite Teleporter
 tile.silentgems:Teleporter11.name=Onyx Teleporter
 tile.silentgems:Teleporter.DestinationInvalid=Invalid teleport destination.
 tile.silentgems:Teleporter.DestinationObstructed=Destination obstructed.
+tile.silentgems:Teleporter.DestinationNoTeleporter=No teleporter/anchor at destination.
 tile.silentgems:Teleporter.Link.End=Teleporter link created.
 tile.silentgems:Teleporter.Link.Fail=Teleporter link failed. (Try chunk loading first teleporter.)
 tile.silentgems:Teleporter.Link.Start=Teleporter link started.
 tile.silentgems:Teleporter.NoDestination=No destination set.
+tile.silentgems:Teleporter.NotEnoughXP=Not enough XP (%d / %d)
 tile.silentgems:Teleporter.ReturnHomeBound=Bound to Teleporter!
 
 tile.silentgems:RedstoneTeleporter0.name=Ruby Redstone Teleporter
@@ -424,6 +426,8 @@ item.silentgems:TeleporterLinker.name=Teleporter Linker
 item.silentgems:TeleporterLinker.desc=Used to link Teleporters.
 item.silentgems:TeleporterLinker.Active=Linked to:
 item.silentgems:TeleporterLinker.Inactive=Not linked.
+item.silentgems:TeleporterLinker.Distance=Distance: %d
+item.silentgems:TeleporterLinker.DifferentDimension=Dimension Hop
 
 item.silentgems:TorchBandolier.name=Torch Bandolier
 item.silentgems:TorchBandolier.desc1=Can store and dispense torches.
@@ -864,3 +868,4 @@ misc.silentgems:Tool.Stats.Separator=---------------------
 
 misc.silentgems:PressCtrl=<Press Ctrl>
 misc.silentgems:PressShift=<Press Shift>
+misc.silentgems:DimensionalPosition=(%d, %d, %d) in dimension %d
