@@ -16,6 +16,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.BlockChaosPylon;
+import net.silentchaos512.gems.client.particle.EntityParticleFXChaosTransfer;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LogHelper;
 
@@ -26,7 +27,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, IUpdatePla
   public static final int TRANSFER_DELAY = 10;
   public static final int ALTAR_SEARCH_DELAY = 100;
   public static final int PARTICLE_DELAY = 100;
-  public static final int PARTICLE_COUNT = 8;
+  public static final int PARTICLE_COUNT = 1;
 
   protected int energyStored;
   protected int burnTimeRemaining;
@@ -305,36 +306,49 @@ public class TileChaosPylon extends TileEntity implements IInventory, IUpdatePla
 
   private boolean spawnParticlesToAltar() {
 
+    // Don't spawn particles on minimal.
+    if (SilentGems.proxy.getParticleSettings() == 2) {
+      return true;
+    }
+
     TileEntity altar = getAltar();
     if (altar == null) {
       return false;
     }
 
     double diffX = altar.getPos().getX() - pos.getX();
-    double diffY = altar.getPos().getY() - pos.getY();
+    double diffY = altar.getPos().getY() + 0.5 - pos.getY();
     double diffZ = altar.getPos().getZ() - pos.getZ();
-    double stepX = diffX / PARTICLE_COUNT;
-    double stepY = diffY / PARTICLE_COUNT;
-    double stepZ = diffZ / PARTICLE_COUNT;
+    // double stepX = diffX / PARTICLE_COUNT;
+    // double stepY = diffY / PARTICLE_COUNT;
+    // double stepZ = diffZ / PARTICLE_COUNT;
     double x = pos.getX() + 0.5;
-    double y = pos.getY() + 0.75;
+    double y = pos.getY() + 0.5;
     double z = pos.getZ() + 0.5;
 
     for (int i = 0; i < PARTICLE_COUNT; ++i) {
-      double motionX = SilentGems.instance.random.nextGaussian() * 0.0004;
-      double motionY = SilentGems.instance.random.nextGaussian() * 0.0004;
-      double motionZ = SilentGems.instance.random.nextGaussian() * 0.0004;
+      double motionX = SilentGems.instance.random.nextGaussian() * 0.0008
+          + diffX / (EntityParticleFXChaosTransfer.MAX_AGE - 1);
+      double motionY = SilentGems.instance.random.nextGaussian() * 0.0008
+          + diffY / (EntityParticleFXChaosTransfer.MAX_AGE - 1);
+      double motionZ = SilentGems.instance.random.nextGaussian() * 0.0008
+          + diffZ / (EntityParticleFXChaosTransfer.MAX_AGE - 1);
       SilentGems.proxy.spawnParticles("chaosTransfer", worldObj, x, y, z, motionX, motionY,
           motionZ);
-      x += stepX;
-      y += stepY;
-      z += stepZ;
+      // x += stepX;
+      // y += stepY;
+      // z += stepZ;
     }
 
     return true;
   }
 
   private void spawnBadPlacementParticles() {
+
+    // Don't spawn particles on minimal.
+    if (SilentGems.proxy.getParticleSettings() == 2) {
+      return;
+    }
 
     double x = pos.getX() + 0.5;
     double y = pos.getY() + 0.75;
@@ -467,14 +481,14 @@ public class TileChaosPylon extends TileEntity implements IInventory, IUpdatePla
   public void openInventory(EntityPlayer player) {
 
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void closeInventory(EntityPlayer player) {
 
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
@@ -488,7 +502,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, IUpdatePla
   public void setField(int id, int value) {
 
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
@@ -502,6 +516,6 @@ public class TileChaosPylon extends TileEntity implements IInventory, IUpdatePla
   public void clear() {
 
     // TODO Auto-generated method stub
-    
+
   }
 }

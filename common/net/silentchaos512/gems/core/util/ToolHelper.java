@@ -219,6 +219,13 @@ public class ToolHelper {
       Item item = tool.getItem();
       // Work in progress warning
       list.add(EnumChatFormatting.RED + "Work in progress, suggestions welcome.");
+      // Chaos sword
+      if (item instanceof GemSword) {
+        for (int i = 1; i < 4; ++i) {
+          line = LocalizationHelper.getMiscText("Tool.FireChaosOrbs" + i);
+          list.add(EnumChatFormatting.AQUA + line);
+        }
+      }
       // No flying penalty
       if (item instanceof GemPickaxe || item instanceof GemShovel || item instanceof GemAxe) {
         line = LocalizationHelper.getMiscText("Tool.NoFlyingPenalty");
@@ -745,14 +752,14 @@ public class ToolHelper {
   // ---------------------
   // Rendering NBT methods
   // ---------------------
-  
+
   public static int getAnimationFrame(ItemStack tool) {
-    
+
     return getTagInt(NBT_ANIMATION_FRAME, tool);
   }
-  
+
   public static void setAnimationFrame(ItemStack tool, int value) {
-    
+
     setTagInt(NBT_ANIMATION_FRAME, value, tool);
   }
 

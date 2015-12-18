@@ -4,30 +4,22 @@ import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.core.proxy.ClientProxy;
 
-public class EntityParticleFXChaosTransfer extends EntityFX {
+public class EntityFXChaosCharge extends EntityFX {
 
-  public static final int MAX_AGE = 20;
-  public static final int MAX_SCALE = 6;
+  public static final int MAX_AGE = 10;
+  public static final float MAX_SCALE = 0.5f;
 
-  public EntityParticleFXChaosTransfer(World world, double posX, double posY, double posZ) {
+  public EntityFXChaosCharge(World world, double posX, double posY, double posZ, double motionX,
+      double motionY, double motionZ) {
 
-    this(world, posX, posY, posZ, 0.0001, 0.0001, 0.0001, 1.0f, 10, 0.0f, 0.2f, 0.8f);
+    this(world, posX, posY, posZ, motionX, motionY, motionZ, MAX_SCALE, MAX_AGE, 1f, 1f, 1f);
   }
 
-  public EntityParticleFXChaosTransfer(World world, double posX, double posY, double posZ,
-      double motionX, double motionY, double motionZ) {
+  public EntityFXChaosCharge(World world, double posX, double posY, double posZ, double motionX,
+      double motionY, double motionZ, float scale, int maxAge, float red, float green, float blue) {
 
-    this(world, posX, posY, posZ, motionX, motionY, motionZ, MAX_SCALE, MAX_AGE, 0.0f, 0.3f, 0.8f);
-  }
-
-  public EntityParticleFXChaosTransfer(World world, double posX, double posY, double posZ,
-      double motionX, double motionY, double motionZ, float scale, int maxAge, float red,
-      float green, float blue) {
-
-    super(world, posX, posY, posZ, 0.0, 0.0, 0.0);
+    super(world, posX, posY, posZ, 0, 0, 0);
     this.motionX = motionX;
     this.motionY = motionY;
     this.motionZ = motionZ;
@@ -39,34 +31,8 @@ public class EntityParticleFXChaosTransfer extends EntityFX {
     this.particleScale = scale;
     this.particleMaxAge = maxAge;
     this.noClip = true;
-    this.particleGravity = 0.0f;
-    this.particleAlpha = 0.2f;
-  }
-
-  @Override
-  public void onUpdate() {
-
-    if (this.particleAge++ >= this.particleMaxAge - 1) {
-      this.setDead();
-    }
-
-    this.prevPosX = this.posX;
-    this.prevPosY = this.posY;
-    this.prevPosZ = this.posZ;
-
-    this.moveEntity(this.motionX, this.motionY, this.motionZ);
-
-    this.particleScale -= MAX_SCALE / (MAX_AGE * 1.5f);
-    this.particleAlpha += 0.8f * 1f / MAX_AGE;
-
-    // Spawn trail particles
-    if (SilentGems.proxy.getParticleSettings() == 0) {
-      double mx = worldObj.rand.nextGaussian() * 0.025;
-      double my = worldObj.rand.nextGaussian() * 0.025;
-      double mz = worldObj.rand.nextGaussian() * 0.025;
-      SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_TRAIL, worldObj, posX, posY, posZ, mx,
-          my, mz);
-    }
+    this.particleGravity = 0.05f;
+    this.particleAlpha = 1.0f;
   }
 
   @Override

@@ -43,6 +43,7 @@ import net.silentchaos512.gems.material.ModMaterials;
 
 public class GemsForgeEventHandler {
 
+  @SideOnly(Side.CLIENT)
   @SubscribeEvent
   public void onRenderGameOverlay(RenderGameOverlayEvent event) {
 
