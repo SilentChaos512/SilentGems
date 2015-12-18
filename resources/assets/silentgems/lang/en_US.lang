@@ -317,6 +317,7 @@ item.silentgems:EnchantmentToken.ReducedSpeed=Reduces mining speed to %d%%.
 item.silentgems:EnchantmentToken.enchantment.Mending=Repairs the item. More effective at high elevations.
 item.silentgems:EnchantmentToken.enchantment.AreaOfEffect=Allow tools to mine a 3x3 area. Sneak to disable.
 item.silentgems:EnchantmentToken.enchantment.Lumberjack=Chops down entire trees at once. Sneak to disable.
+item.silentgems:EnchantmentToken.enchantment.LifeSteal=Adds part of the damage dealt to your health.
 
 item.silentgems:FluffyFabric.name=Fluffy Fabric
 item.silentgems:FluffyFabric.desc=TODO
@@ -764,6 +765,7 @@ tool.silentgems:Bow14Plus.name=Chaos Bow
 enchantment.Mending=Mending
 enchantment.AreaOfEffect=Area Miner
 enchantment.Lumberjack=Lumberjack
+enchantment.LifeSteal=Life Steal
 
 # Chaos Buffs
 buff.silentgems:none=Empty
@@ -844,6 +846,7 @@ achievement.Mined100K=Seek Professional Help
 achievement.Mined100K.desc=Mine 100,000 blocks with a single tool. You might have issues.
 achievement.IronPotato=Studly Spud
 achievement.IronPotato.desc=How did you do that?
+
 # Misc text
 
 misc.silentgems:Tool.Axe=Axe

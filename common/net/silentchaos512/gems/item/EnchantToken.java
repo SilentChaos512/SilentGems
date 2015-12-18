@@ -172,6 +172,7 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
         | T_SICKLE | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS | T_SHEARS);
     addEnchantment(ModEnchantments.aoe, T_PICKAXE | T_SHOVEL | T_AXE);
     addEnchantment(ModEnchantments.lumberjack, T_AXE);
+    addEnchantment(ModEnchantments.lifeSteal, T_SWORD);
   }
 
   /**
@@ -330,6 +331,8 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
         Blocks.tnt, 3, baseToken);
     addTokenRecipe(ModEnchantments.lumberjack.effectId, EnumGem.PERIDOT.getItemOreName(), gemCount,
         Items.golden_axe, 4, baseToken);
+    addTokenRecipe(ModEnchantments.lifeSteal.effectId, EnumGem.MORGANITE.getItemOreName(), gemCount,
+        CraftingMaterial.getStack(Names.LIFE_ESSENCE), 2, baseToken);
   }
 
   private void addTokenRecipe(int key, String gem, int gemCount, Object otherMaterial,

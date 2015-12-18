@@ -100,6 +100,7 @@ public class Names {
    * Enchantments
    */
   public static final String AOE = "AreaOfEffect";
+  public static final String LIFE_STEAL = "LifeSteal";
   public static final String LUMBERJACK = "Lumberjack";
   public static final String MENDING = "Mending";
 

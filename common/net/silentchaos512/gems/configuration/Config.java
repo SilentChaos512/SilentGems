@@ -257,6 +257,8 @@ public class Config {
       ModEnchantments.AOE_ID = getEnchantmentId(Names.AOE, ModEnchantments.AOE_ID_DEFAULT);
       ModEnchantments.LUMBERJACK_ID = getEnchantmentId(Names.LUMBERJACK,
           ModEnchantments.LUMBERJACK_ID_DEFAULT);
+      ModEnchantments.LIFE_STEAL_ID = getEnchantmentId(Names.LIFE_STEAL,
+          ModEnchantments.LIFE_STEAL_ID_DEFAULT);
 
       /*
        * World gen

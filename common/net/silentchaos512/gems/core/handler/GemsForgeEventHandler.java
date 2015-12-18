@@ -6,12 +6,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
@@ -20,6 +23,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -186,6 +190,27 @@ public class GemsForgeEventHandler {
           player.renderBrokenItemStack(wornBoots); // Does nothing?
           player.playSound("random.break", 1f, 1f); // Does nothing?
           player.setCurrentItemOrArmor(1, null);
+        }
+      }
+    } else if (event.source instanceof EntityDamageSource) {
+      EntityDamageSource source = (EntityDamageSource) event.source;
+      Entity entity = source.getEntity();
+      if (entity instanceof EntityPlayer) {
+        EntityPlayer player = (EntityPlayer) entity;
+        ItemStack heldItem = player.getHeldItem();
+        if (heldItem != null) {
+          int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal.effectId,
+              heldItem);
+          float healAmount = ModEnchantments.lifeSteal.getAmountHealed(level, event.ammount);
+          float debug_prevHealth = player.getHealth();
+          player.heal(healAmount);
+
+          // Debug. TODO: Remove!
+          if (debug_prevHealth != player.getHealth()) {
+            LogHelper.info(
+                String.format("LifeSteal (debug): Dealt=%f, Healed=%f, Player Health: %f -> %f",
+                    event.ammount, healAmount, debug_prevHealth, player.getHealth()));
+          }
         }
       }
     }
