@@ -29,11 +29,11 @@ import net.silentchaos512.gems.lib.Names;
 public class FoodSG extends ItemFood implements IAddRecipe, IHasVariants {
 
   public static final String[] NAMES = { Names.POTATO_STICK, Names.SUGAR_COOKIE, Names.SECRET_DONUT,
-      Names.MEATY_STEW_UNCOOKED, Names.MEATY_STEW };
+      Names.MEATY_STEW_UNCOOKED, Names.MEATY_STEW, Names.CANDY_CANE };
 
-  public static final int[] foodLevel = { 8, 2, 6, 4, 12 };
-  public static final float[] saturationLevel = { 0.8f, 0.4f, 0.8f, 0.6f, 1.6f };
-  public static final boolean[] alwaysEdible = { false, true, false, false, false };
+  public static final int[] foodLevel = { 8, 2, 6, 4, 12, 2 };
+  public static final float[] saturationLevel = { 0.8f, 0.4f, 0.8f, 0.6f, 1.6f, 0.2f };
+  public static final boolean[] alwaysEdible = { false, true, false, false, false, true };
 
   public static final ArrayList<SecretDonutEffect> secretDonutEffects = new ArrayList<SecretDonutEffect>();
   public static final int SECRET_DONUT_CHANCE = 20;
@@ -107,6 +107,9 @@ public class FoodSG extends ItemFood implements IAddRecipe, IHasVariants {
     }
     GameRegistry.addSmelting(getStack(Names.MEATY_STEW_UNCOOKED, 1), getStack(Names.MEATY_STEW, 1),
         0.5f);
+    // Candy Cane
+    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.CANDY_CANE, 6), "ss", "rs", " s", 's',
+        Items.sugar, 'r', "dyeRed"));
   }
 
   private void addSecretDonutEffect(World world, EntityPlayer player) {
@@ -188,6 +191,10 @@ public class FoodSG extends ItemFood implements IAddRecipe, IHasVariants {
       } else if (d == 3 || d == 4) {
         // Meaty Stew
         PlayerHelper.addItemToInventoryOrDrop(player, new ItemStack(Items.bowl));
+      } else if (d == 5) {
+        // Candy Cane
+        player.addPotionEffect(new PotionEffect(Potion.regeneration.id,
+            Config.FOOD_SUPPORT_DURATION / 6, 0, true, false));
       }
     }
 
@@ -197,13 +204,21 @@ public class FoodSG extends ItemFood implements IAddRecipe, IHasVariants {
   @Override
   public int getHealAmount(ItemStack stack) {
 
-    return foodLevel[stack.getItemDamage()];
+    int meta = stack.getItemDamage();
+    if (meta < 0 || meta >= NAMES.length) {
+      return 0;
+    }
+    return foodLevel[meta];
   }
 
   @Override
   public float getSaturationModifier(ItemStack stack) {
 
-    return saturationLevel[stack.getItemDamage()];
+    int meta = stack.getItemDamage();
+    if (meta < 0 || meta >= NAMES.length) {
+      return 0f;
+    }
+    return saturationLevel[meta];
   }
 
   @Override

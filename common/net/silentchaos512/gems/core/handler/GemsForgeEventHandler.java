@@ -14,7 +14,6 @@ import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
@@ -23,7 +22,6 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -44,6 +42,7 @@ import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.TeleporterLinker;
+import net.silentchaos512.gems.lib.HolidayCheer;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
 
@@ -110,8 +109,9 @@ public class GemsForgeEventHandler {
   public void onEntityJoinWorld(EntityJoinWorldEvent event) {
 
     if (event.entity instanceof EntityPlayer) {
-      // Check for gem tools and update to the new NBT.
       EntityPlayer player = (EntityPlayer) event.entity;
+      HolidayCheer.greetPlayer(player);
+      // Check for gem tools and update to the new NBT.
       for (ItemStack stack : player.inventory.mainInventory) {
         if (InventoryHelper.isGemTool(stack)) {
           if (ToolHelper.convertToNewNBT(stack)) {
@@ -202,15 +202,14 @@ public class GemsForgeEventHandler {
           int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal.effectId,
               heldItem);
           float healAmount = ModEnchantments.lifeSteal.getAmountHealed(level, event.ammount);
-          float debug_prevHealth = player.getHealth();
+//          float debug_prevHealth = player.getHealth();
           player.heal(healAmount);
 
-          // Debug. TODO: Remove!
-          if (debug_prevHealth != player.getHealth()) {
-            LogHelper.info(
-                String.format("LifeSteal (debug): Dealt=%f, Healed=%f, Player Health: %f -> %f",
-                    event.ammount, healAmount, debug_prevHealth, player.getHealth()));
-          }
+//          if (debug_prevHealth != player.getHealth()) {
+//            LogHelper.info(
+//                String.format("LifeSteal (debug): Dealt=%f, Healed=%f, Player Health: %f -> %f",
+//                    event.ammount, healAmount, debug_prevHealth, player.getHealth()));
+//          }
         }
       }
     }

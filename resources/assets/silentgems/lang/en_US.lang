@@ -339,6 +339,9 @@ item.silentgems:ToolUpgrade.HowToUse=Craft with a tool from this mod.
 # Food
 item.silentgems:Food.desc=Foodstuffs.
 
+item.silentgems:CandyCane.name=Candy Cane
+item.silentgems:CandyCane.desc=It isn't much, but this is my gift to you!
+
 # Gem
 item.silentgems:Gem.Decorate1=Can be crafted with gem tools
 item.silentgems:Gem.Decorate2=to retexture the tools.
