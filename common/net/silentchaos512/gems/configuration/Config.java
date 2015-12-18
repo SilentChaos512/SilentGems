@@ -39,6 +39,7 @@ public class Config {
   public static int FLUFFY_PUFF_SEED_WEIGHT = 2;
   public static int FLUFFY_BOOTS_DAMAGE_REDUCTION = 6;
   public static int FLUFFY_BOOTS_DAMAGE_TAKEN = 20;
+  public static float LIFE_ESSENCE_DROP_RATE = 0.075f;
 
   /*
    * Tools
@@ -128,30 +129,26 @@ public class Config {
       REDSTONE_TELEPORTER_SEARCH_RANGE = c.getFloat("RedstoneTeleporter.SearchRadius",
           CATEGORY_BLOCK_PROPERTIES, REDSTONE_TELEPORTER_SEARCH_RANGE, 0.0f, 32.0f,
           "The radius (in blocks) in which redstone-powered teleporters will select entities to teleport.");
-      
-      TELEPORTER_XP_PER_1K_BLOCKS = c.getInt(
-          "Teleporter.XPPer1KBlocks", CATEGORY_BLOCK_PROPERTIES,
+
+      TELEPORTER_XP_PER_1K_BLOCKS = c.getInt("Teleporter.XPPer1KBlocks", CATEGORY_BLOCK_PROPERTIES,
           TELEPORTER_XP_PER_1K_BLOCKS, 0, Integer.MAX_VALUE,
           "The cost of teleporting 1000 blocks with Teleporters, assuming the player teleporters beyond the free range.\n"
-          + "Note this is only defined in terms 1K blocks for simplicity. Teleporting 500 blocks will cost half this amount, for example.\n"
-          + "Distance calculation ignores Y-coordinates. The 'free range' is not subtracted.\n"
-          + "Set to 0 to bring back old behavior.");
+              + "Note this is only defined in terms 1K blocks for simplicity. Teleporting 500 blocks will cost half this amount, for example.\n"
+              + "Distance calculation ignores Y-coordinates. The 'free range' is not subtracted.\n"
+              + "Set to 0 to bring back old behavior.");
 
-      TELEPORTER_XP_CROSS_DIMENSION = c.getInt(
-          "Teleporter.XPForCrossDimension", CATEGORY_BLOCK_PROPERTIES,
-          TELEPORTER_XP_CROSS_DIMENSION, 0, Integer.MAX_VALUE,
+      TELEPORTER_XP_CROSS_DIMENSION = c.getInt("Teleporter.XPForCrossDimension",
+          CATEGORY_BLOCK_PROPERTIES, TELEPORTER_XP_CROSS_DIMENSION, 0, Integer.MAX_VALUE,
           "The cost of teleporting to a different dimension with Teleporters.\n"
-          + "'Distance' doesn't matter, it's a flat cost.");
-      
-      TELEPORTER_XP_FREE_RANGE = c.getInt(
-          "Teleporter.XPFreeRange", CATEGORY_BLOCK_PROPERTIES,
+              + "'Distance' doesn't matter, it's a flat cost.");
+
+      TELEPORTER_XP_FREE_RANGE = c.getInt("Teleporter.XPFreeRange", CATEGORY_BLOCK_PROPERTIES,
           TELEPORTER_XP_FREE_RANGE, 0, Integer.MAX_VALUE,
           "XP will be drained if the player teleports further than this distance with Teleporter blocks.\n"
-          + "Distance calculation ignores Y-coordinates. Setting to 0 will always drain XP.");
-      
-      TELEPORTER_ALLOW_DUMB = c.getBoolean(
-          "Teleporter.AllowDumbTeleports", CATEGORY_BLOCK_PROPERTIES,
-          TELEPORTER_ALLOW_DUMB,
+              + "Distance calculation ignores Y-coordinates. Setting to 0 will always drain XP.");
+
+      TELEPORTER_ALLOW_DUMB = c.getBoolean("Teleporter.AllowDumbTeleports",
+          CATEGORY_BLOCK_PROPERTIES, TELEPORTER_ALLOW_DUMB,
           "Allows a Teleporter to work even if a Teleporter or Anchor is not present at the destination. Set to false to require a receiving block.");
 
       /*
@@ -188,6 +185,10 @@ public class Config {
       FLUFFY_BOOTS_DAMAGE_TAKEN = c.getInt("FluffyBoots.MaxDamageToBoots", CATEGORY_ITEM_PROPERTIES,
           FLUFFY_BOOTS_DAMAGE_TAKEN, 0, Integer.MAX_VALUE,
           "The most damage that fluffy boots can take (durability lost) per fall.");
+
+      LIFE_ESSENCE_DROP_RATE = c.getFloat("LifeEssence.DropRate", CATEGORY_ITEM_PROPERTIES,
+          LIFE_ESSENCE_DROP_RATE, 0f, 1f,
+          "The chance of an entity dropping life essence when it dies.");
 
       /*
        * Recipes
@@ -293,11 +294,6 @@ public class Config {
   public static int getEnchantmentId(String name, int default_id) {
 
     return c.get(CATEGORY_ENCHANTMENT, name, default_id).getInt(default_id);
-  }
-
-  public static int getGeneralInt(String category, String name, int default_value, String comment) {
-
-    return c.get(category, name, default_value, comment).getInt(default_value);
   }
 
   public static void save() {

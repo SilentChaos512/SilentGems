@@ -38,12 +38,12 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
       Names.NETHER_SHARD, Names.CHAOS_CAPACITOR, Names.CHAOS_BOOSTER, Names.RAWHIDE_BONE,
       Names.CHAOS_ESSENCE_SHARD, Names.CHAOS_COAL, Names.CHAOS_ESSENCE_PLUS_2, Names.NETHER_CLUSTER,
       Names.MINI_PYLON, Names.CHAOS_CORE, Names.GILDED_STRING, Names.IRON_POTATO,
-      Names.UPGRADE_BASE, Names.FLUFFY_FABRIC };
+      Names.UPGRADE_BASE, Names.FLUFFY_FABRIC, Names.LIFE_ESSENCE };
   /**
    * The order that items appear in NEI.
    */
   public static final String[] SORTED_NAMES = { Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS,
-      Names.CHAOS_ESSENCE_PLUS_2, Names.CHAOS_ESSENCE_SHARD, Names.NETHER_SHARD,
+      Names.CHAOS_ESSENCE_PLUS_2, Names.CHAOS_ESSENCE_SHARD, Names.LIFE_ESSENCE, Names.NETHER_SHARD,
       Names.NETHER_CLUSTER, Names.CHAOS_CORE, Names.CHAOS_COAL, Names.ORNATE_STICK,
       Names.FLUFFY_FABRIC, Names.GILDED_STRING, Names.UPGRADE_BASE, Names.MINI_PYLON,
       Names.MYSTERY_GOO, Names.PLUME, Names.GOLDEN_PLUME, Names.YARN_BALL, Names.RAWHIDE_BONE,
