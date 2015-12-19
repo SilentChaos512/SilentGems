@@ -23,6 +23,7 @@ import net.minecraft.world.WorldSettings.GameType;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.world.BlockEvent;
 import net.silentchaos512.gems.core.util.InventoryHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.tool.GemAxe;
 import net.silentchaos512.gems.item.tool.GemPickaxe;
 import net.silentchaos512.gems.lib.Names;
@@ -190,8 +191,10 @@ public class EnchantmentAOE extends Enchantment {
 
     BlockPos refPos = new BlockPos(refX, refY, refZ);
     IBlockState refState = world.getBlockState(refPos);
-    float refStrength = ForgeHooks.blockStrength(state, player, world, refPos);
-    float strength = ForgeHooks.blockStrength(state, player, world, pos);
+    // float refStrength = ForgeHooks.blockStrength(state, player, world, refPos); // Throws an exception in some cases.
+    float refStrength = player.getBreakSpeed(refState, refPos)
+        / refState.getBlock().getBlockHardness(world, refPos) / 30f;
+    float strength = ForgeHooks.blockStrength(state, player, world, pos); // But this one doesn't?
 
     // LogHelper.list(Block.getIdFromBlock(refBlock), refStrength, strength, refStrength / strength);
     if (!ForgeHooks.canHarvestBlock(block, player, world, pos) || refStrength / strength > 10f) {
