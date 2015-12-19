@@ -2,11 +2,14 @@ package net.silentchaos512.gems.client.renderers;
 
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.tile.TileChaosAltar;
+import net.silentchaos512.gems.tile.TileChaosPylon;
 
 /**
  * Created by M4thG33k on 9/13/2015.

@@ -191,7 +191,7 @@ public class GemSickle extends ItemTool implements IHasVariants {
       }
     }
 
-    sickle.attemptDamageItem(1, player.worldObj.rand);
+    sickle.damageItem(1, player);
     ToolHelper.incrementStatBlocksMined(sickle, blocksBroken);
     return super.onBlockStartBreak(sickle, pos, player);
   }
