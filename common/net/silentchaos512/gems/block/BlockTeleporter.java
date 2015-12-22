@@ -254,6 +254,10 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
   protected boolean checkAndDrainXP(EntityPlayer player, DimensionalPosition source,
       DimensionalPosition destination) {
 
+    if (player.capabilities.isCreativeMode) {
+      return true;
+    }
+
     // Not enough XP?
     int xpCost = getRequiredXP(player, source, destination);
     if (xpCost > player.experienceTotal) {
