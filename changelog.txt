@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 1.3.8
+Added: Glass can be used in tool decorating to restore the part to its original state.
 Added: Life essence drops from bosses (configurable)
 Changed: Flint tools nerfed a bit (keep reading)
 Changed: Tip upgrades increase mining speed.

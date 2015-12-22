@@ -83,7 +83,7 @@ public class DecorateToolRecipe implements IRecipe {
         }
       }
     }
-    
+
     // Invalid number of ingredients?
     if (toolCount != 1 || woolCount > 1 || rodCount > 1 || tool == null) {
       return null;
@@ -144,10 +144,10 @@ public class DecorateToolRecipe implements IRecipe {
     } else if (ToolHelper.getToolHeadRight(result) == -1) {
       ToolHelper.setToolHeadRight(result, baseGem);
     }
-    
+
     // Right number of adjacent materials?
     if (adjacentMaterials != materialCount) {
-//      LogHelper.debug(adjacentMaterials + ", " + materialCount);
+      // LogHelper.debug(adjacentMaterials + ", " + materialCount);
       return null;
     }
 
@@ -168,7 +168,7 @@ public class DecorateToolRecipe implements IRecipe {
 
     // Repair with gems.
     result.attemptDamageItem(-repairAmount, SilentGems.instance.random);
-    
+
     // Increase redecorated counter.
     ToolHelper.incrementStatRedecorated(result, 1);
 
@@ -185,7 +185,8 @@ public class DecorateToolRecipe implements IRecipe {
 
     Item item = material.getItem();
     return item instanceof Gem || item == Items.flint
-        || CraftingMaterial.doesStackMatch(material, Names.CHAOS_ESSENCE_PLUS_2);
+        || CraftingMaterial.doesStackMatch(material, Names.CHAOS_ESSENCE_PLUS_2)
+        || item == Item.getItemFromBlock(Blocks.glass);
   }
 
   /**
@@ -199,7 +200,7 @@ public class DecorateToolRecipe implements IRecipe {
    * @return The amount to "undamage" the tool by.
    */
   public int getRepairAmount(ItemStack tool, ItemStack material) {
-    
+
     if (material == null) {
       LogHelper.derp();
       return 0;
@@ -207,6 +208,11 @@ public class DecorateToolRecipe implements IRecipe {
 
     int baseMaterial = ToolHelper.getToolGemId(tool);
     int maxUses = tool.getItem().getMaxDamage(tool);
+    
+    // Glass has no repair value.
+    if (material.getItem() == Item.getItemFromBlock(Blocks.glass)) {
+      return 0;
+    }
 
     // Crystallized chaos essence is a full repair.
     if (CraftingMaterial.doesStackMatch(material, Names.CHAOS_ESSENCE_PLUS_2)) {
