@@ -359,11 +359,6 @@ public class ToolHelper {
       }
     }
 
-    if (tool.getItem() instanceof ItemTool) {
-      ItemTool itemTool = (ItemTool) tool.getItem();
-      return itemTool.getDigSpeed(tool, block, meta);
-    }
-
     return 1f;
   }
 
