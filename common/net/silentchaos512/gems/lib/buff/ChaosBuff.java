@@ -39,7 +39,7 @@ public enum ChaosBuff {
   INVISIBILITY(13, "invisibility", 1, Potion.invisibility.id, 40, Items.fermented_spider_eye);
 
   public static final int APPLY_DURATION_REGEN = 80;
-  public static final int APPLY_DURATION_NIGHT_VISION = 400;
+  public static final int APPLY_DURATION_NIGHT_VISION = 410;
   public static final int APPLY_DURATION_DEFAULT = 20;
 
   public final int id;
