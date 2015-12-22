@@ -1,13 +1,11 @@
 package net.silentchaos512.gems.lib;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.PlayerHelper;
 import net.silentchaos512.gems.item.ModItems;
 
@@ -19,23 +17,24 @@ public class HolidayCheer {
   public static final float CANDY_RATE = 0.15f;
   public static final int CANDY_MAX_QUANTITY = 3;
 
-  public static Calendar today = Calendar.getInstance();
-  private static boolean rightDay = today.get(Calendar.MONTH) == Calendar.DECEMBER
-      && today.get(Calendar.DATE) == 16;
+  public static Calendar today;
+  private static boolean rightDay = checkDateAgain();
 
   public static boolean isRightDay() {
 
     return rightDay;
   }
 
-  public static void checkDateAgain() {
+  public static boolean checkDateAgain() {
 
     today = Calendar.getInstance();
-    rightDay = today.get(Calendar.MONTH) == Calendar.DECEMBER && today.get(Calendar.DATE) == 16;
+    rightDay = today.get(Calendar.MONTH) == Calendar.DECEMBER && today.get(Calendar.DATE) == 25;
+    return rightDay;
   }
 
   public static void greetPlayer(EntityPlayer player) {
 
+    checkDateAgain();
     if (isRightDay() && !player.worldObj.isRemote) {
       String str = "[%s] Happy %s Day! Have some candy.";
       String day = HOLIDAYS[SilentGems.instance.random.nextInt(HOLIDAYS.length)];

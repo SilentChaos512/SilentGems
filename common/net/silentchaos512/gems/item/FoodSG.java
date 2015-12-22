@@ -117,7 +117,7 @@ public class FoodSG extends ItemFood implements IAddRecipe {
     GameRegistry.addSmelting(getStack(Names.MEATY_STEW_UNCOOKED, 1), getStack(Names.MEATY_STEW, 1),
         0.5f);
     // Candy Cane
-    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.CANDY_CANE, 8), "ss", "rs", " s", 's',
+    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.CANDY_CANE, 6), "ss", "rs", " s", 's',
         Items.sugar, 'r', "dyeRed"));
   }
 
