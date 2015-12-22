@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -347,7 +348,8 @@ public class ToolHelper {
 
     float speed = getAdjustedDigSpeed(tool, baseSpeed);
 
-    if (ForgeHooks.isToolEffective(tool, block, meta)) {
+    if (EnchantmentAOE.isToolEffective(tool, block, meta)
+        || ForgeHooks.isToolEffective(tool, block, meta)) {
       return speed;
     }
 

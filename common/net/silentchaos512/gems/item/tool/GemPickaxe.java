@@ -40,8 +40,8 @@ public class GemPickaxe extends ItemPickaxe {
   public final int gemId;
   public final boolean supercharged;
 
-  public static final Material[] extraEffectiveMaterials = { Material.circuits, Material.glass,
-      Material.piston };
+  public static final Material[] extraEffectiveMaterials = { Material.rock, Material.circuits,
+      Material.glass, Material.piston };
 
   public GemPickaxe(ToolMaterial toolMaterial, int gemId, boolean supercharged) {
 
@@ -52,7 +52,7 @@ public class GemPickaxe extends ItemPickaxe {
     addRecipe(new ItemStack(this), gemId, supercharged);
     this.setCreativeTab(SilentGems.tabSilentGems);
   }
-  
+
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
 
@@ -78,14 +78,14 @@ public class GemPickaxe extends ItemPickaxe {
     return ToolHelper.getDigSpeed(stack, efficiencyOnProperMaterial, block, meta,
         extraEffectiveMaterials);
   }
-  
+
   @Override
   public int getHarvestLevel(ItemStack stack, String toolClass) {
-    
+
     int level = super.getHarvestLevel(stack, toolClass);
     return ToolHelper.getAdjustedMiningLevel(stack, level);
   }
-  
+
   @Override
   public int getMaxDamage(ItemStack stack) {
 
@@ -139,7 +139,7 @@ public class GemPickaxe extends ItemPickaxe {
 
     return true;
   }
-  
+
   @Override
   public void registerIcons(IIconRegister reg) {
 
@@ -157,7 +157,7 @@ public class GemPickaxe extends ItemPickaxe {
     }
     return canceled;
   }
-  
+
   @Override
   public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
 
