@@ -5,16 +5,19 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.achievement.GemsAchievement;
@@ -34,6 +37,7 @@ import net.silentchaos512.gems.item.tool.GemShovel;
 import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.item.tool.GemSword;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.EnumTipUpgrade;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
 
@@ -338,6 +342,31 @@ public class ToolHelper {
   // Mining, using, repairing, etc
   // ==========================================================================
 
+  public static float getDigSpeed(ItemStack tool, float baseSpeed, Block block, int meta,
+      Material[] extraMaterials) {
+
+    float speed = getAdjustedDigSpeed(tool, baseSpeed);
+
+    if (ForgeHooks.isToolEffective(tool, block, meta)) {
+      return speed;
+    }
+
+    if (extraMaterials != null) {
+      for (Material material : extraMaterials) {
+        if (block.getMaterial() == material) {
+          return speed;
+        }
+      }
+    }
+
+    if (tool.getItem() instanceof ItemTool) {
+      ItemTool itemTool = (ItemTool) tool.getItem();
+      return itemTool.getDigSpeed(tool, block, meta);
+    }
+
+    return 1f;
+  }
+
   /**
    * Determines if a tool can be repaired with the given material in an anvil. It's not the desired why to repair tools,
    * but it should be an option.
@@ -372,17 +401,9 @@ public class ToolHelper {
    */
   public static int getDurabilityBoost(ItemStack tool) {
 
-    int tip = getToolHeadTip(tool);
-    switch (tip) {
-      case 3:
-        return Config.DURABILITY_BOOST_EMERALD_TIP;
-      case 2:
-        return Config.DURABILITY_BOOST_DIAMOND_TIP;
-      case 1:
-        return Config.DURABILITY_BOOST_IRON_TIP;
-      default:
-        return 0;
-    }
+    int id = getToolHeadTip(tool);
+    EnumTipUpgrade tip = EnumTipUpgrade.getById(id);
+    return tip.getDurabilityBoost();
   }
 
   /**
@@ -401,15 +422,25 @@ public class ToolHelper {
       return baseLevel;
     }
 
+    int id = getToolHeadTip(tool);
+    EnumTipUpgrade tip = EnumTipUpgrade.getById(id);
+    return Math.max(baseLevel, tip.getMiningLevel());
+  }
+
+  public static float getAdjustedDigSpeed(ItemStack tool, float baseSpeed) {
+
+    float speed = baseSpeed;
+
+    // Tip speed bonus.
     int tip = getToolHeadTip(tool);
-    switch (tip) {
-      case 2:
-        return Math.max(baseLevel, Config.MINING_LEVEL_DIAMOND_TIP);
-      case 1:
-        return Math.max(baseLevel, Config.MINING_LEVEL_IRON_TIP);
-      default:
-        return baseLevel;
+    speed += EnumTipUpgrade.getById(tip).getSpeedBoost();
+
+    // Wool grip bonus.
+    if (getToolRodWool(tool) > -1) {
+      speed += 0.5f;
     }
+
+    return speed;
   }
 
   /**

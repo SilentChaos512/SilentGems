@@ -74,24 +74,13 @@ public class GemAxe extends ItemAxe {
   @Override
   public float getDigSpeed(ItemStack stack, Block block, int meta) {
 
-    float speed = efficiencyOnProperMaterial;
-
-    if (ForgeHooks.isToolEffective(stack, block, meta)) {
-      return speed;
-    }
-
-    for (Material m : extraEffectiveMaterials) {
-      if (block.getMaterial() == m) {
-        return speed;
-      }
-    }
-
-    return super.getDigSpeed(stack, block, meta);
+    return ToolHelper.getDigSpeed(stack, efficiencyOnProperMaterial, block, meta,
+        extraEffectiveMaterials);
   }
 
   @Override
   public int getHarvestLevel(ItemStack stack, String toolClass) {
-    
+
     int level = super.getHarvestLevel(stack, toolClass);
     return ToolHelper.getAdjustedMiningLevel(stack, level);
   }
@@ -178,7 +167,7 @@ public class GemAxe extends ItemAxe {
     }
     return canceled;
   }
-  
+
   @Override
   public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
 

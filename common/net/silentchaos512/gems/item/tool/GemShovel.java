@@ -71,13 +71,8 @@ public class GemShovel extends ItemSpade {
   @Override
   public float getDigSpeed(ItemStack stack, Block block, int meta) {
 
-    float speed = efficiencyOnProperMaterial;
-
-    if (ForgeHooks.isToolEffective(stack, block, meta)) {
-      return speed;
-    }
-
-    return super.getDigSpeed(stack, block, meta);
+    return ToolHelper.getDigSpeed(stack, efficiencyOnProperMaterial, block, meta,
+        null);
   }
   
   @Override

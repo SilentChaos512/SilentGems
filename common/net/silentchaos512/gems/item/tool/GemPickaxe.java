@@ -75,19 +75,8 @@ public class GemPickaxe extends ItemPickaxe {
   @Override
   public float getDigSpeed(ItemStack stack, Block block, int meta) {
 
-    float speed = efficiencyOnProperMaterial;
-
-    if (EnchantmentAOE.isToolEffective(stack, block, meta)) {
-      return speed;
-    }
-
-    for (Material m : extraEffectiveMaterials) {
-      if (block.getMaterial() == m) {
-        return speed;
-      }
-    }
-
-    return super.getDigSpeed(stack, block, meta);
+    return ToolHelper.getDigSpeed(stack, efficiencyOnProperMaterial, block, meta,
+        extraEffectiveMaterials);
   }
   
   @Override
