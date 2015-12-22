@@ -161,7 +161,7 @@ public class EnchantToken extends ItemSG {
         | T_SICKLE | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS | T_SHEARS);
     addEnchantment(ModEnchantments.aoe, T_PICKAXE | T_SHOVEL | T_AXE);
     addEnchantment(ModEnchantments.lumberjack, T_AXE);
-    addEnchantment(ModEnchantments.lifeSteal, T_SWORD);
+    addEnchantment(ModEnchantments.lifeSteal, T_SWORD | T_AXE);
   }
 
   /**
