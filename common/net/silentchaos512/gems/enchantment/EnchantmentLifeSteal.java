@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.silentchaos512.gems.lib.Names;
 
@@ -15,6 +16,14 @@ public class EnchantmentLifeSteal extends Enchantment {
 
     super(effectId, weight, type);
     setName(Names.LIFE_STEAL);
+  }
+
+  public static final float HEAL_AMOUNT_MULTI = 1f / 40f;
+  public static final float HEAL_AMOUNT_CAP = 1f;
+
+  public float getAmountHealed(int level, float damageDealt) {
+
+    return MathHelper.clamp_float(level * damageDealt * HEAL_AMOUNT_MULTI, 0f, HEAL_AMOUNT_CAP);
   }
 
   @Override
@@ -45,7 +54,7 @@ public class EnchantmentLifeSteal extends Enchantment {
 
     return 2;
   }
-  
+
   @Override
   public String getTranslatedName(int par1) {
 

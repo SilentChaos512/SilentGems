@@ -199,7 +199,7 @@ public class GemsForgeEventHandler {
         if (heldItem != null) {
           int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal.effectId,
               heldItem);
-          float healAmount = MathHelper.clamp_float(level * event.ammount / 20f, 0f, 2f);
+          float healAmount = ModEnchantments.lifeSteal.getAmountHealed(level, event.ammount);
           player.heal(healAmount);
         }
       }

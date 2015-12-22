@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+1.3.7b
+Changed: Life Steal enchantment tweaked
+Fixed: A bug with the holidays special feature
+
 1.3.7
 Added: Chaos Swords can fire projectiles! Block to charge up, then swing to fire!
 Added: Broken tools. People make mistakes. It's OK. Now your mistakes won't hurt as much. (Hoes are invisible at first, but you do get them!)

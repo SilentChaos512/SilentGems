@@ -23,8 +23,10 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.achievement.GemsAchievement;
 import net.silentchaos512.gems.block.GlowRose;
 import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.core.proxy.ClientProxy;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.InventoryHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.PlayerHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
@@ -154,7 +156,7 @@ public class GemsEventHandler {
 
   @SubscribeEvent
   public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-    
+
     if (event.phase != Phase.START) {
       return;
     }
@@ -163,6 +165,7 @@ public class GemsEventHandler {
     boolean isSecond = event.player.worldObj.getTotalWorldTime() % 20 == 0;
 
     if (event.side == Side.CLIENT) {
+//      trySpawnFlightParticles(event.player); // FIXME
     } else {
       HolidayCheer.tryGiveCandy(event.player);
       // Chaos gem flight removal
@@ -188,6 +191,32 @@ public class GemsEventHandler {
           ModEnchantments.mending.tryActivate(event.player, stack);
         }
       }
+    }
+  }
+
+  private void trySpawnFlightParticles(EntityPlayer player) {
+
+    if (SilentGems.proxy.getParticleSettings() != 0) {
+      return;
+    }
+
+    // GemsExtendedPlayer prop = GemsExtendedPlayer.get(player);
+    // if (prop == null || prop.getFlightTime() <= 0) {
+    // return;
+    // }
+
+    double posX = player.posX;
+    double posY = player.posY - 1.8;
+    double posZ = player.posZ;
+
+    int color = 0xFFFFFF; // TODO: Get color from gem!
+
+    for (int i = 0; i < 4; ++i) {
+      double motionX = random.nextGaussian() * 0.07;
+      double motionY = -Math.abs(random.nextGaussian() * 0.035) + player.motionY;
+      double motionZ = random.nextGaussian() * 0.07;
+      SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_TRAIL, color, player.worldObj, posX,
+          posY, posZ, motionX, motionY, motionZ);
     }
   }
 }
