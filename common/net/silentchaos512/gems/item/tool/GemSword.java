@@ -173,7 +173,7 @@ public class GemSword extends ItemSword {
   @Override
   public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
 
-    if (gemId != ModMaterials.CHAOS_GEM_ID || !player.worldObj.isRemote) {
+    if (gemId != ModMaterials.CHAOS_GEM_ID || !player.worldObj.isRemote || getShotCharged(stack)) {
       return;
     }
 
@@ -182,7 +182,7 @@ public class GemSword extends ItemSword {
     // vec.rotateAroundY(-0.5f);
     // vec.rotateAroundZ(0.5f);
 
-    if (time < CHARGE_DELAY / 2 && !getShotCharged(stack)) {
+    if (time < CHARGE_DELAY / 2) {
       // Charging particles
       if (SilentGems.proxy.getParticleSettings() == 0) {
         for (int i = 0; i < 4; ++i) {
@@ -198,8 +198,6 @@ public class GemSword extends ItemSword {
           int color = EntityProjectileChaosOrb.COLORS[MathHelper.clamp_int(colorIndex, 0,
               EntityProjectileChaosOrb.COLORS.length)];
 
-          // player.worldObj.spawnParticle("fireworksSpark", posX - 10 * motionX, posY - 10 * motionY,
-          // posZ - 10 * motionZ, motionX, motionY, motionZ);
           SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_CHARGE, color, player.worldObj,
               posX - 10 * motionX, posY - 10 * motionY, posZ - 10 * motionZ, motionX, motionY,
               motionZ);

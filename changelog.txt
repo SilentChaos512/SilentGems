@@ -9,6 +9,7 @@ Changed: Default life essence drop rate reduced significantly.
 Changed: Teleporters don't drain XP in creative mode.
 Changed: Life Steal considers mob health now, not just damage that would have been dealt.
 Changed: Life Steal can be applied to axes now.
+Fixed: Chaos sword spawning full charge particles when already charged.
 
 1.3.7b
 Changed: Life Steal enchantment tweaked
