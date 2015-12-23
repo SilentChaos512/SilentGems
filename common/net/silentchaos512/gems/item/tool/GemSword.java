@@ -10,6 +10,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -19,6 +21,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.proxy.ClientProxy;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.entity.projectile.EntityProjectileChaosOrb;
 import net.silentchaos512.gems.item.CraftingMaterial;
@@ -149,7 +152,9 @@ public class GemSword extends ItemSword {
     if (getShotCharged(stack)) {
       setShotCharged(stack, false);
       int sharpness = EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, stack);
-      float damage = toolMaterial.getDamageVsEntity() * 0.75f + sharpness;
+      PotionEffect strengthEffect = entityLiving.getActivePotionEffect(Potion.damageBoost);
+      int strength = strengthEffect != null ? strengthEffect.getAmplifier() + 2 : 1;
+      float damage = strength * (toolMaterial.getDamageVsEntity() + sharpness);
       int color = ToolHelper.getToolHeadRight(stack);
       EntityProjectileChaosOrb shot = new EntityProjectileChaosOrb(world, entityLiving, damage,
           color, true);
