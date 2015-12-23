@@ -59,6 +59,9 @@ public class PlayerHelper {
 
     for (player.experienceTotal -= amount; player.experience <= 0.0F; player.experience /= (float) player
         .xpBarCap()) {
+      if (player.experience == 0 && player.experienceTotal == 0 && player.experienceLevel == 0) {
+        return;
+      }
       player.experience = (player.experience + 1.0F) * (float) player.xpBarCap();
       player.addExperienceLevel(-1);
     }
