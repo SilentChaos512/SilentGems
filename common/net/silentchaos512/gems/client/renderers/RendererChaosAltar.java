@@ -34,7 +34,8 @@ public class RendererChaosAltar extends TileEntitySpecialRenderer {
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
         TileChaosAltar altar = (TileChaosAltar)tileEntity;
-        double timer = altar.getTimer();
+        float timer = altar.getTimer();
+        timer += f;
 
         //render the altar model
         GL11.glPushMatrix();

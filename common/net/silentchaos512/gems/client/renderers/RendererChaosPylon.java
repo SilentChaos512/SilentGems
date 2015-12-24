@@ -43,7 +43,8 @@ public class RendererChaosPylon extends TileEntitySpecialRenderer {
         	pylonUVmap = new ResourceLocation("silentgems","textures/renders/SilentChaosPylonError.png");
         }
 
-        int timer = ((TileChaosPylon)tileEntity).getTimer();
+        float timer = ((TileChaosPylon)tileEntity).getTimer();
+        timer += f;
 
         //render the pylon itself
         GL11.glPushMatrix();
