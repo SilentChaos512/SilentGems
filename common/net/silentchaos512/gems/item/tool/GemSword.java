@@ -27,7 +27,7 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
 
 public class GemSword extends ItemSword implements IHasVariants {
-  
+
   public static final String NBT_SHOT_CHARGED = "ShotCharged";
 
   public static final int CHARGE_DELAY = 20;
@@ -173,7 +173,7 @@ public class GemSword extends ItemSword implements IHasVariants {
   @Override
   public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
 
-    if (gemId != ModMaterials.CHAOS_GEM_ID || !player.worldObj.isRemote) {
+    if (gemId != ModMaterials.CHAOS_GEM_ID || !player.worldObj.isRemote || getShotCharged(stack)) {
       return;
     }
 
@@ -182,7 +182,7 @@ public class GemSword extends ItemSword implements IHasVariants {
     // vec.rotateAroundY(-0.5f);
     // vec.rotateAroundZ(0.5f);
 
-    if (time < CHARGE_DELAY / 2 && !getShotCharged(stack)) {
+    if (time < CHARGE_DELAY / 2) {
       // Charging particles
       if (SilentGems.proxy.getParticleSettings() == 0) {
         for (int i = 0; i < 4; ++i) {
