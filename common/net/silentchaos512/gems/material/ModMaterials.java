@@ -44,7 +44,7 @@ public class ModMaterials {
   public static final ToolMaterial toolSupMorganite   = EnumHelper.addToolMaterial("GemSupMorganite",  mls, 512 * dm, 10.0f + ea, 4.0f + da, 18);
   public static final ToolMaterial toolSupOnyx        = EnumHelper.addToolMaterial("GemSupOnyx",       mls, 384 * dm, 10.0f + ea, 6.0f + da, 14);
 
-  public static final ToolMaterial toolFlint          = EnumHelper.addToolMaterial("GemFlint", 1, 192, 6.0f, 2.0f, 8);
+  public static final ToolMaterial toolFlint          = EnumHelper.addToolMaterial("GemFlint", 1, 192, 5.0f, 1.5f, 8);
   public static final ToolMaterial toolFish           = EnumHelper.addToolMaterial("GemFish", Config.MINING_LEVEL_FISH, 64, 3.0f, 1.0f, 20);
   public static final ToolMaterial toolChaos          = EnumHelper.addToolMaterial("GemChaos", mls, 4096, 20.0f, 12.0f, 20);
   
