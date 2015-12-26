@@ -40,7 +40,8 @@ public class Config {
   public static int FLUFFY_PUFF_SEED_WEIGHT = 2;
   public static int FLUFFY_BOOTS_DAMAGE_REDUCTION = 6;
   public static int FLUFFY_BOOTS_DAMAGE_TAKEN = 20;
-  public static float LIFE_ESSENCE_DROP_RATE = 0.04f;
+  public static float LIFE_ESSENCE_DROP_RATE = 0.004f;
+  public static int LIFE_ESSNECE_COUNT_FROM_BOSS = 2;
 
   /*
    * Tools
@@ -191,9 +192,15 @@ public class Config {
           FLUFFY_BOOTS_DAMAGE_TAKEN, 0, Integer.MAX_VALUE,
           "The most damage that fluffy boots can take (durability lost) per fall.");
 
-      LIFE_ESSENCE_DROP_RATE = c.getFloat("LifeEssence.DropRate", CATEGORY_ITEM_PROPERTIES,
+      LIFE_ESSENCE_DROP_RATE = c.getFloat(
+          "LifeEssence.DropRate", CATEGORY_ITEM_PROPERTIES,
           LIFE_ESSENCE_DROP_RATE, 0f, 1f,
           "The chance of an entity dropping life essence when it dies.");
+
+      LIFE_ESSNECE_COUNT_FROM_BOSS = c.getInt(
+          "LifeEssence.DropCountFromBoss", CATEGORY_ITEM_PROPERTIES,
+          LIFE_ESSNECE_COUNT_FROM_BOSS, 0, 64,
+          "The number of life essence dropped by bosses.");
 
       /*
        * Recipes

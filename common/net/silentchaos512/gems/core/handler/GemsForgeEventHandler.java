@@ -7,6 +7,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -227,15 +228,27 @@ public class GemsForgeEventHandler {
   public void onLivingDropsEvent(LivingDropsEvent event) {
 
     // Drop Life Essence?
-    float chance = Config.LIFE_ESSENCE_DROP_RATE;
-    if (event.source.damageType.equals("player")) {
-      chance *= (event.lootingLevel / 6f + 1f);
-    }
+    if (event.entityLiving instanceof IBossDisplayData) {
+      // From bosses
+      if (Config.LIFE_ESSNECE_COUNT_FROM_BOSS > 0) {
+        ItemStack stack = CraftingMaterial.getStack(Names.LIFE_ESSENCE,
+            Config.LIFE_ESSNECE_COUNT_FROM_BOSS);
+        LogHelper.debug(stack);
+        event.drops.add(new EntityItem(event.entity.worldObj, event.entity.posX,
+            event.entity.posY + event.entity.height / 2f, event.entity.posZ, stack));
+      }
+    } else {
+      // From normal mobs
+      float chance = Config.LIFE_ESSENCE_DROP_RATE;
+      if (event.source.damageType.equals("player")) {
+        chance *= (event.lootingLevel / 6f + 1f);
+      }
 
-    if (SilentGems.instance.random.nextFloat() <= chance) {
-      event.drops.add(new EntityItem(event.entity.worldObj, event.entity.posX,
-          event.entity.posY + event.entity.height / 2f, event.entity.posZ,
-          CraftingMaterial.getStack(Names.LIFE_ESSENCE)));
+      if (SilentGems.instance.random.nextFloat() <= chance) {
+        event.drops.add(new EntityItem(event.entity.worldObj, event.entity.posX,
+            event.entity.posY + event.entity.height / 2f, event.entity.posZ,
+            CraftingMaterial.getStack(Names.LIFE_ESSENCE)));
+      }
     }
   }
 
