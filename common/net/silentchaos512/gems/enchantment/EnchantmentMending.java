@@ -4,13 +4,14 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.silentchaos512.gems.core.util.InventoryHelper;
-import net.silentchaos512.gems.item.armor.ArmorSG;
 import net.silentchaos512.gems.lib.Names;
 
 public class EnchantmentMending extends Enchantment {
@@ -27,9 +28,9 @@ public class EnchantmentMending extends Enchantment {
   @Override
   public boolean canApply(ItemStack stack) {
 
-    // TODO: Fix this so mending books can be applied to non-gem tools?
-    if (stack.getItem().isDamageable() && (InventoryHelper.isGemTool(stack)
-        || stack.getItem() instanceof ArmorSG || stack.getItem() instanceof ItemBook)) {
+    Item item = stack.getItem();
+    if (item.isDamageable()
+        && (InventoryHelper.isTool(stack) || item instanceof ItemArmor || item instanceof ItemBook)) {
       return stack.isItemStackDamageable() ? true : super.canApply(stack);
     }
 
