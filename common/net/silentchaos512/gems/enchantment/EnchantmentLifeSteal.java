@@ -3,6 +3,7 @@ package net.silentchaos512.gems.enchantment;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -31,7 +32,8 @@ public class EnchantmentLifeSteal extends Enchantment {
   public boolean canApply(ItemStack stack) {
 
     Item item = stack.getItem();
-    if (item.isDamageable() && (item instanceof ItemSword || item instanceof ItemBook)) {
+    if (item.isDamageable()
+        && (item instanceof ItemSword || item instanceof ItemAxe || item instanceof ItemBook)) {
       return stack.isItemStackDamageable() ? true : super.canApply(stack);
     }
 
