@@ -48,6 +48,10 @@ public class PlayerHelper {
 
   public static void removeExperience(EntityPlayer player, int amount) {
 
+    if (amount <= 0) {
+      return;
+    }
+
     player.addScore((-1) * amount);
     int j = Integer.MIN_VALUE + player.experienceTotal;
 

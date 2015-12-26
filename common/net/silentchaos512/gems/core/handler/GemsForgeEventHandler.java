@@ -1,12 +1,16 @@
 package net.silentchaos512.gems.core.handler;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
@@ -23,6 +27,7 @@ import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
@@ -130,7 +135,7 @@ public class GemsForgeEventHandler {
     ItemStack heldItem = event.entityPlayer.getCurrentEquippedItem();
     EntityPlayer player = event.entityPlayer;
 
-//    LogHelper.debug(event.originalSpeed);
+    // LogHelper.debug(event.originalSpeed);
 
     if (heldItem != null) {
       // Shears on Fluffy Blocks
@@ -144,10 +149,28 @@ public class GemsForgeEventHandler {
         }
       }
 
-      // Chaos Tools: No penalty for mining while flying.
-      if (player.capabilities.isFlying && InventoryHelper.isGemTool(heldItem)) {
+      // Chaos Tools: No penalty for mining while flying or swimming.
+      if (InventoryHelper.isGemTool(heldItem)) {
         if (ToolHelper.getToolGemId(heldItem) == ModMaterials.CHAOS_GEM_ID) {
-          event.newSpeed *= 5;
+          boolean isInAir = !player.onGround || player.capabilities.isFlying;
+          if (isInAir) {
+            event.newSpeed *= 5;
+          }
+          boolean isInWater = player.isInsideOfMaterial(Material.water);
+          if (isInWater) {
+            event.newSpeed *= 5;
+          }
+
+          // Debug Output
+          // String debug = "";
+          // debug += isInAir ? "A" : ".";
+          // debug += isInWater ? "W" : ".";
+          // debug += "-";
+          // debug += player.isAirBorne ? "a" : ".";
+          // debug += player.capabilities.isFlying ? "f" : ".";
+          // debug += player.onGround ? "g" : ".";
+          // debug += String.format(": %.1f -> %.1f", event.originalSpeed, event.newSpeed);
+          // LogHelper.list(FMLCommonHandler.instance().getSide(), debug);
         }
       }
 
@@ -184,6 +207,7 @@ public class GemsForgeEventHandler {
           event.setCanceled(true);
           if (newDamage > 0) {
             // We create a new damage source instead of using DamageSource.fall so this code isn't called again.
+            // FIXME: This prevents feather falling from working!
             entityLivingBase.attackEntityFrom(new DamageSource("fall").setDamageBypassesArmor(),
                 newDamage);
           }

@@ -231,7 +231,7 @@ public class ToolHelper {
       }
       // No flying penalty
       if (item instanceof GemPickaxe || item instanceof GemShovel || item instanceof GemAxe) {
-        line = LocalizationHelper.getMiscText("Tool.NoFlyingPenalty");
+        line = LocalizationHelper.getMiscText("Tool.NoSpeedPenalty");
         list.add(EnumChatFormatting.AQUA + line);
       }
     }
