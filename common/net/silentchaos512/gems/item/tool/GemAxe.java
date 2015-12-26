@@ -81,13 +81,8 @@ public class GemAxe extends ItemAxe implements IHasVariants {
   @Override
   public float getDigSpeed(ItemStack stack, IBlockState state) {
 
-    for (Material m : extraEffectiveMaterials) {
-      if (state.getBlock().getMaterial() == m) {
-        return efficiencyOnProperMaterial;
-      }
-    }
-
-    return super.getDigSpeed(stack, state);
+    return ToolHelper.getDigSpeed(stack, efficiencyOnProperMaterial, state,
+        extraEffectiveMaterials);
   }
 
   @Override

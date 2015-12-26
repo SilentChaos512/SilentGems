@@ -10,12 +10,11 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
+import net.silentchaos512.gems.lib.EnumTipUpgrade;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.Strings;
 
 public class ItemToolUpgrade extends ItemSG {
 
@@ -56,34 +55,48 @@ public class ItemToolUpgrade extends ItemSG {
     String line;
     String item;
 
-    switch (meta) {
-      case META_IRON_TIPPED:
-      case META_DIAMOND_TIPPED:
-      case META_EMERALD_TIPPED:
-        // Tipped upgrades
-        item = "TipUpgrade";
-        // Mining level
-        line = LocalizationHelper.getItemDescription(item, 1);
-        int value = getDurabilityBonusForTippedUpgrade(meta);
-        line = String.format(line, getBoostedMiningLevelForTippedUpgrade(meta));
-        list.add(EnumChatFormatting.GREEN + line);
+    EnumTipUpgrade tip = getTipForUpgrade(meta);
+    if (tip != EnumTipUpgrade.NONE) {
 
-        // Durability boost
-        line = LocalizationHelper.getItemDescription(item, 2);
-        line = String.format(line, getDurabilityBonusForTippedUpgrade(meta));
-        list.add(EnumChatFormatting.GREEN + line);
-        break;
-      case META_NO_GLINT:
-        // No glint
-        item = Names.UPGRADE_NO_GLINT;
-        // Effect
-        line = LocalizationHelper.getItemDescription(item, 1);
-        list.add(EnumChatFormatting.GREEN + line);
-        line = LocalizationHelper.getItemDescription(item, 2);
-        list.add(EnumChatFormatting.GREEN + line);
-        break;
-      default:
-        list.add(EnumChatFormatting.RED + "Error!");
+      /*
+       * Tipped Upgrades
+       */
+
+      item = "TipUpgrade";
+      // Mining level
+      line = LocalizationHelper.getItemDescription(item, 1);
+      line = String.format(line, tip.getMiningLevel());
+      list.add(EnumChatFormatting.GREEN + line);
+
+      // Durability boost
+      line = LocalizationHelper.getItemDescription(item, 2);
+      line = String.format(line, tip.getDurabilityBoost());
+      list.add(EnumChatFormatting.GREEN + line);
+
+      // Speed boost
+      line = LocalizationHelper.getItemDescription(item, 3);
+      line = String.format(line, tip.getSpeedBoost());
+      list.add(EnumChatFormatting.GREEN + line);
+    } else if (meta == META_NO_GLINT) {
+
+      /*
+       * No Glint
+       */
+
+      item = Names.UPGRADE_NO_GLINT;
+      // Effect
+      line = LocalizationHelper.getItemDescription(item, 1);
+      list.add(EnumChatFormatting.GREEN + line);
+      line = LocalizationHelper.getItemDescription(item, 2);
+      list.add(EnumChatFormatting.GREEN + line);
+    } else {
+
+      /*
+       * Unknown upgrade?
+       */
+
+      list.add(EnumChatFormatting.RED + "Error!");
+      return;
     }
 
     // How to use
@@ -91,31 +104,17 @@ public class ItemToolUpgrade extends ItemSG {
     list.add(EnumChatFormatting.DARK_GRAY + line);
   }
 
-  private int getBoostedMiningLevelForTippedUpgrade(int meta) {
+  public EnumTipUpgrade getTipForUpgrade(int meta) {
 
     switch (meta) {
       case META_IRON_TIPPED:
-        return Config.MINING_LEVEL_IRON_TIP;
+        return EnumTipUpgrade.IRON;
       case META_DIAMOND_TIPPED:
-        return Config.MINING_LEVEL_DIAMOND_TIP;
+        return EnumTipUpgrade.DIAMOND;
       case META_EMERALD_TIPPED:
-        return Config.MINING_LEVEL_EMERALD_TIP;
+        return EnumTipUpgrade.EMERALD;
       default:
-        return 0;
-    }
-  }
-
-  private int getDurabilityBonusForTippedUpgrade(int meta) {
-
-    switch (meta) {
-      case META_IRON_TIPPED:
-        return Config.DURABILITY_BOOST_IRON_TIP;
-      case META_DIAMOND_TIPPED:
-        return Config.DURABILITY_BOOST_DIAMOND_TIP;
-      case META_EMERALD_TIPPED:
-        return Config.DURABILITY_BOOST_EMERALD_TIP;
-      default:
-        return 0;
+        return EnumTipUpgrade.NONE;
     }
   }
 

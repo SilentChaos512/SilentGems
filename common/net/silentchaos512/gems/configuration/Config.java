@@ -8,6 +8,7 @@ import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.WeightedRandomItemSG;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.EnumTipUpgrade;
 import net.silentchaos512.gems.lib.Names;
 
 public class Config {
@@ -53,6 +54,9 @@ public class Config {
   public static int DURABILITY_BOOST_IRON_TIP = 128;
   public static int DURABILITY_BOOST_DIAMOND_TIP = 512;
   public static int DURABILITY_BOOST_EMERALD_TIP = 1024;
+  public static float SPEED_BOOST_IRON_TIP = 1f;
+  public static float SPEED_BOOST_DIAMOND_TIP = 1.5f;
+  public static float SPEED_BOOST_EMERALD_TIP = 2f;
 
   /*
    * Recipes
@@ -104,6 +108,7 @@ public class Config {
       + "properties";
   public static final String CATEGORY_MISC = "misc";
 
+  //@formatter:off
   public static void init(File file) {
 
     c = new Configuration(file);
@@ -229,6 +234,34 @@ public class Config {
           CATEGORY_ITEM_PROPERTIES, DURABILITY_BOOST_EMERALD_TIP, 0, Short.MAX_VALUE,
           "The value added to the durability (max damage) of tools with the 'emerald-tipped' upgrade.");
 
+      SPEED_BOOST_IRON_TIP = c.getFloat(
+          "Tool.SpeedBoost.Iron", CATEGORY_ITEM_PROPERTIES,
+          EnumTipUpgrade.IRON.getSpeedBoost(), 0f, Float.MAX_VALUE,
+          "The mining speed increase of tools with the 'iron-tipped' upgrade.");
+
+      SPEED_BOOST_DIAMOND_TIP = c.getFloat(
+          "Tool.SpeedBoost.Diamond", CATEGORY_ITEM_PROPERTIES,
+          EnumTipUpgrade.DIAMOND.getSpeedBoost(), 0f, Float.MAX_VALUE,
+          "The mining speed increase of tools with the 'diamond-tipped' upgrade.");
+
+      SPEED_BOOST_EMERALD_TIP = c.getFloat(
+          "Tool.SpeedBoost.Emerald", CATEGORY_ITEM_PROPERTIES,
+          EnumTipUpgrade.EMERALD.getSpeedBoost(), 0f, Float.MAX_VALUE,
+          "The mining speed increase of tools with the 'emerald-tipped' upgrade.");
+
+      EnumTipUpgrade.IRON.init(
+          MINING_LEVEL_IRON_TIP,
+          DURABILITY_BOOST_IRON_TIP,
+          SPEED_BOOST_IRON_TIP);
+      EnumTipUpgrade.DIAMOND.init(
+          MINING_LEVEL_DIAMOND_TIP,
+          DURABILITY_BOOST_DIAMOND_TIP,
+          SPEED_BOOST_DIAMOND_TIP);
+      EnumTipUpgrade.EMERALD.init(
+          MINING_LEVEL_EMERALD_TIP,
+          DURABILITY_BOOST_EMERALD_TIP,
+          SPEED_BOOST_EMERALD_TIP);
+
       /*
        * Misc
        */
@@ -292,6 +325,7 @@ public class Config {
       c.save();
     }
   }
+  // @formatter:on
 
   public static int getEnchantmentId(String name, int default_id) {
 

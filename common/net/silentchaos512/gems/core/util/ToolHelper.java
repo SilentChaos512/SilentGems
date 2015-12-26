@@ -5,12 +5,15 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -35,6 +38,7 @@ import net.silentchaos512.gems.item.tool.GemShovel;
 import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.item.tool.GemSword;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.EnumTipUpgrade;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
 
@@ -367,6 +371,31 @@ public class ToolHelper {
         && correctMaterial.getItemDamage() == material.getItemDamage();
   }
 
+  public static float getDigSpeed(ItemStack tool, float baseSpeed, IBlockState state,
+      Material[] extraMaterials) {
+
+    float speed = getAdjustedDigSpeed(tool, baseSpeed);
+
+    // if (ForgeHooks.isToolEffective(tool, state)) {
+    // return speed;
+    // }
+    for (String type : tool.getItem().getToolClasses(tool)) {
+      if (state.getBlock().isToolEffective(type, state)) {
+        return speed;
+      }
+    }
+
+    if (extraMaterials != null) {
+      for (Material material : extraMaterials) {
+        if (state.getBlock().getMaterial() == material) {
+          return speed;
+        }
+      }
+    }
+
+    return 1f;
+  }
+
   /**
    * Gets the additional amount to add to the tool's max damage in getMaxDamage(ItemStack).
    * 
@@ -374,17 +403,9 @@ public class ToolHelper {
    */
   public static int getDurabilityBoost(ItemStack tool) {
 
-    int tip = getToolHeadTip(tool);
-    switch (tip) {
-      case 3:
-        return Config.DURABILITY_BOOST_EMERALD_TIP;
-      case 2:
-        return Config.DURABILITY_BOOST_DIAMOND_TIP;
-      case 1:
-        return Config.DURABILITY_BOOST_IRON_TIP;
-      default:
-        return 0;
-    }
+    int id = getToolHeadTip(tool);
+    EnumTipUpgrade tip = EnumTipUpgrade.getById(id);
+    return tip.getDurabilityBoost();
   }
 
   /**
@@ -403,15 +424,25 @@ public class ToolHelper {
       return baseLevel;
     }
 
+    int id = getToolHeadTip(tool);
+    EnumTipUpgrade tip = EnumTipUpgrade.getById(id);
+    return Math.max(baseLevel, tip.getMiningLevel());
+  }
+
+  public static float getAdjustedDigSpeed(ItemStack tool, float baseSpeed) {
+
+    float speed = baseSpeed;
+
+    // Tip speed bonus.
     int tip = getToolHeadTip(tool);
-    switch (tip) {
-      case 2:
-        return Math.max(baseLevel, Config.MINING_LEVEL_DIAMOND_TIP);
-      case 1:
-        return Math.max(baseLevel, Config.MINING_LEVEL_IRON_TIP);
-      default:
-        return baseLevel;
+    speed += EnumTipUpgrade.getById(tip).getSpeedBoost();
+
+    // Wool grip bonus.
+    if (getToolRodWool(tool) > -1) {
+      speed += 0.5f;
     }
+
+    return speed;
   }
 
   /**

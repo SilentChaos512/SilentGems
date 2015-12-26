@@ -35,7 +35,7 @@ public class GemShovel extends ItemSpade implements IHasVariants {
     addRecipe(new ItemStack(this), gemId, supercharged);
     this.setCreativeTab(SilentGems.tabSilentGems);
   }
-  
+
   @Override
   public String[] getVariantNames() {
 
@@ -53,7 +53,7 @@ public class GemShovel extends ItemSpade implements IHasVariants {
 
     return ToolRenderHelper.instance.getFullName(new ItemStack(this));
   }
-  
+
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
 
@@ -76,16 +76,16 @@ public class GemShovel extends ItemSpade implements IHasVariants {
   @Override
   public float getDigSpeed(ItemStack stack, IBlockState state) {
 
-    return super.getDigSpeed(stack, state);
+    return ToolHelper.getDigSpeed(stack, efficiencyOnProperMaterial, state, null);
   }
-  
+
   @Override
   public int getHarvestLevel(ItemStack stack, String toolClass) {
-    
+
     int level = super.getHarvestLevel(stack, toolClass);
     return ToolHelper.getAdjustedMiningLevel(stack, level);
   }
-  
+
   @Override
   public int getMaxDamage(ItemStack stack) {
 
@@ -114,14 +114,13 @@ public class GemShovel extends ItemSpade implements IHasVariants {
 
     return ToolRenderHelper.instance.hasEffect(stack);
   }
-  
+
   @Override
   public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
       boolean slotChanged) {
 
     return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
   }
-
 
   @Override
   public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
@@ -139,7 +138,7 @@ public class GemShovel extends ItemSpade implements IHasVariants {
     }
     return canceled;
   }
-  
+
   @Override
   public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
 

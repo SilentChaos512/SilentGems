@@ -26,8 +26,8 @@ public class GemPickaxe extends ItemPickaxe implements IHasVariants {
   public final int gemId;
   public final boolean supercharged;
 
-  public static final Material[] extraEffectiveMaterials = { Material.circuits, Material.glass,
-      Material.piston };
+  public static final Material[] extraEffectiveMaterials = { Material.rock, Material.circuits,
+      Material.glass, Material.piston };
 
   public GemPickaxe(ToolMaterial toolMaterial, int gemId, boolean supercharged) {
 
@@ -38,7 +38,7 @@ public class GemPickaxe extends ItemPickaxe implements IHasVariants {
     addRecipe(new ItemStack(this), gemId, supercharged);
     this.setCreativeTab(SilentGems.tabSilentGems);
   }
-  
+
   @Override
   public String[] getVariantNames() {
 
@@ -79,13 +79,8 @@ public class GemPickaxe extends ItemPickaxe implements IHasVariants {
   @Override
   public float getDigSpeed(ItemStack stack, IBlockState state) {
 
-    for (Material m : extraEffectiveMaterials) {
-      if (state.getBlock().getMaterial() == m) {
-        return efficiencyOnProperMaterial;
-      }
-    }
-
-    return super.getDigSpeed(stack, state);
+    return ToolHelper.getDigSpeed(stack, efficiencyOnProperMaterial, state,
+        extraEffectiveMaterials);
   }
 
   @Override
@@ -123,14 +118,13 @@ public class GemPickaxe extends ItemPickaxe implements IHasVariants {
 
     return ToolRenderHelper.instance.hasEffect(stack);
   }
-  
+
   @Override
   public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
       boolean slotChanged) {
 
     return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
   }
-
 
   @Override
   public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,

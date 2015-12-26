@@ -331,6 +331,7 @@ item.silentgems:UpgradeDiamondTip.name=Upgrade: Diamond-Tipped
 item.silentgems:UpgradeEmeraldTip.name=Upgrade: Emerald-Tipped
 item.silentgems:TipUpgrade.desc1=Raises mining level to %d (if lower).
 item.silentgems:TipUpgrade.desc2=Raises durability by %d.
+item.silentgems:TipUpgrade.desc3=Raises mining speed by %.1f.
 item.silentgems:UpgradeNoGlint.name=Upgrade: No Glint
 item.silentgems:UpgradeNoGlint.desc1=Removes the enchanted "glow" from a tool.
 item.silentgems:UpgradeNoGlint.desc2=Reverses the effect if applied again.
