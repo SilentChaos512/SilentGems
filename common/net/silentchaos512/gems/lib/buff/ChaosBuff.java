@@ -35,6 +35,10 @@ public enum ChaosBuff {
   ABSORPTION(12, "absorption", 1, -1, 50, null),
   INVISIBILITY(13, "invisibility", 1, Potion.invisibility.id, 40, Items.fermented_spider_eye);
 
+  public static final int APPLY_DURATION_REGEN = 80;
+  public static final int APPLY_DURATION_NIGHT_VISION = 410;
+  public static final int APPLY_DURATION_DEFAULT = 20;
+
   public final int id;
   public final String name;
   public final int maxLevel;
@@ -70,11 +74,40 @@ public enum ChaosBuff {
     return (int) (this.cost * (1 + 0.20f * (level - 1)));
   }
 
+  public int getApplyTime(EntityPlayer player, int level) {
+
+    switch (this) {
+      case REGENERATION:
+        // Should apply every 2 seconds for regen I, every second for regen II.
+        // Regen resets it timer when reapplied, so it won't work if applied too often.
+        boolean shouldApply = false;
+
+        PotionEffect activeRegen = player.getActivePotionEffect(Potion.regeneration);
+        if (activeRegen == null) {
+          shouldApply = true;
+        } else {
+          int remainingTime = activeRegen.getDuration();
+          int healTime = level == 2 ? 20 : 40;
+          if (remainingTime + healTime <= APPLY_DURATION_REGEN) {
+            shouldApply = true;
+          }
+        }
+
+        return shouldApply ? APPLY_DURATION_REGEN : 0;
+      case NIGHT_VISION:
+        return APPLY_DURATION_NIGHT_VISION;
+      default:
+        return APPLY_DURATION_DEFAULT;
+    }
+  }
+
   public void apply(EntityPlayer player, int level) {
 
     if (potionId > -1) {
-      int time = potionId == NIGHT_VISION.potionId ? 400 : 2;
-      player.addPotionEffect(new PotionEffect(potionId, time, level - 1, true, false));
+      int time = getApplyTime(player, level);
+      if (time > 0) {
+        player.addPotionEffect(new PotionEffect(potionId, time, level - 1, true, false));
+      }
     }
 
     // Apply other effects here.
