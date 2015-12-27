@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.core.handler;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -145,9 +146,16 @@ public class GemsForgeEventHandler {
       }
 
       // Chaos Tools: No penalty for mining while flying.
-      if (player.capabilities.isFlying && InventoryHelper.isGemTool(heldItem)) {
+      if (InventoryHelper.isGemTool(heldItem)) {
         if (ToolHelper.getToolGemId(heldItem) == ModMaterials.CHAOS_GEM_ID) {
-          event.newSpeed *= 5;
+          boolean isInAir = !player.onGround || player.capabilities.isFlying;
+          if (isInAir) {
+            event.newSpeed *= 5;
+          }
+          boolean isInWater = player.isInsideOfMaterial(Material.water);
+          if (isInWater) {
+            event.newSpeed *= 5;
+          }
         }
       }
 
