@@ -61,6 +61,10 @@ public class PlayerHelper {
         .xpBarCap()) {
       player.experience = (player.experience + 1.0F) * (float) player.xpBarCap();
       player.addExperienceLevel(-1);
+      // This doesn't seem to freeze in 1.8, but the XP bar does weird things.
+      if (player.experience == 0 && player.experienceTotal == 0 && player.experienceLevel == 0) {
+        return;
+      }
     }
   }
 }
