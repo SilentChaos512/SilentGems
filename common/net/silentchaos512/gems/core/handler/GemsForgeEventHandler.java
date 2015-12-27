@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.client.event.ModelBakeEvent;
@@ -152,8 +153,11 @@ public class GemsForgeEventHandler {
 
       // Reduce speed of Area Miner and Lumberjack tools.
       int level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.aoe.effectId, heldItem);
-      if (level > 0 && !player.isSneaking()) {
-        event.newSpeed *= EnchantmentAOE.DIG_SPEED_MULTIPLIER;
+      if (level > 0 && !player.isSneaking() && heldItem.getItem() instanceof ItemTool) {
+        ItemTool itemTool = (ItemTool) heldItem.getItem();
+        if (itemTool.getDigSpeed(heldItem, event.state) > 1f) {
+          event.newSpeed *= EnchantmentAOE.DIG_SPEED_MULTIPLIER;
+        }
       }
       level = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lumberjack.effectId, heldItem);
       if (level > 0 && !player.isSneaking()) {
