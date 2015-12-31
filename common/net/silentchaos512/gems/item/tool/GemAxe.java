@@ -6,41 +6,28 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.IPlaceable;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
-import net.silentchaos512.gems.configuration.Config;
-import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
-import net.silentchaos512.gems.enchantment.EnchantmentAOE;
-import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.CraftingMaterial;
-import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.material.ModMaterials;
 
 public class GemAxe extends ItemAxe {
 
   public final int gemId;
   public final boolean supercharged;
 
-  public static final Material[] extraEffectiveMaterials = { Material.leaves, Material.plants,
-      Material.vine };
+  public static final Material[] extraEffectiveMaterials = { Material.wood, Material.leaves,
+      Material.plants, Material.vine };
 
   public GemAxe(ToolMaterial toolMaterial, int gemId, boolean supercharged) {
 
