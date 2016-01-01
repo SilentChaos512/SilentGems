@@ -102,6 +102,12 @@ public class GemPickaxe extends ItemPickaxe {
 
     return ToolRenderHelper.instance.getIcon(stack, pass, gemId, supercharged);
   }
+  
+  @Override
+  public int getColorFromItemStack(ItemStack stack, int pass) {
+
+    return ToolRenderHelper.instance.getColorFromItemStack(stack, pass);
+  }
 
   @Override
   public boolean getIsRepairable(ItemStack stack1, ItemStack stack2) {

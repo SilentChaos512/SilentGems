@@ -93,6 +93,12 @@ public class GemBow extends ItemBow implements IAddRecipe {
   }
 
   @Override
+  public int getColorFromItemStack(ItemStack stack, int pass) {
+
+    return ToolRenderHelper.instance.getColorFromItemStack(stack, pass);
+  }
+
+  @Override
   public IIcon getIcon(ItemStack stack, int pass) {
 
     return ToolRenderHelper.instance.getIcon(stack, pass, gemId, supercharged);

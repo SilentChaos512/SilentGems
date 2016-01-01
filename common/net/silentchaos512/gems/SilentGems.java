@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -59,6 +60,8 @@ public class SilentGems {
   public static CommonProxy proxy;
 
   public static SimpleNetworkWrapper network;
+  
+  public static boolean foundMetallurgy = false;
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
@@ -109,6 +112,12 @@ public class SilentGems {
     // World generators
     GameRegistry.registerWorldGenerator(new GemsWorldGenerator(), 0);
     LogHelper.info("Init done.");
+
+    // Look for other mods...
+    foundMetallurgy = Loader.isModLoaded("Metallurgy");
+    if (foundMetallurgy) {
+      ModItems.toolUpgrade.addMetallurgyTipRecipes();
+    }
   }
 
   @EventHandler

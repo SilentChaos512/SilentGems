@@ -243,16 +243,25 @@ public class ToolHelper {
     String line;
 
     // Tipped upgrades
-    int tip = getToolHeadTip(tool);
-    if (tip == 1) {
+    EnumTipUpgrade tip = EnumTipUpgrade.getById(getToolHeadTip(tool));
+    if (tip == EnumTipUpgrade.IRON) {
       line = LocalizationHelper.getMiscText("Tool.IronTipped");
       list.add(EnumChatFormatting.WHITE + line);
-    } else if (tip == 2) {
+    } else if (tip == EnumTipUpgrade.DIAMOND) {
       line = LocalizationHelper.getMiscText("Tool.DiamondTipped");
       list.add(EnumChatFormatting.AQUA + line);
-    } else if (tip == 3) {
+    } else if (tip == EnumTipUpgrade.EMERALD) {
       line = LocalizationHelper.getMiscText("Tool.EmeraldTipped");
       list.add(EnumChatFormatting.GREEN + line);
+    } else if (tip == EnumTipUpgrade.GOLD) {
+      line = LocalizationHelper.getMiscText("Tool.GoldTipped");
+      list.add(EnumChatFormatting.GOLD + line);
+    } else if (tip != EnumTipUpgrade.NONE) {
+      // Metallurgy tips
+      line = LocalizationHelper.getOtherItemKey("UpgradeTip",
+          tip.name().toLowerCase().replaceAll("_", "") + ".name");
+      line = line.replaceFirst("Upgrade: ", "");
+      list.add(EnumChatFormatting.GRAY + line);
     }
   }
 
@@ -699,12 +708,12 @@ public class ToolHelper {
 
   public static int getToolHeadTip(ItemStack tool) {
 
-    return getTagByte(NBT_TIP, tool);
+    return getTagInt(NBT_TIP, tool);
   }
 
   public static void setToolHeadTip(ItemStack tool, int id) {
 
-    setTagByte(NBT_TIP, id, tool);
+    setTagInt(NBT_TIP, id, tool);
   }
 
   public static boolean getToolNoGlint(ItemStack tool) {

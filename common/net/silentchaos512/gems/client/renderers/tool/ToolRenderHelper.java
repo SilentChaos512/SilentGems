@@ -14,6 +14,7 @@ import net.silentchaos512.gems.item.tool.GemPickaxe;
 import net.silentchaos512.gems.item.tool.GemShovel;
 import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.item.tool.GemSword;
+import net.silentchaos512.gems.lib.EnumTipUpgrade;
 import net.silentchaos512.gems.lib.Strings;
 
 /**
@@ -46,7 +47,7 @@ public class ToolRenderHelper extends Item {
   // The number of wool grip types (shouldn't change)
   public static final int ROD_WOOL_TYPE_COUNT = 16;
   // The number of mining tool tips.
-  public static final int TIP_TYPE_COUNT = 3;
+  public static final int TIP_TYPE_COUNT = 5;
 
   // Render pass IDs and count
   public static final int PASS_ROD = 0;
@@ -124,7 +125,7 @@ public class ToolRenderHelper extends Item {
       swordIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
     for (i = 0; i < TIP_TYPE_COUNT; ++i) {
-      swordIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
+      swordIcons.tip[i] = reg.registerIcon(item + "Tip" + (i == TIP_TYPE_COUNT - 1 ? 0 : i));
     }
 
     item = domain + "SwordDeco";
@@ -150,7 +151,7 @@ public class ToolRenderHelper extends Item {
       pickaxeIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
     for (i = 0; i < TIP_TYPE_COUNT; ++i) {
-      pickaxeIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
+      pickaxeIcons.tip[i] = reg.registerIcon(item + "Tip" + (i == TIP_TYPE_COUNT - 1 ? 0 : i));
     }
 
     pickaxeIcons.rodDeco = iconMainRodDeco;
@@ -190,7 +191,7 @@ public class ToolRenderHelper extends Item {
       axeIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
     for (i = 0; i < TIP_TYPE_COUNT; ++i) {
-      axeIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
+      axeIcons.tip[i] = reg.registerIcon(item + "Tip" + (i == TIP_TYPE_COUNT - 1 ? 0 : i));
     }
 
     axeIcons.rodDeco = iconMainRodDeco;
@@ -210,7 +211,7 @@ public class ToolRenderHelper extends Item {
       hoeIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
     for (i = 0; i < TIP_TYPE_COUNT; ++i) {
-      hoeIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
+      hoeIcons.tip[i] = reg.registerIcon(item + "Tip" + (i == TIP_TYPE_COUNT - 1 ? 0 : i));
     }
 
     hoeIcons.rodDeco = iconMainRodDeco;
@@ -230,7 +231,7 @@ public class ToolRenderHelper extends Item {
       sickleIcons.headR[i] = reg.registerIcon(item + i + "R");
     }
     for (i = 0; i < TIP_TYPE_COUNT; ++i) {
-      sickleIcons.tip[i] = reg.registerIcon(item + "Tip" + i);
+      sickleIcons.tip[i] = reg.registerIcon(item + "Tip" + (i == TIP_TYPE_COUNT - 1 ? 0 : i));
     }
 
     sickleIcons.rodDeco = iconMainRodDeco;
@@ -267,10 +268,10 @@ public class ToolRenderHelper extends Item {
       bow3Icons.headR[i] = reg.registerIcon(item + i + "R_3");
     }
     for (i = 0; i < TIP_TYPE_COUNT; ++i) {
-      bow0Icons.tip[i] = reg.registerIcon(item + "Tip" + i);
+      bow0Icons.tip[i] = reg.registerIcon(item + "Tip" + (i == TIP_TYPE_COUNT - 1 ? 0 : i));
       bow1Icons.tip[i] = bow0Icons.tip[i];
       bow2Icons.tip[i] = bow0Icons.tip[i];
-      bow3Icons.tip[i] = reg.registerIcon(item + "Tip" + i + "_3");
+      bow3Icons.tip[i] = reg.registerIcon(item + "Tip" + (i == TIP_TYPE_COUNT - 1 ? 0 : i) + "_3");
     }
 
     item = domain + "BowDeco";
@@ -293,6 +294,16 @@ public class ToolRenderHelper extends Item {
       // bow2Icons.rodWool[i] = bow0Icons.rodWool[i];
       // bow3Icons.rodWool[i] = reg.registerIcon(item + i + "_3");
     }
+  }
+  
+  @Override
+  public int getColorFromItemStack(ItemStack stack, int pass) {
+
+    if (pass == PASS_TIP) {
+      EnumTipUpgrade tip = EnumTipUpgrade.getById(ToolHelper.getToolHeadTip(stack));
+      return tip.getColor();
+    }
+    return 0xFFFFFF;
   }
 
   @Override
@@ -462,7 +473,7 @@ public class ToolRenderHelper extends Item {
       if (k < 0) {
         return iconBlank;
       } else if (k > TIP_TYPE_COUNT - 1) {
-        return iconError;
+        return icons.tip[TIP_TYPE_COUNT - 1];
       }
       return icons.tip[k];
     } else {
