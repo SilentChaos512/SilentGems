@@ -1,6 +1,8 @@
 Silent's Gems - Changelog
 
-1.3.8b
+1.3.9
+Added: Metallurgy metal tip upgrades (they only show up with Metallurgy installed)
+Added: Chaos gem charge bars.
 Fixed: Axes not working on some modded wood blocks.
 
 1.3.8

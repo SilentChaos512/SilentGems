@@ -43,6 +43,7 @@ import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.enchantment.EnchantmentLumberjack;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
+import net.silentchaos512.gems.item.ChaosGem;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.TeleporterLinker;
@@ -58,39 +59,8 @@ public class GemsForgeEventHandler {
 
     if (event.type == RenderGameOverlayEvent.ElementType.TEXT) {
       Minecraft mc = Minecraft.getMinecraft();
-      EntityPlayer player = mc.thePlayer;
-
-      ItemStack heldItem = mc.thePlayer.getHeldItem();
-      if (heldItem != null && heldItem.getItem() == ModItems.teleporterLinker) {
-        TeleporterLinker linker = (TeleporterLinker) heldItem.getItem();
-
-        ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-        FontRenderer fontRender = mc.fontRenderer;
-        int width = res.getScaledWidth();
-        int height = res.getScaledHeight();
-
-        String str;
-        if (linker.isLinked(heldItem)) {
-          DimensionalPosition pos = linker.getLinkedPosition(heldItem);
-          double x = pos.x - player.posX;
-          double z = pos.z - player.posZ;
-          int distance = (int) Math.sqrt(x * x + z * z);
-          str = LocalizationHelper.getOtherItemKey(Names.TELEPORTER_LINKER, "Distance");
-          str = String.format(str, distance);
-
-          int textX = width / 2 - fontRender.getStringWidth(str) / 2;
-          int textY = height * 3 / 5;
-          // Text colored differently depending on situation.
-          int color = 0xffff00; // Outside free range, same dimension
-          if (pos.d != player.dimension) {
-            color = 0xff6600; // Different dimension
-            str = LocalizationHelper.getOtherItemKey(Names.TELEPORTER_LINKER, "DifferentDimension");
-          } else if (distance < Config.TELEPORTER_XP_FREE_RANGE) {
-            color = 0x00aaff; // Inside free range
-          }
-          fontRender.drawStringWithShadow(str, textX, textY, color);
-        }
-      }
+      TeleporterLinker.renderGameOverlay(mc);
+      ChaosGem.renderGameOverlay(mc);
     }
   }
 

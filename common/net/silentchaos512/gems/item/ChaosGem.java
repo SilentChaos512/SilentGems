@@ -3,7 +3,15 @@ package net.silentchaos512.gems.item;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
+import com.google.common.collect.Lists;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,12 +22,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.renderers.RenderHelper;
 import net.silentchaos512.gems.configuration.Config;
-import net.silentchaos512.gems.core.handler.GemsExtendedPlayer;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.RecipeHelper;
 import net.silentchaos512.gems.energy.IChaosStorage;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -495,5 +504,108 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
   public int getMaxEnergyStored(ItemStack stack) {
 
     return 1000000; // FIXME: Chaos gem max charge?
+  }
+
+  public static final ResourceLocation TEXTURE_FRAME = new ResourceLocation(
+      SilentGems.MOD_ID.toLowerCase(), "textures/gui/chaos_bar_frame.png");
+  public static final ResourceLocation TEXTURE_BAR = new ResourceLocation(
+      SilentGems.MOD_ID.toLowerCase(), "textures/gui/chaos_bar.png");
+  public static final int[] COLORS = { 0xE61D1D, 0xE63F1D, 0xE6601D, 0xE6C41D, 0xA3E61D, 0x2EE61D,
+      0x1DC4E6, 0x1D3FE6, 0x3F1DE6, 0x821DE6, 0xEF70C5, 0x010101 };
+
+  public static final int BAR_WIDTH = 64;
+  public static final int BAR_HEIGHT = 8;
+
+  @SideOnly(Side.CLIENT)
+  public static void renderGameOverlay(Minecraft mc) {
+
+    EntityPlayer player = mc.thePlayer;
+    List<ItemStack> gems = Lists.newArrayList();
+    ChaosGem chaosGem = (ChaosGem) SRegistry.getItem(Names.CHAOS_GEM + "0"); // Doesn't matter which
+
+    for (ItemStack stack : player.inventory.mainInventory) {
+      if (stack != null && stack.getItem() instanceof ChaosGem) {
+        if (chaosGem.isEnabled(stack) && chaosGem.getTotalChargeDrain(stack, player) > 0) {
+          gems.add(stack);
+        }
+      }
+    }
+
+    if (gems.isEmpty()) {
+      return;
+    }
+
+    ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+
+    int current;
+    int max;
+    float storedFraction;
+
+    int posX;
+    int posY;
+    int index = 1;
+    float scale;
+
+    for (ItemStack gem : gems) {
+      current = chaosGem.getEnergyStored(gem);
+      max = chaosGem.getMaxEnergyStored(gem);
+      storedFraction = (float) current / (float) max;
+
+      // Get bar color
+      float red = 1f;
+      float green = 1f;
+      float blue = 1f;
+      int gemId = ((ChaosGem) gem.getItem()).gemId;
+      if (gemId >= 0 && gemId < COLORS.length) {
+        red = (COLORS[gemId] >> 16 & 255) / 255f;
+        green = (COLORS[gemId] >> 8 & 255) / 255f;
+        blue = (COLORS[gemId] & 255) / 255f;
+      }
+
+      GL11.glDisable(GL11.GL_LIGHTING);
+      GL11.glEnable(GL11.GL_BLEND);
+
+      scale = 1f;
+      GL11.glPushMatrix();
+      GL11.glScalef(scale, scale, 1f);
+
+      posX = (int) (res.getScaledWidth() / scale / 2 - BAR_WIDTH / 2);
+      posY = (int) (res.getScaledHeight() / scale * 0.05f + index * (BAR_HEIGHT + 2));
+
+      // Bar
+      GL11.glColor4f(red, green, blue, 0.5f);
+      mc.renderEngine.bindTexture(TEXTURE_BAR);
+      float barPosWidth = BAR_WIDTH * storedFraction;
+      float barPosX = posX;
+      float barPosHeight = BAR_HEIGHT;
+      float barPosY = posY;
+      RenderHelper.drawRect(barPosX, barPosY, 0, 0, barPosWidth, barPosHeight);
+
+      // Bar frame
+      GL11.glColor3f(1f, 1f, 1f);
+      mc.renderEngine.bindTexture(TEXTURE_FRAME);
+      RenderHelper.drawRect(posX, posY, 0, 0, BAR_WIDTH, BAR_HEIGHT);
+
+      GL11.glEnable(GL11.GL_BLEND);
+      GL11.glPopMatrix();
+
+      // Render charge level/percentage?
+      GL11.glPushMatrix();
+
+      GL11.glColor3f(1f, 1f, 1f);
+      scale = 0.7f;
+      GL11.glScalef(scale, scale, 1f);
+
+      FontRenderer fontRender = mc.fontRenderer;
+      String format = "%.2f%%";
+      String str = String.format(format, storedFraction * 100f);
+      posX = (int) (res.getScaledWidth() / scale / 2 - fontRender.getStringWidth(str) / 2);
+      posY = (int) (res.getScaledHeight() / scale * 0.05f + index * (BAR_HEIGHT + 2) / scale + 1);
+      fontRender.drawStringWithShadow(str, posX, posY, 0xFFFFFF);
+
+      GL11.glPopMatrix();
+
+      ++index;
+    }
   }
 }
