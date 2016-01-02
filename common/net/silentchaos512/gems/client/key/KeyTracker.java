@@ -1,19 +1,21 @@
 package net.silentchaos512.gems.client.key;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.item.ChaosGem;
-import net.silentchaos512.gems.network.MessageChaosGemToggle;
-
 import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.core.util.LogHelper;
+import net.silentchaos512.gems.item.ChaosGem;
+import net.silentchaos512.gems.network.MessageChaosGemToggle;
 
 public class KeyTracker {
 
@@ -24,34 +26,37 @@ public class KeyTracker {
     FMLCommonHandler.instance().bus().register(instance);
   }
 
+  private EntityPlayer player;
   private KeyBinding chaosGemToggleFirst;
-  private KeyBinding chaosGemToggleAll;
 
   public KeyTracker() {
 
     // TODO: Combine into one, using shift to specify all?
-    chaosGemToggleFirst = new KeyBinding("Chaos Gem - Toggle First", Keyboard.KEY_G,
+    chaosGemToggleFirst = new KeyBinding("Chaos Gem - Toggle First", Keyboard.KEY_F,
         SilentGems.MOD_NAME);
     ClientRegistry.registerKeyBinding(chaosGemToggleFirst);
-    chaosGemToggleAll = new KeyBinding("Chaos Gem - Toggle All", Keyboard.KEY_H,
-        SilentGems.MOD_NAME);
-    ClientRegistry.registerKeyBinding(chaosGemToggleAll);
+
+    player = Minecraft.getMinecraft().thePlayer;
   }
 
   @SubscribeEvent
   public void onKeyInput(KeyInputEvent event) {
 
+    player = Minecraft.getMinecraft().thePlayer;
     handleChaosGemToggleFirst();
     handleChaosGemToggleAll();
   }
 
+  private boolean isShiftPressed() {
+
+    return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+  }
+
   private void handleChaosGemToggleFirst() {
 
-    boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
-        || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+    boolean shifted = isShiftPressed();
     if (chaosGemToggleFirst.getIsKeyPressed() && !shifted) {
       // Client
-      EntityPlayer player = Minecraft.getMinecraft().thePlayer;
       for (ItemStack stack : player.inventory.mainInventory) {
         if (stack != null && stack.getItem() instanceof ChaosGem) {
           ((ChaosGem) stack.getItem()).onItemRightClick(stack, player.worldObj, player);
@@ -65,11 +70,9 @@ public class KeyTracker {
 
   private void handleChaosGemToggleAll() {
 
-    boolean shiftToggle = chaosGemToggleFirst.getIsKeyPressed()
-        && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT));
-    if (chaosGemToggleAll.getIsKeyPressed() || shiftToggle) {
+    boolean shiftToggle = chaosGemToggleFirst.getIsKeyPressed() && isShiftPressed();
+    if (shiftToggle) {
       // Client
-      EntityPlayer player = Minecraft.getMinecraft().thePlayer;
       for (ItemStack stack : player.inventory.mainInventory) {
         if (stack != null && stack.getItem() instanceof ChaosGem) {
           ((ChaosGem) stack.getItem()).onItemRightClick(stack, player.worldObj, player);
