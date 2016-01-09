@@ -102,8 +102,11 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
   public static final String KEY_ARMOR = "Armor";
   public static final String KEY_BOW = "Bow";
   public static final String KEY_EMPTY = "Empty";
+  public static final String KEY_FISHING_ROD = "FishingRod";
   public static final String KEY_SWORD = "Sword";
   public static final String KEY_TOOL = "Tool";
+  public static final String[] MODEL_TYPES = { KEY_ANY, KEY_ARMOR, KEY_BOW, KEY_EMPTY,
+      KEY_FISHING_ROD, KEY_SWORD, KEY_TOOL };
 
   /**
    * Stores the enchantments that there are tokens for.
@@ -135,7 +138,7 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
 
     // All
     addEnchantment(Enchantment.unbreaking, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE | T_SICKLE
-        | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS | T_SHEARS);
+        | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS | T_SHEARS | T_FISHING_ROD);
 
     // Melee weapons
     addEnchantment(Enchantment.baneOfArthropods, T_SWORD | T_PICKAXE | T_SHOVEL);
@@ -546,11 +549,10 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
   @Override
   public String[] getVariantNames() {
 
-    String[] types = { KEY_ANY, KEY_ARMOR, KEY_BOW, KEY_EMPTY, KEY_SWORD, KEY_TOOL };
-    String[] result = new String[types.length];
+    String[] result = new String[MODEL_TYPES.length];
 
-    for (int i = 0; i < types.length; ++i) {
-      result[i] = SilentGems.MOD_ID + ":" + Names.ENCHANT_TOKEN + "_" + types[i];
+    for (int i = 0; i < MODEL_TYPES.length; ++i) {
+      result[i] = SilentGems.MOD_ID + ":" + Names.ENCHANT_TOKEN + "_" + MODEL_TYPES[i];
     }
 
     return result;
@@ -559,12 +561,11 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
   @Override
   public void registerModels() {
 
-    String[] types = { KEY_ANY, KEY_ARMOR, KEY_BOW, KEY_EMPTY, KEY_SWORD, KEY_TOOL };
     String[] modelNames = getVariantNames();
 
     for (int i = 0; i < modelNames.length; ++i) {
       ModelResourceLocation model = new ModelResourceLocation(modelNames[i], "inventory");
-      models.put(types[i], model);
+      models.put(MODEL_TYPES[i], model);
     }
 
     ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
@@ -589,6 +590,8 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
           return models.get(KEY_TOOL);
         case BOW:
           return models.get(KEY_BOW);
+        case FISHING_ROD:
+          return models.get(KEY_FISHING_ROD);
         case ARMOR:
         case ARMOR_FEET:
         case ARMOR_LEGS:

@@ -865,6 +865,7 @@ misc.silentgems:Tool.Chestplate=Chestplate
 misc.silentgems:Tool.Leggings=Leggings
 misc.silentgems:Tool.Boots=Boots
 misc.silentgems:Tool.Shears=Shears
+misc.silentgems:Tool.FishingRod=Fishing Rod
 
 misc.silentgems:Tool.OldNBT1=DON'T PANIC. Place me in your
 misc.silentgems:Tool.OldNBT2=inventory, then log out and back in.
