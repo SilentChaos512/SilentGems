@@ -16,7 +16,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //    id "net.minecraftforge.gradle.forge" version "2.0.2"
 //}
 
-version = "1.3.8b"
+version = "1.3.8c"
 group = "net.silentchaos512.gems"
 archivesBaseName = "SilentsGems-1.8.9"
 
@@ -28,19 +28,22 @@ minecraft {
     replaceIn "SilentGems.java"
 
     mappings = "stable_20"
+    useDepAts = true
 }
 
 repositories {
-    mavenCentral()
+    //mavenCentral()
     maven {
-        name = "chickenbones"
-        url = "http://chickenbones.net/maven"
+        url "http://dvs1.progwml6.com/files/maven"
+        //name = "chickenbones"
+        //url = "http://chickenbones.net/maven"
     }
 }
 
-//dependencies {
-//    compile "codechicken:NotEnoughItems:1.8-1.0.5.82:dev"
-//}
+dependencies {
+    deobfCompile "mezz.jei:jei_1.8.9:2.14.0.67"
+    //compile "codechicken:NotEnoughItems:1.8-1.0.5.82:dev"
+}
 
 sourceSets {
     main {

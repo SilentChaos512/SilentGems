@@ -34,7 +34,6 @@ import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.ModEntities;
 import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
-import net.silentchaos512.gems.integration.jei.JEISilentGemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.buff.ChaosBuff;
@@ -106,8 +105,6 @@ public class SilentGems {
     // World generators
     GameRegistry.registerWorldGenerator(new GemsWorldGenerator(), 0);
     LogHelper.info("Init done.");
-
-    JEISilentGemsConfig.init();
   }
 
   @EventHandler
