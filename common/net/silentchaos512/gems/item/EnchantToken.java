@@ -22,6 +22,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemShears;
@@ -80,6 +81,7 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
 
   // I store which items an enchantment token can be applied to in a single integer. Each bit represents one item class,
   // these constants are the positions of the respective bit.
+  public static final int T_FISHING_ROD = 4096;
   public static final int T_SHEARS = 2048;
   public static final int T_BOOTS = 1024;
   public static final int T_LEGGINGS = 512;
@@ -156,6 +158,10 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
     addEnchantment(Enchantment.silkTouch,
         T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE | T_SHEARS);
 
+    // Fishing rods
+    addEnchantment(Enchantment.luckOfTheSea, T_FISHING_ROD);
+    addEnchantment(Enchantment.lure, T_FISHING_ROD);
+
     // Armor
     final int allArmor = T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS;
     addEnchantment(Enchantment.aquaAffinity, T_HELMET);
@@ -166,6 +172,7 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
     addEnchantment(Enchantment.protection, allArmor);
     addEnchantment(Enchantment.respiration, T_HELMET);
     addEnchantment(Enchantment.thorns, allArmor);
+    addEnchantment(Enchantment.depthStrider, T_BOOTS);
 
     // This mod
     addEnchantment(ModEnchantments.mending, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE
@@ -258,8 +265,8 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
   @Override
   public void addRecipes() {
 
-    ItemStack baseToken = new ItemStack(this, 1, META_BLANK);
-    ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
+    final ItemStack baseToken = new ItemStack(this, 1, META_BLANK);
+    final ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
 
     // Base token recipe
     GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 12, META_BLANK), "ggg", "rer",
@@ -268,7 +275,7 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
     GameRegistry.addShapelessRecipe(new ItemStack(this, 1, META_BLANK),
         new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE));
 
-    int gemCount = 2;
+    final int gemCount = 2;
 
     // All
     addTokenRecipe(Enchantment.unbreaking.effectId, EnumGem.SAPPHIRE.getItemOreName(), gemCount,
@@ -306,6 +313,12 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
     addTokenRecipe(Enchantment.punch.effectId, EnumGem.AQUAMARINE.getItemOreName(), gemCount,
         Blocks.piston, 2, baseToken);
 
+    // Fishing Rod
+    addTokenRecipe(Enchantment.luckOfTheSea.effectId, EnumGem.HELIODOR.getItemOreName(), gemCount,
+        new ItemStack(Items.fish, 1, OreDictionary.WILDCARD_VALUE), 5, baseToken);
+    addTokenRecipe(Enchantment.lure.effectId, EnumGem.EMERALD.getItemOreName(), gemCount,
+        Blocks.tripwire_hook, 4, baseToken);
+
     // Armor
     addTokenRecipe(Enchantment.aquaAffinity.effectId, EnumGem.SAPPHIRE.getItemOreName(), gemCount,
         "blockLapis", 2, baseToken);
@@ -323,6 +336,8 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
         new ItemStack(Items.fish, 1, 3), 1, baseToken);
     addTokenRecipe(Enchantment.thorns.effectId, EnumGem.EMERALD.getItemOreName(), gemCount,
         new ItemStack(Blocks.double_plant, 1, 4), 2, baseToken);
+    addTokenRecipe(Enchantment.depthStrider.effectId, EnumGem.SAPPHIRE.getItemOreName(), gemCount,
+        Blocks.clay, 3, baseToken);
 
     // This mod
     addTokenRecipe(ModEnchantments.mending.effectId, EnumGem.MORGANITE.getItemOreName(), gemCount,
@@ -413,6 +428,7 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
       flag |= itemTool instanceof GemSickle && (validTools & T_SICKLE) != 0;
       flag |= itemTool instanceof ItemBow && (validTools & T_BOW) != 0;
       flag |= itemTool instanceof ItemShears && (validTools & T_SHEARS) != 0;
+      flag |= itemTool instanceof ItemFishingRod && (validTools & T_FISHING_ROD) != 0;
 
       if (itemTool instanceof ItemArmor) {
         ItemArmor armor = (ItemArmor) itemTool;
@@ -622,6 +638,9 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
       }
       if ((k & T_SHEARS) != 0) {
         list.add(LocalizationHelper.getMiscText(Strings.TOOL_SHEARS));
+      }
+      if ((k & T_FISHING_ROD) != 0) {
+        list.add(LocalizationHelper.getMiscText(Strings.TOOL_FISHING_ROD));
       }
       if ((k & T_HELMET) != 0) {
         list.add(LocalizationHelper.getMiscText(Strings.TOOL_HELMET));

@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
@@ -50,7 +51,8 @@ public class EnchantToolRecipe implements IRecipe {
   private boolean isToolOrArmor(ItemStack stack) {
 
     Item item = stack.getItem();
-    return InventoryHelper.isTool(stack) || item instanceof ItemArmor || item instanceof ItemShears;
+    return InventoryHelper.isTool(stack) || item instanceof ItemArmor || item instanceof ItemShears
+        || item instanceof ItemFishingRod;
   }
 
   private boolean isEnchantableItem(ItemStack stack) {
