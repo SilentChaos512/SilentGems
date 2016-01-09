@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
@@ -71,13 +73,13 @@ public class RenderProjectileChaosOrb extends Render {
     float f8 = 0.5f;
     float f9 = 0.25f;
 
-    worldRenderer.startDrawingQuads();
-    worldRenderer.setColorRGBA(colorR, colorG, colorB, 255);
-    worldRenderer.setNormal(0f, 1f, 0f);
-    worldRenderer.addVertexWithUV(0f - f8, 0f - f9, 0d, uMin, vMax);
-    worldRenderer.addVertexWithUV(f7 - f8, 0.0F - f9, 0.0D, uMax, vMax);
-    worldRenderer.addVertexWithUV(f7 - f8, 1.0F - f9, 0.0D, uMax, vMin);
-    worldRenderer.addVertexWithUV(0.0F - f8, 1.0F - f9, 0.0D, uMin, vMin);
+    worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+    worldRenderer.color(colorR, colorG, colorB, 255);
+    worldRenderer.normal(0f, 1f, 0f);
+    worldRenderer.pos(0f - f8, 0f - f9, 0d).tex(uMin, vMax);
+    worldRenderer.pos(f7 - f8, 0.0F - f9, 0.0D).tex(uMax, vMax);
+    worldRenderer.pos(f7 - f8, 1.0F - f9, 0.0D).tex(uMax, vMin);
+    worldRenderer.pos(0.0F - f8, 1.0F - f9, 0.0D).tex(uMin, vMin);
     tess.draw();
 
     GL11.glDisable(GL11.GL_BLEND);

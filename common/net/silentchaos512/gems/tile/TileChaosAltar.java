@@ -8,13 +8,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ITickable;
 import net.silentchaos512.gems.energy.IChaosStorage;
 
-public class TileChaosAltar extends TileEntity implements ISidedInventory, IUpdatePlayerListBox {
+public class TileChaosAltar extends TileEntity implements ISidedInventory, ITickable {
   
   public static final int BLOCK_UPDATE_DELAY = 200;
 
@@ -184,7 +184,7 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, IUpda
   }
 
   @Override
-  public ItemStack getStackInSlotOnClosing(int slot) {
+  public ItemStack removeStackFromSlot(int slot) {
 
     if (this.inventory[slot] != null) {
       ItemStack stack = this.inventory[slot];

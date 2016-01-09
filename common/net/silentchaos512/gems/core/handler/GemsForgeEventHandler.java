@@ -63,7 +63,7 @@ public class GemsForgeEventHandler {
       if (heldItem != null && heldItem.getItem() == ModItems.teleporterLinker) {
         TeleporterLinker linker = (TeleporterLinker) heldItem.getItem();
 
-        ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+        ScaledResolution res = new ScaledResolution(mc);
         FontRenderer fontRender = mc.fontRendererObj;
         int width = res.getScaledWidth();
         int height = res.getScaledHeight();

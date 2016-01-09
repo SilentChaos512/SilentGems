@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.vecmath.Matrix4f;
-import javax.vecmath.Vector3f;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.lwjgl.util.vector.Vector3f;
 
 import com.google.common.collect.Lists;
 
@@ -17,11 +17,15 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformT
 import net.minecraft.client.renderer.block.model.ItemTransformVec3f;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.client.ForgeHooksClient;
+import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.ISmartItemModel;
 import net.minecraftforge.fml.relauncher.Side;
@@ -52,19 +56,19 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
    * The base model of the tool. This may not have any meaningful function.
    */
   private final IBakedModel baseModel;
-//  /**
-//   * Used by bows to determine which frame of the animation it should display.
-//   */
-//  public final int animationFrame;
+  // /**
+  // * Used by bows to determine which frame of the animation it should display.
+  // */
+  // public final int animationFrame;
   /**
    * The tool being rendered. The NBT of the tool determines the models used.
    */
   private ItemStack tool;
 
-  public ToolSmartModel(IBakedModel baseModel/*, int animationFrame*/) {
+  public ToolSmartModel(IBakedModel baseModel/* , int animationFrame */) {
 
     this.baseModel = baseModel;
-//    this.animationFrame = animationFrame;
+    // this.animationFrame = animationFrame;
   }
 
   /**
@@ -79,9 +83,9 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
 
     if (InventoryHelper.isGemTool(stack)) {
       tool = stack;
-//      if (animationFrame != 0) {
-//        LogHelper.debug(animationFrame);
-//      }
+      // if (animationFrame != 0) {
+      // LogHelper.debug(animationFrame);
+      // }
     }
     return this;
   }
@@ -95,25 +99,31 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
    * @return A pair of the baked model (this) and a Matrix4f (always null)
    */
   @Override
-  public Pair<IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
+  public Pair<IFlexibleBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
 
+    Matrix4f matrix = new Matrix4f();
     switch (cameraTransformType) {
       case FIRST_PERSON:
-        RenderItem.applyVanillaTransform(this.getItemCameraTransforms().firstPerson);
+        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().firstPerson);
         break;
       case GUI:
-        RenderItem.applyVanillaTransform(this.getItemCameraTransforms().gui);
+        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().gui);
         break;
       case HEAD:
-        RenderItem.applyVanillaTransform(this.getItemCameraTransforms().head);
+        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().head);
         break;
       case THIRD_PERSON:
-        RenderItem.applyVanillaTransform(this.getItemCameraTransforms().thirdPerson);
+        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().thirdPerson);
         break;
+      case GROUND:
+        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().ground);
+        break;
+      case FIXED:
+        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().fixed);
       default:
         break;
     }
-    return Pair.of((IBakedModel) this, (Matrix4f) null);
+    return Pair.of((IFlexibleBakedModel) this, matrix);
   }
 
   @Override
@@ -188,9 +198,9 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
   }
 
   @Override
-  public TextureAtlasSprite getTexture() {
+  public TextureAtlasSprite getParticleTexture() {
 
-    return baseModel.getTexture();
+    return baseModel.getParticleTexture();
   }
 
   /**
@@ -206,14 +216,14 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
     Vector3f rotation, translation, scale;
 
     // Third Person
-    rotation = new Vector3f(0f, 90f, -35f);
+    rotation = new Vector3f(0f, (float) Math.PI / 2f, (float) -Math.PI * 7f / 36f); // (0, 90, -35)
     translation = new Vector3f(0f, 1.25f, -3.5f);
     translation.scale(0.0625f);
     scale = new Vector3f(0.85f, 0.85f, 0.85f);
     ItemTransformVec3f thirdPerson = new ItemTransformVec3f(rotation, translation, scale);
 
     // First Person
-    rotation = new Vector3f(0f, -135f, 25f);
+    rotation = new Vector3f(0f, (float) -Math.PI * 3f / 4f, (float) Math.PI * 5f / 36f); // (0, -135, 25)
     translation = new Vector3f(0f, 4f, 2f);
     translation.scale(0.0625f);
     scale = new Vector3f(1.7f, 1.7f, 1.7f);
@@ -221,6 +231,12 @@ public class ToolSmartModel implements ISmartItemModel, IPerspectiveAwareModel {
 
     // Head and GUI are default.
     return new ItemCameraTransforms(thirdPerson, firstPerson, ItemTransformVec3f.DEFAULT,
-        ItemTransformVec3f.DEFAULT);
+        ItemTransformVec3f.DEFAULT, ItemTransformVec3f.DEFAULT, ItemTransformVec3f.DEFAULT);
+  }
+
+  @Override
+  public VertexFormat getFormat() {
+
+    return DefaultVertexFormats.ITEM;
   }
 }

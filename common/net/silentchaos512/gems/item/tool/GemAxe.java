@@ -28,8 +28,8 @@ public class GemAxe extends ItemAxe implements IHasVariants {
   public final int gemId;
   public final boolean supercharged;
 
-  public static final Material[] extraEffectiveMaterials = { Material.leaves, Material.plants,
-      Material.vine };
+  public static final Material[] extraEffectiveMaterials = { Material.wood, Material.leaves,
+      Material.plants, Material.vine };
 
   public GemAxe(ToolMaterial toolMaterial, int gemId, boolean supercharged) {
 

@@ -36,14 +36,15 @@ public class EntityFXChaosCharge extends EntityFX {
   }
 
   @Override
-  public void func_180434_a(WorldRenderer worldRenderer, Entity entity, float posX, float posY,
-      float posZ, float par5, float par6, float par7) {
+  public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks,
+      float p_180434_4_, float p_180434_5_, float p_180434_6_, float p_180434_7_,
+      float p_180434_8_) {
 
     float uMin = (float) this.particleTextureIndexX / 16.0F;
     float uMax = uMin + .25f;
     float vMin = (float) this.particleTextureIndexY / 16.0F;
     float vMax = vMin + .25f;
-    float f10 = 0.1F * this.particleScale;
+    float f4 = 0.1F * this.particleScale;
 
     if (this.particleIcon != null) {
       uMin = this.particleIcon.getMinU();
@@ -52,18 +53,37 @@ public class EntityFXChaosCharge extends EntityFX {
       vMax = this.particleIcon.getMaxV();
     }
 
-    float f11 = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) posX - interpPosX);
-    float f12 = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) posX - interpPosY);
-    float f13 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) posX - interpPosZ);
-    worldRenderer.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue,
-        this.particleAlpha);
-    worldRenderer.addVertexWithUV(f11 - posY * f10 - par6 * f10, f12 - posZ * f10,
-        f13 - par5 * f10 - par7 * f10, uMax, vMax);
-    worldRenderer.addVertexWithUV(f11 - posY * f10 + par6 * f10, f12 + posZ * f10,
-        f13 - par5 * f10 + par7 * f10, uMax, vMin);
-    worldRenderer.addVertexWithUV(f11 + posY * f10 + par6 * f10, f12 + posZ * f10,
-        f13 + par5 * f10 + par7 * f10, uMin, vMin);
-    worldRenderer.addVertexWithUV(f11 + posY * f10 - par6 * f10, f12 - posZ * f10,
-        f13 + par5 * f10 - par7 * f10, uMin, vMax);
+    float f5 = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) posX - interpPosX);
+    float f6 = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) posX - interpPosY);
+    float f7 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) posX - interpPosZ);
+
+    int i = this.getBrightnessForRender(partialTicks);
+    int j = i >> 16 & 65535;
+    int k = i & 65535;
+
+    worldRendererIn
+        .pos((double) (f5 - p_180434_4_ * f4 - p_180434_7_ * f4), (double) (f6 - p_180434_5_ * f4),
+            (double) (f7 - p_180434_6_ * f4 - p_180434_8_ * f4))
+        .tex((double) uMax, (double) vMax)
+        .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+        .lightmap(j, k).endVertex();
+    worldRendererIn
+        .pos((double) (f5 - p_180434_4_ * f4 + p_180434_7_ * f4), (double) (f6 + p_180434_5_ * f4),
+            (double) (f7 - p_180434_6_ * f4 + p_180434_8_ * f4))
+        .tex((double) uMax, (double) vMin)
+        .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+        .lightmap(j, k).endVertex();
+    worldRendererIn
+        .pos((double) (f5 + p_180434_4_ * f4 + p_180434_7_ * f4), (double) (f6 + p_180434_5_ * f4),
+            (double) (f7 + p_180434_6_ * f4 + p_180434_8_ * f4))
+        .tex((double) uMin, (double) vMin)
+        .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+        .lightmap(j, k).endVertex();
+    worldRendererIn
+        .pos((double) (f5 + p_180434_4_ * f4 - p_180434_7_ * f4), (double) (f6 - p_180434_5_ * f4),
+            (double) (f7 + p_180434_6_ * f4 - p_180434_8_ * f4))
+        .tex((double) uMin, (double) vMax)
+        .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+        .lightmap(j, k).endVertex();
   }
 }

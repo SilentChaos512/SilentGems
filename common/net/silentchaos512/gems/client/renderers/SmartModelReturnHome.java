@@ -3,9 +3,10 @@ package net.silentchaos512.gems.client.renderers;
 import java.util.List;
 
 import javax.vecmath.Matrix4f;
-import javax.vecmath.Vector3f;
+import javax.vecmath.Point3f;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.lwjgl.util.vector.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -13,10 +14,14 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformT
 import net.minecraft.client.renderer.block.model.ItemTransformVec3f;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.client.ForgeHooksClient;
+import net.minecraftforge.client.model.IFlexibleBakedModel;
 import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.client.model.ISmartItemModel;
 import net.silentchaos512.gems.item.ModItems;
@@ -66,9 +71,9 @@ public class SmartModelReturnHome implements ISmartItemModel, IPerspectiveAwareM
   }
 
   @Override
-  public TextureAtlasSprite getTexture() {
+  public TextureAtlasSprite getParticleTexture() {
 
-    return baseModel.getTexture();
+    return baseModel.getParticleTexture();
   }
 
   @Override
@@ -92,29 +97,34 @@ public class SmartModelReturnHome implements ISmartItemModel, IPerspectiveAwareM
 
     // Head and GUI are default.
     return new ItemCameraTransforms(thirdPerson, firstPerson, ItemTransformVec3f.DEFAULT,
-        ItemTransformVec3f.DEFAULT);
+        ItemTransformVec3f.DEFAULT, ItemTransformVec3f.DEFAULT, ItemTransformVec3f.DEFAULT);
   }
 
   @Override
-  public Pair<IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
+  public Pair<IFlexibleBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
 
+    Matrix4f matrix = new Matrix4f();
     switch (cameraTransformType) {
       case FIRST_PERSON:
-        RenderItem.applyVanillaTransform(this.getItemCameraTransforms().firstPerson);
+//        RenderItem.applyVanillaTransform(this.getItemCameraTransforms().firstPerson);
+        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().firstPerson);
         break;
       case GUI:
-        RenderItem.applyVanillaTransform(this.getItemCameraTransforms().gui);
+//        RenderItem.applyVanillaTransform(this.getItemCameraTransforms().gui);
+        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().gui);
         break;
       case HEAD:
-        RenderItem.applyVanillaTransform(this.getItemCameraTransforms().head);
+//        RenderItem.applyVanillaTransform(this.getItemCameraTransforms().head);
+        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().head);
         break;
       case THIRD_PERSON:
-        RenderItem.applyVanillaTransform(this.getItemCameraTransforms().thirdPerson);
+//        RenderItem.applyVanillaTransform(this.getItemCameraTransforms().thirdPerson);
+        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().thirdPerson);
         break;
       default:
         break;
     }
-    return Pair.of((IBakedModel) this, (Matrix4f) null);
+    return Pair.of((IFlexibleBakedModel) this, matrix);
   }
 
   @Override
@@ -124,6 +134,13 @@ public class SmartModelReturnHome implements ISmartItemModel, IPerspectiveAwareM
       this.charm = stack;
     }
     return this;
+  }
+
+  @Override
+  public VertexFormat getFormat() {
+
+ // TODO Auto-generated method stub
+    return DefaultVertexFormats.ITEM;
   }
 
 }

@@ -13,13 +13,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.achievement.GemsAchievement;
 import net.silentchaos512.gems.api.IPlaceable;
@@ -376,9 +376,10 @@ public class ToolHelper {
 
     float speed = getAdjustedDigSpeed(tool, baseSpeed);
 
-    // if (ForgeHooks.isToolEffective(tool, state)) {
-    // return speed;
-    // }
+    if (tool.getItem().canHarvestBlock(state.getBlock())) {
+      return speed;
+    }
+
     for (String type : tool.getItem().getToolClasses(tool)) {
       if (state.getBlock().isToolEffective(type, state)) {
         return speed;

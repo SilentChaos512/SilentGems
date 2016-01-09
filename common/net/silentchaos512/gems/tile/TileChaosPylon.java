@@ -9,18 +9,18 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ITickable;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.BlockChaosPylon;
 import net.silentchaos512.gems.client.particle.EntityParticleFXChaosTransfer;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LogHelper;
 
-public class TileChaosPylon extends TileEntity implements IInventory, IUpdatePlayerListBox {
+public class TileChaosPylon extends TileEntity implements IInventory, ITickable {
 
   public static final int SEARCH_RADIUS = 4;
   public static final int SEARCH_HEIGHT = 1;
@@ -415,7 +415,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, IUpdatePla
   }
 
   @Override
-  public ItemStack getStackInSlotOnClosing(int slot) {
+  public ItemStack removeStackFromSlot(int slot) {
 
     if (inventory[slot] != null) {
       ItemStack stack = inventory[slot];
