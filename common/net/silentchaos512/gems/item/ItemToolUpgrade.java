@@ -143,7 +143,7 @@ public class ItemToolUpgrade extends ItemSG {
 
     int meta = upgrade.getItemDamage();
     ItemStack result = tool.copy();
-    EnumTipUpgrade tip = EnumTipUpgrade.getById(meta);
+    EnumTipUpgrade tip = EnumTipUpgrade.getById(meta < 2 ? meta + 1 : meta);
 
     if (tip != EnumTipUpgrade.NONE) {
       // Tipped upgrades
