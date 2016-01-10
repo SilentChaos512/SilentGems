@@ -64,6 +64,7 @@ public class Strings {
   public static final String TOOL_LEGGINGS = "Tool.Leggings";
   public static final String TOOL_BOOTS = "Tool.Boots";
   public static final String TOOL_SHEARS = "Tool.Shears";
+  public static final String TOOL_FISHING_ROD = "Tool.FishingRod";
 
   /*
    * Ore dictionary keys
