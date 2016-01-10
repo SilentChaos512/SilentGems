@@ -179,7 +179,7 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
 
     // This mod
     addEnchantment(ModEnchantments.mending, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE
-        | T_SICKLE | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS | T_SHEARS);
+        | T_SICKLE | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS | T_SHEARS | T_FISHING_ROD);
     addEnchantment(ModEnchantments.aoe, T_PICKAXE | T_SHOVEL | T_AXE);
     addEnchantment(ModEnchantments.lumberjack, T_AXE);
     addEnchantment(ModEnchantments.lifeSteal, T_SWORD | T_AXE);

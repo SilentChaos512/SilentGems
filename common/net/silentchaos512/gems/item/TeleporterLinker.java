@@ -2,11 +2,17 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.DimensionalPosition;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.lib.Names;
@@ -75,5 +81,43 @@ public boolean isLinked(ItemStack stack) {
       return new DimensionalPosition(0, 0, 0, 0);
     }
     return DimensionalPosition.fromNBT(stack.getTagCompound());
+  }
+
+  @SideOnly(Side.CLIENT)
+  public static void renderGameOverlay(Minecraft mc) {
+
+    EntityPlayer player = mc.thePlayer;
+
+    ItemStack heldItem = mc.thePlayer.getHeldItem();
+    if (heldItem != null && heldItem.getItem() == ModItems.teleporterLinker) {
+      TeleporterLinker linker = (TeleporterLinker) heldItem.getItem();
+
+      ScaledResolution res = new ScaledResolution(mc);
+      FontRenderer fontRender = mc.fontRendererObj;
+      int width = res.getScaledWidth();
+      int height = res.getScaledHeight();
+
+      String str;
+      if (linker.isLinked(heldItem)) {
+        DimensionalPosition pos = linker.getLinkedPosition(heldItem);
+        double x = pos.x - player.posX;
+        double z = pos.z - player.posZ;
+        int distance = (int) Math.sqrt(x * x + z * z);
+        str = LocalizationHelper.getOtherItemKey(Names.TELEPORTER_LINKER, "Distance");
+        str = String.format(str, distance);
+
+        int textX = width / 2 - fontRender.getStringWidth(str) / 2;
+        int textY = height * 3 / 5;
+        // Text colored differently depending on situation.
+        int color = 0xffff00; // Outside free range, same dimension
+        if (pos.d != player.dimension) {
+          color = 0xff6600; // Different dimension
+          str = LocalizationHelper.getOtherItemKey(Names.TELEPORTER_LINKER, "DifferentDimension");
+        } else if (distance < Config.TELEPORTER_XP_FREE_RANGE) {
+          color = 0x00aaff; // Inside free range
+        }
+        fontRender.drawStringWithShadow(str, textX, textY, color);
+      }
+    }
   }
 }

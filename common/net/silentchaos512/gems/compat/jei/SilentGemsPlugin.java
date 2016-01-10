@@ -25,8 +25,6 @@ public class SilentGemsPlugin implements IModPlugin {
   @Override
   public void register(IModRegistry arg0) {
 
-    // TODO Auto-generated method stub
-
     int i;
     jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.fluffyPlant));
     for (i = 0; i < EnumGem.values().length; ++i) {
@@ -43,7 +41,7 @@ public class SilentGemsPlugin implements IModPlugin {
     jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModItems.toolRenderHelper));
 
     // TODO: What's this do exactly?
-    jeiHelper.getNbtIgnoreList().ignoreNbtTagNames(ToolHelper.NBT_ROOT);
+    //jeiHelper.getNbtIgnoreList().ignoreNbtTagNames(ToolHelper.NBT_ROOT);
   }
 
   @Override
