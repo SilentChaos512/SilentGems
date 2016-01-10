@@ -21,6 +21,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemShears;
@@ -77,6 +78,7 @@ public class EnchantToken extends ItemSG {
 
   // I store which items an enchantment token can be applied to in a single integer. Each bit represents one item class,
   // these constants are the positions of the respective bit.
+  public static final int T_FISHING_ROD = 4096;
   public static final int T_SHEARS = 2048;
   public static final int T_BOOTS = 1024;
   public static final int T_LEGGINGS = 512;
@@ -94,6 +96,7 @@ public class EnchantToken extends ItemSG {
   private IIcon iconArmor;
   private IIcon iconBow;
   private IIcon iconEmpty;
+  private IIcon iconFishingRod;
   private IIcon iconSword;
   private IIcon iconTool;
 
@@ -122,7 +125,7 @@ public class EnchantToken extends ItemSG {
 
     // All
     addEnchantment(Enchantment.unbreaking, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE | T_SICKLE
-        | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS | T_SHEARS);
+        | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS | T_SHEARS | T_FISHING_ROD);
 
     // Melee weapons
     addEnchantment(Enchantment.baneOfArthropods, T_SWORD | T_PICKAXE | T_SHOVEL);
@@ -145,6 +148,10 @@ public class EnchantToken extends ItemSG {
     addEnchantment(Enchantment.silkTouch,
         T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_SICKLE | T_SHEARS);
 
+    // Fishing rods
+    addEnchantment(Enchantment.field_151370_z, T_FISHING_ROD);
+    addEnchantment(Enchantment.field_151369_A, T_FISHING_ROD);
+
     // Armor
     final int allArmor = T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS;
     addEnchantment(Enchantment.aquaAffinity, T_HELMET);
@@ -157,8 +164,9 @@ public class EnchantToken extends ItemSG {
     addEnchantment(Enchantment.thorns, allArmor);
 
     // This mod
-    addEnchantment(ModEnchantments.mending, T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE
-        | T_SICKLE | T_BOW | T_HELMET | T_CHESTPLATE | T_LEGGINGS | T_BOOTS | T_SHEARS);
+    addEnchantment(ModEnchantments.mending,
+        T_SWORD | T_PICKAXE | T_SHOVEL | T_AXE | T_HOE | T_SICKLE | T_BOW | T_HELMET | T_CHESTPLATE
+            | T_LEGGINGS | T_BOOTS | T_SHEARS | T_FISHING_ROD);
     addEnchantment(ModEnchantments.aoe, T_PICKAXE | T_SHOVEL | T_AXE);
     addEnchantment(ModEnchantments.lumberjack, T_AXE);
     addEnchantment(ModEnchantments.lifeSteal, T_SWORD | T_AXE);
@@ -183,7 +191,7 @@ public class EnchantToken extends ItemSG {
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
 
     final int meta = stack.getItemDamage();
     final boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
@@ -295,6 +303,12 @@ public class EnchantToken extends ItemSG {
     addTokenRecipe(Enchantment.punch.effectId, EnumGem.AQUAMARINE.getItemOreName(), gemCount,
         Blocks.piston, 2, baseToken);
 
+    // Fishing Rod
+    addTokenRecipe(Enchantment.field_151370_z.effectId, EnumGem.HELIODOR.getItemOreName(), gemCount,
+        new ItemStack(Items.fish, 1, OreDictionary.WILDCARD_VALUE), 5, baseToken);
+    addTokenRecipe(Enchantment.field_151369_A.effectId, EnumGem.EMERALD.getItemOreName(), gemCount,
+        Blocks.tripwire_hook, 4, baseToken);
+
     // Armor
     addTokenRecipe(Enchantment.aquaAffinity.effectId, EnumGem.SAPPHIRE.getItemOreName(), gemCount,
         "blockLapis", 2, baseToken);
@@ -402,6 +416,7 @@ public class EnchantToken extends ItemSG {
       flag |= itemTool instanceof GemSickle && (validTools & T_SICKLE) != 0;
       flag |= itemTool instanceof ItemBow && (validTools & T_BOW) != 0;
       flag |= itemTool instanceof ItemShears && (validTools & T_SHEARS) != 0;
+      flag |= itemTool instanceof ItemFishingRod && (validTools & T_FISHING_ROD) != 0;
 
       if (itemTool instanceof ItemArmor) {
         ItemArmor armor = (ItemArmor) itemTool;
@@ -552,6 +567,9 @@ public class EnchantToken extends ItemSG {
       if ((k & T_SHEARS) != 0) {
         list.add(LocalizationHelper.getMiscText(Strings.TOOL_SHEARS));
       }
+      if ((k & T_FISHING_ROD) != 0) {
+        list.add(LocalizationHelper.getMiscText(Strings.TOOL_FISHING_ROD));
+      }
       if ((k & T_HELMET) != 0) {
         list.add(LocalizationHelper.getMiscText(Strings.TOOL_HELMET));
       }
@@ -590,6 +608,7 @@ public class EnchantToken extends ItemSG {
     iconArmor = reg.registerIcon(str + "Armor");
     iconBow = reg.registerIcon(str + "Bow");
     iconEmpty = reg.registerIcon(str + "Empty");
+    iconFishingRod = reg.registerIcon(str + "FishingRod");
     iconSword = reg.registerIcon(str + "Sword");
     iconTool = reg.registerIcon(str + "Tool");
   }
@@ -606,6 +625,8 @@ public class EnchantToken extends ItemSG {
           return iconTool;
         case bow:
           return iconBow;
+        case fishing_rod:
+          return iconFishingRod;
         case armor:
         case armor_feet:
         case armor_legs:
