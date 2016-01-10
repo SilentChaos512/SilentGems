@@ -65,6 +65,11 @@ public class GemAxe extends ItemAxe {
         extraEffectiveMaterials);
   }
 
+  public float getEfficiencyOnProperMaterial() {
+
+    return efficiencyOnProperMaterial;
+  }
+
   @Override
   public int getHarvestLevel(ItemStack stack, String toolClass) {
 

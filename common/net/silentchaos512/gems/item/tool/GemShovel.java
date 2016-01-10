@@ -74,6 +74,11 @@ public class GemShovel extends ItemSpade {
     return ToolHelper.getDigSpeed(stack, efficiencyOnProperMaterial, block, meta,
         null);
   }
+
+  public float getEfficiencyOnProperMaterial() {
+
+    return efficiencyOnProperMaterial;
+  }
   
   @Override
   public int getHarvestLevel(ItemStack stack, String toolClass) {

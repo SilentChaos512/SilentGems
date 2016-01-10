@@ -75,6 +75,12 @@ public class Gem extends ItemSG {
       s = String.format(formatInt, s, (int) material.getDamageVsEntity());
       list.add(s);
 
+      // Mining level
+      int miningLevel = supercharged ? Config.MINING_LEVEL_SUPER : Config.MINING_LEVEL_REGULAR;
+      s = LocalizationHelper.getOtherItemKey(itemName, "MiningLevel");
+      s = String.format(formatInt, s, miningLevel);
+      list.add(s);
+
       // Enchantability
       s = LocalizationHelper.getOtherItemKey(itemName, "Enchantability");
       s = String.format(formatInt, s, material.getEnchantability());
