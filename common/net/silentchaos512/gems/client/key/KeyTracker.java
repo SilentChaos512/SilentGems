@@ -24,8 +24,9 @@ public class KeyTracker {
     FMLCommonHandler.instance().bus().register(instance);
   }
 
+  private EntityPlayer player;
   private KeyBinding chaosGemToggleFirst;
-  private KeyBinding chaosGemToggleAll;
+  //private KeyBinding chaosGemToggleAll;
 
   public KeyTracker() {
 
@@ -33,25 +34,31 @@ public class KeyTracker {
     chaosGemToggleFirst = new KeyBinding("Chaos Gem - Toggle First", Keyboard.KEY_G,
         SilentGems.MOD_NAME);
     ClientRegistry.registerKeyBinding(chaosGemToggleFirst);
-    chaosGemToggleAll = new KeyBinding("Chaos Gem - Toggle All", Keyboard.KEY_H,
-        SilentGems.MOD_NAME);
-    ClientRegistry.registerKeyBinding(chaosGemToggleAll);
+    // chaosGemToggleAll = new KeyBinding("Chaos Gem - Toggle All", Keyboard.KEY_H,
+    // SilentGems.MOD_NAME);
+    // ClientRegistry.registerKeyBinding(chaosGemToggleAll);
+
+    player = Minecraft.getMinecraft().thePlayer;
+  }
+
+  private boolean isShiftPressed() {
+
+    return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
   }
 
   @SubscribeEvent
   public void onKeyInput(KeyInputEvent event) {
 
+    player = Minecraft.getMinecraft().thePlayer;
     handleChaosGemToggleFirst();
     handleChaosGemToggleAll();
   }
 
   private void handleChaosGemToggleFirst() {
 
-    boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
-        || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+    boolean shifted = isShiftPressed();
     if (chaosGemToggleFirst.isPressed() && !shifted) {
       // Client
-      EntityPlayer player = Minecraft.getMinecraft().thePlayer;
       for (ItemStack stack : player.inventory.mainInventory) {
         if (stack != null && stack.getItem() instanceof ChaosGem) {
           ((ChaosGem) stack.getItem()).onItemRightClick(stack, player.worldObj, player);
@@ -65,11 +72,9 @@ public class KeyTracker {
 
   private void handleChaosGemToggleAll() {
 
-    boolean shiftToggle = chaosGemToggleFirst.isKeyDown()
-        && (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT));
-    if (chaosGemToggleAll.isPressed() || shiftToggle) {
+    boolean shiftToggle = chaosGemToggleFirst.isKeyDown() && isShiftPressed();
+    if (shiftToggle) {
       // Client
-      EntityPlayer player = Minecraft.getMinecraft().thePlayer;
       for (ItemStack stack : player.inventory.mainInventory) {
         if (stack != null && stack.getItem() instanceof ChaosGem) {
           ((ChaosGem) stack.getItem()).onItemRightClick(stack, player.worldObj, player);
