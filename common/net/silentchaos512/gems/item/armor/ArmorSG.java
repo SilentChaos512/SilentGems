@@ -66,6 +66,13 @@ public class ArmorSG extends ItemArmor implements IAddRecipe, IHasVariants {
   }
 
   @Override
+  public boolean getIsRepairable(ItemStack stack1, ItemStack stack2) {
+
+    return stack2.getItem() == craftingItem.getItem()
+        && stack2.getItemDamage() == craftingItem.getItemDamage();
+  }
+
+  @Override
   public String getName() {
 
     return itemName;
