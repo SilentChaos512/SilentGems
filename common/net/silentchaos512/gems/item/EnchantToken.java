@@ -253,7 +253,10 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
       }
       // List of valid tools.
       list.add(LocalizationHelper.getItemDescription(itemName, 2));
-      list.add(validToolsFor(meta));
+      String[] array = validToolsFor(meta).split("\n");
+      for (String str : array) {
+        list.add("  " + str);
+      }
       // Max level
       s = LocalizationHelper.getOtherItemKey(itemName, "MaxLevel");
       s += " " + enchants.get(meta).getMaxLevel();
@@ -659,11 +662,16 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
       }
 
       String s = "";
+      boolean split = false;
 
       // Separate each item with commas.
       for (Object o : list) {
         if (s.length() > 0) {
           s += ", ";
+          if (s.length() > 50 && !split) {
+            s += "\n";
+            split = true;
+          }
         }
         s += o;
       }
