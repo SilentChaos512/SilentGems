@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,6 +23,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
@@ -39,6 +41,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.IRegisterModels;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.enchantment.EnchantmentLumberjack;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
@@ -271,6 +274,11 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
   @Override
   public void addRecipes() {
 
+    ItemStack testBook = new ItemStack(Items.enchanted_book);
+    Items.enchanted_book.addEnchantment(testBook, new EnchantmentData(Enchantment.unbreaking, 1));
+    Items.enchanted_book.addEnchantment(testBook, new EnchantmentData(Enchantment.unbreaking, 1));
+    GameRegistry.addShapelessRecipe(testBook, Blocks.cobblestone);
+
     final ItemStack baseToken = new ItemStack(this, 1, META_BLANK);
     final ItemStack chaosEssence = CraftingMaterial.getStack(Names.CHAOS_ESSENCE);
 
@@ -396,6 +404,11 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
       return false;
     }
 
+    if (tool.getItem() == Items.book || tool.getItem() == Items.enchanted_book) {
+      LogHelper.debug("canApplyTokenToTool is book!");
+      return true;
+    }
+
     int tokenMeta = token.getItemDamage();
     if (!enchants.containsKey(tokenMeta)) {
       // Bad token, maybe an enchantment ID was changed, or the token was spawned in with 'give'.
@@ -483,33 +496,47 @@ public class EnchantToken extends ItemSG implements IRegisterModels {
    * @param token
    * @param tool
    */
-  public static void enchantTool(ItemStack token, ItemStack tool) {
+  public static ItemStack enchantTool(ItemStack token, ItemStack tool) {
+
+    ItemStack result = tool.copy();
+    LogHelper.debug("enchantTool input: " + result);
 
     int meta = token.getItemDamage();
     EnchData e = enchants.get(meta);
-    int level = EnchantmentHelper.getEnchantmentLevel(e.enchantment.effectId, tool);
+    int level = EnchantmentHelper.getEnchantmentLevel(e.enchantment.effectId, result);
+
+    // Enchanting a book?
+    if (result.getItem() == Items.book) {
+      result = new ItemStack(Items.enchanted_book);
+    }
+    if (result.getItem() == Items.enchanted_book) {
+      Items.enchanted_book.addEnchantment(result, new EnchantmentData(e.enchantment, level + 1));
+      return result;
+    }
 
     // Adding enchantment is easy, leveling it up is a bit harder.
     if (level == 0) {
-      tool.addEnchantment(e.enchantment, 0);
+      result.addEnchantment(e.enchantment, 0);
     }
 
-    if (!tool.hasTagCompound()) {
-      tool.setTagCompound(new NBTTagCompound());
+    if (!result.hasTagCompound()) {
+      result.setTagCompound(new NBTTagCompound());
     }
-    if (!tool.getTagCompound().hasKey("ench")) {
-      tool.setTagInfo("ench", new NBTTagList());
+    if (!result.getTagCompound().hasKey("ench")) {
+      result.setTagInfo("ench", new NBTTagList());
     }
 
     NBTTagCompound t;
-    for (int i = 0; i < tool.getEnchantmentTagList().tagCount(); ++i) {
-      t = (NBTTagCompound) tool.getEnchantmentTagList().getCompoundTagAt(i);
+    for (int i = 0; i < result.getEnchantmentTagList().tagCount(); ++i) {
+      t = (NBTTagCompound) result.getEnchantmentTagList().getCompoundTagAt(i);
       int id = t.getShort("id");
       if (id == e.enchantment.effectId) {
         level = t.getShort("lvl");
         t.setShort("lvl", (short) (level + 1));
       }
     }
+
+    return result;
   }
 
   public static String getEnchantmentName(int key) {

@@ -3,6 +3,7 @@ package net.silentchaos512.gems.recipe;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -12,7 +13,9 @@ import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.silentchaos512.gems.core.util.InventoryHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.EnchantToken;
 
 public class EnchantToolRecipe implements IRecipe {
@@ -34,17 +37,18 @@ public class EnchantToolRecipe implements IRecipe {
     }
 
     // Don't modify the original!
-    ItemStack result = tool.copy();
+    ItemStack result = null;
 
     // Apply everything that we can.
     for (ItemStack token : tokens) {
-      if (EnchantToken.capApplyTokenToTool(token, result)) {
-        EnchantToken.enchantTool(token, result);
+      if (EnchantToken.capApplyTokenToTool(token, tool)) {
+        result = EnchantToken.enchantTool(token, tool);
       } else {
         return null;
       }
     }
 
+    LogHelper.list(FMLCommonHandler.instance().getSide(), result, result.getTagCompound());
     return result;
   }
 
@@ -58,8 +62,8 @@ public class EnchantToolRecipe implements IRecipe {
   private boolean isEnchantableItem(ItemStack stack) {
 
     Item item = stack.getItem();
-    return item instanceof ItemHoe || item instanceof ItemShears
-        || item.getItemEnchantability(stack) > 0;
+    return item instanceof ItemHoe || item instanceof ItemShears || item == Items.book
+        || item == Items.enchanted_book || item.getItemEnchantability(stack) > 0;
   }
 
   @Override
@@ -73,7 +77,8 @@ public class EnchantToolRecipe implements IRecipe {
     for (int i = 0; i < inventorycrafting.getSizeInventory(); ++i) {
       stack = inventorycrafting.getStackInSlot(i);
       if (stack != null) {
-        if (isToolOrArmor(stack)) {
+        boolean isBook = stack.getItem() == Items.book || stack.getItem() == Items.enchanted_book;
+        if (isToolOrArmor(stack) || isBook) {
           if (isEnchantableItem(stack)) {
             tool = stack;
           } else {
