@@ -63,6 +63,12 @@ public class GemPickaxe extends ItemPickaxe implements IHasVariants {
     ToolHelper.addInformation(stack, player, list, advanced);
   }
 
+  @Override
+  public int getColorFromItemStack(ItemStack stack, int pass) {
+
+    return ToolRenderHelper.instance.getColorFromItemStack(stack, pass);
+  }
+
   public static void addRecipe(ItemStack tool, int gemId, boolean supercharged) {
 
     ItemStack material = ToolHelper.getCraftingMaterial(gemId, supercharged);

@@ -1,7 +1,12 @@
 package net.silentchaos512.gems.item;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -10,29 +15,36 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.core.registry.IRegisterModels;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.lib.EnumTipUpgrade;
 import net.silentchaos512.gems.lib.Names;
 
-public class ItemToolUpgrade extends ItemSG {
+public class ItemToolUpgrade extends ItemSG  implements IRegisterModels{
 
   /**
    * The names of each sub-item. Order determines metadata, so this list cannot be rearranged.
    */
   public static final String[] NAMES = { Names.UPGRADE_IRON_TIP, Names.UPGRADE_DIAMOND_TIP,
-      Names.UPGRADE_NO_GLINT, Names.UPGRADE_EMERALD_TIP };
+      Names.UPGRADE_NO_GLINT, Names.UPGRADE_EMERALD_TIP, Names.UPGRADE_GOLD_TIP };
   /**
    * The order in which items will appear in NEI. This can be resorted freely with no ill effects.
    */
   public static final String[] SORTED_NAMES = { Names.UPGRADE_IRON_TIP, Names.UPGRADE_DIAMOND_TIP,
-      Names.UPGRADE_EMERALD_TIP, Names.UPGRADE_NO_GLINT };
+      Names.UPGRADE_EMERALD_TIP, Names.UPGRADE_GOLD_TIP, Names.UPGRADE_NO_GLINT };
+
+  public static final int META_METALLURGY_START = EnumTipUpgrade.COPPER.id;
 
   public static final int META_IRON_TIPPED = 0;
   public static final int META_DIAMOND_TIPPED = 1;
   public static final int META_EMERALD_TIPPED = 3;
+  public static final int META_GOLD_TIPPED = 4;
   public static final int META_NO_GLINT = 2;
+
+  private Map<Integer, ModelResourceLocation> modelMap = new HashMap<Integer, ModelResourceLocation>();
+  private ModelResourceLocation modelDefault;
 
   public ItemToolUpgrade() {
 
@@ -106,16 +118,22 @@ public class ItemToolUpgrade extends ItemSG {
 
   public EnumTipUpgrade getTipForUpgrade(int meta) {
 
+    int id = meta;
     switch (meta) {
       case META_IRON_TIPPED:
-        return EnumTipUpgrade.IRON;
+        id = 1;
+        break;
       case META_DIAMOND_TIPPED:
-        return EnumTipUpgrade.DIAMOND;
+        id = 2;
+        break;
       case META_EMERALD_TIPPED:
-        return EnumTipUpgrade.EMERALD;
-      default:
-        return EnumTipUpgrade.NONE;
+        id = 3;
+        break;
+      case META_GOLD_TIPPED:
+        id = 4;
+        break;
     }
+    return EnumTipUpgrade.getById(id);
   }
 
   public ItemStack applyToTool(ItemStack tool, ItemStack upgrade) {
@@ -126,27 +144,26 @@ public class ItemToolUpgrade extends ItemSG {
 
     int meta = upgrade.getItemDamage();
     ItemStack result = tool.copy();
+    EnumTipUpgrade tip = EnumTipUpgrade.getById(meta < 2 ? meta + 1 : meta);
 
-    switch (meta) {
-      case META_IRON_TIPPED:
-      case META_DIAMOND_TIPPED:
-      case META_EMERALD_TIPPED:
-        // Tipped upgrades
-        int currentTip = ToolHelper.getToolHeadTip(result);
-        int upgradeValue = meta <= 1 ? meta + 1 : meta;
-        if (upgradeValue <= currentTip) {
-          return null;
-        }
-        ToolHelper.setToolHeadTip(result, upgradeValue);
-        return result;
-      case META_NO_GLINT:
-        // No glint
-        boolean currentValue = ToolHelper.getToolNoGlint(result);
-        ToolHelper.setToolNoGlint(result, !currentValue);
-        return result;
-      default:
-        LogHelper.debug("Unknown tool upgrade: meta = " + meta);
+    if (meta == META_NO_GLINT) {
+      // No glint
+      boolean currentValue = ToolHelper.getToolNoGlint(result);
+      ToolHelper.setToolNoGlint(result, !currentValue);
+      return result;
+    }  else if (tip != EnumTipUpgrade.NONE) {
+      // Tipped upgrades
+      int newTip = tip.id;
+      ToolHelper.setToolHeadTip(result, newTip);
+      // Make sure durability would be OK.
+      if (result.getItemDamage() > result.getItem().getMaxDamage(result)) {
         return null;
+      }
+      return result;
+    } else {
+      // Unknown?
+      LogHelper.debug("Unknown tool upgrade: meta = " + meta);
+      return null;
     }
   }
 
@@ -159,6 +176,20 @@ public class ItemToolUpgrade extends ItemSG {
     GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 1), "gemDiamond", base));
     GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 2), "dyeBlack", base));
     GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 3), "gemEmerald", base));
+    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 4), "ingotGold", base));
+  }
+
+  public void addMetallurgyTipRecipes() {
+
+    ItemStack base = CraftingMaterial.getStack(Names.UPGRADE_BASE);
+
+    int id = META_METALLURGY_START;
+    EnumTipUpgrade tip = EnumTipUpgrade.getById(id);
+    while (tip != EnumTipUpgrade.NONE) {
+      GameRegistry.addRecipe(
+          new ShapelessOreRecipe(new ItemStack(this, 1, id), tip.getMaterialName(), base));
+      tip = EnumTipUpgrade.getById(++id);
+    }
   }
 
   public ItemStack getStack(String name) {
@@ -204,11 +235,21 @@ public class ItemToolUpgrade extends ItemSG {
     for (; i < NAMES.length; ++i) {
       list.add(getStack(NAMES[i]));
     }
+
+    if (SilentGems.instance.foundMetallurgy) {
+      // Metallurgy tips
+      int id = META_METALLURGY_START;
+      EnumTipUpgrade tip = EnumTipUpgrade.getById(id);
+      while (tip != EnumTipUpgrade.NONE) {
+        list.add(new ItemStack(this, 1, id));
+        tip = EnumTipUpgrade.getById(++id);
+      }
+    }
   }
-  
+
   @Override
   public String[] getVariantNames() {
-    
+
     String[] result = new String[NAMES.length];
     for (int i = 0; i < result.length; ++i) {
       result[i] = Names.convert(SilentGems.MOD_ID + ":" + NAMES[i]);
@@ -224,8 +265,45 @@ public class ItemToolUpgrade extends ItemSG {
     if (meta >= 0 && meta < NAMES.length) {
       name = NAMES[meta];
     } else {
-      name = "Unknown";
+      // Metallurgy tip?
+      EnumTipUpgrade tip = EnumTipUpgrade.getById(meta);
+      if (tip != EnumTipUpgrade.NONE) {
+        name = "UpgradeTip." + tip.name().toLowerCase().replaceAll("_", "");
+      } else {
+        // No idea
+        name = "Unknown";
+      }
     }
     return getUnlocalizedName(name);
+  }
+
+  @Override
+  public ModelResourceLocation getModel(ItemStack stack, EntityPlayer player, int useRemaining) {
+
+    int meta = stack.getItemDamage();
+    return modelMap.containsKey(meta) ? modelMap.get(meta) : modelDefault;
+  }
+
+  @Override
+  public void registerModels() {
+
+    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+    ModelResourceLocation model;
+    String[] modelNames = getVariantNames();
+    int i;
+
+    for (i = 0; i < modelNames.length; ++i) {
+      model = new ModelResourceLocation(modelNames[i], "inventory");
+      modelMap.put(i, model);
+      mesher.register(this, i, model);
+    }
+
+    // FIXME: Doesn't seem to display the correct models.
+    modelDefault = new ModelResourceLocation(SilentGems.MOD_ID + ":" + Names.UPGRADE_BASE);
+    EnumTipUpgrade tip = EnumTipUpgrade.getById(META_METALLURGY_START);
+    for (i = META_METALLURGY_START; tip != EnumTipUpgrade.NONE;) {
+      mesher.register(this, i, modelDefault);
+      tip = EnumTipUpgrade.getById(++i);
+    }
   }
 }

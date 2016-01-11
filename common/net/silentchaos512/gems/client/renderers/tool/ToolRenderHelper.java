@@ -26,6 +26,7 @@ import net.silentchaos512.gems.item.tool.GemPickaxe;
 import net.silentchaos512.gems.item.tool.GemShovel;
 import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.item.tool.GemSword;
+import net.silentchaos512.gems.lib.EnumTipUpgrade;
 import net.silentchaos512.gems.lib.Names;
 
 /**
@@ -209,7 +210,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase
 
     // Tips
     for (int tip = 0; tip < TIP_TYPE_COUNT; ++tip) {
-      models.tip[tip] = registerModel(prefix + "Tip" + tip + strIndex, dryRun);
+      models.tip[tip] = registerModel(
+          prefix + "Tip" + (tip == TIP_TYPE_COUNT - 1 ? 0 : tip) + strIndex, dryRun);
     }
 
     // Deco bits (swords and bows, others use main)
@@ -265,6 +267,17 @@ public class ToolRenderHelper extends ToolRenderHelperBase
 
     modelCount = Math.max(registerIndex, modelCount);
     return location;
+  }
+
+  @Override
+  public int getColorFromItemStack(ItemStack stack, int pass) {
+
+    // FIXME: Doesn't work
+    if (pass == PASS_TIP) {
+      EnumTipUpgrade tip = EnumTipUpgrade.getById(ToolHelper.getToolHeadTip(stack));
+      return tip.getColor();
+    }
+    return 0xFFFFFF;
   }
 
   /**
@@ -549,7 +562,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase
       if (k < 0) {
         return modelBlank;
       } else if (k > TIP_TYPE_COUNT - 1) {
-        return modelError;
+        return icons.tip[TIP_TYPE_COUNT - 1];
       }
       return icons.tip[k];
     } else {

@@ -74,6 +74,12 @@ public class GemBow extends ItemBow implements IAddRecipe, IHasVariants {
   }
 
   @Override
+  public int getColorFromItemStack(ItemStack stack, int pass) {
+
+    return ToolRenderHelper.instance.getColorFromItemStack(stack, pass);
+  }
+
+  @Override
   public void addRecipes() {
 
     ItemStack material = ToolHelper.getCraftingMaterial(gemId, supercharged);

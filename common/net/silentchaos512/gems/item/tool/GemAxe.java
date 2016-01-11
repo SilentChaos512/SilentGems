@@ -79,6 +79,12 @@ public class GemAxe extends ItemAxe implements IHasVariants {
   }
 
   @Override
+  public int getColorFromItemStack(ItemStack stack, int pass) {
+
+    return ToolRenderHelper.instance.getColorFromItemStack(stack, pass);
+  }
+
+  @Override
   public float getDigSpeed(ItemStack stack, IBlockState state) {
 
     return ToolHelper.getDigSpeed(stack, efficiencyOnProperMaterial, state,

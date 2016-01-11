@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -60,6 +61,8 @@ public class SilentGems {
 
   public static SimpleNetworkWrapper network;
 
+  public static boolean foundMetallurgy = false;
+
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
 
@@ -104,6 +107,13 @@ public class SilentGems {
 
     // World generators
     GameRegistry.registerWorldGenerator(new GemsWorldGenerator(), 0);
+
+    // Look for other mods...
+    foundMetallurgy = Loader.isModLoaded("Metallurgy");
+    if (foundMetallurgy) {
+      ModItems.toolUpgrade.addMetallurgyTipRecipes();
+    }
+
     LogHelper.info("Init done.");
   }
 

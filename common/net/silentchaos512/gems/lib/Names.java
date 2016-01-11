@@ -96,6 +96,7 @@ public class Names {
   public static final String UPGRADE_DIAMOND_TIP = "UpgradeDiamondTip";
   public static final String UPGRADE_NO_GLINT = "UpgradeNoGlint";
   public static final String UPGRADE_EMERALD_TIP = "UpgradeEmeraldTip";
+  public static final String UPGRADE_GOLD_TIP = "UpgradeGoldTip";
 
   /*
    * Enchantments
