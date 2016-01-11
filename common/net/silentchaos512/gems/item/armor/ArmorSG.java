@@ -71,6 +71,13 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
   }
 
   @Override
+  public boolean getIsRepairable(ItemStack stack1, ItemStack stack2) {
+
+    return stack2.getItem() == craftingItem.getItem()
+        && stack2.getItemDamage() == craftingItem.getItemDamage();
+  }
+
+  @Override
   public String getUnlocalizedName(ItemStack stack) {
 
     return LocalizationHelper.ITEM_PREFIX + itemName;

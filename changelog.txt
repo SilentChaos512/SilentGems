@@ -8,8 +8,9 @@ Added: Gold-tipped upgrade. No bonus durability, mining level 0, but a big speed
 Added: Enchantment tokens for Luck of the Sea and Lure.
 Changed: "Downgrading" tip upgrades is now allowed, so long as the tool would not break.
 Removed: Chaos gem toggle all key (use shift + toggle instead)
+Fixed: Armor having an anvil repair material (fixes timeless ivy not being useable on armor)
 --- 1.8 Specific Changes ---
-Added: Enchantment tokens for Depth Strider
+Added: Enchantment token for Depth Strider
 Changed: Hid certain items in JEI.
 Fixed: Pickaxe mining speed issue (and maybe others)
 
