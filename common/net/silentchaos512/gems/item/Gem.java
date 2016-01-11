@@ -67,6 +67,12 @@ public class Gem extends ItemSG {
       s = String.format(formatInt, s, (int) material.getDamageVsEntity());
       list.add(s);
 
+      // Mining level
+      int miningLevel = supercharged ? Config.MINING_LEVEL_SUPER : Config.MINING_LEVEL_REGULAR;
+      s = LocalizationHelper.getOtherItemKey(itemName, "MiningLevel");
+      s = String.format(formatInt, s, miningLevel);
+      list.add(s);
+
       // Enchantability
       s = LocalizationHelper.getOtherItemKey(itemName, "Enchantability");
       s = String.format(formatInt, s, material.getEnchantability());
@@ -114,30 +120,30 @@ public class Gem extends ItemSG {
   @Override
   public void addThaumcraftStuff() {
 
-//    ThaumcraftApi.registerObjectTag(EnumGem.RUBY.getItem(),
-//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.TOOL, 2));
-//    ThaumcraftApi.registerObjectTag(EnumGem.GARNET.getItem(),
-//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.FIRE, 2));
-//    ThaumcraftApi.registerObjectTag(EnumGem.TOPAZ.getItem(),
-//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.EARTH, 2));
-//    ThaumcraftApi.registerObjectTag(EnumGem.HELIODOR.getItem(),
-//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.DESIRE, 2));
-//    ThaumcraftApi.registerObjectTag(EnumGem.PERIDOT.getItem(),
-//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.DEATH, 2));
-//    ThaumcraftApi.registerObjectTag(EnumGem.EMERALD.getItem(),
-//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.MOTION, 2));
-//    ThaumcraftApi.registerObjectTag(EnumGem.AQUAMARINE.getItem(),
-//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.AURA, 2));
-//    ThaumcraftApi.registerObjectTag(EnumGem.SAPPHIRE.getItem(),
-//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.PROTECT, 2));
-//    ThaumcraftApi.registerObjectTag(EnumGem.IOLITE.getItem(),
-//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.MECHANISM, 2));
-//    ThaumcraftApi.registerObjectTag(EnumGem.AMETHYST.getItem(),
-//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.AVERSION, 2));
-//    ThaumcraftApi.registerObjectTag(EnumGem.MORGANITE.getItem(),
-//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.MAN, 2));
-//    ThaumcraftApi.registerObjectTag(EnumGem.ONYX.getItem(),
-//        (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.DARKNESS, 2));
+    // ThaumcraftApi.registerObjectTag(EnumGem.RUBY.getItem(),
+    // (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.TOOL, 2));
+    // ThaumcraftApi.registerObjectTag(EnumGem.GARNET.getItem(),
+    // (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.FIRE, 2));
+    // ThaumcraftApi.registerObjectTag(EnumGem.TOPAZ.getItem(),
+    // (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.EARTH, 2));
+    // ThaumcraftApi.registerObjectTag(EnumGem.HELIODOR.getItem(),
+    // (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.DESIRE, 2));
+    // ThaumcraftApi.registerObjectTag(EnumGem.PERIDOT.getItem(),
+    // (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.DEATH, 2));
+    // ThaumcraftApi.registerObjectTag(EnumGem.EMERALD.getItem(),
+    // (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.MOTION, 2));
+    // ThaumcraftApi.registerObjectTag(EnumGem.AQUAMARINE.getItem(),
+    // (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.AURA, 2));
+    // ThaumcraftApi.registerObjectTag(EnumGem.SAPPHIRE.getItem(),
+    // (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.PROTECT, 2));
+    // ThaumcraftApi.registerObjectTag(EnumGem.IOLITE.getItem(),
+    // (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.MECHANISM, 2));
+    // ThaumcraftApi.registerObjectTag(EnumGem.AMETHYST.getItem(),
+    // (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.AVERSION, 2));
+    // ThaumcraftApi.registerObjectTag(EnumGem.MORGANITE.getItem(),
+    // (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.MAN, 2));
+    // ThaumcraftApi.registerObjectTag(EnumGem.ONYX.getItem(),
+    // (new AspectList()).add(Aspect.CRYSTAL, 1).add(Aspect.DARKNESS, 2));
   }
 
   @Override
@@ -158,7 +164,7 @@ public class Gem extends ItemSG {
       list.add(new ItemStack(item, 1, i));
     }
   }
-  
+
   @Override
   public String[] getVariantNames() {
 

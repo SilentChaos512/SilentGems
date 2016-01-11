@@ -859,6 +859,7 @@ item.silentgems:Gem.Damage=Damage
 item.silentgems:Gem.Efficiency=Mining Speed
 item.silentgems:Gem.Enchantability=Enchantability
 item.silentgems:Gem.MaxUses=Durability
+item.silentgems:Gem.MiningLevel=Mining Level
 item.silentgems:Gem.SpawnWeight=Spawn Weight
 item.silentgems:Gem.ToolProperties=Properties
 item.silentgems:Gem.Separator=----------------
@@ -918,6 +919,8 @@ misc.silentgems:Tool.FireChaosOrbs2=to charge, swing to fire. Outer edge
 misc.silentgems:Tool.FireChaosOrbs3=of the blade determines color.
 
 misc.silentgems:Tool.Stats.Header=Statistics
+misc.silentgems:Tool.Stats.MiningLevel=Mining level: %d
+misc.silentgems:Tool.Stats.MiningSpeed=Mining speed: %d
 misc.silentgems:Tool.Stats.Mined=Blocks mined: %d
 misc.silentgems:Tool.Stats.Placed=Blocks placed: %d
 misc.silentgems:Tool.Stats.Tilled=Blocks tilled: %d

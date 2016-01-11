@@ -89,6 +89,11 @@ public class GemPickaxe extends ItemPickaxe implements IHasVariants {
         extraEffectiveMaterials);
   }
 
+  public float getEfficiencyOnProperMaterial() {
+
+    return efficiencyOnProperMaterial;
+  }
+
   @Override
   public int getHarvestLevel(ItemStack stack, String toolClass) {
 

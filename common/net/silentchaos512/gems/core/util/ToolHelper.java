@@ -278,6 +278,40 @@ public class ToolHelper {
     // Header
     line = LocalizationHelper.getMiscText("Tool.Stats.Header");
     list.add(EnumChatFormatting.YELLOW + line);
+
+    // Mining level & speed stuff
+    String toolClass = null;
+    float baseSpeed = 0;
+    if (tool.getItem() instanceof GemPickaxe) {
+      toolClass = "pickaxe";
+      baseSpeed = ((GemPickaxe) tool.getItem()).getEfficiencyOnProperMaterial();
+    } else if (tool.getItem() instanceof GemShovel) {
+      toolClass = "shovel";
+      baseSpeed = ((GemShovel) tool.getItem()).getEfficiencyOnProperMaterial();
+    } else if (tool.getItem() instanceof GemAxe) {
+      toolClass = "axe";
+      baseSpeed = ((GemAxe) tool.getItem()).getEfficiencyOnProperMaterial();
+    }
+
+    if (toolClass != null && baseSpeed > 0) {
+      list.add(separator);
+    }
+
+    // Mining level
+    if (toolClass != null) {
+      line = LocalizationHelper.getMiscText("Tool.Stats.MiningLevel");
+      line = String.format(line,
+          getAdjustedMiningLevel(tool, tool.getItem().getHarvestLevel(tool, toolClass)));
+      list.add(line);
+    }
+
+    // Mining speed
+    if (baseSpeed > 0) {
+      line = LocalizationHelper.getMiscText("Tool.Stats.MiningSpeed");
+      line = String.format(line, getAdjustedDigSpeed(tool, baseSpeed));
+      list.add(line);
+    }
+
     list.add(separator);
 
     // Blocks mined
