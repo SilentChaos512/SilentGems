@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.RecipeSorter.Category;
-import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
+import net.silentchaos512.gems.client.render.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.armor.ArmorSG;

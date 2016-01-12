@@ -24,7 +24,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.silentchaos512.gems.achievement.GemsAchievement;
 import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
+import net.silentchaos512.gems.client.render.tool.ToolRenderHelper;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.handler.GemsEventHandler;
 import net.silentchaos512.gems.core.handler.GemsForgeEventHandler;

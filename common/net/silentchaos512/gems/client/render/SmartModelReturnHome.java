@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.client.renderers;
+package net.silentchaos512.gems.client.render;
 
 import java.util.List;
 

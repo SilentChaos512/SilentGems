@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.client.renderers.tool;
+package net.silentchaos512.gems.client.render.tool;
 
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;

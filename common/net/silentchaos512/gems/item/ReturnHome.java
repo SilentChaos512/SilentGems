@@ -30,7 +30,7 @@ import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.client.renderers.SmartModelReturnHome;
+import net.silentchaos512.gems.client.render.SmartModelReturnHome;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.IRegisterModels;
 import net.silentchaos512.gems.core.util.LocalizationHelper;

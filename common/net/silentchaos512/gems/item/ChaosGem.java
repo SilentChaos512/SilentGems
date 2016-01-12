@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.client.renderers.RenderHelper;
+import net.silentchaos512.gems.client.render.RenderHelper;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;

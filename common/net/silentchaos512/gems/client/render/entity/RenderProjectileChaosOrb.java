@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.client.renderers.entity;
+package net.silentchaos512.gems.client.render.entity;
 
 import org.lwjgl.opengl.GL11;
 

@@ -25,9 +25,9 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
   protected int energyStored = 0;
   
   //ADDED BY M4THG33K
-  protected int timer = 0; //a timer to help in the rendering animations
+  protected float timer = 0; //a timer to help in the rendering animations
 
-  public int getTimer()
+  public float getTimer()
   {
     return timer;
   }

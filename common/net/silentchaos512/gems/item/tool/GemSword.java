@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
+import net.silentchaos512.gems.client.render.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.proxy.ClientProxy;
 import net.silentchaos512.gems.core.registry.IHasVariants;
 import net.silentchaos512.gems.core.util.LocalizationHelper;

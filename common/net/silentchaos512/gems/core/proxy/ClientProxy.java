@@ -8,8 +8,8 @@ import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.particle.EntityFXChaosCharge;
 import net.silentchaos512.gems.client.particle.EntityFXChaosTrail;
 import net.silentchaos512.gems.client.particle.EntityParticleFXChaosTransfer;
-import net.silentchaos512.gems.client.renderers.ModRenderers;
-import net.silentchaos512.gems.client.renderers.entity.RenderProjectileChaosOrb;
+import net.silentchaos512.gems.client.render.ModRenderers;
+import net.silentchaos512.gems.client.render.entity.RenderProjectileChaosOrb;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.entity.projectile.EntityProjectileChaosOrb;
 

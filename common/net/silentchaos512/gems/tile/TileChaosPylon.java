@@ -40,10 +40,10 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable 
 
   // ADDED BY M4THG33K
 
-  protected int timer = 0;
+  protected float timer = 0;
   protected int pylonType = -1; // used for rendering; set by external sources. a value of -1 means "something is wrong"
 
-  public int getTimer() {
+  public float getTimer() {
 
     return timer;
   }
