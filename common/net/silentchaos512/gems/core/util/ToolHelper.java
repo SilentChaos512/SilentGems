@@ -424,8 +424,13 @@ public class ToolHelper {
     }
 
     for (String type : tool.getItem().getToolClasses(tool)) {
-      if (state.getBlock().isToolEffective(type, state)) {
-        return speed;
+      try {
+        // Can throw exceptions in some cases (ie, multiparts)
+        if (state.getBlock().isToolEffective(type, state)) {
+          return speed;
+        }
+      } catch (IllegalArgumentException ex) {
+        return 1f;
       }
     }
 

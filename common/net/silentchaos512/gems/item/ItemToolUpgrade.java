@@ -68,7 +68,19 @@ public class ItemToolUpgrade extends ItemSG  implements IRegisterModels{
     String item;
 
     EnumTipUpgrade tip = getTipForUpgrade(meta);
-    if (tip != EnumTipUpgrade.NONE) {
+    if (meta == META_NO_GLINT) {
+
+      /*
+       * No Glint
+       */
+
+      item = Names.UPGRADE_NO_GLINT;
+      // Effect
+      line = LocalizationHelper.getItemDescription(item, 1);
+      list.add(EnumChatFormatting.GREEN + line);
+      line = LocalizationHelper.getItemDescription(item, 2);
+      list.add(EnumChatFormatting.GREEN + line);
+    } else if (tip != EnumTipUpgrade.NONE) {
 
       /*
        * Tipped Upgrades
@@ -88,18 +100,6 @@ public class ItemToolUpgrade extends ItemSG  implements IRegisterModels{
       // Speed boost
       line = LocalizationHelper.getItemDescription(item, 3);
       line = String.format(line, tip.getSpeedBoost());
-      list.add(EnumChatFormatting.GREEN + line);
-    } else if (meta == META_NO_GLINT) {
-
-      /*
-       * No Glint
-       */
-
-      item = Names.UPGRADE_NO_GLINT;
-      // Effect
-      line = LocalizationHelper.getItemDescription(item, 1);
-      list.add(EnumChatFormatting.GREEN + line);
-      line = LocalizationHelper.getItemDescription(item, 2);
       list.add(EnumChatFormatting.GREEN + line);
     } else {
 

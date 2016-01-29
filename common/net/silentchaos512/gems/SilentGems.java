@@ -122,6 +122,8 @@ public class SilentGems {
 
     // Is this the right place for this?
     SRegistry.addThaumcraftStuff();
+    // Test:
+    // FunOresAPI.addAlloySmelterRecipe(EnumGem.AMETHYST.getBlock(), 100, 10f, "cobblestone*16", "ingotIron*2");
     proxy.postInit();
     LogHelper.info("Post init done.");
 
