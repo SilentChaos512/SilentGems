@@ -4,15 +4,17 @@ Silent's Gems - Changelog
 Added: Chaos gem charge bars.
 Added: Metallurgy metal tip upgrades (they only show up with Metallurgy installed)
 Added: Mining levels to tooltips for gems and tools.
-Added: Gold-tipped upgrade. No bonus durability, mining level 0, but a big speed boost.
+Added: Gold-tipped upgrade. No bonus durability or mining level, but a big speed boost.
 Added: Enchantment tokens for Luck of the Sea and Lure.
 Changed: "Downgrading" tip upgrades is now allowed, so long as the tool would not break.
 Removed: Chaos gem toggle all key (use shift + toggle instead)
-Fixed: Armor having an anvil repair material (fixes timeless ivy not being useable on armor)
+Fixed: Armor not having an anvil repair material (fixes timeless ivy not being useable on armor)
 --- 1.8 Specific Changes ---
 Added: Enchantment token for Depth Strider
 Changed: Hid certain items in JEI.
 Fixed: Pickaxe mining speed issue (and maybe others)
+Fixed: Crash when mining multiparts with gem tools.
+Known issues (1.8.9): All particles are badly broken.
 
 1.3.8b
 Fixed: Axes not working on many blocks.

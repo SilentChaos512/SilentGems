@@ -67,7 +67,19 @@ public class ItemToolUpgrade extends ItemSG {
     String item;
 
     EnumTipUpgrade tip = getTipForUpgrade(meta);
-    if (tip != EnumTipUpgrade.NONE) {
+    if (meta == META_NO_GLINT) {
+
+      /*
+       * No Glint
+       */
+
+      item = Names.UPGRADE_NO_GLINT;
+      // Effect
+      line = LocalizationHelper.getItemDescription(item, 1);
+      list.add(EnumChatFormatting.GREEN + line);
+      line = LocalizationHelper.getItemDescription(item, 2);
+      list.add(EnumChatFormatting.GREEN + line);
+    } else if (tip != EnumTipUpgrade.NONE) {
 
       /*
        * Tipped Upgrades
@@ -87,18 +99,6 @@ public class ItemToolUpgrade extends ItemSG {
       // Speed boost
       line = LocalizationHelper.getItemDescription(item, 3);
       line = String.format(line, tip.getSpeedBoost());
-      list.add(EnumChatFormatting.GREEN + line);
-    } else if (meta == META_NO_GLINT) {
-
-      /*
-       * No Glint
-       */
-
-      item = Names.UPGRADE_NO_GLINT;
-      // Effect
-      line = LocalizationHelper.getItemDescription(item, 1);
-      list.add(EnumChatFormatting.GREEN + line);
-      line = LocalizationHelper.getItemDescription(item, 2);
       list.add(EnumChatFormatting.GREEN + line);
     } else {
 
@@ -145,7 +145,12 @@ public class ItemToolUpgrade extends ItemSG {
     ItemStack result = tool.copy();
     EnumTipUpgrade tip = EnumTipUpgrade.getById(meta < 2 ? meta + 1 : meta);
 
-    if (tip != EnumTipUpgrade.NONE) {
+    if (meta == META_NO_GLINT) {
+      // No glint
+      boolean currentValue = ToolHelper.getToolNoGlint(result);
+      ToolHelper.setToolNoGlint(result, !currentValue);
+      return result;
+    } else if (tip != EnumTipUpgrade.NONE) {
       // Tipped upgrades
       int newTip = tip.id;
       ToolHelper.setToolHeadTip(result, newTip);
@@ -153,11 +158,6 @@ public class ItemToolUpgrade extends ItemSG {
       if (result.getItemDamage() > result.getItem().getMaxDamage(result)) {
         return null;
       }
-      return result;
-    } else if (meta == META_NO_GLINT) {
-      // No glint
-      boolean currentValue = ToolHelper.getToolNoGlint(result);
-      ToolHelper.setToolNoGlint(result, !currentValue);
       return result;
     } else {
       // Unknown?
@@ -281,11 +281,11 @@ public class ItemToolUpgrade extends ItemSG {
     }
 
     // Metallurgy tips
-//    int id = META_METALLURGY_START;
-//    EnumTipUpgrade tip = EnumTipUpgrade.getById(id);
-//    while (tip != EnumTipUpgrade.NONE) {
-//      iconMap.put(tip.id, reg.registerIcon(Strings.RESOURCE_PREFIX + tip.name().toLowerCase()));
-//      tip = EnumTipUpgrade.getById(++id);
-//    }
+    // int id = META_METALLURGY_START;
+    // EnumTipUpgrade tip = EnumTipUpgrade.getById(id);
+    // while (tip != EnumTipUpgrade.NONE) {
+    // iconMap.put(tip.id, reg.registerIcon(Strings.RESOURCE_PREFIX + tip.name().toLowerCase()));
+    // tip = EnumTipUpgrade.getById(++id);
+    // }
   }
 }
