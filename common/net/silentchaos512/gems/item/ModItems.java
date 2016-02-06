@@ -35,6 +35,7 @@ import net.silentchaos512.gems.recipe.TorchBandolierRecipe;
 
 public class ModItems {
 
+  public static ItemGemManual manual;
   public static Gem gem;
   public static GemShard gemShard;
   public static CraftingMaterial craftingMaterial;
@@ -55,6 +56,7 @@ public class ModItems {
 
   public static void init() {
 
+    //manual = (ItemGemManual) SRegistry.registerItem(ItemGemManual.class, Names.GEM_MANUAL);
     gem = (Gem) SRegistry.registerItem(Gem.class, Names.GEM_ITEM);
     gemShard = (GemShard) SRegistry.registerItem(GemShard.class, Names.GEM_SHARD);
     craftingMaterial = (CraftingMaterial) SRegistry.registerItem(CraftingMaterial.class,

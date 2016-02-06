@@ -120,10 +120,6 @@ public class Gem extends ItemSG {
     OreDictionary.registerOre("gemAmethyst", new ItemStack(this, 1, EnumGem.AMETHYST.id));
     OreDictionary.registerOre("gemMorganite", new ItemStack(this, 1, EnumGem.MORGANITE.id));
     OreDictionary.registerOre("gemOnyx", new ItemStack(this, 1, EnumGem.ONYX.id));
-
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      OreDictionary.registerOre(Strings.ORE_DICT_GEM_BASIC, new ItemStack(this, 1, i));
-    }
   }
 
   @Override

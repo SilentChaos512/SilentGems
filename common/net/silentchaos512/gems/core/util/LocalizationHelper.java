@@ -9,6 +9,7 @@ public class LocalizationHelper {
   public final static String MISC_PREFIX = "misc.silentgems:";
   public final static String ITEM_PREFIX = "item.silentgems:";
   public final static String TOOL_PREFIX = "tool.silentgems:";
+  public static final String GUI_PREFIX = "gui.silentgems:";
 
   public static String getBlockDescription(String blockName, int index) {
 
@@ -53,5 +54,10 @@ public class LocalizationHelper {
   public static String getOtherItemKey(String itemName, String key) {
 
     return getLocalizedString(ITEM_PREFIX + itemName + "." + key);
+  }
+
+  public static String getGuiString(String key) {
+
+    return getLocalizedString(GUI_PREFIX + key);
   }
 }

@@ -45,6 +45,7 @@ public class Names {
   public static final String FLUFFY_SEED = "FluffySeed";
   public static final String FOOD = "Food";
   public static final String GEM_ITEM = "Gem";
+  public static final String GEM_MANUAL = "GemManual";
   public static final String GEM_SHARD = "GemShard";
   public static final String HOLDING_GEM = "HoldingGem";
   public static final String MEATY_STEW = "MeatyStew";

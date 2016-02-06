@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.gui;
+package net.silentchaos512.gems.client.gui;
 
 import org.lwjgl.opengl.GL11;
 

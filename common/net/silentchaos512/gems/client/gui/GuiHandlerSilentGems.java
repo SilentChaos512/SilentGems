@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.gui;
+package net.silentchaos512.gems.client.gui;
 
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +14,7 @@ public class GuiHandlerSilentGems implements IGuiHandler {
   
   public static final int ID_ALTAR = 0;
   public static final int ID_BURNER_PYLON = 1;
+  public static final int ID_MANUAL = 2;
 
   @Override
   public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -32,6 +33,8 @@ public class GuiHandlerSilentGems implements IGuiHandler {
           TileChaosPylon tilePylon = (TileChaosPylon) tile;
           return new ContainerBurnerPylon(player.inventory, tilePylon);
         }
+        return null;
+      case ID_MANUAL:
         return null;
       default:
         LogHelper.warning("No GUI with ID " + ID + "!");
@@ -57,6 +60,8 @@ public class GuiHandlerSilentGems implements IGuiHandler {
           return new GuiBurnerPylon(player.inventory, tilePylon);
         }
         return null;
+      case ID_MANUAL:
+        return GuiGemsManual.currentOpenManual;
       default:
         LogHelper.warning("No GUI with ID " + ID + "!");
         return null;

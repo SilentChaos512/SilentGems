@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+1.3.9b
+Fixed: Ore dictionary silliness with gems (fixes all gems becoming rubies in some cases)
+Fixed: No Glint upgrade having the wrong tooltip
+
 1.3.9
 Added: Chaos gem charge bars.
 Added: Metallurgy metal tip upgrades (they only show up with Metallurgy installed)

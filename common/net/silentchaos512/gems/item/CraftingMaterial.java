@@ -110,6 +110,8 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
 
     ItemStack chaosEssence = getStack(Names.CHAOS_ESSENCE);
     ItemStack refinedEssence = getStack(Names.CHAOS_ESSENCE_PLUS);
+    ItemStack anyGem = new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE);
+    ItemStack anyShard = new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE);
 
     // Ornate stick
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.ORNATE_STICK, 8), "gig", "geg", "gig",
@@ -119,12 +121,12 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
         Blocks.mossy_cobblestone, 'a', Items.apple);
     // Yarn ball
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.YARN_BALL, 1), "sss", "sgs", "sss",
-        's', Items.string, 'g', Strings.ORE_DICT_GEM_SHARD));
+        's', Items.string, 'g', anyShard));
     // Refined chaos essence
     RecipeHelper.addSurroundOre(refinedEssence, "dustGlowstone", "dustRedstone", "gemChaos");
     // Plume
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.PLUME, 1), "fff", "fsf", "fff", 'f',
-        Items.feather, 's', Strings.ORE_DICT_GEM_BASIC));
+        Items.feather, 's', anyGem));
     // Golden plume
     RecipeHelper.addSurroundOre(getStack(Names.GOLDEN_PLUME, 1), getStack(Names.PLUME), "gemChaos",
         "ingotGold");
@@ -160,7 +162,7 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
     GameRegistry.addShapedRecipe(getStack(Names.MINI_PYLON), " e ", "epe", " e ", 'e',
         refinedEssence, 'p', new ItemStack(ModBlocks.chaosPylon, 1, 0));
     // Crystallized chaos essence (tier 3)
-    RecipeHelper.addSurroundOre(getStack(Names.CHAOS_ESSENCE_PLUS_2), Strings.ORE_DICT_GEM_BASIC,
+    RecipeHelper.addSurroundOre(getStack(Names.CHAOS_ESSENCE_PLUS_2), anyGem,
         getStack(Names.NETHER_SHARD), refinedEssence);
     // Chaos Core
     GameRegistry.addShapedRecipe(getStack(Names.CHAOS_CORE), " e ", "eqe", " e ", 'e',

@@ -14,6 +14,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Facing;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.lib.Names;
@@ -46,15 +47,17 @@ public class PetSummon extends ItemSG {
   @Override
   public void addRecipes() {
 
+    ItemStack anyGem = new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE);
+
     GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 0),
-        Strings.ORE_DICT_GEM_BASIC, Items.fish, CraftingMaterial.getStack(Names.YARN_BALL)));
+        anyGem, Items.fish, CraftingMaterial.getStack(Names.YARN_BALL)));
 
     GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 1),
-        Strings.ORE_DICT_GEM_BASIC, Items.beef, CraftingMaterial.getStack(Names.RAWHIDE_BONE)));
+        anyGem, Items.beef, CraftingMaterial.getStack(Names.RAWHIDE_BONE)));
     GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 1),
-        Strings.ORE_DICT_GEM_BASIC, Items.porkchop, CraftingMaterial.getStack(Names.RAWHIDE_BONE)));
+        anyGem, Items.porkchop, CraftingMaterial.getStack(Names.RAWHIDE_BONE)));
     GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 1),
-        Strings.ORE_DICT_GEM_BASIC, Items.chicken, CraftingMaterial.getStack(Names.RAWHIDE_BONE)));
+        anyGem, Items.chicken, CraftingMaterial.getStack(Names.RAWHIDE_BONE)));
   }
 
   @Override

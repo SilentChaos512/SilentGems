@@ -49,9 +49,5 @@ public class GemShard extends ItemSG {
     OreDictionary.registerOre("nuggetAmethyst", new ItemStack(this, 1, EnumGem.AMETHYST.id));
     OreDictionary.registerOre("nuggetMorganite", new ItemStack(this, 1, EnumGem.MORGANITE.id));
     OreDictionary.registerOre("nuggetOnyx", new ItemStack(this, 1, EnumGem.ONYX.id));
-
-    for (int i = 0; i < EnumGem.all().length; ++i) {
-      OreDictionary.registerOre(Strings.ORE_DICT_GEM_SHARD, new ItemStack(this, 1, i));
-    }
   }
 }
