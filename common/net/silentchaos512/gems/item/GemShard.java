@@ -40,7 +40,6 @@ public class GemShard extends ItemSG {
     for (EnumGem gem : EnumGem.values()) {
       stack = gem.getShard();
       OreDictionary.registerOre(gem.getShardOreName(), stack);
-      OreDictionary.registerOre(Strings.ORE_DICT_GEM_SHARD, stack);
     }
   }
 }

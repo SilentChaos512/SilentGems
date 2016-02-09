@@ -1,5 +1,9 @@
 package net.silentchaos512.gems.block;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -38,8 +42,9 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.tile.TileTeleporter;
+import net.silentchaos512.wit.api.IWitHudInfo;
 
-public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
+public class BlockTeleporter extends BlockSG implements ITileEntityProvider, IWitHudInfo {
 
   public static final PropertyEnum VARIANT = PropertyEnum.create("variant", EnumGem.class);
 
@@ -82,6 +87,42 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
             gem.getItemOreName()));
       }
     }
+  }
+
+  @Override
+  public List<String> getWitLines(IBlockState state, BlockPos pos, EntityPlayer player,
+      boolean advanced) {
+    
+    // Doesn't work because the info is server-side...
+    return null;
+
+//    if (isAnchor) {
+//      return null;
+//    }
+//
+//    List<String> list = Lists.newArrayList();
+//    TileTeleporter tile = (TileTeleporter) player.worldObj.getTileEntity(pos);
+//
+//    boolean notLinked = true;
+//    if (tile != null) {
+//      notLinked = false;
+//      DimensionalPosition dest = new DimensionalPosition(tile.destX, tile.destY, tile.destZ,
+//          tile.destD);
+//      if (tile.destY <= 0) {
+//        notLinked = true;
+//      } else {
+//        String posStr = LocalizationHelper.getMiscText("DimensionalPosition");
+//        posStr = String.format(posStr, dest.x, dest.y, dest.z, dest.d);
+//        list.add(EnumChatFormatting.GREEN + posStr);
+//      }
+//    }
+//
+//    if (notLinked) {
+//      String str = LocalizationHelper.getOtherItemKey(Names.TELEPORTER_LINKER, "Inactive");
+//      list.add(EnumChatFormatting.RED + str);
+//    }
+//
+//    return list;
   }
 
   @Override
@@ -131,7 +172,6 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider {
       return true;
     }
 
-    // TODO: Does linking work with this code?
     NBTTagCompound root = player.inventory.getCurrentItem().getTagCompound();
     if (root == null) {
       root = new NBTTagCompound();

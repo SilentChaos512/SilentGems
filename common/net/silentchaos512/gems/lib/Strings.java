@@ -69,7 +69,5 @@ public class Strings {
   /*
    * Ore dictionary keys
    */
-  public static final String ORE_DICT_GEM_BASIC = "gemSilentBasic";
-  public static final String ORE_DICT_GEM_SHARD = "gemSilentShard";
   public static final String ORE_DICT_STICK_FANCY = "stickSilentFancy";
 }

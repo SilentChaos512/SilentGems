@@ -144,7 +144,7 @@ public class TorchBandolier extends ItemSG implements IPlaceable {
 
     ItemStack bandolier = new ItemStack(this, 1, MAX_DAMAGE);
     ItemStack wool = new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE);
-    String anyGem = Strings.ORE_DICT_GEM_BASIC;
+    ItemStack anyGem = new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE);
 
     // Basic leather recipe (OreDict recipe removed, it was pointless)
     recipe1 = new ShapedOreRecipe(bandolier, true, "lll", "sgs", "lll", 'l', Items.leather, 's',

@@ -103,7 +103,6 @@ public class Gem extends ItemSG {
     for (EnumGem gem : EnumGem.values()) {
       ItemStack item = gem.getItem();
       OreDictionary.registerOre(gem.getItemOreName(), item);
-      OreDictionary.registerOre(Strings.ORE_DICT_GEM_BASIC, item);
     }
   }
 
