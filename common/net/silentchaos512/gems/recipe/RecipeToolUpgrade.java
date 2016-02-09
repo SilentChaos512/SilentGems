@@ -30,7 +30,7 @@ public class RecipeToolUpgrade implements IRecipe {
     // Find tool and upgrades
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
-      if (stack != null) {
+      if (stack != null && stack.getItem() != null) {
         item = stack.getItem();
         meta = stack.getItemDamage();
         if (InventoryHelper.isGemTool(stack)) {

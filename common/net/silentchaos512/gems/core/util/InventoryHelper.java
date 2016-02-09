@@ -82,6 +82,10 @@ public class InventoryHelper {
    */
   public static boolean matchesOreDict(ItemStack stack, String oreName) {
 
+    if (stack == null || stack.getItem() == null) {
+      return false;
+    }
+
     int[] ids = OreDictionary.getOreIDs(stack);
     for (int i = 0; i < ids.length; ++i) {
       if (OreDictionary.getOreName(ids[i]).equals(oreName)) {
