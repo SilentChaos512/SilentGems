@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+1.3.10
+Added: Fluffy puff plant right-click to harvest.
+Fixed (1.8.9 only): Newly crafted chaos gems eating runes without gaining effects.
+
 1.3.9b
 Fixed: Ore dictionary silliness with gems (fixes all gems becoming rubies in some cases)
 Fixed: No Glint upgrade having the wrong tooltip
