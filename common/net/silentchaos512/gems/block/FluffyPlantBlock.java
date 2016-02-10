@@ -39,7 +39,7 @@ public class FluffyPlantBlock extends BlockCrops implements IHasVariants {
     // Get drops if mature
     if (age >= 7) {
       for (int i = 0; i < 3; ++i) {
-        if (RANDOM.nextInt(15) <= age) {
+        if (i == 0 || RANDOM.nextInt(15) <= age) {
           drops.add(new ItemStack(getCrop(), 1, damageDropped(state)));
         }
       }
