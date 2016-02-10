@@ -291,6 +291,7 @@ public class ChaosGem extends ItemSG implements IChaosStorage {
 
       if (root == null) {
         root = new NBTTagCompound();
+        stack.setTagCompound(root);
       }
 
       if (root.hasKey(NBT_BUFF_LIST)) {
