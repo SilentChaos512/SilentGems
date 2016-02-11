@@ -175,6 +175,7 @@ public class BlockTeleporter extends BlockSG implements ITileEntityProvider, IWi
     NBTTagCompound root = player.inventory.getCurrentItem().getTagCompound();
     if (root == null) {
       root = new NBTTagCompound();
+      player.inventory.getCurrentItem().setTagCompound(root);
       root.setBoolean(Strings.TELEPORTER_LINKER_STATE, false);
       NBTHelper.setXYZD(root, 0, 0, 0, 0);
     }
