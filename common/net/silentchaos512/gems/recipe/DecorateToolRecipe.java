@@ -225,6 +225,8 @@ public class DecorateToolRecipe implements IRecipe {
         if (tool.getItem() instanceof ArmorSG) {
           repairMaterial = EnumMaterialClass.MUNDANE;
         }
+      } else if (CraftingMaterial.doesStackMatch(material, Names.CHAOS_ESSENCE_PLUS_2)) {
+        repairMaterial = EnumMaterialClass.CHAOS;
       }
 
       if (repairMaterial != null) {
