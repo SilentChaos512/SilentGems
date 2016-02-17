@@ -31,11 +31,13 @@ import net.silentchaos512.gems.enchantment.EnchantmentAOE;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.lib.EnumMaterialClass;
+import net.silentchaos512.gems.lib.IGemItem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.material.ModMaterials;
 
-public class GemPickaxe extends ItemPickaxe {
+public class GemPickaxe extends ItemPickaxe implements IGemItem {
 
   public final int gemId;
   public final boolean supercharged;
@@ -174,5 +176,23 @@ public class GemPickaxe extends ItemPickaxe {
 
     ToolHelper.hitEntity(stack);
     return super.hitEntity(stack, entity1, entity2);
+  }
+
+  @Override
+  public int getGemId(ItemStack stack) {
+
+    return gemId;
+  }
+
+  @Override
+  public boolean isSupercharged(ItemStack stack) {
+
+    return supercharged;
+  }
+
+  @Override
+  public EnumMaterialClass getGemMaterialClass(ItemStack stack) {
+
+    return ToolHelper.getToolMaterialClass(stack);
   }
 }

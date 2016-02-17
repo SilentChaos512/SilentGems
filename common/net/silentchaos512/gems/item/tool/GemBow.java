@@ -26,9 +26,11 @@ import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
+import net.silentchaos512.gems.lib.EnumMaterialClass;
+import net.silentchaos512.gems.lib.IGemItem;
 import net.silentchaos512.gems.lib.Names;
 
-public class GemBow extends ItemBow implements IAddRecipe {
+public class GemBow extends ItemBow implements IAddRecipe, IGemItem {
 
   public static final float ENCHANTABILITY_MULTIPLIER = 0.45f;
 
@@ -275,5 +277,23 @@ public class GemBow extends ItemBow implements IAddRecipe {
 
     ToolHelper.hitEntity(stack);
     return super.hitEntity(stack, entity1, entity2);
+  }
+
+  @Override
+  public int getGemId(ItemStack stack) {
+
+    return gemId;
+  }
+
+  @Override
+  public boolean isSupercharged(ItemStack stack) {
+
+    return supercharged;
+  }
+
+  @Override
+  public EnumMaterialClass getGemMaterialClass(ItemStack stack) {
+
+    return ToolHelper.getToolMaterialClass(stack);
   }
 }

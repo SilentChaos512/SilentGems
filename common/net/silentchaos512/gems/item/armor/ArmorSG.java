@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.item.armor;
 
-import org.lwjgl.opengl.ARBTextureMirroredRepeat;
-
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -14,11 +12,13 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.item.Gem;
+import net.silentchaos512.gems.lib.EnumMaterialClass;
+import net.silentchaos512.gems.lib.IGemItem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 
-public class ArmorSG extends ItemArmor implements IAddRecipe {
+public class ArmorSG extends ItemArmor implements IAddRecipe, IGemItem {
 
   public static final ArmorMaterial materialCotton = EnumHelper.addArmorMaterial("gemsCotton", 6,
       new int[] { 1, 3, 2, 2 }, 17);
@@ -27,6 +27,8 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
   private String textureName;
   private ItemStack craftingItem;
   private IIcon extraIcon = null;
+  private int gemId;
+  private boolean supercharged;
 
   public ArmorSG(ArmorMaterial material, int renderIndex, int armorType, String name) {
 
@@ -43,6 +45,10 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
     this.craftingItem = craftingItem;
     this.setCreativeTab(SilentGems.tabSilentGems);
     this.setUnlocalizedName(name);
+
+    this.gemId = craftingItem.getItem() instanceof Gem ? craftingItem.getItemDamage() & 0xF : -1;
+    this.supercharged = craftingItem.getItem() instanceof Gem ? craftingItem.getItemDamage() > 15
+        : false;
   }
 
   @Override
@@ -144,5 +150,24 @@ public class ArmorSG extends ItemArmor implements IAddRecipe {
 
     return Strings.RESOURCE_PREFIX + "textures/armor/" + textureName + "_"
         + (armorType == 2 ? "2" : "1") + ".png";
+  }
+
+  @Override
+  public int getGemId(ItemStack stack) {
+
+    return gemId;
+  }
+
+  @Override
+  public boolean isSupercharged(ItemStack stack) {
+
+    return supercharged;
+  }
+
+  @Override
+  public EnumMaterialClass getGemMaterialClass(ItemStack stack) {
+
+    return gemId < 0 ? EnumMaterialClass.MUNDANE
+        : (supercharged ? EnumMaterialClass.SUPERCHARGED : EnumMaterialClass.REGULAR);
   }
 }

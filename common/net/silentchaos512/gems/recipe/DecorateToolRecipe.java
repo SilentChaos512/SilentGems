@@ -14,10 +14,11 @@ import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.Gem;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.item.armor.ArmorSG;
+import net.silentchaos512.gems.lib.EnumMaterialClass;
+import net.silentchaos512.gems.lib.IGemItem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
-import net.silentchaos512.gems.material.ModMaterials;
 
 public class DecorateToolRecipe implements IRecipe {
 
@@ -61,7 +62,7 @@ public class DecorateToolRecipe implements IRecipe {
     for (i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
       if (stack != null) {
-        if (InventoryHelper.isGemTool(stack)) {
+        if (InventoryHelper.isGemTool(stack) || stack.getItem() instanceof ArmorSG) {
           // Found tool
           tool = stack;
           ++toolCount;
@@ -186,6 +187,7 @@ public class DecorateToolRecipe implements IRecipe {
     Item item = material.getItem();
     return item instanceof Gem || item == Items.flint
         || CraftingMaterial.doesStackMatch(material, Names.CHAOS_ESSENCE_PLUS_2)
+        || CraftingMaterial.doesStackMatch(material, Names.FLUFFY_FABRIC)
         || item == Item.getItemFromBlock(Blocks.glass);
   }
 
@@ -206,50 +208,79 @@ public class DecorateToolRecipe implements IRecipe {
       return 0;
     }
 
-    int baseMaterial = ToolHelper.getToolGemId(tool);
-    int maxUses = tool.getItem().getMaxDamage(tool);
-    
-    // Glass has no repair value.
-    if (material.getItem() == Item.getItemFromBlock(Blocks.glass)) {
-      return 0;
-    }
+    if (tool.getItem() instanceof IGemItem) {
+      EnumMaterialClass toolMaterial = ((IGemItem) tool.getItem()).getGemMaterialClass(tool);
+      EnumMaterialClass repairMaterial = null;
 
-    // Crystallized chaos essence is a full repair.
-    if (CraftingMaterial.doesStackMatch(material, Names.CHAOS_ESSENCE_PLUS_2)) {
-      return maxUses;
-    }
-
-    // Various conditions that will be checked below.
-    boolean toolIsSuper = ToolHelper.getToolIsSupercharged(tool);
-    boolean materialIsGem = material.getItem() instanceof Gem;
-    boolean materialIsSuperGem = materialIsGem && material.getItemDamage() >= 0x10;
-    boolean materialIsFlint = material.getItem() == Items.flint;
-
-    if (baseMaterial < EnumGem.values().length || baseMaterial == ModMaterials.CHAOS_GEM_ID) {
-      // Gem tools
-      // Regular tools: regular gems = 1/4, super = 1, other = 0
-      // Super tools: regular gems = 1/8, super = 1/2, other = 0
-      if (!materialIsGem) {
-        return 0;
+      Item item = material.getItem();
+      if (item instanceof Gem) {
+        repairMaterial = material.getItemDamage() > 0xF ? EnumMaterialClass.SUPERCHARGED
+            : EnumMaterialClass.REGULAR;
+      } else if (item == Items.flint) {
+        // Repairing a tool with flint?
+        if (InventoryHelper.isGemTool(tool) || item instanceof ArmorSG) {
+          repairMaterial = EnumMaterialClass.MUNDANE;
+        }
+      } else if (CraftingMaterial.doesStackMatch(material, Names.FLUFFY_FABRIC)) {
+        // Repairing armor with fluffy fabric?
+        if (tool.getItem() instanceof ArmorSG) {
+          repairMaterial = EnumMaterialClass.MUNDANE;
+        }
+      } else if (CraftingMaterial.doesStackMatch(material, Names.CHAOS_ESSENCE_PLUS_2)) {
+        repairMaterial = EnumMaterialClass.CHAOS;
       }
-      int value = maxUses;
-      value /= toolIsSuper ? 2 : 1;
-      value /= materialIsSuperGem ? 1 : (materialIsGem ? 4 : Integer.MAX_VALUE);
-      return value;
-    } else if (baseMaterial == ModMaterials.FLINT_GEM_ID) {
-      // Flint tools
-      // Gem = 1, flint = 1/2
-      int value = maxUses;
-      value /= materialIsFlint ? 2 : (materialIsGem ? 1 : Integer.MAX_VALUE);
-      return value;
-    } else if (baseMaterial == ModMaterials.FISH_GEM_ID) {
-      // Fish tools
-      return materialIsGem || materialIsFlint ? maxUses : 0;
-    } else {
-      LogHelper.debug("DecorateToolRecipe.getRepairAmount - Unknown gem ID: " + baseMaterial);
-    }
 
+      if (repairMaterial != null) {
+        return (int) (EnumMaterialClass.getRepairValue(toolMaterial, repairMaterial)
+            * tool.getMaxDamage());
+      }
+    }
     return 0;
+
+//    int baseMaterial = ToolHelper.getToolGemId(tool);
+//    int maxUses = tool.getItem().getMaxDamage(tool);
+//    
+//    // Glass has no repair value.
+//    if (material.getItem() == Item.getItemFromBlock(Blocks.glass)) {
+//      return 0;
+//    }
+//
+//    // Crystallized chaos essence is a full repair.
+//    if (CraftingMaterial.doesStackMatch(material, Names.CHAOS_ESSENCE_PLUS_2)) {
+//      return maxUses;
+//    }
+//
+//    // Various conditions that will be checked below.
+//    boolean toolIsSuper = ToolHelper.getToolIsSupercharged(tool);
+//    boolean materialIsGem = material.getItem() instanceof Gem;
+//    boolean materialIsSuperGem = materialIsGem && material.getItemDamage() >= 0x10;
+//    boolean materialIsFlint = material.getItem() == Items.flint;
+//
+//    if (baseMaterial < EnumGem.values().length || baseMaterial == ModMaterials.CHAOS_GEM_ID) {
+//      // Gem tools
+//      // Regular tools: regular gems = 1/4, super = 1, other = 0
+//      // Super tools: regular gems = 1/8, super = 1/2, other = 0
+//      if (!materialIsGem) {
+//        return 0;
+//      }
+//      int value = maxUses;
+//      value /= toolIsSuper ? 2 : 1;
+//      value /= materialIsSuperGem ? 1 : (materialIsGem ? 4 : Integer.MAX_VALUE);
+//      return value;
+//    } else if (baseMaterial == ModMaterials.FLINT_GEM_ID) {
+//      // Flint tools
+//      // Gem = 1, flint = 1/2
+//      int value = maxUses;
+//      value /= materialIsFlint ? 2 : (materialIsGem ? 1 : Integer.MAX_VALUE);
+//      return value;
+//    } else if (baseMaterial == ModMaterials.FISH_GEM_ID) {
+//      // Fish tools
+//      return materialIsGem || materialIsFlint ? maxUses : 0;
+//    } else {
+//      LogHelper.debug("DecorateToolRecipe.getRepairAmount - Unknown gem ID: " + baseMaterial);
+//    }
+//
+//    return 0;
   }
 
   public static int getToolRodId(ItemStack rod) {

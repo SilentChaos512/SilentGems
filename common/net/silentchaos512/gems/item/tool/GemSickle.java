@@ -12,7 +12,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.network.play.server.S23PacketBlockChange;
@@ -24,15 +23,14 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
-import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.lib.EnumMaterialClass;
+import net.silentchaos512.gems.lib.IGemItem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.material.ModMaterials;
 
-public class GemSickle extends ItemTool {
+public class GemSickle extends ItemTool implements IGemItem {
 
   public final int gemId;
   public final boolean supercharged;
@@ -273,5 +271,23 @@ public class GemSickle extends ItemTool {
 
     ToolHelper.hitEntity(stack);
     return super.hitEntity(stack, entity1, entity2);
+  }
+
+  @Override
+  public int getGemId(ItemStack stack) {
+
+    return gemId;
+  }
+
+  @Override
+  public boolean isSupercharged(ItemStack stack) {
+
+    return supercharged;
+  }
+
+  @Override
+  public EnumMaterialClass getGemMaterialClass(ItemStack stack) {
+
+    return ToolHelper.getToolMaterialClass(stack);
   }
 }
