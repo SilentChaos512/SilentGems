@@ -14,6 +14,7 @@ import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.item.Gem;
+import net.silentchaos512.gems.item.armor.ArmorSG;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
@@ -61,7 +62,7 @@ public class DecorateToolRecipe implements IRecipe {
     for (i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
       if (stack != null) {
-        if (InventoryHelper.isGemTool(stack)) {
+        if (InventoryHelper.isGemTool(stack) || stack.getItem() instanceof ArmorSG) {
           // Found tool
           tool = stack;
           ++toolCount;
