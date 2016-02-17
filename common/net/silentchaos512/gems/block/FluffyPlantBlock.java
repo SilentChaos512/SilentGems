@@ -15,8 +15,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.registry.IHasVariants;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.lib.Names;
 
 public class FluffyPlantBlock extends BlockCrops implements IHasVariants {
@@ -31,6 +31,10 @@ public class FluffyPlantBlock extends BlockCrops implements IHasVariants {
   @Override
   public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
       EnumFacing side, float hitX, float hitY, float hitZ) {
+
+    if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof GemSickle) {
+      return false;
+    }
 
     // Right-click to harvest
     List<ItemStack> drops = Lists.newArrayList();

@@ -5,8 +5,11 @@ import java.util.List;
 import com.google.common.collect.Sets;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockCrops;
+import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,6 +18,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.SpawnerAnimals;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IShearable;
@@ -48,7 +53,7 @@ public class GemSickle extends ItemTool implements IHasVariants, IGemItem {
     addRecipe(new ItemStack(this), gemId, supercharged);
     this.setCreativeTab(SilentGems.tabSilentGems);
   }
-  
+
   @Override
   public String[] getVariantNames() {
 
@@ -137,14 +142,13 @@ public class GemSickle extends ItemTool implements IHasVariants, IGemItem {
 
     return ToolRenderHelper.instance.hasEffect(stack);
   }
-  
+
   @Override
   public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
       boolean slotChanged) {
 
     return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
   }
-
 
   private boolean isEffectiveOnMaterial(Material material) {
 
@@ -153,6 +157,55 @@ public class GemSickle extends ItemTool implements IHasVariants, IGemItem {
         return true;
       }
     }
+    return false;
+  }
+
+  @Override
+  public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+      EnumFacing side, float hitX, float hitY, float hitZ) {
+
+    boolean flag = false;
+
+    IBlockState state = world.getBlockState(pos);
+    if (state.getBlock() instanceof IGrowable) {
+      // Harvest a group of fully grown crops!
+      final int radius = 2;
+      BlockPos targetPos;
+      Block block;
+
+      for (int z = pos.getZ() - radius; z <= pos.getZ() + radius; ++z) {
+        for (int x = pos.getX() - radius; x <= pos.getX() + radius; ++x) {
+          targetPos = new BlockPos(x, pos.getY(), z);
+          state = world.getBlockState(targetPos);
+          block = state.getBlock();
+
+          if (block instanceof IGrowable) {
+            IGrowable crop = (IGrowable) block;
+            if (!crop.canGrow(world, targetPos, state, world.isRemote)) {
+              // Fully grown crop, get the drops
+              List<ItemStack> drops = block.getDrops(world, targetPos, state,
+                  EnchantmentHelper.getFortuneModifier(player));
+              for (ItemStack dropStack : drops) {
+                Block.spawnAsEntity(world, targetPos, dropStack);
+              }
+              // Reset to default state.
+              world.setBlockState(targetPos, block.getDefaultState(), 2);
+              flag = true;
+            }
+          }
+        }
+      }
+    }
+
+    if (flag) {
+      stack.damageItem(1, player);
+    }
+    return flag;
+  }
+
+  private boolean harvestExtraBlock(ItemStack sickle, BlockPos pos, EntityPlayer player) {
+
+    IBlockState state = player.worldObj.getBlockState(pos);
     return false;
   }
 
