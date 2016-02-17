@@ -2,7 +2,6 @@ package net.silentchaos512.gems.item.tool;
 
 import java.util.List;
 
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -25,12 +24,13 @@ import net.silentchaos512.gems.client.render.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.registry.IAddRecipe;
 import net.silentchaos512.gems.core.registry.IHasVariants;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
+import net.silentchaos512.gems.lib.EnumMaterialClass;
+import net.silentchaos512.gems.lib.IGemItem;
 import net.silentchaos512.gems.lib.Names;
 
-public class GemBow extends ItemBow implements IAddRecipe, IHasVariants {
+public class GemBow extends ItemBow implements IAddRecipe, IHasVariants, IGemItem {
 
   public static final float ENCHANTABILITY_MULTIPLIER = 0.45f;
 
@@ -298,5 +298,23 @@ public class GemBow extends ItemBow implements IAddRecipe, IHasVariants {
 
     ToolHelper.hitEntity(stack);
     return super.hitEntity(stack, entity1, entity2);
+  }
+
+  @Override
+  public int getGemId(ItemStack stack) {
+
+    return gemId;
+  }
+
+  @Override
+  public boolean isSupercharged(ItemStack stack) {
+
+    return supercharged;
+  }
+
+  @Override
+  public EnumMaterialClass getGemMaterialClass(ItemStack stack) {
+
+    return ToolHelper.getToolMaterialClass(stack);
   }
 }

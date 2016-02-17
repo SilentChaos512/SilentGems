@@ -20,10 +20,12 @@ import net.silentchaos512.gems.core.registry.IHasVariants;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.EnumMaterialClass;
+import net.silentchaos512.gems.lib.IGemItem;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.material.ModMaterials;
 
-public class GemAxe extends ItemAxe implements IHasVariants {
+public class GemAxe extends ItemAxe implements IHasVariants, IGemItem {
 
   public final int gemId;
   public final boolean supercharged;
@@ -172,5 +174,23 @@ public class GemAxe extends ItemAxe implements IHasVariants {
 
     ToolHelper.hitEntity(stack);
     return super.hitEntity(stack, entity1, entity2);
+  }
+
+  @Override
+  public int getGemId(ItemStack stack) {
+
+    return gemId;
+  }
+
+  @Override
+  public boolean isSupercharged(ItemStack stack) {
+
+    return supercharged;
+  }
+
+  @Override
+  public EnumMaterialClass getGemMaterialClass(ItemStack stack) {
+
+    return ToolHelper.getToolMaterialClass(stack);
   }
 }

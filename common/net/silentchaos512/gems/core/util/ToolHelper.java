@@ -38,7 +38,9 @@ import net.silentchaos512.gems.item.tool.GemShovel;
 import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.item.tool.GemSword;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.EnumMaterialClass;
 import net.silentchaos512.gems.lib.EnumTipUpgrade;
+import net.silentchaos512.gems.lib.IGemItem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
 
@@ -86,23 +88,10 @@ public class ToolHelper {
       return -1;
     }
 
-    Item item = tool.getItem();
-    if (item instanceof GemSword) {
-      return ((GemSword) item).gemId;
-    } else if (item instanceof GemPickaxe) {
-      return ((GemPickaxe) item).gemId;
-    } else if (item instanceof GemShovel) {
-      return ((GemShovel) item).gemId;
-    } else if (item instanceof GemAxe) {
-      return ((GemAxe) item).gemId;
-    } else if (item instanceof GemHoe) {
-      return ((GemHoe) item).gemId;
-    } else if (item instanceof GemSickle) {
-      return ((GemSickle) item).gemId;
-    } else if (item instanceof GemBow) {
-      return ((GemBow) item).gemId;
+    if (tool.getItem() instanceof IGemItem) {
+      return ((IGemItem) tool.getItem()).getGemId(tool);
     } else {
-      LogHelper.debug("Called ToolHelper.getToolGemId on a non-Gems tool!");
+      LogHelper.warning("Called ToolHelper.getToolGemId on a non-gem item!");
       return -1;
     }
   }
@@ -119,24 +108,25 @@ public class ToolHelper {
       return false;
     }
 
-    Item item = tool.getItem();
-    if (item instanceof GemSword) {
-      return ((GemSword) item).supercharged;
-    } else if (item instanceof GemPickaxe) {
-      return ((GemPickaxe) item).supercharged;
-    } else if (item instanceof GemShovel) {
-      return ((GemShovel) item).supercharged;
-    } else if (item instanceof GemAxe) {
-      return ((GemAxe) item).supercharged;
-    } else if (item instanceof GemHoe) {
-      return ((GemHoe) item).supercharged;
-    } else if (item instanceof GemSickle) {
-      return ((GemSickle) item).supercharged;
-    } else if (item instanceof GemBow) {
-      return ((GemBow) item).supercharged;
+    if (tool.getItem() instanceof IGemItem) {
+      return ((IGemItem) tool.getItem()).isSupercharged(tool);
     } else {
-      LogHelper.debug("Called ToolHelper.getToolIsSupercharged on a non-Gems tool!");
+      LogHelper.warning("Called ToolHelper.getToolIsSupercharged on a non-gem item!");
       return false;
+    }
+  }
+
+  public static EnumMaterialClass getToolMaterialClass(ItemStack tool) {
+
+    switch (getToolGemId(tool)) {
+      case ModMaterials.CHAOS_GEM_ID:
+        return EnumMaterialClass.CHAOS;
+      case ModMaterials.FLINT_GEM_ID:
+      case ModMaterials.FISH_GEM_ID:
+        return EnumMaterialClass.MUNDANE;
+      default:
+        return getToolIsSupercharged(tool) ? EnumMaterialClass.SUPERCHARGED
+            : EnumMaterialClass.REGULAR;
     }
   }
 

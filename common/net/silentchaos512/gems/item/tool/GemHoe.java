@@ -17,9 +17,11 @@ import net.silentchaos512.gems.core.registry.IHasVariants;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
+import net.silentchaos512.gems.lib.EnumMaterialClass;
+import net.silentchaos512.gems.lib.IGemItem;
 import net.silentchaos512.gems.lib.Names;
 
-public class GemHoe extends ItemHoe implements IHasVariants {
+public class GemHoe extends ItemHoe implements IHasVariants, IGemItem {
 
   public final int gemId;
   public final boolean supercharged;
@@ -34,7 +36,7 @@ public class GemHoe extends ItemHoe implements IHasVariants {
     addRecipe(new ItemStack(this), gemId, supercharged);
     this.setCreativeTab(SilentGems.tabSilentGems);
   }
-  
+
   @Override
   public String[] getVariantNames() {
 
@@ -106,14 +108,13 @@ public class GemHoe extends ItemHoe implements IHasVariants {
 
     return ToolRenderHelper.instance.hasEffect(stack);
   }
-  
+
   @Override
   public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
       boolean slotChanged) {
 
     return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
   }
-
 
   @Override
   public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
@@ -143,5 +144,23 @@ public class GemHoe extends ItemHoe implements IHasVariants {
     }
 
     return success;
+  }
+
+  @Override
+  public int getGemId(ItemStack stack) {
+
+    return gemId;
+  }
+
+  @Override
+  public boolean isSupercharged(ItemStack stack) {
+
+    return supercharged;
+  }
+
+  @Override
+  public EnumMaterialClass getGemMaterialClass(ItemStack stack) {
+
+    return ToolHelper.getToolMaterialClass(stack);
   }
 }

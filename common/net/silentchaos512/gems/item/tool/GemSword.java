@@ -24,10 +24,12 @@ import net.silentchaos512.gems.core.util.LocalizationHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.entity.projectile.EntityProjectileChaosOrb;
 import net.silentchaos512.gems.item.CraftingMaterial;
+import net.silentchaos512.gems.lib.EnumMaterialClass;
+import net.silentchaos512.gems.lib.IGemItem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.material.ModMaterials;
 
-public class GemSword extends ItemSword implements IHasVariants {
+public class GemSword extends ItemSword implements IHasVariants, IGemItem {
 
   public static final String NBT_SHOT_CHARGED = "ShotCharged";
 
@@ -246,5 +248,23 @@ public class GemSword extends ItemSword implements IHasVariants {
   private void setShotCharged(ItemStack stack, boolean value) {
 
     stack.getTagCompound().setBoolean(NBT_SHOT_CHARGED, value);
+  }
+
+  @Override
+  public int getGemId(ItemStack stack) {
+
+    return gemId;
+  }
+
+  @Override
+  public boolean isSupercharged(ItemStack stack) {
+
+    return supercharged;
+  }
+
+  @Override
+  public EnumMaterialClass getGemMaterialClass(ItemStack stack) {
+
+    return ToolHelper.getToolMaterialClass(stack);
   }
 }
