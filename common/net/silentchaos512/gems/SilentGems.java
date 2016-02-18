@@ -42,7 +42,12 @@ import net.silentchaos512.gems.network.MessageChaosGemToggle;
 import net.silentchaos512.gems.network.MessageSetFlight;
 import net.silentchaos512.gems.world.GemsWorldGenerator;
 
-@Mod(modid = SilentGems.MOD_ID, name = SilentGems.MOD_NAME, version = SilentGems.VERSION_NUMBER)
+//@formatter:off
+@Mod(modid = SilentGems.MOD_ID,
+    name = SilentGems.MOD_NAME,
+    version = SilentGems.VERSION_NUMBER,
+    updateJSON = "https://raw.githubusercontent.com/SilentChaos512/SilentGems/master/update.json")
+//@formatter:on
 public class SilentGems {
 
   public final static String MOD_ID = "SilentGems";
