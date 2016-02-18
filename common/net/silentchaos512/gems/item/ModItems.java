@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.item;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
@@ -204,6 +205,10 @@ public class ModItems {
 
   public static void initItemRecipes() {
 
+    // Flint from gravel recipe
+    GameRegistry.addShapelessRecipe(new ItemStack(Items.flint), Blocks.gravel, Blocks.gravel);
+
+    // Special recipe handlers
     String afterShapeless = "after:minecraft:shapeless";
     recipeChaosGemUpgrade = addRecipeHandler(ChaosGemUpgradeRecipe.class, "ChaosRune",
         Category.SHAPELESS, afterShapeless);
