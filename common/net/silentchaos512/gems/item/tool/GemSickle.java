@@ -22,6 +22,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.SpawnerAnimals;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -29,6 +30,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.render.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.registry.IHasVariants;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.EnumMaterialClass;
@@ -185,8 +187,19 @@ public class GemSickle extends ItemTool implements IHasVariants, IGemItem {
               // Fully grown crop, get the drops
               List<ItemStack> drops = block.getDrops(world, targetPos, state,
                   EnchantmentHelper.getFortuneModifier(player));
+
+              // Spawn drops in world, remove first seed.
+              boolean foundSeed = false;
               for (ItemStack dropStack : drops) {
-                Block.spawnAsEntity(world, targetPos, dropStack);
+                if (!foundSeed && dropStack.getItem() instanceof IPlantable) {
+                  IPlantable seed = (IPlantable) dropStack.getItem();
+                  if (seed.getPlant(world, targetPos) == block.getDefaultState()) {
+                    foundSeed = true;
+                    LogHelper.list("Consume seed at: " + targetPos);
+                  }
+                } else {
+                  Block.spawnAsEntity(world, targetPos, dropStack);
+                }
               }
               // Reset to default state.
               world.setBlockState(targetPos, block.getDefaultState(), 2);
