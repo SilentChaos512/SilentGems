@@ -94,6 +94,7 @@ public class CraftingMaterial extends ItemSG implements IFuelHandler {
 
     OreDictionary.registerOre("gemChaos", getStack(Names.CHAOS_ESSENCE));
     OreDictionary.registerOre("nuggetChaos", getStack(Names.CHAOS_ESSENCE_SHARD));
+    OreDictionary.registerOre("gemChaosCrystallized", getStack(Names.CHAOS_ESSENCE_PLUS_2));
   }
 
   @Override

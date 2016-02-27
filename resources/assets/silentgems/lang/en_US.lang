@@ -932,3 +932,8 @@ misc.silentgems:Tool.Stats.Separator=---------------------
 misc.silentgems:PressCtrl=<Press Ctrl>
 misc.silentgems:PressShift=<Press Shift>
 misc.silentgems:DimensionalPosition=(%d, %d, %d) in dimension %d
+
+# Wiki pages
+
+wiki.silentgems:GettingStarted=Getting Started
+wiki.silentgems:Decorating=Tool Decorating

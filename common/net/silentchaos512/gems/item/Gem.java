@@ -103,6 +103,9 @@ public class Gem extends ItemSG {
     for (EnumGem gem : EnumGem.values()) {
       ItemStack item = gem.getItem();
       OreDictionary.registerOre(gem.getItemOreName(), item);
+
+      ItemStack superGem = new ItemStack(this, 1, 16 + gem.id);
+      OreDictionary.registerOre(gem.getItemOreName() + "Super", superGem);
     }
   }
 

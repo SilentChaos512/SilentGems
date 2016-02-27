@@ -1,0 +1,26 @@
+Welcome to Silent's Gems! This page will (hopefully) guide you in your first steps into the mod. This mod is mostly about tools, and you can begin using them right away (assuming you were lucky enough to find a source of flint early on).
+
+[prefix{n}]Flint [prefix{}]
+So why don't we make some flint tools? They are made just like any other tools, but with flint obviously. Flint tools have the same mining level as stone, but are faster and more durable.
+
+[prefix{n}]Iron-Tipped [prefix{}]
+But what about the shiny gemstone, you ask? They require iron-level tools to harvest. For that, you'll need a tip upgrade! Typically, these are made out of vanilla materials. Go find some iron and make iron-tipped upgrades for your tools. Simply craft them with the tool to apply. All tools (even things like swords and bows) get a durability boost. Mining tools get a mining level boost as well.
+
+You can also craft most tools with wool to add a grip. Aside from looking nice, it increases mining speed a bit.
+
+[prefix{n}]Gems [prefix{}]
+Now you can mine shinies (gems)! Grab some gems and make some better tools, if you want. Or you can be cheap and stick with flint, the next step doesn't care.
+
+[prefix{n}]Diamond-Tipped [prefix{}]
+Maybe you have run into some chaos ore by now? But you can't mine it, you need a diamond-level pickaxe! Any guesses? Yep, diamond-tipped upgrade! As before, it can be applied to anything for a nice durability boost, and mining tools will be able to harvest anything a diamond pickaxe would be able to.
+
+[prefix{n}]Supercharged! [prefix{}]
+Chaos ore can be processed into chaos essence, which has a lot of uses! The only one we will cover here is supercharged gems. Supercharged gems are significantly upgraded gems, with quadruple durability, a big mining speed and damage boost, and a high mining level. Use them to craft some very nice tools (just don't forget you need ornate sticks instead of plain wooden sticks)!
+
+[prefix{n}]Mine Everything (Most Likely) [prefix{}]
+Supercharged gems default to a mining level of 4 (one above diamond). Putting tip upgrades on them will increase there durability, but will never lower the base mining level. I recommend emerald-tipped upgrades for supercharged tools!
+
+[prefix{n}]Chaos [prefix{}]
+There is one more tier of tools beyond supercharged, but... you probably won't get those anytime soon. Just look up the recipe of "crystallized chaos essence". You'll see what I mean.
+
+To recap, the typical progression is flint -> iron-tipped -> gems -> diamond-tipped -> supercharged gems. Using tools from other mods is NOT required, but you are free to play however you like!

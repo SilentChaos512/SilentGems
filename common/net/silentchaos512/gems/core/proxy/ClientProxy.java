@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.particle.EntityFXChaosCharge;
 import net.silentchaos512.gems.client.particle.EntityFXChaosTrail;
@@ -20,6 +21,7 @@ public class ClientProxy extends CommonProxy {
 
     super.preInit();
     SRegistry.clientPreInit();
+    FMLInterModComms.sendMessage("IGWMod", "net.silentchaos512.gems.compat.igw.IGWHandler", "init");
   }
 
   @Override

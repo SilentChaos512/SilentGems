@@ -1,0 +1,16 @@
+[prefix{n}]Tool Decorating [prefix{}]
+
+Tool decorating allows a tools appearance to be customized somewhat by crafting it with gems. This also repairs the tool! All tools can be decorated (even swords and bows)! This is done via ordinary crafting.
+
+First, place the tool in a crafting grid. I recommend the middle slot. Next, place gems (regular or supercharged) or other materials like flint in the slots next to the tool. Where each gem is relative to the tool determines what part is changed. Experiment to see what changes! Wool grips are also technically part of decorating and the wool can be placed in any slot.
+
+It's worth noting that the slot below the tool has no visible affect on tools below supercharged tier. The material will still be consumed and used for repairs though.
+
+[prefix{n}]Repairing [prefix{}]
+Decorating repairs the tool. The amount per item depends on both the tool and the item. It is always a percentage of the tool's maximum durability (this includes bonus durability from tip upgrades).
+
+Some general rules for repair values:
+- "Mundane" materials can only repair mundane tools (example: flint). But you can still use these for decorating if you wish.
+- Supercharged gems repair four times as much as regular gems.
+- Supercharged tools get half the repair value as the same material on regular gem tools.
+- Crystallized chaos essence is always a 100% repair.
