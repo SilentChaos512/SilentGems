@@ -2,6 +2,7 @@ package net.silentchaos512.gems;
 
 import java.util.Random;
 
+import net.silentchaos512.gems.client.render.handlers.ClientTickHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -99,6 +100,7 @@ public class SilentGems {
     // Event handler
     FMLCommonHandler.instance().bus().register(new GemsEventHandler());
     MinecraftForge.EVENT_BUS.register(new GemsForgeEventHandler());
+    MinecraftForge.EVENT_BUS.register(new ClientTickHandler()); //allows smooth model rendering
 
     // Recipes and ore dictionary.
     SRegistry.addRecipesAndOreDictEntries();

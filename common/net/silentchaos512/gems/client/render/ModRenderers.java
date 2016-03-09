@@ -10,6 +10,7 @@ import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.client.render.tileEntity.PylonRenderer;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 import net.silentchaos512.gems.tile.TileChaosAltar;
@@ -28,6 +29,9 @@ public class ModRenderers {
     Item itemAltar = Item.getItemFromBlock(ModBlocks.chaosAltar);
     register(itemAltar, 0, "ChaosAltar");
     ClientRegistry.bindTileEntitySpecialRenderer(TileChaosAltar.class, new RenderChaosAltar());
+
+    //pylon renderers
+    ClientRegistry.bindTileEntitySpecialRenderer(TileChaosPylon.class, new PylonRenderer());
 
     // ClientRegistry.bindTileEntitySpecialRenderer(TileChaosAltar.class, new RendererChaosAltar());
     // MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.chaosAltar),

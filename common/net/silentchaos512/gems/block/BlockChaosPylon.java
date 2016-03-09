@@ -239,7 +239,7 @@ public class BlockChaosPylon extends BlockContainer
   @Override
   public int getRenderType() {
 
-    return 3;
+    return 2;//3;
   }
 
   @Override
