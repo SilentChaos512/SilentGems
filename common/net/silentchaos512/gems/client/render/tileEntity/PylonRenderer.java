@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.silentchaos512.gems.client.render.handlers.ClientTickHandler;
 import net.silentchaos512.gems.client.render.models.ModelPylon;
+import net.silentchaos512.gems.client.render.models.ModelPylonPlates;
 import net.silentchaos512.gems.tile.TileChaosPylon;
 
 import java.util.Random;
@@ -11,6 +12,7 @@ import java.util.Random;
 public class PylonRenderer  extends TileEntitySpecialRenderer<TileChaosPylon>{
 
     ModelPylon model;
+    ModelPylonPlates plates;
 
     public PylonRenderer()
     {
@@ -29,16 +31,29 @@ public class PylonRenderer  extends TileEntitySpecialRenderer<TileChaosPylon>{
         {
             model = new ModelPylon();
         }
+        if (plates==null)
+        {
+            plates = new ModelPylonPlates();
+        }
 
         double worldTime = (te.getWorld()==null) ? 0 : (double)(ClientTickHandler.ticksInGame + partialTicks) + new Random(te.getPos().hashCode()).nextInt(360);
         int pylonType = te.getPylonTypeInteger();
         double bobFactor = 1.0;
 
+        //render the pylon
         GlStateManager.pushMatrix();
-        GlStateManager.translate(x+0.5,y+0.5+Math.sin(worldTime/20)*bobFactor,z+0.5);
+        GlStateManager.translate(x+0.5,y+0.5+0.1*Math.sin(worldTime/20)*bobFactor,z+0.5);
         GlStateManager.rotate((float)worldTime,0.0f,1.0f,0.0f);
-        model = new ModelPylon();
+        //model = new ModelPylon();
         model.renderPylon(pylonType);
+        GlStateManager.popMatrix();
+
+        //render the plates
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x+0.5,y+0.5+0.1*Math.sin(worldTime/20)*bobFactor,z+0.5);
+        GlStateManager.rotate(-(float)worldTime,0.0f,1.0f,0.0f);
+        //model = new ModelPylon();
+        plates.renderPylonPlates(pylonType);
         GlStateManager.popMatrix();
     }
 }

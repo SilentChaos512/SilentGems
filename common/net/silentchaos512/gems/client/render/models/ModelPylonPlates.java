@@ -2,7 +2,6 @@ package net.silentchaos512.gems.client.render.models;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -21,52 +20,49 @@ import net.minecraftforge.client.model.pipeline.LightUtil;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
-import java.util.Set;
 
-public class ModelPylon {
+public class ModelPylonPlates {
 
-    private IFlexibleBakedModel pylonPassiveModel;
-    private IFlexibleBakedModel pylonBurnerModel;
+    private IFlexibleBakedModel pylonPlatesPassiveModel;
+    private IFlexibleBakedModel pylonPlatesBurnerModel;
 
     public static final Function<ResourceLocation, TextureAtlasSprite> TEXTURE_GETTER = input -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(input.toString());
 
-    public ModelPylon()
+    public ModelPylonPlates()
     {
         try
         {
-            //loading the model
-            OBJModel model = ((OBJModel) OBJLoader.instance.loadModel(new ResourceLocation("silentgems:models/block/ChaosPylon.obj")));
+            //load the model
+            OBJModel model = ((OBJModel) OBJLoader.instance.loadModel(new ResourceLocation("silentgems:models/block/ChaosPylonPlates.obj")));
 
             //apply textures and orient correctly
-            IModel pylonPassive = ((OBJModel) model.retexture(ImmutableMap.of("#ChaosPylon", "silentgems:blocks/ChaosPylonPassive"))).process(ImmutableMap.of("flip-v","true"));
-            IModel pylonBurner = ((OBJModel) model.retexture(ImmutableMap.of("#ChaosPylon", "silentgems:blocks/ChaosPylonBurner"))).process(ImmutableMap.of("flip-v","true"));
-
-
+            IModel pylonPlatesPassive = ((OBJModel) model.retexture(ImmutableMap.of("#skin.001","silentgems:blocks/ChaosPylonPassive"))).process(ImmutableMap.of("flip-v","true"));
+            IModel pylonPlatesBurner = ((OBJModel) model.retexture(ImmutableMap.of("#skin.001","silentgems:blocks/ChaosPylonBurner"))).process(ImmutableMap.of("flip-v","true"));
 
             //"turn on" the models
-            pylonPassiveModel = pylonPassive.bake(TRSRTransformation.identity(), Attributes.DEFAULT_BAKED_FORMAT, TEXTURE_GETTER);
-            pylonBurnerModel = pylonBurner.bake(TRSRTransformation.identity(), Attributes.DEFAULT_BAKED_FORMAT, TEXTURE_GETTER);
+            pylonPlatesPassiveModel = pylonPlatesPassive.bake(TRSRTransformation.identity(), Attributes.DEFAULT_BAKED_FORMAT, TEXTURE_GETTER);
+            pylonPlatesBurnerModel = pylonPlatesBurner.bake(TRSRTransformation.identity(), Attributes.DEFAULT_BAKED_FORMAT, TEXTURE_GETTER);
         } catch (IOException e)
         {
-            throw new ReportedException(new CrashReport("Error making model for chaos pylons!",e));
+            throw new ReportedException(new CrashReport("Error making model for the chaos pylon plates!",e));
         }
     }
 
-    public void renderPylon(int pylonType)
+    public void renderPylonPlates(int pylonType)
     {
         switch (pylonType)
         {
             case 1:
-                renderModel(pylonBurnerModel);
+                renderModel(pylonPlatesBurnerModel);
                 break;
             default:
-                renderModel(pylonPassiveModel);
+                renderModel(pylonPlatesPassiveModel);
         }
     }
 
     private void renderModel(IFlexibleBakedModel model)
     {
-        renderModel(model,-1);
+        renderModel(model, -1);
     }
 
     private void renderModel(IFlexibleBakedModel model, int color)

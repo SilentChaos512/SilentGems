@@ -1,0 +1,21 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "silentgems:ChaosPylon.obj",
+    "textures": {
+      "#ChaosPylon": "silentgems:blocks/ChaosPylonBurner"
+    },
+    "transform": "forge:default-block",
+    "custom": {"flip-v": true}
+  },
+  "variants": {
+    "inventory": [{ "transform": {
+      "scale": [2,2,2],
+      "translation": [0.65, 0.4, 0.65],
+      "rotation": [{"y":45}]
+    }}],
+    "normal": [{ "transform": {
+      "translation": [0,0,0]
+    }}]
+  }
+}

@@ -23,7 +23,7 @@ public class ModRenderers {
 
   public static void init() {
 
-    OBJLoader.instance.addDomain(SilentGems.MOD_ID);
+    //OBJLoader.instance.addDomain(SilentGems.MOD_ID); //moved to the pre-init method in client proxy
 
     // altar renderers (block and item)
     Item itemAltar = Item.getItemFromBlock(ModBlocks.chaosAltar);

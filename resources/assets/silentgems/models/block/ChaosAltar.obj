@@ -1,6 +1,6 @@
 # Blender v2.74 (sub 0) OBJ File: 'SilentChaosAltarTriangulated.blend'
 # www.blender.org
-mtllib SilentChaosAltar.mtl
+mtllib ChaosAltar.mtl
 o Cube_Cube.004
 v -0.500000 -0.500000 0.500000
 v -0.500000 0.250000 0.500000
@@ -675,7 +675,6 @@ vn 0.192500 0.962300 0.192400
 vn -0.192500 0.962300 0.192500
 vn 0.192500 0.962300 0.192500
 usemtl skin
-s off
 f 20/1/1 3/2/1 21/3/1
 f 36/4/2 5/5/2 37/6/2
 f 54/7/3 4/8/3 55/9/3

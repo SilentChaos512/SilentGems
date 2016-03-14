@@ -242,10 +242,12 @@ public class BlockChaosPylon extends BlockContainer
     return 2;//3;
   }
 
+
+
   @Override
   public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
 
-    this.setBlockBounds(0.2f, 0.1f, 0.2f, 0.8f, 0.9f, 0.8f);
+    this.setBlockBounds(0.25f, 0.0f, 0.25f, 0.75f, 1.0f, 0.75f); //tightened the bounds a bit to make it look less "empty"
   }
 
   @Override

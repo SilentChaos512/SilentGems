@@ -1,7 +1,10 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "silentgems:ChaosAltar.obj",
+    "model": "silentgems:ChaosPylon.obj",
+    "textures": {
+      "#ChaosPylon": "silentgems:blocks/ChaosPylonPassive"
+    },
     "transform": "forge:default-block",
     "custom": {"flip-v": true}
   },
@@ -22,7 +25,7 @@
         "gui": {
           "translation": [0.5, 0.5, 0.0]
         }
-    }}],
+      }}],
     "normal": [{"transform": {
       "translation": [0.5, 0.5, 0.5]}
     }]
