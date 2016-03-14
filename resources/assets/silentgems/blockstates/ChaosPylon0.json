@@ -3,7 +3,8 @@
   "defaults": {
     "model": "silentgems:ChaosPylon.obj",
     "textures": {
-      "#ChaosPylon": "silentgems:blocks/ChaosPylonPassive"
+      "#ChaosPylon": "silentgems:blocks/ChaosPylonPassive",
+      "particle": "silentgems:blocks/ChaosPylon_Passive"
     },
     "transform": "forge:default-block",
     "custom": {"flip-v": true}
@@ -26,6 +27,9 @@
           "scale": [2,2,2],
           "translation": [0.65, 0.5, 0],
           "rotation": [{"y":45}]
+        },
+        "ground": {
+          "translation": [0.25,0,0.25]
         },
         "fixed":
         {

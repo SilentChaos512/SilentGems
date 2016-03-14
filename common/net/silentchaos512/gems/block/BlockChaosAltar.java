@@ -176,6 +176,8 @@ public class BlockChaosAltar extends BlockContainer implements IAddRecipe, IHasV
     return false;
   }
 
+
+
   // the following changes the block bounds (so it's not considered a full block...you can remove this if you really
   // want)
 

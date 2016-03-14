@@ -21,7 +21,7 @@ group = "net.silentchaos512.gems"
 archivesBaseName = "SilentsGems-1.8.9"
 
 minecraft {
-    version = "1.8.9-11.15.0.1675"
+    version = "1.8.9-11.15.1.1722"
     runDir = "eclipse"
 
     replace "@VERSION@", project.version

@@ -28,7 +28,7 @@
           "rotation": [{"y":45}]
         },
         "ground": {
-          "translation": [5,3,5]
+          "translation": [0.25,0,0.25]
         },
         "fixed":
         {
