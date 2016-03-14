@@ -9,13 +9,35 @@
     "custom": {"flip-v": true}
   },
   "variants": {
-    "inventory": [{ "transform": {
-      "scale": [2,2,2],
-      "translation": [0.65, 0.4, 0.65],
-      "rotation": [{"y":45}]
-    }}],
+    "inventory": [{
+      "transform": {
+        "thirdperson": {
+          "rotation": [{"y":135}, {"x":-10}, {"z":176} ],
+          "translation": [0.75,-0.2,0],
+          "scale": 2.0
+        },
+        "firstperson":
+        {
+          "rotation": [ {"y":180}, {"z":-20}],
+          "translation": [0.0, 0.1, -0.5],
+          "scale": 2.0
+        },
+        "gui": {
+          "scale": [2,2,2],
+          "translation": [0.65, 0.5, 0],
+          "rotation": [{"y":45}]
+        },
+        "ground": {
+          "translation": [5,3,5]
+        },
+        "fixed":
+        {
+          "scale": [2,2,2],
+          "translation": [0.5,0.5,0.5]
+        }
+      }}],
     "normal": [{ "transform": {
-      "translation": [0,0,0]
+      "translation": [0.5,5,0.5]
     }}]
   }
 }

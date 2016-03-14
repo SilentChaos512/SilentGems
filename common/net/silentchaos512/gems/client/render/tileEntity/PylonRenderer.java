@@ -1,11 +1,14 @@
 package net.silentchaos512.gems.client.render.tileEntity;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.silentchaos512.gems.client.render.handlers.ClientTickHandler;
 import net.silentchaos512.gems.client.render.models.ModelPylon;
 import net.silentchaos512.gems.client.render.models.ModelPylonPlates;
 import net.silentchaos512.gems.tile.TileChaosPylon;
+import org.lwjgl.opengl.GL11;
 
 import java.util.Random;
 
@@ -42,6 +45,11 @@ public class PylonRenderer  extends TileEntitySpecialRenderer<TileChaosPylon>{
 
         //render the pylon
         GlStateManager.pushMatrix();
+        GlStateManager.enableRescaleNormal();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.color(1F,1F,1F,1F);
+        Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
         GlStateManager.translate(x+0.5,y+0.5+0.1*Math.sin(worldTime/20)*bobFactor,z+0.5);
         GlStateManager.rotate((float)worldTime,0.0f,1.0f,0.0f);
         //model = new ModelPylon();

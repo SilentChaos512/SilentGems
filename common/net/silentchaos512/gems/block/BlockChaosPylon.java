@@ -237,6 +237,31 @@ public class BlockChaosPylon extends BlockContainer
   }
 
   @Override
+  public boolean isFullBlock() {
+    return false;
+  }
+
+  @Override
+  public boolean isVisuallyOpaque() {
+    return false;
+  }
+
+  @Override
+  public boolean isNormalCube() {
+    return false;
+  }
+
+  @Override
+  public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+    return false;
+  }
+
+  @Override
+  public boolean isBlockNormalCube() {
+    return false;
+  }
+
+  @Override
   public int getRenderType() {
 
     return 2;//3;

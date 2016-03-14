@@ -1,11 +1,11 @@
-package net.silentchaos512.gems.client.render;
+package net.silentchaos512.gems.client.render.tileEntity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.silentchaos512.gems.tile.TileChaosAltar;
 
-public class RenderChaosAltar extends TileEntitySpecialRenderer<TileChaosAltar> {
+public class ChaosAltarRenderer extends TileEntitySpecialRenderer<TileChaosAltar> {
 
   public static Minecraft mc = Minecraft.getMinecraft();
 
