@@ -1,9 +1,6 @@
 package net.silentchaos512.gems.block;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -35,6 +32,8 @@ import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosPylon;
+
+import java.util.List;
 
 public class BlockChaosPylon extends BlockContainer
     implements ITileEntityProvider, IAddRecipe, IHasSubtypes, IHasVariants {
