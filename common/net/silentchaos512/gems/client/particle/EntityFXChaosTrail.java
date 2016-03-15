@@ -4,6 +4,7 @@ import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.core.util.LogHelper;
 
 public class EntityFXChaosTrail extends EntityFX {
 
@@ -75,9 +76,12 @@ public class EntityFXChaosTrail extends EntityFX {
       vMax = this.particleIcon.getMaxV();
     }
 
-    float f5 = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) posX - interpPosX);
-    float f6 = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) posX - interpPosY);
-    float f7 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) posX - interpPosZ);
+    float f5 = (float)(this.prevPosX + (this.posX - this.prevPosX) * (double)partialTicks - interpPosX);
+    float f6 = (float)(this.prevPosY + (this.posY - this.prevPosY) * (double)partialTicks - interpPosY);
+    float f7 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * (double)partialTicks - interpPosZ);
+//    float f5 = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) posX - interpPosX);
+//    float f6 = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) posX - interpPosY);
+//    float f7 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) posX - interpPosZ);
 
     int i = this.getBrightnessForRender(partialTicks);
     int j = i >> 16 & 65535;

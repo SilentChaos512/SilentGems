@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.core.proxy.ClientProxy;
+import net.silentchaos512.gems.core.util.LogHelper;
 
 public class EntityParticleFXChaosTransfer extends EntityFX {
 
@@ -56,6 +57,8 @@ public class EntityParticleFXChaosTransfer extends EntityFX {
 
     this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
+    //LogHelper.info("Location: " + this.posX + ", " + this.posY + ", " + this.posZ);
+
     this.particleScale -= MAX_SCALE / (MAX_AGE * 1.5f);
     this.particleAlpha += 0.8f * 1f / MAX_AGE;
 
@@ -87,9 +90,12 @@ public class EntityParticleFXChaosTransfer extends EntityFX {
       vMax = this.particleIcon.getMaxV();
     }
 
-    float f5 = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) posX - interpPosX);
-    float f6 = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) posX - interpPosY);
-    float f7 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) posX - interpPosZ);
+    float f5 = (float)(this.prevPosX + (this.posX - this.prevPosX) * (double)partialTicks - interpPosX);
+    float f6 = (float)(this.prevPosY + (this.posY - this.prevPosY) * (double)partialTicks - interpPosY);
+    float f7 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * (double)partialTicks - interpPosZ);
+//    float f5 = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) posX - interpPosX);
+//    float f6 = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) posX - interpPosY);
+//    float f7 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) posX - interpPosZ);
 
     int i = this.getBrightnessForRender(partialTicks);
     int j = i >> 16 & 65535;
