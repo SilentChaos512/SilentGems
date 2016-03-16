@@ -356,7 +356,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable 
 
     for (int i = 0; i < PARTICLE_COUNT * 2; ++i) {
       double motionX = SilentGems.instance.random.nextGaussian() * 0.02;
-      double motionY = SilentGems.instance.random.nextGaussian() * 0.02;
+      double motionY = Math.abs(SilentGems.instance.random.nextGaussian() * 0.02);
       double motionZ = SilentGems.instance.random.nextGaussian() * 0.02;
       SilentGems.proxy.spawnParticles("chaosNoAltar", worldObj, x, y, z, motionX, motionY, motionZ);
     }

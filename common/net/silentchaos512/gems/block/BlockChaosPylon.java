@@ -1,9 +1,6 @@
 package net.silentchaos512.gems.block;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -35,6 +32,8 @@ import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosPylon;
+
+import java.util.List;
 
 public class BlockChaosPylon extends BlockContainer
     implements ITileEntityProvider, IAddRecipe, IHasSubtypes, IHasVariants {
@@ -237,15 +236,42 @@ public class BlockChaosPylon extends BlockContainer
   }
 
   @Override
+  public boolean isFullBlock() {
+    return false;
+  }
+
+  @Override
+  public boolean isVisuallyOpaque() {
+    return false;
+  }
+
+  @Override
+  public boolean isNormalCube() {
+    return false;
+  }
+
+  @Override
+  public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+    return false;
+  }
+
+  @Override
+  public boolean isBlockNormalCube() {
+    return false;
+  }
+
+  @Override
   public int getRenderType() {
 
-    return 3;
+    return 2;//3;
   }
+
+
 
   @Override
   public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
 
-    this.setBlockBounds(0.2f, 0.1f, 0.2f, 0.8f, 0.9f, 0.8f);
+    this.setBlockBounds(0.25f, 0.0f, 0.25f, 0.75f, 1.0f, 0.75f); //tightened the bounds a bit to make it look less "empty"
   }
 
   @Override

@@ -1,10 +1,16 @@
 package net.silentchaos512.gems.core.proxy;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.item.Item;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.particle.EntityFXChaosCharge;
 import net.silentchaos512.gems.client.particle.EntityFXChaosTrail;
@@ -22,6 +28,7 @@ public class ClientProxy extends CommonProxy {
     super.preInit();
     SRegistry.clientPreInit();
     FMLInterModComms.sendMessage("IGWMod", "net.silentchaos512.gems.compat.igw.IGWHandler", "init");
+    OBJLoader.instance.addDomain(SilentGems.MOD_ID);
   }
 
   @Override
@@ -58,7 +65,12 @@ public class ClientProxy extends CommonProxy {
   }
 
   private void registerRenderersBlocks() {
+    reg(ModBlocks.chaosPylon);
+  }
 
+  private void reg(Block block)
+  {
+    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block),0,new ModelResourceLocation(SilentGems.MOD_ID + ":" + block.getUnlocalizedName().substring(5),"inventory"));
   }
 
   @Override

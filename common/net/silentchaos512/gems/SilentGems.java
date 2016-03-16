@@ -2,6 +2,8 @@ package net.silentchaos512.gems;
 
 import java.util.Random;
 
+import net.silentchaos512.gems.client.render.handlers.ClientTickHandler;
+import net.silentchaos512.gems.client.render.handlers.TextureHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -70,6 +72,8 @@ public class SilentGems {
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
+    MinecraftForge.EVENT_BUS.register(new ClientTickHandler()); //allows smooth model rendering M4thG33k
+    MinecraftForge.EVENT_BUS.register(new TextureHandler()); //allows us to use different textures for the same obj model - VERY NECESSARY - M4thG33k
 
     Config.init(event.getSuggestedConfigurationFile());
 
