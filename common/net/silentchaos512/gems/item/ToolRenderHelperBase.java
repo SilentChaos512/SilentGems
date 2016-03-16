@@ -90,7 +90,7 @@ public class ToolRenderHelperBase extends Item {
     } else if (item instanceof GemBow) {
       toolClass = "Bow";
     } else {
-      LogHelper.debug("ToolRenderHelper.getName: Unknown tool class! " + tool.toString());
+      LogHelper.warning("ToolRenderHelper.getName: Unknown tool class! " + tool.toString());
       toolClass = "Unknown";
     }
 

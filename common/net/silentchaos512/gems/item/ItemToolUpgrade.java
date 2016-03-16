@@ -162,7 +162,7 @@ public class ItemToolUpgrade extends ItemSG  implements IRegisterModels{
       return result;
     } else {
       // Unknown?
-      LogHelper.debug("Unknown tool upgrade: meta = " + meta);
+      LogHelper.warning("Unknown tool upgrade: meta = " + meta);
       return null;
     }
   }

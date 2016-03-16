@@ -72,7 +72,7 @@ public class EntityProjectileChaosOrb extends EntityThrowable
       setColor(COLORS[gemId]);
     } else {
       setColor(0xFFFFFF);
-      LogHelper.debug("EntityProjectileChaosOrb (constructor): Unknown gemId! " + gemId);
+      LogHelper.warning("EntityProjectileChaosOrb (constructor): Unknown gemId! " + gemId);
     }
 
     onUpdate();

@@ -195,7 +195,7 @@ public class GemSickle extends ItemTool implements IHasVariants, IGemItem {
                   IPlantable seed = (IPlantable) dropStack.getItem();
                   if (seed.getPlant(world, targetPos) == block.getDefaultState()) {
                     foundSeed = true;
-                    LogHelper.list("Consume seed at: " + targetPos);
+//                    LogHelper.list("Consume seed at: " + targetPos);
                   }
                 } else {
                   Block.spawnAsEntity(world, targetPos, dropStack);

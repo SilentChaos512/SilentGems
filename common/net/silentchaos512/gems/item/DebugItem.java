@@ -43,7 +43,7 @@ public class DebugItem extends ItemSG {
 
     // Log usage
     if (!world.isRemote) {
-      LogHelper.debug("Debug Item used by " + player.getName());
+      LogHelper.info("Debug Item used by " + player.getName());
     }
 
     return stack;

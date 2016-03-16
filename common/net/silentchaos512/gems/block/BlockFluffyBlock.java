@@ -62,7 +62,7 @@ public class BlockFluffyBlock extends BlockSG {
     for (; world.getBlockState(pos).getBlock() == this; pos = pos.down()) {
       ++stackedBlocks;
     }
-    LogHelper.debug(distance + ", " + stackedBlocks);
+//    LogHelper.debug(distance + ", " + stackedBlocks);
 
     // Reduce fall distance by 10 blocks per stacked block
     distance -= Math.min(10 * stackedBlocks, distance);

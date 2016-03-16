@@ -212,7 +212,7 @@ public class GemsForgeEventHandler {
       if (Config.LIFE_ESSNECE_COUNT_FROM_BOSS > 0) {
         ItemStack stack = CraftingMaterial.getStack(Names.LIFE_ESSENCE,
             Config.LIFE_ESSNECE_COUNT_FROM_BOSS);
-        LogHelper.debug(stack);
+//        LogHelper.debug(stack);
         event.drops.add(new EntityItem(event.entity.worldObj, event.entity.posX,
             event.entity.posY + event.entity.height / 2f, event.entity.posZ, stack));
       }
