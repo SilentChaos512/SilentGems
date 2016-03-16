@@ -1,19 +1,20 @@
 package net.silentchaos512.gems.block;
 
 import java.util.List;
+import java.util.Random;
 
 import com.google.common.collect.Lists;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.SpawnerAnimals;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.core.registry.SRegistry;
-import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 
@@ -67,6 +68,7 @@ public class FluffyPlantBlock extends BlockCrops {
     return SRegistry.getItem(Names.FLUFFY_SEED);
   }
 
+  @SideOnly(Side.CLIENT)
   @Override
   public IIcon getIcon(int side, int meta) {
 
@@ -93,6 +95,7 @@ public class FluffyPlantBlock extends BlockCrops {
     return "tile." + Names.FLUFFY_PLANT;
   }
 
+  @SideOnly(Side.CLIENT)
   @Override
   public void registerBlockIcons(IIconRegister reg) {
 
