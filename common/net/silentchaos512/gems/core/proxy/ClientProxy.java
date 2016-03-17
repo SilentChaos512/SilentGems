@@ -7,6 +7,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.OBJLoader;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.silentchaos512.gems.SilentGems;
@@ -17,6 +18,8 @@ import net.silentchaos512.gems.client.particle.EntityFXChaosTrail;
 import net.silentchaos512.gems.client.particle.EntityParticleFXChaosTransfer;
 import net.silentchaos512.gems.client.render.ModRenderers;
 import net.silentchaos512.gems.client.render.entity.RenderProjectileChaosOrb;
+import net.silentchaos512.gems.client.render.handlers.ClientTickHandler;
+import net.silentchaos512.gems.client.render.handlers.TextureHandler;
 import net.silentchaos512.gems.core.registry.SRegistry;
 import net.silentchaos512.gems.entity.projectile.EntityProjectileChaosOrb;
 
@@ -29,6 +32,8 @@ public class ClientProxy extends CommonProxy {
     SRegistry.clientPreInit();
     FMLInterModComms.sendMessage("IGWMod", "net.silentchaos512.gems.compat.igw.IGWHandler", "init");
     OBJLoader.instance.addDomain(SilentGems.MOD_ID);
+    MinecraftForge.EVENT_BUS.register(new ClientTickHandler()); //allows smooth model rendering M4thG33k
+    MinecraftForge.EVENT_BUS.register(new TextureHandler()); //allows us to use different textures for the same obj model - VERY NECESSARY - M4thG33k
   }
 
   @Override
