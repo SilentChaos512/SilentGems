@@ -19,8 +19,10 @@ import net.silentchaos512.gems.block.BlockChaosPylon;
 import net.silentchaos512.gems.client.particle.EntityParticleFXChaosTransfer;
 import net.silentchaos512.gems.configuration.Config;
 import net.silentchaos512.gems.core.util.LogHelper;
+import net.silentchaos512.gems.lib.IChaosEnergyAccepter;
+import net.silentchaos512.gems.lib.IChaosEnergyProvider;
 
-public class TileChaosPylon extends TileEntity implements IInventory, ITickable {
+public class TileChaosPylon extends TileEntity implements IInventory, ITickable, IChaosEnergyProvider {
 
   public static final int SEARCH_RADIUS = 4;
   public static final int SEARCH_HEIGHT = 1;
@@ -120,21 +122,24 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable 
     tags.setInteger("MyPylonType", pylonType);
   }
 
+  @Override
   public int getEnergyStored() {
 
     return energyStored;
   }
 
+  @Override
   public int getMaxEnergyStored() {
 
     return 10000; // TODO: Config?
   }
 
-  public TileEntity getAltar() {
+  @Override
+  public TileEntity getEnergyAccepter() {
 
     // Get last known altar, if it exists.
     TileEntity tile = worldObj.getTileEntity(new BlockPos(lastAltarX, lastAltarY, lastAltarZ));
-    if (tile != null && tile instanceof TileChaosAltar) {
+    if (tile != null && tile instanceof IChaosEnergyAccepter) {
       return tile;
     }
 
@@ -149,7 +154,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable 
         for (int x = xCoord - SEARCH_RADIUS; x < xCoord + SEARCH_RADIUS + 1; ++x) {
           for (int z = zCoord - SEARCH_RADIUS; z < zCoord + SEARCH_RADIUS + 1; ++z) {
             tile = worldObj.getTileEntity(new BlockPos(x, y, z));
-            if (tile != null && tile instanceof TileChaosAltar) {
+            if (tile != null && tile instanceof IChaosEnergyAccepter) {
               lastAltarX = x;
               lastAltarY = y;
               lastAltarZ = z;
@@ -204,7 +209,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable 
 
       // Transfer energy
       if (worldObj.getTotalWorldTime() % TRANSFER_DELAY == 0) {
-        sendEnergyToAltar();
+        sendEnergyToAccepter();
         // if (sendEnergyToAltar()) {
         // spawnParticlesToAltar();
         // }
@@ -292,11 +297,12 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable 
     return burnTimeRemaining * k / currentItemBurnTime;
   }
 
-  private boolean sendEnergyToAltar() {
+  @Override
+  public boolean sendEnergyToAccepter() {
 
-    TileEntity tile = getAltar();
+    TileEntity tile = getEnergyAccepter();
     if (tile != null) {
-      TileChaosAltar altar = (TileChaosAltar) tile;
+      IChaosEnergyAccepter altar = (IChaosEnergyAccepter) tile;
       int sent = altar.receiveEnergy(energyStored);
       energyStored -= sent;
       return sent > 0;
@@ -311,7 +317,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable 
       return true;
     }
 
-    TileEntity altar = getAltar();
+    TileEntity altar = getEnergyAccepter();
     if (altar == null) {
       return false;
     }

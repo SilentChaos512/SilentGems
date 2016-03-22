@@ -13,8 +13,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ITickable;
 import net.silentchaos512.gems.energy.IChaosStorage;
+import net.silentchaos512.gems.lib.IChaosEnergyAccepter;
 
-public class TileChaosAltar extends TileEntity implements ISidedInventory, ITickable {
+public class TileChaosAltar extends TileEntity implements ISidedInventory, ITickable, IChaosEnergyAccepter {
   
   public static final int BLOCK_UPDATE_DELAY = 200;
 
@@ -60,16 +61,19 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
     tags.setTag("Items", tagList);
   }
 
+  @Override
   public int getEnergyStored() {
 
     return this.energyStored;
   }
 
+  @Override
   public int getMaxEnergyStored() {
 
     return 1000000; // TODO: Config?
   }
 
+  @Override
   public int receiveEnergy(int amount) {
 
     int amountReceived = 0;
@@ -84,6 +88,12 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
     this.worldObj.markBlockForUpdate(pos);
     
     return amountReceived;
+  }
+
+  @Override
+  public boolean canReceiveEnergy()
+  {
+    return getEnergyStored()<getMaxEnergyStored();
   }
 
   @Override
