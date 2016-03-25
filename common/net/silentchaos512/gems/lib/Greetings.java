@@ -18,14 +18,17 @@ public class Greetings {
     SilentGems.instance.random.setSeed(System.currentTimeMillis());
 
     List<String> list = SilentGems.instance.localizationHelper.getDescriptionLines(PREFIX);
-    String msg = SilentGems.instance.localizationHelper.getLocalizedString(PREFIX + "Prefix") + " ";
-    int index = SilentGems.instance.random.nextInt(list.size());
-    // SilentGems.instance.logHelper.debug(list.size(), index);
-    msg += list.get(index);
-    PlayerHelper.addChatMessage(player, TextFormatting.RED + msg);
+    if (list.size() > 0) {
+      String msg = SilentGems.instance.localizationHelper.getLocalizedString(PREFIX + "Prefix")
+          + " ";
+      int index = SilentGems.instance.random.nextInt(list.size());
+      // SilentGems.instance.logHelper.debug(list.size(), index);
+      msg += list.get(index);
+      PlayerHelper.addChatMessage(player, TextFormatting.RED + msg);
+    }
 
     // TODO: Remove this later.
     PlayerHelper.addChatMessage(player,
-        "Yes, the numbers in the upper-left are my fault. I'm working on it.");
+        "[Silent's Gems] Yes, the numbers in the upper-left are my fault. I'm working on it.");
   }
 }
