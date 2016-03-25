@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.lib.util.PlayerHelper;
 
 public class Greetings {
 
@@ -19,8 +20,12 @@ public class Greetings {
     List<String> list = SilentGems.instance.localizationHelper.getDescriptionLines(PREFIX);
     String msg = SilentGems.instance.localizationHelper.getLocalizedString(PREFIX + "Prefix") + " ";
     int index = SilentGems.instance.random.nextInt(list.size());
-//    SilentGems.instance.logHelper.debug(list.size(), index);
+    // SilentGems.instance.logHelper.debug(list.size(), index);
     msg += list.get(index);
-    player.addChatMessage(new TextComponentString(TextFormatting.RED + msg));
+    PlayerHelper.addChatMessage(player, TextFormatting.RED + msg);
+
+    // TODO: Remove this later.
+    PlayerHelper.addChatMessage(player,
+        "Yes, the numbers in the upper-left are my fault. I'm working on it.");
   }
 }
