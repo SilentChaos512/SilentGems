@@ -1,0 +1,11 @@
+[
+{
+  "modid": "SilentGems",
+  "name": "Silent's Gems",
+  "description": "When diamonds won't cut it.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "authors": [ "SilentChaos512" ]
+}
+]

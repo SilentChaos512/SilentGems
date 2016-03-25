@@ -1,0 +1,345 @@
+itemGroup.tabSilentGems=Silent's Gems
+
+# Blocks
+
+tile.silentgems:ChaosNode.name=Chaos Node
+
+tile.silentgems:EssenceOre0.name=Chaos Ore
+tile.silentgems:EssenceOre1.name=Ender Essence Ore
+
+tile.silentgems:FluffyBlock0.name=Fluffy Block (White)
+tile.silentgems:FluffyBlock1.name=Fluffy Block (Orange)
+tile.silentgems:FluffyBlock2.name=Fluffy Block (Magenta)
+tile.silentgems:FluffyBlock3.name=Fluffy Block (Light Blue)
+tile.silentgems:FluffyBlock4.name=Fluffy Block (Yellow)
+tile.silentgems:FluffyBlock5.name=Fluffy Block (Lime)
+tile.silentgems:FluffyBlock6.name=Fluffy Block (Pink)
+tile.silentgems:FluffyBlock7.name=Fluffy Block (Gray)
+tile.silentgems:FluffyBlock8.name=Fluffy Block (Light Gray)
+tile.silentgems:FluffyBlock9.name=Fluffy Block (Cyan)
+tile.silentgems:FluffyBlock10.name=Fluffy Block (Purple)
+tile.silentgems:FluffyBlock11.name=Fluffy Block (Blue)
+tile.silentgems:FluffyBlock12.name=Fluffy Block (Brown)
+tile.silentgems:FluffyBlock13.name=Fluffy Block (Green)
+tile.silentgems:FluffyBlock14.name=Fluffy Block (Red)
+tile.silentgems:FluffyBlock15.name=Fluffy Block (Black)
+tile.silentgems:FluffyBlock.desc1=Reduces fall damage. The amount depends
+tile.silentgems:FluffyBlock.desc2=on the number of blocks that are below
+tile.silentgems:FluffyBlock.desc3=the top-most block.
+
+tile.silentgems:FluffyPlant.name=Fluffy Puff Plant
+
+tile.silentgems:GemBlock0.name=Ruby Block
+tile.silentgems:GemBlock1.name=Garnet Block
+tile.silentgems:GemBlock2.name=Topaz Block
+tile.silentgems:GemBlock3.name=Amber Block
+tile.silentgems:GemBlock4.name=Heliodor Block
+tile.silentgems:GemBlock5.name=Peridot Block
+tile.silentgems:GemBlock6.name=Beryl Block
+tile.silentgems:GemBlock7.name=Indicolite Block
+tile.silentgems:GemBlock8.name=Aquamarine Block
+tile.silentgems:GemBlock9.name=Sapphire Block
+tile.silentgems:GemBlock10.name=Iolite Block
+tile.silentgems:GemBlock11.name=Amethyst Block
+tile.silentgems:GemBlock12.name=Agate Block
+tile.silentgems:GemBlock13.name=Morganite Block
+tile.silentgems:GemBlock14.name=Onyx Block
+tile.silentgems:GemBlock15.name=Opal Block
+
+tile.silentgems:GemBlockDark0.name=Carnelian Block
+tile.silentgems:GemBlockDark1.name=Spinel Block
+tile.silentgems:GemBlockDark2.name=Citrine Block
+tile.silentgems:GemBlockDark3.name=Jasper Block
+tile.silentgems:GemBlockDark4.name=Golden Beryl Block
+tile.silentgems:GemBlockDark5.name=Moldavite Block
+tile.silentgems:GemBlockDark6.name=Malachite Block
+tile.silentgems:GemBlockDark7.name=Turquoise Block
+tile.silentgems:GemBlockDark8.name=Moonstone Block
+tile.silentgems:GemBlockDark9.name=Blue Topaz Block
+tile.silentgems:GemBlockDark10.name=Tanzanite Block
+tile.silentgems:GemBlockDark11.name=Violet Sapphire Block
+tile.silentgems:GemBlockDark12.name=Lepidolite Block
+tile.silentgems:GemBlockDark13.name=Ametrine Block
+tile.silentgems:GemBlockDark14.name=Black Diamond Block
+tile.silentgems:GemBlockDark15.name=Alexandrite Block
+
+tile.silentgems:GemOre0.name=Ruby Ore
+tile.silentgems:GemOre1.name=Garnet Ore
+tile.silentgems:GemOre2.name=Topaz Ore
+tile.silentgems:GemOre3.name=Amber Ore
+tile.silentgems:GemOre4.name=Heliodor Ore
+tile.silentgems:GemOre5.name=Peridot Ore
+tile.silentgems:GemOre6.name=Beryl Ore
+tile.silentgems:GemOre7.name=Indicolite Ore
+tile.silentgems:GemOre8.name=Aquamarine Ore
+tile.silentgems:GemOre9.name=Sapphire Ore
+tile.silentgems:GemOre10.name=Iolite Ore
+tile.silentgems:GemOre11.name=Amethyst Ore
+tile.silentgems:GemOre12.name=Agate Ore
+tile.silentgems:GemOre13.name=Morganite Ore
+tile.silentgems:GemOre14.name=Onyx Ore
+tile.silentgems:GemOre15.name=Opal Ore
+
+tile.silentgems:GemOreDark0.name=Carnelian Ore
+tile.silentgems:GemOreDark1.name=Spinel Ore
+tile.silentgems:GemOreDark2.name=Citrine Ore
+tile.silentgems:GemOreDark3.name=Jasper Ore
+tile.silentgems:GemOreDark4.name=Golden Beryl Ore
+tile.silentgems:GemOreDark5.name=Moldavite Ore
+tile.silentgems:GemOreDark6.name=Malachite Ore
+tile.silentgems:GemOreDark7.name=Turquoise Ore
+tile.silentgems:GemOreDark8.name=Moonstone Ore
+tile.silentgems:GemOreDark9.name=Blue Topaz Ore
+tile.silentgems:GemOreDark10.name=Tanzanite Ore
+tile.silentgems:GemOreDark11.name=Violet Sapphire Ore
+tile.silentgems:GemOreDark12.name=Lepidolite Ore
+tile.silentgems:GemOreDark13.name=Ametrine Ore
+tile.silentgems:GemOreDark14.name=Black Diamond Ore
+tile.silentgems:GemOreDark15.name=Alexandrite Ore
+
+tile.silentgems:GlowRose0.name=Ruby Glow Rose
+tile.silentgems:GlowRose1.name=Garnet Glow Rose
+tile.silentgems:GlowRose2.name=Topaz Glow Rose
+tile.silentgems:GlowRose3.name=Amber Glow Rose
+tile.silentgems:GlowRose4.name=Heliodor Glow Rose
+tile.silentgems:GlowRose5.name=Peridot Glow Rose
+tile.silentgems:GlowRose6.name=Beryl Glow Rose
+tile.silentgems:GlowRose7.name=Indicolite Glow Rose
+tile.silentgems:GlowRose8.name=Aquamarine Glow Rose
+tile.silentgems:GlowRose9.name=Sapphire Glow Rose
+tile.silentgems:GlowRose10.name=Iolite Glow Rose
+tile.silentgems:GlowRose11.name=Amethyst Glow Rose
+tile.silentgems:GlowRose12.name=Agate Glow Rose
+tile.silentgems:GlowRose13.name=Morganite Glow Rose
+tile.silentgems:GlowRose14.name=Onyx Glow Rose
+tile.silentgems:GlowRose15.name=Opal Glow Rose
+
+# Items
+
+item.silentgems:ChaosOrb0.name=Chaos Potato
+item.silentgems:ChaosOrb1.name=Fragile Chaos Orb
+item.silentgems:ChaosOrb2.name=Refined Chaos Orb
+item.silentgems:ChaosOrb3.name=Perfect Chaos Orb
+item.silentgems:ChaosOrb.desc1=Stores Chaos energy. May break if drained
+item.silentgems:ChaosOrb.desc2=when low on charge.
+item.silentgems:ChaosOrb.break=Your %1$s shatters into %2$,d pieces.
+item.silentgems:ChaosOrb.breakChance=Max break chance: %d%%
+
+item.silentgems:DyeBlack.name=Black Dye
+item.silentgems:DyeBlue.name=Blue Dye
+
+item.silentgems:FluffyPuff.name=Fluffy Puff
+item.silentgems:FluffyPuffSeeds.name=Fluffy Puff Seeds
+
+item.silentgems:Gem0.name=Ruby
+item.silentgems:Gem1.name=Garnet
+item.silentgems:Gem2.name=Topaz
+item.silentgems:Gem3.name=Amber
+item.silentgems:Gem4.name=Heliodor
+item.silentgems:Gem5.name=Peridot
+item.silentgems:Gem6.name=Beryl
+item.silentgems:Gem7.name=Indicolite
+item.silentgems:Gem8.name=Aquamarine
+item.silentgems:Gem9.name=Sapphire
+item.silentgems:Gem10.name=Iolite
+item.silentgems:Gem11.name=Amethyst
+item.silentgems:Gem12.name=Agate
+item.silentgems:Gem13.name=Morganite
+item.silentgems:Gem14.name=Onyx
+item.silentgems:Gem15.name=Opal
+item.silentgems:Gem16.name=Carnelian
+item.silentgems:Gem17.name=Spinel
+item.silentgems:Gem18.name=Citrine
+item.silentgems:Gem19.name=Jasper
+item.silentgems:Gem20.name=Golden Beryl
+item.silentgems:Gem21.name=Moldavite
+item.silentgems:Gem22.name=Malachite
+item.silentgems:Gem23.name=Turquoise
+item.silentgems:Gem24.name=Moonstone
+item.silentgems:Gem25.name=Blue Topaz
+item.silentgems:Gem26.name=Tanzanite
+item.silentgems:Gem27.name=Violet Sapphire
+item.silentgems:Gem28.name=Lepidolite
+item.silentgems:Gem29.name=Ametrine
+item.silentgems:Gem30.name=Black Diamond
+item.silentgems:Gem31.name=Alexandrite
+item.silentgems:Gem32.name=Supercharged Ruby
+item.silentgems:Gem33.name=Supercharged Garnet
+item.silentgems:Gem34.name=Supercharged Topaz
+item.silentgems:Gem35.name=Supercharged Amber
+item.silentgems:Gem36.name=Supercharged Heliodor
+item.silentgems:Gem37.name=Supercharged Peridot
+item.silentgems:Gem38.name=Supercharged Beryl
+item.silentgems:Gem39.name=Supercharged Indicolite
+item.silentgems:Gem40.name=Supercharged Aquamarine
+item.silentgems:Gem41.name=Supercharged Sapphire
+item.silentgems:Gem42.name=Supercharged Iolite
+item.silentgems:Gem43.name=Supercharged Amethyst
+item.silentgems:Gem44.name=Supercharged Agate
+item.silentgems:Gem45.name=Supercharged Morganite
+item.silentgems:Gem46.name=Supercharged Onyx
+item.silentgems:Gem47.name=Supercharged Opal
+item.silentgems:Gem48.name=Supercharged Carnelian
+item.silentgems:Gem49.name=Supercharged Spinel
+item.silentgems:Gem50.name=Supercharged Citrine
+item.silentgems:Gem51.name=Supercharged Jasper
+item.silentgems:Gem52.name=Supercharged Golden Beryl
+item.silentgems:Gem53.name=Supercharged Moldavite
+item.silentgems:Gem54.name=Supercharged Malachite
+item.silentgems:Gem55.name=Supercharged Turquoise
+item.silentgems:Gem56.name=Supercharged Moonstone
+item.silentgems:Gem57.name=Supercharged Blue Topaz
+item.silentgems:Gem58.name=Supercharged Tanzanite
+item.silentgems:Gem59.name=Supercharged Violet Sapphire
+item.silentgems:Gem60.name=Supercharged Lepidolite
+item.silentgems:Gem61.name=Supercharged Ametrine
+item.silentgems:Gem62.name=Supercharged Black Diamond
+item.silentgems:Gem63.name=Supercharged Alexandrite
+
+item.silentgems:GemShard0.name=Ruby Shard
+item.silentgems:GemShard1.name=Garnet Shard
+item.silentgems:GemShard2.name=Topaz Shard
+item.silentgems:GemShard3.name=Amber Shard
+item.silentgems:GemShard4.name=Heliodor Shard
+item.silentgems:GemShard5.name=Peridot Shard
+item.silentgems:GemShard6.name=Beryl Shard
+item.silentgems:GemShard7.name=Indicolite Shard
+item.silentgems:GemShard8.name=Aquamarine Shard
+item.silentgems:GemShard9.name=Sapphire Shard
+item.silentgems:GemShard10.name=Iolite Shard
+item.silentgems:GemShard11.name=Amethyst Shard
+item.silentgems:GemShard12.name=Agate Shard
+item.silentgems:GemShard13.name=Morganite Shard
+item.silentgems:GemShard14.name=Onyx Shard
+item.silentgems:GemShard15.name=Opal Shard
+item.silentgems:GemShard16.name=Carnelian Shard
+item.silentgems:GemShard17.name=Spinel Shard
+item.silentgems:GemShard18.name=Citrine Shard
+item.silentgems:GemShard19.name=Jasper Shard
+item.silentgems:GemShard20.name=Golden Beryl Shard
+item.silentgems:GemShard21.name=Moldavite Shard
+item.silentgems:GemShard22.name=Malachite Shard
+item.silentgems:GemShard23.name=Turquoise Shard
+item.silentgems:GemShard24.name=Moonstone Shard
+item.silentgems:GemShard25.name=Blue Topaz Shard
+item.silentgems:GemShard26.name=Tanzanite Shard
+item.silentgems:GemShard27.name=Violet Sapphire Shard
+item.silentgems:GemShard28.name=Lepidolite Shard
+item.silentgems:GemShard29.name=Ametrine Shard
+item.silentgems:GemShard30.name=Black Diamond Shard
+
+item.silentgems:TorchBandolier.name=Torch Bandolier
+
+item.silentgems:UpgradeIronTip.name=Iron-Tipped Upgrade
+item.silentgems:UpgradeDiamondTip.name=Diamond-Tipped Upgrade
+item.silentgems:UpgradeEmeraldTip.name=Emerald-Tipped Upgrade
+item.silentgems:UpgradeGoldTip.name=Gold-Tipped Upgrade
+
+# Crafting Materials
+
+item.silentgems:ChaosEssence.name=Chaos Essence
+item.silentgems:ChaosEssence.desc=Too soft for tools, but can strengthen gems.
+item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence
+item.silentgems:ChaosEssencePlus.desc=Can conduct some kind of energy.
+item.silentgems:ChaosEssencePlus2.name=Crystallized Chaos Essence
+item.silentgems:ChaosEssencePlus2.desc=TODO
+item.silentgems:ChaosEssenceShard.name=Chaos Essence Shard
+item.silentgems:ChaosEssenceShard.desc=Are you some kind of wizard, or something?
+item.silentgems:EnderEssence.name=Ender Essence
+item.silentgems:EnderEssenceShard.name=Ender Essence Shard
+item.silentgems:FluffyFabric.name=Fluffy Fabric
+item.silentgems:IronPotato.name=Iron Potato
+item.silentgems:IronPotato.desc=The potato that does not compromise.
+item.silentgems:LifeEssence.name=Life Essence
+item.silentgems:LifeEssence.desc=A heart, how creative. Not.
+item.silentgems:MysteryGoo.name=Mystery Goo
+item.silentgems:MysteryGoo.desc=Feels right at home in space.
+item.silentgems:OrnateStickGold.name=Ornate Gold Rod
+item.silentgems:OrnateStickSilver.name=Ornate Silver Rod
+item.silentgems:StickIron.name=Iron Rod
+item.silentgems:UpgradeBase.name=Upgrade Base
+
+# Food
+
+item.silentgems:Food.desc=Foodstuffs.
+item.silentgems:PotatoStick.name=Potato on a Stick
+item.silentgems:PotatoStick.desc=This joke was so old, I removed it.
+item.silentgems:SugarCookie.name=Sugar Cookie
+item.silentgems:SugarCookie.desc=They go so fast!
+item.silentgems:SecretDonut.name=Secret Donut
+item.silentgems:SecretDonut.desc=You cannot comprehend this donut.
+item.silentgems:MeatyStewUncooked.name=Uncooked Meaty Stew
+item.silentgems:MeatyStewUncooked.desc=You might want to heat it up first.
+item.silentgems:MeatyStew.name=Meaty Stew
+item.silentgems:MeatyStew.desc=A simple feast!
+item.silentgems:CandyCane.name=Candy Cane
+item.silentgems:CandyCane.desc=It isn't much, but this is my gift to you!
+
+# Tools
+
+tool.silentgems:Sword=%s Sword
+tool.silentgems:Katana=%s Katana
+tool.silentgems:Scepter=%s Scepter
+tool.silentgems:Pickaxe=%s Pickaxe
+tool.silentgems:Shovel=%s Shovel
+tool.silentgems:Axe=%s Axe
+tool.silentgems:Hoe=%s Hoe
+tool.silentgems:Sickle=%s Sickle
+tool.silentgems:Bow=%s Bow
+tool.silentgems:delimiter=-
+
+# Tool placeholders
+item.silentgems:Bow.name=Reserved for Bows
+item.silentgems:FishingRod.name=Reserved for Fishing Rods
+item.silentgems:Shield.name=Reserved for Shields
+
+# Donuts
+
+donut.silentgems:1=You feel sad and empty.
+donut.silentgems:2=You're on fire! But not literally this time.
+donut.silentgems:3=Somehow, every bite is a different flavor.
+donut.silentgems:4=You can hear the colors of the donut.
+donut.silentgems:5=Spicy! Why is it spicy!?
+donut.silentgems:6=But nobody came.
+
+
+
+# Misc
+
+misc.silentgems:ChaosCharge=Chaos: %,d / %,d
+misc.silentgems:PressCtrl=<Press Ctrl>
+misc.silentgems:PressShift=<Press Shift>
+
+# Tool Information
+
+misc.silentgems:Tooltip.ChargeSpeed=&eCharge Speed:&f %s
+misc.silentgems:Tooltip.Durability=&eDurability:&f %s
+misc.silentgems:Tooltip.Enchantability=&eEnchantability:&f %s
+misc.silentgems:Tooltip.HarvestLevel=&eHarvest Level:&f %s
+misc.silentgems:Tooltip.HarvestSpeed=&eBase Harvest Speed:&f %s
+misc.silentgems:Tooltip.MagicDamage=&eMagic Damage:&f %s
+misc.silentgems:Tooltip.MeleeDamage=&eMelee Damage:&f %s
+
+misc.silentgems:Tooltip.BlocksMined=&eBlocks Mined:&f %s
+misc.silentgems:Tooltip.BlocksPlaced=&eBlocks Placed:&f %s
+misc.silentgems:Tooltip.BlocksTilled=&eBlocks Tilled:&f %s
+misc.silentgems:Tooltip.HitsLanded=&eHits Landed:&f %s
+misc.silentgems:Tooltip.ShotsFired=&eShots Fired:&f %s
+misc.silentgems:Tooltip.ShotsLanded=&eShots Landed:&f %s
+misc.silentgems:Tooltip.Redecorated=&eRedecorated:&f %s time(s)
+
+misc.silentgems:Tooltip.Separator=&8-------------------
+misc.silentgems:Tooltip.Properties=&6Properties
+misc.silentgems:Tooltip.Statistics=&6Statistics
+
+
+
+# Alpha Greetings
+
+misc.silentgems:alphaPrefix=[Silent's Gems] Early Alpha:
+misc.silentgems:alpha1=Things may change, break, and/or dance to Macarena.
+misc.silentgems:alpha2=Catgirls not included. D:
+misc.silentgems:alpha3=The flowers probably won't kill you.
+misc.silentgems:alpha4=That texture count...
+misc.silentgems:alpha5=Try the donuts!
+misc.silentgems:alpha6=May contain unintended &cR&6a&ei&an&9b&do&5w&fs!
