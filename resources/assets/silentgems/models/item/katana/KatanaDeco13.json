@@ -1,0 +1,11 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "SilentGems:items/Blank",
+    "layer1": "SilentGems:items/Blank",
+    "layer2": "SilentGems:items/Blank",
+    "layer3": "SilentGems:items/Blank",
+    "layer4": "SilentGems:items/katana/KatanaDeco13"
+  }
+}
+

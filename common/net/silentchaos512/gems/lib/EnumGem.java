@@ -1,214 +1,188 @@
 package net.silentchaos512.gems.lib;
 
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IStringSerializable;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.gems.material.ModMaterials;
 
-public enum EnumGem {
+public enum EnumGem implements IStringSerializable {
 
-  RUBY(0, "Ruby"), GARNET(1, "Garnet"), TOPAZ(2, "Topaz"), HELIODOR(3, "Heliodor"), PERIDOT(4,
-      "Peridot"), EMERALD(5, "Beryl"), AQUAMARINE(6, "Aquamarine"), SAPPHIRE(7, "Sapphire"), IOLITE(
-      8, "Iolite"), AMETHYST(9, "Amethyst"), MORGANITE(10, "Morganite"), ONYX(11, "Onyx");
+  // @formatter:off
+  RUBY            ("Ruby",            512,  8.0f, 5.0f, 2.0f, 10, 0.7f, 1.0f),
+  GARNET          ("Garnet",          384,  7.0f, 4.0f, 3.0f, 12, 0.9f, 1.0f),
+  TOPAZ           ("Topaz",           384,  9.0f, 4.0f, 2.0f, 10, 0.8f, 2.0f),
+  AMBER           ("Amber",           128,  5.0f, 2.0f, 2.0f, 14, 1.1f, 4.0f),
+  HELIODOR        ("Heliodor",        256, 11.0f, 4.0f, 3.0f, 10, 1.0f, 2.0f),
+  PERIDOT         ("Peridot",         256,  6.0f, 4.0f, 3.0f, 14, 0.7f, 3.0f),
+  BERYL           ("Beryl",           384,  7.0f, 4.0f, 2.0f, 12, 0.9f, 3.0f),
+  INDICOLITE      ("Indicolite",      384, 10.0f, 2.0f, 5.0f, 12, 1.0f, 1.0f),
+  AQUAMARINE      ("Aquamarine",      256,  9.0f, 3.0f, 4.0f, 12, 1.1f, 2.0f),
+  SAPPHIRE        ("Sapphire",        512,  8.0f, 3.0f, 4.0f, 10, 0.7f, 1.0f),
+  IOLITE          ("Iolite",          512,  6.0f, 2.0f, 4.0f, 11, 1.0f, 2.0f),
+  AMETHYST        ("Amethyst",        256,  7.0f, 3.0f, 3.0f, 12, 0.9f, 3.0f),
+  AGATE           ("Agate",           192,  8.0f, 3.0f, 3.0f, 14, 1.1f, 4.0f),
+  MORGANITE       ("Morganite",       256,  9.0f, 4.0f, 2.0f, 12, 0.9f, 3.0f),
+  ONYX            ("Onyx",            128,  8.0f, 6.0f, 2.0f,  8, 0.6f, 1.0f),
+  OPAL            ("Opal",            192,  8.0f, 3.0f, 5.0f, 13, 0.7f, 2.0f),
+  //--------------------------------------------------------------------------
+  CARNELIAN       ("Carnelian",       256,  9.0f, 2.0f, 3.0f, 12, 0.9f, 2.0f),
+  SPINEL          ("Spinel",          512,  8.0f, 4.0f, 2.0f, 11, 0.7f, 1.0f),
+  CITRINE         ("Citrine",         384, 10.0f, 3.0f, 2.0f, 13, 1.0f, 2.0f),
+  JASPER          ("Jasper",          256,  7.0f, 3.0f, 3.0f, 14, 0.9f, 2.0f),
+  GOLDEN_BERYL    ("GoldenBeryl",     384, 10.0f, 2.0f, 5.0f, 10, 0.7f, 1.0f),
+  MOLDAVITE       ("Moldavite",       192,  6.0f, 5.0f, 2.0f, 11, 0.8f, 3.0f),
+  MALACHITE       ("Malachite",       128,  8.0f, 4.0f, 2.0f, 14, 1.3f, 2.0f),
+  TURQUOISE       ("Turquoise",       256,  9.0f, 3.0f, 3.0f, 12, 0.8f, 1.0f),
+  MOONSTONE       ("Moonstone",       256,  9.0f, 3.0f, 3.0f, 15, 1.0f, 3.0f),
+  BLUE_TOPAZ      ("BlueTopaz",       512,  9.0f, 3.0f, 3.0f, 11, 0.7f, 1.0f),
+  TANZANITE       ("Tanzanite",       384,  6.0f, 3.0f, 4.0f, 13, 0.7f, 2.0f),
+  VIOLET_SAPPHIRE ("VioletSapphire",  512,  7.0f, 4.0f, 3.0f, 11, 0.9f, 1.0f),
+  LEPIDOLITE      ("Lepidolite",      128,  5.0f, 3.0f, 6.0f, 13, 1.0f, 1.0f),
+  AMETRINE        ("Ametrine",        384,  8.0f, 4.0f, 2.0f, 10, 0.7f, 4.0f),
+  BLACK_DIAMOND   ("BlackDiamond",    768,  9.0f, 3.0f, 4.0f,  9, 0.7f, 1.0f),
+  ALEXANDRITE     ("Alexandrite",     512,  8.0f, 3.0f, 3.0f, 10, 0.8f, 2.0f);
+  // @formatter:on
 
-  public final byte id;
-  public final byte rank;
-  public final String name;
+  public static final PropertyEnum VARIANT_GEM = PropertyEnum.create("variant", EnumGem.class, RUBY,
+      GARNET, TOPAZ, AMBER, HELIODOR, PERIDOT, BERYL, INDICOLITE, AQUAMARINE, SAPPHIRE, IOLITE,
+      AMETHYST, AGATE, MORGANITE, ONYX, OPAL);
+  // public static final PropertyEnum VARIANT_GEM_DARK = PropertyEnum.create("variant", EnumGem.class,
+  // CARNELIAN, SPINEL, CITRINE, JASPER, GOLDEN_BERYL, MOLDAVITE, MALACHITE, TURQUOISE, MOONSTONE,
+  // BLUE_TOPAZ, TANZANITE, VIOLET_SAPPHIRE, LEPIDOLITE, AMETRINE, BLACK_DIAMOND, ALEXANDRITE);
 
-  private EnumGem(int id, String name) {
+  protected final String name;
+  protected final int durability;
+  protected final float miningSpeed;
+  protected final float meleeDamage;
+  protected final float magicDamage;
+  protected final float meleeSpeed;
+  protected final int enchantability;
+  protected final float chargeSpeed;
 
-    this.id = (byte) id;
-    this.rank = 1;
+  private EnumGem(String name, int durability, float miningSpeed, float meleeDamage,
+      float magicDamage, int enchantability, float meleeSpeed, float chargeSpeed) {
+
     this.name = name;
+    this.durability = durability;
+    this.miningSpeed = miningSpeed;
+    this.meleeDamage = meleeDamage;
+    this.magicDamage = magicDamage;
+    this.meleeSpeed = meleeSpeed;
+    this.enchantability = enchantability;
+    this.chargeSpeed = chargeSpeed;
   }
 
-  public static EnumGem[] all() {
+  @Override
+  public String getName() {
 
-    return values();
+    return name().toLowerCase();
   }
 
-  /**
-   * Gets an ItemStack of one of the corresponding GemBlock.
-   * 
-   * @return
-   */
+  public String getGemName() {
+
+    return name;
+  }
+
+  public int getDurability(EnumMaterialTier tier) {
+
+    return tier == EnumMaterialTier.SUPER ? 4 * durability : durability;
+  }
+
+  public float getMiningSpeed(EnumMaterialTier tier) {
+
+    return tier == EnumMaterialTier.SUPER ? miningSpeed + 4.0f : miningSpeed;
+  }
+
+  public float getMeleeDamage(EnumMaterialTier tier) {
+
+    return tier == EnumMaterialTier.SUPER ? meleeDamage + 2.0f : meleeDamage;
+  }
+
+  public float getMagicDamage(EnumMaterialTier tier) {
+
+    return tier == EnumMaterialTier.SUPER ? magicDamage + 2.0f : magicDamage;
+  }
+
+  public int getEnchantability(EnumMaterialTier tier) {
+
+    return tier == EnumMaterialTier.SUPER ? enchantability + 6 : enchantability;
+  }
+
+  public float getMeleeSpeed(EnumMaterialTier tier) {
+
+    return tier == EnumMaterialTier.SUPER ? meleeSpeed + 0.2f : meleeSpeed;
+  }
+
+  public float getChargeSpeed(EnumMaterialTier tier) {
+
+    return tier == EnumMaterialTier.SUPER ? chargeSpeed + 1.0f : chargeSpeed;
+  }
+
+  public static EnumGem getFromStack(ItemStack stack) {
+
+    if (stack == null || stack.getItem() != ModItems.gem) {
+      return null;
+    }
+
+    return values()[stack.getItemDamage() & 0x1F];
+  }
+
+  // ======================
+  // Block and Item getters
+  // ======================
+
   public ItemStack getBlock() {
 
-    return new ItemStack(ModBlocks.gemBlock, 1, id);
+    return new ItemStack(ordinal() < 16 ? ModBlocks.gemBlock : ModBlocks.gemBlockDark, 1,
+        ordinal() & 0xF);
   }
-  
+
   public String getBlockOreName() {
-    
-    return "block" + this.name;
+
+    return "block" + name;
   }
 
-  /**
-   * Gets an ItemStack of one of the corresponding Gem.
-   * 
-   * @return
-   */
-  public ItemStack getItem() {
-
-    return new ItemStack(ModItems.gem, 1, id);
-  }
-  
-  public String getItemOreName() {
-    
-    return "gem" + this.name;
-  }
-
-  /**
-   * Gets an ItemStack of one of the corresponding GemOre.
-   * 
-   * @return
-   */
   public ItemStack getOre() {
 
-    return new ItemStack(ModBlocks.gemOre, 1, id);
-  }
-  
-  public String getOreBlockOreName() {
-    
-    return "ore" + this.name;
+    return new ItemStack(ordinal() < 16 ? ModBlocks.gemOre : ModBlocks.gemOreDark, 1,
+        ordinal() & 0xF);
   }
 
-  /**
-   * Gets an ItemStack of one of the corresponding GemShard, if there is one.
-   * 
-   * @return
-   */
+  public String getOreOreName() {
+
+    return "ore" + name;
+  }
+
+  public ItemStack getItem() {
+
+    return new ItemStack(ModItems.gem, 1, ordinal());
+  }
+
+  public String getItemOreName() {
+
+    return "gem" + name;
+  }
+
+  public ItemStack getItemSuper() {
+
+    return new ItemStack(ModItems.gem, 1, ordinal() + 32);
+  }
+
+  public String getItemSuperOreName() {
+
+    return "gem" + name + "Super";
+  }
+
   public ItemStack getShard() {
 
-    return new ItemStack(ModItems.gemShard, 1, id);
+    return new ItemStack(ModItems.gemShard, 1, ordinal());
   }
-  
+
   public String getShardOreName() {
-    
-    return "nugget" + this.name;
-  }
 
-  /**
-   * Gets the tool material for this gem, if there is one.
-   * 
-   * @return
-   */
-  public ToolMaterial getToolMaterial(boolean supercharged) {
-
-    if (supercharged) {
-      if (id == RUBY.id)
-        return ModMaterials.toolSupRuby;
-      else if (id == GARNET.id)
-        return ModMaterials.toolSupGarnet;
-      else if (id == TOPAZ.id)
-        return ModMaterials.toolSupTopaz;
-      else if (id == HELIODOR.id)
-        return ModMaterials.toolSupHeliodor;
-      else if (id == PERIDOT.id)
-        return ModMaterials.toolSupPeridot;
-      else if (id == EMERALD.id)
-        return ModMaterials.toolSupEmerald;
-      else if (id == AQUAMARINE.id)
-        return ModMaterials.toolSupAquamarine;
-      else if (id == SAPPHIRE.id)
-        return ModMaterials.toolSupSapphire;
-      else if (id == IOLITE.id)
-        return ModMaterials.toolSupIolite;
-      else if (id == AMETHYST.id)
-        return ModMaterials.toolSupAmethyst;
-      else if (id == MORGANITE.id)
-        return ModMaterials.toolSupMorganite;
-      else if (id == ONYX.id)
-        return ModMaterials.toolSupOnyx;
-      else
-        return null;
-    } else {
-      if (id == RUBY.id)
-        return ModMaterials.toolRegRuby;
-      else if (id == GARNET.id)
-        return ModMaterials.toolRegGarnet;
-      else if (id == TOPAZ.id)
-        return ModMaterials.toolRegTopaz;
-      else if (id == HELIODOR.id)
-        return ModMaterials.toolRegHeliodor;
-      else if (id == PERIDOT.id)
-        return ModMaterials.toolRegPeridot;
-      else if (id == EMERALD.id)
-        return ModMaterials.toolRegEmerald;
-      else if (id == AQUAMARINE.id)
-        return ModMaterials.toolRegAquamarine;
-      else if (id == SAPPHIRE.id)
-        return ModMaterials.toolRegSapphire;
-      else if (id == IOLITE.id)
-        return ModMaterials.toolRegIolite;
-      else if (id == AMETHYST.id)
-        return ModMaterials.toolRegAmethyst;
-      else if (id == MORGANITE.id)
-        return ModMaterials.toolRegMorganite;
-      else if (id == ONYX.id)
-        return ModMaterials.toolRegOnyx;
-      else
-        return null;
-    }
-  }
-  
-  public ArmorMaterial getArmorMaterial(boolean supercharged) {
-
-    if (supercharged) {
-      if (id == RUBY.id)
-        return ModMaterials.armorSupRuby;
-      else if (id == GARNET.id)
-        return ModMaterials.armorSupGarnet;
-      else if (id == TOPAZ.id)
-        return ModMaterials.armorSupTopaz;
-      else if (id == HELIODOR.id)
-        return ModMaterials.armorSupHeliodor;
-      else if (id == PERIDOT.id)
-        return ModMaterials.armorSupPeridot;
-      else if (id == EMERALD.id)
-        return ModMaterials.armorSupEmerald;
-      else if (id == AQUAMARINE.id)
-        return ModMaterials.armorSupAquamarine;
-      else if (id == SAPPHIRE.id)
-        return ModMaterials.armorSupSapphire;
-      else if (id == IOLITE.id)
-        return ModMaterials.armorSupIolite;
-      else if (id == AMETHYST.id)
-        return ModMaterials.armorSupAmethyst;
-      else if (id == MORGANITE.id)
-        return ModMaterials.armorSupMorganite;
-      else if (id == ONYX.id)
-        return ModMaterials.armorSupOnyx;
-      else
-        return null;
-    } else {
-      if (id == RUBY.id)
-        return ModMaterials.armorRegRuby;
-      else if (id == GARNET.id)
-        return ModMaterials.armorRegGarnet;
-      else if (id == TOPAZ.id)
-        return ModMaterials.armorRegTopaz;
-      else if (id == HELIODOR.id)
-        return ModMaterials.armorRegHeliodor;
-      else if (id == PERIDOT.id)
-        return ModMaterials.armorRegPeridot;
-      else if (id == EMERALD.id)
-        return ModMaterials.armorRegEmerald;
-      else if (id == AQUAMARINE.id)
-        return ModMaterials.armorRegAquamarine;
-      else if (id == SAPPHIRE.id)
-        return ModMaterials.armorRegSapphire;
-      else if (id == IOLITE.id)
-        return ModMaterials.armorRegIolite;
-      else if (id == AMETHYST.id)
-        return ModMaterials.armorRegAmethyst;
-      else if (id == MORGANITE.id)
-        return ModMaterials.armorRegMorganite;
-      else if (id == ONYX.id)
-        return ModMaterials.armorRegOnyx;
-      else
-        return null;
-    }
+    return "nugget" + name;
   }
 }

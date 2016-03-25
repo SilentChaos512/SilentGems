@@ -2,134 +2,122 @@ package net.silentchaos512.gems;
 
 import java.util.Random;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraftforge.common.AchievementPage;
+import net.minecraft.item.ItemBlock;
 import net.minecraftforge.common.MinecraftForge;
-import net.silentchaos512.gems.achievement.GemsAchievement;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
-import net.silentchaos512.gems.configuration.Config;
-import net.silentchaos512.gems.core.handler.GemsEventHandler;
-import net.silentchaos512.gems.core.handler.GemsForgeEventHandler;
-import net.silentchaos512.gems.core.proxy.CommonProxy;
-import net.silentchaos512.gems.core.registry.SRegistry;
-import net.silentchaos512.gems.core.util.LogHelper;
-import net.silentchaos512.gems.enchantment.ModEnchantments;
-import net.silentchaos512.gems.gui.GuiHandlerSilentGems;
+import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.entity.ModEntities;
+import net.silentchaos512.gems.event.GemsEvents;
+import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.buff.ChaosBuff;
-import net.silentchaos512.gems.network.MessageChaosGemToggle;
-import net.silentchaos512.gems.network.MessageSetFlight;
+import net.silentchaos512.gems.lib.part.ModParts;
+import net.silentchaos512.gems.recipe.ModRecipes;
+import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.gems.world.GemsWorldGenerator;
+import net.silentchaos512.lib.SilentLib;
+import net.silentchaos512.lib.proxy.CommonProxy;
+import net.silentchaos512.lib.registry.SRegistry;
+import net.silentchaos512.lib.util.LocalizationHelper;
+import net.silentchaos512.lib.util.LogHelper;
 
-@Mod(modid = SilentGems.MOD_ID, name = SilentGems.MOD_NAME, version = SilentGems.VERSION_NUMBER)
+//@formatter:off
+@Mod(modid = SilentGems.MOD_ID,
+    name = SilentGems.MOD_NAME,
+    version = SilentGems.VERSION,
+    dependencies = "required-after:SilentLib")
+//@formatter:on
 public class SilentGems {
 
-  public final static String MOD_ID = "SilentGems";
-  public final static String MOD_NAME = "Silent's Gems";
-  public final static String VERSION_NUMBER = "@VERSION@";
-  public final static String CHANNEL_NAME = MOD_ID;
+  // public static final String MOD_ID_PHONY = "GemTest";
+  public static final String MOD_ID = "SilentGems";
+  public static final String MOD_NAME = "Silent's Gems";
+  public static final String VERSION = "@VERSION@";
 
   public Random random = new Random();
-  public static Logger logger = LogManager.getLogger(MOD_NAME);
+  public LogHelper logHelper = new LogHelper(MOD_NAME);
+  public LocalizationHelper localizationHelper;
 
-  @Instance(SilentGems.MOD_ID)
+  public SRegistry registry = new SRegistry(MOD_ID) {
+
+    @Override
+    public Block registerBlock(Block block, String key, Class<? extends ItemBlock> itemClass) {
+
+      block.setCreativeTab(creativeTab);
+      return super.registerBlock(block, key, itemClass);
+    }
+
+    @Override
+    public Item registerItem(Item item, String key) {
+
+      item.setCreativeTab(creativeTab);
+      if (item instanceof ITool)
+        ModItems.tools.add(item);
+      return super.registerItem(item, key);
+    }
+  };
+
+  public CreativeTabs creativeTab = new CreativeTabs("tabSilentGems") {
+
+    @Override
+    public Item getTabIconItem() {
+
+      return ModItems.gem;
+    }
+  };
+
+  @Instance(MOD_ID)
   public static SilentGems instance;
 
-  @SidedProxy(clientSide = "net.silentchaos512.gems.core.proxy.ClientProxy", serverSide = "net.silentchaos512.gems.core.proxy.CommonProxy")
-  public static CommonProxy proxy;
-
-  public static SimpleNetworkWrapper network;
+  @SidedProxy(clientSide = "net.silentchaos512.gems.proxy.ClientProxy", serverSide = "net.silentchaos512.gems.proxy.CommonProxy")
+  public static net.silentchaos512.gems.proxy.CommonProxy proxy;
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
 
-    // logger = event.getModLog();
-    Config.init(event.getSuggestedConfigurationFile());
+    localizationHelper = new LocalizationHelper(MOD_ID).setReplaceAmpersand(true);
+    SilentLib.instance.registerLocalizationHelperForMod(MOD_ID, localizationHelper);
 
+    ToolHelper.init();
+
+    Config.init(event.getSuggestedConfigurationFile());
     ModBlocks.init();
     ModItems.init();
-    ModEnchantments.init();
+    ModRecipes.init();
+    ModParts.init();
 
-    Config.save();
+    // TODO: Achievements
 
-    NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandlerSilentGems());
+    // World generation
+    GameRegistry.registerWorldGenerator(new GemsWorldGenerator(), 0);
 
-    network = NetworkRegistry.INSTANCE.newSimpleChannel(SilentGems.MOD_ID);
-    int discriminator = -1;
-    network.registerMessage(MessageChaosGemToggle.Handler.class, MessageChaosGemToggle.class,
-        ++discriminator, Side.SERVER);
-    network.registerMessage(MessageSetFlight.Handler.class, MessageSetFlight.class, ++discriminator,
-        Side.CLIENT);
-    LogHelper.info("Pre init done.");
+    proxy.preInit(registry);
   }
 
   @EventHandler
-  public void load(FMLInitializationEvent event) {
+  public void init(FMLInitializationEvent event) {
 
-    // Proxies
-    proxy.registerTileEntities();
-    proxy.registerRenderers();
-    proxy.registerKeyHandlers();
+    ModEntities.init();
 
-    // Event handler
-    FMLCommonHandler.instance().bus().register(new GemsEventHandler());
-    MinecraftForge.EVENT_BUS.register(new GemsForgeEventHandler());
+    Config.save();
 
-    // Recipes and ore dictionary.
-    SRegistry.addRecipesAndOreDictEntries();
-    ModItems.initItemRecipes();
-    ChaosBuff.initRecipes();
-
-    ModItems.addRandomChestGenLoot();
-    
-    // Achievements
-    AchievementPage.registerAchievementPage(GemsAchievement.createPage());
-
-    // World generators
-    GameRegistry.registerWorldGenerator(new GemsWorldGenerator(), 0);
-    LogHelper.info("Init done.");
+    proxy.init(registry);
   }
 
   @EventHandler
   public void postInit(FMLPostInitializationEvent event) {
 
-    // Is this the right place for this?
-    SRegistry.addThaumcraftStuff();
-    LogHelper.info("Post init done.");
-
-    // Calculate possible tool combinations
-    if (event.getSide() == Side.CLIENT) {
-      int toolsPerClass = ToolRenderHelper.instance.getPossibleToolCombinations();
-      LogHelper.info("Tools per class: " + toolsPerClass);
-      LogHelper.info("Total possible tools: " + 7 * toolsPerClass);
-      LogHelper.info("Note I can't guarantee that these numbers are correct.");
-    }
+    proxy.postInit(registry);
   }
-
-  public static CreativeTabs tabSilentGems = new CreativeTabs("tabSilentGems") {
-
-    @Override
-    public Item getTabIconItem() {
-
-      return SRegistry.getItem(Names.GEM_ITEM);
-    }
-  };
 }
