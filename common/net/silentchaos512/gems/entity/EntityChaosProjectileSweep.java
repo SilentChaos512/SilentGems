@@ -26,7 +26,7 @@ public class EntityChaosProjectileSweep extends EntityChaosProjectile {
     motionX = vec.xCoord;
     motionY = vec.yCoord;
     motionZ = vec.zCoord;
-    SilentGems.instance.logHelper.debug(motionX, motionY, motionZ);
+//    SilentGems.instance.logHelper.debug(motionX, motionY, motionZ);
 
     float speedMulti = 0.7f;
     motionX += shooter.motionX;
