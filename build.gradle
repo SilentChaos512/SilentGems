@@ -1,44 +1,57 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
     }
     dependencies {
-        classpath "net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT"
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
     }
 }
+apply plugin: 'net.minecraftforge.gradle.forge'
 
-apply plugin: "forge"
+//plugins {
+//    id "net.minecraftforge.gradle.forge" version "2.0.2"
+//}
 
-version = "1.3.12"
+version = "2.0.0-alpha"
 group = "net.silentchaos512.gems"
-archivesBaseName = "SilentGems-1.7.10"
+archivesBaseName = "SilentsGems-1.9"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 minecraft {
-    version = "1.7.10-10.13.2.1291"
+    version = "1.9-12.16.0.1806-1.9"
     runDir = "eclipse"
 
     replace "@VERSION@", project.version
     replaceIn "SilentGems.java"
+
+    mappings = "snapshot_20160312"
+    useDepAts = true
 }
 
 repositories {
-    mavenCentral()
+    //mavenCentral()
     maven {
-        name = "chickenbones"
-        url = "http://chickenbones.net/maven"
+        name = "JEI"
+        url "http://dvs1.progwml6.com/files/maven"
+        //name = "chickenbones"
+        //url = "http://chickenbones.net/maven"
+    }
+    maven {
+        name = "IGW"
+        url = "http://maven.k-4u.nl/"
     }
 }
 
 dependencies {
-    compile "codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev"
+    deobfCompile "mezz.jei:jei_1.9:3.0.6.169"
+    //compile "igwmod:IGW-Mod-1.8.9:1.2.4-4:userdev"
+    //compile "codechicken:NotEnoughItems:1.8-1.0.5.82:dev"
 }
 
 sourceSets {
