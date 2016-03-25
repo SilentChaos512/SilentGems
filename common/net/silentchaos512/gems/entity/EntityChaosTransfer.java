@@ -36,7 +36,7 @@ public class EntityChaosTransfer
   public EntityChaosTransfer(World worldIn) {
 
     super(worldIn);
-    setRenderDistanceWeight(RENDER_DISTANCE_WEIGHT);
+//    setRenderDistanceWeight(RENDER_DISTANCE_WEIGHT);
     setSize(SIZE, SIZE);
     this.targetPlayer = null;
     this.charge = 0;
@@ -45,7 +45,7 @@ public class EntityChaosTransfer
   public EntityChaosTransfer(World worldIn, EntityPlayer targetPlayer, int charge) {
 
     super(worldIn);
-    setRenderDistanceWeight(RENDER_DISTANCE_WEIGHT);
+//    setRenderDistanceWeight(RENDER_DISTANCE_WEIGHT);
     setSize(SIZE, SIZE);
     this.targetPlayer = targetPlayer;
     this.charge = charge;
