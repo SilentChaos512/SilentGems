@@ -3,7 +3,7 @@ package net.silentchaos512.gems.proxy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.silentchaos512.gems.event.GemsEvents;
+import net.silentchaos512.gems.event.GemsCommonEvents;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.network.NetworkHandler;
@@ -19,7 +19,7 @@ public class CommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
     NetworkHandler.init();
 
     MinecraftForge.EVENT_BUS.register(new PlayerDataHandler.EventHandler());
-    MinecraftForge.EVENT_BUS.register(new GemsEvents());
+    MinecraftForge.EVENT_BUS.register(new GemsCommonEvents());
   }
 
   @Override

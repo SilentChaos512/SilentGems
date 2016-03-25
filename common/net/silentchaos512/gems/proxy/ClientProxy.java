@@ -20,6 +20,7 @@ import net.silentchaos512.gems.client.render.particle.EntityFXChaos;
 import net.silentchaos512.gems.client.render.tile.RenderTileChaosNode;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.EntityChaosTransfer;
+import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.tile.TileChaosNode;
@@ -33,6 +34,7 @@ public class ClientProxy extends net.silentchaos512.gems.proxy.CommonProxy {
 
     super.preInit(registry);
     MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
+    MinecraftForge.EVENT_BUS.register(new GemsClientEvents());
     MinecraftForge.EVENT_BUS.register(ModItems.toolRenderHelper);
     registry.clientPreInit();
   }

@@ -15,7 +15,7 @@ import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.util.ToolHelper;
 
-public class GemsEvents {
+public class GemsCommonEvents {
 
   @SubscribeEvent
   public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
@@ -38,18 +38,5 @@ public class GemsEvents {
     if (event.crafting.getItem() instanceof ITool) {
       ToolHelper.setOriginalOwner(event.crafting, event.player);
     }
-  }
-
-  @SubscribeEvent
-  public void onRenderGameOverlay(RenderGameOverlayEvent event) {
-
-    if (event.getType() != ElementType.TEXT) {
-      return;
-    }
-
-    FontRenderer fontRender = Minecraft.getMinecraft().fontRendererObj;
-    EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-    int chaos = PlayerDataHandler.get(player).getCurrentChaos();
-    fontRender.drawStringWithShadow("" + chaos, 5, 5, 0xFFFFFF);
   }
 }
