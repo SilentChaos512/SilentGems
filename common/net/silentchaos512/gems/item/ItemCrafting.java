@@ -65,9 +65,6 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
     // Upgrade Base
     GameRegistry.addRecipe(new ShapelessOreRecipe(getStack(Names.UPGRADE_BASE, 4), Items.flint,
         Items.flint, "plankWood", "stickWood"));
-    // Fluffy Fabric
-    RecipeHelper.addCompressionRecipe(new ItemStack(ModItems.fluffyPuff),
-        getStack(Names.FLUFFY_FABRIC), 4);
     // Chaos Coal
     RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 8), "gemChaos", Items.coal);
     RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 4), "gemChaos",

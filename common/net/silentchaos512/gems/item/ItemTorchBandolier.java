@@ -1,19 +1,13 @@
 package net.silentchaos512.gems.item;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.IBlockPlacer;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.item.ItemSL;
-
 
 public class ItemTorchBandolier extends ItemBlockPlacer {
 
@@ -28,5 +22,22 @@ public class ItemTorchBandolier extends ItemBlockPlacer {
   public IBlockState getBlockPlaced(ItemStack stack) {
 
     return Blocks.torch.getDefaultState();
+  }
+
+  @Override
+  public void addRecipes() {
+
+    String line1 = "lll";
+    String line2 = "sgs";
+
+    ItemStack bandolier = new ItemStack(this, 1, MAX_DAMAGE);
+    ItemStack gem = new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE);
+    ItemStack[] stacks = new ItemStack[] { new ItemStack(Items.leather),
+        ModItems.craftingMaterial.getStack(Names.FLUFFY_FABRIC) };
+
+    for (ItemStack stack : stacks) {
+      GameRegistry.addRecipe(new ShapedOreRecipe(bandolier, line1, line2, line1, 'l', stack, 's',
+          "stickWood", 'g', gem));
+    }
   }
 }

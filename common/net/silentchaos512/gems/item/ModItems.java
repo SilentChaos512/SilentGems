@@ -27,7 +27,7 @@ public class ModItems {
   public static ItemCrafting craftingMaterial;
   public static ItemTipUpgrade tipUpgrade;
   public static ItemFluffyPuffSeeds fluffyPuffSeeds;
-  public static ItemSL fluffyPuff;
+  public static ItemFluffyPuff fluffyPuff;
   public static ItemDyeSG dye;
   public static ItemFoodSG food;
   public static ItemTorchBandolier torchBandolier;
@@ -59,7 +59,7 @@ public class ModItems {
     tipUpgrade = (ItemTipUpgrade) reg.registerItem(new ItemTipUpgrade());
     fluffyPuffSeeds = (ItemFluffyPuffSeeds) reg.registerItem(new ItemFluffyPuffSeeds(),
         Names.FLUFFY_PUFF_SEEDS);
-    fluffyPuff = (ItemSL) reg.registerItem(new ItemSL(1, SilentGems.MOD_ID, Names.FLUFFY_PUFF));
+    fluffyPuff = (ItemFluffyPuff) reg.registerItem(new ItemFluffyPuff());
     dye = (ItemDyeSG) reg.registerItem(new ItemDyeSG());
     food = (ItemFoodSG) reg.registerItem(new ItemFoodSG(), Names.FOOD);
     torchBandolier = (ItemTorchBandolier) reg.registerItem(new ItemTorchBandolier());
