@@ -1,7 +1,6 @@
 package net.silentchaos512.gems.block;
 
 import java.util.List;
-import java.util.Random;
 
 import com.google.common.collect.Lists;
 
@@ -15,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.core.registry.SRegistry;
+import net.silentchaos512.gems.item.tool.GemSickle;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.Strings;
 
@@ -31,6 +31,10 @@ public class FluffyPlantBlock extends BlockCrops {
   @Override
   public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player,
       int side, float hitX, float hitY, float hitZ) {
+
+    if (player.getHeldItem().getItem() instanceof GemSickle) {
+      return false;
+    }
 
     // Right-click to harvest
     List<ItemStack> drops = Lists.newArrayList();

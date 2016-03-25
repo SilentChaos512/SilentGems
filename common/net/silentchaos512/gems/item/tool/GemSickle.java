@@ -6,9 +6,12 @@ import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -18,12 +21,14 @@ import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.renderers.tool.ToolRenderHelper;
 import net.silentchaos512.gems.core.util.LocalizationHelper;
+import net.silentchaos512.gems.core.util.LogHelper;
 import net.silentchaos512.gems.core.util.ToolHelper;
 import net.silentchaos512.gems.item.CraftingMaterial;
 import net.silentchaos512.gems.lib.EnumMaterialClass;
@@ -140,6 +145,65 @@ public class GemSickle extends ItemTool implements IGemItem {
       }
     }
     return false;
+  }
+
+  @Override
+  public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int posX, int posY, int posZ,
+      int side, float hitX, float hitY, float hitZ) {
+
+    if (world.isRemote) {
+      return true;
+    }
+
+    boolean flag = false;
+
+    if (world.getBlock(posX, posY, posZ) instanceof IGrowable) {
+      // Harvest a group of fully grown crops!
+      final int radius = 2;
+      int targetX, targetY, targetZ;
+      Block block;
+      int meta;
+
+      for (int z = posZ - radius; z <= posZ + radius; ++z) {
+        for (int x = posX - radius; x <= posX + radius; ++x) {
+          block = world.getBlock(x, posY, z);
+          meta = world.getBlockMetadata(x, posY, z);
+
+          if (block instanceof IGrowable) {
+            IGrowable crop = (IGrowable) block;
+            if (!crop.func_149851_a(world, x, posY, z, world.isRemote)) {
+              // Fully grown crop, get the drops
+              List<ItemStack> drops = block.getDrops(world, x, posY, z, meta,
+                  EnchantmentHelper.getFortuneModifier(player));
+
+              // Spawn drops in world, remove first seed.
+              boolean foundSeed = false;
+              for (ItemStack dropStack : drops) {
+                if (!foundSeed && dropStack.getItem() instanceof IPlantable) {
+                  IPlantable seed = (IPlantable) dropStack.getItem();
+                  if (seed.getPlant(world, x, posY, z) == block) {
+                    foundSeed = true;
+                    LogHelper.list("Consume seed at: " + String.format("(%d, %d, %d)", x, posY, z));
+                  }
+                } else {
+                  EntityItem entityItem = new EntityItem(world, x + 0.5, posY + 0.5, z + 0.5, dropStack);
+                  world.spawnEntityInWorld(entityItem);
+                }
+              }
+              // Reset to default state.
+              world.setBlock(x, posY, z, block);
+              world.setBlockMetadataWithNotify(x, posY, z, 0, 2);
+              flag = true;
+            }
+          }
+        }
+      }
+    }
+
+    if (flag) {
+      stack.damageItem(1, player);
+    }
+    return flag;
   }
 
   @Override

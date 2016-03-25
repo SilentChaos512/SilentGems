@@ -1,8 +1,20 @@
 Silent's Gems - Changelog
 
+1.3.11
+(1.7.10)
+Fixed: AppleCore bonemeal server-side crash (hopefully)
+(1.8.9)
+Added: Very basic In-game Wiki support. It offers some information to get new players started, at least.
+Fixed: The proper altar and pylon models are back! (M4thG33k)
+Fixed: Pylon particle effects. (M4thG33k)
+Fixed: Chaos sword particles.
+Fixed: Sickles not consuming a seed to replant.
+
 1.3.10
 Added: Armor can be repaired in the same way tools can be decorated (but sadly, their appearance will not change)
+Added: Right-click crops with sickles to harvest and replant. Has a smaller radius than breaking blocks with the sickle.
 Added: Fluffy puff plant right-click to harvest.
+Added (1.8.9): Update JSON
 Fixed (1.8.9): Newly crafted chaos gems eating runes without gaining effects.
 Fixed (1.8.9): Teleporter linkers don't work in some cases.
 
