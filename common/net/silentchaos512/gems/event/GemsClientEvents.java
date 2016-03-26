@@ -10,16 +10,16 @@ import net.silentchaos512.gems.handler.PlayerDataHandler;
 
 public class GemsClientEvents {
 
-  @SubscribeEvent
-  public void onRenderGameOverlay(RenderGameOverlayEvent event) {
-
-    if (event.getType() != ElementType.TEXT) {
-      return;
-    }
-
-    FontRenderer fontRender = Minecraft.getMinecraft().fontRendererObj;
-    EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-    int chaos = PlayerDataHandler.get(player).getCurrentChaos();
-    fontRender.drawStringWithShadow("" + chaos, 5, 5, 0xFFFFFF);
-  }
+//  @SubscribeEvent
+//  public void onRenderGameOverlay(RenderGameOverlayEvent event) {
+//
+//    if (event.getType() != ElementType.TEXT) {
+//      return;
+//    }
+//
+//    FontRenderer fontRender = Minecraft.getMinecraft().fontRendererObj;
+//    EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+//    int chaos = PlayerDataHandler.get(player).getCurrentChaos();
+//    fontRender.drawStringWithShadow("" + chaos, 5, 5, 0xFFFFFF);
+//  }
 }
