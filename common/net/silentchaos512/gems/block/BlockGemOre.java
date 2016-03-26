@@ -54,6 +54,12 @@ public class BlockGemOre extends BlockGemSubtypes {
   }
 
   @Override
+  public int damageDropped(IBlockState state) {
+
+    return getMetaFromState(state) + (isDark ? 16 : 0);
+  }
+
+  @Override
   public int quantityDroppedWithBonus(int fortune, Random random) {
 
     if (fortune > 0) {
