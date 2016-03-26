@@ -1,5 +1,14 @@
 Silent's Gems - Changelog
 
+2.0.1
+Changed: Gem ore textures (gem bits are smaller, dark ores are darker)
+Fixed: Dark gem ores dropping the wrong gems.
+Fixed: Non-supercharged swords draining chaos.
+Fixed: Axes losing durability on leaves.
+
+2.0.0
+1.9 Rewrite
+
 1.3.11
 (1.7.10)
 Fixed: AppleCore bonemeal server-side crash (hopefully)

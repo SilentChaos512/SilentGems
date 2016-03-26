@@ -5,12 +5,12 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -141,11 +141,11 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
     return ToolHelper.getMaxDamage(stack);
   }
 
-//  @Override
-//  public int getColorFromItemStack(ItemStack stack, int pass) {
-//
-//    return ToolRenderHelper.getInstance().getColorFromItemStack(stack, pass);
-//  }
+  // @Override
+  // public int getColorFromItemStack(ItemStack stack, int pass) {
+  //
+  // return ToolRenderHelper.getInstance().getColorFromItemStack(stack, pass);
+  // }
 
   @Override
   public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
@@ -181,7 +181,8 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   }
 
   @Override
-  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
+      ItemStack stack) {
 
     return ToolHelper.getAttributeModifiers(slot, stack);
   }
@@ -197,6 +198,17 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   public boolean getIsRepairable(ItemStack stack1, ItemStack stack2) {
 
     return ToolHelper.getIsRepairable(stack1, stack2);
+  }
+
+  @Override
+  public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,
+      EntityLivingBase entityLiving) {
+
+    if (state.getMaterial() != Material.leaves) {
+      return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
+    } else {
+      return true;
+    }
   }
 
   // ===============
