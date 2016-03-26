@@ -6,6 +6,7 @@ Changed: Gem ore textures (gem bits are smaller, dark ores are darker)
 Fixed: Dark gem ores dropping the wrong gems.
 Fixed: Non-supercharged swords draining chaos.
 Fixed: Axes losing durability on leaves.
+Fixed: Alpha greetings not showing on servers.
 
 2.0.0
 1.9 Rewrite

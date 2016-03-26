@@ -20,6 +20,7 @@ public class ModParts {
       ToolPartRegistry.putPart(new ToolPartGem(gem, true));
     }
     ToolPartRegistry.putPart(new ToolPartFlint());
+//    ToolPartRegistry.putPart(new ToolPartGlass());
 
     // Rods
     ToolPartRegistry.putPart(

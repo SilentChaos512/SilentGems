@@ -1,7 +1,9 @@
 import re
 from subprocess import call
 
-NAME = 'Scepter'
+NAME = 'Katana'
+SUPER_TOOL = True
+
 TEXTURE = NAME.lower() + '/' + NAME
 MODE = 'item'
 
@@ -11,10 +13,13 @@ commands = [];
 # Rod
 for rod in ['Wood', 'Bone', 'Iron', 'Gold', 'Silver']:
     name = NAME + 'Rod' + rod
-    texture = TEXTURE + 'Rod' + rod
+    if SUPER_TOOL and (rod == 'Wood' or rod == 'Bone'):
+        texture = 'Blank'
+    else:
+        texture = TEXTURE + 'Rod' + rod
     commands.append(line % (MODE, name, texture, 0))
 
-for i in (range(32) + ['Flint', 'Fish']):
+for i in (range(32) + ['Flint']):
     name = NAME + str(i)
     texture_id = ''
     if type(i) is int:
@@ -23,9 +28,13 @@ for i in (range(32) + ['Flint', 'Fish']):
         texture_id = str(i)
 
     texture = TEXTURE + texture_id
+
     commands.append(line % (MODE, name, texture, 1))
     commands.append(line % (MODE, name + 'L', texture + 'L', 2))
-    commands.append(line % (MODE, name + 'R', texture + 'R', 3))
+    if NAME == 'Katana':
+        commands.append(line % (MODE, name + 'R', 'Blank', 0))
+    else:
+        commands.append(line % (MODE, name + 'R', texture + 'R', 3))
 
     name = NAME + 'Deco' + str(i)
     texture = TEXTURE + 'Deco' + texture_id
