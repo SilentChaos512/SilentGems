@@ -27,7 +27,7 @@ public class GuiChaosBar extends Gui {
   public static final ResourceLocation TEXTURE_BAR = new ResourceLocation(SilentGems.MOD_ID,
       "textures/gui/ChaosBar.png");
 
-  public static final int POPUP_TIME = 5000;
+  public static final int POPUP_TIME = 6000;
 
   private int currentChaos = 0;
   private int maxChaos = 10000;
@@ -35,13 +35,11 @@ public class GuiChaosBar extends Gui {
   private long currentTime;
 
   private Minecraft mc;
-  private FontRenderer fontRender;
 
   public GuiChaosBar(Minecraft mc) {
 
     super();
     this.mc = mc;
-    this.fontRender = mc.fontRendererObj;
   }
 
   public void update(int currentChaos, int maxChaos) {
@@ -82,14 +80,17 @@ public class GuiChaosBar extends Gui {
     if (scale > 0f) {
       GlStateManager.pushMatrix();
 
-      // Text?
-
       posX = (int) (res.getScaledWidth() / scale * xOffset - barWidth / 2);
       posY = (int) (res.getScaledHeight() / scale * yOffset);
       GlStateManager.scale(scale, scale, 1);
 
       drawBar(posX, posY, barWidth, barHeight, color, fraction);
-      drawBarFrame(posX, posY, barWidth, barHeight, color);
+      drawBarFrame(posX, posY, barWidth, barHeight, new Color(1f, 1f, 1f, 1f));
+
+//      String line = "" + currentChaos;
+//      int lineWidth = mc.fontRendererObj.getStringWidth(line);
+//      mc.fontRendererObj.drawStringWithShadow(line, res.getScaledWidth() * xOffset - lineWidth / 2,
+//          res.getScaledHeight() * (yOffset + 0.025f), 0xFFFFFF);
 
       GlStateManager.popMatrix();
     }

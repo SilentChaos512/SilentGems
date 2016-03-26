@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.0.1
+Added: Context-sensitive bar that displays the player's chaos (replaces the text)
 Changed: Gem ore textures (gem bits are smaller, dark ores are darker)
 Fixed: Dark gem ores dropping the wrong gems.
 Fixed: Non-supercharged swords draining chaos.

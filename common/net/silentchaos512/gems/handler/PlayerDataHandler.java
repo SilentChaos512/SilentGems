@@ -120,7 +120,7 @@ public class PlayerDataHandler {
   public static class PlayerData {
 
     public static final int CHAOS_MAX_TRANSFER = 1000;
-    public static final int COOLDOWN_TIME = 50;
+    public static final int COOLDOWN_TIME = 100;
 
     private static final String NBT_CHAOS = "Chaos";
     private static final String NBT_MAX_CHAOS = "MaxChaos";

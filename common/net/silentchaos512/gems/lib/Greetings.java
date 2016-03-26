@@ -10,25 +10,29 @@ import net.silentchaos512.lib.util.PlayerHelper;
 
 public class Greetings {
 
-  public static final String PREFIX = "misc.silentgems:alpha";
+  public static final String PREFIX = "[Silent's Gems] EARLY ALPHA: ";
+  // @formatter:off
+  public static final String[] LINES = new String[] {
+      "Things may change, break, and/or dance to Macarena.",
+      "Catgirls not included. D:",
+      "The flowers probably won't kill you.",
+      "That texture count...",
+      "Try the donuts!",
+      "May contain unintended &cR&6a&ei&an&9b&do&5w&fs!",
+      "Shake well and refrigerate after opening.",
+      "May contain crazy people.",
+      "Bunny bowling. No regrets."
+  };
+  // @formatter:on
 
   public static void greetPlayer(EntityPlayer player) {
 
     // Reset the random object, because it seems to yield the same value each time. Huh?
     SilentGems.instance.random.setSeed(System.currentTimeMillis());
 
-    List<String> list = SilentGems.instance.localizationHelper.getDescriptionLines(PREFIX);
-    if (list.size() > 0) {
-      String msg = SilentGems.instance.localizationHelper.getLocalizedString(PREFIX + "Prefix")
-          + " ";
-      int index = SilentGems.instance.random.nextInt(list.size());
-      // SilentGems.instance.logHelper.debug(list.size(), index);
-      msg += list.get(index);
-      PlayerHelper.addChatMessage(player, TextFormatting.RED + msg);
-    }
-
-    // TODO: Remove this later.
-    PlayerHelper.addChatMessage(player,
-        "[Silent's Gems] Yes, the numbers in the upper-left are my fault. I'm working on it.");
+    String line = LINES[SilentGems.instance.random.nextInt(LINES.length)];
+    line = PREFIX + line;
+    line = line.replaceAll("&", "\u00a7");
+    PlayerHelper.addChatMessage(player, TextFormatting.RED + line);
   }
 }
