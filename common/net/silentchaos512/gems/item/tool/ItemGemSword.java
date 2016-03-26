@@ -141,7 +141,8 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
   public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
 
     World world = entityLiving.worldObj;
-    if (world.isRemote || !(entityLiving instanceof EntityPlayer)) {
+    if (world.isRemote || !(entityLiving instanceof EntityPlayer)
+        || ToolHelper.getToolTier(stack) != EnumMaterialTier.SUPER) {
       return false;
     }
 
