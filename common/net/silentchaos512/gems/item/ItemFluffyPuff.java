@@ -30,9 +30,11 @@ public class ItemFluffyPuff extends ItemSL {
     ItemStack string = new ItemStack(Items.string);
     ItemStack feather = new ItemStack(Items.feather);
     ItemStack wool = new ItemStack(Blocks.wool);
+    ItemStack seed = new ItemStack(ModItems.fluffyPuffSeeds);
 
     GameRegistry.addShapedRecipe(string, "pp", 'p', puff);
     GameRegistry.addShapedRecipe(feather, " pp", "pp ", "p  ", 'p', puff);
     GameRegistry.addShapedRecipe(wool, "ppp", "p p", "ppp", 'p', puff);
+    GameRegistry.addShapelessRecipe(seed, puff);
   }
 }

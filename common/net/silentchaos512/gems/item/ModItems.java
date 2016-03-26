@@ -4,8 +4,12 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
@@ -86,7 +90,13 @@ public class ModItems {
     }
     toolRenderHelper.init();
 
+    initExtraRecipes();
     initLoot();
+  }
+
+  public static void initExtraRecipes() {
+
+    GameRegistry.addShapelessRecipe(new ItemStack(Items.flint), Blocks.gravel, Blocks.gravel);
   }
 
   public static void initLoot() {
