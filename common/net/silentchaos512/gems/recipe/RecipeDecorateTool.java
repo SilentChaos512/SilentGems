@@ -74,7 +74,7 @@ public class RecipeDecorateTool extends RecipeBase {
       if (stack != null && !(stack.getItem() instanceof ITool)) {
         ToolPart part = ToolPartRegistry.fromStack(stack);
         // Invalid part or not a part?
-        if (part == null && part instanceof ToolPartMain) {
+        if (part == null || part instanceof ToolPartMain) {
           return null;
         }
         // Valid for tool tier?
