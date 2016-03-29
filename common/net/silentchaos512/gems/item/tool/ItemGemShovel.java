@@ -90,6 +90,12 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
     return -3.0f;
   }
 
+  @Override
+  public boolean isDiggingTool() {
+
+    return true;
+  }
+
   // ==============
   // Item overrides
   // ==============

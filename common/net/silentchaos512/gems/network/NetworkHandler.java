@@ -5,6 +5,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.network.message.MessageDataSync;
+import net.silentchaos512.gems.network.message.MessageToggleSpecial;
 
 public class NetworkHandler {
 
@@ -16,6 +17,7 @@ public class NetworkHandler {
   public static void init() {
 
     register(MessageDataSync.class, Side.CLIENT);
+    register(MessageToggleSpecial.class, Side.SERVER);
   }
 
   private static void register(Class clazz, Side handlerSide) {

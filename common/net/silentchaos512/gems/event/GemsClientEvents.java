@@ -1,21 +1,19 @@
 package net.silentchaos512.gems.event;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.handler.PlayerDataHandler;
+import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.client.gui.GuiCrosshairs;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.util.ToolHelper;
 
 public class GemsClientEvents {
-
-  public static final ResourceLocation TEXTURE_CROSSHAIRS = new ResourceLocation(SilentGems.MOD_ID,
-      "textures/gui/Crosshairs.png");
 
   @SubscribeEvent
   public void onRenderGameOverlay(RenderGameOverlayEvent event) {
@@ -26,17 +24,24 @@ public class GemsClientEvents {
   private void renderCrosshairs(RenderGameOverlayEvent event) {
 
     EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+    ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
 
-    if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() == ModItems.pickaxe) {
-      if (event.isCancelable() && event.getType() == ElementType.CROSSHAIRS) {
-        event.setCanceled(true);
-      }
-    }
-
-    if (event.isCancelable() || event.getType() != ElementType.CROSSHAIRS) {
+    if (mainHand == null) {
       return;
     }
 
-    ;
+    Item item = mainHand.getItem();
+    boolean isDigger = item instanceof ITool && ((ITool) item).isDiggingTool();
+
+    if (isDigger && event.isCancelable() && event.getType() == ElementType.CROSSHAIRS) {
+      if (ToolHelper.isSpecialAbilityEnabled(mainHand)) {
+        event.setCanceled(true);
+        GuiCrosshairs.INSTANCE.renderOverlay(event, item == ModItems.axe ? 1 : 0);
+      }
+    }
+
+    // if (event.isCancelable() || event.getType() != ElementType.CROSSHAIRS) {
+    // return;
+    // }
   }
 }

@@ -9,4 +9,9 @@ public interface ITool {
   public float getMagicDamage(ItemStack tool);
   public float getBaseMeleeDamageModifier();
   public float getBaseMeleeSpeedModifier();
+
+  public default boolean isDiggingTool() {
+
+    return false;
+  }
 }

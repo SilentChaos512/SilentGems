@@ -13,8 +13,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.silentchaos512.gems.client.gui.GuiChaosBar;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
+import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.render.entity.RenderChaosProjectile;
 import net.silentchaos512.gems.client.render.entity.RenderEntityChaosTransfer;
 import net.silentchaos512.gems.client.render.particle.EntityFXChaos;
@@ -34,6 +36,7 @@ public class ClientProxy extends net.silentchaos512.gems.proxy.CommonProxy {
   public void preInit(SRegistry registry) {
 
     super.preInit(registry);
+    FMLCommonHandler.instance().bus().register(KeyTracker.INSTANCE);
     MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
     MinecraftForge.EVENT_BUS.register(new GemsClientEvents());
     MinecraftForge.EVENT_BUS.register(GuiChaosBar.INSTANCE);

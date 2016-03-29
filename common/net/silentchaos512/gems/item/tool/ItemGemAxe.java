@@ -91,6 +91,12 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
     return 4.0f;
   }
 
+  @Override
+  public boolean isDiggingTool() {
+
+    return true;
+  }
+
   // ==============
   // Item overrides
   // ==============

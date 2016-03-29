@@ -55,7 +55,7 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public float getBaseMeleeSpeedModifier() {
 
-    return -2.0f;
+    return -2.2f;
   }
 
   @Override

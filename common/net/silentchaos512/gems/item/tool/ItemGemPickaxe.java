@@ -92,6 +92,12 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
     return -2.8f;
   }
 
+  @Override
+  public boolean isDiggingTool() {
+
+    return true;
+  }
+
   // ==============
   // Item overrides
   // ==============

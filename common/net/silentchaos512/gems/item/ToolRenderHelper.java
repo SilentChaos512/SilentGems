@@ -16,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -183,18 +184,22 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       return modelError;
     }
 
-    String key = NBT_MODEL_INDEX + pos.ordinal();
-    if (!tool.getTagCompound().hasKey(key)) {
+    NBTTagCompound tags = tool.getTagCompound().getCompoundTag(NBT_MODEL_INDEX);
+    String key = "Layer" + pos.ordinal();
+
+    if (!tags.hasKey(key)) {
       ToolPart part = ToolHelper.getRenderPart(tool, pos);
       if (part == null) {
-        tool.getTagCompound().setInteger(key, -1);
+        tags.setInteger(key, -1);
+        tool.getTagCompound().setTag(NBT_MODEL_INDEX, tags);
         return null;
       }
       ModelResourceLocation target = part.getModel(tool, pos);
       // SilentGems.instance.logHelper.debug(target);
       for (int i = 0; i < models.length; ++i) {
         if (models[i].equals(target)) {
-          tool.getTagCompound().setInteger(key, i);
+          tags.setInteger(key, i);
+          tool.getTagCompound().setTag(NBT_MODEL_INDEX, tags);
           return target;
         }
       }
@@ -205,7 +210,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     // SilentGems.instance.logHelper.debug(models.length, modelSet.size());
     // SilentGems.instance.logHelper.debug(pos.ordinal() + ": " + tool.getTagCompound().getInteger(key) + ": " +
     // getModel(tool.getTagCompound().getInteger(key)));
-    return getModel(tool.getTagCompound().getInteger(key));
+    return getModel(tags.getInteger(key));
   }
 
   public ModelResourceLocation getModel(int index) {

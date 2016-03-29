@@ -65,6 +65,9 @@ public class ToolHelper {
   public static final String NBT_ROOT_PROPERTIES = "SGProperties";
   public static final String NBT_ROOT_STATISTICS = "SGStatistics";
 
+  // Settings
+  public static final String NBT_SETTINGS_SPECIAL = "SpecialEnabled";
+
   // Construction
   public static final String NBT_PART_ROOT = "Part";
 
@@ -133,7 +136,8 @@ public class ToolHelper {
 
     // Reset render cache
     for (EnumPartPosition pos : EnumPartPosition.values()) {
-      tool.getTagCompound().removeTag(ToolRenderHelper.NBT_MODEL_INDEX + pos.ordinal());
+      tool.getTagCompound().getCompoundTag(ToolRenderHelper.NBT_MODEL_INDEX)
+          .removeTag("Layer" + pos.ordinal());
     }
 
     float sumDurability = 0f; // float to prevent rounding errors until calcs are done.
@@ -316,7 +320,7 @@ public class ToolHelper {
       }
       setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_AMOUNT, charge);
     }
-//    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_AMOUNT, 0);
+    // setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_AMOUNT, 0);
   }
 
   public static int getItemEnchantability(ItemStack tool) {
@@ -491,6 +495,17 @@ public class ToolHelper {
   public static void hitEntity(ItemStack tool) {
 
     ToolHelper.incrementStatHitsLanded(tool, 1);
+  }
+
+  public static boolean isSpecialAbilityEnabled(ItemStack tool) {
+
+    return getTagBoolean(tool, NBT_ROOT_PROPERTIES, NBT_SETTINGS_SPECIAL);
+  }
+
+  public static void toggleSpecialAbility(ItemStack tool) {
+
+    setTagBoolean(tool, NBT_ROOT_PROPERTIES, NBT_SETTINGS_SPECIAL,
+        !getTagBoolean(tool, NBT_ROOT_PROPERTIES, NBT_SETTINGS_SPECIAL));
   }
 
   // ==========================================================================
