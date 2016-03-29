@@ -45,6 +45,7 @@ import net.silentchaos512.gems.config.Config;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.part.ToolPartGem;
+import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
@@ -54,7 +55,7 @@ public class ToolHelper {
       "Sickle", "Bow" };
 
   public static final float VARIETY_BONUS = 0.075f;
-  public static final float MAX_CHARGE = 10000f;
+  // public static final float MAX_CHARGE = 10000f;
 
   /*
    * NBT keys
@@ -78,6 +79,8 @@ public class ToolHelper {
   public static final String NBT_PART_ROD_DECO = "PartRodDeco";
   public static final String NBT_PART_ROD_WOOL = "PartRodWool";
   public static final String NBT_PART_HEAD_TIP = "PartHeadTip";
+
+  public static final String NBT_TOOL_TIER = "ToolTier";
 
   // Decoration
   public static final String NBT_DECO_HEAD_L = "DecoHeadL";
@@ -227,6 +230,7 @@ public class ToolHelper {
     setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_SPEED, chargeSpeed);
     setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_ENCHANTABILITY, (int) enchantability);
     setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_LEVEL, maxHarvestLevel);
+    setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_TOOL_TIER, parts[0].getTier().ordinal());
   }
 
   // ==========================================================================
@@ -305,23 +309,23 @@ public class ToolHelper {
     return getTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_SPEED);
   }
 
-  public static float getChargeAmount(ItemStack tool) {
-
-    return getTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_AMOUNT);
-  }
-
-  public static void incrementCharge(ItemStack tool, float scalar) {
-
-    float charge = getChargeAmount(tool);
-    if (charge < MAX_CHARGE) {
-      charge += scalar * getChargeSpeed(tool);
-      if (charge > MAX_CHARGE) {
-        charge = MAX_CHARGE;
-      }
-      setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_AMOUNT, charge);
-    }
-    // setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_AMOUNT, 0);
-  }
+  // public static float getChargeAmount(ItemStack tool) {
+  //
+  // return getTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_AMOUNT);
+  // }
+  //
+  // public static void incrementCharge(ItemStack tool, float scalar) {
+  //
+  // float charge = getChargeAmount(tool);
+  // if (charge < MAX_CHARGE) {
+  // charge += scalar * getChargeSpeed(tool);
+  // if (charge > MAX_CHARGE) {
+  // charge = MAX_CHARGE;
+  // }
+  // setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_AMOUNT, charge);
+  // }
+  // // setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_AMOUNT, 0);
+  // }
 
   public static int getItemEnchantability(ItemStack tool) {
 
@@ -463,11 +467,15 @@ public class ToolHelper {
    */
   public static boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
 
-    final int x = pos.getX();
-    final int y = pos.getY();
-    final int z = pos.getZ();
+    if (!SkillAreaMiner.INSTANCE.activate(stack, player, pos)) {
+      incrementStatBlocksMined(stack, 1);
+    }
+
+    // final int x = pos.getX();
+    // final int y = pos.getY();
+    // final int z = pos.getZ();
     // Number of blocks broken.
-    int amount = 1;
+    // int amount = 1;
     // Try to activate Lumberjack or Area Miner enchantments. TODO: Uncomment
     // if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.LUMBERJACK_ID, stack) > 0) {
     // amount += EnchantmentLumberjack.tryActivate(stack, x, y, z, player);
@@ -475,7 +483,7 @@ public class ToolHelper {
     // amount += EnchantmentAOE.tryActivate(stack, x, y, z, player);
     // }
     // Increase number of blocks mined statistic.
-    incrementStatBlocksMined(stack, amount);
+    // incrementStatBlocksMined(stack, amount);
 
     // Mining achievements TODO: Uncomment
     // amount = getStatBlocksMined(stack);
@@ -514,11 +522,9 @@ public class ToolHelper {
 
   public static EnumMaterialTier getToolTier(ItemStack tool) {
 
-    ToolPart part = getPart(tool, EnumPartPosition.HEAD_LEFT);
-    if (part != null) {
-      return part.getTier();
-    }
-    return EnumMaterialTier.MUNDANE;
+    int id = getTagInt(tool, NBT_ROOT_PROPERTIES, NBT_TOOL_TIER);
+    return EnumMaterialTier.values()[MathHelper.clamp_int(id, 0,
+        EnumMaterialTier.values().length - 1)];
   }
 
   public static ItemStack constructTool(Item item, ItemStack rod, ItemStack... materials) {
@@ -544,14 +550,6 @@ public class ToolHelper {
     part = ToolPartRegistry.fromStack(rod);
     setTagPart(result, "PartRod", part, EnumMaterialGrade.NONE);
 
-    // Check tier - "Super" tools can only be super tier!
-    EnumMaterialTier toolTier = getToolTier(result);
-    if (item == ModItems.katana || item == ModItems.scepter) {
-      if (toolTier != EnumMaterialTier.SUPER) {
-        return null;
-      }
-    }
-
     // Create name
     LocalizationHelper loc = SilentGems.instance.localizationHelper;
     Set<String> materialSet = Sets.newLinkedHashSet();
@@ -573,6 +571,14 @@ public class ToolHelper {
     result.setStackDisplayName(prefix + name);
 
     recalculateStats(result);
+
+    // Check tier - "Super" tools can only be super tier!
+    EnumMaterialTier toolTier = getToolTier(result);
+    if (item == ModItems.katana || item == ModItems.scepter) {
+      if (toolTier != EnumMaterialTier.SUPER) {
+        return null;
+      }
+    }
 
     return result;
   }

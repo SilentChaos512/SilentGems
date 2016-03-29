@@ -97,6 +97,12 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
     return true;
   }
 
+  @Override
+  public Material[] getExtraEffectiveMaterials() {
+
+    return extraEffectiveMaterials;
+  }
+
   // ==============
   // Item overrides
   // ==============

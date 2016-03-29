@@ -98,6 +98,12 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
     return true;
   }
 
+  @Override
+  public Material[] getExtraEffectiveMaterials() {
+
+    return extraEffectiveMaterials;
+  }
+
   // ==============
   // Item overrides
   // ==============

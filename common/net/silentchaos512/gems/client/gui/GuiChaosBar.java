@@ -84,7 +84,7 @@ public class GuiChaosBar extends Gui {
       posY = (int) (res.getScaledHeight() / scale * yOffset);
       GlStateManager.scale(scale, scale, 1);
 
-      drawBar(posX, posY, barWidth, barHeight, color, fraction);
+      drawBar(posX, posY + 0.5f, barWidth, barHeight - 1f, color, fraction);
       drawBarFrame(posX, posY, barWidth, barHeight, new Color(1f, 1f, 1f, 1f));
 
 //      String line = "" + currentChaos;
