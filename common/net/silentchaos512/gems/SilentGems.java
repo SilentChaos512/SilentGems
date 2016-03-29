@@ -76,7 +76,7 @@ public class SilentGems {
   @Instance(MOD_ID)
   public static SilentGems instance;
 
-  @SidedProxy(clientSide = "net.silentchaos512.gems.proxy.ClientProxy", serverSide = "net.silentchaos512.gems.proxy.CommonProxy")
+  @SidedProxy(clientSide = "net.silentchaos512.gems.proxy.GemsClientProxy", serverSide = "net.silentchaos512.gems.proxy.GemsCommonProxy")
   public static net.silentchaos512.gems.proxy.GemsCommonProxy proxy;
 
   @EventHandler
