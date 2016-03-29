@@ -6,6 +6,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SPacketBlockChange;
 import net.minecraft.util.math.BlockPos;
@@ -21,6 +22,7 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public class SkillAreaMiner extends ToolSkill {
@@ -45,8 +47,10 @@ public class SkillAreaMiner extends ToolSkill {
     World world = player.worldObj;
     IBlockState state = world.getBlockState(pos);
 
-    // Must be a tool, no nulls.
-    if (!(tool.getItem() instanceof ITool) || state == null || state.getBlock() == null) {
+    // Must be a pickaxe or shovel.
+    Item item = tool.getItem();
+    if (item != ModItems.pickaxe || item != ModItems.shovel || state == null
+        || state.getBlock() == null) {
       return false;
     }
 

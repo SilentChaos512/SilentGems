@@ -14,6 +14,7 @@ import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
+import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public class GemsCommonEvents {
@@ -58,6 +59,8 @@ public class GemsCommonEvents {
       // Reduce speed for Area Miner and Lumberjack.
       if (mainHand.getItem() == ModItems.pickaxe || mainHand.getItem() == ModItems.shovel) {
         SkillAreaMiner.INSTANCE.onGetBreakSpeed(event);
+      } else if (mainHand.getItem() == ModItems.axe) {
+        SkillLumberjack.INSTANCE.onGetBreakSpeed(event);
       }
     }
   }

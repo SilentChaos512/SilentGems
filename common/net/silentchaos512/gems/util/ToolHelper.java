@@ -47,6 +47,7 @@ import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.part.ToolPartGem;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
+import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
@@ -473,23 +474,17 @@ public class ToolHelper {
    */
   public static boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
 
-    if (!SkillAreaMiner.INSTANCE.activate(stack, player, pos)) {
-      incrementStatBlocksMined(stack, 1);
+    boolean abilityActivated = false;
+
+    if (SkillAreaMiner.INSTANCE.activate(stack, player, pos)) {
+      abilityActivated = true;
+    } else if (SkillLumberjack.INSTANCE.activate(stack, player, pos)) {
+      abilityActivated = true;
     }
 
-    // final int x = pos.getX();
-    // final int y = pos.getY();
-    // final int z = pos.getZ();
-    // Number of blocks broken.
-    // int amount = 1;
-    // Try to activate Lumberjack or Area Miner enchantments. TODO: Uncomment
-    // if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.LUMBERJACK_ID, stack) > 0) {
-    // amount += EnchantmentLumberjack.tryActivate(stack, x, y, z, player);
-    // } else if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.AOE_ID, stack) > 0) {
-    // amount += EnchantmentAOE.tryActivate(stack, x, y, z, player);
-    // }
-    // Increase number of blocks mined statistic.
-    // incrementStatBlocksMined(stack, amount);
+    if (!abilityActivated) {
+      incrementStatBlocksMined(stack, 1);
+    }
 
     // Mining achievements TODO: Uncomment
     // amount = getStatBlocksMined(stack);
