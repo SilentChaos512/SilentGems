@@ -1,18 +1,19 @@
 package net.silentchaos512.gems.event;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraft.util.EnumHand;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
-import net.silentchaos512.gems.handler.PlayerDataHandler;
+import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Greetings;
+import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public class GemsCommonEvents {
@@ -37,6 +38,27 @@ public class GemsCommonEvents {
 
     if (event.crafting.getItem() instanceof ITool) {
       ToolHelper.setOriginalOwner(event.crafting, event.player);
+    }
+  }
+
+  @SubscribeEvent
+  public void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
+
+    EntityPlayer player = event.getEntityPlayer();
+    ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
+
+    if (mainHand != null) {
+      // Shears on Fluffy Blocks
+      if (event.getState() == ModBlocks.fluffyBlock) {
+        ModBlocks.fluffyBlock.onGetBreakSpeed(event);
+      }
+
+      // TODO: Something for 'no speed penalty' tools?
+
+      // Reduce speed for Area Miner and Lumberjack.
+      if (mainHand.getItem() == ModItems.pickaxe || mainHand.getItem() == ModItems.shovel) {
+        SkillAreaMiner.INSTANCE.onGetBreakSpeed(event);
+      }
     }
   }
 }

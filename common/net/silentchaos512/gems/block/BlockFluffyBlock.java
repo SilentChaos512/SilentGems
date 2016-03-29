@@ -6,11 +6,15 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.Names;
@@ -67,6 +71,21 @@ public class BlockFluffyBlock extends BlockSL {
     distance -= Math.min(10 * stackedBlocks, distance);
     entity.fallDistance = 0f;
     entity.fall(distance, 1f);
+  }
+
+  public void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
+
+    ItemStack mainHand = event.getEntityPlayer().getHeldItem(EnumHand.MAIN_HAND);
+    if (mainHand != null && mainHand.getItem() instanceof ItemShears) {
+      int efficiency = EnchantmentHelper.getEfficiencyModifier(event.getEntityPlayer());
+
+      float speed = event.getNewSpeed() * 4;
+      if (efficiency > 0) {
+        speed += (efficiency * efficiency + 1);
+      }
+
+      event.setNewSpeed(efficiency);
+    }
   }
 
   @Override

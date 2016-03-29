@@ -30,6 +30,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IBlockPlacer;
 import net.silentchaos512.gems.api.ITool;
@@ -272,6 +273,11 @@ public class ToolHelper {
 
     // Tool ineffective.
     return 1f;
+  }
+
+  public static void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
+
+    // TODO
   }
 
   public static float getDigSpeedOnProperMaterial(ItemStack tool) {

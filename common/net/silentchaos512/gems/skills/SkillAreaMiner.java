@@ -15,6 +15,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings.GameType;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
@@ -24,10 +25,19 @@ import net.silentchaos512.gems.util.ToolHelper;
 
 public class SkillAreaMiner extends ToolSkill {
 
-  public static final float DIG_SPEED_MULTIPLIER = 0.2f;
+  public static final float DIG_SPEED_MULTIPLIER = 0.33f;
   public static final int CHAOS_COST = 100;
 
   public static final SkillAreaMiner INSTANCE = new SkillAreaMiner();
+
+  public void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
+
+    PlayerData data = PlayerDataHandler.get(event.getEntityPlayer());
+    int cost = event.getEntityPlayer().capabilities.isCreativeMode ? 0 : CHAOS_COST;
+    if (data.chaos >= cost) {
+      event.setNewSpeed(event.getNewSpeed() * DIG_SPEED_MULTIPLIER);
+    }
+  }
 
   @Override
   public boolean activate(ItemStack tool, EntityPlayer player, BlockPos pos) {
