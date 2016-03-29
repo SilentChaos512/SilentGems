@@ -43,7 +43,8 @@ public class ToolRenderHelperBase extends ItemSL {
 
   public boolean hasEffect(ItemStack tool) {
 
-    return tool.isItemEnchanted();
+    // return tool.isItemEnchanted();
+    return false; // TODO: If anyone can fix this, please do so!
   }
 
   public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,

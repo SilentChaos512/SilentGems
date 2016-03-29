@@ -156,10 +156,17 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   }
 
   @Override
+  public boolean hasEffect(ItemStack stack) {
+
+    return ToolRenderHelper.instance.hasEffect(stack);
+  }
+
+  @Override
   public int getItemEnchantability(ItemStack stack) {
 
     return ToolHelper.getItemEnchantability(stack);
   }
+
 
   // ==================
   // ItemTool overrides

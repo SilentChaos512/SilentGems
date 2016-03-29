@@ -319,6 +319,12 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   }
 
   @Override
+  public boolean hasEffect(ItemStack stack) {
+
+    return ToolRenderHelper.instance.hasEffect(stack);
+  }
+
+  @Override
   public int getItemEnchantability(ItemStack stack) {
 
     return ToolHelper.getItemEnchantability(stack);
