@@ -126,18 +126,6 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
   }
 
   @Override
-  public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot,
-      boolean isSelected) {
-
-    // if (!worldIn.isRemote) {
-    // ToolHelper.incrementCharge(stack, 1.0f);
-    // }
-
-    // GemsWorldSavedData data = GemsWorldSavedData.get(entityIn.worldObj);
-    // SilentGems.instance.logHelper.debug(data.getChaosForPlayer((EntityPlayer) entityIn));
-  }
-
-  @Override
   public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
 
     World world = entityLiving.worldObj;
@@ -167,18 +155,6 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
         }
       }
     }
-
-    // EntityPlayer player = (EntityPlayer) entityLiving;
-    // GemsWorldSavedData data = GemsWorldSavedData.get(entityLiving.worldObj);
-    // int chaos = data.getChaosForPlayer(player);
-    //
-    // if (chaos >= 1000) {
-    // for (EntityChaosProjectile shot : getShots(entityLiving, stack)) {
-    // world.spawnEntityInWorld(shot);
-    // }
-    // int extracted = data.extractChaosFromPlayer(player, 1000);
-    // SilentGems.instance.logHelper.debug(chaos - extracted, extracted);
-    // }
 
     return super.onEntitySwing(entityLiving, stack);
   }
@@ -224,82 +200,6 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
     return 1500;
   }
 
-  // @Override
-  // public void onPlayerStoppedUsing(ItemStack stack, World world, EntityLivingBase entityLiving,
-  // int timeLeft) {
-  //
-  // // if (getMaxItemUseDuration(stack) - itemInUseCount > CHARGE_DELAY) {
-  // // setShotCharged(stack, true);
-  // // }
-  // }
-
-  // @Override
-  // public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
-  //
-  // // if (gemId != ModMaterials.CHAOS_GEM_ID || !player.worldObj.isRemote || getShotCharged(stack)) {
-  // // return;
-  // // }
-  // //
-  // // int time = getMaxItemUseDuration(stack) - count;
-  // // Vec3 vec = player.getLookVec();
-  // // // vec.rotateAroundY(-0.5f);
-  // // // vec.rotateAroundZ(0.5f);
-  // //
-  // // if (time < CHARGE_DELAY / 2) {
-  // // // Charging particles
-  // // if (SilentGems.proxy.getParticleSettings() == 0) {
-  // // for (int i = 0; i < 4; ++i) {
-  // // double posX = player.posX + vec.xCoord + player.motionX * 10;
-  // // double posY = player.posY + vec.yCoord + 1.55;
-  // // double posZ = player.posZ + vec.zCoord + player.motionZ * 10;
-  // // double motionX = itemRand.nextGaussian() * 0.05;
-  // // double motionY = itemRand.nextGaussian() * 0.05;
-  // // double motionZ = itemRand.nextGaussian() * 0.05;
-  // //
-  // // int colorIndex = ToolHelper.getToolHeadRight(stack);
-  // // colorIndex = colorIndex < 0 ? ModMaterials.CHAOS_GEM_ID : colorIndex;
-  // // int color = EntityProjectileChaosOrb.COLORS[MathHelper.clamp_int(colorIndex, 0,
-  // // EntityProjectileChaosOrb.COLORS.length)];
-  // //
-  // // SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_CHARGE, color, player.worldObj,
-  // // posX - 10 * motionX, posY - 10 * motionY, posZ - 10 * motionZ, motionX, motionY,
-  // // motionZ);
-  // // }
-  // // }
-  // // } else if (time == CHARGE_DELAY) {
-  // // // Play a sound
-  // // player.playSound("random.fizz", 0.2f, (float) (1.25f + itemRand.nextGaussian() * 0.1f));
-  // //
-  // // // Full charge particles.
-  // // if (SilentGems.proxy.getParticleSettings() < 2) {
-  // // double posX = player.posX + vec.xCoord;
-  // // double posY = player.posY + vec.yCoord + 1.55;
-  // // double posZ = player.posZ + vec.zCoord;
-  // //
-  // // int colorIndex = ToolHelper.getToolHeadRight(stack);
-  // // colorIndex = colorIndex < 0 ? ModMaterials.CHAOS_GEM_ID : colorIndex;
-  // // int color = EntityProjectileChaosOrb.COLORS[MathHelper.clamp_int(colorIndex, 0,
-  // // EntityProjectileChaosOrb.COLORS.length)];
-  // //
-  // // for (int i = 0; i < 16; ++i) {
-  // // double motionX = itemRand.nextGaussian() * 0.01;
-  // // double motionY = itemRand.nextGaussian() * 0.05;
-  // // double motionZ = itemRand.nextGaussian() * 0.01;
-  // // SilentGems.proxy.spawnParticles(ClientProxy.FX_CHAOS_CHARGE, color, player.worldObj, posX,
-  // // posY, posZ, motionX, motionY, motionZ);
-  // // }
-  // // }
-  // // }
-  // }
-
-  @Override
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-
-    return super.onItemUse(stack, player, world, pos, hand, side, hitX, hitY, hitZ);
-    // return ToolHelper.onItemUse(stack, player, world, pos, side, hitX, hitY, hitZ);
-  }
-
   @Override
   public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
 
@@ -315,12 +215,6 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
 
     return ToolHelper.getMaxDamage(stack);
   }
-
-  // @Override
-  // public int getColorFromItemStack(ItemStack stack, int pass) {
-  //
-  // return ToolRenderHelper.getInstance().getColorFromItemStack(stack, pass);
-  // }
 
   @Override
   public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
@@ -344,23 +238,6 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
   // ==================
   // ItemSword overrides
   // ==================
-
-  // @Override
-  // public float getDigSpeed(ItemStack stack, IBlockState state) {
-  //
-  // return ToolHelper.getDigSpeed(stack, efficiencyOnProperMaterial, state,
-  // extraEffectiveMaterials);
-  // }
-  //
-  // @Override
-  // public int getHarvestLevel(ItemStack stack, String toolClass) {
-  //
-  // if (super.getHarvestLevel(stack, toolClass) < 0) {
-  // GemTest.instance.logHelper.derp();
-  // return 0;
-  // }
-  // return ToolHelper.getHarvestLevel(stack);
-  // }
 
   @Override
   public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
@@ -393,11 +270,14 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
     String line2 = "g";
     String line3 = "s";
     ItemStack flint = new ItemStack(Items.flint);
+    // Flint
     GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(false, flint), line1, line2, line3,
         'g', flint, 's', "stickWood"));
     for (EnumGem gem : EnumGem.values()) {
+      // Regular
       GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(false, gem.getItem()), line1, line2,
           line3, 'g', gem.getItem(), 's', "stickWood"));
+      // Super
       GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(true, gem.getItemSuper()), line1,
           line2, line3, 'g', gem.getItemSuper(), 's',
           ModItems.craftingMaterial.getStack(Names.ORNATE_STICK_GOLD)));
