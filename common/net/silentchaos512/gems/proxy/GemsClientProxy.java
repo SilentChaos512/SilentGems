@@ -30,7 +30,7 @@ import net.silentchaos512.gems.tile.TileChaosNode;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.SRegistry;
 
-public class ClientProxy extends net.silentchaos512.gems.proxy.CommonProxy {
+public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonProxy {
 
   @Override
   public void preInit(SRegistry registry) {

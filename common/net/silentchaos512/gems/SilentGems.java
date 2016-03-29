@@ -77,7 +77,7 @@ public class SilentGems {
   public static SilentGems instance;
 
   @SidedProxy(clientSide = "net.silentchaos512.gems.proxy.ClientProxy", serverSide = "net.silentchaos512.gems.proxy.CommonProxy")
-  public static net.silentchaos512.gems.proxy.CommonProxy proxy;
+  public static net.silentchaos512.gems.proxy.GemsCommonProxy proxy;
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {

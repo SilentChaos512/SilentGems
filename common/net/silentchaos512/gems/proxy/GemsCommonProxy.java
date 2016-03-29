@@ -9,7 +9,7 @@ import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.lib.registry.SRegistry;
 
-public class CommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
+public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
 
   @Override
   public void preInit(SRegistry registry) {
