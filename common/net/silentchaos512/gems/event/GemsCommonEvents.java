@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Greetings;
@@ -58,9 +59,15 @@ public class GemsCommonEvents {
 
       // Reduce speed for Area Miner and Lumberjack.
       if (mainHand.getItem() == ModItems.pickaxe || mainHand.getItem() == ModItems.shovel) {
-        SkillAreaMiner.INSTANCE.onGetBreakSpeed(event);
+        if (ToolHelper.getToolTier(mainHand) == EnumMaterialTier.SUPER
+            && ToolHelper.isSpecialAbilityEnabled(mainHand)) {
+          SkillAreaMiner.INSTANCE.onGetBreakSpeed(event);
+        }
       } else if (mainHand.getItem() == ModItems.axe) {
-        SkillLumberjack.INSTANCE.onGetBreakSpeed(event);
+        if (ToolHelper.getToolTier(mainHand) == EnumMaterialTier.SUPER
+            && ToolHelper.isSpecialAbilityEnabled(mainHand)) {
+          SkillLumberjack.INSTANCE.onGetBreakSpeed(event);
+        }
       }
     }
   }
