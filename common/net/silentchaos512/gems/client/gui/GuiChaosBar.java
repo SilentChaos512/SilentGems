@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.lib.util.Color;
 
 @SideOnly(Side.CLIENT)
@@ -27,12 +28,12 @@ public class GuiChaosBar extends Gui {
   public static final ResourceLocation TEXTURE_BAR = new ResourceLocation(SilentGems.MOD_ID,
       "textures/gui/ChaosBar.png");
 
-  public static final int POPUP_TIME = 6000;
+  public static final int POPUP_TIME = 120;
 
   private int currentChaos = 0;
   private int maxChaos = 10000;
-  private long lastUpdateTime = 0;
-  private long currentTime;
+  private int lastUpdateTime = 0;
+  private int currentTime;
 
   private Minecraft mc;
 
@@ -46,7 +47,7 @@ public class GuiChaosBar extends Gui {
 
     this.currentChaos = currentChaos;
     this.maxChaos = maxChaos < currentChaos ? currentChaos : maxChaos;
-    lastUpdateTime = System.currentTimeMillis();
+    lastUpdateTime = ClientTickHandler.ticksInGame;
   }
 
   @SubscribeEvent
@@ -56,7 +57,7 @@ public class GuiChaosBar extends Gui {
       return;
     }
 
-    currentTime = System.currentTimeMillis();
+    currentTime = ClientTickHandler.ticksInGame;
     if (currentTime > lastUpdateTime + POPUP_TIME) {
       return;
     }
