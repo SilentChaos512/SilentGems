@@ -40,6 +40,7 @@ public class SilentGems {
   public static final String MOD_ID = "SilentGems";
   public static final String MOD_NAME = "Silent's Gems";
   public static final String VERSION = "@VERSION@";
+  public static final String RESOURCE_PREFIX = MOD_ID.toLowerCase() + ":";
 
   public Random random = new Random();
   public LogHelper logHelper = new LogHelper(MOD_NAME);

@@ -18,6 +18,7 @@ import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.lib.EnumModParticles;
+import net.silentchaos512.lib.util.PlayerHelper;
 
 public class EntityChaosTransfer
     extends EntityThrowable /* implements IEntityAdditionalSpawnData */ {
@@ -36,7 +37,7 @@ public class EntityChaosTransfer
   public EntityChaosTransfer(World worldIn) {
 
     super(worldIn);
-//    setRenderDistanceWeight(RENDER_DISTANCE_WEIGHT);
+    // setRenderDistanceWeight(RENDER_DISTANCE_WEIGHT);
     setSize(SIZE, SIZE);
     this.targetPlayer = null;
     this.charge = 0;
@@ -45,7 +46,7 @@ public class EntityChaosTransfer
   public EntityChaosTransfer(World worldIn, EntityPlayer targetPlayer, int charge) {
 
     super(worldIn);
-//    setRenderDistanceWeight(RENDER_DISTANCE_WEIGHT);
+    // setRenderDistanceWeight(RENDER_DISTANCE_WEIGHT);
     setSize(SIZE, SIZE);
     this.targetPlayer = targetPlayer;
     this.charge = charge;
@@ -110,6 +111,9 @@ public class EntityChaosTransfer
     RayTraceResult mop = worldObj.rayTraceBlocks(vec1, vec2, false, true, false);
     if (mop != null) {
       onImpact(mop);
+    } else if (getDistanceSqToEntity(targetPlayer) < 1) {
+      // Maybe fixes collision fail?
+      giveChargeToPlayer(targetPlayer);
     }
 
     if (ticksExisted > MAX_LIFE) {
@@ -137,45 +141,33 @@ public class EntityChaosTransfer
 
   public void onImpact(RayTraceResult mop) {
 
-    // TODO
     if (mop.typeOfHit == Type.ENTITY && mop.entityHit == targetPlayer) {
-      int amountLeft = charge;
+      giveChargeToPlayer(targetPlayer);
+    }
+  }
 
-      // Try to give directly to player first.
-      PlayerData data = PlayerDataHandler.get(targetPlayer);
-      amountLeft -= data.sendChaos(amountLeft);
+  protected void giveChargeToPlayer(EntityPlayer player) {
 
-      if (amountLeft > 0) {
-        List<ItemStack> list = Lists.newArrayList();
+    int amountLeft = charge;
 
-        // Get all stacks.
-        for (ItemStack stack : targetPlayer.inventory.mainInventory) {
-          if (stack != null) {
-            list.add(stack);
-          }
-        }
-        for (ItemStack stack : targetPlayer.inventory.armorInventory) {
-          if (stack != null) {
-            list.add(stack);
-          }
-        }
-        for (ItemStack stack : targetPlayer.inventory.offHandInventory) {
-          if (stack != null) {
-            list.add(stack);
-          }
-        }
+    // Try to give directly to player first.
+    PlayerData data = PlayerDataHandler.get(player);
+    amountLeft -= data.sendChaos(amountLeft);
 
-        for (ItemStack stack : list) {
-          if (stack.getItem() instanceof IChaosStorage) {
-            amountLeft -= ((IChaosStorage) stack.getItem()).receiveCharge(stack, amountLeft, false);
-            if (amountLeft <= 0) {
-              break;
-            }
+    if (amountLeft > 0) {
+      List<ItemStack> list = PlayerHelper.getNonNullStacks(player);
+
+      for (ItemStack stack : list) {
+        if (stack.getItem() instanceof IChaosStorage) {
+          amountLeft -= ((IChaosStorage) stack.getItem()).receiveCharge(stack, amountLeft, false);
+          if (amountLeft <= 0) {
+            break;
           }
         }
       }
-      setDead();
     }
+
+    setDead();
   }
 
   @Override

@@ -5,9 +5,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.client.gui.GuiCrosshairs;
 import net.silentchaos512.gems.item.ModItems;
@@ -43,5 +46,14 @@ public class GemsClientEvents {
     // if (event.isCancelable() || event.getType() != ElementType.CROSSHAIRS) {
     // return;
     // }
+  }
+
+  @SubscribeEvent
+  public void stitchTexture(TextureStitchEvent.Pre pre) {
+
+    SilentGems.instance.logHelper.info("Stitching misc textures into the map - M4thG33k");
+    pre.getMap().registerSprite(new ResourceLocation("silentgems", "blocks/ChaosPylonPassive"));
+    pre.getMap().registerSprite(new ResourceLocation("silentgems", "blocks/ChaosPylonBurner"));
+    pre.getMap().registerSprite(new ResourceLocation("silentgems", "blocks/ChaosAltar"));
   }
 }

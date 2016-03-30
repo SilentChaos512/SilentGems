@@ -3,6 +3,9 @@ package net.silentchaos512.gems.proxy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.event.GemsCommonEvents;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.lib.EnumModParticles;
@@ -17,6 +20,8 @@ public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
     super.preInit(registry);
 
     NetworkHandler.init();
+
+    NetworkRegistry.INSTANCE.registerGuiHandler(SilentGems.instance, new GuiHandlerSilentGems());
 
     MinecraftForge.EVENT_BUS.register(new PlayerDataHandler.EventHandler());
     MinecraftForge.EVENT_BUS.register(new GemsCommonEvents());

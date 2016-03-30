@@ -1,0 +1,45 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "silentgems:ChaosAltar.obj",
+    "textures": {
+      "particle": "silentgems:blocks/FluffyBlock10"
+    },
+    "transform": "forge:default-block",
+    "custom": {"flip-v": true}
+  },
+  "variants": {
+    "inventory": [{
+      "transform": {
+        "thirdperson": {
+          "rotation": [{"y":135}, {"x":-10}, {"z":176} ],
+          "translation": [0.15,0,-0.2],
+          "scale": 0.375
+        },
+        "firstperson":
+        {
+          "rotation": [ {"y":180}, {"z":-20}],
+          "translation": [0.0, 0.1, -0.25],
+          "scale": 1.0
+        },
+        "gui": {
+          "translation": [0.5, 0.5, 0.0]
+        },
+        "ground": {
+          "translation": [0.25,0,0.25]
+        },
+        "fixed":
+        {
+          "rotation": [{"x":-90}],
+          "translation": [0.25,0.25,-0.3]
+        }
+    }}],
+    "ground": [{"transform": {
+      "scale": [2,2,2]
+    }
+    }],
+    "normal": [{"transform": {
+      "translation": [0.5, 0.5, 0.5]}
+    }]
+  }
+}

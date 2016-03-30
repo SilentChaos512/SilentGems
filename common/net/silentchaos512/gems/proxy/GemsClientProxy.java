@@ -10,23 +10,23 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiChaosBar;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
+import net.silentchaos512.gems.client.render.ModBlockRenderers;
 import net.silentchaos512.gems.client.render.entity.RenderChaosProjectile;
 import net.silentchaos512.gems.client.render.entity.RenderEntityChaosTransfer;
 import net.silentchaos512.gems.client.render.particle.EntityFXChaos;
-import net.silentchaos512.gems.client.render.tile.RenderTileChaosNode;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.EntityChaosTransfer;
 import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumModParticles;
-import net.silentchaos512.gems.tile.TileChaosNode;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.SRegistry;
 
@@ -36,6 +36,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
   public void preInit(SRegistry registry) {
 
     super.preInit(registry);
+    OBJLoader.INSTANCE.addDomain(SilentGems.MOD_ID);
     FMLCommonHandler.instance().bus().register(KeyTracker.INSTANCE);
     MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
     MinecraftForge.EVENT_BUS.register(new GemsClientEvents());
@@ -62,7 +63,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
 
   private void registerRenderers() {
 
-    ClientRegistry.bindTileEntitySpecialRenderer(TileChaosNode.class, new RenderTileChaosNode());
+    ModBlockRenderers.init();
 
 //    RenderingRegistry.registerEntityRenderingHandler(EntityChaosProjectile.class,
 //        new RenderDragonFireball(Minecraft.getMinecraft().getRenderManager()));

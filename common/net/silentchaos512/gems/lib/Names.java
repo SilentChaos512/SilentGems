@@ -3,7 +3,9 @@ package net.silentchaos512.gems.lib;
 public class Names {
 
   // Blocks
+  public static final String CHAOS_ALTAR = "ChaosAltar";
   public static final String CHAOS_NODE = "ChaosNode";
+  public static final String CHAOS_PYLON = "ChaosPylon";
   public static final String ESSENCE_ORE = "EssenceOre";
   public static final String FLUFFY_BLOCK = "FluffyBlock";
   public static final String FLUFFY_PUFF_PLANT = "FluffyPlant";
