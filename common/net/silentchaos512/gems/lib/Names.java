@@ -37,6 +37,7 @@ public class Names {
   public static final String ENDER_ESSENCE_SHARD = "EnderEssenceShard";
   public static final String FLUFFY_FABRIC = "FluffyFabric";
   public static final String IRON_POTATO = "IronPotato";
+  public static final String NAME_PLATE = "NamePlate";
   public static final String STICK_IRON = "StickIron";
   public static final String ORNATE_STICK_GOLD = "OrnateStickGold";
   public static final String ORNATE_STICK_SILVER = "OrnateStickSilver";

@@ -15,6 +15,7 @@ public class ModRecipes {
           afterShapeless);
       reg.addRecipeHandler(RecipeDecorateTool.class, "DecorateTool", Category.SHAPED,
           afterShapeless);
+      reg.addRecipeHandler(RecipeNamePlate.class, "NamePlate", Category.SHAPED, afterShapeless);
     } catch (InstantiationException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

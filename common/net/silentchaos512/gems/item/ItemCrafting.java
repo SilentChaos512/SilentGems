@@ -2,11 +2,14 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -22,12 +25,13 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_ESSENCE_SHARD, Names.CHAOS_COAL,
       Names.STICK_IRON, Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.IRON_POTATO,
-      Names.FLUFFY_FABRIC, Names.UPGRADE_BASE };
+      Names.FLUFFY_FABRIC, Names.UPGRADE_BASE, Names.NAME_PLATE };
+
   public static final String[] SORTED_NAMES = new String[] { //
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_ESSENCE_SHARD, Names.CHAOS_COAL,
       Names.STICK_IRON, Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.IRON_POTATO,
-      Names.FLUFFY_FABRIC, Names.UPGRADE_BASE };
+      Names.FLUFFY_FABRIC, Names.NAME_PLATE, Names.UPGRADE_BASE };
 
   public ItemCrafting() {
 
@@ -72,6 +76,9 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
     // Chaos Coal -> Torches
     GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.torch, 16), "c", "s", 'c',
         getStack(Names.CHAOS_COAL), 's', "stickWood"));
+    // Name Plate
+    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.NAME_PLATE, 4), "iii", "pcp", "iii",
+        'i', "ingotIron", 'p', Items.paper, 'c', "gemChaos"));
   }
 
   @Override
@@ -89,5 +96,29 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
 
     OreDictionary.registerOre("gemChaos", getStack(Names.CHAOS_ESSENCE));
     OreDictionary.registerOre("nuggetChaos", getStack(Names.CHAOS_ESSENCE_SHARD));
+  }
+
+  @Override
+  public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer player, EntityLivingBase target, EnumHand hand) {
+
+    // Name plates can rename mobs.
+    if (stack.isItemEqual(getStack(Names.NAME_PLATE))) {
+      if (!stack.hasDisplayName()) {
+        return false;
+      }
+      if (target instanceof EntityLiving) {
+        EntityLiving entityLiving = (EntityLiving) target;
+        if (entityLiving.hasCustomName() && entityLiving.getCustomNameTag().equals(stack.getDisplayName())) {
+          return false;
+        }
+        entityLiving.setCustomNameTag(stack.getDisplayName());
+        entityLiving.enablePersistence();
+        --stack.stackSize;
+        return true;
+      }
+    }
+
+    // Other items have default behavior.
+    return super.itemInteractionForEntity(stack, player, target, hand);
   }
 }
