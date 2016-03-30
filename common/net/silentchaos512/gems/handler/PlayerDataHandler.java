@@ -190,6 +190,9 @@ public class PlayerDataHandler {
 
     public void drainChaos(int amount) {
 
+      if (amount == 0)
+        return;
+
       chaos = Math.max(chaos - amount, 0);
       rechargeCooldown = COOLDOWN_TIME;
       save();
@@ -245,6 +248,9 @@ public class PlayerDataHandler {
       }
       if (offHand != null && offHand.getItem() instanceof ITool) {
         multi += ToolHelper.getChargeSpeed(offHand);
+      }
+      if (multi == 0.0f) {
+        multi = 1.0f;
       }
 
 //      SilentGems.instance.logHelper.debug(multi);
