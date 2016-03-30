@@ -49,7 +49,7 @@ public class SkillAreaMiner extends ToolSkill {
 
     // Must be a pickaxe or shovel.
     Item item = tool.getItem();
-    if (item != ModItems.pickaxe || item != ModItems.shovel || state == null
+    if ((item != ModItems.pickaxe && item != ModItems.shovel) || state == null
         || state.getBlock() == null) {
       return false;
     }

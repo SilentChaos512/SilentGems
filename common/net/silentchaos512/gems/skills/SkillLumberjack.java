@@ -61,6 +61,21 @@ public class SkillLumberjack extends ToolSkill {
     int z = pos.getZ();
     if (state.getBlock().isWood(world, pos) || state.getMaterial() == Material.sponge) {
       if (detectTree(world, x, y, z, state.getBlock())) {
+        // Don't allow in creative mode.
+        if (player.capabilities.isCreativeMode) {
+          SilentGems.instance.logHelper.derp();
+          return false;
+        }
+
+        // Does player have enough chaos?
+        PlayerData data = PlayerDataHandler.get(player);
+        int cost = CHAOS_COST;
+        if (data.chaos >= cost) {
+          data.drainChaos(cost);
+        } else {
+          return false;
+        }
+
         int blocksBroken = breakTree(world, x, y, z, x, y, z, tool, state, player);
         ToolHelper.incrementStatBlocksMined(tool, blocksBroken);
         return true;

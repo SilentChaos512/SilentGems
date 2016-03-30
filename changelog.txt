@@ -3,6 +3,7 @@ Silent's Gems - Changelog
 2.0.1
 Added: Context-sensitive bar that displays the player's chaos (replaces the text)
 Added: Area Miner skill for pickaxes and shovels. Works like the enchantment in previous versions. Press 'Toggle Special' (C key by default) to turn it on or off. Super-tier tools only, requires a small amount of chaos to function.
+Added: Lumberjack skill for axes. Same mechanics as Area Miner.
 Changed: Gem ore textures (gem bits are smaller, dark ores are darker)
 Fixed: Dark gem ores dropping the wrong gems.
 Fixed: Non-supercharged swords draining chaos.
