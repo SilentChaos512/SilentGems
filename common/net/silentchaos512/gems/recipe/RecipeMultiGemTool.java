@@ -95,12 +95,18 @@ public class RecipeMultiGemTool extends RecipeBase {
   private boolean checkMatch(InventoryCrafting inv, int posX, int posY, int recipeWidth,
       int recipeHeight, boolean arg4, String recipe) {
 
+    int headInRecipe = 0;
+    int headFound = 0;
+
     int[] order = new int[] { 0, 3, 6, 1, 4, 7, 2, 5, 8 };
     char[] chars = new char[recipeWidth * recipeHeight];
     recipe = recipe.replaceAll(";", "");
     for (int i : order) {
       if (i < chars.length) {
         chars[i] = recipe.charAt(i);
+        if (chars[i] == 'h') {
+          ++headInRecipe;
+        }
       }
     }
 
@@ -134,6 +140,11 @@ public class RecipeMultiGemTool extends RecipeBase {
               return false;
             }
           }
+
+          if (part instanceof ToolPartMain) {
+            ++headFound;
+          }
+
           if (c == 'h' && !(part instanceof ToolPartMain)) {
             return false;
           } else if (c == 'r' && !(part instanceof ToolPartRod)) {
@@ -146,7 +157,7 @@ public class RecipeMultiGemTool extends RecipeBase {
       }
     }
 
-    return true;
+    return headInRecipe == headFound;
   }
 
   private ToolPart getPartInSlot(InventoryCrafting inv, int row, int column) {
