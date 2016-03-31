@@ -219,6 +219,7 @@ public class ToolModel implements IPerspectiveAwareModel {
         break;
       case GROUND:
         matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().ground);
+        matrix.setScale(matrix.getScale() * 0.5f);
         break;
       case FIXED:
         matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().fixed);

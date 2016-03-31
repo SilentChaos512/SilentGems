@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+2.0.2
+Added: Broken tools! Unlike before, they don't transform into a new item. Decorate broken tools to repair them. And yes, I know applying a tip upgrade can repair broken tools as well. That's OK. I think.
+Fixed: Tool recipes picking up extra materials... No more multi-material shovels, sorry.
+
 2.0.1
 Added: Context-sensitive bar that displays the player's chaos (replaces the text)
 Added: Area Miner skill for pickaxes and shovels. Works like the enchantment in previous versions. Press 'Toggle Special' (C key by default) to turn it on or off. Super-tier tools only, requires a small amount of chaos to function. Works in creative mode.
