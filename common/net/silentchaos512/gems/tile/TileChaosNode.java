@@ -21,11 +21,11 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
 
   public static final double SEARCH_RADIUS_SQUARED = 12D * 12D;
   public static final int SEND_CHAOS_DELAY = 200;
-  public static final int SEND_CHAOS_AMOUNT = 1000;
+  public static final int SEND_CHAOS_AMOUNT = 2000;
   public static final int TRY_POTION_DELAY = 100;
 
   public static final int MAX_CHAOS_STORED = 10000;
-  public static final int CHAOS_GENERATION_RATE = 10;
+  public static final int CHAOS_GENERATION_RATE = 20;
 
   private int chaosStored = 0;
 

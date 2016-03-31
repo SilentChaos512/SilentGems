@@ -66,13 +66,14 @@ public class BlockChaosNode extends BlockSL implements ITileEntityProvider, IWit
   public List<String> getWitLines(IBlockState state, BlockPos pos, EntityPlayer player,
       boolean advanced) {
 
-    TileEntity tileEntity = player.worldObj.getTileEntity(pos);
-    if (tileEntity != null && tileEntity instanceof TileChaosNode) {
-      TileChaosNode tile = (TileChaosNode) tileEntity;
-      String str = "Chaos: %,d / %,d";
-      str = String.format(str, tile.getCharge(), tile.getMaxCharge());
-      return Lists.newArrayList(str);
-    }
+//    TileEntity tileEntity = player.worldObj.getTileEntity(pos);
+//    if (tileEntity != null && tileEntity instanceof TileChaosNode) {
+//      TileChaosNode tile = (TileChaosNode) tileEntity;
+//      String str = "Chaos: %,d / %,d";
+//      str = String.format(str, tile.getCharge(), tile.getMaxCharge());
+//      return Lists.newArrayList(str);
+//    }
+//    return null;
     return null;
   }
 }
