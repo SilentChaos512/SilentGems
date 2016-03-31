@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,8 +31,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosPylon;
@@ -72,8 +76,12 @@ public class BlockChaosPylon extends BlockContainer
 
     ItemStack pylonPassive = new ItemStack(this, 1, EnumPylonType.PASSIVE.getMeta());
     ItemStack pylonBurner = new ItemStack(this, 1, EnumPylonType.BURNER.getMeta());
+    ItemStack chaosCore = ModItems.craftingMaterial.getStack(Names.CHAOS_CORE);
 
-    // TODO
+    GameRegistry.addRecipe(new ShapedOreRecipe(pylonPassive, "lel", "lol", "ooo", 'e', chaosCore,
+        'l', "gemLapis", 'o', Blocks.obsidian));
+    GameRegistry.addRecipe(new ShapedOreRecipe(pylonBurner, " p ", "rer", "ofo", 'p', pylonPassive,
+        'e', chaosCore, 'f', Blocks.furnace, 'r', "blockRedstone", 'o', Blocks.obsidian));
   }
 
   @Override
@@ -282,7 +290,7 @@ public class BlockChaosPylon extends BlockContainer
   @Override
   public AxisAlignedBB getCollisionBoundingBox(IBlockState worldIn, World pos, BlockPos state) {
 
-//    return BOUNDING_BOX;
+    // return BOUNDING_BOX;
     return super.getCollisionBoundingBox(worldIn, pos, state);
   }
 
@@ -290,6 +298,6 @@ public class BlockChaosPylon extends BlockContainer
   public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 
     return BOUNDING_BOX;
-//    return super.getBoundingBox(state, source, pos);
+    // return super.getBoundingBox(state, source, pos);
   }
 }

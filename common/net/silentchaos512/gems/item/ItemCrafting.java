@@ -25,13 +25,13 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_ESSENCE_SHARD, Names.CHAOS_COAL,
       Names.STICK_IRON, Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.IRON_POTATO,
-      Names.FLUFFY_FABRIC, Names.UPGRADE_BASE, Names.NAME_PLATE };
+      Names.FLUFFY_FABRIC, Names.UPGRADE_BASE, Names.NAME_PLATE, Names.CHAOS_CORE };
 
   public static final String[] SORTED_NAMES = new String[] { //
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_ESSENCE_SHARD, Names.CHAOS_COAL,
-      Names.STICK_IRON, Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.IRON_POTATO,
-      Names.FLUFFY_FABRIC, Names.NAME_PLATE, Names.UPGRADE_BASE };
+      Names.STICK_IRON, Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.CHAOS_CORE,
+      Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.NAME_PLATE, Names.UPGRADE_BASE };
 
   public ItemCrafting() {
 
@@ -79,6 +79,9 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
     // Name Plate
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.NAME_PLATE, 4), "iii", "pcp", "iii",
         'i', "ingotIron", 'p', Items.paper, 'c', "gemChaos"));
+    // Chaos Core
+    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.CHAOS_CORE), " c ", "cqc", " c ", 'c',
+        getStack(Names.CHAOS_ESSENCE_PLUS), 'q', "blockQuartz"));
   }
 
   @Override
@@ -99,7 +102,8 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
   }
 
   @Override
-  public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer player, EntityLivingBase target, EnumHand hand) {
+  public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer player,
+      EntityLivingBase target, EnumHand hand) {
 
     // Name plates can rename mobs.
     if (stack.isItemEqual(getStack(Names.NAME_PLATE))) {
@@ -108,7 +112,8 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
       }
       if (target instanceof EntityLiving) {
         EntityLiving entityLiving = (EntityLiving) target;
-        if (entityLiving.hasCustomName() && entityLiving.getCustomNameTag().equals(stack.getDisplayName())) {
+        if (entityLiving.hasCustomName()
+            && entityLiving.getCustomNameTag().equals(stack.getDisplayName())) {
           return false;
         }
         entityLiving.setCustomNameTag(stack.getDisplayName());

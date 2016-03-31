@@ -29,6 +29,7 @@ public class Names {
   // Crafting materials
   public static final String CRAFTING_MATERIAL = "CraftingMaterial";
   public static final String CHAOS_COAL = "ChaosCoal";
+  public static final String CHAOS_CORE = "ChaosCore";
   public static final String CHAOS_ESSENCE = "ChaosEssence";
   public static final String CHAOS_ESSENCE_PLUS = "ChaosEssencePlus";
   public static final String CHAOS_ESSENCE_PLUS_2 = "ChaosEssencePlus2";
