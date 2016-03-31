@@ -59,13 +59,19 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   public void addInformation(ItemStack tool, EntityPlayer player, List list, boolean advanced) {
 
     LocalizationHelper loc = SilentGems.instance.localizationHelper;
-    boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
+    boolean controlDown = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
         || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
+    boolean shiftDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
+        || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
     String line;
 
-    if (!shifted) {
+    if (ToolHelper.isBroken(tool)) {
+      line = loc.getMiscText("Tooltip.Broken");
+      list.add(line);
+    }
+
+    if (!controlDown) {
       list.add(TextFormatting.GOLD + loc.getMiscText("PressCtrl"));
-      return;
     }
 
     final boolean isWeapon = tool.getItem() instanceof ItemGemSword;
@@ -75,47 +81,59 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
     final String sep = loc.getMiscText("Tooltip.Separator");
 
-    // Properties Header
-    line = loc.getMiscText("Tooltip.Properties");
-    list.add(line);
+    if (controlDown) {
+      // Properties Header
+      line = loc.getMiscText("Tooltip.Properties");
+      list.add(line);
 
-    list.add(getTooltipLine("Durability", ToolHelper.getMaxDamage(tool)));
+      list.add(getTooltipLine("Durability", ToolHelper.getMaxDamage(tool)));
 
-    if (isDigger) {
-      list.add(getTooltipLine("HarvestLevel", ToolHelper.getHarvestLevel(tool)));
-      list.add(getTooltipLine("HarvestSpeed", ToolHelper.getDigSpeedOnProperMaterial(tool)));
+      if (isDigger) {
+        list.add(getTooltipLine("HarvestLevel", ToolHelper.getHarvestLevel(tool)));
+        list.add(getTooltipLine("HarvestSpeed", ToolHelper.getDigSpeedOnProperMaterial(tool)));
+      }
+
+      if (isWeapon) {
+        list.add(getTooltipLine("MeleeDamage", ToolHelper.getMeleeDamageModifier(tool)));
+        list.add(getTooltipLine("MagicDamage", ToolHelper.getMagicDamageModifier(tool)));
+      }
+
+      list.add(getTooltipLine("ChargeSpeed", ToolHelper.getChargeSpeed(tool)));
+
+      // Statistics Header
+      list.add(sep);
+      line = loc.getMiscText("Tooltip.Statistics");
+      list.add(line);
+
+      list.add(getTooltipLine("BlocksMined", ToolHelper.getStatBlocksMined(tool)));
+
+      if (isDigger) {
+        list.add(getTooltipLine("BlocksPlaced", ToolHelper.getStatBlocksPlaced(tool)));
+      }
+
+      if (tool.getItem() instanceof ItemGemHoe) {
+        list.add(getTooltipLine("BlocksTilled", ToolHelper.getStatBlocksTilled(tool)));
+      }
+
+      list.add(getTooltipLine("HitsLanded", ToolHelper.getStatHitsLanded(tool)));
+
+      if (isCaster || isBow) {
+        list.add(getTooltipLine("ShotsFired", ToolHelper.getStatShotsFired(tool)));
+        // list.add(getTooltipLine("ShotsLanded", ToolHelper.getStatShotsLanded(tool)));
+      }
+
+      list.add(getTooltipLine("Redecorated", ToolHelper.getStatRedecorated(tool)));
     }
 
-    if (isWeapon) {
-      list.add(getTooltipLine("MeleeDamage", ToolHelper.getMeleeDamageModifier(tool)));
-      list.add(getTooltipLine("MagicDamage", ToolHelper.getMagicDamageModifier(tool)));
+    // Debug render layers
+    if (controlDown && shiftDown) {
+      list.add(sep);
+      for (EnumPartPosition pos : EnumPartPosition.values()) {
+        NBTTagCompound tags = tool.getTagCompound().getCompoundTag(NBT_MODEL_INDEX);
+        String key = "Layer" + pos.ordinal();
+        list.add(key + ": " + tags.getInteger(key));
+      }
     }
-
-    list.add(getTooltipLine("ChargeSpeed", ToolHelper.getChargeSpeed(tool)));
-
-    // Statistics Header
-    list.add(sep);
-    line = loc.getMiscText("Tooltip.Statistics");
-    list.add(line);
-
-    list.add(getTooltipLine("BlocksMined", ToolHelper.getStatBlocksMined(tool)));
-
-    if (isDigger) {
-      list.add(getTooltipLine("BlocksPlaced", ToolHelper.getStatBlocksPlaced(tool)));
-    }
-
-    if (tool.getItem() instanceof ItemGemHoe) {
-      list.add(getTooltipLine("BlocksTilled", ToolHelper.getStatBlocksTilled(tool)));
-    }
-
-    list.add(getTooltipLine("HitsLanded", ToolHelper.getStatHitsLanded(tool)));
-
-    if (isCaster || isBow) {
-      list.add(getTooltipLine("ShotsFired", ToolHelper.getStatShotsFired(tool)));
-      // list.add(getTooltipLine("ShotsLanded", ToolHelper.getStatShotsLanded(tool)));
-    }
-
-    list.add(getTooltipLine("Redecorated", ToolHelper.getStatRedecorated(tool)));
   }
 
   private String getTooltipLine(String key, int value) {

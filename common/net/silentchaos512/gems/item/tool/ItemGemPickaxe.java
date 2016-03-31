@@ -9,6 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -118,16 +119,8 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
     if (subItems == null) {
-      subItems = Lists.newArrayList();
-      subItems.add(constructTool(false, new ItemStack(Items.flint)));
-      for (EnumGem gem : EnumGem.values()) {
-        subItems.add(constructTool(false, gem.getItem()));
-      }
-      for (EnumGem gem : EnumGem.values()) {
-        subItems.add(constructTool(true, gem.getItemSuper()));
-      }
+      subItems = ToolHelper.getSubItems(item, 3);
     }
-
     list.addAll(subItems);
   }
 
@@ -154,11 +147,11 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
     return ToolHelper.getMaxDamage(stack);
   }
 
-//  @Override
-//  public int getColorFromItemStack(ItemStack stack, int pass) {
-//
-//    return ToolRenderHelper.getInstance().getColorFromItemStack(stack, pass);
-//  }
+  // @Override
+  // public int getColorFromItemStack(ItemStack stack, int pass) {
+  //
+  // return ToolRenderHelper.getInstance().getColorFromItemStack(stack, pass);
+  // }
 
   @Override
   public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
@@ -179,7 +172,6 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
     return ToolHelper.getItemEnchantability(stack);
   }
 
-
   // ==================
   // ItemTool overrides
   // ==================
@@ -188,6 +180,13 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   public float getStrVsBlock(ItemStack stack, IBlockState state) {
 
     return ToolHelper.getDigSpeed(stack, state, extraEffectiveMaterials);
+  }
+
+  @Override
+  public boolean onBlockDestroyed(ItemStack stack, World world, IBlockState state, BlockPos pos,
+      EntityLivingBase entityLiving) {
+
+    return ToolHelper.onBlockDestroyed(stack, world, state, pos, entityLiving);
   }
 
   @Override
@@ -201,7 +200,8 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   }
 
   @Override
-  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
+      ItemStack stack) {
 
     return ToolHelper.getAttributeModifiers(slot, stack);
   }
@@ -209,8 +209,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   @Override
   public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
 
-    ToolHelper.hitEntity(stack);
-    return super.hitEntity(stack, entity1, entity2);
+    return ToolHelper.hitEntity(stack, entity1, entity2);
   }
 
   @Override

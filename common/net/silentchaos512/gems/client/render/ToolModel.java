@@ -72,7 +72,20 @@ public class ToolModel implements IPerspectiveAwareModel {
     IBakedModel model;
     IBakedModel rodModel = null;
 
+    boolean isBroken = ToolHelper.isBroken(tool);
+//    SilentGems.instance.logHelper.debug(tool.getItemDamage(), isBroken);
+
     for (EnumPartPosition partPos : EnumPartPosition.values()) {
+      if (isBroken) {
+        if ((partPos == EnumPartPosition.HEAD_LEFT && tool.getItem() != ModItems.sword)
+            || partPos == EnumPartPosition.HEAD_MIDDLE
+            || partPos == EnumPartPosition.HEAD_RIGHT
+            || partPos == EnumPartPosition.TIP) {
+//          SilentGems.instance.logHelper.debug(tool.getDisplayName(), isBroken, partPos);
+          continue;
+        }
+      }
+
       // Scepter rods on top of head.
       if (tool.getItem() instanceof ItemGemScepter) {
         if (partPos == EnumPartPosition.ROD) {

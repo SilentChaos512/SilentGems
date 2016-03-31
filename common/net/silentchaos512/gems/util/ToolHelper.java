@@ -14,9 +14,11 @@ import jline.internal.Log;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -45,6 +47,10 @@ import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.config.Config;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.item.tool.ItemGemHoe;
+import net.silentchaos512.gems.item.tool.ItemGemSword;
+import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.part.ToolPartGem;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillLumberjack;
@@ -247,6 +253,10 @@ public class ToolHelper {
 
   public static float getDigSpeed(ItemStack tool, IBlockState state, Material[] extraMaterials) {
 
+    if (isBroken(tool)) {
+      return 1f;
+    }
+
     float speed = getDigSpeedOnProperMaterial(tool);
 
     // Tool effective on block?
@@ -334,6 +344,11 @@ public class ToolHelper {
   // // setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_AMOUNT, 0);
   // }
 
+  public static boolean isBroken(ItemStack tool) {
+
+    return tool.getItemDamage() >= getMaxDamage(tool);
+  }
+
   public static int getItemEnchantability(ItemStack tool) {
 
     return getTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_ENCHANTABILITY);
@@ -363,6 +378,10 @@ public class ToolHelper {
 
   public static float getMeleeDamageModifier(ItemStack tool) {
 
+    if (isBroken(tool)) {
+      return 0f;
+    }
+
     if (tool.getItem() instanceof ITool) {
       return ((ITool) tool.getItem()).getMeleeDamage(tool);
     }
@@ -370,6 +389,10 @@ public class ToolHelper {
   }
 
   public static float getMagicDamageModifier(ItemStack tool) {
+
+    if (isBroken(tool)) {
+      return 0f;
+    }
 
     if (tool.getItem() instanceof ITool) {
       return ((ITool) tool.getItem()).getMagicDamage(tool);
@@ -501,9 +524,40 @@ public class ToolHelper {
     return false;
   }
 
-  public static void hitEntity(ItemStack tool) {
+  public static boolean onBlockDestroyed(ItemStack tool, World world, IBlockState state,
+      BlockPos pos, EntityLivingBase entityLiving) {
+
+    if ((tool.getItem() == ModItems.sickle || state.getBlockHardness(world, pos) != 0)
+        && !isBroken(tool)) {
+      if (state.getMaterial() != Material.leaves) {
+        tool.damageItem(1, entityLiving);
+
+        if (isBroken(tool)) {
+          entityLiving.renderBrokenItemStack(tool);
+        }
+      }
+    }
+    return true;
+  }
+
+  public static boolean hitEntity(ItemStack tool, EntityLivingBase target,
+      EntityLivingBase attacker) {
 
     ToolHelper.incrementStatHitsLanded(tool, 1);
+
+    boolean isSword = tool.getItem() instanceof ItemGemSword;
+    boolean isTool = tool.getItem() instanceof ItemTool || tool.getItem() instanceof ItemGemHoe;
+    boolean isBroken = isBroken(tool);
+
+    if (!isBroken) {
+      tool.damageItem(isTool ? 2 : (isSword ? 1 : 0), attacker);
+
+      if (isBroken(tool)) {
+        attacker.renderBrokenItemStack(tool);
+      }
+    }
+
+    return !isBroken && isTool;
   }
 
   public static boolean isSpecialAbilityEnabled(ItemStack tool) {
@@ -528,7 +582,23 @@ public class ToolHelper {
         EnumMaterialTier.values().length - 1)];
   }
 
+  public static ItemStack constructTool(Item item, ItemStack rod, ItemStack head, int headCount) {
+
+    ItemStack[] mats = new ItemStack[headCount];
+    for (int i = 0; i < headCount; ++i) {
+      mats[i] = head;
+    }
+    return constructTool(item, rod, mats);
+  }
+
   public static ItemStack constructTool(Item item, ItemStack rod, ItemStack... materials) {
+
+    if (materials.length == 1) {
+      ItemStack[] newMats = new ItemStack[3];
+      for (int i = 0; i < newMats.length; ++i)
+        newMats[i] = materials[0];
+      materials = newMats;
+    }
 
     ItemStack result = new ItemStack(item);
 
@@ -683,6 +753,37 @@ public class ToolHelper {
         break;
     }
     return result;
+  }
+
+  public static List<ItemStack> getSubItems(Item item, int materialLength) {
+
+    List<ItemStack> list = Lists.newArrayList();
+    final boolean isSuperTool = item == ModItems.katana || item == ModItems.scepter;
+    final ItemStack rodWood = new ItemStack(Items.stick);
+    final ItemStack rodGold = ModItems.craftingMaterial.getStack(Names.ORNATE_STICK_GOLD);
+
+    if (!isSuperTool) {
+      // Test broken items.
+      ItemStack testBroken = constructTool(item, rodWood, new ItemStack(Items.flint),
+          materialLength);
+      testBroken.setItemDamage(getMaxDamage(testBroken) - 1);
+      list.add(testBroken);
+
+      // Flint
+      list.add(constructTool(item, rodWood, new ItemStack(Items.flint), materialLength));
+
+      // Regular Gems
+      for (EnumGem gem : EnumGem.values()) {
+        list.add(constructTool(item, rodWood, gem.getItem(), materialLength));
+      }
+    }
+
+    // Super Gems
+    for (EnumGem gem : EnumGem.values()) {
+      list.add(constructTool(item, rodGold, gem.getItemSuper(), materialLength));
+    }
+
+    return list;
   }
 
   // ==========================================================================

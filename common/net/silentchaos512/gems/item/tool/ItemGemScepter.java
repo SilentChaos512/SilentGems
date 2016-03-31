@@ -54,15 +54,8 @@ public class ItemGemScepter extends ItemGemSword {
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
     if (subItems == null) {
-      ItemStack rod = ModItems.craftingMaterial.getStack(Names.ORNATE_STICK_GOLD);
-      ItemStack gemStack;
-      subItems = Lists.newArrayList();
-      for (EnumGem gem : EnumGem.values()) {
-        gemStack = gem.getItemSuper();
-        subItems.add(constructTool(rod, gemStack, gemStack, gemStack));
-      }
+      subItems = ToolHelper.getSubItems(item, 5);
     }
-
     list.addAll(subItems);
   }
 

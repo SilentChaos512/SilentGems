@@ -111,7 +111,7 @@ public class EntityChaosTransfer
     RayTraceResult mop = worldObj.rayTraceBlocks(vec1, vec2, false, true, false);
     if (mop != null) {
       onImpact(mop);
-    } else if (getDistanceSqToEntity(targetPlayer) < 1) {
+    } else if (getDistanceSqToEntity(targetPlayer) < 2) {
       // Maybe fixes collision fail?
       giveChargeToPlayer(targetPlayer);
     }

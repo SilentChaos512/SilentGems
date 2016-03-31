@@ -110,16 +110,8 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
     if (subItems == null) {
-      subItems = Lists.newArrayList();
-      subItems.add(constructTool(false, new ItemStack(Items.flint)));
-      for (EnumGem gem : EnumGem.values()) {
-        subItems.add(constructTool(false, gem.getItem()));
-      }
-      for (EnumGem gem : EnumGem.values()) {
-        subItems.add(constructTool(true, gem.getItemSuper()));
-      }
+      subItems = ToolHelper.getSubItems(item, 1);
     }
-
     list.addAll(subItems);
   }
 
@@ -182,6 +174,13 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   }
 
   @Override
+  public boolean onBlockDestroyed(ItemStack stack, World world, IBlockState state, BlockPos pos,
+      EntityLivingBase entityLiving) {
+
+    return ToolHelper.onBlockDestroyed(stack, world, state, pos, entityLiving);
+  }
+
+  @Override
   public int getHarvestLevel(ItemStack stack, String toolClass) {
 
     if (super.getHarvestLevel(stack, toolClass) < 0) {
@@ -201,8 +200,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   @Override
   public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
 
-    ToolHelper.hitEntity(stack);
-    return super.hitEntity(stack, entity1, entity2);
+    return ToolHelper.hitEntity(stack, entity1, entity2);
   }
 
   @Override

@@ -117,22 +117,18 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
     if (subItems == null) {
-      subItems = Lists.newArrayList();
-      subItems.add(constructTool(false, new ItemStack(Items.flint)));
-      for (EnumGem gem : EnumGem.values()) {
-        subItems.add(constructTool(false, gem.getItem()));
-      }
-      for (EnumGem gem : EnumGem.values()) {
-        subItems.add(constructTool(true, gem.getItemSuper()));
-      }
+      subItems = ToolHelper.getSubItems(item, 3);
     }
-
     list.addAll(subItems);
   }
 
   @Override
   public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
       EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+    if (ToolHelper.isBroken(stack)) {
+      return EnumActionResult.PASS;
+    }
 
     boolean flag = false;
 
@@ -196,6 +192,10 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   @Override
   public boolean onBlockStartBreak(ItemStack sickle, BlockPos pos, EntityPlayer player) {
 
+    if (ToolHelper.isBroken(sickle)) {
+      return false;
+    }
+
     IBlockState state = player.worldObj.getBlockState(pos);
     Block block = state.getBlock();
 
@@ -224,9 +224,16 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
       }
     }
 
-    sickle.damageItem(1, player);
+//    sickle.damageItem(1, player);
     ToolHelper.incrementStatBlocksMined(sickle, blocksBroken);
     return super.onBlockStartBreak(sickle, pos, player);
+  }
+
+  @Override
+  public boolean onBlockDestroyed(ItemStack stack, World world, IBlockState state, BlockPos pos,
+      EntityLivingBase entityLiving) {
+
+    return ToolHelper.onBlockDestroyed(stack, world, state, pos, entityLiving);
   }
 
   private boolean breakExtraBlock(ItemStack sickle, World world, int x, int y, int z, int sideHit,
@@ -370,8 +377,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   @Override
   public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
 
-    ToolHelper.hitEntity(stack);
-    return super.hitEntity(stack, entity1, entity2);
+    return ToolHelper.hitEntity(stack, entity1, entity2);
   }
 
   @Override

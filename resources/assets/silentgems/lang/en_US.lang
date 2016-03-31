@@ -312,6 +312,7 @@ misc.silentgems:PressShift=<Press Shift>
 
 # Tool Information
 
+misc.silentgems:Tooltip.Broken=&cYou broke it!
 misc.silentgems:Tooltip.ChargeSpeed=&eCharge Speed:&f %s
 misc.silentgems:Tooltip.Durability=&eDurability:&f %s
 misc.silentgems:Tooltip.Enchantability=&eEnchantability:&f %s

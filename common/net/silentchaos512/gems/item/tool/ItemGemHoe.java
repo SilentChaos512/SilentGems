@@ -5,12 +5,14 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
@@ -18,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -56,7 +59,12 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
   public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
       EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
-    EnumActionResult result = super.onItemUse(stack, player, world, pos, hand, side, hitX, hitY, hitZ);
+    if (ToolHelper.isBroken(stack)) {
+      return EnumActionResult.PASS;
+    }
+
+    EnumActionResult result = super.onItemUse(stack, player, world, pos, hand, side, hitX, hitY,
+        hitZ);
 
     if (result == EnumActionResult.SUCCESS) {
       ToolHelper.incrementStatBlocksTilled(stack, 1);
@@ -113,16 +121,8 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
     if (subItems == null) {
-      subItems = Lists.newArrayList();
-      subItems.add(constructTool(false, new ItemStack(Items.flint)));
-      for (EnumGem gem : EnumGem.values()) {
-        subItems.add(constructTool(false, gem.getItem()));
-      }
-      for (EnumGem gem : EnumGem.values()) {
-        subItems.add(constructTool(true, gem.getItemSuper()));
-      }
+      subItems = ToolHelper.getSubItems(item, 2);
     }
-
     list.addAll(subItems);
   }
 
@@ -137,7 +137,8 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
   }
 
   @Override
-  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
+      ItemStack stack) {
 
     return ToolHelper.getAttributeModifiers(slot, stack);
   }
@@ -148,11 +149,11 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
     return ToolHelper.getMaxDamage(stack);
   }
 
-//  @Override
-//  public int getColorFromItemStack(ItemStack stack, int pass) {
-//
-//    return ToolRenderHelper.getInstance().getColorFromItemStack(stack, pass);
-//  }
+  // @Override
+  // public int getColorFromItemStack(ItemStack stack, int pass) {
+  //
+  // return ToolRenderHelper.getInstance().getColorFromItemStack(stack, pass);
+  // }
 
   @Override
   public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
@@ -176,8 +177,7 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
   @Override
   public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
 
-    ToolHelper.hitEntity(stack);
-    return super.hitEntity(stack, entity1, entity2);
+    return ToolHelper.hitEntity(stack, entity1, entity2);
   }
 
   @Override
