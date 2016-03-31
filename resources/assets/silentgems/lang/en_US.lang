@@ -124,6 +124,7 @@ item.silentgems:ChaosOrb.desc1=Stores Chaos energy. May break if drained
 item.silentgems:ChaosOrb.desc2=when low on charge.
 item.silentgems:ChaosOrb.break=Your %1$s shatters into %2$,d pieces.
 item.silentgems:ChaosOrb.breakChance=Max break chance: %d%%
+item.silentgems:ChaosOrb.crack=Your %s has cracked...
 
 item.silentgems:DyeBlack.name=Black Dye
 item.silentgems:DyeBlue.name=Blue Dye

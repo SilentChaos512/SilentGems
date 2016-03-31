@@ -5,6 +5,11 @@ import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 import org.lwjgl.input.Keyboard;
 
+import com.google.common.collect.Lists;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,9 +17,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -33,19 +36,21 @@ public class ItemChaosOrb extends ItemSL implements IChaosStorage {
   public static enum Type {
 
     //@formatter:off
-    POTATO(     5000, 0.01f),
-    FRAGILE(  100000, 0.20f),
-    REFINED( 1000000, 0.05f),
-    SUPREME(10000000, 0.00f);
+    POTATO(     5000, 0.01f, 1),
+    FRAGILE(  100000, 0.20f, 3),
+    REFINED( 1000000, 0.05f, 3),
+    SUPREME(10000000, 0.00f, 1);
     //@formatter:on
 
     public final int maxCharge;
     public final float breakChance;
+    public final int crackStages;
 
-    Type(int maxCharge, float breakChance) {
+    Type(int maxCharge, float breakChance, int crackStages) {
 
       this.maxCharge = maxCharge;
       this.breakChance = breakChance;
+      this.crackStages = crackStages;
     }
   }
 
@@ -114,6 +119,38 @@ public class ItemChaosOrb extends ItemSL implements IChaosStorage {
   }
 
   @Override
+  public List<ModelResourceLocation> getVariants() {
+
+    List<ModelResourceLocation> models = Lists.newArrayList();
+    for (Type orbType : Type.values()) {
+      String name = getFullName() + orbType.ordinal();
+      models.add(new ModelResourceLocation(name, "inventory"));
+      for (int i = 1; i < orbType.crackStages; ++i) {
+        models.add(new ModelResourceLocation(name + "_" + i, "inventory"));
+      }
+    }
+    return models;
+  }
+
+  @Override
+  public boolean registerModels() {
+
+    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+
+    for (Type orbType : Type.values()) {
+      String name = getFullName() + orbType.ordinal();
+      mesher.register(this, orbType.ordinal(), new ModelResourceLocation(name, "inventory"));
+      for (int i = 1; i < orbType.crackStages; ++i) {
+        int meta = orbType.ordinal() + (i << 4);
+        ModelResourceLocation model = new ModelResourceLocation(name + "_" + i, "inventory");
+        mesher.register(this, meta, model);
+      }
+    }
+
+    return true;
+  }
+
+  @Override
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
     for (Type type : Type.values()) {
@@ -128,6 +165,12 @@ public class ItemChaosOrb extends ItemSL implements IChaosStorage {
       list.add(half);
       list.add(full);
     }
+  }
+
+  @Override
+  public String getNameForStack(ItemStack stack) {
+
+    return itemName + (stack.getItemDamage() & 0x0F);
   }
 
   @Override
@@ -168,7 +211,8 @@ public class ItemChaosOrb extends ItemSL implements IChaosStorage {
       float breakTries = (int) (amount / PlayerData.CHAOS_MAX_TRANSFER);
       for (int i = 0; i < breakTries; ++i) {
         if (amount > 0 && SilentGems.instance.random.nextFloat() < getBreakChance(stack)) {
-          breakOrb(stack, player);
+          damageOrb(stack, player);
+          break;
         }
       }
     }
@@ -176,7 +220,7 @@ public class ItemChaosOrb extends ItemSL implements IChaosStorage {
 
   public Type getType(ItemStack stack) {
 
-    int meta = stack.getItemDamage();
+    int meta = stack.getItemDamage() & 0x0F;
     if (meta >= 0 && meta < Type.values().length) {
       return Type.values()[meta];
     }
@@ -188,23 +232,53 @@ public class ItemChaosOrb extends ItemSL implements IChaosStorage {
     float baseChance = getType(stack).breakChance;
     int charge = getCharge(stack);
     int maxCharge = getMaxCharge(stack);
-    float percent = (float) charge / maxCharge;
+    float chargePercent = (float) charge / maxCharge;
 
-    if (percent > 0.5f) {
+    // No chance of breaking above half charge.
+    if (chargePercent > 0.5f) {
       return 0f;
     }
 
-    return baseChance * 2 * (0.5f - percent);
+    return baseChance * 2 * (0.5f - chargePercent);
+  }
+
+  public void damageOrb(ItemStack stack, EntityPlayer player) {
+
+    // Increase damage level.
+    int currentDamageLevel = (stack.getItemDamage() & 0xF0) >> 4;
+    int newMeta = (stack.getItemDamage() & 0x0F) + (++currentDamageLevel << 4);
+    SilentGems.instance.logHelper.debug(newMeta);
+    stack.setItemDamage(newMeta);
+
+    // Did it break?
+    if (currentDamageLevel >= getType(stack).crackStages) {
+      breakOrb(stack, player);
+      return;
+    }
+
+    // Chat notification.
+    String line = SilentGems.instance.localizationHelper.getItemSubText(itemName, "crack");
+    line = String.format(line, stack.getDisplayName());
+    PlayerHelper.addChatMessage(player, line);
+
+    // Glass breaking sound.
+    player.worldObj.playSound(null, player.posX, player.posY, player.posZ,
+        SoundEvents.block_glass_break, SoundCategory.AMBIENT, 0.6f, 1.5f);
   }
 
   public void breakOrb(ItemStack stack, EntityPlayer player) {
 
+    // Chat notification.
     String line = SilentGems.instance.localizationHelper.getItemSubText(itemName, "break");
     int pieceCount = SilentGems.instance.random.nextInt(99000) + 1000;
     line = String.format(line, stack.getDisplayName(), pieceCount);
-    player.addChatMessage(new TextComponentString(line));
+    PlayerHelper.addChatMessage(player, line);
+
+    // Glass breaking sound.
     player.worldObj.playSound(null, player.posX, player.posY, player.posZ,
         SoundEvents.block_glass_break, SoundCategory.AMBIENT, 0.7f, -2.5f);
+
+    // Delete the broken orb.
     PlayerHelper.removeItem(player, stack);
   }
 
