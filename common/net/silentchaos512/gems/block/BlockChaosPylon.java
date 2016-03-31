@@ -39,10 +39,11 @@ import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosPylon;
+import net.silentchaos512.lib.registry.IHasSubtypes;
 import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class BlockChaosPylon extends BlockContainer
-    implements ITileEntityProvider, IRegistryObject {
+    implements ITileEntityProvider, IRegistryObject, IHasSubtypes {
 
   public static enum VariantType implements IStringSerializable {
 
@@ -80,7 +81,7 @@ public class BlockChaosPylon extends BlockContainer
 
     GameRegistry.addRecipe(new ShapedOreRecipe(pylonPassive, "lel", "lol", "ooo", 'e', chaosCore,
         'l', "gemLapis", 'o', Blocks.obsidian));
-    GameRegistry.addRecipe(new ShapedOreRecipe(pylonBurner, " p ", "rer", "ofo", 'p', pylonPassive,
+    GameRegistry.addRecipe(new ShapedOreRecipe(pylonBurner, " e ", "rpr", "ofo", 'p', pylonPassive,
         'e', chaosCore, 'f', Blocks.furnace, 'r', "blockRedstone", 'o', Blocks.obsidian));
   }
 
@@ -299,5 +300,11 @@ public class BlockChaosPylon extends BlockContainer
 
     return BOUNDING_BOX;
     // return super.getBoundingBox(state, source, pos);
+  }
+
+  @Override
+  public boolean hasSubtypes() {
+
+    return true;
   }
 }

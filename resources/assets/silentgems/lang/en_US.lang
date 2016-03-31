@@ -4,6 +4,11 @@ itemGroup.tabSilentGems=Silent's Gems
 
 tile.silentgems:ChaosNode.name=Chaos Node
 
+tile.silentgems:ChaosPylon0.name=Passive Chaos Pylon
+tile.silentgems:ChaosPylon0.desc=Creates Chaos for free, likes Nodes.
+tile.silentgems:ChaosPylon1.name=Burner Chaos Pylon
+tile.silentgems:ChaosPylon1.desc=Creates Chaos from furnace fuel at a high speed.
+
 tile.silentgems:EssenceOre0.name=Chaos Ore
 tile.silentgems:EssenceOre1.name=Ender Essence Ore
 
@@ -238,6 +243,7 @@ item.silentgems:UpgradeGoldTip.name=Gold-Tipped Upgrade
 
 # Crafting Materials
 
+item.silentgems:ChaosCore.name=Chaos Core
 item.silentgems:ChaosEssence.name=Chaos Essence
 item.silentgems:ChaosEssence.desc=Too soft for tools, but can strengthen gems.
 item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence
