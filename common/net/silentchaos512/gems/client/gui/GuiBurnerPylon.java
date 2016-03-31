@@ -2,6 +2,7 @@ package net.silentchaos512.gems.client.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -31,6 +32,7 @@ public class GuiBurnerPylon extends GuiContainer {
     int l = (this.height - this.ySize) / 2;
     this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 
+//    Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("" + tilePylon.getCharge(), 5, 5, 0xFFFFFF);
     if (tilePylon.isBurningFuel()) {
       int i1 = this.tilePylon.getBurnTimeRemainingScaled(13);
       this.drawTexturedModalRect(k + 81, l + 55 + 12 - i1, 176, 12 - i1, 14, i1 + 1);

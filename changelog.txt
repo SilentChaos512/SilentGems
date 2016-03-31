@@ -5,6 +5,7 @@ Added: Name Plates. Basically just like the one from Pets. Name it on an anvil, 
 Added: Broken tools! Unlike before, they don't transform into a new item. Decorate broken tools to repair them. And yes, I know applying a tip upgrade can repair broken tools as well. That's OK. I think.
 Changed: Chaos orbs are a bit more forgiving. They will crack twice before shattering.
 Changed: Chaos node generation rate and send amount doubled. Should still be enough to supply two players at full speed.
+Fixed: Tool decorating not working.
 Fixed: Tool recipes picking up extra materials... No more multi-material shovels, sorry.
 Fixed: Tools on the ground being gigantic.
 

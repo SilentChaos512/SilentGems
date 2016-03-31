@@ -20,6 +20,7 @@ build.properties
 common/cofh
 common/thaumcraft
 libs
+CurseLogo.*
 
 # External tool builders
 .externalToolBuilders/

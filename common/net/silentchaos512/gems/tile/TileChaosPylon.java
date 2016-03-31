@@ -179,6 +179,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
   public Packet getDescriptionPacket() {
 
     NBTTagCompound tags = new NBTTagCompound();
+    tags.setInteger("Energy", chaosStored);
     tags.setInteger("BurnTime", burnTimeRemaining);
     tags.setInteger("CurrentItemBurnTime", currentItemBurnTime);
     return new SPacketUpdateTileEntity(pos, 1, tags);
@@ -188,6 +189,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
   public void onDataPacket(NetworkManager network, SPacketUpdateTileEntity packet) {
 
     NBTTagCompound tags = packet.getNbtCompound();
+    chaosStored = tags.getInteger("Energy");
     burnTimeRemaining = tags.getInteger("BurnTime");
     currentItemBurnTime = tags.getInteger("CurrentItemBurnTime");
   }
@@ -295,50 +297,72 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
   @Override
   public int getSizeInventory() {
 
-    // TODO Auto-generated method stub
-    return 0;
+    return getPylonType() == EnumPylonType.BURNER ? 1 : 0;
   }
 
   @Override
   public ItemStack getStackInSlot(int index) {
 
-    // TODO Auto-generated method stub
+    if (index >= 0 && index < getSizeInventory()) {
+      return inventory[index];
+    }
     return null;
   }
 
   @Override
   public ItemStack decrStackSize(int index, int count) {
 
-    // TODO Auto-generated method stub
-    return null;
+    if (inventory[index] != null) {
+      ItemStack stack;
+
+      if (inventory[index].stackSize <= count) {
+        stack = inventory[index];
+        inventory[index] = null;
+        return stack;
+      } else {
+        stack = inventory[index].splitStack(count);
+
+        if (inventory[index].stackSize == 0) {
+          inventory[index] = null;
+        }
+
+        return stack;
+      }
+    } else {
+      return null;
+    }
   }
 
   @Override
   public ItemStack removeStackFromSlot(int index) {
 
-    // TODO Auto-generated method stub
+    if (inventory[index] != null) {
+      ItemStack stack = inventory[index];
+      inventory[index] = null;
+      return stack;
+    }
     return null;
   }
 
   @Override
   public void setInventorySlotContents(int index, ItemStack stack) {
 
-    // TODO Auto-generated method stub
-
+    inventory[index] = stack;
+    if (stack != null && stack.stackSize > getInventoryStackLimit()) {
+      stack.stackSize = getInventoryStackLimit();
+    }
   }
 
   @Override
   public int getInventoryStackLimit() {
 
-    // TODO Auto-generated method stub
-    return 0;
+    return 64;
   }
 
   @Override
   public boolean isUseableByPlayer(EntityPlayer player) {
 
-    // TODO Auto-generated method stub
-    return false;
+    return worldObj.getTileEntity(pos) != this ? false : player.getDistanceSq(pos) <= 64.0;
   }
 
   @Override
@@ -358,8 +382,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
   @Override
   public boolean isItemValidForSlot(int index, ItemStack stack) {
 
-    // TODO Auto-generated method stub
-    return false;
+    return true;
   }
 
   @Override
