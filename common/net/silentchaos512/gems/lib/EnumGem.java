@@ -121,6 +121,11 @@ public enum EnumGem implements IStringSerializable {
     return tier == EnumMaterialTier.SUPER ? chargeSpeed + 1.0f : chargeSpeed;
   }
 
+  public int getHarvestLevel(EnumMaterialTier tier) {
+
+    return tier == EnumMaterialTier.SUPER ? 4 : 2;
+  }
+
   public static EnumGem getFromStack(ItemStack stack) {
 
     if (stack == null || stack.getItem() != ModItems.gem) {

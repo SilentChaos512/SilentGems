@@ -3,11 +3,13 @@ Silent's Gems - Changelog
 2.0.2
 Added: Name Plates. Basically just like the one from Pets. Name it on an anvil, then craft with an item to rename. Or you can use it like a name tag.
 Added: Broken tools! Unlike before, they don't transform into a new item. Decorate broken tools to repair them. And yes, I know applying a tip upgrade can repair broken tools as well. That's OK. I think.
+Added: Recipes for chaos pylons.
 Changed: Chaos orbs are a bit more forgiving. They will crack twice before shattering.
-Changed: Chaos node generation rate and send amount doubled. Should still be enough to supply two players at full speed.
-Fixed: Tool decorating not working.
-Fixed: Tool recipes picking up extra materials... No more multi-material shovels, sorry.
+Changed: Chaos node generation rate and send amount doubled.
+Fixed: Tool decorating/repairing not working.
+Fixed: Tool recipes picking up extra materials...
 Fixed: Tools on the ground being gigantic.
+Fixed: Burner pylons not working.
 
 2.0.1
 Added: Context-sensitive bar that displays the player's chaos (replaces the text)
@@ -26,6 +28,8 @@ Fixed (maybe): Chaos transfer not colliding with target player sometimes.
 
 2.0.0
 1.9 Rewrite
+
+
 
 1.3.11
 (1.7.10)
