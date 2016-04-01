@@ -4,6 +4,7 @@ Silent's Gems - Changelog
 Added: Name Plates. Basically just like the one from Pets. Name it on an anvil, then craft with an item to rename. Or you can use it like a name tag.
 Added: Broken tools! Unlike before, they don't transform into a new item. Decorate broken tools to repair them. And yes, I know applying a tip upgrade can repair broken tools as well. That's OK. I think.
 Added: Recipes for chaos pylons.
+Added: Ore dictionary support for gem parts. For example, rubies from other mods can be used in multi-gem tools.
 Changed: Chaos orbs are a bit more forgiving. They will crack twice before shattering.
 Changed: Chaos node generation rate and send amount doubled.
 Fixed: Tool decorating/repairing not working.

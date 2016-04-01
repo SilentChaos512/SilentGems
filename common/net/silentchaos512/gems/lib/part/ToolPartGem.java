@@ -22,6 +22,7 @@ public class ToolPartGem extends ToolPartMain {
 
     super(SilentGems.MOD_ID + ":" + gem.name().toLowerCase() + (supercharged ? "_super" : ""),
         supercharged ? gem.getItemSuper() : gem.getItem());
+    this.craftingOreDictName = supercharged ? gem.getItemSuperOreName() : gem.getItemOreName();
     this.gem = gem;
     this.tier = supercharged ? EnumMaterialTier.SUPER : EnumMaterialTier.REGULAR;
   }
