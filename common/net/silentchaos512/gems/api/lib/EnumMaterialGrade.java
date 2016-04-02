@@ -1,12 +1,23 @@
 package net.silentchaos512.gems.api.lib;
 
+import java.util.Random;
+
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.MathHelper;
 
 public enum EnumMaterialGrade {
 
-  NONE, E, D, C, B, A, S, SS, SSS;
+  NONE(0), E(2), D(4), C(6), B(8), A(12), S(16), SS(20), SSS(30);
 
-  public static final String NBT_KEY = "grade";
+  public static final String NBT_KEY = "SG_Grade";
+
+  public final int bonusPercent;
+
+  private EnumMaterialGrade(int bonusPercent) {
+
+    this.bonusPercent = bonusPercent;
+  }
 
   public static EnumMaterialGrade fromStack(ItemStack stack) {
 
@@ -27,5 +38,24 @@ public enum EnumMaterialGrade {
       }
     }
     return EnumMaterialGrade.NONE;
+  }
+
+  public static EnumMaterialGrade selectRandom(Random random) {
+
+    // If I understand the math here, 95% of the time, we should get grades between E and SS,
+    // inclusive. SSS should be about 2.5% chance, I think. E picks up the 2.5% on the low end.
+    int val = (int) (1.5 * random.nextGaussian() + 4);
+    val = MathHelper.clamp_int(val, 1, 8);
+    return values()[val];
+  }
+
+  public void setGradeOnStack(ItemStack stack) {
+
+    if (stack != null) {
+      if (!stack.hasTagCompound()) {
+        stack.setTagCompound(new NBTTagCompound());
+      }
+      stack.getTagCompound().setString(NBT_KEY, name());
+    }
   }
 }

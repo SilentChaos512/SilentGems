@@ -14,6 +14,7 @@ public class Names {
   public static final String GEM_ORE = "GemOre";
   public static final String GEM_ORE_DARK = "GemOreDark";
   public static final String GLOW_ROSE = "GlowRose";
+  public static final String MATERIAL_GRADER = "MaterialGrader";
 
   // Items
   public static final String CHAOS_ORB = "ChaosOrb";

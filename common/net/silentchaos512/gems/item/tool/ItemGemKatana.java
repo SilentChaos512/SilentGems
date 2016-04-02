@@ -29,7 +29,7 @@ public class ItemGemKatana extends ItemGemSword {
       ToolHelper.setPart(result,
           ToolPartRegistry
               .fromStack(new ItemStack(Blocks.wool, 1, EnumDyeColor.BLACK.getMetadata())),
-          EnumMaterialGrade.NONE, EnumPartPosition.ROD_WOOL);
+          EnumMaterialGrade.NONE, EnumPartPosition.ROD_GRIP);
     }
     return result;
   }

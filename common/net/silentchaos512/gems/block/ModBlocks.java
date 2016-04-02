@@ -14,6 +14,7 @@ public class ModBlocks {
   public static BlockGlowRose glowRose;
   public static BlockFluffyBlock fluffyBlock;
   public static BlockFluffyPuffPlant fluffyPuffPlant;
+  public static BlockMaterialGrader materialGrader;
   public static BlockChaosNode chaosNode;
   public static BlockSL chaosAltar; // TODO
   public static BlockChaosPylon chaosPylon;
@@ -30,6 +31,7 @@ public class ModBlocks {
     fluffyBlock = (BlockFluffyBlock) reg.registerBlock(new BlockFluffyBlock(), Names.FLUFFY_BLOCK);
     fluffyPuffPlant = (BlockFluffyPuffPlant) reg.registerBlock(new BlockFluffyPuffPlant(),
         Names.FLUFFY_PUFF_PLANT);
+    materialGrader = (BlockMaterialGrader) reg.registerBlock(new BlockMaterialGrader());
     chaosNode = (BlockChaosNode) reg.registerBlock(new BlockChaosNode());
     chaosAltar = (BlockSL) reg
         .registerBlock(new BlockSL(1, SilentGems.MOD_ID, Names.CHAOS_ALTAR, Material.iron));

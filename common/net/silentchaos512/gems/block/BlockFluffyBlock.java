@@ -28,7 +28,6 @@ public class BlockFluffyBlock extends BlockSL {
   public BlockFluffyBlock() {
 
     super(EnumDyeColor.values().length, SilentGems.MOD_ID, Names.FLUFFY_BLOCK, Material.cloth);
-    setHasSubtypes(true);
     setDefaultState(blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
 
     setHardness(0.8f);

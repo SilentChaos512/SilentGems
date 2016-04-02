@@ -9,19 +9,45 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
+import net.silentchaos512.gems.api.tool.part.ToolPart;
+import net.silentchaos512.gems.api.tool.part.ToolPartMain;
+import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.client.gui.GuiCrosshairs;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class GemsClientEvents {
+
+  LocalizationHelper loc = SilentGems.instance.localizationHelper;
 
   @SubscribeEvent
   public void onRenderGameOverlay(RenderGameOverlayEvent event) {
 
     renderCrosshairs(event);
+  }
+
+  @SubscribeEvent
+  public void onTooltip(ItemTooltipEvent event) {
+
+    ItemStack stack = event.getItemStack();
+    ToolPart part = stack != null ? ToolPartRegistry.fromStack(stack) : null;
+
+    if (part != null) {
+      if (part instanceof ToolPartRod) {
+        event.getToolTip().add(loc.getMiscText("ToolPart.Rod"));
+      } else if (part instanceof ToolPartMain) {
+        EnumMaterialGrade grade = EnumMaterialGrade.fromStack(stack);
+        String line = loc.getMiscText("ToolPart.Grade");
+        event.getToolTip().add(String.format(line, grade.name()));
+      }
+    }
   }
 
   private void renderCrosshairs(RenderGameOverlayEvent event) {

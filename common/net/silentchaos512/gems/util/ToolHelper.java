@@ -215,7 +215,7 @@ public class ToolHelper {
     // Tip and rod bonus (might change the way rod stats work?)
     ToolPart partRod = getConstructionRod(tool);
     ToolPart partTip = getConstructionTip(tool);
-    ToolPart partGrip = getPart(tool, EnumPartPosition.ROD_WOOL);
+    ToolPart partGrip = getPart(tool, EnumPartPosition.ROD_GRIP);
 
     for (ToolPart part : Lists.newArrayList(partRod, partTip, partGrip)) {
       if (part != null) {
@@ -935,7 +935,7 @@ public class ToolHelper {
         key = getPartId(tool, NBT_PART_ROD_DECO);
         // tag = getTagPart(tool, NBT_PART_ROD_DECO);
         break;
-      case ROD_WOOL:
+      case ROD_GRIP:
         key = getPartId(tool, NBT_PART_ROD_WOOL);
         // tag = getTagPart(tool, NBT_PART_ROD_WOOL);
         break;
@@ -977,7 +977,7 @@ public class ToolHelper {
       case ROD_DECO:
         setTagPart(tool, NBT_PART_ROD_DECO, part, grade);
         break;
-      case ROD_WOOL:
+      case ROD_GRIP:
         setTagPart(tool, NBT_PART_ROD_WOOL, part, grade);
         break;
       case TIP:
@@ -1008,7 +1008,7 @@ public class ToolHelper {
       case ROD_DECO:
         key = getPartId(tool, NBT_PART_ROD_DECO);
         break;
-      case ROD_WOOL:
+      case ROD_GRIP:
         key = getPartId(tool, NBT_PART_ROD_WOOL);
         break;
       case TIP:
@@ -1049,7 +1049,7 @@ public class ToolHelper {
       case ROD_DECO:
         setTagPart(tool, NBT_PART_ROD_DECO, part, grade);
         break;
-      case ROD_WOOL:
+      case ROD_GRIP:
         setTagPart(tool, NBT_PART_ROD_WOOL, part, grade);
         break;
       case TIP:

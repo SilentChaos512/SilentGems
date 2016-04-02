@@ -308,6 +308,8 @@ donut.silentgems:3=Somehow, every bite is a different flavor.
 donut.silentgems:4=You can hear the colors of the donut.
 donut.silentgems:5=Spicy! Why is it spicy!?
 donut.silentgems:6=But nobody came.
+donut.silentgems:7=The donut whispers in a tiny voice... "Tell your friends!"
+donut.silentgems:8=You feel... something.
 
 
 
@@ -318,6 +320,9 @@ misc.silentgems:PressCtrl=<Press Ctrl>
 misc.silentgems:PressShift=<Press Shift>
 
 # Tool Information
+
+misc.silentgems:ToolPart.Rod=&3Tool Rod
+misc.silentgems:ToolPart.Grade=&3Grade: %s
 
 misc.silentgems:Tooltip.Broken=&cYou broke it!
 misc.silentgems:Tooltip.ChargeSpeed=&eCharge Speed:&f %s
