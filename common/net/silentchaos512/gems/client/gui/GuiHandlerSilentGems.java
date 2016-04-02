@@ -7,12 +7,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.inventory.ContainerBurnerPylon;
+import net.silentchaos512.gems.inventory.ContainerMaterialGrader;
 import net.silentchaos512.gems.tile.TileChaosPylon;
+import net.silentchaos512.gems.tile.TileMaterialGrader;
 
 public class GuiHandlerSilentGems implements IGuiHandler {
 
   public static final int ID_ALTAR = 0;
   public static final int ID_BURNER_PYLON = 1;
+  public static final int ID_MATERIAL_GRADER = 2;
 
   @Override
   public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -21,15 +24,19 @@ public class GuiHandlerSilentGems implements IGuiHandler {
 
     switch (ID) {
       case ID_ALTAR:
-//        if (tile instanceof TileChaosAltar) {
-//          TileChaosAltar tileAltar = (TileChaosAltar) tile;
-//          return new ContainerChaosAltar(player.inventory, tileAltar);
-//        }
+        // if (tile instanceof TileChaosAltar) {
+        // TileChaosAltar tileAltar = (TileChaosAltar) tile;
+        // return new ContainerChaosAltar(player.inventory, tileAltar);
+        // }
         return null;
       case ID_BURNER_PYLON:
         if (tile instanceof TileChaosPylon) {
-          TileChaosPylon tilePylon = (TileChaosPylon) tile;
-          return new ContainerBurnerPylon(player.inventory, tilePylon);
+          return new ContainerBurnerPylon(player.inventory, (TileChaosPylon) tile);
+        }
+        return null;
+      case ID_MATERIAL_GRADER:
+        if (tile instanceof TileMaterialGrader) {
+          return new ContainerMaterialGrader(player.inventory, (TileMaterialGrader) tile);
         }
         return null;
       default:
@@ -45,15 +52,19 @@ public class GuiHandlerSilentGems implements IGuiHandler {
 
     switch (ID) {
       case ID_ALTAR:
-//        if (tile instanceof TileChaosAltar) {
-//          TileChaosAltar tileAltar = (TileChaosAltar) tile;
-//          return new GuiChaosAltar(player.inventory, tileAltar);
-//        }
+        // if (tile instanceof TileChaosAltar) {
+        // TileChaosAltar tileAltar = (TileChaosAltar) tile;
+        // return new GuiChaosAltar(player.inventory, tileAltar);
+        // }
         return null;
       case ID_BURNER_PYLON:
         if (tile instanceof TileChaosPylon) {
-          TileChaosPylon tilePylon = (TileChaosPylon) tile;
-          return new GuiBurnerPylon(player.inventory, tilePylon);
+          return new GuiBurnerPylon(player.inventory, (TileChaosPylon) tile);
+        }
+        return null;
+      case ID_MATERIAL_GRADER:
+        if (tile instanceof TileMaterialGrader) {
+          return new GuiMaterialGrader(player.inventory, (TileMaterialGrader) tile);
         }
         return null;
       default:

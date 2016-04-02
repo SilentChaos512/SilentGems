@@ -48,17 +48,31 @@ public class TileBasicInventory extends TileEntity implements IInventory {
   @Override
   public ItemStack getStackInSlot(int index) {
 
-    if (index >= 0 && index < getSizeInventory()) {
-      return inventory[index];
-    }
-    return null;
+    return index >= 0 && index < getSizeInventory() ? inventory[index] : null;
   }
 
   @Override
   public ItemStack decrStackSize(int index, int count) {
 
-    // TODO Auto-generated method stub
-    return null;
+    if (inventory[index] != null) {
+      ItemStack stack;
+
+      if (inventory[index].stackSize <= count) {
+        stack = inventory[index];
+        inventory[index] = null;
+        return stack;
+      } else {
+        stack = inventory[index].splitStack(count);
+
+        if (inventory[index].stackSize == 0) {
+          inventory[index] = null;
+        }
+
+        return stack;
+      }
+    } else {
+      return null;
+    }
   }
 
   @Override

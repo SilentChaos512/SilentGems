@@ -41,11 +41,11 @@ public class GemsClientEvents {
 
     if (part != null) {
       if (part instanceof ToolPartRod) {
-        event.getToolTip().add(loc.getMiscText("ToolPart.Rod"));
+        event.getToolTip().add(1, loc.getMiscText("ToolPart.Rod"));
       } else if (part instanceof ToolPartMain) {
         EnumMaterialGrade grade = EnumMaterialGrade.fromStack(stack);
         String line = loc.getMiscText("ToolPart.Grade");
-        event.getToolTip().add(String.format(line, grade.name()));
+        event.getToolTip().add(1, String.format(line, grade.name()));
       }
     }
   }

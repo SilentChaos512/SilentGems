@@ -7,11 +7,15 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
 import net.silentchaos512.lib.block.BlockContainerSL;
@@ -30,29 +34,32 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
         Names.MATERIAL_GRADER);
   }
 
-  public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID,
-      int eventParam) {
-
-    super.onBlockEventReceived(worldIn, pos, state, eventID, eventParam);
-    TileEntity tileentity = worldIn.getTileEntity(pos);
-    return tileentity == null ? false : tileentity.receiveClientEvent(eventID, eventParam);
-  }
-
   public EnumBlockRenderType getRenderType(IBlockState state) {
 
     return EnumBlockRenderType.INVISIBLE;
-  }
-
-  public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-
-    super.breakBlock(worldIn, pos, state);
-    worldIn.removeTileEntity(pos);
   }
 
   @Override
   public TileEntity createNewTileEntity(World worldIn, int meta) {
 
     return new TileMaterialGrader();
+  }
+
+  @Override
+  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
+      EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+    if (world.isRemote) {
+      return true;
+    }
+
+    TileEntity tile = world.getTileEntity(pos);
+    if (tile instanceof TileMaterialGrader) {
+      player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_MATERIAL_GRADER, world, pos.getX(),
+          pos.getY(), pos.getZ());
+    }
+
+    return true;
   }
 
   @Override

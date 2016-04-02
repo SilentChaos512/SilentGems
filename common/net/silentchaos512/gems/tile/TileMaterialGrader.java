@@ -1,5 +1,9 @@
 package net.silentchaos512.gems.tile;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,9 +22,9 @@ public class TileMaterialGrader extends TileBasicInventory
 
   public static final int SLOT_INPUT = 0;
   public static final int SLOT_OUTPUT = 1;
-  public static final int ANALYZE_TIME = 60; // 600
+  public static final int ANALYZE_TIME = 600;
   public static final int CHAOS_PER_TICK = 50;
-  public static final int MAX_CHARGE = ANALYZE_TIME * CHAOS_PER_TICK;
+  public static final int MAX_CHARGE = ANALYZE_TIME * CHAOS_PER_TICK * 10;
 
   protected int chaosStored = 0;
   protected int progress = 0;
@@ -55,8 +59,9 @@ public class TileMaterialGrader extends TileBasicInventory
   @Override
   public void update() {
 
-    if (!worldObj.isRemote)
-      SilentGems.instance.logHelper.debug(chaosStored, progress, getStackInSlot(0), getStackInSlot(1));
+//    if (!worldObj.isRemote)
+//      SilentGems.instance.logHelper.debug(chaosStored, progress, getStackInSlot(0),
+//          getStackInSlot(1));
 
     ItemStack input = getStackInSlot(SLOT_INPUT);
     ToolPart part = input != null ? ToolPartRegistry.fromStack(input) : null;
@@ -97,13 +102,6 @@ public class TileMaterialGrader extends TileBasicInventory
         setInventorySlotContents(SLOT_INPUT, null);
       }
     }
-  }
-
-  @Override
-  public boolean isItemValidForSlot(int index, ItemStack stack) {
-
-    // TODO Auto-generated method stub
-    return super.isItemValidForSlot(index, stack);
   }
 
   @Override
@@ -161,16 +159,50 @@ public class TileMaterialGrader extends TileBasicInventory
   }
 
   @Override
+  public boolean isItemValidForSlot(int index, ItemStack stack) {
+
+    if (index == SLOT_INPUT) {
+      if (stack == null) {
+        return false;
+      }
+
+      ToolPart part = ToolPartRegistry.fromStack(stack);
+      EnumMaterialGrade grade = EnumMaterialGrade.fromStack(stack);
+      if (part != null && part instanceof ToolPartMain && grade == EnumMaterialGrade.NONE) {
+        return true;
+      }
+
+      return false;
+    }
+
+    return true;
+  }
+
+  @Override
   public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
 
-    ToolPart part = itemStackIn != null ? ToolPartRegistry.fromStack(itemStackIn) : null;
-    return index == SLOT_INPUT && direction != EnumFacing.DOWN && part instanceof ToolPartMain;
+//    ToolPart part = itemStackIn != null ? ToolPartRegistry.fromStack(itemStackIn) : null;
+//    return index == SLOT_INPUT && direction != EnumFacing.DOWN && part instanceof ToolPartMain;
+    return isItemValidForSlot(index, itemStackIn);
   }
 
   @Override
   public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
 
-//    SilentGems.instance.logHelper.debug(index, direction, index == SLOT_OUTPUT && direction == EnumFacing.DOWN);
-    return index == SLOT_OUTPUT && direction == EnumFacing.DOWN;
+    // SilentGems.instance.logHelper.debug(index, direction, index == SLOT_OUTPUT && direction == EnumFacing.DOWN);
+//    return index == SLOT_OUTPUT && direction == EnumFacing.DOWN;
+    return true;
+  }
+
+  public List<String> getDebugLines() {
+
+    List<String> list = Lists.newArrayList();
+
+    list.add(String.format("Chaos: %,d / %,d", getCharge(), getMaxCharge()));
+    list.add(String.format("progress = %d", progress));
+    list.add(String.format("ANALYZE_TIME = %d", ANALYZE_TIME));
+    list.add(String.format("CHAOS_PER_TICK = %d", CHAOS_PER_TICK));
+
+    return list;
   }
 }

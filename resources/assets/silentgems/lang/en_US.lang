@@ -119,6 +119,8 @@ tile.silentgems:GlowRose13.name=Morganite Glow Rose
 tile.silentgems:GlowRose14.name=Onyx Glow Rose
 tile.silentgems:GlowRose15.name=Opal Glow Rose
 
+tile.silentgems:MaterialGrader.name=Material Grader
+
 # Items
 
 item.silentgems:ChaosOrb0.name=Chaos Potato
