@@ -2,20 +2,21 @@ package net.silentchaos512.gems.api.tool.part;
 
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public class ToolPartMain extends ToolPart {
 
-  public ToolPartMain(String key, ItemStack stack) {
+  public ToolPartMain(String key, ItemStack craftingStack) {
 
-    super(key, stack);
+    super(key, craftingStack);
   }
 
-  public ToolPartMain(String key, String oreName) {
+  public ToolPartMain(String key, ItemStack craftingStack, String oreName) {
 
-    super(key, oreName);
+    super(key, craftingStack, oreName);
   }
 
   @Override

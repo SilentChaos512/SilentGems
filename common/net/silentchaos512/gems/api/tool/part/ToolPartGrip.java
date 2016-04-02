@@ -12,10 +12,14 @@ public class ToolPartGrip extends ToolPart {
     super(key, craftingStack);
   }
 
+  public ToolPartGrip(String key, ItemStack craftingStack, String oreName) {
+
+    super(key, craftingStack, oreName);
+  }
+
   @Override
   public int getDurability() {
 
-    // TODO Auto-generated method stub
     return 0;
   }
 
@@ -28,28 +32,24 @@ public class ToolPartGrip extends ToolPart {
   @Override
   public int getHarvestLevel() {
 
-    // TODO Auto-generated method stub
     return 0;
   }
 
   @Override
   public float getMeleeDamage() {
 
-    // TODO Auto-generated method stub
-    return 0;
+    return 0.0f;
   }
 
   @Override
   public float getMagicDamage() {
 
-    // TODO Auto-generated method stub
-    return 0;
+    return 0.0f;
   }
 
   @Override
   public int getEnchantability() {
 
-    // TODO Auto-generated method stub
     return 0;
   }
 
@@ -62,14 +62,13 @@ public class ToolPartGrip extends ToolPart {
   @Override
   public float getChargeSpeed() {
 
-    // TODO Auto-generated method stub
     return 0;
   }
 
   @Override
   public boolean validForPosition(EnumPartPosition pos) {
 
-    return pos == EnumPartPosition.ROD_WOOL;
+    return pos == EnumPartPosition.ROD_GRIP;
   }
 
   @Override

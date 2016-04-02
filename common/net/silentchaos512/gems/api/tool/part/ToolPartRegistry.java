@@ -10,15 +10,31 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 
+/**
+ * Used to register tool parts, and match parts to item stacks.
+ * 
+ * @author SilentChaos512
+ *
+ */
 public class ToolPartRegistry {
 
   private static Map<String, ToolPart> map = Maps.newHashMap();
 
+  /**
+   * @param key
+   *          The key the part was registered with.
+   * @return The part for the given key.
+   */
   public static ToolPart getPart(String key) {
 
     return map.get(key);
   }
 
+  /**
+   * Registers a tool part.
+   * 
+   * @param part
+   */
   public static void putPart(ToolPart part) {
 
     String key = part.key;
@@ -28,6 +44,13 @@ public class ToolPartRegistry {
     map.put(key, part);
   }
 
+  /**
+   * Gets the tool part that matches the ItemStack. Also checks the ore dictionary for parts that have an ore dictionary
+   * key.
+   * 
+   * @param stack
+   * @return
+   */
   public static ToolPart fromStack(ItemStack stack) {
 
     for (ToolPart part : map.values()) {

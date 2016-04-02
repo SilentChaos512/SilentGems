@@ -6,14 +6,14 @@ import net.silentchaos512.gems.api.lib.EnumPartPosition;
 
 public class ToolPartRod extends ToolPart {
 
-  public ToolPartRod(String key, ItemStack stack) {
+  public ToolPartRod(String key, ItemStack craftingStack) {
 
-    super(key, stack);
+    super(key, craftingStack);
   }
 
-  public ToolPartRod(String key, String oreName) {
+  public ToolPartRod(String key, ItemStack craftingStack, String oreName) {
 
-    super(key, oreName);
+    super(key, craftingStack, oreName);
   }
 
   @Override

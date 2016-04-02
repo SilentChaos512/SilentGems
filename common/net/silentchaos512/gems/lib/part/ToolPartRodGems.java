@@ -25,9 +25,9 @@ public class ToolPartRodGems extends ToolPartRod {
     this.tier = tier;
   }
 
-  public ToolPartRodGems(String name, EnumMaterialTier tier, String oreName) {
+  public ToolPartRodGems(String name, EnumMaterialTier tier, ItemStack stack, String oreName) {
 
-    super(SilentGems.MOD_ID + ":" + name, oreName);
+    super(SilentGems.MOD_ID + ":" + name, stack, oreName);
     this.rodName = name;
     this.tier = tier;
   }

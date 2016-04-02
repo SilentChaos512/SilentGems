@@ -23,17 +23,6 @@ public class ToolPartTip extends ToolPart {
     this.magicBoost = magicDamage;
   }
 
-  protected ToolPartTip(String key, String oreName, int harvestLevel, int durabilityBoost,
-      float speedBoost, float meleeDamage, float magicDamage) {
-
-    super(key, oreName);
-    this.miningLevel = harvestLevel;
-    this.durabilityBoost = durabilityBoost;
-    this.speedBoost = speedBoost;
-    this.meleeBoost = meleeDamage;
-    this.magicBoost = magicDamage;
-  }
-
   @Override
   public int getDurability() {
 
