@@ -46,7 +46,7 @@ public class ChaosEssenceBlock extends BlockSG {
   @Override
   public IBlockState getStateFromMeta(int meta) {
 
-    if (meta >= 0 || meta < EnumType.values().length) {
+    if (meta >= 0 && meta < EnumType.values().length) {
       return this.getDefaultState().withProperty(VARIANT, EnumType.values()[meta]);
     }
     return getDefaultState();
