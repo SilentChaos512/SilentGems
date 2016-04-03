@@ -319,6 +319,7 @@ donut.silentgems:8=You feel... something.
 
 misc.silentgems:ChaosCharge=Chaos: %,d / %,d
 misc.silentgems:PressCtrl=<Press Ctrl>
+misc.silentgems:PressAlt=<Press Alt>
 misc.silentgems:PressShift=<Press Shift>
 
 # Tool Information
@@ -346,3 +347,4 @@ misc.silentgems:Tooltip.Redecorated=&eRedecorated:&f %s time(s)
 misc.silentgems:Tooltip.Separator=&8-------------------
 misc.silentgems:Tooltip.Properties=&6Properties
 misc.silentgems:Tooltip.Statistics=&6Statistics
+misc.silentgems:Tooltip.Construction=&6Construction

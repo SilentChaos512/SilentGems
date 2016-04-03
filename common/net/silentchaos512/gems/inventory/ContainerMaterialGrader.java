@@ -80,7 +80,7 @@ public class ContainerMaterialGrader extends ContainerSL {
         if (!this.mergeItemStack(stack1, startPlayer, endHotbar, true)) {
           return null;
         }
-      } else if (slotIndex > size
+      } else if (slotIndex >= size
           && tileInventory.isItemValidForSlot(TileMaterialGrader.SLOT_INPUT, stack1)) {
         // Move from player to input slot?
         if (!mergeItemStack(stack1, 0, 1, false)) {

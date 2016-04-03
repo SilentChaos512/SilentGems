@@ -13,6 +13,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
@@ -40,20 +41,21 @@ public class ItemGem extends ItemSL {
         || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
 
     if (gem != null && controlDown) {
+      int multi = 100 + EnumMaterialGrade.fromStack(stack).bonusPercent;
       line = loc.getMiscText("Tooltip.Durability");
-      list.add(String.format(line, gem.getDurability(tier)));
+      list.add(String.format(line, gem.getDurability(tier) * multi / 100));
       line = loc.getMiscText("Tooltip.HarvestSpeed");
-      list.add(String.format(line, gem.getMiningSpeed(tier)));
+      list.add(String.format(line, gem.getMiningSpeed(tier) * multi / 100));
       line = loc.getMiscText("Tooltip.HarvestLevel");
-      list.add(String.format(line, gem.getHarvestLevel(tier)));
+      list.add(String.format(line, gem.getHarvestLevel(tier) * multi / 100));
       line = loc.getMiscText("Tooltip.MeleeDamage");
-      list.add(String.format(line, gem.getMeleeDamage(tier)));
+      list.add(String.format(line, gem.getMeleeDamage(tier) * multi / 100));
       line = loc.getMiscText("Tooltip.MagicDamage");
-      list.add(String.format(line, gem.getMagicDamage(tier)));
+      list.add(String.format(line, gem.getMagicDamage(tier) * multi / 100));
       line = loc.getMiscText("Tooltip.ChargeSpeed");
-      list.add(String.format(line, gem.getChargeSpeed(tier)));
+      list.add(String.format(line, gem.getChargeSpeed(tier) * multi / 100));
       line = loc.getMiscText("Tooltip.Enchantability");
-      list.add(String.format(line, gem.getEnchantability(tier)));
+      list.add(String.format(line, gem.getEnchantability(tier) * multi / 100));
     } else {
       list.add(TextFormatting.GOLD + loc.getMiscText("PressCtrl"));
     }

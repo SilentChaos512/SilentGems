@@ -31,6 +31,12 @@ public class BlockGemSubtypes extends BlockSL {
   }
 
   @Override
+  public boolean hasSubtypes() {
+
+    return true;
+  }
+
+  @Override
   public int damageDropped(IBlockState state) {
 
     return getGem(getMetaFromState(state)).ordinal() & 0xF;

@@ -21,6 +21,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
@@ -61,6 +62,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     LocalizationHelper loc = SilentGems.instance.localizationHelper;
     boolean controlDown = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
         || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
+    boolean altDown = Keyboard.isKeyDown(Keyboard.KEY_LMENU)
+        || Keyboard.isKeyDown(Keyboard.KEY_RMENU);
     boolean shiftDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
         || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
     String line;
@@ -68,10 +71,6 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     if (ToolHelper.isBroken(tool)) {
       line = loc.getMiscText("Tooltip.Broken");
       list.add(line);
-    }
-
-    if (!controlDown) {
-      list.add(TextFormatting.GOLD + loc.getMiscText("PressCtrl"));
     }
 
     final boolean isWeapon = tool.getItem() instanceof ItemGemSword;
@@ -123,6 +122,28 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       }
 
       list.add(getTooltipLine("Redecorated", ToolHelper.getStatRedecorated(tool)));
+      list.add(sep);
+    } else {
+      list.add(TextFormatting.GOLD + loc.getMiscText("PressCtrl"));
+    }
+
+    if (altDown) {
+      line = loc.getMiscText("Tooltip.Construction");
+      list.add(line);
+
+      ToolPart[] parts = ToolHelper.getConstructionParts(tool);
+      EnumMaterialGrade[] grades = ToolHelper.getConstructionGrades(tool);
+
+      for (int i = 0; i < parts.length; ++i) {
+        ToolPart part = parts[i];
+        EnumMaterialGrade grade = grades[i];
+
+        line = "  " + TextFormatting.YELLOW + part.getKey() + TextFormatting.GOLD + " (" + grade
+            + ")";
+        list.add(line);
+      }
+    } else {
+      list.add(TextFormatting.GOLD + loc.getMiscText("PressAlt"));
     }
 
     // Debug render layers

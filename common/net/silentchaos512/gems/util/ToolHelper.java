@@ -141,6 +141,7 @@ public class ToolHelper {
   public static void recalculateStats(ItemStack tool) {
 
     ToolPart[] parts = getConstructionParts(tool);
+    EnumMaterialGrade[] grades = getConstructionGrades(tool);
     if (parts.length == 0) {
       return;
     }
@@ -163,14 +164,18 @@ public class ToolHelper {
     Set<ToolPart> uniqueParts = Sets.newConcurrentHashSet();
 
     // Head parts
-    for (ToolPart part : parts) {
-      sumDurability += part.getDurability();
-      sumHarvestSpeed += part.getHarvestSpeed();
-      sumMeleeDamage += part.getMeleeDamage();
-      sumMagicDamage += part.getMagicDamage();
-      sumMeleeSpeed += part.getMeleeSpeed();
-      sumEnchantability += part.getEnchantability();
-      sumChargeSpeed += part.getChargeSpeed();
+    for (int i = 0; i < parts.length; ++i) {
+      ToolPart part = parts[i];
+      EnumMaterialGrade grade = grades[i];
+      int multi = 100 + grade.bonusPercent;
+
+      sumDurability += part.getDurability() * multi / 100;
+      sumHarvestSpeed += part.getHarvestSpeed() * multi / 100;
+      sumMeleeDamage += part.getMeleeDamage() * multi / 100;
+      sumMagicDamage += part.getMagicDamage() * multi / 100;
+      sumMeleeSpeed += part.getMeleeSpeed() * multi / 100;
+      sumEnchantability += part.getEnchantability() * multi / 100;
+      sumChargeSpeed += part.getChargeSpeed() * multi / 100;
       maxHarvestLevel = Math.max(maxHarvestLevel, part.getHarvestLevel());
       uniqueParts.add(part);
     }
@@ -664,7 +669,6 @@ public class ToolHelper {
     int index = -1;
     String key;
     ToolPart part;
-    NBTTagCompound tag;
     do {
       key = getPartId(tool, "Part" + ++index);
       if (key != null) {
@@ -673,8 +677,28 @@ public class ToolHelper {
           parts.add(part);
         }
       }
-    } while (key != null && !key.equals(""));
+    } while (key != null && !key.isEmpty());
+
     return parts.toArray(new ToolPart[parts.size()]);
+  }
+
+  public static EnumMaterialGrade[] getConstructionGrades(ItemStack tool) {
+
+    if (tool == null) {
+      return new EnumMaterialGrade[] {};
+    }
+
+    List<EnumMaterialGrade> grades = Lists.newArrayList();
+    int index = -1;
+    String key;
+    do {
+      key = getPartId(tool, "Part" + ++index);
+      if (key != null) {
+        grades.add(getPartGrade(tool, "Part" + index));
+      }
+    } while (key != null && !key.isEmpty());
+
+    return grades.toArray(new EnumMaterialGrade[grades.size()]);
   }
 
   public static ToolPart getConstructionRod(ItemStack tool) {

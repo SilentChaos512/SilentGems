@@ -12,7 +12,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
@@ -22,6 +24,8 @@ import net.silentchaos512.lib.block.BlockContainerSL;
 import net.silentchaos512.wit.api.IWitHudInfo;
 
 public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo {
+
+  public static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.4, 1.0);
 
   public BlockMaterialGrader() {
 
@@ -36,7 +40,7 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
 
   public EnumBlockRenderType getRenderType(IBlockState state) {
 
-    return EnumBlockRenderType.INVISIBLE;
+    return EnumBlockRenderType.MODEL;
   }
 
   @Override
@@ -63,14 +67,57 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
   }
 
   @Override
+  public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World world, BlockPos pos) {
+
+    return state.getSelectedBoundingBox(world, pos);
+  }
+
+  @Override
+  public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+
+    return BOUNDING_BOX;
+  }
+
+  @Override
   public List<String> getWitLines(IBlockState state, BlockPos pos, EntityPlayer player,
       boolean advanced) {
 
-    TileEntity tileEntity = player.worldObj.getTileEntity(pos);
-    if (tileEntity != null && tileEntity instanceof TileMaterialGrader) {
-      TileMaterialGrader tile = (TileMaterialGrader) tileEntity;
-      return Lists.newArrayList("Charge: " + tile.getField(0));
-    }
+//    TileEntity tileEntity = player.worldObj.getTileEntity(pos);
+//    if (tileEntity != null && tileEntity instanceof TileMaterialGrader) {
+//      TileMaterialGrader tile = (TileMaterialGrader) tileEntity;
+//      return Lists.newArrayList("Charge: " + tile.getField(0));
+//    }
     return null;
+  }
+
+  @Override
+  public boolean isFullyOpaque(IBlockState state) {
+
+    return false;
+  }
+
+  @Override
+  public boolean isOpaqueCube(IBlockState state) {
+
+    return false;
+  }
+
+  @Override
+  public boolean isFullBlock(IBlockState state) {
+
+    return false;
+  }
+
+  @Override
+  public boolean isFullCube(IBlockState state) {
+
+    return false;
+  }
+
+  @Override
+  public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos,
+      EnumFacing face) {
+
+    return face == EnumFacing.DOWN;
   }
 }

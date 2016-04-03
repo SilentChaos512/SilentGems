@@ -36,7 +36,7 @@ public class GuiMaterialGrader extends GuiContainer {
     int i1;
 
     // Progress arrow
-    i1 = getAnalyzeProgress(13);
+    i1 = getAnalyzeProgress(24);
     drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
 
     drawDebugInfo();
