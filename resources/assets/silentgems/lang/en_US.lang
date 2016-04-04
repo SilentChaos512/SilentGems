@@ -103,6 +103,9 @@ tile.silentgems:GemBlockSuperDark13.name=Supercharged Ametrine Block
 tile.silentgems:GemBlockSuperDark14.name=Supercharged Black Diamond Block
 tile.silentgems:GemBlockSuperDark15.name=Supercharged Alexandrite Block
 
+tile.silentgems:GemBlockSuper.desc1=Explosion resistant. Will be Wither-proof
+tile.silentgems:GemBlockSuper.desc2=if I can figure out how to do that.
+
 tile.silentgems:GemOre0.name=Ruby Ore
 tile.silentgems:GemOre1.name=Garnet Ore
 tile.silentgems:GemOre2.name=Topaz Ore

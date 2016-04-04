@@ -1,10 +1,13 @@
 package net.silentchaos512.gems.block;
 
+import java.util.List;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
@@ -61,7 +64,16 @@ public class BlockGem extends BlockGemSubtypes {
   }
 
   @Override
-  public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
+  public void addInformation(ItemStack stack, EntityPlayer player, List<String> list,
+      boolean advanced) {
+
+    list.addAll(SilentGems.instance.localizationHelper
+        .getBlockDescriptionLines(blockName.replaceFirst("Dark", "")));
+  }
+
+  @Override
+  public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos,
+      Entity entity) {
 
     // Does not prevent Withers from breaking. Only the Ender Dragon seems to call this...
     if (supercharged) {
