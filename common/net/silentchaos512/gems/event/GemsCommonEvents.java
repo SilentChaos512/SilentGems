@@ -1,10 +1,10 @@
 package net.silentchaos512.gems.event;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -71,4 +71,16 @@ public class GemsCommonEvents {
       }
     }
   }
+
+//  @SubscribeEvent
+//  public void onExplosionDetonate(ExplosionEvent.Detonate event) {
+//
+//    // @formatter:off
+//    if (event.getAffectedBlocks().removeIf(pos ->
+//        event.getWorld().getBlockState(pos) == ModBlocks.gemBlockSuper
+//        || event.getWorld().getBlockState(pos) == ModBlocks.gemBlockSuperDark)) {
+//      SilentGems.instance.logHelper.derp();
+//    }
+//    // @formatter:on
+//  }
 }

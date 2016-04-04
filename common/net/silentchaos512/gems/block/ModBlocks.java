@@ -9,7 +9,7 @@ import net.silentchaos512.lib.registry.SRegistry;
 public class ModBlocks {
 
   public static BlockGemOre gemOre, gemOreDark;
-  public static BlockGem gemBlock, gemBlockDark;
+  public static BlockGem gemBlock, gemBlockDark, gemBlockSuper, gemBlockSuperDark;
   public static BlockEssenceOre essenceOre;
   public static BlockGlowRose glowRose;
   public static BlockFluffyBlock fluffyBlock;
@@ -24,8 +24,10 @@ public class ModBlocks {
     SRegistry reg = SilentGems.instance.registry;
     gemOre = (BlockGemOre) reg.registerBlock(new BlockGemOre(false));
     gemOreDark = (BlockGemOre) reg.registerBlock(new BlockGemOre(true));
-    gemBlock = (BlockGem) reg.registerBlock(new BlockGem(false));
-    gemBlockDark = (BlockGem) reg.registerBlock(new BlockGem(true));
+    gemBlock = (BlockGem) reg.registerBlock(new BlockGem(false, false));
+    gemBlockDark = (BlockGem) reg.registerBlock(new BlockGem(true, false));
+    gemBlockSuper = (BlockGem) reg.registerBlock(new BlockGem(false, true));
+    gemBlockSuperDark = (BlockGem) reg.registerBlock(new BlockGem(true, true));
     essenceOre = (BlockEssenceOre) reg.registerBlock(new BlockEssenceOre());
     glowRose = (BlockGlowRose) reg.registerBlock(new BlockGlowRose(), Names.GLOW_ROSE);
     fluffyBlock = (BlockFluffyBlock) reg.registerBlock(new BlockFluffyBlock(), Names.FLUFFY_BLOCK);

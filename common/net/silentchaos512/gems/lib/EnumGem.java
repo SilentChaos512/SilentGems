@@ -150,6 +150,17 @@ public enum EnumGem implements IStringSerializable {
     return "block" + name;
   }
 
+  public ItemStack getBlockSuper() {
+
+    return new ItemStack(ordinal() < 16 ? ModBlocks.gemBlockSuper : ModBlocks.gemBlockSuperDark, 1,
+        ordinal() & 0xF);
+  }
+
+  public String getBlockSuperOreName() {
+
+    return getBlockOreName() + "Super";
+  }
+
   public ItemStack getOre() {
 
     return new ItemStack(ordinal() < 16 ? ModBlocks.gemOre : ModBlocks.gemOreDark, 1,
@@ -178,7 +189,7 @@ public enum EnumGem implements IStringSerializable {
 
   public String getItemSuperOreName() {
 
-    return "gem" + name + "Super";
+    return getItemOreName() + "Super";
   }
 
   public ItemStack getShard() {

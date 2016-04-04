@@ -1,9 +1,9 @@
 import re
 from subprocess import call
 
-NAME = 'GemSuper'
-TEXTURE = 'Gem'
-MODE = 'item'
+NAME = 'GemBlockSuper'
+TEXTURE = 'GemBlock'
+MODE = 'block'
 INCLUDE_DARK = True
 
 for i in range(16):

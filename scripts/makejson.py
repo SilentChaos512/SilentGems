@@ -43,7 +43,7 @@ def writeBlockJSONs(name, texture):
     f.write('  "parent": "%s:block/%s",\n' % (MOD_ID, name))
     #f.write('  "parent": "item/generated",\n')
     f.write('  "textures": {\n')
-    f.write('    "layer0": "%s:blocks/%s"\n' % (MOD_ID, name))
+    f.write('    "layer0": "%s:blocks/%s"\n' % (MOD_ID, texture))
     f.write('  }\n')
     # f.write('  "display": {\n')
     # f.write('    "thirdperson": {\n')
