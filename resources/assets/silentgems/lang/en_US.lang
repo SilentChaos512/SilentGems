@@ -3,6 +3,7 @@ itemGroup.tabSilentGems=Silent's Gems
 # Blocks
 
 tile.silentgems:ChaosNode.name=Chaos Node
+tile.silentgems:ChaosNode.desc=Produces and distributes Chaos energy.
 
 tile.silentgems:ChaosPylon0.name=Passive Chaos Pylon
 tile.silentgems:ChaosPylon0.desc=Creates Chaos for free, likes Nodes.
@@ -120,6 +121,8 @@ tile.silentgems:GlowRose14.name=Onyx Glow Rose
 tile.silentgems:GlowRose15.name=Opal Glow Rose
 
 tile.silentgems:MaterialGrader.name=Material Grader
+tile.silentgems:MaterialGrader.desc1=Assigns random grades to tool crafting
+tile.silentgems:MaterialGrader.desc2=materials, giving stat bonuses.
 
 # Items
 
@@ -261,6 +264,7 @@ item.silentgems:IronPotato.name=Iron Potato
 item.silentgems:IronPotato.desc=The potato that does not compromise.
 item.silentgems:LifeEssence.name=Life Essence
 item.silentgems:LifeEssence.desc=A heart, how creative. Not.
+item.silentgems:MagnifyingGlass.name=Magnifying Glass
 item.silentgems:MysteryGoo.name=Mystery Goo
 item.silentgems:MysteryGoo.desc=Feels right at home in space.
 item.silentgems:OrnateStickGold.name=Ornate Gold Rod

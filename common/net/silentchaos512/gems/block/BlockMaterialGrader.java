@@ -16,8 +16,11 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
 import net.silentchaos512.lib.block.BlockContainerSL;
@@ -36,6 +39,18 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
 
     SilentGems.instance.registry.registerTileEntity(TileMaterialGrader.class,
         Names.MATERIAL_GRADER);
+  }
+
+  @Override
+  public void addRecipes() {
+
+    // @formatter:off
+    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this),
+        " m ", "iii", "ccc",
+        'i', "ingotIron",
+        'c', ModItems.craftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS),
+        'm', ModItems.craftingMaterial.getStack(Names.MAGNIFYING_GLASS)));
+    // @formatter:on
   }
 
   public EnumBlockRenderType getRenderType(IBlockState state) {
@@ -59,8 +74,8 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
 
     TileEntity tile = world.getTileEntity(pos);
     if (tile instanceof TileMaterialGrader) {
-      player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_MATERIAL_GRADER, world, pos.getX(),
-          pos.getY(), pos.getZ());
+      player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_MATERIAL_GRADER, world,
+          pos.getX(), pos.getY(), pos.getZ());
     }
 
     return true;
@@ -82,11 +97,11 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
   public List<String> getWitLines(IBlockState state, BlockPos pos, EntityPlayer player,
       boolean advanced) {
 
-//    TileEntity tileEntity = player.worldObj.getTileEntity(pos);
-//    if (tileEntity != null && tileEntity instanceof TileMaterialGrader) {
-//      TileMaterialGrader tile = (TileMaterialGrader) tileEntity;
-//      return Lists.newArrayList("Charge: " + tile.getField(0));
-//    }
+    // TileEntity tileEntity = player.worldObj.getTileEntity(pos);
+    // if (tileEntity != null && tileEntity instanceof TileMaterialGrader) {
+    // TileMaterialGrader tile = (TileMaterialGrader) tileEntity;
+    // return Lists.newArrayList("Charge: " + tile.getField(0));
+    // }
     return null;
   }
 

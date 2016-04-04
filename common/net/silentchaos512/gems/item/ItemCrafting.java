@@ -25,13 +25,15 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_ESSENCE_SHARD, Names.CHAOS_COAL,
       Names.STICK_IRON, Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.IRON_POTATO,
-      Names.FLUFFY_FABRIC, Names.UPGRADE_BASE, Names.NAME_PLATE, Names.CHAOS_CORE };
+      Names.FLUFFY_FABRIC, Names.UPGRADE_BASE, Names.NAME_PLATE, Names.CHAOS_CORE,
+      Names.MAGNIFYING_GLASS };
 
   public static final String[] SORTED_NAMES = new String[] { //
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_ESSENCE_SHARD, Names.CHAOS_COAL,
       Names.STICK_IRON, Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.CHAOS_CORE,
-      Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.NAME_PLATE, Names.UPGRADE_BASE };
+      Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.MAGNIFYING_GLASS, Names.NAME_PLATE,
+      Names.UPGRADE_BASE };
 
   public ItemCrafting() {
 
@@ -82,6 +84,9 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
     // Chaos Core
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.CHAOS_CORE), " c ", "cqc", " c ", 'c',
         getStack(Names.CHAOS_ESSENCE_PLUS), 'q', "blockQuartz"));
+    // Magnifying Glass
+    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.MAGNIFYING_GLASS), " g ", "gpg",
+        "rg ", 'g', "ingotGold", 'p', "paneGlass", 'r', getStack(Names.ORNATE_STICK_GOLD)));
   }
 
   @Override
