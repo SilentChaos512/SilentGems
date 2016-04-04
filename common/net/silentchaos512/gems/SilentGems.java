@@ -32,7 +32,7 @@ import net.silentchaos512.lib.util.LogHelper;
 @Mod(modid = SilentGems.MOD_ID,
     name = SilentGems.MOD_NAME,
     version = SilentGems.VERSION,
-    dependencies = "required-after:SilentLib")
+    dependencies = SilentGems.DEPENDENCIES)
 //@formatter:on
 public class SilentGems {
 
@@ -40,6 +40,7 @@ public class SilentGems {
   public static final String MOD_ID = "SilentGems";
   public static final String MOD_NAME = "Silent's Gems";
   public static final String VERSION = "@VERSION@";
+  public static final String DEPENDENCIES = "required-after:Forge@[12.16.0.1826,);required-after:SilentLib;";
   public static final String RESOURCE_PREFIX = MOD_ID.toLowerCase() + ":";
 
   public Random random = new Random();
@@ -49,10 +50,10 @@ public class SilentGems {
   public SRegistry registry = new SRegistry(MOD_ID) {
 
     @Override
-    public Block registerBlock(Block block, String key, Class<? extends ItemBlock> itemClass) {
+    public Block registerBlock(Block block, String key, ItemBlock itemBlock) {
 
       block.setCreativeTab(creativeTab);
-      return super.registerBlock(block, key, itemClass);
+      return super.registerBlock(block, key, itemBlock);
     }
 
     @Override

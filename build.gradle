@@ -24,7 +24,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
-    version = "1.9-12.16.0.1806-1.9"
+    version = "1.9-12.16.0.1826-1.9"
     runDir = "eclipse"
 
     replace "@VERSION@", project.version

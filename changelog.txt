@@ -1,9 +1,12 @@
 Silent's Gems - Changelog
 
 2.0.3
-Added: The Material Grader. Insert main tool parts (ie gems, flint, etc) to assign a random grade. Requires Chaos to function, so place it near nodes/pylons. Grades boost tool stats. Grades are normally distributed, with a mean of 'B' and a standard deviation of 1.5 grades (assuming I got the math right).
+Updated for Forge 1833. Update Silent Lib to 1.0.3!
+Added: The Material Grader. Insert main tool parts (ie gems, flint, etc) to assign a random grade. Requires Chaos to function, so place it near nodes/pylons. Grades boost tool stats. Grades are normally distributed, with a mean of 'B' and a standard deviation of 1.5 grades (assuming I got the math right). And yes, I know one of its textures is missing.
 Added: Tooltips for tool rods.
 Added: Tooltips for the grade on grade-able materials (gems, etc).
+Changed: Improved Gem tooltips.
+Fixed: Gems not being registered in the ore dictionary.
 
 2.0.2
 Added: Name Plates. Basically just like the one from Pets. Name it on an anvil, then craft with an item to rename. Or you can use it like a name tag.
