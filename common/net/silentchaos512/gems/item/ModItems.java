@@ -30,6 +30,7 @@ public class ModItems {
   public static ItemGemShard gemShard;
   public static ItemCrafting craftingMaterial;
   public static ItemTipUpgrade tipUpgrade;
+  public static ItemEnchantmentToken enchantmentToken;
   public static ItemFluffyPuffSeeds fluffyPuffSeeds;
   public static ItemFluffyPuff fluffyPuff;
   public static ItemDyeSG dye;
@@ -61,6 +62,7 @@ public class ModItems {
     gemShard = (ItemGemShard) reg.registerItem(new ItemGemShard());
     craftingMaterial = (ItemCrafting) reg.registerItem(new ItemCrafting());
     tipUpgrade = (ItemTipUpgrade) reg.registerItem(new ItemTipUpgrade());
+    enchantmentToken = (ItemEnchantmentToken) reg.registerItem(new ItemEnchantmentToken());
     fluffyPuffSeeds = (ItemFluffyPuffSeeds) reg.registerItem(new ItemFluffyPuffSeeds(),
         Names.FLUFFY_PUFF_SEEDS);
     fluffyPuff = (ItemFluffyPuff) reg.registerItem(new ItemFluffyPuff());

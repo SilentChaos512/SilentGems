@@ -18,6 +18,7 @@ public class Names {
   // Items
   public static final String CHAOS_ORB = "ChaosOrb";
   public static final String DYE = "Dye";
+  public static final String ENCHANTMENT_TOKEN = "EnchantmentToken";
   public static final String FLUFFY_PUFF_SEEDS = "FluffyPuffSeeds";
   public static final String FLUFFY_PUFF = "FluffyPuff";
   public static final String GEM = "Gem";
@@ -40,9 +41,11 @@ public class Names {
   public static final String IRON_POTATO = "IronPotato";
   public static final String MAGNIFYING_GLASS = "MagnifyingGlass";
   public static final String NAME_PLATE = "NamePlate";
-  public static final String STICK_IRON = "StickIron";
   public static final String ORNATE_STICK_GOLD = "OrnateStickGold";
   public static final String ORNATE_STICK_SILVER = "OrnateStickSilver";
+  public static final String PLUME = "Plume";
+  public static final String SHINY_PLUME = "ShinyPlume";
+  public static final String STICK_IRON = "StickIron";
   public static final String UPGRADE_BASE = "UpgradeBase";
 
   // Foods

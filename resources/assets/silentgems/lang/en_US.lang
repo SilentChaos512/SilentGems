@@ -176,6 +176,10 @@ item.silentgems:ChaosOrb.crack=Your %s has cracked...
 item.silentgems:DyeBlack.name=Black Dye
 item.silentgems:DyeBlue.name=Blue Dye
 
+item.silentgems:EnchantmentToken.name=Enchantment Token
+item.silentgems:EnchantmentToken_Blank.name=Enchantment Token (Blank)
+item.silentgems:EnchantmentToken.maxLevel=&dMax Level:&r %d
+
 item.silentgems:FluffyPuff.name=Fluffy Puff
 item.silentgems:FluffyPuffSeeds.name=Fluffy Puff Seeds
 
