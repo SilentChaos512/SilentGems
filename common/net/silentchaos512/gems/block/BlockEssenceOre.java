@@ -39,18 +39,21 @@ public class BlockEssenceOre extends BlockSL {
     setHardness(4.0f);
     setResistance(15.0f);
     setStepSound(SoundType.STONE);
-    setHarvestLevel("pickaxe", 3);
+    setHarvestLevel("pickaxe", 3, getDefaultState().withProperty(VARIANT, Type.CHAOS));
+    setHarvestLevel("pickaxe", 4, getDefaultState().withProperty(VARIANT, Type.ENDER));
 
     setUnlocalizedName(Names.ESSENCE_ORE);
   }
 
   public void addRecipes() {
 
-    // TODO
     ItemStack chaosOre = new ItemStack(this, 1, 0);
     ItemStack chaosEssence = ModItems.craftingMaterial.getStack(Names.CHAOS_ESSENCE);
+    GameRegistry.addSmelting(chaosOre, chaosEssence, 0.7f);
 
-    GameRegistry.addSmelting(chaosOre, chaosEssence, 0.75f);
+    ItemStack enderOre = new ItemStack(this, 1, 1);
+    ItemStack enderEssence = ModItems.craftingMaterial.getStack(Names.ENDER_ESSENCE);
+    GameRegistry.addSmelting(enderOre, enderEssence, 1.0f);
   }
 
   @Override

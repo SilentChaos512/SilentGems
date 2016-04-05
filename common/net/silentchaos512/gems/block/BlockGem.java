@@ -29,10 +29,10 @@ public class BlockGem extends BlockGemSubtypes {
     super(dark, Names.GEM_BLOCK + (supercharged ? "Super" : "") + (dark ? "Dark" : ""));
     this.supercharged = supercharged;
 
-    setHardness(3.0f);
+    setHardness(supercharged ? 7.0f : 3.0f);
     setResistance(supercharged ? 6000000.0F : 30.0f);
     setStepSound(SoundType.METAL);
-    setHarvestLevel("pickaxe", 1);
+    setHarvestLevel("pickaxe", supercharged ? 3 : 1);
   }
 
   @Override
