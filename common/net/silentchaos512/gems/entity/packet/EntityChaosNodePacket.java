@@ -39,9 +39,9 @@ public class EntityChaosNodePacket extends Entity {
 
     super(worldIn);
     setSize(0.5f, 0.5f);
-    motionX = SilentGems.instance.random.nextGaussian() * 0.2;
-    motionY = SilentGems.instance.random.nextGaussian() * 0.2 + 0.2;
-    motionZ = SilentGems.instance.random.nextGaussian() * 0.2;
+    motionX = SilentGems.instance.random.nextGaussian() * 0.1;
+    motionY = SilentGems.instance.random.nextGaussian() * 0.2 + 0.25;
+    motionZ = SilentGems.instance.random.nextGaussian() * 0.1;
   }
 
   public EntityChaosNodePacket(World worldIn, EntityLivingBase target) {
@@ -65,7 +65,7 @@ public class EntityChaosNodePacket extends Entity {
     } else if (targetPos != null) {
       homeOnBlock(targetPos);
     } else {
-//      SilentGems.instance.logHelper.warning("Chaos node packet with no target! " + this);
+      // SilentGems.instance.logHelper.warning("Chaos node packet with no target! " + this);
       setDead();
     }
 
@@ -102,7 +102,7 @@ public class EntityChaosNodePacket extends Entity {
 
     Vec3d vec = new Vec3d(motionX, motionY, motionZ);
     double speed = accelerate(vec.lengthVector());
-    Vec3d toTarget = new Vec3d(entity.posX - posX, entity.posY + entity.height * 0.75 - posY,
+    Vec3d toTarget = new Vec3d(entity.posX - posX, entity.posY + entity.height * 0.6 - posY,
         entity.posZ - posZ);
     vec = vec.add(toTarget.scale(homingTightness)).normalize().scale(speed);
     setVelocity(vec);
@@ -154,11 +154,11 @@ public class EntityChaosNodePacket extends Entity {
   protected void spawnTailParticles() {
 
     if (!firstUpdate && ticksExisted % (1 + SilentGems.proxy.getParticleSettings()) == 0) {
-      double mx = worldObj.rand.nextGaussian() * 0.01f;
-      double my = worldObj.rand.nextGaussian() * 0.01f;
-      double mz = worldObj.rand.nextGaussian() * 0.01f;
-      SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PACKET_TAIL, colorTail, worldObj, posX,
-          posY, posZ, mx, my, mz);
+      double mx = worldObj.rand.nextGaussian() * 0.02f;
+      double my = worldObj.rand.nextGaussian() * 0.02f;
+      double mz = worldObj.rand.nextGaussian() * 0.02f;
+      SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PACKET_TAIL, colorTail, worldObj,
+          prevPosX, prevPosY, prevPosZ, mx, my, mz);
     }
   }
 

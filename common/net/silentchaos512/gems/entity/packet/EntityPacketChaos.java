@@ -13,20 +13,28 @@ import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 public class EntityPacketChaos extends EntityChaosNodePacket {
+
+  public static final Color COLOR_HEAD = new Color(0xFFFF00);
+  public static final Color COLOR_TAIL = new Color(0xFFFF99);
 
   public EntityPacketChaos(World worldIn, EntityLivingBase target, int amount) {
 
     super(worldIn, target);
     this.amount = amount;
+    colorHead = COLOR_HEAD;
+    colorTail = COLOR_TAIL;
   }
 
   public EntityPacketChaos(World worldIn, BlockPos target, int amount) {
 
     super(worldIn, target);
     this.amount = amount;
+    colorHead = COLOR_HEAD;
+    colorTail = COLOR_TAIL;
   }
 
   @Override

@@ -14,9 +14,12 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosProvider;
+import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
 import net.silentchaos512.gems.entity.packet.EntityPacketAttack;
+import net.silentchaos512.gems.entity.packet.EntityPacketRepair;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.lib.util.Color;
@@ -27,6 +30,9 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
   public static final int SEND_CHAOS_DELAY = 200;
   public static final int SEND_CHAOS_AMOUNT = 2000;
   public static final int TRY_POTION_DELAY = 100;
+
+  public static final int TRY_REPAIR_DELAY = 200;
+  public static final float TRY_REPAIR_CHANCE = 0.25f;
 
   public static final int TRY_ATTACK_HOSTILES_DELAY = 100;
   public static final float ATTACK_HOSTILE_CHANCE = 0.25f;
@@ -53,8 +59,12 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
       // Send energy or effects to nearby players?
       List<EntityPlayerMP> players = getPlayersInRange();
       long time = worldObj.getTotalWorldTime();
+
       if (time % SEND_CHAOS_DELAY == 0) {
         sendChaosToPlayers(players);
+      }
+      if (time % TRY_REPAIR_DELAY == 0) {
+        tryRepairItems(players);
       }
       if (time % TRY_POTION_DELAY == 0) {
         tryGivePotionEffects(players);
@@ -69,31 +79,16 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
     }
   }
 
-  @Override
-  public Packet getDescriptionPacket() {
-
-    NBTTagCompound tags = new NBTTagCompound();
-    tags.setInteger("Energy", getCharge());
-    return new SPacketUpdateTileEntity(pos, getBlockMetadata(), tags);
-  }
-
-  public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-
-    chaosStored = packet.getNbtCompound().getInteger("Energy");
-  }
-
   private List<EntityPlayerMP> getPlayersInRange() {
 
-    Predicate<EntityPlayerMP> predicate = new Predicate<EntityPlayerMP>() {
+    return worldObj.getPlayers(EntityPlayerMP.class,
+        player -> player.getDistanceSq(getPos()) < SEARCH_RADIUS_SQUARED);
+  }
 
-      @Override
-      public boolean apply(EntityPlayerMP player) {
+  private void spawnPacketInWorld(EntityChaosNodePacket packet) {
 
-        return player.getDistanceSq(getPos()) < SEARCH_RADIUS_SQUARED;
-      }
-    };
-
-    return worldObj.getPlayers(EntityPlayerMP.class, predicate);
+    packet.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+    worldObj.spawnEntityInWorld(packet);
   }
 
   private void sendChaosToPlayers(List<EntityPlayerMP> players) {
@@ -104,6 +99,16 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
       }
       int amount = extractEnergy(SEND_CHAOS_AMOUNT, false);
       ChaosUtil.spawnTransferEntity(worldObj, pos, player, amount);
+    }
+  }
+
+  private void tryRepairItems(List<EntityPlayerMP> players) {
+
+    Random rand = SilentGems.instance.random;
+    for (EntityPlayerMP player : players) {
+      if (rand.nextFloat() < TRY_REPAIR_CHANCE) {
+        spawnPacketInWorld(new EntityPacketRepair(worldObj, player));
+      }
     }
   }
 
@@ -123,23 +128,41 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
       // Send an attack packet to the mob.
       float amount = (float) (ATTACK_HOSTILE_BASE_DAMAGE
           + ATTACK_HOSTILE_DAMAGE_DEVIATION * rand.nextGaussian());
-      EntityPacketAttack packet = new EntityPacketAttack(worldObj, entity, amount);
-      packet.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-      worldObj.spawnEntityInWorld(packet);
+      spawnPacketInWorld(new EntityPacketAttack(worldObj, entity, amount));
     }
   }
 
   private void spawnParticles() {
 
+    Random rand = SilentGems.instance.random;
     for (int i = 0; i < 6 / (1 + 2 * SilentGems.instance.proxy.getParticleSettings()); ++i) {
       if (worldObj.isRemote) {
-        double motionX = getWorld().rand.nextGaussian() * 0.05f;
-        double motionY = getWorld().rand.nextGaussian() * 0.01f;
-        double motionZ = getWorld().rand.nextGaussian() * 0.05f;
-        SilentGems.instance.proxy.spawnParticles(EnumModParticles.CHAOS, Color.WHITE, getWorld(),
-            pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, motionX, motionY, motionZ);
+        double motionX = rand.nextGaussian() * 0.05f;
+        double motionY = rand.nextGaussian() * 0.006f;
+        double motionZ = rand.nextGaussian() * 0.05f;
+        float shade = 0.7f + 0.3f * rand.nextFloat();
+        float variation = 0.075f;
+        float red = MathHelper.clamp_float((float) (shade + variation * rand.nextGaussian()), 0f, 1f);
+        float green = MathHelper.clamp_float((float) (shade + variation * rand.nextGaussian()), 0f, 1f);
+        float blue = MathHelper.clamp_float((float) (shade + variation * rand.nextGaussian()), 0f, 1f);
+        SilentGems.instance.proxy.spawnParticles(EnumModParticles.CHAOS,
+            new Color(red, green, blue), getWorld(), pos.getX() + 0.5, pos.getY() + 0.5,
+            pos.getZ() + 0.5, motionX, motionY, motionZ);
       }
     }
+  }
+
+  @Override
+  public Packet getDescriptionPacket() {
+
+    NBTTagCompound tags = new NBTTagCompound();
+    tags.setInteger("Energy", getCharge());
+    return new SPacketUpdateTileEntity(pos, getBlockMetadata(), tags);
+  }
+
+  public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
+
+    chaosStored = packet.getNbtCompound().getInteger("Energy");
   }
 
   @Override
