@@ -10,6 +10,7 @@ public class ModBlocks {
 
   public static BlockGemOre gemOre, gemOreDark;
   public static BlockGem gemBlock, gemBlockDark, gemBlockSuper, gemBlockSuperDark;
+  public static BlockGemBrick gemBrickCoated, gemBrickCoatedDark, gemBrickSpeckled, gemBrickSpeckledDark;
   public static BlockEssenceOre essenceOre;
   public static BlockGlowRose glowRose;
   public static BlockFluffyBlock fluffyBlock;
@@ -28,6 +29,10 @@ public class ModBlocks {
     gemBlockDark = (BlockGem) reg.registerBlock(new BlockGem(true, false));
     gemBlockSuper = (BlockGem) reg.registerBlock(new BlockGem(false, true));
     gemBlockSuperDark = (BlockGem) reg.registerBlock(new BlockGem(true, true));
+    gemBrickCoated = (BlockGemBrick) reg.registerBlock(new BlockGemBrick(false, true));
+    gemBrickCoatedDark = (BlockGemBrick) reg.registerBlock(new BlockGemBrick(true, true));
+    gemBrickSpeckled = (BlockGemBrick) reg.registerBlock(new BlockGemBrick(false, false));
+    gemBrickSpeckledDark = (BlockGemBrick) reg.registerBlock(new BlockGemBrick(true, false));
     essenceOre = (BlockEssenceOre) reg.registerBlock(new BlockEssenceOre());
     glowRose = (BlockGlowRose) reg.registerBlock(new BlockGlowRose(), Names.GLOW_ROSE);
     fluffyBlock = (BlockFluffyBlock) reg.registerBlock(new BlockFluffyBlock(), Names.FLUFFY_BLOCK);

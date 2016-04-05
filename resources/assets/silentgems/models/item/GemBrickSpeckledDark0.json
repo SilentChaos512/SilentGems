@@ -1,0 +1,6 @@
+{
+  "parent": "SilentGems:block/GemBrickSpeckledDark0",
+  "textures": {
+    "layer0": "SilentGems:blocks/GemBrickSpeckledDark0"
+  }
+}

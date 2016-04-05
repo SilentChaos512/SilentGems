@@ -1,8 +1,8 @@
 import re
 from subprocess import call
 
-NAME = 'GemBlockSuper'
-TEXTURE = 'GemBlock'
+NAME = 'GemBrickSpeckled'
+TEXTURE = NAME
 MODE = 'block'
 INCLUDE_DARK = True
 

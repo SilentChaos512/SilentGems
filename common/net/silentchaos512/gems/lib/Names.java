@@ -10,6 +10,7 @@ public class Names {
   public static final String FLUFFY_BLOCK = "FluffyBlock";
   public static final String FLUFFY_PUFF_PLANT = "FluffyPlant";
   public static final String GEM_BLOCK = "GemBlock";
+  public static final String GEM_BRICK = "GemBrick";
   public static final String GEM_ORE = "GemOre";
   public static final String GEM_ORE_DARK = "GemOreDark";
   public static final String GLOW_ROSE = "GlowRose";

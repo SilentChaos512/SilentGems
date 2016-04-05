@@ -1,5 +1,13 @@
 Silent's Gems - Changelog
 
+2.0.4
+Added: Enchantment Tokens! Everyone's(?) favorite feature is back. Recipes have changed, please check JEI. Mechanics have also changed:
+  1. Enchantment Tokens for ALL enchantments should be generated, although only vanilla ones (not other mods) have recipes.
+  2. Tokens can be applied to anything the enchantment would normally work on.
+  3. Enchantment tokens can carry multiple enchantments (VERIFY: is this possible without cheating?)
+  4. Enchantment tokens can have enchantments with levels greater than 1 now (VERIFY: is this possible without cheating?)
+Added: Supercharged gem blocks. Supposed to be wither-proof, but I haven't solved that problem yet. Highly blast-resistant, but cannot be uncrafted! Made with 1 obsidian and 4 supercharged gems.
+
 2.0.3
 Updated for Forge 1833. Update Silent Lib to 1.0.3!
 Added: The Material Grader. Insert main tool parts (ie gems, flint, etc) to assign a random grade. Requires Chaos to function, so place it near nodes/pylons. Grades boost tool stats. Grades are normally distributed, with a mean of 'B' and a standard deviation of 1.5 grades (assuming I got the math right). And yes, I know one of its textures is missing.
