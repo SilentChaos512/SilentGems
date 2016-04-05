@@ -7,11 +7,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -69,6 +68,12 @@ public class BlockGem extends BlockGemSubtypes {
 
     list.addAll(SilentGems.instance.localizationHelper
         .getBlockDescriptionLines(blockName.replaceFirst("Dark", "")));
+  }
+
+  @Override
+  public EnumRarity getRarity(int meta) {
+
+    return supercharged ? EnumRarity.RARE : EnumRarity.COMMON;
   }
 
   @Override
