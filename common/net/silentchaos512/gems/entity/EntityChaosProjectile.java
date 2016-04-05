@@ -22,6 +22,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.Color;
 
 public class EntityChaosProjectile extends EntityThrowable implements IEntityAdditionalSpawnData {
 
@@ -35,7 +36,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
   protected Entity shooter;
 //  protected ItemStack castingStack;
-  private int color = 0xFFFFFF;
+  private Color color = Color.WHITE;
   protected float damage = 0f;
   protected boolean gravity = true;
   protected int bounces = 4;
@@ -206,12 +207,12 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
   }
 
-  public int getColor() {
+  public Color getColor() {
 
     return color;
   }
 
-  public EntityChaosProjectile setColor(int color) {
+  public EntityChaosProjectile setColor(Color color) {
 
     this.color = color;
     return this;
@@ -228,7 +229,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
     super.readEntityFromNBT(tags);
 
-    setColor(tags.getInteger(NBT_COLOR));
+    setColor(new Color(tags.getInteger(NBT_COLOR)));
     damage = tags.getFloat(NBT_DAMAGE);
     gravity = tags.getBoolean(NBT_GRAVITY);
     if (tags.hasKey(NBT_SHOOTER)) {
@@ -244,7 +245,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
     super.writeEntityToNBT(tags);
 
-    tags.setInteger(NBT_COLOR, color);
+    tags.setInteger(NBT_COLOR, color.getColor());
     tags.setFloat(NBT_DAMAGE, damage);
     tags.setBoolean(NBT_GRAVITY, gravity);
     if (shooter != null) {
@@ -256,7 +257,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
   public void readSpawnData(ByteBuf data) {
 
     try {
-      color = data.readInt();
+      color = new Color(data.readInt());
       damage = data.readFloat();
       gravity = data.readBoolean();
     } catch (Exception ex) {
@@ -266,7 +267,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
   @Override
   public void writeSpawnData(ByteBuf data) {
 
-    data.writeInt(color);
+    data.writeInt(color.getColor());
     data.writeFloat(damage);
     data.writeBoolean(gravity);
   }

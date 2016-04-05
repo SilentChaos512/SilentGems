@@ -34,6 +34,7 @@ import net.silentchaos512.gems.item.tool.ItemGemScepter;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.LogHelper;
 
+@SuppressWarnings("deprecation")
 public class ToolModel implements IPerspectiveAwareModel {
 
   private static ModelManager modelManager = null;

@@ -11,6 +11,7 @@ import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.lib.registry.SRegistry;
+import net.silentchaos512.lib.util.Color;
 
 public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
 
@@ -39,7 +40,7 @@ public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
     super.postInit(registry);
   }
 
-  public void spawnParticles(EnumModParticles type, int color, World world, double x, double y,
+  public void spawnParticles(EnumModParticles type, Color color, World world, double x, double y,
       double z, double motionX, double motionY, double motionZ) {
 
   }

@@ -7,6 +7,8 @@ import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.entity.EntityChaosTransfer;
 
+@SuppressWarnings("deprecation")
+@Deprecated
 public class RenderEntityChaosTransfer extends Render<EntityChaosTransfer> {
 
   public RenderEntityChaosTransfer() {

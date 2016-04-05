@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.client.render.entity;
+package net.silentchaos512.gems.entity;
 
 import com.google.common.base.Predicate;
 

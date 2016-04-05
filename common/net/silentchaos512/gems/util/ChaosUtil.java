@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -11,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
-import net.silentchaos512.gems.entity.EntityChaosTransfer;
+import net.silentchaos512.gems.entity.packet.EntityPacketChaos;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.lib.util.PlayerHelper;
@@ -58,10 +59,17 @@ public class ChaosUtil {
     return amount <= 0;
   }
 
-  public static void spawnTransferEntity(World world, BlockPos start, EntityPlayer target,
+  public static void spawnTransferEntity(World world, BlockPos start, EntityLivingBase target,
       int amount) {
 
-    EntityChaosTransfer entity = new EntityChaosTransfer(world, target, amount);
+    EntityPacketChaos entity = new EntityPacketChaos(world, target, amount);
+    entity.setPosition(start.getX() + 0.5, start.getY() + 0.5, start.getZ() + 0.5);
+    world.spawnEntityInWorld(entity);
+  }
+
+  public static void spawnPacketToBlock(World world, BlockPos start, BlockPos target, int amount) {
+
+    EntityPacketChaos entity = new EntityPacketChaos(world, target, amount);
     entity.setPosition(start.getX() + 0.5, start.getY() + 0.5, start.getZ() + 0.5);
     world.spawnEntityInWorld(entity);
   }

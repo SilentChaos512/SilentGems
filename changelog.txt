@@ -7,6 +7,10 @@ Added: Enchantment Tokens! Everyone's(?) favorite feature is back. Recipes have 
   3. Enchantment tokens can carry multiple enchantments (VERIFY: is this possible without cheating?)
   4. Enchantment tokens can have enchantments with levels greater than 1 now (VERIFY: is this possible without cheating?)
 Added: Supercharged gem blocks. Supposed to be wither-proof, but I haven't solved that problem yet. Highly blast-resistant, but cannot be uncrafted! Made with 1 obsidian and 4 supercharged gems.
+Added: Gem bricks. As before, they have 'coated' and 'speckled' versions, as well as light/dark versions like all gem blocks. That's a total of 64 bricks to choose from.
+Added: Chaos node 'packets'. Little balls of goodness that nodes spew out:
+  * Attack packets will seek and damage hostile mobs. Average of 4 damage (2 hearts) per packet.
+Changed: Chaos transfer packets tweaked. They no longer follow players perfectly and can collide with blocks. This behavior is the same for all packets.
 
 2.0.3
 Updated for Forge 1833. Update Silent Lib to 1.0.3!

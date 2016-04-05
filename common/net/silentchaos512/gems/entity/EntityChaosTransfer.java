@@ -18,8 +18,10 @@ import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.lib.EnumModParticles;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.PlayerHelper;
 
+@Deprecated
 public class EntityChaosTransfer
     extends EntityThrowable /* implements IEntityAdditionalSpawnData */ {
 
@@ -126,7 +128,7 @@ public class EntityChaosTransfer
       double my = worldObj.rand.nextGaussian() * 0.01f;
       double mz = worldObj.rand.nextGaussian() * 0.01f;
       // TODO
-      SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, 0xFFFFFF, worldObj, posX, posY, posZ,
+      SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, Color.WHITE, worldObj, posX, posY, posZ,
           mx, my, mz);
     }
 
