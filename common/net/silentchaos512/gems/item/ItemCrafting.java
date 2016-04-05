@@ -26,13 +26,13 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_ESSENCE_SHARD, Names.CHAOS_COAL,
       Names.STICK_IRON, Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.IRON_POTATO,
       Names.FLUFFY_FABRIC, Names.UPGRADE_BASE, Names.NAME_PLATE, Names.CHAOS_CORE,
-      Names.MAGNIFYING_GLASS, Names.PLUME, Names.SHINY_PLUME };
+      Names.MAGNIFYING_GLASS, Names.PLUME, Names.SHINY_PLUME, Names.ENDER_FROST };
 
   public static final String[] SORTED_NAMES = new String[] { //
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_ESSENCE_SHARD, Names.CHAOS_COAL,
       Names.STICK_IRON, Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.CHAOS_CORE,
-      Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.PLUME, Names.SHINY_PLUME,
+      Names.ENDER_FROST, Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.PLUME, Names.SHINY_PLUME,
       Names.MAGNIFYING_GLASS, Names.NAME_PLATE, Names.UPGRADE_BASE };
 
   public ItemCrafting() {
@@ -87,6 +87,15 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
     // Magnifying Glass
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.MAGNIFYING_GLASS), " g ", "gpg",
         "rg ", 'g', "ingotGold", 'p', "paneGlass", 'r', getStack(Names.ORNATE_STICK_GOLD)));
+    // Plume
+    RecipeHelper.addSurroundOre(getStack(Names.PLUME),
+        new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE), Items.feather);
+    // Shiny Plume
+    RecipeHelper.addSurroundOre(getStack(Names.SHINY_PLUME), getStack(Names.PLUME), "gemChaos",
+        "ingotGold");
+    // Ender Frost
+    RecipeHelper.addSurround(getStack(Names.ENDER_FROST), getStack(Names.ENDER_ESSENCE),
+        Blocks.ice);
   }
 
   @Override

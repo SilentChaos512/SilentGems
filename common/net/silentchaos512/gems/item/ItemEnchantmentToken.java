@@ -269,15 +269,16 @@ public class ItemEnchantmentToken extends ItemSL {
     // Armor
     addTokenRecipe(Enchantments.aquaAffinity, EnumGem.BLUE_TOPAZ, "blockLapis", 2);
     addTokenRecipe(Enchantments.blastProtection, EnumGem.ONYX, Items.gunpowder, 5);
-    addTokenRecipe(Enchantments.featherFalling, EnumGem.MALACHITE,
-        ModItems.craftingMaterial.getStack(Names.PLUME), 1);
+    ItemStack plume = ModItems.craftingMaterial.getStack(Names.PLUME);
+    addTokenRecipe(Enchantments.featherFalling, EnumGem.MALACHITE, plume, 2);
     addTokenRecipe(Enchantments.fireProtection, EnumGem.CITRINE, Items.magma_cream, 2);
     addTokenRecipe(Enchantments.projectileProtection, EnumGem.AGATE, Items.arrow, 4);
     addTokenRecipe(Enchantments.protection, EnumGem.IOLITE, Blocks.iron_bars, 4);
     addTokenRecipe(Enchantments.respiration, EnumGem.TANZANITE, new ItemStack(Items.fish, 1, 3), 1);
     addTokenRecipe(Enchantments.thorns, EnumGem.TOPAZ, new ItemStack(Blocks.double_plant, 1, 4), 2);
     addTokenRecipe(Enchantments.depthStrider, EnumGem.MOONSTONE, Blocks.clay, 3);
-    addTokenRecipe(Enchantments.frostWalker, EnumGem.ALEXANDRITE, Items.nether_star, 1);
+    ItemStack enderFrost = ModItems.craftingMaterial.getStack(Names.ENDER_FROST);
+    addTokenRecipe(Enchantments.frostWalker, EnumGem.ALEXANDRITE, enderFrost, 4);
   }
 
   public void addTokenRecipe(Enchantment ench, EnumGem gem, Object other, int otherCount) {

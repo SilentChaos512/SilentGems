@@ -178,7 +178,7 @@ item.silentgems:DyeBlue.name=Blue Dye
 
 item.silentgems:EnchantmentToken.name=Enchantment Token
 item.silentgems:EnchantmentToken_Blank.name=Enchantment Token (Blank)
-item.silentgems:EnchantmentToken.maxLevel=&dMax Level:&r %d
+item.silentgems:EnchantmentToken.maxLevel=&eMax Level:&r %d
 
 item.silentgems:FluffyPuff.name=Fluffy Puff
 item.silentgems:FluffyPuffSeeds.name=Fluffy Puff Seeds
@@ -300,6 +300,7 @@ item.silentgems:ChaosEssenceShard.name=Chaos Essence Shard
 item.silentgems:ChaosEssenceShard.desc=Are you some kind of wizard, or something?
 item.silentgems:EnderEssence.name=Ender Essence
 item.silentgems:EnderEssenceShard.name=Ender Essence Shard
+item.silentgems:EnderFrost.name=Ender Frost
 item.silentgems:FluffyFabric.name=Fluffy Fabric
 item.silentgems:IronPotato.name=Iron Potato
 item.silentgems:IronPotato.desc=The potato that does not compromise.
@@ -310,6 +311,8 @@ item.silentgems:MysteryGoo.name=Mystery Goo
 item.silentgems:MysteryGoo.desc=Feels right at home in space.
 item.silentgems:OrnateStickGold.name=Ornate Gold Rod
 item.silentgems:OrnateStickSilver.name=Ornate Silver Rod
+item.silentgems:Plume.name=Plume
+item.silentgems:ShinyPlume.name=Shiny Plume
 item.silentgems:StickIron.name=Iron Rod
 item.silentgems:UpgradeBase.name=Upgrade Base
 

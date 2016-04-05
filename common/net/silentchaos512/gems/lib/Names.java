@@ -37,6 +37,7 @@ public class Names {
   public static final String CHAOS_ESSENCE_SHARD = "ChaosEssenceShard";
   public static final String ENDER_ESSENCE = "EnderEssence";
   public static final String ENDER_ESSENCE_SHARD = "EnderEssenceShard";
+  public static final String ENDER_FROST = "EnderFrost";
   public static final String FLUFFY_FABRIC = "FluffyFabric";
   public static final String IRON_POTATO = "IronPotato";
   public static final String MAGNIFYING_GLASS = "MagnifyingGlass";
