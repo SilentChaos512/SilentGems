@@ -50,6 +50,8 @@ public class ToolRenderHelperBase extends ItemSL {
   public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
       boolean slotChanged) {
 
-    return slotChanged || !oldStack.isItemEqual(newStack);
+    return slotChanged || !oldStack.isItemEqual(newStack)
+        || (oldStack.hasTagCompound() && newStack.hasTagCompound()
+            && !oldStack.getTagCompound().equals(newStack.getTagCompound()));
   }
 }
