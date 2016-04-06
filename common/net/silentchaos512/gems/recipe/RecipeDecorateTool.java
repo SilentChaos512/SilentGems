@@ -58,11 +58,8 @@ public class RecipeDecorateTool extends RecipeBase {
     ItemStack east = inv.getStackInRowAndColumn(toolRow + 1, toolCol);
     ItemStack south = inv.getStackInRowAndColumn(toolRow, toolCol + 1);
 
-//    log.debug(west, north, east, south);
-
     if (!checkIsDecorationMaterial(west) || !checkIsDecorationMaterial(north)
         || !checkIsDecorationMaterial(east) || !checkIsDecorationMaterial(south)) {
-      log.debug("deco material match fail");
       return null;
     }
 
@@ -104,11 +101,11 @@ public class RecipeDecorateTool extends RecipeBase {
     }
 
     // Repair.
-//    log.debug(repairValue);
     result.attemptDamageItem(-repairValue, SilentGems.instance.random);
 
     // Recalculate stats.
     ToolHelper.recalculateStats(result);
+    ToolHelper.incrementStatRedecorated(result, 1);
 
     return result;
   }
