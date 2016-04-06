@@ -26,6 +26,7 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.gems.api.tool.part.ToolPartTip;
 import net.silentchaos512.gems.client.render.ToolItemOverrideHandler;
 import net.silentchaos512.gems.client.render.ToolModel;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
@@ -68,8 +69,18 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
         || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
     String line;
 
+    // Broken?
     if (ToolHelper.isBroken(tool)) {
       line = loc.getMiscText("Tooltip.Broken");
+      list.add(line);
+    }
+
+    // Tipped upgrade
+    ToolPartTip partTip = (ToolPartTip) ToolHelper.getConstructionTip(tool);
+    if (partTip != null) {
+      line = partTip.getUnlocalizedName().replaceFirst("[^:]+:", "");
+      line = loc.getMiscText("Tooltip." + line);
+      line = String.format(loc.getMiscText("Tooltip.Tipped"), line);
       list.add(line);
     }
 

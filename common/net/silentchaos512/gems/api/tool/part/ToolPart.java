@@ -110,6 +110,11 @@ public abstract class ToolPart {
     return model;
   }
 
+  public String getUnlocalizedName() {
+
+    return key;
+  }
+
   public abstract int getDurability();
 
   public abstract float getHarvestSpeed();

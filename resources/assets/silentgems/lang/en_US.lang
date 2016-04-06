@@ -444,6 +444,12 @@ misc.silentgems:PressShift=<Press Shift>
 misc.silentgems:ToolPart.Rod=&3Tool Rod
 misc.silentgems:ToolPart.Grade=&3Grade: %s
 
+misc.silentgems:Tooltip.Tipped=%s-Tipped
+misc.silentgems:Tooltip.TipIron=&fIron
+misc.silentgems:Tooltip.TipDiamond=&bDiamond
+misc.silentgems:Tooltip.TipEmerald=&2Emerald
+misc.silentgems:Tooltip.TipGold=&eGold
+
 misc.silentgems:Tooltip.Broken=&cYou broke it!
 misc.silentgems:Tooltip.ChargeSpeed=&eCharge Speed:&f %s
 misc.silentgems:Tooltip.Durability=&eDurability:&f %s
