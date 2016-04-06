@@ -355,6 +355,13 @@ item.silentgems:UpgradeIronTip.name=Iron-Tipped Upgrade
 item.silentgems:UpgradeDiamondTip.name=Diamond-Tipped Upgrade
 item.silentgems:UpgradeEmeraldTip.name=Emerald-Tipped Upgrade
 item.silentgems:UpgradeGoldTip.name=Gold-Tipped Upgrade
+item.silentgems:TipUpgrade.willReplace=&cWill replace existing tips, if any.
+item.silentgems:TipUpgrade.harvestLevel=&aRaises harvest level to %d (if lower)
+item.silentgems:TipUpgrade.durability=&aDurability %s
+item.silentgems:TipUpgrade.harvestSpeed=&aHarvest Speed %s
+item.silentgems:TipUpgrade.attackSpeed=&aAttack Speed %s
+item.silentgems:TipUpgrade.meleeDamage=&aMelee Damage %s
+item.silentgems:TipUpgrade.magicDamage=&aMagic Damage %s
 
 # Crafting Materials
 

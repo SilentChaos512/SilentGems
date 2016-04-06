@@ -12,6 +12,8 @@ Added: Chaos node 'packets'. Little balls of goodness that nodes spew out:
   1. Attack packets will seek and damage hostile mobs.
   2. Repair packets will seek players and repair a damaged item slightly.
   3. Chaos packets are roughly the same as before. They recharge Chaos.
+Fixed: Tools missing the "-Tipped" line in their tooltips.
+Fixed: Tipped upgrades missing their tooltips
 
 2.0.3
 Updated for Forge 1833. Update Silent Lib to 1.0.3!
