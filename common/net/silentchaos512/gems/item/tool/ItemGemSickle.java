@@ -224,7 +224,6 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
       }
     }
 
-//    sickle.damageItem(1, player);
     ToolHelper.incrementStatBlocksMined(sickle, blocksBroken);
     return super.onBlockStartBreak(sickle, pos, player);
   }
@@ -277,8 +276,6 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
       }
       return true;
     }
-
-    sickle.onBlockDestroyed(world, state, pos, player); // TODO: Was func_150999_a. Is this right?
 
     if (!world.isRemote) {
       block.onBlockHarvested(world, pos, state, playerMP);
