@@ -387,10 +387,13 @@ public class ToolHelper {
       return 0f;
     }
 
+    float val;
     if (tool.getItem() instanceof ITool) {
-      return ((ITool) tool.getItem()).getMeleeDamage(tool);
+      val = ((ITool) tool.getItem()).getMeleeDamage(tool);
+    } else {
+      val = getMeleeDamage(tool);
     }
-    return getMeleeDamage(tool);
+    return val < 0 ? 0 : val;
   }
 
   public static float getMagicDamageModifier(ItemStack tool) {
@@ -399,10 +402,13 @@ public class ToolHelper {
       return 0f;
     }
 
+    float val;
     if (tool.getItem() instanceof ITool) {
-      return ((ITool) tool.getItem()).getMagicDamage(tool);
+      val = ((ITool) tool.getItem()).getMagicDamage(tool);
+    } else {
+      val = getMagicDamage(tool);
     }
-    return getMagicDamage(tool);
+    return val < 0 ? 0 : val;
   }
 
   public static float getMeleeSpeedModifier(ItemStack tool) {
