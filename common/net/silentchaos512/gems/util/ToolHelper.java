@@ -435,6 +435,10 @@ public class ToolHelper {
     if (Config.RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY && !player.isSneaking()) {
       return EnumActionResult.PASS;
     }
+    // Disallow for broken tools
+    if (isBroken(stack)) {
+      return EnumActionResult.PASS;
+    }
 
     EnumActionResult result = EnumActionResult.PASS;
     int toolSlot = player.inventory.currentItem;

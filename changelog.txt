@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+2.0.5
+Changed: Broken tools can no longer place blocks.
+Fixed: Shovels not being able to make grass paths.
+
 2.0.4
 Added: Enchantment Tokens! Everyone's(?) favorite feature is back. Recipes have changed slightly, please check JEI. Mechanics have also changed:
   1. Enchantment Tokens for ALL enchantments should be generated, although only vanilla ones (not other mods) have recipes.
