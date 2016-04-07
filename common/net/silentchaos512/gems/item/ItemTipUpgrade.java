@@ -79,7 +79,6 @@ public class ItemTipUpgrade extends ItemSL {
 
     ToolPart part = ToolPartRegistry.fromStack(upgrade);
     if (part == null) {
-      SilentGems.instance.logHelper.derp();
       return null;
     }
 

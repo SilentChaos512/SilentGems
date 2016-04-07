@@ -193,7 +193,6 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   public int getHarvestLevel(ItemStack stack, String toolClass) {
 
     if (super.getHarvestLevel(stack, toolClass) < 0) {
-      SilentGems.instance.logHelper.derp();
       return 0;
     }
     return ToolHelper.getHarvestLevel(stack);

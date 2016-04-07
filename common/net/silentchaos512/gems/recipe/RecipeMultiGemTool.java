@@ -41,7 +41,6 @@ public class RecipeMultiGemTool extends RecipeBase {
       return ModItems.pickaxe.constructTool(getRodType(inv), getGems(inv));
     }
     if (matchesRecipe(inv, RECIPE_AXE)) {
-      SilentGems.instance.logHelper.derp();
       return ModItems.axe.constructTool(getRodType(inv), getGems(inv));
     }
     if (matchesRecipe(inv, RECIPE_SICKLE)) {

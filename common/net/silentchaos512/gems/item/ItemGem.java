@@ -13,6 +13,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
@@ -71,6 +72,9 @@ public class ItemGem extends ItemSL {
           gem.getItem(), 'd', "dustGlowstone", 'c', "gemChaos"));
       // Gems <--> shards
       RecipeHelper.addCompressionRecipe(gem.getShard(), gem.getItem(), 9);
+      ItemStack shards = gem.getShard();
+      shards.stackSize = 9;
+      GameRegistry.addRecipe(new ShapelessOreRecipe(shards, gem.getItemOreName()));
     }
   }
 

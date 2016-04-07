@@ -63,7 +63,6 @@ public class SkillLumberjack extends ToolSkill {
       if (detectTree(world, x, y, z, state.getBlock())) {
         // Don't allow in creative mode.
         if (player.capabilities.isCreativeMode) {
-          SilentGems.instance.logHelper.derp();
           return false;
         }
 
