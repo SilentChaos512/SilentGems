@@ -119,7 +119,18 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
       EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
-    return ToolHelper.onItemUse(stack, player, world, pos, hand, side, hitX, hitY, hitZ);
+    boolean broken = ToolHelper.isBroken(stack);
+    // Check for normal shovel use first if not broken, to allow path blocks to be made.
+    if (!broken && super.onItemUse(stack, player, world, pos, hand, side, hitX, hitY,
+        hitZ) != EnumActionResult.SUCCESS) {
+      // Place block.
+      return ToolHelper.onItemUse(stack, player, world, pos, hand, side, hitX, hitY, hitZ);
+    } else if (!broken) {
+      // Made path block.
+      return EnumActionResult.SUCCESS;
+    }
+    // Broken.
+    return EnumActionResult.PASS;
   }
 
   @Override
