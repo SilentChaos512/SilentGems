@@ -127,6 +127,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
       return ToolHelper.onItemUse(stack, player, world, pos, hand, side, hitX, hitY, hitZ);
     } else if (!broken) {
       // Made path block.
+      ToolHelper.incrementStatPathsMade(stack, 1);
       return EnumActionResult.SUCCESS;
     }
     // Broken.

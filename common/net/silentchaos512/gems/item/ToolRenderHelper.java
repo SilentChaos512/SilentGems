@@ -30,6 +30,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartTip;
 import net.silentchaos512.gems.client.render.ToolItemOverrideHandler;
 import net.silentchaos512.gems.client.render.ToolModel;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
+import net.silentchaos512.gems.item.tool.ItemGemShovel;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
@@ -119,6 +120,11 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
       if (isDigger) {
         list.add(getTooltipLine("BlocksPlaced", ToolHelper.getStatBlocksPlaced(tool)));
+      }
+
+      if (tool.getItem() instanceof ItemGemShovel) {
+
+        list.add(getTooltipLine("PathsMade", ToolHelper.getStatPathsMade(tool)));
       }
 
       if (tool.getItem() instanceof ItemGemHoe) {

@@ -112,6 +112,7 @@ public class ToolHelper {
   public static final String NBT_STATS_BLOCKS_MINED = "BlocksMined";
   public static final String NBT_STATS_BLOCKS_PLACED = "BlocksPlaced";
   public static final String NBT_STATS_BLOCKS_TILLED = "BlocksTilled";
+  public static final String NBT_STATS_PATHS_MADE = "PathsMade";
   public static final String NBT_STATS_HITS = "HitsLanded";
   public static final String NBT_STATS_SHOTS_FIRED = "ShotsFired";
   public static final String NBT_STATS_SHOTS_LANDED = "ShotsLanded";
@@ -1138,6 +1139,17 @@ public class ToolHelper {
 
     setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_BLOCKS_TILLED,
         getStatBlocksTilled(tool) + amount);
+  }
+
+  public static int getStatPathsMade(ItemStack tool) {
+
+    return getTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_PATHS_MADE);
+  }
+
+  public static void incrementStatPathsMade(ItemStack tool, int amount) {
+
+    setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_PATHS_MADE,
+        getStatPathsMade(tool) + amount);
   }
 
   public static int getStatHitsLanded(ItemStack tool) {
