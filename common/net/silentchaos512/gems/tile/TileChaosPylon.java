@@ -116,7 +116,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
 
       amount = Math.min(getCharge(), MAX_CHAOS_TRANSFERED);
       if (ChaosUtil.canPlayerAcceptFullAmount(player, amount)) {
-        ChaosUtil.spawnTransferEntity(worldObj, pos, player, amount);
+        ChaosUtil.spawnPacketToEntity(worldObj, pos, player, amount);
         extractEnergy(amount, false);
       }
     }

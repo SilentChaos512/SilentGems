@@ -14,21 +14,25 @@ import net.silentchaos512.gems.client.render.tile.RenderTileChaosPylon;
 import net.silentchaos512.gems.tile.TileChaosAltar;
 import net.silentchaos512.gems.tile.TileChaosNode;
 import net.silentchaos512.gems.tile.TileChaosPylon;
+import net.silentchaos512.lib.registry.SRegistry;
 
 public class ModBlockRenderers {
 
-  public static void init() {
+  public static void init(SRegistry reg) {
 
     // Node
-    ClientRegistry.bindTileEntitySpecialRenderer(TileChaosNode.class, new RenderTileChaosNode());
+//    ClientRegistry.bindTileEntitySpecialRenderer(TileChaosNode.class, new RenderTileChaosNode());
+    reg.registerTileEntitySpecialRenderer(TileChaosNode.class, new RenderTileChaosNode());
 
     // Altar
     Item itemAltar = Item.getItemFromBlock(ModBlocks.chaosAltar);
     register(itemAltar, 0, "ChaosAltar");
-    ClientRegistry.bindTileEntitySpecialRenderer(TileChaosAltar.class, new RenderTileChaosAltar());
+//    ClientRegistry.bindTileEntitySpecialRenderer(TileChaosAltar.class, new RenderTileChaosAltar());
+    reg.registerTileEntitySpecialRenderer(TileChaosAltar.class, new RenderTileChaosAltar());
 
     // Pylons
-    ClientRegistry.bindTileEntitySpecialRenderer(TileChaosPylon.class, new RenderTileChaosPylon());
+//    ClientRegistry.bindTileEntitySpecialRenderer(TileChaosPylon.class, new RenderTileChaosPylon());
+    reg.registerTileEntitySpecialRenderer(TileChaosPylon.class, new RenderTileChaosPylon());
   }
 
   private static void register(Item item, int meta, String name) {

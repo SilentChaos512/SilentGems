@@ -1,18 +1,22 @@
 package net.silentchaos512.gems.entity.packet;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.lib.util.Color;
 
-public class EntityChaosNodePacket extends Entity {
+public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSpawnData {
 
   public static final double ENTITY_COLLISION_RADIUS_SQUARED = 3.0;
   public static final double BLOCK_COLLISION_RADIUS_SQUARED = 1.5;
@@ -20,12 +24,16 @@ public class EntityChaosNodePacket extends Entity {
   public static final String NBT_TARGET_POS = "TargetPos";
   public static final String NBT_AMOUNT = "Amount";
 
+  protected static final Map<Integer, ColorPair> colors = new HashMap();
+
+  private Color colorHead;
+  private Color colorTail;
+  private int colorIndex;
+
   protected int maxLife = 200;
   protected double movementSpeed = 0.185;
   protected double acceleration = 0.008;
   protected double homingTightness = movementSpeed / 10;
-  protected Color colorHead = Color.WHITE;
-  protected Color colorTail = Color.WHITE;
 
   /**
    * A general-purpose variable for different packets, to reduce boiler plate code.
@@ -34,6 +42,15 @@ public class EntityChaosNodePacket extends Entity {
 
   protected EntityLivingBase targetEntity = null;
   protected BlockPos targetPos = null;
+
+  public static void initColors() {
+
+    colors.clear();
+    colors.put(0, new ColorPair(Color.WHITE, Color.WHITE));
+    colors.put(EntityPacketChaos.COLOR_INDEX, EntityPacketChaos.COLOR_PAIR);
+    colors.put(EntityPacketRepair.COLOR_INDEX, EntityPacketRepair.COLOR_PAIR);
+    colors.put(EntityPacketAttack.COLOR_INDEX, EntityPacketAttack.COLOR_PAIR);
+  }
 
   public EntityChaosNodePacket(World worldIn) {
 
@@ -64,9 +81,6 @@ public class EntityChaosNodePacket extends Entity {
       homeOnEntity(targetEntity);
     } else if (targetPos != null) {
       homeOnBlock(targetPos);
-    } else {
-      // SilentGems.instance.logHelper.warning("Chaos node packet with no target! " + this);
-      setDead();
     }
 
     // Move the packet.
@@ -83,7 +97,7 @@ public class EntityChaosNodePacket extends Entity {
         && this.getDistanceSqToEntity(targetEntity) < ENTITY_COLLISION_RADIUS_SQUARED) {
       onImpactWithEntity(targetEntity);
     } else if (targetPos != null
-        && this.getDistanceSq(targetPos) < BLOCK_COLLISION_RADIUS_SQUARED) {
+        && this.getPosition().distanceSq(targetPos) < BLOCK_COLLISION_RADIUS_SQUARED) {
       IBlockState state = worldObj.getBlockState(targetPos);
       onImpactWithBlock(targetPos, state);
     }
@@ -114,7 +128,7 @@ public class EntityChaosNodePacket extends Entity {
     double speed = accelerate(vec.lengthVector());
     Vec3d toTarget = new Vec3d(pos.getX() + 0.5 - posX, pos.getY() + 0.5 - posY,
         pos.getZ() + 0.5 - posZ);
-    vec = vec.add(toTarget).scale(homingTightness).normalize().scale(movementSpeed);
+    vec = vec.add(toTarget.scale(homingTightness)).normalize().scale(speed);
     setVelocity(vec);
   }
 
@@ -147,8 +161,11 @@ public class EntityChaosNodePacket extends Entity {
 
   protected void spawnHeadParticles() {
 
-    SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PACKET_HEAD, colorHead, worldObj, posX,
-        posY, posZ, 0, 0, 0);
+    // SilentGems.instance.logHelper.debug(worldObj.isRemote, getColorIndex(),
+    // String.format("%08X", getColorHead().getColor()));
+
+    SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PACKET_HEAD, getColorHead(), worldObj,
+        posX, posY, posZ, 0, 0, 0);
   }
 
   protected void spawnTailParticles() {
@@ -157,9 +174,29 @@ public class EntityChaosNodePacket extends Entity {
       double mx = worldObj.rand.nextGaussian() * 0.02f;
       double my = worldObj.rand.nextGaussian() * 0.02f;
       double mz = worldObj.rand.nextGaussian() * 0.02f;
-      SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PACKET_TAIL, colorTail, worldObj,
+      SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PACKET_TAIL, getColorTail(), worldObj,
           prevPosX, prevPosY, prevPosZ, mx, my, mz);
     }
+  }
+
+  public Color getColorHead() {
+
+    return colorHead;
+  }
+
+  public Color getColorTail() {
+
+    return colorTail;
+  }
+
+  public ColorPair getColorPair() {
+
+    return new ColorPair(getColorHead(), getColorTail());
+  }
+
+  public int getColorIndex() {
+
+    return colorIndex;
   }
 
   /**
@@ -220,4 +257,68 @@ public class EntityChaosNodePacket extends Entity {
     }
   }
 
+  @Override
+  public void writeSpawnData(ByteBuf buffer) {
+
+    if (targetEntity != null) {
+      // Target entity, mode 0
+      buffer.writeByte(0);
+      buffer.writeInt(targetEntity.getEntityId());
+    } else if (targetPos != null) {
+      // Target block, mode 1
+      buffer.writeByte(1);
+      buffer.writeInt(targetPos.getX());
+      buffer.writeInt(targetPos.getY());
+      buffer.writeInt(targetPos.getZ());
+    } else {
+      // No target?
+      return;
+    }
+
+    // Color
+    buffer.writeByte((byte) getColorIndex());
+  }
+
+  @Override
+  public void readSpawnData(ByteBuf additionalData) {
+
+    byte mode = additionalData.readByte();
+    if (mode == 0) {
+      // Target entity.
+      Entity entity = worldObj.getEntityByID(additionalData.readInt());
+      if (entity != null && entity instanceof EntityLivingBase) {
+        targetEntity = (EntityLivingBase) entity;
+      }
+    } else if (mode == 1) {
+      int x = additionalData.readInt();
+      int y = additionalData.readInt();
+      int z = additionalData.readInt();
+      targetPos = new BlockPos(x, y, z);
+    } else {
+      return;
+    }
+
+    // Color
+    colorIndex = (int) additionalData.readByte();
+    ColorPair pair = colors.get(colorIndex);
+    if (pair == null) {
+      // SilentGems.instance.logHelper.debug("Derp!", mode, colorIndex, colors.size(), colors.keySet(),
+      // colors.values());
+      pair = colors.get(0);
+    }
+    // SilentGems.instance.logHelper.debug(colorIndex, targetEntity, targetPos);
+    colorHead = pair.head;
+    colorTail = pair.tail;
+  }
+
+  public static class ColorPair {
+
+    public final Color head, tail;
+
+    public ColorPair(Color head, Color tail) {
+
+      this.head = head;
+      this.tail = tail;
+    }
+  }
 }

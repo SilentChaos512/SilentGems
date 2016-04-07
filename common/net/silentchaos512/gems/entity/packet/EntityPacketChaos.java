@@ -9,8 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
+import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket.ColorPair;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.lib.util.Color;
@@ -18,23 +20,21 @@ import net.silentchaos512.lib.util.PlayerHelper;
 
 public class EntityPacketChaos extends EntityChaosNodePacket {
 
-  public static final Color COLOR_HEAD = new Color(0xFFFF00);
-  public static final Color COLOR_TAIL = new Color(0xFFFF99);
+  public static final Color COLOR_HEAD = new Color(0xFFFF66);
+  public static final Color COLOR_TAIL = new Color(0xFFFFCC);
+  public static final ColorPair COLOR_PAIR = new ColorPair(COLOR_HEAD, COLOR_TAIL);
+  public static final int COLOR_INDEX = 1;
 
   public EntityPacketChaos(World worldIn, EntityLivingBase target, int amount) {
 
     super(worldIn, target);
     this.amount = amount;
-    colorHead = COLOR_HEAD;
-    colorTail = COLOR_TAIL;
   }
 
   public EntityPacketChaos(World worldIn, BlockPos target, int amount) {
 
     super(worldIn, target);
     this.amount = amount;
-    colorHead = COLOR_HEAD;
-    colorTail = COLOR_TAIL;
   }
 
   @Override
@@ -75,8 +75,33 @@ public class EntityPacketChaos extends EntityChaosNodePacket {
     if (tile != null && tile instanceof IChaosAccepter) {
       IChaosAccepter accepter = (IChaosAccepter) tile;
       accepter.receiveCharge((int) amount, false);
+//      SilentGems.instance.logHelper.debug(amount, accepter.getCharge());
     }
 
     super.onImpactWithBlock(pos, state);
+  }
+
+  @Override
+  public Color getColorHead() {
+
+    return COLOR_HEAD;
+  }
+
+  @Override
+  public Color getColorTail() {
+
+    return COLOR_TAIL;
+  }
+
+  @Override
+  public ColorPair getColorPair() {
+
+    return COLOR_PAIR;
+  }
+
+  @Override
+  public int getColorIndex() {
+
+    return COLOR_INDEX;
   }
 }

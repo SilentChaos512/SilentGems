@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.entity.packet.EntityPacketChaos;
@@ -59,7 +60,7 @@ public class ChaosUtil {
     return amount <= 0;
   }
 
-  public static void spawnTransferEntity(World world, BlockPos start, EntityLivingBase target,
+  public static void spawnPacketToEntity(World world, BlockPos start, EntityLivingBase target,
       int amount) {
 
     EntityPacketChaos entity = new EntityPacketChaos(world, target, amount);

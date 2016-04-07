@@ -19,8 +19,10 @@ import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.render.ModBlockRenderers;
 import net.silentchaos512.gems.client.render.entity.RenderChaosProjectile;
+import net.silentchaos512.gems.client.render.entity.RenderEntityPacket;
 import net.silentchaos512.gems.client.render.particle.EntityFXChaos;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
+import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
 import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumModParticles;
@@ -50,6 +52,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
     registry.clientInit();
     registerRenderers();
     registerColorHandlers();
+    EntityChaosNodePacket.initColors();
   }
 
   @Override
@@ -61,14 +64,12 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
 
   private void registerRenderers() {
 
-    ModBlockRenderers.init();
+    SRegistry reg = SilentGems.instance.registry;
 
-    // RenderingRegistry.registerEntityRenderingHandler(EntityChaosProjectile.class,
-    // new RenderDragonFireball(Minecraft.getMinecraft().getRenderManager()));
-    RenderingRegistry.registerEntityRenderingHandler(EntityChaosProjectile.class,
-        new RenderChaosProjectile());
-//    RenderingRegistry.registerEntityRenderingHandler(EntityChaosTransfer.class,
-//        new RenderEntityChaosTransfer());
+    ModBlockRenderers.init(reg);
+
+    reg.registerEntityRenderer(EntityChaosNodePacket.class, new RenderEntityPacket());
+    reg.registerEntityRenderer(EntityChaosProjectile.class, new RenderChaosProjectile());
   }
 
   private void registerColorHandlers() {
@@ -114,7 +115,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
         fx = new EntityFXChaos(world, x, y, z, 0f, 0f, 0f, 3.0f, 1, r, g, b);
         break;
       case CHAOS_PACKET_HEAD:
-        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 2.0f, 1, r, g, b);
+        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 2.0f, 0, r, g, b);
         break;
       case CHAOS_PACKET_TAIL:
         fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 1.0f, 25, r, g, b);
