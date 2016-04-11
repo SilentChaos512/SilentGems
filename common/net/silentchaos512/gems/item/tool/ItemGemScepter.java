@@ -67,8 +67,7 @@ public class ItemGemScepter extends ItemGemSword {
     String line3 = "gsg";
     for (EnumGem gem : EnumGem.values()) {
       GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(true, gem.getItemSuper()), line1,
-          line2, line3, 'g', gem.getItemSuper(), 's',
-          ModItems.craftingMaterial.getStack(Names.ORNATE_STICK_GOLD)));
+          line2, line3, 'g', gem.getItemSuper(), 's', ModItems.craftingMaterial.toolRodGold));
     }
   }
 

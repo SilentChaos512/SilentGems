@@ -64,7 +64,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
 
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    ItemStack rod = supercharged ? ModItems.craftingMaterial.getStack(Names.ORNATE_STICK_GOLD)
+    ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.stick);
     return ToolHelper.constructTool(this, rod, materials);
   }
@@ -259,8 +259,8 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
       return false;
     }
 
-    int xpDropped = ForgeHooks.onBlockBreakEvent(world,
-        playerMP.interactionManager.getGameType(), playerMP, pos);
+    int xpDropped = ForgeHooks.onBlockBreakEvent(world, playerMP.interactionManager.getGameType(),
+        playerMP, pos);
     boolean canceled = xpDropped == -1;
     if (canceled) {
       return false;
@@ -296,7 +296,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
       sickle.onBlockDestroyed(world, state, pos, playerMP);
       if (sickle.stackSize == 0) {
         // FIXME ?
-//        player.destroyCurrentEquippedItem();
+        // player.destroyCurrentEquippedItem();
       }
     }
 
@@ -309,11 +309,11 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
     return ToolHelper.getMaxDamage(stack);
   }
 
-//  @Override
-//  public int getColorFromItemStack(ItemStack stack, int pass) {
-//
-//    return ToolRenderHelper.getInstance().getColorFromItemStack(stack, pass);
-//  }
+  // @Override
+  // public int getColorFromItemStack(ItemStack stack, int pass) {
+  //
+  // return ToolRenderHelper.getInstance().getColorFromItemStack(stack, pass);
+  // }
 
   @Override
   public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
@@ -365,7 +365,8 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   }
 
   @Override
-  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
+      ItemStack stack) {
 
     return ToolHelper.getAttributeModifiers(slot, stack);
   }
@@ -399,8 +400,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
       GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(false, gem.getItem()), line1, line2,
           line3, 'g', gem.getItem(), 's', "stickWood"));
       GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(true, gem.getItemSuper()), line1,
-          line2, line3, 'g', gem.getItemSuper(), 's',
-          ModItems.craftingMaterial.getStack(Names.ORNATE_STICK_GOLD)));
+          line2, line3, 'g', gem.getItemSuper(), 's', ModItems.craftingMaterial.toolRodGold));
     }
   }
 

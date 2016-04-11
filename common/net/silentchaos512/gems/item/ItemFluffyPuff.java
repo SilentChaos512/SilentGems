@@ -21,7 +21,7 @@ public class ItemFluffyPuff extends ItemSL {
   public void addRecipes() {
 
     ItemStack puff = new ItemStack(this);
-    ItemStack fabric = ModItems.craftingMaterial.getStack(Names.FLUFFY_FABRIC);
+    ItemStack fabric = ModItems.craftingMaterial.fluffyFabric;
     ItemStack block = new ItemStack(ModBlocks.fluffyBlock);
 
     RecipeHelper.addCompressionRecipe(puff, fabric, 4);

@@ -77,7 +77,7 @@ public class BlockChaosPylon extends BlockContainer
 
     ItemStack pylonPassive = new ItemStack(this, 1, EnumPylonType.PASSIVE.getMeta());
     ItemStack pylonBurner = new ItemStack(this, 1, EnumPylonType.BURNER.getMeta());
-    ItemStack chaosCore = ModItems.craftingMaterial.getStack(Names.CHAOS_CORE);
+    ItemStack chaosCore = ModItems.craftingMaterial.chaosCore;
 
     GameRegistry.addRecipe(new ShapedOreRecipe(pylonPassive, "lel", "lol", "ooo", 'e', chaosCore,
         'l', "gemLapis", 'o', Blocks.obsidian));

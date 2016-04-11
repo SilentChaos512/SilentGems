@@ -14,7 +14,7 @@ public class RecipeNamePlate extends RecipeBase {
     ItemStack stackNamePlate = null;
     ItemStack stackOther = null;
     ItemStack stack;
-    ItemStack namePlateForMatching = ModItems.craftingMaterial.getStack(Names.NAME_PLATE);
+    ItemStack namePlateForMatching = ModItems.craftingMaterial.namePlate;
 
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);

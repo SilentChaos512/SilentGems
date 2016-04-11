@@ -41,9 +41,9 @@ public class ItemNodeMover extends ItemSL {
 
     ItemStack empty = new ItemStack(this, 1, META_EMPTY);
     ItemStack spent = new ItemStack(this, 1, META_USED);
-    ItemStack chaosCore = ModItems.craftingMaterial.getStack(Names.CHAOS_CORE);
-    ItemStack netherShard = ModItems.craftingMaterial.getStack(Names.NETHER_SHARD);
-    ItemStack enderFrost = ModItems.craftingMaterial.getStack(Names.ENDER_FROST);
+    ItemStack chaosCore = ModItems.craftingMaterial.chaosCore;
+    ItemStack netherShard = ModItems.craftingMaterial.netherShard;
+    ItemStack enderFrost = ModItems.craftingMaterial.enderFrost;
 
     RecipeHelper.addSurroundOre(empty, chaosCore, netherShard, enderFrost);
     GameRegistry.addShapedRecipe(empty, "sms", 's', netherShard, 'm', spent);

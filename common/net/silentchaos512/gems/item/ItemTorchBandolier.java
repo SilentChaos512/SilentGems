@@ -32,10 +32,10 @@ public class ItemTorchBandolier extends ItemBlockPlacer {
 
     ItemStack bandolier = new ItemStack(this, 1, MAX_DAMAGE);
     ItemStack gem = new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE);
-    ItemStack[] stacks = new ItemStack[] { new ItemStack(Items.leather),
-        ModItems.craftingMaterial.getStack(Names.FLUFFY_FABRIC) };
+    Object[] stacks = new Object[] { new ItemStack(Items.leather), "leather",
+        ModItems.craftingMaterial.fluffyFabric };
 
-    for (ItemStack stack : stacks) {
+    for (Object stack : stacks) {
       GameRegistry.addRecipe(new ShapedOreRecipe(bandolier, line1, line2, line1, 'l', stack, 's',
           "stickWood", 'g', gem));
     }

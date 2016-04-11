@@ -144,11 +144,11 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
   @Override
   public void addOreDict() {
 
-    OreDictionary.registerOre("gemChaos", getStack(Names.CHAOS_ESSENCE));
-    OreDictionary.registerOre("nuggetChaos", getStack(Names.CHAOS_ESSENCE_SHARD));
+    OreDictionary.registerOre("gemChaos", chaosEssence);
+    OreDictionary.registerOre("nuggetChaos", chaosEssenceShard);
     OreDictionary.registerOre("gemEnderEssence", enderEssence);
-    OreDictionary.registerOre("nuggetEnderEssence", getStack(Names.ENDER_ESSENCE_SHARD));
-    OreDictionary.registerOre("paper", getStack(Names.FLUFFY_FABRIC));
+    OreDictionary.registerOre("nuggetEnderEssence", enderEssenceShard);
+    OreDictionary.registerOre("paper", fluffyFabric);
   }
 
   @Override
@@ -156,7 +156,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
       EntityLivingBase target, EnumHand hand) {
 
     // Name plates can rename mobs.
-    if (stack.isItemEqual(getStack(Names.NAME_PLATE))) {
+    if (stack.isItemEqual(namePlate)) {
       if (!stack.hasDisplayName()) {
         return false;
       }

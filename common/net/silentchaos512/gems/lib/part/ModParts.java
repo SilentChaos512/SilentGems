@@ -20,19 +20,19 @@ public class ModParts {
       ToolPartRegistry.putPart(new ToolPartGem(gem, true));
     }
     ToolPartRegistry.putPart(new ToolPartFlint());
-//    ToolPartRegistry.putPart(new ToolPartGlass());
+    // ToolPartRegistry.putPart(new ToolPartGlass());
 
     // Rods
-    ToolPartRegistry.putPart(
-        new ToolPartRodGems("RodWood", EnumMaterialTier.MUNDANE, new ItemStack(Items.stick), "stickWood"));
+    ToolPartRegistry.putPart(new ToolPartRodGems("RodWood", EnumMaterialTier.MUNDANE,
+        new ItemStack(Items.stick), "stickWood"));
     ToolPartRegistry.putPart(
         new ToolPartRodGems("RodBone", EnumMaterialTier.MUNDANE, new ItemStack(Items.bone)));
     ToolPartRegistry.putPart(new ToolPartRodGems("RodIron", EnumMaterialTier.REGULAR,
-        ModItems.craftingMaterial.getStack(Names.STICK_IRON)));
+        ModItems.craftingMaterial.toolRodIrom, "stickIron"));
     ToolPartRegistry.putPart(new ToolPartRodGems("RodGold", EnumMaterialTier.SUPER,
-        ModItems.craftingMaterial.getStack(Names.ORNATE_STICK_GOLD)));
+        ModItems.craftingMaterial.toolRodGold, "stickGold"));
     ToolPartRegistry.putPart(new ToolPartRodGems("RodSilver", EnumMaterialTier.SUPER,
-        ModItems.craftingMaterial.getStack(Names.ORNATE_STICK_SILVER)));
+        ModItems.craftingMaterial.toolRodSilver, "stickSilver"));
 
     // Tips
     ToolPartRegistry.putPart(new ToolPartTipGems("TipIron", EnumTipUpgrade.IRON));

@@ -48,8 +48,8 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
     GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this),
         " m ", "iii", "ccc",
         'i', "ingotIron",
-        'c', ModItems.craftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS),
-        'm', ModItems.craftingMaterial.getStack(Names.MAGNIFYING_GLASS)));
+        'c', ModItems.craftingMaterial.chaosEssenceEnriched,
+        'm', ModItems.craftingMaterial.magnifyingGlass));
     // @formatter:on
   }
 

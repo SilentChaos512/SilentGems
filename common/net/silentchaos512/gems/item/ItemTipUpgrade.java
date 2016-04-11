@@ -90,7 +90,7 @@ public class ItemTipUpgrade extends ItemSL {
   @Override
   public void addRecipes() {
 
-    ItemStack base = ModItems.craftingMaterial.getStack(Names.UPGRADE_BASE);
+    ItemStack base = ModItems.craftingMaterial.upgradeBase;
     GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 0), "ingotIron", base));
     GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 1), "ingotGold", base));
     GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 2), "gemDiamond", base));

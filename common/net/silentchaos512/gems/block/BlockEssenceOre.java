@@ -48,11 +48,11 @@ public class BlockEssenceOre extends BlockSL {
   public void addRecipes() {
 
     ItemStack chaosOre = new ItemStack(this, 1, 0);
-    ItemStack chaosEssence = ModItems.craftingMaterial.getStack(Names.CHAOS_ESSENCE);
+    ItemStack chaosEssence = ModItems.craftingMaterial.chaosEssence;
     GameRegistry.addSmelting(chaosOre, chaosEssence, 0.7f);
 
     ItemStack enderOre = new ItemStack(this, 1, 1);
-    ItemStack enderEssence = ModItems.craftingMaterial.getStack(Names.ENDER_ESSENCE);
+    ItemStack enderEssence = ModItems.craftingMaterial.enderEssence;
     GameRegistry.addSmelting(enderOre, enderEssence, 1.0f);
   }
 

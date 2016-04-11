@@ -50,7 +50,7 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
 
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    ItemStack rod = supercharged ? ModItems.craftingMaterial.getStack(Names.ORNATE_STICK_GOLD)
+    ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.stick);
     return ToolHelper.constructTool(this, rod, materials);
   }
@@ -203,8 +203,7 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
       GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(false, gem.getItem()), line1, line2,
           line3, 'g', gem.getItem(), 's', "stickWood"));
       GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(true, gem.getItemSuper()), line1,
-          line2, line3, 'g', gem.getItemSuper(), 's',
-          ModItems.craftingMaterial.getStack(Names.ORNATE_STICK_GOLD)));
+          line2, line3, 'g', gem.getItemSuper(), 's', ModItems.craftingMaterial.toolRodGold));
     }
   }
 

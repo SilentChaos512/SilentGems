@@ -795,7 +795,7 @@ public class ToolHelper {
     List<ItemStack> list = Lists.newArrayList();
     final boolean isSuperTool = item == ModItems.katana || item == ModItems.scepter;
     final ItemStack rodWood = new ItemStack(Items.stick);
-    final ItemStack rodGold = ModItems.craftingMaterial.getStack(Names.ORNATE_STICK_GOLD);
+    final ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
 
     if (!isSuperTool) {
       // Test broken items.
@@ -1148,8 +1148,7 @@ public class ToolHelper {
 
   public static void incrementStatPathsMade(ItemStack tool, int amount) {
 
-    setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_PATHS_MADE,
-        getStatPathsMade(tool) + amount);
+    setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_PATHS_MADE, getStatPathsMade(tool) + amount);
   }
 
   public static int getStatHitsLanded(ItemStack tool) {

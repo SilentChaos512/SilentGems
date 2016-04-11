@@ -87,9 +87,8 @@ public class ItemChaosOrb extends ItemSL implements IChaosStorage {
   public void addRecipes() {
 
     String chaosEssence = "gemChaos";
-    ItemStack chaosEssenceEnriched = ModItems.craftingMaterial.getStack(Names.CHAOS_ESSENCE_PLUS);
-    ItemStack chaosEssenceCrystallized = ModItems.craftingMaterial
-        .getStack(Names.CHAOS_ESSENCE_PLUS_2);
+    ItemStack chaosEssenceEnriched = ModItems.craftingMaterial.chaosEssenceEnriched;
+    ItemStack chaosEssenceCrystallized = ModItems.craftingMaterial.chaosEssenceCrystallized;
     String chaosEssenceShard = "nuggetChaos";
 
     for (Type type : Type.values()) {
