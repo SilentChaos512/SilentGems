@@ -9,7 +9,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
+import net.silentchaos512.gems.tile.TileChaosNode;
+import net.silentchaos512.lib.util.Color;
 
 // Borrowed from Psi... Still much to learn.
 // https://github.com/Vazkii/Psi/blob/master/src/main/java/vazkii/psi/client/core/handler/ClientTickHandler.java
@@ -21,6 +24,9 @@ public class ClientTickHandler {
   public static float partialTicks = 0f;
   public static float delta = 0f;
   public static float total = 0f;
+
+  public static Color nodeMoverColor = TileChaosNode
+      .selectParticleColor(SilentGems.instance.random);
 
   private void calcDelta() {
 
@@ -56,6 +62,10 @@ public class ClientTickHandler {
       if (gui == null || !gui.doesGuiPauseGame()) {
         ++ticksInGame;
         partialTicks = 0;
+
+        if (ticksInGame % 7 == 0) {
+          nodeMoverColor = TileChaosNode.selectParticleColor(SilentGems.instance.random);
+        }
       }
 
       calcDelta();

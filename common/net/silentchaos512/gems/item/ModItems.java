@@ -37,6 +37,7 @@ public class ModItems {
   public static ItemFoodSG food;
   public static ItemTorchBandolier torchBandolier;
   public static ItemChaosOrb chaosOrb;
+  public static ItemNodeMover nodeMover;
 
   public static ItemGemSword sword;
   public static ItemGemKatana katana;
@@ -70,6 +71,7 @@ public class ModItems {
     food = (ItemFoodSG) reg.registerItem(new ItemFoodSG(), Names.FOOD);
     torchBandolier = (ItemTorchBandolier) reg.registerItem(new ItemTorchBandolier());
     chaosOrb = (ItemChaosOrb) reg.registerItem(new ItemChaosOrb());
+    nodeMover = (ItemNodeMover) reg.registerItem(new ItemNodeMover());
 
     // Tools
     sword = (ItemGemSword) reg.registerItem(new ItemGemSword(), Names.SWORD);

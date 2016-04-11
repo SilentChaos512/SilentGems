@@ -26,6 +26,7 @@ import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
 import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumModParticles;
+import net.silentchaos512.gems.tile.TileChaosNode;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.Color;
@@ -93,6 +94,15 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
         return stack.getItemDamage() > 15 ? 0x999999 : 0xFFFFFF;
       }
     }, ModItems.gemShard);
+
+    itemColors.registerItemColorHandler(new IItemColor() {
+
+      @Override
+      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+
+        return tintIndex != 1 ? 0xFFFFFF : ClientTickHandler.nodeMoverColor.getColor();
+      }
+    }, ModItems.nodeMover);
   }
 
   // Particles

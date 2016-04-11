@@ -349,6 +349,9 @@ item.silentgems:GemShard29.name=Ametrine Shard
 item.silentgems:GemShard30.name=Black Diamond Shard
 item.silentgems:GemShard31.name=Alexandrite Shard
 
+item.silentgems:NodeMover.name=Chaos Node Mover
+item.silentgems:NodeMover.desc=Allows Chaos Nodes to be moved. Shocking, right?
+
 item.silentgems:TorchBandolier.name=Torch Bandolier
 
 item.silentgems:UpgradeIronTip.name=Iron-Tipped Upgrade

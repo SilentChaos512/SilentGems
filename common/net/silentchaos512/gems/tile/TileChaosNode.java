@@ -79,8 +79,8 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
       }
 
       if (playSound) {
-        worldObj.playSound(null, pos.getX(), pos.getY(), pos.getZ(),
-            SoundEvents.item_hoe_till, SoundCategory.AMBIENT, 1.0f, 0.4f);
+        worldObj.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.item_hoe_till,
+            SoundCategory.AMBIENT, 1.0f, 0.4f);
       }
     }
 
@@ -186,19 +186,21 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
         double motionX = rand.nextGaussian() * 0.05f;
         double motionY = rand.nextGaussian() * 0.006f;
         double motionZ = rand.nextGaussian() * 0.05f;
-        float shade = 0.7f + 0.3f * rand.nextFloat();
-        float variation = 0.075f;
-        float red = MathHelper.clamp_float((float) (shade + variation * rand.nextGaussian()), 0f,
-            1f);
-        float green = MathHelper.clamp_float((float) (shade + variation * rand.nextGaussian()), 0f,
-            1f);
-        float blue = MathHelper.clamp_float((float) (shade + variation * rand.nextGaussian()), 0f,
-            1f);
-        SilentGems.instance.proxy.spawnParticles(EnumModParticles.CHAOS,
-            new Color(red, green, blue), getWorld(), pos.getX() + 0.5, pos.getY() + 0.5,
-            pos.getZ() + 0.5, motionX, motionY, motionZ);
+        SilentGems.instance.proxy.spawnParticles(EnumModParticles.CHAOS, selectParticleColor(rand),
+            getWorld(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, motionX, motionY,
+            motionZ);
       }
     }
+  }
+
+  public static Color selectParticleColor(Random rand) {
+
+    float shade = 0.7f + 0.3f * rand.nextFloat();
+    float variation = 0.075f;
+    return new Color(
+        MathHelper.clamp_float((float) (shade + variation * rand.nextGaussian()), 0f, 1f),
+        MathHelper.clamp_float((float) (shade + variation * rand.nextGaussian()), 0f, 1f),
+        MathHelper.clamp_float((float) (shade + variation * rand.nextGaussian()), 0f, 1f));
   }
 
   @Override
