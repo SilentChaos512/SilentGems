@@ -32,7 +32,8 @@ public class FluffyPlantBlock extends BlockCrops {
   public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player,
       int side, float hitX, float hitY, float hitZ) {
 
-    if (player.getHeldItem().getItem() instanceof GemSickle) {
+    ItemStack heldItem = player.getHeldItem();
+    if (heldItem != null && heldItem.getItem() instanceof GemSickle) {
       return false;
     }
 
