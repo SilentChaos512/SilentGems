@@ -44,6 +44,8 @@ public class Names {
   public static final String IRON_POTATO = "IronPotato";
   public static final String MAGNIFYING_GLASS = "MagnifyingGlass";
   public static final String NAME_PLATE = "NamePlate";
+  public static final String NETHER_CLUSTER = "NetherCluster";
+  public static final String NETHER_SHARD = "NetherShard";
   public static final String ORNATE_STICK_GOLD = "OrnateStickGold";
   public static final String ORNATE_STICK_SILVER = "OrnateStickSilver";
   public static final String PLUME = "Plume";

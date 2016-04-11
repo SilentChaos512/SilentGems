@@ -26,14 +26,38 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_ESSENCE_SHARD, Names.CHAOS_COAL,
       Names.STICK_IRON, Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.IRON_POTATO,
       Names.FLUFFY_FABRIC, Names.UPGRADE_BASE, Names.NAME_PLATE, Names.CHAOS_CORE,
-      Names.MAGNIFYING_GLASS, Names.PLUME, Names.SHINY_PLUME, Names.ENDER_FROST };
+      Names.MAGNIFYING_GLASS, Names.PLUME, Names.SHINY_PLUME, Names.ENDER_FROST, Names.NETHER_SHARD,
+      Names.NETHER_CLUSTER };
 
   public static final String[] SORTED_NAMES = new String[] { //
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
-      Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_ESSENCE_SHARD, Names.CHAOS_COAL,
-      Names.STICK_IRON, Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.CHAOS_CORE,
-      Names.ENDER_FROST, Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.PLUME, Names.SHINY_PLUME,
-      Names.MAGNIFYING_GLASS, Names.NAME_PLATE, Names.UPGRADE_BASE };
+      Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_FROST, Names.ENDER_ESSENCE_SHARD,
+      Names.NETHER_SHARD, Names.NETHER_CLUSTER, Names.CHAOS_COAL, Names.STICK_IRON,
+      Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.CHAOS_CORE, Names.IRON_POTATO,
+      Names.FLUFFY_FABRIC, Names.PLUME, Names.SHINY_PLUME, Names.MAGNIFYING_GLASS, Names.NAME_PLATE,
+      Names.UPGRADE_BASE };
+
+  public final ItemStack chaosCoal = getStack(Names.CHAOS_COAL);
+  public final ItemStack chaosCore = getStack(Names.CHAOS_CORE);
+  public final ItemStack chaosEssence = getStack(Names.CHAOS_ESSENCE);
+  public final ItemStack chaosEssenceEnriched = getStack(Names.CHAOS_ESSENCE_PLUS);
+  public final ItemStack chaosEssenceCrystallized = getStack(Names.CHAOS_ESSENCE_PLUS_2);
+  public final ItemStack chaosEssenceShard = getStack(Names.CHAOS_ESSENCE_SHARD);
+  public final ItemStack enderEssence = getStack(Names.ENDER_ESSENCE);
+  public final ItemStack enderEssenceShard = getStack(Names.ENDER_ESSENCE_SHARD);
+  public final ItemStack enderFrost = getStack(Names.ENDER_FROST);
+  public final ItemStack fluffyFabric = getStack(Names.FLUFFY_FABRIC);
+  public final ItemStack ironPotato = getStack(Names.IRON_POTATO);
+  public final ItemStack magnifyingGlass = getStack(Names.MAGNIFYING_GLASS);
+  public final ItemStack namePlate = getStack(Names.NAME_PLATE);
+  public final ItemStack netherCluster = getStack(Names.NETHER_CLUSTER);
+  public final ItemStack netherShard = getStack(Names.NETHER_SHARD);
+  public final ItemStack plume = getStack(Names.PLUME);
+  public final ItemStack shinyPlume = getStack(Names.SHINY_PLUME);
+  public final ItemStack toolRodGold = getStack(Names.ORNATE_STICK_GOLD);
+  public final ItemStack toolRodIrom = getStack(Names.STICK_IRON);
+  public final ItemStack toolRodSilver = getStack(Names.ORNATE_STICK_SILVER);
+  public final ItemStack upgradeBase = getStack(Names.UPGRADE_BASE);
 
   public ItemCrafting() {
 
@@ -51,14 +75,14 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
   public void addRecipes() {
 
     // Enriched Chaos Essence
-    RecipeHelper.addSurroundOre(getStack(Names.CHAOS_ESSENCE_PLUS), "dustGlowstone", "dustRedstone",
-        "gemChaos");
+    RecipeHelper.addSurroundOre(chaosEssenceEnriched, "dustGlowstone", "dustRedstone", "gemChaos");
+    // Crystallized Chaos Essence
+    RecipeHelper.addSurroundOre(chaosEssenceCrystallized, enderEssence, netherShard,
+        chaosEssenceEnriched);
     // Chaos Essence Shards
-    RecipeHelper.addCompressionRecipe(getStack(Names.CHAOS_ESSENCE_SHARD),
-        getStack(Names.CHAOS_ESSENCE), 9);
+    RecipeHelper.addCompressionRecipe(chaosEssenceShard, chaosEssence, 9);
     // Ender Essence Shards
-    RecipeHelper.addCompressionRecipe(getStack(Names.ENDER_ESSENCE_SHARD),
-        getStack(Names.ENDER_ESSENCE), 9);
+    RecipeHelper.addCompressionRecipe(enderEssenceShard, enderEssence, 9);
     // Iron Rod
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.STICK_IRON, 8), "igi", "igi", "igi",
         'i', "ingotIron", 'g', new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE)));
@@ -77,25 +101,34 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
         new ItemStack(Items.coal, 1, 1));
     // Chaos Coal -> Torches
     GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.torch, 16), "c", "s", 'c',
-        getStack(Names.CHAOS_COAL), 's', "stickWood"));
+        chaosCoal, 's', "stickWood"));
     // Name Plate
-    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.NAME_PLATE, 4), "iii", "pcp", "iii",
-        'i', "ingotIron", 'p', Items.paper, 'c', "gemChaos"));
+    for (Object paper : new Object[] { "paper", Items.paper }) {
+      GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.NAME_PLATE, 4), "iii", "pcp", "iii",
+          'i', "ingotIron", 'p', paper, 'c', "gemChaos"));
+    }
     // Chaos Core
-    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.CHAOS_CORE), " c ", "cqc", " c ", 'c',
-        getStack(Names.CHAOS_ESSENCE_PLUS), 'q', "blockQuartz"));
+    GameRegistry.addRecipe(new ShapedOreRecipe(chaosCore, " c ", "cqc", " c ", 'c',
+        chaosEssenceEnriched, 'q', "blockQuartz"));
     // Magnifying Glass
-    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.MAGNIFYING_GLASS), " g ", "gpg",
-        "rg ", 'g', "ingotGold", 'p', "paneGlass", 'r', getStack(Names.ORNATE_STICK_GOLD)));
+    GameRegistry.addRecipe(new ShapedOreRecipe(magnifyingGlass, " g ", "gpg", "rg ", 'g',
+        "ingotGold", 'p', "paneGlass", 'r', toolRodGold));
     // Plume
-    RecipeHelper.addSurroundOre(getStack(Names.PLUME),
-        new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE), Items.feather);
+    for (Object feather : new Object[] { "feather", Items.feather }) {
+      RecipeHelper.addSurroundOre(plume,
+          new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE), feather);
+    }
     // Shiny Plume
-    RecipeHelper.addSurroundOre(getStack(Names.SHINY_PLUME), getStack(Names.PLUME), "gemChaos",
-        "ingotGold");
+    RecipeHelper.addSurroundOre(shinyPlume, plume, "gemChaos", "ingotGold");
     // Ender Frost
-    RecipeHelper.addSurround(getStack(Names.ENDER_FROST), getStack(Names.ENDER_ESSENCE),
-        Blocks.ice);
+    RecipeHelper.addSurround(enderFrost, enderEssence, Blocks.ice);
+
+    // Nether shards and clusters
+    ItemStack netherStar = new ItemStack(Items.nether_star);
+    RecipeHelper.addSurroundOre(getStack(Names.NETHER_SHARD, 24), netherStar, chaosEssenceEnriched,
+        enderEssence);
+    GameRegistry.addShapedRecipe(netherCluster, "sss", "s s", "sss", 's', netherShard);
+    GameRegistry.addShapelessRecipe(netherStar, netherCluster, netherCluster, netherCluster);
   }
 
   @Override
@@ -113,6 +146,9 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
 
     OreDictionary.registerOre("gemChaos", getStack(Names.CHAOS_ESSENCE));
     OreDictionary.registerOre("nuggetChaos", getStack(Names.CHAOS_ESSENCE_SHARD));
+    OreDictionary.registerOre("gemEnderEssence", enderEssence);
+    OreDictionary.registerOre("nuggetEnderEssence", getStack(Names.ENDER_ESSENCE_SHARD));
+    OreDictionary.registerOre("paper", getStack(Names.FLUFFY_FABRIC));
   }
 
   @Override

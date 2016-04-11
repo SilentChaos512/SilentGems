@@ -349,8 +349,12 @@ item.silentgems:GemShard29.name=Ametrine Shard
 item.silentgems:GemShard30.name=Black Diamond Shard
 item.silentgems:GemShard31.name=Alexandrite Shard
 
-item.silentgems:NodeMover.name=Chaos Node Mover
-item.silentgems:NodeMover.desc=Allows Chaos Nodes to be moved. Shocking, right?
+item.silentgems:NodeMover0.name=Chaos Node Mover (Empty)
+item.silentgems:NodeMover1.name=Chaos Node Mover (Filled)
+item.silentgems:NodeMover2.name=Chaos Node Mover (Spent)
+item.silentgems:NodeMover0.desc=Allows Chaos Nodes to be moved. Shocking, right?
+item.silentgems:NodeMover1.desc=Contains a captured Chaos Node.
+item.silentgems:NodeMover2.desc=Needs to be repaired before it can be used again.
 
 item.silentgems:TorchBandolier.name=Torch Bandolier
 
@@ -368,6 +372,7 @@ item.silentgems:TipUpgrade.magicDamage=&aMagic Damage %s
 
 # Crafting Materials
 
+item.silentgems:ChaosCoal.name=Chaos Coal
 item.silentgems:ChaosCore.name=Chaos Core
 item.silentgems:ChaosEssence.name=Chaos Essence
 item.silentgems:ChaosEssence.desc=Too soft for tools, but can strengthen gems.
@@ -388,6 +393,12 @@ item.silentgems:LifeEssence.desc=A heart, how creative. Not.
 item.silentgems:MagnifyingGlass.name=Magnifying Glass
 item.silentgems:MysteryGoo.name=Mystery Goo
 item.silentgems:MysteryGoo.desc=Feels right at home in space.
+item.silentgems:NamePlate.name=Name Plate
+item.silentgems:NamePlate.desc=Renames items or entities. Name in an anvil, then craft with an item.
+item.silentgems:NetherShard.name=Nether Shard
+item.silentgems:NetherShard.desc=Stabilized nether star fragments.
+item.silentgems:NetherCluster.name=Nether Cluster
+item.silentgems:NetherCluster.desc=Part of a nether star.
 item.silentgems:OrnateStickGold.name=Ornate Gold Rod
 item.silentgems:OrnateStickSilver.name=Ornate Silver Rod
 item.silentgems:Plume.name=Plume
