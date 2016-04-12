@@ -15,6 +15,9 @@ public class Names {
   public static final String GEM_ORE_DARK = "GemOreDark";
   public static final String GLOW_ROSE = "GlowRose";
   public static final String MATERIAL_GRADER = "MaterialGrader";
+  public static final String TELEPORTER = "Teleporter";
+  public static final String TELEPORTER_ANCHOR = "TeleporterAnchor";
+  public static final String TELEPORTER_REDSTONE = "TeleporterRedstone";
 
   // Items
   public static final String CHAOS_ORB = "ChaosOrb";
@@ -25,6 +28,7 @@ public class Names {
   public static final String GEM = "Gem";
   public static final String GEM_SHARD = "GemShard";
   public static final String NODE_MOVER = "NodeMover";
+  public static final String TELEPORTER_LINKER = "TeleporterLinker";
   public static final String TORCH_BANDOLIER = "TorchBandolier";
   public static final String UPGRADE_TIP = "TipUpgrade";
   public static final String TOOL_RENDER_HELPER = "ToolRenderHelper";

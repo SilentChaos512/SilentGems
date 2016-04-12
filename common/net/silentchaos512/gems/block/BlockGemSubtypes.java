@@ -15,7 +15,12 @@ public class BlockGemSubtypes extends BlockSL {
 
   public BlockGemSubtypes(boolean isDark, String name) {
 
-    super(16, SilentGems.MOD_ID, name, Material.rock);
+    this(16, isDark, name, Material.rock);
+  }
+
+  public BlockGemSubtypes(int subtypeCount, boolean isDark, String name, Material material) {
+
+    super(subtypeCount, SilentGems.MOD_ID, name, material);
     this.isDark = isDark;
 
     setDefaultState(blockState.getBaseState().withProperty(EnumGem.VARIANT_GEM, EnumGem.RUBY));

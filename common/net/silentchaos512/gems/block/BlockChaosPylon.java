@@ -68,8 +68,6 @@ public class BlockChaosPylon extends BlockContainer
     setHardness(6.0f);
     setResistance(1000.0f);
     setCreativeTab(SilentGems.instance.creativeTab);
-
-    SilentGems.instance.registry.registerTileEntity(TileChaosPylon.class, Names.CHAOS_PYLON);
   }
 
   @Override

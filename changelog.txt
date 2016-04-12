@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.0.5
+Added: Chaos Node Mover. Reusable, but must be repaired with nether shards after use.
 Changed: Broken tools can no longer place blocks.
 Fixed: Shovels not being able to make grass paths.
 

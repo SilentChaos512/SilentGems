@@ -26,30 +26,31 @@ import net.silentchaos512.lib.registry.SRegistry;
 
 public class ModItems {
 
-  public static ItemGem gem;
-  public static ItemGemShard gemShard;
-  public static ItemCrafting craftingMaterial;
-  public static ItemTipUpgrade tipUpgrade;
-  public static ItemEnchantmentToken enchantmentToken;
-  public static ItemFluffyPuffSeeds fluffyPuffSeeds;
-  public static ItemFluffyPuff fluffyPuff;
-  public static ItemDyeSG dye;
-  public static ItemFoodSG food;
-  public static ItemTorchBandolier torchBandolier;
-  public static ItemChaosOrb chaosOrb;
-  public static ItemNodeMover nodeMover;
+  public static ItemGem gem = new ItemGem();
+  public static ItemGemShard gemShard = new ItemGemShard();
+  public static ItemCrafting craftingMaterial = new ItemCrafting();
+  public static ItemTipUpgrade tipUpgrade = new ItemTipUpgrade();
+  public static ItemEnchantmentToken enchantmentToken = new ItemEnchantmentToken();
+  public static ItemFluffyPuffSeeds fluffyPuffSeeds = new ItemFluffyPuffSeeds();
+  public static ItemFluffyPuff fluffyPuff = new ItemFluffyPuff();
+  public static ItemDyeSG dye = new ItemDyeSG();
+  public static ItemFoodSG food = new ItemFoodSG();
+  public static ItemTorchBandolier torchBandolier = new ItemTorchBandolier();
+  public static ItemChaosOrb chaosOrb = new ItemChaosOrb();
+  public static ItemNodeMover nodeMover = new ItemNodeMover();
+  public static ItemTeleporterLinker teleporterLinker = new ItemTeleporterLinker();
 
-  public static ItemGemSword sword;
-  public static ItemGemKatana katana;
-  public static ItemGemScepter scepter;
-  public static ItemSL bow;             // temp
-  public static ItemSL shield;          // temp
-  public static ItemGemPickaxe pickaxe;
-  public static ItemGemShovel shovel;
-  public static ItemGemAxe axe;
-  public static ItemGemHoe hoe;
-  public static ItemGemSickle sickle;
-  public static ItemSL fishingRod;      // temp
+  public static ItemGemSword sword = new ItemGemSword();
+  public static ItemGemKatana katana = new ItemGemKatana();
+  public static ItemGemScepter scepter = new ItemGemScepter();
+  public static ItemSL bow = new ItemSL(1, SilentGems.MOD_ID, Names.BOW); // temp
+  public static ItemSL shield = new ItemSL(1, SilentGems.MOD_ID, Names.SHIELD); // temp
+  public static ItemGemPickaxe pickaxe = new ItemGemPickaxe();
+  public static ItemGemShovel shovel = new ItemGemShovel();
+  public static ItemGemAxe axe = new ItemGemAxe();
+  public static ItemGemHoe hoe = new ItemGemHoe();
+  public static ItemGemSickle sickle = new ItemGemSickle();
+  public static ItemSL fishingRod = new ItemSL(1, SilentGems.MOD_ID, Names.FISHING_ROD); // temp
 
   public static ToolRenderHelperBase toolRenderHelper;
 
@@ -59,32 +60,32 @@ public class ModItems {
 
     SRegistry reg = SilentGems.instance.registry;
 
-    gem = (ItemGem) reg.registerItem(new ItemGem());
-    gemShard = (ItemGemShard) reg.registerItem(new ItemGemShard());
-    craftingMaterial = (ItemCrafting) reg.registerItem(new ItemCrafting());
-    tipUpgrade = (ItemTipUpgrade) reg.registerItem(new ItemTipUpgrade());
-    enchantmentToken = (ItemEnchantmentToken) reg.registerItem(new ItemEnchantmentToken());
-    fluffyPuffSeeds = (ItemFluffyPuffSeeds) reg.registerItem(new ItemFluffyPuffSeeds(),
-        Names.FLUFFY_PUFF_SEEDS);
-    fluffyPuff = (ItemFluffyPuff) reg.registerItem(new ItemFluffyPuff());
-    dye = (ItemDyeSG) reg.registerItem(new ItemDyeSG());
-    food = (ItemFoodSG) reg.registerItem(new ItemFoodSG(), Names.FOOD);
-    torchBandolier = (ItemTorchBandolier) reg.registerItem(new ItemTorchBandolier());
-    chaosOrb = (ItemChaosOrb) reg.registerItem(new ItemChaosOrb());
-    nodeMover = (ItemNodeMover) reg.registerItem(new ItemNodeMover());
+    reg.registerItem(gem);
+    reg.registerItem(gemShard);
+    reg.registerItem(craftingMaterial);
+    reg.registerItem(tipUpgrade);
+    reg.registerItem(enchantmentToken);
+    reg.registerItem(fluffyPuffSeeds, Names.FLUFFY_PUFF_SEEDS);
+    reg.registerItem(fluffyPuff);
+    reg.registerItem(dye);
+    reg.registerItem(food, Names.FOOD);
+    reg.registerItem(torchBandolier);
+    reg.registerItem(chaosOrb);
+    reg.registerItem(nodeMover);
+    reg.registerItem(teleporterLinker);
 
     // Tools
-    sword = (ItemGemSword) reg.registerItem(new ItemGemSword(), Names.SWORD);
-    katana = (ItemGemKatana) reg.registerItem(new ItemGemKatana(), Names.KATANA);
-    scepter = (ItemGemScepter) reg.registerItem(new ItemGemScepter(), Names.SCEPTER);
-    bow = (ItemSL) reg.registerItem(new ItemSL(1, SilentGems.MOD_ID, Names.BOW));
-    shield = (ItemSL) reg.registerItem(new ItemSL(1, SilentGems.MOD_ID, Names.SHIELD));
-    pickaxe = (ItemGemPickaxe) reg.registerItem(new ItemGemPickaxe(), Names.PICKAXE);
-    shovel = (ItemGemShovel) reg.registerItem(new ItemGemShovel(), Names.SHOVEL);
-    axe = (ItemGemAxe) reg.registerItem(new ItemGemAxe(), Names.AXE);
-    hoe = (ItemGemHoe) reg.registerItem(new ItemGemHoe(), Names.HOE);
-    sickle = (ItemGemSickle) reg.registerItem(new ItemGemSickle(), Names.SICKLE);
-    fishingRod = (ItemSL) reg.registerItem(new ItemSL(1, SilentGems.MOD_ID, Names.FISHING_ROD));
+    reg.registerItem(sword, Names.SWORD);
+    reg.registerItem(katana, Names.KATANA);
+    reg.registerItem(scepter, Names.SCEPTER);
+    reg.registerItem(bow, Names.BOW);
+    reg.registerItem(shield, Names.SHIELD);
+    reg.registerItem(pickaxe, Names.PICKAXE);
+    reg.registerItem(shovel, Names.SHOVEL);
+    reg.registerItem(axe, Names.AXE);
+    reg.registerItem(hoe, Names.HOE);
+    reg.registerItem(sickle, Names.SICKLE);
+    reg.registerItem(fishingRod, Names.FISHING_ROD);
 
     // ToolRenderHelper
     if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {

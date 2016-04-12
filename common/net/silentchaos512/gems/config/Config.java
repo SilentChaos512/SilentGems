@@ -21,6 +21,12 @@ public class Config {
 
   public static int GLOW_ROSE_LIGHT_LEVEL = 10;
 
+  public static int TELEPORTER_FREE_RANGE = 64;
+  public static int TELEPORTER_COST_PER_BLOCK = 100;
+  public static int TELEPORTER_COST_CROSS_DIMENSION = 100000;
+  public static int TELEPORTER_MAX_CHARGE = 1000000;
+  public static boolean TELEPORTER_ALLOW_DUMB = true;
+
   /*
    * Items
    */
@@ -39,7 +45,9 @@ public class Config {
    * Recipes
    */
 
-  // TODO
+  public static boolean RECIPE_TELEPORTER_DISABLE = false;
+  public static boolean RECIPE_TELEPORTER_ANCHOR_DISABLE = false;
+  public static boolean RECIPE_TELEPORTER_REDSTONE_DISABLE = false;
 
   /*
    * Misc
@@ -72,6 +80,7 @@ public class Config {
   public static final String CAT_BLOCK = CAT_MAIN + split + "Blocks";
   public static final String CAT_CONTROLS = CAT_MAIN + split + "Controls";
   public static final String CAT_ITEM = CAT_MAIN + split + "Items";
+  public static final String CAT_RECIPE = CAT_MAIN + split + "Recipes";
   public static final String CAT_TOOLTIPS = CAT_MAIN + split + "Tooltips";
   public static final String CAT_WORLD_GEN = CAT_MAIN + split + "World Generation";
   public static final String CAT_WORLD_GEN_GEM_WEIGHT = CAT_WORLD_GEN + split + "Gem Weights";
@@ -100,6 +109,23 @@ public class Config {
           GLOW_ROSE_LIGHT_LEVEL, 0, 15,
           "The light level glow roses emit.");
 
+      final String catTeleporter = CAT_BLOCK + split + "Teleporter";
+      TELEPORTER_ALLOW_DUMB = c.getBoolean("Allow Dumb Teleporters", catTeleporter,
+          TELEPORTER_ALLOW_DUMB,
+          "Allows teleports to happen even if the destination teleporter has been removed.");
+      TELEPORTER_COST_CROSS_DIMENSION = c.getInt("Chaos Cost Cross Dimension", catTeleporter,
+          TELEPORTER_COST_CROSS_DIMENSION, 0, Integer.MAX_VALUE,
+          "The amount of Chaos charged for traveling between dimensions.");
+      TELEPORTER_COST_PER_BLOCK = c.getInt("Chaos Cost Per Block", catTeleporter,
+          TELEPORTER_COST_PER_BLOCK, 0, Integer.MAX_VALUE,
+          "The amount of Chaos charged per block traveled.");
+      TELEPORTER_FREE_RANGE = c.getInt("Free Range", catTeleporter,
+          TELEPORTER_FREE_RANGE, 0, Integer.MAX_VALUE,
+          "The distance that can be teleported for free.");
+      TELEPORTER_MAX_CHARGE = c.getInt("Max Chaos", catTeleporter,
+          TELEPORTER_MAX_CHARGE, 0, Integer.MAX_VALUE,
+          "The maximum amount of Chaos a teleporter can store.");
+
       /*
        * Items
        */
@@ -115,6 +141,20 @@ public class Config {
       FOOD_SECRET_DONUT_TEXT_CHANCE = c.getFloat("Secret Donut Text Chance", catFood,
           FOOD_SECRET_DONUT_TEXT_CHANCE, 0.0f, 1.0f,
           "The chance of secrets donuts putting weird text in your chat.");
+
+      /*
+       * Recipes
+       */
+
+      RECIPE_TELEPORTER_DISABLE = c.getBoolean("Disable Regular Teleporter Recipes", CAT_RECIPE,
+          RECIPE_TELEPORTER_DISABLE,
+          "Disable recipes for regular gem teleporters.");
+      RECIPE_TELEPORTER_ANCHOR_DISABLE = c.getBoolean("Disable Teleporter Anchor Recipes", CAT_RECIPE,
+          RECIPE_TELEPORTER_ANCHOR_DISABLE,
+          "Disable recipes for teleporter anchors.");
+      RECIPE_TELEPORTER_REDSTONE_DISABLE = c.getBoolean("Disable Redstone Teleporter Recipes", CAT_RECIPE,
+          RECIPE_TELEPORTER_REDSTONE_DISABLE,
+          "Disable recipes for redstone gem teleporters.");
 
       /*
        * Misc

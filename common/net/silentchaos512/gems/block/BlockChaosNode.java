@@ -28,8 +28,6 @@ public class BlockChaosNode extends BlockSL implements ITileEntityProvider, IWit
     setBlockUnbreakable();
     setResistance(6000000.0F);
     translucent = true;
-
-    SilentGems.instance.registry.registerTileEntity(TileChaosNode.class, Names.CHAOS_NODE);
   }
 
   @Override

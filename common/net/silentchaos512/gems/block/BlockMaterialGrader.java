@@ -36,9 +36,6 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
     setHardness(3.0f);
     setResistance(100.0f);
     this.isBlockContainer = true;
-
-    SilentGems.instance.registry.registerTileEntity(TileMaterialGrader.class,
-        Names.MATERIAL_GRADER);
   }
 
   @Override

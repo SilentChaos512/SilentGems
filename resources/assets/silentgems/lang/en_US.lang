@@ -195,7 +195,7 @@ tile.silentgems:GemOreDark0.name=Carnelian Ore
 tile.silentgems:GemOreDark1.name=Spinel Ore
 tile.silentgems:GemOreDark2.name=Citrine Ore
 tile.silentgems:GemOreDark3.name=Jasper Ore
-tile.silentgems:GemOreDark4.name=Golden Beryl Ore
+tile.sileTeleporterems:GemOreDark4.name=Golden Beryl Ore
 tile.silentgems:GemOreDark5.name=Moldavite Ore
 tile.silentgems:GemOreDark6.name=Malachite Ore
 tile.silentgems:GemOreDark7.name=Turquoise Ore
@@ -228,6 +228,83 @@ tile.silentgems:GlowRose15.name=Opal Glow Rose
 tile.silentgems:MaterialGrader.name=Material Grader
 tile.silentgems:MaterialGrader.desc1=Assigns random grades to tool crafting
 tile.silentgems:MaterialGrader.desc2=materials, giving stat bonuses.
+
+tile.silentgems:Teleporter0.name=Ruby Teleporter
+tile.silentgems:Teleporter1.name=Garnet Teleporter
+tile.silentgems:Teleporter2.name=Topaz Teleporter
+tile.silentgems:Teleporter3.name=Amber Teleporter
+tile.silentgems:Teleporter4.name=Heliodor Teleporter
+tile.silentgems:Teleporter5.name=Peridot Teleporter
+tile.silentgems:Teleporter6.name=Beryl Teleporter
+tile.silentgems:Teleporter7.name=Indicolite Teleporter
+tile.silentgems:Teleporter8.name=Aquamarine Teleporter
+tile.silentgems:Teleporter9.name=Sapphire Teleporter
+tile.silentgems:Teleporter10.name=Iolite Teleporter
+tile.silentgems:Teleporter11.name=Amethyst Teleporter
+tile.silentgems:Teleporter12.name=Agate Teleporter
+tile.silentgems:Teleporter13.name=Morganite Teleporter
+tile.silentgems:Teleporter14.name=Onyx Teleporter
+tile.silentgems:Teleporter15.name=Opal Teleporter
+
+tile.silentgems:TeleporterDark0.name=Carnelian Teleporter
+tile.silentgems:TeleporterDark1.name=Spinel Teleporter
+tile.silentgems:TeleporterDark2.name=Citrine Teleporter
+tile.silentgems:TeleporterDark3.name=Jasper Teleporter
+tile.silentgems:TeleporterDark4.name=Golden Beryl Teleporter
+tile.silentgems:TeleporterDark5.name=Moldavite Teleporter
+tile.silentgems:TeleporterDark6.name=Malachite Teleporter
+tile.silentgems:TeleporterDark7.name=Turquoise Teleporter
+tile.silentgems:TeleporterDark8.name=Moonstone Teleporter
+tile.silentgems:TeleporterDark9.name=Blue Topaz Teleporter
+tile.silentgems:TeleporterDark10.name=Tanzanite Teleporter
+tile.silentgems:TeleporterDark11.name=Violet Sapphire Teleporter
+tile.silentgems:TeleporterDark12.name=Lepidolite Teleporter
+tile.silentgems:TeleporterDark13.name=Ametrine Teleporter
+tile.silentgems:TeleporterDark14.name=Black Diamond Teleporter
+tile.silentgems:TeleporterDark15.name=Alexandrite Teleporter
+
+tile.silentgems:Teleporter.LinkStart=Teleporter selected.
+tile.silentgems:Teleporter.LinkSuccess=&2Teleporters linked!
+tile.silentgems:Teleporter.LinkFail=&4Failed to link teleporters! Was one removed?
+tile.silentgems:Teleporter.NotEnoughChaos=Not enough Chaos (%,d / %,d)
+tile.silentgems:Teleporter.NotSafe=&4Destination obstructed.
+tile.silentgems:Teleporter.NotSane=&4The destination seems unreasonable...
+tile.silentgems:Teleporter.NoReceiver=No teleporter at destination!
+tile.silentgems:Teleporter.NoDestination=No destination set.
+
+tile.silentgems:RedstoneTeleporter0.name=Ruby Redstone Teleporter
+tile.silentgems:RedstoneTeleporter1.name=Garnet Redstone Teleporter
+tile.silentgems:RedstoneTeleporter2.name=Topaz Redstone Teleporter
+tile.silentgems:RedstoneTeleporter3.name=Amber Redstone Teleporter
+tile.silentgems:RedstoneTeleporter4.name=Heliodor Redstone Teleporter
+tile.silentgems:RedstoneTeleporter5.name=Peridot Redstone Teleporter
+tile.silentgems:RedstoneTeleporter6.name=Beryl Redstone Teleporter
+tile.silentgems:RedstoneTeleporter7.name=Indicolite Redstone Teleporter
+tile.silentgems:RedstoneTeleporter8.name=Aquamarine Redstone Teleporter
+tile.silentgems:RedstoneTeleporter9.name=Sapphire Redstone Teleporter
+tile.silentgems:RedstoneTeleporter10.name=Iolite Redstone Teleporter
+tile.silentgems:RedstoneTeleporter11.name=Amethyst Redstone Teleporter
+tile.silentgems:RedstoneTeleporter12.name=Agate Redstone Teleporter
+tile.silentgems:RedstoneTeleporter13.name=Morganite Redstone Teleporter
+tile.silentgems:RedstoneTeleporter14.name=Onyx Redstone Teleporter
+tile.silentgems:RedstoneTeleporter15.name=Opal Redstone Teleporter
+
+tile.silentgems:RedstoneTeleporterDark0.name=Carnelian Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark1.name=Spinel Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark2.name=Citrine Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark3.name=Jasper Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark4.name=Golden Beryl Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark5.name=Moldavite Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark6.name=Malachite Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark7.name=Turquoise Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark8.name=Moonstone Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark9.name=Blue Topaz Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark10.name=Tanzanite Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark11.name=Violet Sapphire Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark12.name=Lepidolite Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark13.name=Ametrine Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark14.name=Black Diamond Redstone Teleporter
+tile.silentgems:RedstoneTeleporterDark15.name=Alexandrite Redstone Teleporter
 
 # Items
 
@@ -355,6 +432,11 @@ item.silentgems:NodeMover2.name=Chaos Node Mover (Spent)
 item.silentgems:NodeMover0.desc=Allows Chaos Nodes to be moved. Shocking, right?
 item.silentgems:NodeMover1.desc=Contains a captured Chaos Node.
 item.silentgems:NodeMover2.desc=Needs to be repaired before it can be used again.
+
+item.silentgems:TeleporterLinker.name=Teleporter Linker
+item.silentgems:TeleporterLinker.desc=Links teleporters, obviously.
+item.silentgems:TeleporterLinker.Distance=Distance: %,d
+item.silentgems:TeleporterLinker.DifferentDimension=Dimension Hop
 
 item.silentgems:TorchBandolier.name=Torch Bandolier
 
