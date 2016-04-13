@@ -1,0 +1,20 @@
+{
+	"variants": {
+		"variant=ruby": { "model": "SilentGems:TeleporterRedstone0" },
+    "variant=garnet": { "model": "SilentGems:TeleporterRedstone1" },
+    "variant=topaz": { "model": "SilentGems:TeleporterRedstone2" },
+    "variant=amber": { "model": "SilentGems:TeleporterRedstone3" },
+    "variant=heliodor": { "model": "SilentGems:TeleporterRedstone4" },
+    "variant=peridot": { "model": "SilentGems:TeleporterRedstone5" },
+    "variant=beryl": { "model": "SilentGems:TeleporterRedstone6" },
+    "variant=indicolite": { "model": "SilentGems:TeleporterRedstone7" },
+    "variant=aquamarine": { "model": "SilentGems:TeleporterRedstone8" },
+    "variant=sapphire": { "model": "SilentGems:TeleporterRedstone9" },
+    "variant=iolite": { "model": "SilentGems:TeleporterRedstone10" },
+    "variant=amethyst": { "model": "SilentGems:TeleporterRedstone11" },
+    "variant=agate": { "model": "SilentGems:TeleporterRedstone12" },
+    "variant=morganite": { "model": "SilentGems:TeleporterRedstone13" },
+    "variant=onyx": { "model": "SilentGems:TeleporterRedstone14" },
+    "variant=opal": { "model": "SilentGems:TeleporterRedstone15" }
+	}
+}

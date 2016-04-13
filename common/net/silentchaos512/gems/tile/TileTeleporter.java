@@ -168,7 +168,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
     if (cost > getCharge()) {
       String str = SilentGems.instance.localizationHelper.getBlockSubText(Names.TELEPORTER,
           "NotEnoughChaos");
-      str = String.format(str, getCharge(), getMaxCharge());
+      str = String.format(str, getCharge(), cost);
       PlayerHelper.addChatMessage(player, str);
       return false;
     }

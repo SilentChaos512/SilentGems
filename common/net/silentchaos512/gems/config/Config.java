@@ -25,6 +25,7 @@ public class Config {
   public static int TELEPORTER_COST_PER_BLOCK = 100;
   public static int TELEPORTER_COST_CROSS_DIMENSION = 100000;
   public static int TELEPORTER_MAX_CHARGE = 1000000;
+  public static float TELEPORTER_REDSTONE_SEARCH_RADIUS = 2.0f;
   public static boolean TELEPORTER_ALLOW_DUMB = true;
 
   /*

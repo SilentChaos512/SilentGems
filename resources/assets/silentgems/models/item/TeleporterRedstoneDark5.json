@@ -1,0 +1,6 @@
+{
+  "parent": "SilentGems:block/TeleporterRedstoneDark5",
+  "textures": {
+    "layer0": "SilentGems:blocks/TeleporterRedstoneDark5"
+  }
+}

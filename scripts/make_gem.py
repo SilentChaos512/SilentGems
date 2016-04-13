@@ -1,7 +1,7 @@
 import re
 from subprocess import call
 
-NAME = 'GemBrickSpeckled'
+NAME = 'TeleporterRedstone'
 TEXTURE = NAME
 MODE = 'block'
 INCLUDE_DARK = True

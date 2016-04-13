@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
@@ -24,6 +25,13 @@ public class ItemTeleporterLinker extends ItemSL {
 
     super(1, SilentGems.MOD_ID, Names.TELEPORTER_LINKER);
     setMaxStackSize(1);
+  }
+
+  @Override
+  public void addRecipes() {
+
+    GameRegistry.addShapedRecipe(new ItemStack(this), "c", "r", 'c',
+        ModItems.craftingMaterial.chaosEssenceEnriched, 'r', ModItems.craftingMaterial.toolRodGold);
   }
 
   @Override

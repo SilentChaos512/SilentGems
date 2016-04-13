@@ -22,8 +22,11 @@ public class ModBlocks {
   public static BlockGemBrick gemBrickCoatedDark = new BlockGemBrick(true, true);
   public static BlockGemBrick gemBrickSpeckled = new BlockGemBrick(false, false);
   public static BlockGemBrick gemBrickSpeckledDark = new BlockGemBrick(true, false);
-  public static BlockTeleporter gemTeleporter = new BlockTeleporter(false, false);
-  public static BlockTeleporter gemTeleporterDark = new BlockTeleporter(true, false);
+  public static BlockTeleporterAnchor teleporterAnchor = new BlockTeleporterAnchor();
+  public static BlockTeleporter teleporter = new BlockTeleporter(false, false);
+  public static BlockTeleporter teleporterDark = new BlockTeleporter(true, false);
+  public static BlockTeleporterRedstone teleporterRedstone = new BlockTeleporterRedstone(false);
+  public static BlockTeleporterRedstone teleporterRedstoneDark = new BlockTeleporterRedstone(true);
   public static BlockEssenceOre essenceOre = new BlockEssenceOre();
   public static BlockGlowRose glowRose = new BlockGlowRose();
   public static BlockFluffyBlock fluffyBlock = new BlockFluffyBlock();
@@ -47,8 +50,11 @@ public class ModBlocks {
     reg.registerBlock(gemBrickCoatedDark);
     reg.registerBlock(gemBrickSpeckled);
     reg.registerBlock(gemBrickSpeckledDark);
-    reg.registerBlock(gemTeleporter);
-    reg.registerBlock(gemTeleporterDark);
+    reg.registerBlock(teleporterAnchor);
+    reg.registerBlock(teleporter);
+    reg.registerBlock(teleporterDark);
+    reg.registerBlock(teleporterRedstone);
+    reg.registerBlock(teleporterRedstoneDark);
     reg.registerTileEntity(TileTeleporter.class, Names.TELEPORTER);
     reg.registerBlock(essenceOre);
     reg.registerBlock(glowRose, Names.GLOW_ROSE);

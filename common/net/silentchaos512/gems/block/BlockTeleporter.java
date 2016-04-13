@@ -35,6 +35,13 @@ import net.silentchaos512.wit.api.IWitHudInfo;
 public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProvider, IWitHudInfo {
 
   public final boolean isAnchor;
+  
+  // For anchors only.
+  public BlockTeleporter(String name) {
+
+    super(name);
+    isAnchor = true;
+  }
 
   public BlockTeleporter(boolean isDark, boolean isAnchor) {
 
@@ -60,8 +67,8 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
     }
 
     ItemStack[] anyTeleporter = new ItemStack[] {
-        new ItemStack(ModBlocks.gemTeleporter, 1, OreDictionary.WILDCARD_VALUE),
-        new ItemStack(ModBlocks.gemTeleporterDark, 1, OreDictionary.WILDCARD_VALUE) };
+        new ItemStack(ModBlocks.teleporter, 1, OreDictionary.WILDCARD_VALUE),
+        new ItemStack(ModBlocks.teleporterDark, 1, OreDictionary.WILDCARD_VALUE) };
 
     for (int i = 0; i < subBlockCount; ++i) {
       EnumGem gem = getGem(i);
@@ -153,10 +160,10 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
 
     // Play sounds
     float pitch = 0.7f + 0.3f * SilentGems.instance.random.nextFloat();
-    world.playSound(null, pos, SoundEvents.entity_endermen_teleport, SoundCategory.BLOCKS, 1.0f,
-        pitch);
-    world.playSound(null, tile.getDestination().toBlockPos(), SoundEvents.entity_endermen_teleport,
-        SoundCategory.BLOCKS, 1.0f, pitch);
+    for (BlockPos p : new BlockPos[] { pos, tile.getDestination().toBlockPos() }) {
+      world.playSound(null, p, SoundEvents.entity_endermen_teleport, SoundCategory.BLOCKS,
+          1.0f, pitch);
+    }
 
     return true;
   }
