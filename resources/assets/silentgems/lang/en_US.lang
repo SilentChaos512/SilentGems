@@ -544,6 +544,8 @@ misc.silentgems:PressCtrl=<Press Ctrl>
 misc.silentgems:PressAlt=<Press Alt>
 misc.silentgems:PressShift=<Press Shift>
 
+
+
 # Tool Information
 
 misc.silentgems:ToolPart.Rod=&3Tool Rod
@@ -577,3 +579,9 @@ misc.silentgems:Tooltip.Separator=&8-------------------
 misc.silentgems:Tooltip.Properties=&6Properties
 misc.silentgems:Tooltip.Statistics=&6Statistics
 misc.silentgems:Tooltip.Construction=&6Construction
+
+
+
+# JEI descriptions
+
+jei.silentgems.desc.Gem=Gems are used for constructing, repairing, and changing the appearance of tools. A single tool can be made with multiple types of gems. Craft gems next to a tool to "decorate" it.

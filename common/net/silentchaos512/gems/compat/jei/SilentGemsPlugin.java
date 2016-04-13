@@ -9,6 +9,7 @@ import mezz.jei.api.JEIPlugin;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
+import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 
@@ -18,9 +19,7 @@ public class SilentGemsPlugin implements IModPlugin {
   public static IJeiHelpers jeiHelper;
 
   @Override
-  public void onRuntimeAvailable(IJeiRuntime arg0) {
-
-    // TODO Auto-generated method stub
+  public void onRuntimeAvailable(IJeiRuntime runtime) {
 
   }
 
@@ -29,6 +28,11 @@ public class SilentGemsPlugin implements IModPlugin {
 
     jeiHelper = reg.getJeiHelpers();
     IGuiHelper guiHelper = jeiHelper.getGuiHelper();
+
+    // Hide blocks/items
+    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.chaosNode));
+    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.fluffyPuffPlant));
+    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModItems.toolRenderHelper));
 
     // NBT ignores
     jeiHelper.getNbtIgnoreList().ignoreNbtTagNames(EnumMaterialGrade.NBT_KEY);
