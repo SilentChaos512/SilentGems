@@ -46,7 +46,7 @@ public class RenderTileChaosPylon extends TileEntitySpecialRenderer<TileChaosPyl
     GlStateManager.enableBlend();
     GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     GlStateManager.color(1F, 1F, 1F, 1F);
-    Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+    Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
     GlStateManager.translate(x + 0.5, y + 0.5 + 0.1 * Math.sin(worldTime / 20) * bobFactor,
         z + 0.5);
     GlStateManager.rotate((float) worldTime, 0.0f, 1.0f, 0.0f);

@@ -22,7 +22,7 @@ public class ToolPartWool extends ToolPartGrip {
   public ToolPartWool(EnumDyeColor color) {
 
     super(SilentGems.MOD_ID + ":Wool" + color.getMetadata(),
-        new ItemStack(Blocks.wool, 1, color.getMetadata()));
+        new ItemStack(Blocks.WOOL, 1, color.getMetadata()));
     this.color = color;
   }
 

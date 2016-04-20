@@ -545,7 +545,7 @@ public class ToolHelper {
 
     if ((tool.getItem() == ModItems.sickle || state.getBlockHardness(world, pos) != 0)
         && !isBroken(tool)) {
-      if (state.getMaterial() != Material.leaves) {
+      if (state.getMaterial() != Material.LEAVES) {
         tool.damageItem(1, entityLiving);
 
         if (isBroken(tool)) {
@@ -794,18 +794,18 @@ public class ToolHelper {
 
     List<ItemStack> list = Lists.newArrayList();
     final boolean isSuperTool = item == ModItems.katana || item == ModItems.scepter;
-    final ItemStack rodWood = new ItemStack(Items.stick);
+    final ItemStack rodWood = new ItemStack(Items.STICK);
     final ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
 
     if (!isSuperTool) {
       // Test broken items.
-      ItemStack testBroken = constructTool(item, rodWood, new ItemStack(Items.flint),
+      ItemStack testBroken = constructTool(item, rodWood, new ItemStack(Items.FLINT),
           materialLength);
       testBroken.setItemDamage(getMaxDamage(testBroken) - 1);
       list.add(testBroken);
 
       // Flint
-      list.add(constructTool(item, rodWood, new ItemStack(Items.flint), materialLength));
+      list.add(constructTool(item, rodWood, new ItemStack(Items.FLINT), materialLength));
 
       // Regular Gems
       for (EnumGem gem : EnumGem.values()) {

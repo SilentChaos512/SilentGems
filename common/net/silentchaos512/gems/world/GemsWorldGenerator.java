@@ -95,7 +95,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
     Block block;
     IBlockState state;
     ConfigOptionOreGen config;
-    Predicate predicate = BlockMatcher.forBlock(Blocks.netherrack);
+    Predicate predicate = BlockMatcher.forBlock(Blocks.NETHERRACK);
 
     // Dark Gems
     config = Config.WORLD_GEN_GEMS_DARK;
@@ -123,7 +123,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
     Block block;
     IBlockState state;
     ConfigOptionOreGen config;
-    Predicate predicate = BlockMatcher.forBlock(Blocks.end_stone);
+    Predicate predicate = BlockMatcher.forBlock(Blocks.END_STONE);
 
     // Ender Ore
     config = Config.WORLD_GEN_ENDER;

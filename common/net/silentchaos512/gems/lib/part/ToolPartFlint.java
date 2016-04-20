@@ -13,7 +13,7 @@ public class ToolPartFlint extends ToolPartMain {
 
   public ToolPartFlint() {
 
-    super(SilentGems.MOD_ID + ":flint", new ItemStack(Items.flint));
+    super(SilentGems.MOD_ID + ":flint", new ItemStack(Items.FLINT));
   }
 
   @Override

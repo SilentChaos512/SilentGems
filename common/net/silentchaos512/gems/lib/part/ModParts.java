@@ -24,9 +24,9 @@ public class ModParts {
 
     // Rods
     ToolPartRegistry.putPart(new ToolPartRodGems("RodWood", EnumMaterialTier.MUNDANE,
-        new ItemStack(Items.stick), "stickWood"));
+        new ItemStack(Items.STICK), "stickWood"));
     ToolPartRegistry.putPart(
-        new ToolPartRodGems("RodBone", EnumMaterialTier.MUNDANE, new ItemStack(Items.bone)));
+        new ToolPartRodGems("RodBone", EnumMaterialTier.MUNDANE, new ItemStack(Items.BONE)));
     ToolPartRegistry.putPart(new ToolPartRodGems("RodIron", EnumMaterialTier.REGULAR,
         ModItems.craftingMaterial.toolRodIrom, "stickIron"));
     ToolPartRegistry.putPart(new ToolPartRodGems("RodGold", EnumMaterialTier.SUPER,

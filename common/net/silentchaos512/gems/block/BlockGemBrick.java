@@ -19,14 +19,14 @@ public class BlockGemBrick extends BlockGemSubtypes {
 
     setHardness(2.0f);
     setResistance(30.0f);
-    setStepSound(SoundType.STONE);
+    setSoundType(SoundType.STONE);
     setHarvestLevel("pickaxe", 0);
   }
 
   @Override
   public void addRecipes() {
 
-    ItemStack bricks = new ItemStack(Blocks.stonebrick, 1, OreDictionary.WILDCARD_VALUE);
+    ItemStack bricks = new ItemStack(Blocks.STONEBRICK, 1, OreDictionary.WILDCARD_VALUE);
     for (int i = 0; i < 16; ++i) {
       EnumGem gem = getGem(i);
       RecipeHelper.addSurroundOre(new ItemStack(this, 8, i),

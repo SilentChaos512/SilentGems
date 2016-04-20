@@ -53,7 +53,7 @@ public class RenderChaosProjectile extends Render<EntityChaosProjectile> {
     GlStateManager.enableBlend();
     GlStateManager.scale(scale, scale, scale);
     TextureAtlasSprite textureatlassprite = Minecraft.getMinecraft().getRenderItem()
-        .getItemModelMesher().getParticleIcon(Items.fire_charge);
+        .getItemModelMesher().getParticleIcon(Items.FIRE_CHARGE);
     Tessellator tessellator = Tessellator.getInstance();
     VertexBuffer vertexbuffer = tessellator.getBuffer();
     float f = textureatlassprite.getMinU();

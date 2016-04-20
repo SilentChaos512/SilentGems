@@ -33,12 +33,12 @@ public class BlockEssenceOre extends BlockSL {
 
   public BlockEssenceOre() {
 
-    super(2, SilentGems.MOD_ID, Names.ESSENCE_ORE, Material.rock);
+    super(2, SilentGems.MOD_ID, Names.ESSENCE_ORE, Material.ROCK);
     setDefaultState(blockState.getBaseState().withProperty(VARIANT, Type.CHAOS));
 
     setHardness(4.0f);
     setResistance(15.0f);
-    setStepSound(SoundType.STONE);
+    setSoundType(SoundType.STONE);
     setHarvestLevel("pickaxe", 3, getDefaultState().withProperty(VARIANT, Type.CHAOS));
     setHarvestLevel("pickaxe", 4, getDefaultState().withProperty(VARIANT, Type.ENDER));
 

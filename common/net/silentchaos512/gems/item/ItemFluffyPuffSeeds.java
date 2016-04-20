@@ -18,7 +18,7 @@ public class ItemFluffyPuffSeeds extends ItemSeeds implements IRegistryObject {
 
   public ItemFluffyPuffSeeds() {
 
-    super(ModBlocks.fluffyPuffPlant, Blocks.farmland);
+    super(ModBlocks.fluffyPuffPlant, Blocks.FARMLAND);
     setUnlocalizedName(Names.FLUFFY_PUFF_SEEDS);
     MinecraftForge.addGrassSeed(new ItemStack(this), 2);
   }

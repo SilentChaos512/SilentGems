@@ -34,7 +34,7 @@ public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject 
 
     List<ItemStack> list = Lists.newArrayList(new ItemStack(getSeed()));
 
-    int age = state.getValue(getAge()).intValue();
+    int age = getAge(state);
     Random rand = SilentGems.instance.random;
 
     if (age >= 7) {

@@ -62,7 +62,7 @@ public class BlockChaosPylon extends BlockContainer
 
   public BlockChaosPylon() {
 
-    super(Material.iron);
+    super(Material.IRON);
     setDefaultState(blockState.getBaseState().withProperty(VARIANT, VariantType.PASSIVE));
 
     setHardness(6.0f);
@@ -78,9 +78,9 @@ public class BlockChaosPylon extends BlockContainer
     ItemStack chaosCore = ModItems.craftingMaterial.chaosCore;
 
     GameRegistry.addRecipe(new ShapedOreRecipe(pylonPassive, "lel", "lol", "ooo", 'e', chaosCore,
-        'l', "gemLapis", 'o', Blocks.obsidian));
+        'l', "gemLapis", 'o', Blocks.OBSIDIAN));
     GameRegistry.addRecipe(new ShapedOreRecipe(pylonBurner, " e ", "rpr", "ofo", 'p', pylonPassive,
-        'e', chaosCore, 'f', Blocks.furnace, 'r', "blockRedstone", 'o', Blocks.obsidian));
+        'e', chaosCore, 'f', Blocks.FURNACE, 'r', "blockRedstone", 'o', Blocks.OBSIDIAN));
   }
 
   @Override

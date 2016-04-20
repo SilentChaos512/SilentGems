@@ -31,7 +31,7 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
     super();
     setDefaultState(
         blockState.getBaseState().withProperty(EnumGem.VARIANT_GEM, EnumGem.RUBY));
-    setStepSound(SoundType.PLANT);
+    setSoundType(SoundType.PLANT);
 
     lightValue = Config.GLOW_ROSE_LIGHT_LEVEL;
     setUnlocalizedName(Names.GLOW_ROSE);
@@ -41,7 +41,7 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
   @Override
   public void addRecipes() {
 
-    Item dye = Items.dye;
+    Item dye = Items.DYE;
     Item dyeSG = ModItems.dye;
 
     // Flowers to dye.
@@ -87,7 +87,7 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
     if (dye == EnumDyeColor.BLACK || dye == EnumDyeColor.BLUE) {
       dyeStack = new ItemStack(ModItems.dye, 2, dye.getDyeDamage());
     } else {
-      dyeStack = new ItemStack(Items.dye, 2, dye.getDyeDamage());
+      dyeStack = new ItemStack(Items.DYE, 2, dye.getDyeDamage());
     }
 
     GameRegistry.addShapelessRecipe(dyeStack, glowRose);

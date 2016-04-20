@@ -24,7 +24,7 @@ public class BlockChaosNode extends BlockSL implements ITileEntityProvider, IWit
 
   public BlockChaosNode() {
 
-    super(1, SilentGems.MOD_ID, Names.CHAOS_NODE, Material.barrier);
+    super(1, SilentGems.MOD_ID, Names.CHAOS_NODE, Material.BARRIER);
     setBlockUnbreakable();
     setResistance(6000000.0F);
     translucent = true;

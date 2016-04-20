@@ -39,7 +39,7 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   @Override
   public IBlockState getBlockPlaced(ItemStack stack) {
 
-    return Blocks.air.getDefaultState();
+    return Blocks.AIR.getDefaultState();
   }
 
   @Override
