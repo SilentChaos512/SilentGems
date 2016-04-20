@@ -32,7 +32,7 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
 
   public BlockMaterialGrader() {
 
-    super(1, SilentGems.MOD_ID, Names.MATERIAL_GRADER, Material.iron);
+    super(1, SilentGems.MOD_ID, Names.MATERIAL_GRADER, Material.IRON);
     setHardness(3.0f);
     setResistance(100.0f);
     this.isBlockContainer = true;

@@ -21,7 +21,7 @@ public class ItemTorchBandolier extends ItemBlockPlacer {
   @Override
   public IBlockState getBlockPlaced(ItemStack stack) {
 
-    return Blocks.torch.getDefaultState();
+    return Blocks.TORCH.getDefaultState();
   }
 
   @Override
@@ -32,7 +32,7 @@ public class ItemTorchBandolier extends ItemBlockPlacer {
 
     ItemStack bandolier = new ItemStack(this, 1, MAX_DAMAGE);
     ItemStack gem = new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE);
-    Object[] stacks = new Object[] { new ItemStack(Items.leather), "leather",
+    Object[] stacks = new Object[] { new ItemStack(Items.LEATHER), "leather",
         ModItems.craftingMaterial.fluffyFabric };
 
     for (Object stack : stacks) {

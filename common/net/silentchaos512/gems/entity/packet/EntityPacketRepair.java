@@ -65,7 +65,7 @@ public class EntityPacketRepair extends EntityChaosNodePacket {
 
     if (stackToRepair != null) {
       stackToRepair.attemptDamageItem((int) -amount, rand);
-      worldObj.playSound(null, posX, posY, posZ, SoundEvents.block_anvil_use, SoundCategory.AMBIENT,
+      worldObj.playSound(null, posX, posY, posZ, SoundEvents.BLOCK_ANVIL_USE, SoundCategory.AMBIENT,
           0.5f, 2.0f + (float) (0.2 * rand.nextGaussian()));
     }
 

@@ -52,7 +52,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
-        : new ItemStack(Items.stick);
+        : new ItemStack(Items.STICK);
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -264,7 +264,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
     String line1 = "g";
     String line2 = "g";
     String line3 = "s";
-    ItemStack flint = new ItemStack(Items.flint);
+    ItemStack flint = new ItemStack(Items.FLINT);
     // Flint
     GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(false, flint), line1, line2, line3,
         'g', flint, 's', "stickWood"));

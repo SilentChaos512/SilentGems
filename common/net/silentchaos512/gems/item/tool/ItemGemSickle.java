@@ -46,8 +46,8 @@ import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
 
-  public static final Material[] effectiveMaterials = new Material[] { Material.cactus,
-      Material.leaves, Material.plants, Material.vine, Material.web };
+  public static final Material[] effectiveMaterials = new Material[] { Material.CACTUS,
+      Material.LEAVES, Material.PLANTS, Material.VINE, Material.WEB };
 
   private List<ItemStack> subItems = null;
 
@@ -65,7 +65,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
-        : new ItemStack(Items.stick);
+        : new ItemStack(Items.STICK);
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -150,7 +150,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
             if (!crop.canGrow(world, targetPos, state, world.isRemote)) {
               // Fully grown crop, get the drops
               List<ItemStack> drops = block.getDrops(world, targetPos, state,
-                  EnchantmentHelper.getEnchantmentLevel(Enchantments.fortune, stack));
+                  EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack));
 
               // Spawn drops in world, remove first seed.
               boolean foundSeed = false;
@@ -352,7 +352,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   @Override
   public boolean canHarvestBlock(IBlockState state) {
 
-    return state.getMaterial() == Material.web;
+    return state.getMaterial() == Material.WEB;
   }
 
   @Override
@@ -393,7 +393,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
     String line1 = " g";
     String line2 = "gg";
     String line3 = "s ";
-    ItemStack flint = new ItemStack(Items.flint);
+    ItemStack flint = new ItemStack(Items.FLINT);
     GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(false, flint), line1, line2, line3,
         'g', flint, 's', "stickWood"));
     for (EnumGem gem : EnumGem.values()) {

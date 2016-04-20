@@ -34,7 +34,7 @@ public class ModBlocks {
   public static BlockMaterialGrader materialGrader = new BlockMaterialGrader();
   public static BlockChaosNode chaosNode = new BlockChaosNode();
   public static BlockSL chaosAltar = new BlockSL(1, SilentGems.MOD_ID, Names.CHAOS_ALTAR,
-      Material.iron); // TODO
+      Material.IRON); // TODO
   public static BlockChaosPylon chaosPylon = new BlockChaosPylon();
 
   public static void init() {

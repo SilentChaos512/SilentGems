@@ -101,7 +101,7 @@ public class ItemChaosOrb extends ItemSL implements IChaosStorage {
           break;
         case POTATO:
           GameRegistry.addRecipe(new ShapedOreRecipe(result, "ccc", "cpc", "ccc", 'c',
-              chaosEssenceShard, 'p', Items.potato));
+              chaosEssenceShard, 'p', Items.POTATO));
           break;
         case REFINED:
           GameRegistry.addShapedRecipe(result, " c ", "coc", " c ", 'c', chaosEssenceEnriched, 'o',
@@ -262,7 +262,7 @@ public class ItemChaosOrb extends ItemSL implements IChaosStorage {
 
     // Glass breaking sound.
     player.worldObj.playSound(null, player.posX, player.posY, player.posZ,
-        SoundEvents.block_glass_break, SoundCategory.AMBIENT, 0.6f, 1.5f);
+        SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.AMBIENT, 0.6f, 1.5f);
   }
 
   public void breakOrb(ItemStack stack, EntityPlayer player) {
@@ -275,7 +275,7 @@ public class ItemChaosOrb extends ItemSL implements IChaosStorage {
 
     // Glass breaking sound.
     player.worldObj.playSound(null, player.posX, player.posY, player.posZ,
-        SoundEvents.block_glass_break, SoundCategory.AMBIENT, 0.7f, -2.5f);
+        SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.AMBIENT, 0.7f, -2.5f);
 
     // Delete the broken orb.
     PlayerHelper.removeItem(player, stack);

@@ -30,7 +30,7 @@ public class BlockGem extends BlockGemSubtypes {
 
     setHardness(supercharged ? 7.0f : 3.0f);
     setResistance(supercharged ? 6000000.0F : 30.0f);
-    setStepSound(SoundType.METAL);
+    setSoundType(SoundType.METAL);
     setHarvestLevel("pickaxe", supercharged ? 3 : 1);
   }
 
@@ -42,7 +42,7 @@ public class BlockGem extends BlockGemSubtypes {
 
       if (supercharged) {
         GameRegistry.addRecipe(new ShapedOreRecipe(gem.getBlockSuper(), " g ", "gog", " g ", 'g',
-            gem.getItemSuperOreName(), 'o', Blocks.obsidian));
+            gem.getItemSuperOreName(), 'o', Blocks.OBSIDIAN));
       } else {
         RecipeHelper.addCompressionRecipe(gem.getItem(), gem.getBlock(), 9);
       }

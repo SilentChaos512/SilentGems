@@ -27,12 +27,12 @@ public class BlockFluffyBlock extends BlockSL {
 
   public BlockFluffyBlock() {
 
-    super(EnumDyeColor.values().length, SilentGems.MOD_ID, Names.FLUFFY_BLOCK, Material.cloth);
+    super(EnumDyeColor.values().length, SilentGems.MOD_ID, Names.FLUFFY_BLOCK, Material.CLOTH);
     setDefaultState(blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
 
     setHardness(0.8f);
     setResistance(3.0f);
-    setStepSound(SoundType.CLOTH);
+    setSoundType(SoundType.CLOTH);
     setHarvestLevel("", 0);
 
     setUnlocalizedName(Names.FLUFFY_BLOCK);

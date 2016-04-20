@@ -97,7 +97,7 @@ public class BlockTeleporterRedstone extends BlockTeleporter {
       if (playSound) {
         float pitch = 0.7f + 0.3f * SilentGems.instance.random.nextFloat();
         for (BlockPos p : new BlockPos[] { pos, tile.getDestination().toBlockPos() }) {
-          world.playSound(null, p, SoundEvents.entity_endermen_teleport, SoundCategory.BLOCKS,
+          world.playSound(null, p, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS,
               1.0f, pitch);
         }
       }

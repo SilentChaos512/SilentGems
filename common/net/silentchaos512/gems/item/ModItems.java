@@ -101,7 +101,7 @@ public class ModItems {
 
   public static void initExtraRecipes() {
 
-    GameRegistry.addShapelessRecipe(new ItemStack(Items.flint), Blocks.gravel, Blocks.gravel);
+    GameRegistry.addShapelessRecipe(new ItemStack(Items.FLINT), Blocks.GRAVEL, Blocks.GRAVEL);
   }
 
   public static void initLoot() {

@@ -161,7 +161,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
             break;
         }
         spawnHitParticles(16);
-        worldObj.playSound(null, pos, SoundEvents.block_stone_break, SoundCategory.AMBIENT, 0.5f,
+        worldObj.playSound(null, pos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.AMBIENT, 0.5f,
             0.65f);
       } else if (boundingBox != null) {
         setDead();
@@ -180,7 +180,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
     spawnHitParticles(64);
     float f = (float) (0.75f + rand.nextGaussian() * 0.05f);
-    worldObj.playSound(null, getPosition(), SoundEvents.entity_firework_blast,
+    worldObj.playSound(null, getPosition(), SoundEvents.ENTITY_FIREWORK_BLAST,
         SoundCategory.AMBIENT, 0.75f, f);
 
     super.setDead();

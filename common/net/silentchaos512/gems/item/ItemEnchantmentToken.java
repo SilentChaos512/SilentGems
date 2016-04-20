@@ -211,8 +211,8 @@ public class ItemEnchantmentToken extends ItemSL {
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
     list.add(new ItemStack(this));
-    for (ResourceLocation key : Enchantment.enchantmentRegistry.getKeys()) {
-      ItemStack stack = constructToken(Enchantment.enchantmentRegistry.getObject(key));
+    for (ResourceLocation key : Enchantment.REGISTRY.getKeys()) {
+      ItemStack stack = constructToken(Enchantment.REGISTRY.getObject(key));
       list.add(stack);
     }
   }
@@ -239,46 +239,46 @@ public class ItemEnchantmentToken extends ItemSL {
     GameRegistry.addShapelessRecipe(blank, blank);
 
     // All
-    addTokenRecipe(Enchantments.unbreaking, EnumGem.SAPPHIRE, "ingotIron", 5);
-    addTokenRecipe(Enchantments.mending, EnumGem.BLACK_DIAMOND, Items.nether_star, 1);
+    addTokenRecipe(Enchantments.UNBREAKING, EnumGem.SAPPHIRE, "ingotIron", 5);
+    addTokenRecipe(Enchantments.MENDING, EnumGem.BLACK_DIAMOND, Items.NETHER_STAR, 1);
 
     // Digging tools
-    addTokenRecipe(Enchantments.efficiency, EnumGem.BERYL, "dustGlowstone", 4);
-    addTokenRecipe(Enchantments.fortune, EnumGem.GOLDEN_BERYL, "gemDiamond", 3);
-    addTokenRecipe(Enchantments.silkTouch, EnumGem.VIOLET_SAPPHIRE, "gemEmerald", 3);
+    addTokenRecipe(Enchantments.EFFICIENCY, EnumGem.BERYL, "dustGlowstone", 4);
+    addTokenRecipe(Enchantments.FORTUNE, EnumGem.GOLDEN_BERYL, "gemDiamond", 3);
+    addTokenRecipe(Enchantments.SILK_TOUCH, EnumGem.VIOLET_SAPPHIRE, "gemEmerald", 3);
 
     // Melee weapons
-    addTokenRecipe(Enchantments.baneOfArthropods, EnumGem.AMETHYST, Items.spider_eye, 4);
-    addTokenRecipe(Enchantments.fireAspect, EnumGem.GARNET, Items.blaze_powder, 4);
-    addTokenRecipe(Enchantments.knockback, EnumGem.AQUAMARINE, Items.feather, 5);
-    addTokenRecipe(Enchantments.looting, EnumGem.TURQUOISE, "gemEmerald", 2);
-    addTokenRecipe(Enchantments.sharpness, EnumGem.RUBY, Items.flint, 5);
-    addTokenRecipe(Enchantments.smite, EnumGem.PERIDOT, Items.rotten_flesh, 5);
+    addTokenRecipe(Enchantments.BANE_OF_ARTHROPODS, EnumGem.AMETHYST, Items.SPIDER_EYE, 4);
+    addTokenRecipe(Enchantments.FIRE_ASPECT, EnumGem.GARNET, Items.BLAZE_POWDER, 4);
+    addTokenRecipe(Enchantments.KNOCKBACK, EnumGem.AQUAMARINE, Items.FEATHER, 5);
+    addTokenRecipe(Enchantments.LOOTING, EnumGem.TURQUOISE, "gemEmerald", 2);
+    addTokenRecipe(Enchantments.SHARPNESS, EnumGem.RUBY, Items.FLINT, 5);
+    addTokenRecipe(Enchantments.SMITE, EnumGem.PERIDOT, Items.ROTTEN_FLESH, 5);
 
     // Ranged weapons
-    addTokenRecipe(Enchantments.flame, EnumGem.SPINEL, Items.blaze_rod, 2);
-    addTokenRecipe(Enchantments.infinity, EnumGem.AMETRINE, Items.ender_eye, 4);
-    addTokenRecipe(Enchantments.power, EnumGem.CARNELIAN, Items.arrow, 5);
-    addTokenRecipe(Enchantments.punch, EnumGem.JASPER, Blocks.piston, 2);
+    addTokenRecipe(Enchantments.FLAME, EnumGem.SPINEL, Items.BLAZE_ROD, 2);
+    addTokenRecipe(Enchantments.INFINITY, EnumGem.AMETRINE, Items.ENDER_EYE, 4);
+    addTokenRecipe(Enchantments.POWER, EnumGem.CARNELIAN, Items.ARROW, 5);
+    addTokenRecipe(Enchantments.PUNCH, EnumGem.JASPER, Blocks.PISTON, 2);
 
     // Fishing Rod
-    addTokenRecipe(Enchantments.luckOfTheSea, EnumGem.AQUAMARINE,
-        new ItemStack(Items.fish, 1, OreDictionary.WILDCARD_VALUE), 5);
-    addTokenRecipe(Enchantments.lure, EnumGem.INDICOLITE, Blocks.tripwire_hook, 4);
+    addTokenRecipe(Enchantments.LUCK_OF_THE_SEA, EnumGem.AQUAMARINE,
+        new ItemStack(Items.FISH, 1, OreDictionary.WILDCARD_VALUE), 5);
+    addTokenRecipe(Enchantments.LURE, EnumGem.INDICOLITE, Blocks.TRIPWIRE_HOOK, 4);
 
     // Armor
-    addTokenRecipe(Enchantments.aquaAffinity, EnumGem.BLUE_TOPAZ, "blockLapis", 2);
-    addTokenRecipe(Enchantments.blastProtection, EnumGem.ONYX, Items.gunpowder, 5);
+    addTokenRecipe(Enchantments.AQUA_AFFINITY, EnumGem.BLUE_TOPAZ, "blockLapis", 2);
+    addTokenRecipe(Enchantments.BLAST_PROTECTION, EnumGem.ONYX, Items.GUNPOWDER, 5);
     ItemStack plume = ModItems.craftingMaterial.plume;
-    addTokenRecipe(Enchantments.featherFalling, EnumGem.MALACHITE, plume, 2);
-    addTokenRecipe(Enchantments.fireProtection, EnumGem.CITRINE, Items.magma_cream, 2);
-    addTokenRecipe(Enchantments.projectileProtection, EnumGem.AGATE, Items.arrow, 4);
-    addTokenRecipe(Enchantments.protection, EnumGem.IOLITE, Blocks.iron_bars, 4);
-    addTokenRecipe(Enchantments.respiration, EnumGem.TANZANITE, new ItemStack(Items.fish, 1, 3), 1);
-    addTokenRecipe(Enchantments.thorns, EnumGem.TOPAZ, new ItemStack(Blocks.double_plant, 1, 4), 2);
-    addTokenRecipe(Enchantments.depthStrider, EnumGem.MOONSTONE, Blocks.clay, 3);
+    addTokenRecipe(Enchantments.FEATHER_FALLING, EnumGem.MALACHITE, plume, 2);
+    addTokenRecipe(Enchantments.FIRE_PROTECTION, EnumGem.CITRINE, Items.MAGMA_CREAM, 2);
+    addTokenRecipe(Enchantments.PROJECTILE_PROTECTION, EnumGem.AGATE, Items.ARROW, 4);
+    addTokenRecipe(Enchantments.PROTECTION, EnumGem.IOLITE, Blocks.IRON_BARS, 4);
+    addTokenRecipe(Enchantments.RESPIRATION, EnumGem.TANZANITE, new ItemStack(Items.FISH, 1, 3), 1);
+    addTokenRecipe(Enchantments.THORNS, EnumGem.TOPAZ, new ItemStack(Blocks.DOUBLE_PLANT, 1, 4), 2);
+    addTokenRecipe(Enchantments.DEPTH_STRIDER, EnumGem.MOONSTONE, Blocks.CLAY, 3);
     ItemStack enderFrost = ModItems.craftingMaterial.enderFrost;
-    addTokenRecipe(Enchantments.frostWalker, EnumGem.ALEXANDRITE, enderFrost, 4);
+    addTokenRecipe(Enchantments.FROST_WALKER, EnumGem.ALEXANDRITE, enderFrost, 4);
   }
 
   public void addTokenRecipe(Enchantment ench, EnumGem gem, Object other, int otherCount) {

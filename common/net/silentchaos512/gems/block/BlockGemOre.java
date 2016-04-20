@@ -25,7 +25,7 @@ public class BlockGemOre extends BlockGemSubtypes {
 
     setHardness(3.0f);
     setResistance(15.0f);
-    setStepSound(SoundType.STONE);
+    setSoundType(SoundType.STONE);
     setHarvestLevel("pickaxe", 2);
   }
 

@@ -13,7 +13,7 @@ public class ToolPartGlass extends ToolPartMain {
 
   public ToolPartGlass() {
 
-    super(SilentGems.MOD_ID + ":glass", new ItemStack(Blocks.glass));
+    super(SilentGems.MOD_ID + ":glass", new ItemStack(Blocks.GLASS));
   }
 
   @Override

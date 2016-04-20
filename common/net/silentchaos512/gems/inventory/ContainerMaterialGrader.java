@@ -38,7 +38,7 @@ public class ContainerMaterialGrader extends ContainerSL {
 
     super.detectAndSendChanges();
 
-    for (ICrafting crafter : crafters) {
+    for (ICrafting crafter : listeners) {
       if (chaosStored != tileInventory.getField(0)) {
         crafter.sendProgressBarUpdate(this, 0, tileInventory.getField(0));
       }

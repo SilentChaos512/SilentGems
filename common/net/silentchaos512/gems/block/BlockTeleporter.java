@@ -50,12 +50,12 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
 
   public BlockTeleporter(boolean isDark, boolean isAnchor, String name) {
 
-    super(isAnchor ? 1 : 16, isDark, name + (isDark ? "Dark" : ""), Material.iron);
+    super(isAnchor ? 1 : 16, isDark, name + (isDark ? "Dark" : ""), Material.IRON);
     this.isAnchor = isAnchor;
 
     setHardness(15.0f);
     setResistance(2000.0f);
-    setStepSound(SoundType.METAL);
+    setSoundType(SoundType.METAL);
     setHarvestLevel("pickaxe", 1);
   }
 
@@ -161,7 +161,7 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
     // Play sounds
     float pitch = 0.7f + 0.3f * SilentGems.instance.random.nextFloat();
     for (BlockPos p : new BlockPos[] { pos, tile.getDestination().toBlockPos() }) {
-      world.playSound(null, p, SoundEvents.entity_endermen_teleport, SoundCategory.BLOCKS,
+      world.playSound(null, p, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS,
           1.0f, pitch);
     }
 

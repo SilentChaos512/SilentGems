@@ -93,17 +93,17 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.ORNATE_STICK_SILVER, 8), "ifi", "ici",
         "ifi", 'i', "ingotSilver", 'f', "ingotIron", 'c', "gemChaos"));
     // Upgrade Base
-    GameRegistry.addRecipe(new ShapelessOreRecipe(getStack(Names.UPGRADE_BASE, 4), Items.flint,
-        Items.flint, "plankWood", "stickWood"));
+    GameRegistry.addRecipe(new ShapelessOreRecipe(getStack(Names.UPGRADE_BASE, 4), Items.FLINT,
+        Items.FLINT, "plankWood", "stickWood"));
     // Chaos Coal
-    RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 8), "gemChaos", Items.coal);
+    RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 8), "gemChaos", Items.COAL);
     RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 4), "gemChaos",
-        new ItemStack(Items.coal, 1, 1));
+        new ItemStack(Items.COAL, 1, 1));
     // Chaos Coal -> Torches
-    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.torch, 16), "c", "s", 'c',
+    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.TORCH, 16), "c", "s", 'c',
         chaosCoal, 's', "stickWood"));
     // Name Plate
-    for (Object paper : new Object[] { "paper", Items.paper }) {
+    for (Object paper : new Object[] { "paper", Items.PAPER }) {
       GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.NAME_PLATE, 4), "iii", "pcp", "iii",
           'i', "ingotIron", 'p', paper, 'c', "gemChaos"));
     }
@@ -114,17 +114,17 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
     GameRegistry.addRecipe(new ShapedOreRecipe(magnifyingGlass, " g ", "gpg", "rg ", 'g',
         "ingotGold", 'p', "paneGlass", 'r', toolRodGold));
     // Plume
-    for (Object feather : new Object[] { "feather", Items.feather }) {
+    for (Object feather : new Object[] { "feather", Items.FEATHER }) {
       RecipeHelper.addSurroundOre(plume,
           new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE), feather);
     }
     // Shiny Plume
     RecipeHelper.addSurroundOre(shinyPlume, plume, "gemChaos", "ingotGold");
     // Ender Frost
-    RecipeHelper.addSurround(enderFrost, enderEssence, Blocks.ice);
+    RecipeHelper.addSurround(enderFrost, enderEssence, Blocks.ICE);
 
     // Nether shards and clusters
-    ItemStack netherStar = new ItemStack(Items.nether_star);
+    ItemStack netherStar = new ItemStack(Items.NETHER_STAR);
     RecipeHelper.addSurroundOre(getStack(Names.NETHER_SHARD, 24), netherStar, chaosEssenceEnriched,
         enderEssence);
     GameRegistry.addShapedRecipe(netherCluster, "sss", "s s", "sss", 's', netherShard);

@@ -59,7 +59,7 @@ public class SkillLumberjack extends ToolSkill {
     int x = pos.getX();
     int y = pos.getY();
     int z = pos.getZ();
-    if (state.getBlock().isWood(world, pos) || state.getMaterial() == Material.sponge) {
+    if (state.getBlock().isWood(world, pos) || state.getMaterial() == Material.SPONGE) {
       if (detectTree(world, x, y, z, state.getBlock())) {
         // Don't allow in creative mode.
         if (player.capabilities.isCreativeMode) {

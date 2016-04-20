@@ -28,7 +28,7 @@ public class RenderTileChaosAltar extends TileEntitySpecialRenderer<TileChaosAlt
 
     GlStateManager.pushMatrix();
     GlStateManager.translate(x + 0.5, y + 0.85, z + 0.5);
-    Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+    Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
     double worldTime = (te.getWorld() == null) ? 0
         : (double) (ClientTickHandler.ticksInGame + partialTicks)
             + new Random(te.getPos().hashCode()).nextInt(360);

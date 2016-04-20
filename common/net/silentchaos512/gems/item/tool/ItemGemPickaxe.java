@@ -38,8 +38,8 @@ import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, ITool {
 
-  public static final Material[] extraEffectiveMaterials = { Material.rock, Material.circuits,
-      Material.glass, Material.piston };
+  public static final Material[] extraEffectiveMaterials = { Material.ROCK, Material.CIRCUITS,
+      Material.GLASS, Material.PISTON };
   private List<ItemStack> subItems = null;
 
   public ItemGemPickaxe() {
@@ -55,7 +55,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
-        : new ItemStack(Items.stick);
+        : new ItemStack(Items.STICK);
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -227,7 +227,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
     String line1 = "ggg";
     String line2 = " s ";
     String line3 = " s ";
-    ItemStack flint = new ItemStack(Items.flint);
+    ItemStack flint = new ItemStack(Items.FLINT);
     GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(false, flint), line1, line2, line3,
         'g', flint, 's', "stickWood"));
     for (EnumGem gem : EnumGem.values()) {

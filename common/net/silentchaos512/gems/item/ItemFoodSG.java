@@ -52,24 +52,24 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
 
     // Add secret donut effects.
     secretDonutEffects.clear();
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.blindness, 0.5f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.confusion, 0.5f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.damageBoost, 1.5f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.digSlowdown, 2.0f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.digSpeed, 2.0f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.fireResistance, 4.0f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.hunger, 0.5f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.invisibility, 0.5f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.jump, 1.0f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.moveSlowdown, 2.0f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.moveSpeed, 2.0f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.nightVision, 1.0f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.poison, 0.5f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.regeneration, 0.5f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.resistance, 0.5f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.waterBreathing, 2.0f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.weakness, 1.5f));
-    secretDonutEffects.add(new SecretDonutEffect(MobEffects.wither, 0.5f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.BLINDNESS, 0.5f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.NAUSEA, 0.5f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.STRENGTH, 1.5f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.MINING_FATIGUE, 2.0f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.HASTE, 2.0f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.FIRE_RESISTANCE, 4.0f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.HUNGER, 0.5f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.INVISIBILITY, 0.5f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.JUMP_BOOST, 1.0f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.SLOWNESS, 2.0f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.SPEED, 2.0f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.NIGHT_VISION, 1.0f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.POISON, 0.5f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.REGENERATION, 0.5f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.RESISTANCE, 0.5f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.WATER_BREATHING, 2.0f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.WEAKNESS, 1.5f));
+    secretDonutEffects.add(new SecretDonutEffect(MobEffects.WITHER, 0.5f));
   }
 
   @Override
@@ -139,23 +139,23 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
       if (d == 0) {
         // Potato on a stick
         player.addPotionEffect(
-            new PotionEffect(MobEffects.damageBoost, Config.FOOD_SUPPORT_DURATION, 0, true, false));
-        givePlayerItem(player, new ItemStack(Items.stick));
+            new PotionEffect(MobEffects.STRENGTH, Config.FOOD_SUPPORT_DURATION, 0, true, false));
+        givePlayerItem(player, new ItemStack(Items.STICK));
       } else if (d == 1) {
         // Sugar cookie
         player.addPotionEffect(
-            new PotionEffect(MobEffects.digSpeed, Config.FOOD_SUPPORT_DURATION, 0, true, false));
+            new PotionEffect(MobEffects.HASTE, Config.FOOD_SUPPORT_DURATION, 0, true, false));
         player.addPotionEffect(
-            new PotionEffect(MobEffects.moveSpeed, Config.FOOD_SUPPORT_DURATION, 0, true, false));
+            new PotionEffect(MobEffects.SPEED, Config.FOOD_SUPPORT_DURATION, 0, true, false));
       } else if (d == 2) {
         // Secret donut
         onDonutEaten(world, player);
       } else if (d == 3 || d == 4) {
         // Meaty Stew
-        givePlayerItem(player, new ItemStack(Items.bowl));
+        givePlayerItem(player, new ItemStack(Items.BOWL));
       } else if (d == 5) {
         // Candy Cane
-        player.addPotionEffect(new PotionEffect(MobEffects.regeneration,
+        player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION,
             Config.FOOD_SUPPORT_DURATION / 6, 0, true, false));
       }
     }
@@ -234,24 +234,24 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
 
     // Potato on a Stick
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.POTATO_STICK, 1), " p", "s ", 'p',
-        Items.baked_potato, 's', "stickWood"));
+        Items.BAKED_POTATO, 's', "stickWood"));
     // Sugar Cookie
     GameRegistry.addShapedRecipe(getStack(Names.SUGAR_COOKIE, 8), " s ", "www", " s ", 's',
-        Items.sugar, 'w', Items.wheat);
+        Items.SUGAR, 'w', Items.WHEAT);
     // Secret Donut
-    RecipeHelper.addSurround(getStack(Names.SECRET_DONUT, 8), new ItemStack(Blocks.red_mushroom),
-        Items.wheat);
+    RecipeHelper.addSurround(getStack(Names.SECRET_DONUT, 8), new ItemStack(Blocks.RED_MUSHROOM),
+        Items.WHEAT);
     // Meaty Stew
-    Item[] meats = { Items.beef, Items.porkchop, Items.chicken };
+    Item[] meats = { Items.BEEF, Items.PORKCHOP, Items.CHICKEN };
     for (Item meat : meats) {
-      GameRegistry.addShapelessRecipe(getStack(Names.MEATY_STEW_UNCOOKED, 1), Items.bowl, meat,
-          Items.potato, Items.carrot);
+      GameRegistry.addShapelessRecipe(getStack(Names.MEATY_STEW_UNCOOKED, 1), Items.BOWL, meat,
+          Items.POTATO, Items.CARROT);
     }
     GameRegistry.addSmelting(getStack(Names.MEATY_STEW_UNCOOKED, 1), getStack(Names.MEATY_STEW, 1),
         0.5f);
     // Candy Cane
     GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.CANDY_CANE, 6), "ss", "rs", " s", 's',
-        Items.sugar, 'r', "dyeRed"));
+        Items.SUGAR, 'r', "dyeRed"));
   }
 
   @Override

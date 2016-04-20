@@ -27,9 +27,9 @@ public class ItemFluffyPuff extends ItemSL {
     RecipeHelper.addCompressionRecipe(puff, fabric, 4);
     RecipeHelper.addCompressionRecipe(fabric, block, 4);
 
-    ItemStack string = new ItemStack(Items.string);
-    ItemStack feather = new ItemStack(Items.feather);
-    ItemStack wool = new ItemStack(Blocks.wool);
+    ItemStack string = new ItemStack(Items.STRING);
+    ItemStack feather = new ItemStack(Items.FEATHER);
+    ItemStack wool = new ItemStack(Blocks.WOOL);
     ItemStack seed = new ItemStack(ModItems.fluffyPuffSeeds);
 
     GameRegistry.addShapedRecipe(string, "pp", 'p', puff);

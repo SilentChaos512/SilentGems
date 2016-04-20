@@ -79,7 +79,7 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
       }
 
       if (playSound) {
-        worldObj.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.item_hoe_till,
+        worldObj.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_HOE_TILL,
             SoundCategory.AMBIENT, 1.0f, 0.4f);
       }
     }

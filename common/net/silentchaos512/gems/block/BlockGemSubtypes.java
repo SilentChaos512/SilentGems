@@ -15,13 +15,13 @@ public class BlockGemSubtypes extends BlockSL {
 
   public BlockGemSubtypes(String name) {
 
-    super(1, SilentGems.MOD_ID, name, Material.rock);
+    super(1, SilentGems.MOD_ID, name, Material.ROCK);
     isDark = false;
   }
 
   public BlockGemSubtypes(boolean isDark, String name) {
 
-    this(16, isDark, name, Material.rock);
+    this(16, isDark, name, Material.ROCK);
   }
 
   public BlockGemSubtypes(int subtypeCount, boolean isDark, String name, Material material) {

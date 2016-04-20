@@ -89,7 +89,7 @@ public class GuiCrosshairs extends GuiIngame {
         this.drawTexturedModalRect(width / 2 - 7, height / 2 - 7, 0 + 16 * type, 0, 16, 16);
 
         if (this.mc.gameSettings.attackIndicator == 1) {
-          mc.getTextureManager().bindTexture(icons);
+          mc.getTextureManager().bindTexture(ICONS);
           float f = this.mc.thePlayer.getCooledAttackStrength(0.0F);
 
           if (f < 1.0F) {

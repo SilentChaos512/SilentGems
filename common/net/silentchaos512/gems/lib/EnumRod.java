@@ -5,8 +5,8 @@ import net.minecraft.item.ItemStack;
 
 public enum EnumRod {
 
-  WOOD("Wood", new ItemStack(Items.stick)),
-  BONE("Bone", new ItemStack(Items.bone)),
+  WOOD("Wood", new ItemStack(Items.STICK)),
+  BONE("Bone", new ItemStack(Items.BONE)),
   GOLD("Gold", null);
 
   public final String name;

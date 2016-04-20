@@ -28,7 +28,7 @@ public class ItemGemKatana extends ItemGemSword {
     if (result != null) {
       ToolHelper.setPart(result,
           ToolPartRegistry
-              .fromStack(new ItemStack(Blocks.wool, 1, EnumDyeColor.BLACK.getMetadata())),
+              .fromStack(new ItemStack(Blocks.WOOL, 1, EnumDyeColor.BLACK.getMetadata())),
           EnumMaterialGrade.NONE, EnumPartPosition.ROD_GRIP);
     }
     return result;
