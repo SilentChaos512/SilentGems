@@ -10,16 +10,18 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.config.Config;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemNamedSubtypesSorted;
 import net.silentchaos512.lib.util.RecipeHelper;
 
-public class ItemCrafting extends ItemNamedSubtypesSorted {
+public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandler {
 
   public static final String[] NAMES = new String[] { //
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
@@ -62,6 +64,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
   public ItemCrafting() {
 
     super(NAMES, SORTED_NAMES, SilentGems.MOD_ID, Names.CRAFTING_MATERIAL);
+    GameRegistry.registerFuelHandler(this);
   }
 
   @Override
@@ -175,5 +178,11 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
 
     // Other items have default behavior.
     return super.itemInteractionForEntity(stack, player, target, hand);
+  }
+
+  @Override
+  public int getBurnTime(ItemStack fuel) {
+
+    return fuel.getItemDamage() == chaosCoal.getItemDamage() ? Config.BURN_TIME_CHAOS_COAL : 0;
   }
 }

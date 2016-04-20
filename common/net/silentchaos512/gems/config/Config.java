@@ -32,6 +32,7 @@ public class Config {
    * Items
    */
 
+  public static int BURN_TIME_CHAOS_COAL = 6400;
   public static int FOOD_SUPPORT_DURATION = 600;
   public static float FOOD_SECRET_DONUT_CHANCE = 0.33f;
   public static float FOOD_SECRET_DONUT_TEXT_CHANCE = 0.6f;
@@ -130,6 +131,10 @@ public class Config {
       /*
        * Items
        */
+
+      BURN_TIME_CHAOS_COAL = c.getInt("Chaos Coal Burn Time", CAT_ITEM,
+          BURN_TIME_CHAOS_COAL, 0, Integer.MAX_VALUE,
+          "The burn time of Chaos Coal. Regular coal is 1600 ticks.");
 
       // Food
       final String catFood = CAT_ITEM + split + "Food";
