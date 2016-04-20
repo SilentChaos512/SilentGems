@@ -12,30 +12,30 @@ import net.silentchaos512.lib.registry.SRegistry;
 
 public class ModBlocks {
 
-  public static BlockGemOre gemOre = new BlockGemOre(false);
-  public static BlockGemOre gemOreDark = new BlockGemOre(true);
-  public static BlockGem gemBlock = new BlockGem(false, false);
-  public static BlockGem gemBlockDark = new BlockGem(true, false);
-  public static BlockGem gemBlockSuper = new BlockGem(false, true);
-  public static BlockGem gemBlockSuperDark = new BlockGem(true, true);
-  public static BlockGemBrick gemBrickCoated = new BlockGemBrick(false, true);
-  public static BlockGemBrick gemBrickCoatedDark = new BlockGemBrick(true, true);
-  public static BlockGemBrick gemBrickSpeckled = new BlockGemBrick(false, false);
-  public static BlockGemBrick gemBrickSpeckledDark = new BlockGemBrick(true, false);
-  public static BlockTeleporterAnchor teleporterAnchor = new BlockTeleporterAnchor();
-  public static BlockTeleporter teleporter = new BlockTeleporter(false, false);
-  public static BlockTeleporter teleporterDark = new BlockTeleporter(true, false);
-  public static BlockTeleporterRedstone teleporterRedstone = new BlockTeleporterRedstone(false);
-  public static BlockTeleporterRedstone teleporterRedstoneDark = new BlockTeleporterRedstone(true);
-  public static BlockEssenceOre essenceOre = new BlockEssenceOre();
-  public static BlockGlowRose glowRose = new BlockGlowRose();
-  public static BlockFluffyBlock fluffyBlock = new BlockFluffyBlock();
-  public static BlockFluffyPuffPlant fluffyPuffPlant = new BlockFluffyPuffPlant();
-  public static BlockMaterialGrader materialGrader = new BlockMaterialGrader();
-  public static BlockChaosNode chaosNode = new BlockChaosNode();
-  public static BlockSL chaosAltar = new BlockSL(1, SilentGems.MOD_ID, Names.CHAOS_ALTAR,
+  public static final BlockGemOre gemOre = new BlockGemOre(false);
+  public static final BlockGemOre gemOreDark = new BlockGemOre(true);
+  public static final BlockGem gemBlock = new BlockGem(false, false);
+  public static final BlockGem gemBlockDark = new BlockGem(true, false);
+  public static final BlockGem gemBlockSuper = new BlockGem(false, true);
+  public static final BlockGem gemBlockSuperDark = new BlockGem(true, true);
+  public static final BlockGemBrick gemBrickCoated = new BlockGemBrick(false, true);
+  public static final BlockGemBrick gemBrickCoatedDark = new BlockGemBrick(true, true);
+  public static final BlockGemBrick gemBrickSpeckled = new BlockGemBrick(false, false);
+  public static final BlockGemBrick gemBrickSpeckledDark = new BlockGemBrick(true, false);
+  public static final BlockTeleporterAnchor teleporterAnchor = new BlockTeleporterAnchor();
+  public static final BlockTeleporter teleporter = new BlockTeleporter(false, false);
+  public static final BlockTeleporter teleporterDark = new BlockTeleporter(true, false);
+  public static final BlockTeleporterRedstone teleporterRedstone = new BlockTeleporterRedstone(false);
+  public static final BlockTeleporterRedstone teleporterRedstoneDark = new BlockTeleporterRedstone(true);
+  public static final BlockEssenceOre essenceOre = new BlockEssenceOre();
+  public static final BlockGlowRose glowRose = new BlockGlowRose();
+  public static final BlockFluffyBlock fluffyBlock = new BlockFluffyBlock();
+  public static final BlockFluffyPuffPlant fluffyPuffPlant = new BlockFluffyPuffPlant();
+  public static final BlockMaterialGrader materialGrader = new BlockMaterialGrader();
+  public static final BlockChaosNode chaosNode = new BlockChaosNode();
+  public static final BlockSL chaosAltar = new BlockSL(1, SilentGems.MOD_ID, Names.CHAOS_ALTAR,
       Material.IRON); // TODO
-  public static BlockChaosPylon chaosPylon = new BlockChaosPylon();
+  public static final BlockChaosPylon chaosPylon = new BlockChaosPylon();
 
   public static void init() {
 
