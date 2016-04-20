@@ -130,6 +130,9 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
       case CHAOS_PACKET_TAIL:
         fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 1.0f, 25, r, g, b);
         break;
+      case CHAOS_NODE:
+        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 3.0f, 20, r, g, b);
+        break;
       default:
         throw new NotImplementedException("Unknown particle type: " + type);
     }

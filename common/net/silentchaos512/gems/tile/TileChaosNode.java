@@ -181,11 +181,11 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
   private void spawnParticles() {
 
     Random rand = SilentGems.instance.random;
-    for (int i = 0; i < 6 / (1 + 2 * SilentGems.instance.proxy.getParticleSettings()); ++i) {
+    for (int i = 0; i < 3 / (1 + SilentGems.instance.proxy.getParticleSettings()); ++i) {
       if (worldObj.isRemote) {
-        double motionX = rand.nextGaussian() * 0.05f;
+        double motionX = rand.nextGaussian() * 0.03f;
         double motionY = rand.nextGaussian() * 0.006f;
-        double motionZ = rand.nextGaussian() * 0.05f;
+        double motionZ = rand.nextGaussian() * 0.03f;
         SilentGems.instance.proxy.spawnParticles(EnumModParticles.CHAOS, selectParticleColor(rand),
             getWorld(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, motionX, motionY,
             motionZ);

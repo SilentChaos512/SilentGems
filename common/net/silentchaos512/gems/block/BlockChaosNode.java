@@ -12,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosProvider;
@@ -21,6 +22,8 @@ import net.silentchaos512.lib.block.BlockSL;
 import net.silentchaos512.wit.api.IWitHudInfo;
 
 public class BlockChaosNode extends BlockSL implements ITileEntityProvider, IWitHudInfo {
+
+  public static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.25, 0.25, 0.25, 0.75, 0.75, 0.75);
 
   public BlockChaosNode() {
 
@@ -37,9 +40,21 @@ public class BlockChaosNode extends BlockSL implements ITileEntityProvider, IWit
   }
 
   @Override
+  public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+
+    return BOUNDING_BOX;
+  }
+
+  @Override
   public AxisAlignedBB getSelectedBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
 
-    return NULL_AABB;
+    return BOUNDING_BOX;
+  }
+
+  @Override
+  public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+
+    return null;
   }
 
   @Override
