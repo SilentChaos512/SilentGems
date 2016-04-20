@@ -92,7 +92,9 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
 
     moveEntity(motionX, motionY, motionZ);
 
-    // Collision with target? TODO: Allow collision with others?
+    // Collision with target?
+    // TODO: Allow collision with others?
+    // TODO: Improve collision detection!
     if (targetEntity != null
         && this.getDistanceSqToEntity(targetEntity) < ENTITY_COLLISION_RADIUS_SQUARED) {
       onImpactWithEntity(targetEntity);
@@ -228,7 +230,8 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
   @Override
   protected void readEntityFromNBT(NBTTagCompound tagCompund) {
 
-    super.readFromNBT(tagCompund);
+    // This is never called!?
+    SilentGems.instance.logHelper.debug("Node packet read NBT");
     amount = tagCompund.getFloat(NBT_AMOUNT);
     if (tagCompund.hasKey(NBT_TARGET_ENTITY)) {
       targetEntity = (EntityLivingBase) worldObj
@@ -239,6 +242,7 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
       int z = tagCompund.getInteger(NBT_TARGET_POS + "Z");
       targetPos = new BlockPos(x, y, z);
     } else {
+      SilentGems.instance.logHelper.warning("Chaos node packet entity with no target? " + this);
       setDead();
     }
   }
@@ -246,7 +250,8 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
   @Override
   protected void writeEntityToNBT(NBTTagCompound tagCompound) {
 
-    super.writeToNBT(tagCompound);
+    // This is never called!?
+    SilentGems.instance.logHelper.debug("Node packet write NBT");
     tagCompound.setFloat(NBT_AMOUNT, amount);
     if (targetEntity != null) {
       tagCompound.setInteger(NBT_TARGET_ENTITY, targetEntity.getEntityId());
