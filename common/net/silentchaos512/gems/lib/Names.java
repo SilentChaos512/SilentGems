@@ -28,6 +28,7 @@ public class Names {
   public static final String GEM = "Gem";
   public static final String GEM_SHARD = "GemShard";
   public static final String NODE_MOVER = "NodeMover";
+  public static final String RETURN_HOME_CHARM = "ReturnHomeCharm";
   public static final String TELEPORTER_LINKER = "TeleporterLinker";
   public static final String TORCH_BANDOLIER = "TorchBandolier";
   public static final String UPGRADE_TIP = "TipUpgrade";
@@ -45,6 +46,7 @@ public class Names {
   public static final String ENDER_ESSENCE_SHARD = "EnderEssenceShard";
   public static final String ENDER_FROST = "EnderFrost";
   public static final String FLUFFY_FABRIC = "FluffyFabric";
+  public static final String GILDED_STRING = "GildedString";
   public static final String IRON_POTATO = "IronPotato";
   public static final String MAGNIFYING_GLASS = "MagnifyingGlass";
   public static final String NAME_PLATE = "NamePlate";

@@ -35,7 +35,7 @@ import net.silentchaos512.wit.api.IWitHudInfo;
 public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProvider, IWitHudInfo {
 
   public final boolean isAnchor;
-  
+
   // For anchors only.
   public BlockTeleporter(String name) {
 
@@ -101,7 +101,7 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
       EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 
     boolean holdingLinker = heldItem != null && heldItem.getItem() == ModItems.teleporterLinker;
-    boolean holdingReturnHome = false; // TODO
+    boolean holdingReturnHome = heldItem != null && heldItem.getItem() == ModItems.returnHomeCharm;
 
     if (world.isRemote) {
       return holdingLinker || holdingReturnHome ? true : !isAnchor;
@@ -161,8 +161,8 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
     // Play sounds
     float pitch = 0.7f + 0.3f * SilentGems.instance.random.nextFloat();
     for (BlockPos p : new BlockPos[] { pos, tile.getDestination().toBlockPos() }) {
-      world.playSound(null, p, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS,
-          1.0f, pitch);
+      world.playSound(null, p, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS, 1.0f,
+          pitch);
     }
 
     return true;

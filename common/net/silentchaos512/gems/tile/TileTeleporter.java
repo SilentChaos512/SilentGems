@@ -88,8 +88,19 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
   public boolean linkReturnHomeCharm(EntityPlayer player, World world, BlockPos pos,
       ItemStack heldItem, EnumHand hand) {
 
-    // TODO
-    return false;
+    if (world.isRemote) {
+      return true;
+    }
+
+    if (!heldItem.hasTagCompound()) {
+      heldItem.setTagCompound(new NBTTagCompound());
+    }
+
+    DimensionalPosition position = new DimensionalPosition(pos, player.dimension);
+    position.writeToNBT(heldItem.getTagCompound());
+    PlayerHelper.addChatMessage(player, SilentGems.instance.localizationHelper
+        .getBlockSubText(Names.TELEPORTER, "ReturnHomeBound"));
+    return true;
   }
 
   public boolean linkTeleporters(EntityPlayer player, World world, BlockPos pos, ItemStack heldItem,

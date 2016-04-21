@@ -77,6 +77,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
 
     ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
 
+    // Tools
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
@@ -86,6 +87,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
       };
     }, ModItems.tools.toArray(new Item[ModItems.tools.size()]));
 
+    // Gem Shards
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
@@ -95,6 +97,17 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
       }
     }, ModItems.gemShard);
 
+    // Return Home Charm
+    itemColors.registerItemColorHandler(new IItemColor() {
+
+      @Override
+      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+
+        return stack.getItemDamage() > 15 && tintIndex == 1 ? 0x999999 : 0xFFFFFF;
+      }
+    }, ModItems.returnHomeCharm);
+
+    // Node Mover
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override

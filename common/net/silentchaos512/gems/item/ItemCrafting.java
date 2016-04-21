@@ -29,15 +29,15 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
       Names.STICK_IRON, Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.IRON_POTATO,
       Names.FLUFFY_FABRIC, Names.UPGRADE_BASE, Names.NAME_PLATE, Names.CHAOS_CORE,
       Names.MAGNIFYING_GLASS, Names.PLUME, Names.SHINY_PLUME, Names.ENDER_FROST, Names.NETHER_SHARD,
-      Names.NETHER_CLUSTER };
+      Names.NETHER_CLUSTER, Names.GILDED_STRING };
 
   public static final String[] SORTED_NAMES = new String[] { //
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_FROST, Names.ENDER_ESSENCE_SHARD,
       Names.NETHER_SHARD, Names.NETHER_CLUSTER, Names.CHAOS_COAL, Names.STICK_IRON,
-      Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.CHAOS_CORE, Names.IRON_POTATO,
-      Names.FLUFFY_FABRIC, Names.PLUME, Names.SHINY_PLUME, Names.MAGNIFYING_GLASS, Names.NAME_PLATE,
-      Names.UPGRADE_BASE };
+      Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.GILDED_STRING, Names.CHAOS_CORE,
+      Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.PLUME, Names.SHINY_PLUME,
+      Names.MAGNIFYING_GLASS, Names.NAME_PLATE, Names.UPGRADE_BASE };
 
   public final ItemStack chaosCoal = getStack(Names.CHAOS_COAL);
   public final ItemStack chaosCore = getStack(Names.CHAOS_CORE);
@@ -49,6 +49,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
   public final ItemStack enderEssenceShard = getStack(Names.ENDER_ESSENCE_SHARD);
   public final ItemStack enderFrost = getStack(Names.ENDER_FROST);
   public final ItemStack fluffyFabric = getStack(Names.FLUFFY_FABRIC);
+  public final ItemStack gildedString = getStack(Names.GILDED_STRING);
   public final ItemStack ironPotato = getStack(Names.IRON_POTATO);
   public final ItemStack magnifyingGlass = getStack(Names.MAGNIFYING_GLASS);
   public final ItemStack namePlate = getStack(Names.NAME_PLATE);
@@ -125,6 +126,9 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
     RecipeHelper.addSurroundOre(shinyPlume, plume, "gemChaos", "ingotGold");
     // Ender Frost
     RecipeHelper.addSurround(enderFrost, enderEssence, Blocks.ICE);
+    // Gilded String
+    GameRegistry.addRecipe(new ShapedOreRecipe(gildedString, "gsg", "gsg", "gsg", 's', Items.STRING,
+        'g', "nuggetGold"));
 
     // Nether shards and clusters
     ItemStack netherStar = new ItemStack(Items.NETHER_STAR);

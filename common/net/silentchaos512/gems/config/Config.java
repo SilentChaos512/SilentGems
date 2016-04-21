@@ -33,9 +33,14 @@ public class Config {
    */
 
   public static int BURN_TIME_CHAOS_COAL = 6400;
+
   public static int FOOD_SUPPORT_DURATION = 600;
   public static float FOOD_SECRET_DONUT_CHANCE = 0.33f;
   public static float FOOD_SECRET_DONUT_TEXT_CHANCE = 0.6f;
+
+  public static int RETURN_HOME_USE_TIME = 16;
+  public static int RETURN_HOME_USE_COST = 10000;
+  public static int RETURN_HOME_MAX_CHARGE = 100000;
 
   /*
    * Tools
@@ -147,6 +152,18 @@ public class Config {
       FOOD_SECRET_DONUT_TEXT_CHANCE = c.getFloat("Secret Donut Text Chance", catFood,
           FOOD_SECRET_DONUT_TEXT_CHANCE, 0.0f, 1.0f,
           "The chance of secrets donuts putting weird text in your chat.");
+
+      // Return Home Charm
+      final String catReturnHome = CAT_ITEM + split + "Return Home Charm";
+      RETURN_HOME_USE_TIME = c.getInt("Use Time", catReturnHome,
+          RETURN_HOME_USE_TIME, 0, Integer.MAX_VALUE,
+          "The number of ticks the Return Home Charm must be 'charged' to use. Set to 0 for instant use.");
+      RETURN_HOME_USE_COST = c.getInt("Use Cost", catReturnHome,
+          RETURN_HOME_USE_COST, 0, Integer.MAX_VALUE,
+          "The amount of Chaos required to teleport.");
+      RETURN_HOME_MAX_CHARGE = c.getInt("Max Charge", catReturnHome,
+          RETURN_HOME_MAX_CHARGE, 0, Integer.MAX_VALUE,
+          "The maximum amount of Chaos a charm can hold.");
 
       /*
        * Recipes
