@@ -54,7 +54,7 @@ public class ModelHelper {
 
     Tessellator tessellator = Tessellator.getInstance();
     VertexBuffer buffer = tessellator.getBuffer();
-    buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
+    buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM); //don't ask me why this fixes it...
 
     List<BakedQuad> quads = model.getQuads(null,null,0);
 

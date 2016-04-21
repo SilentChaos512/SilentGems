@@ -270,7 +270,7 @@ public class BlockChaosPylon extends BlockContainer
   @Override
   public EnumBlockRenderType getRenderType(IBlockState state) {
 
-    return EnumBlockRenderType.ENTITYBLOCK_ANIMATED; // TODO: What should this be?
+    return EnumBlockRenderType.ENTITYBLOCK_ANIMATED; //I got yo' back!
   }
 
   @Override
