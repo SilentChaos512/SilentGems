@@ -31,7 +31,7 @@ import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.PlayerHelper;
 
-public class ItemChaosOrb extends ItemSL implements IChaosStorage {
+public class ItemChaosOrb extends ItemChaosStorage {
 
   public static enum Type {
 
@@ -58,8 +58,7 @@ public class ItemChaosOrb extends ItemSL implements IChaosStorage {
 
   public ItemChaosOrb() {
 
-    super(Type.values().length, SilentGems.MOD_ID, Names.CHAOS_ORB);
-    setMaxStackSize(1);
+    super(Type.values().length, Names.CHAOS_ORB, 0);
   }
 
   @Override
@@ -173,20 +172,6 @@ public class ItemChaosOrb extends ItemSL implements IChaosStorage {
   }
 
   @Override
-  public double getDurabilityForDisplay(ItemStack stack) {
-
-    int energy = getCharge(stack);
-    int capacity = getMaxCharge(stack);
-    return (double) (capacity - energy) / (double) capacity;
-  }
-
-  @Override
-  public boolean showDurabilityBar(ItemStack stack) {
-
-    return getCharge(stack) < getMaxCharge(stack);
-  }
-
-  @Override
   public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot,
       boolean isSelected) {
 
@@ -279,40 +264,6 @@ public class ItemChaosOrb extends ItemSL implements IChaosStorage {
 
     // Delete the broken orb.
     PlayerHelper.removeItem(player, stack);
-  }
-
-  @Override
-  public int receiveCharge(ItemStack stack, int maxReceive, boolean simulate) {
-
-    int charge = getCharge(stack);
-    int capacity = getMaxCharge(stack);
-    int received = Math.min(capacity - charge, maxReceive);
-
-    if (!simulate) {
-      NBTHelper.setTagInt(stack, NBT_CHARGE, charge + received);
-    }
-
-    return received;
-  }
-
-  @Override
-  public int extractCharge(ItemStack stack, int maxExtract, boolean simulate) {
-
-    int charge = getCharge(stack);
-    int capacity = getMaxCharge(stack);
-    int extracted = Math.min(charge, maxExtract);
-
-    if (!simulate) {
-      NBTHelper.setTagInt(stack, NBT_CHARGE, charge - extracted);
-    }
-
-    return extracted;
-  }
-
-  @Override
-  public int getCharge(ItemStack stack) {
-
-    return NBTHelper.getTagInt(stack, NBT_CHARGE);
   }
 
   @Override

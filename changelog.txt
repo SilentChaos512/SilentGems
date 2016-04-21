@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.0.6
+Added: Return Home Charm is back. It run on Chaos now, like teleporters.
 Changed: Toned down Chaos Node particles a bit (fewer, slower, and bigger). They still respect particle settings.
 Fixed: Chaos Coal not being usable as fuel.
 
