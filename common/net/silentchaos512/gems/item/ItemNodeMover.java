@@ -54,7 +54,7 @@ public class ItemNodeMover extends ItemSL {
       BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     if (stack.getItemDamage() >= META_USED) {
-      ;
+      return EnumActionResult.PASS;
     }
 
     if (stack.hasTagCompound()) {
