@@ -115,12 +115,23 @@ public class BlockChaosPylon extends BlockContainer
   @Override
   public boolean registerModels() {
 
-    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-    Item item = Item.getItemFromBlock(this);
-    ModelResourceLocation model = new ModelResourceLocation(SilentGems.MOD_ID, getName());
-    mesher.register(item, 0, model);
+      /**
+       * Dear SilentChaos512:
+       *
+       * This is just to let you know that this one method caused me to nearly pull all of my hair
+       * out. I spent at _least_ an hour trying to figure out why the passive pylon was not rendering
+       * correctly as an item. I hate this method with the fiery passion of 100 suns.
+       *
+       * Sincerely,
+       * M4thG33k
+       */
 
-    return true; // Cancels normal model registration.
+//    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+//    Item item = Item.getItemFromBlock(this);
+//    ModelResourceLocation model = new ModelResourceLocation(SilentGems.MOD_ID, getName());
+//    mesher.register(item, 0, model);
+
+    return false;//true; // Cancels normal model registration.
   }
 
   @Override

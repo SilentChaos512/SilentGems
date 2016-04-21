@@ -2,10 +2,15 @@
   "forge_marker": 1,
   "defaults": {
     "model": "silentgems:ChaosPylon.obj",
-    "transform" : "forge:default-item",
+    "textures": {
+      "all": "silentgems:blocks/ChaosPylonPassive"
+    },
+    "transform" : "forge:default-block",
     "custom": {"flip-v": true}
   },
   "variants": {
+    "normal": [{}],
+    "inventory": [{}],
     "variant": {
       "burner": {
         "transform":
