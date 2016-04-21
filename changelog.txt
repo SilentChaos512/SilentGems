@@ -4,6 +4,8 @@ Silent's Gems - Changelog
 Added: Return Home Charm is back. It run on Chaos now, like teleporters.
 Changed: Toned down Chaos Node particles a bit (fewer, slower, and bigger). They still respect particle settings.
 Fixed: Chaos Coal not being usable as fuel.
+Fixed: Teleporter Linker missing model when active.
+Fixed: Teleporter Linker HUD graphical glitches.
 
 2.0.5
 Added: Teleporters are back! They run on Chaos now, rather than XP. The math is about the same: it charges for horizontal travel only and short trips are free.

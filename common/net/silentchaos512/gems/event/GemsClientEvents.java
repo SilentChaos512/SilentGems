@@ -30,7 +30,7 @@ public class GemsClientEvents {
   @SubscribeEvent
   public void onRenderGameOverlay(RenderGameOverlayEvent event) {
 
-    ModItems.teleporterLinker.renderGameOverlay(Minecraft.getMinecraft());
+    ModItems.teleporterLinker.renderGameOverlay(event);
     renderCrosshairs(event);
   }
 

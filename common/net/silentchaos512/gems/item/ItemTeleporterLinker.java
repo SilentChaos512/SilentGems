@@ -5,10 +5,15 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -41,6 +46,16 @@ public class ItemTeleporterLinker extends ItemSL {
     if (pos != null) {
       list.add(pos.toString());
     }
+  }
+
+  @Override
+  public boolean registerModels() {
+
+    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+    ModelResourceLocation model = new ModelResourceLocation(getFullName(), "inventory");
+    mesher.register(this, 0, model);
+    mesher.register(this, 1, model);
+    return true;
   }
 
   public boolean isLinked(ItemStack stack) {
@@ -76,8 +91,13 @@ public class ItemTeleporterLinker extends ItemSL {
   }
 
   @SideOnly(Side.CLIENT)
-  public void renderGameOverlay(Minecraft mc) {
+  public void renderGameOverlay(RenderGameOverlayEvent event) {
 
+    if (event.getType() != ElementType.TEXT) {
+      return;
+    }
+
+    Minecraft mc = Minecraft.getMinecraft();
     EntityPlayer player = mc.thePlayer;
 
     ItemStack heldItem = mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND);
