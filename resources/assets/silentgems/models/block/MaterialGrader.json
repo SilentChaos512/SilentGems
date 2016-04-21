@@ -1,8 +1,8 @@
 {
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "particle": "blocks/ChaosEssenceBlockRefined",
-        "0": "blocks/ChaosEssenceBlockRefined",
+        "particle": "SilentGems:blocks/ChaosEssenceBlockEnriched",
+        "0": "SilentGems:blocks/ChaosEssenceBlockEnriched",
         "1": "blocks/gold_block",
         "2": "blocks/iron_block"
     },

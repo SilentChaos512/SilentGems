@@ -27,8 +27,9 @@ public class ModBlocks {
   public static final BlockTeleporter teleporterDark = new BlockTeleporter(true, false);
   public static final BlockTeleporterRedstone teleporterRedstone = new BlockTeleporterRedstone(false);
   public static final BlockTeleporterRedstone teleporterRedstoneDark = new BlockTeleporterRedstone(true);
-  public static final BlockEssenceOre essenceOre = new BlockEssenceOre();
   public static final BlockGlowRose glowRose = new BlockGlowRose();
+  public static final BlockEssenceOre essenceOre = new BlockEssenceOre();
+  public static final BlockMisc miscBlock = new BlockMisc();
   public static final BlockFluffyBlock fluffyBlock = new BlockFluffyBlock();
   public static final BlockFluffyPuffPlant fluffyPuffPlant = new BlockFluffyPuffPlant();
   public static final BlockMaterialGrader materialGrader = new BlockMaterialGrader();
@@ -56,8 +57,9 @@ public class ModBlocks {
     reg.registerBlock(teleporterRedstone);
     reg.registerBlock(teleporterRedstoneDark);
     reg.registerTileEntity(TileTeleporter.class, Names.TELEPORTER);
-    reg.registerBlock(essenceOre);
     reg.registerBlock(glowRose, Names.GLOW_ROSE);
+    reg.registerBlock(essenceOre);
+    reg.registerBlock(miscBlock);
     reg.registerBlock(fluffyBlock);
     reg.registerBlock(fluffyPuffPlant, Names.FLUFFY_PUFF_PLANT);
     reg.registerBlock(materialGrader);

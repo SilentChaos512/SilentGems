@@ -15,6 +15,7 @@ public class Names {
   public static final String GEM_ORE_DARK = "GemOreDark";
   public static final String GLOW_ROSE = "GlowRose";
   public static final String MATERIAL_GRADER = "MaterialGrader";
+  public static final String MISC_BLOCK = "MiscBlock";
   public static final String TELEPORTER = "Teleporter";
   public static final String TELEPORTER_ANCHOR = "TeleporterAnchor";
   public static final String TELEPORTER_REDSTONE = "TeleporterRedstone";

@@ -229,6 +229,11 @@ tile.silentgems:MaterialGrader.name=Material Grader
 tile.silentgems:MaterialGrader.desc1=Assigns random grades to tool crafting
 tile.silentgems:MaterialGrader.desc2=materials, giving stat bonuses.
 
+tile.silentgems:MiscBlock0.name=Chaos Essence Block
+tile.silentgems:MiscBlock1.name=Enriched Chaos Essence Block
+tile.silentgems:MiscBlock2.name=Crystallized Chaos Essence Block
+tile.silentgems:MiscBlock3.name=Chaos Coal Block
+
 tile.silentgems:TeleporterAnchor.name=Teleporter Anchor
 
 tile.silentgems:Teleporter0.name=Ruby Teleporter
