@@ -23,21 +23,21 @@ import net.silentchaos512.lib.util.RecipeHelper;
 
 public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandler {
 
-  public static final String[] NAMES = new String[] { //
+  public static final String[] NAMES = { //
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_ESSENCE_SHARD, Names.CHAOS_COAL,
       Names.STICK_IRON, Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.IRON_POTATO,
       Names.FLUFFY_FABRIC, Names.UPGRADE_BASE, Names.NAME_PLATE, Names.CHAOS_CORE,
       Names.MAGNIFYING_GLASS, Names.PLUME, Names.SHINY_PLUME, Names.ENDER_FROST, Names.NETHER_SHARD,
-      Names.NETHER_CLUSTER, Names.GILDED_STRING };
+      Names.NETHER_CLUSTER, Names.GILDED_STRING, Names.YARN_BALL, Names.RAWHIDE_BONE };
 
-  public static final String[] SORTED_NAMES = new String[] { //
+  public static final String[] SORTED_NAMES = { //
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_FROST, Names.ENDER_ESSENCE_SHARD,
       Names.NETHER_SHARD, Names.NETHER_CLUSTER, Names.CHAOS_COAL, Names.STICK_IRON,
       Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.GILDED_STRING, Names.CHAOS_CORE,
-      Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.PLUME, Names.SHINY_PLUME,
-      Names.MAGNIFYING_GLASS, Names.NAME_PLATE, Names.UPGRADE_BASE };
+      Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.PLUME, Names.SHINY_PLUME, Names.YARN_BALL,
+      Names.RAWHIDE_BONE, Names.MAGNIFYING_GLASS, Names.NAME_PLATE, Names.UPGRADE_BASE };
 
   public final ItemStack chaosCoal = getStack(Names.CHAOS_COAL);
   public final ItemStack chaosCore = getStack(Names.CHAOS_CORE);
@@ -56,11 +56,13 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
   public final ItemStack netherCluster = getStack(Names.NETHER_CLUSTER);
   public final ItemStack netherShard = getStack(Names.NETHER_SHARD);
   public final ItemStack plume = getStack(Names.PLUME);
+  public final ItemStack rawhideBone = getStack(Names.RAWHIDE_BONE);
   public final ItemStack shinyPlume = getStack(Names.SHINY_PLUME);
   public final ItemStack toolRodGold = getStack(Names.ORNATE_STICK_GOLD);
   public final ItemStack toolRodIrom = getStack(Names.STICK_IRON);
   public final ItemStack toolRodSilver = getStack(Names.ORNATE_STICK_SILVER);
   public final ItemStack upgradeBase = getStack(Names.UPGRADE_BASE);
+  public final ItemStack yarnBall = getStack(Names.YARN_BALL);
 
   public ItemCrafting() {
 
@@ -129,6 +131,11 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
     // Gilded String
     GameRegistry.addRecipe(new ShapedOreRecipe(gildedString, "gsg", "gsg", "gsg", 's', Items.STRING,
         'g', "nuggetGold"));
+    // Yarn Ball
+    RecipeHelper.addSurround(yarnBall, new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE), Items.STRING);
+    // Rawhide Bone
+    GameRegistry.addShapedRecipe(rawhideBone, " l ", "lbl", " l ", 'l', Items.LEATHER, 'b',
+        Items.BONE);
 
     // Nether shards and clusters
     ItemStack netherStar = new ItemStack(Items.NETHER_STAR);

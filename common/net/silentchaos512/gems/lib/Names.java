@@ -35,6 +35,10 @@ public class Names {
   public static final String UPGRADE_TIP = "TipUpgrade";
   public static final String TOOL_RENDER_HELPER = "ToolRenderHelper";
 
+  public static final String PET_SUMMONER = "PetSummoner";
+  public static final String SUMMON_KITTY = "SummonKitty";
+  public static final String SUMMON_PUPPY = "SummonPuppy";
+
   // Crafting materials
   public static final String CRAFTING_MATERIAL = "CraftingMaterial";
   public static final String CHAOS_COAL = "ChaosCoal";
@@ -56,9 +60,11 @@ public class Names {
   public static final String ORNATE_STICK_GOLD = "OrnateStickGold";
   public static final String ORNATE_STICK_SILVER = "OrnateStickSilver";
   public static final String PLUME = "Plume";
+  public static final String RAWHIDE_BONE = "RawhideBone";
   public static final String SHINY_PLUME = "ShinyPlume";
   public static final String STICK_IRON = "StickIron";
   public static final String UPGRADE_BASE = "UpgradeBase";
+  public static final String YARN_BALL = "YarnBall";
 
   // Foods
   public static final String FOOD = "Food";
