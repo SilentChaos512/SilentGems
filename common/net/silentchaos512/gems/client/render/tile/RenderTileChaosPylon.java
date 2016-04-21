@@ -1,18 +1,17 @@
 package net.silentchaos512.gems.client.render.tile;
 
-import java.util.Random;
-
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.render.models.ModelPylon;
 import net.silentchaos512.gems.client.render.models.ModelPylonPlates;
 import net.silentchaos512.gems.tile.TileChaosPylon;
+import org.lwjgl.opengl.GL11;
+
+import java.util.Random;
 
 public class RenderTileChaosPylon extends TileEntitySpecialRenderer<TileChaosPylon> {
 
@@ -22,6 +21,7 @@ public class RenderTileChaosPylon extends TileEntitySpecialRenderer<TileChaosPyl
   @Override
   public void renderTileEntityAt(TileChaosPylon te, double x, double y, double z,
       float partialTicks, int destroyStage) {
+
 
     if (te != null && te.getWorld() != null && !te.getWorld().isBlockLoaded(te.getPos(), false)) {
       return;
@@ -50,7 +50,6 @@ public class RenderTileChaosPylon extends TileEntitySpecialRenderer<TileChaosPyl
     GlStateManager.translate(x + 0.5, y + 0.5 + 0.1 * Math.sin(worldTime / 20) * bobFactor,
         z + 0.5);
     GlStateManager.rotate((float) worldTime, 0.0f, 1.0f, 0.0f);
-    // model = new ModelPylon();
     model.renderPylon(pylonType);
     GlStateManager.popMatrix();
 

@@ -237,42 +237,42 @@ public class BlockChaosPylon extends BlockContainer
     }
   }
 
-  @Override
-  public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos,
-      EnumFacing side) {
-
-    return false;
-  }
+//  @Override
+//  public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos,
+//      EnumFacing side) {
+//
+//    return false;
+//  }
 
   @Override
   public boolean isOpaqueCube(IBlockState state) {
 
     return false;
   }
-
-  @Override
-  public boolean isFullBlock(IBlockState state) {
-
-    return false;
-  }
-
-  @Override
-  public boolean isVisuallyOpaque() {
-
-    return false;
-  }
-
-  @Override
-  public boolean isNormalCube(IBlockState state) {
-
-    return false;
-  }
-
-  @Override
-  public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-
-    return false;
-  }
+//
+//  @Override
+//  public boolean isFullBlock(IBlockState state) {
+//
+//    return false;
+//  }
+//
+//  @Override
+//  public boolean isVisuallyOpaque() {
+//
+//    return false;
+//  }
+//
+//  @Override
+//  public boolean isNormalCube(IBlockState state) {
+//
+//    return false;
+//  }
+//
+//  @Override
+//  public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+//
+//    return false;
+//  }
 
   @Override
   public boolean isBlockNormalCube(IBlockState state) {
@@ -281,9 +281,28 @@ public class BlockChaosPylon extends BlockContainer
   }
 
   @Override
+  public boolean isFullCube(IBlockState state) {
+    return false;
+  }
+//
+//
+//
+//  @Override
+//  public boolean isFullyOpaque(IBlockState state) {
+//    return false;
+//  }
+//
+//  @Override
+//  public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
+//    return false;
+//  }
+
+
+
+  @Override
   public EnumBlockRenderType getRenderType(IBlockState state) {
 
-    return EnumBlockRenderType.MODEL; // TODO: What should this be?
+    return EnumBlockRenderType.ENTITYBLOCK_ANIMATED; // TODO: What should this be?
   }
 
   @Override
