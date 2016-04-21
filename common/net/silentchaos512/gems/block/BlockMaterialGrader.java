@@ -17,6 +17,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
@@ -81,7 +83,7 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
   @Override
   public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World world, BlockPos pos) {
 
-    return state.getSelectedBoundingBox(world, pos);
+    return BOUNDING_BOX;
   }
 
   @Override

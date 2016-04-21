@@ -46,12 +46,6 @@ public class BlockChaosNode extends BlockSL implements ITileEntityProvider, IWit
   }
 
   @Override
-  public AxisAlignedBB getSelectedBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
-
-    return BOUNDING_BOX;
-  }
-
-  @Override
   public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
 
     return null;
