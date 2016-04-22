@@ -24,17 +24,14 @@ public class ModBlockRenderers {
   public static void init(SRegistry reg) {
 
     // Node
-//    ClientRegistry.bindTileEntitySpecialRenderer(TileChaosNode.class, new RenderTileChaosNode());
     reg.registerTileEntitySpecialRenderer(TileChaosNode.class, new RenderTileChaosNode());
 
     // Altar
     Item itemAltar = Item.getItemFromBlock(ModBlocks.chaosAltar);
-    register(itemAltar, 0, "ChaosAltar","inventory");
-//    ClientRegistry.bindTileEntitySpecialRenderer(TileChaosAltar.class, new RenderTileChaosAltar());
+    register(itemAltar, 0, Names.CHAOS_ALTAR, "inventory");
     reg.registerTileEntitySpecialRenderer(TileChaosAltar.class, new RenderTileChaosAltar());
 
     // Pylons
-//    ClientRegistry.bindTileEntitySpecialRenderer(TileChaosPylon.class, new RenderTileChaosPylon());
     Item itemPylon = Item.getItemFromBlock(ModBlocks.chaosPylon);
     for (BlockChaosPylon.VariantType pylonType : BlockChaosPylon.VariantType.values())
     {

@@ -4,8 +4,16 @@ import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.tile.TileChaosAltar;
 
@@ -38,8 +46,37 @@ public class RenderTileChaosAltar extends TileEntitySpecialRenderer<TileChaosAlt
 
     // diamond.renderDiamond();
 
-    // TODO: Render stored item?
+    renderItem(te.getWorld(), te.getStackToRender(), partialTicks);
 
     GlStateManager.popMatrix();
+  }
+
+  private void renderItem(World world, ItemStack stack, float partialTicks) {
+
+    RenderItem itemRenderer = Minecraft.getMinecraft().getRenderItem();
+    if (stack != null) {
+      // GlStateManager.translate(0.5, 0.5, 0.5);
+      EntityItem entityitem = new EntityItem(world, 0.0D, 0.0D, 0.0D, stack);
+      entityitem.getEntityItem().stackSize = 1;
+      entityitem.hoverStart = 0.0F;
+      GlStateManager.pushMatrix();
+      GlStateManager.disableLighting();
+
+      float rotation = (float) (720.0 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
+      GlStateManager.rotate(rotation, 0.0F, 1.0F, 0);
+      Vec3d vec = new Vec3d(0.0, 0.25, 0.0);
+      GlStateManager.translate(vec.xCoord, vec.yCoord, vec.zCoord);
+
+      float scale = 0.5f;
+      GlStateManager.scale(scale, scale, scale);
+      GlStateManager.pushAttrib();
+      RenderHelper.enableStandardItemLighting();
+      itemRenderer.renderItem(entityitem.getEntityItem(), ItemCameraTransforms.TransformType.FIXED);
+      RenderHelper.disableStandardItemLighting();
+      GlStateManager.popAttrib();
+
+      GlStateManager.enableLighting();
+      GlStateManager.popMatrix();
+    }
   }
 }

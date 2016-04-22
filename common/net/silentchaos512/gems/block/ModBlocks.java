@@ -3,6 +3,7 @@ package net.silentchaos512.gems.block;
 import net.minecraft.block.material.Material;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.tile.TileChaosAltar;
 import net.silentchaos512.gems.tile.TileChaosNode;
 import net.silentchaos512.gems.tile.TileChaosPylon;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
@@ -34,8 +35,7 @@ public class ModBlocks {
   public static final BlockFluffyPuffPlant fluffyPuffPlant = new BlockFluffyPuffPlant();
   public static final BlockMaterialGrader materialGrader = new BlockMaterialGrader();
   public static final BlockChaosNode chaosNode = new BlockChaosNode();
-  public static final BlockSL chaosAltar = new BlockSL(1, SilentGems.MOD_ID, Names.CHAOS_ALTAR,
-      Material.IRON); // TODO
+  public static final BlockChaosAltar chaosAltar = new BlockChaosAltar();
   public static final BlockChaosPylon chaosPylon = new BlockChaosPylon();
 
   public static void init() {
@@ -56,18 +56,20 @@ public class ModBlocks {
     reg.registerBlock(teleporterDark);
     reg.registerBlock(teleporterRedstone);
     reg.registerBlock(teleporterRedstoneDark);
-    reg.registerTileEntity(TileTeleporter.class, Names.TELEPORTER);
     reg.registerBlock(glowRose, Names.GLOW_ROSE);
     reg.registerBlock(essenceOre);
     reg.registerBlock(miscBlock);
     reg.registerBlock(fluffyBlock);
     reg.registerBlock(fluffyPuffPlant, Names.FLUFFY_PUFF_PLANT);
     reg.registerBlock(materialGrader);
-    reg.registerTileEntity(TileMaterialGrader.class, Names.MATERIAL_GRADER);
     reg.registerBlock(chaosNode);
-    reg.registerTileEntity(TileChaosNode.class, Names.CHAOS_NODE);
     reg.registerBlock(chaosAltar);
     reg.registerBlock(chaosPylon, Names.CHAOS_PYLON);
+
+    reg.registerTileEntity(TileTeleporter.class, Names.TELEPORTER);
+    reg.registerTileEntity(TileMaterialGrader.class, Names.MATERIAL_GRADER);
+    reg.registerTileEntity(TileChaosNode.class, Names.CHAOS_NODE);
+    reg.registerTileEntity(TileChaosAltar.class, Names.CHAOS_ALTAR);
     reg.registerTileEntity(TileChaosPylon.class, Names.CHAOS_PYLON);
   }
 }

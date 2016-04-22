@@ -2,6 +2,8 @@ itemGroup.tabSilentGems=Silent's Gems
 
 # Blocks
 
+tile.silentgems:ChaosAltar.name=Chaos Altar
+
 tile.silentgems:ChaosNode.name=Chaos Node
 tile.silentgems:ChaosNode.desc=Produces and distributes Chaos energy.
 

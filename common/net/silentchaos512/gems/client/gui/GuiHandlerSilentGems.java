@@ -7,7 +7,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.inventory.ContainerBurnerPylon;
+import net.silentchaos512.gems.inventory.ContainerChaosAltar;
 import net.silentchaos512.gems.inventory.ContainerMaterialGrader;
+import net.silentchaos512.gems.tile.TileChaosAltar;
 import net.silentchaos512.gems.tile.TileChaosPylon;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
 
@@ -24,10 +26,10 @@ public class GuiHandlerSilentGems implements IGuiHandler {
 
     switch (ID) {
       case ID_ALTAR:
-        // if (tile instanceof TileChaosAltar) {
-        // TileChaosAltar tileAltar = (TileChaosAltar) tile;
-        // return new ContainerChaosAltar(player.inventory, tileAltar);
-        // }
+        if (tile instanceof TileChaosAltar) {
+          TileChaosAltar tileAltar = (TileChaosAltar) tile;
+          return new ContainerChaosAltar(player.inventory, tileAltar);
+        }
         return null;
       case ID_BURNER_PYLON:
         if (tile instanceof TileChaosPylon) {
@@ -52,10 +54,10 @@ public class GuiHandlerSilentGems implements IGuiHandler {
 
     switch (ID) {
       case ID_ALTAR:
-        // if (tile instanceof TileChaosAltar) {
-        // TileChaosAltar tileAltar = (TileChaosAltar) tile;
-        // return new GuiChaosAltar(player.inventory, tileAltar);
-        // }
+        if (tile instanceof TileChaosAltar) {
+          TileChaosAltar tileAltar = (TileChaosAltar) tile;
+          return new GuiChaosAltar(player.inventory, tileAltar);
+        }
         return null;
       case ID_BURNER_PYLON:
         if (tile instanceof TileChaosPylon) {

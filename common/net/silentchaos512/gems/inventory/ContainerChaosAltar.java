@@ -7,14 +7,18 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerBurnerPylon extends Container {
+public class ContainerChaosAltar extends Container {
 
-  private final IInventory tilePylon;
+  private final IInventory tileAltar;
 
-  public ContainerBurnerPylon(InventoryPlayer playerInventory, IInventory pylonInventory) {
+  public ContainerChaosAltar(InventoryPlayer playerInventory, IInventory altarInventory) {
 
-    this.tilePylon = pylonInventory;
-    this.addSlotToContainer(new Slot(pylonInventory, 0, 80, 34));
+    this.tileAltar = altarInventory;
+    this.addSlotToContainer(new Slot(altarInventory, 0, 56, 35));
+    this.addSlotToContainer(new SpecialSlot(altarInventory, 1, 111, 35)); // I added this small class to keep people
+                                                                          // from putting stuff in the output slot - you
+                                                                          // can remove if you want. -M4th
+    // this.addSlotToContainer(new Slot(altarInventory, 1, 111, 35));
 
     int i;
     for (i = 0; i < 3; ++i) {
@@ -31,7 +35,7 @@ public class ContainerBurnerPylon extends Container {
   @Override
   public boolean canInteractWith(EntityPlayer player) {
 
-    return tilePylon.isUseableByPlayer(player);
+    return tileAltar.isUseableByPlayer(player);
   }
 
   @Override
@@ -44,20 +48,26 @@ public class ContainerBurnerPylon extends Container {
       ItemStack stack1 = slot.getStack();
       stack = stack1.copy();
 
-      if (slotIndex != 0) {
-        if (tilePylon.isItemValidForSlot(0, stack1)) {
+      if (slotIndex == 1) {
+        if (!this.mergeItemStack(stack1, 2, 38, true)) {
+          return null;
+        }
+
+        slot.onSlotChange(stack1, stack);
+      } else if (slotIndex != 0) {
+        if (tileAltar.isItemValidForSlot(0, stack1)) {
           if (!this.mergeItemStack(stack1, 0, 1, false)) {
             return null;
           }
-        } else if (slotIndex >= 1 && slotIndex < 28) {
-          if (!this.mergeItemStack(stack1, 28, 37, false)) {
+        } else if (slotIndex >= 2 && slotIndex < 29) {
+          if (!this.mergeItemStack(stack1, 29, 38, false)) {
             return null;
           }
-        } else if (slotIndex >= 28 && slotIndex < 37
-            && !this.mergeItemStack(stack1, 1, 28, false)) {
+        } else if (slotIndex >= 29 && slotIndex < 38
+            && !this.mergeItemStack(stack1, 2, 29, false)) {
           return null;
         }
-      } else if (!this.mergeItemStack(stack1, 1, 37, false)) {
+      } else if (!this.mergeItemStack(stack1, 2, 38, false)) {
         return null;
       }
 
