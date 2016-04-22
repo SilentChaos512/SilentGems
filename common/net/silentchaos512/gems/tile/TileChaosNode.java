@@ -65,8 +65,16 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
       boolean playSound = false;
 
       if (time % SEND_CHAOS_DELAY == 0) {
-        playSound |= sendChaosToPlayers(players);
-        playSound |= sendChaosToAccepters();
+        List<IChaosAccepter> accepters = ChaosUtil.getNearbyAccepters(worldObj, pos,
+            SEARCH_RADIUS_BLOCK, SEARCH_RADIUS_BLOCK);
+
+        if (!players.isEmpty() || !accepters.isEmpty()) {
+          final int amountForEach = Math.min(SEND_CHAOS_AMOUNT,
+              getCharge() / (accepters.size() + players.size()));
+
+          playSound |= sendChaosToPlayers(players, amountForEach);
+          playSound |= sendChaosToAccepters(accepters, amountForEach);
+        }
       }
       if (time % TRY_REPAIR_DELAY == 0) {
         playSound |= tryRepairItems(players);
@@ -101,14 +109,14 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
     worldObj.spawnEntityInWorld(packet);
   }
 
-  private boolean sendChaosToPlayers(List<EntityPlayerMP> players) {
+  private boolean sendChaosToPlayers(List<EntityPlayerMP> players, int amountForEach) {
 
     boolean flag = false;
     for (EntityPlayerMP player : players) {
       if (getCharge() <= 0) {
         return flag;
       }
-      int amount = extractEnergy(SEND_CHAOS_AMOUNT, true);
+      int amount = extractEnergy(amountForEach, true);
       if (ChaosUtil.canPlayerAcceptFullAmount(player, amount)) {
         extractEnergy(amount, false);
         ChaosUtil.spawnPacketToEntity(worldObj, pos, player, amount);
@@ -118,17 +126,15 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
     return flag;
   }
 
-  private boolean sendChaosToAccepters() {
+  private boolean sendChaosToAccepters(List<IChaosAccepter> list, int amountForEach) {
 
     boolean flag = false;
-    List<IChaosAccepter> list = ChaosUtil.getNearbyAccepters(worldObj, pos, SEARCH_RADIUS_BLOCK,
-        SEARCH_RADIUS_BLOCK);
 
     for (IChaosAccepter accepter : list) {
       if (getCharge() <= 0) {
         return flag;
       }
-      int amount = extractEnergy(SEND_CHAOS_AMOUNT, true);
+      int amount = extractEnergy(amountForEach, true);
       amount = accepter.receiveCharge(amount, true);
       if (amount > 0) {
         extractEnergy(amount, false);

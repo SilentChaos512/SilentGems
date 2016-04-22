@@ -70,11 +70,13 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
         List<EntityPlayer> players = worldObj.getEntities(EntityPlayer.class,
             e -> e.getDistanceSq(pos) < SEARCH_RADIUS_PLAYER_SQUARED);
 
-        final int amountForEach = Math.min(MAX_CHAOS_TRANSFERED,
-            getCharge() / (accepters.size() + players.size()));
+        if (!players.isEmpty() || !accepters.isEmpty()) {
+          final int amountForEach = Math.min(MAX_CHAOS_TRANSFERED,
+              getCharge() / (accepters.size() + players.size()));
 
-        sendEnergyToAccepters(accepters, amountForEach);
-        sendEnergyToPlayers(players, amountForEach);
+          sendEnergyToAccepters(accepters, amountForEach);
+          sendEnergyToPlayers(players, amountForEach);
+        }
       }
     }
   }
