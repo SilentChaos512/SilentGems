@@ -44,6 +44,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
     MinecraftForge.EVENT_BUS.register(GuiChaosBar.INSTANCE);
     MinecraftForge.EVENT_BUS.register(ModItems.toolRenderHelper);
     registry.clientPreInit();
+    ModBlockRenderers.init(SilentGems.instance.registry);
   }
 
   @Override
@@ -67,7 +68,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
 
     SRegistry reg = SilentGems.instance.registry;
 
-    ModBlockRenderers.init(reg);
+//    ModBlockRenderers.init(reg);
 
     reg.registerEntityRenderer(EntityChaosNodePacket.class, new RenderEntityPacket());
     reg.registerEntityRenderer(EntityChaosProjectile.class, new RenderChaosProjectile());

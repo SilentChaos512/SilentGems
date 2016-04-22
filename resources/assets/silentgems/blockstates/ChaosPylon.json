@@ -2,24 +2,36 @@
   "forge_marker": 1,
   "defaults": {
     "model": "silentgems:ChaosPylon.obj",
-    "transform": "forge:default-block",
+    "textures": {
+      "all": "silentgems:blocks/ChaosPylonPassive"
+    },
+    "transform" : "forge:default-block",
     "custom": {"flip-v": true}
   },
   "variants": {
-    "variant=passive": {
-      "model": "silentgems:ChaosPylon.obj",
-      "textures": {
-        "#ChaosPylon": "silentgems:blocks/ChaosPylonPassive"
+    "normal": [{}],
+    "inventory": [{}],
+    "variant": {
+      "burner": {
+        "transform":
+        {
+          "translation": [0.5,0.5,0.5]
+        },
+        "model": "silentgems:ChaosPylon.obj",
+        "textures": {
+          "#ChaosPylon": "silentgems:blocks/ChaosPylonBurner"
+        }
+      },
+      "passive": {
+        "transform":
+        {
+          "translation": [0.5,0.5,0.5]
+        },
+        "model": "silentgems:ChaosPylon.obj",
+        "textures": {
+          "#ChaosPylon": "silentgems:blocks/ChaosPylonPassive"
+        }
       }
-    },
-    "variant=burner": {
-      "model": "silentgems:ChaosPylon.obj",
-      "textures": {
-        "#ChaosPylon": "silentgems:blocks/ChaosPylonBurner"
-      }
-    },
-    "normal": [{"transform": {
-      "translation": [0.5, 0.5, 0.5]}
-    }]
+    }
   }
 }

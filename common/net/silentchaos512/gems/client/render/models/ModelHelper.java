@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.client.render.models;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
@@ -53,11 +54,13 @@ public class ModelHelper {
 
     Tessellator tessellator = Tessellator.getInstance();
     VertexBuffer buffer = tessellator.getBuffer();
-    buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+    buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM); //don't ask me why this fixes it...
 
-//    for (BakedQuad bakedQuad : model.getQuads(state, side, rand)) {
-//      LightUtil.renderQuadColor(buffer, bakedQuad, color);
-//    }
+    List<BakedQuad> quads = model.getQuads(null,null,0);
+
+    for (BakedQuad bakedQuad : quads) {
+      LightUtil.renderQuadColor(buffer, bakedQuad, color);
+    }
 
     tessellator.draw();
   }
