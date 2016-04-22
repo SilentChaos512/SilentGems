@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.0.7
+Fixed: Chaos Pylon renderers (M4thG33k)
+
 2.0.6
 Added: Return Home Charm is back. It run on Chaos now, like teleporters.
 Added: Chaos Essence/Coal blocks.
@@ -10,6 +13,7 @@ Fixed: Teleporter Linker missing model when active.
 Fixed: Teleporter Linker HUD graphical glitches.
 Fixed: Spent Node Mover being usable without repairing.
 Fixed: Material Grader missing texture.
+Fixed: Server crash with Material Grader.
 
 2.0.5
 Added: Teleporters are back! They run on Chaos now, rather than XP. The math is about the same: it charges for horizontal travel only and short trips are free.

@@ -44,6 +44,7 @@ public class RenderTileChaosPylon extends TileEntitySpecialRenderer<TileChaosPyl
     GlStateManager.pushMatrix();
     GlStateManager.enableRescaleNormal();
     GlStateManager.enableBlend();
+    GlStateManager.disableLighting();
     GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     GlStateManager.color(1F, 1F, 1F, 1F);
     Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);

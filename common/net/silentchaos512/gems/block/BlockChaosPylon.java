@@ -65,6 +65,8 @@ public class BlockChaosPylon extends BlockContainer
     super(Material.IRON);
     setDefaultState(blockState.getBaseState().withProperty(VARIANT, VariantType.PASSIVE));
 
+    setLightLevel(0.25f);
+    setLightOpacity(0);
     setHardness(6.0f);
     setResistance(1000.0f);
     setCreativeTab(SilentGems.instance.creativeTab);
