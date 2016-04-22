@@ -65,19 +65,25 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
 
       // Transfer energy to blocks, then players.
       if (worldObj.getTotalWorldTime() % SEND_CHAOS_DELAY == 0) {
-        sendEnergyToAccepters();
-        sendEnergyToPlayers();
+        List<IChaosAccepter> accepters = ChaosUtil.getNearbyAccepters(worldObj, pos,
+            SEARCH_RADIUS_BLOCK, SEARCH_RADIUS_BLOCK);
+        List<EntityPlayer> players = worldObj.getEntities(EntityPlayer.class,
+            e -> e.getDistanceSq(pos) < SEARCH_RADIUS_PLAYER_SQUARED);
+
+        final int amountForEach = Math.min(MAX_CHAOS_TRANSFERED,
+            getCharge() / (accepters.size() + players.size()));
+
+        sendEnergyToAccepters(accepters, amountForEach);
+        sendEnergyToPlayers(players, amountForEach);
       }
     }
   }
 
-  protected void sendEnergyToAccepters() {
+  protected void sendEnergyToAccepters(List<IChaosAccepter> list, int amountForEach) {
 
     if (getCharge() <= 0)
       return;
 
-    List<IChaosAccepter> list = ChaosUtil.getNearbyAccepters(worldObj, pos, SEARCH_RADIUS_BLOCK,
-        SEARCH_RADIUS_BLOCK);
     int amount;
 
     for (IChaosAccepter accepter : list) {
@@ -85,28 +91,21 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
         return;
       }
 
-      // TODO: Transfer entities instead?
-      amount = Math.min(getCharge(), MAX_CHAOS_TRANSFERED);
-      amount = accepter.receiveCharge(amount, false);
-      extractEnergy(amount, false);
+      amount = Math.min(getCharge(), amountForEach);
+      amount = accepter.receiveCharge(amount, true);
+      if (amount > 0) {
+        extractEnergy(amount, false);
+        ChaosUtil.spawnPacketToBlock(worldObj, pos, ((TileEntity) accepter).getPos(), amount);
+      }
     }
   }
 
-  protected void sendEnergyToPlayers() {
+  protected void sendEnergyToPlayers(List<EntityPlayer> list, int amountForEach) {
 
-    if (getCharge() <= 0)
+    if (getCharge() <= 0) {
       return;
+    }
 
-    Predicate predicate = new Predicate<EntityPlayer>() {
-
-      @Override
-      public boolean apply(EntityPlayer input) {
-
-        return input.getDistanceSq(pos) < SEARCH_RADIUS_PLAYER_SQUARED;
-      }
-    };
-
-    List<EntityPlayer> list = worldObj.getEntities(EntityPlayer.class, predicate);
     int amount;
 
     for (EntityPlayer player : list) {
