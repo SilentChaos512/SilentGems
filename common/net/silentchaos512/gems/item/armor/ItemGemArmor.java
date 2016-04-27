@@ -25,7 +25,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
   public static final float[] ABSORPTION_RATIO_BY_SLOT = { 0.175f, 0.3f, 0.4f, 0.125f }; // sum = 1, starts with boots
 
-  ModelBiped model = new ModelGemArmor();
+  ModelBiped model;
 
   protected String itemName;
 
@@ -67,6 +67,9 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
       EntityEquipmentSlot armorSlot, ModelBiped _default) {
 
     // SilentGems.instance.logHelper.debug(_default);
+    if (model == null) {
+      model = new ModelGemArmor();
+    }
     return model;
   }
 
