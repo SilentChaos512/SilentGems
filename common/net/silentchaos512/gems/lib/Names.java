@@ -87,4 +87,10 @@ public class Names {
   public static final String HOE = "Hoe";
   public static final String SICKLE = "Sickle";
   public static final String FISHING_ROD = "FishingRod";
+
+  // Armor
+  public static final String HELMET = "Helmet";
+  public static final String CHESTPLATE = "Chestplate";
+  public static final String LEGGINGS = "Leggings";
+  public static final String BOOTS = "Boots";
 }

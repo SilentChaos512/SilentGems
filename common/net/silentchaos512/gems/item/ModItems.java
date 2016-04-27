@@ -6,12 +6,14 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.item.armor.ItemGemArmor;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemKatana;
@@ -42,6 +44,7 @@ public class ModItems {
   public static final ItemReturnHome returnHomeCharm = new ItemReturnHome();
   public static final ItemPetSummoner petSummoner = new ItemPetSummoner();
 
+  // Tools
   public static final ItemGemSword sword = new ItemGemSword();
   public static final ItemGemKatana katana = new ItemGemKatana();
   public static final ItemGemScepter scepter = new ItemGemScepter();
@@ -53,6 +56,12 @@ public class ModItems {
   public static final ItemGemHoe hoe = new ItemGemHoe();
   public static final ItemGemSickle sickle = new ItemGemSickle();
   public static final ItemSL fishingRod = new ItemSL(1, SilentGems.MOD_ID, Names.FISHING_ROD); // temp
+
+  // Armor
+  public static final ItemGemArmor gemHelmet = new ItemGemArmor(0, EntityEquipmentSlot.HEAD, Names.HELMET);
+  public static final ItemGemArmor gemChestplate = new ItemGemArmor(1, EntityEquipmentSlot.CHEST, Names.CHESTPLATE);
+  public static final ItemGemArmor gemLeggings = new ItemGemArmor(2, EntityEquipmentSlot.LEGS, Names.LEGGINGS);
+  public static final ItemGemArmor gemBoots = new ItemGemArmor(3, EntityEquipmentSlot.FEET, Names.BOOTS);
 
   public static final ToolRenderHelperBase toolRenderHelper = FMLCommonHandler.instance()
       .getSide() == Side.CLIENT ? new ToolRenderHelper() : new ToolRenderHelperBase();
@@ -91,6 +100,12 @@ public class ModItems {
     reg.registerItem(hoe, Names.HOE);
     reg.registerItem(sickle, Names.SICKLE);
     reg.registerItem(fishingRod, Names.FISHING_ROD);
+
+    // Armor
+    reg.registerItem(gemHelmet, Names.HELMET);
+    reg.registerItem(gemChestplate, Names.CHESTPLATE);
+    reg.registerItem(gemLeggings, Names.LEGGINGS);
+    reg.registerItem(gemBoots, Names.BOOTS);
 
     // ToolRenderHelper
     reg.registerItem(toolRenderHelper);
