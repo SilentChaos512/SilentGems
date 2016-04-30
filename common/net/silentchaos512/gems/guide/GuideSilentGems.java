@@ -15,12 +15,14 @@ import amerifrance.guideapi.entry.EntryItemStack;
 import amerifrance.guideapi.page.PageFurnaceRecipe;
 import amerifrance.guideapi.page.PageIRecipe;
 import amerifrance.guideapi.page.PageText;
+import amerifrance.guideapi.page.PageTextImage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -36,6 +38,7 @@ import net.silentchaos512.lib.util.LocalizationHelper;
 public class GuideSilentGems {
 
   public static final String GETTING_STARTED = "gettingStarted";
+  public static final String BLOCKS = "blocks";
   public static final String TERMS = "terms";
 
   public static Book book;
@@ -137,11 +140,42 @@ public class GuideSilentGems {
     String catGettingStarted = getString("category." + GETTING_STARTED);
     categories.add(new CategoryItemStack(entries, catGettingStarted, flintPick));
 
+    // ================
+    // Category: Blocks
+    // ================
+
+    entries = Lists.newArrayList();
+
+    // Entry: Chaos Node
+    pages = Lists.newArrayList();
+    prefix = BLOCKS + ".chaosNode";
+    pages.add(new PageText(getString(prefix + 0)));
+    ResourceLocation imageChaosNode = new ResourceLocation(SilentGems.MOD_ID.toLowerCase(),
+        "textures/guide/ChaosNode.png");
+    pages.add(new PageTextImage(getString(prefix + 1), imageChaosNode, false));
+    pages.add(new PageText(getString(prefix + 2)));
+    entries.add(new EntryItemStack(pages, getString(prefix), new ItemStack(ModBlocks.chaosNode)));
+
+    String catBlocks = getString("category." + BLOCKS);
+    categories.add(new CategoryItemStack(entries, catBlocks, new ItemStack(ModBlocks.chaosPylon)));
+
+    // ===============
+    // Category: Items
+    // ===============
+
+    // TODO
+
     // =====================
     // Category: Terminology
     // =====================
 
     entries = Lists.newArrayList();
+
+    // Entry: Chaos
+    prefix = TERMS + ".chaos";
+    pages = getPages(prefix);
+    entries.add(new EntryItemStack(pages, getString(prefix),
+        ModItems.craftingMaterial.chaosEssenceEnriched));
 
     // Entry: Decorating
     prefix = TERMS + ".decorating";
@@ -152,6 +186,7 @@ public class GuideSilentGems {
         EnumGem.SAPPHIRE.getItem(), EnumGem.AMETRINE.getItem() };
     ItemStack pickaxeDecoPost = ToolHelper.decorateTool(pickaxeDecoPre, decoParts[0], decoParts[1],
         decoParts[2], decoParts[3]);
+    ToolHelper.recalculateStats(pickaxeDecoPost);
     pages.add(2,
         new PageIRecipe(
             new ShapedOreRecipe(pickaxeDecoPost, " n ", "wbe", " s ", 'b', pickaxeDecoPre, 'w',

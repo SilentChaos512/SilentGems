@@ -615,6 +615,7 @@ jei.silentgems.desc.Gem=Gems are used for constructing, repairing, and changing 
 # Guide API Book
 
 guide.silentgems:title=Silent's Gems Guide
+guide.silentgems:welcome=Guide is WIP.
 
 guide.silentgems:category.blocks=Blocks
 guide.silentgems:category.gettingStarted=Getting Started
@@ -657,7 +658,21 @@ guide.silentgems:gettingStarted.superTools1=By the way, don't forget to &2explor
 guide.silentgems:gettingStarted.superTools2=You may also want to run the gems through the &2Material Grader&0 for additional stat bonuses. You only get one shot at grading each gem, but even the lowest grade gives a small boost.
 guide.silentgems:gettingStarted.superTools3=In addition to being highly durable, fast, and strong, many super tools come with &2special abilities&0 (see &1super skills&0). These include mining multiple blocks at once and firing magic projectiles. Also &2apply a tip upgrade&0 to further improve your tool!
 
+# Blocks
+
+guide.silentgems:blocks.chaosNode=Chaos Node
+guide.silentgems:blocks.chaosNode0=Nodes are the earliest way to get &1Chaos&0 energy. They can be &2found randomly throughout the world&0, hovering a few blocks above the ground. They cannot be mined, but can be &2moved with a Chaos Node Mover&0 later on.
+guide.silentgems:blocks.chaosNode1=Yes, it respects your particle settings.
+guide.silentgems:blocks.chaosNode2=Nodes have other benefits as well. They will repair the tools of nearby players, attack hostile mobs, and maybe some other things! Maybe building your starter house near or around a node would be a good idea?
+
+# Items
+
+
+
 # Terms
+
+guide.silentgems:terms.chaos=Chaos
+guide.silentgems:terms.chaos0=Chaos refers to the energy provided by nodes and pylons. Players and certain blocks and items can store and use Chaos for different things.
 
 guide.silentgems:terms.decorating=Decorating
 guide.silentgems:terms.decorating0=Often, you will select materials for your tools based on stats, not looks. Not to worry, though! You can &2change the appearance of a tool&0 after construction by "decorating" it.

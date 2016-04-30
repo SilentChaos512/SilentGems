@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.0.8
+Added: A guide book. Finally. Requires Guide-API to be installed (optional, but you won't get the guide without it).
+
 2.0.7
 Added: Chaos Altar is back. Leave items that store chaos in an altar to recharge them! (Yes, I know it's invisible)
 Changed: Pylons now send Chaos to blocks using packets, like nodes.
