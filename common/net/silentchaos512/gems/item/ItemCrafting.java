@@ -59,7 +59,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
   public final ItemStack rawhideBone = getStack(Names.RAWHIDE_BONE);
   public final ItemStack shinyPlume = getStack(Names.SHINY_PLUME);
   public final ItemStack toolRodGold = getStack(Names.ORNATE_STICK_GOLD);
-  public final ItemStack toolRodIrom = getStack(Names.STICK_IRON);
+  public final ItemStack toolRodIron = getStack(Names.STICK_IRON);
   public final ItemStack toolRodSilver = getStack(Names.ORNATE_STICK_SILVER);
   public final ItemStack upgradeBase = getStack(Names.UPGRADE_BASE);
   public final ItemStack yarnBall = getStack(Names.YARN_BALL);

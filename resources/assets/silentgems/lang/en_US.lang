@@ -609,3 +609,70 @@ misc.silentgems:Tooltip.Construction=&6Construction
 # JEI descriptions
 
 jei.silentgems.desc.Gem=Gems are used for constructing, repairing, and changing the appearance of tools. A single tool can be made with multiple types of gems. Craft gems next to a tool to "decorate" it.
+
+
+
+# Guide API Book
+
+guide.silentgems:title=Silent's Gems Guide
+
+guide.silentgems:category.blocks=Blocks
+guide.silentgems:category.gettingStarted=Getting Started
+guide.silentgems:category.items=Items
+guide.silentgems:category.terms=Terminology
+guide.silentgems:category.tools=Tools
+
+# Getting Started
+
+guide.silentgems:gettingStarted.introduction=Introduction
+guide.silentgems:gettingStarted.introduction0=Welcome to Silent's Gems! The mod is mostly about tools and various random blocks and items that expand vanilla without trampling on it too much.\n\nThis (possibly poorly written) guide will help you in the first steps of your journey.
+guide.silentgems:gettingStarted.introduction1=If you see a word or phrase in &1blue&0, it is likely a term you can learn more about in the Terminology category. &2Green&0 (and maybe other colors) will be used to highlight some key points. &4Red&0 is used to highlight warnings.
+
+guide.silentgems:gettingStarted.flint=Flint Tools
+guide.silentgems:gettingStarted.flint0=Tools can be constructed from a wide variety of materials, including &2flint and gems&0.\n\nFor now, let's focus on flint. Flint is usually easy to acquire, so you should be able to make flint tools before finding iron.
+guide.silentgems:gettingStarted.flint1=Construct a set of flint tools whenever you can. They are a bit better than stone, and can be repaired and upgraded. The recipes are exactly what you would expect, but you can use bones instead of sticks if you wish, but not both.
+guide.silentgems:gettingStarted.flint2=When your tools get low or break, you can &2repair them with flint&0 (or gems). Place the flint adjacent to the tool in a crafting grid. Diagonally won't work. This process is called &1decorating&0 and can change the tool's appearance as well.
+guide.silentgems:gettingStarted.flint3=Mining tools (pickaxes, shovels, and axes) can also place blocks by right-clicking (&1right-click to place&0). They will place blocks immediately after the tool in the hotbar, or in the last slot if that doesn't work.
+
+guide.silentgems:gettingStarted.ironTipped=Iron-Tipped Tools
+guide.silentgems:gettingStarted.ironTipped0=Flint tools are all well and good, but they can't mine shinies! Er, gems. You could make an iron pickaxe, but an iron-tipped upgrade is the preferred solution, saving two iron and giving a better tool overall.
+guide.silentgems:gettingStarted.ironTipped1=Simply &2craft a tip upgrade, then craft that with your tools&0.\n\nMining tools can get a &2harvest level boost&0 (it will never be lowered). All tools will get other &2stat boosts&0, including increased durability!
+guide.silentgems:gettingStarted.ironTipped2=Hover over the tools in the previous page and hold Ctrl to compare stats.\n\nAgain, tip upgrades can be applied to ANY tool, not just mining tools. That includes swords and hoes, for example.
+
+guide.silentgems:gettingStarted.gemTools=Gem Tools
+guide.silentgems:gettingStarted.gemTools0=Your iron-tipped flint tools will allow you to mine gems, as well as gold and diamonds. With these, we can make even better tools, although there is still one more &1tier&0 above regular gems! But things have gotten a bit more complex...
+guide.silentgems:gettingStarted.gemTools1=With access to multiple materials of the same tier, we can craft &2mixed-material tools&0! This will &2average out the stats&0 of the materials, but also give a bonus to most stats. This &4does not always make a better tool&0, but the bonus can be helpful. 
+guide.silentgems:gettingStarted.gemTools2=Experiment with different combinations! You can view the stats of a tool in the output slot, without actually crafting it. The next page shows a ruby-sapphire pickaxe, which has a higher durability and mining speed than just ruby or sapphire alone.
+guide.silentgems:gettingStarted.gemTools3=Iron rods are shown in the example, but &2you may use sticks or bones&0 if you want. At the time of writing, rods are purely a cosmetic choice, but they could affect stats in the future.
+guide.silentgems:gettingStarted.gemTools4=Technically, you can skip basic gem tools if you want. As I said before, &2there is a &1tier&2 above this&0. And since you can put any tip upgrade on any tool, you could stick with flint until you are ready to make super tools.
+
+guide.silentgems:gettingStarted.chaosOre=Acquire Chaos Ore
+guide.silentgems:gettingStarted.chaosOre0=You may have seen Chaos Ore on your mining trips and noticed you cannot mine it yet. Chaos Ore has a &2harvest level of 3&0, same as obsidian. Any guesses on how to mine it? Sure, you could use a diamond pickaxe, but I recommend a &2diamond-tipped upgrade&0. Seeing a pattern?
+guide.silentgems:gettingStarted.chaosOre1=You're diamond-tipped pickaxe will &2last longer and mine faster&0, all for the low price of one diamond! Now grab some Chaos Ore and obsidian. &2Chaos Ore can be smelted&0, and is compatible with ore processing from some other mods.
+guide.silentgems:gettingStarted.chaosOre2=&2Chaos Essence&0 is the result of smelting Chaos Ore, and it has many uses. You'll need a lot of it. The first use is &2supercharged gems&0, which can used to make super &1tier&0 tools.
+
+guide.silentgems:gettingStarted.superTools=Super Tools
+guide.silentgems:gettingStarted.superTools0=Finally, we can make &2super tier tools&0! You can use supercharged gems, and add-ons could potentially add more materials to choose from. You will &4need to use ornate rods&0 for super tools!
+guide.silentgems:gettingStarted.superTools1=By the way, don't forget to &2explore the Nether&0! There are 16 more gems to be found there, making a total of 32 for you to use. You can freely mix overworld and Nether gems as you please.
+guide.silentgems:gettingStarted.superTools2=You may also want to run the gems through the &2Material Grader&0 for additional stat bonuses. You only get one shot at grading each gem, but even the lowest grade gives a small boost.
+guide.silentgems:gettingStarted.superTools3=In addition to being highly durable, fast, and strong, many super tools come with &2special abilities&0 (see &1super skills&0). These include mining multiple blocks at once and firing magic projectiles. Also &2apply a tip upgrade&0 to further improve your tool!
+
+# Terms
+
+guide.silentgems:terms.decorating=Decorating
+guide.silentgems:terms.decorating0=Often, you will select materials for your tools based on stats, not looks. Not to worry, though! You can &2change the appearance of a tool&0 after construction by "decorating" it.
+guide.silentgems:terms.decorating1=To decorate, place a tool in the crafting grid, then &2materials adjacent to the tool&0. The bottom changes the rod decoration bit on rods that support it. The others change the "head". Grips, rods, and tip upgrades can go in any slot.
+guide.silentgems:terms.decorating2=Decorating also &2repairs the tool&0, and will even work on broken tools. The repair amount depends on the tool's tier, as well as the material.\n\nNote that &4some materials will not repair some tools&0. For example, flint does nothing for gem tools.
+
+guide.silentgems:terms.superSkills=Super Skills
+guide.silentgems:terms.superSkills0=Super skills are the special abilities of super tools. Some can be activated by pressing the 'Toggle Special' keybinding. Others require you to swing the tool (left-click) while sneaking.
+guide.silentgems:terms.superSkills1=&6Area Miner&0\n\nActivated with 'Toggle Special'. Changes the cursor.\n\nAllows pickaxes and shovels to &2mine a 3x3 area&0. Similar to hammers from certain other mods. Requires a small amount of Chaos to use.
+guide.silentgems:terms.superSkills2=&6Lumberjack&0\n\nActivated with 'Toggle Special'. Changes the cursor.\n\nAllows axes to &2chop down an entire tree at once&0. Tree detection is a little finicky for some modded trees, but works well enough. Requires a small amount of Chaos to use.
+guide.silentgems:terms.superSkills3=&6Magic Projectiles (WIP)&0\n\nActivated by swinging while sneaking.\n\nAllows swords, katanas, and scepters to fire different projectiles. Currently, the types depends on the tool type. Damage depends on the tool's magic damage stat. Requires a moderate to large amount of Chaos.
+guide.silentgems:terms.superSkills4=&6Sword Projectile&0: A single orb that is affected by gravity and will bounce a couple of times.\n\n&6Katana Projectile&0: Three shots that trace the ground, damaging anything in their path.\n\n&6Scepter Projectile&0:Fires several homing shots into the air. 
+
+guide.silentgems:terms.tier=Tier
+guide.silentgems:terms.tier0=The tier of a tool or material &2determines its compatibility with other parts&0.\n\nThere are three tiers: &2Mundane, Regular, and Super&0.\n\nIn general, the parts that a tool is made with must be of the same tier. There are some exceptions. For example, rods can go up or down one tier.
+guide.silentgems:terms.tier1=Tier Examples\n\n&6Mundane&0: Flint, sticks, bones.\n\n&6Regular&0: Gems, iron rods.\n\n&6Super&0: Supercharged gems, ornate rods.
+
+

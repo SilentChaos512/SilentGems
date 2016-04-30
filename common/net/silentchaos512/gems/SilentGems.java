@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -18,6 +19,7 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.config.Config;
 import net.silentchaos512.gems.entity.ModEntities;
+import net.silentchaos512.gems.guide.GuideSilentGems;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.part.ModParts;
 import net.silentchaos512.gems.recipe.ModRecipes;
@@ -111,6 +113,11 @@ public class SilentGems {
     Config.save();
 
     proxy.init(registry);
+
+    // Register Guide API book?
+    if (Loader.isModLoaded("guideapi")) {
+      GuideSilentGems.buildGuide(localizationHelper);
+    }
   }
 
   @EventHandler
