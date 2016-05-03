@@ -4,6 +4,10 @@ itemGroup.tabSilentGems=Silent's Gems
 
 tile.silentgems:ChaosAltar.name=Chaos Altar
 
+tile.silentgems:ChaosFlowerPot.name=Chaos Flower Pot
+tile.silentgems:ChaosFlowerPot.desc1=Amplifies glow rose light, and places
+tile.silentgems:ChaosFlowerPot.desc2=phantom lights up to 15 blocks away.
+
 tile.silentgems:ChaosNode.name=Chaos Node
 tile.silentgems:ChaosNode.desc=Produces and distributes Chaos energy.
 
@@ -236,6 +240,8 @@ tile.silentgems:MiscBlock1.name=Enriched Chaos Essence Block
 tile.silentgems:MiscBlock2.name=Crystallized Chaos Essence Block
 tile.silentgems:MiscBlock3.name=Chaos Coal Block
 
+tile.silentgems:PhantomLight.name=Phantom Light
+
 tile.silentgems:TeleporterAnchor.name=Teleporter Anchor
 
 tile.silentgems:Teleporter0.name=Ruby Teleporter
@@ -327,6 +333,9 @@ item.silentgems:ChaosOrb.desc2=when low on charge.
 item.silentgems:ChaosOrb.break=Your %1$s shatters into %2$,d pieces.
 item.silentgems:ChaosOrb.breakChance=Max break chance: %d%%
 item.silentgems:ChaosOrb.crack=Your %s has cracked...
+
+item.silentgems:DebugItem.name=Debug Item
+item.silentgems:DebugItem.desc=No one here but us space chickens!
 
 item.silentgems:DyeBlack.name=Black Dye
 item.silentgems:DyeBlue.name=Blue Dye

@@ -10,11 +10,13 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.BlockChaosPylon;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.render.tile.RenderTileChaosAltar;
+import net.silentchaos512.gems.client.render.tile.RenderTileChaosFlowerPot;
 import net.silentchaos512.gems.client.render.tile.RenderTileChaosNode;
 import net.silentchaos512.gems.client.render.tile.RenderTileChaosPylon;
 import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosAltar;
+import net.silentchaos512.gems.tile.TileChaosFlowerPot;
 import net.silentchaos512.gems.tile.TileChaosNode;
 import net.silentchaos512.gems.tile.TileChaosPylon;
 import net.silentchaos512.lib.registry.SRegistry;
@@ -33,12 +35,14 @@ public class ModBlockRenderers {
 
     // Pylons
     Item itemPylon = Item.getItemFromBlock(ModBlocks.chaosPylon);
-    for (BlockChaosPylon.VariantType pylonType : BlockChaosPylon.VariantType.values())
-    {
-      register(itemPylon,pylonType.ordinal(),Names.CHAOS_PYLON,"variant="+pylonType.getName());
+    for (BlockChaosPylon.VariantType pylonType : BlockChaosPylon.VariantType.values()) {
+      register(itemPylon, pylonType.ordinal(), Names.CHAOS_PYLON, "variant=" + pylonType.getName());
     }
 
     reg.registerTileEntitySpecialRenderer(TileChaosPylon.class, new RenderTileChaosPylon());
+
+    // Flower Pot
+    reg.registerTileEntitySpecialRenderer(TileChaosFlowerPot.class, new RenderTileChaosFlowerPot());
   }
 
   private static void register(Item item, int meta, String name, String variantData) {

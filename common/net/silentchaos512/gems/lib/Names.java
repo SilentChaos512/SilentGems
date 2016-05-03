@@ -4,6 +4,7 @@ public class Names {
 
   // Blocks
   public static final String CHAOS_ALTAR = "ChaosAltar";
+  public static final String CHAOS_FLOWER_POT = "ChaosFlowerPot";
   public static final String CHAOS_NODE = "ChaosNode";
   public static final String CHAOS_PYLON = "ChaosPylon";
   public static final String ESSENCE_ORE = "EssenceOre";
@@ -16,12 +17,14 @@ public class Names {
   public static final String GLOW_ROSE = "GlowRose";
   public static final String MATERIAL_GRADER = "MaterialGrader";
   public static final String MISC_BLOCK = "MiscBlock";
+  public static final String PHANTOM_LIGHT = "PhantomLight";
   public static final String TELEPORTER = "Teleporter";
   public static final String TELEPORTER_ANCHOR = "TeleporterAnchor";
   public static final String TELEPORTER_REDSTONE = "TeleporterRedstone";
 
   // Items
   public static final String CHAOS_ORB = "ChaosOrb";
+  public static final String DEBUG_ITEM = "DebugItem";
   public static final String DYE = "Dye";
   public static final String ENCHANTMENT_TOKEN = "EnchantmentToken";
   public static final String FLUFFY_PUFF_SEEDS = "FluffyPuffSeeds";

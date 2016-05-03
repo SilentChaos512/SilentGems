@@ -43,6 +43,7 @@ public class ModItems {
   public static final ItemTeleporterLinker teleporterLinker = new ItemTeleporterLinker();
   public static final ItemReturnHome returnHomeCharm = new ItemReturnHome();
   public static final ItemPetSummoner petSummoner = new ItemPetSummoner();
+  public static final ItemDebug debugItem = new ItemDebug();
 
   // Tools
   public static final ItemGemSword sword = new ItemGemSword();
@@ -87,6 +88,7 @@ public class ModItems {
     reg.registerItem(teleporterLinker);
     reg.registerItem(returnHomeCharm);
     reg.registerItem(petSummoner);
+    reg.registerItem(debugItem);
 
     // Tools
     reg.registerItem(sword, Names.SWORD);
