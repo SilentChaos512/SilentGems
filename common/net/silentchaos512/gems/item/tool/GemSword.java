@@ -10,6 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
@@ -249,6 +250,10 @@ public class GemSword extends ItemSword implements IGemItem {
 
   private void setShotCharged(ItemStack stack, boolean value) {
 
+    if (stack == null)
+        return;
+    if (!stack.hasTagCompound())
+        stack.setTagCompound(new NBTTagCompound());
     stack.getTagCompound().setBoolean(NBT_SHOT_CHARGED, value);
   }
 
