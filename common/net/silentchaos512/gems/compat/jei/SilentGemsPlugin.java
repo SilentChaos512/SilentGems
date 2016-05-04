@@ -33,6 +33,10 @@ public class SilentGemsPlugin implements IModPlugin {
     IGuiHelper guiHelper = jeiHelper.getGuiHelper();
 
     // Hide blocks/items
+    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampInverted));
+    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampInvertedDark));
+    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampLit));
+    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampLitDark));
     jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.chaosNode));
     jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.fluffyPuffPlant));
     jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModItems.toolRenderHelper));

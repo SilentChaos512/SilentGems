@@ -1,7 +1,7 @@
 package net.silentchaos512.gems.block;
 
-import net.minecraft.block.material.Material;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.item.block.ItemBlockGemLamp;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosAltar;
 import net.silentchaos512.gems.tile.TileChaosFlowerPot;
@@ -10,7 +10,6 @@ import net.silentchaos512.gems.tile.TileChaosPylon;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
 import net.silentchaos512.gems.tile.TilePhantomLight;
 import net.silentchaos512.gems.tile.TileTeleporter;
-import net.silentchaos512.lib.block.BlockSL;
 import net.silentchaos512.lib.registry.SRegistry;
 
 public class ModBlocks {
@@ -25,6 +24,14 @@ public class ModBlocks {
   public static final BlockGemBrick gemBrickCoatedDark = new BlockGemBrick(true, true);
   public static final BlockGemBrick gemBrickSpeckled = new BlockGemBrick(false, false);
   public static final BlockGemBrick gemBrickSpeckledDark = new BlockGemBrick(true, false);
+  public static final BlockGemLamp gemLamp = new BlockGemLamp(false, false, false);
+  public static final BlockGemLamp gemLampLit = new BlockGemLamp(false, true, false);
+  public static final BlockGemLamp gemLampLitInverted = new BlockGemLamp(false, true, true);
+  public static final BlockGemLamp gemLampInverted = new BlockGemLamp(false, false, true);
+  public static final BlockGemLamp gemLampDark = new BlockGemLamp(true, false, false);
+  public static final BlockGemLamp gemLampLitDark = new BlockGemLamp(true, true, false);
+  public static final BlockGemLamp gemLampLitInvertedDark = new BlockGemLamp(true, true, true);
+  public static final BlockGemLamp gemLampInvertedDark = new BlockGemLamp(true, false, true);
   public static final BlockTeleporterAnchor teleporterAnchor = new BlockTeleporterAnchor();
   public static final BlockTeleporter teleporter = new BlockTeleporter(false, false);
   public static final BlockTeleporter teleporterDark = new BlockTeleporter(true, false);
@@ -55,6 +62,14 @@ public class ModBlocks {
     reg.registerBlock(gemBrickCoatedDark);
     reg.registerBlock(gemBrickSpeckled);
     reg.registerBlock(gemBrickSpeckledDark);
+    reg.registerBlock(gemLamp, new ItemBlockGemLamp(gemLamp));
+    reg.registerBlock(gemLampLit, new ItemBlockGemLamp(gemLampLit));
+    reg.registerBlock(gemLampLitInverted, new ItemBlockGemLamp(gemLampLitInverted));
+    reg.registerBlock(gemLampInverted, new ItemBlockGemLamp(gemLampInverted));
+    reg.registerBlock(gemLampDark, new ItemBlockGemLamp(gemLampDark));
+    reg.registerBlock(gemLampLitDark, new ItemBlockGemLamp(gemLampLitDark));
+    reg.registerBlock(gemLampLitInvertedDark, new ItemBlockGemLamp(gemLampLitInvertedDark));
+    reg.registerBlock(gemLampInvertedDark, new ItemBlockGemLamp(gemLampInvertedDark));
     reg.registerBlock(teleporterAnchor);
     reg.registerBlock(teleporter);
     reg.registerBlock(teleporterDark);

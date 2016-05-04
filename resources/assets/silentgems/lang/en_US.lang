@@ -180,6 +180,43 @@ tile.silentgems:GemBrickSpeckledDark13.name=Ametrine-Speckled Bricks
 tile.silentgems:GemBrickSpeckledDark14.name=Black Diamond-Speckled Bricks
 tile.silentgems:GemBrickSpeckledDark15.name=Alexandrite-Speckled Bricks
 
+tile.silentgems:GemLamp.lit=Lit
+tile.silentgems:GemLamp.Inverted=Inverted
+
+tile.silentgems:GemLamp0.name=Ruby Lamp
+tile.silentgems:GemLamp1.name=Garnet Lamp
+tile.silentgems:GemLamp2.name=Topaz Lamp
+tile.silentgems:GemLamp3.name=Amber Lamp
+tile.silentgems:GemLamp4.name=Heliodor Lamp
+tile.silentgems:GemLamp5.name=Peridot Lamp
+tile.silentgems:GemLamp6.name=Beryl Lamp
+tile.silentgems:GemLamp7.name=Indicolite Lamp
+tile.silentgems:GemLamp8.name=Aquamarine Lamp
+tile.silentgems:GemLamp9.name=Sapphire Lamp
+tile.silentgems:GemLamp10.name=Iolite Lamp
+tile.silentgems:GemLamp11.name=Amethyst Lamp
+tile.silentgems:GemLamp12.name=Agate Lamp
+tile.silentgems:GemLamp13.name=Morganite Lamp
+tile.silentgems:GemLamp14.name=Onyx Lamp
+tile.silentgems:GemLamp15.name=Opal Lamp
+
+tile.silentgems:GemLampDark0.name=Carnelian Lamp
+tile.silentgems:GemLampDark1.name=Spinel Lamp
+tile.silentgems:GemLampDark2.name=Citrine Lamp
+tile.silentgems:GemLampDark3.name=Jasper Lamp
+tile.silentgems:GemLampDark4.name=Golden Beryl Lamp
+tile.silentgems:GemLampDark5.name=Moldavite Lamp
+tile.silentgems:GemLampDark6.name=Malachite Lamp
+tile.silentgems:GemLampDark7.name=Turquoise Lamp
+tile.silentgems:GemLampDark8.name=Moonstone Lamp
+tile.silentgems:GemLampDark9.name=Blue Topaz Lamp
+tile.silentgems:GemLampDark10.name=Tanzanite Lamp
+tile.silentgems:GemLampDark11.name=Violet Sapphire Lamp
+tile.silentgems:GemLampDark12.name=Lepidolite Lamp
+tile.silentgems:GemLampDark13.name=Ametrine Lamp
+tile.silentgems:GemLampDark14.name=Black Diamond Lamp
+tile.silentgems:GemLampDark15.name=Alexandrite Lamp
+
 tile.silentgems:GemOre0.name=Ruby Ore
 tile.silentgems:GemOre1.name=Garnet Ore
 tile.silentgems:GemOre2.name=Topaz Ore
