@@ -132,7 +132,8 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
     GameRegistry.addRecipe(new ShapedOreRecipe(gildedString, "gsg", "gsg", "gsg", 's', Items.STRING,
         'g', "nuggetGold"));
     // Yarn Ball
-    RecipeHelper.addSurround(yarnBall, new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE), Items.STRING);
+    RecipeHelper.addSurround(yarnBall,
+        new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE), Items.STRING);
     // Rawhide Bone
     GameRegistry.addShapedRecipe(rawhideBone, " l ", "lbl", " l ", 'l', Items.LEATHER, 'b',
         Items.BONE);
@@ -194,6 +195,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
   @Override
   public int getBurnTime(ItemStack fuel) {
 
-    return fuel.getItemDamage() == chaosCoal.getItemDamage() ? Config.BURN_TIME_CHAOS_COAL : 0;
+    return fuel.getItem() == this && fuel.getItemDamage() == chaosCoal.getItemDamage()
+        ? Config.BURN_TIME_CHAOS_COAL : 0;
   }
 }

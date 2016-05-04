@@ -6,6 +6,7 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.MathHelper;
@@ -45,7 +46,8 @@ public class BlockMisc extends BlockSL implements IFuelHandler {
   @Override
   public int getBurnTime(ItemStack fuel) {
 
-    return fuel.getItemDamage() == Type.CHAOS_COAL.ordinal() ? 10 * Config.BURN_TIME_CHAOS_COAL : 0;
+    return fuel.getItem() == Item.getItemFromBlock(this)
+        && fuel.getItemDamage() == Type.CHAOS_COAL.ordinal() ? 10 * Config.BURN_TIME_CHAOS_COAL : 0;
   }
 
   @Override
