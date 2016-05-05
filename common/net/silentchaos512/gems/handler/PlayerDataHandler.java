@@ -58,7 +58,7 @@ public class PlayerDataHandler {
 
     for (int i : playerData.keySet()) {
       PlayerData d = playerData.get(i);
-      if (d.playerWR.get() == null) {
+      if (d != null && d.playerWR.get() == null) {
         remove.add(i);
       }
     }
