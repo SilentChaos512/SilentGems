@@ -5,12 +5,15 @@ import java.util.Queue;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.tile.TileChaosNode;
 import net.silentchaos512.lib.util.Color;
 
@@ -24,6 +27,8 @@ public class ClientTickHandler {
   public static float partialTicks = 0f;
   public static float delta = 0f;
   public static float total = 0f;
+
+  public static float fovModifier;
 
   public static Color nodeMoverColor = TileChaosNode
       .selectParticleColor(SilentGems.instance.random);
@@ -40,6 +45,18 @@ public class ClientTickHandler {
 
     if (event.phase == Phase.START) {
       partialTicks = event.renderTickTime;
+
+      EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+      if (player != null) {
+        ItemStack heldItem = player.getHeldItemMainhand();
+        if (heldItem != null && heldItem.isItemEqual(ModItems.craftingMaterial.magnifyingGlass)) {
+          if (fovModifier < 30f) {
+            fovModifier += partialTicks / 3;
+          }
+        } else if (fovModifier > 0f) {
+          fovModifier = Math.max(fovModifier - partialTicks / 3, 0f);
+        }
+      }
     }
   }
 

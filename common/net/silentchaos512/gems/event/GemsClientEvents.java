@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.EntityViewRenderEvent.FOVModifier;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -19,6 +20,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.client.gui.GuiCrosshairs;
+import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
@@ -26,6 +28,7 @@ import net.silentchaos512.lib.util.LocalizationHelper;
 public class GemsClientEvents {
 
   LocalizationHelper loc = SilentGems.instance.localizationHelper;
+  int fovModifier = 0;
 
   @SubscribeEvent
   public void onRenderGameOverlay(RenderGameOverlayEvent event) {
@@ -73,6 +76,12 @@ public class GemsClientEvents {
     // if (event.isCancelable() || event.getType() != ElementType.CROSSHAIRS) {
     // return;
     // }
+  }
+
+  @SubscribeEvent
+  public void onFOVModifier(FOVModifier event) {
+
+    event.setFOV(event.getFOV() - ClientTickHandler.fovModifier);
   }
 
   @SubscribeEvent
