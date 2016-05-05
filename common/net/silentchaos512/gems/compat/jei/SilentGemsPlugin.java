@@ -33,11 +33,12 @@ public class SilentGemsPlugin implements IModPlugin {
     IGuiHelper guiHelper = jeiHelper.getGuiHelper();
 
     // Hide blocks/items
-    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampInverted));
-    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampInvertedDark));
-    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampLit));
-    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampLitDark));
-    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.chaosNode));
+    int any = OreDictionary.WILDCARD_VALUE;
+    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampInverted, 1, any));
+    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampInvertedDark, 1 , any));
+    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampLit, 1, any));
+    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampLitDark, 1, any));
+//    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.chaosNode));
     jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.fluffyPuffPlant));
     jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModItems.toolRenderHelper));
 
