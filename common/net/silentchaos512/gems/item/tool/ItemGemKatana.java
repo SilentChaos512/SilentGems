@@ -2,10 +2,9 @@ package net.silentchaos512.gems.item.tool;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,13 +24,26 @@ public class ItemGemKatana extends ItemGemSword {
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
     ItemStack result = ToolHelper.constructTool(this, rod, materials);
-    if (result != null) {
-      ToolHelper.setPart(result,
-          ToolPartRegistry
-              .fromStack(new ItemStack(Blocks.WOOL, 1, EnumDyeColor.BLACK.getMetadata())),
-          EnumMaterialGrade.NONE, EnumPartPosition.ROD_GRIP);
-    }
-    return result;
+    return addDefaultGrip(result);
+  }
+
+  @Override
+  public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
+
+    ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
+        : new ItemStack(Items.STICK);
+    ItemStack result = ToolHelper.constructTool(this, rod, materials);
+    return addDefaultGrip(result);
+  }
+
+  private ItemStack addDefaultGrip(ItemStack katana) {
+
+    if (katana == null)
+      return null;
+    ItemStack blackWool = new ItemStack(Blocks.WOOL, 1, EnumDyeColor.BLACK.getMetadata());
+    ToolHelper.setPart(katana, ToolPartRegistry.fromStack(blackWool), EnumMaterialGrade.NONE,
+        EnumPartPosition.ROD_GRIP);
+    return katana;
   }
 
   @Override
@@ -63,6 +75,9 @@ public class ItemGemKatana extends ItemGemSword {
 
     if (subItems == null) {
       subItems = ToolHelper.getSubItems(item, 3);
+      for (ItemStack stack : subItems) {
+        stack = addDefaultGrip(stack);
+      }
     }
     list.addAll(subItems);
   }
