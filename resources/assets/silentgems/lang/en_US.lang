@@ -543,6 +543,7 @@ item.silentgems:IronPotato.desc=The potato that does not compromise.
 item.silentgems:LifeEssence.name=Life Essence
 item.silentgems:LifeEssence.desc=A heart, how creative. Not.
 item.silentgems:MagnifyingGlass.name=Magnifying Glass
+item.silentgems:MagnifyingGlass.desc=Let me take a closer look...
 item.silentgems:MysteryGoo.name=Mystery Goo
 item.silentgems:MysteryGoo.desc=Feels right at home in space.
 item.silentgems:NamePlate.name=Name Plate
@@ -706,14 +707,52 @@ guide.silentgems:gettingStarted.superTools3=In addition to being highly durable,
 
 # Blocks
 
+guide.silentgems:blocks.chaosFlowerPot=Chaos Flower Pot
+guide.silentgems:blocks.chaosFlowerPot0=Glow roses can be planted in chaos flower pots. This will &2amplify the flower's light&0, as well as spawning "phantom lights" in the nearby area. A single flower could potential light a medium-sized room by itself.
+
 guide.silentgems:blocks.chaosNode=Chaos Node
 guide.silentgems:blocks.chaosNode0=Nodes are the earliest way to get &1Chaos&0 energy. They can be &2found randomly throughout the world&0, hovering a few blocks above the ground. They cannot be mined, but can be &2moved with a Chaos Node Mover&0 later on.
 guide.silentgems:blocks.chaosNode1=Yes, it respects your particle settings.
 guide.silentgems:blocks.chaosNode2=Nodes have other benefits as well. They will repair the tools of nearby players, attack hostile mobs, and maybe some other things! Maybe building your starter house near or around a node would be a good idea?
 
+guide.silentgems:blocks.fluffyBlock=Fluffy Blocks
+guide.silentgems:blocks.fluffyBlock0=Fluffy blocks are blocks made of fluffy fabric. They come in all 16 colors (same as dye, wool, etc.)\n\nFluffy blocks will &2absorb fall damage&0 when landed on. The amount depends on how many fluffy blocks are directly below the one the entity landed on. More blocks = less damage.
+
+guide.silentgems:blocks.gemLamp=Gem Lamps
+guide.silentgems:blocks.gemLamp0=Gem lamps behave like redstone lamps. There is one for each gem (light and dark), plus inverted versions as well.\n\nA redstone signal turns on normal lamps and turns off inverted lamps.
+
+guide.silentgems:blocks.glowRose=Glow Roses
+guide.silentgems:blocks.glowRose0=Glow roses are &2light-emitting flowers&0. Their light is weak, but can prevent mob spawns in a two block radius. They can be planted in a Chaos Flower Pot to increase that range (for more details, see the entry on the pot).
+guide.silentgems:blocks.glowRose1=Glow roses can also be crafted into dyes, and may have additional uses in the future.
+
+guide.silentgems:blocks.materialGrader=Material Grader
+guide.silentgems:blocks.materialGrader0=The material grader will &1grade&0 tool crafting materials. Once graded, the &2stats of the material will be raised&0. The amount depends on the grade assigned. See &1Terminology/Grade&0 for more details.
+
 # Items
 
+guide.silentgems:items.chaosCoal=Chaos Coal
+guide.silentgems:items.chaosCoal0=If by some chance you have chaos essence to spare, you can use it to enrich coal. Chaos coal lasts four times longer than coal by default. Chaos coal blocks last ten times longer than a single piece of chaos coal.
 
+guide.silentgems:items.chaosOrb=Chaos Orbs
+guide.silentgems:items.chaosOrb0=Chaos orbs are items that can store &1Chaos&0 and &2provide it to the player&0 that carries it.\n\nThey will begin recharging the player a short time after they stop using their Chaos.
+guide.silentgems:items.chaosOrb1=Many chaos orbs are fragile however! If Chaos is removed from them when they are below half charge, they &4may take damage and eventually shatter&0. Lower quality orbs have a higher chance of breaking, with the best being unbreakable.
+guide.silentgems:items.chaosOrb2=The &2speed at which a chaos orb sends Chaos to the player&0 depends on the "Charge Speed" stats of the tools the player is holding. The orb has no affect on speed.
+
+guide.silentgems:items.enchantmentToken=Enchantment Tokens
+guide.silentgems:items.enchantmentToken0=Enchantment tokens provide an alternative to traditional enchanting. Instead of spending XP to get random enchantments, you &2spend resources to get exactly what you want&0. Simply craft the tokens (one for each level of the enchantment), then craft those with a tool.
+guide.silentgems:items.enchantmentToken1=As seen on the previous page, you can apply multiple tokens at once. You can &2also apply tokens to tools that are already enchanted&0, but normal enchanting rules still apply. For example, you can't have both Fortune and Silk Touch. That would be silly!
+guide.silentgems:items.enchantmentToken2=Use JEI for token recipes, they are not in the book.\n\nNote that you can still enchant gem tools through the enchantment table if you want. Play the game however you like!
+
+guide.silentgems:items.fluffyPuff=Fluffy Puffs
+guide.silentgems:items.fluffyPuff0=Fluffy puffs are soft, cotton-like plant matter. They can be crafted into a variety of items, including string, wool, and feathers.\n\nFluffy puff seeds can be acquired by &2breaking tall grass&0, same as most seeds. Plant them on farmland.
+guide.silentgems:items.fluffyPuff1=You can harvest fluffy puff plants by breaking them, but &2right-clicking them&0 will leave the plant intact, saving you the trouble of replanting. Or even better, try right-clicking the plant with a sickle...
+
+guide.silentgems:items.ironPotato=Iron Potato
+guide.silentgems:items.ironPotato0=It has no use.\n\n\n\n\n\n\n\n\n\n\n\n\nNo, seriously. It's worthless.
+
+guide.silentgems:items.torchBandolier=Torch Bandolier
+guide.silentgems:items.torchBandolier0=The torch bandolier is an item that can &2store 1024 torches&0, as well as place them. It's even compatible with the 'right-click to place' abilities of mining tools!
+guide.silentgems:items.torchBandolier1=Torches are absorbed automatically. You can toggle this behavior on or off by sneaking and right-clicking in the air.\n\nPlace the bandolier in a crafting grid to extract a stack of torches. Just be sure to turn off auto-fill mode first.
 
 # Terms
 
@@ -724,6 +763,10 @@ guide.silentgems:terms.decorating=Decorating
 guide.silentgems:terms.decorating0=Often, you will select materials for your tools based on stats, not looks. Not to worry, though! You can &2change the appearance of a tool&0 after construction by "decorating" it.
 guide.silentgems:terms.decorating1=To decorate, place a tool in the crafting grid, then &2materials adjacent to the tool&0. The bottom changes the rod decoration bit on rods that support it. The others change the "head". Grips, rods, and tip upgrades can go in any slot.
 guide.silentgems:terms.decorating2=Decorating also &2repairs the tool&0, and will even work on broken tools. The repair amount depends on the tool's tier, as well as the material.\n\nNote that &4some materials will not repair some tools&0. For example, flint does nothing for gem tools.
+
+guide.silentgems:terms.grade=Grade
+guide.silentgems:terms.grade0=Grades are rankings that are assigned to tool materials by the &2Material Grader&0. Possible grades are (lowest to highest): E, D, C, B, A, S, SS, SSS.\n\nAll &2graded materials have their stats raised&0, with higher grades getting larger bonuses.
+guide.silentgems:terms.grade1=Graded materials can still be used for any crafting recipes the item can normally be used for. You can mix materials with different grades as well.\n\nGrades are &2normally distributed&0, with a mean of 'B'. That means the further the grade is from 'B', the less common it is.
 
 guide.silentgems:terms.superSkills=Super Skills
 guide.silentgems:terms.superSkills0=Super skills are the special abilities of super tools. Some can be activated by pressing the 'Toggle Special' keybinding. Others require you to swing the tool (left-click) while sneaking.

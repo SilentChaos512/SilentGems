@@ -19,8 +19,11 @@ import amerifrance.guideapi.page.PageTextImage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.enchantment.EnchantmentFishingSpeed;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
@@ -30,6 +33,8 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.item.ItemChaosOrb;
+import net.silentchaos512.gems.item.ItemEnchantmentToken;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.util.ToolHelper;
@@ -39,6 +44,7 @@ public class GuideSilentGems {
 
   public static final String GETTING_STARTED = "gettingStarted";
   public static final String BLOCKS = "blocks";
+  public static final String ITEMS = "items";
   public static final String TERMS = "terms";
 
   public static Book book;
@@ -146,6 +152,13 @@ public class GuideSilentGems {
 
     entries = Lists.newArrayList();
 
+    // Entry: Chaos Flower Pot
+    pages = Lists.newArrayList();
+    prefix = BLOCKS + ".chaosFlowerPot";
+    pages.addAll(getPages(prefix));
+    stack = new ItemStack(ModBlocks.chaosFlowerPot);
+    entries.add(new EntryItemStack(pages, getString(prefix), stack));
+
     // Entry: Chaos Node
     pages = Lists.newArrayList();
     prefix = BLOCKS + ".chaosNode";
@@ -156,6 +169,32 @@ public class GuideSilentGems {
     pages.add(new PageText(getString(prefix + 2)));
     entries.add(new EntryItemStack(pages, getString(prefix), new ItemStack(ModBlocks.chaosNode)));
 
+    // Entry: Fluffy Blocks
+    prefix = BLOCKS + ".fluffyBlock";
+    pages = getPages(prefix);
+    stack = new ItemStack(ModBlocks.fluffyBlock);
+    entries.add(new EntryItemStack(pages, getString(prefix), stack));
+
+    // Entry: Gem Lamps
+    prefix = BLOCKS + ".gemLamp";
+    pages = getPages(prefix);
+    stack = new ItemStack(ModBlocks.gemLamp, 1, EnumGem.SAPPHIRE.ordinal());
+    entries.add(new EntryItemStack(pages, getString(prefix), stack));
+
+    // Entry: Glow Roses
+    prefix = BLOCKS + ".glowRose";
+    pages = getPages(prefix);
+    stack = new ItemStack(ModBlocks.glowRose, 1, EnumGem.AGATE.ordinal());
+    entries.add(new EntryItemStack(pages, getString(prefix), stack));
+
+    // Entry: Material Grader
+    pages = Lists.newArrayList();
+    prefix = BLOCKS + ".materialGrader";
+    pages.addAll(getPages(prefix));
+    stack = new ItemStack(ModBlocks.materialGrader);
+    entries.add(new EntryItemStack(pages, getString(prefix), stack));
+
+    // Add category
     String catBlocks = getString("category." + BLOCKS);
     categories.add(new CategoryItemStack(entries, catBlocks, new ItemStack(ModBlocks.chaosPylon)));
 
@@ -163,7 +202,57 @@ public class GuideSilentGems {
     // Category: Items
     // ===============
 
-    // TODO
+    entries = Lists.newArrayList();
+
+    // Entry: Chaos Coal
+    prefix = ITEMS + ".chaosCoal";
+    pages = getPages(prefix);
+    stack = ModItems.craftingMaterial.chaosCoal;
+    entries.add(new EntryItemStack(pages, getString(prefix), stack));
+
+    // Entry: Chaos Orbs
+    prefix = ITEMS + ".chaosOrb";
+    pages = getPages(prefix);
+    stack = new ItemStack(ModItems.chaosOrb, 1, ItemChaosOrb.Type.SUPREME.ordinal());
+    entries.add(new EntryItemStack(pages, getString(prefix), stack));
+
+    // Entry: Enchantment Tokens
+    prefix = ITEMS + ".enchantmentToken";
+    pages = Lists.newArrayList();
+    pages.add(new PageText(getString(prefix + 0)));
+    ItemStack katanaEnchPre = ModItems.katana.constructTool(true, EnumGem.ONYX.getItemSuper());
+    ItemStack tokenUnbreaking = ModItems.enchantmentToken.constructToken(Enchantments.UNBREAKING);
+    ItemStack tokenLooting = ModItems.enchantmentToken.constructToken(Enchantments.LOOTING);
+    ItemStack katanaEnchPost = katanaEnchPre.copy();
+    katanaEnchPost.addEnchantment(Enchantments.UNBREAKING, 3);
+    katanaEnchPost.addEnchantment(Enchantments.LOOTING, 3);
+    pages.add(
+        new PageIRecipe(new ShapelessOreRecipe(katanaEnchPost, tokenUnbreaking, tokenUnbreaking,
+            tokenUnbreaking, tokenLooting, tokenLooting, tokenLooting, katanaEnchPre)));
+    for (i = 1; i < 3; ++i)
+      pages.add(new PageText(getString(prefix + i)));
+    entries.add(new EntryItemStack(pages, getString(prefix), tokenUnbreaking));
+
+    // Entry: Fluffy Puffs
+    prefix = ITEMS + ".fluffyPuff";
+    pages = getPages(prefix);
+    entries.add(new EntryItemStack(pages, getString(prefix), new ItemStack(ModItems.fluffyPuff)));
+
+    // Entry: Iron Potato
+    prefix = ITEMS + ".ironPotato";
+    pages = getPages(prefix);
+    stack = ModItems.craftingMaterial.ironPotato;
+    entries.add(new EntryItemStack(pages, getString(prefix), stack));
+
+    // Entry: Torch Bandolier
+    prefix = ITEMS + ".torchBandolier";
+    pages = getPages(prefix);
+    stack = new ItemStack(ModItems.torchBandolier);
+    entries.add(new EntryItemStack(pages, getString(prefix), stack));
+
+    // Add category
+    String catItems = getString("category." + ITEMS);
+    categories.add(new CategoryItemStack(entries, catItems, tokenLooting));
 
     // =====================
     // Category: Terminology
@@ -193,6 +282,12 @@ public class GuideSilentGems {
                 decoParts[0], 'n', decoParts[1], 'e', decoParts[2], 's', decoParts[3])));
     entries.add(new EntryItemStack(pages, getString(prefix), pickaxeDecoPost));
 
+    // Entry: Grade
+    prefix = TERMS + ".grade";
+    pages = getPages(prefix);
+    stack = ModItems.craftingMaterial.magnifyingGlass;
+    entries.add(new EntryItemStack(pages, getString(prefix), stack));
+
     // Entry: Super Skills
     prefix = TERMS + ".superSkills";
     pages = getPages(prefix);
@@ -203,6 +298,7 @@ public class GuideSilentGems {
     pages = getPages(prefix);
     entries.add(new EntryItemStack(pages, getString(prefix), new ItemStack(Items.FLINT)));
 
+    // Add category
     String catTerminology = getString("category." + TERMS);
     categories.add(new CategoryItemStack(entries, catTerminology, new ItemStack(ModItems.dye)));
 
