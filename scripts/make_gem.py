@@ -1,8 +1,8 @@
 import re
 from subprocess import call
 
-NAME = 'TeleporterRedstone'
-TEXTURE = NAME
+NAME = 'GemLampLitInverted'
+TEXTURE = 'GemLamp.Lit'
 MODE = 'block'
 INCLUDE_DARK = True
 

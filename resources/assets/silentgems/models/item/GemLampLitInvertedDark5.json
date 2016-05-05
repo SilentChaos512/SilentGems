@@ -1,0 +1,6 @@
+{
+  "parent": "SilentGems:block/GemLampLitInvertedDark5",
+  "textures": {
+    "layer0": "SilentGems:blocks/GemLamp.LitDark5"
+  }
+}

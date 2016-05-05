@@ -39,11 +39,12 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
 
     setHardness(0.3f);
     setResistance(10.0f);
+    setLightLevel(lit ? 1 : 0);
   }
 
   public static BlockGemLamp getLamp(boolean dark, boolean lit, boolean inverted) {
 
-    switch ((dark ? 4 : 0) & (lit ? 2 : 0) & (inverted ? 1 : 0)) {
+    switch ((dark ? 4 : 0) | (lit ? 2 : 0) | (inverted ? 1 : 0)) {
       // @formatter:off
       case 0: return ModBlocks.gemLamp;
       case 1: return ModBlocks.gemLampInverted;
@@ -86,6 +87,11 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
       boolean powered = world.isBlockPowered(pos);
       EnumGem gem = EnumGem.values()[getMetaFromState(state)];
       BlockGemLamp newBlock = getLamp(inverted ? !powered : powered);
+
+//      String debug = "powered = %s, isDark = %s, lit = %s, inverted = %s, oldBlock = %s, newBlock = %s";
+//      debug = String.format(debug, powered, isDark, lit, inverted, this, newBlock);
+//      SilentGems.instance.logHelper.debug(debug, newBlock.lit, newBlock.inverted, newBlock.isDark);
+
       if (inverted) {
         if (!lit && !powered) {
           world.scheduleUpdate(pos, this, 4);
@@ -150,12 +156,20 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
   }
 
   @Override
+  public void addInformation(ItemStack stack, EntityPlayer player, List<String> list,
+      boolean advanced) {
+
+    if (inverted)
+      list.add(SilentGems.instance.localizationHelper.getBlockSubText(Names.GEM_LAMP, "inverted"));
+  }
+
+  @Override
   public List<String> getWitLines(IBlockState state, BlockPos pos, EntityPlayer player,
       boolean advanced) {
 
     LocalizationHelper loc = SilentGems.instance.localizationHelper;
     String line = inverted ? loc.getBlockSubText(Names.GEM_LAMP, "inverted") : "";
-    line += (line.isEmpty() ? "" : ", ") + (lit ? loc.getBlockSubText(Names.GEM_LAMP, "lit") : "");
-    return Lists.newArrayList(line);
+    line += lit ? (line.isEmpty() ? "" : ", ") + loc.getBlockSubText(Names.GEM_LAMP, "lit") : "";
+    return line.isEmpty() ? null : Lists.newArrayList(line);
   }
 }

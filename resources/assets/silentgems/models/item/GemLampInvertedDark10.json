@@ -1,0 +1,6 @@
+{
+  "parent": "SilentGems:block/GemLampInvertedDark10",
+  "textures": {
+    "layer0": "SilentGems:blocks/GemLampDark10"
+  }
+}

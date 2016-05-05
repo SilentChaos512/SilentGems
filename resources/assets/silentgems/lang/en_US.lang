@@ -181,7 +181,7 @@ tile.silentgems:GemBrickSpeckledDark14.name=Black Diamond-Speckled Bricks
 tile.silentgems:GemBrickSpeckledDark15.name=Alexandrite-Speckled Bricks
 
 tile.silentgems:GemLamp.lit=Lit
-tile.silentgems:GemLamp.Inverted=Inverted
+tile.silentgems:GemLamp.inverted=Inverted
 
 tile.silentgems:GemLamp0.name=Ruby Lamp
 tile.silentgems:GemLamp1.name=Garnet Lamp

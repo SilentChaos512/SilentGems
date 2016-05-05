@@ -2,7 +2,11 @@ Silent's Gems - Changelog
 
 2.0.9
 Added: Chaos Flower Pot. You can plant glow roses in it, which will emit more light than normal and place "phantom lights" up to 15 blocks away.
+Added: Gem Lamps are back.
+Added: A function for the magnifying glass. Usefulness is questionable.
 Fixed: Many items being usable as furnace fuel that shouldn't be.
+Fixed: Chaos Altar not rendering in world. (M4thG33k)
+Fixed (maybe): A rare random crash.
 
 2.0.8
 Added: A guide book. Finally. Requires Guide-API to be installed (optional, but you won't get the guide without it).
