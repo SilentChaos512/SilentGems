@@ -39,7 +39,7 @@ public class BlockPhantomLight extends BlockSL implements ITileEntityProvider {
   @Override
   public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 
-    if (rand.nextInt(1 + SilentGems.proxy.getParticleSettings()) == 0) {
+    if (rand.nextInt(2 * (1 + 2 * SilentGems.proxy.getParticleSettings())) == 0) {
       final float meanSpeed = 0.025f;
       final double motionX = rand.nextGaussian() * meanSpeed;
       final double motionY = rand.nextGaussian() * meanSpeed;
