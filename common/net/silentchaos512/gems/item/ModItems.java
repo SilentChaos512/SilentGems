@@ -38,6 +38,7 @@ public class ModItems {
   public static final ItemDyeSG dye = new ItemDyeSG();
   public static final ItemFoodSG food = new ItemFoodSG();
   public static final ItemTorchBandolier torchBandolier = new ItemTorchBandolier();
+  public static final ItemDrawingCompass drawingCompass = new ItemDrawingCompass();
   public static final ItemChaosOrb chaosOrb = new ItemChaosOrb();
   public static final ItemNodeMover nodeMover = new ItemNodeMover();
   public static final ItemTeleporterLinker teleporterLinker = new ItemTeleporterLinker();
@@ -83,6 +84,7 @@ public class ModItems {
     reg.registerItem(dye);
     reg.registerItem(food, Names.FOOD);
     reg.registerItem(torchBandolier);
+    reg.registerItem(drawingCompass);
     reg.registerItem(chaosOrb);
     reg.registerItem(nodeMover);
     reg.registerItem(teleporterLinker);

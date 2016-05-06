@@ -26,6 +26,7 @@ public class Names {
   // Items
   public static final String CHAOS_ORB = "ChaosOrb";
   public static final String DEBUG_ITEM = "DebugItem";
+  public static final String DRAWING_COMPASS = "DrawingCompass";
   public static final String DYE = "Dye";
   public static final String ENCHANTMENT_TOKEN = "EnchantmentToken";
   public static final String FLUFFY_PUFF_SEEDS = "FluffyPuffSeeds";

@@ -12,7 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiChaosBar;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
@@ -21,12 +20,12 @@ import net.silentchaos512.gems.client.render.ModBlockRenderers;
 import net.silentchaos512.gems.client.render.entity.RenderChaosProjectile;
 import net.silentchaos512.gems.client.render.entity.RenderEntityPacket;
 import net.silentchaos512.gems.client.render.particle.EntityFXChaos;
+import net.silentchaos512.gems.client.render.particle.EntityFXCompass;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
 import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumModParticles;
-import net.silentchaos512.gems.tile.TileChaosNode;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.Color;
@@ -68,7 +67,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
 
     SRegistry reg = SilentGems.instance.registry;
 
-//    ModBlockRenderers.init(reg);
+    // ModBlockRenderers.init(reg);
 
     reg.registerEntityRenderer(EntityChaosNodePacket.class, new RenderEntityPacket());
     reg.registerEntityRenderer(EntityChaosProjectile.class, new RenderChaosProjectile());
@@ -117,6 +116,16 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
         return tintIndex != 1 ? 0xFFFFFF : ClientTickHandler.nodeMoverColor.getColor();
       }
     }, ModItems.nodeMover);
+
+    // Drawing Compass
+    itemColors.registerItemColorHandler(new IItemColor() {
+
+      @Override
+      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+
+        return tintIndex == 0 ? ModItems.drawingCompass.getColor(stack).getColor() : 0xFFFFFF;
+      }
+    }, ModItems.drawingCompass);
   }
 
   // Particles
@@ -149,6 +158,9 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
         break;
       case PHANTOM_LIGHT:
         fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 1.0f, 15, r, g, b);
+        break;
+      case DRAWING_COMPASS:
+        fx = new EntityFXCompass(world, x, y, z, motionX, motionY, motionZ, 1.0f, 10, r, g, b);
         break;
       default:
         throw new NotImplementedException("Unknown particle type: " + type);

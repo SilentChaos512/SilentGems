@@ -49,6 +49,8 @@ public class ClientTickHandler {
       EntityPlayer player = Minecraft.getMinecraft().thePlayer;
       if (player != null) {
         ItemStack heldItem = player.getHeldItemMainhand();
+
+        // Magnifying glass FOV modifier
         if (heldItem != null && heldItem.isItemEqual(ModItems.craftingMaterial.magnifyingGlass)) {
           if (fovModifier < 30f) {
             fovModifier += partialTicks / 3;
@@ -70,6 +72,15 @@ public class ClientTickHandler {
       } else if (mc.thePlayer != null) {
         while (!scheduledActions.isEmpty()) {
           scheduledActions.poll().run();
+        }
+
+        ItemStack mainHand = mc.thePlayer.getHeldItemMainhand();
+        ItemStack offHand = mc.thePlayer.getHeldItemOffhand();
+        if (mainHand != null && mainHand.getItem() == ModItems.drawingCompass) {
+          ModItems.drawingCompass.spawnParticles(mainHand, mc.thePlayer, mc.theWorld);
+        }
+        if (offHand != null && offHand.getItem() == ModItems.drawingCompass) {
+          ModItems.drawingCompass.spawnParticles(offHand, mc.thePlayer, mc.theWorld);
         }
       }
 

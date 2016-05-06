@@ -374,6 +374,8 @@ item.silentgems:ChaosOrb.crack=Your %s has cracked...
 item.silentgems:DebugItem.name=Debug Item
 item.silentgems:DebugItem.desc=No one here but us space chickens!
 
+item.silentgems:DrawingCompass.name=Drawing Compass
+
 item.silentgems:DyeBlack.name=Black Dye
 item.silentgems:DyeBlue.name=Blue Dye
 
