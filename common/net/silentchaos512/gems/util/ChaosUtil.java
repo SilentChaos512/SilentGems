@@ -48,6 +48,34 @@ public class ChaosUtil {
     return list;
   }
 
+  public static int getTotalChaosAvailable(EntityPlayer player) {
+
+    PlayerData data = PlayerDataHandler.get(player);
+    int amount = data.getCurrentChaos();
+
+    for (ItemStack stack : PlayerHelper.getNonNullStacks(player)) {
+      if (stack.getItem() instanceof IChaosStorage) {
+        amount += ((IChaosStorage) stack.getItem()).getCharge(stack);
+      }
+    }
+
+    return amount;
+  }
+
+  public static void drainChaosFromPlayerAndInventory(EntityPlayer player, int amount) {
+
+    int startAmount = amount;
+    for (ItemStack stack : PlayerHelper.getNonNullStacks(player)) {
+      if (stack.getItem() instanceof IChaosStorage) {
+        amount -= ((IChaosStorage) stack.getItem()).extractCharge(stack, amount, false);
+        if (amount <= 0)
+          break;
+      }
+    }
+
+    PlayerDataHandler.get(player).drainChaos(amount);
+  }
+
   public static boolean canPlayerAcceptFullAmount(EntityPlayer player, int amount) {
 
     PlayerData data = PlayerDataHandler.get(player);

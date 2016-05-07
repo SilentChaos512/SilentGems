@@ -19,9 +19,12 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.block.BlockTeleporter;
 import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.handler.PlayerDataHandler;
+import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.item.ItemTeleporterLinker;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.gems.util.TeleportUtil;
 import net.silentchaos512.lib.util.DimensionalPosition;
 import net.silentchaos512.lib.util.LocalizationHelper;
@@ -176,7 +179,8 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
 
     // Is there enough Chaos to teleport?
     int cost = getRequiredChaos(player);
-    if (cost > getCharge()) {
+    int available = getCharge() + ChaosUtil.getTotalChaosAvailable(player);
+    if (cost > available) {
       String str = SilentGems.instance.localizationHelper.getBlockSubText(Names.TELEPORTER,
           "NotEnoughChaos");
       str = String.format(str, getCharge(), cost);
@@ -185,7 +189,14 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
     }
 
     // Drain Chaos
-    chaosStored -= cost;
+    if (cost > chaosStored) {
+      cost -= chaosStored;
+      chaosStored = 0;
+      ChaosUtil.drainChaosFromPlayerAndInventory(player, cost);
+    } else {
+      chaosStored -= cost;
+    }
+
     return true;
   }
 
