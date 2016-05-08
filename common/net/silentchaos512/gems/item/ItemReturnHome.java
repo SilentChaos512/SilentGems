@@ -189,7 +189,7 @@ public class ItemReturnHome extends ItemChaosStorage {
       DimensionalPosition pos = getBoundPosition(stack);
 
       // Enough charge?
-      if (getCharge(stack) < getTeleportCost(stack)) {
+      if (getCharge(stack) < getTeleportCost(stack, player)) {
         PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_ENOUGH_CHARGE));
         return;
       }
@@ -224,10 +224,10 @@ public class ItemReturnHome extends ItemChaosStorage {
     }
   }
 
-  public int getTeleportCost(ItemStack stack) {
+  public int getTeleportCost(ItemStack stack, EntityPlayer player) {
 
     // Currently a flat cost, but could be changed to consider distance.
-    return Config.RETURN_HOME_USE_COST;
+    return player.capabilities.isCreativeMode ? 0 : Config.RETURN_HOME_USE_COST;
   }
 
   protected void teleportPlayer(ItemStack stack, EntityPlayer player, DimensionalPosition pos) {
@@ -236,6 +236,6 @@ public class ItemReturnHome extends ItemChaosStorage {
       TeleportUtil.teleportPlayerTo((EntityPlayerMP) player, pos);
     }
 
-    extractCharge(stack, getTeleportCost(stack), false);
+    extractCharge(stack, getTeleportCost(stack, player), false);
   }
 }
