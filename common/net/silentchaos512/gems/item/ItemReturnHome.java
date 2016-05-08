@@ -201,9 +201,12 @@ public class ItemReturnHome extends ItemChaosStorage {
       }
 
       // Is the destination safe? (ie, no solid block at head level)
-      WorldServer worldServer = player.getServer().worldServerForDimension(player.dimension);
+      WorldServer worldServer = player.getServer().worldServerForDimension(pos.dim);
       int height = (int) Math.ceil(player.eyeHeight);
-      if (worldServer.isBlockNormalCube(pos.toBlockPos().up(height), true)) {
+      BlockPos target = pos.toBlockPos().up(height);
+
+      SilentGems.instance.logHelper.debug(pos, worldServer.getBlockState(target));
+      if (worldServer.isBlockNormalCube(target, true)) {
         PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_SAFE));
         return;
       }

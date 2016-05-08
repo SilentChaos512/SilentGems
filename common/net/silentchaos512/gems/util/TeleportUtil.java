@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.world.TeleporterGems;
 import net.silentchaos512.lib.util.DimensionalPosition;
 
@@ -12,7 +13,8 @@ public class TeleportUtil {
 
   public static boolean teleportPlayerTo(EntityPlayerMP player, DimensionalPosition pos) {
 
-    int oldDimension = player.worldObj.provider.getDimension();
+    int oldDimension = player.dimension;
+    SilentGems.instance.logHelper.debug(oldDimension, pos.dim);
     if (pos.dim != oldDimension) {
       WorldServer oldWorldServer = player.getServer().worldServerForDimension(oldDimension);
       WorldServer newWorldServer = player.getServer().worldServerForDimension(pos.dim);
@@ -25,10 +27,7 @@ public class TeleportUtil {
       }
 
       // Teleport player to dimension, using a custom teleporter to prevent Nether portal spawns
-      player.getServer().getPlayerList().transferEntityToWorld(player, oldDimension, oldWorldServer,
-          newWorldServer, new Teleporter(newWorldServer));
-      // player.mcServer.getCommandManager().transferPlayerToDimension(player, dimension,
-      // new TeleporterGems(newWorldServer));
+      player.getServer().getPlayerList().transferPlayerToDimension(player, pos.dim, new Teleporter(newWorldServer));
 
       if (oldDimension == 1) {
         // Fixes world not loading when teleporting from the End.

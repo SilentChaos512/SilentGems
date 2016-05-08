@@ -1,14 +1,19 @@
 Silent's Gems - Changelog
 
+2.0.10
+Mark as Beta.
+Fixed: Return Home Charm not working well across dimensions (false positive on obstruction check)
+
 2.0.9
 Added: Chaos Flower Pot. You can plant glow roses in it, which will emit more light than normal and place "phantom lights" up to 15 blocks away.
 Added: Gem Lamps are back.
 Added: Drawing Compass. It draws circles and lines with particles. Click two blocks, sneak + click to clear.
 Added: A function for the magnifying glass. Usefulness is questionable.
+Changed: Teleporters can now draw Chaos from the player and the player's inventory, if necessary.
 Fixed: Many items being usable as furnace fuel that shouldn't be.
 Fixed: Chaos Altar not rendering in world. (M4thG33k)
 Fixed: Katanas in JEI/creative tab missing default grip.
-Fixed (maybe): A rare random crash.
+Fixed (maybe, probably not): A rare random crash in PlayerDataHandler.
 
 2.0.8
 Added: A guide book. Finally. Requires Guide-API to be installed (optional, but you won't get the guide without it).
