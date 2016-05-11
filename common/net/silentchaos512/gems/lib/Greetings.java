@@ -10,18 +10,25 @@ import net.silentchaos512.lib.util.PlayerHelper;
 
 public class Greetings {
 
-  public static final String PREFIX = "[Silent's Gems] EARLY ALPHA: ";
+  public static final String PREFIX = "[Silent's Gems] BETA: ";
   // @formatter:off
   public static final String[] LINES = new String[] {
-      "Things may change, break, and/or dance to Macarena.",
+      // Alpha
+//      "Things may change, break, and/or dance to Macarena.",
       "Catgirls not included. D:",
       "The flowers probably won't kill you.",
-      "That texture count...",
+//      "That texture count...",
       "Try the donuts!",
       "May contain unintended &cR&6a&ei&an&9b&do&5w&fs!",
       "Shake well and refrigerate after opening.",
-      "May contain crazy people.",
-      "Bunny bowling. No regrets."
+//      "May contain crazy people.",
+//      "Bunny bowling. No regrets."
+
+      // Beta
+      "Still dancing to Macarena!",
+      "Your free Windows 10 upgrade is ready!",
+      "Drowning in JSON files...",
+      "Download only from Curse!"
   };
   // @formatter:on
 

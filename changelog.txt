@@ -3,6 +3,7 @@ Silent's Gems - Changelog
 2.0.10
 Mark as Beta.
 Updated for Guide-API 2.0.0-31.
+Changed: Some greetings.
 Fixed: Return Home Charm not working well across dimensions (false positive on obstruction check)
 
 2.0.9
