@@ -49,11 +49,11 @@ repositories {
 }
 
 jar {
-    classifier = "alpha"
+    //classifier = "alpha"
 }
 task deobfJar(type: Jar) {
     from(sourceSets.main.output) {
-        classifier = "alpha-deobf"
+        classifier = "deobf"
     }
 }
 artifacts {
