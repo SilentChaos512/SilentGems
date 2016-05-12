@@ -24,6 +24,7 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.Color;
+import net.silentchaos512.lib.util.DyeHelper;
 
 public class ItemDrawingCompass extends ItemSL {
 
@@ -55,21 +56,19 @@ public class ItemDrawingCompass extends ItemSL {
         ModItems.craftingMaterial.chaosEssenceEnriched, 'r', ModItems.craftingMaterial.toolRodGold);
     for (EnumDyeColor dye : EnumDyeColor.values()) {
       ItemStack result = new ItemStack(this);
-      NBTHelper.setTagInt(result, "Color", ItemDye.DYE_COLORS[dye.getDyeDamage()]);
-      String dyeName = "dye" + (dye == EnumDyeColor.SILVER ? "LightGray"
-          : Character.toUpperCase(dye.getUnlocalizedName().charAt(0))
-              + dye.getUnlocalizedName().substring(1));
+      NBTHelper.setTagInt(result, "Color", DyeHelper.getColor(dye));
+      String dyeName = DyeHelper.getOreName(dye);
       GameRegistry.addRecipe(new ShapelessOreRecipe(result, base, dyeName));
     }
   }
 
-  @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
-
-    list.add(String.format("Color: %X", getColor(stack).getColor()));
-    list.add("Block1: " + getBlock1(stack));
-    list.add("Block2: " + getBlock2(stack));
-  }
+//  @Override
+//  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+//
+//    list.add(String.format("Color: %X", getColor(stack).getColor()));
+//    list.add("Block1: " + getBlock1(stack));
+//    list.add("Block2: " + getBlock2(stack));
+//  }
 
   public State getState(ItemStack stack) {
 

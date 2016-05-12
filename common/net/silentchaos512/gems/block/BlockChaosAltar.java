@@ -47,7 +47,7 @@ public class BlockChaosAltar extends BlockContainerSL {
 
     ItemStack result = new ItemStack(this);
     ItemStack chaosCore = ModItems.craftingMaterial.chaosCore;
-    GameRegistry.addRecipe(new ShapedOreRecipe(result, " d ", "eoe", "ooo", 'e', chaosCore, 'o',
+    GameRegistry.addRecipe(new ShapedOreRecipe(result, " e ", "dod", "ooo", 'e', chaosCore, 'o',
         Blocks.OBSIDIAN, 'd', "gemDiamond"));
   }
 

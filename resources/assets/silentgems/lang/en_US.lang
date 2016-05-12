@@ -9,7 +9,8 @@ tile.silentgems:ChaosFlowerPot.desc1=Amplifies glow rose light, and places
 tile.silentgems:ChaosFlowerPot.desc2=phantom lights up to 15 blocks away.
 
 tile.silentgems:ChaosNode.name=Chaos Node
-tile.silentgems:ChaosNode.desc=Produces and distributes Chaos energy.
+tile.silentgems:ChaosNode.desc1=Produces and distributes Chaos energy.
+tile.silentgems:ChaosNode.desc2=Found naturally throughout the world.
 
 tile.silentgems:ChaosPylon0.name=Passive Chaos Pylon
 tile.silentgems:ChaosPylon0.desc=Creates Chaos for free, likes Nodes.
