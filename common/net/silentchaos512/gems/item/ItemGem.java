@@ -30,38 +30,38 @@ public class ItemGem extends ItemSL {
     super(64, SilentGems.MOD_ID, Names.GEM);
   }
 
-  @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
-
-    EnumGem gem = EnumGem.getFromStack(stack);
-    EnumMaterialTier tier = stack.getItemDamage() > 31 ? EnumMaterialTier.SUPER
-        : EnumMaterialTier.REGULAR;
-    LocalizationHelper loc = SilentGems.instance.localizationHelper;
-    String line;
-
-    boolean controlDown = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
-        || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
-
-    if (gem != null && controlDown) {
-      int multi = 100 + EnumMaterialGrade.fromStack(stack).bonusPercent;
-      line = loc.getMiscText("Tooltip.Durability");
-      list.add(String.format(line, gem.getDurability(tier) * multi / 100));
-      line = loc.getMiscText("Tooltip.HarvestSpeed");
-      list.add(String.format(line, gem.getMiningSpeed(tier) * multi / 100));
-      line = loc.getMiscText("Tooltip.HarvestLevel");
-      list.add(String.format(line, gem.getHarvestLevel(tier) * multi / 100));
-      line = loc.getMiscText("Tooltip.MeleeDamage");
-      list.add(String.format(line, gem.getMeleeDamage(tier) * multi / 100));
-      line = loc.getMiscText("Tooltip.MagicDamage");
-      list.add(String.format(line, gem.getMagicDamage(tier) * multi / 100));
-      line = loc.getMiscText("Tooltip.ChargeSpeed");
-      list.add(String.format(line, gem.getChargeSpeed(tier) * multi / 100));
-      line = loc.getMiscText("Tooltip.Enchantability");
-      list.add(String.format(line, gem.getEnchantability(tier) * multi / 100));
-    } else {
-      list.add(TextFormatting.GOLD + loc.getMiscText("PressCtrl"));
-    }
-  }
+//  @Override
+//  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+//
+//    EnumGem gem = EnumGem.getFromStack(stack);
+//    EnumMaterialTier tier = stack.getItemDamage() > 31 ? EnumMaterialTier.SUPER
+//        : EnumMaterialTier.REGULAR;
+//    LocalizationHelper loc = SilentGems.instance.localizationHelper;
+//    String line;
+//
+//    boolean controlDown = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
+//        || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
+//
+//    if (gem != null && controlDown) {
+//      int multi = 100 + EnumMaterialGrade.fromStack(stack).bonusPercent;
+//      line = loc.getMiscText("Tooltip.Durability");
+//      list.add(String.format(line, gem.getDurability(tier) * multi / 100));
+//      line = loc.getMiscText("Tooltip.HarvestSpeed");
+//      list.add(String.format(line, gem.getMiningSpeed(tier) * multi / 100));
+//      line = loc.getMiscText("Tooltip.HarvestLevel");
+//      list.add(String.format(line, gem.getHarvestLevel(tier) * multi / 100));
+//      line = loc.getMiscText("Tooltip.MeleeDamage");
+//      list.add(String.format(line, gem.getMeleeDamage(tier) * multi / 100));
+//      line = loc.getMiscText("Tooltip.MagicDamage");
+//      list.add(String.format(line, gem.getMagicDamage(tier) * multi / 100));
+//      line = loc.getMiscText("Tooltip.ChargeSpeed");
+//      list.add(String.format(line, gem.getChargeSpeed(tier) * multi / 100));
+//      line = loc.getMiscText("Tooltip.Enchantability");
+//      list.add(String.format(line, gem.getEnchantability(tier) * multi / 100));
+//    } else {
+//      list.add(TextFormatting.GOLD + loc.getMiscText("PressCtrl"));
+//    }
+//  }
 
   @Override
   public void addRecipes() {

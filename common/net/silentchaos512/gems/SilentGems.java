@@ -42,7 +42,7 @@ public class SilentGems {
   public static final String MOD_ID = "SilentGems";
   public static final String MOD_NAME = "Silent's Gems";
   public static final String VERSION = "@VERSION@";
-  public static final String DEPENDENCIES = "required-after:Forge@[12.16.0.1826,);required-after:SilentLib;";
+  public static final String DEPENDENCIES = "required-after:Forge@[12.16.1.1904,);required-after:SilentLib;";
   public static final String RESOURCE_PREFIX = MOD_ID.toLowerCase() + ":";
 
   public Random random = new Random();
