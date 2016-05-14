@@ -50,8 +50,6 @@ import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.lib.part.ToolPartGem;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -63,7 +61,6 @@ public class ToolHelper {
       "Sickle", "Bow" };
 
   public static final float VARIETY_BONUS = 0.075f;
-  // public static final float MAX_CHARGE = 10000f;
 
   /*
    * NBT keys
@@ -139,6 +136,13 @@ public class ToolHelper {
     }
   }
 
+  /**
+   * Recalculate all stats and properties, including the rendering cache for the given tool. In general, this should be
+   * called any time changes are made to a tool (aside from incrementing statistics, or something like that). For
+   * example, this is called during construction, decoration, and for all tools in the players inventory during login.
+   * 
+   * @param tool
+   */
   public static void recalculateStats(ItemStack tool) {
 
     ToolPart[] parts = getConstructionParts(tool);
@@ -149,8 +153,11 @@ public class ToolHelper {
 
     // Reset render cache
     for (EnumPartPosition pos : EnumPartPosition.values()) {
-      tool.getTagCompound().getCompoundTag(ToolRenderHelper.NBT_MODEL_INDEX)
-          .removeTag("Layer" + pos.ordinal());
+      NBTTagCompound compound = tool.getTagCompound()
+          .getCompoundTag(ToolRenderHelper.NBT_MODEL_INDEX);
+      String str = "Layer" + pos.ordinal();
+      compound.removeTag(str);
+      compound.removeTag(str + "Color");
     }
 
     float sumDurability = 0f; // float to prevent rounding errors until calcs are done.
@@ -186,27 +193,27 @@ public class ToolHelper {
     ToolPart partHeadL = getRenderPart(tool, EnumPartPosition.HEAD_LEFT);
     ToolPart partHeadR = getRenderPart(tool, EnumPartPosition.HEAD_RIGHT);
     ToolPart partDeco = getRenderPart(tool, EnumPartPosition.ROD_DECO);
-    if (partHeadM instanceof ToolPartGem) {
-      boolean isDark = ((ToolPartGem) partHeadM).getGem().ordinal() > 15;
-      setTagBoolean(tool, NBT_ROOT_CONSTRUCTION, "IsDark" + ToolRenderHelper.PASS_HEAD_M, isDark);
+
+    if (partHeadM != null) {
+      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
+          "Layer" + ToolRenderHelper.PASS_HEAD_M + "Color", partHeadM.getColor());
     }
-    if (partHeadL instanceof ToolPartGem) {
-      boolean isDark = ((ToolPartGem) partHeadL).getGem().ordinal() > 15;
-      setTagBoolean(tool, NBT_ROOT_CONSTRUCTION, "IsDark" + ToolRenderHelper.PASS_HEAD_L, isDark);
+    if (partHeadL != null) {
+      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
+          "Layer" + ToolRenderHelper.PASS_HEAD_L + "Color", partHeadL.getColor());
     }
-    if (partHeadR instanceof ToolPartGem) {
-      boolean isDark = ((ToolPartGem) partHeadR).getGem().ordinal() > 15;
-      setTagBoolean(tool, NBT_ROOT_CONSTRUCTION, "IsDark" + ToolRenderHelper.PASS_HEAD_R, isDark);
+    if (partHeadR != null) {
+      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
+          "Layer" + ToolRenderHelper.PASS_HEAD_R + "Color", partHeadR.getColor());
     }
-    if (partDeco instanceof ToolPartGem) {
-      boolean isDark = ((ToolPartGem) partDeco).getGem().ordinal() > 15;
-      setTagBoolean(tool, NBT_ROOT_CONSTRUCTION, "IsDark" + ToolRenderHelper.PASS_ROD_DECO, isDark);
+    if (partDeco != null) {
+      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
+          "Layer" + ToolRenderHelper.PASS_ROD_DECO + "Color", partDeco.getColor());
     }
 
     // Variety bonus
     int variety = MathHelper.clamp_int(uniqueParts.size(), 1, 3);
     float bonus = 1.0f + VARIETY_BONUS * (variety - 1);
-    // GemTest.instance.logHelper.debug(variety, bonus);
 
     // Average head parts
     float durability = bonus * sumDurability / parts.length;
@@ -216,7 +223,6 @@ public class ToolHelper {
     float meleeSpeed = bonus * sumMeleeSpeed / parts.length;
     float chargeSpeed = bonus * sumChargeSpeed / parts.length;
     float enchantability = bonus * sumEnchantability / parts.length;
-    // GemTest.instance.logHelper.debug(durability, harvestSpeed, meleeDamage, magicDamage);
 
     // Tip and rod bonus (might change the way rod stats work?)
     ToolPart partRod = getConstructionRod(tool);
@@ -331,24 +337,6 @@ public class ToolHelper {
 
     return getTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_SPEED);
   }
-
-  // public static float getChargeAmount(ItemStack tool) {
-  //
-  // return getTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_AMOUNT);
-  // }
-  //
-  // public static void incrementCharge(ItemStack tool, float scalar) {
-  //
-  // float charge = getChargeAmount(tool);
-  // if (charge < MAX_CHARGE) {
-  // charge += scalar * getChargeSpeed(tool);
-  // if (charge > MAX_CHARGE) {
-  // charge = MAX_CHARGE;
-  // }
-  // setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_AMOUNT, charge);
-  // }
-  // // setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_AMOUNT, 0);
-  // }
 
   public static boolean isBroken(ItemStack tool) {
 
@@ -851,6 +839,14 @@ public class ToolHelper {
     return getRootTag(tool, root).getInteger(name);
   }
 
+  private static int getTagInt(ItemStack tool, String root, String name, int defaultValue) {
+
+    if (!tool.hasTagCompound() || !getRootTag(tool, root).hasKey(name)) {
+      return defaultValue;
+    }
+    return getRootTag(tool, root).getInteger(name);
+  }
+
   private static void setTagInt(ItemStack tool, String root, String name, int value) {
 
     initRootTag(tool);
@@ -1197,11 +1193,7 @@ public class ToolHelper {
 
   public static int getColorForPass(ItemStack tool, int pass) {
 
-    if (getTagBoolean(tool, NBT_ROOT_CONSTRUCTION, "IsDark" + pass)) {
-      return 0x999999;
-    } else {
-      return 0xFFFFFF;
-    }
+    return getTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX, "Layer" + pass + "Color", 0xFFFFFF);
   }
 
   // public static int getAnimationFrame(ItemStack tool) {

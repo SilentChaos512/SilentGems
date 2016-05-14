@@ -10,6 +10,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
+import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.lib.registry.IRegistryObject;
 
@@ -30,6 +31,12 @@ public class ToolPartGem extends ToolPartMain {
   public EnumGem getGem() {
 
     return gem;
+  }
+
+  @Override
+  public int getColor() {
+
+    return gem.ordinal() > 15 ? ToolRenderHelper.DARK_GEM_SHADE : 0xFFFFFF;
   }
 
   @Override

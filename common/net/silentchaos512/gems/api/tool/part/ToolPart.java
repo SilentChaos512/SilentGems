@@ -48,6 +48,10 @@ public abstract class ToolPart {
    * of the resulting tool.
    */
   protected EnumMaterialTier tier;
+  /**
+   * The color apply to the layer when rendering.
+   */
+  protected int color = 0xFFFFFF;
 
   public ToolPart(String key, ItemStack craftingStack) {
 
@@ -80,6 +84,11 @@ public abstract class ToolPart {
   public EnumMaterialTier getTier() {
 
     return tier;
+  }
+
+  public int getColor() {
+
+    return color;
   }
 
   /**

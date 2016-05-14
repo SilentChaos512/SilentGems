@@ -47,6 +47,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   public static final ModelResourceLocation SMART_MODEL = new ModelResourceLocation(
       SMART_MODEL_NAME, "inventory");
 
+  public static final int DARK_GEM_SHADE = 0x999999;
+
   // public static final Pattern numberFormat = Pattern.compile("\\d+\\.\\d{3}");
 
   protected Set<ModelResourceLocation> modelSet = null;
@@ -169,7 +171,9 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       for (EnumPartPosition pos : EnumPartPosition.values()) {
         NBTTagCompound tags = tool.getTagCompound().getCompoundTag(NBT_MODEL_INDEX);
         String key = "Layer" + pos.ordinal();
-        list.add(key + ": " + tags.getInteger(key));
+        String str = "%s: %d, %X";
+        str = String.format(str, key, tags.getInteger(key), tags.getInteger(key + "Color"));
+        list.add(str);
       }
     }
   }
