@@ -624,6 +624,13 @@ misc.silentgems:PressShift=<Press Shift>
 
 misc.silentgems:ToolPart.Rod=&3Tool Rod
 misc.silentgems:ToolPart.Grade=&3Grade: %s
+misc.silentgems:ToolPart.Tier=&3Tier: %s
+misc.silentgems:ToolPart.ValidTiers=Valid tool tiers:
+misc.silentgems:ToolTier.mundane=Mundane
+misc.silentgems:ToolTier.regular=Regular
+misc.silentgems:ToolTier.super=Super
+
+misc.silentgems:Grade.none=None
 
 misc.silentgems:Tooltip.Tipped=%s-Tipped
 misc.silentgems:Tooltip.TipIron=&fIron

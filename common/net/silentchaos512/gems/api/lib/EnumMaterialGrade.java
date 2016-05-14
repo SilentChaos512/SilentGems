@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
+import net.silentchaos512.gems.SilentGems;
 
 public enum EnumMaterialGrade {
 
@@ -57,5 +58,10 @@ public enum EnumMaterialGrade {
       }
       stack.getTagCompound().setString(NBT_KEY, name());
     }
+  }
+
+  public String getLocalizedName() {
+
+    return this == NONE ? SilentGems.instance.localizationHelper.getMiscText("Grade.none") : name();
   }
 }

@@ -1,5 +1,9 @@
 package net.silentchaos512.gems.api.tool.part;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -122,6 +126,15 @@ public abstract class ToolPart {
   public String getUnlocalizedName() {
 
     return key;
+  }
+
+  public List<EnumMaterialTier> getCompatibleTiers() {
+
+    List<EnumMaterialTier> list = Lists.newArrayList();
+    for (EnumMaterialTier tier : EnumMaterialTier.values())
+      if (validForToolOfTier(tier))
+        list.add(tier);
+    return list;
   }
 
   public abstract int getDurability();
