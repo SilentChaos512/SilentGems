@@ -121,7 +121,7 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
   }
 
   @Override
-  protected boolean canSilkHarvest() {
+  public boolean canSilkHarvest(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
 
     return false;
   }

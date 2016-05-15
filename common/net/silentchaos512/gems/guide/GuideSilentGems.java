@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import amerifrance.guideapi.api.GuideAPI;
-import amerifrance.guideapi.api.GuideRegistry;
 import amerifrance.guideapi.api.IPage;
 import amerifrance.guideapi.api.impl.Book;
 import amerifrance.guideapi.api.impl.abstraction.CategoryAbstract;
@@ -353,7 +351,7 @@ public class GuideSilentGems {
     // Register model (default registration fails)
     if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
       Item itemGuideBook = GuideAPI.guideBook;
-      int meta = GuideRegistry.getIndexOf(book);
+      int meta = GuideAPI.BOOKS.getValues().indexOf(book);
       ModelResourceLocation model = new ModelResourceLocation("guideapi:ItemGuideBook",
           "inventory");
       ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();

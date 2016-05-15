@@ -133,13 +133,14 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
 
   public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
 
-    return super.canPlaceBlockAt(worldIn, pos) && worldIn.getBlockState(pos.down()).isFullyOpaque();
+    return super.canPlaceBlockAt(worldIn, pos)
+        && worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, EnumFacing.UP);
   }
 
   public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state,
       Block neighborBlock) {
 
-    if (!worldIn.getBlockState(pos.down()).isFullyOpaque()) {
+    if (!worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, EnumFacing.UP)) {
       this.dropBlockAsItem(worldIn, pos, state, 0);
       worldIn.setBlockToAir(pos);
     }
@@ -162,6 +163,7 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
   @Override
   public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state,
       int fortune) {
+
     List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
     TileChaosFlowerPot te = getTileEntity(world, pos);
     if (te != null && te.getFlowerPotItem() != null) {
