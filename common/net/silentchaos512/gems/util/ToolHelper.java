@@ -627,17 +627,21 @@ public class ToolHelper {
 
     // Create name
     LocalizationHelper loc = SilentGems.instance.localizationHelper;
+    Set<String> prefixSet = Sets.newLinkedHashSet();
     Set<String> materialSet = Sets.newLinkedHashSet();
-    String prefix = "";
     for (ItemStack stack : materials) {
-      String name = stack.getDisplayName();
-      if (name.startsWith("Supercharged")) {
-        prefix = "Supercharged ";
-        name = name.replaceFirst("Supercharged ", "");
+      part = ToolPartRegistry.fromStack(stack);
+      if (part != null) {
+        String prefix = part.getDisplayNamePrefix(stack);
+        if (prefix != null && !prefix.isEmpty())
+          prefixSet.add(prefix);
+        materialSet.add(part.getDisplayName(stack));
       }
-      materialSet.add(name);
     }
 
+    String prefix = String.join(" ", prefixSet);
+    if (!prefix.isEmpty())
+      prefix += " ";
     String delimiter = loc.getLocalizedString("tool.silentgems:delimiter");
     String materialName = String.join(delimiter, materialSet);
     String toolName = loc

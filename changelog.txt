@@ -4,6 +4,7 @@ Silent's Gems - Changelog
 Added: Tier tooltips for tool materials and rod. Rods display a list of compatible tiers, not the rod's actual tier.
 Changed: The "NONE" text for ungraded materials can be localized now, and is "None" for en_US.
 (API) Added: A way to set the color of individual parts (existing tools may render incorrectly until placed in a crafting grid)
+(API) Added: A way to set part display names and prefixes. These are used in tool name generation.
 
 2.0.10
 Mark as Beta.

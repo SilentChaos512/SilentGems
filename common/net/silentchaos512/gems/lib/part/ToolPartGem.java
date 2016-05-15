@@ -12,6 +12,7 @@ import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class ToolPartGem extends ToolPartMain {
@@ -37,6 +38,23 @@ public class ToolPartGem extends ToolPartMain {
   public int getColor() {
 
     return gem.ordinal() > 15 ? ToolRenderHelper.DARK_GEM_SHADE : 0xFFFFFF;
+  }
+
+  @Override
+  public String getDisplayName(ItemStack stack) {
+
+    if (stack.hasDisplayName())
+      return stack.getDisplayName();
+
+    return SilentGems.instance.localizationHelper.getLocalizedString("item",
+        Names.GEM + (stack.getItemDamage() & 0x1F) + ".name");
+  }
+
+  @Override
+  public String getDisplayNamePrefix(ItemStack stack) {
+
+    return tier == EnumMaterialTier.SUPER
+        ? SilentGems.instance.localizationHelper.getItemSubText(Names.GEM, "superPrefix") : "";
   }
 
   @Override

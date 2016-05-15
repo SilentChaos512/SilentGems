@@ -96,6 +96,31 @@ public abstract class ToolPart {
   }
 
   /**
+   * Returns a display name for the part and given ItemStack. For ToolPartMain, this is used in constructing the tool's
+   * name. Defaults to the stack's display name, which the player can set in an anvil.
+   * 
+   * @param stack
+   *          The ItemStack, typically the representative that is being used in crafting.
+   * @return
+   */
+  public String getDisplayName(ItemStack stack) {
+
+    return stack.getDisplayName();
+  }
+
+  /**
+   * Returns a prefix used in tool name generation (ie, "Supercharged")
+   * 
+   * @param stack
+   *          The ItemStack, typically the representative that is being used in crafting.
+   * @return
+   */
+  public String getDisplayNamePrefix(ItemStack stack) {
+
+    return "";
+  }
+
+  /**
    * Gets the amount of durability to repair when decorating with this part.
    * 
    * @param tool
