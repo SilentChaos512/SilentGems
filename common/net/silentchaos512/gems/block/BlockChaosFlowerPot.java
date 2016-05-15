@@ -38,6 +38,8 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
   public BlockChaosFlowerPot() {
 
     super(1, SilentGems.MOD_ID, Names.CHAOS_FLOWER_POT, Material.CIRCUITS);
+    setHardness(1.0f);
+    setResistance(30.0f);
     lightValue = 2;
   }
 
