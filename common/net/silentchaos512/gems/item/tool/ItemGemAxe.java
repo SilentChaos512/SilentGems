@@ -88,7 +88,7 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   @Override
   public float getBaseMeleeDamageModifier() {
 
-    return 4.0f;
+    return 5.0f;
   }
 
   @Override

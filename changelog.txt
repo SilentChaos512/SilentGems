@@ -1,9 +1,11 @@
 Silent's Gems - Changelog
 
 2.0.11
+Note: The tool system has had some tweaking done! Tools in your inventory when you log in will be updated automatically. Others can be fixed by placing them in a crafting grid.
 Added: Tier tooltips for tool materials and rod. Rods display a list of compatible tiers, not the rod's actual tier.
 Changed: The "NONE" text for ungraded materials can be localized now, and is "None" for en_US.
-(API) Added: A way to set the color of individual parts (existing tools may render incorrectly until placed in a crafting grid)
+Fixed: Melee (attack) damage of tools should be more consistent with vanilla 1.9 now.
+(API) Added: A way to set the color of individual parts.
 (API) Added: A way to set part display names and prefixes. These are used in tool name generation.
 
 2.0.10

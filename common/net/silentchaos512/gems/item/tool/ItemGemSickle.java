@@ -94,7 +94,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   @Override
   public float getBaseMeleeDamageModifier() {
 
-    return 2.0f;
+    return 1.0f;
   }
 
   @Override

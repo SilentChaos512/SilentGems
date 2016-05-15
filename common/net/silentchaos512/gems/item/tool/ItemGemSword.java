@@ -86,7 +86,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
   @Override
   public float getBaseMeleeDamageModifier() {
 
-    return 4.0f;
+    return 3.0f;
   }
 
   @Override

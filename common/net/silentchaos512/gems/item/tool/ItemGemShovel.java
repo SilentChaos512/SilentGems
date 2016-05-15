@@ -81,7 +81,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   @Override
   public float getBaseMeleeDamageModifier() {
 
-    return 1.0f;
+    return 1.5f;
   }
 
   @Override

@@ -41,7 +41,7 @@ public class ItemGemScepter extends ItemGemSword {
   @Override
   public float getBaseMeleeDamageModifier() {
 
-    return 0.0f;
+    return 1.0f;
   }
 
   @Override

@@ -13,7 +13,9 @@ public interface IPartProperties {
 
   public int getDurability();
 
-  public float getMiningSpeed();
+  public float getMiningSpeed(); // Harvest speed
+
+  public int getHarvestLevel();
 
   public float getMeleeDamage();
 

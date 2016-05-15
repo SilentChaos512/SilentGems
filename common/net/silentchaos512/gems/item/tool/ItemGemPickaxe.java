@@ -84,7 +84,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   @Override
   public float getBaseMeleeDamageModifier() {
 
-    return 1.5f;
+    return 1.0f;
   }
 
   @Override
