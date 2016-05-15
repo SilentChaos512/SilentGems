@@ -117,7 +117,9 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
         return flag;
       }
       int amount = extractEnergy(amountForEach, true);
-      if (ChaosUtil.canPlayerAcceptFullAmount(player, amount)) {
+      int amountPlayerCanAccept = ChaosUtil.getAmountPlayerCanAccept(player, amount);
+      if (amountPlayerCanAccept > 0) {
+        amount = Math.min(amount, amountPlayerCanAccept);
         extractEnergy(amount, false);
         ChaosUtil.spawnPacketToEntity(worldObj, pos, player, amount);
         flag = true;

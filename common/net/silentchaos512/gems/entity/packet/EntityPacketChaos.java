@@ -50,7 +50,7 @@ public class EntityPacketChaos extends EntityChaosNodePacket {
 
     // Try to give directly to player first.
     PlayerData data = PlayerDataHandler.get(player);
-    amountLeft -= data.sendChaos(amountLeft);
+    amountLeft -= data.sendChaos(amountLeft, true);
 
     if (amountLeft > 0) {
       List<ItemStack> list = PlayerHelper.getNonNullStacks(player);

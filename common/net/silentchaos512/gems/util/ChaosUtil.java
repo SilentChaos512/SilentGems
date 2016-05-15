@@ -76,6 +76,7 @@ public class ChaosUtil {
     PlayerDataHandler.get(player).drainChaos(amount);
   }
 
+  @Deprecated // Use getAmountPlayerCanAccept instead
   public static boolean canPlayerAcceptFullAmount(EntityPlayer player, int amount) {
 
     PlayerData data = PlayerDataHandler.get(player);
@@ -86,6 +87,21 @@ public class ChaosUtil {
       }
     }
     return amount <= 0;
+  }
+
+  public static int getAmountPlayerCanAccept(EntityPlayer player, int maxToSend) {
+
+    PlayerData data = PlayerDataHandler.get(player);
+    int amount = data.getMaxChaos() - data.getCurrentChaos();
+
+    for (ItemStack stack : PlayerHelper.getNonNullStacks(player,
+        s -> s.getItem() instanceof IChaosStorage)) {
+      amount += ((IChaosStorage) stack.getItem()).receiveCharge(stack, maxToSend - amount, true);
+      if (amount >= maxToSend)
+        return maxToSend;
+    }
+
+    return amount;
   }
 
   public static void spawnPacketToEntity(World world, BlockPos start, EntityLivingBase target,

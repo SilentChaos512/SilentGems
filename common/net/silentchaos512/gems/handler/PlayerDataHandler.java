@@ -201,7 +201,12 @@ public class PlayerDataHandler {
 
     public int sendChaos(int amount) {
 
-      if (rechargeCooldown > 0) {
+      return sendChaos(amount, false);
+    }
+
+    public int sendChaos(int amount, boolean ignoreCooldown) {
+
+      if (rechargeCooldown > 0 && !ignoreCooldown) {
         return 0;
       }
 

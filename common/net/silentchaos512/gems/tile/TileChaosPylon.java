@@ -19,6 +19,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosProvider;
+import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.util.ChaosUtil;
 
@@ -115,8 +116,10 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
         return;
       }
 
-      amount = Math.min(getCharge(), MAX_CHAOS_TRANSFERED);
-      if (ChaosUtil.canPlayerAcceptFullAmount(player, amount)) {
+      amount = Math.min(getCharge(), amountForEach);
+      int amountPlayerCanAccept = ChaosUtil.getAmountPlayerCanAccept(player, amount);
+      if (amountPlayerCanAccept > 0) {
+        amount = Math.min(amount, amountPlayerCanAccept);
         ChaosUtil.spawnPacketToEntity(worldObj, pos, player, amount);
         extractEnergy(amount, false);
       }
