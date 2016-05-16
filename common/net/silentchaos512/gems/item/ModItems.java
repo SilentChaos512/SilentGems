@@ -116,16 +116,10 @@ public class ModItems {
     toolRenderHelper.init();
 
     initExtraRecipes();
-    initLoot();
   }
 
   public static void initExtraRecipes() {
 
     GameRegistry.addShapelessRecipe(new ItemStack(Items.FLINT), Blocks.GRAVEL, Blocks.GRAVEL);
-  }
-
-  public static void initLoot() {
-
-    // TODO
   }
 }

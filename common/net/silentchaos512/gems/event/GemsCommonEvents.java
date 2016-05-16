@@ -1,11 +1,17 @@
 package net.silentchaos512.gems.event;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraft.world.storage.loot.LootEntryItem;
+import net.minecraft.world.storage.loot.LootPool;
+import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraft.world.storage.loot.conditions.LootCondition;
+import net.minecraft.world.storage.loot.functions.LootFunction;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -15,10 +21,10 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Greetings;
+import net.silentchaos512.gems.loot.LootHandler;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.util.ToolHelper;
-import net.silentchaos512.lib.util.PlayerHelper;
 
 public class GemsCommonEvents {
 
@@ -75,13 +81,19 @@ public class GemsCommonEvents {
   }
 
   @SubscribeEvent
+  public void onLootLoad(LootTableLoadEvent event) {
+
+    LootHandler.init(event);
+  }
+
+  @SubscribeEvent
   public void onLivingHurt(LivingHurtEvent event) {
 
   }
 
-//  @SubscribeEvent
-//  public void onExplosionDetonate(ExplosionEvent.Detonate event) {
-//
+  // @SubscribeEvent
+  // public void onExplosionDetonate(ExplosionEvent.Detonate event) {
+  //
 //    // @formatter:off
 //    if (event.getAffectedBlocks().removeIf(pos ->
 //        event.getWorld().getBlockState(pos) == ModBlocks.gemBlockSuper
@@ -89,5 +101,5 @@ public class GemsCommonEvents {
 //      SilentGems.instance.logHelper.derp();
 //    }
 //    // @formatter:on
-//  }
+  // }
 }

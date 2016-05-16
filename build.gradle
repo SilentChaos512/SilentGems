@@ -16,7 +16,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //    id "net.minecraftforge.gradle.forge" version "2.0.2"
 //}
 
-version = "2.0.10"
+version = "2.0.11"
 group = "net.silentchaos512.gems"
 archivesBaseName = "SilentsGems-1.9"
 
@@ -24,7 +24,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
-    version = "1.9-12.16.0.1865-1.9"
+    version = "1.9-12.16.1.1904"
     runDir = "eclipse"
 
     replace "@VERSION@", project.version
