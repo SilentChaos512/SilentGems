@@ -139,12 +139,13 @@ public class TileMaterialGrader extends TileBasicInventory
   }
 
   @Override
-  public void writeToNBT(NBTTagCompound compound) {
+  public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 
     super.writeToNBT(compound);
 
     compound.setInteger("Energy", chaosStored);
     compound.setInteger("Progress", progress);
+    return compound;
   }
 
   @Override

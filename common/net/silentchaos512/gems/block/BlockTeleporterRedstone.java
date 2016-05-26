@@ -1,13 +1,12 @@
 package net.silentchaos512.gems.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -18,7 +17,6 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileTeleporter;
 import net.silentchaos512.lib.util.DimensionalPosition;
-import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class BlockTeleporterRedstone extends BlockTeleporter {
 
@@ -52,8 +50,13 @@ public class BlockTeleporterRedstone extends BlockTeleporter {
   }
 
   @Override
-  public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state,
-      Block neighborBlock) {
+  public void onNeighborChange(IBlockAccess worldIn, BlockPos pos, BlockPos neighborPos) {
+
+    if (!(worldIn instanceof World)) {
+      return;
+    }
+
+    World world = (World) worldIn;
 
     final double searchRange = Config.TELEPORTER_REDSTONE_SEARCH_RADIUS
         * Config.TELEPORTER_REDSTONE_SEARCH_RADIUS;

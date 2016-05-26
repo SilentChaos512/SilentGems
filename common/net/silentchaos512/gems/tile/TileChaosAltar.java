@@ -87,7 +87,7 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
   }
 
   @Override
-  public void writeToNBT(NBTTagCompound tags) {
+  public NBTTagCompound writeToNBT(NBTTagCompound tags) {
 
     super.writeToNBT(tags);
     tags.setInteger("Energy", chaosStored);
@@ -102,10 +102,11 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
       }
     }
     tags.setTag("Items", tagList);
+    return tags;
   }
 
   @Override
-  public Packet getDescriptionPacket() {
+  public SPacketUpdateTileEntity getUpdatePacket() {
 
     NBTTagCompound tags = new NBTTagCompound();
     tags.setInteger("Energy", getCharge());

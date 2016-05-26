@@ -2,7 +2,7 @@ package net.silentchaos512.gems.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -27,9 +27,9 @@ public class ContainerMaterialGrader extends ContainerSL {
   }
 
   @Override
-  public void onCraftGuiOpened(ICrafting listener) {
+  public void addListener(IContainerListener listener) {
 
-    super.onCraftGuiOpened(listener);
+    super.addListener(listener);
     listener.updateCraftingInventory(this, getInventory());
   }
 
@@ -38,7 +38,7 @@ public class ContainerMaterialGrader extends ContainerSL {
 
     super.detectAndSendChanges();
 
-    for (ICrafting crafter : listeners) {
+    for (IContainerListener crafter : listeners) {
       if (chaosStored != tileInventory.getField(0)) {
         crafter.sendProgressBarUpdate(this, 0, tileInventory.getField(0));
       }

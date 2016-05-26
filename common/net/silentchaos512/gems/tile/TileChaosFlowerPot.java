@@ -12,6 +12,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumSkyBlock;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.config.Config;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.lib.util.Color;
 
@@ -28,6 +29,10 @@ public class TileChaosFlowerPot extends TileEntityFlowerPot implements ITickable
     final int delay = ticksExisted < 600 ? 10 : TRY_LIGHT_DELAY;
     if (++ticksExisted % delay == 0) {
       boolean result = tryPlacePhantomLight();
+    }
+    if (!worldObj.isRemote && Config.DEBUG_LOG_POTS_AND_LIGHTS
+        && ticksExisted % Config.DEBUG_LOT_POTS_AND_LIGHTS_DELAY == 0) {
+      // SilentGems.instance.logHelper.info("DEBUG: Chaos Flower Pot @ " + pos);
     }
   }
 
@@ -86,7 +91,7 @@ public class TileChaosFlowerPot extends TileEntityFlowerPot implements ITickable
     for (int ty = y + 1; ty > y - 2; --ty) {
       for (int tx = x - 1; tx < x + 2; ++tx) {
         for (int tz = z - 1; tz < z + 2; ++tz) {
-          tryPos.set(tx, ty, tz);
+          tryPos.setPos(tx, ty, tz);
           if (canPlacePhantomLightAt(tryPos)) {
             placePhantomLightAt(tryPos);
             return true;

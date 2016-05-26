@@ -202,8 +202,8 @@ public class ItemEnchantmentToken extends ItemSL {
 
     if (enchMap.size() == 1) {
       Enchantment ench = enchMap.keySet().iterator().next();
-      String line = SilentGems.instance.localizationHelper.getItemSubText(itemName, "maxLevel");
-      list.add(String.format(line, ench.getMaxLevel()));
+      list.add(SilentGems.instance.localizationHelper.getItemSubText(itemName, "maxLevel",
+          ench.getMaxLevel()));
     }
   }
 

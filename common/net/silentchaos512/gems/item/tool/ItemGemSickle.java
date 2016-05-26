@@ -272,7 +272,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
         block.onBlockDestroyedByPlayer(world, pos, state);
       }
       if (!world.isRemote) {
-        playerMP.playerNetServerHandler.sendPacket(new SPacketBlockChange(world, pos));
+        playerMP.connection.sendPacket(new SPacketBlockChange(world, pos));
       }
       return true;
     }
@@ -286,18 +286,15 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
         block.dropXpOnBlockBreak(world, pos, xpDropped);
       }
 
-      playerMP.playerNetServerHandler.sendPacket(new SPacketBlockChange(world, pos));
+      playerMP.connection.sendPacket(new SPacketBlockChange(world, pos));
     } else {
-      world.playAuxSFX(2001, pos, Block.getIdFromBlock(block) /* + (meta << 12) */); // TODO: Why the meta thing?
+      int meta = block.getMetaFromState(state);
+      world.playEvent(2001, pos, Block.getIdFromBlock(block)  + (meta << 12) );
       if (block.removedByPlayer(state, world, pos, playerMP, true)) {
         block.onBlockDestroyedByPlayer(world, pos, state);
       }
 
       sickle.onBlockDestroyed(world, state, pos, playerMP);
-      if (sickle.stackSize == 0) {
-        // FIXME ?
-        // player.destroyCurrentEquippedItem();
-      }
     }
 
     return true;

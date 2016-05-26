@@ -1,13 +1,11 @@
 package net.silentchaos512.gems.client.render.particle;
 
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
-public class EntityFXChaos extends EntityFX {
+public class EntityFXChaos extends Particle {
 
   public static final int MAX_AGE = 6;
   public static final int MAX_SCALE = 3;
@@ -27,9 +25,9 @@ public class EntityFXChaos extends EntityFX {
       double motionY, double motionZ, float scale, int maxAge, float red, float green, float blue) {
 
     super(world, posX, posY, posZ, 0, 0, 0);
-    this.xSpeed = motionX;
-    this.ySpeed = motionY;
-    this.zSpeed = motionZ;
+    this.motionX = motionX;
+    this.motionY = motionY;
+    this.motionZ = motionZ;
     this.particleTextureIndexX = 4;
     this.particleTextureIndexY = 11;
     this.particleRed = red;
@@ -56,7 +54,7 @@ public class EntityFXChaos extends EntityFX {
     this.prevPosY = this.posY;
     this.prevPosZ = this.posZ;
 
-    this.moveEntity(this.xSpeed, this.ySpeed, this.zSpeed);
+    this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
     this.particleScale *= 0.95f;
     this.particleAlpha -= 0.8f / (particleMaxAge * 1.25f);

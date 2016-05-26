@@ -88,31 +88,31 @@ public class GemsClientEvents {
 
     // Material grade
     EnumMaterialGrade grade = EnumMaterialGrade.fromStack(stack);
-    String line = loc.getMiscText("ToolPart.Grade");
-    event.getToolTip().add(index++, String.format(line, grade.getLocalizedName()));
+    String line = loc.getMiscText("ToolPart.Grade", grade.getLocalizedName());
+    event.getToolTip().add(index++, line);
 
     // Material tier
     EnumMaterialTier tier = part.getTier();
-    line = loc.getMiscText("ToolPart.Tier");
-    event.getToolTip().add(index++, String.format(line, tier.getLocalizedName()));
+    line = loc.getMiscText("ToolPart.Tier", tier.getLocalizedName());
+    event.getToolTip().add(index++, line);
 
     // Show stats?
     if (modifierKey) {
       int multi = 100 + EnumMaterialGrade.fromStack(stack).bonusPercent;
-      line = loc.getMiscText("Tooltip.Durability");
-      event.getToolTip().add(index++, String.format(line, part.getDurability() * multi / 100));
-      line = loc.getMiscText("Tooltip.HarvestSpeed");
-      event.getToolTip().add(index++, String.format(line, part.getHarvestSpeed() * multi / 100));
-      line = loc.getMiscText("Tooltip.HarvestLevel");
-      event.getToolTip().add(index++, String.format(line, part.getHarvestLevel() * multi / 100));
-      line = loc.getMiscText("Tooltip.MeleeDamage");
-      event.getToolTip().add(index++, String.format(line, part.getMeleeDamage() * multi / 100));
-      line = loc.getMiscText("Tooltip.MagicDamage");
-      event.getToolTip().add(index++, String.format(line, part.getMagicDamage() * multi / 100));
-      line = loc.getMiscText("Tooltip.ChargeSpeed");
-      event.getToolTip().add(index++, String.format(line, part.getChargeSpeed() * multi / 100));
-      line = loc.getMiscText("Tooltip.Enchantability");
-      event.getToolTip().add(index++, String.format(line, part.getEnchantability() * multi / 100));
+      line = loc.getMiscText("Tooltip.Durability", part.getDurability() * multi / 100);
+      event.getToolTip().add(index++, line);
+      line = loc.getMiscText("Tooltip.HarvestSpeed", part.getHarvestSpeed() * multi / 100);
+      event.getToolTip().add(index++, line);
+      line = loc.getMiscText("Tooltip.HarvestLevel", part.getHarvestLevel() * multi / 100);
+      event.getToolTip().add(index++, line);
+      line = loc.getMiscText("Tooltip.MeleeDamage", part.getMeleeDamage() * multi / 100);
+      event.getToolTip().add(index++, line);
+      line = loc.getMiscText("Tooltip.MagicDamage", part.getMagicDamage() * multi / 100);
+      event.getToolTip().add(index++, line);
+      line = loc.getMiscText("Tooltip.ChargeSpeed", part.getChargeSpeed() * multi / 100);
+      event.getToolTip().add(index++, line);
+      line = loc.getMiscText("Tooltip.Enchantability", part.getEnchantability() * multi / 100);
+      event.getToolTip().add(index++, line);
     } else {
       event.getToolTip().add(index++, TextFormatting.GOLD + loc.getMiscText("PressCtrl"));
     }
@@ -156,4 +156,11 @@ public class GemsClientEvents {
     pre.getMap().registerSprite(new ResourceLocation("silentgems", "blocks/ChaosPylonBurner"));
     pre.getMap().registerSprite(new ResourceLocation("silentgems", "blocks/ChaosAltar"));
   }
+
+//  @SubscribeEvent
+//  public void onWitBlockInfo(WitBlockInfoEvent event) {
+//
+//    event.lines.add("Testing from Gems");
+//    event.lines.add(event.tileEntity == null ? "null" : event.tileEntity.toString());
+//  }
 }

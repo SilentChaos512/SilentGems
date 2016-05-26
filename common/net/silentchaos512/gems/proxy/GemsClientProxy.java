@@ -3,12 +3,8 @@ package net.silentchaos512.gems.proxy;
 import org.apache.commons.lang3.NotImplementedException;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -27,7 +23,6 @@ import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.ColorHandlers;
 import net.silentchaos512.gems.lib.EnumModParticles;
-import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.Color;
 
@@ -85,7 +80,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
   public void spawnParticles(EnumModParticles type, Color color, World world, double x, double y,
       double z, double motionX, double motionY, double motionZ) {
 
-    EntityFX fx = null;
+    Particle fx = null;
 
     float r = color.getRed();
     float g = color.getGreen();

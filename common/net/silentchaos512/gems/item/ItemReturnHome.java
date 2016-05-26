@@ -63,8 +63,7 @@ public class ItemReturnHome extends ItemChaosStorage {
     DimensionalPosition pos = getBoundPosition(stack);
     if (pos != null) {
       if (modifier) {
-        String str = loc.getItemSubText(itemName, TEXT_BOUND_TO);
-        list.add(String.format(str, pos));
+        list.add(loc.getItemSubText(itemName, TEXT_BOUND_TO, pos));
       } else {
         list.add(loc.getMiscText("PressCtrl"));
       }
@@ -205,7 +204,7 @@ public class ItemReturnHome extends ItemChaosStorage {
       int height = (int) Math.ceil(player.eyeHeight);
       BlockPos target = pos.toBlockPos().up(height);
 
-      SilentGems.instance.logHelper.debug(pos, worldServer.getBlockState(target));
+      //SilentGems.instance.logHelper.debug(pos, worldServer.getBlockState(target));
       if (worldServer.isBlockNormalCube(target, true)) {
         PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_SAFE));
         return;

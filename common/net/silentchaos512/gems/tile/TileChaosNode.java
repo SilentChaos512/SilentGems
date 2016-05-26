@@ -212,7 +212,7 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
   }
 
   @Override
-  public Packet getDescriptionPacket() {
+  public SPacketUpdateTileEntity getUpdatePacket() {
 
     NBTTagCompound tags = new NBTTagCompound();
     tags.setInteger("Energy", getCharge());

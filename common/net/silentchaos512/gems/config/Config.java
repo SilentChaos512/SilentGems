@@ -16,6 +16,13 @@ import net.silentchaos512.gems.util.WeightedRandomItemSG;
 public class Config {
 
   /*
+   * Debug
+   */
+
+  public static boolean DEBUG_LOG_POTS_AND_LIGHTS = false;
+  public static int DEBUG_LOT_POTS_AND_LIGHTS_DELAY = 1200;
+
+  /*
    * Blocks
    */
 
@@ -84,6 +91,7 @@ public class Config {
 
   static final String split = Configuration.CATEGORY_SPLITTER;
   public static final String CAT_MAIN = "Main";
+  public static final String CAT_DEBUG = CAT_MAIN + split + "Debug";
   public static final String CAT_BLOCK = CAT_MAIN + split + "Blocks";
   public static final String CAT_CONTROLS = CAT_MAIN + split + "Controls";
   public static final String CAT_ITEM = CAT_MAIN + split + "Items";
@@ -106,6 +114,22 @@ public class Config {
 
     try {
       //@formatter:off
+
+      /*
+       * Debug
+       */
+
+      c.setCategoryComment(CAT_DEBUG, "Options for debugging. Generally, you should leave these "
+          + "alone unless I tell you to change them. Enabling debug options will likely result in "
+          + "log spam, but may help me track down issues.");
+
+      DEBUG_LOG_POTS_AND_LIGHTS = c.getBoolean("Log Pots and Lights", CAT_DEBUG,
+          DEBUG_LOG_POTS_AND_LIGHTS,
+          "Logs the existence of Chaos Flower Pots and Phantom Lights. Their tile entities, to " 
+              + "be more precise. Also lists the position of each one.");
+      DEBUG_LOT_POTS_AND_LIGHTS_DELAY = c.getInt("Log Pots and Lights - Delay", CAT_DEBUG,
+          DEBUG_LOT_POTS_AND_LIGHTS_DELAY, 600, 72000,
+          "Pot and Light logging will occur every this many ticks. 1200 ticks = 1 minute.");
 
       /*
        * Blocks

@@ -62,7 +62,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
   }
 
   @Override
-  public void writeToNBT(NBTTagCompound tags) {
+  public NBTTagCompound writeToNBT(NBTTagCompound tags) {
 
     super.writeToNBT(tags);
 
@@ -71,10 +71,11 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
     }
     tags.setInteger("Energy", chaosStored);
     tags.setBoolean("IsAnchor", isAnchor);
+    return tags;
   }
 
   @Override
-  public Packet getDescriptionPacket() {
+  public SPacketUpdateTileEntity getUpdatePacket() {
 
     NBTTagCompound tags = new NBTTagCompound();
     if (destination != null && !destination.equals(DimensionalPosition.ZERO)) {

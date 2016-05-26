@@ -40,8 +40,7 @@ public class ItemTipUpgrade extends ItemSL {
 
       list.add(loc.getItemSubText(itemName, "willReplace"));
 
-      line = loc.getItemSubText(itemName, "harvestLevel");
-      list.add(String.format(line, part.getHarvestLevel()));
+      list.add(loc.getItemSubText(itemName, "harvestLevel", part.getHarvestLevel()));
 
       tooltipLine(loc, list, "durability", part.getDurability());
       tooltipLine(loc, list, "harvestSpeed", part.getHarvestSpeed());
@@ -57,9 +56,9 @@ public class ItemTipUpgrade extends ItemSL {
       return;
     }
 
-    String line = loc.getItemSubText(itemName, key);
     String numberString = (value.floatValue() < 0 ? "-" : "+")
         + String.format(value instanceof Integer ? "%d" : "%.1f", value);
+    String line = loc.getItemSubText(itemName, key, numberString);
     list.add(String.format(line, numberString));
   }
 

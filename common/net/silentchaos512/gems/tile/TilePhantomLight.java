@@ -9,6 +9,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.config.Config;
 
 public class TilePhantomLight extends TileEntity implements ITickable {
 
@@ -21,14 +22,18 @@ public class TilePhantomLight extends TileEntity implements ITickable {
   @Override
   public void update() {
 
-    if (++ticksExisted % SPAWNER_CHECK_FREQUENCY == 0 && !worldObj.isRemote) {
+    if (!worldObj.isRemote && ++ticksExisted % SPAWNER_CHECK_FREQUENCY == 0) {
       if (!checkSpawnerStillExists()) {
-        String line = "Phantom light at %s removed. Spawner at %s.";
+        String line = "REMOVED: Phantom light at %s. Spawner at %s.";
         line = String.format(line, this.pos, spawnerPos);
         SilentGems.instance.logHelper.info(line);
 
         worldObj.setBlockToAir(this.pos);
       }
+    }
+    if (!worldObj.isRemote && Config.DEBUG_LOG_POTS_AND_LIGHTS
+        && ticksExisted % Config.DEBUG_LOT_POTS_AND_LIGHTS_DELAY == 0) {
+      SilentGems.instance.logHelper.info("DEBUG: Phantom Light @ " + pos);
     }
   }
 
@@ -67,12 +72,13 @@ public class TilePhantomLight extends TileEntity implements ITickable {
   }
 
   @Override
-  public void writeToNBT(NBTTagCompound compound) {
+  public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 
     super.writeToNBT(compound);
     compound.setInteger("spawnerX", spawnerPos != null ? spawnerPos.getX() : 0);
     compound.setInteger("spawnerY", spawnerPos != null ? spawnerPos.getY() : 0);
     compound.setInteger("spawnerZ", spawnerPos != null ? spawnerPos.getZ() : 0);
     compound.setBoolean("placedByPlayer", playerPlaced);
+    return compound;
   }
 }

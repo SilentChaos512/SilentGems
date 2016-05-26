@@ -7,7 +7,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -16,21 +16,21 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //    id "net.minecraftforge.gradle.forge" version "2.0.2"
 //}
 
-version = "2.0.11"
+version = "2.0.12"
 group = "net.silentchaos512.gems"
-archivesBaseName = "SilentsGems-1.9"
+archivesBaseName = "SilentsGems-1.9.4"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
-    version = "1.9-12.16.1.1904"
+    version = "1.9.4-12.17.0.1909-1.9.4"
     runDir = "eclipse"
 
     replace "@VERSION@", project.version
     replaceIn "SilentGems.java"
 
-    mappings = "snapshot_20160419"
+    mappings = "snapshot_20160518"
     useDepAts = true
 }
 
@@ -61,10 +61,8 @@ artifacts {
 }
 
 dependencies {
-    deobfCompile "mezz.jei:jei_1.9:3.3.1.195"
+    deobfCompile "mezz.jei:jei_1.9.4:3.4.0.204"
     deobfCompile "info.amerifrance.guideapi:Guide-API:1.9-2.0.0-31"
-    //compile "igwmod:IGW-Mod-1.8.9:1.2.4-4:userdev"
-    //compile "codechicken:NotEnoughItems:1.8-1.0.5.82:dev"
 }
 
 sourceSets {

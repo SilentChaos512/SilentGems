@@ -5,7 +5,6 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +12,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
@@ -80,8 +80,14 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
   }
 
   @Override
-  public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state,
-      Block neighborBlock) {
+  public void onNeighborChange(IBlockAccess worldIn, BlockPos pos, BlockPos neighborPos) {
+
+    if (!(worldIn instanceof World)) {
+      return;
+    }
+
+    World world = (World) worldIn;
+    IBlockState state = world.getBlockState(pos);
 
     if (!world.isRemote) {
       boolean powered = world.isBlockPowered(pos);

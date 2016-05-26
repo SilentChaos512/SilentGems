@@ -29,6 +29,7 @@ import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 public class ItemChaosOrb extends ItemChaosStorage {
@@ -67,16 +68,13 @@ public class ItemChaosOrb extends ItemChaosStorage {
     final boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
         || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 
-    String line = SilentGems.instance.localizationHelper.getMiscText("ChaosCharge");
-    line = String.format(line, getCharge(stack), getMaxCharge(stack));
-    list.add(line);
+    LocalizationHelper loc = SilentGems.instance.localizationHelper;
 
-    line = SilentGems.instance.localizationHelper.getItemSubText(itemName, "breakChance");
-    line = String.format(line, (int) (getType(stack).breakChance * 100));
-    list.add(line);
+    list.add(loc.getMiscText("ChaosCharge", getCharge(stack), getMaxCharge(stack)));
+    list.add(loc.getItemSubText(itemName, "breakChance", (int) (getType(stack).breakChance * 100)));
 
     if (shifted) {
-      for (String str : SilentGems.instance.localizationHelper.getItemDescriptionLines(itemName)) {
+      for (String str : loc.getItemDescriptionLines(itemName)) {
         list.add(TextFormatting.ITALIC + str);
       }
     }

@@ -180,7 +180,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
   }
 
   @Override
-  public Packet getDescriptionPacket() {
+  public SPacketUpdateTileEntity getUpdatePacket() {
 
     NBTTagCompound tags = new NBTTagCompound();
     tags.setInteger("Energy", chaosStored);
@@ -226,7 +226,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
   }
 
   @Override
-  public void writeToNBT(NBTTagCompound tags) {
+  public NBTTagCompound writeToNBT(NBTTagCompound tags) {
 
     super.writeToNBT(tags);
     tags.setInteger("Energy", chaosStored);
@@ -245,6 +245,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
 
     // save pylon type
     tags.setInteger("MyPylonType", pylonType.getMeta());
+    return tags;
   }
 
   @Override

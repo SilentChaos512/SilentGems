@@ -14,7 +14,13 @@ public class TeleportUtil {
   public static boolean teleportPlayerTo(EntityPlayerMP player, DimensionalPosition pos) {
 
     int oldDimension = player.dimension;
-    SilentGems.instance.logHelper.debug(oldDimension, pos.dim);
+
+    // Debug line TODO: Remove later.
+    String debugLine = "Teleporting %s from {%s} to {%s}.";
+    debugLine = String.format(debugLine, player.getName(),
+        new DimensionalPosition(player.getPosition(), player.dimension), pos);
+    SilentGems.instance.logHelper.info(debugLine);
+
     if (pos.dim != oldDimension) {
       WorldServer oldWorldServer = player.getServer().worldServerForDimension(oldDimension);
       WorldServer newWorldServer = player.getServer().worldServerForDimension(pos.dim);
@@ -27,7 +33,8 @@ public class TeleportUtil {
       }
 
       // Teleport player to dimension, using a custom teleporter to prevent Nether portal spawns
-      player.getServer().getPlayerList().transferPlayerToDimension(player, pos.dim, new Teleporter(newWorldServer));
+      player.getServer().getPlayerList().transferPlayerToDimension(player, pos.dim,
+          new Teleporter(newWorldServer));
 
       if (oldDimension == 1) {
         // Fixes world not loading when teleporting from the End.

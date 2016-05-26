@@ -175,7 +175,7 @@ public class TileBasicInventory extends TileEntity implements IInventory {
   }
 
   @Override
-  public void writeToNBT(NBTTagCompound compound) {
+  public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 
     super.writeToNBT(compound);
 
@@ -191,5 +191,6 @@ public class TileBasicInventory extends TileEntity implements IInventory {
     }
 
     compound.setTag("Items", tagList);
+    return compound;
   }
 }

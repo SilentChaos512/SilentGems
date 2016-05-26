@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.0.12
+Ported to 1.9.4.
+
 2.0.11
 Note: The tool system has had some tweaking done! Tools in your inventory when you log in will be updated automatically. Others can be fixed by placing them in a crafting grid.
 Added: Tier tooltips for tool materials and rod. Rods display a list of compatible tiers, not the rod's actual tier.

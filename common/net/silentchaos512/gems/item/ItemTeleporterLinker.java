@@ -118,8 +118,7 @@ public class ItemTeleporterLinker extends ItemSL {
         double z = pos.z - player.posZ;
         int distance = (int) Math.sqrt(x * x + z * z);
         LocalizationHelper loc = SilentGems.instance.localizationHelper;
-        str = loc.getItemSubText(itemName, "Distance");
-        str = String.format(str, distance);
+        str = loc.getItemSubText(itemName, "Distance", distance);
 
         int textX = width / 2 - fontRender.getStringWidth(str) / 2;
         int textY = height * 3 / 5;

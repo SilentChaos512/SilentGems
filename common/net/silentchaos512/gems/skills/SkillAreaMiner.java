@@ -163,7 +163,7 @@ public class SkillAreaMiner extends ToolSkill {
 
     IBlockState refState = world.getBlockState(refPos);
     // float refStrength = ForgeHooks.blockStrength(state, player, world, refPos); // Throws an exception in some cases.
-    float refStrength = player.getBreakSpeed(refState, refPos)
+    float refStrength = player.getDigSpeed(refState, refPos)
         / refState.getBlockHardness(world, refPos) / 30f;
     float strength = ForgeHooks.blockStrength(state, player, world, pos); // But this one doesn't?
 
@@ -186,7 +186,7 @@ public class SkillAreaMiner extends ToolSkill {
       }
 
       if (!world.isRemote) {
-        player.playerNetServerHandler.sendPacket(new SPacketBlockChange(world, pos));
+        player.connection.sendPacket(new SPacketBlockChange(world, pos));
       }
       return true;
     }
@@ -203,9 +203,10 @@ public class SkillAreaMiner extends ToolSkill {
         block.dropXpOnBlockBreak(world, pos, xpDropped);
       }
 
-      player.playerNetServerHandler.sendPacket(new SPacketBlockChange(world, pos));
+      player.connection.sendPacket(new SPacketBlockChange(world, pos));
     } else {
-      world.playAuxSFX(2001, pos, Block.getIdFromBlock(block));
+      int meta = block.getMetaFromState(state);
+      world.playEvent(2001, pos, Block.getIdFromBlock(block) + (meta << 12));
       if (block.removedByPlayer(state, world, pos, player, true)) {
         block.onBlockDestroyedByPlayer(world, pos, state);
       }

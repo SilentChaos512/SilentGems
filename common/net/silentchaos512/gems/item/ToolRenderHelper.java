@@ -81,9 +81,9 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     // Tipped upgrade
     ToolPartTip partTip = (ToolPartTip) ToolHelper.getConstructionTip(tool);
     if (partTip != null) {
-      line = partTip.getUnlocalizedName().replaceFirst("[^:]+:", "");
-      line = loc.getMiscText("Tooltip." + line);
-      line = String.format(loc.getMiscText("Tooltip.Tipped"), line);
+      String tipName = partTip.getUnlocalizedName().replaceFirst("[^:]+:", "");
+      tipName = loc.getMiscText("Tooltip." + tipName);
+      line = loc.getMiscText("Tooltip.Tipped", tipName);
       list.add(line);
     }
 
@@ -180,7 +180,6 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
   private String getTooltipLine(String key, int value) {
 
-    String line = SilentGems.instance.localizationHelper.getMiscText("Tooltip." + key);
     String number;
     if (value > 9999)
       number = "%,d";
@@ -188,17 +187,16 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       number = "%d";
 
     number = String.format(number, value);
-    line = String.format(line, number);
+    String line = SilentGems.instance.localizationHelper.getMiscText("Tooltip." + key, number);
     return "  " + line;
   }
 
   private String getTooltipLine(String key, float value) {
 
-    String line = SilentGems.instance.localizationHelper.getMiscText("Tooltip." + key);
     String number = "%.2f";
 
     number = String.format(number, value);
-    line = String.format(line, number);
+    String line = SilentGems.instance.localizationHelper.getMiscText("Tooltip." + key, number);
     return "  " + line;
   }
 

@@ -288,7 +288,7 @@ public class ToolHelper {
 
     if (extraMaterials != null) {
       for (Material material : extraMaterials) {
-        if (state.getBlock().getMaterial(state) == material) {
+        if (state.getMaterial() == material) {
           return speed;
         }
       }
@@ -464,8 +464,7 @@ public class ToolHelper {
             ItemBlock itemBlock = (ItemBlock) item;
             Block block = itemBlock.getBlock();
             IBlockState state = block.getStateFromMeta(itemBlock.getMetadata(nextStack));
-            if (block.getMaterial(state).blocksMovement()
-                && playerBounds.intersectsWith(blockBounds)) {
+            if (state.getMaterial().blocksMovement() && playerBounds.intersectsWith(blockBounds)) {
               return EnumActionResult.FAIL;
             }
           }
@@ -644,9 +643,8 @@ public class ToolHelper {
       prefix += " ";
     String delimiter = loc.getLocalizedString("tool.silentgems:delimiter");
     String materialName = String.join(delimiter, materialSet);
-    String toolName = loc
-        .getLocalizedString("tool.silentgems:" + ((IRegistryObject) item).getName());
-    String name = String.format(toolName, materialName);
+    String toolName = ((IRegistryObject) item).getName();
+    String name = loc.getLocalizedString("tool", toolName, materialName);
     result.setStackDisplayName(prefix + name);
 
     recalculateStats(result);
