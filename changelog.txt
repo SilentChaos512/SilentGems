@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+2.0.13
+Added: Config to disable recipes for Frost Walker and Mending enchantment tokens (treasure enchantments).
+Fixed: Material grades not being applied to all tools (notably single-material pickaxes).
+
 2.0.12
 Ported to 1.9.4.
 

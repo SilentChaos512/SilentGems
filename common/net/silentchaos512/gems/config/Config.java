@@ -62,6 +62,8 @@ public class Config {
   public static boolean RECIPE_TELEPORTER_DISABLE = false;
   public static boolean RECIPE_TELEPORTER_ANCHOR_DISABLE = false;
   public static boolean RECIPE_TELEPORTER_REDSTONE_DISABLE = false;
+  public static boolean RECIPE_TOKEN_FROST_WALKER_DISABLE = false;
+  public static boolean RECIPE_TOKEN_MENDING_DISABLE = false;
 
   /*
    * Misc
@@ -94,6 +96,7 @@ public class Config {
   public static final String CAT_DEBUG = CAT_MAIN + split + "Debug";
   public static final String CAT_BLOCK = CAT_MAIN + split + "Blocks";
   public static final String CAT_CONTROLS = CAT_MAIN + split + "Controls";
+  public static final String CAT_ENCHANTMENT = CAT_MAIN + split + "Enchantment";
   public static final String CAT_ITEM = CAT_MAIN + split + "Items";
   public static final String CAT_RECIPE = CAT_MAIN + split + "Recipes";
   public static final String CAT_TOOLTIPS = CAT_MAIN + split + "Tooltips";
@@ -202,6 +205,13 @@ public class Config {
       RECIPE_TELEPORTER_REDSTONE_DISABLE = c.getBoolean("Disable Redstone Teleporter Recipes", CAT_RECIPE,
           RECIPE_TELEPORTER_REDSTONE_DISABLE,
           "Disable recipes for redstone gem teleporters.");
+
+      RECIPE_TOKEN_FROST_WALKER_DISABLE = c.getBoolean("Disable Frost Walker Token Recipe", CAT_RECIPE,
+          RECIPE_TOKEN_FROST_WALKER_DISABLE,
+          "Disables recipes for Frost Walker enchantment tokens.");
+      RECIPE_TOKEN_MENDING_DISABLE = c.getBoolean("Disable Mending Token Recipe", CAT_RECIPE,
+          RECIPE_TOKEN_MENDING_DISABLE,
+          "Disables recipes for Mending enchantment tokens.");
 
       /*
        * Misc

@@ -29,6 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.config.Config;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
@@ -282,6 +283,11 @@ public class ItemEnchantmentToken extends ItemSL {
   }
 
   public void addTokenRecipe(Enchantment ench, EnumGem gem, Object other, int otherCount) {
+
+    if ((ench == Enchantments.FROST_WALKER && Config.RECIPE_TOKEN_FROST_WALKER_DISABLE)
+        || (ench == Enchantments.MENDING && Config.RECIPE_TOKEN_MENDING_DISABLE)) {
+      return;
+    }
 
     String line1 = "g g";
     String line2 = otherCount > 3 ? "oto" : " t ";
