@@ -203,4 +203,10 @@ public class RecipeMultiGemTool extends RecipeBase {
     }
     return list.toArray(new ItemStack[list.size()]);
   }
+
+  @Override
+  public int getRecipeSize() {
+
+    return 10;
+  }
 }
