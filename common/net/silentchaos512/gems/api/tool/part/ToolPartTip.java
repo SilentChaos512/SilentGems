@@ -56,7 +56,6 @@ public class ToolPartTip extends ToolPart {
   @Override
   public int getEnchantability() {
 
-    // TODO Auto-generated method stub
     return 0;
   }
 
@@ -69,7 +68,12 @@ public class ToolPartTip extends ToolPart {
   @Override
   public float getChargeSpeed() {
 
-    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public final int getProtection() {
+
     return 0;
   }
 

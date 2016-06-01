@@ -91,6 +91,12 @@ public class ToolPartFlint extends ToolPartMain {
   }
 
   @Override
+  public int getProtection() {
+
+    return 3;
+  }
+
+  @Override
   public EnumMaterialTier getTier() {
 
     return EnumMaterialTier.MUNDANE;

@@ -66,6 +66,12 @@ public class ToolPartGrip extends ToolPart {
   }
 
   @Override
+  public final int getProtection() {
+
+    return 0;
+  }
+
+  @Override
   public boolean validForPosition(EnumPartPosition pos) {
 
     return pos == EnumPartPosition.ROD_GRIP;

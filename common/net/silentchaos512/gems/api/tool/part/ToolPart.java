@@ -178,6 +178,9 @@ public abstract class ToolPart {
 
   public abstract float getChargeSpeed();
 
+  // Only needed for armor.
+  public abstract int getProtection();
+
   /**
    * Determines if the part is valid for tools of the given tier. Generally, this is true if the part and tool tier is
    * the same, but that's not always the case.

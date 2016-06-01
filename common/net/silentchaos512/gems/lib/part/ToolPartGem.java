@@ -139,6 +139,12 @@ public class ToolPartGem extends ToolPartMain {
   }
 
   @Override
+  public int getProtection() {
+
+    return gem.getProtection(tier);
+  }
+
+  @Override
   public EnumMaterialTier getTier() {
 
     return tier;

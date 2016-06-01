@@ -123,6 +123,12 @@ public enum EnumGem implements IStringSerializable {
     return tier == EnumMaterialTier.SUPER ? chargeSpeed + 1.0f : chargeSpeed;
   }
 
+  public int getProtection(EnumMaterialTier tier) {
+
+    // TODO: Is +4 reasonable?
+    return tier == EnumMaterialTier.SUPER ? protection + 4 : protection;
+  }
+
   public int getHarvestLevel(EnumMaterialTier tier) {
 
     return tier == EnumMaterialTier.SUPER ? 4 : 2;

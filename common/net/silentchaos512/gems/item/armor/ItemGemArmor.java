@@ -23,7 +23,7 @@ import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryObject {
 
-  public static final float[] ABSORPTION_RATIO_BY_SLOT = { 0.175f, 0.3f, 0.4f, 0.125f }; // sum = 1, starts with boots
+  public static final double[] ABSORPTION_RATIO_BY_SLOT = { 0.175, 0.3, 0.4, 0.125 }; // sum = 1, starts with boots
 
   ModelBiped model;
 
@@ -42,8 +42,8 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     // TODO Auto-generated method stub
     // Iron: max 7.5?
     // Diamond: max 10
-    float ratio = ABSORPTION_RATIO_BY_SLOT[slot];
-    SilentGems.instance.logHelper.debug(slot);
+    double ratio = ABSORPTION_RATIO_BY_SLOT[slot];
+    // SilentGems.instance.logHelper.debug(slot);
     return new ArmorProperties(0, ratio, (int) (4 * ratio * 8));
   }
 
@@ -79,6 +79,13 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
     return SilentGems.RESOURCE_PREFIX + "textures/armor/" + "FluffyArmor" + "_"
         + (slot == EntityEquipmentSlot.LEGS ? "2" : "1") + ".png";
+  }
+
+  @Override
+  public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+
+    // TODO Tier detection
+    return false;
   }
 
   @Override

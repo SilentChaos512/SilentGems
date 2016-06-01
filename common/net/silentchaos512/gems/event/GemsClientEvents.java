@@ -109,6 +109,8 @@ public class GemsClientEvents {
       event.getToolTip().add(index++, line);
       line = loc.getMiscText("Tooltip.MagicDamage", part.getMagicDamage() * multi / 100);
       event.getToolTip().add(index++, line);
+      line = loc.getMiscText("Tooltip.Protection", part.getProtection() * multi / 100);
+      event.getToolTip().add(index++, line);
       line = loc.getMiscText("Tooltip.ChargeSpeed", part.getChargeSpeed() * multi / 100);
       event.getToolTip().add(index++, line);
       line = loc.getMiscText("Tooltip.Enchantability", part.getEnchantability() * multi / 100);

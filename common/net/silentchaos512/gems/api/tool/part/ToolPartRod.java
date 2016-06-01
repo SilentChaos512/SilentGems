@@ -19,14 +19,12 @@ public class ToolPartRod extends ToolPart {
   @Override
   public int getDurability() {
 
-    // TODO Auto-generated method stub
     return 0;
   }
 
   @Override
   public float getHarvestSpeed() {
 
-    // TODO Auto-generated method stub
     return 0;
   }
 
@@ -39,21 +37,18 @@ public class ToolPartRod extends ToolPart {
   @Override
   public float getMeleeDamage() {
 
-    // TODO Auto-generated method stub
     return 0;
   }
 
   @Override
   public float getMagicDamage() {
 
-    // TODO Auto-generated method stub
     return 0;
   }
 
   @Override
   public int getEnchantability() {
 
-    // TODO Auto-generated method stub
     return 0;
   }
 
@@ -66,7 +61,12 @@ public class ToolPartRod extends ToolPart {
   @Override
   public float getChargeSpeed() {
 
-    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public final int getProtection() {
+
     return 0;
   }
 

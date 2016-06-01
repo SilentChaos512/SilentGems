@@ -102,7 +102,6 @@ public class ToolHelper {
   public static final String NBT_PROP_ENCHANTABILITY = "Enchantability";
   public static final String NBT_PROP_MELEE_SPEED = "MeleeSpeed";
   public static final String NBT_PROP_CHARGE_SPEED = "ChargeSpeed";
-  public static final String NBT_PROP_CHARGE_AMOUNT = "ChargeAmount";
 
   // NBT for statistics
   public static final String NBT_STATS_ORIGINAL_OWNER = "OriginalOwner";
@@ -625,6 +624,25 @@ public class ToolHelper {
     setTagPart(result, "PartRod", part, EnumMaterialGrade.NONE);
 
     // Create name
+    String displayName = createToolName(item, materials);
+    result.setStackDisplayName(displayName);
+
+    recalculateStats(result);
+
+    // Check tier - "Super" tools can only be super tier!
+    EnumMaterialTier toolTier = getToolTier(result);
+    if (item == ModItems.katana || item == ModItems.scepter) {
+      if (toolTier != EnumMaterialTier.SUPER) {
+        return null;
+      }
+    }
+
+    return result;
+  }
+
+  public static String createToolName(Item item, ItemStack[] materials) {
+
+    ToolPart part;
     LocalizationHelper loc = SilentGems.instance.localizationHelper;
     Set<String> prefixSet = Sets.newLinkedHashSet();
     Set<String> materialSet = Sets.newLinkedHashSet();
@@ -645,19 +663,8 @@ public class ToolHelper {
     String materialName = String.join(delimiter, materialSet);
     String toolName = ((IRegistryObject) item).getName();
     String name = loc.getLocalizedString("tool", toolName, materialName);
-    result.setStackDisplayName(prefix + name);
 
-    recalculateStats(result);
-
-    // Check tier - "Super" tools can only be super tier!
-    EnumMaterialTier toolTier = getToolTier(result);
-    if (item == ModItems.katana || item == ModItems.scepter) {
-      if (toolTier != EnumMaterialTier.SUPER) {
-        return null;
-      }
-    }
-
-    return result;
+    return prefix + name;
   }
 
   public static ToolPart[] getConstructionParts(ItemStack tool) {
