@@ -1,7 +1,9 @@
 Silent's Gems - Changelog
 
 2.0.13
+Updated for Silent Lib 1.0.9
 Added: Config to disable recipes for Frost Walker and Mending enchantment tokens (treasure enchantments).
+Added: Sag Mill recipes (Ender IO) for ores
 Fixed: Material grades not being applied to all tools (notably single-material pickaxes).
 Added more foundation for modular armor (no, nothing works yet). Tool main parts will now display a "Protection" stat. As for what the numbers mean... I'm not entirely sure. They may change, so assume nothing!
 

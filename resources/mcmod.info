@@ -5,7 +5,8 @@
   "description": "When diamonds won't cut it.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
-  "authors": [ "SilentChaos512" ]
+  "url": "http://minecraft.curseforge.com/projects/silents-gems",
+  "authors": [ "SilentChaos512" ],
+  "credits": ""
 }
 ]

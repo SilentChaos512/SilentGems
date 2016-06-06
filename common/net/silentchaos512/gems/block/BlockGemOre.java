@@ -3,19 +3,17 @@ package net.silentchaos512.gems.block;
 import java.util.Random;
 
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.block.BlockSL;
+import net.silentchaos512.gems.util.ModRecipeHelper;
 
 public class BlockGemOre extends BlockGemSubtypes {
 
@@ -32,9 +30,16 @@ public class BlockGemOre extends BlockGemSubtypes {
   @Override
   public void addRecipes() {
 
+    ItemStack ore, item;
     for (int i = 0; i < 16; ++i) {
       EnumGem gem = getGem(i);
-      GameRegistry.addSmelting(gem.getOre(), gem.getItem(), 0.5f);
+      ore = gem.getOre();
+      item = gem.getItem();
+      // Smelting
+      GameRegistry.addSmelting(ore, item, 0.5f);
+      // SAG Mill
+      ModRecipeHelper.addSagMillRecipe(gem.getGemName() + "Ore", ore, item,
+          isDark ? "netherrack" : "cobblestone", 3000);
     }
   }
 

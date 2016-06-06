@@ -14,6 +14,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.util.ModRecipeHelper;
 import net.silentchaos512.lib.block.BlockSL;
 
 public class BlockEssenceOre extends BlockSL {
@@ -50,17 +51,19 @@ public class BlockEssenceOre extends BlockSL {
     ItemStack chaosOre = new ItemStack(this, 1, 0);
     ItemStack chaosEssence = ModItems.craftingMaterial.chaosEssence;
     GameRegistry.addSmelting(chaosOre, chaosEssence, 0.7f);
+    ModRecipeHelper.addSagMillRecipe("ChaosOre", chaosOre, chaosEssence, "cobblestone", 4000);
 
     ItemStack enderOre = new ItemStack(this, 1, 1);
     ItemStack enderEssence = ModItems.craftingMaterial.enderEssence;
     GameRegistry.addSmelting(enderOre, enderEssence, 1.0f);
+    ModRecipeHelper.addSagMillRecipe("EnderEssenceOre", enderOre, enderEssence, "end_stone", 4000);
   }
 
   @Override
   public void addOreDict() {
 
     OreDictionary.registerOre("oreChaos", new ItemStack(this, 1, 0));
-    // TODO
+    OreDictionary.registerOre("oreEnderEssence", new ItemStack(this, 1, 1));
   }
 
   @Override
