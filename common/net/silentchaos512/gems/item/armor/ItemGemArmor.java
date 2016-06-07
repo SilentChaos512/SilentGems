@@ -19,6 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.ModelGemArmor;
+import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryObject {
@@ -39,26 +40,28 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor,
       DamageSource source, double damage, int slot) {
 
-    // TODO Auto-generated method stub
+    // These values came from testing vanilla armor and give an idea of what to do here:
     // Iron: max 7.5?
     // Diamond: max 10
+
     double ratio = ABSORPTION_RATIO_BY_SLOT[slot];
-    // SilentGems.instance.logHelper.debug(slot);
-    return new ArmorProperties(0, ratio, (int) (4 * ratio * 8));
+    int max = (int) (4 * ratio * ArmorHelper.getProtection(armor));
+    SilentGems.instance.logHelper
+        .debug(new String[] { " Boots", "Leggings", "Chestplate", "Helmet" }[slot], ratio, max);
+    return new ArmorProperties(0, ratio, max);
   }
 
   @Override
   public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
 
-    // TODO Auto-generated method stub
-    return 5;
+    return (int) (2 * ABSORPTION_RATIO_BY_SLOT[slot] * ArmorHelper.getProtection(armor));
   }
 
   @Override
   public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage,
       int slot) {
 
-    // TODO Auto-generated method stub
+    stack.attemptDamageItem(damage, SilentGems.instance.random);
   }
 
   @Override
@@ -67,9 +70,8 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
       EntityEquipmentSlot armorSlot, ModelBiped _default) {
 
     // SilentGems.instance.logHelper.debug(_default);
-    if (model == null) {
+    if (model == null)
       model = new ModelGemArmor();
-    }
     return model;
   }
 

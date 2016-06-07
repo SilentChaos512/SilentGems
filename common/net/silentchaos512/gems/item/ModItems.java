@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.item.armor.ItemArmorFrame;
 import net.silentchaos512.gems.item.armor.ItemGemArmor;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
@@ -33,6 +34,7 @@ public class ModItems {
   public static final ItemCrafting craftingMaterial = new ItemCrafting();
   public static final ItemTipUpgrade tipUpgrade = new ItemTipUpgrade();
   public static final ItemEnchantmentToken enchantmentToken = new ItemEnchantmentToken();
+  public static final ItemArmorFrame armorFrame = new ItemArmorFrame();
   public static final ItemFluffyPuffSeeds fluffyPuffSeeds = new ItemFluffyPuffSeeds();
   public static final ItemFluffyPuff fluffyPuff = new ItemFluffyPuff();
   public static final ItemDyeSG dye = new ItemDyeSG();
@@ -79,6 +81,7 @@ public class ModItems {
     reg.registerItem(craftingMaterial);
     reg.registerItem(tipUpgrade);
     reg.registerItem(enchantmentToken);
+    reg.registerItem(armorFrame);
     reg.registerItem(fluffyPuffSeeds, Names.FLUFFY_PUFF_SEEDS);
     reg.registerItem(fluffyPuff);
     reg.registerItem(dye);

@@ -362,6 +362,19 @@ tile.silentgems:TeleporterRedstoneDark15.name=Alexandrite Redstone Teleporter
 
 # Items
 
+item.silentgems:ArmorFrame0.name=Helmet Frame (Mundane)
+item.silentgems:ArmorFrame1.name=Chestplate Frame (Mundane)
+item.silentgems:ArmorFrame2.name=Leggings Frame (Mundane)
+item.silentgems:ArmorFrame3.name=Boots Frame (Mundane)
+item.silentgems:ArmorFrame4.name=Helmet Frame (Regular)
+item.silentgems:ArmorFrame5.name=Chestplate Frame (Regular)
+item.silentgems:ArmorFrame6.name=Leggings Frame (Regular)
+item.silentgems:ArmorFrame7.name=Boots Frame (Regular)
+item.silentgems:ArmorFrame8.name=Helmet Frame (Super)
+item.silentgems:ArmorFrame9.name=Chestplate Frame (Super)
+item.silentgems:ArmorFrame10.name=Leggings Frame (Super)
+item.silentgems:ArmorFrame11.name=Boots Frame (Super)
+
 item.silentgems:ChaosOrb0.name=Chaos Potato
 item.silentgems:ChaosOrb1.name=Fragile Chaos Orb
 item.silentgems:ChaosOrb2.name=Refined Chaos Orb
@@ -527,6 +540,9 @@ item.silentgems:TipUpgrade.magicDamage=&aMagic Damage %s
 
 # Crafting Materials
 
+item.silentgems:ArmorLatticeMundane.name=Armor Lattice (Mundane)
+item.silentgems:ArmorLatticeRegular.name=Armor Lattice (Regular)
+item.silentgems:ArmorLatticeSuper.name=Armor Lattice (Super)
 item.silentgems:ChaosCoal.name=Chaos Coal
 item.silentgems:ChaosCore.name=Chaos Core
 item.silentgems:ChaosEssence.name=Chaos Essence
@@ -598,6 +614,12 @@ tool.silentgems:delimiter=-
 item.silentgems:Bow.name=Reserved for Bows
 item.silentgems:FishingRod.name=Reserved for Fishing Rods
 item.silentgems:Shield.name=Reserved for Shields
+
+# Armor
+tool.silentgems:Helmet.name=%s Helmet
+tool.silentgems:Chestplate.name=%s Chestplate
+tool.silentgems:Leggings.name=%s Leggings
+tool.silentgems:Boots.name=%s Boots
 
 # Donuts
 

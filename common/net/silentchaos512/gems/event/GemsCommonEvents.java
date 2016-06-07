@@ -1,14 +1,8 @@
 package net.silentchaos512.gems.event;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
-import net.minecraft.world.storage.loot.LootEntryItem;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.LootTableList;
-import net.minecraft.world.storage.loot.conditions.LootCondition;
-import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -16,6 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
@@ -24,6 +19,7 @@ import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.loot.LootHandler;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillLumberjack;
+import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public class GemsCommonEvents {
@@ -37,8 +33,11 @@ public class GemsCommonEvents {
         .info("Recalculating tool stats for " + event.player.getDisplayNameString());
     // Recalculate tool stats.
     for (ItemStack stack : event.player.inventory.mainInventory) {
-      if (stack != null && stack.getItem() instanceof ITool) {
-        ToolHelper.recalculateStats(stack);
+      if (stack != null) {
+        if (stack.getItem() instanceof ITool)
+          ToolHelper.recalculateStats(stack);
+        if (stack.getItem() instanceof IArmor)
+          ArmorHelper.recalculateStats(stack);
       }
     }
   }
