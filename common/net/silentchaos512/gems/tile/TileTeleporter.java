@@ -84,6 +84,16 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
     return new SPacketUpdateTileEntity(pos, getBlockMetadata(), tags);
   }
 
+  @Override
+  public NBTTagCompound getUpdateTag() {
+
+    NBTTagCompound tags = super.getUpdateTag();
+    if (destination != null && !destination.equals(DimensionalPosition.ZERO)) {
+      destination.writeToNBT(tags);
+    }
+    return tags;
+  }
+
   public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 
     destination = DimensionalPosition.readFromNBT(packet.getNbtCompound());

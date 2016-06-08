@@ -190,6 +190,16 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
   }
 
   @Override
+  public NBTTagCompound getUpdateTag() {
+
+    NBTTagCompound tags = super.getUpdateTag();
+    tags.setInteger("Energy", chaosStored);
+    tags.setInteger("BurnTime", burnTimeRemaining);
+    tags.setInteger("CurrentItemBurnTime", currentItemBurnTime);
+    return tags;
+  }
+
+  @Override
   public void onDataPacket(NetworkManager network, SPacketUpdateTileEntity packet) {
 
     NBTTagCompound tags = packet.getNbtCompound();

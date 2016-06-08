@@ -17,6 +17,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.util.DimensionalPosition;
 
 public class TileChaosAltar extends TileEntity implements ISidedInventory, ITickable, IChaosAccepter {
 
@@ -111,6 +112,14 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
     NBTTagCompound tags = new NBTTagCompound();
     tags.setInteger("Energy", getCharge());
     return new SPacketUpdateTileEntity(pos, 1, tags);
+  }
+
+  @Override
+  public NBTTagCompound getUpdateTag() {
+
+    NBTTagCompound tags = super.getUpdateTag();
+    tags.setInteger("Energy", getCharge());
+    return tags;
   }
 
   @Override
