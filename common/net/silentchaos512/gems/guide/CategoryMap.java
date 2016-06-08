@@ -20,8 +20,8 @@ public class CategoryMap<K, V> extends HashMap<K, V> {
   @Override
   public V put(K key, V value) {
 
-    // Guide-API reverses the list, so we append to the front end.
-    sortedValues.add(0, value);
+    // Guide-API no longer reverses the list, so append to the end.
+    sortedValues.add(value);
     return super.put(key, value);
   }
 
