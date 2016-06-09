@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.0.14
+Added: Armor crafting (still needs some work, but usable)
+
 2.0.13
 Updated for Silent Lib 1.0.9
 Added: Config to disable recipes for Frost Walker and Mending enchantment tokens (treasure enchantments).

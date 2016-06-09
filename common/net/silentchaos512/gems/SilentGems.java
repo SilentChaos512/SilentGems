@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -21,6 +22,7 @@ import net.silentchaos512.gems.config.Config;
 import net.silentchaos512.gems.entity.ModEntities;
 import net.silentchaos512.gems.guide.GuideSilentGems;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.part.ModParts;
 import net.silentchaos512.gems.recipe.ModRecipes;
 import net.silentchaos512.gems.util.ToolHelper;
@@ -101,6 +103,9 @@ public class SilentGems {
 
     // World generation
     GameRegistry.registerWorldGenerator(new GemsWorldGenerator(), 0);
+
+    // Headcrumbs
+    FMLInterModComms.sendMessage("headcrumbs", "add-username", Names.SILENT_CHAOS_512);
 
     proxy.preInit(registry);
   }

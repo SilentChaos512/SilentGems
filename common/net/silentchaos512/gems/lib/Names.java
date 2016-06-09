@@ -2,6 +2,8 @@ package net.silentchaos512.gems.lib;
 
 public class Names {
 
+  public static final String SILENT_CHAOS_512 = "SilentChaos512";
+
   // Blocks
   public static final String CHAOS_ALTAR = "ChaosAltar";
   public static final String CHAOS_FLOWER_POT = "ChaosFlowerPot";

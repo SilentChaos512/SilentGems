@@ -64,22 +64,23 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     stack.attemptDamageItem(damage, SilentGems.instance.random);
   }
 
-  @Override
-  @SideOnly(Side.CLIENT)
-  public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack,
-      EntityEquipmentSlot armorSlot, ModelBiped _default) {
-
-    // SilentGems.instance.logHelper.debug(_default);
-    if (model == null)
-      model = new ModelGemArmor();
-    return model;
-  }
+  // TODO: Custom model!
+//  @Override
+//  @SideOnly(Side.CLIENT)
+//  public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack,
+//      EntityEquipmentSlot armorSlot, ModelBiped _default) {
+//
+//    // SilentGems.instance.logHelper.debug(_default);
+//    if (model == null)
+//      model = new ModelGemArmor();
+//    return model;
+//  }
 
   @Override
   public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot,
       String type) {
 
-    return SilentGems.RESOURCE_PREFIX + "textures/armor/" + "FluffyArmor" + "_"
+    return SilentGems.RESOURCE_PREFIX + "textures/armor/" + "GemArmor" + "_"
         + (slot == EntityEquipmentSlot.LEGS ? "2" : "1") + ".png";
   }
 

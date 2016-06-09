@@ -149,6 +149,14 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
         enderEssence);
     GameRegistry.addShapedRecipe(netherCluster, "sss", "s s", "sss", 's', netherShard);
     GameRegistry.addShapelessRecipe(netherStar, netherCluster, netherCluster, netherCluster);
+
+    // Armor Lattice
+    RecipeHelper.addSurroundOre(getStack(Names.ARMOR_LATTICE_MUNDANE, 12), "gemLapis", "leather",
+        Items.FLINT);
+    RecipeHelper.addSurroundOre(getStack(Names.ARMOR_LATTICE_REGULAR, 12), "gemLapis", "ingotIron",
+        new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE));
+    RecipeHelper.addSurroundOre(getStack(Names.ARMOR_LATTICE_SUPER, 12), "gemLapis", "gemDiamond",
+        chaosEssenceEnriched);
   }
 
   @Override

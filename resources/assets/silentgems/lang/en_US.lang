@@ -616,10 +616,10 @@ item.silentgems:FishingRod.name=Reserved for Fishing Rods
 item.silentgems:Shield.name=Reserved for Shields
 
 # Armor
-tool.silentgems:Helmet.name=%s Helmet
-tool.silentgems:Chestplate.name=%s Chestplate
-tool.silentgems:Leggings.name=%s Leggings
-tool.silentgems:Boots.name=%s Boots
+tool.silentgems:Helmet=%s Helmet
+tool.silentgems:Chestplate=%s Chestplate
+tool.silentgems:Leggings=%s Leggings
+tool.silentgems:Boots=%s Boots
 
 # Donuts
 
