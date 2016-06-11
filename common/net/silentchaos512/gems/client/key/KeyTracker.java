@@ -7,6 +7,9 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraftforge.client.settings.IKeyConflictContext;
+import net.minecraftforge.client.settings.KeyConflictContext;
+import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
@@ -22,13 +25,36 @@ public class KeyTracker {
   public static KeyTracker INSTANCE = new KeyTracker();
 
   private EntityPlayer player;
-  private KeyBinding toggleSpecial = createBinding("Toggle Special", Keyboard.KEY_C);
+  private KeyBinding toggleSpecial = createBinding("Toggle Special", KeyConflictContext.IN_GAME,
+      KeyModifier.SHIFT, Keyboard.KEY_C);
 
-  private KeyBinding createBinding(String name, int key) {
+  /**
+   * Creates and registers a KeyBinding.
+   * 
+   * @return The created KeyBinding.
+   */
+  private KeyBinding createBinding(String name, IKeyConflictContext keyConflictContext,
+      KeyModifier keyModifier, int keyCode) {
 
-    KeyBinding binding = new KeyBinding(name, key, SilentGems.MOD_ID);
+    KeyBinding binding = new KeyBinding(name, keyConflictContext, keyModifier, keyCode,
+        SilentGems.MOD_ID);
     ClientRegistry.registerKeyBinding(binding);
     return binding;
+  }
+
+  public static boolean isShiftDown() {
+
+    return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+  }
+
+  public static boolean isControlDown() {
+
+    return Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
+  }
+
+  public static boolean isAltDown() {
+
+    return Keyboard.isKeyDown(Keyboard.KEY_LMENU) || Keyboard.isKeyDown(Keyboard.KEY_RMENU);
   }
 
   @SubscribeEvent
@@ -36,11 +62,6 @@ public class KeyTracker {
 
     this.player = Minecraft.getMinecraft().thePlayer;
     handleToggleSpecial();
-  }
-
-  private boolean isShiftPressed() {
-
-    return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
   }
 
   private void handleToggleSpecial() {
@@ -53,7 +74,7 @@ public class KeyTracker {
 
     if (mainHand != null && mainHand.getItem() instanceof ITool) {
       if (ToolHelper.getToolTier(mainHand) == EnumMaterialTier.SUPER) {
-//        ToolHelper.toggleSpecialAbility(mainHand);
+        // ToolHelper.toggleSpecialAbility(mainHand);
         NetworkHandler.INSTANCE.sendToServer(new MessageToggleSpecial());
       }
     }
