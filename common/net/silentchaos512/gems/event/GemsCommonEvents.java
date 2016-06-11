@@ -1,9 +1,14 @@
 package net.silentchaos512.gems.event;
 
+import java.util.Random;
+
+import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -15,6 +20,7 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.lib.CoffeeModule;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.loot.LootHandler;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
@@ -88,6 +94,15 @@ public class GemsCommonEvents {
   @SubscribeEvent
   public void onLivingHurt(LivingHurtEvent event) {
 
+  }
+
+  @SubscribeEvent
+  public void onLivingUpdate(LivingUpdateEvent event) {
+
+    if (!event.getEntity().worldObj.isRemote && event.getEntityLiving() instanceof EntityRabbit) {
+      EntityRabbit rabbit = (EntityRabbit) event.getEntityLiving();
+      CoffeeModule.tickRabbit(rabbit);
+    }
   }
 
   // @SubscribeEvent

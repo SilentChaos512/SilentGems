@@ -596,6 +596,7 @@ item.silentgems:MeatyStew.name=Meaty Stew
 item.silentgems:MeatyStew.desc=A simple feast!
 item.silentgems:CandyCane.name=Candy Cane
 item.silentgems:CandyCane.desc=It isn't much, but this is my gift to you!
+item.silentgems:CoffeeCup.name=Cup of Coffee
 
 # Tools
 

@@ -80,6 +80,7 @@ public class Names {
   // Foods
   public static final String FOOD = "Food";
   public static final String CANDY_CANE = "CandyCane";
+  public static final String COFFEE_CUP = "CoffeeCup";
   public static final String MEATY_STEW = "MeatyStew";
   public static final String MEATY_STEW_UNCOOKED = "MeatyStewUncooked";
   public static final String POTATO_STICK = "PotatoStick";

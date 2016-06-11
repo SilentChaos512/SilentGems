@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -33,11 +34,19 @@ import net.silentchaos512.lib.util.RecipeHelper;
 public class ItemFoodSG extends ItemFood implements IRegistryObject {
 
   public static final String[] NAMES = { Names.POTATO_STICK, Names.SUGAR_COOKIE, Names.SECRET_DONUT,
-      Names.MEATY_STEW_UNCOOKED, Names.MEATY_STEW, Names.CANDY_CANE };
+      Names.MEATY_STEW_UNCOOKED, Names.MEATY_STEW, Names.CANDY_CANE, Names.COFFEE_CUP };
 
-  public static final int[] foodLevel = { 8, 2, 6, 4, 12, 2 };
-  public static final float[] saturationLevel = { 0.8f, 0.4f, 0.8f, 0.6f, 1.6f, 0.2f };
-  public static final boolean[] alwaysEdible = { false, true, false, false, false, true };
+  public static final int[] foodLevel = { 8, 2, 6, 4, 12, 2, 1 };
+  public static final float[] saturationLevel = { 0.8f, 0.4f, 0.8f, 0.6f, 1.6f, 0.2f, 0.2f };
+  public static final boolean[] alwaysEdible = { false, true, false, false, false, true, true };
+
+  public final ItemStack potatoStick = getStack(Names.POTATO_STICK);
+  public final ItemStack sugarCookie = getStack(Names.SUGAR_COOKIE);
+  public final ItemStack secretDonut = getStack(Names.SECRET_DONUT);
+  public final ItemStack meatyStewUncooked = getStack(Names.MEATY_STEW_UNCOOKED);
+  public final ItemStack meatyStew = getStack(Names.MEATY_STEW);
+  public final ItemStack candyCane = getStack(Names.CANDY_CANE);
+  public final ItemStack coffeeCup = getStack(Names.COFFEE_CUP);
 
   public static final List<SecretDonutEffect> secretDonutEffects = Lists.newArrayList();
 
@@ -99,6 +108,20 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
     }
   }
 
+  @Override
+  public EnumAction getItemUseAction(ItemStack stack) {
+
+    if (stack.getItemDamage() == coffeeCup.getItemDamage()) {
+      return EnumAction.DRINK;
+    }
+    return super.getItemUseAction(stack);
+  }
+
+  public ItemStack getStack(String name) {
+
+    return getStack(name, 1);
+  }
+
   public ItemStack getStack(String name, int count) {
 
     for (int i = 0; i < NAMES.length; ++i) {
@@ -157,6 +180,11 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
         // Candy Cane
         player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION,
             Config.FOOD_SUPPORT_DURATION / 6, 0, true, false));
+      } else if (d == 6) {
+        // Coffee Cup
+        int duration = (int) (1.5f * Config.FOOD_SUPPORT_DURATION);
+        player.addPotionEffect(new PotionEffect(MobEffects.SPEED, duration, 1, true, false));
+        player.addPotionEffect(new PotionEffect(MobEffects.HASTE, duration, 1, true, false));
       }
     }
 
