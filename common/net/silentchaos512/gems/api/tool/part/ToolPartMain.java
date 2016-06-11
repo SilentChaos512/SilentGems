@@ -119,7 +119,7 @@ public class ToolPartMain extends ToolPart {
   }
 
   @Override
-  public int getProtection() {
+  public float getProtection() {
 
     return 0;
   }

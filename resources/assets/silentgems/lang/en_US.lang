@@ -644,7 +644,7 @@ misc.silentgems:PressShift=<Press Shift>
 
 
 
-# Tool Information
+# Tool and Armor Information
 
 misc.silentgems:ToolPart.Rod=&3Tool Rod
 misc.silentgems:ToolPart.Grade=&3Grade: %s

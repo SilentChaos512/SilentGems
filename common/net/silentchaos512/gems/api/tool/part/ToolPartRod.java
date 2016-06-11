@@ -65,7 +65,7 @@ public class ToolPartRod extends ToolPart {
   }
 
   @Override
-  public final int getProtection() {
+  public final float getProtection() {
 
     return 0;
   }

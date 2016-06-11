@@ -177,15 +177,15 @@ public class ToolHelper {
     for (int i = 0; i < parts.length; ++i) {
       ToolPart part = parts[i];
       EnumMaterialGrade grade = grades[i];
-      int multi = 100 + grade.bonusPercent;
+      float multi = (100 + grade.bonusPercent) / 100f;
 
-      sumDurability += part.getDurability() * multi / 100;
-      sumHarvestSpeed += part.getHarvestSpeed() * multi / 100;
-      sumMeleeDamage += part.getMeleeDamage() * multi / 100;
-      sumMagicDamage += part.getMagicDamage() * multi / 100;
-      sumMeleeSpeed += part.getMeleeSpeed() * multi / 100;
-      sumEnchantability += part.getEnchantability() * multi / 100;
-      sumChargeSpeed += part.getChargeSpeed() * multi / 100;
+      sumDurability += part.getDurability() * multi;
+      sumHarvestSpeed += part.getHarvestSpeed() * multi;
+      sumMeleeDamage += part.getMeleeDamage() * multi;
+      sumMagicDamage += part.getMagicDamage() * multi;
+      sumMeleeSpeed += part.getMeleeSpeed() * multi;
+      sumEnchantability += part.getEnchantability() * multi;
+      sumChargeSpeed += part.getChargeSpeed() * multi;
       maxHarvestLevel = Math.max(maxHarvestLevel, part.getHarvestLevel());
       uniqueParts.add(part);
     }

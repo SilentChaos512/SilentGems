@@ -11,6 +11,7 @@ import net.silentchaos512.gems.item.ModItems;
 public enum EnumGem implements IStringSerializable {
 
   // @formatter:off
+  //                                  DUR    EFF   MEL   MAG ENC   SPD   CHG PRT
   RUBY            ("Ruby",            512,  8.0f, 5.0f, 2.0f, 10, 0.7f, 1.0f, 7),
   GARNET          ("Garnet",          384,  7.0f, 4.0f, 3.0f, 12, 0.9f, 1.0f, 8),
   TOPAZ           ("Topaz",           384,  9.0f, 4.0f, 2.0f, 10, 0.8f, 2.0f, 8),

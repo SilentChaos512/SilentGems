@@ -15,6 +15,7 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.gems.item.armor.ItemGemArmor;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
@@ -71,11 +72,11 @@ public class ArmorHelper {
     for (int i = 0; i < parts.length; ++i) {
       ToolPart part = parts[i];
       EnumMaterialGrade grade = grades[i];
-      int multi = 100 + grade.bonusPercent;
+      float multi = (100 + grade.bonusPercent) / 100f;
 
-      sumDurability += part.getDurability() * multi / 100;
-      sumProtection += part.getProtection() * multi / 100;
-      sumEnchantability += part.getEnchantability() * multi / 100;
+      sumDurability += part.getDurability() * multi;
+      sumProtection += part.getProtection() * multi;
+      sumEnchantability += part.getEnchantability() * multi;
       uniqueParts.add(part);
     }
 
@@ -92,7 +93,7 @@ public class ArmorHelper {
 
     // Set NBT
     setTagInt(armor, NBT_ROOT_PROPERTIES, NBT_PROP_DURABILITY, (int) durability);
-    setTagInt(armor, NBT_ROOT_PROPERTIES, NBT_PROP_PROTECTION, (int) protection);
+    setTagFloat(armor, NBT_ROOT_PROPERTIES, NBT_PROP_PROTECTION, protection);
     setTagInt(armor, NBT_ROOT_PROPERTIES, NBT_PROP_ENCHANTABILITY, (int) enchantability);
     setTagInt(armor, NBT_ROOT_PROPERTIES, NBT_ARMOR_TIER, parts[0].getTier().ordinal());
   }
@@ -101,12 +102,12 @@ public class ArmorHelper {
    * Armor Properties
    */
 
-  public static int getProtection(ItemStack armor) {
+  public static float getProtection(ItemStack armor) {
 
     if (isBroken(armor))
       return 0;
 
-    return getTagInt(armor, NBT_ROOT_PROPERTIES, NBT_PROP_PROTECTION);
+    return getTagFloat(armor, NBT_ROOT_PROPERTIES, NBT_PROP_PROTECTION);
   }
 
   public static int getItemEnchantability(ItemStack armor) {

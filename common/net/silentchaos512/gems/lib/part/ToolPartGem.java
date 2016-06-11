@@ -139,7 +139,7 @@ public class ToolPartGem extends ToolPartMain {
   }
 
   @Override
-  public int getProtection() {
+  public float getProtection() {
 
     return gem.getProtection(tier);
   }

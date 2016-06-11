@@ -91,7 +91,7 @@ public class ToolPartFlint extends ToolPartMain {
   }
 
   @Override
-  public int getProtection() {
+  public float getProtection() {
 
     return 3;
   }

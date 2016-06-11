@@ -27,6 +27,7 @@ import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartTip;
+import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.render.ToolItemOverrideHandler;
 import net.silentchaos512.gems.client.render.ToolModel;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
@@ -64,12 +65,9 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   public void addInformation(ItemStack tool, EntityPlayer player, List list, boolean advanced) {
 
     LocalizationHelper loc = SilentGems.instance.localizationHelper;
-    boolean controlDown = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
-        || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
-    boolean altDown = Keyboard.isKeyDown(Keyboard.KEY_LMENU)
-        || Keyboard.isKeyDown(Keyboard.KEY_RMENU);
-    boolean shiftDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
-        || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+    boolean controlDown = KeyTracker.isControlDown();
+    boolean altDown = KeyTracker.isAltDown();
+    boolean shiftDown = KeyTracker.isShiftDown();
     String line;
 
     // Broken?
@@ -178,7 +176,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     }
   }
 
-  private String getTooltipLine(String key, int value) {
+  public String getTooltipLine(String key, int value) {
 
     String number;
     if (value > 9999)
@@ -191,7 +189,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     return "  " + line;
   }
 
-  private String getTooltipLine(String key, float value) {
+  public String getTooltipLine(String key, float value) {
 
     String number = "%.2f";
 

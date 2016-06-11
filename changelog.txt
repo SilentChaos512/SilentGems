@@ -1,5 +1,13 @@
 Silent's Gems - Changelog
 
+2.0.15
+Added: Armor detailed tooltips.
+Added: Secrets.
+Changed: Default keybinding for 'Toggle Special' is now Shift + C.
+Changed: Armor protection values now round to nearest int, instead of truncating.
+Fixed: Armor durability and protection values.
+Fixed: Possible rounding errors when calculating tool stats.
+
 2.0.14
 Added: Armor crafting (still needs some work, but usable)
 

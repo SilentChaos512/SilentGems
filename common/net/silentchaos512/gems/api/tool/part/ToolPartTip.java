@@ -72,7 +72,7 @@ public class ToolPartTip extends ToolPart {
   }
 
   @Override
-  public final int getProtection() {
+  public final float getProtection() {
 
     return 0;
   }

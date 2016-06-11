@@ -1,30 +1,56 @@
 package net.silentchaos512.gems.item.armor;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.UUID;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.ISpecialArmor;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.client.gui.ModelGemArmor;
+import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
+import net.silentchaos512.gems.api.tool.part.ToolPart;
+import net.silentchaos512.gems.client.key.KeyTracker;
+import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryObject {
 
-  public static final double[] ABSORPTION_RATIO_BY_SLOT = { 0.175, 0.3, 0.4, 0.125 }; // sum = 1, starts with boots
+  public static final float[] ABSORPTION_RATIO_BY_SLOT = { 0.175f, 0.3f, 0.4f, 0.125f }; // sum = 1, starts with boots
+  public static final int[] MAX_DAMAGE_ARRAY = new int[] { 13, 15, 16, 11 }; // Copied from ItemArmor
+  protected static UUID[] ARMOR_MODIFIERS;
+
+  static {
+
+    try {
+      Field field = ItemArmor.class.getDeclaredField("ARMOR_MODIFIERS");
+      field.setAccessible(true);
+      ARMOR_MODIFIERS = (UUID[]) field.get(null);
+    } catch (Exception ex) {
+      ARMOR_MODIFIERS = new UUID[] { UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"),
+          UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"),
+          UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"),
+          UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150") };
+    }
+  }
 
   ModelBiped model;
 
@@ -36,45 +62,85 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     this.itemName = name;
   }
 
+  public float getProtection(ItemStack armor) {
+
+    return ABSORPTION_RATIO_BY_SLOT[armorType.getIndex()] * ArmorHelper.getProtection(armor);
+  }
+
+  public float getToughness(ItemStack stack) {
+
+    float durability = ArmorHelper.getMaxDamage(stack) / 1536f;
+    float protection = ArmorHelper.getProtection(stack) / 10f;
+    float value = durability + protection - 0.8f;
+    return MathHelper.clamp_float(value, 0f, 4f); // Does this even do anything?
+  }
+
+  @Override
+  public int getMaxDamage(ItemStack stack) {
+
+    int x = ArmorHelper.getMaxDamage(stack);
+    float y = (1.8f * x + 1515) / 131;
+    return (int) (MAX_DAMAGE_ARRAY[armorType.getIndex()] * y);
+  }
+
   @Override
   public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor,
       DamageSource source, double damage, int slot) {
 
-    // These values came from testing vanilla armor and give an idea of what to do here:
-    // Iron: max 7.5?
-    // Diamond: max 10
-
-    double ratio = ABSORPTION_RATIO_BY_SLOT[slot];
-    int max = (int) (4 * ratio * ArmorHelper.getProtection(armor));
+    float ratio = ABSORPTION_RATIO_BY_SLOT[slot];
+    int max = (int) (1.72f * getProtection(armor) * damage);
     SilentGems.instance.logHelper
-        .debug(new String[] { " Boots", "Leggings", "Chestplate", "Helmet" }[slot], ratio, max);
+        .debug(new String[] { "Boots", "Leggings", "Chestplate", "Helmet" }[slot], ratio, max);
     return new ArmorProperties(0, ratio, max);
   }
 
   @Override
   public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
 
-    return (int) (2 * ABSORPTION_RATIO_BY_SLOT[slot] * ArmorHelper.getProtection(armor));
+    return (int) (2 * getProtection(armor));
   }
 
   @Override
   public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage,
       int slot) {
 
-    stack.attemptDamageItem(damage, SilentGems.instance.random);
+    int amount = (int) (damage - getToughness(stack));
+    amount = amount < 0 ? 0 : amount;
+    stack.attemptDamageItem(amount, SilentGems.instance.random);
+    SilentGems.instance.logHelper.debug(
+        new String[] { "Boots", "Leggings", "Chestplate", "Helmet" }[slot],
+        "attempt damage = " + amount);
+  }
+
+  @Override
+  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
+      ItemStack stack) {
+
+    Multimap<String, AttributeModifier> multimap = HashMultimap.create();
+
+    if (slot == this.armorType) {
+      multimap.put(SharedMonsterAttributes.ARMOR.getAttributeUnlocalizedName(),
+          new AttributeModifier(ARMOR_MODIFIERS[slot.getIndex()], "Armor modifier",
+              2 * getProtection(stack), 0));
+      multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getAttributeUnlocalizedName(),
+          new AttributeModifier(ARMOR_MODIFIERS[slot.getIndex()], "Armor toughness",
+              getToughness(stack), 0));
+    }
+
+    return multimap;
   }
 
   // TODO: Custom model!
-//  @Override
-//  @SideOnly(Side.CLIENT)
-//  public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack,
-//      EntityEquipmentSlot armorSlot, ModelBiped _default) {
-//
-//    // SilentGems.instance.logHelper.debug(_default);
-//    if (model == null)
-//      model = new ModelGemArmor();
-//    return model;
-//  }
+  // @Override
+  // @SideOnly(Side.CLIENT)
+  // public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack,
+  // EntityEquipmentSlot armorSlot, ModelBiped _default) {
+  //
+  // // SilentGems.instance.logHelper.debug(_default);
+  // if (model == null)
+  // model = new ModelGemArmor();
+  // return model;
+  // }
 
   @Override
   public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot,
@@ -89,6 +155,55 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
     // TODO Tier detection
     return false;
+  }
+
+  @Override
+  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+
+    LocalizationHelper loc = SilentGems.instance.localizationHelper;
+    ToolRenderHelper helper = ToolRenderHelper.getInstance();
+    boolean controlDown = KeyTracker.isControlDown();
+    boolean altDown = KeyTracker.isAltDown();
+    String line;
+
+    // Broken?
+    if (ArmorHelper.isBroken(stack)) {
+      list.add(loc.getMiscText("Tooltip.Broken"));
+    }
+
+    final String sep = loc.getMiscText("Tooltip.Separator");
+
+    if (controlDown) {
+      // Properties header
+      list.add(loc.getMiscText("Tooltip.Properties"));
+
+      list.add(helper.getTooltipLine("Durability", ArmorHelper.getMaxDamage(stack)));
+      list.add(helper.getTooltipLine("Protection", 2 * getProtection(stack)));
+
+      // Statistics Header
+      list.add(sep);
+      list.add(loc.getMiscText("Tooltip.Statistics"));
+    } else {
+      list.add(TextFormatting.GOLD + loc.getMiscText("PressCtrl"));
+    }
+
+    if (altDown) {
+      list.add(loc.getMiscText("Tooltip.Construction"));
+
+      ToolPart[] parts = ArmorHelper.getConstructionParts(stack);
+      EnumMaterialGrade[] grades = ArmorHelper.getConstructionGrades(stack);
+
+      for (int i = 0; i < parts.length; ++i) {
+        ToolPart part = parts[i];
+        EnumMaterialGrade grade = grades[i];
+
+        line = "  " + TextFormatting.YELLOW + part.getKey() + TextFormatting.GOLD + " (" + grade
+            + ")";
+        list.add(line);
+      }
+    } else {
+      list.add(TextFormatting.GOLD + loc.getMiscText("PressAlt"));
+    }
   }
 
   @Override
