@@ -61,4 +61,10 @@ public class RecipeMultiGemArmor extends RecipeBase {
 
     return stacks;
   }
+
+  @Override
+  public int getRecipeSize() {
+
+    return 10;
+  }
 }

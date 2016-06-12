@@ -10,11 +10,13 @@ import com.google.common.collect.Multimap;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -23,11 +25,16 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.ISpecialArmor;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.client.key.KeyTracker;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LocalizationHelper;
@@ -52,8 +59,8 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     }
   }
 
-  ModelBiped model;
-
+  private List<ItemStack> subItems = null;
+  private ModelBiped model;
   protected String itemName;
 
   public ItemGemArmor(int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name) {
@@ -72,7 +79,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     float durability = ArmorHelper.getMaxDamage(stack) / 1536f;
     float protection = ArmorHelper.getProtection(stack) / 10f;
     float value = durability + protection - 0.8f;
-    return MathHelper.clamp_float(value, 0f, 4f); // Does this even do anything?
+    return MathHelper.clamp_float(value, 0f, 4f);
   }
 
   @Override
@@ -207,10 +214,46 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   }
 
   @Override
+  public void getSubItems(Item item, CreativeTabs tab, List list) {
+
+    if (subItems == null) {
+      subItems = Lists.newArrayList();
+
+      // Test broken items.
+      ItemStack testBroken = ArmorHelper.constructArmor(item, new ItemStack(Items.FLINT));
+      testBroken.setItemDamage(getMaxDamage(testBroken) - 1);
+      subItems.add(testBroken);
+
+      // Flint
+      subItems.add(ArmorHelper.constructArmor(item, new ItemStack(Items.FLINT)));
+
+      // Regular Gems
+      for (EnumGem gem : EnumGem.values())
+        subItems.add(ArmorHelper.constructArmor(item, gem.getItem()));
+
+      // Super Gems
+      for (EnumGem gem : EnumGem.values())
+        subItems.add(ArmorHelper.constructArmor(item, gem.getItemSuper()));
+    }
+
+    list.addAll(subItems);
+  }
+
+  @Override
   public void addRecipes() {
 
-    // TODO Auto-generated method stub
+    addRecipe(new ItemStack(Items.FLINT));
+    for (EnumGem gem : EnumGem.values()) {
+      addRecipe(gem.getItem());
+      addRecipe(gem.getItemSuper());
+    }
+  }
 
+  protected void addRecipe(ItemStack material) {
+
+    EnumMaterialTier tier = EnumMaterialTier.fromStack(material);
+    GameRegistry.addShapedRecipe(ArmorHelper.constructArmor(this, material), " g ", "gfg", " g ",
+        'g', material, 'f', ModItems.armorFrame.getFrameForArmorPiece(this, tier));
   }
 
   @Override
@@ -239,7 +282,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   @Override
   public List<ModelResourceLocation> getVariants() {
 
-    return Lists.newArrayList(new ModelResourceLocation(getModId() + ":Armor", "inventory"));
+    return Lists.newArrayList(new ModelResourceLocation(getFullName(), "inventory"));
   }
 
   @Override

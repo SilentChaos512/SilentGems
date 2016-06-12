@@ -8,12 +8,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.item.ItemCrafting;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
@@ -22,7 +22,17 @@ public class ItemArmorFrame extends ItemSL {
 
   public ItemArmorFrame() {
 
+    // Meta bits: TTAA
+    // Where T = tier, A = armor type
+    // For armor type, 0 = Helmet, 1 = Chestplate, etc. (opposite of slot index)
+
     super(4 * EnumMaterialTier.values().length, SilentGems.MOD_ID, Names.ARMOR_FRAME);
+  }
+
+  public ItemStack getFrameForArmorPiece(ItemArmor itemArmor, EnumMaterialTier tier) {
+
+    int type = 3 - itemArmor.armorType.getIndex();
+    return new ItemStack(this, 1, type | (tier.ordinal() << 2));
   }
 
   public EnumMaterialTier getTier(ItemStack stack) {

@@ -1,6 +1,11 @@
 Silent's Gems - Changelog
 
+2.0.16
+Added: Standard armor types to sub items and recipes for JEI.
+Added: Temporary armor item textures.
+
 2.0.15
+Lots more work on armor, lots more to be done.
 Added: Armor detailed tooltips.
 Added: Secrets.
 Changed: Default keybinding for 'Toggle Special' is now Shift + C.
