@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,9 +16,6 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
-import net.silentchaos512.gems.item.armor.ItemGemArmor;
-import net.silentchaos512.lib.registry.IRegistryObject;
-import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class ArmorHelper {
 
@@ -50,6 +48,11 @@ public class ArmorHelper {
   public static final String NBT_PROP_DURABILITY = "Durability";
   public static final String NBT_PROP_PROTECTION = "Protection";
   public static final String NBT_PROP_ENCHANTABILITY = "Enchantability";
+
+  // Statistics
+  public static final String NBT_STATS_ORIGINAL_OWNER = "OriginalOwner";
+  public static final String NBT_STATS_REDECORATED = "Redecorated";
+  public static final String NBT_STATS_DAMAGE_TAKEN = "DamageTaken";
 
   public static void recalculateStats(ItemStack armor) {
 
@@ -164,7 +167,7 @@ public class ArmorHelper {
     for (int i = 0; i < materials.length; ++i) {
       if (materials[i] == null) {
         String str = "ArmorHelper.constructArmor: null part! ";
-        for (ItemStack stack: materials)
+        for (ItemStack stack : materials)
           str += stack + ", ";
         throw new IllegalArgumentException(str);
       }
@@ -323,5 +326,41 @@ public class ArmorHelper {
 
     initRootTag(tool);
     getRootTag(tool, NBT_ROOT_CONSTRUCTION).setString(name, part.getKey() + "#" + grade.name());
+  }
+
+  // --------------
+  // Statistics NBT
+  // --------------
+
+  public static String getOriginalOwner(ItemStack tool) {
+
+    return getTagString(tool, NBT_ROOT_STATISTICS, NBT_STATS_ORIGINAL_OWNER);
+  }
+
+  public static void setOriginalOwner(ItemStack tool, EntityPlayer player) {
+
+    if (getOriginalOwner(tool).isEmpty())
+      setTagString(tool, NBT_ROOT_STATISTICS, NBT_STATS_ORIGINAL_OWNER, player.getName());
+  }
+
+  public static int getStatRedecorated(ItemStack tool) {
+
+    return getTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_REDECORATED);
+  }
+
+  public static void incrementStatRedecorated(ItemStack tool, int amount) {
+
+    setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_REDECORATED, getStatRedecorated(tool) + amount);
+  }
+
+  public static float getStatDamageTaken(ItemStack tool) {
+
+    return getTagFloat(tool, NBT_ROOT_STATISTICS, NBT_STATS_DAMAGE_TAKEN);
+  }
+
+  public static void incrementStatDamageTaken(ItemStack tool, float amount) {
+
+    setTagFloat(tool, NBT_ROOT_STATISTICS, NBT_STATS_DAMAGE_TAKEN,
+        getStatDamageTaken(tool) + amount);
   }
 }

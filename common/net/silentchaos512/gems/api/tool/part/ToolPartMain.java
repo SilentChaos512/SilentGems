@@ -2,9 +2,11 @@ package net.silentchaos512.gems.api.tool.part;
 
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
+import net.silentchaos512.gems.api.IArmor;
+import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public class ToolPartMain extends ToolPart {
@@ -20,16 +22,21 @@ public class ToolPartMain extends ToolPart {
   }
 
   @Override
-  public int getRepairAmount(ItemStack tool) {
+  public int getRepairAmount(ItemStack stack) {
 
-    int max = tool.getMaxDamage();
+    int max = stack.getMaxDamage();
     float scale = 0.0f;
 
-    EnumMaterialTier tier = getTier();
+    EnumMaterialTier partTier = getTier();
+    EnumMaterialTier stackTier = stack.getItem() instanceof ITool ? ToolHelper.getToolTier(stack)
+        : (stack.getItem() instanceof IArmor ? ArmorHelper.getArmorTier(stack) : null);
 
-    switch (ToolHelper.getToolTier(tool)) {
+    if (stackTier == null)
+      return 0;
+
+    switch (ToolHelper.getToolTier(stack)) {
       case MUNDANE:
-        switch (tier) {
+        switch (partTier) {
           case MUNDANE:
             scale = 0.5f;
             break;
@@ -39,7 +46,7 @@ public class ToolPartMain extends ToolPart {
         }
         break;
       case REGULAR:
-        switch (tier) {
+        switch (partTier) {
           case MUNDANE:
             scale = 0.0f;
             break;
@@ -52,7 +59,7 @@ public class ToolPartMain extends ToolPart {
         }
         break;
       case SUPER:
-        switch (tier) {
+        switch (partTier) {
           case MUNDANE:
             scale = 0.0f;
             break;
@@ -66,7 +73,7 @@ public class ToolPartMain extends ToolPart {
         break;
     }
 
-    SilentGems.instance.logHelper.debug(ToolHelper.getToolTier(tool), tier, scale, scale * max);
+    SilentGems.logHelper.debug(stackTier, partTier, scale, scale * max);
     return (int) (scale * max);
   }
 

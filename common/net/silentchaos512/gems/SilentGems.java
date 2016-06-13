@@ -47,9 +47,9 @@ public class SilentGems {
   public static final String DEPENDENCIES = "required-after:Forge@[12.16.1.1904,);required-after:SilentLib;";
   public static final String RESOURCE_PREFIX = MOD_ID.toLowerCase() + ":";
 
-  public Random random = new Random();
-  public LogHelper logHelper = new LogHelper(MOD_NAME);
-  public LocalizationHelper localizationHelper;
+  public static Random random = new Random();
+  public static LogHelper logHelper = new LogHelper(MOD_NAME);
+  public static LocalizationHelper localizationHelper;
 
   public SRegistry registry = new SRegistry(MOD_ID) {
 

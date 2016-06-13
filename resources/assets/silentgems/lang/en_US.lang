@@ -670,11 +670,13 @@ misc.silentgems:Tooltip.HarvestLevel=&eHarvest Level:&f %s
 misc.silentgems:Tooltip.HarvestSpeed=&eBase Harvest Speed:&f %s
 misc.silentgems:Tooltip.MagicDamage=&eMagic Damage:&f %s
 misc.silentgems:Tooltip.MeleeDamage=&eMelee Damage:&f %s
+misc.silentgems:Tooltip.OriginalOwner=&8Made by %s
 misc.silentgems:Tooltip.Protection=&eProtection:&f %s
 
 misc.silentgems:Tooltip.BlocksMined=&eBlocks Mined:&f %s
 misc.silentgems:Tooltip.BlocksPlaced=&eBlocks Placed:&f %s
 misc.silentgems:Tooltip.BlocksTilled=&eBlocks Tilled:&f %s
+misc.silentgems:Tooltip.DamageTaken=&eDamage Taken:&f %s
 misc.silentgems:Tooltip.HitsLanded=&eHits Landed:&f %s
 misc.silentgems:Tooltip.PathsMade=&ePaths Made:&f %s
 misc.silentgems:Tooltip.ShotsFired=&eShots Fired:&f %s

@@ -1114,7 +1114,8 @@ public class ToolHelper {
 
   public static void setOriginalOwner(ItemStack tool, EntityPlayer player) {
 
-    setTagString(tool, NBT_ROOT_STATISTICS, NBT_STATS_ORIGINAL_OWNER, player.getName());
+    if (getOriginalOwner(tool).isEmpty())
+      setTagString(tool, NBT_ROOT_STATISTICS, NBT_STATS_ORIGINAL_OWNER, player.getName());
   }
 
   public static int getStatBlocksMined(ItemStack tool) {

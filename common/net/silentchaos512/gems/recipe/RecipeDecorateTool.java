@@ -23,8 +23,6 @@ import net.silentchaos512.lib.util.LogHelper;
 
 public class RecipeDecorateTool extends RecipeBase {
 
-  LogHelper log = SilentGems.instance.logHelper;
-
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
 
@@ -118,17 +116,5 @@ public class RecipeDecorateTool extends RecipeBase {
 
     ToolPart part = ToolPartRegistry.fromStack(stack);
     return part != null;
-  }
-
-  private int getRepairValue(ItemStack tool, ItemStack material) {
-
-    if (tool == null || material == null) {
-      return 0;
-    }
-    ToolPart part = ToolPartRegistry.fromStack(material);
-    if (part == null) {
-      return 0;
-    }
-    return part.getRepairAmount(tool);
   }
 }

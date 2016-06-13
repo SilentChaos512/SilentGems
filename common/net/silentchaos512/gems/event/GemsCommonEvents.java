@@ -52,9 +52,10 @@ public class GemsCommonEvents {
   @SubscribeEvent
   public void onItemCrafted(ItemCraftedEvent event) {
 
-    if (event.crafting.getItem() instanceof ITool) {
+    if (event.crafting.getItem() instanceof ITool)
       ToolHelper.setOriginalOwner(event.crafting, event.player);
-    }
+    else if (event.crafting.getItem() instanceof IArmor)
+      ArmorHelper.setOriginalOwner(event.crafting, event.player);
   }
 
   @SubscribeEvent

@@ -17,6 +17,8 @@ public class ModRecipes {
           afterShapeless);
       reg.addRecipeHandler(RecipeDecorateTool.class, "DecorateTool", Category.SHAPED,
           afterShapeless);
+      reg.addRecipeHandler(RecipeDecorateArmor.class, "DecorateArmor", Category.SHAPED,
+          afterShapeless);
       reg.addRecipeHandler(RecipeApplyEnchantmentToken.class, "ApplyEnchantmentToken",
           Category.SHAPELESS, afterShapeless);
       reg.addRecipeHandler(RecipeNamePlate.class, "NamePlate", Category.SHAPELESS, afterShapeless);

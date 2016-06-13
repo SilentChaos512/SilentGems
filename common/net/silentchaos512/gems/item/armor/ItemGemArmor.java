@@ -24,7 +24,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
@@ -39,7 +38,6 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LocalizationHelper;
-import net.silentchaos512.lib.util.PlayerHelper;
 
 public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryObject, IArmor {
 
@@ -208,6 +206,11 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     boolean altDown = KeyTracker.isAltDown();
     String line;
 
+    // Show original owner?
+    if (controlDown) {
+      list.add(loc.getMiscText("Tooltip.OriginalOwner", ArmorHelper.getOriginalOwner(stack)));
+    }
+
     // Broken?
     if (ArmorHelper.isBroken(stack)) {
       list.add(loc.getMiscText("Tooltip.Broken"));
@@ -225,6 +228,11 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
       // Statistics Header
       list.add(sep);
       list.add(loc.getMiscText("Tooltip.Statistics"));
+
+      list.add(helper.getTooltipLine("DamageTaken", ArmorHelper.getStatDamageTaken(stack)));
+      list.add(helper.getTooltipLine("Redecorated", ArmorHelper.getStatRedecorated(stack)));
+
+      list.add(sep);
     } else {
       list.add(TextFormatting.GOLD + loc.getMiscText("PressCtrl"));
     }

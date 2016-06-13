@@ -5,6 +5,7 @@ Fixed armor protection! Up to 20 armor points (10 pieces, a full bar), armor sho
 Added: Bonus armor bar. Armor values past 20 points will render gold armor pieces on top of the normal armor bar.
 Added: Standard armor types to subitems and recipes for JEI.
 Added: Temporary armor item textures.
+Fixed: Tools and armor correctly save the original owner's name now. They also display it when Ctrl is held.
 
 2.0.15
 Lots more work on armor, lots more to be done.

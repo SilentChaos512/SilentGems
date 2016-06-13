@@ -70,6 +70,11 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     boolean shiftDown = KeyTracker.isShiftDown();
     String line;
 
+    // Show original owner?
+    if (controlDown) {
+      list.add(loc.getMiscText("Tooltip.OriginalOwner", ToolHelper.getOriginalOwner(tool)));
+    }
+
     // Broken?
     if (ToolHelper.isBroken(tool)) {
       line = loc.getMiscText("Tooltip.Broken");
@@ -123,7 +128,6 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       }
 
       if (tool.getItem() instanceof ItemGemShovel) {
-
         list.add(getTooltipLine("PathsMade", ToolHelper.getStatPathsMade(tool)));
       }
 
