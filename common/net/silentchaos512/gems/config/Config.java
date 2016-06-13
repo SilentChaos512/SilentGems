@@ -56,6 +56,12 @@ public class Config {
   // TODO
 
   /*
+   * GUI
+   */
+
+  public static boolean SHOW_BONUS_ARMOR_BAR = true;
+
+  /*
    * Recipes
    */
 
@@ -97,6 +103,7 @@ public class Config {
   public static final String CAT_BLOCK = CAT_MAIN + split + "Blocks";
   public static final String CAT_CONTROLS = CAT_MAIN + split + "Controls";
   public static final String CAT_ENCHANTMENT = CAT_MAIN + split + "Enchantment";
+  public static final String CAT_GUI = CAT_MAIN + split + "GUI";
   public static final String CAT_ITEM = CAT_MAIN + split + "Items";
   public static final String CAT_RECIPE = CAT_MAIN + split + "Recipes";
   public static final String CAT_TOOLTIPS = CAT_MAIN + split + "Tooltips";
@@ -191,6 +198,14 @@ public class Config {
       RETURN_HOME_MAX_CHARGE = c.getInt("Max Charge", catReturnHome,
           RETURN_HOME_MAX_CHARGE, 0, Integer.MAX_VALUE,
           "The maximum amount of Chaos a charm can hold.");
+
+      /*
+       * GUI
+       */
+
+      SHOW_BONUS_ARMOR_BAR = c.getBoolean("Show Bonus Armor Bar", CAT_GUI,
+          SHOW_BONUS_ARMOR_BAR,
+          "Shows armor points beyond 20 on the bar as yellow armor pieces above the normal ones.");
 
       /*
        * Recipes

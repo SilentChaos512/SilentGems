@@ -122,7 +122,7 @@ public class ArmorHelper {
 
   public static boolean isBroken(ItemStack armor) {
 
-    return armor.getItemDamage() >= getMaxDamage(armor);
+    return armor.getItemDamage() >= armor.getItem().getMaxDamage(armor);
   }
 
   // ==========================================================================

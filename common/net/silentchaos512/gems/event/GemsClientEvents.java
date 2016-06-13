@@ -3,16 +3,23 @@ package net.silentchaos512.gems.event;
 import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FOVModifier;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.silentchaos512.gems.SilentGems;
@@ -25,6 +32,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.client.gui.GuiCrosshairs;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
+import net.silentchaos512.gems.config.Config;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
@@ -39,6 +47,7 @@ public class GemsClientEvents {
 
     ModItems.teleporterLinker.renderGameOverlay(event);
     renderCrosshairs(event);
+    renderArmorExtra(event);
   }
 
   @SubscribeEvent
@@ -144,6 +153,57 @@ public class GemsClientEvents {
     // }
   }
 
+  /**
+   * Draws extra (yellow) armor pieces over the normal bar, if player armor is above 20.
+   * 
+   * @param event
+   */
+  private void renderArmorExtra(RenderGameOverlayEvent event) {
+
+    if (!Config.SHOW_BONUS_ARMOR_BAR || !event.isCancelable()
+        || event.getType() != ElementType.ARMOR)
+      return;
+
+    int width = event.getResolution().getScaledWidth();
+    int height = event.getResolution().getScaledHeight();
+
+    GlStateManager.enableBlend();
+    GlStateManager.color(1.0f, 1.0f, 0.3f);
+    int left = width / 2 - 91;
+    int top = height - GuiIngameForge.left_height;
+
+    int level = ForgeHooks.getTotalArmorValue(Minecraft.getMinecraft().thePlayer) - 20;
+    for (int i = 1; level > 0 && i < 20; i += 2) {
+      if (i < level) {
+        drawTexturedModalRect(left, top, 34, 9, 9, 9);
+      } else if (i == level) {
+        drawTexturedModalRect(left, top, 25, 9, 5, 9);
+      }
+      left += 8;
+    }
+
+    GlStateManager.disableBlend();
+    GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+  }
+
+  public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width,
+      int height) {
+
+    float f = 0.00390625F;
+    float f1 = 0.00390625F;
+    Tessellator tessellator = Tessellator.getInstance();
+    VertexBuffer vertexbuffer = tessellator.getBuffer();
+    vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+    vertexbuffer.pos(x + 0, y + height, 0).tex((textureX + 0) * f, (textureY + height) * f1)
+        .endVertex();
+    vertexbuffer.pos(x + width, y + height, 0).tex((textureX + width) * f, (textureY + height) * f1)
+        .endVertex();
+    vertexbuffer.pos(x + width, y + 0, 0).tex((textureX + width) * f, (textureY + 0) * f1)
+        .endVertex();
+    vertexbuffer.pos(x + 0, y + 0, 0).tex((textureX + 0) * f, (textureY + 0) * f1).endVertex();
+    tessellator.draw();
+  }
+
   @SubscribeEvent
   public void onFOVModifier(FOVModifier event) {
 
@@ -159,10 +219,10 @@ public class GemsClientEvents {
     pre.getMap().registerSprite(new ResourceLocation("silentgems", "blocks/ChaosAltar"));
   }
 
-//  @SubscribeEvent
-//  public void onWitBlockInfo(WitBlockInfoEvent event) {
-//
-//    event.lines.add("Testing from Gems");
-//    event.lines.add(event.tileEntity == null ? "null" : event.tileEntity.toString());
-//  }
+  // @SubscribeEvent
+  // public void onWitBlockInfo(WitBlockInfoEvent event) {
+  //
+  // event.lines.add("Testing from Gems");
+  // event.lines.add(event.tileEntity == null ? "null" : event.tileEntity.toString());
+  // }
 }

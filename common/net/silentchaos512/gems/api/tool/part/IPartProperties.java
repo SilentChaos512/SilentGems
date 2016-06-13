@@ -27,7 +27,7 @@ public interface IPartProperties {
 
   public float getChargeSpeed();
 
-  public int getProtection();
+  public float getProtection();
 
   public ItemStack getCraftingStack();
 

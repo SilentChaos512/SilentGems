@@ -24,10 +24,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
@@ -38,8 +39,9 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LocalizationHelper;
+import net.silentchaos512.lib.util.PlayerHelper;
 
-public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryObject {
+public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryObject, IArmor {
 
   public static final float[] ABSORPTION_RATIO_BY_SLOT = { 0.175f, 0.3f, 0.4f, 0.125f }; // sum = 1, starts with boots
   public static final int[] MAX_DAMAGE_ARRAY = new int[] { 13, 15, 16, 11 }; // Copied from ItemArmor
@@ -69,6 +71,12 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     this.itemName = name;
   }
 
+  @Override
+  public ItemStack constructArmor(ItemStack... materials) {
+
+    return ArmorHelper.constructArmor(this, materials);
+  }
+
   public float getProtection(ItemStack armor) {
 
     return ABSORPTION_RATIO_BY_SLOT[armorType.getIndex()] * ArmorHelper.getProtection(armor);
@@ -77,7 +85,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   public float getToughness(ItemStack stack) {
 
     float durability = ArmorHelper.getMaxDamage(stack) / 1536f;
-    float protection = ArmorHelper.getProtection(stack) / 10f;
+    float protection = ArmorHelper.getProtection(stack) / 20f;
     float value = durability + protection - 0.8f;
     return MathHelper.clamp_float(value, 0f, 4f);
   }
@@ -90,21 +98,47 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     return (int) (MAX_DAMAGE_ARRAY[armorType.getIndex()] * y);
   }
 
+  public static int getPlayerTotalGemArmorValue(EntityLivingBase player) {
+
+    float total = 0;
+    for (ItemStack armor : player.getArmorInventoryList()) {
+      if (armor != null) {
+        if (armor.getItem() instanceof ItemGemArmor) {
+          total += ((ItemGemArmor) armor.getItem()).getProtection(armor);
+        } else if (armor.getItem() instanceof ItemArmor) {
+          total += ((ItemArmor) armor.getItem()).damageReduceAmount;
+        }
+      }
+    }
+    return (int) Math.round(total);
+  }
+
   @Override
   public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor,
       DamageSource source, double damage, int slot) {
 
-    float ratio = ABSORPTION_RATIO_BY_SLOT[slot];
-    int max = (int) (1.72f * getProtection(armor) * damage);
-    SilentGems.instance.logHelper
-        .debug(new String[] { "Boots", "Leggings", "Chestplate", "Helmet" }[slot], ratio, max);
-    return new ArmorProperties(0, ratio, max);
+    // TODO: Special protection, like fall damage?
+    if (source.isUnblockable())
+      return new ArmorProperties(0, 1, 0);
+
+    // Basing ratios on total armor value.
+    float protection = getPlayerTotalGemArmorValue(player);
+    float ratio = ABSORPTION_RATIO_BY_SLOT[armorType.getIndex()];
+    if (protection <= 20) {
+      // 80% max (20 armor points) = diamond armor
+      ratio *= protection / 25f;
+    } else {
+      // 40 armor points = invincible
+      ratio *= MathHelper.clamp_float(protection / 100f, 0f, 0.98f) + 0.6f;
+    }
+
+    return new ArmorProperties(0, ratio, Integer.MAX_VALUE);
   }
 
   @Override
   public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
 
-    return (int) (2 * getProtection(armor));
+    return (int) Math.round(getProtection(armor));
   }
 
   @Override
@@ -112,11 +146,12 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
       int slot) {
 
     int amount = (int) (damage - getToughness(stack));
-    amount = amount < 0 ? 0 : amount;
+    int durabilityLeft = getMaxDamage(stack) - stack.getItemDamage();
+    amount = amount < 0 ? 0 : (amount > durabilityLeft ? durabilityLeft : amount);
     stack.attemptDamageItem(amount, SilentGems.instance.random);
-    SilentGems.instance.logHelper.debug(
-        new String[] { "Boots", "Leggings", "Chestplate", "Helmet" }[slot],
-        "attempt damage = " + amount);
+    // SilentGems.instance.logHelper.debug(
+    // new String[] { "Boots", "Leggings", "Chestplate", "Helmet" }[slot],
+    // "attempt damage = " + amount);
   }
 
   @Override
@@ -128,7 +163,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     if (slot == this.armorType) {
       multimap.put(SharedMonsterAttributes.ARMOR.getAttributeUnlocalizedName(),
           new AttributeModifier(ARMOR_MODIFIERS[slot.getIndex()], "Armor modifier",
-              2 * getProtection(stack), 0));
+              getProtection(stack), 0));
       multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getAttributeUnlocalizedName(),
           new AttributeModifier(ARMOR_MODIFIERS[slot.getIndex()], "Armor toughness",
               getToughness(stack), 0));
@@ -184,8 +219,8 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
       // Properties header
       list.add(loc.getMiscText("Tooltip.Properties"));
 
-      list.add(helper.getTooltipLine("Durability", ArmorHelper.getMaxDamage(stack)));
-      list.add(helper.getTooltipLine("Protection", 2 * getProtection(stack)));
+      list.add(helper.getTooltipLine("Durability", getMaxDamage(stack)));
+      list.add(helper.getTooltipLine("Protection", getProtection(stack)));
 
       // Statistics Header
       list.add(sep);
@@ -220,20 +255,20 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
       subItems = Lists.newArrayList();
 
       // Test broken items.
-      ItemStack testBroken = ArmorHelper.constructArmor(item, new ItemStack(Items.FLINT));
+      ItemStack testBroken = constructArmor(new ItemStack(Items.FLINT));
       testBroken.setItemDamage(getMaxDamage(testBroken) - 1);
       subItems.add(testBroken);
 
       // Flint
-      subItems.add(ArmorHelper.constructArmor(item, new ItemStack(Items.FLINT)));
+      subItems.add(constructArmor(new ItemStack(Items.FLINT)));
 
       // Regular Gems
       for (EnumGem gem : EnumGem.values())
-        subItems.add(ArmorHelper.constructArmor(item, gem.getItem()));
+        subItems.add(constructArmor(gem.getItem()));
 
       // Super Gems
       for (EnumGem gem : EnumGem.values())
-        subItems.add(ArmorHelper.constructArmor(item, gem.getItemSuper()));
+        subItems.add(constructArmor(gem.getItemSuper()));
     }
 
     list.addAll(subItems);
@@ -252,8 +287,8 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   protected void addRecipe(ItemStack material) {
 
     EnumMaterialTier tier = EnumMaterialTier.fromStack(material);
-    GameRegistry.addShapedRecipe(ArmorHelper.constructArmor(this, material), " g ", "gfg", " g ",
-        'g', material, 'f', ModItems.armorFrame.getFrameForArmorPiece(this, tier));
+    GameRegistry.addShapedRecipe(constructArmor(material), " g ", "gfg", " g ", 'g', material, 'f',
+        ModItems.armorFrame.getFrameForArmorPiece(this, tier));
   }
 
   @Override

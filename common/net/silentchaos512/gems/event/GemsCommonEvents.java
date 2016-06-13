@@ -27,6 +27,7 @@ import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.PlayerHelper;
 
 public class GemsCommonEvents {
 
@@ -36,9 +37,9 @@ public class GemsCommonEvents {
     Greetings.greetPlayer(event.player);
 
     SilentGems.instance.logHelper
-        .info("Recalculating tool stats for " + event.player.getDisplayNameString());
+        .info("Recalculating tool and armor stats for " + event.player.getDisplayNameString());
     // Recalculate tool stats.
-    for (ItemStack stack : event.player.inventory.mainInventory) {
+    for (ItemStack stack : PlayerHelper.getNonNullStacks(event.player)) {
       if (stack != null) {
         if (stack.getItem() instanceof ITool)
           ToolHelper.recalculateStats(stack);

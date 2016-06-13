@@ -1,7 +1,6 @@
 package net.silentchaos512.gems.lib;
 
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
@@ -12,39 +11,39 @@ public enum EnumGem implements IStringSerializable {
 
   // @formatter:off
   //                                  DUR    EFF   MEL   MAG ENC   SPD   CHG PRT
-  RUBY            ("Ruby",            512,  8.0f, 5.0f, 2.0f, 10, 0.7f, 1.0f, 7),
-  GARNET          ("Garnet",          384,  7.0f, 4.0f, 3.0f, 12, 0.9f, 1.0f, 8),
-  TOPAZ           ("Topaz",           384,  9.0f, 4.0f, 2.0f, 10, 0.8f, 2.0f, 8),
-  AMBER           ("Amber",           128,  5.0f, 2.0f, 2.0f, 14, 1.1f, 4.0f, 6),
-  HELIODOR        ("Heliodor",        256, 11.0f, 4.0f, 3.0f, 10, 1.0f, 2.0f, 6),
-  PERIDOT         ("Peridot",         256,  6.0f, 4.0f, 3.0f, 14, 0.7f, 3.0f, 7),
-  BERYL           ("Beryl",           384,  7.0f, 4.0f, 2.0f, 12, 0.9f, 3.0f, 7),
-  INDICOLITE      ("Indicolite",      384, 10.0f, 2.0f, 5.0f, 12, 1.0f, 1.0f, 6),
-  AQUAMARINE      ("Aquamarine",      256,  9.0f, 3.0f, 4.0f, 12, 1.1f, 2.0f, 7),
-  SAPPHIRE        ("Sapphire",        512,  8.0f, 3.0f, 4.0f, 10, 0.7f, 1.0f, 8),
-  IOLITE          ("Iolite",          512,  6.0f, 2.0f, 4.0f, 11, 1.0f, 2.0f, 9),
-  AMETHYST        ("Amethyst",        256,  7.0f, 3.0f, 3.0f, 12, 0.9f, 3.0f, 9),
-  AGATE           ("Agate",           192,  8.0f, 3.0f, 3.0f, 14, 1.1f, 4.0f, 8),
-  MORGANITE       ("Morganite",       256,  9.0f, 4.0f, 2.0f, 12, 0.9f, 3.0f, 7),
-  ONYX            ("Onyx",            128,  8.0f, 6.0f, 2.0f,  8, 0.6f, 1.0f, 6),
-  OPAL            ("Opal",            192,  8.0f, 3.0f, 5.0f, 13, 0.7f, 2.0f, 8),
+  RUBY            ("Ruby",            512,  8.0f, 5.0f, 2.0f, 10, 0.7f, 1.0f, 14),
+  GARNET          ("Garnet",          384,  7.0f, 4.0f, 3.0f, 12, 0.9f, 1.0f, 16),
+  TOPAZ           ("Topaz",           384,  9.0f, 4.0f, 2.0f, 10, 0.8f, 2.0f, 16),
+  AMBER           ("Amber",           128,  5.0f, 2.0f, 2.0f, 14, 1.1f, 4.0f, 12),
+  HELIODOR        ("Heliodor",        256, 11.0f, 4.0f, 3.0f, 10, 1.0f, 2.0f, 12),
+  PERIDOT         ("Peridot",         256,  6.0f, 4.0f, 3.0f, 14, 0.7f, 3.0f, 14),
+  BERYL           ("Beryl",           384,  7.0f, 4.0f, 2.0f, 12, 0.9f, 3.0f, 14),
+  INDICOLITE      ("Indicolite",      384, 10.0f, 2.0f, 5.0f, 12, 1.0f, 1.0f, 12),
+  AQUAMARINE      ("Aquamarine",      256,  9.0f, 3.0f, 4.0f, 12, 1.1f, 2.0f, 14),
+  SAPPHIRE        ("Sapphire",        512,  8.0f, 3.0f, 4.0f, 10, 0.7f, 1.0f, 16),
+  IOLITE          ("Iolite",          512,  6.0f, 2.0f, 4.0f, 11, 1.0f, 2.0f, 20),
+  AMETHYST        ("Amethyst",        256,  7.0f, 3.0f, 3.0f, 12, 0.9f, 3.0f, 18),
+  AGATE           ("Agate",           192,  8.0f, 3.0f, 3.0f, 14, 1.1f, 4.0f, 16),
+  MORGANITE       ("Morganite",       256,  9.0f, 4.0f, 2.0f, 12, 0.9f, 3.0f, 14),
+  ONYX            ("Onyx",            128,  8.0f, 6.0f, 2.0f,  8, 0.6f, 1.0f, 12),
+  OPAL            ("Opal",            192,  8.0f, 3.0f, 5.0f, 13, 0.7f, 2.0f, 16),
   //--------------------------------------------------------------------------
-  CARNELIAN       ("Carnelian",       256,  9.0f, 2.0f, 3.0f, 12, 0.9f, 2.0f, 7),
-  SPINEL          ("Spinel",          512,  8.0f, 4.0f, 2.0f, 11, 0.7f, 1.0f, 8),
-  CITRINE         ("Citrine",         384, 10.0f, 3.0f, 2.0f, 13, 1.0f, 2.0f, 7),
-  JASPER          ("Jasper",          256,  7.0f, 3.0f, 3.0f, 14, 0.9f, 2.0f, 9),
-  GOLDEN_BERYL    ("GoldenBeryl",     384, 10.0f, 2.0f, 5.0f, 10, 0.7f, 1.0f, 6),
-  MOLDAVITE       ("Moldavite",       192,  6.0f, 5.0f, 2.0f, 11, 0.8f, 3.0f, 8),
-  MALACHITE       ("Malachite",       128,  8.0f, 4.0f, 2.0f, 14, 1.3f, 2.0f, 7),
-  TURQUOISE       ("Turquoise",       256,  9.0f, 3.0f, 3.0f, 12, 0.8f, 1.0f, 7),
-  MOONSTONE       ("Moonstone",       256,  9.0f, 3.0f, 3.0f, 15, 1.0f, 3.0f, 7),
-  BLUE_TOPAZ      ("BlueTopaz",       512,  9.0f, 3.0f, 3.0f, 11, 0.7f, 1.0f, 8),
-  TANZANITE       ("Tanzanite",       384,  6.0f, 3.0f, 4.0f, 13, 0.7f, 2.0f, 8),
-  VIOLET_SAPPHIRE ("VioletSapphire",  512,  7.0f, 4.0f, 3.0f, 11, 0.9f, 1.0f, 8),
-  LEPIDOLITE      ("Lepidolite",      128,  5.0f, 3.0f, 6.0f, 13, 1.0f, 1.0f, 6),
-  AMETRINE        ("Ametrine",        384,  8.0f, 4.0f, 2.0f, 10, 0.7f, 4.0f, 6),
-  BLACK_DIAMOND   ("BlackDiamond",    768,  9.0f, 3.0f, 4.0f,  9, 0.7f, 1.0f, 9),
-  ALEXANDRITE     ("Alexandrite",     512,  8.0f, 3.0f, 3.0f, 10, 0.8f, 2.0f, 7);
+  CARNELIAN       ("Carnelian",       256,  9.0f, 2.0f, 3.0f, 12, 0.9f, 2.0f, 14),
+  SPINEL          ("Spinel",          512,  8.0f, 4.0f, 2.0f, 11, 0.7f, 1.0f, 16),
+  CITRINE         ("Citrine",         384, 10.0f, 3.0f, 2.0f, 13, 1.0f, 2.0f, 14),
+  JASPER          ("Jasper",          256,  7.0f, 3.0f, 3.0f, 14, 0.9f, 2.0f, 18),
+  GOLDEN_BERYL    ("GoldenBeryl",     384, 10.0f, 2.0f, 5.0f, 10, 0.7f, 1.0f, 12),
+  MOLDAVITE       ("Moldavite",       192,  6.0f, 5.0f, 2.0f, 11, 0.8f, 3.0f, 16),
+  MALACHITE       ("Malachite",       128,  8.0f, 4.0f, 2.0f, 14, 1.3f, 2.0f, 14),
+  TURQUOISE       ("Turquoise",       256,  9.0f, 3.0f, 3.0f, 12, 0.8f, 1.0f, 14),
+  MOONSTONE       ("Moonstone",       256,  9.0f, 3.0f, 3.0f, 15, 1.0f, 3.0f, 14),
+  BLUE_TOPAZ      ("BlueTopaz",       512,  9.0f, 3.0f, 3.0f, 11, 0.7f, 1.0f, 16),
+  TANZANITE       ("Tanzanite",       384,  6.0f, 3.0f, 4.0f, 13, 0.7f, 2.0f, 16),
+  VIOLET_SAPPHIRE ("VioletSapphire",  512,  7.0f, 4.0f, 3.0f, 11, 0.9f, 1.0f, 16),
+  LEPIDOLITE      ("Lepidolite",      128,  5.0f, 3.0f, 6.0f, 13, 1.0f, 1.0f, 12),
+  AMETRINE        ("Ametrine",        384,  8.0f, 4.0f, 2.0f, 10, 0.7f, 4.0f, 12),
+  BLACK_DIAMOND   ("BlackDiamond",    768,  9.0f, 3.0f, 4.0f,  9, 0.7f, 1.0f, 18),
+  ALEXANDRITE     ("Alexandrite",     512,  8.0f, 3.0f, 3.0f, 10, 0.8f, 2.0f, 14);
   // @formatter:on
 
   public static final PropertyEnum VARIANT_GEM = PropertyEnum.create("variant", EnumGem.class, RUBY,
@@ -53,6 +52,19 @@ public enum EnumGem implements IStringSerializable {
   // public static final PropertyEnum VARIANT_GEM_DARK = PropertyEnum.create("variant", EnumGem.class,
   // CARNELIAN, SPINEL, CITRINE, JASPER, GOLDEN_BERYL, MOLDAVITE, MALACHITE, TURQUOISE, MOONSTONE,
   // BLUE_TOPAZ, TANZANITE, VIOLET_SAPPHIRE, LEPIDOLITE, AMETRINE, BLACK_DIAMOND, ALEXANDRITE);
+
+  public static final int REGULAR_HARVEST_LEVEL = 2;
+  public static final int SUPER_HARVEST_LEVEL = 4;
+  public static final int SUPER_DURABILITY_MULTI = 4;
+  public static final float SUPER_MINING_SPEED_BOOST = 4.0f;
+  public static final float SUPER_MELEE_DAMAGE_BOOST = 2.0f;
+  public static final float SUPER_MAGIC_DAMAGE_BOOST = 2.0f;
+  public static final int SUPER_ENCHANTABILITY_BOOST = 6;
+  public static final float SUPER_MELEE_SPEED_BOOST = 0.2f;
+  public static final float SUPER_CHARGE_SPEED_BOOST = 1.0f;
+  public static final int SUPER_PROTECTION_BOOST = 4;
+
+  protected static final String STR_SUPER = "Super";
 
   protected final String name;
   protected final int durability;
@@ -78,63 +90,74 @@ public enum EnumGem implements IStringSerializable {
     this.protection = protection;
   }
 
+  /**
+   * @return The IStringSerializable name: All lowercase with underscores, good for block states.
+   */
   @Override
   public String getName() {
 
     return name().toLowerCase();
   }
 
+  /**
+   * @return A localization-friendly version of the name, capital case with no spaces or underscores.
+   */
   public String getGemName() {
 
     return name;
   }
 
+  // ===========================
+  // Tier-sensitive stat getters
+  // ===========================
+
   public int getDurability(EnumMaterialTier tier) {
 
-    return tier == EnumMaterialTier.SUPER ? 4 * durability : durability;
+    return tier == EnumMaterialTier.SUPER ? durability * SUPER_DURABILITY_MULTI : durability;
   }
 
   public float getMiningSpeed(EnumMaterialTier tier) {
 
-    return tier == EnumMaterialTier.SUPER ? miningSpeed + 4.0f : miningSpeed;
+    return tier == EnumMaterialTier.SUPER ? miningSpeed + SUPER_MINING_SPEED_BOOST : miningSpeed;
   }
 
   public float getMeleeDamage(EnumMaterialTier tier) {
 
-    return tier == EnumMaterialTier.SUPER ? meleeDamage + 2.0f : meleeDamage;
+    return tier == EnumMaterialTier.SUPER ? meleeDamage + SUPER_MELEE_DAMAGE_BOOST : meleeDamage;
   }
 
   public float getMagicDamage(EnumMaterialTier tier) {
 
-    return tier == EnumMaterialTier.SUPER ? magicDamage + 2.0f : magicDamage;
+    return tier == EnumMaterialTier.SUPER ? magicDamage + SUPER_MAGIC_DAMAGE_BOOST : magicDamage;
   }
 
   public int getEnchantability(EnumMaterialTier tier) {
 
-    return tier == EnumMaterialTier.SUPER ? enchantability + 6 : enchantability;
+    return tier == EnumMaterialTier.SUPER ? enchantability + SUPER_ENCHANTABILITY_BOOST
+        : enchantability;
   }
 
   public float getMeleeSpeed(EnumMaterialTier tier) {
 
-    return tier == EnumMaterialTier.SUPER ? meleeSpeed + 0.2f : meleeSpeed;
+    return tier == EnumMaterialTier.SUPER ? meleeSpeed + SUPER_MELEE_SPEED_BOOST : meleeSpeed;
   }
 
   public float getChargeSpeed(EnumMaterialTier tier) {
 
-    return tier == EnumMaterialTier.SUPER ? chargeSpeed + 1.0f : chargeSpeed;
+    return tier == EnumMaterialTier.SUPER ? chargeSpeed + SUPER_CHARGE_SPEED_BOOST : chargeSpeed;
   }
 
   public int getProtection(EnumMaterialTier tier) {
 
-    // TODO: Is +4 reasonable?
-    return tier == EnumMaterialTier.SUPER ? protection + 4 : protection;
+    return tier == EnumMaterialTier.SUPER ? protection + SUPER_PROTECTION_BOOST : protection;
   }
 
   public int getHarvestLevel(EnumMaterialTier tier) {
 
-    return tier == EnumMaterialTier.SUPER ? 4 : 2;
+    return tier == EnumMaterialTier.SUPER ? SUPER_HARVEST_LEVEL : REGULAR_HARVEST_LEVEL;
   }
 
+  // Seems to be unused?
   public static EnumGem getFromStack(ItemStack stack) {
 
     if (stack == null || stack.getItem() != ModItems.gem) {
@@ -148,64 +171,100 @@ public enum EnumGem implements IStringSerializable {
   // Block and Item getters
   // ======================
 
+  /**
+   * @return The gem block.
+   */
   public ItemStack getBlock() {
 
     return new ItemStack(ordinal() < 16 ? ModBlocks.gemBlock : ModBlocks.gemBlockDark, 1,
         ordinal() & 0xF);
   }
 
+  /**
+   * @return The ore dictionary name for the gem block.
+   */
   public String getBlockOreName() {
 
     return "block" + name;
   }
 
+  /**
+   * @return The supercharged gem block.
+   */
   public ItemStack getBlockSuper() {
 
     return new ItemStack(ordinal() < 16 ? ModBlocks.gemBlockSuper : ModBlocks.gemBlockSuperDark, 1,
         ordinal() & 0xF);
   }
 
+  /**
+   * @return The ore dictionary name for the supercharged gem block.
+   */
   public String getBlockSuperOreName() {
 
-    return getBlockOreName() + "Super";
+    return getBlockOreName() + STR_SUPER;
   }
 
+  /**
+   * @return The gem ore block.
+   */
   public ItemStack getOre() {
 
     return new ItemStack(ordinal() < 16 ? ModBlocks.gemOre : ModBlocks.gemOreDark, 1,
         ordinal() & 0xF);
   }
 
+  /**
+   * @return The ore dictionary name for the gem ore block.
+   */
   public String getOreOreName() {
 
     return "ore" + name;
   }
 
+  /**
+   * @return The gem item.
+   */
   public ItemStack getItem() {
 
     return new ItemStack(ModItems.gem, 1, ordinal());
   }
 
+  /**
+   * @return The ore dictionary name for the gem item.
+   */
   public String getItemOreName() {
 
     return "gem" + name;
   }
 
+  /**
+   * @return The supercharged gem item.
+   */
   public ItemStack getItemSuper() {
 
     return new ItemStack(ModItems.gem, 1, ordinal() + 32);
   }
 
+  /**
+   * @return The ore dictionary name for the supercharged gem item.
+   */
   public String getItemSuperOreName() {
 
-    return getItemOreName() + "Super";
+    return getItemOreName() + STR_SUPER;
   }
 
+  /**
+   * @return The gem shard (nugget) item.
+   */
   public ItemStack getShard() {
 
     return new ItemStack(ModItems.gemShard, 1, ordinal());
   }
 
+  /**
+   * @return The ore dictionary name of the gem shard (nugget) item.
+   */
   public String getShardOreName() {
 
     return "nugget" + name;

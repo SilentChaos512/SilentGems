@@ -1,7 +1,9 @@
 Silent's Gems - Changelog
 
 2.0.16
-Added: Standard armor types to sub items and recipes for JEI.
+Fixed armor protection! Up to 20 armor points (10 pieces, a full bar), armor should be identical to vanilla. Past that, each point adds 1% additional damage absorption.
+Added: Bonus armor bar. Armor values past 20 points will render gold armor pieces on top of the normal armor bar.
+Added: Standard armor types to subitems and recipes for JEI.
 Added: Temporary armor item textures.
 
 2.0.15
