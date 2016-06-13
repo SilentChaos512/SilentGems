@@ -4,7 +4,7 @@ Silent's Gems - Changelog
 Fixed armor protection! Up to 20 armor points (10 pieces, a full bar), armor should be identical to vanilla. Past that, each point adds 1% additional damage absorption.
 Added: Bonus armor bar. Armor values past 20 points will render gold armor pieces on top of the normal armor bar.
 Added: Standard armor types to subitems and recipes for JEI.
-Added: Temporary armor item textures.
+Added: Temporary armor item textures, complete with color! Temporary armor models are still just white...
 Fixed: Tools and armor correctly save the original owner's name now. They also display it when Ctrl is held.
 
 2.0.15

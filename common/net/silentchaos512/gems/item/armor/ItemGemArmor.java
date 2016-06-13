@@ -211,6 +211,12 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
       list.add(loc.getMiscText("Tooltip.OriginalOwner", ArmorHelper.getOriginalOwner(stack)));
     }
 
+    // TODO: Remove me
+    if (altDown) {
+      list.add(TextFormatting.RED + "Yes, armor models have no color.");
+      list.add(TextFormatting.RED + "I'm working on something, I promise ;)");
+    }
+
     // Broken?
     if (ArmorHelper.isBroken(stack)) {
       list.add(loc.getMiscText("Tooltip.Broken"));

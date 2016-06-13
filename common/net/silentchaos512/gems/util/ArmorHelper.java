@@ -13,9 +13,11 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumDecoPos;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.gems.item.ToolRenderHelper;
 
 public class ArmorHelper {
 
@@ -83,7 +85,14 @@ public class ArmorHelper {
       uniqueParts.add(part);
     }
 
-    // TODO: Set render colors?
+    // Set render colors
+    ToolPart[] renderParts = getRenderParts(armor);
+    for (int i = 0; i < renderParts.length; ++i) {
+      if (renderParts[i] != null) {
+        setTagInt(armor, ToolRenderHelper.NBT_MODEL_INDEX, "Layer" + i + "Color",
+            renderParts[i].getColor(armor));
+      }
+    }
 
     // Variety bonus
     int variety = MathHelper.clamp_int(uniqueParts.size(), 1, 3);
@@ -144,9 +153,95 @@ public class ArmorHelper {
     return ToolHelper.getConstructionParts(armor);
   }
 
+  public static ToolPart[] getRenderParts(ItemStack armor) {
+
+    if (armor == null)
+      return new ToolPart[0];
+
+    return new ToolPart[] {//
+        getRenderPart(armor, EnumDecoPos.WEST), getRenderPart(armor, EnumDecoPos.NORTH),
+        getRenderPart(armor, EnumDecoPos.EAST), getRenderPart(armor, EnumDecoPos.SOUTH) };
+  }
+
   public static EnumMaterialGrade[] getConstructionGrades(ItemStack armor) {
 
     return ToolHelper.getConstructionGrades(armor);
+  }
+
+  public static ToolPart getPart(ItemStack armor, EnumDecoPos pos) {
+
+    String key;
+    switch (pos) {
+      case EAST:
+        key = getPartId(armor, NBT_PART_EAST);
+        break;
+      case NORTH:
+        key = getPartId(armor, NBT_PART_NORTH);
+        break;
+      case SOUTH:
+        key = getPartId(armor, NBT_PART_SOUTH);
+        break;
+      case WEST:
+        key = getPartId(armor, NBT_PART_WEST);
+        break;
+      default:
+        SilentGems.logHelper.warning("ArmorHelper.getPart: Unknown EnumDecoPos " + pos);
+        key = "";
+    }
+
+    if (key.isEmpty())
+      return null;
+
+    return ToolPartRegistry.getPart(key);
+  }
+
+  public static ToolPart getRenderPart(ItemStack armor, EnumDecoPos pos) {
+
+    String key;
+    switch (pos) {
+      case EAST:
+        key = getPartId(armor, NBT_DECO_EAST);
+        break;
+      case NORTH:
+        key = getPartId(armor, NBT_DECO_NORTH);
+        break;
+      case SOUTH:
+        key = getPartId(armor, NBT_DECO_SOUTH);
+        break;
+      case WEST:
+        key = getPartId(armor, NBT_DECO_WEST);
+        break;
+      default:
+        SilentGems.logHelper.warning("ArmorHelper.getRenderPart: Unknown EnumDecoPos " + pos);
+        key = "";
+    }
+
+    if (key.isEmpty())
+      return getPart(armor, pos);
+
+    return ToolPartRegistry.getPart(key);
+  }
+
+  public static String getPartId(ItemStack tool, String key) {
+
+    if (!tool.hasTagCompound()) {
+      return null;
+    }
+
+    return getRootTag(tool, NBT_ROOT_CONSTRUCTION).getString(key).split("#")[0];
+  }
+
+  public static EnumMaterialGrade getPartGrade(ItemStack tool, String key) {
+
+    if (!tool.hasTagCompound()) {
+      return null;
+    }
+
+    String[] array = getRootTag(tool, NBT_ROOT_CONSTRUCTION).getString(key).split("#");
+    if (array.length < 2) {
+      return EnumMaterialGrade.NONE;
+    }
+    return EnumMaterialGrade.fromString(array[1]);
   }
 
   public static ItemStack constructArmor(Item item, ItemStack... materials) {

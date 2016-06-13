@@ -76,7 +76,7 @@ public class RecipeDecorateTool extends RecipeBase {
         if (!part.validForToolOfTier(toolTier) && !(part instanceof ToolPartMain)) {
           return null;
         }
-        repairValue += part.getRepairAmount(tool);
+        repairValue += part.getRepairAmount(tool, stack);
         otherMats.add(stack);
       }
     }

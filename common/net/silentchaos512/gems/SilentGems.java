@@ -51,7 +51,7 @@ public class SilentGems {
   public static LogHelper logHelper = new LogHelper(MOD_NAME);
   public static LocalizationHelper localizationHelper;
 
-  public SRegistry registry = new SRegistry(MOD_ID) {
+  public static SRegistry registry = new SRegistry(MOD_ID) {
 
     @Override
     public Block registerBlock(Block block, String key, ItemBlock itemBlock) {
@@ -70,7 +70,7 @@ public class SilentGems {
     }
   };
 
-  public CreativeTabs creativeTab = new CreativeTabs("tabSilentGems") {
+  public static CreativeTabs creativeTab = new CreativeTabs("tabSilentGems") {
 
     @Override
     public Item getTabIconItem() {

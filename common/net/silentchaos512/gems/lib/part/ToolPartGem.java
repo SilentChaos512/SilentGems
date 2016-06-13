@@ -7,9 +7,11 @@ import com.google.common.collect.Maps;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
@@ -35,18 +37,21 @@ public class ToolPartGem extends ToolPartMain {
   }
 
   @Override
-  public int getColor() {
+  public int getColor(ItemStack toolOrArmor) {
 
-    return gem.ordinal() > 15 ? ToolRenderHelper.DARK_GEM_SHADE : 0xFFFFFF;
+    if (toolOrArmor.getItem() instanceof IArmor)
+      return gem.getColor();
+    else
+      return gem.ordinal() > 15 ? ToolRenderHelper.DARK_GEM_SHADE : 0xFFFFFF;
   }
 
   @Override
   public String getDisplayName(ItemStack stack) {
 
-    if (stack.hasDisplayName())
+    if (stack.hasDisplayName() || stack.getItem() != ModItems.gem)
       return stack.getDisplayName();
 
-    return SilentGems.instance.localizationHelper.getLocalizedString("item",
+    return SilentGems.localizationHelper.getLocalizedString("item",
         Names.GEM + (stack.getItemDamage() & 0x1F) + ".name");
   }
 

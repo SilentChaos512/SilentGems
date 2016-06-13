@@ -22,19 +22,20 @@ public class ToolPartMain extends ToolPart {
   }
 
   @Override
-  public int getRepairAmount(ItemStack stack) {
+  public int getRepairAmount(ItemStack toolOrArmor, ItemStack partRep) {
 
-    int max = stack.getMaxDamage();
+    int max = toolOrArmor.getMaxDamage();
     float scale = 0.0f;
 
     EnumMaterialTier partTier = getTier();
-    EnumMaterialTier stackTier = stack.getItem() instanceof ITool ? ToolHelper.getToolTier(stack)
-        : (stack.getItem() instanceof IArmor ? ArmorHelper.getArmorTier(stack) : null);
+    EnumMaterialTier stackTier = toolOrArmor.getItem() instanceof ITool
+        ? ToolHelper.getToolTier(toolOrArmor)
+        : (toolOrArmor.getItem() instanceof IArmor ? ArmorHelper.getArmorTier(toolOrArmor) : null);
 
     if (stackTier == null)
       return 0;
 
-    switch (ToolHelper.getToolTier(stack)) {
+    switch (ToolHelper.getToolTier(toolOrArmor)) {
       case MUNDANE:
         switch (partTier) {
           case MUNDANE:

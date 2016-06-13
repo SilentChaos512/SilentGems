@@ -5,8 +5,10 @@ import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.silentchaos512.gems.api.lib.EnumDecoPos;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public class ColorHandlers {
@@ -24,6 +26,16 @@ public class ColorHandlers {
         return ToolHelper.getColorForPass(stack, tintIndex);
       };
     }, ModItems.tools.toArray(new Item[ModItems.tools.size()]));
+
+    // Armor (temp)
+    itemColors.registerItemColorHandler(new IItemColor() {
+
+      @Override
+      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+
+        return ArmorHelper.getRenderPart(stack, EnumDecoPos.NORTH).getColor(stack);
+      }
+    }, ModItems.gemHelmet, ModItems.gemChestplate, ModItems.gemLeggings, ModItems.gemBoots);
 
     // Gem Shards
     itemColors.registerItemColorHandler(new IItemColor() {

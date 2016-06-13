@@ -68,7 +68,7 @@ public class RecipeDecorateArmor extends RecipeBase {
         // Found a part.
         ++partsFound;
         // Add to total repair value.
-        repairValue += part.getRepairAmount(tool);
+        repairValue += part.getRepairAmount(tool, stack);
       }
     }
 

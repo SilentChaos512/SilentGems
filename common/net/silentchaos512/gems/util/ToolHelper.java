@@ -198,19 +198,19 @@ public class ToolHelper {
 
     if (partHeadM != null) {
       setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_HEAD_M + "Color", partHeadM.getColor());
+          "Layer" + ToolRenderHelper.PASS_HEAD_M + "Color", partHeadM.getColor(tool));
     }
     if (partHeadL != null) {
       setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_HEAD_L + "Color", partHeadL.getColor());
+          "Layer" + ToolRenderHelper.PASS_HEAD_L + "Color", partHeadL.getColor(tool));
     }
     if (partHeadR != null) {
       setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_HEAD_R + "Color", partHeadR.getColor());
+          "Layer" + ToolRenderHelper.PASS_HEAD_R + "Color", partHeadR.getColor(tool));
     }
     if (partDeco != null) {
       setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_ROD_DECO + "Color", partDeco.getColor());
+          "Layer" + ToolRenderHelper.PASS_ROD_DECO + "Color", partDeco.getColor(tool));
     }
 
     // Variety bonus

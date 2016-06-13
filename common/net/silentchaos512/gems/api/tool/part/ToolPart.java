@@ -29,6 +29,7 @@ public abstract class ToolPart {
    * Generally not used, since parts have different models for different tools, or even for different positions.
    */
   @SideOnly(Side.CLIENT)
+  @Deprecated
   protected ModelResourceLocation model;
   /**
    * The unique ID for the part. I recommend prefixing it with your mod ID. Example: SilentGems:RodGold.
@@ -90,7 +91,14 @@ public abstract class ToolPart {
     return tier;
   }
 
-  public int getColor() {
+  /**
+   * Gets the color applied when rendering the part.
+   * 
+   * @param toolOrArmor
+   *          The tool or armor stack being rendered.
+   * @return
+   */
+  public int getColor(ItemStack toolOrArmor) {
 
     return color;
   }
@@ -99,23 +107,23 @@ public abstract class ToolPart {
    * Returns a display name for the part and given ItemStack. For ToolPartMain, this is used in constructing the tool's
    * name. Defaults to the stack's display name, which the player can set in an anvil.
    * 
-   * @param stack
+   * @param partRep
    *          The ItemStack, typically the representative that is being used in crafting.
    * @return
    */
-  public String getDisplayName(ItemStack stack) {
+  public String getDisplayName(ItemStack partRep) {
 
-    return stack.getDisplayName();
+    return partRep.getDisplayName();
   }
 
   /**
    * Returns a prefix used in tool name generation (ie, "Supercharged")
    * 
-   * @param stack
+   * @param partRep
    *          The ItemStack, typically the representative that is being used in crafting.
    * @return
    */
-  public String getDisplayNamePrefix(ItemStack stack) {
+  public String getDisplayNamePrefix(ItemStack partRep) {
 
     return "";
   }
@@ -123,11 +131,13 @@ public abstract class ToolPart {
   /**
    * Gets the amount of durability to repair when decorating with this part.
    * 
-   * @param tool
-   *          The tool being decorating/repaired.
+   * @param toolOrArmor
+   *          The tool or armor being decorating/repaired.
+   * @param partRep
+   *          The stack that represents the tool part.
    * @return The amount of durability to restore, usually a fraction of the tool's max.
    */
-  public int getRepairAmount(ItemStack tool) {
+  public int getRepairAmount(ItemStack toolOrArmor, ItemStack partRep) {
 
     return 0;
   }
@@ -143,7 +153,7 @@ public abstract class ToolPart {
    * @return
    */
   @SideOnly(Side.CLIENT)
-  public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos) {
+  public ModelResourceLocation getModel(ItemStack toolOrArmor, EnumPartPosition pos) {
 
     return model;
   }
