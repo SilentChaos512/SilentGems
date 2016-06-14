@@ -679,7 +679,6 @@ public class ToolHelper {
     setTagPart(result, "PartRod", part, EnumMaterialGrade.NONE);
 
     // Create name
-    // TODO: Uncomment
     String displayName = createToolName(item, materials);
     result.setStackDisplayName(displayName);
 

@@ -21,9 +21,11 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
@@ -35,7 +37,10 @@ import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.network.NetworkHandler;
+import net.silentchaos512.gems.network.message.MessageItemRename;
 import net.silentchaos512.gems.util.ArmorHelper;
+import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
@@ -197,6 +202,44 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
     // TODO Tier detection
     return false;
+  }
+
+  @Override
+  public void onUpdate(ItemStack armor, World world, Entity entity, int itemSlot,
+      boolean isSelected) {
+
+    if (world.getTotalWorldTime() % ToolHelper.CHECK_NAME_FREQUENCY == 0
+        && entity instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) entity;
+      if (world.isRemote && armor.hasTagCompound()
+          && armor.getTagCompound().hasKey(ToolHelper.NBT_TEMP_PARTLIST)) {
+        SilentGems.logHelper.derp();
+        NBTTagCompound compound = armor.getTagCompound()
+            .getCompoundTag(ToolHelper.NBT_TEMP_PARTLIST);
+
+        int i = 0;
+        String key = "part" + i;
+        List<ItemStack> parts = Lists.newArrayList();
+
+        // Load part stacks.
+        do {
+          NBTTagCompound tag = compound.getCompoundTag(key);
+          parts.add(ItemStack.loadItemStackFromNBT(tag));
+          SilentGems.logHelper.debug(key, ItemStack.loadItemStackFromNBT(tag), tag);
+          key = "part" + ++i;
+        } while (compound.hasKey(key));
+
+        // Create name on the client.
+        String displayName = ToolHelper.createToolName(armor.getItem(),
+            parts.toArray(new ItemStack[parts.size()]));
+        // tool.setStackDisplayName(displayName);
+
+        // Send to the server.
+        MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName);
+        SilentGems.logHelper.debug(displayName, message);
+        NetworkHandler.INSTANCE.sendToServer(message);
+      }
+    }
   }
 
   @Override

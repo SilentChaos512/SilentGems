@@ -256,6 +256,8 @@ public class ArmorHelper {
     }
 
     ItemStack result = new ItemStack(item);
+    result.setTagCompound(new NBTTagCompound());
+    result.getTagCompound().setTag(ToolHelper.NBT_TEMP_PARTLIST, new NBTTagCompound());
 
     // Construction
     ToolPart part;
@@ -271,6 +273,10 @@ public class ArmorHelper {
       part = ToolPartRegistry.fromStack(materials[i]);
       grade = EnumMaterialGrade.fromStack(materials[i]);
       setTagPart(result, "Part" + i, part, grade);
+
+      // Write part list for client-side name generation.
+      result.getTagCompound().getCompoundTag(ToolHelper.NBT_TEMP_PARTLIST).setTag("part" + i,
+          materials[i].writeToNBT(new NBTTagCompound()));
     }
 
     // Create name
