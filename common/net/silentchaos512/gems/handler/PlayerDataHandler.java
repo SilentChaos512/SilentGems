@@ -156,36 +156,6 @@ public class PlayerDataHandler {
         --rechargeCooldown;
         save();
       }
-
-      // Recharge chaos?
-      // if (rechargeCooldown <= 0 && chaos < maxChaos) {
-      // for (ItemStack stack : getChaosStorageItems(player)) {
-      // int alreadyAdded = 0;
-      // int amount = ((IChaosStorage) stack.getItem()).extractCharge(stack,
-      // CHAOS_MAX_TRANSFER - alreadyAdded, false);
-      // chaos += amount;
-      // alreadyAdded += amount;
-      // if (alreadyAdded >= CHAOS_MAX_TRANSFER) {
-      // break;
-      // }
-      // }
-      // }
-    }
-
-    private List<ItemStack> getChaosStorageItems(EntityPlayer player) {
-
-      List<ItemStack> list = Lists.newArrayList();
-      for (ItemStack stack : player.inventory.mainInventory) {
-        if (stack != null && stack.getItem() instanceof IChaosStorage) {
-          list.add(stack);
-        }
-      }
-      for (ItemStack stack : player.inventory.offHandInventory) {
-        if (stack != null && stack.getItem() instanceof IChaosStorage) {
-          list.add(stack);
-        }
-      }
-      return list;
     }
 
     public void drainChaos(int amount) {

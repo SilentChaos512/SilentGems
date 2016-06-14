@@ -200,7 +200,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
     IBlockState state = player.worldObj.getBlockState(pos);
     Block block = state.getBlock();
 
-    if (!isEffectiveOnMaterial(block.getMaterial(state))) {
+    if (!isEffectiveOnMaterial(state.getMaterial())) {
       ToolHelper.incrementStatBlocksMined(sickle, 1);
       return false;
     }

@@ -141,7 +141,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
       BlockPos pos = mop.getBlockPos();
       IBlockState state = worldObj.getBlockState(pos);
       Block block = state.getBlock();
-      AxisAlignedBB boundingBox = block.getBoundingBox(state, worldObj, pos);
+      AxisAlignedBB boundingBox = state.getBoundingBox(worldObj, pos);
 
       // Bounce off of blocks that can be collided with.
       if (bounces > 0 && boundingBox != null) {

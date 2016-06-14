@@ -22,6 +22,7 @@ import net.silentchaos512.gems.item.ToolRenderHelper;
 public class ArmorHelper {
 
   public static final float VARIETY_BONUS = ToolHelper.VARIETY_BONUS;
+  public static final int PROTECTION_CAP = 39;
 
   /*
    * NBT keys

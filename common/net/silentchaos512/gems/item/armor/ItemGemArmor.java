@@ -120,7 +120,9 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
       return new ArmorProperties(0, 1, 0);
 
     // Basing ratios on total armor value.
-    float protection = getPlayerTotalGemArmorValue(player);
+    float protection = MathHelper.clamp_float(getPlayerTotalGemArmorValue(player), 0,
+        ArmorHelper.PROTECTION_CAP); // Capping total to 39.
+
     float ratio = ABSORPTION_RATIO_BY_SLOT[armorType.getIndex()];
     if (protection <= 20) {
       // 80% max (20 armor points) = diamond armor
