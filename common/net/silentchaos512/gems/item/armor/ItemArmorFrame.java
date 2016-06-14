@@ -94,24 +94,24 @@ public class ItemArmorFrame extends ItemSL {
     }
   }
 
-  @Override
-  public List<ModelResourceLocation> getVariants() {
-
-    List<ModelResourceLocation> models = Lists.newArrayList();
-    for (int i = 0; i < 4; ++i)
-      models.add(new ModelResourceLocation(getFullName() + i, "inventory"));
-    return models;
-  }
-
-  @Override
-  public boolean registerModels() {
-
-    List<ModelResourceLocation> models = getVariants();
-    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-
-    for (int i = 0; i < subItemCount; ++i)
-      mesher.register(this, i, models.get(i & 3));
-
-    return true;
-  }
+//  @Override
+//  public List<ModelResourceLocation> getVariants() {
+//
+//    List<ModelResourceLocation> models = Lists.newArrayList();
+//    for (int i = 0; i < 4; ++i)
+//      models.add(new ModelResourceLocation(getFullName() + i, "inventory"));
+//    return models;
+//  }
+//
+//  @Override
+//  public boolean registerModels() {
+//
+//    List<ModelResourceLocation> models = getVariants();
+//    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+//
+//    for (int i = 0; i < subItemCount; ++i)
+//      mesher.register(this, i, models.get(i & 3));
+//
+//    return true;
+//  }
 }
