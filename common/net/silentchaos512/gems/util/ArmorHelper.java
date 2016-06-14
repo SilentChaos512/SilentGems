@@ -223,6 +223,12 @@ public class ArmorHelper {
     return ToolPartRegistry.getPart(key);
   }
 
+  public static int getRenderColor(ItemStack armor, EnumDecoPos pos) {
+
+    String key = "Layer" + pos.ordinal() + "Color";
+    return getTagInt(armor, ToolRenderHelper.NBT_MODEL_INDEX, key, 0xFFFFFF);
+  }
+
   public static String getPartId(ItemStack tool, String key) {
 
     if (!tool.hasTagCompound()) {
