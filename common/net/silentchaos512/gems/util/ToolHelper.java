@@ -10,10 +10,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
+import io.netty.buffer.Unpooled;
 import jline.internal.Log;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -25,6 +28,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -33,9 +38,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IBlockPlacer;
 import net.silentchaos512.gems.api.ITool;
@@ -53,6 +55,8 @@ import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.network.NetworkHandler;
+import net.silentchaos512.gems.network.message.MessageItemRename;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -64,11 +68,13 @@ public class ToolHelper {
       "Sickle", "Bow" };
 
   public static final float VARIETY_BONUS = 0.075f;
+  public static final int CHECK_NAME_FREQUENCY = 10;
 
   /*
    * NBT keys
    */
 
+  // Root keys
   public static final String NBT_ROOT_CONSTRUCTION = "SGConstruction";
   public static final String NBT_ROOT_DECORATION = "SGDecoration";
   public static final String NBT_ROOT_PROPERTIES = "SGProperties";
@@ -88,7 +94,10 @@ public class ToolHelper {
   public static final String NBT_PART_ROD_WOOL = "PartRodWool";
   public static final String NBT_PART_HEAD_TIP = "PartHeadTip";
 
+  // Saves tool tier to save processing power.
   public static final String NBT_TOOL_TIER = "ToolTier";
+  // Used for client-side name generation, stored temporarily then removed.
+  public static final String NBT_TEMP_PARTLIST = "PartListForName";
 
   // Decoration
   public static final String NBT_DECO_HEAD_L = "DecoHeadL";
@@ -565,6 +574,43 @@ public class ToolHelper {
     return !isBroken && isTool;
   }
 
+  public static void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
+      boolean isSelected) {
+
+    if (world.getTotalWorldTime() % CHECK_NAME_FREQUENCY == 0 && entity instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) entity;
+      if (world.isRemote && tool.hasTagCompound()
+          && tool.getTagCompound().hasKey(NBT_TEMP_PARTLIST)) {
+        SilentGems.logHelper.derp();
+        NBTTagCompound compound = tool.getTagCompound().getCompoundTag(NBT_TEMP_PARTLIST);
+
+        int i = 0;
+        String key = "part" + i;
+        List<ItemStack> parts = Lists.newArrayList();
+
+        // Load part stacks.
+        do {
+          NBTTagCompound tag = compound.getCompoundTag(key);
+          parts.add(ItemStack.loadItemStackFromNBT(tag));
+          SilentGems.logHelper.debug(key, ItemStack.loadItemStackFromNBT(tag), tag);
+          key = "part" + ++i;
+        } while (compound.hasKey(key));
+
+        // Create name on the client.
+        String displayName = createToolName(tool.getItem(),
+            parts.toArray(new ItemStack[parts.size()]));
+        // tool.setStackDisplayName(displayName);
+
+        // Send to the server.
+        MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName);
+        SilentGems.logHelper.debug(displayName, message);
+        NetworkHandler.INSTANCE.sendToServer(message);
+        // Minecraft.getMinecraft().thePlayer.connection.sendPacket(new CPacketCustomPayload(
+        // "MC|ItemName", (new PacketBuffer(Unpooled.buffer())).writeString(displayName)));
+      }
+    }
+  }
+
   public static boolean isSpecialAbilityEnabled(ItemStack tool) {
 
     return getTagBoolean(tool, NBT_ROOT_PROPERTIES, NBT_SETTINGS_SPECIAL);
@@ -606,6 +652,8 @@ public class ToolHelper {
     }
 
     ItemStack result = new ItemStack(item);
+    result.setTagCompound(new NBTTagCompound());
+    result.getTagCompound().setTag(NBT_TEMP_PARTLIST, new NBTTagCompound());
 
     // Set construction materials
     ToolPart part;
@@ -621,12 +669,17 @@ public class ToolHelper {
       part = ToolPartRegistry.fromStack(materials[i]);
       EnumMaterialGrade grade = EnumMaterialGrade.fromStack(materials[i]);
       setTagPart(result, "Part" + i, part, grade);
+
+      // Write part list for client-side name generation.
+      result.getTagCompound().getCompoundTag(NBT_TEMP_PARTLIST).setTag("part" + i,
+          materials[i].writeToNBT(new NBTTagCompound()));
     }
     // Rod
     part = ToolPartRegistry.fromStack(rod);
     setTagPart(result, "PartRod", part, EnumMaterialGrade.NONE);
 
     // Create name
+    // TODO: Uncomment
     String displayName = createToolName(item, materials);
     result.setStackDisplayName(displayName);
 
@@ -646,7 +699,7 @@ public class ToolHelper {
   public static String createToolName(Item item, ItemStack[] materials) {
 
     ToolPart part;
-    LocalizationHelper loc = SilentGems.instance.localizationHelper;
+    LocalizationHelper loc = SilentGems.localizationHelper;
     Set<String> prefixSet = Sets.newLinkedHashSet();
     Set<String> materialSet = Sets.newLinkedHashSet();
     for (ItemStack stack : materials) {

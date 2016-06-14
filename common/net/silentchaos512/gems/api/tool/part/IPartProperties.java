@@ -7,6 +7,8 @@ public interface IPartProperties {
 
   public String getName();
 
+  public String getNamePrefix();
+
   public int getColor();
 
   public EnumMaterialTier getTier();

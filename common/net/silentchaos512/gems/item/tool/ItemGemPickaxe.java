@@ -9,6 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -170,6 +171,13 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   public int getItemEnchantability(ItemStack stack) {
 
     return ToolHelper.getItemEnchantability(stack);
+  }
+
+  @Override
+  public void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
+      boolean isSelected) {
+
+    ToolHelper.onUpdate(tool, world, entity, itemSlot, isSelected);
   }
 
   // ==================

@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.silentchaos512.gems.SilentGems;
 
 // More stuff copied from Psi.
 public class Message<REQ extends Message> implements Serializable, IMessage, IMessageHandler<REQ, IMessage> {
