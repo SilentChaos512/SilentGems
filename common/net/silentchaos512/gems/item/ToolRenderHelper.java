@@ -58,9 +58,6 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   public ModelResourceLocation modelBlank;
   public ModelResourceLocation modelError;
 
-  private static int registerIndex = 0;
-  private static int modelCount = 0;
-
   @Override
   public void addInformation(ItemStack tool, EntityPlayer player, List list, boolean advanced) {
 
@@ -72,7 +69,9 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
     // Show original owner?
     if (controlDown) {
-      list.add(loc.getMiscText("Tooltip.OriginalOwner", ToolHelper.getOriginalOwner(tool)));
+      String owner = ToolHelper.getOriginalOwner(tool);
+      if (!owner.isEmpty())
+        list.add(loc.getMiscText("Tooltip.OriginalOwner", owner));
     }
 
     // Broken?

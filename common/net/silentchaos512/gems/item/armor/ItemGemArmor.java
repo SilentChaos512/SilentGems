@@ -208,7 +208,9 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
     // Show original owner?
     if (controlDown) {
-      list.add(loc.getMiscText("Tooltip.OriginalOwner", ArmorHelper.getOriginalOwner(stack)));
+      String owner = ArmorHelper.getOriginalOwner(stack);
+      if (!owner.isEmpty())
+        list.add(loc.getMiscText("Tooltip.OriginalOwner", owner));
     }
 
     // TODO: Remove me
