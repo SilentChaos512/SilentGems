@@ -11,7 +11,7 @@ public enum EnumGem implements IStringSerializable {
 
   // @formatter:off
   //                                  DUR    EFF   MEL   MAG ENC   SPD   CHG PRT     COLOR
-  RUBY            ("Ruby",            512,  8.0f, 5.0f, 2.0f, 10, 0.7f, 1.0f, 14, 0xFFFFFF),
+  RUBY            ("Ruby",            512,  8.0f, 5.0f, 2.0f, 10, 0.7f, 1.0f, 14, 0xFF0000),
   GARNET          ("Garnet",          384,  7.0f, 4.0f, 3.0f, 12, 0.9f, 1.0f, 16, 0xFF4000),
   TOPAZ           ("Topaz",           384,  9.0f, 4.0f, 2.0f, 10, 0.8f, 2.0f, 16, 0xFF6A00),
   AMBER           ("Amber",           128,  5.0f, 2.0f, 2.0f, 14, 1.1f, 4.0f, 12, 0xFFAA00),

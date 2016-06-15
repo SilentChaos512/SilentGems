@@ -14,6 +14,7 @@ public class ToolPartFlint extends ToolPartMain {
   public ToolPartFlint() {
 
     super(SilentGems.MOD_ID + ":flint", new ItemStack(Items.FLINT));
+    this.color = 0x424242;
   }
 
   @Override
