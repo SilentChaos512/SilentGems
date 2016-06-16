@@ -293,7 +293,7 @@ public class GuideSilentGems {
     ItemStack pickaxeDecoPost = ToolHelper.decorateTool(pickaxeDecoPre, decoParts[0], decoParts[1],
         decoParts[2], decoParts[3]);
     ToolHelper.recalculateStats(pickaxeDecoPost);
-    pages.add(2,
+    pages.add(Math.min(2, pages.size()),
         new PageIRecipe(
             new ShapedOreRecipe(pickaxeDecoPost, " n ", "wbe", " s ", 'b', pickaxeDecoPre, 'w',
                 decoParts[0], 'n', decoParts[1], 'e', decoParts[2], 's', decoParts[3])));
