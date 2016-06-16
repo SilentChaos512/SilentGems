@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.0.17
+Fixed: Flint tools having the wrong color.
+
 2.0.16
 Fixed armor protection! Up to 20 armor points (10 pieces, a full bar), armor should be identical to vanilla. Past that, each point adds 1% additional damage absorption.
 Added: Bonus armor bar. Armor values past 20 points will render gold armor pieces on top of the normal armor bar.
