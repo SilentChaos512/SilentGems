@@ -182,8 +182,8 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
             Config.FOOD_SUPPORT_DURATION / 6, 0, true, false));
       } else if (d == 6) {
         // Coffee Cup
-        int duration = (int) (1.5f * Config.FOOD_SUPPORT_DURATION);
-        player.addPotionEffect(new PotionEffect(MobEffects.SPEED, duration, 1, true, false));
+        int duration = (int) (2.0f * Config.FOOD_SUPPORT_DURATION);
+        player.addPotionEffect(new PotionEffect(MobEffects.SPEED, duration * 2, 1, true, false));
         player.addPotionEffect(new PotionEffect(MobEffects.HASTE, duration, 1, true, false));
       }
     }
