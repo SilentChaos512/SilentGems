@@ -16,7 +16,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //    id "net.minecraftforge.gradle.forge" version "2.0.2"
 //}
 
-version = "2.0.16"
+version = "2.0.17"
 group = "net.silentchaos512.gems"
 archivesBaseName = "SilentsGems-1.9.4"
 

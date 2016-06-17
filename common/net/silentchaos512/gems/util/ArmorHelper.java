@@ -13,7 +13,6 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumDecoPos;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
@@ -468,8 +467,13 @@ public class ArmorHelper {
 
   public static void setOriginalOwner(ItemStack tool, EntityPlayer player) {
 
+    setOriginalOwner(tool, player.getName());
+  }
+
+  public static void setOriginalOwner(ItemStack tool, String name) {
+
     if (getOriginalOwner(tool).isEmpty())
-      setTagString(tool, NBT_ROOT_STATISTICS, NBT_STATS_ORIGINAL_OWNER, player.getName());
+      setTagString(tool, NBT_ROOT_STATISTICS, NBT_STATS_ORIGINAL_OWNER, name);
   }
 
   public static int getStatRedecorated(ItemStack tool) {

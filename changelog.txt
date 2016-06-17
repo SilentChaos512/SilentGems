@@ -1,7 +1,8 @@
 Silent's Gems - Changelog
 
 2.0.17
-Added: Zombies and Skeletons have a chance to spawn with custom gem swords.
+Added: Basic models for armor, tier-specific models in the works. With this, armor decorating works. Item models unchanged at the moment. (M4thG33k)
+Added: Zombies and Skeletons have a chance to spawn with custom gem swords/katanas.
 Fixed: Flint tools having the wrong color.
 Fixed: Potential crash/error with MessageItemRename packets.
 

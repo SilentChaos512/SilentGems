@@ -3,7 +3,6 @@ package net.silentchaos512.gems.item.armor;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.sun.org.apache.xalan.internal.xsltc.util.IntegerArray;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -325,6 +324,8 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
       String owner = ArmorHelper.getOriginalOwner(stack);
       if (!owner.isEmpty())
         list.add(loc.getMiscText("Tooltip.OriginalOwner", owner));
+      else
+        list.add(loc.getMiscText("Tooltip.OriginalOwner.Unknown"));
     }
 
     // TODO: Remove me
