@@ -30,7 +30,7 @@ public abstract class ToolPart {
    */
   @SideOnly(Side.CLIENT)
   @Deprecated
-  protected ModelResourceLocation model;
+  protected ModelResourceLocation model; // Use getter instead.
   /**
    * The unique ID for the part. I recommend prefixing it with your mod ID. Example: SilentGems:RodGold.
    */
@@ -56,6 +56,7 @@ public abstract class ToolPart {
   /**
    * The color apply to the layer when rendering.
    */
+  @Deprecated // Use getter instead.
   protected int color = 0xFFFFFF;
 
   public ToolPart(String key, ItemStack craftingStack) {

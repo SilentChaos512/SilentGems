@@ -4,12 +4,15 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class ToolPartFlint extends ToolPartMain {
+
+  public static final int ARMOR_COLOR = 0x424242;
 
   public ToolPartFlint() {
 
@@ -40,6 +43,12 @@ public class ToolPartFlint extends ToolPartMain {
     }
 
     return new ModelResourceLocation(name, "inventory");
+  }
+
+  @Override
+  public int getColor(ItemStack toolOrArmor) {
+
+    return toolOrArmor.getItem() instanceof IArmor ? ARMOR_COLOR : 0xFFFFFF;
   }
 
   @Override

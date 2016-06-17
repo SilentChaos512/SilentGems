@@ -45,18 +45,25 @@ public class MessageItemRename extends Message {
       return null;
     }
 
-    log.info("MessageItemRename.handleMessage");
-    log.info("Player Name = " + context.getServerHandler().playerEntity.getName());
+    EntityPlayer player = context.getServerHandler().playerEntity;
+    ItemStack stack = player.inventory.getStackInSlot(slot);
 
-    if (context.getServerHandler().playerEntity.getName().equals(playerName)) {
-      EntityPlayer player = context.getServerHandler().playerEntity;
-      ItemStack stack = player.inventory.getStackInSlot(slot);
+    if (player.getName().equals(playerName)) {
 
-      log.info("Slot = " + slot + ", ItemStack = " + stack);
-      log.info("New name = " + newItemName);
+      // TODO: Remove debug info.
+      log.info("MessageItemRename.handleMessage");
+      log.info("    Player Name = " + player.getName());
+      log.info("    Slot = " + slot + ", ItemStack = " + stack);
 
-      context.getServerHandler().playerEntity.inventory.getStackInSlot(slot)
-          .setStackDisplayName(newItemName);
+      if (stack == null) {
+        log.warning("MessageItemRename.handleMessage: ItemStack is null!");
+        return null;
+      }
+
+      log.info("    Old name = " + stack.getDisplayName());
+      log.info("    New name = " + newItemName);
+
+      stack.setStackDisplayName(newItemName);
 
       // Cleanup the temporary part list.
       if (stack.hasTagCompound() && stack.getTagCompound().hasKey(ToolHelper.NBT_TEMP_PARTLIST))
