@@ -229,6 +229,27 @@ public class ArmorHelper {
     return getTagInt(armor, ToolRenderHelper.NBT_MODEL_INDEX, key, 0xFFFFFF);
   }
 
+  public static int[] getRenderColorList(ItemStack armor)
+  {
+    int[] values = new int[EnumDecoPos.values().length];
+    for (EnumDecoPos pos : EnumDecoPos.values())
+    {
+      values[pos.ordinal()] = getRenderColor(armor, pos);
+    }
+    return values;
+  }
+
+  public static String getRenderColorString(ItemStack stack)
+  {
+    String toReturn = "";
+    int[] colors = getRenderColorList(stack);
+    for (int color : colors)
+    {
+      toReturn += color;
+    }
+    return toReturn;
+  }
+
   public static String getPartId(ItemStack tool, String key) {
 
     if (!tool.hasTagCompound()) {
