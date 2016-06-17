@@ -19,13 +19,10 @@ public class ModelGemArmor extends ModelBiped {
   private final ModelRenderer helmetLayer1;
   private final ModelRenderer helmetLayer2;
   private final ModelRenderer helmetLayer3;
-//  private final ModelRenderer helmetLayer4;
-//  private final ModelRenderer helmetBack;
 
   private final ArmorModelRenderer chestplateBase;
   private final ArmorModelRenderer chestplateLayer0;
   private final ModelRenderer chestplateLayer1;
-//  private final ModelRenderer chestplate2;
 
   private final ArmorModelRenderer rightArmBase;
   private final ModelRenderer rightArmLayer0;
@@ -88,16 +85,6 @@ public class ModelGemArmor extends ModelBiped {
     helmetLayer3.addBox(-4, -8, -4.5f, 8, 6, 9, helmetScale);
     setRotationAngle(helmetLayer3, 0, 0, 0);
 
-//    helmetLayer4 = new ModelRenderer(this, 64, 15);
-//    helmetLayer4.setRotationPoint(0, 0, 0);
-//    helmetLayer4.addBox(-4, -8, -4.5f, 8, 6, 9, helmetScale);
-//    setRotationAngle(helmetLayer4, 0, 0, 0);
-
-//    helmetBack = new ModelRenderer(this, 0, 0);
-//    helmetBack.setRotationPoint(0, 0, 0);
-//    helmetBack.addBox(-4, -8, 4.5f, 8, 3, 4, scale);
-//    setRotationAngle(helmetBack, 0.08726646259971647f, 0, 0);
-
     chestplateBase = new ArmorModelRenderer(this, 0, 15);
     chestplateBase.setRotationPoint(0, 0, 0);
     chestplateBase.addBox(-4.5f, 0, -3.5f, 9, 11, 6, scale);
@@ -116,8 +103,6 @@ public class ModelGemArmor extends ModelBiped {
     rightArmBase = new ArmorModelRenderer(this, 30, 32);
     rightArmBase.setRotationPoint(0f, 3.0f, 0f);
     rightArmBase.addBox(-4.0f, -3.5f, -3.0f, 6, 6, 6, scale);
-//    rightArmBase.addBox(-4.0f, -0.5f, -3.0f, 6, 6, 6, scale);
-//    setRotationAngle(rightArmBase, 0f, 0f, 0.5f);
     setRotationAngle(rightArmBase, 0f, 0f, 0.17453292519943295f);
 
     rightArmLayer0 = new ModelRenderer(this, 54, 32);
@@ -130,21 +115,12 @@ public class ModelGemArmor extends ModelBiped {
     leftArmBase.setRotationPoint(0f, 3.0f, 0f);
     leftArmBase.addBox(-2.0f, -3.5f, -3.0f, 6, 6, 6, scale);
 
+
     leftArmLayer0 = new ModelRenderer(this, 54, 32);
     leftArmLayer0.mirror = true;
     leftArmLayer0.setRotationPoint(0, 3.0f, 0);
     leftArmLayer0.addBox(-2.0f, -6.5f, -3.0f, 6, 6, 6, scale*1.05f);
     setRotationAngle(leftArmLayer0, 0f, 0f, 0f);
-
-//    leftArm = new ModelRenderer(this, 0, 68);
-//    leftArm.mirror = true;
-//    leftArm.setRotationPoint(5f, 2.0f, 0f);
-//    leftArm.addBox(1.0f, 3.0f, -2.0f, 2, 6, 4, scale);
-//    setRotationAngle(leftArm, 0f, 0f, -0.17453292519943295f);
-
-//    belt = new ArmorModelRenderer(this, 0, 49);
-//    belt.setRotationPoint(0, 0, 0);
-//    belt.addBox(-4.0f, 9.5f, -2f, 8, 4, 4, scale);
 
     belt = new ArmorModelRenderer(this, 0, 49);
     belt.setRotationPoint(0, 0, 0);
@@ -153,6 +129,7 @@ public class ModelGemArmor extends ModelBiped {
     beltLayer0 = new ModelRenderer(this, 24, 49);
     beltLayer0.setRotationPoint(0, 0, 0);
     beltLayer0.addBox(-4.0f, 8.5f, -2f, 8, 4, 4, scale * 1.05f);
+
 
     rightLegBase = new ArmorModelRenderer(this, 0, 57);
     rightLegBase.setRotationPoint(-1.9f, 12, 0);
@@ -222,7 +199,6 @@ public class ModelGemArmor extends ModelBiped {
 
     leftArmBase.addChild(leftArmLayer0, colors[EnumDecoPos.EAST.ordinal()]);
 
-//    chestplate.addChild(chestplate2);
 
     rightLegBase.addChild(rightLegLayer0, colors[EnumDecoPos.WEST.ordinal()]);
 
@@ -254,10 +230,6 @@ public class ModelGemArmor extends ModelBiped {
     }
 
     helmetBase.showModel = slot == EntityEquipmentSlot.HEAD;
-//    helmetLayer1.showModel = slot == EntityEquipmentSlot.HEAD;
-//    helmetLayer2.showModel = slot == EntityEquipmentSlot.HEAD;
-//    helmetLayer3.showModel = slot == EntityEquipmentSlot.HEAD;
-//    helmetLayer4.showModel = slot == EntityEquipmentSlot.HEAD;
 
     chestplateBase.showModel = slot == EntityEquipmentSlot.CHEST;
     rightArmBase.showModel = slot == EntityEquipmentSlot.CHEST;
@@ -300,7 +272,7 @@ public class ModelGemArmor extends ModelBiped {
       GlStateManager.scale(1.5f / f, 1.5f / f, 1.5f / f);
       GlStateManager.translate(0.0f, 16.0f * scale, 0.0f);
       renderHelmet(scale);
-      //this.bipedHead.render(scale);
+      this.bipedHead.render(scale);
       GlStateManager.popMatrix();
 
       GlStateManager.pushMatrix();
@@ -309,11 +281,6 @@ public class ModelGemArmor extends ModelBiped {
       this.renderChest(scale);
       this.renderArms(scale);
       this.renderLegs(scale);
-//      this.bipedBody.render(scale);
-//      this.bipedRightArm.render(scale);
-//      this.bipedLeftArm.render(scale);
-//      this.bipedRightLeg.render(scale);
-//      this.bipedLeftLeg.render(scale);
       this.bipedHeadwear.render(scale);
     }
     else
@@ -338,14 +305,12 @@ public class ModelGemArmor extends ModelBiped {
   {
     Color c = new Color(color);
     GlStateManager.color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
-//    GlStateManager.color(((color >> 0)& 0xFF)/ (0xFF), ((color >> 8) & 0xFF) / 0xFF, ((color >> 16) & 0xFF) / 0xFF, 1.0f);
   }
 
   private void renderHelmet(float scale)
   {
     GlStateManager.pushMatrix();
     GlStateManager.enableBlend();
-//    setRenderColor(colors[EnumDecoPos.SOUTH.ordinal()]);
     setRenderColor(Color.WHITE.getColor());
     this.bipedHead.render(scale);
     GlStateManager.disableBlend();
@@ -382,12 +347,11 @@ public class ModelGemArmor extends ModelBiped {
     GlStateManager.pushMatrix();
     GlStateManager.enableBlend();
     setRenderColor(Color.WHITE.getColor());
+
     if (this.leftLegBase.showModel && this.rightLegBase.showModel)
     {
       setRenderColor(colors[EnumDecoPos.SOUTH.ordinal()]);
       this.belt.render(scale);
-//      this.bipedRightLeg.render(scale);
-//      this.bipedLeftLeg.render(scale);
     }
     else
     {
