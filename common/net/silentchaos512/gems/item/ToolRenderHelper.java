@@ -72,6 +72,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       String owner = ToolHelper.getOriginalOwner(tool);
       if (!owner.isEmpty())
         list.add(loc.getMiscText("Tooltip.OriginalOwner", owner));
+      else
+        list.add(loc.getMiscText("Tooltip.OriginalOwner.Unknown"));
     }
 
     // Broken?

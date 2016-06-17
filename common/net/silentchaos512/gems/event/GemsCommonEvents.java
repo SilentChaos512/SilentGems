@@ -1,13 +1,14 @@
 package net.silentchaos512.gems.event;
 
-import java.util.Random;
-
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -22,6 +23,7 @@ import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.CoffeeModule;
 import net.silentchaos512.gems.lib.Greetings;
+import net.silentchaos512.gems.lib.module.ModuleEntityRandomEquipment;
 import net.silentchaos512.gems.loot.LootHandler;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillLumberjack;
@@ -107,6 +109,14 @@ public class GemsCommonEvents {
       EntityRabbit rabbit = (EntityRabbit) event.getEntityLiving();
       CoffeeModule.tickRabbit(rabbit);
     }
+  }
+
+  @SubscribeEvent
+  public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+
+    Entity entity = event.getEntity();
+    if (entity instanceof EntityLivingBase)
+      ModuleEntityRandomEquipment.tryGiveMobEquipment((EntityLivingBase) entity);
   }
 
   // @SubscribeEvent

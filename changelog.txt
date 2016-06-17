@@ -1,7 +1,9 @@
 Silent's Gems - Changelog
 
 2.0.17
+Added: Zombies and Skeletons have a chance to spawn with custom gem swords.
 Fixed: Flint tools having the wrong color.
+Fixed: Potential crash/error with MessageItemRename packets.
 
 2.0.16
 Fixed armor protection! Up to 20 armor points (10 pieces, a full bar), armor should be identical to vanilla. Past that, each point adds 1% additional damage absorption.

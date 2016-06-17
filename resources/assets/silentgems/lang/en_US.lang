@@ -671,6 +671,8 @@ misc.silentgems:Tooltip.HarvestSpeed=&eBase Harvest Speed:&f %s
 misc.silentgems:Tooltip.MagicDamage=&eMagic Damage:&f %s
 misc.silentgems:Tooltip.MeleeDamage=&eMelee Damage:&f %s
 misc.silentgems:Tooltip.OriginalOwner=&8Made by %s
+misc.silentgems:Tooltip.OriginalOwner.Mob=%s(?)
+misc.silentgems:Tooltip.OriginalOwner.Unknown=&8Maker unknown
 misc.silentgems:Tooltip.Protection=&eProtection:&f %s
 
 misc.silentgems:Tooltip.BlocksMined=&eBlocks Mined:&f %s
