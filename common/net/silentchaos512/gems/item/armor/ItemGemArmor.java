@@ -330,8 +330,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
     // TODO: Remove me
     if (altDown) {
-      list.add(TextFormatting.RED + "Yes, armor models have no color.");
-      list.add(TextFormatting.RED + "I'm working on something, I promise ;)");
+      list.add(TextFormatting.RED + "Armor models WIP.");
     }
 
     // Broken?
