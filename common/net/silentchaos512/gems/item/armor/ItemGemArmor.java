@@ -1,13 +1,9 @@
 package net.silentchaos512.gems.item.armor;
 
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.UUID;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-
+import com.sun.org.apache.xalan.internal.xsltc.util.IntegerArray;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -28,11 +24,14 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
+import net.silentchaos512.gems.client.gui.ModelGemArmor;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
@@ -43,6 +42,10 @@ import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LocalizationHelper;
+
+import javax.annotation.Nonnull;
+import java.lang.reflect.Field;
+import java.util.*;
 
 public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryObject, IArmor {
 
@@ -65,13 +68,19 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   }
 
   private List<ItemStack> subItems = null;
-  private ModelBiped model;
+//  private ModelBiped model;
   protected String itemName;
+
+//  protected Map<EntityEquipmentSlot, ModelBiped> models = null;
+//  protected Map<EntityEquipmentSlot, Map<int[], ModelBiped>> models = null;
+  protected Map<String, Map<EntityEquipmentSlot, ModelBiped>> models = null;
+  public final EntityEquipmentSlot type;
 
   public ItemGemArmor(int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name) {
 
     super(ArmorMaterial.DIAMOND, renderIndexIn, equipmentSlotIn);
     this.itemName = name;
+    this.type = equipmentSlotIn;
   }
 
   @Override
@@ -189,13 +198,73 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   // return model;
   // }
 
+  @Nonnull
   @Override
-  public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot,
-      String type) {
-
-    return SilentGems.RESOURCE_PREFIX + "textures/armor/" + "GemArmor" + "_"
-        + (slot == EntityEquipmentSlot.LEGS ? "2" : "1") + ".png";
+  public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
+    return SilentGems.RESOURCE_PREFIX + "textures/armor/TempArmor.png";
+//    return super.getArmorTexture(stack, entity, slot, type);
   }
+
+  @Nonnull
+  @Override
+  @SideOnly(Side.CLIENT)
+  public ModelBiped getArmorModel(EntityLivingBase entity, ItemStack itemStack, EntityEquipmentSlot slot, ModelBiped original)
+  {
+    ModelBiped model = getArmorModelForSlot(entity, itemStack, slot);
+    if (model == null)
+    {
+      model = provideArmorModelForSlot(itemStack, slot, ArmorHelper.getRenderColorString(itemStack), ArmorHelper.getRenderColorList(itemStack));
+    }
+
+    if (model != null)
+    {
+      model.setModelAttributes(original);
+      return model;
+    }
+
+    return super.getArmorModel(entity, itemStack, slot, original);
+  }
+
+  @SideOnly(Side.CLIENT)
+  public ModelBiped getArmorModelForSlot(EntityLivingBase entity, ItemStack stack, EntityEquipmentSlot slot)
+  {
+    if (models == null)
+    {
+      models = new HashMap<>(32*32*32*32);
+//      models = new EnumMap<>(EntityEquipmentSlot.class);
+    }
+    String colorString = ArmorHelper.getRenderColorString(stack);
+    if (models.get(colorString) == null)
+    {
+      models.put(colorString, new EnumMap<>(EntityEquipmentSlot.class));
+    }
+    return models.get(colorString).get(slot);
+//    if (models.get(slot) == null)
+//    {
+//      models.put(slot, new HashMap<>());
+//    }
+//    return models.get(slot).get(ArmorHelper.getRenderColorList(stack));
+  }
+
+  @SideOnly(Side.CLIENT)
+  public ModelBiped provideArmorModelForSlot(ItemStack stack, EntityEquipmentSlot slot, String colorString, int[] colors)
+  {
+    models.get(colorString).put(slot, new ModelGemArmor(slot, colors));
+    return models.get(colorString).get(slot);
+//    models.get(slot).put(colors, new ModelGemArmor(slot, colors));
+//    return models.get(slot).get(colors);
+//    models.put(slot, new ModelGemArmor(slot, ArmorHelper.getRenderColorList(stack)));
+//    return models.get(slot);
+  }
+
+
+//  @Override
+//  public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot,
+//      String type) {
+//
+//    return SilentGems.RESOURCE_PREFIX + "textures/armor/" + "GemArmor" + "_"
+//        + (slot == EntityEquipmentSlot.LEGS ? "2" : "1") + ".png";
+//  }
 
   @Override
   public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
@@ -400,4 +469,5 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     this.itemName = name;
     return super.setUnlocalizedName(name);
   }
+
 }
