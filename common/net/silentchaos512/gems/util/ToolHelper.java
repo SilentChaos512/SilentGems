@@ -429,6 +429,14 @@ public class ToolHelper {
   public static EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world,
       BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
+    ItemStack stackOffHand = player.inventory.offHandInventory[0];
+    if (stackOffHand != null && stackOffHand.getItem() instanceof ItemBlock) {
+      ItemBlock itemBlock = (ItemBlock) stackOffHand.getItem();
+      if (itemBlock.canPlaceBlockOnSide(world, pos, side, player, stackOffHand)) {
+        return EnumActionResult.PASS;
+      }
+    }
+
     if (!Config.RIGHT_CLICK_TO_PLACE_ENABLED) {
       return EnumActionResult.PASS;
     }
