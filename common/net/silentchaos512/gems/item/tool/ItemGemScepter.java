@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
@@ -20,6 +21,12 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public class ItemGemScepter extends ItemGemSword {
+
+  public ItemGemScepter() {
+
+    super();
+    setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.SCEPTER);
+  }
 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {

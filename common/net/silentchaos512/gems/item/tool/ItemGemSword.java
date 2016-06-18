@@ -43,6 +43,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
   public ItemGemSword() {
 
     super(ToolMaterial.DIAMOND);
+    setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.SWORD);
   }
 
   public ItemStack constructTool(boolean supercharged, ItemStack material) {

@@ -42,6 +42,7 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
   public ItemGemHoe() {
 
     super(ToolMaterial.DIAMOND);
+    setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.HOE);
   }
 
   public ItemStack constructTool(boolean supercharged, ItemStack material) {

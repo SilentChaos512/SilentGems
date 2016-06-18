@@ -21,6 +21,12 @@ import net.silentchaos512.gems.util.ToolHelper;
 
 public class ItemGemKatana extends ItemGemSword {
 
+  public ItemGemKatana() {
+
+    super();
+    setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.KATANA);
+  }
+
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 

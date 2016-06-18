@@ -44,6 +44,7 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   public ItemGemAxe() {
 
     super(ToolMaterial.DIAMOND);
+    setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.AXE);
   }
 
   public ItemStack constructTool(boolean supercharged, ItemStack material) {
