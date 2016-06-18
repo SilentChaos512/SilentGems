@@ -663,17 +663,18 @@ misc.silentgems:Tooltip.TipEmerald=&2Emerald
 misc.silentgems:Tooltip.TipGold=&eGold
 
 misc.silentgems:Tooltip.Broken=&cYou broke it!
-misc.silentgems:Tooltip.ChargeSpeed=&eCharge Speed:&f %s
-misc.silentgems:Tooltip.Durability=&eDurability:&f %s
-misc.silentgems:Tooltip.Enchantability=&eEnchantability:&f %s
-misc.silentgems:Tooltip.HarvestLevel=&eHarvest Level:&f %s
-misc.silentgems:Tooltip.HarvestSpeed=&eBase Harvest Speed:&f %s
-misc.silentgems:Tooltip.MagicDamage=&eMagic Damage:&f %s
-misc.silentgems:Tooltip.MeleeDamage=&eMelee Damage:&f %s
+misc.silentgems:Tooltip.ChargeSpeed=Charge Speed:&f %s
+misc.silentgems:Tooltip.Durability=Durability:&f %s
+misc.silentgems:Tooltip.Enchantability=Enchantability:&f %s
+misc.silentgems:Tooltip.HarvestLevel=Harvest Level:&f %s
+misc.silentgems:Tooltip.HarvestSpeed=Base Harvest Speed:&f %s
+misc.silentgems:Tooltip.MagicDamage=Magic Damage:&f %s
+misc.silentgems:Tooltip.MeleeDamage=Melee Damage:&f %s
+misc.silentgems:Tooltip.MeleeSpeed=Attack Speed:&f %s%%
 misc.silentgems:Tooltip.OriginalOwner=&8Made by %s
 misc.silentgems:Tooltip.OriginalOwner.Mob=%s(?)
 misc.silentgems:Tooltip.OriginalOwner.Unknown=&8Maker unknown
-misc.silentgems:Tooltip.Protection=&eProtection:&f %s
+misc.silentgems:Tooltip.Protection=Protection:&f %s
 
 misc.silentgems:Tooltip.BlocksMined=&eBlocks Mined:&f %s
 misc.silentgems:Tooltip.BlocksPlaced=&eBlocks Placed:&f %s

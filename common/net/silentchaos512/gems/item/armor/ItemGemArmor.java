@@ -344,8 +344,9 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
       // Properties header
       list.add(loc.getMiscText("Tooltip.Properties"));
 
-      list.add(helper.getTooltipLine("Durability", getMaxDamage(stack)));
-      list.add(helper.getTooltipLine("Protection", getProtection(stack)));
+      TextFormatting color = TextFormatting.YELLOW;
+      list.add(color + helper.getTooltipLine("Durability", getMaxDamage(stack)));
+      list.add(color + helper.getTooltipLine("Protection", getProtection(stack)));
 
       // Statistics Header
       list.add(sep);
@@ -373,6 +374,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
             + ")";
         list.add(line);
       }
+      list.add(sep);
     } else {
       list.add(TextFormatting.GOLD + loc.getMiscText("PressAlt"));
     }

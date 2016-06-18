@@ -33,6 +33,7 @@ import net.silentchaos512.gems.client.render.ToolModel;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemShovel;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
+import net.silentchaos512.gems.lib.TooltipHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
@@ -103,19 +104,26 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       line = loc.getMiscText("Tooltip.Properties");
       list.add(line);
 
-      list.add(getTooltipLine("Durability", ToolHelper.getMaxDamage(tool)));
+      TextFormatting color = TextFormatting.YELLOW;
+
+      int durabilityMax = ToolHelper.getMaxDamage(tool);
+      int durability = durabilityMax - tool.getItemDamage();
+      String s1 = String.format(durability > 9999 ? "%,d" : "%d", durability);
+      String s2 = String.format(durabilityMax > 9999 ? "%,d" : "%d", durabilityMax);
+      line = loc.getMiscText("Tooltip.Durability", s1 + " / " + s2);
+      list.add(color + "  " + line);
 
       if (isDigger) {
-        list.add(getTooltipLine("HarvestLevel", ToolHelper.getHarvestLevel(tool)));
-        list.add(getTooltipLine("HarvestSpeed", ToolHelper.getDigSpeedOnProperMaterial(tool)));
+        list.add(color + getTooltipLine("HarvestLevel", ToolHelper.getHarvestLevel(tool)));
+        list.add(color + getTooltipLine("HarvestSpeed", ToolHelper.getDigSpeedOnProperMaterial(tool)));
       }
 
       if (isWeapon) {
-        list.add(getTooltipLine("MeleeDamage", ToolHelper.getMeleeDamageModifier(tool)));
-        list.add(getTooltipLine("MagicDamage", ToolHelper.getMagicDamageModifier(tool)));
+        list.add(color + getTooltipLine("MeleeDamage", ToolHelper.getMeleeDamageModifier(tool)));
+        list.add(color + getTooltipLine("MagicDamage", ToolHelper.getMagicDamageModifier(tool)));
       }
 
-      list.add(getTooltipLine("ChargeSpeed", ToolHelper.getChargeSpeed(tool)));
+      list.add(color + getTooltipLine("ChargeSpeed", ToolHelper.getChargeSpeed(tool)));
 
       // Statistics Header
       list.add(sep);
@@ -164,13 +172,15 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
             + ")";
         list.add(line);
       }
+      list.add(sep);
     } else {
       list.add(TextFormatting.GOLD + loc.getMiscText("PressAlt"));
     }
 
     // Debug render layers
     if (controlDown && shiftDown) {
-      list.add(sep);
+      if (!altDown)
+        list.add(sep);
       for (EnumPartPosition pos : EnumPartPosition.values()) {
         NBTTagCompound tags = tool.getTagCompound().getCompoundTag(NBT_MODEL_INDEX);
         String key = "Layer" + pos.ordinal();
@@ -183,24 +193,28 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
   public String getTooltipLine(String key, int value) {
 
-    String number;
-    if (value > 9999)
-      number = "%,d";
-    else
-      number = "%d";
+//    String number;
+//    if (value > 9999)
+//      number = "%,d";
+//    else
+//      number = "%d";
+//
+//    number = String.format(number, value);
+//    String line = SilentGems.instance.localizationHelper.getMiscText("Tooltip." + key, number);
+//    return "  " + line;
 
-    number = String.format(number, value);
-    String line = SilentGems.instance.localizationHelper.getMiscText("Tooltip." + key, number);
-    return "  " + line;
+    return TooltipHelper.get(key, value, true);
   }
 
   public String getTooltipLine(String key, float value) {
 
-    String number = "%.2f";
+//    String number = "%.2f";
+//
+//    number = String.format(number, value);
+//    String line = SilentGems.instance.localizationHelper.getMiscText("Tooltip." + key, number);
+//    return "  " + line;
 
-    number = String.format(number, value);
-    String line = SilentGems.instance.localizationHelper.getMiscText("Tooltip." + key, number);
-    return "  " + line;
+    return TooltipHelper.get(key, value, true);
   }
 
   @SubscribeEvent
