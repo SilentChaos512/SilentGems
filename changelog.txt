@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.0.18
+Added: Headcrumbs mobs can now spawn with gem swords, and do so more often than zombies.
+
 2.0.17
 Added: Basic models for armor, tier-specific models in the works. With this, armor decorating works. Item models unchanged at the moment. (M4thG33k)
 Added: Zombies and Skeletons have a chance to spawn with custom gem swords/katanas.

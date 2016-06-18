@@ -7,6 +7,7 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -19,18 +20,23 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public class ModuleEntityRandomEquipment {
 
   public static final String MODULE_NAME = "mob_equipment";
 
+  public static final ItemStack SILENT_KATANA = ModItems.katana.constructTool(
+      ModItems.craftingMaterial.toolRodSilver, EnumGem.RUBY.getItemSuper(),
+      EnumGem.ONYX.getItemSuper()); // Deliberately using 2 parts because I can :)
+
   public static boolean enabled = true;
   public static float swordChance = 0.075f;
   public static float katanaChance = 0.5f;
   public static float swordExtraGemChance = 0.33f;
   public static float superChance = 0.25f;
-  public static float selectExtraGemChance = 0.8f;
+  public static float selectExtraGemChance = 0.6f;
 
   public static void tryGiveMobEquipment(EntityLivingBase entity) {
 
@@ -43,6 +49,8 @@ public class ModuleEntityRandomEquipment {
 
     ItemStack sword = null;
 
+    // Allowed mobs: zombies, skeletons, and Headcrumbs humans. Different mobs have different
+    // chances of spawning with equipment.
     if (entity instanceof EntityZombie) {
       if (selectBasedOnDifficulty(swordChance, worldDiff, localDiff, rand)) {
         sword = generateRandomMeleeWeapon(entity, rand);
@@ -50,6 +58,16 @@ public class ModuleEntityRandomEquipment {
     } else if (entity instanceof EntitySkeleton) {
       if (selectBasedOnDifficulty(0.5f * swordChance, worldDiff, localDiff, rand)) {
         sword = generateRandomMeleeWeapon(entity, rand);
+      }
+    } else if (EntityList.NAME_TO_CLASS.get("headcrumbs.Human") == entity.getClass()) {
+      if (selectBasedOnDifficulty(2.0f * swordChance, worldDiff, localDiff, rand)) {
+        // A little easter egg...
+        if (entity.getName().equals(Names.SILENT_CHAOS_512)) {
+          sword = SILENT_KATANA.copy();
+          sword.setStackDisplayName("Silent's Creatively Named Katana");
+        } else {
+          sword = generateRandomMeleeWeapon(entity, rand);
+        }
       }
     }
 
