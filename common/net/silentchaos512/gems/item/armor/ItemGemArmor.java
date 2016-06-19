@@ -273,6 +273,12 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   }
 
   @Override
+  public int getItemEnchantability(ItemStack stack) {
+
+    return ArmorHelper.getItemEnchantability(stack);
+  }
+
+  @Override
   public void onUpdate(ItemStack armor, World world, Entity entity, int itemSlot,
       boolean isSelected) {
 
