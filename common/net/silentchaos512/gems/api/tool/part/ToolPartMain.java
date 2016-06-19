@@ -74,7 +74,7 @@ public class ToolPartMain extends ToolPart {
         break;
     }
 
-    SilentGems.logHelper.debug(stackTier, partTier, scale, scale * max);
+    //SilentGems.logHelper.debug(stackTier, partTier, scale, scale * max);
     return (int) (scale * max);
   }
 
