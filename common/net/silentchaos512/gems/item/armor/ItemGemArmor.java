@@ -304,8 +304,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
         } while (compound.hasKey(key));
 
         // Create name on the client.
-        String displayName = ToolHelper.createToolName(armor.getItem(),
-            parts.toArray(new ItemStack[parts.size()]));
+        String displayName = ToolHelper.createToolName(armor.getItem(), parts);
         // tool.setStackDisplayName(displayName);
 
         // Send to the server.

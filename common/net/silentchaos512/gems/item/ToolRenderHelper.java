@@ -3,8 +3,6 @@ package net.silentchaos512.gems.item;
 import java.util.List;
 import java.util.Set;
 
-import org.lwjgl.input.Keyboard;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -30,6 +28,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartTip;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.render.ToolItemOverrideHandler;
 import net.silentchaos512.gems.client.render.ToolModel;
+import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemShovel;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
@@ -92,8 +91,10 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       list.add(line);
     }
 
-    final boolean isWeapon = tool.getItem() instanceof ItemGemSword;
-    final boolean isCaster = isWeapon && ToolHelper.getToolTier(tool) == EnumMaterialTier.SUPER;
+    final boolean isSword = tool.getItem() instanceof ItemGemSword;
+    final boolean isAxe = tool.getItem() instanceof ItemGemAxe;
+    final boolean isWeapon = isSword || isAxe;
+    final boolean isCaster = isSword && ToolHelper.getToolTier(tool) == EnumMaterialTier.SUPER;
     final boolean isBow = false; // TODO
     final boolean isDigger = tool.getItem() instanceof ItemTool;
 
@@ -113,14 +114,16 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       line = loc.getMiscText("Tooltip.Durability", s1 + " / " + s2);
       list.add(color + "  " + line);
 
-      if (isDigger) {
+      if (isDigger) { // @formatter:off
         list.add(color + getTooltipLine("HarvestLevel", ToolHelper.getHarvestLevel(tool)));
         list.add(color + getTooltipLine("HarvestSpeed", ToolHelper.getDigSpeedOnProperMaterial(tool)));
-      }
+      } // @formatter:on
 
       if (isWeapon) {
+        list.add(color + getTooltipLine("MeleeSpeed", ToolHelper.getMeleeSpeedModifier(tool) + 4).replaceFirst("%", ""));
         list.add(color + getTooltipLine("MeleeDamage", ToolHelper.getMeleeDamageModifier(tool)));
-        list.add(color + getTooltipLine("MagicDamage", ToolHelper.getMagicDamageModifier(tool)));
+        if (isCaster)
+          list.add(color + getTooltipLine("MagicDamage", ToolHelper.getMagicDamageModifier(tool)));
       }
 
       list.add(color + getTooltipLine("ChargeSpeed", ToolHelper.getChargeSpeed(tool)));
@@ -146,10 +149,11 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
       list.add(getTooltipLine("HitsLanded", ToolHelper.getStatHitsLanded(tool)));
 
-      if (isCaster || isBow) {
+      if (isCaster || isBow)
         list.add(getTooltipLine("ShotsFired", ToolHelper.getStatShotsFired(tool)));
-        // list.add(getTooltipLine("ShotsLanded", ToolHelper.getStatShotsLanded(tool)));
-      }
+
+      if (isWeapon)
+        list.add(getTooltipLine("KillCount", ToolHelper.getStatKillCount(tool)));
 
       list.add(getTooltipLine("Redecorated", ToolHelper.getStatRedecorated(tool)));
       list.add(sep);
@@ -193,26 +197,26 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
   public String getTooltipLine(String key, int value) {
 
-//    String number;
-//    if (value > 9999)
-//      number = "%,d";
-//    else
-//      number = "%d";
-//
-//    number = String.format(number, value);
-//    String line = SilentGems.instance.localizationHelper.getMiscText("Tooltip." + key, number);
-//    return "  " + line;
+    // String number;
+    // if (value > 9999)
+    // number = "%,d";
+    // else
+    // number = "%d";
+    //
+    // number = String.format(number, value);
+    // String line = SilentGems.instance.localizationHelper.getMiscText("Tooltip." + key, number);
+    // return " " + line;
 
     return TooltipHelper.get(key, value, true);
   }
 
   public String getTooltipLine(String key, float value) {
 
-//    String number = "%.2f";
-//
-//    number = String.format(number, value);
-//    String line = SilentGems.instance.localizationHelper.getMiscText("Tooltip." + key, number);
-//    return "  " + line;
+    // String number = "%.2f";
+    //
+    // number = String.format(number, value);
+    // String line = SilentGems.instance.localizationHelper.getMiscText("Tooltip." + key, number);
+    // return " " + line;
 
     return TooltipHelper.get(key, value, true);
   }

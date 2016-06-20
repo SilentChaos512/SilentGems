@@ -21,6 +21,7 @@ import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.CoffeeModule;
 import net.silentchaos512.gems.lib.Greetings;
@@ -107,10 +108,21 @@ public class GemsCommonEvents {
   public void onLivingDeath(LivingDeathEvent event) {
 
     Entity entitySource = event.getSource().getSourceOfDamage();
-    SilentGems.logHelper.info(entitySource);
+    EntityPlayer player = null;
+
     if (entitySource instanceof EntityPlayer) {
-      EntityPlayer player = (EntityPlayer) entitySource;
-      SilentGems.logHelper.info(player.getName());
+      player = (EntityPlayer) entitySource;
+    } else if (entitySource instanceof EntityChaosProjectile) {
+      EntityChaosProjectile projectile = (EntityChaosProjectile) entitySource;
+      EntityLivingBase shooter = projectile.getShooter();
+      if (shooter instanceof EntityPlayer)
+        player = (EntityPlayer) shooter;
+    }
+
+    if (player != null) {
+      ItemStack weapon = player.getHeldItem(EnumHand.MAIN_HAND);
+      if (weapon != null && weapon.getItem() instanceof ITool)
+        ToolHelper.incrementStatKillCount(weapon, 1);
     }
   }
 

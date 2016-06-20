@@ -34,7 +34,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
   public static final String NBT_GRAVITY = "Gravity";
   public static final String NBT_SHOOTER = "Shooter";
 
-  protected Entity shooter;
+  protected EntityLivingBase shooter;
 //  protected ItemStack castingStack;
   private Color color = Color.WHITE;
   protected float damage = 0f;
@@ -222,6 +222,11 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
     this.damage = damage;
     return this;
+  }
+
+  public EntityLivingBase getShooter() {
+
+    return shooter;
   }
 
   @Override

@@ -681,6 +681,7 @@ misc.silentgems:Tooltip.BlocksPlaced=&eBlocks Placed:&f %s
 misc.silentgems:Tooltip.BlocksTilled=&eBlocks Tilled:&f %s
 misc.silentgems:Tooltip.DamageTaken=&eDamage Taken:&f %s
 misc.silentgems:Tooltip.HitsLanded=&eHits Landed:&f %s
+misc.silentgems:Tooltip.KillCount=&eKill Count:&f %s
 misc.silentgems:Tooltip.PathsMade=&ePaths Made:&f %s
 misc.silentgems:Tooltip.ShotsFired=&eShots Fired:&f %s
 misc.silentgems:Tooltip.ShotsLanded=&eShots Landed:&f %s

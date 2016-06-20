@@ -2,7 +2,9 @@ Silent's Gems - Changelog
 
 2.0.18
 Added: Headcrumbs mobs can now spawn with gem swords, and do so more often than zombies.
+Added: Kill count statistic for all tools (displayed for swords and axes)
 Changed: Material tooltips improved (reorganized and colored). Also added the missing 'Attack Speed' stat.
+Changed: Tool tooltips improved.
 Changed: Pylons emit Chaos packets in a more controlled manner.
 Fixed: Armor not having correct enchantability.
 

@@ -10,12 +10,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
-import io.netty.buffer.Unpooled;
 import jline.internal.Log;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -28,14 +26,13 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
@@ -55,6 +52,7 @@ import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageItemRename;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
@@ -117,14 +115,15 @@ public class ToolHelper {
 
   // NBT for statistics
   public static final String NBT_STATS_ORIGINAL_OWNER = "OriginalOwner";
+  public static final String NBT_STATS_REDECORATED = "Redecorated";
   public static final String NBT_STATS_BLOCKS_MINED = "BlocksMined";
   public static final String NBT_STATS_BLOCKS_PLACED = "BlocksPlaced";
   public static final String NBT_STATS_BLOCKS_TILLED = "BlocksTilled";
-  public static final String NBT_STATS_PATHS_MADE = "PathsMade";
   public static final String NBT_STATS_HITS = "HitsLanded";
+  public static final String NBT_STATS_KILL_COUNT = "KillCount";
+  public static final String NBT_STATS_PATHS_MADE = "PathsMade";
   public static final String NBT_STATS_SHOTS_FIRED = "ShotsFired";
   public static final String NBT_STATS_SHOTS_LANDED = "ShotsLanded";
-  public static final String NBT_STATS_REDECORATED = "Redecorated";
 
   protected static UUID ATTACK_DAMAGE_MODIFIER;
   protected static UUID ATTACK_SPEED_MODIFIER;
@@ -158,9 +157,8 @@ public class ToolHelper {
 
     ToolPart[] parts = getConstructionParts(tool);
     EnumMaterialGrade[] grades = getConstructionGrades(tool);
-    if (parts.length == 0) {
+    if (parts.length == 0)
       return;
-    }
 
     // Reset render cache
     for (EnumPartPosition pos : EnumPartPosition.values()) {
@@ -309,11 +307,6 @@ public class ToolHelper {
     return 1f;
   }
 
-  public static void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
-
-    // TODO
-  }
-
   public static float getDigSpeedOnProperMaterial(ItemStack tool) {
 
     return getTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_SPEED);
@@ -363,11 +356,10 @@ public class ToolHelper {
       ItemStack tool) {
 
     String name;
-    if (tool.getItem() instanceof ItemTool) {
+    if (tool.getItem() instanceof ItemTool)
       name = "Tool modifier";
-    } else {
+    else
       name = "Weapon modifier";
-    }
 
     Multimap<String, AttributeModifier> map = HashMultimap.<String, AttributeModifier> create();
 
@@ -383,44 +375,40 @@ public class ToolHelper {
 
   public static float getMeleeDamageModifier(ItemStack tool) {
 
-    if (isBroken(tool)) {
+    if (isBroken(tool))
       return 0f;
-    }
 
     float val;
-    if (tool.getItem() instanceof ITool) {
+    if (tool.getItem() instanceof ITool)
       val = ((ITool) tool.getItem()).getMeleeDamage(tool);
-    } else {
+    else
       val = getMeleeDamage(tool);
-    }
+
     return val < 0 ? 0 : val;
   }
 
   public static float getMagicDamageModifier(ItemStack tool) {
 
-    if (isBroken(tool)) {
+    if (isBroken(tool))
       return 0f;
-    }
 
     float val;
-    if (tool.getItem() instanceof ITool) {
+    if (tool.getItem() instanceof ITool)
       val = ((ITool) tool.getItem()).getMagicDamage(tool);
-    } else {
+    else
       val = getMagicDamage(tool);
-    }
+
     return val < 0 ? 0 : val;
   }
 
   public static float getMeleeSpeedModifier(ItemStack tool) {
 
-    if (!(tool.getItem() instanceof ITool)) {
+    if (!(tool.getItem() instanceof ITool))
       return 0.0f;
-    }
+
     float base = ((ITool) tool.getItem()).getBaseMeleeSpeedModifier();
     float speed = getMeleeSpeed(tool);
     return ((base + 4) * speed - 4);
-    // return speed;
-    // return base - base * (speed - 1.0f);
   }
 
   /**
@@ -429,6 +417,7 @@ public class ToolHelper {
   public static EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world,
       BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
+    // If block is in offhand, allow that to place instead.
     ItemStack stackOffHand = player.inventory.offHandInventory[0];
     if (stackOffHand != null && stackOffHand.getItem() instanceof ItemBlock) {
       ItemBlock itemBlock = (ItemBlock) stackOffHand.getItem();
@@ -437,16 +426,15 @@ public class ToolHelper {
       }
     }
 
-    if (!Config.RIGHT_CLICK_TO_PLACE_ENABLED) {
+    // Behavior configs.
+    if (!Config.RIGHT_CLICK_TO_PLACE_ENABLED)
       return EnumActionResult.PASS;
-    }
-    if (Config.RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY && !player.isSneaking()) {
+    if (Config.RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY && !player.isSneaking())
       return EnumActionResult.PASS;
-    }
+
     // Disallow for broken tools
-    if (isBroken(stack)) {
+    if (isBroken(stack))
       return EnumActionResult.PASS;
-    }
 
     EnumActionResult result = EnumActionResult.PASS;
     int toolSlot = player.inventory.currentItem;
@@ -505,9 +493,8 @@ public class ToolHelper {
       }
     }
 
-    if (result == EnumActionResult.SUCCESS) {
+    if (result == EnumActionResult.SUCCESS)
       incrementStatBlocksPlaced(stack, 1);
-    }
 
     return result;
   }
@@ -521,15 +508,13 @@ public class ToolHelper {
 
     boolean abilityActivated = false;
 
-    if (SkillAreaMiner.INSTANCE.activate(stack, player, pos)) {
+    if (SkillAreaMiner.INSTANCE.activate(stack, player, pos))
       abilityActivated = true;
-    } else if (SkillLumberjack.INSTANCE.activate(stack, player, pos)) {
+    else if (SkillLumberjack.INSTANCE.activate(stack, player, pos))
       abilityActivated = true;
-    }
 
-    if (!abilityActivated) {
+    if (!abilityActivated)
       incrementStatBlocksMined(stack, 1);
-    }
 
     // Mining achievements TODO: Uncomment
     // amount = getStatBlocksMined(stack);
@@ -554,9 +539,8 @@ public class ToolHelper {
       if (state.getMaterial() != Material.LEAVES) {
         tool.damageItem(1, entityLiving);
 
-        if (isBroken(tool)) {
+        if (isBroken(tool))
           entityLiving.renderBrokenItemStack(tool);
-        }
       }
     }
     return true;
@@ -585,11 +569,12 @@ public class ToolHelper {
   public static void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
       boolean isSelected) {
 
+    if (!world.isRemote) // client-side only
+      return;
+
     if (world.getTotalWorldTime() % CHECK_NAME_FREQUENCY == 0 && entity instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) entity;
-      if (world.isRemote && tool.hasTagCompound()
-          && tool.getTagCompound().hasKey(NBT_TEMP_PARTLIST)) {
-        SilentGems.logHelper.derp();
+      if (tool.hasTagCompound() && tool.getTagCompound().hasKey(NBT_TEMP_PARTLIST)) {
         NBTTagCompound compound = tool.getTagCompound().getCompoundTag(NBT_TEMP_PARTLIST);
 
         int i = 0;
@@ -600,21 +585,17 @@ public class ToolHelper {
         do {
           NBTTagCompound tag = compound.getCompoundTag(key);
           parts.add(ItemStack.loadItemStackFromNBT(tag));
-          SilentGems.logHelper.debug(key, ItemStack.loadItemStackFromNBT(tag), tag);
           key = "part" + ++i;
         } while (compound.hasKey(key));
 
         // Create name on the client.
-        String displayName = createToolName(tool.getItem(),
-            parts.toArray(new ItemStack[parts.size()]));
+        String displayName = createToolName(tool.getItem(), parts);
         // tool.setStackDisplayName(displayName);
 
         // Send to the server.
         MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName);
-        SilentGems.logHelper.debug(displayName, message);
+        SilentGems.logHelper.info("Sending tool name " + displayName + " to server.");
         NetworkHandler.INSTANCE.sendToServer(message);
-        // Minecraft.getMinecraft().thePlayer.connection.sendPacket(new CPacketCustomPayload(
-        // "MC|ItemName", (new PacketBuffer(Unpooled.buffer())).writeString(displayName)));
       }
     }
   }
@@ -643,10 +624,10 @@ public class ToolHelper {
 
   public static ItemStack constructTool(Item item, ItemStack rod, ItemStack head, int headCount) {
 
+    // Expands material list to the desired length.
     ItemStack[] mats = new ItemStack[headCount];
-    for (int i = 0; i < headCount; ++i) {
+    for (int i = 0; i < headCount; ++i)
       mats[i] = head;
-    }
     return constructTool(item, rod, mats);
   }
 
@@ -669,9 +650,8 @@ public class ToolHelper {
     for (int i = 0; i < materials.length; ++i) {
       if (materials[i] == null) {
         String str = "ToolHelper.constructTool: null part!";
-        for (ItemStack stack : materials) {
+        for (ItemStack stack : materials)
           str += stack + ", ";
-        }
         throw new IllegalArgumentException(str);
       }
       part = ToolPartRegistry.fromStack(materials[i]);
@@ -695,15 +675,19 @@ public class ToolHelper {
     // Check tier - "Super" tools can only be super tier!
     EnumMaterialTier toolTier = getToolTier(result);
     if (item == ModItems.katana || item == ModItems.scepter) {
-      if (toolTier != EnumMaterialTier.SUPER) {
+      if (toolTier != EnumMaterialTier.SUPER)
         return null;
-      }
     }
 
     return result;
   }
 
   public static String createToolName(Item item, ItemStack[] materials) {
+
+    return createToolName(item, Lists.newArrayList(materials));
+  }
+
+  public static String createToolName(Item item, List<ItemStack> materials) {
 
     ToolPart part;
     LocalizationHelper loc = SilentGems.localizationHelper;
@@ -732,9 +716,8 @@ public class ToolHelper {
 
   public static ToolPart[] getConstructionParts(ItemStack tool) {
 
-    if (tool == null) {
+    if (tool == null)
       return new ToolPart[] {};
-    }
 
     List<ToolPart> parts = Lists.newArrayList();
     int index = -1;
@@ -744,9 +727,8 @@ public class ToolHelper {
       key = getPartId(tool, "Part" + ++index);
       if (key != null) {
         part = ToolPartRegistry.getPart(key);
-        if (part != null) {
+        if (part != null)
           parts.add(part);
-        }
       }
     } while (key != null && !key.isEmpty());
 
@@ -755,18 +737,16 @@ public class ToolHelper {
 
   public static EnumMaterialGrade[] getConstructionGrades(ItemStack tool) {
 
-    if (tool == null) {
+    if (tool == null)
       return new EnumMaterialGrade[] {};
-    }
 
     List<EnumMaterialGrade> grades = Lists.newArrayList();
     int index = -1;
     String key;
     do {
       key = getPartId(tool, "Part" + ++index);
-      if (key != null) {
+      if (key != null)
         grades.add(getPartGrade(tool, "Part" + index));
-      }
     } while (key != null && !key.isEmpty());
 
     return grades.toArray(new EnumMaterialGrade[grades.size()]);
@@ -791,9 +771,8 @@ public class ToolHelper {
   public static ItemStack decorateTool(ItemStack tool, ItemStack west, ItemStack north,
       ItemStack east, ItemStack south) {
 
-    if (tool == null) {
+    if (tool == null)
       return null;
-    }
 
     ItemStack result = tool.copy();
     result = decorate(result, west, EnumDecoPos.WEST);
@@ -805,29 +784,27 @@ public class ToolHelper {
 
   private static ItemStack decorate(ItemStack tool, ItemStack material, EnumDecoPos pos) {
 
-    if (tool == null) {
+    if (tool == null) // Something went wrong
       return null;
-    }
-    if (material == null) {
+
+    if (material == null) // No material in the slot is OK.
       return tool;
-    }
 
     // No deco bit on certain (mostly non-super) rods.
     if (pos == EnumDecoPos.SOUTH) {
       ToolPartRod partRod = (ToolPartRod) getConstructionRod(tool);
-      if (partRod == null || !partRod.supportsDecoration()) {
+      if (partRod == null || !partRod.supportsDecoration())
         return tool;
-      }
     }
 
+    // Get the tool part, making sure it exists.
     ToolPart part = ToolPartRegistry.fromStack(material);
-    if (part == null) {
+    if (part == null)
       return null;
-    }
+
     // Only main parts (like gems) work
-    if (!(part instanceof ToolPartMain)) {
+    if (!(part instanceof ToolPartMain))
       return tool;
-    }
 
     ItemStack result = tool.copy();
     switch (pos) {
@@ -868,15 +845,17 @@ public class ToolHelper {
       list.add(constructTool(item, rodWood, new ItemStack(Items.FLINT), materialLength));
 
       // Regular Gems
-      for (EnumGem gem : EnumGem.values()) {
+      for (EnumGem gem : EnumGem.values())
         list.add(constructTool(item, rodWood, gem.getItem(), materialLength));
-      }
     }
 
     // Super Gems
-    for (EnumGem gem : EnumGem.values()) {
+    for (EnumGem gem : EnumGem.values())
       list.add(constructTool(item, rodGold, gem.getItemSuper(), materialLength));
-    }
+
+    // Set maker name.
+    for (ItemStack stack : list)
+      ToolHelper.setOriginalOwner(stack, TextFormatting.LIGHT_PURPLE + "Creative");
 
     return list;
   }
@@ -980,10 +959,6 @@ public class ToolHelper {
       EnumMaterialGrade grade) {
 
     initRootTag(tool);
-    // NBTTagCompound tag = new NBTTagCompound();
-    // tag.setString(NBT_PART_ID, part.getKey());
-    // tag.setString(NBT_PART_GRADE, grade.name());
-    // getRootTag(tool).setTag(name, tag);
     getRootTag(tool, NBT_ROOT_CONSTRUCTION).setString(name, part.getKey() + "#" + grade.name());
   }
 
@@ -1020,35 +995,27 @@ public class ToolHelper {
     switch (pos) {
       case HEAD_LEFT:
         key = getPartId(tool, NBT_PART_HEAD_L);
-        // tag = getTagPart(tool, NBT_PART_HEAD_L);
         break;
       case HEAD_MIDDLE:
         key = getPartId(tool, NBT_PART_HEAD_M);
-        // tag = getTagPart(tool, NBT_PART_HEAD_M);
         break;
       case HEAD_RIGHT:
         key = getPartId(tool, NBT_PART_HEAD_R);
-        // tag = getTagPart(tool, NBT_PART_HEAD_R);
         break;
       case ROD:
         key = getPartId(tool, NBT_PART_ROD);
-        // tag = getTagPart(tool, NBT_PART_ROD);
         break;
       case ROD_DECO:
         key = getPartId(tool, NBT_PART_ROD_DECO);
-        // tag = getTagPart(tool, NBT_PART_ROD_DECO);
         break;
       case ROD_GRIP:
         key = getPartId(tool, NBT_PART_ROD_WOOL);
-        // tag = getTagPart(tool, NBT_PART_ROD_WOOL);
         break;
       case TIP:
         key = getPartId(tool, NBT_PART_HEAD_TIP);
-        // tag = getTagPart(tool, NBT_PART_HEAD_TIP);
         break;
       default:
         Log.warn("ToolHelper.getPart: Unknown EnumPartPosition " + pos);
-        // tag = null;
         key = null;
     }
 
@@ -1179,8 +1146,16 @@ public class ToolHelper {
 
   public static void setOriginalOwner(ItemStack tool, String name) {
 
-    if (getOriginalOwner(tool).isEmpty())
+    if (getOriginalOwner(tool).isEmpty()) {
+      if (name.equals(Names.SILENT_CHAOS_512))
+        name = TextFormatting.RED + name;
+      else if (name.equals(Names.M4THG33K))
+        name = TextFormatting.GREEN + name;
+      else if (name.equals(Names.CHAOTIC_PLAYZ))
+        name = TextFormatting.BLUE + name;
+
       setTagString(tool, NBT_ROOT_STATISTICS, NBT_STATS_ORIGINAL_OWNER, name);
+    }
   }
 
   public static int getStatBlocksMined(ItemStack tool) {
@@ -1233,6 +1208,16 @@ public class ToolHelper {
   public static void incrementStatHitsLanded(ItemStack tool, int amount) {
 
     setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_HITS, getStatHitsLanded(tool) + amount);
+  }
+
+  public static int getStatKillCount(ItemStack tool) {
+
+    return getTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_KILL_COUNT);
+  }
+
+  public static void incrementStatKillCount(ItemStack tool, int amount) {
+
+    setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_KILL_COUNT, getStatKillCount(tool) + amount);
   }
 
   public static int getStatRedecorated(ItemStack tool) {
