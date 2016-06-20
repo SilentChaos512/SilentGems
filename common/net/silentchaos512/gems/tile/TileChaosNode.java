@@ -36,8 +36,8 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
   public static final int TRY_REPAIR_DELAY = 200;
   public static final float TRY_REPAIR_CHANCE = 0.2f;
 
-  public static final int TRY_REGEN_DELAY = 100; // 300
-  public static final float TRY_REGEN_CHANCE = 1.1f;
+  public static final int TRY_REGEN_DELAY = 300;
+  public static final float TRY_REGEN_CHANCE = 0.3f;
 
   public static final int TRY_ATTACK_HOSTILES_DELAY = 100;
   public static final float ATTACK_HOSTILE_CHANCE = 0.25f;
@@ -157,7 +157,7 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
     boolean flag = false;
     Random rand = SilentGems.random;
     for (EntityPlayerMP player : players) {
-      if (rand.nextFloat() < TRY_REGEN_CHANCE) {
+      if (player.getHealth() < player.getMaxHealth() && rand.nextFloat() < TRY_REGEN_CHANCE) {
         spawnPacketInWorld(new EntityPacketRegen(worldObj, player));
         flag = true;
       }

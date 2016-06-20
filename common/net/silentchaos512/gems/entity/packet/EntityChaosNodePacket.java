@@ -51,6 +51,7 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
     colors.put(EntityPacketChaos.COLOR_INDEX, EntityPacketChaos.COLOR_PAIR);
     colors.put(EntityPacketRepair.COLOR_INDEX, EntityPacketRepair.COLOR_PAIR);
     colors.put(EntityPacketAttack.COLOR_INDEX, EntityPacketAttack.COLOR_PAIR);
+    colors.put(EntityPacketRegen.COLOR_INDEX, EntityPacketRegen.COLOR_PAIR);
   }
 
   public EntityChaosNodePacket(World worldIn) {

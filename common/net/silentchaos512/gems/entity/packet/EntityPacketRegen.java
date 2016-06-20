@@ -11,8 +11,8 @@ import net.silentchaos512.lib.util.Color;
 
 public class EntityPacketRegen extends EntityChaosNodePacket {
 
-  public static final int DURATION_MIN = 40;
-  public static final int DURATION_MAX = 100;
+  public static final int DURATION_MIN = 60;
+  public static final int DURATION_MAX = 150;
 
   public static final Color COLOR_HEAD = new Color(0xFF8FD8);
   public static final Color COLOR_TAIL = new Color(0xFFC7EB);
@@ -33,7 +33,8 @@ public class EntityPacketRegen extends EntityChaosNodePacket {
   @Override
   public void onImpactWithEntity(EntityLivingBase entity) {
 
-    entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, (int) amount, 0));
+    entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, (int) amount, 1));
+    SilentGems.logHelper.debug(amount, amount / 20);
     super.onImpactWithEntity(entity);
   }
 
