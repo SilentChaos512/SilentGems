@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -100,6 +101,17 @@ public class GemsCommonEvents {
   @SubscribeEvent
   public void onLivingHurt(LivingHurtEvent event) {
 
+  }
+
+  @SubscribeEvent
+  public void onLivingDeath(LivingDeathEvent event) {
+
+    Entity entitySource = event.getSource().getSourceOfDamage();
+    SilentGems.logHelper.info(entitySource);
+    if (entitySource instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) entitySource;
+      SilentGems.logHelper.info(player.getName());
+    }
   }
 
   @SubscribeEvent

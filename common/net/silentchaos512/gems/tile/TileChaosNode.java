@@ -9,7 +9,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
@@ -20,7 +19,7 @@ import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosProvider;
 import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
 import net.silentchaos512.gems.entity.packet.EntityPacketAttack;
-import net.silentchaos512.gems.entity.packet.EntityPacketChaos;
+import net.silentchaos512.gems.entity.packet.EntityPacketRegen;
 import net.silentchaos512.gems.entity.packet.EntityPacketRepair;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.util.ChaosUtil;
@@ -36,6 +35,9 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
 
   public static final int TRY_REPAIR_DELAY = 200;
   public static final float TRY_REPAIR_CHANCE = 0.2f;
+
+  public static final int TRY_REGEN_DELAY = 100; // 300
+  public static final float TRY_REGEN_CHANCE = 1.1f;
 
   public static final int TRY_ATTACK_HOSTILES_DELAY = 100;
   public static final float ATTACK_HOSTILE_CHANCE = 0.25f;
@@ -75,6 +77,9 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
           playSound |= sendChaosToPlayers(players, amountForEach);
           playSound |= sendChaosToAccepters(accepters, amountForEach);
         }
+      }
+      if (time % TRY_REGEN_DELAY == 0) {
+        playSound |= tryGiveRegen(players);
       }
       if (time % TRY_REPAIR_DELAY == 0) {
         playSound |= tryRepairItems(players);
@@ -141,6 +146,19 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
       if (amount > 0) {
         extractEnergy(amount, false);
         ChaosUtil.spawnPacketToBlock(worldObj, pos, ((TileEntity) accepter).getPos(), amount);
+        flag = true;
+      }
+    }
+    return flag;
+  }
+
+  private boolean tryGiveRegen(List<EntityPlayerMP> players) {
+
+    boolean flag = false;
+    Random rand = SilentGems.random;
+    for (EntityPlayerMP player : players) {
+      if (rand.nextFloat() < TRY_REGEN_CHANCE) {
+        spawnPacketInWorld(new EntityPacketRegen(worldObj, player));
         flag = true;
       }
     }

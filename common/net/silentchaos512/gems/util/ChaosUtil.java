@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.entity.packet.EntityPacketChaos;
@@ -104,18 +103,21 @@ public class ChaosUtil {
     return amount;
   }
 
-  public static void spawnPacketToEntity(World world, BlockPos start, EntityLivingBase target,
+  public static EntityPacketChaos spawnPacketToEntity(World world, BlockPos start,
+      EntityLivingBase target, int amount) {
+
+    EntityPacketChaos entity = new EntityPacketChaos(world, target, amount);
+    entity.setPosition(start.getX() + 0.5, start.getY() + 0.5, start.getZ() + 0.5);
+    world.spawnEntityInWorld(entity);
+    return entity;
+  }
+
+  public static EntityPacketChaos spawnPacketToBlock(World world, BlockPos start, BlockPos target,
       int amount) {
 
     EntityPacketChaos entity = new EntityPacketChaos(world, target, amount);
     entity.setPosition(start.getX() + 0.5, start.getY() + 0.5, start.getZ() + 0.5);
     world.spawnEntityInWorld(entity);
-  }
-
-  public static void spawnPacketToBlock(World world, BlockPos start, BlockPos target, int amount) {
-
-    EntityPacketChaos entity = new EntityPacketChaos(world, target, amount);
-    entity.setPosition(start.getX() + 0.5, start.getY() + 0.5, start.getZ() + 0.5);
-    world.spawnEntityInWorld(entity);
+    return entity;
   }
 }

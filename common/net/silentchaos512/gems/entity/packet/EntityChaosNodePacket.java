@@ -8,6 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -59,6 +60,7 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
     motionX = SilentGems.instance.random.nextGaussian() * 0.1;
     motionY = SilentGems.instance.random.nextGaussian() * 0.2 + 0.25;
     motionZ = SilentGems.instance.random.nextGaussian() * 0.1;
+    setSilent(true);
   }
 
   public EntityChaosNodePacket(World worldIn, EntityLivingBase target) {

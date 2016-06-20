@@ -2,24 +2,22 @@ package net.silentchaos512.gems.tile;
 
 import java.util.List;
 
-import com.google.common.base.Predicate;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosProvider;
-import net.silentchaos512.gems.handler.PlayerDataHandler;
+import net.silentchaos512.gems.entity.packet.EntityPacketChaos;
 import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.util.ChaosUtil;
 
@@ -98,7 +96,11 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
       amount = accepter.receiveCharge(amount, true);
       if (amount > 0) {
         extractEnergy(amount, false);
-        ChaosUtil.spawnPacketToBlock(worldObj, pos, ((TileEntity) accepter).getPos(), amount);
+        EntityPacketChaos packet = ChaosUtil.spawnPacketToBlock(worldObj, pos,
+            ((TileEntity) accepter).getPos(), amount);
+        Vec3d vel = new Vec3d(0.1, 0.25, 0.0);
+        vel = vel.rotateYaw(2 * (float) Math.PI * SilentGems.random.nextFloat());
+        packet.setVelocity(vel);
       }
     }
   }
