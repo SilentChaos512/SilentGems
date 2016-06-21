@@ -3,7 +3,6 @@ package net.silentchaos512.gems.entity;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.SoundEvents;
@@ -20,7 +19,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.lib.EnumModParticles;
+import net.silentchaos512.gems.lib.part.ToolPartGem;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.Color;
 
@@ -71,6 +73,15 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
     motionY *= speedMulti;
     motionZ *= speedMulti;
     // this.gravity = gravity;
+
+    // Color
+    ToolPart part = ToolHelper.getRenderPart(castingStack, EnumPartPosition.HEAD_MIDDLE);
+    if (part instanceof ToolPartGem) {
+      ToolPartGem partGem = (ToolPartGem) part;
+      this.color = new Color(partGem.getGem().getColor());
+    } else if (part != null) {
+      this.color = new Color(part.getColor(castingStack));
+    }
 
     // SilentGems.instance.logHelper.debug(posX, posY, posZ, motionX, motionY, motionZ);
 
