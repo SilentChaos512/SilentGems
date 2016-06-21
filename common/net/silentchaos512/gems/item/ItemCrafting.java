@@ -134,8 +134,8 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
     // Ender Frost
     RecipeHelper.addSurround(enderFrost, enderEssence, Blocks.ICE);
     // Gilded String
-    GameRegistry.addRecipe(new ShapedOreRecipe(gildedString, "gsg", "gsg", "gsg", 's', Items.STRING,
-        'g', "nuggetGold"));
+    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, gildedString.getItemDamage()),
+        "gsg", "gsg", "gsg", 's', Items.STRING, 'g', "nuggetGold"));
     // Yarn Ball
     RecipeHelper.addSurround(yarnBall,
         new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE), Items.STRING);
@@ -153,8 +153,8 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
     // Armor Lattice
     RecipeHelper.addSurroundOre(getStack(Names.ARMOR_LATTICE_MUNDANE, 12), "stickWood", "leather",
         Items.FLINT);
-    RecipeHelper.addSurroundOre(getStack(Names.ARMOR_LATTICE_REGULAR, 12), fluffyFabric, "ingotIron",
-        new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE));
+    RecipeHelper.addSurroundOre(getStack(Names.ARMOR_LATTICE_REGULAR, 12), fluffyFabric,
+        "ingotIron", new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE));
     RecipeHelper.addSurroundOre(getStack(Names.ARMOR_LATTICE_SUPER, 12), "gemLapis", "gemDiamond",
         chaosEssenceEnriched);
   }
