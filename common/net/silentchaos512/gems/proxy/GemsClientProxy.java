@@ -9,6 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.fx.FXChaos;
 import net.silentchaos512.gems.client.gui.GuiChaosBar;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
@@ -88,22 +89,28 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
 
     switch (type) {
       case CHAOS:
-        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 2.0f, 25, r, g, b);
+//        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 2.0f, 25, r, g, b);
+        fx = new FXChaos(world, x, y, z, .2f, r, g, b, 25).setSpeed(motionX, motionY, motionZ);
         break;
       case CHAOS_PROJECTILE_BODY:
-        fx = new EntityFXChaos(world, x, y, z, 0f, 0f, 0f, 3.0f, 1, r, g, b);
+//        fx = new EntityFXChaos(world, x, y, z, 0f, 0f, 0f, 3.0f, 1, r, g, b);
+        fx = new FXChaos(world, x, y, z, .3f, r, g, b, 1);
         break;
       case CHAOS_PACKET_HEAD:
-        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 2.0f, 0, r, g, b);
+//        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 2.0f, 0, r, g, b);
+        fx = new FXChaos(world, x, y, z, .2f, r, g, b, 0).setSpeed(motionX, motionY, motionZ);
         break;
       case CHAOS_PACKET_TAIL:
-        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 1.0f, 25, r, g, b);
+//        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 1.0f, 25, r, g, b);
+        fx = new FXChaos(world, x, y, z, .1f, r, g, b, 25).setSpeed(motionX, motionY, motionZ);
         break;
       case CHAOS_NODE:
-        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 3.0f, 20, r, g, b);
+//        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 3.0f, 20, r, g, b);
+        fx = new FXChaos(world, x, y, z, .3f, r, g, b, 20).setSpeed(motionX, motionY, motionZ);
         break;
       case PHANTOM_LIGHT:
-        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 1.0f, 15, r, g, b);
+//        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 1.0f, 15, r, g, b);
+        fx = new FXChaos(world, x, y, z, .1f, r, g, b, 15).setSpeed(motionX, motionY, motionZ);
         break;
       case DRAWING_COMPASS:
         fx = new EntityFXCompass(world, x, y, z, motionX, motionY, motionZ, 1.0f, 10, r, g, b);

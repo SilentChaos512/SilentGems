@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.client.render.particle;
 
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -29,7 +30,7 @@ public class EntityFXChaos extends Particle {
     this.motionY = motionY;
     this.motionZ = motionZ;
     this.particleTextureIndexX = 4;
-    this.particleTextureIndexY = 11;
+    this.particleTextureIndexY = 2; //11;
     this.particleRed = red;
     this.particleGreen = green;
     this.particleBlue = blue;
@@ -65,9 +66,9 @@ public class EntityFXChaos extends Particle {
       float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
 
     float uMin = (float) this.particleTextureIndexX / 16.0F;
-    float uMax = uMin + .0625f;
+    float uMax = uMin + .25f; //uMin + .0625f;
     float vMin = (float) this.particleTextureIndexY / 16.0F;
-    float vMax = vMin + .0625f;
+    float vMax = vMin + .25f; //vMin + .0625f;
     float f4 = 0.1F * this.particleScale;
 
     if (this.particleTexture != null) {
@@ -89,25 +90,25 @@ public class EntityFXChaos extends Particle {
         .pos((double) (f5 - rotationX * f4 - rotationXY * f4), (double) (f6 - rotationZ * f4),
             (double) (f7 - rotationYZ * f4 - rotationXZ * f4))
         .tex((double) uMax, (double) vMax)
-        .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+        .color(this.particleRed, this.particleGreen, this.particleBlue, 1)
         .lightmap(j, k).endVertex();
     worldRendererIn
         .pos((double) (f5 - rotationX * f4 + rotationXY * f4), (double) (f6 + rotationZ * f4),
             (double) (f7 - rotationYZ * f4 + rotationXZ * f4))
         .tex((double) uMax, (double) vMin)
-        .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+        .color(this.particleRed, this.particleGreen, this.particleBlue, 1)
         .lightmap(j, k).endVertex();
     worldRendererIn
         .pos((double) (f5 + rotationX * f4 + rotationXY * f4), (double) (f6 + rotationZ * f4),
             (double) (f7 + rotationYZ * f4 + rotationXZ * f4))
         .tex((double) uMin, (double) vMin)
-        .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+        .color(this.particleRed, this.particleGreen, this.particleBlue, 1)
         .lightmap(j, k).endVertex();
     worldRendererIn
         .pos((double) (f5 + rotationX * f4 - rotationXY * f4), (double) (f6 - rotationZ * f4),
             (double) (f7 + rotationYZ * f4 - rotationXZ * f4))
         .tex((double) uMin, (double) vMax)
-        .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+        .color(this.particleRed, this.particleGreen, this.particleBlue, 1)
         .lightmap(j, k).endVertex();
   }
 }

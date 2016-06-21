@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.profiler.Profiler;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -19,6 +20,7 @@ import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FOVModifier;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -31,6 +33,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
+import net.silentchaos512.gems.client.fx.ParticleRenderDispatcher;
 import net.silentchaos512.gems.client.gui.GuiCrosshairs;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.config.Config;
@@ -50,6 +53,16 @@ public class GemsClientEvents {
     ModItems.teleporterLinker.renderGameOverlay(event);
     renderCrosshairs(event);
     renderArmorExtra(event);
+  }
+
+  @SubscribeEvent
+  public void onRenderWorldLast(RenderWorldLastEvent event) {
+
+    Profiler profiler = Minecraft.getMinecraft().mcProfiler;
+
+    profiler.startSection("silentgems-particles");
+    ParticleRenderDispatcher.dispatch();
+    profiler.endStartSection("sg-renderworldlast");
   }
 
   @SubscribeEvent
