@@ -51,6 +51,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   public static final float[] ABSORPTION_RATIO_BY_SLOT = { 0.175f, 0.3f, 0.4f, 0.125f }; // sum = 1, starts with boots
   public static final int[] MAX_DAMAGE_ARRAY = new int[] { 13, 15, 16, 11 }; // Copied from ItemArmor
   protected static UUID[] ARMOR_MODIFIERS;
+  public static final boolean HAS_EFFECT = false; // Set true for enchanted glow.
 
   static {
 
@@ -67,11 +68,11 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   }
 
   private List<ItemStack> subItems = null;
-//  private ModelBiped model;
+  // private ModelBiped model;
   protected String itemName;
 
-//  protected Map<EntityEquipmentSlot, ModelBiped> models = null;
-//  protected Map<EntityEquipmentSlot, Map<int[], ModelBiped>> models = null;
+  // protected Map<EntityEquipmentSlot, ModelBiped> models = null;
+  // protected Map<EntityEquipmentSlot, Map<int[], ModelBiped>> models = null;
   protected Map<String, Map<EntityEquipmentSlot, ModelBiped>> models = null;
   public final EntityEquipmentSlot type;
 
@@ -199,24 +200,26 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
   @Nonnull
   @Override
-  public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
+  public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot,
+      String type) {
+
     return SilentGems.RESOURCE_PREFIX + "textures/armor/TempArmor.png";
-//    return super.getArmorTexture(stack, entity, slot, type);
+    // return super.getArmorTexture(stack, entity, slot, type);
   }
 
   @Nonnull
   @Override
   @SideOnly(Side.CLIENT)
-  public ModelBiped getArmorModel(EntityLivingBase entity, ItemStack itemStack, EntityEquipmentSlot slot, ModelBiped original)
-  {
+  public ModelBiped getArmorModel(EntityLivingBase entity, ItemStack itemStack,
+      EntityEquipmentSlot slot, ModelBiped original) {
+
     ModelBiped model = getArmorModelForSlot(entity, itemStack, slot);
-    if (model == null)
-    {
-      model = provideArmorModelForSlot(itemStack, slot, ArmorHelper.getRenderColorString(itemStack), ArmorHelper.getRenderColorList(itemStack));
+    if (model == null) {
+      model = provideArmorModelForSlot(itemStack, slot, ArmorHelper.getRenderColorString(itemStack),
+          ArmorHelper.getRenderColorList(itemStack));
     }
 
-    if (model != null)
-    {
+    if (model != null) {
       model.setModelAttributes(original);
       return model;
     }
@@ -224,46 +227,51 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     return super.getArmorModel(entity, itemStack, slot, original);
   }
 
+  @Override
+  public boolean hasEffect(ItemStack stack) {
+
+    return HAS_EFFECT;
+  }
+
   @SideOnly(Side.CLIENT)
-  public ModelBiped getArmorModelForSlot(EntityLivingBase entity, ItemStack stack, EntityEquipmentSlot slot)
-  {
-    if (models == null)
-    {
-      models = new HashMap<>(32*32*32*32);
-//      models = new EnumMap<>(EntityEquipmentSlot.class);
+  public ModelBiped getArmorModelForSlot(EntityLivingBase entity, ItemStack stack,
+      EntityEquipmentSlot slot) {
+
+    if (models == null) {
+      models = new HashMap<>(32 * 32 * 32 * 32);
+      // models = new EnumMap<>(EntityEquipmentSlot.class);
     }
     String colorString = ArmorHelper.getRenderColorString(stack);
-    if (models.get(colorString) == null)
-    {
+    if (models.get(colorString) == null) {
       models.put(colorString, new EnumMap<>(EntityEquipmentSlot.class));
     }
     return models.get(colorString).get(slot);
-//    if (models.get(slot) == null)
-//    {
-//      models.put(slot, new HashMap<>());
-//    }
-//    return models.get(slot).get(ArmorHelper.getRenderColorList(stack));
+    // if (models.get(slot) == null)
+    // {
+    // models.put(slot, new HashMap<>());
+    // }
+    // return models.get(slot).get(ArmorHelper.getRenderColorList(stack));
   }
 
   @SideOnly(Side.CLIENT)
-  public ModelBiped provideArmorModelForSlot(ItemStack stack, EntityEquipmentSlot slot, String colorString, int[] colors)
-  {
+  public ModelBiped provideArmorModelForSlot(ItemStack stack, EntityEquipmentSlot slot,
+      String colorString, int[] colors) {
+
     models.get(colorString).put(slot, new ModelGemArmor(slot, colors));
     return models.get(colorString).get(slot);
-//    models.get(slot).put(colors, new ModelGemArmor(slot, colors));
-//    return models.get(slot).get(colors);
-//    models.put(slot, new ModelGemArmor(slot, ArmorHelper.getRenderColorList(stack)));
-//    return models.get(slot);
+    // models.get(slot).put(colors, new ModelGemArmor(slot, colors));
+    // return models.get(slot).get(colors);
+    // models.put(slot, new ModelGemArmor(slot, ArmorHelper.getRenderColorList(stack)));
+    // return models.get(slot);
   }
 
-
-//  @Override
-//  public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot,
-//      String type) {
-//
-//    return SilentGems.RESOURCE_PREFIX + "textures/armor/" + "GemArmor" + "_"
-//        + (slot == EntityEquipmentSlot.LEGS ? "2" : "1") + ".png";
-//  }
+  // @Override
+  // public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot,
+  // String type) {
+  //
+  // return SilentGems.RESOURCE_PREFIX + "textures/armor/" + "GemArmor" + "_"
+  // + (slot == EntityEquipmentSlot.LEGS ? "2" : "1") + ".png";
+  // }
 
   @Override
   public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
@@ -406,6 +414,10 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
       // Super Gems
       for (EnumGem gem : EnumGem.values())
         subItems.add(constructArmor(gem.getItemSuper()));
+
+      // Set maker name.
+      for (ItemStack stack : subItems)
+        ArmorHelper.setOriginalOwner(stack, TextFormatting.LIGHT_PURPLE + "Creative");
     }
 
     list.addAll(subItems);
