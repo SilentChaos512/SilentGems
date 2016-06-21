@@ -34,7 +34,6 @@ public class EntityPacketRegen extends EntityChaosNodePacket {
   public void onImpactWithEntity(EntityLivingBase entity) {
 
     entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, (int) amount, 1));
-    SilentGems.logHelper.debug(amount, amount / 20);
     super.onImpactWithEntity(entity);
   }
 

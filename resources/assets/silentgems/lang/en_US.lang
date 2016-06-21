@@ -735,12 +735,19 @@ guide.silentgems:gettingStarted.gemTools2=Experiment with different combinations
 guide.silentgems:gettingStarted.gemTools3=Iron rods are shown in the example, but &2you may use sticks or bones&0 if you want. At the time of writing, rods are purely a cosmetic choice, but they could affect stats in the future.
 guide.silentgems:gettingStarted.gemTools4=Technically, you can skip basic gem tools if you want. As I said before, &2there is a &1tier&2 above this&0. And since you can put any tip upgrade on any tool, you could stick with flint until you are ready to make super tools.
 
-guide.silentgems:gettingStarted.chaosOre=5. Acquire Chaos Ore
+guide.silentgems:gettingStarted.gemArmor=5. Gem Armor
+guide.silentgems:gettingStarted.gemArmor0=You can also craft armor in a manner similar to tools. The recipes work differently than you would expect though. Like tools, &2you can mix materials&0 to create any armor piece you want! Armor can even be crafted with add-on parts and can be &1decorated&0!
+guide.silentgems:gettingStarted.gemArmor1=Armor from Gems can also provide more protection than normal armor! Every half gold piece on your armor bar is worth an extra 1%% protection. For reference, the normal pieces are 4%%, so think of the additional armor as more of a bonus.
+guide.silentgems:gettingStarted.gemArmor2=To craft armor, surround an &2armor frame&0 with materials of the same tier. Armor frames are crafted with &2armor lattice&0. Lay out the lattice in the same pattern as vanilla armor. Note that both the lattice and frames have tiers that must match the parts used!
+guide.silentgems:gettingStarted.gemArmor3=After crafting, armor can be &2repaired and decorated&0 just like tools. See &1decorating&0 under the Terms category for more info.
+
+
+guide.silentgems:gettingStarted.chaosOre=6. Acquire Chaos Ore
 guide.silentgems:gettingStarted.chaosOre0=You may have seen Chaos Ore on your mining trips and noticed you cannot mine it yet. Chaos Ore has a &2harvest level of 3&0, same as obsidian. Any guesses on how to mine it? Sure, you could use a diamond pickaxe, but I recommend a &2diamond-tipped upgrade&0. Seeing a pattern?
 guide.silentgems:gettingStarted.chaosOre1=You're diamond-tipped pickaxe will &2last longer and mine faster&0, all for the low price of one diamond! Now grab some Chaos Ore and obsidian. &2Chaos Ore can be smelted&0, and is compatible with ore processing from some other mods.
 guide.silentgems:gettingStarted.chaosOre2=&2Chaos Essence&0 is the result of smelting Chaos Ore, and it has many uses. You'll need a lot of it. The first use is &2supercharged gems&0, which can used to make super &1tier&0 tools.
 
-guide.silentgems:gettingStarted.superTools=6. Super Tools
+guide.silentgems:gettingStarted.superTools=7. Super Tools
 guide.silentgems:gettingStarted.superTools0=Finally, we can make &2super tier tools&0! You can use supercharged gems, and add-ons could potentially add more materials to choose from. You will &4need to use ornate rods&0 for super tools!
 guide.silentgems:gettingStarted.superTools1=By the way, don't forget to &2explore the Nether&0! There are 16 more gems to be found there, making a total of 32 for you to use. You can freely mix overworld and Nether gems as you please.
 guide.silentgems:gettingStarted.superTools2=You may also want to run the gems through the &2Material Grader&0 for additional stat bonuses. You only get one shot at grading each gem, but even the lowest grade gives a small boost.

@@ -472,8 +472,7 @@ public class ArmorHelper {
 
   public static void setOriginalOwner(ItemStack tool, String name) {
 
-    if (getOriginalOwner(tool).isEmpty())
-      setTagString(tool, NBT_ROOT_STATISTICS, NBT_STATS_ORIGINAL_OWNER, name);
+    ToolHelper.setOriginalOwner(tool, name);
   }
 
   public static int getStatRedecorated(ItemStack tool) {

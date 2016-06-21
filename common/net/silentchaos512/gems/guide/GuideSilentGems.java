@@ -30,6 +30,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.item.ItemChaosOrb;
 import net.silentchaos512.gems.item.ModItems;
@@ -114,6 +115,24 @@ public class GuideSilentGems {
     for (; i < 5; ++i)
       pages.add(new PageText(getString(prefix + i)));
     entry = new EntryItemStack(pages, getString(prefix), rubySapphirePick);
+    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+
+    // Entry: Gem Armor
+    pages = Lists.newArrayList();
+    prefix = GETTING_STARTED + ".gemArmor";
+    for (i = 0; i < 3; ++i)
+      pages.add(new PageText(getString(prefix + i)));
+    ItemStack exampleArmor = ModItems.gemChestplate.constructArmor(EnumGem.IOLITE.getItem(),
+        EnumGem.BLUE_TOPAZ.getItem(), EnumGem.IOLITE.getItem(), EnumGem.BLACK_DIAMOND.getItem());
+    pages
+        .add(new PageIRecipe(new ShapedOreRecipe(exampleArmor, " t ", "ifi", " d ", 'f',
+            ModItems.armorFrame.getFrameForArmorPiece(ModItems.gemChestplate,
+                EnumMaterialTier.REGULAR),
+            't', EnumGem.BLUE_TOPAZ.getItem(), 'i', EnumGem.IOLITE.getItem(), 'd',
+            EnumGem.BLACK_DIAMOND.getItem())));
+    for (; i < 4; ++i)
+      pages.add(new PageText(getString(prefix + i)));
+    entry = new EntryItemStack(pages, getString(prefix), exampleArmor);
     entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
 
     // Entry: Chaos Ore
