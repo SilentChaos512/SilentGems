@@ -70,6 +70,9 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     // Show original owner?
     if (controlDown) {
       String owner = ToolHelper.getOriginalOwner(tool);
+      if (owner.equals("Creative"))
+        owner = TextFormatting.LIGHT_PURPLE + owner;
+
       if (!owner.isEmpty())
         list.add(loc.getMiscText("Tooltip.OriginalOwner", owner));
       else

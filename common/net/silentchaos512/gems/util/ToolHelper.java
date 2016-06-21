@@ -855,7 +855,7 @@ public class ToolHelper {
 
     // Set maker name.
     for (ItemStack stack : list)
-      ToolHelper.setOriginalOwner(stack, TextFormatting.LIGHT_PURPLE + "Creative");
+      ToolHelper.setOriginalOwner(stack, "Creative");
 
     return list;
   }
