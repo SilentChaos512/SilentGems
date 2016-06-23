@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -77,6 +78,8 @@ public class ModuleEntityRandomEquipment {
           entity.getName());
       ToolHelper.setOriginalOwner(sword, makerName);
       entity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, sword);
+      if (entity instanceof EntityLiving)
+        ((EntityLiving) entity).setDropChance(EntityEquipmentSlot.MAINHAND, 0.125f); // Vanilla 8.5%
     }
   }
 

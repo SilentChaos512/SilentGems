@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.0.19
+Ported to 1.10 (a single import change... seriously?)
+
 2.0.18
 Added: Chaos Node regen packets.
 Added: Headcrumbs mobs can now spawn with gem swords, and do so more often than zombies.

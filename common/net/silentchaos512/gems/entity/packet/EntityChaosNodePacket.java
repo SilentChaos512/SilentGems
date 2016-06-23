@@ -176,9 +176,9 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
   protected void spawnTailParticles() {
 
     if (!firstUpdate && ticksExisted % (1 + SilentGems.proxy.getParticleSettings()) == 0) {
-      double mx = worldObj.rand.nextGaussian() * 0.02f;
-      double my = worldObj.rand.nextGaussian() * 0.02f;
-      double mz = worldObj.rand.nextGaussian() * 0.02f;
+      double mx = worldObj.rand.nextGaussian() * 0.01f;
+      double my = worldObj.rand.nextGaussian() * 0.01f;
+      double mz = worldObj.rand.nextGaussian() * 0.01f;
       SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PACKET_TAIL, getColorTail(), worldObj,
           prevPosX, prevPosY, prevPosZ, mx, my, mz);
     }

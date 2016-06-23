@@ -94,15 +94,15 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
         break;
       case CHAOS_PROJECTILE_BODY:
 //        fx = new EntityFXChaos(world, x, y, z, 0f, 0f, 0f, 3.0f, 1, r, g, b);
-        fx = new FXChaos(world, x, y, z, .3f, r, g, b, 1);
+        fx = new FXChaos(world, x, y, z, .3f, r, g, b, 2);
         break;
       case CHAOS_PACKET_HEAD:
 //        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 2.0f, 0, r, g, b);
-        fx = new FXChaos(world, x, y, z, .2f, r, g, b, 0).setSpeed(motionX, motionY, motionZ);
+        fx = new FXChaos(world, x, y, z, .2f, r, g, b, 1).setSpeed(motionX, motionY, motionZ);
         break;
       case CHAOS_PACKET_TAIL:
 //        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 1.0f, 25, r, g, b);
-        fx = new FXChaos(world, x, y, z, .1f, r, g, b, 25).setSpeed(motionX, motionY, motionZ);
+        fx = new FXChaos(world, x, y, z, .1f, r, g, b, 15).setSpeed(motionX, motionY, motionZ);
         break;
       case CHAOS_NODE:
 //        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 3.0f, 20, r, g, b);

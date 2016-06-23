@@ -222,7 +222,7 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
   public static Color selectParticleColor(Random rand) {
 
     float shade = 0.7f + 0.3f * rand.nextFloat();
-    float variation = 0.075f;
+    float variation = 0.1875f;
     return new Color(
         MathHelper.clamp_float((float) (shade + variation * rand.nextGaussian()), 0f, 1f),
         MathHelper.clamp_float((float) (shade + variation * rand.nextGaussian()), 0f, 1f),
