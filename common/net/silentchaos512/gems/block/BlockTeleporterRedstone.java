@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileTeleporter;
@@ -28,7 +28,7 @@ public class BlockTeleporterRedstone extends BlockTeleporter {
   @Override
   public void addRecipes() {
 
-    if (Config.RECIPE_TELEPORTER_REDSTONE_DISABLE) {
+    if (GemsConfig.RECIPE_TELEPORTER_REDSTONE_DISABLE) {
       return;
     }
 
@@ -58,8 +58,8 @@ public class BlockTeleporterRedstone extends BlockTeleporter {
 
     World world = (World) worldIn;
 
-    final double searchRange = Config.TELEPORTER_REDSTONE_SEARCH_RADIUS
-        * Config.TELEPORTER_REDSTONE_SEARCH_RADIUS;
+    final double searchRange = GemsConfig.TELEPORTER_REDSTONE_SEARCH_RADIUS
+        * GemsConfig.TELEPORTER_REDSTONE_SEARCH_RADIUS;
 
     TileTeleporter tile = (TileTeleporter) world.getTileEntity(pos);
 

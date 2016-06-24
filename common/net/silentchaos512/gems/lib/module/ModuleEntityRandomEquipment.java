@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import org.apache.commons.lang3.mutable.MutableDouble;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -17,7 +19,9 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
+import net.minecraftforge.common.config.Configuration;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -32,16 +36,50 @@ public class ModuleEntityRandomEquipment {
       ModItems.craftingMaterial.toolRodSilver, EnumGem.RUBY.getItemSuper(),
       EnumGem.ONYX.getItemSuper()); // Deliberately using 2 parts because I can :)
 
-  public static boolean enabled = true;
-  public static float swordChance = 0.075f;
-  public static float katanaChance = 0.5f;
-  public static float swordExtraGemChance = 0.33f;
-  public static float superChance = 0.25f;
-  public static float selectExtraGemChance = 0.6f;
+  public static boolean MODULE_ENABLED = true;
+  public static float SWORD_CHANCE = 0.075f;
+  public static float KATANA_CHANCE = 0.5f;
+  public static float SUPER_CHANCE = 0.25f;
+  public static float SWORD_EXTRA_GEM_CHANCE = 0.33f;
+  public static float SELECT_EXTRA_GEM_CHANCE = 0.6f;
+  public static float EQUIPMENT_DROP_CHANCE = 0.11f; // Vanilla 8.5%
+  public static float SWORD_MULTI_HUMAN = 2.0f;
+  public static float SWORD_MULTI_SKELETON = 0.5f;
+  public static float SWORD_MULTI_ZOMBIE = 1.0f;
+
+  public static void loadConfig(Configuration c) {
+
+    String cat = GemsConfig.CAT_MAIN + c.CATEGORY_SPLITTER + MODULE_NAME;
+    c.setCategoryComment(cat, "Configs for mobs spawning with gem equipment.");
+
+    MODULE_ENABLED = c.getBoolean("Enabled", cat, MODULE_ENABLED,
+        "Enables/disables mob gem equipment spawns.");
+
+    SWORD_CHANCE = c.getFloat("SwordChance", cat, SWORD_CHANCE, 0, 1,
+        "Base chance of a mob getting a gem sword.");
+    KATANA_CHANCE = c.getFloat("KatanaChance", cat, KATANA_CHANCE, 0, 1,
+        "Chance that a super-tier sword will be a katana.");
+    SUPER_CHANCE = c.getFloat("SuperChance", cat, SUPER_CHANCE, 0, 1,
+        "Chance that equipment will be super-tier if given.");
+    SWORD_EXTRA_GEM_CHANCE = c.getFloat("SwordExtraGemChance", cat, SWORD_EXTRA_GEM_CHANCE, 0, 1,
+        "Chance that a sword (not katanas) will get a third gem. The cheaters!");
+    SELECT_EXTRA_GEM_CHANCE = c.getFloat("SelectExtraGemChance", cat, SELECT_EXTRA_GEM_CHANCE, 0, 1,
+        "Chance that another gem will be selected after the previous\n"
+            + "one (for example, after one is selected this is the chance of getting a second.)");
+    EQUIPMENT_DROP_CHANCE = c.getFloat("EquipmentDropChance", cat, EQUIPMENT_DROP_CHANCE, 0, 1,
+        "Chance the item will be dropped on death (vanilla is 0.085)");
+
+    SWORD_MULTI_HUMAN = c.getFloat("SwordMulti.Human", cat, SWORD_MULTI_HUMAN, 0, 100,
+        "Multiplier for the chance that a Headcrumbs mob will spawn with gem equipment.");
+    SWORD_MULTI_SKELETON = c.getFloat("SwordMulti.Skeleton", cat, SWORD_MULTI_SKELETON, 0, 100,
+        "Multiplier for the chance that a Skelton will spawn with gem equipment.");
+    SWORD_MULTI_ZOMBIE = c.getFloat("SwordMulti.Zombie", cat, SWORD_MULTI_ZOMBIE, 0, 100,
+        "Multiplier for the chance that a Zombie will spawn with gem equipment.");
+  }
 
   public static void tryGiveMobEquipment(EntityLivingBase entity) {
 
-    if (entity.worldObj.isRemote || !(entity instanceof EntityMob))
+    if (!MODULE_ENABLED || entity.worldObj.isRemote || !(entity instanceof EntityMob))
       return;
 
     EnumDifficulty worldDiff = entity.worldObj.getDifficulty();
@@ -53,15 +91,13 @@ public class ModuleEntityRandomEquipment {
     // Allowed mobs: zombies, skeletons, and Headcrumbs humans. Different mobs have different
     // chances of spawning with equipment.
     if (entity instanceof EntityZombie) {
-      if (selectBasedOnDifficulty(swordChance, worldDiff, localDiff, rand)) {
+      if (selectBasedOnDifficulty(SWORD_MULTI_ZOMBIE * SWORD_CHANCE, worldDiff, localDiff, rand))
         sword = generateRandomMeleeWeapon(entity, rand);
-      }
     } else if (entity instanceof EntitySkeleton) {
-      if (selectBasedOnDifficulty(0.5f * swordChance, worldDiff, localDiff, rand)) {
+      if (selectBasedOnDifficulty(SWORD_MULTI_SKELETON * SWORD_CHANCE, worldDiff, localDiff, rand))
         sword = generateRandomMeleeWeapon(entity, rand);
-      }
     } else if (EntityList.NAME_TO_CLASS.get("headcrumbs.Human") == entity.getClass()) {
-      if (selectBasedOnDifficulty(2.0f * swordChance, worldDiff, localDiff, rand)) {
+      if (selectBasedOnDifficulty(SWORD_MULTI_HUMAN * SWORD_CHANCE, worldDiff, localDiff, rand)) {
         // A little easter egg...
         if (entity.getName().equals(Names.SILENT_CHAOS_512)) {
           sword = SILENT_KATANA.copy();
@@ -79,7 +115,7 @@ public class ModuleEntityRandomEquipment {
       ToolHelper.setOriginalOwner(sword, makerName);
       entity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, sword);
       if (entity instanceof EntityLiving)
-        ((EntityLiving) entity).setDropChance(EntityEquipmentSlot.MAINHAND, 0.125f); // Vanilla 8.5%
+        ((EntityLiving) entity).setDropChance(EntityEquipmentSlot.MAINHAND, EQUIPMENT_DROP_CHANCE);
     }
   }
 
@@ -88,9 +124,9 @@ public class ModuleEntityRandomEquipment {
     EnumDifficulty worldDiff = entity.worldObj.getDifficulty();
     DifficultyInstance localDiff = entity.worldObj.getDifficultyForLocation(entity.getPosition());
 
-    boolean superTier = selectBasedOnDifficulty(superChance, worldDiff, localDiff, rand);
+    boolean superTier = selectBasedOnDifficulty(SUPER_CHANCE, worldDiff, localDiff, rand);
     boolean genKatana = superTier
-        && selectBasedOnDifficulty(katanaChance, worldDiff, localDiff, rand);
+        && selectBasedOnDifficulty(KATANA_CHANCE, worldDiff, localDiff, rand);
 
     ItemGemSword item;
     int maxGemCount;
@@ -100,7 +136,7 @@ public class ModuleEntityRandomEquipment {
       maxGemCount = 3;
     } else {
       item = ModItems.sword;
-      maxGemCount = rand.nextFloat() < swordExtraGemChance ? 3 : 2;
+      maxGemCount = rand.nextFloat() < SWORD_EXTRA_GEM_CHANCE ? 3 : 2;
     }
 
     Set<EnumGem> gemSet = selectRandomGems(maxGemCount, rand);
@@ -142,7 +178,7 @@ public class ModuleEntityRandomEquipment {
     for (int i = 0; i < maxCount; ++i) {
       int index = rand.nextInt(EnumGem.values().length);
       gems.add(EnumGem.values()[index]);
-      if (rand.nextFloat() > selectExtraGemChance)
+      if (rand.nextFloat() > SELECT_EXTRA_GEM_CHANCE)
         return gems;
     }
     return gems;

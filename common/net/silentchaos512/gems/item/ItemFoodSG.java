@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.RecipeHelper;
@@ -95,7 +95,7 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
     SecretDonutEffect effect = secretDonutEffects
         .get(world.rand.nextInt(secretDonutEffects.size()));
     player.addPotionEffect(new PotionEffect(effect.potion,
-        (int) (Config.FOOD_SUPPORT_DURATION * effect.durationMulti), 0, true, false));
+        (int) (GemsConfig.FOOD_SUPPORT_DURATION * effect.durationMulti), 0, true, false));
   }
 
   @Override
@@ -162,14 +162,14 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
       if (d == 0) {
         // Potato on a stick
         player.addPotionEffect(
-            new PotionEffect(MobEffects.STRENGTH, Config.FOOD_SUPPORT_DURATION, 0, true, false));
+            new PotionEffect(MobEffects.STRENGTH, GemsConfig.FOOD_SUPPORT_DURATION, 0, true, false));
         givePlayerItem(player, new ItemStack(Items.STICK));
       } else if (d == 1) {
         // Sugar cookie
         player.addPotionEffect(
-            new PotionEffect(MobEffects.HASTE, Config.FOOD_SUPPORT_DURATION, 0, true, false));
+            new PotionEffect(MobEffects.HASTE, GemsConfig.FOOD_SUPPORT_DURATION, 0, true, false));
         player.addPotionEffect(
-            new PotionEffect(MobEffects.SPEED, Config.FOOD_SUPPORT_DURATION, 0, true, false));
+            new PotionEffect(MobEffects.SPEED, GemsConfig.FOOD_SUPPORT_DURATION, 0, true, false));
       } else if (d == 2) {
         // Secret donut
         onDonutEaten(world, player);
@@ -179,10 +179,10 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
       } else if (d == 5) {
         // Candy Cane
         player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION,
-            Config.FOOD_SUPPORT_DURATION / 6, 0, true, false));
+            GemsConfig.FOOD_SUPPORT_DURATION / 6, 0, true, false));
       } else if (d == 6) {
         // Coffee Cup
-        int duration = (int) (2.0f * Config.FOOD_SUPPORT_DURATION);
+        int duration = (int) (2.0f * GemsConfig.FOOD_SUPPORT_DURATION);
         player.addPotionEffect(new PotionEffect(MobEffects.SPEED, duration * 2, 1, true, false));
         player.addPotionEffect(new PotionEffect(MobEffects.HASTE, duration, 1, true, false));
       }
@@ -195,20 +195,20 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
 
     // Give potion effect?
     Random rand = SilentGems.instance.random;
-    if (rand.nextFloat() < Config.FOOD_SECRET_DONUT_CHANCE) {
+    if (rand.nextFloat() < GemsConfig.FOOD_SECRET_DONUT_CHANCE) {
       addSecretDonutEffect(world, player);
       // Smaller chance of a second effect.
-      if (rand.nextFloat() < Config.FOOD_SECRET_DONUT_CHANCE) {
+      if (rand.nextFloat() < GemsConfig.FOOD_SECRET_DONUT_CHANCE) {
         addSecretDonutEffect(world, player);
         // Even smaller chance of third effect.
-        if (rand.nextFloat() < Config.FOOD_SECRET_DONUT_CHANCE) {
+        if (rand.nextFloat() < GemsConfig.FOOD_SECRET_DONUT_CHANCE) {
           addSecretDonutEffect(world, player);
         }
       }
     }
 
     // Add chat message
-    if (rand.nextFloat() < Config.FOOD_SECRET_DONUT_TEXT_CHANCE) {
+    if (rand.nextFloat() < GemsConfig.FOOD_SECRET_DONUT_TEXT_CHANCE) {
       List<String> list = SilentGems.instance.localizationHelper
           .getDescriptionLines("donut.silentgems:");
       String line = list.get(rand.nextInt(list.size()));

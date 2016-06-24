@@ -17,7 +17,7 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import net.silentchaos512.gems.block.BlockEssenceOre;
 import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.config.ConfigOptionOreGen;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.util.WeightedRandomItemSG;
@@ -55,7 +55,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
     generateChaosNodes(world, random, posX, posZ);
 
     // Gems
-    config = Config.WORLD_GEN_GEMS;
+    config = GemsConfig.WORLD_GEN_GEMS;
     block = ModBlocks.gemOre;
     veinCount = config.getVeinCount(random);
     veinSize = config.veinSize;
@@ -65,7 +65,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
       z = posZ + random.nextInt(16);
       pos = new BlockPos(x, y, z);
       // GemTest.instance.logHelper.debug(pos);
-      meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, Config.GEM_WEIGHTS))
+      meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS))
           .getMeta();
       EnumGem gem = EnumGem.values()[meta];
       state = block.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
@@ -73,7 +73,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
     }
 
     // Chaos Ore
-    config = Config.WORLD_GEN_CHAOS;
+    config = GemsConfig.WORLD_GEN_CHAOS;
     block = ModBlocks.essenceOre;
     veinCount = config.getVeinCount(random);
     veinSize = config.veinSize;
@@ -98,7 +98,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
     Predicate predicate = BlockMatcher.forBlock(Blocks.NETHERRACK);
 
     // Dark Gems
-    config = Config.WORLD_GEN_GEMS_DARK;
+    config = GemsConfig.WORLD_GEN_GEMS_DARK;
     block = ModBlocks.gemOreDark;
     veinCount = config.getVeinCount(random);
     veinSize = config.veinSize;
@@ -108,7 +108,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
       z = posZ + random.nextInt(16);
       pos = new BlockPos(x, y, z);
       // GemTest.instance.logHelper.debug(pos);
-      meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, Config.GEM_WEIGHTS))
+      meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS))
           .getMeta();
       EnumGem gem = EnumGem.values()[meta];
       state = block.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
@@ -126,7 +126,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
     Predicate predicate = BlockMatcher.forBlock(Blocks.END_STONE);
 
     // Ender Ore
-    config = Config.WORLD_GEN_ENDER;
+    config = GemsConfig.WORLD_GEN_ENDER;
     block = ModBlocks.essenceOre;
     veinCount = config.getVeinCount(random);
     veinSize = config.veinSize;
@@ -147,7 +147,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
     IBlockState state;
     BlockPos pos;
 
-    for (i = 0; i < Config.GLOW_ROSE_PER_CHUNK; ++i) {
+    for (i = 0; i < GemsConfig.GLOW_ROSE_PER_CHUNK; ++i) {
       x = posX + random.nextInt(16);
       y = random.nextInt(120) + 50;
       z = posZ + random.nextInt(16);
@@ -175,8 +175,8 @@ public class GemsWorldGenerator implements IWorldGenerator {
     IBlockState state;
     BlockPos pos;
 
-    int count = (int) Config.CHAOS_NODES_PER_CHUNK;
-    float diff = Config.CHAOS_NODES_PER_CHUNK - count;
+    int count = (int) GemsConfig.CHAOS_NODES_PER_CHUNK;
+    float diff = GemsConfig.CHAOS_NODES_PER_CHUNK - count;
     count += random.nextFloat() < diff ? 1 : 0;
 
     for (i = 0; i < count; ++i) {

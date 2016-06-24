@@ -36,7 +36,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.client.fx.ParticleRenderDispatcher;
 import net.silentchaos512.gems.client.gui.GuiCrosshairs;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.TooltipHelper;
 import net.silentchaos512.gems.util.ToolHelper;
@@ -185,7 +185,7 @@ public class GemsClientEvents {
    */
   private void renderArmorExtra(RenderGameOverlayEvent event) {
 
-    if (!Config.SHOW_BONUS_ARMOR_BAR || !event.isCancelable()
+    if (!GemsConfig.SHOW_BONUS_ARMOR_BAR || !event.isCancelable()
         || event.getType() != ElementType.ARMOR)
       return;
 

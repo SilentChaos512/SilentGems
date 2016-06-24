@@ -2,7 +2,6 @@ package net.silentchaos512.gems.event;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -23,8 +22,8 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.gems.lib.CoffeeModule;
 import net.silentchaos512.gems.lib.Greetings;
+import net.silentchaos512.gems.lib.module.ModuleCoffee;
 import net.silentchaos512.gems.lib.module.ModuleEntityRandomEquipment;
 import net.silentchaos512.gems.loot.LootHandler;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
@@ -131,7 +130,7 @@ public class GemsCommonEvents {
 
     if (!event.getEntity().worldObj.isRemote && event.getEntityLiving() instanceof EntityRabbit) {
       EntityRabbit rabbit = (EntityRabbit) event.getEntityLiving();
-      CoffeeModule.tickRabbit(rabbit);
+      ModuleCoffee.tickRabbit(rabbit);
     }
   }
 

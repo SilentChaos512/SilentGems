@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.ModEntities;
 import net.silentchaos512.gems.guide.GuideSilentGems;
 import net.silentchaos512.gems.item.ModItems;
@@ -93,11 +93,14 @@ public class SilentGems {
 
     ToolHelper.init();
 
-    Config.init(event.getSuggestedConfigurationFile());
+    GemsConfig.init(event.getSuggestedConfigurationFile());
+
     ModBlocks.init();
     ModItems.init();
     ModRecipes.init();
     ModParts.init();
+
+    GemsConfig.loadModuleConfigs();
 
     // TODO: Achievements
 
@@ -115,7 +118,7 @@ public class SilentGems {
 
     ModEntities.init();
 
-    Config.save();
+    GemsConfig.save();
 
     proxy.init(registry);
 

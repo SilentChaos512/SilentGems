@@ -23,7 +23,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.NBTHelper;
@@ -44,7 +44,7 @@ public class ItemReturnHome extends ItemChaosStorage {
 
   public ItemReturnHome() {
 
-    super(EnumGem.values().length, Names.RETURN_HOME_CHARM, Config.RETURN_HOME_MAX_CHARGE);
+    super(EnumGem.values().length, Names.RETURN_HOME_CHARM, GemsConfig.RETURN_HOME_MAX_CHARGE);
   }
 
   @Override
@@ -150,7 +150,7 @@ public class ItemReturnHome extends ItemChaosStorage {
 
     if (player.worldObj.isRemote) {
       int timeUsed = getMaxItemUseDuration(stack) - count;
-      if (timeUsed >= Config.RETURN_HOME_USE_TIME) {
+      if (timeUsed >= GemsConfig.RETURN_HOME_USE_TIME) {
         NBTHelper.setTagBoolean(stack, NBT_READY, true);
       }
     }
@@ -180,7 +180,7 @@ public class ItemReturnHome extends ItemChaosStorage {
       int timeUsed = getMaxItemUseDuration(stack) - timeLeft;
 
       // Did player use item long enough?
-      if (timeUsed < Config.RETURN_HOME_USE_TIME) {
+      if (timeUsed < GemsConfig.RETURN_HOME_USE_TIME) {
         return;
       }
 
@@ -226,7 +226,7 @@ public class ItemReturnHome extends ItemChaosStorage {
   public int getTeleportCost(ItemStack stack, EntityPlayer player) {
 
     // Currently a flat cost, but could be changed to consider distance.
-    return player.capabilities.isCreativeMode ? 0 : Config.RETURN_HOME_USE_COST;
+    return player.capabilities.isCreativeMode ? 0 : GemsConfig.RETURN_HOME_USE_COST;
   }
 
   protected void teleportPlayer(ItemStack stack, EntityPlayer player, DimensionalPosition pos) {

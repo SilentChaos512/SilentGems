@@ -13,7 +13,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.block.BlockSL;
@@ -47,7 +47,7 @@ public class BlockMisc extends BlockSL implements IFuelHandler {
   public int getBurnTime(ItemStack fuel) {
 
     return fuel.getItem() == Item.getItemFromBlock(this)
-        && fuel.getItemDamage() == Type.CHAOS_COAL.ordinal() ? 10 * Config.BURN_TIME_CHAOS_COAL : 0;
+        && fuel.getItemDamage() == Type.CHAOS_COAL.ordinal() ? 10 * GemsConfig.BURN_TIME_CHAOS_COAL : 0;
   }
 
   @Override

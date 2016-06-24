@@ -9,7 +9,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 
 public class TilePhantomLight extends TileEntity implements ITickable {
 
@@ -31,8 +31,8 @@ public class TilePhantomLight extends TileEntity implements ITickable {
         worldObj.setBlockToAir(this.pos);
       }
     }
-    if (!worldObj.isRemote && Config.DEBUG_LOG_POTS_AND_LIGHTS
-        && ticksExisted % Config.DEBUG_LOT_POTS_AND_LIGHTS_DELAY == 0) {
+    if (!worldObj.isRemote && GemsConfig.DEBUG_LOG_POTS_AND_LIGHTS
+        && ticksExisted % GemsConfig.DEBUG_LOT_POTS_AND_LIGHTS_DELAY == 0) {
       SilentGems.instance.logHelper.info("DEBUG: Phantom Light @ " + pos);
     }
   }

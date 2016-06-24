@@ -46,7 +46,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
@@ -427,9 +427,9 @@ public class ToolHelper {
     }
 
     // Behavior configs.
-    if (!Config.RIGHT_CLICK_TO_PLACE_ENABLED)
+    if (!GemsConfig.RIGHT_CLICK_TO_PLACE_ENABLED)
       return EnumActionResult.PASS;
-    if (Config.RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY && !player.isSneaking())
+    if (GemsConfig.RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY && !player.isSneaking())
       return EnumActionResult.PASS;
 
     // Disallow for broken tools

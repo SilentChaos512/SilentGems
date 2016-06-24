@@ -17,7 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
@@ -33,7 +33,7 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
         blockState.getBaseState().withProperty(EnumGem.VARIANT_GEM, EnumGem.RUBY));
     setSoundType(SoundType.PLANT);
 
-    lightValue = Config.GLOW_ROSE_LIGHT_LEVEL;
+    lightValue = GemsConfig.GLOW_ROSE_LIGHT_LEVEL;
     setUnlocalizedName(Names.GLOW_ROSE);
     setCreativeTab(SilentGems.instance.creativeTab);
   }

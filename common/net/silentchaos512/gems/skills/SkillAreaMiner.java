@@ -14,7 +14,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldSettings.GameType;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
@@ -172,8 +171,8 @@ public class SkillAreaMiner extends ToolSkill {
       return false;
     }
 
-    GameType gameType = player.interactionManager.getGameType();
-    int xpDropped = ForgeHooks.onBlockBreakEvent(world, gameType, player, pos);
+    int xpDropped = ForgeHooks.onBlockBreakEvent(world, player.interactionManager.getGameType(),
+        player, pos);
     boolean canceled = xpDropped == -1;
     if (canceled) {
       return false;

@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Names;
 
 public class BlockTeleporterAnchor extends BlockTeleporter {
@@ -39,7 +39,7 @@ public class BlockTeleporterAnchor extends BlockTeleporter {
   @Override
   public void addRecipes() {
 
-    if (!Config.RECIPE_TELEPORTER_ANCHOR_DISABLE) {
+    if (!GemsConfig.RECIPE_TELEPORTER_ANCHOR_DISABLE) {
       GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 4), "cec", " i ", "cec", 'c',
           "gemChaos", 'e', Items.ENDER_PEARL, 'i', Blocks.IRON_BLOCK));
     }

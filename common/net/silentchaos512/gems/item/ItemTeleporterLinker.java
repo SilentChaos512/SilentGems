@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.DimensionalPosition;
@@ -127,7 +127,7 @@ public class ItemTeleporterLinker extends ItemSL {
         if (pos.dim != player.dimension) {
           color = 0xff6600; // Different dimension
           str = loc.getItemSubText(itemName, "DifferentDimension");
-        } else if (distance < Config.TELEPORTER_FREE_RANGE) {
+        } else if (distance < GemsConfig.TELEPORTER_FREE_RANGE) {
           color = 0x00aaff; // Inside free range
         }
         fontRender.drawStringWithShadow(str, textX, textY, color);

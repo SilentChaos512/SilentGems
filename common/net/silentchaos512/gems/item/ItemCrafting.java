@@ -16,7 +16,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemNamedSubtypesSorted;
 import net.silentchaos512.lib.util.RecipeHelper;
@@ -209,6 +209,6 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
   public int getBurnTime(ItemStack fuel) {
 
     return fuel.getItem() == this && fuel.getItemDamage() == chaosCoal.getItemDamage()
-        ? Config.BURN_TIME_CHAOS_COAL : 0;
+        ? GemsConfig.BURN_TIME_CHAOS_COAL : 0;
   }
 }

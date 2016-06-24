@@ -11,9 +11,11 @@ import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.module.ModuleCoffee;
+import net.silentchaos512.gems.lib.module.ModuleEntityRandomEquipment;
 import net.silentchaos512.gems.util.WeightedRandomItemSG;
 
-public class Config {
+public class GemsConfig {
 
   /*
    * Debug
@@ -294,6 +296,12 @@ public class Config {
     } catch (Exception e) {
       System.out.println("Oh noes!!! Couldn't load configuration file properly!");
     }
+  }
+
+  public static void loadModuleConfigs() {
+
+    ModuleCoffee.loadConfig(c);
+    ModuleEntityRandomEquipment.loadConfig(c);
   }
 
   public static void save() {

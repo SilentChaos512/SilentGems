@@ -18,7 +18,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.block.BlockTeleporter;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.item.ItemTeleporterLinker;
@@ -220,14 +220,14 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
     DimensionalPosition source = new DimensionalPosition(pos, player.dimension);
 
     if (source.dim != destination.dim) {
-      return Config.TELEPORTER_COST_CROSS_DIMENSION;
+      return GemsConfig.TELEPORTER_COST_CROSS_DIMENSION;
     }
 
     double distance = getDistanceBetweenTeleporters(source);
-    if (distance < Config.TELEPORTER_FREE_RANGE) {
+    if (distance < GemsConfig.TELEPORTER_FREE_RANGE) {
       return 0;
     }
-    return MathHelper.clamp_int((int) (Config.TELEPORTER_COST_PER_BLOCK * distance), 0,
+    return MathHelper.clamp_int((int) (GemsConfig.TELEPORTER_COST_PER_BLOCK * distance), 0,
         getMaxCharge());
   }
 
@@ -264,7 +264,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
   public boolean isDestinationAllowedIfDumb(EntityPlayer player) {
 
     // Checks for a teleporter at the destination if dumb teleports are not allowed.
-    if (player == null || Config.TELEPORTER_ALLOW_DUMB || destination == null
+    if (player == null || GemsConfig.TELEPORTER_ALLOW_DUMB || destination == null
         || destination.equals(DimensionalPosition.ZERO)) {
       return true;
     }
@@ -299,7 +299,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
   @Override
   public int getMaxCharge() {
 
-    return isAnchor ? 0 : Config.TELEPORTER_MAX_CHARGE;
+    return isAnchor ? 0 : GemsConfig.TELEPORTER_MAX_CHARGE;
   }
 
   @Override

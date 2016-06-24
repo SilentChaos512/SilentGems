@@ -22,7 +22,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.config.Config;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
@@ -62,7 +62,7 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
   @Override
   public void addRecipes() {
 
-    if (Config.RECIPE_TELEPORTER_DISABLE) {
+    if (GemsConfig.RECIPE_TELEPORTER_DISABLE) {
       return;
     }
 
