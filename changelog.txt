@@ -1,5 +1,10 @@
 Silent's Gems - Changelog
 
+2.0.20
+Added: Configs for mobs spawning with gem swords and coffee drops (wait, this mod adds coffee?)
+Added: Some debug info for the Return Home Charm, might help solve the 'Destination Obstructed' bug.
+Fixed (maybe): Some issues with teleporting, such as creation of Nether portals.
+
 2.0.19
 Ported to 1.10 (a single import change... seriously?)
 

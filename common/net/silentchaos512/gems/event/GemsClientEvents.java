@@ -58,11 +58,7 @@ public class GemsClientEvents {
   @SubscribeEvent
   public void onRenderWorldLast(RenderWorldLastEvent event) {
 
-    Profiler profiler = Minecraft.getMinecraft().mcProfiler;
-
-    profiler.startSection("silentgems-particles");
     ParticleRenderDispatcher.dispatch();
-    profiler.endStartSection("sg-renderworldlast");
   }
 
   @SubscribeEvent

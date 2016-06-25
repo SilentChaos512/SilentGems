@@ -15,8 +15,6 @@ public final class ParticleRenderDispatcher {
 
     Tessellator tess = Tessellator.getInstance();
 
-    Profiler profiler = Minecraft.getMinecraft().mcProfiler;
-
     GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
     GlStateManager.depthMask(false);
     GlStateManager.enableBlend();
@@ -24,9 +22,7 @@ public final class ParticleRenderDispatcher {
     GlStateManager.alphaFunc(GL11.GL_GREATER, 0.003921569f);
     GlStateManager.disableLighting();
 
-    profiler.startSection("FXChaos");
     FXChaos.dispatchQueuedRenders(tess);
-    profiler.endSection();
 
     GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1f);
     GlStateManager.disableBlend();
