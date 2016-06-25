@@ -1,8 +1,11 @@
 Silent's Gems - Changelog
 
 2.0.20
+Added: Chaos Node levitation packets (green). Targets hostile mobs, making baddies fly away!
+Added: Chaos Node saturation packets (orange). Restores a bit of hunger, but they are uncommon.
 Added: Configs for mobs spawning with gem swords and coffee drops (wait, this mod adds coffee?)
 Added: Some debug info for the Return Home Charm, might help solve the 'Destination Obstructed' bug.
+Fixed: A potential (and very bad) issue with profiling (massive FPS drops, I'm so sorry!)
 Fixed (maybe): Some issues with teleporting, such as creation of Nether portals.
 
 2.0.19

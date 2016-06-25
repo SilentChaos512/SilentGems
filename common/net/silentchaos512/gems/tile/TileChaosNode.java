@@ -19,12 +19,15 @@ import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosProvider;
 import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
 import net.silentchaos512.gems.entity.packet.EntityPacketAttack;
+import net.silentchaos512.gems.entity.packet.EntityPacketLevitation;
 import net.silentchaos512.gems.entity.packet.EntityPacketRegen;
 import net.silentchaos512.gems.entity.packet.EntityPacketRepair;
+import net.silentchaos512.gems.entity.packet.EntityPacketSaturation;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.lib.util.Color;
 
+// TODO: Clean up this class!
 public class TileChaosNode extends TileEntity implements ITickable, IChaosProvider {
 
   public static final double SEARCH_RADIUS_SQUARED = 16 * 16;
@@ -38,8 +41,12 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
 
   public static final int TRY_REGEN_DELAY = 300;
   public static final float TRY_REGEN_CHANCE = 0.3f;
+  public static final int TRY_SATURATION_DELAY = 512;
+  public static final float TRY_SATURATION_CHANCE = 0.1f;
+  public static final int TRY_LEVITATION_DELAY = 425;
+  public static final float TRY_LEVITATION_CHANCE = 0.25f;
 
-  public static final int TRY_ATTACK_HOSTILES_DELAY = 100;
+  public static final int TRY_ATTACK_HOSTILES_DELAY = 160;
   public static final float ATTACK_HOSTILE_CHANCE = 0.25f;
   public static final float ATTACK_HOSTILE_BASE_DAMAGE = 4.0f;
   public static final float ATTACK_HOSTILE_DAMAGE_DEVIATION = 0.75f;
@@ -54,15 +61,11 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
 
     if (!worldObj.isRemote) {
       // Generate chaos.
-      // int currentChaos = chaosStored;
       chaosStored = Math.min(getCharge() + CHAOS_GENERATION_RATE, getMaxCharge());
-      // if (chaosStored != currentChaos) {
-      // markDirty();
-      // }
-      // SilentGems.instance.logHelper.debug(getCharge());
 
       // Send energy or effects to nearby players?
       List<EntityPlayerMP> players = getPlayersInRange();
+      List<EntityMob> hostiles = getHostilesInRange();
       long time = worldObj.getTotalWorldTime();
       boolean playSound = false;
 
@@ -78,34 +81,39 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
           playSound |= sendChaosToAccepters(accepters, amountForEach);
         }
       }
-      if (time % TRY_REGEN_DELAY == 0) {
-        playSound |= tryGiveRegen(players);
-      }
-      if (time % TRY_REPAIR_DELAY == 0) {
-        playSound |= tryRepairItems(players);
-      }
-      if (time % TRY_POTION_DELAY == 0) {
-        playSound |= tryGivePotionEffects(players);
-      }
-      if (time % TRY_ATTACK_HOSTILES_DELAY == 0) {
-        playSound |= tryAttackHostiles();
-      }
 
-      if (playSound) {
+      if (time % TRY_REGEN_DELAY == 0)
+        playSound |= tryGiveRegen(players);
+      if (time % TRY_SATURATION_DELAY == 0)
+        playSound |= tryGiveSaturation(players);
+      if (time % TRY_LEVITATION_DELAY == 0)
+        playSound |= tryLevitateHostiles(hostiles);
+      if (time % TRY_REPAIR_DELAY == 0)
+        playSound |= tryRepairItems(players);
+      if (time % TRY_POTION_DELAY == 0)
+        playSound |= tryGivePotionEffects(players);
+      if (time % TRY_ATTACK_HOSTILES_DELAY == 0)
+        playSound |= tryAttackHostiles(hostiles);
+
+      if (playSound)
         worldObj.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_HOE_TILL,
             SoundCategory.AMBIENT, 1.0f, 0.4f);
-      }
     }
 
-    if (worldObj.isRemote) {
+    if (worldObj.isRemote)
       spawnParticles();
-    }
   }
 
   private List<EntityPlayerMP> getPlayersInRange() {
 
     return worldObj.getPlayers(EntityPlayerMP.class,
         player -> player.getDistanceSq(getPos()) < SEARCH_RADIUS_SQUARED);
+  }
+
+  private List<EntityMob> getHostilesInRange() {
+
+    return worldObj.getEntities(EntityMob.class,
+        mob -> mob.getDistanceSq(pos) < SEARCH_RADIUS_SQUARED);
   }
 
   private void spawnPacketInWorld(EntityChaosNodePacket packet) {
@@ -165,6 +173,19 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
     return flag;
   }
 
+  private boolean tryGiveSaturation(List<EntityPlayerMP> players) {
+
+    boolean flag = false;
+    Random rand = SilentGems.random;
+    for (EntityPlayerMP player: players) {
+      if (player.getFoodStats().needFood() && rand.nextFloat() < TRY_SATURATION_CHANCE) {
+        spawnPacketInWorld(new EntityPacketSaturation(worldObj, player));
+        flag = true;
+      }
+    }
+    return flag;
+  }
+
   private boolean tryRepairItems(List<EntityPlayerMP> players) {
 
     boolean flag = false;
@@ -187,20 +208,36 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
     return flag;
   }
 
-  private boolean tryAttackHostiles() {
+  private boolean tryAttackHostiles(List<EntityMob> mobs) {
 
     boolean flag = false;
     Random rand = SilentGems.instance.random;
 
-    for (EntityLivingBase entity : worldObj.getEntities(EntityMob.class,
-        mob -> mob.getDistanceSq(pos) < SEARCH_RADIUS_SQUARED
-            && rand.nextFloat() < ATTACK_HOSTILE_CHANCE)) {
-      // Send an attack packet to the mob.
-      float amount = (float) (ATTACK_HOSTILE_BASE_DAMAGE
-          + ATTACK_HOSTILE_DAMAGE_DEVIATION * rand.nextGaussian());
-      spawnPacketInWorld(new EntityPacketAttack(worldObj, entity, amount));
-      flag = true;
+    for (EntityMob mob : mobs) {
+      if (rand.nextFloat() < ATTACK_HOSTILE_CHANCE) {
+        // Send an attack packet to the mob.
+        float amount = (float) (ATTACK_HOSTILE_BASE_DAMAGE
+            + ATTACK_HOSTILE_DAMAGE_DEVIATION * rand.nextGaussian());
+        spawnPacketInWorld(new EntityPacketAttack(worldObj, mob, amount));
+        flag = true;
+      }
     }
+    return flag;
+  }
+
+  private boolean tryLevitateHostiles(List<EntityMob> mobs) {
+
+    boolean flag = false;
+    Random rand = SilentGems.random;
+
+    for (EntityMob mob : mobs) {
+      if (rand.nextFloat() < TRY_LEVITATION_CHANCE) {
+        // Send levitation packet
+        spawnPacketInWorld(new EntityPacketLevitation(worldObj, mob));
+        flag = true;
+      }
+    }
+
     return flag;
   }
 

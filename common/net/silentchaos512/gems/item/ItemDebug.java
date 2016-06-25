@@ -4,10 +4,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.FoodStats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
@@ -26,7 +26,12 @@ public class ItemDebug extends ItemSL {
   public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn,
       EntityPlayer playerIn, EnumHand hand) {
 
-    playerIn.attackEntityFrom(DamageSource.inWall, 1.0f);
+    //playerIn.attackEntityFrom(DamageSource.inWall, 1.0f);
+    FoodStats food = playerIn.getFoodStats();
+    food.setFoodLevel(food.getFoodLevel() - 2);
+    food.setFoodSaturationLevel(food.getSaturationLevel() - 0.2f);
+    SilentGems.logHelper.debug(food.needFood());
+
     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
   }
 
