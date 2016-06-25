@@ -139,8 +139,8 @@ public class ItemReturnHome extends ItemChaosStorage {
       player.setActiveHand(hand);
       return new ActionResult(EnumActionResult.SUCCESS, stack);
     } else {
-//      PlayerHelper.addChatMessage(player,
-//          SilentGems.instance.localizationHelper.getItemSubText(itemName, TEXT_NOT_BOUND));
+      // PlayerHelper.addChatMessage(player,
+      // SilentGems.instance.localizationHelper.getItemSubText(itemName, TEXT_NOT_BOUND));
       return new ActionResult(EnumActionResult.PASS, stack);
     }
   }
@@ -204,9 +204,13 @@ public class ItemReturnHome extends ItemChaosStorage {
       int height = (int) Math.ceil(player.eyeHeight);
       BlockPos target = pos.toBlockPos().up(height);
 
-      //SilentGems.instance.logHelper.debug(pos, worldServer.getBlockState(target));
+      // SilentGems.instance.logHelper.debug(pos, worldServer.getBlockState(target));
       if (worldServer.isBlockNormalCube(target, true)) {
         PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_SAFE));
+        PlayerHelper.addChatMessage(player, "" + target);
+        PlayerHelper.addChatMessage(player, "" + worldServer.getBlockState(target));
+        SilentGems.logHelper.warning("Return Home Charm believes destination is obstructed:\n"
+            + "Target: " + target + "\nBlockstate: " + worldServer.getBlockState(target));
         return;
       }
 
@@ -215,7 +219,7 @@ public class ItemReturnHome extends ItemChaosStorage {
       player.fallDistance = 0.0f;
       teleportPlayer(stack, player, pos);
       // Play sounds
-      float soundPitch = 0.8f + 0.3f * SilentGems.instance.random.nextFloat();
+      float soundPitch = 0.8f + 0.3f * SilentGems.random.nextFloat();
       for (BlockPos p : new BlockPos[] { player.getPosition(), pos.toBlockPos() }) {
         world.playSound(null, p, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.0f,
             soundPitch);

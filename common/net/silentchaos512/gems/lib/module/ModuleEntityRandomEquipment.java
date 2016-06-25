@@ -64,8 +64,8 @@ public class ModuleEntityRandomEquipment {
     SWORD_EXTRA_GEM_CHANCE = c.getFloat("SwordExtraGemChance", cat, SWORD_EXTRA_GEM_CHANCE, 0, 1,
         "Chance that a sword (not katanas) will get a third gem. The cheaters!");
     SELECT_EXTRA_GEM_CHANCE = c.getFloat("SelectExtraGemChance", cat, SELECT_EXTRA_GEM_CHANCE, 0, 1,
-        "Chance that another gem will be selected after the previous\n"
-            + "one (for example, after one is selected this is the chance of getting a second.)");
+        "Chance that another gem will be selected after the previous one (for example, after one is\n"
+            + "selected this is the chance of getting a second.)");
     EQUIPMENT_DROP_CHANCE = c.getFloat("EquipmentDropChance", cat, EQUIPMENT_DROP_CHANCE, 0, 1,
         "Chance the item will be dropped on death (vanilla is 0.085)");
 

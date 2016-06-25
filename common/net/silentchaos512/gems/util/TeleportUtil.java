@@ -3,7 +3,6 @@ package net.silentchaos512.gems.util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.world.TeleporterGems;
@@ -34,7 +33,7 @@ public class TeleportUtil {
 
       // Teleport player to dimension, using a custom teleporter to prevent Nether portal spawns
       player.getServer().getPlayerList().transferPlayerToDimension(player, pos.dim,
-          new Teleporter(newWorldServer));
+          new TeleporterGems(newWorldServer));
 
       if (oldDimension == 1) {
         // Fixes world not loading when teleporting from the End.
@@ -50,6 +49,7 @@ public class TeleportUtil {
 
     int oldDimension = entity.worldObj.provider.getDimension();
     if (pos.dim != oldDimension) {
+      //entity.changeDimension(pos.dim);
       return false; // TODO: Fix cross-dimension entity teleportation?
       // MinecraftServer.getServer().worldServerForDimension(dimension);
       // entity.travelToDimension(dimension);
