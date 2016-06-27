@@ -33,7 +33,8 @@ public class ColorHandlers {
       @Override
       public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 
-        return ArmorHelper.getRenderPart(stack, EnumDecoPos.NORTH).getColor(stack);
+//        return ArmorHelper.getRenderPart(stack, EnumDecoPos.NORTH).getColor(stack);
+        return ArmorHelper.getRenderColor(stack, EnumDecoPos.NORTH); // FIXME: Multiple passes needed?
       }
     }, ModItems.gemHelmet, ModItems.gemChestplate, ModItems.gemLeggings, ModItems.gemBoots);
 
