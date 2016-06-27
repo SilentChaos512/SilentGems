@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+2.0.21
+Tweaked some gem stats a bit. Tools in your inventory will update when you log in.
+Fixed: Crash when rendering armor with no NBT (/give command, Lucky Cases, etc.)
+
 2.0.20
 Added: Chaos Node levitation packets (green). Targets hostile mobs, making baddies fly away!
 Added: Chaos Node saturation packets (orange). Restores a bit of hunger, but they are uncommon.

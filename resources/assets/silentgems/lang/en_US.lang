@@ -465,6 +465,7 @@ item.silentgems:Gem61.name=Supercharged Ametrine
 item.silentgems:Gem62.name=Supercharged Black Diamond
 item.silentgems:Gem63.name=Supercharged Alexandrite
 item.silentgems:Gem.superPrefix=Supercharged
+item.silentgems:Gem.original4=&5Original Four
 
 item.silentgems:GemShard0.name=Ruby Shard
 item.silentgems:GemShard1.name=Garnet Shard
