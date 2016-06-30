@@ -204,15 +204,15 @@ public class ItemReturnHome extends ItemChaosStorage {
       int height = (int) Math.ceil(player.eyeHeight);
       BlockPos target = pos.toBlockPos().up(height);
 
-      // SilentGems.instance.logHelper.debug(pos, worldServer.getBlockState(target));
-      if (worldServer.isBlockNormalCube(target, true)) {
-        PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_SAFE));
-        PlayerHelper.addChatMessage(player, "" + target);
-        PlayerHelper.addChatMessage(player, "" + worldServer.getBlockState(target));
-        SilentGems.logHelper.warning("Return Home Charm believes destination is obstructed:\n"
-            + "Target: " + target + "\nBlockstate: " + worldServer.getBlockState(target));
-        return;
-      }
+      // FIXME: Obstruction checks?
+//      if (worldServer.isBlockNormalCube(target, true)) {
+//        PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_SAFE));
+//        PlayerHelper.addChatMessage(player, "" + target);
+//        PlayerHelper.addChatMessage(player, "" + worldServer.getBlockState(target));
+//        SilentGems.logHelper.warning("Return Home Charm believes destination is obstructed:\n"
+//            + "Target: " + target + "\nBlockstate: " + worldServer.getBlockState(target));
+//        return;
+//      }
 
       // It should be safe to teleport.
       // Reset fall distance then teleport.
