@@ -92,20 +92,21 @@ public class RecipeMultiGemTool extends RecipeBase {
   }
 
   private boolean checkMatch(InventoryCrafting inv, int posX, int posY, int recipeWidth,
-      int recipeHeight, boolean arg4, String recipe) {
+      int recipeHeight, boolean mirror, String recipe) {
 
     int headInRecipe = 0;
     int headFound = 0;
+    ToolPart firstRod = null;
 
+    // Recipe array has to be re-arranged for some reason.
     int[] order = new int[] { 0, 3, 6, 1, 4, 7, 2, 5, 8 };
     char[] chars = new char[recipeWidth * recipeHeight];
     recipe = recipe.replaceAll(";", "");
     for (int i : order) {
       if (i < chars.length) {
         chars[i] = recipe.charAt(i);
-        if (chars[i] == 'h') {
+        if (chars[i] == 'h')
           ++headInRecipe;
-        }
       }
     }
 
@@ -113,44 +114,47 @@ public class RecipeMultiGemTool extends RecipeBase {
 
     for (int i = 0; i < 3; ++i) {
       for (int j = 0; j < 3; ++j) {
-        // GemTest.instance.logHelper.debug(i, j, recipeWidth, recipeHeight);
         int k = i - posX;
         int l = j - posY;
         char c = ' ';
 
-        if (k >= 0 && l >= 0 && k < recipeWidth && l < recipeHeight) {
-          if (arg4) {
-            c = chars[recipeWidth - k - 1 + l * recipeWidth];
-          } else {
-            c = chars[k + l * recipeWidth];
-          }
-        }
+        if (k >= 0 && l >= 0 && k < recipeWidth && l < recipeHeight)
+          c = mirror ? chars[recipeWidth - k - 1 + l * recipeWidth] : chars[k + l * recipeWidth];
+
+        // Check for excess things.
+        if (c == ' ' && inv.getStackInRowAndColumn(i, j) != null)
+          return false;
 
         ToolPart part = getPartInSlot(inv, i, j);
 
-        if (part != null) {
-          if (tier == null) {
+        // Check part
+        if (part != null && c != ' ') {
+          if (tier == null)
             tier = part.getTier();
-          }
-          // GemTest.instance.logHelper.debug(tier, part.getTier(), part.getKey());
+          // Make sure tiers are compatible.
           if (tier != part.getTier()) {
             // Some parts support different tiers.
-            if (!part.validForToolOfTier(tier)) {
+            if (!part.validForToolOfTier(tier))
               return false;
-            }
           }
 
-          if (part instanceof ToolPartMain) {
+          // Count head parts.
+          if (part instanceof ToolPartMain)
             ++headFound;
+
+          // Check rods.
+          if (part instanceof ToolPartRod) {
+            if (firstRod == null)
+              firstRod = part;
+            if (firstRod != part)
+              return false;
           }
 
-          if (c == 'h' && !(part instanceof ToolPartMain)) {
+          if (c == 'h' && !(part instanceof ToolPartMain))
             return false;
-          } else if (c == 'r' && !(part instanceof ToolPartRod)) {
+          else if (c == 'r' && !(part instanceof ToolPartRod))
             return false;
-          }
         } else if (part == null && c != ' ') {
-          // GemTest.instance.logHelper.debug("Derp", c, inv.getStackInRowAndColumn(i, j));
           return false;
         }
       }
