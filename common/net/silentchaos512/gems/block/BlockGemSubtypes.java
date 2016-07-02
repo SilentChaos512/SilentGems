@@ -24,6 +24,11 @@ public class BlockGemSubtypes extends BlockSL {
     this(16, isDark, name, Material.ROCK);
   }
 
+  public BlockGemSubtypes(boolean isDark, String name, Material material) {
+
+    this(16, isDark, name, material);
+  }
+
   public BlockGemSubtypes(int subtypeCount, boolean isDark, String name, Material material) {
 
     super(subtypeCount, SilentGems.MOD_ID, name, material);

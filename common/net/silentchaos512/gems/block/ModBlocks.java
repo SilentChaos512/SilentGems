@@ -32,6 +32,8 @@ public class ModBlocks {
   public static final BlockGemLamp gemLampLitDark = new BlockGemLamp(true, true, false);
   public static final BlockGemLamp gemLampLitInvertedDark = new BlockGemLamp(true, true, true);
   public static final BlockGemLamp gemLampInvertedDark = new BlockGemLamp(true, false, true);
+  public static final BlockGemGlass gemGlass = new BlockGemGlass(false);
+  public static final BlockGemGlass gemGlassDark = new BlockGemGlass(true);
   public static final BlockTeleporterAnchor teleporterAnchor = new BlockTeleporterAnchor();
   public static final BlockTeleporter teleporter = new BlockTeleporter(false, false);
   public static final BlockTeleporter teleporterDark = new BlockTeleporter(true, false);
@@ -70,6 +72,8 @@ public class ModBlocks {
     reg.registerBlock(gemLampLitDark, new ItemBlockGemLamp(gemLampLitDark));
     reg.registerBlock(gemLampLitInvertedDark, new ItemBlockGemLamp(gemLampLitInvertedDark));
     reg.registerBlock(gemLampInvertedDark, new ItemBlockGemLamp(gemLampInvertedDark));
+    reg.registerBlock(gemGlass);
+    reg.registerBlock(gemGlassDark);
     reg.registerBlock(teleporterAnchor);
     reg.registerBlock(teleporter);
     reg.registerBlock(teleporterDark);

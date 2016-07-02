@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.0.22
+Fixed: Some tool crafting bugs (non-matching rod crash, extra items being consumed)
+
 2.0.21
 Tweaked some gem stats a bit. Tools in your inventory will update when you log in.
 Fixed: Crash when rendering armor with no NBT (/give command, Lucky Cases, etc.)

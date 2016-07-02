@@ -1,12 +1,17 @@
 package net.silentchaos512.gems.compat.jei;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
+import mezz.jei.api.ISubtypeRegistry.ISubtypeInterpreter;
 import mezz.jei.api.JEIPlugin;
-import net.minecraft.item.Item;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
@@ -34,18 +39,38 @@ public class SilentGemsPlugin implements IModPlugin {
 
     // Hide blocks/items
     int any = OreDictionary.WILDCARD_VALUE;
-    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampInverted, 1, any));
-    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampInvertedDark, 1 , any));
+    jeiHelper.getItemBlacklist()
+        .addItemToBlacklist(new ItemStack(ModBlocks.gemLampInverted, 1, any));
+    jeiHelper.getItemBlacklist()
+        .addItemToBlacklist(new ItemStack(ModBlocks.gemLampInvertedDark, 1, any));
     jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampLit, 1, any));
-    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.gemLampLitDark, 1, any));
-//    jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.chaosNode));
+    jeiHelper.getItemBlacklist()
+        .addItemToBlacklist(new ItemStack(ModBlocks.gemLampLitDark, 1, any));
+    // jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.chaosNode));
     jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModBlocks.fluffyPuffPlant));
     jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModItems.toolRenderHelper));
 
-    // NBT ignores
+    // NBT subtypes (doesn't work?)
+    jeiHelper.getSubtypeRegistry().registerNbtInterpreter(ModItems.enchantmentToken,
+        new ISubtypeInterpreter() {
+
+          @Override
+          public String getSubtypeInfo(ItemStack stack) {
+
+            String result = "";
+            Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(stack);
+            for (Entry<Enchantment, Integer> entry : map.entrySet())
+              result += entry.getKey().getName() + "," + entry.getValue() + ";";
+            return result;
+          }
+        });
+    jeiHelper.getSubtypeRegistry().useNbtForSubtypes(ModItems.enchantmentToken);
+
+    // NBT ignores (deprecated)
     jeiHelper.getNbtIgnoreList().ignoreNbtTagNames(EnumMaterialGrade.NBT_KEY);
     jeiHelper.getNbtIgnoreList().ignoreNbtTagNames(ItemChaosStorage.NBT_CHARGE);
-    jeiHelper.getNbtIgnoreList().ignoreNbtTagNames(ModItems.returnHomeCharm, ItemReturnHome.NBT_READY);
+    jeiHelper.getNbtIgnoreList().ignoreNbtTagNames(ModItems.returnHomeCharm,
+        ItemReturnHome.NBT_READY);
 
     // Descriptions
     String descPrefix = "jei.silentgems.desc.";

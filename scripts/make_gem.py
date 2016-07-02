@@ -1,8 +1,8 @@
 import re
 from subprocess import call
 
-NAME = 'GemLampLitInverted'
-TEXTURE = 'GemLamp.Lit'
+NAME = 'GemGlass'
+TEXTURE = 'GemGlass'
 MODE = 'block'
 INCLUDE_DARK = True
 
