@@ -25,6 +25,7 @@ import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.DyeHelper;
+import net.silentchaos512.lib.util.PlayerHelper;
 
 public class ItemDrawingCompass extends ItemSL {
 
@@ -82,6 +83,7 @@ public class ItemDrawingCompass extends ItemSL {
     return State.EMPTY;
   }
 
+  @Deprecated
   public ItemStack setState(ItemStack stack, State state) {
 
     stack.setItemDamage(state.ordinal());
@@ -159,13 +161,15 @@ public class ItemDrawingCompass extends ItemSL {
     if (state == State.BLOCK1) {
       // Set block 2
       setBlock2(stack, pos.offset(facing));
-      stack = setState(stack, State.BLOCK2);
+      // Display distance.
+      int radius = (int) Math.sqrt(getBlock1(stack).distanceSq(getBlock2(stack)));
+      PlayerHelper.addChatMessage(playerIn, "Radius = " + radius);
     } else {
       // Set block 1
       setBlock1(stack, pos.offset(facing));
-      stack = setState(stack, State.BLOCK1);
     }
 
+    stack.setItemDamage(0);
     return EnumActionResult.PASS; // Metadata will be reset if SUCCESS is returned!
   }
 
@@ -196,12 +200,13 @@ public class ItemDrawingCompass extends ItemSL {
 
     // Spawn circle.
     BlockPos center = new BlockPos(pos1.getX(), pos2.getY(), pos1.getZ());
-    double radius = Math.sqrt(center.distanceSq(pos2));
-    int count = (int) (10 * radius);
-    double increment = 2 * Math.PI / count;
+    float radius = (float) Math.sqrt(center.distanceSq(pos2));
+    int count = (int) (5 * radius);
+    float increment = (float) (2 * Math.PI / count);
+    float start = increment * (world.getTotalWorldTime() % 30) / 30f;
 
     Vec3d vec;
-    for (float angle = 0f; angle < 2 * Math.PI; angle += increment) {
+    for (float angle = start; angle < 2 * Math.PI + start; angle += increment) {
       vec = new Vec3d(radius, 0, 0).rotateYaw(angle);
       particle(player, world, color, center.getX() + 0.5 + vec.xCoord,
           center.getY() + 0.5 + vec.yCoord, center.getZ() + 0.5 + vec.zCoord);

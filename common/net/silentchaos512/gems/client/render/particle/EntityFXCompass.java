@@ -56,7 +56,7 @@ public class EntityFXCompass extends Particle {
 
     this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
-    this.particleScale *= 0.85f;
+//    this.particleScale *= 0.9f;
 //    this.particleAlpha -= 0.8f / (particleMaxAge * 1.25f);
   }
 
