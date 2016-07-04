@@ -22,6 +22,7 @@ import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,6 +30,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
@@ -203,8 +205,14 @@ public class ItemEnchantmentToken extends ItemSL {
 
     if (enchMap.size() == 1) {
       Enchantment ench = enchMap.keySet().iterator().next();
-      list.add(SilentGems.instance.localizationHelper.getItemSubText(itemName, "maxLevel",
+      list.add(SilentGems.localizationHelper.getItemSubText(itemName, "maxLevel",
           ench.getMaxLevel()));
+
+      // Debug info
+      if (KeyTracker.isAltDown()) {
+        list.add(TextFormatting.DARK_GRAY + ench.getName());
+        list.add(TextFormatting.DARK_GRAY + ench.getRegistryName().toString());
+      }
     }
   }
 
