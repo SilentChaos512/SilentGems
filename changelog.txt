@@ -1,7 +1,11 @@
 Silent's Gems - Changelog
 
 2.0.22
+Changed: Drawing Compass particles. I think they look a lot better.
 Fixed: Some tool crafting bugs (non-matching rod crash, extra items being consumed)
+Fixed: Burner pylons rendering as passive pylons on world load.
+Fixed: Burner pylons not displaying their inventory.
+Fixed: Drawing Compass model errors.
 
 2.0.21
 Tweaked some gem stats a bit. Tools in your inventory will update when you log in.
