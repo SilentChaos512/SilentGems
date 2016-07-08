@@ -73,8 +73,6 @@ public class ItemDrawingCompass extends ItemSL {
 
   public State getState(ItemStack stack) {
 
-    // int meta = MathHelper.clamp_int(stack.getItemDamage(), 0, State.values().length - 1);
-    // return State.values()[meta];
     if (getBlock2(stack).getY() > 0) {
       return State.BLOCK2;
     } else if (getBlock1(stack).getY() > 0) {
@@ -87,7 +85,6 @@ public class ItemDrawingCompass extends ItemSL {
   public ItemStack setState(ItemStack stack, State state) {
 
     stack.setItemDamage(state.ordinal());
-    // SilentGems.instance.logHelper.debug(stack.getItemDamage(), state);
     return stack;
   }
 
@@ -163,10 +160,14 @@ public class ItemDrawingCompass extends ItemSL {
       setBlock2(stack, pos.offset(facing));
       // Display distance.
       int radius = (int) Math.sqrt(getBlock1(stack).distanceSq(getBlock2(stack)));
-      PlayerHelper.addChatMessage(playerIn, "Radius = " + radius);
-    } else {
+      String str = SilentGems.localizationHelper.getItemSubText(itemName, "radius", radius);
+      PlayerHelper.addChatMessage(playerIn, str);
+    } else if (state == State.EMPTY) {
       // Set block 1
       setBlock1(stack, pos.offset(facing));
+    } else {
+      String str = SilentGems.localizationHelper.getItemSubText(itemName, "howToReset");
+      PlayerHelper.addChatMessage(playerIn, str);
     }
 
     stack.setItemDamage(0);
@@ -179,8 +180,6 @@ public class ItemDrawingCompass extends ItemSL {
 
     if (hand == EnumHand.MAIN_HAND && playerIn.isSneaking() && !worldIn.isRemote) {
       clearBlocks(itemStackIn);
-      // SilentGems.instance.logHelper.debug(getBlock1(itemStackIn), getBlock2(itemStackIn));
-      // itemStackIn = setState(itemStackIn, State.EMPTY);
       return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
     }
     return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
@@ -190,7 +189,6 @@ public class ItemDrawingCompass extends ItemSL {
 
     BlockPos pos1 = getBlock1(stack);
     BlockPos pos2 = getBlock2(stack);
-    // SilentGems.instance.logHelper.debug(getState(stack), pos1, pos2);
 
     if (pos1.getY() <= 0 || pos2.getY() <= 0 || pos1.equals(pos2)) {
       return false;

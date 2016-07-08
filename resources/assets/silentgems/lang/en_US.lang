@@ -389,6 +389,8 @@ item.silentgems:DebugItem.name=Debug Item
 item.silentgems:DebugItem.desc=No one here but us space chickens!
 
 item.silentgems:DrawingCompass.name=Drawing Compass
+item.silentgems:DrawingCompass.radius=Radius = %d
+item.silentgems:DrawingCompass.howToReset=Right-click while sneaking to reset.
 
 item.silentgems:DyeBlack.name=Black Dye
 item.silentgems:DyeBlue.name=Blue Dye
