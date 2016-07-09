@@ -181,6 +181,40 @@ tile.silentgems:GemBrickSpeckledDark13.name=Ametrine-Speckled Bricks
 tile.silentgems:GemBrickSpeckledDark14.name=Black Diamond-Speckled Bricks
 tile.silentgems:GemBrickSpeckledDark15.name=Alexandrite-Speckled Bricks
 
+tile.silentgems:GemGlass0.name=Ruby Glass
+tile.silentgems:GemGlass1.name=Garnet Glass
+tile.silentgems:GemGlass2.name=Topaz Glass
+tile.silentgems:GemGlass3.name=Amber Glass
+tile.silentgems:GemGlass4.name=Heliodor Glass
+tile.silentgems:GemGlass5.name=Peridot Glass
+tile.silentgems:GemGlass6.name=Beryl Glass
+tile.silentgems:GemGlass7.name=Indicolite Glass
+tile.silentgems:GemGlass8.name=Aquamarine Glass
+tile.silentgems:GemGlass9.name=Sapphire Glass
+tile.silentgems:GemGlass10.name=Iolite Glass
+tile.silentgems:GemGlass11.name=Amethyst Glass
+tile.silentgems:GemGlass12.name=Agate Glass
+tile.silentgems:GemGlass13.name=Morganite Glass
+tile.silentgems:GemGlass14.name=Onyx Glass
+tile.silentgems:GemGlass15.name=Opal Glass
+
+tile.silentgems:GemGlassDark0.name=Carnelian Glass
+tile.silentgems:GemGlassDark1.name=Spinel Glass
+tile.silentgems:GemGlassDark2.name=Citrine Glass
+tile.silentgems:GemGlassDark3.name=Jasper Glass
+tile.silentgems:GemGlassDark4.name=Golden Beryl Glass
+tile.silentgems:GemGlassDark5.name=Moldavite Glass
+tile.silentgems:GemGlassDark6.name=Malachite Glass
+tile.silentgems:GemGlassDark7.name=Turquoise Glass
+tile.silentgems:GemGlassDark8.name=Moonstone Glass
+tile.silentgems:GemGlassDark9.name=Blue Topaz Glass
+tile.silentgems:GemGlassDark10.name=Tanzanite Glass
+tile.silentgems:GemGlassDark11.name=Violet Sapphire Glass
+tile.silentgems:GemGlassDark12.name=Lepidolite Glass
+tile.silentgems:GemGlassDark13.name=Ametrine Glass
+tile.silentgems:GemGlassDark14.name=Black Diamond Glass
+tile.silentgems:GemGlassDark15.name=Alexandrite Glass
+
 tile.silentgems:GemLamp.lit=Lit
 tile.silentgems:GemLamp.inverted=Inverted
 

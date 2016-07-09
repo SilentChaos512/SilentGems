@@ -171,7 +171,7 @@ public class ItemDrawingCompass extends ItemSL {
     }
 
     stack.setItemDamage(0);
-    return EnumActionResult.PASS; // Metadata will be reset if SUCCESS is returned!
+    return EnumActionResult.PASS;
   }
 
   @Override
