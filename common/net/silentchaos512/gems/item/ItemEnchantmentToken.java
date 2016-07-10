@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -35,6 +36,7 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class ItemEnchantmentToken extends ItemSL {
 
@@ -52,6 +54,7 @@ public class ItemEnchantmentToken extends ItemSL {
       KEY_FISHING_ROD, KEY_WEAPON, KEY_DIGGER };
 
   private Map<String, Integer> modelMap = new HashMap<>();
+  private Map<Enchantment, String> recipeMap = new HashMap<>();
 
   public ItemEnchantmentToken() {
 
@@ -204,9 +207,22 @@ public class ItemEnchantmentToken extends ItemSL {
     Map<Enchantment, Integer> enchMap = EnchantmentHelper.getEnchantments(stack);
 
     if (enchMap.size() == 1) {
+      LocalizationHelper loc = SilentGems.localizationHelper;
       Enchantment ench = enchMap.keySet().iterator().next();
-      list.add(SilentGems.localizationHelper.getItemSubText(itemName, "maxLevel",
-          ench.getMaxLevel()));
+      list.add(loc.getItemSubText(itemName, "maxLevel", ench.getMaxLevel()));
+
+      // Recipe info
+      if (KeyTracker.isControlDown()) {
+        list.add(loc.getItemSubText(itemName, "materials"));
+        String recipeString = recipeMap.get(ench);
+        if (recipeString != null && !recipeString.isEmpty()) {
+          for (String str : recipeString.split(";")) {
+            list.add("  " + str);
+          }
+        }
+      } else {
+        list.add(loc.getItemSubText(itemName, "pressCtrl"));
+      }
 
       // Debug info
       if (KeyTracker.isAltDown()) {
@@ -303,6 +319,18 @@ public class ItemEnchantmentToken extends ItemSL {
         : (otherCount == 2 || otherCount == 4 ? "o o" : " o ");
     GameRegistry.addRecipe(new ShapedOreRecipe(constructToken(ench), line1, line2, line3, 'g',
         gem.getItemOreName(), 'o', other, 't', new ItemStack(this)));
+
+    // Add to recipe map (tooltip recipe info)
+    String recipeString = "2 " + gem.getItemOreName() + ";" + otherCount + " ";
+    if (other instanceof String)
+      recipeString += (String) other;
+    else if (other instanceof ItemStack)
+      recipeString += ((ItemStack) other).getDisplayName();
+    else if (other instanceof Block)
+      recipeString += (new ItemStack((Block) other)).getDisplayName();
+    else if (other instanceof Item)
+      recipeString += (new ItemStack((Item) other)).getDisplayName();
+    recipeMap.put(ench, recipeString);
   }
 
   @Override
