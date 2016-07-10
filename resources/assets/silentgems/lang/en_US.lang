@@ -432,6 +432,8 @@ item.silentgems:DyeBlue.name=Blue Dye
 item.silentgems:EnchantmentToken.name=Enchantment Token
 item.silentgems:EnchantmentToken_Blank.name=Enchantment Token (Blank)
 item.silentgems:EnchantmentToken.maxLevel=&eMax Level:&r %d
+item.silentgems:EnchantmentToken.pressCtrl=&6<Press Ctrl for materials>
+item.silentgems:EnchantmentToken.materials=&6Materials:
 
 item.silentgems:FluffyPuff.name=Fluffy Puff
 item.silentgems:FluffyPuffSeeds.name=Fluffy Puff Seeds

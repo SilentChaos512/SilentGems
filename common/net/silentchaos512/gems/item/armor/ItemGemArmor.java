@@ -159,13 +159,10 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage,
       int slot) {
 
-    int amount = (int) (damage - getToughness(stack));
+    int amount = damage - (int) (getToughness(stack) * SilentGems.random.nextFloat());
     int durabilityLeft = getMaxDamage(stack) - stack.getItemDamage();
     amount = amount < 0 ? 0 : (amount > durabilityLeft ? durabilityLeft : amount);
     stack.attemptDamageItem(amount, SilentGems.instance.random);
-    // SilentGems.instance.logHelper.debug(
-    // new String[] { "Boots", "Leggings", "Chestplate", "Helmet" }[slot],
-    // "attempt damage = " + amount);
   }
 
   @Override
@@ -185,18 +182,6 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
     return multimap;
   }
-
-  // TODO: Custom model!
-  // @Override
-  // @SideOnly(Side.CLIENT)
-  // public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack,
-  // EntityEquipmentSlot armorSlot, ModelBiped _default) {
-  //
-  // // SilentGems.instance.logHelper.debug(_default);
-  // if (model == null)
-  // model = new ModelGemArmor();
-  // return model;
-  // }
 
   @Nonnull
   @Override
@@ -264,14 +249,6 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     // models.put(slot, new ModelGemArmor(slot, ArmorHelper.getRenderColorList(stack)));
     // return models.get(slot);
   }
-
-  // @Override
-  // public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot,
-  // String type) {
-  //
-  // return SilentGems.RESOURCE_PREFIX + "textures/armor/" + "GemArmor" + "_"
-  // + (slot == EntityEquipmentSlot.LEGS ? "2" : "1") + ".png";
-  // }
 
   @Override
   public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
