@@ -421,9 +421,13 @@ public class ToolHelper {
     ItemStack stackOffHand = player.inventory.offHandInventory[0];
     if (stackOffHand != null && stackOffHand.getItem() instanceof ItemBlock) {
       ItemBlock itemBlock = (ItemBlock) stackOffHand.getItem();
-      if (itemBlock.canPlaceBlockOnSide(world, pos, side, player, stackOffHand)) {
+      BlockPos target = pos;
+
+      if (!itemBlock.getBlock().isReplaceable(world, pos))
+        target = pos.offset(side);
+
+      if (player.canPlayerEdit(target, side, stackOffHand) && world.canBlockBePlaced(itemBlock.getBlock(), target, false, side, null, stackOffHand))
         return EnumActionResult.PASS;
-      }
     }
 
     // Behavior configs.

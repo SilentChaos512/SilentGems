@@ -4,6 +4,7 @@ Silent's Gems - Changelog
 Added: Gem Glass! It's like stained glass, but gem colors.
 Added: Enchantment Tokens display materials in tooltip.
 Changed: Improved the drawing compass behavior a bit more, add some localizations.
+Fixed: Armor not losing durability sometimes.
 
 2.0.22
 Changed: Drawing Compass particles. I think they look a lot better.
