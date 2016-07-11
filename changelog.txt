@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+2.0.24
+Fixed: Node repair packets repairing some things that shouldn't be repaired.
+Fixed: Some log spam.
+
 2.0.23
 Added: Gem Glass! It's like stained glass, but gem colors.
 Added: Enchantment Tokens display materials in tooltip.

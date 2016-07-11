@@ -16,6 +16,7 @@ public class ItemTorchBandolier extends ItemBlockPlacer {
   public ItemTorchBandolier() {
 
     super(Names.TORCH_BANDOLIER, MAX_DAMAGE);
+    setNoRepair();
   }
 
   @Override

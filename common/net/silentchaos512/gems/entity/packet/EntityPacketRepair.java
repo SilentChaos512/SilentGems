@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket.ColorPair;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.PlayerHelper;
 
@@ -58,7 +57,8 @@ public class EntityPacketRepair extends EntityChaosNodePacket {
 
     // Select a random item.
     List<ItemStack> items = PlayerHelper.getNonNullStacks(player);
-    items.removeIf(stack -> !stack.isItemStackDamageable() || stack.getItemDamage() == 0);
+    items.removeIf(stack -> !stack.getItem().isRepairable() || !stack.isItemStackDamageable()
+        || stack.getItemDamage() == 0);
     if (items.size() > 0) {
       stackToRepair = items.get(rand.nextInt(items.size()));
     }
