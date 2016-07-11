@@ -51,19 +51,6 @@ public class SilentGemsPlugin implements IModPlugin {
     jeiHelper.getItemBlacklist().addItemToBlacklist(new ItemStack(ModItems.toolRenderHelper));
 
     // NBT subtypes (doesn't work?)
-    jeiHelper.getSubtypeRegistry().registerNbtInterpreter(ModItems.enchantmentToken,
-        new ISubtypeInterpreter() {
-
-          @Override
-          public String getSubtypeInfo(ItemStack stack) {
-
-            String result = "";
-            Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(stack);
-            for (Entry<Enchantment, Integer> entry : map.entrySet())
-              result += entry.getKey().getName() + "," + entry.getValue() + ";";
-            return result;
-          }
-        });
     jeiHelper.getSubtypeRegistry().useNbtForSubtypes(ModItems.enchantmentToken);
 
     // NBT ignores (deprecated)
