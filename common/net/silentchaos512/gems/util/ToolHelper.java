@@ -1,11 +1,11 @@
 package net.silentchaos512.gems.util;
 
 import java.lang.reflect.Field;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
@@ -34,7 +34,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IBlockPlacer;
 import net.silentchaos512.gems.api.ITool;
@@ -125,25 +124,8 @@ public class ToolHelper {
   public static final String NBT_STATS_SHOTS_FIRED = "ShotsFired";
   public static final String NBT_STATS_SHOTS_LANDED = "ShotsLanded";
 
-  protected static UUID ATTACK_DAMAGE_MODIFIER;
-  protected static UUID ATTACK_SPEED_MODIFIER;
-
   public static void init() {
 
-    ATTACK_DAMAGE_MODIFIER = UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF");
-    ATTACK_SPEED_MODIFIER = UUID.fromString("FA233E1C-4180-4865-B01B-BCCE9785ACA3");
-    try {
-      // Damage
-      Field field = Item.class.getDeclaredField("ATTACK_DAMAGE_MODIFIER");
-      field.setAccessible(true);
-      ATTACK_DAMAGE_MODIFIER = (UUID) field.get(null);
-
-      // Speed
-      field = Item.class.getDeclaredField("ATTACK_SPEED_MODIFIER");
-      field.setAccessible(true);
-      ATTACK_SPEED_MODIFIER = (UUID) field.get(null);
-    } catch (Exception ex) {
-    }
   }
 
   /**
@@ -361,16 +343,36 @@ public class ToolHelper {
     else
       name = "Weapon modifier";
 
-    Multimap<String, AttributeModifier> map = HashMultimap.<String, AttributeModifier> create();
+    @SuppressWarnings("deprecation")
+    Multimap<String, AttributeModifier> map = tool.getItem().getItemAttributeModifiers(slot);
 
     if (slot == EntityEquipmentSlot.MAINHAND) {
-      map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName(),
-          new AttributeModifier(ATTACK_DAMAGE_MODIFIER, name, getMeleeDamageModifier(tool), 0));
-      map.put(SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName(),
-          new AttributeModifier(ATTACK_SPEED_MODIFIER, name, getMeleeSpeedModifier(tool), 0));
+      // Melee Damage
+      String key = SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName();
+      float value = getMeleeDamageModifier(tool);
+      replaceAttributeModifierInMap(map, key, value);
+
+      // Melee Speed
+      key = SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName();
+      value = getMeleeSpeedModifier(tool);
+      replaceAttributeModifierInMap(map, key, value);
     }
 
     return map;
+  }
+
+  private static void replaceAttributeModifierInMap(Multimap<String, AttributeModifier> map,
+      String key, float value) {
+
+    if (map.containsKey(key)) {
+      Iterator<AttributeModifier> iter = map.get(key).iterator();
+      if (iter.hasNext()) {
+        AttributeModifier mod = iter.next();
+        map.removeAll(key);
+        map.put(key,
+            new AttributeModifier(mod.getID(), mod.getName(), value, mod.getOperation()));
+      }
+    }
   }
 
   public static float getMeleeDamageModifier(ItemStack tool) {
@@ -426,7 +428,8 @@ public class ToolHelper {
       if (!itemBlock.getBlock().isReplaceable(world, pos))
         target = pos.offset(side);
 
-      if (player.canPlayerEdit(target, side, stackOffHand) && world.canBlockBePlaced(itemBlock.getBlock(), target, false, side, null, stackOffHand))
+      if (player.canPlayerEdit(target, side, stackOffHand)
+          && world.canBlockBePlaced(itemBlock.getBlock(), target, false, side, null, stackOffHand))
         return EnumActionResult.PASS;
     }
 
