@@ -378,7 +378,7 @@ public class ToolHelper {
   public static float getMeleeDamageModifier(ItemStack tool) {
 
     if (isBroken(tool))
-      return 0f;
+      return 1f;
 
     float val;
     if (tool.getItem() instanceof ITool)
@@ -409,7 +409,7 @@ public class ToolHelper {
       return 0.0f;
 
     float base = ((ITool) tool.getItem()).getBaseMeleeSpeedModifier();
-    float speed = getMeleeSpeed(tool);
+    float speed = getMeleeSpeed(tool) + (isBroken(tool) ? 0.7f : 0f);
     return ((base + 4) * speed - 4);
   }
 
