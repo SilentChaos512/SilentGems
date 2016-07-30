@@ -1,6 +1,8 @@
 Silent's Gems - Changelog
 
 2.0.24
+Fixed: Tool attribute modifiers displaying strangely (ie -3 attack speed instead of 1)
+Fixed: Transparent player hand in first person (1.10.x specific?)
 Fixed: Node repair packets repairing some things that shouldn't be repaired.
 Fixed: Some log spam.
 

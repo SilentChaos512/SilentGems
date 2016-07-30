@@ -563,7 +563,9 @@ public class ToolHelper {
     boolean isBroken = isBroken(tool);
 
     if (!isBroken) {
-      tool.damageItem(isTool ? 2 : (isSword ? 1 : 0), attacker);
+      int currentDmg = tool.getItemDamage();
+      int maxDmg = tool.getMaxDamage();
+      tool.damageItem(isTool ? Math.min(2, maxDmg - currentDmg) : (isSword ? 1 : 0), attacker);
 
       if (isBroken(tool)) {
         attacker.renderBrokenItemStack(tool);
