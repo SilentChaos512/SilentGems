@@ -56,6 +56,8 @@ public class ItemEnchantmentToken extends ItemSL {
   private Map<String, Integer> modelMap = new HashMap<>();
   private Map<Enchantment, String> recipeMap = new HashMap<>();
 
+  public static final int BLANK_META = 256;
+
   public ItemEnchantmentToken() {
 
     super(1, SilentGems.MOD_ID, Names.ENCHANTMENT_TOKEN);
@@ -235,11 +237,9 @@ public class ItemEnchantmentToken extends ItemSL {
   @Override
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
-    list.add(new ItemStack(this));
-    for (ResourceLocation key : Enchantment.REGISTRY.getKeys()) {
-      ItemStack stack = constructToken(Enchantment.REGISTRY.getObject(key));
-      list.add(stack);
-    }
+    list.add(new ItemStack(this, 1, BLANK_META));
+    for (ResourceLocation key : Enchantment.REGISTRY.getKeys())
+      list.add(constructToken(Enchantment.REGISTRY.getObject(key)));
   }
 
   @Override
@@ -255,13 +255,12 @@ public class ItemEnchantmentToken extends ItemSL {
   @Override
   public void addRecipes() {
 
-    ItemStack blank = new ItemStack(this);
-
     // Blank
-    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 12), "ggg", "lcl", "ggg", 'g',
-        "ingotGold", 'l', "gemLapis", 'c', "gemChaos"));
+    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 12, BLANK_META), "ggg", "lcl",
+        "ggg", 'g', "ingotGold", 'l', "gemLapis", 'c', "gemChaos"));
     // Uncrafting
-    GameRegistry.addShapelessRecipe(blank, blank);
+    GameRegistry.addShapelessRecipe(new ItemStack(this, 1, BLANK_META),
+        new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE));
 
     // All
     addTokenRecipe(Enchantments.UNBREAKING, EnumGem.SAPPHIRE, "ingotIron", 5);
@@ -318,7 +317,7 @@ public class ItemEnchantmentToken extends ItemSL {
     String line3 = otherCount == 3 || otherCount > 4 ? "ooo"
         : (otherCount == 2 || otherCount == 4 ? "o o" : " o ");
     GameRegistry.addRecipe(new ShapedOreRecipe(constructToken(ench), line1, line2, line3, 'g',
-        gem.getItemOreName(), 'o', other, 't', new ItemStack(this)));
+        gem.getItemOreName(), 'o', other, 't', new ItemStack(this, 1, BLANK_META)));
 
     // Add to recipe map (tooltip recipe info)
     String recipeString = "2 " + gem.getItemOreName() + ";" + otherCount + " ";
@@ -353,8 +352,10 @@ public class ItemEnchantmentToken extends ItemSL {
 
     for (int i = 0; i < list.size(); ++i) {
       model = list.get(i);
-      mesher.register(this, i, model);
+      mesher.register(this, i, list.get(i));
     }
+
+    mesher.register(this, BLANK_META, list.get(0));
 
     return true;
   }

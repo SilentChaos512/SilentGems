@@ -1,6 +1,10 @@
 Silent's Gems - Changelog
 
+2.0.25
+Fixed: Non-blank enchantment tokens being usable in all token recipes.
+
 2.0.24
+Changed: Raised the attack speed and damage of broken tools.
 Fixed: Tool attribute modifiers displaying strangely (ie -3 attack speed instead of 1)
 Fixed: Transparent player hand in first person (1.10.x specific?)
 Fixed: Non-swords (such as axes) breaking completely in some cases when used as a weapon.
