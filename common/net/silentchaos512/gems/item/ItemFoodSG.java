@@ -27,6 +27,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.RecipeHelper;
@@ -57,7 +58,6 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
     setHasSubtypes(true);
     setMaxDamage(0);
     setUnlocalizedName(Names.FOOD);
-    setCreativeTab(SilentGems.instance.creativeTab);
 
     // Add secret donut effects.
     secretDonutEffects.clear();

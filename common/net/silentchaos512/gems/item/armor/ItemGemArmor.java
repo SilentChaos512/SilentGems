@@ -1,8 +1,18 @@
 package net.silentchaos512.gems.item.armor;
 
+import java.lang.reflect.Field;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -41,10 +51,6 @@ import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LocalizationHelper;
-
-import javax.annotation.Nonnull;
-import java.lang.reflect.Field;
-import java.util.*;
 
 public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryObject, IArmor {
 

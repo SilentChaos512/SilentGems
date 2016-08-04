@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.RecipeHelper;
@@ -35,7 +36,6 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
 
     this.lit = lit;
     this.inverted = inverted;
-    setCreativeTab(lit == inverted ? SilentGems.instance.creativeTab : null);
 
     setHardness(0.3f);
     setResistance(10.0f);

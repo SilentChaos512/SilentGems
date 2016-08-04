@@ -30,7 +30,6 @@ public class ItemDebug extends ItemSL {
     FoodStats food = playerIn.getFoodStats();
     food.setFoodLevel(food.getFoodLevel() - 2);
     food.setFoodSaturationLevel(food.getSaturationLevel() - 0.2f);
-    SilentGems.logHelper.debug(food.needFood());
 
     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
   }

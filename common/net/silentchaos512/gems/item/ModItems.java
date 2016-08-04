@@ -23,6 +23,7 @@ import net.silentchaos512.gems.item.tool.ItemGemScepter;
 import net.silentchaos512.gems.item.tool.ItemGemShovel;
 import net.silentchaos512.gems.item.tool.ItemGemSickle;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
+import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.registry.SRegistry;
@@ -76,37 +77,37 @@ public class ModItems {
 
     SRegistry reg = SilentGems.instance.registry;
 
-    reg.registerItem(gem);
-    reg.registerItem(gemShard);
-    reg.registerItem(craftingMaterial);
-    reg.registerItem(tipUpgrade);
-    reg.registerItem(enchantmentToken);
-    reg.registerItem(armorFrame);
+    reg.registerItem(gem).setCreativeTab(GemsCreativeTabs.materials);
+    reg.registerItem(gemShard).setCreativeTab(GemsCreativeTabs.materials);
+    reg.registerItem(craftingMaterial).setCreativeTab(GemsCreativeTabs.materials);
+    reg.registerItem(tipUpgrade).setCreativeTab(GemsCreativeTabs.utility);
+    reg.registerItem(enchantmentToken).setCreativeTab(GemsCreativeTabs.utility);
+    reg.registerItem(armorFrame).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(fluffyPuffSeeds, Names.FLUFFY_PUFF_SEEDS);
-    reg.registerItem(fluffyPuff);
-    reg.registerItem(dye);
-    reg.registerItem(food, Names.FOOD);
-    reg.registerItem(torchBandolier);
-    reg.registerItem(drawingCompass);
-    reg.registerItem(chaosOrb);
-    reg.registerItem(nodeMover);
-    reg.registerItem(teleporterLinker);
-    reg.registerItem(returnHomeCharm);
-    reg.registerItem(petSummoner);
-    reg.registerItem(debugItem);
+    reg.registerItem(fluffyPuff).setCreativeTab(GemsCreativeTabs.materials);
+    reg.registerItem(dye).setCreativeTab(GemsCreativeTabs.materials);
+    reg.registerItem(food, Names.FOOD).setCreativeTab(GemsCreativeTabs.utility);
+    reg.registerItem(torchBandolier).setCreativeTab(GemsCreativeTabs.tools);
+    reg.registerItem(drawingCompass).setCreativeTab(GemsCreativeTabs.utility);
+    reg.registerItem(chaosOrb).setCreativeTab(GemsCreativeTabs.utility);
+    reg.registerItem(nodeMover).setCreativeTab(GemsCreativeTabs.utility);
+    reg.registerItem(teleporterLinker).setCreativeTab(GemsCreativeTabs.utility);
+    reg.registerItem(returnHomeCharm).setCreativeTab(GemsCreativeTabs.utility);
+    reg.registerItem(petSummoner).setCreativeTab(GemsCreativeTabs.utility);
+    reg.registerItem(debugItem).setCreativeTab(GemsCreativeTabs.utility);
 
     // Tools
     reg.registerItem(sword, Names.SWORD);
     reg.registerItem(katana, Names.KATANA);
     reg.registerItem(scepter, Names.SCEPTER);
-    reg.registerItem(bow, Names.BOW);
-    reg.registerItem(shield, Names.SHIELD);
+    reg.registerItem(bow, Names.BOW).setCreativeTab(null);
+    reg.registerItem(shield, Names.SHIELD).setCreativeTab(null);
     reg.registerItem(pickaxe, Names.PICKAXE);
     reg.registerItem(shovel, Names.SHOVEL);
     reg.registerItem(axe, Names.AXE);
     reg.registerItem(hoe, Names.HOE);
     reg.registerItem(sickle, Names.SICKLE);
-    reg.registerItem(fishingRod, Names.FISHING_ROD);
+    reg.registerItem(fishingRod, Names.FISHING_ROD).setCreativeTab(null);
 
     // Armor
     reg.registerItem(gemHelmet, Names.HELMET);
@@ -115,7 +116,7 @@ public class ModItems {
     reg.registerItem(gemBoots, Names.BOOTS);
 
     // ToolRenderHelper
-    reg.registerItem(toolRenderHelper);
+    reg.registerItem(toolRenderHelper).setCreativeTab(null);
     toolRenderHelper.init();
 
     initExtraRecipes();

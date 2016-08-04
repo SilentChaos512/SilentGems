@@ -37,6 +37,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumPylonType;
+import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosPylon;
 import net.silentchaos512.lib.registry.IHasSubtypes;
@@ -69,7 +70,7 @@ public class BlockChaosPylon extends BlockContainer
     setLightOpacity(0);
     setHardness(6.0f);
     setResistance(1000.0f);
-    setCreativeTab(SilentGems.instance.creativeTab);
+    setCreativeTab(GemsCreativeTabs.blocks);
   }
 
   @Override

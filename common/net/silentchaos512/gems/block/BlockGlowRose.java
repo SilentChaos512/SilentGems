@@ -20,6 +20,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IHasSubtypes;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -35,7 +36,7 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
 
     lightValue = GemsConfig.GLOW_ROSE_LIGHT_LEVEL;
     setUnlocalizedName(Names.GLOW_ROSE);
-    setCreativeTab(SilentGems.instance.creativeTab);
+    setCreativeTab(GemsCreativeTabs.blocks);
   }
 
   @Override

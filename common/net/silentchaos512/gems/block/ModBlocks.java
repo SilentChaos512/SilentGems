@@ -65,13 +65,13 @@ public class ModBlocks {
     reg.registerBlock(gemBrickSpeckled);
     reg.registerBlock(gemBrickSpeckledDark);
     reg.registerBlock(gemLamp, new ItemBlockGemLamp(gemLamp));
-    reg.registerBlock(gemLampLit, new ItemBlockGemLamp(gemLampLit));
+    reg.registerBlock(gemLampLit, new ItemBlockGemLamp(gemLampLit)).setCreativeTab(null);
     reg.registerBlock(gemLampLitInverted, new ItemBlockGemLamp(gemLampLitInverted));
-    reg.registerBlock(gemLampInverted, new ItemBlockGemLamp(gemLampInverted));
+    reg.registerBlock(gemLampInverted, new ItemBlockGemLamp(gemLampInverted)).setCreativeTab(null);
     reg.registerBlock(gemLampDark, new ItemBlockGemLamp(gemLampDark));
-    reg.registerBlock(gemLampLitDark, new ItemBlockGemLamp(gemLampLitDark));
+    reg.registerBlock(gemLampLitDark, new ItemBlockGemLamp(gemLampLitDark)).setCreativeTab(null);
     reg.registerBlock(gemLampLitInvertedDark, new ItemBlockGemLamp(gemLampLitInvertedDark));
-    reg.registerBlock(gemLampInvertedDark, new ItemBlockGemLamp(gemLampInvertedDark));
+    reg.registerBlock(gemLampInvertedDark, new ItemBlockGemLamp(gemLampInvertedDark)).setCreativeTab(null);
     reg.registerBlock(gemGlass);
     reg.registerBlock(gemGlassDark);
     reg.registerBlock(teleporterAnchor);
@@ -83,7 +83,7 @@ public class ModBlocks {
     reg.registerBlock(essenceOre);
     reg.registerBlock(miscBlock);
     reg.registerBlock(fluffyBlock);
-    reg.registerBlock(fluffyPuffPlant, Names.FLUFFY_PUFF_PLANT);
+    reg.registerBlock(fluffyPuffPlant, Names.FLUFFY_PUFF_PLANT).setCreativeTab(null);
     reg.registerBlock(chaosFlowerPot, Names.CHAOS_FLOWER_POT);
     reg.registerBlock(materialGrader);
     reg.registerBlock(chaosNode);
