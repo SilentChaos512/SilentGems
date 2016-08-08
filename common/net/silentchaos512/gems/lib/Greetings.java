@@ -28,7 +28,7 @@ public class Greetings {
       "Still dancing to Macarena!",
       "Your free Windows 10 upgrade is ready!",
       "Drowning in JSON files...",
-      "Download only from Curse!"
+      "Download only from Curse/CurseForge!"
   };
   // @formatter:on
 

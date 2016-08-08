@@ -2,6 +2,7 @@ package net.silentchaos512.gems.entity.packet;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
@@ -33,7 +34,8 @@ public class EntityPacketSaturation extends EntityChaosNodePacket {
   public void onImpactWithEntity(EntityLivingBase entity) {
 
     entity.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 1, (int) amount));
-    SilentGems.logHelper.debug(amount);
+    entity.worldObj.playSound(null, entity.getPosition(), SoundEvents.ENTITY_PLAYER_BURP, null,
+        1.0f, 1.2f + (float) (0.05 * rand.nextGaussian()));
     super.onImpactWithEntity(entity);
   }
 
