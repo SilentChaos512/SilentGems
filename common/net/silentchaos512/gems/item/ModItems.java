@@ -20,6 +20,7 @@ import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemKatana;
 import net.silentchaos512.gems.item.tool.ItemGemPickaxe;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
+import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.item.tool.ItemGemShovel;
 import net.silentchaos512.gems.item.tool.ItemGemSickle;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
@@ -54,7 +55,7 @@ public class ModItems {
   public static final ItemGemKatana katana = new ItemGemKatana();
   public static final ItemGemScepter scepter = new ItemGemScepter();
   public static final ItemSL bow = new ItemSL(1, SilentGems.MOD_ID, Names.BOW); // temp
-  public static final ItemSL shield = new ItemSL(1, SilentGems.MOD_ID, Names.SHIELD); // temp
+  public static final ItemGemShield shield = new ItemGemShield();
   public static final ItemGemPickaxe pickaxe = new ItemGemPickaxe();
   public static final ItemGemShovel shovel = new ItemGemShovel();
   public static final ItemGemAxe axe = new ItemGemAxe();
