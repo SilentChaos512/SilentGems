@@ -1,10 +1,8 @@
 package net.silentchaos512.gems.util;
 
-import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -49,6 +47,7 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
+import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
@@ -111,6 +110,7 @@ public class ToolHelper {
   public static final String NBT_PROP_ENCHANTABILITY = "Enchantability";
   public static final String NBT_PROP_MELEE_SPEED = "MeleeSpeed";
   public static final String NBT_PROP_CHARGE_SPEED = "ChargeSpeed";
+  public static final String NBT_PROP_BLOCKING_POWER = "BlockingPower";
 
   // NBT for statistics
   public static final String NBT_STATS_ORIGINAL_OWNER = "OriginalOwner";
@@ -158,6 +158,7 @@ public class ToolHelper {
     float sumMeleeSpeed = 0f;
     float sumChargeSpeed = 0f;
     float sumEnchantability = 0f;
+    float sumBlockingPower = 0f;
     int maxHarvestLevel = 0;
 
     Set<ToolPart> uniqueParts = Sets.newConcurrentHashSet();
@@ -175,6 +176,7 @@ public class ToolHelper {
       sumMeleeSpeed += part.getMeleeSpeed() * multi;
       sumEnchantability += part.getEnchantability() * multi;
       sumChargeSpeed += part.getChargeSpeed() * multi;
+      sumBlockingPower += part.getProtection() / 16f * multi; // TODO: Separate stat?
       maxHarvestLevel = Math.max(maxHarvestLevel, part.getHarvestLevel());
       uniqueParts.add(part);
     }
@@ -214,6 +216,7 @@ public class ToolHelper {
     float meleeSpeed = bonus * sumMeleeSpeed / parts.length;
     float chargeSpeed = bonus * sumChargeSpeed / parts.length;
     float enchantability = bonus * sumEnchantability / parts.length;
+    float blockingPower = bonus * sumBlockingPower / parts.length;
 
     // Tip and rod bonus (might change the way rod stats work?)
     ToolPart partRod = getConstructionRod(tool);
@@ -239,6 +242,7 @@ public class ToolHelper {
     setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MAGIC_DAMAGE, magicDamage);
     setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MELEE_SPEED, meleeSpeed);
     setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_SPEED, chargeSpeed);
+    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_BLOCKING_POWER, blockingPower);
     setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_ENCHANTABILITY, (int) enchantability);
     setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_LEVEL, maxHarvestLevel);
     setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_TOOL_TIER, parts[0].getTier().ordinal());
@@ -252,6 +256,12 @@ public class ToolHelper {
 
     // TODO
     return false;
+  }
+
+  public static void attemptDamageTool(ItemStack tool, int amount, EntityLivingBase entityLiving) {
+
+    amount = Math.min(getMaxDamage(tool) - tool.getItemDamage(), amount);
+    tool.attemptDamageItem(amount, SilentGems.random);
   }
 
   public static float getDigSpeed(ItemStack tool, IBlockState state, Material[] extraMaterials) {
@@ -324,6 +334,11 @@ public class ToolHelper {
     return getTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_SPEED);
   }
 
+  public static float getBlockingPower(ItemStack tool) {
+
+    return getTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_BLOCKING_POWER);
+  }
+
   public static boolean isBroken(ItemStack tool) {
 
     return tool.getItemDamage() >= getMaxDamage(tool);
@@ -369,8 +384,7 @@ public class ToolHelper {
       if (iter.hasNext()) {
         AttributeModifier mod = iter.next();
         map.removeAll(key);
-        map.put(key,
-            new AttributeModifier(mod.getID(), mod.getName(), value, mod.getOperation()));
+        map.put(key, new AttributeModifier(mod.getID(), mod.getName(), value, mod.getOperation()));
       }
     }
   }
@@ -544,7 +558,7 @@ public class ToolHelper {
     if ((tool.getItem() == ModItems.sickle || state.getBlockHardness(world, pos) != 0)
         && !isBroken(tool)) {
       if (state.getMaterial() != Material.LEAVES) {
-        tool.damageItem(1, entityLiving);
+        attemptDamageTool(tool, 1, entityLiving);
 
         if (isBroken(tool))
           entityLiving.renderBrokenItemStack(tool);
@@ -559,13 +573,14 @@ public class ToolHelper {
     ToolHelper.incrementStatHitsLanded(tool, 1);
 
     boolean isSword = tool.getItem() instanceof ItemGemSword;
+    boolean isShield = tool.getItem() instanceof ItemGemShield;
     boolean isTool = tool.getItem() instanceof ItemTool || tool.getItem() instanceof ItemGemHoe;
     boolean isBroken = isBroken(tool);
 
     if (!isBroken) {
       int currentDmg = tool.getItemDamage();
       int maxDmg = tool.getMaxDamage();
-      tool.damageItem(isTool ? Math.min(2, maxDmg - currentDmg) : (isSword ? 1 : 0), attacker);
+      attemptDamageTool(tool, isTool ? 2 : (isSword || isShield ? 1 : 0), attacker);
 
       if (isBroken(tool)) {
         attacker.renderBrokenItemStack(tool);
@@ -672,8 +687,10 @@ public class ToolHelper {
           materials[i].writeToNBT(new NBTTagCompound()));
     }
     // Rod
-    part = ToolPartRegistry.fromStack(rod);
-    setTagPart(result, "PartRod", part, EnumMaterialGrade.NONE);
+    if (!(item instanceof ItemGemShield)) {
+      part = ToolPartRegistry.fromStack(rod);
+      setTagPart(result, "PartRod", part, EnumMaterialGrade.NONE);
+    }
 
     // Create name
     String displayName = createToolName(item, materials);

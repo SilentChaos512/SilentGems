@@ -652,6 +652,7 @@ tool.silentgems:Axe=%s Axe
 tool.silentgems:Hoe=%s Hoe
 tool.silentgems:Sickle=%s Sickle
 tool.silentgems:Bow=%s Bow
+tool.silentgems:Shield=%s Shield
 tool.silentgems:delimiter=-
 
 # Tool placeholders
@@ -705,6 +706,7 @@ misc.silentgems:Tooltip.TipDiamond=&bDiamond
 misc.silentgems:Tooltip.TipEmerald=&2Emerald
 misc.silentgems:Tooltip.TipGold=&eGold
 
+misc.silentgems:Tooltip.BlockingPower=Blocking Power:&f %s
 misc.silentgems:Tooltip.Broken=&cYou broke it!
 misc.silentgems:Tooltip.ChargeSpeed=Charge Speed:&f %s
 misc.silentgems:Tooltip.Durability=Durability:&f %s
