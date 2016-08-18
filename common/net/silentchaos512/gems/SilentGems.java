@@ -34,7 +34,7 @@ import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.LogHelper;
 
 //@formatter:off
-@Mod(modid = SilentGems.MOD_ID_LOWER,
+@Mod(modid = SilentGems.MOD_ID,
     name = SilentGems.MOD_NAME,
     version = SilentGems.VERSION,
     dependencies = SilentGems.DEPENDENCIES)

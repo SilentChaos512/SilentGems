@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.0.25
+Added: An early version of shields! Modular, functional, and craftable... but no models yet. Enjoy the big red X.
 Fixed: Non-blank enchantment tokens being usable in all token recipes.
 
 2.0.24
