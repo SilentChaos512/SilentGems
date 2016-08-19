@@ -28,6 +28,7 @@ public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
 
     MinecraftForge.EVENT_BUS.register(new PlayerDataHandler.EventHandler());
     MinecraftForge.EVENT_BUS.register(new GemsCommonEvents());
+    MinecraftForge.EVENT_BUS.register(ModItems.shield);
   }
 
   @Override

@@ -59,7 +59,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
     block = ModBlocks.gemOre;
     veinCount = config.getVeinCount(random);
     veinSize = config.veinSize;
-    for (i = 0; i < config.veinCount; ++i) {
+    for (i = 0; i < veinCount; ++i) {
       x = posX + random.nextInt(16);
       y = random.nextInt(config.maxY - config.minY) + config.minY;
       z = posZ + random.nextInt(16);
@@ -77,7 +77,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
     block = ModBlocks.essenceOre;
     veinCount = config.getVeinCount(random);
     veinSize = config.veinSize;
-    for (i = 0; i < config.veinCount; ++i) {
+    for (i = 0; i < veinCount; ++i) {
       x = posX + random.nextInt(16);
       y = random.nextInt(config.maxY - config.minY) + config.minY;
       z = posZ + random.nextInt(16);

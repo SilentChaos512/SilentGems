@@ -30,6 +30,7 @@ import net.silentchaos512.gems.client.render.ToolItemOverrideHandler;
 import net.silentchaos512.gems.client.render.ToolModel;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
+import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.item.tool.ItemGemShovel;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.TooltipHelper;
@@ -100,6 +101,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     final boolean isCaster = isSword && ToolHelper.getToolTier(tool) == EnumMaterialTier.SUPER;
     final boolean isBow = false; // TODO
     final boolean isDigger = tool.getItem() instanceof ItemTool;
+    final boolean isShield = tool.getItem() instanceof ItemGemShield;
 
     final String sep = loc.getMiscText("Tooltip.Separator");
 
@@ -116,6 +118,9 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       String s2 = String.format(durabilityMax > 9999 ? "%,d" : "%d", durabilityMax);
       line = loc.getMiscText("Tooltip.Durability", s1 + " / " + s2);
       list.add(color + "  " + line);
+
+      if (isShield)
+        list.add(color + getTooltipLine("BlockingPower", ToolHelper.getBlockingPower(tool)));
 
       if (isDigger) { // @formatter:off
         list.add(color + getTooltipLine("HarvestLevel", ToolHelper.getHarvestLevel(tool)));

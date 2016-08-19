@@ -34,7 +34,7 @@ import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.LogHelper;
 
 //@formatter:off
-@Mod(modid = SilentGems.MOD_ID_LOWER,
+@Mod(modid = SilentGems.MOD_ID,
     name = SilentGems.MOD_NAME,
     version = SilentGems.VERSION,
     dependencies = SilentGems.DEPENDENCIES)
@@ -77,7 +77,7 @@ public class SilentGems {
     }
   };
 
-  @Instance(MOD_ID_LOWER)
+  @Instance(MOD_ID)
   public static SilentGems instance;
 
   @SidedProxy(clientSide = "net.silentchaos512.gems.proxy.GemsClientProxy", serverSide = "net.silentchaos512.gems.proxy.GemsCommonProxy")

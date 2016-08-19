@@ -13,6 +13,8 @@ public class ModRecipes {
     try {
       reg.addRecipeHandler(RecipeMultiGemTool.class, "MultiGemTool", Category.SHAPED,
           afterShapeless);
+      reg.addRecipeHandler(RecipeMultiGemShield.class, "MultiGemShield", Category.SHAPED,
+          afterShapeless);
       reg.addRecipeHandler(RecipeMultiGemArmor.class, "MultiGemArmor", Category.SHAPED,
           afterShapeless);
       reg.addRecipeHandler(RecipeDecorateTool.class, "DecorateTool", Category.SHAPED,
