@@ -16,6 +16,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.EnumPlantType;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
@@ -95,6 +96,12 @@ public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject 
   protected Item getCrop() {
 
     return ModItems.fluffyPuff;
+  }
+
+  @Override
+  public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) {
+
+    return EnumPlantType.Crop;
   }
 
   @Override
