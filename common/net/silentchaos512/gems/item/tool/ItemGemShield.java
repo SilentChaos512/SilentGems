@@ -26,6 +26,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
@@ -92,11 +93,6 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   // = Construction =
   // ================
 
-  public ItemStack constructShield(ItemStack... materials) {
-
-    return constructTool(null, materials);
-  }
-
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
@@ -137,14 +133,18 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
     String line3 = " g ";
     ItemStack flint = new ItemStack(Items.FLINT);
 
-    GameRegistry.addRecipe(new ShapedOreRecipe(constructShield(flint), line1, line2, line3, 'g',
-        flint, 'w', "plankWood"));
+    ItemStack rodWood = new ItemStack(Items.STICK);
+    ItemStack rodIron = ModItems.craftingMaterial.toolRodIron;
+    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
+
+    GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodWood, flint), line1, line2, line3,
+        'g', flint, 'w', "plankWood"));
 
     for (EnumGem gem : EnumGem.values()) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(constructShield(gem.getItem()), line1, line2,
-          line3, 'g', gem.getItem(), 'w', "plankWood"));
-      GameRegistry.addRecipe(new ShapedOreRecipe(constructShield(gem.getItemSuper()), line1, line2,
-          line3, 'g', gem.getItemSuper(), 'w', "plankWood"));
+      GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodIron, gem.getItem()), line1,
+          line2, line3, 'g', gem.getItem(), 'w', "plankWood"));
+      GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodGold, gem.getItemSuper()), line1,
+          line2, line3, 'g', gem.getItemSuper(), 'w', "plankWood"));
     }
   }
 

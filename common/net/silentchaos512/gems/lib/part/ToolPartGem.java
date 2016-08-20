@@ -5,6 +5,7 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
@@ -13,6 +14,7 @@ import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -39,7 +41,8 @@ public class ToolPartGem extends ToolPartMain {
   @Override
   public int getColor(ItemStack toolOrArmor) {
 
-    if (toolOrArmor.getItem() instanceof IArmor)
+    Item item = toolOrArmor.getItem();
+    if (item instanceof IArmor || item instanceof ItemGemShield)
       return gem.getColor();
     else
       return gem.ordinal() > 15 ? ToolRenderHelper.DARK_GEM_SHADE : 0xFFFFFF;

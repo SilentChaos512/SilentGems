@@ -1,5 +1,10 @@
 Silent's Gems - Changelog
 
+2.0.26
+Added: Shield models! They render like normal items, so might not be what you would expect... I think they look alright, but textures need a little touching-up.
+Fixed: Shields trying to load a bunch of non-existent models and scrambling tool textures.
+Fixed: A crash when planting fluffy puff seeds.
+
 2.0.25
 Added: An early version of shields! Modular, functional, and craftable... but no models yet. Enjoy the big red X.
 Fixed: Non-blank enchantment tokens being usable in all token recipes.

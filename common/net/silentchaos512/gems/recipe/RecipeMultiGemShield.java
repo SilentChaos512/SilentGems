@@ -22,11 +22,11 @@ public class RecipeMultiGemShield extends RecipeBase {
     ItemStack[] wood = {
         inv.getStackInRowAndColumn(1, 0),
         inv.getStackInRowAndColumn(0, 1),
-        inv.getStackInRowAndColumn(1, 1),
         inv.getStackInRowAndColumn(2, 1) };
     ItemStack[] empty = {
         inv.getStackInRowAndColumn(0, 2),
         inv.getStackInRowAndColumn(2, 2) };
+    ItemStack rod = inv.getStackInRowAndColumn(1, 1);
     //@formatter:on
 
     // Make sure bottom corners are empty.
@@ -70,8 +70,15 @@ public class RecipeMultiGemShield extends RecipeBase {
       if (part.getTier() != targetTier)
         return null;
 
+    // Check rod and make sure tier matches.
+    if (rod == null)
+      return null;
+    ToolPart partRod = ToolPartRegistry.fromStack(rod);
+    if (partRod == null || !partRod.validForToolOfTier(targetTier))
+      return null;
+
     // Recipe correct. Make the shield.
-    return ModItems.shield.constructShield(materials);
+    return ModItems.shield.constructTool(rod, materials);
   }
 
   @Override

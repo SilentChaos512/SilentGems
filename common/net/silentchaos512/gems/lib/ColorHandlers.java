@@ -6,6 +6,8 @@ import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.lib.EnumDecoPos;
+import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.util.ArmorHelper;
@@ -27,13 +29,35 @@ public class ColorHandlers {
       };
     }, ModItems.tools.toArray(new Item[ModItems.tools.size()]));
 
+    // Shields
+    itemColors.registerItemColorHandler(new IItemColor() {
+
+      @Override
+      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+
+        // return ToolHelper.getColorForPass(stack, tintIndex);
+        // FIXME
+        EnumPartPosition pos = tintIndex == 0 ? EnumPartPosition.HEAD_LEFT
+            : tintIndex == 1 ? EnumPartPosition.HEAD_MIDDLE
+                : tintIndex == 2 ? EnumPartPosition.HEAD_RIGHT
+                    : tintIndex == 3 ? EnumPartPosition.ROD
+                        : tintIndex == 4 ? EnumPartPosition.ROD_DECO : null;
+        if (pos == null)
+          return 0xFFFFFF;
+        ToolPart part = ToolHelper.getRenderPart(stack, pos);
+        if (part == null)
+          return 0xFFFFFF;
+        return part.getColor(stack);
+      }
+    }, ModItems.shield);
+
     // Armor (temp)
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
       public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 
-//        return ArmorHelper.getRenderPart(stack, EnumDecoPos.NORTH).getColor(stack);
+        // return ArmorHelper.getRenderPart(stack, EnumDecoPos.NORTH).getColor(stack);
         return ArmorHelper.getRenderColor(stack, EnumDecoPos.NORTH); // FIXME: Multiple passes needed?
       }
     }, ModItems.gemHelmet, ModItems.gemChestplate, ModItems.gemLeggings, ModItems.gemBoots);

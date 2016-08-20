@@ -687,10 +687,8 @@ public class ToolHelper {
           materials[i].writeToNBT(new NBTTagCompound()));
     }
     // Rod
-    if (!(item instanceof ItemGemShield)) {
-      part = ToolPartRegistry.fromStack(rod);
-      setTagPart(result, "PartRod", part, EnumMaterialGrade.NONE);
-    }
+    part = ToolPartRegistry.fromStack(rod);
+    setTagPart(result, "PartRod", part, EnumMaterialGrade.NONE);
 
     // Create name
     String displayName = createToolName(item, materials);
@@ -816,8 +814,21 @@ public class ToolHelper {
     if (material == null) // No material in the slot is OK.
       return tool;
 
+    // Shields have different deco positions.
+    // West - 'Top-left' (head left or 0)
+    // North - 'Plate' (deco)
+    // East - 'Top-Right' (head middle or 1)
+    // South - 'Bottom' (head right or 2)
+    SilentGems.logHelper.debug(pos);
+    if (tool.getItem() instanceof ItemGemShield) { //@formatter:off
+      if (pos == EnumDecoPos.NORTH) pos = EnumDecoPos.SOUTH;
+      else if (pos == EnumDecoPos.EAST)  pos = EnumDecoPos.NORTH;
+      else if (pos == EnumDecoPos.SOUTH) pos = EnumDecoPos.EAST;
+    } //@formatter:on
+    SilentGems.logHelper.debug(pos);
+
     // No deco bit on certain (mostly non-super) rods.
-    if (pos == EnumDecoPos.SOUTH) {
+    if (pos == EnumDecoPos.SOUTH && !(tool.getItem() instanceof ItemGemShield)) {
       ToolPartRod partRod = (ToolPartRod) getConstructionRod(tool);
       if (partRod == null || !partRod.supportsDecoration())
         return tool;

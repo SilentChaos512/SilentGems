@@ -22,6 +22,7 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.ModEntities;
 import net.silentchaos512.gems.guide.GuideSilentGems;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.part.ModParts;
@@ -65,7 +66,7 @@ public class SilentGems {
     @Override
     public Item registerItem(Item item, String key) {
 
-      if (item instanceof ITool) {
+      if (item instanceof ITool && !(item instanceof ItemGemShield)) {
         item.setCreativeTab(GemsCreativeTabs.tools);
         ModItems.tools.add(item);
       } else if (item instanceof IArmor) {
