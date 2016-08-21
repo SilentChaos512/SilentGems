@@ -66,7 +66,7 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
       damage = damage * 1.5f;
     }
 
-    SilentGems.logHelper.debug(damage, Math.round(damage));
+    // SilentGems.logHelper.debug(damage, Math.round(damage));
     ToolHelper.attemptDamageTool(shield, Math.round(damage), player);
   }
 
@@ -129,7 +129,7 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   public void addRecipes() {
 
     String line1 = "gwg";
-    String line2 = "www";
+    String line2 = "wrw";
     String line3 = " g ";
     ItemStack flint = new ItemStack(Items.FLINT);
 
@@ -138,13 +138,13 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
     ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
 
     GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodWood, flint), line1, line2, line3,
-        'g', flint, 'w', "plankWood"));
+        'g', flint, 'w', "plankWood", 'r', "stickWood"));
 
     for (EnumGem gem : EnumGem.values()) {
       GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodIron, gem.getItem()), line1,
-          line2, line3, 'g', gem.getItem(), 'w', "plankWood"));
+          line2, line3, 'g', gem.getItem(), 'w', "plankWood", 'r', rodIron));
       GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodGold, gem.getItemSuper()), line1,
-          line2, line3, 'g', gem.getItemSuper(), 'w', "plankWood"));
+          line2, line3, 'g', gem.getItemSuper(), 'w', "plankWood", 'r', rodGold));
     }
   }
 

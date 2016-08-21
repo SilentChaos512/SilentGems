@@ -869,6 +869,7 @@ public class ToolHelper {
     List<ItemStack> list = Lists.newArrayList();
     final boolean isSuperTool = item == ModItems.katana || item == ModItems.scepter;
     final ItemStack rodWood = new ItemStack(Items.STICK);
+    final ItemStack rodIron = ModItems.craftingMaterial.toolRodIron;
     final ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
 
     if (!isSuperTool) {
@@ -883,7 +884,8 @@ public class ToolHelper {
 
       // Regular Gems
       for (EnumGem gem : EnumGem.values())
-        list.add(constructTool(item, rodWood, gem.getItem(), materialLength));
+        list.add(constructTool(item, item instanceof ItemGemShield ? rodIron : rodWood,
+            gem.getItem(), materialLength));
     }
 
     // Super Gems
