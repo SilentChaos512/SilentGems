@@ -364,8 +364,9 @@ public class GuideSilentGems {
 
     if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
       GuideAPI.setModel(book);
+  }
 
-    // GuideRegistry.registerBook(book, false);
+  public static void registerGuideBookModel() {
 
     // Register model (default registration fails)
     if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
@@ -376,7 +377,6 @@ public class GuideSilentGems {
       ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
       ModelLoader.registerItemVariants(itemGuideBook, model);
       mesher.register(itemGuideBook, meta, model);
-      // ModelLoader.setCustomModelResourceLocation(itemGuideBook, meta, model);
     }
   }
 

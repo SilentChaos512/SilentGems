@@ -21,6 +21,7 @@ import net.silentchaos512.gems.client.render.particle.EntityFXCompass;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
 import net.silentchaos512.gems.event.GemsClientEvents;
+import net.silentchaos512.gems.guide.GuideSilentGems;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.ColorHandlers;
 import net.silentchaos512.gems.lib.EnumModParticles;
@@ -51,6 +52,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
     registerRenderers();
     registerColorHandlers();
     EntityChaosNodePacket.initColors();
+    GuideSilentGems.registerGuideBookModel();
   }
 
   @Override

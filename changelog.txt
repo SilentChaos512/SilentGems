@@ -1,5 +1,12 @@
 Silent's Gems - Changelog
 
+2.0.27
+Fixed: Shield decorating not working.
+Fixed: Third-person rendering of shields being a bit funny.
+Fixed: Fluffy puffs being rejected by Random Things' fertilized dirt.
+'b' build:
+Fixed: A Guide-API crash.
+
 2.0.26
 Added: Shield models! They render like normal items, so might not be what you would expect... I think they look alright, but textures need a little touching-up.
 Fixed: Shields trying to load a bunch of non-existent models and scrambling tool textures.

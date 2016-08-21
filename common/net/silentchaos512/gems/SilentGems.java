@@ -109,6 +109,11 @@ public class SilentGems {
     // Headcrumbs
     FMLInterModComms.sendMessage("headcrumbs", "add-username", Names.SILENT_CHAOS_512);
 
+    // Register Guide API book?
+    if (Loader.isModLoaded("guideapi")) {
+      GuideSilentGems.buildGuide(localizationHelper);
+    }
+
     proxy.preInit(registry);
   }
 
@@ -120,11 +125,6 @@ public class SilentGems {
     GemsConfig.save();
 
     proxy.init(registry);
-
-    // Register Guide API book?
-    if (Loader.isModLoaded("guideapi")) {
-      GuideSilentGems.buildGuide(localizationHelper);
-    }
   }
 
   @EventHandler
