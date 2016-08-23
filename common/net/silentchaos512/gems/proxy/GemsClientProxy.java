@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.fx.FXChaos;
 import net.silentchaos512.gems.client.gui.GuiChaosBar;
@@ -16,7 +17,6 @@ import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.render.ModBlockRenderers;
 import net.silentchaos512.gems.client.render.entity.RenderChaosProjectile;
 import net.silentchaos512.gems.client.render.entity.RenderEntityPacket;
-import net.silentchaos512.gems.client.render.particle.EntityFXChaos;
 import net.silentchaos512.gems.client.render.particle.EntityFXCompass;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
@@ -52,7 +52,8 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
     registerRenderers();
     registerColorHandlers();
     EntityChaosNodePacket.initColors();
-    GuideSilentGems.registerGuideBookModel();
+    if (Loader.isModLoaded("guideapi"))
+      GuideSilentGems.registerGuideBookModel();
   }
 
   @Override

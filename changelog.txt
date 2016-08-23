@@ -6,6 +6,7 @@ Fixed: Third-person rendering of shields being a bit funny.
 Fixed: Fluffy puffs being rejected by Random Things' fertilized dirt.
 'b' build:
 Fixed: A Guide-API crash.
+Fixed: Shields in JEI showing incorrect recipes.
 
 2.0.26
 Added: Shield models! They render like normal items, so might not be what you would expect... I think they look alright, but textures need a little touching-up.

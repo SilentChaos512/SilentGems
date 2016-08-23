@@ -2,6 +2,8 @@ package net.silentchaos512.gems.lib;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -32,6 +34,8 @@ public class Greetings {
   };
   // @formatter:on
 
+  static List<String> extraMessages = Lists.newArrayList();
+
   public static void greetPlayer(EntityPlayer player) {
 
     // Reset the random object, because it seems to yield the same value each time. Huh?
@@ -41,5 +45,13 @@ public class Greetings {
     line = PREFIX + line;
     line = line.replaceAll("&", "\u00a7");
     PlayerHelper.addChatMessage(player, TextFormatting.RED + line);
+
+    for (String str : extraMessages)
+      PlayerHelper.addChatMessage(player, "[Silent's Gems] " + str);
+  }
+ 
+  public static void addExtraMessage(String str) {
+
+    extraMessages.add(str);
   }
 }

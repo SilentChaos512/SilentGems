@@ -1,5 +1,7 @@
 package net.silentchaos512.gems.guide;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -35,10 +37,13 @@ import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.item.ItemChaosOrb;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class GuideSilentGems {
+
+  private static boolean CRASH_ON_ERROR = false; // Set to true to generate crash reports. Stacktrace also prints to log.
 
   public static final String GETTING_STARTED = "gettingStarted";
   public static final String BLOCKS = "blocks";
@@ -346,30 +351,42 @@ public class GuideSilentGems {
     // Register Book
     // =============
 
-    String title = getString("title");
-    String welcome = getString("welcome");
-    java.awt.Color color = new java.awt.Color(255, 32, 47); // FF202F
-    book = new Book();
-    book.setCategoryList(categories);
-    book.setTitle(title);
-    book.setWelcomeMessage(welcome);
-    book.setDisplayName(title);
-    book.setAuthor("SilentChaos512");
-    book.setCustomModel(false);
-    book.setColor(color);
-    book.setSpawnWithBook(true);
-    book.setRegistryName(title);
+    try {
+      String title = getString("title");
+      String welcome = getString("welcome");
+      java.awt.Color color = new java.awt.Color(255, 32, 47); // FF202F
+      book = new Book();
+      book.setCategoryList(categories);
+      book.setTitle(title);
+      book.setWelcomeMessage(welcome);
+      book.setDisplayName(title);
+      book.setAuthor("SilentChaos512");
+      book.setCustomModel(false);
+      book.setColor(color);
+      book.setSpawnWithBook(true);
+      book.setRegistryName(title);
 
-    GuideAPI.BOOKS.register(book);
+      GuideAPI.BOOKS.register(book);
 
-    if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
-      GuideAPI.setModel(book);
+      if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+        GuideAPI.setModel(book);
+    } catch (Exception ex) {
+      warnUserOfGuideApiException(
+          "Something went wrong during guide book registration! Report this to me at https://github.com/SilentChaos512/SilentGems/issues."
+              + " Include a copy of your log file. If you need the guide book now, try installing an older version of Guide-API, if possible.",
+          ex);
+
+      if (CRASH_ON_ERROR) throw ex;
+    }
   }
 
   public static void registerGuideBookModel() {
 
     // Register model (default registration fails)
-    if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+    if (FMLCommonHandler.instance().getEffectiveSide() != Side.CLIENT)
+      return;
+
+    try {
       Item itemGuideBook = GuideAPI.guideBook;
       int meta = GuideAPI.BOOKS.getValues().indexOf(book);
       ModelResourceLocation model = new ModelResourceLocation("guideapi:ItemGuideBook",
@@ -377,7 +394,25 @@ public class GuideSilentGems {
       ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
       ModelLoader.registerItemVariants(itemGuideBook, model);
       mesher.register(itemGuideBook, meta, model);
+    } catch (Exception ex) {
+      warnUserOfGuideApiException(
+          "Failed to register guide book model! Report this on the issue tracker for Silent's Gems.",
+          ex);
+
+      if (CRASH_ON_ERROR) throw ex;
     }
+  }
+
+  private static void warnUserOfGuideApiException(String message, Exception ex) {
+
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter printWriter = new PrintWriter(stringWriter);
+    ex.printStackTrace(printWriter);
+    String stackTrace = stringWriter.toString();
+
+    SilentGems.logHelper.warning(message);
+    SilentGems.logHelper.warning(stackTrace);
+    Greetings.addExtraMessage(message);
   }
 
   private static String getString(String key) {
