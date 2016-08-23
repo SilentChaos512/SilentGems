@@ -216,7 +216,8 @@ public class ToolHelper {
     float meleeSpeed = bonus * sumMeleeSpeed / parts.length;
     float chargeSpeed = bonus * sumChargeSpeed / parts.length;
     float enchantability = bonus * sumEnchantability / parts.length;
-    float blockingPower = bonus * sumBlockingPower / parts.length;
+    float blockingPower = Math.max(bonus * sumBlockingPower / parts.length,
+        ItemGemShield.MIN_BLOCKING_POWER);
 
     // Tip and rod bonus (might change the way rod stats work?)
     ToolPart partRod = getConstructionRod(tool);

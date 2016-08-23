@@ -35,6 +35,8 @@ import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class ItemGemShield extends ItemShield implements IRegistryObject, ITool {
 
+  public static final float MIN_BLOCKING_POWER = 0.4f;
+
   private List<ItemStack> subItems = null;
 
   // ===========================================
@@ -58,7 +60,7 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
     float damage = event.getAmount();
     float blockPower = ToolHelper.getBlockingPower(shield);
     damage = damage < 2f ? 1f : damage / 2f;
-    event.setAmount(event.getAmount() / Math.max(blockPower, 0.4f));
+    event.setAmount(event.getAmount() / Math.max(blockPower, MIN_BLOCKING_POWER));
 
     if (source.getEntity() != null) {
       source.getEntity().attackEntityFrom(DamageSource.causeThornsDamage(player),
