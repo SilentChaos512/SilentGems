@@ -102,7 +102,7 @@ public class ModItems {
     reg.registerItem(katana, Names.KATANA);
     reg.registerItem(scepter, Names.SCEPTER);
     reg.registerItem(bow, Names.BOW).setCreativeTab(null);
-    reg.registerItem(shield, Names.SHIELD).setCreativeTab(null);
+    reg.registerItem(shield, Names.SHIELD).setCreativeTab(GemsCreativeTabs.tools);
     reg.registerItem(pickaxe, Names.PICKAXE);
     reg.registerItem(shovel, Names.SHOVEL);
     reg.registerItem(axe, Names.AXE);
