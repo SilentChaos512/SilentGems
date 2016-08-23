@@ -29,6 +29,7 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -64,7 +65,7 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
 
     if (source.getEntity() != null) {
       source.getEntity().attackEntityFrom(DamageSource.causeThornsDamage(player),
-          getMeleeDamage(shield));
+          event.getAmount() + getMeleeDamage(shield));
       damage = damage * 1.5f;
     }
 
@@ -118,7 +119,7 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   @Override
   public float getBaseMeleeDamageModifier() {
 
-    return -2.0f;
+    return -4.0f;
   }
 
   @Override
