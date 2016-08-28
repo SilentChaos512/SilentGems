@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartGrip;
+import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class ToolPartWool extends ToolPartGrip {
@@ -28,6 +29,9 @@ public class ToolPartWool extends ToolPartGrip {
 
   @Override
   public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos) {
+
+    if (tool.getItem() instanceof ItemGemBow)
+      return null;
 
     String name = ((IRegistryObject) tool.getItem()).getName();
     name = SilentGems.MOD_ID + ":" + name.toLowerCase() + "/" + name + "Wool" + color.getMetadata();

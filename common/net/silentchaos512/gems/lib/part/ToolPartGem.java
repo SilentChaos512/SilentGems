@@ -14,6 +14,7 @@ import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
@@ -70,19 +71,20 @@ public class ToolPartGem extends ToolPartMain {
 
     String name = ((IRegistryObject) tool.getItem()).getName();
     name = SilentGems.MOD_ID + ":" + name.toLowerCase() + "/" + name;
+    String gemNum = tool.getItem() instanceof ItemGemBow ? "" : "" + gem.ordinal();
 
     switch (pos) {
       case HEAD_LEFT:
-        name += gem.ordinal() + "L";
+        name += gemNum + "L";
         break;
       case HEAD_MIDDLE:
-        name += gem.ordinal();
+        name += gemNum;
         break;
       case HEAD_RIGHT:
-        name += gem.ordinal() + "R";
+        name += gemNum + "R";
         break;
       case ROD_DECO:
-        name += "Deco" + gem.ordinal();
+        name += "Deco" + gemNum;
         break;
       default:
         return null;

@@ -1,5 +1,12 @@
 Silent's Gems - Changelog
 
+2.0.29
+Removed: Some debug text being output to console.
+
+2.0.28
+Actually fixed my Guide-API issues >_<
+Tweaked shield damage reflection, add minimum blocking power.
+
 2.0.27
 Fixed: Shield decorating not working.
 Fixed: Third-person rendering of shields being a bit funny.
@@ -7,6 +14,8 @@ Fixed: Fluffy puffs being rejected by Random Things' fertilized dirt.
 'b' build:
 Fixed: A Guide-API crash.
 Fixed: Shields in JEI showing incorrect recipes.
+'c' build:
+Added: Guide-API error handling. No more crashing, but you won't get a guide book if an error occurs. I'm currently looking for fixes to these issues.
 
 2.0.26
 Added: Shield models! They render like normal items, so might not be what you would expect... I think they look alright, but textures need a little touching-up.

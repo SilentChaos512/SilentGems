@@ -29,6 +29,7 @@ import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.render.ToolItemOverrideHandler;
 import net.silentchaos512.gems.client.render.ToolModel;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
+import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.item.tool.ItemGemShovel;
@@ -99,7 +100,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     final boolean isAxe = tool.getItem() instanceof ItemGemAxe;
     final boolean isWeapon = isSword || isAxe;
     final boolean isCaster = isSword && ToolHelper.getToolTier(tool) == EnumMaterialTier.SUPER;
-    final boolean isBow = false; // TODO
+    final boolean isBow = tool.getItem() instanceof ItemGemBow;
     final boolean isDigger = tool.getItem() instanceof ItemTool;
     final boolean isShield = tool.getItem() instanceof ItemGemShield;
 
