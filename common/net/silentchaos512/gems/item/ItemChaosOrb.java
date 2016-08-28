@@ -227,7 +227,6 @@ public class ItemChaosOrb extends ItemChaosStorage {
     // Increase damage level.
     int currentDamageLevel = (stack.getItemDamage() & 0xF0) >> 4;
     int newMeta = (stack.getItemDamage() & 0x0F) + (++currentDamageLevel << 4);
-    SilentGems.instance.logHelper.debug(newMeta);
     stack.setItemDamage(newMeta);
 
     // Did it break?

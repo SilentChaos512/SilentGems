@@ -176,7 +176,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
         }
 
         float velocity = getArrowVelocity(stack, i);
-        SilentGems.logHelper.debug(i, getDrawDelay(stack), velocity);
+        SilentGems.logHelper.debug("Bow use: ", i, getDrawDelay(stack), velocity);
 
         if ((double) velocity >= 0.1D) {
           boolean flag1 = player.capabilities.isCreativeMode

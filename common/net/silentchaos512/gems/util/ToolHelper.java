@@ -820,13 +820,11 @@ public class ToolHelper {
     // North - 'Plate' (deco)
     // East - 'Top-Right' (head middle or 1)
     // South - 'Bottom' (head right or 2)
-    SilentGems.logHelper.debug(pos);
     if (tool.getItem() instanceof ItemGemShield) { //@formatter:off
       if (pos == EnumDecoPos.NORTH) pos = EnumDecoPos.SOUTH;
       else if (pos == EnumDecoPos.EAST)  pos = EnumDecoPos.NORTH;
       else if (pos == EnumDecoPos.SOUTH) pos = EnumDecoPos.EAST;
     } //@formatter:on
-    SilentGems.logHelper.debug(pos);
 
     // No deco bit on certain (mostly non-super) rods.
     if (pos == EnumDecoPos.SOUTH && !(tool.getItem() instanceof ItemGemShield)) {

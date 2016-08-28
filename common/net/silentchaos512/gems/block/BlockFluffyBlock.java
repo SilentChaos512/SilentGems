@@ -55,7 +55,6 @@ public class BlockFluffyBlock extends BlockSL {
   @Override
   public void onFallenUpon(World world, BlockPos pos, Entity entity, float distance) {
 
-    SilentGems.instance.logHelper.debug(distance);
     if (distance < 2 || world.isRemote) {
       return;
     }

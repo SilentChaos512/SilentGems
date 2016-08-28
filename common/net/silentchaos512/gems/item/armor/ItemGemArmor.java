@@ -290,7 +290,6 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
         do {
           NBTTagCompound tag = compound.getCompoundTag(key);
           parts.add(ItemStack.loadItemStackFromNBT(tag));
-          SilentGems.logHelper.debug(key, ItemStack.loadItemStackFromNBT(tag), tag);
           key = "part" + ++i;
         } while (compound.hasKey(key));
 
@@ -300,7 +299,6 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
         // Send to the server.
         MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName);
-        SilentGems.logHelper.debug(displayName, message);
         NetworkHandler.INSTANCE.sendToServer(message);
       }
     }
