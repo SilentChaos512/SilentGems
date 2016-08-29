@@ -43,7 +43,7 @@ public class ToolPartGem extends ToolPartMain {
   public int getColor(ItemStack toolOrArmor) {
 
     Item item = toolOrArmor.getItem();
-    if (item instanceof IArmor || item instanceof ItemGemShield)
+    if (item instanceof IArmor || item instanceof ItemGemShield || item instanceof ItemGemBow)
       return gem.getColor();
     else
       return gem.ordinal() > 15 ? ToolRenderHelper.DARK_GEM_SHADE : 0xFFFFFF;

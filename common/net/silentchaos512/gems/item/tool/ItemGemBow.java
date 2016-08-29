@@ -262,7 +262,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   @Override
   public int getMaxDamage(ItemStack stack) {
 
-    return super.getMaxDamage(stack) + ToolHelper.getMaxDamage(stack);
+    return ToolHelper.getMaxDamage(stack);
   }
 
   @Override

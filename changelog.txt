@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.0.29
+Added: Bows! Still a work in progress, but should be craftable and usable. Animation does not work and some parts do not render properly.
 Removed: Some debug text being output to console.
 
 2.0.28

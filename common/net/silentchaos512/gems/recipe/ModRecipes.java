@@ -9,21 +9,17 @@ public class ModRecipes {
   public static void init() {
 
     SRegistry reg = SilentGems.instance.registry;
-    String afterShapeless = "after:minecraft:shapeless";
+    String dep = "after:minecraft:shapeless";
     try {
-      reg.addRecipeHandler(RecipeMultiGemTool.class, "MultiGemTool", Category.SHAPED,
-          afterShapeless);
-      reg.addRecipeHandler(RecipeMultiGemShield.class, "MultiGemShield", Category.SHAPED,
-          afterShapeless);
-      reg.addRecipeHandler(RecipeMultiGemArmor.class, "MultiGemArmor", Category.SHAPED,
-          afterShapeless);
-      reg.addRecipeHandler(RecipeDecorateTool.class, "DecorateTool", Category.SHAPED,
-          afterShapeless);
-      reg.addRecipeHandler(RecipeDecorateArmor.class, "DecorateArmor", Category.SHAPED,
-          afterShapeless);
+      reg.addRecipeHandler(RecipeMultiGemTool.class, "MultiGemTool", Category.SHAPED, dep);
+      reg.addRecipeHandler(RecipeMultiGemShield.class, "MultiGemShield", Category.SHAPED, dep);
+      reg.addRecipeHandler(RecipeMultiGemBow.class, "MultiGemBow", Category.SHAPED, dep);
+      reg.addRecipeHandler(RecipeMultiGemArmor.class, "MultiGemArmor", Category.SHAPED, dep);
+      reg.addRecipeHandler(RecipeDecorateTool.class, "DecorateTool", Category.SHAPED, dep);
+      reg.addRecipeHandler(RecipeDecorateArmor.class, "DecorateArmor", Category.SHAPED, dep);
       reg.addRecipeHandler(RecipeApplyEnchantmentToken.class, "ApplyEnchantmentToken",
-          Category.SHAPELESS, afterShapeless);
-      reg.addRecipeHandler(RecipeNamePlate.class, "NamePlate", Category.SHAPELESS, afterShapeless);
+          Category.SHAPELESS, dep);
+      reg.addRecipeHandler(RecipeNamePlate.class, "NamePlate", Category.SHAPELESS, dep);
     } catch (InstantiationException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
