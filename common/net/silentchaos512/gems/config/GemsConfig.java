@@ -271,7 +271,7 @@ public class GemsConfig {
       WORLD_GEN_GEMS_DARK.loadValue(c, CAT_WORLD_GEN);
       WORLD_GEN_CHAOS = new ConfigOptionOreGen("Chaos Ore", 0, 1.75f, 16, 5, 20);
       WORLD_GEN_CHAOS.loadValue(c, CAT_WORLD_GEN);
-      WORLD_GEN_ENDER = new ConfigOptionOreGen("Ender Essence Ore", 1, 4.0f, 32, 10, 70);
+      WORLD_GEN_ENDER = new ConfigOptionOreGen("Ender Essence Ore", 1, 1.0f, 32, 10, 70);
       WORLD_GEN_ENDER.loadValue(c, CAT_WORLD_GEN);
 
       // Gem weights
