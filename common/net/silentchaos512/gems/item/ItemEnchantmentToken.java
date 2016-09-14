@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.item;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -237,9 +238,37 @@ public class ItemEnchantmentToken extends ItemSL {
   @Override
   public void getSubItems(Item item, CreativeTabs tab, List list) {
 
-    list.add(new ItemStack(this, 1, BLANK_META));
     for (ResourceLocation key : Enchantment.REGISTRY.getKeys())
       list.add(constructToken(Enchantment.REGISTRY.getObject(key)));
+
+    // Sort by type, then enchantment name.
+    list.sort(new Comparator<ItemStack>() {
+
+      @Override
+      public int compare(ItemStack o1, ItemStack o2) {
+
+        int k = getModelKey(o1).compareTo(getModelKey(o2));
+        if (k == 0) {
+          Enchantment ench1 = getSingleEnchantment(o1);
+          Enchantment ench2 = getSingleEnchantment(o2);
+          if (ench1 == null || ench2 == null)
+            return 0;
+          return ench1.getTranslatedName(1).compareTo(ench2.getTranslatedName(1));
+        }
+        return k;
+      }
+    });
+
+    // Empty token first.
+    list.add(0, new ItemStack(this, 1, BLANK_META));
+  }
+
+  public Enchantment getSingleEnchantment(ItemStack token) {
+
+    Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(token);
+    if (map.size() != 1)
+      return null;
+    return map.keySet().iterator().next();
   }
 
   @Override
