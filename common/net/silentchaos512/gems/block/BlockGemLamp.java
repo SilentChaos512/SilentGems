@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,12 +13,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.RecipeHelper;
@@ -80,14 +79,9 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
   }
 
   @Override
-  public void onNeighborChange(IBlockAccess worldIn, BlockPos pos, BlockPos neighborPos) {
+  public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn) {
 
-    if (!(worldIn instanceof World)) {
-      return;
-    }
-
-    World world = (World) worldIn;
-    IBlockState state = world.getBlockState(pos);
+    //IBlockState state = world.getBlockState(pos);
 
     if (!world.isRemote) {
       boolean powered = world.isBlockPowered(pos);
@@ -96,7 +90,7 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
 
 //      String debug = "powered = %s, isDark = %s, lit = %s, inverted = %s, oldBlock = %s, newBlock = %s";
 //      debug = String.format(debug, powered, isDark, lit, inverted, this, newBlock);
-//      SilentGems.instance.logHelper.debug(debug, newBlock.lit, newBlock.inverted, newBlock.isDark);
+//      SilentGems.logHelper.debug(debug, newBlock.lit, newBlock.inverted, newBlock.isDark);
 
       if (inverted) {
         if (!lit && !powered) {
