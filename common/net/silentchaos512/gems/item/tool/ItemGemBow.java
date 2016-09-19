@@ -27,10 +27,13 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -103,7 +106,8 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
   public float getDrawDelay(ItemStack stack) {
 
-    return 38.4f - 1.4f * ToolHelper.getMeleeSpeed(stack) * ToolHelper.getDigSpeedOnProperMaterial(stack);
+    return 38.4f
+        - 1.4f * ToolHelper.getMeleeSpeed(stack) * ToolHelper.getDigSpeedOnProperMaterial(stack);
   }
 
   public float getArrowVelocity(ItemStack stack, int charge) {
@@ -179,17 +183,15 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
         SilentGems.logHelper.debug("Bow use: ", i, getDrawDelay(stack), velocity);
 
         if ((double) velocity >= 0.1D) {
-          boolean flag1 = player.capabilities.isCreativeMode
-              || (ammo.getItem() instanceof ItemArrow
-                  ? ((ItemArrow) ammo.getItem()).isInfinite(ammo, stack, player)
-                  : false);
+          boolean flag1 = player.capabilities.isCreativeMode || (ammo.getItem() instanceof ItemArrow
+              ? ((ItemArrow) ammo.getItem()).isInfinite(ammo, stack, player) : false);
 
           if (!worldIn.isRemote) {
             ItemArrow itemarrow = (ItemArrow) ((ItemArrow) (ammo.getItem() instanceof ItemArrow
                 ? ammo.getItem() : Items.ARROW));
             EntityArrow entityarrow = itemarrow.createArrow(worldIn, ammo, player);
-            entityarrow.setAim(player, player.rotationPitch, player.rotationYaw,
-                0.0F, velocity * 3.0F, 1.0F);
+            entityarrow.setAim(player, player.rotationPitch, player.rotationYaw, 0.0F,
+                velocity * 3.0F, 1.0F);
 
             if (velocity == 1.0F) {
               entityarrow.setIsCritical(true);
@@ -221,8 +223,8 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
             worldIn.spawnEntityInWorld(entityarrow);
           }
 
-          worldIn.playSound((EntityPlayer) null, player.posX, player.posY,
-              player.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 1.0F,
+          worldIn.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ,
+              SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 1.0F,
               1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + velocity * 0.5F);
 
           if (!flag1) {
@@ -303,7 +305,27 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   @Override
   public void addRecipes() {
 
-    // TODO Auto-generated method stub
+    String line1 = "sgw";
+    String line2 = "g w";
+    String line3 = "sgw";
+
+    ItemStack flint = new ItemStack(Items.FLINT);
+    ItemStack rodWood = new ItemStack(Items.STICK);
+    ItemStack rodIron = ModItems.craftingMaterial.toolRodIron;
+    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
+
+    // Flint
+    GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodWood, flint), line1, line2, line3,
+        'g', flint, 's', "stickWood", 'w', Items.STRING));
+    for (EnumGem gem : EnumGem.values()) {
+      // Regular
+      GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodIron, gem.getItem()), line1,
+          line2, line3, 'g', gem.getItem(), 's', rodIron, 'w', Items.STRING));
+      // Super
+      GameRegistry.addRecipe(
+          new ShapedOreRecipe(constructTool(rodGold, gem.getItemSuper()), line1, line2, line3, 'g',
+              gem.getItemSuper(), 's', rodGold, 'w', ModItems.craftingMaterial.gildedString));
+    }
   }
 
   @Override
