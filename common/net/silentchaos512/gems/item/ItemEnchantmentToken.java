@@ -26,12 +26,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -56,6 +58,7 @@ public class ItemEnchantmentToken extends ItemSL {
 
   private Map<String, Integer> modelMap = new HashMap<>();
   private Map<Enchantment, String> recipeMap = new HashMap<>();
+  private boolean modRecipesInitialized = false;
 
   public static final int BLANK_META = 256;
 
@@ -247,7 +250,7 @@ public class ItemEnchantmentToken extends ItemSL {
       @Override
       public int compare(ItemStack o1, ItemStack o2) {
 
-        int k = getModelKey(o1).compareTo(getModelKey(o2));
+        int k = -getModelKey(o1).compareTo(getModelKey(o2));
         if (k == 0) {
           Enchantment ench1 = getSingleEnchantment(o1);
           Enchantment ench2 = getSingleEnchantment(o2);
@@ -334,6 +337,37 @@ public class ItemEnchantmentToken extends ItemSL {
     addTokenRecipe(Enchantments.FROST_WALKER, EnumGem.ALEXANDRITE, enderFrost, 4);
   }
 
+  public void addModRecipes() {
+
+    // DEBUG Dump enchantments!
+    for (ResourceLocation res : Enchantment.REGISTRY.getKeys())
+      SilentGems.logHelper.info("    " + res.toString());
+
+    if (modRecipesInitialized)
+      return;
+    modRecipesInitialized = true;
+
+    // Ender Core
+    if (Loader.isModLoaded("endercore")) {
+      SilentGems.logHelper.info("Adding enchantment token recipes for Ender Core:");
+      addModTokenRecipe("endercore:xpboost", EnumGem.MOLDAVITE, Blocks.GOLD_BLOCK, 1);
+      addModTokenRecipe("endercore:autosmelt", EnumGem.GARNET,
+          new ItemStack(ModBlocks.miscBlock, 1, 3), 4);
+    }
+    // Ender IO
+    if (Loader.isModLoaded("EnderIO") || Loader.isModLoaded("enderio")) {
+      SilentGems.logHelper.info("Adding enchantment token recipes for Ender IO:");
+      addModTokenRecipe("enderio:soulBound", EnumGem.OPAL, "itemEnderCrystal", 1);
+    }
+    // Ender Zoo
+    if (Loader.isModLoaded("EnderZoo") || Loader.isModLoaded("enderzoo")) {
+      SilentGems.logHelper.info("Adding enchantment token recipes for Ender Zoo:");
+      Item witherDust = Item.getByNameOrId("enderzoo:witheringDust");
+      addModTokenRecipe("enderzoo:witherWeapon", EnumGem.ONYX, witherDust, 5);
+      addModTokenRecipe("enderzoo:witherArrow", EnumGem.BLACK_DIAMOND, witherDust, 5);
+    }
+  }
+
   public void addTokenRecipe(Enchantment ench, EnumGem gem, Object other, int otherCount) {
 
     if ((ench == Enchantments.FROST_WALKER && GemsConfig.RECIPE_TOKEN_FROST_WALKER_DISABLE)
@@ -359,6 +393,17 @@ public class ItemEnchantmentToken extends ItemSL {
     else if (other instanceof Item)
       recipeString += (new ItemStack((Item) other)).getDisplayName();
     recipeMap.put(ench, recipeString);
+  }
+
+  public void addModTokenRecipe(String enchantmentName, EnumGem gem, Object other, int otherCount) {
+
+    SilentGems.logHelper.info("    Attempting to add token recipe for " + enchantmentName + "...");
+    Enchantment enchantment = Enchantment.REGISTRY.getObject(new ResourceLocation(enchantmentName));
+    if (enchantment == null) {
+      SilentGems.logHelper.info("    Failed to add! Enchantment is null?");
+      return;
+    }
+    addTokenRecipe(enchantment, gem, other, otherCount);
   }
 
   @Override

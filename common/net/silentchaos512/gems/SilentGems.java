@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
@@ -47,7 +48,7 @@ public class SilentGems {
   public static final String MOD_ID_LOWER = "silentgems";
   public static final String MOD_NAME = "Silent's Gems";
   public static final String VERSION = "@VERSION@";
-  public static final String DEPENDENCIES = "required-after:Forge@[12.18.1.2070,);required-after:SilentLib;after:guideapi";
+  public static final String DEPENDENCIES = "required-after:Forge@[12.18.1.2070,);required-after:SilentLib;after:guideapi;after:EnderIO;after:EnderZoo";
   public static final String RESOURCE_PREFIX = MOD_ID.toLowerCase() + ":";
 
   public static Random random = new Random();
@@ -132,4 +133,10 @@ public class SilentGems {
 
     proxy.postInit(registry);
   }
+
+//  @EventHandler
+//  public void serverAboutToStart(FMLServerAboutToStartEvent event) {
+//
+//    ModItems.enchantmentToken.addModRecipes();
+//  }
 }

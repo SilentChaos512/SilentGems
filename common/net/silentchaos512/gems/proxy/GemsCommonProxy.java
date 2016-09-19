@@ -41,6 +41,7 @@ public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
   public void postInit(SRegistry registry) {
 
     super.postInit(registry);
+    ModItems.enchantmentToken.addModRecipes();
   }
 
   public void spawnParticles(EnumModParticles type, Color color, World world, double x, double y,
