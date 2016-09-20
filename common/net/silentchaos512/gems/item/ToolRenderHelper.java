@@ -56,6 +56,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
   protected Set<ModelResourceLocation> modelSet = null;
   protected ModelResourceLocation[] models;
+  protected ModelResourceLocation[] arrowModels;
 
   public ModelResourceLocation modelBlank;
   public ModelResourceLocation modelError;
@@ -129,7 +130,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       } // @formatter:on
 
       if (isWeapon) {
-        list.add(color + getTooltipLine("MeleeSpeed", ToolHelper.getMeleeSpeedModifier(tool) + 4).replaceFirst("%", ""));
+        list.add(color + getTooltipLine("MeleeSpeed", ToolHelper.getMeleeSpeedModifier(tool) + 4)
+            .replaceFirst("%", ""));
         list.add(color + getTooltipLine("MeleeDamage", ToolHelper.getMeleeDamageModifier(tool)));
         if (isCaster)
           list.add(color + getTooltipLine("MagicDamage", ToolHelper.getMagicDamageModifier(tool)));
@@ -254,16 +256,49 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     for (ToolPart part : ToolPartRegistry.getValues()) {
       for (EnumPartPosition pos : EnumPartPosition.values()) {
         for (Item itemTool : ModItems.tools) {
-          ModelResourceLocation model = part.getModel(new ItemStack(itemTool), pos);
-          if (model != null) {
-            set.add(model);
+          for (int frame = 0; frame < (itemTool instanceof ItemGemBow ? 4 : 1); ++frame) {
+            ModelResourceLocation model = part.getModel(new ItemStack(itemTool), pos, frame);
+            if (model != null) {
+              set.add(model);
+            }
           }
         }
       }
     }
 
+    // Bow "arrow" models
+    arrowModels = new ModelResourceLocation[8];
+    for (int i = 0; i < 8; ++i) {
+      String tier = i < 4 ? "Regular" : "Super";
+      ModelResourceLocation model = new ModelResourceLocation(
+          SilentGems.MOD_ID + ":bow/BowArrow" + tier + (i & 3));
+      if (model != null)
+        set.add(model);
+      arrowModels[i] = model;
+    }
+
     modelSet = set;
     models = set.toArray(new ModelResourceLocation[set.size()]);
+  }
+
+  public int getAnimationFrame(ItemStack tool) {
+
+    if (tool != null && tool.getItem() instanceof ItemGemBow) {
+      EntityPlayer player = Minecraft.getMinecraft().thePlayer; // TODO: Probably not the best idea...
+      float pull = tool.getItem().getPropertyGetter(ItemGemBow.RESOURCE_PULL).apply(tool,
+          player.worldObj, player);
+      float pulling = tool.getItem().getPropertyGetter(ItemGemBow.RESOURCE_PULLING).apply(tool,
+          player.worldObj, player);
+
+      if (pull > 0.9f)
+        return 3;
+      if (pull > 0.65f)
+        return 2;
+      if (pulling > 0f)
+        return 1;
+    }
+
+    return 0;
   }
 
   public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos) {
@@ -273,16 +308,25 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     }
 
     NBTTagCompound tags = tool.getTagCompound().getCompoundTag(NBT_MODEL_INDEX);
-    String key = "Layer" + pos.ordinal();
+    int frame = getAnimationFrame(tool);
+    String key = "Layer" + pos.ordinal() + (frame > 0 ? "_" + frame : "");
+    boolean isBow = tool.getItem() instanceof ItemGemBow;
 
-    if (!tags.hasKey(key)) {
+    if (!tags.hasKey(key)) { // FIXME?
+
+      // Bow "arrow" models
+      if (pos == EnumPartPosition.ROD_GRIP && isBow) {
+        return getArrowModel(tool, frame);
+      }
+
       ToolPart part = ToolHelper.getRenderPart(tool, pos);
       if (part == null) {
         tags.setInteger(key, -1);
         tool.getTagCompound().setTag(NBT_MODEL_INDEX, tags);
         return null;
       }
-      ModelResourceLocation target = part.getModel(tool, pos);
+
+      ModelResourceLocation target = part.getModel(tool, pos, frame);
       // SilentGems.instance.logHelper.debug(target);
       for (int i = 0; i < models.length; ++i) {
         if (models[i].equals(target)) {
@@ -312,6 +356,14 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     } else {
       return modelError;
     }
+  }
+
+  public ModelResourceLocation getArrowModel(ItemStack tool, int frame) {
+
+    if (frame < 0 || frame > 3)
+      return null;
+    boolean superTier = ToolHelper.getToolTier(tool) == EnumMaterialTier.SUPER;
+    return arrowModels[superTier ? frame + 4 : frame];
   }
 
   @Override

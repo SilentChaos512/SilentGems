@@ -41,6 +41,7 @@ import net.silentchaos512.lib.registry.IRegistryObject;
 public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
   public static final float ENCHANTABILITY_MULTIPLIER = 0.45f;
+  public static final ResourceLocation RESOURCE_PULL = new ResourceLocation("pull");
   public static final ResourceLocation RESOURCE_PULLING = new ResourceLocation("pulling");
 
   private List<ItemStack> subItems = null;
@@ -49,7 +50,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
     setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.BOW);
 
-    addPropertyOverride(RESOURCE_PULLING, new IItemPropertyGetter() {
+    addPropertyOverride(RESOURCE_PULL, new IItemPropertyGetter() {
 
       @Override
       public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn) {
@@ -57,7 +58,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
         if (entityIn == null)
           return 0f;
         ItemStack itemstack = entityIn.getActiveItemStack();
-        return itemstack != null && itemstack.getItem() == ModItems.bow
+        return itemstack != null && ToolHelper.areToolsEqual(stack, itemstack)
             ? (stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / getDrawDelay(stack)
             : 0f;
       }

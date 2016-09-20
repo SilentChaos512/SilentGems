@@ -28,7 +28,7 @@ public class ToolPartWool extends ToolPartGrip {
   }
 
   @Override
-  public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos) {
+  public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos, int frame) {
 
     if (tool.getItem() instanceof ItemGemBow)
       return null;

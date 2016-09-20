@@ -156,6 +156,12 @@ public abstract class ToolPart {
   @SideOnly(Side.CLIENT)
   public ModelResourceLocation getModel(ItemStack toolOrArmor, EnumPartPosition pos) {
 
+    return getModel(toolOrArmor, pos, 0);
+  }
+
+  @SideOnly(Side.CLIENT)
+  public ModelResourceLocation getModel(ItemStack toolOrArmor, EnumPartPosition pos, int frame) {
+
     return model;
   }
 

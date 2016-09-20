@@ -21,17 +21,19 @@ public class ToolPartTipGems extends ToolPartTip {
 
   public ToolPartTipGems(String name, EnumTipUpgrade upgrade) {
 
-    super(SilentGems.MOD_ID + ":" + name, new ItemStack(ModItems.tipUpgrade, 1, upgrade.ordinal() - 1),
-        upgrade.getMiningLevel(), upgrade.getDurabilityBoost(), upgrade.getSpeedBoost(),
-        upgrade.getMeleeBoost(), upgrade.getMagicBoost());
+    super(SilentGems.MOD_ID + ":" + name,
+        new ItemStack(ModItems.tipUpgrade, 1, upgrade.ordinal() - 1), upgrade.getMiningLevel(),
+        upgrade.getDurabilityBoost(), upgrade.getSpeedBoost(), upgrade.getMeleeBoost(),
+        upgrade.getMagicBoost());
     this.tipName = name;
   }
 
   @Override
-  public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos) {
+  public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos, int frame) {
 
     String name = ((IRegistryObject) tool.getItem()).getName();
-    name = SilentGems.MOD_ID + ":" + name.toLowerCase() + "/" + name + tipName;
+    name = SilentGems.MOD_ID + ":" + name.toLowerCase() + "/" + name + tipName
+        + (frame == 3 ? "_3" : "");
 
     if (modelMap.containsKey(name)) {
       return modelMap.get(name);

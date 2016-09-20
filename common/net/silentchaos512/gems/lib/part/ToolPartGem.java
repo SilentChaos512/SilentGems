@@ -67,21 +67,22 @@ public class ToolPartGem extends ToolPartMain {
   }
 
   @Override
-  public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos) {
+  public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos, int frame) {
 
     String name = ((IRegistryObject) tool.getItem()).getName();
     name = SilentGems.MOD_ID + ":" + name.toLowerCase() + "/" + name;
     String gemNum = tool.getItem() instanceof ItemGemBow ? "" : "" + gem.ordinal();
+    String frameNum = frame == 3 ? "_3" : "";
 
     switch (pos) {
       case HEAD_LEFT:
-        name += gemNum + "L";
+        name += gemNum + "L" + frameNum;
         break;
       case HEAD_MIDDLE:
-        name += gemNum;
+        name += gemNum + frameNum;
         break;
       case HEAD_RIGHT:
-        name += gemNum + "R";
+        name += gemNum + "R" + frameNum;
         break;
       case ROD_DECO:
         name += "Deco" + gemNum;

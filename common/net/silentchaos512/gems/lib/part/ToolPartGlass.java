@@ -17,7 +17,7 @@ public class ToolPartGlass extends ToolPartMain {
   }
 
   @Override
-  public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos) {
+  public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos, int frame) {
 
     String name = ((IRegistryObject) tool.getItem()).getName();
     name = SilentGems.MOD_ID + ":" + name.toLowerCase() + "/" + name;
