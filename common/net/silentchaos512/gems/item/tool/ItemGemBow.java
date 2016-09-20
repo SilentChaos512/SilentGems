@@ -107,8 +107,9 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
   public float getDrawDelay(ItemStack stack) {
 
-    return 38.4f
-        - 1.4f * ToolHelper.getMeleeSpeed(stack) * ToolHelper.getDigSpeedOnProperMaterial(stack);
+    float mspeed = ToolHelper.getMeleeSpeed(stack);
+    float dspeed = ToolHelper.getDigSpeedOnProperMaterial(stack);
+    return Math.max(38.4f - 1.4f * mspeed * dspeed, 5);
   }
 
   public float getArrowVelocity(ItemStack stack, int charge) {
