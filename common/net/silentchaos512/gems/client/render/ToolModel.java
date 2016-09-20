@@ -21,13 +21,13 @@ import net.minecraft.client.renderer.block.model.ItemTransformVec3f;
 import net.minecraft.client.renderer.block.model.ModelManager;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
-import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
@@ -74,13 +74,14 @@ public class ToolModel implements IPerspectiveAwareModel {
     IBakedModel rodModel = null;
 
     boolean isBroken = ToolHelper.isBroken(tool);
+    Item item = tool.getItem();
 //    SilentGems.instance.logHelper.debug(tool.getItemDamage(), isBroken);
 
     for (EnumPartPosition partPos : EnumPartPosition.values()) {
       if (isBroken) {
-        if ((partPos == EnumPartPosition.HEAD_LEFT && tool.getItem() != ModItems.sword)
-            || partPos == EnumPartPosition.HEAD_MIDDLE
-            || partPos == EnumPartPosition.HEAD_RIGHT
+        if ((partPos == EnumPartPosition.HEAD_LEFT && item != ModItems.sword && item != ModItems.bow)
+            || (partPos == EnumPartPosition.HEAD_MIDDLE && item != ModItems.bow)
+            || (partPos == EnumPartPosition.HEAD_RIGHT && item != ModItems.bow)
             || partPos == EnumPartPosition.TIP) {
 //          SilentGems.instance.logHelper.debug(tool.getDisplayName(), isBroken, partPos);
           continue;

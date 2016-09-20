@@ -377,6 +377,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
     if (frame < 0 || frame > 3)
       return null;
+    if (ToolHelper.isBroken(tool))
+      return modelBlank;
     boolean superTier = ToolHelper.getToolTier(tool) == EnumMaterialTier.SUPER;
     return arrowModels[superTier ? frame + 4 : frame];
   }

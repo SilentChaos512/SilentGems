@@ -2,17 +2,20 @@ package net.silentchaos512.gems.lib.part;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
+import net.silentchaos512.gems.item.tool.ItemGemBow;
+import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class ToolPartFlint extends ToolPartMain {
 
-  public static final int ARMOR_COLOR = 0x424242;
+  public static final int COLOR = 0x424242;
 
   public ToolPartFlint() {
 
@@ -24,19 +27,21 @@ public class ToolPartFlint extends ToolPartMain {
 
     String name = ((IRegistryObject) tool.getItem()).getName();
     name = SilentGems.MOD_ID + ":" + name.toLowerCase() + "/" + name;
+    String mat = tool.getItem() instanceof ItemGemBow ? "" : "Flint";
+    String frameNum = frame == 3 ? "_3" : "";
 
     switch (pos) {
       case HEAD_LEFT:
-        name += "FlintL";
+        name += mat + "L" + frameNum;
         break;
       case HEAD_MIDDLE:
-        name += "Flint";
+        name += mat + frameNum;
         break;
       case HEAD_RIGHT:
-        name += "FlintR";
+        name += mat + "R" + frameNum;
         break;
       case ROD_DECO:
-        name += "DecoFlint";
+        name += "Deco" + mat;
         break;
       default:
         return null;
@@ -48,7 +53,9 @@ public class ToolPartFlint extends ToolPartMain {
   @Override
   public int getColor(ItemStack toolOrArmor) {
 
-    return toolOrArmor.getItem() instanceof IArmor ? ARMOR_COLOR : 0xFFFFFF;
+    Item item = toolOrArmor.getItem();
+    return item instanceof IArmor || item instanceof ItemGemBow || item instanceof ItemGemShield
+        ? COLOR : 0xFFFFFF;
   }
 
   @Override
