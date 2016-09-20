@@ -646,6 +646,7 @@ item.silentgems:CoffeeCup.name=Cup of Coffee
 tool.silentgems:Sword=%s Sword
 tool.silentgems:Katana=%s Katana
 tool.silentgems:Scepter=%s Scepter
+tool.silentgems:Tomahawk=%s Tomahawk
 tool.silentgems:Pickaxe=%s Pickaxe
 tool.silentgems:Shovel=%s Shovel
 tool.silentgems:Axe=%s Axe
@@ -846,6 +847,12 @@ guide.silentgems:items.ironPotato0=It has no use.\n\n\n\n\n\n\n\n\n\n\n\n\nNo, s
 guide.silentgems:items.torchBandolier=Torch Bandolier
 guide.silentgems:items.torchBandolier0=The torch bandolier is an item that can &2store 1024 torches&0, as well as place them. It's even compatible with the 'right-click to place' abilities of mining tools!
 guide.silentgems:items.torchBandolier1=Torches are absorbed automatically. You can toggle this behavior on or off by sneaking and right-clicking in the air.\n\nPlace the bandolier in a crafting grid to extract a stack of torches. Just be sure to turn off auto-fill mode first.
+
+# Tools
+
+guide.silentgems:tools.tomahawk=Tomahawks
+guide.silentgems:tools.tomahawk0=Tomahawks are throwing axes. They can be used as a &2melee weapon&0 and for &2chopping wood&0, but they are not especially good at either. However, &2thrown tomahawks deal a very large amount of damage&0. Right-click to charge, release to throw.
+guide.silentgems:tools.tomahawk1=Thrown tomahawks (both those that hit mobs and those that miss) &2can be recovered&0, but you must be carrying the original with you. It's like each tomahawk item &2has ammo&0, and you can only throw them if you have the "ammo". Ammo count is displayed by the crosshairs.
 
 # Terms
 

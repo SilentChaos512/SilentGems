@@ -20,6 +20,7 @@ public class RecipeMultiGemTool extends RecipeBase {
   public static final String RECIPE_SWORD = "h;h;r";
   public static final String RECIPE_KATANA = "hh;h ;r ";
   public static final String RECIPE_SCEPTER = " h ;hrh;hrh";
+  public static final String RECIPE_TOMAHAWK = "hhh;hr ; r ";
   public static final String RECIPE_PICKAXE = "hhh; r ; r ";
   public static final String RECIPE_SHOVEL = "h;r;r";
   public static final String RECIPE_AXE = "hh;hr; r";
@@ -29,37 +30,33 @@ public class RecipeMultiGemTool extends RecipeBase {
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
 
-    // LogHelper log = GemTest.instance.logHelper;
-
     // 5 part head
-    if (matchesRecipe(inv, RECIPE_SCEPTER)) {
+    if (matchesRecipe(inv, RECIPE_SCEPTER))
       return ModItems.scepter.constructTool(getRodType(inv), getGems(inv));
-    }
+
     // 4 part head
+
     // 3 part head
-    if (matchesRecipe(inv, RECIPE_PICKAXE)) {
+    else if (matchesRecipe(inv, RECIPE_PICKAXE))
       return ModItems.pickaxe.constructTool(getRodType(inv), getGems(inv));
-    }
-    if (matchesRecipe(inv, RECIPE_AXE)) {
+    else if (matchesRecipe(inv, RECIPE_AXE))
       return ModItems.axe.constructTool(getRodType(inv), getGems(inv));
-    }
-    if (matchesRecipe(inv, RECIPE_SICKLE)) {
+    else if (matchesRecipe(inv, RECIPE_SICKLE))
       return ModItems.sickle.constructTool(getRodType(inv), getGems(inv));
-    }
-    if (matchesRecipe(inv, RECIPE_KATANA)) {
+    else if (matchesRecipe(inv, RECIPE_TOMAHAWK))
+      return ModItems.tomahawk.constructTool(getRodType(inv), getGems(inv));
+    else if (matchesRecipe(inv, RECIPE_KATANA))
       return ModItems.katana.constructTool(getRodType(inv), getGems(inv));
-    }
+
     // 2 part head
-    if (matchesRecipe(inv, RECIPE_SWORD)) {
+    else if (matchesRecipe(inv, RECIPE_SWORD))
       return ModItems.sword.constructTool(getRodType(inv), getGems(inv));
-    }
-    if (matchesRecipe(inv, RECIPE_HOE)) {
+    else if (matchesRecipe(inv, RECIPE_HOE))
       return ModItems.hoe.constructTool(getRodType(inv), getGems(inv));
-    }
+
     // 1 part head
-    if (matchesRecipe(inv, RECIPE_SHOVEL)) {
+    else if (matchesRecipe(inv, RECIPE_SHOVEL))
       return ModItems.shovel.constructTool(getRodType(inv), getGems(inv));
-    }
 
     return null;
   }

@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.IAmmoTool;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
@@ -19,7 +20,6 @@ import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.api.tool.part.ToolPartTip;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.recipe.RecipeBase;
-import net.silentchaos512.lib.util.LogHelper;
 
 public class RecipeDecorateTool extends RecipeBase {
 
@@ -100,6 +100,11 @@ public class RecipeDecorateTool extends RecipeBase {
 
     // Repair.
     result.attemptDamageItem(-repairValue, SilentGems.instance.random);
+    // Restore ammo.
+    if (result.getItem() instanceof IAmmoTool) {
+      IAmmoTool ammoTool = (IAmmoTool) result.getItem();
+      ammoTool.addAmmo(result, ammoTool.getMaxAmmo(tool) / 4); // FIXME?
+    }
 
     // Recalculate stats.
     ToolHelper.recalculateStats(result);

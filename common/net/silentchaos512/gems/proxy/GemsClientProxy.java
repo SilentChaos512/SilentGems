@@ -17,8 +17,10 @@ import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.render.ModBlockRenderers;
 import net.silentchaos512.gems.client.render.entity.RenderChaosProjectile;
 import net.silentchaos512.gems.client.render.entity.RenderEntityPacket;
+import net.silentchaos512.gems.client.render.entity.RenderThrownTomahawk;
 import net.silentchaos512.gems.client.render.particle.EntityFXCompass;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
+import net.silentchaos512.gems.entity.EntityThrownTomahawk;
 import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
 import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.guide.GuideSilentGems;
@@ -71,6 +73,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
 
     reg.registerEntityRenderer(EntityChaosNodePacket.class, new RenderEntityPacket());
     reg.registerEntityRenderer(EntityChaosProjectile.class, new RenderChaosProjectile());
+    reg.registerEntityRenderer(EntityThrownTomahawk.class, new RenderThrownTomahawk());
   }
 
   private void registerColorHandlers() {

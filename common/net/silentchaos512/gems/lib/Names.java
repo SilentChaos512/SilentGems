@@ -93,6 +93,7 @@ public class Names {
   public static final String SWORD = "Sword";
   public static final String KATANA = "Katana";
   public static final String SCEPTER = "Scepter";
+  public static final String TOMAHAWK = "Tomahawk";
   public static final String BOW = "Bow";
   public static final String SHIELD = "Shield";
   public static final String PICKAXE = "Pickaxe";

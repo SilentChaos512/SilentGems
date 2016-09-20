@@ -898,6 +898,13 @@ public class ToolHelper {
     return list;
   }
 
+  public static boolean areToolsEqual(ItemStack a, ItemStack b) {
+
+    return a != null && b != null && a.getItem() == b.getItem()
+        && getRootTag(a, NBT_ROOT_CONSTRUCTION).equals(getRootTag(b, NBT_ROOT_CONSTRUCTION))
+        && getRootTag(a, NBT_ROOT_DECORATION).equals(getRootTag(b, NBT_ROOT_DECORATION));
+  }
+
   // ==========================================================================
   // NBT helper methods
   // ==========================================================================

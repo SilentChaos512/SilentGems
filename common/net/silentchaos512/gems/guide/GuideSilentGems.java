@@ -43,11 +43,13 @@ import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class GuideSilentGems {
 
-  private static boolean CRASH_ON_ERROR = false; // Set to true to generate crash reports. Stacktrace also prints to log.
+  private static boolean CRASH_ON_ERROR = false; // Set to true to generate crash reports. Stacktrace also prints to
+                                                 // log.
 
   public static final String GETTING_STARTED = "gettingStarted";
   public static final String BLOCKS = "blocks";
   public static final String ITEMS = "items";
+  public static final String TOOLS = "tools";
   public static final String TERMS = "terms";
 
   public static Book book;
@@ -294,6 +296,24 @@ public class GuideSilentGems {
     String catItems = getString("category." + ITEMS);
     categories.add(new CategoryItemStack(entries, catItems, tokenLooting));
 
+    // ===============
+    // Category: Tools
+    // ===============
+
+    entries = new CategoryMap<>();
+
+    // Entry: Tomahawk
+    prefix = TOOLS + ".tomahawk";
+    pages = getPages(prefix);
+    stack = ToolHelper.constructTool(ModItems.tomahawk, ModItems.craftingMaterial.toolRodIron,
+        EnumGem.RUBY.getItem(), 4);
+    entry = new EntryItemStack(pages, getString(prefix), stack);
+    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+
+    // Add category
+    String catTools = getString("category." + TOOLS);
+    categories.add(new CategoryItemStack(entries, catItems, stack)); // TODO: What stack to display?
+
     // =====================
     // Category: Terminology
     // =====================
@@ -376,7 +396,8 @@ public class GuideSilentGems {
               + " Include a copy of your log file. If you need the guide book now, try installing an older version of Guide-API, if possible.",
           ex);
 
-      if (CRASH_ON_ERROR) throw ex;
+      if (CRASH_ON_ERROR)
+        throw ex;
     }
   }
 
@@ -399,7 +420,8 @@ public class GuideSilentGems {
           "Failed to register guide book model! Report this on the issue tracker for Silent's Gems.",
           ex);
 
-      if (CRASH_ON_ERROR) throw ex;
+      if (CRASH_ON_ERROR)
+        throw ex;
     }
   }
 

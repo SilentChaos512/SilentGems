@@ -39,7 +39,7 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
 
   public static final Material[] extraEffectiveMaterials = { Material.WOOD, Material.LEAVES,
       Material.PLANTS, Material.VINE };
-  private List<ItemStack> subItems = null;
+  protected List<ItemStack> subItems = null;
 
   public ItemGemAxe() {
 

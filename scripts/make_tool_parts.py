@@ -1,8 +1,8 @@
 import re
 from subprocess import call
 
-NAME = 'Katana'
-SUPER_TOOL = True
+NAME = 'Tomahawk'
+SUPER_TOOL = False
 
 TEXTURE = NAME.lower() + '/' + NAME
 MODE = 'item'

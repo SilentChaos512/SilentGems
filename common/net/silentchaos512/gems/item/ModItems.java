@@ -25,6 +25,7 @@ import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.item.tool.ItemGemShovel;
 import net.silentchaos512.gems.item.tool.ItemGemSickle;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
+import net.silentchaos512.gems.item.tool.ItemGemTomahawk;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
@@ -55,6 +56,7 @@ public class ModItems {
   public static final ItemGemSword sword = new ItemGemSword();
   public static final ItemGemKatana katana = new ItemGemKatana();
   public static final ItemGemScepter scepter = new ItemGemScepter();
+  public static final ItemGemTomahawk tomahawk = new ItemGemTomahawk();
   public static final ItemGemBow bow = new ItemGemBow();
   public static final ItemGemShield shield = new ItemGemShield();
   public static final ItemGemPickaxe pickaxe = new ItemGemPickaxe();
@@ -102,6 +104,7 @@ public class ModItems {
     reg.registerItem(sword, Names.SWORD);
     reg.registerItem(katana, Names.KATANA);
     reg.registerItem(scepter, Names.SCEPTER);
+    reg.registerItem(tomahawk, Names.TOMAHAWK);
     reg.registerItem(bow, Names.BOW).setCreativeTab(GemsCreativeTabs.tools);
     reg.registerItem(shield, Names.SHIELD).setCreativeTab(GemsCreativeTabs.tools);
     reg.registerItem(pickaxe, Names.PICKAXE);

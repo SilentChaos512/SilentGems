@@ -5,6 +5,7 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -26,6 +27,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.IAmmoTool;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
@@ -53,6 +55,7 @@ public class GemsClientEvents {
     ModItems.teleporterLinker.renderGameOverlay(event);
     renderCrosshairs(event);
     renderArmorExtra(event);
+    renderAmmoCount(event);
   }
 
   @SubscribeEvent
@@ -205,6 +208,44 @@ public class GemsClientEvents {
 
     GlStateManager.disableBlend();
     GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+  }
+
+  private void renderAmmoCount(RenderGameOverlayEvent event) {
+
+    if (event.getType() != ElementType.TEXT)
+      return;
+
+    int width = event.getResolution().getScaledWidth();
+    int height = event.getResolution().getScaledHeight();
+    FontRenderer fontRender = Minecraft.getMinecraft().fontRendererObj;
+
+    EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+    ItemStack right = player.getHeldItemMainhand();
+    ItemStack left = player.getHeldItemOffhand();
+
+    doAmmoCountWithOffset(left, width, height, -7, 3);
+    doAmmoCountWithOffset(right, width, height, 5, 3);
+  }
+
+  private void doAmmoCountWithOffset(ItemStack tool, int width, int height, int xOffset, int yOffset) {
+
+    if (tool != null && tool.getItem() instanceof IAmmoTool) {
+      FontRenderer fontRender = Minecraft.getMinecraft().fontRendererObj;
+
+      IAmmoTool ammo = (IAmmoTool) tool.getItem();
+      int amount = ammo.getAmmo(tool);
+      String str = "" + amount;
+
+      int stringWidth = fontRender.getStringWidth(str);
+      float scale = 0.7f;
+      int posX = (int) ((width / 2 + xOffset) / scale);
+      int posY = (int) ((height / 2 + yOffset) / scale);
+
+      GlStateManager.pushMatrix();
+      GlStateManager.scale(scale, scale, 1f);
+      fontRender.drawString(str, posX, posY, amount > 0 ? 0xFFFFFF : 0xFF0000);
+      GlStateManager.popMatrix();
+    }
   }
 
   public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width,
