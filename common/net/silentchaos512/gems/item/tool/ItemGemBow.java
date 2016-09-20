@@ -145,6 +145,10 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
     boolean hasAmmo = findAmmo(player) != null
         || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
+    boolean isBroken = ToolHelper.isBroken(stack);
+
+    if (isBroken)
+      return new ActionResult(EnumActionResult.PASS, stack);
 
     ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(stack,
         world, player, hand, hasAmmo);
@@ -182,7 +186,6 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
         }
 
         float velocity = getArrowVelocity(stack, i);
-        SilentGems.logHelper.debug("Bow use: ", i, getDrawDelay(stack), velocity);
 
         if ((double) velocity >= 0.1D) {
           boolean flag1 = player.capabilities.isCreativeMode || (ammo.getItem() instanceof ItemArrow
