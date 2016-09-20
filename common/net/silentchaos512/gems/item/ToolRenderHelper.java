@@ -245,6 +245,9 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     }
   }
 
+  /**
+   * Creates the list of all possible models.
+   */
   protected void buildModelSet() {
 
     if (modelSet != null) {
@@ -281,10 +284,13 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     models = set.toArray(new ModelResourceLocation[set.size()]);
   }
 
+  /**
+   * Gets the animation frame for bows. Returns 0 for everything else.
+   */
   public int getAnimationFrame(ItemStack tool) {
 
     if (tool != null && tool.getItem() instanceof ItemGemBow) {
-      EntityPlayer player = Minecraft.getMinecraft().thePlayer; // TODO: Probably not the best idea...
+      EntityPlayer player = Minecraft.getMinecraft().thePlayer;
       float pull = tool.getItem().getPropertyGetter(ItemGemBow.RESOURCE_PULL).apply(tool,
           player.worldObj, player);
       float pulling = tool.getItem().getPropertyGetter(ItemGemBow.RESOURCE_PULLING).apply(tool,
@@ -301,6 +307,10 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     return 0;
   }
 
+  /**
+   * Gets the model for the specified tool and position. Gets the animation frame on its own. Stores model index in tool
+   * NBT for fast acess.
+   */
   public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos) {
 
     if (tool == null || !tool.hasTagCompound()) {
@@ -312,13 +322,15 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     String key = "Layer" + pos.ordinal() + (frame > 0 ? "_" + frame : "");
     boolean isBow = tool.getItem() instanceof ItemGemBow;
 
-    if (!tags.hasKey(key)) { // FIXME?
+    if (!tags.hasKey(key)) {
+      // Model is currently not indexed! We'll need to figure out what it should be.
 
       // Bow "arrow" models
       if (pos == EnumPartPosition.ROD_GRIP && isBow) {
         return getArrowModel(tool, frame);
       }
 
+      // Get the render part for this position.
       ToolPart part = ToolHelper.getRenderPart(tool, pos);
       if (part == null) {
         tags.setInteger(key, -1);
@@ -326,8 +338,9 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
         return null;
       }
 
+      // Get the desired model for the current position and animation frame.
       ModelResourceLocation target = part.getModel(tool, pos, frame);
-      // SilentGems.instance.logHelper.debug(target);
+      // Find the model in the list. Store the index in NBT for fast access.
       for (int i = 0; i < models.length; ++i) {
         if (models[i].equals(target)) {
           tags.setInteger(key, i);
@@ -335,29 +348,31 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
           return target;
         }
       }
-      // SilentGems.instance.logHelper.derp();
       return modelError;
     }
 
-    // SilentGems.instance.logHelper.debug(models.length, modelSet.size());
-    // SilentGems.instance.logHelper.debug(pos.ordinal() + ": " + tool.getTagCompound().getInteger(key) + ": " +
-    // getModel(tool.getTagCompound().getInteger(key)));
+    // Grab the indexed model.
     return getModel(tags.getInteger(key));
   }
 
+  /**
+   * Gets an indexed model (index stored in tool NBT) for performance reasons. Without this, the framerate takes a HUGE
+   * drop!
+   */
   public ModelResourceLocation getModel(int index) {
 
-    // SilentGems.instance.logHelper.debug(index);
     if (index < 0) {
       return null;
     } else if (index < models.length) {
-      // SilentGems.instance.logHelper.debug(models[index]);
       return models[index];
     } else {
       return modelError;
     }
   }
 
+  /**
+   * Gets the arrow model for the animation frame for bows.
+   */
   public ModelResourceLocation getArrowModel(ItemStack tool, int frame) {
 
     if (frame < 0 || frame > 3)
@@ -385,11 +400,4 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
     return true;
   }
-
-  // FIXME
-  // @Override
-  // public int getColorFromItemStack(ItemStack tool, int pass) {
-  //
-  // return ToolHelper.getColorForPass(tool, pass);
-  // }
 }

@@ -46,6 +46,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
@@ -147,7 +148,8 @@ public class ToolHelper {
       NBTTagCompound compound = tool.getTagCompound()
           .getCompoundTag(ToolRenderHelper.NBT_MODEL_INDEX);
       String str = "Layer" + pos.ordinal();
-      compound.removeTag(str);
+      for (int frame = 0; frame < (tool.getItem() instanceof ItemGemBow ? 4 : 1); ++frame)
+        compound.removeTag(str + (frame > 0 ? "_" + frame : ""));
       compound.removeTag(str + "Color");
     }
 

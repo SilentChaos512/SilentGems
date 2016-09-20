@@ -6,8 +6,8 @@ public enum EnumPartPosition {
   HEAD_MIDDLE(1),
   HEAD_LEFT(2),
   HEAD_RIGHT(3),
-  ROD_GRIP(4),
   ROD_DECO(5),
+  ROD_GRIP(4),
   TIP(6);
 
   public final int renderPass;
