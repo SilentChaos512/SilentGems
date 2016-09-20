@@ -5,6 +5,8 @@ Added: Tomahawks! They can be used as a melee weapon or thrown. Thrown tomahawks
 Added: Recipes for enchantment tokens with some mod enchantments (Ender Core/IO/Zoo)
 Changed: Enchantment Tokens are now sorted (first by type, then by enchantment name)
 Changed: Default Ender Essence ore frequency significantly reduced.
+Fixed: Bows are animated now. Shouldn't have any major performance impact.
+Fixed: Broken bows being destroyed and some other bow bugs.
 Fixed: Gem lamps not responding to redstone (guess that broke in 1.10?)
 
 2.0.29
