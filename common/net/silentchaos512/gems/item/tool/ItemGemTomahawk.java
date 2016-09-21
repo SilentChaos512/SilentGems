@@ -14,7 +14,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -71,7 +73,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public float getBaseMeleeSpeedModifier() {
 
-    return -1.3f;
+    return -1.8f;
   }
 
   @Override
@@ -95,7 +97,6 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public void addAmmo(ItemStack tool, int amount) {
 
-    // TODO
     if (tool != null && tool.hasTagCompound()) {
       int current = getAmmo(tool);
       int newAmount = Math.min(current + amount, getMaxAmmo(tool));
@@ -157,7 +158,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
       EnumHand hand) {
 
     // Prepare to throw
-    if (getAmmo(stack) > 0 || player.capabilities.isCreativeMode) {
+    if (!ToolHelper.isBroken(stack) && (getAmmo(stack) > 0 || player.capabilities.isCreativeMode)) {
       player.setActiveHand(hand);
       return new ActionResult(EnumActionResult.SUCCESS, stack);
     }
@@ -178,19 +179,26 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
         return;
       float speed = MathHelper.clamp_float(1.5f * useDuration / 12, 0.1f,
           EntityThrownTomahawk.MAX_SPEED);
-//      SilentGems.logHelper.debug(speed);
 
       EntityThrownTomahawk projectile = new EntityThrownTomahawk(player, stack, speed);
       projectile.setPosition(player.posX, player.posY + 1.6, player.posZ);
       worldIn.spawnEntityInWorld(projectile);
-//      SilentGems.logHelper.debug(projectile);
 
       // Damage, reduce "ammo" count, increment statistics
-      if (!player.capabilities.isCreativeMode)
+      if (!player.capabilities.isCreativeMode) {
         ToolHelper.attemptDamageTool(stack, 3, player);
-      addAmmo(stack, -1);
+        addAmmo(stack, -1);
+      }
       // TODO: Statistics?
     }
+  }
+
+  @Override
+  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+    // Cancel right-click-to-place.
+    return EnumActionResult.PASS;
   }
 
   @Override
