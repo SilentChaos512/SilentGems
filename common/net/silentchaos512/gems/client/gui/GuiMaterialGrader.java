@@ -39,6 +39,11 @@ public class GuiMaterialGrader extends GuiContainer {
     i1 = getAnalyzeProgress(24);
     drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
 
+    // Chaos stored
+    int chaos = tileInventory.getField(0);
+    i1 = 24 * chaos / TileMaterialGrader.MAX_CHARGE;
+    drawTexturedModalRect(k + 79, l + 34, 176, 31, i1 + 1, 17);
+
     drawDebugInfo();
   }
 
