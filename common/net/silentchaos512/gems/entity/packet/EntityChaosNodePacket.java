@@ -20,7 +20,7 @@ import net.silentchaos512.lib.util.Color;
 public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSpawnData {
 
   public static final double ENTITY_COLLISION_RADIUS_SQUARED = 3.0;
-  public static final double BLOCK_COLLISION_RADIUS_SQUARED = 1.5;
+  public static final double BLOCK_COLLISION_RADIUS_SQUARED = 2.1;
   public static final String NBT_TARGET_ENTITY = "TargetEntity";
   public static final String NBT_TARGET_POS = "TargetPos";
   public static final String NBT_AMOUNT = "Amount";
