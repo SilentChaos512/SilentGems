@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IAmmoTool;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.EntityThrownTomahawk;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -90,8 +91,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public int getMaxAmmo(ItemStack tool) {
 
-    // TODO Auto-generated method stub
-    return 8;
+    return GemsConfig.TOMAHAWK_MAX_AMMO;
   }
 
   @Override

@@ -55,7 +55,8 @@ public class GemsConfig {
    * Tools
    */
 
-  // TODO
+  public static int TOMAHAWK_MAX_AMMO = 4;
+  public static int TOMAHAWK_AMMO_PER_MAT = 1;
 
   /*
    * GUI
@@ -200,6 +201,18 @@ public class GemsConfig {
       RETURN_HOME_MAX_CHARGE = c.getInt("Max Charge", catReturnHome,
           RETURN_HOME_MAX_CHARGE, 0, Integer.MAX_VALUE,
           "The maximum amount of Chaos a charm can hold.");
+      
+      /*
+       * Tools
+       */
+      
+      TOMAHAWK_MAX_AMMO = c.getInt("Tomahawk Max Ammo", CAT_ITEM,
+          TOMAHAWK_MAX_AMMO, 0, Byte.MAX_VALUE,
+          "The maximum \"ammo\" for tomahawks. This is the number that can be thrown before retrieval/repairs"
+          + " are required. Setting this to 0 will make it so tomahawks cannot be thrown.");
+      TOMAHAWK_AMMO_PER_MAT = c.getInt("Tomahawk Ammo per Material", CAT_ITEM,
+          TOMAHAWK_AMMO_PER_MAT, 0, Byte.MAX_VALUE,
+          "The \"ammo\" restored by each material (gem, etc.) when decorating a tomahawk.");
 
       /*
        * GUI

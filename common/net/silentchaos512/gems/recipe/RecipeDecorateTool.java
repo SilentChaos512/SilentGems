@@ -18,6 +18,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.api.tool.part.ToolPartTip;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.recipe.RecipeBase;
 
@@ -32,6 +33,7 @@ public class RecipeDecorateTool extends RecipeBase {
     ItemStack stack;
     ItemStack tool = null;
     int repairValue = 0;
+    int ammoValue = 0;
 
     // Find tool position
     for (int row = 0; row < inv.getWidth(); ++row) {
@@ -76,7 +78,11 @@ public class RecipeDecorateTool extends RecipeBase {
         if (!part.validForToolOfTier(toolTier) && !(part instanceof ToolPartMain)) {
           return null;
         }
-        repairValue += part.getRepairAmount(tool, stack);
+        int repairAmount = part.getRepairAmount(tool, stack);
+        if (repairAmount > 0) {
+          repairValue += repairAmount;
+          ++ammoValue;
+        }
         otherMats.add(stack);
       }
     }
@@ -101,9 +107,9 @@ public class RecipeDecorateTool extends RecipeBase {
     // Repair.
     result.attemptDamageItem(-repairValue, SilentGems.instance.random);
     // Restore ammo.
-    if (result.getItem() instanceof IAmmoTool) {
+    if (result.getItem() instanceof IAmmoTool && ammoValue > 0) {
       IAmmoTool ammoTool = (IAmmoTool) result.getItem();
-      ammoTool.addAmmo(result, ammoTool.getMaxAmmo(tool) / 4); // FIXME?
+      ammoTool.addAmmo(result, ammoValue * GemsConfig.TOMAHAWK_AMMO_PER_MAT);
     }
 
     // Recalculate stats.

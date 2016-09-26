@@ -2,7 +2,10 @@ Silent's Gems - Changelog
 
 2.0.31
 Road to Release! I will be focused on fixing/polishing things instead of new features.
-Added: A Chaos bar to the Material Grader GUI.
+Added: Configs for tomahawk ammo (maximum and the amount restored when decorating).
+Added: A Chaos bar to the Material Grader and Chaos Altar GUIs.
+Changed: Default tomahawk max ammo to 4.
+Changed: Default tomahawk ammo per material when decorating to 1.
 Fixed: Some desync with the Material Grader causing it to display incorrect values. Hopefully. Let me know if issues persist.
 
 2.0.30
