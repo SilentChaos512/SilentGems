@@ -120,7 +120,8 @@ public class PlayerDataHandler {
   public static class PlayerData {
 
     public static final int CHAOS_MAX_TRANSFER = 1000;
-    public static final int COOLDOWN_TIME = 100;
+    public static final int MAGIC_COOLDOWN_TIME = 10;
+    public static final int RECHARGE_COOLDOWN_TIME = 100;
 
     private static final String NBT_CHAOS = "Chaos";
     private static final String NBT_MAX_CHAOS = "MaxChaos";
@@ -128,6 +129,7 @@ public class PlayerDataHandler {
 
     public int chaos;
     public int maxChaos;
+    public int magicCooldown;
     public int rechargeCooldown;
 
     public WeakReference<EntityPlayer> playerWR;
@@ -145,17 +147,26 @@ public class PlayerDataHandler {
 
       EntityPlayer player = playerWR.get();
 
-      // Derp
       if (maxChaos == 0) {
         maxChaos = 10000;
       }
 
+      boolean shouldSave = false;
+
+      // Magic cooldown?
+      if (magicCooldown > 0) {
+        --magicCooldown;
+        shouldSave = true;
+      }
+
       // Recharge cooldown?
       if (rechargeCooldown > 0) {
-        // SilentGems.instance.logHelper.debug(rechargeCooldown);
         --rechargeCooldown;
-        save();
+        shouldSave = true;
       }
+
+      if (shouldSave)
+        save();
     }
 
     public void drainChaos(int amount) {
@@ -164,7 +175,7 @@ public class PlayerDataHandler {
         return;
 
       chaos = Math.max(chaos - amount, 0);
-      rechargeCooldown = COOLDOWN_TIME;
+      rechargeCooldown = RECHARGE_COOLDOWN_TIME;
       save();
       sendUpdateMessage();
     }

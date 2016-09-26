@@ -130,18 +130,21 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
       return false;
     }
 
-    int costToCast = getShotCost(entityLiving, stack);
+    int costToCast = getShotCost(player, stack);
+    int cooldown = getShotCooldown(player, stack);
     PlayerData data = PlayerDataHandler.get(player);
-    if (data.chaos >= costToCast) {
+
+    if (data.chaos >= costToCast && data.magicCooldown <= 0) {
       if (!player.capabilities.isCreativeMode) {
         data.drainChaos(costToCast);
+        data.magicCooldown = cooldown;
         stack.damageItem(1, entityLiving);
       }
 
       ToolHelper.incrementStatShotsFired(stack, 1);
 
       if (!world.isRemote) {
-        for (EntityChaosProjectile shot : getShots(entityLiving, stack)) {
+        for (EntityChaosProjectile shot : getShots(player, stack)) {
           world.spawnEntityInWorld(shot);
         }
       }
@@ -150,7 +153,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
     return super.onEntitySwing(entityLiving, stack);
   }
 
-  private List<EntityChaosProjectile> getShots(EntityLivingBase entityLiving, ItemStack stack) {
+  private List<EntityChaosProjectile> getShots(EntityPlayer player, ItemStack stack) {
 
     List<EntityChaosProjectile> list = Lists.newArrayList();
 
@@ -161,34 +164,53 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
     float damage = getMagicDamage(stack);
     if (stack.getItem() == ModItems.scepter) {
       for (int i = 0; i < 5; ++i) {
-        list.add(new EntityChaosProjectileHoming(entityLiving, stack, damage));
+        list.add(new EntityChaosProjectileHoming(player, stack, damage));
       }
     }
     if (stack.getItem() == ModItems.katana) {
-      list.add(new EntityChaosProjectileSweep(entityLiving, stack, damage, 0.0f));
-      list.add(new EntityChaosProjectileSweep(entityLiving, stack, damage, -0.075f));
-      list.add(new EntityChaosProjectileSweep(entityLiving, stack, damage, 0.075f));
+      list.add(new EntityChaosProjectileSweep(player, stack, damage, 0.0f));
+      list.add(new EntityChaosProjectileSweep(player, stack, damage, -0.075f));
+      list.add(new EntityChaosProjectileSweep(player, stack, damage, 0.075f));
     }
     if (stack.getItem() == ModItems.sword) {
-      list.add(new EntityChaosProjectile(entityLiving, stack, damage));
+      list.add(new EntityChaosProjectile(player, stack, damage));
     }
 
     return list;
   }
 
-  private int getShotCost(EntityLivingBase entityLiving, ItemStack stack) {
+  private int getShotCost(EntityPlayer player, ItemStack stack) {
 
-    // TODO
+    if (player.capabilities.isCreativeMode)
+      return 0;
 
     if (stack != null) {
-      if (stack.getItem() == ModItems.scepter)
-        return 5000;
-      if (stack.getItem() == ModItems.katana)
-        return 2000;
-      if (stack.getItem() == ModItems.sword)
-        return 1000;
+      Item item = stack.getItem();
+      // @formatter:off
+      if (item == ModItems.scepter) return 5000;
+      if (item == ModItems.katana) return 2000;
+      if (item == ModItems.sword) return 1000;
+      // @formatter:on
     }
+
     return 1500;
+  }
+
+  private int getShotCooldown(EntityPlayer player, ItemStack stack) {
+
+    if (player.capabilities.isCreativeMode)
+      return 0;
+
+    if (stack != null) {
+      Item item = stack.getItem();
+      // @formatter:off
+      if (item == ModItems.scepter) return 20;
+      if (item == ModItems.katana) return 10;
+      if (item == ModItems.sword) return 5;
+      // @formatter:on
+    }
+
+    return 10;
   }
 
   @Override
