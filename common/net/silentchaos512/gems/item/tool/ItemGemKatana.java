@@ -43,7 +43,7 @@ public class ItemGemKatana extends ItemGemSword {
     return addDefaultGrip(result);
   }
 
-  private ItemStack addDefaultGrip(ItemStack katana) {
+  public ItemStack addDefaultGrip(ItemStack katana) {
 
     if (katana == null)
       return null;

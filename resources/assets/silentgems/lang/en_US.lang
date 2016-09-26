@@ -850,9 +850,43 @@ guide.silentgems:items.torchBandolier1=Torches are absorbed automatically. You c
 
 # Tools
 
+guide.silentgems:tools.axe=Axes
+guide.silentgems:tools.axe0=Axes are the tool of choice for harvesting wood. They also make good melee weapons. Axes have &2 high damage&0, but are &2very slow&0. They also have the right-click-to-place ability.
+guide.silentgems:tools.axe1=Super-tier axes have the &1Lumberjack&0 ability. Use the "Toggle Special" keybinding to turn it on/off. Lumberjack allows entire trees to be chopped down all at once.
+
+guide.silentgems:tools.bow=Bows
+guide.silentgems:tools.bow0=Bows are ranged weapons capable of firing arrows. They can be constructed with a wide variety of parts, exactly like all other tools. The parts chosen seem to affect how quickly an arrow can be fully drawn.
+
+guide.silentgems:tools.hoe=Hoes
+guide.silentgems:tools.hoe0=Hoes are farming tools capable of tilling dirt. Hoes are rumored to have some great secret, but no evidence has been found. However, carrying a fancy hoe makes you look roughly 232%% more fabulous.
+
+guide.silentgems:tools.katana=Katana
+guide.silentgems:tools.katana0=Katana are swords, but with less melee damage, higher magic damage, and much higher speed. However, &2katana can only be made from super-tier materials!&0 Like swords, katana have magic, but a different variety.
+
+guide.silentgems:tools.pickaxe=Pickaxes
+guide.silentgems:tools.pickaxe0=Pickaxes are used for harvesting most blocks. They work on all materials that vanilla pickaxes work on, as well as some others. They do not make very good weapons, but will do in a pinch. They also have the right-click-to-place ability.
+guide.silentgems:tools.pickaxe1=Super-tier pickaxes have the &1Area Miner&0 ability. Use the "Toggle Special" keybinding to turn it on/off. Area Miner allows the tool to mine a 3x3 area, instead of single blocks.
+
+guide.silentgems:tools.scepter=Scepters
+guide.silentgems:tools.scepter0=Scepters are a type of "sword". They can be used as melee weapons, but are slow and have low damage. However, they excel at magic. Scepters fire a volley of powerful homing shots. They can &2only be made of super-tier materials.&0
+
+guide.silentgems:tools.shield=Shields
+guide.silentgems:tools.shield0=Shields protect the user from incoming attacks. They are modular like all other tools and can even be decorated. The materials affect how much incoming damage is blocked. Unfortunately, they do not support banners.
+
+guide.silentgems:tools.shovel=Shovels
+guide.silentgems:tools.shovel0=Shovels are used for harvesting things like dirt, gravel, and sand. They can also make grass paths and have the right-click-to-place ability. They do not make good weapons.
+guide.silentgems:tools.shovel1=Super-tier shovels have the &1Area Miner&0 ability. Use the "Toggle Special" keybinding to turn it on/off. Area Miner allows the tool to mine a 3x3 area, instead of single blocks.
+
+guide.silentgems:tools.sickle=Sickles
+guide.silentgems:tools.sickle0=Sickles are used for harvesting plants. A few quick swings will clear a large area of plant matter. You can also &2harvest crops while leaving the plants intact&0 by right-clicking.
+
+guide.silentgems:tools.sword=Swords
+guide.silentgems:tools.sword0=Swords are used mostly as a weapon. They have good attack damage and good speed. Super-tier swords can use magic, but deal less magic damage than katanas and scepters.
+
 guide.silentgems:tools.tomahawk=Tomahawks
 guide.silentgems:tools.tomahawk0=Tomahawks are throwing axes. They can be used as a &2melee weapon&0 and for &2chopping wood&0, but they are not especially good at either. However, &2thrown tomahawks deal a very large amount of damage&0. Right-click to charge, release to throw.
 guide.silentgems:tools.tomahawk1=Thrown tomahawks (both those that hit mobs and those that miss) &2can be recovered&0, but you must be carrying the original with you. It's like each tomahawk item &2has ammo&0, and you can only throw them if you have the "ammo". Ammo count is displayed by the crosshairs.
+guide.silentgems:tools.tomahawk2=The time you charge the tomahawk affects both the damage and initial speed. They ignore leaves, but will be slowed down by glass.\n\nAlso note that &2striking an enemy near the head&0 deals additional damage.
 
 # Terms
 

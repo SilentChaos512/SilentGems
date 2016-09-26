@@ -303,16 +303,21 @@ public class GuideSilentGems {
     entries = new CategoryMap<>();
 
     // Entry: Tomahawk
-    prefix = TOOLS + ".tomahawk";
-    pages = getPages(prefix);
-    stack = ToolHelper.constructTool(ModItems.tomahawk, ModItems.craftingMaterial.toolRodIron,
-        EnumGem.RUBY.getItem(), 4);
-    entry = new EntryItemStack(pages, getString(prefix), stack);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    addToolEntry(entries, "axe", ModItems.axe, 3);
+    addToolEntry(entries, "bow", ModItems.bow, 3);
+    addToolEntry(entries, "hoe", ModItems.hoe, 2);
+    addToolEntry(entries, "katana", ModItems.katana, 3);
+    addToolEntry(entries, "pickaxe", ModItems.pickaxe, 3);
+    addToolEntry(entries, "scepter", ModItems.scepter, 5);
+    addToolEntry(entries, "shield", ModItems.shield, 3);
+    addToolEntry(entries, "shovel", ModItems.shovel, 1);
+    addToolEntry(entries, "sickle", ModItems.sickle, 3);
+    addToolEntry(entries, "sword", ModItems.sword, 2);
+    addToolEntry(entries, "tomahawk", ModItems.tomahawk, 4);
 
     // Add category
     String catTools = getString("category." + TOOLS);
-    categories.add(new CategoryItemStack(entries, catItems, stack)); // TODO: What stack to display?
+    categories.add(new CategoryItemStack(entries, catTools, katanaEnchPre));
 
     // =====================
     // Category: Terminology
@@ -456,5 +461,26 @@ public class GuideSilentGems {
     }
 
     return list;
+  }
+
+  private static void addToolEntry(Map<ResourceLocation, EntryAbstract> entries, String toolName,
+      Item toolItem, int headCount) {
+
+    // Get the pages
+    String prefix = TOOLS + "." + toolName;
+    List<IPage> pages = getPages(prefix);
+
+    // Use a random gem to generate a tool for the entry icon.
+    EnumGem gem = EnumGem.values()[SilentGems.random.nextInt(EnumGem.values().length)];
+    boolean superTool = toolItem == ModItems.katana || toolItem == ModItems.scepter;
+    ItemStack stack = ToolHelper.constructTool(toolItem,
+        superTool ? ModItems.craftingMaterial.toolRodSilver : ModItems.craftingMaterial.toolRodIron,
+        superTool ? gem.getItemSuper() : gem.getItem(), headCount);
+    if (toolItem == ModItems.katana)
+      stack = ModItems.katana.addDefaultGrip(stack);
+
+    // Create and add the entry.
+    EntryItemStack entry = new EntryItemStack(pages, getString(prefix), stack);
+    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
   }
 }

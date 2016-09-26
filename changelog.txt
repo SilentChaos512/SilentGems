@@ -4,9 +4,12 @@ Silent's Gems - Changelog
 Road to Release! I will be focused on fixing/polishing things instead of new features.
 Added: Configs for tomahawk ammo (maximum and the amount restored when decorating).
 Added: A Chaos bar to the Material Grader and Chaos Altar GUIs.
+Added: You can now get headshots with tomahawks, which deal double damage.
+Added: Particles (damage dealt and crit) for tomahawks.
 Changed: Default tomahawk max ammo to 4.
 Changed: Default tomahawk ammo per material when decorating to 1.
 Fixed: Some desync with the Material Grader causing it to display incorrect values. Hopefully. Let me know if issues persist.
+Fixed: Materials that restore no durability when decorating will no longer restore ammo.
 
 2.0.30
 Added: Tomahawks! They can be used as a melee weapon or thrown. Throwing them deals much more damage. Thrown tomahawks can be retrieved by walking over them. Lost tomahawks ("ammo") can be replaced by decorating. They can also chop wood, but not very well.
