@@ -16,11 +16,11 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 
 public class ArmorHelper {
 
-  public static final float VARIETY_BONUS = ToolHelper.VARIETY_BONUS;
   public static final int PROTECTION_CAP = 39;
 
   /*
@@ -96,7 +96,7 @@ public class ArmorHelper {
 
     // Variety bonus
     int variety = MathHelper.clamp_int(uniqueParts.size(), 1, 3);
-    float bonus = 1.0f + VARIETY_BONUS * (variety - 1);
+    float bonus = 1.0f + GemsConfig.VARIETY_BONUS * (variety - 1);
 
     // Average stats
     float durability = bonus * sumDurability / parts.length;

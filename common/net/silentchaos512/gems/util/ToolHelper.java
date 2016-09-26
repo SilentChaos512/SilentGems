@@ -64,7 +64,6 @@ public class ToolHelper {
   public static final String[] TOOL_CLASSES = { "Sword", "Pickaxe", "Shovel", "Axe", "Hoe",
       "Sickle", "Bow" };
 
-  public static final float VARIETY_BONUS = 0.075f;
   public static final int CHECK_NAME_FREQUENCY = 10;
 
   /*
@@ -208,7 +207,7 @@ public class ToolHelper {
 
     // Variety bonus
     int variety = MathHelper.clamp_int(uniqueParts.size(), 1, 3);
-    float bonus = 1.0f + VARIETY_BONUS * (variety - 1);
+    float bonus = 1.0f + GemsConfig.VARIETY_BONUS * (variety - 1);
 
     // Average head parts
     float durability = bonus * sumDurability / parts.length;

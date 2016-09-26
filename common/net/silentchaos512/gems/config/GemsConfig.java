@@ -55,6 +55,7 @@ public class GemsConfig {
    * Tools
    */
 
+  public static float VARIETY_BONUS = 0.075f;
   public static int TOMAHAWK_MAX_AMMO = 4;
   public static int TOMAHAWK_AMMO_PER_MAT = 1;
 
@@ -109,6 +110,7 @@ public class GemsConfig {
   public static final String CAT_GUI = CAT_MAIN + split + "GUI";
   public static final String CAT_ITEM = CAT_MAIN + split + "Items";
   public static final String CAT_RECIPE = CAT_MAIN + split + "Recipes";
+  public static final String CAT_TOOLS = CAT_ITEM + split + "Tools";
   public static final String CAT_TOOLTIPS = CAT_MAIN + split + "Tooltips";
   public static final String CAT_WORLD_GEN = CAT_MAIN + split + "World Generation";
   public static final String CAT_WORLD_GEN_GEM_WEIGHT = CAT_WORLD_GEN + split + "Gem Weights";
@@ -206,11 +208,15 @@ public class GemsConfig {
        * Tools
        */
       
-      TOMAHAWK_MAX_AMMO = c.getInt("Tomahawk Max Ammo", CAT_ITEM,
+      VARIETY_BONUS = c.getFloat("Variety Bonus", CAT_TOOLS,
+          VARIETY_BONUS, 0f, 1f,
+          "The \"variety bonus\" for mixed-material tools and armor. Default is a 7.5% bonus for each"
+          + " additional unique part.");
+      TOMAHAWK_MAX_AMMO = c.getInt("Tomahawk Max Ammo", CAT_TOOLS,
           TOMAHAWK_MAX_AMMO, 0, Byte.MAX_VALUE,
           "The maximum \"ammo\" for tomahawks. This is the number that can be thrown before retrieval/repairs"
           + " are required. Setting this to 0 will make it so tomahawks cannot be thrown.");
-      TOMAHAWK_AMMO_PER_MAT = c.getInt("Tomahawk Ammo per Material", CAT_ITEM,
+      TOMAHAWK_AMMO_PER_MAT = c.getInt("Tomahawk Ammo per Material", CAT_TOOLS,
           TOMAHAWK_AMMO_PER_MAT, 0, Byte.MAX_VALUE,
           "The \"ammo\" restored by each material (gem, etc.) when decorating a tomahawk.");
 

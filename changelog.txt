@@ -6,6 +6,7 @@ Added: Configs for tomahawk ammo (maximum and the amount restored when decoratin
 Added: A Chaos bar to the Material Grader and Chaos Altar GUIs.
 Added: You can now get headshots with tomahawks, which deal double damage.
 Added: Particles (damage dealt and crit) for tomahawks.
+Added: Config to change the variety bonus for mixed-material tools.
 Changed: Default tomahawk max ammo to 4.
 Changed: Default tomahawk ammo per material when decorating to 1.
 Fixed: Some desync with the Material Grader causing it to display incorrect values. Hopefully. Let me know if issues persist.
