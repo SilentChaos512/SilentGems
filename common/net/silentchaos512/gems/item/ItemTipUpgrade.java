@@ -45,7 +45,7 @@ public class ItemTipUpgrade extends ItemSL {
 
       tooltipLine(loc, list, "durability", part.getDurability());
       tooltipLine(loc, list, "harvestSpeed", part.getHarvestSpeed());
-      tooltipLine(loc, list, "attackSpeed", part.getMeleeSpeed());
+      // tooltipLine(loc, list, "attackSpeed", part.getMeleeSpeed());
       tooltipLine(loc, list, "meleeDamage", part.getMeleeDamage());
       tooltipLine(loc, list, "magicDamage", part.getMagicDamage());
     }
@@ -62,14 +62,6 @@ public class ItemTipUpgrade extends ItemSL {
     String line = loc.getItemSubText(itemName, key, numberString);
     list.add(String.format(line, numberString));
   }
-
-  // public EnumTipUpgrade getTipForUpgrade(int meta) {
-  //
-  // if (meta >= 0 && meta < EnumTipUpgrade.values().length - 1) {
-  // return EnumTipUpgrade.values()[meta - 1];
-  // }
-  // return EnumTipUpgrade.NONE;
-  // }
 
   public ItemStack applyToTool(ItemStack tool, ItemStack upgrade) {
 
