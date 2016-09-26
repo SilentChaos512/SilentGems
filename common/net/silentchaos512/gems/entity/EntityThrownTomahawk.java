@@ -13,6 +13,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -21,7 +22,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.silentchaos512.gems.SilentGems;
@@ -154,69 +155,106 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
   protected void onImpact(RayTraceResult result) {
 
     // TODO Auto-generated method stub
-    if (result.typeOfHit == Type.ENTITY && result.entityHit != thrower && !hasHit) {
-      Entity entityHit = result.entityHit;
-      hasHit = true;
-      motionX = 0.001f * SilentGems.random.nextGaussian();
-      motionY = Math.abs(0.01f * SilentGems.random.nextGaussian());
-      motionZ = 0.001f * SilentGems.random.nextGaussian();
-      if (worldObj.isRemote)
-        return;
+    if (result.typeOfHit == Type.ENTITY && result.entityHit != thrower && !hasHit)
+      onImpactWithEntity(result);
+    else if (result.typeOfHit == Type.BLOCK)
+      onImpactWithBlock(result);
+  }
 
-      if (entityHit instanceof EntityLivingBase) {
-        // Deal damage
-        float damageDealt = ModItems.tomahawk.getThrownDamage(thrownStack) * initialSpeed
-            / MAX_SPEED;
-        if (thrower instanceof EntityPlayer)
-          entityHit.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) thrower),
-              damageDealt);
-        else
-          entityHit.attackEntityFrom(DamageSource.causeThrownDamage(thrower, entityHit),
-              damageDealt);
+  protected void onImpactWithEntity(RayTraceResult result) {
 
-        // Play attack sound
-        worldObj.playSound(null, posX, posY, posZ, SoundEvents.ENTITY_PLAYER_ATTACK_STRONG,
-            SoundCategory.PLAYERS, 0.75f, 1f);
+    Entity entityHit = result.entityHit;
+    hasHit = true;
+    motionX = 0.001f * SilentGems.random.nextGaussian();
+    motionY = Math.abs(0.01f * SilentGems.random.nextGaussian());
+    motionZ = 0.001f * SilentGems.random.nextGaussian();
+    if (worldObj.isRemote)
+      return;
+
+    if (entityHit instanceof EntityLivingBase) {
+      EntityLivingBase entityLiving = (EntityLivingBase) entityHit;
+      // Deal damage
+      float entityHealthBeforeDamage = entityLiving.getHealth();
+      boolean headshot = isHeadshot(result);
+      float damageDealt = ModItems.tomahawk.getThrownDamage(thrownStack) * initialSpeed / MAX_SPEED;
+      if (headshot)
+        damageDealt *= 2.0f;
+
+      if (thrower instanceof EntityPlayer)
+        entityHit.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) thrower),
+            damageDealt);
+      else
+        entityHit.attackEntityFrom(DamageSource.causeThrownDamage(thrower, entityHit), damageDealt);
+
+      // Play attack sound
+      worldObj.playSound(null, posX, posY, posZ, headshot ? SoundEvents.ENTITY_PLAYER_ATTACK_CRIT
+          : SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, SoundCategory.PLAYERS, 0.75f, 1f);
+
+      // Spawn particles
+      if (worldObj instanceof WorldServer) {
+        WorldServer world = (WorldServer) worldObj;
+        float healthDiff = entityHealthBeforeDamage - entityLiving.getHealth();
+        world.spawnParticle(EnumParticleTypes.DAMAGE_INDICATOR, entityHit.posX,
+            entityHit.posY + entityHit.height / 2, entityHit.posZ, (int) (healthDiff / 2), 0.1, 0.0,
+            0.1, 0.2);
+
+        if (headshot && thrower instanceof EntityPlayer)
+          ((EntityPlayer) thrower).onCriticalHit(entityHit);
       }
-    } else if (result.typeOfHit == Type.BLOCK) {
-      // Get info on block hit
-      BlockPos pos = result.getBlockPos();
-      IBlockState state = worldObj.getBlockState(pos);
-      Block block = state.getBlock();
-      AxisAlignedBB boundingBox = state.getBoundingBox(worldObj, pos);
+    }
+  }
 
-      // Collide only if it has a bounding box.
-      if (boundingBox != null) {
-        // Break glass blocks! But slows it down.
-        if ((block == Blocks.GLASS || block == Blocks.GLASS_PANE || block == Blocks.STAINED_GLASS
-            || block == Blocks.STAINED_GLASS_PANE)) {
-          if (!worldObj.isRemote) {
-            worldObj.setBlockToAir(pos);
-            worldObj.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1f,
-                1f);
-          }
-          motionX *= 0.7f;
-          motionZ *= 0.7f;
+  protected boolean isHeadshot(RayTraceResult result) {
+
+    Entity entity = result.entityHit;
+    float eyeHeight = entity.getEyeHeight();
+    float height = entity.height;
+
+    float minY = (float) (entity.posY + eyeHeight - height / 7);
+    float maxY = (float) (entity.posY + eyeHeight + height / 2);
+
+    return posY > minY && posY < maxY;
+  }
+
+  protected void onImpactWithBlock(RayTraceResult result) {
+
+    // Get info on block hit
+    BlockPos pos = result.getBlockPos();
+    IBlockState state = worldObj.getBlockState(pos);
+    Block block = state.getBlock();
+    AxisAlignedBB boundingBox = state.getBoundingBox(worldObj, pos);
+
+    // Collide only if it has a bounding box.
+    if (boundingBox != null) {
+      // Break glass blocks! But slows it down.
+      if ((block == Blocks.GLASS || block == Blocks.GLASS_PANE || block == Blocks.STAINED_GLASS
+          || block == Blocks.STAINED_GLASS_PANE)) {
+        if (!worldObj.isRemote) {
+          worldObj.setBlockToAir(pos);
+          worldObj.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1f,
+              1f);
         }
-        // Ignore leaves
-        else if (state.getMaterial() == Material.LEAVES) {
+        motionX *= 0.7f;
+        motionZ *= 0.7f;
+      }
+      // Ignore leaves
+      else if (state.getMaterial() == Material.LEAVES) {
+        SoundEvent sound = block.getSoundType(state, worldObj, pos, this).getPlaceSound();
+        worldObj.playSound(null, pos, sound, SoundCategory.BLOCKS, 0.25f, 1f);
+      }
+      // Stop if we hit anything else
+      else {
+        if (motionX > 0.1f || motionZ > 0.1f) {
           SoundEvent sound = block.getSoundType(state, worldObj, pos, this).getPlaceSound();
-          worldObj.playSound(null, pos, sound, SoundCategory.BLOCKS, 0.25f, 1f);
+          worldObj.playSound(null, pos, sound, SoundCategory.BLOCKS, 1f, 1f);
         }
-        // Stop if we hit anything else
-        else {
-          if (motionX > 0.1f || motionZ > 0.1f) {
-            SoundEvent sound = block.getSoundType(state, worldObj, pos, this).getPlaceSound();
-            worldObj.playSound(null, pos, sound, SoundCategory.BLOCKS, 1f, 1f);
-          }
 
-          // Stop the tomahawk.
-          hasHit = true;
-          inAir = false;
-          motionX = 0;
-          motionY = 0;
-          motionZ = 0;
-        }
+        // Stop the tomahawk.
+        hasHit = true;
+        inAir = false;
+        motionX = 0;
+        motionY = 0;
+        motionZ = 0;
       }
     }
   }
