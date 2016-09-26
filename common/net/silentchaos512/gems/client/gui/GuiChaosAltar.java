@@ -7,6 +7,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.inventory.ContainerChaosAltar;
 import net.silentchaos512.gems.tile.TileChaosAltar;
+import net.silentchaos512.gems.tile.TileMaterialGrader;
 
 public class GuiChaosAltar extends GuiContainer {
 
@@ -25,9 +26,9 @@ public class GuiChaosAltar extends GuiContainer {
   @Override
   protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 
-    String str = "%d / %d";
-    str = String.format(str, tileAltar.getCharge(), tileAltar.getMaxCharge());
-    this.fontRendererObj.drawString(str, 8, 6, 0x404040);
+    // String str = "%d / %d";
+    // str = String.format(str, tileAltar.getCharge(), tileAltar.getMaxCharge());
+    // this.fontRendererObj.drawString(str, 8, 6, 0x404040);
   }
 
   @Override
@@ -38,5 +39,10 @@ public class GuiChaosAltar extends GuiContainer {
     int k = (this.width - this.xSize) / 2;
     int l = (this.height - this.ySize) / 2;
     this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
+
+    // Chaos stored
+    int chaos = tileAltar.getField(0);
+    int i1 = 24 * chaos / TileChaosAltar.MAX_CHAOS_STORED;
+    drawTexturedModalRect(k + 79, l + 34, 176, 31, i1, 17);
   }
 }

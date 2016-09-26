@@ -224,7 +224,7 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
   @Override
   public int getField(int id) {
 
-    // TODO Auto-generated method stub
+    if (id == 0) return chaosStored;
     return 0;
   }
 
