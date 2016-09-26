@@ -7,6 +7,8 @@ import com.google.common.collect.Lists;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.silentchaos512.gems.SilentGems;
@@ -16,6 +18,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.util.DimensionalPosition;
 
 public class TileMaterialGrader extends TileBasicInventory
     implements ISidedInventory, ITickable, IChaosAccepter {
@@ -58,10 +61,6 @@ public class TileMaterialGrader extends TileBasicInventory
 
   @Override
   public void update() {
-
-//    if (!worldObj.isRemote)
-//      SilentGems.instance.logHelper.debug(chaosStored, progress, getStackInSlot(0),
-//          getStackInSlot(1));
 
     ItemStack input = getStackInSlot(SLOT_INPUT);
     ToolPart part = input != null ? ToolPartRegistry.fromStack(input) : null;
@@ -130,6 +129,33 @@ public class TileMaterialGrader extends TileBasicInventory
   }
 
   @Override
+  public SPacketUpdateTileEntity getUpdatePacket() {
+
+    NBTTagCompound tags = new NBTTagCompound();
+    tags.setInteger("Energy", getCharge());
+    tags.setInteger("Progess", progress);
+    return new SPacketUpdateTileEntity(pos, getBlockMetadata(), tags);
+  }
+
+  @Override
+  public NBTTagCompound getUpdateTag() {
+
+    NBTTagCompound tags = super.getUpdateTag();
+    tags.setInteger("Energy", getCharge());
+    tags.setInteger("Progess", progress);
+    return tags;
+  }
+
+  @Override
+  public final void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+
+    super.onDataPacket(net, pkt);
+    NBTTagCompound tags = pkt.getNbtCompound();
+    chaosStored = tags.getInteger("Energy");
+    progress = tags.getInteger("Progress");
+  }
+
+  @Override
   public void readFromNBT(NBTTagCompound compound) {
 
     super.readFromNBT(compound);
@@ -182,16 +208,12 @@ public class TileMaterialGrader extends TileBasicInventory
   @Override
   public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
 
-//    ToolPart part = itemStackIn != null ? ToolPartRegistry.fromStack(itemStackIn) : null;
-//    return index == SLOT_INPUT && direction != EnumFacing.DOWN && part instanceof ToolPartMain;
     return isItemValidForSlot(index, itemStackIn);
   }
 
   @Override
   public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
 
-    // SilentGems.instance.logHelper.debug(index, direction, index == SLOT_OUTPUT && direction == EnumFacing.DOWN);
-//    return index == SLOT_OUTPUT && direction == EnumFacing.DOWN;
     return true;
   }
 

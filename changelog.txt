@@ -1,7 +1,12 @@
 Silent's Gems - Changelog
 
+2.0.31
+Road to Release! I will be focused on fixing/polishing things instead of new features.
+Added: A Chaos bar to the Material Grader GUI.
+Fixed: Some desync with the Material Grader causing it to display incorrect values. Hopefully. Let me know if issues persist.
+
 2.0.30
-Added: Tomahawks! They can be used as a melee weapon or thrown. Thrown tomahawks can be retrieved by walking over them. Lost tomahawks ("ammo") can be replaced by decorating.
+Added: Tomahawks! They can be used as a melee weapon or thrown. Throwing them deals much more damage. Thrown tomahawks can be retrieved by walking over them. Lost tomahawks ("ammo") can be replaced by decorating. They can also chop wood, but not very well.
 Added: Recipes for enchantment tokens with some mod enchantments (Ender Core/IO/Zoo)
 Changed: Enchantment Tokens are now sorted (first by type, then by enchantment name)
 Changed: Default Ender Essence ore frequency significantly reduced.
