@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.event;
 
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityRabbit;
@@ -8,9 +9,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -20,6 +21,7 @@ import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Greetings;
@@ -99,8 +101,28 @@ public class GemsCommonEvents {
   }
 
   @SubscribeEvent
-  public void onLivingHurt(LivingHurtEvent event) {
+  public void onLifeSteal(LivingAttackEvent event) {
 
+    if (event.getSource().getEntity() instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) event.getSource().getEntity();
+      ItemStack mainHand = player.getHeldItemMainhand();
+      ItemStack offHand = player.getHeldItemOffhand();
+      int lifeStealLevel = 0;
+
+      // Life Steal on main?
+      if (mainHand != null)
+        lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal, mainHand);
+      // If not, is it on off hand?
+      if (lifeStealLevel < 1 && offHand != null)
+        lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal, offHand);
+
+      // Do life steal?
+      if (lifeStealLevel > 0) {
+        float amount = Math.min(event.getAmount(), event.getEntityLiving().getHealth());
+        float healAmount = ModEnchantments.lifeSteal.getAmountHealed(lifeStealLevel, amount);
+        player.heal(healAmount);
+      }
+    }
   }
 
   @SubscribeEvent

@@ -7,16 +7,18 @@ import net.silentchaos512.gems.SilentGems;
 
 public class ModEnchantments {
 
+  public static EnchantmentLifeSteal lifeSteal = new EnchantmentLifeSteal();
   public static EnchantmentMagicDamage magicDamage = new EnchantmentMagicDamage();
 
   public static void init() {
 
-    register(new ResourceLocation(SilentGems.MOD_ID, EnchantmentMagicDamage.NAME), magicDamage);
+    register(EnchantmentLifeSteal.NAME, lifeSteal);
+    register(EnchantmentMagicDamage.NAME, magicDamage);
   }
 
-  private static void register(ResourceLocation name, Enchantment ench) {
+  private static void register(String name, Enchantment ench) {
 
-    ench.setRegistryName(name);
+    ench.setRegistryName(new ResourceLocation(SilentGems.MOD_ID, name));
     GameRegistry.register(ench);
   }
 }
