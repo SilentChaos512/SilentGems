@@ -72,6 +72,18 @@ public class ColorHandlers {
       }
     }, ModItems.gemShard);
 
+    // Enchantment Tokens
+    itemColors.registerItemColorHandler(new IItemColor() {
+
+      @Override
+      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+
+        if (tintIndex == 1)
+          return ModItems.enchantmentToken.getOutlineColor(stack);
+        return 0xFFFFFF;
+      }
+    }, ModItems.enchantmentToken);
+
     // Return Home Charm
     itemColors.registerItemColorHandler(new IItemColor() {
 

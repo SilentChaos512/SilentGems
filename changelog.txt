@@ -2,6 +2,8 @@ Silent's Gems - Changelog
 
 2.0.32
 Added: Concentration enchantment, which boosts magic damage. Cannot be applied with other damage-boosting enchantments (Sharpness, etc.)
+Added: Life Steal enchantment is back. Restores your health a bit when you deal damage. Token recipe is different.
+Added: A colored outline for enchantment tokens. Should make finding the one you want a bit easier.
 Changed: Small buff to magic damage.
 Fixed: Enchantment tokens allowing conflicting enchantments to be applied.
 

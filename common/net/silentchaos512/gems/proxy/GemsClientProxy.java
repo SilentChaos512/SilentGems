@@ -44,6 +44,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
     MinecraftForge.EVENT_BUS.register(ModItems.toolRenderHelper);
     registry.clientPreInit();
     ModBlockRenderers.init(SilentGems.instance.registry);
+    ModItems.enchantmentToken.setColorsForDefaultTokens();
   }
 
   @Override

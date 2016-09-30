@@ -24,6 +24,7 @@ import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
@@ -34,6 +35,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
@@ -59,6 +61,7 @@ public class ItemEnchantmentToken extends ItemSL {
 
   private Map<String, Integer> modelMap = new HashMap<>();
   private Map<Enchantment, String> recipeMap = new HashMap<>();
+  private Map<Enchantment, Integer> colorMap = new HashMap<>();
   private boolean modRecipesInitialized = false;
 
   public static final int BLANK_META = 256;
@@ -139,8 +142,8 @@ public class ItemEnchantmentToken extends ItemSL {
 
       // Does new enchantment conflict with any existing ones?
       for (Enchantment enchTool : enchantmentsOnTool.keySet()) {
-        if (!ench.equals(enchTool) && (!ench.canApplyTogether(enchTool)
-            || !enchTool.canApplyTogether(ench)))
+        if (!ench.equals(enchTool)
+            && (!ench.canApplyTogether(enchTool) || !enchTool.canApplyTogether(ench)))
           return false;
       }
     }
@@ -289,6 +292,45 @@ public class ItemEnchantmentToken extends ItemSL {
     return super.getNameForStack(stack) + (!stack.isItemEnchanted() ? "_Blank" : "");
   }
 
+  // =====================
+  // = Rendering methods =
+  // =====================
+
+  @Override
+  public boolean hasEffect(ItemStack stack) {
+
+    return false;
+  }
+
+  public static float OUTLINE_PULSATE_SPEED = 1f / (3f * (float) Math.PI);
+
+  public int getOutlineColor(ItemStack stack) {
+
+    Enchantment ench = getSingleEnchantment(stack);
+    if (ench != null && colorMap.containsKey(ench)) {
+      int k = colorMap.get(ench);
+      int r = (k >> 16) & 255;
+      int g = (k >> 8) & 255;
+      int b = k & 255;
+
+      int j = (int) (160 * MathHelper.sin(ClientTickHandler.ticksInGame * OUTLINE_PULSATE_SPEED));
+      j = MathHelper.clamp_int(j, 0, 255);
+      r = MathHelper.clamp_int(r + j, 0, 255);
+      g = MathHelper.clamp_int(g + j, 0, 255);
+      b = MathHelper.clamp_int(b + j, 0, 255);
+      return (r << 16) | (g << 8) | b;
+    }
+    return 0xFFFFFF;
+  }
+
+  /**
+   * Token outline colors can be customized here.
+   */
+  public void setColorsForDefaultTokens() {
+
+    // colorMap.put(Enchantments.UNBREAKING, 0x0000FF); // example
+  }
+
   // =========================
   // IRegistryObject overrides
   // =========================
@@ -385,6 +427,10 @@ public class ItemEnchantmentToken extends ItemSL {
         || (ench == Enchantments.MENDING && GemsConfig.RECIPE_TOKEN_MENDING_DISABLE)) {
       return;
     }
+
+    // Add a default outline color based on gem color.
+    if (!colorMap.containsKey(ench))
+      colorMap.put(ench, gem.getColor());
 
     String line1 = "g g";
     String line2 = otherCount > 3 ? "oto" : " t ";
