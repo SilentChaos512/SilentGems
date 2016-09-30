@@ -122,25 +122,33 @@ public class ItemEnchantmentToken extends ItemSL {
     }
 
     // Get enchantments on token.
-    Map<Enchantment, Integer> enchMap = EnchantmentHelper.getEnchantments(token);
-    if (enchMap.isEmpty()) {
+    Map<Enchantment, Integer> enchantmentsOnToken = EnchantmentHelper.getEnchantments(token);
+    if (enchantmentsOnToken.isEmpty())
       return false;
-    }
+
+    // Get enchantments on tool.
+    Map<Enchantment, Integer> enchantmentsOnTool = EnchantmentHelper.getEnchantments(tool);
 
     // Make sure all enchantments can apply to the tool.
-    for (Entry<Enchantment, Integer> entry : enchMap.entrySet()) {
+    for (Entry<Enchantment, Integer> entry : enchantmentsOnToken.entrySet()) {
       Enchantment ench = entry.getKey();
-      if (!ench.canApply(tool)) {
+      // Valid for tool?
+      if (!ench.canApply(tool))
         return false;
+
+      // Does new enchantment conflict with any existing ones?
+      for (Enchantment enchTool : enchantmentsOnTool.keySet()) {
+        if (!ench.equals(enchTool) && (!ench.canApplyTogether(enchTool)
+            || !enchTool.canApplyTogether(ench)))
+          return false;
       }
     }
 
     // Appy enchantments to new copy of tool.
-    Map<Enchantment, Integer> existingEnchMap = EnchantmentHelper.getEnchantments(tool);
-    if (!mergeEnchantmentLists(enchMap, existingEnchMap)) {
+    if (!mergeEnchantmentLists(enchantmentsOnToken, enchantmentsOnTool)) {
       return false;
     }
-    EnchantmentHelper.setEnchantments(enchMap, tool);
+    EnchantmentHelper.setEnchantments(enchantmentsOnToken, tool);
     return true;
   }
 
