@@ -20,6 +20,7 @@ import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.ModEntities;
 import net.silentchaos512.gems.guide.GuideSilentGems;
 import net.silentchaos512.gems.item.ModItems;
@@ -97,6 +98,7 @@ public class SilentGems {
 
     ModBlocks.init();
     ModItems.init();
+    ModEnchantments.init();
     ModRecipes.init();
     ModParts.init();
 

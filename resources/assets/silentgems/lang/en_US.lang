@@ -680,6 +680,11 @@ donut.silentgems:8=You feel... something.
 
 
 
+# Enchantments
+enchantment.silentgems:MagicDamage=Concentration
+
+
+
 # Misc
 
 misc.silentgems:ChaosCharge=Chaos: %,d / %,d

@@ -8,6 +8,7 @@ import com.google.common.collect.Multimap;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -24,6 +25,8 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+import net.silentchaos512.gems.enchantment.EnchantmentMagicDamage;
+import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.EntityChaosProjectileHoming;
 import net.silentchaos512.gems.entity.EntityChaosProjectileSweep;
@@ -82,6 +85,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
   @Override
   public float getMagicDamage(ItemStack tool) {
 
+    int magicEnchLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.magicDamage, tool);
     return 2.0f + ToolHelper.getMagicDamage(tool);
   }
 
@@ -161,7 +165,14 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
       return list;
     }
 
-    float damage = getMagicDamage(stack);
+    // Calculate magic damage.
+    // Includes player "magic strength" (currently just a constant 1, might do something with it later).
+    float damage = 1f + getMagicDamage(stack);
+    // Magic damage enchantment
+    int magicEnchLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.magicDamage, stack);
+    if (magicEnchLevel > 0)
+      damage += ModEnchantments.magicDamage.calcDamage(magicEnchLevel);
+
     if (stack.getItem() == ModItems.scepter) {
       for (int i = 0; i < 5; ++i) {
         list.add(new EntityChaosProjectileHoming(player, stack, damage));

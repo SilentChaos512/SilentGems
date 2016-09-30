@@ -1,5 +1,10 @@
 Silent's Gems - Changelog
 
+2.0.32
+Added: Concentration enchantment, which boosts magic damage. Cannot be applied with other damage-boosting enchantments (Sharpness, etc.)
+Changed: Small buff to magic damage.
+Fixed: Enchantment tokens allowing conflicting enchantments to be applied.
+
 2.0.31
 Road to Release! I will be focused on fixing/polishing things instead of new features.
 Added: Configs for tomahawk ammo (maximum and the amount restored when decorating).
