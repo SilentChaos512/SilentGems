@@ -12,6 +12,7 @@ import net.silentchaos512.lib.util.PlayerHelper;
 
 public class Greetings {
 
+  public static boolean IS_BETA_BUILD = true;
   public static final String PREFIX = "[Silent's Gems] BETA: ";
   // @formatter:off
   public static final String[] LINES = new String[] {
@@ -36,20 +37,35 @@ public class Greetings {
 
   static List<String> extraMessages = Lists.newArrayList();
 
+  /**
+   * Adds messages to the player's chat log. Use addExtraMessage to add messages to the list.
+   */
   public static void greetPlayer(EntityPlayer player) {
 
-    // Reset the random object, because it seems to yield the same value each time. Huh?
-    SilentGems.instance.random.setSeed(System.currentTimeMillis());
-
-    String line = LINES[SilentGems.instance.random.nextInt(LINES.length)];
-    line = PREFIX + line;
-    line = line.replaceAll("&", "\u00a7");
-    PlayerHelper.addChatMessage(player, TextFormatting.RED + line);
+    if (IS_BETA_BUILD)
+      doBetaGreeting(player);
 
     for (String str : extraMessages)
       PlayerHelper.addChatMessage(player, "[Silent's Gems] " + str);
   }
- 
+
+  /**
+   * Random, funny beta greetings. Will be disabled in version 2.1.
+   */
+  public static void doBetaGreeting(EntityPlayer player) {
+
+    // Reset the random object, because it seems to yield the same value each time. Huh?
+    SilentGems.instance.random.setSeed(System.currentTimeMillis());
+
+    String line = LINES[SilentGems.random.nextInt(LINES.length)];
+    line = PREFIX + line;
+    line = line.replaceAll("&", "\u00a7");
+    PlayerHelper.addChatMessage(player, TextFormatting.RED + line);
+  }
+
+  /**
+   * Add an additional message to display when the player logs in to a world.
+   */
   public static void addExtraMessage(String str) {
 
     extraMessages.add(str);
