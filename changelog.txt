@@ -6,6 +6,7 @@ Added: Life Steal enchantment is back. Restores your health a bit when you deal 
 Added: A colored outline for enchantment tokens. Should make finding the one you want a bit easier.
 Removed: Old, unused bow textures.
 Changed: Small buff to magic damage.
+Changed: Shield colors are now properly cached, which should improve FPS some.
 Fixed: Enchantment tokens allowing conflicting enchantments to be applied.
 
 2.0.31

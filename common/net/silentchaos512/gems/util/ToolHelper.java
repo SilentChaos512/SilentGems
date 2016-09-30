@@ -182,28 +182,28 @@ public class ToolHelper {
       uniqueParts.add(part);
     }
 
-    // Set color for gems
-    ToolPart partHeadM = getRenderPart(tool, EnumPartPosition.HEAD_MIDDLE);
-    ToolPart partHeadL = getRenderPart(tool, EnumPartPosition.HEAD_LEFT);
-    ToolPart partHeadR = getRenderPart(tool, EnumPartPosition.HEAD_RIGHT);
-    ToolPart partDeco = getRenderPart(tool, EnumPartPosition.ROD_DECO);
+    // Set color for parts
+    ToolPart renderHeadM = getRenderPart(tool, EnumPartPosition.HEAD_MIDDLE);
+    ToolPart renderHeadL = getRenderPart(tool, EnumPartPosition.HEAD_LEFT);
+    ToolPart renderHeadR = getRenderPart(tool, EnumPartPosition.HEAD_RIGHT);
+    ToolPart renderRodDeco = getRenderPart(tool, EnumPartPosition.ROD_DECO);
+    ToolPart renderRod = getRenderPart(tool, EnumPartPosition.ROD);
 
-    if (partHeadM != null) {
+    if (renderHeadM != null)
       setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_HEAD_M + "Color", partHeadM.getColor(tool));
-    }
-    if (partHeadL != null) {
+          "Layer" + ToolRenderHelper.PASS_HEAD_M + "Color", renderHeadM.getColor(tool));
+    if (renderHeadL != null)
       setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_HEAD_L + "Color", partHeadL.getColor(tool));
-    }
-    if (partHeadR != null) {
+          "Layer" + ToolRenderHelper.PASS_HEAD_L + "Color", renderHeadL.getColor(tool));
+    if (renderHeadR != null)
       setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_HEAD_R + "Color", partHeadR.getColor(tool));
-    }
-    if (partDeco != null) {
+          "Layer" + ToolRenderHelper.PASS_HEAD_R + "Color", renderHeadR.getColor(tool));
+    if (renderRodDeco != null)
       setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_ROD_DECO + "Color", partDeco.getColor(tool));
-    }
+          "Layer" + ToolRenderHelper.PASS_ROD_DECO + "Color", renderRodDeco.getColor(tool));
+    if (renderRod != null)
+      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
+          "Layer" + ToolRenderHelper.PASS_ROD + "Color", renderRod.getColor(tool));
 
     // Variety bonus
     int variety = MathHelper.clamp_int(uniqueParts.size(), 1, 3);

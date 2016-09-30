@@ -32,22 +32,14 @@ public class ColorHandlers {
     // Shields
     itemColors.registerItemColorHandler(new IItemColor() {
 
+      int[] passes = { 2, 1, 3, 0, 4, 5, 6 }; // 5 & 6 unused
+
       @Override
       public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 
-        // return ToolHelper.getColorForPass(stack, tintIndex);
-        // FIXME
-        EnumPartPosition pos = tintIndex == 0 ? EnumPartPosition.HEAD_LEFT
-            : tintIndex == 1 ? EnumPartPosition.HEAD_MIDDLE
-                : tintIndex == 2 ? EnumPartPosition.HEAD_RIGHT
-                    : tintIndex == 3 ? EnumPartPosition.ROD
-                        : tintIndex == 4 ? EnumPartPosition.ROD_DECO : null;
-        if (pos == null)
+        if (tintIndex < 0 || tintIndex >= passes.length)
           return 0xFFFFFF;
-        ToolPart part = ToolHelper.getRenderPart(stack, pos);
-        if (part == null)
-          return 0xFFFFFF;
-        return part.getColor(stack);
+        return ToolHelper.getColorForPass(stack, passes[tintIndex]);
       }
     }, ModItems.shield);
 
