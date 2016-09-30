@@ -13,11 +13,10 @@ public class EnchantmentMagicDamage extends Enchantment {
 
   public static final String NAME = "MagicDamage";
 
-  protected EnchantmentMagicDamage() {
+  public EnchantmentMagicDamage() {
 
     super(Rarity.UNCOMMON, EnumEnchantmentType.WEAPON,
         new EntityEquipmentSlot[] { EntityEquipmentSlot.MAINHAND });
-    // TODO Auto-generated constructor stub
   }
 
   public float calcDamage(int level) {

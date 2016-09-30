@@ -36,6 +36,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
@@ -318,6 +319,8 @@ public class ItemEnchantmentToken extends ItemSL {
     addTokenRecipe(Enchantments.LOOTING, EnumGem.TURQUOISE, "gemEmerald", 2);
     addTokenRecipe(Enchantments.SHARPNESS, EnumGem.RUBY, Items.FLINT, 5);
     addTokenRecipe(Enchantments.SMITE, EnumGem.PERIDOT, Items.ROTTEN_FLESH, 5);
+    addTokenRecipe(ModEnchantments.lifeSteal, EnumGem.MORGANITE, Items.GOLDEN_APPLE, 3);
+    addTokenRecipe(ModEnchantments.magicDamage, EnumGem.LEPIDOLITE, Items.BLAZE_ROD, 4);
 
     // Ranged weapons
     addTokenRecipe(Enchantments.FLAME, EnumGem.SPINEL, Items.BLAZE_ROD, 2);
