@@ -96,9 +96,9 @@ public class SilentGems {
 
     GemsConfig.init(event.getSuggestedConfigurationFile());
 
+    ModEnchantments.init();
     ModBlocks.init();
     ModItems.init();
-    ModEnchantments.init();
     ModRecipes.init();
     ModParts.init();
 

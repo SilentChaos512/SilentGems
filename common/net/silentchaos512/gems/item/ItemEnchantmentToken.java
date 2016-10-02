@@ -23,6 +23,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
@@ -46,6 +48,7 @@ import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class ItemEnchantmentToken extends ItemSL {
 
+  public static final String NBT_ENCHANTMENTS = "TokenEnchantments";
   /*
    * Model keys
    */
@@ -102,17 +105,61 @@ public class ItemEnchantmentToken extends ItemSL {
   public ItemStack constructToken(Map<Enchantment, Integer> enchantmentMap) {
 
     ItemStack result = new ItemStack(this);
-    EnchantmentHelper.setEnchantments(enchantmentMap, result);
+    setEnchantments(result, enchantmentMap);
     return result;
   }
 
   public ItemStack addEnchantment(ItemStack stack, Enchantment enchantment, int level) {
 
     ItemStack result = stack.copy();
-    Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(stack);
+    Map<Enchantment, Integer> map = getEnchantments(stack);
     map.put(enchantment, level);
-    EnchantmentHelper.setEnchantments(map, result);
+    setEnchantments(result, map);
     return result;
+  }
+
+  public Map<Enchantment, Integer> getEnchantments(ItemStack token) {
+
+    if (token == null || !token.hasTagCompound())
+      return new HashMap<>();
+
+    NBTTagList tagList = token.getTagCompound().getTagList(NBT_ENCHANTMENTS, 10);
+    Map<Enchantment, Integer> map = new HashMap<>();
+
+    if (tagList != null) {
+      for (int i = 0; i < tagList.tagCount(); ++i) {
+        String name = tagList.getCompoundTagAt(i).getString("name");
+        int level = tagList.getCompoundTagAt(i).getShort("lvl");
+
+        Enchantment ench = Enchantment.REGISTRY.getObject(new ResourceLocation(name));
+        map.put(ench, level);
+      }
+    }
+
+    return map;
+  }
+
+  public void setEnchantments(ItemStack token, Map<Enchantment, Integer> map) {
+
+    if (token == null)
+      return;
+    if (!token.hasTagCompound())
+      token.setTagCompound(new NBTTagCompound());
+    if (token.getTagCompound().hasKey(NBT_ENCHANTMENTS))
+      token.getTagCompound().removeTag(NBT_ENCHANTMENTS);
+
+    NBTTagList tagList = new NBTTagList();
+
+    for (Entry<Enchantment, Integer> entry : map.entrySet()) {
+      String name = entry.getKey().getRegistryName().toString();
+      int level = entry.getValue();
+      NBTTagCompound compound = new NBTTagCompound();
+      compound.setString("name", name);
+      compound.setShort("lvl", (short) level);
+      tagList.appendTag(compound);
+    }
+
+    token.getTagCompound().setTag(NBT_ENCHANTMENTS, tagList);
   }
 
   // ========
@@ -126,7 +173,7 @@ public class ItemEnchantmentToken extends ItemSL {
     }
 
     // Get enchantments on token.
-    Map<Enchantment, Integer> enchantmentsOnToken = EnchantmentHelper.getEnchantments(token);
+    Map<Enchantment, Integer> enchantmentsOnToken = getEnchantments(token);
     if (enchantmentsOnToken.isEmpty())
       return false;
 
@@ -183,7 +230,7 @@ public class ItemEnchantmentToken extends ItemSL {
 
   public String getModelKey(ItemStack stack) {
 
-    Map<Enchantment, Integer> enchMap = EnchantmentHelper.getEnchantments(stack);
+    Map<Enchantment, Integer> enchMap = getEnchantments(stack);
     String key = KEY_EMPTY;
 
     if (!enchMap.isEmpty()) {
@@ -222,11 +269,11 @@ public class ItemEnchantmentToken extends ItemSL {
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
 
-    Map<Enchantment, Integer> enchMap = EnchantmentHelper.getEnchantments(stack);
+    Map<Enchantment, Integer> enchants = getEnchantments(stack);
 
-    if (enchMap.size() == 1) {
+    if (enchants.size() == 1) {
       LocalizationHelper loc = SilentGems.localizationHelper;
-      Enchantment ench = enchMap.keySet().iterator().next();
+      Enchantment ench = enchants.keySet().iterator().next();
       list.add(loc.getItemSubText(itemName, "maxLevel", ench.getMaxLevel()));
 
       // Recipe info
@@ -242,10 +289,14 @@ public class ItemEnchantmentToken extends ItemSL {
         list.add(loc.getItemSubText(itemName, "pressCtrl"));
       }
 
+      // Enchantment list
+      for (Entry<Enchantment, Integer> entry : enchants.entrySet())
+        list.add(entry.getKey().getTranslatedName(entry.getValue()));
+
       // Debug info
       if (KeyTracker.isAltDown()) {
-        list.add(TextFormatting.DARK_GRAY + ench.getName());
         list.add(TextFormatting.DARK_GRAY + ench.getRegistryName().toString());
+        list.add(TextFormatting.DARK_GRAY + "EnchID: " + ench.getEnchantmentID(ench));
       }
     }
   }
@@ -280,7 +331,7 @@ public class ItemEnchantmentToken extends ItemSL {
 
   public Enchantment getSingleEnchantment(ItemStack token) {
 
-    Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(token);
+    Map<Enchantment, Integer> map = getEnchantments(token);
     if (map.size() != 1)
       return null;
     return map.keySet().iterator().next();
@@ -289,7 +340,9 @@ public class ItemEnchantmentToken extends ItemSL {
   @Override
   public String getNameForStack(ItemStack stack) {
 
-    return super.getNameForStack(stack) + (!stack.isItemEnchanted() ? "_Blank" : "");
+    boolean hasEnchants = stack != null && stack.hasTagCompound()
+        && stack.getTagCompound().hasKey(NBT_ENCHANTMENTS);
+    return super.getNameForStack(stack) + (hasEnchants ? "" : "_Blank");
   }
 
   // =====================
