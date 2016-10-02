@@ -17,6 +17,8 @@ public class EnchantmentMagicDamage extends Enchantment {
 
     super(Rarity.UNCOMMON, EnumEnchantmentType.WEAPON,
         new EntityEquipmentSlot[] { EntityEquipmentSlot.MAINHAND });
+    setName(NAME);
+    setRegistryName(NAME);
   }
 
   public float calcDamage(int level) {
@@ -35,7 +37,7 @@ public class EnchantmentMagicDamage extends Enchantment {
   @Override
   public boolean canApplyTogether(Enchantment ench) {
 
-    return !(ench instanceof EnchantmentDamage);
+    return !(ench instanceof EnchantmentDamage || ench == this);
   }
 
   @Override

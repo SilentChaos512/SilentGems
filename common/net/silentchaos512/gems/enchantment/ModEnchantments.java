@@ -18,7 +18,6 @@ public class ModEnchantments {
 
   private static void register(String name, Enchantment ench) {
 
-    ench.setRegistryName(new ResourceLocation(SilentGems.MOD_ID, name));
     GameRegistry.register(ench);
   }
 }
