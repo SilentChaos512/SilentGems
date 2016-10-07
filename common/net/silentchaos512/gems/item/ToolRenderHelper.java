@@ -34,6 +34,7 @@ import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.item.tool.ItemGemShovel;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
+import net.silentchaos512.gems.item.tool.ItemGemTomahawk;
 import net.silentchaos512.gems.lib.TooltipHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
@@ -97,13 +98,14 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       list.add(line);
     }
 
-    final boolean isSword = tool.getItem() instanceof ItemGemSword;
-    final boolean isAxe = tool.getItem() instanceof ItemGemAxe;
+    final Item item = tool.getItem();
+    final boolean isSword = item instanceof ItemGemSword;
+    final boolean isAxe = item instanceof ItemGemAxe;
     final boolean isWeapon = isSword || isAxe;
     final boolean isCaster = isSword && ToolHelper.getToolTier(tool) == EnumMaterialTier.SUPER;
-    final boolean isBow = tool.getItem() instanceof ItemGemBow;
-    final boolean isDigger = tool.getItem() instanceof ItemTool;
-    final boolean isShield = tool.getItem() instanceof ItemGemShield;
+    final boolean isBow = item instanceof ItemGemBow;
+    final boolean isDigger = item instanceof ItemTool;
+    final boolean isShield = item instanceof ItemGemShield;
 
     final String sep = loc.getMiscText("Tooltip.Separator");
 
@@ -154,11 +156,11 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
         list.add(getTooltipLine("BlocksPlaced", ToolHelper.getStatBlocksPlaced(tool)));
       }
 
-      if (tool.getItem() instanceof ItemGemShovel) {
+      if (item instanceof ItemGemShovel) {
         list.add(getTooltipLine("PathsMade", ToolHelper.getStatPathsMade(tool)));
       }
 
-      if (tool.getItem() instanceof ItemGemHoe) {
+      if (item instanceof ItemGemHoe) {
         list.add(getTooltipLine("BlocksTilled", ToolHelper.getStatBlocksTilled(tool)));
       }
 
@@ -166,6 +168,9 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
       if (isCaster || isBow)
         list.add(getTooltipLine("ShotsFired", ToolHelper.getStatShotsFired(tool)));
+
+      if (item instanceof ItemGemTomahawk)
+        list.add(getTooltipLine("ThrownCount", ToolHelper.getStatThrownCount(tool)));
 
       if (isWeapon)
         list.add(getTooltipLine("KillCount", ToolHelper.getStatKillCount(tool)));

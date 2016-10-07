@@ -739,6 +739,7 @@ misc.silentgems:Tooltip.KillCount=&eKill Count:&f %s
 misc.silentgems:Tooltip.PathsMade=&ePaths Made:&f %s
 misc.silentgems:Tooltip.ShotsFired=&eShots Fired:&f %s
 misc.silentgems:Tooltip.ShotsLanded=&eShots Landed:&f %s
+misc.silentgems:Tooltip.ThrownCount=&eTimes Thrown:&f %s
 misc.silentgems:Tooltip.Redecorated=&eRedecorated:&f %s time(s)
 
 misc.silentgems:Tooltip.Separator=&8-------------------

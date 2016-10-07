@@ -189,7 +189,9 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
         ToolHelper.attemptDamageTool(stack, 3, player);
         addAmmo(stack, -1);
       }
-      // TODO: Statistics?
+
+      // Statistics
+      ToolHelper.incrementStatThrownCount(stack, 1);
     }
   }
 

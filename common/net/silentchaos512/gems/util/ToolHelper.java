@@ -123,6 +123,7 @@ public class ToolHelper {
   public static final String NBT_STATS_PATHS_MADE = "PathsMade";
   public static final String NBT_STATS_SHOTS_FIRED = "ShotsFired";
   public static final String NBT_STATS_SHOTS_LANDED = "ShotsLanded";
+  public static final String NBT_STATS_THROWN= "ThrownCount";
 
   public static void init() {
 
@@ -1294,6 +1295,16 @@ public class ToolHelper {
   public static void incrementStatShotsLanded(ItemStack tool, int amount) {
 
     setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_SHOTS_FIRED, getStatShotsLanded(tool) + amount);
+  }
+  
+  public static int getStatThrownCount(ItemStack tool) {
+
+    return getTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_THROWN);
+  }
+  
+  public static void incrementStatThrownCount(ItemStack tool, int amount) {
+
+    setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_THROWN, getStatThrownCount(tool) + amount);
   }
 
   // ---------------------
