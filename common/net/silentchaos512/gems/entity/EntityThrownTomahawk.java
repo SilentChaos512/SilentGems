@@ -125,8 +125,14 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
 
     super.onUpdate();
 
-    if (thrownStack == null || thrownStack.getItem() == null)
+    if (thrownStack == null || thrownStack.getItem() == null || ticksExisted > 12000) {
       setDead();
+      if (ticksExisted > 10)
+        for (int i = 0; i < 15; ++i)
+          worldObj.spawnParticle(EnumParticleTypes.FLAME, posX, posY + 0.5, posZ,
+              0.01 * SilentGems.random.nextGaussian(), 0.05 * SilentGems.random.nextGaussian(),
+              0.01 * SilentGems.random.nextGaussian());
+    }
 
     // Check for player pickup
     if (!inAir && ticksExisted > 10) {
