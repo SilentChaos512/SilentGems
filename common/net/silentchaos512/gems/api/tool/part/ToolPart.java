@@ -147,12 +147,15 @@ public abstract class ToolPart {
    * Gets the model for the part on the specified tool and position. Some parts can exist in multiple positions
    * (ToolPartMain), plus the models are usually different for different tool types.
    * 
+   * @deprecated Use frame-sensitive version instead!
+   * 
    * @param tool
    *          The tool being rendered.
    * @param pos
    *          The position of the part.
    * @return
    */
+  @Deprecated
   @SideOnly(Side.CLIENT)
   public ModelResourceLocation getModel(ItemStack toolOrArmor, EnumPartPosition pos) {
 
