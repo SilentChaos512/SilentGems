@@ -31,6 +31,8 @@ public class RenderThrownTomahawk extends Render<EntityThrownTomahawk> {
   public void doRender(EntityThrownTomahawk entity, double x, double y, double z, float entityYaw,
       float partialTicks) {
 
+    if (entity == null) return;
+
     ItemStack stack = entity.getThrownStack();
     if (stack == null || stack.getItem() == null)
       return;
@@ -44,18 +46,12 @@ public class RenderThrownTomahawk extends Render<EntityThrownTomahawk> {
     GlStateManager.pushMatrix();
     GlStateManager.disableLighting();
 
-    // float scale = 0.5f;
-    // GlStateManager.scale(scale, scale, scale);
-
     Vec3d vec = new Vec3d(0.0, 0.25, 0.0);
     GlStateManager.translate(x, y, z);
 
     GlStateManager.rotate(90 - entity.throwYaw, 0, 1, 0);
-    // float rotation = (float) (18000.0 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
     float rotation = entity.spin + (entity.inAir ? entity.SPIN_RATE * partialTicks : 0);
     GlStateManager.rotate(rotation, 0, 0, 1);
-
-    // SilentGems.logHelper.debug(entityitem.posX, entityitem.posY, entityitem.posZ);
 
     GlStateManager.pushAttrib();
     RenderHelper.enableStandardItemLighting();
