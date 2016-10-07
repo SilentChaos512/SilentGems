@@ -27,7 +27,9 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 public class EntityThrownTomahawk extends EntityThrowable implements IEntityAdditionalSpawnData {
@@ -120,11 +122,16 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
   @Override
   public void onUpdate() {
 
-    // SilentGems.logHelper.debug(FMLCommonHandler.instance().getEffectiveSide(), this, inAir, hasHit,
-    // spin, thrower, thrownStack);
-
     super.onUpdate();
 
+    // Check for proper collision.
+    Vec3d vec1 = new Vec3d(posX, posY, posZ);
+    Vec3d vec2 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
+    RayTraceResult raytraceresult = worldObj.rayTraceBlocks(vec1, vec2, false, true, false);
+    if (raytraceresult != null && raytraceresult.typeOfHit == Type.BLOCK)
+      onImpact(raytraceresult);
+
+    // Delete if the tomahawk item somehow goes missing, or exists for 10 minutes.
     if (thrownStack == null || thrownStack.getItem() == null || ticksExisted > 12000) {
       setDead();
       if (ticksExisted > 10)
@@ -151,6 +158,14 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
       }
     }
 
+    // Spawn particles to indicate landing spot?
+    if (!worldObj.isRemote && hasHit && !inAir && ticksExisted % 4 == 0) {
+      SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, Color.WHITE, worldObj, posX,
+          posY, posZ, 0.01 * SilentGems.random.nextGaussian(), 0.125,
+          0.01 * SilentGems.random.nextGaussian());
+    }
+
+    // Spin!
     float spinRate = (float) (inAir ? SPIN_RATE : 30 * Math.abs(motionY));
     spin += spinRate;
     if (spin >= 360)
@@ -160,11 +175,10 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
   @Override
   protected void onImpact(RayTraceResult result) {
 
-    // TODO Auto-generated method stub
     if (result.typeOfHit == Type.ENTITY && result.entityHit != thrower && !hasHit)
       onImpactWithEntity(result);
     else if (result.typeOfHit == Type.BLOCK)
-      onImpactWithBlock(result);
+      onImpactWithBlock(result.getBlockPos(), worldObj.getBlockState(result.getBlockPos()));
   }
 
   protected void onImpactWithEntity(RayTraceResult result) {
@@ -222,16 +236,15 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
     return posY > minY && posY < maxY;
   }
 
-  protected void onImpactWithBlock(RayTraceResult result) {
+  protected void onImpactWithBlock(BlockPos pos, IBlockState state) {
 
     // Get info on block hit
-    BlockPos pos = result.getBlockPos();
-    IBlockState state = worldObj.getBlockState(pos);
     Block block = state.getBlock();
     AxisAlignedBB boundingBox = state.getBoundingBox(worldObj, pos);
 
     // Collide only if it has a bounding box.
     if (boundingBox != null) {
+      Material mat = state.getMaterial();
       // Break glass blocks! But slows it down.
       if ((block == Blocks.GLASS || block == Blocks.GLASS_PANE || block == Blocks.STAINED_GLASS
           || block == Blocks.STAINED_GLASS_PANE)) {
@@ -243,8 +256,8 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
         motionX *= 0.7f;
         motionZ *= 0.7f;
       }
-      // Ignore leaves
-      else if (state.getMaterial() == Material.LEAVES) {
+      // Ignore leaves and plants
+      else if (mat == Material.LEAVES || mat == Material.PLANTS || mat == Material.VINE) {
         SoundEvent sound = block.getSoundType(state, worldObj, pos, this).getPlaceSound();
         worldObj.playSound(null, pos, sound, SoundCategory.BLOCKS, 0.25f, 1f);
       }

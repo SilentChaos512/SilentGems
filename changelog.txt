@@ -1,8 +1,11 @@
 Silent's Gems - Changelog
 
 2.1.0
-Added: Bows display draw delay (basically the fire rate)
+Added: Bows display draw delay (basically the fire rate).
+Added: Times thrown statistic for tomahawks.
+Added: Tomahawks spawn particles after hitting something. Should make finding them a bit easier since they still seem to render in the wrong place sometimes.
 Changed: Thrown tomahawks will despawn after 10 minutes now.
+Changed: Improved tomahawk block collision detection a bit.
 
 2.0.33
 Fixed: Enchantment token recipes getting mixed up when new enchantments are added to an existing world. All existing tokens with enchantments will no longer work, but can be crafted back into the blank tokens.
