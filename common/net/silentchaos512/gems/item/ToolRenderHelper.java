@@ -137,6 +137,10 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
           list.add(color + getTooltipLine("MagicDamage", ToolHelper.getMagicDamageModifier(tool)));
       }
 
+      if (isBow) {
+        list.add(color + getTooltipLine("DrawDelay", ModItems.bow.getDrawDelay(tool)));
+      }
+
       list.add(color + getTooltipLine("ChargeSpeed", ToolHelper.getChargeSpeed(tool)));
 
       // Statistics Header

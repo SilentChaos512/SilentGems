@@ -717,6 +717,7 @@ misc.silentgems:Tooltip.TipGold=&eGold
 misc.silentgems:Tooltip.BlockingPower=Blocking Power:&f %s
 misc.silentgems:Tooltip.Broken=&cYou broke it!
 misc.silentgems:Tooltip.ChargeSpeed=Charge Speed:&f %s
+misc.silentgems:Tooltip.DrawDelay=Draw Delay:&f %s
 misc.silentgems:Tooltip.Durability=Durability:&f %s
 misc.silentgems:Tooltip.Enchantability=Enchantability:&f %s
 misc.silentgems:Tooltip.HarvestLevel=Harvest Level:&f %s
@@ -863,6 +864,7 @@ guide.silentgems:tools.axe1=Super-tier axes have the &1Lumberjack&0 ability. Use
 
 guide.silentgems:tools.bow=Bows
 guide.silentgems:tools.bow0=Bows are ranged weapons capable of firing arrows. They can be constructed with a wide variety of parts, exactly like all other tools. The parts chosen seem to affect how quickly an arrow can be fully drawn.
+guide.silentgems:tools.bow1=Under the bow's "Properties" tooltip category (hover over it and hold Ctrl), you will see the "draw delay". This is the time for a full draw, so a lower number means a faster bow.
 
 guide.silentgems:tools.hoe=Hoes
 guide.silentgems:tools.hoe0=Hoes are farming tools capable of tilling dirt. Hoes are rumored to have some great secret, but no evidence has been found. However, carrying a fancy hoe makes you look roughly 232%% more fabulous.
