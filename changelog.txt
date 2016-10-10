@@ -1,9 +1,12 @@
 Silent's Gems - Changelog
 
 2.1.1
-Fixed: Server disconnect with saturation (orange) chaos node packets.
+Changed: Bows now affect the damage of the arrow (based on the melee damage stat)
+Changed: Bow minimum draw delay is now 10 ticks (previously 5)
+Fixed: Server disconnect with saturation (orange) Chaos Node packets.
 Fixed: Phantom Lights being placed inside multi-block tanks and breaking them in some cases. This should also prevent problems with most multi-block structures.
 Fixed: Silver bow "rod" texture.
+Fixed: Material Grader not being rotated correctly.
 
 2.1.0
 Added: Bows display draw delay (basically the fire rate).

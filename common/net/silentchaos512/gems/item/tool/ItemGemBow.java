@@ -109,7 +109,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
     float mspeed = ToolHelper.getMeleeSpeed(stack);
     float dspeed = ToolHelper.getDigSpeedOnProperMaterial(stack);
-    return Math.max(38.4f - 1.4f * mspeed * dspeed, 5);
+    return Math.max(38.4f - 1.4f * mspeed * dspeed, 10);
   }
 
   public float getArrowVelocity(ItemStack stack, int charge) {
@@ -117,6 +117,11 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
     float f = charge / getDrawDelay(stack);
     f = (f * f + f * 2f) / 3f;
     return f > 1f ? 1f : f;
+  }
+
+  public float getArrowDamage(ItemStack stack) {
+
+    return 0.4f * ToolHelper.getMeleeDamage(stack) - 1.0f;
   }
 
   protected ItemStack findAmmo(EntityPlayer player) {
@@ -203,11 +208,9 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
             }
 
             int power = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
-
-            if (power > 0) {
-              // TODO: Damage modifier?
-              entityarrow.setDamage(entityarrow.getDamage() + (double) power * 0.5D + 0.5D);
-            }
+            float powerBoost = power > 0 ? power * 0.5f + 0.5f : 0.0f;
+            float damageBoost = getArrowDamage(stack);
+            entityarrow.setDamage(entityarrow.getDamage() + damageBoost + powerBoost);
 
             int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
 
