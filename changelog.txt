@@ -1,9 +1,13 @@
 Silent's Gems - Changelog
 
+2.1.1
+Fixed: Server disconnect with saturation (orange) chaos node packets.
+
 2.1.0
 Added: Bows display draw delay (basically the fire rate).
 Added: Times thrown statistic for tomahawks.
 Added: Tomahawks spawn particles after hitting something. Should make finding them a bit easier since they still seem to render in the wrong place sometimes.
+Removed: Beta greetings.
 Changed: Thrown tomahawks will despawn after 10 minutes now.
 Changed: Improved tomahawk block collision detection a bit.
 
