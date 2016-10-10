@@ -894,8 +894,9 @@ public class ToolHelper {
       list.add(constructTool(item, rodGold, gem.getItemSuper(), materialLength));
 
     // Set maker name.
+    String makerName = SilentGems.localizationHelper.getMiscText("Tooltip.OriginalOwner.Creative");
     for (ItemStack stack : list)
-      ToolHelper.setOriginalOwner(stack, "Creative");
+      ToolHelper.setOriginalOwner(stack, makerName);
 
     return list;
   }

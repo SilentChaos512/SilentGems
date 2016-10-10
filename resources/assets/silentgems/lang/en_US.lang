@@ -726,6 +726,7 @@ misc.silentgems:Tooltip.MagicDamage=Magic Damage:&f %s
 misc.silentgems:Tooltip.MeleeDamage=Melee Damage:&f %s
 misc.silentgems:Tooltip.MeleeSpeed=Attack Speed:&f %s%%
 misc.silentgems:Tooltip.OriginalOwner=&8Made by %s
+misc.silentgems:Tooltip.OriginalOwner.Creative=a cheater!
 misc.silentgems:Tooltip.OriginalOwner.Mob=%s(?)
 misc.silentgems:Tooltip.OriginalOwner.Unknown=&8Maker unknown
 misc.silentgems:Tooltip.Protection=Protection:&f %s
