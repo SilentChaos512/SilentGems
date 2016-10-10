@@ -20,6 +20,7 @@ public class TileChaosFlowerPot extends TileEntityFlowerPot implements ITickable
 
   public static final int TRY_LIGHT_DELAY = 80;
   public static final int LIGHT_DISTANCE = 8;
+  public static final int TE_SEARCH_RADIUS = 7;
 
   int ticksExisted = 0;
 
@@ -32,7 +33,6 @@ public class TileChaosFlowerPot extends TileEntityFlowerPot implements ITickable
     }
     if (!worldObj.isRemote && GemsConfig.DEBUG_LOG_POTS_AND_LIGHTS
         && ticksExisted % GemsConfig.DEBUG_LOT_POTS_AND_LIGHTS_DELAY == 0) {
-      // SilentGems.instance.logHelper.info("DEBUG: Chaos Flower Pot @ " + pos);
     }
   }
 
@@ -105,8 +105,35 @@ public class TileChaosFlowerPot extends TileEntityFlowerPot implements ITickable
 
   private boolean canPlacePhantomLightAt(BlockPos target) {
 
-    // SilentGems.instance.logHelper.debug(worldObj.getLightFor(EnumSkyBlock.BLOCK, pos));
-    return worldObj.isAirBlock(target) && worldObj.getLightFor(EnumSkyBlock.BLOCK, target) < 10;
+    // Check that target pos is air and needs more light.
+    if (!worldObj.isAirBlock(target) || worldObj.getLightFor(EnumSkyBlock.BLOCK, target) > 9)
+      return false;
+
+    // Check for equal tile entities above and below target pos (ie prevent from spawning inside
+    // multiblock tanks).
+    TileEntity te;
+    BlockPos pos;
+    Class clazz = null;
+
+    for (int i = 0; i < TE_SEARCH_RADIUS && clazz == null; ++i) {
+      pos = target.up(i);
+      te = worldObj.getTileEntity(pos);
+      if (te != null)
+        clazz = te.getClass();
+      else if (!worldObj.isAirBlock(pos))
+        return true;
+    }
+
+    for (int i = 0; i < TE_SEARCH_RADIUS; ++i) {
+      pos = target.down(i);
+      te = worldObj.getTileEntity(pos);
+      if (te != null && clazz == te.getClass())
+        return false;
+      else if (!worldObj.isAirBlock(pos))
+        return true;
+    }
+
+    return true;
   }
 
   private void placePhantomLightAt(BlockPos target) {

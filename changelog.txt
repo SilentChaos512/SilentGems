@@ -2,6 +2,7 @@ Silent's Gems - Changelog
 
 2.1.1
 Fixed: Server disconnect with saturation (orange) chaos node packets.
+Fixed: Phantom Lights being placed inside multi-block tanks and breaking them in some cases. This should also prevent problems with most multi-block structures.
 
 2.1.0
 Added: Bows display draw delay (basically the fire rate).
