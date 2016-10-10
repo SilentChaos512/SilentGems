@@ -2,10 +2,12 @@ package net.silentchaos512.gems.block;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -17,8 +19,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
@@ -30,11 +30,14 @@ import net.silentchaos512.wit.api.IWitHudInfo;
 
 public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo {
 
+  public static final PropertyDirection FACING = PropertyDirection.create("facing",
+      EnumFacing.Plane.HORIZONTAL);
   public static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.4, 1.0);
 
   public BlockMaterialGrader() {
 
     super(1, SilentGems.MOD_ID, Names.MATERIAL_GRADER, Material.IRON);
+    setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     setHardness(3.0f);
     setResistance(100.0f);
     this.isBlockContainer = true;
@@ -78,6 +81,41 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
     }
 
     return true;
+  }
+
+  @Override
+  public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX,
+      float hitY, float hitZ, int meta, EntityLivingBase placer) {
+
+    IBlockState state = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
+    return state.withProperty(FACING, placer.getHorizontalFacing());
+  }
+
+  @Override
+  public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer,
+      ItemStack stack) {
+
+    super.onBlockPlacedBy(world, pos, state, placer, stack);
+    EnumFacing side = placer.getHorizontalFacing().getOpposite();
+    world.setBlockState(pos, state.withProperty(FACING, side), 2);
+  }
+
+  @Override
+  public IBlockState getStateFromMeta(int meta) {
+
+    return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+  }
+
+  @Override
+  public int getMetaFromState(IBlockState state) {
+
+    return ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();
+  }
+
+  @Override
+  protected BlockStateContainer createBlockState() {
+
+    return new BlockStateContainer(this, new IProperty[] { FACING });
   }
 
   @Override
