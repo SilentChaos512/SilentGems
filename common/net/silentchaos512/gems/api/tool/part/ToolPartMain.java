@@ -11,6 +11,13 @@ import net.silentchaos512.gems.util.ToolHelper;
 
 public class ToolPartMain extends ToolPart {
 
+  static final float[][] REPAIR_VALUES = {//
+      { 0.500f, 1.000f, 1.000f, 1.000f }, // mundane
+      { 0.000f, 0.500f, 1.000f, 1.000f }, // regular
+      { 0.000f, 0.250f, 1.000f, 1.000f }, // super
+      { 0.000f, 0.125f, 0.500f, 1.000f }  // hyper
+  };
+
   public ToolPartMain(String key, ItemStack craftingStack) {
 
     super(key, craftingStack);
@@ -35,46 +42,10 @@ public class ToolPartMain extends ToolPart {
     if (stackTier == null)
       return 0;
 
-    switch (ToolHelper.getToolTier(toolOrArmor)) {
-      case MUNDANE:
-        switch (partTier) {
-          case MUNDANE:
-            scale = 0.5f;
-            break;
-          case REGULAR:
-          case SUPER:
-            scale = 1.0f;
-        }
-        break;
-      case REGULAR:
-        switch (partTier) {
-          case MUNDANE:
-            scale = 0.0f;
-            break;
-          case REGULAR:
-            scale = 0.5f;
-            break;
-          case SUPER:
-            scale = 1.0f;
-            break;
-        }
-        break;
-      case SUPER:
-        switch (partTier) {
-          case MUNDANE:
-            scale = 0.0f;
-            break;
-          case REGULAR:
-            scale = 0.25f;
-            break;
-          case SUPER:
-            scale = 1.0f;
-            break;
-        }
-        break;
-    }
+    int toolTierIndex = ToolHelper.getToolTier(toolOrArmor).ordinal();
+    int partTierIndex = partTier.ordinal();
+    scale = REPAIR_VALUES[toolTierIndex][partTierIndex];
 
-    //SilentGems.logHelper.debug(stackTier, partTier, scale, scale * max);
     return (int) (scale * max);
   }
 

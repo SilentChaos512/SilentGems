@@ -125,7 +125,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
 
     World world = entityLiving.worldObj;
     if (world.isRemote || !(entityLiving instanceof EntityPlayer)
-        || ToolHelper.getToolTier(stack) != EnumMaterialTier.SUPER) {
+        || ToolHelper.getToolTier(stack).ordinal() < EnumMaterialTier.SUPER.ordinal()) {
       return false;
     }
 
@@ -161,7 +161,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
 
     List<EntityChaosProjectile> list = Lists.newArrayList();
 
-    if (ToolHelper.getToolTier(stack) != EnumMaterialTier.SUPER) {
+    if (ToolHelper.getToolTier(stack).ordinal() < EnumMaterialTier.SUPER.ordinal()) {
       return list;
     }
 

@@ -44,9 +44,9 @@ public class RecipeMultiGemBow extends RecipeBase {
     }
 
     ItemStack stackString = strings[0];
-    if ((targetTier == EnumMaterialTier.SUPER
+    if ((targetTier.ordinal() >= EnumMaterialTier.SUPER.ordinal()
         && !stackString.isItemEqual(ModItems.craftingMaterial.gildedString)
-        || (targetTier != EnumMaterialTier.SUPER
+        || (targetTier.ordinal() < EnumMaterialTier.SUPER.ordinal()
             && !stackString.isItemEqual(new ItemStack(Items.STRING)))))
       return null;
 

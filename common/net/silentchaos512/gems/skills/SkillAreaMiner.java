@@ -54,7 +54,7 @@ public class SkillAreaMiner extends ToolSkill {
     }
 
     // Must be super tool with special enabled.
-    if (ToolHelper.getToolTier(tool) != EnumMaterialTier.SUPER
+    if (ToolHelper.getToolTier(tool).ordinal() < EnumMaterialTier.SUPER.ordinal()
         || !ToolHelper.isSpecialAbilityEnabled(tool)) {
       return false;
     }

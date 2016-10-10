@@ -7,11 +7,11 @@ import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 
 public enum EnumMaterialTier {
 
-  MUNDANE, REGULAR, SUPER;
+  MUNDANE, REGULAR, SUPER/*, HYPER*/;
 
   public String getLocalizedName() {
 
-    return SilentGems.instance.localizationHelper.getMiscText("ToolTier." + name().toLowerCase());
+    return SilentGems.localizationHelper.getMiscText("ToolTier." + name());
   }
 
   public static EnumMaterialTier fromStack(ItemStack stack) {

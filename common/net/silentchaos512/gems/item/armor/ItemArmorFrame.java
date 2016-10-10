@@ -68,11 +68,11 @@ public class ItemArmorFrame extends ItemSL {
     for (int tier = 0; tier < EnumMaterialTier.values().length; ++tier) {
       lattice = tier == 0 ? ModItems.craftingMaterial.armorLatticeMundane
           : tier == 1 ? ModItems.craftingMaterial.armorLatticeRegular
-              : ModItems.craftingMaterial.armorLatticeSuper;
+              : tier == 2 ? ModItems.craftingMaterial.armorLatticeSuper : null;
 
-      for (int type = 0; type < 4; ++type) {
-        addRecipe(new ItemStack(this, 1, type + (tier << 2)), lattice, type);
-      }
+      if (lattice != null)
+        for (int type = 0; type < 4; ++type)
+          addRecipe(new ItemStack(this, 1, type + (tier << 2)), lattice, type);
     }
   }
 
@@ -94,24 +94,24 @@ public class ItemArmorFrame extends ItemSL {
     }
   }
 
-//  @Override
-//  public List<ModelResourceLocation> getVariants() {
-//
-//    List<ModelResourceLocation> models = Lists.newArrayList();
-//    for (int i = 0; i < 4; ++i)
-//      models.add(new ModelResourceLocation(getFullName() + i, "inventory"));
-//    return models;
-//  }
-//
-//  @Override
-//  public boolean registerModels() {
-//
-//    List<ModelResourceLocation> models = getVariants();
-//    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-//
-//    for (int i = 0; i < subItemCount; ++i)
-//      mesher.register(this, i, models.get(i & 3));
-//
-//    return true;
-//  }
+  // @Override
+  // public List<ModelResourceLocation> getVariants() {
+  //
+  // List<ModelResourceLocation> models = Lists.newArrayList();
+  // for (int i = 0; i < 4; ++i)
+  // models.add(new ModelResourceLocation(getFullName() + i, "inventory"));
+  // return models;
+  // }
+  //
+  // @Override
+  // public boolean registerModels() {
+  //
+  // List<ModelResourceLocation> models = getVariants();
+  // ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+  //
+  // for (int i = 0; i < subItemCount; ++i)
+  // mesher.register(this, i, models.get(i & 3));
+  //
+  // return true;
+  // }
 }

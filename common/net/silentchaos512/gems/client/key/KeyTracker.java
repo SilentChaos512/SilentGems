@@ -73,7 +73,7 @@ public class KeyTracker {
     ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
 
     if (mainHand != null && mainHand.getItem() instanceof ITool) {
-      if (ToolHelper.getToolTier(mainHand) == EnumMaterialTier.SUPER) {
+      if (ToolHelper.getToolTier(mainHand).ordinal() >= EnumMaterialTier.SUPER.ordinal()) {
         // ToolHelper.toggleSpecialAbility(mainHand);
         NetworkHandler.INSTANCE.sendToServer(new MessageToggleSpecial());
       }

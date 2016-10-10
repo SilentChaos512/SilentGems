@@ -85,6 +85,8 @@ public class ToolPartRod extends ToolPart {
         return tier == EnumMaterialTier.MUNDANE || tier == EnumMaterialTier.REGULAR;
       case SUPER:
         return tier == EnumMaterialTier.REGULAR || tier == EnumMaterialTier.SUPER;
+//      case HYPER:
+//        return tier == EnumMaterialTier.SUPER || tier == EnumMaterialTier.HYPER;
       default:
         return true;
     }
@@ -92,6 +94,6 @@ public class ToolPartRod extends ToolPart {
 
   public boolean supportsDecoration() {
 
-    return getTier() == EnumMaterialTier.SUPER;
+    return tier.ordinal() >= EnumMaterialTier.SUPER.ordinal();
   }
 }

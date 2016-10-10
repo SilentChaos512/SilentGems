@@ -54,6 +54,7 @@ public class Names {
   public static final String ARMOR_LATTICE_MUNDANE = "ArmorLatticeMundane";
   public static final String ARMOR_LATTICE_REGULAR = "ArmorLatticeRegular";
   public static final String ARMOR_LATTICE_SUPER = "ArmorLatticeSuper";
+  public static final String ARMOR_LATTICE_HYPER = "ArmorLatticeHyper";
   public static final String CHAOS_COAL = "ChaosCoal";
   public static final String CHAOS_CORE = "ChaosCore";
   public static final String CHAOS_ESSENCE = "ChaosEssence";

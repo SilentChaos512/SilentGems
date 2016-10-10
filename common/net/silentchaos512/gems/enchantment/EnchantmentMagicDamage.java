@@ -30,7 +30,7 @@ public class EnchantmentMagicDamage extends Enchantment {
   public boolean canApplyAtEnchantingTable(ItemStack stack) {
 
     return stack.getItem() instanceof ItemGemSword
-        && ToolHelper.getToolTier(stack) == EnumMaterialTier.SUPER
+        && ToolHelper.getToolTier(stack).ordinal() >= EnumMaterialTier.SUPER.ordinal()
         && super.canApplyAtEnchantingTable(stack);
   }
 

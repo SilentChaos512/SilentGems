@@ -59,8 +59,7 @@ public class GemsCommonEvents {
 
     if (event.crafting.getItem() instanceof ITool) {
       ToolHelper.setOriginalOwner(event.crafting, event.player);
-    }
-    else if (event.crafting.getItem() instanceof IArmor) {
+    } else if (event.crafting.getItem() instanceof IArmor) {
       ArmorHelper.setOriginalOwner(event.crafting, event.player);
     }
   }
@@ -81,12 +80,12 @@ public class GemsCommonEvents {
 
       // Reduce speed for Area Miner and Lumberjack.
       if (mainHand.getItem() == ModItems.pickaxe || mainHand.getItem() == ModItems.shovel) {
-        if (ToolHelper.getToolTier(mainHand) == EnumMaterialTier.SUPER
+        if (ToolHelper.getToolTier(mainHand).ordinal() >= EnumMaterialTier.SUPER.ordinal()
             && ToolHelper.isSpecialAbilityEnabled(mainHand)) {
           SkillAreaMiner.INSTANCE.onGetBreakSpeed(event);
         }
       } else if (mainHand.getItem() == ModItems.axe) {
-        if (ToolHelper.getToolTier(mainHand) == EnumMaterialTier.SUPER
+        if (ToolHelper.getToolTier(mainHand).ordinal() >= EnumMaterialTier.SUPER.ordinal()
             && ToolHelper.isSpecialAbilityEnabled(mainHand)) {
           SkillLumberjack.INSTANCE.onGetBreakSpeed(event);
         }

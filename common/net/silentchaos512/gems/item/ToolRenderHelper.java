@@ -102,7 +102,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     final boolean isSword = item instanceof ItemGemSword;
     final boolean isAxe = item instanceof ItemGemAxe;
     final boolean isWeapon = isSword || isAxe;
-    final boolean isCaster = isSword && ToolHelper.getToolTier(tool) == EnumMaterialTier.SUPER;
+    final boolean isCaster = isSword
+        && ToolHelper.getToolTier(tool).ordinal() >= EnumMaterialTier.SUPER.ordinal();
     final boolean isBow = item instanceof ItemGemBow;
     final boolean isDigger = item instanceof ItemTool;
     final boolean isShield = item instanceof ItemGemShield;
@@ -388,7 +389,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       return null;
     if (ToolHelper.isBroken(tool))
       return modelBlank;
-    boolean superTier = ToolHelper.getToolTier(tool) == EnumMaterialTier.SUPER;
+    boolean superTier = ToolHelper.getToolTier(tool).ordinal() >= EnumMaterialTier.SUPER.ordinal();
     return arrowModels[superTier ? frame + 4 : frame];
   }
 

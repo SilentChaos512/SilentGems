@@ -702,7 +702,7 @@ public class ToolHelper {
     // Check tier - "Super" tools can only be super tier!
     EnumMaterialTier toolTier = getToolTier(result);
     if (item == ModItems.katana || item == ModItems.scepter) {
-      if (toolTier != EnumMaterialTier.SUPER)
+      if (toolTier.ordinal() < EnumMaterialTier.SUPER.ordinal())
         return null;
     }
 

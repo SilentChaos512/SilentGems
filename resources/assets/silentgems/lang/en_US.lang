@@ -702,9 +702,10 @@ misc.silentgems:ToolPart.Rod=&3Tool Rod
 misc.silentgems:ToolPart.Grade=&3Grade: %s
 misc.silentgems:ToolPart.Tier=&3Tier: %s
 misc.silentgems:ToolPart.ValidTiers=Valid tool tiers:
-misc.silentgems:ToolTier.mundane=Mundane
-misc.silentgems:ToolTier.regular=Regular
-misc.silentgems:ToolTier.super=Super
+misc.silentgems:ToolTier.MUNDANE=Mundane
+misc.silentgems:ToolTier.REGULAR=Regular
+misc.silentgems:ToolTier.SUPER=Super
+misc.silentgems:ToolTier.HYPER=Hyper
 
 misc.silentgems:Grade.none=None
 
