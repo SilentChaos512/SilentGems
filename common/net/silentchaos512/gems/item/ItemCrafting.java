@@ -134,7 +134,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
     // Ender Frost
     RecipeHelper.addSurround(enderFrost, enderEssence, Blocks.ICE);
     // Gilded String
-    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 1, gildedString.getItemDamage()),
+    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 3, gildedString.getItemDamage()),
         "gsg", "gsg", "gsg", 's', Items.STRING, 'g', "nuggetGold"));
     // Yarn Ball
     RecipeHelper.addSurround(yarnBall,
