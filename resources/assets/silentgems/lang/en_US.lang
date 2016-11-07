@@ -542,6 +542,9 @@ item.silentgems:GemShard29.name=Ametrine Shard
 item.silentgems:GemShard30.name=Black Diamond Shard
 item.silentgems:GemShard31.name=Alexandrite Shard
 
+item.silentgems:GlowRoseFertilizer.name=Glow Rose Fertilizer
+item.silentgems:GlowRoseFertilizer.desc=Grows glow roses. Say that three times fast!
+
 item.silentgems:NodeMover0.name=Chaos Node Mover (Empty)
 item.silentgems:NodeMover1.name=Chaos Node Mover (Filled)
 item.silentgems:NodeMover2.name=Chaos Node Mover (Spent)

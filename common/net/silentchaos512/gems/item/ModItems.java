@@ -41,6 +41,7 @@ public class ModItems {
   public static final ItemArmorFrame armorFrame = new ItemArmorFrame();
   public static final ItemFluffyPuffSeeds fluffyPuffSeeds = new ItemFluffyPuffSeeds();
   public static final ItemFluffyPuff fluffyPuff = new ItemFluffyPuff();
+  public static final ItemGlowRoseFertilizer glowRoseFertilizier = new ItemGlowRoseFertilizer();
   public static final ItemDyeSG dye = new ItemDyeSG();
   public static final ItemFoodSG food = new ItemFoodSG();
   public static final ItemTorchBandolier torchBandolier = new ItemTorchBandolier();
@@ -89,6 +90,7 @@ public class ModItems {
     reg.registerItem(armorFrame).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(fluffyPuffSeeds, Names.FLUFFY_PUFF_SEEDS);
     reg.registerItem(fluffyPuff).setCreativeTab(GemsCreativeTabs.materials);
+    reg.registerItem(glowRoseFertilizier).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(dye).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(food, Names.FOOD).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(torchBandolier).setCreativeTab(GemsCreativeTabs.tools);
