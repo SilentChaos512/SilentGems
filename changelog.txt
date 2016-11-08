@@ -1,5 +1,11 @@
 Silent's Gems - Changelog
 
+2.1.2
+Added: Glow Rose Fertilizer. Use it like bonemeal to grow glow roses.
+Changed: Tweaked weights for loot.
+Fixed: The gilded string recipe. For real this time... I think. (It's supposed to make 3, not 1)
+Fixed (maybe): A crash with Forge 2122 related to Chaos Nodes ("Don't know how to add class...")
+
 2.1.1
 Changed: Bows now affect the damage of the arrow (based on the melee damage stat)
 Changed: Bow minimum draw delay is now 10 ticks (previously 5)

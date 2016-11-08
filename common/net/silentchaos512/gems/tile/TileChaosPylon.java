@@ -26,7 +26,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
   public static final double SEARCH_RADIUS_PLAYER_SQUARED = 16 * 16;
   public static final int SEARCH_RADIUS_BLOCK = 6;
   public static final int SEND_CHAOS_DELAY = 100;
-  public static final int MAX_CHAOS_STORED = 10000;
+  public static final int MAX_CHAOS_STORED = 100000;
   public static final int MAX_CHAOS_TRANSFERED = 10000;
   public static final int CHAOS_GENERATION_RATE_PASSIVE = 10;
   public static final int CHAOS_GENERATION_RATE_BURNER = 100;

@@ -21,7 +21,7 @@ import net.silentchaos512.lib.util.DimensionalPosition;
 
 public class TileChaosAltar extends TileEntity implements ISidedInventory, ITickable, IChaosAccepter {
 
-  public static final int MAX_CHAOS_STORED = 1000000;
+  public static final int MAX_CHAOS_STORED = 10000000;
   public static final int MAX_RECEIVE = 100000;
 
   public static final int[] SLOTS_BOTTOM = { 1 };

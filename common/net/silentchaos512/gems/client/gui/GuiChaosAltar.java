@@ -5,30 +5,30 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.inventory.ContainerChaosAltar;
 import net.silentchaos512.gems.tile.TileChaosAltar;
-import net.silentchaos512.gems.tile.TileMaterialGrader;
 
 public class GuiChaosAltar extends GuiContainer {
 
   private static final ResourceLocation guiTextures = new ResourceLocation(
       "silentgems:textures/gui/ChaosAltar.png");
-  private final InventoryPlayer playerInventory;
   private TileChaosAltar tileAltar;
 
   public GuiChaosAltar(InventoryPlayer playerInventory, TileChaosAltar altar) {
 
     super(new ContainerChaosAltar(playerInventory, altar));
-    this.playerInventory = playerInventory;
     this.tileAltar = altar;
   }
 
   @Override
   protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 
-    // String str = "%d / %d";
-    // str = String.format(str, tileAltar.getCharge(), tileAltar.getMaxCharge());
-    // this.fontRendererObj.drawString(str, 8, 6, 0x404040);
+    if (GemsConfig.DEBUG_MODE) {
+      String str = "%,d / %,d";
+      str = String.format(str, tileAltar.getCharge(), tileAltar.getMaxCharge());
+      this.fontRendererObj.drawString(str, 8, 6, 0x404040);
+    }
   }
 
   @Override

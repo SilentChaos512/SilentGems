@@ -7,6 +7,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.inventory.ContainerMaterialGrader;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
 
@@ -44,7 +45,8 @@ public class GuiMaterialGrader extends GuiContainer {
     i1 = 24 * chaos / TileMaterialGrader.MAX_CHARGE;
     drawTexturedModalRect(k + 79, l + 34, 176, 31, i1, 17);
 
-    // drawDebugInfo();
+    if (GemsConfig.DEBUG_MODE)
+      drawDebugInfo();
   }
 
   private int getAnalyzeProgress(int scale) {
@@ -55,7 +57,6 @@ public class GuiMaterialGrader extends GuiContainer {
         : 0;
   }
 
-  @SuppressWarnings("unused")
   private void drawDebugInfo() {
 
     if (!(tileInventory instanceof TileMaterialGrader)) {

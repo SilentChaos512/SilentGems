@@ -21,6 +21,7 @@ public class GemsConfig {
    * Debug
    */
 
+  public static boolean DEBUG_MODE = false;
   public static boolean DEBUG_LOG_POTS_AND_LIGHTS = false;
   public static int DEBUG_LOT_POTS_AND_LIGHTS_DELAY = 1200;
 
@@ -137,6 +138,10 @@ public class GemsConfig {
       c.setCategoryComment(CAT_DEBUG, "Options for debugging. Generally, you should leave these "
           + "alone unless I tell you to change them. Enabling debug options will likely result in "
           + "log spam, but may help me track down issues.");
+
+      DEBUG_MODE = c.getBoolean("Debug Mode", CAT_DEBUG,
+          DEBUG_MODE,
+          "Generic debug mode option. May add text to GUIs and WIT HUD.");
 
       DEBUG_LOG_POTS_AND_LIGHTS = c.getBoolean("Log Pots and Lights", CAT_DEBUG,
           DEBUG_LOG_POTS_AND_LIGHTS,
