@@ -34,6 +34,11 @@ public class EntityPacketRepair extends EntityChaosNodePacket {
     this.amount = amount;
   }
 
+  public EntityPacketRepair(World worldIn) {
+
+    super(worldIn);
+  }
+
   public static int selectRepairValue(Random rand) {
 
     int value = (int) (VALUE_MEAN + VALUE_DEVIATION * rand.nextGaussian());

@@ -37,6 +37,11 @@ public class EntityPacketChaos extends EntityChaosNodePacket {
     this.amount = amount;
   }
 
+  public EntityPacketChaos(World worldIn) {
+
+    super(worldIn);
+  }
+
   @Override
   public void onImpactWithEntity(EntityLivingBase entity) {
 

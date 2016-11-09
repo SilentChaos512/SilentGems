@@ -29,6 +29,11 @@ public class EntityPacketRegen extends EntityChaosNodePacket {
     super(worldIn, target);
     this.amount = amount;
   }
+  
+  public EntityPacketRegen(World worldIn) {
+
+    super(worldIn);
+  }
 
   @Override
   public void onImpactWithEntity(EntityLivingBase entity) {

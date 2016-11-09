@@ -30,6 +30,11 @@ public class EntityPacketLevitation extends EntityChaosNodePacket {
     this.amount = duration;
   }
 
+  public EntityPacketLevitation(World worldIn) {
+
+    super(worldIn);
+  }
+
   @Override
   public void onImpactWithEntity(EntityLivingBase entity) {
 

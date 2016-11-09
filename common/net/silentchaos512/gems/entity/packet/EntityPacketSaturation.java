@@ -31,6 +31,11 @@ public class EntityPacketSaturation extends EntityChaosNodePacket {
     this.amount = amount;
   }
 
+  public EntityPacketSaturation(World worldIn) {
+
+    super(worldIn);
+  }
+
   @Override
   public void onImpactWithEntity(EntityLivingBase entity) {
 

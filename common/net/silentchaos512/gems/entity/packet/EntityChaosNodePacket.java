@@ -235,8 +235,6 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
   @Override
   protected void readEntityFromNBT(NBTTagCompound tagCompund) {
 
-    // This is never called!?
-    SilentGems.instance.logHelper.debug("Node packet read NBT");
     amount = tagCompund.getFloat(NBT_AMOUNT);
     if (tagCompund.hasKey(NBT_TARGET_ENTITY)) {
       targetEntity = (EntityLivingBase) worldObj
@@ -255,8 +253,6 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
   @Override
   protected void writeEntityToNBT(NBTTagCompound tagCompound) {
 
-    // This is never called!?
-    SilentGems.instance.logHelper.debug("Node packet write NBT");
     tagCompound.setFloat(NBT_AMOUNT, amount);
     if (targetEntity != null) {
       tagCompound.setInteger(NBT_TARGET_ENTITY, targetEntity.getEntityId());
