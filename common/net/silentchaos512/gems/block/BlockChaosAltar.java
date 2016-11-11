@@ -46,9 +46,9 @@ public class BlockChaosAltar extends BlockContainerSL {
   public void addRecipes() {
 
     ItemStack result = new ItemStack(this);
-    ItemStack chaosCore = ModItems.craftingMaterial.chaosCore;
-    GameRegistry.addRecipe(new ShapedOreRecipe(result, " e ", "dod", "ooo", 'e', chaosCore, 'o',
-        Blocks.OBSIDIAN, 'd', "gemDiamond"));
+    ItemStack chaos = ModItems.craftingMaterial.chaosEssenceEnriched;
+    GameRegistry.addRecipe(new ShapedOreRecipe(result, "rer", "dod", "ooo", 'e', chaos, 'r',
+        "dustRedstone", 'o', Blocks.OBSIDIAN, 'd', "gemDiamond"));
   }
 
   @Override
