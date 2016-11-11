@@ -1,10 +1,14 @@
 Silent's Gems - Changelog
 
 2.1.2
+The WIP Sky Block Update! Let me know how this works out. New features and tweaks may still need balancing, but I want to get this build out ASAP because it fixes a crash.
+Added: Chaos Altar Transmutation. Put certain items in the Chaos Altar to turn them into other items. Requires Chaos to work. Currently just one recipe: Chaos Essence Shards to Chaos Essence.
 Added: Glow Rose Fertilizer. Use it like bonemeal to grow glow roses.
+Changed: Capacity of Chaos Altar and Pylons greatly increased.
+Changed: Chaos Altar recipe is now much cheaper.
 Changed: Tweaked weights for loot.
+Fixed: A crash with recent Forge versions related to Chaos Nodes ("Don't know how to add class...")
 Fixed: The gilded string recipe. For real this time... I think. (It's supposed to make 3, not 1)
-Fixed (maybe): A crash with Forge 2122 related to Chaos Nodes ("Don't know how to add class...")
 
 2.1.1
 Changed: Bows now affect the damage of the arrow (based on the melee damage stat)

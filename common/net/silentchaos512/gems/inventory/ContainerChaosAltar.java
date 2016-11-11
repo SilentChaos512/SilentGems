@@ -18,7 +18,7 @@ public class ContainerChaosAltar extends Container {
     this.addSlotToContainer(new SpecialSlot(altarInventory, 1, 111, 35)); // I added this small class to keep people
                                                                           // from putting stuff in the output slot - you
                                                                           // can remove if you want. -M4th
-    // this.addSlotToContainer(new Slot(altarInventory, 1, 111, 35));
+    this.addSlotToContainer(new Slot(altarInventory, 2, 83, 54));
 
     int i;
     for (i = 0; i < 3; ++i) {

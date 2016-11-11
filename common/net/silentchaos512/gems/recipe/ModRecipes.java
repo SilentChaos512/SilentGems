@@ -2,11 +2,16 @@ package net.silentchaos512.gems.recipe;
 
 import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.SilentGemsAPI;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.lib.registry.SRegistry;
 
 public class ModRecipes {
 
   public static void init() {
+
+    SilentGemsAPI.addAltarRecipe(ModItems.craftingMaterial.chaosEssence,
+        ModItems.craftingMaterial.chaosEssenceShard, 100000);
 
     SRegistry reg = SilentGems.instance.registry;
     String dep = "after:minecraft:shapeless";

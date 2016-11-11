@@ -14,60 +14,111 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.chunk.Chunk;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
+import net.silentchaos512.gems.api.recipe.altar.RecipeChaosAltar;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.util.DimensionalPosition;
 
-public class TileChaosAltar extends TileEntity implements ISidedInventory, ITickable, IChaosAccepter {
+public class TileChaosAltar extends TileEntity
+    implements ISidedInventory, ITickable, IChaosAccepter {
 
   public static final int MAX_CHAOS_STORED = 10000000;
   public static final int MAX_RECEIVE = 100000;
+  public static final int TRANSMUTE_CHAOS_PER_TICK = 80;
 
   public static final int[] SLOTS_BOTTOM = { 1 };
   public static final int[] SLOTS_TOP = { 0 };
   public static final int[] SLOTS_SIDE = { 0 };
 
+  public static final int SLOT_INPUT = 0;
+  public static final int SLOT_OUTPUT = 1;
+  public static final int SLOT_CATALYST = 2;
+  public static final int INVENTORY_SIZE = 3;
+
   protected int chaosStored;
-  protected ItemStack[] inventory = new ItemStack[2];
+  protected int transmuteProgress = 0;
+
+  protected ItemStack[] inventory = new ItemStack[INVENTORY_SIZE];
 
   @Override
   public void update() {
 
-    if (worldObj.isRemote) {
+    if (worldObj.isRemote)
       return;
-    }
 
-    ItemStack stack = getStackInSlot(0);
-    if (stack != null && stack.getItem() instanceof IChaosStorage) {
+    ItemStack inputStack = getStackInSlot(SLOT_INPUT);
+    if (inputStack == null) return;
+    ItemStack outputStack = getStackInSlot(SLOT_OUTPUT);
+
+    // Chaos storage item?
+    if (inputStack.getItem() instanceof IChaosStorage) {
       // Charge chaos storage items.
-      IChaosStorage chaosStorage = (IChaosStorage) stack.getItem();
-      int amount = chaosStorage.receiveCharge(stack, Math.min(chaosStored, 1000), false);
+      IChaosStorage chaosStorage = (IChaosStorage) inputStack.getItem();
+      int amount = chaosStorage.receiveCharge(inputStack, Math.min(chaosStored, 1000), false);
       chaosStored -= amount;
 
       // Send update?
-      if (amount != 0) {
+      if (amount != 0)
         markDirty();
-      }
 
       // Move full items to second slot
-      if (chaosStorage.getCharge(stack) == chaosStorage.getMaxCharge(stack)) {
-        if (getStackInSlot(1) == null) {
-          setInventorySlotContents(1, stack);
-          setInventorySlotContents(0, null);
+      if (chaosStorage.getCharge(inputStack) >= chaosStorage.getMaxCharge(inputStack)) {
+        if (outputStack == null) {
+          setInventorySlotContents(SLOT_OUTPUT, inputStack);
+          removeStackFromSlot(SLOT_INPUT);
         }
+      }
+    }
+    // Chaos altar recipe?
+    else {
+      RecipeChaosAltar recipe = RecipeChaosAltar.getMatchingRecipe(inputStack);
+      if (recipe != null) {
+        // Drain Chaos
+        int chaosDrained = Math.min(chaosStored,
+            Math.min(TRANSMUTE_CHAOS_PER_TICK, recipe.getChaosCost() - transmuteProgress));
+        chaosStored -= chaosDrained;
+
+        // Transmute progress
+        transmuteProgress += chaosDrained;
+        boolean willFitInOutputSlot = outputStack == null
+            || (outputStack.isItemEqual(recipe.getOutput()) && outputStack.stackSize
+                + recipe.getOutput().stackSize <= outputStack.getMaxStackSize());
+
+        if (transmuteProgress >= recipe.getChaosCost() && willFitInOutputSlot) {
+          // Transmute complete
+          transmuteProgress = 0;
+          if (outputStack == null)
+            setInventorySlotContents(SLOT_OUTPUT, recipe.getOutput());
+          else
+            getStackInSlot(SLOT_OUTPUT).stackSize += recipe.getOutput().stackSize;
+
+          decrStackSize(SLOT_INPUT, 1);
+        }
+
+        if (chaosDrained != 0)
+          markDirty();
+      } else {
+        transmuteProgress = 0;
       }
     }
   }
 
   public ItemStack getStackToRender() {
 
-    for (ItemStack stack : inventory) {
-      if (stack != null) {
-        return stack;
-      }
-    }
+    ItemStack stack = getStackInSlot(SLOT_INPUT);
+    if (stack != null) return stack;
+
+    stack = getStackInSlot(SLOT_OUTPUT);
+    if (stack != null) return stack;
+
     return null;
+  }
+
+  public RecipeChaosAltar getActiveRecipe() {
+
+    return RecipeChaosAltar.getMatchingRecipe(getStackInSlot(SLOT_INPUT));
   }
 
   @Override
@@ -75,14 +126,15 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
 
     super.readFromNBT(tags);
     chaosStored = tags.getInteger("Energy");
+    transmuteProgress = tags.getInteger("Progress");
 
     NBTTagList tagList = tags.getTagList("Items", 10);
     for (int i = 0; i < tagList.tagCount(); ++i) {
       NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
       byte slot = tagCompound.getByte("Slot");
 
-      if (slot >= 0 && slot < inventory.length) {
-        this.inventory[slot] = ItemStack.loadItemStackFromNBT(tagCompound);
+      if (slot >= 0 && slot < getSizeInventory()) {
+        setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(tagCompound));
       }
     }
   }
@@ -92,13 +144,15 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
 
     super.writeToNBT(tags);
     tags.setInteger("Energy", chaosStored);
+    tags.setInteger("Progress", transmuteProgress);
 
     NBTTagList tagList = new NBTTagList();
-    for (int i = 0; i < inventory.length; ++i) {
-      if (this.inventory[i] != null) {
+    for (int slot = 0; slot < getSizeInventory(); ++slot) {
+      ItemStack stack = getStackInSlot(slot);
+      if (stack != null) {
         NBTTagCompound tagCompound = new NBTTagCompound();
-        tagCompound.setByte("Slot", (byte) i);
-        this.inventory[i].writeToNBT(tagCompound);
+        tagCompound.setByte("Slot", (byte) slot);
+        stack.writeToNBT(tagCompound);
         tagList.appendTag(tagCompound);
       }
     }
@@ -111,6 +165,7 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
 
     NBTTagCompound tags = new NBTTagCompound();
     tags.setInteger("Energy", getCharge());
+    tags.setInteger("Progress", transmuteProgress);
     return new SPacketUpdateTileEntity(pos, 1, tags);
   }
 
@@ -119,6 +174,7 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
 
     NBTTagCompound tags = super.getUpdateTag();
     tags.setInteger("Energy", getCharge());
+    tags.setInteger("Progress", transmuteProgress);
     return tags;
   }
 
@@ -126,6 +182,7 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
   public void onDataPacket(NetworkManager network, SPacketUpdateTileEntity packet) {
 
     chaosStored = packet.getNbtCompound().getInteger("Energy");
+    transmuteProgress = packet.getNbtCompound().getInteger("Progress");
   }
 
   @Override
@@ -140,7 +197,7 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
   @Override
   public int getSizeInventory() {
 
-    return inventory.length;
+    return INVENTORY_SIZE;
   }
 
   @Override
@@ -224,7 +281,15 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
   @Override
   public int getField(int id) {
 
-    if (id == 0) return chaosStored;
+    switch (id) {
+      case 0:
+        return chaosStored;
+      case 1:
+        return transmuteProgress;
+      case 2:
+        RecipeChaosAltar recipe = RecipeChaosAltar.getMatchingRecipe(inventory[0]);
+        return recipe == null ? -1 : RecipeChaosAltar.ALL_RECIPES.indexOf(recipe);
+    }
     return 0;
   }
 
@@ -232,21 +297,20 @@ public class TileChaosAltar extends TileEntity implements ISidedInventory, ITick
   public void setField(int id, int value) {
 
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public int getFieldCount() {
 
-    // TODO Auto-generated method stub
-    return 0;
+    return 2;
   }
 
   @Override
   public void clear() {
 
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
