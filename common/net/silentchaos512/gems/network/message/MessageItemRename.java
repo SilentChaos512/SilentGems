@@ -22,16 +22,18 @@ public class MessageItemRename extends Message {
   public String playerName;
   public int slot;
   public String newItemName = "Something went wrong!";
+  public String unlocalizedName = "null";
 
   public MessageItemRename() {
 
   }
 
-  public MessageItemRename(String playerName, int slot, String newItemName) {
+  public MessageItemRename(String playerName, int slot, String newItemName, ItemStack stack) {
 
     this.playerName = playerName;
     this.slot = slot;
     this.newItemName = newItemName;
+    this.unlocalizedName = stack.getUnlocalizedName();
   }
 
   @Override
@@ -49,14 +51,14 @@ public class MessageItemRename extends Message {
     ItemStack stack = player.inventory.getStackInSlot(slot);
 
     if (player.getName().equals(playerName)) {
-
-      // TODO: Remove debug info.
-      log.info("MessageItemRename.handleMessage");
-      log.info("    Player Name = " + player.getName());
-      log.info("    Slot = " + slot + ", ItemStack = " + stack);
+      log.info(String.format("Tool/armor rename for player %s (slot %d)", player.getName(), slot));
+      log.info("    Unlocalized name = " + unlocalizedName);
 
       if (stack == null) {
-        log.warning("MessageItemRename.handleMessage: ItemStack is null!");
+        log.warning("    ItemStack is null!");
+        return null;
+      } else if (!stack.getUnlocalizedName().equals(unlocalizedName)) {
+        log.warning("    Unlocalized names do not match! Did the tool change slots?");
         return null;
       }
 

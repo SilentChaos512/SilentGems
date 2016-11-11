@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.1.3
+Added: Additional checks to item rename packets. Should help prevent odd name swapping bug that pops up occasionally. If you encounter tools/armor with incorrect names, please send me a server log.
+
 2.1.2
 The WIP Sky Block Update! Let me know how this works out. New features and tweaks may still need balancing, but I want to get this build out ASAP because it fixes a crash.
 Added: Chaos Altar Transmutation. Put certain items in the Chaos Altar to turn them into other items. Requires Chaos to work. Currently just one recipe: Chaos Essence Shards to Chaos Essence.

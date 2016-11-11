@@ -620,7 +620,7 @@ public class ToolHelper {
         // tool.setStackDisplayName(displayName);
 
         // Send to the server.
-        MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName);
+        MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName, tool);
         SilentGems.logHelper.info("Sending tool name \"" + displayName + "\" to server.");
         NetworkHandler.INSTANCE.sendToServer(message);
       }

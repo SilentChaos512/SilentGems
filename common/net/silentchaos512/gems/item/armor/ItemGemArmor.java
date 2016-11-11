@@ -297,8 +297,8 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
         // tool.setStackDisplayName(displayName);
 
         // Send to the server.
-        MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName);
-        SilentGems.logHelper.info("Sending armor name " + displayName + " to server.");
+        MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName, armor);
+        SilentGems.logHelper.info("Sending armor name \"" + displayName + "\" to server.");
         NetworkHandler.INSTANCE.sendToServer(message);
       }
     }
