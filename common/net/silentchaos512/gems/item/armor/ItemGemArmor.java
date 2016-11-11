@@ -278,7 +278,6 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
       EntityPlayer player = (EntityPlayer) entity;
       if (world.isRemote && armor.hasTagCompound()
           && armor.getTagCompound().hasKey(ToolHelper.NBT_TEMP_PARTLIST)) {
-        SilentGems.logHelper.derp();
         NBTTagCompound compound = armor.getTagCompound()
             .getCompoundTag(ToolHelper.NBT_TEMP_PARTLIST);
 
@@ -299,6 +298,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
         // Send to the server.
         MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName);
+        SilentGems.logHelper.info("Sending armor name " + displayName + " to server.");
         NetworkHandler.INSTANCE.sendToServer(message);
       }
     }

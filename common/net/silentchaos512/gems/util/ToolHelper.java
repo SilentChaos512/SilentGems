@@ -621,7 +621,7 @@ public class ToolHelper {
 
         // Send to the server.
         MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName);
-        SilentGems.logHelper.info("Sending tool name " + displayName + " to server.");
+        SilentGems.logHelper.info("Sending tool name \"" + displayName + "\" to server.");
         NetworkHandler.INSTANCE.sendToServer(message);
       }
     }
