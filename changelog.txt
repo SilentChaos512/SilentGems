@@ -2,6 +2,8 @@ Silent's Gems - Changelog
 
 2.1.3
 Added: Additional checks to item rename packets. Should help prevent odd name swapping bug that pops up occasionally. If you encounter tools/armor with incorrect names, please send me a server log.
+Added: Chaos Altar catalyst slot (the new one in the middle) now functions.
+Fixed: TheOneProbe and Wawla displaying dark gem ores incorrectly.
 
 2.1.2
 The WIP Sky Block Update! Let me know how this works out. New features and tweaks may still need balancing, but I want to get this build out ASAP because it fixes a crash.

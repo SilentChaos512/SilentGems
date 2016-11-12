@@ -11,7 +11,7 @@ public class ModRecipes {
   public static void init() {
 
     SilentGemsAPI.addAltarRecipe(ModItems.craftingMaterial.chaosEssence,
-        ModItems.craftingMaterial.chaosEssenceShard, 100000);
+        ModItems.craftingMaterial.chaosEssenceShard, 100000, null);
 
     SRegistry reg = SilentGems.instance.registry;
     String dep = "after:minecraft:shapeless";

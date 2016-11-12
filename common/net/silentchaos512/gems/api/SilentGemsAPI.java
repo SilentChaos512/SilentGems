@@ -5,9 +5,14 @@ import net.silentchaos512.gems.api.recipe.altar.RecipeChaosAltar;
 
 public class SilentGemsAPI {
 
+  public static void addAltarRecipe(ItemStack output, ItemStack input, int chaosCost, ItemStack catalyst) {
+
+    addAltarRecipe(new RecipeChaosAltar(output, input, chaosCost, catalyst));
+  }
+
   public static void addAltarRecipe(ItemStack output, ItemStack input, int chaosCost) {
 
-    addAltarRecipe(new RecipeChaosAltar(output, input, chaosCost));
+    addAltarRecipe(new RecipeChaosAltar(output, input, chaosCost, null));
   }
 
   public static void addAltarRecipe(RecipeChaosAltar recipe) {

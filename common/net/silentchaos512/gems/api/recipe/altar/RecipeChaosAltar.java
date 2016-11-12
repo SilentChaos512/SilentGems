@@ -12,21 +12,29 @@ public class RecipeChaosAltar {
 
   private ItemStack input;
   private ItemStack output;
+  private ItemStack catalyst;
   private int chaosCost;
 
   public RecipeChaosAltar(ItemStack output, ItemStack input, int chaosCost) {
 
+    this(output, input, chaosCost, null);
+  }
+
+  public RecipeChaosAltar(ItemStack output, ItemStack input, int chaosCost, ItemStack catalyst) {
+
     this.output = output;
     this.input = input;
     this.chaosCost = chaosCost;
+    this.catalyst = catalyst;
   }
 
-  public static RecipeChaosAltar getMatchingRecipe(ItemStack inputStack) {
+  public static RecipeChaosAltar getMatchingRecipe(ItemStack inputStack, ItemStack catalystStack) {
 
-    if (inputStack == null) return null;
+    if (inputStack == null)
+      return null;
 
     for (RecipeChaosAltar recipe : ALL_RECIPES)
-      if (recipe.matches(inputStack))
+      if (recipe.matches(inputStack, catalystStack))
         return recipe;
 
     return null;
@@ -34,7 +42,8 @@ public class RecipeChaosAltar {
 
   public static RecipeChaosAltar getRecipeByOutput(ItemStack outputStack) {
 
-    if (outputStack == null) return null;
+    if (outputStack == null)
+      return null;
 
     for (RecipeChaosAltar recipe : ALL_RECIPES)
       if (recipe.output.isItemEqual(outputStack))
@@ -45,7 +54,8 @@ public class RecipeChaosAltar {
 
   public static boolean isValidIngredient(ItemStack inputStack) {
 
-    if (inputStack == null) return false;
+    if (inputStack == null)
+      return false;
 
     for (RecipeChaosAltar recipe : ALL_RECIPES)
       if (recipe.input.isItemEqual(inputStack))
@@ -54,10 +64,12 @@ public class RecipeChaosAltar {
     return false;
   }
 
-  public boolean matches(ItemStack inputStack) {
+  public boolean matches(ItemStack inputStack, ItemStack catalystStack) {
 
+    boolean catalystMatch = this.catalyst == null
+        || (catalystStack != null && catalystStack.isItemEqual(this.catalyst));
     return inputStack != null && this.input != null && this.output != null
-        && inputStack.isItemEqual(this.input);
+        && inputStack.isItemEqual(this.input) && catalystMatch;
   }
 
   public ItemStack getInput() {
@@ -68,6 +80,11 @@ public class RecipeChaosAltar {
   public ItemStack getOutput() {
 
     return output.copy();
+  }
+
+  public ItemStack getCatalyst() {
+
+    return catalyst.copy();
   }
 
   public int getChaosCost() {

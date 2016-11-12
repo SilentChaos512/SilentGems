@@ -51,6 +51,7 @@ public class TileChaosAltar extends TileEntity
     ItemStack inputStack = getStackInSlot(SLOT_INPUT);
     if (inputStack == null) return;
     ItemStack outputStack = getStackInSlot(SLOT_OUTPUT);
+    ItemStack catalystStack = getStackInSlot(SLOT_CATALYST);
 
     // Chaos storage item?
     if (inputStack.getItem() instanceof IChaosStorage) {
@@ -73,7 +74,7 @@ public class TileChaosAltar extends TileEntity
     }
     // Chaos altar recipe?
     else {
-      RecipeChaosAltar recipe = RecipeChaosAltar.getMatchingRecipe(inputStack);
+      RecipeChaosAltar recipe = RecipeChaosAltar.getMatchingRecipe(inputStack, catalystStack);
       if (recipe != null) {
         // Drain Chaos
         int chaosDrained = Math.min(chaosStored,
@@ -118,7 +119,8 @@ public class TileChaosAltar extends TileEntity
 
   public RecipeChaosAltar getActiveRecipe() {
 
-    return RecipeChaosAltar.getMatchingRecipe(getStackInSlot(SLOT_INPUT));
+    return RecipeChaosAltar.getMatchingRecipe(getStackInSlot(SLOT_INPUT),
+        getStackInSlot(SLOT_CATALYST));
   }
 
   @Override
@@ -287,7 +289,8 @@ public class TileChaosAltar extends TileEntity
       case 1:
         return transmuteProgress;
       case 2:
-        RecipeChaosAltar recipe = RecipeChaosAltar.getMatchingRecipe(inventory[0]);
+        RecipeChaosAltar recipe = RecipeChaosAltar.getMatchingRecipe(getStackInSlot(SLOT_INPUT),
+            getStackInSlot(SLOT_CATALYST));
         return recipe == null ? -1 : RecipeChaosAltar.ALL_RECIPES.indexOf(recipe);
     }
     return 0;
