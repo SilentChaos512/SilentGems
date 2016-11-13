@@ -239,7 +239,7 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
     if (tagCompund.hasKey(NBT_TARGET_ENTITY)) {
       targetEntity = (EntityLivingBase) worldObj
           .getEntityByID(tagCompund.getInteger(NBT_TARGET_ENTITY));
-    } else if (tagCompund.hasKey(NBT_TARGET_POS)) {
+    } else if (tagCompund.hasKey(NBT_TARGET_POS + "Y")) {
       int x = tagCompund.getInteger(NBT_TARGET_POS + "X");
       int y = tagCompund.getInteger(NBT_TARGET_POS + "Y");
       int z = tagCompund.getInteger(NBT_TARGET_POS + "Z");
