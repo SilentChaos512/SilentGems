@@ -1,8 +1,11 @@
 Silent's Gems - Changelog
 
+2.1.4
+Updated for Silent Lib 1.1.0
+
 2.1.3
 Added: Additional checks to item rename packets. Should help prevent odd name swapping bug that pops up occasionally. If you encounter tools/armor with incorrect names, please send me a server log.
-Added: Chaos Altar catalyst slot (the new one in the middle) now functions.
+Added: Chaos Altar catalyst slot (the new one in the middle) now functions... but is still not used.
 Fixed: Chaos packets not loading their target position correctly. Fixes vanishing packets and log spam.
 Fixed: The One Probe and Wawla displaying dark gem ores incorrectly.
 
