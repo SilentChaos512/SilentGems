@@ -246,7 +246,6 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
       int z = tagCompund.getInteger(NBT_TARGET_POS + "Z");
       targetPos = new BlockPos(x, y, z);
     } else {
-      SilentGems.instance.logHelper.warning("Chaos node packet entity with no target? " + this);
       ticksExisted = maxLife - 20;
     }
   }
