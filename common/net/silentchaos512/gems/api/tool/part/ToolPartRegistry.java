@@ -1,14 +1,15 @@
 package net.silentchaos512.gems.api.tool.part;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import net.silentchaos512.gems.SilentGems;
 
 /**
  * Used to register tool parts, and match parts to item stacks.
@@ -19,6 +20,7 @@ import net.silentchaos512.gems.SilentGems;
 public class ToolPartRegistry {
 
   private static Map<String, ToolPart> map = Maps.newHashMap();
+  private static List<ToolPartMain> mains = Lists.newArrayList();
 
   /**
    * @param key
@@ -38,10 +40,12 @@ public class ToolPartRegistry {
   public static void putPart(ToolPart part) {
 
     String key = part.key;
-    if (map.containsKey(key)) {
+    if (map.containsKey(key))
       throw new IllegalArgumentException("Already have a part with key " + part.key);
-    }
     map.put(key, part);
+
+    if (part instanceof ToolPartMain)
+      mains.add((ToolPartMain) part);
   }
 
   /**
@@ -78,5 +82,13 @@ public class ToolPartRegistry {
   public static Collection<ToolPart> getValues() {
 
     return map.values();
+  }
+
+  /**
+   * Gets a list of registered ToolPartMains in the order they are registered (used for sub-item display). DO NOT modify this.
+   */
+  public static List<ToolPartMain> getMains() {
+
+    return mains;
   }
 }

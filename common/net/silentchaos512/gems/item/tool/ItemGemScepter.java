@@ -15,6 +15,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
@@ -30,6 +31,8 @@ public class ItemGemScepter extends ItemGemSword {
 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
+
+    if (GemsConfig.TOOL_DISABLE_SCEPTER) return null; // FIXME: 1.11
 
     if (materials.length >= 2) {
       ItemStack temp = materials[0];
@@ -69,12 +72,14 @@ public class ItemGemScepter extends ItemGemSword {
   @Override
   public void addRecipes() {
 
+    if (GemsConfig.TOOL_DISABLE_SCEPTER) return;
+
     String line1 = " g ";
     String line2 = "gsg";
     String line3 = "gsg";
     for (EnumGem gem : EnumGem.values()) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(true, gem.getItemSuper()), line1,
-          line2, line3, 'g', gem.getItemSuper(), 's', ModItems.craftingMaterial.toolRodGold));
+      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), line1, line2, line3,
+          gem.getItemSuper(), ModItems.craftingMaterial.toolRodGold);
     }
   }
 

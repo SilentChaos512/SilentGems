@@ -32,6 +32,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IBlockPlacer;
 import net.silentchaos512.gems.api.ITool;
@@ -50,7 +52,6 @@ import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageItemRename;
@@ -123,7 +124,7 @@ public class ToolHelper {
   public static final String NBT_STATS_PATHS_MADE = "PathsMade";
   public static final String NBT_STATS_SHOTS_FIRED = "ShotsFired";
   public static final String NBT_STATS_SHOTS_LANDED = "ShotsLanded";
-  public static final String NBT_STATS_THROWN= "ThrownCount";
+  public static final String NBT_STATS_THROWN = "ThrownCount";
 
   public static void init() {
 
@@ -620,7 +621,8 @@ public class ToolHelper {
         // tool.setStackDisplayName(displayName);
 
         // Send to the server.
-        MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName, tool);
+        MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName,
+            tool);
         SilentGems.logHelper.info("Sending tool name \"" + displayName + "\" to server.");
         NetworkHandler.INSTANCE.sendToServer(message);
       }
@@ -873,25 +875,38 @@ public class ToolHelper {
     final ItemStack rodIron = ModItems.craftingMaterial.toolRodIron;
     final ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
 
-    if (!isSuperTool) {
-      // Test broken items.
-      ItemStack testBroken = constructTool(item, rodWood, new ItemStack(Items.FLINT),
-          materialLength);
-      testBroken.setItemDamage(getMaxDamage(testBroken) - 1);
-      list.add(testBroken);
-
-      // Flint
-      list.add(constructTool(item, rodWood, new ItemStack(Items.FLINT), materialLength));
-
-      // Regular Gems
-      for (EnumGem gem : EnumGem.values())
-        list.add(constructTool(item, item instanceof ItemGemShield ? rodIron : rodWood,
-            gem.getItem(), materialLength));
+    ItemStack tool;
+    for (ToolPartMain part : ToolPartRegistry.getMains()) {
+      if (part.getCraftingStack() != null && !part.isBlacklisted(part.getCraftingStack())) { // FIXME: 1.11
+        if (isSuperTool && part.getTier() != EnumMaterialTier.SUPER)
+          continue;
+        list.add(constructTool(item,
+            part.getTier() == EnumMaterialTier.SUPER ? rodGold
+                : item instanceof ItemGemShield && part.getTier() == EnumMaterialTier.REGULAR
+                    ? rodIron : rodWood,
+            part.getCraftingStack()));
+      }
     }
 
-    // Super Gems
-    for (EnumGem gem : EnumGem.values())
-      list.add(constructTool(item, rodGold, gem.getItemSuper(), materialLength));
+//    if (!isSuperTool) {
+//      // Test broken items.
+//      // ItemStack testBroken = constructTool(item, rodWood, new ItemStack(Items.FLINT),
+//      // materialLength);
+//      // testBroken.setItemDamage(getMaxDamage(testBroken) - 1);
+//      // list.add(testBroken);
+//
+//      // Flint
+//      list.add(constructTool(item, rodWood, new ItemStack(Items.FLINT), materialLength));
+//
+//      // Regular Gems
+//      for (EnumGem gem : EnumGem.values())
+//        list.add(constructTool(item, item instanceof ItemGemShield ? rodIron : rodWood,
+//            gem.getItem(), materialLength));
+//    }
+//
+//    // Super Gems
+//    for (EnumGem gem : EnumGem.values())
+//      list.add(constructTool(item, rodGold, gem.getItemSuper(), materialLength));
 
     // Set maker name.
     String makerName = SilentGems.localizationHelper.getMiscText("Tooltip.OriginalOwner.Creative");
@@ -906,6 +921,17 @@ public class ToolHelper {
     return a != null && b != null && a.getItem() == b.getItem()
         && getRootTag(a, NBT_ROOT_CONSTRUCTION).equals(getRootTag(b, NBT_ROOT_CONSTRUCTION))
         && getRootTag(a, NBT_ROOT_DECORATION).equals(getRootTag(b, NBT_ROOT_DECORATION));
+  }
+
+  /**
+   * Adds a "display" or "example" recipes for players to view in JEI.
+   */
+  public static void addRecipe(ItemStack result, String line1, String line2, String line3,
+      ItemStack head, Object rod) {
+
+    ToolPart part = ToolPartRegistry.fromStack(head);
+    if (part != null && !part.isBlacklisted(head))
+      GameRegistry.addRecipe(new ShapedOreRecipe(result, line1, line2, line3, 'g', head, 's', rod));
   }
 
   // ==========================================================================
@@ -1297,12 +1323,12 @@ public class ToolHelper {
 
     setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_SHOTS_FIRED, getStatShotsLanded(tool) + amount);
   }
-  
+
   public static int getStatThrownCount(ItemStack tool) {
 
     return getTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_THROWN);
   }
-  
+
   public static void incrementStatThrownCount(ItemStack tool, int amount) {
 
     setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_THROWN, getStatThrownCount(tool) + amount);

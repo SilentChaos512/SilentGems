@@ -15,12 +15,12 @@ public class ModParts {
   public static void init() {
 
     // Head and deco
-    for (EnumGem gem : EnumGem.values()) {
-      ToolPartRegistry.putPart(new ToolPartGem(gem, false));
-      ToolPartRegistry.putPart(new ToolPartGem(gem, true));
-    }
     ToolPartRegistry.putPart(new ToolPartFlint());
     // ToolPartRegistry.putPart(new ToolPartGlass());
+    for (EnumGem gem : EnumGem.values())
+      ToolPartRegistry.putPart(new ToolPartGem(gem, false));
+    for (EnumGem gem : EnumGem.values())
+      ToolPartRegistry.putPart(new ToolPartGem(gem, true));
 
     // Rods
     ToolPartRegistry.putPart(new ToolPartRodGems("RodWood", EnumMaterialTier.MUNDANE,

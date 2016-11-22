@@ -38,6 +38,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.client.fx.ParticleRenderDispatcher;
 import net.silentchaos512.gems.client.gui.GuiCrosshairs;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
+import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.TooltipHelper;
@@ -67,29 +68,29 @@ public class GemsClientEvents {
   @SubscribeEvent
   public void onTooltip(ItemTooltipEvent event) {
 
-    boolean modifierKey = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
-        || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
+    boolean ctrlDown = KeyTracker.isControlDown();
+    boolean shiftDown = KeyTracker.isShiftDown();
     ItemStack stack = event.getItemStack();
     ToolPart part = stack != null ? ToolPartRegistry.fromStack(stack) : null;
 
-    if (part != null) {
+    if (part != null && !part.isBlacklisted(stack)) {
       if (part instanceof ToolPartRod) {
-        onTooltipForToolRod(event, stack, part, modifierKey);
+        onTooltipForToolRod(event, stack, part, ctrlDown, shiftDown);
       } else if (part instanceof ToolPartMain) {
-        onTooltipForToolMaterial(event, stack, part, modifierKey);
+        onTooltipForToolMaterial(event, stack, part, ctrlDown, shiftDown);
       }
     }
   }
 
   private void onTooltipForToolRod(ItemTooltipEvent event, ItemStack stack, ToolPart part,
-      boolean modifierKey) {
+      boolean ctrlDown, boolean shiftDown) {
 
     int index = 1;
 
     // Tool Rod indicator
     event.getToolTip().add(index++, loc.getMiscText("ToolPart.Rod"));
 
-    if (modifierKey) {
+    if (ctrlDown) {
       // Compatible tiers
       String line = "";
       for (EnumMaterialTier tier : part.getCompatibleTiers()) {
@@ -99,13 +100,18 @@ public class GemsClientEvents {
       }
       event.getToolTip().add(index++, loc.getMiscText("ToolPart.ValidTiers"));
       event.getToolTip().add(index++, "  " + line);
+
+      // Debug info
+      if (shiftDown) {
+        event.getToolTip().add(index++, TextFormatting.DARK_GRAY + "* Part key: " + part.getKey());
+      }
     } else {
       event.getToolTip().add(index++, loc.getMiscText("PressCtrl"));
     }
   }
 
   private void onTooltipForToolMaterial(ItemTooltipEvent event, ItemStack stack, ToolPart part,
-      boolean modifierKey) {
+      boolean ctrlDown, boolean shiftDown) {
 
     int index = 1;
     final String sep = loc.getMiscText("Tooltip.Separator");
@@ -122,7 +128,7 @@ public class GemsClientEvents {
     list.add(index++, loc.getMiscText("ToolPart.Tier", tier.getLocalizedName()));
 
     // Show stats?
-    if (modifierKey) {
+    if (ctrlDown) {
       int multi = 100 + EnumMaterialGrade.fromStack(stack).bonusPercent;
 
       //@formatter:off
@@ -147,6 +153,10 @@ public class GemsClientEvents {
       list.add(index++, color + TooltipHelper.get("Enchantability", part.getEnchantability() * multi / 100));
       list.add(index++, sep);
 
+   // Debug info
+      if (shiftDown) {
+        event.getToolTip().add(index++, TextFormatting.DARK_GRAY + "* Part key: " + part.getKey());
+      }
       //@formatter:on
     } else {
       list.add(index++, TextFormatting.GOLD + loc.getMiscText("PressCtrl"));

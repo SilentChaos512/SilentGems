@@ -12,6 +12,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.lib.recipe.RecipeBase;
 
@@ -35,6 +36,8 @@ public class RecipeMultiGemTool extends RecipeBase {
       return ModItems.scepter.constructTool(getRodType(inv), getGems(inv));
 
     // 4 part head
+    else if (matchesRecipe(inv, RECIPE_TOMAHAWK))
+      return ModItems.tomahawk.constructTool(getRodType(inv), getGems(inv));
 
     // 3 part head
     else if (matchesRecipe(inv, RECIPE_PICKAXE))
@@ -43,8 +46,6 @@ public class RecipeMultiGemTool extends RecipeBase {
       return ModItems.axe.constructTool(getRodType(inv), getGems(inv));
     else if (matchesRecipe(inv, RECIPE_SICKLE))
       return ModItems.sickle.constructTool(getRodType(inv), getGems(inv));
-    else if (matchesRecipe(inv, RECIPE_TOMAHAWK))
-      return ModItems.tomahawk.constructTool(getRodType(inv), getGems(inv));
     else if (matchesRecipe(inv, RECIPE_KATANA))
       return ModItems.katana.constructTool(getRodType(inv), getGems(inv));
 
@@ -109,6 +110,7 @@ public class RecipeMultiGemTool extends RecipeBase {
 
     EnumMaterialTier tier = null;
 
+    ItemStack stack;
     for (int i = 0; i < 3; ++i) {
       for (int j = 0; j < 3; ++j) {
         int k = i - posX;
@@ -118,14 +120,16 @@ public class RecipeMultiGemTool extends RecipeBase {
         if (k >= 0 && l >= 0 && k < recipeWidth && l < recipeHeight)
           c = mirror ? chars[recipeWidth - k - 1 + l * recipeWidth] : chars[k + l * recipeWidth];
 
+        stack = inv.getStackInRowAndColumn(i, j);
+
         // Check for excess things.
-        if (c == ' ' && inv.getStackInRowAndColumn(i, j) != null)
+        if (c == ' ' && stack != null)
           return false;
 
         ToolPart part = getPartInSlot(inv, i, j);
 
         // Check part
-        if (part != null && c != ' ') {
+        if (part != null && c != ' ' && !part.isBlacklisted(stack)) {
           if (tier == null)
             tier = part.getTier();
           // Make sure tiers are compatible.

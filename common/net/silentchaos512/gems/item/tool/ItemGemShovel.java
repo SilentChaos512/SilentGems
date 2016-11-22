@@ -26,6 +26,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -50,6 +51,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
 
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
+    if (GemsConfig.TOOL_DISABLE_SHOVEL) return null; // FIXME: 1.11
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.STICK);
     return ToolHelper.constructTool(this, rod, materials);
@@ -62,6 +64,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
+    if (GemsConfig.TOOL_DISABLE_SHOVEL) return null; // FIXME: 1.11
     if (materials.length == 1) {
       return ToolHelper.constructTool(this, rod, materials[0], materials[0], materials[0]);
     }
@@ -236,17 +239,21 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   @Override
   public void addRecipes() {
 
-    String line1 = "g";
-    String line2 = "s";
-    String line3 = "s";
+    if (GemsConfig.TOOL_DISABLE_SHOVEL) return;
+
+    String l1 = "g";
+    String l2 = "s";
+    String l3 = "s";
     ItemStack flint = new ItemStack(Items.FLINT);
-    GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(false, flint), line1, line2, line3,
-        'g', flint, 's', "stickWood"));
+    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
+
+    // Flint
+    ToolHelper.addRecipe(constructTool(false, flint), l1, l2, l3, flint, "stickWood");
     for (EnumGem gem : EnumGem.values()) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(false, gem.getItem()), line1, line2,
-          line3, 'g', gem.getItem(), 's', "stickWood"));
-      GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(true, gem.getItemSuper()), line1,
-          line2, line3, 'g', gem.getItemSuper(), 's', ModItems.craftingMaterial.toolRodGold));
+      // Regular
+      ToolHelper.addRecipe(constructTool(false, gem.getItem()), l1, l2, l3, gem.getItem(), "stickWood");
+      // Super
+      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(), rodGold);
     }
   }
 

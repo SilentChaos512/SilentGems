@@ -2,10 +2,10 @@ package net.silentchaos512.gems.recipe;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.api.tool.part.ToolPart;
+import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.item.armor.ItemArmorFrame;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.lib.recipe.RecipeBase;
@@ -51,10 +51,12 @@ public class RecipeMultiGemArmor extends RecipeBase {
     stacks[2] = inv.getStackInRowAndColumn(2, 1); // East
     stacks[3] = inv.getStackInRowAndColumn(1, 2); // South
 
-    // Make sure all are same tier.
+    // Make sure all are same tier and parts aren't blacklisted.
+    ToolPart part;
     EnumMaterialTier tier = EnumMaterialTier.fromStack(stacks[0]);
     for (int i = 1; i < stacks.length; ++i) {
-      if (tier == null || tier != EnumMaterialTier.fromStack(stacks[i])) {
+      part = ToolPartRegistry.fromStack(stacks[i]);
+      if (tier == null || part.isBlacklisted(stacks[i]) || tier != EnumMaterialTier.fromStack(stacks[i])) {
         return null;
       }
     }

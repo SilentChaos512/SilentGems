@@ -43,6 +43,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
+    if (GemsConfig.TOOL_DISABLE_TOMAHAWK) return null; // FIXME: 1.11
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -127,23 +128,22 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public void addRecipes() {
 
-    String line1 = "ggg";
-    String line2 = "gs ";
-    String line3 = " s ";
+    if (GemsConfig.TOOL_DISABLE_TOMAHAWK) return;
+
+    String l1 = "ggg";
+    String l2 = "gs ";
+    String l3 = " s ";
     ItemStack flint = new ItemStack(Items.FLINT);
     ItemStack rodWood = new ItemStack(Items.STICK);
     ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
 
     // Flint
-    GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodWood, flint), line1, line2, line3,
-        'g', flint, 's', "stickWood"));
+    ToolHelper.addRecipe(constructTool(rodWood, flint), l1, l2, l3, flint, "stickWood");
     for (EnumGem gem : EnumGem.values()) {
       // Regular
-      GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodWood, gem.getItem()), line1,
-          line2, line3, 'g', gem.getItem(), 's', "stickWood"));
+      ToolHelper.addRecipe(constructTool(rodWood, gem.getItem()), l1, l2, l3, gem.getItem(), "stickWood");
       // Super
-      GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodGold, gem.getItemSuper()), line1,
-          line2, line3, 'g', gem.getItemSuper(), 's', rodGold));
+      ToolHelper.addRecipe(constructTool(rodGold, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(), rodGold);
     }
   }
 

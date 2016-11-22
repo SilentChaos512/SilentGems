@@ -60,6 +60,27 @@ public class GemsConfig {
   public static int TOMAHAWK_MAX_AMMO = 4;
   public static int TOMAHAWK_AMMO_PER_MAT = 1;
 
+  public static boolean TOOL_DISABLE_SWORD;
+  public static boolean TOOL_DISABLE_KATANA;
+  public static boolean TOOL_DISABLE_SCEPTER;
+  public static boolean TOOL_DISABLE_TOMAHAWK;
+  public static boolean TOOL_DISABLE_PICKAXE;
+  public static boolean TOOL_DISABLE_SHOVEL;
+  public static boolean TOOL_DISABLE_AXE;
+  public static boolean TOOL_DISABLE_HOE;
+  public static boolean TOOL_DISABLE_SICKLE;
+  public static boolean TOOL_DISABLE_BOW;
+  public static boolean TOOL_DISABLE_SHIELD;
+
+  /*
+   * Tool Parts
+   */
+
+  public static boolean PART_DISABLE_ALL_MUNDANE = false;
+  public static boolean PART_DISABLE_ALL_REGULAR = false;
+  public static boolean PART_DISABLE_ALL_SUPER = false;
+  public static List<String> PART_BLACKLIST = Lists.newArrayList();
+
   /*
    * GUI
    */
@@ -111,6 +132,7 @@ public class GemsConfig {
   public static final String CAT_GUI = CAT_MAIN + split + "GUI";
   public static final String CAT_ITEM = CAT_MAIN + split + "Items";
   public static final String CAT_RECIPE = CAT_MAIN + split + "Recipes";
+  public static final String CAT_TOOL_PARTS = CAT_ITEM + split + "tool_parts";
   public static final String CAT_TOOLS = CAT_ITEM + split + "Tools";
   public static final String CAT_TOOLTIPS = CAT_MAIN + split + "Tooltips";
   public static final String CAT_WORLD_GEN = CAT_MAIN + split + "World Generation";
@@ -224,6 +246,40 @@ public class GemsConfig {
       TOMAHAWK_AMMO_PER_MAT = c.getInt("Tomahawk Ammo per Material", CAT_TOOLS,
           TOMAHAWK_AMMO_PER_MAT, 0, Byte.MAX_VALUE,
           "The \"ammo\" restored by each material (gem, etc.) when decorating a tomahawk.");
+
+      final String catToolDisable = CAT_TOOLS + split + "disable";
+      c.setCategoryComment(catToolDisable, "Disable the crafting of specific tool classes by"
+          + " toggling the desired option to \"true\". Doing so will prevent ANY tool of that type"
+          + " from being crafted (all tiers, mixed and non-mixed, and both base mod and add-on parts).");
+      TOOL_DISABLE_SWORD = c.get(catToolDisable, "Sword", false).getBoolean();
+      TOOL_DISABLE_KATANA = c.get(catToolDisable, "Katana", false).getBoolean();
+      TOOL_DISABLE_SCEPTER = c.get(catToolDisable, "Scepter", false).getBoolean();
+      TOOL_DISABLE_TOMAHAWK = c.get(catToolDisable, "Tomahawk", false).getBoolean();
+      TOOL_DISABLE_PICKAXE = c.get(catToolDisable, "Pickaxe", false).getBoolean();
+      TOOL_DISABLE_SHOVEL = c.get(catToolDisable, "Shovel", false).getBoolean();
+      TOOL_DISABLE_AXE = c.get(catToolDisable, "Axe", false).getBoolean();
+      TOOL_DISABLE_HOE = c.get(catToolDisable, "Hoe", false).getBoolean();
+      TOOL_DISABLE_SICKLE = c.get(catToolDisable, "Sickle", false).getBoolean();
+      TOOL_DISABLE_BOW = c.get(catToolDisable, "Bow", false).getBoolean();
+      TOOL_DISABLE_SHIELD= c.get(catToolDisable, "Shield", false).getBoolean();
+
+      /*
+       * Tool Parts
+       */
+
+      String catPartDisable = CAT_TOOL_PARTS + split + "disable";
+      c.setCategoryComment(catPartDisable, "Disable specific tool parts or entire tiers. As a reminder:"
+          + " Mundane includes flint, Regular is ordinary gems, and Super is supercharged gems. Hover"
+          + " over the item for the tool part and hold Ctrl to see the tier.");
+      PART_DISABLE_ALL_MUNDANE = c.get(catPartDisable, "All Mundane Tier", false).getBoolean();
+      PART_DISABLE_ALL_REGULAR = c.get(catPartDisable, "All Regular Tier", false).getBoolean();
+      PART_DISABLE_ALL_SUPER = c.get(catPartDisable, "All Super Tier", false).getBoolean();
+      String[] partBlacklistTemp = c.getStringList("Blacklist", catPartDisable, new String[0],
+          "You can disable individual parts by listing the part keys here, if disabling groups with"
+          + " the other settings doesn't cut it. Hover over the item in-game and hold Ctrl+Shift to"
+          + " reveal the part key.");
+      for (String str : partBlacklistTemp)
+        PART_BLACKLIST.add(str);
 
       /*
        * GUI

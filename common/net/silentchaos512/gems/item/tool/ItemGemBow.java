@@ -31,6 +31,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.tool.part.ToolPart;
+import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -71,6 +74,8 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
+
+    if (GemsConfig.TOOL_DISABLE_BOW) return null; // FIXME: 1.11
 
     if (materials.length == 1)
       return constructTool(rod, materials[0], materials[0], materials[0]);
@@ -313,6 +318,8 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   @Override
   public void addRecipes() {
 
+    if (GemsConfig.TOOL_DISABLE_BOW) return;
+
     String line1 = "sgw";
     String line2 = "g w";
     String line3 = "sgw";
@@ -321,19 +328,24 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
     ItemStack rodWood = new ItemStack(Items.STICK);
     ItemStack rodIron = ModItems.craftingMaterial.toolRodIron;
     ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
+    ItemStack gildedString = ModItems.craftingMaterial.gildedString;
 
     // Flint
-    GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodWood, flint), line1, line2, line3,
-        'g', flint, 's', "stickWood", 'w', Items.STRING));
+    addRecipe(constructTool(rodWood, flint), flint, "stickWood", Items.STRING);
     for (EnumGem gem : EnumGem.values()) {
       // Regular
-      GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodIron, gem.getItem()), line1,
-          line2, line3, 'g', gem.getItem(), 's', rodIron, 'w', Items.STRING));
+      addRecipe(constructTool(rodIron, gem.getItem()), gem.getItem(), rodIron, Items.STRING);
       // Super
-      GameRegistry.addRecipe(
-          new ShapedOreRecipe(constructTool(rodGold, gem.getItemSuper()), line1, line2, line3, 'g',
-              gem.getItemSuper(), 's', rodGold, 'w', ModItems.craftingMaterial.gildedString));
+      addRecipe(constructTool(rodGold, gem.getItemSuper()), gem.getItemSuper(), rodGold, gildedString);
     }
+  }
+
+  private void addRecipe(ItemStack result, ItemStack head, Object rod, Object string) {
+
+    ToolPart part = ToolPartRegistry.fromStack(head);
+    if (part != null && !part.isBlacklisted(head))
+      GameRegistry.addRecipe(
+          new ShapedOreRecipe(result, "sgw", "g w", "sgw", 'g', head, 's', rod, 'w', string));
   }
 
   @Override

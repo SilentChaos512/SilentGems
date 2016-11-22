@@ -65,7 +65,6 @@ public class ModItems {
   public static final ItemGemAxe axe = new ItemGemAxe();
   public static final ItemGemHoe hoe = new ItemGemHoe();
   public static final ItemGemSickle sickle = new ItemGemSickle();
-  public static final ItemSL fishingRod = new ItemSL(1, SilentGems.MOD_ID, Names.FISHING_ROD); // temp
 
   // Armor
   public static final ItemGemArmor gemHelmet = new ItemGemArmor(0, EntityEquipmentSlot.HEAD, Names.HELMET);
@@ -114,7 +113,6 @@ public class ModItems {
     reg.registerItem(axe, Names.AXE);
     reg.registerItem(hoe, Names.HOE);
     reg.registerItem(sickle, Names.SICKLE);
-    reg.registerItem(fishingRod, Names.FISHING_ROD).setCreativeTab(null);
 
     // Armor
     reg.registerItem(gemHelmet, Names.HELMET);

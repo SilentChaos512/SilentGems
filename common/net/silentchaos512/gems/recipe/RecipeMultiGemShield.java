@@ -59,7 +59,7 @@ public class RecipeMultiGemShield extends RecipeBase {
         return null;
 
       ToolPart part = ToolPartRegistry.fromStack(stack);
-      if (part == null)
+      if (part == null || part.isBlacklisted(stack))
         return null;
       parts[++i] = part;
     }

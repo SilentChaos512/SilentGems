@@ -1,5 +1,11 @@
 Silent's Gems - Changelog
 
+2.1.5
+Added: Config options for disabling tool parts and tool classes. You can disable entire tiers (eg you only want super-tier tools to be craftable), or blacklist individual parts.
+Added: Sub-items for tools now include add-on parts (tools made with stuff from Extra Parts will be listed). Recipes not listed. If you can't figure that much out... I pity you (read CurseForge page, specifically the "Crafting" section under "Tools and Armor")
+Removed: The empty fishing rod item.
+Fixed (probably): Chaos Node spam on servers... seems chunkloaders cause some of their packets to have invalid targets?
+
 2.1.4
 Updated for Silent Lib 1.1.0
 

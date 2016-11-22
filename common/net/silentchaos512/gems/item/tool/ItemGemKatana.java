@@ -14,6 +14,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
@@ -30,6 +31,7 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
+    if (GemsConfig.TOOL_DISABLE_KATANA) return null; // FIXME: 1.11
     ItemStack result = ToolHelper.constructTool(this, rod, materials);
     return addDefaultGrip(result);
   }
@@ -37,6 +39,7 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
+    if (GemsConfig.TOOL_DISABLE_KATANA) return null; // FIXME: 1.11
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.STICK);
     ItemStack result = ToolHelper.constructTool(this, rod, materials);
@@ -92,12 +95,14 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public void addRecipes() {
 
+    if (GemsConfig.TOOL_DISABLE_KATANA) return;
+
     String line1 = "gg";
     String line2 = "g ";
     String line3 = "s ";
     for (EnumGem gem : EnumGem.values()) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(true, gem.getItemSuper()), line1,
-          line2, line3, 'g', gem.getItemSuper(), 's', ModItems.craftingMaterial.toolRodGold));
+      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), line1, line2, line3,
+          gem.getItemSuper(), ModItems.craftingMaterial.toolRodGold);
     }
   }
 

@@ -26,10 +26,12 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.tool.part.ToolPart;
+import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -99,6 +101,8 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
+    if (GemsConfig.TOOL_DISABLE_SHIELD) return null; // FIXME: 1.11
+
     if (materials.length == 1)
       return constructTool(rod, materials[0], materials[0], materials[0]);
     return ToolHelper.constructTool(this, rod, materials);
@@ -131,24 +135,28 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   @Override
   public void addRecipes() {
 
-    String line1 = "gwg";
-    String line2 = "wrw";
-    String line3 = " g ";
+    if (GemsConfig.TOOL_DISABLE_SHIELD) return;
+
     ItemStack flint = new ItemStack(Items.FLINT);
 
     ItemStack rodWood = new ItemStack(Items.STICK);
     ItemStack rodIron = ModItems.craftingMaterial.toolRodIron;
     ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
 
-    GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodWood, flint), line1, line2, line3,
-        'g', flint, 'w', "plankWood", 'r', "stickWood"));
+    addRecipe(constructTool(rodWood, flint), flint, "stickWood");
 
     for (EnumGem gem : EnumGem.values()) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodIron, gem.getItem()), line1,
-          line2, line3, 'g', gem.getItem(), 'w', "plankWood", 'r', rodIron));
-      GameRegistry.addRecipe(new ShapedOreRecipe(constructTool(rodGold, gem.getItemSuper()), line1,
-          line2, line3, 'g', gem.getItemSuper(), 'w', "plankWood", 'r', rodGold));
+      addRecipe(constructTool(rodIron, gem.getItem()), gem.getItem(), rodIron);
+      addRecipe(constructTool(rodGold, gem.getItemSuper()), gem.getItemSuper(), rodGold);
     }
+  }
+
+  private void addRecipe(ItemStack result, ItemStack head, Object rod) {
+
+    ToolPart part = ToolPartRegistry.fromStack(head);
+    if (part != null && !part.isBlacklisted(head))
+      GameRegistry.addRecipe(
+          new ShapedOreRecipe(result, "gwg", "wrw", " g ", 'g', head, 'w', "plankWood", 'r', rod));
   }
 
   @Override

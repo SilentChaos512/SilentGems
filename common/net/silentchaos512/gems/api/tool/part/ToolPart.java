@@ -10,6 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.config.GemsConfig;
 
 /**
  * Represents a part that tools can be made from. Add-ons should not extend this class! Extend one of the subclasses
@@ -180,6 +181,18 @@ public abstract class ToolPart {
       if (validForToolOfTier(tier))
         list.add(tier);
     return list;
+  }
+
+  public boolean isBlacklisted(ItemStack partStack) {
+
+    if (tier == EnumMaterialTier.MUNDANE && GemsConfig.PART_DISABLE_ALL_MUNDANE)
+      return true;
+    else if (tier == EnumMaterialTier.REGULAR && GemsConfig.PART_DISABLE_ALL_REGULAR)
+      return true;
+    else if (tier == EnumMaterialTier.SUPER && GemsConfig.PART_DISABLE_ALL_SUPER)
+      return true;
+    else
+      return GemsConfig.PART_BLACKLIST.contains(key);
   }
 
   public abstract int getDurability();
