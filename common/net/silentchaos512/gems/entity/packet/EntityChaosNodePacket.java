@@ -237,6 +237,7 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
 
     amount = tagCompund.getFloat(NBT_AMOUNT);
     if (tagCompund.hasKey(NBT_TARGET_ENTITY)) {
+      // Doesn't work in all cases?
       targetEntity = (EntityLivingBase) worldObj
           .getEntityByID(tagCompund.getInteger(NBT_TARGET_ENTITY));
     } else if (tagCompund.hasKey(NBT_TARGET_POS + "Y")) {
@@ -246,7 +247,7 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
       targetPos = new BlockPos(x, y, z);
     } else {
       SilentGems.instance.logHelper.warning("Chaos node packet entity with no target? " + this);
-      setDead();
+      ticksExisted = maxLife - 100;
     }
   }
 
@@ -278,6 +279,7 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
       buffer.writeInt(targetPos.getZ());
     } else {
       // No target?
+      buffer.writeByte(-1);
       return;
     }
 
