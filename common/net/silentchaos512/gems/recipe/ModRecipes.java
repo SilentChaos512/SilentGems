@@ -1,18 +1,35 @@
 package net.silentchaos512.gems.recipe;
 
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.SilentGemsAPI;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.SRegistry;
 
 public class ModRecipes {
 
   public static void init() {
 
+    // Chaos Essence creation.
     SilentGemsAPI.addAltarRecipe(ModItems.craftingMaterial.chaosEssence,
-        ModItems.craftingMaterial.chaosEssenceShard, 100000, null);
+        ModItems.craftingMaterial.getStack(Names.CHAOS_ESSENCE_SHARD, 4), 240000,
+        new ItemStack(Items.DIAMOND));
 
+    // Light <--> Dark gem conversion.
+    ItemStack slimeBall = new ItemStack(Items.SLIME_BALL);
+    ItemStack magmaCream = new ItemStack(Items.MAGMA_CREAM);
+    for (int i = 0; i < 16; ++i) {
+      EnumGem light = EnumGem.values()[i];
+      EnumGem dark = EnumGem.values()[i + 16];
+      SilentGemsAPI.addAltarRecipe(light.getItem(), dark.getItem(), 80000, slimeBall);
+      SilentGemsAPI.addAltarRecipe(dark.getItem(), light.getItem(), 80000, magmaCream);
+    }
+
+    // Recipe handlers.
     SRegistry reg = SilentGems.instance.registry;
     String dep = "after:minecraft:shapeless";
     try {

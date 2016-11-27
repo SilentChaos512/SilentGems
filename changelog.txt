@@ -1,6 +1,9 @@
 Silent's Gems - Changelog
 
 2.1.6
+Added: Proper version checking for Silent Lib...
+Changed: Chaos Essence creation through the Altar now requires 4 shards, more Chaos, and a diamond as a catalyst (not consumed).
+Fixed: Chaos Altar displaying a stack size of 1 in many cases (typically the input slot)
 Fixed (maybe): Chaos Node ConcurrentModificationException.
 
 2.1.5
