@@ -3,6 +3,8 @@ package net.silentchaos512.gems.tile;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -112,8 +114,10 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
 
   private List<EntityMob> getHostilesInRange() {
 
-    return worldObj.getEntities(EntityMob.class,
-        mob -> mob.getDistanceSq(pos) < SEARCH_RADIUS_SQUARED);
+    synchronized (worldObj.loadedEntityList) {
+      return worldObj.getEntities(EntityMob.class,
+          mob -> mob.getDistanceSq(pos) < SEARCH_RADIUS_SQUARED);
+    }
   }
 
   private void spawnPacketInWorld(EntityChaosNodePacket packet) {
@@ -177,7 +181,7 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
 
     boolean flag = false;
     Random rand = SilentGems.random;
-    for (EntityPlayerMP player: players) {
+    for (EntityPlayerMP player : players) {
       if (player.getFoodStats().needFood() && rand.nextFloat() < TRY_SATURATION_CHANCE) {
         spawnPacketInWorld(new EntityPacketSaturation(worldObj, player));
         flag = true;
