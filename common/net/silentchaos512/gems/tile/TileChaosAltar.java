@@ -95,7 +95,7 @@ public class TileChaosAltar extends TileEntity
           else
             getStackInSlot(SLOT_OUTPUT).stackSize += recipe.getOutput().stackSize;
 
-          decrStackSize(SLOT_INPUT, 1);
+          decrStackSize(SLOT_INPUT, recipe.getInput().stackSize);
         }
 
         if (chaosDrained != 0)

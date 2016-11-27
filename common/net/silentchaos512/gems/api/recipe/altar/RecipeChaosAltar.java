@@ -69,7 +69,8 @@ public class RecipeChaosAltar {
     boolean catalystMatch = this.catalyst == null
         || (catalystStack != null && catalystStack.isItemEqual(this.catalyst));
     return inputStack != null && this.input != null && this.output != null
-        && inputStack.isItemEqual(this.input) && catalystMatch;
+        && inputStack.isItemEqual(this.input) && inputStack.stackSize >= this.input.stackSize
+        && catalystMatch;
   }
 
   public ItemStack getInput() {
