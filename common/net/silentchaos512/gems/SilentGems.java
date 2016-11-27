@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -45,11 +46,14 @@ import net.silentchaos512.lib.util.LogHelper;
 public class SilentGems {
 
   // public static final String MOD_ID_PHONY = "GemTest";
+  private static final boolean DEV_ENV = true;
   public static final String MOD_ID = "SilentGems";
   public static final String MOD_ID_LOWER = "silentgems";
   public static final String MOD_NAME = "Silent's Gems";
   public static final String VERSION = "@VERSION@";
-  public static final String DEPENDENCIES = "required-after:Forge@[12.18.1.2070,);required-after:SilentLib;after:guideapi;after:EnderIO;after:EnderZoo";
+  public static final String DEPENDENCIES = "required-after:Forge@[12.18.1.2070,);required-after:SilentLib"
+      + (DEV_ENV ? ";" : "@[1.1.0,);")
+      + "after:guideapi;after:EnderIO;after:EnderZoo";
   public static final String RESOURCE_PREFIX = MOD_ID.toLowerCase() + ":";
 
   public static Random random = new Random();
