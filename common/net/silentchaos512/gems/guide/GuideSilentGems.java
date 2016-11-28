@@ -182,6 +182,13 @@ public class GuideSilentGems {
 
     entries = new CategoryMap<>();
 
+    pages = Lists.newArrayList();
+    prefix = BLOCKS + ".chaosAltar";
+    pages.addAll(getPages(prefix));
+    stack = new ItemStack(ModBlocks.chaosAltar);
+    entry = new EntryItemStack(pages, getString(prefix), stack);
+    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+
     // Entry: Chaos Flower Pot
     pages = Lists.newArrayList();
     prefix = BLOCKS + ".chaosFlowerPot";

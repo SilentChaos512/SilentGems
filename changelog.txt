@@ -2,8 +2,9 @@ Silent's Gems - Changelog
 
 2.1.6
 Added: Proper version checking for Silent Lib...
-Added: Chaos Altar transmutation recipes to convert light gems to dark gems and vice versa.
+Added: Chaos Altar transmutation recipes to convert light gems to dark gems and vice versa. The catch is you only get 6 shards, so a third of the gem is lost.
 Added: JEI recipe handler for Chaos Altar transmutation.
+Added: Chaos Altar entry to guide book (requires Guide-API)
 Changed: Chaos Essence creation through the Altar now requires 4 shards, more Chaos, and a diamond as a catalyst (not consumed).
 Fixed: Chaos Altar displaying a stack size of 1 in many cases (typically the input slot)
 Fixed (maybe): Chaos Node ConcurrentModificationException.

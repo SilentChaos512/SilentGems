@@ -760,7 +760,9 @@ misc.silentgems:Tooltip.Construction=&6Construction
 jei.silentgems:recipe.altar=Altar Transmutation
 jei.silentgems:recipe.altar.catalyst=Catalyst:
 
-jei.silentgems.desc.Gem=Gems are used for constructing, repairing, and changing the appearance of tools. A single tool can be made with multiple types of gems. Craft gems next to a tool to "decorate" it.
+jei.silentgems:desc.ChaosAltar=A block that can store Chaos. It will recharge Chaos-storing items placed in it. It can also transmute certain items. Most transmutations also require a catalyst, which is not consumed.
+
+jei.silentgems:desc.Gem=Gems are used for constructing, repairing, and changing the appearance of tools. A single tool can be made with multiple types of gems. Craft gems next to a tool to "decorate" it.
 
 
 
@@ -818,6 +820,11 @@ guide.silentgems:gettingStarted.superTools2=You may also want to run the gems th
 guide.silentgems:gettingStarted.superTools3=In addition to being highly durable, fast, and strong, many super tools come with &2special abilities&0 (see &1super skills&0). These include mining multiple blocks at once and firing magic projectiles. Also &2apply a tip upgrade&0 to further improve your tool!
 
 # Blocks
+
+guide.silentgems:blocks.chaosAltar=Chaos Altar
+guide.silentgems:blocks.chaosAltar0=The Chaos Altar has two purposes. First, it can recharge Chaos-storing items. Second, it can transmute certain items into other items (recipes appear in JEI). Both functions require &1Chaos&0 to work. Both Nodes and Pylons can supply the Altar with Chaos.
+guide.silentgems:blocks.chaosAltar1=Recharging items with the Altar is easy enough. Simply place the item in the left-most slot of the GUI. Note that the golden outline around the arrow is the Chaos stored by the Altar.
+guide.silentgems:blocks.chaosAltar2=Transmutation requires an item in the input (left) slot and, in most cases, a catalyst in the bottom slot. The &2catalyst is NEVER consumed&0 and you only need one! Note that you may need more than one of the input item, however. View the recipes in JEI.
 
 guide.silentgems:blocks.chaosFlowerPot=Chaos Flower Pot
 guide.silentgems:blocks.chaosFlowerPot0=Glow roses can be planted in chaos flower pots. This will &2amplify the flower's light&0, as well as spawning "phantom lights" in the nearby area. A single flower could potential light a medium-sized room by itself.

@@ -84,9 +84,11 @@ public class SilentGemsPlugin implements IModPlugin {
  
   private void doAddDescriptions(IModRegistry reg) {
 
-    String descPrefix = "jei.silentgems.desc.";
+    String descPrefix = "jei.silentgems:desc.";
+
     reg.addDescription(new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE),
         descPrefix + Names.GEM);
+    reg.addDescription(new ItemStack(ModBlocks.chaosAltar), descPrefix + Names.CHAOS_ALTAR);
   }
 
   @Override
