@@ -25,8 +25,10 @@ public class ModRecipes {
     for (int i = 0; i < 16; ++i) {
       EnumGem light = EnumGem.values()[i];
       EnumGem dark = EnumGem.values()[i + 16];
-      SilentGemsAPI.addAltarRecipe(light.getItem(), dark.getItem(), 80000, slimeBall);
-      SilentGemsAPI.addAltarRecipe(dark.getItem(), light.getItem(), 80000, magmaCream);
+      ItemStack lightShards = new ItemStack(ModItems.gemShard, 6, light.ordinal());
+      ItemStack darkShards = new ItemStack(ModItems.gemShard, 6, dark.ordinal());
+      SilentGemsAPI.addAltarRecipe(darkShards, light.getItem(), 80000, magmaCream);
+      SilentGemsAPI.addAltarRecipe(lightShards, dark.getItem(), 80000, slimeBall);
     }
 
     // Recipe handlers.
