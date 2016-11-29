@@ -32,6 +32,8 @@ public class RecipeMultiGemBow extends RecipeBase {
     EnumMaterialTier targetTier = null;
     for (ItemStack stack : gems) {
       ToolPart part = ToolPartRegistry.fromStack(stack);
+      if (part == null || part.isBlacklisted(stack))
+        return null;
       if (targetTier == null)
         targetTier = part.getTier();
       if (targetTier != part.getTier())

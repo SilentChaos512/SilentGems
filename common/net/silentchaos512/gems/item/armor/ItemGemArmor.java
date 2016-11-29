@@ -40,6 +40,7 @@ import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
+import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.client.gui.ModelGemArmor;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.item.ModItems;
@@ -416,9 +417,10 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
   protected void addRecipe(ItemStack material) {
 
-    EnumMaterialTier tier = EnumMaterialTier.fromStack(material);
-    GameRegistry.addShapedRecipe(constructArmor(material), " g ", "gfg", " g ", 'g', material, 'f',
-        ModItems.armorFrame.getFrameForArmorPiece(this, tier));
+    ToolPart part = ToolPartRegistry.fromStack(material);
+    if (part != null && !part.isBlacklisted(material))
+      GameRegistry.addShapedRecipe(constructArmor(material), " g ", "gfg", " g ", 'g', material,
+          'f', ModItems.armorFrame.getFrameForArmorPiece(this, part.getTier()));
   }
 
   @Override

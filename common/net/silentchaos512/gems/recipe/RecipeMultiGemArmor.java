@@ -3,6 +3,7 @@ package net.silentchaos512.gems.recipe;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
@@ -56,7 +57,7 @@ public class RecipeMultiGemArmor extends RecipeBase {
     EnumMaterialTier tier = EnumMaterialTier.fromStack(stacks[0]);
     for (int i = 1; i < stacks.length; ++i) {
       part = ToolPartRegistry.fromStack(stacks[i]);
-      if (tier == null || part.isBlacklisted(stacks[i]) || tier != EnumMaterialTier.fromStack(stacks[i])) {
+      if (tier == null || part == null || part.isBlacklisted(stacks[i]) || part.getTier() != tier) {
         return null;
       }
     }
