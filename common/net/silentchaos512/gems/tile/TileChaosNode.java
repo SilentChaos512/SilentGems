@@ -5,7 +5,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
@@ -114,10 +114,21 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
 
   private List<EntityMob> getHostilesInRange() {
 
-    synchronized (worldObj.loadedEntityList) {
-      return worldObj.getEntities(EntityMob.class,
-          mob -> mob.getDistanceSq(pos) < SEARCH_RADIUS_SQUARED);
+//    synchronized (worldObj.loadedEntityList) {
+//      return worldObj.getEntities(EntityMob.class,
+//          mob -> mob.getDistanceSq(pos) < SEARCH_RADIUS_SQUARED);
+//    }
+
+    List<EntityMob> ret = Lists.newArrayList();
+    Entity entity;
+
+    for (int i = 0; i < worldObj.loadedEntityList.size(); ++i) {
+      entity = worldObj.loadedEntityList.get(i);
+      if (entity instanceof EntityMob && entity.getDistanceSq(pos) < SEARCH_RADIUS_SQUARED)
+        ret.add((EntityMob) entity);
     }
+
+    return ret;
   }
 
   private void spawnPacketInWorld(EntityChaosNodePacket packet) {
