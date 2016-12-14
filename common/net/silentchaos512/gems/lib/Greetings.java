@@ -1,12 +1,16 @@
 package net.silentchaos512.gems.lib;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.ForgeHooks;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.lib.util.PlayerHelper;
 
@@ -37,6 +41,9 @@ public class Greetings {
 
   static List<String> extraMessages = Lists.newArrayList();
 
+  // For the strawpoll, so we don't spam players too much.
+  static Set<String> strawpollNotifiedPlayers = Sets.newHashSet();
+
   /**
    * Adds messages to the player's chat log. Use addExtraMessage to add messages to the list.
    */
@@ -44,6 +51,17 @@ public class Greetings {
 
     if (IS_BETA_BUILD)
       doBetaGreeting(player);
+
+    // Strawpoll notification (will stop displaying at the end of the year)
+    Calendar cal = Calendar.getInstance();
+    boolean strawpollNotExpired = cal.get(Calendar.YEAR) == 2016 && cal.get(Calendar.MONTH) == Calendar.DECEMBER;
+    if (strawpollNotExpired && !strawpollNotifiedPlayers.contains(player.getName())) {
+      player.addChatMessage(ForgeHooks.newChatWithLinks(TextFormatting.DARK_PURPLE
+          + "[Silent's Gems]" + TextFormatting.RESET + " Like the current textures? Or would you"
+          + " prefer 16x16 textures like vanilla? I'd like to hear your opinions:"
+          + " http://www.strawpoll.me/11872834"));
+      strawpollNotifiedPlayers.add(player.getName());
+    }
 
     for (String str : extraMessages)
       PlayerHelper.addChatMessage(player, "[Silent's Gems] " + str);
