@@ -59,7 +59,7 @@ public class ModuleHolidayCheer {
     today = Calendar.getInstance();
     int month = today.get(Calendar.MONTH);
     int day = today.get(Calendar.DATE);
-    rightDay = month == MONTH && day >= DAY_MIN && day < DAY_MAX;
+    rightDay = month == MONTH && day >= DAY_MIN && day <= DAY_MAX;
     return rightDay;
   }
 
