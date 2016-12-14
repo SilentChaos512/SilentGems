@@ -60,7 +60,7 @@ artifacts {
 }
 
 dependencies {
-    deobfCompile "mezz.jei:jei_1.10.2:3.9.0.244"
+    deobfCompile "mezz.jei:jei_1.10.2:3.13.3.373"
     deobfCompile "info.amerifrance.guideapi:Guide-API:1.10.2-2.0.2-45"
 }
 

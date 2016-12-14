@@ -11,6 +11,7 @@ import net.silentchaos512.gems.event.GemsCommonEvents;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumModParticles;
+import net.silentchaos512.gems.lib.module.ModuleHolidayCheer;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.Color;
@@ -29,6 +30,7 @@ public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
     MinecraftForge.EVENT_BUS.register(new PlayerDataHandler.EventHandler());
     MinecraftForge.EVENT_BUS.register(new GemsCommonEvents());
     MinecraftForge.EVENT_BUS.register(ModItems.shield);
+    MinecraftForge.EVENT_BUS.register(ModuleHolidayCheer.instance);
   }
 
   @Override

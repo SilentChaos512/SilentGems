@@ -1,5 +1,21 @@
 Silent's Gems - Changelog
 
+2.1.9 (Minecraft 1.10.2)
+Added: Holiday cheer is back!
+
+2.1.8 (Minecraft 1.11)
+Disabled "right-click to place" ability of digging tools for now. It was causing tools to disappear or become corrupted because of changes in item usage in 1.11.
+Fixed the mod ID being incorrect in some places.
+
+2.1.7 (Minecraft 1.11)
+Requires Silent Lib 1.1.3!
+Fixed: Weirdness with tile entities, causing them to not retain their states/inventory and possibly crashing.
+Fixed: Node packet renderers (white cubes)
+
+2.1.6b
+Fixed: Crash when crafting armor.
+Fixed: Minor issues with certain recipes when parts are disabled.
+
 2.1.6
 Added: Proper version checking for Silent Lib...
 Added: Chaos Altar transmutation recipes to convert light gems to dark gems and vice versa. The catch is you only get 6 shards, so a third of the gem is lost.

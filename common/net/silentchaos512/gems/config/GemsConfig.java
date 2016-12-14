@@ -13,6 +13,7 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
 import net.silentchaos512.gems.lib.module.ModuleEntityRandomEquipment;
+import net.silentchaos512.gems.lib.module.ModuleHolidayCheer;
 import net.silentchaos512.gems.util.WeightedRandomItemSG;
 
 public class GemsConfig {
@@ -131,6 +132,7 @@ public class GemsConfig {
   public static final String CAT_ENCHANTMENT = CAT_MAIN + split + "Enchantment";
   public static final String CAT_GUI = CAT_MAIN + split + "GUI";
   public static final String CAT_ITEM = CAT_MAIN + split + "Items";
+  public static final String CAT_MISC = CAT_MAIN + split + "Misc";
   public static final String CAT_RECIPE = CAT_MAIN + split + "Recipes";
   public static final String CAT_TOOL_PARTS = CAT_ITEM + split + "tool_parts";
   public static final String CAT_TOOLS = CAT_ITEM + split + "Tools";
@@ -382,6 +384,7 @@ public class GemsConfig {
 
     ModuleCoffee.loadConfig(c);
     ModuleEntityRandomEquipment.loadConfig(c);
+    ModuleHolidayCheer.instance.loadConfig(c);
   }
 
   public static void save() {
