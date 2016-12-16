@@ -39,7 +39,8 @@ import net.silentchaos512.lib.util.LogHelper;
 @Mod(modid = SilentGems.MOD_ID,
     name = SilentGems.MOD_NAME,
     version = SilentGems.VERSION,
-    dependencies = SilentGems.DEPENDENCIES)
+    dependencies = SilentGems.DEPENDENCIES,
+    guiFactory = "net.silentchaos512.gems.client.gui.config.GuiFactorySilentGems")
 //@formatter:on
 public class SilentGems {
 

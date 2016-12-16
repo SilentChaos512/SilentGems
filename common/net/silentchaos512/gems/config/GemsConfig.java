@@ -250,6 +250,7 @@ public class GemsConfig {
           "The \"ammo\" restored by each material (gem, etc.) when decorating a tomahawk.");
 
       final String catToolDisable = CAT_TOOLS + split + "disable";
+      c.setCategoryRequiresMcRestart(catToolDisable, true);
       c.setCategoryComment(catToolDisable, "Disable the crafting of specific tool classes by"
           + " toggling the desired option to \"true\". Doing so will prevent ANY tool of that type"
           + " from being crafted (all tiers, mixed and non-mixed, and both base mod and add-on parts).");
@@ -270,6 +271,7 @@ public class GemsConfig {
        */
 
       String catPartDisable = CAT_TOOL_PARTS + split + "disable";
+      c.setCategoryRequiresMcRestart(catPartDisable, true);
       c.setCategoryComment(catPartDisable, "Disable specific tool parts or entire tiers. As a reminder:"
           + " Mundane includes flint, Regular is ordinary gems, and Super is supercharged gems. Hover"
           + " over the item for the tool part and hold Ctrl to see the tier.");
@@ -294,6 +296,8 @@ public class GemsConfig {
       /*
        * Recipes
        */
+
+      c.setCategoryRequiresMcRestart(CAT_RECIPE, true);
 
       RECIPE_TELEPORTER_DISABLE = c.getBoolean("Disable Regular Teleporter Recipes", CAT_RECIPE,
           RECIPE_TELEPORTER_DISABLE,

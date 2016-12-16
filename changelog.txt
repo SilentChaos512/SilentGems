@@ -1,7 +1,11 @@
 Silent's Gems - Changelog
 
+2.1.10 (Minecraft 1.10.2)
+Added: A config GUI. Finally. Now you can configure the mod in the Mods menu in-game (note that some categories will still require you to restart Minecraft).
+
+
 2.1.9 (Minecraft 1.10.2)
-Added: Holiday cheer is back!
+Added: Holiday cheer is back! (can be disabled in the config file)
 Added: A link to a poll when you first log in. I want opinions on textures... Link will stop showing by the end of the year. I've tried to make this as unobtrusive as possible, but I REALLY want everyone's feedback on this!
 Changed: The armor lattice recipe now makes twice as much (one set is enough for a full suit of armor)
 
