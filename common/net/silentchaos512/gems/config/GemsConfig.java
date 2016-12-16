@@ -125,27 +125,25 @@ public class GemsConfig {
    */
 
   static final String split = Configuration.CATEGORY_SPLITTER;
-  public static final String CAT_MAIN = "Main";
-  public static final String CAT_DEBUG = CAT_MAIN + split + "Debug";
-  public static final String CAT_BLOCK = CAT_MAIN + split + "Blocks";
-  public static final String CAT_CONTROLS = CAT_MAIN + split + "Controls";
-  public static final String CAT_ENCHANTMENT = CAT_MAIN + split + "Enchantment";
-  public static final String CAT_GUI = CAT_MAIN + split + "GUI";
-  public static final String CAT_ITEM = CAT_MAIN + split + "Items";
-  public static final String CAT_MISC = CAT_MAIN + split + "Misc";
-  public static final String CAT_RECIPE = CAT_MAIN + split + "Recipes";
+  public static final String CAT_MAIN = "main";
+  public static final String CAT_DEBUG = CAT_MAIN + split + "debug";
+  public static final String CAT_BLOCK = CAT_MAIN + split + "blocks";
+  public static final String CAT_CONTROLS = CAT_MAIN + split + "controls";
+  public static final String CAT_ENCHANTMENT = CAT_MAIN + split + "enchantment";
+  public static final String CAT_GUI = CAT_MAIN + split + "gui";
+  public static final String CAT_ITEM = CAT_MAIN + split + "items";
+  public static final String CAT_MISC = CAT_MAIN + split + "misc";
+  public static final String CAT_RECIPE = CAT_MAIN + split + "recipes";
   public static final String CAT_TOOL_PARTS = CAT_ITEM + split + "tool_parts";
-  public static final String CAT_TOOLS = CAT_ITEM + split + "Tools";
-  public static final String CAT_TOOLTIPS = CAT_MAIN + split + "Tooltips";
-  public static final String CAT_WORLD_GEN = CAT_MAIN + split + "World Generation";
-  public static final String CAT_WORLD_GEN_GEM_WEIGHT = CAT_WORLD_GEN + split + "Gem Weights";
+  public static final String CAT_TOOLS = CAT_ITEM + split + "tools";
+  public static final String CAT_TOOLTIPS = CAT_MAIN + split + "tooltips";
+  public static final String CAT_WORLD_GEN = CAT_MAIN + split + "world generation";
+  public static final String CAT_WORLD_GEN_GEM_WEIGHT = CAT_WORLD_GEN + split + "gem weights";
 
-  private static File configFile;
   private static Configuration c;
 
   public static void init(File file) {
 
-    configFile = file;
     c = new Configuration(file);
     load();
   }

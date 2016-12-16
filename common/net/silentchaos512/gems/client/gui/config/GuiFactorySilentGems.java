@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.IModGuiFactory;
 
-
 public class GuiFactorySilentGems implements IModGuiFactory {
 
   @Override
@@ -17,7 +16,7 @@ public class GuiFactorySilentGems implements IModGuiFactory {
   @Override
   public Class<? extends GuiScreen> mainConfigGuiClass() {
 
-return GuiConfigSilentGems.class;
+    return GuiConfigSilentGems.class;
   }
 
   @Override

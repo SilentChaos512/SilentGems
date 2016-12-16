@@ -13,6 +13,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -21,6 +22,7 @@ import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.item.ModItems;
@@ -161,6 +163,15 @@ public class GemsCommonEvents {
     Entity entity = event.getEntity();
     if (entity instanceof EntityLivingBase)
       ModuleEntityRandomEquipment.tryGiveMobEquipment((EntityLivingBase) entity);
+  }
+
+  @SubscribeEvent
+  public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+
+    if (event.getModID().toLowerCase().equals(SilentGems.MOD_ID_LOWER)) {
+      GemsConfig.load();
+      GemsConfig.save();
+    }
   }
 
   // @SubscribeEvent

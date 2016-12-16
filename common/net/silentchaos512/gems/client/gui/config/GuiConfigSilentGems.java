@@ -9,7 +9,7 @@ public class GuiConfigSilentGems extends GuiConfig {
 
   public GuiConfigSilentGems(GuiScreen parent) {
 
-    super(parent, GemsConfig.getConfigElements(), SilentGems.MOD_ID_LOWER, false, false,
+    super(parent, GemsConfig.getConfigElements(), SilentGems.MOD_ID, false, false,
         "Silent's Gems Config");
   }
 }
