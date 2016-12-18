@@ -9,7 +9,7 @@ import net.silentchaos512.gems.SilentGems;
 
 public enum EnumMaterialGrade {
 
-  NONE(0), E(2), D(4), C(6), B(8), A(12), S(16), SS(20), SSS(30);
+  NONE(0), E(2), D(4), C(6), B(8), A(12), S(16), SS(24), SSS(32);
 
   public static final String NBT_KEY = "SG_Grade";
 
