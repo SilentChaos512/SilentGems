@@ -20,10 +20,10 @@ public class ContainerMaterialGrader extends ContainerSL {
   protected void addTileInventorySlots(IInventory inv) {
 
     addSlotToContainer(new Slot(tileInventory, 0, 26, 35));
-    addSlotToContainer(new Slot(tileInventory, 1, 80, 35));
-    addSlotToContainer(new Slot(tileInventory, 2, 98, 35));
-    addSlotToContainer(new Slot(tileInventory, 3, 116, 35));
-    addSlotToContainer(new Slot(tileInventory, 4, 134, 35));
+    addSlotToContainer(new SpecialSlot(tileInventory, 1, 80, 35));
+    addSlotToContainer(new SpecialSlot(tileInventory, 2, 98, 35));
+    addSlotToContainer(new SpecialSlot(tileInventory, 3, 116, 35));
+    addSlotToContainer(new SpecialSlot(tileInventory, 4, 134, 35));
   }
 
   @Override
@@ -48,7 +48,7 @@ public class ContainerMaterialGrader extends ContainerSL {
       final int startHotbar = size + 27;
       final int endHotbar = size + 36;
 
-      if (slotIndex >= TileMaterialGrader.SLOT_OUTPUT_START) {
+      if (slotIndex >= TileMaterialGrader.SLOT_OUTPUT_START && slotIndex < TileMaterialGrader.INVENTORY_SIZE) {
         // Remove from output slot?
         if (!this.mergeItemStack(stack1, startPlayer, endHotbar, true)) {
           return null;

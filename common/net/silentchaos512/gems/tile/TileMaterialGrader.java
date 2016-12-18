@@ -270,7 +270,7 @@ public class TileMaterialGrader extends TileBasicInventory
       return false;
     }
 
-    return true;
+    return false;
   }
 
   @Override
