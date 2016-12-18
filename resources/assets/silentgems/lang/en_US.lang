@@ -760,7 +760,12 @@ misc.silentgems:Tooltip.Construction=&6Construction
 jei.silentgems:recipe.altar=Altar Transmutation
 jei.silentgems:recipe.altar.catalyst=Catalyst:
 
-jei.silentgems:desc.ChaosAltar=A block that can store Chaos. It will recharge Chaos-storing items placed in it. It can also transmute certain items. Most transmutations also require a catalyst, which is not consumed.
+jei.silentgems:desc.ChaosAltar=A block that can store Chaos. It will recharge Chaos-storing items placed in it. Place near Nodes and/or Pylons. It can also transmute certain items. Most transmutations also require a catalyst, which is not consumed.
+jei.silentgems:desc.ChaosFlowerPot=A flower pot that amplifies the light of Glow Roses. Not only that, it will place phantom lights in the nearby area wherever they are needed. The phantom lights can be easily destroyed if necessary, and will disappear shortly after the flower pot is removed.
+jei.silentgems:desc.ChaosNode=Chaos Nodes pour out various energies into the world. Most notably they produce Chaos energy, which certain blocks and items require to function.\n\nSome have reported Nodes doing other things as well, such as attacking monsters and healing the injured.\n\nNodes cannot be picked up like ordinary blocks. You will need an item like the Chaos Node Mover to move them.
+jei.silentgems:desc.ChaosPylon0=Produces Chaos energy out of nothing, similar to Nodes. Unlike Nodes, it only produces Chaos. They have no other effects, so don't expect them to defend your base.
+jei.silentgems:desc.ChaosPylon1=Produces Chaos energy from burnable fuel. Anything that a furnace can burn will work! They produce far more Chaos per tick than Passive Chaos Pylons. These blocks only produce Chaos and have no other effects.
+jei.silentgems:desc.MaterialGrader=Analyzes tool materials, bringing out their potential. Each piece will get a random grade that applies a percentage bonus to each stat. Requires Chaos to function, so place it near Nodes or Pylons. Load materials into the first slot, then be patient. Graded items can be extracted from the bottom.
 
 jei.silentgems:desc.Gem=Gems are used for constructing, repairing, and changing the appearance of tools. A single tool can be made with multiple types of gems. Craft gems next to a tool to "decorate" it.
 

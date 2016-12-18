@@ -9,6 +9,7 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.block.ModBlocks;
@@ -18,6 +19,7 @@ import net.silentchaos512.gems.compat.jei.altar.AltarRecipeHandler;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeMaker;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.registry.IRegistryObject;
 
 @JEIPlugin
 public class SilentGemsPlugin implements IModPlugin {
@@ -84,11 +86,16 @@ public class SilentGemsPlugin implements IModPlugin {
  
   private void doAddDescriptions(IModRegistry reg) {
 
-    String descPrefix = "jei.silentgems:desc.";
+    String prefix = "jei.silentgems:desc.";
 
-    reg.addDescription(new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE),
-        descPrefix + Names.GEM);
-    reg.addDescription(new ItemStack(ModBlocks.chaosAltar), descPrefix + Names.CHAOS_ALTAR);
+    reg.addDescription(new ItemStack(ModBlocks.chaosAltar), prefix + Names.CHAOS_ALTAR);
+    reg.addDescription(new ItemStack(ModBlocks.chaosFlowerPot), prefix + Names.CHAOS_FLOWER_POT);
+    reg.addDescription(new ItemStack(ModBlocks.chaosNode), prefix + Names.CHAOS_NODE);
+    reg.addDescription(new ItemStack(ModBlocks.chaosPylon, 1, 0), prefix + Names.CHAOS_PYLON + "0");
+    reg.addDescription(new ItemStack(ModBlocks.chaosPylon, 1, 1), prefix + Names.CHAOS_PYLON + "1");
+    reg.addDescription(new ItemStack(ModBlocks.materialGrader), prefix + Names.MATERIAL_GRADER);
+
+    reg.addDescription(new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE), prefix + Names.GEM);
   }
 
   @Override
