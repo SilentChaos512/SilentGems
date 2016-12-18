@@ -14,7 +14,7 @@ import net.silentchaos512.gems.tile.TileMaterialGrader;
 public class GuiMaterialGrader extends GuiContainer {
 
   private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MOD_ID,
-      "textures/gui/ChaosAltar.png");
+      "textures/gui/MaterialGrader.png");
   private final InventoryPlayer playerInventory;
   private IInventory tileInventory;
 
@@ -38,12 +38,12 @@ public class GuiMaterialGrader extends GuiContainer {
 
     // Progress arrow
     i1 = getAnalyzeProgress(24);
-    drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
+    drawTexturedModalRect(k + 49, l + 34, 176, 14, i1 + 1, 16);
 
     // Chaos stored
     int chaos = tileInventory.getField(0);
     i1 = 24 * chaos / TileMaterialGrader.MAX_CHARGE;
-    drawTexturedModalRect(k + 79, l + 34, 176, 31, i1, 17);
+    drawTexturedModalRect(k + 49, l + 34, 176, 31, i1, 17);
 
     if (GemsConfig.DEBUG_MODE)
       drawDebugInfo();

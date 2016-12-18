@@ -2,7 +2,9 @@ Silent's Gems - Changelog
 
 2.1.10 (Minecraft 1.10.2)
 Added: A config GUI. Finally. Now you can configure the mod in the Mods menu in-game (note that some categories will still require you to restart Minecraft).
-
+Changed: Material Grader now has 4 output slots (and its own GUI texture, instead of using the one for the Altar)
+Changed: Bumped up some gem stats a bit. You should now be able to produce 20+ damage swords/katanas with grading.
+Fixed: Material Grader desync when playing on servers (Chaos/progress bars going haywire, items appearing in the output slot when they aren't really there, etc.)
 
 2.1.9 (Minecraft 1.10.2)
 Added: Holiday cheer is back! (can be disabled in the config file)

@@ -23,22 +23,38 @@ import net.silentchaos512.gems.lib.Names;
 public class TileMaterialGrader extends TileBasicInventory
     implements ISidedInventory, ITickable, IChaosAccepter {
 
+  /*
+   * NBT keys
+   */
   static final String NBT_ENERGY = "Energy";
   static final String NBT_PROGRESS = "Progress";
 
+  /*
+   * Slots
+   */
   public static final int SLOT_INPUT = 0;
-  public static final int SLOT_OUTPUT = 1;
+  public static final int SLOT_OUTPUT_START = 1;
+  public static final int INVENTORY_SIZE = 5;
+  static int[] SLOTS_INPUT = new int[] { 0 };
+  static int[] SLOTS_OUTPUT = new int[] { 1, 2, 3, 4 };
+
+  /*
+   * Tile behavior constants
+   */
   public static final int ANALYZE_TIME = 600;
   public static final int CHAOS_PER_TICK = 50;
   public static final int MAX_CHARGE = ANALYZE_TIME * CHAOS_PER_TICK * 10;
 
+  /*
+   * Variables
+   */
   protected int chaosStored = 0;
   protected int progress = 0;
   protected boolean requireClientSync = false;
 
   public TileMaterialGrader() {
 
-    super(2, Names.MATERIAL_GRADER);
+    super(INVENTORY_SIZE, Names.MATERIAL_GRADER);
   }
 
   @Override
@@ -67,9 +83,6 @@ public class TileMaterialGrader extends TileBasicInventory
   @Override
   public void update() {
 
-    // if (worldObj.getTotalWorldTime() % 40 == 0)
-    // SilentGems.logHelper.debug(worldObj.isRemote, chaosStored, getCharge());
-
     if (worldObj.isRemote)
       return;
 
@@ -88,8 +101,9 @@ public class TileMaterialGrader extends TileBasicInventory
           requireClientSync = true;
         }
 
-        // Grade material if output slot is free.
-        if (progress >= ANALYZE_TIME && getStackInSlot(SLOT_OUTPUT) == null) {
+        // Grade material if any output slot is free.
+        int outputSlot = getFreeOutputSlot();
+        if (progress >= ANALYZE_TIME && outputSlot > 0) {
           progress = 0;
 
           // Take one from input stack.
@@ -101,7 +115,7 @@ public class TileMaterialGrader extends TileBasicInventory
           EnumMaterialGrade.selectRandom(SilentGems.random).setGradeOnStack(stack);
 
           // Set to output slot, clear input slot if needed.
-          setInventorySlotContents(SLOT_OUTPUT, stack);
+          setInventorySlotContents(outputSlot, stack);
           if (input.stackSize <= 0) {
             setInventorySlotContents(SLOT_INPUT, null);
           }
@@ -119,6 +133,17 @@ public class TileMaterialGrader extends TileBasicInventory
       worldObj.notifyBlockUpdate(pos, state, state, 3);
       requireClientSync = false;
     }
+  }
+
+  /**
+   * @return The index of the first empty output slot, or -1 if there is none.
+   */
+  public int getFreeOutputSlot() {
+
+    for (int i = SLOT_OUTPUT_START; i < INVENTORY_SIZE; ++i)
+      if (getStackInSlot(i) == null)
+        return i;
+    return -1;
   }
 
   @Override
@@ -195,12 +220,10 @@ public class TileMaterialGrader extends TileBasicInventory
   @Override
   public int[] getSlotsForFace(EnumFacing side) {
 
-    switch (side) {
-      case DOWN:
-        return new int[] { SLOT_OUTPUT };
-      default:
-        return new int[] { SLOT_INPUT };
-    }
+    switch (side) { //@formatter:off
+      case DOWN: return SLOTS_OUTPUT;
+      default: return SLOTS_INPUT;
+    } //@formatter:on
   }
 
   @Override
