@@ -80,7 +80,6 @@ public class EntityPacketChaos extends EntityChaosNodePacket {
     if (tile != null && tile instanceof IChaosAccepter) {
       IChaosAccepter accepter = (IChaosAccepter) tile;
       accepter.receiveCharge((int) amount, false);
-//      SilentGems.instance.logHelper.debug(amount, accepter.getCharge());
     }
 
     super.onImpactWithBlock(pos, state);
