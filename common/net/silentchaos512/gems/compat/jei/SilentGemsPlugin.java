@@ -7,11 +7,14 @@ import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ISubtypeRegistry;
+import mezz.jei.api.ISubtypeRegistry.ISubtypeInterpreter;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
-import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.gui.GuiChaosAltar;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeCategory;
@@ -19,7 +22,7 @@ import net.silentchaos512.gems.compat.jei.altar.AltarRecipeHandler;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeMaker;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.gems.util.ToolHelper;
 
 @JEIPlugin
 public class SilentGemsPlugin implements IModPlugin {
@@ -83,7 +86,7 @@ public class SilentGemsPlugin implements IModPlugin {
     reg.addRecipeCategoryCraftingItem(new ItemStack(ModBlocks.chaosAltar),
         AltarRecipeCategory.CATEGORY);
   }
- 
+
   private void doAddDescriptions(IModRegistry reg) {
 
     String prefix = "jei.silentgems:desc.";
@@ -95,7 +98,8 @@ public class SilentGemsPlugin implements IModPlugin {
     reg.addDescription(new ItemStack(ModBlocks.chaosPylon, 1, 1), prefix + Names.CHAOS_PYLON + "1");
     reg.addDescription(new ItemStack(ModBlocks.materialGrader), prefix + Names.MATERIAL_GRADER);
 
-    reg.addDescription(new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE), prefix + Names.GEM);
+    reg.addDescription(new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE),
+        prefix + Names.GEM);
   }
 
   @Override
@@ -106,9 +110,34 @@ public class SilentGemsPlugin implements IModPlugin {
   }
 
   @Override
-  public void registerItemSubtypes(ISubtypeRegistry arg0) {
+  public void registerItemSubtypes(ISubtypeRegistry reg) {
 
-    // TODO Auto-generated method stub
+    // Tools
+    for (Item item : new Item[] { ModItems.sword, ModItems.katana, ModItems.scepter,
+        ModItems.tomahawk, ModItems.pickaxe, ModItems.shovel, ModItems.axe, ModItems.hoe,
+        ModItems.sickle, ModItems.bow, ModItems.shield }) {
+      reg.registerNbtInterpreter(item, new ISubtypeInterpreter() {
+        
+        @Override
+        public String getSubtypeInfo(ItemStack stack) {
+          
+          ToolPart[] parts = ToolHelper.getConstructionParts(stack);
+          if (parts.length == 0) return "unknown";
+          return parts[0].getKey();
+        }
+      });
+    }
 
+    // Enchantment tokens
+    reg.registerNbtInterpreter(ModItems.enchantmentToken, new ISubtypeInterpreter() {
+      
+      @Override
+      public String getSubtypeInfo(ItemStack stack) {
+        
+        Enchantment ench = ModItems.enchantmentToken.getSingleEnchantment(stack);
+        if (ench == null) return "none";
+        return ench.getName();
+      }
+    });
   }
 }

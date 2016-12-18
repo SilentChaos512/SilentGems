@@ -13,6 +13,8 @@ Changed: Sickles now used 4 durabilty per usage (cutting/harvesting plants, atta
 Changed: Tools now register with a fake tool material with harvest level 1 (previously used diamond). Should allow most Progressive Automation machines (stone and above) to use gem tools. Let me know if there are any other side-effects (mods no longer accepting tools, etc.)
 Changed: Invalid tools now render a little something, instead of being invisible.
 Fixed: Material Grader desync when playing on servers (Chaos/progress bars going haywire, items appearing in the output slot when they aren't really there, etc.)
+Fixed: JEI can now tell the difference between gem tools... to some extent, at least. Enough to separate the example recipes. #AboutTimeSilent
+Fixed: JEI can now tell the difference between enchantment tokens.
 
 2.1.9 (Minecraft 1.10.2)
 Added: Holiday cheer is back! (can be disabled in the config file)
