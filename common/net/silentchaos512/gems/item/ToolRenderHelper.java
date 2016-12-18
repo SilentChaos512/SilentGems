@@ -204,15 +204,17 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     }
 
     // Debug render layers
-    if (controlDown && shiftDown) {
+    if (controlDown && shiftDown && tool.hasTagCompound()) {
       if (!altDown)
         list.add(sep);
       for (EnumPartPosition pos : EnumPartPosition.values()) {
         NBTTagCompound tags = tool.getTagCompound().getCompoundTag(NBT_MODEL_INDEX);
-        String key = "Layer" + pos.ordinal();
-        String str = "%s: %d, %X";
-        str = String.format(str, key, tags.getInteger(key), tags.getInteger(key + "Color"));
-        list.add(str);
+        if (tags != null) {
+          String key = "Layer" + pos.ordinal();
+          String str = "%s: %d, %X";
+          str = String.format(str, key, tags.getInteger(key), tags.getInteger(key + "Color"));
+          list.add(str);
+        }
       }
     }
   }
@@ -398,7 +400,22 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   public List<ModelResourceLocation> getVariants() {
 
     buildModelSet();
-    return Lists.newArrayList(modelSet);
+    List ret = Lists.newArrayList(modelSet);
+
+    // Error models
+    modelError = new ModelResourceLocation(SilentGems.MOD_ID + ":Error", "inventory");
+    ret.add(modelError);
+    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":sword/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":katana/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":scepter/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":tomahawk/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":pickaxe/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":shovel/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":axe/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":hoe/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":sickle/_error", "inventory"));
+
+    return ret;
   }
 
   @Override
@@ -410,6 +427,28 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     for (ModelResourceLocation model : modelSet) {
       mesher.register(this, index++, model);
     }
+
+    // Error models
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.MOD_ID + ":Error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.MOD_ID + ":sword/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.MOD_ID + ":katana/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.MOD_ID + ":scepter/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.MOD_ID + ":tomahawk/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.MOD_ID + ":pickaxe/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.MOD_ID + ":shovel/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.MOD_ID + ":axe/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.MOD_ID + ":hoe/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.MOD_ID + ":sickle/_error", "inventory"));
 
     return true;
   }

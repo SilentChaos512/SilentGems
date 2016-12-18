@@ -32,6 +32,7 @@ import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LogHelper;
 
 @SuppressWarnings("deprecation")
@@ -41,6 +42,7 @@ public class ToolModel implements IPerspectiveAwareModel {
   private final IBakedModel baseModel;
 
   private ItemStack tool;
+  private boolean isGui = false;
 
   public ToolModel(IBakedModel baseModel) {
 
@@ -76,6 +78,20 @@ public class ToolModel implements IPerspectiveAwareModel {
     boolean isBroken = ToolHelper.isBroken(tool);
     Item item = tool.getItem();
 //    SilentGems.instance.logHelper.debug(tool.getItemDamage(), isBroken);
+
+    // Invalid tools models.
+    if (ToolHelper.getMaxDamage(tool) <= 0 && tool.getItem() instanceof IRegistryObject) {
+      String name = ((IRegistryObject) tool.getItem()).getName();
+      location = new ModelResourceLocation(SilentGems.MOD_ID + ":" + name.toLowerCase() + "/_error", "inventory");
+      model = modelManager.getModel(location);
+      if (model != null)
+        quads.addAll(model.getQuads(state, side, rand));
+
+      if (isGui)
+        quads.addAll(modelManager.getModel(ToolRenderHelper.getInstance().modelError).getQuads(state, side, rand));
+
+      return quads;
+    }
 
     for (EnumPartPosition partPos : EnumPartPosition.values()) {
       if (isBroken) {
@@ -209,6 +225,7 @@ public class ToolModel implements IPerspectiveAwareModel {
         break;
       case GUI:
         matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().gui);
+        isGui = true;
         break;
       case HEAD:
         matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().head);
@@ -225,6 +242,7 @@ public class ToolModel implements IPerspectiveAwareModel {
         break;
       case FIXED:
         matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().fixed);
+        break;
       default:
         break;
     }
