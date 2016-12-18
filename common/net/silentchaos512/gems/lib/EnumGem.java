@@ -11,38 +11,38 @@ public enum EnumGem implements IStringSerializable {
 
   // @formatter:off
   //                                  DUR    EFF   MEL   MAG ENC   SPD   CHG PRT     COLOR
-  RUBY            ("Ruby",            512,  8.0f, 5.0f, 2.0f, 10, 0.8f, 1.0f, 14, 0xFF0000),
+  RUBY            ("Ruby",            512,  8.0f, 6.0f, 2.0f, 10, 0.8f, 1.0f, 14, 0xFF0000),
   GARNET          ("Garnet",          384,  7.0f, 4.0f, 3.0f, 12, 0.9f, 1.0f, 16, 0xFF4000),
   TOPAZ           ("Topaz",           384,  9.0f, 4.0f, 2.0f, 12, 0.8f, 2.0f, 20, 0xFF6A00),
   AMBER           ("Amber",           128,  5.0f, 2.0f, 4.0f, 17, 1.1f, 4.0f, 12, 0xFFAA00),
-  HELIODOR        ("Heliodor",        256, 11.0f, 4.0f, 3.0f, 10, 1.0f, 2.0f, 12, 0xFFD500),
+  HELIODOR        ("Heliodor",        256, 12.0f, 4.0f, 3.0f, 10, 1.0f, 2.0f, 12, 0xFFD500),
   PERIDOT         ("Peridot",         256,  6.0f, 4.0f, 3.0f, 14, 0.7f, 3.0f, 14, 0xAAFF00),
-  BERYL           ("Beryl",           384,  9.0f, 4.0f, 2.0f, 14, 1.1f, 2.0f, 14, 0x00FF00),
+  BERYL           ("Beryl",           384,  9.0f, 4.0f, 2.0f, 16, 1.1f, 2.0f, 14, 0x00FF00),
   INDICOLITE      ("Indicolite",      384, 10.0f, 2.0f, 5.0f, 12, 1.0f, 1.0f, 12, 0x00FF80),
   AQUAMARINE      ("Aquamarine",      256,  9.0f, 3.0f, 4.0f, 12, 1.1f, 2.0f, 14, 0x00FFFF),
   SAPPHIRE        ("Sapphire",        512,  8.0f, 4.0f, 4.0f, 10, 0.8f, 1.0f, 16, 0x0000FF),
   IOLITE          ("Iolite",          512,  6.0f, 2.0f, 4.0f, 11, 1.0f, 2.0f, 20, 0x5500FF),
-  AMETHYST        ("Amethyst",        256,  7.0f, 3.0f, 3.0f, 12, 0.9f, 3.0f, 18, 0xAA00FF),
+  AMETHYST        ("Amethyst",        256,  7.0f, 3.0f, 4.0f, 12, 0.9f, 3.0f, 18, 0xAA00FF),
   AGATE           ("Agate",           192,  8.0f, 3.0f, 3.0f, 14, 1.1f, 4.0f, 16, 0xFF00FF),
-  MORGANITE       ("Morganite",       256,  9.0f, 4.0f, 2.0f, 12, 0.9f, 3.0f, 14, 0xFFABE3),
-  ONYX            ("Onyx",            128,  8.0f, 6.0f, 2.0f,  8, 0.7f, 1.0f, 12, 0x2E2E2E),
-  OPAL            ("Opal",            192,  8.0f, 3.0f, 5.0f, 13, 0.7f, 2.0f, 16, 0xFFFFFF),
+  MORGANITE       ("Morganite",       256, 10.0f, 4.0f, 2.0f, 12, 0.9f, 3.0f, 14, 0xFFABE3),
+  ONYX            ("Onyx",            128,  8.0f, 7.0f, 2.0f,  8, 0.7f, 1.0f, 12, 0x2E2E2E),
+  OPAL            ("Opal",            192,  8.0f, 3.0f, 6.0f, 13, 0.7f, 2.0f, 16, 0xFFFFFF),
   //--------------------------------------------------------------------------
   CARNELIAN       ("Carnelian",       256,  9.0f, 2.0f, 3.0f, 12, 0.9f, 2.0f, 14, 0x990000),
-  SPINEL          ("Spinel",          512,  8.0f, 4.0f, 2.0f, 11, 0.7f, 1.0f, 16, 0x992600),
-  CITRINE         ("Citrine",         384, 10.0f, 3.0f, 2.0f, 13, 1.0f, 2.0f, 14, 0x994000),
+  SPINEL          ("Spinel",          512,  8.0f, 5.0f, 2.0f, 11, 0.7f, 1.0f, 16, 0x992600),
+  CITRINE         ("Citrine",         384, 10.0f, 4.0f, 2.0f, 13, 1.0f, 2.0f, 14, 0x994000),
   JASPER          ("Jasper",          256,  7.0f, 3.0f, 3.0f, 14, 0.9f, 2.0f, 18, 0x996600),
   GOLDEN_BERYL    ("GoldenBeryl",     384, 10.0f, 2.0f, 5.0f, 10, 0.7f, 1.0f, 12, 0x998000),
   MOLDAVITE       ("Moldavite",       192,  6.0f, 5.0f, 2.0f, 11, 0.8f, 3.0f, 16, 0x669900),
   MALACHITE       ("Malachite",       128,  8.0f, 4.0f, 2.0f, 14, 1.3f, 2.0f, 14, 0x009900),
   TURQUOISE       ("Turquoise",       256,  9.0f, 3.0f, 3.0f, 12, 0.8f, 1.0f, 14, 0x00994D),
-  MOONSTONE       ("Moonstone",       256,  9.0f, 3.0f, 3.0f, 15, 1.0f, 3.0f, 14, 0x009999),
+  MOONSTONE       ("Moonstone",       256,  9.0f, 3.0f, 5.0f, 15, 1.0f, 3.0f, 14, 0x009999),
   BLUE_TOPAZ      ("BlueTopaz",       512,  9.0f, 3.0f, 3.0f, 11, 0.7f, 1.0f, 16, 0x000099),
   TANZANITE       ("Tanzanite",       384,  6.0f, 3.0f, 4.0f, 13, 0.7f, 2.0f, 16, 0x330099),
-  VIOLET_SAPPHIRE ("VioletSapphire",  512,  7.0f, 4.0f, 3.0f, 11, 0.9f, 1.0f, 16, 0x660099),
-  LEPIDOLITE      ("Lepidolite",      128,  5.0f, 3.0f, 6.0f, 13, 1.0f, 1.0f, 12, 0x990099),
+  VIOLET_SAPPHIRE ("VioletSapphire",  512,  8.0f, 4.0f, 3.0f, 11, 0.9f, 1.0f, 16, 0x660099),
+  LEPIDOLITE      ("Lepidolite",      128,  4.0f, 3.0f, 7.0f, 13, 1.0f, 1.0f, 12, 0x990099),
   AMETRINE        ("Ametrine",        384,  8.0f, 4.0f, 2.0f, 10, 0.7f, 4.0f, 12, 0xBF0080),
-  BLACK_DIAMOND   ("BlackDiamond",    768,  9.0f, 3.0f, 4.0f,  9, 0.8f, 1.0f, 18, 0x1A1A1A),
+  BLACK_DIAMOND   ("BlackDiamond",    768, 10.0f, 3.0f, 4.0f,  9, 0.8f, 1.0f, 18, 0x1A1A1A),
   ALEXANDRITE     ("Alexandrite",     512,  8.0f, 3.0f, 3.0f, 10, 0.8f, 2.0f, 14, 0xC2C2C2);
   // @formatter:on
 
@@ -57,9 +57,9 @@ public enum EnumGem implements IStringSerializable {
   public static final int SUPER_HARVEST_LEVEL = 4;
   public static final int SUPER_DURABILITY_MULTI = 4;
   public static final float SUPER_MINING_SPEED_BOOST = 4.0f;
-  public static final float SUPER_MELEE_DAMAGE_BOOST = 2.0f;
-  public static final float SUPER_MAGIC_DAMAGE_BOOST = 2.0f;
-  public static final int SUPER_ENCHANTABILITY_BOOST = 6;
+  public static final float SUPER_MELEE_DAMAGE_BOOST = 3.0f;
+  public static final float SUPER_MAGIC_DAMAGE_BOOST = 3.0f;
+  public static final int SUPER_ENCHANTABILITY_BOOST = 8;
   public static final float SUPER_MELEE_SPEED_BOOST = 0.2f;
   public static final float SUPER_CHARGE_SPEED_BOOST = 1.0f;
   public static final int SUPER_PROTECTION_BOOST = 4;
