@@ -23,6 +23,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -32,6 +33,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
@@ -64,6 +66,8 @@ public class ToolHelper {
 
   public static final String[] TOOL_CLASSES = { "Sword", "Pickaxe", "Shovel", "Axe", "Hoe",
       "Sickle", "Bow" };
+  public static final ToolMaterial FAKE_MATERIAL = EnumHelper
+      .addToolMaterial("silentgems:fake_material", 1, 512, 5.12f, 5.12f, 32);
 
   public static final int CHECK_NAME_FREQUENCY = 10;
 
@@ -888,25 +892,25 @@ public class ToolHelper {
       }
     }
 
-//    if (!isSuperTool) {
-//      // Test broken items.
-//      // ItemStack testBroken = constructTool(item, rodWood, new ItemStack(Items.FLINT),
-//      // materialLength);
-//      // testBroken.setItemDamage(getMaxDamage(testBroken) - 1);
-//      // list.add(testBroken);
-//
-//      // Flint
-//      list.add(constructTool(item, rodWood, new ItemStack(Items.FLINT), materialLength));
-//
-//      // Regular Gems
-//      for (EnumGem gem : EnumGem.values())
-//        list.add(constructTool(item, item instanceof ItemGemShield ? rodIron : rodWood,
-//            gem.getItem(), materialLength));
-//    }
-//
-//    // Super Gems
-//    for (EnumGem gem : EnumGem.values())
-//      list.add(constructTool(item, rodGold, gem.getItemSuper(), materialLength));
+    // if (!isSuperTool) {
+    // // Test broken items.
+    // // ItemStack testBroken = constructTool(item, rodWood, new ItemStack(Items.FLINT),
+    // // materialLength);
+    // // testBroken.setItemDamage(getMaxDamage(testBroken) - 1);
+    // // list.add(testBroken);
+    //
+    // // Flint
+    // list.add(constructTool(item, rodWood, new ItemStack(Items.FLINT), materialLength));
+    //
+    // // Regular Gems
+    // for (EnumGem gem : EnumGem.values())
+    // list.add(constructTool(item, item instanceof ItemGemShield ? rodIron : rodWood,
+    // gem.getItem(), materialLength));
+    // }
+    //
+    // // Super Gems
+    // for (EnumGem gem : EnumGem.values())
+    // list.add(constructTool(item, rodGold, gem.getItemSuper(), materialLength));
 
     // Set maker name.
     String makerName = SilentGems.localizationHelper.getMiscText("Tooltip.OriginalOwner.Creative");

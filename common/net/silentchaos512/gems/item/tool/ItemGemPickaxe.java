@@ -43,7 +43,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
 
   public ItemGemPickaxe() {
 
-    super(ToolMaterial.DIAMOND);
+    super(ToolHelper.FAKE_MATERIAL);
     setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.PICKAXE);
   }
 

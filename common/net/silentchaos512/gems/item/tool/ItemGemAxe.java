@@ -44,7 +44,7 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
 
   public ItemGemAxe() {
 
-    super(ToolMaterial.DIAMOND);
+    super(ToolHelper.FAKE_MATERIAL, 0f, 0f);
     setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.AXE);
   }
 
@@ -102,7 +102,7 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   }
 
   @Override
-  public Material[] getExtraEffectiveMaterials() {
+  public Material[] getExtraEffectiveMaterials(ItemStack stack) {
 
     return extraEffectiveMaterials;
   }

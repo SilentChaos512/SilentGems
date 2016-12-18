@@ -40,7 +40,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
 
   public ItemGemShovel() {
 
-    super(ToolMaterial.DIAMOND);
+    super(ToolHelper.FAKE_MATERIAL);
     setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.SHOVEL);
   }
 

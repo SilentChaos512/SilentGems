@@ -8,6 +8,7 @@ Changed: Chaos orbs now retain charge when upgrading... at least if you don't sh
 Changed: Bumped up some gem stats a bit. You should now be able to produce 20+ damage swords/katanas with grading.
 Changed: SS and SSS grade bonuses increased to 24% and 32% (up from 20 and 30)
 Changed: Broken tools are now less effective at harvesting blocks...
+Changed: Tools now register with a fake tool material with harvest level 1 (previously used diamond). Should allow most Progressive Automation machines (stone and above) to use gem tools. Let me know if there are any other side-effects (mods no longer accepting tools, etc.)
 Changed: Invalid tools now render a little something, instead of being invisible.
 Fixed: Material Grader desync when playing on servers (Chaos/progress bars going haywire, items appearing in the output slot when they aren't really there, etc.)
 
