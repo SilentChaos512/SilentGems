@@ -53,6 +53,7 @@ import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
+import net.silentchaos512.gems.item.tool.ItemGemSickle;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.network.NetworkHandler;
@@ -563,10 +564,10 @@ public class ToolHelper {
   public static boolean onBlockDestroyed(ItemStack tool, World world, IBlockState state,
       BlockPos pos, EntityLivingBase entityLiving) {
 
-    if ((tool.getItem() == ModItems.sickle || state.getBlockHardness(world, pos) != 0)
-        && !isBroken(tool)) {
+    boolean isSickle = tool.getItem() == ModItems.sickle;
+    if ((isSickle || state.getBlockHardness(world, pos) != 0) && !isBroken(tool)) {
       if (state.getMaterial() != Material.LEAVES) {
-        attemptDamageTool(tool, 1, entityLiving);
+        attemptDamageTool(tool, isSickle ? ItemGemSickle.DURABILITY_USAGE : 1, entityLiving);
 
         if (isBroken(tool))
           entityLiving.renderBrokenItemStack(tool);

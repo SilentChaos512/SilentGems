@@ -50,6 +50,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
 
   public static final Material[] effectiveMaterials = new Material[] { Material.CACTUS,
       Material.LEAVES, Material.PLANTS, Material.VINE, Material.WEB };
+  public static final int DURABILITY_USAGE = 4;
 
   private List<ItemStack> subItems = null;
 
@@ -177,7 +178,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
     }
 
     if (flag) {
-      stack.damageItem(1, player);
+      ToolHelper.attemptDamageTool(stack, DURABILITY_USAGE, player);
     }
     return flag ? EnumActionResult.SUCCESS : EnumActionResult.PASS;
   }
