@@ -64,6 +64,16 @@ public class GemsCommonEvents {
     } else if (event.crafting.getItem() instanceof IArmor) {
       ArmorHelper.setOriginalOwner(event.crafting, event.player);
     }
+    // Transfer Chaos when upgrading an orb.
+    else if (event.crafting.getItem() == ModItems.chaosOrb) {
+      for (int i = 0; i < event.craftMatrix.getSizeInventory(); ++i) {
+        ItemStack stack = event.craftMatrix.getStackInSlot(i);
+        if (stack != null && stack.getItem() == ModItems.chaosOrb) {
+          int oldCharge = ModItems.chaosOrb.getCharge(stack);
+          ModItems.chaosOrb.receiveCharge(event.crafting, oldCharge, false);
+        }
+      }
+    }
   }
 
   @SubscribeEvent
