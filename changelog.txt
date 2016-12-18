@@ -7,6 +7,7 @@ Changed: Material Grader now has 4 output slots (and its own GUI texture, instea
 Changed: Chaos orbs now retain charge when upgrading... at least if you don't shift-click...
 Changed: Bumped up some gem stats a bit. You should now be able to produce 20+ damage swords/katanas with grading.
 Changed: SS and SSS grade bonuses increased to 24% and 32% (up from 20 and 30)
+Changed: Broken tools are now less effective at harvesting blocks...
 Changed: Invalid tools now render a little something, instead of being invisible.
 Fixed: Material Grader desync when playing on servers (Chaos/progress bars going haywire, items appearing in the output slot when they aren't really there, etc.)
 

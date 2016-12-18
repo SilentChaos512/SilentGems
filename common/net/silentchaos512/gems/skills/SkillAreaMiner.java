@@ -132,7 +132,7 @@ public class SkillAreaMiner extends ToolSkill {
     }
 
     if (tool.getItem() instanceof ITool) {
-      for (Material material : ((ITool) tool.getItem()).getExtraEffectiveMaterials()) {
+      for (Material material : ((ITool) tool.getItem()).getExtraEffectiveMaterials(tool)) {
         if (state.getMaterial() == material) {
           return true;
         }

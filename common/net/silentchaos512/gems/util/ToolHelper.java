@@ -271,7 +271,7 @@ public class ToolHelper {
   public static float getDigSpeed(ItemStack tool, IBlockState state, Material[] extraMaterials) {
 
     if (isBroken(tool)) {
-      return 1f;
+      return 0.25f;
     }
 
     float speed = getDigSpeedOnProperMaterial(tool);

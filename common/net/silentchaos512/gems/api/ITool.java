@@ -1,10 +1,7 @@
 package net.silentchaos512.gems.api;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import net.silentchaos512.gems.util.ToolHelper;
 
 public interface ITool {
 
@@ -19,7 +16,13 @@ public interface ITool {
     return false;
   }
 
+  @Deprecated
   public default Material[] getExtraEffectiveMaterials() {
+
+    return new Material[] {};
+  }
+
+  public default Material[] getExtraEffectiveMaterials(ItemStack tool) {
 
     return new Material[] {};
   }

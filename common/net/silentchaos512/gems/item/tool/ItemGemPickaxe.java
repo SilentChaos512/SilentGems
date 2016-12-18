@@ -1,7 +1,9 @@
 package net.silentchaos512.gems.item.tool;
 
 import java.util.List;
+import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
@@ -10,12 +12,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -26,8 +25,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -104,9 +101,9 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   }
 
   @Override
-  public Material[] getExtraEffectiveMaterials() {
+  public Material[] getExtraEffectiveMaterials(ItemStack tool) {
 
-    return extraEffectiveMaterials;
+    return ToolHelper.isBroken(tool) ? new Material[] {} : extraEffectiveMaterials;
   }
 
   // ==============
@@ -203,10 +200,15 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   @Override
   public int getHarvestLevel(ItemStack stack, String toolClass) {
 
-    if (super.getHarvestLevel(stack, toolClass) < 0) {
+    if (super.getHarvestLevel(stack, toolClass) < 0 || ToolHelper.isBroken(stack))
       return 0;
-    }
     return ToolHelper.getHarvestLevel(stack);
+  }
+
+  @Override
+  public Set<String> getToolClasses(ItemStack stack) {
+
+    return ToolHelper.isBroken(stack) ? ImmutableSet.of() : super.getToolClasses(stack);
   }
 
   @Override
