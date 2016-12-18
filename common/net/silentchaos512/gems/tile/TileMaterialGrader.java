@@ -8,6 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
@@ -177,6 +178,14 @@ public class TileMaterialGrader extends TileBasicInventory
     NBTTagCompound tags = new NBTTagCompound();
     tags.setInteger(NBT_ENERGY, getCharge());
     tags.setInteger(NBT_PROGRESS, progress);
+
+    ItemStack input = getStackInSlot(SLOT_INPUT);
+    if (input != null) {
+      NBTTagCompound tagCompound = new NBTTagCompound();
+      input.writeToNBT(tagCompound);
+      tags.setTag("InputItem", tagCompound);
+    }
+
     return new SPacketUpdateTileEntity(pos, getBlockMetadata(), tags);
   }
 
@@ -186,6 +195,18 @@ public class TileMaterialGrader extends TileBasicInventory
     NBTTagCompound tags = super.getUpdateTag();
     tags.setInteger(NBT_ENERGY, getCharge());
     tags.setInteger(NBT_PROGRESS, progress);
+
+    // Pass the input slot for rendering. No need for the client to know output slots at this time.
+    NBTTagList tagList = new NBTTagList();
+    ItemStack input = getStackInSlot(SLOT_INPUT);
+    if (input != null) {
+      NBTTagCompound tagCompound = new NBTTagCompound();
+      tagCompound.setByte("Slot", (byte) SLOT_INPUT);
+      input.writeToNBT(tagCompound);
+      tagList.appendTag(tagCompound);
+    }
+    tags.setTag("Items", tagList);
+
     return tags;
   }
 
@@ -196,6 +217,12 @@ public class TileMaterialGrader extends TileBasicInventory
     NBTTagCompound tags = pkt.getNbtCompound();
     chaosStored = tags.getInteger(NBT_ENERGY);
     progress = tags.getInteger(NBT_PROGRESS);
+
+    if (tags.hasKey("InputItem"))
+      setInventorySlotContents(SLOT_INPUT,
+          ItemStack.loadItemStackFromNBT(tags.getCompoundTag("InputItem")));
+    else
+      setInventorySlotContents(SLOT_INPUT, null);
   }
 
   @Override
