@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.compat.tconstruct.TConstructGemsCompat;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.ModEntities;
@@ -52,7 +53,7 @@ public class SilentGems {
   public static final String VERSION = "@VERSION@";
   public static final String DEPENDENCIES = "required-after:Forge@[12.18.1.2070,);required-after:SilentLib"
       + (DEV_ENV ? ";" : "@[1.1.0,);")
-      + "after:guideapi;after:EnderIO;after:EnderZoo";
+      + "after:guideapi;after:EnderIO;after:EnderZoo;after:tconstruct";
   public static final String RESOURCE_PREFIX = MOD_ID.toLowerCase() + ":";
 
   public static Random random = new Random();
@@ -118,6 +119,11 @@ public class SilentGems {
     // Register Guide API book?
     if (Loader.isModLoaded("guideapi")) {
       GuideSilentGems.buildGuide(localizationHelper);
+    }
+
+    // Load TCon compatibility stuff?
+    if (Loader.isModLoaded("tconstruct")) {
+      TConstructGemsCompat.init();
     }
 
     proxy.preInit(registry);
