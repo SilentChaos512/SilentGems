@@ -125,8 +125,7 @@ public class ModuleEntityRandomEquipment {
     DifficultyInstance localDiff = entity.worldObj.getDifficultyForLocation(entity.getPosition());
 
     boolean superTier = selectBasedOnDifficulty(SUPER_CHANCE, worldDiff, localDiff, rand);
-    boolean genKatana = superTier
-        && selectBasedOnDifficulty(KATANA_CHANCE, worldDiff, localDiff, rand);
+    boolean genKatana = superTier && rand.nextFloat() < KATANA_CHANCE;
 
     ItemGemSword item;
     int maxGemCount;
@@ -201,7 +200,7 @@ public class ModuleEntityRandomEquipment {
       case PEACEFUL: return false;
       case EASY: f = 0.5f; break;
       case NORMAL: f = 1.0f; break;
-      case HARD: f = 2.0f; break;
+      case HARD: f = 1.75f; break;
       // @formatter:on
     }
     f *= 1.0f + localDifficulty.getClampedAdditionalDifficulty();
