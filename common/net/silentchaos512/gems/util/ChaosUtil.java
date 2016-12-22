@@ -2,6 +2,8 @@ package net.silentchaos512.gems.util;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -12,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.packet.EntityPacketChaos;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
@@ -103,18 +106,33 @@ public class ChaosUtil {
     return amount;
   }
 
-  public static EntityPacketChaos spawnPacketToEntity(World world, BlockPos start,
+  public static @Nullable EntityPacketChaos spawnPacketToEntity(World world, BlockPos start,
       EntityLivingBase target, int amount) {
 
+    // Direct transfer?
+    if (GemsConfig.CHAOS_DIRECT_TRANSFER && target instanceof EntityPlayer) {
+      PlayerDataHandler.get((EntityPlayer) target).sendChaos(amount, true);
+      return null;
+    }
+
+    // Packet transfer.
     EntityPacketChaos entity = new EntityPacketChaos(world, target, amount);
     entity.setPosition(start.getX() + 0.5, start.getY() + 0.5, start.getZ() + 0.5);
     world.spawnEntityInWorld(entity);
     return entity;
   }
 
-  public static EntityPacketChaos spawnPacketToBlock(World world, BlockPos start, BlockPos target,
+  public static @Nullable EntityPacketChaos spawnPacketToBlock(World world, BlockPos start, BlockPos target,
       int amount) {
 
+    // Direct transfer?
+    TileEntity tile = world.getTileEntity(target);
+    if (GemsConfig.CHAOS_DIRECT_TRANSFER && tile instanceof IChaosAccepter) {
+      ((IChaosAccepter) tile).receiveCharge(amount, false);
+      return null;
+    }
+
+    // Packet transfer.
     EntityPacketChaos entity = new EntityPacketChaos(world, target, amount);
     entity.setPosition(start.getX() + 0.5, start.getY() + 0.5, start.getZ() + 0.5);
     world.spawnEntityInWorld(entity);

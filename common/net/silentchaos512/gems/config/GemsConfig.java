@@ -83,6 +83,12 @@ public class GemsConfig {
   public static List<String> PART_BLACKLIST = Lists.newArrayList();
 
   /*
+   * Chaos
+   */
+
+  public static boolean CHAOS_DIRECT_TRANSFER = false;
+
+  /*
    * GUI
    */
 
@@ -128,6 +134,7 @@ public class GemsConfig {
   public static final String CAT_MAIN = "main";
   public static final String CAT_DEBUG = CAT_MAIN + split + "debug";
   public static final String CAT_BLOCK = CAT_MAIN + split + "blocks";
+  public static final String CAT_CHAOS = CAT_MAIN + split + "chaos";
   public static final String CAT_CONTROLS = CAT_MAIN + split + "controls";
   public static final String CAT_ENCHANTMENT = CAT_MAIN + split + "enchantment";
   public static final String CAT_GUI = CAT_MAIN + split + "gui";
@@ -282,6 +289,16 @@ public class GemsConfig {
           + " reveal the part key.");
       for (String str : partBlacklistTemp)
         PART_BLACKLIST.add(str);
+
+      /*
+       * Chaos
+       */
+
+      c.setCategoryComment(CAT_CHAOS, "Options for the Chaos energy system");
+      CHAOS_DIRECT_TRANSFER = c.getBoolean("Direct Transfer", CAT_CHAOS, CHAOS_DIRECT_TRANSFER,
+          "If true, Chaos transfer entities will not be spawned, the energy is just sent directly"
+          + " to the target. This might help if your server is struggling with large numbers of"
+          + " nodes and pylons.");
 
       /*
        * GUI

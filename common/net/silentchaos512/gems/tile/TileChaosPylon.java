@@ -19,6 +19,7 @@ import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosProvider;
 import net.silentchaos512.gems.entity.packet.EntityPacketChaos;
 import net.silentchaos512.gems.lib.EnumPylonType;
+import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ChaosUtil;
 
 public class TileChaosPylon extends TileEntity implements IInventory, ITickable, IChaosProvider {
@@ -60,8 +61,6 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
         burnFuel();
       }
 
-      // SilentGems.instance.logHelper.debug(getPylonType());
-
       // Transfer energy to blocks, then players.
       if (worldObj.getTotalWorldTime() % SEND_CHAOS_DELAY == 0) {
         List<IChaosAccepter> accepters = ChaosUtil.getNearbyAccepters(worldObj, pos,
@@ -98,9 +97,12 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
         extractEnergy(amount, false);
         EntityPacketChaos packet = ChaosUtil.spawnPacketToBlock(worldObj, pos,
             ((TileEntity) accepter).getPos(), amount);
-        Vec3d vel = new Vec3d(0.1, 0.25, 0.0);
-        vel = vel.rotateYaw(2 * (float) Math.PI * SilentGems.random.nextFloat());
-        packet.setVelocity(vel);
+        // Set packets velocity to something less random.
+        if (packet != null) {
+          Vec3d vel = new Vec3d(0.1, 0.25, 0.0);
+          vel = vel.rotateYaw(2 * (float) Math.PI * SilentGems.random.nextFloat());
+          packet.setVelocity(vel);
+        }
       }
     }
   }
@@ -122,8 +124,14 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
       int amountPlayerCanAccept = ChaosUtil.getAmountPlayerCanAccept(player, amount);
       if (amountPlayerCanAccept > 0) {
         amount = Math.min(amount, amountPlayerCanAccept);
-        ChaosUtil.spawnPacketToEntity(worldObj, pos, player, amount);
         extractEnergy(amount, false);
+        EntityPacketChaos packet = ChaosUtil.spawnPacketToEntity(worldObj, pos, player, amount);
+        // Set packets velocity to something less random.
+        if (packet != null) {
+          Vec3d vel = new Vec3d(0.1, 0.25, 0.0);
+          vel = vel.rotateYaw(2 * (float) Math.PI * SilentGems.random.nextFloat());
+          packet.setVelocity(vel);
+        }
       }
     }
   }
@@ -252,7 +260,7 @@ public class TileChaosPylon extends TileEntity implements IInventory, ITickable,
   @Override
   public String getName() {
 
-    return "ChaosPylon"; // TODO
+    return Names.CHAOS_PYLON;
   }
 
   @Override
