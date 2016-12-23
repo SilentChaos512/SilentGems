@@ -1,5 +1,11 @@
 Silent's Gems - Changelog
 
+2.1.11 (Minecraft 1.10.2)
+Added: Chaos direct transfer config. Chaos energy will be sent directly to the target if enabled, instead of relying on the packet entities. Might help performance on worlds with large numbers of nodes/pylons.
+Added: Harvest level in tooltips for tools now has a hint at what it can mine.
+Changed: Chaos Nodes have potentially been optimized a bit. Target lists are obtained only when needed and the number of attack and levitation packets that can be spawned each time is capped to 10.
+Fixed: Mobs spawning only with katanas on hard difficulty.
+
 2.1.10 (Minecraft 1.10.2)
 Added: A config GUI. Finally. Now you can configure the mod in the Mods menu in-game (note that some categories will still require you to restart Minecraft).
 Changed: Material Grader now has 4 output slots (and its own GUI texture, instead of using the one for the Altar)

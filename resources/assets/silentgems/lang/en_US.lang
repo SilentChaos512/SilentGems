@@ -659,11 +659,6 @@ tool.silentgems:Bow=%s Bow
 tool.silentgems:Shield=%s Shield
 tool.silentgems:delimiter=-
 
-# Tool placeholders
-item.silentgems:Bow.name=Reserved for Bows
-item.silentgems:FishingRod.name=Reserved for Fishing Rods
-item.silentgems:Shield.name=Reserved for Shields
-
 # Armor
 tool.silentgems:Helmet=%s Helmet
 tool.silentgems:Chestplate=%s Chestplate
@@ -717,6 +712,12 @@ misc.silentgems:Tooltip.TipIron=&fIron
 misc.silentgems:Tooltip.TipDiamond=&bDiamond
 misc.silentgems:Tooltip.TipEmerald=&2Emerald
 misc.silentgems:Tooltip.TipGold=&eGold
+
+misc.silentgems:Tooltip.level0=Stone
+misc.silentgems:Tooltip.level1=Iron
+misc.silentgems:Tooltip.level2=Diamond
+misc.silentgems:Tooltip.level3=Obsidian
+misc.silentgems:Tooltip.level4=Cobalt
 
 misc.silentgems:Tooltip.ArrowDamage=Arrow Damage:&f %s
 misc.silentgems:Tooltip.BlockingPower=Blocking Power:&f %s

@@ -128,7 +128,12 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
         list.add(color + getTooltipLine("BlockingPower", ToolHelper.getBlockingPower(tool)));
 
       if (isDigger) { // @formatter:off
-        list.add(color + getTooltipLine("HarvestLevel", ToolHelper.getHarvestLevel(tool)));
+        int harvestLevel = ToolHelper.getHarvestLevel(tool);
+        String str = color + getTooltipLine("HarvestLevel", harvestLevel);
+        String key = "Tooltip.level" + harvestLevel;
+        String val = SilentGems.localizationHelper.getMiscText(key);
+        if (!val.equals("misc.silentgems:" + key)) str += " (" +  val + ")";
+        list.add(str);
         list.add(color + getTooltipLine("HarvestSpeed", ToolHelper.getDigSpeedOnProperMaterial(tool)));
       } // @formatter:on
 
