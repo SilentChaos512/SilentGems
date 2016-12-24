@@ -16,13 +16,10 @@ public class TConstructMaterialGem extends Material {
     super("silentgems:" + gem.name().toLowerCase() + (tier == EnumMaterialTier.SUPER ? "_super" : ""), gem.getColor());
     this.gem = gem;
     this.tier = tier;
+
     setCraftable(true);
-  }
-
-  @Override
-  public ItemStack getRepresentativeItem() {
-
-    return gem.getItem();
+    setRepresentativeItem(tier == EnumMaterialTier.SUPER ? gem.getItemSuper() : gem.getItem());
+    addItem(tier == EnumMaterialTier.SUPER ? gem.getItemSuperOreName() : gem.getItemOreName(), 1, VALUE_Ingot);
   }
 
   @Override
