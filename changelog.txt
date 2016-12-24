@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.1.11 (Minecraft 1.10.2)
+Added: Tinkers Construct support. Work in progress, there are no traits yet, but gems can now be used to craft TiC tools... you dirty traitors. Just kidding. Maybe.
 Added: Chaos direct transfer config. Chaos energy will be sent directly to the target if enabled, instead of relying on the packet entities. Might help performance on worlds with large numbers of nodes/pylons.
 Added: Harvest level in tooltips for tools now has a hint at what it can mine.
 Changed: Chaos Nodes have potentially been optimized a bit. Target lists are obtained only when needed and the number of attack and levitation packets that can be spawned each time is capped to 10.
