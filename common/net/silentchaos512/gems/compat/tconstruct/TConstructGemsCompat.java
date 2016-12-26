@@ -39,7 +39,7 @@ public class TConstructGemsCompat {
     TinkerRegistry.addMaterialStats(mat, new HeadMaterialStats(durability, miningSpeed, meleeDamage, harvestLevel));
     TinkerRegistry.addMaterialStats(mat, new HandleMaterialStats(0.875f, durability / 8));
     TinkerRegistry.addMaterialStats(mat, new ExtraMaterialStats(durability / 8));
-    TinkerRegistry.addMaterialStats(mat, new BowMaterialStats(20f / drawDelay, 1f, 0.4f * meleeDamage - 4));
+    TinkerRegistry.addMaterialStats(mat, new BowMaterialStats(20f / drawDelay, 1f, 0.4f * meleeDamage - 1));
     //TinkerRegistry.addMaterialStats(mat, new BowStringMaterialStats(1f));
     TinkerRegistry.addMaterialStats(mat, new ArrowShaftMaterialStats(1.0f, 0));
     //TinkerRegistry.addMaterialStats(mat, new FletchingMaterialStats(1f, 1f));
