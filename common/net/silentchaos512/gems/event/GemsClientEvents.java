@@ -2,8 +2,6 @@ package net.silentchaos512.gems.event;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,7 +11,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.profiler.Profiler;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -42,6 +39,9 @@ import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.TooltipHelper;
+import net.silentchaos512.gems.skills.SkillAreaMiner;
+import net.silentchaos512.gems.skills.SkillLumberjack;
+import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
@@ -178,7 +178,9 @@ public class GemsClientEvents {
     if (isDigger && event.isCancelable() && event.getType() == ElementType.CROSSHAIRS) {
       if (ToolHelper.isSpecialAbilityEnabled(mainHand)) {
         event.setCanceled(true);
-        GuiCrosshairs.INSTANCE.renderOverlay(event, item == ModItems.axe ? 1 : 0);
+        ToolSkill skill = ToolHelper.getSuperSkill(mainHand);
+        int type = skill == SkillAreaMiner.INSTANCE ? 0 : skill == SkillLumberjack.INSTANCE ? 1 : 2;
+        GuiCrosshairs.INSTANCE.renderOverlay(event, type);
       }
     }
 

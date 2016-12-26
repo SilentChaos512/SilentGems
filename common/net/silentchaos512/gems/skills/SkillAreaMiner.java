@@ -21,16 +21,16 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
-import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.util.ToolHelper;
 
-public class SkillAreaMiner extends ToolSkill {
+public class SkillAreaMiner extends ToolSkillDigger {
 
   public static final float DIG_SPEED_MULTIPLIER = 0.33f;
   public static final int CHAOS_COST = 100;
 
   public static final SkillAreaMiner INSTANCE = new SkillAreaMiner();
 
+  @Override
   public void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
 
     PlayerData data = PlayerDataHandler.get(event.getEntityPlayer());
@@ -46,10 +46,8 @@ public class SkillAreaMiner extends ToolSkill {
     World world = player.worldObj;
     IBlockState state = world.getBlockState(pos);
 
-    // Must be a pickaxe or shovel.
     Item item = tool.getItem();
-    if ((item != ModItems.pickaxe && item != ModItems.shovel) || state == null
-        || state.getBlock() == null) {
+    if (state == null || state.getBlock() == null) {
       return false;
     }
 

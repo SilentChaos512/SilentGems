@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
@@ -20,10 +22,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -60,6 +62,7 @@ import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageItemRename;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillLumberjack;
+import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
@@ -529,6 +532,21 @@ public class ToolHelper {
     return result;
   }
 
+  public static @Nullable ToolSkill getSuperSkill(ItemStack tool) {
+
+    if (getToolTier(tool).ordinal() < EnumMaterialTier.SUPER.ordinal())
+      return null;
+
+    Item item = tool.getItem();
+    if (item == ModItems.pickaxe || item == ModItems.shovel) {
+      return SkillAreaMiner.INSTANCE;
+    } else if (item == ModItems.axe) {
+      return GemsConfig.SWITCH_AXE_SUPER ? SkillAreaMiner.INSTANCE : SkillLumberjack.INSTANCE;
+    }
+
+    return null;
+  }
+
   /**
    * Called by mining tools if block breaking isn't canceled.
    * 
@@ -538,12 +556,9 @@ public class ToolHelper {
 
     boolean abilityActivated = false;
 
-    if (SkillAreaMiner.INSTANCE.activate(stack, player, pos))
-      abilityActivated = true;
-    else if (SkillLumberjack.INSTANCE.activate(stack, player, pos))
-      abilityActivated = true;
-
-    if (!abilityActivated)
+    ToolSkill skill = getSuperSkill(stack);
+    SilentGems.logHelper.debug(skill);
+    if (!skill.activate(stack, player, pos))
       incrementStatBlocksMined(stack, 1);
 
     // Mining achievements TODO: Uncomment

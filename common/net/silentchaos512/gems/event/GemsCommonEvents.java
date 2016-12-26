@@ -32,6 +32,8 @@ import net.silentchaos512.gems.lib.module.ModuleEntityRandomEquipment;
 import net.silentchaos512.gems.loot.LootHandler;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillLumberjack;
+import net.silentchaos512.gems.skills.ToolSkill;
+import net.silentchaos512.gems.skills.ToolSkillDigger;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
@@ -91,17 +93,9 @@ public class GemsCommonEvents {
       // TODO: Something for 'no speed penalty' tools?
 
       // Reduce speed for Area Miner and Lumberjack.
-      if (mainHand.getItem() == ModItems.pickaxe || mainHand.getItem() == ModItems.shovel) {
-        if (ToolHelper.getToolTier(mainHand).ordinal() >= EnumMaterialTier.SUPER.ordinal()
-            && ToolHelper.isSpecialAbilityEnabled(mainHand)) {
-          SkillAreaMiner.INSTANCE.onGetBreakSpeed(event);
-        }
-      } else if (mainHand.getItem() == ModItems.axe) {
-        if (ToolHelper.getToolTier(mainHand).ordinal() >= EnumMaterialTier.SUPER.ordinal()
-            && ToolHelper.isSpecialAbilityEnabled(mainHand)) {
-          SkillLumberjack.INSTANCE.onGetBreakSpeed(event);
-        }
-      }
+      ToolSkill skill = ToolHelper.getSuperSkill(mainHand);
+      if (skill instanceof ToolSkillDigger)
+        ((ToolSkillDigger) skill).onGetBreakSpeed(event);
     }
   }
 

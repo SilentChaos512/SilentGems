@@ -11,21 +11,20 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
-import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.util.ToolHelper;
 
-public class SkillLumberjack extends ToolSkill {
+public class SkillLumberjack extends ToolSkillDigger {
 
   public static final float DIG_SPEED_MULTIPLIER = 0.25f;
   public static final int CHAOS_COST = 250;
 
   public static final SkillLumberjack INSTANCE = new SkillLumberjack();
 
+  @Override
   public void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
 
     if (!event.getState().getBlock().isWood(event.getEntityPlayer().worldObj, event.getPos())) {
@@ -46,7 +45,7 @@ public class SkillLumberjack extends ToolSkill {
     IBlockState state = world.getBlockState(pos);
 
     // Must be an axe
-    if (tool.getItem() != ModItems.axe || state == null || state.getBlock() == null) {
+    if (state == null || state.getBlock() == null) {
       return false;
     }
 

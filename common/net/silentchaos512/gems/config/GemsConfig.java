@@ -60,6 +60,7 @@ public class GemsConfig {
   public static float VARIETY_BONUS = 0.075f;
   public static int TOMAHAWK_MAX_AMMO = 4;
   public static int TOMAHAWK_AMMO_PER_MAT = 1;
+  public static boolean SWITCH_AXE_SUPER = false;
 
   public static boolean TOOL_DISABLE_SWORD;
   public static boolean TOOL_DISABLE_KATANA;
@@ -253,6 +254,9 @@ public class GemsConfig {
       TOMAHAWK_AMMO_PER_MAT = c.getInt("Tomahawk Ammo per Material", CAT_TOOLS,
           TOMAHAWK_AMMO_PER_MAT, 0, Byte.MAX_VALUE,
           "The \"ammo\" restored by each material (gem, etc.) when decorating a tomahawk.");
+      SWITCH_AXE_SUPER = c.getBoolean("Switch Axe Super Skill to Area Miner", CAT_TOOLS,
+          SWITCH_AXE_SUPER,
+          "Change the super skill for axes to Area Miner. Useful if playing with Veinminer installed.");
 
       final String catToolDisable = CAT_TOOLS + split + "disable";
       c.setCategoryRequiresMcRestart(catToolDisable, true);
