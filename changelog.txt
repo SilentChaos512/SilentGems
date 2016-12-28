@@ -1,5 +1,10 @@
 Silent's Gems - Changelog
 
+2.2.0 (Minecraft 1.10.2)
+Added: Chaos Gems are back! Instead of being limited to 3 buffs, they have a slot system now. You can have however many buffs you want, so long as the slot limit is not exceeded. Different buffs cost a different number of slots. Each level past the first costs just 1 extra slot (Speed I = 4 slots, Speed II = 5 slots, etc). There are also debuffs (slowness, mining fatigue, etc) that give slots back. For example, you could sacrifice your speed to squeeze an extra buff on a single Chaos Gem.
+Added: Config to change axe super skill to Area Miner.
+Fixed: Chaos direct transfer not recharging players' items.
+
 2.1.11 (Minecraft 1.10.2)
 Added: Tinkers Construct support. Work in progress, there are no traits yet, but gems can now be used to craft TiC tools... you dirty traitors. Just kidding. Maybe.
 Added: Chaos direct transfer config. Chaos energy will be sent directly to the target if enabled, instead of relying on the packet entities. Might help performance on worlds with large numbers of nodes/pylons.

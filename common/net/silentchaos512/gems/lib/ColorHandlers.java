@@ -6,10 +6,9 @@ import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.lib.EnumDecoPos;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
-import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 
@@ -105,5 +104,25 @@ public class ColorHandlers {
         return tintIndex == 0 ? ModItems.drawingCompass.getColor(stack).getColor() : 0xFFFFFF;
       }
     }, ModItems.drawingCompass);
+
+    // Chaos Gems
+    itemColors.registerItemColorHandler(new IItemColor() {
+
+      @Override
+      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+
+        return stack.getItemDamage() > 15 && stack.getItemDamage() < 32 ? 0x888888 : 0xFFFFFF;
+      }
+    }, ModItems.chaosGem);
+
+    // Chaos Runes
+    itemColors.registerItemColorHandler(new IItemColor() {
+
+      @Override
+      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+
+        return tintIndex == 1 ? ModItems.chaosRune.getBuff(stack).getColor() : 0xFFFFFF;
+      }
+    }, ModItems.chaosRune);
   }
 }

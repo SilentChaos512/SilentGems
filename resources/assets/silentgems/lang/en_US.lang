@@ -1,6 +1,6 @@
 itemGroup.tabSilentGems=Silent's Gems
 itemGroup.silentgems:blocks=Silent's Gems: Blocks
-itemGroup.silentgems:materials=Silent's Gems: Materials
+itemGrChaosGem.silentgems:materials=Silent's Gems: Materials
 itemGroup.silentgems:tools=Silent's Gems: Tools & Armor
 itemGroup.silentgems:utility=Silent's Gems: Utility
 
@@ -413,6 +413,41 @@ item.silentgems:ArmorFrame9.name=Chestplate Frame (Super)
 item.silentgems:ArmorFrame10.name=Leggings Frame (Super)
 item.silentgems:ArmorFrame11.name=Boots Frame (Super)
 
+item.silentgems:ChaosGem0.name=Chaos Ruby
+item.silentgems:ChaosGem1.name=Chaos Garnet
+item.silentgems:ChaosGem2.name=Chaos Topaz
+item.silentgems:ChaosGem3.name=Chaos Amber
+item.silentgems:ChaosGem4.name=Chaos Heliodor
+item.silentgems:ChaosGem5.name=Chaos Peridot
+item.silentgems:ChaosGem6.name=Chaos Beryl
+item.silentgems:ChaosGem7.name=Chaos Indicolite
+item.silentgems:ChaosGem8.name=Chaos Aquamarine
+item.silentgems:ChaosGem9.name=Chaos Sapphire
+item.silentgems:ChaosGem10.name=Chaos Iolite
+item.silentgems:ChaosGem11.name=Chaos Amethyst
+item.silentgems:ChaosGem12.name=Chaos Agate
+item.silentgems:ChaosGem13.name=Chaos Morganite
+item.silentgems:ChaosGem14.name=Chaos Onyx
+item.silentgems:ChaosGem15.name=Chaos Opal
+item.silentgems:ChaosGem16.name=Chaos Carnelian
+item.silentgems:ChaosGem17.name=Chaos Spinel
+item.silentgems:ChaosGem18.name=Chaos Citrine
+item.silentgems:ChaosGem19.name=Chaos Jasper
+item.silentgems:ChaosGem20.name=Chaos Golden Beryl
+item.silentgems:ChaosGem21.name=Chaos Moldavite
+item.silentgems:ChaosGem22.name=Chaos Malachite
+item.silentgems:ChaosGem23.name=Chaos Turquoise
+item.silentgems:ChaosGem24.name=Chaos Moonstone
+item.silentgems:ChaosGem25.name=Chaos Blue Topaz
+item.silentgems:ChaosGem26.name=Chaos Tanzanite
+item.silentgems:ChaosGem27.name=Chaos Violet Sapphire
+item.silentgems:ChaosGem28.name=Chaos Lepidolite
+item.silentgems:ChaosGem29.name=Chaos Ametrine
+item.silentgems:ChaosGem30.name=Chaos Black Diamond
+item.silentgems:ChaosGem31.name=Chaos Alexandrite
+item.silentgems:ChaosGem32.name=Super Cheaty Chaos Gem
+buff.silentgems:flight=Flight
+
 item.silentgems:ChaosOrb0.name=Chaos Potato
 item.silentgems:ChaosOrb1.name=Fragile Chaos Orb
 item.silentgems:ChaosOrb2.name=Refined Chaos Orb
@@ -422,6 +457,8 @@ item.silentgems:ChaosOrb.desc2=when low on charge.
 item.silentgems:ChaosOrb.break=Your %1$s shatters into %2$,d pieces.
 item.silentgems:ChaosOrb.breakChance=Max break chance: %d%%
 item.silentgems:ChaosOrb.crack=Your %s has cracked...
+
+item.silentgems:ChaosRune.name=Chaos Rune
 
 item.silentgems:DebugItem.name=Debug Item
 item.silentgems:DebugItem.desc=No one here but us space chickens!

@@ -29,7 +29,9 @@ public class Names {
 
   // Items
   public static final String ARMOR_FRAME = "ArmorFrame";
+  public static final String CHAOS_GEM = "ChaosGem";
   public static final String CHAOS_ORB = "ChaosOrb";
+  public static final String CHAOS_RUNE = "ChaosRune";
   public static final String DEBUG_ITEM = "DebugItem";
   public static final String DRAWING_COMPASS = "DrawingCompass";
   public static final String DYE = "Dye";

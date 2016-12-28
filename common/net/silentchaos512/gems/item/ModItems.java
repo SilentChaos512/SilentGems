@@ -38,6 +38,8 @@ public class ModItems {
   public static final ItemCrafting craftingMaterial = new ItemCrafting();
   public static final ItemTipUpgrade tipUpgrade = new ItemTipUpgrade();
   public static final ItemEnchantmentToken enchantmentToken = new ItemEnchantmentToken();
+  public static final ItemChaosGem chaosGem = new ItemChaosGem();
+  public static final ItemChaosRune chaosRune = new ItemChaosRune();
   public static final ItemArmorFrame armorFrame = new ItemArmorFrame();
   public static final ItemFluffyPuffSeeds fluffyPuffSeeds = new ItemFluffyPuffSeeds();
   public static final ItemFluffyPuff fluffyPuff = new ItemFluffyPuff();
@@ -86,6 +88,8 @@ public class ModItems {
     reg.registerItem(craftingMaterial).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(tipUpgrade).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(enchantmentToken).setCreativeTab(GemsCreativeTabs.utility);
+    reg.registerItem(chaosGem).setCreativeTab(GemsCreativeTabs.utility);
+    reg.registerItem(chaosRune).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(armorFrame).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(fluffyPuffSeeds, Names.FLUFFY_PUFF_SEEDS);
     reg.registerItem(fluffyPuff).setCreativeTab(GemsCreativeTabs.materials);

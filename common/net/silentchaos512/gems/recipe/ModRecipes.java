@@ -43,6 +43,7 @@ public class ModRecipes {
       reg.addRecipeHandler(RecipeDecorateArmor.class, "DecorateArmor", Category.SHAPED, dep);
       reg.addRecipeHandler(RecipeApplyEnchantmentToken.class, "ApplyEnchantmentToken",
           Category.SHAPELESS, dep);
+      reg.addRecipeHandler(RecipeChaosGemUpgrade.class, "ChaosGemUpgrade", Category.SHAPELESS, dep);
       reg.addRecipeHandler(RecipeNamePlate.class, "NamePlate", Category.SHAPELESS, dep);
     } catch (InstantiationException e) {
       // TODO Auto-generated catch block
