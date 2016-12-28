@@ -10,10 +10,13 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.text.TextFormatting;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class ItemChaosRune extends ItemSL {
 
@@ -29,16 +32,32 @@ public class ItemChaosRune extends ItemSL {
 
     ChaosBuff buff = getBuff(stack);
     if (buff != null) {
-      list.add(buff.getLocalizedName(1));
+      LocalizationHelper loc = SilentGems.localizationHelper;
+
+      // Name
+      list.add(TextFormatting.GOLD + buff.getLocalizedName(1));
+      // Description (may not have one)
+      String desc = buff.getDescription();
+      if (!desc.isEmpty())
+        list.add(TextFormatting.DARK_GRAY + desc);
+
+      list.add("  " + loc.getItemSubText(itemName, "maxLevel", buff.getMaxLevel()));
+      list.add("  " + loc.getItemSubText(itemName, "slotsUsed", buff.getSlotsUsed(1)));
+      list.add("  " + loc.getItemSubText(itemName, "chaosCost", buff.getChaosCost(1, null)));
 
       // Debug
-      list.add("  " + buff.getKey());
-      list.add(String.format("  Max Level: %d", buff.getMaxLevel()));
-      list.add(String.format("  Slots Used: %d", buff.getSlotsUsed(1)));
-      list.add(String.format("  Chaos Cost: %d", buff.getChaosCost(1, player)));
-      list.add(String.format("  Potion: %s", buff.getPotion()));
-      list.add(String.format("  Color: %X", buff.getColor()));
+      if (KeyTracker.isAltDown()) {
+        list.add(TextFormatting.DARK_GRAY + String.format("Key: %s", buff.getKey()));
+        list.add(TextFormatting.DARK_GRAY + String.format("Potion: %s", buff.getPotion()));
+        list.add(TextFormatting.DARK_GRAY + String.format("Color: %X", buff.getColor()));
+      }
     }
+  }
+
+  @Override
+  public void addRecipes() {
+
+    // TODO
   }
 
   @Override

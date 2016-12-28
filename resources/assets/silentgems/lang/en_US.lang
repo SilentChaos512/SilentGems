@@ -447,13 +447,6 @@ item.silentgems:ChaosGem30.name=Chaos Black Diamond
 item.silentgems:ChaosGem31.name=Chaos Alexandrite
 item.silentgems:ChaosGem32.name=Super Cheaty Chaos Gem
 
-buff.silentgems:capacity=Capacity
-buff.silentgems:capacity.desc=Greatly increases Chaos capacity
-buff.silentgems:flight=Flight
-buff.silentgems:flight.desc=Better than wings
-buff.silentgems:recharge=Recharge
-buff.silentgems:recharge.desc=Generates Chaos when not in use
-
 item.silentgems:ChaosOrb0.name=Chaos Potato
 item.silentgems:ChaosOrb1.name=Fragile Chaos Orb
 item.silentgems:ChaosOrb2.name=Refined Chaos Orb
@@ -465,6 +458,16 @@ item.silentgems:ChaosOrb.breakChance=Max break chance: %d%%
 item.silentgems:ChaosOrb.crack=Your %s has cracked...
 
 item.silentgems:ChaosRune.name=Chaos Rune
+item.silentgems:ChaosRune.desc=Craft with Chaos Gems
+item.silentgems:ChaosRune.chaosCost=Chaos Cost: %d
+item.silentgems:ChaosRune.maxLevel=Max Level: %d
+item.silentgems:ChaosRune.slotsUsed=Slots Used: %d
+buff.silentgems:capacity=Capacity
+buff.silentgems:capacity.desc=Greatly increases Chaos capacity
+buff.silentgems:flight=Flight
+buff.silentgems:flight.desc=Better than wings
+buff.silentgems:recharge=Recharge
+buff.silentgems:recharge.desc=Generates Chaos when not in use
 
 item.silentgems:DebugItem.name=Debug Item
 item.silentgems:DebugItem.desc=No one here but us space chickens!
