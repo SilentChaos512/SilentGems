@@ -7,6 +7,7 @@ import net.silentchaos512.gems.SilentGems;
 
 public class ModEnchantments {
 
+  public static EnchantmentGravity gravity = new EnchantmentGravity();
   public static EnchantmentLifeSteal lifeSteal = new EnchantmentLifeSteal();
   public static EnchantmentMagicDamage magicDamage = new EnchantmentMagicDamage();
 
@@ -14,6 +15,7 @@ public class ModEnchantments {
 
     register(EnchantmentLifeSteal.NAME, lifeSteal);
     register(EnchantmentMagicDamage.NAME, magicDamage);
+    register(EnchantmentGravity.NAME, gravity);
   }
 
   private static void register(String name, Enchantment ench) {

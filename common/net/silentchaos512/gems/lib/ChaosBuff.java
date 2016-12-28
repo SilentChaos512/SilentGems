@@ -86,7 +86,7 @@ public class ChaosBuff {
   static {
 
     final String prefix = SilentGems.RESOURCE_PREFIX;
-    final int dur = 300;
+    final int dur = 30;
     // @formatter:off
     //                                                       mLvl slots cost duration
     SPEED           = new ChaosBuff(prefix + "speed",           4,   4,  20, dur, MobEffects.SPEED);

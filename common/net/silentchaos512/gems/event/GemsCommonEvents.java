@@ -23,6 +23,7 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.enchantment.EnchantmentGravity;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.item.ModItems;
@@ -90,7 +91,10 @@ public class GemsCommonEvents {
         ModBlocks.fluffyBlock.onGetBreakSpeed(event);
       }
 
-      // TODO: Something for 'no speed penalty' tools?
+      // Gravity enchantment.
+      int gravityLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gravity, mainHand);
+      if (gravityLevel > 0)
+        ModEnchantments.gravity.onGetBreakSpeed(event, mainHand, gravityLevel);
 
       // Reduce speed for Area Miner and Lumberjack.
       ToolSkill skill = ToolHelper.getSuperSkill(mainHand);

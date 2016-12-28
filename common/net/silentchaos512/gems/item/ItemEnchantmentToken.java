@@ -406,6 +406,8 @@ public class ItemEnchantmentToken extends ItemSL {
     addTokenRecipe(Enchantments.EFFICIENCY, EnumGem.BERYL, "dustGlowstone", 4);
     addTokenRecipe(Enchantments.FORTUNE, EnumGem.GOLDEN_BERYL, "gemDiamond", 3);
     addTokenRecipe(Enchantments.SILK_TOUCH, EnumGem.VIOLET_SAPPHIRE, "gemEmerald", 3);
+    ItemStack netherShard = ModItems.craftingMaterial.netherShard;
+    addTokenRecipe(ModEnchantments.gravity, EnumGem.AMBER, netherShard, 2);
 
     // Melee weapons
     addTokenRecipe(Enchantments.BANE_OF_ARTHROPODS, EnumGem.AMETHYST, Items.SPIDER_EYE, 4);
@@ -446,8 +448,9 @@ public class ItemEnchantmentToken extends ItemSL {
   public void addModRecipes() {
 
     // DEBUG Dump enchantments!
-    for (ResourceLocation res : Enchantment.REGISTRY.getKeys())
-      SilentGems.logHelper.info("    " + res.toString());
+    if (GemsConfig.DEBUG_MODE)
+      for (ResourceLocation res : Enchantment.REGISTRY.getKeys())
+        SilentGems.logHelper.info("    " + res.toString());
 
     if (modRecipesInitialized)
       return;

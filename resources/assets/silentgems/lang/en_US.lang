@@ -717,6 +717,7 @@ donut.silentgems:8=You feel... something.
 
 # Enchantments
 
+enchantment.silentgems:Gravity=Gravity
 enchantment.silentgems:LifeSteal=Life Steal
 enchantment.silentgems:MagicDamage=Concentration
 
