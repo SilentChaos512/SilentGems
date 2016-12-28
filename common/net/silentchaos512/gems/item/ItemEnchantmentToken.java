@@ -269,10 +269,10 @@ public class ItemEnchantmentToken extends ItemSL {
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
 
+    LocalizationHelper loc = SilentGems.localizationHelper;
     Map<Enchantment, Integer> enchants = getEnchantments(stack);
 
     if (enchants.size() == 1) {
-      LocalizationHelper loc = SilentGems.localizationHelper;
       Enchantment ench = enchants.keySet().iterator().next();
       list.add(loc.getItemSubText(itemName, "maxLevel", ench.getMaxLevel()));
 
@@ -289,15 +289,21 @@ public class ItemEnchantmentToken extends ItemSL {
         list.add(loc.getItemSubText(itemName, "pressCtrl"));
       }
 
-      // Enchantment list
-      for (Entry<Enchantment, Integer> entry : enchants.entrySet())
-        list.add(entry.getKey().getTranslatedName(entry.getValue()));
-
       // Debug info
       if (KeyTracker.isAltDown()) {
         list.add(TextFormatting.DARK_GRAY + ench.getRegistryName().toString());
-        list.add(TextFormatting.DARK_GRAY + "EnchID: " + ench.getEnchantmentID(ench));
+        // list.add(TextFormatting.DARK_GRAY + "EnchID: " + ench.getEnchantmentID(ench));
       }
+    }
+
+    // Enchantment list
+    for (Entry<Enchantment, Integer> entry : enchants.entrySet()) {
+      Enchantment e = entry.getKey();
+      list.add(e.getTranslatedName(entry.getValue()));
+      String descKey = e.getName() + ".desc";
+      String desc = loc.getLocalizedString(descKey);
+      if (!desc.equals(descKey))
+        list.add(TextFormatting.DARK_GRAY + "  " + desc);
     }
   }
 

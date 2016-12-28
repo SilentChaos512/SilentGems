@@ -721,6 +721,11 @@ enchantment.silentgems:Gravity=Gravity
 enchantment.silentgems:LifeSteal=Life Steal
 enchantment.silentgems:MagicDamage=Concentration
 
+# Enchantment Descriptions
+enchantment.silentgems:Gravity.desc=Reduces speed penalty while flying or underwater.
+enchantment.silentgems:LifeSteal.desc=Heals the user for a small portion of damage dealt.
+enchantment.silentgems:MagicDamage.desc=Increases damage dealt by magic attacks.
+
 
 
 # Misc
