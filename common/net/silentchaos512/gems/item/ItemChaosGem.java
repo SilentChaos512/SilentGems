@@ -123,6 +123,9 @@ public class ItemChaosGem extends ItemChaosStorage {
       return;
     if (!stack.hasTagCompound())
       stack.setTagCompound(new NBTTagCompound());
+
+    if (getCharge(stack) <= 0)
+      val = false;
     stack.getTagCompound().setBoolean(NBT_ENABLED, val);
   }
 
@@ -248,6 +251,7 @@ public class ItemChaosGem extends ItemChaosStorage {
 
     EntityPlayer player = (EntityPlayer) entity;
     boolean enabled = isEnabled(stack);
+    int totalDrain = getTotalChargeDrain(stack, player);
 
     // Apply effects?
     if (enabled) {
@@ -255,14 +259,16 @@ public class ItemChaosGem extends ItemChaosStorage {
 
       // Drain charge?
       if (!isCheatyGem(stack)) {
-        extractCharge(stack, getTotalChargeDrain(stack, player), false);
+        extractCharge(stack, totalDrain, false);
         // Disable if out of charge.
         if (getCharge(stack) <= 0) {
           setEnabled(stack, false);
           removeEffects(stack, player);
         }
       }
-    } else {
+    }
+
+    if (!enabled || totalDrain <= 0){
       // Self-recharge when disabled?
       receiveCharge(stack, getSelfRechargeAmount(stack), false);
     }

@@ -6,6 +6,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.network.message.MessageDataSync;
 import net.silentchaos512.gems.network.message.MessageItemRename;
+import net.silentchaos512.gems.network.message.MessageToggleChaosGem;
 import net.silentchaos512.gems.network.message.MessageToggleSpecial;
 
 public class NetworkHandler {
@@ -20,6 +21,7 @@ public class NetworkHandler {
     register(MessageDataSync.class, Side.CLIENT);
     register(MessageToggleSpecial.class, Side.SERVER);
     register(MessageItemRename.class, Side.SERVER);
+    register(MessageToggleChaosGem.class, Side.SERVER);
   }
 
   private static void register(Class clazz, Side handlerSide) {

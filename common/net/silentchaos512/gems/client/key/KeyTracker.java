@@ -17,6 +17,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.network.NetworkHandler;
+import net.silentchaos512.gems.network.message.MessageToggleChaosGem;
 import net.silentchaos512.gems.network.message.MessageToggleSpecial;
 import net.silentchaos512.gems.util.ToolHelper;
 
@@ -27,6 +28,10 @@ public class KeyTracker {
   private EntityPlayer player;
   private KeyBinding toggleSpecial = createBinding("Toggle Special", KeyConflictContext.IN_GAME,
       KeyModifier.SHIFT, Keyboard.KEY_C);
+//  private KeyBinding toggleChaosGemFirst = createBinding("Toggle Chaos Gem (First)",
+//      KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_G);
+//  private KeyBinding toggleChaosGemAll = createBinding("Toggle Chaos Gem (All)",
+//      KeyConflictContext.IN_GAME, KeyModifier.SHIFT, Keyboard.KEY_G);
 
   /**
    * Creates and registers a KeyBinding.
@@ -61,14 +66,17 @@ public class KeyTracker {
   public void onKeyInput(KeyInputEvent event) {
 
     this.player = Minecraft.getMinecraft().thePlayer;
-    handleToggleSpecial();
+
+    if (toggleSpecial.isKeyDown())
+      handleToggleSpecial();
+
+//    if (toggleChaosGemAll.isKeyDown())
+//      handleToggleChaosGem(true);
+//    else if (toggleChaosGemFirst.isKeyDown())
+//      handleToggleChaosGem(false);
   }
 
   private void handleToggleSpecial() {
-
-    if (!toggleSpecial.isKeyDown()) {
-      return;
-    }
 
     ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
 
@@ -78,5 +86,10 @@ public class KeyTracker {
         NetworkHandler.INSTANCE.sendToServer(new MessageToggleSpecial());
       }
     }
+  }
+
+  private void handleToggleChaosGem(boolean all) {
+
+    NetworkHandler.INSTANCE.sendToServer(new MessageToggleChaosGem(all));
   }
 }

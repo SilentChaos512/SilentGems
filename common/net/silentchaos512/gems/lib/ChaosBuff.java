@@ -93,10 +93,10 @@ public class ChaosBuff {
     //                                                       mLvl slots cost duration
     CAPACITY        = new ChaosBuff(prefix + "capacity",        4,   1,   0, dur, null);
     RECHARGE        = new ChaosBuff(prefix + "recharge",        4,   1,   0, dur, null);
+    FLIGHT          = new ChaosBuff(prefix + "flight",          1,  10,  80, dur, null);
     SPEED           = new ChaosBuff(prefix + "speed",           4,   4,  20, dur, MobEffects.SPEED);
     HASTE           = new ChaosBuff(prefix + "haste",           2,   4,  30, dur, MobEffects.HASTE);
     JUMP_BOOST      = new ChaosBuff(prefix + "jump_boost",      4,   4,  10, dur, MobEffects.JUMP_BOOST);
-    FLIGHT          = new ChaosBuff(prefix + "flight",          1,  10,  70, dur, null);
     STRENGTH        = new ChaosBuff(prefix + "strength",        2,  10,  50, dur, MobEffects.STRENGTH);
     REGENERATION    = new ChaosBuff(prefix + "regeneration",    2,   8,  42,  80, MobEffects.REGENERATION);
     RESISTANCE      = new ChaosBuff(prefix + "resistance",      2,   6,  40, dur, MobEffects.RESISTANCE);
@@ -104,7 +104,7 @@ public class ChaosBuff {
     WATER_BREATHING = new ChaosBuff(prefix + "water_breathing", 1,   4,  30, dur, MobEffects.WATER_BREATHING);
     NIGHT_VISION    = new ChaosBuff(prefix + "night_vision",    1,   2,  10, 410, MobEffects.NIGHT_VISION);
     INVISIBILITY    = new ChaosBuff(prefix + "invisibility",    1,   6,  25, dur, MobEffects.INVISIBILITY);
-    LEVITATION      = new ChaosBuff(prefix + "levitation",      1,   3,  20, dur, MobEffects.LEVITATION);
+    LEVITATION      = new ChaosBuff(prefix + "levitation",      4,   3,  20, dur, MobEffects.LEVITATION);
     GLOWING         = new ChaosBuff(prefix + "glowing",         1,   0,   5, dur, MobEffects.GLOWING);
     SLOWNESS        = new ChaosBuff(prefix + "slowness",        3,  -2,   5, dur, MobEffects.SLOWNESS);
     MINING_FATIGUE  = new ChaosBuff(prefix + "mining_fatigue",  3,  -2,   5, dur, MobEffects.MINING_FATIGUE);
@@ -135,7 +135,9 @@ public class ChaosBuff {
         player.addPotionEffect(new PotionEffect(potion, duration, level - 1, false, false));
     }
 
-    // TODO: Flight?
+    if (this == FLIGHT) {
+      player.capabilities.allowFlying = true;
+    }
   }
 
   public void removeFromPlayer(EntityPlayer player, int level, ItemStack stack) {
@@ -144,7 +146,11 @@ public class ChaosBuff {
       player.removePotionEffect(potion);
     }
 
-    // TODO: Flight?
+    if (this == FLIGHT && !player.capabilities.isCreativeMode) {
+      player.capabilities.allowFlying = false;
+      player.capabilities.isFlying = false;
+      player.fallDistance = 0;
+    }
   }
 
   /**
@@ -158,13 +164,30 @@ public class ChaosBuff {
   }
 
   /**
-   * @return The amount of Chaos drained per tick by this effect. Each level beyond 1 adds 20% to the cost.
+   * Get the Chaos cost for this buff.
+   * 
+   * @param level
+   *          The buff level. Should be greater than zero.
+   * @param player
+   *          The player (can be null). Cost can depend on the player's state. If null, this should return the maximum
+   *          possible cost.
+   * @return The amount of Chaos drained per tick by this buff. Each level beyond 1 adds 20% to the cost.
    */
-  public int getChaosCost(int level, EntityPlayer player) {
+  public int getChaosCost(int level, @Nullable EntityPlayer player) {
 
-    if (this == FLIGHT && !player.capabilities.isFlying)
-      return 0;
-    return chaosCost + chaosCost * (level - 1) / 5;
+    int normalCost = chaosCost + chaosCost * (level - 1) / 5;
+
+    // Flight drain is unique. There's no cost when active but not flying and 10% cost when falling fast.
+    if (this == FLIGHT && player != null) {
+      boolean notFlying = !player.capabilities.isFlying || player.capabilities.isCreativeMode;
+      // Falling above set speed when not flying.
+      if (notFlying && player.motionY < -0.88)
+        return normalCost / 10;
+      else if (notFlying)
+        return 0;
+    }
+
+    return normalCost;
   }
 
   /**
@@ -196,13 +219,16 @@ public class ChaosBuff {
 
   public String getLocalizedName(int level) {
 
-    if (potion != null) {
-      String str = SilentGems.localizationHelper.getLocalizedString(potion.getName());
-      if (level > 1)
-        str += " " + (level == 2 ? "II" : level == 3 ? "III" : level == 4 ? "IV" : "" + level);
-      return str;
-    }
-    return SilentGems.localizationHelper.getLocalizedString("buff." + key);
+    String str;
+
+    if (potion != null)
+      str = SilentGems.localizationHelper.getLocalizedString(potion.getName());
+    else
+      str = SilentGems.localizationHelper.getLocalizedString("buff." + key);
+
+    if (level > 1)
+      str += " " + (level == 2 ? "II" : level == 3 ? "III" : level == 4 ? "IV" : "" + level);
+    return str;
   }
 
   public String getDescription() {
