@@ -37,6 +37,8 @@ public class ChaosBuff {
   public static final ChaosBuff WITHER;
   public static final ChaosBuff GLOWING;
   public static final ChaosBuff LEVITATION;
+  public static final ChaosBuff CAPACITY;
+  public static final ChaosBuff RECHARGE;
 
   static final Map<String, ChaosBuff> buffMap = new LinkedHashMap<>();
 
@@ -89,6 +91,8 @@ public class ChaosBuff {
     final int dur = 30;
     // @formatter:off
     //                                                       mLvl slots cost duration
+    CAPACITY        = new ChaosBuff(prefix + "capacity",        4,   1,   0, dur, null);
+    RECHARGE        = new ChaosBuff(prefix + "recharge",        4,   1,   0, dur, null);
     SPEED           = new ChaosBuff(prefix + "speed",           4,   4,  20, dur, MobEffects.SPEED);
     HASTE           = new ChaosBuff(prefix + "haste",           2,   4,  30, dur, MobEffects.HASTE);
     JUMP_BOOST      = new ChaosBuff(prefix + "jump_boost",      4,   4,  10, dur, MobEffects.JUMP_BOOST);
@@ -158,6 +162,8 @@ public class ChaosBuff {
    */
   public int getChaosCost(int level, EntityPlayer player) {
 
+    if (this == FLIGHT && !player.capabilities.isFlying)
+      return 0;
     return chaosCost + chaosCost * (level - 1) / 5;
   }
 
@@ -199,11 +205,24 @@ public class ChaosBuff {
     return SilentGems.localizationHelper.getLocalizedString("buff." + key);
   }
 
+  public String getDescription() {
+
+    String descKey = "buff." + key + ".desc";
+    String desc = SilentGems.localizationHelper.getLocalizedString(descKey);
+    return !desc.equals(descKey) ? desc : "";
+  }
+
   public int getColor() {
 
-    if (potion == null)
-      return 0xFFFFFF;
-    return potion.getLiquidColor();
+    if (potion != null)
+      return potion.getLiquidColor();
+
+    if (this == CAPACITY)
+      return 0xA538C9;
+    if (this == RECHARGE)
+      return 0xFFF79E;
+
+    return 0xFFFFFF;
   }
 
   public int getMaxLevel() {

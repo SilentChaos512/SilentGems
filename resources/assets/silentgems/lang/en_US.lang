@@ -446,7 +446,13 @@ item.silentgems:ChaosGem29.name=Chaos Ametrine
 item.silentgems:ChaosGem30.name=Chaos Black Diamond
 item.silentgems:ChaosGem31.name=Chaos Alexandrite
 item.silentgems:ChaosGem32.name=Super Cheaty Chaos Gem
+
+buff.silentgems:capacity=Capacity
+buff.silentgems:capacity.desc=Greatly increases Chaos capacity
 buff.silentgems:flight=Flight
+buff.silentgems:flight.desc=Better than wings
+buff.silentgems:recharge=Recharge
+buff.silentgems:recharge.desc=Generates Chaos when not in use
 
 item.silentgems:ChaosOrb0.name=Chaos Potato
 item.silentgems:ChaosOrb1.name=Fragile Chaos Orb

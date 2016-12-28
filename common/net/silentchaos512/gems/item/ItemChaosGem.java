@@ -44,12 +44,14 @@ public class ItemChaosGem extends ItemChaosStorage {
   public static final String NBT_BUFF_LEVEL = "level";
 
   public static final int ID_CHEATY_GEM = EnumGem.values().length;
-  public static final int MAX_CHARGE = 1000000;
+  public static final int BASE_CAPACITY = 2000000;
+  public static final int UPGRADE_CAPACITY = 1000000;
+  public static final int SELF_RECHARGE_BASE = 10;
   public static final int MAX_SLOTS = 20;
 
   public ItemChaosGem() {
 
-    super(EnumGem.values().length + 1, Names.CHAOS_GEM, MAX_CHARGE);
+    super(EnumGem.values().length + 1, Names.CHAOS_GEM, BASE_CAPACITY);
     setMaxStackSize(1);
   }
 
@@ -74,7 +76,8 @@ public class ItemChaosGem extends ItemChaosStorage {
 
     if (stack.getItemDamage() == ID_CHEATY_GEM)
       return 0;
-    return MAX_CHARGE;
+    int capacityLevel = getBuffLevel(stack, ChaosBuff.CAPACITY);
+    return BASE_CAPACITY + UPGRADE_CAPACITY * capacityLevel;
   }
 
   // =====================
@@ -91,8 +94,8 @@ public class ItemChaosGem extends ItemChaosStorage {
 
   public int getSelfRechargeAmount(ItemStack stack) {
 
-    // TODO
-    return 0;
+    int rechargeLevel = getBuffLevel(stack, ChaosBuff.RECHARGE);
+    return SELF_RECHARGE_BASE * rechargeLevel;
   }
 
   public int getSlotsUsed(ItemStack stack) {
@@ -121,6 +124,14 @@ public class ItemChaosGem extends ItemChaosStorage {
     if (!stack.hasTagCompound())
       stack.setTagCompound(new NBTTagCompound());
     stack.getTagCompound().setBoolean(NBT_ENABLED, val);
+  }
+
+  public int getBuffLevel(ItemStack stack, ChaosBuff buff) {
+
+    Map<ChaosBuff, Integer> buffMap = getBuffs(stack);
+    if (buffMap.containsKey(buff))
+      return buffMap.get(buff);
+    return 0;
   }
 
   public Map<ChaosBuff, Integer> getBuffs(ItemStack stack) {
@@ -238,23 +249,22 @@ public class ItemChaosGem extends ItemChaosStorage {
     EntityPlayer player = (EntityPlayer) entity;
     boolean enabled = isEnabled(stack);
 
-    // self recharge
-    receiveCharge(stack, getSelfRechargeAmount(stack), false);
-
     // Apply effects?
-    if (enabled)
+    if (enabled) {
       applyEffects(stack, player);
-    else
-      return;
 
-    // Drain charge?
-    if (!isCheatyGem(stack)) {
-      extractCharge(stack, getTotalChargeDrain(stack, player), false);
-      // Disable if out of charge.
-      if (getCharge(stack) <= 0) {
-        setEnabled(stack, false);
-        removeEffects(stack, player);
+      // Drain charge?
+      if (!isCheatyGem(stack)) {
+        extractCharge(stack, getTotalChargeDrain(stack, player), false);
+        // Disable if out of charge.
+        if (getCharge(stack) <= 0) {
+          setEnabled(stack, false);
+          removeEffects(stack, player);
+        }
       }
+    } else {
+      // Self-recharge when disabled?
+      receiveCharge(stack, getSelfRechargeAmount(stack), false);
     }
   }
 
@@ -268,7 +278,8 @@ public class ItemChaosGem extends ItemChaosStorage {
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+  public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player,
+      EnumHand hand) {
 
     // Enable/disable
     if (getCharge(stack) > 0) {
@@ -324,7 +335,8 @@ public class ItemChaosGem extends ItemChaosStorage {
   }
 
   @Override
-  public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+  public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
+      boolean slotChanged) {
 
     boolean oldEnabled = isEnabled(oldStack);
     boolean newEnabled = isEnabled(newStack);
@@ -417,12 +429,12 @@ public class ItemChaosGem extends ItemChaosStorage {
       float barPosX = posX;
       float barPosHeight = BAR_HEIGHT;
       float barPosY = posY;
-      //RenderHelper.drawRect(barPosX, barPosY, 0, 0, barPosWidth, barPosHeight);
+      // RenderHelper.drawRect(barPosX, barPosY, 0, 0, barPosWidth, barPosHeight);
 
       // Bar frame
       GL11.glColor3f(1f, 1f, 1f);
       mc.renderEngine.bindTexture(TEXTURE_FRAME);
-      //RenderHelper.drawRect(posX, posY, 0, 0, BAR_WIDTH, BAR_HEIGHT);
+      // RenderHelper.drawRect(posX, posY, 0, 0, BAR_WIDTH, BAR_HEIGHT);
 
       GL11.glEnable(GL11.GL_BLEND);
       GL11.glPopMatrix();
