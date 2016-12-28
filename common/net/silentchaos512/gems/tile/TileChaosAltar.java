@@ -26,6 +26,7 @@ public class TileChaosAltar extends TileEntity
 
   public static final int MAX_CHAOS_STORED = 10000000;
   public static final int MAX_RECEIVE = 100000;
+  public static final int MAX_ITEM_SEND = 10000;
   public static final int TRANSMUTE_CHAOS_PER_TICK = 80;
 
   public static final int[] SLOTS_BOTTOM = { 1 };
@@ -57,7 +58,7 @@ public class TileChaosAltar extends TileEntity
     if (inputStack.getItem() instanceof IChaosStorage) {
       // Charge chaos storage items.
       IChaosStorage chaosStorage = (IChaosStorage) inputStack.getItem();
-      int amount = chaosStorage.receiveCharge(inputStack, Math.min(chaosStored, 1000), false);
+      int amount = chaosStorage.receiveCharge(inputStack, Math.min(chaosStored, MAX_ITEM_SEND), false);
       chaosStored -= amount;
 
       // Send update?
