@@ -111,7 +111,17 @@ public class ChaosUtil {
 
     // Direct transfer?
     if (GemsConfig.CHAOS_DIRECT_TRANSFER && target instanceof EntityPlayer) {
-      PlayerDataHandler.get((EntityPlayer) target).sendChaos(amount, true);
+      EntityPlayer player = (EntityPlayer) target;
+      amount -= PlayerDataHandler.get(player).sendChaos(amount, true);
+
+      for (ItemStack stack : PlayerHelper.getNonNullStacks(player)) {
+        if (stack.getItem() instanceof IChaosStorage) {
+          amount -= ((IChaosStorage) stack.getItem()).receiveCharge(stack, amount, false);
+          if (amount <= 0)
+            break;
+        }
+      }
+
       return null;
     }
 
