@@ -105,16 +105,6 @@ public class ColorHandlers {
       }
     }, ModItems.drawingCompass);
 
-    // Chaos Gems
-    itemColors.registerItemColorHandler(new IItemColor() {
-
-      @Override
-      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-
-        return stack.getItemDamage() > 15 && stack.getItemDamage() < 32 ? 0x888888 : 0xFFFFFF;
-      }
-    }, ModItems.chaosGem);
-
     // Chaos Runes
     itemColors.registerItemColorHandler(new IItemColor() {
 
