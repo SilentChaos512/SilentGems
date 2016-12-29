@@ -8,11 +8,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.network.NetworkHandler;
+import net.silentchaos512.gems.network.message.MessageSetFlight;
 
 public class ChaosBuff {
 
@@ -137,6 +140,8 @@ public class ChaosBuff {
 
     if (this == FLIGHT) {
       player.capabilities.allowFlying = true;
+//      if (!player.worldObj.isRemote && player.ticksExisted % 20 == 0)
+//        NetworkHandler.INSTANCE.sendTo(new MessageSetFlight(true), (EntityPlayerMP) player);
     }
   }
 

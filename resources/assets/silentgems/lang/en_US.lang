@@ -446,6 +446,9 @@ item.silentgems:ChaosGem29.name=Chaos Ametrine
 item.silentgems:ChaosGem30.name=Chaos Black Diamond
 item.silentgems:ChaosGem31.name=Chaos Alexandrite
 item.silentgems:ChaosGem32.name=Super Cheaty Chaos Gem
+item.silentgems:ChaosGem.charge=Charge: %,d / %,d
+item.silentgems:ChaosGem.slots=Slots: %d / %d
+item.silentgems:ChaosGem.drain=Drain: %d
 
 item.silentgems:ChaosOrb0.name=Chaos Potato
 item.silentgems:ChaosOrb1.name=Fragile Chaos Orb

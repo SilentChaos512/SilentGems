@@ -26,6 +26,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -34,6 +35,7 @@ import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.SRegistry;
+import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.RecipeHelper;
 
 public class ItemChaosGem extends ItemChaosStorage {
@@ -268,7 +270,7 @@ public class ItemChaosGem extends ItemChaosStorage {
       }
     }
 
-    if (!enabled || totalDrain <= 0){
+    if (!enabled || totalDrain <= 0) {
       // Self-recharge when disabled?
       receiveCharge(stack, getSelfRechargeAmount(stack), false);
     }
@@ -302,16 +304,16 @@ public class ItemChaosGem extends ItemChaosStorage {
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
 
-    // TODO
-    for (Entry<ChaosBuff, Integer> entry : getBuffs(stack).entrySet()) {
-      list.add(entry.getKey().getLocalizedName(entry.getValue()));
-    }
+    LocalizationHelper loc = SilentGems.localizationHelper;
+
+    for (Entry<ChaosBuff, Integer> entry : getBuffs(stack).entrySet())
+      list.add(TextFormatting.GOLD + entry.getKey().getLocalizedName(entry.getValue()));
 
     int slotsUsed = getSlotsUsed(stack);
     int totalDrain = getTotalChargeDrain(stack, player);
-    list.add(String.format("Charge: %,d / %,d", getCharge(stack), getMaxCharge(stack)));
-    list.add(String.format("Slots: %d / %d", slotsUsed, MAX_SLOTS));
-    list.add(String.format("Drain: %d", totalDrain));
+    list.add(loc.getItemSubText(itemName, "charge", getCharge(stack), getMaxCharge(stack)));
+    list.add(loc.getItemSubText(itemName, "slots", slotsUsed, MAX_SLOTS));
+    list.add(loc.getItemSubText(itemName, "drain", totalDrain));
   }
 
   @Override
@@ -357,9 +359,11 @@ public class ItemChaosGem extends ItemChaosStorage {
       ItemStack stack1 = new ItemStack(item, 1, i);
       list.add(stack1);
       // Full
-      ItemStack stack2 = stack1.copy();
-      receiveCharge(stack2, getMaxCharge(stack2), false);
-      list.add(stack2);
+      if (getMaxCharge(stack1) > 0) {
+        ItemStack stack2 = stack1.copy();
+        receiveCharge(stack2, getMaxCharge(stack2), false);
+        list.add(stack2);
+      }
     }
   }
 

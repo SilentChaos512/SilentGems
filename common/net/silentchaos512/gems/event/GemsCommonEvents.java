@@ -20,19 +20,16 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
-import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.enchantment.EnchantmentGravity;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
+import net.silentchaos512.gems.item.ItemChaosGem;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
 import net.silentchaos512.gems.lib.module.ModuleEntityRandomEquipment;
 import net.silentchaos512.gems.loot.LootHandler;
-import net.silentchaos512.gems.skills.SkillAreaMiner;
-import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.gems.skills.ToolSkillDigger;
 import net.silentchaos512.gems.util.ArmorHelper;
@@ -55,6 +52,10 @@ public class GemsCommonEvents {
           ToolHelper.recalculateStats(stack);
         if (stack.getItem() instanceof IArmor)
           ArmorHelper.recalculateStats(stack);
+
+        // Disable Chaos Gems
+        if (stack.getItem() instanceof ItemChaosGem)
+          ((ItemChaosGem) stack.getItem()).setEnabled(stack, false);
       }
     }
   }
