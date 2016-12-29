@@ -30,20 +30,23 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
       Names.FLUFFY_FABRIC, Names.UPGRADE_BASE, Names.NAME_PLATE, Names.CHAOS_CORE,
       Names.MAGNIFYING_GLASS, Names.PLUME, Names.SHINY_PLUME, Names.ENDER_FROST, Names.NETHER_SHARD,
       Names.NETHER_CLUSTER, Names.GILDED_STRING, Names.YARN_BALL, Names.RAWHIDE_BONE,
-      Names.ARMOR_LATTICE_MUNDANE, Names.ARMOR_LATTICE_REGULAR, Names.ARMOR_LATTICE_SUPER };
+      Names.ARMOR_LATTICE_MUNDANE, Names.ARMOR_LATTICE_REGULAR, Names.ARMOR_LATTICE_SUPER,
+      Names.BLAZESTONE };
 
   public static final String[] SORTED_NAMES = { //
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_FROST, Names.ENDER_ESSENCE_SHARD,
       Names.NETHER_SHARD, Names.NETHER_CLUSTER, Names.CHAOS_COAL, Names.STICK_IRON,
       Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.ARMOR_LATTICE_MUNDANE,
-      Names.ARMOR_LATTICE_REGULAR, Names.ARMOR_LATTICE_SUPER, Names.GILDED_STRING, Names.CHAOS_CORE,
-      Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.PLUME, Names.SHINY_PLUME, Names.YARN_BALL,
-      Names.RAWHIDE_BONE, Names.MAGNIFYING_GLASS, Names.NAME_PLATE, Names.UPGRADE_BASE };
+      Names.ARMOR_LATTICE_REGULAR, Names.ARMOR_LATTICE_SUPER, Names.GILDED_STRING, Names.BLAZESTONE,
+      Names.CHAOS_CORE, Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.PLUME, Names.SHINY_PLUME,
+      Names.YARN_BALL, Names.RAWHIDE_BONE, Names.MAGNIFYING_GLASS, Names.NAME_PLATE,
+      Names.UPGRADE_BASE };
 
   public final ItemStack armorLatticeMundane = getStack(Names.ARMOR_LATTICE_MUNDANE);
   public final ItemStack armorLatticeRegular = getStack(Names.ARMOR_LATTICE_REGULAR);
   public final ItemStack armorLatticeSuper = getStack(Names.ARMOR_LATTICE_SUPER);
+  public final ItemStack blazestone = getStack(Names.BLAZESTONE);
   public final ItemStack chaosCoal = getStack(Names.CHAOS_COAL);
   public final ItemStack chaosCore = getStack(Names.CHAOS_CORE);
   public final ItemStack chaosEssence = getStack(Names.CHAOS_ESSENCE);
@@ -142,6 +145,8 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
     // Rawhide Bone
     GameRegistry.addShapedRecipe(rawhideBone, " l ", "lbl", " l ", 'l', Items.LEATHER, 'b',
         Items.BONE);
+    // Blazestone
+    RecipeHelper.addSurroundOre(blazestone, "dustRedstone", Items.BLAZE_POWDER);
 
     // Nether shards and clusters
     ItemStack netherStar = new ItemStack(Items.NETHER_STAR);

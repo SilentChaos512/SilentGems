@@ -53,6 +53,7 @@ public class Names {
   public static final String SUMMON_PUPPY = "SummonPuppy";
 
   // Crafting materials
+  public static final String BLAZESTONE = "Blazestone";
   public static final String CRAFTING_MATERIAL = "CraftingMaterial";
   public static final String ARMOR_LATTICE_MUNDANE = "ArmorLatticeMundane";
   public static final String ARMOR_LATTICE_REGULAR = "ArmorLatticeRegular";

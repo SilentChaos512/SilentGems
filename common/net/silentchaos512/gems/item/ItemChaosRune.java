@@ -6,11 +6,15 @@ import javax.annotation.Nonnull;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.lib.ChaosBuff;
@@ -57,7 +61,40 @@ public class ItemChaosRune extends ItemSL {
   @Override
   public void addRecipes() {
 
-    // TODO
+    addRecipe(ChaosBuff.CAPACITY, new ItemStack(ModItems.chaosOrb, 1, ItemChaosOrb.Type.FRAGILE.ordinal()), 1);
+    addRecipe(ChaosBuff.RECHARGE, ModItems.craftingMaterial.chaosCore, 1);
+    addRecipe(ChaosBuff.FLIGHT, ModItems.craftingMaterial.shinyPlume, 3);
+    addRecipe(ChaosBuff.SPEED, Items.SUGAR, 3);
+    addRecipe(ChaosBuff.HASTE, "dustGlowstone", 3);
+    addRecipe(ChaosBuff.JUMP_BOOST, ModItems.craftingMaterial.plume, 2);
+    addRecipe(ChaosBuff.STRENGTH, ModItems.craftingMaterial.blazestone, 3);
+    addRecipe(ChaosBuff.REGENERATION, Items.GHAST_TEAR, 3);
+    addRecipe(ChaosBuff.RESISTANCE, "blockIron", 1);
+    addRecipe(ChaosBuff.FIRE_RESISTANCE, Items.MAGMA_CREAM, 3);
+    addRecipe(ChaosBuff.WATER_BREATHING, "blockLapis", 2);
+    addRecipe(ChaosBuff.NIGHT_VISION, Items.GOLDEN_CARROT, 2);
+    addRecipe(ChaosBuff.INVISIBILITY, Items.FERMENTED_SPIDER_EYE, 3);
+    addRecipe(ChaosBuff.LEVITATION, Items.ENDER_EYE, 2);
+    addRecipe(ChaosBuff.GLOWING, "torch", 3);
+    addRecipe(ChaosBuff.SLOWNESS, "dirt", 3);
+    addRecipe(ChaosBuff.MINING_FATIGUE, Blocks.STONE, 3);
+    addRecipe(ChaosBuff.NAUSEA, "bone", 3);
+    addRecipe(ChaosBuff.BLINDNESS, "string", 3);
+    addRecipe(ChaosBuff.HUNGER, Items.ROTTEN_FLESH, 3);
+    addRecipe(ChaosBuff.WEAKNESS, "feather", 3);
+    addRecipe(ChaosBuff.POISON, Items.SPIDER_EYE, 2);
+    addRecipe(ChaosBuff.WITHER, new ItemStack(Items.SKULL, 1, 1), 1);
+  }
+
+  private void addRecipe(ChaosBuff buff, Object obj, int count) {
+
+    ItemStack result = new ItemStack(this);
+    String line1 = count > 1 ? "coc" : "c c";
+    String line2 = count != 2 ? "ror" : "r r";
+    String line3 = line1;
+    setBuff(result, buff);
+    GameRegistry.addRecipe(new ShapedOreRecipe(result, line1, line2, line3, 'r', "dustRedstone",
+        'c', ModItems.craftingMaterial.chaosEssenceEnriched, 'o', obj));
   }
 
   @Override

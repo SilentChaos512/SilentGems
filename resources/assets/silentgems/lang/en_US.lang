@@ -638,6 +638,7 @@ item.silentgems:TipUpgrade.magicDamage=&aMagic Damage %s
 item.silentgems:ArmorLatticeMundane.name=Armor Lattice (Mundane)
 item.silentgems:ArmorLatticeRegular.name=Armor Lattice (Regular)
 item.silentgems:ArmorLatticeSuper.name=Armor Lattice (Super)
+item.silentgems:Blazestone.name=Blazestone
 item.silentgems:ChaosCoal.name=Chaos Coal
 item.silentgems:ChaosCore.name=Chaos Core
 item.silentgems:ChaosEssence.name=Chaos Essence

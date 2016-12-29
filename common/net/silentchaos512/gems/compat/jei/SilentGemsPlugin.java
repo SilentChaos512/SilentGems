@@ -21,6 +21,7 @@ import net.silentchaos512.gems.compat.jei.altar.AltarRecipeCategory;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeHandler;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeMaker;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 
@@ -137,6 +138,18 @@ public class SilentGemsPlugin implements IModPlugin {
         Enchantment ench = ModItems.enchantmentToken.getSingleEnchantment(stack);
         if (ench == null) return "none";
         return ench.getName();
+      }
+    });
+
+    // Chaos Runes
+    reg.registerNbtInterpreter(ModItems.chaosRune, new ISubtypeInterpreter() {
+
+      @Override
+      public String getSubtypeInfo(ItemStack stack) {
+
+        ChaosBuff buff = ModItems.chaosRune.getBuff(stack);
+        if (buff == null) return "none";
+        return buff.getKey();
       }
     });
   }
