@@ -1,6 +1,8 @@
 Silent's Gems - Changelog
 
 2.2.1
+Changed: Damage type of super sword projectiles to magic.
+Fixed: A server crash caused by the addition of Chaos Gems
 Fixed: A crash caused by hitting a block with gem tools other than harvest tools.
 
 2.2.0 (Minecraft 1.10.2)
