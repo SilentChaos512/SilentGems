@@ -558,7 +558,7 @@ public class ToolHelper {
 
     ToolSkill skill = getSuperSkill(stack);
     SilentGems.logHelper.debug(skill);
-    if (!skill.activate(stack, player, pos))
+    if (skill != null && !skill.activate(stack, player, pos))
       incrementStatBlocksMined(stack, 1);
 
     // Mining achievements TODO: Uncomment
