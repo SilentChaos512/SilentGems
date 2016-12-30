@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.network.Message;
 
@@ -23,6 +24,7 @@ public class MessageSetFlight extends Message {
   }
 
   @Override
+  @SideOnly(Side.CLIENT)
   public IMessage handleMessage(MessageContext ctx) {
 
     if (ctx.side != Side.CLIENT)
