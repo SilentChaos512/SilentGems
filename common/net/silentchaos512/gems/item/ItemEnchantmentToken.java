@@ -235,6 +235,9 @@ public class ItemEnchantmentToken extends ItemSL {
 
     if (!enchMap.isEmpty()) {
       Enchantment ench = enchMap.keySet().iterator().next();
+      if (ench == null)
+        return key;
+
       switch (ench.type) {
         case ALL:
           return KEY_ANY;

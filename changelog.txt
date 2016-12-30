@@ -10,6 +10,7 @@ Added: Chaos Orbs can now recharge other items (Chaos Gems, Return Home Charms, 
 Changed: Refined Chaos Orbs can now crack 4 times (up from 2) before breaking.
 Changed: Altars now charge items ten times faster.
 Fixed: Chaos direct transfer not recharging players' items.
+Fixed (maybe): A crash with enchantment tokens. Waiting for more info, so not sure.
 
 2.1.11 (Minecraft 1.10.2)
 Added: Tinkers Construct support. Work in progress, there are no traits yet, but gems can now be used to craft TiC tools... you dirty traitors. Just kidding. Maybe.
