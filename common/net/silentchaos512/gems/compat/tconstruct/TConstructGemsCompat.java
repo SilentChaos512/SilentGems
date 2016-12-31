@@ -17,10 +17,17 @@ public class TConstructGemsCompat {
 
     SilentGems.logHelper.info("Loading TConstruct compatibility module...");
 
-    for (EnumGem gem : EnumGem.values())
-      register(gem, EnumMaterialTier.REGULAR);
-    for (EnumGem gem : EnumGem.values())
-      register(gem, EnumMaterialTier.SUPER);
+    try {
+      for (EnumGem gem : EnumGem.values())
+        register(gem, EnumMaterialTier.REGULAR);
+      for (EnumGem gem : EnumGem.values())
+        register(gem, EnumMaterialTier.SUPER);
+    } catch (NoSuchMethodError ex) {
+      SilentGems.logHelper.info("Failed to load TConstruct module. Are Tinkers tools disabled?");
+    } catch (Exception ex) {
+      SilentGems.logHelper.info("Unknown error while loading TConstruct module.");
+      ex.printStackTrace();
+    }
   }
 
   private static void register(EnumGem gem, EnumMaterialTier tier) {
