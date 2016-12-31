@@ -12,29 +12,17 @@ import net.silentchaos512.gems.item.ModItems;
 
 public class GemsCreativeTabs {
 
-  public static final CreativeTabs blocks = makeTab("blocks", ModBlocks.gemOre);
-  public static final CreativeTabs materials = makeTab("materials", ModItems.gem);
-  public static final CreativeTabs tools = makeTab("tools", ModItems.torchBandolier);
-  public static final CreativeTabs utility = makeTab("utility", ModItems.drawingCompass);
+  public static final CreativeTabs blocks = makeTab("blocks", new ItemStack(ModBlocks.gemOre));
+  public static final CreativeTabs materials = makeTab("materials", new ItemStack(ModItems.gem));
+  public static final CreativeTabs tools = makeTab("tools", new ItemStack(ModItems.torchBandolier));
+  public static final CreativeTabs utility = makeTab("utility", new ItemStack(ModItems.drawingCompass));
 
-  static CreativeTabs makeTab(final String name, final Block icon) {
+  static CreativeTabs makeTab(final String name, final ItemStack icon) {
 
-    return new CreativeTabs(SilentGems.MOD_ID_LOWER + ":" + name) {
-
-      @Override
-      public Item getTabIconItem() {
-
-        return Item.getItemFromBlock(icon);
-      }
-    };
-  }
-
-  static CreativeTabs makeTab(final String name, final Item icon) {
-
-    return new CreativeTabs(SilentGems.MOD_ID_LOWER + ":" + name) {
+    return new CreativeTabs(SilentGems.MODID + ":" + name) {
 
       @Override
-      public Item getTabIconItem() {
+      public ItemStack getTabIconItem() {
 
         return icon;
       }

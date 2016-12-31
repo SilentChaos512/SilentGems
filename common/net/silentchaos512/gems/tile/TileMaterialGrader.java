@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -19,10 +18,9 @@ import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
-import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.tile.TileSidedInventorySL;
 
-public class TileMaterialGrader extends TileBasicInventory
-    implements ISidedInventory, ITickable, IChaosAccepter {
+public class TileMaterialGrader extends TileSidedInventorySL implements ITickable, IChaosAccepter {
 
   /*
    * NBT keys
@@ -53,11 +51,6 @@ public class TileMaterialGrader extends TileBasicInventory
   protected int progress = 0;
   protected boolean requireClientSync = false;
 
-  public TileMaterialGrader() {
-
-    super(INVENTORY_SIZE, Names.MATERIAL_GRADER);
-  }
-
   @Override
   public int getCharge() {
 
@@ -74,7 +67,7 @@ public class TileMaterialGrader extends TileBasicInventory
   public int receiveCharge(int maxReceive, boolean simulate) {
 
     int amount = Math.min(getMaxCharge() - getCharge(), maxReceive);
-    if (!simulate && amount > 0 && !worldObj.isRemote) {
+    if (!simulate && amount > 0 && !world.isRemote) {
       chaosStored += amount;
       requireClientSync = true;
     }
@@ -84,11 +77,11 @@ public class TileMaterialGrader extends TileBasicInventory
   @Override
   public void update() {
 
-    if (worldObj.isRemote)
+    if (world.isRemote)
       return;
 
     ItemStack input = getStackInSlot(SLOT_INPUT);
-    ToolPart part = input != null ? ToolPartRegistry.fromStack(input) : null;
+    ToolPart part = ToolPartRegistry.fromStack(input);
 
     // Is input (if anything) a grade-able part?
     if (part != null && part instanceof ToolPartMain
@@ -109,16 +102,16 @@ public class TileMaterialGrader extends TileBasicInventory
 
           // Take one from input stack.
           ItemStack stack = input.copy();
-          stack.stackSize = 1;
-          --input.stackSize;
+          stack.setCount(1);
+          input.shrink(1);
 
           // Assign random grade.
           EnumMaterialGrade.selectRandom(SilentGems.random).setGradeOnStack(stack);
 
           // Set to output slot, clear input slot if needed.
           setInventorySlotContents(outputSlot, stack);
-          if (input.stackSize <= 0) {
-            setInventorySlotContents(SLOT_INPUT, null);
+          if (input.getCount() <= 0) {
+            setInventorySlotContents(SLOT_INPUT, ItemStack.EMPTY);
           }
 
           requireClientSync = true;
@@ -130,8 +123,8 @@ public class TileMaterialGrader extends TileBasicInventory
 
     // Send update to client?
     if (requireClientSync) {
-      IBlockState state = worldObj.getBlockState(pos);
-      worldObj.notifyBlockUpdate(pos, state, state, 3);
+      IBlockState state = world.getBlockState(pos);
+      world.notifyBlockUpdate(pos, state, state, 3);
       requireClientSync = false;
     }
   }
@@ -142,7 +135,7 @@ public class TileMaterialGrader extends TileBasicInventory
   public int getFreeOutputSlot() {
 
     for (int i = SLOT_OUTPUT_START; i < INVENTORY_SIZE; ++i)
-      if (getStackInSlot(i) == null)
+      if (getStackInSlot(i).isEmpty())
         return i;
     return -1;
   }
@@ -180,7 +173,7 @@ public class TileMaterialGrader extends TileBasicInventory
     tags.setInteger(NBT_PROGRESS, progress);
 
     ItemStack input = getStackInSlot(SLOT_INPUT);
-    if (input != null) {
+    if (!input.isEmpty()) {
       NBTTagCompound tagCompound = new NBTTagCompound();
       input.writeToNBT(tagCompound);
       tags.setTag("InputItem", tagCompound);
@@ -199,7 +192,7 @@ public class TileMaterialGrader extends TileBasicInventory
     // Pass the input slot for rendering. No need for the client to know output slots at this time.
     NBTTagList tagList = new NBTTagList();
     ItemStack input = getStackInSlot(SLOT_INPUT);
-    if (input != null) {
+    if (!input.isEmpty()) {
       NBTTagCompound tagCompound = new NBTTagCompound();
       tagCompound.setByte("Slot", (byte) SLOT_INPUT);
       input.writeToNBT(tagCompound);
@@ -220,9 +213,9 @@ public class TileMaterialGrader extends TileBasicInventory
 
     if (tags.hasKey("InputItem"))
       setInventorySlotContents(SLOT_INPUT,
-          ItemStack.loadItemStackFromNBT(tags.getCompoundTag("InputItem")));
+          new ItemStack(tags.getCompoundTag("InputItem")));
     else
-      setInventorySlotContents(SLOT_INPUT, null);
+      setInventorySlotContents(SLOT_INPUT, ItemStack.EMPTY);
   }
 
   @Override
@@ -257,7 +250,7 @@ public class TileMaterialGrader extends TileBasicInventory
   public boolean isItemValidForSlot(int index, ItemStack stack) {
 
     if (index == SLOT_INPUT) {
-      if (stack == null) {
+      if (stack.isEmpty()) {
         return false;
       }
 
@@ -295,5 +288,11 @@ public class TileMaterialGrader extends TileBasicInventory
     list.add(String.format("CHAOS_PER_TICK = %d", CHAOS_PER_TICK));
 
     return list;
+  }
+
+  @Override
+  public int getSizeInventory() {
+
+    return INVENTORY_SIZE;
   }
 }

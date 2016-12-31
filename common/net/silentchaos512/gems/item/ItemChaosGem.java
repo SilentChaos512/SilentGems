@@ -12,8 +12,6 @@ import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,6 +23,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -34,7 +33,6 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.RecipeHelper;
 
@@ -115,13 +113,13 @@ public class ItemChaosGem extends ItemChaosStorage {
 
   public boolean isEnabled(ItemStack stack) {
 
-    return stack != null && stack.hasTagCompound()
+    return !stack.isEmpty() && stack.hasTagCompound()
         && stack.getTagCompound().getBoolean(NBT_ENABLED);
   }
 
   public void setEnabled(ItemStack stack, boolean val) {
 
-    if (stack == null)
+    if (stack.isEmpty())
       return;
     if (!stack.hasTagCompound())
       stack.setTagCompound(new NBTTagCompound());
@@ -141,7 +139,7 @@ public class ItemChaosGem extends ItemChaosStorage {
 
   public Map<ChaosBuff, Integer> getBuffs(ItemStack stack) {
 
-    if (stack == null || !stack.hasTagCompound() || !stack.getTagCompound().hasKey(NBT_BUFF_LIST))
+    if (stack.isEmpty() || !stack.hasTagCompound() || !stack.getTagCompound().hasKey(NBT_BUFF_LIST))
       return Maps.newHashMap();
 
     NBTTagList tagList = stack.getTagCompound().getTagList(NBT_BUFF_LIST, 10);
@@ -177,7 +175,7 @@ public class ItemChaosGem extends ItemChaosStorage {
 
   public void setBuffs(ItemStack stack, Map<ChaosBuff, Integer> buffs) {
 
-    if (stack == null)
+    if (stack.isEmpty())
       return;
     if (!stack.hasTagCompound())
       stack.setTagCompound(new NBTTagCompound());
@@ -200,7 +198,7 @@ public class ItemChaosGem extends ItemChaosStorage {
 
   public boolean canAddBuff(ItemStack stack, ChaosBuff buff) {
 
-    if (stack == null)
+    if (stack.isEmpty())
       return false;
     if (!stack.hasTagCompound())
       return true;
@@ -286,9 +284,9 @@ public class ItemChaosGem extends ItemChaosStorage {
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player,
-      EnumHand hand) {
+  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
+    ItemStack stack = player.getHeldItem(hand);
     // Enable/disable
     if (getCharge(stack) > 0) {
       setEnabled(stack, !isEnabled(stack));
@@ -352,7 +350,7 @@ public class ItemChaosGem extends ItemChaosStorage {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     for (int i = 0; i < subItemCount; ++i) {
       // Empty
@@ -371,10 +369,10 @@ public class ItemChaosGem extends ItemChaosStorage {
   // = HUD render =
   // ==============
 
-  public static final ResourceLocation TEXTURE_FRAME = new ResourceLocation(
-      SilentGems.MOD_ID.toLowerCase(), "textures/gui/ChaosBarFrame.png");
-  public static final ResourceLocation TEXTURE_BAR = new ResourceLocation(
-      SilentGems.MOD_ID.toLowerCase(), "textures/gui/ChaosBar.png");
+  public static final ResourceLocation TEXTURE_FRAME = new ResourceLocation(SilentGems.MODID,
+      "textures/gui/chaosbarframe.png");
+  public static final ResourceLocation TEXTURE_BAR = new ResourceLocation(SilentGems.MODID,
+      "textures/gui/chaosbar.png");
 
   public static final int BAR_WIDTH = 64;
   public static final int BAR_HEIGHT = 8;
@@ -382,12 +380,12 @@ public class ItemChaosGem extends ItemChaosStorage {
   @SideOnly(Side.CLIENT)
   public static void renderGameOverlay(Minecraft mc) {
 
-    EntityPlayer player = mc.thePlayer;
+    EntityPlayer player = mc.player;
     List<ItemStack> gems = Lists.newArrayList();
     ItemChaosGem chaosGem = ModItems.chaosGem;
 
     for (ItemStack stack : player.inventory.mainInventory)
-      if (stack != null && stack.getItem() instanceof ItemChaosGem)
+      if (!stack.isEmpty() && stack.getItem() instanceof ItemChaosGem)
         if (chaosGem.isEnabled(stack) && chaosGem.getTotalChargeDrain(stack, player) > 0)
           gems.add(stack);
 

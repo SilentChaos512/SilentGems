@@ -73,17 +73,17 @@ public class ContainerMaterialGrader extends ContainerSL {
         return null;
       }
 
-      if (stack1.stackSize == 0) {
+      if (stack1.getCount() == 0) {
         slot.putStack((ItemStack) null);
       } else {
         slot.onSlotChanged();
       }
 
-      if (stack1.stackSize == stack.stackSize) {
+      if (stack1.getCount() == stack.getCount()) {
         return null;
       }
 
-      slot.onPickupFromSlot(player, stack1);
+      slot.onTake(player, stack1);
     }
 
     return stack;

@@ -46,7 +46,7 @@ public class GemsCommonEvents {
     SilentGems.instance.logHelper
         .info("Recalculating tool and armor stats for " + event.player.getDisplayNameString());
     // Recalculate tool stats.
-    for (ItemStack stack : PlayerHelper.getNonNullStacks(event.player)) {
+    for (ItemStack stack : PlayerHelper.getNonEmptyStacks(event.player)) {
       if (stack != null) {
         if (stack.getItem() instanceof ITool)
           ToolHelper.recalculateStats(stack);
@@ -160,7 +160,7 @@ public class GemsCommonEvents {
   @SubscribeEvent
   public void onLivingUpdate(LivingUpdateEvent event) {
 
-    if (!event.getEntity().worldObj.isRemote && event.getEntityLiving() instanceof EntityRabbit) {
+    if (!event.getEntity().world.isRemote && event.getEntityLiving() instanceof EntityRabbit) {
       EntityRabbit rabbit = (EntityRabbit) event.getEntityLiving();
       ModuleCoffee.tickRabbit(rabbit);
     }
@@ -177,7 +177,7 @@ public class GemsCommonEvents {
   @SubscribeEvent
   public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
 
-    if (event.getModID().toLowerCase().equals(SilentGems.MOD_ID_LOWER)) {
+    if (event.getModID().equals(SilentGems.MODID)) {
       GemsConfig.load();
       GemsConfig.save();
     }

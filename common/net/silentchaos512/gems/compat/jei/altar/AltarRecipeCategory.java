@@ -18,7 +18,7 @@ import net.silentchaos512.gems.compat.jei.SilentGemsPlugin;
 
 public class AltarRecipeCategory implements IRecipeCategory {
 
-  public static final String CATEGORY = SilentGems.MOD_ID + ":ChaosAltar";
+  public static final String CATEGORY = SilentGems.MODID + ":ChaosAltar";
 
   public static final int GUI_START_X = 42;
   public static final int GUI_START_Y = 28;
@@ -48,17 +48,16 @@ public class AltarRecipeCategory implements IRecipeCategory {
         IDrawableAnimated.StartDirection.LEFT, false);
   }
 
+//  @Override
+//  public void drawAnimations(Minecraft mc) {
+//
+//    arrow.draw(mc, 38, 6);
+//  }
+
   @Override
-  public void drawAnimations(Minecraft mc) {
+  public void drawExtras(Minecraft mc) {
 
     arrow.draw(mc, 38, 6);
-  }
-
-  @Override
-  public void drawExtras(Minecraft arg0) {
-
-    // TODO Auto-generated method stub
-
   }
 
   @Override
@@ -86,12 +85,12 @@ public class AltarRecipeCategory implements IRecipeCategory {
     return CATEGORY;
   }
 
-  @Override
-  public void setRecipe(IRecipeLayout arg0, IRecipeWrapper arg1) {
-
-    // TODO Auto-generated method stub
-
-  }
+//  @Override
+//  public void setRecipe(IRecipeLayout arg0, IRecipeWrapper arg1) {
+//
+//    // TODO Auto-generated method stub
+//
+//  }
 
   @Override
   public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper,
@@ -105,7 +104,7 @@ public class AltarRecipeCategory implements IRecipeCategory {
     // if (ingredients instanceof IngredientsAltar) {
     // AltarRecipeJei wrapper = (AltarRecipeJei) recipeWrapper;
     recipeLayout.getItemStacks().set(0, ingredients.getInputs(ItemStack.class).get(0));
-    recipeLayout.getItemStacks().set(1, ingredients.getOutputs(ItemStack.class));
+    recipeLayout.getItemStacks().set(1, ingredients.getOutputs(ItemStack.class).get(0));
     recipeLayout.getItemStacks().set(2, ingredients.getInputs(ItemStack.class).get(1));
     // }
   }

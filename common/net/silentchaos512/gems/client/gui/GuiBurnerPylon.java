@@ -13,7 +13,7 @@ import net.silentchaos512.gems.tile.TileChaosPylon;
 public class GuiBurnerPylon extends GuiContainer {
 
   private static final ResourceLocation guiTextures = new ResourceLocation(
-      "silentgems:textures/gui/BurnerPylon.png");
+      "silentgems:textures/gui/burnerpylon.png");
   private TileChaosPylon tilePylon;
 
   public GuiBurnerPylon(InventoryPlayer playerInventory, TileChaosPylon pylon) {

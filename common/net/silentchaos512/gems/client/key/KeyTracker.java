@@ -42,7 +42,7 @@ public class KeyTracker {
       KeyModifier keyModifier, int keyCode) {
 
     KeyBinding binding = new KeyBinding(name, keyConflictContext, keyModifier, keyCode,
-        SilentGems.MOD_ID);
+        SilentGems.MODID);
     ClientRegistry.registerKeyBinding(binding);
     return binding;
   }
@@ -65,7 +65,7 @@ public class KeyTracker {
   @SubscribeEvent
   public void onKeyInput(KeyInputEvent event) {
 
-    this.player = Minecraft.getMinecraft().thePlayer;
+    this.player = Minecraft.getMinecraft().player;
 
     if (toggleSpecial.isKeyDown())
       handleToggleSpecial();

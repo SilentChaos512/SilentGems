@@ -37,7 +37,7 @@ import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.LogHelper;
 
 //@formatter:off
-@Mod(modid = SilentGems.MOD_ID,
+@Mod(modid = SilentGems.MODID,
     name = SilentGems.MOD_NAME,
     version = SilentGems.VERSION,
     dependencies = SilentGems.DEPENDENCIES,
@@ -45,22 +45,21 @@ import net.silentchaos512.lib.util.LogHelper;
 //@formatter:on
 public class SilentGems {
 
-  // public static final String MOD_ID_PHONY = "GemTest";
-  private static final boolean DEV_ENV = true;
-  public static final String MOD_ID = "SilentGems";
-  public static final String MOD_ID_LOWER = "silentgems";
+  public static final String MODID = "silentgems";
+  public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
   public static final String MOD_NAME = "Silent's Gems";
   public static final String VERSION = "@VERSION@";
-  public static final String DEPENDENCIES = "required-after:Forge@[12.18.1.2070,);required-after:SilentLib"
-      + (DEV_ENV ? ";" : "@[1.1.0,);")
+  public static final String VERSION_SILENTLIB = "SL_VERSION";
+  public static final String DEPENDENCIES = "required-after:forge@[13.19.1.2188,);"
+      + "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
       + "after:guideapi;after:EnderIO;after:EnderZoo;after:tconstruct";
-  public static final String RESOURCE_PREFIX = MOD_ID.toLowerCase() + ":";
+  public static final String RESOURCE_PREFIX = MODID + ":";
 
   public static Random random = new Random();
   public static LogHelper logHelper = new LogHelper(MOD_NAME);
   public static LocalizationHelper localizationHelper;
 
-  public static SRegistry registry = new SRegistry(MOD_ID) {
+  public static SRegistry registry = new SRegistry(MODID) {
 
     @Override
     public Block registerBlock(Block block, String key, ItemBlock itemBlock) {
@@ -84,7 +83,7 @@ public class SilentGems {
     }
   };
 
-  @Instance(MOD_ID)
+  @Instance(MODID)
   public static SilentGems instance;
 
   @SidedProxy(clientSide = "net.silentchaos512.gems.proxy.GemsClientProxy", serverSide = "net.silentchaos512.gems.proxy.GemsCommonProxy")
@@ -93,8 +92,8 @@ public class SilentGems {
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
 
-    localizationHelper = new LocalizationHelper(MOD_ID).setReplaceAmpersand(true);
-    SilentLib.instance.registerLocalizationHelperForMod(MOD_ID, localizationHelper);
+    localizationHelper = new LocalizationHelper(MODID).setReplaceAmpersand(true);
+    SilentLib.instance.registerLocalizationHelperForMod(MODID, localizationHelper);
 
     ToolHelper.init();
 
@@ -132,7 +131,7 @@ public class SilentGems {
   @EventHandler
   public void init(FMLInitializationEvent event) {
 
-    ModEntities.init();
+    ModEntities.init(registry);
 
     GemsConfig.save();
 
@@ -144,10 +143,4 @@ public class SilentGems {
 
     proxy.postInit(registry);
   }
-
-//  @EventHandler
-//  public void serverAboutToStart(FMLServerAboutToStartEvent event) {
-//
-//    ModItems.enchantmentToken.addModRecipes();
-//  }
 }

@@ -33,7 +33,7 @@ public class ItemNodeMover extends ItemSL {
 
   public ItemNodeMover() {
 
-    super(1, SilentGems.MOD_ID, Names.NODE_MOVER);
+    super(1, SilentGems.MODID, Names.NODE_MOVER);
     setMaxStackSize(1);
   }
 
@@ -51,8 +51,10 @@ public class ItemNodeMover extends ItemSL {
   }
 
   @Override
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn,
+  public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn,
       BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+
+    ItemStack stack = playerIn.getHeldItem(hand);
 
     if (stack.getItemDamage() >= META_USED) {
       return EnumActionResult.PASS;

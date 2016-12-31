@@ -67,7 +67,7 @@ public abstract class ToolPart {
 
   protected ToolPart(String key, ItemStack craftingStack, String craftingOreDictName) {
 
-    this.key = key;
+    this.key = key.toLowerCase();
     this.craftingStack = craftingStack;
     this.craftingOreDictName = craftingOreDictName;
     this.tier = EnumMaterialTier.REGULAR;

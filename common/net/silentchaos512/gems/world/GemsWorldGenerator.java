@@ -159,7 +159,7 @@ public class GemsWorldGenerator implements IWorldGenerator {
 
       // Find top-most valid block
       for (; y > 50; --y) {
-        if (world.isAirBlock(pos) && (!world.provider.getHasNoSky() || pos.getY() < 255)
+        if (world.isAirBlock(pos) && (!world.provider.hasNoSky() || pos.getY() < 255)
             && ModBlocks.glowRose.canBlockStay(world, pos, state)) {
           world.setBlockState(pos, state, 2);
           break;

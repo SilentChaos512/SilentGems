@@ -16,22 +16,23 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //    id "net.minecraftforge.gradle.forge" version "2.0.2"
 //}
 
-version = "2.2.1"
+version = "2.2.2"
+def silentlib_version = "1.1.3"
 group = "net.silentchaos512.gems"
-archivesBaseName = "SilentsGems-1.10.2"
+archivesBaseName = "SilentsGems-1.11"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
-    version = "1.10.2-12.18.2.2125"
+    version = "1.11-13.19.1.2188"
     runDir = "eclipse"
 
     replace "@VERSION@", project.version
-    replace "DEV_ENV = true", "DEV_ENV = false"
+    replace "SL_VERSION", silentlib_version
     replaceIn "SilentGems.java"
 
-    mappings = "snapshot_20161111"
+    mappings = "snapshot_20161122"
     useDepAts = true
 }
 
@@ -47,9 +48,6 @@ repositories {
     }
 }
 
-jar {
-    //classifier = "alpha"
-}
 task deobfJar(type: Jar) {
     from(sourceSets.main.output) {
         classifier = "deobf"
@@ -60,8 +58,8 @@ artifacts {
 }
 
 dependencies {
-    deobfCompile "mezz.jei:jei_1.10.2:3.13.3.373"
-    deobfCompile "info.amerifrance.guideapi:Guide-API:1.10.2-2.0.2-45"
+    deobfCompile "mezz.jei:jei_1.11:4.0.0.188"
+    deobfCompile "info.amerifrance.guideapi:Guide-API:1.11-2.1.0-47"
     deobfCompile "slimeknights.mantle:Mantle:1.10.2-1.1.3.+"
     deobfCompile "slimeknights:TConstruct:1.10.2-2.6.1.+"
 }

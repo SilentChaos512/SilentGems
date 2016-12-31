@@ -2,6 +2,7 @@ package net.silentchaos512.gems.guide;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,7 +72,7 @@ public class GuideSilentGems {
     // Category: Getting Started
     // =========================
 
-    entries = new CategoryMap<>();
+    entries = new LinkedHashMap();
 
     // Entry: Introduction
     pages = Lists.newArrayList();
@@ -79,7 +80,7 @@ public class GuideSilentGems {
     for (i = 0; i < 2; ++i)
       pages.add(new PageText(getString(prefix + i)));
     entry = new EntryItemStack(pages, getString(prefix), EnumGem.RUBY.getItem());
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Flint Tools
     pages = Lists.newArrayList();
@@ -93,7 +94,7 @@ public class GuideSilentGems {
     for (; i < 4; ++i)
       pages.add(new PageText(getString(prefix + i)));
     entry = new EntryItemStack(pages, getString(prefix), new ItemStack(Items.FLINT));
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Iron-Tipped
     pages = Lists.newArrayList();
@@ -106,7 +107,7 @@ public class GuideSilentGems {
     pages.add(new PageIRecipe(new ShapelessOreRecipe(ironTippedFlintPick, flintPick, ironUpgrade)));
     pages.add(new PageText(getString(prefix + i)));
     entry = new EntryItemStack(pages, getString(prefix), new ItemStack(ModItems.tipUpgrade));
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Gem Tools
     pages = Lists.newArrayList();
@@ -122,7 +123,7 @@ public class GuideSilentGems {
     for (; i < 5; ++i)
       pages.add(new PageText(getString(prefix + i)));
     entry = new EntryItemStack(pages, getString(prefix), rubySapphirePick);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Gem Armor
     pages = Lists.newArrayList();
@@ -140,7 +141,7 @@ public class GuideSilentGems {
     for (; i < 4; ++i)
       pages.add(new PageText(getString(prefix + i)));
     entry = new EntryItemStack(pages, getString(prefix), exampleArmor);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Chaos Ore
     pages = Lists.newArrayList();
@@ -155,7 +156,7 @@ public class GuideSilentGems {
     pages.add(new PageFurnaceRecipe(new ItemStack(ModBlocks.essenceOre)));
     pages.add(new PageText(getString(prefix + 2)));
     entry = new EntryItemStack(pages, getString(prefix), new ItemStack(ModBlocks.essenceOre));
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Super Tools
     pages = Lists.newArrayList();
@@ -170,7 +171,7 @@ public class GuideSilentGems {
     for (; i < 4; ++i)
       pages.add(new PageText(getString(prefix + i)));
     entry = new EntryItemStack(pages, getString(prefix), superPick);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Add category
     String catGettingStarted = getString("category." + GETTING_STARTED);
@@ -180,14 +181,14 @@ public class GuideSilentGems {
     // Category: Blocks
     // ================
 
-    entries = new CategoryMap<>();
+    entries = new LinkedHashMap();
 
     pages = Lists.newArrayList();
     prefix = BLOCKS + ".chaosAltar";
     pages.addAll(getPages(prefix));
     stack = new ItemStack(ModBlocks.chaosAltar);
     entry = new EntryItemStack(pages, getString(prefix), stack);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Chaos Flower Pot
     pages = Lists.newArrayList();
@@ -195,39 +196,39 @@ public class GuideSilentGems {
     pages.addAll(getPages(prefix));
     stack = new ItemStack(ModBlocks.chaosFlowerPot);
     entry = new EntryItemStack(pages, getString(prefix), stack);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Chaos Node
     pages = Lists.newArrayList();
     prefix = BLOCKS + ".chaosNode";
     pages.add(new PageText(getString(prefix + 0)));
-    ResourceLocation imageChaosNode = new ResourceLocation(SilentGems.MOD_ID.toLowerCase(),
+    ResourceLocation imageChaosNode = new ResourceLocation(SilentGems.MODID.toLowerCase(),
         "textures/guide/ChaosNode.png");
     pages.add(new PageTextImage(getString(prefix + 1), imageChaosNode, false));
     pages.add(new PageText(getString(prefix + 2)));
     entry = new EntryItemStack(pages, getString(prefix), new ItemStack(ModBlocks.chaosNode));
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Fluffy Blocks
     prefix = BLOCKS + ".fluffyBlock";
     pages = getPages(prefix);
     stack = new ItemStack(ModBlocks.fluffyBlock);
     entry = new EntryItemStack(pages, getString(prefix), stack);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Gem Lamps
     prefix = BLOCKS + ".gemLamp";
     pages = getPages(prefix);
     stack = new ItemStack(ModBlocks.gemLamp, 1, EnumGem.SAPPHIRE.ordinal());
     entry = new EntryItemStack(pages, getString(prefix), stack);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Glow Roses
     prefix = BLOCKS + ".glowRose";
     pages = getPages(prefix);
     stack = new ItemStack(ModBlocks.glowRose, 1, EnumGem.AGATE.ordinal());
     entry = new EntryItemStack(pages, getString(prefix), stack);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Material Grader
     pages = Lists.newArrayList();
@@ -235,7 +236,7 @@ public class GuideSilentGems {
     pages.addAll(getPages(prefix));
     stack = new ItemStack(ModBlocks.materialGrader);
     entry = new EntryItemStack(pages, getString(prefix), stack);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Add category
     String catBlocks = getString("category." + BLOCKS);
@@ -245,21 +246,21 @@ public class GuideSilentGems {
     // Category: Items
     // ===============
 
-    entries = new CategoryMap<>();
+    entries = new LinkedHashMap();
 
     // Entry: Chaos Coal
     prefix = ITEMS + ".chaosCoal";
     pages = getPages(prefix);
     stack = ModItems.craftingMaterial.chaosCoal;
     entry = new EntryItemStack(pages, getString(prefix), stack);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Chaos Orbs
     prefix = ITEMS + ".chaosOrb";
     pages = getPages(prefix);
     stack = new ItemStack(ModItems.chaosOrb, 1, ItemChaosOrb.Type.SUPREME.ordinal());
     entry = new EntryItemStack(pages, getString(prefix), stack);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Enchantment Tokens
     prefix = ITEMS + ".enchantmentToken";
@@ -277,27 +278,27 @@ public class GuideSilentGems {
     for (i = 1; i < 3; ++i)
       pages.add(new PageText(getString(prefix + i)));
     entry = new EntryItemStack(pages, getString(prefix), tokenUnbreaking);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Fluffy Puffs
     prefix = ITEMS + ".fluffyPuff";
     pages = getPages(prefix);
     entry = new EntryItemStack(pages, getString(prefix), new ItemStack(ModItems.fluffyPuff));
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Iron Potato
     prefix = ITEMS + ".ironPotato";
     pages = getPages(prefix);
     stack = ModItems.craftingMaterial.ironPotato;
     entry = new EntryItemStack(pages, getString(prefix), stack);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Torch Bandolier
     prefix = ITEMS + ".torchBandolier";
     pages = getPages(prefix);
     stack = new ItemStack(ModItems.torchBandolier);
     entry = new EntryItemStack(pages, getString(prefix), stack);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Add category
     String catItems = getString("category." + ITEMS);
@@ -307,7 +308,7 @@ public class GuideSilentGems {
     // Category: Tools
     // ===============
 
-    entries = new CategoryMap<>();
+    entries = new LinkedHashMap();
 
     // Entry: Tomahawk
     addToolEntry(entries, "axe", ModItems.axe, 3);
@@ -330,14 +331,14 @@ public class GuideSilentGems {
     // Category: Terminology
     // =====================
 
-    entries = new CategoryMap<>();
+    entries = new LinkedHashMap();
 
     // Entry: Chaos
     prefix = TERMS + ".chaos";
     pages = getPages(prefix);
     entry = new EntryItemStack(pages, getString(prefix),
         ModItems.craftingMaterial.chaosEssenceEnriched);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Decorating
     prefix = TERMS + ".decorating";
@@ -354,26 +355,26 @@ public class GuideSilentGems {
             new ShapedOreRecipe(pickaxeDecoPost, " n ", "wbe", " s ", 'b', pickaxeDecoPre, 'w',
                 decoParts[0], 'n', decoParts[1], 'e', decoParts[2], 's', decoParts[3])));
     entry = new EntryItemStack(pages, getString(prefix), pickaxeDecoPost);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Grade
     prefix = TERMS + ".grade";
     pages = getPages(prefix);
     stack = ModItems.craftingMaterial.magnifyingGlass;
     entry = new EntryItemStack(pages, getString(prefix), stack);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Super Skills
     prefix = TERMS + ".superSkills";
     pages = getPages(prefix);
     entry = new EntryItemStack(pages, getString(prefix), superPick);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Entry: Tier
     prefix = TERMS + ".tier";
     pages = getPages(prefix);
     entry = new EntryItemStack(pages, getString(prefix), new ItemStack(Items.FLINT));
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
 
     // Add category
     String catTerminology = getString("category." + TERMS);
@@ -396,9 +397,9 @@ public class GuideSilentGems {
       book.setCustomModel(false);
       book.setColor(color);
       book.setSpawnWithBook(true);
-      book.setRegistryName(title);
+      book.setRegistryName(new ResourceLocation(title));
 
-      GuideAPI.BOOKS.register(book);
+      GuideAPI.BOOKS.add(book);
 
       if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
         GuideAPI.setModel(book);
@@ -420,13 +421,14 @@ public class GuideSilentGems {
       return;
 
     try {
-      Item itemGuideBook = GuideAPI.guideBook;
-      int meta = GuideAPI.BOOKS.getValues().indexOf(book);
-      ModelResourceLocation model = new ModelResourceLocation("guideapi:ItemGuideBook",
-          "inventory");
-      ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-      ModelLoader.registerItemVariants(itemGuideBook, model);
-      mesher.register(itemGuideBook, meta, model);
+      // FIXME?
+//    Item itemGuideBook = GuideAPI.guideBook;
+//    int meta = GuideAPI.BOOKS.getValues().indexOf(book);
+//    ModelResourceLocation model = new ModelResourceLocation("guideapi:ItemGuideBook",
+//        "inventory");
+//    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+//    ModelLoader.registerItemVariants(itemGuideBook, model);
+//    mesher.register(itemGuideBook, meta, model);
     } catch (Exception ex) {
       warnUserOfGuideApiException(
           "Failed to register guide book model! Report this on the issue tracker for Silent's Gems.",
@@ -488,6 +490,6 @@ public class GuideSilentGems {
 
     // Create and add the entry.
     EntryItemStack entry = new EntryItemStack(pages, getString(prefix), stack);
-    entries.put(new ResourceLocation(SilentGems.MOD_ID, prefix), entry);
+    entries.put(new ResourceLocation(SilentGems.MODID, prefix), entry);
   }
 }

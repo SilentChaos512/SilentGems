@@ -216,7 +216,7 @@ public class ToolHelper {
           "Layer" + ToolRenderHelper.PASS_ROD + "Color", renderRod.getColor(tool));
 
     // Variety bonus
-    int variety = MathHelper.clamp_int(uniqueParts.size(), 1, 3);
+    int variety = MathHelper.clamp(uniqueParts.size(), 1, 3);
     float bonus = 1.0f + GemsConfig.VARIETY_BONUS * (variety - 1);
 
     // Average head parts
@@ -375,12 +375,12 @@ public class ToolHelper {
 
     if (slot == EntityEquipmentSlot.MAINHAND) {
       // Melee Damage
-      String key = SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName();
+      String key = SharedMonsterAttributes.ATTACK_DAMAGE.getName();
       float value = getMeleeDamageModifier(tool);
       replaceAttributeModifierInMap(map, key, value);
 
       // Melee Speed
-      key = SharedMonsterAttributes.ATTACK_SPEED.getAttributeUnlocalizedName();
+      key = SharedMonsterAttributes.ATTACK_SPEED.getName();
       value = getMeleeSpeedModifier(tool);
       replaceAttributeModifierInMap(map, key, value);
     }
@@ -442,12 +442,14 @@ public class ToolHelper {
   /**
    * This controls the block placing ability of mining tools.
    */
-  public static EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world,
+  public static EnumActionResult onItemUse(EntityPlayer player, World world,
       BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
+    ItemStack stack = player.getHeldItem(hand);
+
     // If block is in offhand, allow that to place instead.
-    ItemStack stackOffHand = player.inventory.offHandInventory[0];
-    if (stackOffHand != null && stackOffHand.getItem() instanceof ItemBlock) {
+    ItemStack stackOffHand = player.getHeldItemOffhand();
+    if (stackOffHand.getItem() instanceof ItemBlock) {
       ItemBlock itemBlock = (ItemBlock) stackOffHand.getItem();
       BlockPos target = pos;
 
@@ -455,7 +457,8 @@ public class ToolHelper {
         target = pos.offset(side);
 
       if (player.canPlayerEdit(target, side, stackOffHand)
-          && world.canBlockBePlaced(itemBlock.getBlock(), target, false, side, null, stackOffHand))
+          //&& world.canBlockBePlaced(itemBlock.getBlock(), target, false, side, null, stackOffHand))
+          && itemBlock.canPlaceBlockOnSide(world, target, side, player, stackOffHand))
         return EnumActionResult.PASS;
     }
 
@@ -472,7 +475,7 @@ public class ToolHelper {
     EnumActionResult result = EnumActionResult.PASS;
     int toolSlot = player.inventory.currentItem;
     int itemSlot = toolSlot + 1;
-    ItemStack nextStack = null;
+    ItemStack nextStack = ItemStack.EMPTY;
     ItemStack lastStack = player.inventory.getStackInSlot(8); // Slot 9 in hotbar
 
     if (toolSlot < 8) {
@@ -480,13 +483,13 @@ public class ToolHelper {
       nextStack = player.inventory.getStackInSlot(itemSlot);
 
       // If there's nothing there we can use, try slot 9 instead.
-      if (nextStack == null || (!(nextStack.getItem() instanceof ItemBlock)
+      if (nextStack.isEmpty() || (!(nextStack.getItem() instanceof ItemBlock)
           && !(nextStack.getItem() instanceof IBlockPlacer))) {
         nextStack = lastStack;
         itemSlot = 8;
       }
 
-      if (nextStack != null) {
+      if (!nextStack.isEmpty()) {
         Item item = nextStack.getItem();
         if (item instanceof ItemBlock || item instanceof IBlockPlacer) {
           BlockPos targetPos = pos.offset(side);
@@ -509,18 +512,23 @@ public class ToolHelper {
             }
           }
 
-          int prevSize = nextStack.stackSize;
-          result = item.onItemUse(nextStack, player, world, pos, hand, side, hitX, hitY, hitZ);
+          int prevSize = nextStack.getCount();
+          // Temporarily move nextStack to the player's offhand to allow it to be used.
+          ItemStack currentOffhand = player.getHeldItemOffhand();
+          player.setHeldItem(EnumHand.OFF_HAND, nextStack);
+          result = item.onItemUse(player, world, pos, EnumHand.OFF_HAND, side, hitX, hitY, hitZ);
+          // Put everything back in its proper place...
+          player.setHeldItem(EnumHand.OFF_HAND, currentOffhand);
 
           // Don't consume in creative mode?
           if (player.capabilities.isCreativeMode) {
-            nextStack.stackSize = prevSize;
+            nextStack.setCount(prevSize);
           }
 
           // Remove empty stacks.
-          if (nextStack.stackSize < 1) {
-            nextStack = null;
-            player.inventory.setInventorySlotContents(itemSlot, null);
+          if (nextStack.isEmpty()) {
+            nextStack = ItemStack.EMPTY;
+            player.inventory.setInventorySlotContents(itemSlot, ItemStack.EMPTY);
           }
         }
       }
@@ -632,7 +640,7 @@ public class ToolHelper {
         // Load part stacks.
         do {
           NBTTagCompound tag = compound.getCompoundTag(key);
-          parts.add(ItemStack.loadItemStackFromNBT(tag));
+          parts.add(new ItemStack(tag));
           key = "part" + ++i;
         } while (compound.hasKey(key));
 
@@ -667,7 +675,7 @@ public class ToolHelper {
   public static EnumMaterialTier getToolTier(ItemStack tool) {
 
     int id = getTagInt(tool, NBT_ROOT_PROPERTIES, NBT_TOOL_TIER);
-    return EnumMaterialTier.values()[MathHelper.clamp_int(id, 0,
+    return EnumMaterialTier.values()[MathHelper.clamp(id, 0,
         EnumMaterialTier.values().length - 1)];
   }
 
@@ -697,8 +705,8 @@ public class ToolHelper {
     ToolPart part;
     // Head
     for (int i = 0; i < materials.length; ++i) {
-      if (materials[i] == null) {
-        String str = "ToolHelper.constructTool: null part!";
+      if (materials[i].isEmpty()) {
+        String str = "ToolHelper.constructTool: empty part!";
         for (ItemStack stack : materials)
           str += stack + ", ";
         throw new IllegalArgumentException(str);
@@ -725,7 +733,7 @@ public class ToolHelper {
     EnumMaterialTier toolTier = getToolTier(result);
     if (item == ModItems.katana || item == ModItems.scepter) {
       if (toolTier.ordinal() < EnumMaterialTier.SUPER.ordinal())
-        return null;
+        return ItemStack.EMPTY;
     }
 
     return result;
@@ -765,7 +773,7 @@ public class ToolHelper {
 
   public static ToolPart[] getConstructionParts(ItemStack tool) {
 
-    if (tool == null)
+    if (tool.isEmpty())
       return new ToolPart[] {};
 
     List<ToolPart> parts = Lists.newArrayList();
@@ -786,7 +794,7 @@ public class ToolHelper {
 
   public static EnumMaterialGrade[] getConstructionGrades(ItemStack tool) {
 
-    if (tool == null)
+    if (tool.isEmpty())
       return new EnumMaterialGrade[] {};
 
     List<EnumMaterialGrade> grades = Lists.newArrayList();
@@ -820,8 +828,8 @@ public class ToolHelper {
   public static ItemStack decorateTool(ItemStack tool, ItemStack west, ItemStack north,
       ItemStack east, ItemStack south) {
 
-    if (tool == null)
-      return null;
+    if (tool.isEmpty())
+      return ItemStack.EMPTY;
 
     ItemStack result = tool.copy();
     result = decorate(result, west, EnumDecoPos.WEST);
@@ -833,10 +841,10 @@ public class ToolHelper {
 
   private static ItemStack decorate(ItemStack tool, ItemStack material, EnumDecoPos pos) {
 
-    if (tool == null) // Something went wrong
-      return null;
+    if (tool.isEmpty()) // Something went wrong
+      return ItemStack.EMPTY;
 
-    if (material == null) // No material in the slot is OK.
+    if (material.isEmpty()) // No material in the slot is OK.
       return tool;
 
     // Shields have different deco positions.
@@ -897,7 +905,7 @@ public class ToolHelper {
 
     ItemStack tool;
     for (ToolPartMain part : ToolPartRegistry.getMains()) {
-      if (part.getCraftingStack() != null && !part.isBlacklisted(part.getCraftingStack())) { // FIXME: 1.11
+      if (!part.isBlacklisted(part.getCraftingStack())) {
         if (isSuperTool && part.getTier() != EnumMaterialTier.SUPER)
           continue;
         list.add(constructTool(item,
@@ -938,7 +946,7 @@ public class ToolHelper {
 
   public static boolean areToolsEqual(ItemStack a, ItemStack b) {
 
-    return a != null && b != null && a.getItem() == b.getItem()
+    return a.getItem() == b.getItem()
         && getRootTag(a, NBT_ROOT_CONSTRUCTION).equals(getRootTag(b, NBT_ROOT_CONSTRUCTION))
         && getRootTag(a, NBT_ROOT_DECORATION).equals(getRootTag(b, NBT_ROOT_DECORATION));
   }

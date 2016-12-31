@@ -18,15 +18,13 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.enchantment.EnchantmentMagicDamage;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.EntityChaosProjectileHoming;
@@ -58,7 +56,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
     if (GemsConfig.TOOL_DISABLE_SWORD)
-      return null; // FIXME: 1.11
+      return ItemStack.EMPTY;
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.STICK);
     return ToolHelper.constructTool(this, rod, materials);
@@ -72,7 +70,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
     if (GemsConfig.TOOL_DISABLE_SWORD)
-      return null; // FIXME: 1.11
+      return ItemStack.EMPTY;
     if (materials.length == 2) {
       ItemStack temp = materials[0];
       materials[0] = materials[1];
@@ -117,7 +115,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     if (subItems == null) {
       subItems = ToolHelper.getSubItems(item, 2);
@@ -128,7 +126,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
   @Override
   public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
 
-    World world = entityLiving.worldObj;
+    World world = entityLiving.world;
     if (world.isRemote || !(entityLiving instanceof EntityPlayer)
         || ToolHelper.getToolTier(stack).ordinal() < EnumMaterialTier.SUPER.ordinal()) {
       return false;
@@ -154,7 +152,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
 
       if (!world.isRemote) {
         for (EntityChaosProjectile shot : getShots(player, stack)) {
-          world.spawnEntityInWorld(shot);
+          world.spawnEntity(shot);
         }
       }
     }
@@ -200,7 +198,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
     if (player.capabilities.isCreativeMode)
       return 0;
 
-    if (stack != null) {
+    if (!stack.isEmpty()) {
       Item item = stack.getItem();
       // @formatter:off
       if (item == ModItems.scepter) return 5000;
@@ -217,7 +215,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
     if (player.capabilities.isCreativeMode)
       return 0;
 
-    if (stack != null) {
+    if (!stack.isEmpty()) {
       Item item = stack.getItem();
       // @formatter:off
       if (item == ModItems.scepter) return 20;
@@ -347,7 +345,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
   @Override
   public String getModId() {
 
-    return SilentGems.MOD_ID;
+    return SilentGems.MODID;
   }
 
   @Override

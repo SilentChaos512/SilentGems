@@ -43,7 +43,7 @@ public class SkillAreaMiner extends ToolSkillDigger {
   @Override
   public boolean activate(ItemStack tool, EntityPlayer player, BlockPos pos) {
 
-    World world = player.worldObj;
+    World world = player.world;
     IBlockState state = world.getBlockState(pos);
 
     Item item = tool.getItem();
@@ -110,7 +110,7 @@ public class SkillAreaMiner extends ToolSkillDigger {
             continue;
           }
 
-          if (breakExtraBlock(tool, player.worldObj, new BlockPos(xPos, yPos, zPos), player, pos)) {
+          if (breakExtraBlock(tool, player.world, new BlockPos(xPos, yPos, zPos), player, pos)) {
             ++blocksBroken;
           }
         }

@@ -2,9 +2,10 @@ package net.silentchaos512.gems.tile;
 
 import java.util.Random;
 
-import net.minecraft.item.Item;
+import javax.annotation.Nonnull;
+
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFlowerPot;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
@@ -14,9 +15,10 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.EnumModParticles;
+import net.silentchaos512.lib.tile.TileInventorySL;
 import net.silentchaos512.lib.util.Color;
 
-public class TileChaosFlowerPot extends TileEntityFlowerPot implements ITickable {
+public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
 
   public static final int TRY_LIGHT_DELAY = 80;
   public static final int LIGHT_DISTANCE = 8;
@@ -31,18 +33,18 @@ public class TileChaosFlowerPot extends TileEntityFlowerPot implements ITickable
     if (++ticksExisted % delay == 0) {
       boolean result = tryPlacePhantomLight();
     }
-    if (!worldObj.isRemote && GemsConfig.DEBUG_LOG_POTS_AND_LIGHTS
+    if (!world.isRemote && GemsConfig.DEBUG_LOG_POTS_AND_LIGHTS
         && ticksExisted % GemsConfig.DEBUG_LOT_POTS_AND_LIGHTS_DELAY == 0) {
     }
   }
 
   private boolean tryPlacePhantomLight() {
 
-    if (worldObj.isRemote || getFlowerItemStack() == null) {
+    if (world.isRemote || getFlowerItemStack().isEmpty()) {
       return false;
     }
 
-    Random rand = SilentGems.instance.random;
+    Random rand = SilentGems.random;
 
     // final int step = ticksExisted / TRY_LIGHT_DELAY - 1;
     final boolean longRange = rand.nextFloat() < 0.5f; // step > 7
@@ -71,14 +73,14 @@ public class TileChaosFlowerPot extends TileEntityFlowerPot implements ITickable
       // Debug particles: try position
       Color debugColor = new Color(0.4f, 0f, 1f);
       for (int i = 0; i < 100; ++i) {
-        SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, debugColor, worldObj, x + 0.5, y,
+        SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, debugColor, world, x + 0.5, y,
             z + 0.5, 0.005f * rand.nextGaussian(), 0.25f * rand.nextGaussian(),
             0.005f * rand.nextGaussian());
       }
       // Debug particles: ring
       for (float f = 0; f < 2 * Math.PI; f += Math.PI / 32) {
         Vec3d v = new Vec3d(dist, 0, 0).rotateYaw(f);
-        SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, debugColor, worldObj,
+        SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, debugColor, world,
             pos.getX() + 0.5 + v.xCoord, pos.getY() + 0.5, pos.getZ() + 0.5 + v.zCoord, 0, 0, 0);
       }
     }
@@ -106,7 +108,7 @@ public class TileChaosFlowerPot extends TileEntityFlowerPot implements ITickable
   private boolean canPlacePhantomLightAt(BlockPos target) {
 
     // Check that target pos is air and needs more light.
-    if (!worldObj.isAirBlock(target) || worldObj.getLightFor(EnumSkyBlock.BLOCK, target) > 9)
+    if (!world.isAirBlock(target) || world.getLightFor(EnumSkyBlock.BLOCK, target) > 9)
       return false;
 
     // Check for equal tile entities above and below target pos (ie prevent from spawning inside
@@ -117,19 +119,19 @@ public class TileChaosFlowerPot extends TileEntityFlowerPot implements ITickable
 
     for (int i = 0; i < TE_SEARCH_RADIUS && clazz == null; ++i) {
       pos = target.up(i);
-      te = worldObj.getTileEntity(pos);
+      te = world.getTileEntity(pos);
       if (te != null)
         clazz = te.getClass();
-      else if (!worldObj.isAirBlock(pos))
+      else if (!world.isAirBlock(pos))
         return true;
     }
 
     for (int i = 0; i < TE_SEARCH_RADIUS; ++i) {
       pos = target.down(i);
-      te = worldObj.getTileEntity(pos);
+      te = world.getTileEntity(pos);
       if (te != null && clazz == te.getClass())
         return false;
-      else if (!worldObj.isAirBlock(pos))
+      else if (!world.isAirBlock(pos))
         return true;
     }
 
@@ -138,18 +140,34 @@ public class TileChaosFlowerPot extends TileEntityFlowerPot implements ITickable
 
   private void placePhantomLightAt(BlockPos target) {
 
-    worldObj.setBlockState(target, ModBlocks.phantomLight.getDefaultState());
-    TileEntity tile = worldObj.getTileEntity(target);
+    world.setBlockState(target, ModBlocks.phantomLight.getDefaultState());
+    TileEntity tile = world.getTileEntity(target);
     if (tile instanceof TilePhantomLight) {
       TilePhantomLight tileLight = (TilePhantomLight) tile;
       tileLight.setSpawnerPos(this.pos);
     }
   }
 
-  @Override
-  public void setFlowerPotData(Item potItem, int potData) {
+  public @Nonnull ItemStack getFlowerItemStack() {
 
-    super.setFlowerPotData(potItem, potData);
+    return getStackInSlot(0);
+  }
+
+  public void setFlowerItemStack(@Nonnull ItemStack stack) {
+
+    setInventorySlotContents(0, stack);
     ticksExisted = 0;
+  }
+
+  @Override
+  public int getSizeInventory() {
+
+    return 1;
+  }
+
+  @Override
+  public String getName() {
+
+    return "ChaosFlowerPot";
   }
 }

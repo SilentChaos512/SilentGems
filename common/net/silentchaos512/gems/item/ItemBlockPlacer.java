@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.item;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,6 +12,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
@@ -29,7 +28,7 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
 
   public ItemBlockPlacer(String name, int maxDamage) {
 
-    super(1, SilentGems.MOD_ID, name);
+    super(1, SilentGems.MODID, name);
     setMaxDamage(maxDamage);
     setNoRepair();
     setMaxStackSize(1);
@@ -82,22 +81,22 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     Block blockPlaced = statePlaced.getBlock();
     Item itemBlock = Item.getItemFromBlock(blockPlaced);
 
-    for (ItemStack invStack : PlayerHelper.getNonNullStacks(player, true, true, false)) {
+    for (ItemStack invStack : PlayerHelper.getNonEmptyStacks(player, true, true, false)) {
       if (invStack.getItem() == itemBlock) {
         int damage = stack.getItemDamage();
 
         // Decrease damage of block placer, reduce stack size of block stack.
-        if (damage - invStack.stackSize < 0) {
+        if (damage - invStack.getCount() < 0) {
           stack.setItemDamage(0);
-          invStack.stackSize -= damage;
+          invStack.shrink(damage);
           return stack;
         } else {
-          stack.setItemDamage(damage - invStack.stackSize);
-          invStack.stackSize = 0;
+          stack.setItemDamage(damage - invStack.getCount());
+          invStack.setCount(0);
         }
 
         // Remove empty stacks.
-        if (invStack.stackSize <= 0) {
+        if (invStack.getCount() <= 0) {
           PlayerHelper.removeItem(player, invStack);
         }
       }
@@ -107,9 +106,9 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player,
-      EnumHand hand) {
+  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
+    ItemStack stack = player.getHeldItem(hand);
     if (player.isSneaking()) {
       setAutoFillMode(stack, !getAutoFillMode(stack));
     }
@@ -117,9 +116,10 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   }
 
   @Override
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world,
-      BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
+      EnumFacing facing, float hitX, float hitY, float hitZ) {
 
+    ItemStack stack = player.getHeldItem(hand);
     if (stack.getItemDamage() == getMaxDamage(stack) && !player.capabilities.isCreativeMode) {
       return EnumActionResult.PASS; // Empty and not in creative mode.
     }
@@ -129,8 +129,16 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     Block block = state.getBlock();
     ItemStack fakeBlockStack = new ItemStack(block, 1, block.getMetaFromState(state));
 
-    EnumActionResult result = fakeBlockStack.getItem().onItemUse(fakeBlockStack, player, world, pos,
-        hand, facing, hitX, hitY, hitZ);
+    // In 1.11, we must place the fake stack in the player's hand!
+    ItemStack currentOffhand = player.getHeldItemOffhand();
+    player.setHeldItem(EnumHand.OFF_HAND, fakeBlockStack);
+
+    // Use the fake stack.
+    EnumActionResult result = fakeBlockStack.getItem().onItemUse(player, world, pos, EnumHand.OFF_HAND, facing,
+        hitX, hitY, hitZ);
+
+    // Return the player's offhand stack.
+    player.setHeldItem(EnumHand.OFF_HAND, currentOffhand);
 
     if (result == EnumActionResult.SUCCESS) {
       stack.damageItem(1, player);
@@ -139,9 +147,10 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
-    list.add(new ItemStack(item, 1, getMaxDamage()));
-    list.add(new ItemStack(item, 1, 0));
+    ItemStack stack = new ItemStack(item);
+    list.add(new ItemStack(item, 1, getMaxDamage(stack)));
+    list.add(stack);
   }
 }

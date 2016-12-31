@@ -11,23 +11,23 @@ public class RecipeChaosGemUpgrade extends RecipeBase {
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
 
-    ItemStack chaosGem = null;
+    ItemStack chaosGem = ItemStack.EMPTY;
     ItemStack stack;
 
     // Find the Chaos Gem.
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
-      if (stack != null && stack.getItem() instanceof ItemChaosGem) {
+      if (!stack.isEmpty() && stack.getItem() instanceof ItemChaosGem) {
         // Must have only one Chaos Gem!
-        if (chaosGem != null)
-          return null;
+        if (!chaosGem.isEmpty())
+          return ItemStack.EMPTY;
         chaosGem = stack.copy();
       }
     }
 
     // Found Chaos Gem?
-    if (chaosGem == null) {
-      return null;
+    if (chaosGem.isEmpty()) {
+      return ItemStack.EMPTY;
     }
 
     ItemChaosGem itemGem = (ItemChaosGem) chaosGem.getItem();
@@ -35,10 +35,10 @@ public class RecipeChaosGemUpgrade extends RecipeBase {
     // Find runes and apply them.
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
-      if (stack != null && stack.getItem() instanceof ItemChaosRune) {
+      if (!stack.isEmpty() && stack.getItem() instanceof ItemChaosRune) {
         ItemChaosRune itemRune = (ItemChaosRune) stack.getItem();
         if (!itemGem.addBuff(chaosGem, itemRune.getBuff(stack)))
-          return null;
+          return ItemStack.EMPTY;
       }
     }
 

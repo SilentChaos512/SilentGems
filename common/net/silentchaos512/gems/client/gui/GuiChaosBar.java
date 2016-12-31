@@ -23,10 +23,10 @@ public class GuiChaosBar extends Gui {
 
   public static final GuiChaosBar INSTANCE = new GuiChaosBar(Minecraft.getMinecraft());
 
-  public static final ResourceLocation TEXTURE_FRAME = new ResourceLocation(SilentGems.MOD_ID,
-      "textures/gui/ChaosBarFrame.png");
-  public static final ResourceLocation TEXTURE_BAR = new ResourceLocation(SilentGems.MOD_ID,
-      "textures/gui/ChaosBar.png");
+  public static final ResourceLocation TEXTURE_FRAME = new ResourceLocation(SilentGems.MODID,
+      "textures/gui/chaosbarframe.png");
+  public static final ResourceLocation TEXTURE_BAR = new ResourceLocation(SilentGems.MODID,
+      "textures/gui/chaosbar.png");
 
   public static final int POPUP_TIME = 120;
 

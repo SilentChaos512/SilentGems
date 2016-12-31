@@ -58,7 +58,7 @@ public class EntityPacketChaos extends EntityChaosNodePacket {
     amountLeft -= data.sendChaos(amountLeft, true);
 
     if (amountLeft > 0) {
-      List<ItemStack> list = PlayerHelper.getNonNullStacks(player);
+      List<ItemStack> list = PlayerHelper.getNonEmptyStacks(player);
 
       for (ItemStack stack : list) {
         if (stack.getItem() instanceof IChaosStorage) {
@@ -76,7 +76,7 @@ public class EntityPacketChaos extends EntityChaosNodePacket {
   @Override
   public void onImpactWithBlock(BlockPos pos, IBlockState state) {
 
-    TileEntity tile = worldObj.getTileEntity(pos);
+    TileEntity tile = world.getTileEntity(pos);
     if (tile != null && tile instanceof IChaosAccepter) {
       IChaosAccepter accepter = (IChaosAccepter) tile;
       accepter.receiveCharge((int) amount, false);

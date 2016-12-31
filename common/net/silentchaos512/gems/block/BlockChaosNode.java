@@ -27,7 +27,7 @@ public class BlockChaosNode extends BlockSL implements ITileEntityProvider, IWit
 
   public BlockChaosNode() {
 
-    super(1, SilentGems.MOD_ID, Names.CHAOS_NODE, Material.BARRIER);
+    super(1, SilentGems.MODID, Names.CHAOS_NODE, Material.BARRIER);
     setBlockUnbreakable();
     setResistance(6000000.0F);
     translucent = true;
@@ -46,7 +46,7 @@ public class BlockChaosNode extends BlockSL implements ITileEntityProvider, IWit
   }
 
   @Override
-  public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
+  public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
 
     return null;
   }

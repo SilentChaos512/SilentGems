@@ -43,7 +43,7 @@ public class ModuleCoffee {
 
   public static void tickRabbit(EntityRabbit rabbit) {
 
-    if (!MODULE_ENABLED || rabbit.worldObj.isRemote)
+    if (!MODULE_ENABLED || rabbit.world.isRemote)
       return;
 
     // long test = System.nanoTime();
@@ -59,7 +59,7 @@ public class ModuleCoffee {
       int rabbitType = rabbit.getRabbitType();
       ItemStack coffee = getCoffeeForRabbitType(rabbitType);
 
-      if (coffee != null) {
+      if (!coffee.isEmpty()) {
         rabbit.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f,
             (rand.nextFloat() - rand.nextFloat()) * 0.2f + 1.0f);
         rabbit.entityDropItem(coffee.copy(), 0.0f);

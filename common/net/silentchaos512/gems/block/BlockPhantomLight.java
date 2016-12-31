@@ -28,7 +28,7 @@ public class BlockPhantomLight extends BlockSL implements ITileEntityProvider {
 
   public BlockPhantomLight() {
 
-    super(1, SilentGems.MOD_ID, Names.PHANTOM_LIGHT, Material.CIRCUITS);
+    super(1, SilentGems.MODID, Names.PHANTOM_LIGHT, Material.CIRCUITS);
     setHardness(0.5f);
     setResistance(6000000.0F);
     lightValue = 15;
@@ -91,7 +91,7 @@ public class BlockPhantomLight extends BlockSL implements ITileEntityProvider {
   }
 
   @Override
-  public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn,
+  public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn,
       BlockPos pos) {
 
     return null;

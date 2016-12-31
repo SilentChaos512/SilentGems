@@ -28,7 +28,7 @@ public class ItemTeleporterLinker extends ItemSL {
 
   public ItemTeleporterLinker() {
 
-    super(1, SilentGems.MOD_ID, Names.TELEPORTER_LINKER);
+    super(1, SilentGems.MODID, Names.TELEPORTER_LINKER);
     setMaxStackSize(1);
   }
 
@@ -98,14 +98,14 @@ public class ItemTeleporterLinker extends ItemSL {
     }
 
     Minecraft mc = Minecraft.getMinecraft();
-    EntityPlayer player = mc.thePlayer;
+    EntityPlayer player = mc.player;
 
-    ItemStack heldItem = mc.thePlayer.getHeldItem(EnumHand.MAIN_HAND);
-    if (heldItem == null) {
-      heldItem = mc.thePlayer.getHeldItem(EnumHand.OFF_HAND);
+    ItemStack heldItem = mc.player.getHeldItem(EnumHand.MAIN_HAND);
+    if (heldItem.isEmpty()) {
+      heldItem = mc.player.getHeldItem(EnumHand.OFF_HAND);
     }
 
-    if (heldItem != null && heldItem.getItem() == this) {
+    if (heldItem.getItem() == this) {
 
       ScaledResolution res = new ScaledResolution(mc);
       FontRenderer fontRender = mc.fontRendererObj;

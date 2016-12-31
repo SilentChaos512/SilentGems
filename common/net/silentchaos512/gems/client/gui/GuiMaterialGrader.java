@@ -13,8 +13,8 @@ import net.silentchaos512.gems.tile.TileMaterialGrader;
 
 public class GuiMaterialGrader extends GuiContainer {
 
-  private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MOD_ID,
-      "textures/gui/MaterialGrader.png");
+  private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MODID,
+      "textures/gui/materialgrader.png");
   private final InventoryPlayer playerInventory;
   private IInventory tileInventory;
 

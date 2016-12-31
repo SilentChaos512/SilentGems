@@ -36,7 +36,7 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
 
   public BlockMaterialGrader() {
 
-    super(1, SilentGems.MOD_ID, Names.MATERIAL_GRADER, Material.IRON);
+    super(1, SilentGems.MODID, Names.MATERIAL_GRADER, Material.IRON);
     setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     setHardness(3.0f);
     setResistance(100.0f);
@@ -68,7 +68,7 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
 
   @Override
   public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-      EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+      EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     if (world.isRemote) {
       return true;
@@ -84,10 +84,10 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
   }
 
   @Override
-  public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX,
-      float hitY, float hitZ, int meta, EntityLivingBase placer) {
+  public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX,
+      float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
 
-    IBlockState state = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
+    IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer);
     return state.withProperty(FACING, placer.getHorizontalFacing());
   }
 
@@ -119,7 +119,7 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
   }
 
   @Override
-  public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World world, BlockPos pos) {
+  public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
 
     return BOUNDING_BOX;
   }

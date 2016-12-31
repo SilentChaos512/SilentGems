@@ -13,7 +13,7 @@ import net.silentchaos512.gems.network.message.MessageToggleSpecial;
 public class NetworkHandler {
 
   public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE
-      .newSimpleChannel(SilentGems.MOD_ID);
+      .newSimpleChannel(SilentGems.MODID);
 
   private static int i = 0;
 

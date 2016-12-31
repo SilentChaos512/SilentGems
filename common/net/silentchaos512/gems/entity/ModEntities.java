@@ -1,39 +1,42 @@
 package net.silentchaos512.gems.entity;
 
-import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
 import net.silentchaos512.gems.entity.packet.EntityPacketAttack;
 import net.silentchaos512.gems.entity.packet.EntityPacketChaos;
 import net.silentchaos512.gems.entity.packet.EntityPacketLevitation;
 import net.silentchaos512.gems.entity.packet.EntityPacketRegen;
 import net.silentchaos512.gems.entity.packet.EntityPacketRepair;
 import net.silentchaos512.gems.entity.packet.EntityPacketSaturation;
+import net.silentchaos512.lib.registry.SRegistry;
 
 public class ModEntities {
 
-  private static int ID;
+  public static List<Class> nodePacketClasses = Lists.newArrayList();
 
-  public static void init() {
+  public static void init(SRegistry reg) {
 
-    ID = -1;
+    reg.registerEntity(EntityChaosProjectile.class, "ChaosProjectile");
+    reg.registerEntity(EntityChaosProjectileHoming.class, "ChaosProjectileHoming");
+    reg.registerEntity(EntityChaosProjectileSweep.class, "ChaosProjectileSweep");
 
-    register(EntityChaosProjectile.class, "ChaosProjectile");
-    register(EntityChaosProjectileHoming.class, "ChaosProjectileHoming");
-    register(EntityChaosProjectileSweep.class, "ChaosProjectileSweep");
+    reg.registerEntity(EntityThrownTomahawk.class, "ThrownTomahawk");
 
-    register(EntityThrownTomahawk.class, "ThrownTomahawk");
-
-    register(EntityPacketChaos.class, "NodePacketChaos");
-    register(EntityPacketRepair.class, "NodePacketRepair");
-    register(EntityPacketRegen.class, "NodePacketRegen");
-    register(EntityPacketSaturation.class, "NodePacketSaturation");
-    register(EntityPacketAttack.class, "NodePacketAttack");
-    register(EntityPacketLevitation.class, "NodePacketLeviation");
+    registerNodePacket(EntityPacketChaos.class, "Chaos");
+    registerNodePacket(EntityPacketRepair.class, "Repair");
+    registerNodePacket(EntityPacketRegen.class, "Regen");
+    registerNodePacket(EntityPacketSaturation.class, "Saturation");
+    registerNodePacket(EntityPacketAttack.class, "Attack");
+    registerNodePacket(EntityPacketLevitation.class, "Leviation");
   }
 
-  private static void register(Class<? extends Entity> clazz, String name) {
+  private static void registerNodePacket(Class<? extends EntityChaosNodePacket> clazz, String name) {
 
-    EntityRegistry.registerModEntity(clazz, name, ++ID, SilentGems.instance, 64, 20, true);
+    nodePacketClasses.add(clazz);
+    SilentGems.registry.registerEntity(clazz, "NodePacket" + name);
   }
 }

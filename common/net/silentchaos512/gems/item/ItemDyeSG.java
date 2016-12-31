@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.Names;
@@ -17,7 +18,7 @@ public class ItemDyeSG extends ItemSL {
 
   public ItemDyeSG() {
 
-    super(2, SilentGems.MOD_ID, Names.DYE);
+    super(2, SilentGems.MODID, Names.DYE);
   }
 
   @Override
@@ -30,14 +31,14 @@ public class ItemDyeSG extends ItemSL {
   @Override
   public List<ModelResourceLocation> getVariants() {
 
-    String prefix = SilentGems.MOD_ID + ":";
+    String prefix = SilentGems.MODID + ":";
     ModelResourceLocation black = new ModelResourceLocation(prefix + "DyeBlack", "inventory");
     ModelResourceLocation blue = new ModelResourceLocation(prefix + "DyeBlue", "inventory");
     return Lists.newArrayList(black, null, null, null, blue);
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     list.add(new ItemStack(this, 1, 0));
     list.add(new ItemStack(this, 1, 4));

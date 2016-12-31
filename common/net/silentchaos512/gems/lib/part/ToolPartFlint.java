@@ -19,14 +19,14 @@ public class ToolPartFlint extends ToolPartMain {
 
   public ToolPartFlint() {
 
-    super(SilentGems.MOD_ID + ":flint", new ItemStack(Items.FLINT));
+    super(SilentGems.MODID + ":flint", new ItemStack(Items.FLINT));
   }
 
   @Override
   public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos, int frame) {
 
     String name = ((IRegistryObject) tool.getItem()).getName();
-    name = SilentGems.MOD_ID + ":" + name.toLowerCase() + "/" + name;
+    name = SilentGems.MODID + ":" + name.toLowerCase() + "/" + name;
     String mat = tool.getItem() instanceof ItemGemBow ? "" : "Flint";
     String frameNum = frame == 3 ? "_3" : "";
 

@@ -21,7 +21,9 @@ import net.silentchaos512.gems.client.render.entity.RenderThrownTomahawk;
 import net.silentchaos512.gems.client.render.particle.EntityFXCompass;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.EntityThrownTomahawk;
+import net.silentchaos512.gems.entity.ModEntities;
 import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
+import net.silentchaos512.gems.entity.packet.EntityPacketChaos;
 import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.guide.GuideSilentGems;
 import net.silentchaos512.gems.item.ModItems;
@@ -36,14 +38,14 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
   public void preInit(SRegistry registry) {
 
     super.preInit(registry);
-    OBJLoader.INSTANCE.addDomain(SilentGems.MOD_ID);
+    OBJLoader.INSTANCE.addDomain(SilentGems.MODID);
     MinecraftForge.EVENT_BUS.register(KeyTracker.INSTANCE);
     MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
     MinecraftForge.EVENT_BUS.register(new GemsClientEvents());
     MinecraftForge.EVENT_BUS.register(GuiChaosBar.INSTANCE);
     MinecraftForge.EVENT_BUS.register(ModItems.toolRenderHelper);
     registry.clientPreInit();
-    ModBlockRenderers.init(SilentGems.instance.registry);
+    ModBlockRenderers.init(SilentGems.registry);
     ModItems.enchantmentToken.setColorsForDefaultTokens();
   }
 
@@ -68,13 +70,15 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
 
   private void registerRenderers() {
 
-    SRegistry reg = SilentGems.instance.registry;
+    SRegistry reg = SilentGems.registry;
 
     // ModBlockRenderers.init(reg);
 
-    reg.registerEntityRenderer(EntityChaosNodePacket.class, new RenderEntityPacket());
-    reg.registerEntityRenderer(EntityChaosProjectile.class, new RenderChaosProjectile());
-    reg.registerEntityRenderer(EntityThrownTomahawk.class, new RenderThrownTomahawk());
+    // Using the deprecated version here causes the renderer to do nothing, which is what I want.
+    for (Class clazz : ModEntities.nodePacketClasses)
+      reg.registerEntityRenderer(clazz, new RenderEntityPacket(Minecraft.getMinecraft().getRenderManager()));
+    reg.registerEntityRenderer(EntityChaosProjectile.class, new RenderChaosProjectile.Factory());
+    reg.registerEntityRenderer(EntityThrownTomahawk.class, new RenderThrownTomahawk.Factory());
   }
 
   private void registerColorHandlers() {
@@ -140,6 +144,6 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
   @Override
   public EntityPlayer getClientPlayer() {
 
-    return Minecraft.getMinecraft().thePlayer;
+    return Minecraft.getMinecraft().player;
   }
 }

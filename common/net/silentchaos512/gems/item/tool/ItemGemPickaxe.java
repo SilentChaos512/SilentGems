@@ -23,6 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
@@ -66,7 +67,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_PICKAXE) return null; // FIXME: 1.11
+    if (GemsConfig.TOOL_DISABLE_PICKAXE) return ItemStack.EMPTY;
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -117,7 +118,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     if (subItems == null) {
       subItems = ToolHelper.getSubItems(item, 3);
@@ -126,10 +127,10 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   }
 
   @Override
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos,
       EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
-    return ToolHelper.onItemUse(stack, player, world, pos, hand, side, hitX, hitY, hitZ);
+    return ToolHelper.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }
 
   @Override
@@ -198,9 +199,9 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   }
 
   @Override
-  public int getHarvestLevel(ItemStack stack, String toolClass) {
+  public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player, IBlockState state) {
 
-    if (super.getHarvestLevel(stack, toolClass) < 0 || ToolHelper.isBroken(stack))
+    if (super.getHarvestLevel(stack, toolClass, player, state) < 0 || ToolHelper.isBroken(stack))
       return 0;
     return ToolHelper.getHarvestLevel(stack);
   }
@@ -275,7 +276,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   @Override
   public String getModId() {
 
-    return SilentGems.MOD_ID;
+    return SilentGems.MODID;
   }
 
   @Override

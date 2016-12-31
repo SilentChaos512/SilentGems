@@ -27,7 +27,7 @@ public class ToolPartGem extends ToolPartMain {
 
   public ToolPartGem(EnumGem gem, boolean supercharged) {
 
-    super(SilentGems.MOD_ID + ":" + gem.name().toLowerCase() + (supercharged ? "_super" : ""),
+    super(SilentGems.MODID + ":" + gem.name().toLowerCase() + (supercharged ? "_super" : ""),
         supercharged ? gem.getItemSuper() : gem.getItem());
     this.craftingOreDictName = supercharged ? gem.getItemSuperOreName() : gem.getItemOreName();
     this.gem = gem;
@@ -70,7 +70,7 @@ public class ToolPartGem extends ToolPartMain {
   public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos, int frame) {
 
     String name = ((IRegistryObject) tool.getItem()).getName();
-    name = SilentGems.MOD_ID + ":" + name.toLowerCase() + "/" + name;
+    name = SilentGems.MODID + ":" + name.toLowerCase() + "/" + name;
     String gemNum = tool.getItem() instanceof ItemGemBow ? "" : "" + gem.ordinal();
     String frameNum = frame == 3 ? "_3" : "";
 

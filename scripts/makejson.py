@@ -18,7 +18,7 @@ import re
 import os
 
 # Your mod ID. Should be all lowercase letters and underscores, nothing else. This absolutely must match your mod ID!
-MOD_ID = 'silentgems'
+MOD_ID = 'SilentGems'
 # The directories to write the files to. I let the script write to an output directory, then copy
 # the files to my resources folder when I'm happy with the results. You could change this to output
 # directly to your resources folder, but I would not recommend it.

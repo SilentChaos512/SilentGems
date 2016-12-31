@@ -7,6 +7,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MoverType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -95,7 +96,7 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
     this.prevRotationPitch = this.rotationPitch;
     this.prevRotationYaw = this.rotationYaw;
 
-    moveEntity(motionX, motionY, motionZ);
+    move(MoverType.SELF, motionX, motionY, motionZ);
 
     // Collision with target?
     // TODO: Allow collision with others?
@@ -105,7 +106,7 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
       onImpactWithEntity(targetEntity);
     } else if (targetPos != null
         && this.getPosition().distanceSq(targetPos) < BLOCK_COLLISION_RADIUS_SQUARED) {
-      IBlockState state = worldObj.getBlockState(targetPos);
+      IBlockState state = world.getBlockState(targetPos);
       onImpactWithBlock(targetPos, state);
     }
 
@@ -171,17 +172,17 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
     // SilentGems.instance.logHelper.debug(worldObj.isRemote, getColorIndex(),
     // String.format("%08X", getColorHead().getColor()));
 
-    SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PACKET_HEAD, getColorHead(), worldObj,
+    SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PACKET_HEAD, getColorHead(), world,
         posX, posY, posZ, 0, 0, 0);
   }
 
   protected void spawnTailParticles() {
 
     if (!firstUpdate && ticksExisted % (1 + SilentGems.proxy.getParticleSettings()) == 0) {
-      double mx = worldObj.rand.nextGaussian() * 0.01f;
-      double my = worldObj.rand.nextGaussian() * 0.01f;
-      double mz = worldObj.rand.nextGaussian() * 0.01f;
-      SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PACKET_TAIL, getColorTail(), worldObj,
+      double mx = world.rand.nextGaussian() * 0.01f;
+      double my = world.rand.nextGaussian() * 0.01f;
+      double mz = world.rand.nextGaussian() * 0.01f;
+      SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PACKET_TAIL, getColorTail(), world,
           prevPosX, prevPosY, prevPosZ, mx, my, mz);
     }
   }
@@ -238,7 +239,7 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
     amount = tagCompund.getFloat(NBT_AMOUNT);
     if (tagCompund.hasKey(NBT_TARGET_ENTITY)) {
       // Doesn't work in all cases?
-      targetEntity = (EntityLivingBase) worldObj
+      targetEntity = (EntityLivingBase) world
           .getEntityByID(tagCompund.getInteger(NBT_TARGET_ENTITY));
     } else if (tagCompund.hasKey(NBT_TARGET_POS + "Y")) {
       int x = tagCompund.getInteger(NBT_TARGET_POS + "X");
@@ -292,7 +293,7 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
     byte mode = additionalData.readByte();
     if (mode == 0) {
       // Target entity.
-      Entity entity = worldObj.getEntityByID(additionalData.readInt());
+      Entity entity = world.getEntityByID(additionalData.readInt());
       if (entity != null && entity instanceof EntityLivingBase) {
         targetEntity = (EntityLivingBase) entity;
       }

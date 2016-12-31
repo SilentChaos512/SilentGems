@@ -46,7 +46,7 @@ public enum EnumMaterialGrade {
     // If I understand the math here, 95% of the time, we should get grades between E and SS,
     // inclusive. SSS should be about 2.5% chance, I think. E picks up the 2.5% on the low end.
     int val = (int) (1.5 * random.nextGaussian() + 4);
-    val = MathHelper.clamp_int(val, 1, 8);
+    val = MathHelper.clamp(val, 1, 8);
     return values()[val];
   }
 

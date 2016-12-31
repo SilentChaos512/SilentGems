@@ -61,7 +61,7 @@ public class EntityPacketRepair extends EntityChaosNodePacket {
     int index = rand.nextInt(sizeMain + 5);
 
     // Select a random item.
-    List<ItemStack> items = PlayerHelper.getNonNullStacks(player);
+    List<ItemStack> items = PlayerHelper.getNonEmptyStacks(player);
     items.removeIf(stack -> !stack.getItem().isRepairable() || !stack.isItemStackDamageable()
         || stack.getItemDamage() == 0);
     if (items.size() > 0) {
@@ -70,7 +70,7 @@ public class EntityPacketRepair extends EntityChaosNodePacket {
 
     if (stackToRepair != null) {
       stackToRepair.attemptDamageItem((int) -amount, rand);
-      worldObj.playSound(null, posX, posY, posZ, SoundEvents.BLOCK_ANVIL_USE, SoundCategory.AMBIENT,
+      world.playSound(null, posX, posY, posZ, SoundEvents.BLOCK_ANVIL_USE, SoundCategory.AMBIENT,
           0.5f, 2.0f + (float) (0.2 * rand.nextGaussian()));
     }
 

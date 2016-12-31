@@ -28,6 +28,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -38,7 +39,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
-import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.client.gui.ModelGemArmor;
@@ -106,7 +106,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     float durability = ArmorHelper.getMaxDamage(stack) / 1536f;
     float protection = ArmorHelper.getProtection(stack) / 20f;
     float value = durability + protection - 0.8f;
-    return MathHelper.clamp_float(value, 0f, 4f);
+    return MathHelper.clamp(value, 0f, 4f);
   }
 
   @Override
@@ -121,7 +121,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
     float total = 0;
     for (ItemStack armor : player.getArmorInventoryList()) {
-      if (armor != null) {
+      if (!armor.isEmpty()) {
         if (armor.getItem() instanceof ItemGemArmor) {
           total += ((ItemGemArmor) armor.getItem()).getProtection(armor);
         } else if (armor.getItem() instanceof ItemArmor) {
@@ -141,7 +141,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
       return new ArmorProperties(0, 1, 0);
 
     // Basing ratios on total armor value.
-    float protection = MathHelper.clamp_float(getPlayerTotalGemArmorValue(player), 0,
+    float protection = MathHelper.clamp(getPlayerTotalGemArmorValue(player), 0,
         ArmorHelper.PROTECTION_CAP); // Capping total to 39.
 
     float ratio = ABSORPTION_RATIO_BY_SLOT[armorType.getIndex()];
@@ -150,7 +150,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
       ratio *= protection / 25f;
     } else {
       // 40 armor points = invincible
-      ratio *= MathHelper.clamp_float(protection / 100f, 0f, 0.98f) + 0.6f;
+      ratio *= MathHelper.clamp(protection / 100f, 0f, 0.98f) + 0.6f;
     }
 
     return new ArmorProperties(0, ratio, Integer.MAX_VALUE);
@@ -179,10 +179,10 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     Multimap<String, AttributeModifier> multimap = HashMultimap.create();
 
     if (slot == this.armorType) {
-      multimap.put(SharedMonsterAttributes.ARMOR.getAttributeUnlocalizedName(),
+      multimap.put(SharedMonsterAttributes.ARMOR.getName(),
           new AttributeModifier(ARMOR_MODIFIERS[slot.getIndex()], "Armor modifier",
               getProtection(stack), 0));
-      multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getAttributeUnlocalizedName(),
+      multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(),
           new AttributeModifier(ARMOR_MODIFIERS[slot.getIndex()], "Armor toughness",
               getToughness(stack), 0));
     }
@@ -289,7 +289,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
         // Load part stacks.
         do {
           NBTTagCompound tag = compound.getCompoundTag(key);
-          parts.add(ItemStack.loadItemStackFromNBT(tag));
+          parts.add(new ItemStack(tag));
           key = "part" + ++i;
         } while (compound.hasKey(key));
 
@@ -376,7 +376,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     if (subItems == null) {
       subItems = Lists.newArrayList();
@@ -443,7 +443,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   @Override
   public String getModId() {
 
-    return SilentGems.MOD_ID;
+    return SilentGems.MODID;
   }
 
   @Override

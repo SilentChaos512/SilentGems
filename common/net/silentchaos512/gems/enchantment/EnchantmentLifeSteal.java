@@ -27,7 +27,7 @@ public class EnchantmentLifeSteal extends Enchantment {
 
   public float getAmountHealed(int level, float damageDealt) {
 
-    return MathHelper.clamp_float(level * damageDealt * HEAL_AMOUNT_MULTI, 0f, HEAL_AMOUNT_CAP);
+    return MathHelper.clamp(level * damageDealt * HEAL_AMOUNT_MULTI, 0f, HEAL_AMOUNT_CAP);
   }
 
   @Override

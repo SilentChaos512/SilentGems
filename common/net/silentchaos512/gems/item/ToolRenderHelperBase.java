@@ -22,7 +22,7 @@ public class ToolRenderHelperBase extends ItemSL {
 
   public ToolRenderHelperBase() {
 
-    super(1, SilentGems.MOD_ID, Names.TOOL_RENDER_HELPER);
+    super(1, SilentGems.MODID, Names.TOOL_RENDER_HELPER);
   }
 
   /*

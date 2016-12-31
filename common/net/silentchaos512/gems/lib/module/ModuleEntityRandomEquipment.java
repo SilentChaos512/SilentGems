@@ -79,11 +79,11 @@ public class ModuleEntityRandomEquipment {
 
   public static void tryGiveMobEquipment(EntityLivingBase entity) {
 
-    if (!MODULE_ENABLED || entity.worldObj.isRemote || !(entity instanceof EntityMob))
+    if (!MODULE_ENABLED || entity.world.isRemote || !(entity instanceof EntityMob))
       return;
 
-    EnumDifficulty worldDiff = entity.worldObj.getDifficulty();
-    DifficultyInstance localDiff = entity.worldObj.getDifficultyForLocation(entity.getPosition());
+    EnumDifficulty worldDiff = entity.world.getDifficulty();
+    DifficultyInstance localDiff = entity.world.getDifficultyForLocation(entity.getPosition());
     Random rand = SilentGems.random;
 
     ItemStack sword = null;
@@ -96,7 +96,7 @@ public class ModuleEntityRandomEquipment {
     } else if (entity instanceof EntitySkeleton) {
       if (selectBasedOnDifficulty(SWORD_MULTI_SKELETON * SWORD_CHANCE, worldDiff, localDiff, rand))
         sword = generateRandomMeleeWeapon(entity, rand);
-    } else if (EntityList.NAME_TO_CLASS.get("headcrumbs.Human") == entity.getClass()) {
+    } /*else if (EntityList.NAME_TO_CLASS.get("headcrumbs.Human") == entity.getClass()) {
       if (selectBasedOnDifficulty(SWORD_MULTI_HUMAN * SWORD_CHANCE, worldDiff, localDiff, rand)) {
         // A little easter egg...
         if (entity.getName().equals(Names.SILENT_CHAOS_512)) {
@@ -106,7 +106,7 @@ public class ModuleEntityRandomEquipment {
           sword = generateRandomMeleeWeapon(entity, rand);
         }
       }
-    }
+    }*/ // FIXME
 
     ItemStack currentMain = entity.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
     if (sword != null && (currentMain == null || !currentMain.hasTagCompound())) {
@@ -121,8 +121,8 @@ public class ModuleEntityRandomEquipment {
 
   public static ItemStack generateRandomMeleeWeapon(EntityLivingBase entity, Random rand) {
 
-    EnumDifficulty worldDiff = entity.worldObj.getDifficulty();
-    DifficultyInstance localDiff = entity.worldObj.getDifficultyForLocation(entity.getPosition());
+    EnumDifficulty worldDiff = entity.world.getDifficulty();
+    DifficultyInstance localDiff = entity.world.getDifficultyForLocation(entity.getPosition());
 
     boolean superTier = selectBasedOnDifficulty(SUPER_CHANCE, worldDiff, localDiff, rand);
     boolean genKatana = superTier && rand.nextFloat() < KATANA_CHANCE;

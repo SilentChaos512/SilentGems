@@ -31,13 +31,13 @@ public class ContainerBurnerPylon extends Container {
   @Override
   public boolean canInteractWith(EntityPlayer player) {
 
-    return tilePylon.isUseableByPlayer(player);
+    return tilePylon.isUsableByPlayer(player);
   }
 
   @Override
   public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
 
-    ItemStack stack = null;
+    ItemStack stack = ItemStack.EMPTY;
     Slot slot = (Slot) this.inventorySlots.get(slotIndex);
 
     if (slot != null && slot.getHasStack()) {
@@ -47,31 +47,31 @@ public class ContainerBurnerPylon extends Container {
       if (slotIndex != 0) {
         if (tilePylon.isItemValidForSlot(0, stack1)) {
           if (!this.mergeItemStack(stack1, 0, 1, false)) {
-            return null;
+            return ItemStack.EMPTY;
           }
         } else if (slotIndex >= 1 && slotIndex < 28) {
           if (!this.mergeItemStack(stack1, 28, 37, false)) {
-            return null;
+            return ItemStack.EMPTY;
           }
         } else if (slotIndex >= 28 && slotIndex < 37
             && !this.mergeItemStack(stack1, 1, 28, false)) {
-          return null;
+          return ItemStack.EMPTY;
         }
       } else if (!this.mergeItemStack(stack1, 1, 37, false)) {
-        return null;
+        return ItemStack.EMPTY;
       }
 
-      if (stack1.stackSize == 0) {
-        slot.putStack((ItemStack) null);
+      if (stack1.isEmpty()) {
+        slot.putStack(ItemStack.EMPTY);
       } else {
         slot.onSlotChanged();
       }
 
-      if (stack1.stackSize == stack.stackSize) {
-        return null;
+      if (stack1.getCount() == stack.getCount()) {
+        return ItemStack.EMPTY;
       }
 
-      slot.onPickupFromSlot(player, stack1);
+      slot.onTake(player, stack1);
     }
 
     return stack;

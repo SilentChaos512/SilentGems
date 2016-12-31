@@ -31,7 +31,7 @@ public class BlockChaosAltar extends BlockContainerSL {
 
   public BlockChaosAltar() {
 
-    super(1, SilentGems.MOD_ID, Names.CHAOS_ALTAR, Material.IRON);
+    super(1, SilentGems.MODID, Names.CHAOS_ALTAR, Material.IRON);
     setHardness(12.0f);
     setResistance(6000.0f);
   }
@@ -52,8 +52,7 @@ public class BlockChaosAltar extends BlockContainerSL {
   }
 
   @Override
-  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-      EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     if (world.isRemote) {
       return true;
@@ -83,14 +82,14 @@ public class BlockChaosAltar extends BlockContainerSL {
           float f1 = SilentGems.instance.random.nextFloat() * 0.8F + 0.1F;
           float f2 = SilentGems.instance.random.nextFloat() * 0.8F + 0.1F;
 
-          while (stack.stackSize > 0) {
+          while (stack.getCount() > 0) {
             int j1 = SilentGems.instance.random.nextInt(21) + 10;
 
-            if (j1 > stack.stackSize) {
-              j1 = stack.stackSize;
+            if (j1 > stack.getCount()) {
+              j1 = stack.getCount();
             }
 
-            stack.stackSize -= j1;
+            stack.shrink(j1);
             EntityItem entityitem = new EntityItem(world, (double) ((float) pos.getX() + f),
                 (double) ((float) pos.getY() + f1), (double) ((float) pos.getZ() + f2),
                 new ItemStack(stack.getItem(), j1, stack.getItemDamage()));
@@ -104,7 +103,7 @@ public class BlockChaosAltar extends BlockContainerSL {
             entityitem.motionX = (double) (SilentGems.instance.random.nextGaussian() * f3);
             entityitem.motionY = (double) (SilentGems.instance.random.nextGaussian() * f3 + 0.2F);
             entityitem.motionZ = (double) (SilentGems.instance.random.nextGaussian() * f3);
-            world.spawnEntityInWorld(entityitem);
+            world.spawnEntity(entityitem);
           }
         }
       }

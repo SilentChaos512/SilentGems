@@ -36,7 +36,7 @@ public class BlockMisc extends BlockSL implements IFuelHandler {
 
   public BlockMisc() {
 
-    super(Type.values().length, SilentGems.MOD_ID, Names.MISC_BLOCK, Material.IRON);
+    super(Type.values().length, SilentGems.MODID, Names.MISC_BLOCK, Material.IRON);
     setHardness(3.0f);
     setResistance(30.0f);
     setDefaultState(blockState.getBaseState().withProperty(VARIANT, Type.CHAOS_ESSENCE));
@@ -74,7 +74,7 @@ public class BlockMisc extends BlockSL implements IFuelHandler {
   @Override
   public EnumRarity getRarity(int meta) {
 
-    switch (Type.values()[MathHelper.clamp_int(meta, 0, Type.values().length - 1)]) {
+    switch (Type.values()[MathHelper.clamp(meta, 0, Type.values().length - 1)]) {
       case CHAOS_ESSENCE_CRYSTALLIZED:
         return EnumRarity.EPIC;
       case CHAOS_ESSENCE_ENRICHED:
@@ -87,7 +87,7 @@ public class BlockMisc extends BlockSL implements IFuelHandler {
   @Override
   public IBlockState getStateFromMeta(int meta) {
 
-    meta = MathHelper.clamp_int(meta, 0, Type.values().length - 1);
+    meta = MathHelper.clamp(meta, 0, Type.values().length - 1);
     return this.getDefaultState().withProperty(VARIANT, Type.values()[meta]);
   }
 

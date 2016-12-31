@@ -37,22 +37,24 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
 
   public BlockChaosFlowerPot() {
 
-    super(1, SilentGems.MOD_ID, Names.CHAOS_FLOWER_POT, Material.CIRCUITS);
+    super(1, SilentGems.MODID, Names.CHAOS_FLOWER_POT, Material.CIRCUITS);
     setHardness(1.0f);
     setResistance(30.0f);
     lightValue = 2;
   }
 
+  @Override
   public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state,
-      EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX,
-      float hitY, float hitZ) {
+      EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
-    if (heldItem != null && heldItem.getItem() instanceof ItemBlock) {
+    ItemStack heldItem = playerIn.getHeldItem(hand);
+
+    if (!heldItem.isEmpty() && heldItem.getItem() instanceof ItemBlock) {
       TileChaosFlowerPot tileentityflowerpot = getTileEntity(worldIn, pos);
 
       if (tileentityflowerpot == null) {
         return false;
-      } else if (tileentityflowerpot.getFlowerPotItem() != null) {
+      } else if (!tileentityflowerpot.getFlowerItemStack().isEmpty()) {
         return false;
       } else {
         Block block = Block.getBlockFromItem(heldItem.getItem());
@@ -60,14 +62,15 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
         if (block != ModBlocks.glowRose) {
           return false;
         } else {
-          tileentityflowerpot.setFlowerPotData(heldItem.getItem(), heldItem.getMetadata());
+          ItemStack flower = new ItemStack(heldItem.getItem(), 1, heldItem.getItemDamage());
+          tileentityflowerpot.setFlowerItemStack(flower);
           tileentityflowerpot.markDirty();
           worldIn.notifyBlockUpdate(pos, state, state, 3);
           worldIn.checkLight(pos);
           playerIn.addStat(StatList.FLOWER_POTTED);
 
           if (!playerIn.capabilities.isCreativeMode) {
-            --heldItem.stackSize;
+            heldItem.shrink(1);
           }
 
           return true;
@@ -82,7 +85,7 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
   public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
 
     TileChaosFlowerPot tile = getTileEntity(world, pos);
-    return tile != null && tile.getFlowerItemStack() != null ? 15 : lightValue;
+    return tile != null && !tile.getFlowerItemStack().isEmpty() ? 15 : lightValue;
   }
 
   @Override
@@ -156,9 +159,9 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
     if (player.capabilities.isCreativeMode) {
       TileChaosFlowerPot tileentityflowerpot = this.getTileEntity(worldIn, pos);
 
-      if (tileentityflowerpot != null) {
-        tileentityflowerpot.setFlowerPotData((Item) null, 0);
-      }
+//      if (tileentityflowerpot != null) {
+//        tileentityflowerpot.setFlowerItemStack(ItemStack.EMPTY);
+//      }
     }
   }
 
@@ -168,7 +171,7 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
 
     List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
     TileChaosFlowerPot te = getTileEntity(world, pos);
-    if (te != null && te.getFlowerPotItem() != null) {
+    if (te != null && !te.getFlowerItemStack().isEmpty()) {
       ret.add(te.getFlowerItemStack());
     }
     return ret;

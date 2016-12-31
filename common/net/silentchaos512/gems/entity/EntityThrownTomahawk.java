@@ -54,7 +54,7 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
 
   public EntityThrownTomahawk(EntityLivingBase throwerIn, ItemStack thrownStackIn, float speed) {
 
-    super(throwerIn.worldObj);
+    super(throwerIn.world);
     this.thrower = throwerIn;
     this.thrownStack = thrownStackIn;
     this.throwYaw = thrower.rotationYaw;
@@ -101,7 +101,7 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
   @Override
   public void readSpawnData(ByteBuf data) {
 
-    Entity entity = worldObj.getEntityByID(data.readInt());
+    Entity entity = world.getEntityByID(data.readInt());
     if (entity instanceof EntityLivingBase)
       thrower = (EntityLivingBase) entity;
 
@@ -127,7 +127,7 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
     // Check for proper collision.
     Vec3d vec1 = new Vec3d(posX, posY, posZ);
     Vec3d vec2 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
-    RayTraceResult raytraceresult = worldObj.rayTraceBlocks(vec1, vec2, false, true, false);
+    RayTraceResult raytraceresult = world.rayTraceBlocks(vec1, vec2, false, true, false);
     if (raytraceresult != null && raytraceresult.typeOfHit == Type.BLOCK)
       onImpact(raytraceresult);
 
@@ -136,21 +136,21 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
       setDead();
       if (ticksExisted > 10)
         for (int i = 0; i < 15; ++i)
-          worldObj.spawnParticle(EnumParticleTypes.FLAME, posX, posY + 0.5, posZ,
+          world.spawnParticle(EnumParticleTypes.FLAME, posX, posY + 0.5, posZ,
               0.01 * SilentGems.random.nextGaussian(), 0.05 * SilentGems.random.nextGaussian(),
               0.01 * SilentGems.random.nextGaussian());
     }
 
     // Check for player pickup
     if (!inAir && ticksExisted > 10) {
-      for (EntityPlayer player : worldObj.getPlayers(EntityPlayer.class,
+      for (EntityPlayer player : world.getPlayers(EntityPlayer.class,
           p -> p.getDistanceSq(posX, posY, posZ) < 2)) {
         // SilentGems.logHelper.debug(player.getName() + " is near a tomahawk.");
         for (ItemStack stack : PlayerHelper.getNonNullStacks(player)) {
           if (ToolHelper.areToolsEqual(stack, thrownStack)) {
             // SilentGems.logHelper.debug(player.getName() + " picked up the tomahawk.");
             ModItems.tomahawk.addAmmo(thrownStack, 1);
-            worldObj.playSound(null, getPosition(), SoundEvents.ENTITY_ITEM_PICKUP,
+            world.playSound(null, getPosition(), SoundEvents.ENTITY_ITEM_PICKUP,
                 SoundCategory.AMBIENT, 0.5f, 1.5f);
             setDead();
           }
@@ -159,8 +159,8 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
     }
 
     // Spawn particles to indicate landing spot?
-    if (!worldObj.isRemote && hasHit && !inAir && ticksExisted % 4 == 0) {
-      SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, Color.WHITE, worldObj, posX,
+    if (!world.isRemote && hasHit && !inAir && ticksExisted % 4 == 0) {
+      SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, Color.WHITE, world, posX,
           posY, posZ, 0.01 * SilentGems.random.nextGaussian(), 0.125,
           0.01 * SilentGems.random.nextGaussian());
     }
@@ -178,7 +178,7 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
     if (result.typeOfHit == Type.ENTITY && result.entityHit != thrower && !hasHit)
       onImpactWithEntity(result);
     else if (result.typeOfHit == Type.BLOCK)
-      onImpactWithBlock(result.getBlockPos(), worldObj.getBlockState(result.getBlockPos()));
+      onImpactWithBlock(result.getBlockPos(), world.getBlockState(result.getBlockPos()));
   }
 
   protected void onImpactWithEntity(RayTraceResult result) {
@@ -188,7 +188,7 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
     motionX = 0.001f * SilentGems.random.nextGaussian();
     motionY = Math.abs(0.01f * SilentGems.random.nextGaussian());
     motionZ = 0.001f * SilentGems.random.nextGaussian();
-    if (worldObj.isRemote)
+    if (world.isRemote)
       return;
 
     if (entityHit instanceof EntityLivingBase) {
@@ -207,12 +207,12 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
         entityHit.attackEntityFrom(DamageSource.causeThrownDamage(thrower, entityHit), damageDealt);
 
       // Play attack sound
-      worldObj.playSound(null, posX, posY, posZ, headshot ? SoundEvents.ENTITY_PLAYER_ATTACK_CRIT
+      world.playSound(null, posX, posY, posZ, headshot ? SoundEvents.ENTITY_PLAYER_ATTACK_CRIT
           : SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, SoundCategory.PLAYERS, 0.75f, 1f);
 
       // Spawn particles
-      if (worldObj instanceof WorldServer) {
-        WorldServer world = (WorldServer) worldObj;
+      if (world instanceof WorldServer) {
+        WorldServer world = (WorldServer) this.world;
         float healthDiff = entityHealthBeforeDamage - entityLiving.getHealth();
         world.spawnParticle(EnumParticleTypes.DAMAGE_INDICATOR, entityHit.posX,
             entityHit.posY + entityHit.height / 2, entityHit.posZ, (int) (healthDiff / 2), 0.1, 0.0,
@@ -240,7 +240,7 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
 
     // Get info on block hit
     Block block = state.getBlock();
-    AxisAlignedBB boundingBox = state.getBoundingBox(worldObj, pos);
+    AxisAlignedBB boundingBox = state.getBoundingBox(world, pos);
 
     // Collide only if it has a bounding box.
     if (boundingBox != null) {
@@ -248,9 +248,9 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
       // Break glass blocks! But slows it down.
       if ((block == Blocks.GLASS || block == Blocks.GLASS_PANE || block == Blocks.STAINED_GLASS
           || block == Blocks.STAINED_GLASS_PANE)) {
-        if (!worldObj.isRemote) {
-          worldObj.setBlockToAir(pos);
-          worldObj.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1f,
+        if (!world.isRemote) {
+          world.setBlockToAir(pos);
+          world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1f,
               1f);
         }
         motionX *= 0.7f;
@@ -258,14 +258,14 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
       }
       // Ignore leaves and plants
       else if (mat == Material.LEAVES || mat == Material.PLANTS || mat == Material.VINE) {
-        SoundEvent sound = block.getSoundType(state, worldObj, pos, this).getPlaceSound();
-        worldObj.playSound(null, pos, sound, SoundCategory.BLOCKS, 0.25f, 1f);
+        SoundEvent sound = block.getSoundType(state, world, pos, this).getPlaceSound();
+        world.playSound(null, pos, sound, SoundCategory.BLOCKS, 0.25f, 1f);
       }
       // Stop if we hit anything else
       else {
         if (motionX > 0.1f || motionZ > 0.1f) {
-          SoundEvent sound = block.getSoundType(state, worldObj, pos, this).getPlaceSound();
-          worldObj.playSound(null, pos, sound, SoundCategory.BLOCKS, 1f, 1f);
+          SoundEvent sound = block.getSoundType(state, world, pos, this).getPlaceSound();
+          world.playSound(null, pos, sound, SoundCategory.BLOCKS, 1f, 1f);
         }
 
         // Stop the tomahawk.

@@ -31,7 +31,7 @@ public class RecipeDecorateTool extends RecipeBase {
     int toolRow = 0;
     int toolCol = 0;
     ItemStack stack;
-    ItemStack tool = null;
+    ItemStack tool = ItemStack.EMPTY;
     int repairValue = 0;
     int ammoValue = 0;
 
@@ -39,7 +39,7 @@ public class RecipeDecorateTool extends RecipeBase {
     for (int row = 0; row < inv.getWidth(); ++row) {
       for (int col = 0; col < inv.getHeight(); ++col) {
         stack = inv.getStackInRowAndColumn(row, col);
-        if (stack != null && stack.getItem() instanceof ITool) {
+        if (!stack.isEmpty() && stack.getItem() instanceof ITool) {
           tool = stack;
           toolRow = row;
           toolCol = col;
@@ -48,8 +48,8 @@ public class RecipeDecorateTool extends RecipeBase {
     }
 
     // Found a tool?
-    if (tool == null) {
-      return null;
+    if (tool.isEmpty()) {
+      return ItemStack.EMPTY;
     }
 
     // Check adjacent materials
@@ -60,7 +60,7 @@ public class RecipeDecorateTool extends RecipeBase {
 
     if (!checkIsDecorationMaterial(west) || !checkIsDecorationMaterial(north)
         || !checkIsDecorationMaterial(east) || !checkIsDecorationMaterial(south)) {
-      return null;
+      return ItemStack.EMPTY;
     }
 
     // Check other materials and get all repair values.
@@ -68,15 +68,15 @@ public class RecipeDecorateTool extends RecipeBase {
     EnumMaterialTier toolTier = ToolHelper.getToolTier(tool);
     for (i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
-      if (stack != null && !(stack.getItem() instanceof ITool)) {
+      if (!stack.isEmpty() && !(stack.getItem() instanceof ITool)) {
         ToolPart part = ToolPartRegistry.fromStack(stack);
         // Invalid part or not a part?
         if (part == null) {
-          return null;
+          return ItemStack.EMPTY;
         }
         // Valid for tool tier?
         if (!part.validForToolOfTier(toolTier) && !(part instanceof ToolPartMain)) {
-          return null;
+          return ItemStack.EMPTY;
         }
         int repairAmount = part.getRepairAmount(tool, stack);
         if (repairAmount > 0) {
@@ -95,7 +95,7 @@ public class RecipeDecorateTool extends RecipeBase {
     for (ItemStack other : otherMats) {
       ToolPart part = ToolPartRegistry.fromStack(other);
       EnumMaterialGrade grade = EnumMaterialGrade.fromStack(other);
-      if (result != null && part instanceof ToolPartRod) {
+      if (!result.isEmpty() && part instanceof ToolPartRod) {
         ToolHelper.setRenderPart(result, part, grade, EnumPartPosition.ROD);
       } else if (part instanceof ToolPartGrip) {
         ToolHelper.setRenderPart(result, part, grade, EnumPartPosition.ROD_GRIP);
@@ -121,7 +121,7 @@ public class RecipeDecorateTool extends RecipeBase {
 
   private boolean checkIsDecorationMaterial(ItemStack stack) {
 
-    if (stack == null) {
+    if (stack.isEmpty()) {
       return true;
     }
 

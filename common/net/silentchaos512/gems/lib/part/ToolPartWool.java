@@ -22,7 +22,7 @@ public class ToolPartWool extends ToolPartGrip {
 
   public ToolPartWool(EnumDyeColor color) {
 
-    super(SilentGems.MOD_ID + ":Wool" + color.getMetadata(),
+    super(SilentGems.MODID + ":Wool" + color.getMetadata(),
         new ItemStack(Blocks.WOOL, 1, color.getMetadata()));
     this.color = color;
   }
@@ -34,7 +34,7 @@ public class ToolPartWool extends ToolPartGrip {
       return null;
 
     String name = ((IRegistryObject) tool.getItem()).getName();
-    name = SilentGems.MOD_ID + ":" + name.toLowerCase() + "/" + name + "Wool" + color.getMetadata();
+    name = SilentGems.MODID + ":" + name.toLowerCase() + "/" + name + "Wool" + color.getMetadata();
 
     if (modelMap.containsKey(name)) {
       return modelMap.get(name);

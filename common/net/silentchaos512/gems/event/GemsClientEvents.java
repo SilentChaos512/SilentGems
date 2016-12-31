@@ -165,7 +165,7 @@ public class GemsClientEvents {
 
   private void renderCrosshairs(RenderGameOverlayEvent event) {
 
-    EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+    EntityPlayer player = Minecraft.getMinecraft().player;
     ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
 
     if (mainHand == null) {
@@ -208,7 +208,7 @@ public class GemsClientEvents {
     int left = width / 2 - 91;
     int top = height - GuiIngameForge.left_height;
 
-    int level = ForgeHooks.getTotalArmorValue(Minecraft.getMinecraft().thePlayer) - 20;
+    int level = ForgeHooks.getTotalArmorValue(Minecraft.getMinecraft().player) - 20;
     for (int i = 1; level > 0 && i < 20; i += 2) {
       if (i < level) {
         drawTexturedModalRect(left, top, 34, 9, 9, 9);
@@ -231,7 +231,7 @@ public class GemsClientEvents {
     int height = event.getResolution().getScaledHeight();
     FontRenderer fontRender = Minecraft.getMinecraft().fontRendererObj;
 
-    EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+    EntityPlayer player = Minecraft.getMinecraft().player;
     ItemStack right = player.getHeldItemMainhand();
     ItemStack left = player.getHeldItemOffhand();
 

@@ -24,7 +24,7 @@ public class ItemGlowRoseFertilizer extends ItemSL {
 
   public ItemGlowRoseFertilizer() {
 
-    super(1, SilentGems.MOD_ID, Names.GLOW_ROSE_FERTILIZER);
+    super(1, SilentGems.MODID, Names.GLOW_ROSE_FERTILIZER);
   }
 
   @Override
@@ -35,7 +35,7 @@ public class ItemGlowRoseFertilizer extends ItemSL {
   }
 
   @Override
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn,
+  public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn,
       BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     Random rand = SilentGems.random;
@@ -77,7 +77,7 @@ public class ItemGlowRoseFertilizer extends ItemSL {
       }
 
       if (!playerIn.capabilities.isCreativeMode)
-        --stack.stackSize;
+        playerIn.getHeldItem(hand).shrink(1);
 
       return EnumActionResult.SUCCESS;
     }

@@ -59,10 +59,10 @@ public class ConfigOptionOreGen extends ConfigOption {
   @Override
   public ConfigOption validate() {
 
-    veinCount = MathHelper.clamp_float(veinCount, VEIN_COUNT_MIN, VEIN_COUNT_MAX);
-    veinSize = MathHelper.clamp_int(veinSize, VEIN_SIZE_MIN, VEIN_SIZE_MAX);
-    minY = MathHelper.clamp_int(minY, Y_MIN, Y_MAX);
-    maxY = MathHelper.clamp_int(maxY, Y_MIN, Y_MAX);
+    veinCount = MathHelper.clamp(veinCount, VEIN_COUNT_MIN, VEIN_COUNT_MAX);
+    veinSize = MathHelper.clamp(veinSize, VEIN_SIZE_MIN, VEIN_SIZE_MAX);
+    minY = MathHelper.clamp(minY, Y_MIN, Y_MAX);
+    maxY = MathHelper.clamp(maxY, Y_MIN, Y_MAX);
     return this;
   }
 }

@@ -17,6 +17,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -148,7 +149,7 @@ public class ItemChaosOrb extends ItemChaosStorage {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     for (Type type : Type.values()) {
       ItemStack empty = new ItemStack(item, 1, type.ordinal());
@@ -198,7 +199,7 @@ public class ItemChaosOrb extends ItemChaosStorage {
 
       // Try recharge player's items.
       int totalSentToItems = 0;
-      for (ItemStack itemstack : PlayerHelper.getNonNullStacks(player)) {
+      for (ItemStack itemstack : PlayerHelper.getNonEmptyStacks(player)) {
         if (itemstack.getItem() instanceof IChaosStorage && itemstack.getItem() != this) {
           int toSend = Math.min(getCharge(stack), MAX_ITEM_SEND);
           totalSentToItems += ((IChaosStorage) itemstack.getItem()).receiveCharge(itemstack, toSend,
@@ -261,7 +262,7 @@ public class ItemChaosOrb extends ItemChaosStorage {
     PlayerHelper.addChatMessage(player, line);
 
     // Glass breaking sound.
-    player.worldObj.playSound(null, player.posX, player.posY, player.posZ,
+    player.world.playSound(null, player.posX, player.posY, player.posZ,
         SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.AMBIENT, 0.6f, 1.5f);
   }
 
@@ -274,7 +275,7 @@ public class ItemChaosOrb extends ItemChaosStorage {
     PlayerHelper.addChatMessage(player, line);
 
     // Glass breaking sound.
-    player.worldObj.playSound(null, player.posX, player.posY, player.posZ,
+    player.world.playSound(null, player.posX, player.posY, player.posZ,
         SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.AMBIENT, 0.7f, -2.5f);
 
     // Delete the broken orb.

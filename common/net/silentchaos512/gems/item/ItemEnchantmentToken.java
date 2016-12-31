@@ -25,6 +25,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
@@ -71,7 +72,7 @@ public class ItemEnchantmentToken extends ItemSL {
 
   public ItemEnchantmentToken() {
 
-    super(1, SilentGems.MOD_ID, Names.ENCHANTMENT_TOKEN);
+    super(1, SilentGems.MODID, Names.ENCHANTMENT_TOKEN);
 
     for (int i = 0; i < MODEL_TYPES.length; ++i) {
       modelMap.put(MODEL_TYPES[i], i);
@@ -120,7 +121,7 @@ public class ItemEnchantmentToken extends ItemSL {
 
   public Map<Enchantment, Integer> getEnchantments(ItemStack token) {
 
-    if (token == null || !token.hasTagCompound())
+    if (token.isEmpty() || !token.hasTagCompound())
       return new HashMap<>();
 
     NBTTagList tagList = token.getTagCompound().getTagList(NBT_ENCHANTMENTS, 10);
@@ -141,7 +142,7 @@ public class ItemEnchantmentToken extends ItemSL {
 
   public void setEnchantments(ItemStack token, Map<Enchantment, Integer> map) {
 
-    if (token == null)
+    if (token.isEmpty())
       return;
     if (!token.hasTagCompound())
       token.setTagCompound(new NBTTagCompound());
@@ -168,7 +169,7 @@ public class ItemEnchantmentToken extends ItemSL {
 
   public boolean applyTokenToTool(ItemStack token, ItemStack tool) {
 
-    if (token == null || tool == null) {
+    if (token.isEmpty() || tool.isEmpty()) {
       return false;
     }
 
@@ -311,7 +312,7 @@ public class ItemEnchantmentToken extends ItemSL {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     for (ResourceLocation key : Enchantment.REGISTRY.getKeys())
       list.add(constructToken(Enchantment.REGISTRY.getObject(key)));
@@ -349,7 +350,7 @@ public class ItemEnchantmentToken extends ItemSL {
   @Override
   public String getNameForStack(ItemStack stack) {
 
-    boolean hasEnchants = stack != null && stack.hasTagCompound()
+    boolean hasEnchants = !stack.isEmpty() && stack.hasTagCompound()
         && stack.getTagCompound().hasKey(NBT_ENCHANTMENTS);
     return super.getNameForStack(stack) + (hasEnchants ? "" : "_Blank");
   }
@@ -376,10 +377,10 @@ public class ItemEnchantmentToken extends ItemSL {
       int b = k & 255;
 
       int j = (int) (160 * MathHelper.sin(ClientTickHandler.ticksInGame * OUTLINE_PULSATE_SPEED));
-      j = MathHelper.clamp_int(j, 0, 255);
-      r = MathHelper.clamp_int(r + j, 0, 255);
-      g = MathHelper.clamp_int(g + j, 0, 255);
-      b = MathHelper.clamp_int(b + j, 0, 255);
+      j = MathHelper.clamp(j, 0, 255);
+      r = MathHelper.clamp(r + j, 0, 255);
+      g = MathHelper.clamp(g + j, 0, 255);
+      b = MathHelper.clamp(b + j, 0, 255);
       return (r << 16) | (g << 8) | b;
     }
     return 0xFFFFFF;

@@ -17,6 +17,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
@@ -27,18 +28,17 @@ public class ItemGem extends ItemSL {
 
   public ItemGem() {
 
-    super(64, SilentGems.MOD_ID, Names.GEM);
+    super(64, SilentGems.MODID, Names.GEM);
   }
 
   @Override
   public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
 
     EnumGem gem = EnumGem.getFromStack(stack);
-    boolean controlDown = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
-        || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
+    boolean controlDown = KeyTracker.isControlDown();
 
-    if (controlDown && gem == EnumGem.RUBY || gem == EnumGem.BERYL || gem == EnumGem.SAPPHIRE
-        || gem == EnumGem.TOPAZ) {
+    if (controlDown && (gem == EnumGem.RUBY || gem == EnumGem.BERYL || gem == EnumGem.SAPPHIRE
+        || gem == EnumGem.TOPAZ)) {
       list.add(SilentGems.localizationHelper.getItemSubText(itemName, "original4"));
     }
   }
@@ -53,7 +53,7 @@ public class ItemGem extends ItemSL {
       // Gems <--> shards
       RecipeHelper.addCompressionRecipe(gem.getShard(), gem.getItem(), 9);
       ItemStack shards = gem.getShard();
-      shards.stackSize = 9;
+      shards.setCount(9);
       GameRegistry.addRecipe(new ShapelessOreRecipe(shards, gem.getItemOreName()));
     }
   }

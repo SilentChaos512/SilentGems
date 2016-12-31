@@ -21,13 +21,13 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.RecipeHelper;
@@ -129,7 +129,7 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
         return new ItemStack(this, count, i);
       }
     }
-    return null;
+    return ItemStack.EMPTY;
   }
 
   @Override
@@ -143,9 +143,9 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player,
-      EnumHand hand) {
+  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
+    ItemStack stack = player.getHeldItem(hand);
     if (player.canEat(alwaysEdible[stack.getItemDamage()])) {
       player.setActiveHand(hand);
       return new ActionResult(EnumActionResult.SUCCESS, stack);
@@ -161,8 +161,8 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
       int d = stack.getItemDamage();
       if (d == 0) {
         // Potato on a stick
-        player.addPotionEffect(
-            new PotionEffect(MobEffects.STRENGTH, GemsConfig.FOOD_SUPPORT_DURATION, 0, true, false));
+        player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH,
+            GemsConfig.FOOD_SUPPORT_DURATION, 0, true, false));
         givePlayerItem(player, new ItemStack(Items.STICK));
       } else if (d == 1) {
         // Sugar cookie
@@ -212,15 +212,15 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
       List<String> list = SilentGems.instance.localizationHelper
           .getDescriptionLines("donut.silentgems:");
       String line = list.get(rand.nextInt(list.size()));
-      player.addChatMessage(new TextComponentString(line));
+      player.sendMessage(new TextComponentString(line));
     }
   }
 
   private void givePlayerItem(EntityPlayer player, ItemStack stack) {
 
-    EntityItem item = new EntityItem(player.worldObj, player.posX, player.posY + 1.0, player.posZ,
+    EntityItem item = new EntityItem(player.world, player.posX, player.posY + 1.0, player.posZ,
         stack);
-    player.worldObj.spawnEntityInWorld(item);
+    player.world.spawnEntity(item);
   }
 
   @Override
@@ -250,7 +250,7 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     for (int i = 0; i < NAMES.length; ++i) {
       list.add(new ItemStack(item, 1, i));
@@ -302,7 +302,7 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
   @Override
   public String getModId() {
 
-    return SilentGems.MOD_ID.toLowerCase();
+    return SilentGems.MODID;
   }
 
   @Override
@@ -310,7 +310,7 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
 
     List<ModelResourceLocation> models = Lists.newArrayList();
     for (int i = 0; i < NAMES.length; ++i) {
-      models.add(new ModelResourceLocation(SilentGems.MOD_ID + ":" + NAMES[i], "inventory"));
+      models.add(new ModelResourceLocation(SilentGems.MODID + ":" + NAMES[i], "inventory"));
     }
     return models;
   }

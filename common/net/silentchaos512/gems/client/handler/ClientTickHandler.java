@@ -46,7 +46,7 @@ public class ClientTickHandler {
     if (event.phase == Phase.START) {
       partialTicks = event.renderTickTime;
 
-      EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+      EntityPlayer player = Minecraft.getMinecraft().player;
       if (player != null) {
         ItemStack heldItem = player.getHeldItemMainhand();
 
@@ -67,20 +67,20 @@ public class ClientTickHandler {
 
     if (event.phase == Phase.END) {
       Minecraft mc = Minecraft.getMinecraft();
-      if (mc.theWorld == null) {
+      if (mc.world == null) {
         PlayerDataHandler.cleanup();
-      } else if (mc.thePlayer != null) {
+      } else if (mc.player != null) {
         while (!scheduledActions.isEmpty()) {
           scheduledActions.poll().run();
         }
 
-        ItemStack mainHand = mc.thePlayer.getHeldItemMainhand();
-        ItemStack offHand = mc.thePlayer.getHeldItemOffhand();
+        ItemStack mainHand = mc.player.getHeldItemMainhand();
+        ItemStack offHand = mc.player.getHeldItemOffhand();
         if (mainHand != null && mainHand.getItem() == ModItems.drawingCompass) {
-          ModItems.drawingCompass.spawnParticles(mainHand, mc.thePlayer, mc.theWorld);
+          ModItems.drawingCompass.spawnParticles(mainHand, mc.player, mc.world);
         }
         if (offHand != null && offHand.getItem() == ModItems.drawingCompass) {
-          ModItems.drawingCompass.spawnParticles(offHand, mc.thePlayer, mc.theWorld);
+          ModItems.drawingCompass.spawnParticles(offHand, mc.player, mc.world);
         }
       }
 

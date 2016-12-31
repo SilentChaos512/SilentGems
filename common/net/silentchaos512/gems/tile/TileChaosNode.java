@@ -6,6 +6,7 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
@@ -69,7 +70,7 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
   @Override
   public void update() {
 
-    if (!worldObj.isRemote) {
+    if (!world.isRemote) {
       // Generate chaos.
       chaosStored = Math.min(getCharge() + CHAOS_GENERATION_RATE, getMaxCharge());
 
@@ -77,12 +78,12 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
       players.clear();
       hostiles.clear();
 
-      long time = worldObj.getTotalWorldTime();
+      long time = world.getTotalWorldTime();
       boolean playSound = false;
 
       // Send Chaos?
       if (time % SEND_CHAOS_DELAY == 0) {
-        List<IChaosAccepter> accepters = ChaosUtil.getNearbyAccepters(worldObj, pos,
+        List<IChaosAccepter> accepters = ChaosUtil.getNearbyAccepters(world, pos,
             SEARCH_RADIUS_BLOCK, SEARCH_RADIUS_BLOCK);
 
         if (!players.isEmpty() || !accepters.isEmpty()) {
@@ -94,7 +95,6 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
         }
       }
 
-      // Send other effects?
       if (time % TRY_REGEN_DELAY == 0)
         playSound |= tryGiveRegen();
       if (time % TRY_SATURATION_DELAY == 0)
@@ -107,11 +107,11 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
         playSound |= tryAttackHostiles();
 
       if (playSound)
-        worldObj.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_HOE_TILL,
+        world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_HOE_TILL,
             SoundCategory.AMBIENT, 1.0f, (float) (0.4f + 0.05f * SilentGems.random.nextGaussian()));
     }
 
-    if (worldObj.isRemote)
+    if (world.isRemote)
       spawnParticles();
   }
 
@@ -120,7 +120,7 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
     if (!players.isEmpty())
       return;
 
-    players = worldObj.getPlayers(EntityPlayerMP.class,
+    players = world.getPlayers(EntityPlayerMP.class,
         player -> player.getDistanceSq(getPos()) < SEARCH_RADIUS_SQUARED);
   }
 
@@ -130,8 +130,8 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
       return;
 
     Entity entity;
-    for (int i = 0; i < worldObj.loadedEntityList.size(); ++i) {
-      entity = worldObj.loadedEntityList.get(i);
+    for (int i = 0; i < world.loadedEntityList.size(); ++i) {
+      entity = world.loadedEntityList.get(i);
       if (entity instanceof EntityMob && entity.getDistanceSq(pos) < SEARCH_RADIUS_SQUARED)
         hostiles.add((EntityMob) entity);
     }
@@ -140,12 +140,8 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
   private void spawnPacketInWorld(EntityChaosNodePacket packet) {
 
     packet.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-    worldObj.spawnEntityInWorld(packet);
+    world.spawnEntity(packet);
   }
-
-  // ==============
-  // = Send Chaos =
-  // ==============
 
   private boolean sendChaosToPlayers(int amountForEach) {
 
@@ -161,7 +157,7 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
       if (amountPlayerCanAccept > 0) {
         amount = Math.min(amount, amountPlayerCanAccept);
         extractEnergy(amount, false);
-        ChaosUtil.spawnPacketToEntity(worldObj, pos, player, amount);
+        ChaosUtil.spawnPacketToEntity(world, pos, player, amount);
         flag = true;
       }
     }
@@ -169,6 +165,8 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
   }
 
   private boolean sendChaosToAccepters(List<IChaosAccepter> list, int amountForEach) {
+
+    getPlayersInRange();
 
     boolean flag = false;
 
@@ -180,16 +178,12 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
       amount = accepter.receiveCharge(amount, true);
       if (amount > 0) {
         extractEnergy(amount, false);
-        ChaosUtil.spawnPacketToBlock(worldObj, pos, ((TileEntity) accepter).getPos(), amount);
+        ChaosUtil.spawnPacketToBlock(world, pos, ((TileEntity) accepter).getPos(), amount);
         flag = true;
       }
     }
     return flag;
   }
-
-  // ==================
-  // = Player Effects =
-  // ==================
 
   private boolean tryGiveRegen() {
 
@@ -199,7 +193,7 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
     Random rand = SilentGems.random;
     for (EntityPlayerMP player : players) {
       if (player.getHealth() < player.getMaxHealth() && rand.nextFloat() < TRY_REGEN_CHANCE) {
-        spawnPacketInWorld(new EntityPacketRegen(worldObj, player));
+        spawnPacketInWorld(new EntityPacketRegen(world, player));
         flag = true;
       }
     }
@@ -214,7 +208,7 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
     Random rand = SilentGems.random;
     for (EntityPlayerMP player : players) {
       if (player.getFoodStats().needFood() && rand.nextFloat() < TRY_SATURATION_CHANCE) {
-        spawnPacketInWorld(new EntityPacketSaturation(worldObj, player));
+        spawnPacketInWorld(new EntityPacketSaturation(world, player));
         flag = true;
       }
     }
@@ -226,33 +220,29 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
     getPlayersInRange();
 
     boolean flag = false;
-    Random rand = SilentGems.random;
+    Random rand = SilentGems.instance.random;
     for (EntityPlayerMP player : players) {
       if (rand.nextFloat() < TRY_REPAIR_CHANCE) {
-        spawnPacketInWorld(new EntityPacketRepair(worldObj, player));
+        spawnPacketInWorld(new EntityPacketRepair(world, player));
         flag = true;
       }
     }
     return flag;
   }
 
-  // ===================
-  // = Hostile Effects =
-  // ===================
-
   private boolean tryAttackHostiles() {
 
     getHostilesInRange();
 
     int num = 0;
-    Random rand = SilentGems.random;
+    Random rand = SilentGems.instance.random;
 
     for (EntityMob mob : hostiles) {
       if (rand.nextFloat() < ATTACK_HOSTILE_CHANCE) {
         // Send an attack packet to the mob.
         float amount = (float) (ATTACK_HOSTILE_BASE_DAMAGE
             + ATTACK_HOSTILE_DAMAGE_DEVIATION * rand.nextGaussian());
-        spawnPacketInWorld(new EntityPacketAttack(worldObj, mob, amount));
+        spawnPacketInWorld(new EntityPacketAttack(world, mob, amount));
         ++num;
         if (num > 10) break;
       }
@@ -270,7 +260,7 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
     for (EntityMob mob : hostiles) {
       if (rand.nextFloat() < TRY_LEVITATION_CHANCE) {
         // Send levitation packet
-        spawnPacketInWorld(new EntityPacketLevitation(worldObj, mob));
+        spawnPacketInWorld(new EntityPacketLevitation(world, mob));
         ++num;
         if (num > 10) break;
       }
@@ -279,19 +269,15 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
     return num > 0;
   }
 
-  // =============
-  // = Particles =
-  // =============
-
   private void spawnParticles() {
 
-    Random rand = SilentGems.random;
-    for (int i = 0; i < 3 / (1 + SilentGems.proxy.getParticleSettings()); ++i) {
-      if (worldObj.isRemote) {
+    Random rand = SilentGems.instance.random;
+    for (int i = 0; i < 3 / (1 + SilentGems.instance.proxy.getParticleSettings()); ++i) {
+      if (world.isRemote) {
         double motionX = rand.nextGaussian() * 0.03f;
         double motionY = rand.nextGaussian() * 0.006f;
         double motionZ = rand.nextGaussian() * 0.03f;
-        SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, selectParticleColor(rand),
+        SilentGems.instance.proxy.spawnParticles(EnumModParticles.CHAOS, selectParticleColor(rand),
             getWorld(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, motionX, motionY,
             motionZ);
       }
@@ -302,15 +288,10 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
 
     float shade = 0.7f + 0.3f * rand.nextFloat();
     float variation = 0.1875f;
-    return new Color(
-        MathHelper.clamp_float((float) (shade + variation * rand.nextGaussian()), 0f, 1f),
-        MathHelper.clamp_float((float) (shade + variation * rand.nextGaussian()), 0f, 1f),
-        MathHelper.clamp_float((float) (shade + variation * rand.nextGaussian()), 0f, 1f));
+    return new Color(MathHelper.clamp((float) (shade + variation * rand.nextGaussian()), 0f, 1f),
+        MathHelper.clamp((float) (shade + variation * rand.nextGaussian()), 0f, 1f),
+        MathHelper.clamp((float) (shade + variation * rand.nextGaussian()), 0f, 1f));
   }
-
-  // ==============
-  // = TileEntity =
-  // ==============
 
   @Override
   public SPacketUpdateTileEntity getUpdatePacket() {
@@ -332,10 +313,6 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
 
     chaosStored = packet.getNbtCompound().getInteger("Energy");
   }
-
-  // ==================
-  // = IChaosProvider =
-  // ==================
 
   @Override
   public int getCharge() {

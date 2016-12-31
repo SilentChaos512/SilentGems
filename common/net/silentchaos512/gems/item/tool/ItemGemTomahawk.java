@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -16,11 +14,10 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IAmmoTool;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -43,7 +40,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_TOMAHAWK) return null; // FIXME: 1.11
+    if (GemsConfig.TOOL_DISABLE_TOMAHAWK) return ItemStack.EMPTY;
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -81,7 +78,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public int getAmmo(ItemStack tool) {
 
-    if (tool != null && tool.hasTagCompound()) {
+    if (!tool.isEmpty() && tool.hasTagCompound()) {
       if (!tool.getTagCompound().hasKey(NBT_AMMO))
         tool.getTagCompound().setByte(NBT_AMMO, (byte) getMaxAmmo(tool));
       return tool.getTagCompound().getByte(NBT_AMMO);
@@ -98,7 +95,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public void addAmmo(ItemStack tool, int amount) {
 
-    if (tool != null && tool.hasTagCompound()) {
+    if (!tool.isEmpty() && tool.hasTagCompound()) {
       int current = getAmmo(tool);
       int newAmount = Math.min(current + amount, getMaxAmmo(tool));
       tool.getTagCompound().setByte(NBT_AMMO, (byte) newAmount);
@@ -118,7 +115,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     if (subItems == null)
       subItems = ToolHelper.getSubItems(item, 4);
@@ -154,8 +151,9 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player,
-      EnumHand hand) {
+  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+
+    ItemStack stack = player.getHeldItem(hand);
 
     // Prepare to throw
     if (!ToolHelper.isBroken(stack) && (getAmmo(stack) > 0 || player.capabilities.isCreativeMode)) {
@@ -177,12 +175,12 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
       int useDuration = getMaxItemUseDuration(stack) - timeLeft;
       if (useDuration < 4 || !hasAmmo)
         return;
-      float speed = MathHelper.clamp_float(1.5f * useDuration / 12, 0.1f,
+      float speed = MathHelper.clamp(1.5f * useDuration / 12, 0.1f,
           EntityThrownTomahawk.MAX_SPEED);
 
       EntityThrownTomahawk projectile = new EntityThrownTomahawk(player, stack, speed);
       projectile.setPosition(player.posX, player.posY + 1.6, player.posZ);
-      worldIn.spawnEntityInWorld(projectile);
+      worldIn.spawnEntity(projectile);
 
       // Damage, reduce "ammo" count, increment statistics
       if (!player.capabilities.isCreativeMode) {
@@ -196,7 +194,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   }
 
   @Override
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos,
       EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
     // Cancel right-click-to-place.

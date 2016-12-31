@@ -37,7 +37,7 @@ public class TeleportUtil {
 
       if (oldDimension == 1) {
         // Fixes world not loading when teleporting from the End.
-        newWorldServer.spawnEntityInWorld(player);
+        newWorldServer.spawnEntity(player);
       }
     }
     player.setPositionAndUpdate(pos.x + 0.5, pos.y + 1.0, pos.z + 0.5);
@@ -47,7 +47,7 @@ public class TeleportUtil {
 
   public static boolean teleportEntityTo(Entity entity, DimensionalPosition pos) {
 
-    int oldDimension = entity.worldObj.provider.getDimension();
+    int oldDimension = entity.world.provider.getDimension();
     if (pos.dim != oldDimension) {
       //entity.changeDimension(pos.dim);
       return false; // TODO: Fix cross-dimension entity teleportation?

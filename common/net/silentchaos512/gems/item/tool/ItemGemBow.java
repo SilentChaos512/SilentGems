@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -24,6 +23,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
@@ -61,7 +61,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
         if (entityIn == null)
           return 0f;
         ItemStack itemstack = entityIn.getActiveItemStack();
-        return itemstack != null && ToolHelper.areToolsEqual(stack, itemstack)
+        return !itemstack.isEmpty() && ToolHelper.areToolsEqual(stack, itemstack)
             ? (stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / getDrawDelay(stack)
             : 0f;
       }
@@ -75,7 +75,8 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_BOW) return null; // FIXME: 1.11
+    if (GemsConfig.TOOL_DISABLE_BOW)
+      return ItemStack.EMPTY;
 
     if (materials.length == 1)
       return constructTool(rod, materials[0], materials[0], materials[0]);
@@ -144,16 +145,17 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
         }
       }
 
-      return null;
+      return ItemStack.EMPTY;
     }
   }
 
   // Same as vanilla bow, except it can be fired without arrows with infinity.
   @Override
-  public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player,
-      EnumHand hand) {
+  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
-    boolean hasAmmo = findAmmo(player) != null
+    ItemStack stack = player.getHeldItem(hand);
+
+    boolean hasAmmo = !findAmmo(player).isEmpty()
         || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
     boolean isBroken = ToolHelper.isBroken(stack);
 
@@ -186,12 +188,12 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
       int i = this.getMaxItemUseDuration(stack) - timeLeft;
       i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn,
-          (EntityPlayer) entityLiving, i, ammo != null || flag);
+          (EntityPlayer) entityLiving, i, !ammo.isEmpty() || flag);
       if (i < 0)
         return;
 
-      if (ammo != null || flag) {
-        if (ammo == null) {
+      if (!ammo.isEmpty() || flag) {
+        if (ammo.isEmpty()) {
           ammo = new ItemStack(Items.ARROW);
         }
 
@@ -233,7 +235,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
               entityarrow.pickupStatus = EntityArrow.PickupStatus.CREATIVE_ONLY;
             }
 
-            worldIn.spawnEntityInWorld(entityarrow);
+            worldIn.spawnEntity(entityarrow);
           }
 
           worldIn.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ,
@@ -241,9 +243,9 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
               1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + velocity * 0.5F);
 
           if (!flag1) {
-            --ammo.stackSize;
+            ammo.shrink(1);
 
-            if (ammo.stackSize == 0) {
+            if (ammo.getCount() == 0) {
               player.inventory.deleteStack(ammo);
             }
           }
@@ -267,7 +269,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     if (subItems == null)
       subItems = ToolHelper.getSubItems(item, 3);
@@ -318,7 +320,8 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_BOW) return;
+    if (GemsConfig.TOOL_DISABLE_BOW)
+      return;
 
     String line1 = "sgw";
     String line2 = "g w";
@@ -336,7 +339,8 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
       // Regular
       addRecipe(constructTool(rodIron, gem.getItem()), gem.getItem(), rodIron, Items.STRING);
       // Super
-      addRecipe(constructTool(rodGold, gem.getItemSuper()), gem.getItemSuper(), rodGold, gildedString);
+      addRecipe(constructTool(rodGold, gem.getItemSuper()), gem.getItemSuper(), rodGold,
+          gildedString);
     }
   }
 
@@ -357,7 +361,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   @Override
   public String getModId() {
 
-    return SilentGems.MOD_ID;
+    return SilentGems.MODID;
   }
 
   @Override

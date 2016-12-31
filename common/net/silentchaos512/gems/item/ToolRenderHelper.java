@@ -47,7 +47,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   }
 
   public static final String NBT_MODEL_INDEX = "SGModel";
-  public static final String SMART_MODEL_NAME = SilentGems.MOD_ID + ":Tool";
+  public static final String SMART_MODEL_NAME = SilentGems.MODID + ":Tool";
   public static final ModelResourceLocation SMART_MODEL = new ModelResourceLocation(
       SMART_MODEL_NAME, "inventory");
 
@@ -292,7 +292,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     for (int i = 0; i < 8; ++i) {
       String tier = i < 4 ? "Regular" : "Super";
       ModelResourceLocation model = new ModelResourceLocation(
-          SilentGems.MOD_ID + ":bow/BowArrow" + tier + (i & 3));
+          SilentGems.MODID + ":bow/BowArrow" + tier + (i & 3));
       if (model != null)
         set.add(model);
       arrowModels[i] = model;
@@ -308,11 +308,11 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   public int getAnimationFrame(ItemStack tool) {
 
     if (tool != null && tool.getItem() instanceof ItemGemBow) {
-      EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+      EntityPlayer player = Minecraft.getMinecraft().player;
       float pull = tool.getItem().getPropertyGetter(ItemGemBow.RESOURCE_PULL).apply(tool,
-          player.worldObj, player);
+          player.world, player);
       float pulling = tool.getItem().getPropertyGetter(ItemGemBow.RESOURCE_PULLING).apply(tool,
-          player.worldObj, player);
+          player.world, player);
 
       if (pull > 0.9f)
         return 3;
@@ -408,17 +408,17 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     List ret = Lists.newArrayList(modelSet);
 
     // Error models
-    modelError = new ModelResourceLocation(SilentGems.MOD_ID + ":Error", "inventory");
+    modelError = new ModelResourceLocation(SilentGems.MODID + ":Error", "inventory");
     ret.add(modelError);
-    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":sword/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":katana/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":scepter/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":tomahawk/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":pickaxe/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":shovel/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":axe/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":hoe/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MOD_ID + ":sickle/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MODID + ":sword/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MODID + ":katana/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MODID + ":scepter/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MODID + ":tomahawk/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MODID + ":pickaxe/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MODID + ":shovel/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MODID + ":axe/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MODID + ":hoe/_error", "inventory"));
+    ret.add(new ModelResourceLocation(SilentGems.MODID + ":sickle/_error", "inventory"));
 
     return ret;
   }
@@ -435,25 +435,25 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
     // Error models
     mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MOD_ID + ":Error", "inventory"));
+        new ModelResourceLocation(SilentGems.MODID + ":Error", "inventory"));
     mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MOD_ID + ":sword/_error", "inventory"));
+        new ModelResourceLocation(SilentGems.MODID + ":sword/_error", "inventory"));
     mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MOD_ID + ":katana/_error", "inventory"));
+        new ModelResourceLocation(SilentGems.MODID + ":katana/_error", "inventory"));
     mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MOD_ID + ":scepter/_error", "inventory"));
+        new ModelResourceLocation(SilentGems.MODID + ":scepter/_error", "inventory"));
     mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MOD_ID + ":tomahawk/_error", "inventory"));
+        new ModelResourceLocation(SilentGems.MODID + ":tomahawk/_error", "inventory"));
     mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MOD_ID + ":pickaxe/_error", "inventory"));
+        new ModelResourceLocation(SilentGems.MODID + ":pickaxe/_error", "inventory"));
     mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MOD_ID + ":shovel/_error", "inventory"));
+        new ModelResourceLocation(SilentGems.MODID + ":shovel/_error", "inventory"));
     mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MOD_ID + ":axe/_error", "inventory"));
+        new ModelResourceLocation(SilentGems.MODID + ":axe/_error", "inventory"));
     mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MOD_ID + ":hoe/_error", "inventory"));
+        new ModelResourceLocation(SilentGems.MODID + ":hoe/_error", "inventory"));
     mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MOD_ID + ":sickle/_error", "inventory"));
+        new ModelResourceLocation(SilentGems.MODID + ":sickle/_error", "inventory"));
 
     return true;
   }

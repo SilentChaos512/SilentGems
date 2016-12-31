@@ -34,7 +34,7 @@ public class BlockEssenceOre extends BlockSL {
 
   public BlockEssenceOre() {
 
-    super(2, SilentGems.MOD_ID, Names.ESSENCE_ORE, Material.ROCK);
+    super(2, SilentGems.MODID, Names.ESSENCE_ORE, Material.ROCK);
     setDefaultState(blockState.getBaseState().withProperty(VARIANT, Type.CHAOS));
 
     setHardness(4.0f);
@@ -70,7 +70,7 @@ public class BlockEssenceOre extends BlockSL {
   public IBlockState getStateFromMeta(int meta) {
 
     return this.getDefaultState().withProperty(VARIANT,
-        Type.values()[MathHelper.clamp_int(meta, 0, Type.values().length - 1)]);
+        Type.values()[MathHelper.clamp(meta, 0, Type.values().length - 1)]);
   }
 
   @Override

@@ -7,7 +7,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
@@ -19,8 +18,6 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.block.BlockTeleporter;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.handler.PlayerDataHandler;
-import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.item.ItemTeleporterLinker;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
@@ -36,10 +33,6 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
   protected DimensionalPosition destination = null;
   protected int chaosStored = 0;
   public boolean isAnchor = false;
-
-  public TileTeleporter() {
-
-  }
 
   public TileTeleporter(boolean isAnchor) {
 
@@ -128,7 +121,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
     LocalizationHelper loc = SilentGems.instance.localizationHelper;
     ItemTeleporterLinker linker = ModItems.teleporterLinker;
 
-    if (heldItem == null || heldItem.getItem() != linker) {
+    if (heldItem.isEmpty() || heldItem.getItem() != linker) {
       log.warning("TileTeleporter.linkTeleporters: heldItem is not a linker?");
       return false;
     }
@@ -140,6 +133,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
 
       if (position1 == null) {
         log.warning("Teleporter Linker tried to link with no position set?");
+        return true;
       }
 
       TileTeleporter tile1 = (TileTeleporter) player.getServer()
@@ -177,9 +171,9 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
   public void markDirty() {
 
     super.markDirty();
-    Chunk chunk = worldObj.getChunkFromBlockCoords(pos);
-    IBlockState state = worldObj.getBlockState(pos);
-    worldObj.markAndNotifyBlock(pos, chunk, state, state, 2);
+    Chunk chunk = world.getChunkFromBlockCoords(pos);
+    IBlockState state = world.getBlockState(pos);
+    world.markAndNotifyBlock(pos, chunk, state, state, 2);
   }
 
   public boolean checkAndDrainChaos(EntityPlayer player) {
@@ -227,7 +221,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
     if (distance < GemsConfig.TELEPORTER_FREE_RANGE) {
       return 0;
     }
-    return MathHelper.clamp_int((int) (GemsConfig.TELEPORTER_COST_PER_BLOCK * distance), 0,
+    return MathHelper.clamp((int) (GemsConfig.TELEPORTER_COST_PER_BLOCK * distance), 0,
         getMaxCharge());
   }
 

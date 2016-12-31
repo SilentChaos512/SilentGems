@@ -1,28 +1,20 @@
 package net.silentchaos512.gems.tile;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.chunk.Chunk;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.api.recipe.altar.RecipeChaosAltar;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.util.DimensionalPosition;
+import net.silentchaos512.lib.tile.TileSidedInventorySL;
 
-public class TileChaosAltar extends TileEntity
-    implements ISidedInventory, ITickable, IChaosAccepter {
+public class TileChaosAltar extends TileSidedInventorySL implements ITickable, IChaosAccepter {
 
   public static final int MAX_CHAOS_STORED = 10000000;
   public static final int MAX_RECEIVE = 100000;
@@ -41,16 +33,15 @@ public class TileChaosAltar extends TileEntity
   protected int chaosStored;
   protected int transmuteProgress = 0;
 
-  protected ItemStack[] inventory = new ItemStack[INVENTORY_SIZE];
-
   @Override
   public void update() {
 
-    if (worldObj.isRemote)
+    if (world.isRemote)
       return;
 
     ItemStack inputStack = getStackInSlot(SLOT_INPUT);
-    if (inputStack == null) return;
+    if (inputStack.isEmpty())
+      return;
     ItemStack outputStack = getStackInSlot(SLOT_OUTPUT);
     ItemStack catalystStack = getStackInSlot(SLOT_CATALYST);
 
@@ -67,7 +58,7 @@ public class TileChaosAltar extends TileEntity
 
       // Move full items to second slot
       if (chaosStorage.getCharge(inputStack) >= chaosStorage.getMaxCharge(inputStack)) {
-        if (outputStack == null) {
+        if (outputStack.isEmpty()) {
           setInventorySlotContents(SLOT_OUTPUT, inputStack);
           removeStackFromSlot(SLOT_INPUT);
         }
@@ -85,8 +76,8 @@ public class TileChaosAltar extends TileEntity
         // Transmute progress
         transmuteProgress += chaosDrained;
         boolean willFitInOutputSlot = outputStack == null
-            || (outputStack.isItemEqual(recipe.getOutput()) && outputStack.stackSize
-                + recipe.getOutput().stackSize <= outputStack.getMaxStackSize());
+            || (outputStack.isItemEqual(recipe.getOutput()) && outputStack.getCount()
+                + recipe.getOutput().getCount() <= outputStack.getMaxStackSize());
 
         if (transmuteProgress >= recipe.getChaosCost() && willFitInOutputSlot) {
           // Transmute complete
@@ -94,9 +85,9 @@ public class TileChaosAltar extends TileEntity
           if (outputStack == null)
             setInventorySlotContents(SLOT_OUTPUT, recipe.getOutput());
           else
-            getStackInSlot(SLOT_OUTPUT).stackSize += recipe.getOutput().stackSize;
+            getStackInSlot(SLOT_OUTPUT).grow(recipe.getOutput().getCount());
 
-          decrStackSize(SLOT_INPUT, recipe.getInput().stackSize);
+          decrStackSize(SLOT_INPUT, recipe.getInput().getCount());
         }
 
         if (chaosDrained != 0)
@@ -110,10 +101,12 @@ public class TileChaosAltar extends TileEntity
   public ItemStack getStackToRender() {
 
     ItemStack stack = getStackInSlot(SLOT_INPUT);
-    if (stack != null) return stack;
+    if (stack != null)
+      return stack;
 
     stack = getStackInSlot(SLOT_OUTPUT);
-    if (stack != null) return stack;
+    if (stack != null)
+      return stack;
 
     return null;
   }
@@ -130,16 +123,6 @@ public class TileChaosAltar extends TileEntity
     super.readFromNBT(tags);
     chaosStored = tags.getInteger("Energy");
     transmuteProgress = tags.getInteger("Progress");
-
-    NBTTagList tagList = tags.getTagList("Items", 10);
-    for (int i = 0; i < tagList.tagCount(); ++i) {
-      NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
-      byte slot = tagCompound.getByte("Slot");
-
-      if (slot >= 0 && slot < getSizeInventory()) {
-        setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(tagCompound));
-      }
-    }
   }
 
   @Override
@@ -148,18 +131,6 @@ public class TileChaosAltar extends TileEntity
     super.writeToNBT(tags);
     tags.setInteger("Energy", chaosStored);
     tags.setInteger("Progress", transmuteProgress);
-
-    NBTTagList tagList = new NBTTagList();
-    for (int slot = 0; slot < getSizeInventory(); ++slot) {
-      ItemStack stack = getStackInSlot(slot);
-      if (stack != null) {
-        NBTTagCompound tagCompound = new NBTTagCompound();
-        tagCompound.setByte("Slot", (byte) slot);
-        stack.writeToNBT(tagCompound);
-        tagList.appendTag(tagCompound);
-      }
-    }
-    tags.setTag("Items", tagList);
     return tags;
   }
 
@@ -192,93 +163,9 @@ public class TileChaosAltar extends TileEntity
   public void markDirty() {
 
     super.markDirty();
-    Chunk chunk = worldObj.getChunkFromBlockCoords(pos);
-    IBlockState state = worldObj.getBlockState(pos);
-    worldObj.markAndNotifyBlock(pos, chunk, state, state, 2);
-  }
-
-  @Override
-  public int getSizeInventory() {
-
-    return INVENTORY_SIZE;
-  }
-
-  @Override
-  public ItemStack getStackInSlot(int index) {
-
-    return index >= 0 && index < inventory.length ? inventory[index] : null;
-  }
-
-  @Override
-  public ItemStack decrStackSize(int index, int count) {
-
-    if (inventory[index] != null) {
-      ItemStack stack;
-
-      if (inventory[index].stackSize <= count) {
-        stack = inventory[index];
-        inventory[index] = null;
-        return stack;
-      } else {
-        stack = inventory[index].splitStack(count);
-
-        if (inventory[index].stackSize == 0) {
-          inventory[index] = null;
-        }
-
-        return stack;
-      }
-    } else {
-      return null;
-    }
-  }
-
-  @Override
-  public ItemStack removeStackFromSlot(int index) {
-
-    if (inventory[index] != null) {
-      ItemStack stack = inventory[index];
-      inventory[index] = null;
-      return stack;
-    }
-    return null;
-  }
-
-  @Override
-  public void setInventorySlotContents(int index, ItemStack stack) {
-
-    inventory[index] = stack;
-    if (stack != null && stack.stackSize > getInventoryStackLimit()) {
-      stack.stackSize = getInventoryStackLimit();
-    }
-  }
-
-  @Override
-  public int getInventoryStackLimit() {
-
-    return 64;
-  }
-
-  @Override
-  public boolean isUseableByPlayer(EntityPlayer player) {
-
-    return worldObj.getTileEntity(pos) != this ? false : player.getDistanceSq(pos) <= 64.0;
-  }
-
-  @Override
-  public void openInventory(EntityPlayer player) {
-
-  }
-
-  @Override
-  public void closeInventory(EntityPlayer player) {
-
-  }
-
-  @Override
-  public boolean isItemValidForSlot(int index, ItemStack stack) {
-
-    return true;
+    Chunk chunk = world.getChunkFromBlockCoords(pos);
+    IBlockState state = world.getBlockState(pos);
+    world.markAndNotifyBlock(pos, chunk, state, state, 2);
   }
 
   @Override
@@ -307,34 +194,13 @@ public class TileChaosAltar extends TileEntity
   @Override
   public int getFieldCount() {
 
-    return 2;
-  }
-
-  @Override
-  public void clear() {
-
-    // TODO Auto-generated method stub
-
+    return 3;
   }
 
   @Override
   public String getName() {
 
     return Names.CHAOS_ALTAR;
-  }
-
-  @Override
-  public boolean hasCustomName() {
-
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public ITextComponent getDisplayName() {
-
-    // TODO Auto-generated method stub
-    return null;
   }
 
   @Override
@@ -387,4 +253,9 @@ public class TileChaosAltar extends TileEntity
     return direction == EnumFacing.DOWN;
   }
 
+  @Override
+  public int getSizeInventory() {
+
+    return INVENTORY_SIZE;
+  }
 }

@@ -22,16 +22,16 @@ public class TilePhantomLight extends TileEntity implements ITickable {
   @Override
   public void update() {
 
-    if (!worldObj.isRemote && ++ticksExisted % SPAWNER_CHECK_FREQUENCY == 0) {
+    if (!world.isRemote && ++ticksExisted % SPAWNER_CHECK_FREQUENCY == 0) {
       if (!checkSpawnerStillExists()) {
         String line = "REMOVED: Phantom light at %s. Spawner at %s.";
         line = String.format(line, this.pos, spawnerPos);
         SilentGems.instance.logHelper.info(line);
 
-        worldObj.setBlockToAir(this.pos);
+        world.setBlockToAir(this.pos);
       }
     }
-    if (!worldObj.isRemote && GemsConfig.DEBUG_LOG_POTS_AND_LIGHTS
+    if (!world.isRemote && GemsConfig.DEBUG_LOG_POTS_AND_LIGHTS
         && ticksExisted % GemsConfig.DEBUG_LOT_POTS_AND_LIGHTS_DELAY == 0) {
       SilentGems.instance.logHelper.info("DEBUG: Phantom Light @ " + pos);
     }
@@ -45,8 +45,8 @@ public class TilePhantomLight extends TileEntity implements ITickable {
     if (spawnerPos == null) {
       return false;
     }
-    IBlockState state = worldObj.getBlockState(spawnerPos);
-    TileEntity tile = worldObj.getTileEntity(spawnerPos);
+    IBlockState state = world.getBlockState(spawnerPos);
+    TileEntity tile = world.getTileEntity(spawnerPos);
     return state.getBlock() == ModBlocks.chaosFlowerPot && tile != null
         && tile instanceof TileChaosFlowerPot
         && ((TileChaosFlowerPot) tile).getFlowerItemStack() != null;

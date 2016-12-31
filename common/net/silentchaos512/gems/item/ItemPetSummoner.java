@@ -34,7 +34,7 @@ public class ItemPetSummoner extends ItemNamedSubtypes {
 
   public ItemPetSummoner() {
 
-    super(NAMES, SilentGems.MOD_ID, Names.PET_SUMMONER);
+    super(NAMES, SilentGems.MODID, Names.PET_SUMMONER);
   }
 
   @Override
@@ -55,8 +55,10 @@ public class ItemPetSummoner extends ItemNamedSubtypes {
   }
 
   @Override
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos,
       EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+
+    ItemStack stack = player.getHeldItem(hand);
 
     if (world.isRemote) {
       return EnumActionResult.SUCCESS;
@@ -86,7 +88,7 @@ public class ItemPetSummoner extends ItemNamedSubtypes {
           MathHelper.wrapDegrees(world.rand.nextFloat() * 360.0F), 0.0F);
       pet.rotationYawHead = pet.rotationYaw;
       pet.renderYawOffset = pet.rotationYaw;
-      world.spawnEntityInWorld(pet);
+      world.spawnEntity(pet);
       pet.playLivingSound();
 
       if (pet != null) {
@@ -95,7 +97,7 @@ public class ItemPetSummoner extends ItemNamedSubtypes {
         }
 
         if (!player.capabilities.isCreativeMode) {
-          --stack.stackSize;
+          stack.shrink(1);
         }
 
         // Make it tame and set master.

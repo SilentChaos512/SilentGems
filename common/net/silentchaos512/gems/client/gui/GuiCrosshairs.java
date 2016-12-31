@@ -21,8 +21,8 @@ public class GuiCrosshairs extends GuiIngame {
 
   public static final GuiCrosshairs INSTANCE = new GuiCrosshairs(Minecraft.getMinecraft());
 
-  public static final ResourceLocation TEXTURE_CROSSHAIRS = new ResourceLocation(SilentGems.MOD_ID,
-      "textures/gui/Crosshairs.png");
+  public static final ResourceLocation TEXTURE_CROSSHAIRS = new ResourceLocation(SilentGems.MODID,
+      "textures/gui/crosshairs.png");
 
   public GuiCrosshairs(Minecraft mcIn) {
 
@@ -56,9 +56,9 @@ public class GuiCrosshairs extends GuiIngame {
 
         BlockPos blockpos = raytraceresult.getBlockPos();
 
-        net.minecraft.block.state.IBlockState state = this.mc.theWorld.getBlockState(blockpos);
+        net.minecraft.block.state.IBlockState state = this.mc.world.getBlockState(blockpos);
         if (!state.getBlock().hasTileEntity(state)
-            || !(this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory)) {
+            || !(this.mc.world.getTileEntity(blockpos) instanceof IInventory)) {
           return;
         }
       }
@@ -67,7 +67,7 @@ public class GuiCrosshairs extends GuiIngame {
       int height = resolution.getScaledHeight();
 
       if (gamesettings.showDebugInfo && !gamesettings.hideGUI
-          && !this.mc.thePlayer.hasReducedDebug() && !gamesettings.reducedDebugInfo) {
+          && !this.mc.player.hasReducedDebug() && !gamesettings.reducedDebugInfo) {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) (width / 2), (float) (height / 2), this.zLevel);
         Entity entity = this.mc.getRenderViewEntity();
@@ -90,7 +90,7 @@ public class GuiCrosshairs extends GuiIngame {
 
         if (this.mc.gameSettings.attackIndicator == 1) {
           mc.getTextureManager().bindTexture(ICONS);
-          float f = this.mc.thePlayer.getCooledAttackStrength(0.0F);
+          float f = this.mc.player.getCooledAttackStrength(0.0F);
 
           if (f < 1.0F) {
             int i = height / 2 - 7 + 16;

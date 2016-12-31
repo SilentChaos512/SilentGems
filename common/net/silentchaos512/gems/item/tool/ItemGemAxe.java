@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -22,10 +21,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -67,7 +65,7 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_AXE) return null; // FIXME: 1.11
+    if (GemsConfig.TOOL_DISABLE_AXE) return ItemStack.EMPTY;
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -118,7 +116,7 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     if (subItems == null) {
       subItems = ToolHelper.getSubItems(item, 3);
@@ -127,10 +125,10 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   }
 
   @Override
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos,
       EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
-    return ToolHelper.onItemUse(stack, player, world, pos, hand, side, hitX, hitY, hitZ);
+    return ToolHelper.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }
 
   @Override
@@ -199,9 +197,9 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   }
 
   @Override
-  public int getHarvestLevel(ItemStack stack, String toolClass) {
+  public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player, IBlockState state) {
 
-    if (super.getHarvestLevel(stack, toolClass) < 0) {
+    if (super.getHarvestLevel(stack, toolClass, player, state) < 0) {
       return 0;
     }
     return ToolHelper.getHarvestLevel(stack);
@@ -271,7 +269,7 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   @Override
   public String getModId() {
 
-    return SilentGems.MOD_ID;
+    return SilentGems.MODID;
   }
 
   @Override

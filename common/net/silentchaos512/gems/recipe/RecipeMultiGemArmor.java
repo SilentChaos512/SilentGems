@@ -18,15 +18,14 @@ public class RecipeMultiGemArmor extends RecipeBase {
 
     // Get the middle stack, which determines the armor type.
     ItemStack centerStack = inv.getStackInRowAndColumn(1, 1);
-    if (centerStack == null || centerStack.getItem() == null
-        || !(centerStack.getItem() instanceof ItemArmorFrame)) {
-      return null;
+    if (centerStack.isEmpty() || !(centerStack.getItem() instanceof ItemArmorFrame)) {
+      return ItemStack.EMPTY;
     }
 
     // Make sure nothing is in the corners.
-    if (inv.getStackInRowAndColumn(0, 0) != null || inv.getStackInRowAndColumn(2, 0) != null
-        || inv.getStackInRowAndColumn(2, 2) != null || inv.getStackInRowAndColumn(0, 2) != null) {
-      return null;
+    if (!inv.getStackInRowAndColumn(0, 0).isEmpty() || !inv.getStackInRowAndColumn(2, 0).isEmpty()
+        || !inv.getStackInRowAndColumn(2, 2).isEmpty() || !inv.getStackInRowAndColumn(0, 2).isEmpty()) {
+      return ItemStack.EMPTY;
     }
 
     // Determine the target tier and output item.
@@ -38,7 +37,7 @@ public class RecipeMultiGemArmor extends RecipeBase {
     ItemStack[] stacks = getGems(inv);
 
     if (stacks == null || EnumMaterialTier.fromStack(stacks[0]) != targetTier)
-      return null;
+      return ItemStack.EMPTY;
 
     return ArmorHelper.constructArmor(outputItem, stacks);
   }

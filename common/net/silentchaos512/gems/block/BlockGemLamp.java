@@ -79,7 +79,7 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
   }
 
   @Override
-  public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn) {
+  public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
 
     //IBlockState state = world.getBlockState(pos);
 
@@ -134,7 +134,7 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
   }
 
   @Override
-  protected ItemStack createStackedBlock(IBlockState state) {
+  protected ItemStack getSilkTouchDrop(IBlockState state) {
 
     return new ItemStack(getItemDropped(state, SilentGems.instance.random, 0));
   }

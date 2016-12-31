@@ -15,6 +15,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -114,7 +115,7 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
   @Override
   public String getModId() {
 
-    return SilentGems.MOD_ID.toLowerCase();
+    return SilentGems.MODID;
   }
 
   @Override
@@ -134,7 +135,7 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
   }
 
   @Override
-  public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+  public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
 
     for (int i = 0; i < 16; ++i) {
       list.add(new ItemStack(item, 1, i));

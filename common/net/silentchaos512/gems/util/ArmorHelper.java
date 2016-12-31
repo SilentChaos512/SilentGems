@@ -95,7 +95,7 @@ public class ArmorHelper {
     }
 
     // Variety bonus
-    int variety = MathHelper.clamp_int(uniqueParts.size(), 1, 3);
+    int variety = MathHelper.clamp(uniqueParts.size(), 1, 3);
     float bonus = 1.0f + GemsConfig.VARIETY_BONUS * (variety - 1);
 
     // Average stats
@@ -144,7 +144,7 @@ public class ArmorHelper {
   public static EnumMaterialTier getArmorTier(ItemStack armor) {
 
     int id = getTagInt(armor, NBT_ROOT_PROPERTIES, NBT_ARMOR_TIER);
-    return EnumMaterialTier.values()[MathHelper.clamp_int(id, 0,
+    return EnumMaterialTier.values()[MathHelper.clamp(id, 0,
         EnumMaterialTier.values().length - 1)];
   }
 
@@ -155,7 +155,7 @@ public class ArmorHelper {
 
   public static ToolPart[] getRenderParts(ItemStack armor) {
 
-    if (armor == null)
+    if (armor.isEmpty())
       return new ToolPart[0];
 
     return new ToolPart[] {//
@@ -289,8 +289,8 @@ public class ArmorHelper {
     ToolPart part;
     EnumMaterialGrade grade;
     for (int i = 0; i < materials.length; ++i) {
-      if (materials[i] == null) {
-        String str = "ArmorHelper.constructArmor: null part! ";
+      if (materials[i].isEmpty()) {
+        String str = "ArmorHelper.constructArmor: empty part! ";
         for (ItemStack stack : materials)
           str += stack + ", ";
         throw new IllegalArgumentException(str);
@@ -321,8 +321,8 @@ public class ArmorHelper {
   public static ItemStack decorateArmor(ItemStack armor, ItemStack west, ItemStack north,
       ItemStack east, ItemStack south) {
 
-    if (armor == null) {
-      return null;
+    if (armor.isEmpty()) {
+      return ItemStack.EMPTY;
     }
 
     ItemStack result = armor.copy();
@@ -335,9 +335,9 @@ public class ArmorHelper {
 
   private static ItemStack decorate(ItemStack armor, ItemStack material, EnumDecoPos pos) {
 
-    if (armor == null)
-      return null;
-    if (material == null)
+    if (armor.isEmpty())
+      return ItemStack.EMPTY;
+    if (material.isEmpty())
       return armor;
 
     ToolPart part = ToolPartRegistry.fromStack(material);

@@ -13,7 +13,7 @@ import net.silentchaos512.gems.tile.TileChaosAltar;
 public class GuiChaosAltar extends GuiContainer {
 
   private static final ResourceLocation guiTextures = new ResourceLocation(
-      "silentgems:textures/gui/ChaosAltar.png");
+      "silentgems:textures/gui/chaosaltar.png");
   private TileChaosAltar tileAltar;
 
   public GuiChaosAltar(InventoryPlayer playerInventory, TileChaosAltar altar) {

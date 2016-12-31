@@ -29,7 +29,7 @@ import net.silentchaos512.gems.util.ToolHelper;
 // but that doesn't seem to work in 1.9.
 public class PlayerDataHandler {
 
-  public static final String NBT_ROOT = SilentGems.MOD_ID + "Data";
+  public static final String NBT_ROOT = SilentGems.MODID_NBT + "Data";
 
   private static Map<Integer, PlayerData> playerData = new HashMap();
 
@@ -70,7 +70,7 @@ public class PlayerDataHandler {
 
   private static int getKey(EntityPlayer player) {
 
-    return player.hashCode() << 1 + (player.worldObj.isRemote ? 1 : 0);
+    return player.hashCode() << 1 + (player.world.isRemote ? 1 : 0);
   }
 
   public static NBTTagCompound getDataCompoundForPlayer(EntityPlayer player) {
@@ -137,7 +137,7 @@ public class PlayerDataHandler {
     public PlayerData(EntityPlayer player) {
 
       playerWR = new WeakReference<EntityPlayer>(player);
-      client = player.worldObj.isRemote;
+      client = player.world.isRemote;
 
       load();
     }

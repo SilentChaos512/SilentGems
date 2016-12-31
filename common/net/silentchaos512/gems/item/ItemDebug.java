@@ -19,19 +19,19 @@ public class ItemDebug extends ItemSL {
 
   public ItemDebug() {
 
-    super(1, SilentGems.MOD_ID, Names.DEBUG_ITEM);
+    super(1, SilentGems.MODID, Names.DEBUG_ITEM);
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn,
-      EntityPlayer playerIn, EnumHand hand) {
+  public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn,
+      EnumHand hand) {
 
-    //playerIn.attackEntityFrom(DamageSource.inWall, 1.0f);
+    // playerIn.attackEntityFrom(DamageSource.inWall, 1.0f);
     FoodStats food = playerIn.getFoodStats();
     food.setFoodLevel(food.getFoodLevel() - 2);
     food.setFoodSaturationLevel(food.getSaturationLevel() - 0.2f);
 
-    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
   }
 
   public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn,

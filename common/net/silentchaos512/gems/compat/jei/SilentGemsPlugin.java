@@ -7,23 +7,17 @@ import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ISubtypeRegistry;
-import mezz.jei.api.ISubtypeRegistry.ISubtypeInterpreter;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.gui.GuiChaosAltar;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeCategory;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeHandler;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeMaker;
 import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.util.ToolHelper;
 
 @JEIPlugin
 public class SilentGemsPlugin implements IModPlugin {
@@ -87,20 +81,14 @@ public class SilentGemsPlugin implements IModPlugin {
     reg.addRecipeCategoryCraftingItem(new ItemStack(ModBlocks.chaosAltar),
         AltarRecipeCategory.CATEGORY);
   }
-
+ 
   private void doAddDescriptions(IModRegistry reg) {
 
-    String prefix = "jei.silentgems:desc.";
-
-    reg.addDescription(new ItemStack(ModBlocks.chaosAltar), prefix + Names.CHAOS_ALTAR);
-    reg.addDescription(new ItemStack(ModBlocks.chaosFlowerPot), prefix + Names.CHAOS_FLOWER_POT);
-    reg.addDescription(new ItemStack(ModBlocks.chaosNode), prefix + Names.CHAOS_NODE);
-    reg.addDescription(new ItemStack(ModBlocks.chaosPylon, 1, 0), prefix + Names.CHAOS_PYLON + "0");
-    reg.addDescription(new ItemStack(ModBlocks.chaosPylon, 1, 1), prefix + Names.CHAOS_PYLON + "1");
-    reg.addDescription(new ItemStack(ModBlocks.materialGrader), prefix + Names.MATERIAL_GRADER);
+    String descPrefix = "jei.silentgems:desc.";
 
     reg.addDescription(new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE),
-        prefix + Names.GEM);
+        descPrefix + Names.GEM);
+    reg.addDescription(new ItemStack(ModBlocks.chaosAltar), descPrefix + Names.CHAOS_ALTAR);
   }
 
   @Override
@@ -111,46 +99,9 @@ public class SilentGemsPlugin implements IModPlugin {
   }
 
   @Override
-  public void registerItemSubtypes(ISubtypeRegistry reg) {
+  public void registerItemSubtypes(ISubtypeRegistry arg0) {
 
-    // Tools
-    for (Item item : new Item[] { ModItems.sword, ModItems.katana, ModItems.scepter,
-        ModItems.tomahawk, ModItems.pickaxe, ModItems.shovel, ModItems.axe, ModItems.hoe,
-        ModItems.sickle, ModItems.bow, ModItems.shield }) {
-      reg.registerNbtInterpreter(item, new ISubtypeInterpreter() {
-        
-        @Override
-        public String getSubtypeInfo(ItemStack stack) {
-          
-          ToolPart[] parts = ToolHelper.getConstructionParts(stack);
-          if (parts.length == 0) return "unknown";
-          return parts[0].getKey();
-        }
-      });
-    }
+    // TODO Auto-generated method stub
 
-    // Enchantment tokens
-    reg.registerNbtInterpreter(ModItems.enchantmentToken, new ISubtypeInterpreter() {
-      
-      @Override
-      public String getSubtypeInfo(ItemStack stack) {
-        
-        Enchantment ench = ModItems.enchantmentToken.getSingleEnchantment(stack);
-        if (ench == null) return "none";
-        return ench.getName();
-      }
-    });
-
-    // Chaos Runes
-    reg.registerNbtInterpreter(ModItems.chaosRune, new ISubtypeInterpreter() {
-
-      @Override
-      public String getSubtypeInfo(ItemStack stack) {
-
-        ChaosBuff buff = ModItems.chaosRune.getBuff(stack);
-        if (buff == null) return "none";
-        return buff.getKey();
-      }
-    });
   }
 }

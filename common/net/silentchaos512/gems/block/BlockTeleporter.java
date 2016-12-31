@@ -86,7 +86,7 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
   public List<String> getWitLines(IBlockState state, BlockPos pos, EntityPlayer player,
       boolean advanced) {
 
-    TileEntity tile = player.worldObj.getTileEntity(pos);
+    TileEntity tile = player.world.getTileEntity(pos);
     if (tile == null || !(tile instanceof TileTeleporter)) {
       return null;
     }
@@ -97,11 +97,11 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
   }
 
   @Override
-  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-      EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
-    boolean holdingLinker = heldItem != null && heldItem.getItem() == ModItems.teleporterLinker;
-    boolean holdingReturnHome = heldItem != null && heldItem.getItem() == ModItems.returnHomeCharm;
+    ItemStack heldItem = player.getHeldItem(hand);
+    boolean holdingLinker = heldItem.getItem() == ModItems.teleporterLinker;
+    boolean holdingReturnHome = heldItem.getItem() == ModItems.returnHomeCharm;
 
     if (world.isRemote) {
       return holdingLinker || holdingReturnHome ? true : !isAnchor;
@@ -109,7 +109,7 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
 
     TileTeleporter tile = (TileTeleporter) world.getTileEntity(pos);
     if (tile == null) {
-      SilentGems.instance.logHelper.warning("Teleporter tile at " + pos + " not found!");
+      SilentGems.logHelper.warning("Teleporter tile at " + pos + " not found!");
       return false;
     }
 

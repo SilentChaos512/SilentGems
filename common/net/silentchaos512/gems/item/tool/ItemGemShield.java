@@ -18,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -101,7 +102,7 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SHIELD) return null; // FIXME: 1.11
+    if (GemsConfig.TOOL_DISABLE_SHIELD) return ItemStack.EMPTY;
 
     if (materials.length == 1)
       return constructTool(rod, materials[0], materials[0], materials[0]);
@@ -184,7 +185,7 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     if (subItems == null) {
       subItems = ToolHelper.getSubItems(item, 3);
@@ -243,7 +244,7 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   @Override
   public String getModId() {
 
-    return SilentGems.MOD_ID;
+    return SilentGems.MODID;
   }
 
   @Override

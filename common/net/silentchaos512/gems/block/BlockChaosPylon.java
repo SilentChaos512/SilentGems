@@ -26,6 +26,7 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -106,7 +107,7 @@ public class BlockChaosPylon extends BlockContainer
   @Override
   public String getModId() {
 
-    return SilentGems.MOD_ID.toLowerCase();
+    return SilentGems.MODID;
   }
 
   @Override
@@ -146,8 +147,7 @@ public class BlockChaosPylon extends BlockContainer
   }
 
   @Override
-  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-      EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     EnumPylonType type = EnumPylonType.getByMeta(getMetaFromState(state));
 
@@ -168,7 +168,7 @@ public class BlockChaosPylon extends BlockContainer
   }
 
   @Override
-  public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+  public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
 
     for (EnumPylonType type : EnumPylonType.values()) {
       if (type != EnumPylonType.NONE) {
@@ -181,7 +181,7 @@ public class BlockChaosPylon extends BlockContainer
   public IBlockState getStateFromMeta(int meta) {
 
     return this.getDefaultState().withProperty(VARIANT,
-        VariantType.values()[MathHelper.clamp_int(meta, 0, VariantType.values().length)]);
+        VariantType.values()[MathHelper.clamp(meta, 0, VariantType.values().length)]);
   }
 
   @Override
@@ -222,14 +222,14 @@ public class BlockChaosPylon extends BlockContainer
           float f1 = SilentGems.instance.random.nextFloat() * 0.8F + 0.1F;
           float f2 = SilentGems.instance.random.nextFloat() * 0.8F + 0.1F;
 
-          while (stack.stackSize > 0) {
+          while (stack.getCount() > 0) {
             int j1 = SilentGems.instance.random.nextInt(21) + 10;
 
-            if (j1 > stack.stackSize) {
-              j1 = stack.stackSize;
+            if (j1 > stack.getCount()) {
+              j1 = stack.getCount();
             }
 
-            stack.stackSize -= j1;
+            stack.shrink(j1);
             EntityItem entityitem = new EntityItem(world, (double) ((float) pos.getX() + f),
                 (double) ((float) pos.getY() + f1), (double) ((float) pos.getZ() + f2),
                 new ItemStack(stack.getItem(), j1, stack.getItemDamage()));
@@ -244,7 +244,7 @@ public class BlockChaosPylon extends BlockContainer
             entityitem.motionY = (double) ((float) SilentGems.instance.random.nextGaussian() * f3
                 + 0.2F);
             entityitem.motionZ = (double) ((float) SilentGems.instance.random.nextGaussian() * f3);
-            world.spawnEntityInWorld(entityitem);
+            world.spawnEntity(entityitem);
           }
         }
       }
@@ -277,7 +277,7 @@ public class BlockChaosPylon extends BlockContainer
   }
 
   @Override
-  public AxisAlignedBB getCollisionBoundingBox(IBlockState worldIn, World pos, BlockPos state) {
+  public AxisAlignedBB getCollisionBoundingBox(IBlockState worldIn, IBlockAccess pos, BlockPos state) {
 
     // return BOUNDING_BOX;
     return super.getCollisionBoundingBox(worldIn, pos, state);

@@ -82,7 +82,7 @@ public class ToolModel implements IPerspectiveAwareModel {
     // Invalid tools models.
     if (ToolHelper.getMaxDamage(tool) <= 0 && tool.getItem() instanceof IRegistryObject) {
       String name = ((IRegistryObject) tool.getItem()).getName();
-      location = new ModelResourceLocation(SilentGems.MOD_ID + ":" + name.toLowerCase() + "/_error", "inventory");
+      location = new ModelResourceLocation(SilentGems.MODID + ":" + name.toLowerCase() + "/_error", "inventory");
       model = modelManager.getModel(location);
       if (model != null)
         quads.addAll(model.getQuads(state, side, rand));

@@ -12,6 +12,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -28,7 +29,7 @@ public class ItemChaosRune extends ItemSL {
 
   public ItemChaosRune() {
 
-    super(1, SilentGems.MOD_ID, Names.CHAOS_RUNE);
+    super(1, SilentGems.MODID, Names.CHAOS_RUNE);
   }
 
   @Override
@@ -98,7 +99,7 @@ public class ItemChaosRune extends ItemSL {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     for (ChaosBuff buff : ChaosBuff.getAllBuffs()) {
       list.add(setBuff(new ItemStack(this), buff));

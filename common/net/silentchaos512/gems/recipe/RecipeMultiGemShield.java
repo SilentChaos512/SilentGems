@@ -31,13 +31,13 @@ public class RecipeMultiGemShield extends RecipeBase {
 
     // Make sure bottom corners are empty.
     for (ItemStack stack : empty)
-      if (stack != null)
-        return null;
+      if (!stack.isEmpty())
+        return ItemStack.EMPTY;
 
     // Check for wood.
     for (ItemStack stack : wood) {
-      if (stack == null)
-        return null;
+      if (stack.isEmpty())
+        return ItemStack.EMPTY;
 
       boolean isWood = false;
       for (int id : OreDictionary.getOreIDs(stack)) {
@@ -48,19 +48,19 @@ public class RecipeMultiGemShield extends RecipeBase {
       }
 
       if (!isWood)
-        return null;
+        return ItemStack.EMPTY;
     }
 
     // Check parts (gems)
     ToolPart[] parts = new ToolPart[3];
     int i = -1;
     for (ItemStack stack : materials) {
-      if (stack == null)
-        return null;
+      if (stack.isEmpty())
+        return ItemStack.EMPTY;
 
       ToolPart part = ToolPartRegistry.fromStack(stack);
       if (part == null || part.isBlacklisted(stack))
-        return null;
+        return ItemStack.EMPTY;
       parts[++i] = part;
     }
 
@@ -68,14 +68,14 @@ public class RecipeMultiGemShield extends RecipeBase {
     EnumMaterialTier targetTier = parts[0].getTier();
     for (ToolPart part : parts)
       if (part.getTier() != targetTier)
-        return null;
+        return ItemStack.EMPTY;
 
     // Check rod and make sure tier matches.
-    if (rod == null)
-      return null;
+    if (rod.isEmpty())
+      return ItemStack.EMPTY;
     ToolPart partRod = ToolPartRegistry.fromStack(rod);
     if (partRod == null || !partRod.validForToolOfTier(targetTier))
-      return null;
+      return ItemStack.EMPTY;
 
     // Recipe correct. Make the shield.
     return ModItems.shield.constructTool(rod, materials);

@@ -42,9 +42,9 @@ public class ModuleHolidayCheer {
   @SubscribeEvent
   public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 
-    if (moduleEnabled && event.player.worldObj.getTotalWorldTime() % CANDY_TRY_DELAY == 0) {
+    if (moduleEnabled && event.player.world.getTotalWorldTime() % CANDY_TRY_DELAY == 0) {
       checkDateAgain();
-      if (isRightDay() && !event.player.worldObj.isRemote)
+      if (isRightDay() && !event.player.world.isRemote)
         tryGiveCandy(event.player);
     }
   }
@@ -66,7 +66,7 @@ public class ModuleHolidayCheer {
   public void greetPlayer(EntityPlayer player) {
 
     checkDateAgain();
-    if (isRightDay() && !player.worldObj.isRemote) {
+    if (isRightDay() && !player.world.isRemote) {
       String str = "[%s] Happy Holidays! Have some candy.";
       str = String.format(str, SilentGems.MOD_NAME/* , day */);
 
@@ -81,7 +81,7 @@ public class ModuleHolidayCheer {
     if (SilentGems.random.nextFloat() <= CANDY_RATE) {
       int count = SilentGems.random.nextInt(CANDY_MAX_QUANTITY);
       ItemStack stack = ModItems.food.candyCane.copy();
-      stack.stackSize = count;
+      stack.setCount(count);
       PlayerHelper.giveItem(player, stack);
     }
   }

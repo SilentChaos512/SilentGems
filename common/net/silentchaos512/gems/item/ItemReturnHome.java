@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,7 +26,6 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.gems.util.TeleportUtil;
@@ -85,7 +85,7 @@ public class ItemReturnHome extends ItemChaosStorage {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     for (EnumGem gem : EnumGem.values()) {
       ItemStack stack = new ItemStack(item, 1, gem.ordinal());
@@ -120,7 +120,7 @@ public class ItemReturnHome extends ItemChaosStorage {
 
   public DimensionalPosition getBoundPosition(ItemStack stack) {
 
-    if (stack == null || !stack.hasTagCompound()) {
+    if (!stack.hasTagCompound()) {
       return null;
     }
 
@@ -132,9 +132,9 @@ public class ItemReturnHome extends ItemChaosStorage {
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player,
-      EnumHand hand) {
+  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
+    ItemStack stack = player.getHeldItem(hand);
     DimensionalPosition pos = getBoundPosition(stack);
     if (pos != null) {
       player.setActiveHand(hand);
@@ -149,7 +149,7 @@ public class ItemReturnHome extends ItemChaosStorage {
   @Override
   public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
 
-    if (player.worldObj.isRemote) {
+    if (player.world.isRemote) {
       int timeUsed = getMaxItemUseDuration(stack) - count;
       if (timeUsed >= GemsConfig.RETURN_HOME_USE_TIME) {
         NBTHelper.setTagBoolean(stack, NBT_READY, true);
@@ -206,14 +206,14 @@ public class ItemReturnHome extends ItemChaosStorage {
       BlockPos target = pos.toBlockPos().up(height);
 
       // FIXME: Obstruction checks?
-//      if (worldServer.isBlockNormalCube(target, true)) {
-//        PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_SAFE));
-//        PlayerHelper.addChatMessage(player, "" + target);
-//        PlayerHelper.addChatMessage(player, "" + worldServer.getBlockState(target));
-//        SilentGems.logHelper.warning("Return Home Charm believes destination is obstructed:\n"
-//            + "Target: " + target + "\nBlockstate: " + worldServer.getBlockState(target));
-//        return;
-//      }
+      // if (worldServer.isBlockNormalCube(target, true)) {
+      // PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_SAFE));
+      // PlayerHelper.addChatMessage(player, "" + target);
+      // PlayerHelper.addChatMessage(player, "" + worldServer.getBlockState(target));
+      // SilentGems.logHelper.warning("Return Home Charm believes destination is obstructed:\n"
+      // + "Target: " + target + "\nBlockstate: " + worldServer.getBlockState(target));
+      // return;
+      // }
 
       // It should be safe to teleport.
       // Reset fall distance then teleport.

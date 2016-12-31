@@ -20,10 +20,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -51,7 +50,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
 
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SHOVEL) return null; // FIXME: 1.11
+    if (GemsConfig.TOOL_DISABLE_SHOVEL) return ItemStack.EMPTY;
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.STICK);
     return ToolHelper.constructTool(this, rod, materials);
@@ -64,7 +63,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SHOVEL) return null; // FIXME: 1.11
+    if (GemsConfig.TOOL_DISABLE_SHOVEL) return ItemStack.EMPTY;
     if (materials.length == 1) {
       return ToolHelper.constructTool(this, rod, materials[0], materials[0], materials[0]);
     }
@@ -112,7 +111,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     if (subItems == null) {
       subItems = ToolHelper.getSubItems(item, 1);
@@ -121,15 +120,16 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   }
 
   @Override
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos,
       EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
+    ItemStack stack = player.getHeldItem(hand);
     boolean broken = ToolHelper.isBroken(stack);
     // Check for normal shovel use first if not broken, to allow path blocks to be made.
-    if (!broken && super.onItemUse(stack, player, world, pos, hand, side, hitX, hitY,
+    if (!broken && super.onItemUse(player, world, pos, hand, side, hitX, hitY,
         hitZ) != EnumActionResult.SUCCESS) {
       // Place block.
-      return ToolHelper.onItemUse(stack, player, world, pos, hand, side, hitX, hitY, hitZ);
+      return ToolHelper.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
     } else if (!broken) {
       // Made path block.
       ToolHelper.incrementStatPathsMade(stack, 1);
@@ -205,9 +205,9 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   }
 
   @Override
-  public int getHarvestLevel(ItemStack stack, String toolClass) {
+  public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player, IBlockState state) {
 
-    if (super.getHarvestLevel(stack, toolClass) < 0) {
+    if (super.getHarvestLevel(stack, toolClass, player, state) < 0) {
       return 0;
     }
     return ToolHelper.getHarvestLevel(stack);
@@ -277,7 +277,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   @Override
   public String getModId() {
 
-    return SilentGems.MOD_ID;
+    return SilentGems.MODID;
   }
 
   @Override

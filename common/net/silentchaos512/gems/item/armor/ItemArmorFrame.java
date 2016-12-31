@@ -26,7 +26,7 @@ public class ItemArmorFrame extends ItemSL {
     // Where T = tier, A = armor type
     // For armor type, 0 = Helmet, 1 = Chestplate, etc. (opposite of slot index)
 
-    super(4 * EnumMaterialTier.values().length, SilentGems.MOD_ID, Names.ARMOR_FRAME);
+    super(4 * EnumMaterialTier.values().length, SilentGems.MODID, Names.ARMOR_FRAME);
   }
 
   public ItemStack getFrameForArmorPiece(ItemArmor itemArmor, EnumMaterialTier tier) {
@@ -38,7 +38,7 @@ public class ItemArmorFrame extends ItemSL {
   public EnumMaterialTier getTier(ItemStack stack) {
 
     int index = stack.getItemDamage() >> 2;
-    return EnumMaterialTier.values()[MathHelper.clamp_int(index, 0,
+    return EnumMaterialTier.values()[MathHelper.clamp(index, 0,
         EnumMaterialTier.values().length - 1)];
   }
 
@@ -68,9 +68,9 @@ public class ItemArmorFrame extends ItemSL {
     for (int tier = 0; tier < EnumMaterialTier.values().length; ++tier) {
       lattice = tier == 0 ? ModItems.craftingMaterial.armorLatticeMundane
           : tier == 1 ? ModItems.craftingMaterial.armorLatticeRegular
-              : tier == 2 ? ModItems.craftingMaterial.armorLatticeSuper : null;
+              : tier == 2 ? ModItems.craftingMaterial.armorLatticeSuper : ItemStack.EMPTY;
 
-      if (lattice != null)
+      if (!lattice.isEmpty())
         for (int type = 0; type < 4; ++type)
           addRecipe(new ItemStack(this, 1, type + (tier << 2)), lattice, type);
     }

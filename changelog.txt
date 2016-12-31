@@ -1,6 +1,12 @@
 Silent's Gems - Changelog
 
-2.2.1
+2.2.2
+Updated the 1.11 version finally... Decided to redo the port so I wouldn't miss anything. 1.11 will likely become the main version for development at this point.
+Changed: Replaced existed textures with all the 16x16 textures I've made at this point. Majority vote was for 16x16 textures, so... here you go!
+Fixed: Torch Bandoliers. They work now.
+Fixed: The "right-click to place" ability of harvest tools.
+
+2.2.1 (Minecraft 1.10.2)
 Changed: Damage type of super sword projectiles to magic.
 Fixed: A server crash caused by the addition of Chaos Gems
 Fixed: A crash caused by hitting a block with gem tools other than harvest tools.

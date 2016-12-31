@@ -14,19 +14,19 @@ public class RecipeApplyEnchantmentToken extends RecipeBase {
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
 
-    ItemStack tool = null;
+    ItemStack tool = ItemStack.EMPTY;
     List<ItemStack> tokens = Lists.newArrayList();
 
     // Find items
     ItemStack stack;
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
-      if (stack != null) {
+      if (!stack.isEmpty()) {
         if (stack.getItem() == ModItems.enchantmentToken) {
           tokens.add(stack);
         } else {
-          if (tool != null) {
-            return null;
+          if (!tool.isEmpty()) {
+            return ItemStack.EMPTY;
           }
           tool = stack;
         }
@@ -34,15 +34,15 @@ public class RecipeApplyEnchantmentToken extends RecipeBase {
     }
 
     // Found correct items?
-    if (tool == null || tokens.isEmpty()) {
-      return null;
+    if (tool.isEmpty() || tokens.isEmpty()) {
+      return ItemStack.EMPTY;
     }
 
     // Apply tokens to tools.
     ItemStack result = tool.copy();
     for (ItemStack token : tokens) {
       if (!ModItems.enchantmentToken.applyTokenToTool(token, result)) {
-        return null;
+        return ItemStack.EMPTY;
       }
     }
 

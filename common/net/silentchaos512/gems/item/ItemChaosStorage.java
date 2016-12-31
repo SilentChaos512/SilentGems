@@ -15,7 +15,7 @@ public class ItemChaosStorage extends ItemSL implements IChaosStorage {
 
   public ItemChaosStorage(int subItemCount, String name, int maxCharge) {
 
-    super(subItemCount, SilentGems.MOD_ID, name);
+    super(subItemCount, SilentGems.MODID, name);
     setMaxStackSize(1);
     setNoRepair();
     this.maxCharge = maxCharge;

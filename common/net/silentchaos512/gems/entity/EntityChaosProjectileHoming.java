@@ -58,7 +58,7 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
     };
 
     int minDistance = Integer.MAX_VALUE;
-    for (EntityLivingBase entityLiving : worldObj.getEntities(EntityLivingBase.class, predicate)) {
+    for (EntityLivingBase entityLiving : world.getEntities(EntityLivingBase.class, predicate)) {
       // SilentGems.instance.logHelper.debug(entityLiving);
       int distance = (int) entityLiving.getDistanceSqToEntity(projectile)
           + SilentGems.instance.random.nextInt(512);

@@ -6,18 +6,19 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.silentchaos512.gems.entity.EntityThrownTomahawk;
 
 public class RenderThrownTomahawk extends Render<EntityThrownTomahawk> {
 
-  public RenderThrownTomahawk() {
+  public RenderThrownTomahawk(RenderManager manager) {
 
-    super(Minecraft.getMinecraft().getRenderManager());
-    // TODO Auto-generated constructor stub
+    super(manager);
   }
 
   @Override
@@ -39,9 +40,9 @@ public class RenderThrownTomahawk extends Render<EntityThrownTomahawk> {
 
     RenderItem itemRenderer = Minecraft.getMinecraft().getRenderItem();
 
-    EntityItem entityitem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ,
+    EntityItem entityitem = new EntityItem(entity.world, entity.posX, entity.posY, entity.posZ,
         stack);
-    entityitem.getEntityItem().stackSize = 1;
+    entityitem.getEntityItem().setCount(1);
     entityitem.hoverStart = 0.0F;
     GlStateManager.pushMatrix();
     GlStateManager.disableLighting();
@@ -61,5 +62,14 @@ public class RenderThrownTomahawk extends Render<EntityThrownTomahawk> {
 
     GlStateManager.enableLighting();
     GlStateManager.popMatrix();
+  }
+
+  public static class Factory implements IRenderFactory<EntityThrownTomahawk> {
+
+    @Override
+    public Render<? super EntityThrownTomahawk> createRenderFor(RenderManager manager) {
+
+      return new RenderThrownTomahawk(manager);
+    }
   }
 }

@@ -6,11 +6,11 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 
 public class AltarRecipeHandler implements IRecipeHandler<AltarRecipeJei> {
 
-  @Override
-  public String getRecipeCategoryUid() {
-
-    return AltarRecipeCategory.CATEGORY;
-  }
+//  @Override
+//  public String getRecipeCategoryUid() {
+//
+//    return AltarRecipeCategory.CATEGORY;
+//  }
 
   @Override
   public String getRecipeCategoryUid(AltarRecipeJei arg0) {

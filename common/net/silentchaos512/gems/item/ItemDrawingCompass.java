@@ -33,7 +33,7 @@ public class ItemDrawingCompass extends ItemSL {
 
   public ItemDrawingCompass() {
 
-    super(1, SilentGems.MOD_ID, Names.DRAWING_COMPASS);
+    super(1, SilentGems.MODID, Names.DRAWING_COMPASS);
     setMaxStackSize(1);
 
     addPropertyOverride(new ResourceLocation("state"), new IItemPropertyGetter() {
@@ -60,13 +60,13 @@ public class ItemDrawingCompass extends ItemSL {
     }
   }
 
-//  @Override
-//  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
-//
-//    list.add(String.format("Color: %X", getColor(stack).getColor()));
-//    list.add("Block1: " + getBlock1(stack));
-//    list.add("Block2: " + getBlock2(stack));
-//  }
+  // @Override
+  // public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+  //
+  // list.add(String.format("Color: %X", getColor(stack).getColor()));
+  // list.add("Block1: " + getBlock1(stack));
+  // list.add("Block2: " + getBlock2(stack));
+  // }
 
   public State getState(ItemStack stack) {
 
@@ -137,8 +137,8 @@ public class ItemDrawingCompass extends ItemSL {
   }
 
   @Override
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn,
-      BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+  public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos,
+      EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     // Only allow changes when in main hand?
     if (hand == EnumHand.OFF_HAND) {
@@ -148,6 +148,8 @@ public class ItemDrawingCompass extends ItemSL {
     if (worldIn.isRemote) {
       return EnumActionResult.SUCCESS; // Swing on client-side.
     }
+
+    ItemStack stack = playerIn.getHeldItem(hand);
 
     // Get current state.
     State state = getState(stack);
@@ -172,14 +174,15 @@ public class ItemDrawingCompass extends ItemSL {
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn,
-      EntityPlayer playerIn, EnumHand hand) {
+  public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn,
+      EnumHand hand) {
 
+    ItemStack stack = playerIn.getHeldItem(hand);
     if (hand == EnumHand.MAIN_HAND && playerIn.isSneaking() && !worldIn.isRemote) {
-      clearBlocks(itemStackIn);
-      return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
+      clearBlocks(stack);
+      return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
     }
-    return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
+    return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
   }
 
   public boolean spawnParticles(ItemStack stack, EntityPlayer player, World world) {

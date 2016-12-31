@@ -388,7 +388,7 @@ public class GemsConfig {
               + "Values must be between 1 and " + weightMax + ", inclusive.");
       for (EnumGem gem : EnumGem.values()) {
         int k = c.get(CAT_WORLD_GEN_GEM_WEIGHT, gem.getGemName(), 10).getInt();
-        k = MathHelper.clamp_int(k, 1, weightMax);
+        k = MathHelper.clamp(k, 1, weightMax);
         WeightedRandomItemSG item = new WeightedRandomItemSG(k, gem.ordinal() & 0xF);
         if (gem.ordinal() < EnumGem.CARNELIAN.ordinal()) {
           GEM_WEIGHTS.add(item);

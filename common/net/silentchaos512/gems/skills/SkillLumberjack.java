@@ -27,7 +27,7 @@ public class SkillLumberjack extends ToolSkillDigger {
   @Override
   public void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
 
-    if (!event.getState().getBlock().isWood(event.getEntityPlayer().worldObj, event.getPos())) {
+    if (!event.getState().getBlock().isWood(event.getEntityPlayer().world, event.getPos())) {
       return;
     }
 
@@ -41,7 +41,7 @@ public class SkillLumberjack extends ToolSkillDigger {
   @Override
   public boolean activate(ItemStack tool, EntityPlayer player, BlockPos pos) {
 
-    World world = player.worldObj;
+    World world = player.world;
     IBlockState state = world.getBlockState(pos);
 
     // Must be an axe
@@ -140,7 +140,7 @@ public class SkillLumberjack extends ToolSkillDigger {
             float localHardness = localBlock == null ? Float.MAX_VALUE
                 : localState.getBlockHardness(world, localPos);
 
-            if (harvestLevel <= axe.getHarvestLevel(tool, "axe") && localHardness >= 0) {
+            if (harvestLevel <= axe.getHarvestLevel(tool, "axe", player, localState) && localHardness >= 0) {
               boolean cancel = false;
 
               // Block break event

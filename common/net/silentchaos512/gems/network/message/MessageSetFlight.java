@@ -30,7 +30,7 @@ public class MessageSetFlight extends Message {
     if (ctx.side != Side.CLIENT)
       return null;
 
-    EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+    EntityPlayer player = Minecraft.getMinecraft().player;
     if (value)
       ChaosBuff.FLIGHT.applyToPlayer(player, 1, null);
     else

@@ -38,7 +38,7 @@ public class EntityFXCompass extends Particle {
     // this.particleBlue = rand.nextFloat();
     this.particleScale = scale;
     this.particleMaxAge = maxAge;
-    this.isCollided = false;
+    this.canCollide = false;
     this.particleGravity = 0.05f;
     this.particleAlpha = 0.9f;
   }
@@ -54,7 +54,7 @@ public class EntityFXCompass extends Particle {
     this.prevPosY = this.posY;
     this.prevPosZ = this.posZ;
 
-    this.moveEntity(this.motionX, this.motionY, this.motionZ);
+    this.move(this.motionX, this.motionY, this.motionZ);
 
 //    this.particleScale *= 0.9f;
 //    this.particleAlpha -= 0.8f / (particleMaxAge * 1.25f);

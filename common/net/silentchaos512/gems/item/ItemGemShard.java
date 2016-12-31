@@ -11,7 +11,7 @@ public class ItemGemShard extends ItemSL {
 
   public ItemGemShard() {
 
-    super(EnumGem.values().length, SilentGems.MOD_ID, Names.GEM_SHARD);
+    super(EnumGem.values().length, SilentGems.MODID, Names.GEM_SHARD);
   }
 
   @Override

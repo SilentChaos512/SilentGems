@@ -14,7 +14,7 @@ public class ItemFluffyPuff extends ItemSL {
 
   public ItemFluffyPuff() {
 
-    super(1, SilentGems.MOD_ID, Names.FLUFFY_PUFF);
+    super(1, SilentGems.MODID, Names.FLUFFY_PUFF);
   }
 
   @Override

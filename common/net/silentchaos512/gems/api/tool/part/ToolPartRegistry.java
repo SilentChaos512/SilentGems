@@ -29,7 +29,7 @@ public class ToolPartRegistry {
    */
   public static ToolPart getPart(String key) {
 
-    return map.get(key);
+    return map.get(key.toLowerCase());
   }
 
   /**
@@ -56,6 +56,9 @@ public class ToolPartRegistry {
    * @return
    */
   public static ToolPart fromStack(ItemStack stack) {
+
+    if (stack.isEmpty())
+      return null;
 
     for (ToolPart part : map.values()) {
       // Exact match for crafting stack?

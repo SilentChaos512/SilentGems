@@ -1,20 +1,10 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraft.util.NonNullList;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
-import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -32,7 +22,7 @@ public class ItemGemScepter extends ItemGemSword {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SCEPTER) return null; // FIXME: 1.11
+    if (GemsConfig.TOOL_DISABLE_SCEPTER) return ItemStack.EMPTY;
 
     if (materials.length >= 2) {
       ItemStack temp = materials[0];
@@ -61,7 +51,7 @@ public class ItemGemScepter extends ItemGemSword {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     if (subItems == null) {
       subItems = ToolHelper.getSubItems(item, 5);

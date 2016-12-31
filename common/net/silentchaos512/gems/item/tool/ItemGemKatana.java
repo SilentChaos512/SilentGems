@@ -1,15 +1,12 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.util.List;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraft.util.NonNullList;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
@@ -31,7 +28,7 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_KATANA) return null; // FIXME: 1.11
+    if (GemsConfig.TOOL_DISABLE_KATANA) return ItemStack.EMPTY;
     ItemStack result = ToolHelper.constructTool(this, rod, materials);
     return addDefaultGrip(result);
   }
@@ -39,7 +36,7 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_KATANA) return null; // FIXME: 1.11
+    if (GemsConfig.TOOL_DISABLE_KATANA) return ItemStack.EMPTY;
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.STICK);
     ItemStack result = ToolHelper.constructTool(this, rod, materials);
@@ -48,8 +45,8 @@ public class ItemGemKatana extends ItemGemSword {
 
   public ItemStack addDefaultGrip(ItemStack katana) {
 
-    if (katana == null)
-      return null;
+    if (katana.isEmpty())
+      return ItemStack.EMPTY;
     ItemStack blackWool = new ItemStack(Blocks.WOOL, 1, EnumDyeColor.BLACK.getMetadata());
     ToolHelper.setPart(katana, ToolPartRegistry.fromStack(blackWool), EnumMaterialGrade.NONE,
         EnumPartPosition.ROD_GRIP);
@@ -81,7 +78,7 @@ public class ItemGemKatana extends ItemGemSword {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     if (subItems == null) {
       subItems = ToolHelper.getSubItems(item, 3);

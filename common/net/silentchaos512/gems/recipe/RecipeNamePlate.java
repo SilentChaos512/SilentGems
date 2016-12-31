@@ -11,33 +11,33 @@ public class RecipeNamePlate extends RecipeBase {
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
 
-    ItemStack stackNamePlate = null;
-    ItemStack stackOther = null;
+    ItemStack stackNamePlate = ItemStack.EMPTY;
+    ItemStack stackOther = ItemStack.EMPTY;
     ItemStack stack;
     ItemStack namePlateForMatching = ModItems.craftingMaterial.namePlate;
 
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
-      if (stack != null) {
+      if (!stack.isEmpty()) {
         // Name plate?
         if (stack.isItemEqual(namePlateForMatching)) {
-          if (stackNamePlate != null) {
-            return null;
+          if (!stackNamePlate.isEmpty()) {
+            return ItemStack.EMPTY;
           }
           stackNamePlate = stack;
         }
         // Other item?
         else {
-          if (stackOther != null) {
-            return null;
+          if (!stackOther.isEmpty()) {
+            return ItemStack.EMPTY;
           }
           stackOther = stack;
         }
       }
     }
 
-    if (stackNamePlate == null || stackOther == null || !stackNamePlate.hasDisplayName()) {
-      return null;
+    if (stackNamePlate.isEmpty() || stackOther.isEmpty() || !stackNamePlate.hasDisplayName()) {
+      return ItemStack.EMPTY;
     }
 
     ItemStack result = stackOther.copy();

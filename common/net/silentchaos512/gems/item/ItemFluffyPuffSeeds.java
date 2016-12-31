@@ -38,17 +38,18 @@ public class ItemFluffyPuffSeeds extends ItemSeeds implements IRegistryObject {
   }
 
   @Override
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn,
-      BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+  public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos,
+      EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     // Identical to ItemSeeds.onItemUse, except using getPlant instead of this.crops, which
     // does not work.
     IBlockState state = worldIn.getBlockState(pos);
+    ItemStack stack = playerIn.getHeldItem(hand);
     if (facing == EnumFacing.UP && playerIn.canPlayerEdit(pos.offset(facing), facing, stack)
         && state.getBlock().canSustainPlant(state, worldIn, pos, EnumFacing.UP, this)
         && worldIn.isAirBlock(pos.up())) {
       worldIn.setBlockState(pos.up(), getPlant(worldIn, pos));
-      --stack.stackSize;
+      stack.shrink(1);
       return EnumActionResult.SUCCESS;
     } else {
       return EnumActionResult.FAIL;
@@ -86,7 +87,7 @@ public class ItemFluffyPuffSeeds extends ItemSeeds implements IRegistryObject {
   @Override
   public String getModId() {
 
-    return SilentGems.MOD_ID.toLowerCase();
+    return SilentGems.MODID;
   }
 
   @Override

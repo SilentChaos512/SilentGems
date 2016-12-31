@@ -23,7 +23,7 @@ public class LootHandler {
       LootPool main = event.getTable().getPool("main");
       if (main != null) {
         main.addEntry(new LootEntryItem(Items.FLINT, 30, 0, count(6, 12), new LootCondition[0],
-            SilentGems.MOD_ID + ":flint"));
+            SilentGems.MODID + ":flint"));
       }
     } else if (event.getName().equals(LootTableList.CHESTS_ABANDONED_MINESHAFT)
         || event.getName().equals(LootTableList.CHESTS_DESERT_PYRAMID)
@@ -32,10 +32,10 @@ public class LootHandler {
       if (main != null) {
         main.addEntry(
             new LootEntryItem(ModItems.gem, 16, 1, countAndMeta(3, 8, 0, EnumGem.values().length),
-                new LootCondition[0], SilentGems.MOD_ID + "Gems1"));
+                new LootCondition[0], SilentGems.MODID + "Gems1"));
         main.addEntry(
             new LootEntryItem(ModItems.gem, 16, 1, countAndMeta(3, 8, 0, EnumGem.values().length),
-                new LootCondition[0], SilentGems.MOD_ID + "Gems2"));
+                new LootCondition[0], SilentGems.MODID + "Gems2"));
       }
     }
   }

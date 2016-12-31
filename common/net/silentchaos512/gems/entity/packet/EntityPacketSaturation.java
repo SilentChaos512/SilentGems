@@ -40,7 +40,7 @@ public class EntityPacketSaturation extends EntityChaosNodePacket {
   public void onImpactWithEntity(EntityLivingBase entity) {
 
     entity.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 1, (int) amount));
-    entity.worldObj.playSound(null, entity.posX, entity.posY, entity.posZ,
+    entity.world.playSound(null, entity.posX, entity.posY, entity.posZ,
         SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS,
         1.0f, 1.2f + (float) (0.05 * rand.nextGaussian()));
     super.onImpactWithEntity(entity);

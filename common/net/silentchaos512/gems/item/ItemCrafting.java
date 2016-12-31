@@ -74,7 +74,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
 
   public ItemCrafting() {
 
-    super(NAMES, SORTED_NAMES, SilentGems.MOD_ID, Names.CRAFTING_MATERIAL);
+    super(NAMES, SORTED_NAMES, SilentGems.MODID, Names.CRAFTING_MATERIAL);
     GameRegistry.registerFuelHandler(this);
   }
 
@@ -201,7 +201,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
         }
         entityLiving.setCustomNameTag(stack.getDisplayName());
         entityLiving.enablePersistence();
-        --stack.stackSize;
+        stack.shrink(1);
         return true;
       }
     }

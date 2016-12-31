@@ -52,7 +52,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
   public EntityChaosProjectile(EntityLivingBase shooter, ItemStack castingStack, float damage) {
 
-    super(shooter.worldObj, shooter);
+    super(shooter.world, shooter);
 
     this.shooter = shooter;
     this.damage = damage;
@@ -112,7 +112,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
     Vec3d vec1 = new Vec3d(posX, posY, posZ);
     Vec3d vec2 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
-    RayTraceResult mop = worldObj.rayTraceBlocks(vec1, vec2, false, true, false);
+    RayTraceResult mop = world.rayTraceBlocks(vec1, vec2, false, true, false);
     if (mop != null) {
       onImpact(mop);
     }
@@ -122,15 +122,15 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
     }
 
     // Body particle
-    SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PROJECTILE_BODY, getColor(), worldObj,
+    SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PROJECTILE_BODY, getColor(), world,
         posX, posY, posZ, 0, 0, 0);
     // Tail particles
     if (ticksExisted > 2) {
       for (int i = 0; i < 1 + 3 / (1 + 2 * SilentGems.instance.proxy.getParticleSettings()); ++i) {
-        double mx = worldObj.rand.nextGaussian() * 0.01f;
-        double my = worldObj.rand.nextGaussian() * 0.01f;
-        double mz = worldObj.rand.nextGaussian() * 0.01f;
-        SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, getColor(), worldObj, posX, posY,
+        double mx = world.rand.nextGaussian() * 0.01f;
+        double my = world.rand.nextGaussian() * 0.01f;
+        double mz = world.rand.nextGaussian() * 0.01f;
+        SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, getColor(), world, posX, posY,
             posZ, mx, my, mz);
       }
     }
@@ -150,9 +150,9 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
     } else if (mop.typeOfHit == Type.BLOCK) {
       // Collide with Block?
       BlockPos pos = mop.getBlockPos();
-      IBlockState state = worldObj.getBlockState(pos);
+      IBlockState state = world.getBlockState(pos);
       Block block = state.getBlock();
-      AxisAlignedBB boundingBox = state.getBoundingBox(worldObj, pos);
+      AxisAlignedBB boundingBox = state.getBoundingBox(world, pos);
 
       // Bounce off of blocks that can be collided with.
       if (bounces > 0 && boundingBox != null) {
@@ -172,7 +172,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
             break;
         }
         spawnHitParticles(16);
-        worldObj.playSound(null, pos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.AMBIENT, 0.5f,
+        world.playSound(null, pos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.AMBIENT, 0.5f,
             0.65f);
       } else if (boundingBox != null) {
         setDead();
@@ -191,7 +191,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
     spawnHitParticles(64);
     float f = (float) (0.75f + rand.nextGaussian() * 0.05f);
-    worldObj.playSound(null, getPosition(), SoundEvents.ENTITY_FIREWORK_BLAST,
+    world.playSound(null, getPosition(), SoundEvents.ENTITY_FIREWORK_BLAST,
         SoundCategory.AMBIENT, 0.75f, f);
 
     super.setDead();
@@ -204,7 +204,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
       mX = rand.nextGaussian() * 0.05;
       mY = rand.nextGaussian() * 0.05;
       mZ = rand.nextGaussian() * 0.05;
-      worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX, posY, posZ, mX, mY, mZ);
+      world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX, posY, posZ, mX, mY, mZ);
     }
   }
 
@@ -249,7 +249,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
     damage = tags.getFloat(NBT_DAMAGE);
     gravity = tags.getBoolean(NBT_GRAVITY);
     if (tags.hasKey(NBT_SHOOTER)) {
-      shooter = worldObj.getPlayerEntityByName(tags.getString(NBT_SHOOTER));
+      shooter = world.getPlayerEntityByName(tags.getString(NBT_SHOOTER));
       if (shooter == null) {
         setDead();
       }

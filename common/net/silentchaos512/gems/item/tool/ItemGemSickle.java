@@ -25,17 +25,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.network.play.server.SPacketBlockChange;
-import net.minecraft.server.management.PlayerInteractionManager;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldSettings;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -79,7 +76,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SICKLE) return null; // FIXME: 1.11
+    if (GemsConfig.TOOL_DISABLE_SICKLE) return ItemStack.EMPTY;
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -118,7 +115,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, List list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     if (subItems == null) {
       subItems = ToolHelper.getSubItems(item, 3);
@@ -127,8 +124,10 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   }
 
   @Override
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos,
       EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+    ItemStack stack = player.getHeldItem(hand);
 
     if (ToolHelper.isBroken(stack)) {
       return EnumActionResult.PASS;
@@ -200,7 +199,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
       return false;
     }
 
-    IBlockState state = player.worldObj.getBlockState(pos);
+    IBlockState state = player.world.getBlockState(pos);
     Block block = state.getBlock();
 
     if (!isEffectiveOnMaterial(state.getMaterial())) {
@@ -222,7 +221,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
           continue;
         }
 
-        if (breakExtraBlock(sickle, player.worldObj, xPos, y, zPos, 0, player, x, y, z)) {
+        if (breakExtraBlock(sickle, player.world, xPos, y, zPos, 0, player, x, y, z)) {
           ++blocksBroken;
         }
       }
@@ -249,7 +248,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
     }
 
     EntityPlayerMP playerMP = (EntityPlayerMP) player;
-    IBlockState state = player.worldObj.getBlockState(pos);
+    IBlockState state = player.world.getBlockState(pos);
     Block block = state.getBlock();
 
     boolean effectiveOnBlock = false;
@@ -364,9 +363,9 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   }
 
   @Override
-  public int getHarvestLevel(ItemStack stack, String toolClass) {
+  public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player, IBlockState state) {
 
-    if (super.getHarvestLevel(stack, toolClass) < 0) {
+    if (super.getHarvestLevel(stack, toolClass, player, state) < 0) {
       return 0;
     }
     return ToolHelper.getHarvestLevel(stack);
@@ -436,7 +435,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   @Override
   public String getModId() {
 
-    return SilentGems.MOD_ID;
+    return SilentGems.MODID;
   }
 
   @Override

@@ -59,7 +59,7 @@ public class RecipeMultiGemTool extends RecipeBase {
     else if (matchesRecipe(inv, RECIPE_SHOVEL))
       return ModItems.shovel.constructTool(getRodType(inv), getGems(inv));
 
-    return null;
+    return ItemStack.EMPTY;
   }
 
   private boolean matchesRecipe(InventoryCrafting inv, String recipe) {
@@ -123,7 +123,7 @@ public class RecipeMultiGemTool extends RecipeBase {
         stack = inv.getStackInRowAndColumn(i, j);
 
         // Check for excess things.
-        if (c == ' ' && stack != null)
+        if (c == ' ' && !stack.isEmpty())
           return false;
 
         ToolPart part = getPartInSlot(inv, i, j);
@@ -167,7 +167,7 @@ public class RecipeMultiGemTool extends RecipeBase {
   private ToolPart getPartInSlot(InventoryCrafting inv, int row, int column) {
 
     ItemStack stack = inv.getStackInRowAndColumn(row, column);
-    if (stack != null) {
+    if (!stack.isEmpty()) {
       ToolPart part = ToolPartRegistry.fromStack(stack);
       if (part != null) {
         return part;
@@ -178,17 +178,17 @@ public class RecipeMultiGemTool extends RecipeBase {
 
   private ItemStack getRodType(InventoryCrafting inv) {
 
-    ItemStack firstRod = null;
-    ItemStack stack = null;
+    ItemStack firstRod = ItemStack.EMPTY;
+    ItemStack stack = ItemStack.EMPTY;
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
       ToolPart part = ToolPartRegistry.fromStack(stack);
       if (part != null && part instanceof ToolPartRod) {
-        if (firstRod == null) {
+        if (firstRod.isEmpty()) {
           firstRod = stack;
         }
         if (!firstRod.isItemEqual(stack)) {
-          return null;
+          return ItemStack.EMPTY;
         }
       }
     }

@@ -28,7 +28,7 @@ public class ItemTipUpgrade extends ItemSL {
 
   public ItemTipUpgrade() {
 
-    super(EnumTipUpgrade.values().length - 1, SilentGems.MOD_ID, Names.UPGRADE_TIP);
+    super(EnumTipUpgrade.values().length - 1, SilentGems.MODID, Names.UPGRADE_TIP);
   }
 
   @Override
@@ -65,10 +65,6 @@ public class ItemTipUpgrade extends ItemSL {
 
   public ItemStack applyToTool(ItemStack tool, ItemStack upgrade) {
 
-    if (tool == null || upgrade == null) {
-      return null;
-    }
-
     ToolPart part = ToolPartRegistry.fromStack(upgrade);
     if (part == null) {
       return null;
@@ -94,7 +90,7 @@ public class ItemTipUpgrade extends ItemSL {
 
     List<ModelResourceLocation> models = Lists.newArrayList();
     for (String str : NAMES) {
-      models.add(new ModelResourceLocation(SilentGems.MOD_ID + ":" + str, "inventory"));
+      models.add(new ModelResourceLocation(SilentGems.MODID + ":" + str, "inventory"));
     }
     return models;
   }
@@ -102,6 +98,6 @@ public class ItemTipUpgrade extends ItemSL {
   @Override
   public String getNameForStack(ItemStack stack) {
 
-    return NAMES[MathHelper.clamp_int(stack.getItemDamage(), 0, NAMES.length - 1)];
+    return NAMES[MathHelper.clamp(stack.getItemDamage(), 0, NAMES.length - 1)];
   }
 }

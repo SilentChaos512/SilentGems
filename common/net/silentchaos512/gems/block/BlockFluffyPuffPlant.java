@@ -55,10 +55,11 @@ public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject 
   }
 
   @Override
-  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-      EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
-    if (heldItem != null && heldItem.getItem() == ModItems.sickle) {
+    ItemStack heldItem = player.getHeldItem(hand);
+
+    if (heldItem.getItem() == ModItems.sickle) {
       return false;
     }
 
@@ -135,7 +136,7 @@ public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject 
   @Override
   public String getModId() {
 
-    return SilentGems.MOD_ID.toLowerCase();
+    return SilentGems.MODID;
   }
 
   @Override

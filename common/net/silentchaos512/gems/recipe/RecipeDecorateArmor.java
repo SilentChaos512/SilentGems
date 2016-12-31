@@ -20,14 +20,14 @@ public class RecipeDecorateArmor extends RecipeBase {
     int toolRow = 0;
     int toolCol = 0;
     ItemStack stack;
-    ItemStack tool = null;
+    ItemStack tool = ItemStack.EMPTY;
     int repairValue = 0;
 
     // Find armor position
     for (int row = 0; row < inv.getWidth(); ++row) {
       for (int col = 0; col < inv.getHeight(); ++col) {
         stack = inv.getStackInRowAndColumn(row, col);
-        if (stack != null && stack.getItem() instanceof IArmor) {
+        if (!stack.isEmpty() && stack.getItem() instanceof IArmor) {
           tool = stack;
           toolRow = row;
           toolCol = col;
@@ -36,8 +36,8 @@ public class RecipeDecorateArmor extends RecipeBase {
     }
 
     // Found armor piece?
-    if (tool == null) {
-      return null;
+    if (tool.isEmpty()) {
+      return ItemStack.EMPTY;
     }
 
     // Check adjacent materials
@@ -45,12 +45,12 @@ public class RecipeDecorateArmor extends RecipeBase {
     ItemStack north = inv.getStackInRowAndColumn(toolRow, toolCol - 1);
     ItemStack east = inv.getStackInRowAndColumn(toolRow + 1, toolCol);
     ItemStack south = inv.getStackInRowAndColumn(toolRow, toolCol + 1);
-    int validPartCount = (west == null ? 0 : 1) + (north == null ? 0 : 1) + (east == null ? 0 : 1)
-        + (south == null ? 0 : 1);
+    int validPartCount = (west.isEmpty() ? 0 : 1) + (north.isEmpty() ? 0 : 1)
+        + (east.isEmpty() ? 0 : 1) + (south.isEmpty() ? 0 : 1);
 
     if (!checkIsDecorationMaterial(west) || !checkIsDecorationMaterial(north)
         || !checkIsDecorationMaterial(east) || !checkIsDecorationMaterial(south)) {
-      return null;
+      return ItemStack.EMPTY;
     }
 
     // Check for other pieces (invalid for armor) and get all repair values.
@@ -59,11 +59,11 @@ public class RecipeDecorateArmor extends RecipeBase {
     int partsFound = 0;
     for (i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
-      if (stack != null && !(stack.getItem() instanceof IArmor)) {
+      if (!stack.isEmpty() && !(stack.getItem() instanceof IArmor)) {
         part = ToolPartRegistry.fromStack(stack);
         // Invalid part or not a part?
         if (part == null || !(part instanceof ToolPartMain)) {
-          return null;
+          return ItemStack.EMPTY;
         }
         // Found a part.
         ++partsFound;
@@ -74,7 +74,7 @@ public class RecipeDecorateArmor extends RecipeBase {
 
     // Make sure we got no other parts.
     if (partsFound != validPartCount) {
-      return null;
+      return ItemStack.EMPTY;
     }
 
     ItemStack result = ArmorHelper.decorateArmor(tool, west, north, east, south);
@@ -91,7 +91,7 @@ public class RecipeDecorateArmor extends RecipeBase {
 
   private boolean checkIsDecorationMaterial(ItemStack stack) {
 
-    if (stack == null) {
+    if (stack.isEmpty()) {
       return true;
     }
 

@@ -56,7 +56,7 @@ public class Greetings {
     Calendar cal = Calendar.getInstance();
     boolean strawpollNotExpired = cal.get(Calendar.YEAR) == 2016 && cal.get(Calendar.MONTH) == Calendar.DECEMBER;
     if (strawpollNotExpired && !strawpollNotifiedPlayers.contains(player.getName())) {
-      player.addChatMessage(ForgeHooks.newChatWithLinks(TextFormatting.DARK_PURPLE
+      player.sendMessage(ForgeHooks.newChatWithLinks(TextFormatting.DARK_PURPLE
           + "[Silent's Gems]" + TextFormatting.RESET + " Like the current textures? Or would you"
           + " prefer 16x16 textures like vanilla? I'd like to hear your opinions:"
           + " http://www.strawpoll.me/11872834"));

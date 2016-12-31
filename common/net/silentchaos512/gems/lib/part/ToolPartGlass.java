@@ -13,14 +13,14 @@ public class ToolPartGlass extends ToolPartMain {
 
   public ToolPartGlass() {
 
-    super(SilentGems.MOD_ID + ":glass", new ItemStack(Blocks.GLASS));
+    super(SilentGems.MODID + ":glass", new ItemStack(Blocks.GLASS));
   }
 
   @Override
   public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos, int frame) {
 
     String name = ((IRegistryObject) tool.getItem()).getName();
-    name = SilentGems.MOD_ID + ":" + name.toLowerCase() + "/" + name;
+    name = SilentGems.MODID + ":" + name.toLowerCase() + "/" + name;
 
     switch (pos) {
       case HEAD_LEFT:

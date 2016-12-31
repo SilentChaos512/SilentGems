@@ -23,34 +23,34 @@ public class RecipeMultiGemBow extends RecipeBase {
     ItemStack[] strings = getString(inv, orientation);
 
     if (gems == null || rods == null || strings == null)
-      return null;
+      return ItemStack.EMPTY;
 
     // Check center is empty.
-    if (inv.getStackInRowAndColumn(1, 1) != null)
-      return null;
+    if (!inv.getStackInRowAndColumn(1, 1).isEmpty())
+      return ItemStack.EMPTY;
 
     EnumMaterialTier targetTier = null;
     for (ItemStack stack : gems) {
       ToolPart part = ToolPartRegistry.fromStack(stack);
       if (part == null || part.isBlacklisted(stack))
-        return null;
+        return ItemStack.EMPTY;
       if (targetTier == null)
         targetTier = part.getTier();
       if (targetTier != part.getTier())
-        return null;
+        return ItemStack.EMPTY;
     }
     for (ItemStack stack : rods) {
       ToolPart part = ToolPartRegistry.fromStack(stack);
       if (!part.validForToolOfTier(targetTier))
-        return null;
+        return ItemStack.EMPTY;
     }
 
     ItemStack stackString = strings[0];
-    if ((targetTier.ordinal() >= EnumMaterialTier.SUPER.ordinal()
+    if (targetTier == null || (targetTier.ordinal() >= EnumMaterialTier.SUPER.ordinal()
         && !stackString.isItemEqual(ModItems.craftingMaterial.gildedString)
         || (targetTier.ordinal() < EnumMaterialTier.SUPER.ordinal()
             && !stackString.isItemEqual(new ItemStack(Items.STRING)))))
-      return null;
+      return ItemStack.EMPTY;
 
     return ModItems.bow.constructTool(rods[0], gems);
   }
@@ -66,11 +66,11 @@ public class RecipeMultiGemBow extends RecipeBase {
     ItemStack gem2 = inv.getStackInRowAndColumn(orientation ? 0 : 2, 1);
     ItemStack gem3 = inv.getStackInRowAndColumn(1, 0);
 
-    gem1 = ToolPartRegistry.fromStack(gem1) instanceof ToolPartMain ? gem1 : null;
-    gem2 = ToolPartRegistry.fromStack(gem2) instanceof ToolPartMain ? gem2 : null;
-    gem3 = ToolPartRegistry.fromStack(gem3) instanceof ToolPartMain ? gem3 : null;
+    gem1 = ToolPartRegistry.fromStack(gem1) instanceof ToolPartMain ? gem1 : ItemStack.EMPTY;
+    gem2 = ToolPartRegistry.fromStack(gem2) instanceof ToolPartMain ? gem2 : ItemStack.EMPTY;
+    gem3 = ToolPartRegistry.fromStack(gem3) instanceof ToolPartMain ? gem3 : ItemStack.EMPTY;
 
-    return gem1 == null || gem2 == null || gem3 == null ? null
+    return gem1.isEmpty() || gem2.isEmpty() || gem3.isEmpty() ? null
         : new ItemStack[] { gem1, gem2, gem3 };
   }
 
@@ -97,7 +97,7 @@ public class RecipeMultiGemBow extends RecipeBase {
     ItemStack str2 = inv.getStackInRowAndColumn(orientation ? 2 : 0, 1);
     ItemStack str3 = inv.getStackInRowAndColumn(orientation ? 2 : 0, 2);
 
-    if (str1 == null || str2 == null || str3 == null || !str1.isItemEqual(str2)
+    if (str1.isEmpty() || str2.isEmpty() || str3.isEmpty() || !str1.isItemEqual(str2)
         || !str1.isItemEqual(str3))
       return null;
 
