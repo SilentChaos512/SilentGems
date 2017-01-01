@@ -36,7 +36,7 @@ public class ContainerMaterialGrader extends ContainerSL {
   @Override
   public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
 
-    ItemStack stack = null;
+    ItemStack stack = ItemStack.EMPTY;
     Slot slot = (Slot) inventorySlots.get(slotIndex);
 
     if (slot != null && slot.getHasStack()) {
@@ -51,36 +51,36 @@ public class ContainerMaterialGrader extends ContainerSL {
       if (slotIndex >= TileMaterialGrader.SLOT_OUTPUT_START && slotIndex < TileMaterialGrader.INVENTORY_SIZE) {
         // Remove from output slot?
         if (!this.mergeItemStack(stack1, startPlayer, endHotbar, true)) {
-          return null;
+          return ItemStack.EMPTY;
         }
       } else if (slotIndex >= size
           && tileInventory.isItemValidForSlot(TileMaterialGrader.SLOT_INPUT, stack1)) {
         // Move from player to input slot?
         if (!mergeItemStack(stack1, 0, 1, false)) {
-          return null;
+          return ItemStack.EMPTY;
         }
       } else if (slotIndex >= startPlayer && slotIndex < endPlayer) {
         // Move player items to hotbar.
         if (!mergeItemStack(stack1, startHotbar, endHotbar, false)) {
-          return null;
+          return ItemStack.EMPTY;
         }
       } else if (slotIndex >= startHotbar && slotIndex < endHotbar) {
         // Move player items from hotbar.
         if (!mergeItemStack(stack1, startPlayer, endPlayer, false)) {
-          return null;
+          return ItemStack.EMPTY;
         }
       } else if (!mergeItemStack(stack1, startPlayer, endHotbar, false)) {
-        return null;
+        return ItemStack.EMPTY;
       }
 
       if (stack1.getCount() == 0) {
-        slot.putStack((ItemStack) null);
+        slot.putStack(ItemStack.EMPTY);
       } else {
         slot.onSlotChanged();
       }
 
       if (stack1.getCount() == stack.getCount()) {
-        return null;
+        return ItemStack.EMPTY;
       }
 
       slot.onTake(player, stack1);
