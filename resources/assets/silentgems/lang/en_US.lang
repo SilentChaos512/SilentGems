@@ -1,6 +1,6 @@
 itemGroup.tabSilentGems=Silent's Gems
 itemGroup.silentgems:blocks=Silent's Gems: Blocks
-itemGroup.silentgems:materials=Silent's Gems: Materials
+itemGrChaosGem.silentgems:materials=Silent's Gems: Materials
 itemGroup.silentgems:tools=Silent's Gems: Tools & Armor
 itemGroup.silentgems:utility=Silent's Gems: Utility
 
@@ -413,6 +413,43 @@ item.silentgems:ArmorFrame9.name=Chestplate Frame (Super)
 item.silentgems:ArmorFrame10.name=Leggings Frame (Super)
 item.silentgems:ArmorFrame11.name=Boots Frame (Super)
 
+item.silentgems:ChaosGem0.name=Chaos Ruby
+item.silentgems:ChaosGem1.name=Chaos Garnet
+item.silentgems:ChaosGem2.name=Chaos Topaz
+item.silentgems:ChaosGem3.name=Chaos Amber
+item.silentgems:ChaosGem4.name=Chaos Heliodor
+item.silentgems:ChaosGem5.name=Chaos Peridot
+item.silentgems:ChaosGem6.name=Chaos Beryl
+item.silentgems:ChaosGem7.name=Chaos Indicolite
+item.silentgems:ChaosGem8.name=Chaos Aquamarine
+item.silentgems:ChaosGem9.name=Chaos Sapphire
+item.silentgems:ChaosGem10.name=Chaos Iolite
+item.silentgems:ChaosGem11.name=Chaos Amethyst
+item.silentgems:ChaosGem12.name=Chaos Agate
+item.silentgems:ChaosGem13.name=Chaos Morganite
+item.silentgems:ChaosGem14.name=Chaos Onyx
+item.silentgems:ChaosGem15.name=Chaos Opal
+item.silentgems:ChaosGem16.name=Chaos Carnelian
+item.silentgems:ChaosGem17.name=Chaos Spinel
+item.silentgems:ChaosGem18.name=Chaos Citrine
+item.silentgems:ChaosGem19.name=Chaos Jasper
+item.silentgems:ChaosGem20.name=Chaos Golden Beryl
+item.silentgems:ChaosGem21.name=Chaos Moldavite
+item.silentgems:ChaosGem22.name=Chaos Malachite
+item.silentgems:ChaosGem23.name=Chaos Turquoise
+item.silentgems:ChaosGem24.name=Chaos Moonstone
+item.silentgems:ChaosGem25.name=Chaos Blue Topaz
+item.silentgems:ChaosGem26.name=Chaos Tanzanite
+item.silentgems:ChaosGem27.name=Chaos Violet Sapphire
+item.silentgems:ChaosGem28.name=Chaos Lepidolite
+item.silentgems:ChaosGem29.name=Chaos Ametrine
+item.silentgems:ChaosGem30.name=Chaos Black Diamond
+item.silentgems:ChaosGem31.name=Chaos Alexandrite
+item.silentgems:ChaosGem32.name=Super Cheaty Chaos Gem
+item.silentgems:ChaosGem.charge=Charge: %,d / %,d
+item.silentgems:ChaosGem.slots=Slots: %d / %d
+item.silentgems:ChaosGem.drain=Drain: %d
+
 item.silentgems:ChaosOrb0.name=Chaos Potato
 item.silentgems:ChaosOrb1.name=Fragile Chaos Orb
 item.silentgems:ChaosOrb2.name=Refined Chaos Orb
@@ -422,6 +459,18 @@ item.silentgems:ChaosOrb.desc2=when low on charge.
 item.silentgems:ChaosOrb.break=Your %1$s shatters into %2$,d pieces.
 item.silentgems:ChaosOrb.breakChance=Max break chance: %d%%
 item.silentgems:ChaosOrb.crack=Your %s has cracked...
+
+item.silentgems:ChaosRune.name=Chaos Rune
+item.silentgems:ChaosRune.desc=Craft with Chaos Gems
+item.silentgems:ChaosRune.chaosCost=Chaos Cost: %d
+item.silentgems:ChaosRune.maxLevel=Max Level: %d
+item.silentgems:ChaosRune.slotsUsed=Slots Used: %d
+buff.silentgems:capacity=Capacity
+buff.silentgems:capacity.desc=Greatly increases Chaos capacity
+buff.silentgems:flight=Flight
+buff.silentgems:flight.desc=Better than wings
+buff.silentgems:recharge=Recharge
+buff.silentgems:recharge.desc=Generates Chaos when not in use
 
 item.silentgems:DebugItem.name=Debug Item
 item.silentgems:DebugItem.desc=No one here but us space chickens!
@@ -589,6 +638,7 @@ item.silentgems:TipUpgrade.magicDamage=&aMagic Damage %s
 item.silentgems:ArmorLatticeMundane.name=Armor Lattice (Mundane)
 item.silentgems:ArmorLatticeRegular.name=Armor Lattice (Regular)
 item.silentgems:ArmorLatticeSuper.name=Armor Lattice (Super)
+item.silentgems:Blazestone.name=Blazestone
 item.silentgems:ChaosCoal.name=Chaos Coal
 item.silentgems:ChaosCore.name=Chaos Core
 item.silentgems:ChaosEssence.name=Chaos Essence
@@ -659,11 +709,6 @@ tool.silentgems:Bow=%s Bow
 tool.silentgems:Shield=%s Shield
 tool.silentgems:delimiter=-
 
-# Tool placeholders
-item.silentgems:Bow.name=Reserved for Bows
-item.silentgems:FishingRod.name=Reserved for Fishing Rods
-item.silentgems:Shield.name=Reserved for Shields
-
 # Armor
 tool.silentgems:Helmet=%s Helmet
 tool.silentgems:Chestplate=%s Chestplate
@@ -685,8 +730,14 @@ donut.silentgems:8=You feel... something.
 
 # Enchantments
 
+enchantment.silentgems:Gravity=Gravity
 enchantment.silentgems:LifeSteal=Life Steal
 enchantment.silentgems:MagicDamage=Concentration
+
+# Enchantment Descriptions
+enchantment.silentgems:Gravity.desc=Reduces speed penalty while flying or underwater.
+enchantment.silentgems:LifeSteal.desc=Heals the user for a small portion of damage dealt.
+enchantment.silentgems:MagicDamage.desc=Increases damage dealt by magic attacks.
 
 
 
@@ -713,10 +764,16 @@ misc.silentgems:ToolTier.HYPER=Hyper
 misc.silentgems:Grade.none=None
 
 misc.silentgems:Tooltip.Tipped=%s-Tipped
-misc.silentgems:Tooltip.TipIron=&fIron
-misc.silentgems:Tooltip.TipDiamond=&bDiamond
-misc.silentgems:Tooltip.TipEmerald=&2Emerald
-misc.silentgems:Tooltip.TipGold=&eGold
+misc.silentgems:Tooltip.tipiron=&fIron
+misc.silentgems:Tooltip.tipdiamond=&bDiamond
+misc.silentgems:Tooltip.tipemerald=&2Emerald
+misc.silentgems:Tooltip.tipgold=&eGold
+
+misc.silentgems:Tooltip.level0=Stone
+misc.silentgems:Tooltip.level1=Iron
+misc.silentgems:Tooltip.level2=Diamond
+misc.silentgems:Tooltip.level3=Obsidian
+misc.silentgems:Tooltip.level4=Cobalt
 
 misc.silentgems:Tooltip.ArrowDamage=Arrow Damage:&f %s
 misc.silentgems:Tooltip.BlockingPower=Blocking Power:&f %s
@@ -760,7 +817,12 @@ misc.silentgems:Tooltip.Construction=&6Construction
 jei.silentgems:recipe.altar=Altar Transmutation
 jei.silentgems:recipe.altar.catalyst=Catalyst:
 
-jei.silentgems:desc.ChaosAltar=A block that can store Chaos. It will recharge Chaos-storing items placed in it. It can also transmute certain items. Most transmutations also require a catalyst, which is not consumed.
+jei.silentgems:desc.ChaosAltar=A block that can store Chaos. It will recharge Chaos-storing items placed in it. Place near Nodes and/or Pylons. It can also transmute certain items. Most transmutations also require a catalyst, which is not consumed.
+jei.silentgems:desc.ChaosFlowerPot=A flower pot that amplifies the light of Glow Roses. Not only that, it will place phantom lights in the nearby area wherever they are needed. The phantom lights can be easily destroyed if necessary, and will disappear shortly after the flower pot is removed.
+jei.silentgems:desc.ChaosNode=Chaos Nodes pour out various energies into the world. Most notably they produce Chaos energy, which certain blocks and items require to function.\n\nSome have reported Nodes doing other things as well, such as attacking monsters and healing the injured.\n\nNodes cannot be picked up like ordinary blocks. You will need an item like the Chaos Node Mover to move them.
+jei.silentgems:desc.ChaosPylon0=Produces Chaos energy out of nothing, similar to Nodes. Unlike Nodes, it only produces Chaos. They have no other effects, so don't expect them to defend your base.
+jei.silentgems:desc.ChaosPylon1=Produces Chaos energy from burnable fuel. Anything that a furnace can burn will work! They produce far more Chaos per tick than Passive Chaos Pylons. These blocks only produce Chaos and have no other effects.
+jei.silentgems:desc.MaterialGrader=Analyzes tool materials, bringing out their potential. Each piece will get a random grade that applies a percentage bonus to each stat. Requires Chaos to function, so place it near Nodes or Pylons. Load materials into the first slot, then be patient. Graded items can be extracted from the bottom.
 
 jei.silentgems:desc.Gem=Gems are used for constructing, repairing, and changing the appearance of tools. A single tool can be made with multiple types of gems. Craft gems next to a tool to "decorate" it.
 
