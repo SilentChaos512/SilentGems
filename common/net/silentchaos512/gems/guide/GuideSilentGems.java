@@ -400,9 +400,6 @@ public class GuideSilentGems {
       book.setRegistryName(new ResourceLocation(title));
 
       GuideAPI.BOOKS.add(book);
-
-      if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
-        GuideAPI.setModel(book);
     } catch (Exception ex) {
       warnUserOfGuideApiException(
           "Something went wrong during guide book registration! Report this to me at https://github.com/SilentChaos512/SilentGems/issues."
@@ -421,6 +418,7 @@ public class GuideSilentGems {
       return;
 
     try {
+      GuideAPI.setModel(book);
       // FIXME?
 //    Item itemGuideBook = GuideAPI.guideBook;
 //    int meta = GuideAPI.BOOKS.getValues().indexOf(book);
