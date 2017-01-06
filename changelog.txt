@@ -1,5 +1,14 @@
 Silent's Gems - Changelog
 
+2.2.4
+Fixed: Super-tier tools harvesting at Area Miner/Lumberjack speeds when their skill is not activated.
+
+2.2.3
+Fixed: Crash when using the Material Grader.
+Fixed: Tools not incrementing their "blocks mined" statistic.
+Fixed: Some missing localizations.
+Fixed: Removed a debug message that displays everytime a block is mined.
+
 2.2.2
 Updated the 1.11 version finally... Decided to redo the port so I wouldn't miss anything. 1.11 will likely become the main version for development at this point.
 Changed: Replaced existed textures with all the 16x16 textures I've made at this point. Majority vote was for 16x16 textures, so... here you go!

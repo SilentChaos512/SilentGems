@@ -21,6 +21,7 @@ public class ToolPartRegistry {
 
   private static Map<String, ToolPart> map = Maps.newHashMap();
   private static List<ToolPartMain> mains = Lists.newArrayList();
+  private static Map<ItemStack, ToolPart> STACK_TO_PART = Maps.newHashMap();
 
   /**
    * @param key
@@ -60,15 +61,20 @@ public class ToolPartRegistry {
     if (stack.isEmpty())
       return null;
 
+    if (STACK_TO_PART.containsKey(stack))
+      return STACK_TO_PART.get(stack);
+
     for (ToolPart part : map.values()) {
       // Exact match for crafting stack?
       if (part.craftingStack != null && part.craftingStack.isItemEqual(stack)) {
+        STACK_TO_PART.put(stack, part);
         return part;
       }
       // Matches ore dictionary key?
       if (!part.craftingOreDictName.isEmpty()) {
         for (ItemStack stackOre : OreDictionary.getOres(part.craftingOreDictName)) {
           if (stackOre.isItemEqual(stack)) {
+            STACK_TO_PART.put(stack, part);
             return part;
           }
         }
