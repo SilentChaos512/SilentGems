@@ -99,7 +99,7 @@ public class GemsCommonEvents {
 
       // Reduce speed for Area Miner and Lumberjack.
       ToolSkill skill = ToolHelper.getSuperSkill(mainHand);
-      if (skill instanceof ToolSkillDigger)
+      if (skill instanceof ToolSkillDigger && ToolHelper.isSpecialAbilityEnabled(mainHand))
         ((ToolSkillDigger) skill).onGetBreakSpeed(event);
     }
   }
