@@ -72,6 +72,7 @@ public class Names {
   public static final String GILDED_STRING = "GildedString";
   public static final String IRON_POTATO = "IronPotato";
   public static final String MAGNIFYING_GLASS = "MagnifyingGlass";
+  public static final String MYSTERY_GOO = "MysteryGoo";
   public static final String NAME_PLATE = "NamePlate";
   public static final String NETHER_CLUSTER = "NetherCluster";
   public static final String NETHER_SHARD = "NetherShard";

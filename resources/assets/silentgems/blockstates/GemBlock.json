@@ -9,7 +9,12 @@
   },
   "variants": {
     "normal": [{}],
-    "inventory": [{}],
+    "inventory": [{
+        "model": "silentgems:basic_cube",
+        "textures": {
+          "all": "silentgems:blocks/gemblock0"
+        }
+    }],
     "variant":
     {
       "ruby": {

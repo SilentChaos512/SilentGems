@@ -31,7 +31,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
       Names.MAGNIFYING_GLASS, Names.PLUME, Names.SHINY_PLUME, Names.ENDER_FROST, Names.NETHER_SHARD,
       Names.NETHER_CLUSTER, Names.GILDED_STRING, Names.YARN_BALL, Names.RAWHIDE_BONE,
       Names.ARMOR_LATTICE_MUNDANE, Names.ARMOR_LATTICE_REGULAR, Names.ARMOR_LATTICE_SUPER,
-      Names.BLAZESTONE };
+      Names.BLAZESTONE, Names.MYSTERY_GOO };
 
   public static final String[] SORTED_NAMES = { //
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
@@ -39,9 +39,9 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
       Names.NETHER_SHARD, Names.NETHER_CLUSTER, Names.CHAOS_COAL, Names.STICK_IRON,
       Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.ARMOR_LATTICE_MUNDANE,
       Names.ARMOR_LATTICE_REGULAR, Names.ARMOR_LATTICE_SUPER, Names.GILDED_STRING, Names.BLAZESTONE,
-      Names.CHAOS_CORE, Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.PLUME, Names.SHINY_PLUME,
-      Names.YARN_BALL, Names.RAWHIDE_BONE, Names.MAGNIFYING_GLASS, Names.NAME_PLATE,
-      Names.UPGRADE_BASE };
+      Names.MYSTERY_GOO, Names.CHAOS_CORE, Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.PLUME,
+      Names.SHINY_PLUME, Names.YARN_BALL, Names.RAWHIDE_BONE, Names.MAGNIFYING_GLASS,
+      Names.NAME_PLATE, Names.UPGRADE_BASE };
 
   public final ItemStack armorLatticeMundane = getStack(Names.ARMOR_LATTICE_MUNDANE);
   public final ItemStack armorLatticeRegular = getStack(Names.ARMOR_LATTICE_REGULAR);
