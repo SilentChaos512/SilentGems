@@ -2,15 +2,22 @@ package net.silentchaos512.gems.block;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -85,5 +92,32 @@ public class BlockGem extends BlockGemSubtypes {
       return entity instanceof EntityPlayer;
     }
     return super.canEntityDestroy(state, world, pos, entity);
+  }
+
+  @Override
+  public boolean registerModels() {
+
+    // Temporarily overriding Silent Lib's model registration in case that's the problem...
+
+    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+    Item item = Item.getItemFromBlock(this);
+    List<ModelResourceLocation> models = getVariants();
+
+    for (int i = 0; i < 16; ++i) {
+      ModelLoader.setCustomModelResourceLocation(item, i, models.get(i));
+    }
+    return true;
+  }
+
+  @Override
+  public List<ModelResourceLocation> getVariants() {
+
+    List list = Lists.newArrayList();
+    for (int i = 0; i < 16; ++i) {
+      EnumGem gem = EnumGem.values()[i];
+      list.add(new ModelResourceLocation(
+          SilentGems.RESOURCE_PREFIX + Names.GEM_BLOCK, "variant=" + gem.getName()));
+    }
+    return list;
   }
 }

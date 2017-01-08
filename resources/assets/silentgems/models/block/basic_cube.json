@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "SilentGems:blocks/GemBlock1"
+    "all": "silentgems:blocks/gemblock8"
   }
 }
