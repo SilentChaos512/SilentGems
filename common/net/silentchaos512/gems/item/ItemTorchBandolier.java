@@ -27,6 +27,12 @@ public class ItemTorchBandolier extends ItemBlockPlacer {
   }
 
   @Override
+  public int getBlockMetaDropped(ItemStack stack) {
+
+    return 0;
+  }
+
+  @Override
   public void addRecipes() {
 
     String line1 = "lll";
@@ -34,8 +40,7 @@ public class ItemTorchBandolier extends ItemBlockPlacer {
 
     ItemStack bandolier = new ItemStack(this, 1, MAX_DAMAGE);
     ItemStack gem = new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE);
-    Object[] stacks = new Object[] { new ItemStack(Items.LEATHER), "leather",
-        ModItems.craftingMaterial.fluffyFabric };
+    Object[] stacks = new Object[] { "leather", ModItems.craftingMaterial.fluffyFabric };
 
     for (Object stack : stacks) {
       GameRegistry.addRecipe(new ShapedOreRecipe(bandolier, line1, line2, line1, 'l', stack, 's',

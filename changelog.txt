@@ -1,5 +1,11 @@
 Silent's Gems - Changelog
 
+2.2.5
+Updated most item textures to 16x16.
+Added: Torches can now be removed from the torch bandolier by left-clicking while sneaking (preferably in the air with auto-fill off)
+Added: Missing torch bandolier tooltips.
+Added: Torch bandolier mode toggle messages to the action bar.
+
 2.2.4
 Fixed: Super-tier tools harvesting at Area Miner/Lumberjack speeds when their skill is not activated.
 

@@ -1,9 +1,13 @@
 package net.silentchaos512.gems.item;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -14,11 +18,14 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IBlockPlacer;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
@@ -36,9 +43,30 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   }
 
   @Override
+  public void addInformation(ItemStack stack, EntityPlayer playerIn, List list, boolean advanced) {
+
+    String blockPlacer = "BlockPlacer";
+    LocalizationHelper loc = SilentGems.localizationHelper;
+
+    boolean autoFillOn = getAutoFillMode(stack);
+    int currentBlocks = getRemainingBlocks(stack);
+    int maxBlocks = stack.getMaxDamage();
+
+    list.add(loc.getItemSubText(blockPlacer, "count", currentBlocks, maxBlocks));
+    String onOrOff = loc.getItemSubText(blockPlacer, "autoFill." + (autoFillOn ? "on" : "off"));
+    list.add(loc.getItemSubText(blockPlacer, "autoFill", onOrOff));
+  }
+
+  @Override
   public IBlockState getBlockPlaced(ItemStack stack) {
 
     return Blocks.AIR.getDefaultState();
+  }
+
+  public int getBlockMetaDropped(ItemStack stack) {
+
+    IBlockState state = getBlockPlaced(stack);
+    return state.getBlock().getMetaFromState(state);
   }
 
   @Override
@@ -110,7 +138,13 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
 
     ItemStack stack = player.getHeldItem(hand);
     if (player.isSneaking()) {
-      setAutoFillMode(stack, !getAutoFillMode(stack));
+      boolean mode = !getAutoFillMode(stack);
+      setAutoFillMode(stack, mode);
+
+      LocalizationHelper loc = SilentGems.localizationHelper;
+      String onOrOff = loc.getItemSubText("BlockPlacer", "autoFill." + (mode ? "on" : "off"));
+      String line = loc.getItemSubText("BlockPlacer", "autoFill", onOrOff);
+      player.sendStatusMessage(new TextComponentString(line), true);
     }
     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
   }
@@ -134,8 +168,8 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     player.setHeldItem(EnumHand.OFF_HAND, fakeBlockStack);
 
     // Use the fake stack.
-    EnumActionResult result = fakeBlockStack.getItem().onItemUse(player, world, pos, EnumHand.OFF_HAND, facing,
-        hitX, hitY, hitZ);
+    EnumActionResult result = fakeBlockStack.getItem().onItemUse(player, world, pos,
+        EnumHand.OFF_HAND, facing, hitX, hitY, hitZ);
 
     // Return the player's offhand stack.
     player.setHeldItem(EnumHand.OFF_HAND, currentOffhand);
@@ -144,6 +178,32 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
       stack.damageItem(1, player);
     }
     return result;
+  }
+
+  @Override
+  public boolean onEntitySwing(EntityLivingBase player, ItemStack stack) {
+
+    if (!player.world.isRemote && player.isSneaking() && getRemainingBlocks(stack) > 0) {
+      // Get the block this placer stores.
+      IBlockState state = getBlockPlaced(stack);
+      int meta = getBlockMetaDropped(stack);
+
+      // Create block stack to drop.
+      ItemStack toDrop = new ItemStack(state.getBlock(), 1, meta);
+      toDrop.setCount(Math.min(getRemainingBlocks(stack), toDrop.getMaxStackSize()));
+      stack.damageItem(toDrop.getCount(), player);
+
+      // Make the EntityItem and spawn in world.
+      World world = player.world;
+      Vec3d vec = player.getLookVec().scale(2.0);
+      EntityItem entity = new EntityItem(world, player.posX + vec.xCoord,
+          player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, toDrop);
+      vec = vec.scale(-0.125);
+      entity.setVelocity(vec.xCoord, vec.yCoord, vec.zCoord);
+      world.spawnEntity(entity);
+    }
+
+    return super.onEntitySwing(player, stack);
   }
 
   @Override

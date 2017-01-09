@@ -413,6 +413,11 @@ item.silentgems:ArmorFrame9.name=Chestplate Frame (Super)
 item.silentgems:ArmorFrame10.name=Leggings Frame (Super)
 item.silentgems:ArmorFrame11.name=Boots Frame (Super)
 
+item.silentgems:BlockPlacer.autoFill=Auto-Fill: %s
+item.silentgems:BlockPlacer.autoFill.on=&2On
+item.silentgems:BlockPlacer.autoFill.off=&4Off
+item.silentgems:BlockPlacer.count=&e%d / %d
+
 item.silentgems:ChaosGem0.name=Chaos Ruby
 item.silentgems:ChaosGem1.name=Chaos Garnet
 item.silentgems:ChaosGem2.name=Chaos Topaz
@@ -825,7 +830,7 @@ jei.silentgems:desc.ChaosPylon1=Produces Chaos energy from burnable fuel. Anythi
 jei.silentgems:desc.MaterialGrader=Analyzes tool materials, bringing out their potential. Each piece will get a random grade that applies a percentage bonus to each stat. Requires Chaos to function, so place it near Nodes or Pylons. Load materials into the first slot, then be patient. Graded items can be extracted from the bottom.
 
 jei.silentgems:desc.Gem=Gems are used for constructing, repairing, and changing the appearance of tools. A single tool can be made with multiple types of gems. Craft gems next to a tool to "decorate" it.
-jei.silentgems:desc.TorchBandolier=The torch bandolier stores a large number of torches. To place torches, just right-click. Torches will be absorbed automatically if auto-fill is on. To toggle auto-fill, right-click the air while sneaking.
+jei.silentgems:desc.TorchBandolier=The torch bandolier stores a large number of torches. To place torches, just right-click. Torches will be absorbed automatically if auto-fill is on. To toggle auto-fill, right-click the air while sneaking. Swing the bandolier (left-click) while sneaking to remove a stack of torches (you should probably disable auto-fill first).
 
 
 
