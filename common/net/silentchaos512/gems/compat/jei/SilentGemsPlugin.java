@@ -7,17 +7,23 @@ import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ISubtypeRegistry;
+import mezz.jei.api.ISubtypeRegistry.ISubtypeInterpreter;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.gui.GuiChaosAltar;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeCategory;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeHandler;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeMaker;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.util.ToolHelper;
 
 @JEIPlugin
 public class SilentGemsPlugin implements IModPlugin {
@@ -39,15 +45,6 @@ public class SilentGemsPlugin implements IModPlugin {
 
     doRecipeRegistration(reg, guiHelper);
 
-    // NBT subtypes (doesn't work?)
-    // jeiHelper.getSubtypeRegistry().useNbtForSubtypes(ModItems.enchantmentToken);
-
-    // NBT ignores (deprecated)
-    // jeiHelper.getNbtIgnoreList().ignoreNbtTagNames(EnumMaterialGrade.NBT_KEY);
-    // jeiHelper.getNbtIgnoreList().ignoreNbtTagNames(ItemChaosStorage.NBT_CHARGE);
-    // jeiHelper.getNbtIgnoreList().ignoreNbtTagNames(ModItems.returnHomeCharm,
-    // ItemReturnHome.NBT_READY);
-
     doAddDescriptions(reg);
   }
 
@@ -61,6 +58,7 @@ public class SilentGemsPlugin implements IModPlugin {
     list.addItemToBlacklist(new ItemStack(ModBlocks.gemLampLitDark, 1, any));
     list.addItemToBlacklist(new ItemStack(ModBlocks.fluffyPuffPlant));
     list.addItemToBlacklist(new ItemStack(ModItems.toolRenderHelper));
+    list.addItemToBlacklist(new ItemStack(ModItems.debugItem));
   }
 
   private void doRecipeRegistration(IModRegistry reg, IGuiHelper guiHelper) {
@@ -81,7 +79,7 @@ public class SilentGemsPlugin implements IModPlugin {
     reg.addRecipeCategoryCraftingItem(new ItemStack(ModBlocks.chaosAltar),
         AltarRecipeCategory.CATEGORY);
   }
- 
+
   private void doAddDescriptions(IModRegistry reg) {
 
     String prefix = "jei.silentgems:desc.";
@@ -106,9 +104,49 @@ public class SilentGemsPlugin implements IModPlugin {
   }
 
   @Override
-  public void registerItemSubtypes(ISubtypeRegistry arg0) {
+  public void registerItemSubtypes(ISubtypeRegistry reg) {
 
-    // TODO Auto-generated method stub
+    // Tools
+    for (Item item : new Item[] { ModItems.sword, ModItems.katana, ModItems.scepter,
+        ModItems.tomahawk, ModItems.pickaxe, ModItems.shovel, ModItems.axe, ModItems.hoe,
+        ModItems.sickle, ModItems.bow, ModItems.shield }) {
+      reg.registerSubtypeInterpreter(item, new ISubtypeInterpreter() {
 
+        @Override
+        public String getSubtypeInfo(ItemStack stack) {
+
+          ToolPart[] parts = ToolHelper.getConstructionParts(stack);
+          if (parts.length == 0)
+            return "unknown";
+          return parts[0].getKey();
+        }
+      });
+    }
+
+    // Enchantment tokens
+    reg.registerSubtypeInterpreter(ModItems.enchantmentToken, new ISubtypeInterpreter() {
+
+      @Override
+      public String getSubtypeInfo(ItemStack stack) {
+
+        Enchantment ench = ModItems.enchantmentToken.getSingleEnchantment(stack);
+        if (ench == null)
+          return "none";
+        return ench.getName();
+      }
+    });
+
+    // Chaos Runes
+    reg.registerSubtypeInterpreter(ModItems.chaosRune, new ISubtypeInterpreter() {
+
+      @Override
+      public String getSubtypeInfo(ItemStack stack) {
+
+        ChaosBuff buff = ModItems.chaosRune.getBuff(stack);
+        if (buff == null)
+          return "none";
+        return buff.getKey();
+      }
+    });
   }
 }
