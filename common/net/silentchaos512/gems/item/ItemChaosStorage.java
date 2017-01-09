@@ -1,11 +1,11 @@
 package net.silentchaos512.gems.item;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ItemSL;
-
 
 public class ItemChaosStorage extends ItemSL implements IChaosStorage {
 
@@ -30,6 +30,14 @@ public class ItemChaosStorage extends ItemSL implements IChaosStorage {
       return 1.0;
     }
     return (double) (capacity - energy) / (double) capacity;
+  }
+
+  @Override
+  public int getRGBDurabilityForDisplay(ItemStack stack) {
+
+    int charge = getCharge(stack);
+    int max = getMaxCharge(stack);
+    return MathHelper.hsvToRGB(Math.max(0.0F, (float) charge / max) / 3.0F, 1.0F, 1.0F);
   }
 
   @Override
