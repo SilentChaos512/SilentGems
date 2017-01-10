@@ -2,6 +2,8 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import org.lwjgl.input.Mouse;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -183,7 +185,7 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   @Override
   public boolean onEntitySwing(EntityLivingBase player, ItemStack stack) {
 
-    if (!player.world.isRemote && player.isSneaking() && getRemainingBlocks(stack) > 0) {
+    if (!player.world.isRemote && player.isSneaking() && getRemainingBlocks(stack) > 0 && Mouse.isButtonDown(0)) {
       // Get the block this placer stores.
       IBlockState state = getBlockPlaced(stack);
       int meta = getBlockMetaDropped(stack);
