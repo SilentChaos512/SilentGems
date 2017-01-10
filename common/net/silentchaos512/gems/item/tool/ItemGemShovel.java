@@ -1,10 +1,13 @@
 package net.silentchaos512.gems.item.tool;
 
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -35,6 +38,8 @@ import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
 
+  public static final Set<Material> BASE_EFFECTIVE_MATERIALS = Sets.newHashSet(Material.CLAY,
+      Material.CRAFTED_SNOW, Material.GRASS, Material.GROUND, Material.SAND, Material.SNOW);
   private List<ItemStack> subItems = null;
 
   public ItemGemShovel() {
@@ -50,7 +55,8 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
 
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SHOVEL) return ItemStack.EMPTY;
+    if (GemsConfig.TOOL_DISABLE_SHOVEL)
+      return ItemStack.EMPTY;
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.STICK);
     return ToolHelper.constructTool(this, rod, materials);
@@ -63,7 +69,8 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SHOVEL) return ItemStack.EMPTY;
+    if (GemsConfig.TOOL_DISABLE_SHOVEL)
+      return ItemStack.EMPTY;
     if (materials.length == 1) {
       return ToolHelper.constructTool(this, rod, materials[0], materials[0], materials[0]);
     }
@@ -120,8 +127,8 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   }
 
   @Override
-  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
+      EnumFacing side, float hitX, float hitY, float hitZ) {
 
     ItemStack stack = player.getHeldItem(hand);
     boolean broken = ToolHelper.isBroken(stack);
@@ -205,7 +212,8 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   }
 
   @Override
-  public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player, IBlockState state) {
+  public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player,
+      IBlockState state) {
 
     if (super.getHarvestLevel(stack, toolClass, player, state) < 0) {
       return 0;
@@ -232,6 +240,33 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
     return ToolHelper.getIsRepairable(stack1, stack2);
   }
 
+  // Forge ItemStack-sensitive version
+  @Override
+  public boolean canHarvestBlock(IBlockState state, ItemStack tool) {
+
+    return canHarvestBlock(state, ToolHelper.getHarvestLevel(tool));
+  }
+
+  // Vanilla version... Not good because we can't get the actual harvest level.
+  @Override
+  public boolean canHarvestBlock(IBlockState state) {
+
+    // Assume a very high level since we can't get the actual value.
+    return canHarvestBlock(state, 10);
+  }
+
+  private boolean canHarvestBlock(IBlockState state, int toolLevel) {
+
+    // Wrong harvest level?
+    if (state.getBlock().getHarvestLevel(state) > toolLevel)
+      return false;
+    // Included in base materials?
+    if (BASE_EFFECTIVE_MATERIALS.contains(state.getMaterial()))
+      return true;
+
+    return super.canHarvestBlock(state);
+  }
+
   // ===============
   // IRegistryObject
   // ===============
@@ -239,7 +274,8 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_SHOVEL) return;
+    if (GemsConfig.TOOL_DISABLE_SHOVEL)
+      return;
 
     String l1 = "g";
     String l2 = "s";
@@ -251,9 +287,11 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
     ToolHelper.addRecipe(constructTool(false, flint), l1, l2, l3, flint, "stickWood");
     for (EnumGem gem : EnumGem.values()) {
       // Regular
-      ToolHelper.addRecipe(constructTool(false, gem.getItem()), l1, l2, l3, gem.getItem(), "stickWood");
+      ToolHelper.addRecipe(constructTool(false, gem.getItem()), l1, l2, l3, gem.getItem(),
+          "stickWood");
       // Super
-      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(), rodGold);
+      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(),
+          rodGold);
     }
   }
 

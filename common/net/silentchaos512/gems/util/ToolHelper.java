@@ -70,6 +70,11 @@ public class ToolHelper {
 
   public static final String[] TOOL_CLASSES = { "Sword", "Pickaxe", "Shovel", "Axe", "Hoe",
       "Sickle", "Bow" };
+
+  /**
+   * A fake material for tools. Tools need a tool material, even if it's not used. Unfortunately, some mods still
+   * reference the tool material (such as Progressive Automation, which is why I chose harvest level 1).
+   */
   public static final ToolMaterial FAKE_MATERIAL = EnumHelper
       .addToolMaterial("silentgems:fake_material", 1, 512, 5.12f, 5.12f, 32);
 
@@ -285,7 +290,7 @@ public class ToolHelper {
     float speed = getDigSpeedOnProperMaterial(tool);
 
     // Tool effective on block?
-    if (tool.getItem().canHarvestBlock(state)) {
+    if (tool.getItem().canHarvestBlock(state, tool)) {
       return speed;
     }
 
@@ -442,8 +447,8 @@ public class ToolHelper {
   /**
    * This controls the block placing ability of mining tools.
    */
-  public static EnumActionResult onItemUse(EntityPlayer player, World world,
-      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public static EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos,
+      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
     ItemStack stack = player.getHeldItem(hand);
 
@@ -457,7 +462,7 @@ public class ToolHelper {
         target = pos.offset(side);
 
       if (player.canPlayerEdit(target, side, stackOffHand)
-          //&& world.canBlockBePlaced(itemBlock.getBlock(), target, false, side, null, stackOffHand))
+          // && world.canBlockBePlaced(itemBlock.getBlock(), target, false, side, null, stackOffHand))
           && itemBlock.canPlaceBlockOnSide(world, target, side, player, stackOffHand))
         return EnumActionResult.PASS;
     }
@@ -675,8 +680,7 @@ public class ToolHelper {
   public static EnumMaterialTier getToolTier(ItemStack tool) {
 
     int id = getTagInt(tool, NBT_ROOT_PROPERTIES, NBT_TOOL_TIER);
-    return EnumMaterialTier.values()[MathHelper.clamp(id, 0,
-        EnumMaterialTier.values().length - 1)];
+    return EnumMaterialTier.values()[MathHelper.clamp(id, 0, EnumMaterialTier.values().length - 1)];
   }
 
   public static ItemStack constructTool(Item item, ItemStack rod, ItemStack head, int headCount) {

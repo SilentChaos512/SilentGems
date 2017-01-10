@@ -6,6 +6,7 @@ import java.util.Set;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -38,8 +39,10 @@ import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, ITool {
 
-  public static final Material[] extraEffectiveMaterials = { Material.ROCK, Material.CIRCUITS,
-      Material.GLASS, Material.PISTON };
+  public static final Set<Material> BASE_EFFECTIVE_MATERIALS = Sets.newHashSet(Material.ANVIL,
+      Material.ICE, Material.IRON, Material.PACKED_ICE, Material.ROCK);
+  public static final Material[] EXTRA_EFFECTIVE_MATERIALS = { Material.ROCK, Material.CIRCUITS,
+      Material.GLASS, Material.PISTON, Material.REDSTONE_LIGHT };
   private List<ItemStack> subItems = null;
 
   public ItemGemPickaxe() {
@@ -67,7 +70,8 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_PICKAXE) return ItemStack.EMPTY;
+    if (GemsConfig.TOOL_DISABLE_PICKAXE)
+      return ItemStack.EMPTY;
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -104,7 +108,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   @Override
   public Material[] getExtraEffectiveMaterials(ItemStack tool) {
 
-    return ToolHelper.isBroken(tool) ? new Material[] {} : extraEffectiveMaterials;
+    return ToolHelper.isBroken(tool) ? new Material[] {} : EXTRA_EFFECTIVE_MATERIALS;
   }
 
   // ==============
@@ -127,8 +131,8 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   }
 
   @Override
-  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
+      EnumFacing side, float hitX, float hitY, float hitZ) {
 
     return ToolHelper.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }
@@ -188,7 +192,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   @Override
   public float getStrVsBlock(ItemStack stack, IBlockState state) {
 
-    return ToolHelper.getDigSpeed(stack, state, extraEffectiveMaterials);
+    return ToolHelper.getDigSpeed(stack, state, EXTRA_EFFECTIVE_MATERIALS);
   }
 
   @Override
@@ -199,7 +203,8 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   }
 
   @Override
-  public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player, IBlockState state) {
+  public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player,
+      IBlockState state) {
 
     if (super.getHarvestLevel(stack, toolClass, player, state) < 0 || ToolHelper.isBroken(stack))
       return 0;
@@ -231,6 +236,37 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
     return ToolHelper.getIsRepairable(stack1, stack2);
   }
 
+  // Forge ItemStack-sensitive version
+  @Override
+  public boolean canHarvestBlock(IBlockState state, ItemStack tool) {
+
+    return canHarvestBlock(state, ToolHelper.getHarvestLevel(tool));
+  }
+
+  // Vanilla version... Not good because we can't get the actual harvest level.
+  @Override
+  public boolean canHarvestBlock(IBlockState state) {
+
+    // Assume a very high level since we can't get the actual value.
+    return canHarvestBlock(state, 10);
+  }
+
+  private boolean canHarvestBlock(IBlockState state, int toolLevel) {
+
+    // Wrong harvest level?
+    if (state.getBlock().getHarvestLevel(state) > toolLevel)
+      return false;
+    // Included in base materials?
+    if (BASE_EFFECTIVE_MATERIALS.contains(state.getMaterial()))
+      return true;
+    // Included in extra materials?
+    for (Material mat : EXTRA_EFFECTIVE_MATERIALS)
+      if (mat.equals(state.getMaterial()))
+        return true;
+
+    return super.canHarvestBlock(state);
+  }
+
   // ===============
   // IRegistryObject
   // ===============
@@ -238,7 +274,8 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_PICKAXE) return;
+    if (GemsConfig.TOOL_DISABLE_PICKAXE)
+      return;
 
     String l1 = "ggg";
     String l2 = " s ";
@@ -250,9 +287,11 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
     ToolHelper.addRecipe(constructTool(false, flint), l1, l2, l3, flint, "stickWood");
     for (EnumGem gem : EnumGem.values()) {
       // Regular
-      ToolHelper.addRecipe(constructTool(false, gem.getItem()), l1, l2, l3, gem.getItem(), "stickWood");
+      ToolHelper.addRecipe(constructTool(false, gem.getItem()), l1, l2, l3, gem.getItem(),
+          "stickWood");
       // Super
-      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(), rodGold);
+      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(),
+          rodGold);
     }
   }
 

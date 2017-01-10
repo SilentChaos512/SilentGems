@@ -111,7 +111,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public float getStrVsBlock(ItemStack stack, IBlockState state) {
 
-    return ToolHelper.getDigSpeed(stack, state, extraEffectiveMaterials) / 3;
+    return ToolHelper.getDigSpeed(stack, state, EXTRA_EFFECTIVE_MATERIALS) / 3;
   }
 
   @Override
