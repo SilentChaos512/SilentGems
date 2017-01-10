@@ -2,6 +2,7 @@ Silent's Gems - Changelog
 
 2.2.5
 Updated most item textures to 16x16.
+Added: Out-of-the-box VeinMiner support. No more adding tools to the config yourself!
 Added: Torches can now be removed from the torch bandolier by left-clicking while sneaking (preferably in the air with auto-fill off)
 Added: Missing torch bandolier tooltips.
 Added: Torch bandolier mode toggle messages to the action bar.

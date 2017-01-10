@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.compat.VeinMinerCompat;
 import net.silentchaos512.gems.compat.tconstruct.TConstructGemsCompat;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
@@ -124,6 +125,8 @@ public class SilentGems {
     if (Loader.isModLoaded("tconstruct")) {
       TConstructGemsCompat.init();
     }
+
+    VeinMinerCompat.init();
 
     proxy.preInit(registry);
   }
