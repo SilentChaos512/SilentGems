@@ -16,12 +16,10 @@ public class VeinMinerCompat {
 
   private static void sendWhitelistMessage(String itemType, String toolType, String blockName) {
 
-    SilentGems.logHelper.debug("Derp!", itemType, toolType, blockName);
     NBTTagCompound message = new NBTTagCompound();
     message.setString("whitelistType", itemType);
     message.setString("toolType", toolType);
     message.setString("blockName", blockName);
     FMLInterModComms.sendMessage("VeinMiner", "whitelist", message);
-    FMLInterModComms.sendMessage("veinminer", "whitelist", message);
   }
 }
