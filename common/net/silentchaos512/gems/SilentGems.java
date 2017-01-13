@@ -54,6 +54,7 @@ public class SilentGems {
   public static final String DEPENDENCIES = "required-after:forge@[13.19.1.2188,);"
       + "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
       + "after:guideapi;after:EnderIO;after:EnderZoo;after:tconstruct";
+      + "after:baubles;after:guideapi;after:enderio;after:enderzoo;after:tconstruct;after:veinminer";
   public static final String RESOURCE_PREFIX = MODID + ":";
 
   public static Random random = new Random();

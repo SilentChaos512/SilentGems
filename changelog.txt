@@ -1,8 +1,12 @@
 Silent's Gems - Changelog
 
+2.2.6
+Fixed: Vein Miner compatibility module. Hopefully. Couldn't find a fix for 1.10.2.
+
 2.2.5
 Updated most item textures to 16x16.
 Added: Out-of-the-box VeinMiner support. No more adding tools to the config yourself!
+Added: Properly implement canHarvestBlock for tools (Forge and vanilla versions). Should help with some compatibility issues.
 Added: Torches can now be removed from the torch bandolier by left-clicking while sneaking (preferably in the air with auto-fill off)
 Added: Missing torch bandolier tooltips.
 Added: Torch bandolier mode toggle messages to the action bar.
