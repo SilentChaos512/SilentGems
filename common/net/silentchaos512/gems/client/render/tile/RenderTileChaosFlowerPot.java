@@ -32,7 +32,7 @@ public class RenderTileChaosFlowerPot extends TileEntitySpecialRenderer<TileChao
     VertexBuffer buff = tess.getBuffer();
 
     ItemStack stack = te.getFlowerItemStack();
-    if (stack == null || stack.getItemDamage() < 0 || stack.getItemDamage() >= TEXTURES.length) {
+    if (stack.isEmpty() || stack.getItemDamage() < 0 || stack.getItemDamage() >= TEXTURES.length) {
       return;
     }
 
