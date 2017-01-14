@@ -9,11 +9,20 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import baubles.api.BaubleType;
+import baubles.api.BaublesApi;
+import baubles.api.IBauble;
+import baubles.api.cap.IBaublesItemHandler;
+import baubles.api.render.IRenderBauble;
+import baubles.api.render.IRenderBauble.RenderType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -27,6 +36,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
@@ -36,7 +46,10 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.RecipeHelper;
 
-public class ItemChaosGem extends ItemChaosStorage {
+@Optional.InterfaceList({
+  @Optional.Interface(iface = "baubles.api.IBauble", modid = SilentGems.BAUBLES_MOD_ID),
+  @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = SilentGems.BAUBLES_MOD_ID) })
+public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBauble {
 
   public static final String NBT_ENABLED = "enabled";
   public static final String NBT_BUFF_LIST = "buff_list";
@@ -362,6 +375,48 @@ public class ItemChaosGem extends ItemChaosStorage {
         receiveCharge(stack2, getMaxCharge(stack2), false);
         list.add(stack2);
       }
+    }
+  }
+
+  // ===================
+  // = Baubles support =
+  // ===================
+
+  @Override
+  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  public BaubleType getBaubleType(ItemStack stack) {
+
+    return BaubleType.BELT;
+  }
+
+  @Override
+  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  public void onWornTick(ItemStack stack, EntityLivingBase player) {
+
+    onUpdate(stack, player.world, player, 0, false);
+  }
+
+  @Override
+  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  public boolean willAutoSync(ItemStack stack, EntityLivingBase player) {
+
+    return false;
+  }
+
+  @SideOnly(Side.CLIENT)
+  @Override
+  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  public void onPlayerBaubleRender(ItemStack stack, EntityPlayer player, RenderType renderType,
+      float partialTicks) {
+
+    if (renderType == RenderType.BODY) {
+      float scale = 0.5f;
+      GlStateManager.scale(scale, scale, scale);
+      IRenderBauble.Helper.rotateIfSneaking(player);
+      GlStateManager.rotate(90, 0, 1, 0);
+      IRenderBauble.Helper.translateToChest();
+      GlStateManager.translate(0.0, 1.7, 0.325);
+      Minecraft.getMinecraft().getRenderItem().renderItem(stack, TransformType.FIXED);
     }
   }
 

@@ -4,6 +4,12 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
+import baubles.api.BaubleType;
+import baubles.api.IBauble;
+import baubles.api.render.IRenderBauble;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,7 +27,10 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -33,7 +42,10 @@ import net.silentchaos512.lib.util.DimensionalPosition;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 
-public class ItemReturnHome extends ItemChaosStorage {
+@Optional.InterfaceList({
+    @Optional.Interface(iface = "baubles.api.IBauble", modid = SilentGems.BAUBLES_MOD_ID),
+    @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = SilentGems.BAUBLES_MOD_ID) })
+public class ItemReturnHome extends ItemChaosStorage implements IBauble, IRenderBauble {
 
   public static final String TEXT_BOUND_TO = "BoundTo";
   public static final String TEXT_NOT_BOUND = "NotBound";
@@ -185,46 +197,7 @@ public class ItemReturnHome extends ItemChaosStorage {
         return;
       }
 
-      LocalizationHelper loc = SilentGems.instance.localizationHelper;
-      DimensionalPosition pos = getBoundPosition(stack);
-
-      // Enough charge?
-      if (getCharge(stack) < getTeleportCost(stack, player)) {
-        PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_ENOUGH_CHARGE));
-        return;
-      }
-
-      // Is the destination sane? (ie, y > 0)
-      if (pos.y <= 0) {
-        PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_SANE));
-        return;
-      }
-
-      // Is the destination safe? (ie, no solid block at head level)
-      WorldServer worldServer = player.getServer().worldServerForDimension(pos.dim);
-      int height = (int) Math.ceil(player.eyeHeight);
-      BlockPos target = pos.toBlockPos().up(height);
-
-      // FIXME: Obstruction checks?
-      // if (worldServer.isBlockNormalCube(target, true)) {
-      // PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_SAFE));
-      // PlayerHelper.addChatMessage(player, "" + target);
-      // PlayerHelper.addChatMessage(player, "" + worldServer.getBlockState(target));
-      // SilentGems.logHelper.warning("Return Home Charm believes destination is obstructed:\n"
-      // + "Target: " + target + "\nBlockstate: " + worldServer.getBlockState(target));
-      // return;
-      // }
-
-      // It should be safe to teleport.
-      // Reset fall distance then teleport.
-      player.fallDistance = 0.0f;
-      teleportPlayer(stack, player, pos);
-      // Play sounds
-      float soundPitch = 0.8f + 0.3f * SilentGems.random.nextFloat();
-      for (BlockPos p : new BlockPos[] { player.getPosition(), pos.toBlockPos() }) {
-        world.playSound(null, p, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS, 1.0f,
-            soundPitch);
-      }
+      tryTeleportPlayer(stack, player);
     }
   }
 
@@ -234,6 +207,55 @@ public class ItemReturnHome extends ItemChaosStorage {
     return player.capabilities.isCreativeMode ? 0 : GemsConfig.RETURN_HOME_USE_COST;
   }
 
+  public void tryTeleportPlayer(ItemStack stack, EntityPlayer player) {
+
+    LocalizationHelper loc = SilentGems.localizationHelper;
+    DimensionalPosition pos = getBoundPosition(stack);
+
+    // Not bound?
+    if (pos == null) {
+      return;
+    }
+
+    // Enough charge?
+    if (getCharge(stack) < getTeleportCost(stack, player)) {
+      PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_ENOUGH_CHARGE));
+      return;
+    }
+
+    // Is the destination sane? (ie, y > 0)
+    if (pos.y <= 0) {
+      PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_SANE));
+      return;
+    }
+
+    // Is the destination safe? (ie, no solid block at head level)
+    WorldServer worldServer = player.getServer().worldServerForDimension(pos.dim);
+    int height = (int) Math.ceil(player.eyeHeight);
+    BlockPos target = pos.toBlockPos().up(height);
+
+    // FIXME: Obstruction checks?
+    // if (worldServer.isBlockNormalCube(target, true)) {
+    // PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_SAFE));
+    // PlayerHelper.addChatMessage(player, "" + target);
+    // PlayerHelper.addChatMessage(player, "" + worldServer.getBlockState(target));
+    // SilentGems.logHelper.warning("Return Home Charm believes destination is obstructed:\n"
+    // + "Target: " + target + "\nBlockstate: " + worldServer.getBlockState(target));
+    // return;
+    // }
+
+    // It should be safe to teleport.
+    // Reset fall distance then teleport.
+    player.fallDistance = 0.0f;
+    teleportPlayer(stack, player, pos);
+    // Play sounds
+    float soundPitch = 0.8f + 0.3f * SilentGems.random.nextFloat();
+    for (BlockPos p : new BlockPos[] { player.getPosition(), pos.toBlockPos() }) {
+      player.world.playSound(null, p, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS,
+          1.0f, soundPitch);
+    }
+  }
+
   protected void teleportPlayer(ItemStack stack, EntityPlayer player, DimensionalPosition pos) {
 
     if (player instanceof EntityPlayerMP) {
@@ -241,5 +263,33 @@ public class ItemReturnHome extends ItemChaosStorage {
     }
 
     extractCharge(stack, getTeleportCost(stack, player), false);
+  }
+
+  // ===================
+  // = Baubles support =
+  // ===================
+
+  @Override
+  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  public BaubleType getBaubleType(ItemStack stack) {
+
+    return BaubleType.CHARM;
+  }
+
+  @SideOnly(Side.CLIENT)
+  @Override
+  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  public void onPlayerBaubleRender(ItemStack stack, EntityPlayer player, RenderType renderType,
+      float partialTicks) {
+
+    if (renderType == RenderType.BODY) {
+      float scale = 0.5f;
+      GlStateManager.scale(scale, scale, scale);
+      IRenderBauble.Helper.rotateIfSneaking(player);
+       GlStateManager.rotate(180, 0, 1, 0);
+      IRenderBauble.Helper.translateToChest();
+      GlStateManager.translate(0.0, 3.0, 0.55);
+      Minecraft.getMinecraft().getRenderItem().renderItem(stack, TransformType.FIXED);
+    }
   }
 }

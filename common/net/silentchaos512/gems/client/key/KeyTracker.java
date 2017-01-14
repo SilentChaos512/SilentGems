@@ -17,6 +17,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.network.NetworkHandler;
+import net.silentchaos512.gems.network.message.MessageKeyReturnHome;
 import net.silentchaos512.gems.network.message.MessageToggleChaosGem;
 import net.silentchaos512.gems.network.message.MessageToggleSpecial;
 import net.silentchaos512.gems.util.ToolHelper;
@@ -28,10 +29,12 @@ public class KeyTracker {
   private EntityPlayer player;
   private KeyBinding toggleSpecial = createBinding("Toggle Special", KeyConflictContext.IN_GAME,
       KeyModifier.SHIFT, Keyboard.KEY_C);
-//  private KeyBinding toggleChaosGemFirst = createBinding("Toggle Chaos Gem (First)",
-//      KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_G);
-//  private KeyBinding toggleChaosGemAll = createBinding("Toggle Chaos Gem (All)",
-//      KeyConflictContext.IN_GAME, KeyModifier.SHIFT, Keyboard.KEY_G);
+  // private KeyBinding toggleChaosGemFirst = createBinding("Toggle Chaos Gem (First)",
+  // KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_G);
+  // private KeyBinding toggleChaosGemAll = createBinding("Toggle Chaos Gem (All)",
+  // KeyConflictContext.IN_GAME, KeyModifier.SHIFT, Keyboard.KEY_G);
+  private KeyBinding triggerReturnHome = createBinding("Use Return Home Charm",
+      KeyConflictContext.IN_GAME, KeyModifier.SHIFT, Keyboard.KEY_P);
 
   /**
    * Creates and registers a KeyBinding.
@@ -70,10 +73,13 @@ public class KeyTracker {
     if (toggleSpecial.isKeyDown())
       handleToggleSpecial();
 
-//    if (toggleChaosGemAll.isKeyDown())
-//      handleToggleChaosGem(true);
-//    else if (toggleChaosGemFirst.isKeyDown())
-//      handleToggleChaosGem(false);
+    // if (toggleChaosGemAll.isKeyDown())
+    // handleToggleChaosGem(true);
+    // else if (toggleChaosGemFirst.isKeyDown())
+    // handleToggleChaosGem(false);
+
+    if (triggerReturnHome.isPressed())
+      handleTriggerReturnHome();
   }
 
   private void handleToggleSpecial() {
@@ -91,5 +97,10 @@ public class KeyTracker {
   private void handleToggleChaosGem(boolean all) {
 
     NetworkHandler.INSTANCE.sendToServer(new MessageToggleChaosGem(all));
+  }
+
+  private void handleTriggerReturnHome() {
+
+    NetworkHandler.INSTANCE.sendToServer(new MessageKeyReturnHome());
   }
 }

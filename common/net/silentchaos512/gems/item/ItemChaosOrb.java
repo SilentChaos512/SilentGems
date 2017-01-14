@@ -7,11 +7,20 @@ import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
 
+import baubles.api.BaubleType;
+import baubles.api.BaublesApi;
+import baubles.api.IBauble;
+import baubles.api.cap.IBaublesItemHandler;
+import baubles.api.render.IRenderBauble;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -21,7 +30,10 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
@@ -32,7 +44,10 @@ import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 
-public class ItemChaosOrb extends ItemChaosStorage {
+@Optional.InterfaceList({
+    @Optional.Interface(iface = "baubles.api.IBauble", modid = SilentGems.BAUBLES_MOD_ID),
+    @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = SilentGems.BAUBLES_MOD_ID) })
+public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBauble {
 
   public static enum Type {
 
@@ -286,5 +301,62 @@ public class ItemChaosOrb extends ItemChaosStorage {
   public int getMaxCharge(ItemStack stack) {
 
     return getType(stack).maxCharge;
+  }
+
+  // ===================
+  // = Baubles support =
+  // ===================
+
+  @Override
+  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  public BaubleType getBaubleType(ItemStack stack) {
+
+    return BaubleType.TRINKET;
+  }
+
+  @Override
+  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  public void onWornTick(ItemStack stack, EntityLivingBase player) {
+
+    onUpdate(stack, player.world, player, 0, false);
+
+    // If broken, remove from bauble slot as the normal onUpdate doesn't check that.
+    int currentDamageLevel = (stack.getItemDamage() & 0xF0) >> 4;
+    if (currentDamageLevel >= getType(stack).crackStages) {
+      int[] slots = getBaubleType(stack).getValidSlots();
+      IBaublesItemHandler inventory = BaublesApi.getBaublesHandler((EntityPlayer) player);
+
+      for (int i = 0; i < slots.length; ++i) {
+        ItemStack inSlot = inventory.getStackInSlot(slots[i]);
+        if (inSlot == stack) {
+          inventory.extractItem(slots[i], 1, false);
+          break;
+        }
+      }
+    }
+  }
+
+  @Override
+  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  public boolean willAutoSync(ItemStack stack, EntityLivingBase player) {
+
+    return true;
+  }
+
+  @SideOnly(Side.CLIENT)
+  @Override
+  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  public void onPlayerBaubleRender(ItemStack stack, EntityPlayer player, RenderType renderType,
+      float partialTicks) {
+
+    if (renderType == RenderType.BODY) {
+      float scale = 0.4f;
+      GlStateManager.scale(scale, scale, scale);
+      IRenderBauble.Helper.rotateIfSneaking(player);
+      GlStateManager.rotate(90, 0, 1, 0);
+      IRenderBauble.Helper.translateToChest();
+      GlStateManager.translate(0.0, 1.5, 1.50);
+      Minecraft.getMinecraft().getRenderItem().renderItem(stack, TransformType.FIXED);
+    }
   }
 }
