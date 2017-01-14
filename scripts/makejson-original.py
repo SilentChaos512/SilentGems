@@ -1,7 +1,5 @@
 """Somewhat simple Minecraft model JSON generator written in Python.
 
-Customized slightly for Silent's Gems, where texture names contain the index instead of a name.
-
 Usage: python makejson.py [block|item] filename [subtypeCount] [otherOptions]
 
 Other options (type "option=value"):
@@ -20,7 +18,7 @@ import re
 import os
 
 # Your mod ID. Should be all lowercase letters and underscores, nothing else. This absolutely must match your mod ID!
-MOD_ID = 'silentgems'
+MOD_ID = 'SilentGems'
 # The directories to write the files to. I let the script write to an output directory, then copy
 # the files to my resources folder when I'm happy with the results. You could change this to output
 # directly to your resources folder, but I would not recommend it.
@@ -39,52 +37,42 @@ def createAllDirs():
     createDirIfNeeded(DIR_OUTPUT_BLOCKS)
     createDirIfNeeded(DIR_OUTPUT_ITEMS)
 
-def writeBlockJSON(name, texture, variantKey, variantValues):
-    """Creates a Forge blockstate JSON for the block.
+def writeBlockJSONs(name, texture):
+    """Creates the three JSON files needed for a block.
 
     Arguments:
     name -- The name to give the files (.json is automatically appended)
     texture -- The name of the texture to use.
-    variantKey -- The name for the variants.
-    variantValues -- The values of the variants
     """
     print('Writing block %s (texture %s)' % (name, texture))
 
-    list = []
-    list.append('{')
-    list.append('  "forge_marker": 1,')
-    list.append('  "defaults": {')
-    list.append('    "model": "cube_all",')
-    list.append('    "transform": "forge:default-block"')
-    list.append('  },')
-    list.append('  "variants": {')
-    list.append('    "inventory": [{')
-    # The "inventory" variant is for blocks without subtypes
-    # We could include this is blocks with subtypes, but would likely get missing texture errors.
-    if not variantKey or len(variantValues) == 0:
-        list.append('      "textures": {')
-        list.append('        "all": "%s:blocks/%s"' % (MOD_ID, texture))
-        list.append('      }')
-    list.append('    }]' + (',' if len(variantValues) > 0 else ''))
-
-    if variantKey and len(variantValues) > 0:
-        list.append('    "%s": {' % variantKey)
-        index = 0
-        for value in variantValues:
-            list.append('      "%s": {' % value)
-            list.append('        "textures": {')
-            list.append('          "all": "%s:blocks/%s%d"' % (MOD_ID, texture, index))
-            list.append('        }')
-            list.append('      }' + (',' if value != variantValues[-1] else ''))
-            index += 1
-        list.append('    }')
-
-    list.append('  }')
-    list.append('}')
-
+    #blockstate
     f = open(DIR_OUTPUT_BLOCKSTATES + name + '.json', 'w')
-    for line in list:
-        f.write(line + '\n')
+    f.write('{\n')
+    f.write('  "variants": {\n')
+    f.write('    "normal": { "model": "%s:%s" }\n' % (MOD_ID, name))
+    f.write('  }\n')
+    f.write('}\n')
+    f.close()
+
+    #block model
+    f = open(DIR_OUTPUT_BLOCKS + name + '.json', 'w')
+    f.write('{\n')
+    f.write('  "parent": "block/cube_all",\n')
+    f.write('  "textures": {\n')
+    f.write('    "all": "%s:blocks/%s"\n' % (MOD_ID, texture))
+    f.write('  }\n')
+    f.write('}\n')
+    f.close()
+
+    #item model
+    f = open(DIR_OUTPUT_ITEMS + name + '.json', 'w')
+    f.write('{\n')
+    f.write('  "parent": "%s:block/%s",\n' % (MOD_ID, name))
+    f.write('  "textures": {\n')
+    f.write('    "layer0": "%s:blocks/%s"\n' % (MOD_ID, texture))
+    f.write('  }\n')
+    f.write('}\n')
     f.close()
 
 def writeItemJSON(name, texture, layer=0, item_type='generated'):
@@ -132,8 +120,6 @@ count = 1
 layer = 0
 # The "parent" for items. Typically you want "generated".
 type = 'generated'
-variantKey = ''
-variantValues = []
 
 
 
@@ -147,8 +133,6 @@ for arg in sys.argv:
     matchLayer = re.compile('layer=').match(argl)
     matchTexture = re.compile('texture=').match(argl)
     matchType = re.compile('type=').match(argl)
-    matchVariantKey = re.compile('variant_?key=').match(argl)
-    matchVariantValues = re.compile('variant_?values?=').match(argl)
 
     # Block or item? Default is item.
     if argl == 'block':
@@ -164,10 +148,6 @@ for arg in sys.argv:
         texture = re.sub('texture=', '', arg)
     elif matchType: # item parent model
         type = re.sub('type=', '', arg)
-    elif matchVariantKey:
-        variantKey = re.sub('variant_?key=', '', argl)
-    elif matchVariantValues:
-        variantValues = re.sub('variant_?values?=', '', argl).split(',')
     elif arg != 'makejson.py':
         name = arg
 
@@ -191,6 +171,6 @@ for i in range(count):
         textureName += str(i)
     # write the file(s)!
     if isBlock:
-        writeBlockJSON(filename, textureName, variantKey, variantValues)
+        writeBlockJSONs(filename, textureName)
     else:
         writeItemJSON(filename, textureName, layer, type)

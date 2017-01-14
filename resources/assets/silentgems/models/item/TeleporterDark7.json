@@ -1,6 +1,0 @@
-{
-  "parent": "SilentGems:block/TeleporterDark7",
-  "textures": {
-    "layer0": "SilentGems:blocks/TeleporterDark7"
-  }
-}

@@ -1,11 +1,16 @@
 package net.silentchaos512.gems.block;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.EnumDyeColor;
@@ -102,5 +107,16 @@ public class BlockFluffyBlock extends BlockSL {
   protected BlockStateContainer createBlockState() {
 
     return new BlockStateContainer(this, new IProperty[] { COLOR });
+  }
+
+  @Override
+  public List<ModelResourceLocation> getVariants() {
+
+    List list = Lists.newArrayList();
+    for (int i = 0; i < 16; ++i) {
+      String dyeName = EnumDyeColor.values()[i].getName();
+      list.add(new ModelResourceLocation(getFullName(), "color=" + dyeName));
+    }
+    return list;
   }
 }

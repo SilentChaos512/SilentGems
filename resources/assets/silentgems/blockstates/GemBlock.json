@@ -1,22 +1,13 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "silentgems:basic_cube",
-    "transform": "forge:default-block",
-    "textures": {
-      "all": "silentgems:blocks/gemblock0"
-    }
+    "model": "cube_all",
+    "transform": "forge:default-block"
   },
   "variants": {
-    "normal": [{}],
     "inventory": [{
-        "model": "silentgems:basic_cube",
-        "textures": {
-          "all": "silentgems:blocks/gemblock0"
-        }
     }],
-    "variant":
-    {
+    "gem": {
       "ruby": {
         "textures": {
           "all": "silentgems:blocks/gemblock0"
@@ -97,8 +88,6 @@
           "all": "silentgems:blocks/gemblock15"
         }
       }
-    },
-    "normal": [{
-    }]
+    }
   }
 }

@@ -1,6 +1,0 @@
-{
-  "parent": "SilentGems:block/GemBlockSuper9",
-  "textures": {
-    "layer0": "SilentGems:blocks/GemBlock9"
-  }
-}

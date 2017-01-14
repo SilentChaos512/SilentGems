@@ -1,10 +1,15 @@
 package net.silentchaos512.gems.block;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,6 +18,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.BlockEssenceOre.Type;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
@@ -32,7 +38,7 @@ public class BlockMisc extends BlockSL implements IFuelHandler {
     }
   }
 
-  public static final PropertyEnum VARIANT = PropertyEnum.create("variant", Type.class);
+  public static final PropertyEnum VARIANT = PropertyEnum.create("type", Type.class);
 
   public BlockMisc() {
 
@@ -101,5 +107,14 @@ public class BlockMisc extends BlockSL implements IFuelHandler {
   protected BlockStateContainer createBlockState() {
 
     return new BlockStateContainer(this, new IProperty[] { VARIANT });
+  }
+
+  @Override
+  public List<ModelResourceLocation> getVariants() {
+
+    List<ModelResourceLocation> list = Lists.newArrayList();
+    for (Type type : Type.values())
+      list.add(new ModelResourceLocation(getFullName(), "type=" + type.getName()));
+    return list;
   }
 }

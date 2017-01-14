@@ -2,9 +2,12 @@ package net.silentchaos512.gems.block;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -61,5 +64,11 @@ public class BlockTeleporterAnchor extends BlockTeleporter {
   protected BlockStateContainer createBlockState() {
 
     return new BlockStateContainer(this, new IProperty[0]);
+  }
+
+  @Override
+  public List<ModelResourceLocation> getVariants() {
+
+    return Lists.newArrayList(new ModelResourceLocation(getFullName(), "inventory"));
   }
 }

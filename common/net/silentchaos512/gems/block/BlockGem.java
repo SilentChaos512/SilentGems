@@ -93,31 +93,4 @@ public class BlockGem extends BlockGemSubtypes {
     }
     return super.canEntityDestroy(state, world, pos, entity);
   }
-
-  @Override
-  public boolean registerModels() {
-
-    // Temporarily overriding Silent Lib's model registration in case that's the problem...
-
-    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-    Item item = Item.getItemFromBlock(this);
-    List<ModelResourceLocation> models = getVariants();
-
-    for (int i = 0; i < 16; ++i) {
-      ModelLoader.setCustomModelResourceLocation(item, i, models.get(i));
-    }
-    return true;
-  }
-
-  @Override
-  public List<ModelResourceLocation> getVariants() {
-
-    List list = Lists.newArrayList();
-    for (int i = 0; i < 16; ++i) {
-      EnumGem gem = EnumGem.values()[i];
-      list.add(new ModelResourceLocation(
-          SilentGems.RESOURCE_PREFIX + Names.GEM_BLOCK, "variant=" + gem.getName()));
-    }
-    return list;
-  }
 }

@@ -1,20 +1,93 @@
 {
-	"variants": {
-		"variant=ruby": { "model": "SilentGems:TeleporterRedstoneDark0" },
-    "variant=garnet": { "model": "SilentGems:TeleporterRedstoneDark1" },
-    "variant=topaz": { "model": "SilentGems:TeleporterRedstoneDark2" },
-    "variant=amber": { "model": "SilentGems:TeleporterRedstoneDark3" },
-    "variant=heliodor": { "model": "SilentGems:TeleporterRedstoneDark4" },
-    "variant=peridot": { "model": "SilentGems:TeleporterRedstoneDark5" },
-    "variant=beryl": { "model": "SilentGems:TeleporterRedstoneDark6" },
-    "variant=indicolite": { "model": "SilentGems:TeleporterRedstoneDark7" },
-    "variant=aquamarine": { "model": "SilentGems:TeleporterRedstoneDark8" },
-    "variant=sapphire": { "model": "SilentGems:TeleporterRedstoneDark9" },
-    "variant=iolite": { "model": "SilentGems:TeleporterRedstoneDark10" },
-    "variant=amethyst": { "model": "SilentGems:TeleporterRedstoneDark11" },
-    "variant=agate": { "model": "SilentGems:TeleporterRedstoneDark12" },
-    "variant=morganite": { "model": "SilentGems:TeleporterRedstoneDark13" },
-    "variant=onyx": { "model": "SilentGems:TeleporterRedstoneDark14" },
-    "variant=opal": { "model": "SilentGems:TeleporterRedstoneDark15" }
-	}
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all",
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "inventory": [{
+    }],
+    "gem": {
+      "ruby": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark0"
+        }
+      },
+      "garnet": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark1"
+        }
+      },
+      "topaz": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark2"
+        }
+      },
+      "amber": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark3"
+        }
+      },
+      "heliodor": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark4"
+        }
+      },
+      "peridot": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark5"
+        }
+      },
+      "beryl": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark6"
+        }
+      },
+      "indicolite": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark7"
+        }
+      },
+      "aquamarine": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark8"
+        }
+      },
+      "sapphire": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark9"
+        }
+      },
+      "iolite": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark10"
+        }
+      },
+      "amethyst": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark11"
+        }
+      },
+      "agate": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark12"
+        }
+      },
+      "morganite": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark13"
+        }
+      },
+      "onyx": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark14"
+        }
+      },
+      "opal": {
+        "textures": {
+          "all": "silentgems:blocks/teleporterredstonedark15"
+        }
+      }
+    }
+  }
 }

@@ -1,5 +1,14 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all",
+    "transform": "forge:default-block",
+    "textures": {
+        "all": "silentgems:blocks/teleporteranchor"
+      }
+  },
   "variants": {
-    "normal": { "model": "SilentGems:TeleporterAnchor" }
+    "inventory": [{}],
+    "normal": [{}]
   }
 }

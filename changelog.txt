@@ -2,6 +2,8 @@ Silent's Gems - Changelog
 
 2.2.6
 Fixed: Vein Miner compatibility module. Hopefully. Couldn't find a fix for 1.10.2.
+Fixed: Chaos Flower Pot rendering a ruby glow rose when empty.
+Switched to Forge blockstates for most blocks. Should have no visible effect on the mod, report missing models. It does reduce the file count by over 800, so... yay?
 
 2.2.5
 Updated most item textures to 16x16.

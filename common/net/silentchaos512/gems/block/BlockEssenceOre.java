@@ -1,11 +1,16 @@
 package net.silentchaos512.gems.block;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.MathHelper;
@@ -30,7 +35,7 @@ public class BlockEssenceOre extends BlockSL {
     }
   }
 
-  public static final PropertyEnum VARIANT = PropertyEnum.create("variant", Type.class);
+  public static final PropertyEnum VARIANT = PropertyEnum.create("gem", Type.class);
 
   public BlockEssenceOre() {
 
@@ -83,5 +88,14 @@ public class BlockEssenceOre extends BlockSL {
   protected BlockStateContainer createBlockState() {
 
     return new BlockStateContainer(this, new IProperty[] { VARIANT });
+  }
+
+  @Override
+  public List<ModelResourceLocation> getVariants() {
+
+    List<ModelResourceLocation> list = Lists.newArrayList();
+    for (Type type : Type.values())
+      list.add(new ModelResourceLocation(getFullName(), "gem=" + type.getName()));
+    return list;
   }
 }

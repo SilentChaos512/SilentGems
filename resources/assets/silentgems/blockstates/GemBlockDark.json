@@ -1,20 +1,93 @@
 {
-	"variants": {
-		"variant=ruby": { "model": "SilentGems:GemBlockDark0" },
-    "variant=garnet": { "model": "SilentGems:GemBlockDark1" },
-    "variant=topaz": { "model": "SilentGems:GemBlockDark2" },
-    "variant=amber": { "model": "SilentGems:GemBlockDark3" },
-    "variant=heliodor": { "model": "SilentGems:GemBlockDark4" },
-    "variant=peridot": { "model": "SilentGems:GemBlockDark5" },
-    "variant=beryl": { "model": "SilentGems:GemBlockDark6" },
-    "variant=indicolite": { "model": "SilentGems:GemBlockDark7" },
-    "variant=aquamarine": { "model": "SilentGems:GemBlockDark8" },
-    "variant=sapphire": { "model": "SilentGems:GemBlockDark9" },
-    "variant=iolite": { "model": "SilentGems:GemBlockDark10" },
-    "variant=amethyst": { "model": "SilentGems:GemBlockDark11" },
-    "variant=agate": { "model": "SilentGems:GemBlockDark12" },
-    "variant=morganite": { "model": "SilentGems:GemBlockDark13" },
-    "variant=onyx": { "model": "SilentGems:GemBlockDark14" },
-    "variant=opal": { "model": "SilentGems:GemBlockDark15" }
-	}
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all",
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "inventory": [{
+    }],
+    "gem": {
+      "ruby": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark0"
+        }
+      },
+      "garnet": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark1"
+        }
+      },
+      "topaz": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark2"
+        }
+      },
+      "amber": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark3"
+        }
+      },
+      "heliodor": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark4"
+        }
+      },
+      "peridot": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark5"
+        }
+      },
+      "beryl": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark6"
+        }
+      },
+      "indicolite": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark7"
+        }
+      },
+      "aquamarine": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark8"
+        }
+      },
+      "sapphire": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark9"
+        }
+      },
+      "iolite": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark10"
+        }
+      },
+      "amethyst": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark11"
+        }
+      },
+      "agate": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark12"
+        }
+      },
+      "morganite": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark13"
+        }
+      },
+      "onyx": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark14"
+        }
+      },
+      "opal": {
+        "textures": {
+          "all": "silentgems:blocks/gemblockdark15"
+        }
+      }
+    }
+  }
 }

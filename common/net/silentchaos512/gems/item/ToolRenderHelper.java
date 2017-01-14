@@ -17,6 +17,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
@@ -428,6 +429,9 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
     ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
     int index = 0;
+
+    buildModelSet();
+    ModelLoader.registerItemVariants(this, models);
 
     for (ModelResourceLocation model : modelSet) {
       mesher.register(this, index++, model);

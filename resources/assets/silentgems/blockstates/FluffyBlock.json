@@ -1,20 +1,93 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all",
+    "transform": "forge:default-block"
+  },
   "variants": {
-    "color=white": { "model": "SilentGems:FluffyBlock0" },
-    "color=orange": { "model": "SilentGems:FluffyBlock1" },
-    "color=magenta": { "model": "SilentGems:FluffyBlock2" },
-    "color=light_blue": { "model": "SilentGems:FluffyBlock3" },
-    "color=yellow": { "model": "SilentGems:FluffyBlock4" },
-    "color=lime": { "model": "SilentGems:FluffyBlock5" },
-    "color=pink": { "model": "SilentGems:FluffyBlock6" },
-    "color=gray": { "model": "SilentGems:FluffyBlock7" },
-    "color=silver": { "model": "SilentGems:FluffyBlock8" },
-    "color=cyan": { "model": "SilentGems:FluffyBlock9" },
-    "color=purple": { "model": "SilentGems:FluffyBlock10" },
-    "color=blue": { "model": "SilentGems:FluffyBlock11" },
-    "color=brown": { "model": "SilentGems:FluffyBlock12" },
-    "color=green": { "model": "SilentGems:FluffyBlock13" },
-    "color=red": { "model": "SilentGems:FluffyBlock14" },
-    "color=black": { "model": "SilentGems:FluffyBlock15" }
+    "inventory": [{
+    }],
+    "color": {
+      "white": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock0"
+        }
+      },
+      "orange": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock1"
+        }
+      },
+      "magenta": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock2"
+        }
+      },
+      "light_blue": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock3"
+        }
+      },
+      "yellow": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock4"
+        }
+      },
+      "lime": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock5"
+        }
+      },
+      "pink": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock6"
+        }
+      },
+      "gray": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock7"
+        }
+      },
+      "silver": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock8"
+        }
+      },
+      "cyan": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock9"
+        }
+      },
+      "purple": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock10"
+        }
+      },
+      "blue": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock11"
+        }
+      },
+      "brown": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock12"
+        }
+      },
+      "green": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock13"
+        }
+      },
+      "red": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock14"
+        }
+      },
+      "black": {
+        "textures": {
+          "all": "silentgems:blocks/fluffyblock15"
+        }
+      }
+    }
   }
 }
