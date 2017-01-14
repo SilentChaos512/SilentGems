@@ -4,16 +4,19 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
+import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.packet.EntityPacketChaos;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
@@ -55,7 +58,7 @@ public class ChaosUtil {
     PlayerData data = PlayerDataHandler.get(player);
     int amount = data.getCurrentChaos();
 
-    for (ItemStack stack : PlayerHelper.getNonEmptyStacks(player)) {
+    for (ItemStack stack : getChaosStorageItems(player)) {
       if (stack.getItem() instanceof IChaosStorage) {
         amount += ((IChaosStorage) stack.getItem()).getCharge(stack);
       }
@@ -67,7 +70,7 @@ public class ChaosUtil {
   public static void drainChaosFromPlayerAndInventory(EntityPlayer player, int amount) {
 
     int startAmount = amount;
-    for (ItemStack stack : PlayerHelper.getNonEmptyStacks(player)) {
+    for (ItemStack stack : getChaosStorageItems(player)) {
       if (stack.getItem() instanceof IChaosStorage) {
         amount -= ((IChaosStorage) stack.getItem()).extractCharge(stack, amount, false);
         if (amount <= 0)
@@ -83,7 +86,7 @@ public class ChaosUtil {
 
     PlayerData data = PlayerDataHandler.get(player);
     amount -= data.getMaxChaos() - data.getCurrentChaos();
-    for (ItemStack stack : PlayerHelper.getNonEmptyStacks(player)) {
+    for (ItemStack stack : getChaosStorageItems(player)) {
       if (stack.getItem() instanceof IChaosStorage) {
         amount -= ((IChaosStorage) stack.getItem()).receiveCharge(stack, amount, true);
       }
@@ -96,8 +99,7 @@ public class ChaosUtil {
     PlayerData data = PlayerDataHandler.get(player);
     int amount = data.getMaxChaos() - data.getCurrentChaos();
 
-    for (ItemStack stack : PlayerHelper.getNonEmptyStacks(player,
-        s -> s.getItem() instanceof IChaosStorage)) {
+    for (ItemStack stack : getChaosStorageItems(player)) {
       amount += ((IChaosStorage) stack.getItem()).receiveCharge(stack, maxToSend - amount, true);
       if (amount >= maxToSend)
         return maxToSend;
@@ -114,7 +116,7 @@ public class ChaosUtil {
       EntityPlayer player = (EntityPlayer) target;
       amount -= PlayerDataHandler.get(player).sendChaos(amount, true);
 
-      for (ItemStack stack : PlayerHelper.getNonEmptyStacks(player)) {
+      for (ItemStack stack : getChaosStorageItems(player)) {
         if (stack.getItem() instanceof IChaosStorage) {
           amount -= ((IChaosStorage) stack.getItem()).receiveCharge(stack, amount, false);
           if (amount <= 0)
@@ -147,5 +149,14 @@ public class ChaosUtil {
     entity.setPosition(start.getX() + 0.5, start.getY() + 0.5, start.getZ() + 0.5);
     world.spawnEntity(entity);
     return entity;
+  }
+
+  public static NonNullList<ItemStack> getChaosStorageItems(EntityPlayer player) {
+
+    NonNullList<ItemStack> list = BaublesCompat.getBaubles(player, s -> s.getItem() instanceof IChaosStorage);
+    for (ItemStack stack : PlayerHelper.getNonEmptyStacks(player))
+      if (stack.getItem() instanceof IChaosStorage)
+        list.add(stack);
+    return list;
   }
 }

@@ -140,8 +140,9 @@ public class ChaosBuff {
 
     if (this == FLIGHT) {
       player.capabilities.allowFlying = true;
-//      if (!player.worldObj.isRemote && player.ticksExisted % 20 == 0)
-//        NetworkHandler.INSTANCE.sendTo(new MessageSetFlight(true), (EntityPlayerMP) player);
+      if (!player.world.isRemote && player.ticksExisted % 20 == 0) {
+        NetworkHandler.INSTANCE.sendTo(new MessageSetFlight(true), (EntityPlayerMP) player); 
+      }
     }
   }
 
@@ -155,6 +156,9 @@ public class ChaosBuff {
       player.capabilities.allowFlying = false;
       player.capabilities.isFlying = false;
       player.fallDistance = 0;
+      if (!player.world.isRemote) {
+        NetworkHandler.INSTANCE.sendTo(new MessageSetFlight(false), (EntityPlayerMP) player);
+      }
     }
   }
 

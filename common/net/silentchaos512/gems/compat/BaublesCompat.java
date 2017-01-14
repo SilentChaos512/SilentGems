@@ -7,13 +7,23 @@ import baubles.api.cap.IBaublesItemHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.fml.common.Loader;
+import net.silentchaos512.gems.SilentGems;
 
 public class BaublesCompat {
+
+  public static final String MOD_ID = "baubles";
+
+  public static boolean MOD_LOADED = false;
 
   public static NonNullList<ItemStack> getBaubles(EntityPlayer player,
       Predicate<ItemStack> predicate) {
 
     NonNullList<ItemStack> list = NonNullList.create();
+
+    if (!MOD_LOADED)
+      return list;
+
     IBaublesItemHandler inv = BaublesApi.getBaublesHandler(player);
 
     for (int i = 0; i < inv.getSlots(); ++i) {

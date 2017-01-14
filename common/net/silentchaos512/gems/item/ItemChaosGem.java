@@ -10,11 +10,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import baubles.api.BaubleType;
-import baubles.api.BaublesApi;
 import baubles.api.IBauble;
-import baubles.api.cap.IBaublesItemHandler;
 import baubles.api.render.IRenderBauble;
-import baubles.api.render.IRenderBauble.RenderType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
@@ -40,6 +37,7 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
@@ -47,8 +45,8 @@ import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.RecipeHelper;
 
 @Optional.InterfaceList({
-  @Optional.Interface(iface = "baubles.api.IBauble", modid = SilentGems.BAUBLES_MOD_ID),
-  @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = SilentGems.BAUBLES_MOD_ID) })
+  @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesCompat.MOD_ID),
+  @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = BaublesCompat.MOD_ID) })
 public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBauble {
 
   public static final String NBT_ENABLED = "enabled";
@@ -383,29 +381,29 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
   // ===================
 
   @Override
-  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  @Optional.Method(modid = BaublesCompat.MOD_ID)
   public BaubleType getBaubleType(ItemStack stack) {
 
     return BaubleType.BELT;
   }
 
   @Override
-  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  @Optional.Method(modid = BaublesCompat.MOD_ID)
   public void onWornTick(ItemStack stack, EntityLivingBase player) {
 
     onUpdate(stack, player.world, player, 0, false);
   }
 
   @Override
-  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  @Optional.Method(modid = BaublesCompat.MOD_ID)
   public boolean willAutoSync(ItemStack stack, EntityLivingBase player) {
 
-    return false;
+    return true;
   }
 
   @SideOnly(Side.CLIENT)
   @Override
-  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  @Optional.Method(modid = BaublesCompat.MOD_ID)
   public void onPlayerBaubleRender(ItemStack stack, EntityPlayer player, RenderType renderType,
       float partialTicks) {
 
@@ -415,7 +413,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
       IRenderBauble.Helper.rotateIfSneaking(player);
       GlStateManager.rotate(90, 0, 1, 0);
       IRenderBauble.Helper.translateToChest();
-      GlStateManager.translate(0.0, 1.7, 0.325);
+      GlStateManager.translate(0.0, 1.7, 0.3);
       Minecraft.getMinecraft().getRenderItem().renderItem(stack, TransformType.FIXED);
     }
   }

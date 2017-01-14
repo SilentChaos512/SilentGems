@@ -2,19 +2,24 @@ package net.silentchaos512.gems.entity.packet;
 
 import java.util.List;
 
+import com.google.common.base.Predicate;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
+import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket.ColorPair;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
+import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.PlayerHelper;
 
@@ -58,9 +63,7 @@ public class EntityPacketChaos extends EntityChaosNodePacket {
     amountLeft -= data.sendChaos(amountLeft, true);
 
     if (amountLeft > 0) {
-      List<ItemStack> list = PlayerHelper.getNonEmptyStacks(player);
-
-      for (ItemStack stack : list) {
+      for (ItemStack stack : ChaosUtil.getChaosStorageItems(player)) {
         if (stack.getItem() instanceof IChaosStorage) {
           amountLeft -= ((IChaosStorage) stack.getItem()).receiveCharge(stack, amountLeft, false);
           if (amountLeft <= 0) {

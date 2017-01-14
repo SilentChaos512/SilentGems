@@ -52,10 +52,6 @@ public class GemsCommonEvents {
           ToolHelper.recalculateStats(stack);
         if (stack.getItem() instanceof IArmor)
           ArmorHelper.recalculateStats(stack);
-
-        // Disable Chaos Gems
-        if (stack.getItem() instanceof ItemChaosGem)
-          ((ItemChaosGem) stack.getItem()).setEnabled(stack, false);
       }
     }
   }

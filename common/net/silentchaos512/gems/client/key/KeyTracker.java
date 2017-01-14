@@ -29,10 +29,10 @@ public class KeyTracker {
   private EntityPlayer player;
   private KeyBinding toggleSpecial = createBinding("Toggle Special", KeyConflictContext.IN_GAME,
       KeyModifier.SHIFT, Keyboard.KEY_C);
-  // private KeyBinding toggleChaosGemFirst = createBinding("Toggle Chaos Gem (First)",
-  // KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_G);
-  // private KeyBinding toggleChaosGemAll = createBinding("Toggle Chaos Gem (All)",
-  // KeyConflictContext.IN_GAME, KeyModifier.SHIFT, Keyboard.KEY_G);
+  private KeyBinding toggleChaosGemFirst = createBinding("Toggle Chaos Gem (First)",
+      KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_G);
+  private KeyBinding toggleChaosGemAll = createBinding("Toggle Chaos Gem (All)",
+      KeyConflictContext.IN_GAME, KeyModifier.SHIFT, Keyboard.KEY_G);
   private KeyBinding triggerReturnHome = createBinding("Use Return Home Charm",
       KeyConflictContext.IN_GAME, KeyModifier.SHIFT, Keyboard.KEY_P);
 
@@ -73,10 +73,10 @@ public class KeyTracker {
     if (toggleSpecial.isKeyDown())
       handleToggleSpecial();
 
-    // if (toggleChaosGemAll.isKeyDown())
-    // handleToggleChaosGem(true);
-    // else if (toggleChaosGemFirst.isKeyDown())
-    // handleToggleChaosGem(false);
+    if (toggleChaosGemAll.isKeyDown())
+      handleToggleChaosGem(true);
+    else if (toggleChaosGemFirst.isKeyDown())
+      handleToggleChaosGem(false);
 
     if (triggerReturnHome.isPressed())
       handleTriggerReturnHome();

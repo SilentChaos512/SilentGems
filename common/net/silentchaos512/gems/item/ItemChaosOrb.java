@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 import org.lwjgl.input.Keyboard;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
 import baubles.api.BaubleType;
@@ -15,9 +16,8 @@ import baubles.api.render.IRenderBauble;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -26,10 +26,16 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -37,16 +43,18 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
+import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 @Optional.InterfaceList({
-    @Optional.Interface(iface = "baubles.api.IBauble", modid = SilentGems.BAUBLES_MOD_ID),
-    @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = SilentGems.BAUBLES_MOD_ID) })
+    @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesCompat.MOD_ID),
+    @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = BaublesCompat.MOD_ID) })
 public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBauble {
 
   public static enum Type {
@@ -71,6 +79,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
   }
 
   public static final String NBT_CHARGE = "ChaosCharge";
+  public static final String NBT_ITEM_SEND = "ItemSend";
 
   public static final int MAX_ITEM_SEND = 2000;
 
@@ -89,6 +98,11 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
 
     list.add(loc.getMiscText("ChaosCharge", getCharge(stack), getMaxCharge(stack)));
     list.add(loc.getItemSubText(itemName, "breakChance", (int) (getType(stack).breakChance * 100)));
+
+    boolean mode = isItemSendEnabled(stack);
+    String onOrOff = loc.getMiscText("state." + (mode ? "on" : "off"));
+    onOrOff = (mode ? TextFormatting.GREEN : TextFormatting.RED) + onOrOff;
+    list.add(loc.getItemSubText(Names.CHAOS_ORB, "itemSend", onOrOff));
 
     if (shifted) {
       for (String str : loc.getItemDescriptionLines(itemName)) {
@@ -152,10 +166,13 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
 
     for (Type orbType : Type.values()) {
       String name = getFullName() + orbType.ordinal();
-      mesher.register(this, orbType.ordinal(), new ModelResourceLocation(name, "inventory"));
+      ModelResourceLocation model = new ModelResourceLocation(name, "inventory");
+      ModelLoader.registerItemVariants(this, model);
+      mesher.register(this, orbType.ordinal(), model);
       for (int i = 1; i < orbType.crackStages; ++i) {
         int meta = orbType.ordinal() + (i << 4);
-        ModelResourceLocation model = new ModelResourceLocation(name + "_" + i, "inventory");
+        model = new ModelResourceLocation(name + "_" + i, "inventory");
+        ModelLoader.registerItemVariants(this, model);
         mesher.register(this, meta, model);
       }
     }
@@ -187,6 +204,23 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
   }
 
   @Override
+  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+
+    ItemStack stack = player.getHeldItem(hand);
+    if (player.isSneaking()) {
+      toggleItemSendEnabled(stack);
+      boolean mode = isItemSendEnabled(stack);
+
+      LocalizationHelper loc = SilentGems.localizationHelper;
+      String onOrOff = loc.getMiscText("state." + (mode ? "on" : "off"));
+      onOrOff = (mode ? TextFormatting.GREEN : TextFormatting.RED) + onOrOff;
+      String line = loc.getItemSubText(Names.CHAOS_ORB, "itemSend", onOrOff);
+      player.sendStatusMessage(new TextComponentString(line), true);
+    }
+    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
+  }
+
+  @Override
   public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot,
       boolean isSelected) {
 
@@ -212,23 +246,25 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
         }
       }
 
-      // Try recharge player's items.
-      int totalSentToItems = 0;
-      for (ItemStack itemstack : PlayerHelper.getNonEmptyStacks(player)) {
-        if (itemstack.getItem() instanceof IChaosStorage && itemstack.getItem() != this) {
-          int toSend = Math.min(getCharge(stack), MAX_ITEM_SEND);
-          totalSentToItems += ((IChaosStorage) itemstack.getItem()).receiveCharge(itemstack, toSend,
-              false);
+      // Try recharge player's items?
+      if (isItemSendEnabled(stack)) {
+        int totalSentToItems = 0;
+        for (ItemStack itemstack : ChaosUtil.getChaosStorageItems(player)) {
+          if (itemstack.getItem() != this && itemstack.getItem() instanceof IChaosStorage) {
+            int toSend = Math.min(getCharge(stack), MAX_ITEM_SEND);
+            totalSentToItems += ((IChaosStorage) itemstack.getItem()).receiveCharge(itemstack,
+                toSend, false);
+          }
         }
-      }
-      extractCharge(stack, totalSentToItems, false);
+        extractCharge(stack, totalSentToItems, false);
 
-      // Damage from item send? (lower damage chance)
-      breakTries = totalSentToItems / MAX_ITEM_SEND;
-      for (int i = 0; i < breakTries; ++i) {
-        if (SilentGems.random.nextFloat() < getBreakChance(stack) / 3) {
-          damageOrb(stack, player);
-          break;
+        // Damage from item send? (lower damage chance)
+        breakTries = totalSentToItems / MAX_ITEM_SEND;
+        for (int i = 0; i < breakTries; ++i) {
+          if (SilentGems.random.nextFloat() < getBreakChance(stack) / 3) {
+            damageOrb(stack, player);
+            break;
+          }
         }
       }
     }
@@ -297,6 +333,25 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
     PlayerHelper.removeItem(player, stack);
   }
 
+  public boolean isItemSendEnabled(ItemStack stack) {
+
+    if (stack.isEmpty() || !stack.hasTagCompound())
+      return false;
+    if (!stack.getTagCompound().hasKey(NBT_ITEM_SEND))
+      return true;
+    return stack.getTagCompound().getBoolean(NBT_ITEM_SEND);
+  }
+
+  public void toggleItemSendEnabled(ItemStack stack) {
+
+    if (stack.isEmpty())
+      return;
+    if (!stack.hasTagCompound())
+      stack.setTagCompound(new NBTTagCompound());
+    boolean value = isItemSendEnabled(stack);
+    stack.getTagCompound().setBoolean(NBT_ITEM_SEND, !value);
+  }
+
   @Override
   public int getMaxCharge(ItemStack stack) {
 
@@ -308,14 +363,14 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
   // ===================
 
   @Override
-  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  @Optional.Method(modid = BaublesCompat.MOD_ID)
   public BaubleType getBaubleType(ItemStack stack) {
 
     return BaubleType.TRINKET;
   }
 
   @Override
-  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  @Optional.Method(modid = BaublesCompat.MOD_ID)
   public void onWornTick(ItemStack stack, EntityLivingBase player) {
 
     onUpdate(stack, player.world, player, 0, false);
@@ -337,7 +392,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
   }
 
   @Override
-  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  @Optional.Method(modid = BaublesCompat.MOD_ID)
   public boolean willAutoSync(ItemStack stack, EntityLivingBase player) {
 
     return true;
@@ -345,7 +400,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
 
   @SideOnly(Side.CLIENT)
   @Override
-  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  @Optional.Method(modid = BaublesCompat.MOD_ID)
   public void onPlayerBaubleRender(ItemStack stack, EntityPlayer player, RenderType renderType,
       float partialTicks) {
 
@@ -355,7 +410,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
       IRenderBauble.Helper.rotateIfSneaking(player);
       GlStateManager.rotate(90, 0, 1, 0);
       IRenderBauble.Helper.translateToChest();
-      GlStateManager.translate(0.0, 1.5, 1.50);
+      GlStateManager.translate(0.0, 1.5, 1.55);
       Minecraft.getMinecraft().getRenderItem().renderItem(stack, TransformType.FIXED);
     }
   }

@@ -464,6 +464,7 @@ item.silentgems:ChaosOrb.desc2=when low on charge.
 item.silentgems:ChaosOrb.break=Your %1$s shatters into %2$,d pieces.
 item.silentgems:ChaosOrb.breakChance=Max break chance: %d%%
 item.silentgems:ChaosOrb.crack=Your %s has cracked...
+item.silentgems:ChaosOrb.itemSend=Recharge Items: %s
 
 item.silentgems:ChaosRune.name=Chaos Rune
 item.silentgems:ChaosRune.desc=Craft with Chaos Gems
@@ -752,6 +753,8 @@ misc.silentgems:ChaosCharge=Chaos: %,d / %,d
 misc.silentgems:PressCtrl=<Press Ctrl>
 misc.silentgems:PressAlt=<Press Alt>
 misc.silentgems:PressShift=<Press Shift>
+misc.silentgems:state.on=On
+misc.silentgems:state.off=Off
 
 
 

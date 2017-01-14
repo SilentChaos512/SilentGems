@@ -33,6 +33,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
@@ -43,8 +44,8 @@ import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 @Optional.InterfaceList({
-    @Optional.Interface(iface = "baubles.api.IBauble", modid = SilentGems.BAUBLES_MOD_ID),
-    @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = SilentGems.BAUBLES_MOD_ID) })
+    @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesCompat.MOD_ID),
+    @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = BaublesCompat.MOD_ID) })
 public class ItemReturnHome extends ItemChaosStorage implements IBauble, IRenderBauble {
 
   public static final String TEXT_BOUND_TO = "BoundTo";
@@ -270,15 +271,15 @@ public class ItemReturnHome extends ItemChaosStorage implements IBauble, IRender
   // ===================
 
   @Override
-  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  @Optional.Method(modid = BaublesCompat.MOD_ID)
   public BaubleType getBaubleType(ItemStack stack) {
 
-    return BaubleType.CHARM;
+    return BaubleType.AMULET;
   }
 
   @SideOnly(Side.CLIENT)
   @Override
-  @Optional.Method(modid = SilentGems.BAUBLES_MOD_ID)
+  @Optional.Method(modid = BaublesCompat.MOD_ID)
   public void onPlayerBaubleRender(ItemStack stack, EntityPlayer player, RenderType renderType,
       float partialTicks) {
 
@@ -286,7 +287,7 @@ public class ItemReturnHome extends ItemChaosStorage implements IBauble, IRender
       float scale = 0.5f;
       GlStateManager.scale(scale, scale, scale);
       IRenderBauble.Helper.rotateIfSneaking(player);
-       GlStateManager.rotate(180, 0, 1, 0);
+      GlStateManager.rotate(180, 0, 1, 0);
       IRenderBauble.Helper.translateToChest();
       GlStateManager.translate(0.0, 3.0, 0.55);
       Minecraft.getMinecraft().getRenderItem().renderItem(stack, TransformType.FIXED);

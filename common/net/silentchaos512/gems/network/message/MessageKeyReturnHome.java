@@ -29,9 +29,8 @@ public class MessageKeyReturnHome extends Message {
 
     Predicate<ItemStack> predicate = s -> s.getItem() == ModItems.returnHomeCharm;
     EntityPlayer player = ctx.getServerHandler().playerEntity;
-    NonNullList<ItemStack> stacks = PlayerHelper.getNonEmptyStacks(player, predicate);
-    if (Loader.isModLoaded(SilentGems.BAUBLES_MOD_ID))
-      stacks.addAll(BaublesCompat.getBaubles(player, predicate));
+    NonNullList<ItemStack> stacks = BaublesCompat.getBaubles(player, predicate);
+    stacks.addAll(PlayerHelper.getNonEmptyStacks(player, predicate));
 
     if (stacks.isEmpty())
       return null;

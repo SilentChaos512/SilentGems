@@ -56,8 +56,6 @@ public class SilentGems {
       + "after:baubles;after:guideapi;after:enderio;after:enderzoo;after:tconstruct;after:veinminer";
   public static final String RESOURCE_PREFIX = MODID + ":";
 
-  public static final String BAUBLES_MOD_ID = "baubles";
-
   public static Random random = new Random();
   public static LogHelper logHelper = new LogHelper(MOD_NAME);
   public static LocalizationHelper localizationHelper;

@@ -4,9 +4,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
+import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.event.GemsCommonEvents;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.item.ModItems;
@@ -44,6 +46,9 @@ public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
 
     super.postInit(registry);
     ModItems.enchantmentToken.addModRecipes();
+
+    if (Loader.isModLoaded(BaublesCompat.MOD_ID))
+      BaublesCompat.MOD_LOADED = true;
   }
 
   public void spawnParticles(EnumModParticles type, Color color, World world, double x, double y,
