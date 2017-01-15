@@ -1,5 +1,7 @@
 package net.silentchaos512.gems.item;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -167,6 +169,39 @@ public class ItemEnchantmentToken extends ItemSL {
   // Crafting
   // ========
 
+  // FIXME: Hacky temporary fix for Enchantment#canApplyTogether being protected in MC 1.11.2
+  private Method canApplyTogether = null;
+
+  private boolean canApplyEnchantsTogether(Enchantment e1, Enchantment e2) {
+
+    try {
+      // Works in 1.11.0
+      return e1.canApplyTogether(e2) && e2.canApplyTogether(e1);
+    } catch (IllegalAccessError ex) {
+      // 1.11.2
+      if (canApplyTogether == null) {
+        // Save the method
+        try {
+          canApplyTogether = Enchantment.class.getMethod("canApplyTogether", Enchantment.class);
+          canApplyTogether.setAccessible(true);
+        } catch (NoSuchMethodException | SecurityException e) {
+          // Shouldn't happen.
+          e.printStackTrace();
+        }
+      }
+
+      try {
+        boolean b1 = (boolean) canApplyTogether.invoke(e1, e2);
+        boolean b2 = (boolean) canApplyTogether.invoke(e2, e1);
+        return b1 && b2;
+      } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+        e.printStackTrace();
+      }
+    }
+
+    return false;
+  }
+
   public boolean applyTokenToTool(ItemStack token, ItemStack tool) {
 
     if (token.isEmpty() || tool.isEmpty()) {
@@ -190,8 +225,7 @@ public class ItemEnchantmentToken extends ItemSL {
 
       // Does new enchantment conflict with any existing ones?
       for (Enchantment enchTool : enchantmentsOnTool.keySet()) {
-        if (!ench.equals(enchTool)
-            && (!ench.canApplyTogether(enchTool) || !enchTool.canApplyTogether(ench)))
+        if (!ench.equals(enchTool) && !canApplyEnchantsTogether(ench, enchTool))
           return false;
       }
     }
