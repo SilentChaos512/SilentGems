@@ -51,6 +51,7 @@ public class SilentGems {
   public static final String MOD_NAME = "Silent's Gems";
   public static final String VERSION = "@VERSION@";
   public static final String VERSION_SILENTLIB = "SL_VERSION";
+  public static final int BUILD_NUM = 0;
   public static final String DEPENDENCIES = "required-after:forge@[13.19.1.2188,);"
       + "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
       + "after:baubles;after:guideapi;after:enderio;after:enderzoo;after:tconstruct;after:veinminer";
@@ -98,7 +99,7 @@ public class SilentGems {
 
     ToolHelper.init();
 
-    GemsConfig.init(event.getSuggestedConfigurationFile());
+    GemsConfig.INSTANCE.init(event.getSuggestedConfigurationFile());
 
     ModEnchantments.init();
     ModBlocks.init();
@@ -106,7 +107,7 @@ public class SilentGems {
     ModRecipes.init();
     ModParts.init();
 
-    GemsConfig.loadModuleConfigs();
+    GemsConfig.INSTANCE.loadModuleConfigs();
 
     // TODO: Achievements
 
@@ -136,7 +137,7 @@ public class SilentGems {
 
     ModEntities.init(registry);
 
-    GemsConfig.save();
+    GemsConfig.INSTANCE.save();
 
     proxy.init(registry);
   }

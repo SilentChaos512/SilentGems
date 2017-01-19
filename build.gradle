@@ -17,7 +17,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //}
 
 version = "2.2.6"
-def build_num = "105"
+def build_num = "106"
 def silentlib_version = "1.2.0"
 group = "net.silentchaos512.gems"
 archivesBaseName = "SilentsGems-1.11"
@@ -31,6 +31,7 @@ minecraft {
 
     replace "@VERSION@", project.version
     replace "SL_VERSION", silentlib_version
+    replace "BUILD_NUM = 0", "BUILD_NUM = " + build_num
     replaceIn "SilentGems.java"
 
     mappings = "snapshot_20161122"

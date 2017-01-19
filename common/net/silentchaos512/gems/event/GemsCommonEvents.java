@@ -170,15 +170,6 @@ public class GemsCommonEvents {
       ModuleEntityRandomEquipment.tryGiveMobEquipment((EntityLivingBase) entity);
   }
 
-  @SubscribeEvent
-  public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-
-    if (event.getModID().equals(SilentGems.MODID)) {
-      GemsConfig.load();
-      GemsConfig.save();
-    }
-  }
-
   // @SubscribeEvent
   // public void onExplosionDetonate(ExplosionEvent.Detonate event) {
   //
