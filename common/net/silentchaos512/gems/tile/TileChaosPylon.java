@@ -2,6 +2,7 @@ package net.silentchaos512.gems.tile;
 
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,13 +11,10 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosProvider;
-import net.silentchaos512.gems.block.BlockChaosPylon;
 import net.silentchaos512.gems.entity.packet.EntityPacketChaos;
 import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.lib.Names;
@@ -136,6 +134,11 @@ public class TileChaosPylon extends TileInventorySL implements ITickable, IChaos
     }
   }
 
+  public ItemStack getFuel() {
+
+    return getSizeInventory() > 0 ? getStackInSlot(0) : ItemStack.EMPTY;
+  }
+
   private void burnFuel() {
 
     boolean markForUpdate = false;
@@ -146,24 +149,23 @@ public class TileChaosPylon extends TileInventorySL implements ITickable, IChaos
     }
 
     if (burnTimeRemaining <= 0 && getCharge() < getMaxCharge()) {
-      ItemStack stack = getStackInSlot(0);
-      if (!stack.isEmpty()) {
-        int fuelBurnTime = TileEntityFurnace.getItemBurnTime(stack);
+      if (!getFuel().isEmpty()) {
+        int fuelBurnTime = TileEntityFurnace.getItemBurnTime(getFuel());
         if (fuelBurnTime > 0) {
           currentItemBurnTime = burnTimeRemaining = fuelBurnTime;
-          stack.shrink(1);
-          if (stack.isEmpty())
-            setInventorySlotContents(0, stack.getItem().getContainerItem(stack));
+          decrStackSize(0, 1);
+          if (getFuel().isEmpty())
+            setInventorySlotContents(0, getFuel().getItem().getContainerItem(getFuel()));
           else
-            setInventorySlotContents(0, stack);
+            setInventorySlotContents(0, getFuel());
           markForUpdate = true;
         }
       }
     }
 
     if (markForUpdate) {
-      markDirty();
-      // worldObj.markBlockForUpdate(pos);
+      IBlockState state = world.getBlockState(pos);
+      world.notifyBlockUpdate(pos, state, state, 2);
     }
   }
 
@@ -275,6 +277,6 @@ public class TileChaosPylon extends TileInventorySL implements ITickable, IChaos
   @Override
   public int getSizeInventory() {
 
-    return getPylonType() == EnumPylonType.BURNER ? 1 : 0;
+    return 1;
   }
 }

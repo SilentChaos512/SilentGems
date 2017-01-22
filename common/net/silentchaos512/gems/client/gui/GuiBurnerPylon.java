@@ -25,11 +25,11 @@ public class GuiBurnerPylon extends GuiContainer {
   @Override
   protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 
-//    if (GemsConfig.DEBUG_MODE) {
-//      String str = "%,d / %,d";
-//      str = String.format(str, tilePylon.getCharge(), tilePylon.getMaxCharge()); // doesn't work
-//      fontRendererObj.drawString(str, 5, 5, 0x404040);
-//    }
+    if (GemsConfig.DEBUG_MODE) {
+      String str = "%,d / %,d";
+      str = String.format(str, tilePylon.getCharge(), tilePylon.getMaxCharge()); // doesn't work
+      fontRendererObj.drawString(str, 5, 5, 0x404040);
+    }
   }
 
   @Override
