@@ -71,7 +71,7 @@ public class ItemHoldingGem extends ItemBlockPlacer {
       stack.setTagCompound(new NBTTagCompound());
       stack.getTagCompound().setShort(NBT_GEM_ID, (short) gem.ordinal());
       GameRegistry.addRecipe(new ShapedOreRecipe(stack, "gcg", "s s", "gcg", 'g', "ingotGold", 'c',
-          ModItems.craftingMaterial.chaosEssenceEnriched, 's', gem.getItemSuperOreName()));
+          ModItems.craftingMaterial.chaosEssenceEnriched, 's', gem.getItemOreName()));
     }
   }
 
