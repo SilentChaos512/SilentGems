@@ -174,6 +174,9 @@ public class ItemEnchantmentToken extends ItemSL {
 
   private boolean canApplyEnchantsTogether(Enchantment e1, Enchantment e2) {
 
+    if (e1 == null || e2 == null)
+      return true;
+
     try {
       // Works in 1.11.0
       return e1.canApplyTogether(e2) && e2.canApplyTogether(e1);
@@ -182,8 +185,8 @@ public class ItemEnchantmentToken extends ItemSL {
       if (canApplyTogether == null) {
         // Save the method
         try {
-          canApplyTogether = Enchantment.class.getMethod("canApplyTogether", Enchantment.class);
-          canApplyTogether.setAccessible(true);
+          canApplyTogether = Enchantment.class.getMethod("func_191560_c", Enchantment.class);
+          //canApplyTogether.setAccessible(true);
         } catch (NoSuchMethodException | SecurityException e) {
           // Shouldn't happen.
           e.printStackTrace();
@@ -191,9 +194,7 @@ public class ItemEnchantmentToken extends ItemSL {
       }
 
       try {
-        boolean b1 = (boolean) canApplyTogether.invoke(e1, e2);
-        boolean b2 = (boolean) canApplyTogether.invoke(e2, e1);
-        return b1 && b2;
+        return (boolean) canApplyTogether.invoke(e1, e2);
       } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
         e.printStackTrace();
       }

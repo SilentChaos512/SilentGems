@@ -1,11 +1,15 @@
 Silent's Gems - Changelog
 
+2.2.7
+Fixed: Burner Pylons eating fuel (#106)
+Fixed: Another 1.11.2-exclusive enchantment token crash (#105)
+
 2.2.6
 Update to Silent Lib 1.2.0 required!
 Fixed: Vein Miner compatibility module. Hopefully. Couldn't find a fix for 1.10.2.
 Fixed: Chaos Flower Pot rendering a ruby glow rose when empty.
 Fixed (maybe): A crash when applying enchantment tokens in 1.11.2.
-Switched to Forge blockstates for most blocks. Should have no visible effect on the mod, report missing models. It does reduce the file count by over 800, so... yay?
+Switched to Forge blockstates for most blocks. Should have no visible effect on the mod (aside from fixing missing textures on gem blocks). Report missing models. It does reduce the file count by over 800, so... yay?
 
 2.2.5
 Updated most item textures to 16x16.
