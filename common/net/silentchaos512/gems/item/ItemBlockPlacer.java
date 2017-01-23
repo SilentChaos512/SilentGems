@@ -109,11 +109,11 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     if (statePlaced == null)
       return stack;
     Block blockPlaced = statePlaced.getBlock();
-    int metaPlaced = statePlaced.getBlock().getMetaFromState(statePlaced);
+    int metaDropped = getBlockMetaDropped(stack);
     Item itemBlock = Item.getItemFromBlock(blockPlaced);
 
     for (ItemStack invStack : PlayerHelper.getNonEmptyStacks(player, true, true, false)) {
-      if (invStack.getItem() == itemBlock && invStack.getItemDamage() == metaPlaced) {
+      if (invStack.getItem() == itemBlock && invStack.getItemDamage() == metaDropped) {
         int damage = stack.getItemDamage();
 
         // Decrease damage of block placer, reduce stack size of block stack.
