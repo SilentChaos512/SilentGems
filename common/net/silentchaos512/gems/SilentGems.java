@@ -5,6 +5,8 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.potion.Potion;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -146,5 +148,10 @@ public class SilentGems {
   public void postInit(FMLPostInitializationEvent event) {
 
     proxy.postInit(registry);
+
+//    for (ResourceLocation resource : Potion.REGISTRY.getKeys()) {
+//      Potion pot = Potion.REGISTRY.getObject(resource);
+//      SilentGems.logHelper.debug(resource, pot.getName());
+//    }
   }
 }

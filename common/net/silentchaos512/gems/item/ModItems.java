@@ -46,6 +46,7 @@ public class ModItems {
   public static final ItemGlowRoseFertilizer glowRoseFertilizier = new ItemGlowRoseFertilizer();
   public static final ItemDyeSG dye = new ItemDyeSG();
   public static final ItemFoodSG food = new ItemFoodSG();
+  public static final ItemHoldingGem holdingGem = new ItemHoldingGem();
   public static final ItemTorchBandolier torchBandolier = new ItemTorchBandolier();
   public static final ItemDrawingCompass drawingCompass = new ItemDrawingCompass();
   public static final ItemChaosOrb chaosOrb = new ItemChaosOrb();
@@ -96,6 +97,7 @@ public class ModItems {
     reg.registerItem(glowRoseFertilizier).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(dye).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(food, Names.FOOD).setCreativeTab(GemsCreativeTabs.utility);
+    reg.registerItem(holdingGem).setCreativeTab(GemsCreativeTabs.tools);
     reg.registerItem(torchBandolier).setCreativeTab(GemsCreativeTabs.tools);
     reg.registerItem(drawingCompass).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(chaosOrb).setCreativeTab(GemsCreativeTabs.utility);

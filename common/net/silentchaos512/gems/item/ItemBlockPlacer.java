@@ -2,6 +2,8 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.lwjgl.input.Mouse;
 
 import net.minecraft.block.Block;
@@ -11,7 +13,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -30,7 +31,7 @@ import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 
-public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
+public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
 
   protected static final int ABSORB_DELAY = 20;
   protected static final String NBT_AUTO_FILL = "AutoFill";
@@ -60,10 +61,7 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   }
 
   @Override
-  public IBlockState getBlockPlaced(ItemStack stack) {
-
-    return Blocks.AIR.getDefaultState();
-  }
+  public abstract @Nullable IBlockState getBlockPlaced(ItemStack stack);
 
   public int getBlockMetaDropped(ItemStack stack) {
 
@@ -108,11 +106,14 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     }
 
     IBlockState statePlaced = getBlockPlaced(stack);
+    if (statePlaced == null)
+      return stack;
     Block blockPlaced = statePlaced.getBlock();
+    int metaPlaced = statePlaced.getBlock().getMetaFromState(statePlaced);
     Item itemBlock = Item.getItemFromBlock(blockPlaced);
 
     for (ItemStack invStack : PlayerHelper.getNonEmptyStacks(player, true, true, false)) {
-      if (invStack.getItem() == itemBlock) {
+      if (invStack.getItem() == itemBlock && invStack.getItemDamage() == metaPlaced) {
         int damage = stack.getItemDamage();
 
         // Decrease damage of block placer, reduce stack size of block stack.
@@ -162,6 +163,8 @@ public class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
 
     // Create fake block stack and use it.
     IBlockState state = getBlockPlaced(stack);
+    if (state == null)
+      return EnumActionResult.PASS;
     Block block = state.getBlock();
     ItemStack fakeBlockStack = new ItemStack(block, 1, block.getMetaFromState(state));
 

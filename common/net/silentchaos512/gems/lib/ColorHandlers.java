@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.lib;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
@@ -7,8 +8,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.lib.EnumDecoPos;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
+import net.silentchaos512.gems.item.ItemHoldingGem;
 import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 
@@ -114,5 +115,26 @@ public class ColorHandlers {
         return tintIndex == 1 ? ModItems.chaosRune.getBuff(stack).getColor() : 0xFFFFFF;
       }
     }, ModItems.chaosRune);
+
+    // Holding Gem
+    itemColors.registerItemColorHandler(new IItemColor() {
+
+      @Override
+      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+
+        if (tintIndex == 1) {
+          if (stack.hasTagCompound()) {
+            int id = stack.getTagCompound().getShort(ItemHoldingGem.NBT_GEM_ID);
+            if (id >= 0 && id < EnumGem.values().length)
+              return EnumGem.values()[id].color;
+          }
+        } else if (tintIndex == 2) {
+          IBlockState state = ModItems.holdingGem.getBlockPlaced(stack);
+          if (state != null)
+            return state.getMapColor().colorValue;
+        }
+        return 0xFFFFFF;
+      }
+    }, ModItems.holdingGem);
   }
 }

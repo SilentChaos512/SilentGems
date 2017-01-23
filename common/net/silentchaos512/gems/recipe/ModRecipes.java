@@ -45,6 +45,8 @@ public class ModRecipes {
           Category.SHAPELESS, dep);
       reg.addRecipeHandler(RecipeChaosGemUpgrade.class, "ChaosGemUpgrade", Category.SHAPELESS, dep);
       reg.addRecipeHandler(RecipeNamePlate.class, "NamePlate", Category.SHAPELESS, dep);
+      reg.addRecipeHandler(RecipeHoldingGemSetBlock.class, "HoldingGemBlockSet", Category.SHAPELESS,
+          dep);
     } catch (InstantiationException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

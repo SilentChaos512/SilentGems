@@ -41,6 +41,7 @@ public class Names {
   public static final String GEM = "Gem";
   public static final String GEM_SHARD = "GemShard";
   public static final String GLOW_ROSE_FERTILIZER = "GlowRoseFertilizer";
+  public static final String HOLDING_GEM = "HoldingGem";
   public static final String NODE_MOVER = "NodeMover";
   public static final String RETURN_HOME_CHARM = "ReturnHomeCharm";
   public static final String TELEPORTER_LINKER = "TeleporterLinker";
