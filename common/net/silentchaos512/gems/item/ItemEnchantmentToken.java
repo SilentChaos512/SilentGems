@@ -62,8 +62,9 @@ public class ItemEnchantmentToken extends ItemSL {
   public static final String KEY_FISHING_ROD = "FishingRod";
   public static final String KEY_WEAPON = "Sword";
   public static final String KEY_DIGGER = "Tool";
+  public static final String KEY_UNKNOWN = "Unknown";
   public static final String[] MODEL_TYPES = { KEY_ANY, KEY_ARMOR, KEY_BOW, KEY_EMPTY,
-      KEY_FISHING_ROD, KEY_WEAPON, KEY_DIGGER };
+      KEY_FISHING_ROD, KEY_WEAPON, KEY_DIGGER, KEY_UNKNOWN };
 
   private Map<String, Integer> modelMap = new HashMap<>();
   private Map<Enchantment, String> recipeMap = new HashMap<>();
@@ -272,7 +273,9 @@ public class ItemEnchantmentToken extends ItemSL {
     if (!enchMap.isEmpty()) {
       Enchantment ench = enchMap.keySet().iterator().next();
       if (ench == null)
-        return key;
+        return KEY_EMPTY;
+      if (ench.type == null)
+        return KEY_UNKNOWN;
 
       switch (ench.type) {
         case ALL:
