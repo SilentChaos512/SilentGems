@@ -462,8 +462,7 @@ public class ToolHelper {
         target = pos.offset(side);
 
       if (player.canPlayerEdit(target, side, stackOffHand)
-          // && world.canBlockBePlaced(itemBlock.getBlock(), target, false, side, null, stackOffHand))
-          && itemBlock.canPlaceBlockOnSide(world, target, side, player, stackOffHand))
+          && world.mayPlace(itemBlock.block, target, false, side, player))
         return EnumActionResult.PASS;
     }
 
