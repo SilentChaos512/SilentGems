@@ -1,6 +1,13 @@
 Silent's Gems - Changelog
 
+2.2.8
+Changed: Enchantment Tokens now have 16x textures like most other items. Mostly. I cheated a little bit with the kanji... It was either that or get rid of them. I'll also need to tweak the 32x texture pack a little bit.
+Fixed: A crash with enchantment tokens when an enchantment has a null type (#109, #112)
+Fixed: Error message in server console (NoSuchMethodException ItemBlock#canPlaceBlockOnSide) (#110)
+Fixed: Enchantment tokens for "wearable" enchantments (such as Curse of Binding) now have the armor icon.
+
 2.2.7
+Added: The Holding Gem. It works like the torch bandolier, but you can set it to store any block! Craft an empty holding gem with a block to "set" the block in the gem. When placed back in your inventory, it will absorb the set block from your inventory. Right-click to place blocks from the holding gem (works with the right-click-to-place feature of tools). Sneak and left-click to eject a stack of blocks. Sneak right-click to toggle auto-fill mode. Again, it's the same as a torch bandolier, just more flexible.
 Fixed: Burner Pylons eating fuel (#106)
 Fixed: Another 1.11.2-exclusive enchantment token crash (#105)
 

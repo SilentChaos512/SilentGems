@@ -3,6 +3,6 @@
   "textures": {
     "layer0": "SilentGems:items/EnchantmentToken_Base",
     "layer1": "SilentGems:items/EnchantmentToken_Outline",
-    "layer2": "SilentGems:items/EnchantmentToken_Any"
+    "layer2": "SilentGems:items/EnchantmentToken_Unknown"
   }
 }

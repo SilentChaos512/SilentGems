@@ -272,24 +272,22 @@ public class ItemEnchantmentToken extends ItemSL {
 
     if (!enchMap.isEmpty()) {
       Enchantment ench = enchMap.keySet().iterator().next();
-      if (ench == null)
-        return KEY_EMPTY;
-      if (ench.type == null)
+      if (ench == null || ench.type == null)
         return KEY_UNKNOWN;
 
       switch (ench.type) {
         case ALL:
+        case BREAKABLE:
           return KEY_ANY;
         case ARMOR:
         case ARMOR_CHEST:
         case ARMOR_FEET:
         case ARMOR_HEAD:
         case ARMOR_LEGS:
+        case WEARABLE:
           return KEY_ARMOR;
         case BOW:
           return KEY_BOW;
-        case BREAKABLE:
-          return KEY_ANY;
         case DIGGER:
           return KEY_DIGGER;
         case FISHING_ROD:
@@ -297,7 +295,7 @@ public class ItemEnchantmentToken extends ItemSL {
         case WEAPON:
           return KEY_WEAPON;
         default:
-          break;
+          return KEY_UNKNOWN;
       }
     }
 
@@ -494,11 +492,6 @@ public class ItemEnchantmentToken extends ItemSL {
   }
 
   public void addModRecipes() {
-
-    // DEBUG Dump enchantments!
-    if (GemsConfig.DEBUG_MODE)
-      for (ResourceLocation res : Enchantment.REGISTRY.getKeys())
-        SilentGems.logHelper.info("    " + res.toString());
 
     if (modRecipesInitialized)
       return;

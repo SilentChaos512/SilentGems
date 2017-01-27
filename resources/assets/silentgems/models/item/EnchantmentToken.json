@@ -45,6 +45,12 @@
         "model_index": 6
       },
       "model": "SilentGems:item/EnchantmentToken_Tool"
+    },
+    {
+      "predicate": {
+        "model_index": 7
+      },
+      "model": "SilentGems:item/EnchantmentToken_Unknown"
     }
   ]
 }
