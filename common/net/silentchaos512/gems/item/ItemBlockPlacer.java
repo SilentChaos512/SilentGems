@@ -136,6 +136,12 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     return stack;
   }
 
+  public int absorbBlocks(ItemStack placer, ItemStack blockStack) {
+
+    // TODO
+    return 0;
+  }
+
   @Override
   public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 

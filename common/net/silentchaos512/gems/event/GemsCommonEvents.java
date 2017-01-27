@@ -1,10 +1,12 @@
 package net.silentchaos512.gems.event;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.LootTableLoadEvent;
@@ -12,8 +14,8 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -21,10 +23,9 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
-import net.silentchaos512.gems.item.ItemChaosGem;
+import net.silentchaos512.gems.item.ItemBlockPlacer;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
@@ -168,6 +169,26 @@ public class GemsCommonEvents {
     Entity entity = event.getEntity();
     if (entity instanceof EntityLivingBase)
       ModuleEntityRandomEquipment.tryGiveMobEquipment((EntityLivingBase) entity);
+  }
+
+  @SubscribeEvent
+  public void onItemPickup(EntityItemPickupEvent event) {
+
+    ItemStack entityStack = event.getItem().getEntityItem();
+    if (entityStack.getItem() instanceof ItemBlock) {
+      for (ItemStack stack : event.getEntityPlayer().inventory.mainInventory) {
+        if (stack.getItem() instanceof ItemBlockPlacer) {
+          ItemBlockPlacer itemPlacer = (ItemBlockPlacer) stack.getItem();
+          IBlockState state = ((ItemBlock) entityStack.getItem()).block
+              .getStateFromMeta(entityStack.getItemDamage());
+          if (state.equals(itemPlacer.getBlockPlaced(stack))) {
+            // TODO
+            //event.getItem().setDead();
+            break;
+          }
+        }
+      }
+    }
   }
 
   // @SubscribeEvent
