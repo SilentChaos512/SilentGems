@@ -34,6 +34,10 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
   protected int chaosStored = 0;
   public boolean isAnchor = false;
 
+  public TileTeleporter() {
+
+  }
+
   public TileTeleporter(boolean isAnchor) {
 
     this.isAnchor = isAnchor;
