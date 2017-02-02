@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": { "model": "SilentGems:MaterialGrader", "y": 180 },
-    "facing=south": { "model": "SilentGems:MaterialGrader" },
-    "facing=east": { "model": "SilentGems:MaterialGrader", "y": 270 },
-    "facing=west": { "model": "SilentGems:MaterialGrader", "y": 90 }
-  }
-}

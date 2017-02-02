@@ -1,8 +1,0 @@
-{
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "SilentGems:items/Blank",
-    "layer1": "SilentGems:items/sickle/SickleGlass"
-  }
-}
-
