@@ -1,0 +1,9 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "SilentGems:items/Blank",
+    "layer1": "SilentGems:items/Blank",
+    "layer2": "SilentGems:items/hoe/Hoe9L"
+  }
+}
+
