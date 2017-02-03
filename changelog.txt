@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.2.9
+Fixed: Chaos Altar and Pylons not dropping their inventories when broken.
+
 2.2.8
 Changed: Enchantment Tokens now have 16x textures like most other items. Mostly. I cheated a little bit with the kanji... It was either that or get rid of them. I'll also need to tweak the 32x texture pack a little bit.
 Fixed: A crash with enchantment tokens when an enchantment has a null type (#109, #112)

@@ -5,6 +5,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -71,43 +73,14 @@ public class BlockChaosAltar extends BlockContainerSL {
   @Override
   public void breakBlock(World world, BlockPos pos, IBlockState state) {
 
-    TileChaosAltar tileAltar = (TileChaosAltar) world.getTileEntity(pos);
+    TileEntity tileAltar = world.getTileEntity(pos);
 
-    if (tileAltar != null) {
-      for (int i = 0; i < tileAltar.getSizeInventory(); ++i) {
-        ItemStack stack = tileAltar.getStackInSlot(i);
-
-        if (stack != null) {
-          float f = SilentGems.instance.random.nextFloat() * 0.8F + 0.1F;
-          float f1 = SilentGems.instance.random.nextFloat() * 0.8F + 0.1F;
-          float f2 = SilentGems.instance.random.nextFloat() * 0.8F + 0.1F;
-
-          while (stack.getCount() > 0) {
-            int j1 = SilentGems.instance.random.nextInt(21) + 10;
-
-            if (j1 > stack.getCount()) {
-              j1 = stack.getCount();
-            }
-
-            stack.shrink(j1);
-            EntityItem entityitem = new EntityItem(world, (double) ((float) pos.getX() + f),
-                (double) ((float) pos.getY() + f1), (double) ((float) pos.getZ() + f2),
-                new ItemStack(stack.getItem(), j1, stack.getItemDamage()));
-
-            if (stack.hasTagCompound()) {
-              entityitem.getEntityItem()
-                  .setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
-            }
-
-            float f3 = 0.05F;
-            entityitem.motionX = (double) (SilentGems.instance.random.nextGaussian() * f3);
-            entityitem.motionY = (double) (SilentGems.instance.random.nextGaussian() * f3 + 0.2F);
-            entityitem.motionZ = (double) (SilentGems.instance.random.nextGaussian() * f3);
-            world.spawnEntity(entityitem);
-          }
-        }
-      }
+    if (tileAltar != null && tileAltar instanceof TileChaosAltar) {
+      InventoryHelper.dropInventoryItems(world, pos, (TileChaosAltar) tileAltar);
+      world.updateComparatorOutputLevel(pos, this);
     }
+
+    super.breakBlock(world, pos, state);
   }
 
   @Override

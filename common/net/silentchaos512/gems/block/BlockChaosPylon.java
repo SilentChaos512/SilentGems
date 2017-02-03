@@ -11,16 +11,13 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -211,44 +208,14 @@ public class BlockChaosPylon extends BlockContainer
   @Override
   public void breakBlock(World world, BlockPos pos, IBlockState state) {
 
-    TileChaosPylon tilePylon = (TileChaosPylon) world.getTileEntity(pos);
+    TileEntity tilePylon = world.getTileEntity(pos);
 
-    if (tilePylon != null) {
-      for (int i = 0; i < tilePylon.getSizeInventory(); ++i) {
-        ItemStack stack = tilePylon.getStackInSlot(i);
-
-        if (stack != null) {
-          float f = SilentGems.instance.random.nextFloat() * 0.8F + 0.1F;
-          float f1 = SilentGems.instance.random.nextFloat() * 0.8F + 0.1F;
-          float f2 = SilentGems.instance.random.nextFloat() * 0.8F + 0.1F;
-
-          while (stack.getCount() > 0) {
-            int j1 = SilentGems.instance.random.nextInt(21) + 10;
-
-            if (j1 > stack.getCount()) {
-              j1 = stack.getCount();
-            }
-
-            stack.shrink(j1);
-            EntityItem entityitem = new EntityItem(world, (double) ((float) pos.getX() + f),
-                (double) ((float) pos.getY() + f1), (double) ((float) pos.getZ() + f2),
-                new ItemStack(stack.getItem(), j1, stack.getItemDamage()));
-
-            if (stack.hasTagCompound()) {
-              entityitem.getEntityItem()
-                  .setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
-            }
-
-            float f3 = 0.05F;
-            entityitem.motionX = (double) ((float) SilentGems.instance.random.nextGaussian() * f3);
-            entityitem.motionY = (double) ((float) SilentGems.instance.random.nextGaussian() * f3
-                + 0.2F);
-            entityitem.motionZ = (double) ((float) SilentGems.instance.random.nextGaussian() * f3);
-            world.spawnEntity(entityitem);
-          }
-        }
-      }
+    if (tilePylon != null && tilePylon instanceof TileChaosPylon) {
+      InventoryHelper.dropInventoryItems(world, pos, (TileChaosPylon) tilePylon);
+      world.updateComparatorOutputLevel(pos, this);
     }
+
+    super.breakBlock(world, pos, state);
   }
 
   @Override
