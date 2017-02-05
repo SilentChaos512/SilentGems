@@ -136,7 +136,8 @@ public class ItemEnchantmentToken extends ItemSL {
         int level = tagList.getCompoundTagAt(i).getShort("lvl");
 
         Enchantment ench = Enchantment.REGISTRY.getObject(new ResourceLocation(name));
-        map.put(ench, level);
+        if (ench != null)
+          map.put(ench, level);
       }
     }
 
