@@ -4,7 +4,11 @@ import java.util.Random;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
@@ -28,6 +32,16 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
 
   @Override
   public void update() {
+
+    if (ticksExisted == 0) {
+      // Quick fix for not syncing on world load
+      IBlockState state = world.getBlockState(pos);
+      world.notifyBlockUpdate(pos, state, state, 3);
+
+      // Add a random "salt" value to ticksExisted, so all flower pots don't
+      // try to place lights at the same time.
+      ticksExisted += SilentGems.random.nextInt(300);
+    }
 
     final int delay = ticksExisted < 600 ? 10 : TRY_LIGHT_DELAY;
     if (++ticksExisted % delay == 0) {
@@ -169,5 +183,35 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
   public String getName() {
 
     return "ChaosFlowerPot";
+  }
+
+  @Override
+  public SPacketUpdateTileEntity getUpdatePacket() {
+
+    return new SPacketUpdateTileEntity(pos, getBlockMetadata(), getUpdateTag());
+  }
+
+  @Override
+  public NBTTagCompound getUpdateTag() {
+
+    NBTTagCompound tags = new NBTTagCompound();
+    ItemStack flower = getFlowerItemStack();
+    if (!flower.isEmpty())
+      tags.setTag("flower", flower.writeToNBT(new NBTTagCompound()));
+
+    return tags;
+  }
+
+  @Override
+  public final void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+
+    super.onDataPacket(net, pkt);
+    NBTTagCompound tags = pkt.getNbtCompound();
+
+    SilentGems.logHelper.debug(tags.hasKey("flower"));
+    if (tags.hasKey("flower"))
+      setFlowerItemStack(new ItemStack(tags.getCompoundTag("flower")));
+    else
+      setFlowerItemStack(ItemStack.EMPTY);
   }
 }
