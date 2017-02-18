@@ -6,9 +6,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.collect.Lists;
 
 import amerifrance.guideapi.api.GuideAPI;
+import amerifrance.guideapi.api.GuideBook;
+import amerifrance.guideapi.api.IGuideBook;
 import amerifrance.guideapi.api.IPage;
 import amerifrance.guideapi.api.impl.Book;
 import amerifrance.guideapi.api.impl.abstraction.CategoryAbstract;
@@ -19,17 +23,16 @@ import amerifrance.guideapi.page.PageFurnaceRecipe;
 import amerifrance.guideapi.page.PageIRecipe;
 import amerifrance.guideapi.page.PageText;
 import amerifrance.guideapi.page.PageTextImage;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
@@ -42,7 +45,8 @@ import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
-public class GuideSilentGems {
+@GuideBook
+public class GuideSilentGems implements IGuideBook {
 
   private static boolean CRASH_ON_ERROR = false; // Set to true to generate crash reports. Stacktrace also prints to
                                                  // log.
@@ -55,6 +59,28 @@ public class GuideSilentGems {
 
   public static Book book;
   private static LocalizationHelper localizationHelper;
+
+  @Nonnull
+  @Override
+  public Book buildBook() {
+
+    buildGuide(SilentGems.localizationHelper);
+    return book;
+  }
+
+  @SideOnly(Side.CLIENT)
+  @Override
+  public void handleModel(ItemStack bookStack) {
+
+    GuideAPI.setModel(book);
+  }
+
+  @Override
+  public void handlePost(ItemStack bookStack) {
+
+    GameRegistry.addShapelessRecipe(bookStack, Items.BOOK,
+        new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE));
+  }
 
   public static void buildGuide(LocalizationHelper loc) {
 
@@ -397,9 +423,9 @@ public class GuideSilentGems {
       book.setCustomModel(false);
       book.setColor(color);
       book.setSpawnWithBook(true);
-      book.setRegistryName(new ResourceLocation(title));
+      book.setRegistryName(new ResourceLocation(SilentGems.MODID, "guide"));
 
-      GuideAPI.BOOKS.add(book);
+      //GuideAPI.BOOKS.add(book);
     } catch (Exception ex) {
       warnUserOfGuideApiException(
           "Something went wrong during guide book registration! Report this to me at https://github.com/SilentChaos512/SilentGems/issues."
@@ -420,13 +446,13 @@ public class GuideSilentGems {
     try {
       GuideAPI.setModel(book);
       // FIXME?
-//    Item itemGuideBook = GuideAPI.guideBook;
-//    int meta = GuideAPI.BOOKS.getValues().indexOf(book);
-//    ModelResourceLocation model = new ModelResourceLocation("guideapi:ItemGuideBook",
-//        "inventory");
-//    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-//    ModelLoader.registerItemVariants(itemGuideBook, model);
-//    mesher.register(itemGuideBook, meta, model);
+      // Item itemGuideBook = GuideAPI.guideBook;
+      // int meta = GuideAPI.BOOKS.getValues().indexOf(book);
+      // ModelResourceLocation model = new ModelResourceLocation("guideapi:ItemGuideBook",
+      // "inventory");
+      // ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+      // ModelLoader.registerItemVariants(itemGuideBook, model);
+      // mesher.register(itemGuideBook, meta, model);
     } catch (Exception ex) {
       warnUserOfGuideApiException(
           "Failed to register guide book model! Report this on the issue tracker for Silent's Gems.",

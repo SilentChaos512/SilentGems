@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.2.9
+Fixed: A Guide-API crash (requires Guide-API 2.1.0-49)
 Fixed: Chaos Altar and Pylons not dropping their inventories when broken.
 Fixed: A crash when enchantment tokens have an enchantment that no longer exists.
 
