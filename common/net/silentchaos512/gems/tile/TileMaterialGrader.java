@@ -40,8 +40,8 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
   /*
    * Tile behavior constants
    */
-  public static final int ANALYZE_TIME = 4000;
-  public static final int CHAOS_PER_TICK = 50;
+  public static final int ANALYZE_TIME = 400;
+  public static final int CHAOS_PER_TICK = 500;
   public static final int MAX_CHARGE = ANALYZE_TIME * CHAOS_PER_TICK * 5;
 
   /*
