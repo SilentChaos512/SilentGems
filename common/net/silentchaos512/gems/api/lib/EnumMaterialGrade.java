@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.lib.util.StackHelper;
 
 public enum EnumMaterialGrade {
 
@@ -22,7 +23,7 @@ public enum EnumMaterialGrade {
 
   public static EnumMaterialGrade fromStack(ItemStack stack) {
 
-    if (stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey(NBT_KEY)) {
+    if (StackHelper.isValid(stack) && stack.hasTagCompound() && stack.getTagCompound().hasKey(NBT_KEY)) {
       String str = stack.getTagCompound().getString(NBT_KEY);
       return fromString(str);
     }
@@ -52,7 +53,7 @@ public enum EnumMaterialGrade {
 
   public void setGradeOnStack(ItemStack stack) {
 
-    if (stack != null) {
+    if (StackHelper.isValid(stack)) {
       if (!stack.hasTagCompound()) {
         stack.setTagCompound(new NBTTagCompound());
       }

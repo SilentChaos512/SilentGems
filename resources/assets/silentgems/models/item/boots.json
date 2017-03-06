@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "SilentGems:items/boots/Boots"
+    "layer0": "silentgems:items/boots/boots"
   }
 }
 

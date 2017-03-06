@@ -10,6 +10,7 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.network.Message;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class MessageToggleSpecial extends Message {
 
@@ -20,7 +21,7 @@ public class MessageToggleSpecial extends Message {
       EntityPlayerMP player = context.getServerHandler().playerEntity;
       ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
 
-      if (mainHand != null && mainHand.getItem() instanceof ITool) {
+      if (StackHelper.isValid(mainHand) && mainHand.getItem() instanceof ITool) {
         if (ToolHelper.getToolTier(mainHand) == EnumMaterialTier.SUPER) {
           ToolHelper.toggleSpecialAbility(mainHand);
         }

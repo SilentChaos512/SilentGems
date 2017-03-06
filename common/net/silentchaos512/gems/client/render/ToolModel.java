@@ -51,7 +51,6 @@ public class ToolModel implements IPerspectiveAwareModel {
 
   public IBakedModel handleItemState(ItemStack stack) {
 
-    // TODO: Check that it's a tool? Is that necessary?
     tool = stack;
     return this;
   }
@@ -59,7 +58,7 @@ public class ToolModel implements IPerspectiveAwareModel {
   @Override
   public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
 
-    LogHelper log = SilentGems.instance.logHelper;
+    LogHelper log = SilentGems.logHelper;
 
     if (tool == null) {
       return new ArrayList<BakedQuad>();
@@ -77,7 +76,6 @@ public class ToolModel implements IPerspectiveAwareModel {
 
     boolean isBroken = ToolHelper.isBroken(tool);
     Item item = tool.getItem();
-//    SilentGems.instance.logHelper.debug(tool.getItemDamage(), isBroken);
 
     // Invalid tools models.
     if (ToolHelper.getMaxDamage(tool) <= 0 && tool.getItem() instanceof IRegistryObject) {
@@ -99,7 +97,6 @@ public class ToolModel implements IPerspectiveAwareModel {
             || (partPos == EnumPartPosition.HEAD_MIDDLE && item != ModItems.bow)
             || (partPos == EnumPartPosition.HEAD_RIGHT && item != ModItems.bow)
             || partPos == EnumPartPosition.TIP) {
-//          SilentGems.instance.logHelper.debug(tool.getDisplayName(), isBroken, partPos);
           continue;
         }
       }
@@ -160,7 +157,6 @@ public class ToolModel implements IPerspectiveAwareModel {
   @Override
   public ItemCameraTransforms getItemCameraTransforms() {
 
-    // if (thirdPersonLeft == null) {
     Vector3f rotation = new Vector3f();
     Vector3f translation = new Vector3f();
     Vector3f scale = new Vector3f(1f, 1f, 1f);
@@ -172,20 +168,12 @@ public class ToolModel implements IPerspectiveAwareModel {
       translation.y += 2.0f;
     }
     translation.scale(0.0625f);
-    // scale = new Vector3f(0.85f, 0.85f, 0.85f);
     thirdPersonRight = new ItemTransformVec3f(rotation, translation, scale);
 
     rotation = new Vector3f(0f, (float) Math.PI / 2f, (float) -Math.PI * 7f / 36f); // (0, 90, -35)
-    // translation = new Vector3f(0f, 5.5f, 2.5f);
-    // if (tool != null && tool.getItem() == ModItems.katana) {
-    // translation.y += 2.0f;
-    // }
-    // translation.scale(0.0625f);
-    // scale = new Vector3f(0.85f, 0.85f, 0.85f);
     thirdPersonLeft = new ItemTransformVec3f(rotation, translation, scale);
 
     // First Person
-    // rotation = new Vector3f(0f, (float) -Math.PI * 3f / 4f, (float) Math.PI * 5f / 36f); // (0, -135, 25)
     rotation = new Vector3f(0f, (float) -Math.PI * 1f / 2f, (float) Math.PI * 5f / 36f);
     translation = new Vector3f(1.13f, 3.2f, 1.13f);
     if (tool != null && tool.getItem() == ModItems.katana) {
@@ -197,7 +185,6 @@ public class ToolModel implements IPerspectiveAwareModel {
 
     rotation = new Vector3f(0f, (float) Math.PI * 1f / 2f, (float) -Math.PI * 5f / 36f);
     firstPersonLeft = new ItemTransformVec3f(rotation, translation, scale);
-    // }
 
     // Head and GUI are default.
     return new ItemCameraTransforms(thirdPersonLeft, thirdPersonRight, firstPersonLeft,

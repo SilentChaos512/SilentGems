@@ -65,6 +65,7 @@ import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LocalizationHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ToolHelper {
 
@@ -479,7 +480,7 @@ public class ToolHelper {
     EnumActionResult result = EnumActionResult.PASS;
     int toolSlot = player.inventory.currentItem;
     int itemSlot = toolSlot + 1;
-    ItemStack nextStack = ItemStack.EMPTY;
+    ItemStack nextStack = StackHelper.empty();
     ItemStack lastStack = player.inventory.getStackInSlot(8); // Slot 9 in hotbar
 
     if (toolSlot < 8) {
@@ -487,13 +488,13 @@ public class ToolHelper {
       nextStack = player.inventory.getStackInSlot(itemSlot);
 
       // If there's nothing there we can use, try slot 9 instead.
-      if (nextStack.isEmpty() || (!(nextStack.getItem() instanceof ItemBlock)
+      if (StackHelper.isEmpty(nextStack) || (!(nextStack.getItem() instanceof ItemBlock)
           && !(nextStack.getItem() instanceof IBlockPlacer))) {
         nextStack = lastStack;
         itemSlot = 8;
       }
 
-      if (!nextStack.isEmpty()) {
+      if (StackHelper.isValid(nextStack)) {
         Item item = nextStack.getItem();
         if (item instanceof ItemBlock || item instanceof IBlockPlacer) {
           BlockPos targetPos = pos.offset(side);
@@ -516,7 +517,7 @@ public class ToolHelper {
             }
           }
 
-          int prevSize = nextStack.getCount();
+          int prevSize = StackHelper.getCount(nextStack);
           // Temporarily move nextStack to the player's offhand to allow it to be used.
           ItemStack currentOffhand = player.getHeldItemOffhand();
           player.setHeldItem(EnumHand.OFF_HAND, nextStack);
@@ -526,13 +527,13 @@ public class ToolHelper {
 
           // Don't consume in creative mode?
           if (player.capabilities.isCreativeMode) {
-            nextStack.setCount(prevSize);
+            StackHelper.setCount(nextStack, prevSize);
           }
 
           // Remove empty stacks.
-          if (nextStack.isEmpty()) {
-            nextStack = ItemStack.EMPTY;
-            player.inventory.setInventorySlotContents(itemSlot, ItemStack.EMPTY);
+          if (StackHelper.isEmpty(nextStack)) {
+            nextStack = StackHelper.empty();
+            player.inventory.setInventorySlotContents(itemSlot, StackHelper.empty());
           }
         }
       }
@@ -708,7 +709,7 @@ public class ToolHelper {
     ToolPart part;
     // Head
     for (int i = 0; i < materials.length; ++i) {
-      if (materials[i].isEmpty()) {
+      if (StackHelper.isEmpty(materials[i])) {
         String str = "ToolHelper.constructTool: empty part!";
         for (ItemStack stack : materials)
           str += stack + ", ";
@@ -736,7 +737,7 @@ public class ToolHelper {
     EnumMaterialTier toolTier = getToolTier(result);
     if (item == ModItems.katana || item == ModItems.scepter) {
       if (toolTier.ordinal() < EnumMaterialTier.SUPER.ordinal())
-        return ItemStack.EMPTY;
+        return StackHelper.empty();
     }
 
     return result;
@@ -776,7 +777,7 @@ public class ToolHelper {
 
   public static ToolPart[] getConstructionParts(ItemStack tool) {
 
-    if (tool.isEmpty())
+    if (StackHelper.isEmpty(tool))
       return new ToolPart[] {};
 
     List<ToolPart> parts = Lists.newArrayList();
@@ -797,7 +798,7 @@ public class ToolHelper {
 
   public static EnumMaterialGrade[] getConstructionGrades(ItemStack tool) {
 
-    if (tool.isEmpty())
+    if (StackHelper.isEmpty(tool))
       return new EnumMaterialGrade[] {};
 
     List<EnumMaterialGrade> grades = Lists.newArrayList();
@@ -831,8 +832,8 @@ public class ToolHelper {
   public static ItemStack decorateTool(ItemStack tool, ItemStack west, ItemStack north,
       ItemStack east, ItemStack south) {
 
-    if (tool.isEmpty())
-      return ItemStack.EMPTY;
+    if (StackHelper.isEmpty(tool))
+      return StackHelper.empty();
 
     ItemStack result = tool.copy();
     result = decorate(result, west, EnumDecoPos.WEST);
@@ -844,10 +845,10 @@ public class ToolHelper {
 
   private static ItemStack decorate(ItemStack tool, ItemStack material, EnumDecoPos pos) {
 
-    if (tool.isEmpty()) // Something went wrong
-      return ItemStack.EMPTY;
+    if (StackHelper.isEmpty(tool)) // Something went wrong
+      return StackHelper.empty();
 
-    if (material.isEmpty()) // No material in the slot is OK.
+    if (StackHelper.isEmpty(material)) // No material in the slot is OK.
       return tool;
 
     // Shields have different deco positions.
@@ -877,7 +878,7 @@ public class ToolHelper {
     if (!(part instanceof ToolPartMain))
       return tool;
 
-    ItemStack result = tool.copy();
+    ItemStack result = StackHelper.safeCopy(tool);
     switch (pos) {
       case WEST:
         setTagPart(result, NBT_DECO_HEAD_L, part, EnumMaterialGrade.fromStack(material));
@@ -906,7 +907,6 @@ public class ToolHelper {
     final ItemStack rodIron = ModItems.craftingMaterial.toolRodIron;
     final ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
 
-    ItemStack tool;
     for (ToolPartMain part : ToolPartRegistry.getMains()) {
       if (!part.isBlacklisted(part.getCraftingStack())) {
         if (isSuperTool && part.getTier() != EnumMaterialTier.SUPER)
@@ -918,26 +918,6 @@ public class ToolHelper {
             part.getCraftingStack()));
       }
     }
-
-    // if (!isSuperTool) {
-    // // Test broken items.
-    // // ItemStack testBroken = constructTool(item, rodWood, new ItemStack(Items.FLINT),
-    // // materialLength);
-    // // testBroken.setItemDamage(getMaxDamage(testBroken) - 1);
-    // // list.add(testBroken);
-    //
-    // // Flint
-    // list.add(constructTool(item, rodWood, new ItemStack(Items.FLINT), materialLength));
-    //
-    // // Regular Gems
-    // for (EnumGem gem : EnumGem.values())
-    // list.add(constructTool(item, item instanceof ItemGemShield ? rodIron : rodWood,
-    // gem.getItem(), materialLength));
-    // }
-    //
-    // // Super Gems
-    // for (EnumGem gem : EnumGem.values())
-    // list.add(constructTool(item, rodGold, gem.getItemSuper(), materialLength));
 
     // Set maker name.
     String makerName = SilentGems.localizationHelper.getMiscText("Tooltip.OriginalOwner.Creative");

@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
@@ -27,7 +29,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
@@ -48,6 +49,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.LocalizationHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemEnchantmentToken extends ItemSL {
 
@@ -115,7 +117,7 @@ public class ItemEnchantmentToken extends ItemSL {
 
   public ItemStack addEnchantment(ItemStack stack, Enchantment enchantment, int level) {
 
-    ItemStack result = stack.copy();
+    ItemStack result = StackHelper.safeCopy(stack);
     Map<Enchantment, Integer> map = getEnchantments(stack);
     map.put(enchantment, level);
     setEnchantments(result, map);
@@ -124,7 +126,7 @@ public class ItemEnchantmentToken extends ItemSL {
 
   public Map<Enchantment, Integer> getEnchantments(ItemStack token) {
 
-    if (token.isEmpty() || !token.hasTagCompound())
+    if (StackHelper.isEmpty(token) || !token.hasTagCompound())
       return new HashMap<>();
 
     NBTTagList tagList = token.getTagCompound().getTagList(NBT_ENCHANTMENTS, 10);
@@ -146,7 +148,7 @@ public class ItemEnchantmentToken extends ItemSL {
 
   public void setEnchantments(ItemStack token, Map<Enchantment, Integer> map) {
 
-    if (token.isEmpty())
+    if (StackHelper.isEmpty(token))
       return;
     if (!token.hasTagCompound())
       token.setTagCompound(new NBTTagCompound());
@@ -207,7 +209,7 @@ public class ItemEnchantmentToken extends ItemSL {
 
   public boolean applyTokenToTool(ItemStack token, ItemStack tool) {
 
-    if (token.isEmpty() || tool.isEmpty()) {
+    if (StackHelper.isEmpty(token) || StackHelper.isEmpty(tool)) {
       return false;
     }
 
@@ -349,7 +351,7 @@ public class ItemEnchantmentToken extends ItemSL {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
+  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
     for (ResourceLocation key : Enchantment.REGISTRY.getKeys())
       list.add(constructToken(Enchantment.REGISTRY.getObject(key)));
@@ -376,7 +378,7 @@ public class ItemEnchantmentToken extends ItemSL {
     list.add(0, new ItemStack(this, 1, BLANK_META));
   }
 
-  public Enchantment getSingleEnchantment(ItemStack token) {
+  public @Nullable Enchantment getSingleEnchantment(ItemStack token) {
 
     Map<Enchantment, Integer> map = getEnchantments(token);
     if (map.size() != 1)
@@ -387,7 +389,7 @@ public class ItemEnchantmentToken extends ItemSL {
   @Override
   public String getNameForStack(ItemStack stack) {
 
-    boolean hasEnchants = !stack.isEmpty() && stack.hasTagCompound()
+    boolean hasEnchants = StackHelper.isValid(stack) && stack.hasTagCompound()
         && stack.getTagCompound().hasKey(NBT_ENCHANTMENTS);
     return super.getNameForStack(stack) + (hasEnchants ? "" : "_Blank");
   }
@@ -567,7 +569,8 @@ public class ItemEnchantmentToken extends ItemSL {
     List<ModelResourceLocation> models = Lists.newArrayList();
     models.add(new ModelResourceLocation(getFullName(), "inventory"));
     for (String type : MODEL_TYPES) {
-      models.add(new ModelResourceLocation(getFullName() + "_" + type, "inventory"));
+      String name = (getFullName() + "_" + type).toLowerCase();
+      models.add(new ModelResourceLocation(name, "inventory"));
     }
     return models;
   }

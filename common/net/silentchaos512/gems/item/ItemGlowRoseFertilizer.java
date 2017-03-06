@@ -12,13 +12,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.RecipeHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGlowRoseFertilizer extends ItemSL {
 
@@ -35,7 +35,7 @@ public class ItemGlowRoseFertilizer extends ItemSL {
   }
 
   @Override
-  public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn,
+  protected EnumActionResult clOnItemUse(EntityPlayer playerIn, World worldIn,
       BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     Random rand = SilentGems.random;
@@ -77,7 +77,7 @@ public class ItemGlowRoseFertilizer extends ItemSL {
       }
 
       if (!playerIn.capabilities.isCreativeMode)
-        playerIn.getHeldItem(hand).shrink(1);
+        StackHelper.shrink(playerIn.getHeldItem(hand), 1);
 
       return EnumActionResult.SUCCESS;
     }

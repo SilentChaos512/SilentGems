@@ -7,8 +7,8 @@ import baubles.api.cap.IBaublesItemHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.fml.common.Loader;
-import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.lib.collection.ItemStackList;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class BaublesCompat {
 
@@ -16,10 +16,9 @@ public class BaublesCompat {
 
   public static boolean MOD_LOADED = false;
 
-  public static NonNullList<ItemStack> getBaubles(EntityPlayer player,
-      Predicate<ItemStack> predicate) {
+  public static ItemStackList getBaubles(EntityPlayer player, Predicate<ItemStack> predicate) {
 
-    NonNullList<ItemStack> list = NonNullList.create();
+    ItemStackList list = ItemStackList.create();
 
     if (!MOD_LOADED)
       return list;
@@ -28,7 +27,7 @@ public class BaublesCompat {
 
     for (int i = 0; i < inv.getSlots(); ++i) {
       ItemStack stack = inv.getStackInSlot(i);
-      if (!stack.isEmpty() && predicate.apply(stack)) {
+      if (StackHelper.isValid(stack) && predicate.apply(stack)) {
         list.add(stack);
       }
     }

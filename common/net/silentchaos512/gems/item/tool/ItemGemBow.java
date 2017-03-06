@@ -22,10 +22,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -40,6 +42,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
@@ -61,7 +64,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
         if (entityIn == null)
           return 0f;
         ItemStack itemstack = entityIn.getActiveItemStack();
-        return !itemstack.isEmpty() && ToolHelper.areToolsEqual(stack, itemstack)
+        return StackHelper.isValid(itemstack) && ToolHelper.areToolsEqual(stack, itemstack)
             ? (stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / getDrawDelay(stack)
             : 0f;
       }
@@ -76,7 +79,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
     if (GemsConfig.TOOL_DISABLE_BOW)
-      return ItemStack.EMPTY;
+      return StackHelper.empty();
 
     if (materials.length == 1)
       return constructTool(rod, materials[0], materials[0], materials[0]);
@@ -145,7 +148,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
         }
       }
 
-      return ItemStack.EMPTY;
+      return StackHelper.empty();
     }
   }
 
@@ -155,7 +158,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
     ItemStack stack = player.getHeldItem(hand);
 
-    boolean hasAmmo = !findAmmo(player).isEmpty()
+    boolean hasAmmo = StackHelper.isValid(findAmmo(player))
         || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
     boolean isBroken = ToolHelper.isBroken(stack);
 
@@ -188,12 +191,12 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
       int i = this.getMaxItemUseDuration(stack) - timeLeft;
       i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn,
-          (EntityPlayer) entityLiving, i, !ammo.isEmpty() || flag);
+          (EntityPlayer) entityLiving, i, StackHelper.isValid(ammo) || flag);
       if (i < 0)
         return;
 
-      if (!ammo.isEmpty() || flag) {
-        if (ammo.isEmpty()) {
+      if (StackHelper.isValid(ammo) || flag) {
+        if (StackHelper.isEmpty(ammo)) {
           ammo = new ItemStack(Items.ARROW);
         }
 
@@ -243,9 +246,9 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
               1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + velocity * 0.5F);
 
           if (!flag1) {
-            ammo.shrink(1);
+            StackHelper.shrink(ammo, 1);
 
-            if (ammo.getCount() == 0) {
+            if (StackHelper.getCount(ammo) == 0) {
               player.inventory.deleteStack(ammo);
             }
           }
@@ -380,5 +383,25 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   public boolean registerModels() {
 
     return false;
+  }
+
+  // ==============================
+  // Cross Compatibility (MC 10/11)
+  // ==============================
+
+  @Override
+  public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (subItems == null) {
+      subItems = ToolHelper.getSubItems(item, 3);
+    }
+    list.addAll(subItems);
+  }
+
+  @Override
+  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+    return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }
 }

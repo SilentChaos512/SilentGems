@@ -26,27 +26,28 @@ public class ToolPartFlint extends ToolPartMain {
   public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos, int frame) {
 
     String name = ((IRegistryObject) tool.getItem()).getName();
-    name = SilentGems.MODID + ":" + name.toLowerCase() + "/" + name;
-    String mat = tool.getItem() instanceof ItemGemBow ? "" : "Flint";
+    name = SilentGems.RESOURCE_PREFIX + name + "/" + name;
+    String mat = tool.getItem() instanceof ItemGemBow ? "" : "flint";
     String frameNum = frame == 3 ? "_3" : "";
 
     switch (pos) {
       case HEAD_LEFT:
-        name += mat + "L" + frameNum;
+        name += mat + "l" + frameNum;
         break;
       case HEAD_MIDDLE:
         name += mat + frameNum;
         break;
       case HEAD_RIGHT:
-        name += mat + "R" + frameNum;
+        name += mat + "r" + frameNum;
         break;
       case ROD_DECO:
-        name += "Deco" + mat;
+        name += "deco" + mat;
         break;
       default:
         return null;
     }
 
+    name = name.toLowerCase();
     return new ModelResourceLocation(name, "inventory");
   }
 

@@ -2,19 +2,20 @@ package net.silentchaos512.gems.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class NBTHelper {
 
   private static void createTagIfNeeded(ItemStack stack) {
 
-    if (stack != null && !stack.hasTagCompound()) {
+    if (StackHelper.isValid(stack) && !stack.hasTagCompound()) {
       stack.setTagCompound(new NBTTagCompound());
     }
   }
 
   public static boolean hasKey(ItemStack stack, String key) {
 
-    if (stack == null || !stack.hasTagCompound()) {
+    if (StackHelper.isEmpty(stack) || !stack.hasTagCompound()) {
       return false;
     }
     return stack.getTagCompound().hasKey(key);

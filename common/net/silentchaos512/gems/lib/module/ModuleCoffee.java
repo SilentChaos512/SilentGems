@@ -9,6 +9,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ModuleCoffee {
 
@@ -48,7 +49,7 @@ public class ModuleCoffee {
 
     // long test = System.nanoTime();
 
-    Random rand = SilentGems.instance.random;
+    Random rand = SilentGems.random;
 
     if (!rabbit.getEntityData().hasKey(NBT_TIME_TO_NEXT_COFFEE))
       rabbit.getEntityData().setInteger(NBT_TIME_TO_NEXT_COFFEE,
@@ -59,10 +60,10 @@ public class ModuleCoffee {
       int rabbitType = rabbit.getRabbitType();
       ItemStack coffee = getCoffeeForRabbitType(rabbitType);
 
-      if (!coffee.isEmpty()) {
+      if (StackHelper.isValid(coffee)) {
         rabbit.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f,
             (rand.nextFloat() - rand.nextFloat()) * 0.2f + 1.0f);
-        rabbit.entityDropItem(coffee.copy(), 0.0f);
+        rabbit.entityDropItem(StackHelper.safeCopy(coffee), 0.0f);
       }
       time = getIntervalToNextCoffee(rabbit, rand);
     }

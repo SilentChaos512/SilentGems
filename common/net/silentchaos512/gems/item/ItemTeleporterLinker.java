@@ -18,11 +18,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.DimensionalPosition;
 import net.silentchaos512.lib.util.LocalizationHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemTeleporterLinker extends ItemSL {
 
@@ -52,7 +52,7 @@ public class ItemTeleporterLinker extends ItemSL {
   public boolean registerModels() {
 
     ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-    ModelResourceLocation model = new ModelResourceLocation(getFullName(), "inventory");
+    ModelResourceLocation model = new ModelResourceLocation(getFullName().toLowerCase(), "inventory");
     mesher.register(this, 0, model);
     mesher.register(this, 1, model);
     return true;
@@ -101,11 +101,11 @@ public class ItemTeleporterLinker extends ItemSL {
     EntityPlayer player = mc.player;
 
     ItemStack heldItem = mc.player.getHeldItem(EnumHand.MAIN_HAND);
-    if (heldItem.isEmpty()) {
+    if (StackHelper.isEmpty(heldItem)) {
       heldItem = mc.player.getHeldItem(EnumHand.OFF_HAND);
     }
 
-    if (heldItem.getItem() == this) {
+    if (StackHelper.isValid(heldItem) && heldItem.getItem() == this) {
 
       ScaledResolution res = new ScaledResolution(mc);
       FontRenderer fontRender = mc.fontRendererObj;

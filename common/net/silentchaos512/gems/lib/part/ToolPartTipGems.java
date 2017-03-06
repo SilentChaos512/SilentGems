@@ -39,6 +39,7 @@ public class ToolPartTipGems extends ToolPartTip {
       return modelMap.get(name);
     }
 
+    name = name.toLowerCase();
     ModelResourceLocation model = new ModelResourceLocation(name, "inventory");
     modelMap.put(name, model);
     return model;

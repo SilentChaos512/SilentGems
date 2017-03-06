@@ -1,9 +1,9 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "SilentGems:items/Blank",
-    "layer1": "SilentGems:items/Blank",
-    "layer2": "SilentGems:items/pickaxe/Pickaxe14L"
+    "layer0": "silentgems:items/blank",
+    "layer1": "silentgems:items/blank",
+    "layer2": "silentgems:items/pickaxe/pickaxe14l"
   }
 }
 

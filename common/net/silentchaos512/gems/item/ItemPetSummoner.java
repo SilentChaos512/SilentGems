@@ -2,18 +2,13 @@ package net.silentchaos512.gems.item;
 
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.MobSpawnerBaseLogic;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -24,9 +19,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemNamedSubtypes;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemPetSummoner extends ItemNamedSubtypes {
 
@@ -55,7 +50,7 @@ public class ItemPetSummoner extends ItemNamedSubtypes {
   }
 
   @Override
-  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos,
+  protected EnumActionResult clOnItemUse(EntityPlayer player, World world, BlockPos pos,
       EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     ItemStack stack = player.getHeldItem(hand);
@@ -97,7 +92,7 @@ public class ItemPetSummoner extends ItemNamedSubtypes {
         }
 
         if (!player.capabilities.isCreativeMode) {
-          stack.shrink(1);
+          StackHelper.shrink(stack, 1);
         }
 
         // Make it tame and set master.

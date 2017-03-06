@@ -90,7 +90,8 @@ public class ItemTipUpgrade extends ItemSL {
 
     List<ModelResourceLocation> models = Lists.newArrayList();
     for (String str : NAMES) {
-      models.add(new ModelResourceLocation(SilentGems.MODID + ":" + str, "inventory"));
+      String name = (SilentGems.RESOURCE_PREFIX + str).toLowerCase();
+      models.add(new ModelResourceLocation(name, "inventory"));
     }
     return models;
   }

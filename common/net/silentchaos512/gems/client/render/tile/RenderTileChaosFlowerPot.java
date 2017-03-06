@@ -1,7 +1,6 @@
 package net.silentchaos512.gems.client.render.tile;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ChunkRenderContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -10,6 +9,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.tile.TileChaosFlowerPot;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class RenderTileChaosFlowerPot extends TileEntitySpecialRenderer<TileChaosFlowerPot> {
 
@@ -20,7 +20,7 @@ public class RenderTileChaosFlowerPot extends TileEntitySpecialRenderer<TileChao
   public RenderTileChaosFlowerPot() {
 
     for (int i = 0; i < TEXTURES.length; ++i) {
-      TEXTURES[i] = new ResourceLocation("SilentGems:textures/blocks/GlowRose" + i + ".png");
+      TEXTURES[i] = new ResourceLocation("silentgems:textures/blocks/glowrose" + i + ".png");
     }
   }
 
@@ -32,7 +32,7 @@ public class RenderTileChaosFlowerPot extends TileEntitySpecialRenderer<TileChao
     VertexBuffer buff = tess.getBuffer();
 
     ItemStack stack = te.getFlowerItemStack();
-    if (stack.isEmpty() || stack.getItemDamage() < 0 || stack.getItemDamage() >= TEXTURES.length) {
+    if (StackHelper.isEmpty(stack) || stack.getItemDamage() < 0 || stack.getItemDamage() >= TEXTURES.length) {
       return;
     }
 

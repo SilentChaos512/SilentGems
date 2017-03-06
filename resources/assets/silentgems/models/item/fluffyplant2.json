@@ -1,5 +1,5 @@
 {
-  "parent": "SilentGems:block/FluffyPlant2",
+  "parent": "silentgems:block/fluffyplant2",
   "display": {
     "thirdperson": {
       "rotation": [ 10, -45, 170 ],

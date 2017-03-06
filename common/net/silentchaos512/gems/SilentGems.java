@@ -44,6 +44,7 @@ import net.silentchaos512.lib.util.LogHelper;
     name = SilentGems.MOD_NAME,
     version = SilentGems.VERSION,
     dependencies = SilentGems.DEPENDENCIES,
+    acceptedMinecraftVersions = SilentGems.ACCEPTED_MC_VERSIONS,
     guiFactory = "net.silentchaos512.gems.client.gui.config.GuiFactorySilentGems")
 //@formatter:on
 public class SilentGems {
@@ -54,9 +55,10 @@ public class SilentGems {
   public static final String VERSION = "@VERSION@";
   public static final String VERSION_SILENTLIB = "SL_VERSION";
   public static final int BUILD_NUM = 0;
-  public static final String DEPENDENCIES = "required-after:forge@[13.19.1.2188,);"
+  public static final String DEPENDENCIES = ""//"required-after:forge@[13.19.1.2188,);"
       + "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
       + "after:baubles;before:guideapi;after:enderio;after:enderzoo;after:tconstruct;after:veinminer";
+  public static final String ACCEPTED_MC_VERSIONS = "[1.10.2,1.11.2]";
   public static final String RESOURCE_PREFIX = MODID + ":";
 
   public static Random random = new Random();

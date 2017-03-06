@@ -1,8 +1,8 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "SilentGems:items/ChaosRune0",
-    "layer1": "SilentGems:items/ChaosRune1"
+    "layer0": "silentgems:items/chaosrune0",
+    "layer1": "silentgems:items/chaosrune1"
   }
 }
 

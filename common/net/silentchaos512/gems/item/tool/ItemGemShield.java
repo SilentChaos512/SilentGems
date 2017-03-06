@@ -18,7 +18,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -36,6 +40,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemShield extends ItemShield implements IRegistryObject, ITool {
 
@@ -47,33 +52,39 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   // = Modified damage blocking and attributes =
   // ===========================================
 
-  @SubscribeEvent(priority = EventPriority.LOW)
-  public void blockExtraDamage(LivingHurtEvent event) {
+  // Class to wrap the event handler method. This prevents a crash when running on 1.10.2.
+  public static class EventHandler {
 
-    DamageSource source = event.getSource();
-    if (source.isUnblockable() || source.isMagicDamage() || source.isExplosion()
-        || source.isProjectile() || event.isCanceled())
-      return;
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public void blockExtraDamage(LivingHurtEvent event) {
 
-    if (!shouldBlockDamage(event.getEntityLiving()))
-      return;
+      ItemGemShield item = ModItems.shield;
 
-    EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-    ItemStack shield = player.getActiveItemStack();
+      DamageSource source = event.getSource();
+      if (source.isUnblockable() || source.isMagicDamage() || source.isExplosion()
+          || source.isProjectile() || event.isCanceled())
+        return;
 
-    float damage = event.getAmount();
-    float blockPower = ToolHelper.getBlockingPower(shield);
-    damage = damage < 2f ? 1f : damage / 2f;
-    event.setAmount(event.getAmount() / Math.max(blockPower, MIN_BLOCKING_POWER));
+      if (!item.shouldBlockDamage(event.getEntityLiving()))
+        return;
 
-    if (source.getEntity() != null) {
-      source.getEntity().attackEntityFrom(DamageSource.causeThornsDamage(player),
-          event.getAmount() + getMeleeDamage(shield));
-      damage = damage * 1.5f;
+      EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+      ItemStack shield = player.getActiveItemStack();
+
+      float damage = event.getAmount();
+      float blockPower = ToolHelper.getBlockingPower(shield);
+      damage = damage < 2f ? 1f : damage / 2f;
+      event.setAmount(event.getAmount() / Math.max(blockPower, MIN_BLOCKING_POWER));
+
+      if (source.getEntity() != null) {
+        source.getEntity().attackEntityFrom(DamageSource.causeThornsDamage(player),
+            event.getAmount() + item.getMeleeDamage(shield));
+        damage = damage * 1.5f;
+      }
+
+      // SilentGems.logHelper.debug(damage, Math.round(damage));
+      ToolHelper.attemptDamageTool(shield, Math.round(damage), player);
     }
-
-    // SilentGems.logHelper.debug(damage, Math.round(damage));
-    ToolHelper.attemptDamageTool(shield, Math.round(damage), player);
   }
 
   protected boolean shouldBlockDamage(EntityLivingBase entityLiving) {
@@ -102,7 +113,8 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SHIELD) return ItemStack.EMPTY;
+    if (GemsConfig.TOOL_DISABLE_SHIELD)
+      return StackHelper.empty();
 
     if (materials.length == 1)
       return constructTool(rod, materials[0], materials[0], materials[0]);
@@ -136,7 +148,8 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_SHIELD) return;
+    if (GemsConfig.TOOL_DISABLE_SHIELD)
+      return;
 
     ItemStack flint = new ItemStack(Items.FLINT);
 
@@ -185,7 +198,7 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
 
     if (subItems == null) {
       subItems = ToolHelper.getSubItems(item, 3);
@@ -251,7 +264,7 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   public List<ModelResourceLocation> getVariants() {
 
     // TODO Auto-generated method stub
-    return Lists.newArrayList(new ModelResourceLocation(getFullName(), "inventory"));
+    return Lists.newArrayList(new ModelResourceLocation(getFullName().toLowerCase(), "inventory"));
   }
 
   @Override
@@ -259,5 +272,25 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
 
     // TODO Auto-generated method stub
     return false;
+  }
+
+  // ==============================
+  // Cross Compatibility (MC 10/11)
+  // ==============================
+
+  @Override
+  public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (subItems == null) {
+      subItems = ToolHelper.getSubItems(item, 3);
+    }
+    list.addAll(subItems);
+  }
+
+  @Override
+  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+    return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }
 }

@@ -1,7 +1,6 @@
 package net.silentchaos512.gems.lib;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -12,11 +11,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.ForgeHooks;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 public class Greetings {
 
-  public static boolean IS_BETA_BUILD = false;
+  public static boolean IS_BETA_BUILD = true;
   public static final String PREFIX = "[Silent's Gems] BETA: ";
   // @formatter:off
   public static final String[] LINES = new String[] {
@@ -34,8 +34,12 @@ public class Greetings {
       // Beta
       "Still dancing to Macarena!",
       "Your free Windows 10 upgrade is ready!",
-      "Drowning in JSON files...",
-      "Download only from Curse/CurseForge!"
+      "Drowning in [slightly fewer] JSON files...",
+      "Download only from CurseForge!",
+
+      // XCompat
+      "Rabbit poop coffee!",
+      "Now works on Minecraft 1.10.2! Because other modders are SOOO slow to update...",
   };
   // @formatter:on
 
@@ -64,7 +68,7 @@ public class Greetings {
     }
 
     for (String str : extraMessages)
-      PlayerHelper.addChatMessage(player, "[Silent's Gems] " + str);
+      ChatHelper.sendMessage(player, "[Silent's Gems] " + str);
   }
 
   /**
@@ -78,7 +82,7 @@ public class Greetings {
     String line = LINES[SilentGems.random.nextInt(LINES.length)];
     line = PREFIX + line;
     line = line.replaceAll("&", "\u00a7");
-    PlayerHelper.addChatMessage(player, TextFormatting.RED + line);
+    ChatHelper.sendMessage(player, TextFormatting.RED + line);
   }
 
   /**

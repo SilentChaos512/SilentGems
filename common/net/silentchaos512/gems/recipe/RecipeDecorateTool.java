@@ -20,9 +20,10 @@ import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.api.tool.part.ToolPartTip;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.util.ToolHelper;
-import net.silentchaos512.lib.recipe.RecipeBase;
+import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeDecorateTool extends RecipeBase {
+public class RecipeDecorateTool implements IRecipeSL {
 
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
@@ -31,7 +32,7 @@ public class RecipeDecorateTool extends RecipeBase {
     int toolRow = 0;
     int toolCol = 0;
     ItemStack stack;
-    ItemStack tool = ItemStack.EMPTY;
+    ItemStack tool = StackHelper.empty();
     int repairValue = 0;
     int ammoValue = 0;
 
@@ -39,7 +40,7 @@ public class RecipeDecorateTool extends RecipeBase {
     for (int row = 0; row < inv.getWidth(); ++row) {
       for (int col = 0; col < inv.getHeight(); ++col) {
         stack = inv.getStackInRowAndColumn(row, col);
-        if (!stack.isEmpty() && stack.getItem() instanceof ITool) {
+        if (StackHelper.isValid(stack) && stack.getItem() instanceof ITool) {
           tool = stack;
           toolRow = row;
           toolCol = col;
@@ -48,8 +49,8 @@ public class RecipeDecorateTool extends RecipeBase {
     }
 
     // Found a tool?
-    if (tool.isEmpty()) {
-      return ItemStack.EMPTY;
+    if (StackHelper.isEmpty(tool)) {
+      return StackHelper.empty();
     }
 
     // Check adjacent materials
@@ -60,7 +61,7 @@ public class RecipeDecorateTool extends RecipeBase {
 
     if (!checkIsDecorationMaterial(west) || !checkIsDecorationMaterial(north)
         || !checkIsDecorationMaterial(east) || !checkIsDecorationMaterial(south)) {
-      return ItemStack.EMPTY;
+      return StackHelper.empty();
     }
 
     // Check other materials and get all repair values.
@@ -68,15 +69,15 @@ public class RecipeDecorateTool extends RecipeBase {
     EnumMaterialTier toolTier = ToolHelper.getToolTier(tool);
     for (i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
-      if (!stack.isEmpty() && !(stack.getItem() instanceof ITool)) {
+      if (StackHelper.isValid(stack) && !(stack.getItem() instanceof ITool)) {
         ToolPart part = ToolPartRegistry.fromStack(stack);
         // Invalid part or not a part?
         if (part == null) {
-          return ItemStack.EMPTY;
+          return StackHelper.empty();
         }
         // Valid for tool tier?
         if (!part.validForToolOfTier(toolTier) && !(part instanceof ToolPartMain)) {
-          return ItemStack.EMPTY;
+          return StackHelper.empty();
         }
         int repairAmount = part.getRepairAmount(tool, stack);
         if (repairAmount > 0) {
@@ -87,7 +88,7 @@ public class RecipeDecorateTool extends RecipeBase {
       }
     }
 
-    ItemStack result = tool.copy();
+    ItemStack result = StackHelper.safeCopy(tool);
 
     result = ToolHelper.decorateTool(tool, west, north, east, south);
 
@@ -95,7 +96,7 @@ public class RecipeDecorateTool extends RecipeBase {
     for (ItemStack other : otherMats) {
       ToolPart part = ToolPartRegistry.fromStack(other);
       EnumMaterialGrade grade = EnumMaterialGrade.fromStack(other);
-      if (!result.isEmpty() && part instanceof ToolPartRod) {
+      if (StackHelper.isValid(result) && part instanceof ToolPartRod) {
         ToolHelper.setRenderPart(result, part, grade, EnumPartPosition.ROD);
       } else if (part instanceof ToolPartGrip) {
         ToolHelper.setRenderPart(result, part, grade, EnumPartPosition.ROD_GRIP);
@@ -121,7 +122,7 @@ public class RecipeDecorateTool extends RecipeBase {
 
   private boolean checkIsDecorationMaterial(ItemStack stack) {
 
-    if (stack.isEmpty()) {
+    if (StackHelper.isEmpty(stack)) {
       return true;
     }
 

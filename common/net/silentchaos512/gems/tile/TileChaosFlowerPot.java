@@ -21,6 +21,7 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.lib.tile.TileInventorySL;
 import net.silentchaos512.lib.util.Color;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
 
@@ -54,7 +55,7 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
 
   private boolean tryPlacePhantomLight() {
 
-    if (world.isRemote || getFlowerItemStack().isEmpty()) {
+    if (world.isRemote || StackHelper.isEmpty(getFlowerItemStack())) {
       return false;
     }
 
@@ -196,7 +197,7 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
 
     NBTTagCompound tags = new NBTTagCompound();
     ItemStack flower = getFlowerItemStack();
-    if (!flower.isEmpty())
+    if (StackHelper.isValid(flower))
       tags.setTag("flower", flower.writeToNBT(new NBTTagCompound()));
 
     return tags;
@@ -212,6 +213,6 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
     if (tags.hasKey("flower"))
       setFlowerItemStack(new ItemStack(tags.getCompoundTag("flower")));
     else
-      setFlowerItemStack(ItemStack.EMPTY);
+      setFlowerItemStack(StackHelper.empty());
   }
 }

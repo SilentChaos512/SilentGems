@@ -27,9 +27,11 @@ import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileTeleporter;
+import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
+import net.silentchaos512.lib.util.StackHelper;
 import net.silentchaos512.wit.api.IWitHudInfo;
 
 public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProvider, IWitHudInfo {
@@ -100,8 +102,8 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
   public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     ItemStack heldItem = player.getHeldItem(hand);
-    boolean holdingLinker = heldItem.getItem() == ModItems.teleporterLinker;
-    boolean holdingReturnHome = heldItem.getItem() == ModItems.returnHomeCharm;
+    boolean holdingLinker = StackHelper.isValid(heldItem) && heldItem.getItem() == ModItems.teleporterLinker;
+    boolean holdingReturnHome = StackHelper.isValid(heldItem) && heldItem.getItem() == ModItems.returnHomeCharm;
 
     if (world.isRemote) {
       return holdingLinker || holdingReturnHome ? true : !isAnchor;
@@ -132,21 +134,21 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
 
     // Destination set?
     if (!tile.isDestinationSet()) {
-      PlayerHelper.addChatMessage(player, loc.getBlockSubText(Names.TELEPORTER, "NoDestination"));
+      ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "NoDestination"));
       return true;
     }
 
     // Safety checks before teleporting:
     if (!tile.isDestinationSane(player)) {
-      PlayerHelper.addChatMessage(player, loc.getBlockSubText(Names.TELEPORTER, "NotSane"));
+      ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "NotSane"));
       return true;
     }
     if (!tile.isDestinationSafe(player)) {
-      PlayerHelper.addChatMessage(player, loc.getBlockSubText(Names.TELEPORTER, "NotSafe"));
+      ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "NotSafe"));
       return true;
     }
     if (!tile.isDestinationAllowedIfDumb(player)) {
-      PlayerHelper.addChatMessage(player, loc.getBlockSubText(Names.TELEPORTER, "NoReceiver"));
+      ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "NoReceiver"));
       return true;
     }
 

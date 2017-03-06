@@ -17,6 +17,7 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemArmorFrame extends ItemSL {
 
@@ -68,9 +69,9 @@ public class ItemArmorFrame extends ItemSL {
     for (int tier = 0; tier < EnumMaterialTier.values().length; ++tier) {
       lattice = tier == 0 ? ModItems.craftingMaterial.armorLatticeMundane
           : tier == 1 ? ModItems.craftingMaterial.armorLatticeRegular
-              : tier == 2 ? ModItems.craftingMaterial.armorLatticeSuper : ItemStack.EMPTY;
+              : tier == 2 ? ModItems.craftingMaterial.armorLatticeSuper : StackHelper.empty();
 
-      if (!lattice.isEmpty())
+      if (StackHelper.isValid(lattice))
         for (int type = 0; type < 4; ++type)
           addRecipe(new ItemStack(this, 1, type + (tier << 2)), lattice, type);
     }

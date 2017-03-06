@@ -22,7 +22,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -39,9 +38,9 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.gems.util.TeleportUtil;
+import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
 import net.silentchaos512.lib.util.LocalizationHelper;
-import net.silentchaos512.lib.util.PlayerHelper;
 
 @Optional.InterfaceList({
     @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesCompat.MOD_ID),
@@ -98,7 +97,7 @@ public class ItemReturnHome extends ItemChaosStorage implements IBauble, IRender
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
+  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
     for (EnumGem gem : EnumGem.values()) {
       ItemStack stack = new ItemStack(item, 1, gem.ordinal());
@@ -145,7 +144,7 @@ public class ItemReturnHome extends ItemChaosStorage implements IBauble, IRender
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+  protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
     ItemStack stack = player.getHeldItem(hand);
     DimensionalPosition pos = getBoundPosition(stack);
@@ -220,13 +219,13 @@ public class ItemReturnHome extends ItemChaosStorage implements IBauble, IRender
 
     // Enough charge?
     if (getCharge(stack) < getTeleportCost(stack, player)) {
-      PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_ENOUGH_CHARGE));
+      ChatHelper.sendMessage(player, loc.getItemSubText(itemName, TEXT_NOT_ENOUGH_CHARGE));
       return;
     }
 
     // Is the destination sane? (ie, y > 0)
     if (pos.y <= 0) {
-      PlayerHelper.addChatMessage(player, loc.getItemSubText(itemName, TEXT_NOT_SANE));
+      ChatHelper.sendMessage(player, loc.getItemSubText(itemName, TEXT_NOT_SANE));
       return;
     }
 

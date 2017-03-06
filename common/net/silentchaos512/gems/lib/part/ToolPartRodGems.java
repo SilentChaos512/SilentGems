@@ -22,7 +22,7 @@ public class ToolPartRodGems extends ToolPartRod {
 
   public ToolPartRodGems(String name, EnumMaterialTier tier, ItemStack stack, int color) {
 
-    super(SilentGems.MODID + ":" + name, stack);
+    super(SilentGems.RESOURCE_PREFIX + name, stack);
     this.rodName = name;
     this.tier = tier;
     this.color = color;
@@ -30,7 +30,7 @@ public class ToolPartRodGems extends ToolPartRod {
 
   public ToolPartRodGems(String name, EnumMaterialTier tier, ItemStack stack, int color, String oreName) {
 
-    super(SilentGems.MODID + ":" + name, stack, oreName);
+    super(SilentGems.RESOURCE_PREFIX + name, stack, oreName);
     this.rodName = name;
     this.tier = tier;
     this.color = color;
@@ -40,12 +40,13 @@ public class ToolPartRodGems extends ToolPartRod {
   public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos, int frame) {
 
     String name = ((IRegistryObject) tool.getItem()).getName();
-    name = SilentGems.MODID + ":" + name.toLowerCase() + "/" + name + rodName;
+    name = SilentGems.RESOURCE_PREFIX + name.toLowerCase() + "/" + name + rodName;
 
     if (modelMap.containsKey(name)) {
       return modelMap.get(name);
     }
 
+    name = name.toLowerCase();
     ModelResourceLocation model = new ModelResourceLocation(name, "inventory");
     modelMap.put(name, model);
     return model;

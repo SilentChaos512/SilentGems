@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -23,7 +22,6 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -38,11 +36,11 @@ import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosPylon;
+import net.silentchaos512.lib.block.BlockContainerSL;
 import net.silentchaos512.lib.registry.IHasSubtypes;
 import net.silentchaos512.lib.registry.IRegistryObject;
 
-public class BlockChaosPylon extends BlockContainer
-    implements ITileEntityProvider, IRegistryObject, IHasSubtypes {
+public class BlockChaosPylon extends BlockContainerSL implements ITileEntityProvider, IHasSubtypes {
 
   public static enum VariantType implements IStringSerializable {
 
@@ -61,7 +59,7 @@ public class BlockChaosPylon extends BlockContainer
 
   public BlockChaosPylon() {
 
-    super(Material.IRON);
+    super(1, SilentGems.MODID, Names.CHAOS_PYLON, Material.IRON);
     setDefaultState(blockState.getBaseState().withProperty(VARIANT, VariantType.PASSIVE));
 
     setLightLevel(0.25f);
@@ -116,23 +114,22 @@ public class BlockChaosPylon extends BlockContainer
   @Override
   public boolean registerModels() {
 
-      /**
-       * Dear SilentChaos512:
-       *
-       * This is just to let you know that this one method caused me to nearly pull all of my hair
-       * out. I spent at _least_ an hour trying to figure out why the passive pylon was not rendering
-       * correctly as an item. I hate this method with the fiery passion of 100 suns.
-       *
-       * Sincerely,
-       * M4thG33k
-       */
+    /**
+     * Dear SilentChaos512:
+     *
+     * This is just to let you know that this one method caused me to nearly pull all of my hair out. I spent at _least_
+     * an hour trying to figure out why the passive pylon was not rendering correctly as an item. I hate this method
+     * with the fiery passion of 100 suns.
+     *
+     * Sincerely, M4thG33k
+     */
 
-//    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-//    Item item = Item.getItemFromBlock(this);
-//    ModelResourceLocation model = new ModelResourceLocation(SilentGems.MOD_ID, getName());
-//    mesher.register(item, 0, model);
+    // ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+    // Item item = Item.getItemFromBlock(this);
+    // ModelResourceLocation model = new ModelResourceLocation(SilentGems.MOD_ID, getName());
+    // mesher.register(item, 0, model);
 
-    return false;//true; // Cancels normal model registration.
+    return false;// true; // Cancels normal model registration.
   }
 
   @Override
@@ -144,7 +141,8 @@ public class BlockChaosPylon extends BlockContainer
   }
 
   @Override
-  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+  protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state,
+      EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     EnumPylonType type = EnumPylonType.getByMeta(getMetaFromState(state));
 
@@ -165,7 +163,7 @@ public class BlockChaosPylon extends BlockContainer
   }
 
   @Override
-  public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+  protected void clGetSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
 
     for (EnumPylonType type : EnumPylonType.values()) {
       if (type != EnumPylonType.NONE) {
@@ -232,19 +230,19 @@ public class BlockChaosPylon extends BlockContainer
 
   @Override
   public boolean isFullCube(IBlockState state) {
+
     return false;
   }
-
-
 
   @Override
   public EnumBlockRenderType getRenderType(IBlockState state) {
 
-    return EnumBlockRenderType.ENTITYBLOCK_ANIMATED; //I got yo' back!
+    return EnumBlockRenderType.ENTITYBLOCK_ANIMATED; // I got yo' back!
   }
 
   @Override
-  public AxisAlignedBB getCollisionBoundingBox(IBlockState worldIn, IBlockAccess pos, BlockPos state) {
+  public AxisAlignedBB getCollisionBoundingBox(IBlockState worldIn, IBlockAccess pos,
+      BlockPos state) {
 
     // return BOUNDING_BOX;
     return super.getCollisionBoundingBox(worldIn, pos, state);

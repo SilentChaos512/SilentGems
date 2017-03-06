@@ -21,6 +21,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject {
 
@@ -59,7 +60,7 @@ public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject 
 
     ItemStack heldItem = player.getHeldItem(hand);
 
-    if (heldItem.getItem() == ModItems.sickle) {
+    if (StackHelper.isValid(heldItem) && heldItem.getItem() == ModItems.sickle) {
       return false;
     }
 

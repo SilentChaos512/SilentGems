@@ -34,12 +34,13 @@ public class ToolPartWool extends ToolPartGrip {
       return null;
 
     String name = ((IRegistryObject) tool.getItem()).getName();
-    name = SilentGems.MODID + ":" + name.toLowerCase() + "/" + name + "Wool" + color.getMetadata();
+    name = SilentGems.RESOURCE_PREFIX + name + "/" + name + "Wool" + color.getMetadata();
 
     if (modelMap.containsKey(name)) {
       return modelMap.get(name);
     }
 
+    name = name.toLowerCase();
     ModelResourceLocation model = new ModelResourceLocation(name, "inventory");
     modelMap.put(name, model);
     return model;

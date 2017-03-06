@@ -13,6 +13,7 @@ import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.api.recipe.altar.RecipeChaosAltar;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.tile.TileSidedInventorySL;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class TileChaosAltar extends TileSidedInventorySL implements ITickable, IChaosAccepter {
 
@@ -40,7 +41,7 @@ public class TileChaosAltar extends TileSidedInventorySL implements ITickable, I
       return;
 
     ItemStack inputStack = getStackInSlot(SLOT_INPUT);
-    if (inputStack.isEmpty())
+    if (StackHelper.isEmpty(inputStack))
       return;
     ItemStack outputStack = getStackInSlot(SLOT_OUTPUT);
     ItemStack catalystStack = getStackInSlot(SLOT_CATALYST);
@@ -58,7 +59,7 @@ public class TileChaosAltar extends TileSidedInventorySL implements ITickable, I
 
       // Move full items to second slot
       if (chaosStorage.getCharge(inputStack) >= chaosStorage.getMaxCharge(inputStack)) {
-        if (outputStack.isEmpty()) {
+        if (StackHelper.isEmpty(outputStack)) {
           setInventorySlotContents(SLOT_OUTPUT, inputStack);
           removeStackFromSlot(SLOT_INPUT);
         }
@@ -75,19 +76,19 @@ public class TileChaosAltar extends TileSidedInventorySL implements ITickable, I
 
         // Transmute progress
         transmuteProgress += chaosDrained;
-        boolean willFitInOutputSlot = outputStack == null
-            || (outputStack.isItemEqual(recipe.getOutput()) && outputStack.getCount()
-                + recipe.getOutput().getCount() <= outputStack.getMaxStackSize());
+        boolean willFitInOutputSlot = StackHelper.isEmpty(outputStack)
+            || (outputStack.isItemEqual(recipe.getOutput()) && StackHelper.getCount(outputStack)
+                + StackHelper.getCount(recipe.getOutput()) <= outputStack.getMaxStackSize());
 
         if (transmuteProgress >= recipe.getChaosCost() && willFitInOutputSlot) {
           // Transmute complete
           transmuteProgress = 0;
-          if (outputStack == null)
+          if (StackHelper.isEmpty(outputStack))
             setInventorySlotContents(SLOT_OUTPUT, recipe.getOutput());
           else
-            getStackInSlot(SLOT_OUTPUT).grow(recipe.getOutput().getCount());
+            StackHelper.grow(getStackInSlot(SLOT_OUTPUT), StackHelper.getCount(recipe.getOutput()));
 
-          decrStackSize(SLOT_INPUT, recipe.getInput().getCount());
+          decrStackSize(SLOT_INPUT, StackHelper.getCount(recipe.getInput()));
         }
 
         if (chaosDrained != 0)
@@ -101,14 +102,14 @@ public class TileChaosAltar extends TileSidedInventorySL implements ITickable, I
   public ItemStack getStackToRender() {
 
     ItemStack stack = getStackInSlot(SLOT_INPUT);
-    if (stack != null)
+    if (StackHelper.isValid(stack))
       return stack;
 
     stack = getStackInSlot(SLOT_OUTPUT);
-    if (stack != null)
+    if (StackHelper.isValid(stack))
       return stack;
 
-    return null;
+    return StackHelper.empty();
   }
 
   public RecipeChaosAltar getActiveRecipe() {

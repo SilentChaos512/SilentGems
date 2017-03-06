@@ -20,6 +20,7 @@ import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.DyeHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
@@ -137,7 +138,7 @@ public class ItemDrawingCompass extends ItemSL {
   }
 
   @Override
-  public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos,
+  protected EnumActionResult clOnItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos,
       EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     // Only allow changes when in main hand?
@@ -160,13 +161,13 @@ public class ItemDrawingCompass extends ItemSL {
       // Display distance.
       int radius = (int) Math.sqrt(getBlock1(stack).distanceSq(getBlock2(stack)));
       String str = SilentGems.localizationHelper.getItemSubText(itemName, "radius", radius);
-      PlayerHelper.addChatMessage(playerIn, str);
+      ChatHelper.sendMessage(playerIn, str);
     } else if (state == State.EMPTY) {
       // Set block 1
       setBlock1(stack, pos.offset(facing));
     } else {
       String str = SilentGems.localizationHelper.getItemSubText(itemName, "howToReset");
-      PlayerHelper.addChatMessage(playerIn, str);
+      ChatHelper.sendMessage(playerIn, str);
     }
 
     stack.setItemDamage(0);
@@ -174,7 +175,7 @@ public class ItemDrawingCompass extends ItemSL {
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn,
+  protected ActionResult<ItemStack> clOnItemRightClick(World worldIn, EntityPlayer playerIn,
       EnumHand hand) {
 
     ItemStack stack = playerIn.getHeldItem(hand);

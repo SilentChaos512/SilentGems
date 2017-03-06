@@ -13,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.silentchaos512.gems.entity.EntityThrownTomahawk;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class RenderThrownTomahawk extends Render<EntityThrownTomahawk> {
 
@@ -35,14 +36,14 @@ public class RenderThrownTomahawk extends Render<EntityThrownTomahawk> {
     if (entity == null) return;
 
     ItemStack stack = entity.getThrownStack();
-    if (stack == null || stack.getItem() == null)
+    if (stack == null || stack.getItem() == null || StackHelper.isEmpty(stack))
       return;
 
     RenderItem itemRenderer = Minecraft.getMinecraft().getRenderItem();
 
     EntityItem entityitem = new EntityItem(entity.world, entity.posX, entity.posY, entity.posZ,
         stack);
-    entityitem.getEntityItem().setCount(1);
+    StackHelper.setCount(entityitem.getEntityItem(), 1);
     entityitem.hoverStart = 0.0F;
     GlStateManager.pushMatrix();
     GlStateManager.disableLighting();

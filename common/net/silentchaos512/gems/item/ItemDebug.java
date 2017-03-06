@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
-import net.silentchaos512.lib.util.PlayerHelper;
+import net.silentchaos512.lib.util.ChatHelper;
 
 public class ItemDebug extends ItemSL {
 
@@ -23,7 +23,7 @@ public class ItemDebug extends ItemSL {
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn,
+  protected ActionResult<ItemStack> clOnItemRightClick(World worldIn, EntityPlayer playerIn,
       EnumHand hand) {
 
     // playerIn.attackEntityFrom(DamageSource.inWall, 1.0f);
@@ -34,11 +34,12 @@ public class ItemDebug extends ItemSL {
     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
   }
 
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn,
-      BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+  @Override
+  protected EnumActionResult clOnItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos,
+      EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     IBlockState state = worldIn.getBlockState(pos);
-    PlayerHelper.addChatMessage(playerIn, "Hardness: " + state.getBlockHardness(worldIn, pos));
+    ChatHelper.sendMessage(playerIn, "Hardness: " + state.getBlockHardness(worldIn, pos));
     return EnumActionResult.SUCCESS;
   }
 }

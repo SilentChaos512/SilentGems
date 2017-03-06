@@ -12,6 +12,7 @@ import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.event.GemsCommonEvents;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.module.ModuleHolidayCheer;
 import net.silentchaos512.gems.network.NetworkHandler;
@@ -31,7 +32,7 @@ public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
 
     MinecraftForge.EVENT_BUS.register(new PlayerDataHandler.EventHandler());
     MinecraftForge.EVENT_BUS.register(new GemsCommonEvents());
-    MinecraftForge.EVENT_BUS.register(ModItems.shield);
+    MinecraftForge.EVENT_BUS.register(new ItemGemShield.EventHandler());
     MinecraftForge.EVENT_BUS.register(ModuleHolidayCheer.instance);
   }
 

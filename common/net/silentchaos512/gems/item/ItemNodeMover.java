@@ -51,7 +51,7 @@ public class ItemNodeMover extends ItemSL {
   }
 
   @Override
-  public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn,
+  protected EnumActionResult clOnItemUse(EntityPlayer playerIn, World worldIn,
       BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     ItemStack stack = playerIn.getHeldItem(hand);
@@ -116,9 +116,10 @@ public class ItemNodeMover extends ItemSL {
   @Override
   public List<ModelResourceLocation> getVariants() {
 
+    String name = (SilentGems.RESOURCE_PREFIX + "NodeMover").toLowerCase();
     return Lists.newArrayList(
-        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "NodeMover0", "inventory"),
-        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "NodeMover1", "inventory"),
-        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "NodeMover2", "inventory"));
+        new ModelResourceLocation(name + 0, "inventory"),
+        new ModelResourceLocation(name + 1, "inventory"),
+        new ModelResourceLocation(name + 2, "inventory"));
   }
 }

@@ -1,12 +1,12 @@
-# Blender MTL File: 'SilentChaosAltarTriangulated.blend'
-# Material Count: 1
+# blender mtl file: 'silentchaosaltartriangulated.blend'
+# material count: 1
 
 newmtl skin
-map_Kd silentgems:blocks/ChaosAltar
-#Ns 96.078431
-#Ka 0.000000 0.000000 0.000000
-#Kd 0.640000 0.640000 0.640000
-#Ks 0.500000 0.500000 0.500000
-#Ni 1.000000
+map_kd silentgems:blocks/chaosaltar
+#ns 96.078431
+#ka 0.000000 0.000000 0.000000
+#kd 0.640000 0.640000 0.640000
+#ks 0.500000 0.500000 0.500000
+#ni 1.000000
 #d 1.000000
 #illum 2

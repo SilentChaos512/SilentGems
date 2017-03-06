@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "SilentGems:blocks/GlowRose11"
+    "layer0": "silentgems:blocks/glowrose11"
   }
 }

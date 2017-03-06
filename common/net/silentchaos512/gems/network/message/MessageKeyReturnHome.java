@@ -4,15 +4,13 @@ import com.google.common.base.Predicate;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.network.Message;
+import net.silentchaos512.lib.collection.ItemStackList;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 public class MessageKeyReturnHome extends Message {
@@ -29,7 +27,7 @@ public class MessageKeyReturnHome extends Message {
 
     Predicate<ItemStack> predicate = s -> s.getItem() == ModItems.returnHomeCharm;
     EntityPlayer player = ctx.getServerHandler().playerEntity;
-    NonNullList<ItemStack> stacks = BaublesCompat.getBaubles(player, predicate);
+    ItemStackList stacks = BaublesCompat.getBaubles(player, predicate);
     stacks.addAll(PlayerHelper.getNonEmptyStacks(player, predicate));
 
     if (stacks.isEmpty())

@@ -13,9 +13,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.tile.TileChaosAltar;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class RenderTileChaosAltar extends TileEntitySpecialRenderer<TileChaosAltar> {
 
@@ -57,7 +57,7 @@ public class RenderTileChaosAltar extends TileEntitySpecialRenderer<TileChaosAlt
     if (stack != null) {
       // GlStateManager.translate(0.5, 0.5, 0.5);
       EntityItem entityitem = new EntityItem(world, 0.0D, 0.0D, 0.0D, stack.copy());
-      entityitem.getEntityItem().setCount(1);
+      StackHelper.setCount(entityitem.getEntityItem(), 1);
       entityitem.hoverStart = 0.0F;
       GlStateManager.pushMatrix();
       GlStateManager.disableLighting();

@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "SilentGems:items/tomahawk/_error"
+    "layer0": "silentgems:items/tomahawk/_error"
   }
 }
 

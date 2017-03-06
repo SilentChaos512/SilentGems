@@ -21,6 +21,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemFluffyPuffSeeds extends ItemSeeds implements IRegistryObject {
 
@@ -37,6 +38,13 @@ public class ItemFluffyPuffSeeds extends ItemSeeds implements IRegistryObject {
     return ModBlocks.fluffyPuffPlant.getDefaultState();
   }
 
+  // 1.10.2 compatibility
+  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+      EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+
+    return onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
+  }
+
   @Override
   public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos,
       EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
@@ -49,7 +57,7 @@ public class ItemFluffyPuffSeeds extends ItemSeeds implements IRegistryObject {
         && state.getBlock().canSustainPlant(state, worldIn, pos, EnumFacing.UP, this)
         && worldIn.isAirBlock(pos.up())) {
       worldIn.setBlockState(pos.up(), getPlant(worldIn, pos));
-      stack.shrink(1);
+      StackHelper.shrink(stack, 1);
       return EnumActionResult.SUCCESS;
     } else {
       return EnumActionResult.FAIL;
@@ -93,7 +101,7 @@ public class ItemFluffyPuffSeeds extends ItemSeeds implements IRegistryObject {
   @Override
   public List<ModelResourceLocation> getVariants() {
 
-    return Lists.newArrayList(new ModelResourceLocation(getFullName(), "inventory"));
+    return Lists.newArrayList(new ModelResourceLocation(getFullName().toLowerCase(), "inventory"));
   }
 
   @Override

@@ -76,7 +76,7 @@ public class ItemHoldingGem extends ItemBlockPlacer {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
+  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
     for (EnumGem gem : EnumGem.values()) {
       ItemStack stack = new ItemStack(item);

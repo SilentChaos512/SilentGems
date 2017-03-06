@@ -3,44 +3,44 @@ package net.silentchaos512.gems.recipe;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.recipe.RecipeBase;
+import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeNamePlate extends RecipeBase {
+public class RecipeNamePlate implements IRecipeSL {
 
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
 
-    ItemStack stackNamePlate = ItemStack.EMPTY;
-    ItemStack stackOther = ItemStack.EMPTY;
+    ItemStack stackNamePlate = StackHelper.empty();
+    ItemStack stackOther = StackHelper.empty();
     ItemStack stack;
     ItemStack namePlateForMatching = ModItems.craftingMaterial.namePlate;
 
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
-      if (!stack.isEmpty()) {
+      if (StackHelper.isValid(stack)) {
         // Name plate?
         if (stack.isItemEqual(namePlateForMatching)) {
-          if (!stackNamePlate.isEmpty()) {
-            return ItemStack.EMPTY;
+          if (StackHelper.isValid(stackNamePlate)) {
+            return StackHelper.empty();
           }
           stackNamePlate = stack;
         }
         // Other item?
         else {
-          if (!stackOther.isEmpty()) {
-            return ItemStack.EMPTY;
+          if (StackHelper.isValid(stackOther)) {
+            return StackHelper.empty();
           }
           stackOther = stack;
         }
       }
     }
 
-    if (stackNamePlate.isEmpty() || stackOther.isEmpty() || !stackNamePlate.hasDisplayName()) {
-      return ItemStack.EMPTY;
+    if (StackHelper.isEmpty(stackNamePlate) || StackHelper.isEmpty(stackOther) || !stackNamePlate.hasDisplayName()) {
+      return StackHelper.empty();
     }
 
-    ItemStack result = stackOther.copy();
+    ItemStack result = StackHelper.safeCopy(stackOther);
     result.setStackDisplayName(stackNamePlate.getDisplayName());
     return result;
   }

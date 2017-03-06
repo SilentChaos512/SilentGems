@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "SilentGems:items/scepter/ScepterRodGold"
+    "layer0": "silentgems:items/scepter/scepterrodgold"
   }
 }
 

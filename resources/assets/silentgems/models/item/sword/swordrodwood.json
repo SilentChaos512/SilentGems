@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "SilentGems:items/sword/SwordRodWood"
+    "layer0": "silentgems:items/sword/swordrodwood"
   }
 }
 

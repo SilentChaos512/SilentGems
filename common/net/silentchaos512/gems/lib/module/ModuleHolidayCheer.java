@@ -12,7 +12,9 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ModuleHolidayCheer {
 
@@ -70,8 +72,8 @@ public class ModuleHolidayCheer {
       String str = "[%s] Happy Holidays! Have some candy.";
       str = String.format(str, SilentGems.MOD_NAME/* , day */);
 
-      PlayerHelper.addChatMessage(player, TextFormatting.GREEN + str);
-      ItemStack stack = ModItems.food.candyCane.copy();
+      ChatHelper.sendMessage(player, TextFormatting.GREEN + str);
+      ItemStack stack = StackHelper.safeCopy(ModItems.food.candyCane);
       PlayerHelper.giveItem(player, stack);
     }
   }
@@ -80,8 +82,8 @@ public class ModuleHolidayCheer {
 
     if (SilentGems.random.nextFloat() <= CANDY_RATE) {
       int count = SilentGems.random.nextInt(CANDY_MAX_QUANTITY);
-      ItemStack stack = ModItems.food.candyCane.copy();
-      stack.setCount(count);
+      ItemStack stack = StackHelper.safeCopy(ModItems.food.candyCane);
+      StackHelper.setCount(stack, count);
       PlayerHelper.giveItem(player, stack);
     }
   }

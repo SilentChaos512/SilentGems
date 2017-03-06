@@ -14,7 +14,6 @@ import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -22,17 +21,18 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.item.ItemFoodSL;
+import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.RecipeHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
-public class ItemFoodSG extends ItemFood implements IRegistryObject {
+public class ItemFoodSG extends ItemFoodSL {
 
   public static final String[] NAMES = { Names.POTATO_STICK, Names.SUGAR_COOKIE, Names.SECRET_DONUT,
       Names.MEATY_STEW_UNCOOKED, Names.MEATY_STEW, Names.CANDY_CANE, Names.COFFEE_CUP };
@@ -53,11 +53,7 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
 
   public ItemFoodSG() {
 
-    super(1, 1.0f, false);
-
-    setHasSubtypes(true);
-    setMaxDamage(0);
-    setUnlocalizedName(Names.FOOD);
+    super(NAMES.length, SilentGems.MODID, Names.FOOD);
 
     // Add secret donut effects.
     secretDonutEffects.clear();
@@ -86,7 +82,7 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
 
     int meta = stack.getItemDamage();
     if (meta < NAMES.length) {
-      list.addAll(SilentGems.instance.localizationHelper.getItemDescriptionLines(NAMES[meta]));
+      list.addAll(SilentGems.localizationHelper.getItemDescriptionLines(NAMES[meta]));
     }
   }
 
@@ -101,7 +97,7 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
   @Override
   public int getMaxItemUseDuration(ItemStack stack) {
 
-    if (stack.getItemDamage() == 1) {
+    if (stack.getItemDamage() == sugarCookie.getItemDamage()) {
       return 16;
     } else {
       return 32;
@@ -129,7 +125,7 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
         return new ItemStack(this, count, i);
       }
     }
-    return ItemStack.EMPTY;
+    return StackHelper.empty();
   }
 
   @Override
@@ -143,7 +139,8 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+  protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player,
+      EnumHand hand) {
 
     ItemStack stack = player.getHeldItem(hand);
     if (player.canEat(alwaysEdible[stack.getItemDamage()])) {
@@ -209,10 +206,9 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
 
     // Add chat message
     if (rand.nextFloat() < GemsConfig.FOOD_SECRET_DONUT_TEXT_CHANCE) {
-      List<String> list = SilentGems.instance.localizationHelper
-          .getDescriptionLines("donut.silentgems:");
+      List<String> list = SilentGems.localizationHelper.getDescriptionLines("donut.silentgems:");
       String line = list.get(rand.nextInt(list.size()));
-      player.sendMessage(new TextComponentString(line));
+      ChatHelper.sendMessage(player, line);
     }
   }
 
@@ -250,7 +246,7 @@ public class ItemFoodSG extends ItemFood implements IRegistryObject {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
+  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
     for (int i = 0; i < NAMES.length; ++i) {
       list.add(new ItemStack(item, 1, i));

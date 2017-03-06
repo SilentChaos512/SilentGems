@@ -1,14 +1,28 @@
 package net.silentchaos512.gems.api;
 
+import java.util.List;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public interface ITool {
 
   public ItemStack constructTool(ItemStack rod, ItemStack... materials);
+
   public float getMeleeDamage(ItemStack tool);
+
   public float getMagicDamage(ItemStack tool);
+
   public float getBaseMeleeDamageModifier();
+
   public float getBaseMeleeSpeedModifier();
 
   public default boolean isDiggingTool() {
@@ -26,4 +40,13 @@ public interface ITool {
 
     return new Material[] {};
   }
+
+  // ==============================
+  // Cross Compatibility (MC 10/11)
+  // ==============================
+
+  public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list);
+
+  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ);
 }

@@ -35,6 +35,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
 
@@ -56,7 +57,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
     if (GemsConfig.TOOL_DISABLE_SHOVEL)
-      return ItemStack.EMPTY;
+      return StackHelper.empty();
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.STICK);
     return ToolHelper.constructTool(this, rod, materials);
@@ -70,7 +71,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
     if (GemsConfig.TOOL_DISABLE_SHOVEL)
-      return ItemStack.EMPTY;
+      return StackHelper.empty();
     if (materials.length == 1) {
       return ToolHelper.constructTool(this, rod, materials[0], materials[0], materials[0]);
     }
@@ -328,5 +329,25 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   public boolean registerModels() {
 
     return false;
+  }
+
+  // ==============================
+  // Cross Compatibility (MC 10/11)
+  // ==============================
+
+  @Override
+  public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (subItems == null) {
+      subItems = ToolHelper.getSubItems(item, 1);
+    }
+    list.addAll(subItems);
+  }
+
+  @Override
+  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+    return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }
 }

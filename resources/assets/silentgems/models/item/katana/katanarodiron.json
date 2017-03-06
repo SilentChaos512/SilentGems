@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "SilentGems:items/katana/KatanaRodIron"
+    "layer0": "silentgems:items/katana/katanarodiron"
   }
 }
 

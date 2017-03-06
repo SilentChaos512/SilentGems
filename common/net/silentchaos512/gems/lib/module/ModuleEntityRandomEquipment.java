@@ -27,6 +27,7 @@ import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ModuleEntityRandomEquipment {
 
@@ -109,7 +110,7 @@ public class ModuleEntityRandomEquipment {
     }*/ // FIXME
 
     ItemStack currentMain = entity.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
-    if (sword != null && (currentMain == null || !currentMain.hasTagCompound())) {
+    if (StackHelper.isValid(sword) && (StackHelper.isEmpty(currentMain) || !currentMain.hasTagCompound())) {
       String makerName = SilentGems.localizationHelper.getMiscText("Tooltip.OriginalOwner.Mob",
           entity.getName());
       ToolHelper.setOriginalOwner(sword, makerName);
@@ -153,18 +154,18 @@ public class ModuleEntityRandomEquipment {
       EntityEquipmentSlot slot) {
 
     // Null checks.
-    if (entity == null || stack == null)
+    if (entity == null || StackHelper.isEmpty(stack))
       return;
 
     // Don't replace items with NBT.
     ItemStack current = entity.getItemStackFromSlot(slot);
-    if (current != null && current.hasTagCompound())
+    if (StackHelper.isValid(current) && current.hasTagCompound())
       return;
 
     // Set tool owner name.
     String makerName = SilentGems.localizationHelper.getMiscText("Tooltip.OriginalOwner.Mob",
         entity.getName());
-    ItemStack copy = stack.copy();
+    ItemStack copy = StackHelper.safeCopy(stack);
     ToolHelper.setOriginalOwner(copy, makerName);
 
     // Set it.

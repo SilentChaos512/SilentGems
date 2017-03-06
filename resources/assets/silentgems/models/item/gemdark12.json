@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "SilentGems:items/GemDark12"
+    "layer0": "silentgems:items/gemdark12"
   }
 }
 

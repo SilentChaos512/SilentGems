@@ -36,6 +36,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, ITool {
 
@@ -71,7 +72,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
     if (GemsConfig.TOOL_DISABLE_PICKAXE)
-      return ItemStack.EMPTY;
+      return StackHelper.empty();
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -328,5 +329,25 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   public boolean registerModels() {
 
     return false;
+  }
+
+  // ==============================
+  // Cross Compatibility (MC 10/11)
+  // ==============================
+
+  @Override
+  public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (subItems == null) {
+      subItems = ToolHelper.getSubItems(item, 3);
+    }
+    list.addAll(subItems);
+  }
+
+  @Override
+  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+    return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }
 }

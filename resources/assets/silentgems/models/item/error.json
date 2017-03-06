@@ -1,6 +1,6 @@
 {
   "parent": "builtin/generated",
   "textures": {
-    "layer0": "SilentGems:items/Error"
+    "layer0": "silentgems:items/error"
   }
 }

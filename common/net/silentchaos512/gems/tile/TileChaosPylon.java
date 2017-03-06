@@ -20,6 +20,7 @@ import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.lib.tile.TileInventorySL;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class TileChaosPylon extends TileInventorySL implements ITickable, IChaosProvider {
 
@@ -136,7 +137,7 @@ public class TileChaosPylon extends TileInventorySL implements ITickable, IChaos
 
   public ItemStack getFuel() {
 
-    return getSizeInventory() > 0 ? getStackInSlot(0) : ItemStack.EMPTY;
+    return getSizeInventory() > 0 ? getStackInSlot(0) : StackHelper.empty();
   }
 
   private void burnFuel() {
@@ -149,12 +150,12 @@ public class TileChaosPylon extends TileInventorySL implements ITickable, IChaos
     }
 
     if (burnTimeRemaining <= 0 && getCharge() < getMaxCharge()) {
-      if (!getFuel().isEmpty()) {
+      if (StackHelper.isValid(getFuel())) {
         int fuelBurnTime = TileEntityFurnace.getItemBurnTime(getFuel());
         if (fuelBurnTime > 0) {
           currentItemBurnTime = burnTimeRemaining = fuelBurnTime;
           decrStackSize(0, 1);
-          if (getFuel().isEmpty())
+          if (StackHelper.isEmpty(getFuel()))
             setInventorySlotContents(0, getFuel().getItem().getContainerItem(getFuel()));
           else
             setInventorySlotContents(0, getFuel());

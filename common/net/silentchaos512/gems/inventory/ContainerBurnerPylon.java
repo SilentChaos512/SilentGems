@@ -6,6 +6,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.silentchaos512.lib.inventory.ContainerSL;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ContainerBurnerPylon extends Container {
 
@@ -37,41 +39,41 @@ public class ContainerBurnerPylon extends Container {
   @Override
   public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
 
-    ItemStack stack = ItemStack.EMPTY;
+    ItemStack stack = StackHelper.empty();
     Slot slot = (Slot) this.inventorySlots.get(slotIndex);
 
     if (slot != null && slot.getHasStack()) {
       ItemStack stack1 = slot.getStack();
-      stack = stack1.copy();
+      stack = StackHelper.safeCopy(stack1);
 
       if (slotIndex != 0) {
         if (tilePylon.isItemValidForSlot(0, stack1)) {
           if (!this.mergeItemStack(stack1, 0, 1, false)) {
-            return ItemStack.EMPTY;
+            return StackHelper.empty();
           }
         } else if (slotIndex >= 1 && slotIndex < 28) {
           if (!this.mergeItemStack(stack1, 28, 37, false)) {
-            return ItemStack.EMPTY;
+            return StackHelper.empty();
           }
         } else if (slotIndex >= 28 && slotIndex < 37
             && !this.mergeItemStack(stack1, 1, 28, false)) {
-          return ItemStack.EMPTY;
+          return StackHelper.empty();
         }
       } else if (!this.mergeItemStack(stack1, 1, 37, false)) {
-        return ItemStack.EMPTY;
+        return StackHelper.empty();
       }
 
-      if (stack1.isEmpty()) {
-        slot.putStack(ItemStack.EMPTY);
+      if (StackHelper.isEmpty(stack1)) {
+        slot.putStack(StackHelper.empty());
       } else {
         slot.onSlotChanged();
       }
 
-      if (stack1.getCount() == stack.getCount()) {
-        return ItemStack.EMPTY;
+      if (StackHelper.getCount(stack1) == StackHelper.getCount(stack)) {
+        return StackHelper.empty();
       }
 
-      slot.onTake(player, stack1);
+      ContainerSL.onTakeFromSlot(slot, player, stack1);
     }
 
     return stack;

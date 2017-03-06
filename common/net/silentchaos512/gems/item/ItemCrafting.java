@@ -20,6 +20,7 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemNamedSubtypesSorted;
 import net.silentchaos512.lib.util.RecipeHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandler {
 
@@ -201,7 +202,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
         }
         entityLiving.setCustomNameTag(stack.getDisplayName());
         entityLiving.enablePersistence();
-        stack.shrink(1);
+        StackHelper.shrink(stack, 1);
         return true;
       }
     }

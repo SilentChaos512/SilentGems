@@ -6,37 +6,38 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.item.ItemHoldingGem;
-import net.silentchaos512.lib.recipe.RecipeBase;
+import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeHoldingGemSetBlock extends RecipeBase {
+public class RecipeHoldingGemSetBlock implements IRecipeSL {
 
   @SuppressWarnings("deprecation")
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
 
-    ItemStack holdingGem = ItemStack.EMPTY;
-    ItemStack blockStack = ItemStack.EMPTY;
+    ItemStack holdingGem = StackHelper.empty();
+    ItemStack blockStack = StackHelper.empty();
     ItemStack stack;
 
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
-      if (!stack.isEmpty()) {
+      if (StackHelper.isValid(stack)) {
         if (stack.getItem() instanceof ItemHoldingGem) {
-          if (!holdingGem.isEmpty() || stack.getItemDamage() < stack.getMaxDamage())
-            return ItemStack.EMPTY;
+          if (StackHelper.isValid(holdingGem) || stack.getItemDamage() < stack.getMaxDamage())
+            return StackHelper.empty();
           holdingGem = stack;
         } else if (stack.getItem() instanceof ItemBlock) {
-          if (!blockStack.isEmpty())
-            return ItemStack.EMPTY;
+          if (StackHelper.isValid(blockStack))
+            return StackHelper.empty();
           blockStack = stack;
         }
       }
     }
 
-    if (holdingGem.isEmpty() || blockStack.isEmpty())
-      return ItemStack.EMPTY;
+    if (StackHelper.isEmpty(holdingGem) || StackHelper.isEmpty(blockStack))
+      return StackHelper.empty();
 
-    ItemStack result = holdingGem.copy();
+    ItemStack result = StackHelper.safeCopy(holdingGem);
     Block block = ((ItemBlock) blockStack.getItem()).block;
     int meta = blockStack.getItemDamage();
     IBlockState state = block.getStateFromMeta(meta);

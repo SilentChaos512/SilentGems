@@ -36,6 +36,7 @@ import net.silentchaos512.gems.skills.ToolSkillDigger;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class GemsCommonEvents {
 
@@ -69,7 +70,7 @@ public class GemsCommonEvents {
     else if (event.crafting.getItem() == ModItems.chaosOrb) {
       for (int i = 0; i < event.craftMatrix.getSizeInventory(); ++i) {
         ItemStack stack = event.craftMatrix.getStackInSlot(i);
-        if (stack != null && stack.getItem() == ModItems.chaosOrb) {
+        if (StackHelper.isValid(stack) && stack.getItem() == ModItems.chaosOrb) {
           int oldCharge = ModItems.chaosOrb.getCharge(stack);
           ModItems.chaosOrb.receiveCharge(event.crafting, oldCharge, false);
         }
@@ -83,7 +84,7 @@ public class GemsCommonEvents {
     EntityPlayer player = event.getEntityPlayer();
     ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
 
-    if (mainHand != null) {
+    if (StackHelper.isValid(mainHand)) {
       // Shears on Fluffy Blocks
       if (event.getState() == ModBlocks.fluffyBlock) {
         ModBlocks.fluffyBlock.onGetBreakSpeed(event);
@@ -117,10 +118,10 @@ public class GemsCommonEvents {
       int lifeStealLevel = 0;
 
       // Life Steal on main?
-      if (mainHand != null)
+      if (StackHelper.isValid(mainHand))
         lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal, mainHand);
       // If not, is it on off hand?
-      if (lifeStealLevel < 1 && offHand != null)
+      if (lifeStealLevel < 1 && StackHelper.isValid(offHand))
         lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal, offHand);
 
       // Do life steal?
@@ -149,7 +150,7 @@ public class GemsCommonEvents {
 
     if (player != null) {
       ItemStack weapon = player.getHeldItem(EnumHand.MAIN_HAND);
-      if (weapon != null && weapon.getItem() instanceof ITool)
+      if (StackHelper.isValid(weapon) && weapon.getItem() instanceof ITool)
         ToolHelper.incrementStatKillCount(weapon, 1);
     }
   }

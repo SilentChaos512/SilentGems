@@ -1,11 +1,11 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "SilentGems:items/Blank",
-    "layer1": "SilentGems:items/Blank",
-    "layer2": "SilentGems:items/Blank",
-    "layer3": "SilentGems:items/Blank",
-    "layer4": "SilentGems:items/axe/AxeDeco1"
+    "layer0": "silentgems:items/blank",
+    "layer1": "silentgems:items/blank",
+    "layer2": "silentgems:items/blank",
+    "layer3": "silentgems:items/blank",
+    "layer4": "silentgems:items/axe/axedeco1"
   }
 }
 

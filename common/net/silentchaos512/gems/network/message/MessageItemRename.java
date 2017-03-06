@@ -9,6 +9,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.network.Message;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.LogHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 /**
  * Used to generate tool/armor names on the client-side. Sends the new display name to the server and removes the
@@ -54,7 +55,7 @@ public class MessageItemRename extends Message {
       log.info(String.format("Tool/armor rename for player %s (slot %d)", player.getName(), slot));
       log.info("    Unlocalized name = " + unlocalizedName);
 
-      if (stack == null) {
+      if (StackHelper.isEmpty(stack)) {
         log.warning("    ItemStack is null!");
         return null;
       } else if (!stack.getUnlocalizedName().equals(unlocalizedName)) {

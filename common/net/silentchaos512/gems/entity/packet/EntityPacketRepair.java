@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.entity.packet;
 
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -10,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.lib.collection.ItemStackList;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.PlayerHelper;
 
@@ -61,7 +61,7 @@ public class EntityPacketRepair extends EntityChaosNodePacket {
     int index = rand.nextInt(sizeMain + 5);
 
     // Select a random item.
-    List<ItemStack> items = PlayerHelper.getNonEmptyStacks(player);
+    ItemStackList items = PlayerHelper.getNonEmptyStacks(player);
     items.removeIf(stack -> !stack.getItem().isRepairable() || !stack.isItemStackDamageable()
         || stack.getItemDamage() == 0);
     if (items.size() > 0) {

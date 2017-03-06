@@ -38,7 +38,7 @@ public class ItemDyeSG extends ItemSL {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
+  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
     list.add(new ItemStack(this, 1, 0));
     list.add(new ItemStack(this, 1, 4));

@@ -1,8 +1,8 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "SilentGems:items/ReturnHome_Base",
-    "layer1": "SilentGems:items/ReturnHome13"
+    "layer0": "silentgems:items/returnhome_base",
+    "layer1": "silentgems:items/returnhome13"
   }
 }
 

@@ -1,12 +1,12 @@
 {
   "variants": {
-    "age=0": { "model": "SilentGems:FluffyPlant0" },
-    "age=1": { "model": "SilentGems:FluffyPlant0" },
-    "age=2": { "model": "SilentGems:FluffyPlant1" },
-    "age=3": { "model": "SilentGems:FluffyPlant1" },
-    "age=4": { "model": "SilentGems:FluffyPlant2" },
-    "age=5": { "model": "SilentGems:FluffyPlant2" },
-    "age=6": { "model": "SilentGems:FluffyPlant2" },
-    "age=7": { "model": "SilentGems:FluffyPlant3" }
+    "age=0": { "model": "silentgems:fluffyplant0" },
+    "age=1": { "model": "silentgems:fluffyplant0" },
+    "age=2": { "model": "silentgems:fluffyplant1" },
+    "age=3": { "model": "silentgems:fluffyplant1" },
+    "age=4": { "model": "silentgems:fluffyplant2" },
+    "age=5": { "model": "silentgems:fluffyplant2" },
+    "age=6": { "model": "silentgems:fluffyplant2" },
+    "age=7": { "model": "silentgems:fluffyplant3" }
   }
 }

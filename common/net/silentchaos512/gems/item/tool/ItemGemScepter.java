@@ -10,6 +10,7 @@ import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemScepter extends ItemGemSword {
 
@@ -22,7 +23,7 @@ public class ItemGemScepter extends ItemGemSword {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SCEPTER) return ItemStack.EMPTY;
+    if (GemsConfig.TOOL_DISABLE_SCEPTER) return StackHelper.empty();
 
     if (materials.length >= 2) {
       ItemStack temp = materials[0];

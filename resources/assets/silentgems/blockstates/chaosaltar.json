@@ -1,9 +1,9 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "silentgems:ChaosAltar.obj",
+    "model": "silentgems:chaosaltar.obj",
     "textures": {
-      "particle": "silentgems:blocks/FluffyBlock10"
+      "particle": "silentgems:blocks/fluffyblock10"
     },
     "transform": "forge:default-block",
     "custom": {"flip-v": true}

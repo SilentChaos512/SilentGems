@@ -23,10 +23,12 @@ import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.gems.util.TeleportUtil;
+import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.LogHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class TileTeleporter extends TileEntity implements IChaosAccepter {
 
@@ -109,8 +111,8 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
 
     DimensionalPosition position = new DimensionalPosition(pos, player.dimension);
     position.writeToNBT(heldItem.getTagCompound());
-    PlayerHelper.addChatMessage(player, SilentGems.instance.localizationHelper
-        .getBlockSubText(Names.TELEPORTER, "ReturnHomeBound"));
+    ChatHelper.sendMessage(player,
+        SilentGems.localizationHelper.getBlockSubText(Names.TELEPORTER, "ReturnHomeBound"));
     return true;
   }
 
@@ -121,11 +123,11 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
       return true;
     }
 
-    LogHelper log = SilentGems.instance.logHelper;
-    LocalizationHelper loc = SilentGems.instance.localizationHelper;
+    LogHelper log = SilentGems.logHelper;
+    LocalizationHelper loc = SilentGems.localizationHelper;
     ItemTeleporterLinker linker = ModItems.teleporterLinker;
 
-    if (heldItem.isEmpty() || heldItem.getItem() != linker) {
+    if (StackHelper.isEmpty(heldItem) || heldItem.getItem() != linker) {
       log.warning("TileTeleporter.linkTeleporters: heldItem is not a linker?");
       return false;
     }
@@ -147,7 +149,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
 
       if (tile1 == null || tile2 == null) {
         // Could not find a teleporter?
-        PlayerHelper.addChatMessage(player, loc.getBlockSubText(Names.TELEPORTER, "LinkFail"));
+        ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "LinkFail"));
         log.warning("Could not find teleporter when linking:" + "\nTeleporter1 @ "
             + position1.toString() + "\nTeleporter2 @ " + position2.toString());
         linker.setLinked(heldItem, false);
@@ -157,7 +159,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
       // Create "link"
       tile1.destination = position2;
       tile2.destination = position1;
-      PlayerHelper.addChatMessage(player, loc.getBlockSubText(Names.TELEPORTER, "LinkSuccess"));
+      ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "LinkSuccess"));
       linker.setLinked(heldItem, false);
       tile1.markDirty();
       tile2.markDirty();
@@ -165,7 +167,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
       // Inactive state: set active and location.
       linker.setLinkedPosition(heldItem, new DimensionalPosition(pos, player.dimension));
       linker.setLinked(heldItem, true);
-      PlayerHelper.addChatMessage(player, loc.getBlockSubText(Names.TELEPORTER, "LinkStart"));
+      ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "LinkStart"));
     }
 
     return true;
@@ -190,10 +192,10 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
     int cost = getRequiredChaos(player);
     int available = getCharge() + ChaosUtil.getTotalChaosAvailable(player);
     if (cost > available) {
-      String str = SilentGems.instance.localizationHelper.getBlockSubText(Names.TELEPORTER,
+      String str = SilentGems.localizationHelper.getBlockSubText(Names.TELEPORTER,
           "NotEnoughChaos");
       str = String.format(str, getCharge(), cost);
-      PlayerHelper.addChatMessage(player, str);
+      ChatHelper.sendMessage(player, str);
       return false;
     }
 

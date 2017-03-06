@@ -13,6 +13,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class RenderTileMaterialGrader extends TileEntitySpecialRenderer<TileMaterialGrader> {
 
@@ -24,7 +25,7 @@ public class RenderTileMaterialGrader extends TileEntitySpecialRenderer<TileMate
       return;
 
     ItemStack input = te.getStackInSlot(0);
-    if (input != null) {
+    if (StackHelper.isValid(input)) {
       World world = te.getWorld();
       IBlockState state = world.getBlockState(te.getPos());
       int meta = state.getBlock().getMetaFromState(state);
@@ -38,10 +39,10 @@ public class RenderTileMaterialGrader extends TileEntitySpecialRenderer<TileMate
   private void renderItem(World world, ItemStack stack, int rotationYaw) {
 
     RenderItem itemRenderer = Minecraft.getMinecraft().getRenderItem();
-    if (stack != null) {
+    if (StackHelper.isValid(stack)) {
       // GlStateManager.translate(0.5, 0.5, 0.5);
-      EntityItem entityitem = new EntityItem(world, 0.0D, 0.0D, 0.0D, stack.copy());
-      entityitem.getEntityItem().setCount(1);
+      EntityItem entityitem = new EntityItem(world, 0.0D, 0.0D, 0.0D, StackHelper.safeCopy(stack));
+      StackHelper.setCount(entityitem.getEntityItem(), 1);
       entityitem.hoverStart = 0.0F;
       GlStateManager.pushMatrix();
       GlStateManager.disableLighting();

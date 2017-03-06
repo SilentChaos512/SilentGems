@@ -22,14 +22,15 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IBlockPlacer;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
 
@@ -117,17 +118,17 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
         int damage = stack.getItemDamage();
 
         // Decrease damage of block placer, reduce stack size of block stack.
-        if (damage - invStack.getCount() < 0) {
+        if (damage - StackHelper.getCount(invStack) < 0) {
           stack.setItemDamage(0);
-          invStack.shrink(damage);
+          StackHelper.shrink(invStack, damage);
           return stack;
         } else {
-          stack.setItemDamage(damage - invStack.getCount());
-          invStack.setCount(0);
+          stack.setItemDamage(damage - StackHelper.getCount(invStack));
+          StackHelper.setCount(invStack, 0);
         }
 
         // Remove empty stacks.
-        if (invStack.getCount() <= 0) {
+        if (StackHelper.getCount(invStack) <= 0) {
           PlayerHelper.removeItem(player, invStack);
         }
       }
@@ -143,7 +144,7 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+  protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
     ItemStack stack = player.getHeldItem(hand);
     if (player.isSneaking()) {
@@ -153,13 +154,13 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
       LocalizationHelper loc = SilentGems.localizationHelper;
       String onOrOff = loc.getItemSubText("BlockPlacer", "autoFill." + (mode ? "on" : "off"));
       String line = loc.getItemSubText("BlockPlacer", "autoFill", onOrOff);
-      player.sendStatusMessage(new TextComponentString(line), true);
+      ChatHelper.sendStatusMessage(player, line, true);
     }
     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
   }
 
   @Override
-  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
+  protected EnumActionResult clOnItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
       EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     ItemStack stack = player.getHeldItem(hand);
@@ -201,8 +202,8 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
 
       // Create block stack to drop.
       ItemStack toDrop = new ItemStack(state.getBlock(), 1, meta);
-      toDrop.setCount(Math.min(getRemainingBlocks(stack), toDrop.getMaxStackSize()));
-      stack.damageItem(toDrop.getCount(), player);
+      StackHelper.setCount(toDrop, Math.min(getRemainingBlocks(stack), toDrop.getMaxStackSize()));
+      stack.damageItem(StackHelper.getCount(toDrop), player);
 
       // Make the EntityItem and spawn in world.
       World world = player.world;
@@ -218,7 +219,7 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
+  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
     ItemStack stack = new ItemStack(item);
     list.add(new ItemStack(item, 1, getMaxDamage(stack)));

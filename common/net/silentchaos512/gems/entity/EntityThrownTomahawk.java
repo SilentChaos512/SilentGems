@@ -146,7 +146,7 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
       for (EntityPlayer player : world.getPlayers(EntityPlayer.class,
           p -> p.getDistanceSq(posX, posY, posZ) < 2)) {
         // SilentGems.logHelper.debug(player.getName() + " is near a tomahawk.");
-        for (ItemStack stack : PlayerHelper.getNonNullStacks(player)) {
+        for (ItemStack stack : PlayerHelper.getNonEmptyStacks(player)) {
           if (ToolHelper.areToolsEqual(stack, thrownStack)) {
             // SilentGems.logHelper.debug(player.getName() + " picked up the tomahawk.");
             ModItems.tomahawk.addAmmo(thrownStack, 1);

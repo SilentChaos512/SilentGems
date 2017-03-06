@@ -7,26 +7,27 @@ import com.google.common.collect.Lists;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.lib.recipe.RecipeBase;
+import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeApplyEnchantmentToken extends RecipeBase {
+public class RecipeApplyEnchantmentToken implements IRecipeSL {
 
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
 
-    ItemStack tool = ItemStack.EMPTY;
+    ItemStack tool = StackHelper.empty();
     List<ItemStack> tokens = Lists.newArrayList();
 
     // Find items
     ItemStack stack;
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
-      if (!stack.isEmpty()) {
+      if (StackHelper.isValid(stack)) {
         if (stack.getItem() == ModItems.enchantmentToken) {
           tokens.add(stack);
         } else {
-          if (!tool.isEmpty()) {
-            return ItemStack.EMPTY;
+          if (StackHelper.isValid(tool)) {
+            return StackHelper.empty();
           }
           tool = stack;
         }
@@ -34,15 +35,15 @@ public class RecipeApplyEnchantmentToken extends RecipeBase {
     }
 
     // Found correct items?
-    if (tool.isEmpty() || tokens.isEmpty()) {
-      return ItemStack.EMPTY;
+    if (StackHelper.isEmpty(tool) || tokens.isEmpty()) {
+      return StackHelper.empty();
     }
 
     // Apply tokens to tools.
-    ItemStack result = tool.copy();
+    ItemStack result = StackHelper.safeCopy(tool);
     for (ItemStack token : tokens) {
       if (!ModItems.enchantmentToken.applyTokenToTool(token, result)) {
-        return ItemStack.EMPTY;
+        return StackHelper.empty();
       }
     }
 

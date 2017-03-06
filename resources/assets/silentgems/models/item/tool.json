@@ -1,7 +1,7 @@
 {
   "parent": "builtin/generated",
   "textures": {
-    "layer0": "SilentGems:items/Blank"
+    "layer0": "silentgems:items/blank"
   }
 }
 

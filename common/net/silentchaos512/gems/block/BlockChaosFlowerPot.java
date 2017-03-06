@@ -29,6 +29,7 @@ import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosFlowerPot;
 import net.silentchaos512.lib.block.BlockSL;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider {
 
@@ -44,17 +45,17 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
   }
 
   @Override
-  public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state,
+  protected boolean clOnBlockActivated(World worldIn, BlockPos pos, IBlockState state,
       EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
     ItemStack heldItem = playerIn.getHeldItem(hand);
 
-    if (!heldItem.isEmpty() && heldItem.getItem() instanceof ItemBlock) {
+    if (StackHelper.isValid(heldItem) && heldItem.getItem() instanceof ItemBlock) {
       TileChaosFlowerPot tileentityflowerpot = getTileEntity(worldIn, pos);
 
       if (tileentityflowerpot == null) {
         return false;
-      } else if (!tileentityflowerpot.getFlowerItemStack().isEmpty()) {
+      } else if (StackHelper.isValid(tileentityflowerpot.getFlowerItemStack())) {
         return false;
       } else {
         Block block = Block.getBlockFromItem(heldItem.getItem());
@@ -70,7 +71,7 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
           playerIn.addStat(StatList.FLOWER_POTTED);
 
           if (!playerIn.capabilities.isCreativeMode) {
-            heldItem.shrink(1);
+            StackHelper.shrink(heldItem, 1);
           }
 
           return true;
@@ -85,7 +86,7 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
   public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
 
     TileChaosFlowerPot tile = getTileEntity(world, pos);
-    return tile != null && !tile.getFlowerItemStack().isEmpty() ? 15 : lightValue;
+    return tile != null && StackHelper.isValid(tile.getFlowerItemStack()) ? 15 : lightValue;
   }
 
   @Override
@@ -142,12 +143,12 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
         && worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, EnumFacing.UP);
   }
 
-  public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state,
-      Block neighborBlock) {
+  @Override
+  protected void clOnNeighborChanged(IBlockState state, World world, BlockPos pos, Block block) {
 
-    if (!worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, EnumFacing.UP)) {
-      this.dropBlockAsItem(worldIn, pos, state, 0);
-      worldIn.setBlockToAir(pos);
+    if (!world.getBlockState(pos.down()).isSideSolid(world, pos, EnumFacing.UP)) {
+      this.dropBlockAsItem(world, pos, state, 0);
+      world.setBlockToAir(pos);
     }
   }
 
@@ -171,7 +172,7 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
 
     List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
     TileChaosFlowerPot te = getTileEntity(world, pos);
-    if (te != null && !te.getFlowerItemStack().isEmpty()) {
+    if (te != null && StackHelper.isValid(te.getFlowerItemStack())) {
       ret.add(te.getFlowerItemStack());
     }
     return ret;

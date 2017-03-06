@@ -1,5 +1,7 @@
 package net.silentchaos512.gems.item.tool;
 
+import java.util.List;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -26,6 +28,7 @@ import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
 
@@ -40,7 +43,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_TOMAHAWK) return ItemStack.EMPTY;
+    if (GemsConfig.TOOL_DISABLE_TOMAHAWK) return StackHelper.empty();
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -78,7 +81,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public int getAmmo(ItemStack tool) {
 
-    if (!tool.isEmpty() && tool.hasTagCompound()) {
+    if (StackHelper.isValid(tool) && tool.hasTagCompound()) {
       if (!tool.getTagCompound().hasKey(NBT_AMMO))
         tool.getTagCompound().setByte(NBT_AMMO, (byte) getMaxAmmo(tool));
       return tool.getTagCompound().getByte(NBT_AMMO);
@@ -95,7 +98,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public void addAmmo(ItemStack tool, int amount) {
 
-    if (!tool.isEmpty() && tool.hasTagCompound()) {
+    if (StackHelper.isValid(tool) && tool.hasTagCompound()) {
       int current = getAmmo(tool);
       int newAmount = Math.min(current + amount, getMaxAmmo(tool));
       tool.getTagCompound().setByte(NBT_AMMO, (byte) newAmount);
@@ -211,5 +214,25 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   public EnumAction getItemUseAction(ItemStack stack) {
 
     return EnumAction.BOW;
+  }
+
+  // ==============================
+  // Cross Compatibility (MC 10/11)
+  // ==============================
+
+  @Override
+  public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (subItems == null) {
+      subItems = ToolHelper.getSubItems(item, 4);
+    }
+    list.addAll(subItems);
+  }
+
+  @Override
+  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+    return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }
 }

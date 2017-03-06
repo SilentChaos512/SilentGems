@@ -2,27 +2,22 @@ package net.silentchaos512.gems.item;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
-import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
-import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.RecipeHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGem extends ItemSL {
 
@@ -53,7 +48,7 @@ public class ItemGem extends ItemSL {
       // Gems <--> shards
       RecipeHelper.addCompressionRecipe(gem.getShard(), gem.getItem(), 9);
       ItemStack shards = gem.getShard();
-      shards.setCount(9);
+      StackHelper.setCount(shards, 9);
       GameRegistry.addRecipe(new ShapelessOreRecipe(shards, gem.getItemOreName()));
     }
   }
@@ -78,17 +73,22 @@ public class ItemGem extends ItemSL {
 
     List<ModelResourceLocation> models = Lists.newArrayList();
     int i;
+    String name;
     for (i = 0; i < 16; ++i) {
-      models.add(new ModelResourceLocation(getFullName() + i, "inventory"));
+      name = (getFullName() + i).toLowerCase();
+      models.add(new ModelResourceLocation(name, "inventory"));
     }
     for (i = 0; i < 16; ++i) {
-      models.add(new ModelResourceLocation(getFullName() + "Dark" + i, "inventory"));
+      name = (getFullName() + "Dark" + i).toLowerCase();
+      models.add(new ModelResourceLocation(name, "inventory"));
     }
     for (i = 0; i < 16; ++i) {
-      models.add(new ModelResourceLocation(getFullName() + "Super" + i, "inventory"));
+      name = (getFullName() + "Super" + i).toLowerCase();
+      models.add(new ModelResourceLocation(name, "inventory"));
     }
     for (i = 0; i < 16; ++i) {
-      models.add(new ModelResourceLocation(getFullName() + "SuperDark" + i, "inventory"));
+      name = (getFullName() + "SuperDark" + i).toLowerCase();
+      models.add(new ModelResourceLocation(name, "inventory"));
     }
     return models;
   }

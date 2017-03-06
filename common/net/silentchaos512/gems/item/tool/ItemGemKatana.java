@@ -16,6 +16,7 @@ import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemKatana extends ItemGemSword {
 
@@ -28,7 +29,7 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_KATANA) return ItemStack.EMPTY;
+    if (GemsConfig.TOOL_DISABLE_KATANA) return StackHelper.empty();
     ItemStack result = ToolHelper.constructTool(this, rod, materials);
     return addDefaultGrip(result);
   }
@@ -36,7 +37,7 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_KATANA) return ItemStack.EMPTY;
+    if (GemsConfig.TOOL_DISABLE_KATANA) return StackHelper.empty();
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.STICK);
     ItemStack result = ToolHelper.constructTool(this, rod, materials);
@@ -45,8 +46,8 @@ public class ItemGemKatana extends ItemGemSword {
 
   public ItemStack addDefaultGrip(ItemStack katana) {
 
-    if (katana.isEmpty())
-      return ItemStack.EMPTY;
+    if (StackHelper.isEmpty(katana))
+      return StackHelper.empty();
     ItemStack blackWool = new ItemStack(Blocks.WOOL, 1, EnumDyeColor.BLACK.getMetadata());
     ToolHelper.setPart(katana, ToolPartRegistry.fromStack(blackWool), EnumMaterialGrade.NONE,
         EnumPartPosition.ROD_GRIP);

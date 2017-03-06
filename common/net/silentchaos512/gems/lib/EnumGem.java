@@ -6,6 +6,7 @@ import net.minecraft.util.IStringSerializable;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.lib.util.StackHelper;
 
 public enum EnumGem implements IStringSerializable {
 
@@ -165,10 +166,9 @@ public enum EnumGem implements IStringSerializable {
     return color;
   }
 
-  // Seems to be unused?
   public static EnumGem getFromStack(ItemStack stack) {
 
-    if (stack == null || stack.getItem() != ModItems.gem) {
+    if (StackHelper.isEmpty(stack) || stack.getItem() != ModItems.gem) {
       return null;
     }
 

@@ -43,6 +43,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.RecipeHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 @Optional.InterfaceList({
   @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesCompat.MOD_ID),
@@ -124,13 +125,13 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
 
   public boolean isEnabled(ItemStack stack) {
 
-    return !stack.isEmpty() && stack.hasTagCompound()
+    return StackHelper.isValid(stack) && stack.hasTagCompound()
         && stack.getTagCompound().getBoolean(NBT_ENABLED);
   }
 
   public void setEnabled(ItemStack stack, boolean val) {
 
-    if (stack.isEmpty())
+    if (StackHelper.isEmpty(stack))
       return;
     if (!stack.hasTagCompound())
       stack.setTagCompound(new NBTTagCompound());
@@ -150,7 +151,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
 
   public Map<ChaosBuff, Integer> getBuffs(ItemStack stack) {
 
-    if (stack.isEmpty() || !stack.hasTagCompound() || !stack.getTagCompound().hasKey(NBT_BUFF_LIST))
+    if (StackHelper.isEmpty(stack) || !stack.hasTagCompound() || !stack.getTagCompound().hasKey(NBT_BUFF_LIST))
       return Maps.newHashMap();
 
     NBTTagList tagList = stack.getTagCompound().getTagList(NBT_BUFF_LIST, 10);
@@ -186,7 +187,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
 
   public void setBuffs(ItemStack stack, Map<ChaosBuff, Integer> buffs) {
 
-    if (stack.isEmpty())
+    if (StackHelper.isEmpty(stack))
       return;
     if (!stack.hasTagCompound())
       stack.setTagCompound(new NBTTagCompound());
@@ -209,7 +210,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
 
   public boolean canAddBuff(ItemStack stack, ChaosBuff buff) {
 
-    if (stack.isEmpty())
+    if (StackHelper.isEmpty(stack))
       return false;
     if (!stack.hasTagCompound())
       return true;
@@ -295,11 +296,11 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+  protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
     ItemStack stack = player.getHeldItem(hand);
     // Enable/disable
-    if (getCharge(stack) > 0) {
+    if (StackHelper.isValid(stack) && getCharge(stack) > 0) {
       setEnabled(stack, !isEnabled(stack));
       if (isEnabled(stack))
         applyEffects(stack, player);
@@ -361,7 +362,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
+  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
     for (int i = 0; i < subItemCount; ++i) {
       // Empty
@@ -369,7 +370,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
       list.add(stack1);
       // Full
       if (getMaxCharge(stack1) > 0) {
-        ItemStack stack2 = stack1.copy();
+        ItemStack stack2 = StackHelper.safeCopy(stack1);
         receiveCharge(stack2, getMaxCharge(stack2), false);
         list.add(stack2);
       }
@@ -438,7 +439,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
     ItemChaosGem chaosGem = ModItems.chaosGem;
 
     for (ItemStack stack : player.inventory.mainInventory)
-      if (!stack.isEmpty() && stack.getItem() instanceof ItemChaosGem)
+      if (StackHelper.isValid(stack) && stack.getItem() instanceof ItemChaosGem)
         if (chaosGem.isEnabled(stack) && chaosGem.getTotalChargeDrain(stack, player) > 0)
           gems.add(stack);
 

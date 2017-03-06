@@ -3,29 +3,29 @@ package net.silentchaos512.gems.recipe;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.item.armor.ItemArmorFrame;
 import net.silentchaos512.gems.util.ArmorHelper;
-import net.silentchaos512.lib.recipe.RecipeBase;
+import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeMultiGemArmor extends RecipeBase {
+public class RecipeMultiGemArmor implements IRecipeSL {
 
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
 
     // Get the middle stack, which determines the armor type.
     ItemStack centerStack = inv.getStackInRowAndColumn(1, 1);
-    if (centerStack.isEmpty() || !(centerStack.getItem() instanceof ItemArmorFrame)) {
-      return ItemStack.EMPTY;
+    if (StackHelper.isEmpty(centerStack) || !(centerStack.getItem() instanceof ItemArmorFrame)) {
+      return StackHelper.empty();
     }
 
     // Make sure nothing is in the corners.
-    if (!inv.getStackInRowAndColumn(0, 0).isEmpty() || !inv.getStackInRowAndColumn(2, 0).isEmpty()
-        || !inv.getStackInRowAndColumn(2, 2).isEmpty() || !inv.getStackInRowAndColumn(0, 2).isEmpty()) {
-      return ItemStack.EMPTY;
+    if (StackHelper.isValid(inv.getStackInRowAndColumn(0, 0)) || StackHelper.isValid(inv.getStackInRowAndColumn(2, 0))
+        || StackHelper.isValid(inv.getStackInRowAndColumn(2, 2)) || StackHelper.isValid(inv.getStackInRowAndColumn(0, 2))) {
+      return StackHelper.empty();
     }
 
     // Determine the target tier and output item.
@@ -37,7 +37,7 @@ public class RecipeMultiGemArmor extends RecipeBase {
     ItemStack[] stacks = getGems(inv);
 
     if (stacks == null || EnumMaterialTier.fromStack(stacks[0]) != targetTier)
-      return ItemStack.EMPTY;
+      return StackHelper.empty();
 
     return ArmorHelper.constructArmor(outputItem, stacks);
   }

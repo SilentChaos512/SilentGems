@@ -13,7 +13,7 @@ public class ToolPartGlass extends ToolPartMain {
 
   public ToolPartGlass() {
 
-    super(SilentGems.MODID + ":glass", new ItemStack(Blocks.GLASS));
+    super(SilentGems.RESOURCE_PREFIX + "glass", new ItemStack(Blocks.GLASS));
   }
 
   @Override
@@ -39,6 +39,7 @@ public class ToolPartGlass extends ToolPartMain {
         return null;
     }
 
+    name = name.toLowerCase();
     return new ModelResourceLocation(name, "inventory");
   }
 

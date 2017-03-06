@@ -6,17 +6,16 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
-import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.lib.recipe.RecipeBase;
+import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeMultiGemTool extends RecipeBase {
+public class RecipeMultiGemTool implements IRecipeSL {
 
   public static final String RECIPE_SWORD = "h;h;r";
   public static final String RECIPE_KATANA = "hh;h ;r ";
@@ -59,7 +58,7 @@ public class RecipeMultiGemTool extends RecipeBase {
     else if (matchesRecipe(inv, RECIPE_SHOVEL))
       return ModItems.shovel.constructTool(getRodType(inv), getGems(inv));
 
-    return ItemStack.EMPTY;
+    return StackHelper.empty();
   }
 
   private boolean matchesRecipe(InventoryCrafting inv, String recipe) {
@@ -123,7 +122,7 @@ public class RecipeMultiGemTool extends RecipeBase {
         stack = inv.getStackInRowAndColumn(i, j);
 
         // Check for excess things.
-        if (c == ' ' && !stack.isEmpty())
+        if (c == ' ' && StackHelper.isValid(stack))
           return false;
 
         ToolPart part = getPartInSlot(inv, i, j);
@@ -167,7 +166,7 @@ public class RecipeMultiGemTool extends RecipeBase {
   private ToolPart getPartInSlot(InventoryCrafting inv, int row, int column) {
 
     ItemStack stack = inv.getStackInRowAndColumn(row, column);
-    if (!stack.isEmpty()) {
+    if (StackHelper.isValid(stack)) {
       ToolPart part = ToolPartRegistry.fromStack(stack);
       if (part != null) {
         return part;
@@ -178,17 +177,17 @@ public class RecipeMultiGemTool extends RecipeBase {
 
   private ItemStack getRodType(InventoryCrafting inv) {
 
-    ItemStack firstRod = ItemStack.EMPTY;
-    ItemStack stack = ItemStack.EMPTY;
+    ItemStack firstRod = StackHelper.empty();
+    ItemStack stack = StackHelper.empty();
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
       ToolPart part = ToolPartRegistry.fromStack(stack);
       if (part != null && part instanceof ToolPartRod) {
-        if (firstRod.isEmpty()) {
+        if (StackHelper.isEmpty(firstRod)) {
           firstRod = stack;
         }
         if (!firstRod.isItemEqual(stack)) {
-          return ItemStack.EMPTY;
+          return StackHelper.empty();
         }
       }
     }

@@ -18,6 +18,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ArmorHelper {
 
@@ -155,7 +156,7 @@ public class ArmorHelper {
 
   public static ToolPart[] getRenderParts(ItemStack armor) {
 
-    if (armor.isEmpty())
+    if (StackHelper.isEmpty(armor))
       return new ToolPart[0];
 
     return new ToolPart[] {//
@@ -289,7 +290,7 @@ public class ArmorHelper {
     ToolPart part;
     EnumMaterialGrade grade;
     for (int i = 0; i < materials.length; ++i) {
-      if (materials[i].isEmpty()) {
+      if (StackHelper.isEmpty(materials[i])) {
         String str = "ArmorHelper.constructArmor: empty part! ";
         for (ItemStack stack : materials)
           str += stack + ", ";
@@ -321,11 +322,11 @@ public class ArmorHelper {
   public static ItemStack decorateArmor(ItemStack armor, ItemStack west, ItemStack north,
       ItemStack east, ItemStack south) {
 
-    if (armor.isEmpty()) {
-      return ItemStack.EMPTY;
+    if (StackHelper.isEmpty(armor)) {
+      return StackHelper.empty();
     }
 
-    ItemStack result = armor.copy();
+    ItemStack result = StackHelper.safeCopy(armor);
     result = decorate(result, west, EnumDecoPos.WEST);
     result = decorate(result, north, EnumDecoPos.NORTH);
     result = decorate(result, east, EnumDecoPos.EAST);
@@ -335,9 +336,9 @@ public class ArmorHelper {
 
   private static ItemStack decorate(ItemStack armor, ItemStack material, EnumDecoPos pos) {
 
-    if (armor.isEmpty())
-      return ItemStack.EMPTY;
-    if (material.isEmpty())
+    if (StackHelper.isEmpty(armor))
+      return StackHelper.empty();
+    if (StackHelper.isEmpty(material))
       return armor;
 
     ToolPart part = ToolPartRegistry.fromStack(material);
@@ -348,7 +349,7 @@ public class ArmorHelper {
     if (!(part instanceof ToolPartMain))
       return armor;
 
-    ItemStack result = armor.copy();
+    ItemStack result = StackHelper.safeCopy(armor);
     switch (pos) {
       case WEST:
         setTagPart(result, NBT_DECO_WEST, part, EnumMaterialGrade.fromStack(material));

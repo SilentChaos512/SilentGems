@@ -4,14 +4,12 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
@@ -21,6 +19,7 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.packet.EntityPacketChaos;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
+import net.silentchaos512.lib.collection.ItemStackList;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 public class ChaosUtil {
@@ -151,9 +150,9 @@ public class ChaosUtil {
     return entity;
   }
 
-  public static NonNullList<ItemStack> getChaosStorageItems(EntityPlayer player) {
+  public static ItemStackList getChaosStorageItems(EntityPlayer player) {
 
-    NonNullList<ItemStack> list = BaublesCompat.getBaubles(player, s -> s.getItem() instanceof IChaosStorage);
+    ItemStackList list = BaublesCompat.getBaubles(player, s -> s.getItem() instanceof IChaosStorage);
     for (ItemStack stack : PlayerHelper.getNonEmptyStacks(player))
       if (stack.getItem() instanceof IChaosStorage)
         list.add(stack);

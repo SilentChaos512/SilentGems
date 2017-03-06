@@ -25,10 +25,10 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -50,10 +50,12 @@ import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageItemRename;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.item.ItemArmorSL;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LocalizationHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
-public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryObject, IArmor {
+public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   public static final float[] ABSORPTION_RATIO_BY_SLOT = { 0.175f, 0.3f, 0.4f, 0.125f }; // sum = 1, starts with boots
   public static final int[] MAX_DAMAGE_ARRAY = new int[] { 13, 15, 16, 11 }; // Copied from ItemArmor
@@ -76,7 +78,6 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
   private List<ItemStack> subItems = null;
   // private ModelBiped model;
-  protected String itemName;
 
   // protected Map<EntityEquipmentSlot, ModelBiped> models = null;
   // protected Map<EntityEquipmentSlot, Map<int[], ModelBiped>> models = null;
@@ -85,8 +86,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
   public ItemGemArmor(int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name) {
 
-    super(ArmorMaterial.DIAMOND, renderIndexIn, equipmentSlotIn);
-    this.itemName = name;
+    super(SilentGems.MODID, name, ArmorMaterial.DIAMOND, renderIndexIn, equipmentSlotIn);
     this.type = equipmentSlotIn;
   }
 
@@ -121,7 +121,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
 
     float total = 0;
     for (ItemStack armor : player.getArmorInventoryList()) {
-      if (!armor.isEmpty()) {
+      if (StackHelper.isValid(armor)) {
         if (armor.getItem() instanceof ItemGemArmor) {
           total += ((ItemGemArmor) armor.getItem()).getProtection(armor);
         } else if (armor.getItem() instanceof ItemArmor) {
@@ -179,12 +179,10 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
     Multimap<String, AttributeModifier> multimap = HashMultimap.create();
 
     if (slot == this.armorType) {
-      multimap.put(SharedMonsterAttributes.ARMOR.getName(),
-          new AttributeModifier(ARMOR_MODIFIERS[slot.getIndex()], "Armor modifier",
-              getProtection(stack), 0));
-      multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(),
-          new AttributeModifier(ARMOR_MODIFIERS[slot.getIndex()], "Armor toughness",
-              getToughness(stack), 0));
+      multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(
+          ARMOR_MODIFIERS[slot.getIndex()], "Armor modifier", getProtection(stack), 0));
+      multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(
+          ARMOR_MODIFIERS[slot.getIndex()], "Armor toughness", getToughness(stack), 0));
     }
 
     return multimap;
@@ -195,7 +193,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot,
       String type) {
 
-    return SilentGems.RESOURCE_PREFIX + "textures/armor/TempArmor.png";
+    return SilentGems.RESOURCE_PREFIX + "textures/armor/temparmor.png";
     // return super.getArmorTexture(stack, entity, slot, type);
   }
 
@@ -298,7 +296,8 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
         // tool.setStackDisplayName(displayName);
 
         // Send to the server.
-        MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName, armor);
+        MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName,
+            armor);
         SilentGems.logHelper.info("Sending armor name \"" + displayName + "\" to server.");
         NetworkHandler.INSTANCE.sendToServer(message);
       }
@@ -376,15 +375,15 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
+  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
     if (subItems == null) {
       subItems = Lists.newArrayList();
 
       // Test broken items.
-      ItemStack testBroken = constructArmor(new ItemStack(Items.FLINT));
-      testBroken.setItemDamage(getMaxDamage(testBroken) - 1);
-      subItems.add(testBroken);
+      // ItemStack testBroken = constructArmor(new ItemStack(Items.FLINT));
+      // testBroken.setItemDamage(getMaxDamage(testBroken) - 1);
+      // subItems.add(testBroken);
 
       // Flint
       subItems.add(constructArmor(new ItemStack(Items.FLINT)));
@@ -424,52 +423,8 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IRegistryO
   }
 
   @Override
-  public void addOreDict() {
-
-  }
-
-  @Override
-  public String getName() {
-
-    return itemName;
-  }
-
-  @Override
-  public String getFullName() {
-
-    return getModId() + ":" + getName();
-  }
-
-  @Override
-  public String getModId() {
-
-    return SilentGems.MODID;
-  }
-
-  @Override
-  public List<ModelResourceLocation> getVariants() {
-
-    return Lists.newArrayList(new ModelResourceLocation(getFullName(), "inventory"));
-  }
-
-  @Override
-  public boolean registerModels() {
-
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
   public String getUnlocalizedName(ItemStack stack) {
 
     return "item.silentgems:" + itemName;
   }
-
-  @Override
-  public Item setUnlocalizedName(String name) {
-
-    this.itemName = name;
-    return super.setUnlocalizedName(name);
-  }
-
 }

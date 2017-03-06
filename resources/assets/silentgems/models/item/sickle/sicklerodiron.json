@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "SilentGems:items/sickle/SickleRodIron"
+    "layer0": "silentgems:items/sickle/sicklerodiron"
   }
 }
 

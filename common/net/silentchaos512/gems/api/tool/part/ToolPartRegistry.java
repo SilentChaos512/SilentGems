@@ -10,6 +10,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import net.silentchaos512.lib.util.StackHelper;
 
 /**
  * Used to register tool parts, and match parts to item stacks.
@@ -58,7 +59,7 @@ public class ToolPartRegistry {
    */
   public static ToolPart fromStack(ItemStack stack) {
 
-    if (stack.isEmpty())
+    if (StackHelper.isEmpty(stack))
       return null;
 
     if (STACK_TO_PART.containsKey(stack))
@@ -72,7 +73,7 @@ public class ToolPartRegistry {
       }
       // Matches ore dictionary key?
       if (!part.craftingOreDictName.isEmpty()) {
-        for (ItemStack stackOre : OreDictionary.getOres(part.craftingOreDictName)) {
+        for (ItemStack stackOre : StackHelper.getOres(part.craftingOreDictName)) {
           if (stackOre.isItemEqual(stack)) {
             STACK_TO_PART.put(stack, part);
             return part;

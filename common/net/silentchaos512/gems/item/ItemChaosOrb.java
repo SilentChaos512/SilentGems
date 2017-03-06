@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 import org.lwjgl.input.Keyboard;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
 import baubles.api.BaubleType;
@@ -30,7 +29,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -49,8 +47,10 @@ import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.gems.util.NBTHelper;
+import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 @Optional.InterfaceList({
     @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesCompat.MOD_ID),
@@ -181,7 +181,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
+  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
     for (Type type : Type.values()) {
       ItemStack empty = new ItemStack(item, 1, type.ordinal());
@@ -204,7 +204,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+  protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
     ItemStack stack = player.getHeldItem(hand);
     if (player.isSneaking()) {
@@ -310,7 +310,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
     // Chat notification.
     String line = SilentGems.localizationHelper.getItemSubText(itemName, "crack",
         stack.getDisplayName());
-    PlayerHelper.addChatMessage(player, line);
+    ChatHelper.sendMessage(player, line);
 
     // Glass breaking sound.
     player.world.playSound(null, player.posX, player.posY, player.posZ,
@@ -323,7 +323,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
     int pieceCount = SilentGems.random.nextInt(99000) + 1000;
     String line = SilentGems.localizationHelper.getItemSubText(itemName, "break",
         stack.getDisplayName(), pieceCount);
-    PlayerHelper.addChatMessage(player, line);
+    ChatHelper.sendMessage(player, line);
 
     // Glass breaking sound.
     player.world.playSound(null, player.posX, player.posY, player.posZ,
@@ -335,7 +335,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
 
   public boolean isItemSendEnabled(ItemStack stack) {
 
-    if (stack.isEmpty() || !stack.hasTagCompound())
+    if (StackHelper.isEmpty(stack) || !stack.hasTagCompound())
       return false;
     if (!stack.getTagCompound().hasKey(NBT_ITEM_SEND))
       return true;
@@ -344,7 +344,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
 
   public void toggleItemSendEnabled(ItemStack stack) {
 
-    if (stack.isEmpty())
+    if (StackHelper.isEmpty(stack))
       return;
     if (!stack.hasTagCompound())
       stack.setTagCompound(new NBTTagCompound());

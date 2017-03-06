@@ -21,7 +21,7 @@ import net.silentchaos512.gems.SilentGems;
 public class FXChaos extends Particle {
 
   public static final ResourceLocation particles = new ResourceLocation(
-      "silentgems:textures/misc/wispLarge.png");
+      "silentgems:textures/misc/wisplarge.png");
 
   private static final Queue<FXChaos> queuedRenders = new ArrayDeque<>();
 

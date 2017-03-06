@@ -25,6 +25,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.block.BlockSL;
 import net.silentchaos512.lib.util.RecipeHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class BlockFluffyBlock extends BlockSL {
 
@@ -79,7 +80,7 @@ public class BlockFluffyBlock extends BlockSL {
   public void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
 
     ItemStack mainHand = event.getEntityPlayer().getHeldItem(EnumHand.MAIN_HAND);
-    if (mainHand != null && mainHand.getItem() instanceof ItemShears) {
+    if (StackHelper.isValid(mainHand) && mainHand.getItem() instanceof ItemShears) {
       int efficiency = EnchantmentHelper.getEfficiencyModifier(event.getEntityPlayer());
 
       float speed = event.getNewSpeed() * 4;

@@ -7,9 +7,10 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.lib.recipe.RecipeBase;
+import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeMultiGemShield extends RecipeBase {
+public class RecipeMultiGemShield implements IRecipeSL {
 
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
@@ -31,13 +32,13 @@ public class RecipeMultiGemShield extends RecipeBase {
 
     // Make sure bottom corners are empty.
     for (ItemStack stack : empty)
-      if (!stack.isEmpty())
-        return ItemStack.EMPTY;
+      if (StackHelper.isValid(stack))
+        return StackHelper.empty();
 
     // Check for wood.
     for (ItemStack stack : wood) {
-      if (stack.isEmpty())
-        return ItemStack.EMPTY;
+      if (StackHelper.isEmpty(stack))
+        return StackHelper.empty();
 
       boolean isWood = false;
       for (int id : OreDictionary.getOreIDs(stack)) {
@@ -48,19 +49,19 @@ public class RecipeMultiGemShield extends RecipeBase {
       }
 
       if (!isWood)
-        return ItemStack.EMPTY;
+        return StackHelper.empty();
     }
 
     // Check parts (gems)
     ToolPart[] parts = new ToolPart[3];
     int i = -1;
     for (ItemStack stack : materials) {
-      if (stack.isEmpty())
-        return ItemStack.EMPTY;
+      if (StackHelper.isEmpty(stack))
+        return StackHelper.empty();
 
       ToolPart part = ToolPartRegistry.fromStack(stack);
       if (part == null || part.isBlacklisted(stack))
-        return ItemStack.EMPTY;
+        return StackHelper.empty();
       parts[++i] = part;
     }
 
@@ -68,14 +69,14 @@ public class RecipeMultiGemShield extends RecipeBase {
     EnumMaterialTier targetTier = parts[0].getTier();
     for (ToolPart part : parts)
       if (part.getTier() != targetTier)
-        return ItemStack.EMPTY;
+        return StackHelper.empty();
 
     // Check rod and make sure tier matches.
-    if (rod.isEmpty())
-      return ItemStack.EMPTY;
+    if (StackHelper.isEmpty(rod))
+      return StackHelper.empty();
     ToolPart partRod = ToolPartRegistry.fromStack(rod);
     if (partRod == null || !partRod.validForToolOfTier(targetTier))
-      return ItemStack.EMPTY;
+      return StackHelper.empty();
 
     // Recipe correct. Make the shield.
     return ModItems.shield.constructTool(rod, materials);

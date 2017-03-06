@@ -48,7 +48,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   }
 
   public static final String NBT_MODEL_INDEX = "SGModel";
-  public static final String SMART_MODEL_NAME = SilentGems.MODID + ":Tool";
+  public static final String SMART_MODEL_NAME = SilentGems.RESOURCE_PREFIX.toLowerCase()+ "tool";
   public static final ModelResourceLocation SMART_MODEL = new ModelResourceLocation(
       SMART_MODEL_NAME, "inventory");
 
@@ -407,19 +407,20 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
     buildModelSet();
     List ret = Lists.newArrayList(modelSet);
+    String prefix = SilentGems.RESOURCE_PREFIX.toLowerCase();
 
     // Error models
-    modelError = new ModelResourceLocation(SilentGems.MODID + ":Error", "inventory");
+    modelError = new ModelResourceLocation(prefix + "error", "inventory");
     ret.add(modelError);
-    ret.add(new ModelResourceLocation(SilentGems.MODID + ":sword/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MODID + ":katana/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MODID + ":scepter/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MODID + ":tomahawk/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MODID + ":pickaxe/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MODID + ":shovel/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MODID + ":axe/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MODID + ":hoe/_error", "inventory"));
-    ret.add(new ModelResourceLocation(SilentGems.MODID + ":sickle/_error", "inventory"));
+    ret.add(new ModelResourceLocation(prefix + "sword/_error", "inventory"));
+    ret.add(new ModelResourceLocation(prefix + "katana/_error", "inventory"));
+    ret.add(new ModelResourceLocation(prefix + "scepter/_error", "inventory"));
+    ret.add(new ModelResourceLocation(prefix + "tomahawk/_error", "inventory"));
+    ret.add(new ModelResourceLocation(prefix + "pickaxe/_error", "inventory"));
+    ret.add(new ModelResourceLocation(prefix + "shovel/_error", "inventory"));
+    ret.add(new ModelResourceLocation(prefix + "axe/_error", "inventory"));
+    ret.add(new ModelResourceLocation(prefix + "hoe/_error", "inventory"));
+    ret.add(new ModelResourceLocation(prefix + "sickle/_error", "inventory"));
 
     return ret;
   }
@@ -437,27 +438,27 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       mesher.register(this, index++, model);
     }
 
-    // Error models
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MODID + ":Error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MODID + ":sword/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MODID + ":katana/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MODID + ":scepter/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MODID + ":tomahawk/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MODID + ":pickaxe/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MODID + ":shovel/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MODID + ":axe/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MODID + ":hoe/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.MODID + ":sickle/_error", "inventory"));
+    // Error models TODO: Why is this here?
+//    mesher.register(this, index++,
+//        new ModelResourceLocation(SilentGems.MODID + ":Error", "inventory"));
+//    mesher.register(this, index++,
+//        new ModelResourceLocation(SilentGems.MODID + ":sword/_error", "inventory"));
+//    mesher.register(this, index++,
+//        new ModelResourceLocation(SilentGems.MODID + ":katana/_error", "inventory"));
+//    mesher.register(this, index++,
+//        new ModelResourceLocation(SilentGems.MODID + ":scepter/_error", "inventory"));
+//    mesher.register(this, index++,
+//        new ModelResourceLocation(SilentGems.MODID + ":tomahawk/_error", "inventory"));
+//    mesher.register(this, index++,
+//        new ModelResourceLocation(SilentGems.MODID + ":pickaxe/_error", "inventory"));
+//    mesher.register(this, index++,
+//        new ModelResourceLocation(SilentGems.MODID + ":shovel/_error", "inventory"));
+//    mesher.register(this, index++,
+//        new ModelResourceLocation(SilentGems.MODID + ":axe/_error", "inventory"));
+//    mesher.register(this, index++,
+//        new ModelResourceLocation(SilentGems.MODID + ":hoe/_error", "inventory"));
+//    mesher.register(this, index++,
+//        new ModelResourceLocation(SilentGems.MODID + ":sickle/_error", "inventory"));
 
     return true;
   }

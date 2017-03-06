@@ -1,8 +1,8 @@
 {
     "ambientocclusion": false,
     "textures": {
-        "particle": "SilentGems:blocks/ChaosFlowerPot",
-        "flowerpot": "SilentGems:blocks/ChaosFlowerPot",
+        "particle": "silentgems:blocks/chaosflowerpot",
+        "flowerpot": "silentgems:blocks/chaosflowerpot",
         "dirt": "blocks/dirt"
     },
     "elements": [

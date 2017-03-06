@@ -1,5 +1,5 @@
 {
-  "parent": "SilentGems:block/MaterialGrader",
+  "parent": "silentgems:block/materialgrader",
   "display": {
     "gui": {
       "rotation": [ 30, 315, 0 ],

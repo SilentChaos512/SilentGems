@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "SilentGems:items/hoe/_error"
+    "layer0": "silentgems:items/hoe/_error"
   }
 }
 
