@@ -31,9 +31,9 @@ public class ItemDyeSG extends ItemSL {
   @Override
   public List<ModelResourceLocation> getVariants() {
 
-    String prefix = SilentGems.MODID + ":";
-    ModelResourceLocation black = new ModelResourceLocation(prefix + "DyeBlack", "inventory");
-    ModelResourceLocation blue = new ModelResourceLocation(prefix + "DyeBlue", "inventory");
+    String prefix = SilentGems.RESOURCE_PREFIX + "dye";
+    ModelResourceLocation black = new ModelResourceLocation(prefix + "black", "inventory");
+    ModelResourceLocation blue = new ModelResourceLocation(prefix + "blue", "inventory");
     return Lists.newArrayList(black, null, null, null, blue);
   }
 

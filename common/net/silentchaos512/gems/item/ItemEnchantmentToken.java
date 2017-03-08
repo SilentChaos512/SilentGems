@@ -567,7 +567,7 @@ public class ItemEnchantmentToken extends ItemSL {
   public List<ModelResourceLocation> getVariants() {
 
     List<ModelResourceLocation> models = Lists.newArrayList();
-    models.add(new ModelResourceLocation(getFullName(), "inventory"));
+    models.add(new ModelResourceLocation(getFullName().toLowerCase(), "inventory"));
     for (String type : MODEL_TYPES) {
       String name = (getFullName() + "_" + type).toLowerCase();
       models.add(new ModelResourceLocation(name, "inventory"));

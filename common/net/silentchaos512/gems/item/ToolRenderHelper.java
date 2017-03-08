@@ -48,7 +48,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   }
 
   public static final String NBT_MODEL_INDEX = "SGModel";
-  public static final String SMART_MODEL_NAME = SilentGems.RESOURCE_PREFIX.toLowerCase()+ "tool";
+  public static final String SMART_MODEL_NAME = SilentGems.RESOURCE_PREFIX.toLowerCase() + "tool";
   public static final ModelResourceLocation SMART_MODEL = new ModelResourceLocation(
       SMART_MODEL_NAME, "inventory");
 
@@ -62,6 +62,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
   public ModelResourceLocation modelBlank;
   public ModelResourceLocation modelError;
+  public ModelResourceLocation modelGooglyEyes;
 
   @Override
   public void addInformation(ItemStack tool, EntityPlayer player, List list, boolean advanced) {
@@ -291,9 +292,9 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     // Bow "arrow" models
     arrowModels = new ModelResourceLocation[8];
     for (int i = 0; i < 8; ++i) {
-      String tier = i < 4 ? "Regular" : "Super";
+      String tier = i < 4 ? "regular" : "super";
       ModelResourceLocation model = new ModelResourceLocation(
-          SilentGems.MODID + ":bow/BowArrow" + tier + (i & 3));
+          SilentGems.RESOURCE_PREFIX + "bow/bowarrow" + tier + (i & 3));
       if (model != null)
         set.add(model);
       arrowModels[i] = model;
@@ -409,7 +410,9 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     List ret = Lists.newArrayList(modelSet);
     String prefix = SilentGems.RESOURCE_PREFIX.toLowerCase();
 
-    // Error models
+    // Extra models
+    modelGooglyEyes = new ModelResourceLocation(prefix + "googlyeyes", "inventory");
+    ret.add(modelGooglyEyes);
     modelError = new ModelResourceLocation(prefix + "error", "inventory");
     ret.add(modelError);
     ret.add(new ModelResourceLocation(prefix + "sword/_error", "inventory"));
@@ -432,33 +435,37 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     int index = 0;
 
     buildModelSet();
-    ModelLoader.registerItemVariants(this, models);
+    List<ModelResourceLocation> variants = getVariants();
+    ModelLoader.registerItemVariants(this,
+        variants.toArray(new ModelResourceLocation[variants.size()]));
 
     for (ModelResourceLocation model : modelSet) {
       mesher.register(this, index++, model);
     }
 
-    // Error models TODO: Why is this here?
-//    mesher.register(this, index++,
-//        new ModelResourceLocation(SilentGems.MODID + ":Error", "inventory"));
-//    mesher.register(this, index++,
-//        new ModelResourceLocation(SilentGems.MODID + ":sword/_error", "inventory"));
-//    mesher.register(this, index++,
-//        new ModelResourceLocation(SilentGems.MODID + ":katana/_error", "inventory"));
-//    mesher.register(this, index++,
-//        new ModelResourceLocation(SilentGems.MODID + ":scepter/_error", "inventory"));
-//    mesher.register(this, index++,
-//        new ModelResourceLocation(SilentGems.MODID + ":tomahawk/_error", "inventory"));
-//    mesher.register(this, index++,
-//        new ModelResourceLocation(SilentGems.MODID + ":pickaxe/_error", "inventory"));
-//    mesher.register(this, index++,
-//        new ModelResourceLocation(SilentGems.MODID + ":shovel/_error", "inventory"));
-//    mesher.register(this, index++,
-//        new ModelResourceLocation(SilentGems.MODID + ":axe/_error", "inventory"));
-//    mesher.register(this, index++,
-//        new ModelResourceLocation(SilentGems.MODID + ":hoe/_error", "inventory"));
-//    mesher.register(this, index++,
-//        new ModelResourceLocation(SilentGems.MODID + ":sickle/_error", "inventory"));
+    // Extra models
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "googlyeyes", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "sword/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "katana/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "scepter/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "tomahawk/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "pickaxe/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "shovel/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "axe/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "hoe/_error", "inventory"));
+    mesher.register(this, index++,
+        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "sickle/_error", "inventory"));
 
     return true;
   }

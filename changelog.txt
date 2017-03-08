@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
-2.2.10
+2.3.0
+Cross compatibility build
 
 2.2.9
 Fixed: A Guide-API crash (requires Guide-API 2.1.0-49)

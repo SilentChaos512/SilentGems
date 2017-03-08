@@ -150,7 +150,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
 
     List<ModelResourceLocation> models = Lists.newArrayList();
     for (Type orbType : Type.values()) {
-      String name = getFullName() + orbType.ordinal();
+      String name = (getFullName() + orbType.ordinal()).toLowerCase();
       models.add(new ModelResourceLocation(name, "inventory"));
       for (int i = 1; i < orbType.crackStages; ++i) {
         models.add(new ModelResourceLocation(name + "_" + i, "inventory"));

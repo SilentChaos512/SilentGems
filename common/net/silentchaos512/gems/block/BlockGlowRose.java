@@ -145,7 +145,9 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
   @Override
   public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
 
-    getSubBlocks(item, tab, list);
+    for (int i = 0; i < 16; ++i) {
+      list.add(new ItemStack(item, 1, i));
+    }
   }
 
   @Override

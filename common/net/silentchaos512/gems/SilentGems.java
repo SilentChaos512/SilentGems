@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.event.FMLMissingMappingsEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -35,6 +36,7 @@ import net.silentchaos512.gems.recipe.ModRecipes;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.gems.world.GemsWorldGenerator;
 import net.silentchaos512.lib.SilentLib;
+import net.silentchaos512.lib.registry.MC10IdRemapper;
 import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.LogHelper;
@@ -155,5 +157,13 @@ public class SilentGems {
 //      Potion pot = Potion.REGISTRY.getObject(resource);
 //      SilentGems.logHelper.debug(resource, pot.getName());
 //    }
+  }
+
+  @EventHandler
+  public void onMissingMapping(FMLMissingMappingsEvent event) {
+
+    for (FMLMissingMappingsEvent.MissingMapping mismap : event.get()) {
+      MC10IdRemapper.remap(mismap);
+    }
   }
 }

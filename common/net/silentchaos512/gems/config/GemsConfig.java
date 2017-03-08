@@ -12,6 +12,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
 import net.silentchaos512.gems.lib.module.ModuleEntityRandomEquipment;
 import net.silentchaos512.gems.lib.module.ModuleHolidayCheer;
@@ -418,5 +419,6 @@ public class GemsConfig extends AdaptiveConfig {
     ModuleCoffee.loadConfig(config);
     ModuleEntityRandomEquipment.loadConfig(config);
     ModuleHolidayCheer.instance.loadConfig(config);
+    ModuleAprilTricks.instance.loadConfig(config);
   }
 }

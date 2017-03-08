@@ -13,11 +13,11 @@ public class ModelPylon {
     public ModelPylon()
     {
         //loading the model
-        OBJModel model = ModelHelper.loadModel("ChaosPylon");
+        OBJModel model = ModelHelper.loadModel("chaospylon");
 
         //apply textures and orient correctly
-        IModel pylonPassive = ModelHelper.retexture(model,"#ChaosPylon","ChaosPylonPassive");
-        IModel pylonBurner = ModelHelper.retexture(model,"#ChaosPylon","ChaosPylonBurner");
+        IModel pylonPassive = ModelHelper.retexture(model,"#chaospylon","chaospylonpassive");
+        IModel pylonBurner = ModelHelper.retexture(model,"#chaospylon","chaospylonburner");
 
         //"turn on" the models
         pylonPassiveModel = ModelHelper.bake(pylonPassive);

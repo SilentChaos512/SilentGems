@@ -306,7 +306,8 @@ public class ItemFoodSG extends ItemFoodSL {
 
     List<ModelResourceLocation> models = Lists.newArrayList();
     for (int i = 0; i < NAMES.length; ++i) {
-      models.add(new ModelResourceLocation(SilentGems.MODID + ":" + NAMES[i], "inventory"));
+      String name = (SilentGems.RESOURCE_PREFIX + NAMES[i]).toLowerCase();
+      models.add(new ModelResourceLocation(name, "inventory"));
     }
     return models;
   }

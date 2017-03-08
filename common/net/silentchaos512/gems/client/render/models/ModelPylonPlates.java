@@ -11,10 +11,10 @@ public class ModelPylonPlates {
 
   public ModelPylonPlates() {
     // load
-    OBJModel model = ModelHelper.loadModel("ChaosPylonPlates");
+    OBJModel model = ModelHelper.loadModel("chaospylonplates");
     // retexture
-    IModel pylonPlatesPassive = ModelHelper.retexture(model, "#skin.001", "ChaosPylonPassive");
-    IModel pylonPlatesBurner = ModelHelper.retexture(model, "#skin.001", "ChaosPylonBurner");
+    IModel pylonPlatesPassive = ModelHelper.retexture(model, "#skin.001", "chaospylonpassive");
+    IModel pylonPlatesBurner = ModelHelper.retexture(model, "#skin.001", "chaospylonburner");
     // activate
     pylonPlatesPassiveModel = ModelHelper.bake(pylonPlatesPassive);
     pylonPlatesBurnerModel = ModelHelper.bake(pylonPlatesBurner);

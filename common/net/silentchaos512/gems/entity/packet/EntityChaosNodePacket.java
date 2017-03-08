@@ -7,9 +7,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.MoverType;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -17,6 +15,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.lib.util.Color;
+import net.silentchaos512.lib.util.EntityHelper;
 
 public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSpawnData {
 
@@ -96,7 +95,7 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
     this.prevRotationPitch = this.rotationPitch;
     this.prevRotationYaw = this.rotationYaw;
 
-    move(MoverType.SELF, motionX, motionY, motionZ);
+    EntityHelper.moveSelf(this, motionX, motionY, motionZ);
 
     // Collision with target?
     // TODO: Allow collision with others?

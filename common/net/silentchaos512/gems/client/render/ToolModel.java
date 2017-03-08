@@ -31,6 +31,7 @@ import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
+import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LogHelper;
@@ -80,20 +81,23 @@ public class ToolModel implements IPerspectiveAwareModel {
     // Invalid tools models.
     if (ToolHelper.getMaxDamage(tool) <= 0 && tool.getItem() instanceof IRegistryObject) {
       String name = ((IRegistryObject) tool.getItem()).getName();
-      location = new ModelResourceLocation(SilentGems.MODID + ":" + name.toLowerCase() + "/_error", "inventory");
+      location = new ModelResourceLocation(SilentGems.MODID + ":" + name.toLowerCase() + "/_error",
+          "inventory");
       model = modelManager.getModel(location);
       if (model != null)
         quads.addAll(model.getQuads(state, side, rand));
 
       if (isGui)
-        quads.addAll(modelManager.getModel(ToolRenderHelper.getInstance().modelError).getQuads(state, side, rand));
+        quads.addAll(modelManager.getModel(ToolRenderHelper.getInstance().modelError)
+            .getQuads(state, side, rand));
 
       return quads;
     }
 
     for (EnumPartPosition partPos : EnumPartPosition.values()) {
       if (isBroken) {
-        if ((partPos == EnumPartPosition.HEAD_LEFT && item != ModItems.sword && item != ModItems.bow)
+        if ((partPos == EnumPartPosition.HEAD_LEFT && item != ModItems.sword
+            && item != ModItems.bow)
             || (partPos == EnumPartPosition.HEAD_MIDDLE && item != ModItems.bow)
             || (partPos == EnumPartPosition.HEAD_RIGHT && item != ModItems.bow)
             || partPos == EnumPartPosition.TIP) {
@@ -120,6 +124,11 @@ public class ToolModel implements IPerspectiveAwareModel {
           quads.addAll(model.getQuads(state, side, rand));
         }
       }
+    }
+
+    if (ModuleAprilTricks.instance.moduleEnabled && ModuleAprilTricks.instance.isRightDay()) {
+      model = modelManager.getModel(ToolRenderHelper.getInstance().modelGooglyEyes);
+      quads.addAll(model.getQuads(state, side, rand));
     }
 
     return quads;
@@ -238,8 +247,7 @@ public class ToolModel implements IPerspectiveAwareModel {
       if (cameraTransformType != TransformType.GUI) {
         matrix.setScale(matrix.getScale() * 1.3f);
       }
-    }
-    else if (tool != null && tool.getItem() == ModItems.scepter) {
+    } else if (tool != null && tool.getItem() == ModItems.scepter) {
       if (cameraTransformType != TransformType.GUI) {
         matrix.setScale(matrix.getScale() * 1.2f);
       }
