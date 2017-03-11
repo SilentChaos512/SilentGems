@@ -177,7 +177,7 @@ public class GemsCommonEvents {
 
     ItemStack entityStack = event.getItem().getEntityItem();
     if (entityStack.getItem() instanceof ItemBlock) {
-      for (ItemStack stack : event.getEntityPlayer().inventory.mainInventory) {
+      for (ItemStack stack : PlayerHelper.getNonEmptyStacks(event.getEntityPlayer())) {
         if (stack.getItem() instanceof ItemBlockPlacer) {
           ItemBlockPlacer itemPlacer = (ItemBlockPlacer) stack.getItem();
           IBlockState state = ((ItemBlock) entityStack.getItem()).block
