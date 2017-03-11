@@ -144,8 +144,9 @@ public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject 
   public List<ModelResourceLocation> getVariants() {
 
     List<ModelResourceLocation> list = Lists.newArrayList();
+    String name = getFullName().toLowerCase();
     for (int i = 0; i < 4; ++i) {
-      list.add(new ModelResourceLocation(getFullName() + i, "inventory"));
+      list.add(new ModelResourceLocation(name + i, "inventory"));
     }
     return list;
   }

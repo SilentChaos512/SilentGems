@@ -93,7 +93,7 @@ public class BlockGemSubtypes extends BlockSL {
     List list = Lists.newArrayList();
     for (int i = 0; i < 16; ++i) {
       EnumGem gem = EnumGem.values()[i];
-      list.add(new ModelResourceLocation(getFullName(), "gem=" + gem.getName()));
+      list.add(new ModelResourceLocation(getFullName().toLowerCase(), "gem=" + gem.getName()));
     }
     return list;
   }

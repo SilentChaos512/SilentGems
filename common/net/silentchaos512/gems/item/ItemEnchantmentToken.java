@@ -33,6 +33,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -567,9 +568,10 @@ public class ItemEnchantmentToken extends ItemSL {
   public List<ModelResourceLocation> getVariants() {
 
     List<ModelResourceLocation> models = Lists.newArrayList();
-    models.add(new ModelResourceLocation(getFullName().toLowerCase(), "inventory"));
+    String fullName = getFullName().toLowerCase();
+    models.add(new ModelResourceLocation(fullName, "inventory"));
     for (String type : MODEL_TYPES) {
-      String name = (getFullName() + "_" + type).toLowerCase();
+      String name = fullName + "_" + type.toLowerCase();
       models.add(new ModelResourceLocation(name, "inventory"));
     }
     return models;
@@ -584,7 +586,10 @@ public class ItemEnchantmentToken extends ItemSL {
 
     for (int i = 0; i < list.size(); ++i) {
       model = list.get(i);
-      mesher.register(this, i, list.get(i));
+      if (model != null) {
+        ModelLoader.registerItemVariants(this, model);
+        mesher.register(this, i, model);
+      }
     }
 
     mesher.register(this, BLANK_META, list.get(0));

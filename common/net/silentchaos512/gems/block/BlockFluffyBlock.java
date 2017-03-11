@@ -114,9 +114,10 @@ public class BlockFluffyBlock extends BlockSL {
   public List<ModelResourceLocation> getVariants() {
 
     List list = Lists.newArrayList();
+    String name = getFullName().toLowerCase();
     for (int i = 0; i < 16; ++i) {
       String dyeName = EnumDyeColor.values()[i].getName();
-      list.add(new ModelResourceLocation(getFullName(), "color=" + dyeName));
+      list.add(new ModelResourceLocation(name, "color=" + dyeName));
     }
     return list;
   }

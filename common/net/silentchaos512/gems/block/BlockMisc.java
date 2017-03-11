@@ -113,8 +113,9 @@ public class BlockMisc extends BlockSL implements IFuelHandler {
   public List<ModelResourceLocation> getVariants() {
 
     List<ModelResourceLocation> list = Lists.newArrayList();
+    String name = getFullName().toLowerCase();
     for (Type type : Type.values())
-      list.add(new ModelResourceLocation(getFullName(), "type=" + type.getName()));
+      list.add(new ModelResourceLocation(name, "type=" + type.getName()));
     return list;
   }
 }

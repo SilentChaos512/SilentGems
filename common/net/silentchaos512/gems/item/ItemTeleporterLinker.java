@@ -13,6 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -53,6 +54,7 @@ public class ItemTeleporterLinker extends ItemSL {
 
     ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
     ModelResourceLocation model = new ModelResourceLocation(getFullName().toLowerCase(), "inventory");
+    ModelLoader.registerItemVariants(this, model);
     mesher.register(this, 0, model);
     mesher.register(this, 1, model);
     return true;

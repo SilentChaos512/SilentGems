@@ -69,6 +69,6 @@ public class BlockTeleporterAnchor extends BlockTeleporter {
   @Override
   public List<ModelResourceLocation> getVariants() {
 
-    return Lists.newArrayList(new ModelResourceLocation(getFullName(), "inventory"));
+    return Lists.newArrayList(new ModelResourceLocation(getFullName().toLowerCase(), "inventory"));
   }
 }

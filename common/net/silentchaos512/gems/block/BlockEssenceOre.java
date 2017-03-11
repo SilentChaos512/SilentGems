@@ -95,7 +95,7 @@ public class BlockEssenceOre extends BlockSL {
 
     List<ModelResourceLocation> list = Lists.newArrayList();
     for (Type type : Type.values())
-      list.add(new ModelResourceLocation(getFullName(), "gem=" + type.getName()));
+      list.add(new ModelResourceLocation(getFullName().toLowerCase(), "gem=" + type.getName()));
     return list;
   }
 }

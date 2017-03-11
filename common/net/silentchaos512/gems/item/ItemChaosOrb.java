@@ -165,7 +165,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
     ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 
     for (Type orbType : Type.values()) {
-      String name = getFullName() + orbType.ordinal();
+      String name = getFullName().toLowerCase() + orbType.ordinal();
       ModelResourceLocation model = new ModelResourceLocation(name, "inventory");
       ModelLoader.registerItemVariants(this, model);
       mesher.register(this, orbType.ordinal(), model);

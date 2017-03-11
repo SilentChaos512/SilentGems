@@ -122,8 +122,9 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
   public List<ModelResourceLocation> getVariants() {
 
     List<ModelResourceLocation> list = Lists.newArrayList();
+    String name = getFullName().toLowerCase();
     for (int i = 0; i < 16; ++i) {
-      list.add(new ModelResourceLocation(getFullName() + i, "inventory"));
+      list.add(new ModelResourceLocation(name + i, "inventory"));
     }
     return list;
   }
@@ -134,8 +135,8 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
     return false;
   }
 
-  // 1.10.2 compat
-  public void getSubBlocks(Item item, CreativeTabs tab, List<ItemStack> list) {
+  // 1.10.2 compat - getSubBlocks
+  public void func_149666_a(Item item, CreativeTabs tab, List<ItemStack> list) {
 
     for (int i = 0; i < 16; ++i) {
       list.add(new ItemStack(item, 1, i));
