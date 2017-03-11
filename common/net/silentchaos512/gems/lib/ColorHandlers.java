@@ -112,7 +112,13 @@ public class ColorHandlers {
       @Override
       public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 
-        return tintIndex == 1 ? ModItems.chaosRune.getBuff(stack).getColor() : 0xFFFFFF;
+        if (tintIndex == 1) {
+          ChaosBuff buff = ModItems.chaosRune.getBuff(stack);
+          if (buff != null) {
+            return buff.getColor();
+          }
+        }
+        return 0xFFFFFF;
       }
     }, ModItems.chaosRune);
 
