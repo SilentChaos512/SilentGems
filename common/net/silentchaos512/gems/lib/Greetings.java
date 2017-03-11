@@ -22,7 +22,7 @@ public class Greetings {
   public static final String[] LINES = new String[] {
       // Alpha
 //      "Things may change, break, and/or dance to Macarena.",
-      "Catgirls not included. D:",
+//      "Catgirls not included. D:",
       "The flowers probably won't kill you.",
 //      "That texture count...",
       "Try the donuts!",
@@ -32,14 +32,18 @@ public class Greetings {
 //      "Bunny bowling. No regrets."
 
       // Beta
-      "Still dancing to Macarena!",
-      "Your free Windows 10 upgrade is ready!",
+//      "Still dancing to Macarena!",
+//      "Your free Windows 10 upgrade is ready!",
       "Drowning in [slightly fewer] JSON files...",
       "Download only from CurseForge!",
 
       // XCompat
       "Rabbit poop coffee!",
       "Now works on Minecraft 1.10.2! Because other modders are SOOO slow to update...",
+      "It stares into your soul.",
+      "Pot now included... flower pot, that is.",
+      "Did you know Chaos Gems are finally back?",
+      "Also try Extra Parts!",
   };
   // @formatter:on
 
