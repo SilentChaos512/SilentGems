@@ -40,13 +40,4 @@ public interface ITool {
 
     return new Material[] {};
   }
-
-  // ==============================
-  // Cross Compatibility (MC 10/11)
-  // ==============================
-
-  public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list);
-
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ);
 }

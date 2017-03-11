@@ -220,8 +220,8 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   // Cross Compatibility (MC 10/11)
   // ==============================
 
-  @Override
-  public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+  // getSubItems
+  public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
 
     if (subItems == null) {
       subItems = ToolHelper.getSubItems(item, 4);
@@ -229,8 +229,8 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
     list.addAll(subItems);
   }
 
-  @Override
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+  // onItemUse
+  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
       EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
     return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
