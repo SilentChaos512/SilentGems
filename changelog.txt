@@ -2,6 +2,9 @@ Silent's Gems - Changelog
 
 2.3.1
 Fixed: [1.10.2] Tools not getting their sub items (error tool showing in JEI, etc.)
+Fixed: [1.10.2] Crash on tool creation.
+Fixed: [1.10.2] Most missing block and item models.
+Fixed: [1.10.2] Teleporters not functioning.
 
 2.3.0
 Cross compatibility build
