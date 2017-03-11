@@ -37,6 +37,7 @@ import net.silentchaos512.gems.client.gui.GuiCrosshairs;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.item.ItemChaosGem;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.TooltipHelper;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
@@ -55,6 +56,8 @@ public class GemsClientEvents {
   public void onRenderGameOverlay(RenderGameOverlayEvent event) {
 
     ModItems.teleporterLinker.renderGameOverlay(event);
+    if (event.getType() == ElementType.TEXT)
+      ItemChaosGem.Gui.renderGameOverlay(Minecraft.getMinecraft());
     renderCrosshairs(event);
     renderArmorExtra(event);
     renderAmmoCount(event);
@@ -261,7 +264,7 @@ public class GemsClientEvents {
     }
   }
 
-  public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width,
+  public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width,
       int height) {
 
     float f = 0.00390625F;

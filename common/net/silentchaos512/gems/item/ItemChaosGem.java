@@ -14,9 +14,14 @@ import baubles.api.IBauble;
 import baubles.api.render.IRenderBauble;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -38,16 +43,18 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.compat.BaublesCompat;
+import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.util.LocalizationHelper;
+import net.silentchaos512.lib.util.PlayerHelper;
 import net.silentchaos512.lib.util.RecipeHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 @Optional.InterfaceList({
-  @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesCompat.MOD_ID),
-  @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = BaublesCompat.MOD_ID) })
+    @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesCompat.MOD_ID),
+    @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = BaublesCompat.MOD_ID) })
 public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBauble {
 
   public static final String NBT_ENABLED = "enabled";
@@ -151,7 +158,8 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
 
   public Map<ChaosBuff, Integer> getBuffs(ItemStack stack) {
 
-    if (StackHelper.isEmpty(stack) || !stack.hasTagCompound() || !stack.getTagCompound().hasKey(NBT_BUFF_LIST))
+    if (StackHelper.isEmpty(stack) || !stack.hasTagCompound()
+        || !stack.getTagCompound().hasKey(NBT_BUFF_LIST))
       return Maps.newHashMap();
 
     NBTTagList tagList = stack.getTagCompound().getTagList(NBT_BUFF_LIST, 10);
@@ -296,7 +304,8 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
   }
 
   @Override
-  protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+  protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player,
+      EnumHand hand) {
 
     ItemStack stack = player.getHeldItem(hand);
     // Enable/disable
@@ -423,101 +432,118 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
   // = HUD render =
   // ==============
 
-  public static final ResourceLocation TEXTURE_FRAME = new ResourceLocation(SilentGems.MODID,
-      "textures/gui/chaosbarframe.png");
-  public static final ResourceLocation TEXTURE_BAR = new ResourceLocation(SilentGems.MODID,
-      "textures/gui/chaosbar.png");
+  public static final class Gui {
 
-  public static final int BAR_WIDTH = 64;
-  public static final int BAR_HEIGHT = 8;
+    public static final ResourceLocation TEXTURE_FRAME = new ResourceLocation(SilentGems.MODID,
+        "textures/gui/chaosbarframe.png");
+    public static final ResourceLocation TEXTURE_BAR = new ResourceLocation(SilentGems.MODID,
+        "textures/gui/chaosbar.png");
 
-  @SideOnly(Side.CLIENT)
-  public static void renderGameOverlay(Minecraft mc) {
+    public static final int BAR_WIDTH = 40;
+    public static final int BAR_HEIGHT = 8;
 
-    EntityPlayer player = mc.player;
-    List<ItemStack> gems = Lists.newArrayList();
-    ItemChaosGem chaosGem = ModItems.chaosGem;
+    @SideOnly(Side.CLIENT)
+    public static void renderGameOverlay(Minecraft mc) {
 
-    for (ItemStack stack : player.inventory.mainInventory)
-      if (StackHelper.isValid(stack) && stack.getItem() instanceof ItemChaosGem)
-        if (chaosGem.isEnabled(stack) && chaosGem.getTotalChargeDrain(stack, player) > 0)
-          gems.add(stack);
+      EntityPlayer player = mc.player;
+      List<ItemStack> gems = Lists.newArrayList();
+      ItemChaosGem chaosGem = ModItems.chaosGem;
 
-    if (gems.isEmpty())
-      return;
+      List<ItemStack> playerInventory = PlayerHelper.getNonEmptyStacks(player);
+      playerInventory.addAll(BaublesCompat.getBaubles(player, s->s.getItem() instanceof ItemChaosGem));
+      for (ItemStack stack : playerInventory)
+        if (StackHelper.isValid(stack) && stack.getItem() instanceof ItemChaosGem)
+          if (chaosGem.isEnabled(stack) && chaosGem.getTotalChargeDrain(stack, player) > 0)
+            gems.add(stack);
 
-    ScaledResolution res = new ScaledResolution(mc);
+      if (gems.isEmpty())
+        return;
 
-    int current;
-    int max;
-    float storedFraction;
+      ScaledResolution res = new ScaledResolution(mc);
 
-    int posX;
-    int posY;
-    int index = 1;
-    float scale;
+      int current;
+      int max;
+      float storedFraction;
 
-    for (ItemStack gem : gems) {
-      current = chaosGem.getCharge(gem);
-      max = chaosGem.getMaxCharge(gem);
-      storedFraction = (float) current / (float) max;
+      int posX;
+      int posY;
+      int index = 1;
+      float scale;
 
-      // Get bar color
-      float red = 1f;
-      float green = 1f;
-      float blue = 1f;
-      int gemId = gem.getItemDamage();
-      if (gemId >= 0 && gemId < EnumGem.values().length) {
-        int color = EnumGem.values()[gemId].getColor();
-        red = (color >> 16 & 255) / 255f;
-        green = (color >> 8 & 255) / 255f;
-        blue = (color & 255) / 255f;
+      for (ItemStack gem : gems) {
+        current = chaosGem.getCharge(gem);
+        max = chaosGem.getMaxCharge(gem);
+        storedFraction = (float) current / (float) max;
+
+        // Get bar color
+        float red = 1f;
+        float green = 1f;
+        float blue = 1f;
+        int gemId = gem.getItemDamage();
+        if (gemId >= 0 && gemId < EnumGem.values().length) {
+          int color = EnumGem.values()[gemId].getColor();
+          red = (color >> 16 & 255) / 255f;
+          green = (color >> 8 & 255) / 255f;
+          blue = (color & 255) / 255f;
+        }
+
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_BLEND);
+
+        scale = 1f;
+        GL11.glPushMatrix();
+        GL11.glScalef(scale, scale, 1f);
+
+        posX = (int) (res.getScaledWidth() / scale * 0.025f);
+        posY = (int) (res.getScaledHeight() / scale * 0.05f + index * (BAR_HEIGHT + 2));
+
+        // Bar
+        GL11.glColor4f(red, green, blue, 0.5f);
+        mc.renderEngine.bindTexture(TEXTURE_BAR);
+        int barPosWidth = (int) (BAR_WIDTH * storedFraction);
+        int barPosX = posX;
+        int barPosHeight = BAR_HEIGHT;
+        int barPosY = posY;
+        drawRect(barPosX, barPosY, 0, 0, barPosWidth, barPosHeight);
+
+        // Bar frame
+        GL11.glColor3f(1f, 1f, 1f);
+        mc.renderEngine.bindTexture(TEXTURE_FRAME);
+        drawRect(posX, posY, 0, 0, BAR_WIDTH, BAR_HEIGHT);
+
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
+
+        // Render charge level/percentage?
+        GL11.glPushMatrix();
+
+        GL11.glColor3f(1f, 1f, 1f);
+        scale = 0.7f;
+        GL11.glScalef(scale, scale, 1f);
+
+        FontRenderer fontRender = mc.fontRendererObj;
+        String format = "%.2f%%";
+        String str = String.format(format, storedFraction * 100f);
+        posX = (int) (res.getScaledWidth() / scale * 0.025f + 3);
+        posY = (int) (res.getScaledHeight() / scale * 0.05f + index * (BAR_HEIGHT + 2) / scale + 1);
+        fontRender.drawStringWithShadow(str, posX, posY, 0xFFFFFF);
+
+        GL11.glPopMatrix();
+
+        ++index;
       }
+    }
 
-      GL11.glDisable(GL11.GL_LIGHTING);
-      GL11.glEnable(GL11.GL_BLEND);
+    private static void drawRect(float x, float y, float u, float v, float width, float height) {
 
-      scale = 1f;
-      GL11.glPushMatrix();
-      GL11.glScalef(scale, scale, 1f);
-
-      posX = (int) (res.getScaledWidth() / scale / 2 - BAR_WIDTH / 2);
-      posY = (int) (res.getScaledHeight() / scale * 0.05f + index * (BAR_HEIGHT + 2));
-
-      // Bar
-      GL11.glColor4f(red, green, blue, 0.5f);
-      mc.renderEngine.bindTexture(TEXTURE_BAR);
-      float barPosWidth = BAR_WIDTH * storedFraction;
-      float barPosX = posX;
-      float barPosHeight = BAR_HEIGHT;
-      float barPosY = posY;
-      // RenderHelper.drawRect(barPosX, barPosY, 0, 0, barPosWidth, barPosHeight);
-
-      // Bar frame
-      GL11.glColor3f(1f, 1f, 1f);
-      mc.renderEngine.bindTexture(TEXTURE_FRAME);
-      // RenderHelper.drawRect(posX, posY, 0, 0, BAR_WIDTH, BAR_HEIGHT);
-
-      GL11.glEnable(GL11.GL_BLEND);
-      GL11.glPopMatrix();
-
-      // Render charge level/percentage?
-      GL11.glPushMatrix();
-
-      GL11.glColor3f(1f, 1f, 1f);
-      scale = 0.7f;
-      GL11.glScalef(scale, scale, 1f);
-
-      FontRenderer fontRender = mc.fontRendererObj;
-      String format = "%.2f%%";
-      String str = String.format(format, storedFraction * 100f);
-      posX = (int) (res.getScaledWidth() / scale / 2 - fontRender.getStringWidth(str) / 2);
-      posY = (int) (res.getScaledHeight() / scale * 0.05f + index * (BAR_HEIGHT + 2) / scale + 1);
-      fontRender.drawStringWithShadow(str, posX, posY, 0xFFFFFF);
-
-      GL11.glPopMatrix();
-
-      ++index;
+      Tessellator tess = Tessellator.getInstance();
+      VertexBuffer buff = tess.getBuffer();
+      buff.begin(7, DefaultVertexFormats.POSITION_TEX);
+      buff.pos(x, y + height, 0).tex(0, 1).endVertex();
+      buff.pos(x + width, y + height, 0).tex(1, 1).endVertex();
+      buff.pos(x + width, y, 0).tex(1, 0).endVertex();
+      buff.pos(x, y, 0).tex(0, 0).endVertex();
+      tess.draw();
     }
   }
 }
