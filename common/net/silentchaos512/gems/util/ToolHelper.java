@@ -455,7 +455,7 @@ public class ToolHelper {
 
     // If block is in offhand, allow that to place instead.
     ItemStack stackOffHand = player.getHeldItemOffhand();
-    if (stackOffHand.getItem() instanceof ItemBlock) {
+    if (StackHelper.isValid(stackOffHand) && stackOffHand.getItem() instanceof ItemBlock) {
       ItemBlock itemBlock = (ItemBlock) stackOffHand.getItem();
       BlockPos target = pos;
 

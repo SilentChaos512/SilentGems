@@ -17,7 +17,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //}
 
 version = "2.3.1"
-def silentlib_version = "2.0.1"
+def silentlib_version = "2.0.3"
 def buildNum = 0
 group = "net.silentchaos512.gems"
 archivesBaseName = "SilentsGems-1.11.x"
