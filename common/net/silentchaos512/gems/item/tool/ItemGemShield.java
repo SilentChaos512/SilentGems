@@ -286,11 +286,4 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
     }
     list.addAll(subItems);
   }
-
-  // onItemUse
-  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-
-    return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
-  }
 }
