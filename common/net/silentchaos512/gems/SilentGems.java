@@ -1,5 +1,7 @@
 package net.silentchaos512.gems;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -30,6 +32,7 @@ import net.silentchaos512.gems.guide.GuideSilentGems;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
+import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.part.ModParts;
 import net.silentchaos512.gems.recipe.ModRecipes;
@@ -57,8 +60,7 @@ public class SilentGems {
   public static final String VERSION = "@VERSION@";
   public static final String VERSION_SILENTLIB = "SL_VERSION";
   public static final int BUILD_NUM = 0;
-  public static final String DEPENDENCIES = ""//"required-after:forge@[13.19.1.2188,);"
-      + "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
+  public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
       + "after:baubles;before:guideapi;after:enderio;after:enderzoo;after:tconstruct;after:veinminer";
   public static final String ACCEPTED_MC_VERSIONS = "[1.10.2,1.11.2]";
   public static final String RESOURCE_PREFIX = MODID + ":";
@@ -125,7 +127,22 @@ public class SilentGems {
 
     // Register Guide API book?
     if (Loader.isModLoaded("guideapi")) {
-      GuideSilentGems.buildGuide(localizationHelper);
+      // Just catch any crashes for now... *silently curses 1.10.2*
+      try {
+        GuideSilentGems.buildGuide(localizationHelper);
+      } catch (Exception ex) {
+        ex.printStackTrace();
+        // Warn the player of fatal exception.
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        ex.printStackTrace(printWriter);
+        String stackTrace = stringWriter.toString();
+
+        String message = "Failed to register guide book! Sorry about that.";
+        SilentGems.logHelper.warning(message);
+        SilentGems.logHelper.warning(stackTrace);
+        Greetings.addExtraMessage(message);
+      }
     }
 
     // Load TCon compatibility stuff?
@@ -152,11 +169,6 @@ public class SilentGems {
   public void postInit(FMLPostInitializationEvent event) {
 
     proxy.postInit(registry);
-
-//    for (ResourceLocation resource : Potion.REGISTRY.getKeys()) {
-//      Potion pot = Potion.REGISTRY.getObject(resource);
-//      SilentGems.logHelper.debug(resource, pot.getName());
-//    }
   }
 
   @EventHandler
