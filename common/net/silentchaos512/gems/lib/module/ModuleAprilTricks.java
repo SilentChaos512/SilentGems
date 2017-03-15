@@ -22,7 +22,7 @@ public class ModuleAprilTricks {
 
     rightDay = month == Calendar.APRIL &&     // April...
         (date == 1                            // April Fools Day
-            || (date == 11 && year == 2017)); // Yooka-Laylee release date
+            || (date >= 10 && date <= 12 && year == 2017)); // Yooka-Laylee release date April 11
     return rightDay;
   }
 
