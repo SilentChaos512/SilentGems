@@ -63,6 +63,7 @@ import net.silentchaos512.gems.network.message.MessageItemRename;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
+import net.silentchaos512.lib.item.helper.ItemHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
@@ -518,12 +519,7 @@ public class ToolHelper {
           }
 
           int prevSize = StackHelper.getCount(nextStack);
-          // Temporarily move nextStack to the player's offhand to allow it to be used.
-          ItemStack currentOffhand = player.getHeldItemOffhand();
-          player.setHeldItem(EnumHand.OFF_HAND, nextStack);
-          result = item.onItemUse(player, world, pos, EnumHand.OFF_HAND, side, hitX, hitY, hitZ);
-          // Put everything back in its proper place...
-          player.setHeldItem(EnumHand.OFF_HAND, currentOffhand);
+          result = ItemHelper.useItemAsPlayer(nextStack, player, world, pos, side, hitX, hitY, hitZ);
 
           // Don't consume in creative mode?
           if (player.capabilities.isCreativeMode) {
