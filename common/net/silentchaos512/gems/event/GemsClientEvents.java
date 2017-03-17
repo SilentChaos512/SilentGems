@@ -184,7 +184,7 @@ public class GemsClientEvents {
         event.setCanceled(true);
         ToolSkill skill = ToolHelper.getSuperSkill(mainHand);
         int type = skill == SkillAreaMiner.INSTANCE ? 0 : skill == SkillLumberjack.INSTANCE ? 1 : 2;
-        GuiCrosshairs.INSTANCE.renderOverlay(event, type);
+        GuiCrosshairs.INSTANCE.renderOverlay(event, type, skill);
       }
     }
 

@@ -16,6 +16,7 @@ import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.ChatHelper;
 
 public class SkillLumberjack extends ToolSkillDigger {
 
@@ -36,6 +37,12 @@ public class SkillLumberjack extends ToolSkillDigger {
     if (data.chaos >= cost) {
       event.setNewSpeed(event.getNewSpeed() * DIG_SPEED_MULTIPLIER);
     }
+  }
+
+  @Override
+  public int getCost(ItemStack tool, EntityPlayer player, BlockPos pos) {
+
+    return CHAOS_COST;
   }
 
   @Override
@@ -67,10 +74,12 @@ public class SkillLumberjack extends ToolSkillDigger {
 
         // Does player have enough chaos?
         PlayerData data = PlayerDataHandler.get(player);
-        int cost = CHAOS_COST;
+        int cost = getCost(tool, player, pos);
         if (data.chaos >= cost) {
           data.drainChaos(cost);
         } else {
+          String msg = SilentGems.localizationHelper.getLocalizedString("skill", "all.insufficientChaos");
+          ChatHelper.sendStatusMessage(player, msg, true);
           return false;
         }
 

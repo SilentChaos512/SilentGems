@@ -750,6 +750,13 @@ enchantment.silentgems:MagicDamage.desc=Increases damage dealt by magic attacks.
 
 
 
+# Tool Skills
+skill.silentgems:AreaMiner.name=Area Miner
+skill.silentgems:Lumberjack.name=Lumberjack
+skill.silentgems:all.insufficientChaos=Not enough Chaos!
+
+
+
 # Misc
 
 misc.silentgems:ChaosCharge=Chaos: %,d / %,d

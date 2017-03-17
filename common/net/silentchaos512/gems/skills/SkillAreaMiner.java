@@ -22,6 +22,7 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.ChatHelper;
 
 public class SkillAreaMiner extends ToolSkillDigger {
 
@@ -38,6 +39,12 @@ public class SkillAreaMiner extends ToolSkillDigger {
     if (data.chaos >= cost) {
       event.setNewSpeed(event.getNewSpeed() * DIG_SPEED_MULTIPLIER);
     }
+  }
+
+  @Override
+  public int getCost(ItemStack tool, EntityPlayer player, BlockPos pos) {
+
+    return player.capabilities.isCreativeMode ? 0 : CHAOS_COST;
   }
 
   @Override
@@ -64,10 +71,12 @@ public class SkillAreaMiner extends ToolSkillDigger {
 
     // Does player have enough chaos?
     PlayerData data = PlayerDataHandler.get(player);
-    int cost = player.capabilities.isCreativeMode ? 0 : CHAOS_COST;
+    int cost = getCost(tool, player, pos);
     if (data.chaos >= cost) {
       data.drainChaos(cost);
     } else {
+      String msg = SilentGems.localizationHelper.getLocalizedString("skill", "all.insufficientChaos");
+      ChatHelper.sendStatusMessage(player, msg, true);
       return false;
     }
 
