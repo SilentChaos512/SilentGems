@@ -16,6 +16,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
@@ -87,6 +88,11 @@ public class ItemChaosRune extends ItemSL {
     addRecipe(ChaosBuff.WEAKNESS, "feather", 3);
     addRecipe(ChaosBuff.POISON, Items.SPIDER_EYE, 2);
     addRecipe(ChaosBuff.WITHER, new ItemStack(Items.SKULL, 1, 1), 1);
+    if (Loader.isModLoaded("toughasnails")) {
+      addRecipe(ChaosBuff.COLD_RESISTANCE, new ItemStack(Item.getByNameOrId("toughasnails:ice_charge")), 3);
+      addRecipe(ChaosBuff.HEAT_RESISTANCE, new ItemStack(Items.FIRE_CHARGE), 3);
+      addRecipe(ChaosBuff.THIRST, new ItemStack(Item.getByNameOrId("toughasnails:water_bottle")), 3);
+    }
   }
 
   private void addRecipe(ChaosBuff buff, Object obj, int count) {

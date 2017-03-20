@@ -13,6 +13,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.fml.common.Loader;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageSetFlight;
@@ -42,6 +43,10 @@ public class ChaosBuff {
   public static final ChaosBuff LEVITATION;
   public static final ChaosBuff CAPACITY;
   public static final ChaosBuff RECHARGE;
+  // ToughAsNails
+  public static final @Nullable ChaosBuff COLD_RESISTANCE;
+  public static final @Nullable ChaosBuff HEAT_RESISTANCE;
+  public static final @Nullable ChaosBuff THIRST;
 
   static final Map<String, ChaosBuff> buffMap = new LinkedHashMap<>();
 
@@ -117,6 +122,19 @@ public class ChaosBuff {
     WEAKNESS        = new ChaosBuff(prefix + "weakness",        3,  -2,   5, dur, MobEffects.WEAKNESS);
     POISON          = new ChaosBuff(prefix + "poison",          3,  -2,   5, dur, MobEffects.POISON);
     WITHER          = new ChaosBuff(prefix + "wither",          2,  -3,   5, dur, MobEffects.WITHER);
+
+    if (Loader.isModLoaded("toughasnails")) {
+      Potion coldResist = Potion.getPotionFromResourceLocation("toughasnails:cold_resistance");
+      Potion heatResist = Potion.getPotionFromResourceLocation("toughasnails:heat_resistance");
+      Potion thirst = Potion.getPotionFromResourceLocation("toughasnails:thirst");
+      COLD_RESISTANCE = new ChaosBuff("toughasnails:cold_resistance", 1,  8, 50, dur, coldResist);
+      HEAT_RESISTANCE = new ChaosBuff("toughasnails:heat_resistance", 1,  8, 50, dur, heatResist);
+      THIRST          = new ChaosBuff("toughasnails:thirst",          1, -4,  5, dur, thirst);
+    } else {
+      COLD_RESISTANCE = null;
+      HEAT_RESISTANCE = null;
+      THIRST = null;
+    }
     // @formatter:on
   }
 
@@ -130,18 +148,29 @@ public class ChaosBuff {
     return buffMap.values();
   }
 
+  // Save reference to these potion effects, because heat/cold resistance remove them.
+  static final Potion hyperthermia = Potion.getPotionFromResourceLocation("toughasnails:hyperthermia");
+  static final Potion hypothermia = Potion.getPotionFromResourceLocation("toughasnails:hypothermia");
+
   public void applyToPlayer(EntityPlayer player, int level, ItemStack stack) {
 
     if (potion != null) {
       int duration = getApplyDuration(player, level);
-      if (duration > 0)
+      if (duration > 0) {
         player.addPotionEffect(new PotionEffect(potion, duration, level - 1, false, false));
+
+        // (Tough As Nails) Remove hyper/hypothermia when using heat/cold resistance.
+        if (this == HEAT_RESISTANCE)
+          player.removeActivePotionEffect(hyperthermia);
+        else if (this == COLD_RESISTANCE)
+          player.removeActivePotionEffect(hypothermia);
+      }
     }
 
     if (this == FLIGHT) {
       player.capabilities.allowFlying = true;
       if (!player.world.isRemote && player.ticksExisted % 20 == 0) {
-        NetworkHandler.INSTANCE.sendTo(new MessageSetFlight(true), (EntityPlayerMP) player); 
+        NetworkHandler.INSTANCE.sendTo(new MessageSetFlight(true), (EntityPlayerMP) player);
       }
     }
   }
