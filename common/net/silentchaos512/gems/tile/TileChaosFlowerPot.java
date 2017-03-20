@@ -211,7 +211,7 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
 
     SilentGems.logHelper.debug(tags.hasKey("flower"));
     if (tags.hasKey("flower"))
-      setFlowerItemStack(new ItemStack(tags.getCompoundTag("flower")));
+      setFlowerItemStack(StackHelper.loadFromNBT(tags.getCompoundTag("flower")));
     else
       setFlowerItemStack(StackHelper.empty());
   }

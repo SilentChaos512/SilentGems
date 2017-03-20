@@ -214,7 +214,7 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
 
     if (tags.hasKey("InputItem"))
       setInventorySlotContents(SLOT_INPUT,
-          new ItemStack(tags.getCompoundTag("InputItem")));
+          StackHelper.loadFromNBT(tags.getCompoundTag("InputItem")));
     else
       setInventorySlotContents(SLOT_INPUT, StackHelper.empty());
   }

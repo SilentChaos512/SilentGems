@@ -287,7 +287,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
         // Load part stacks.
         do {
           NBTTagCompound tag = compound.getCompoundTag(key);
-          parts.add(new ItemStack(tag));
+          parts.add(StackHelper.loadFromNBT(tag));
           key = "part" + ++i;
         } while (compound.hasKey(key));
 
