@@ -67,6 +67,7 @@ import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
+import net.silentchaos512.lib.util.WorldHelper;
 
 public class ToolHelper {
 
@@ -463,8 +464,8 @@ public class ToolHelper {
       if (!itemBlock.getBlock().isReplaceable(world, pos))
         target = pos.offset(side);
 
-      if (player.canPlayerEdit(target, side, stackOffHand)
-          && world.mayPlace(itemBlock.block, target, false, side, player))
+      if (player.canPlayerEdit(target, side, stackOffHand) && WorldHelper.mayPlace(world,
+          itemBlock.block, target, false, side, player, stackOffHand))
         return EnumActionResult.PASS;
     }
 
