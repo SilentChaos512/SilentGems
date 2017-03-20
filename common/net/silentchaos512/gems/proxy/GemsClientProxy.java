@@ -57,8 +57,12 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
     registerRenderers();
     registerColorHandlers();
     EntityChaosNodePacket.initColors();
-    if (Loader.isModLoaded("guideapi"))
-      GuideSilentGems.registerGuideBookModel();
+    if (Loader.isModLoaded("guideapi")) {
+      try {
+        GuideSilentGems.registerGuideBookModel();
+      } catch (NoClassDefFoundError ex) {
+      }
+    }
   }
 
   @Override

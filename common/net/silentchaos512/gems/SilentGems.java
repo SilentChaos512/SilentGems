@@ -5,10 +5,10 @@ import java.io.StringWriter;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -130,7 +130,7 @@ public class SilentGems {
       // Just catch any crashes for now... *silently curses 1.10.2*
       try {
         GuideSilentGems.buildGuide(localizationHelper);
-      } catch (Exception ex) {
+      } catch (NoClassDefFoundError ex) {
         ex.printStackTrace();
         // Warn the player of fatal exception.
         StringWriter stringWriter = new StringWriter();
