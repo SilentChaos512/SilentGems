@@ -1,7 +1,14 @@
 Silent's Gems - Changelog
 
+2.3.3
+Fixed: [1.10.2] Crash when using hoes (#130)
+Fixed: [1.10.2] Crash when using right-click-to-place (#130)
+Fixed: [1.10.2] Crash after crafting armor (and all remaining item-from-NBT errors) (#131)
+
 2.3.2
+Added: Area Miner and Lumberjack will now warn the player if they don't have enough Chaos.
 Fixed: [1.10.2] Various right-click crashes with tools and weapons.
+Fixed: [1.10.2] Failure to create the Guide-API guide book should no longer crash the game.
 
 2.3.1
 Added: Chaos Gem charge bars are back.

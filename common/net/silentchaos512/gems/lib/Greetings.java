@@ -44,6 +44,7 @@ public class Greetings {
       "Pot now included... flower pot, that is.",
       "Did you know Chaos Gems are finally back?",
       "Also try Extra Parts!",
+      "Your wish has been granted!",
   };
   // @formatter:on
 
