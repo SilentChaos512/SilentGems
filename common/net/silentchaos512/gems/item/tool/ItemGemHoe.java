@@ -31,6 +31,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
@@ -64,7 +65,8 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
       return EnumActionResult.PASS;
     }
 
-    EnumActionResult result = super.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
+    EnumActionResult result = ItemHelper.onItemUse(Items.DIAMOND_HOE, player, world, pos, hand,
+        side, hitX, hitY, hitZ); // Use diamond hoe so we don't get stack overflow.
 
     if (result == EnumActionResult.SUCCESS) {
       ToolHelper.incrementStatBlocksTilled(stack, 1);
@@ -272,8 +274,8 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
   }
 
   // onItemUse
-  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
+      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
     return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }
