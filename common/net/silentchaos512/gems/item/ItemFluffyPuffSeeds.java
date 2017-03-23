@@ -39,7 +39,7 @@ public class ItemFluffyPuffSeeds extends ItemSeeds implements IRegistryObject {
   }
 
   // 1.10.2 compatibility
-  public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
       EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     return onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);

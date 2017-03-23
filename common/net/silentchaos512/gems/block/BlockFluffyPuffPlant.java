@@ -3,6 +3,8 @@ package net.silentchaos512.gems.block;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockCrops;
@@ -53,6 +55,14 @@ public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject 
     }
 
     return list;
+  }
+
+  // 1.10.2 compat
+  public boolean func_180639_a(World world, BlockPos pos, IBlockState state, EntityPlayer player,
+      EnumHand hand, @Nullable ItemStack heldItem, EnumFacing facing, float hitX, float hitY,
+      float hitZ) {
+
+    return onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
   }
 
   @Override

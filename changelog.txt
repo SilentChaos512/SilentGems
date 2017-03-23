@@ -1,6 +1,11 @@
 Silent's Gems - Changelog
 
+2.3.4
+Fixed: [1.10.2] Crash when trying to plant fluffy puffs (#132)
+Fixed: [1.10.2] Right-click harvest not working on fluffy puff plants.
+
 2.3.3
+Added: Chaos Runes for ToughAsNails heat/cold resistance and thirst.
 Fixed: [1.10.2] Crash when using hoes (#130)
 Fixed: [1.10.2] Crash when using right-click-to-place (#130)
 Fixed: [1.10.2] Crash after crafting armor (and all remaining item-from-NBT errors) (#131)
