@@ -35,6 +35,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
@@ -133,9 +134,10 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
 
     ItemStack stack = player.getHeldItem(hand);
     boolean broken = ToolHelper.isBroken(stack);
-    // Check for normal shovel use first if not broken, to allow path blocks to be made.
-    if (!broken && super.onItemUse(player, world, pos, hand, side, hitX, hitY,
-        hitZ) != EnumActionResult.SUCCESS) {
+    // Check for normal shovel use first if not broken, to allow path blocks to be made (1.11+).
+    // Use ItemHelper for xcompat, diamond shovel to "simulate" a super.onItemUse call.
+    if (!broken && ItemHelper.onItemUse(Items.DIAMOND_SHOVEL, player, world, pos, hand, side, hitX,
+        hitY, hitZ) != EnumActionResult.SUCCESS) {
       // Place block.
       return ToolHelper.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
     } else if (!broken) {
@@ -345,8 +347,8 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   }
 
   // onItemUse
-  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
+      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
     return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }
