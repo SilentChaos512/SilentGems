@@ -74,13 +74,15 @@ public class SilentGems {
     @Override
     public Block registerBlock(Block block, String key, ItemBlock itemBlock) {
 
+      super.registerBlock(block, key, itemBlock);
       block.setCreativeTab(GemsCreativeTabs.blocks);
-      return super.registerBlock(block, key, itemBlock);
+      return block;
     }
 
     @Override
     public Item registerItem(Item item, String key) {
 
+      super.registerItem(item, key);
       if (item instanceof ITool && !(item instanceof ItemGemShield)) {
         item.setCreativeTab(GemsCreativeTabs.tools);
         ModItems.tools.add(item);
@@ -89,7 +91,7 @@ public class SilentGems {
       } else {
         item.setCreativeTab(GemsCreativeTabs.materials);
       }
-      return super.registerItem(item, key);
+      return item;
     }
   };
 

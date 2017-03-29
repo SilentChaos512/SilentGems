@@ -37,7 +37,6 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
 
     lightValue = GemsConfig.GLOW_ROSE_LIGHT_LEVEL;
     setUnlocalizedName(Names.GLOW_ROSE);
-    setCreativeTab(GemsCreativeTabs.blocks);
   }
 
   @Override

@@ -66,7 +66,6 @@ public class BlockChaosPylon extends BlockContainerSL implements ITileEntityProv
     setLightOpacity(0);
     setHardness(6.0f);
     setResistance(1000.0f);
-    setCreativeTab(GemsCreativeTabs.blocks);
   }
 
   @Override
