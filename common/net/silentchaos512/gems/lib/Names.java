@@ -10,6 +10,7 @@ public class Names {
   public static final String CHAOS_ALTAR = "ChaosAltar";
   public static final String CHAOS_FLOWER_POT = "ChaosFlowerPot";
   public static final String CHAOS_NODE = "ChaosNode";
+  public static final String CHAOS_PLINTH = "ChaosPlinth";
   public static final String CHAOS_PYLON = "ChaosPylon";
   public static final String ESSENCE_ORE = "EssenceOre";
   public static final String FLUFFY_BLOCK = "FluffyBlock";

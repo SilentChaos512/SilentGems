@@ -18,6 +18,7 @@ import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.lib.tile.SyncVariable;
 import net.silentchaos512.lib.tile.TileSidedInventorySL;
 import net.silentchaos512.lib.util.StackHelper;
 
@@ -26,8 +27,8 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
   /*
    * NBT keys
    */
-  static final String NBT_ENERGY = "Energy";
-  static final String NBT_PROGRESS = "Progress";
+//  static final String NBT_ENERGY = "Energy";
+//  static final String NBT_PROGRESS = "Progress";
 
   /*
    * Slots
@@ -48,7 +49,9 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
   /*
    * Variables
    */
+  @SyncVariable(name = "Energy")
   protected int chaosStored = 0;
+  @SyncVariable(name = "Progress")
   protected int progress = 0;
   protected boolean requireClientSync = false;
 
@@ -170,8 +173,7 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
   public SPacketUpdateTileEntity getUpdatePacket() {
 
     NBTTagCompound tags = new NBTTagCompound();
-    tags.setInteger(NBT_ENERGY, getCharge());
-    tags.setInteger(NBT_PROGRESS, progress);
+    writeSyncVars(tags, SyncVariable.Type.PACKET);
 
     ItemStack input = getStackInSlot(SLOT_INPUT);
     if (StackHelper.isValid(input)) {
@@ -187,8 +189,7 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
   public NBTTagCompound getUpdateTag() {
 
     NBTTagCompound tags = super.getUpdateTag();
-    tags.setInteger(NBT_ENERGY, getCharge());
-    tags.setInteger(NBT_PROGRESS, progress);
+    writeSyncVars(tags, SyncVariable.Type.PACKET);
 
     // Pass the input slot for rendering. No need for the client to know output slots at this time.
     NBTTagList tagList = new NBTTagList();
@@ -209,33 +210,13 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
 
     super.onDataPacket(net, pkt);
     NBTTagCompound tags = pkt.getNbtCompound();
-    chaosStored = tags.getInteger(NBT_ENERGY);
-    progress = tags.getInteger(NBT_PROGRESS);
+    readSyncVars(tags);
 
     if (tags.hasKey("InputItem"))
       setInventorySlotContents(SLOT_INPUT,
           StackHelper.loadFromNBT(tags.getCompoundTag("InputItem")));
     else
       setInventorySlotContents(SLOT_INPUT, StackHelper.empty());
-  }
-
-  @Override
-  public void readFromNBT(NBTTagCompound compound) {
-
-    super.readFromNBT(compound);
-
-    chaosStored = compound.getInteger(NBT_ENERGY);
-    progress = compound.getInteger(NBT_PROGRESS);
-  }
-
-  @Override
-  public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-
-    super.writeToNBT(compound);
-
-    compound.setInteger(NBT_ENERGY, chaosStored);
-    compound.setInteger(NBT_PROGRESS, progress);
-    return compound;
   }
 
   @Override

@@ -209,7 +209,6 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
     super.onDataPacket(net, pkt);
     NBTTagCompound tags = pkt.getNbtCompound();
 
-    SilentGems.logHelper.debug(tags.hasKey("flower"));
     if (tags.hasKey("flower"))
       setFlowerItemStack(StackHelper.loadFromNBT(tags.getCompoundTag("flower")));
     else

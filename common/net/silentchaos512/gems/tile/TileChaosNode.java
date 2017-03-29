@@ -6,13 +6,9 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
@@ -28,9 +24,11 @@ import net.silentchaos512.gems.entity.packet.EntityPacketRepair;
 import net.silentchaos512.gems.entity.packet.EntityPacketSaturation;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.util.ChaosUtil;
+import net.silentchaos512.lib.tile.SyncVariable;
+import net.silentchaos512.lib.tile.TileEntitySL;
 import net.silentchaos512.lib.util.Color;
 
-public class TileChaosNode extends TileEntity implements ITickable, IChaosProvider {
+public class TileChaosNode extends TileEntitySL implements ITickable, IChaosProvider {
 
   /** Entity search radius squared */
   public static final double SEARCH_RADIUS_SQUARED = 16 * 16;
@@ -61,6 +59,7 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
 
   // Variables
   /** The amount of Chaos the node has created and is storing. */
+  @SyncVariable(name = "Energy")
   int chaosStored = 0;
   /** List of nearby players. Cleared each tick, populated only on ticks where it is used. */
   List<EntityPlayerMP> players = Lists.newArrayList();
@@ -291,27 +290,6 @@ public class TileChaosNode extends TileEntity implements ITickable, IChaosProvid
     return new Color(MathHelper.clamp((float) (shade + variation * rand.nextGaussian()), 0f, 1f),
         MathHelper.clamp((float) (shade + variation * rand.nextGaussian()), 0f, 1f),
         MathHelper.clamp((float) (shade + variation * rand.nextGaussian()), 0f, 1f));
-  }
-
-  @Override
-  public SPacketUpdateTileEntity getUpdatePacket() {
-
-    NBTTagCompound tags = new NBTTagCompound();
-    tags.setInteger("Energy", getCharge());
-    return new SPacketUpdateTileEntity(pos, getBlockMetadata(), tags);
-  }
-
-  @Override
-  public NBTTagCompound getUpdateTag() {
-
-    NBTTagCompound tags = super.getUpdateTag();
-    tags.setInteger("Energy", getCharge());
-    return tags;
-  }
-
-  public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-
-    chaosStored = packet.getNbtCompound().getInteger("Energy");
   }
 
   @Override

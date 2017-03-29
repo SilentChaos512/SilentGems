@@ -1,6 +1,8 @@
 Silent's Gems - Changelog
 
 2.3.5
+Fixed: Chaos Altar not syncing rendered item on world load.
+Fixed: [1.10.2] Crash when trying to view creative tabs (#134)
 Fixed: [1.10.2] Crash when right-clicking with a shovel (#133)
 
 2.3.4

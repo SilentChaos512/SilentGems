@@ -8,10 +8,12 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.world.chunk.Chunk;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.api.recipe.altar.RecipeChaosAltar;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.tile.SyncVariable;
 import net.silentchaos512.lib.tile.TileSidedInventorySL;
 import net.silentchaos512.lib.util.StackHelper;
 
@@ -31,8 +33,12 @@ public class TileChaosAltar extends TileSidedInventorySL implements ITickable, I
   public static final int SLOT_CATALYST = 2;
   public static final int INVENTORY_SIZE = 3;
 
+  @SyncVariable(name = "Energy")
   protected int chaosStored;
+  @SyncVariable(name = "Progress")
   protected int transmuteProgress = 0;
+
+  private int updateTimer = 100;
 
   @Override
   public void update() {
@@ -50,12 +56,15 @@ public class TileChaosAltar extends TileSidedInventorySL implements ITickable, I
     if (inputStack.getItem() instanceof IChaosStorage) {
       // Charge chaos storage items.
       IChaosStorage chaosStorage = (IChaosStorage) inputStack.getItem();
-      int amount = chaosStorage.receiveCharge(inputStack, Math.min(chaosStored, MAX_ITEM_SEND), false);
+      int amount = chaosStorage.receiveCharge(inputStack, Math.min(chaosStored, MAX_ITEM_SEND),
+          false);
       chaosStored -= amount;
 
       // Send update?
-      if (amount != 0)
-        markDirty();
+      if (amount != 0) {
+        sendUpdate();
+        updateTimer = -199;
+      }
 
       // Move full items to second slot
       if (chaosStorage.getCharge(inputStack) >= chaosStorage.getMaxCharge(inputStack)) {
@@ -92,11 +101,19 @@ public class TileChaosAltar extends TileSidedInventorySL implements ITickable, I
         }
 
         if (chaosDrained != 0)
-          markDirty();
+          sendUpdate();
       } else {
         transmuteProgress = 0;
       }
     }
+
+    // sendUpdate doesn't always work (during world load?), so we have to do this ugliness to let the client know what
+    // the altar is holding for rendering purposes... Is there a better way?
+    if (updateTimer % 200 == 0) {
+      sendUpdate();
+    }
+
+    ++updateTimer;
   }
 
   public ItemStack getStackToRender() {
@@ -116,57 +133,6 @@ public class TileChaosAltar extends TileSidedInventorySL implements ITickable, I
 
     return RecipeChaosAltar.getMatchingRecipe(getStackInSlot(SLOT_INPUT),
         getStackInSlot(SLOT_CATALYST));
-  }
-
-  @Override
-  public void readFromNBT(NBTTagCompound tags) {
-
-    super.readFromNBT(tags);
-    chaosStored = tags.getInteger("Energy");
-    transmuteProgress = tags.getInteger("Progress");
-  }
-
-  @Override
-  public NBTTagCompound writeToNBT(NBTTagCompound tags) {
-
-    super.writeToNBT(tags);
-    tags.setInteger("Energy", chaosStored);
-    tags.setInteger("Progress", transmuteProgress);
-    return tags;
-  }
-
-  @Override
-  public SPacketUpdateTileEntity getUpdatePacket() {
-
-    NBTTagCompound tags = new NBTTagCompound();
-    tags.setInteger("Energy", getCharge());
-    tags.setInteger("Progress", transmuteProgress);
-    return new SPacketUpdateTileEntity(pos, 1, tags);
-  }
-
-  @Override
-  public NBTTagCompound getUpdateTag() {
-
-    NBTTagCompound tags = super.getUpdateTag();
-    tags.setInteger("Energy", getCharge());
-    tags.setInteger("Progress", transmuteProgress);
-    return tags;
-  }
-
-  @Override
-  public void onDataPacket(NetworkManager network, SPacketUpdateTileEntity packet) {
-
-    chaosStored = packet.getNbtCompound().getInteger("Energy");
-    transmuteProgress = packet.getNbtCompound().getInteger("Progress");
-  }
-
-  @Override
-  public void markDirty() {
-
-    super.markDirty();
-    Chunk chunk = world.getChunkFromBlockCoords(pos);
-    IBlockState state = world.getBlockState(pos);
-    world.markAndNotifyBlock(pos, chunk, state, state, 2);
   }
 
   @Override
@@ -223,7 +189,7 @@ public class TileChaosAltar extends TileSidedInventorySL implements ITickable, I
     if (!simulate) {
       chaosStored += received;
       if (received != 0) {
-        markDirty();
+        sendUpdate();
       }
     }
     return received;
