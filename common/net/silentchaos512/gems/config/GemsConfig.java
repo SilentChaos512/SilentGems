@@ -72,6 +72,7 @@ public class GemsConfig extends AdaptiveConfig {
   public static boolean TOOL_DISABLE_PICKAXE;
   public static boolean TOOL_DISABLE_SHOVEL;
   public static boolean TOOL_DISABLE_AXE;
+  public static boolean TOOL_DISABLE_PAXEL;
   public static boolean TOOL_DISABLE_HOE;
   public static boolean TOOL_DISABLE_SICKLE;
   public static boolean TOOL_DISABLE_BOW;
@@ -281,6 +282,7 @@ public class GemsConfig extends AdaptiveConfig {
       TOOL_DISABLE_PICKAXE = config.get(catToolDisable, "Pickaxe", false).getBoolean();
       TOOL_DISABLE_SHOVEL = config.get(catToolDisable, "Shovel", false).getBoolean();
       TOOL_DISABLE_AXE = config.get(catToolDisable, "Axe", false).getBoolean();
+      TOOL_DISABLE_PAXEL = config.get(catToolDisable, "Paxel", false).getBoolean();
       TOOL_DISABLE_HOE = config.get(catToolDisable, "Hoe", false).getBoolean();
       TOOL_DISABLE_SICKLE = config.get(catToolDisable, "Sickle", false).getBoolean();
       TOOL_DISABLE_BOW = config.get(catToolDisable, "Bow", false).getBoolean();

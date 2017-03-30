@@ -30,6 +30,11 @@ public interface ITool {
     return false;
   }
 
+  public default boolean isSuperTool() {
+
+    return false;
+  }
+
   @Deprecated
   public default Material[] getExtraEffectiveMaterials() {
 

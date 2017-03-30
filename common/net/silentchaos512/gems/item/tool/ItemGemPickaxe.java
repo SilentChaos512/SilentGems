@@ -46,6 +46,8 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
       Material.GLASS, Material.PISTON, Material.REDSTONE_LIGHT };
   private List<ItemStack> subItems = null;
 
+  protected int materialLength = 3;
+
   public ItemGemPickaxe() {
 
     super(ToolHelper.FAKE_MATERIAL);
@@ -126,7 +128,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     if (subItems == null) {
-      subItems = ToolHelper.getSubItems(item, 3);
+      subItems = ToolHelper.getSubItems(item, materialLength);
     }
     list.addAll(subItems);
   }
@@ -252,7 +254,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
     return canHarvestBlock(state, 10);
   }
 
-  private boolean canHarvestBlock(IBlockState state, int toolLevel) {
+  protected boolean canHarvestBlock(IBlockState state, int toolLevel) {
 
     // Wrong harvest level?
     if (state.getBlock().getHarvestLevel(state) > toolLevel)
@@ -339,7 +341,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
 
     if (subItems == null) {
-      subItems = ToolHelper.getSubItems(item, 3);
+      subItems = ToolHelper.getSubItems(item, materialLength);
     }
     list.addAll(subItems);
   }

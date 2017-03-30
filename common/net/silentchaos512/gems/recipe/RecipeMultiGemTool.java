@@ -24,12 +24,16 @@ public class RecipeMultiGemTool implements IRecipeSL {
   public static final String RECIPE_PICKAXE = "hhh; r ; r ";
   public static final String RECIPE_SHOVEL = "h;r;r";
   public static final String RECIPE_AXE = "hh;hr; r";
+  public static final String RECIPE_PAXEL = "hhh;hrh;hr ";
   public static final String RECIPE_HOE = "hh; r; r";
   public static final String RECIPE_SICKLE = " h;hh;r ";
 
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
 
+    // 6 part head
+    if (matchesRecipe(inv, RECIPE_PAXEL))
+      return ModItems.paxel.constructTool(getRodType(inv), getGems(inv));
     // 5 part head
     if (matchesRecipe(inv, RECIPE_SCEPTER))
       return ModItems.scepter.constructTool(getRodType(inv), getGems(inv));

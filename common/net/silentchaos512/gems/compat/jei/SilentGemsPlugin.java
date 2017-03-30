@@ -108,8 +108,8 @@ public class SilentGemsPlugin implements IModPlugin {
 
     // Tools
     for (Item item : new Item[] { ModItems.sword, ModItems.katana, ModItems.scepter,
-        ModItems.tomahawk, ModItems.pickaxe, ModItems.shovel, ModItems.axe, ModItems.hoe,
-        ModItems.sickle, ModItems.bow, ModItems.shield }) {
+        ModItems.tomahawk, ModItems.pickaxe, ModItems.shovel, ModItems.axe, ModItems.paxel,
+        ModItems.hoe, ModItems.sickle, ModItems.bow, ModItems.shield }) {
       reg.registerSubtypeInterpreter(item, new ISubtypeInterpreter() {
 
         @Override

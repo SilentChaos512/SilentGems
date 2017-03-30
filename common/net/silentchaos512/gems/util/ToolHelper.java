@@ -52,9 +52,12 @@ import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
+import net.silentchaos512.gems.item.tool.ItemGemPickaxe;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
+import net.silentchaos512.gems.item.tool.ItemGemShovel;
 import net.silentchaos512.gems.item.tool.ItemGemSickle;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.Names;
@@ -548,9 +551,9 @@ public class ToolHelper {
       return null;
 
     Item item = tool.getItem();
-    if (item == ModItems.pickaxe || item == ModItems.shovel) {
+    if (item instanceof ItemGemPickaxe || item instanceof ItemGemShovel) {
       return SkillAreaMiner.INSTANCE;
-    } else if (item == ModItems.axe) {
+    } else if (item instanceof ItemGemAxe) {
       return GemsConfig.SWITCH_AXE_SUPER ? SkillAreaMiner.INSTANCE : SkillLumberjack.INSTANCE;
     }
 
@@ -899,7 +902,7 @@ public class ToolHelper {
   public static List<ItemStack> getSubItems(Item item, int materialLength) {
 
     List<ItemStack> list = Lists.newArrayList();
-    final boolean isSuperTool = item == ModItems.katana || item == ModItems.scepter;
+    final boolean isSuperTool = item instanceof ITool && ((ITool) item).isSuperTool();
     final ItemStack rodWood = new ItemStack(Items.STICK);
     final ItemStack rodIron = ModItems.craftingMaterial.toolRodIron;
     final ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;

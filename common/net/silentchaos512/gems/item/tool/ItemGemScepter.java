@@ -52,6 +52,12 @@ public class ItemGemScepter extends ItemGemSword {
   }
 
   @Override
+  public boolean isSuperTool() {
+
+    return true;
+  }
+
+  @Override
   public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
 
     if (subItems == null) {

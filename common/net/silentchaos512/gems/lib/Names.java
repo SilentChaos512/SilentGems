@@ -107,6 +107,7 @@ public class Names {
   public static final String PICKAXE = "Pickaxe";
   public static final String SHOVEL = "Shovel";
   public static final String AXE = "Axe";
+  public static final String PAXEL = "Paxel";
   public static final String HOE = "Hoe";
   public static final String SICKLE = "Sickle";
   public static final String FISHING_ROD = "FishingRod";

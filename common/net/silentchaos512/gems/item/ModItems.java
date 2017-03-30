@@ -19,6 +19,7 @@ import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemKatana;
+import net.silentchaos512.gems.item.tool.ItemGemPaxel;
 import net.silentchaos512.gems.item.tool.ItemGemPickaxe;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
@@ -28,7 +29,6 @@ import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.item.tool.ItemGemTomahawk;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.registry.SRegistry;
 
 public class ModItems {
@@ -66,6 +66,7 @@ public class ModItems {
   public static final ItemGemPickaxe pickaxe = new ItemGemPickaxe();
   public static final ItemGemShovel shovel = new ItemGemShovel();
   public static final ItemGemAxe axe = new ItemGemAxe();
+  public static final ItemGemPaxel paxel = new ItemGemPaxel();
   public static final ItemGemHoe hoe = new ItemGemHoe();
   public static final ItemGemSickle sickle = new ItemGemSickle();
 
@@ -117,6 +118,7 @@ public class ModItems {
     reg.registerItem(pickaxe, Names.PICKAXE);
     reg.registerItem(shovel, Names.SHOVEL);
     reg.registerItem(axe, Names.AXE);
+    reg.registerItem(paxel, Names.PAXEL);
     reg.registerItem(hoe, Names.HOE);
     reg.registerItem(sickle, Names.SICKLE);
 
