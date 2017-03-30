@@ -1,7 +1,7 @@
 import re
 from subprocess import call
 
-NAME = 'Tomahawk'
+NAME = 'paxel'
 SUPER_TOOL = False
 
 TEXTURE = NAME.lower() + '/' + NAME
@@ -11,15 +11,15 @@ line = 'python makejson.py %s %s texture=%s layer=%d type=handheld'
 commands = [];
 
 # Rod
-for rod in ['Wood', 'Bone', 'Iron', 'Gold', 'Silver']:
-    name = NAME + 'Rod' + rod
-    if SUPER_TOOL and (rod == 'Wood' or rod == 'Bone'):
-        texture = 'Blank'
+for rod in ['wood', 'bone', 'iron', 'gold', 'silver']:
+    name = NAME + 'rod' + rod
+    if SUPER_TOOL and (rod == 'wood' or rod == 'bone'):
+        texture = 'blank'
     else:
-        texture = TEXTURE + 'Rod' + rod
+        texture = TEXTURE + 'rod' + rod
     commands.append(line % (MODE, name, texture, 0))
 
-for i in (range(32) + ['Flint']):
+for i in (range(32) + ['flint']):
     name = NAME + str(i)
     texture_id = ''
     if type(i) is int:
@@ -30,24 +30,24 @@ for i in (range(32) + ['Flint']):
     texture = TEXTURE + texture_id
 
     commands.append(line % (MODE, name, texture, 1))
-    commands.append(line % (MODE, name + 'L', texture + 'L', 2))
-    if NAME == 'Katana':
-        commands.append(line % (MODE, name + 'R', 'Blank', 0))
+    commands.append(line % (MODE, name + 'l', texture + 'l', 2))
+    if NAME == 'katana':
+        commands.append(line % (MODE, name + 'r', 'blank', 0))
     else:
-        commands.append(line % (MODE, name + 'R', texture + 'R', 3))
+        commands.append(line % (MODE, name + 'r', texture + 'r', 3))
 
-    name = NAME + 'Deco' + str(i)
-    texture = TEXTURE + 'Deco' + texture_id
+    name = NAME + 'deco' + str(i)
+    texture = TEXTURE + 'deco' + texture_id
     commands.append(line % (MODE, name, texture, 4))
 
 for i in range(16):
-    name = NAME + 'Wool' + str(i)
-    texture = TEXTURE + 'Wool' + str(i)
+    name = NAME + 'wool' + str(i)
+    texture = TEXTURE + 'wool' + str(i)
     commands.append(line % (MODE, name, texture, 5))
 
-for tip in ['Iron', 'Diamond', 'Emerald', 'Gold']:
-    name = NAME + 'Tip' + tip
-    texture = TEXTURE + 'Tip' + tip
+for tip in ['iron', 'diamond', 'emerald', 'gold']:
+    name = NAME + 'tip' + tip
+    texture = TEXTURE + 'tip' + tip
     commands.append(line % (MODE, name, texture, 6))
 
 for command in commands:

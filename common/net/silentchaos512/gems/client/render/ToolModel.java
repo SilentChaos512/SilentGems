@@ -251,6 +251,13 @@ public class ToolModel implements IPerspectiveAwareModel {
       if (cameraTransformType != TransformType.GUI) {
         matrix.setScale(matrix.getScale() * 1.2f);
       }
+    } else if (tool != null && tool.getItem() == ModItems.paxel) {
+      if (cameraTransformType != TransformType.GUI) {
+        if (cameraTransformType == TransformType.FIRST_PERSON_LEFT_HAND || cameraTransformType == TransformType.FIRST_PERSON_RIGHT_HAND)
+          matrix.setScale(matrix.getScale() * 1.1f);
+        else
+          matrix.setScale(matrix.getScale() * 1.2f);
+      }
     }
     return Pair.of((IBakedModel) this, matrix);
   }

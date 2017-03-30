@@ -106,7 +106,7 @@ def writeItemJSON(name, texture, layer=0, item_type='generated'):
     f.write('  "parent": "item/%s",\n' % item_type)
     f.write('  "textures": {\n')
     for i in range(0, layer):
-        f.write('    "layer%d": "%s:items/Blank",\n' % (i, MOD_ID))
+        f.write('    "layer%d": "%s:items/blank",\n' % (i, MOD_ID))
     f.write('    "layer%d": "%s:items/%s"\n' % (layer, MOD_ID, texture))
     f.write('  }\n')
     f.write('}\n')
