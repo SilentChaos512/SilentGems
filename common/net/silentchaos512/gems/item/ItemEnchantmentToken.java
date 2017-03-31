@@ -354,11 +354,13 @@ public class ItemEnchantmentToken extends ItemSL {
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
+    List<ItemStack> tokens = Lists.newArrayList();
+
     for (ResourceLocation key : Enchantment.REGISTRY.getKeys())
-      list.add(constructToken(Enchantment.REGISTRY.getObject(key)));
+      tokens.add(constructToken(Enchantment.REGISTRY.getObject(key)));
 
     // Sort by type, then enchantment name.
-    list.sort(new Comparator<ItemStack>() {
+    tokens.sort(new Comparator<ItemStack>() {
 
       @Override
       public int compare(ItemStack o1, ItemStack o2) {
@@ -376,7 +378,9 @@ public class ItemEnchantmentToken extends ItemSL {
     });
 
     // Empty token first.
-    list.add(0, new ItemStack(this, 1, BLANK_META));
+    tokens.add(0, new ItemStack(this, 1, BLANK_META));
+
+    list.addAll(tokens);
   }
 
   public @Nullable Enchantment getSingleEnchantment(ItemStack token) {
