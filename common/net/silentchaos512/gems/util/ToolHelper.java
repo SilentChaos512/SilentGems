@@ -241,6 +241,13 @@ public class ToolHelper {
     float blockingPower = Math.max(bonus * sumBlockingPower / parts.length,
         ItemGemShield.MIN_BLOCKING_POWER);
 
+    // Tool class multipliers
+    if (tool.getItem() instanceof ITool) {
+      ITool itool = (ITool) tool.getItem();
+      durability *= itool.getDurabilityMultiplier();
+      harvestSpeed *= itool.getHarvestSpeedMultiplier();
+    }
+
     // Tip and rod bonus (might change the way rod stats work?)
     ToolPart partRod = getConstructionRod(tool);
     ToolPart partTip = getConstructionTip(tool);

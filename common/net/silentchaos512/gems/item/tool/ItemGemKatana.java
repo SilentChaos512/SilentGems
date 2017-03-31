@@ -79,6 +79,12 @@ public class ItemGemKatana extends ItemGemSword {
   }
 
   @Override
+  public float getDurabilityMultiplier() {
+
+    return 0.75f;
+  }
+
+  @Override
   public boolean isSuperTool() {
 
     return true;

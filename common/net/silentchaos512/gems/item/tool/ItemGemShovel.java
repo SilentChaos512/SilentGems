@@ -104,6 +104,12 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   }
 
   @Override
+  public float getRepairMultiplier() {
+
+    return 2.0f;
+  }
+
+  @Override
   public boolean isDiggingTool() {
 
     return true;

@@ -105,6 +105,9 @@ public class RecipeDecorateTool implements IRecipeSL {
       }
     }
 
+    // Tool repair multiplier
+    repairValue *= ((ITool) tool.getItem()).getRepairMultiplier();
+
     // Repair.
     result.attemptDamageItem(-repairValue, SilentGems.instance.random);
     // Restore ammo.

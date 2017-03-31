@@ -1,5 +1,10 @@
 Silent's Gems - Changelog
 
+2.3.6
+Added: Paxels! A pickaxe, shovel, and axe all-in-one. Takes a whopping six material items to craft. Repairs are 30% less effective. Extra durability, but has a small mining speed penalty. Super-tier only and has the Area Miner skill.
+Changed: Katana and scepters now have 25% less durability.
+Changed: Shovels get 2x durability restored when decorating.
+
 2.3.5
 Fixed: Chaos Altar not syncing rendered item on world load.
 Fixed: [1.10.2] Crash when trying to view creative tabs (#134)

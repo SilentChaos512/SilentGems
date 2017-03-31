@@ -25,6 +25,21 @@ public interface ITool {
 
   public float getBaseMeleeSpeedModifier();
 
+  public default float getHarvestSpeedMultiplier() {
+
+    return 1.0f;
+  }
+
+  public default float getDurabilityMultiplier() {
+
+    return 1.0f;
+  }
+
+  public default float getRepairMultiplier() {
+
+    return 1.0f;
+  }
+
   public default boolean isDiggingTool() {
 
     return false;

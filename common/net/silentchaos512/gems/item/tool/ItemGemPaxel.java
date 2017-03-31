@@ -67,6 +67,24 @@ public class ItemGemPaxel extends ItemGemPickaxe {
   }
 
   @Override
+  public float getHarvestSpeedMultiplier() {
+
+    return 0.75f;
+  }
+
+  @Override
+  public float getDurabilityMultiplier() {
+
+    return 1.25f;
+  }
+
+  @Override
+  public float getRepairMultiplier() {
+
+    return 0.70f;
+  }
+
+  @Override
   public boolean isSuperTool() {
 
     return true;
