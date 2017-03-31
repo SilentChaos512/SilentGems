@@ -269,6 +269,8 @@ public class ItemEnchantmentToken extends ItemSL {
   // Rendering
   // =========
 
+  boolean loggedIssue139Catch = false;
+
   public String getModelKey(ItemStack stack) {
 
     Map<Enchantment, Integer> enchMap = getEnchantments(stack);
@@ -279,27 +281,40 @@ public class ItemEnchantmentToken extends ItemSL {
       if (ench == null || ench.type == null)
         return KEY_UNKNOWN;
 
-      switch (ench.type) {
-        case ALL:
-        case BREAKABLE:
-          return KEY_ANY;
-        case ARMOR:
-        case ARMOR_CHEST:
-        case ARMOR_FEET:
-        case ARMOR_HEAD:
-        case ARMOR_LEGS:
-        case WEARABLE:
-          return KEY_ARMOR;
-        case BOW:
-          return KEY_BOW;
-        case DIGGER:
-          return KEY_DIGGER;
-        case FISHING_ROD:
-          return KEY_FISHING_ROD;
-        case WEAPON:
-          return KEY_WEAPON;
-        default:
-          return KEY_UNKNOWN;
+      try {
+        switch (ench.type) {
+          case ALL:
+          case BREAKABLE:
+            return KEY_ANY;
+          case ARMOR:
+          case ARMOR_CHEST:
+          case ARMOR_FEET:
+          case ARMOR_HEAD:
+          case ARMOR_LEGS:
+          case WEARABLE:
+            return KEY_ARMOR;
+          case BOW:
+            return KEY_BOW;
+          case DIGGER:
+            return KEY_DIGGER;
+          case FISHING_ROD:
+            return KEY_FISHING_ROD;
+          case WEAPON:
+            return KEY_WEAPON;
+          default:
+            return KEY_UNKNOWN;
+        }
+      } catch (ArrayIndexOutOfBoundsException ex) {
+        // Some mod is causing a crash I can't reproduce. Try to catch it and log any information possible.
+        if (!loggedIssue139Catch) {
+          loggedIssue139Catch = true;
+          SilentGems.logHelper.severe(
+              "Caught an odd exception in ItemEnchantmentToken#getModelKey. This will only be logged once.");
+          SilentGems.logHelper.info("Offending token: " + stack);
+          SilentGems.logHelper.info("Offending enchantment: " + ench + " (" + ench.getName() + ")");
+          ex.printStackTrace();
+          return KEY_EMPTY;
+        }
       }
     }
 
