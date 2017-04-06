@@ -28,6 +28,7 @@ import net.silentchaos512.gems.api.IBlockPlacer;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.ChatHelper;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 import net.silentchaos512.lib.util.StackHelper;
@@ -180,8 +181,8 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     player.setHeldItem(EnumHand.OFF_HAND, fakeBlockStack);
 
     // Use the fake stack.
-    EnumActionResult result = fakeBlockStack.getItem().onItemUse(player, world, pos,
-        EnumHand.OFF_HAND, facing, hitX, hitY, hitZ);
+    EnumActionResult result = ItemHelper.onItemUse(fakeBlockStack.getItem(), player,
+        world, pos, EnumHand.OFF_HAND, facing, hitX, hitY, hitZ);
 
     // Return the player's offhand stack.
     player.setHeldItem(EnumHand.OFF_HAND, currentOffhand);
