@@ -1,14 +1,10 @@
 package net.silentchaos512.gems;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -28,11 +24,9 @@ import net.silentchaos512.gems.compat.tconstruct.TConstructGemsCompat;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.ModEntities;
-import net.silentchaos512.gems.guide.GuideSilentGems;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
-import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.part.ModParts;
 import net.silentchaos512.gems.recipe.ModRecipes;
@@ -126,26 +120,6 @@ public class SilentGems {
 
     // Headcrumbs
     FMLInterModComms.sendMessage("headcrumbs", "add-username", Names.SILENT_CHAOS_512);
-
-    // Register Guide API book?
-    if (Loader.isModLoaded("guideapi")) {
-      // Just catch any crashes for now... *silently curses 1.10.2*
-      try {
-        GuideSilentGems.buildGuide(localizationHelper);
-      } catch (NoClassDefFoundError ex) {
-        ex.printStackTrace();
-        // Warn the player of fatal exception.
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(stringWriter);
-        ex.printStackTrace(printWriter);
-        String stackTrace = stringWriter.toString();
-
-        String message = "Failed to register guide book! Sorry about that.";
-        SilentGems.logHelper.warning(message);
-        SilentGems.logHelper.warning(stackTrace);
-        Greetings.addExtraMessage(message);
-      }
-    }
 
     // Load TCon compatibility stuff?
     if (Loader.isModLoaded("tconstruct")) {

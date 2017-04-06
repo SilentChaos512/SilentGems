@@ -8,9 +8,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -35,6 +35,8 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
 
   public static final AxisAlignedBB FLOWER_POT_AABB = new AxisAlignedBB(0.3125, 0.0, 0.3125, 0.6875,
       0.375, 0.6875);
+
+  public IRecipe recipe;
 
   public BlockChaosFlowerPot() {
 
@@ -107,7 +109,7 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
   @Override
   public void addRecipes() {
 
-    GameRegistry.addShapedRecipe(new ItemStack(this), "c", "f", 'c',
+    recipe = GameRegistry.addShapedRecipe(new ItemStack(this), "c", "f", 'c',
         ModItems.craftingMaterial.chaosEssenceEnriched, 'f', Items.FLOWER_POT);
   }
 

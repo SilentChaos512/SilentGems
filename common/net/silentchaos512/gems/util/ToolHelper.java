@@ -50,6 +50,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.guide.GuideBookGems;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
@@ -1245,6 +1246,8 @@ public class ToolHelper {
         name = TextFormatting.GREEN + name;
       else if (name.equals(Names.CHAOTIC_PLAYZ))
         name = TextFormatting.BLUE + name;
+      else if (name.equals(GuideBookGems.TOOL_OWNER_NAME))
+        name = TextFormatting.AQUA + name;
 
       setTagString(tool, NBT_ROOT_STATISTICS, NBT_STATS_ORIGINAL_OWNER, name);
     }

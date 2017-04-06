@@ -1,9 +1,15 @@
 Silent's Gems - Changelog
 
+2.3.7
+Added: A Silent Lib guide book. Requires Silent Lib 2.1.0 or higher.
+Removed: The Guide-API guide book, due to compatibility issues.
+
 2.3.6
-Added: Paxels! A pickaxe, shovel, and axe all-in-one. Takes a whopping six material items to craft. Repairs are 30% less effective. Extra durability, but has a small mining speed penalty. Super-tier only and has the Area Miner skill.
+Added: Paxels! A pickaxe, shovel, and axe all-in-one. Takes a whopping six material items to craft. Repairs are 30% less effective. Extra durability, but has a small mining speed penalty. Super-tier only and has the Area Miner skill. Feedback welcome (#138)
 Changed: Katana and scepters now have 25% less durability.
 Changed: Shovels get 2x durability restored when decorating.
+Fixed: A sorting error with Enchantment Tokens.
+Fixed (kinda): Catch and log an Enchantment Token crash. Please share logs if you experienced this (#139)
 
 2.3.5
 Fixed: Chaos Altar not syncing rendered item on world load.

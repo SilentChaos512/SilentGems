@@ -12,7 +12,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.guide.GuideBookGems;
 import net.silentchaos512.gems.item.armor.ItemArmorFrame;
 import net.silentchaos512.gems.item.armor.ItemGemArmor;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
@@ -29,6 +31,7 @@ import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.item.tool.ItemGemTomahawk;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.item.ItemGuideBookSL;
 import net.silentchaos512.lib.registry.SRegistry;
 
 public class ModItems {
@@ -78,6 +81,9 @@ public class ModItems {
 
   public static final ToolRenderHelperBase toolRenderHelper = FMLCommonHandler.instance()
       .getSide() == Side.CLIENT ? new ToolRenderHelper() : new ToolRenderHelperBase();
+
+  // Guide Book
+  public static final ItemGuideBookSL guideBook = new ItemGuideBookSL(new GuideBookGems());
 
   public static final List<Item> tools = Lists.newArrayList(); // Filled by SRegistry override
 
@@ -132,11 +138,15 @@ public class ModItems {
     reg.registerItem(toolRenderHelper).setCreativeTab(null);
     toolRenderHelper.init();
 
+    reg.registerItem(guideBook);
+
     initExtraRecipes();
   }
 
   public static void initExtraRecipes() {
 
     GameRegistry.addShapelessRecipe(new ItemStack(Items.FLINT), Blocks.GRAVEL, Blocks.GRAVEL);
+    GameRegistry.addShapelessRecipe(new ItemStack(guideBook), Items.BOOK,
+        new ItemStack(gem, 1, OreDictionary.WILDCARD_VALUE));
   }
 }

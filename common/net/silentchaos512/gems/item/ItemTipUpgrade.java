@@ -20,6 +20,7 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.LocalizationHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemTipUpgrade extends ItemSL {
 
@@ -70,8 +71,9 @@ public class ItemTipUpgrade extends ItemSL {
       return null;
     }
 
-    ItemStack result = tool.copy();
+    ItemStack result = StackHelper.safeCopy(tool);
     ToolHelper.setConstructionTip(result, part);
+    ToolHelper.recalculateStats(result);
     return result;
   }
 

@@ -26,6 +26,8 @@ public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
 
     super.preInit(registry);
 
+    ModItems.guideBook.book.preInit();
+
     NetworkHandler.init();
 
     NetworkRegistry.INSTANCE.registerGuiHandler(SilentGems.instance, new GuiHandlerSilentGems());
@@ -47,6 +49,7 @@ public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
 
     super.postInit(registry);
     ModItems.enchantmentToken.addModRecipes();
+    ModItems.guideBook.book.postInit();
 
     if (Loader.isModLoaded(BaublesCompat.MOD_ID))
       BaublesCompat.MOD_LOADED = true;

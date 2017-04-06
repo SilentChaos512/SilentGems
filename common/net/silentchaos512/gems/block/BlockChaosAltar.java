@@ -2,13 +2,11 @@ package net.silentchaos512.gems.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -31,6 +29,8 @@ public class BlockChaosAltar extends BlockContainerSL {
   public static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.0f, 0.0f, 0.0f, 1.0f, 0.75f,
       1.0f);
 
+  public IRecipe recipe;
+
   public BlockChaosAltar() {
 
     super(1, SilentGems.MODID, Names.CHAOS_ALTAR, Material.IRON);
@@ -49,12 +49,14 @@ public class BlockChaosAltar extends BlockContainerSL {
 
     ItemStack result = new ItemStack(this);
     ItemStack chaos = ModItems.craftingMaterial.chaosEssenceEnriched;
-    GameRegistry.addRecipe(new ShapedOreRecipe(result, "rer", "dod", "ooo", 'e', chaos, 'r',
-        "dustRedstone", 'o', Blocks.OBSIDIAN, 'd', "gemDiamond"));
+    recipe = new ShapedOreRecipe(result, "rer", "dod", "ooo", 'e', chaos, 'r', "dustRedstone", 'o',
+        Blocks.OBSIDIAN, 'd', "gemDiamond");
+    GameRegistry.addRecipe(recipe);
   }
 
   @Override
-  protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+  protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state,
+      EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     if (world.isRemote) {
       return true;

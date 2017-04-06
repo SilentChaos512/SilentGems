@@ -600,6 +600,8 @@ item.silentgems:GemShard31.name=Alexandrite Shard
 item.silentgems:GlowRoseFertilizer.name=Glow Rose Fertilizer
 item.silentgems:GlowRoseFertilizer.desc=Grows glow roses. Say that three times fast!
 
+item.silentgems:guide_book.name=Silent's Gems Manual
+
 item.silentgems:HoldingGem.name=Holding Gem
 item.silentgems:HoldingGem.desc=Can store large quantities of a single block and place them.
 
@@ -848,177 +850,66 @@ jei.silentgems:desc.TorchBandolier=The torch bandolier stores a large number of 
 
 
 
-# Guide API Book
+# Guide Book (Silent Lib)
 
-guide.silentgems:title=Silent's Gems Guide
-guide.silentgems:welcome=Guide is WIP.
+guide.silentgems:manualName.1=Silent's Gems
+guide.silentgems:manualName.2=Guide
 
-guide.silentgems:category.blocks=Blocks
-guide.silentgems:category.gettingStarted=Getting Started
-guide.silentgems:category.items=Items
-guide.silentgems:category.terms=Terminology
-guide.silentgems:category.tools=Tools
+guide.silentgems:indexEntry.gettingStarted.name=Getting Started
+guide.silentgems:indexEntry.blocks.name=Blocks
+guide.silentgems:indexEntry.items.name=Items
+guide.silentgems:indexEntry.recipes.name=Recipe Types
+guide.silentgems:indexEntry.allAndSearch.name=List of Everything
+
+guide.silentgems:oreConfigPage=&n%s<r><n><n>Veins per chunk: %.2f<n>Vein size: %d<n>Min Y: %d<n>Max Y: %d<n><n>
+
+#Blocks
+guide.silentgems:chapter.chaosAltar.name=Chaos Altar
+guide.silentgems:chapter.chaosAltar.text1=The <item>Chaos Altar<r> serves two purposes. It can recharge items that store Chaos and it can transmute certain items.<n><n>The Altar can receive <imp>Chaos<r> from any Chaos-producing block (Nodes, Pylons, etc.) and stores a large amount.
+guide.silentgems:chapter.chaosAltar.text2=&nRecharging<r><n><n>Place <imp>Chaos-storing items<r> in the Altar's first slot (left) to charge them. Anything can be in the catalyst slot (the bottom one). Fully charged items will be moved the the last slot (right), if possible.
+guide.silentgems:chapter.chaosAltar.text3=&nTransmutation<r><n><n>Place the <imp>input item<r> in the left slot and the <imp>catalyst item<r> in the bottom slot. The catalyst will <imp>never be consumed<r>. The Altar <vimp>must have a supply of Chaos energy<r> in order to do transmutations!
+guide.silentgems:chapter.chaosAltar.text4=&nRecipes<r><n><n>&7This section could use some work, but...<r><n>Light gems can be made from dark gems using slime balls as a catalyst. Dark gems can be made from light gems using magma cream. Gems conversions are lossy, producing 6 shards from a full gem. Chaos Essence Shards can be turned into Chaos Essence (duplicated) with a diamond as a catalyst.
+guide.silentgems:chapter.chaosFlowerPot.name=Chaos Flower Pot
+guide.silentgems:chapter.chaosFlowerPot.text1=The <item>Chaos Flower Pot<r> amplifies the light of <item>Glow Roses<r>. Plant a Glow Rose in it and it will start placing <imp>phantom lights<r> in the area wherever additional light is needed.
+guide.silentgems:chapter.chaosFlowerPot.text2=Phantom light placement is faster at first. Light checks slow down after 30 seconds to reduce lag. Locations checked are random, so a destroyed light may take some time to be replaced.
+guide.silentgems:chapter.chaosNode.name=Chaos Node
+guide.silentgems:chapter.chaosNode.text1=<item>Chaos Nodes<r> are found occasionally on the surface. They pour out various energies, including <imp>Chaos<r>. They are intended for early-game.
+guide.silentgems:chapter.chaosNode.text2=Nodes can also repair tools and restore players' health and hunger. They have also been known to attack hostile mobs, either by damaging them directly or lifting them into the air.<n><n>Nodes <vimp>cannot be moved easily<r>. You need a <item>Chaos Node Mover<r> to transport them.
+guide.silentgems:chapter.fluffyBlocks.name=Fluffy Block
+guide.silentgems:chapter.fluffyBlocks.text1=<item>Fluffy Blocks<r> are blocks made of <item>Fluffy Fabric<r>. They can be crafted into all 16 dye colors using any ore dictionary dye.
+guide.silentgems:chapter.fluffyBlocks.text2=Fluffy Blocks will also <imp>absorb fall damage<r> when fallen upon. The amount absorbed depends on how high the blocks are stacked. Place additional blocks below the top one if you need to fall further.
+guide.silentgems:chapter.glowRose.name=Glow Rose
+guide.silentgems:chapter.glowRose.text1=<item>Glow Roses<r> are light-emitting flowers. They can be found throughout the world or grown with <item>Glow Rose Fertilizer<r>. Their light is <imp>a bit dim<r> however. But a Chaos Flower Pot can amplify and spread their light.
+guide.silentgems:chapter.materialGrader.name=Material Grader
+guide.silentgems:chapter.materialGrader.text1=The <item>Material Grader<r> uses Chaos to enhance tool materials by "grading" them. The grading process is random; you have no control over the assigned grade. For more information on grades, <imp>see the Terminology entry<r>.<n><n>The Material Grader has four output slots (since items with different grades do not stack), but only one input slot. Items can be inserted through the top or sides, and extracted from the bottom.
+guide.silentgems:chapter.ores.name=Ores
+guide.silentgems:chapter.ores.text1=What would this mod be without <imp>shinies to mine<r>? This chapter contains information on ores your can find in your world. The numbers in the following pages are pulled directly from your config, so they are accurate.<n><n>Note that <vimp>this mod does not have its own "retrogen"<r>, so ores will not spawn in chunks that existed before the mod was added. Try the Simpleretrogen mod if this is an issue for you.
+guide.silentgems:chapter.ores.text2=The 16 types of "light gems" spawn <imp>in the overworld (and similar dimensions)<r>. By default, they are fairly common and all types are equally likely to spawn. The gem selected for each vein is random, so you may find more of some types than others by chance.
+guide.silentgems:chapter.ores.text3=The 16 types of "dark gems" spawn <imp>only in the Nether<r>. By default, they are fairly common and all types are equally likely to spawn. The gem selected for each vein is random, so you may find more of some types than others by chance.
+guide.silentgems:chapter.ores.text4=Chaos Ore is somewhat rare by default, but the veins can be large. Chaos Ore is <imp>smelted into Chaos Essence<r>, a <imp>vital crafting material<r> for many mid- to late-game blocks and items.
+guide.silentgems:chapter.ores.text5=Chaos Ore can also be processed in "grinding" machines from some mods.
+guide.silentgems:chapter.ores.text6=Ender Essence Ore, like Chaos Ore, can be processed into Ender Essence. This ore is found <imp>only in the End<r>, but is somewhat common.
+guide.silentgems:chapter.ores.text7=You smelt the ore, in case that's not obvious.
+guide.silentgems:chapter.teleporter.name=Teleporter
+guide.silentgems:chapter.gemDecoBlocks.name=Decorative Gem Blocks
+guide.silentgems:chapter.gemDecoBlocks.text1=Silent's Gems includes a variety of <imp>decorative gem blocks<r>, with variants for each of the 32 gems. These blocks have no special functions (aside from lamps producing light). Decorative blocks include <imp>gem blocks, bricks (speckled and coated), glass, and lamps<r>.
 
 # Getting Started
-
-guide.silentgems:gettingStarted.introduction=1. Introduction
-guide.silentgems:gettingStarted.introduction0=Welcome to Silent's Gems! The mod is mostly about tools and various random blocks and items that expand vanilla without trampling on it too much.\n\nThis (possibly poorly written) guide will help you in the first steps of your journey.
-guide.silentgems:gettingStarted.introduction1=If you see a word or phrase in &1blue&0, it is likely a term you can learn more about in the Terminology category. &2Green&0 (and maybe other colors) will be used to highlight some key points. &4Red&0 is used to highlight warnings.
-
-guide.silentgems:gettingStarted.flint=2. Flint Tools
-guide.silentgems:gettingStarted.flint0=Tools can be constructed from a wide variety of materials, including &2flint and gems&0.\n\nFor now, let's focus on flint. Flint is usually easy to acquire, so you should be able to make flint tools before finding iron.
-guide.silentgems:gettingStarted.flint1=Construct a set of flint tools whenever you can. They are a bit better than stone, and can be repaired and upgraded. The recipes are exactly what you would expect, but you can use bones instead of sticks if you wish, but not both.
-guide.silentgems:gettingStarted.flint2=When your tools get low or break, you can &2repair them with flint&0 (or gems). Place the flint adjacent to the tool in a crafting grid. Diagonally won't work. This process is called &1decorating&0 and can change the tool's appearance as well.
-guide.silentgems:gettingStarted.flint3=Mining tools (pickaxes, shovels, and axes) can also place blocks by right-clicking (&1right-click to place&0). They will place blocks immediately after the tool in the hotbar, or in the last slot if that doesn't work.
-
-guide.silentgems:gettingStarted.ironTipped=3. Iron-Tipped Tools
-guide.silentgems:gettingStarted.ironTipped0=Flint tools are all well and good, but they can't mine shinies! Er, gems. You could make an iron pickaxe, but an iron-tipped upgrade is the preferred solution, saving two iron and giving a better tool overall.
-guide.silentgems:gettingStarted.ironTipped1=Simply &2craft a tip upgrade, then craft that with your tools&0.\n\nMining tools can get a &2harvest level boost&0 (it will never be lowered). All tools will get other &2stat boosts&0, including increased durability!
-guide.silentgems:gettingStarted.ironTipped2=Hover over the tools in the previous page and hold Ctrl to compare stats.\n\nAgain, tip upgrades can be applied to ANY tool, not just mining tools. That includes swords and hoes, for example.
-
-guide.silentgems:gettingStarted.gemTools=4. Gem Tools
-guide.silentgems:gettingStarted.gemTools0=Your iron-tipped flint tools will allow you to mine gems, as well as gold and diamonds. With these, we can make even better tools, although there is still one more &1tier&0 above regular gems! But things have gotten a bit more complex...
-guide.silentgems:gettingStarted.gemTools1=With access to multiple materials of the same tier, we can craft &2mixed-material tools&0! This will &2average out the stats&0 of the materials, but also give a bonus to most stats. This &4does not always make a better tool&0, but the bonus can be helpful. 
-guide.silentgems:gettingStarted.gemTools2=Experiment with different combinations! You can view the stats of a tool in the output slot, without actually crafting it. The next page shows a ruby-sapphire pickaxe, which has a higher durability and mining speed than just ruby or sapphire alone.
-guide.silentgems:gettingStarted.gemTools3=Iron rods are shown in the example, but &2you may use sticks or bones&0 if you want. At the time of writing, rods are purely a cosmetic choice, but they could affect stats in the future.
-guide.silentgems:gettingStarted.gemTools4=Technically, you can skip basic gem tools if you want. As I said before, &2there is a &1tier&2 above this&0. And since you can put any tip upgrade on any tool, you could stick with flint until you are ready to make super tools.
-
-guide.silentgems:gettingStarted.gemArmor=5. Gem Armor
-guide.silentgems:gettingStarted.gemArmor0=You can also craft armor in a manner similar to tools. The recipes work differently than you would expect though. Like tools, &2you can mix materials&0 to create any armor piece you want! Armor can even be crafted with add-on parts and can be &1decorated&0!
-guide.silentgems:gettingStarted.gemArmor1=Armor from Gems can also provide more protection than normal armor! Every half gold piece on your armor bar is worth an extra 1%% protection. For reference, the normal pieces are 4%%, so think of the additional armor as more of a bonus.
-guide.silentgems:gettingStarted.gemArmor2=To craft armor, surround an &2armor frame&0 with materials of the same tier. Armor frames are crafted with &2armor lattice&0. Lay out the lattice in the same pattern as vanilla armor. Note that both the lattice and frames have tiers that must match the parts used!
-guide.silentgems:gettingStarted.gemArmor3=After crafting, armor can be &2repaired and decorated&0 just like tools. See &1decorating&0 under the Terms category for more info.
-
-
-guide.silentgems:gettingStarted.chaosOre=6. Acquire Chaos Ore
-guide.silentgems:gettingStarted.chaosOre0=You may have seen Chaos Ore on your mining trips and noticed you cannot mine it yet. Chaos Ore has a &2harvest level of 3&0, same as obsidian. Any guesses on how to mine it? Sure, you could use a diamond pickaxe, but I recommend a &2diamond-tipped upgrade&0. Seeing a pattern?
-guide.silentgems:gettingStarted.chaosOre1=You're diamond-tipped pickaxe will &2last longer and mine faster&0, all for the low price of one diamond! Now grab some Chaos Ore and obsidian. &2Chaos Ore can be smelted&0, and is compatible with ore processing from some other mods.
-guide.silentgems:gettingStarted.chaosOre2=&2Chaos Essence&0 is the result of smelting Chaos Ore, and it has many uses. You'll need a lot of it. The first use is &2supercharged gems&0, which can used to make super &1tier&0 tools.
-
-guide.silentgems:gettingStarted.superTools=7. Super Tools
-guide.silentgems:gettingStarted.superTools0=Finally, we can make &2super tier tools&0! You can use supercharged gems, and add-ons could potentially add more materials to choose from. You will &4need to use ornate rods&0 for super tools!
-guide.silentgems:gettingStarted.superTools1=By the way, don't forget to &2explore the Nether&0! There are 16 more gems to be found there, making a total of 32 for you to use. You can freely mix overworld and Nether gems as you please.
-guide.silentgems:gettingStarted.superTools2=You may also want to run the gems through the &2Material Grader&0 for additional stat bonuses. You only get one shot at grading each gem, but even the lowest grade gives a small boost.
-guide.silentgems:gettingStarted.superTools3=In addition to being highly durable, fast, and strong, many super tools come with &2special abilities&0 (see &1super skills&0). These include mining multiple blocks at once and firing magic projectiles. Also &2apply a tip upgrade&0 to further improve your tool!
-
-# Blocks
-
-guide.silentgems:blocks.chaosAltar=Chaos Altar
-guide.silentgems:blocks.chaosAltar0=The Chaos Altar has two purposes. First, it can recharge Chaos-storing items. Second, it can transmute certain items into other items (recipes appear in JEI). Both functions require &1Chaos&0 to work. Both Nodes and Pylons can supply the Altar with Chaos.
-guide.silentgems:blocks.chaosAltar1=Recharging items with the Altar is easy enough. Simply place the item in the left-most slot of the GUI. Note that the golden outline around the arrow is the Chaos stored by the Altar.
-guide.silentgems:blocks.chaosAltar2=Transmutation requires an item in the input (left) slot and, in most cases, a catalyst in the bottom slot. The &2catalyst is NEVER consumed&0 and you only need one! Note that you may need more than one of the input item, however. View the recipes in JEI.
-
-guide.silentgems:blocks.chaosFlowerPot=Chaos Flower Pot
-guide.silentgems:blocks.chaosFlowerPot0=Glow roses can be planted in chaos flower pots. This will &2amplify the flower's light&0, as well as spawning "phantom lights" in the nearby area. A single flower could potential light a medium-sized room by itself.
-
-guide.silentgems:blocks.chaosNode=Chaos Node
-guide.silentgems:blocks.chaosNode0=Nodes are the earliest way to get &1Chaos&0 energy. They can be &2found randomly throughout the world&0, hovering a few blocks above the ground. They cannot be mined, but can be &2moved with a Chaos Node Mover&0 later on.
-guide.silentgems:blocks.chaosNode1=Yes, it respects your particle settings.
-guide.silentgems:blocks.chaosNode2=Nodes have other benefits as well. They will repair the tools of nearby players, attack hostile mobs, and maybe some other things! Maybe building your starter house near or around a node would be a good idea?
-
-guide.silentgems:blocks.fluffyBlock=Fluffy Blocks
-guide.silentgems:blocks.fluffyBlock0=Fluffy blocks are blocks made of fluffy fabric. They come in all 16 colors (same as dye, wool, etc.)\n\nFluffy blocks will &2absorb fall damage&0 when landed on. The amount depends on how many fluffy blocks are directly below the one the entity landed on. More blocks = less damage.
-
-guide.silentgems:blocks.gemLamp=Gem Lamps
-guide.silentgems:blocks.gemLamp0=Gem lamps behave like redstone lamps. There is one for each gem (light and dark), plus inverted versions as well.\n\nA redstone signal turns on normal lamps and turns off inverted lamps.
-
-guide.silentgems:blocks.glowRose=Glow Roses
-guide.silentgems:blocks.glowRose0=Glow roses are &2light-emitting flowers&0. Their light is weak, but can prevent mob spawns in a two block radius. They can be planted in a Chaos Flower Pot to increase that range (for more details, see the entry on the pot).
-guide.silentgems:blocks.glowRose1=Glow roses can also be crafted into dyes, and may have additional uses in the future.
-
-guide.silentgems:blocks.materialGrader=Material Grader
-guide.silentgems:blocks.materialGrader0=The material grader will &1grade&0 tool crafting materials. Once graded, the &2stats of the material will be raised&0. The amount depends on the grade assigned. See &1Terminology/Grade&0 for more details.
-
-# Items
-
-guide.silentgems:items.chaosCoal=Chaos Coal
-guide.silentgems:items.chaosCoal0=If by some chance you have chaos essence to spare, you can use it to enrich coal. Chaos coal lasts four times longer than coal by default. Chaos coal blocks last ten times longer than a single piece of chaos coal.
-
-guide.silentgems:items.chaosOrb=Chaos Orbs
-guide.silentgems:items.chaosOrb0=Chaos orbs are items that can store &1Chaos&0 and &2provide it to the player&0 that carries it.\n\nThey will begin recharging the player a short time after they stop using their Chaos.
-guide.silentgems:items.chaosOrb1=Many chaos orbs are fragile however! If Chaos is removed from them when they are below half charge, they &4may take damage and eventually shatter&0. Lower quality orbs have a higher chance of breaking, with the best being unbreakable.
-guide.silentgems:items.chaosOrb2=The &2speed at which a chaos orb sends Chaos to the player&0 depends on the "Charge Speed" stats of the tools the player is holding. The orb has no affect on speed.
-
-guide.silentgems:items.enchantmentToken=Enchantment Tokens
-guide.silentgems:items.enchantmentToken0=Enchantment tokens provide an alternative to traditional enchanting. Instead of spending XP to get random enchantments, you &2spend resources to get exactly what you want&0. Simply craft the tokens (one for each level of the enchantment), then craft those with a tool.
-guide.silentgems:items.enchantmentToken1=As seen on the previous page, you can apply multiple tokens at once. You can &2also apply tokens to tools that are already enchanted&0, but normal enchanting rules still apply. For example, you can't have both Fortune and Silk Touch. That would be silly!
-guide.silentgems:items.enchantmentToken2=Use JEI for token recipes, they are not in the book.\n\nNote that you can still enchant gem tools through the enchantment table if you want. Play the game however you like!
-
-guide.silentgems:items.fluffyPuff=Fluffy Puffs
-guide.silentgems:items.fluffyPuff0=Fluffy puffs are soft, cotton-like plant matter. They can be crafted into a variety of items, including string, wool, and feathers.\n\nFluffy puff seeds can be acquired by &2breaking tall grass&0, same as most seeds. Plant them on farmland.
-guide.silentgems:items.fluffyPuff1=You can harvest fluffy puff plants by breaking them, but &2right-clicking them&0 will leave the plant intact, saving you the trouble of replanting. Or even better, try right-clicking the plant with a sickle...
-
-guide.silentgems:items.ironPotato=Iron Potato
-guide.silentgems:items.ironPotato0=It has no use.\n\n\n\n\n\n\n\n\n\n\n\n\nNo, seriously. It's worthless.
-
-guide.silentgems:items.torchBandolier=Torch Bandolier
-guide.silentgems:items.torchBandolier0=The torch bandolier is an item that can &2store 1024 torches&0, as well as place them. It's even compatible with the 'right-click to place' abilities of mining tools!
-guide.silentgems:items.torchBandolier1=Torches are absorbed automatically. You can toggle this behavior on or off by sneaking and right-clicking in the air.\n\nPlace the bandolier in a crafting grid to extract a stack of torches. Just be sure to turn off auto-fill mode first.
-
-# Tools
-
-guide.silentgems:tools.axe=Axes
-guide.silentgems:tools.axe0=Axes are the tool of choice for harvesting wood. They also make good melee weapons. Axes have &2 high damage&0, but are &2very slow&0. They also have the right-click-to-place ability.
-guide.silentgems:tools.axe1=Super-tier axes have the &1Lumberjack&0 ability. Use the "Toggle Special" keybinding to turn it on/off. Lumberjack allows entire trees to be chopped down all at once.
-
-guide.silentgems:tools.bow=Bows
-guide.silentgems:tools.bow0=Bows are ranged weapons capable of firing arrows. They can be constructed with a wide variety of parts, exactly like all other tools. The parts chosen seem to affect how quickly an arrow can be fully drawn.
-guide.silentgems:tools.bow1=Under the bow's "Properties" tooltip category (hover over it and hold Ctrl), you will see the "draw delay". This is the time for a full draw, so a lower number means a faster bow.
-
-guide.silentgems:tools.hoe=Hoes
-guide.silentgems:tools.hoe0=Hoes are farming tools capable of tilling dirt. Hoes are rumored to have some great secret, but no evidence has been found. However, carrying a fancy hoe makes you look roughly 232%% more fabulous.
-
-guide.silentgems:tools.katana=Katana
-guide.silentgems:tools.katana0=Katana are swords, but with less melee damage, higher magic damage, and much higher speed. However, &2katana can only be made from super-tier materials!&0 Like swords, katana have magic, but a different variety.
-
-guide.silentgems:tools.pickaxe=Pickaxes
-guide.silentgems:tools.pickaxe0=Pickaxes are used for harvesting most blocks. They work on all materials that vanilla pickaxes work on, as well as some others. They do not make very good weapons, but will do in a pinch. They also have the right-click-to-place ability.
-guide.silentgems:tools.pickaxe1=Super-tier pickaxes have the &1Area Miner&0 ability. Use the "Toggle Special" keybinding to turn it on/off. Area Miner allows the tool to mine a 3x3 area, instead of single blocks.
-
-guide.silentgems:tools.scepter=Scepters
-guide.silentgems:tools.scepter0=Scepters are a type of "sword". They can be used as melee weapons, but are slow and have low damage. However, they excel at magic. Scepters fire a volley of powerful homing shots. They can &2only be made of super-tier materials.&0
-
-guide.silentgems:tools.shield=Shields
-guide.silentgems:tools.shield0=Shields protect the user from incoming attacks. They are modular like all other tools and can even be decorated. The materials affect how much incoming damage is blocked. Unfortunately, they do not support banners.
-
-guide.silentgems:tools.shovel=Shovels
-guide.silentgems:tools.shovel0=Shovels are used for harvesting things like dirt, gravel, and sand. They can also make grass paths and have the right-click-to-place ability. They do not make good weapons.
-guide.silentgems:tools.shovel1=Super-tier shovels have the &1Area Miner&0 ability. Use the "Toggle Special" keybinding to turn it on/off. Area Miner allows the tool to mine a 3x3 area, instead of single blocks.
-
-guide.silentgems:tools.sickle=Sickles
-guide.silentgems:tools.sickle0=Sickles are used for harvesting plants. A few quick swings will clear a large area of plant matter. You can also &2harvest crops while leaving the plants intact&0 by right-clicking.
-
-guide.silentgems:tools.sword=Swords
-guide.silentgems:tools.sword0=Swords are used mostly as a weapon. They have good attack damage and good speed. Super-tier swords can use magic, but deal less magic damage than katanas and scepters.
-
-guide.silentgems:tools.tomahawk=Tomahawks
-guide.silentgems:tools.tomahawk0=Tomahawks are throwing axes. They can be used as a &2melee weapon&0 and for &2chopping wood&0, but they are not especially good at either. However, &2thrown tomahawks deal a very large amount of damage&0. Right-click to charge, release to throw.
-guide.silentgems:tools.tomahawk1=Thrown tomahawks (both those that hit mobs and those that miss) &2can be recovered&0, but you must be carrying the original with you. It's like each tomahawk item &2has ammo&0, and you can only throw them if you have the "ammo". Ammo count is displayed by the crosshairs.
-guide.silentgems:tools.tomahawk2=The time you charge the tomahawk affects both the damage and initial speed. They ignore leaves, but will be slowed down by glass.\n\nAlso note that &2striking an enemy near the head&0 deals additional damage.
-
-# Terms
-
-guide.silentgems:terms.chaos=Chaos
-guide.silentgems:terms.chaos0=Chaos refers to the energy provided by nodes and pylons. Players and certain blocks and items can store and use Chaos for different things.
-
-guide.silentgems:terms.decorating=Decorating
-guide.silentgems:terms.decorating0=Often, you will select materials for your tools based on stats, not looks. Not to worry, though! You can &2change the appearance of a tool&0 after construction by "decorating" it.
-guide.silentgems:terms.decorating1=To decorate, place a tool in the crafting grid, then &2materials adjacent to the tool&0. The bottom changes the rod decoration bit on rods that support it. The others change the "head". Grips, rods, and tip upgrades can go in any slot.
-guide.silentgems:terms.decorating2=Decorating also &2repairs the tool&0, and will even work on broken tools. The repair amount depends on the tool's tier, as well as the material.\n\nNote that &4some materials will not repair some tools&0. For example, flint does nothing for gem tools.
-
-guide.silentgems:terms.grade=Grade
-guide.silentgems:terms.grade0=Grades are rankings that are assigned to tool materials by the &2Material Grader&0. Possible grades are (lowest to highest): E, D, C, B, A, S, SS, SSS.\n\nAll &2graded materials have their stats raised&0, with higher grades getting larger bonuses.
-guide.silentgems:terms.grade1=Graded materials can still be used for any crafting recipes the item can normally be used for. You can mix materials with different grades as well.\n\nGrades are &2normally distributed&0, with a mean of 'B'. That means the further the grade is from 'B', the less common it is.
-
-guide.silentgems:terms.superSkills=Super Skills
-guide.silentgems:terms.superSkills0=Super skills are the special abilities of super tools. Some can be activated by pressing the 'Toggle Special' keybinding. Others require you to swing the tool (left-click) while sneaking.
-guide.silentgems:terms.superSkills1=&6Area Miner&0\n\nActivated with 'Toggle Special'. Changes the cursor.\n\nAllows pickaxes and shovels to &2mine a 3x3 area&0. Similar to hammers from certain other mods. Requires a small amount of Chaos to use.
-guide.silentgems:terms.superSkills2=&6Lumberjack&0\n\nActivated with 'Toggle Special'. Changes the cursor.\n\nAllows axes to &2chop down an entire tree at once&0. Tree detection is a little finicky for some modded trees, but works well enough. Requires a small amount of Chaos to use.
-guide.silentgems:terms.superSkills3=&6Magic Projectiles (WIP)&0\n\nActivated by swinging while sneaking.\n\nAllows swords, katanas, and scepters to fire different projectiles. Currently, the types depends on the tool type. Damage depends on the tool's magic damage stat. Requires a moderate to large amount of Chaos.
-guide.silentgems:terms.superSkills4=&6Sword Projectile&0: A single orb that is affected by gravity and will bounce a couple of times.\n\n&6Katana Projectile&0: Three shots that trace the ground, damaging anything in their path.\n\n&6Scepter Projectile&0:Fires several homing shots into the air. 
-
-guide.silentgems:terms.tier=Tier
-guide.silentgems:terms.tier0=The tier of a tool or material &2determines its compatibility with other parts&0.\n\nThere are three tiers: &2Mundane, Regular, and Super&0.\n\nIn general, the parts that a tool is made with must be of the same tier. There are some exceptions. For example, rods can go up or down one tier.
-guide.silentgems:terms.tier1=Tier Examples\n\n&6Mundane&0: Flint, sticks, bones.\n\n&6Regular&0: Gems, iron rods.\n\n&6Super&0: Supercharged gems, ornate rods.
-
-
+guide.silentgems:chapter.introduction.name=Introduction
+guide.silentgems:chapter.introduction.text1=Welcome to <imp>Silent's Gems<r>! The mod is mostly about tools and various random blocks and items that expand vanilla without trampling on it too much.<n><n>This &7(hopefully not too poorly written guide)<r> will help you in the first steps of your journey.<n><n>
+guide.silentgems:chapter.introduction.text2=This is a <imp>Silent Lib guide book<r>, which is heavily inspired by the booklet from the Actually Additions mod by Ellpeck. It's controls are very similar. The buttons in the bottom-left and -right will navigate the <imp>pages<r> of the <imp>chapter<r>. Click the back button in the upper-left to go back to the "Getting Started" <imp>entry<r>. From there, I <vimp>recommend reading the "Mod Progression" chapter<r> after you finish this one.
+guide.silentgems:chapter.introduction.text3=Good, you turned the page! Silent Lib guide books also remember where you last were, so feel free to close the book by <imp>pressing Esc<r> any time you need to. Finally, if you are not sure where to look for something, try the <imp>search box on the right side<r>.
+guide.silentgems:chapter.progression.name=Mod Progression
+guide.silentgems:chapter.progression.text1=Silent's Gems has a <imp>rich tool building system<r> that can (if you choose to do so) completely bypass all vanilla and other modded tools. By itself, this mod allows you to build tools out of <item>flint<r> and <item>gems<r>. Add-ons like &5Silent's Gems: Extra Parts<r> add additional materials which can be freely combined with materials from the base mod. We'll go into the fine details later. First, there are trees to punch!
+guide.silentgems:chapter.progression.text2=Let's make some <imp>flint tools<r> first &7(if using Extra Parts, also consider polished wood/stone)<r>. Grab some wood for sticks and some flint. Use this recipe to craft flint from gravel if you like.
+guide.silentgems:chapter.progression.text3=All Silent's Gems tools <vimp>can be crafted in vanilla crafting grids<r>! Here is an example for crafting a flint pickaxe. Flint is better than stone and has the same harvest level.
+guide.silentgems:chapter.progression.text4=&nInformation Everywhere!<r><n><n>Hover over a tool or tool material and <imp>hold Ctrl to view the stats<r>. Try it with both the flint and the flint pickaxe on the previous page right now!<n><n>Several types of items from this mod will add extra information to the tooltip when modifier keys (Ctrl, Alt, Shift) are held. Try different combinations of these keys to see what you can learn!
+guide.silentgems:chapter.progression.text5=If your tools wear down or break (broken tools <vimp>do not disappear<r>), you can repair them by crafting them with a tool material, such as flint or gems. This is a process called <imp>decorating<r>, which will be covered in detail in another chapter.
+guide.silentgems:chapter.progression.text6=Your flint pickaxe <imp>can mine iron<r>, but it's not good enough to mine gems, which are the next tier up. No, <vimp>do not craft an iron pickaxe<r>! I mean you could, but there's a better way.<n><n>Existing tools can be upgraded further by crafting them with <imp>tip upgrades<r>. Tips will upgrade the tool's harvest level (if lower than the tip's). Most tips also boost durability, harvest speed, and damage dealt. They can be applied to <imp>any tool<r>... even bows and shields, strangely enough.
+guide.silentgems:chapter.progression.text7=Craft the tip upgrade then <imp>apply it by crafting it with your tool<r>. Now you can mine gems! Note almost everything in Silent's Gems can be done in vanilla crafting grids. Very convenient.
+guide.silentgems:chapter.progression.text8=This is where tool crafting gets interesting! Mine a few types of gems. Now lay out the recipe for a tool using gems... but <imp>replace one of the gems with a different type<r>!
+guide.silentgems:chapter.progression.text9=Inspect the stats of the tool in the output slot. Mixing different materials into a single tool will <imp>average out their stats<r>, but also applies a <imp>variety bonus<r> on top of that. Experiment to see what you can create! Try combining similar materials to amplify their stats, or different ones to cover their weaknesses. Just remember all materials need to be the <imp>same tier<r>, but they can be from different mods.
+guide.silentgems:chapter.progression.text10=Still with me? The next step is to mine <imp>Chaos Ore<r> and obsidian, but that requires a diamond-level pickaxe. The best solution, as you might be able to guess, is diamond tips.
+guide.silentgems:chapter.progression.text11=Now for <imp>super-tier tools<r>! You will need Chaos Essence and glowstone dust to craft <imp>supercharged gems<r>, so you might need to make a trip to the Nether (keep an eye out for <item>dark gems<r> while you're there).<n><n>Super-tier tools also <imp>require special rods<r> instead of sticks. They might be pricy, but some super-tier tools have <imp>special skills<r>. Some tools are also super-tier only (called <imp>super tools<r>), like <item>katanas<r> and <item>paxels<r>.
+guide.silentgems:chapter.progression.text12=Here's a katana as an example. Again, you can <imp>mix any materials of the same tier<r> and you must <imp>use rods that support the tier of the materials<r>.
+guide.silentgems:chapter.progression.text13=This concludes the chapter on progression. Hopefully you now have a good grasp on tool crafting. I encourage you to look at the chapters for all the tool classes for more information.
