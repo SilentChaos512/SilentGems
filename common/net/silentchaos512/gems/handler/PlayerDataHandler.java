@@ -125,11 +125,13 @@ public class PlayerDataHandler {
     private static final String NBT_CHAOS = "Chaos";
     private static final String NBT_MAX_CHAOS = "MaxChaos";
     private static final String NBT_RECHARGE_COOLDOWN = "RechargeCooldown";
+    private static final String NBT_FLIGHT_TIME = "FlightTime";
 
     public int chaos;
     public int maxChaos;
     public int magicCooldown;
     public int rechargeCooldown;
+    public int flightTime = 200;
 
     public WeakReference<EntityPlayer> playerWR;
     private final boolean client;
@@ -161,6 +163,16 @@ public class PlayerDataHandler {
       // Recharge cooldown?
       if (rechargeCooldown > 0) {
         --rechargeCooldown;
+        shouldSave = true;
+      }
+
+      // Flight timer (fix infinite flight)
+      if (flightTime > 0) {
+        --flightTime;
+        if (flightTime == 0 && !player.capabilities.isCreativeMode) {
+          player.capabilities.allowFlying = false;
+          player.capabilities.isFlying = false;
+        }
         shouldSave = true;
       }
 
@@ -259,6 +271,7 @@ public class PlayerDataHandler {
       tags.setInteger(NBT_CHAOS, chaos);
       tags.setInteger(NBT_MAX_CHAOS, maxChaos);
       tags.setInteger(NBT_RECHARGE_COOLDOWN, rechargeCooldown);
+      tags.setShort(NBT_FLIGHT_TIME, (short) flightTime);
     }
 
     public void load() {

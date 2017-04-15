@@ -15,6 +15,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.fml.common.Loader;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.handler.PlayerDataHandler;
+import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageSetFlight;
 
@@ -169,6 +171,9 @@ public class ChaosBuff {
 
     if (this == FLIGHT) {
       player.capabilities.allowFlying = true;
+      PlayerData data = PlayerDataHandler.get(player);
+      if (data != null)
+        data.flightTime = 100;
       if (!player.world.isRemote && player.ticksExisted % 20 == 0) {
         NetworkHandler.INSTANCE.sendTo(new MessageSetFlight(true), (EntityPlayerMP) player);
       }
