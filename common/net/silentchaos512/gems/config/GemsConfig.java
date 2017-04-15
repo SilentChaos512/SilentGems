@@ -11,6 +11,7 @@ import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
@@ -47,6 +48,7 @@ public class GemsConfig extends AdaptiveConfig {
    */
 
   public static int BURN_TIME_CHAOS_COAL = 6400;
+  public static boolean SPAWN_PLAYER_WITH_GUIDE_BOOK = true;
 
   public static int FOOD_SUPPORT_DURATION = 600;
   public static float FOOD_SECRET_DONUT_CHANCE = 0.33f;
@@ -217,12 +219,14 @@ public class GemsConfig extends AdaptiveConfig {
        * Items
        */
 
-//      BURN_TIME_CHAOS_COAL = config.getInt("Chaos Coal Burn Time", CAT_ITEM,
-//          BURN_TIME_CHAOS_COAL, 0, Integer.MAX_VALUE,
-//          "The burn time of Chaos Coal. Regular coal is 1600 ticks.");
       BURN_TIME_CHAOS_COAL = loadInt("Chaos Coal Burn Time", CAT_ITEM,
           BURN_TIME_CHAOS_COAL, 0, Integer.MAX_VALUE,
           "The burn time of Chaos Coal. Regular coal is 1600 ticks.");
+      SPAWN_PLAYER_WITH_GUIDE_BOOK = loadBoolean("Spawn with Guide Book", CAT_ITEM,
+          SPAWN_PLAYER_WITH_GUIDE_BOOK,
+          "Should players be given a copy of the guide book when they first spawn?");
+      if (ModItems.guideBook != null)
+        ModItems.guideBook.giveBookOnFirstLogin = SPAWN_PLAYER_WITH_GUIDE_BOOK;
 
       // Food
       final String catFood = CAT_ITEM + split + "Food";
