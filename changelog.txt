@@ -1,8 +1,14 @@
 Silent's Gems - Changelog
 
+2.3.8
+Added: Config to disable spawning with new guide book.
+Changed: Updated bow and scepter textures to 16x16.
+Changed: UPdated katana textures. Blade is now wider, looks better.
+
 2.3.7
-Added: A Silent Lib guide book. Requires Silent Lib 2.1.0 or higher.
+Added: A Silent Lib guide book. Requires Silent Lib 2.1.0 or higher. Incomplete, feedback appreciated.
 Removed: The Guide-API guide book, due to compatibility issues.
+Fixed: A crash when using block placers (like the Torch Bandolier) (#140)
 
 2.3.6
 Added: Paxels! A pickaxe, shovel, and axe all-in-one. Takes a whopping six material items to craft. Repairs are 30% less effective. Extra durability, but has a small mining speed penalty. Super-tier only and has the Area Miner skill. Feedback welcome (#138)
