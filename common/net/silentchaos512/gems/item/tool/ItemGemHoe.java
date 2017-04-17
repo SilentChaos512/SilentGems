@@ -24,6 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
@@ -67,9 +68,27 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
 
     EnumActionResult result = ItemHelper.onItemUse(Items.DIAMOND_HOE, player, world, pos, hand,
         side, hitX, hitY, hitZ); // Use diamond hoe so we don't get stack overflow.
+    int tilledCount = result == EnumActionResult.SUCCESS ? 1 : 0;
 
-    if (result == EnumActionResult.SUCCESS) {
-      ToolHelper.incrementStatBlocksTilled(stack, 1);
+    // Super hoe area till?
+    boolean isSuper = ToolHelper.getToolTier(stack).ordinal() >= EnumMaterialTier.SUPER.ordinal();
+    if (result == EnumActionResult.SUCCESS && player.isSneaking() && isSuper) {
+      BlockPos[] array = new BlockPos[] { new BlockPos(pos.getX() - 1, pos.getY(), pos.getZ() - 1),
+          new BlockPos(pos.getX() - 1, pos.getY(), pos.getZ() + 0),
+          new BlockPos(pos.getX() - 1, pos.getY(), pos.getZ() + 1),
+          new BlockPos(pos.getX() + 0, pos.getY(), pos.getZ() - 1),
+          new BlockPos(pos.getX() + 0, pos.getY(), pos.getZ() + 1),
+          new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ() - 1),
+          new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ() + 0),
+          new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ() + 1) };
+      for (BlockPos blockpos : array)
+        if (ItemHelper.onItemUse(Items.DIAMOND_HOE, player, world, blockpos, hand, side, hitX, hitY,
+            hitZ) == EnumActionResult.SUCCESS)
+          ++tilledCount;
+    }
+
+    if (tilledCount > 0) {
+      ToolHelper.incrementStatBlocksTilled(stack, tilledCount);
     }
 
     return result;
