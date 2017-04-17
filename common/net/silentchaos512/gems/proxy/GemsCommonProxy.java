@@ -16,6 +16,7 @@ import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.module.ModuleHolidayCheer;
 import net.silentchaos512.gems.network.NetworkHandler;
+import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.Color;
 
@@ -25,6 +26,8 @@ public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
   public void preInit(SRegistry registry) {
 
     super.preInit(registry);
+
+    ToolHelper.FAKE_MATERIAL.setRepairItem(ModItems.craftingMaterial.chaosEssenceEnriched);
 
     ModItems.guideBook.book.preInit();
 

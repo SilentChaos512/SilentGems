@@ -105,6 +105,8 @@ public class RecipeDecorateTool implements IRecipeSL {
       }
     }
 
+    repairValue += 1;
+
     // Tool repair multiplier
     repairValue *= ((ITool) tool.getItem()).getRepairMultiplier();
 
