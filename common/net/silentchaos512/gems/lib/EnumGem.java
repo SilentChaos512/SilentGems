@@ -3,6 +3,7 @@ package net.silentchaos512.gems.lib;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.item.ModItems;
@@ -173,6 +174,11 @@ public enum EnumGem implements IStringSerializable {
     }
 
     return values()[stack.getItemDamage() & 0x1F];
+  }
+
+  public static EnumGem getRandom() {
+
+    return values()[SilentGems.random.nextInt(values().length)];
   }
 
   // ======================

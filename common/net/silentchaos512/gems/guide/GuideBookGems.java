@@ -1,5 +1,9 @@
 package net.silentchaos512.gems.guide;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -7,13 +11,18 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.tool.part.ToolPart;
+import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.guide.page.PageOreSpawn;
+import net.silentchaos512.gems.guide.page.PageToolPart;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.guidebook.GuideBook;
+import net.silentchaos512.lib.guidebook.IGuidePage;
 import net.silentchaos512.lib.guidebook.chapter.GuideChapter;
 import net.silentchaos512.lib.guidebook.entry.GuideEntry;
 import net.silentchaos512.lib.guidebook.page.PageCrafting;
@@ -29,6 +38,7 @@ public class GuideBookGems extends GuideBook {
   private GuideEntry entryGettingStarted;
   private GuideEntry entryBlocks;
   private GuideEntry entryItems;
+  private GuideEntry entryTools;
   private GuideEntry entryRecipes;
 
   public GuideBookGems() {
@@ -46,6 +56,7 @@ public class GuideBookGems extends GuideBook {
     entryGettingStarted = new GuideEntry(this, "gettingStarted").setImportant();
     entryBlocks = new GuideEntry(this, "blocks");
     entryItems = new GuideEntry(this, "items");
+    entryTools = new GuideEntry(this, "tools");
     entryRecipes = new GuideEntry(this, "recipes");
   }
 
@@ -93,6 +104,91 @@ public class GuideBookGems extends GuideBook {
             EnumGem.OPAL.getItemSuper(), 'd', EnumGem.BLACK_DIAMOND.getItemSuper(), 'r', ModItems.craftingMaterial.toolRodGold)),
         new PageTextOnly(this, 13)).setImportant();
 
+    // Tools
+
+    // Parts
+//    List<IGuidePage> pagesParts = Lists.newArrayList();
+//    pagesParts.add(new PageTextOnly(this, 1));
+//    for (ToolPart part : ToolPartRegistry.getMains()) {
+//      pagesParts.add(new PageToolPart(this, 0, part));
+//    }
+//    new GuideChapter(this, "toolParts", entryTools, EnumGem.getRandom().getItem(), 100,
+//        pagesParts.toArray(new IGuidePage[pagesParts.size()]));
+    // Axes
+    ItemStack toolsEntryRod = SilentGems.random.nextFloat() < 0.67f ? ModItems.craftingMaterial.toolRodGold : ModItems.craftingMaterial.toolRodSilver;
+    ItemStack chAxeGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chAxe = makeTool(ModItems.axe, toolsEntryRod, chAxeGem, 3);
+    new GuideChapter(this, "axe", entryTools, chAxe,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapedOreRecipe(chAxe, "gg", "gr", " r", 'g', chAxeGem, 'r', toolsEntryRod)).setNoText());
+    // Bows
+    ItemStack chBowGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chBow = makeTool(ModItems.bow, toolsEntryRod, chBowGem, 3);
+    new GuideChapter(this, "bow", entryTools, chBow,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapedOreRecipe(chBow, "rgs", "g s", "rgs", 'g', chBowGem, 'r', toolsEntryRod, 's', ModItems.craftingMaterial.gildedString)));
+    // Daggers
+    ItemStack chDaggerGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chDagger = makeTool(ModItems.dagger, toolsEntryRod, chDaggerGem, 1);
+    new GuideChapter(this, "dagger", entryTools, chDagger,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapedOreRecipe(chDagger, "g", "r", "f", 'g', chDaggerGem, 'r', toolsEntryRod, 'f', "ingotGold")).setNoText());
+    // Hoes
+    ItemStack chHoeGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chHoe = makeTool(ModItems.hoe, toolsEntryRod, chHoeGem, 2);
+    new GuideChapter(this, "hoe", entryTools, chHoe,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapedOreRecipe(chHoe, "gg", " r", " r", 'g', chHoeGem, 'r', toolsEntryRod)).setNoText());
+    // Katana
+    ItemStack chKatanaGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chKatana = makeTool(ModItems.katana, toolsEntryRod, chKatanaGem, 3);
+    new GuideChapter(this, "katana", entryTools, chKatana,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapedOreRecipe(chKatana, "gg", "g ", "r ", 'g', chKatanaGem, 'r', toolsEntryRod)).setNoText());
+    // Paxels
+    ItemStack chPaxelGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chPaxel = makeTool(ModItems.paxel, toolsEntryRod, chPaxelGem, 6);
+    new GuideChapter(this, "paxel", entryTools, chPaxel,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapedOreRecipe(chPaxel, "ggg", "grg", "gr ", 'g', chPaxelGem, 'r', toolsEntryRod)).setNoText());
+    // Pickaxes
+    ItemStack chPickaxeGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chPickaxe = makeTool(ModItems.pickaxe, toolsEntryRod, chPickaxeGem, 3);
+    new GuideChapter(this, "pickaxe", entryTools, chPickaxe,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapedOreRecipe(chPickaxe, "ggg", " r ", " r ", 'g', chPickaxeGem, 'r', toolsEntryRod)).setNoText());
+    // Scepters
+    ItemStack chScepterGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chScepter = makeTool(ModItems.scepter, toolsEntryRod, chScepterGem, 5);
+    new GuideChapter(this, "scepter", entryTools, chScepter,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapedOreRecipe(chScepter, " g ", "grg", "grg", 'g', chScepterGem, 'r', toolsEntryRod)).setNoText(),
+        new PageTextOnly(this, 3));
+    // Shovels
+    ItemStack chShovelGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chShovel = makeTool(ModItems.shovel, toolsEntryRod, chShovelGem, 1);
+    new GuideChapter(this, "shovel", entryTools, chShovel,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapedOreRecipe(chShovel, "g", "r", "r", 'g', chShovelGem, 'r', toolsEntryRod)).setNoText());
+    // Sickles
+    ItemStack chSickleGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chSickle = makeTool(ModItems.sickle, toolsEntryRod, chSickleGem, 3);
+    new GuideChapter(this, "sickle", entryTools, chSickle,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapedOreRecipe(chSickle, " g", "gg", "r ", 'g', chSickleGem, 'r', toolsEntryRod)).setNoText());
+    // Swords
+    ItemStack chSwordGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chSword = makeTool(ModItems.sword, toolsEntryRod, chSwordGem, 2);
+    new GuideChapter(this, "sword", entryTools, chSword,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapedOreRecipe(chSword, "g", "g", "r", 'g', chSwordGem, 'r', toolsEntryRod)).setNoText());
+    // Tomahawks
+    ItemStack chTomahawkGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chTomahawk = makeTool(ModItems.tomahawk, toolsEntryRod, chTomahawkGem, 4);
+    new GuideChapter(this, "tomahawk", entryTools, chTomahawk,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapedOreRecipe(chTomahawk, "ggg", "gr ", " r ", 'g', chTomahawkGem, 'r', toolsEntryRod)).setNoText());
+
     // Blocks
 
     // Ores
@@ -133,5 +229,38 @@ public class GuideBookGems extends GuideBook {
         new PageTextOnly(this, 1));
 
     // @formatter:on
+  }
+
+  public static final String[] QUOTES = {//@formatter:off
+      "The flowers probably won't kill you.",
+      "Try the donuts!",
+      "May contain unintended &cR&6a&ei&an&9b&do&5w&0s!".replaceAll("&", "\u00a7"),
+      "Shake well and refrigerate after opening.",
+      "Drowning in [slightly fewer] JSON files...",
+      "Download only from CurseForge!",
+      "Rabbit poop coffee!",
+      "Now works on Minecraft 1.10.2! Because other modders are SOOO slow to update...",
+      "It stares into your soul.",
+      "Pot now included... flower pot, that is.",
+      "Did you know Chaos Gems are finally back?",
+      "Also try Extra Parts!",
+      "Your wish has been granted!",
+  };//@formatter:on
+
+  // TODO: Uncomment
+//  @Override
+//  public String[] getQuotes() {
+//
+//    return QUOTES;
+//  }
+
+  private ItemStack makeTool(ITool tool, ItemStack rod, ItemStack gem, int gemCount) {
+
+    ItemStack[] array = new ItemStack[gemCount];
+    for (int i = 0; i < array.length; ++i)
+      array[i] = gem;
+    ItemStack ret = tool.constructTool(rod, array);
+    ToolHelper.setOriginalOwner(ret, TOOL_OWNER_NAME);
+    return ret;
   }
 }

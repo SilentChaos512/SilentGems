@@ -3,6 +3,8 @@ Silent's Gems - Changelog
 2.3.8
 Added: Daggers! What they lack in power, they make up for in speed and low cost. They also reduce the invulnerability time of mobs they hit, allowing them to be damaged again sooner. Dagger recipes are a bit different: a single material, a rod below, then a "filler" item below that. The filler is string, an iron ingot, or a gold ingot, depending on the tool tier. The filler should help reduce recipe conflicts. It also means I have to rewrite much less of the tool recipe code...
 Added: Config to disable spawning with new guide book.
+Added: Super-tier hoes will now till a 3x3 while sneaking.
+Added: Missing tool chapters to the manual.
 Changed: Updated bow and scepter textures to 16x16.
 Changed: Updated katana textures. Blade is now wider, looks better.
 Fixed: The "infinite flight" bug, which returned with a vengeance (the lingering flight effect will go away after 5-10 seconds).
