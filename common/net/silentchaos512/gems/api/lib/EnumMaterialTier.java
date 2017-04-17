@@ -24,15 +24,15 @@ public enum EnumMaterialTier {
     return null;
   }
 
-  public ItemStack getFiller() {
+  public Object getFiller() {
 
     switch (this) {
       case MUNDANE:
         return new ItemStack(Items.STRING);
       case REGULAR:
-        return new ItemStack(Items.IRON_INGOT);
+        return "ingotIron";
       case SUPER:
-        return new ItemStack(Items.GOLD_INGOT);
+        return "ingotGold";
       default:
         SilentGems.logHelper.warning("EnumMaterialTier " + this + ": undefined filler stack!");
         return StackHelper.empty();

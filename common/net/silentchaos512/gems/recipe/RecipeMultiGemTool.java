@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
@@ -161,8 +162,17 @@ public class RecipeMultiGemTool implements IRecipeSL {
             return false;
           else if (c == 'r' && !(part instanceof ToolPartRod))
             return false;
-        } else if (c == 'f' && !stack.isItemEqual(tier.getFiller())) {
-          return false;
+        } else if (c == 'f') {
+          // Filler
+          Object filler = tier.getFiller();
+          if (filler instanceof String)
+            for (ItemStack oreStack : StackHelper.getOres((String) filler))
+                if (oreStack.isItemEqual(stack))
+                  return true;
+          else if (filler instanceof ItemStack)
+            return ((ItemStack) filler).isItemEqual(stack);
+          else
+            return false;
         } else if (part == null && c != ' ') {
           return false;
         }
