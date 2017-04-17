@@ -18,6 +18,7 @@ import net.silentchaos512.lib.util.StackHelper;
 public class RecipeMultiGemTool implements IRecipeSL {
 
   public static final String RECIPE_SWORD = "h;h;r";
+  public static final String RECIPE_DAGGER = "h;r;f";
   public static final String RECIPE_KATANA = "hh;h ;r ";
   public static final String RECIPE_SCEPTER = " h ;hrh;hrh";
   public static final String RECIPE_TOMAHAWK = "hhh;hr ; r ";
@@ -61,6 +62,8 @@ public class RecipeMultiGemTool implements IRecipeSL {
     // 1 part head
     else if (matchesRecipe(inv, RECIPE_SHOVEL))
       return ModItems.shovel.constructTool(getRodType(inv), getGems(inv));
+    else if (matchesRecipe(inv, RECIPE_DAGGER))
+      return ModItems.dagger.constructTool(getRodType(inv), getGems(inv));
 
     return StackHelper.empty();
   }
@@ -132,7 +135,7 @@ public class RecipeMultiGemTool implements IRecipeSL {
         ToolPart part = getPartInSlot(inv, i, j);
 
         // Check part
-        if (part != null && c != ' ' && !part.isBlacklisted(stack)) {
+        if (part != null && c != ' ' && c != 'f' && !part.isBlacklisted(stack)) {
           if (tier == null)
             tier = part.getTier();
           // Make sure tiers are compatible.
@@ -158,6 +161,8 @@ public class RecipeMultiGemTool implements IRecipeSL {
             return false;
           else if (c == 'r' && !(part instanceof ToolPartRod))
             return false;
+        } else if (c == 'f' && !stack.isItemEqual(tier.getFiller())) {
+          return false;
         } else if (part == null && c != ' ') {
           return false;
         }

@@ -92,7 +92,6 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
   @Override
   public float getMagicDamage(ItemStack tool) {
 
-    int magicEnchLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.magicDamage, tool);
     return 2.0f + ToolHelper.getMagicDamage(tool);
   }
 
@@ -180,17 +179,16 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
     if (magicEnchLevel > 0)
       damage += ModEnchantments.magicDamage.calcDamage(magicEnchLevel);
 
-    if (stack.getItem() == ModItems.scepter) {
+    Item item = stack.getItem();
+    if (item instanceof ItemGemScepter) {
       for (int i = 0; i < 5; ++i) {
         list.add(new EntityChaosProjectileHoming(player, stack, damage));
       }
-    }
-    if (stack.getItem() == ModItems.katana) {
+    } else if (item instanceof ItemGemKatana) {
       list.add(new EntityChaosProjectileSweep(player, stack, damage, 0.0f));
       list.add(new EntityChaosProjectileSweep(player, stack, damage, -0.075f));
       list.add(new EntityChaosProjectileSweep(player, stack, damage, 0.075f));
-    }
-    if (stack.getItem() == ModItems.sword) {
+    } else {
       list.add(new EntityChaosProjectile(player, stack, damage));
     }
 

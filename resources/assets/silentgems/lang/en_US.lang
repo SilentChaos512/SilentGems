@@ -708,6 +708,7 @@ item.silentgems:CoffeeCup.name=Cup of Coffee
 # Tools
 
 tool.silentgems:Sword=%s Sword
+tool.silentgems:Dagger=%s Dagger
 tool.silentgems:Katana=%s Katana
 tool.silentgems:Scepter=%s Scepter
 tool.silentgems:Tomahawk=%s Tomahawk

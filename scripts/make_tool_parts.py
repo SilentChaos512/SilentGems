@@ -1,7 +1,7 @@
 import re
 from subprocess import call
 
-NAME = 'paxel'
+NAME = 'dagger'
 SUPER_TOOL = False
 
 TEXTURE = NAME.lower() + '/' + NAME
@@ -31,7 +31,7 @@ for i in (range(32) + ['flint']):
 
     commands.append(line % (MODE, name, texture, 1))
     commands.append(line % (MODE, name + 'l', texture + 'l', 2))
-    if NAME == 'katana':
+    if NAME == 'katana' or NAME == 'dagger':
         commands.append(line % (MODE, name + 'r', 'blank', 0))
     else:
         commands.append(line % (MODE, name + 'r', texture + 'r', 3))

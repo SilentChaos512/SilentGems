@@ -19,6 +19,7 @@ import net.silentchaos512.gems.item.armor.ItemArmorFrame;
 import net.silentchaos512.gems.item.armor.ItemGemArmor;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
+import net.silentchaos512.gems.item.tool.ItemGemDagger;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemKatana;
 import net.silentchaos512.gems.item.tool.ItemGemPaxel;
@@ -61,6 +62,7 @@ public class ModItems {
 
   // Tools
   public static final ItemGemSword sword = new ItemGemSword();
+  public static final ItemGemDagger dagger = new ItemGemDagger();
   public static final ItemGemKatana katana = new ItemGemKatana();
   public static final ItemGemScepter scepter = new ItemGemScepter();
   public static final ItemGemTomahawk tomahawk = new ItemGemTomahawk();
@@ -116,6 +118,7 @@ public class ModItems {
 
     // Tools
     reg.registerItem(sword, Names.SWORD);
+    reg.registerItem(dagger);
     reg.registerItem(katana, Names.KATANA);
     reg.registerItem(scepter, Names.SCEPTER);
     reg.registerItem(tomahawk, Names.TOMAHAWK);

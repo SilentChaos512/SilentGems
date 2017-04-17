@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -29,7 +30,8 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_KATANA) return StackHelper.empty();
+    if (GemsConfig.TOOL_DISABLE_KATANA)
+      return StackHelper.empty();
     ItemStack result = ToolHelper.constructTool(this, rod, materials);
     return addDefaultGrip(result);
   }
@@ -37,7 +39,8 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_KATANA) return StackHelper.empty();
+    if (GemsConfig.TOOL_DISABLE_KATANA)
+      return StackHelper.empty();
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.STICK);
     ItemStack result = ToolHelper.constructTool(this, rod, materials);
@@ -48,8 +51,10 @@ public class ItemGemKatana extends ItemGemSword {
 
     if (StackHelper.isEmpty(katana))
       return StackHelper.empty();
-    ItemStack blackWool = new ItemStack(Blocks.WOOL, 1, EnumDyeColor.BLACK.getMetadata());
-    ToolHelper.setPart(katana, ToolPartRegistry.fromStack(blackWool), EnumMaterialGrade.NONE,
+    EnumMaterialTier tier = ToolHelper.getToolTier(katana);
+    ItemStack wool = new ItemStack(Blocks.WOOL, 1, tier == EnumMaterialTier.SUPER
+        ? EnumDyeColor.BLACK.getMetadata() : EnumDyeColor.SILVER.getMetadata());
+    ToolHelper.setPart(katana, ToolPartRegistry.fromStack(wool), EnumMaterialGrade.NONE,
         EnumPartPosition.ROD_GRIP);
     return katana;
   }
@@ -105,7 +110,8 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_KATANA) return;
+    if (GemsConfig.TOOL_DISABLE_KATANA)
+      return;
 
     String line1 = "gg";
     String line2 = "g ";

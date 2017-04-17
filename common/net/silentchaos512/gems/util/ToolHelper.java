@@ -285,8 +285,12 @@ public class ToolHelper {
 
   public static boolean getIsRepairable(ItemStack tool, ItemStack material) {
 
-    // TODO
-    return false;
+    EnumMaterialTier tierTool = getToolTier(tool);
+    EnumMaterialTier tierMat = EnumMaterialTier.fromStack(material);
+
+    if (tierTool == null || tierMat == null)
+      return false;
+    return tierTool.ordinal() <= tierMat.ordinal();
   }
 
   public static void attemptDamageTool(ItemStack tool, int amount, EntityLivingBase entityLiving) {
@@ -531,7 +535,8 @@ public class ToolHelper {
           }
 
           int prevSize = StackHelper.getCount(nextStack);
-          result = ItemHelper.useItemAsPlayer(nextStack, player, world, pos, side, hitX, hitY, hitZ);
+          result = ItemHelper.useItemAsPlayer(nextStack, player, world, pos, side, hitX, hitY,
+              hitZ);
 
           // Don't consume in creative mode?
           if (player.capabilities.isCreativeMode) {
@@ -743,7 +748,7 @@ public class ToolHelper {
 
     // Check tier - "Super" tools can only be super tier!
     EnumMaterialTier toolTier = getToolTier(result);
-    if (item == ModItems.katana || item == ModItems.scepter) {
+    if (item instanceof ITool && ((ITool) item).isSuperTool()) {
       if (toolTier.ordinal() < EnumMaterialTier.SUPER.ordinal())
         return StackHelper.empty();
     }
@@ -949,8 +954,10 @@ public class ToolHelper {
       ItemStack head, Object rod) {
 
     ToolPart part = ToolPartRegistry.fromStack(head);
+    EnumMaterialTier tier = getToolTier(result);
     if (part != null && !part.isBlacklisted(head))
-      GameRegistry.addRecipe(new ShapedOreRecipe(result, line1, line2, line3, 'g', head, 's', rod));
+      GameRegistry.addRecipe(new ShapedOreRecipe(result, line1, line2, line3, 'g', head, 's', rod,
+          'f', tier.getFiller()));
   }
 
   // ==========================================================================

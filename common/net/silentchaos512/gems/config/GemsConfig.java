@@ -68,6 +68,7 @@ public class GemsConfig extends AdaptiveConfig {
   public static boolean SWITCH_AXE_SUPER = false;
 
   public static boolean TOOL_DISABLE_SWORD;
+  public static boolean TOOL_DISABLE_DAGGER;
   public static boolean TOOL_DISABLE_KATANA;
   public static boolean TOOL_DISABLE_SCEPTER;
   public static boolean TOOL_DISABLE_TOMAHAWK;
@@ -280,6 +281,7 @@ public class GemsConfig extends AdaptiveConfig {
           + " toggling the desired option to \"true\". Doing so will prevent ANY tool of that type"
           + " from being crafted (all tiers, mixed and non-mixed, and both base mod and add-on parts).");
       TOOL_DISABLE_SWORD = config.get(catToolDisable, "Sword", false).getBoolean();
+      TOOL_DISABLE_DAGGER = config.get(catToolDisable, "Dagger", false).getBoolean();
       TOOL_DISABLE_KATANA = config.get(catToolDisable, "Katana", false).getBoolean();
       TOOL_DISABLE_SCEPTER = config.get(catToolDisable, "Scepter", false).getBoolean();
       TOOL_DISABLE_TOMAHAWK = config.get(catToolDisable, "Tomahawk", false).getBoolean();
