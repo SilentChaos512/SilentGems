@@ -646,6 +646,7 @@ item.silentgems:TipUpgrade.magicDamage=&aMagic Damage %s
 
 # Crafting Materials
 
+item.silentgems:CraftingMaterial.desc=Crafting Material
 item.silentgems:ArmorLatticeMundane.name=Armor Lattice (Mundane)
 item.silentgems:ArmorLatticeRegular.name=Armor Lattice (Regular)
 item.silentgems:ArmorLatticeSuper.name=Armor Lattice (Super)
@@ -657,7 +658,7 @@ item.silentgems:ChaosEssence.desc=Too soft for tools, but can strengthen gems.
 item.silentgems:ChaosEssencePlus.name=Enriched Chaos Essence
 item.silentgems:ChaosEssencePlus.desc=Can conduct some kind of energy.
 item.silentgems:ChaosEssencePlus2.name=Crystallized Chaos Essence
-item.silentgems:ChaosEssencePlus2.desc=TODO
+item.silentgems:ChaosEssencePlus2.desc=Hardened into something more useful.
 item.silentgems:ChaosEssenceShard.name=Chaos Essence Shard
 item.silentgems:ChaosEssenceShard.desc=Are you some kind of wizard, or something?
 item.silentgems:EnderEssence.name=Ender Essence
@@ -853,13 +854,18 @@ jei.silentgems:desc.TorchBandolier=The torch bandolier stores a large number of 
 
 # Guide Book (Silent Lib)
 
+item.silentgems:guide_book.desc=Guide book for Silent's Gems
+
 guide.silentgems:manualName.1=Silent's Gems
 guide.silentgems:manualName.2=Guide
+
+guide.silentgems:configButton.name=Configure the mod!
+guide.silentgems:achievementButton.name=View the achievements!
 
 guide.silentgems:indexEntry.gettingStarted.name=Getting Started
 guide.silentgems:indexEntry.blocks.name=Blocks
 guide.silentgems:indexEntry.items.name=Items
-guide.silentgems:indexEntry.tools.name=Tools and Parts
+guide.silentgems:indexEntry.tools.name=Tools, Armor, and Parts
 guide.silentgems:indexEntry.recipes.name=Recipe Types
 guide.silentgems:indexEntry.allAndSearch.name=List of Everything
 
@@ -898,7 +904,37 @@ guide.silentgems:chapter.gemDecoBlocks.name=Decorative Gem Blocks
 guide.silentgems:chapter.gemDecoBlocks.text1=Silent's Gems includes a variety of <imp>decorative gem blocks<r>, with variants for each of the 32 gems. These blocks have no special functions (aside from lamps producing light). Decorative blocks include <imp>gem blocks, bricks (speckled and coated), glass, and lamps<r>.
 
 #Items
-#nothing yet...
+guide.silentgems:chapter.craftingMaterial.name=Crafting Materials
+guide.silentgems:chapter.craftingMaterial.text1=<item>Crafting materials<r> are a collection of metadata items (they all have the same ID). Most of them have <imp>no function<r> aside from being used in recipes... hence "crafting material".
+guide.silentgems:chapter.craftingMaterial.text101=<item>Enriched Chaos Essence<r><n><n> Used in more advanced blocks and items.
+guide.silentgems:chapter.craftingMaterial.text102=<item>Crystallized Chaos Essence<r><n><n> Used for endgame items. With Extra Parts, tools can be crafted from it.
+guide.silentgems:chapter.craftingMaterial.text103=<item>Chaos Essence Shard<r><n><n>Originally created for compatibility with a certain mod. They have practically no uses.
+guide.silentgems:chapter.craftingMaterial.text105=<item>Ender Essence Shard<r>
+guide.silentgems:chapter.craftingMaterial.text106=<item>Chaos Coal<r><n><n>Has a larger burn time than coal. Charcoal can be used, but only produces four pieces instead of eight.
+guide.silentgems:chapter.craftingMaterial.text107=<item>Iron Rod<r><n><n>Tool rods that are valid for all tool tiers. Any gem shard may be used.
+guide.silentgems:chapter.craftingMaterial.text108=<item>Ornate Gold Rod<r><n><n>Tools rods that are valid for super-tier tools only.
+guide.silentgems:chapter.craftingMaterial.text109=<item>Ornate Silver Rod<r><n><n>Tools rods that are valid for super-tier tools only.
+guide.silentgems:chapter.craftingMaterial.text112=<item>Upgrade Base<r><n><n>Used to craft tip upgrades.
+guide.silentgems:chapter.craftingMaterial.text113=<item>Name Plate<r><n><n>Name on an anvil then craft with any item to rename it. Useful for enchanted tools that are too expensive to rename on the anvil.
+guide.silentgems:chapter.craftingMaterial.text114=<item>Chaos Core<r>
+guide.silentgems:chapter.craftingMaterial.text115=<item>Magnifying Glass<r><n><n>Holding a magnifying glass has an interesting effect, although its usefulness is questionable.
+guide.silentgems:chapter.craftingMaterial.text116=<item>Plume<r>
+guide.silentgems:chapter.craftingMaterial.text117=<item>Shiny Plume<r>
+guide.silentgems:chapter.craftingMaterial.text118=<item>Ender Frost<r>
+guide.silentgems:chapter.craftingMaterial.text119=<item>Nether Shard<r><n><n>A broken down nether star. The shards are used for some late-game items.
+guide.silentgems:chapter.craftingMaterial.text121=<item>Gilded String<r>
+guide.silentgems:chapter.craftingMaterial.text122=<item>Yarn Ball<r>
+guide.silentgems:chapter.craftingMaterial.text123=<item>Rawhide Bone<r>
+guide.silentgems:chapter.craftingMaterial.text124=<item>Armor Lattice (Mundane)<r>
+guide.silentgems:chapter.craftingMaterial.text125=<item>Armor Lattice (Regular)<r>
+guide.silentgems:chapter.craftingMaterial.text126=<item>Armor Lattice (Super)<r>
+guide.silentgems:chapter.craftingMaterial.text127=<item>Blazestone<r>
+guide.silentgems:chapter.fluffyPuff.name=Fluffy Puffs and Seeds
+guide.silentgems:chapter.fluffyPuff.text1=<item>Fluffy puffs<r> can be used to craft string, wool, feathers, fluffy fabric, and fluffy blocks. They are grown from fluffy plants. Break some tall grass to get <item>fluffy puff seeds<r>, but remember they are less common than wheat seeds.
+guide.silentgems:chapter.gem.name=Gems
+guide.silentgems:chapter.gem.text1=<item>Gems<r> are the foundation of Silent's Gems. There are 32 in total, found as ores underground. The 16 <imp>light gems<r> can be found in the overworld and similar dimensions. The 16 <imp>dark gems<r> are found only in the Nether. Gems can be broken down into <item>shards<r>, upgraded into <item>supercharged gems<r>, and used to craft a huge variety of blocks, items, and tools.
+guide.silentgems:chapter.gem.text2=1 gem -> 9 shards<n>9shards -> 1 gem
+guide.silentgems:chapter.gem.text3=Supercharged gems are crafted like so. Costly, but well worth it.
 
 #Tools
 guide.silentgems:chapter.toolParts.name=Tool Parts
@@ -910,7 +946,7 @@ guide.silentgems:chapter.bow.name=Bows
 guide.silentgems:chapter.bow.text1=<item>Bows<r> function like vanilla bows, but their draw speed and arrow damage can vary. <imp>Draw speed<r> is influenced by both melee speed and harvest speed of the materials. <imp>Arrow damage<r> is influenced by melee damage. The fastest bows can be fully drawn in half a second. Super-tier bows have no special skills.
 guide.silentgems:chapter.bow.text2=Note that super-tier bows require <item>gilded string<r> and other tiers use plain <item>string<r>. Rods must also match the tier. <imp>Tips<r> can be applied to bows. <imp>Grips<r> can also be applied, but have no visual effect due to technical limitations.
 guide.silentgems:chapter.dagger.name=Daggers
-guide.silentgems:chapter.dagger.text1=TODO
+guide.silentgems:chapter.dagger.text1=<item>Daggers are very fast melee weapons. They are a <vimp>work in progress<r> and have no special abilities at the moment.
 guide.silentgems:chapter.dagger.text2=Note the <imp>"filler" item<r> on the bottom. It is <item>string<r> for mundane-tier daggers, an <item>iron ingot<r> for regular-tier, or a <item>gold ingot<r> for super-tier. The material, rod, and filler <vimp>must be the same tier!<r>
 guide.silentgems:chapter.hoe.name=Hoes
 guide.silentgems:chapter.hoe.text1=<item>Hoes<r> work like hoes for the most part. Super-tier hoes will <imp>till a 3x3 area if you are sneaking<r>. They also track the number of blocks tilled, just in case you were wondering.
@@ -923,14 +959,20 @@ guide.silentgems:chapter.pickaxe.text1=The classic mining tool, <item>pickaxes<r
 guide.silentgems:chapter.scepter.name=Scepters
 guide.silentgems:chapter.scepter.text1=<item>Scepters<r> are magic-oriented weapons. Their melee damage is low and they are incredibly slow, but they fire a volley of <imp>powerful homing shots<r>. Like swords (scepters are &otechnically<r> swords), you fire by swinging the scepter while sneaking.
 guide.silentgems:chapter.scepter.text3=&nRandom Facts<r><n><n>The scepter textures were taken from my original mod. Some concepts from that mod were scrapped entirely. The rest became Silent's Gems.<n><n>Gems 2 was originally supposed to have a customizable magic system, but it was never implemented. Sadly, the scepters are not as amazing as they could have been because of that.
+guide.silentgems:chapter.shield.name=Shields
+guide.silentgems:chapter.shield.text1=<item>Shields<r> are meant for blocking! Damage blocked is based on the <imp>protection stat<r> of the materials. In 1.11+, vanilla shields block 100%% of melee damage, and gem shields should do the same. Materials with high <imp>melee damage<r> will cause shields to <imp>reflect some of the damage<r> back to the attacker. Shields can be decorated like any other "tool", but they do not work with banners. Strangely, shields also accept tip upgrades.
 guide.silentgems:chapter.shovel.name=Shovels 
 guide.silentgems:chapter.shovel.text1=<item>Shovels<r> are effective at mining soil. In Minecraft 1.11+, they can be used to create path blocks, just like vanilla shovels. Blocks in the slot after the shovel or in the last hotbar slot can be placed by right-clicking.<n><n>Super-tier shovels have the <imp>Area Miner<r> skill.
 guide.silentgems:chapter.sickle.name=Sickles
 guide.silentgems:chapter.sickle.text1=<item>Sickles<r> are designed to clear large areas of plants. Left-clicking will break any plants (good for clearing tall grass). Right-clicking will harvest a small area of crops <imp>without removing the crops<r>. Handy!
-guide.silentgems:chapter.sword.name=Sword
+guide.silentgems:chapter.sword.name=Swords
 guide.silentgems:chapter.sword.text1=The classic melee weapon! It has a good balance of speed, durability, melee damage, and magic damage. All super-tier swords have magic attacks, fired by swinging the sword while sneaking. Regular swords fire a single, gravity-affected projectile that can bounce off of blocks a couple of times. It loses speed on each bounce, but can travel a good distance.
-guide.silentgems:chapter.tomahawk.name=Tomahawk
+guide.silentgems:chapter.tomahawk.name=Tomahawks
 guide.silentgems:chapter.tomahawk.text1=<item>Tomahawks<r> are <imp>throwing axes<r>. They can be used as melee weapons and for chopping wood, but are not especially good at either. However, a <imp>thrown tomahawk<r> can inflict a <imp>huge amount of damage<r> to anything they hit. The tomahawk can be <imp>retrieved after it lands<r>.<n><n>Note that tomahawks are considered to be axes, but they do not have a super skill or the "right-click-to-place" ability of regular axes.
+guide.silentgems:chapter.armor.name=Armor
+guide.silentgems:chapter.armor.text1=Armor has many things in common with tools, including <imp>modular construction and decoration<r>. The strength of the armor is determined by the <imp>protection stat<r> of the materials used and some fancy math.<n><n>Unlike tools, the <vimp>crafting method is significantly different<r> from vanilla armor. You must first craft a frame for each piece, then surround the frame by four materials. The frames are crafted with armor lattice. And they have <imp>tiers<r>!
+guide.silentgems:chapter.armor.text5=Lattice is then laid out in <imp>traditional armor patterns<r> to make the frames. I'll just show the helmet.
+guide.silentgems:chapter.armor.text6=Then <imp>surround the frame by four materials<r> of your choice. As with tools, you can <imp>mix any materials of the same tier<r>. The frame needs to be the same tier as well, in case that wasn't obvious.
 
 # Getting Started
 guide.silentgems:chapter.introduction.name=Introduction

@@ -4,22 +4,26 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
-import net.silentchaos512.gems.api.tool.part.ToolPart;
-import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.client.gui.config.GuiConfigSilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.guide.page.PageOreSpawn;
-import net.silentchaos512.gems.guide.page.PageToolPart;
+import net.silentchaos512.gems.item.ItemCrafting;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.guidebook.GuideBook;
 import net.silentchaos512.lib.guidebook.IGuidePage;
@@ -45,7 +49,8 @@ public class GuideBookGems extends GuideBook {
 
     super(SilentGems.MODID);
     this.resourceGui = new ResourceLocation(SilentGems.MODID, "textures/guide/gui_guide.png");
-    this.resourceGadgets = new ResourceLocation(SilentGems.MODID, "textures/guide/gui_guide_gadgets.png");
+    this.resourceGadgets = new ResourceLocation(SilentGems.MODID,
+        "textures/guide/gui_guide_gadgets.png");
 
     edition = SilentGems.BUILD_NUM;
   }
@@ -104,7 +109,7 @@ public class GuideBookGems extends GuideBook {
             EnumGem.OPAL.getItemSuper(), 'd', EnumGem.BLACK_DIAMOND.getItemSuper(), 'r', ModItems.craftingMaterial.toolRodGold)),
         new PageTextOnly(this, 13)).setImportant();
 
-    // Tools
+    // Tools, Armor, and Parts
 
     // Parts
 //    List<IGuidePage> pagesParts = Lists.newArrayList();
@@ -132,7 +137,7 @@ public class GuideBookGems extends GuideBook {
     ItemStack chDagger = makeTool(ModItems.dagger, toolsEntryRod, chDaggerGem, 1);
     new GuideChapter(this, "dagger", entryTools, chDagger,
         new PageTextOnly(this, 1),
-        new PageCrafting(this, 2, new ShapedOreRecipe(chDagger, "g", "r", "f", 'g', chDaggerGem, 'r', toolsEntryRod, 'f', "ingotGold")).setNoText());
+        new PageCrafting(this, 2, new ShapedOreRecipe(chDagger, "g", "r", "f", 'g', chDaggerGem, 'r', toolsEntryRod, 'f', "ingotGold")));
     // Hoes
     ItemStack chHoeGem = EnumGem.getRandom().getItemSuper();
     ItemStack chHoe = makeTool(ModItems.hoe, toolsEntryRod, chHoeGem, 2);
@@ -164,6 +169,11 @@ public class GuideBookGems extends GuideBook {
         new PageTextOnly(this, 1),
         new PageCrafting(this, 2, new ShapedOreRecipe(chScepter, " g ", "grg", "grg", 'g', chScepterGem, 'r', toolsEntryRod)).setNoText(),
         new PageTextOnly(this, 3));
+    ItemStack chShieldGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chShield = makeTool(ModItems.shield, toolsEntryRod, chShieldGem, 3);
+    new GuideChapter(this, "shield", entryTools, chShield,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapedOreRecipe(chShield, "gwg", "wrw", " g ", 'g', chShieldGem, 'r', toolsEntryRod, 'w', "plankWood")).setNoText());
     // Shovels
     ItemStack chShovelGem = EnumGem.getRandom().getItemSuper();
     ItemStack chShovel = makeTool(ModItems.shovel, toolsEntryRod, chShovelGem, 1);
@@ -188,6 +198,18 @@ public class GuideBookGems extends GuideBook {
     new GuideChapter(this, "tomahawk", entryTools, chTomahawk,
         new PageTextOnly(this, 1),
         new PageCrafting(this, 2, new ShapedOreRecipe(chTomahawk, "ggg", "gr ", " r ", 'g', chTomahawkGem, 'r', toolsEntryRod)).setNoText());
+    // Armor
+    ItemStack chHelmetGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chHelmet = ModItems.gemHelmet.constructArmor(chHelmetGem, chHelmetGem, chHelmetGem, chHelmetGem);
+    ItemStack chHelmetFrame = ModItems.armorFrame.getFrameForArmorPiece(ModItems.gemHelmet, EnumMaterialTier.SUPER);
+    ArmorHelper.setOriginalOwner(chHelmet, TOOL_OWNER_NAME);
+    new GuideChapter(this, "armor", entryTools, chHelmet, -10,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, ModItems.craftingMaterial.recipeLatticeMundane).setNoText(),
+        new PageCrafting(this, 3, ModItems.craftingMaterial.recipeLatticeRegular).setNoText(),
+        new PageCrafting(this, 4, ModItems.craftingMaterial.recipeLatticeSuper).setNoText(),
+        new PageCrafting(this, 5, new ShapedOreRecipe(chHelmetFrame, "lll", "l l", 'l', ModItems.craftingMaterial.armorLatticeSuper)),
+        new PageCrafting(this, 6, new ShapedOreRecipe(chHelmet, " g ", "gfg", " g ", 'g', chHelmetGem, 'f', chHelmetFrame)));
 
     // Blocks
 
@@ -228,10 +250,36 @@ public class GuideBookGems extends GuideBook {
     new GuideChapter(this, "gemDecoBlocks", entryBlocks, new ItemStack(ModBlocks.gemBrickCoated, 1, SilentGems.random.nextInt(16)), -10,
         new PageTextOnly(this, 1));
 
+    // Items
+
+    // Crafting Materials
+    List<IGuidePage> pages = Lists.newArrayList();
+    pages.add(new PageTextOnly(this, 1));
+    for (String str : ItemCrafting.SORTED_NAMES) {
+      ItemStack stack = ModItems.craftingMaterial.getStack(str);
+      IRecipe recipe = ModItems.craftingMaterial.guideRecipeMap.get(stack.getItemDamage());
+      if (recipe != null)
+        pages.add(new PageCrafting(this, 100 + stack.getItemDamage(), recipe));
+      else
+        pages.add(new PageTextOnly(this, 100 + stack.getItemDamage()));
+    }
+    new GuideChapter(this, "craftingMaterial", entryItems, ModItems.craftingMaterial.chaosEssence,
+        pages.toArray(new IGuidePage[pages.size()]));
+    // Fluffy Puffs
+    new GuideChapter(this, "fluffyPuff", entryItems, new ItemStack(ModItems.fluffyPuff),
+        new PageTextOnly(this, 1));
+    // Gems
+    EnumGem chGem = EnumGem.getRandom();
+    ItemStack craftedShards = StackHelper.setCount(StackHelper.safeCopy(chGem.getShard()), 9);
+    new GuideChapter(this, "gem", entryItems, chGem.getItem(),
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapelessOreRecipe(craftedShards, chGem.getItem())),
+        new PageCrafting(this, 3, new ShapedOreRecipe(chGem.getItemSuper(), "cgc", "cdc", "cgc", 'c', ModItems.craftingMaterial.chaosEssence, 'g', chGem.getItem(), 'd', "dustGlowstone")));
+
     // @formatter:on
   }
 
-  public static final String[] QUOTES = {//@formatter:off
+  public static final String[] QUOTES = { //@formatter:off
       "The flowers probably won't kill you.",
       "Try the donuts!",
       "May contain unintended &cR&6a&ei&an&9b&do&5w&0s!".replaceAll("&", "\u00a7"),
@@ -247,12 +295,24 @@ public class GuideBookGems extends GuideBook {
       "Your wish has been granted!",
   };//@formatter:on
 
-  // TODO: Uncomment
-//  @Override
-//  public String[] getQuotes() {
-//
-//    return QUOTES;
-//  }
+  @Override
+  public String[] getQuotes() {
+
+    return QUOTES;
+  }
+
+  @Override
+  public GuiScreen getConfigScreen(GuiScreen parent) {
+
+    return new GuiConfigSilentGems(parent);
+  }
+
+  @Override
+  public GuiScreen getAchievementScreen(GuiScreen parent) {
+
+    // TODO Auto-generated method stub
+    return null;
+  }
 
   private ItemStack makeTool(ITool tool, ItemStack rod, ItemStack gem, int gemCount) {
 
