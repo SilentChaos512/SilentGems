@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.handler;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageDataSync;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.tile.SyncVariable;
 
 // Lots of inspiration from Psi here. Previous version of the mod used IExtendedEntityProperties,
 // but that doesn't seem to work in 1.9.
@@ -121,17 +123,19 @@ public class PlayerDataHandler {
 
     public static final int CHAOS_MAX_TRANSFER = 1000;
     public static final int RECHARGE_COOLDOWN_TIME = 100;
+    public static final int HALO_TIME_DEFAULT = 12000;
 
-    private static final String NBT_CHAOS = "Chaos";
-    private static final String NBT_MAX_CHAOS = "MaxChaos";
-    private static final String NBT_RECHARGE_COOLDOWN = "RechargeCooldown";
-    private static final String NBT_FLIGHT_TIME = "FlightTime";
-
+    @SyncVariable(name = "Chaos")
     public int chaos;
+    @SyncVariable(name = "MaxChaos")
     public int maxChaos;
-    public int magicCooldown;
+    @SyncVariable(name = "RechargeCooldown")
     public int rechargeCooldown;
+    @SyncVariable(name = "FlightTime", onRead = false)
     public int flightTime = 200;
+    @SyncVariable(name = "HaloTime")
+    public int haloTime;
+    public int magicCooldown;
 
     public WeakReference<EntityPlayer> playerWR;
     private final boolean client;
@@ -173,6 +177,12 @@ public class PlayerDataHandler {
           player.capabilities.allowFlying = false;
           player.capabilities.isFlying = false;
         }
+        shouldSave = true;
+      }
+
+      // Halo timer
+      if (haloTime > 0) {
+        --haloTime;
         shouldSave = true;
       }
 
@@ -268,10 +278,12 @@ public class PlayerDataHandler {
 
     public void writeToNBT(NBTTagCompound tags) {
 
-      tags.setInteger(NBT_CHAOS, chaos);
-      tags.setInteger(NBT_MAX_CHAOS, maxChaos);
-      tags.setInteger(NBT_RECHARGE_COOLDOWN, rechargeCooldown);
-      tags.setShort(NBT_FLIGHT_TIME, (short) flightTime);
+      SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
+
+//      tags.setInteger(NBT_CHAOS, chaos);
+//      tags.setInteger(NBT_MAX_CHAOS, maxChaos);
+//      tags.setInteger(NBT_RECHARGE_COOLDOWN, rechargeCooldown);
+//      tags.setShort(NBT_FLIGHT_TIME, (short) flightTime);
     }
 
     public void load() {
@@ -288,9 +300,11 @@ public class PlayerDataHandler {
 
     public void readFromNBT(NBTTagCompound tags) {
 
-      chaos = tags.getInteger(NBT_CHAOS);
-      maxChaos = tags.getInteger(NBT_MAX_CHAOS);
-      rechargeCooldown = tags.getInteger(NBT_RECHARGE_COOLDOWN);
+      SyncVariable.Helper.readSyncVars(this, tags);
+
+//      chaos = tags.getInteger(NBT_CHAOS);
+//      maxChaos = tags.getInteger(NBT_MAX_CHAOS);
+//      rechargeCooldown = tags.getInteger(NBT_RECHARGE_COOLDOWN);
     }
   }
 }

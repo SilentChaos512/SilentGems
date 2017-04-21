@@ -25,6 +25,8 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
+import net.silentchaos512.gems.handler.PlayerDataHandler;
+import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.item.ItemBlockPlacer;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Greetings;
@@ -138,6 +140,12 @@ public class GemsCommonEvents {
 
     Entity entitySource = event.getSource().getSourceOfDamage();
     EntityPlayer player = null;
+
+    if (event.getEntityLiving() instanceof EntityPlayer) {
+      EntityPlayer deadPlayer = (EntityPlayer) event.getEntityLiving();
+      PlayerData data = PlayerDataHandler.get(deadPlayer);
+      data.haloTime = data.HALO_TIME_DEFAULT;
+    }
 
     if (entitySource instanceof EntityPlayer) {
       player = (EntityPlayer) entitySource;
