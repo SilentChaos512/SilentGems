@@ -8,9 +8,10 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
@@ -301,12 +302,14 @@ public class GuideBookGems extends GuideBook {
     return QUOTES;
   }
 
+  @SideOnly(Side.CLIENT)
   @Override
   public GuiScreen getConfigScreen(GuiScreen parent) {
 
     return new GuiConfigSilentGems(parent);
   }
 
+  @SideOnly(Side.CLIENT)
   @Override
   public GuiScreen getAchievementScreen(GuiScreen parent) {
 
