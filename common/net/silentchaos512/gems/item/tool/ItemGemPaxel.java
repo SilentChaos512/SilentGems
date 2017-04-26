@@ -113,7 +113,7 @@ public class ItemGemPaxel extends ItemGemPickaxe {
       if (mat.equals(state.getMaterial()))
         return true;
 
-    return super.canHarvestBlock(state);
+    return super.canHarvestBlock(state, toolLevel);
   }
 
   @Override

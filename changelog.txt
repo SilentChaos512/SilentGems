@@ -1,7 +1,14 @@
 Silent's Gems - Changelog
 
+2.3.11
+Fixed (probably): Server console spam when using paxels.
+
+2.3.10
+Fixed: Server crash with new guide book features.
+
 2.3.9
-Changed: Updated the guide book even more. Still a lot left to write.
+Updated for latest Silent Lib (new guide book features)
+Updated the guide book even more. Still a lot left to write.
 
 2.3.8
 Added: Daggers! What they lack in power, they make up for in speed and low cost. They also reduce the invulnerability time of mobs they hit, allowing them to be damaged again sooner. Dagger recipes are a bit different: a single material, a rod below, then a "filler" item below that. The filler is string, an iron ingot, or a gold ingot, depending on the tool tier. The filler should help reduce recipe conflicts. It also means I have to rewrite much less of the tool recipe code...
