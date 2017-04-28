@@ -48,6 +48,7 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.SilentLib;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
@@ -119,9 +120,16 @@ public class ItemEnchantmentToken extends ItemSL {
   public ItemStack addEnchantment(ItemStack stack, Enchantment enchantment, int level) {
 
     ItemStack result = StackHelper.safeCopy(stack);
-    Map<Enchantment, Integer> map = getEnchantments(stack);
-    map.put(enchantment, level);
-    setEnchantments(result, map);
+    try {
+      Map<Enchantment, Integer> map = getEnchantments(stack);
+      map.put(enchantment, level);
+      setEnchantments(result, map);
+    } catch (NullPointerException ex) {
+      String str = "Failed to construct an enchantment token! This will likely result in a broken recipe.\n";
+      str += "The following is a list of details on the enchantment at fault. Please direct your anger at:\n";
+      str += getEnchantmentDebugInfo(enchantment);
+      SilentGems.logHelper.warning(str);
+    }
     return result;
   }
 
@@ -191,7 +199,7 @@ public class ItemEnchantmentToken extends ItemSL {
         // Save the method
         try {
           canApplyTogether = Enchantment.class.getMethod("func_191560_c", Enchantment.class);
-          //canApplyTogether.setAccessible(true);
+          // canApplyTogether.setAccessible(true);
         } catch (NoSuchMethodException | SecurityException e) {
           // Shouldn't happen.
           e.printStackTrace();
@@ -556,7 +564,9 @@ public class ItemEnchantmentToken extends ItemSL {
     String line2 = otherCount > 3 ? "oto" : " t ";
     String line3 = otherCount == 3 || otherCount > 4 ? "ooo"
         : (otherCount == 2 || otherCount == 4 ? "o o" : " o ");
-    GameRegistry.addRecipe(new ShapedOreRecipe(constructToken(ench), line1, line2, line3, 'g',
+
+    ItemStack token = constructToken(ench);
+    GameRegistry.addRecipe(new ShapedOreRecipe(token, line1, line2, line3, 'g',
         gem.getItemOreName(), 'o', other, 't', new ItemStack(this, 1, BLANK_META)));
 
     // Add to recipe map (tooltip recipe info)
@@ -614,5 +624,20 @@ public class ItemEnchantmentToken extends ItemSL {
     mesher.register(this, BLANK_META, list.get(0));
 
     return true;
+  }
+
+  private String getEnchantmentDebugInfo(Enchantment ench) {
+
+    String str = ench.toString();
+    str += "\n    Name: " + ench.getName();
+    str += "\n    Registry Name: " + ench.getRegistryName();
+    str += "\n    Translated Name: " + ench.getTranslatedName(1);
+    str += "\n    Max Level: " + ench.getMaxLevel();
+    str += "\n    Type: " + ench.type;
+    str += "\n    Allowed On Books: " + ench.isAllowedOnBooks();
+    if (SilentLib.getMCVersion() >= 11)
+      str += "\n    Curse: " + ench.isCurse();
+    str += "\n    Treasure: " + ench.isTreasureEnchantment();
+    return str;
   }
 }
