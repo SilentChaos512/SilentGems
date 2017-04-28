@@ -148,7 +148,7 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
     ItemStack stack = player.getHeldItem(hand);
-    if (player.isSneaking()) {
+    if (!player.world.isRemote && player.isSneaking()) {
       boolean mode = !getAutoFillMode(stack);
       setAutoFillMode(stack, mode);
 
