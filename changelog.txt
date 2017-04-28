@@ -1,7 +1,12 @@
 Silent's Gems - Changelog
 
 2.3.11
-Fixed (probably): Server console spam when using paxels.
+Added: Variety cap config (max number of parts to effect variety bonus).
+Added: Rods can now affect tool stats. They apply multipliers by default. (See API change below)
+Fixed: Yet another enchantment token crash, caused by missing registry names. Bugged enchantments (such as the ones Good ol' PvP overwrites) will not be craftable. Also update Silent Lib to be completely(?) crash-free.
+Fixed: Crash or server console spam when using paxels on certain blocks.
+(API) Added: ToolStats class and applyStats method to all ToolParts. Mains don't allow the use of applyStats, but others can override it to apply custom logic to how the part affects tool stats.
+API: Version 3
 
 2.3.10
 Fixed: Server crash with new guide book features.
