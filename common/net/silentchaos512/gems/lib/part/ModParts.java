@@ -22,17 +22,22 @@ public class ModParts {
     for (EnumGem gem : EnumGem.values())
       ToolPartRegistry.putPart(new ToolPartGem(gem, true));
 
-    // Rods
+    // Rods @formatter:off
     ToolPartRegistry.putPart(new ToolPartRodGems("RodWood", EnumMaterialTier.MUNDANE,
-        new ItemStack(Items.STICK), 0x896727, "stickWood"));
+        new ItemStack(Items.STICK), 0x896727, "stickWood",
+        1.0f, 1.0f, 1.0f, 1.0f, 0.8f));
     ToolPartRegistry.putPart(new ToolPartRodGems("RodBone", EnumMaterialTier.MUNDANE,
-        new ItemStack(Items.BONE), 0xFFFDE9));
+        new ItemStack(Items.BONE), 0xFFFDE9,
+        1.1f, 1.0f, 1.1f, 0.9f, 1.0f));
     ToolPartRegistry.putPart(new ToolPartRodGems("RodIron", EnumMaterialTier.REGULAR,
-        ModItems.craftingMaterial.toolRodIron, 0xA2A2A2, "stickIron"));
+        ModItems.craftingMaterial.toolRodIron, 0xA2A2A2, "stickIron",
+        1.25f, 1.0f, 1.0f, 1.0f, 0.9f));
     ToolPartRegistry.putPart(new ToolPartRodGems("RodGold", EnumMaterialTier.SUPER,
-        ModItems.craftingMaterial.toolRodGold, 0xC8AE09, "stickGold"));
+        ModItems.craftingMaterial.toolRodGold, 0xC8AE09, "stickGold",
+        1.15f, 1.0f, 1.15f, 1.0f, 1.0f));
     ToolPartRegistry.putPart(new ToolPartRodGems("RodSilver", EnumMaterialTier.SUPER,
-        ModItems.craftingMaterial.toolRodSilver, 0xF2F2F2, "stickSilver"));
+        ModItems.craftingMaterial.toolRodSilver, 0xF2F2F2, "stickSilver",
+        1.0f, 1.15f, 1.0f, 1.15f, 1.0f)); //@formatter:on
 
     // Tips
     ToolPartRegistry.putPart(new ToolPartTipGems("TipIron", EnumTipUpgrade.IRON));

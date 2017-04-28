@@ -10,6 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.config.GemsConfig;
 
 /**
@@ -193,6 +194,10 @@ public abstract class ToolPart {
       return true;
     else
       return GemsConfig.PART_BLACKLIST.contains(key);
+  }
+
+  public void applyStats(ToolStats stats) {
+
   }
 
   public abstract int getDurability();

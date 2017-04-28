@@ -20,17 +20,23 @@ public class ToolPartRodGems extends ToolPartRod {
   public final String rodName;
   public final int color;
 
-  public ToolPartRodGems(String name, EnumMaterialTier tier, ItemStack stack, int color) {
+  public ToolPartRodGems(String name, EnumMaterialTier tier, ItemStack stack, int color,
+      float durabilityMulti, float harvestSpeedMulti, float meleeDamageMulti,
+      float magicDamageMulti, float enchantabilityMulti) {
 
-    super(SilentGems.RESOURCE_PREFIX + name, stack);
+    super(SilentGems.RESOURCE_PREFIX + name, stack, durabilityMulti, harvestSpeedMulti,
+        meleeDamageMulti, magicDamageMulti, enchantabilityMulti);
     this.rodName = name;
     this.tier = tier;
     this.color = color;
   }
 
-  public ToolPartRodGems(String name, EnumMaterialTier tier, ItemStack stack, int color, String oreName) {
+  public ToolPartRodGems(String name, EnumMaterialTier tier, ItemStack stack, int color,
+      String oreName, float durabilityMulti, float harvestSpeedMulti, float meleeDamageMulti,
+      float magicDamageMulti, float enchantabilityMulti) {
 
-    super(SilentGems.RESOURCE_PREFIX + name, stack, oreName);
+    super(SilentGems.RESOURCE_PREFIX + name, stack, oreName, durabilityMulti, harvestSpeedMulti,
+        meleeDamageMulti, magicDamageMulti, enchantabilityMulti);
     this.rodName = name;
     this.tier = tier;
     this.color = color;

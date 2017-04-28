@@ -45,6 +45,7 @@ import net.silentchaos512.gems.api.lib.EnumDecoPos;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
@@ -164,6 +165,8 @@ public class ToolHelper {
     if (parts.length == 0)
       return;
 
+    ToolStats stats = new ToolStats(tool, parts, grades).calculate();
+
     // Reset render cache
     for (EnumPartPosition pos : EnumPartPosition.values()) {
       NBTTagCompound compound = tool.getTagCompound()
@@ -172,36 +175,6 @@ public class ToolHelper {
       for (int frame = 0; frame < (tool.getItem() instanceof ItemGemBow ? 4 : 1); ++frame)
         compound.removeTag(str + (frame > 0 ? "_" + frame : ""));
       compound.removeTag(str + "Color");
-    }
-
-    float sumDurability = 0f; // float to prevent rounding errors until calcs are done.
-    float sumHarvestSpeed = 0f;
-    float sumMeleeDamage = 0f;
-    float sumMagicDamage = 0f;
-    float sumMeleeSpeed = 0f;
-    float sumChargeSpeed = 0f;
-    float sumEnchantability = 0f;
-    float sumBlockingPower = 0f;
-    int maxHarvestLevel = 0;
-
-    Set<ToolPart> uniqueParts = Sets.newConcurrentHashSet();
-
-    // Head parts
-    for (int i = 0; i < parts.length; ++i) {
-      ToolPart part = parts[i];
-      EnumMaterialGrade grade = grades[i];
-      float multi = (100 + grade.bonusPercent) / 100f;
-
-      sumDurability += part.getDurability() * multi;
-      sumHarvestSpeed += part.getHarvestSpeed() * multi;
-      sumMeleeDamage += part.getMeleeDamage() * multi;
-      sumMagicDamage += part.getMagicDamage() * multi;
-      sumMeleeSpeed += part.getMeleeSpeed() * multi;
-      sumEnchantability += part.getEnchantability() * multi;
-      sumChargeSpeed += part.getChargeSpeed() * multi;
-      sumBlockingPower += part.getProtection() / 16f * multi; // TODO: Separate stat?
-      maxHarvestLevel = Math.max(maxHarvestLevel, part.getHarvestLevel());
-      uniqueParts.add(part);
     }
 
     // Set color for parts
@@ -227,55 +200,15 @@ public class ToolHelper {
       setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
           "Layer" + ToolRenderHelper.PASS_ROD + "Color", renderRod.getColor(tool));
 
-    // Variety bonus
-    int variety = MathHelper.clamp(uniqueParts.size(), 1, 3);
-    float bonus = 1.0f + GemsConfig.VARIETY_BONUS * (variety - 1);
-
-    // Average head parts
-    float durability = bonus * sumDurability / parts.length;
-    float harvestSpeed = bonus * sumHarvestSpeed / parts.length;
-    float meleeDamage = bonus * sumMeleeDamage / parts.length;
-    float magicDamage = bonus * sumMagicDamage / parts.length;
-    float meleeSpeed = bonus * sumMeleeSpeed / parts.length;
-    float chargeSpeed = bonus * sumChargeSpeed / parts.length;
-    float enchantability = bonus * sumEnchantability / parts.length;
-    float blockingPower = Math.max(bonus * sumBlockingPower / parts.length,
-        ItemGemShield.MIN_BLOCKING_POWER);
-
-    // Tool class multipliers
-    if (tool.getItem() instanceof ITool) {
-      ITool itool = (ITool) tool.getItem();
-      durability *= itool.getDurabilityMultiplier();
-      harvestSpeed *= itool.getHarvestSpeedMultiplier();
-    }
-
-    // Tip and rod bonus (might change the way rod stats work?)
-    ToolPart partRod = getConstructionRod(tool);
-    ToolPart partTip = getConstructionTip(tool);
-    ToolPart partGrip = getPart(tool, EnumPartPosition.ROD_GRIP);
-
-    for (ToolPart part : Lists.newArrayList(partRod, partTip, partGrip)) {
-      if (part != null) {
-        durability += part.getDurability();
-        harvestSpeed += part.getHarvestSpeed();
-        meleeDamage += part.getMeleeDamage();
-        magicDamage += part.getMagicDamage();
-        meleeSpeed += part.getMeleeSpeed() - 1.0f;
-        chargeSpeed += part.getChargeSpeed();
-        enchantability += part.getEnchantability();
-        maxHarvestLevel = Math.max(maxHarvestLevel, part.getHarvestLevel());
-      }
-    }
-
-    setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_DURABILITY, (int) durability);
-    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_SPEED, harvestSpeed);
-    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MELEE_DAMAGE, meleeDamage);
-    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MAGIC_DAMAGE, magicDamage);
-    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MELEE_SPEED, meleeSpeed);
-    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_SPEED, chargeSpeed);
-    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_BLOCKING_POWER, blockingPower);
-    setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_ENCHANTABILITY, (int) enchantability);
-    setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_LEVEL, maxHarvestLevel);
+    setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_DURABILITY, (int) stats.durability);
+    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_SPEED, stats.harvestSpeed);
+    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MELEE_DAMAGE, stats.meleeDamage);
+    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MAGIC_DAMAGE, stats.magicDamage);
+    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MELEE_SPEED, stats.meleeSpeed);
+    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_SPEED, stats.chargeSpeed);
+    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_BLOCKING_POWER, stats.blockingPower);
+    setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_ENCHANTABILITY, (int) stats.enchantability);
+    setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_LEVEL, stats.harvestLevel);
     setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_TOOL_TIER, parts[0].getTier().ordinal());
   }
 

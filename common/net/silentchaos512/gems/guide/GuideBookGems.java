@@ -294,6 +294,8 @@ public class GuideBookGems extends GuideBook {
       "Did you know Chaos Gems are finally back?",
       "Also try Extra Parts!",
       "Your wish has been granted!",
+      "Voted most unnecessarily complicated mod in high school.",
+      "I like your gems!@HockeyStick",
   };//@formatter:on
 
   @Override

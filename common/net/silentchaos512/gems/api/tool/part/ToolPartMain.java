@@ -1,11 +1,11 @@
 package net.silentchaos512.gems.api.tool.part;
 
 import net.minecraft.item.ItemStack;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 
@@ -47,6 +47,12 @@ public class ToolPartMain extends ToolPart {
     scale = REPAIR_VALUES[toolTierIndex][partTierIndex];
 
     return (int) (scale * max);
+  }
+
+  @Override
+  public final void applyStats(ToolStats stats) {
+
+    // Custom logic not allowed.
   }
 
   @Override

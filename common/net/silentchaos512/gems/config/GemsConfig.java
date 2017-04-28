@@ -63,6 +63,7 @@ public class GemsConfig extends AdaptiveConfig {
    */
 
   public static float VARIETY_BONUS = 0.075f;
+  public static int VARIETY_CAP = 3;
   public static int TOMAHAWK_MAX_AMMO = 4;
   public static int TOMAHAWK_AMMO_PER_MAT = 1;
   public static boolean SWITCH_AXE_SUPER = false;
@@ -262,6 +263,9 @@ public class GemsConfig extends AdaptiveConfig {
           VARIETY_BONUS, 0f, 1f,
           "The \"variety bonus\" for mixed-material tools and armor. Default is a 7.5% bonus for each"
           + " additional unique part.");
+      VARIETY_CAP = config.getInt("Variety Cap", CAT_TOOLS,
+          VARIETY_CAP, 1, 9,
+          "The maximum number of unique parts that can affect the variety bonus");
 
       TOMAHAWK_MAX_AMMO = loadInt("Tomahawk Max Ammo", CAT_TOOLS,
           TOMAHAWK_MAX_AMMO,
