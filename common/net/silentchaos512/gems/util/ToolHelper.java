@@ -71,6 +71,7 @@ import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
+import net.silentchaos512.lib.util.PlayerHelper;
 import net.silentchaos512.lib.util.StackHelper;
 import net.silentchaos512.lib.util.WorldHelper;
 
@@ -586,8 +587,12 @@ public class ToolHelper {
   public static void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
       boolean isSelected) {
 
-    if (!world.isRemote) // client-side only
+    if (!world.isRemote) {
+      if (hasNoConstruction(tool)) {
+        ItemStack newTool = ToolRandomizer.INSTANCE.randomize(tool);
+      }
       return;
+    }
 
     if (world.getTotalWorldTime() % CHECK_NAME_FREQUENCY == 0 && entity instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) entity;
