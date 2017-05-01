@@ -708,6 +708,21 @@ item.silentgems:CoffeeCup.name=Cup of Coffee
 
 # Tools
 
+# These don't display under normal circumstances... but what the heck is normal?
+item.silentgems:Sword.name=Gem Sword
+item.silentgems:Dagger.name=Gem Dagger
+item.silentgems:Katana.name=Gem Katana
+item.silentgems:Scepter.name=Gem Scepter
+item.silentgems:Tomahawk.name=Gem Tomahawk
+item.silentgems:Pickaxe.name=Gem Pickaxe
+item.silentgems:Shovel.name=Gem Shovel
+item.silentgems:Axe.name=Gem Axe
+item.silentgems:Paxel.name=Gem Paxel
+item.silentgems:Hoe.name=Gem Hoe
+item.silentgems:Sickle.name=Gem Sickle
+item.silentgems:Bow.name=Gem Bow
+item.silentgems:Shield.name=Gem Shield
+
 tool.silentgems:Sword=%s Sword
 tool.silentgems:Dagger=%s Dagger
 tool.silentgems:Katana=%s Katana
@@ -801,6 +816,8 @@ misc.silentgems:Tooltip.level4=Cobalt
 misc.silentgems:Tooltip.ArrowDamage=Arrow Damage:&f %s
 misc.silentgems:Tooltip.BlockingPower=Blocking Power:&f %s
 misc.silentgems:Tooltip.Broken=&cYou broke it!
+misc.silentgems:Tooltip.NoData1=&cAppears to be made of... nothing.
+misc.silentgems:Tooltip.NoData2=&c(This tool is missing NBT. Something has gone wrong.)
 misc.silentgems:Tooltip.ChargeSpeed=Charge Speed:&f %s
 misc.silentgems:Tooltip.DrawDelay=Draw Delay:&f %s
 misc.silentgems:Tooltip.Durability=Durability:&f %s

@@ -312,6 +312,16 @@ public class ToolHelper {
     return tool.getItemDamage() >= getMaxDamage(tool);
   }
 
+  /**
+   * Check if the tool has no construction parts. Only checks the head, but no valid tools will have no head parts.
+   * @return true if the has no construction parts.
+   */
+  public static boolean hasNoConstruction(ItemStack tool) {
+
+    String key = getPartId(tool, "Part0");
+    return key == null || key.isEmpty();
+  }
+
   public static int getItemEnchantability(ItemStack tool) {
 
     return getTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_ENCHANTABILITY);

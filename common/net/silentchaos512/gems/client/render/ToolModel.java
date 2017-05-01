@@ -84,12 +84,14 @@ public class ToolModel implements IPerspectiveAwareModel {
       location = new ModelResourceLocation(SilentGems.MODID + ":" + name.toLowerCase() + "/_error",
           "inventory");
       model = modelManager.getModel(location);
-      if (model != null)
+      if (model != null) {
         quads.addAll(model.getQuads(state, side, rand));
+      }
 
-      if (isGui)
-        quads.addAll(modelManager.getModel(ToolRenderHelper.getInstance().modelError)
-            .getQuads(state, side, rand));
+//      if (isGui) {
+//        quads.addAll(modelManager.getModel(ToolRenderHelper.getInstance().modelError)
+//            .getQuads(state, side, rand));
+//      }
 
       return quads;
     }

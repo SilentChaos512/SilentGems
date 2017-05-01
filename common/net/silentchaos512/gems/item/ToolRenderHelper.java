@@ -38,6 +38,7 @@ import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.item.tool.ItemGemTomahawk;
 import net.silentchaos512.gems.lib.TooltipHelper;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.gems.util.ToolRandomizer;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class ToolRenderHelper extends ToolRenderHelperBase {
@@ -85,8 +86,13 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
         list.add(loc.getMiscText("Tooltip.OriginalOwner.Unknown"));
     }
 
+    // Missing data?
+    if (ToolHelper.hasNoConstruction(tool)) {
+      list.add(loc.getMiscText("Tooltip.NoData1"));
+      list.add(loc.getMiscText("Tooltip.NoData2"));
+    }
     // Broken?
-    if (ToolHelper.isBroken(tool)) {
+    else if (ToolHelper.isBroken(tool)) {
       line = loc.getMiscText("Tooltip.Broken");
       list.add(line);
     }
@@ -416,14 +422,17 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     modelError = new ModelResourceLocation(prefix + "error", "inventory");
     ret.add(modelError);
     ret.add(new ModelResourceLocation(prefix + "sword/_error", "inventory"));
+    ret.add(new ModelResourceLocation(prefix + "dagger/_error", "inventory"));
     ret.add(new ModelResourceLocation(prefix + "katana/_error", "inventory"));
     ret.add(new ModelResourceLocation(prefix + "scepter/_error", "inventory"));
     ret.add(new ModelResourceLocation(prefix + "tomahawk/_error", "inventory"));
     ret.add(new ModelResourceLocation(prefix + "pickaxe/_error", "inventory"));
     ret.add(new ModelResourceLocation(prefix + "shovel/_error", "inventory"));
     ret.add(new ModelResourceLocation(prefix + "axe/_error", "inventory"));
+    ret.add(new ModelResourceLocation(prefix + "paxel/_error", "inventory"));
     ret.add(new ModelResourceLocation(prefix + "hoe/_error", "inventory"));
     ret.add(new ModelResourceLocation(prefix + "sickle/_error", "inventory"));
+    ret.add(new ModelResourceLocation(prefix + "bow/_error", "inventory"));
 
     return ret;
   }
