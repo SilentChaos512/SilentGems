@@ -1,5 +1,10 @@
 Silent's Gems - Changelog
 
+2.3.12
+Added: Tool randomizer. Will randomize "NBT-less" tools in the player's inventory (acquired by the 'give' command and certain other... methods) (#149)
+Changed: NBT-less tools that cannot be randomized have more informative tooltips.
+Fixed: Error textures of NBT-less tools.
+
 2.3.11
 Added: Variety cap config (max number of parts to effect variety bonus).
 Added: Rods can now affect tool stats. They apply multipliers by default. (See API change below)

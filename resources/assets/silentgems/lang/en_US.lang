@@ -885,6 +885,7 @@ guide.silentgems:indexEntry.items.name=Items
 guide.silentgems:indexEntry.tools.name=Tools, Armor, and Parts
 guide.silentgems:indexEntry.recipes.name=Recipe Types
 guide.silentgems:indexEntry.allAndSearch.name=List of Everything
+guide.silentgems:indexEntry.debug.name=Debug!
 
 guide.silentgems:oreConfigPage=&n%s<r><n><n>Veins per chunk: %.2f<n>Vein size: %d<n>Min Y: %d<n>Max Y: %d<n><n>
 guide.silentgems:toolPartPage=&n%s<r><n><n>Tier: %s<n>OreDict: %s<n>
@@ -946,12 +947,23 @@ guide.silentgems:chapter.craftingMaterial.text124=<item>Armor Lattice (Mundane)<
 guide.silentgems:chapter.craftingMaterial.text125=<item>Armor Lattice (Regular)<r>
 guide.silentgems:chapter.craftingMaterial.text126=<item>Armor Lattice (Super)<r>
 guide.silentgems:chapter.craftingMaterial.text127=<item>Blazestone<r>
+guide.silentgems:chapter.chaosGem.name=Chaos Gems
+guide.silentgems:chapter.chaosGem.text1=<item>Chaos gems<r> are sort of like <imp>reusable potions<r>. They run on <imp>Chaos energy<r> and can be activate/deactivated at any time. The effects of a chaos gem are determined by the <imp>chaos runes<r> applied to it.<n><n>Runes require a certain number of <imp>slots<r> to apply, with the first level requiring the amount in the rune's tooltip, then one slot for each additional level.
+guide.silentgems:chapter.chaosGem.text2=Apply runes by simply crafting them with the chaos gem. You can apply more than one at a time. This gem has Strength II and Resistance II. It also has some free slots left. Maybe some <imp>capacity<r> or <imp>recharge<r> runes would be good?
+guide.silentgems:chapter.chaosGem.text3=You can <imp>right-click<r> with a chaos gem to activate or deactivate it. You can also use a <imp>keybinding<r> to toggle chaos gems. And <vimp>don't forget to charge it<r>. Place it in a <item>chaos altar<r> for best results, but standing near <item>nodes<r> and/or <item>pylons<r> will work to. Not enough storage capacity? Try <item>chaos orbs<r> as well.
 guide.silentgems:chapter.fluffyPuff.name=Fluffy Puffs and Seeds
 guide.silentgems:chapter.fluffyPuff.text1=<item>Fluffy puffs<r> can be used to craft string, wool, feathers, fluffy fabric, and fluffy blocks. They are grown from fluffy plants. Break some tall grass to get <item>fluffy puff seeds<r>, but remember they are less common than wheat seeds.
 guide.silentgems:chapter.gem.name=Gems
 guide.silentgems:chapter.gem.text1=<item>Gems<r> are the foundation of Silent's Gems. There are 32 in total, found as ores underground. The 16 <imp>light gems<r> can be found in the overworld and similar dimensions. The 16 <imp>dark gems<r> are found only in the Nether. Gems can be broken down into <item>shards<r>, upgraded into <item>supercharged gems<r>, and used to craft a huge variety of blocks, items, and tools.
 guide.silentgems:chapter.gem.text2=1 gem -> 9 shards<n>9shards -> 1 gem
 guide.silentgems:chapter.gem.text3=Supercharged gems are crafted like so. Costly, but well worth it.
+guide.silentgems:chapter.holdingGem.name=Holding Gem
+guide.silentgems:chapter.holdingGem.text1=<item>Holding Gems<r> are items capable of <imp>storing a large number of a single block<r>. They can also <imp>place and dispense<r> the block they hold. They function identically to <item>torch bandoliers<r>, aside from being able to choose the block stored.
+guide.silentgems:chapter.holdingGem.text2=Craft an empty holding gem with a block to <imp>set the block it will store<r>. You can reset it later, but it <vimp>must be empty<r>. Note the gem used to craft the holding gem is purely a cosmetic choice.
+guide.silentgems:chapter.holdingGem.text3=&nControls<n><n>Once the block is set, the holding gem will <imp>absorb blocks from your inventory<r> on its own. When holding it, right-click to place blocks. Sneak and right-click in the air to <imp>disable auto-fill mode<r>. Sneak and left-click (preferably in the air with auto-fill off) to <imp>extract blocks<r>, a stack at a time.
+guide.silentgems:chapter.torchBandolier.name=Torch Bandolier
+guide.silentgems:chapter.torchBandolier.text1=<item>Torch Bandolier<r> can <imp>store a large number of torches<r> and can <imp>place and dispense<r> them as well.<n><n>Note that you can <imp>right-click with harvest tools<r> to use the bandolier just like a stack of torches. For example, I keep mine in the last slot of my hotbar and right-click with my pickaxe in slot 2 to place torches.
+guide.silentgems:chapter.torchBandolier.text2=&nControls<r><n><n>A torch bandolier will <imp>absorb torches from your inventory<r> on its own. When holding it, right-click to place torches. Sneak and right-click in the air to <imp>disable auto-fill mode<r>. Sneak and left-click (preferably in the air with auto-fill off) to <imp>extract torches<r>, a stack at a time.
 
 #Tools
 guide.silentgems:chapter.toolParts.name=Tool Parts
@@ -1010,3 +1022,6 @@ guide.silentgems:chapter.progression.text10=Still with me? The next step is to m
 guide.silentgems:chapter.progression.text11=Now for <imp>super-tier tools<r>! You will need Chaos Essence and glowstone dust to craft <imp>supercharged gems<r>, so you might need to make a trip to the Nether (keep an eye out for <item>dark gems<r> while you're there).<n><n>Super-tier tools also <imp>require special rods<r> instead of sticks. They might be pricy, but some super-tier tools have <imp>special skills<r>. Some tools are also super-tier only (called <imp>super tools<r>), like <item>katanas<r> and <item>paxels<r>.
 guide.silentgems:chapter.progression.text12=Here's a katana as an example. Again, you can <imp>mix any materials of the same tier<r> and you must <imp>use rods that support the tier of the materials<r>.
 guide.silentgems:chapter.progression.text13=This concludes the chapter on progression. Hopefully you now have a good grasp on tool crafting. I encourage you to look at the chapters for all the tool classes for more information.
+
+# Debug
+guide.silentgems:chapter.toolTest.name=Tool Test

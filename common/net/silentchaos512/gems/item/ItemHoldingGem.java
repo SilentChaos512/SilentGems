@@ -79,11 +79,16 @@ public class ItemHoldingGem extends ItemBlockPlacer {
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
     for (EnumGem gem : EnumGem.values()) {
-      ItemStack stack = new ItemStack(item);
-      stack.setItemDamage(stack.getMaxDamage());
-      stack.setTagCompound(new NBTTagCompound());
-      stack.getTagCompound().setShort(NBT_GEM_ID, (short) gem.ordinal());
-      list.add(stack);
+      list.add(construct(gem));
     }
+  }
+
+  public ItemStack construct(EnumGem gem) {
+
+    ItemStack stack = new ItemStack(this);
+    stack.setItemDamage(stack.getMaxDamage());
+    stack.setTagCompound(new NBTTagCompound());
+    stack.getTagCompound().setShort(NBT_GEM_ID, (short) gem.ordinal());
+    return stack;
   }
 }

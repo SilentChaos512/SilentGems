@@ -9,6 +9,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -20,9 +21,11 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.gui.config.GuiConfigSilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.guide.page.PageDebugTool;
 import net.silentchaos512.gems.guide.page.PageOreSpawn;
 import net.silentchaos512.gems.item.ItemCrafting;
 import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
@@ -44,7 +47,7 @@ public class GuideBookGems extends GuideBook {
   private GuideEntry entryBlocks;
   private GuideEntry entryItems;
   private GuideEntry entryTools;
-  private GuideEntry entryRecipes;
+  private GuideEntry entryDebug;
 
   public GuideBookGems() {
 
@@ -63,7 +66,8 @@ public class GuideBookGems extends GuideBook {
     entryBlocks = new GuideEntry(this, "blocks");
     entryItems = new GuideEntry(this, "items");
     entryTools = new GuideEntry(this, "tools");
-    entryRecipes = new GuideEntry(this, "recipes");
+    if (edition == 0)
+      entryDebug = new GuideEntry(this, "debug").setSpecial();
   }
 
   @SuppressWarnings("unused")
@@ -266,6 +270,23 @@ public class GuideBookGems extends GuideBook {
     }
     new GuideChapter(this, "craftingMaterial", entryItems, ModItems.craftingMaterial.chaosEssence,
         pages.toArray(new IGuidePage[pages.size()]));
+    // Chaos Gems
+    ItemStack chChaosGem = new ItemStack(ModItems.chaosGem, 1, EnumGem.getRandom().ordinal());
+    ModItems.chaosGem.receiveCharge(chChaosGem, ModItems.chaosGem.getMaxCharge(chChaosGem), false);
+    ItemStack chChaosGemWithBuffs = StackHelper.safeCopy(chChaosGem);
+    ItemStack chChaosGemRuneStrength = new ItemStack(ModItems.chaosRune);
+    ModItems.chaosRune.setBuff(chChaosGemRuneStrength, ChaosBuff.STRENGTH);
+    ItemStack chChaosGemRuneResistance = new ItemStack(ModItems.chaosRune);
+    ModItems.chaosRune.setBuff(chChaosGemRuneResistance, ChaosBuff.RESISTANCE);
+    ModItems.chaosGem.addBuff(chChaosGemWithBuffs, ChaosBuff.STRENGTH);
+    ModItems.chaosGem.addBuff(chChaosGemWithBuffs, ChaosBuff.STRENGTH);
+    ModItems.chaosGem.addBuff(chChaosGemWithBuffs, ChaosBuff.RESISTANCE);
+    ModItems.chaosGem.addBuff(chChaosGemWithBuffs, ChaosBuff.RESISTANCE);
+    new GuideChapter(this, "chaosGem", entryItems, chChaosGem,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapelessRecipes(chChaosGemWithBuffs,
+            Lists.newArrayList(chChaosGem, chChaosGemRuneStrength, chChaosGemRuneStrength, chChaosGemRuneResistance, chChaosGemRuneResistance))),
+        new PageTextOnly(this, 3));
     // Fluffy Puffs
     new GuideChapter(this, "fluffyPuff", entryItems, new ItemStack(ModItems.fluffyPuff),
         new PageTextOnly(this, 1));
@@ -276,6 +297,31 @@ public class GuideBookGems extends GuideBook {
         new PageTextOnly(this, 1),
         new PageCrafting(this, 2, new ShapelessOreRecipe(craftedShards, chGem.getItem())),
         new PageCrafting(this, 3, new ShapedOreRecipe(chGem.getItemSuper(), "cgc", "cdc", "cgc", 'c', ModItems.craftingMaterial.chaosEssence, 'g', chGem.getItem(), 'd', "dustGlowstone")));
+    // Holding Gem
+    ItemStack chHoldingGem = ModItems.holdingGem.construct(EnumGem.getRandom());
+    ItemStack chHoldingGemIcon = StackHelper.safeCopy(chHoldingGem);
+    chHoldingGemIcon.setItemDamage(0);
+    ItemStack chHoldingGemSet = StackHelper.safeCopy(chHoldingGem);
+    ModItems.holdingGem.setBlockPlaced(chHoldingGemSet, Blocks.COBBLESTONE.getDefaultState());
+    chHoldingGemSet.setItemDamage(chHoldingGemSet.getMaxDamage() - 1);
+    new GuideChapter(this, "holdingGem", entryItems, chHoldingGemIcon,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, new ShapelessRecipes(chHoldingGemSet, Lists.newArrayList(chHoldingGem, new ItemStack(Blocks.COBBLESTONE)))),
+        new PageTextOnly(this, 3));
+    // Torch Bandolier
+    ItemStack chTorchBandolier = new ItemStack(ModItems.torchBandolier);
+    new GuideChapter(this, "torchBandolier", entryItems, chTorchBandolier,
+        new PageTextOnly(this, 1),
+        new PageTextOnly(this, 2));
+
+    // Debug
+
+    if (entryDebug != null) {
+      // Tool test
+      new GuideChapter(this, "toolTest", entryDebug, ModItems.craftingMaterial.ironPotato,
+          new PageDebugTool(this, 1),
+          new PageDebugTool(this, 2));
+    }
 
     // @formatter:on
   }
