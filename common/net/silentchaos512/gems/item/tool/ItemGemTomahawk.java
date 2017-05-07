@@ -235,4 +235,10 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
 
     return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }
+
+  // onItemRightClick
+  public ActionResult<ItemStack> func_77659_a(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+
+    return onItemRightClick(world, player, hand);
+  }
 }
