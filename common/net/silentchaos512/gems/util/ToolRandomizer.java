@@ -14,6 +14,7 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemKatana;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.lib.util.EntityHelper;
 
 public class ToolRandomizer {
 
@@ -26,10 +27,11 @@ public class ToolRandomizer {
       "a disturbed", "a dizzy", "a fanatical", "a grieving", "a languid", "a mysterious",
       "a psychotic", "a quaint", "a questionable", "a quizzical", "a redundant", "a sentient",
       "a sturdy", "a tasteful", "a thoughtful", "an unbiased", "an unloved", };
-  private static final String[] NAME_NOUNS_BASE = { "alpaca", "bench", "buffalo", "cake", "cat",
-      "crate", "dime", "egg", "fish", "fork", "guitar", "hammer", "hatred", "key", "lamp", "mitten",
-      "pair of dice", "pendulum", "pizza", "potato", "rice cooker", "shelf", "spoon", "square",
-      "storm", "surprise", "toaster", "toothbrush", "toy", "tree", "twig", "wheel" };
+  private static final String[] NAME_NOUNS_BASE = { "alien", "alpaca", "bench", "buffalo", "cake",
+      "cat", "crate", "dime", "egg", "fish", "fork", "guitar", "hammer", "hatred", "key", "lamp",
+      "mitten", "pair of dice", "pendulum", "pizza", "potato", "rice cooker", "rock", "shelf",
+      "sock puppet", "spoon", "square", "storm", "surprise", "toaster", "toothbrush", "toy", "tree",
+      "twig", "wheel" };
 
   public List<String> nameAdjectives = Lists.newArrayList(NAME_ADJECTIVES_BASE);
   public List<String> nameNouns = Lists.newArrayList(NAME_NOUNS_BASE);
@@ -38,16 +40,21 @@ public class ToolRandomizer {
 
   private ToolRandomizer() {
 
-    for (ResourceLocation res : EntityList.getEntityNameList()) {
-      String entityName = "entity." + EntityList.getTranslationName(res) + ".name";
-      String name = SilentGems.localizationHelper.getLocalizedString(entityName);
-      if (!name.endsWith(".name")) {
-        nameNouns.add(name.toLowerCase());
+    for (String name : EntityHelper.getEntityNameList()) {
+      String entityName = "entity." + name + ".name";
+      String localizedName = SilentGems.localizationHelper.getLocalizedString(entityName);
+      if (!localizedName.endsWith(".name")) {
+        nameNouns.add(localizedName.toLowerCase());
       }
     }
   }
 
   public ItemStack randomize(ItemStack tool) {
+
+    return randomize(tool, SUPER_TIER_CHANCE);
+  }
+
+  public ItemStack randomize(ItemStack tool, float superChance) {
 
     if (!(tool.getItem() instanceof ITool) || !ToolHelper.hasNoConstruction(tool))
       return tool;
@@ -55,7 +62,7 @@ public class ToolRandomizer {
     ITool itool = (ITool) tool.getItem();
 
     // Regular or super?
-    boolean superTier = itool.isSuperTool() || SilentGems.random.nextFloat() < SUPER_TIER_CHANCE;
+    boolean superTier = itool.isSuperTool() || SilentGems.random.nextFloat() < superChance;
 
     // How many gems?
     boolean gem2 = SilentGems.random.nextFloat() < SECOND_GEM_CHANCE;
