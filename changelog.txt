@@ -6,6 +6,7 @@ Changed: NBT-less tools that cannot be randomized have more informative tooltips
 Fixed: [1.10.2] Tomahawks not being throwable (#152)
 Fixed: Error textures of NBT-less tools (#148)
 Fixed: Dagger recipe detection ignoring the filler item (#154)
+Fixed: Entity renderers not working properly... finally.
 
 2.3.11
 Added: Variety cap config (max number of parts to effect variety bonus).

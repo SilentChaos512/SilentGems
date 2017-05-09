@@ -42,6 +42,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
     MinecraftForge.EVENT_BUS.register(GuiChaosBar.INSTANCE);
     MinecraftForge.EVENT_BUS.register(ModItems.toolRenderHelper);
     registry.clientPreInit();
+    registerRenderers();
     ModBlockRenderers.init(SilentGems.registry);
     ModItems.enchantmentToken.setColorsForDefaultTokens();
   }
@@ -51,7 +52,6 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
 
     super.init(registry);
     registry.clientInit();
-    registerRenderers();
     registerColorHandlers();
     EntityChaosNodePacket.initColors();
   }
