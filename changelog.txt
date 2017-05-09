@@ -2,8 +2,10 @@ Silent's Gems - Changelog
 
 2.3.12
 Added: Tool randomizer. Will randomize "NBT-less" tools in the player's inventory (acquired by the 'give' command and certain other... methods) (#149)
-Changed: NBT-less tools that cannot be randomized have more informative tooltips.
-Fixed: Error textures of NBT-less tools.
+Changed: NBT-less tools that cannot be randomized have more informative tooltips (#148)
+Fixed: [1.10.2] Tomahawks not being throwable (#152)
+Fixed: Error textures of NBT-less tools (#148)
+Fixed: Dagger recipe detection ignoring the filler item (#154)
 
 2.3.11
 Added: Variety cap config (max number of parts to effect variety bonus).

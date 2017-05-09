@@ -165,14 +165,15 @@ public class RecipeMultiGemTool implements IRecipeSL {
         } else if (c == 'f') {
           // Filler
           Object filler = tier.getFiller();
-          if (filler instanceof String)
+          if (filler instanceof String) {
             for (ItemStack oreStack : StackHelper.getOres((String) filler))
-                if (oreStack.isItemEqual(stack))
-                  return true;
-          else if (filler instanceof ItemStack)
+              if (oreStack.isItemEqual(stack))
+                return true;
+          } else if (filler instanceof ItemStack) {
             return ((ItemStack) filler).isItemEqual(stack);
-          else
+          } else {
             return false;
+          }
         } else if (part == null && c != ' ') {
           return false;
         }
