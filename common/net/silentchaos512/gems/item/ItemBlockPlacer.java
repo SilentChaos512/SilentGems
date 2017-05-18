@@ -194,9 +194,10 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   }
 
   @Override
-  public boolean onEntitySwing(EntityLivingBase player, ItemStack stack) {
+  public ActionResult<ItemStack> onItemLeftClickSL(World world, EntityPlayer player, EnumHand hand) {
 
-    if (!player.world.isRemote && player.isSneaking() && getRemainingBlocks(stack) > 0 && Mouse.isButtonDown(0)) {
+    ItemStack stack = player.getHeldItem(hand);
+    if (!player.world.isRemote && player.isSneaking() && getRemainingBlocks(stack) > 0) {
       // Get the block this placer stores.
       IBlockState state = getBlockPlaced(stack);
       int meta = getBlockMetaDropped(stack);
@@ -207,16 +208,17 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
       stack.damageItem(StackHelper.getCount(toDrop), player);
 
       // Make the EntityItem and spawn in world.
-      World world = player.world;
       Vec3d vec = player.getLookVec().scale(2.0);
       EntityItem entity = new EntityItem(world, player.posX + vec.xCoord,
           player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, toDrop);
       vec = vec.scale(-0.125);
-      entity.setVelocity(vec.xCoord, vec.yCoord, vec.zCoord);
+      entity.motionX = vec.xCoord;
+      entity.motionY = vec.yCoord;
+      entity.motionZ = vec.zCoord;
       world.spawnEntity(entity);
     }
 
-    return super.onEntitySwing(player, stack);
+    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
   }
 
   @Override

@@ -18,8 +18,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -39,10 +39,12 @@ import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.item.IItemSL;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.util.EntityHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
-public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
+public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, IItemSL {
 
   protected List<ItemStack> subItems = null;
 
@@ -127,17 +129,17 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
   }
 
   @Override
-  public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
+  public ActionResult<ItemStack> onItemLeftClickSL(World world, EntityPlayer player, EnumHand hand) {
 
-    World world = entityLiving.world;
-    if (world.isRemote || !(entityLiving instanceof EntityPlayer)
-        || ToolHelper.getToolTier(stack).ordinal() < EnumMaterialTier.SUPER.ordinal()) {
-      return false;
+    ItemStack stack = player.getHeldItem(hand);
+
+    if (!player.isSneaking()) {
+      return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
     }
 
-    EntityPlayer player = (EntityPlayer) entityLiving;
-    if (!player.isSneaking()) {
-      return false;
+    if (world.isRemote
+        || ToolHelper.getToolTier(stack).ordinal() < EnumMaterialTier.SUPER.ordinal()) {
+      return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
     }
 
     int costToCast = getShotCost(player, stack);
@@ -148,19 +150,19 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool {
       if (!player.capabilities.isCreativeMode) {
         data.drainChaos(costToCast);
         data.magicCooldown = cooldown;
-        stack.damageItem(1, entityLiving);
+        stack.damageItem(1, player);
       }
 
       ToolHelper.incrementStatShotsFired(stack, 1);
 
       if (!world.isRemote) {
         for (EntityChaosProjectile shot : getShots(player, stack)) {
-          world.spawnEntity(shot);
+          EntityHelper.safeSpawn(shot);
         }
       }
     }
 
-    return super.onEntitySwing(entityLiving, stack);
+    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
   }
 
   private List<EntityChaosProjectile> getShots(EntityPlayer player, ItemStack stack) {

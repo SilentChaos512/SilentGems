@@ -139,7 +139,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
   @Override
   protected void onImpact(RayTraceResult mop) {
 
-    if (mop.typeOfHit == Type.ENTITY && mop.entityHit != shooter) {
+    if (mop.typeOfHit == Type.ENTITY && shooter != null && mop.entityHit != shooter) {
       // Collide with Entity?
       mop.entityHit.attackEntityFrom(DamageSource.causeIndirectMagicDamage(getShooter(), getShooter()), damage);
 //      if (castingStack != null) {

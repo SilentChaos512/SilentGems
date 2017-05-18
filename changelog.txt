@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.3.13
+Fixed: Left-click item functions not working on servers (#156)
+
 2.3.12
 Added: Tool randomizer. Will randomize "NBT-less" tools in the player's inventory (acquired by the 'give' command and certain other... methods) (#149)
 Changed: NBT-less tools that cannot be randomized have more informative tooltips (#148)
