@@ -69,9 +69,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
 
     // ModBlockRenderers.init(reg);
 
-    // Using the deprecated version here causes the renderer to do nothing, which is what I want.
-    for (Class clazz : ModEntities.nodePacketClasses)
-      reg.registerEntityRenderer(clazz, new RenderEntityPacket(Minecraft.getMinecraft().getRenderManager()));
+    reg.registerEntityRenderer(EntityChaosNodePacket.class, new RenderEntityPacket.Factory());
     reg.registerEntityRenderer(EntityChaosProjectile.class, new RenderChaosProjectile.Factory());
     reg.registerEntityRenderer(EntityThrownTomahawk.class, new RenderThrownTomahawk.Factory());
   }
