@@ -1,13 +1,16 @@
 package net.silentchaos512.gems.entity;
 
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.SilentGems;
 
 public class EntityChaosProjectileSweep extends EntityChaosProjectile {
 
@@ -16,8 +19,8 @@ public class EntityChaosProjectileSweep extends EntityChaosProjectile {
     super(world);
   }
 
-  public EntityChaosProjectileSweep(EntityLivingBase shooter, ItemStack castingStack,
-      float damage, float yaw) {
+  public EntityChaosProjectileSweep(EntityLivingBase shooter, ItemStack castingStack, float damage,
+      float yaw) {
 
     super(shooter, castingStack, damage);
 
@@ -26,7 +29,7 @@ public class EntityChaosProjectileSweep extends EntityChaosProjectile {
     motionX = vec.xCoord;
     motionY = vec.yCoord;
     motionZ = vec.zCoord;
-//    SilentGems.instance.logHelper.debug(motionX, motionY, motionZ);
+    // SilentGems.instance.logHelper.debug(motionX, motionY, motionZ);
 
     float speedMulti = 0.7f;
     motionX += shooter.motionX;
@@ -46,9 +49,10 @@ public class EntityChaosProjectileSweep extends EntityChaosProjectile {
   @Override
   protected void onImpact(RayTraceResult mop) {
 
+    BlockPos posHit = mop.getBlockPos();
     if (mop.typeOfHit == Type.ENTITY && mop.entityHit != shooter) {
       mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, shooter), damage);
-    } else if (mop.typeOfHit == Type.BLOCK) {
+    } else if (mop.typeOfHit == Type.BLOCK && canCollideWithBlock(world.getBlockState(posHit), posHit)) {
       switch (mop.sideHit) {
         case UP:
           motionY = 0.0;
@@ -60,10 +64,24 @@ public class EntityChaosProjectileSweep extends EntityChaosProjectile {
         case NORTH:
         case SOUTH:
         case WEST:
-          posY += 1.1;
+          BlockPos posUp = mop.getBlockPos().up();
+          if (canCollideWithBlock(world.getBlockState(posUp), posUp)) {
+            setDead();
+          } else {
+            posY = posUp.getY() + 0.1;
+          }
           break;
       }
     }
+  }
+
+  private boolean canCollideWithBlock(IBlockState state, BlockPos pos) {
+
+    Material mat = state.getMaterial();
+    if (mat == Material.AIR || mat == Material.PLANTS || mat == Material.VINE) {
+      return false;
+    }
+    return state.getBoundingBox(world, pos) != null;
   }
 
   @Override
