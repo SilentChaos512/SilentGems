@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -15,7 +16,6 @@ import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartTip;
 import net.silentchaos512.gems.lib.EnumTipUpgrade;
-import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.item.ItemSL;
@@ -26,6 +26,9 @@ public class ItemTipUpgrade extends ItemSL {
 
   public static final String[] NAMES = new String[] { "UpgradeIronTip", "UpgradeGoldTip",
       "UpgradeDiamondTip", "UpgradeEmeraldTip" };
+
+  // For guide book...
+  public static List<IRecipe> RECIPES = Lists.newArrayList();
 
   public ItemTipUpgrade() {
 
@@ -81,10 +84,16 @@ public class ItemTipUpgrade extends ItemSL {
   public void addRecipes() {
 
     ItemStack base = ModItems.craftingMaterial.upgradeBase;
-    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 0), "ingotIron", base));
-    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 1), "ingotGold", base));
-    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 2), "gemDiamond", base));
-    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 3), "gemEmerald", base));
+    addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 0), "ingotIron", base));
+    addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 1), "ingotGold", base));
+    addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 2), "gemDiamond", base));
+    addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 3), "gemEmerald", base));
+  }
+
+  protected void addRecipe(IRecipe recipe) {
+
+    GameRegistry.addRecipe(recipe);
+    RECIPES.add(recipe);
   }
 
   @Override

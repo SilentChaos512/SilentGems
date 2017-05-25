@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -23,12 +24,16 @@ import net.silentchaos512.gems.client.gui.config.GuiConfigSilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.guide.page.PageDebugTool;
 import net.silentchaos512.gems.guide.page.PageOreSpawn;
+import net.silentchaos512.gems.item.ItemChaosOrb;
 import net.silentchaos512.gems.item.ItemCrafting;
+import net.silentchaos512.gems.item.ItemEnchantmentToken;
+import net.silentchaos512.gems.item.ItemTipUpgrade;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.gems.util.ToolRandomizer;
 import net.silentchaos512.lib.guidebook.GuideBook;
 import net.silentchaos512.lib.guidebook.IGuidePage;
 import net.silentchaos512.lib.guidebook.chapter.GuideChapter;
@@ -263,7 +268,10 @@ public class GuideBookGems extends GuideBook {
     for (String str : ItemCrafting.SORTED_NAMES) {
       ItemStack stack = ModItems.craftingMaterial.getStack(str);
       IRecipe recipe = ModItems.craftingMaterial.guideRecipeMap.get(stack.getItemDamage());
-      if (recipe != null)
+
+      if (stack.isItemEqual(ModItems.craftingMaterial.chaosEssence))
+        pages.add(new PageFurnace(this, 100, stack));
+      else if (recipe != null)
         pages.add(new PageCrafting(this, 100 + stack.getItemDamage(), recipe));
       else
         pages.add(new PageTextOnly(this, 100 + stack.getItemDamage()));
@@ -287,6 +295,35 @@ public class GuideBookGems extends GuideBook {
         new PageCrafting(this, 2, new ShapelessRecipes(chChaosGemWithBuffs,
             Lists.newArrayList(chChaosGem, chChaosGemRuneStrength, chChaosGemRuneStrength, chChaosGemRuneResistance, chChaosGemRuneResistance))),
         new PageTextOnly(this, 3));
+    // Chaos Orbs
+    ItemStack chChaosOrb = new ItemStack(ModItems.chaosOrb, 1, ItemChaosOrb.Type.SUPREME.ordinal());
+    ModItems.chaosOrb.receiveCharge(chChaosOrb, ModItems.chaosOrb.getMaxCharge(chChaosOrb), false);
+    new GuideChapter(this, "chaosOrb", entryItems, chChaosOrb,
+        new PageTextOnly(this, 1),
+        new PageTextOnly(this, 2));
+    // Drawing Compass
+    ItemStack chDrawingCompass = new ItemStack(ModItems.drawingCompass);
+    new GuideChapter(this, "drawingCompass", entryItems, chDrawingCompass,
+        new PageTextOnly(this, 1),
+        new PageTextOnly(this, 2));
+    // Enchantment Tokens
+    ItemStack chEnchantmentToken = new ItemStack(ModItems.enchantmentToken, 1, ItemEnchantmentToken.BLANK_META);
+    ItemStack tokenSharpness = ModItems.enchantmentToken.constructToken(Enchantments.SHARPNESS);
+    ItemStack chEnchantmentTokenPickaxe = ToolRandomizer.INSTANCE.randomize(new ItemStack(ModItems.pickaxe), 0.75f);
+    ItemStack chEnchantmentTokenPickaxeEnchanted = StackHelper.safeCopy(chEnchantmentTokenPickaxe);
+    ItemStack tokenUnbreaking = ModItems.enchantmentToken.constructToken(Enchantments.UNBREAKING);
+    ItemStack tokenFortune = ModItems.enchantmentToken.constructToken(Enchantments.FORTUNE);
+    for (int i = 0; i < 3; ++i) {
+      ModItems.enchantmentToken.applyTokenToTool(tokenFortune, chEnchantmentTokenPickaxeEnchanted);
+      ModItems.enchantmentToken.applyTokenToTool(tokenUnbreaking, chEnchantmentTokenPickaxeEnchanted);
+    }
+    new GuideChapter(this, "enchantmentToken", entryItems, chEnchantmentToken,
+        new PageTextOnly(this, 1),
+        new PageTextOnly(this, 2),
+        new PageCrafting(this, 3, new ShapedOreRecipe(new ItemStack(ModItems.enchantmentToken, 12, ItemEnchantmentToken.BLANK_META), "ggg", "lcl", "ggg", 'g', "ingotGold", 'l', "gemLapis", 'c', "gemChaos")),
+        new PageCrafting(this, 4, new ShapedOreRecipe(tokenSharpness, "r r", "fbf", "fff", 'r', "gemRuby", 'f', Items.FLINT, 'b', chEnchantmentToken)),
+        new PageTextOnly(this, 5),
+        new PageCrafting(this, 6, new ShapelessRecipes(chEnchantmentTokenPickaxeEnchanted, Lists.newArrayList(chEnchantmentTokenPickaxe, tokenUnbreaking, tokenUnbreaking, tokenUnbreaking, tokenFortune, tokenFortune, tokenFortune))));
     // Fluffy Puffs
     new GuideChapter(this, "fluffyPuff", entryItems, new ItemStack(ModItems.fluffyPuff),
         new PageTextOnly(this, 1));
@@ -308,6 +345,17 @@ public class GuideBookGems extends GuideBook {
         new PageTextOnly(this, 1),
         new PageCrafting(this, 2, new ShapelessRecipes(chHoldingGemSet, Lists.newArrayList(chHoldingGem, new ItemStack(Blocks.COBBLESTONE)))),
         new PageTextOnly(this, 3));
+    // Tip upgrades
+    ItemStack chTipUpgrade = new ItemStack(ModItems.tipUpgrade, 1, 2);
+    pages = Lists.newArrayList();
+    pages.add(new PageTextOnly(this, 1));
+    pages.add(new PageTextOnly(this, 2));
+    pages.add(new PageCrafting(this, 3, new ShapelessOreRecipe(ModItems.craftingMaterial.upgradeBase, Items.FLINT, Items.FLINT, "stickWood", "plankWood")));
+    for (IRecipe recipe : ItemTipUpgrade.RECIPES) {
+      pages.add(new PageCrafting(this, 0, recipe).setNoText());
+    }
+    new GuideChapter(this, "tipUpgrade", entryItems, chTipUpgrade,
+        pages.toArray(new IGuidePage[pages.size()]));
     // Torch Bandolier
     ItemStack chTorchBandolier = new ItemStack(ModItems.torchBandolier);
     new GuideChapter(this, "torchBandolier", entryItems, chTorchBandolier,
@@ -342,6 +390,10 @@ public class GuideBookGems extends GuideBook {
       "Your wish has been granted!",
       "Voted most unnecessarily complicated mod in high school.",
       "I like your gems!@HockeyStick",
+      "Also try JEI! Seriously, learn to look up the recipes... How do you play without mods like this?",
+      "How do you craft the upgrades?@Everyone Ever",
+      "Scathing comments since 2017!",
+      "Muffin button not included."
   };//@formatter:on
 
   @Override
