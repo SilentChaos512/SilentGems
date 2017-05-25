@@ -75,15 +75,6 @@ public class EntityChaosProjectileSweep extends EntityChaosProjectile {
     }
   }
 
-  private boolean canCollideWithBlock(IBlockState state, BlockPos pos) {
-
-    Material mat = state.getMaterial();
-    if (mat == Material.AIR || mat == Material.PLANTS || mat == Material.VINE) {
-      return false;
-    }
-    return state.getBoundingBox(world, pos) != null;
-  }
-
   @Override
   public float getGravityVelocity() {
 

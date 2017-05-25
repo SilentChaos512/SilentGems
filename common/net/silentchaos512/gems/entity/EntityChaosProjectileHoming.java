@@ -21,7 +21,8 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
     super(worldIn);
   }
 
-  public EntityChaosProjectileHoming(EntityLivingBase shooter, ItemStack castingStack, float damage) {
+  public EntityChaosProjectileHoming(EntityLivingBase shooter, ItemStack castingStack,
+      float damage) {
 
     super(shooter, castingStack, damage);
 
@@ -36,7 +37,7 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
 
   public void findHomingTarget() {
 
-    if (homingTarget != null && ticksExisted % 100 != 0) {
+    if (homingTarget != null || (ticksExisted % 100 != 0 && ticksExisted > 20)) {
       return;
     }
 
@@ -58,13 +59,18 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
     };
 
     int minDistance = Integer.MAX_VALUE;
-    for (EntityLivingBase entityLiving : world.getEntities(EntityLivingBase.class, predicate)) {
-      // SilentGems.instance.logHelper.debug(entityLiving);
-      int distance = (int) entityLiving.getDistanceSqToEntity(projectile)
-          + SilentGems.instance.random.nextInt(512);
-      if (distance < minDistance) {
-        minDistance = distance;
-        homingTarget = entityLiving;
+    Entity entity;
+    EntityLivingBase entityLiving;
+    for (int i = 0; i < world.loadedEntityList.size(); ++i) {
+      entity = world.loadedEntityList.get(i);
+      if (entity instanceof EntityLivingBase) {
+        entityLiving = (EntityLivingBase) entity;
+        int distance = (int) entityLiving.getDistanceSqToEntity(projectile)
+            + SilentGems.instance.random.nextInt(512);
+        if (distance < minDistance) {
+          minDistance = distance;
+          homingTarget = entityLiving;
+        }
       }
     }
   }
@@ -74,15 +80,18 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
 
     super.onUpdate();
 
-    findHomingTarget();
+    if (ticksExisted > 1) {
+      findHomingTarget();
+    }
+
     if (homingTarget != null && ticksExisted > 10) {
       posX = lastTickPosX;
       posY = lastTickPosY;
       posZ = lastTickPosZ;
 
       Vec3d vec = new Vec3d(motionX, motionY, motionZ);
-      Vec3d toTarget = new Vec3d(homingTarget.posX - posX, homingTarget.posY + homingTarget.height / 2 - posY,
-          homingTarget.posZ - posZ).normalize();
+      Vec3d toTarget = new Vec3d(homingTarget.posX - posX,
+          homingTarget.posY + homingTarget.height / 2 - posY, homingTarget.posZ - posZ).normalize();
       vec = vec.add(toTarget.scale(HOMING_TIGHTNESS)).normalize().scale(HOMING_SPEED);
 
       motionX = vec.xCoord;

@@ -2,6 +2,7 @@ package net.silentchaos512.gems.entity;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -139,6 +140,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
   @Override
   protected void onImpact(RayTraceResult mop) {
 
+    BlockPos posHit = mop.getBlockPos();
     if (mop.typeOfHit == Type.ENTITY && shooter != null && mop.entityHit != shooter) {
       // Collide with Entity?
       mop.entityHit.attackEntityFrom(DamageSource.causeIndirectMagicDamage(getShooter(), getShooter()), damage);
@@ -147,7 +149,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 //      }
       // worldObj.createExplosion(this, posX, posY, posZ, 1.25f, false);
       setDead();
-    } else if (mop.typeOfHit == Type.BLOCK) {
+    } else if (mop.typeOfHit == Type.BLOCK && canCollideWithBlock(world.getBlockState(posHit), posHit)) {
       // Collide with Block?
       BlockPos pos = mop.getBlockPos();
       IBlockState state = world.getBlockState(pos);
@@ -178,6 +180,15 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
         setDead();
       }
     }
+  }
+
+  protected boolean canCollideWithBlock(IBlockState state, BlockPos pos) {
+
+    Material mat = state.getMaterial();
+    if (mat == Material.AIR || mat == Material.PLANTS || mat == Material.VINE) {
+      return false;
+    }
+    return state.getBoundingBox(world, pos) != null;
   }
 
   @Override

@@ -4,7 +4,8 @@ Silent's Gems - Changelog
 Added: More missing guide book chapters. I think we are around 80% complete? Just a guess.
 Fixed: Left-click item functions not working on servers (#156)
 Fixed: Chaos node packet renderers (#156)
-Fixed: Katana projectiles no longer climb grass, plants, or tall walls.
+Fixed: Sword projectiles no longer collide with tall grass, plants, and some other blocks they shouldn't.
+Fixed: Katana projectiles no longer climb tall grass, plants, or high walls.
 
 2.3.12
 Added: Tool randomizer. Will randomize "NBT-less" tools in the player's inventory (acquired by the 'give' command and certain other... methods) (#149)
