@@ -215,7 +215,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
       String onOrOff = loc.getMiscText("state." + (mode ? "on" : "off"));
       onOrOff = (mode ? TextFormatting.GREEN : TextFormatting.RED) + onOrOff;
       String line = loc.getItemSubText(Names.CHAOS_ORB, "itemSend", onOrOff);
-      player.sendStatusMessage(new TextComponentString(line), true);
+      ChatHelper.sendStatusMessage(player, new TextComponentString(line), true);
     }
     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
   }
