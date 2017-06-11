@@ -2,6 +2,8 @@ Silent's Gems - Changelog
 
 2.3.14
 Added: Configs to enable/disable specific tiers of each tool class. For example, you could allow katanas to be made from anything now. You're welcome!
+Changed: Tool tooltips tweaked: Statistics moved to the 'Alt' group, added a tier lable under Properties.
+Changed: Tool names are now colored by tier (enchanted mundanes and regulars will still become aqua).
 Fixed: Holding gem and torch bandolier status text not being formatted on servers (#159)
 Fixed: [1.10.2] Client-side crash when shift-right-clicking chaos orbs (#162)
 
