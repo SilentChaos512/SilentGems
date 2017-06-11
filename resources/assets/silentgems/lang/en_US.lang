@@ -414,8 +414,6 @@ item.silentgems:ArmorFrame10.name=Leggings Frame (Super)
 item.silentgems:ArmorFrame11.name=Boots Frame (Super)
 
 item.silentgems:BlockPlacer.autoFill=Auto-Fill: %s
-item.silentgems:BlockPlacer.autoFill.on=&2On
-item.silentgems:BlockPlacer.autoFill.off=&4Off
 item.silentgems:BlockPlacer.count=&e%d / %d
 
 item.silentgems:ChaosGem0.name=Chaos Ruby

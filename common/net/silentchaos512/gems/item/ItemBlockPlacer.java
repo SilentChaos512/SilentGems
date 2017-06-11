@@ -22,9 +22,12 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IBlockPlacer;
+import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.ChatHelper;
@@ -153,7 +156,8 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
       setAutoFillMode(stack, mode);
 
       LocalizationHelper loc = SilentGems.localizationHelper;
-      String onOrOff = loc.getItemSubText("BlockPlacer", "autoFill." + (mode ? "on" : "off"));
+      String onOrOff = loc.getMiscText("state." + (mode ? "on" : "off"));
+      onOrOff = (mode ? TextFormatting.GREEN : TextFormatting.RED) + onOrOff;
       String line = loc.getItemSubText("BlockPlacer", "autoFill", onOrOff);
       ChatHelper.sendStatusMessage(player, line, true);
     }
