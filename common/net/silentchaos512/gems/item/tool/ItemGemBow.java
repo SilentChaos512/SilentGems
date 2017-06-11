@@ -14,6 +14,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArrow;
@@ -302,6 +303,12 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   public boolean hasEffect(ItemStack stack) {
 
     return ToolRenderHelper.instance.hasEffect(stack);
+  }
+  
+  @Override
+  public EnumRarity getRarity(ItemStack stack) {
+
+    return ToolRenderHelper.instance.getRarity(stack);
   }
 
   @Override

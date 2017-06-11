@@ -792,6 +792,7 @@ misc.silentgems:ToolPart.Rod=&3Tool Rod
 misc.silentgems:ToolPart.Grade=&3Grade: %s
 misc.silentgems:ToolPart.Tier=&3Tier: %s
 misc.silentgems:ToolPart.ValidTiers=Valid tool tiers:
+misc.silentgems:ToolTier=Tier: %s
 misc.silentgems:ToolTier.MUNDANE=Mundane
 misc.silentgems:ToolTier.REGULAR=Regular
 misc.silentgems:ToolTier.SUPER=Super
@@ -842,6 +843,9 @@ misc.silentgems:Tooltip.ShotsFired=&eShots Fired:&f %s
 misc.silentgems:Tooltip.ShotsLanded=&eShots Landed:&f %s
 misc.silentgems:Tooltip.ThrownCount=&eTimes Thrown:&f %s
 misc.silentgems:Tooltip.Redecorated=&eRedecorated:&f %s time(s)
+
+misc.silentgems:Tooltip.CtrlForProp=Properties <Press Ctrl>
+misc.silentgems:Tooltip.AltForStat=Statistics <Press Alt>
 
 misc.silentgems:Tooltip.Separator=&8-------------------
 misc.silentgems:Tooltip.Properties=&6Properties

@@ -1,8 +1,11 @@
 package net.silentchaos512.gems.item;
 
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.LogHelper;
 
@@ -45,6 +48,22 @@ public class ToolRenderHelperBase extends ItemSL {
 
     // return tool.isItemEnchanted();
     return false; // TODO: If anyone can fix this, please do so!
+  }
+  
+  public EnumRarity getRarity(ItemStack tool) {
+
+    EnumMaterialTier tier = ToolHelper.getToolTier(tool);
+    boolean enchanted = tool.isItemEnchanted();
+
+    switch (tier) {
+      case SUPER:
+        return EnumRarity.EPIC;
+      case REGULAR:
+        return enchanted ? EnumRarity.RARE : EnumRarity.UNCOMMON;
+      case MUNDANE:
+      default:
+        return enchanted ? EnumRarity.RARE : EnumRarity.COMMON;
+    }
   }
 
   public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,

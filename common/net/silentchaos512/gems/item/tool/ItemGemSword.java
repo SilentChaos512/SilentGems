@@ -15,6 +15,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -264,6 +265,12 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
   public boolean hasEffect(ItemStack stack) {
 
     return ToolRenderHelper.instance.hasEffect(stack);
+  }
+  
+  @Override
+  public EnumRarity getRarity(ItemStack stack) {
+
+    return ToolRenderHelper.instance.getRarity(stack);
   }
 
   @Override

@@ -38,7 +38,6 @@ import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.item.tool.ItemGemTomahawk;
 import net.silentchaos512.gems.lib.TooltipHelper;
 import net.silentchaos512.gems.util.ToolHelper;
-import net.silentchaos512.gems.util.ToolRandomizer;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class ToolRenderHelper extends ToolRenderHelperBase {
@@ -73,6 +72,15 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     boolean altDown = KeyTracker.isAltDown();
     boolean shiftDown = KeyTracker.isShiftDown();
     String line;
+    
+    // Tipped upgrade
+    ToolPartTip partTip = (ToolPartTip) ToolHelper.getConstructionTip(tool);
+    if (partTip != null) {
+      String tipName = partTip.getUnlocalizedName().replaceFirst("[^:]+:", "");
+      tipName = loc.getMiscText("Tooltip." + tipName);
+      line = loc.getMiscText("Tooltip.Tipped", tipName);
+      list.add(line);
+    }
 
     // Show original owner?
     if (controlDown) {
@@ -96,15 +104,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       line = loc.getMiscText("Tooltip.Broken");
       list.add(line);
     }
-
-    // Tipped upgrade
-    ToolPartTip partTip = (ToolPartTip) ToolHelper.getConstructionTip(tool);
-    if (partTip != null) {
-      String tipName = partTip.getUnlocalizedName().replaceFirst("[^:]+:", "");
-      tipName = loc.getMiscText("Tooltip." + tipName);
-      line = loc.getMiscText("Tooltip.Tipped", tipName);
-      list.add(line);
-    }
+    
 
     final Item item = tool.getItem();
     final boolean isSword = item instanceof ItemGemSword;
@@ -124,6 +124,11 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       list.add(line);
 
       TextFormatting color = TextFormatting.YELLOW;
+      
+      // Tier
+      EnumMaterialTier tier = ToolHelper.getToolTier(tool);
+      line = TextFormatting.RESET + loc.getMiscText("ToolTier." + tier);
+      list.add("  " + color + loc.getMiscText("ToolTier", line));
 
       int durabilityMax = ToolHelper.getMaxDamage(tool);
       int durability = durabilityMax - tool.getItemDamage();
@@ -159,7 +164,11 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       }
 
       list.add(color + getTooltipLine("ChargeSpeed", ToolHelper.getChargeSpeed(tool)));
+    } else {
+      list.add(TextFormatting.GOLD + loc.getMiscText("Tooltip.CtrlForProp"));
+    }
 
+    if (altDown) {
       // Statistics Header
       list.add(sep);
       line = loc.getMiscText("Tooltip.Statistics");
@@ -192,11 +201,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
       list.add(getTooltipLine("Redecorated", ToolHelper.getStatRedecorated(tool)));
       list.add(sep);
-    } else {
-      list.add(TextFormatting.GOLD + loc.getMiscText("PressCtrl"));
-    }
 
-    if (altDown) {
       line = loc.getMiscText("Tooltip.Construction");
       list.add(line);
 
@@ -213,7 +218,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       }
       list.add(sep);
     } else {
-      list.add(TextFormatting.GOLD + loc.getMiscText("PressAlt"));
+      list.add(TextFormatting.GOLD + loc.getMiscText("Tooltip.AltForStat"));
     }
 
     // Debug render layers

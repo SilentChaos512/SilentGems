@@ -21,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
@@ -333,6 +334,12 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   public boolean hasEffect(ItemStack stack) {
 
     return ToolRenderHelper.instance.hasEffect(stack);
+  }
+  
+  @Override
+  public EnumRarity getRarity(ItemStack stack) {
+
+    return ToolRenderHelper.instance.getRarity(stack);
   }
 
   @Override
