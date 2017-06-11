@@ -10,6 +10,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -39,6 +40,11 @@ public class ItemGemPaxel extends ItemGemPickaxe {
       set.add(mat);
     return set.toArray(new Material[set.size()]);
   }
+  
+  public ConfigOptionToolClass getConfig() {
+
+    return GemsConfig.paxel;
+  }
 
   @Override
   public ItemStack constructTool(boolean supercharged, ItemStack material) {
@@ -49,7 +55,7 @@ public class ItemGemPaxel extends ItemGemPickaxe {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_PAXEL)
+    if (getConfig().isDisabled)
       return StackHelper.empty();
     return ToolHelper.constructTool(this, rod, materials);
   }
@@ -84,6 +90,7 @@ public class ItemGemPaxel extends ItemGemPickaxe {
     return 0.70f;
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public boolean isSuperTool() {
 
@@ -126,7 +133,7 @@ public class ItemGemPaxel extends ItemGemPickaxe {
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_PAXEL)
+    if (getConfig().isDisabled)
       return;
 
     String l1 = "ggg";

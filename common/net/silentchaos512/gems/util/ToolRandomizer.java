@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemKatana;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -62,7 +63,8 @@ public class ToolRandomizer {
     ITool itool = (ITool) tool.getItem();
 
     // Regular or super?
-    boolean superTier = itool.isSuperTool() || SilentGems.random.nextFloat() < superChance;
+    boolean superTier = !itool.getValidTiers().contains(EnumMaterialTier.REGULAR)
+        || (SilentGems.random.nextFloat() < superChance && itool.getValidTiers().contains(EnumMaterialTier.SUPER));
 
     // How many gems?
     boolean gem2 = SilentGems.random.nextFloat() < SECOND_GEM_CHANCE;

@@ -35,6 +35,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IPlantable;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
@@ -73,11 +74,16 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   // ===============
   // ITool overrides
   // ===============
+  
+  public ConfigOptionToolClass getConfig() {
+
+    return GemsConfig.sickle;
+  }
 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SICKLE) return StackHelper.empty();
+    if (getConfig().isDisabled) return StackHelper.empty();
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -398,7 +404,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_SICKLE) return;
+    if (getConfig().isDisabled) return;
 
     String l1 = " g";
     String l2 = "gg";

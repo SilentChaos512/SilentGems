@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -19,11 +20,16 @@ public class ItemGemScepter extends ItemGemSword {
     super();
     setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.SCEPTER);
   }
+  
+  public ConfigOptionToolClass getConfig() {
+
+    return GemsConfig.scepter;
+  }
 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SCEPTER) return StackHelper.empty();
+    if (getConfig().isDisabled) return StackHelper.empty();
 
     if (materials.length >= 2) {
       ItemStack temp = materials[0];
@@ -57,6 +63,7 @@ public class ItemGemScepter extends ItemGemSword {
     return 0.75f;
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public boolean isSuperTool() {
 
@@ -75,7 +82,7 @@ public class ItemGemScepter extends ItemGemSword {
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_SCEPTER) return;
+    if (getConfig().isDisabled) return;
 
     String line1 = " g ";
     String line2 = "gsg";

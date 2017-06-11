@@ -67,20 +67,20 @@ public class GemsConfig extends AdaptiveConfig {
   public static int TOMAHAWK_MAX_AMMO = 4;
   public static int TOMAHAWK_AMMO_PER_MAT = 1;
   public static boolean SWITCH_AXE_SUPER = false;
-
-  public static boolean TOOL_DISABLE_SWORD;
-  public static boolean TOOL_DISABLE_DAGGER;
-  public static boolean TOOL_DISABLE_KATANA;
-  public static boolean TOOL_DISABLE_SCEPTER;
-  public static boolean TOOL_DISABLE_TOMAHAWK;
-  public static boolean TOOL_DISABLE_PICKAXE;
-  public static boolean TOOL_DISABLE_SHOVEL;
-  public static boolean TOOL_DISABLE_AXE;
-  public static boolean TOOL_DISABLE_PAXEL;
-  public static boolean TOOL_DISABLE_HOE;
-  public static boolean TOOL_DISABLE_SICKLE;
-  public static boolean TOOL_DISABLE_BOW;
-  public static boolean TOOL_DISABLE_SHIELD;
+  
+  public static ConfigOptionToolClass sword = new ConfigOptionToolClass(ModItems.sword, "sword");
+  public static ConfigOptionToolClass dagger = new ConfigOptionToolClass(ModItems.dagger, "dagger");
+  public static ConfigOptionToolClass katana = new ConfigOptionToolClass(ModItems.katana, "katana");
+  public static ConfigOptionToolClass scepter = new ConfigOptionToolClass(ModItems.scepter, "scepter");
+  public static ConfigOptionToolClass tomahawk = new ConfigOptionToolClass(ModItems.tomahawk, "tomahawk");
+  public static ConfigOptionToolClass pickaxe = new ConfigOptionToolClass(ModItems.pickaxe, "pickaxe");
+  public static ConfigOptionToolClass shovel = new ConfigOptionToolClass(ModItems.shovel, "shovel");
+  public static ConfigOptionToolClass axe = new ConfigOptionToolClass(ModItems.axe, "axe");
+  public static ConfigOptionToolClass paxel = new ConfigOptionToolClass(ModItems.paxel, "paxel");
+  public static ConfigOptionToolClass hoe = new ConfigOptionToolClass(ModItems.hoe, "hoe");
+  public static ConfigOptionToolClass sickle = new ConfigOptionToolClass(ModItems.sickle, "sickle");
+  public static ConfigOptionToolClass bow = new ConfigOptionToolClass(ModItems.bow, "hoe");
+  public static ConfigOptionToolClass shield = new ConfigOptionToolClass(ModItems.shield, "shield");
 
   /*
    * Tool Parts
@@ -279,24 +279,19 @@ public class GemsConfig extends AdaptiveConfig {
           SWITCH_AXE_SUPER,
           "Change the super skill for axes to Area Miner. Useful if playing with Veinminer installed.");
 
-      final String catToolDisable = CAT_TOOLS + split + "disable";
-      config.setCategoryRequiresMcRestart(catToolDisable, true);
-      config.setCategoryComment(catToolDisable, "Disable the crafting of specific tool classes by"
-          + " toggling the desired option to \"true\". Doing so will prevent ANY tool of that type"
-          + " from being crafted (all tiers, mixed and non-mixed, and both base mod and add-on parts).");
-      TOOL_DISABLE_SWORD = config.get(catToolDisable, "Sword", false).getBoolean();
-      TOOL_DISABLE_DAGGER = config.get(catToolDisable, "Dagger", false).getBoolean();
-      TOOL_DISABLE_KATANA = config.get(catToolDisable, "Katana", false).getBoolean();
-      TOOL_DISABLE_SCEPTER = config.get(catToolDisable, "Scepter", false).getBoolean();
-      TOOL_DISABLE_TOMAHAWK = config.get(catToolDisable, "Tomahawk", false).getBoolean();
-      TOOL_DISABLE_PICKAXE = config.get(catToolDisable, "Pickaxe", false).getBoolean();
-      TOOL_DISABLE_SHOVEL = config.get(catToolDisable, "Shovel", false).getBoolean();
-      TOOL_DISABLE_AXE = config.get(catToolDisable, "Axe", false).getBoolean();
-      TOOL_DISABLE_PAXEL = config.get(catToolDisable, "Paxel", false).getBoolean();
-      TOOL_DISABLE_HOE = config.get(catToolDisable, "Hoe", false).getBoolean();
-      TOOL_DISABLE_SICKLE = config.get(catToolDisable, "Sickle", false).getBoolean();
-      TOOL_DISABLE_BOW = config.get(catToolDisable, "Bow", false).getBoolean();
-      TOOL_DISABLE_SHIELD= config.get(catToolDisable, "Shield", false).getBoolean();
+      sword.loadValue(config);
+      dagger.loadValue(config);
+      katana.loadValue(config);
+      scepter.loadValue(config);
+      tomahawk.loadValue(config);
+      pickaxe.loadValue(config);
+      shovel.loadValue(config);
+      axe.loadValue(config);
+      paxel.loadValue(config);
+      hoe.loadValue(config);
+      sickle.loadValue(config);
+      bow.loadValue(config);
+      shield.loadValue(config);
 
       /*
        * Tool Parts

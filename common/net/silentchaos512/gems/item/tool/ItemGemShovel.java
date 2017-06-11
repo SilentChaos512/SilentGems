@@ -28,6 +28,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
@@ -57,7 +58,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
 
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SHOVEL)
+    if (getConfig().isDisabled)
       return StackHelper.empty();
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.STICK);
@@ -67,11 +68,16 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   // ===============
   // ITool overrides
   // ===============
+  
+  public ConfigOptionToolClass getConfig() {
+
+    return GemsConfig.shovel;
+  }
 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SHOVEL)
+    if (getConfig().isDisabled)
       return StackHelper.empty();
     if (materials.length == 1) {
       return ToolHelper.constructTool(this, rod, materials[0], materials[0], materials[0]);
@@ -283,7 +289,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_SHOVEL)
+    if (getConfig().isDisabled)
       return;
 
     String l1 = "g";

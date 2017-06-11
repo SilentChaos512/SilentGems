@@ -28,6 +28,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
@@ -66,11 +67,16 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   // ===============
   // ITool overrides
   // ===============
+  
+  public ConfigOptionToolClass getConfig() {
+
+    return GemsConfig.axe;
+  }
 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_AXE)
+    if (getConfig().isDisabled)
       return StackHelper.empty();
     return ToolHelper.constructTool(this, rod, materials);
   }
@@ -269,7 +275,7 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_AXE)
+    if (getConfig().isDisabled)
       return;
 
     String l1 = "gg";

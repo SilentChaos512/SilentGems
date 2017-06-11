@@ -27,6 +27,7 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
@@ -61,7 +62,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
 
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SWORD)
+    if (getConfig().isDisabled)
       return StackHelper.empty();
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.STICK);
@@ -71,11 +72,16 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
   // ===============
   // ITool overrides
   // ===============
+  
+  public ConfigOptionToolClass getConfig() {
+
+    return GemsConfig.sword;
+  }
 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SWORD)
+    if (getConfig().isDisabled)
       return StackHelper.empty();
     if (materials.length == 2) {
       ItemStack temp = materials[0];
@@ -310,7 +316,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_SWORD)
+    if (getConfig().isDisabled)
       return;
 
     String l1 = "g";

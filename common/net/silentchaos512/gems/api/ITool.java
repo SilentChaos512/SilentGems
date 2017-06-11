@@ -1,17 +1,13 @@
 package net.silentchaos512.gems.api;
 
-import java.util.List;
+import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+import net.silentchaos512.gems.config.ConfigOptionToolClass;
 
 public interface ITool {
 
@@ -45,9 +41,17 @@ public interface ITool {
     return false;
   }
 
+  public ConfigOptionToolClass getConfig();
+
+  @Deprecated
   public default boolean isSuperTool() {
 
     return false;
+  }
+
+  public default Set<EnumMaterialTier> getValidTiers() {
+
+    return getConfig().validTiers;
   }
 
   @Deprecated

@@ -694,11 +694,10 @@ public class ToolHelper {
 
     recalculateStats(result);
 
-    // Check tier - "Super" tools can only be super tier!
+    // Is this tier valid for this tool class?
     EnumMaterialTier toolTier = getToolTier(result);
-    if (item instanceof ITool && ((ITool) item).isSuperTool()) {
-      if (toolTier.ordinal() < EnumMaterialTier.SUPER.ordinal())
-        return StackHelper.empty();
+    if (item instanceof ITool && !((ITool) item).getValidTiers().contains(toolTier)) {
+      return StackHelper.empty();
     }
 
     return result;
@@ -863,15 +862,16 @@ public class ToolHelper {
   public static List<ItemStack> getSubItems(Item item, int materialLength) {
 
     List<ItemStack> list = Lists.newArrayList();
-    final boolean isSuperTool = item instanceof ITool && ((ITool) item).isSuperTool();
+    //final boolean isSuperTool = item instanceof ITool && ((ITool) item).isSuperTool();
     final ItemStack rodWood = new ItemStack(Items.STICK);
     final ItemStack rodIron = ModItems.craftingMaterial.toolRodIron;
     final ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
 
     for (ToolPartMain part : ToolPartRegistry.getMains()) {
       if (!part.isBlacklisted(part.getCraftingStack())) {
-        if (isSuperTool && part.getTier() != EnumMaterialTier.SUPER)
+        if (item instanceof ITool && !((ITool) item).getValidTiers().contains(part.getTier())) {
           continue;
+        }
         list.add(constructTool(item,
             part.getTier() == EnumMaterialTier.SUPER ? rodGold
                 : item instanceof ItemGemShield && part.getTier() == EnumMaterialTier.REGULAR

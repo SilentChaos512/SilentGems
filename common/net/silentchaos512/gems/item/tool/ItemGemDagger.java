@@ -14,6 +14,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -28,11 +29,16 @@ public class ItemGemDagger extends ItemGemSword {
     super();
     setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.DAGGER);
   }
+  
+  public ConfigOptionToolClass getConfig() {
+
+    return GemsConfig.dagger;
+  }
 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_DAGGER)
+    if (getConfig().isDisabled)
       return StackHelper.empty();
     return ToolHelper.constructTool(this, rod, materials);
   }
@@ -40,7 +46,7 @@ public class ItemGemDagger extends ItemGemSword {
   @Override
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_DAGGER)
+    if (getConfig().isDisabled)
       return StackHelper.empty();
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.STICK);
@@ -117,7 +123,7 @@ public class ItemGemDagger extends ItemGemSword {
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_DAGGER)
+    if (getConfig().isDisabled)
       return;
 
     String l1 = "g";

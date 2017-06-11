@@ -12,6 +12,7 @@ import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -26,11 +27,16 @@ public class ItemGemKatana extends ItemGemSword {
     super();
     setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.KATANA);
   }
+  
+  public ConfigOptionToolClass getConfig() {
+
+    return GemsConfig.katana;
+  }
 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_KATANA)
+    if (getConfig().isDisabled)
       return StackHelper.empty();
     ItemStack result = ToolHelper.constructTool(this, rod, materials);
     return addDefaultGrip(result);
@@ -39,7 +45,7 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_KATANA)
+    if (getConfig().isDisabled)
       return StackHelper.empty();
     ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
         : new ItemStack(Items.STICK);
@@ -89,6 +95,7 @@ public class ItemGemKatana extends ItemGemSword {
     return 0.75f;
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public boolean isSuperTool() {
 
@@ -110,7 +117,7 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_KATANA)
+    if (getConfig().isDisabled)
       return;
 
     String line1 = "gg";

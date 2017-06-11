@@ -22,6 +22,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IAmmoTool;
+import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.EntityThrownTomahawk;
 import net.silentchaos512.gems.item.ModItems;
@@ -39,11 +40,16 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
     super();
     setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.TOMAHAWK);
   }
+  
+  public ConfigOptionToolClass getConfig() {
+
+    return GemsConfig.tomahawk;
+  }
 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_TOMAHAWK) return StackHelper.empty();
+    if (getConfig().isDisabled) return StackHelper.empty();
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -128,7 +134,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_TOMAHAWK) return;
+    if (getConfig().isDisabled) return;
 
     String l1 = "ggg";
     String l2 = "gs ";

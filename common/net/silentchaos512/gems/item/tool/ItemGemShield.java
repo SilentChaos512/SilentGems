@@ -33,6 +33,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
@@ -109,11 +110,16 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   // ================
   // = Construction =
   // ================
+  
+  public ConfigOptionToolClass getConfig() {
+
+    return GemsConfig.shield;
+  }
 
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (GemsConfig.TOOL_DISABLE_SHIELD)
+    if (getConfig().isDisabled)
       return StackHelper.empty();
 
     if (materials.length == 1)
@@ -148,7 +154,7 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   @Override
   public void addRecipes() {
 
-    if (GemsConfig.TOOL_DISABLE_SHIELD)
+    if (getConfig().isDisabled)
       return;
 
     ItemStack flint = new ItemStack(Items.FLINT);
