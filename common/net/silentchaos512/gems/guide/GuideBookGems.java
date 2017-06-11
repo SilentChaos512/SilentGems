@@ -71,7 +71,7 @@ public class GuideBookGems extends GuideBook {
     entryBlocks = new GuideEntry(this, "blocks");
     entryItems = new GuideEntry(this, "items");
     entryTools = new GuideEntry(this, "tools");
-    if (edition == 0)
+    if (edition == 0 || GemsConfig.DEBUG_MODE)
       entryDebug = new GuideEntry(this, "debug").setSpecial();
   }
 
