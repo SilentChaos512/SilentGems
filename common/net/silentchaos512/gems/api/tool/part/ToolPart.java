@@ -2,6 +2,8 @@ package net.silentchaos512.gems.api.tool.part;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -36,7 +38,7 @@ public abstract class ToolPart {
   /**
    * The unique ID for the part. I recommend prefixing it with your mod ID. Example: SilentGems:RodGold.
    */
-  protected String key;
+  protected @Nonnull String key;
   /**
    * An item that represents the tool part. It's also the item that is used in crafting. For example, the items that
    * apply tip upgrades are the crafting stacks for those parts.
@@ -44,12 +46,12 @@ public abstract class ToolPart {
    * This variable may not be null. If you want multiple items to be used for this part, you may specify an ore
    * dictionary key to use.
    */
-  protected ItemStack craftingStack;
+  protected @Nonnull ItemStack craftingStack;
   /**
    * The ore dictionary key to match for this part. This may be an empty string if you do not want to use the ore
    * dictionary.
    */
-  protected String craftingOreDictName;
+  protected @Nonnull String craftingOreDictName;
   /**
    * The tier of the part. Part tiers determine what parts can be crafted together to make a tool, as well as the tier
    * of the resulting tool.
@@ -74,17 +76,17 @@ public abstract class ToolPart {
     this.tier = EnumMaterialTier.REGULAR;
   }
 
-  public String getKey() {
+  public @Nonnull String getKey() {
 
     return key;
   }
 
-  public ItemStack getCraftingStack() {
+  public @Nonnull ItemStack getCraftingStack() {
 
     return craftingStack;
   }
 
-  public String getCraftingOreDictName() {
+  public @Nonnull String getCraftingOreDictName() {
 
     return craftingOreDictName;
   }
@@ -235,4 +237,16 @@ public abstract class ToolPart {
    * @return
    */
   public abstract boolean validForPosition(EnumPartPosition pos);
+  
+  @Override
+  public String toString() {
+
+    String str = "ToolPart{";
+    str += "Key: " + getKey() + ", ";
+    str += "CraftingStack: " + getCraftingStack() + ", ";
+    str += "CraftingOreDictName: '" + getCraftingOreDictName() + "', ";
+    str += "Tier: " + getTier();
+    str += "}";
+    return str;
+  }
 }

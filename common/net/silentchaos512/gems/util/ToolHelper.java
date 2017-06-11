@@ -671,7 +671,7 @@ public class ToolHelper {
     // Head
     for (int i = 0; i < materials.length; ++i) {
       if (StackHelper.isEmpty(materials[i])) {
-        String str = "ToolHelper.constructTool: empty part!";
+        String str = "ToolHelper.constructTool: empty part! ";
         for (ItemStack stack : materials)
           str += stack + ", ";
         throw new IllegalArgumentException(str);
@@ -868,6 +868,9 @@ public class ToolHelper {
     final ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
 
     for (ToolPartMain part : ToolPartRegistry.getMains()) {
+      if (StackHelper.isEmpty(part.getCraftingStack())) {
+        throw new IllegalArgumentException("Part with empty crafting stack: " + part);
+      }
       if (!part.isBlacklisted(part.getCraftingStack())) {
         if (item instanceof ITool && !((ITool) item).getValidTiers().contains(part.getTier())) {
           continue;
