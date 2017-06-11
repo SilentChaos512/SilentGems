@@ -94,7 +94,9 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
     // LogHelper.warning("EntityProjectileChaosOrb (constructor): Unknown gemId! " + gemId);
     // }
 
-    onUpdate();
+    posX += motionX;
+    posY += motionY;
+    posZ += motionZ;
   }
 
   public int getMaxLife() {
