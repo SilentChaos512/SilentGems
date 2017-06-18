@@ -19,7 +19,7 @@ public class TConstructMaterialGem extends Material {
 
     setCraftable(true);
     setRepresentativeItem(tier == EnumMaterialTier.SUPER ? gem.getItemSuper() : gem.getItem());
-    addItem(tier == EnumMaterialTier.SUPER ? gem.getItemSuperOreName() : gem.getItemOreName(), 1, VALUE_Ingot);
+    addCommonItems(tier == EnumMaterialTier.SUPER ? gem.getItemSuperOreName() : gem.getItemOreName());
   }
 
   @Override

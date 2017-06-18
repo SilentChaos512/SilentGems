@@ -33,7 +33,7 @@ public class TConstructGemsCompat {
   private static void register(EnumGem gem, EnumMaterialTier tier) {
 
     TConstructMaterialGem mat = new TConstructMaterialGem(gem, tier);
-    TinkerIntegration.integrate(mat,
+    TinkerRegistry.integrate(mat,
         tier == EnumMaterialTier.SUPER ? gem.getItemSuperOreName() : gem.getItemOreName());
 
     int durability = gem.getDurability(tier);

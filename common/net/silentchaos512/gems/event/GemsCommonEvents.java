@@ -199,16 +199,4 @@ public class GemsCommonEvents {
       }
     }
   }
-
-  // @SubscribeEvent
-  // public void onExplosionDetonate(ExplosionEvent.Detonate event) {
-  //
-//    // @formatter:off
-//    if (event.getAffectedBlocks().removeIf(pos ->
-//        event.getWorld().getBlockState(pos) == ModBlocks.gemBlockSuper
-//        || event.getWorld().getBlockState(pos) == ModBlocks.gemBlockSuperDark)) {
-//      SilentGems.instance.logHelper.derp();
-//    }
-//    // @formatter:on
-  // }
 }

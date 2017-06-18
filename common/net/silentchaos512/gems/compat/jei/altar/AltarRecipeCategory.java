@@ -1,6 +1,10 @@
 package net.silentchaos512.gems.compat.jei.altar;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
+
+import com.google.common.collect.Lists;
 
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
@@ -107,5 +111,17 @@ public class AltarRecipeCategory implements IRecipeCategory {
     recipeLayout.getItemStacks().set(1, ingredients.getOutputs(ItemStack.class).get(0));
     recipeLayout.getItemStacks().set(2, ingredients.getInputs(ItemStack.class).get(1));
     // }
+  }
+
+  @Override
+  public String getModName() {
+
+    return SilentGems.MOD_NAME;
+  }
+
+  @Override
+  public List getTooltipStrings(int arg0, int arg1) {
+
+    return Lists.newArrayList();
   }
 }

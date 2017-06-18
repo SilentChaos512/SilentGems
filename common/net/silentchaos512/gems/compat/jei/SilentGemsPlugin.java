@@ -10,6 +10,7 @@ import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.ISubtypeRegistry.ISubtypeInterpreter;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
+import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -148,5 +149,12 @@ public class SilentGemsPlugin implements IModPlugin {
         return buff.getKey();
       }
     });
+  }
+
+  @Override
+  public void registerCategories(IRecipeCategoryRegistration arg0) {
+
+    // TODO Auto-generated method stub
+    
   }
 }
