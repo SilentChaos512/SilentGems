@@ -62,6 +62,7 @@ import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.item.tool.ItemGemShovel;
 import net.silentchaos512.gems.item.tool.ItemGemSickle;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
+import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageItemRename;
@@ -341,6 +342,7 @@ public class ToolHelper {
     Multimap<String, AttributeModifier> map = tool.getItem().getItemAttributeModifiers(slot);
 
     if (slot == EntityEquipmentSlot.MAINHAND) {
+      
       // Melee Damage
       String key = SharedMonsterAttributes.ATTACK_DAMAGE.getName();
       float value = getMeleeDamageModifier(tool);
@@ -859,6 +861,9 @@ public class ToolHelper {
     return result;
   }
 
+  static boolean foundEmptyPart = false;
+  static Set<ToolPartMain> emptyPartSet = Sets.newHashSet();
+
   public static List<ItemStack> getSubItems(Item item, int materialLength) {
 
     List<ItemStack> list = Lists.newArrayList();
@@ -866,20 +871,30 @@ public class ToolHelper {
     final ItemStack rodWood = new ItemStack(Items.STICK);
     final ItemStack rodIron = ModItems.craftingMaterial.toolRodIron;
     final ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
-
+    
     for (ToolPartMain part : ToolPartRegistry.getMains()) {
+      // Check for parts with empty crafting stacks and scream at the user if any are found.
       if (StackHelper.isEmpty(part.getCraftingStack())) {
-        throw new IllegalArgumentException("Part with empty crafting stack: " + part);
-      }
-      if (!part.isBlacklisted(part.getCraftingStack())) {
-        if (item instanceof ITool && !((ITool) item).getValidTiers().contains(part.getTier())) {
-          continue;
+        if (!emptyPartSet.contains(part)) {
+          emptyPartSet.add(part);
+          SilentGems.logHelper.severe("Part with empty crafting stack: " + part);
+          if (!foundEmptyPart) {
+            Greetings.addExtraMessage(TextFormatting.RED + "Errored tool part found! Please report this issue on the GitHub issue tracker.");
+            foundEmptyPart = true;
+          }
+          Greetings.addExtraMessage(TextFormatting.ITALIC + part.toString());
         }
-        list.add(constructTool(item,
-            part.getTier() == EnumMaterialTier.SUPER ? rodGold
-                : item instanceof ItemGemShield && part.getTier() == EnumMaterialTier.REGULAR
-                    ? rodIron : rodWood,
-            part.getCraftingStack()));
+      } else {
+        if (!part.isBlacklisted(part.getCraftingStack())) {
+          if (item instanceof ITool && !((ITool) item).getValidTiers().contains(part.getTier())) {
+            continue;
+          }
+          list.add(constructTool(item,
+              part.getTier() == EnumMaterialTier.SUPER ? rodGold
+                  : item instanceof ItemGemShield && part.getTier() == EnumMaterialTier.REGULAR
+                      ? rodIron : rodWood,
+              part.getCraftingStack()));
+        }
       }
     }
 

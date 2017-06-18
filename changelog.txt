@@ -2,6 +2,7 @@ Silent's Gems - Changelog
 
 2.3.15
 Added: Config option to remove all node packets on server/world load. Enabled by default. Should prevent some rare crashes (#163)
+Changed: Will complain about broken tool parts instead of crashing (#160)
 Fixed: Chaos nodes not detecting players in some cases.
 
 2.3.14
