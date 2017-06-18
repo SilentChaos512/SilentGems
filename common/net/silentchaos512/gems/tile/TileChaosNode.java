@@ -84,6 +84,7 @@ public class TileChaosNode extends TileEntitySL implements ITickable, IChaosProv
       if (time % SEND_CHAOS_DELAY == 0) {
         List<IChaosAccepter> accepters = ChaosUtil.getNearbyAccepters(world, pos,
             SEARCH_RADIUS_BLOCK, SEARCH_RADIUS_BLOCK);
+        getPlayersInRange();
 
         if (!players.isEmpty() || !accepters.isEmpty()) {
           final int amountForEach = Math.min(SEND_CHAOS_AMOUNT,
