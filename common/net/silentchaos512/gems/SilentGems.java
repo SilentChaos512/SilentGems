@@ -3,8 +3,10 @@ package net.silentchaos512.gems;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -15,6 +17,7 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLMissingMappingsEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
@@ -24,6 +27,7 @@ import net.silentchaos512.gems.compat.tconstruct.TConstructGemsCompat;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.ModEntities;
+import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
 import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
@@ -152,6 +156,25 @@ public class SilentGems {
 
     for (FMLMissingMappingsEvent.MissingMapping mismap : event.get()) {
       MC10IdRemapper.remap(mismap);
+    }
+  }
+
+  @EventHandler
+  public void onServerStarting(FMLServerStartingEvent event) {
+
+    // Remove all chaos node packets?
+    if (GemsConfig.REMOVE_NODE_PACKETS_ON_SERVER_START) {
+      int totalRemoved = 0;
+      for (WorldServer world : event.getServer().worlds) {
+        for (int i = 0; i < world.loadedEntityList.size(); ++i) {
+          Entity entity = world.loadedEntityList.get(i);
+          if (entity instanceof EntityChaosNodePacket) {
+            world.removeEntity(entity);
+            ++totalRemoved;
+          }
+        }
+      }
+      logHelper.info("Removed " + totalRemoved + " chaos node packets from world.");
     }
   }
 }

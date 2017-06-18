@@ -98,6 +98,12 @@ public class GemsConfig extends AdaptiveConfig {
   public static boolean CHAOS_DIRECT_TRANSFER = false;
 
   /*
+   * Nodes
+   */
+
+  public static boolean REMOVE_NODE_PACKETS_ON_SERVER_START = true;
+
+  /*
    * GUI
    */
 
@@ -149,6 +155,7 @@ public class GemsConfig extends AdaptiveConfig {
   public static final String CAT_GUI = CAT_MAIN + split + "gui";
   public static final String CAT_ITEM = CAT_MAIN + split + "items";
   public static final String CAT_MISC = CAT_MAIN + split + "misc";
+  public static final String CAT_NODES = CAT_MAIN + split + "chaos nodes";
   public static final String CAT_RECIPE = CAT_MAIN + split + "recipes";
   public static final String CAT_TOOL_PARTS = CAT_ITEM + split + "tool_parts";
   public static final String CAT_TOOLS = CAT_ITEM + split + "tools";
@@ -321,6 +328,15 @@ public class GemsConfig extends AdaptiveConfig {
           "If true, Chaos transfer entities will not be spawned, the energy is just sent directly"
           + " to the target. This might help if your server is struggling with large numbers of"
           + " nodes and pylons.");
+
+      /*
+       * Nodes
+       */
+
+      REMOVE_NODE_PACKETS_ON_SERVER_START = loadBoolean("Remove Node Packets on Server Start", CAT_NODES,
+          REMOVE_NODE_PACKETS_ON_SERVER_START,
+          "If true, all chaos node packets (the things nodes shoot out) will be removed each time"
+          + " your server/world is started. This can prevent some rare crashes.");
 
       /*
        * GUI
