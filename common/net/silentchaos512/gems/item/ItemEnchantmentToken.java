@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.item;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +48,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.SilentLib;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.util.EnchantmentUtils;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
@@ -182,35 +181,6 @@ public class ItemEnchantmentToken extends ItemSL {
   // Crafting
   // ========
 
-  // FIXME: Hacky temporary fix for Enchantment#canApplyTogether being protected in MC 1.11.2
-  private Method canApplyTogether = null;
-
-  private boolean canApplyEnchantsTogether(Enchantment e1, Enchantment e2) {
-
-    if (e1 == null || e2 == null)
-      return true;
-
-    // 1.11.2
-    if (canApplyTogether == null) {
-      // Save the method
-      try {
-        canApplyTogether = Enchantment.class.getMethod("func_191560_c", Enchantment.class);
-        // canApplyTogether.setAccessible(true);
-      } catch (NoSuchMethodException | SecurityException e) {
-        // Shouldn't happen.
-        e.printStackTrace();
-      }
-    }
-
-    try {
-      return (boolean) canApplyTogether.invoke(e1, e2);
-    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-      e.printStackTrace();
-    }
-
-    return false;
-  }
-
   public boolean applyTokenToTool(ItemStack token, ItemStack tool) {
 
     if (StackHelper.isEmpty(token) || StackHelper.isEmpty(tool)) {
@@ -234,7 +204,7 @@ public class ItemEnchantmentToken extends ItemSL {
 
       // Does new enchantment conflict with any existing ones?
       for (Enchantment enchTool : enchantmentsOnTool.keySet()) {
-        if (!ench.equals(enchTool) && !canApplyEnchantsTogether(ench, enchTool))
+        if (!ench.equals(enchTool) && !EnchantmentUtils.canApplyTogether(ench, enchTool))
           return false;
       }
     }
