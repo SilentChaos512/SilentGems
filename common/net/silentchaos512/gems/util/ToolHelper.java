@@ -449,15 +449,20 @@ public class ToolHelper {
     if (toolSlot < 8) {
       // Get stack in slot after tool.
       nextStack = player.inventory.getStackInSlot(itemSlot);
+      boolean emptyOrNoPlacingTag = StackHelper.isEmpty(nextStack)
+          || (nextStack.hasTagCompound() && nextStack.getTagCompound().hasKey("NoPlacing"));
 
       // If there's nothing there we can use, try slot 9 instead.
-      if (StackHelper.isEmpty(nextStack) || (!(nextStack.getItem() instanceof ItemBlock)
+      if (emptyOrNoPlacingTag || (!(nextStack.getItem() instanceof ItemBlock)
           && !(nextStack.getItem() instanceof IBlockPlacer))) {
         nextStack = lastStack;
         itemSlot = 8;
       }
 
-      if (StackHelper.isValid(nextStack)) {
+      emptyOrNoPlacingTag = StackHelper.isEmpty(nextStack)
+          || (nextStack.hasTagCompound() && nextStack.getTagCompound().hasKey("NoPlacing"));
+
+      if (!emptyOrNoPlacingTag) {
         Item item = nextStack.getItem();
         if (item instanceof ItemBlock || item instanceof IBlockPlacer) {
           BlockPos targetPos = pos.offset(side);

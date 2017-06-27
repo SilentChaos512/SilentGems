@@ -758,12 +758,16 @@ donut.silentgems:8=You feel... something.
 # Enchantments
 
 enchantment.silentgems:Gravity=Gravity
+enchantment.silentgems:IceAspect=Ice Aspect
 enchantment.silentgems:LifeSteal=Life Steal
+enchantment.silentgems:LightningAspect=Lightning Aspect
 enchantment.silentgems:MagicDamage=Concentration
 
 # Enchantment Descriptions
-enchantment.silentgems:Gravity.desc=Reduces speed penalty while flying or underwater.
+enchantment.silentgems:Gravity.desc=Improves harvest speed while flying or underwater.
+enchantment.silentgems:IceAspect.desc=Slows and continuously damages the victim.
 enchantment.silentgems:LifeSteal.desc=Heals the user for a small portion of damage dealt.
+enchantment.silentgems:LightningAspect.desc=Weakens and continuously damages the victim.
 enchantment.silentgems:MagicDamage.desc=Increases damage dealt by magic attacks.
 
 
@@ -772,6 +776,14 @@ enchantment.silentgems:MagicDamage.desc=Increases damage dealt by magic attacks.
 skill.silentgems:AreaMiner.name=Area Miner
 skill.silentgems:Lumberjack.name=Lumberjack
 skill.silentgems:all.insufficientChaos=Not enough Chaos!
+
+
+
+# Damage Sources
+death.attack.silentgems.freezing=%1$s was frozen solid
+death.attack.silentgems.freezing.player=%1$s was frozen solid whilst fighting %2$s
+death.attack.silentgems.shocking=%1$s was electrocuted
+death.attack.silentgems.shocking.player=%1$s was electrocuted whilst fighting %2$s
 
 
 
@@ -885,7 +897,7 @@ guide.silentgems:indexEntry.gettingStarted.name=Getting Started
 guide.silentgems:indexEntry.blocks.name=Blocks
 guide.silentgems:indexEntry.items.name=Items
 guide.silentgems:indexEntry.tools.name=Tools, Armor, and Parts
-guide.silentgems:indexEntry.recipes.name=Recipe Types
+guide.silentgems:indexEntry.enchantments.name=Enchantments
 guide.silentgems:indexEntry.allAndSearch.name=List of Everything
 guide.silentgems:indexEntry.debug.name=Debug!
 
@@ -1022,6 +1034,18 @@ guide.silentgems:chapter.armor.name=Armor
 guide.silentgems:chapter.armor.text1=Armor has many things in common with tools, including <imp>modular construction and decoration<r>. The strength of the armor is determined by the <imp>protection stat<r> of the materials used and some fancy math.<n><n>Unlike tools, the <vimp>crafting method is significantly different<r> from vanilla armor. You must first craft a frame for each piece, then surround the frame by four materials. The frames are crafted with armor lattice. And they have <imp>tiers<r>!
 guide.silentgems:chapter.armor.text5=Lattice is then laid out in <imp>traditional armor patterns<r> to make the frames. I'll just show the helmet.
 guide.silentgems:chapter.armor.text6=Then <imp>surround the frame by four materials<r> of your choice. As with tools, you can <imp>mix any materials of the same tier<r>. The frame needs to be the same tier as well, in case that wasn't obvious.
+
+guide.silentgems:chapter.enchantmentGravity.name=Gravity
+guide.silentgems:chapter.enchantmentGravity.text1=Ever tried to harvest a block while flying or swimming? It doesn't work very well. The Gravity enchantment <imp>reduces the speed penalty<r> you get for harvesting while <imp>flying or swimming<r>. The highest level will completely negate the penalty. It can be obtained on <imp>any harvest tool<r> via the enchanting table (very rare) or tokens. Works on tools from vanilla and other mods.
+guide.silentgems:chapter.enchantmentIceAspect.name=Ice Aspect
+guide.silentgems:chapter.enchantmentIceAspect.text1=Weapons with Ice Aspect will <imp>chill<r> whatever they hit, <imp>slowing/immobilizing the target and causing continuous damage<r> for a short time. Mobs that are naturally immune to fire (like those found in the Nether) take significantly more damage.<n><n>Ice Aspect <vimp>cannot be applied with Fire/Lightning Aspect<r>. Like most enchantments, it can be obtained via the enchanting table or tokens. Works on swords from vanilla and other mods.
+guide.silentgems:chapter.enchantmentLifeSteal.name=Life Steal
+guide.silentgems:chapter.enchantmentLifeSteal.text1=Life Steal will <imp>heal the user by a fraction of the damage dealt<r>. The item with Life Steal on it doesn't need to be the source of the damage, but it must be in either hand. This enchantment can be obtained via the enchanting table or tokens, same as most enchantments. Works with swords and axes from vanilla and other mods.
+guide.silentgems:chapter.enchantmentLifeSteal.text2=The healing amount is about one fourtieth of damage dealt and is capped at half a heart per hit. &oFor those who don't know, health is stored as a decimal (floating point) number of half hearts, so you can take/heal less than half a heart.<r>
+guide.silentgems:chapter.enchantmentLightningAspect.name=Lightning Aspect
+guide.silentgems:chapter.enchantmentLightningAspect.text1=Weapons with Lightning Aspect will <imp>electrocute<r> whatever they hit, <imp>weakening the target and causing continuous damage<r> for a short time. The effect also <imp>chains to nearby mobs<r>, but with duration cut in half each time the effect is passed along.<n><n>Lightning Aspect <vimp>cannot be applied with Fire/Ice Aspect<r>. Like most enchantments, it can be obtained via the enchanting table or tokens. Works on swords from vanilla and other mods.
+guide.silentgems:chapter.enchantmentMagicDamage.name=Concentration
+guide.silentgems:chapter.enchantmentMagicDamage.text1=Think <imp>Sharpness, but for the magic attacks<r> that super-tier weapons can fire. Concentration affects only magic projectiles, not actual melee damage. <vimp>You can't apply both Sharpness and Concentration to the same weapon<r>, so you'll need to decide whether you want a melee or magic focus. Can be obtained via the enchanting table or tokens. Does not work on non-Gems weapons.
 
 # Getting Started
 guide.silentgems:chapter.introduction.name=Introduction

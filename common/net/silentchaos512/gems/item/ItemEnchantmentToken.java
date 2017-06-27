@@ -335,7 +335,7 @@ public class ItemEnchantmentToken extends ItemSL {
       String descKey = e.getName() + ".desc";
       String desc = loc.getLocalizedString(descKey);
       if (!desc.equals(descKey))
-        list.add(TextFormatting.DARK_GRAY + "  " + desc);
+        list.add(TextFormatting.ITALIC + "  " + desc);
     }
   }
 
@@ -458,8 +458,13 @@ public class ItemEnchantmentToken extends ItemSL {
     addTokenRecipe(Enchantments.LOOTING, EnumGem.TURQUOISE, "gemEmerald", 2);
     addTokenRecipe(Enchantments.SHARPNESS, EnumGem.RUBY, Items.FLINT, 5);
     addTokenRecipe(Enchantments.SMITE, EnumGem.PERIDOT, Items.ROTTEN_FLESH, 5);
+    if (SilentLib.instance.getMCVersion() >= 11) {
+      addTokenRecipe(Enchantments.field_191530_r, EnumGem.MOLDAVITE, Items.REEDS, 5); // Sweeping Edge
+    }
     addTokenRecipe(ModEnchantments.lifeSteal, EnumGem.MORGANITE, Items.GOLDEN_APPLE, 3);
     addTokenRecipe(ModEnchantments.magicDamage, EnumGem.LEPIDOLITE, Items.BLAZE_ROD, 4);
+    addTokenRecipe(ModEnchantments.iceAspect, EnumGem.OPAL, Blocks.ICE, 5);
+    addTokenRecipe(ModEnchantments.lightningAspect, EnumGem.HELIODOR, Items.GLOWSTONE_DUST, 4);
 
     // Ranged weapons
     addTokenRecipe(Enchantments.FLAME, EnumGem.SPINEL, Items.BLAZE_ROD, 2);

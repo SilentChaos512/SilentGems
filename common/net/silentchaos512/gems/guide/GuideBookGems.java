@@ -22,6 +22,7 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.gui.config.GuiConfigSilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.guide.page.PageDebugTool;
 import net.silentchaos512.gems.guide.page.PageOreSpawn;
 import net.silentchaos512.gems.item.ItemChaosOrb;
@@ -52,6 +53,7 @@ public class GuideBookGems extends GuideBook {
   private GuideEntry entryBlocks;
   private GuideEntry entryItems;
   private GuideEntry entryTools;
+  private GuideEntry entryEnchantments;
   private GuideEntry entryDebug;
 
   public GuideBookGems() {
@@ -71,6 +73,7 @@ public class GuideBookGems extends GuideBook {
     entryBlocks = new GuideEntry(this, "blocks");
     entryItems = new GuideEntry(this, "items");
     entryTools = new GuideEntry(this, "tools");
+    entryEnchantments = new GuideEntry(this, "enchantments");
     if (edition == 0 || GemsConfig.DEBUG_MODE)
       entryDebug = new GuideEntry(this, "debug").setSpecial();
   }
@@ -362,6 +365,25 @@ public class GuideBookGems extends GuideBook {
         new PageTextOnly(this, 1),
         new PageTextOnly(this, 2));
 
+    // Enchantments
+
+    // Gravity
+    new GuideChapter(this, "enchantmentGravity", entryEnchantments, ModItems.enchantmentToken.constructToken(ModEnchantments.gravity),
+        new PageTextOnly(this, 1));
+    // Ice Aspect
+    new GuideChapter(this, "enchantmentIceAspect", entryEnchantments, ModItems.enchantmentToken.constructToken(ModEnchantments.iceAspect),
+        new PageTextOnly(this, 1));
+    // Life Steal
+    new GuideChapter(this, "enchantmentLifeSteal", entryEnchantments, ModItems.enchantmentToken.constructToken(ModEnchantments.lifeSteal),
+        new PageTextOnly(this, 1),
+        new PageTextOnly(this, 2));
+    // Lightning Aspect
+    new GuideChapter(this, "enchantmentLightningAspect", entryEnchantments, ModItems.enchantmentToken.constructToken(ModEnchantments.lightningAspect),
+        new PageTextOnly(this, 1));
+    // Magic Damage (Concentration)
+    new GuideChapter(this, "enchantmentMagicDamage", entryEnchantments, ModItems.enchantmentToken.constructToken(ModEnchantments.magicDamage),
+        new PageTextOnly(this, 1));
+
     // Debug
 
     if (entryDebug != null) {
@@ -393,7 +415,8 @@ public class GuideBookGems extends GuideBook {
       "Also try JEI! Seriously, learn to look up the recipes... How do you play without mods like this?",
       "How do you craft the upgrades?@Everyone Ever",
       "Scathing comments since 2017!",
-      "Muffin button not included."
+      "Muffin button not included.",
+      "Now with more enchantments!"
   };//@formatter:on
 
   @Override
