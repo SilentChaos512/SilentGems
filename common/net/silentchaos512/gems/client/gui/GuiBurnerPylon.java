@@ -28,7 +28,7 @@ public class GuiBurnerPylon extends GuiContainer {
     if (GemsConfig.DEBUG_MODE) {
       String str = "%,d / %,d";
       str = String.format(str, tilePylon.getCharge(), tilePylon.getMaxCharge()); // doesn't work
-      fontRendererObj.drawString(str, 5, 5, 0x404040);
+      fontRenderer.drawString(str, 5, 5, 0x404040);
     }
   }
 

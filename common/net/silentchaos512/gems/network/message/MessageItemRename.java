@@ -48,7 +48,7 @@ public class MessageItemRename extends Message {
       return null;
     }
 
-    EntityPlayer player = context.getServerHandler().playerEntity;
+    EntityPlayer player = context.getServerHandler().player;
     ItemStack stack = player.inventory.getStackInSlot(slot);
 
     if (player.getName().equals(playerName)) {

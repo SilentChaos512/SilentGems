@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.entity.EntityChaosProjectile;
 
 public class EntityChaosProjectileHoming extends EntityChaosProjectile {
 
@@ -27,12 +26,12 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
     super(shooter, castingStack, damage);
 
     Vec3d vec = shooter.getLookVec().rotateYaw(2 * SilentGems.instance.random.nextFloat() - 0.5f);
-    vec = new Vec3d(vec.xCoord, 2, vec.zCoord).normalize()
+    vec = new Vec3d(vec.x, 2, vec.z).normalize()
         .scale(0.25 + 1.5 * SilentGems.instance.random.nextDouble());
 
-    motionX = vec.xCoord;
-    motionY = vec.yCoord;
-    motionZ = vec.zCoord;
+    motionX = vec.x;
+    motionY = vec.y;
+    motionZ = vec.z;
   }
 
   public void findHomingTarget() {
@@ -94,9 +93,9 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
           homingTarget.posY + homingTarget.height / 2 - posY, homingTarget.posZ - posZ).normalize();
       vec = vec.add(toTarget.scale(HOMING_TIGHTNESS)).normalize().scale(HOMING_SPEED);
 
-      motionX = vec.xCoord;
-      motionY = vec.yCoord;
-      motionZ = vec.zCoord;
+      motionX = vec.x;
+      motionY = vec.y;
+      motionZ = vec.z;
       posX += motionX;
       posY += motionY;
       posZ += motionZ;

@@ -12,7 +12,7 @@ import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemShield;

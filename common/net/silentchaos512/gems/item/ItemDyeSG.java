@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.item;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
@@ -29,16 +30,18 @@ public class ItemDyeSG extends ItemSL {
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
     String prefix = SilentGems.RESOURCE_PREFIX + "dye";
-    ModelResourceLocation black = new ModelResourceLocation(prefix + "black", "inventory");
-    ModelResourceLocation blue = new ModelResourceLocation(prefix + "blue", "inventory");
-    return Lists.newArrayList(black, null, null, null, blue);
+    models.put(0, new ModelResourceLocation(prefix + "black", "inventory"));
+    models.put(4, new ModelResourceLocation(prefix + "blue", "inventory"));
   }
 
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (!isInCreativeTab(tab))
+      return;
 
     list.add(new ItemStack(this, 1, 0));
     list.add(new ItemStack(this, 1, 4));

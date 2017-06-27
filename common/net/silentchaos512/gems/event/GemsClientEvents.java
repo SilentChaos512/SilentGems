@@ -4,9 +4,9 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -37,8 +37,8 @@ import net.silentchaos512.gems.client.gui.GuiCrosshairs;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemChaosGem;
-import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.TooltipHelper;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillLumberjack;
@@ -233,7 +233,7 @@ public class GemsClientEvents {
 
     int width = event.getResolution().getScaledWidth();
     int height = event.getResolution().getScaledHeight();
-    FontRenderer fontRender = Minecraft.getMinecraft().fontRendererObj;
+    FontRenderer fontRender = Minecraft.getMinecraft().fontRenderer;
 
     EntityPlayer player = Minecraft.getMinecraft().player;
     ItemStack right = player.getHeldItemMainhand();
@@ -246,7 +246,7 @@ public class GemsClientEvents {
   private void doAmmoCountWithOffset(ItemStack tool, int width, int height, int xOffset, int yOffset) {
 
     if (tool != null && tool.getItem() instanceof IAmmoTool) {
-      FontRenderer fontRender = Minecraft.getMinecraft().fontRendererObj;
+      FontRenderer fontRender = Minecraft.getMinecraft().fontRenderer;
 
       IAmmoTool ammo = (IAmmoTool) tool.getItem();
       int amount = ammo.getAmmo(tool);
@@ -270,7 +270,7 @@ public class GemsClientEvents {
     float f = 0.00390625F;
     float f1 = 0.00390625F;
     Tessellator tessellator = Tessellator.getInstance();
-    VertexBuffer vertexbuffer = tessellator.getBuffer();
+    BufferBuilder vertexbuffer = tessellator.getBuffer();
     vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
     vertexbuffer.pos(x + 0, y + height, 0).tex((textureX + 0) * f, (textureY + height) * f1)
         .endVertex();

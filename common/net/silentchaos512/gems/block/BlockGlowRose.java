@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.block;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
@@ -19,20 +20,20 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IHasSubtypes;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSubtypes {
 
   public BlockGlowRose() {
 
     super();
-    setDefaultState(
-        blockState.getBaseState().withProperty(EnumGem.VARIANT_GEM, EnumGem.RUBY));
+    setDefaultState(blockState.getBaseState().withProperty(EnumGem.VARIANT_GEM, EnumGem.RUBY));
     setSoundType(SoundType.PLANT);
 
     lightValue = GemsConfig.GLOW_ROSE_LIGHT_LEVEL;
@@ -40,47 +41,47 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     Item dye = Items.DYE;
     Item dyeSG = ModItems.dye;
 
     // Flowers to dye.
     // 0=black
-    addFlowerToDyeRecipe(EnumDyeColor.BLACK, EnumGem.ONYX);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.BLACK, EnumGem.ONYX);
     // 1=red
-    addFlowerToDyeRecipe(EnumDyeColor.RED, EnumGem.RUBY);
-    addFlowerToDyeRecipe(EnumDyeColor.RED, EnumGem.GARNET);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.RED, EnumGem.RUBY);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.RED, EnumGem.GARNET);
     // 2=green
-    addFlowerToDyeRecipe(EnumDyeColor.GREEN, EnumGem.BERYL);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.GREEN, EnumGem.BERYL);
     // 3=brown
     // 4=blue
-    addFlowerToDyeRecipe(EnumDyeColor.BLUE, EnumGem.SAPPHIRE);
-    addFlowerToDyeRecipe(EnumDyeColor.BLUE, EnumGem.IOLITE);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.BLUE, EnumGem.SAPPHIRE);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.BLUE, EnumGem.IOLITE);
     // 5=purple
-    addFlowerToDyeRecipe(EnumDyeColor.PURPLE, EnumGem.AMETHYST);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.PURPLE, EnumGem.AMETHYST);
     // 6=cyan
-    addFlowerToDyeRecipe(EnumDyeColor.CYAN, EnumGem.INDICOLITE);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.CYAN, EnumGem.INDICOLITE);
     // 7=light gray
     // 8=gray
     // 9=pink
-    addFlowerToDyeRecipe(EnumDyeColor.PINK, EnumGem.MORGANITE);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.PINK, EnumGem.MORGANITE);
     // 10=lime
-    addFlowerToDyeRecipe(EnumDyeColor.LIME, EnumGem.PERIDOT);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.LIME, EnumGem.PERIDOT);
     // 11=yellow
-    addFlowerToDyeRecipe(EnumDyeColor.YELLOW, EnumGem.HELIODOR);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.YELLOW, EnumGem.HELIODOR);
     // 12=light blue
-    addFlowerToDyeRecipe(EnumDyeColor.LIGHT_BLUE, EnumGem.AQUAMARINE);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.LIGHT_BLUE, EnumGem.AQUAMARINE);
     // 13-magenta
-    addFlowerToDyeRecipe(EnumDyeColor.MAGENTA, EnumGem.AGATE);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.MAGENTA, EnumGem.AGATE);
     // 14-orange
-    addFlowerToDyeRecipe(EnumDyeColor.ORANGE, EnumGem.TOPAZ);
-    addFlowerToDyeRecipe(EnumDyeColor.ORANGE, EnumGem.AMBER);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.ORANGE, EnumGem.TOPAZ);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.ORANGE, EnumGem.AMBER);
     // 15-white
-    addFlowerToDyeRecipe(EnumDyeColor.WHITE, EnumGem.OPAL);
+    addFlowerToDyeRecipe(recipes, EnumDyeColor.WHITE, EnumGem.OPAL);
   }
 
-  private void addFlowerToDyeRecipe(EnumDyeColor dye, EnumGem gem) {
+  private void addFlowerToDyeRecipe(RecipeMaker recipes, EnumDyeColor dye, EnumGem gem) {
 
     ItemStack dyeStack;
     ItemStack glowRose = new ItemStack(this, 1, gem.ordinal() & 0xF);
@@ -91,7 +92,7 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
       dyeStack = new ItemStack(Items.DYE, 2, dye.getDyeDamage());
     }
 
-    GameRegistry.addShapelessRecipe(dyeStack, glowRose);
+    recipes.addShapeless(dye.name() + "_" + gem.name(), dyeStack, glowRose);
   }
 
   @Override
@@ -118,14 +119,12 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    List<ModelResourceLocation> list = Lists.newArrayList();
     String name = getFullName().toLowerCase();
     for (int i = 0; i < 16; ++i) {
-      list.add(new ModelResourceLocation(name + i, "inventory"));
+      models.put(i, new ModelResourceLocation(name + i, "inventory"));
     }
-    return list;
   }
 
   @Override
@@ -142,11 +141,19 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
     }
   }
 
-  @Override
-  public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+  // 1.11 compat - geSubBlocks
+  public void func_149666_a(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
 
     for (int i = 0; i < 16; ++i) {
       list.add(new ItemStack(item, 1, i));
+    }
+  }
+
+  @Override
+  public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
+
+    for (int i = 0; i < 16; ++i) {
+      list.add(new ItemStack(this, 1, i));
     }
   }
 
@@ -165,8 +172,7 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
   @Override
   public IBlockState getStateFromMeta(int meta) {
 
-    return this.getDefaultState().withProperty(EnumGem.VARIANT_GEM,
-        EnumGem.values()[meta & 0xF]);
+    return this.getDefaultState().withProperty(EnumGem.VARIANT_GEM, EnumGem.values()[meta & 0xF]);
   }
 
   @Override

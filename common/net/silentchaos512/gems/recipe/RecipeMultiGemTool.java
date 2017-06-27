@@ -6,17 +6,16 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
-import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.lib.recipe.RecipeBaseSL;
 import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeMultiGemTool implements IRecipeSL {
+public class RecipeMultiGemTool extends RecipeBaseSL {
 
   public static final String RECIPE_SWORD = "h;h;r";
   public static final String RECIPE_DAGGER = "h;r;f";
@@ -226,11 +225,5 @@ public class RecipeMultiGemTool implements IRecipeSL {
       }
     }
     return list.toArray(new ItemStack[list.size()]);
-  }
-
-  @Override
-  public int getRecipeSize() {
-
-    return 10;
   }
 }

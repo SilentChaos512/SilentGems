@@ -2,13 +2,16 @@ package net.silentchaos512.gems.client.render;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.vecmath.Matrix4f;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.util.vector.Vector3f;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -25,10 +28,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
+import net.minecraftforge.client.model.PerspectiveMapWrapper;
+import net.minecraftforge.client.model.SimpleModelState;
+import net.minecraftforge.common.model.IModelState;
+import net.minecraftforge.common.model.TRSRTransformation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
 import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
@@ -37,7 +43,7 @@ import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LogHelper;
 
 @SuppressWarnings("deprecation")
-public class ToolModel implements IPerspectiveAwareModel {
+public class ToolModel extends PerspectiveMapWrapper {
 
   private static ModelManager modelManager = null;
   private final IBakedModel baseModel;
@@ -47,6 +53,7 @@ public class ToolModel implements IPerspectiveAwareModel {
 
   public ToolModel(IBakedModel baseModel) {
 
+    super(baseModel, getTransforms(new TRSRTransformation(new Matrix4f())));
     this.baseModel = baseModel;
   }
 

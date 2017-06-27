@@ -18,12 +18,14 @@ import net.silentchaos512.gems.client.render.entity.RenderChaosProjectile;
 import net.silentchaos512.gems.client.render.entity.RenderEntityPacket;
 import net.silentchaos512.gems.client.render.entity.RenderThrownTomahawk;
 import net.silentchaos512.gems.client.render.particle.EntityFXCompass;
+import net.silentchaos512.gems.client.render.particle.EntityFXFreezing;
+import net.silentchaos512.gems.client.render.particle.EntityFXShocking;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.EntityThrownTomahawk;
 import net.silentchaos512.gems.entity.ModEntities;
 import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
 import net.silentchaos512.gems.event.GemsClientEvents;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.ColorHandlers;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.lib.registry.SRegistry;
@@ -93,31 +95,31 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
 
     switch (type) {
       case CHAOS:
-//        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 2.0f, 25, r, g, b);
         fx = new FXChaos(world, x, y, z, .2f, r, g, b, 25).setSpeed(motionX, motionY, motionZ);
         break;
       case CHAOS_PROJECTILE_BODY:
-//        fx = new EntityFXChaos(world, x, y, z, 0f, 0f, 0f, 3.0f, 1, r, g, b);
         fx = new FXChaos(world, x, y, z, .3f, r, g, b, 2);
         break;
       case CHAOS_PACKET_HEAD:
-//        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 2.0f, 0, r, g, b);
         fx = new FXChaos(world, x, y, z, .2f, r, g, b, 1).setSpeed(motionX, motionY, motionZ);
         break;
       case CHAOS_PACKET_TAIL:
-//        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 1.0f, 25, r, g, b);
         fx = new FXChaos(world, x, y, z, .1f, r, g, b, 15).setSpeed(motionX, motionY, motionZ);
         break;
       case CHAOS_NODE:
-//        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 3.0f, 20, r, g, b);
         fx = new FXChaos(world, x, y, z, .3f, r, g, b, 20).setSpeed(motionX, motionY, motionZ);
         break;
       case PHANTOM_LIGHT:
-//        fx = new EntityFXChaos(world, x, y, z, motionX, motionY, motionZ, 1.0f, 15, r, g, b);
         fx = new FXChaos(world, x, y, z, .1f, r, g, b, 15).setSpeed(motionX, motionY, motionZ);
         break;
       case DRAWING_COMPASS:
         fx = new EntityFXCompass(world, x, y, z, motionX, motionY, motionZ, 1.0f, 10, r, g, b);
+        break;
+      case FREEZING:
+        fx = new EntityFXFreezing(world, x, y, z, motionX, motionY, motionZ);
+        break;
+      case SHOCKING:
+        fx = new EntityFXShocking(world, x, y, z, motionX, motionY, motionZ);
         break;
       default:
         throw new NotImplementedException("Unknown particle type: " + type);

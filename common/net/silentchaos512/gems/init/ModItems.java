@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.item;
+package net.silentchaos512.gems.init;
 
 import java.util.List;
 
@@ -15,6 +15,29 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.guide.GuideBookGems;
+import net.silentchaos512.gems.item.ItemChaosGem;
+import net.silentchaos512.gems.item.ItemChaosOrb;
+import net.silentchaos512.gems.item.ItemChaosRune;
+import net.silentchaos512.gems.item.ItemCrafting;
+import net.silentchaos512.gems.item.ItemDebug;
+import net.silentchaos512.gems.item.ItemDrawingCompass;
+import net.silentchaos512.gems.item.ItemDyeSG;
+import net.silentchaos512.gems.item.ItemEnchantmentToken;
+import net.silentchaos512.gems.item.ItemFluffyPuff;
+import net.silentchaos512.gems.item.ItemFluffyPuffSeeds;
+import net.silentchaos512.gems.item.ItemFoodSG;
+import net.silentchaos512.gems.item.ItemGem;
+import net.silentchaos512.gems.item.ItemGemShard;
+import net.silentchaos512.gems.item.ItemGlowRoseFertilizer;
+import net.silentchaos512.gems.item.ItemHoldingGem;
+import net.silentchaos512.gems.item.ItemNodeMover;
+import net.silentchaos512.gems.item.ItemPetSummoner;
+import net.silentchaos512.gems.item.ItemReturnHome;
+import net.silentchaos512.gems.item.ItemTeleporterLinker;
+import net.silentchaos512.gems.item.ItemTipUpgrade;
+import net.silentchaos512.gems.item.ItemTorchBandolier;
+import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.item.ToolRenderHelperBase;
 import net.silentchaos512.gems.item.armor.ItemArmorFrame;
 import net.silentchaos512.gems.item.armor.ItemGemArmor;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
@@ -33,9 +56,11 @@ import net.silentchaos512.gems.item.tool.ItemGemTomahawk;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemGuideBookSL;
+import net.silentchaos512.lib.registry.IRegistrationHandler;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.registry.SRegistry;
 
-public class ModItems {
+public class ModItems implements IRegistrationHandler<Item> {
 
   public static final ItemGem gem = new ItemGem();
   public static final ItemGemShard gemShard = new ItemGemShard();
@@ -76,10 +101,14 @@ public class ModItems {
   public static final ItemGemSickle sickle = new ItemGemSickle();
 
   // Armor
-  public static final ItemGemArmor gemHelmet = new ItemGemArmor(0, EntityEquipmentSlot.HEAD, Names.HELMET);
-  public static final ItemGemArmor gemChestplate = new ItemGemArmor(1, EntityEquipmentSlot.CHEST, Names.CHESTPLATE);
-  public static final ItemGemArmor gemLeggings = new ItemGemArmor(2, EntityEquipmentSlot.LEGS, Names.LEGGINGS);
-  public static final ItemGemArmor gemBoots = new ItemGemArmor(3, EntityEquipmentSlot.FEET, Names.BOOTS);
+  public static final ItemGemArmor gemHelmet = new ItemGemArmor(0, EntityEquipmentSlot.HEAD,
+      Names.HELMET);
+  public static final ItemGemArmor gemChestplate = new ItemGemArmor(1, EntityEquipmentSlot.CHEST,
+      Names.CHESTPLATE);
+  public static final ItemGemArmor gemLeggings = new ItemGemArmor(2, EntityEquipmentSlot.LEGS,
+      Names.LEGGINGS);
+  public static final ItemGemArmor gemBoots = new ItemGemArmor(3, EntityEquipmentSlot.FEET,
+      Names.BOOTS);
 
   public static final ToolRenderHelperBase toolRenderHelper = FMLCommonHandler.instance()
       .getSide() == Side.CLIENT ? new ToolRenderHelper() : new ToolRenderHelperBase();
@@ -89,9 +118,8 @@ public class ModItems {
 
   public static final List<Item> tools = Lists.newArrayList(); // Filled by SRegistry override
 
-  public static void init() {
-
-    SRegistry reg = SilentGems.instance.registry;
+  @Override
+  public void registerAll(SRegistry reg) {
 
     reg.registerItem(gem).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(gemShard).setCreativeTab(GemsCreativeTabs.materials);
@@ -148,8 +176,9 @@ public class ModItems {
 
   public static void initExtraRecipes() {
 
-    GameRegistry.addShapelessRecipe(new ItemStack(Items.FLINT), Blocks.GRAVEL, Blocks.GRAVEL);
-    GameRegistry.addShapelessRecipe(new ItemStack(guideBook), Items.BOOK,
+    RecipeMaker recipes = SilentGems.registry.recipes;
+    recipes.addShapeless("flint", new ItemStack(Items.FLINT), Blocks.GRAVEL, Blocks.GRAVEL);
+    recipes.addShapeless("guide_book", new ItemStack(guideBook), Items.BOOK,
         new ItemStack(gem, 1, OreDictionary.WILDCARD_VALUE));
   }
 }

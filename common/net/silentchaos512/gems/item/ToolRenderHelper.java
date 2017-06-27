@@ -1,13 +1,13 @@
 package net.silentchaos512.gems.item;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.MapMaker;
 import com.google.common.collect.Sets;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -29,6 +30,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartTip;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.render.ToolItemOverrideHandler;
 import net.silentchaos512.gems.client.render.ToolModel;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
@@ -49,8 +51,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
   public static final String NBT_MODEL_INDEX = "SGModel";
   public static final String SMART_MODEL_NAME = SilentGems.RESOURCE_PREFIX.toLowerCase() + "tool";
-  public static final ModelResourceLocation SMART_MODEL = new ModelResourceLocation(
-      SMART_MODEL_NAME, "inventory");
+  public static final ModelResourceLocation SMART_MODEL = new ModelResourceLocation(SMART_MODEL_NAME, "inventory");
 
   public static final int DARK_GEM_SHADE = 0x999999;
 
@@ -65,14 +66,14 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   public ModelResourceLocation modelGooglyEyes;
 
   @Override
-  public void addInformation(ItemStack tool, EntityPlayer player, List list, boolean advanced) {
+  public void clAddInformation(ItemStack tool, World world, List list, boolean advanced) {
 
     LocalizationHelper loc = SilentGems.instance.localizationHelper;
     boolean controlDown = KeyTracker.isControlDown();
     boolean altDown = KeyTracker.isAltDown();
     boolean shiftDown = KeyTracker.isShiftDown();
     String line;
-    
+
     // Tipped upgrade
     ToolPartTip partTip = (ToolPartTip) ToolHelper.getConstructionTip(tool);
     if (partTip != null) {
@@ -104,14 +105,12 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       line = loc.getMiscText("Tooltip.Broken");
       list.add(line);
     }
-    
 
     final Item item = tool.getItem();
     final boolean isSword = item instanceof ItemGemSword;
     final boolean isAxe = item instanceof ItemGemAxe;
     final boolean isWeapon = isSword || isAxe;
-    final boolean isCaster = isSword
-        && ToolHelper.getToolTier(tool).ordinal() >= EnumMaterialTier.SUPER.ordinal();
+    final boolean isCaster = isSword && ToolHelper.getToolTier(tool).ordinal() >= EnumMaterialTier.SUPER.ordinal();
     final boolean isBow = item instanceof ItemGemBow;
     final boolean isDigger = item instanceof ItemTool;
     final boolean isShield = item instanceof ItemGemShield;
@@ -124,7 +123,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       list.add(line);
 
       TextFormatting color = TextFormatting.YELLOW;
-      
+
       // Tier
       EnumMaterialTier tier = ToolHelper.getToolTier(tool);
       line = TextFormatting.RESET + loc.getMiscText("ToolTier." + tier);
@@ -151,8 +150,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       } // @formatter:on
 
       if (isWeapon) {
-        list.add(color + getTooltipLine("MeleeSpeed", ToolHelper.getMeleeSpeedModifier(tool) + 4)
-            .replaceFirst("%", ""));
+        list.add(color + getTooltipLine("MeleeSpeed", ToolHelper.getMeleeSpeedModifier(tool) + 4).replaceFirst("%", ""));
         list.add(color + getTooltipLine("MeleeDamage", ToolHelper.getMeleeDamageModifier(tool)));
         if (isCaster)
           list.add(color + getTooltipLine("MagicDamage", ToolHelper.getMagicDamageModifier(tool)));
@@ -212,8 +210,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
         ToolPart part = parts[i];
         EnumMaterialGrade grade = grades[i];
 
-        line = "  " + TextFormatting.YELLOW + part.getKey() + TextFormatting.GOLD + " (" + grade
-            + ")";
+        line = "  " + TextFormatting.YELLOW + part.getKey() + TextFormatting.GOLD + " (" + grade + ")";
         list.add(line);
       }
       list.add(sep);
@@ -304,8 +301,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     arrowModels = new ModelResourceLocation[8];
     for (int i = 0; i < 8; ++i) {
       String tier = i < 4 ? "regular" : "super";
-      ModelResourceLocation model = new ModelResourceLocation(
-          SilentGems.RESOURCE_PREFIX + "bow/bowarrow" + tier + (i & 3));
+      ModelResourceLocation model = new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "bow/bowarrow" + tier + (i & 3));
       if (model != null)
         set.add(model);
       arrowModels[i] = model;
@@ -322,10 +318,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
     if (tool != null && tool.getItem() instanceof ItemGemBow) {
       EntityPlayer player = Minecraft.getMinecraft().player;
-      float pull = tool.getItem().getPropertyGetter(ItemGemBow.RESOURCE_PULL).apply(tool,
-          player.world, player);
-      float pulling = tool.getItem().getPropertyGetter(ItemGemBow.RESOURCE_PULLING).apply(tool,
-          player.world, player);
+      float pull = tool.getItem().getPropertyGetter(ItemGemBow.RESOURCE_PULL).apply(tool, player.world, player);
+      float pulling = tool.getItem().getPropertyGetter(ItemGemBow.RESOURCE_PULLING).apply(tool, player.world, player);
 
       if (pull > 0.9f)
         return 3;
@@ -415,71 +409,62 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
     buildModelSet();
-    List ret = Lists.newArrayList(modelSet);
+    modelSet.forEach(model -> models.put(models.size(), model));
     String prefix = SilentGems.RESOURCE_PREFIX.toLowerCase();
 
     // Extra models
+    int i = models.size();
     modelGooglyEyes = new ModelResourceLocation(prefix + "googlyeyes", "inventory");
-    ret.add(modelGooglyEyes);
+    models.put(i++, modelGooglyEyes);
     modelError = new ModelResourceLocation(prefix + "error", "inventory");
-    ret.add(modelError);
-    ret.add(new ModelResourceLocation(prefix + "sword/_error", "inventory"));
-    ret.add(new ModelResourceLocation(prefix + "dagger/_error", "inventory"));
-    ret.add(new ModelResourceLocation(prefix + "katana/_error", "inventory"));
-    ret.add(new ModelResourceLocation(prefix + "scepter/_error", "inventory"));
-    ret.add(new ModelResourceLocation(prefix + "tomahawk/_error", "inventory"));
-    ret.add(new ModelResourceLocation(prefix + "pickaxe/_error", "inventory"));
-    ret.add(new ModelResourceLocation(prefix + "shovel/_error", "inventory"));
-    ret.add(new ModelResourceLocation(prefix + "axe/_error", "inventory"));
-    ret.add(new ModelResourceLocation(prefix + "paxel/_error", "inventory"));
-    ret.add(new ModelResourceLocation(prefix + "hoe/_error", "inventory"));
-    ret.add(new ModelResourceLocation(prefix + "sickle/_error", "inventory"));
-    ret.add(new ModelResourceLocation(prefix + "bow/_error", "inventory"));
-
-    return ret;
+    models.put(i++, modelError);
+    models.put(i++, new ModelResourceLocation(prefix + "sword/_error", "inventory"));
+    models.put(i++, new ModelResourceLocation(prefix + "dagger/_error", "inventory"));
+    models.put(i++, new ModelResourceLocation(prefix + "katana/_error", "inventory"));
+    models.put(i++, new ModelResourceLocation(prefix + "scepter/_error", "inventory"));
+    models.put(i++, new ModelResourceLocation(prefix + "tomahawk/_error", "inventory"));
+    models.put(i++, new ModelResourceLocation(prefix + "pickaxe/_error", "inventory"));
+    models.put(i++, new ModelResourceLocation(prefix + "shovel/_error", "inventory"));
+    models.put(i++, new ModelResourceLocation(prefix + "axe/_error", "inventory"));
+    models.put(i++, new ModelResourceLocation(prefix + "paxel/_error", "inventory"));
+    models.put(i++, new ModelResourceLocation(prefix + "hoe/_error", "inventory"));
+    models.put(i++, new ModelResourceLocation(prefix + "sickle/_error", "inventory"));
+    models.put(i++, new ModelResourceLocation(prefix + "bow/_error", "inventory"));
   }
 
   @Override
   public boolean registerModels() {
 
-    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+    // ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
     int index = 0;
 
     buildModelSet();
-    List<ModelResourceLocation> variants = getVariants();
-    ModelLoader.registerItemVariants(this,
-        variants.toArray(new ModelResourceLocation[variants.size()]));
+    // Map<Integer, ModelResourceLocation> models = new MapMaker().makeMap();
+    // getModels(models);
+    // ModelLoader.registerItemVariants(this, models.values().toArray(new ModelResourceLocation[models.size()]));
 
     for (ModelResourceLocation model : modelSet) {
-      mesher.register(this, index++, model);
+      ModelLoader.setCustomModelResourceLocation(this, index++, model);
     }
 
     // Extra models
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "googlyeyes", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "sword/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "katana/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "scepter/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "tomahawk/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "pickaxe/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "shovel/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "axe/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "hoe/_error", "inventory"));
-    mesher.register(this, index++,
-        new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "sickle/_error", "inventory"));
+    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "googlyeyes", "inventory"));
+    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "error", "inventory"));
+    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "sword/_error", "inventory"));
+    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "dagger/_error", "inventory"));
+    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "katana/_error", "inventory"));
+    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "scepter/_error", "inventory"));
+    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "tomahawk/_error", "inventory"));
+    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "pickaxe/_error", "inventory"));
+    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "shovel/_error", "inventory"));
+    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "axe/_error", "inventory"));
+    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "paxel/_error", "inventory"));
+    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "hoe/_error", "inventory"));
+    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "sickle/_error", "inventory"));
+    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "bow/_error", "inventory"));
 
     return true;
   }

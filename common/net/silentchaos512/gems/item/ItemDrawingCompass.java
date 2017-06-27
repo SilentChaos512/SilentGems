@@ -16,14 +16,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.DyeHelper;
-import net.silentchaos512.lib.util.PlayerHelper;
 
 public class ItemDrawingCompass extends ItemSL {
 
@@ -48,16 +49,16 @@ public class ItemDrawingCompass extends ItemSL {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     ItemStack base = new ItemStack(this);
-    GameRegistry.addShapedRecipe(base, " c ", "r r", 'c',
+    recipes.addShaped("drawing_compass", base, " c ", "r r", 'c',
         ModItems.craftingMaterial.chaosEssenceEnriched, 'r', ModItems.craftingMaterial.toolRodGold);
     for (EnumDyeColor dye : EnumDyeColor.values()) {
       ItemStack result = new ItemStack(this);
       NBTHelper.setTagInt(result, "Color", DyeHelper.getColor(dye));
       String dyeName = DyeHelper.getOreName(dye);
-      GameRegistry.addRecipe(new ShapelessOreRecipe(result, base, dyeName));
+      recipes.addShapelessOre("drawing_compass_" + dye.name(), result, base, dyeName);
     }
   }
 
@@ -207,8 +208,8 @@ public class ItemDrawingCompass extends ItemSL {
     Vec3d vec;
     for (float angle = start; angle < 2 * Math.PI + start; angle += increment) {
       vec = new Vec3d(radius, 0, 0).rotateYaw(angle);
-      particle(player, world, color, center.getX() + 0.5 + vec.xCoord,
-          center.getY() + 0.5 + vec.yCoord, center.getZ() + 0.5 + vec.zCoord);
+      particle(player, world, color, center.getX() + 0.5 + vec.x, center.getY() + 0.5 + vec.y,
+          center.getZ() + 0.5 + vec.z);
     }
 
     // Spawn line.
@@ -221,7 +222,7 @@ public class ItemDrawingCompass extends ItemSL {
     for (int i = 0; i < count; ++i) {
       vec = new Vec3d(pos1.getX() + 0.5 + i * dx, pos1.getY() + 0.5 + i * dy,
           pos1.getZ() + 0.5 + i * dz);
-      particle(player, world, color, vec.xCoord, vec.yCoord, vec.zCoord);
+      particle(player, world, color, vec.x, vec.y, vec.z);
     }
 
     return true;

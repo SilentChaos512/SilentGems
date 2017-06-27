@@ -5,16 +5,15 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class ItemHoldingGem extends ItemBlockPlacer {
@@ -46,7 +45,7 @@ public class ItemHoldingGem extends ItemBlockPlacer {
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer playerIn, List list, boolean advanced) {
+  public void clAddInformation(ItemStack stack, World world, List list, boolean advanced) {
 
     LocalizationHelper loc = SilentGems.localizationHelper;
     IBlockState state = getBlockPlaced(stack);
@@ -60,23 +59,27 @@ public class ItemHoldingGem extends ItemBlockPlacer {
         block.getMetaFromState(state));
     list.add(placedStack.getDisplayName());
 
-    super.addInformation(stack, playerIn, list, advanced);
+    super.clAddInformation(stack, world, list, advanced);
   }
 
-  public void addRecipes() {
+  @Override
+  public void addRecipes(RecipeMaker recipes) {
 
     for (EnumGem gem : EnumGem.values()) {
       ItemStack stack = new ItemStack(this);
       stack.setItemDamage(stack.getMaxDamage());
       stack.setTagCompound(new NBTTagCompound());
       stack.getTagCompound().setShort(NBT_GEM_ID, (short) gem.ordinal());
-      GameRegistry.addRecipe(new ShapedOreRecipe(stack, "gcg", "s s", "gcg", 'g', "ingotGold", 'c',
-          ModItems.craftingMaterial.chaosEssenceEnriched, 's', gem.getItemOreName()));
+      recipes.addShapedOre("holding_gem_" + gem.name(), stack, "gcg", "s s", "gcg", 'g', "ingotGold", 'c',
+          ModItems.craftingMaterial.chaosEssenceEnriched, 's', gem.getItemOreName());
     }
   }
 
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (!isInCreativeTab(tab))
+      return;
 
     for (EnumGem gem : EnumGem.values()) {
       list.add(construct(gem));

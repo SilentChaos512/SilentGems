@@ -1,17 +1,17 @@
 package net.silentchaos512.gems.client.render.tile;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.tile.TileChaosFlowerPot;
+import net.silentchaos512.lib.client.render.tileentity.TileEntitySpecialRendererSL;
 import net.silentchaos512.lib.util.StackHelper;
 
-public class RenderTileChaosFlowerPot extends TileEntitySpecialRenderer<TileChaosFlowerPot> {
+public class RenderTileChaosFlowerPot extends TileEntitySpecialRendererSL<TileChaosFlowerPot> {
 
   private static final double F = 0.4 * (1 - Math.sqrt(2) / 2);
 
@@ -25,11 +25,10 @@ public class RenderTileChaosFlowerPot extends TileEntitySpecialRenderer<TileChao
   }
 
   @Override
-  public void renderTileEntityAt(TileChaosFlowerPot te, double x, double y, double z,
-      float partialTicks, int destroyStage) {
+  public void clRender(TileChaosFlowerPot te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 
     Tessellator tess = Tessellator.getInstance();
-    VertexBuffer buff = tess.getBuffer();
+    BufferBuilder buff = tess.getBuffer();
 
     ItemStack stack = te.getFlowerItemStack();
     if (StackHelper.isEmpty(stack) || stack.getItemDamage() < 0 || stack.getItemDamage() >= TEXTURES.length) {

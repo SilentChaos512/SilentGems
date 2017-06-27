@@ -7,15 +7,13 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.silentchaos512.gems.SilentGems;
 
 public class FXChaos extends Particle {
@@ -122,7 +120,7 @@ public class FXChaos extends Particle {
   }
 
   @Override
-  public void renderParticle(VertexBuffer wr, Entity entity, float f, float f1, float f2, float f3,
+  public void renderParticle(BufferBuilder wr, Entity entity, float f, float f1, float f2, float f3,
       float f4, float f5) {
 
     this.f = f;

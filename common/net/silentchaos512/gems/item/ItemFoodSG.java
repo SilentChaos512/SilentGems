@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.item;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import com.google.common.collect.Lists;
@@ -20,16 +21,13 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemFoodSL;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
-import net.silentchaos512.lib.util.RecipeHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemFoodSG extends ItemFoodSL {
@@ -78,7 +76,7 @@ public class ItemFoodSG extends ItemFoodSL {
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+  public void clAddInformation(ItemStack stack, World world, List list, boolean advanced) {
 
     int meta = stack.getItemDamage();
     if (meta < NAMES.length) {
@@ -248,34 +246,33 @@ public class ItemFoodSG extends ItemFoodSL {
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
+    if (!isInCreativeTab(tab))
+      return;
+
     for (int i = 0; i < NAMES.length; ++i) {
       list.add(new ItemStack(item, 1, i));
     }
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     // Potato on a Stick
-    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.POTATO_STICK, 1), " p", "s ", 'p',
-        Items.BAKED_POTATO, 's', "stickWood"));
+    recipes.addShapedOre("potato_stick", getStack(Names.POTATO_STICK, 1), " p", "s ", 'p', Items.BAKED_POTATO, 's', "stickWood");
     // Sugar Cookie
-    GameRegistry.addShapedRecipe(getStack(Names.SUGAR_COOKIE, 8), " s ", "www", " s ", 's',
-        Items.SUGAR, 'w', Items.WHEAT);
+    recipes.addShaped("sugar_cookie", getStack(Names.SUGAR_COOKIE, 8), " s ", "www", " s ", 's', Items.SUGAR, 'w', Items.WHEAT);
     // Secret Donut
-    RecipeHelper.addSurround(getStack(Names.SECRET_DONUT, 8), new ItemStack(Blocks.RED_MUSHROOM),
-        Items.WHEAT);
+    recipes.addSurround("secret_donut", getStack(Names.SECRET_DONUT, 8), new ItemStack(Blocks.RED_MUSHROOM), Items.WHEAT);
     // Meaty Stew
     Item[] meats = { Items.BEEF, Items.PORKCHOP, Items.CHICKEN };
+    int i = -1;
     for (Item meat : meats) {
-      GameRegistry.addShapelessRecipe(getStack(Names.MEATY_STEW_UNCOOKED, 1), Items.BOWL, meat,
+      recipes.addShapeless("meaty_stew_" + (++i), getStack(Names.MEATY_STEW_UNCOOKED, 1), Items.BOWL, meat,
           Items.POTATO, Items.CARROT);
     }
-    GameRegistry.addSmelting(getStack(Names.MEATY_STEW_UNCOOKED, 1), getStack(Names.MEATY_STEW, 1),
-        0.5f);
+    recipes.addSmelting(getStack(Names.MEATY_STEW_UNCOOKED, 1), getStack(Names.MEATY_STEW, 1), 0.5f);
     // Candy Cane
-    GameRegistry.addRecipe(new ShapedOreRecipe(getStack(Names.CANDY_CANE, 6), "ss", "rs", " s", 's',
-        Items.SUGAR, 'r', "dyeRed"));
+    recipes.addShapedOre("candy_cane", getStack(Names.CANDY_CANE, 6), "ss", "rs", " s", 's', Items.SUGAR, 'r', "dyeRed");
   }
 
   @Override
@@ -302,14 +299,12 @@ public class ItemFoodSG extends ItemFoodSL {
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    List<ModelResourceLocation> models = Lists.newArrayList();
     for (int i = 0; i < NAMES.length; ++i) {
       String name = (SilentGems.RESOURCE_PREFIX + NAMES[i]).toLowerCase();
-      models.add(new ModelResourceLocation(name, "inventory"));
+      models.put(i, new ModelResourceLocation(name, "inventory"));
     }
-    return models;
   }
 
   @Override

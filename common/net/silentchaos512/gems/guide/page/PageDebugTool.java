@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.util.ToolRandomizer;
 import net.silentchaos512.lib.guidebook.GuideBook;
 import net.silentchaos512.lib.guidebook.internal.GuiGuideBase;

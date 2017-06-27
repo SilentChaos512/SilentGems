@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.block;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
@@ -24,7 +25,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.block.BlockSL;
-import net.silentchaos512.lib.util.RecipeHelper;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class BlockFluffyBlock extends BlockSL {
@@ -45,7 +46,7 @@ public class BlockFluffyBlock extends BlockSL {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     ItemStack any = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
     for (EnumDyeColor color : EnumDyeColor.values()) {
@@ -54,7 +55,7 @@ public class BlockFluffyBlock extends BlockSL {
         dyeName = "lightGray";
       }
       dyeName = "dye" + Character.toUpperCase(dyeName.charAt(0)) + dyeName.substring(1);
-      RecipeHelper.addSurroundOre(new ItemStack(this, 8, color.getMetadata()), dyeName, any);
+      recipes.addSurroundOre("fluffy_block_" + color.ordinal(), new ItemStack(this, 8, color.getMetadata()), dyeName, any);
     }
   }
 
@@ -111,14 +112,12 @@ public class BlockFluffyBlock extends BlockSL {
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    List list = Lists.newArrayList();
     String name = getFullName().toLowerCase();
     for (int i = 0; i < 16; ++i) {
       String dyeName = EnumDyeColor.values()[i].getName();
-      list.add(new ModelResourceLocation(name, "color=" + dyeName));
+      models.put(i, new ModelResourceLocation(name, "color=" + dyeName));
     }
-    return list;
   }
 }

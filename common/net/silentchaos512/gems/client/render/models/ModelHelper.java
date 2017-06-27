@@ -1,18 +1,16 @@
 package net.silentchaos512.gems.client.render.models;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.ImmutableMap;
 
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
@@ -53,7 +51,7 @@ public class ModelHelper {
   public static void renderModel(IBakedModel model, int color) {
 
     Tessellator tessellator = Tessellator.getInstance();
-    VertexBuffer buffer = tessellator.getBuffer();
+    BufferBuilder buffer = tessellator.getBuffer();
     buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM); //don't ask me why this fixes it...
 
     List<BakedQuad> quads = model.getQuads(null,null,0);

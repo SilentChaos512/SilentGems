@@ -15,16 +15,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemNamedSubtypesSorted;
-import net.silentchaos512.lib.util.RecipeHelper;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandler {
@@ -87,142 +87,115 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+  public void clAddInformation(ItemStack stack, World world, List list, boolean advanced) {
 
     list.add(TextFormatting.GOLD
         + SilentGems.localizationHelper.getItemSubText(Names.CRAFTING_MATERIAL, "desc"));
-    super.addInformation(stack, player, list, advanced);
+    super.clAddInformation(stack, world, list, advanced);
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     IRecipe recipe;
 
+    // @formatter:off
+
     // Enriched Chaos Essence
-    recipe = RecipeHelper.addSurroundOre(chaosEssenceEnriched, "dustGlowstone", "dustRedstone",
-        "gemChaos");
+    recipe = recipes.addSurroundOre("chaos_essence_enriched", chaosEssenceEnriched, "dustGlowstone", "dustRedstone", "gemChaos");
     guideRecipeMap.put(chaosEssenceEnriched.getItemDamage(), recipe);
 
     // Crystallized Chaos Essence
-    recipe = RecipeHelper.addSurroundOre(chaosEssenceCrystallized, enderEssence, netherShard,
-        chaosEssenceEnriched);
+    recipe = recipes.addSurroundOre("chaos_essence_crystallized", chaosEssenceCrystallized, enderEssence, netherShard, chaosEssenceEnriched);
     guideRecipeMap.put(chaosEssenceCrystallized.getItemDamage(), recipe);
 
     // Chaos Essence Shards
-    RecipeHelper.addCompressionRecipe(chaosEssenceShard, chaosEssence, 9);
-    guideRecipeMap.put(chaosEssenceShard.getItemDamage(), new ShapelessOreRecipe(
-        new ItemStack(this, 9, chaosEssenceShard.getItemDamage()), chaosEssence));
+    recipes.addCompression("chaos_essence", chaosEssenceShard, chaosEssence, 9);
+    guideRecipeMap.put(chaosEssenceShard.getItemDamage(), recipes.makeShapelessOre(new ItemStack(this, 9, chaosEssenceShard.getItemDamage()), chaosEssence));
 
     // Ender Essence Shards
-    RecipeHelper.addCompressionRecipe(enderEssenceShard, enderEssence, 9);
-    guideRecipeMap.put(enderEssenceShard.getItemDamage(), new ShapelessOreRecipe(
-        new ItemStack(this, 9, enderEssenceShard.getItemDamage()), enderEssence));
+    recipes.addCompression("ender_essence", enderEssenceShard, enderEssence, 9);
+    guideRecipeMap.put(enderEssenceShard.getItemDamage(), recipes.makeShapeless(new ItemStack(this, 9, enderEssenceShard.getItemDamage()), enderEssence));
 
     // Iron Rod
-    recipe = new ShapedOreRecipe(getStack(Names.STICK_IRON, 8), "igi", "igi", "igi", 'i',
-        "ingotIron", 'g', new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE));
-    GameRegistry.addRecipe(recipe);
+    recipe = recipes.addShapedOre("iron_rod", getStack(Names.STICK_IRON, 8), "igi", "igi", "igi", 'i', "ingotIron", 'g', new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE));
     guideRecipeMap.put(toolRodIron.getItemDamage(), recipe);
 
     // Ornate Rod Gold
-    recipe = new ShapedOreRecipe(getStack(Names.ORNATE_STICK_GOLD, 8), "ifi", "ici", "ifi", 'i',
-        "ingotGold", 'f', "ingotIron", 'c', "gemChaos");
-    GameRegistry.addRecipe(recipe);
+    recipe = recipes.addShapedOre("ornate_rod_gold", getStack(Names.ORNATE_STICK_GOLD, 8), "ifi", "ici", "ifi", 'i', "ingotGold", 'f', "ingotIron", 'c', "gemChaos");
     guideRecipeMap.put(toolRodGold.getItemDamage(), recipe);
 
     // Ornate Rod Silver
-    recipe = new ShapedOreRecipe(getStack(Names.ORNATE_STICK_SILVER, 8), "ifi", "ici", "ifi", 'i',
-        "ingotSilver", 'f', "ingotIron", 'c', "gemChaos");
-    GameRegistry.addRecipe(recipe);
+    recipe = recipes.addShapedOre("ornate_rod_silver", getStack(Names.ORNATE_STICK_SILVER, 8), "ifi", "ici", "ifi", 'i', "ingotSilver", 'f', "ingotIron", 'c', "gemChaos");
     guideRecipeMap.put(toolRodSilver.getItemDamage(), recipe);
 
     // Upgrade Base
-    recipe = new ShapelessOreRecipe(getStack(Names.UPGRADE_BASE, 4), Items.FLINT, Items.FLINT,
-        "plankWood", "stickWood");
-    GameRegistry.addRecipe(recipe);
+    recipe = recipes.addShapelessOre("upgrade_base", getStack(Names.UPGRADE_BASE, 4), Items.FLINT, Items.FLINT, "plankWood", "stickWood");
     guideRecipeMap.put(upgradeBase.getItemDamage(), recipe);
 
     // Chaos Coal
-    recipe = RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 8), "gemChaos", Items.COAL);
-    RecipeHelper.addSurroundOre(getStack(Names.CHAOS_COAL, 4), "gemChaos",
-        new ItemStack(Items.COAL, 1, 1));
+    recipe = recipes.addSurroundOre("chaos_coal_0", getStack(Names.CHAOS_COAL, 8), "gemChaos", Items.COAL);
+    recipes.addSurroundOre("chaos_coal_1", getStack(Names.CHAOS_COAL, 4), "gemChaos", new ItemStack(Items.COAL, 1, 1));
     guideRecipeMap.put(chaosCoal.getItemDamage(), recipe);
     // Chaos Coal -> Torches
-    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Blocks.TORCH, 16), "c", "s", 'c',
-        chaosCoal, 's', "stickWood"));
+    recipes.addShapedOre("torches_chaos_coal", new ItemStack(Blocks.TORCH, 16), "c", "s", 'c', chaosCoal, 's', "stickWood");
 
     // Name Plate
-    recipe = new ShapedOreRecipe(getStack(Names.NAME_PLATE, 4), "iii", "pcp", "iii", 'i',
-        "ingotIron", 'p', "paper", 'c', "gemChaos");
-    GameRegistry.addRecipe(recipe);
+    recipe = recipes.addShapedOre("name_plate", getStack(Names.NAME_PLATE, 4), "iii", "pcp", "iii", 'i', "ingotIron", 'p', "paper", 'c', "gemChaos");
     guideRecipeMap.put(namePlate.getItemDamage(), recipe);
 
     // Chaos Core
-    recipe = new ShapedOreRecipe(chaosCore, " c ", "cqc", " c ", 'c', chaosEssenceEnriched, 'q',
-        "blockQuartz");
-    GameRegistry.addRecipe(recipe);
+    recipe = recipes.addShapedOre("chaos_core", chaosCore, " c ", "cqc", " c ", 'c', chaosEssenceEnriched, 'q', "blockQuartz");
     guideRecipeMap.put(chaosCore.getItemDamage(), recipe);
 
     // Magnifying Glass
-    recipe = new ShapedOreRecipe(magnifyingGlass, " g ", "gpg", "rg ", 'g', "ingotGold", 'p',
-        "paneGlass", 'r', toolRodGold);
-    GameRegistry.addRecipe(recipe);
+    recipe = recipes.addShapedOre("magnifying_glass", magnifyingGlass, " g ", "gpg", "rg ", 'g', "ingotGold", 'p', "paneGlass", 'r', toolRodGold);
     guideRecipeMap.put(magnifyingGlass.getItemDamage(), recipe);
 
     // Plume
-    recipe = RecipeHelper.addSurroundOre(plume,
-        new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE), "feather");
+    recipe = recipes.addSurroundOre("plume", plume, new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE), "feather");
     guideRecipeMap.put(plume.getItemDamage(), recipe);
 
     // Shiny Plume
-    recipe = RecipeHelper.addSurroundOre(shinyPlume, plume, "gemChaos", "ingotGold");
+    recipe = recipes.addSurroundOre("shiny_plume", shinyPlume, plume, "gemChaos", "ingotGold");
     guideRecipeMap.put(shinyPlume.getItemDamage(), recipe);
 
     // Ender Frost
-    recipe = RecipeHelper.addSurround(enderFrost, enderEssence, Blocks.ICE);
+    recipe = recipes.addSurround("ender_frost", enderFrost, enderEssence, Blocks.ICE);
     guideRecipeMap.put(enderFrost.getItemDamage(), recipe);
 
     // Gilded String
-    recipe = new ShapedOreRecipe(new ItemStack(this, 3, gildedString.getItemDamage()), "gsg", "gsg",
-        "gsg", 's', Items.STRING, 'g', "nuggetGold");
-    GameRegistry.addRecipe(recipe);
+    recipe = recipes.addShapedOre("gilded_string", new ItemStack(this, 3, gildedString.getItemDamage()), "gsg", "gsg", "gsg", 's', Items.STRING, 'g', "nuggetGold");
     guideRecipeMap.put(gildedString.getItemDamage(), recipe);
 
     // Yarn Ball
-    recipe = RecipeHelper.addSurround(yarnBall,
-        new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE), Items.STRING);
+    recipe = recipes.addSurround("yarn_ball", yarnBall, new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE), Items.STRING);
     guideRecipeMap.put(yarnBall.getItemDamage(), recipe);
 
     // Rawhide Bone
-    recipe = new ShapedOreRecipe(rawhideBone, " l ", "lbl", " l ", 'l', Items.LEATHER, 'b',
-        Items.BONE);
-    GameRegistry.addRecipe(recipe);
+    recipe = recipes.addShapedOre("rawhide_bone", rawhideBone, " l ", "lbl", " l ", 'l', Items.LEATHER, 'b', Items.BONE);
     guideRecipeMap.put(rawhideBone.getItemDamage(), recipe);
 
     // Blazestone
-    recipe = RecipeHelper.addSurroundOre(blazestone, "dustRedstone", Items.BLAZE_POWDER);
+    recipe = recipes.addSurroundOre("blazestone", blazestone, "dustRedstone", Items.BLAZE_POWDER);
     guideRecipeMap.put(blazestone.getItemDamage(), recipe);
 
     // Nether shards and clusters
     ItemStack netherStar = new ItemStack(Items.NETHER_STAR);
-    recipe = RecipeHelper.addSurroundOre(getStack(Names.NETHER_SHARD, 24), netherStar, chaosEssenceEnriched,
-        enderEssence);
-    GameRegistry.addShapedRecipe(netherCluster, "sss", "s s", "sss", 's', netherShard);
-    GameRegistry.addShapelessRecipe(netherStar, netherCluster, netherCluster, netherCluster);
+    recipe = recipes.addSurroundOre("nether_shard", getStack(Names.NETHER_SHARD, 24), netherStar, chaosEssenceEnriched, enderEssence);
+    recipes.addShaped("nether_cluster", netherCluster, "sss", "s s", "sss", 's', netherShard);
+    recipes.addShapeless("nether_star", netherStar, netherCluster, netherCluster, netherCluster);
     guideRecipeMap.put(netherShard.getItemDamage(), recipe);
 
     // Armor Lattice
-    recipeLatticeMundane = RecipeHelper.addSurroundOre(getStack(Names.ARMOR_LATTICE_MUNDANE, 24),
-        "stickWood", "string", Items.FLINT);
+    recipeLatticeMundane = recipes.addSurroundOre("armor_lattice_mundane", getStack(Names.ARMOR_LATTICE_MUNDANE, 24), "stickWood", "string", Items.FLINT);
     guideRecipeMap.put(armorLatticeMundane.getItemDamage(), recipeLatticeMundane);
-    recipeLatticeRegular = RecipeHelper.addSurroundOre(getStack(Names.ARMOR_LATTICE_REGULAR, 24),
-        fluffyFabric, "ingotIron",
-        new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE));
+    recipeLatticeRegular = recipes.addSurroundOre("armor_lattice_regular", getStack(Names.ARMOR_LATTICE_REGULAR, 24), fluffyFabric, "ingotIron", new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE));
     guideRecipeMap.put(armorLatticeRegular.getItemDamage(), recipeLatticeRegular);
-    recipeLatticeSuper = RecipeHelper.addSurroundOre(getStack(Names.ARMOR_LATTICE_SUPER, 24),
-        "gemLapis", "gemDiamond", chaosEssenceEnriched);
+    recipeLatticeSuper = recipes.addSurroundOre("armor_lattice_super", getStack(Names.ARMOR_LATTICE_SUPER, 24), "gemLapis", "gemDiamond", chaosEssenceEnriched);
     guideRecipeMap.put(armorLatticeSuper.getItemDamage(), recipeLatticeSuper);
+
+    // @formatter:on
   }
 
   public IRecipe recipeLatticeMundane, recipeLatticeRegular, recipeLatticeSuper;

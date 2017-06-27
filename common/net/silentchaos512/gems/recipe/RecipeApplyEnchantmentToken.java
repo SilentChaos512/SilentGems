@@ -6,11 +6,11 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.lib.recipe.RecipeBaseSL;
 import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeApplyEnchantmentToken implements IRecipeSL {
+public class RecipeApplyEnchantmentToken extends RecipeBaseSL {
 
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {

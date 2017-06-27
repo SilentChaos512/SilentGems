@@ -4,8 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.lib.creativetab.CreativeTabSL;
 
 public class GemsCreativeTabs {

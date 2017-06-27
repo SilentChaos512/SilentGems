@@ -1,6 +1,26 @@
-package net.silentchaos512.gems.block;
+package net.silentchaos512.gems.init;
 
+import net.minecraft.block.Block;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.BlockChaosAltar;
+import net.silentchaos512.gems.block.BlockChaosFlowerPot;
+import net.silentchaos512.gems.block.BlockChaosNode;
+import net.silentchaos512.gems.block.BlockChaosPylon;
+import net.silentchaos512.gems.block.BlockEssenceOre;
+import net.silentchaos512.gems.block.BlockFluffyBlock;
+import net.silentchaos512.gems.block.BlockFluffyPuffPlant;
+import net.silentchaos512.gems.block.BlockGem;
+import net.silentchaos512.gems.block.BlockGemBrick;
+import net.silentchaos512.gems.block.BlockGemGlass;
+import net.silentchaos512.gems.block.BlockGemLamp;
+import net.silentchaos512.gems.block.BlockGemOre;
+import net.silentchaos512.gems.block.BlockGlowRose;
+import net.silentchaos512.gems.block.BlockMaterialGrader;
+import net.silentchaos512.gems.block.BlockMisc;
+import net.silentchaos512.gems.block.BlockPhantomLight;
+import net.silentchaos512.gems.block.BlockTeleporter;
+import net.silentchaos512.gems.block.BlockTeleporterAnchor;
+import net.silentchaos512.gems.block.BlockTeleporterRedstone;
 import net.silentchaos512.gems.item.block.ItemBlockGemLamp;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosAltar;
@@ -10,9 +30,10 @@ import net.silentchaos512.gems.tile.TileChaosPylon;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
 import net.silentchaos512.gems.tile.TilePhantomLight;
 import net.silentchaos512.gems.tile.TileTeleporter;
+import net.silentchaos512.lib.registry.IRegistrationHandler;
 import net.silentchaos512.lib.registry.SRegistry;
 
-public class ModBlocks {
+public class ModBlocks implements IRegistrationHandler<Block> {
 
   public static final BlockGemOre gemOre = new BlockGemOre(false);
   public static final BlockGemOre gemOreDark = new BlockGemOre(true);
@@ -51,9 +72,9 @@ public class ModBlocks {
   public static final BlockChaosPylon chaosPylon = new BlockChaosPylon();
   public static final BlockPhantomLight phantomLight = new BlockPhantomLight();
 
-  public static void init() {
+  @Override
+  public void registerAll(SRegistry reg) {
 
-    SRegistry reg = SilentGems.instance.registry;
     reg.registerBlock(gemOre);
     reg.registerBlock(gemOreDark);
     reg.registerBlock(gemBlock);

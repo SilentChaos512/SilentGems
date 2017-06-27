@@ -26,7 +26,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.Color;
@@ -61,9 +61,9 @@ public class EntityThrownTomahawk extends EntityThrowable implements IEntityAddi
 
     Vec3d vec = thrower.getLookVec();
     initialSpeed = speed;
-    motionX = speed * (vec.xCoord + thrower.motionX);
-    motionY = speed * (vec.yCoord + thrower.motionY);
-    motionZ = speed * (vec.zCoord + thrower.motionZ);
+    motionX = speed * (vec.x + thrower.motionX);
+    motionY = speed * (vec.y + thrower.motionY);
+    motionZ = speed * (vec.z+ thrower.motionZ);
   }
 
   @Override

@@ -34,7 +34,7 @@ public class AltarRecipeJei extends BlankRecipeWrapper {
       int mouseY) {
 
     if (recipe.getCatalyst() != null) {
-      FontRenderer fontRender = mc.fontRendererObj;
+      FontRenderer fontRender = mc.fontRenderer;
       String str = SilentGems.localizationHelper.getLocalizedString("jei", "recipe.altar.catalyst");
       int width = fontRender.getStringWidth(str);
       fontRender.drawStringWithShadow(str, 40 - width - 2, 30, 0xFFFFFF);

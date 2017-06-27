@@ -23,10 +23,12 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileTeleporter;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
 import net.silentchaos512.lib.util.LocalizationHelper;
@@ -62,7 +64,7 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     if (GemsConfig.RECIPE_TELEPORTER_DISABLE) {
       return;
@@ -72,14 +74,16 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
         new ItemStack(ModBlocks.teleporter, 1, OreDictionary.WILDCARD_VALUE),
         new ItemStack(ModBlocks.teleporterDark, 1, OreDictionary.WILDCARD_VALUE) };
 
+    int lastIndex = -1;
+
     for (int i = 0; i < subBlockCount; ++i) {
       EnumGem gem = getGem(i);
-      GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 2, i), "cec", " g ", "cec",
-          'c', ModItems.craftingMaterial.chaosEssenceEnriched, 'e',
-          ModItems.craftingMaterial.enderEssence, 'g', gem.getBlockOreName()));
+      recipes.addShapedOre(blockName + i, new ItemStack(this, 2, i), "cec", " g ", "cec", 'c',
+          ModItems.craftingMaterial.chaosEssenceEnriched, 'e',
+          ModItems.craftingMaterial.enderEssence, 'g', gem.getBlockOreName());
       for (ItemStack stack : anyTeleporter) {
-        GameRegistry.addRecipe(
-            new ShapelessOreRecipe(new ItemStack(this, 1, i), stack, gem.getItemOreName()));
+        recipes.addShapelessOre(blockName + "_" + (++lastIndex) + "_recolor", new ItemStack(this, 1, i), stack,
+            gem.getItemOreName());
       }
     }
   }
@@ -99,11 +103,14 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
   }
 
   @Override
-  protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+  protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state,
+      EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     ItemStack heldItem = player.getHeldItem(hand);
-    boolean holdingLinker = StackHelper.isValid(heldItem) && heldItem.getItem() == ModItems.teleporterLinker;
-    boolean holdingReturnHome = StackHelper.isValid(heldItem) && heldItem.getItem() == ModItems.returnHomeCharm;
+    boolean holdingLinker = StackHelper.isValid(heldItem)
+        && heldItem.getItem() == ModItems.teleporterLinker;
+    boolean holdingReturnHome = StackHelper.isValid(heldItem)
+        && heldItem.getItem() == ModItems.returnHomeCharm;
 
     if (world.isRemote) {
       return holdingLinker || holdingReturnHome ? true : !isAnchor;

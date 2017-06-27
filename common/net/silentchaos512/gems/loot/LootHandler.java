@@ -12,7 +12,7 @@ import net.minecraft.world.storage.loot.functions.SetCount;
 import net.minecraft.world.storage.loot.functions.SetMetadata;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 
 public class LootHandler {

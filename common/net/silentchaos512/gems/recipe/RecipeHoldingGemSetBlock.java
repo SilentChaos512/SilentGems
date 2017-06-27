@@ -6,10 +6,10 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.item.ItemHoldingGem;
-import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.lib.recipe.RecipeBaseSL;
 import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeHoldingGemSetBlock implements IRecipeSL {
+public class RecipeHoldingGemSetBlock extends RecipeBaseSL {
 
   @SuppressWarnings("deprecation")
   @Override
@@ -38,7 +38,7 @@ public class RecipeHoldingGemSetBlock implements IRecipeSL {
       return StackHelper.empty();
 
     ItemStack result = StackHelper.safeCopy(holdingGem);
-    Block block = ((ItemBlock) blockStack.getItem()).block;
+    Block block = ((ItemBlock) blockStack.getItem()).getBlock();
     int meta = blockStack.getItemDamage();
     IBlockState state = block.getStateFromMeta(meta);
     ((ItemHoldingGem) result.getItem()).setBlockPlaced(result, state);

@@ -1,5 +1,7 @@
 package net.silentchaos512.gems.event;
 
+import java.util.Random;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -8,6 +10,7 @@ import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -22,13 +25,16 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
-import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.enchantment.ModEnchantments;
+import net.silentchaos512.gems.enchantment.EnchantmentIceAspect;
+import net.silentchaos512.gems.enchantment.EnchantmentLightningAspect;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
+import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.init.ModEnchantments;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemBlockPlacer;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
 import net.silentchaos512.gems.lib.module.ModuleEntityRandomEquipment;
@@ -36,7 +42,9 @@ import net.silentchaos512.gems.loot.LootHandler;
 import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.gems.skills.ToolSkillDigger;
 import net.silentchaos512.gems.util.ArmorHelper;
+import net.silentchaos512.gems.util.ModDamageSource;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.PlayerHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
@@ -111,20 +119,28 @@ public class GemsCommonEvents {
   }
 
   @SubscribeEvent
-  public void onLifeSteal(LivingAttackEvent event) {
+  public void onLivingAttack(LivingAttackEvent event) {
 
-    if (event.getSource().getEntity() instanceof EntityPlayer) {
-      EntityPlayer player = (EntityPlayer) event.getSource().getEntity();
+    if (event.getSource().getTrueSource() instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
       ItemStack mainHand = player.getHeldItemMainhand();
       ItemStack offHand = player.getHeldItemOffhand();
-      int lifeStealLevel = 0;
 
-      // Life Steal on main?
-      if (StackHelper.isValid(mainHand))
+      int lifeStealLevel = 0;
+      int iceAspectLevel = 0;
+      int lightningAspectLevel = 0;
+
+      // Get levels of relevant enchantments.
+      if (StackHelper.isValid(mainHand)) {
         lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal, mainHand);
+        iceAspectLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.iceAspect, mainHand);
+        lightningAspectLevel = EnchantmentHelper
+            .getEnchantmentLevel(ModEnchantments.lightningAspect, mainHand);
+      }
       // If not, is it on off hand?
-      if (lifeStealLevel < 1 && StackHelper.isValid(offHand))
+      if (lifeStealLevel < 1 && StackHelper.isValid(offHand)) {
         lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal, offHand);
+      }
 
       // Do life steal?
       if (lifeStealLevel > 0) {
@@ -132,13 +148,23 @@ public class GemsCommonEvents {
         float healAmount = ModEnchantments.lifeSteal.getAmountHealed(lifeStealLevel, amount);
         player.heal(healAmount);
       }
+
+      // Ice Aspect
+      if (iceAspectLevel > 0) {
+        ModEnchantments.iceAspect.applyTo(event.getEntityLiving(), iceAspectLevel);
+      }
+
+      // Lightning Aspect
+      if (lightningAspectLevel > 0) {
+        ModEnchantments.lightningAspect.applyTo(event.getEntityLiving(), lightningAspectLevel);
+      }
     }
   }
 
   @SubscribeEvent
   public void onLivingDeath(LivingDeathEvent event) {
 
-    Entity entitySource = event.getSource().getSourceOfDamage();
+    Entity entitySource = event.getSource().getTrueSource();
     EntityPlayer player = null;
 
     if (event.getEntityLiving() instanceof EntityPlayer) {
@@ -166,9 +192,93 @@ public class GemsCommonEvents {
   @SubscribeEvent
   public void onLivingUpdate(LivingUpdateEvent event) {
 
-    if (!event.getEntity().world.isRemote && event.getEntityLiving() instanceof EntityRabbit) {
-      EntityRabbit rabbit = (EntityRabbit) event.getEntityLiving();
-      ModuleCoffee.tickRabbit(rabbit);
+    EntityLivingBase entity = event.getEntityLiving();
+    if (!entity.world.isRemote) {
+      // Rabbit coffee
+      if (entity instanceof EntityRabbit) {
+        EntityRabbit rabbit = (EntityRabbit) event.getEntityLiving();
+        ModuleCoffee.tickRabbit(rabbit);
+      }
+
+      NBTTagCompound tags = entity.getEntityData();
+      if (tags != null) {
+        // Ice Aspect?
+        int iceTimer = tags.getInteger(EnchantmentIceAspect.EFFECT_NBT);
+        if (iceTimer > 0) {
+          // Mob has been chilled by Ice Aspect.
+          tags.setInteger(EnchantmentIceAspect.EFFECT_NBT, --iceTimer);
+
+          // Continuous freeze damage.
+          int damageDelay = EnchantmentIceAspect.CONTINUOUS_DAMAGE_DELAY;
+          int damageAmount = EnchantmentIceAspect.CONTINUOUS_DAMAGE_AMOUNT;
+          if (entity.isImmuneToFire()) {
+            // Extra damage for mobs immune to fire (like blazes)
+            damageDelay /= 4;
+          }
+          if (iceTimer % damageDelay == 0) {
+            entity.attackEntityFrom(ModDamageSource.FREEZING, damageAmount);
+          }
+
+          // Spawn freeze effect particles.
+          Random rand = SilentGems.random;
+          for (int i = 0; i < 2; ++i) {
+            double posX = entity.posX + 1.2f * (rand.nextFloat() - 0.5f) * entity.width;
+            double posY = entity.posY + 1.1f * rand.nextFloat() * entity.height;
+            double posZ = entity.posZ + 1.2f * (rand.nextFloat() - 0.5f) * entity.width;
+            double motionX = 0.005 * rand.nextGaussian();
+            double motionY = 0.005 * rand.nextGaussian();
+            double motionZ = 0.005 * rand.nextGaussian();
+            SilentGems.proxy.spawnParticles(EnumModParticles.FREEZING, new Color(0x76e3f2),
+                entity.world, posX, posY, posZ, motionX, motionY, motionZ);
+          }
+        }
+
+        // Lightning Aspect
+        int shockTimer = tags.getInteger(EnchantmentLightningAspect.EFFECT_NBT);
+        if (shockTimer > 0) {
+          // Mob has been electrified by Lightning Aspect.
+          tags.setInteger(EnchantmentLightningAspect.EFFECT_NBT, --shockTimer);
+
+          // Chain to nearby mobs. Half this mob's time and effect level 1.
+          int halfTime = shockTimer / 2;
+          if (shockTimer % EnchantmentLightningAspect.CHAIN_DELAY == 0 && halfTime > 0) {
+            //@formatter:off
+            for (EntityLivingBase nearby : entity.world.getEntities(EntityLivingBase.class,
+                e -> e.getDistanceSqToEntity(entity) < EnchantmentLightningAspect.CHAIN_RADIUS_SQUARED
+                    && !(e instanceof EntityPlayer))) {
+              //@formatter:on
+              NBTTagCompound nearbyTags = nearby.getEntityData();
+              if (nearbyTags != null) {
+                int nearbyShockTime = nearbyTags.getInteger(EnchantmentLightningAspect.EFFECT_NBT);
+                SilentGems.logHelper.debug(nearby.getDistanceSqToEntity(entity), nearbyShockTime);
+                if (nearbyShockTime <= 0) {
+                  ModEnchantments.lightningAspect.applyTo(nearby, 1, halfTime);
+                }
+              }
+            }
+          }
+
+          // Continuous shock damage.
+          int damageDelay = EnchantmentLightningAspect.CONTINUOUS_DAMAGE_DELAY;
+          int damageAmount = EnchantmentLightningAspect.CONTINUOUS_DAMAGE_AMOUNT;
+          if (shockTimer % damageDelay == 0) {
+            entity.attackEntityFrom(ModDamageSource.SHOCKING, damageAmount);
+          }
+
+          // Spawn shock effect particles.
+          Random rand = SilentGems.random;
+          for (int i = 0; i < 2; ++i) {
+            double posX = entity.posX + 1.2f * (rand.nextFloat() - 0.5f) * entity.width;
+            double posY = entity.posY + 1.1f * rand.nextFloat() * entity.height;
+            double posZ = entity.posZ + 1.2f * (rand.nextFloat() - 0.5f) * entity.width;
+            double motionX = 0.02 * rand.nextGaussian();
+            double motionY = 0.05 + Math.abs(0.1 * rand.nextGaussian());
+            double motionZ = 0.02 * rand.nextGaussian();
+            SilentGems.proxy.spawnParticles(EnumModParticles.SHOCKING, new Color(0xffef63),
+                entity.world, posX, posY, posZ, motionX, motionY, motionZ);
+          }
+        }
+      }
     }
   }
 
@@ -183,16 +293,16 @@ public class GemsCommonEvents {
   @SubscribeEvent
   public void onItemPickup(EntityItemPickupEvent event) {
 
-    ItemStack entityStack = event.getItem().getEntityItem();
+    ItemStack entityStack = event.getItem().getItem();
     if (entityStack.getItem() instanceof ItemBlock) {
       for (ItemStack stack : PlayerHelper.getNonEmptyStacks(event.getEntityPlayer())) {
         if (stack.getItem() instanceof ItemBlockPlacer) {
           ItemBlockPlacer itemPlacer = (ItemBlockPlacer) stack.getItem();
-          IBlockState state = ((ItemBlock) entityStack.getItem()).block
+          IBlockState state = ((ItemBlock) entityStack.getItem()).getBlock()
               .getStateFromMeta(entityStack.getItemDamage());
           if (state.equals(itemPlacer.getBlockPlaced(stack))) {
             // TODO
-            //event.getItem().setDead();
+            // event.getItem().setDead();
             break;
           }
         }

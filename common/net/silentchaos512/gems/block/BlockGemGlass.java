@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.lib.util.RecipeHelper;
+import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class BlockGemGlass extends BlockGemSubtypes {
 
@@ -25,11 +25,11 @@ public class BlockGemGlass extends BlockGemSubtypes {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     for (int i = 0; i < 16; ++i) {
       EnumGem gem = getGem(i);
-      RecipeHelper.addSurroundOre(new ItemStack(this, 8, i), gem.getShardOreName(), "blockGlass");
+      recipes.addSurroundOre(blockName + i, new ItemStack(this, 8, i), gem.getShardOreName(), "blockGlass");
     }
   }
 

@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.block;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
@@ -18,12 +19,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.BlockEssenceOre.Type;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.block.BlockSL;
-import net.silentchaos512.lib.util.RecipeHelper;
+import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class BlockMisc extends BlockSL implements IFuelHandler {
 
@@ -53,23 +53,22 @@ public class BlockMisc extends BlockSL implements IFuelHandler {
   public int getBurnTime(ItemStack fuel) {
 
     return fuel.getItem() == Item.getItemFromBlock(this)
-        && fuel.getItemDamage() == Type.CHAOS_COAL.ordinal() ? 10 * GemsConfig.BURN_TIME_CHAOS_COAL : 0;
+        && fuel.getItemDamage() == Type.CHAOS_COAL.ordinal() ? 10 * GemsConfig.BURN_TIME_CHAOS_COAL
+            : 0;
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     ItemStack chaosCoal = getStack(Type.CHAOS_COAL, 1);
     ItemStack chaosEssence = getStack(Type.CHAOS_ESSENCE, 1);
     ItemStack chaosEssenceCrystallized = getStack(Type.CHAOS_ESSENCE_CRYSTALLIZED, 1);
     ItemStack chaosEssenceEnriched = getStack(Type.CHAOS_ESSENCE_ENRICHED, 1);
 
-    RecipeHelper.addCompressionRecipe(ModItems.craftingMaterial.chaosEssence, chaosEssence, 9);
-    RecipeHelper.addCompressionRecipe(ModItems.craftingMaterial.chaosEssenceEnriched,
-        chaosEssenceEnriched, 9);
-    RecipeHelper.addCompressionRecipe(ModItems.craftingMaterial.chaosEssenceCrystallized,
-        chaosEssenceCrystallized, 9);
-    RecipeHelper.addCompressionRecipe(ModItems.craftingMaterial.chaosCoal, chaosCoal, 9);
+    recipes.addCompression("chaos_essence_block", ModItems.craftingMaterial.chaosEssence, chaosEssence, 9);
+    recipes.addCompression("chaos_essence_enriched_block", ModItems.craftingMaterial.chaosEssenceEnriched, chaosEssenceEnriched, 9);
+    recipes.addCompression("chaos_essence_crystallized_block", ModItems.craftingMaterial.chaosEssenceCrystallized, chaosEssenceCrystallized, 9);
+    recipes.addCompression("chaos_coal_block", ModItems.craftingMaterial.chaosCoal, chaosCoal, 9);
   }
 
   public ItemStack getStack(Type type, int count) {
@@ -110,12 +109,10 @@ public class BlockMisc extends BlockSL implements IFuelHandler {
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    List<ModelResourceLocation> list = Lists.newArrayList();
     String name = getFullName().toLowerCase();
     for (Type type : Type.values())
-      list.add(new ModelResourceLocation(name, "type=" + type.getName()));
-    return list;
+      models.put(type.ordinal(), new ModelResourceLocation(name, "type=" + type.getName()));
   }
 }

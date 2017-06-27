@@ -1,24 +1,25 @@
 package net.silentchaos512.gems.item;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartTip;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumTipUpgrade;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
@@ -36,7 +37,7 @@ public class ItemTipUpgrade extends ItemSL {
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+  public void clAddInformation(ItemStack stack, World world, List list, boolean advanced) {
 
     ToolPartTip part = (ToolPartTip) ToolPartRegistry.fromStack(stack);
     if (part != null) {
@@ -81,30 +82,23 @@ public class ItemTipUpgrade extends ItemSL {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     ItemStack base = ModItems.craftingMaterial.upgradeBase;
-    addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 0), "ingotIron", base));
-    addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 1), "ingotGold", base));
-    addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 2), "gemDiamond", base));
-    addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 3), "gemEmerald", base));
-  }
-
-  protected void addRecipe(IRecipe recipe) {
-
-    GameRegistry.addRecipe(recipe);
-    RECIPES.add(recipe);
+    RECIPES.add(recipes.addShapelessOre("tip_upgrade_iron", new ItemStack(this, 1, 0), "ingotIron", base));
+    RECIPES.add(recipes.addShapelessOre("tip_upgrade_gold", new ItemStack(this, 1, 1), "ingotGold", base));
+    RECIPES.add(recipes.addShapelessOre("tip_upgrade_diamond", new ItemStack(this, 1, 2), "gemDiamond", base));
+    RECIPES.add(recipes.addShapelessOre("tip_upgrade_emerald", new ItemStack(this, 1, 3), "gemEmerald", base));
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    List<ModelResourceLocation> models = Lists.newArrayList();
+    int i = 0;
     for (String str : NAMES) {
       String name = (SilentGems.RESOURCE_PREFIX + str).toLowerCase();
-      models.add(new ModelResourceLocation(name, "inventory"));
+      models.put(i++, new ModelResourceLocation(name, "inventory"));
     }
-    return models;
   }
 
   @Override

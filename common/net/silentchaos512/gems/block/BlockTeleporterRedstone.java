@@ -15,9 +15,11 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileTeleporter;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.DimensionalPosition;
 
 public class BlockTeleporterRedstone extends BlockTeleporter {
@@ -28,7 +30,7 @@ public class BlockTeleporterRedstone extends BlockTeleporter {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     if (GemsConfig.RECIPE_TELEPORTER_REDSTONE_DISABLE) {
       return;
@@ -38,15 +40,16 @@ public class BlockTeleporterRedstone extends BlockTeleporter {
         new ItemStack(ModBlocks.teleporterRedstone, 1, OreDictionary.WILDCARD_VALUE),
         new ItemStack(ModBlocks.teleporterRedstoneDark, 1, OreDictionary.WILDCARD_VALUE) };
 
+    int lastIndex = -1;
+
     for (int i = 0; i < subBlockCount; ++i) {
       EnumGem gem = getGem(i);
       ItemStack teleporterRedstone = new ItemStack(this, 1, i);
       ItemStack teleporterBasic = new ItemStack(ModBlocks.teleporter, 1, i);
-      GameRegistry
-          .addRecipe(new ShapelessOreRecipe(teleporterRedstone, teleporterBasic, "dustRedstone"));
+      recipes.addShapelessOre(blockName + i, teleporterRedstone, teleporterBasic, "dustRedstone");
       for (ItemStack stack : anyTeleporter) {
-        GameRegistry.addRecipe(
-            new ShapelessOreRecipe(new ItemStack(this, 1, i), stack, gem.getItemOreName()));
+        recipes.addShapelessOre(blockName + "_" + (++lastIndex) + "_recolor", new ItemStack(this, 1, i), stack,
+            gem.getItemOreName());
       }
     }
   }
@@ -96,8 +99,8 @@ public class BlockTeleporterRedstone extends BlockTeleporter {
       if (playSound) {
         float pitch = 0.7f + 0.3f * SilentGems.instance.random.nextFloat();
         for (BlockPos p : new BlockPos[] { pos, tile.getDestination().toBlockPos() }) {
-          world.playSound(null, p, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS,
-              1.0f, pitch);
+          world.playSound(null, p, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS, 1.0f,
+              pitch);
         }
       }
     }

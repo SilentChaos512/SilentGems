@@ -36,8 +36,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IBlockPlacer;
 import net.silentchaos512.gems.api.ITool;
@@ -52,7 +50,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.guide.GuideBookGems;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
@@ -70,9 +68,9 @@ import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
-import net.silentchaos512.lib.util.PlayerHelper;
 import net.silentchaos512.lib.util.StackHelper;
 import net.silentchaos512.lib.util.WorldHelper;
 
@@ -231,7 +229,7 @@ public class ToolHelper {
   public static void attemptDamageTool(ItemStack tool, int amount, EntityLivingBase entityLiving) {
 
     amount = Math.min(getMaxDamage(tool) - tool.getItemDamage(), amount);
-    tool.attemptDamageItem(amount, SilentGems.random);
+    ItemHelper.attemptDamageItem(tool, amount, SilentGems.random);
   }
 
   public static float getDigSpeed(ItemStack tool, IBlockState state, Material[] extraMaterials) {
@@ -316,6 +314,7 @@ public class ToolHelper {
 
   /**
    * Check if the tool has no construction parts. Only checks the head, but no valid tools will have no head parts.
+   * 
    * @return true if the has no construction parts.
    */
   public static boolean hasNoConstruction(ItemStack tool) {
@@ -342,7 +341,7 @@ public class ToolHelper {
     Multimap<String, AttributeModifier> map = tool.getItem().getItemAttributeModifiers(slot);
 
     if (slot == EntityEquipmentSlot.MAINHAND) {
-      
+
       // Melee Damage
       String key = SharedMonsterAttributes.ATTACK_DAMAGE.getName();
       float value = getMeleeDamageModifier(tool);
@@ -426,7 +425,7 @@ public class ToolHelper {
         target = pos.offset(side);
 
       if (player.canPlayerEdit(target, side, stackOffHand) && WorldHelper.mayPlace(world,
-          itemBlock.block, target, false, side, player, stackOffHand))
+          itemBlock.getBlock(), target, false, side, player, stackOffHand))
         return EnumActionResult.PASS;
     }
 
@@ -449,15 +448,20 @@ public class ToolHelper {
     if (toolSlot < 8) {
       // Get stack in slot after tool.
       nextStack = player.inventory.getStackInSlot(itemSlot);
+      boolean emptyOrNoPlacingTag = StackHelper.isEmpty(nextStack)
+          || (nextStack.hasTagCompound() && nextStack.getTagCompound().hasKey("NoPlacing"));
 
       // If there's nothing there we can use, try slot 9 instead.
-      if (StackHelper.isEmpty(nextStack) || (!(nextStack.getItem() instanceof ItemBlock)
+      if (emptyOrNoPlacingTag || (!(nextStack.getItem() instanceof ItemBlock)
           && !(nextStack.getItem() instanceof IBlockPlacer))) {
         nextStack = lastStack;
         itemSlot = 8;
       }
 
-      if (StackHelper.isValid(nextStack)) {
+      emptyOrNoPlacingTag = StackHelper.isEmpty(nextStack)
+          || (nextStack.hasTagCompound() && nextStack.getTagCompound().hasKey("NoPlacing"));
+
+      if (!emptyOrNoPlacingTag) {
         Item item = nextStack.getItem();
         if (item instanceof ItemBlock || item instanceof IBlockPlacer) {
           BlockPos targetPos = pos.offset(side);
@@ -475,7 +479,7 @@ public class ToolHelper {
             ItemBlock itemBlock = (ItemBlock) item;
             Block block = itemBlock.getBlock();
             IBlockState state = block.getStateFromMeta(itemBlock.getMetadata(nextStack));
-            if (state.getMaterial().blocksMovement() && playerBounds.intersectsWith(blockBounds)) {
+            if (state.getMaterial().blocksMovement() && playerBounds.intersects(blockBounds)) {
               return EnumActionResult.FAIL;
             }
           }
@@ -867,11 +871,11 @@ public class ToolHelper {
   public static List<ItemStack> getSubItems(Item item, int materialLength) {
 
     List<ItemStack> list = Lists.newArrayList();
-    //final boolean isSuperTool = item instanceof ITool && ((ITool) item).isSuperTool();
+    // final boolean isSuperTool = item instanceof ITool && ((ITool) item).isSuperTool();
     final ItemStack rodWood = new ItemStack(Items.STICK);
     final ItemStack rodIron = ModItems.craftingMaterial.toolRodIron;
     final ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
-    
+
     for (ToolPartMain part : ToolPartRegistry.getMains()) {
       // Check for parts with empty crafting stacks and scream at the user if any are found.
       if (StackHelper.isEmpty(part.getCraftingStack())) {
@@ -879,7 +883,8 @@ public class ToolHelper {
           emptyPartSet.add(part);
           SilentGems.logHelper.severe("Part with empty crafting stack: " + part);
           if (!foundEmptyPart) {
-            Greetings.addExtraMessage(TextFormatting.RED + "Errored tool part found! Please report this issue on the GitHub issue tracker.");
+            Greetings.addExtraMessage(TextFormatting.RED
+                + "Errored tool part found! Please report this issue on the GitHub issue tracker.");
             foundEmptyPart = true;
           }
           Greetings.addExtraMessage(TextFormatting.ITALIC + part.toString());
@@ -913,6 +918,8 @@ public class ToolHelper {
         && getRootTag(a, NBT_ROOT_DECORATION).equals(getRootTag(b, NBT_ROOT_DECORATION));
   }
 
+  static int lastRecipeIndex = -1;
+
   /**
    * Adds a "display" or "example" recipes for players to view in JEI.
    */
@@ -921,9 +928,15 @@ public class ToolHelper {
 
     ToolPart part = ToolPartRegistry.fromStack(head);
     EnumMaterialTier tier = getToolTier(result);
-    if (part != null && !part.isBlacklisted(head))
-      GameRegistry.addRecipe(new ShapedOreRecipe(result, line1, line2, line3, 'g', head, 's', rod,
-          'f', tier.getFiller()));
+    if (part != null && !part.isBlacklisted(head)) {
+      String name = "tool_example" + (++lastRecipeIndex);
+      RecipeMaker rec = SilentGems.registry.recipes;
+      Object filler = tier.getFiller();
+      if (line1.contains("f") || line2.contains("f") || line3.contains("f"))
+        rec.addShapedOre(name, result, line1, line2, line3, 'g', head, 's', rod, 'f', filler);
+      else
+        rec.addShapedOre(name, result, line1, line2, line3, 'g', head, 's', rod);
+    }
   }
 
   // ==========================================================================

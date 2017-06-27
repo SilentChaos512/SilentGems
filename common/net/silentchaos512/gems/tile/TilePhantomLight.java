@@ -8,8 +8,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.init.ModBlocks;
 
 public class TilePhantomLight extends TileEntity implements ITickable {
 

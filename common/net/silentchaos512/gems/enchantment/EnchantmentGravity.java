@@ -14,7 +14,7 @@ public class EnchantmentGravity extends Enchantment {
 
   public static final String NAME = "Gravity";
 
-  protected EnchantmentGravity() {
+  public EnchantmentGravity() {
 
     super(Rarity.VERY_RARE, EnumEnchantmentType.DIGGER,
         new EntityEquipmentSlot[] { EntityEquipmentSlot.MAINHAND });

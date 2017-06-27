@@ -6,11 +6,11 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
-import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.lib.recipe.RecipeBaseSL;
 import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeMultiGemShield implements IRecipeSL {
+public class RecipeMultiGemShield extends RecipeBaseSL {
 
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
@@ -80,11 +80,5 @@ public class RecipeMultiGemShield implements IRecipeSL {
 
     // Recipe correct. Make the shield.
     return ModItems.shield.constructTool(rod, materials);
-  }
-
-  @Override
-  public int getRecipeSize() {
-
-    return 10;
   }
 }

@@ -8,8 +8,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.lib.EnumDecoPos;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemHoldingGem;
-import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 
@@ -136,8 +136,10 @@ public class ColorHandlers {
           }
         } else if (tintIndex == 2) {
           IBlockState state = ModItems.holdingGem.getBlockPlaced(stack);
-          if (state != null)
-            return state.getMapColor().colorValue;
+          if (state != null) {
+            return 0xFFFFFF;
+            //return state.getMapColor().colorValue;
+          }
         }
         return 0xFFFFFF;
       }

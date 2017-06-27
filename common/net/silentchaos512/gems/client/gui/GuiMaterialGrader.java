@@ -64,7 +64,7 @@ public class GuiMaterialGrader extends GuiContainer {
     }
 
     TileMaterialGrader tile = (TileMaterialGrader) tileInventory;
-    FontRenderer fontRender = mc.fontRendererObj;
+    FontRenderer fontRender = mc.fontRenderer;
     int x = 5;
     int y = 5;
     int yIncrement = 10;

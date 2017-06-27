@@ -11,7 +11,7 @@ import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;

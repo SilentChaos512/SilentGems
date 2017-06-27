@@ -8,11 +8,11 @@ import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
-import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.lib.recipe.RecipeBaseSL;
 import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeMultiGemBow implements IRecipeSL {
+public class RecipeMultiGemBow extends RecipeBaseSL {
 
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
@@ -102,11 +102,5 @@ public class RecipeMultiGemBow implements IRecipeSL {
       return null;
 
     return new ItemStack[] { str1, str2, str3 };
-  }
-
-  @Override
-  public int getRecipeSize() {
-
-    return 10;
   }
 }

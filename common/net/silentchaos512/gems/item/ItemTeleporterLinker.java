@@ -11,16 +11,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.DimensionalPosition;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
@@ -34,14 +36,14 @@ public class ItemTeleporterLinker extends ItemSL {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
-    GameRegistry.addShapedRecipe(new ItemStack(this), "c", "r", 'c',
+    recipes.addShaped("teleporter_linker", new ItemStack(this), "c", "r", 'c',
         ModItems.craftingMaterial.chaosEssenceEnriched, 'r', ModItems.craftingMaterial.toolRodGold);
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+  public void clAddInformation(ItemStack stack, World world, List list, boolean advanced) {
 
     DimensionalPosition pos = getLinkedPosition(stack);
     if (pos != null) {
@@ -52,11 +54,9 @@ public class ItemTeleporterLinker extends ItemSL {
   @Override
   public boolean registerModels() {
 
-    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
     ModelResourceLocation model = new ModelResourceLocation(getFullName().toLowerCase(), "inventory");
-    ModelLoader.registerItemVariants(this, model);
-    mesher.register(this, 0, model);
-    mesher.register(this, 1, model);
+    ModelLoader.setCustomModelResourceLocation(this, 0, model);
+    ModelLoader.setCustomModelResourceLocation(this, 1, model);
     return true;
   }
 
@@ -110,7 +110,7 @@ public class ItemTeleporterLinker extends ItemSL {
     if (StackHelper.isValid(heldItem) && heldItem.getItem() == this) {
 
       ScaledResolution res = new ScaledResolution(mc);
-      FontRenderer fontRender = mc.fontRendererObj;
+      FontRenderer fontRender = mc.fontRenderer;
       int width = res.getScaledWidth();
       int height = res.getScaledHeight();
 

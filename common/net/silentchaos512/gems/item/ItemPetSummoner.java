@@ -19,8 +19,10 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemNamedSubtypes;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemPetSummoner extends ItemNamedSubtypes {
@@ -33,20 +35,20 @@ public class ItemPetSummoner extends ItemNamedSubtypes {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     ItemStack anyGem = new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE);
 
-    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 0), anyGem,
+    recipes.addShapelessOre("summon_kitty", new ItemStack(this, 1, 0), anyGem,
         new ItemStack(Items.FISH, 1, OreDictionary.WILDCARD_VALUE),
-        ModItems.craftingMaterial.yarnBall));
+        ModItems.craftingMaterial.yarnBall);
 
-    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 1), anyGem, Items.BEEF,
-        ModItems.craftingMaterial.rawhideBone));
-    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 1), anyGem, Items.PORKCHOP,
-        ModItems.craftingMaterial.rawhideBone));
-    GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 1), anyGem, Items.CHICKEN,
-        ModItems.craftingMaterial.rawhideBone));
+    recipes.addShapelessOre("summon_puppy_0", new ItemStack(this, 1, 1), anyGem, Items.BEEF,
+        ModItems.craftingMaterial.rawhideBone);
+    recipes.addShapelessOre("summon_puppy_1", new ItemStack(this, 1, 1), anyGem, Items.PORKCHOP,
+        ModItems.craftingMaterial.rawhideBone);
+    recipes.addShapelessOre("summon_puppy_2", new ItemStack(this, 1, 1), anyGem, Items.CHICKEN,
+        ModItems.craftingMaterial.rawhideBone);
   }
 
   @Override

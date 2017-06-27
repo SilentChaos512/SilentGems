@@ -1,12 +1,15 @@
 package net.silentchaos512.gems.item.tool;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.client.util.ITooltipFlag.TooltipFlags;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -21,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -30,25 +34,24 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.EntityChaosProjectileHoming;
 import net.silentchaos512.gems.entity.EntityChaosProjectileSweep;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModEnchantments;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.item.IItemSL;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.EntityHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, IItemSL {
-
-  protected List<ItemStack> subItems = null;
 
   public ItemGemSword() {
 
@@ -119,21 +122,6 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
   // ==============
   // Item overrides
   // ==============
-
-  @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
-
-    ToolRenderHelper.getInstance().addInformation(stack, player, list, advanced);
-  }
-
-  @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
-
-    if (subItems == null) {
-      subItems = ToolHelper.getSubItems(item, 2);
-    }
-    list.addAll(subItems);
-  }
 
   @Override
   public ActionResult<ItemStack> onItemLeftClickSL(World world, EntityPlayer player, EnumHand hand) {
@@ -321,7 +309,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
   // ===============
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     if (getConfig().isDisabled)
       return;
@@ -366,9 +354,9 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    return Lists.newArrayList(ToolRenderHelper.SMART_MODEL);
+    models.put(0, ToolRenderHelper.SMART_MODEL);
   }
 
   @Override
@@ -377,16 +365,52 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
     return false;
   }
 
-  // ==============================
-  // Cross Compatibility (MC 10/11)
-  // ==============================
+  // =================================
+  // Cross Compatibility (MC 10/11/12)
+  // =================================
 
-  // getSubItems
+  // addInformation 1.10.2/1.11.2
+  public void func_77624_a(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+
+    ToolRenderHelper.getInstance().clAddInformation(stack, player.world, list, advanced);
+  }
+
+  @Override
+  public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
+
+    ToolRenderHelper.getInstance().clAddInformation(stack, world, list, flag == TooltipFlags.ADVANCED);
+  }
+
+  // getSubItems 1.10.2
   public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (subItems == null) {
-      subItems = ToolHelper.getSubItems(item, 2);
-    }
-    list.addAll(subItems);
+    clGetSubItems(item, tab, list);
   }
+
+  // getSubItems 1.11.2
+  public void func_150895_a(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+
+    clGetSubItems(item, tab, list);
+  }
+
+  @Override
+  public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+
+    clGetSubItems(this, tab, list);
+  }
+
+  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (!isInCreativeTab(tab))
+      return;
+
+    list.addAll(ToolHelper.getSubItems(item, 3));
+  }
+
+  // onItemUse
+//  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+//      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+//
+//    return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
+//  }
 }

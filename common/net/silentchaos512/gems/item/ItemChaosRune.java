@@ -5,25 +5,22 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.key.KeyTracker;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class ItemChaosRune extends ItemSL {
@@ -36,7 +33,7 @@ public class ItemChaosRune extends ItemSL {
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+  public void clAddInformation(ItemStack stack, World world, List list, boolean advanced) {
 
     ChaosBuff buff = getBuff(stack);
     if (buff != null) {
@@ -63,7 +60,7 @@ public class ItemChaosRune extends ItemSL {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     addRecipe(ChaosBuff.CAPACITY, new ItemStack(ModItems.chaosOrb, 1, ItemChaosOrb.Type.FRAGILE.ordinal()), 1);
     addRecipe(ChaosBuff.RECHARGE, ModItems.craftingMaterial.chaosCore, 1);
@@ -102,12 +99,16 @@ public class ItemChaosRune extends ItemSL {
     String line2 = count != 2 ? "ror" : "r r";
     String line3 = line1;
     setBuff(result, buff);
-    GameRegistry.addRecipe(new ShapedOreRecipe(result, line1, line2, line3, 'r', "dustRedstone",
-        'c', ModItems.craftingMaterial.chaosEssenceEnriched, 'o', obj));
+    String name = "chaos_rune_" + buff.getKey().replaceFirst(SilentGems.RESOURCE_PREFIX, "");
+    SilentGems.registry.recipes.addShapedOre(name, result, line1, line2, line3,
+        'r', "dustRedstone", 'c', ModItems.craftingMaterial.chaosEssenceEnriched, 'o', obj);
   }
 
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (!isInCreativeTab(tab))
+      return;
 
     for (ChaosBuff buff : ChaosBuff.getAllBuffs()) {
       list.add(setBuff(new ItemStack(this), buff));

@@ -14,6 +14,7 @@ import net.silentchaos512.gems.item.ItemChaosGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosPlinth;
 import net.silentchaos512.lib.block.BlockContainerSL;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class BlockChaosPlinth extends BlockContainerSL {
@@ -30,7 +31,7 @@ public class BlockChaosPlinth extends BlockContainerSL {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     // TODO
   }

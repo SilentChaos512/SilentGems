@@ -1,12 +1,11 @@
 package net.silentchaos512.gems.client.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -120,7 +119,7 @@ public class GuiChaosBar extends Gui {
   public void drawRect(float x, float y, float u, float v, float width, float height) {
 
     Tessellator tess = Tessellator.getInstance();
-    VertexBuffer buff = tess.getBuffer();
+    BufferBuilder buff = tess.getBuffer();
     buff.begin(7, DefaultVertexFormats.POSITION_TEX);
     buff.pos(x, y + height, 0).tex(0, 1).endVertex();
     buff.pos(x + width, y + height, 0).tex(1, 1).endVertex();

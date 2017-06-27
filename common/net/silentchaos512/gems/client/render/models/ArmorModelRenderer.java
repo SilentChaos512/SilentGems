@@ -1,20 +1,18 @@
 package net.silentchaos512.gems.client.render.models;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.lib.util.Color;
-import org.apache.commons.lang3.reflect.FieldUtils;
-
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ArmorModelRenderer extends ModelRenderer{
 
@@ -140,7 +138,7 @@ public class ArmorModelRenderer extends ModelRenderer{
     {
         this.displayList = GLAllocation.generateDisplayLists(1);
         GlStateManager.glNewList(this.displayList, 4864);
-        VertexBuffer vertexBuffer = Tessellator.getInstance().getBuffer();
+        BufferBuilder vertexBuffer = Tessellator.getInstance().getBuffer();
 
         for (int i=0; i < this.cubeList.size(); i++)
         {

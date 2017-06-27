@@ -11,39 +11,25 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkGenerator;
-import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-import net.minecraftforge.fml.common.IWorldGenerator;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.BlockEssenceOre;
-import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.config.ConfigOptionOreGen;
+import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.util.WeightedRandomItemSG;
+import net.silentchaos512.lib.world.WorldGeneratorSL;
 
-public class GemsWorldGenerator implements IWorldGenerator {
+public class GemsWorldGenerator extends WorldGeneratorSL {
 
-  @Override
-  public void generate(Random random, int chunkX, int chunkZ, World world,
-      IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
+  public GemsWorldGenerator() {
 
-    switch (world.provider.getDimension()) {
-      case 0:
-        generateSurface(world, random, chunkX * 16, chunkZ * 16);
-        break;
-      case -1:
-        generateNether(world, random, chunkX * 16, chunkZ * 16);
-        break;
-      case 1:
-        generateEnd(world, random, chunkX * 16, chunkZ * 16);
-        break;
-      default:
-        generateSurface(world, random, chunkX * 16, chunkZ * 16);
-    }
+    super(true, SilentGems.MODID + "_retrogen");
   }
 
-  private void generateSurface(World world, Random random, int posX, int posZ) {
+  @Override
+  protected void generateSurface(World world, Random random, int posX, int posZ) {
 
     int i, x, y, z, meta, veinCount, veinSize;
     BlockPos pos;
@@ -88,7 +74,8 @@ public class GemsWorldGenerator implements IWorldGenerator {
     }
   }
 
-  private void generateNether(World world, Random random, int posX, int posZ) {
+  @Override
+  protected void generateNether(World world, Random random, int posX, int posZ) {
 
     int i, x, y, z, meta, veinCount, veinSize;
     BlockPos pos;
@@ -116,7 +103,8 @@ public class GemsWorldGenerator implements IWorldGenerator {
     }
   }
 
-  private void generateEnd(World world, Random random, int posX, int posZ) {
+  @Override
+  protected void generateEnd(World world, Random random, int posX, int posZ) {
 
     int i, x, y, z, meta, veinCount, veinSize;
     BlockPos pos;
@@ -159,8 +147,8 @@ public class GemsWorldGenerator implements IWorldGenerator {
 
       // Find top-most valid block
       for (; y > 50; --y) {
-        if (world.isAirBlock(pos) && (!world.provider.hasNoSky() || pos.getY() < 255)
-            && ModBlocks.glowRose.canBlockStay(world, pos, state)) {
+        //if (world.isAirBlock(pos) && (!world.provider.hasNoSky() || pos.getY() < 255) && ModBlocks.glowRose.canBlockStay(world, pos, state)) {
+        if (world.isAirBlock(pos) && pos.getY() < 255 && ModBlocks.glowRose.canBlockStay(world, pos, state)) {
           world.setBlockState(pos, state, 2);
           break;
         }

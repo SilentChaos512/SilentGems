@@ -15,14 +15,13 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosAltar;
 import net.silentchaos512.lib.block.BlockContainerSL;
+import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class BlockChaosAltar extends BlockContainerSL {
 
@@ -45,13 +44,12 @@ public class BlockChaosAltar extends BlockContainerSL {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     ItemStack result = new ItemStack(this);
     ItemStack chaos = ModItems.craftingMaterial.chaosEssenceEnriched;
-    recipe = new ShapedOreRecipe(result, "rer", "dod", "ooo", 'e', chaos, 'r', "dustRedstone", 'o',
+    recipe = recipes.addShapedOre("chaos_altar", result, "rer", "dod", "ooo", 'e', chaos, 'r', "dustRedstone", 'o',
         Blocks.OBSIDIAN, 'd', "gemDiamond");
-    GameRegistry.addRecipe(recipe);
   }
 
   @Override

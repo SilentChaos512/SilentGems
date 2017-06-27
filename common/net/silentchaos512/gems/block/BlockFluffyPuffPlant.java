@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.block;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.annotation.Nullable;
@@ -20,9 +21,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject {
@@ -123,7 +125,7 @@ public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject 
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
   }
 
@@ -151,19 +153,11 @@ public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject 
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    List<ModelResourceLocation> list = Lists.newArrayList();
     String name = getFullName().toLowerCase();
     for (int i = 0; i < 4; ++i) {
-      list.add(new ModelResourceLocation(name + i, "inventory"));
+      models.put(i, new ModelResourceLocation(name + i, "inventory"));
     }
-    return list;
-  }
-
-  @Override
-  public boolean registerModels() {
-
-    return false;
   }
 }

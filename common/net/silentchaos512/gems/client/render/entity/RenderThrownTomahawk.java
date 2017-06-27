@@ -43,7 +43,7 @@ public class RenderThrownTomahawk extends Render<EntityThrownTomahawk> {
 
     EntityItem entityitem = new EntityItem(entity.world, entity.posX, entity.posY, entity.posZ,
         stack);
-    StackHelper.setCount(entityitem.getEntityItem(), 1);
+    StackHelper.setCount(entityitem.getItem(), 1);
     entityitem.hoverStart = 0.0F;
     GlStateManager.pushMatrix();
     GlStateManager.disableLighting();
@@ -57,7 +57,7 @@ public class RenderThrownTomahawk extends Render<EntityThrownTomahawk> {
 
     GlStateManager.pushAttrib();
     RenderHelper.enableStandardItemLighting();
-    itemRenderer.renderItem(entityitem.getEntityItem(), ItemCameraTransforms.TransformType.FIXED);
+    itemRenderer.renderItem(entityitem.getItem(), ItemCameraTransforms.TransformType.FIXED);
     RenderHelper.disableStandardItemLighting();
     GlStateManager.popAttrib();
 

@@ -13,11 +13,12 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.ModBlocks;
+import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
-import net.silentchaos512.lib.util.RecipeHelper;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGlowRoseFertilizer extends ItemSL {
@@ -28,15 +29,16 @@ public class ItemGlowRoseFertilizer extends ItemSL {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
-    RecipeHelper.addSurround(new ItemStack(this, 4), ModItems.craftingMaterial.chaosEssence,
+    recipes.addSurround("glowrose_fertilizer", new ItemStack(this, 4),
+        ModItems.craftingMaterial.chaosEssence,
         new ItemStack(Items.DYE, 1, EnumDyeColor.WHITE.getDyeDamage()));
   }
 
   @Override
-  protected EnumActionResult clOnItemUse(EntityPlayer playerIn, World worldIn,
-      BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+  protected EnumActionResult clOnItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos,
+      EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     Random rand = SilentGems.random;
     BlockPos center = pos.offset(EnumFacing.UP);
@@ -44,7 +46,8 @@ public class ItemGlowRoseFertilizer extends ItemSL {
     if (worldIn.isAirBlock(center)) {
       // Always one at position used.
       EnumGem gem = EnumGem.values()[rand.nextInt(16)];
-      IBlockState glowRose = ModBlocks.glowRose.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
+      IBlockState glowRose = ModBlocks.glowRose.getDefaultState().withProperty(EnumGem.VARIANT_GEM,
+          gem);
 
       // Fail to use if glow rose can't be placed at center.
       if (!ModBlocks.glowRose.canBlockStay(worldIn, center, glowRose) || !worldIn.isAirBlock(center)

@@ -8,10 +8,10 @@ import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.item.armor.ItemArmorFrame;
 import net.silentchaos512.gems.util.ArmorHelper;
-import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.lib.recipe.RecipeBaseSL;
 import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeMultiGemArmor implements IRecipeSL {
+public class RecipeMultiGemArmor extends RecipeBaseSL {
 
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
@@ -62,11 +62,5 @@ public class RecipeMultiGemArmor implements IRecipeSL {
     }
 
     return stacks;
-  }
-
-  @Override
-  public int getRecipeSize() {
-
-    return 10;
   }
 }

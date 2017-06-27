@@ -1,16 +1,18 @@
 package net.silentchaos512.gems.item.tool;
 
+import java.util.List;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemScepter extends ItemGemSword {
@@ -71,16 +73,16 @@ public class ItemGemScepter extends ItemGemSword {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
+  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (subItems == null) {
-      subItems = ToolHelper.getSubItems(item, 5);
-    }
-    list.addAll(subItems);
+    if (!isInCreativeTab(tab))
+      return;
+
+    list.addAll(ToolHelper.getSubItems(item, 5));
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     if (getConfig().isDisabled) return;
 

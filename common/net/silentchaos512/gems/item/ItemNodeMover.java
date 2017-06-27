@@ -1,12 +1,12 @@
 package net.silentchaos512.gems.item;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -15,15 +15,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.lib.GemsCreativeTabs;
+import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosNode;
 import net.silentchaos512.lib.item.ItemSL;
-import net.silentchaos512.lib.util.RecipeHelper;
+import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class ItemNodeMover extends ItemSL {
 
@@ -38,7 +36,7 @@ public class ItemNodeMover extends ItemSL {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     ItemStack empty = new ItemStack(this, 1, META_EMPTY);
     ItemStack spent = new ItemStack(this, 1, META_USED);
@@ -46,8 +44,8 @@ public class ItemNodeMover extends ItemSL {
     ItemStack netherShard = ModItems.craftingMaterial.netherShard;
     ItemStack enderFrost = ModItems.craftingMaterial.enderFrost;
 
-    RecipeHelper.addSurroundOre(empty, chaosCore, netherShard, enderFrost);
-    GameRegistry.addShapedRecipe(empty, "sms", 's', netherShard, 'm', spent);
+    recipes.addSurroundOre("node_mover", empty, chaosCore, netherShard, enderFrost);
+    recipes.addShaped("node_mover_recharge", empty, "sms", 's', netherShard, 'm', spent);
   }
 
   @Override
@@ -114,12 +112,11 @@ public class ItemNodeMover extends ItemSL {
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
     String name = (SilentGems.RESOURCE_PREFIX + "NodeMover").toLowerCase();
-    return Lists.newArrayList(
-        new ModelResourceLocation(name + 0, "inventory"),
-        new ModelResourceLocation(name + 1, "inventory"),
-        new ModelResourceLocation(name + 2, "inventory"));
+    for (int i = 0; i < 3; ++i) {
+      models.put(i, new ModelResourceLocation(name + i, "inventory"));
+    }
   }
 }

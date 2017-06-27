@@ -27,17 +27,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.gems.util.TeleportUtil;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
 import net.silentchaos512.lib.util.LocalizationHelper;
@@ -61,7 +61,7 @@ public class ItemReturnHome extends ItemChaosStorage implements IBauble, IRender
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+  public void clAddInformation(ItemStack stack, World world, List list, boolean par4) {
 
     // Is ctrl key down?
     boolean modifier = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)
@@ -86,18 +86,21 @@ public class ItemReturnHome extends ItemChaosStorage implements IBauble, IRender
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     for (EnumGem gem : EnumGem.values()) {
       ItemStack result = new ItemStack(this, 1, gem.ordinal());
-      GameRegistry.addRecipe(new ShapedOreRecipe(result, " s ", "sgs", "ici", 's',
+      recipes.addShapedOre("return_home_" + gem.name(), result, " s ", "sgs", "ici", 's',
           ModItems.craftingMaterial.gildedString, 'g', gem.getItemOreName(), 'i', "ingotGold", 'c',
-          new ItemStack(ModItems.chaosOrb, 1, ItemChaosOrb.Type.FRAGILE.ordinal())));
+          new ItemStack(ModItems.chaosOrb, 1, ItemChaosOrb.Type.FRAGILE.ordinal()));
     }
   }
 
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (!isInCreativeTab(tab))
+      return;
 
     for (EnumGem gem : EnumGem.values()) {
       ItemStack stack = new ItemStack(item, 1, gem.ordinal());
@@ -144,7 +147,8 @@ public class ItemReturnHome extends ItemChaosStorage implements IBauble, IRender
   }
 
   @Override
-  protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+  protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player,
+      EnumHand hand) {
 
     ItemStack stack = player.getHeldItem(hand);
     DimensionalPosition pos = getBoundPosition(stack);
@@ -230,7 +234,7 @@ public class ItemReturnHome extends ItemChaosStorage implements IBauble, IRender
     }
 
     // Is the destination safe? (ie, no solid block at head level)
-    WorldServer worldServer = player.getServer().worldServerForDimension(pos.dim);
+    WorldServer worldServer = player.getServer().getWorld(pos.dim);
     int height = (int) Math.ceil(player.eyeHeight);
     BlockPos target = pos.toBlockPos().up(height);
 
