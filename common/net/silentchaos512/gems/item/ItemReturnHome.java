@@ -40,6 +40,7 @@ import net.silentchaos512.gems.util.TeleportUtil;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
 @Optional.InterfaceList({
@@ -99,7 +100,7 @@ public class ItemReturnHome extends ItemChaosStorage implements IBauble, IRender
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     for (EnumGem gem : EnumGem.values()) {

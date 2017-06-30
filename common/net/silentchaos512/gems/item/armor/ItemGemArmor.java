@@ -376,7 +376,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     if (subItems == null) {

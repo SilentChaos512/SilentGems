@@ -20,6 +20,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.RecipeMaker;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemKatana extends ItemGemSword {
@@ -107,7 +108,7 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     List<ItemStack> subItems = ToolHelper.getSubItems(item, 3);
@@ -120,16 +121,8 @@ public class ItemGemKatana extends ItemGemSword {
   @Override
   public void addRecipes(RecipeMaker recipes) {
 
-    if (getConfig().isDisabled)
-      return;
-
-    String line1 = "gg";
-    String line2 = "g ";
-    String line3 = "s ";
-    for (EnumGem gem : EnumGem.values()) {
-      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), line1, line2, line3,
-          gem.getItemSuper(), ModItems.craftingMaterial.toolRodGold);
-    }
+    if (!getConfig().isDisabled)
+      ToolHelper.addExampleRecipe(this, "gg", "g ", "s ");
   }
 
   @Override

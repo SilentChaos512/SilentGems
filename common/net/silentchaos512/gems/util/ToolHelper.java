@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -30,12 +31,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IBlockPlacer;
 import net.silentchaos512.gems.api.ITool;
@@ -48,6 +51,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
+import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.guide.GuideBookGems;
 import net.silentchaos512.gems.init.ModItems;
@@ -67,6 +71,8 @@ import net.silentchaos512.gems.network.message.MessageItemRename;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
+import net.silentchaos512.lib.SilentLib;
+import net.silentchaos512.lib.recipe.IngredientSL;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ItemHelper;
@@ -76,15 +82,13 @@ import net.silentchaos512.lib.util.WorldHelper;
 
 public class ToolHelper {
 
-  public static final String[] TOOL_CLASSES = { "Sword", "Pickaxe", "Shovel", "Axe", "Hoe",
-      "Sickle", "Bow" };
+  public static final String[] TOOL_CLASSES = { "Sword", "Pickaxe", "Shovel", "Axe", "Hoe", "Sickle", "Bow" };
 
   /**
    * A fake material for tools. Tools need a tool material, even if it's not used. Unfortunately, some mods still
    * reference the tool material (such as Progressive Automation, which is why I chose harvest level 1).
    */
-  public static final ToolMaterial FAKE_MATERIAL = EnumHelper
-      .addToolMaterial("silentgems:fake_material", 1, 512, 5.12f, 5.12f, 32);
+  public static final ToolMaterial FAKE_MATERIAL = EnumHelper.addToolMaterial("silentgems:fake_material", 1, 512, 5.12f, 5.12f, 32);
 
   public static final int CHECK_NAME_FREQUENCY = 10;
 
@@ -147,6 +151,9 @@ public class ToolHelper {
   public static final String NBT_STATS_SHOTS_LANDED = "ShotsLanded";
   public static final String NBT_STATS_THROWN = "ThrownCount";
 
+  // NBT example key
+  public static final String NBT_EXAMPLE_TOOL_TIER = "ExampleToolTier";
+
   public static void init() {
 
   }
@@ -169,8 +176,7 @@ public class ToolHelper {
 
     // Reset render cache
     for (EnumPartPosition pos : EnumPartPosition.values()) {
-      NBTTagCompound compound = tool.getTagCompound()
-          .getCompoundTag(ToolRenderHelper.NBT_MODEL_INDEX);
+      NBTTagCompound compound = tool.getTagCompound().getCompoundTag(ToolRenderHelper.NBT_MODEL_INDEX);
       String str = "Layer" + pos.ordinal();
       for (int frame = 0; frame < (tool.getItem() instanceof ItemGemBow ? 4 : 1); ++frame)
         compound.removeTag(str + (frame > 0 ? "_" + frame : ""));
@@ -185,20 +191,15 @@ public class ToolHelper {
     ToolPart renderRod = getRenderPart(tool, EnumPartPosition.ROD);
 
     if (renderHeadM != null)
-      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_HEAD_M + "Color", renderHeadM.getColor(tool));
+      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX, "Layer" + ToolRenderHelper.PASS_HEAD_M + "Color", renderHeadM.getColor(tool));
     if (renderHeadL != null)
-      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_HEAD_L + "Color", renderHeadL.getColor(tool));
+      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX, "Layer" + ToolRenderHelper.PASS_HEAD_L + "Color", renderHeadL.getColor(tool));
     if (renderHeadR != null)
-      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_HEAD_R + "Color", renderHeadR.getColor(tool));
+      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX, "Layer" + ToolRenderHelper.PASS_HEAD_R + "Color", renderHeadR.getColor(tool));
     if (renderRodDeco != null)
-      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_ROD_DECO + "Color", renderRodDeco.getColor(tool));
+      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX, "Layer" + ToolRenderHelper.PASS_ROD_DECO + "Color", renderRodDeco.getColor(tool));
     if (renderRod != null)
-      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_ROD + "Color", renderRod.getColor(tool));
+      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX, "Layer" + ToolRenderHelper.PASS_ROD + "Color", renderRod.getColor(tool));
 
     setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_DURABILITY, (int) stats.durability);
     setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_SPEED, stats.harvestSpeed);
@@ -328,8 +329,7 @@ public class ToolHelper {
     return getTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_ENCHANTABILITY);
   }
 
-  public static Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
-      ItemStack tool) {
+  public static Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack tool) {
 
     String name;
     if (tool.getItem() instanceof ItemTool)
@@ -356,8 +356,7 @@ public class ToolHelper {
     return map;
   }
 
-  private static void replaceAttributeModifierInMap(Multimap<String, AttributeModifier> map,
-      String key, float value) {
+  private static void replaceAttributeModifierInMap(Multimap<String, AttributeModifier> map, String key, float value) {
 
     if (map.containsKey(key)) {
       Iterator<AttributeModifier> iter = map.get(key).iterator();
@@ -410,8 +409,7 @@ public class ToolHelper {
   /**
    * This controls the block placing ability of mining tools.
    */
-  public static EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public static EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
     ItemStack stack = player.getHeldItem(hand);
 
@@ -424,8 +422,7 @@ public class ToolHelper {
       if (!itemBlock.getBlock().isReplaceable(world, pos))
         target = pos.offset(side);
 
-      if (player.canPlayerEdit(target, side, stackOffHand) && WorldHelper.mayPlace(world,
-          itemBlock.getBlock(), target, false, side, player, stackOffHand))
+      if (player.canPlayerEdit(target, side, stackOffHand) && WorldHelper.mayPlace(world, itemBlock.getBlock(), target, false, side, player, stackOffHand))
         return EnumActionResult.PASS;
     }
 
@@ -448,18 +445,15 @@ public class ToolHelper {
     if (toolSlot < 8) {
       // Get stack in slot after tool.
       nextStack = player.inventory.getStackInSlot(itemSlot);
-      boolean emptyOrNoPlacingTag = StackHelper.isEmpty(nextStack)
-          || (nextStack.hasTagCompound() && nextStack.getTagCompound().hasKey("NoPlacing"));
+      boolean emptyOrNoPlacingTag = StackHelper.isEmpty(nextStack) || (nextStack.hasTagCompound() && nextStack.getTagCompound().hasKey("NoPlacing"));
 
       // If there's nothing there we can use, try slot 9 instead.
-      if (emptyOrNoPlacingTag || (!(nextStack.getItem() instanceof ItemBlock)
-          && !(nextStack.getItem() instanceof IBlockPlacer))) {
+      if (emptyOrNoPlacingTag || (!(nextStack.getItem() instanceof ItemBlock) && !(nextStack.getItem() instanceof IBlockPlacer))) {
         nextStack = lastStack;
         itemSlot = 8;
       }
 
-      emptyOrNoPlacingTag = StackHelper.isEmpty(nextStack)
-          || (nextStack.hasTagCompound() && nextStack.getTagCompound().hasKey("NoPlacing"));
+      emptyOrNoPlacingTag = StackHelper.isEmpty(nextStack) || (nextStack.hasTagCompound() && nextStack.getTagCompound().hasKey("NoPlacing"));
 
       if (!emptyOrNoPlacingTag) {
         Item item = nextStack.getItem();
@@ -485,8 +479,7 @@ public class ToolHelper {
           }
 
           int prevSize = StackHelper.getCount(nextStack);
-          result = ItemHelper.useItemAsPlayer(nextStack, player, world, pos, side, hitX, hitY,
-              hitZ);
+          result = ItemHelper.useItemAsPlayer(nextStack, player, world, pos, side, hitX, hitY, hitZ);
 
           // Don't consume in creative mode?
           if (player.capabilities.isCreativeMode) {
@@ -552,8 +545,7 @@ public class ToolHelper {
     return false;
   }
 
-  public static boolean onBlockDestroyed(ItemStack tool, World world, IBlockState state,
-      BlockPos pos, EntityLivingBase entityLiving) {
+  public static boolean onBlockDestroyed(ItemStack tool, World world, IBlockState state, BlockPos pos, EntityLivingBase entityLiving) {
 
     boolean isSickle = tool.getItem() == ModItems.sickle;
     if ((isSickle || state.getBlockHardness(world, pos) != 0) && !isBroken(tool)) {
@@ -567,8 +559,7 @@ public class ToolHelper {
     return true;
   }
 
-  public static boolean hitEntity(ItemStack tool, EntityLivingBase target,
-      EntityLivingBase attacker) {
+  public static boolean hitEntity(ItemStack tool, EntityLivingBase target, EntityLivingBase attacker) {
 
     ToolHelper.incrementStatHitsLanded(tool, 1);
 
@@ -590,8 +581,7 @@ public class ToolHelper {
     return !isBroken && isTool;
   }
 
-  public static void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
-      boolean isSelected) {
+  public static void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot, boolean isSelected) {
 
     if (!world.isRemote) {
       if (hasNoConstruction(tool)) {
@@ -621,8 +611,7 @@ public class ToolHelper {
         // tool.setStackDisplayName(displayName);
 
         // Send to the server.
-        MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName,
-            tool);
+        MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName, tool);
         SilentGems.logHelper.info("Sending tool name \"" + displayName + "\" to server.");
         NetworkHandler.INSTANCE.sendToServer(message);
       }
@@ -636,8 +625,7 @@ public class ToolHelper {
 
   public static void toggleSpecialAbility(ItemStack tool) {
 
-    setTagBoolean(tool, NBT_ROOT_PROPERTIES, NBT_SETTINGS_SPECIAL,
-        !getTagBoolean(tool, NBT_ROOT_PROPERTIES, NBT_SETTINGS_SPECIAL));
+    setTagBoolean(tool, NBT_ROOT_PROPERTIES, NBT_SETTINGS_SPECIAL, !getTagBoolean(tool, NBT_ROOT_PROPERTIES, NBT_SETTINGS_SPECIAL));
   }
 
   // ==========================================================================
@@ -687,8 +675,7 @@ public class ToolHelper {
       setTagPart(result, "Part" + i, part, grade);
 
       // Write part list for client-side name generation.
-      result.getTagCompound().getCompoundTag(NBT_TEMP_PARTLIST).setTag("part" + i,
-          materials[i].writeToNBT(new NBTTagCompound()));
+      result.getTagCompound().getCompoundTag(NBT_TEMP_PARTLIST).setTag("part" + i, materials[i].writeToNBT(new NBTTagCompound()));
     }
     // Rod
     part = ToolPartRegistry.fromStack(rod);
@@ -795,8 +782,7 @@ public class ToolHelper {
     setTagPart(tool, NBT_PART_HEAD_TIP, part, EnumMaterialGrade.NONE);
   }
 
-  public static ItemStack decorateTool(ItemStack tool, ItemStack west, ItemStack north,
-      ItemStack east, ItemStack south) {
+  public static ItemStack decorateTool(ItemStack tool, ItemStack west, ItemStack north, ItemStack east, ItemStack south) {
 
     if (StackHelper.isEmpty(tool))
       return StackHelper.empty();
@@ -883,8 +869,7 @@ public class ToolHelper {
           emptyPartSet.add(part);
           SilentGems.logHelper.severe("Part with empty crafting stack: " + part);
           if (!foundEmptyPart) {
-            Greetings.addExtraMessage(TextFormatting.RED
-                + "Errored tool part found! Please report this issue on the GitHub issue tracker.");
+            Greetings.addExtraMessage(TextFormatting.RED + "Errored tool part found! Please report this issue on the GitHub issue tracker.");
             foundEmptyPart = true;
           }
           Greetings.addExtraMessage(TextFormatting.ITALIC + part.toString());
@@ -894,11 +879,8 @@ public class ToolHelper {
           if (item instanceof ITool && !((ITool) item).getValidTiers().contains(part.getTier())) {
             continue;
           }
-          list.add(constructTool(item,
-              part.getTier() == EnumMaterialTier.SUPER ? rodGold
-                  : item instanceof ItemGemShield && part.getTier() == EnumMaterialTier.REGULAR
-                      ? rodIron : rodWood,
-              part.getCraftingStack()));
+          list.add(constructTool(item, part.getTier() == EnumMaterialTier.SUPER ? rodGold
+              : item instanceof ItemGemShield && part.getTier() == EnumMaterialTier.REGULAR ? rodIron : rodWood, part.getCraftingStack()));
         }
       }
     }
@@ -913,8 +895,7 @@ public class ToolHelper {
 
   public static boolean areToolsEqual(ItemStack a, ItemStack b) {
 
-    return a.getItem() == b.getItem()
-        && getRootTag(a, NBT_ROOT_CONSTRUCTION).equals(getRootTag(b, NBT_ROOT_CONSTRUCTION))
+    return a.getItem() == b.getItem() && getRootTag(a, NBT_ROOT_CONSTRUCTION).equals(getRootTag(b, NBT_ROOT_CONSTRUCTION))
         && getRootTag(a, NBT_ROOT_DECORATION).equals(getRootTag(b, NBT_ROOT_DECORATION));
   }
 
@@ -923,8 +904,8 @@ public class ToolHelper {
   /**
    * Adds a "display" or "example" recipes for players to view in JEI.
    */
-  public static void addRecipe(ItemStack result, String line1, String line2, String line3,
-      ItemStack head, Object rod) {
+  @Deprecated
+  public static void addRecipe(ItemStack result, String line1, String line2, String line3, ItemStack head, Object rod) {
 
     ToolPart part = ToolPartRegistry.fromStack(head);
     EnumMaterialTier tier = getToolTier(result);
@@ -936,6 +917,76 @@ public class ToolHelper {
         rec.addShapedOre(name, result, line1, line2, line3, 'g', head, 's', rod, 'f', filler);
       else
         rec.addShapedOre(name, result, line1, line2, line3, 'g', head, 's', rod);
+    }
+  }
+
+  public static void addExampleRecipe(Item item, String line1, String line2, String line3) {
+
+    if (SilentLib.getMCVersion() >= 12) {
+      addExampleRecipeMC12(item, line1, line2, line3);
+    } else {
+      addExampleRecipeMC11(item, line1, line2, line3);
+    }
+  }
+
+  private static void addExampleRecipeMC11(Item item, String line1, String line2, String line3) {
+
+    // Classic recipes
+
+    ConfigOptionToolClass config = ((ITool) item).getConfig();
+
+    ItemStack head, rod, filler;
+    for (EnumMaterialTier tier : EnumMaterialTier.values()) {
+      if (config.validTiers.contains(tier)) {
+        head = new ItemStack(Items.FLINT);
+        rod = new ItemStack(Items.STICK);
+        filler = EnumMaterialTier.MUNDANE.getFillerStack();
+
+        if (line1.contains("f") || line2.contains("f") || line3.contains("f"))
+          SilentGems.registry.recipes.addShaped(item.getRegistryName().toString() + "_" + tier.name().toLowerCase() + "_example",
+              constructTool(item, rod, head, head, head), line1, line2, line3, 'g', head, 's', rod, 'f', filler);
+        else
+          SilentGems.registry.recipes.addShaped(item.getRegistryName().toString() + "_" + tier.name().toLowerCase() + "_example",
+              constructTool(item, new ItemStack(Items.STICK), new ItemStack(Items.FLINT)), line1, line2, line3, 'g', head, 's', rod);
+      }
+    }
+  }
+
+  private static void addExampleRecipeMC12(Item item, String line1, String line2, String line3) {
+
+    // New ingredient-based recipes
+
+    ConfigOptionToolClass config = ((ITool) item).getConfig();
+
+    for (EnumMaterialTier tier : EnumMaterialTier.values()) {
+      // Only add recipes for valid tiers
+      if (!config.validTiers.contains(tier))
+        continue;
+
+      // Head parts for tier
+      List<ItemStack> heads = new ArrayList<>();
+      for (ToolPart part : ToolPartRegistry.getMains())
+        if (part.getTier() == tier && StackHelper.isValid(part.getCraftingStack()))
+          heads.add(part.getCraftingStack());
+      IngredientSL headIngredient = IngredientSL.from(heads.toArray(new ItemStack[heads.size()]));
+      // Rods for tier
+      List<ItemStack> rods = new ArrayList<>();
+      for (ToolPart part : ToolPartRegistry.getRods())
+        if (part.getCompatibleTiers().contains(tier))
+          rods.add(part.getCraftingStack());
+      IngredientSL rodIngredient = IngredientSL.from(rods.toArray(new ItemStack[rods.size()]));
+
+      ResourceLocation recipeName = new ResourceLocation(item.getRegistryName().toString() + "_" + tier.name().toLowerCase() + "_example");
+      ItemStack result = new ItemStack(item);
+      NBTTagCompound tags = new NBTTagCompound();
+      tags.setInteger(NBT_EXAMPLE_TOOL_TIER, tier.ordinal());
+      result.setTagCompound(tags);
+
+      if (line1.contains("f") || line2.contains("f") || line3.contains("f"))
+        GameRegistry.addShapedRecipe(recipeName, new ResourceLocation(SilentGems.MODID), result, line1, line2, line3, 'g', headIngredient, 's', rodIngredient,
+            'f', tier.getFillerStack());
+      else
+        GameRegistry.addShapedRecipe(recipeName, new ResourceLocation(SilentGems.MODID), result, line1, line2, line3, 'g', headIngredient, 's', rodIngredient);
     }
   }
 
@@ -1034,8 +1085,7 @@ public class ToolHelper {
   // return getRootTag(tool).getCompoundTag(name);
   // }
 
-  private static void setTagPart(ItemStack tool, String name, ToolPart part,
-      EnumMaterialGrade grade) {
+  private static void setTagPart(ItemStack tool, String name, ToolPart part, EnumMaterialGrade grade) {
 
     initRootTag(tool);
     getRootTag(tool, NBT_ROOT_CONSTRUCTION).setString(name, part.getKey() + "#" + grade.name());
@@ -1104,8 +1154,7 @@ public class ToolHelper {
     return ToolPartRegistry.getPart(key);
   }
 
-  public static void setPart(ItemStack tool, ToolPart part, EnumMaterialGrade grade,
-      EnumPartPosition pos) {
+  public static void setPart(ItemStack tool, ToolPart part, EnumMaterialGrade grade, EnumPartPosition pos) {
 
     if (!part.validForToolOfTier(getToolTier(tool))) {
       return;
@@ -1176,8 +1225,7 @@ public class ToolHelper {
     return ToolPartRegistry.getPart(key);
   }
 
-  public static void setRenderPart(ItemStack tool, ToolPart part, EnumMaterialGrade grade,
-      EnumPartPosition pos) {
+  public static void setRenderPart(ItemStack tool, ToolPart part, EnumMaterialGrade grade, EnumPartPosition pos) {
 
     if (!part.validForToolOfTier(getToolTier(tool))) {
       return;
@@ -1256,8 +1304,7 @@ public class ToolHelper {
 
   public static void incrementStatBlocksPlaced(ItemStack tool, int amount) {
 
-    setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_BLOCKS_PLACED,
-        getStatBlocksPlaced(tool) + amount);
+    setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_BLOCKS_PLACED, getStatBlocksPlaced(tool) + amount);
   }
 
   public static int getStatBlocksTilled(ItemStack tool) {
@@ -1267,8 +1314,7 @@ public class ToolHelper {
 
   public static void incrementStatBlocksTilled(ItemStack tool, int amount) {
 
-    setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_BLOCKS_TILLED,
-        getStatBlocksTilled(tool) + amount);
+    setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_BLOCKS_TILLED, getStatBlocksTilled(tool) + amount);
   }
 
   public static int getStatPathsMade(ItemStack tool) {

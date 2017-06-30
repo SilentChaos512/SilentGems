@@ -26,7 +26,6 @@ public class EnchantmentIceAspect extends Enchantment {
     super(Rarity.RARE, EnumEnchantmentType.WEAPON,
         new EntityEquipmentSlot[] { EntityEquipmentSlot.MAINHAND });
     setName(NAME);
-    setRegistryName(NAME);
   }
 
   @Override

@@ -108,21 +108,21 @@ public class SilentGemsPlugin implements IModPlugin {
   public void registerItemSubtypes(ISubtypeRegistry reg) {
 
     // Tools
-    for (Item item : new Item[] { ModItems.sword, ModItems.katana, ModItems.scepter,
-        ModItems.tomahawk, ModItems.pickaxe, ModItems.shovel, ModItems.axe, ModItems.paxel,
-        ModItems.hoe, ModItems.sickle, ModItems.bow, ModItems.shield }) {
-      reg.registerSubtypeInterpreter(item, new ISubtypeInterpreter() {
-
-        @Override
-        public String getSubtypeInfo(ItemStack stack) {
-
-          ToolPart[] parts = ToolHelper.getConstructionParts(stack);
-          if (parts.length == 0)
-            return "unknown";
-          return parts[0].getKey();
-        }
-      });
-    }
+//    for (Item item : new Item[] { ModItems.sword, ModItems.katana, ModItems.scepter,
+//        ModItems.tomahawk, ModItems.pickaxe, ModItems.shovel, ModItems.axe, ModItems.paxel,
+//        ModItems.hoe, ModItems.sickle, ModItems.bow, ModItems.shield }) {
+//      reg.registerSubtypeInterpreter(item, new ISubtypeInterpreter() {
+//
+//        @Override
+//        public String getSubtypeInfo(ItemStack stack) {
+//
+//          ToolPart[] parts = ToolHelper.getConstructionParts(stack);
+//          if (parts.length == 0)
+//            return "unknown";
+//          return parts[0].getKey();
+//        }
+//      });
+//    }
 
     // Enchantment tokens
     reg.registerSubtypeInterpreter(ModItems.enchantmentToken, new ISubtypeInterpreter() {

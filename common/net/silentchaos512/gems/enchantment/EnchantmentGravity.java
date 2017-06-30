@@ -19,7 +19,6 @@ public class EnchantmentGravity extends Enchantment {
     super(Rarity.VERY_RARE, EnumEnchantmentType.DIGGER,
         new EntityEquipmentSlot[] { EntityEquipmentSlot.MAINHAND });
     setName(NAME);
-    setRegistryName(NAME);
   }
 
   @Override

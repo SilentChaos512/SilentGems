@@ -48,7 +48,6 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
 
   public static final Set<Material> BASE_EFFECTIVE_MATERIALS = Sets.newHashSet(Material.CLAY,
       Material.CRAFTED_SNOW, Material.GRASS, Material.GROUND, Material.SAND, Material.SNOW);
-  private List<ItemStack> subItems = null;
 
   public ItemGemShovel() {
 
@@ -285,25 +284,8 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   @Override
   public void addRecipes(RecipeMaker recipes) {
 
-    if (getConfig().isDisabled)
-      return;
-
-    String l1 = "g";
-    String l2 = "s";
-    String l3 = "s";
-    ItemStack flint = new ItemStack(Items.FLINT);
-    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
-
-    // Flint
-    ToolHelper.addRecipe(constructTool(false, flint), l1, l2, l3, flint, "stickWood");
-    for (EnumGem gem : EnumGem.values()) {
-      // Regular
-      ToolHelper.addRecipe(constructTool(false, gem.getItem()), l1, l2, l3, gem.getItem(),
-          "stickWood");
-      // Super
-      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(),
-          rodGold);
-    }
+    if (!getConfig().isDisabled)
+      ToolHelper.addExampleRecipe(this, "g", "s", "s");
   }
 
   @Override
@@ -377,7 +359,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
 
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     list.addAll(ToolHelper.getSubItems(item, 1));

@@ -29,6 +29,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.RecipeMaker;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
@@ -126,7 +127,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     list.addAll(ToolHelper.getSubItems(item, 4));
@@ -135,23 +136,8 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public void addRecipes(RecipeMaker recipes) {
 
-    if (getConfig().isDisabled) return;
-
-    String l1 = "ggg";
-    String l2 = "gs ";
-    String l3 = " s ";
-    ItemStack flint = new ItemStack(Items.FLINT);
-    ItemStack rodWood = new ItemStack(Items.STICK);
-    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
-
-    // Flint
-    ToolHelper.addRecipe(constructTool(rodWood, flint), l1, l2, l3, flint, "stickWood");
-    for (EnumGem gem : EnumGem.values()) {
-      // Regular
-      ToolHelper.addRecipe(constructTool(rodWood, gem.getItem()), l1, l2, l3, gem.getItem(), "stickWood");
-      // Super
-      ToolHelper.addRecipe(constructTool(rodGold, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(), rodGold);
-    }
+    if (!getConfig().isDisabled)
+      ToolHelper.addExampleRecipe(this, "ggg", "gs ", " s ");
   }
 
   @Override

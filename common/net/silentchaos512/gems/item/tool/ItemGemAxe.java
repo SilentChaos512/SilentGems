@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
@@ -36,11 +35,11 @@ import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
@@ -270,25 +269,8 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   @Override
   public void addRecipes(RecipeMaker recipes) {
 
-    if (getConfig().isDisabled)
-      return;
-
-    String l1 = "gg";
-    String l2 = "gs";
-    String l3 = " s";
-    ItemStack flint = new ItemStack(Items.FLINT);
-    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
-
-    // Flint
-    ToolHelper.addRecipe(constructTool(false, flint), l1, l2, l3, flint, "stickWood");
-    for (EnumGem gem : EnumGem.values()) {
-      // Regular
-      ToolHelper.addRecipe(constructTool(false, gem.getItem()), l1, l2, l3, gem.getItem(),
-          "stickWood");
-      // Super
-      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(),
-          rodGold);
-    }
+    if (!getConfig().isDisabled)
+      ToolHelper.addExampleRecipe(this, "gg", "gs", " s");
   }
 
   @Override
@@ -362,7 +344,7 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
 
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     list.addAll(ToolHelper.getSubItems(item, 3));

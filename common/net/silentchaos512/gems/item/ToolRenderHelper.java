@@ -95,8 +95,13 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
         list.add(loc.getMiscText("Tooltip.OriginalOwner.Unknown"));
     }
 
+    // Example tool?
+    if (tool.hasTagCompound() && tool.getTagCompound().hasKey(ToolHelper.NBT_EXAMPLE_TOOL_TIER)) {
+      EnumMaterialTier tier = EnumMaterialTier.values()[tool.getTagCompound().getInteger(ToolHelper.NBT_EXAMPLE_TOOL_TIER)];
+      list.add(loc.getMiscText("Tooltip.ExampleTool", tier));
+    }
     // Missing data?
-    if (ToolHelper.hasNoConstruction(tool)) {
+    else if (ToolHelper.hasNoConstruction(tool)) {
       list.add(loc.getMiscText("Tooltip.NoData1"));
       list.add(loc.getMiscText("Tooltip.NoData2"));
     }
@@ -263,7 +268,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   @SubscribeEvent
   public void onModelBake(ModelBakeEvent event) {
 
-    log.info("ToolRenderHelper.onModelBake");
+    //log.info("ToolRenderHelper.onModelBake");
     Object object = event.getModelRegistry().getObject(SMART_MODEL);
     if (object instanceof IBakedModel) {
       IBakedModel existingModel = (IBakedModel) object;

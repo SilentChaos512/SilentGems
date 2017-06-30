@@ -46,15 +46,15 @@ public class ModRecipes implements IRegistrationHandler<IRecipe> {
     }
 
     // Recipe handlers.
-    recipes.addRecipe("multipart_tool", new RecipeMultiGemTool());
-    recipes.addRecipe("multipart_shield", new RecipeMultiGemShield());
-    recipes.addRecipe("multipart_bow", new RecipeMultiGemBow());
-    recipes.addRecipe("multipart_armor", new RecipeMultiGemArmor());
-    recipes.addRecipe("decorate_tool", new RecipeDecorateTool());
-    recipes.addRecipe("decorate_armor", new RecipeDecorateArmor());
-    recipes.addRecipe("apply_enchantment_token", new RecipeApplyEnchantmentToken());
-    recipes.addRecipe("chaos_gem_upgrade", new RecipeChaosGemUpgrade());
-    recipes.addRecipe("name_plate_use", new RecipeNamePlate());
-    recipes.addRecipe("holding_gem_set_block", new RecipeHoldingGemSetBlock());
+    recipes.addCustomRecipe("multipart_tool", new RecipeMultiGemTool());
+    recipes.addCustomRecipe("multipart_shield", new RecipeMultiGemShield());
+    recipes.addCustomRecipe("multipart_bow", new RecipeMultiGemBow());
+    recipes.addCustomRecipe("multipart_armor", new RecipeMultiGemArmor());
+    recipes.addCustomRecipe("decorate_tool", new RecipeDecorateTool());
+    recipes.addCustomRecipe("decorate_armor", new RecipeDecorateArmor());
+    recipes.addCustomRecipe("apply_enchantment_token", new RecipeApplyEnchantmentToken());
+    recipes.addCustomRecipe("chaos_gem_upgrade", new RecipeChaosGemUpgrade());
+    recipes.addCustomRecipe("name_plate_use", new RecipeNamePlate());
+    recipes.addCustomRecipe("holding_gem_set_block", new RecipeHoldingGemSetBlock());
   }
 }

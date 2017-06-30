@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+2.3.19
+Silent Lib 2.2.4, Forge 2387
+Replace classic example tool recipes with new Ingredient-based ones.
+
 2.3.18
 Updated for Silent Lib 2.2.3 and Forge 2373
 Minor bugfixes

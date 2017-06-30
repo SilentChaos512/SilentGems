@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
@@ -95,8 +96,7 @@ public class RecipeMultiGemTool extends RecipeBaseSL {
     return false;
   }
 
-  private boolean checkMatch(InventoryCrafting inv, int posX, int posY, int recipeWidth,
-      int recipeHeight, boolean mirror, String recipe) {
+  private boolean checkMatch(InventoryCrafting inv, int posX, int posY, int recipeWidth, int recipeHeight, boolean mirror, String recipe) {
 
     int headInRecipe = 0;
     int headFound = 0;

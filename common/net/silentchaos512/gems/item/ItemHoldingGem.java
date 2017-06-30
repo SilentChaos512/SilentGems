@@ -14,6 +14,7 @@ import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.RecipeMaker;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class ItemHoldingGem extends ItemBlockPlacer {
@@ -78,7 +79,7 @@ public class ItemHoldingGem extends ItemBlockPlacer {
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     for (EnumGem gem : EnumGem.values()) {

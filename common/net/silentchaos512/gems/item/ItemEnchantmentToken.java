@@ -52,6 +52,7 @@ import net.silentchaos512.lib.SilentLib;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.EnchantmentUtils;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
@@ -345,7 +346,7 @@ public class ItemEnchantmentToken extends ItemSL {
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     List<ItemStack> tokens = Lists.newArrayList();

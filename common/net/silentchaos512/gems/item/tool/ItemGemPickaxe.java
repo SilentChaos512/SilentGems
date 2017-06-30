@@ -1,11 +1,11 @@
 package net.silentchaos512.gems.item.tool;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
@@ -25,23 +25,29 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+import net.silentchaos512.gems.api.tool.part.ToolPart;
+import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, ITool {
@@ -50,7 +56,6 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
       Material.ICE, Material.IRON, Material.PACKED_ICE, Material.ROCK);
   public static final Material[] EXTRA_EFFECTIVE_MATERIALS = { Material.ROCK, Material.CIRCUITS,
       Material.GLASS, Material.PISTON, Material.REDSTONE_LIGHT };
-  private List<ItemStack> subItems = null;
 
   protected int materialLength = 3;
 
@@ -279,25 +284,8 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   @Override
   public void addRecipes(RecipeMaker recipes) {
 
-    if (getConfig().isDisabled)
-      return;
-
-    String l1 = "ggg";
-    String l2 = " s ";
-    String l3 = " s ";
-    ItemStack flint = new ItemStack(Items.FLINT);
-    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
-
-    // Flint
-    ToolHelper.addRecipe(constructTool(false, flint), l1, l2, l3, flint, "stickWood");
-    for (EnumGem gem : EnumGem.values()) {
-      // Regular
-      ToolHelper.addRecipe(constructTool(false, gem.getItem()), l1, l2, l3, gem.getItem(),
-          "stickWood");
-      // Super
-      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(),
-          rodGold);
-    }
+    if (!getConfig().isDisabled)
+      ToolHelper.addExampleRecipe(this, "ggg", " s ", " s ");
   }
 
   @Override
@@ -371,7 +359,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
 
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     list.addAll(ToolHelper.getSubItems(item, 3));

@@ -49,6 +49,7 @@ import net.silentchaos512.lib.item.IItemSL;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.EntityHelper;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, IItemSL {
@@ -311,23 +312,8 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
   @Override
   public void addRecipes(RecipeMaker recipes) {
 
-    if (getConfig().isDisabled)
-      return;
-
-    String l1 = "g";
-    String l2 = "g";
-    String l3 = "s";
-    ItemStack flint = new ItemStack(Items.FLINT);
-    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
-
-    // Flint
-    ToolHelper.addRecipe(constructTool(false, flint), l1, l2, l3, flint, "stickWood");
-    for (EnumGem gem : EnumGem.values()) {
-      // Regular
-      ToolHelper.addRecipe(constructTool(false, gem.getItem()), l1, l2, l3, gem.getItem(), "stickWood");
-      // Super
-      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(), rodGold);
-    }
+    if (!getConfig().isDisabled)
+      ToolHelper.addExampleRecipe(this, "g", "g", "s");
   }
 
   @Override
@@ -401,7 +387,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
 
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     list.addAll(ToolHelper.getSubItems(item, 3));

@@ -28,6 +28,7 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemFoodSL;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemFoodSG extends ItemFoodSL {
@@ -246,7 +247,7 @@ public class ItemFoodSG extends ItemFoodSL {
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     for (int i = 0; i < NAMES.length; ++i) {

@@ -48,6 +48,7 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
@@ -55,8 +56,6 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   public static final Material[] effectiveMaterials = new Material[] { Material.CACTUS,
       Material.LEAVES, Material.PLANTS, Material.VINE, Material.WEB };
   public static final int DURABILITY_USAGE = 4;
-
-  private List<ItemStack> subItems = null;
 
   public ItemGemSickle() {
 
@@ -400,22 +399,8 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   @Override
   public void addRecipes(RecipeMaker recipes) {
 
-    if (getConfig().isDisabled) return;
-
-    String l1 = " g";
-    String l2 = "gg";
-    String l3 = "s ";
-    ItemStack flint = new ItemStack(Items.FLINT);
-    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
-
-    // Flint
-    ToolHelper.addRecipe(constructTool(false, flint), l1, l2, l3, flint, "stickWood");
-    for (EnumGem gem : EnumGem.values()) {
-      // Regular
-      ToolHelper.addRecipe(constructTool(false, gem.getItem()), l1, l2, l3, gem.getItem(), "stickWood");
-      // Super
-      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(), rodGold);
-    }
+    if (!getConfig().isDisabled)
+      ToolHelper.addExampleRecipe(this, " g", "gg", "s ");
   }
 
   @Override
@@ -489,7 +474,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
 
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     list.addAll(ToolHelper.getSubItems(item, 3));

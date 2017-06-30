@@ -14,6 +14,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.util.ItemHelper;
 
 public class ItemDyeSG extends ItemSL {
 
@@ -40,7 +41,7 @@ public class ItemDyeSG extends ItemSL {
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     list.add(new ItemStack(this, 1, 0));

@@ -51,6 +51,7 @@ import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 import net.silentchaos512.lib.util.StackHelper;
@@ -181,7 +182,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     for (Type type : Type.values()) {

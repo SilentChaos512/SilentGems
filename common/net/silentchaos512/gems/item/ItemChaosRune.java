@@ -21,6 +21,7 @@ import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.registry.RecipeMaker;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class ItemChaosRune extends ItemSL {
@@ -107,7 +108,7 @@ public class ItemChaosRune extends ItemSL {
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     for (ChaosBuff buff : ChaosBuff.getAllBuffs()) {

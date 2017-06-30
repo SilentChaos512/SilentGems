@@ -224,7 +224,7 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (!isInCreativeTab(tab))
+    if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
     ItemStack stack = new ItemStack(item);

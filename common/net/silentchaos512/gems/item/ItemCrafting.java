@@ -134,7 +134,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
     guideRecipeMap.put(upgradeBase.getItemDamage(), recipe);
 
     // Chaos Coal
-    recipe = recipes.addSurroundOre("chaos_coal_0", getStack(Names.CHAOS_COAL, 8), "gemChaos", Items.COAL);
+    recipe = recipes.addSurroundOre("chaos_coal_0", getStack(Names.CHAOS_COAL, 8), "gemChaos", new ItemStack(Items.COAL));
     recipes.addSurroundOre("chaos_coal_1", getStack(Names.CHAOS_COAL, 4), "gemChaos", new ItemStack(Items.COAL, 1, 1));
     guideRecipeMap.put(chaosCoal.getItemDamage(), recipe);
     // Chaos Coal -> Torches
