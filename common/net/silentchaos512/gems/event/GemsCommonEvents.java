@@ -250,7 +250,6 @@ public class GemsCommonEvents {
               NBTTagCompound nearbyTags = nearby.getEntityData();
               if (nearbyTags != null) {
                 int nearbyShockTime = nearbyTags.getInteger(EnchantmentLightningAspect.EFFECT_NBT);
-                SilentGems.logHelper.debug(nearby.getDistanceSqToEntity(entity), nearbyShockTime);
                 if (nearbyShockTime <= 0) {
                   ModEnchantments.lightningAspect.applyTo(nearby, 1, halfTime);
                 }

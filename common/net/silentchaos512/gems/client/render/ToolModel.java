@@ -39,21 +39,23 @@ import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
 import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.client.model.MultiLayerModelSL;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LogHelper;
 
 @SuppressWarnings("deprecation")
-public class ToolModel extends PerspectiveMapWrapper {
+public class ToolModel extends MultiLayerModelSL {
 
   private static ModelManager modelManager = null;
   private final IBakedModel baseModel;
 
   private ItemStack tool;
+  @SuppressWarnings("unused")
   private boolean isGui = false;
 
   public ToolModel(IBakedModel baseModel) {
 
-    super(baseModel, getTransforms(new TRSRTransformation(new Matrix4f())));
+    super(baseModel);
     this.baseModel = baseModel;
   }
 

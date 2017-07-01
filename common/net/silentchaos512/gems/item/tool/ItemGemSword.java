@@ -32,6 +32,7 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+import net.silentchaos512.gems.client.gui.GuiChaosBar;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
@@ -135,6 +136,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
 
     if (world.isRemote
         || ToolHelper.getToolTier(stack).ordinal() < EnumMaterialTier.SUPER.ordinal()) {
+      GuiChaosBar.INSTANCE.show();
       return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
     }
 

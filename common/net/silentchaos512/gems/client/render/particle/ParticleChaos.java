@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.client.fx;
+package net.silentchaos512.gems.client.render.particle;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -15,13 +15,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.lib.SilentLib;
 
-public class FXChaos extends Particle {
+public class ParticleChaos extends Particle {
 
   public static final ResourceLocation particles = new ResourceLocation(
       "silentgems:textures/misc/wisplarge.png");
 
-  private static final Queue<FXChaos> queuedRenders = new ArrayDeque<>();
+  private static final Queue<ParticleChaos> queuedRenders = new ArrayDeque<>();
 
   // Queue values
   private float f;
@@ -34,7 +35,7 @@ public class FXChaos extends Particle {
   public boolean noClip = false;
   public final int particle = 16;
 
-  public FXChaos(World world, double x, double y, double z, float size, float red, float green,
+  public ParticleChaos(World world, double x, double y, double z, float size, float red, float green,
       float blue, int maxAge) {
 
     super(world, x, y, z, 0.0D, 0.0D, 0.0D);
@@ -48,6 +49,9 @@ public class FXChaos extends Particle {
     // particleTextureIndexY = 2; // 11;
     motionX = motionY = motionZ = SilentGems.random.nextGaussian() * 0.045f;
     particleScale *= size;
+    // FIXME: Tiny broken particles in 1.11...
+    if (SilentLib.getMCVersion() < 12)
+      particleScale *= 25;
     particleMaxAge = maxAge;
     noClip = false;
     setSize(0.01F, 0.01F);
@@ -82,7 +86,7 @@ public class FXChaos extends Particle {
 
     if (!queuedRenders.isEmpty()) {
       tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
-      for (FXChaos wisp : queuedRenders)
+      for (ParticleChaos wisp : queuedRenders)
         wisp.renderQueued(tessellator);
       tessellator.draw();
     }
@@ -133,7 +137,7 @@ public class FXChaos extends Particle {
     queuedRenders.add(this);
   }
 
-  public FXChaos setSpeed(double mx, double my, double mz) {
+  public ParticleChaos setSpeed(double mx, double my, double mz) {
 
     motionX = mx;
     motionY = my;

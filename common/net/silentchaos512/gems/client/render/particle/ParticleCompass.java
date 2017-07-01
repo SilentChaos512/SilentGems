@@ -5,23 +5,23 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
-public class EntityFXCompass extends Particle {
+public class ParticleCompass extends Particle {
 
   public static final int MAX_AGE = 5;
   public static final int MAX_SCALE = 1;
 
-  protected EntityFXCompass(World world, double posX, double posY, double posZ) {
+  protected ParticleCompass(World world, double posX, double posY, double posZ) {
 
     this(world, posX, posY, posZ, 0, 0, 0, MAX_SCALE, MAX_AGE, 0.0f, 0.3f, 0.8f);
   }
 
-  public EntityFXCompass(World world, double posX, double posY, double posZ, double motionX,
+  public ParticleCompass(World world, double posX, double posY, double posZ, double motionX,
       double motionY, double motionZ) {
 
     this(world, posX, posY, posZ, motionX, motionY, motionZ, MAX_SCALE, MAX_AGE, 0.0f, 0.3f, 0.8f);
   }
 
-  public EntityFXCompass(World world, double posX, double posY, double posZ, double motionX,
+  public ParticleCompass(World world, double posX, double posY, double posZ, double motionX,
       double motionY, double motionZ, float scale, int maxAge, float red, float green, float blue) {
 
     super(world, posX, posY, posZ, 0, 0, 0);

@@ -938,16 +938,25 @@ public class ToolHelper {
     ItemStack head, rod, filler;
     for (EnumMaterialTier tier : EnumMaterialTier.values()) {
       if (config.validTiers.contains(tier)) {
-        head = new ItemStack(Items.FLINT);
-        rod = new ItemStack(Items.STICK);
-        filler = EnumMaterialTier.MUNDANE.getFillerStack();
+        if (tier == EnumMaterialTier.SUPER) {
+          rod = ModItems.craftingMaterial.toolRodGold;
+        } else {
+          rod = new ItemStack(Items.STICK);
+        }
+        filler = tier.getFillerStack();
 
-        if (line1.contains("f") || line2.contains("f") || line3.contains("f"))
-          SilentGems.registry.recipes.addShaped(item.getRegistryName().toString() + "_" + tier.name().toLowerCase() + "_example",
-              constructTool(item, rod, head, head, head), line1, line2, line3, 'g', head, 's', rod, 'f', filler);
-        else
-          SilentGems.registry.recipes.addShaped(item.getRegistryName().toString() + "_" + tier.name().toLowerCase() + "_example",
-              constructTool(item, new ItemStack(Items.STICK), new ItemStack(Items.FLINT)), line1, line2, line3, 'g', head, 's', rod);
+        List<ToolPart> heads = new ArrayList<>();
+        for (ToolPart part : ToolPartRegistry.getMains()) {
+          if (part.getTier() == tier && StackHelper.isValid(part.getCraftingStack())) {
+            head = part.getCraftingStack();
+
+            // Don't need registry names for pre-1.12.
+            if (line1.contains("f") || line2.contains("f") || line3.contains("f"))
+              SilentGems.registry.recipes.addShaped("", constructTool(item, rod, head, head, head), line1, line2, line3, 'g', head, 's', rod, 'f', filler);
+            else
+              SilentGems.registry.recipes.addShaped("", constructTool(item, rod, head), line1, line2, line3, 'g', head, 's', rod);
+          }
+        }
       }
     }
   }

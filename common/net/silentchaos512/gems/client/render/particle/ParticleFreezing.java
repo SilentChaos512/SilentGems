@@ -7,23 +7,23 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 
-public class EntityFXShocking extends Particle {
+public class ParticleFreezing extends Particle {
 
-  public static final int MAX_AGE = 10;
+  public static final int MAX_AGE = 40;
   public static final int MAX_SCALE = 1;
 
-  protected EntityFXShocking(World world, double posX, double posY, double posZ) {
+  protected ParticleFreezing(World world, double posX, double posY, double posZ) {
 
-    this(world, posX, posY, posZ, 0, 0, 0, MAX_SCALE, MAX_AGE, 1.0f, 0.9f, 0.4f);
+    this(world, posX, posY, posZ, 0, 0, 0, MAX_SCALE, MAX_AGE, 0.5f, 0.7f, 1.0f);
   }
 
-  public EntityFXShocking(World world, double posX, double posY, double posZ, double motionX,
+  public ParticleFreezing(World world, double posX, double posY, double posZ, double motionX,
       double motionY, double motionZ) {
 
-    this(world, posX, posY, posZ, motionX, motionY, motionZ, MAX_SCALE, MAX_AGE, 1.0f, 0.9f, 0.4f);
+    this(world, posX, posY, posZ, motionX, motionY, motionZ, MAX_SCALE, MAX_AGE, 0.5f, 0.7f, 1.0f);
   }
 
-  public EntityFXShocking(World world, double posX, double posY, double posZ, double motionX,
+  public ParticleFreezing(World world, double posX, double posY, double posZ, double motionX,
       double motionY, double motionZ, float scale, int maxAge, float red, float green, float blue) {
 
     super(world, posX, posY, posZ, 0, 0, 0);
@@ -31,14 +31,14 @@ public class EntityFXShocking extends Particle {
     this.motionY = motionY;
     this.motionZ = motionZ;
     this.particleTextureIndexX = 7;
-    this.particleTextureIndexY = 10;
+    this.particleTextureIndexY = 0; //11;
     this.particleRed = red;
     this.particleGreen = green;
     this.particleBlue = blue;
     this.particleScale = scale;
     this.particleMaxAge = maxAge;
     this.canCollide = false;
-    this.particleGravity = 0.5f;
+    //this.particleGravity = 0.05f;
     //this.particleAlpha = 0.9f;
   }
 
@@ -54,8 +54,6 @@ public class EntityFXShocking extends Particle {
     this.prevPosZ = this.posZ;
 
     this.move(this.motionX, this.motionY, this.motionZ);
-
-    motionY -= particleGravity / 20f;
 
     this.particleTextureIndexX = (int) (7 - 7 * particleAge / particleMaxAge);
     this.particleScale *= 0.95f;

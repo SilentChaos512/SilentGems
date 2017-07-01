@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+2.4.0
+Added: Config to show chaos bar at all times, instead of just when you gain/lose chaos (disabled by default)
+Changed: Chaos bar has been replaced with something nicer looking (icons above your food bar)
+
 2.3.19
 Silent Lib 2.2.4, Forge 2387
 Replace classic example tool recipes with new Ingredient-based ones.

@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.client.fx;
+package net.silentchaos512.gems.client.render.particle;
 
 import org.lwjgl.opengl.GL11;
 
@@ -22,7 +22,7 @@ public final class ParticleRenderDispatcher {
     GlStateManager.alphaFunc(GL11.GL_GREATER, 0.003921569f);
     GlStateManager.disableLighting();
 
-    FXChaos.dispatchQueuedRenders(tess);
+    ParticleChaos.dispatchQueuedRenders(tess);
 
     GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1f);
     GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

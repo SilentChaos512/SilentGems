@@ -5,23 +5,23 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
-public class EntityFXChaos extends Particle {
+public class ParticleChaosUnused extends Particle {
 
   public static final int MAX_AGE = 6;
   public static final int MAX_SCALE = 3;
 
-  protected EntityFXChaos(World world, double posX, double posY, double posZ) {
+  protected ParticleChaosUnused(World world, double posX, double posY, double posZ) {
 
     this(world, posX, posY, posZ, 0, 0, 0, MAX_SCALE, MAX_AGE, 0.0f, 0.3f, 0.8f);
   }
 
-  public EntityFXChaos(World world, double posX, double posY, double posZ, double motionX,
+  public ParticleChaosUnused(World world, double posX, double posY, double posZ, double motionX,
       double motionY, double motionZ) {
 
     this(world, posX, posY, posZ, motionX, motionY, motionZ, MAX_SCALE, MAX_AGE, 0.0f, 0.3f, 0.8f);
   }
 
-  public EntityFXChaos(World world, double posX, double posY, double posZ, double motionX,
+  public ParticleChaosUnused(World world, double posX, double posY, double posZ, double motionX,
       double motionY, double motionZ, float scale, int maxAge, float red, float green, float blue) {
 
     super(world, posX, posY, posZ, 0, 0, 0);
