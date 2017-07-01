@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.4.0
+Updated to work with 1.11.2. Support for 1.10.2 on the way.
 Added: Config to show chaos bar at all times, instead of just when you gain/lose chaos (disabled by default)
 Changed: Chaos bar has been replaced with something nicer looking (icons above your food bar)
 
