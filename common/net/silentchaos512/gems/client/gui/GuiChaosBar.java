@@ -84,7 +84,7 @@ public class GuiChaosBar extends Gui {
 
     int rowHeight = 10;
 
-    int left = width / 2 + 8;
+    int left = width / 2 + 10;
     int top = height - GuiIngameForge.right_height;
     GuiIngameForge.right_height += rowHeight;
 
