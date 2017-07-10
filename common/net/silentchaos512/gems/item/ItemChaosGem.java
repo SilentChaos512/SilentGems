@@ -15,7 +15,6 @@ import baubles.api.render.IRenderBauble;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
@@ -44,6 +43,7 @@ import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.client.render.BufferBuilderSL;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
@@ -539,7 +539,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
     private static void drawRect(float x, float y, float u, float v, float width, float height) {
 
       Tessellator tess = Tessellator.getInstance();
-      BufferBuilder buff = tess.getBuffer();
+      BufferBuilderSL buff = BufferBuilderSL.INSTANCE.acquireBuffer(tess);
       buff.begin(7, DefaultVertexFormats.POSITION_TEX);
       buff.pos(x, y + height, 0).tex(0, 1).endVertex();
       buff.pos(x + width, y + height, 0).tex(1, 1).endVertex();

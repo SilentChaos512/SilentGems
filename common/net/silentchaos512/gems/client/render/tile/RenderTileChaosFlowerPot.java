@@ -1,13 +1,13 @@
 package net.silentchaos512.gems.client.render.tile;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.tile.TileChaosFlowerPot;
+import net.silentchaos512.lib.client.render.BufferBuilderSL;
 import net.silentchaos512.lib.client.render.tileentity.TileEntitySpecialRendererSL;
 import net.silentchaos512.lib.util.StackHelper;
 
@@ -28,7 +28,7 @@ public class RenderTileChaosFlowerPot extends TileEntitySpecialRendererSL<TileCh
   public void clRender(TileChaosFlowerPot te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 
     Tessellator tess = Tessellator.getInstance();
-    BufferBuilder buff = tess.getBuffer();
+    BufferBuilderSL buff = BufferBuilderSL.INSTANCE.acquireBuffer(tess);
 
     ItemStack stack = te.getFlowerItemStack();
     if (StackHelper.isEmpty(stack) || stack.getItemDamage() < 0 || stack.getItemDamage() >= TEXTURES.length) {

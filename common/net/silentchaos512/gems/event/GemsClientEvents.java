@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -44,6 +43,7 @@ import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.client.render.BufferBuilderSL;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
@@ -86,8 +86,7 @@ public class GemsClientEvents {
     }
   }
 
-  private void onTooltipForToolRod(ItemTooltipEvent event, ItemStack stack, ToolPart part,
-      boolean ctrlDown, boolean shiftDown) {
+  private void onTooltipForToolRod(ItemTooltipEvent event, ItemStack stack, ToolPart part, boolean ctrlDown, boolean shiftDown) {
 
     int index = 1;
 
@@ -114,8 +113,7 @@ public class GemsClientEvents {
     }
   }
 
-  private void onTooltipForToolMaterial(ItemTooltipEvent event, ItemStack stack, ToolPart part,
-      boolean ctrlDown, boolean shiftDown) {
+  private void onTooltipForToolMaterial(ItemTooltipEvent event, ItemStack stack, ToolPart part, boolean ctrlDown, boolean shiftDown) {
 
     int index = 1;
     final String sep = loc.getMiscText("Tooltip.Separator");
@@ -200,8 +198,7 @@ public class GemsClientEvents {
    */
   private void renderArmorExtra(RenderGameOverlayEvent event) {
 
-    if (!GemsConfig.SHOW_BONUS_ARMOR_BAR || !event.isCancelable()
-        || event.getType() != ElementType.ARMOR)
+    if (!GemsConfig.SHOW_BONUS_ARMOR_BAR || !event.isCancelable() || event.getType() != ElementType.ARMOR)
       return;
 
     int width = event.getResolution().getScaledWidth();
@@ -264,20 +261,16 @@ public class GemsClientEvents {
     }
   }
 
-  public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width,
-      int height) {
+  public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
 
     float f = 0.00390625F;
     float f1 = 0.00390625F;
     Tessellator tessellator = Tessellator.getInstance();
-    BufferBuilder vertexbuffer = tessellator.getBuffer();
+    BufferBuilderSL vertexbuffer = BufferBuilderSL.INSTANCE.acquireBuffer(tessellator);
     vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-    vertexbuffer.pos(x + 0, y + height, 0).tex((textureX + 0) * f, (textureY + height) * f1)
-        .endVertex();
-    vertexbuffer.pos(x + width, y + height, 0).tex((textureX + width) * f, (textureY + height) * f1)
-        .endVertex();
-    vertexbuffer.pos(x + width, y + 0, 0).tex((textureX + width) * f, (textureY + 0) * f1)
-        .endVertex();
+    vertexbuffer.pos(x + 0, y + height, 0).tex((textureX + 0) * f, (textureY + height) * f1).endVertex();
+    vertexbuffer.pos(x + width, y + height, 0).tex((textureX + width) * f, (textureY + height) * f1).endVertex();
+    vertexbuffer.pos(x + width, y + 0, 0).tex((textureX + width) * f, (textureY + 0) * f1).endVertex();
     vertexbuffer.pos(x + 0, y + 0, 0).tex((textureX + 0) * f, (textureY + 0) * f1).endVertex();
     tessellator.draw();
   }

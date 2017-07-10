@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.silentchaos512.lib.SilentLib;
 import net.silentchaos512.lib.util.Color;
 
 public class ArmorModelRenderer extends ModelRenderer{
@@ -136,6 +137,9 @@ public class ArmorModelRenderer extends ModelRenderer{
     @SideOnly(Side.CLIENT)
     protected void compileDisplayList(float scale)
     {
+        if (SilentLib.getMCVersion() < 12) {
+            return; // FIXME
+        }
         this.displayList = GLAllocation.generateDisplayLists(1);
         GlStateManager.glNewList(this.displayList, 4864);
         BufferBuilder vertexBuffer = Tessellator.getInstance().getBuffer();
