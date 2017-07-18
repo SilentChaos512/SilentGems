@@ -136,9 +136,9 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
     BlockPos pos;
 
     for (i = 0; i < GemsConfig.GLOW_ROSE_PER_CHUNK; ++i) {
-      x = posX + random.nextInt(16);
+      x = posX + 8 + random.nextInt(16);
       y = random.nextInt(120) + 50;
-      z = posZ + random.nextInt(16);
+      z = posZ + 8 + random.nextInt(16);
       pos = new BlockPos(x, y, z);
 
       meta = random.nextInt(16);
@@ -168,9 +168,9 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
     count += random.nextFloat() < diff ? 1 : 0;
 
     for (i = 0; i < count; ++i) {
-      x = posX + random.nextInt(16);
+      x = posX + 8 + random.nextInt(16);
       y = random.nextInt(120) + 120;
-      z = posZ + random.nextInt(16);
+      z = posZ + 8 + random.nextInt(16);
       pos = new BlockPos(x, y, z);
       state = ModBlocks.chaosNode.getDefaultState();
 

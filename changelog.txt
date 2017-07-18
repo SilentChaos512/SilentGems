@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.4.3
+Fixed: Cascading worldgen issues (#181)
+
 2.4.2
 Fixed: [1.10.2, 1.11.2] More rendering crashes (chaos gems, armor bar, crosshairs, armor) Armor rendering is broken, but at least it won't crash.
 
