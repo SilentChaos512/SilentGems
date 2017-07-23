@@ -9,6 +9,7 @@ import net.silentchaos512.gems.api.recipe.altar.RecipeChaosAltar;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.inventory.ContainerChaosAltar;
 import net.silentchaos512.gems.tile.TileChaosAltar;
+import net.silentchaos512.lib.SilentLib;
 
 public class GuiChaosAltar extends GuiContainer {
 
@@ -20,6 +21,17 @@ public class GuiChaosAltar extends GuiContainer {
 
     super(new ContainerChaosAltar(playerInventory, altar));
     this.tileAltar = altar;
+  }
+
+  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
+    if (SilentLib.getMCVersion() < 12) {
+      super.drawScreen(mouseX, mouseY, partialTicks);
+    } else {
+      this.drawDefaultBackground();
+      super.drawScreen(mouseX, mouseY, partialTicks);
+      this.renderHoveredToolTip(mouseX, mouseY);
+    }
   }
 
   @Override

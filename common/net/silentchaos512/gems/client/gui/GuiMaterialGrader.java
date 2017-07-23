@@ -10,6 +10,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.inventory.ContainerMaterialGrader;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
+import net.silentchaos512.lib.SilentLib;
 
 public class GuiMaterialGrader extends GuiContainer {
 
@@ -23,6 +24,17 @@ public class GuiMaterialGrader extends GuiContainer {
     super(new ContainerMaterialGrader(playerInventory, tileInventory));
     this.playerInventory = playerInventory;
     this.tileInventory = tileInventory;
+  }
+
+  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
+    if (SilentLib.getMCVersion() < 12) {
+      super.drawScreen(mouseX, mouseY, partialTicks);
+    } else {
+      this.drawDefaultBackground();
+      super.drawScreen(mouseX, mouseY, partialTicks);
+      this.renderHoveredToolTip(mouseX, mouseY);
+    }
   }
 
   @Override

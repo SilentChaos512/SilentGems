@@ -9,11 +9,11 @@ import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.inventory.ContainerBurnerPylon;
 import net.silentchaos512.gems.tile.TileChaosPylon;
+import net.silentchaos512.lib.SilentLib;
 
 public class GuiBurnerPylon extends GuiContainer {
 
-  private static final ResourceLocation guiTextures = new ResourceLocation(
-      "silentgems:textures/gui/burnerpylon.png");
+  private static final ResourceLocation guiTextures = new ResourceLocation("silentgems:textures/gui/burnerpylon.png");
   private TileChaosPylon tilePylon;
 
   public GuiBurnerPylon(InventoryPlayer playerInventory, TileChaosPylon pylon) {
@@ -21,7 +21,18 @@ public class GuiBurnerPylon extends GuiContainer {
     super(new ContainerBurnerPylon(playerInventory, pylon));
     this.tilePylon = pylon;
   }
-  
+
+  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
+    if (SilentLib.getMCVersion() < 12) {
+      super.drawScreen(mouseX, mouseY, partialTicks);
+    } else {
+      this.drawDefaultBackground();
+      super.drawScreen(mouseX, mouseY, partialTicks);
+      this.renderHoveredToolTip(mouseX, mouseY);
+    }
+  }
+
   @Override
   protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 
