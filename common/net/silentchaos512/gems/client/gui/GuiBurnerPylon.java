@@ -7,6 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.inventory.ContainerBurnerPylon;
 import net.silentchaos512.gems.tile.TileChaosPylon;
+import net.silentchaos512.lib.SilentLib;
 
 public class GuiBurnerPylon extends GuiContainer {
 
@@ -18,17 +19,24 @@ public class GuiBurnerPylon extends GuiContainer {
     this.tilePylon = pylon;
   }
 
-  @Override
   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-    this.drawDefaultBackground();
-    super.drawScreen(mouseX, mouseY, partialTicks);
-    this.renderHoveredToolTip(mouseX, mouseY);
+    if (SilentLib.getMCVersion() < 12) {
+      super.drawScreen(mouseX, mouseY, partialTicks);
+    } else {
+      this.drawDefaultBackground();
+      super.drawScreen(mouseX, mouseY, partialTicks);
+      this.renderHoveredToolTip(mouseX, mouseY);
+    }
   }
 
   @Override
-  protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-    if (GemsConfig.DEBUG_MODE)
-      fontRenderer.drawString(String.format("%,d / %,d", tilePylon.getCharge(), tilePylon.getMaxCharge()), 5, 5, 0x404040);
+  protected void drawGuiContainerForegroundLayer(int par1, int par2) {
+
+    if (GemsConfig.DEBUG_MODE) {
+      String str = "%,d / %,d";
+      str = String.format(str, tilePylon.getCharge(), tilePylon.getMaxCharge()); // doesn't work
+      fontRenderer.drawString(str, 5, 5, 0x404040);
+    }
   }
 
   @Override
