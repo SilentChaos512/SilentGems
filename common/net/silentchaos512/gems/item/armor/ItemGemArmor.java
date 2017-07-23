@@ -1,18 +1,8 @@
 package net.silentchaos512.gems.item.armor;
 
-import java.lang.reflect.Field;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -53,54 +43,33 @@ import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+
 public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
-  public static final float[] ABSORPTION_RATIO_BY_SLOT = { 0.175f, 0.3f, 0.4f, 0.125f }; // sum = 1, starts with boots
-  public static final int[] MAX_DAMAGE_ARRAY = new int[] { 13, 15, 16, 11 }; // Copied from ItemArmor
-  protected static UUID[] ARMOR_MODIFIERS;
+  // sum = 1, starts with boots
+  public static final float[] ABSORPTION_RATIO_BY_SLOT = {0.175f, 0.3f, 0.4f, 0.125f};
   public static final boolean HAS_EFFECT = false; // Set true for enchanted glow.
 
-  static {
-
-    try {
-      Field field = ItemArmor.class.getDeclaredField("ARMOR_MODIFIERS");
-      field.setAccessible(true);
-      ARMOR_MODIFIERS = (UUID[]) field.get(null);
-    } catch (Exception ex) {
-      ARMOR_MODIFIERS = new UUID[] { UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"),
-          UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"),
-          UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"),
-          UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150") };
-    }
-  }
-
   private List<ItemStack> subItems = null;
-  // private ModelBiped model;
-
-  // protected Map<EntityEquipmentSlot, ModelBiped> models = null;
-  // protected Map<EntityEquipmentSlot, Map<int[], ModelBiped>> models = null;
-  protected Map<String, Map<EntityEquipmentSlot, ModelBiped>> models = null;
   public final EntityEquipmentSlot type;
 
   public ItemGemArmor(int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name) {
-
     super(SilentGems.MODID, name, ArmorMaterial.DIAMOND, renderIndexIn, equipmentSlotIn);
     this.type = equipmentSlotIn;
   }
 
   @Override
   public ItemStack constructArmor(ItemStack... materials) {
-
     return ArmorHelper.constructArmor(this, materials);
   }
 
   public float getProtection(ItemStack armor) {
-
     return ABSORPTION_RATIO_BY_SLOT[armorType.getIndex()] * ArmorHelper.getProtection(armor);
   }
 
   public float getToughness(ItemStack stack) {
-
     float durability = ArmorHelper.getMaxDamage(stack) / 1536f;
     float protection = ArmorHelper.getProtection(stack) / 20f;
     float value = durability + protection - 0.8f;
@@ -109,14 +78,12 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   @Override
   public int getMaxDamage(ItemStack stack) {
-
     int x = ArmorHelper.getMaxDamage(stack);
     float y = (1.8f * x + 1515) / 131;
     return (int) (MAX_DAMAGE_ARRAY[armorType.getIndex()] * y);
   }
 
   public static int getPlayerTotalGemArmorValue(EntityLivingBase player) {
-
     float total = 0;
     for (ItemStack armor : player.getArmorInventoryList()) {
       if (StackHelper.isValid(armor)) {
@@ -127,16 +94,16 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
         }
       }
     }
-    return (int) Math.round(total);
+    return Math.round(total);
   }
 
   @Override
   public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor,
       DamageSource source, double damage, int slot) {
-
     // TODO: Special protection, like fall damage?
-    if (source.isUnblockable())
+    if (source.isUnblockable()) {
       return new ArmorProperties(0, 1, 0);
+    }
 
     // Basing ratios on total armor value.
     float protection = MathHelper.clamp(getPlayerTotalGemArmorValue(player), 0,
@@ -156,25 +123,22 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   @Override
   public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
-
-    return (int) Math.round(getProtection(armor));
+    return Math.round(getProtection(armor));
   }
 
   @Override
-  public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage,
-      int slot) {
-
+  public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source,
+      int damage, int slot) {
     int amount = damage - (int) (getToughness(stack) * SilentGems.random.nextFloat());
     int durabilityLeft = getMaxDamage(stack) - stack.getItemDamage();
     amount = amount < 0 ? 0 : (amount > durabilityLeft ? durabilityLeft : amount);
     EntityPlayer player = entity instanceof EntityPlayer ? (EntityPlayer) entity : null;
-    ItemHelper.attemptDamageItem(stack, amount, SilentGems.instance.random, player);
+    ItemHelper.attemptDamageItem(stack, amount, SilentGems.random, player);
   }
 
   @Override
   public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
       ItemStack stack) {
-
     Multimap<String, AttributeModifier> multimap = HashMultimap.create();
 
     if (slot == this.armorType) {
@@ -191,91 +155,46 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   @Override
   public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot,
       String type) {
-
     return SilentGems.RESOURCE_PREFIX + "textures/armor/temparmor.png";
     // return super.getArmorTexture(stack, entity, slot, type);
   }
 
-  @Nonnull
   @Override
   @SideOnly(Side.CLIENT)
   public ModelBiped getArmorModel(EntityLivingBase entity, ItemStack itemStack,
       EntityEquipmentSlot slot, ModelBiped original) {
-
-    ModelBiped model = getArmorModelForSlot(entity, itemStack, slot);
-    if (model == null) {
-      model = provideArmorModelForSlot(itemStack, slot, ArmorHelper.getRenderColorString(itemStack),
-          ArmorHelper.getRenderColorList(itemStack));
-    }
-
+    ModelGemArmor model = ModelGemArmor.getModel(ArmorHelper.getRenderColorList(itemStack));
     if (model != null) {
       model.setModelAttributes(original);
       return model;
     }
-
     return super.getArmorModel(entity, itemStack, slot, original);
   }
 
   @Override
   public boolean hasEffect(ItemStack stack) {
-
     return HAS_EFFECT;
-  }
-
-  @SideOnly(Side.CLIENT)
-  public ModelBiped getArmorModelForSlot(EntityLivingBase entity, ItemStack stack,
-      EntityEquipmentSlot slot) {
-
-    if (models == null) {
-      models = new HashMap<>(32 * 32 * 32 * 32);
-      // models = new EnumMap<>(EntityEquipmentSlot.class);
-    }
-    String colorString = ArmorHelper.getRenderColorString(stack);
-    if (models.get(colorString) == null) {
-      models.put(colorString, new EnumMap<>(EntityEquipmentSlot.class));
-    }
-    return models.get(colorString).get(slot);
-    // if (models.get(slot) == null)
-    // {
-    // models.put(slot, new HashMap<>());
-    // }
-    // return models.get(slot).get(ArmorHelper.getRenderColorList(stack));
-  }
-
-  @SideOnly(Side.CLIENT)
-  public ModelBiped provideArmorModelForSlot(ItemStack stack, EntityEquipmentSlot slot,
-      String colorString, int[] colors) {
-
-    models.get(colorString).put(slot, new ModelGemArmor(slot, colors));
-    return models.get(colorString).get(slot);
-    // models.get(slot).put(colors, new ModelGemArmor(slot, colors));
-    // return models.get(slot).get(colors);
-    // models.put(slot, new ModelGemArmor(slot, ArmorHelper.getRenderColorList(stack)));
-    // return models.get(slot);
   }
 
   @Override
   public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-
     // TODO Tier detection
     return false;
   }
 
   @Override
   public int getItemEnchantability(ItemStack stack) {
-
     return ArmorHelper.getItemEnchantability(stack);
   }
 
   @Override
   public void onUpdate(ItemStack armor, World world, Entity entity, int itemSlot,
       boolean isSelected) {
-
-    if (world.getTotalWorldTime() % ToolHelper.CHECK_NAME_FREQUENCY == 0
-        && entity instanceof EntityPlayer) {
+    if (world.getTotalWorldTime() % ToolHelper.CHECK_NAME_FREQUENCY == 0 &&
+        entity instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) entity;
-      if (world.isRemote && armor.hasTagCompound()
-          && armor.getTagCompound().hasKey(ToolHelper.NBT_TEMP_PARTLIST)) {
+      if (world.isRemote && armor.hasTagCompound() &&
+          armor.getTagCompound().hasKey(ToolHelper.NBT_TEMP_PARTLIST)) {
         NBTTagCompound compound = armor.getTagCompound()
             .getCompoundTag(ToolHelper.NBT_TEMP_PARTLIST);
 
@@ -304,9 +223,8 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   }
 
   @Override
-  public void clAddInformation(ItemStack stack, World world, List list, boolean advanced) {
-
-    LocalizationHelper loc = SilentGems.instance.localizationHelper;
+  public void clAddInformation(ItemStack stack, World world, List<String> list, boolean advanced) {
+    LocalizationHelper loc = SilentGems.localizationHelper;
     ToolRenderHelper helper = ToolRenderHelper.getInstance();
     boolean controlDown = KeyTracker.isControlDown();
     boolean altDown = KeyTracker.isAltDown();
@@ -315,10 +233,11 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
     // Show original owner?
     if (controlDown) {
       String owner = ArmorHelper.getOriginalOwner(stack);
-      if (!owner.isEmpty())
+      if (!owner.isEmpty()) {
         list.add(loc.getMiscText("Tooltip.OriginalOwner", owner));
-      else
+      } else {
         list.add(loc.getMiscText("Tooltip.OriginalOwner.Unknown"));
+      }
     }
 
     // TODO: Remove me
@@ -363,8 +282,8 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
         ToolPart part = parts[i];
         EnumMaterialGrade grade = grades[i];
 
-        line = "  " + TextFormatting.YELLOW + part.getKey() + TextFormatting.GOLD + " (" + grade
-            + ")";
+        line = "  " + TextFormatting.YELLOW + part.getKey() + TextFormatting.GOLD + " (" + grade +
+            ")";
         list.add(line);
       }
       list.add(sep);
@@ -375,9 +294,9 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-
-    if (!ItemHelper.isInCreativeTab(item, tab))
+    if (!ItemHelper.isInCreativeTab(item, tab)) {
       return;
+    }
 
     if (subItems == null) {
       subItems = Lists.newArrayList();
@@ -391,16 +310,19 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
       subItems.add(constructArmor(new ItemStack(Items.FLINT)));
 
       // Regular Gems
-      for (EnumGem gem : EnumGem.values())
+      for (EnumGem gem : EnumGem.values()) {
         subItems.add(constructArmor(gem.getItem()));
+      }
 
       // Super Gems
-      for (EnumGem gem : EnumGem.values())
+      for (EnumGem gem : EnumGem.values()) {
         subItems.add(constructArmor(gem.getItemSuper()));
+      }
 
       // Set maker name.
-      for (ItemStack stack : subItems)
+      for (ItemStack stack : subItems) {
         ArmorHelper.setOriginalOwner(stack, TextFormatting.LIGHT_PURPLE + "Creative");
+      }
     }
 
     list.addAll(subItems);
@@ -408,7 +330,6 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   @Override
   public void addRecipes(RecipeMaker recipes) {
-
     addRecipe(recipes, itemName + "_flint", new ItemStack(Items.FLINT));
     for (EnumGem gem : EnumGem.values()) {
       addRecipe(recipes, itemName + "_" + gem.name(), gem.getItem());
@@ -417,16 +338,15 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   }
 
   protected void addRecipe(RecipeMaker recipes, String name, ItemStack material) {
-
     ToolPart part = ToolPartRegistry.fromStack(material);
-    if (part != null && !part.isBlacklisted(material))
+    if (part != null && !part.isBlacklisted(material)) {
       recipes.addShaped(name, constructArmor(material), " g ", "gfg", " g ", 'g', material, 'f',
           ModItems.armorFrame.getFrameForArmorPiece(this, part.getTier()));
+    }
   }
 
   @Override
   public String getUnlocalizedName(ItemStack stack) {
-
     return "item.silentgems:" + itemName;
   }
 }
