@@ -13,7 +13,8 @@ import net.silentchaos512.lib.SilentLib;
 
 public class GuiMaterialGrader extends GuiContainer {
 
-  private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MODID, "textures/gui/materialgrader.png");
+  private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MODID,
+      "textures/gui/materialgrader.png");
   private TileMaterialGrader tileInventory;
 
   public GuiMaterialGrader(InventoryPlayer playerInventory, TileMaterialGrader tileInventory) {
@@ -21,8 +22,8 @@ public class GuiMaterialGrader extends GuiContainer {
     this.tileInventory = tileInventory;
   }
 
+  @Override
   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-
     if (SilentLib.getMCVersion() < 12) {
       super.drawScreen(mouseX, mouseY, partialTicks);
     } else {
@@ -30,13 +31,6 @@ public class GuiMaterialGrader extends GuiContainer {
       super.drawScreen(mouseX, mouseY, partialTicks);
       this.renderHoveredToolTip(mouseX, mouseY);
     }
-  }
-
-  @Override
-  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-    this.drawDefaultBackground();
-    super.drawScreen(mouseX, mouseY, partialTicks);
-    this.renderHoveredToolTip(mouseX, mouseY);
   }
 
   @Override
@@ -52,16 +46,18 @@ public class GuiMaterialGrader extends GuiContainer {
     drawTexturedModalRect(k + 49, l + 34, 176, 14, getAnalyzeProgress(24) + 1, 16);
 
     // Chaos stored
-    drawTexturedModalRect(k + 49, l + 34, 176, 31, 24 * tileInventory.getField(0) / TileMaterialGrader.MAX_CHARGE, 17);
+    drawTexturedModalRect(k + 49, l + 34, 176, 31,
+        24 * tileInventory.getField(0) / TileMaterialGrader.MAX_CHARGE, 17);
 
-    if (GemsConfig.DEBUG_MODE)
+    if (GemsConfig.DEBUG_MODE) {
       drawDebugInfo();
+    }
   }
 
   private int getAnalyzeProgress(int scale) {
     int progress = tileInventory.getField(1);
-    int totalTime = TileMaterialGrader.ANALYZE_TIME;
-    return totalTime != 0 && progress > 0 && progress < totalTime ? progress * scale / totalTime : 0;
+    int time = TileMaterialGrader.ANALYZE_TIME;
+    return time != 0 && progress > 0 && progress < time ? progress * scale / time : 0;
   }
 
   private void drawDebugInfo() {

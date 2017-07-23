@@ -11,7 +11,8 @@ import net.silentchaos512.lib.SilentLib;
 
 public class GuiBurnerPylon extends GuiContainer {
 
-  private static final ResourceLocation guiTextures = new ResourceLocation("silentgems:textures/gui/burnerpylon.png");
+  private static final ResourceLocation guiTextures = new ResourceLocation(
+      "silentgems:textures/gui/burnerpylon.png");
   private TileChaosPylon tilePylon;
 
   public GuiBurnerPylon(InventoryPlayer playerInventory, TileChaosPylon pylon) {
@@ -31,7 +32,6 @@ public class GuiBurnerPylon extends GuiContainer {
 
   @Override
   protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-
     if (GemsConfig.DEBUG_MODE) {
       String str = "%,d / %,d";
       str = String.format(str, tilePylon.getCharge(), tilePylon.getMaxCharge()); // doesn't work

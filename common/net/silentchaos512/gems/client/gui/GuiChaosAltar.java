@@ -12,7 +12,8 @@ import net.silentchaos512.lib.SilentLib;
 
 public class GuiChaosAltar extends GuiContainer {
 
-  private static final ResourceLocation guiTextures = new ResourceLocation("silentgems:textures/gui/chaosaltar.png");
+  private static final ResourceLocation guiTextures = new ResourceLocation(
+      "silentgems:textures/gui/chaosaltar.png");
   private TileChaosAltar tileAltar;
 
   public GuiChaosAltar(InventoryPlayer playerInventory, TileChaosAltar altar) {
@@ -20,8 +21,8 @@ public class GuiChaosAltar extends GuiContainer {
     this.tileAltar = altar;
   }
 
+  @Override
   public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-
     if (SilentLib.getMCVersion() < 12) {
       super.drawScreen(mouseX, mouseY, partialTicks);
     } else {
@@ -32,27 +33,27 @@ public class GuiChaosAltar extends GuiContainer {
   }
 
   @Override
-  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-    this.drawDefaultBackground();
-    super.drawScreen(mouseX, mouseY, partialTicks);
-    this.renderHoveredToolTip(mouseX, mouseY);
-  }
-
-  @Override
   protected void drawGuiContainerForegroundLayer(int par1, int par2) {
     if (GemsConfig.DEBUG_MODE) {
       int recipeIndex = tileAltar.getField(2);
-      RecipeChaosAltar recipe = recipeIndex >= 0 && recipeIndex < RecipeChaosAltar.ALL_RECIPES.size() ? RecipeChaosAltar.ALL_RECIPES.get(recipeIndex) : null;
+      RecipeChaosAltar recipe =
+          recipeIndex >= 0 && recipeIndex < RecipeChaosAltar.ALL_RECIPES.size() ?
+              RecipeChaosAltar.ALL_RECIPES.get(recipeIndex) : null;
 
       String format = "%s: %,d / %,d";
       // Chaos stored
-      this.fontRenderer.drawString(String.format(format, "Chaos", tileAltar.getCharge(), tileAltar.getMaxCharge()), 8, 6, 0x404040);
+      this.fontRenderer.drawString(
+          String.format(format, "Chaos", tileAltar.getCharge(), tileAltar.getMaxCharge()), 8, 6,
+          0x404040);
 
       // Transmute progress
-      this.fontRenderer.drawString(String.format(format, "Trnsm", tileAltar.getField(1), recipe == null ? 0 : recipe.getChaosCost()), 8, 16, 0x404040);
+      this.fontRenderer.drawString(String.format(format, "Trnsm", tileAltar.getField(1),
+          recipe == null ? 0 : recipe.getChaosCost()), 8, 16, 0x404040);
 
       // Recipe info
-      this.fontRenderer.drawString("Recipe: " + recipeIndex + (recipe == null ? "" : " (" + recipe.getOutput().getDisplayName() + ")"), 8, 26, 0x404040);
+      this.fontRenderer.drawString("Recipe: " + recipeIndex +
+              (recipe == null ? "" : " (" + recipe.getOutput().getDisplayName() + ")"), 8, 26,
+          0x404040);
     }
   }
 
@@ -75,6 +76,7 @@ public class GuiChaosAltar extends GuiContainer {
 
     // Chaos stored
     int chaos = tileAltar.getField(0);
-    drawTexturedModalRect(xPos + 79, yPos + 34, 176, 31, 24 * chaos / TileChaosAltar.MAX_CHAOS_STORED, 17);
+    drawTexturedModalRect(xPos + 79, yPos + 34, 176, 31,
+        24 * chaos / TileChaosAltar.MAX_CHAOS_STORED, 17);
   }
 }
