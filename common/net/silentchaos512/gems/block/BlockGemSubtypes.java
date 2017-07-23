@@ -73,7 +73,7 @@ public class BlockGemSubtypes extends BlockSL {
   @Override
   public IBlockState getStateFromMeta(int meta) {
 
-    return getDefaultState().withProperty(EnumGem.VARIANT_GEM, EnumGem.values()[meta]);
+    return getDefaultState().withProperty(EnumGem.VARIANT_GEM, EnumGem.values()[meta & 0xF]);
   }
 
   @Override
