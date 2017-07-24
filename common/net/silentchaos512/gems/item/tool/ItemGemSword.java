@@ -134,8 +134,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
       return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
     }
 
-    if (world.isRemote
-        || ToolHelper.getToolTier(stack).ordinal() < EnumMaterialTier.SUPER.ordinal()) {
+    if (world.isRemote && ToolHelper.getToolTier(stack).ordinal() >= EnumMaterialTier.SUPER.ordinal()) {
       GuiChaosBar.INSTANCE.show();
       return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
     }
