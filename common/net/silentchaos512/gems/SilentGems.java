@@ -3,9 +3,11 @@ package net.silentchaos512.gems;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -14,30 +16,28 @@ import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
-import net.minecraftforge.fml.common.event.FMLMissingMappingsEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
-import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.compat.VeinMinerCompat;
 import net.silentchaos512.gems.compat.tconstruct.TConstructGemsCompat;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.ModEntities;
 import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.init.ModEnchantments;
+import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.init.ModRecipes;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.part.ModParts;
-import net.silentchaos512.gems.recipe.ModRecipes;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.gems.world.GemsWorldGenerator;
 import net.silentchaos512.lib.SilentLib;
-import net.silentchaos512.lib.registry.MC10IdRemapper;
 import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.LogHelper;
@@ -67,7 +67,7 @@ public class SilentGems {
   public static LogHelper logHelper = new LogHelper(MOD_NAME);
   public static LocalizationHelper localizationHelper;
 
-  public static SRegistry registry = new SRegistry(MODID) {
+  public static SRegistry registry = new SRegistry(MODID, logHelper) {
 
     @Override
     public Block registerBlock(Block block, String key, ItemBlock itemBlock) {
@@ -99,6 +99,10 @@ public class SilentGems {
   @SidedProxy(clientSide = "net.silentchaos512.gems.proxy.GemsClientProxy", serverSide = "net.silentchaos512.gems.proxy.GemsCommonProxy")
   public static net.silentchaos512.gems.proxy.GemsCommonProxy proxy;
 
+  public SilentGems() {
+
+  }
+
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
 
@@ -109,10 +113,10 @@ public class SilentGems {
 
     GemsConfig.INSTANCE.init(event.getSuggestedConfigurationFile());
 
-    ModEnchantments.init();
-    ModBlocks.init();
-    ModItems.init();
-    ModRecipes.init();
+    registry.addRegistrationHandler(new ModEnchantments(), Enchantment.class);
+    registry.addRegistrationHandler(new ModBlocks(), Block.class);
+    registry.addRegistrationHandler(new ModItems(), Item.class);
+    registry.addRegistrationHandler(new ModRecipes(), IRecipe.class);
     ModParts.init();
 
     GemsConfig.INSTANCE.loadModuleConfigs();
@@ -124,11 +128,6 @@ public class SilentGems {
 
     // Headcrumbs
     FMLInterModComms.sendMessage("headcrumbs", "add-username", Names.SILENT_CHAOS_512);
-
-    // Load TCon compatibility stuff?
-    if (Loader.isModLoaded("tconstruct")) {
-      TConstructGemsCompat.init();
-    }
 
     VeinMinerCompat.init();
 
@@ -143,6 +142,13 @@ public class SilentGems {
     GemsConfig.INSTANCE.save();
 
     proxy.init(registry);
+
+    // Load TCon compatibility stuff?
+    // This must be done after oredict registration... In MC 10/11, this is done during the
+    // registry's init call. In 1.12, it's right after item registration, between pre-init and init.
+    if (Loader.isModLoaded("tconstruct")) {
+      TConstructGemsCompat.init();
+    }
   }
 
   @EventHandler
@@ -151,13 +157,13 @@ public class SilentGems {
     proxy.postInit(registry);
   }
 
-  @EventHandler
-  public void onMissingMapping(FMLMissingMappingsEvent event) {
-
-    for (FMLMissingMappingsEvent.MissingMapping mismap : event.get()) {
-      MC10IdRemapper.remap(mismap);
-    }
-  }
+//  @EventHandler
+//  public void onMissingMapping(FMLMissingMappingsEvent event) {
+//
+//    for (FMLMissingMappingsEvent.MissingMapping mismap : event.get()) {
+//      MC10IdRemapper.remap(mismap);
+//    }
+//  }
 
   @EventHandler
   public void onServerStarting(FMLServerStartingEvent event) {
