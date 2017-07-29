@@ -25,6 +25,7 @@ public class TConstructGemsCompat {
         register(gem, EnumMaterialTier.SUPER);
     } catch (NoSuchMethodError ex) {
       SilentGems.logHelper.info("Failed to load TConstruct module. Are Tinkers tools disabled?");
+      ex.printStackTrace();
     } catch (Exception ex) {
       SilentGems.logHelper.info("Unknown error while loading TConstruct module.");
       ex.printStackTrace();

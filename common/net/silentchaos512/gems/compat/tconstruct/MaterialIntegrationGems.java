@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.compat.tconstruct;
 
 import net.minecraftforge.oredict.OreDictionary;
+import net.silentchaos512.lib.util.StackHelper;
 import slimeknights.tconstruct.library.MaterialIntegration;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.Material;
@@ -37,7 +38,7 @@ public class MaterialIntegrationGems extends MaterialIntegration {
         for (String ore : OreDictionary.getOreNames()) {
           for (int i = 0; i < oreRequirement.length; ++i) {
             if (oreRequirement[i].equals(ore)) {
-              if (OreDictionary.getOres(ore).size() > 0) {
+              if (StackHelper.getOres(ore).size() > 0) {
                 if (++found == oreRequirement.length) {
                   break;
                 }
