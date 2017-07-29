@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.block;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class BlockTeleporterAnchor extends BlockTeleporter {
 
@@ -40,11 +42,11 @@ public class BlockTeleporterAnchor extends BlockTeleporter {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     if (!GemsConfig.RECIPE_TELEPORTER_ANCHOR_DISABLE) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 4), "cec", " i ", "cec", 'c',
-          "gemChaos", 'e', Items.ENDER_PEARL, 'i', Blocks.IRON_BLOCK));
+      recipes.addShapedOre(blockName, new ItemStack(this, 4), "cec", " i ", "cec", 'c',
+          "gemChaos", 'e', Items.ENDER_PEARL, 'i', Blocks.IRON_BLOCK);
     }
   }
 
@@ -67,8 +69,8 @@ public class BlockTeleporterAnchor extends BlockTeleporter {
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    return Lists.newArrayList(new ModelResourceLocation(getFullName().toLowerCase(), "inventory"));
+    models.put(0, new ModelResourceLocation(getFullName().toLowerCase(), "inventory"));
   }
 }

@@ -5,8 +5,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.block.ModBlocks;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.lib.util.StackHelper;
 
 public enum EnumGem implements IStringSerializable {

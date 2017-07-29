@@ -2,29 +2,21 @@ package net.silentchaos512.gems.block;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.util.RecipeHelper;
+import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class BlockGem extends BlockGemSubtypes {
 
@@ -42,16 +34,16 @@ public class BlockGem extends BlockGemSubtypes {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     for (int i = 0; i < 16; ++i) {
       EnumGem gem = getGem(i);
 
       if (supercharged) {
-        GameRegistry.addRecipe(new ShapedOreRecipe(gem.getBlockSuper(), " g ", "gog", " g ", 'g',
-            gem.getItemSuperOreName(), 'o', Blocks.OBSIDIAN));
+        recipes.addShapedOre(gem.name() + "_block_super", gem.getBlockSuper(), " g ", "gog", " g ",
+            'g', gem.getItemSuperOreName(), 'o', Blocks.OBSIDIAN);
       } else {
-        RecipeHelper.addCompressionRecipe(gem.getItem(), gem.getBlock(), 9);
+        recipes.addCompression(gem.name() + "_block", gem.getItem(), gem.getBlock(), 9);
       }
     }
   }
@@ -70,11 +62,10 @@ public class BlockGem extends BlockGemSubtypes {
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List<String> list,
-      boolean advanced) {
+  public void clAddInformation(ItemStack stack, World world, List<String> list, boolean advanced) {
 
-    list.addAll(SilentGems.instance.localizationHelper
-        .getBlockDescriptionLines(blockName.replaceFirst("Dark", "")));
+    String str = blockName.replaceFirst("Dark", "");
+    list.addAll(SilentGems.localizationHelper.getBlockDescriptionLines(str));
   }
 
   @Override

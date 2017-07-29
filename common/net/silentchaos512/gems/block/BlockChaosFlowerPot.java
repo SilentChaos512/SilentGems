@@ -25,10 +25,12 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosFlowerPot;
 import net.silentchaos512.lib.block.BlockSL;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider {
@@ -107,9 +109,9 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
-    recipe = GameRegistry.addShapedRecipe(new ItemStack(this), "c", "f", 'c',
+    recipe = recipes.addShaped("chaos_flower_pot", new ItemStack(this), "c", "f", 'c',
         ModItems.craftingMaterial.chaosEssenceEnriched, 'f', Items.FLOWER_POT);
   }
 

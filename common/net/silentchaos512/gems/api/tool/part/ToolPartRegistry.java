@@ -1,12 +1,11 @@
 package net.silentchaos512.gems.api.tool.part;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.lib.util.StackHelper;
@@ -19,9 +18,10 @@ import net.silentchaos512.lib.util.StackHelper;
  */
 public class ToolPartRegistry {
 
-  private static Map<String, ToolPart> map = Maps.newHashMap();
-  private static List<ToolPartMain> mains = Lists.newArrayList();
-  private static Map<ItemStack, ToolPart> STACK_TO_PART = Maps.newHashMap();
+  private static Map<String, ToolPart> map = new HashMap<>();
+  private static List<ToolPartMain> mains = new ArrayList<>();
+  private static List<ToolPartRod> rods = new ArrayList<>(); 
+  private static Map<ItemStack, ToolPart> STACK_TO_PART = new HashMap<>();
 
   /**
    * @param key
@@ -47,6 +47,8 @@ public class ToolPartRegistry {
 
     if (part instanceof ToolPartMain)
       mains.add((ToolPartMain) part);
+    else if (part instanceof ToolPartRod)
+      rods.add((ToolPartRod) part);
   }
 
   /**
@@ -99,5 +101,14 @@ public class ToolPartRegistry {
   public static List<ToolPartMain> getMains() {
 
     return mains;
+  }
+
+  /**
+   * Gets a list of registered ToolPartRods in the order they are registered. DO NOT modify this.
+   * @return
+   */
+  public static List<ToolPartRod> getRods() {
+
+    return rods;
   }
 }

@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.block;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
@@ -17,10 +18,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ModRecipeHelper;
 import net.silentchaos512.lib.block.BlockSL;
+import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class BlockEssenceOre extends BlockSL {
 
@@ -51,7 +53,8 @@ public class BlockEssenceOre extends BlockSL {
     setUnlocalizedName(Names.ESSENCE_ORE);
   }
 
-  public void addRecipes() {
+  @Override
+  public void addRecipes(RecipeMaker recipes) {
 
     ItemStack chaosOre = new ItemStack(this, 1, 0);
     ItemStack chaosEssence = ModItems.craftingMaterial.chaosEssence;
@@ -74,8 +77,7 @@ public class BlockEssenceOre extends BlockSL {
   @Override
   public IBlockState getStateFromMeta(int meta) {
 
-    return this.getDefaultState().withProperty(VARIANT,
-        Type.values()[MathHelper.clamp(meta, 0, Type.values().length - 1)]);
+    return this.getDefaultState().withProperty(VARIANT, Type.values()[MathHelper.clamp(meta, 0, Type.values().length - 1)]);
   }
 
   @Override
@@ -91,11 +93,9 @@ public class BlockEssenceOre extends BlockSL {
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    List<ModelResourceLocation> list = Lists.newArrayList();
     for (Type type : Type.values())
-      list.add(new ModelResourceLocation(getFullName().toLowerCase(), "gem=" + type.getName()));
-    return list;
+      models.put(type.ordinal(), new ModelResourceLocation(getFullName().toLowerCase(), "gem=" + type.getName()));
   }
 }

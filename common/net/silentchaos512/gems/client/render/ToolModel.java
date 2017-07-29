@@ -25,28 +25,30 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
 import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.client.model.MultiLayerModelSL;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LogHelper;
 
 @SuppressWarnings("deprecation")
-public class ToolModel implements IPerspectiveAwareModel {
+public class ToolModel extends MultiLayerModelSL {
 
   private static ModelManager modelManager = null;
   private final IBakedModel baseModel;
 
   private ItemStack tool;
+  @SuppressWarnings("unused")
   private boolean isGui = false;
 
   public ToolModel(IBakedModel baseModel) {
 
+    super(baseModel);
     this.baseModel = baseModel;
   }
 

@@ -9,7 +9,7 @@ import net.silentchaos512.lib.util.StackHelper;
 
 public enum EnumMaterialTier {
 
-  MUNDANE, REGULAR, SUPER/*, HYPER*/;
+  MUNDANE, REGULAR, SUPER/* , HYPER */;
 
   public String getLocalizedName() {
 
@@ -33,6 +33,25 @@ public enum EnumMaterialTier {
         return "ingotIron";
       case SUPER:
         return "ingotGold";
+      default:
+        SilentGems.logHelper.warning("EnumMaterialTier " + this + ": undefined filler stack!");
+        return StackHelper.empty();
+    }
+  }
+
+  /**
+   * Gets the filler stack for example recipes. Use getFiller for oredict-friendliness.
+   * @return
+   */
+  public ItemStack getFillerStack() {
+
+    switch (this) {
+      case MUNDANE:
+        return new ItemStack(Items.STRING);
+      case REGULAR:
+        return new ItemStack(Items.IRON_INGOT);
+      case SUPER:
+        return new ItemStack(Items.GOLD_INGOT);
       default:
         SilentGems.logHelper.warning("EnumMaterialTier " + this + ": undefined filler stack!");
         return StackHelper.empty();

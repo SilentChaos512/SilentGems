@@ -12,7 +12,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemKatana;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.lib.util.EntityHelper;

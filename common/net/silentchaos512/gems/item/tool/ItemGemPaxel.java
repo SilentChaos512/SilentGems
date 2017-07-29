@@ -7,15 +7,15 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemPaxel extends ItemGemPickaxe {
@@ -131,20 +131,10 @@ public class ItemGemPaxel extends ItemGemPickaxe {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
-    if (getConfig().isDisabled)
-      return;
-
-    String l1 = "ggg";
-    String l2 = "gsg";
-    String l3 = "gs ";
-    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
-
-    for (EnumGem gem : EnumGem.values()) {
-      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(),
-          rodGold);
-    }
+    if (!getConfig().isDisabled)
+      ToolHelper.addExampleRecipe(this, "ggg", "gsg", "gs ");
   }
 
   @Override

@@ -9,6 +9,7 @@ import net.silentchaos512.gems.api.recipe.altar.RecipeChaosAltar;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.inventory.ContainerChaosAltar;
 import net.silentchaos512.gems.tile.TileChaosAltar;
+import net.silentchaos512.lib.SilentLib;
 
 public class GuiChaosAltar extends GuiContainer {
 
@@ -34,17 +35,17 @@ public class GuiChaosAltar extends GuiContainer {
       String format = "%,d / %,d";
       // Chaos stored
       String line = String.format(format, tileAltar.getCharge(), tileAltar.getMaxCharge());
-      this.fontRendererObj.drawString("Chaos: " + line, 8, 6, 0x404040);
+      this.fontRenderer.drawString("Chaos: " + line, 8, 6, 0x404040);
 
       // Transmute progress
       line = String.format(format, tileAltar.getField(1),
           recipe == null ? 0 : recipe.getChaosCost());
-      this.fontRendererObj.drawString("Trnsm: " + line, 8, 16, 0x404040);
+      this.fontRenderer.drawString("Trnsm: " + line, 8, 16, 0x404040);
 
       // Recipe info
       line = "Recipe: " + recipeIndex
           + (recipe == null ? "" : " (" + recipe.getOutput().getDisplayName() + ")");
-      this.fontRendererObj.drawString(line, 8, 26, 0x404040);
+      this.fontRenderer.drawString(line, 8, 26, 0x404040);
     }
   }
 

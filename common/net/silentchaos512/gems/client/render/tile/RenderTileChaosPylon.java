@@ -1,26 +1,25 @@
 package net.silentchaos512.gems.client.render.tile;
 
+import java.util.Random;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.render.models.ModelPylon;
 import net.silentchaos512.gems.client.render.models.ModelPylonPlates;
 import net.silentchaos512.gems.tile.TileChaosPylon;
-import org.lwjgl.opengl.GL11;
+import net.silentchaos512.lib.client.render.tileentity.TileEntitySpecialRendererSL;
 
-import java.util.Random;
-
-public class RenderTileChaosPylon extends TileEntitySpecialRenderer<TileChaosPylon> {
+public class RenderTileChaosPylon extends TileEntitySpecialRendererSL<TileChaosPylon> {
 
   ModelPylon model;
   ModelPylonPlates plates;
 
   @Override
-  public void renderTileEntityAt(TileChaosPylon te, double x, double y, double z,
-      float partialTicks, int destroyStage) {
+  public void clRender(TileChaosPylon te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 
 
     if (te != null && te.getWorld() != null && !te.getWorld().isBlockLoaded(te.getPos(), false)) {

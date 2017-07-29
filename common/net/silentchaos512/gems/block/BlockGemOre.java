@@ -13,10 +13,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ModRecipeHelper;
+import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class BlockGemOre extends BlockGemSubtypes {
 
@@ -31,7 +32,7 @@ public class BlockGemOre extends BlockGemSubtypes {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     ItemStack ore, item;
     for (int i = 0; i < 16; ++i) {
@@ -39,7 +40,7 @@ public class BlockGemOre extends BlockGemSubtypes {
       ore = gem.getOre();
       item = gem.getItem();
       // Smelting
-      GameRegistry.addSmelting(ore, item, 0.5f);
+      recipes.addSmelting(ore, item, 0.5f);
       // SAG Mill
       ModRecipeHelper.addSagMillRecipe(gem.getGemName() + "Ore", ore, item,
           isDark ? "netherrack" : "cobblestone", 3000);

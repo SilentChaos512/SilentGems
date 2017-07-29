@@ -8,7 +8,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,7 +15,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -25,10 +23,10 @@ import net.silentchaos512.gems.api.IAmmoTool;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.EntityThrownTomahawk;
-import net.silentchaos512.gems.item.ModItems;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.registry.RecipeMaker;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
@@ -124,33 +122,19 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
+  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (subItems == null)
-      subItems = ToolHelper.getSubItems(item, 4);
-    list.addAll(subItems);
+    if (!ItemHelper.isInCreativeTab(item, tab))
+      return;
+
+    list.addAll(ToolHelper.getSubItems(item, 4));
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
-    if (getConfig().isDisabled) return;
-
-    String l1 = "ggg";
-    String l2 = "gs ";
-    String l3 = " s ";
-    ItemStack flint = new ItemStack(Items.FLINT);
-    ItemStack rodWood = new ItemStack(Items.STICK);
-    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
-
-    // Flint
-    ToolHelper.addRecipe(constructTool(rodWood, flint), l1, l2, l3, flint, "stickWood");
-    for (EnumGem gem : EnumGem.values()) {
-      // Regular
-      ToolHelper.addRecipe(constructTool(rodWood, gem.getItem()), l1, l2, l3, gem.getItem(), "stickWood");
-      // Super
-      ToolHelper.addRecipe(constructTool(rodGold, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(), rodGold);
-    }
+    if (!getConfig().isDisabled)
+      ToolHelper.addExampleRecipe(this, "ggg", "gs ", " s ");
   }
 
   @Override
@@ -222,18 +206,9 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
     return EnumAction.BOW;
   }
 
-  // ==============================
-  // Cross Compatibility (MC 10/11)
-  // ==============================
-
-  // getSubItems
-  public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
-
-    if (subItems == null) {
-      subItems = ToolHelper.getSubItems(item, 4);
-    }
-    list.addAll(subItems);
-  }
+  // =================================
+  // Cross Compatibility (MC 10/11/12)
+  // =================================
 
   // onItemUse
   public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,

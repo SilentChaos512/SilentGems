@@ -18,7 +18,7 @@ public class MessageToggleSpecial extends Message {
   public IMessage handleMessage(MessageContext context) {
 
     if (context.side == Side.SERVER) {
-      EntityPlayerMP player = context.getServerHandler().playerEntity;
+      EntityPlayerMP player = context.getServerHandler().player;
       ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
 
       if (StackHelper.isValid(mainHand) && mainHand.getItem() instanceof ITool) {

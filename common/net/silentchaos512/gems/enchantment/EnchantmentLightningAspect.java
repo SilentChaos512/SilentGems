@@ -24,12 +24,11 @@ public class EnchantmentLightningAspect extends Enchantment {
   public static final int CHAIN_DELAY = 5;
   public static final double CHAIN_RADIUS_SQUARED = 2.5 * 2.5;
 
-  protected EnchantmentLightningAspect() {
+  public EnchantmentLightningAspect() {
 
     super(Rarity.RARE, EnumEnchantmentType.WEAPON,
         new EntityEquipmentSlot[] { EntityEquipmentSlot.MAINHAND });
     setName(NAME);
-    setRegistryName(NAME);
   }
 
   @Override

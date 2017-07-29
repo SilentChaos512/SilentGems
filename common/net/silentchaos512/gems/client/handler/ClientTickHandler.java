@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.tile.TileChaosNode;
 import net.silentchaos512.lib.util.Color;
 

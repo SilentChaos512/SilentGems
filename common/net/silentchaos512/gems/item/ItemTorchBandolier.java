@@ -2,13 +2,11 @@ package net.silentchaos512.gems.item;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.silentchaos512.gems.lib.GemsCreativeTabs;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class ItemTorchBandolier extends ItemBlockPlacer {
 
@@ -33,7 +31,7 @@ public class ItemTorchBandolier extends ItemBlockPlacer {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     String line1 = "lll";
     String line2 = "sgs";
@@ -42,9 +40,10 @@ public class ItemTorchBandolier extends ItemBlockPlacer {
     ItemStack gem = new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE);
     Object[] stacks = new Object[] { "leather", ModItems.craftingMaterial.fluffyFabric };
 
+    int i = -1;
     for (Object stack : stacks) {
-      GameRegistry.addRecipe(new ShapedOreRecipe(bandolier, line1, line2, line1, 'l', stack, 's',
-          "stickWood", 'g', gem));
+      recipes.addShapedOre("torch_bandolier_" + (++i), bandolier, line1, line2, line1, 'l', stack,
+          's', "stickWood", 'g', gem);
     }
   }
 }

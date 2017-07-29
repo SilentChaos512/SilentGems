@@ -21,8 +21,8 @@ public class TeleportUtil {
     SilentGems.instance.logHelper.info(debugLine);
 
     if (pos.dim != oldDimension) {
-      WorldServer oldWorldServer = player.getServer().worldServerForDimension(oldDimension);
-      WorldServer newWorldServer = player.getServer().worldServerForDimension(pos.dim);
+      WorldServer oldWorldServer = player.getServer().getWorld(oldDimension);
+      WorldServer newWorldServer = player.getServer().getWorld(pos.dim);
 
       // Dismount and teleport mount
       if (player.getRidingEntity() != null) {

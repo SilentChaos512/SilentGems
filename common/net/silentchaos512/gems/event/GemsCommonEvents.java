@@ -25,15 +25,15 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
-import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.enchantment.EnchantmentIceAspect;
 import net.silentchaos512.gems.enchantment.EnchantmentLightningAspect;
-import net.silentchaos512.gems.enchantment.ModEnchantments;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
+import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.init.ModEnchantments;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemBlockPlacer;
-import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
@@ -121,8 +121,8 @@ public class GemsCommonEvents {
   @SubscribeEvent
   public void onLivingAttack(LivingAttackEvent event) {
 
-    if (event.getSource().getEntity() instanceof EntityPlayer) {
-      EntityPlayer player = (EntityPlayer) event.getSource().getEntity();
+    if (event.getSource().getTrueSource() instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
       ItemStack mainHand = player.getHeldItemMainhand();
       ItemStack offHand = player.getHeldItemOffhand();
 
@@ -164,7 +164,7 @@ public class GemsCommonEvents {
   @SubscribeEvent
   public void onLivingDeath(LivingDeathEvent event) {
 
-    Entity entitySource = event.getSource().getSourceOfDamage();
+    Entity entitySource = event.getSource().getTrueSource();
     EntityPlayer player = null;
 
     if (event.getEntityLiving() instanceof EntityPlayer) {
@@ -250,7 +250,6 @@ public class GemsCommonEvents {
               NBTTagCompound nearbyTags = nearby.getEntityData();
               if (nearbyTags != null) {
                 int nearbyShockTime = nearbyTags.getInteger(EnchantmentLightningAspect.EFFECT_NBT);
-                SilentGems.logHelper.debug(nearby.getDistanceSqToEntity(entity), nearbyShockTime);
                 if (nearbyShockTime <= 0) {
                   ModEnchantments.lightningAspect.applyTo(nearby, 1, halfTime);
                 }
@@ -293,12 +292,12 @@ public class GemsCommonEvents {
   @SubscribeEvent
   public void onItemPickup(EntityItemPickupEvent event) {
 
-    ItemStack entityStack = event.getItem().getEntityItem();
+    ItemStack entityStack = event.getItem().getItem();
     if (entityStack.getItem() instanceof ItemBlock) {
       for (ItemStack stack : PlayerHelper.getNonEmptyStacks(event.getEntityPlayer())) {
         if (stack.getItem() instanceof ItemBlockPlacer) {
           ItemBlockPlacer itemPlacer = (ItemBlockPlacer) stack.getItem();
-          IBlockState state = ((ItemBlock) entityStack.getItem()).block
+          IBlockState state = ((ItemBlock) entityStack.getItem()).getBlock()
               .getStateFromMeta(entityStack.getItemDamage());
           if (state.equals(itemPlacer.getBlockPlaced(stack))) {
             // TODO

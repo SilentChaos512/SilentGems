@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.util.RecipeHelper;
+import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class BlockGemBrick extends BlockGemSubtypes {
 
@@ -24,12 +24,12 @@ public class BlockGemBrick extends BlockGemSubtypes {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     ItemStack bricks = new ItemStack(Blocks.STONEBRICK, 1, OreDictionary.WILDCARD_VALUE);
     for (int i = 0; i < 16; ++i) {
       EnumGem gem = getGem(i);
-      RecipeHelper.addSurroundOre(new ItemStack(this, 8, i),
+      recipes.addSurroundOre(blockName + i, new ItemStack(this, 8, i),
           coated ? gem.getItemOreName() : gem.getShardOreName(), bricks);
     }
   }

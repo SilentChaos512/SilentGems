@@ -10,6 +10,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.inventory.ContainerMaterialGrader;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
+import net.silentchaos512.lib.SilentLib;
 
 public class GuiMaterialGrader extends GuiContainer {
 
@@ -64,7 +65,7 @@ public class GuiMaterialGrader extends GuiContainer {
     }
 
     TileMaterialGrader tile = (TileMaterialGrader) tileInventory;
-    FontRenderer fontRender = mc.fontRendererObj;
+    FontRenderer fontRender = mc.fontRenderer;
     int x = 5;
     int y = 5;
     int yIncrement = 10;

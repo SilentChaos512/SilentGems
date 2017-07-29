@@ -14,12 +14,9 @@ import baubles.api.IBauble;
 import baubles.api.render.IRenderBauble;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.creativetab.CreativeTabs;
@@ -34,7 +31,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -43,13 +39,15 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.compat.BaublesCompat;
-import net.silentchaos512.gems.event.GemsClientEvents;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.client.render.BufferBuilderSL;
+import net.silentchaos512.lib.registry.RecipeMaker;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
-import net.silentchaos512.lib.util.RecipeHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 @Optional.InterfaceList({
@@ -79,11 +77,11 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
   // ===================
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     for (EnumGem gem : EnumGem.values())
-      RecipeHelper.addSurroundOre(new ItemStack(this, 1, gem.ordinal()), gem.getBlockOreName(),
-          ModItems.craftingMaterial.chaosEssenceEnriched);
+      recipes.addSurroundOre("chaos_gem_" + gem.name(), new ItemStack(this, 1, gem.ordinal()),
+          gem.getBlockOreName(), ModItems.craftingMaterial.chaosEssenceEnriched);
   }
 
   // =================
@@ -321,7 +319,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+  public void clAddInformation(ItemStack stack, World world, List list, boolean advanced) {
 
     LocalizationHelper loc = SilentGems.localizationHelper;
 
@@ -329,7 +327,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
       list.add(TextFormatting.GOLD + entry.getKey().getLocalizedName(entry.getValue()));
 
     int slotsUsed = getSlotsUsed(stack);
-    int totalDrain = getTotalChargeDrain(stack, player);
+    int totalDrain = getTotalChargeDrain(stack, SilentGems.proxy.getClientPlayer());
     list.add(loc.getItemSubText(itemName, "charge", getCharge(stack), getMaxCharge(stack)));
     list.add(loc.getItemSubText(itemName, "slots", slotsUsed, MAX_SLOTS));
     list.add(loc.getItemSubText(itemName, "drain", totalDrain));
@@ -372,6 +370,9 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
 
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (!ItemHelper.isInCreativeTab(item, tab))
+      return;
 
     for (int i = 0; i < subItemCount; ++i) {
       // Empty
@@ -450,7 +451,8 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
       ItemChaosGem chaosGem = ModItems.chaosGem;
 
       List<ItemStack> playerInventory = PlayerHelper.getNonEmptyStacks(player);
-      playerInventory.addAll(BaublesCompat.getBaubles(player, s->s.getItem() instanceof ItemChaosGem));
+      playerInventory
+          .addAll(BaublesCompat.getBaubles(player, s -> s.getItem() instanceof ItemChaosGem));
       for (ItemStack stack : playerInventory)
         if (StackHelper.isValid(stack) && stack.getItem() instanceof ItemChaosGem)
           if (chaosGem.isEnabled(stack) && chaosGem.getTotalChargeDrain(stack, player) > 0)
@@ -521,7 +523,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
         scale = 0.7f;
         GL11.glScalef(scale, scale, 1f);
 
-        FontRenderer fontRender = mc.fontRendererObj;
+        FontRenderer fontRender = mc.fontRenderer;
         String format = "%.2f%%";
         String str = String.format(format, storedFraction * 100f);
         posX = (int) (res.getScaledWidth() / scale * 0.025f + 3);
@@ -537,7 +539,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
     private static void drawRect(float x, float y, float u, float v, float width, float height) {
 
       Tessellator tess = Tessellator.getInstance();
-      VertexBuffer buff = tess.getBuffer();
+      BufferBuilderSL buff = BufferBuilderSL.INSTANCE.acquireBuffer(tess);
       buff.begin(7, DefaultVertexFormats.POSITION_TEX);
       buff.pos(x, y + height, 0).tex(0, 1).endVertex();
       buff.pos(x + width, y + height, 0).tex(1, 1).endVertex();

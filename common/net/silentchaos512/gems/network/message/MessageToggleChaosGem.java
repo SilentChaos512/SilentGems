@@ -33,7 +33,7 @@ public class MessageToggleChaosGem extends Message {
     if (context.side != Side.SERVER)
       return null;
 
-    EntityPlayer player = context.getServerHandler().playerEntity;
+    EntityPlayer player = context.getServerHandler().player;
 
     Predicate<ItemStack> predicate = s -> s.getItem() instanceof ItemChaosGem;
     ItemStackList stacks = BaublesCompat.getBaubles(player, predicate);

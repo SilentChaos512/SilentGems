@@ -9,11 +9,11 @@ import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.inventory.ContainerBurnerPylon;
 import net.silentchaos512.gems.tile.TileChaosPylon;
+import net.silentchaos512.lib.SilentLib;
 
 public class GuiBurnerPylon extends GuiContainer {
 
-  private static final ResourceLocation guiTextures = new ResourceLocation(
-      "silentgems:textures/gui/burnerpylon.png");
+  private static final ResourceLocation guiTextures = new ResourceLocation("silentgems:textures/gui/burnerpylon.png");
   private TileChaosPylon tilePylon;
 
   public GuiBurnerPylon(InventoryPlayer playerInventory, TileChaosPylon pylon) {
@@ -21,14 +21,14 @@ public class GuiBurnerPylon extends GuiContainer {
     super(new ContainerBurnerPylon(playerInventory, pylon));
     this.tilePylon = pylon;
   }
-  
+
   @Override
   protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 
     if (GemsConfig.DEBUG_MODE) {
       String str = "%,d / %,d";
       str = String.format(str, tilePylon.getCharge(), tilePylon.getMaxCharge()); // doesn't work
-      fontRendererObj.drawString(str, 5, 5, 0x404040);
+      fontRenderer.drawString(str, 5, 5, 0x404040);
     }
   }
 

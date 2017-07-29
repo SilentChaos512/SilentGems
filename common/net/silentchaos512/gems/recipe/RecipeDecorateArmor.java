@@ -9,10 +9,11 @@ import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.util.ArmorHelper;
-import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.lib.recipe.RecipeBaseSL;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeDecorateArmor implements IRecipeSL {
+public class RecipeDecorateArmor extends RecipeBaseSL {
 
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
@@ -81,7 +82,7 @@ public class RecipeDecorateArmor implements IRecipeSL {
     ItemStack result = ArmorHelper.decorateArmor(tool, west, north, east, south);
 
     // Repair.
-    result.attemptDamageItem(-repairValue, SilentGems.random);
+    ItemHelper.attemptDamageItem(result, -repairValue, SilentGems.random);
 
     // Recalculate stats.
     ArmorHelper.recalculateStats(result);

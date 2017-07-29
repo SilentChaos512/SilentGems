@@ -11,7 +11,7 @@ import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
@@ -108,6 +108,7 @@ public class GemsConfig extends AdaptiveConfig {
    */
 
   public static boolean SHOW_BONUS_ARMOR_BAR = true;
+  public static boolean CHAOS_BAR_SHOW_ALWAYS = false;
 
   /*
    * Recipes
@@ -345,6 +346,9 @@ public class GemsConfig extends AdaptiveConfig {
       SHOW_BONUS_ARMOR_BAR = loadBoolean("Show Bonus Armor Bar", CAT_GUI,
           SHOW_BONUS_ARMOR_BAR,
           "Shows armor points beyond 20 on the bar as yellow armor pieces above the normal ones.");
+      CHAOS_BAR_SHOW_ALWAYS = loadBoolean("Show Chaos Bar Always", CAT_GUI,
+          CHAOS_BAR_SHOW_ALWAYS,
+          "Show the chaos bar at all times. By default, it only shows when you gain/lose chaos.");
 
       /*
        * Recipes

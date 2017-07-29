@@ -31,7 +31,7 @@ public class ContainerMaterialGrader extends ContainerSL {
   public void addListener(IContainerListener listener) {
 
     super.addListener(listener);
-    listener.updateCraftingInventory(this, getInventory());
+    listener.sendAllContents(this, getInventory());
   }
 
   @Override

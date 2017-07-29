@@ -16,12 +16,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
-import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.gui.GuiChaosAltar;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeCategory;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeHandler;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeMaker;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
@@ -108,21 +108,21 @@ public class SilentGemsPlugin implements IModPlugin {
   public void registerItemSubtypes(ISubtypeRegistry reg) {
 
     // Tools
-    for (Item item : new Item[] { ModItems.sword, ModItems.katana, ModItems.scepter,
-        ModItems.tomahawk, ModItems.pickaxe, ModItems.shovel, ModItems.axe, ModItems.paxel,
-        ModItems.hoe, ModItems.sickle, ModItems.bow, ModItems.shield }) {
-      reg.registerSubtypeInterpreter(item, new ISubtypeInterpreter() {
-
-        @Override
-        public String getSubtypeInfo(ItemStack stack) {
-
-          ToolPart[] parts = ToolHelper.getConstructionParts(stack);
-          if (parts.length == 0)
-            return "unknown";
-          return parts[0].getKey();
-        }
-      });
-    }
+//    for (Item item : new Item[] { ModItems.sword, ModItems.katana, ModItems.scepter,
+//        ModItems.tomahawk, ModItems.pickaxe, ModItems.shovel, ModItems.axe, ModItems.paxel,
+//        ModItems.hoe, ModItems.sickle, ModItems.bow, ModItems.shield }) {
+//      reg.registerSubtypeInterpreter(item, new ISubtypeInterpreter() {
+//
+//        @Override
+//        public String getSubtypeInfo(ItemStack stack) {
+//
+//          ToolPart[] parts = ToolHelper.getConstructionParts(stack);
+//          if (parts.length == 0)
+//            return "unknown";
+//          return parts[0].getKey();
+//        }
+//      });
+//    }
 
     // Enchantment tokens
     reg.registerSubtypeInterpreter(ModItems.enchantmentToken, new ISubtypeInterpreter() {

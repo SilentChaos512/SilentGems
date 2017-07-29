@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.item;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.lwjgl.input.Keyboard;
@@ -44,10 +45,13 @@ import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.gems.util.NBTHelper;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 import net.silentchaos512.lib.util.StackHelper;
@@ -89,7 +93,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+  public void clAddInformation(ItemStack stack, World world, List list, boolean advanced) {
 
     final boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
         || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
@@ -112,7 +116,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     String chaosEssence = "gemChaos";
     ItemStack chaosEssenceEnriched = ModItems.craftingMaterial.chaosEssenceEnriched;
@@ -124,20 +128,20 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
 
       switch (type) {
         case FRAGILE:
-          GameRegistry.addRecipe(new ShapedOreRecipe(result, "ccc", "cdc", "ccc", 'c', chaosEssence,
-              'd', "gemDiamond"));
+          recipes.addShapedOre("chaos_orb_fragile", result, "ccc", "cdc", "ccc", 'c', chaosEssence,
+              'd', "gemDiamond");
           break;
         case POTATO:
-          GameRegistry.addRecipe(new ShapedOreRecipe(result, "ccc", "cpc", "ccc", 'c',
-              chaosEssenceShard, 'p', Items.POTATO));
+          recipes.addShapedOre("chaos_orb_potato", result, "ccc", "cpc", "ccc", 'c',
+              chaosEssenceShard, 'p', Items.POTATO);
           break;
         case REFINED:
-          GameRegistry.addShapedRecipe(result, " c ", "coc", " c ", 'c', chaosEssenceEnriched, 'o',
-              new ItemStack(this, 1, Type.FRAGILE.ordinal()));
+          recipes.addShaped("chaos_orb_refined", result, " c ", "coc", " c ", 'c',
+              chaosEssenceEnriched, 'o', new ItemStack(this, 1, Type.FRAGILE.ordinal()));
           break;
         case SUPREME:
-          GameRegistry.addShapedRecipe(result, " c ", "coc", " c ", 'c', chaosEssenceCrystallized,
-              'o', new ItemStack(this, 1, Type.REFINED.ordinal()));
+          recipes.addShaped("chaos_orb_supreme", result, " c ", "coc", " c ", 'c',
+              chaosEssenceCrystallized, 'o', new ItemStack(this, 1, Type.REFINED.ordinal()));
           break;
         default:
           throw new NotImplementedException("No recipe for chaos orb of type " + type);
@@ -146,42 +150,40 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    List<ModelResourceLocation> models = Lists.newArrayList();
     for (Type orbType : Type.values()) {
       String name = (getFullName() + orbType.ordinal()).toLowerCase();
-      models.add(new ModelResourceLocation(name, "inventory"));
-      for (int i = 1; i < orbType.crackStages; ++i) {
-        models.add(new ModelResourceLocation(name + "_" + i, "inventory"));
-      }
-    }
-    return models;
-  }
-
-  @Override
-  public boolean registerModels() {
-
-    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-
-    for (Type orbType : Type.values()) {
-      String name = getFullName().toLowerCase() + orbType.ordinal();
-      ModelResourceLocation model = new ModelResourceLocation(name, "inventory");
-      ModelLoader.registerItemVariants(this, model);
-      mesher.register(this, orbType.ordinal(), model);
+      models.put(orbType.ordinal(), new ModelResourceLocation(name, "inventory"));
       for (int i = 1; i < orbType.crackStages; ++i) {
         int meta = orbType.ordinal() + (i << 4);
-        model = new ModelResourceLocation(name + "_" + i, "inventory");
-        ModelLoader.registerItemVariants(this, model);
-        mesher.register(this, meta, model);
+        models.put(meta, new ModelResourceLocation(name + "_" + i, "inventory"));
       }
     }
-
-    return true;
   }
+
+//  @Override
+//  public boolean registerModels() {
+//
+//    for (Type orbType : Type.values()) {
+//      String name = getFullName().toLowerCase() + orbType.ordinal();
+//      ModelResourceLocation model = new ModelResourceLocation(name, "inventory");
+//      ModelLoader.setCustomModelResourceLocation(this, orbType.ordinal(), model);
+//      for (int i = 1; i < orbType.crackStages; ++i) {
+//        int meta = orbType.ordinal() + (i << 4);
+//        model = new ModelResourceLocation(name + "_" + i, "inventory");
+//        ModelLoader.setCustomModelResourceLocation(this, meta, model);
+//      }
+//    }
+//
+//    return true;
+//  }
 
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (!ItemHelper.isInCreativeTab(item, tab))
+      return;
 
     for (Type type : Type.values()) {
       ItemStack empty = new ItemStack(item, 1, type.ordinal());
@@ -204,7 +206,8 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
   }
 
   @Override
-  protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+  protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player,
+      EnumHand hand) {
 
     ItemStack stack = player.getHeldItem(hand);
     if (player.isSneaking()) {

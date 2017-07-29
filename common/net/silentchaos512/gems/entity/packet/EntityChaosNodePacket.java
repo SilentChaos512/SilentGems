@@ -151,9 +151,9 @@ public class EntityChaosNodePacket extends Entity implements IEntityAdditionalSp
 
   public void setVelocity(Vec3d vec) {
 
-    motionX = vec.xCoord;
-    motionY = vec.yCoord;
-    motionZ = vec.zCoord;
+    motionX = vec.x;
+    motionY = vec.y;
+    motionZ = vec.z;
   }
 
   public void onImpactWithEntity(EntityLivingBase entity) {

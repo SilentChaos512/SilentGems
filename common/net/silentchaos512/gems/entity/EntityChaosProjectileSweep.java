@@ -1,11 +1,8 @@
 package net.silentchaos512.gems.entity;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
@@ -26,9 +23,9 @@ public class EntityChaosProjectileSweep extends EntityChaosProjectile {
 
     Vec3d vec = shooter.getLookVec();
     vec = vec.rotateYaw(yaw);
-    motionX = vec.xCoord;
-    motionY = vec.yCoord;
-    motionZ = vec.zCoord;
+    motionX = vec.x;
+    motionY = vec.y;
+    motionZ = vec.z;
     // SilentGems.instance.logHelper.debug(motionX, motionY, motionZ);
 
     float speedMulti = 0.7f;

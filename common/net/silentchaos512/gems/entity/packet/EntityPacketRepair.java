@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
@@ -11,6 +12,7 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.lib.collection.ItemStackList;
 import net.silentchaos512.lib.util.Color;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 public class EntityPacketRepair extends EntityChaosNodePacket {
@@ -69,7 +71,7 @@ public class EntityPacketRepair extends EntityChaosNodePacket {
     }
 
     if (stackToRepair != null) {
-      stackToRepair.attemptDamageItem((int) -amount, rand);
+      ItemHelper.attemptDamageItem(stackToRepair, (int) -amount, rand, player);
       world.playSound(null, posX, posY, posZ, SoundEvents.BLOCK_ANVIL_USE, SoundCategory.AMBIENT,
           0.5f, 2.0f + (float) (0.2 * rand.nextGaussian()));
     }

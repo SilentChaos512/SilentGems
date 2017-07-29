@@ -1,9 +1,9 @@
 package net.silentchaos512.gems.item.tool;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
@@ -31,12 +31,13 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.registry.RecipeMaker;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
@@ -45,7 +46,6 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
       Material.WOOD);
   public static final Material[] EXTRA_EFFECTIVE_MATERIALS = { Material.WOOD, Material.LEAVES,
       Material.PLANTS, Material.VINE };
-  protected List<ItemStack> subItems = null;
 
   public ItemGemAxe() {
 
@@ -121,21 +121,6 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   // ==============
   // Item overrides
   // ==============
-
-  @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
-
-    ToolRenderHelper.getInstance().addInformation(stack, player, list, advanced);
-  }
-
-  @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
-
-    if (subItems == null) {
-      subItems = ToolHelper.getSubItems(item, 3);
-    }
-    list.addAll(subItems);
-  }
 
   @Override
   public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
@@ -280,27 +265,10 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   // ===============
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
-    if (getConfig().isDisabled)
-      return;
-
-    String l1 = "gg";
-    String l2 = "gs";
-    String l3 = " s";
-    ItemStack flint = new ItemStack(Items.FLINT);
-    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
-
-    // Flint
-    ToolHelper.addRecipe(constructTool(false, flint), l1, l2, l3, flint, "stickWood");
-    for (EnumGem gem : EnumGem.values()) {
-      // Regular
-      ToolHelper.addRecipe(constructTool(false, gem.getItem()), l1, l2, l3, gem.getItem(),
-          "stickWood");
-      // Super
-      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), l1, l2, l3, gem.getItemSuper(),
-          rodGold);
-    }
+    if (!getConfig().isDisabled)
+      ToolHelper.addExampleRecipe(this, "gg", "gs", " s");
   }
 
   @Override
@@ -327,9 +295,9 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    return Lists.newArrayList(ToolRenderHelper.SMART_MODEL);
+    models.put(0, ToolRenderHelper.SMART_MODEL);
   }
 
   @Override
@@ -338,17 +306,34 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
     return false;
   }
 
-  // ==============================
-  // Cross Compatibility (MC 10/11)
-  // ==============================
+  // =================================
+  // Cross Compatibility (MC 10/11/12)
+  // =================================
 
-  // getSubItems
+  @Override
+  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+
+    ToolRenderHelper.getInstance().clAddInformation(stack, player.world, list, advanced);
+  }
+
+  // getSubItems 1.10.2
   public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (subItems == null) {
-      subItems = ToolHelper.getSubItems(item, 3);
-    }
-    list.addAll(subItems);
+    clGetSubItems(item, tab, list);
+  }
+
+  @Override
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+
+    clGetSubItems(this, tab, list);
+  }
+
+  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (!ItemHelper.isInCreativeTab(item, tab))
+      return;
+
+    list.addAll(ToolHelper.getSubItems(item, 3));
   }
 
   // onItemUse

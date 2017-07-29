@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.block;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import com.google.common.collect.Lists;
@@ -72,7 +73,7 @@ public class BlockGemSubtypes extends BlockSL {
   @Override
   public IBlockState getStateFromMeta(int meta) {
 
-    return getDefaultState().withProperty(EnumGem.VARIANT_GEM, EnumGem.values()[meta]);
+    return getDefaultState().withProperty(EnumGem.VARIANT_GEM, EnumGem.values()[meta & 0xF]);
   }
 
   @Override
@@ -88,13 +89,11 @@ public class BlockGemSubtypes extends BlockSL {
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    List list = Lists.newArrayList();
     for (int i = 0; i < 16; ++i) {
       EnumGem gem = EnumGem.values()[i];
-      list.add(new ModelResourceLocation(getFullName().toLowerCase(), "gem=" + gem.getName()));
+      models.put(i, new ModelResourceLocation(getFullName().toLowerCase(), "gem=" + gem.getName()));
     }
-    return list;
   }
 }

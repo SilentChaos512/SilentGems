@@ -18,8 +18,8 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.block.BlockTeleporter;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemTeleporterLinker;
-import net.silentchaos512.gems.item.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.gems.util.TeleportUtil;
@@ -27,7 +27,6 @@ import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.LogHelper;
-import net.silentchaos512.lib.util.PlayerHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class TileTeleporter extends TileEntity implements IChaosAccepter {
@@ -143,9 +142,9 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
       }
 
       TileTeleporter tile1 = (TileTeleporter) player.getServer()
-          .worldServerForDimension(position1.dim).getTileEntity(position1.toBlockPos());
+          .getWorld(position1.dim).getTileEntity(position1.toBlockPos());
       TileTeleporter tile2 = (TileTeleporter) player.getServer()
-          .worldServerForDimension(position2.dim).getTileEntity(position2.toBlockPos());
+          .getWorld(position2.dim).getTileEntity(position2.toBlockPos());
 
       if (tile1 == null || tile2 == null) {
         // Could not find a teleporter?
@@ -248,7 +247,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
     if (player == null || destination == null || destination.equals(DimensionalPosition.ZERO)) {
       return true;
     }
-    return !player.getServer().worldServerForDimension(destination.dim)
+    return !player.getServer().getWorld(destination.dim)
         .isBlockNormalCube(destination.toBlockPos().up(2), false);
   }
 
@@ -268,7 +267,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
         || destination.equals(DimensionalPosition.ZERO)) {
       return true;
     }
-    return player.getServer().worldServerForDimension(destination.dim)
+    return player.getServer().getWorld(destination.dim)
         .getBlockState(destination.toBlockPos()).getBlock() instanceof BlockTeleporter;
   }
 

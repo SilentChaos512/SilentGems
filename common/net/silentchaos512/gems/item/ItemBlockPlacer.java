@@ -4,13 +4,10 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import org.lwjgl.input.Mouse;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -19,15 +16,12 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IBlockPlacer;
-import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.ChatHelper;
@@ -51,7 +45,7 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer playerIn, List list, boolean advanced) {
+  public void clAddInformation(ItemStack stack, World world, List list, boolean advanced) {
 
     String blockPlacer = "BlockPlacer";
     LocalizationHelper loc = SilentGems.localizationHelper;
@@ -61,7 +55,7 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     int maxBlocks = stack.getMaxDamage();
 
     list.add(loc.getItemSubText(blockPlacer, "count", currentBlocks, maxBlocks));
-    String onOrOff = loc.getItemSubText(blockPlacer, "autoFill." + (autoFillOn ? "on" : "off"));
+    String onOrOff = loc.getMiscText("state." + (autoFillOn ? "on" : "off"));
     list.add(loc.getItemSubText(blockPlacer, "autoFill", onOrOff));
   }
 
@@ -148,7 +142,8 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   }
 
   @Override
-  protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+  protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player,
+      EnumHand hand) {
 
     ItemStack stack = player.getHeldItem(hand);
     if (!player.world.isRemote && player.isSneaking()) {
@@ -165,8 +160,8 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   }
 
   @Override
-  protected EnumActionResult clOnItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
-      EnumFacing facing, float hitX, float hitY, float hitZ) {
+  protected EnumActionResult clOnItemUse(EntityPlayer player, World world, BlockPos pos,
+      EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     ItemStack stack = player.getHeldItem(hand);
     if (stack.getItemDamage() == getMaxDamage(stack) && !player.capabilities.isCreativeMode) {
@@ -185,8 +180,8 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     player.setHeldItem(EnumHand.OFF_HAND, fakeBlockStack);
 
     // Use the fake stack.
-    EnumActionResult result = ItemHelper.onItemUse(fakeBlockStack.getItem(), player,
-        world, pos, EnumHand.OFF_HAND, facing, hitX, hitY, hitZ);
+    EnumActionResult result = ItemHelper.onItemUse(fakeBlockStack.getItem(), player, world, pos,
+        EnumHand.OFF_HAND, facing, hitX, hitY, hitZ);
 
     // Return the player's offhand stack.
     player.setHeldItem(EnumHand.OFF_HAND, currentOffhand);
@@ -198,7 +193,8 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   }
 
   @Override
-  public ActionResult<ItemStack> onItemLeftClickSL(World world, EntityPlayer player, EnumHand hand) {
+  public ActionResult<ItemStack> onItemLeftClickSL(World world, EntityPlayer player,
+      EnumHand hand) {
 
     ItemStack stack = player.getHeldItem(hand);
     if (!player.world.isRemote && player.isSneaking() && getRemainingBlocks(stack) > 0) {
@@ -213,12 +209,12 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
 
       // Make the EntityItem and spawn in world.
       Vec3d vec = player.getLookVec().scale(2.0);
-      EntityItem entity = new EntityItem(world, player.posX + vec.xCoord,
-          player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, toDrop);
+      EntityItem entity = new EntityItem(world, player.posX + vec.x, player.posY + 1 + vec.y,
+          player.posZ + vec.x, toDrop);
       vec = vec.scale(-0.125);
-      entity.motionX = vec.xCoord;
-      entity.motionY = vec.yCoord;
-      entity.motionZ = vec.zCoord;
+      entity.motionX = vec.x;
+      entity.motionY = vec.y;
+      entity.motionZ = vec.z;
       world.spawnEntity(entity);
     }
 
@@ -227,6 +223,9 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
 
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (!ItemHelper.isInCreativeTab(item, tab))
+      return;
 
     ItemStack stack = new ItemStack(item);
     list.add(new ItemStack(item, 1, getMaxDamage(stack)));

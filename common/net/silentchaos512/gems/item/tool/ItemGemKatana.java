@@ -1,12 +1,13 @@
 package net.silentchaos512.gems.item.tool;
 
+import java.util.List;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
@@ -14,10 +15,12 @@ import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.registry.RecipeMaker;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemKatana extends ItemGemSword {
@@ -103,30 +106,23 @@ public class ItemGemKatana extends ItemGemSword {
   }
 
   @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
+  public void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (subItems == null) {
-      subItems = ToolHelper.getSubItems(item, 3);
-      for (ItemStack stack : subItems) {
-        stack = addDefaultGrip(stack);
-      }
+    if (!ItemHelper.isInCreativeTab(item, tab))
+      return;
+
+    List<ItemStack> subItems = ToolHelper.getSubItems(item, 3);
+    for (ItemStack stack : subItems) {
+      stack = addDefaultGrip(stack);
     }
     list.addAll(subItems);
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
-    if (getConfig().isDisabled)
-      return;
-
-    String line1 = "gg";
-    String line2 = "g ";
-    String line3 = "s ";
-    for (EnumGem gem : EnumGem.values()) {
-      ToolHelper.addRecipe(constructTool(true, gem.getItemSuper()), line1, line2, line3,
-          gem.getItemSuper(), ModItems.craftingMaterial.toolRodGold);
-    }
+    if (!getConfig().isDisabled)
+      ToolHelper.addExampleRecipe(this, "gg", "g ", "s ");
   }
 
   @Override

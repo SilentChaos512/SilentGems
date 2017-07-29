@@ -22,7 +22,6 @@ public class EnchantmentLifeSteal extends Enchantment {
     super(Rarity.RARE, EnumEnchantmentType.WEAPON,
         new EntityEquipmentSlot[] { EntityEquipmentSlot.MAINHAND });
     setName(NAME);
-    setRegistryName(NAME);
   }
 
   public float getAmountHealed(int level, float damageDealt) {

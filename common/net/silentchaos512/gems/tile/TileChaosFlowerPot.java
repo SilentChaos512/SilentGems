@@ -16,8 +16,8 @@ import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumSkyBlock;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.lib.tile.TileInventorySL;
 import net.silentchaos512.lib.util.Color;
@@ -77,9 +77,9 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
     // final int angleFactor = step - (longRange ? 8 : 0);
     vec = vec.rotateYaw(angleFactor / (float) k * (float) Math.PI);
 
-    x += Math.round(vec.xCoord);
+    x += Math.round(vec.x);
     y += 2; // rand.nextInt(5) - 2;
-    z += Math.round(vec.zCoord);
+    z += Math.round(vec.z);
 
     MutableBlockPos tryPos = new MutableBlockPos(x, y, z);
 
@@ -96,7 +96,7 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
       for (float f = 0; f < 2 * Math.PI; f += Math.PI / 32) {
         Vec3d v = new Vec3d(dist, 0, 0).rotateYaw(f);
         SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, debugColor, world,
-            pos.getX() + 0.5 + v.xCoord, pos.getY() + 0.5, pos.getZ() + 0.5 + v.zCoord, 0, 0, 0);
+            pos.getX() + 0.5 + v.x, pos.getY() + 0.5, pos.getZ() + 0.5 + v.z, 0, 0, 0);
       }
     }
 

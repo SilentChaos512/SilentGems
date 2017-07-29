@@ -1,27 +1,27 @@
 package net.silentchaos512.gems.client.render.particle;
 
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
+import net.silentchaos512.lib.client.particle.ParticleSL;
+import net.silentchaos512.lib.client.render.BufferBuilderSL;
 
-public class EntityFXCompass extends Particle {
+public class ParticleChaosUnused extends ParticleSL {
 
-  public static final int MAX_AGE = 5;
-  public static final int MAX_SCALE = 1;
+  public static final int MAX_AGE = 6;
+  public static final int MAX_SCALE = 3;
 
-  protected EntityFXCompass(World world, double posX, double posY, double posZ) {
+  protected ParticleChaosUnused(World world, double posX, double posY, double posZ) {
 
     this(world, posX, posY, posZ, 0, 0, 0, MAX_SCALE, MAX_AGE, 0.0f, 0.3f, 0.8f);
   }
 
-  public EntityFXCompass(World world, double posX, double posY, double posZ, double motionX,
+  public ParticleChaosUnused(World world, double posX, double posY, double posZ, double motionX,
       double motionY, double motionZ) {
 
     this(world, posX, posY, posZ, motionX, motionY, motionZ, MAX_SCALE, MAX_AGE, 0.0f, 0.3f, 0.8f);
   }
 
-  public EntityFXCompass(World world, double posX, double posY, double posZ, double motionX,
+  public ParticleChaosUnused(World world, double posX, double posY, double posZ, double motionX,
       double motionY, double motionZ, float scale, int maxAge, float red, float green, float blue) {
 
     super(world, posX, posY, posZ, 0, 0, 0);
@@ -29,13 +29,13 @@ public class EntityFXCompass extends Particle {
     this.motionY = motionY;
     this.motionZ = motionZ;
     this.particleTextureIndexX = 4;
-    this.particleTextureIndexY = 11;
+    this.particleTextureIndexY = 2; //11;
     this.particleRed = red;
     this.particleGreen = green;
     this.particleBlue = blue;
-    // this.particleRed = rand.nextFloat();
-    // this.particleGreen = rand.nextFloat();
-    // this.particleBlue = rand.nextFloat();
+//    this.particleRed = rand.nextFloat();
+//    this.particleGreen = rand.nextFloat();
+//    this.particleBlue = rand.nextFloat();
     this.particleScale = scale;
     this.particleMaxAge = maxAge;
     this.canCollide = false;
@@ -56,18 +56,18 @@ public class EntityFXCompass extends Particle {
 
     this.move(this.motionX, this.motionY, this.motionZ);
 
-//    this.particleScale *= 0.9f;
-//    this.particleAlpha -= 0.8f / (particleMaxAge * 1.25f);
+    this.particleScale *= 0.95f;
+    this.particleAlpha -= 0.8f / (particleMaxAge * 1.25f);
   }
 
   @Override
-  public void renderParticle(VertexBuffer worldRendererIn, Entity entityIn, float partialTicks,
+  public void clRenderParticle(BufferBuilderSL worldRendererIn, Entity entityIn, float partialTicks,
       float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
 
     float uMin = (float) this.particleTextureIndexX / 16.0F;
-    float uMax = uMin + .0625f;
+    float uMax = uMin + .25f; //uMin + .0625f;
     float vMin = (float) this.particleTextureIndexY / 16.0F;
-    float vMax = vMin + .0625f;
+    float vMax = vMin + .25f; //vMin + .0625f;
     float f4 = 0.1F * this.particleScale;
 
     if (this.particleTexture != null) {
@@ -89,25 +89,25 @@ public class EntityFXCompass extends Particle {
         .pos((double) (f5 - rotationX * f4 - rotationXY * f4), (double) (f6 - rotationZ * f4),
             (double) (f7 - rotationYZ * f4 - rotationXZ * f4))
         .tex((double) uMax, (double) vMax)
-        .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+        .color(this.particleRed, this.particleGreen, this.particleBlue, 1)
         .lightmap(j, k).endVertex();
     worldRendererIn
         .pos((double) (f5 - rotationX * f4 + rotationXY * f4), (double) (f6 + rotationZ * f4),
             (double) (f7 - rotationYZ * f4 + rotationXZ * f4))
         .tex((double) uMax, (double) vMin)
-        .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+        .color(this.particleRed, this.particleGreen, this.particleBlue, 1)
         .lightmap(j, k).endVertex();
     worldRendererIn
         .pos((double) (f5 + rotationX * f4 + rotationXY * f4), (double) (f6 + rotationZ * f4),
             (double) (f7 + rotationYZ * f4 + rotationXZ * f4))
         .tex((double) uMin, (double) vMin)
-        .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+        .color(this.particleRed, this.particleGreen, this.particleBlue, 1)
         .lightmap(j, k).endVertex();
     worldRendererIn
         .pos((double) (f5 + rotationX * f4 - rotationXY * f4), (double) (f6 - rotationZ * f4),
             (double) (f7 + rotationYZ * f4 - rotationXZ * f4))
         .tex((double) uMin, (double) vMax)
-        .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+        .color(this.particleRed, this.particleGreen, this.particleBlue, 1)
         .lightmap(j, k).endVertex();
   }
 }

@@ -1,8 +1,7 @@
 package net.silentchaos512.gems.item.tool;
 
 import java.util.List;
-
-import com.google.common.collect.Lists;
+import java.util.Map;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -23,27 +22,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.registry.RecipeMaker;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
@@ -76,7 +73,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   // ===================
   // = ITool overrides =
   // ===================
-  
+
   public ConfigOptionToolClass getConfig() {
 
     return GemsConfig.bow;
@@ -273,20 +270,6 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   // ==================
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
-
-    ToolRenderHelper.getInstance().addInformation(stack, player, list, advanced);
-  }
-
-  @Override
-  public void getSubItems(Item item, CreativeTabs tab, NonNullList list) {
-
-    if (subItems == null)
-      subItems = ToolHelper.getSubItems(item, 3);
-    list.addAll(subItems);
-  }
-
-  @Override
   public int getMaxDamage(ItemStack stack) {
 
     return ToolHelper.getMaxDamage(stack);
@@ -304,7 +287,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
     return ToolRenderHelper.instance.hasEffect(stack);
   }
-  
+
   @Override
   public EnumRarity getRarity(ItemStack stack) {
 
@@ -334,7 +317,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     if (getConfig().isDisabled)
       return;
@@ -360,12 +343,14 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
     }
   }
 
+  int lastIndex = -1;
+
   private void addRecipe(ItemStack result, ItemStack head, Object rod, Object string) {
 
     ToolPart part = ToolPartRegistry.fromStack(head);
     if (part != null && !part.isBlacklisted(head))
-      GameRegistry.addRecipe(
-          new ShapedOreRecipe(result, "sgw", "g w", "sgw", 'g', head, 's', rod, 'w', string));
+      SilentGems.registry.recipes.addShapedOre("bow_example" + (++lastIndex), result, "sgw", "g w",
+          "sgw", 'g', head, 's', rod, 'w', string);
   }
 
   @Override
@@ -387,9 +372,9 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    return Lists.newArrayList(ToolRenderHelper.SMART_MODEL);
+    models.put(0, ToolRenderHelper.SMART_MODEL);
   }
 
   @Override
@@ -398,16 +383,40 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
     return false;
   }
 
-  // ==============================
-  // Cross Compatibility (MC 10/11)
-  // ==============================
+  // =================================
+  // Cross Compatibility (MC 10/11/12)
+  // =================================
 
-  // getSubItems
+  @Override
+  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+
+    ToolRenderHelper.getInstance().clAddInformation(stack, player.world, list, advanced);
+  }
+
+  // getSubItems 1.10.2
   public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    if (subItems == null) {
-      subItems = ToolHelper.getSubItems(item, 3);
-    }
-    list.addAll(subItems);
+    clGetSubItems(item, tab, list);
   }
+
+  @Override
+  public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+
+    clGetSubItems(this, tab, list);
+  }
+
+  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (!ItemHelper.isInCreativeTab(item, tab))
+      return;
+
+    list.addAll(ToolHelper.getSubItems(item, 3));
+  }
+
+  // onItemUse
+//  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
+//      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+//
+//    return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
+//  }
 }

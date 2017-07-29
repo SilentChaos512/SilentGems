@@ -20,10 +20,11 @@ import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.api.tool.part.ToolPartTip;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.util.ToolHelper;
-import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.lib.recipe.RecipeBaseSL;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeDecorateTool implements IRecipeSL {
+public class RecipeDecorateTool extends RecipeBaseSL {
 
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
@@ -111,7 +112,7 @@ public class RecipeDecorateTool implements IRecipeSL {
     repairValue *= ((ITool) tool.getItem()).getRepairMultiplier();
 
     // Repair.
-    result.attemptDamageItem(-repairValue, SilentGems.instance.random);
+    ItemHelper.attemptDamageItem(result, -repairValue, SilentGems.instance.random);
     // Restore ammo.
     if (result.getItem() instanceof IAmmoTool && ammoValue > 0) {
       IAmmoTool ammoTool = (IAmmoTool) result.getItem();

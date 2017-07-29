@@ -62,9 +62,9 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
     setSize(SIZE, SIZE);
 
     Vec3d vec = shooter.getLookVec();
-    motionX = vec.xCoord;
-    motionY = vec.yCoord;
-    motionZ = vec.zCoord;
+    motionX = vec.x;
+    motionY = vec.y;
+    motionZ = vec.z;
 
     float speedMulti = 0.7f;
     motionX += shooter.motionX;

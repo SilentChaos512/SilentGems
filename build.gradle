@@ -16,17 +16,17 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //    id "net.minecraftforge.gradle.forge" version "2.0.2"
 //}
 
-version = "2.3.16"
-def silentlib_version = "2.1.5"
+version = "2.4.5"
+def silentlib_version = "2.2.6"
 def buildNum = 0
 group = "net.silentchaos512.gems"
-archivesBaseName = "SilentsGems-1.11.x"
+archivesBaseName = "SilentsGems-1.11.2"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
-    version = "1.11.2-13.20.0.2282"
+    version = "1.11.2-13.20.1.2388"
     runDir = "eclipse"
 
     def versionFile = file('version.properties')
@@ -46,7 +46,7 @@ minecraft {
     replace "BUILD_NUM = 0", "BUILD_NUM = " + buildNum
     replaceIn "SilentGems.java"
 
-    mappings = "snapshot_20161220"
+    mappings = "stable_32"
 }
 
 repositories {
@@ -77,7 +77,7 @@ artifacts {
 dependencies {
     deobfCompile "mezz.jei:jei_1.11.2:4.5.0.289"
     deobfCompile "slimeknights.mantle:Mantle:1.11.2-1.2.0.+"
-    deobfCompile "slimeknights:TConstruct:1.11.2-2.7.0.+"
+    deobfCompile "slimeknights:TConstruct:1.11.2-2.7.1.+"
 }
 
 sourceSets {

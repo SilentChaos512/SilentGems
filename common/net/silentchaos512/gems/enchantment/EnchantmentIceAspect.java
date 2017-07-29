@@ -21,12 +21,11 @@ public class EnchantmentIceAspect extends Enchantment {
   public static final int CONTINUOUS_DAMAGE_DELAY = 40;
   public static final int CONTINUOUS_DAMAGE_AMOUNT = 1;
 
-  protected EnchantmentIceAspect() {
+  public EnchantmentIceAspect() {
 
     super(Rarity.RARE, EnumEnchantmentType.WEAPON,
         new EntityEquipmentSlot[] { EntityEquipmentSlot.MAINHAND });
     setName(NAME);
-    setRegistryName(NAME);
   }
 
   @Override

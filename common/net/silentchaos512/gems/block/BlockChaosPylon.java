@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.block;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
@@ -31,7 +32,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
@@ -39,6 +40,7 @@ import net.silentchaos512.gems.tile.TileChaosPylon;
 import net.silentchaos512.lib.block.BlockContainerSL;
 import net.silentchaos512.lib.registry.IHasSubtypes;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class BlockChaosPylon extends BlockContainerSL implements ITileEntityProvider, IHasSubtypes {
 
@@ -69,16 +71,16 @@ public class BlockChaosPylon extends BlockContainerSL implements ITileEntityProv
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     ItemStack pylonPassive = new ItemStack(this, 1, EnumPylonType.PASSIVE.getMeta());
     ItemStack pylonBurner = new ItemStack(this, 1, EnumPylonType.BURNER.getMeta());
     ItemStack chaosCore = ModItems.craftingMaterial.chaosCore;
 
-    GameRegistry.addRecipe(new ShapedOreRecipe(pylonPassive, "lel", "lol", "ooo", 'e', chaosCore,
-        'l', "gemLapis", 'o', Blocks.OBSIDIAN));
-    GameRegistry.addRecipe(new ShapedOreRecipe(pylonBurner, " e ", "rpr", "ofo", 'p', pylonPassive,
-        'e', chaosCore, 'f', Blocks.FURNACE, 'r', "blockRedstone", 'o', Blocks.OBSIDIAN));
+    recipes.addShapedOre("chaos_pylon_passive", pylonPassive, "lel", "lol", "ooo", 'e', chaosCore,
+        'l', "gemLapis", 'o', Blocks.OBSIDIAN);
+    recipes.addShapedOre("chaos_pylon_burner", pylonBurner, " e ", "rpr", "ofo", 'p', pylonPassive,
+        'e', chaosCore, 'f', Blocks.FURNACE, 'r', "blockRedstone", 'o', Blocks.OBSIDIAN);
   }
 
   @Override
@@ -105,9 +107,8 @@ public class BlockChaosPylon extends BlockContainerSL implements ITileEntityProv
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    return Lists.newArrayList();
   }
 
   @Override

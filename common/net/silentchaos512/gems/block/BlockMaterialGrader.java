@@ -22,10 +22,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
 import net.silentchaos512.lib.block.BlockContainerSL;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.wit.api.IWitHudInfo;
 
 public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo {
@@ -44,14 +45,14 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     // @formatter:off
-    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this),
+    recipes.addShapedOre("material_grader", new ItemStack(this),
         " m ", "iii", "ccc",
         'i', "ingotIron",
         'c', ModItems.craftingMaterial.chaosEssenceEnriched,
-        'm', ModItems.craftingMaterial.magnifyingGlass));
+        'm', ModItems.craftingMaterial.magnifyingGlass);
     // @formatter:on
   }
 
@@ -143,7 +144,7 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
   }
 
   @Override
-  public boolean isFullyOpaque(IBlockState state) {
+  public boolean isTranslucent(IBlockState state) {
 
     return false;
   }

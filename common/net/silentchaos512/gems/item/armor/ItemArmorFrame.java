@@ -14,9 +14,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.item.ModItems;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemArmorFrame extends ItemSL {
@@ -62,7 +63,7 @@ public class ItemArmorFrame extends ItemSL {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     ItemStack lattice;
 
@@ -73,24 +74,24 @@ public class ItemArmorFrame extends ItemSL {
 
       if (StackHelper.isValid(lattice))
         for (int type = 0; type < 4; ++type)
-          addRecipe(new ItemStack(this, 1, type + (tier << 2)), lattice, type);
+          addRecipe(recipes, "armor_frame_" + tier, new ItemStack(this, 1, type + (tier << 2)), lattice, type);
     }
   }
 
-  private void addRecipe(ItemStack output, ItemStack lattice, int armorType) {
+  private void addRecipe(RecipeMaker recipes, String name, ItemStack output, ItemStack lattice, int armorType) {
 
     switch (armorType) {
       case 0:
-        GameRegistry.addShapedRecipe(output, "lll", "l l", 'l', lattice);
+        recipes.addShaped(name + "_helmet", output, "lll", "l l", 'l', lattice);
         break;
       case 1:
-        GameRegistry.addShapedRecipe(output, "l l", "lll", "lll", 'l', lattice);
+        recipes.addShaped(name + "_chestplate", output, "l l", "lll", "lll", 'l', lattice);
         break;
       case 2:
-        GameRegistry.addShapedRecipe(output, "lll", "l l", "l l", 'l', lattice);
+        recipes.addShaped(name + "_leggings", output, "lll", "l l", "l l", 'l', lattice);
         break;
       case 3:
-        GameRegistry.addShapedRecipe(output, "l l", "l l", 'l', lattice);
+        recipes.addShaped(name + "_boots", output, "l l", "l l", 'l', lattice);
         break;
     }
   }

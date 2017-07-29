@@ -4,10 +4,10 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.item.ItemChaosGem;
 import net.silentchaos512.gems.item.ItemChaosRune;
-import net.silentchaos512.lib.recipe.IRecipeSL;
+import net.silentchaos512.lib.recipe.RecipeBaseSL;
 import net.silentchaos512.lib.util.StackHelper;
 
-public class RecipeChaosGemUpgrade implements IRecipeSL {
+public class RecipeChaosGemUpgrade extends RecipeBaseSL {
 
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
@@ -44,11 +44,5 @@ public class RecipeChaosGemUpgrade implements IRecipeSL {
     }
 
     return chaosGem;
-  }
-
-  @Override
-  public int getRecipeSize() {
-
-    return 10;
   }
 }

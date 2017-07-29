@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.MapMaker;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -39,16 +40,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.ModBlocks;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.enchantment.ModEnchantments;
+import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.init.ModEnchantments;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.SilentLib;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.EnchantmentUtils;
+import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
@@ -299,7 +303,7 @@ public class ItemEnchantmentToken extends ItemSL {
   // =========================
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+  public void clAddInformation(ItemStack stack, World world, List list, boolean advanced) {
 
     LocalizationHelper loc = SilentGems.localizationHelper;
     Map<Enchantment, Integer> enchants = getEnchantments(stack);
@@ -341,6 +345,9 @@ public class ItemEnchantmentToken extends ItemSL {
 
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+    if (!ItemHelper.isInCreativeTab(item, tab))
+      return;
 
     List<ItemStack> tokens = Lists.newArrayList();
 
@@ -431,13 +438,13 @@ public class ItemEnchantmentToken extends ItemSL {
   // =========================
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     // Blank
-    GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 12, BLANK_META), "ggg", "lcl",
-        "ggg", 'g', "ingotGold", 'l', "gemLapis", 'c', "gemChaos"));
+    recipes.addShapedOre("enchantment_token_blank", new ItemStack(this, 12, BLANK_META), "ggg",
+        "lcl", "ggg", 'g', "ingotGold", 'l', "gemLapis", 'c', "gemChaos");
     // Uncrafting
-    GameRegistry.addShapelessRecipe(new ItemStack(this, 1, BLANK_META),
+    recipes.addShapeless("enchantment_token_clear", new ItemStack(this, 1, BLANK_META),
         new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE));
 
     // All
@@ -459,7 +466,7 @@ public class ItemEnchantmentToken extends ItemSL {
     addTokenRecipe(Enchantments.SHARPNESS, EnumGem.RUBY, Items.FLINT, 5);
     addTokenRecipe(Enchantments.SMITE, EnumGem.PERIDOT, Items.ROTTEN_FLESH, 5);
     if (SilentLib.instance.getMCVersion() >= 11) {
-      addTokenRecipe(Enchantments.field_191530_r, EnumGem.MOLDAVITE, Items.REEDS, 5); // Sweeping Edge
+      addTokenRecipe(Enchantments.field_191530_r, EnumGem.MOLDAVITE, Items.REEDS, 5);
     }
     addTokenRecipe(ModEnchantments.lifeSteal, EnumGem.MORGANITE, Items.GOLDEN_APPLE, 3);
     addTokenRecipe(ModEnchantments.magicDamage, EnumGem.LEPIDOLITE, Items.BLAZE_ROD, 4);
@@ -536,8 +543,9 @@ public class ItemEnchantmentToken extends ItemSL {
         : (otherCount == 2 || otherCount == 4 ? "o o" : " o ");
 
     ItemStack token = constructToken(ench);
-    GameRegistry.addRecipe(new ShapedOreRecipe(token, line1, line2, line3, 'g',
-        gem.getItemOreName(), 'o', other, 't', new ItemStack(this, 1, BLANK_META)));
+    String recipeName = "enchantment_token_" + ench.getName().replaceAll(":", "_");
+    SilentGems.registry.recipes.addShapedOre(recipeName, token, line1, line2, line3, 'g',
+        gem.getItemOreName(), 'o', other, 't', new ItemStack(this, 1, BLANK_META));
 
     // Add to recipe map (tooltip recipe info)
     String recipeString = "2 " + gem.getItemOreName() + ";" + otherCount + " ";
@@ -564,34 +572,29 @@ public class ItemEnchantmentToken extends ItemSL {
   }
 
   @Override
-  public List<ModelResourceLocation> getVariants() {
+  public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    List<ModelResourceLocation> models = Lists.newArrayList();
     String fullName = getFullName().toLowerCase();
-    models.add(new ModelResourceLocation(fullName, "inventory"));
+    models.put(0, new ModelResourceLocation(fullName, "inventory"));
+    int i = 1;
     for (String type : MODEL_TYPES) {
       String name = fullName + "_" + type.toLowerCase();
-      models.add(new ModelResourceLocation(name, "inventory"));
+      models.put(i++, new ModelResourceLocation(name, "inventory"));
     }
-    return models;
   }
 
   @Override
   public boolean registerModels() {
 
     ModelResourceLocation model;
-    List<ModelResourceLocation> list = getVariants();
-    ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+    Map<Integer, ModelResourceLocation> models = new MapMaker().makeMap();
+    getModels(models);
 
-    for (int i = 0; i < list.size(); ++i) {
-      model = list.get(i);
-      if (model != null) {
-        ModelLoader.registerItemVariants(this, model);
-        mesher.register(this, i, model);
-      }
+    for (Entry<Integer, ModelResourceLocation> entry : models.entrySet()) {
+      ModelLoader.setCustomModelResourceLocation(this, entry.getKey(), entry.getValue());
     }
 
-    mesher.register(this, BLANK_META, list.get(0));
+    ModelLoader.setCustomModelResourceLocation(this, BLANK_META, models.get(0));
 
     return true;
   }

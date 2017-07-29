@@ -1,14 +1,17 @@
 package net.silentchaos512.gems.client.gui;
 
+import org.lwjgl.util.Color;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -16,19 +19,20 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
-import net.silentchaos512.lib.util.Color;
+import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.handler.PlayerDataHandler;
+import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 
 @SideOnly(Side.CLIENT)
 public class GuiChaosBar extends Gui {
 
   public static final GuiChaosBar INSTANCE = new GuiChaosBar(Minecraft.getMinecraft());
 
-  public static final ResourceLocation TEXTURE_FRAME = new ResourceLocation(SilentGems.MODID,
-      "textures/gui/chaosbarframe.png");
-  public static final ResourceLocation TEXTURE_BAR = new ResourceLocation(SilentGems.MODID,
-      "textures/gui/chaosbar.png");
+  public static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MODID, "textures/gui/hud.png");
 
-  public static final int POPUP_TIME = 120;
+  public static final int POPUP_TIME = 300;
+  public static final float COLOR_CHANGE_DELAY = 200f;
+  public static final float COLOR_CHANGE_STEP = 8f;
 
   private int currentChaos = 0;
   private int maxChaos = 10000;
@@ -47,6 +51,11 @@ public class GuiChaosBar extends Gui {
 
     this.currentChaos = currentChaos;
     this.maxChaos = maxChaos < currentChaos ? currentChaos : maxChaos;
+    show();
+  }
+
+  public void show() {
+
     lastUpdateTime = ClientTickHandler.ticksInGame;
   }
 
@@ -57,75 +66,60 @@ public class GuiChaosBar extends Gui {
       return;
     }
 
+    Minecraft mc = Minecraft.getMinecraft();
+    EntityPlayer player = mc.player;
+
     currentTime = ClientTickHandler.ticksInGame;
-    if (currentTime > lastUpdateTime + POPUP_TIME) {
+    if (player.capabilities.isCreativeMode || (!GemsConfig.CHAOS_BAR_SHOW_ALWAYS && currentTime > lastUpdateTime + POPUP_TIME)) {
       return;
     }
 
-    ScaledResolution res = new ScaledResolution(mc);
+    int width = event.getResolution().getScaledWidth();
+    int height = event.getResolution().getScaledHeight();
 
-    int posX, posY;
-    float scale;
+    PlayerData data = PlayerDataHandler.get(player);
+    int chaos = data.getCurrentChaos();
+    int maxChaos = data.getMaxChaos();
+    int chaosHalves = (int) (20f * chaos / maxChaos);
 
-    final Color color = new Color(1f, 1f, 1f, 0.75f);
-    final int barWidth = 80;
-    final int barHeight = 8;
-    final float xOffset = 0.5f;
-    final float yOffset = 0.15f;
-    final float fraction = (float) currentChaos / maxChaos;
+    int rowHeight = 10;
 
-    GlStateManager.disableLighting();
+    int left = width / 2 + 10;
+    int top = height - GuiIngameForge.right_height;
+    GuiIngameForge.right_height += rowHeight;
+
+    final int textureX = 0;
+    final int textureY = 23;
+    final int textureWidth = 9;
+    final int textureHeight = 9;
+
+    GlStateManager.pushMatrix();
     GlStateManager.enableBlend();
+    mc.renderEngine.bindTexture(TEXTURE);
 
-    scale = 1.0f;
-    if (scale > 0f) {
-      GlStateManager.pushMatrix();
+    for (int i = 9; i >= 0; --i) {
+      int row = MathHelper.ceil((i + 1) / 10f) - 1;
+      int x = left + i % 10 * 8;
+      int y = top - row * rowHeight;
 
-      posX = (int) (res.getScaledWidth() / scale * xOffset - barWidth / 2);
-      posY = (int) (res.getScaledHeight() / scale * yOffset);
-      GlStateManager.scale(scale, scale, 1);
+      GlStateManager.color(1f, 1f, 1f, 1f);
 
-      drawBar(posX, posY + 0.5f, barWidth, barHeight - 1f, color, fraction);
-      drawBarFrame(posX, posY, barWidth, barHeight, new Color(1f, 1f, 1f, 1f));
+      drawTexturedModalRect(x, y, textureX + 2 * textureWidth, textureY, textureWidth, textureHeight);
 
-//      String line = "" + currentChaos;
-//      int lineWidth = mc.fontRendererObj.getStringWidth(line);
-//      mc.fontRendererObj.drawStringWithShadow(line, res.getScaledWidth() * xOffset - lineWidth / 2,
-//          res.getScaledHeight() * (yOffset + 0.025f), 0xFFFFFF);
+      Color color = new Color();
+      float hue = ((currentTime + COLOR_CHANGE_STEP * i) % COLOR_CHANGE_DELAY) / COLOR_CHANGE_DELAY;
+      color.fromHSB(hue, 0.6f, 1f);
 
-      GlStateManager.popMatrix();
+      GlStateManager.color(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 1f);
+
+      if (i * 2 + 1 < chaosHalves)
+        drawTexturedModalRect(x, y, textureX, textureY, textureWidth, textureHeight);
+      else if (i * 2 + 1 == chaosHalves)
+        drawTexturedModalRect(x, y, textureX + textureWidth, textureY, textureWidth, textureHeight);
     }
 
-    // GlStateManager.disableBlend();
-    // GlStateManager.enableLighting();
-  }
-
-  protected void drawBar(float x, float y, float width, float height, Color color, float fraction) {
-
-    mc.renderEngine.bindTexture(TEXTURE_BAR);
-    GlStateManager.color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-
-    float barPosWidth = width * fraction;
-    float barPosX = x + width * (1f - fraction) / 2;
-    drawRect(barPosX, y, 0, 0, barPosWidth, height);
-  }
-
-  protected void drawBarFrame(float x, float y, float width, float height, Color color) {
-
-    mc.renderEngine.bindTexture(TEXTURE_FRAME);
-    GlStateManager.color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-    drawRect(x, y, 0, 0, width, height);
-  }
-
-  public void drawRect(float x, float y, float u, float v, float width, float height) {
-
-    Tessellator tess = Tessellator.getInstance();
-    VertexBuffer buff = tess.getBuffer();
-    buff.begin(7, DefaultVertexFormats.POSITION_TEX);
-    buff.pos(x, y + height, 0).tex(0, 1).endVertex();
-    buff.pos(x + width, y + height, 0).tex(1, 1).endVertex();
-    buff.pos(x + width, y, 0).tex(1, 0).endVertex();
-    buff.pos(x, y, 0).tex(0, 0).endVertex();
-    tess.draw();
+    mc.renderEngine.bindTexture(Gui.ICONS);
+    GlStateManager.disableBlend();
+    GlStateManager.popMatrix();
   }
 }

@@ -14,12 +14,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.LocalizationHelper;
-import net.silentchaos512.lib.util.RecipeHelper;
 import net.silentchaos512.wit.api.IWitHudInfo;
 
 public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
@@ -79,18 +79,19 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
   }
 
   @Override
-  public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
+  public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn,
+      BlockPos fromPos) {
 
-    //IBlockState state = world.getBlockState(pos);
+    // IBlockState state = world.getBlockState(pos);
 
     if (!world.isRemote) {
       boolean powered = world.isBlockPowered(pos);
       EnumGem gem = EnumGem.values()[getMetaFromState(state)];
       BlockGemLamp newBlock = getLamp(inverted ? !powered : powered);
 
-//      String debug = "powered = %s, isDark = %s, lit = %s, inverted = %s, oldBlock = %s, newBlock = %s";
-//      debug = String.format(debug, powered, isDark, lit, inverted, this, newBlock);
-//      SilentGems.logHelper.debug(debug, newBlock.lit, newBlock.inverted, newBlock.isDark);
+      // String debug = "powered = %s, isDark = %s, lit = %s, inverted = %s, oldBlock = %s, newBlock = %s";
+      // debug = String.format(debug, powered, isDark, lit, inverted, this, newBlock);
+      // SilentGems.logHelper.debug(debug, newBlock.lit, newBlock.inverted, newBlock.isDark);
 
       if (inverted) {
         if (!lit && !powered) {
@@ -140,24 +141,26 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
   }
 
   @Override
-  public void addRecipes() {
+  public void addRecipes(RecipeMaker recipes) {
 
     if (!lit && !inverted) {
+      // Normal lamps
       for (int i = 0; i < 16; ++i) {
-        RecipeHelper.addSurroundOre(new ItemStack(this, 1, i), getGem(i).getItemOreName(),
+        recipes.addSurroundOre(blockName + i, new ItemStack(this, 1, i), getGem(i).getItemOreName(),
             "dustRedstone", "dustGlowstone");
       }
     } else if (lit && inverted) {
+      // Inverted lamps
+      ItemStack redstoneTorch = new ItemStack(Blocks.REDSTONE_TORCH);
       for (int i = 0; i < 16; ++i) {
-        GameRegistry.addShapelessRecipe(new ItemStack(this, 1, i),
-            new ItemStack(getLamp(isDark, false, false), 1, i), Blocks.REDSTONE_TORCH);
+        recipes.addShapeless(blockName + i + "_invert", new ItemStack(this, 1, i),
+            new ItemStack(getLamp(isDark, false, false), 1, i), redstoneTorch);
       }
     }
   }
 
   @Override
-  public void addInformation(ItemStack stack, EntityPlayer player, List<String> list,
-      boolean advanced) {
+  public void clAddInformation(ItemStack stack, World world, List<String> list, boolean advanced) {
 
     if (inverted)
       list.add(SilentGems.instance.localizationHelper.getBlockSubText(Names.GEM_LAMP, "inverted"));

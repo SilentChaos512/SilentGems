@@ -25,7 +25,7 @@ public class GuiCrosshairs extends GuiIngame {
   public static final GuiCrosshairs INSTANCE = new GuiCrosshairs(Minecraft.getMinecraft());
 
   public static final ResourceLocation TEXTURE_CROSSHAIRS = new ResourceLocation(SilentGems.MODID,
-      "textures/gui/crosshairs.png");
+      "textures/gui/hud.png");
 
   public GuiCrosshairs(Minecraft mcIn) {
 
