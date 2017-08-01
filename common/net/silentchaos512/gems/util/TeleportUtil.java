@@ -18,7 +18,7 @@ public class TeleportUtil {
     String debugLine = "Teleporting %s from {%s} to {%s}.";
     debugLine = String.format(debugLine, player.getName(),
         new DimensionalPosition(player.getPosition(), player.dimension), pos);
-    SilentGems.instance.logHelper.info(debugLine);
+    SilentGems.logHelper.info(debugLine);
 
     if (pos.dim != oldDimension) {
       WorldServer oldWorldServer = player.getServer().getWorld(oldDimension);

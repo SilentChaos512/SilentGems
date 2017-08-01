@@ -21,8 +21,11 @@ public class GuiHandlerSilentGems implements IGuiHandler {
 
   @Override
   public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-
     TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
+    if (tile == null) {
+      SilentGems.logHelper.warning(String.format("Missing TileEntity at %d %d %d!", x, y, z));
+      return null;
+    }
 
     switch (ID) {
       case ID_ALTAR:
@@ -42,15 +45,18 @@ public class GuiHandlerSilentGems implements IGuiHandler {
         }
         return null;
       default:
-        SilentGems.instance.logHelper.warning("No GUI with ID " + ID + "!");
+        SilentGems.logHelper.warning("No GUI with ID " + ID + "!");
         return null;
     }
   }
 
   @Override
   public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-
     TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
+    if (tile == null) {
+      SilentGems.logHelper.warning(String.format("Missing TileEntity at %d %d %d!", x, y, z));
+      return null;
+    }
 
     switch (ID) {
       case ID_ALTAR:
@@ -70,7 +76,7 @@ public class GuiHandlerSilentGems implements IGuiHandler {
         }
         return null;
       default:
-        SilentGems.instance.logHelper.warning("No GUI with ID " + ID + "!");
+        SilentGems.logHelper.warning("No GUI with ID " + ID + "!");
         return null;
     }
   }

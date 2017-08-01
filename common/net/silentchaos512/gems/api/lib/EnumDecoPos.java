@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.api.lib;
 
 public enum EnumDecoPos {
-
-  WEST, NORTH, EAST, SOUTH;
+  WEST, NORTH, EAST, SOUTH
 }

@@ -241,13 +241,13 @@ public class ArmorHelper {
 
   public static String getRenderColorString(ItemStack stack)
   {
-    String toReturn = "";
+    StringBuilder toReturn = new StringBuilder();
     int[] colors = getRenderColorList(stack);
     for (int color : colors)
     {
-      toReturn += color;
+      toReturn.append(color);
     }
-    return toReturn;
+    return toReturn.toString();
   }
 
   public static String getPartId(ItemStack tool, String key) {

@@ -1,14 +1,9 @@
 package net.silentchaos512.gems.client.gui;
 
-import org.lwjgl.util.Color;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.GuiIngameForge;
@@ -22,13 +17,15 @@ import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
+import org.lwjgl.util.Color;
 
 @SideOnly(Side.CLIENT)
 public class GuiChaosBar extends Gui {
 
   public static final GuiChaosBar INSTANCE = new GuiChaosBar(Minecraft.getMinecraft());
 
-  public static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MODID, "textures/gui/hud.png");
+  public static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MODID,
+      "textures/gui/hud.png");
 
   public static final int POPUP_TIME = 300;
   public static final float COLOR_CHANGE_DELAY = 200f;
@@ -42,26 +39,22 @@ public class GuiChaosBar extends Gui {
   private Minecraft mc;
 
   public GuiChaosBar(Minecraft mc) {
-
     super();
     this.mc = mc;
   }
 
   public void update(int currentChaos, int maxChaos) {
-
     this.currentChaos = currentChaos;
     this.maxChaos = maxChaos < currentChaos ? currentChaos : maxChaos;
     show();
   }
 
   public void show() {
-
     lastUpdateTime = ClientTickHandler.ticksInGame;
   }
 
   @SubscribeEvent
   public void onRenderGameOverlay(RenderGameOverlayEvent event) {
-
     if (event.isCancelable() || event.getType() != ElementType.TEXT) {
       return;
     }
@@ -70,7 +63,8 @@ public class GuiChaosBar extends Gui {
     EntityPlayer player = mc.player;
 
     currentTime = ClientTickHandler.ticksInGame;
-    if (player.capabilities.isCreativeMode || (!GemsConfig.CHAOS_BAR_SHOW_ALWAYS && currentTime > lastUpdateTime + POPUP_TIME)) {
+    if (player.capabilities.isCreativeMode ||
+        (!GemsConfig.CHAOS_BAR_SHOW_ALWAYS && currentTime > lastUpdateTime + POPUP_TIME)) {
       return;
     }
 
@@ -104,18 +98,21 @@ public class GuiChaosBar extends Gui {
 
       GlStateManager.color(1f, 1f, 1f, 1f);
 
-      drawTexturedModalRect(x, y, textureX + 2 * textureWidth, textureY, textureWidth, textureHeight);
+      drawTexturedModalRect(x, y, textureX + 2 * textureWidth, textureY, textureWidth,
+          textureHeight);
 
       Color color = new Color();
       float hue = ((currentTime + COLOR_CHANGE_STEP * i) % COLOR_CHANGE_DELAY) / COLOR_CHANGE_DELAY;
       color.fromHSB(hue, 0.6f, 1f);
 
-      GlStateManager.color(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 1f);
+      GlStateManager
+          .color(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 1f);
 
-      if (i * 2 + 1 < chaosHalves)
+      if (i * 2 + 1 < chaosHalves) {
         drawTexturedModalRect(x, y, textureX, textureY, textureWidth, textureHeight);
-      else if (i * 2 + 1 == chaosHalves)
+      } else if (i * 2 + 1 == chaosHalves) {
         drawTexturedModalRect(x, y, textureX + textureWidth, textureY, textureWidth, textureHeight);
+      }
     }
 
     mc.renderEngine.bindTexture(Gui.ICONS);
