@@ -1,6 +1,8 @@
 Silent's Gems - Changelog
 
 2.4.4
+Fixed: Daggers not checking for their recipe's "filler" item... again.
+Fixed: Tool crafting resulting in randomized tools when attempting to mix rods, which is not allowed (#186).
 Fixed: Tools can no longer be "repaired" by crafting them together, resulting in randomized tools (#188)
 Fixed: Tools gaining one durability when placed in an empty crafting grid, or with materials that do not restore durability (#189)
 Fixed: A recipe for ornate silver rods is no longer added if there are no silver ingots (#190)

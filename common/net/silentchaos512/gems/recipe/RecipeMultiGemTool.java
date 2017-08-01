@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
@@ -31,7 +32,19 @@ public class RecipeMultiGemTool extends RecipeBaseSL {
   public static final String RECIPE_SICKLE = " h;hh;r ";
 
   @Override
+  public boolean matches(InventoryCrafting inv, World world) {
+
+    return matchesRecipe(inv, RECIPE_PAXEL) || matchesRecipe(inv, RECIPE_SCEPTER) || matchesRecipe(inv, RECIPE_TOMAHAWK) || matchesRecipe(inv, RECIPE_PICKAXE)
+        || matchesRecipe(inv, RECIPE_AXE) || matchesRecipe(inv, RECIPE_SICKLE) || matchesRecipe(inv, RECIPE_KATANA) || matchesRecipe(inv, RECIPE_SWORD)
+        || matchesRecipe(inv, RECIPE_HOE) || matchesRecipe(inv, RECIPE_SHOVEL) || matchesRecipe(inv, RECIPE_DAGGER);
+  }
+
+  @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
+
+    if (!doAllRodsMatch(inv)) {
+      return StackHelper.empty();
+    }
 
     // 6 part head
     if (matchesRecipe(inv, RECIPE_PAXEL))
@@ -69,6 +82,27 @@ public class RecipeMultiGemTool extends RecipeBaseSL {
     return StackHelper.empty();
   }
 
+  private boolean doAllRodsMatch(InventoryCrafting inv) {
+
+    ToolPart first = null;
+
+    for (int i = 0; i < inv.getSizeInventory(); ++i) {
+      ItemStack stack = inv.getStackInSlot(i);
+      if (StackHelper.isValid(stack)) {
+        ToolPart rod = ToolPartRegistry.fromStack(stack);
+        if (rod != null && rod instanceof ToolPartRod) {
+          if (first == null) {
+            first = rod;
+          } else if (first != rod) {
+            return false;
+          }
+        }
+      }
+    }
+
+    return true;
+  }
+
   private boolean matchesRecipe(InventoryCrafting inv, String recipe) {
 
     String[] lines = recipe.split(";");
@@ -100,7 +134,7 @@ public class RecipeMultiGemTool extends RecipeBaseSL {
 
     int headInRecipe = 0;
     int headFound = 0;
-    ToolPart firstRod = null;
+    // ToolPart firstRod = null;
 
     // Recipe array has to be re-arranged for some reason.
     int[] order = new int[] { 0, 3, 6, 1, 4, 7, 2, 5, 8 };
@@ -151,10 +185,10 @@ public class RecipeMultiGemTool extends RecipeBaseSL {
 
           // Check rods.
           if (part instanceof ToolPartRod) {
-            if (firstRod == null)
-              firstRod = part;
-            if (firstRod != part)
-              return false;
+            // if (firstRod == null)
+            // firstRod = part;
+            // if (firstRod != part)
+            // return false;
           }
 
           if (c == 'h' && !(part instanceof ToolPartMain))
@@ -163,11 +197,17 @@ public class RecipeMultiGemTool extends RecipeBaseSL {
             return false;
         } else if (c == 'f') {
           // Filler
+          if (StackHelper.isEmpty(stack)) {
+            return false;
+          }
           Object filler = tier.getFiller();
           if (filler instanceof String) {
-            for (ItemStack oreStack : StackHelper.getOres((String) filler))
-              if (oreStack.isItemEqual(stack))
+            for (ItemStack oreStack : StackHelper.getOres((String) filler)) {
+              if (oreStack.isItemEqual(stack)) {
                 return true;
+              }
+            }
+            return false;
           } else if (filler instanceof ItemStack) {
             return ((ItemStack) filler).isItemEqual(stack);
           } else {
