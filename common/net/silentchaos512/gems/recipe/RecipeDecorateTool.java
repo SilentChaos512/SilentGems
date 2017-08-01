@@ -60,8 +60,7 @@ public class RecipeDecorateTool extends RecipeBaseSL {
     ItemStack east = inv.getStackInRowAndColumn(toolRow + 1, toolCol);
     ItemStack south = inv.getStackInRowAndColumn(toolRow, toolCol + 1);
 
-    if (!checkIsDecorationMaterial(west) || !checkIsDecorationMaterial(north)
-        || !checkIsDecorationMaterial(east) || !checkIsDecorationMaterial(south)) {
+    if (!checkIsDecorationMaterial(west) || !checkIsDecorationMaterial(north) || !checkIsDecorationMaterial(east) || !checkIsDecorationMaterial(south)) {
       return StackHelper.empty();
     }
 
@@ -89,6 +88,10 @@ public class RecipeDecorateTool extends RecipeBaseSL {
       }
     }
 
+    if (otherMats.isEmpty()) {
+      return StackHelper.empty();
+    }
+
     ItemStack result = StackHelper.safeCopy(tool);
 
     result = ToolHelper.decorateTool(tool, west, north, east, south);
@@ -106,7 +109,10 @@ public class RecipeDecorateTool extends RecipeBaseSL {
       }
     }
 
-    repairValue += 1;
+    if (repairValue > 0) {
+      // Makes odd repair values line up better (2 polished stone on pickaxe makes a full repair, etc.)
+      repairValue += 1;
+    }
 
     // Tool repair multiplier
     repairValue *= ((ITool) tool.getItem()).getRepairMultiplier();
