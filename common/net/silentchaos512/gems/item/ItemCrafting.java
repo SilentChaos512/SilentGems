@@ -126,8 +126,10 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
     guideRecipeMap.put(toolRodGold.getItemDamage(), recipe);
 
     // Ornate Rod Silver
-    recipe = recipes.addShapedOre("ornate_rod_silver", getStack(Names.ORNATE_STICK_SILVER, 8), "ifi", "ici", "ifi", 'i', "ingotSilver", 'f', "ingotIron", 'c', "gemChaos");
-    guideRecipeMap.put(toolRodSilver.getItemDamage(), recipe);
+    if (OreDictionary.doesOreNameExist("ingotSilver")) {
+      recipe = recipes.addShapedOre("ornate_rod_silver", getStack(Names.ORNATE_STICK_SILVER, 8), "ifi", "ici", "ifi", 'i', "ingotSilver", 'f', "ingotIron", 'c', "gemChaos");
+      guideRecipeMap.put(toolRodSilver.getItemDamage(), recipe);
+    }
 
     // Upgrade Base
     recipe = recipes.addShapelessOre("upgrade_base", getStack(Names.UPGRADE_BASE, 4), Items.FLINT, Items.FLINT, "plankWood", "stickWood");
