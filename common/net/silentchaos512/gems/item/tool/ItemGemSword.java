@@ -130,11 +130,11 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
 
     ItemStack stack = player.getHeldItem(hand);
 
-    if (!player.isSneaking()) {
+    if (!player.isSneaking() || ToolHelper.getToolTier(stack).ordinal() < EnumMaterialTier.SUPER.ordinal()) {
       return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
     }
 
-    if (world.isRemote && ToolHelper.getToolTier(stack).ordinal() >= EnumMaterialTier.SUPER.ordinal()) {
+    if (world.isRemote) {
       GuiChaosBar.INSTANCE.show();
       return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
     }
