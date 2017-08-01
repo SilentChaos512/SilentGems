@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+2.4.4
+Fixed: Tools can no longer be "repaired" by crafting them together, resulting in randomized tools (#188)
+Fixed (maybe): Armor randomly applying twice the protection value it should (#172)
+
 2.4.3b
 Fixed: Fatal error when using non-super-tier sword on servers (#179)
 

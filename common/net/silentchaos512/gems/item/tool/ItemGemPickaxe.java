@@ -63,6 +63,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
 
     super(ToolHelper.FAKE_MATERIAL);
     setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.PICKAXE);
+    setNoRepair();
   }
 
   public ItemStack constructTool(boolean supercharged, ItemStack material) {

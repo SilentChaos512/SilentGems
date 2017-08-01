@@ -51,11 +51,10 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   public static final ResourceLocation RESOURCE_PULL = new ResourceLocation("pull");
   public static final ResourceLocation RESOURCE_PULLING = new ResourceLocation("pulling");
 
-  private List<ItemStack> subItems = null;
-
   public ItemGemBow() {
 
     setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.BOW);
+    setNoRepair();
 
     addPropertyOverride(RESOURCE_PULL, new IItemPropertyGetter() {
 
