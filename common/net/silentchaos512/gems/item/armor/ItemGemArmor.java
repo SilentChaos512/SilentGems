@@ -50,6 +50,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   // sum = 1, starts with boots
   public static final float[] ABSORPTION_RATIO_BY_SLOT = {0.175f, 0.3f, 0.4f, 0.125f};
+  public static final int[] MAX_DAMAGE_ARRAY = new int[] { 13, 15, 16, 11 };
   public static final boolean HAS_EFFECT = false; // Set true for enchanted glow.
 
   private List<ItemStack> subItems = null;
@@ -118,7 +119,9 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
       ratio *= MathHelper.clamp(protection / 100f, 0f, 0.98f) + 0.6f;
     }
 
-    return new ArmorProperties(0, ratio, Integer.MAX_VALUE);
+    ArmorProperties prop = new ArmorProperties(0, ratio, Integer.MAX_VALUE);
+    //prop.Toughness = getToughness(armor);
+    return prop;
   }
 
   @Override
@@ -137,16 +140,16 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   }
 
   @Override
-  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
-      ItemStack stack) {
+  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+
     Multimap<String, AttributeModifier> multimap = HashMultimap.create();
 
-    if (slot == this.armorType) {
-      multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(
-          ARMOR_MODIFIERS[slot.getIndex()], "Armor modifier", getProtection(stack), 0));
-      multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(
-          ARMOR_MODIFIERS[slot.getIndex()], "Armor toughness", getToughness(stack), 0));
-    }
+//    if (slot == this.armorType) {
+//      multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(
+//          ARMOR_MODIFIERS[slot.getIndex()], "Armor modifier", getProtection(stack), 0));
+//      multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(
+//          ARMOR_MODIFIERS[slot.getIndex()], "Armor toughness", getToughness(stack), 0));
+//    }
 
     return multimap;
   }
@@ -155,21 +158,24 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   @Override
   public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot,
       String type) {
-    return SilentGems.RESOURCE_PREFIX + "textures/armor/temparmor.png";
-    // return super.getArmorTexture(stack, entity, slot, type);
+
+    // FIXME
+    //return SilentGems.RESOURCE_PREFIX + "textures/armor/temparmor.png";
+    return SilentGems.RESOURCE_PREFIX + "textures/armor/gemarmor_" + (slot == EntityEquipmentSlot.LEGS ? "2" : "1") + ".png";
   }
 
-  @Override
-  @SideOnly(Side.CLIENT)
-  public ModelBiped getArmorModel(EntityLivingBase entity, ItemStack itemStack,
-      EntityEquipmentSlot slot, ModelBiped original) {
-    ModelGemArmor model = ModelGemArmor.getModel(ArmorHelper.getRenderColorList(itemStack));
-    if (model != null) {
-      model.setModelAttributes(original);
-      return model;
-    }
-    return super.getArmorModel(entity, itemStack, slot, original);
-  }
+  // FIXME
+//  @Override
+//  @SideOnly(Side.CLIENT)
+//  public ModelBiped getArmorModel(EntityLivingBase entity, ItemStack itemStack,
+//      EntityEquipmentSlot slot, ModelBiped original) {
+//    ModelGemArmor model = ModelGemArmor.getModel(ArmorHelper.getRenderColorList(itemStack));
+//    if (model != null) {
+//      model.setModelAttributes(original);
+//      return model;
+//    }
+//    return super.getArmorModel(entity, itemStack, slot, original);
+//  }
 
   @Override
   public boolean hasEffect(ItemStack stack) {

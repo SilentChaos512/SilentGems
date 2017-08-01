@@ -1,0 +1,153 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = "2.4.4"
+def silentlib_version = "2.2.7"
+def buildNum = 0
+group = "net.silentchaos512.gems"
+archivesBaseName = "SilentsGems-1.12"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+def versionFile = file('version.properties')
+
+minecraft {
+    version = "1.12-14.21.1.2435"
+    runDir = "eclipse"
+
+    if (versionFile.canRead()) {
+        Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionFile))
+        buildNum = versionProps['BUILD_NUM'].toInteger()
+    } else {
+        throw new GradleException("Could not read version.properties!")
+    }
+    println("build: " + buildNum)
+
+    replace "@VERSION@", project.version
+    replace "SL_VERSION", silentlib_version
+    replace "BUILD_NUM = 0", "BUILD_NUM = " + buildNum
+    replaceIn "SilentGems.java"
+
+    mappings = "snapshot_20170624"
+}
+task incrementBuild {
+    doFirst {
+        if (versionFile.canRead()) {
+            Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionFile))
+            buildNum = versionProps['BUILD_NUM'].toInteger() + 1
+            println("incrementing BuildNumber to: " + buildNum)
+            versionProps['BUILD_NUM'] = buildNum.toString()
+            versionProps.store(versionFile.newWriter(), null)
+        } else {
+            throw new GradleException("Could not read version.properties!")
+        }
+    }
+}
+build.dependsOn incrementBuild
+
+repositories {
+    maven {
+        name = "DVS1 Maven FS"
+        url "http://dvs1.progwml6.com/files/maven"
+    }
+}
+
+jar {
+    mustRunAfter incrementBuild
+    doFirst {
+        classifier = buildNum
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    mustRunAfter incrementBuild
+    from sourceSets.main.allSource
+    doFirst {
+        classifier = buildNum + '-sources'
+    }
+}
+task deobfJar(type: Jar) {
+    mustRunAfter incrementBuild
+    from sourceSets.main.output
+    doFirst {
+        classifier = buildNum + "-deobf"
+    }
+}
+artifacts {
+    archives sourcesJar
+    archives deobfJar
+}
+
+dependencies {
+    deobfCompile "mezz.jei:jei_1.12:4.7.1.69"
+    compileOnly project(path: ":deobfCompileOnly", configuration: "forgeGradleResovledDeobfProvided")
+    compileOnly fileTree(dir: "libraries", include: "*.jar", exclude: "*-runtime.jar")
+    compile fileTree(dir: "libraries", include: "*-runtime.jar")
+}
+
+sourceSets {
+    main {
+        java { srcDirs = ["$projectDir/common"] }
+        resources { srcDirs = ["$projectDir/resources"] }
+    }
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
+
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+project(":deobfCompileOnly") {
+    apply plugin: 'net.minecraftforge.gradle.forge'
+    version = "0.0.0"
+    minecraft {
+        version = "1.12-14.21.1.2413"
+        mappings = "snapshot_20170624"
+    }
+    repositories {
+        maven {
+            name = "DVS1 Maven FS"
+            url "http://dvs1.progwml6.com/files/maven"
+        }
+    }
+    dependencies {
+        deobfProvided "slimeknights.mantle:Mantle:1.11.2-1.2.0.+"
+        deobfProvided "slimeknights:TConstruct:1.11.2-2.7.0.+"
+    }
+    sourceSets {
+        main {
+            compileClasspath = configurations.forgeGradleResovledDeobfProvided
+            runtimeClasspath -= runtimeClasspath
+        }
+        test {
+            compileClasspath -= compileClasspath
+            runtimeClasspath -= runtimeClasspath
+        }
+        remove api
+    }
+}
