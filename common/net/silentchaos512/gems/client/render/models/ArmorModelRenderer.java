@@ -19,23 +19,28 @@ public class ArmorModelRenderer extends ModelRenderer {
   protected Object2IntMap<ModelBox> childColors = new Object2IntOpenHashMap<>();
 
   public ArmorModelRenderer(ModelBase model) {
+
     super(model);
   }
 
   public void addChild(ModelBox box, int color) {
+
     cubeList.add(box);
     childColors.put(box, color);
   }
 
   public void addChild(ModelBox box) {
+
     cubeList.add(box);
   }
 
   @Override
   @SideOnly(Side.CLIENT)
   public void compileDisplayList(float scale) {
+
     if (SilentLib.getMCVersion() < 12) {
-      return; // FIXME
+      // Does not work in MC 10/11, but we separated that into its own branch anyways.
+      return;
     }
     this.displayList = GLAllocation.generateDisplayLists(1);
     GlStateManager.glNewList(this.displayList, GL11.GL_COMPILE);
@@ -56,6 +61,7 @@ public class ArmorModelRenderer extends ModelRenderer {
   }
 
   public void dispose() {
+
     compiled = false;
     GLAllocation.deleteDisplayLists(displayList);
     displayList = 0;

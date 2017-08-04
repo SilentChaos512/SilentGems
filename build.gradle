@@ -9,8 +9,12 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
+//plugins {
+//    id "net.minecraftforge.gradle.forge" version "2.0.2"
+//}
+
 version = "2.4.4"
-def silentlib_version = "2.2.7"
+def silentlib_version = "2.2.6"
 def buildNum = 0
 group = "net.silentchaos512.gems"
 archivesBaseName = "SilentsGems-1.12"
@@ -18,20 +22,21 @@ archivesBaseName = "SilentsGems-1.12"
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-def versionFile = file('version.properties')
-
 minecraft {
-    version = "1.12-14.21.1.2435"
+    version = "1.12-14.21.1.2387"
     runDir = "eclipse"
 
+    def versionFile = file('version.properties')
     if (versionFile.canRead()) {
-        Properties versionProps = new Properties()
+        def Properties versionProps = new Properties()
+        
         versionProps.load(new FileInputStream(versionFile))
-        buildNum = versionProps['BUILD_NUM'].toInteger()
-    } else {
-        throw new GradleException("Could not read version.properties!")
+        
+        buildNum = versionProps['BUILD_NUM'].toInteger() + 1
+        
+        versionProps['BUILD_NUM'] = buildNum.toString()
+        versionProps.store(versionFile.newWriter(), null)
     }
-    println("build: " + buildNum)
 
     replace "@VERSION@", project.version
     replace "SL_VERSION", silentlib_version
@@ -40,23 +45,9 @@ minecraft {
 
     mappings = "snapshot_20170624"
 }
-task incrementBuild {
-    doFirst {
-        if (versionFile.canRead()) {
-            Properties versionProps = new Properties()
-            versionProps.load(new FileInputStream(versionFile))
-            buildNum = versionProps['BUILD_NUM'].toInteger() + 1
-            println("incrementing BuildNumber to: " + buildNum)
-            versionProps['BUILD_NUM'] = buildNum.toString()
-            versionProps.store(versionFile.newWriter(), null)
-        } else {
-            throw new GradleException("Could not read version.properties!")
-        }
-    }
-}
-build.dependsOn incrementBuild
 
 repositories {
+    //mavenCentral()
     maven {
         name = "DVS1 Maven FS"
         url "http://dvs1.progwml6.com/files/maven"
@@ -64,23 +55,17 @@ repositories {
 }
 
 jar {
-    mustRunAfter incrementBuild
-    doFirst {
-        classifier = buildNum
+    classifier = buildNum
+    manifest {
+        attributes "FMLAT": "silentgems_at.cfg"
     }
 }
-
 task sourcesJar(type: Jar, dependsOn: classes) {
-    mustRunAfter incrementBuild
+    classifier = buildNum + '-sources'
     from sourceSets.main.allSource
-    doFirst {
-        classifier = buildNum + '-sources'
-    }
 }
 task deobfJar(type: Jar) {
-    mustRunAfter incrementBuild
-    from sourceSets.main.output
-    doFirst {
+    from(sourceSets.main.output) {
         classifier = buildNum + "-deobf"
     }
 }
@@ -90,10 +75,9 @@ artifacts {
 }
 
 dependencies {
-    deobfCompile "mezz.jei:jei_1.12:4.7.1.69"
-    compileOnly project(path: ":deobfCompileOnly", configuration: "forgeGradleResovledDeobfProvided")
-    compileOnly fileTree(dir: "libraries", include: "*.jar", exclude: "*-runtime.jar")
-    compile fileTree(dir: "libraries", include: "*-runtime.jar")
+    deobfCompile "mezz.jei:jei_1.12:4.6.0.65"
+    deobfCompile "slimeknights.mantle:Mantle:1.11.2-1.2.0.+"
+    deobfCompile "slimeknights:TConstruct:1.11.2-2.7.0.+"
 }
 
 sourceSets {
@@ -103,7 +87,8 @@ sourceSets {
     }
 }
 
-processResources {
+processResources
+{
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
@@ -111,43 +96,15 @@ processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-
+                
         // replace version and mcversion
-        expand 'version': project.version, 'mcversion': project.minecraft.version
+        expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-
+        
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
-}
 
-project(":deobfCompileOnly") {
-    apply plugin: 'net.minecraftforge.gradle.forge'
-    version = "0.0.0"
-    minecraft {
-        version = "1.12-14.21.1.2413"
-        mappings = "snapshot_20170624"
-    }
-    repositories {
-        maven {
-            name = "DVS1 Maven FS"
-            url "http://dvs1.progwml6.com/files/maven"
-        }
-    }
-    dependencies {
-        deobfProvided "slimeknights.mantle:Mantle:1.11.2-1.2.0.+"
-        deobfProvided "slimeknights:TConstruct:1.11.2-2.7.0.+"
-    }
-    sourceSets {
-        main {
-            compileClasspath = configurations.forgeGradleResovledDeobfProvided
-            runtimeClasspath -= runtimeClasspath
-        }
-        test {
-            compileClasspath -= compileClasspath
-            runtimeClasspath -= runtimeClasspath
-        }
-        remove api
-    }
+    rename "(.+_at.cfg)", "META-INF/$1"
 }

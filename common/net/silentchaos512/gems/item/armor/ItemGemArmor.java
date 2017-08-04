@@ -50,7 +50,6 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   // sum = 1, starts with boots
   public static final float[] ABSORPTION_RATIO_BY_SLOT = {0.175f, 0.3f, 0.4f, 0.125f};
-  public static final int[] MAX_DAMAGE_ARRAY = new int[] { 13, 15, 16, 11 };
   public static final boolean HAS_EFFECT = false; // Set true for enchanted glow.
 
   private List<ItemStack> subItems = null;
@@ -160,22 +159,22 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
       String type) {
 
     // FIXME
-    //return SilentGems.RESOURCE_PREFIX + "textures/armor/temparmor.png";
-    return SilentGems.RESOURCE_PREFIX + "textures/armor/gemarmor_" + (slot == EntityEquipmentSlot.LEGS ? "2" : "1") + ".png";
+    return SilentGems.RESOURCE_PREFIX + "textures/armor/temparmor.png";
+    //return SilentGems.RESOURCE_PREFIX + "textures/armor/gemarmor_" + (slot == EntityEquipmentSlot.LEGS ? "2" : "1") + ".png";
   }
 
   // FIXME
-//  @Override
-//  @SideOnly(Side.CLIENT)
-//  public ModelBiped getArmorModel(EntityLivingBase entity, ItemStack itemStack,
-//      EntityEquipmentSlot slot, ModelBiped original) {
-//    ModelGemArmor model = ModelGemArmor.getModel(ArmorHelper.getRenderColorList(itemStack));
-//    if (model != null) {
-//      model.setModelAttributes(original);
-//      return model;
-//    }
-//    return super.getArmorModel(entity, itemStack, slot, original);
-//  }
+  @Override
+  @SideOnly(Side.CLIENT)
+  public ModelBiped getArmorModel(EntityLivingBase entity, ItemStack itemStack,
+      EntityEquipmentSlot slot, ModelBiped original) {
+    ModelGemArmor model = ModelGemArmor.getModel(ArmorHelper.getRenderColorList(itemStack));
+    if (model != null) {
+      model.setModelAttributes(original);
+      return model;
+    }
+    return super.getArmorModel(entity, itemStack, slot, original);
+  }
 
   @Override
   public boolean hasEffect(ItemStack stack) {

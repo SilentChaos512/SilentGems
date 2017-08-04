@@ -223,6 +223,7 @@ public class ModelGemArmor extends ModelBiped {
   }
 
   protected void dispose() {
+
     helmet.dispose();
     chestplate.dispose();
     leftArm.dispose();

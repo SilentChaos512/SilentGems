@@ -1,6 +1,10 @@
 Silent's Gems - Changelog
 
+2.4.5
+Fixed: Armor rendering (courtesy of TechnicianLP)
+
 2.4.4
+Changed: Custom armor rendering is disabled for now... it's super broke.
 Fixed: Daggers not checking for their recipe's "filler" item... again.
 Fixed: Tool crafting resulting in randomized tools when attempting to mix rods, which is not allowed (#186).
 Fixed: Tools can no longer be "repaired" by crafting them together, resulting in randomized tools (#188)
