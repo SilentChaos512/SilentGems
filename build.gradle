@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //    id "net.minecraftforge.gradle.forge" version "2.0.2"
 //}
 
-version = "2.4.4"
+version = "2.4.5"
 def silentlib_version = "2.2.6"
 def buildNum = 0
 group = "net.silentchaos512.gems"
@@ -23,7 +23,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
-    version = "1.12-14.21.1.2387"
+    version = "1.12-14.21.1.2443"
     runDir = "eclipse"
 
     def versionFile = file('version.properties')
@@ -106,5 +106,5 @@ processResources
         exclude 'mcmod.info'
     }
 
-    rename "(.+_at.cfg)", "META-INF/$1"
+    rename '(.+_at.cfg)', 'META-INF/$1'
 }
