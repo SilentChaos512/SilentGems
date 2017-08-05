@@ -3,7 +3,8 @@ package net.silentchaos512.gems.item.tool;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Multimap;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -240,6 +241,12 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
       boolean isSelected) {
 
     ToolHelper.onUpdate(tool, world, entity, itemSlot, isSelected);
+  }
+
+  @Override
+  public boolean isShield(ItemStack stack, @Nullable EntityLivingBase entity) {
+
+    return true;
   }
 
   // =============================

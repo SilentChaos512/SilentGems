@@ -1,7 +1,7 @@
 Silent's Gems - Changelog
 
 2.4.5
-Fixed: Armor rendering (courtesy of TechnicianLP)
+Fixed: Armor rendering (courtesy of TechnicianLP). It's still broken in my personal pack, but works properly in my development environment.
 
 2.4.4
 Changed: Custom armor rendering is disabled for now... it's super broke.
