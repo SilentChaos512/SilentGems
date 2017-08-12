@@ -5,12 +5,16 @@ import java.util.Map;
 
 import com.google.common.collect.Multimap;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockDirt;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
@@ -57,17 +61,24 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
     return ToolHelper.constructTool(this, rod, materials);
   }
 
+  // 1.11.2
   @Override
   public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
       EnumFacing side, float hitX, float hitY, float hitZ) {
 
-    ItemStack stack = player.getHeldItem(hand);
+    return compatOnItemUse(player.getHeldItem(hand), player, world, pos, hand, side, hitX, hitY,
+        hitZ);
+  }
+
+  public EnumActionResult compatOnItemUse(ItemStack stack, EntityPlayer player, World world,
+      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+
     if (ToolHelper.isBroken(stack)) {
       return EnumActionResult.PASS;
     }
 
-    EnumActionResult result = ItemHelper.onItemUse(Items.DIAMOND_HOE, player, world, pos, hand,
-        side, hitX, hitY, hitZ); // Use diamond hoe so we don't get stack overflow.
+    EnumActionResult result = compatTillGround(stack, player, world, pos, hand, side, hitX, hitY,
+        hitZ);
     int tilledCount = result == EnumActionResult.SUCCESS ? 1 : 0;
 
     // Super hoe area till?
@@ -81,10 +92,12 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
           new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ() - 1),
           new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ() + 0),
           new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ() + 1) };
-      for (BlockPos blockpos : array)
-        if (ItemHelper.onItemUse(Items.DIAMOND_HOE, player, world, blockpos, hand, side, hitX, hitY,
-            hitZ) == EnumActionResult.SUCCESS)
+      for (BlockPos blockpos : array) {
+        if (compatTillGround(stack, player, world, blockpos, hand, side, hitX, hitY,
+            hitZ) == EnumActionResult.SUCCESS) {
           ++tilledCount;
+        }
+      }
     }
 
     if (tilledCount > 0) {
@@ -94,10 +107,48 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
     return result;
   }
 
+  // Copied from ItemHoe#onItemUse
+  public EnumActionResult compatTillGround(ItemStack itemstack, EntityPlayer player, World worldIn,
+      BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+
+    if (!player.canPlayerEdit(pos.offset(facing), facing, itemstack)) {
+      return EnumActionResult.FAIL;
+    } else {
+      int hook = net.minecraftforge.event.ForgeEventFactory.onHoeUse(itemstack, player, worldIn,
+          pos);
+      if (hook != 0)
+        return hook > 0 ? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
+
+      IBlockState iblockstate = worldIn.getBlockState(pos);
+      Block block = iblockstate.getBlock();
+
+      if (facing != EnumFacing.DOWN && worldIn.isAirBlock(pos.up())) {
+        if (block == Blocks.GRASS || block == Blocks.GRASS_PATH) {
+          this.setBlock(itemstack, player, worldIn, pos, Blocks.FARMLAND.getDefaultState());
+          return EnumActionResult.SUCCESS;
+        }
+
+        if (block == Blocks.DIRT) {
+          switch ((BlockDirt.DirtType) iblockstate.getValue(BlockDirt.VARIANT)) {
+            case DIRT:
+              this.setBlock(itemstack, player, worldIn, pos, Blocks.FARMLAND.getDefaultState());
+              return EnumActionResult.SUCCESS;
+            case COARSE_DIRT:
+              this.setBlock(itemstack, player, worldIn, pos, Blocks.DIRT.getDefaultState()
+                  .withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT));
+              return EnumActionResult.SUCCESS;
+          }
+        }
+      }
+
+      return EnumActionResult.PASS;
+    }
+  }
+
   // ===============
   // ITool overrides
   // ===============
-  
+
   public ConfigOptionToolClass getConfig() {
 
     return GemsConfig.hoe;
@@ -180,7 +231,7 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
 
     return ToolRenderHelper.instance.hasEffect(stack);
   }
-  
+
   @Override
   public EnumRarity getRarity(ItemStack stack) {
 
@@ -288,10 +339,10 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
     list.addAll(ToolHelper.getSubItems(item, 2));
   }
 
-  // onItemUse
-  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  // onItemUse 1.10.2
+  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
+      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
-    return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
+    return compatOnItemUse(stack, player, world, pos, hand, side, hitX, hitY, hitZ);
   }
 }
