@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.lib.EnumGem;
+import slimeknights.mantle.util.RecipeMatch.Match;
 import slimeknights.tconstruct.library.materials.Material;
 
 public class TConstructMaterialGem extends Material {
@@ -17,9 +18,10 @@ public class TConstructMaterialGem extends Material {
     this.gem = gem;
     this.tier = tier;
 
-    setCraftable(true);
-    setRepresentativeItem(tier == EnumMaterialTier.SUPER ? gem.getItemSuper() : gem.getItem());
-    addCommonItems(tier == EnumMaterialTier.SUPER ? gem.getItemSuperOreName() : gem.getItemOreName());
+//    setCraftable(true);
+//    addCommonItems(tier == EnumMaterialTier.SUPER ? gem.getItemSuperOreName() : gem.getItemOreName());
+//    addItem(tier == EnumMaterialTier.SUPER ? gem.getItemSuper() : gem.getItem(), VALUE_Gem, VALUE_Gem);
+//    setRepresentativeItem(tier == EnumMaterialTier.SUPER ? gem.getItemSuper() : gem.getItem());
   }
 
   @Override
