@@ -1,6 +1,11 @@
 Silent's Gems - Changelog
 
+2.4.6
+Added: Scaling Health blights can now receive gem swords
+Fixed: Tinkers Construct support is back. Colors are currently broken, but parts are craftable.
+
 2.4.5
+Marked compatible with 1.12.1.
 Fixed: Armor rendering (courtesy of TechnicianLP). It's still broken in my personal pack, but works properly in my development environment.
 
 2.4.4

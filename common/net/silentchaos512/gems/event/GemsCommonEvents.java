@@ -6,6 +6,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -34,6 +35,7 @@ import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemBlockPlacer;
+import net.silentchaos512.gems.item.ItemSoulGem.Soul;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
@@ -55,8 +57,7 @@ public class GemsCommonEvents {
 
     Greetings.greetPlayer(event.player);
 
-    SilentGems.instance.logHelper
-        .info("Recalculating tool and armor stats for " + event.player.getDisplayNameString());
+    SilentGems.instance.logHelper.info("Recalculating tool and armor stats for " + event.player.getDisplayNameString());
     // Recalculate tool stats.
     for (ItemStack stack : PlayerHelper.getNonEmptyStacks(event.player)) {
       if (stack != null) {
@@ -134,8 +135,7 @@ public class GemsCommonEvents {
       if (StackHelper.isValid(mainHand)) {
         lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal, mainHand);
         iceAspectLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.iceAspect, mainHand);
-        lightningAspectLevel = EnchantmentHelper
-            .getEnchantmentLevel(ModEnchantments.lightningAspect, mainHand);
+        lightningAspectLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lightningAspect, mainHand);
       }
       // If not, is it on off hand?
       if (lifeStealLevel < 1 && StackHelper.isValid(offHand)) {
@@ -186,6 +186,17 @@ public class GemsCommonEvents {
       ItemStack weapon = player.getHeldItem(EnumHand.MAIN_HAND);
       if (StackHelper.isValid(weapon) && weapon.getItem() instanceof ITool)
         ToolHelper.incrementStatKillCount(weapon, 1);
+
+      // Soul Gems
+      Entity killed = event.getEntity();
+      Soul soul = ModItems.soulGem.getSoul(killed.getClass());
+      if (soul != null && SilentGems.random.nextFloat() < soul.getDropRate()) {
+        ItemStack soulGem = ModItems.soulGem.getStack(soul);
+        if (StackHelper.isValid(soulGem)) {
+          EntityItem entityItem = new EntityItem(killed.world, killed.posX, killed.posY + killed.height / 2f, killed.posZ, soulGem);
+          killed.world.spawnEntity(entityItem);
+        }
+      }
     }
   }
 
@@ -228,8 +239,7 @@ public class GemsCommonEvents {
             double motionX = 0.005 * rand.nextGaussian();
             double motionY = 0.005 * rand.nextGaussian();
             double motionZ = 0.005 * rand.nextGaussian();
-            SilentGems.proxy.spawnParticles(EnumModParticles.FREEZING, new Color(0x76e3f2),
-                entity.world, posX, posY, posZ, motionX, motionY, motionZ);
+            SilentGems.proxy.spawnParticles(EnumModParticles.FREEZING, new Color(0x76e3f2), entity.world, posX, posY, posZ, motionX, motionY, motionZ);
           }
         }
 
@@ -273,8 +283,7 @@ public class GemsCommonEvents {
             double motionX = 0.02 * rand.nextGaussian();
             double motionY = 0.05 + Math.abs(0.1 * rand.nextGaussian());
             double motionZ = 0.02 * rand.nextGaussian();
-            SilentGems.proxy.spawnParticles(EnumModParticles.SHOCKING, new Color(0xffef63),
-                entity.world, posX, posY, posZ, motionX, motionY, motionZ);
+            SilentGems.proxy.spawnParticles(EnumModParticles.SHOCKING, new Color(0xffef63), entity.world, posX, posY, posZ, motionX, motionY, motionZ);
           }
         }
       }
@@ -297,8 +306,7 @@ public class GemsCommonEvents {
       for (ItemStack stack : PlayerHelper.getNonEmptyStacks(event.getEntityPlayer())) {
         if (stack.getItem() instanceof ItemBlockPlacer) {
           ItemBlockPlacer itemPlacer = (ItemBlockPlacer) stack.getItem();
-          IBlockState state = ((ItemBlock) entityStack.getItem()).getBlock()
-              .getStateFromMeta(entityStack.getItemDamage());
+          IBlockState state = ((ItemBlock) entityStack.getItem()).getBlock().getStateFromMeta(entityStack.getItemDamage());
           if (state.equals(itemPlacer.getBlockPlaced(stack))) {
             // TODO
             // event.getItem().setDead();

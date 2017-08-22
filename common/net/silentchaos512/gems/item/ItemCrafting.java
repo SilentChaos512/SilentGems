@@ -260,4 +260,11 @@ public class ItemCrafting extends ItemNamedSubtypesSorted implements IFuelHandle
     return fuel.getItem() == this && fuel.getItemDamage() == chaosCoal.getItemDamage()
         ? GemsConfig.BURN_TIME_CHAOS_COAL : 0;
   }
+
+  @Override
+  public int getItemBurnTime(ItemStack fuel) {
+
+    return fuel.getItem() == this && fuel.getItemDamage() == chaosCoal.getItemDamage()
+        ? GemsConfig.BURN_TIME_CHAOS_COAL : 0;
+  }
 }

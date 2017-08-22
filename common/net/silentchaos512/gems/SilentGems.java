@@ -22,6 +22,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.compat.ScalingHealthCompat;
 import net.silentchaos512.gems.compat.VeinMinerCompat;
 import net.silentchaos512.gems.compat.tconstruct.TConstructGemsCompat;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -60,7 +61,7 @@ public class SilentGems {
   public static final int BUILD_NUM = 0;
   public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
       + "after:baubles;after:enderio;after:enderzoo;after:tconstruct;after:veinminer";
-  public static final String ACCEPTED_MC_VERSIONS = "[1.10.2,1.12]";
+  public static final String ACCEPTED_MC_VERSIONS = "[1.10.2,1.12.1]";
   public static final String RESOURCE_PREFIX = MODID + ":";
 
   public static Random random = new Random();
@@ -145,6 +146,11 @@ public class SilentGems {
     ModEntities.init(registry);
 
     GemsConfig.INSTANCE.save();
+
+    // Scaling Health compat
+    if (Loader.isModLoaded("scalinghealth")) {
+      ScalingHealthCompat.init();
+    }
 
     proxy.init(registry);
   }

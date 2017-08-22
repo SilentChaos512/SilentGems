@@ -10,6 +10,7 @@ import net.silentchaos512.gems.api.lib.EnumDecoPos;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemHoldingGem;
+import net.silentchaos512.gems.item.ItemSoulGem.Soul;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 
@@ -144,5 +145,22 @@ public class ColorHandlers {
         return 0xFFFFFF;
       }
     }, ModItems.holdingGem);
+
+    // Sould Gems
+    itemColors.registerItemColorHandler(new IItemColor() {
+
+      @Override
+      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+
+        Soul soul = ModItems.soulGem.getSoul(stack);
+        if (soul == null) {
+          return 0xFFFFFF;
+        } else if (tintIndex == 1) {
+          return soul.colorSecondary;
+        } else {
+          return soul.colorPrimary;
+        }
+      }
+    }, ModItems.soulGem);
   }
 }

@@ -618,6 +618,9 @@ item.silentgems:ReturnHomeCharm.NotSane=&cDestination Y is less than or equal to
 item.silentgems:ReturnHomeCharm.NotSafe=&cDestination obstructed! There is a solid block at head level!
 item.silentgems:ReturnHomeCharm.NotEnoughCharge=Not enough Chaos!
 
+item.silentgems:SoulGem.name=Soul Gem
+item.silentgems:SoulGem.name_proper=Soul Gem: %s
+
 item.silentgems:SummonKitty.name=Summon Kitty
 item.silentgems:SummonKitty.desc=A much less annoying way to get cats.
 item.silentgems:SummonPuppy.name=Summon Puppy

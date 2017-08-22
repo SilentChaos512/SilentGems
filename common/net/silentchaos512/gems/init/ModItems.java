@@ -10,7 +10,6 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
@@ -33,6 +32,7 @@ import net.silentchaos512.gems.item.ItemHoldingGem;
 import net.silentchaos512.gems.item.ItemNodeMover;
 import net.silentchaos512.gems.item.ItemPetSummoner;
 import net.silentchaos512.gems.item.ItemReturnHome;
+import net.silentchaos512.gems.item.ItemSoulGem;
 import net.silentchaos512.gems.item.ItemTeleporterLinker;
 import net.silentchaos512.gems.item.ItemTipUpgrade;
 import net.silentchaos512.gems.item.ItemTorchBandolier;
@@ -64,6 +64,7 @@ public class ModItems implements IRegistrationHandler<Item> {
 
   public static final ItemGem gem = new ItemGem();
   public static final ItemGemShard gemShard = new ItemGemShard();
+  public static final ItemSoulGem soulGem = new ItemSoulGem();
   public static final ItemCrafting craftingMaterial = new ItemCrafting();
   public static final ItemTipUpgrade tipUpgrade = new ItemTipUpgrade();
   public static final ItemEnchantmentToken enchantmentToken = new ItemEnchantmentToken();
@@ -123,6 +124,7 @@ public class ModItems implements IRegistrationHandler<Item> {
 
     reg.registerItem(gem).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(gemShard).setCreativeTab(GemsCreativeTabs.materials);
+    reg.registerItem(soulGem).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(craftingMaterial).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(tipUpgrade).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(enchantmentToken).setCreativeTab(GemsCreativeTabs.utility);

@@ -310,6 +310,9 @@ public class ToolHelper {
 
   public static boolean isBroken(ItemStack tool) {
 
+    if (StackHelper.isEmpty(tool)) {
+      return false;
+    }
     return tool.getItemDamage() >= getMaxDamage(tool);
   }
 
