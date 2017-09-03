@@ -13,6 +13,8 @@ public class EnchantmentMagicDamage extends Enchantment {
 
   public static final String NAME = "MagicDamage";
 
+  public static boolean ENABLED = true;
+
   public EnchantmentMagicDamage() {
 
     super(Rarity.UNCOMMON, EnumEnchantmentType.WEAPON,
@@ -28,6 +30,9 @@ public class EnchantmentMagicDamage extends Enchantment {
   @Override
   public boolean canApplyAtEnchantingTable(ItemStack stack) {
 
+    if (!ENABLED) {
+      return true;
+    }
     return stack.getItem() instanceof ItemGemSword
         && ToolHelper.getToolTier(stack).ordinal() >= EnumMaterialTier.SUPER.ordinal()
         && super.canApplyAtEnchantingTable(stack);

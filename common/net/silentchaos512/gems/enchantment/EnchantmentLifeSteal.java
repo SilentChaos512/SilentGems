@@ -17,6 +17,8 @@ public class EnchantmentLifeSteal extends Enchantment {
   public static final float HEAL_AMOUNT_MULTI = 1f / 40f;
   public static final float HEAL_AMOUNT_CAP = 1f;
 
+  public static boolean ENABLED = true;
+
   public EnchantmentLifeSteal() {
 
     super(Rarity.RARE, EnumEnchantmentType.WEAPON,
@@ -32,6 +34,9 @@ public class EnchantmentLifeSteal extends Enchantment {
   @Override
   public boolean canApplyAtEnchantingTable(ItemStack stack) {
 
+    if (!ENABLED) {
+      return false;
+    }
     Item item = stack.getItem();
     return item instanceof ItemSword || item instanceof ItemAxe;
   }

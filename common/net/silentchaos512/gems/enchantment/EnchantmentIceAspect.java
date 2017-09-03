@@ -21,6 +21,8 @@ public class EnchantmentIceAspect extends Enchantment {
   public static final int CONTINUOUS_DAMAGE_DELAY = 40;
   public static final int CONTINUOUS_DAMAGE_AMOUNT = 1;
 
+  public static boolean ENABLED = true;
+
   public EnchantmentIceAspect() {
 
     super(Rarity.RARE, EnumEnchantmentType.WEAPON,
@@ -38,6 +40,9 @@ public class EnchantmentIceAspect extends Enchantment {
   @Override
   public boolean canApplyAtEnchantingTable(ItemStack stack) {
 
+    if (!ENABLED) {
+      return false;
+    }
     Item item = stack.getItem();
     return item instanceof ItemSword;
   }

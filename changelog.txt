@@ -2,6 +2,7 @@ Silent's Gems - Changelog
 
 2.4.6
 Added: Scaling Health blights can now receive gem swords
+Added: Configs to ban mod enchantments from the enchantment table. Tokens will still work.
 Fixed: Tinkers Construct support is back. Colors are currently broken, but parts are craftable.
 
 2.4.5

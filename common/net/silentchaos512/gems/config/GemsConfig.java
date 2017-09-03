@@ -11,6 +11,11 @@ import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.enchantment.EnchantmentGravity;
+import net.silentchaos512.gems.enchantment.EnchantmentIceAspect;
+import net.silentchaos512.gems.enchantment.EnchantmentLifeSteal;
+import net.silentchaos512.gems.enchantment.EnchantmentLightningAspect;
+import net.silentchaos512.gems.enchantment.EnchantmentMagicDamage;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
@@ -67,13 +72,16 @@ public class GemsConfig extends AdaptiveConfig {
   public static int TOMAHAWK_MAX_AMMO = 4;
   public static int TOMAHAWK_AMMO_PER_MAT = 1;
   public static boolean SWITCH_AXE_SUPER = false;
-  
+
   public static ConfigOptionToolClass sword = new ConfigOptionToolClass(ModItems.sword, "sword");
   public static ConfigOptionToolClass dagger = new ConfigOptionToolClass(ModItems.dagger, "dagger");
   public static ConfigOptionToolClass katana = new ConfigOptionToolClass(ModItems.katana, "katana");
-  public static ConfigOptionToolClass scepter = new ConfigOptionToolClass(ModItems.scepter, "scepter");
-  public static ConfigOptionToolClass tomahawk = new ConfigOptionToolClass(ModItems.tomahawk, "tomahawk");
-  public static ConfigOptionToolClass pickaxe = new ConfigOptionToolClass(ModItems.pickaxe, "pickaxe");
+  public static ConfigOptionToolClass scepter = new ConfigOptionToolClass(ModItems.scepter,
+      "scepter");
+  public static ConfigOptionToolClass tomahawk = new ConfigOptionToolClass(ModItems.tomahawk,
+      "tomahawk");
+  public static ConfigOptionToolClass pickaxe = new ConfigOptionToolClass(ModItems.pickaxe,
+      "pickaxe");
   public static ConfigOptionToolClass shovel = new ConfigOptionToolClass(ModItems.shovel, "shovel");
   public static ConfigOptionToolClass axe = new ConfigOptionToolClass(ModItems.axe, "axe");
   public static ConfigOptionToolClass paxel = new ConfigOptionToolClass(ModItems.paxel, "paxel");
@@ -319,6 +327,23 @@ public class GemsConfig extends AdaptiveConfig {
           + " reveal the part key.");
       for (String str : partBlacklistTemp)
         PART_BLACKLIST.add(str);
+
+      /*
+       * Enchantments
+       */
+
+      String enchEnabledComment = "Allow this enchantment to be applied at the enchanting table."
+          + " Enchantment tokens will still work.";
+      EnchantmentGravity.ENABLED = loadBoolean("Gravity - Enabled", CAT_ENCHANTMENT, true,
+          enchEnabledComment);
+      EnchantmentIceAspect.ENABLED = loadBoolean("Ice Aspect - Enabled", CAT_ENCHANTMENT, true,
+          enchEnabledComment);
+      EnchantmentLifeSteal.ENABLED = loadBoolean("Life Steal - Enabled", CAT_ENCHANTMENT, true,
+          enchEnabledComment);
+      EnchantmentLightningAspect.ENABLED = loadBoolean("Lightning Aspect - Enabled",
+          CAT_ENCHANTMENT, true, enchEnabledComment);
+      EnchantmentMagicDamage.ENABLED = loadBoolean("Concentration - Enabled", CAT_ENCHANTMENT, true,
+          enchEnabledComment);
 
       /*
        * Chaos

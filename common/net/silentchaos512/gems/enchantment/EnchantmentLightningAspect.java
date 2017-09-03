@@ -24,6 +24,8 @@ public class EnchantmentLightningAspect extends Enchantment {
   public static final int CHAIN_DELAY = 5;
   public static final double CHAIN_RADIUS_SQUARED = 2.5 * 2.5;
 
+  public static boolean ENABLED = true;
+
   public EnchantmentLightningAspect() {
 
     super(Rarity.RARE, EnumEnchantmentType.WEAPON,

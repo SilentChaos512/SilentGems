@@ -14,6 +14,8 @@ public class EnchantmentGravity extends Enchantment {
 
   public static final String NAME = "Gravity";
 
+  public static boolean ENABLED = true;
+
   public EnchantmentGravity() {
 
     super(Rarity.VERY_RARE, EnumEnchantmentType.DIGGER,
@@ -43,6 +45,12 @@ public class EnchantmentGravity extends Enchantment {
   public String getName() {
 
     return "enchantment.silentgems:" + NAME;
+  }
+
+  @Override
+  public boolean canApplyAtEnchantingTable(ItemStack stack) {
+
+    return ENABLED ? super.canApplyAtEnchantingTable(stack) : false;
   }
 
   public void onGetBreakSpeed(PlayerEvent.BreakSpeed event, ItemStack tool, int enchLevel) {
