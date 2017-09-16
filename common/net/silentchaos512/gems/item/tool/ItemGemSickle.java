@@ -57,6 +57,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
 
     super(ToolHelper.FAKE_MATERIAL, Sets.newHashSet(new Block[] {}));
     setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.SICKLE);
+    setNoRepair();
   }
 
   public ItemStack constructTool(boolean supercharged, ItemStack material) {

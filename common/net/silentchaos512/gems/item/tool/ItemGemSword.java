@@ -55,6 +55,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
 
     super(ToolHelper.FAKE_MATERIAL);
     setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.SWORD);
+    setNoRepair();
   }
 
   public ItemStack constructTool(boolean supercharged, ItemStack material) {

@@ -44,6 +44,11 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
 
   public static final float MIN_BLOCKING_POWER = 0.4f;
 
+  public ItemGemShield() {
+
+    setNoRepair();
+  }
+
   // ===========================================
   // = Modified damage blocking and attributes =
   // ===========================================
