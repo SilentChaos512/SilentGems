@@ -89,6 +89,10 @@ public class RecipeDecorateTool extends RecipeBaseSL {
       }
     }
 
+    if (otherMats.isEmpty()) {
+      return StackHelper.empty();
+    }
+
     ItemStack result = StackHelper.safeCopy(tool);
 
     result = ToolHelper.decorateTool(tool, west, north, east, south);
@@ -106,7 +110,10 @@ public class RecipeDecorateTool extends RecipeBaseSL {
       }
     }
 
-    repairValue += 1;
+    if (repairValue > 0) {
+      // Makes odd repair values line up better (2 polished stone on pickaxe makes a full repair, etc.)
+      repairValue += 1;
+    }
 
     // Tool repair multiplier
     repairValue *= ((ITool) tool.getItem()).getRepairMultiplier();
