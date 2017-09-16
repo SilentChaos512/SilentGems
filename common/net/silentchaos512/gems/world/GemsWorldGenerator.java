@@ -31,7 +31,7 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
   @Override
   protected void generateSurface(World world, Random random, int posX, int posZ) {
 
-    int i, x, y, z, meta, veinCount, veinSize;
+    int i, meta, veinCount, veinSize;
     BlockPos pos;
     Block block;
     IBlockState state;
@@ -42,42 +42,40 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
 
     // Gems
     config = GemsConfig.WORLD_GEN_GEMS;
-    block = ModBlocks.gemOre;
-    veinCount = config.getVeinCount(random);
-    veinSize = config.veinSize;
-    for (i = 0; i < veinCount; ++i) {
-      x = posX + random.nextInt(16);
-      y = random.nextInt(config.maxY - config.minY) + config.minY;
-      z = posZ + random.nextInt(16);
-      pos = new BlockPos(x, y, z);
-      // GemTest.instance.logHelper.debug(pos);
-      meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS))
-          .getMeta();
-      EnumGem gem = EnumGem.values()[meta];
-      state = block.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
-      new WorldGenMinable(state, veinSize).generate(world, random, pos);
+    if (config.isEnabled()) {
+      block = ModBlocks.gemOre;
+      veinCount = config.getVeinCount(random);
+      veinSize = config.veinSize;
+      SilentGems.logHelper.debug(veinCount);
+      for (i = 0; i < veinCount; ++i) {
+        pos = config.getRandomPos(random, posX, posZ);
+        meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS))
+            .getMeta();
+        EnumGem gem = EnumGem.values()[meta];
+        state = block.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
+        new WorldGenMinable(state, veinSize).generate(world, random, pos);
+      }
     }
 
     // Chaos Ore
     config = GemsConfig.WORLD_GEN_CHAOS;
-    block = ModBlocks.essenceOre;
-    veinCount = config.getVeinCount(random);
-    veinSize = config.veinSize;
-    for (i = 0; i < veinCount; ++i) {
-      x = posX + random.nextInt(16);
-      y = random.nextInt(config.maxY - config.minY) + config.minY;
-      z = posZ + random.nextInt(16);
-      pos = new BlockPos(x, y, z);
-      state = block.getDefaultState().withProperty(BlockEssenceOre.VARIANT,
-          BlockEssenceOre.Type.CHAOS);
-      new WorldGenMinable(state, veinSize).generate(world, random, pos);
+    if (config.isEnabled()) {
+      block = ModBlocks.essenceOre;
+      veinCount = config.getVeinCount(random);
+      veinSize = config.veinSize;
+      for (i = 0; i < veinCount; ++i) {
+        pos = config.getRandomPos(random, posX, posZ);
+        state = block.getDefaultState().withProperty(BlockEssenceOre.VARIANT,
+            BlockEssenceOre.Type.CHAOS);
+        new WorldGenMinable(state, veinSize).generate(world, random, pos);
+      }
     }
   }
 
   @Override
   protected void generateNether(World world, Random random, int posX, int posZ) {
 
-    int i, x, y, z, meta, veinCount, veinSize;
+    int i, meta, veinCount, veinSize;
     BlockPos pos;
     Block block;
     IBlockState state;
@@ -86,27 +84,25 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
 
     // Dark Gems
     config = GemsConfig.WORLD_GEN_GEMS_DARK;
-    block = ModBlocks.gemOreDark;
-    veinCount = config.getVeinCount(random);
-    veinSize = config.veinSize;
-    for (i = 0; i < config.veinCount; ++i) {
-      x = posX + random.nextInt(16);
-      y = random.nextInt(config.maxY - config.minY) + config.minY;
-      z = posZ + random.nextInt(16);
-      pos = new BlockPos(x, y, z);
-      // GemTest.instance.logHelper.debug(pos);
-      meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS))
-          .getMeta();
-      EnumGem gem = EnumGem.values()[meta];
-      state = block.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
-      new WorldGenMinable(state, veinSize, predicate).generate(world, random, pos);
+    if (config.isEnabled()) {
+      block = ModBlocks.gemOreDark;
+      veinCount = config.getVeinCount(random);
+      veinSize = config.veinSize;
+      for (i = 0; i < veinCount; ++i) {
+        pos = config.getRandomPos(random, posX, posZ);
+        meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS))
+            .getMeta();
+        EnumGem gem = EnumGem.values()[meta];
+        state = block.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
+        new WorldGenMinable(state, veinSize, predicate).generate(world, random, pos);
+      }
     }
   }
 
   @Override
   protected void generateEnd(World world, Random random, int posX, int posZ) {
 
-    int i, x, y, z, meta, veinCount, veinSize;
+    int i, meta, veinCount, veinSize;
     BlockPos pos;
     Block block;
     IBlockState state;
@@ -118,11 +114,8 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
     block = ModBlocks.essenceOre;
     veinCount = config.getVeinCount(random);
     veinSize = config.veinSize;
-    for (i = 0; i < config.veinCount; ++i) {
-      x = posX + random.nextInt(16);
-      y = random.nextInt(config.maxY - config.minY) + config.minY;
-      z = posZ + random.nextInt(16);
-      pos = new BlockPos(x, y, z);
+    for (i = 0; i < veinCount; ++i) {
+      pos = config.getRandomPos(random, posX, posZ);
       state = block.getDefaultState().withProperty(BlockEssenceOre.VARIANT,
           BlockEssenceOre.Type.ENDER);
       new WorldGenMinable(state, veinSize, predicate).generate(world, random, pos);
@@ -147,8 +140,8 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
 
       // Find top-most valid block
       for (; y > 50; --y) {
-        //if (world.isAirBlock(pos) && (!world.provider.hasNoSky() || pos.getY() < 255) && ModBlocks.glowRose.canBlockStay(world, pos, state)) {
-        if (world.isAirBlock(pos) && pos.getY() < 255 && ModBlocks.glowRose.canBlockStay(world, pos, state)) {
+        if (world.isAirBlock(pos) && pos.getY() < 255
+            && ModBlocks.glowRose.canBlockStay(world, pos, state)) {
           world.setBlockState(pos, state, 2);
           break;
         }

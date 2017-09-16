@@ -2,6 +2,7 @@ package net.silentchaos512.gems.config;
 
 import java.util.Random;
 
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.config.Configuration;
 
@@ -21,8 +22,8 @@ public class ConfigOptionOreGen extends ConfigOption {
   public int maxY;
   public final int dimension;
 
-  public ConfigOptionOreGen(String name, int dimension, float veinCount,
-      int veinSize, int minY, int maxY) {
+  public ConfigOptionOreGen(String name, int dimension, float veinCount, int veinSize, int minY,
+      int maxY) {
 
     this.name = name;
     this.dimension = dimension;
@@ -34,15 +35,15 @@ public class ConfigOptionOreGen extends ConfigOption {
 
   public int getVeinCount(Random random) {
 
+    // Decimal part of veinCount is a chance to spawn an extra vein.
     float diff = veinCount - (int) veinCount;
-    return (int) veinCount + (random.nextFloat() > diff ? 1 : 0);
+    return (int) veinCount + (random.nextFloat() < diff ? 1 : 0);
   }
 
   @Override
   public ConfigOption loadValue(Configuration c, String category) {
 
-    return loadValue(c, category + c.CATEGORY_SPLITTER + name,
-        "World generation for " + name);
+    return loadValue(c, category + c.CATEGORY_SPLITTER + name, "World generation for " + name);
   }
 
   @Override
@@ -63,6 +64,28 @@ public class ConfigOptionOreGen extends ConfigOption {
     veinSize = MathHelper.clamp(veinSize, VEIN_SIZE_MIN, VEIN_SIZE_MAX);
     minY = MathHelper.clamp(minY, Y_MIN, Y_MAX);
     maxY = MathHelper.clamp(maxY, Y_MIN, Y_MAX);
+
+    // Sanity check: max Y must be greater than min Y.
+    if (maxY <= minY) {
+      maxY = minY + 1;
+    }
+
     return this;
+  }
+
+  public boolean isEnabled() {
+
+    // Ore will be disabled if either the vein count or vein size is set to 0.
+    return veinCount > 0 && veinSize > 0;
+  }
+
+  public BlockPos getRandomPos(Random random, int posX, int posZ) {
+
+    //@formatter:off
+    return new BlockPos(
+        posX + random.nextInt(16),
+        minY + random.nextInt(maxY - minY),
+        posZ + random.nextInt(16));
+    //@formatter:on
   }
 }

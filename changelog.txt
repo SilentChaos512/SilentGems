@@ -1,5 +1,12 @@
 Silent's Gems - Changelog
 
+2.4.7
+Fixed: Added sanity checks to "Min Y" and "Max Y" in ore configs.
+Fixed: Some mistakes in selecting the number of veins per chunk (the decimal part was either being ignored or the probability was inverted).
+Fixed: [1.10.2, 1.11.2] Tools can no longer be "repaired" by crafting them together, resulting in randomized tools (#188)
+Fixed: [1.10.2, 1.11.2] Tools gaining one durability when placed in an empty crafting grid, or with materials that do not restore durability (#189)
+Fixed: [1.10.2, 1.11.2] A recipe for ornate silver rods is no longer added if there are no silver ingots (#190)
+
 2.4.6
 Added: Scaling Health blights can now receive gem swords
 Added: Configs to ban mod enchantments from the enchantment table. Tokens will still work.
