@@ -3,11 +3,11 @@ package net.silentchaos512.gems.item.tool;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -43,7 +43,6 @@ import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -79,7 +78,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   // ===============
   // ITool overrides
   // ===============
-  
+
   public ConfigOptionToolClass getConfig() {
 
     return GemsConfig.sickle;
@@ -88,7 +87,8 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (getConfig().isDisabled) return StackHelper.empty();
+    if (getConfig().isDisabled)
+      return StackHelper.empty();
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -121,8 +121,8 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   // ==============
 
   @Override
-  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
+      EnumFacing side, float hitX, float hitY, float hitZ) {
 
     ItemStack stack = player.getHeldItem(hand);
 
@@ -145,12 +145,13 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
           state = world.getBlockState(targetPos);
           block = state.getBlock();
 
-          if (block instanceof IGrowable) {
+          if (block instanceof IGrowable && !(block instanceof BlockDoublePlant)) {
             IGrowable crop = (IGrowable) block;
             if (!crop.canGrow(world, targetPos, state, world.isRemote)) {
               // Fully grown crop, get the drops
-              List<ItemStack> drops = block.getDrops(world, targetPos, state,
-                  EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack));
+              NonNullList<ItemStack> drops = NonNullList.create();
+              int fortune = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
+              block.getDrops(drops, world, targetPos, state, fortune);
 
               // Spawn drops in world, remove first seed.
               boolean foundSeed = false;
@@ -289,7 +290,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
       playerMP.connection.sendPacket(new SPacketBlockChange(world, pos));
     } else {
       int meta = block.getMetaFromState(state);
-      world.playEvent(2001, pos, Block.getIdFromBlock(block)  + (meta << 12) );
+      world.playEvent(2001, pos, Block.getIdFromBlock(block) + (meta << 12));
       if (block.removedByPlayer(state, world, pos, playerMP, true)) {
         block.onBlockDestroyedByPlayer(world, pos, state);
       }
@@ -324,7 +325,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
 
     return ToolRenderHelper.instance.hasEffect(stack);
   }
-  
+
   @Override
   public EnumRarity getRarity(ItemStack stack) {
 
@@ -366,7 +367,8 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   }
 
   @Override
-  public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player, IBlockState state) {
+  public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player,
+      IBlockState state) {
 
     if (super.getHarvestLevel(stack, toolClass, player, state) < 0) {
       return 0;
@@ -452,7 +454,8 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   @Override
   public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
 
-    ToolRenderHelper.getInstance().clAddInformation(stack, world, list, flag == TooltipFlags.ADVANCED);
+    ToolRenderHelper.getInstance().clAddInformation(stack, world, list,
+        flag == TooltipFlags.ADVANCED);
   }
 
   // getSubItems 1.10.2
@@ -482,8 +485,8 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   }
 
   // onItemUse
-  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
+      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
     return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }
