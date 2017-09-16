@@ -28,6 +28,7 @@ import net.silentchaos512.gems.compat.tconstruct.TConstructGemsCompat;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.ModEntities;
 import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
+import net.silentchaos512.gems.entity.packet.EntityPacketRepair;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModItems;
@@ -82,10 +83,17 @@ public class SilentGems {
     public Item registerItem(Item item, String key) {
 
       super.registerItem(item, key);
-      if (item instanceof ITool && !(item instanceof ItemGemShield)) {
-        item.setCreativeTab(GemsCreativeTabs.tools);
-        ModItems.tools.add(item);
+      if (item instanceof ITool) {
+        // Works with repair packets.
+        EntityPacketRepair.REPAIR_WHITELIST.add(item);
+
+        // Not adding shields to tools tab and shields don't use custom model.
+        if (!(item instanceof ItemGemShield)) {
+          item.setCreativeTab(GemsCreativeTabs.tools);
+          ModItems.tools.add(item);
+        }
       } else if (item instanceof IArmor) {
+        EntityPacketRepair.REPAIR_WHITELIST.add(item);
         item.setCreativeTab(GemsCreativeTabs.tools);
       } else {
         item.setCreativeTab(GemsCreativeTabs.materials);
@@ -160,14 +168,6 @@ public class SilentGems {
 
     proxy.postInit(registry);
   }
-
-//  @EventHandler
-//  public void onMissingMapping(FMLMissingMappingsEvent event) {
-//
-//    for (FMLMissingMappingsEvent.MissingMapping mismap : event.get()) {
-//      MC10IdRemapper.remap(mismap);
-//    }
-//  }
 
   @EventHandler
   public void onServerStarting(FMLServerStartingEvent event) {

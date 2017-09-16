@@ -16,6 +16,7 @@ import net.silentchaos512.gems.enchantment.EnchantmentIceAspect;
 import net.silentchaos512.gems.enchantment.EnchantmentLifeSteal;
 import net.silentchaos512.gems.enchantment.EnchantmentLightningAspect;
 import net.silentchaos512.gems.enchantment.EnchantmentMagicDamage;
+import net.silentchaos512.gems.entity.packet.EntityPacketRepair;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
@@ -363,6 +364,12 @@ public class GemsConfig extends AdaptiveConfig {
           REMOVE_NODE_PACKETS_ON_SERVER_START,
           "If true, all chaos node packets (the things nodes shoot out) will be removed each time"
           + " your server/world is started. This can prevent some rare crashes.");
+      EntityPacketRepair.loadItemList(true, config.getStringList("Repair Whitelist", CAT_NODES,
+          new String[0],
+          "Repair packets will try to repair these items, if possible. REMOVING ITEMS REQUIRES A RESTART."));
+      EntityPacketRepair.loadItemList(false, config.getStringList("Repair Blacklist", CAT_NODES,
+          new String[0],
+          "Repair packets will not try to repair these items. REMOVING ITEMS REQUIRES A RESTART."));
 
       /*
        * GUI

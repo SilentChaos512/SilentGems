@@ -1,11 +1,13 @@
 package net.silentchaos512.gems.entity.packet;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
@@ -16,6 +18,9 @@ import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 public class EntityPacketRepair extends EntityChaosNodePacket {
+
+  public static Set<Item> REPAIR_WHITELIST = new HashSet<>();
+  public static Set<Item> REPAIR_BLACKLIST = new HashSet<>();
 
   public static final int VALUE_MEAN = 10;
   public static final int VALUE_DEVIATION = 2;
@@ -64,8 +69,7 @@ public class EntityPacketRepair extends EntityChaosNodePacket {
 
     // Select a random item.
     ItemStackList items = PlayerHelper.getNonEmptyStacks(player);
-    items.removeIf(stack -> !stack.getItem().isRepairable() || !stack.isItemStackDamageable()
-        || stack.getItemDamage() == 0);
+    items.removeIf(stack -> !canRepair(stack));
     if (items.size() > 0) {
       stackToRepair = items.get(rand.nextInt(items.size()));
     }
@@ -77,6 +81,16 @@ public class EntityPacketRepair extends EntityChaosNodePacket {
     }
 
     super.onImpactWithEntity(entity);
+  }
+
+  protected boolean canRepair(ItemStack stack) {
+
+    if (REPAIR_BLACKLIST.contains(stack.getItem())) {
+      return false;
+    }
+
+    return stack.getItemDamage() > 0 && stack.isItemStackDamageable()
+        && (stack.getItem().isRepairable() || REPAIR_WHITELIST.contains(stack.getItem()));
   }
 
   @Override
@@ -101,5 +115,19 @@ public class EntityPacketRepair extends EntityChaosNodePacket {
   public int getColorIndex() {
 
     return COLOR_INDEX;
+  }
+
+  public static void loadItemList(boolean whitelist, String[] list) {
+
+    for (int i = 0; i < list.length; ++i) {
+      Item item = Item.getByNameOrId(list[i]);
+      if (item != null) {
+        if (whitelist) {
+          REPAIR_WHITELIST.add(item);
+        } else {
+          REPAIR_BLACKLIST.add(item);
+        }
+      }
+    }
   }
 }
