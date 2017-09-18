@@ -111,6 +111,7 @@ public class GemsConfig extends AdaptiveConfig {
    */
 
   public static boolean REMOVE_NODE_PACKETS_ON_SERVER_START = true;
+  public static int CHAOS_NODE_PARTICLE_OVERRIDE = -1;
 
   /*
    * GUI
@@ -364,6 +365,10 @@ public class GemsConfig extends AdaptiveConfig {
           REMOVE_NODE_PACKETS_ON_SERVER_START,
           "If true, all chaos node packets (the things nodes shoot out) will be removed each time"
           + " your server/world is started. This can prevent some rare crashes.");
+      CHAOS_NODE_PARTICLE_OVERRIDE = loadInt("Particle Setting Override", CAT_NODES,
+          CHAOS_NODE_PARTICLE_OVERRIDE, -1, 2,
+          "Override vanilla particle settings for chaos nodes. -1 will use vanilla settings, 0 is"
+          + " All, 1 is Decreased, and 2 is Minimal");
       EntityPacketRepair.loadItemList(true, config.getStringList("Repair Whitelist", CAT_NODES,
           new String[0],
           "Repair packets will try to repair these items, if possible. REMOVING ITEMS REQUIRES A RESTART."));

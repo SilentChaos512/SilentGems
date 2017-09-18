@@ -16,6 +16,7 @@ import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosProvider;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
 import net.silentchaos512.gems.entity.packet.EntityPacketAttack;
 import net.silentchaos512.gems.entity.packet.EntityPacketLevitation;
@@ -272,7 +273,14 @@ public class TileChaosNode extends TileEntitySL implements ITickable, IChaosProv
   private void spawnParticles() {
 
     Random rand = SilentGems.instance.random;
-    for (int i = 0; i < 3 / (1 + SilentGems.instance.proxy.getParticleSettings()); ++i) {
+
+    // Get particle settings, using the node-specific override config if applicable.
+    int particleSetting = GemsConfig.CHAOS_NODE_PARTICLE_OVERRIDE;
+    if (particleSetting < 0) {
+      particleSetting = SilentGems.proxy.getParticleSettings();
+    }
+
+    for (int i = 0; i < 3 / (1 + particleSetting); ++i) {
       if (world.isRemote) {
         double motionX = rand.nextGaussian() * 0.03f;
         double motionY = rand.nextGaussian() * 0.006f;
