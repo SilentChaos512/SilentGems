@@ -190,13 +190,14 @@ public class GemsCommonEvents {
       // Soul Gems
       Entity killed = event.getEntity();
       Soul soul = ModItems.soulGem.getSoul(killed.getClass());
-      if (soul != null && SilentGems.random.nextFloat() < soul.getDropRate()) {
-        ItemStack soulGem = ModItems.soulGem.getStack(soul);
-        if (StackHelper.isValid(soulGem)) {
-          EntityItem entityItem = new EntityItem(killed.world, killed.posX, killed.posY + killed.height / 2f, killed.posZ, soulGem);
-          killed.world.spawnEntity(entityItem);
-        }
-      }
+      // TODO: Uncomment when ready to use soul gems.
+//      if (soul != null && SilentGems.random.nextFloat() < soul.getDropRate()) {
+//        ItemStack soulGem = ModItems.soulGem.getStack(soul);
+//        if (StackHelper.isValid(soulGem)) {
+//          EntityItem entityItem = new EntityItem(killed.world, killed.posX, killed.posY + killed.height / 2f, killed.posZ, soulGem);
+//          killed.world.spawnEntity(entityItem);
+//        }
+//      }
     }
   }
 
