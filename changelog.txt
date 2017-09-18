@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.4.8
+Added: Config to override particle settings for chaos nodes (#200)
 Changed: Remove soul gem drops for now, since they have no use.
 Changed: Guide book widgets texture updated with Patreon button (Silent Lib 2.2.8)
 Fixed: Removed a debug line I mistakenly left in.
