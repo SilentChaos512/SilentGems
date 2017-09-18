@@ -46,7 +46,6 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
       block = ModBlocks.gemOre;
       veinCount = config.getVeinCount(random);
       veinSize = config.veinSize;
-      SilentGems.logHelper.debug(veinCount);
       for (i = 0; i < veinCount; ++i) {
         pos = config.getRandomPos(random, posX, posZ);
         meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS))
