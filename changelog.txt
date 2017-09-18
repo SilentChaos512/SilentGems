@@ -1,9 +1,17 @@
 Silent's Gems - Changelog
 
+2.4.8
+Changed: Remove soul gem drops for now, since they have no use.
+Changed: Guide book widgets texture updated with Patreon button (Silent Lib 2.2.8)
+Fixed: Removed a debug line I mistakenly left in.
+
 2.4.7
+Added: A blacklist and whitelist for chaos node repair packets (#194)
+Fixed: Repair packets not repairing gem tools
 Fixed: Sickles no longer turn double tall grass into sunflowers when right-clicking (#202)
 Fixed: Added sanity checks to "Min Y" and "Max Y" in ore configs (#203)
 Fixed: Some mistakes in selecting the number of veins per chunk (the decimal part was either being ignored or the probability was inverted) (#203)
+
 Fixed: [1.10.2, 1.11.2] Tools can no longer be "repaired" by crafting them together, resulting in randomized tools (#188)
 Fixed: [1.10.2, 1.11.2] Tools gaining one durability when placed in an empty crafting grid, or with materials that do not restore durability (#189)
 Fixed: [1.10.2, 1.11.2] A recipe for ornate silver rods is no longer added if there are no silver ingots (#190)
