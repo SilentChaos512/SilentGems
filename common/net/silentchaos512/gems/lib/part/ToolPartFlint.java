@@ -11,8 +11,8 @@ import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
+import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
-import slimeknights.tconstruct.library.utils.ToolHelper;
 
 public class ToolPartFlint extends ToolPartMain {
 
