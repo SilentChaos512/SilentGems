@@ -62,7 +62,7 @@ public class SilentGems {
   public static final int BUILD_NUM = 0;
   public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
       + "after:baubles;after:enderio;after:enderzoo;after:tconstruct;after:veinminer";
-  public static final String ACCEPTED_MC_VERSIONS = "[1.10.2,1.12.1]";
+  public static final String ACCEPTED_MC_VERSIONS = "[1.12,1.12.2]";
   public static final String RESOURCE_PREFIX = MODID + ":";
 
   public static Random random = new Random();
