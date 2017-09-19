@@ -1,12 +1,12 @@
 Silent's Gems - Changelog
 
 2.5.0
-Added: 16 new gems. These "light" gems will spawn only in the End.
+Added: 16 new gems. These "light" gems will spawn only in the End. Many new block will be missing localizations/models/textures for a bit. Please be patient as I work on these.
 Added: Broken tool head textures. These are colored at runtime, so the exact color may differ from the non-broken head.
 Changed: Tool heads now have only one layer, instead of two or three. This kind of removes decorating, but you can change the appearance of the entire head by putting a material above the tool. Mixed material tools are still possible, but only one material will effect the appearance.
 Changed: The hues of dark gems have been tweaked, so they are no longer just darker versions of the classic (overworld) gems. Light gems also have unique hues. The differences are subtle in many cases, but I think it's a big improvement.
 Changed: Every tool head has a separate texture for each gem now. Dark gem tools are much more vibrant.
-Changed: Many block textures have been updated.
+Changed: Many block textures have been updated (much more work to do). Gem blocks/ores have changed, fluffy blocks are now 16x16.
 
 2.4.8
 Added: Config to override particle settings for chaos nodes (#200)

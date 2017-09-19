@@ -17,6 +17,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -203,6 +204,12 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
       boolean isSelected) {
 
     ToolHelper.onUpdate(tool, world, entity, itemSlot, isSelected);
+  }
+
+  @Override
+  public boolean onEntityItemUpdate(EntityItem entityItem) {
+
+    return ToolHelper.onEntityItemUpdate(entityItem);
   }
 
   // ==================

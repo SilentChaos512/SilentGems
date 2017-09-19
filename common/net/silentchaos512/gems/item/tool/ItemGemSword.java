@@ -6,6 +6,7 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -15,6 +16,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -24,7 +26,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -43,7 +44,6 @@ import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.item.IItemSL;
@@ -275,6 +275,12 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
       boolean isSelected) {
 
     ToolHelper.onUpdate(tool, world, entity, itemSlot, isSelected);
+  }
+
+  @Override
+  public boolean onEntityItemUpdate(EntityItem entityItem) {
+
+    return ToolHelper.onEntityItemUpdate(entityItem);
   }
 
   // ==================

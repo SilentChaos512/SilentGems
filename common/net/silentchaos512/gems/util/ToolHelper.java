@@ -19,6 +19,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -617,6 +618,22 @@ public class ToolHelper {
         NetworkHandler.INSTANCE.sendToServer(message);
       }
     }
+  }
+
+  public static boolean onEntityItemUpdate(EntityItem entityItem) {
+
+    // Ideal: return tool to player when it hits lava. We'll need to store the tools current owner.
+    // TODO: ToolHelper#onEntityItemUpdate
+    if (entityItem.world.getBlockState(new BlockPos(entityItem)).getMaterial() == Material.LAVA) {
+      // Quick and dirty "kinda works" solution.
+      entityItem.motionX = 0.0;
+      entityItem.motionY = 0.2;
+      entityItem.motionZ = 0.0;
+      entityItem.setNoPickupDelay();
+      return true;
+    }
+
+    return false;
   }
 
   public static boolean isSpecialAbilityEnabled(ItemStack tool) {
