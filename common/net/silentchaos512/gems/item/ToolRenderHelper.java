@@ -162,8 +162,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       }
 
       if (isBow) {
-        list.add(color + getTooltipLine("DrawDelay", ModItems.bow.getDrawDelay(tool)));
-        list.add(color + getTooltipLine("ArrowDamage", 2f + ModItems.bow.getArrowDamage(tool)));
+        list.add(color + getTooltipLine("DrawSpeed", ModItems.bow.getDrawSpeedForDisplay(tool)));
+        list.add(color + getTooltipLine("ArrowDamage", ModItems.bow.getArrowDamageForDisplay(tool)));
       }
 
       list.add(color + getTooltipLine("ChargeSpeed", ToolHelper.getChargeSpeed(tool)));

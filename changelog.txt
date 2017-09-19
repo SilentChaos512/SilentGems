@@ -7,6 +7,8 @@ Changed: Tool heads now have only one layer, instead of two or three. This kind 
 Changed: The hues of dark gems have been tweaked, so they are no longer just darker versions of the classic (overworld) gems. Light gems also have unique hues. The differences are subtle in many cases, but I think it's a big improvement.
 Changed: Every tool head has a separate texture for each gem now. Dark gem tools are much more vibrant.
 Changed: Many block textures have been updated (much more work to do). Gem blocks/ores have changed, fluffy blocks are now 16x16.
+Changed: Bow speeds are a bit more balanced, with non-super bows being notably faster.
+Changed: Bows now display draw speed and arrow damage as a factor of vanilla bows. Draw speed replaces draw delay, so higher numbers are better now.
 
 2.4.8
 Added: Config to override particle settings for chaos nodes (#200)

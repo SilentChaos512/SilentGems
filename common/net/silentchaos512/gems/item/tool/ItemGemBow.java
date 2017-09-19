@@ -48,6 +48,7 @@ import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
+  private static final int MIN_DRAW_DELAY = 10;
   public static final float ENCHANTABILITY_MULTIPLIER = 0.45f;
   public static final ResourceLocation RESOURCE_PULL = new ResourceLocation("pull");
   public static final ResourceLocation RESOURCE_PULLING = new ResourceLocation("pulling");
@@ -122,9 +123,21 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
   public float getDrawDelay(ItemStack stack) {
 
+    // Vanilla bows would be 20.
     float mspeed = ToolHelper.getMeleeSpeed(stack);
     float dspeed = ToolHelper.getDigSpeedOnProperMaterial(stack);
-    return Math.max(38.4f - 1.4f * mspeed * dspeed, 10);
+    return Math.max(32.7f - 1.1f * mspeed * dspeed, MIN_DRAW_DELAY);
+  }
+
+  /**
+   * Display speed as a factor of vanilla bow speed, because users sometimes misunderstand draw delay (admittedly, it is
+   * counterintuitive for lower numbers to mean better).
+   * 
+   * @return Draw speed for tooltip display.
+   */
+  public float getDrawSpeedForDisplay(ItemStack stack) {
+
+    return 20f / getDrawDelay(stack);
   }
 
   public float getArrowVelocity(ItemStack stack, int charge) {
@@ -137,6 +150,16 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   public float getArrowDamage(ItemStack stack) {
 
     return 0.4f * ToolHelper.getMeleeDamage(stack) - 1.0f;
+  }
+
+  /**
+   * Display arrow damage as a factor of vanilla arrow damage. Makes comparing bows easier.
+   * 
+   * @return Arrow damage for tooltip display.
+   */
+  public float getArrowDamageForDisplay(ItemStack stack) {
+
+    return (2f + getArrowDamage(stack)) / 2f;
   }
 
   protected ItemStack findAmmo(EntityPlayer player) {
@@ -433,11 +456,4 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
     list.addAll(ToolHelper.getSubItems(item, 3));
   }
-
-  // onItemUse
-//  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
-//      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-//
-//    return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
-//  }
 }

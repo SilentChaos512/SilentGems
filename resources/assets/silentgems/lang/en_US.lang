@@ -926,14 +926,14 @@ misc.silentgems:Tooltip.level2=Diamond
 misc.silentgems:Tooltip.level3=Obsidian
 misc.silentgems:Tooltip.level4=Cobalt
 
-misc.silentgems:Tooltip.ArrowDamage=Arrow Damage:&f %s
+misc.silentgems:Tooltip.ArrowDamage=Arrow Damage:&f %sx
 misc.silentgems:Tooltip.BlockingPower=Blocking Power:&f %s
 misc.silentgems:Tooltip.Broken=&cYou broke it!
 misc.silentgems:Tooltip.ExampleTool=&cExample recipe (%s Tier)
 misc.silentgems:Tooltip.NoData1=&cAppears to be made of... nothing.
 misc.silentgems:Tooltip.NoData2=&c(This tool is missing NBT. Something has gone wrong.)
 misc.silentgems:Tooltip.ChargeSpeed=Charge Speed:&f %s
-misc.silentgems:Tooltip.DrawDelay=Draw Delay:&f %s
+misc.silentgems:Tooltip.DrawSpeed=Draw Speed:&f %sx
 misc.silentgems:Tooltip.Durability=Durability:&f %s
 misc.silentgems:Tooltip.Enchantability=Enchantability:&f %s
 misc.silentgems:Tooltip.HarvestLevel=Harvest Level:&f %s
