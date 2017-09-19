@@ -26,7 +26,7 @@ public class ToolPartRodGems extends ToolPartRod {
 
     super(SilentGems.RESOURCE_PREFIX + name, stack, durabilityMulti, harvestSpeedMulti,
         meleeDamageMulti, magicDamageMulti, enchantabilityMulti);
-    this.rodName = name;
+    this.rodName = name.toLowerCase().replaceFirst("rod", "rod_");
     this.tier = tier;
     this.color = color;
   }
@@ -37,7 +37,7 @@ public class ToolPartRodGems extends ToolPartRod {
 
     super(SilentGems.RESOURCE_PREFIX + name, stack, oreName, durabilityMulti, harvestSpeedMulti,
         meleeDamageMulti, magicDamageMulti, enchantabilityMulti);
-    this.rodName = name;
+    this.rodName = name.toLowerCase().replaceFirst("rod", "rod_");
     this.tier = tier;
     this.color = color;
   }
@@ -46,7 +46,7 @@ public class ToolPartRodGems extends ToolPartRod {
   public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos, int frame) {
 
     String name = ((IRegistryObject) tool.getItem()).getName();
-    name = SilentGems.RESOURCE_PREFIX + name.toLowerCase() + "/" + name + rodName;
+    name = SilentGems.RESOURCE_PREFIX + name.toLowerCase() + "/" + name + "_" + rodName;
 
     if (modelMap.containsKey(name)) {
       return modelMap.get(name);

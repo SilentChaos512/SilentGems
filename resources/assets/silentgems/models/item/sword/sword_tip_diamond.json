@@ -1,0 +1,10 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "silentgems:items/blank",
+    "layer1": "silentgems:items/blank",
+    "layer2": "silentgems:items/blank",
+    "layer3": "silentgems:items/sword/sword_tip_diamond"
+  }
+}
+

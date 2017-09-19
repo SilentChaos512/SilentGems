@@ -18,6 +18,7 @@ import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class ToolPartGem extends ToolPartMain {
@@ -43,20 +44,22 @@ public class ToolPartGem extends ToolPartMain {
   public int getColor(ItemStack toolOrArmor) {
 
     Item item = toolOrArmor.getItem();
-    if (item instanceof IArmor || item instanceof ItemGemShield || item instanceof ItemGemBow)
+    if (item instanceof IArmor || item instanceof ItemGemShield || item instanceof ItemGemBow
+        || ToolHelper.isBroken(toolOrArmor)) {
       return gem.getColor();
-    else
-      return gem.ordinal() > 15 ? ToolRenderHelper.DARK_GEM_SHADE : 0xFFFFFF;
+    }
+    return 0xFFFFFF;
   }
 
   @Override
   public String getDisplayName(ItemStack stack) {
 
-    if (stack.hasDisplayName() || stack.getItem() != ModItems.gem)
+    if (stack.hasDisplayName() || (stack.getItem() != ModItems.gem && stack.getItem() != ModItems.gemSuper)) {
       return stack.getDisplayName();
+    }
 
     return SilentGems.localizationHelper.getLocalizedString("item",
-        Names.GEM + (stack.getItemDamage() & 0x1F) + ".name");
+        Names.GEM + stack.getItemDamage() + ".name");
   }
 
   @Override
@@ -75,17 +78,11 @@ public class ToolPartGem extends ToolPartMain {
     String frameNum = frame == 3 ? "_3" : "";
 
     switch (pos) {
-      case HEAD_LEFT:
-        name += gemNum + "l" + frameNum;
-        break;
-      case HEAD_MIDDLE:
+      case HEAD:
         name += gemNum + frameNum;
         break;
-      case HEAD_RIGHT:
-        name += gemNum + "r" + frameNum;
-        break;
       case ROD_DECO:
-        name += "deco" + gemNum;
+        name += "deco";
         break;
       default:
         return null;

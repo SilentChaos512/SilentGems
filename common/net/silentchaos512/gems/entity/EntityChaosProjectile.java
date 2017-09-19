@@ -38,7 +38,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
   public static final String NBT_SHOOTER = "Shooter";
 
   protected EntityLivingBase shooter;
-//  protected ItemStack castingStack;
+  // protected ItemStack castingStack;
   private Color color = Color.WHITE;
   protected float damage = 0f;
   protected boolean gravity = true;
@@ -57,7 +57,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
     this.shooter = shooter;
     this.damage = damage;
-//    this.castingStack = castingStack;
+    // this.castingStack = castingStack;
 
     setSize(SIZE, SIZE);
 
@@ -76,7 +76,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
     // this.gravity = gravity;
 
     // Color
-    ToolPart part = ToolHelper.getRenderPart(castingStack, EnumPartPosition.HEAD_MIDDLE);
+    ToolPart part = ToolHelper.getRenderPart(castingStack, EnumPartPosition.HEAD);
     if (part instanceof ToolPartGem) {
       ToolPartGem partGem = (ToolPartGem) part;
       this.color = new Color(partGem.getGem().getColor());
@@ -125,16 +125,16 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
     }
 
     // Body particle
-    SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PROJECTILE_BODY, getColor(), world,
-        posX, posY, posZ, 0, 0, 0);
+    SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PROJECTILE_BODY, getColor(), world, posX,
+        posY, posZ, 0, 0, 0);
     // Tail particles
     if (ticksExisted > 2) {
       for (int i = 0; i < 1 + 3 / (1 + 2 * SilentGems.instance.proxy.getParticleSettings()); ++i) {
         double mx = world.rand.nextGaussian() * 0.01f;
         double my = world.rand.nextGaussian() * 0.01f;
         double mz = world.rand.nextGaussian() * 0.01f;
-        SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, getColor(), world, posX, posY,
-            posZ, mx, my, mz);
+        SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, getColor(), world, posX, posY, posZ,
+            mx, my, mz);
       }
     }
   }
@@ -145,13 +145,15 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
     BlockPos posHit = mop.getBlockPos();
     if (mop.typeOfHit == Type.ENTITY && shooter != null && mop.entityHit != shooter) {
       // Collide with Entity?
-      mop.entityHit.attackEntityFrom(DamageSource.causeIndirectMagicDamage(getShooter(), getShooter()), damage);
-//      if (castingStack != null) {
-//        ToolHelper.incrementStatShotsLanded(castingStack, 1);
-//      }
+      mop.entityHit.attackEntityFrom(
+          DamageSource.causeIndirectMagicDamage(getShooter(), getShooter()), damage);
+      // if (castingStack != null) {
+      // ToolHelper.incrementStatShotsLanded(castingStack, 1);
+      // }
       // worldObj.createExplosion(this, posX, posY, posZ, 1.25f, false);
       setDead();
-    } else if (mop.typeOfHit == Type.BLOCK && canCollideWithBlock(world.getBlockState(posHit), posHit)) {
+    } else if (mop.typeOfHit == Type.BLOCK
+        && canCollideWithBlock(world.getBlockState(posHit), posHit)) {
       // Collide with Block?
       BlockPos pos = mop.getBlockPos();
       IBlockState state = world.getBlockState(pos);
@@ -204,8 +206,8 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
     spawnHitParticles(64);
     float f = (float) (0.75f + rand.nextGaussian() * 0.05f);
-    world.playSound(null, getPosition(), SoundEvents.ENTITY_FIREWORK_BLAST,
-        SoundCategory.AMBIENT, 0.75f, f);
+    world.playSound(null, getPosition(), SoundEvents.ENTITY_FIREWORK_BLAST, SoundCategory.AMBIENT,
+        0.75f, f);
 
     super.setDead();
   }

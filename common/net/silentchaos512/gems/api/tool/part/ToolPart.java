@@ -10,10 +10,13 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.lib.registry.IRegistryObject;
 
 /**
  * Represents a part that tools can be made from. Add-ons should not extend this class! Extend one of the subclasses
@@ -172,6 +175,25 @@ public abstract class ToolPart {
     return model;
   }
 
+  @SideOnly(Side.CLIENT)
+  public ModelResourceLocation getBrokenModel(ItemStack toolOrArmor, EnumPartPosition pos,
+      int frame) {
+
+    if (pos == EnumPartPosition.HEAD) {
+      // Heads have a special broken model. It's a plain grayscale image, so an appropriate color should be returned in
+      // getColor if the tool is broken (ToolHelper#isBroken).
+      String name = ((IRegistryObject) toolOrArmor.getItem()).getName();
+      name = SilentGems.RESOURCE_PREFIX + name + "/" + name + "_broken";
+      return new ModelResourceLocation(name.toLowerCase(), "inventory");
+    } else if (pos == EnumPartPosition.TIP) {
+      // Tips are not rendered on broken tools.
+      return ToolRenderHelper.getInstance().modelBlank;
+    }
+
+    // All other passes are left alone.
+    return getModel(toolOrArmor, pos, frame);
+  }
+
   public String getUnlocalizedName() {
 
     return key;
@@ -237,7 +259,7 @@ public abstract class ToolPart {
    * @return
    */
   public abstract boolean validForPosition(EnumPartPosition pos);
-  
+
   @Override
   public String toString() {
 

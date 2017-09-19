@@ -3,6 +3,7 @@ package net.silentchaos512.gems.lib;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.init.ModBlocks;
@@ -12,40 +13,57 @@ import net.silentchaos512.lib.util.StackHelper;
 public enum EnumGem implements IStringSerializable {
 
   // @formatter:off
-  //                                  DUR    EFF   MEL   MAG ENC   SPD   CHG PRT     COLOR
-  RUBY            ("Ruby",            512,  8.0f, 6.0f, 2.0f, 10, 0.8f, 1.0f, 14, 0xFF0000),
-  GARNET          ("Garnet",          384,  7.0f, 4.0f, 3.0f, 12, 0.9f, 1.0f, 16, 0xFF4000),
-  TOPAZ           ("Topaz",           384,  9.0f, 4.0f, 2.0f, 12, 0.8f, 2.0f, 20, 0xFF6A00),
-  AMBER           ("Amber",           128,  5.0f, 2.0f, 4.0f, 17, 1.1f, 4.0f, 12, 0xFFAA00),
-  HELIODOR        ("Heliodor",        256, 12.0f, 4.0f, 3.0f, 10, 1.0f, 2.0f, 12, 0xFFD500),
-  PERIDOT         ("Peridot",         256,  6.0f, 4.0f, 3.0f, 14, 0.7f, 3.0f, 14, 0xAAFF00),
-  BERYL           ("Beryl",           384,  9.0f, 4.0f, 2.0f, 16, 1.1f, 2.0f, 14, 0x00FF00),
-  INDICOLITE      ("Indicolite",      384, 10.0f, 2.0f, 5.0f, 12, 1.0f, 1.0f, 12, 0x00FF80),
-  AQUAMARINE      ("Aquamarine",      256,  9.0f, 3.0f, 4.0f, 12, 1.1f, 2.0f, 14, 0x00FFFF),
-  SAPPHIRE        ("Sapphire",        512,  8.0f, 4.0f, 4.0f, 10, 0.8f, 1.0f, 16, 0x0000FF),
-  IOLITE          ("Iolite",          512,  6.0f, 2.0f, 4.0f, 11, 1.0f, 2.0f, 20, 0x5500FF),
-  AMETHYST        ("Amethyst",        256,  7.0f, 3.0f, 4.0f, 12, 0.9f, 3.0f, 18, 0xAA00FF),
-  AGATE           ("Agate",           192,  8.0f, 3.0f, 3.0f, 14, 1.1f, 4.0f, 16, 0xFF00FF),
-  MORGANITE       ("Morganite",       256, 10.0f, 4.0f, 2.0f, 12, 0.9f, 3.0f, 14, 0xFFABE3),
-  ONYX            ("Onyx",            128,  8.0f, 7.0f, 2.0f,  8, 0.7f, 1.0f, 12, 0x2E2E2E),
-  OPAL            ("Opal",            192,  8.0f, 3.0f, 6.0f, 13, 0.7f, 2.0f, 16, 0xFFFFFF),
-  //--------------------------------------------------------------------------
-  CARNELIAN       ("Carnelian",       256,  9.0f, 2.0f, 3.0f, 12, 0.9f, 2.0f, 14, 0x990000),
-  SPINEL          ("Spinel",          512,  8.0f, 5.0f, 2.0f, 11, 0.7f, 1.0f, 16, 0x992600),
-  CITRINE         ("Citrine",         384, 10.0f, 4.0f, 2.0f, 13, 1.0f, 2.0f, 14, 0x994000),
-  JASPER          ("Jasper",          256,  7.0f, 3.0f, 3.0f, 14, 0.9f, 2.0f, 18, 0x996600),
-  GOLDEN_BERYL    ("GoldenBeryl",     384, 10.0f, 2.0f, 5.0f, 10, 0.7f, 1.0f, 12, 0x998000),
-  MOLDAVITE       ("Moldavite",       192,  6.0f, 5.0f, 2.0f, 11, 0.8f, 3.0f, 16, 0x669900),
-  MALACHITE       ("Malachite",       128,  8.0f, 4.0f, 2.0f, 14, 1.3f, 2.0f, 14, 0x009900),
-  TURQUOISE       ("Turquoise",       256,  9.0f, 3.0f, 3.0f, 12, 0.8f, 1.0f, 14, 0x00994D),
-  MOONSTONE       ("Moonstone",       256,  9.0f, 3.0f, 5.0f, 15, 1.0f, 3.0f, 14, 0x009999),
-  BLUE_TOPAZ      ("BlueTopaz",       512,  9.0f, 3.0f, 3.0f, 11, 0.7f, 1.0f, 16, 0x000099),
-  TANZANITE       ("Tanzanite",       384,  6.0f, 3.0f, 4.0f, 13, 0.7f, 2.0f, 16, 0x330099),
-  VIOLET_SAPPHIRE ("VioletSapphire",  512,  8.0f, 4.0f, 3.0f, 11, 0.9f, 1.0f, 16, 0x660099),
-  LEPIDOLITE      ("Lepidolite",      128,  4.0f, 3.0f, 7.0f, 13, 1.0f, 1.0f, 12, 0x990099),
-  AMETRINE        ("Ametrine",        384,  8.0f, 4.0f, 2.0f, 10, 0.7f, 4.0f, 12, 0xBF0080),
-  BLACK_DIAMOND   ("BlackDiamond",    768, 10.0f, 3.0f, 4.0f,  9, 0.8f, 1.0f, 18, 0x1A1A1A),
-  ALEXANDRITE     ("Alexandrite",     512,  8.0f, 3.0f, 3.0f, 10, 0.8f, 2.0f, 14, 0xC2C2C2);
+  //                                  DUR    EFF   MEL   MAG ENC   SPD PRT     COLOR
+  RUBY            ("Ruby",            768,  8.0f, 6.0f, 2.0f, 10, 0.8f, 14, 0xE61D1D),
+  GARNET          ("Garnet",          512,  7.0f, 4.0f, 3.0f, 12, 0.9f, 16, 0xE64F1D),
+  TOPAZ           ("Topaz",           512,  9.0f, 4.0f, 2.0f, 12, 0.8f, 20, 0xE6711D),
+  AMBER           ("Amber",           192,  5.0f, 2.0f, 4.0f, 17, 1.1f, 12, 0xE6A31D),
+  HELIODOR        ("Heliodor",        384, 12.0f, 4.0f, 3.0f, 10, 1.0f, 12, 0xE6C51D),
+  PERIDOT         ("Peridot",         384,  6.0f, 4.0f, 3.0f, 14, 0.7f, 14, 0xA3E61D),
+  BERYL           ("Beryl",           512,  9.0f, 4.0f, 2.0f, 16, 1.1f, 14, 0x1DE61D),
+  INDICOLITE      ("Indicolite",      512, 10.0f, 2.0f, 5.0f, 12, 1.0f, 12, 0x1DE682),
+  AQUAMARINE      ("Aquamarine",      384,  9.0f, 3.0f, 4.0f, 12, 1.1f, 14, 0x1DE6E6),
+  SAPPHIRE        ("Sapphire",        768,  8.0f, 4.0f, 4.0f, 10, 0.8f, 16, 0x1D1DE6),
+  IOLITE          ("Iolite",          512,  6.0f, 2.0f, 4.0f, 11, 1.0f, 20, 0x601DE6),
+  AMETHYST        ("Amethyst",        384,  7.0f, 3.0f, 4.0f, 12, 0.9f, 18, 0xA31DE6),
+  AGATE           ("Agate",           256,  8.0f, 3.0f, 3.0f, 14, 1.1f, 16, 0xE61DE6),
+  MORGANITE       ("Morganite",       384, 10.0f, 4.0f, 2.0f, 12, 0.9f, 14, 0xFF88FE),
+  ONYX            ("Onyx",            192,  8.0f, 7.0f, 2.0f,  8, 0.7f, 12, 0x2F2F2F),
+  OPAL            ("Opal",            256,  8.0f, 3.0f, 6.0f, 13, 0.7f, 16, 0xE4E4E4),
+  //----------------------------------------------------------------------------------
+  CARNELIAN       ("Carnelian",       384,  9.0f, 2.0f, 3.0f, 12, 0.9f, 14, 0xA30E00),
+  SPINEL          ("Spinel",          768,  8.0f, 5.0f, 2.0f, 11, 0.7f, 16, 0xA34400),
+  CITRINE         ("Citrine",         512, 10.0f, 4.0f, 2.0f, 13, 1.0f, 14, 0xA35F00),
+  JASPER          ("Jasper",          384,  7.0f, 3.0f, 3.0f, 14, 0.9f, 18, 0xA38800),
+  GOLDEN_BERYL    ("GoldenBeryl",     512, 10.0f, 2.0f, 5.0f, 10, 0.7f, 12, 0xA3A300),
+  MOLDAVITE       ("Moldavite",       256,  6.0f, 5.0f, 2.0f, 11, 0.8f, 16, 0x88A300),
+  MALACHITE       ("Malachite",       256,  8.0f, 4.0f, 2.0f, 14, 1.3f, 14, 0x00A336),
+  TURQUOISE       ("Turquoise",       384,  9.0f, 3.0f, 3.0f, 12, 0.8f, 14, 0x00A388),
+  MOONSTONE       ("Moonstone",       384,  9.0f, 3.0f, 5.0f, 15, 1.0f, 14, 0x006DA3),
+  BLUE_TOPAZ      ("BlueTopaz",       768,  9.0f, 3.0f, 3.0f, 11, 0.7f, 16, 0x001BA3),
+  TANZANITE       ("Tanzanite",       512,  6.0f, 3.0f, 4.0f, 13, 0.7f, 16, 0x5F00A3),
+  VIOLET_SAPPHIRE ("VioletSapphire",  768,  8.0f, 4.0f, 3.0f, 11, 0.9f, 16, 0x9500A3),
+  LEPIDOLITE      ("Lepidolite",      192,  4.0f, 3.0f, 7.0f, 13, 1.0f, 12, 0xA3007A),
+  AMETRINE        ("Ametrine",        512,  8.0f, 4.0f, 2.0f, 10, 0.7f, 12, 0xA30052),
+  BLACK_DIAMOND   ("BlackDiamond",   1024, 10.0f, 3.0f, 4.0f,  9, 0.8f, 18, 0x1E1E1E),
+  ALEXANDRITE     ("Alexandrite",     768,  8.0f, 3.0f, 3.0f, 10, 0.8f, 14, 0x898989),
+  //----------------------------------------------------------------------------------
+  PYROPE          ("Pyrope",          512,  8.0f, 6.0f, 2.0f, 12, 1.0f, 16, 0xFF4574),
+  CORAL           ("Coral",           256,  9.0f, 3.0f, 5.0f, 18, 1.2f, 20, 0xFF5545),
+  SUNSTONE        ("Sunstone",        384,  7.0f, 5.0f, 5.0f, 16, 0.9f, 16, 0xFF7445),
+  CATS_EYE        ("CatsEye",         768,  9.0f, 3.0f, 4.0f, 16, 1.1f, 18, 0xFFC145),
+  ZIRCON          ("Zircon",          512,  8.0f, 4.0f, 3.0f, 12, 1.3f, 14, 0xFFFF45),
+  JADE            ("Jade",            384,  6.0f, 4.0f, 4.0f, 16, 1.0f, 16, 0xA2FF45),
+  CHRYSOPRASE     ("Chrysoprase",     512,  7.0f, 3.0f, 2.0f, 14, 1.1f, 18, 0x64FF45),
+  APATITE         ("Apatite",         256,  7.0f, 2.0f, 4.0f, 15, 1.0f, 16, 0x45FFD1),
+  FLUORITE        ("Fluorite",        256,  6.0f, 2.0f, 5.0f, 17, 0.9f, 14, 0x45D1FF),
+  KYANITE         ("Kyanite",         768, 12.0f, 4.0f, 6.0f, 16, 1.2f, 16, 0x4583FF),
+  SODALITE        ("Sodalite",        512,  8.0f, 3.0f, 3.0f, 12, 1.1f, 18, 0x5445FF),
+  AMMOLITE        ("Ammolite",        256,  7.0f, 3.0f, 6.0f, 18, 1.2f, 14, 0xE045FF),
+  KUNZITE         ("Kunzite",         384,  6.0f, 5.0f, 4.0f, 14, 0.8f, 20, 0xFF45E0),
+  ROSE_QUARTZ     ("RoseQuartz",      512,  8.0f, 4.0f, 3.0f, 15, 1.0f, 16, 0xFF78B6),
+  TEKTITE         ("Tektite",         384,  8.0f, 4.0f, 3.0f, 17, 1.0f, 18, 0x8F7C6B),
+  PEARL           ("Pearl",           256,  7.0f, 3.0f, 4.0f, 20, 1.2f, 14, 0xE2E8F1);
   // @formatter:on
 
   public static final PropertyEnum VARIANT_GEM = PropertyEnum.create("gem", EnumGem.class, RUBY,
@@ -75,13 +93,11 @@ public enum EnumGem implements IStringSerializable {
   protected final float magicDamage;
   protected final float meleeSpeed;
   protected final int enchantability;
-  protected final float chargeSpeed;
   protected final int protection;
   protected final int color;
 
   private EnumGem(String name, int durability, float miningSpeed, float meleeDamage,
-      float magicDamage, int enchantability, float meleeSpeed, float chargeSpeed, int protection,
-      int color) {
+      float magicDamage, int enchantability, float meleeSpeed, int protection, int color) {
 
     this.name = name;
     this.durability = durability;
@@ -90,7 +106,6 @@ public enum EnumGem implements IStringSerializable {
     this.magicDamage = magicDamage;
     this.meleeSpeed = meleeSpeed;
     this.enchantability = enchantability;
-    this.chargeSpeed = chargeSpeed;
     this.protection = protection;
     this.color = color;
   }
@@ -149,7 +164,8 @@ public enum EnumGem implements IStringSerializable {
 
   public float getChargeSpeed(EnumMaterialTier tier) {
 
-    return tier == EnumMaterialTier.SUPER ? chargeSpeed + SUPER_CHARGE_SPEED_BOOST : chargeSpeed;
+    return 1.0f; // TODO: Are we keeping charge speed?
+    // return tier == EnumMaterialTier.SUPER ? chargeSpeed + SUPER_CHARGE_SPEED_BOOST : chargeSpeed;
   }
 
   public int getProtection(EnumMaterialTier tier) {
@@ -173,7 +189,7 @@ public enum EnumGem implements IStringSerializable {
       return null;
     }
 
-    return values()[stack.getItemDamage() & 0x1F];
+    return values()[MathHelper.clamp(stack.getItemDamage(), 0, values().length - 1)];
   }
 
   public static EnumGem getRandom() {
@@ -257,7 +273,7 @@ public enum EnumGem implements IStringSerializable {
    */
   public ItemStack getItemSuper() {
 
-    return new ItemStack(ModItems.gem, 1, ordinal() + 32);
+    return new ItemStack(ModItems.gemSuper, 1, ordinal());
   }
 
   /**
@@ -282,5 +298,27 @@ public enum EnumGem implements IStringSerializable {
   public String getShardOreName() {
 
     return "nugget" + name;
+  }
+
+  public Set getSet() {
+
+    if (ordinal() < 16)
+      return Set.CLASSIC;
+    else if (ordinal() < 32)
+      return Set.DARK;
+    else
+      return Set.LIGHT;
+  }
+
+  public static enum Set {
+
+    CLASSIC(0), DARK(16), LIGHT(32); // Overworld, Nether, and the End
+
+    public final int startMeta;
+
+    Set(int startMeta) {
+
+      this.startMeta = startMeta;
+    }
   }
 }

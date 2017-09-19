@@ -51,11 +51,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
   public static final String NBT_MODEL_INDEX = "SGModel";
   public static final String SMART_MODEL_NAME = SilentGems.RESOURCE_PREFIX.toLowerCase() + "tool";
-  public static final ModelResourceLocation SMART_MODEL = new ModelResourceLocation(SMART_MODEL_NAME, "inventory");
-
-  public static final int DARK_GEM_SHADE = 0x999999;
-
-  // public static final Pattern numberFormat = Pattern.compile("\\d+\\.\\d{3}");
+  public static final ModelResourceLocation SMART_MODEL = new ModelResourceLocation(
+      SMART_MODEL_NAME, "inventory");
 
   protected Set<ModelResourceLocation> modelSet = null;
   protected ModelResourceLocation[] models;
@@ -97,7 +94,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
     // Example tool?
     if (tool.hasTagCompound() && tool.getTagCompound().hasKey(ToolHelper.NBT_EXAMPLE_TOOL_TIER)) {
-      EnumMaterialTier tier = EnumMaterialTier.values()[tool.getTagCompound().getInteger(ToolHelper.NBT_EXAMPLE_TOOL_TIER)];
+      EnumMaterialTier tier = EnumMaterialTier.values()[tool.getTagCompound()
+          .getInteger(ToolHelper.NBT_EXAMPLE_TOOL_TIER)];
       list.add(loc.getMiscText("Tooltip.ExampleTool", tier));
     }
     // Missing data?
@@ -115,7 +113,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     final boolean isSword = item instanceof ItemGemSword;
     final boolean isAxe = item instanceof ItemGemAxe;
     final boolean isWeapon = isSword || isAxe;
-    final boolean isCaster = isSword && ToolHelper.getToolTier(tool).ordinal() >= EnumMaterialTier.SUPER.ordinal();
+    final boolean isCaster = isSword
+        && ToolHelper.getToolTier(tool).ordinal() >= EnumMaterialTier.SUPER.ordinal();
     final boolean isBow = item instanceof ItemGemBow;
     final boolean isDigger = item instanceof ItemTool;
     final boolean isShield = item instanceof ItemGemShield;
@@ -155,7 +154,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       } // @formatter:on
 
       if (isWeapon) {
-        list.add(color + getTooltipLine("MeleeSpeed", ToolHelper.getMeleeSpeedModifier(tool) + 4).replaceFirst("%", ""));
+        list.add(color + getTooltipLine("MeleeSpeed", ToolHelper.getMeleeSpeedModifier(tool) + 4)
+            .replaceFirst("%", ""));
         list.add(color + getTooltipLine("MeleeDamage", ToolHelper.getMeleeDamageModifier(tool)));
         if (isCaster)
           list.add(color + getTooltipLine("MagicDamage", ToolHelper.getMagicDamageModifier(tool)));
@@ -215,7 +215,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
         ToolPart part = parts[i];
         EnumMaterialGrade grade = grades[i];
 
-        line = "  " + TextFormatting.YELLOW + part.getKey() + TextFormatting.GOLD + " (" + grade + ")";
+        line = "  " + TextFormatting.YELLOW + part.getKey() + TextFormatting.GOLD + " (" + grade
+            + ")";
         list.add(line);
       }
       list.add(sep);
@@ -227,12 +228,17 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     if (controlDown && shiftDown && tool.hasTagCompound()) {
       if (!altDown)
         list.add(sep);
+      list.add("Render Layers");
       for (EnumPartPosition pos : EnumPartPosition.values()) {
         NBTTagCompound tags = tool.getTagCompound().getCompoundTag(NBT_MODEL_INDEX);
         if (tags != null) {
           String key = "Layer" + pos.ordinal();
-          String str = "%s: %d, %X";
-          str = String.format(str, key, tags.getInteger(key), tags.getInteger(key + "Color"));
+          String str = "  %s: %s, %d, %X";
+          ToolPart renderPart = ToolHelper.getRenderPart(tool, pos);
+          ModelResourceLocation model = renderPart == null ? null
+              : renderPart.getModel(tool, pos, 0);
+          str = String.format(str, pos.name(), model == null ? "null" : model.toString(),
+              tags.getInteger(key), tags.getInteger(key + "Color"));
           list.add(str);
         }
       }
@@ -268,7 +274,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   @SubscribeEvent
   public void onModelBake(ModelBakeEvent event) {
 
-    //log.info("ToolRenderHelper.onModelBake");
+    // log.info("ToolRenderHelper.onModelBake");
     Object object = event.getModelRegistry().getObject(SMART_MODEL);
     if (object instanceof IBakedModel) {
       IBakedModel existingModel = (IBakedModel) object;
@@ -306,7 +312,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     arrowModels = new ModelResourceLocation[8];
     for (int i = 0; i < 8; ++i) {
       String tier = i < 4 ? "regular" : "super";
-      ModelResourceLocation model = new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "bow/bowarrow" + tier + (i & 3));
+      ModelResourceLocation model = new ModelResourceLocation(
+          SilentGems.RESOURCE_PREFIX + "bow/bow_arrow_" + tier + (i & 3));
       if (model != null)
         set.add(model);
       arrowModels[i] = model;
@@ -323,8 +330,10 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
     if (tool != null && tool.getItem() instanceof ItemGemBow) {
       EntityPlayer player = Minecraft.getMinecraft().player;
-      float pull = tool.getItem().getPropertyGetter(ItemGemBow.RESOURCE_PULL).apply(tool, player.world, player);
-      float pulling = tool.getItem().getPropertyGetter(ItemGemBow.RESOURCE_PULLING).apply(tool, player.world, player);
+      float pull = tool.getItem().getPropertyGetter(ItemGemBow.RESOURCE_PULL).apply(tool,
+          player.world, player);
+      float pulling = tool.getItem().getPropertyGetter(ItemGemBow.RESOURCE_PULLING).apply(tool,
+          player.world, player);
 
       if (pull > 0.9f)
         return 3;
@@ -352,7 +361,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     String key = "Layer" + pos.ordinal() + (frame > 0 ? "_" + frame : "");
     boolean isBow = tool.getItem() instanceof ItemGemBow;
 
-    if (!tags.hasKey(key)) {
+    if (ToolHelper.isBroken(tool) || !tags.hasKey(key)) {
       // Model is currently not indexed! We'll need to figure out what it should be.
 
       // Bow "arrow" models
@@ -369,7 +378,9 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       }
 
       // Get the desired model for the current position and animation frame.
-      ModelResourceLocation target = part.getModel(tool, pos, frame);
+      ModelResourceLocation target = !ToolHelper.isBroken(tool) ? part.getModel(tool, pos, frame)
+          : part.getBrokenModel(tool, pos, frame);
+
       // Find the model in the list. Store the index in NBT for fast access.
       for (int i = 0; i < models.length; ++i) {
         if (models[i].equals(target)) {
@@ -378,7 +389,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
           return target;
         }
       }
-      return modelError;
+      return target;
     }
 
     // Grab the indexed model.
@@ -426,51 +437,12 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     models.put(i++, modelGooglyEyes);
     modelError = new ModelResourceLocation(prefix + "error", "inventory");
     models.put(i++, modelError);
-    models.put(i++, new ModelResourceLocation(prefix + "sword/_error", "inventory"));
-    models.put(i++, new ModelResourceLocation(prefix + "dagger/_error", "inventory"));
-    models.put(i++, new ModelResourceLocation(prefix + "katana/_error", "inventory"));
-    models.put(i++, new ModelResourceLocation(prefix + "scepter/_error", "inventory"));
-    models.put(i++, new ModelResourceLocation(prefix + "tomahawk/_error", "inventory"));
-    models.put(i++, new ModelResourceLocation(prefix + "pickaxe/_error", "inventory"));
-    models.put(i++, new ModelResourceLocation(prefix + "shovel/_error", "inventory"));
-    models.put(i++, new ModelResourceLocation(prefix + "axe/_error", "inventory"));
-    models.put(i++, new ModelResourceLocation(prefix + "paxel/_error", "inventory"));
-    models.put(i++, new ModelResourceLocation(prefix + "hoe/_error", "inventory"));
-    models.put(i++, new ModelResourceLocation(prefix + "sickle/_error", "inventory"));
-    models.put(i++, new ModelResourceLocation(prefix + "bow/_error", "inventory"));
-  }
 
-  @Override
-  public boolean registerModels() {
-
-    // ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-    int index = 0;
-
-    buildModelSet();
-    // Map<Integer, ModelResourceLocation> models = new MapMaker().makeMap();
-    // getModels(models);
-    // ModelLoader.registerItemVariants(this, models.values().toArray(new ModelResourceLocation[models.size()]));
-
-    for (ModelResourceLocation model : modelSet) {
-      ModelLoader.setCustomModelResourceLocation(this, index++, model);
+    // Error and broken models.
+    for (String str : new String[] { "sword", "dagger", "katana", "scepter", "tomahawk", "pickaxe",
+        "shovel", "axe", "paxel", "hoe", "sickle", "bow" }) {
+      models.put(i++, new ModelResourceLocation(prefix + str + "/_error", "inventory"));
+      models.put(i++, new ModelResourceLocation(prefix + str + "/" + str + "_broken", "inventory"));
     }
-
-    // Extra models
-    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "googlyeyes", "inventory"));
-    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "error", "inventory"));
-    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "sword/_error", "inventory"));
-    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "dagger/_error", "inventory"));
-    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "katana/_error", "inventory"));
-    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "scepter/_error", "inventory"));
-    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "tomahawk/_error", "inventory"));
-    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "pickaxe/_error", "inventory"));
-    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "shovel/_error", "inventory"));
-    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "axe/_error", "inventory"));
-    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "paxel/_error", "inventory"));
-    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "hoe/_error", "inventory"));
-    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "sickle/_error", "inventory"));
-    ModelLoader.setCustomModelResourceLocation(this, index++, new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + "bow/_error", "inventory"));
-
-    return true;
   }
 }

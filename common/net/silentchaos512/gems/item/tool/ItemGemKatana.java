@@ -58,13 +58,13 @@ public class ItemGemKatana extends ItemGemSword {
 
   public ItemStack addDefaultGrip(ItemStack katana) {
 
-    if (StackHelper.isEmpty(katana))
-      return StackHelper.empty();
-    EnumMaterialTier tier = ToolHelper.getToolTier(katana);
-    ItemStack wool = new ItemStack(Blocks.WOOL, 1, tier == EnumMaterialTier.SUPER
-        ? EnumDyeColor.BLACK.getMetadata() : EnumDyeColor.SILVER.getMetadata());
-    ToolHelper.setPart(katana, ToolPartRegistry.fromStack(wool), EnumMaterialGrade.NONE,
-        EnumPartPosition.ROD_GRIP);
+//    if (StackHelper.isEmpty(katana))
+//      return StackHelper.empty();
+//    EnumMaterialTier tier = ToolHelper.getToolTier(katana);
+//    ItemStack wool = new ItemStack(Blocks.WOOL, 1, tier == EnumMaterialTier.SUPER
+//        ? EnumDyeColor.BLACK.getMetadata() : EnumDyeColor.SILVER.getMetadata());
+//    ToolHelper.setPart(katana, ToolPartRegistry.fromStack(wool), EnumMaterialGrade.NONE,
+//        EnumPartPosition.ROD_GRIP);
     return katana;
   }
 

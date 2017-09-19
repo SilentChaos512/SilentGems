@@ -1,15 +1,12 @@
 package net.silentchaos512.gems.config;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.common.config.ConfigCategory;
-import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.client.config.IConfigElement;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.enchantment.EnchantmentGravity;
 import net.silentchaos512.gems.enchantment.EnchantmentIceAspect;
@@ -145,10 +142,12 @@ public class GemsConfig extends AdaptiveConfig {
 
   public static ConfigOptionOreGen WORLD_GEN_GEMS;
   public static ConfigOptionOreGen WORLD_GEN_GEMS_DARK;
+  public static ConfigOptionOreGen WORLD_GEN_GEMS_LIGHT;
   public static ConfigOptionOreGen WORLD_GEN_CHAOS;
   public static ConfigOptionOreGen WORLD_GEN_ENDER;
-  public static List<WeightedRandomItemSG> GEM_WEIGHTS = Lists.newArrayList();
-  public static List<WeightedRandomItemSG> GEM_WEIGHTS_DARK = Lists.newArrayList();
+  public static List<WeightedRandomItemSG> GEM_WEIGHTS = new ArrayList<>();
+  public static List<WeightedRandomItemSG> GEM_WEIGHTS_DARK = new ArrayList<>();
+  public static List<WeightedRandomItemSG> GEM_WEIGHTS_LIGHT = new ArrayList<>();
   public static int GLOW_ROSE_PER_CHUNK = 2;
   public static float CHAOS_NODES_PER_CHUNK = 0.006f;
 
@@ -449,6 +448,8 @@ public class GemsConfig extends AdaptiveConfig {
       WORLD_GEN_GEMS.loadValue(config, CAT_WORLD_GEN);
       WORLD_GEN_GEMS_DARK = new ConfigOptionOreGen("Dark Gems (Nether)", -1, 12.5f, 10, 30, 100);
       WORLD_GEN_GEMS_DARK.loadValue(config, CAT_WORLD_GEN);
+      WORLD_GEN_GEMS_LIGHT = new ConfigOptionOreGen("Light Gems (The End)", 1, 12.5f, 8, 16, 64);
+      WORLD_GEN_GEMS_LIGHT.loadValue(config, CAT_WORLD_GEN);
       WORLD_GEN_CHAOS = new ConfigOptionOreGen("Chaos Ore", 0, 1.75f, 16, 5, 20);
       WORLD_GEN_CHAOS.loadValue(config, CAT_WORLD_GEN);
       WORLD_GEN_ENDER = new ConfigOptionOreGen("Ender Essence Ore", 1, 1.0f, 32, 10, 70);
@@ -465,10 +466,16 @@ public class GemsConfig extends AdaptiveConfig {
         int k = config.get(CAT_WORLD_GEN_GEM_WEIGHT, gem.getGemName(), 10).getInt();
         k = MathHelper.clamp(k, 1, weightMax);
         WeightedRandomItemSG item = new WeightedRandomItemSG(k, gem.ordinal() & 0xF);
-        if (gem.ordinal() < EnumGem.CARNELIAN.ordinal()) {
-          GEM_WEIGHTS.add(item);
-        } else {
-          GEM_WEIGHTS_DARK.add(item);
+        switch (gem.getSet()) {
+          case CLASSIC:
+            GEM_WEIGHTS.add(item);
+            break;
+          case DARK:
+            GEM_WEIGHTS_DARK.add(item);
+            break;
+          case LIGHT:
+            GEM_WEIGHTS_LIGHT.add(item);
+            break;
         }
       }
 

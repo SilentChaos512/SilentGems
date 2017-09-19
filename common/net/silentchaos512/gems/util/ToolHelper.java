@@ -108,9 +108,7 @@ public class ToolHelper {
   // Construction
   public static final String NBT_PART_ROOT = "Part";
 
-  public static final String NBT_PART_HEAD_L = "Part0";
-  public static final String NBT_PART_HEAD_M = "Part1";
-  public static final String NBT_PART_HEAD_R = "Part2";
+  public static final String NBT_PART_HEAD = "Part0";
   public static final String NBT_PART_ROD = "PartRod";
   public static final String NBT_PART_ROD_DECO = "PartRodDeco";
   public static final String NBT_PART_ROD_WOOL = "PartRodWool";
@@ -184,18 +182,12 @@ public class ToolHelper {
     }
 
     // Set color for parts
-    ToolPart renderHeadM = getRenderPart(tool, EnumPartPosition.HEAD_MIDDLE);
-    ToolPart renderHeadL = getRenderPart(tool, EnumPartPosition.HEAD_LEFT);
-    ToolPart renderHeadR = getRenderPart(tool, EnumPartPosition.HEAD_RIGHT);
+    ToolPart renderHead = getRenderPart(tool, EnumPartPosition.HEAD);
     ToolPart renderRodDeco = getRenderPart(tool, EnumPartPosition.ROD_DECO);
     ToolPart renderRod = getRenderPart(tool, EnumPartPosition.ROD);
 
-    if (renderHeadM != null)
-      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX, "Layer" + ToolRenderHelper.PASS_HEAD_M + "Color", renderHeadM.getColor(tool));
-    if (renderHeadL != null)
-      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX, "Layer" + ToolRenderHelper.PASS_HEAD_L + "Color", renderHeadL.getColor(tool));
-    if (renderHeadR != null)
-      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX, "Layer" + ToolRenderHelper.PASS_HEAD_R + "Color", renderHeadR.getColor(tool));
+    if (renderHead != null)
+      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX, "Layer" + ToolRenderHelper.PASS_HEAD + "Color", renderHead.getColor(tool));
     if (renderRodDeco != null)
       setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX, "Layer" + ToolRenderHelper.PASS_ROD_DECO + "Color", renderRodDeco.getColor(tool));
     if (renderRod != null)
@@ -231,6 +223,11 @@ public class ToolHelper {
 
     amount = Math.min(getMaxDamage(tool) - tool.getItemDamage(), amount);
     ItemHelper.attemptDamageItem(tool, amount, SilentGems.random);
+
+    if (isBroken(tool)) {
+      // Player broke the tool. Update the head model.
+      recalculateStats(tool);
+    }
   }
 
   public static float getDigSpeed(ItemStack tool, IBlockState state, Material[] extraMaterials) {
@@ -310,10 +307,11 @@ public class ToolHelper {
 
   public static boolean isBroken(ItemStack tool) {
 
-    if (StackHelper.isEmpty(tool)) {
+    int maxDamage = getMaxDamage(tool);
+    if (StackHelper.isEmpty(tool) || maxDamage <= 0) {
       return false;
     }
-    return tool.getItemDamage() >= getMaxDamage(tool);
+    return tool.getItemDamage() >= maxDamage;
   }
 
   /**
@@ -1134,14 +1132,8 @@ public class ToolHelper {
     // NBTTagCompound tag;
     String key;
     switch (pos) {
-      case HEAD_LEFT:
-        key = getPartId(tool, NBT_PART_HEAD_L);
-        break;
-      case HEAD_MIDDLE:
-        key = getPartId(tool, NBT_PART_HEAD_M);
-        break;
-      case HEAD_RIGHT:
-        key = getPartId(tool, NBT_PART_HEAD_R);
+      case HEAD:
+        key = getPartId(tool, NBT_PART_HEAD);
         break;
       case ROD:
         key = getPartId(tool, NBT_PART_ROD);
@@ -1172,14 +1164,8 @@ public class ToolHelper {
       return;
     }
     switch (pos) {
-      case HEAD_LEFT:
-        setTagPart(tool, NBT_PART_HEAD_L, part, grade);
-        break;
-      case HEAD_MIDDLE:
-        setTagPart(tool, NBT_PART_HEAD_M, part, grade);
-        break;
-      case HEAD_RIGHT:
-        setTagPart(tool, NBT_PART_HEAD_R, part, grade);
+      case HEAD:
+        setTagPart(tool, NBT_PART_HEAD, part, grade);
         break;
       case ROD:
         setTagPart(tool, NBT_PART_ROD, part, grade);
@@ -1203,14 +1189,8 @@ public class ToolHelper {
     // NBTTagCompound tag;
     String key;
     switch (pos) {
-      case HEAD_LEFT:
-        key = getPartId(tool, NBT_DECO_HEAD_L);
-        break;
-      case HEAD_MIDDLE:
+      case HEAD:
         key = getPartId(tool, NBT_DECO_HEAD_M);
-        break;
-      case HEAD_RIGHT:
-        key = getPartId(tool, NBT_DECO_HEAD_R);
         break;
       case ROD:
         key = getPartId(tool, NBT_DECO_ROD);
@@ -1243,14 +1223,8 @@ public class ToolHelper {
       return;
     }
     switch (pos) {
-      case HEAD_LEFT:
-        setTagPart(tool, NBT_DECO_HEAD_L, part, grade);
-        break;
-      case HEAD_MIDDLE:
+      case HEAD:
         setTagPart(tool, NBT_DECO_HEAD_M, part, grade);
-        break;
-      case HEAD_RIGHT:
-        setTagPart(tool, NBT_DECO_HEAD_R, part, grade);
         break;
       case ROD:
         setTagPart(tool, NBT_DECO_ROD, part, grade);

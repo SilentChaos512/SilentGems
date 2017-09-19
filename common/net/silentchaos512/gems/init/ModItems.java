@@ -53,9 +53,11 @@ import net.silentchaos512.gems.item.tool.ItemGemShovel;
 import net.silentchaos512.gems.item.tool.ItemGemSickle;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.item.tool.ItemGemTomahawk;
+import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemGuideBookSL;
+import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.registry.IRegistrationHandler;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.registry.SRegistry;
@@ -63,6 +65,7 @@ import net.silentchaos512.lib.registry.SRegistry;
 public class ModItems implements IRegistrationHandler<Item> {
 
   public static final ItemGem gem = new ItemGem();
+  public static final ItemSL gemSuper = new ItemSL(EnumGem.values().length, SilentGems.MODID, Names.GEM_SUPER);
   public static final ItemGemShard gemShard = new ItemGemShard();
   public static final ItemSoulGem soulGem = new ItemSoulGem();
   public static final ItemCrafting craftingMaterial = new ItemCrafting();
@@ -123,6 +126,7 @@ public class ModItems implements IRegistrationHandler<Item> {
   public void registerAll(SRegistry reg) {
 
     reg.registerItem(gem).setCreativeTab(GemsCreativeTabs.materials);
+    reg.registerItem(gemSuper).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(gemShard).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(soulGem).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(craftingMaterial).setCreativeTab(GemsCreativeTabs.materials);

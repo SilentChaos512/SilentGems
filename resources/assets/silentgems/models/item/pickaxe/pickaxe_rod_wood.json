@@ -1,0 +1,7 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "silentgems:items/pickaxe/pickaxe_rod_wood"
+  }
+}
+

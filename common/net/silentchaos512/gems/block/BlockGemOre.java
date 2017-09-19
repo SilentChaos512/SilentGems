@@ -21,9 +21,9 @@ import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class BlockGemOre extends BlockGemSubtypes {
 
-  public BlockGemOre(boolean dark) {
+  public BlockGemOre(EnumGem.Set set) {
 
-    super(dark, dark ? Names.GEM_ORE_DARK : Names.GEM_ORE);
+    super(set, nameForSet(set, Names.GEM_ORE));
 
     setHardness(3.0f);
     setResistance(15.0f);
@@ -43,7 +43,9 @@ public class BlockGemOre extends BlockGemSubtypes {
       recipes.addSmelting(ore, item, 0.5f);
       // SAG Mill
       ModRecipeHelper.addSagMillRecipe(gem.getGemName() + "Ore", ore, item,
-          isDark ? "netherrack" : "cobblestone", 3000);
+          gemSet == EnumGem.Set.LIGHT ? "endstone"
+              : gemSet == EnumGem.Set.DARK ? "netherrack" : "cobblestone",
+          3000);
     }
   }
 
@@ -65,7 +67,7 @@ public class BlockGemOre extends BlockGemSubtypes {
   @Override
   public int damageDropped(IBlockState state) {
 
-    return getMetaFromState(state) + (isDark ? 16 : 0);
+    return getMetaFromState(state) + gemSet.startMeta;
   }
 
   @Override

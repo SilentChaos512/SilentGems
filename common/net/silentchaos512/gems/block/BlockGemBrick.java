@@ -12,9 +12,9 @@ public class BlockGemBrick extends BlockGemSubtypes {
 
   public final boolean coated;
 
-  public BlockGemBrick(boolean isDark, boolean coated) {
+  public BlockGemBrick(EnumGem.Set set, boolean coated) {
 
-    super(isDark, Names.GEM_BRICK + (coated ? "Coated" : "Speckled") + (isDark ? "Dark" : ""));
+    super(set, nameForSet(set, Names.GEM_BRICK + (coated ? "Coated" : "Speckled")));
     this.coated = coated;
 
     setHardness(2.0f);

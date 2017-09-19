@@ -34,6 +34,7 @@ import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
@@ -84,7 +85,7 @@ public class ToolModel extends MultiLayerModelSL {
     IBakedModel model;
     IBakedModel rodModel = null;
 
-    boolean isBroken = ToolHelper.isBroken(tool);
+//    boolean isBroken = ToolHelper.isBroken(tool);
     Item item = tool.getItem();
 
     // Invalid tools models.
@@ -97,25 +98,17 @@ public class ToolModel extends MultiLayerModelSL {
         quads.addAll(model.getQuads(state, side, rand));
       }
 
-//      if (isGui) {
-//        quads.addAll(modelManager.getModel(ToolRenderHelper.getInstance().modelError)
-//            .getQuads(state, side, rand));
-//      }
+      // if (isGui) {
+      // quads.addAll(modelManager.getModel(ToolRenderHelper.getInstance().modelError)
+      // .getQuads(state, side, rand));
+      // }
 
       return quads;
     }
 
-    for (EnumPartPosition partPos : EnumPartPosition.values()) {
-      if (isBroken) {
-        if ((partPos == EnumPartPosition.HEAD_LEFT && item != ModItems.sword
-            && item != ModItems.bow)
-            || (partPos == EnumPartPosition.HEAD_MIDDLE && item != ModItems.bow)
-            || (partPos == EnumPartPosition.HEAD_RIGHT && item != ModItems.bow)
-            || partPos == EnumPartPosition.TIP) {
-          continue;
-        }
-      }
+    String debug = "";
 
+    for (EnumPartPosition partPos : EnumPartPosition.values()) {
       // Scepter rods on top of head.
       if (tool.getItem() instanceof ItemGemScepter) {
         if (partPos == EnumPartPosition.ROD) {
@@ -129,6 +122,7 @@ public class ToolModel extends MultiLayerModelSL {
 
       // Normal logic.
       location = ToolRenderHelper.getInstance().getModel(tool, partPos);
+      debug += partPos + ": " + (location == null ? "null" : location.toString()) + "\n";
       if (location != null) {
         model = modelManager.getModel(location);
         if (model != null) {
@@ -140,6 +134,10 @@ public class ToolModel extends MultiLayerModelSL {
     if (ModuleAprilTricks.instance.moduleEnabled && ModuleAprilTricks.instance.isRightDay()) {
       model = modelManager.getModel(ToolRenderHelper.getInstance().modelGooglyEyes);
       quads.addAll(model.getQuads(state, side, rand));
+    }
+
+    if (SilentGems.proxy.getClientPlayer().getHeldItemMainhand() == tool) {
+      GemsClientEvents.debugTextOverlay = debug;
     }
 
     return quads;
@@ -264,7 +262,8 @@ public class ToolModel extends MultiLayerModelSL {
       }
     } else if (tool != null && tool.getItem() == ModItems.paxel) {
       if (cameraTransformType != TransformType.GUI) {
-        if (cameraTransformType == TransformType.FIRST_PERSON_LEFT_HAND || cameraTransformType == TransformType.FIRST_PERSON_RIGHT_HAND)
+        if (cameraTransformType == TransformType.FIRST_PERSON_LEFT_HAND
+            || cameraTransformType == TransformType.FIRST_PERSON_RIGHT_HAND)
           matrix.setScale(matrix.getScale() * 1.1f);
         else
           matrix.setScale(matrix.getScale() * 1.2f);

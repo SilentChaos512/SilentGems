@@ -12,6 +12,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import slimeknights.tconstruct.library.utils.ToolHelper;
 
 public class ToolPartFlint extends ToolPartMain {
 
@@ -31,14 +32,8 @@ public class ToolPartFlint extends ToolPartMain {
     String frameNum = frame == 3 ? "_3" : "";
 
     switch (pos) {
-      case HEAD_LEFT:
-        name += mat + "l" + frameNum;
-        break;
-      case HEAD_MIDDLE:
+      case HEAD:
         name += mat + frameNum;
-        break;
-      case HEAD_RIGHT:
-        name += mat + "r" + frameNum;
         break;
       case ROD_DECO:
         name += "deco" + mat;
@@ -55,7 +50,7 @@ public class ToolPartFlint extends ToolPartMain {
   public int getColor(ItemStack toolOrArmor) {
 
     Item item = toolOrArmor.getItem();
-    return item instanceof IArmor || item instanceof ItemGemBow || item instanceof ItemGemShield
+    return item instanceof IArmor || item instanceof ItemGemBow || item instanceof ItemGemShield || ToolHelper.isBroken(toolOrArmor)
         ? COLOR : 0xFFFFFF;
   }
 

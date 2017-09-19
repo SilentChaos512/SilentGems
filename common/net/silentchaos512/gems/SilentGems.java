@@ -187,4 +187,9 @@ public class SilentGems {
       logHelper.info("Removed " + totalRemoved + " chaos node packets from world.");
     }
   }
+
+  public boolean isDevBuild() {
+
+    return BUILD_NUM == 0;
+  }
 }

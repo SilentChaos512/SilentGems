@@ -25,14 +25,14 @@ public class ToolPartTipGems extends ToolPartTip {
         new ItemStack(ModItems.tipUpgrade, 1, upgrade.ordinal() - 1), upgrade.getMiningLevel(),
         upgrade.getDurabilityBoost(), upgrade.getSpeedBoost(), upgrade.getMeleeBoost(),
         upgrade.getMagicBoost());
-    this.tipName = name;
+    this.tipName = name.toLowerCase().replaceFirst("^tip", "tip_");
   }
 
   @Override
   public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos, int frame) {
 
     String name = ((IRegistryObject) tool.getItem()).getName();
-    name = SilentGems.MODID + ":" + name.toLowerCase() + "/" + name + tipName
+    name = SilentGems.MODID + ":" + name.toLowerCase() + "/" + name + "_" + tipName
         + (frame == 3 ? "_3" : "");
 
     if (modelMap.containsKey(name)) {

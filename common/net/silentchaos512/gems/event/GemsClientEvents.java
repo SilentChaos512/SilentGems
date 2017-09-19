@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.BossInfo;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FOVModifier;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -49,11 +50,21 @@ import net.silentchaos512.lib.util.StackHelper;
 
 public class GemsClientEvents {
 
+  public static String debugTextOverlay = "";
+
   LocalizationHelper loc = SilentGems.instance.localizationHelper;
   int fovModifier = 0;
 
   @SubscribeEvent
   public void onRenderGameOverlay(RenderGameOverlayEvent event) {
+
+    if (SilentGems.instance.isDevBuild() && event.getType() == ElementType.TEXT) {
+      int y = 5;
+      for (String line : debugTextOverlay.split("\\n")) {
+        Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(line, 5, y, 0xFFFFFF);
+        y += 10;
+      }
+    }
 
     ModItems.teleporterLinker.renderGameOverlay(event);
     if (event.getType() == ElementType.TEXT)

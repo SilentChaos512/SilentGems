@@ -89,7 +89,7 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
       veinSize = config.veinSize;
       for (i = 0; i < veinCount; ++i) {
         pos = config.getRandomPos(random, posX, posZ);
-        meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS))
+        meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS_DARK))
             .getMeta();
         EnumGem gem = EnumGem.values()[meta];
         state = block.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
@@ -118,6 +118,22 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
       state = block.getDefaultState().withProperty(BlockEssenceOre.VARIANT,
           BlockEssenceOre.Type.ENDER);
       new WorldGenMinable(state, veinSize, predicate).generate(world, random, pos);
+    }
+
+    // Light Gems
+    config = GemsConfig.WORLD_GEN_GEMS_LIGHT;
+    if (config.isEnabled()) {
+      block = ModBlocks.gemOreLight;
+      veinCount = config.getVeinCount(random);
+      veinSize = config.veinSize;
+      for (i = 0; i < veinCount; ++i) {
+        pos = config.getRandomPos(random, posX, posZ);
+        meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS_LIGHT))
+            .getMeta();
+        EnumGem gem = EnumGem.values()[meta];
+        state = block.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
+        new WorldGenMinable(state, veinSize, predicate).generate(world, random, pos);
+      }
     }
   }
 

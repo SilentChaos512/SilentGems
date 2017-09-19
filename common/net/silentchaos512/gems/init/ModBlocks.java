@@ -1,7 +1,10 @@
 package net.silentchaos512.gems.init;
 
+import static net.silentchaos512.gems.lib.EnumGem.Set.CLASSIC;
+import static net.silentchaos512.gems.lib.EnumGem.Set.DARK;
+import static net.silentchaos512.gems.lib.EnumGem.Set.LIGHT;
+
 import net.minecraft.block.Block;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.BlockChaosAltar;
 import net.silentchaos512.gems.block.BlockChaosFlowerPot;
 import net.silentchaos512.gems.block.BlockChaosNode;
@@ -35,31 +38,52 @@ import net.silentchaos512.lib.registry.SRegistry;
 
 public class ModBlocks implements IRegistrationHandler<Block> {
 
-  public static final BlockGemOre gemOre = new BlockGemOre(false);
-  public static final BlockGemOre gemOreDark = new BlockGemOre(true);
-  public static final BlockGem gemBlock = new BlockGem(false, false);
-  public static final BlockGem gemBlockDark = new BlockGem(true, false);
-  public static final BlockGem gemBlockSuper = new BlockGem(false, true);
-  public static final BlockGem gemBlockSuperDark = new BlockGem(true, true);
-  public static final BlockGemBrick gemBrickCoated = new BlockGemBrick(false, true);
-  public static final BlockGemBrick gemBrickCoatedDark = new BlockGemBrick(true, true);
-  public static final BlockGemBrick gemBrickSpeckled = new BlockGemBrick(false, false);
-  public static final BlockGemBrick gemBrickSpeckledDark = new BlockGemBrick(true, false);
-  public static final BlockGemLamp gemLamp = new BlockGemLamp(false, false, false);
-  public static final BlockGemLamp gemLampLit = new BlockGemLamp(false, true, false);
-  public static final BlockGemLamp gemLampLitInverted = new BlockGemLamp(false, true, true);
-  public static final BlockGemLamp gemLampInverted = new BlockGemLamp(false, false, true);
-  public static final BlockGemLamp gemLampDark = new BlockGemLamp(true, false, false);
-  public static final BlockGemLamp gemLampLitDark = new BlockGemLamp(true, true, false);
-  public static final BlockGemLamp gemLampLitInvertedDark = new BlockGemLamp(true, true, true);
-  public static final BlockGemLamp gemLampInvertedDark = new BlockGemLamp(true, false, true);
-  public static final BlockGemGlass gemGlass = new BlockGemGlass(false);
-  public static final BlockGemGlass gemGlassDark = new BlockGemGlass(true);
+  public static final BlockGemOre gemOre = new BlockGemOre(CLASSIC);
+  public static final BlockGemOre gemOreDark = new BlockGemOre(DARK);
+  public static final BlockGemOre gemOreLight = new BlockGemOre(LIGHT);
+
+  public static final BlockGem gemBlock = new BlockGem(CLASSIC, false);
+  public static final BlockGem gemBlockDark = new BlockGem(DARK, false);
+  public static final BlockGem gemBlockLight = new BlockGem(LIGHT, false);
+  public static final BlockGem gemBlockSuper = new BlockGem(CLASSIC, true);
+  public static final BlockGem gemBlockSuperDark = new BlockGem(DARK, true);
+  public static final BlockGem gemBlockSuperLight = new BlockGem(LIGHT, true);
+
+  public static final BlockGemBrick gemBrickCoated = new BlockGemBrick(CLASSIC, true);
+  public static final BlockGemBrick gemBrickCoatedDark = new BlockGemBrick(DARK, true);
+  public static final BlockGemBrick gemBrickCoatedLight = new BlockGemBrick(LIGHT, true);
+  public static final BlockGemBrick gemBrickSpeckled = new BlockGemBrick(CLASSIC, false);
+  public static final BlockGemBrick gemBrickSpeckledDark = new BlockGemBrick(DARK, false);
+  public static final BlockGemBrick gemBrickSpeckledLight = new BlockGemBrick(LIGHT, false);
+
+  public static final BlockGemLamp gemLamp = new BlockGemLamp(CLASSIC, false, false);
+  public static final BlockGemLamp gemLampLit = new BlockGemLamp(CLASSIC, true, false);
+  public static final BlockGemLamp gemLampLitInverted = new BlockGemLamp(CLASSIC, true, true);
+  public static final BlockGemLamp gemLampInverted = new BlockGemLamp(CLASSIC, false, true);
+  public static final BlockGemLamp gemLampDark = new BlockGemLamp(DARK, false, false);
+  public static final BlockGemLamp gemLampLitDark = new BlockGemLamp(DARK, true, false);
+  public static final BlockGemLamp gemLampLitInvertedDark = new BlockGemLamp(DARK, true, true);
+  public static final BlockGemLamp gemLampInvertedDark = new BlockGemLamp(DARK, false, true);
+  public static final BlockGemLamp gemLampLight = new BlockGemLamp(LIGHT, false, false);
+  public static final BlockGemLamp gemLampLitLight = new BlockGemLamp(LIGHT, true, false);
+  public static final BlockGemLamp gemLampLitInvertedLight = new BlockGemLamp(LIGHT, true, true);
+  public static final BlockGemLamp gemLampInvertedLight = new BlockGemLamp(LIGHT, false, true);
+
+  public static final BlockGemGlass gemGlass = new BlockGemGlass(CLASSIC);
+  public static final BlockGemGlass gemGlassDark = new BlockGemGlass(DARK);
+  public static final BlockGemGlass gemGlassLight = new BlockGemGlass(LIGHT);
+
   public static final BlockTeleporterAnchor teleporterAnchor = new BlockTeleporterAnchor();
-  public static final BlockTeleporter teleporter = new BlockTeleporter(false, false);
-  public static final BlockTeleporter teleporterDark = new BlockTeleporter(true, false);
-  public static final BlockTeleporterRedstone teleporterRedstone = new BlockTeleporterRedstone(false);
-  public static final BlockTeleporterRedstone teleporterRedstoneDark = new BlockTeleporterRedstone(true);
+  public static final BlockTeleporter teleporter = new BlockTeleporter(CLASSIC, false);
+  public static final BlockTeleporter teleporterDark = new BlockTeleporter(DARK, false);
+  public static final BlockTeleporter teleporterLight = new BlockTeleporter(LIGHT, false);
+  public static final BlockTeleporterRedstone teleporterRedstone = new BlockTeleporterRedstone(
+      CLASSIC);
+  public static final BlockTeleporterRedstone teleporterRedstoneDark = new BlockTeleporterRedstone(
+      DARK);
+  public static final BlockTeleporterRedstone teleporterRedstoneLight = new BlockTeleporterRedstone(
+      LIGHT);
+
   public static final BlockGlowRose glowRose = new BlockGlowRose();
   public static final BlockEssenceOre essenceOre = new BlockEssenceOre();
   public static final BlockMisc miscBlock = new BlockMisc();
@@ -77,14 +101,22 @@ public class ModBlocks implements IRegistrationHandler<Block> {
 
     reg.registerBlock(gemOre);
     reg.registerBlock(gemOreDark);
+    reg.registerBlock(gemOreLight);
+
     reg.registerBlock(gemBlock);
     reg.registerBlock(gemBlockDark);
+    reg.registerBlock(gemBlockLight);
     reg.registerBlock(gemBlockSuper);
     reg.registerBlock(gemBlockSuperDark);
+    reg.registerBlock(gemBlockSuperLight);
+
     reg.registerBlock(gemBrickCoated);
     reg.registerBlock(gemBrickCoatedDark);
+    reg.registerBlock(gemBrickCoatedLight);
     reg.registerBlock(gemBrickSpeckled);
     reg.registerBlock(gemBrickSpeckledDark);
+    reg.registerBlock(gemBrickSpeckledLight);
+
     reg.registerBlock(gemLamp, new ItemBlockGemLamp(gemLamp));
     reg.registerBlock(gemLampLit, new ItemBlockGemLamp(gemLampLit)).setCreativeTab(null);
     reg.registerBlock(gemLampLitInverted, new ItemBlockGemLamp(gemLampLitInverted));
@@ -92,14 +124,26 @@ public class ModBlocks implements IRegistrationHandler<Block> {
     reg.registerBlock(gemLampDark, new ItemBlockGemLamp(gemLampDark));
     reg.registerBlock(gemLampLitDark, new ItemBlockGemLamp(gemLampLitDark)).setCreativeTab(null);
     reg.registerBlock(gemLampLitInvertedDark, new ItemBlockGemLamp(gemLampLitInvertedDark));
-    reg.registerBlock(gemLampInvertedDark, new ItemBlockGemLamp(gemLampInvertedDark)).setCreativeTab(null);
+    reg.registerBlock(gemLampInvertedDark, new ItemBlockGemLamp(gemLampInvertedDark))
+        .setCreativeTab(null);
+    reg.registerBlock(gemLampLight, new ItemBlockGemLamp(gemLampLight));
+    reg.registerBlock(gemLampLitLight, new ItemBlockGemLamp(gemLampLitLight)).setCreativeTab(null);
+    reg.registerBlock(gemLampLitInvertedLight, new ItemBlockGemLamp(gemLampLitInvertedLight));
+    reg.registerBlock(gemLampInvertedLight, new ItemBlockGemLamp(gemLampInvertedLight))
+        .setCreativeTab(null);
+
     reg.registerBlock(gemGlass);
     reg.registerBlock(gemGlassDark);
+    reg.registerBlock(gemGlassLight);
+
     reg.registerBlock(teleporterAnchor);
     reg.registerBlock(teleporter);
     reg.registerBlock(teleporterDark);
+    reg.registerBlock(teleporterLight);
     reg.registerBlock(teleporterRedstone);
     reg.registerBlock(teleporterRedstoneDark);
+    reg.registerBlock(teleporterRedstoneLight);
+
     reg.registerBlock(glowRose, Names.GLOW_ROSE);
     reg.registerBlock(essenceOre);
     reg.registerBlock(miscBlock);

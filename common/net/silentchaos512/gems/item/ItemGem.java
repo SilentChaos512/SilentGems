@@ -3,8 +3,6 @@ package net.silentchaos512.gems.item;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -21,7 +19,7 @@ public class ItemGem extends ItemSL {
 
   public ItemGem() {
 
-    super(64, SilentGems.MODID, Names.GEM);
+    super(EnumGem.values().length, SilentGems.MODID, Names.GEM);
   }
 
   @Override
@@ -57,35 +55,6 @@ public class ItemGem extends ItemSL {
     for (EnumGem gem : EnumGem.values()) {
       OreDictionary.registerOre(gem.getItemOreName(), gem.getItem());
       OreDictionary.registerOre(gem.getItemSuperOreName(), gem.getItemSuper());
-    }
-  }
-
-  @Override
-  public boolean hasEffect(ItemStack stack) {
-
-    return stack.getItemDamage() > 31;
-  }
-
-  @Override
-  public void getModels(Map<Integer, ModelResourceLocation> models) {
-
-    int i;
-    String name;
-    for (i = 0; i < 16; ++i) {
-      name = (getFullName() + i).toLowerCase();
-      models.put(i, new ModelResourceLocation(name, "inventory"));
-    }
-    for (i = 0; i < 16; ++i) {
-      name = (getFullName() + "Dark" + i).toLowerCase();
-      models.put(i + 16, new ModelResourceLocation(name, "inventory"));
-    }
-    for (i = 0; i < 16; ++i) {
-      name = (getFullName() + "Super" + i).toLowerCase();
-      models.put(i + 32, new ModelResourceLocation(name, "inventory"));
-    }
-    for (i = 0; i < 16; ++i) {
-      name = (getFullName() + "SuperDark" + i).toLowerCase();
-      models.put(i + 48, new ModelResourceLocation(name, "inventory"));
     }
   }
 }

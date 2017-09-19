@@ -1,15 +1,19 @@
 package net.silentchaos512.gems.guide.page;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.gems.util.ToolRandomizer;
 import net.silentchaos512.lib.guidebook.GuideBook;
 import net.silentchaos512.lib.guidebook.internal.GuiGuideBase;
 import net.silentchaos512.lib.guidebook.page.GuidePage;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class PageDebugTool extends GuidePage {
 
@@ -49,6 +53,16 @@ public class PageDebugTool extends GuidePage {
     } else if (this.key == 2) {
       for (Item item : ModItems.tools) {
         addItem(gui, startX, startY, new ItemStack(item));
+      }
+      for (int i = 0; i < 2; ++i) {
+        addItem(gui, startX, startY, StackHelper.empty());
+      }
+      for (Item item : ModItems.tools) {
+        ItemStack stack = ToolHelper.constructTool(item, ModItems.craftingMaterial.toolRodGold,
+            EnumGem.getRandom().getItemSuper());
+        stack.setItemDamage(stack.getMaxDamage());
+        ToolHelper.recalculateStats(stack);
+        addItem(gui, startX, startY, stack);
       }
     }
   }

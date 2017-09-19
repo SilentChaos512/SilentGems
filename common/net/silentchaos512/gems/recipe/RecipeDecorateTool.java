@@ -103,7 +103,8 @@ public class RecipeDecorateTool extends RecipeBaseSL {
       if (StackHelper.isValid(result) && part instanceof ToolPartRod) {
         ToolHelper.setRenderPart(result, part, grade, EnumPartPosition.ROD);
       } else if (part instanceof ToolPartGrip) {
-        ToolHelper.setRenderPart(result, part, grade, EnumPartPosition.ROD_GRIP);
+        // TODO: Are we removing grips?
+        //ToolHelper.setRenderPart(result, part, grade, EnumPartPosition.ROD_GRIP);
       } else if (part instanceof ToolPartTip) {
         ToolHelper.setRenderPart(result, part, grade, EnumPartPosition.TIP);
       }

@@ -2,7 +2,7 @@
   "parent": "item/handheld",
   "textures": {
     "layer0": "silentgems:items/blank",
-    "layer1": "silentgems:items/axe/axe9"
+    "layer1": "silentgems:items/axe/axe25"
   }
 }
 

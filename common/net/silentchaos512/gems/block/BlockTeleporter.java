@@ -17,10 +17,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModBlocks;
@@ -32,7 +29,6 @@ import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
 import net.silentchaos512.lib.util.LocalizationHelper;
-import net.silentchaos512.lib.util.PlayerHelper;
 import net.silentchaos512.lib.util.StackHelper;
 import net.silentchaos512.wit.api.IWitHudInfo;
 
@@ -47,14 +43,14 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
     isAnchor = true;
   }
 
-  public BlockTeleporter(boolean isDark, boolean isAnchor) {
+  public BlockTeleporter(EnumGem.Set set, boolean isAnchor) {
 
-    this(isDark, isAnchor, Names.TELEPORTER);
+    this(set, isAnchor, Names.TELEPORTER);
   }
 
-  public BlockTeleporter(boolean isDark, boolean isAnchor, String name) {
+  public BlockTeleporter(EnumGem.Set set, boolean isAnchor, String name) {
 
-    super(isAnchor ? 1 : 16, isDark, name + (isDark ? "Dark" : ""), Material.IRON);
+    super(isAnchor ? 1 : 16, set, nameForSet(set, name), Material.IRON);
     this.isAnchor = isAnchor;
 
     setHardness(15.0f);

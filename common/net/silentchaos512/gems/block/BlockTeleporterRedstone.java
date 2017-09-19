@@ -24,9 +24,9 @@ import net.silentchaos512.lib.util.DimensionalPosition;
 
 public class BlockTeleporterRedstone extends BlockTeleporter {
 
-  public BlockTeleporterRedstone(boolean isDark) {
+  public BlockTeleporterRedstone(EnumGem.Set set) {
 
-    super(isDark, false, Names.TELEPORTER_REDSTONE);
+    super(set, false, Names.TELEPORTER_REDSTONE);
   }
 
   @Override

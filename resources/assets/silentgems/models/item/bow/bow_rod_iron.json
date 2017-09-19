@@ -1,0 +1,7 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "silentgems:items/bow/bow_rod_iron"
+  }
+}
+

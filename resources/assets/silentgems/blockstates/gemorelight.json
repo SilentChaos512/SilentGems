@@ -1,0 +1,93 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all",
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "inventory": [{
+    }],
+    "gem": {
+      "ruby": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight0"
+        }
+      },
+      "garnet": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight1"
+        }
+      },
+      "topaz": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight2"
+        }
+      },
+      "amber": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight3"
+        }
+      },
+      "heliodor": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight4"
+        }
+      },
+      "peridot": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight5"
+        }
+      },
+      "beryl": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight6"
+        }
+      },
+      "indicolite": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight7"
+        }
+      },
+      "aquamarine": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight8"
+        }
+      },
+      "sapphire": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight9"
+        }
+      },
+      "iolite": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight10"
+        }
+      },
+      "amethyst": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight11"
+        }
+      },
+      "agate": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight12"
+        }
+      },
+      "morganite": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight13"
+        }
+      },
+      "onyx": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight14"
+        }
+      },
+      "opal": {
+        "textures": {
+          "all": "silentgems:blocks/gemorelight15"
+        }
+      }
+    }
+  }
+}

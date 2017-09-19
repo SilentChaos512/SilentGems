@@ -406,7 +406,6 @@ public class GuideBookGems extends GuideBook {
       "Drowning in [slightly fewer] JSON files...",
       "Download only from CurseForge!",
       "Rabbit poop coffee!",
-      "Now works on Minecraft 1.10.2! Because other modders are SOOO slow to update...",
       "It stares into your soul.",
       "Pot now included... flower pot, that is.",
       "Did you know Chaos Gems are finally back?",
@@ -418,7 +417,8 @@ public class GuideBookGems extends GuideBook {
       "How do you craft the upgrades?@Everyone Ever",
       "Scathing comments since 2017!",
       "Muffin button not included.",
-      "Now with more enchantments!"
+      "Now with more enchantments!",
+      "Send help.@SilentChaos512"
   };//@formatter:on
 
   @Override

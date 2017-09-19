@@ -22,9 +22,9 @@ public class BlockGem extends BlockGemSubtypes {
 
   public final boolean supercharged;
 
-  public BlockGem(boolean dark, boolean supercharged) {
+  public BlockGem(EnumGem.Set set, boolean supercharged) {
 
-    super(dark, Names.GEM_BLOCK + (supercharged ? "Super" : "") + (dark ? "Dark" : ""));
+    super(set, nameForSet(set, Names.GEM_BLOCK + (supercharged ? "Super" : "")));
     this.supercharged = supercharged;
 
     setHardness(supercharged ? 7.0f : 3.0f);

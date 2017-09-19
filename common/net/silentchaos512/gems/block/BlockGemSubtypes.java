@@ -1,47 +1,58 @@
 package net.silentchaos512.gems.block;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.google.common.collect.Lists;
-
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.block.BlockSL;
 
 public class BlockGemSubtypes extends BlockSL {
 
-  public final boolean isDark;
+  public final EnumGem.Set gemSet;
 
   public BlockGemSubtypes(String name) {
 
     super(1, SilentGems.MODID, name, Material.ROCK);
-    isDark = false;
+    this.gemSet = EnumGem.Set.CLASSIC;
   }
 
-  public BlockGemSubtypes(boolean isDark, String name) {
+  public BlockGemSubtypes(EnumGem.Set set, String name) {
 
-    this(16, isDark, name, Material.ROCK);
+    this(16, set, name, Material.ROCK);
   }
 
-  public BlockGemSubtypes(boolean isDark, String name, Material material) {
+  public BlockGemSubtypes(EnumGem.Set set, String name, Material material) {
 
-    this(16, isDark, name, material);
+    this(16, set, name, material);
   }
 
-  public BlockGemSubtypes(int subtypeCount, boolean isDark, String name, Material material) {
+  public BlockGemSubtypes(int subtypeCount, EnumGem.Set set, String name, Material material) {
 
     super(subtypeCount, SilentGems.MODID, name, material);
-    this.isDark = isDark;
+    this.gemSet = set;
 
     setDefaultState(blockState.getBaseState().withProperty(EnumGem.VARIANT_GEM, EnumGem.RUBY));
     setUnlocalizedName(name);
+  }
+
+  protected static String nameForSet(EnumGem.Set set, String baseName) {
+
+    switch (set) {
+      case CLASSIC:
+        return baseName;
+      case DARK:
+        return baseName + "Dark";
+      case LIGHT:
+        return baseName + "Light";
+      default:
+        return baseName + "Unknown";
+    }
   }
 
   public EnumGem getGem(int meta) {
@@ -49,7 +60,7 @@ public class BlockGemSubtypes extends BlockSL {
     if (meta < 0 || meta > 15) {
       return EnumGem.RUBY;
     }
-    return EnumGem.values()[meta + (isDark ? 16 : 0)];
+    return EnumGem.values()[meta + gemSet.startMeta];
   }
 
   @Override

@@ -1,0 +1,8 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "silentgems:items/gemlight6",
+    "layer1": "silentgems:items/gem_super_outline"
+  }
+}
+

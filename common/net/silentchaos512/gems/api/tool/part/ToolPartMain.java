@@ -113,9 +113,7 @@ public class ToolPartMain extends ToolPart {
   public boolean validForPosition(EnumPartPosition pos) {
 
     switch (pos) {
-      case HEAD_LEFT:
-      case HEAD_MIDDLE:
-      case HEAD_RIGHT:
+      case HEAD:
       case ROD_DECO:
         return true;
       default:

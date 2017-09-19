@@ -3,6 +3,8 @@ package net.silentchaos512.gems.block;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
@@ -17,6 +19,7 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.EnumGem.Set;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.LocalizationHelper;
@@ -27,10 +30,10 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
   private final boolean lit;
   private final boolean inverted;
 
-  public BlockGemLamp(boolean dark, boolean lit, boolean inverted) {
+  public BlockGemLamp(EnumGem.Set set, boolean lit, boolean inverted) {
 
-    super(16, dark,
-        Names.GEM_LAMP + (lit ? "Lit" : "") + (inverted ? "Inverted" : "") + (dark ? "Dark" : ""),
+    super(16, set,
+        nameForSet(set, Names.GEM_LAMP + (lit ? "Lit" : "") + (inverted ? "Inverted" : "")),
         Material.REDSTONE_LIGHT);
 
     this.lit = lit;
@@ -41,26 +44,58 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
     setLightLevel(lit ? 1 : 0);
   }
 
-  public static BlockGemLamp getLamp(boolean dark, boolean lit, boolean inverted) {
+  public static BlockGemLamp getLamp(EnumGem.Set set, boolean lit, boolean inverted) {
 
-    switch ((dark ? 4 : 0) | (lit ? 2 : 0) | (inverted ? 1 : 0)) {
-      // @formatter:off
-      case 0: return ModBlocks.gemLamp;
-      case 1: return ModBlocks.gemLampInverted;
-      case 2: return ModBlocks.gemLampLit;
-      case 3: return ModBlocks.gemLampLitInverted;
-      case 4: return ModBlocks.gemLampDark;
-      case 5: return ModBlocks.gemLampInvertedDark;
-      case 6: return ModBlocks.gemLampLitDark;
-      case 7: return ModBlocks.gemLampLitInvertedDark;
-      // @formatter:on
+    if (set == EnumGem.Set.CLASSIC) {
+      if (lit) {
+        if (inverted) {
+          return ModBlocks.gemLampLitInverted;
+        } else {
+          return ModBlocks.gemLampLit;
+        }
+      } else {
+        if (inverted) {
+          return ModBlocks.gemLampInverted;
+        } else {
+          return ModBlocks.gemLamp;
+        }
+      }
+    } else if (set == EnumGem.Set.DARK) {
+      if (lit) {
+        if (inverted) {
+          return ModBlocks.gemLampLitInvertedDark;
+        } else {
+          return ModBlocks.gemLampLitDark;
+        }
+      } else {
+        if (inverted) {
+          return ModBlocks.gemLampInvertedDark;
+        } else {
+          return ModBlocks.gemLampDark;
+        }
+      }
+    } else if (set == EnumGem.Set.LIGHT) {
+      if (lit) {
+        if (inverted) {
+          return ModBlocks.gemLampLitInvertedLight;
+        } else {
+          return ModBlocks.gemLampLitLight;
+        }
+      } else {
+        if (inverted) {
+          return ModBlocks.gemLampInvertedLight;
+        } else {
+          return ModBlocks.gemLampLight;
+        }
+      }
+    } else {
+      throw new NotImplementedException("Gem set \"" + set + "\" is not recognized!");
     }
-    return null;
   }
 
   public BlockGemLamp getLamp(boolean isLit) {
 
-    return getLamp(this.isDark, isLit, this.inverted);
+    return getLamp(this.gemSet, isLit, this.inverted);
   }
 
   private void setState(World world, BlockPos pos, BlockGemLamp block, EnumGem gem) {
@@ -130,7 +165,7 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
   @Override
   public Item getItemDropped(IBlockState state, Random random, int fortune) {
 
-    BlockGemLamp block = getLamp(isDark, inverted, inverted);
+    BlockGemLamp block = getLamp(gemSet, inverted, inverted);
     return Item.getItemFromBlock(block);
   }
 
@@ -154,7 +189,7 @@ public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
       ItemStack redstoneTorch = new ItemStack(Blocks.REDSTONE_TORCH);
       for (int i = 0; i < 16; ++i) {
         recipes.addShapeless(blockName + i + "_invert", new ItemStack(this, 1, i),
-            new ItemStack(getLamp(isDark, false, false), 1, i), redstoneTorch);
+            new ItemStack(getLamp(gemSet, false, false), 1, i), redstoneTorch);
       }
     }
   }

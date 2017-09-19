@@ -2,7 +2,7 @@
   "parent": "item/handheld",
   "textures": {
     "layer0": "silentgems:items/blank",
-    "layer1": "silentgems:items/scepter/scepter14"
+    "layer1": "silentgems:items/scepter/scepter30"
   }
 }
 

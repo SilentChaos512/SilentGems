@@ -17,9 +17,9 @@ import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class BlockGemGlass extends BlockGemSubtypes {
 
-  public BlockGemGlass(boolean dark) {
+  public BlockGemGlass(EnumGem.Set set) {
 
-    super(dark, "GemGlass" + (dark ? "Dark" : ""), Material.GLASS);
+    super(set, nameForSet(set, "GemGlass"), Material.GLASS);
     setHardness(0.3f);
     setSoundType(SoundType.GLASS);
   }
