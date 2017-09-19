@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.lib;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
@@ -206,8 +207,9 @@ public enum EnumGem implements IStringSerializable {
    */
   public ItemStack getBlock() {
 
-    return new ItemStack(ordinal() < 16 ? ModBlocks.gemBlock : ModBlocks.gemBlockDark, 1,
-        ordinal() & 0xF);
+    Block block = getSet() == Set.LIGHT ? ModBlocks.gemBlockLight
+        : getSet() == Set.DARK ? ModBlocks.gemBlockDark : ModBlocks.gemBlock;
+    return new ItemStack(block, 1, ordinal() & 0xF);
   }
 
   /**
@@ -223,8 +225,9 @@ public enum EnumGem implements IStringSerializable {
    */
   public ItemStack getBlockSuper() {
 
-    return new ItemStack(ordinal() < 16 ? ModBlocks.gemBlockSuper : ModBlocks.gemBlockSuperDark, 1,
-        ordinal() & 0xF);
+    Block block = getSet() == Set.LIGHT ? ModBlocks.gemBlockSuperLight
+        : getSet() == Set.DARK ? ModBlocks.gemBlockSuperDark : ModBlocks.gemBlockSuper;
+    return new ItemStack(block, 1, ordinal() & 0xF);
   }
 
   /**
@@ -240,8 +243,9 @@ public enum EnumGem implements IStringSerializable {
    */
   public ItemStack getOre() {
 
-    return new ItemStack(ordinal() < 16 ? ModBlocks.gemOre : ModBlocks.gemOreDark, 1,
-        ordinal() & 0xF);
+    Block block = getSet() == Set.LIGHT ? ModBlocks.gemOreLight
+        : getSet() == Set.DARK ? ModBlocks.gemOreDark : ModBlocks.gemOre;
+    return new ItemStack(block, 1, ordinal() & 0xF);
   }
 
   /**
