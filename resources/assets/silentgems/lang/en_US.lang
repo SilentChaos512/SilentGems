@@ -940,6 +940,7 @@ misc.silentgems:Tooltip.Enchantability=Enchantability:&f %s
 misc.silentgems:Tooltip.HarvestLevel=Harvest Level:&f %s
 misc.silentgems:Tooltip.HarvestSpeed=Base Harvest Speed:&f %s
 misc.silentgems:Tooltip.MagicDamage=Magic Damage:&f %s
+misc.silentgems:Tooltip.MagicProtection=Magic Protection:&f %s%%
 misc.silentgems:Tooltip.MeleeDamage=Melee Damage:&f %s
 misc.silentgems:Tooltip.MeleeSpeed=Attack Speed:&f %s%%
 misc.silentgems:Tooltip.OriginalOwner=&8Made by %s

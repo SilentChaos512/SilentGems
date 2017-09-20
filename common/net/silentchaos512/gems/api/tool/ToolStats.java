@@ -28,7 +28,7 @@ public final class ToolStats {
   public float meleeSpeed = 0f;
   public float chargeSpeed = 0f;
   public float enchantability = 0f;
-  public float blockingPower = 0f;
+  public float protection = 0f;
   public int harvestLevel = 0;
 
   public ToolStats(ItemStack tool, ToolPart[] parts, EnumMaterialGrade[] grades) {
@@ -58,7 +58,7 @@ public final class ToolStats {
       meleeSpeed += part.getMeleeSpeed() * multi;
       enchantability += part.getEnchantability() * multi;
       chargeSpeed += part.getChargeSpeed() * multi;
-      blockingPower += part.getProtection() / 16f * multi;
+      protection += part.getProtection() * multi;
       harvestLevel = Math.max(harvestLevel, part.getHarvestLevel());
       uniqueParts.add(part);
     }
@@ -75,8 +75,7 @@ public final class ToolStats {
     meleeSpeed = bonus * meleeSpeed / parts.length;
     chargeSpeed = bonus * chargeSpeed / parts.length;
     enchantability = bonus * enchantability / parts.length;
-    blockingPower = Math.max(bonus * blockingPower / parts.length,
-        ItemGemShield.MIN_BLOCKING_POWER);
+    protection = bonus * protection / parts.length;
 
     // Tool class multipliers
     if (tool.getItem() instanceof ITool) {

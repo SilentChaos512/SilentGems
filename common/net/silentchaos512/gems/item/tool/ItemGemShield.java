@@ -25,6 +25,7 @@ import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -49,8 +50,6 @@ import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemShield extends ItemShield implements IRegistryObject, ITool {
 
-  public static final float MIN_BLOCKING_POWER = 0.4f;
-
   public ItemGemShield() {
 
     setNoRepair();
@@ -64,33 +63,39 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   public static class EventHandler {
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public void blockExtraDamage(LivingHurtEvent event) {
+    public void onBlockDamage(LivingHurtEvent event) {
 
-      ItemGemShield item = ModItems.shield;
-
-      DamageSource source = event.getSource();
-      if (source.isUnblockable() || source.isMagicDamage() || source.isExplosion()
-          || source.isProjectile() || event.isCanceled())
+      if (!(event.getEntityLiving() instanceof EntityPlayer)) {
         return;
-
-      if (!item.shouldBlockDamage(event.getEntityLiving()))
-        return;
-
-      EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-      ItemStack shield = player.getActiveItemStack();
-
-      float damage = event.getAmount();
-      float blockPower = ToolHelper.getBlockingPower(shield);
-      damage = damage < 2f ? 1f : damage / 2f;
-      event.setAmount(event.getAmount() / Math.max(blockPower, MIN_BLOCKING_POWER));
-
-      if (source.getImmediateSource() != null) {
-        source.getImmediateSource().attackEntityFrom(DamageSource.causeThornsDamage(player),
-            event.getAmount() + item.getMeleeDamage(shield));
-        damage = damage * 1.5f;
       }
 
-      // SilentGems.logHelper.debug(damage, Math.round(damage));
+      ItemGemShield item = ModItems.shield;
+      DamageSource source = event.getSource();
+      EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+      ItemStack shield = player.getActiveItemStack();
+      float damage = event.getAmount();
+
+      // Block magic damage?
+      if (item.shouldBlockDamage(event.getEntityLiving()) && source.isMagicDamage()) {
+        float protection = ToolHelper.getMagicProtection(shield);
+
+        damage = damage < 2f ? 1f : damage / 2f;
+        event.setAmount(event.getAmount() * MathHelper.clamp(1f - protection, 0f, 1f));
+      } else {
+        damage = 0f;
+      }
+
+      // Rebound damage?
+      if (source.getImmediateSource() != null) {
+        float melee = item.getMeleeDamage(shield);
+        if (melee > 0f) {
+          source.getImmediateSource().attackEntityFrom(DamageSource.causeThornsDamage(player),
+              melee);
+          damage += 1f;
+        }
+      }
+
+      // Damage the shield.
       ToolHelper.attemptDamageTool(shield, Math.round(damage), player);
     }
   }
@@ -334,11 +339,4 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
 
     list.addAll(ToolHelper.getSubItems(item, 3));
   }
-
-  // onItemUse
-//  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-//      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-//
-//    return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
-//  }
 }

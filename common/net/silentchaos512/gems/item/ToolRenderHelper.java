@@ -140,8 +140,10 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       line = loc.getMiscText("Tooltip.Durability", s1 + " / " + s2);
       list.add(color + "  " + line);
 
-      if (isShield)
-        list.add(color + getTooltipLine("BlockingPower", ToolHelper.getBlockingPower(tool)));
+      if (isShield) {
+        float magicProtection = (int) (ToolHelper.getMagicProtection(tool) * 100);
+        list.add(color + getTooltipLine("MagicProtection", magicProtection));
+      }
 
       if (isDigger) { // @formatter:off
         int harvestLevel = ToolHelper.getHarvestLevel(tool);
