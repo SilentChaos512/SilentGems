@@ -185,6 +185,23 @@ tile.silentgems:GemBrickCoatedDark13.name=Ametrine-Coated Bricks
 tile.silentgems:GemBrickCoatedDark14.name=Black Diamond-Coated Bricks
 tile.silentgems:GemBrickCoatedDark15.name=Alexandrite-Coated Bricks
 
+tile.silentgems:GemBrickCoatedLight0.name=Pyrope-Coated Bricks
+tile.silentgems:GemBrickCoatedLight1.name=Coral-Coated Bricks
+tile.silentgems:GemBrickCoatedLight2.name=Sunstone-Coated Bricks
+tile.silentgems:GemBrickCoatedLight3.name=Cat's Eye-Coated Bricks
+tile.silentgems:GemBrickCoatedLight4.name=Zircon-Coated Bricks
+tile.silentgems:GemBrickCoatedLight5.name=Jade-Coated Bricks
+tile.silentgems:GemBrickCoatedLight6.name=Chrysoprase-Coated Bricks
+tile.silentgems:GemBrickCoatedLight7.name=Apatite-Coated Bricks
+tile.silentgems:GemBrickCoatedLight8.name=Fluorite-Coated Bricks
+tile.silentgems:GemBrickCoatedLight9.name=Kyanite-Coated Bricks
+tile.silentgems:GemBrickCoatedLight10.name=Sodalite-Coated Bricks
+tile.silentgems:GemBrickCoatedLight11.name=Ammolite-Coated Bricks
+tile.silentgems:GemBrickCoatedLight12.name=Kunzite-Coated Bricks
+tile.silentgems:GemBrickCoatedLight13.name=Rose Quartz-Coated Bricks
+tile.silentgems:GemBrickCoatedLight14.name=Tektite-Coated Bricks
+tile.silentgems:GemBrickCoatedLight15.name=Pearl-Coated Bricks
+
 tile.silentgems:GemBrickSpeckled0.name=Ruby-Speckled Bricks
 tile.silentgems:GemBrickSpeckled1.name=Garnet-Speckled Bricks
 tile.silentgems:GemBrickSpeckled2.name=Topaz-Speckled Bricks
@@ -218,6 +235,23 @@ tile.silentgems:GemBrickSpeckledDark12.name=Lepidolite-Speckled Bricks
 tile.silentgems:GemBrickSpeckledDark13.name=Ametrine-Speckled Bricks
 tile.silentgems:GemBrickSpeckledDark14.name=Black Diamond-Speckled Bricks
 tile.silentgems:GemBrickSpeckledDark15.name=Alexandrite-Speckled Bricks
+
+tile.silentgems:GemBrickSpeckledLight0.name=Pyrope-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight1.name=Coral-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight2.name=Sunstone-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight3.name=Cat's Eye-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight4.name=Zircon-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight5.name=Jade-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight6.name=Chrysoprase-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight7.name=Apatite-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight8.name=Fluorite-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight9.name=Kyanite-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight10.name=Sodalite-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight11.name=Ammolite-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight12.name=Kunzite-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight13.name=Rose Quartz-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight14.name=Tektite-Speckled Bricks
+tile.silentgems:GemBrickSpeckledLight15.name=Pearl-Speckled Bricks
 
 tile.silentgems:GemGlass0.name=Ruby Glass
 tile.silentgems:GemGlass1.name=Garnet Glass

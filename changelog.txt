@@ -5,7 +5,10 @@ Added: Hoes now have a super skill, Row Tiller. Tills a line of 9 blocks at once
 Added: Shields now have a Magic Protection stat. Reduces magic damage when blocking. This stat is determined mostly by the Magic stat of the materials, with Protection influencing it a bit.
 Removed: The "Blocking Power" stat of shields. This has been obsolete and useless since 1.11.
 Added: Alpha greeting and a link to a strawpoll (set to expire at the end of October 2017).
-Fixed: Crash when Tinkers Construct is not installed (blame Eclipse)
+Fixed: Crash when Tinkers Construct is not installed (#BlameEclipse)
+Fixed: TiC part localizations.
+Fixed: Missing chaos gem models.
+Fixed: Missing models, textures, and localizations for bricks.
 
 2.5.0
 Added: 16 new gems. These "light" gems will spawn only in the End. Many new block will be missing localizations/models/textures for a bit. Please be patient as I work on these.
