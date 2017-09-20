@@ -16,35 +16,11 @@ import net.silentchaos512.lib.util.PlayerHelper;
 
 public class Greetings {
 
-  public static boolean IS_BETA_BUILD = false;
-  public static final String PREFIX = "[Silent's Gems] BETA: ";
+  public static boolean IS_BETA_BUILD = true;
+  public static final String PREFIX = "[Silent's Gems] ALPHA: ";
   // @formatter:off
   public static final String[] LINES = new String[] {
-      // Alpha
-//      "Things may change, break, and/or dance to Macarena.",
-//      "Catgirls not included. D:",
-      "The flowers probably won't kill you.",
-//      "That texture count...",
-      "Try the donuts!",
-      "May contain unintended &cR&6a&ei&an&9b&do&5w&fs!",
-      "Shake well and refrigerate after opening.",
-//      "May contain crazy people.",
-//      "Bunny bowling. No regrets."
-
-      // Beta
-//      "Still dancing to Macarena!",
-//      "Your free Windows 10 upgrade is ready!",
-      "Drowning in [slightly fewer] JSON files...",
-      "Download only from CurseForge!",
-
-      // XCompat
-      "Rabbit poop coffee!",
-      "Now works on Minecraft 1.10.2! Because other modders are SOOO slow to update...",
-      "It stares into your soul.",
-      "Pot now included... flower pot, that is.",
-      "Did you know Chaos Gems are finally back?",
-      "Also try Extra Parts!",
-      "Your wish has been granted!",
+      "Things may change, break, or spontaneously moonwalk."
   };
   // @formatter:on
 
@@ -61,14 +37,14 @@ public class Greetings {
     if (IS_BETA_BUILD)
       doBetaGreeting(player);
 
-    // Strawpoll notification (will stop displaying at the end of the year)
+    // Strawpoll notification (new difficulty poll)
     Calendar cal = Calendar.getInstance();
-    boolean strawpollNotExpired = cal.get(Calendar.YEAR) == 2016 && cal.get(Calendar.MONTH) == Calendar.DECEMBER;
+    boolean strawpollNotExpired = cal.get(Calendar.YEAR) == 2017 && cal.get(Calendar.MONTH) <= Calendar.OCTOBER;
     if (strawpollNotExpired && !strawpollNotifiedPlayers.contains(player.getName())) {
       player.sendMessage(ForgeHooks.newChatWithLinks(TextFormatting.DARK_PURPLE
-          + "[Silent's Gems]" + TextFormatting.RESET + " Like the current textures? Or would you"
-          + " prefer 16x16 textures like vanilla? I'd like to hear your opinions:"
-          + " http://www.strawpoll.me/11872834"));
+          + "[Silent's Gems]" + TextFormatting.RESET
+          + " I'm looking for some feedback on difficulty. Your vote would be greatly appreciated!"
+          + " http://www.strawpoll.me/13966373"));
       strawpollNotifiedPlayers.add(player.getName());
     }
 
