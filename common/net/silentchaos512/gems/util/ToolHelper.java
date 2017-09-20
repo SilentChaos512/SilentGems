@@ -70,6 +70,7 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageItemRename;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
+import net.silentchaos512.gems.skills.SkillAreaTill;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.lib.SilentLib;
@@ -513,6 +514,8 @@ public class ToolHelper {
       return SkillAreaMiner.INSTANCE;
     } else if (item instanceof ItemGemAxe) {
       return GemsConfig.SWITCH_AXE_SUPER ? SkillAreaMiner.INSTANCE : SkillLumberjack.INSTANCE;
+    } else if (item instanceof ItemGemHoe) {
+      return SkillAreaTill.INSTANCE;
     }
 
     return null;

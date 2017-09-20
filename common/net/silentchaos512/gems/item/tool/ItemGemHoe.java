@@ -3,9 +3,9 @@ package net.silentchaos512.gems.item.tool;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.client.util.ITooltipFlag.TooltipFlags;
@@ -16,6 +16,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -25,17 +26,20 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
-import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.handler.PlayerDataHandler;
+import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.skills.SkillAreaTill;
+import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
@@ -68,42 +72,85 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
       EnumFacing side, float hitX, float hitY, float hitZ) {
 
     ItemStack stack = player.getHeldItem(hand);
-    if (ToolHelper.isBroken(stack)) {
-      return EnumActionResult.PASS;
+
+    int tilledCount = 0;
+    EnumActionResult result;
+
+    // Till the target block first.
+    result = super.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
+    if (result == EnumActionResult.SUCCESS) {
+      ++tilledCount;
+    } else {
+      return EnumActionResult.FAIL;
     }
 
-    EnumActionResult result = ItemHelper.onItemUse(Items.DIAMOND_HOE, player, world, pos, hand,
-        side, hitX, hitY, hitZ); // Use diamond hoe so we don't get stack overflow.
-    int tilledCount = result == EnumActionResult.SUCCESS ? 1 : 0;
+    // Do we have super till and can it be used?
+    ToolSkill skill = ToolHelper.getSuperSkill(stack);
+    boolean skillEnabled = skill instanceof SkillAreaTill
+        && ToolHelper.isSpecialAbilityEnabled(stack);
+    int skillCost = skill != null ? skill.getCost(stack, player, pos) : 0;
+    PlayerData data = PlayerDataHandler.get(player);
 
-    // Super hoe area till?
-    boolean isSuper = ToolHelper.getToolTier(stack).ordinal() >= EnumMaterialTier.SUPER.ordinal();
-    if (result == EnumActionResult.SUCCESS && player.isSneaking() && isSuper) {
-      BlockPos[] array = new BlockPos[] { new BlockPos(pos.getX() - 1, pos.getY(), pos.getZ() - 1),
-          new BlockPos(pos.getX() - 1, pos.getY(), pos.getZ() + 0),
-          new BlockPos(pos.getX() - 1, pos.getY(), pos.getZ() + 1),
-          new BlockPos(pos.getX() + 0, pos.getY(), pos.getZ() - 1),
-          new BlockPos(pos.getX() + 0, pos.getY(), pos.getZ() + 1),
-          new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ() - 1),
-          new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ() + 0),
-          new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ() + 1) };
-      for (BlockPos blockpos : array)
-        if (ItemHelper.onItemUse(Items.DIAMOND_HOE, player, world, blockpos, hand, side, hitX, hitY,
-            hitZ) == EnumActionResult.SUCCESS)
+    // Must have tilled first block, has skill and is enabled, player has enough chaos.
+    if (tilledCount > 0 && skillEnabled && data.getCurrentChaos() >= skillCost) {
+      EnumFacing playerFacing = player.getHorizontalFacing();
+
+      // Tilling up to 8 extra blocks in the direction the player is facing.
+      for (int i = 0, yOffset = 0; i < 8; ++i) {
+        BlockPos blockpos = pos.offset(playerFacing, i + 1).up(yOffset);
+        if (super.onItemUse(player, world, blockpos, hand, side, hitX, hitY,
+            hitZ) == EnumActionResult.SUCCESS) {
+          // Same height.
           ++tilledCount;
+        } else if (super.onItemUse(player, world, blockpos.up(1), hand, side, hitX, hitY,
+            hitZ) == EnumActionResult.SUCCESS) {
+          // Go up one block.
+          ++tilledCount;
+          ++yOffset;
+        } else if (super.onItemUse(player, world, blockpos.down(1), hand, side, hitX, hitY,
+            hitZ) == EnumActionResult.SUCCESS) {
+          // Go down one block.
+          ++tilledCount;
+          --yOffset;
+        } else {
+          // Hit a cliff or wall.
+          break;
+        }
+      }
+
+      if (tilledCount > 1) {
+        if (data != null) {
+          data.drainChaos(skillCost);
+        }
+      }
     }
 
+    // Sound, XP, damage, stats
     if (tilledCount > 0) {
+      world.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1f, 1f);
+      // ToolHelper.addSoulXp((int) (ToolSoul.XP_FACTOR_TILLING * tilledCount), stack, player);
       ToolHelper.incrementStatBlocksTilled(stack, tilledCount);
+      ToolHelper.attemptDamageTool(stack, tilledCount, player);
     }
 
-    return result;
+    return EnumActionResult.SUCCESS;
+  }
+
+  @Override
+  protected void setBlock(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos,
+      IBlockState state) {
+
+    // Unlike ItemHoe#setBlock, this does not play a sound or damage the tool.
+    // That will be handled in onItemUse
+    if (!worldIn.isRemote) {
+      worldIn.setBlockState(pos, state, 11);
+    }
   }
 
   // ===============
   // ITool overrides
   // ===============
-  
+
   public ConfigOptionToolClass getConfig() {
 
     return GemsConfig.hoe;
@@ -186,7 +233,7 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
 
     return ToolRenderHelper.instance.hasEffect(stack);
   }
-  
+
   @Override
   public EnumRarity getRarity(ItemStack stack) {
 
@@ -283,7 +330,8 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
   @Override
   public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
 
-    ToolRenderHelper.getInstance().clAddInformation(stack, world, list, flag == TooltipFlags.ADVANCED);
+    ToolRenderHelper.getInstance().clAddInformation(stack, world, list,
+        flag == TooltipFlags.ADVANCED);
   }
 
   // getSubItems 1.10.2
@@ -313,8 +361,8 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
   }
 
   // onItemUse
-  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
+      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
     return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }

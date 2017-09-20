@@ -13,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.BossInfo;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FOVModifier;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -25,7 +24,6 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IAmmoTool;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
@@ -41,6 +39,7 @@ import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemChaosGem;
 import net.silentchaos512.gems.lib.TooltipHelper;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
+import net.silentchaos512.gems.skills.SkillAreaTill;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.gems.util.ToolHelper;
@@ -186,20 +185,20 @@ public class GemsClientEvents {
     }
 
     Item item = mainHand.getItem();
-    boolean isDigger = item instanceof ITool && ((ITool) item).isDiggingTool();
 
-    if (isDigger && event.isCancelable() && event.getType() == ElementType.CROSSHAIRS) {
+    if (event.isCancelable() && event.getType() == ElementType.CROSSHAIRS) {
       if (ToolHelper.isSpecialAbilityEnabled(mainHand)) {
-        event.setCanceled(true);
         ToolSkill skill = ToolHelper.getSuperSkill(mainHand);
-        int type = skill == SkillAreaMiner.INSTANCE ? 0 : skill == SkillLumberjack.INSTANCE ? 1 : 2;
-        GuiCrosshairs.INSTANCE.renderOverlay(event, type, skill);
+        debugTextOverlay += "Skill: " + skill + "\n";
+        if (skill != null) {
+          event.setCanceled(true);
+          int type = skill == SkillAreaMiner.INSTANCE || skill == SkillAreaTill.INSTANCE ? 0
+              : skill == SkillLumberjack.INSTANCE ? 1 : 2;
+          debugTextOverlay += type + "\n";
+          GuiCrosshairs.INSTANCE.renderOverlay(event, type, skill);
+        }
       }
     }
-
-    // if (event.isCancelable() || event.getType() != ElementType.CROSSHAIRS) {
-    // return;
-    // }
   }
 
   /**
