@@ -287,6 +287,23 @@ tile.silentgems:GemGlassDark13.name=Ametrine Glass
 tile.silentgems:GemGlassDark14.name=Black Diamond Glass
 tile.silentgems:GemGlassDark15.name=Alexandrite Glass
 
+tile.silentgems:GemGlassLight0.name=Pyrope Glass
+tile.silentgems:GemGlassLight1.name=Coral Glass
+tile.silentgems:GemGlassLight2.name=Sunstone Glass
+tile.silentgems:GemGlassLight3.name=Cat's Eye Glass
+tile.silentgems:GemGlassLight4.name=Zircon Glass
+tile.silentgems:GemGlassLight5.name=Jade Glass
+tile.silentgems:GemGlassLight6.name=Chrysoprase Glass
+tile.silentgems:GemGlassLight7.name=Apatite Glass
+tile.silentgems:GemGlassLight8.name=Fluorite Glass
+tile.silentgems:GemGlassLight9.name=Kyanite Glass
+tile.silentgems:GemGlassLight10.name=Sodalite Glass
+tile.silentgems:GemGlassLight11.name=Ammolite Glass
+tile.silentgems:GemGlassLight12.name=Kunzite Glass
+tile.silentgems:GemGlassLight13.name=Rose Quartz Glass
+tile.silentgems:GemGlassLight14.name=Tektite Glass
+tile.silentgems:GemGlassLight15.name=Pearl Glass
+
 tile.silentgems:GemLamp.lit=Lit
 tile.silentgems:GemLamp.inverted=Inverted
 
