@@ -16,10 +16,19 @@ public class ItemBlockGemLamp extends ItemBlockSL {
   }
 
   @Override
+  public String getItemStackDisplayName(ItemStack stack) {
+
+    BlockGemLamp block = (BlockGemLamp) Block.getBlockFromItem(stack.getItem());
+    String suffix = block.inverted
+        ? " (" + SilentGems.localizationHelper.getBlockSubText(Names.GEM_LAMP, "inverted") + ")"
+        : "";
+    return super.getItemStackDisplayName(stack) + suffix;
+  }
+
+  @Override
   public String getUnlocalizedName(ItemStack stack) {
 
     BlockGemLamp block = (BlockGemLamp) Block.getBlockFromItem(stack.getItem());
-    return "tile." + SilentGems.RESOURCE_PREFIX + block.getName()
-        + stack.getItemDamage();
+    return "tile." + SilentGems.RESOURCE_PREFIX + block.nameForLocalization + stack.getItemDamage();
   }
 }

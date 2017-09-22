@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.5.2
+
+
 2.5.1
 Added: Hoes now have a super skill, Row Tiller. Tills a line of 9 blocks at once. Use the "toggle special" keybind to enable.
 Added: Shields now have a Magic Protection stat. Reduces magic damage when blocking. This stat is determined mostly by the Magic stat of the materials, with Protection influencing it a bit.

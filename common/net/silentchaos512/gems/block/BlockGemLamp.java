@@ -27,14 +27,16 @@ import net.silentchaos512.wit.api.IWitHudInfo;
 
 public class BlockGemLamp extends BlockGemSubtypes implements IWitHudInfo {
 
-  private final boolean lit;
-  private final boolean inverted;
+  public final String nameForLocalization;
+  public final boolean lit;
+  public final boolean inverted;
 
   public BlockGemLamp(EnumGem.Set set, boolean lit, boolean inverted) {
 
     super(16, set,
         nameForSet(set, Names.GEM_LAMP + (lit ? "Lit" : "") + (inverted ? "Inverted" : "")),
         Material.REDSTONE_LIGHT);
+    this.nameForLocalization = nameForSet(set, Names.GEM_LAMP);
 
     this.lit = lit;
     this.inverted = inverted;

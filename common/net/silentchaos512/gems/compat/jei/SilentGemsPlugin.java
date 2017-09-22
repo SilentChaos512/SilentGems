@@ -9,6 +9,7 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.ISubtypeRegistry.ISubtypeInterpreter;
 import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import net.minecraft.enchantment.Enchantment;
@@ -42,26 +43,29 @@ public class SilentGemsPlugin implements IModPlugin {
     jeiHelper = reg.getJeiHelpers();
     IGuiHelper guiHelper = jeiHelper.getGuiHelper();
 
-    doItemBlacklist(jeiHelper.getItemBlacklist());
+    doItemBlacklist(jeiHelper.getIngredientBlacklist());
 
     doRecipeRegistration(reg, guiHelper);
 
     doAddDescriptions(reg);
   }
 
-  private void doItemBlacklist(IItemBlacklist list) {
+  private void doItemBlacklist(IIngredientBlacklist list) {
 
     // Hide certain blocks/items
     int any = OreDictionary.WILDCARD_VALUE;
-    list.addItemToBlacklist(new ItemStack(ModBlocks.gemLampInverted, 1, any));
-    list.addItemToBlacklist(new ItemStack(ModBlocks.gemLampInvertedDark, 1, any));
-    list.addItemToBlacklist(new ItemStack(ModBlocks.gemLampLit, 1, any));
-    list.addItemToBlacklist(new ItemStack(ModBlocks.gemLampLitDark, 1, any));
-    list.addItemToBlacklist(new ItemStack(ModBlocks.fluffyPuffPlant));
-    list.addItemToBlacklist(new ItemStack(ModItems.toolRenderHelper));
-    list.addItemToBlacklist(new ItemStack(ModItems.debugItem));
+    list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampInverted, 1, any));
+    list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampInvertedDark, 1, any));
+    list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampInvertedLight, 1, any));
+    list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampLit, 1, any));
+    list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampLitDark, 1, any));
+    list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampLitLight, 1, any));
+    list.addIngredientToBlacklist(new ItemStack(ModBlocks.fluffyPuffPlant));
+    list.addIngredientToBlacklist(new ItemStack(ModItems.toolRenderHelper));
+    list.addIngredientToBlacklist(new ItemStack(ModItems.debugItem));
   }
 
+  // FIXME
   private void doRecipeRegistration(IModRegistry reg, IGuiHelper guiHelper) {
 
     // Categories
