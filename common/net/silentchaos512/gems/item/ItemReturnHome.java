@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.item;
 
 import java.util.List;
+import java.util.Map;
 
 import org.lwjgl.input.Keyboard;
 
@@ -10,6 +11,7 @@ import baubles.api.render.IRenderBauble;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -26,6 +28,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -268,6 +271,18 @@ public class ItemReturnHome extends ItemChaosStorage implements IBauble, IRender
     }
 
     extractCharge(stack, getTeleportCost(stack, player), false);
+  }
+
+  @Override
+  public boolean registerModels() {
+
+    ModelResourceLocation model = new ModelResourceLocation(
+        SilentGems.RESOURCE_PREFIX + Names.RETURN_HOME_CHARM, "inventory");
+    for (int i = 0; i < EnumGem.values().length; ++i) {
+      ModelLoader.setCustomModelResourceLocation(this, i, model);
+    }
+
+    return true;
   }
 
   // ===================

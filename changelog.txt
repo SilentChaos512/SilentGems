@@ -1,7 +1,8 @@
 Silent's Gems - Changelog
 
 2.5.2
-
+Fixed: A possible server crash caused by shields.
+Fixed: All remaining block models/textures/localizations. At this point, almost all block textures are now 16x16. There are a few 32x32 stragglers that I'm not sure can be downsized well. But don't tell anyone, maybe they won't notice. ;)
 
 2.5.1
 Added: Hoes now have a super skill, Row Tiller. Tills a line of 9 blocks at once. Use the "toggle special" keybind to enable.

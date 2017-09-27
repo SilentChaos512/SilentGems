@@ -1,5 +1,7 @@
 package net.silentchaos512.gems.lib;
 
+import java.awt.Color;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.IItemColor;
@@ -83,7 +85,14 @@ public class ColorHandlers {
       @Override
       public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 
-        return stack.getItemDamage() > 15 && tintIndex == 1 ? 0x999999 : 0xFFFFFF;
+        if (tintIndex == 0) {
+          int meta = stack.getItemDamage();
+          if (meta >= 0 && meta < EnumGem.values().length) {
+            EnumGem gem = EnumGem.values()[meta];
+            return gem.color;
+          }
+        }
+        return 0xFFFFFF;
       }
     }, ModItems.returnHomeCharm);
 
@@ -139,7 +148,7 @@ public class ColorHandlers {
           IBlockState state = ModItems.holdingGem.getBlockPlaced(stack);
           if (state != null) {
             return 0xFFFFFF;
-            //return state.getMapColor().colorValue;
+            // return state.getMapColor().colorValue;
           }
         }
         return 0xFFFFFF;
