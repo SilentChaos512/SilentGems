@@ -473,6 +473,23 @@ tile.silentgems:TeleporterDark13.name=Ametrine Teleporter
 tile.silentgems:TeleporterDark14.name=Black Diamond Teleporter
 tile.silentgems:TeleporterDark15.name=Alexandrite Teleporter
 
+tile.silentgems:TeleporterLight0.name=Pyrope Teleporter
+tile.silentgems:TeleporterLight1.name=Coral Teleporter
+tile.silentgems:TeleporterLight2.name=Sunstone Teleporter
+tile.silentgems:TeleporterLight3.name=Cat's Eye Teleporter
+tile.silentgems:TeleporterLight4.name=Zircon Teleporter
+tile.silentgems:TeleporterLight5.name=Jade Teleporter
+tile.silentgems:TeleporterLight6.name=Chrysoprase Teleporter
+tile.silentgems:TeleporterLight7.name=Apatite Teleporter
+tile.silentgems:TeleporterLight8.name=Fluorite Teleporter
+tile.silentgems:TeleporterLight9.name=Kyanite Teleporter
+tile.silentgems:TeleporterLight10.name=Sodalite Teleporter
+tile.silentgems:TeleporterLight11.name=Ammolite Teleporter
+tile.silentgems:TeleporterLight12.name=Kunzite Teleporter
+tile.silentgems:TeleporterLight13.name=Rose Quartz Teleporter
+tile.silentgems:TeleporterLight14.name=Tektite Teleporter
+tile.silentgems:TeleporterLight15.name=Pearl Teleporter
+
 tile.silentgems:Teleporter.LinkStart=Teleporter selected.
 tile.silentgems:Teleporter.LinkSuccess=&2Teleporters linked!
 tile.silentgems:Teleporter.LinkFail=&4Failed to link teleporters! Was one removed?
@@ -516,6 +533,23 @@ tile.silentgems:TeleporterRedstoneDark12.name=Lepidolite Redstone Teleporter
 tile.silentgems:TeleporterRedstoneDark13.name=Ametrine Redstone Teleporter
 tile.silentgems:TeleporterRedstoneDark14.name=Black Diamond Redstone Teleporter
 tile.silentgems:TeleporterRedstoneDark15.name=Alexandrite Redstone Teleporter
+
+tile.silentgems:TeleporterRedstoneLight0.name=Pyrope Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight1.name=Coral Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight2.name=Sunstone Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight3.name=Cat's Eye Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight4.name=Zircon Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight5.name=Jade Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight6.name=Chrysoprase Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight7.name=Apatite Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight8.name=Fluorite Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight9.name=Kyanite Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight10.name=Sodalite Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight11.name=Ammolite Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight12.name=Kunzite Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight13.name=Rose Quartz Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight14.name=Tektite Redstone Teleporter
+tile.silentgems:TeleporterRedstoneLight15.name=Pearl Redstone Teleporter
 
 # Items
 
