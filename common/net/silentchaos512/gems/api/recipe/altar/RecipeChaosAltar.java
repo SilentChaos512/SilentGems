@@ -67,7 +67,7 @@ public class RecipeChaosAltar {
 
   public boolean matches(ItemStack inputStack, ItemStack catalystStack) {
 
-    boolean catalystMatch = StackHelper.isEmpty(catalystStack)
+    boolean catalystMatch = (StackHelper.isEmpty(catalystStack) && StackHelper.isEmpty(this.catalyst))
         || (StackHelper.isValid(catalystStack) && catalystStack.isItemEqual(this.catalyst));
     return StackHelper.isValid(inputStack) && StackHelper.isValid(this.input)
         && StackHelper.isValid(this.output) && inputStack.isItemEqual(this.input)
