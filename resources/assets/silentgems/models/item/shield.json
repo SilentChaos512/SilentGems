@@ -1,11 +1,8 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "silentgems:items/shield_topleft",
-        "layer1": "silentgems:items/shield_topright",
-        "layer2": "silentgems:items/shield_bottom",
-        "layer3": "silentgems:items/shield_trim",
-        "layer4": "silentgems:items/shield_plate"
+        "layer0": "silentgems:items/shield_plate",
+        "layer1": "silentgems:items/shield_trim"
     },
     "display": {
         "thirdperson_righthand": {

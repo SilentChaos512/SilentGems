@@ -13,6 +13,7 @@ import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemHoldingGem;
 import net.silentchaos512.gems.item.ItemSoulGem.Soul;
+import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 
@@ -35,7 +36,7 @@ public class ColorHandlers {
     // Shields
     itemColors.registerItemColorHandler(new IItemColor() {
 
-      int[] passes = { 2, 1, 3, 0, 4, 5, 6 }; // 5 & 6 unused
+      int[] passes = { ToolRenderHelper.PASS_HEAD, ToolRenderHelper.PASS_ROD };
 
       @Override
       public int getColorFromItemstack(ItemStack stack, int tintIndex) {
