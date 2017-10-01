@@ -16,8 +16,8 @@ import net.silentchaos512.lib.util.PlayerHelper;
 
 public class Greetings {
 
-  public static boolean IS_BETA_BUILD = true;
-  public static final String PREFIX = "[Silent's Gems] ALPHA: ";
+  public static boolean IS_BETA_BUILD = false;
+  public static final String PREFIX = "[Silent's Gems] BETA: ";
   // @formatter:off
   public static final String[] LINES = new String[] {
       "Things may change, break, or spontaneously moonwalk."

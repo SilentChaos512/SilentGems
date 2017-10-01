@@ -74,6 +74,7 @@ public class GemsConfig extends AdaptiveConfig {
   public static ConfigOptionToolClass sword = new ConfigOptionToolClass(ModItems.sword, "sword");
   public static ConfigOptionToolClass dagger = new ConfigOptionToolClass(ModItems.dagger, "dagger");
   public static ConfigOptionToolClass katana = new ConfigOptionToolClass(ModItems.katana, "katana");
+  public static ConfigOptionToolClass machete = new ConfigOptionToolClass(ModItems.machete, "machete");
   public static ConfigOptionToolClass scepter = new ConfigOptionToolClass(ModItems.scepter,
       "scepter");
   public static ConfigOptionToolClass tomahawk = new ConfigOptionToolClass(ModItems.tomahawk,
@@ -299,6 +300,7 @@ public class GemsConfig extends AdaptiveConfig {
       sword.loadValue(config);
       dagger.loadValue(config);
       katana.loadValue(config);
+      machete.loadValue(config);
       scepter.loadValue(config);
       tomahawk.loadValue(config);
       pickaxe.loadValue(config);
@@ -479,6 +481,7 @@ public class GemsConfig extends AdaptiveConfig {
         }
       }
 
+      GemsConfigHC.load(this);
       //@formatter:on
     } catch (Exception e) {
       System.out.println("Oh noes!!! Couldn't load configuration file properly!");

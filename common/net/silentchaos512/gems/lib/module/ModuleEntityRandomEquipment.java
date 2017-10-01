@@ -40,6 +40,7 @@ public class ModuleEntityRandomEquipment {
   public static boolean MODULE_ENABLED = true;
   public static float SWORD_CHANCE = 0.075f;
   public static float KATANA_CHANCE = 0.5f;
+  public static float MACHETE_CHANCE = 0.4f;
   public static float SUPER_CHANCE = 0.25f;
   public static float SWORD_EXTRA_GEM_CHANCE = 0.33f;
   public static float SELECT_EXTRA_GEM_CHANCE = 0.6f;
@@ -60,6 +61,8 @@ public class ModuleEntityRandomEquipment {
         "Base chance of a mob getting a gem sword.");
     KATANA_CHANCE = c.getFloat("KatanaChance", cat, KATANA_CHANCE, 0, 1,
         "Chance that a super-tier sword will be a katana.");
+    MACHETE_CHANCE = c.getFloat("MacheteChance", cat, MACHETE_CHANCE, 0, 1,
+        "Chance that a machete will be given instead of a classic sword.");
     SUPER_CHANCE = c.getFloat("SuperChance", cat, SUPER_CHANCE, 0, 1,
         "Chance that equipment will be super-tier if given.");
     SWORD_EXTRA_GEM_CHANCE = c.getFloat("SwordExtraGemChance", cat, SWORD_EXTRA_GEM_CHANCE, 0, 1,
@@ -127,11 +130,15 @@ public class ModuleEntityRandomEquipment {
 
     boolean superTier = selectBasedOnDifficulty(SUPER_CHANCE, worldDiff, localDiff, rand);
     boolean genKatana = superTier && rand.nextFloat() < KATANA_CHANCE;
+    boolean genMachete = !genKatana && rand.nextFloat() < MACHETE_CHANCE;
 
     ItemGemSword item;
     int maxGemCount;
 
-    if (genKatana) {
+    if (genMachete) {
+      item = ModItems.machete;
+      maxGemCount = 3;
+    } else if (genKatana) {
       item = ModItems.katana;
       maxGemCount = 3;
     } else {

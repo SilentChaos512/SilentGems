@@ -20,14 +20,17 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
     super(worldIn);
   }
 
-  public EntityChaosProjectileHoming(EntityLivingBase shooter, ItemStack castingStack,
-      float damage) {
+  public EntityChaosProjectileHoming(EntityLivingBase shooter, ItemStack castingStack, float damage,
+      boolean flyUpBeforeHoming) {
 
     super(shooter, castingStack, damage);
 
-    Vec3d vec = shooter.getLookVec().rotateYaw(2 * SilentGems.instance.random.nextFloat() - 0.5f);
-    vec = new Vec3d(vec.x, 2, vec.z).normalize()
-        .scale(0.25 + 1.5 * SilentGems.instance.random.nextDouble());
+    Vec3d vec = shooter.getLookVec();
+    if (flyUpBeforeHoming) {
+      vec = vec.rotateYaw(2 * SilentGems.instance.random.nextFloat() - 0.5f);
+      vec = new Vec3d(vec.x, 2, vec.z).normalize()
+          .scale(0.25 + 1.5 * SilentGems.instance.random.nextDouble());
+    }
 
     motionX = vec.x;
     motionY = vec.y;
@@ -36,39 +39,40 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
 
   public void findHomingTarget() {
 
-    if (homingTarget != null || (ticksExisted % 100 != 0 && ticksExisted > 20)) {
+    if (world.isRemote || homingTarget != null || (ticksExisted % 100 != 0 && ticksExisted > 20)) {
       return;
     }
 
     homingTarget = null;
     final EntityChaosProjectile projectile = this;
 
-    Predicate<EntityLivingBase> predicate = new Predicate<EntityLivingBase>() {
-
-      @Override
-      public boolean apply(EntityLivingBase input) {
-
-        // @formatter:off
+    Predicate<EntityLivingBase> predicate = input -> {
+      // @formatter:off
         return shooter != null
             && shooter != input
-            && !input.isOnSameTeam(shooter)
-            && input.getDistanceSqToEntity(projectile) < 24 * 24;
+            && !input.isOnSameTeam(shooter);
         // @formatter:on
-      }
     };
 
     int minDistance = Integer.MAX_VALUE;
     Entity entity;
     EntityLivingBase entityLiving;
+    // Go through all entities in the world
     for (int i = 0; i < world.loadedEntityList.size(); ++i) {
       entity = world.loadedEntityList.get(i);
+      // Target living entities
       if (entity instanceof EntityLivingBase) {
         entityLiving = (EntityLivingBase) entity;
-        int distance = (int) entityLiving.getDistanceSqToEntity(projectile)
-            + SilentGems.instance.random.nextInt(512);
-        if (distance < minDistance) {
-          minDistance = distance;
-          homingTarget = entityLiving;
+        // Target entities that are not the shooter and not on the same team.
+        if (predicate.apply(entityLiving)) {
+          // Add some randomness so that different shots will select different targets.
+          int distance = (int) entityLiving.getDistanceSqToEntity(projectile)
+              + SilentGems.instance.random.nextInt(512);
+          // Within certain range and closer than the closest selected entity so far.
+          if (distance < 1200 && distance < minDistance) {
+            minDistance = distance;
+            homingTarget = entityLiving;
+          }
         }
       }
     }

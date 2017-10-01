@@ -53,9 +53,13 @@ import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
 
+
   public static final Material[] effectiveMaterials = new Material[] { Material.CACTUS,
       Material.LEAVES, Material.PLANTS, Material.VINE, Material.WEB };
-  public static final int DURABILITY_USAGE = 4;
+
+  public static final int DURABILITY_USAGE = 2;
+  public static final int BREAK_RANGE = 4;
+  public static final int HARVEST_RANGE = 2;
 
   public ItemGemSickle() {
 
@@ -136,7 +140,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
     IBlockState state = world.getBlockState(pos);
     if (state.getBlock() instanceof IGrowable) {
       // Harvest a group of fully grown crops!
-      final int radius = 2;
+      final int radius = HARVEST_RANGE;
       BlockPos targetPos;
       Block block;
 
@@ -181,7 +185,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
     return flag ? EnumActionResult.SUCCESS : EnumActionResult.PASS;
   }
 
-  private boolean isEffectiveOnMaterial(Material material) {
+  public static boolean isEffectiveOnMaterial(Material material) {
 
     for (Material m : effectiveMaterials) {
       if (material == m) {
@@ -194,11 +198,17 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   @Override
   public boolean onBlockStartBreak(ItemStack sickle, BlockPos pos, EntityPlayer player) {
 
+    return onSickleStartBreak(sickle, pos, player, BREAK_RANGE);
+  }
+
+  public boolean onSickleStartBreak(ItemStack sickle, BlockPos pos, EntityPlayer player, int range) {
+
     if (ToolHelper.isBroken(sickle)) {
       return false;
     }
 
-    IBlockState state = player.world.getBlockState(pos);
+    World world = player.world;
+    IBlockState state = world.getBlockState(pos);
     Block block = state.getBlock();
 
     if (!isEffectiveOnMaterial(state.getMaterial())) {
@@ -206,21 +216,19 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
       return false;
     }
 
-    int xRange = 4;
-    int zRange = 4;
     int blocksBroken = 1;
 
     final int x = pos.getX();
     final int y = pos.getY();
     final int z = pos.getZ();
 
-    for (int xPos = x - xRange; xPos <= x + xRange; ++xPos) {
-      for (int zPos = z - zRange; zPos <= z + zRange; ++zPos) {
-        if (xPos == x && zPos == z) {
+    for (int xPos = x - range; xPos <= x + range; ++xPos) {
+      for (int zPos = z - range; zPos <= z + range; ++zPos) {
+        if ((xPos == x && zPos == z) || world.getBlockState(new BlockPos(xPos, y, zPos)) != state) {
           continue;
         }
 
-        if (breakExtraBlock(sickle, player.world, xPos, y, zPos, 0, player, x, y, z)) {
+        if (breakExtraBlock(sickle, world, xPos, y, zPos, 0, player, x, y, z)) {
           ++blocksBroken;
         }
       }

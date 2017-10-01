@@ -54,6 +54,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.config.GemsConfigHC;
 import net.silentchaos512.gems.guide.GuideBookGems;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
@@ -83,9 +84,6 @@ import net.silentchaos512.lib.util.StackHelper;
 import net.silentchaos512.lib.util.WorldHelper;
 
 public class ToolHelper {
-
-  public static final String[] TOOL_CLASSES = { "Sword", "Pickaxe", "Shovel", "Axe", "Hoe",
-      "Sickle", "Bow" };
 
   /**
    * A fake material for tools. Tools need a tool material, even if it's not used. Unfortunately, some mods still
@@ -229,12 +227,17 @@ public class ToolHelper {
 
   public static void attemptDamageTool(ItemStack tool, int amount, EntityLivingBase entityLiving) {
 
-    amount = Math.min(getMaxDamage(tool) - tool.getItemDamage(), amount);
-    ItemHelper.attemptDamageItem(tool, amount, SilentGems.random);
+    if (!GemsConfigHC.TOOLS_BREAK) {
+      amount = Math.min(getMaxDamage(tool) - tool.getItemDamage(), amount);
+    }
+    boolean wouldBreak = ItemHelper.attemptDamageItem(tool, amount, SilentGems.random);
 
     if (isBroken(tool)) {
       // Player broke the tool. Update the head model.
       recalculateStats(tool);
+    } else if (GemsConfigHC.TOOLS_BREAK && wouldBreak) {
+      entityLiving.renderBrokenItemStack(tool);
+      StackHelper.shrink(tool, 1);
     }
   }
 
@@ -322,6 +325,10 @@ public class ToolHelper {
   }
 
   public static boolean isBroken(ItemStack tool) {
+
+    if (GemsConfigHC.TOOLS_BREAK) {
+      return false;
+    }
 
     int maxDamage = getMaxDamage(tool);
     if (StackHelper.isEmpty(tool) || maxDamage <= 0) {

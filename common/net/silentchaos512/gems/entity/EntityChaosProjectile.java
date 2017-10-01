@@ -107,6 +107,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
   @Override
   public void onUpdate() {
 
+    SilentGems.logHelper.debug(shooter, shooter != null ? shooter.world.isRemote : "null");
     super.onUpdate();
 
     // if (homingTarget != null && homingTarget.isDead) {

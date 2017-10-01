@@ -1,5 +1,12 @@
 Silent's Gems - Changelog
 
+2.5.3
+Added: Machetes, a new type of sword. Slower than standard swords, higher melee damage, and lower magic damage. They can clear vegetation in the same way sickles can, but with a smaller range. They can also be used as an axe, but are not as fast (similar to tomahawks).
+Added: Swords given to zombies/skeletons have a chance of being machetes (40% of swords given, by default).
+Changed: Clearing areas with the sickle will now only break blocks of the same type you targeted. For example, break tall grass and it will leave flowers in place.
+Changed: Sickles now take 2 damage per use (down from 4).
+Changed: Tool construction tooltip (hold Alt) now lists the tool's rod.
+
 2.5.2
 Fixed: A possible server crash caused by shields.
 Fixed: Return Home Charm and Shield models/colors

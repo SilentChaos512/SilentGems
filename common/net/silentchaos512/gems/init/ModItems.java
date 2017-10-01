@@ -45,6 +45,7 @@ import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemDagger;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemKatana;
+import net.silentchaos512.gems.item.tool.ItemGemMachete;
 import net.silentchaos512.gems.item.tool.ItemGemPaxel;
 import net.silentchaos512.gems.item.tool.ItemGemPickaxe;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
@@ -93,6 +94,7 @@ public class ModItems implements IRegistrationHandler<Item> {
   public static final ItemGemSword sword = new ItemGemSword();
   public static final ItemGemDagger dagger = new ItemGemDagger();
   public static final ItemGemKatana katana = new ItemGemKatana();
+  public static final ItemGemMachete machete = new ItemGemMachete();
   public static final ItemGemScepter scepter = new ItemGemScepter();
   public static final ItemGemTomahawk tomahawk = new ItemGemTomahawk();
   public static final ItemGemBow bow = new ItemGemBow();
@@ -154,6 +156,7 @@ public class ModItems implements IRegistrationHandler<Item> {
     reg.registerItem(sword, Names.SWORD);
     reg.registerItem(dagger);
     reg.registerItem(katana, Names.KATANA);
+    reg.registerItem(machete, Names.MACHETE);
     reg.registerItem(scepter, Names.SCEPTER);
     reg.registerItem(tomahawk, Names.TOMAHAWK);
     reg.registerItem(bow, Names.BOW).setCreativeTab(GemsCreativeTabs.tools);

@@ -165,7 +165,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
       if (isBow) {
         list.add(color + getTooltipLine("DrawSpeed", ModItems.bow.getDrawSpeedForDisplay(tool)));
-        list.add(color + getTooltipLine("ArrowDamage", ModItems.bow.getArrowDamageForDisplay(tool)));
+        list.add(
+            color + getTooltipLine("ArrowDamage", ModItems.bow.getArrowDamageForDisplay(tool)));
       }
 
       list.add(color + getTooltipLine("ChargeSpeed", ToolHelper.getChargeSpeed(tool)));
@@ -220,6 +221,10 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
         line = "  " + TextFormatting.YELLOW + part.getKey() + TextFormatting.GOLD + " (" + grade
             + ")";
         list.add(line);
+      }
+      ToolPart partRod = ToolHelper.getConstructionRod(tool);
+      if (partRod != null) {
+        list.add("  " + TextFormatting.YELLOW + partRod.getKey());
       }
       list.add(sep);
     } else {
@@ -441,8 +446,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     models.put(i++, modelError);
 
     // Error and broken models.
-    for (String str : new String[] { "sword", "dagger", "katana", "scepter", "tomahawk", "pickaxe",
-        "shovel", "axe", "paxel", "hoe", "sickle", "bow" }) {
+    for (String str : new String[] { "sword", "dagger", "katana", "machete", "scepter", "tomahawk",
+        "pickaxe", "shovel", "axe", "paxel", "hoe", "sickle", "bow" }) {
       models.put(i++, new ModelResourceLocation(prefix + str + "/_error", "inventory"));
       models.put(i++, new ModelResourceLocation(prefix + str + "/" + str + "_broken", "inventory"));
     }

@@ -79,7 +79,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
   // ===============
   // ITool overrides
   // ===============
-  
+
   public ConfigOptionToolClass getConfig() {
 
     return GemsConfig.sword;
@@ -127,11 +127,13 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
   // ==============
 
   @Override
-  public ActionResult<ItemStack> onItemLeftClickSL(World world, EntityPlayer player, EnumHand hand) {
+  public ActionResult<ItemStack> onItemLeftClickSL(World world, EntityPlayer player,
+      EnumHand hand) {
 
     ItemStack stack = player.getHeldItem(hand);
 
-    if (!player.isSneaking() || ToolHelper.getToolTier(stack).ordinal() < EnumMaterialTier.SUPER.ordinal()) {
+    if (!player.isSneaking()
+        || ToolHelper.getToolTier(stack).ordinal() < EnumMaterialTier.SUPER.ordinal()) {
       return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
     }
 
@@ -180,15 +182,24 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
       damage += ModEnchantments.magicDamage.calcDamage(magicEnchLevel);
 
     Item item = stack.getItem();
-    if (item instanceof ItemGemScepter) {
+    // Dagger
+    if (item instanceof ItemGemDagger) {
+      list.add(new EntityChaosProjectileHoming(player, stack, damage, false));
+    }
+    // Scepter
+    else if (item instanceof ItemGemScepter) {
       for (int i = 0; i < 5; ++i) {
-        list.add(new EntityChaosProjectileHoming(player, stack, damage));
+        list.add(new EntityChaosProjectileHoming(player, stack, damage, true));
       }
-    } else if (item instanceof ItemGemKatana) {
+    }
+    // Katana
+    else if (item instanceof ItemGemKatana) {
       list.add(new EntityChaosProjectileSweep(player, stack, damage, 0.0f));
       list.add(new EntityChaosProjectileSweep(player, stack, damage, -0.075f));
       list.add(new EntityChaosProjectileSweep(player, stack, damage, 0.075f));
-    } else {
+    }
+    // Classic sword (default)
+    else {
       list.add(new EntityChaosProjectile(player, stack, damage));
     }
 
@@ -203,6 +214,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
     if (StackHelper.isValid(stack)) {
       Item item = stack.getItem();
       // @formatter:off
+      if (item == ModItems.dagger) return 1000;
       if (item == ModItems.scepter) return 5000;
       if (item == ModItems.katana) return 2000;
       if (item == ModItems.sword) return 1000;
@@ -257,7 +269,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
 
     return ToolRenderHelper.instance.hasEffect(stack);
   }
-  
+
   @Override
   public EnumRarity getRarity(ItemStack stack) {
 
@@ -372,7 +384,8 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
   @Override
   public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
 
-    ToolRenderHelper.getInstance().clAddInformation(stack, world, list, flag == TooltipFlags.ADVANCED);
+    ToolRenderHelper.getInstance().clAddInformation(stack, world, list,
+        flag == TooltipFlags.ADVANCED);
   }
 
   // getSubItems 1.10.2
@@ -402,9 +415,9 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
   }
 
   // onItemUse
-//  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-//      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-//
-//    return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
-//  }
+  // public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
+  // EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  //
+  // return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
+  // }
 }
