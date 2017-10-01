@@ -1,6 +1,9 @@
 package net.silentchaos512.gems.entity;
 
+import java.nio.charset.Charset;
+
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -107,7 +110,6 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
   @Override
   public void onUpdate() {
 
-    SilentGems.logHelper.debug(shooter, shooter != null ? shooter.world.isRemote : "null");
     super.onUpdate();
 
     // if (homingTarget != null && homingTarget.isDead) {
@@ -292,6 +294,10 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
       color = new Color(data.readInt());
       damage = data.readFloat();
       gravity = data.readBoolean();
+      byte[] bytes = new byte[data.readableBytes()];
+      data.readBytes(bytes);
+      String shooterName = new String(bytes);
+      shooter = world.getPlayerEntityByName(shooterName);
     } catch (Exception ex) {
     }
   }
@@ -302,5 +308,6 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
     data.writeInt(color.getColor());
     data.writeFloat(damage);
     data.writeBoolean(gravity);
+    ByteBufUtil.writeUtf8(data, shooter.getName());
   }
 }

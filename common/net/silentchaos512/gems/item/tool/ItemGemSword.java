@@ -184,12 +184,12 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
     Item item = stack.getItem();
     // Dagger
     if (item instanceof ItemGemDagger) {
-      list.add(new EntityChaosProjectileHoming(player, stack, damage, false));
+      list.add(new EntityChaosProjectileHoming(player, stack, damage, false, 0.0325, 0.25));
     }
     // Scepter
     else if (item instanceof ItemGemScepter) {
       for (int i = 0; i < 5; ++i) {
-        list.add(new EntityChaosProjectileHoming(player, stack, damage, true));
+        list.add(new EntityChaosProjectileHoming(player, stack, damage, true, 0.075, 0.35));
       }
     }
     // Katana
@@ -232,6 +232,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
     if (StackHelper.isValid(stack)) {
       Item item = stack.getItem();
       // @formatter:off
+      if (item == ModItems.dagger) return 5;
       if (item == ModItems.scepter) return 20;
       if (item == ModItems.katana) return 10;
       if (item == ModItems.sword) return 5;

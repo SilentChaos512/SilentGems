@@ -2,18 +2,21 @@ package net.silentchaos512.gems.entity;
 
 import com.google.common.base.Predicate;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.lib.util.Color;
 
 public class EntityChaosProjectileHoming extends EntityChaosProjectile {
 
-  public static final double HOMING_TIGHTNESS = 0.075;
-  public static final double HOMING_SPEED = 0.3;
   protected Entity homingTarget = null;
+  protected double homingTightness;
+  protected double homingSpeed;
 
   public EntityChaosProjectileHoming(World worldIn) {
 
@@ -21,9 +24,11 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
   }
 
   public EntityChaosProjectileHoming(EntityLivingBase shooter, ItemStack castingStack, float damage,
-      boolean flyUpBeforeHoming) {
+      boolean flyUpBeforeHoming, double homingTightness, double homingSpeed) {
 
     super(shooter, castingStack, damage);
+    this.homingTightness = homingTightness;
+    this.homingSpeed = homingSpeed;
 
     Vec3d vec = shooter.getLookVec();
     if (flyUpBeforeHoming) {
@@ -95,7 +100,7 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
       Vec3d vec = new Vec3d(motionX, motionY, motionZ);
       Vec3d toTarget = new Vec3d(homingTarget.posX - posX,
           homingTarget.posY + homingTarget.height / 2 - posY, homingTarget.posZ - posZ).normalize();
-      vec = vec.add(toTarget.scale(HOMING_TIGHTNESS)).normalize().scale(HOMING_SPEED);
+      vec = vec.add(toTarget.scale(homingTightness)).normalize().scale(homingSpeed);
 
       motionX = vec.x;
       motionY = vec.y;
@@ -110,5 +115,20 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
   public float getGravityVelocity() {
 
     return homingTarget == null ? 0.02f : 0.0f;
+  }
+
+  @Override
+  public void readSpawnData(ByteBuf data) {
+
+    super.readSpawnData(data);
+    int targetId = data.readInt();
+    homingTarget = world.getEntityByID(targetId);
+  }
+
+  @Override
+  public void writeSpawnData(ByteBuf data) {
+
+    super.writeSpawnData(data);
+    data.writeInt(homingTarget != null ? homingTarget.getEntityId() : -1);
   }
 }
