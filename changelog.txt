@@ -1,13 +1,16 @@
 Silent's Gems - Changelog
 
 2.5.3
-Added: Machetes, a new type of sword. Slower than standard swords, higher melee damage, and lower magic damage. They can clear vegetation in the same way sickles can, but with a smaller range. They can also be used as an axe, but are not as fast (similar to tomahawks).
+Added: Machetes, a new type of sword. Slower than standard swords, higher melee damage, and lower magic damage. They can clear vegetation in the same way sickles can, but with a smaller range. They can also be used as an axe, but are not as fast (similar to tomahawks). They don't have their own magic yet and will default to what swords do.
 Added: Swords given to zombies/skeletons have a chance of being machetes (40% of swords given, by default).
 Added: (Hardcore) Config to make tools break permanently (disabled by default).
 Changed: Daggers now fire single homing shots, instead of classic sword shots. They aren't quite as effective at homing as scepter shots, but are much cheaper to fire. They also don't fly into the air before homing, so aim accordingly.
+Changed: Katanas fire 5 shots instead of 3, but with a narrower angle.
+Changed: Swords fire 2 shots instead of 1, with the second shot being angled upward slightly.
 Changed: Clearing areas with the sickle will now only break blocks of the same type you targeted. For example, break tall grass and it will leave flowers in place.
 Changed: Sickles now take 2 damage per use (down from 4).
 Changed: Tool construction tooltip (hold Alt) now lists the tool's rod.
+Fixed: Client sync issues with magic (homing shots should look much less funky, and you won't see double shots now).
 
 2.5.2
 Fixed: A possible server crash caused by shields.

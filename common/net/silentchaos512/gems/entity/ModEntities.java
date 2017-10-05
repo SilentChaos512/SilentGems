@@ -20,9 +20,9 @@ public class ModEntities {
 
   public static void init(SRegistry reg) {
 
-    reg.registerEntity(EntityChaosProjectile.class, "ChaosProjectile");
-    reg.registerEntity(EntityChaosProjectileHoming.class, "ChaosProjectileHoming");
-    reg.registerEntity(EntityChaosProjectileSweep.class, "ChaosProjectileSweep");
+    reg.registerEntity(EntityChaosProjectile.class, "ChaosProjectile", 64, 4, true);
+    reg.registerEntity(EntityChaosProjectileHoming.class, "ChaosProjectileHoming", 64, 4, true);
+    reg.registerEntity(EntityChaosProjectileSweep.class, "ChaosProjectileSweep", 64, 4, true);
 
     reg.registerEntity(EntityThrownTomahawk.class, "ThrownTomahawk");
 

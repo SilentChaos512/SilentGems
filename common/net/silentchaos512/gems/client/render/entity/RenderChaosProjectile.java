@@ -3,9 +3,11 @@ package net.silentchaos512.gems.client.render.entity;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
+import net.silentchaos512.gems.lib.EnumModParticles;
 
 public class RenderChaosProjectile extends Render<EntityChaosProjectile> {
 

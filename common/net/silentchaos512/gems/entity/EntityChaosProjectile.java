@@ -127,17 +127,20 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
       setDead();
     }
 
-    // Body particle
-    SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PROJECTILE_BODY, getColor(), world, posX,
-        posY, posZ, 0, 0, 0);
-    // Tail particles
-    if (ticksExisted > 2) {
-      for (int i = 0; i < 1 + 3 / (1 + 2 * SilentGems.instance.proxy.getParticleSettings()); ++i) {
-        double mx = world.rand.nextGaussian() * 0.01f;
-        double my = world.rand.nextGaussian() * 0.01f;
-        double mz = world.rand.nextGaussian() * 0.01f;
-        SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, getColor(), world, posX, posY, posZ,
-            mx, my, mz);
+    if (!world.isRemote) {
+      // Body particle
+      SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PROJECTILE_BODY, getColor(), world,
+          posX, posY, posZ, 0, 0, 0);
+      // Tail particles
+      if (ticksExisted > 2) {
+        for (int i = 0; i < 1
+            + 3 / (1 + 2 * SilentGems.instance.proxy.getParticleSettings()); ++i) {
+          double mx = world.rand.nextGaussian() * 0.01f;
+          double my = world.rand.nextGaussian() * 0.01f;
+          double mz = world.rand.nextGaussian() * 0.01f;
+          SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, getColor(), world, posX, posY,
+              posZ, mx, my, mz);
+        }
       }
     }
   }

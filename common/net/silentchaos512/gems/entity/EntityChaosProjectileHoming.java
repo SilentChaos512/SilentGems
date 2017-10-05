@@ -121,8 +121,11 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
   public void readSpawnData(ByteBuf data) {
 
     super.readSpawnData(data);
-    int targetId = data.readInt();
-    homingTarget = world.getEntityByID(targetId);
+    try {
+      int targetId = data.readInt();
+      homingTarget = world.getEntityByID(targetId);
+    } catch (Exception ex) {
+    }
   }
 
   @Override

@@ -194,13 +194,20 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
     }
     // Katana
     else if (item instanceof ItemGemKatana) {
-      list.add(new EntityChaosProjectileSweep(player, stack, damage, 0.0f));
-      list.add(new EntityChaosProjectileSweep(player, stack, damage, -0.075f));
-      list.add(new EntityChaosProjectileSweep(player, stack, damage, 0.075f));
+      final float maxAngle = 0.05f;
+      for (float angle = -maxAngle; angle <= maxAngle; angle += maxAngle / 2) {
+        list.add(new EntityChaosProjectileSweep(player, stack, damage, angle));
+      }
     }
     // Classic sword (default)
     else {
       list.add(new EntityChaosProjectile(player, stack, damage));
+      EntityChaosProjectile e = new EntityChaosProjectile(player, stack, damage);
+      e.motionY += 0.2;
+      list.add(e);
+//      e = new EntityChaosProjectile(player, stack, damage);
+//      e.motionY -= 0.1;
+//      list.add(e);
     }
 
     return list;
