@@ -58,11 +58,14 @@ public class GemsClientEvents {
   public void onRenderGameOverlay(RenderGameOverlayEvent event) {
 
     if (SilentGems.instance.isDevBuild() && event.getType() == ElementType.TEXT) {
+      GlStateManager.pushMatrix();
+      GlStateManager.scale(0.5f, 0.5f, 1.0f);
       int y = 5;
       for (String line : debugTextOverlay.split("\\n")) {
         Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(line, 5, y, 0xFFFFFF);
         y += 10;
       }
+      GlStateManager.popMatrix();
     }
 
     ModItems.teleporterLinker.renderGameOverlay(event);

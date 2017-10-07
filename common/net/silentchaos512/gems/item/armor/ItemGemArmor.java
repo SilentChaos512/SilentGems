@@ -45,6 +45,7 @@ import net.silentchaos512.lib.util.StackHelper;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.UUID;
 
 public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
@@ -195,45 +196,25 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   @Override
   public void onUpdate(ItemStack armor, World world, Entity entity, int itemSlot,
       boolean isSelected) {
-    if (world.getTotalWorldTime() % ToolHelper.CHECK_NAME_FREQUENCY == 0 &&
-        entity instanceof EntityPlayer) {
-      EntityPlayer player = (EntityPlayer) entity;
-      if (world.isRemote && armor.hasTagCompound() &&
-          armor.getTagCompound().hasKey(ToolHelper.NBT_TEMP_PARTLIST)) {
-        NBTTagCompound compound = armor.getTagCompound()
-            .getCompoundTag(ToolHelper.NBT_TEMP_PARTLIST);
 
-        int i = 0;
-        String key = "part" + i;
-        List<ItemStack> parts = Lists.newArrayList();
-
-        // Load part stacks.
-        do {
-          NBTTagCompound tag = compound.getCompoundTag(key);
-          parts.add(StackHelper.loadFromNBT(tag));
-          key = "part" + ++i;
-        } while (compound.hasKey(key));
-
-        // Create name on the client.
-        String displayName = ToolHelper.createToolName(armor.getItem(), parts);
-        // tool.setStackDisplayName(displayName);
-
-        // Send to the server.
-        MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName,
-            armor);
-        SilentGems.logHelper.info("Sending armor name \"" + displayName + "\" to server.");
-        NetworkHandler.INSTANCE.sendToServer(message);
-      }
-    }
+    ToolHelper.onUpdate(armor, world, entity, itemSlot, isSelected);
   }
 
   @Override
   public void clAddInformation(ItemStack stack, World world, List<String> list, boolean advanced) {
+
     LocalizationHelper loc = SilentGems.localizationHelper;
     ToolRenderHelper helper = ToolRenderHelper.getInstance();
     boolean controlDown = KeyTracker.isControlDown();
+    boolean shiftDown = KeyTracker.isShiftDown();
     boolean altDown = KeyTracker.isAltDown();
     String line;
+
+    // UUID
+    if (SilentGems.instance.isDevBuild() || (controlDown && shiftDown)) {
+      UUID uuid = ToolHelper.hasUUID(stack) ? ToolHelper.getUUID(stack) : null;
+      list.add(uuid == null ? "No UUID" : uuid.toString());
+    }
 
     // Show original owner?
     if (controlDown) {
@@ -327,6 +308,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
       // Set maker name.
       for (ItemStack stack : subItems) {
         ArmorHelper.setOriginalOwner(stack, TextFormatting.LIGHT_PURPLE + "Creative");
+        stack.getTagCompound().setBoolean(ToolHelper.NBT_EXAMPLE_TOOL, true);
       }
     }
 

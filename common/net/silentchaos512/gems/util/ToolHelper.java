@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -41,6 +42,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.IBlockPlacer;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumDecoPos;
@@ -58,6 +60,7 @@ import net.silentchaos512.gems.config.GemsConfigHC;
 import net.silentchaos512.gems.guide.GuideBookGems;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.item.ToolRenderHelperBase;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
@@ -103,6 +106,9 @@ public class ToolHelper {
   public static final String NBT_ROOT_DECORATION = "SGDecoration";
   public static final String NBT_ROOT_PROPERTIES = "SGProperties";
   public static final String NBT_ROOT_STATISTICS = "SGStatistics";
+
+  // UUID key
+  public static final String NBT_UUID = "SG_UUID";
 
   // Settings
   public static final String NBT_SETTINGS_SPECIAL = "SpecialEnabled";
@@ -151,7 +157,16 @@ public class ToolHelper {
   public static final String NBT_STATS_SHOTS_LANDED = "ShotsLanded";
   public static final String NBT_STATS_THROWN = "ThrownCount";
 
-  // NBT example key
+  // NBT example keys
+  /**
+   * Indicates a tool being displayed in JEI/creative/etc. These need a UUID, but a new UUID should be generated if a
+   * copy of the tool makes its way into the player's inventory.
+   */
+  public static final String NBT_EXAMPLE_TOOL = "ExampleToolItem";
+  /**
+   * Indicates a tool being displayed in an example recipe. This adds some more descriptive lines to the tooltip,
+   * instead of the generic "You broke it!" line.
+   */
   public static final String NBT_EXAMPLE_TOOL_TIER = "ExampleToolTier";
 
   public static void init() {
@@ -167,6 +182,9 @@ public class ToolHelper {
    */
   public static void recalculateStats(ItemStack tool) {
 
+    // Make sure the item has a UUID!
+    getUUID(tool);
+
     ToolPart[] parts = getConstructionParts(tool);
     EnumMaterialGrade[] grades = getConstructionGrades(tool);
     if (parts.length == 0)
@@ -174,30 +192,8 @@ public class ToolHelper {
 
     ToolStats stats = new ToolStats(tool, parts, grades).calculate();
 
-    // Reset render cache
-    for (EnumPartPosition pos : EnumPartPosition.values()) {
-      NBTTagCompound compound = tool.getTagCompound()
-          .getCompoundTag(ToolRenderHelper.NBT_MODEL_INDEX);
-      String str = "Layer" + pos.ordinal();
-      for (int frame = 0; frame < (tool.getItem() instanceof ItemGemBow ? 4 : 1); ++frame)
-        compound.removeTag(str + (frame > 0 ? "_" + frame : ""));
-      compound.removeTag(str + "Color");
-    }
-
-    // Set color for parts
-    ToolPart renderHead = getRenderPart(tool, EnumPartPosition.HEAD);
-    ToolPart renderRodDeco = getRenderPart(tool, EnumPartPosition.ROD_DECO);
-    ToolPart renderRod = getRenderPart(tool, EnumPartPosition.ROD);
-
-    if (renderHead != null)
-      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_HEAD + "Color", renderHead.getColor(tool));
-    if (renderRodDeco != null)
-      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_ROD_DECO + "Color", renderRodDeco.getColor(tool));
-    if (renderRod != null)
-      setTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX,
-          "Layer" + ToolRenderHelper.PASS_ROD + "Color", renderRod.getColor(tool));
+    // Clear old render cache
+    clearOldRenderCache(tool);
 
     setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_DURABILITY, (int) stats.durability);
     setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_SPEED, stats.harvestSpeed);
@@ -209,6 +205,70 @@ public class ToolHelper {
     setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_ENCHANTABILITY, (int) stats.enchantability);
     setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_LEVEL, stats.harvestLevel);
     setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_TOOL_TIER, parts[0].getTier().ordinal());
+  }
+
+  @SuppressWarnings("deprecation")
+  public static void clearOldRenderCache(ItemStack tool) {
+
+    tool.getTagCompound().removeTag(ToolRenderHelper.NBT_MODEL_INDEX);
+  }
+
+  /**
+   * Gets the tool's or armor's UUID. If it currently does not have a UUID, one will be created if appropriate.
+   * 
+   * @param tool
+   *          The tool or armor stack. The stack's item must implement either ITool or IArmor.
+   * @return The UUID of the tool or armor, or null if the item is not allowed to have one.
+   */
+  public static @Nullable UUID getUUID(ItemStack tool) {
+
+    if (!(tool.getItem() instanceof ITool || tool.getItem() instanceof IArmor)) {
+      return null;
+    }
+
+    initRootTag(tool);
+
+    // if (isExampleItem(tool)) {
+    // return null; // FIXME: This will cause bad FPS drops when browsing JEI?
+    // }
+
+    if (!tool.getTagCompound().hasUniqueId(NBT_UUID)) {
+      UUID uuid = UUID.randomUUID();
+      tool.getTagCompound().setUniqueId(NBT_UUID, uuid);
+      return uuid;
+    }
+    return tool.getTagCompound().getUniqueId(NBT_UUID);
+  }
+
+  /**
+   * Determines if the tool or armor has a UUID, without actually creating one.
+   */
+  public static boolean hasUUID(ItemStack tool) {
+
+    return StackHelper.isValid(tool) && tool.hasTagCompound()
+        && tool.getTagCompound().hasUniqueId(NBT_UUID);
+  }
+
+  /**
+   * Determine if tool is an "example" (JEI, creative tabs, etc.)
+   * 
+   * @return True if the tool has the example tool tag, false otherwise
+   */
+  public static boolean isExampleItem(ItemStack tool) {
+
+    return StackHelper.isValid(tool) && tool.hasTagCompound()
+        && tool.getTagCompound().getBoolean(NBT_EXAMPLE_TOOL);
+  }
+
+  /**
+   * Determine if tool is the output of an "example recipe" (the output of the recipes that show in JEI).
+   * 
+   * @return True if the tool has the example tool tier tag, false otherwise.
+   */
+  public static boolean isExampleRecipeOutput(ItemStack tool) {
+
+    return StackHelper.isValid(tool) && tool.hasTagCompound()
+        && tool.getTagCompound().getBoolean(NBT_EXAMPLE_TOOL_TIER);
   }
 
   // ==========================================================================
@@ -621,12 +681,26 @@ public class ToolHelper {
       boolean isSelected) {
 
     if (!world.isRemote) {
+      // Randomize tools with no data.
       if (hasNoConstruction(tool)) {
         ItemStack newTool = ToolRandomizer.INSTANCE.randomize(tool);
       }
+
+      // If the player gave him/herself a tool via JEI or creative, remove the example tag.
+      if (isExampleItem(tool)) {
+        // tool.getTagCompound().setBoolean(NBT_EXAMPLE_TOOL, false);
+        tool.getTagCompound().removeTag(NBT_EXAMPLE_TOOL);
+      }
+
+      // Generate UUID if tool does not have one.
+      if (!hasUUID(tool)) {
+        tool.getTagCompound().setUniqueId(NBT_UUID, UUID.randomUUID());
+      }
+
       return;
     }
 
+    // Client-side name generation
     if (world.getTotalWorldTime() % CHECK_NAME_FREQUENCY == 0 && entity instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) entity;
       if (tool.hasTagCompound() && tool.getTagCompound().hasKey(NBT_TEMP_PARTLIST)) {
@@ -650,7 +724,7 @@ public class ToolHelper {
         // Send to the server.
         MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName,
             tool);
-        SilentGems.logHelper.info("Sending tool name \"" + displayName + "\" to server.");
+        SilentGems.logHelper.info("Sending tool/armor name \"" + displayName + "\" to server.");
         NetworkHandler.INSTANCE.sendToServer(message);
       }
     }
@@ -937,11 +1011,12 @@ public class ToolHelper {
           if (item instanceof ITool && !((ITool) item).getValidTiers().contains(part.getTier())) {
             continue;
           }
-          list.add(constructTool(item,
-              part.getTier() == EnumMaterialTier.SUPER ? rodGold
-                  : item instanceof ItemGemShield && part.getTier() == EnumMaterialTier.REGULAR
-                      ? rodIron : rodWood,
-              part.getCraftingStack()));
+          ItemStack rod = part.getTier() == EnumMaterialTier.SUPER ? rodGold
+              : item instanceof ItemGemShield && part.getTier() == EnumMaterialTier.REGULAR
+                  ? rodIron : rodWood;
+          ItemStack tool = constructTool(item, rod, part.getCraftingStack());
+          tool.getTagCompound().setBoolean(NBT_EXAMPLE_TOOL, true);
+          list.add(tool);
         }
       }
     }
@@ -1443,15 +1518,6 @@ public class ToolHelper {
   public static void incrementStatThrownCount(ItemStack tool, int amount) {
 
     setTagInt(tool, NBT_ROOT_STATISTICS, NBT_STATS_THROWN, getStatThrownCount(tool) + amount);
-  }
-
-  // ---------------------
-  // Rendering NBT methods
-  // ---------------------
-
-  public static int getColorForPass(ItemStack tool, int pass) {
-
-    return getTagInt(tool, ToolRenderHelper.NBT_MODEL_INDEX, "Layer" + pass + "Color", 0xFFFFFF);
   }
 
   // public static int getAnimationFrame(ItemStack tool) {

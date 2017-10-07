@@ -36,11 +36,17 @@ public class ToolRenderHelperBase extends ItemSL {
   public static final int BOW_STAGE_COUNT = 4;
 
   // Render pass IDs and count
+  // TODO: Remove these!
   public static final int PASS_ROD = 0;
   public static final int PASS_HEAD = 1;
   public static final int PASS_TIP = 2;
   public static final int PASS_ROD_DECO = 3;
   public static final int RENDER_PASS_COUNT = 4;
+
+  public void updateModelCache(ItemStack tool) {
+
+    // Do nothing, we only have models on the client-side! See ToolRenderHelper.
+  }
 
   public boolean hasEffect(ItemStack tool) {
 

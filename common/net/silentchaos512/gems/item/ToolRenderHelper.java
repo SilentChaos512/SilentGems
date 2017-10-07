@@ -1,10 +1,13 @@
 package net.silentchaos512.gems.item;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
-import com.google.common.collect.MapMaker;
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Sets;
 
 import net.minecraft.client.Minecraft;
@@ -14,22 +17,26 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelBakeEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+import net.silentchaos512.gems.api.lib.IPartPosition;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartTip;
+import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.render.ToolItemOverrideHandler;
 import net.silentchaos512.gems.client.render.ToolModel;
+import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
@@ -39,8 +46,12 @@ import net.silentchaos512.gems.item.tool.ItemGemShovel;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.item.tool.ItemGemTomahawk;
 import net.silentchaos512.gems.lib.TooltipHelper;
+import net.silentchaos512.gems.lib.client.ArmorModelData;
+import net.silentchaos512.gems.lib.client.IModelData;
+import net.silentchaos512.gems.lib.client.ToolModelData;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ToolRenderHelper extends ToolRenderHelperBase {
 
@@ -49,6 +60,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     return (ToolRenderHelper) instance;
   }
 
+  @Deprecated
   public static final String NBT_MODEL_INDEX = "SGModel";
   public static final String SMART_MODEL_NAME = SilentGems.RESOURCE_PREFIX.toLowerCase() + "tool";
   public static final ModelResourceLocation SMART_MODEL = new ModelResourceLocation(
@@ -57,6 +69,17 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   protected Set<ModelResourceLocation> modelSet = null;
   protected ModelResourceLocation[] models;
   protected ModelResourceLocation[] arrowModels;
+
+  /**
+   * Rendering cache for non-example tools (in player's inventory, in chests, etc.) Cleared occasionally so it doesn't
+   * end up with a large number of unneeded objects.
+   */
+  protected Map<UUID, IModelData> modelCache = new HashMap<>();
+  /**
+   * Rendering cache for example tools (JEI, creative, etc.) Cleared more often, as it can fill with huge numbers of
+   * objects that are used only for a short time (i.e., player browsing JEI).
+   */
+  protected Map<UUID, IModelData> modelCacheExamples = new HashMap<>();
 
   public ModelResourceLocation modelBlank;
   public ModelResourceLocation modelError;
@@ -78,6 +101,12 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       tipName = loc.getMiscText("Tooltip." + tipName);
       line = loc.getMiscText("Tooltip.Tipped", tipName);
       list.add(line);
+    }
+
+    // UUID
+    if (SilentGems.instance.isDevBuild() || (controlDown && shiftDown)) {
+      UUID uuid = ToolHelper.hasUUID(tool) ? ToolHelper.getUUID(tool) : null;
+      list.add(uuid == null ? "No UUID" : uuid.toString());
     }
 
     // Show original owner?
@@ -236,16 +265,16 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       if (!altDown)
         list.add(sep);
       list.add("Render Layers");
-      for (EnumPartPosition pos : EnumPartPosition.values()) {
-        NBTTagCompound tags = tool.getTagCompound().getCompoundTag(NBT_MODEL_INDEX);
-        if (tags != null) {
+      IModelData modelData = getModelCache(tool);
+      if (modelData != null) {
+        for (EnumPartPosition pos : EnumPartPosition.values()) {
           String key = "Layer" + pos.ordinal();
-          String str = "  %s: %s, %d, %X";
+          String str = "  %s: %s, %X";
           ToolPart renderPart = ToolHelper.getRenderPart(tool, pos);
           ModelResourceLocation model = renderPart == null ? null
               : renderPart.getModel(tool, pos, 0);
           str = String.format(str, pos.name(), model == null ? "null" : model.toString(),
-              tags.getInteger(key), tags.getInteger(key + "Color"));
+              modelData.getColor(pos, 0));
           list.add(str);
         }
       }
@@ -276,6 +305,57 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     // return " " + line;
 
     return TooltipHelper.get(key, value, true);
+  }
+
+  public @Nullable IModelData getModelCache(ItemStack tool) {
+
+    if (!ToolHelper.hasUUID(tool)) {
+      return null;
+    }
+
+    UUID uuid = ToolHelper.getUUID(tool);
+    if (ToolHelper.isExampleItem(tool)) {
+      return modelCacheExamples.get(uuid);
+    }
+    return modelCache.get(uuid);
+  }
+
+  @Override
+  public void updateModelCache(ItemStack toolOrArmor) {
+
+    if (ToolHelper.hasUUID(toolOrArmor)) {
+      UUID uuid = ToolHelper.getUUID(toolOrArmor);
+      IModelData modelData = toolOrArmor.getItem() instanceof ITool ? new ToolModelData(toolOrArmor)
+          : new ArmorModelData(toolOrArmor);
+
+      if (ToolHelper.isExampleItem(toolOrArmor)) {
+        modelCacheExamples.put(uuid, modelData);
+      } else {
+        modelCache.put(uuid, modelData);
+      }
+    }
+  }
+
+  @SubscribeEvent
+  public void onClientTick(ClientTickEvent event) {
+
+    if (event.phase == Phase.END) {
+      GemsClientEvents.debugTextOverlay = "Model caches: " + modelCache.size() + ", "
+          + modelCacheExamples.size();
+      for (IModelData data : modelCache.values()) {
+        GemsClientEvents.debugTextOverlay += "\n" + data.toString();
+      }
+
+      // Clear tool model caches (TODO: configs?)
+      if (ClientTickHandler.ticksInGame % (10 * 60 * 20) == 0) {
+        modelCache.clear();
+        SilentGems.logHelper.debug("Cleared normal model cache.");
+      }
+      if (ClientTickHandler.ticksInGame % (1 * 60 * 20) == 0) {
+        modelCacheExamples.clear();
+        SilentGems.logHelper.debug("Cleared examples model cache.");
+      }
+    }
   }
 
   @SubscribeEvent
@@ -353,23 +433,52 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     return 0;
   }
 
-  /**
-   * Gets the model for the specified tool and position. Gets the animation frame on its own. Stores model index in tool
-   * NBT for fast acess.
-   */
-  public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos) {
+  public int getTotalAnimationFrames(ItemStack tool) {
 
-    if (tool == null || !tool.hasTagCompound()) {
+    return tool.getItem() instanceof ItemGemBow ? 4 : 1;
+  }
+
+  public int getColor(ItemStack toolOrArmor, IPartPosition pos) {
+
+    if (StackHelper.isEmpty(toolOrArmor) || pos == null) {
+      return 0xFFFFFF;
+    }
+
+    IModelData modelData = getModelCache(toolOrArmor);
+    if (modelData == null) {
+      updateModelCache(toolOrArmor);
+      modelData = getModelCache(toolOrArmor);
+    }
+
+    if (modelData == null) {
+      return 0xFFFFFF;
+    }
+
+    return modelData.getColor(pos, getAnimationFrame(toolOrArmor));
+  }
+
+  /**
+   * Gets the model for the specified tool and position. Gets the animation frame on its own. Models are cached for
+   * performance.
+   */
+  public @Nullable ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos) {
+
+    if (StackHelper.isEmpty(tool)) {
       return modelError;
     }
 
-    NBTTagCompound tags = tool.getTagCompound().getCompoundTag(NBT_MODEL_INDEX);
+    IModelData modelData = getModelCache(tool);
     int frame = getAnimationFrame(tool);
-    String key = "Layer" + pos.ordinal() + (frame > 0 ? "_" + frame : "");
     boolean isBow = tool.getItem() instanceof ItemGemBow;
 
-    if (ToolHelper.isBroken(tool) || !tags.hasKey(key)) {
-      // Model is currently not indexed! We'll need to figure out what it should be.
+    if (modelData == null) {
+      updateModelCache(tool);
+      modelData = getModelCache(tool);
+    }
+
+    if (ToolHelper.isBroken(tool) || modelData == null || modelData.getModel(pos, frame) == null) {
+      // Model is currently not cached? Or a special case like broken tools?
+      // I assume broken tools won't be kept that way too often, so do we even need to cache that model?
 
       // Bow "arrow" models
       if (pos == EnumPartPosition.ROD_GRIP && isBow) {
@@ -379,49 +488,22 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       // Get the render part for this position.
       ToolPart part = ToolHelper.getRenderPart(tool, pos);
       if (part == null) {
-        tags.setInteger(key, -1);
-        tool.getTagCompound().setTag(NBT_MODEL_INDEX, tags);
         return null;
       }
 
       // Get the desired model for the current position and animation frame.
-      ModelResourceLocation target = !ToolHelper.isBroken(tool) ? part.getModel(tool, pos, frame)
+      return !ToolHelper.isBroken(tool) ? part.getModel(tool, pos, frame)
           : part.getBrokenModel(tool, pos, frame);
-
-      // Find the model in the list. Store the index in NBT for fast access.
-      for (int i = 0; i < models.length; ++i) {
-        if (models[i].equals(target)) {
-          tags.setInteger(key, i);
-          tool.getTagCompound().setTag(NBT_MODEL_INDEX, tags);
-          return target;
-        }
-      }
-      return target;
     }
 
-    // Grab the indexed model.
-    return getModel(tags.getInteger(key));
-  }
-
-  /**
-   * Gets an indexed model (index stored in tool NBT) for performance reasons. Without this, the framerate takes a HUGE
-   * drop!
-   */
-  public ModelResourceLocation getModel(int index) {
-
-    if (index < 0) {
-      return null;
-    } else if (index < models.length) {
-      return models[index];
-    } else {
-      return modelError;
-    }
+    // Grab the cached model.
+    return modelData.getModel(pos, frame);
   }
 
   /**
    * Gets the arrow model for the animation frame for bows.
    */
-  public ModelResourceLocation getArrowModel(ItemStack tool, int frame) {
+  public @Nullable ModelResourceLocation getArrowModel(ItemStack tool, int frame) {
 
     if (frame < 0 || frame > 3)
       return null;

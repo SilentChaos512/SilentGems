@@ -85,7 +85,6 @@ public class ToolModel extends MultiLayerModelSL {
     IBakedModel model;
     IBakedModel rodModel = null;
 
-//    boolean isBroken = ToolHelper.isBroken(tool);
     Item item = tool.getItem();
 
     // Invalid tools models.

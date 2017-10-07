@@ -3,7 +3,6 @@ package net.silentchaos512.gems.init;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraftforge.oredict.RecipeSorter.Category;
 import net.silentchaos512.gems.api.SilentGemsAPI;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;

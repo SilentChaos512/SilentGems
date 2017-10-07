@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+2.5.4
+Changed: Rendering data (models/colors) for tools and armor is no longer stored in NBT. In my tests, this currently results in a ~10% FPS loss with a hotbar full of tools. In standard play, probably 5%. I'll look into possible optimizations later, but this is necessary to fix issue #212 (keep reading).
+Fixed: An issue with the PlayerStorage mod, where tools and armor get stuck in storage due to client-side NBT being different (#212).
+
 2.5.3
 Added: Machetes, a new type of sword. Slower than standard swords, higher melee damage, and lower magic damage. They can clear vegetation in the same way sickles can, but with a smaller range. They can also be used as an axe, but are not as fast (similar to tomahawks). They don't have their own magic yet and will default to what swords do.
 Added: Swords given to zombies/skeletons have a chance of being machetes (40% of swords given, by default).

@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.lib.ArmorPartPosition;
 import net.silentchaos512.gems.api.lib.EnumDecoPos;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
@@ -59,13 +60,14 @@ public class ArmorHelper {
 
   public static void recalculateStats(ItemStack armor) {
 
+    // Make sure the item has a UUID!
+    ToolHelper.getUUID(armor);
+
     ToolPart[] parts = getConstructionParts(armor);
     EnumMaterialGrade[] grades = getConstructionGrades(armor);
 
     if (parts.length == 0)
       return;
-
-    // TODO: Reset render cache? Will that even be a thing for armor?
 
     float sumDurability = 0f;
     float sumProtection = 0f;
@@ -86,14 +88,8 @@ public class ArmorHelper {
       uniqueParts.add(part);
     }
 
-    // Set render colors
-    ToolPart[] renderParts = getRenderParts(armor);
-    for (int i = 0; i < renderParts.length; ++i) {
-      if (renderParts[i] != null) {
-        setTagInt(armor, ToolRenderHelper.NBT_MODEL_INDEX, "Layer" + i + "Color",
-            renderParts[i].getColor(armor));
-      }
-    }
+    // Clear old render cache
+    ToolHelper.clearOldRenderCache(armor);
 
     // Variety bonus
     int variety = MathHelper.clamp(uniqueParts.size(), 1, 3);
@@ -145,8 +141,7 @@ public class ArmorHelper {
   public static EnumMaterialTier getArmorTier(ItemStack armor) {
 
     int id = getTagInt(armor, NBT_ROOT_PROPERTIES, NBT_ARMOR_TIER);
-    return EnumMaterialTier.values()[MathHelper.clamp(id, 0,
-        EnumMaterialTier.values().length - 1)];
+    return EnumMaterialTier.values()[MathHelper.clamp(id, 0, EnumMaterialTier.values().length - 1)];
   }
 
   public static ToolPart[] getConstructionParts(ItemStack armor) {
@@ -154,22 +149,12 @@ public class ArmorHelper {
     return ToolHelper.getConstructionParts(armor);
   }
 
-  public static ToolPart[] getRenderParts(ItemStack armor) {
-
-    if (StackHelper.isEmpty(armor))
-      return new ToolPart[0];
-
-    return new ToolPart[] {//
-        getRenderPart(armor, EnumDecoPos.WEST), getRenderPart(armor, EnumDecoPos.NORTH),
-        getRenderPart(armor, EnumDecoPos.EAST), getRenderPart(armor, EnumDecoPos.SOUTH) };
-  }
-
   public static EnumMaterialGrade[] getConstructionGrades(ItemStack armor) {
 
     return ToolHelper.getConstructionGrades(armor);
   }
 
-  public static ToolPart getPart(ItemStack armor, EnumDecoPos pos) {
+  public static ToolPart getPart(ItemStack armor, ArmorPartPosition pos) {
 
     String key;
     switch (pos) {
@@ -196,7 +181,7 @@ public class ArmorHelper {
     return ToolPartRegistry.getPart(key);
   }
 
-  public static ToolPart getRenderPart(ItemStack armor, EnumDecoPos pos) {
+  public static ToolPart getRenderPart(ItemStack armor, ArmorPartPosition pos) {
 
     String key;
     switch (pos) {
@@ -223,28 +208,25 @@ public class ArmorHelper {
     return ToolPartRegistry.getPart(key);
   }
 
-  public static int getRenderColor(ItemStack armor, EnumDecoPos pos) {
+  public static int getRenderColor(ItemStack armor, ArmorPartPosition pos) {
 
-    String key = "Layer" + pos.ordinal() + "Color";
-    return getTagInt(armor, ToolRenderHelper.NBT_MODEL_INDEX, key, 0xFFFFFF);
+    return ToolRenderHelper.getInstance().getColor(armor, pos);
   }
 
-  public static int[] getRenderColorList(ItemStack armor)
-  {
+  public static int[] getRenderColorList(ItemStack armor) {
+
     int[] values = new int[EnumDecoPos.values().length];
-    for (EnumDecoPos pos : EnumDecoPos.values())
-    {
+    for (ArmorPartPosition pos : ArmorPartPosition.values()) {
       values[pos.ordinal()] = getRenderColor(armor, pos);
     }
     return values;
   }
 
-  public static String getRenderColorString(ItemStack stack)
-  {
+  public static String getRenderColorString(ItemStack stack) {
+
     StringBuilder toReturn = new StringBuilder();
     int[] colors = getRenderColorList(stack);
-    for (int color : colors)
-    {
+    for (int color : colors) {
       toReturn.append(color);
     }
     return toReturn.toString();
