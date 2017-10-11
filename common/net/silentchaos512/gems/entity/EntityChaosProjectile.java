@@ -127,7 +127,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
       setDead();
     }
 
-    if (!world.isRemote) {
+    if (world.isRemote) {
       // Body particle
       SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS_PROJECTILE_BODY, getColor(), world,
           posX, posY, posZ, 0, 0, 0);

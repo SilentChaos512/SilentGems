@@ -57,7 +57,8 @@ public class GemsClientEvents {
   @SubscribeEvent
   public void onRenderGameOverlay(RenderGameOverlayEvent event) {
 
-    if (SilentGems.instance.isDevBuild() && event.getType() == ElementType.TEXT) {
+    if (SilentGems.instance.isDevBuild() && GemsConfig.DEBUG_MODE
+        && event.getType() == ElementType.TEXT) {
       GlStateManager.pushMatrix();
       GlStateManager.scale(0.5f, 0.5f, 1.0f);
       int y = 5;
@@ -99,7 +100,8 @@ public class GemsClientEvents {
     }
   }
 
-  private void onTooltipForToolRod(ItemTooltipEvent event, ItemStack stack, ToolPart part, boolean ctrlDown, boolean shiftDown) {
+  private void onTooltipForToolRod(ItemTooltipEvent event, ItemStack stack, ToolPart part,
+      boolean ctrlDown, boolean shiftDown) {
 
     int index = 1;
 
@@ -126,7 +128,8 @@ public class GemsClientEvents {
     }
   }
 
-  private void onTooltipForToolMaterial(ItemTooltipEvent event, ItemStack stack, ToolPart part, boolean ctrlDown, boolean shiftDown) {
+  private void onTooltipForToolMaterial(ItemTooltipEvent event, ItemStack stack, ToolPart part,
+      boolean ctrlDown, boolean shiftDown) {
 
     int index = 1;
     final String sep = loc.getMiscText("Tooltip.Separator");
@@ -211,7 +214,8 @@ public class GemsClientEvents {
    */
   private void renderArmorExtra(RenderGameOverlayEvent event) {
 
-    if (!GemsConfig.SHOW_BONUS_ARMOR_BAR || !event.isCancelable() || event.getType() != ElementType.ARMOR)
+    if (!GemsConfig.SHOW_BONUS_ARMOR_BAR || !event.isCancelable()
+        || event.getType() != ElementType.ARMOR)
       return;
 
     int width = event.getResolution().getScaledWidth();
@@ -253,7 +257,8 @@ public class GemsClientEvents {
     doAmmoCountWithOffset(right, width, height, 5, 3);
   }
 
-  private void doAmmoCountWithOffset(ItemStack tool, int width, int height, int xOffset, int yOffset) {
+  private void doAmmoCountWithOffset(ItemStack tool, int width, int height, int xOffset,
+      int yOffset) {
 
     if (tool != null && tool.getItem() instanceof IAmmoTool) {
       FontRenderer fontRender = Minecraft.getMinecraft().fontRenderer;
@@ -274,16 +279,20 @@ public class GemsClientEvents {
     }
   }
 
-  public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
+  public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width,
+      int height) {
 
     float f = 0.00390625F;
     float f1 = 0.00390625F;
     Tessellator tessellator = Tessellator.getInstance();
     BufferBuilderSL vertexbuffer = BufferBuilderSL.INSTANCE.acquireBuffer(tessellator);
     vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-    vertexbuffer.pos(x + 0, y + height, 0).tex((textureX + 0) * f, (textureY + height) * f1).endVertex();
-    vertexbuffer.pos(x + width, y + height, 0).tex((textureX + width) * f, (textureY + height) * f1).endVertex();
-    vertexbuffer.pos(x + width, y + 0, 0).tex((textureX + width) * f, (textureY + 0) * f1).endVertex();
+    vertexbuffer.pos(x + 0, y + height, 0).tex((textureX + 0) * f, (textureY + height) * f1)
+        .endVertex();
+    vertexbuffer.pos(x + width, y + height, 0).tex((textureX + width) * f, (textureY + height) * f1)
+        .endVertex();
+    vertexbuffer.pos(x + width, y + 0, 0).tex((textureX + width) * f, (textureY + 0) * f1)
+        .endVertex();
     vertexbuffer.pos(x + 0, y + 0, 0).tex((textureX + 0) * f, (textureY + 0) * f1).endVertex();
     tessellator.draw();
   }

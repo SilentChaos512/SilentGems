@@ -20,6 +20,7 @@ import net.silentchaos512.gems.entity.packet.EntityPacketChaos;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.lib.collection.ItemStackList;
+import net.silentchaos512.lib.util.EntityHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 public class ChaosUtil {
@@ -129,7 +130,7 @@ public class ChaosUtil {
     // Packet transfer.
     EntityPacketChaos entity = new EntityPacketChaos(world, target, amount);
     entity.setPosition(start.getX() + 0.5, start.getY() + 0.5, start.getZ() + 0.5);
-    world.spawnEntity(entity);
+    EntityHelper.safeSpawn(entity);
     return entity;
   }
 
@@ -146,7 +147,7 @@ public class ChaosUtil {
     // Packet transfer.
     EntityPacketChaos entity = new EntityPacketChaos(world, target, amount);
     entity.setPosition(start.getX() + 0.5, start.getY() + 0.5, start.getZ() + 0.5);
-    world.spawnEntity(entity);
+    EntityHelper.safeSpawn(entity);
     return entity;
   }
 

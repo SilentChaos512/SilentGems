@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.5.5
+Fixed: Chaos projectiles not rendering on servers.
+
 2.5.4
 Changed: Rendering data (models/colors) for tools and armor is no longer stored in NBT. In my tests, this currently results in a ~10% FPS loss with a hotbar full of tools. In standard play, probably 5%. I'll look into possible optimizations later, but this is necessary to fix issue #212 (keep reading).
 Fixed: An issue with the PlayerStorage mod, where tools and armor get stuck in storage due to client-side NBT being different (#212).

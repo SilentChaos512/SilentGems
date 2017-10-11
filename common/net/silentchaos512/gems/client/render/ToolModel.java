@@ -2,16 +2,13 @@ package net.silentchaos512.gems.client.render;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.vecmath.Matrix4f;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -28,13 +25,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.model.PerspectiveMapWrapper;
-import net.minecraftforge.client.model.SimpleModelState;
-import net.minecraftforge.common.model.IModelState;
-import net.minecraftforge.common.model.TRSRTransformation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
-import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
@@ -105,7 +97,7 @@ public class ToolModel extends MultiLayerModelSL {
       return quads;
     }
 
-    String debug = "";
+    // String debug = "";
 
     for (EnumPartPosition partPos : EnumPartPosition.values()) {
       // Scepter rods on top of head.
@@ -121,7 +113,7 @@ public class ToolModel extends MultiLayerModelSL {
 
       // Normal logic.
       location = ToolRenderHelper.getInstance().getModel(tool, partPos);
-      debug += partPos + ": " + (location == null ? "null" : location.toString()) + "\n";
+      // debug += partPos + ": " + (location == null ? "null" : location.toString()) + "\n";
       if (location != null) {
         model = modelManager.getModel(location);
         if (model != null) {
@@ -135,9 +127,9 @@ public class ToolModel extends MultiLayerModelSL {
       quads.addAll(model.getQuads(state, side, rand));
     }
 
-    if (SilentGems.proxy.getClientPlayer().getHeldItemMainhand() == tool) {
-      GemsClientEvents.debugTextOverlay = debug;
-    }
+    // if (SilentGems.proxy.getClientPlayer().getHeldItemMainhand() == tool) {
+    // GemsClientEvents.debugTextOverlay = debug;
+    // }
 
     return quads;
   }
