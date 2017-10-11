@@ -1,8 +1,10 @@
 package net.silentchaos512.gems.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -60,9 +62,7 @@ import net.silentchaos512.gems.config.GemsConfigHC;
 import net.silentchaos512.gems.guide.GuideBookGems;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.item.ToolRenderHelperBase;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
-import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemPickaxe;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
@@ -984,8 +984,14 @@ public class ToolHelper {
 
   static boolean foundEmptyPart = false;
   static Set<ToolPartMain> emptyPartSet = Sets.newHashSet();
+  static Map<Item, List<ItemStack>> toolSubItems = new HashMap<>();
 
   public static List<ItemStack> getSubItems(Item item, int materialLength) {
+
+    if (toolSubItems.containsKey(item)) {
+      // Return cached list.
+      return toolSubItems.get(item);
+    }
 
     List<ItemStack> list = Lists.newArrayList();
     // final boolean isSuperTool = item instanceof ITool && ((ITool) item).isSuperTool();
@@ -1025,6 +1031,9 @@ public class ToolHelper {
     String makerName = SilentGems.localizationHelper.getMiscText("Tooltip.OriginalOwner.Creative");
     for (ItemStack stack : list)
       ToolHelper.setOriginalOwner(stack, makerName);
+
+    // Save for later to prevent duplicates with different UUIDs.
+    toolSubItems.put(item, list);
 
     return list;
   }

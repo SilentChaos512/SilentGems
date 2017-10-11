@@ -1,7 +1,9 @@
 Silent's Gems - Changelog
 
 2.5.5
-Fixed: Chaos projectiles not rendering on servers.
+Fixed: Harvest tools being able to harvest blocks they shouldn't be able to, such as mining stone with shovels/axes (#213)
+Fixed: Chaos projectiles not rendering on servers (hi darkphan!)
+Fixed: Tool subitems are now cached, should prevent duplicates with different UUIDs in JEI.
 
 2.5.4
 Changed: Rendering data (models/colors) for tools and armor is no longer stored in NBT. In my tests, this currently results in a ~10% FPS loss with a hotbar full of tools. In standard play, probably 5%. I'll look into possible optimizations later, but this is necessary to fix issue #212 (keep reading).
