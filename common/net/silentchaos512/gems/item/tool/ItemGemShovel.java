@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
@@ -37,7 +36,6 @@ import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -74,7 +72,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   // ===============
   // ITool overrides
   // ===============
-  
+
   public ConfigOptionToolClass getConfig() {
 
     return GemsConfig.shovel;
@@ -186,7 +184,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
 
     return ToolRenderHelper.instance.hasEffect(stack);
   }
-  
+
   @Override
   public EnumRarity getRarity(ItemStack stack) {
 
@@ -233,8 +231,8 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player,
       IBlockState state) {
 
-    if (super.getHarvestLevel(stack, toolClass, player, state) < 0) {
-      return 0;
+    if (super.getHarvestLevel(stack, toolClass, player, state) < 0 || ToolHelper.isBroken(stack)) {
+      return -1;
     }
     return ToolHelper.getHarvestLevel(stack);
   }
@@ -344,7 +342,8 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   @Override
   public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
 
-    ToolRenderHelper.getInstance().clAddInformation(stack, world, list, flag == TooltipFlags.ADVANCED);
+    ToolRenderHelper.getInstance().clAddInformation(stack, world, list,
+        flag == TooltipFlags.ADVANCED);
   }
 
   // getSubItems 1.10.2
@@ -374,8 +373,8 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   }
 
   // onItemUse
-  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
+      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
     return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }

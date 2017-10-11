@@ -72,7 +72,7 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   // ===============
   // ITool overrides
   // ===============
-  
+
   public ConfigOptionToolClass getConfig() {
 
     return GemsConfig.axe;
@@ -167,7 +167,7 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
 
     return ToolRenderHelper.instance.hasEffect(stack);
   }
-  
+
   @Override
   public EnumRarity getRarity(ItemStack stack) {
 
@@ -214,8 +214,8 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player,
       IBlockState state) {
 
-    if (super.getHarvestLevel(stack, toolClass, player, state) < 0) {
-      return 0;
+    if (super.getHarvestLevel(stack, toolClass, player, state) < 0 || ToolHelper.isBroken(stack)) {
+      return -1;
     }
     return ToolHelper.getHarvestLevel(stack);
   }
@@ -329,7 +329,8 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   @Override
   public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
 
-    ToolRenderHelper.getInstance().clAddInformation(stack, world, list, flag == TooltipFlags.ADVANCED);
+    ToolRenderHelper.getInstance().clAddInformation(stack, world, list,
+        flag == TooltipFlags.ADVANCED);
   }
 
   // getSubItems 1.10.2
@@ -359,8 +360,8 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   }
 
   // onItemUse
-  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
+      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
     return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }

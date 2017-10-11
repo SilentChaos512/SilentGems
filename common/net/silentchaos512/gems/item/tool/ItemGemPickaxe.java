@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,20 +25,14 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
-import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.api.tool.part.ToolPart;
-import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
@@ -82,7 +75,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   // ===============
   // ITool overrides
   // ===============
-  
+
   public ConfigOptionToolClass getConfig() {
 
     return GemsConfig.pickaxe;
@@ -177,7 +170,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
 
     return ToolRenderHelper.instance.hasEffect(stack);
   }
-  
+
   @Override
   public EnumRarity getRarity(ItemStack stack) {
 
@@ -225,7 +218,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
       IBlockState state) {
 
     if (super.getHarvestLevel(stack, toolClass, player, state) < 0 || ToolHelper.isBroken(stack))
-      return 0;
+      return -1;
     return ToolHelper.getHarvestLevel(stack);
   }
 
@@ -344,7 +337,8 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   @Override
   public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
 
-    ToolRenderHelper.getInstance().clAddInformation(stack, world, list, flag == TooltipFlags.ADVANCED);
+    ToolRenderHelper.getInstance().clAddInformation(stack, world, list,
+        flag == TooltipFlags.ADVANCED);
   }
 
   // getSubItems 1.10.2
@@ -374,8 +368,8 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   }
 
   // onItemUse
-  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
+      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
     return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }
