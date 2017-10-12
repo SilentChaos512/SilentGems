@@ -1,0 +1,8 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "silentgems:items/pylon_burner",
+    "layer1": "silentgems:items/pylon_layer2"
+  }
+}
+

@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.5.5
+Updated zh_CN.lang (thanks Aemande123!)
 Fixed: Harvest tools being able to harvest blocks they shouldn't be able to, such as mining stone with shovels/axes (#213)
 Fixed: Chaos projectiles not rendering on servers (hi darkphan!)
 Fixed: Tool subitems are now cached, should prevent duplicates with different UUIDs in JEI.

@@ -109,6 +109,10 @@ public class BlockChaosPylon extends BlockContainerSL implements ITileEntityProv
   @Override
   public void getModels(Map<Integer, ModelResourceLocation> models) {
 
+    String fullName = getFullName().toLowerCase();
+    for (VariantType type : VariantType.values()) {
+      models.put(type.ordinal(), new ModelResourceLocation(fullName + type.ordinal(), "inventory"));
+    }
   }
 
   @Override
