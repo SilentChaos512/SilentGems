@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -56,23 +56,35 @@ public class ItemGemMachete extends ItemGemSword {
   }
 
   @Override
-  public boolean onBlockStartBreak(ItemStack sickle, BlockPos pos, EntityPlayer player) {
+  public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
 
-    // Allow clearing vegetation, just like sickles but with a smaller range.
-    return ModItems.sickle.onSickleStartBreak(sickle, pos, player, 2);
+    if (!player.isSneaking()) {
+      // Allow clearing vegetation, just like sickles but with a smaller range.
+      return ModItems.sickle.onSickleStartBreak(stack, pos, player, 2);
+    }
+    // Standard behavior if player is sneaking.
+    return super.onBlockStartBreak(stack, pos, player);
   }
 
   @Override
   public Set<String> getToolClasses(ItemStack stack) {
 
-    return ToolHelper.isBroken(stack) ? ImmutableSet.of()
-        : ImmutableSet.of("axe");
+    // Machete can be used as an axe.
+    return ToolHelper.isBroken(stack) ? ImmutableSet.of() : ImmutableSet.of("axe");
   }
 
   @Override
   public float getStrVsBlock(ItemStack stack, IBlockState state) {
 
-    return ToolHelper.getDigSpeed(stack, state, ItemGemAxe.EXTRA_EFFECTIVE_MATERIALS) / 3;
+    float digSpeed = ToolHelper.getDigSpeed(stack, state, ItemGemAxe.EXTRA_EFFECTIVE_MATERIALS);
+    // On blocks typically harvested with axes, reduce the harvest speed.
+    // Note: Ladders use the "circuits" material. Weird, but true!
+    if (state.getMaterial() == Material.WOOD || state.getMaterial() == Material.GOURD
+        || state.getMaterial() == Material.CIRCUITS) {
+      return digSpeed / 2.5f;
+    }
+    // On other blocks, full speed.
+    return digSpeed;
   }
 
   @Override

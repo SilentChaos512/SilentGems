@@ -2,13 +2,13 @@ package net.silentchaos512.gems.item.tool;
 
 import java.util.List;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,8 +24,6 @@ import net.silentchaos512.gems.api.IAmmoTool;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.EntityThrownTomahawk;
-import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.RecipeMaker;
@@ -41,7 +39,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
     super();
     setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.TOMAHAWK);
   }
-  
+
   public ConfigOptionToolClass getConfig() {
 
     return GemsConfig.tomahawk;
@@ -50,7 +48,8 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (getConfig().isDisabled) return StackHelper.empty();
+    if (getConfig().isDisabled)
+      return StackHelper.empty();
     return ToolHelper.constructTool(this, rod, materials);
   }
 
@@ -121,7 +120,15 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   @Override
   public float getStrVsBlock(ItemStack stack, IBlockState state) {
 
-    return ToolHelper.getDigSpeed(stack, state, EXTRA_EFFECTIVE_MATERIALS) / 3;
+    float digSpeed = ToolHelper.getDigSpeed(stack, state, EXTRA_EFFECTIVE_MATERIALS);
+    // On blocks typically harvested with axes, reduce the harvest speed.
+    // Note: Ladders use the "circuits" material. Weird, but true!
+    if (state.getMaterial() == Material.WOOD || state.getMaterial() == Material.GOURD
+        || state.getMaterial() == Material.CIRCUITS) {
+      return digSpeed / 2.5f;
+    }
+    // On other blocks, full speed.
+    return digSpeed;
   }
 
   @Override
@@ -171,8 +178,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
       int useDuration = getMaxItemUseDuration(stack) - timeLeft;
       if (useDuration < 4 || !hasAmmo)
         return;
-      float speed = MathHelper.clamp(1.5f * useDuration / 12, 0.1f,
-          EntityThrownTomahawk.MAX_SPEED);
+      float speed = MathHelper.clamp(1.5f * useDuration / 12, 0.1f, EntityThrownTomahawk.MAX_SPEED);
 
       EntityThrownTomahawk projectile = new EntityThrownTomahawk(player, stack, speed);
       projectile.setPosition(player.posX, player.posY + 1.6, player.posZ);
@@ -190,8 +196,8 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   }
 
   @Override
-  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
+      EnumFacing side, float hitX, float hitY, float hitZ) {
 
     // Cancel right-click-to-place.
     return EnumActionResult.PASS;
@@ -214,14 +220,15 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   // =================================
 
   // onItemUse
-  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-      EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
+      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 
     return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
   }
 
   // onItemRightClick
-  public ActionResult<ItemStack> func_77659_a(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+  public ActionResult<ItemStack> func_77659_a(ItemStack stack, World world, EntityPlayer player,
+      EnumHand hand) {
 
     return onItemRightClick(world, player, hand);
   }

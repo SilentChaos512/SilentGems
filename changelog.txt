@@ -2,6 +2,10 @@ Silent's Gems - Changelog
 
 2.5.5
 Updated zh_CN.lang (thanks Aemande123!)
+Added: Item models for pylons. I may have discovered why they had no models in the first place during this, but... we'll go with the textures I just made for now (#AboutTime)
+Changed: Machetes will not have their sickle effect when sneaking.
+Changed: Tomahawks and machetes will only receive their usual speed decrease when mining wood/ladders/pumpkins/melons/etc. Machetes should cut cobwebs as quickly as swords now.
+Changed: Increased harvest speed of machetes and tomahawks a bit.
 Fixed: Harvest tools being able to harvest blocks they shouldn't be able to, such as mining stone with shovels/axes (#213)
 Fixed: Chaos projectiles not rendering on servers (hi darkphan!)
 Fixed: Tool subitems are now cached, should prevent duplicates with different UUIDs in JEI.
