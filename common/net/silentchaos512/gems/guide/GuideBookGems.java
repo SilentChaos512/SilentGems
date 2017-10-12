@@ -166,6 +166,13 @@ public class GuideBookGems extends GuideBook {
     new GuideChapter(this, "katana", entryTools, chKatana,
         new PageTextOnly(this, 1),
         new PageCrafting(this, 2, rec.makeShapedOre(chKatana, "gg", "g ", "r ", 'g', chKatanaGem, 'r', toolsEntryRod)).setNoText());
+    // Machetes
+    ItemStack chMacheteGem = EnumGem.getRandom().getItemSuper();
+    ItemStack chMachete = makeTool(ModItems.machete, toolsEntryRod, chMacheteGem, 3);
+    new GuideChapter(this, "machete", entryTools, chMachete,
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, rec.makeShapedOre(chMachete, " gg", " g ", "r  ", 'g', chMacheteGem, 'r', toolsEntryRod)).setNoText(),
+        new PageTextOnly(this, 3));
     // Paxels
     ItemStack chPaxelGem = EnumGem.getRandom().getItemSuper();
     ItemStack chPaxel = makeTool(ModItems.paxel, toolsEntryRod, chPaxelGem, 6);

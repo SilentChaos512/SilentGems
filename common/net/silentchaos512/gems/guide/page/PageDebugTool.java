@@ -3,6 +3,7 @@ package net.silentchaos512.gems.guide.page;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
@@ -46,21 +47,31 @@ public class PageDebugTool extends GuidePage {
     index = 0;
 
     if (this.key == 1) {
+      // Bunch of randomized tools!
       for (int i = 0; i < 63; ++i) {
         Item item = ModItems.tools.get(SilentGems.random.nextInt(ModItems.tools.size()));
-        addItem(gui, startX, startY, ToolRandomizer.INSTANCE.randomize(new ItemStack(item)));
+        ItemStack stack = ToolRandomizer.INSTANCE.randomize(new ItemStack(item));
+        stack.getTagCompound().setBoolean(ToolHelper.NBT_EXAMPLE_TOOL, true);
+        addItem(gui, startX, startY, stack);
       }
     } else if (this.key == 2) {
+      // Error (data-less) tools.
       for (Item item : ModItems.tools) {
-        addItem(gui, startX, startY, new ItemStack(item));
+        ItemStack tool = new ItemStack(item);
+        tool.setTagCompound(new NBTTagCompound());
+        tool.getTagCompound().setBoolean(ToolHelper.NBT_EXAMPLE_TOOL, true);
+        addItem(gui, startX, startY, tool);
       }
-      for (int i = 0; i < 2; ++i) {
+      // Fill in the remainder of the row.
+      for (int i = 0; i < 7 - ModItems.tools.size() % 7; ++i) {
         addItem(gui, startX, startY, StackHelper.empty());
       }
+      // Broken tools.
       for (Item item : ModItems.tools) {
         ItemStack stack = ToolHelper.constructTool(item, ModItems.craftingMaterial.toolRodGold,
             EnumGem.getRandom().getItemSuper());
         stack.setItemDamage(stack.getMaxDamage());
+        stack.getTagCompound().setBoolean(ToolHelper.NBT_EXAMPLE_TOOL, true);
         ToolHelper.recalculateStats(stack);
         addItem(gui, startX, startY, stack);
       }

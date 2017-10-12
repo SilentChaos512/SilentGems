@@ -263,10 +263,6 @@ public class ToolModel extends MultiLayerModelSL {
       if (cameraTransformType != TransformType.GUI) {
         matrix.setScale(matrix.getScale() * 0.85f);
       }
-    } else if (tool != null && tool.getItem() == ModItems.machete) {
-      if (cameraTransformType != TransformType.GUI) {
-        matrix.setScale(matrix.getScale() * 1.1f);
-      }
     }
     return Pair.of((IBakedModel) this, matrix);
   }
