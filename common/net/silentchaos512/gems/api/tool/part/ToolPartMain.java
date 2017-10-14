@@ -3,9 +3,11 @@ package net.silentchaos512.gems.api.tool.part;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.EnumPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
+import net.silentchaos512.gems.config.GemsConfigHC;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 
@@ -31,6 +33,33 @@ public class ToolPartMain extends ToolPart {
   @Override
   public int getRepairAmount(ItemStack toolOrArmor, ItemStack partRep) {
 
+    if (isBlacklisted(partRep)) {
+      return 0;
+    }
+
+    if (GemsConfigHC.REPAIR_LOGIC != GemsConfigHC.EnumRepairLogic.CLASSIC) {
+      ToolPart repairPart = ToolPartRegistry.fromStack(partRep);
+      EnumMaterialGrade repairGrade = EnumMaterialGrade.fromStack(partRep);
+      float amount = repairPart.getDurability() * (100 + repairGrade.bonusPercent) / 100;
+
+      // Since armor has much lower durability per item, we'll adjust down for armor.
+      if (toolOrArmor.getItem() instanceof IArmor) {
+        amount /= 2f;
+      }
+
+      switch (GemsConfigHC.REPAIR_LOGIC) {
+        case HARD_MATERIAL_BASED:
+          return (int) (amount / 4f);
+        case MATERIAL_BASED:
+          return (int) (amount / 2f);
+        case NOT_ALLOWED:
+          return 0;
+        default:
+          break;
+      }
+    }
+
+    // Classic repair logic.
     int max = toolOrArmor.getMaxDamage();
     float scale = 0.0f;
 

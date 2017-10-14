@@ -1,9 +1,10 @@
 Silent's Gems - Changelog
 
 2.5.6
+Added: Config to change the way decorating repairs tools and armor. This is under the hardcore/tools category. The new default is MATERIAL_BASED, which restores half the materials durability (considering the grade) to tools, and a quarter for armor.
 Added: Chaos Iron Ingots, a new crafting material
 Added: Missing pages in the Crafting Materials chapter of the manual.
-Added: (Hardcore) Option to make supercharged gems require ender essence instead of glowstone (all hardcore options will be disabled by default).
+Added: (Hardcore) Option to make supercharged gems require ender essence instead of glowstone (disabled by default).
 Changed: Material grader is now cheaper to craft.
 Changed: Material grader now works much faster and uses much less chaos. It can also work without chaos, but at 1/6 of the speed.
 
