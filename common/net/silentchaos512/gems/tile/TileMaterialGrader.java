@@ -27,8 +27,8 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
   /*
    * NBT keys
    */
-//  static final String NBT_ENERGY = "Energy";
-//  static final String NBT_PROGRESS = "Progress";
+  // static final String NBT_ENERGY = "Energy";
+  // static final String NBT_PROGRESS = "Progress";
 
   /*
    * Slots
@@ -42,9 +42,11 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
   /*
    * Tile behavior constants
    */
-  public static final int ANALYZE_TIME = 400;
-  public static final int CHAOS_PER_TICK = 500;
-  public static final int MAX_CHARGE = ANALYZE_TIME * CHAOS_PER_TICK * 5;
+  public static final int ANALYZE_SPEED_NO_CHAOS = 1;
+  public static final int ANALYZE_SPEED_WITH_CHAOS = 6;
+  public static final int BASE_ANALYZE_TIME = 1200;
+  public static final int CHAOS_PER_TICK = 25;
+  public static final int MAX_CHARGE = 100000;
 
   /*
    * Variables
@@ -90,36 +92,37 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
     // Is input (if anything) a grade-able part?
     if (part != null && part instanceof ToolPartMain
         && EnumMaterialGrade.fromStack(input) == EnumMaterialGrade.NONE) {
-      // Analyze, if we have enough energy.
-      if (chaosStored >= CHAOS_PER_TICK) {
-        // Analyzing material.
-        if (progress < ANALYZE_TIME) {
+      // Analyze, using chaos if possible
+      boolean useChaos = chaosStored >= CHAOS_PER_TICK;
+      // Analyzing material.
+      if (progress < BASE_ANALYZE_TIME) {
+        if (useChaos) {
           chaosStored -= CHAOS_PER_TICK;
-          ++progress;
-          requireClientSync = true;
+        }
+        progress += useChaos ? ANALYZE_SPEED_WITH_CHAOS : ANALYZE_SPEED_NO_CHAOS;
+        requireClientSync = true;
+      }
+
+      // Grade material if any output slot is free.
+      int outputSlot = getFreeOutputSlot();
+      if (progress >= BASE_ANALYZE_TIME && outputSlot > 0) {
+        progress = 0;
+
+        // Take one from input stack.
+        ItemStack stack = StackHelper.safeCopy(input);
+        StackHelper.setCount(stack, 1);
+        StackHelper.shrink(input, 1);
+
+        // Assign random grade.
+        EnumMaterialGrade.selectRandom(SilentGems.random).setGradeOnStack(stack);
+
+        // Set to output slot, clear input slot if needed.
+        setInventorySlotContents(outputSlot, stack);
+        if (StackHelper.getCount(input) <= 0) {
+          setInventorySlotContents(SLOT_INPUT, StackHelper.empty());
         }
 
-        // Grade material if any output slot is free.
-        int outputSlot = getFreeOutputSlot();
-        if (progress >= ANALYZE_TIME && outputSlot > 0) {
-          progress = 0;
-
-          // Take one from input stack.
-          ItemStack stack = StackHelper.safeCopy(input);
-          StackHelper.setCount(stack, 1);
-          StackHelper.shrink(input, 1);
-
-          // Assign random grade.
-          EnumMaterialGrade.selectRandom(SilentGems.random).setGradeOnStack(stack);
-
-          // Set to output slot, clear input slot if needed.
-          setInventorySlotContents(outputSlot, stack);
-          if (StackHelper.getCount(input) <= 0) {
-            setInventorySlotContents(SLOT_INPUT, StackHelper.empty());
-          }
-
-          requireClientSync = true;
-        }
+        requireClientSync = true;
       }
     } else {
       progress = 0;
@@ -266,8 +269,6 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
 
     list.add(String.format("Chaos: %,d / %,d", getCharge(), getMaxCharge()));
     list.add(String.format("progress = %d", progress));
-    list.add(String.format("ANALYZE_TIME = %d", ANALYZE_TIME));
-    list.add(String.format("CHAOS_PER_TICK = %d", CHAOS_PER_TICK));
 
     return list;
   }

@@ -56,7 +56,7 @@ public class GuiMaterialGrader extends GuiContainer {
 
   private int getAnalyzeProgress(int scale) {
     int progress = tileInventory.getField(1);
-    int time = TileMaterialGrader.ANALYZE_TIME;
+    int time = TileMaterialGrader.BASE_ANALYZE_TIME;
     return time != 0 && progress > 0 && progress < time ? progress * scale / time : 0;
   }
 

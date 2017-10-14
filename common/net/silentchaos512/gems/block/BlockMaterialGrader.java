@@ -49,10 +49,10 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
 
     // @formatter:off
     recipes.addShapedOre("material_grader", new ItemStack(this),
-        " m ", "iii", "ccc",
-        'i', "ingotIron",
-        'c', ModItems.craftingMaterial.chaosEssenceEnriched,
-        'm', ModItems.craftingMaterial.magnifyingGlass);
+        " m ", "i i", "gig",
+        'm', ModItems.craftingMaterial.magnifyingGlass,
+        'i', ModItems.craftingMaterial.chaosIron,
+        'g', "ingotGold");
     // @formatter:on
   }
 

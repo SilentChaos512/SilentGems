@@ -4,6 +4,8 @@ Silent's Gems - Changelog
 Added: Chaos Iron Ingots, a new crafting material
 Added: Missing pages in the Crafting Materials chapter of the manual.
 Added: (Hardcore) Option to make supercharged gems require ender essence instead of glowstone (all hardcore options will be disabled by default).
+Changed: Material grader is now cheaper to craft.
+Changed: Material grader now works much faster and uses much less chaos. It can also work without chaos, but at 1/6 of the speed.
 
 2.5.5
 Updated zh_CN.lang (thanks Aemande123!)
