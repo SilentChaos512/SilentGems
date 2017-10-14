@@ -282,8 +282,8 @@ public class GuideBookGems extends GuideBook {
       ItemStack stack = ModItems.craftingMaterial.getStack(str);
       IRecipe recipe = ModItems.craftingMaterial.guideRecipeMap.get(stack.getItemDamage());
 
-      if (stack.isItemEqual(ModItems.craftingMaterial.chaosEssence))
-        pages.add(new PageFurnace(this, 100, stack));
+      if (stack.isItemEqual(ModItems.craftingMaterial.chaosEssence) || stack.isItemEqual(ModItems.craftingMaterial.enderEssence) || stack.isItemEqual(ModItems.craftingMaterial.chaosIron))
+        pages.add(new PageFurnace(this, 100 + stack.getItemDamage(), stack));
       else if (recipe != null)
         pages.add(new PageCrafting(this, 100 + stack.getItemDamage(), recipe));
       else

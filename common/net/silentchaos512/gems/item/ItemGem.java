@@ -9,6 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.key.KeyTracker;
+import net.silentchaos512.gems.config.GemsConfigHC;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemSL;
@@ -37,10 +38,11 @@ public class ItemGem extends ItemSL {
   @Override
   public void addRecipes(RecipeMaker recipes) {
 
+    String centerItem = GemsConfigHC.HARD_SUPER_GEMS ? "gemEnderEssence" : "dustGlowstone";
     for (EnumGem gem : EnumGem.values()) {
       // Supercharged gems
       recipes.addShapedOre("gem_super_" + gem.name(), gem.getItemSuper(), "cgc", "cdc", "cgc", 'g',
-          gem.getItem(), 'd', "dustGlowstone", 'c', "gemChaos");
+          gem.getItem(), 'd', centerItem, 'c', "gemChaos");
       // Gems <--> shards
       recipes.addCompression("gem_" + gem.name(), gem.getShard(), gem.getItem(), 9);
       ItemStack shards = gem.getShard();

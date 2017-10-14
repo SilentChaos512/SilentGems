@@ -1,5 +1,10 @@
 Silent's Gems - Changelog
 
+2.5.6
+Added: Chaos Iron Ingots, a new crafting material
+Added: Missing pages in the Crafting Materials chapter of the manual.
+Added: (Hardcore) Option to make supercharged gems require ender essence instead of glowstone (all hardcore options will be disabled by default).
+
 2.5.5
 Updated zh_CN.lang (thanks Aemande123!)
 Added: Item models for pylons. I may have discovered why they had no models in the first place during this, but... we'll go with the textures I just made for now (#AboutTime)

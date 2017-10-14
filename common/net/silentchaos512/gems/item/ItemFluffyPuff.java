@@ -3,6 +3,7 @@ package net.silentchaos512.gems.item;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModItems;
@@ -24,7 +25,8 @@ public class ItemFluffyPuff extends ItemSL {
     ItemStack fabric = ModItems.craftingMaterial.fluffyFabric;
     ItemStack block = new ItemStack(ModBlocks.fluffyBlock);
 
-    recipes.addCompression("fluffy_fabric", puff, fabric, 4);
+    IRecipe rec = recipes.addCompression("fluffy_fabric", puff, fabric, 4)[0];
+    ModItems.craftingMaterial.guideRecipeMap.put(fabric.getItemDamage(), rec);
     recipes.addCompression("fluffy_block", fabric, block, 4);
 
     ItemStack string = new ItemStack(Items.STRING);

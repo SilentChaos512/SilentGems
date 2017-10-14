@@ -69,6 +69,8 @@ public class Names {
   public static final String CHAOS_ESSENCE_PLUS = "ChaosEssencePlus";
   public static final String CHAOS_ESSENCE_PLUS_2 = "ChaosEssencePlus2";
   public static final String CHAOS_ESSENCE_SHARD = "ChaosEssenceShard";
+  public static final String CHAOS_IRON = "ChaosIron";
+  public static final String CHAOS_IRON_UNFIRED = "ChaosIronUnfired";
   public static final String ENDER_ESSENCE = "EnderEssence";
   public static final String ENDER_ESSENCE_SHARD = "EnderEssenceShard";
   public static final String ENDER_FROST = "EnderFrost";
