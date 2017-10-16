@@ -301,20 +301,6 @@ public class GemsCommonEvents {
   }
 
   @SubscribeEvent
-  public void onLivingSpawn(LivingUpdateEvent event) {
-
-    // FIXME: Halloween detection!
-    if (event.getEntity() instanceof IMob) {
-      if (!event.getEntityLiving().getEntityData().getBoolean("SG_HW_Mob")) {
-        ItemStack skull = Skulls.getSkull(EntityCreeper.class);
-        event.getEntityLiving().setItemStackToSlot(EntityEquipmentSlot.HEAD, skull);
-        ((EntityLiving) event.getEntityLiving()).setDropChance(EntityEquipmentSlot.HEAD, 1.0f);
-        event.getEntityLiving().getEntityData().setBoolean("SG_HW_Mob", true);
-      }
-    }
-  }
-
-  @SubscribeEvent
   public void onEntityJoinWorld(EntityJoinWorldEvent event) {
 
     Entity entity = event.getEntity();

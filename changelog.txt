@@ -1,7 +1,8 @@
 Silent's Gems - Changelog
 
 2.5.6
-Added: Config to change the way decorating repairs tools and armor. This is under the hardcore/tools category. The new default is MATERIAL_BASED, which restores half the materials durability (considering the grade) to tools, and a quarter for armor. Change to CLASSIC if you want the old behavior.
+Added: Halloween Hijinks. Even the baddies wanna dress up! Can be disabled in the config (misc category)
+Added: Config to change the way decorating repairs tools and armor. This is under the hardcore/tools category. The new default is MATERIAL_BASED, which restores half the materials durability (considering the grade) to tools, and a quarter for armor. The tool's "repair multiplier" still counts (shovels get twice the repair value, etc.) Change to CLASSIC if you want the old behavior.
 Added: Chaos Iron Ingots, a new crafting material
 Added: Missing pages in the Crafting Materials chapter of the manual.
 Added: (Hardcore) Option to make supercharged gems require ender essence instead of glowstone (disabled by default).

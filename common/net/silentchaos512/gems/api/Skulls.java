@@ -1,7 +1,10 @@
 package net.silentchaos512.gems.api;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -12,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class Skulls {
@@ -23,6 +27,8 @@ public class Skulls {
   }
 
   static Map<Class<? extends EntityLivingBase>, SkullInfo> map = new HashMap<>();
+  static List<ItemStack> mobSkulls = new ArrayList<>();
+  static List<ItemStack> playerSkulls = new ArrayList<>();
 
   public static ItemStack getPlayerSkull(EntityPlayer player) {
 
@@ -56,6 +62,19 @@ public class Skulls {
     return StackHelper.safeCopy(stack);
   }
 
+  /**
+   * Select a random skull. Small chance of being a registered player.
+   * @param random
+   * @return
+   */
+  public static ItemStack selectRandom(Random random) {
+
+    if (random.nextFloat() < 0.25f)
+      return playerSkulls.get(random.nextInt(playerSkulls.size()));
+    else
+      return mobSkulls.get(random.nextInt(mobSkulls.size())); 
+  }
+
   public static float getDropRate(EntityLivingBase entity) {
 
     return getDropRate(entity.getClass());
@@ -73,6 +92,12 @@ public class Skulls {
     info.stack = skull;
     info.dropRate = dropRate;
     map.put(entityClass, info);
+    mobSkulls.add(skull);
+  }
+
+  public static void putPlayer(String playerName) {
+
+    playerSkulls.add(getPlayerSkull(playerName));
   }
 
   static boolean initialized = false;
@@ -89,5 +114,30 @@ public class Skulls {
     put(EntityZombie.class, new ItemStack(Items.SKULL, 1, 2), 0.1f);
     put(EntityPlayer.class, new ItemStack(Items.SKULL, 1, 3), 0.5f);
     put(EntityCreeper.class, new ItemStack(Items.SKULL, 1, 4), 0.05f);
+
+    putPlayer(Names.SILENT_CHAOS_512);
+    putPlayer(Names.CHAOTIC_PLAYZ);
+    putPlayer(Names.M4THG33K);
+    putPlayer("notch");
+    putPlayer("MHF_Alex");
+    putPlayer("MHF_Blaze");
+    putPlayer("MHF_CaveSpider");
+    putPlayer("MHF_Chicken");
+    putPlayer("MHF_Cow");
+    putPlayer("MHF_Enderman");
+    putPlayer("MHF_Ghast");
+    putPlayer("MHF_Golem");
+    putPlayer("MHF_Herobrine");
+    putPlayer("MHF_LavaSlime");
+    putPlayer("MHF_MushroomCow");
+    putPlayer("MHF_Ocelot");
+    putPlayer("MHF_Pig");
+    putPlayer("MHF_PigZombie");
+    putPlayer("MHF_Sheep");
+    putPlayer("MHF_Slime");
+    putPlayer("MHF_Spider");
+    putPlayer("MHF_Squid");
+    putPlayer("MHF_Steve");
+    putPlayer("MHF_Villager");
   }
 }
