@@ -1,30 +1,28 @@
 package net.silentchaos512.gems.tile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosProvider;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
-import net.silentchaos512.gems.entity.packet.EntityPacketAttack;
-import net.silentchaos512.gems.entity.packet.EntityPacketLevitation;
-import net.silentchaos512.gems.entity.packet.EntityPacketRegen;
-import net.silentchaos512.gems.entity.packet.EntityPacketRepair;
-import net.silentchaos512.gems.entity.packet.EntityPacketSaturation;
 import net.silentchaos512.gems.lib.EnumModParticles;
+import net.silentchaos512.gems.lib.NodeEffect;
 import net.silentchaos512.gems.util.ChaosUtil;
+import net.silentchaos512.gems.util.NodePacketHelper;
 import net.silentchaos512.lib.tile.SyncVariable;
 import net.silentchaos512.lib.tile.TileEntitySL;
 import net.silentchaos512.lib.util.Color;
@@ -42,78 +40,101 @@ public class TileChaosNode extends TileEntitySL implements ITickable, IChaosProv
   public static final int MAX_CHAOS_STORED = 10000;
   public static final int CHAOS_GENERATION_RATE = 20;
 
-  // Player effects
-  public static final int TRY_REPAIR_DELAY = 200;
-  public static final float TRY_REPAIR_CHANCE = 0.2f;
-  public static final int TRY_REGEN_DELAY = 300;
-  public static final float TRY_REGEN_CHANCE = 0.3f;
-  public static final int TRY_SATURATION_DELAY = 512;
-  public static final float TRY_SATURATION_CHANCE = 0.1f;
-
-  // Hostile effects
-  public static final int TRY_ATTACK_HOSTILES_DELAY = 160;
-  public static final float ATTACK_HOSTILE_CHANCE = 0.25f;
-  public static final float ATTACK_HOSTILE_BASE_DAMAGE = 4.0f;
-  public static final float ATTACK_HOSTILE_DAMAGE_DEVIATION = 0.75f;
-  public static final int TRY_LEVITATION_DELAY = 425;
-  public static final float TRY_LEVITATION_CHANCE = 0.25f;
-
   // Variables
   /** The amount of Chaos the node has created and is storing. */
   @SyncVariable(name = "Energy")
   int chaosStored = 0;
   /** List of nearby players. Cleared each tick, populated only on ticks where it is used. */
-  List<EntityPlayerMP> players = Lists.newArrayList();
-  /** List of nearby hostiles. Cleared each tick, populated only on ticks where it is used. */
-  List<EntityMob> hostiles = Lists.newArrayList();
+  List<EntityPlayerMP> players = new ArrayList<>();
+  /** List of nearby passive mobs. Cleared each tick, populated only on ticks where it is used. */
+  List<EntityLivingBase> passives = new ArrayList<>();
+  /** List of nearby hostile mobs. Cleared each tick, populated only on ticks where it is used. */
+  List<EntityLivingBase> hostiles = new ArrayList<>();
+  /**
+   * A value added to world time to make different nodes fire at different times. Based on a product of the x-, y-, and
+   * z-coordinates of the node. Set in update if less than 0.
+   */
+  int timeSalt = -1;
 
   @Override
   public void update() {
 
-    if (!world.isRemote) {
-      // Generate chaos.
-      chaosStored = Math.min(getCharge() + CHAOS_GENERATION_RATE, getMaxCharge());
+    if (timeSalt < 0) {
+      if (GemsConfig.CHAOS_NODE_SALT_DELAY)
+        timeSalt = (pos.getX() * pos.getY() * pos.getZ()) % 400;
+      else
+        timeSalt = 0;
+    }
 
-      // Clear entity lists each tick. These will be repopulated when necessary.
-      players.clear();
-      hostiles.clear();
+    // Generate chaos.
+    chaosStored = Math.min(getCharge() + CHAOS_GENERATION_RATE, getMaxCharge());
 
-      long time = world.getTotalWorldTime();
-      boolean playSound = false;
+    // Clear entity lists each tick. These will be repopulated when necessary.
+    players.clear();
+    passives.clear();
+    hostiles.clear();
 
-      // Send Chaos?
-      if (time % SEND_CHAOS_DELAY == 0) {
-        List<IChaosAccepter> accepters = ChaosUtil.getNearbyAccepters(world, pos,
-            SEARCH_RADIUS_BLOCK, SEARCH_RADIUS_BLOCK);
-        getPlayersInRange();
+    long time = world.getTotalWorldTime() + timeSalt;
+    // Using a random seeded with world time seems to keep the particles (client) synced with which ones actually are
+    // affected (server)... at least in singleplayer.
+    Random random = new Random(time);
+    boolean playSound = false;
 
-        if (!players.isEmpty() || !accepters.isEmpty()) {
-          final int amountForEach = Math.min(SEND_CHAOS_AMOUNT,
-              getCharge() / (accepters.size() + players.size()));
+    // Send Chaos?
+    if (time % SEND_CHAOS_DELAY == 0) {
+      List<IChaosAccepter> accepters = ChaosUtil.getNearbyAccepters(world, pos, SEARCH_RADIUS_BLOCK,
+          SEARCH_RADIUS_BLOCK);
+      getPlayersInRange();
 
-          playSound |= sendChaosToPlayers(amountForEach);
-          playSound |= sendChaosToAccepters(accepters, amountForEach);
+      if (!players.isEmpty() || !accepters.isEmpty()) {
+        final int amountForEach = Math.min(SEND_CHAOS_AMOUNT,
+            getCharge() / (accepters.size() + players.size()));
+
+        playSound |= sendChaosToPlayers(amountForEach);
+        playSound |= sendChaosToAccepters(accepters, amountForEach);
+      }
+    }
+
+    // Try effects
+    for (NodeEffect effect : NodeEffect.ALL_EFFECTS) {
+      if (effect.isTimeToTry(time)) {
+        if (effect.targetPlayers) {
+          getPlayersInRange();
+          for (EntityPlayer player : players) {
+            playSound |= tryApplyEffectToEntity(player, effect, random);
+          }
+        }
+        if (effect.targetPassives) {
+          getPassivesInRange();
+          for (EntityLivingBase passive : passives) {
+            playSound |= tryApplyEffectToEntity(passive, effect, random);
+          }
+        }
+        if (effect.targetHostiles) {
+          getHostilesInRange();
+          for (EntityLivingBase hostile : hostiles) {
+            playSound |= tryApplyEffectToEntity(hostile, effect, random);
+          }
         }
       }
-
-      if (time % TRY_REGEN_DELAY == 0)
-        playSound |= tryGiveRegen();
-      if (time % TRY_SATURATION_DELAY == 0)
-        playSound |= tryGiveSaturation();
-      if (time % TRY_LEVITATION_DELAY == 0)
-        playSound |= tryLevitateHostiles();
-      if (time % TRY_REPAIR_DELAY == 0)
-        playSound |= tryRepairItems();
-      if (time % TRY_ATTACK_HOSTILES_DELAY == 0)
-        playSound |= tryAttackHostiles();
-
-      if (playSound)
-        world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_HOE_TILL,
-            SoundCategory.AMBIENT, 1.0f, (float) (0.4f + 0.05f * SilentGems.random.nextGaussian()));
     }
+
+    if (playSound)
+      world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_HOE_TILL,
+          SoundCategory.AMBIENT, 1.0f, (float) (0.4f + 0.05f * SilentGems.random.nextGaussian()));
 
     if (world.isRemote)
       spawnParticles();
+  }
+
+  public boolean tryApplyEffectToEntity(EntityLivingBase entity, NodeEffect effect, Random random) {
+
+    if (effect.applyToEntity(entity, random)) {
+      NodePacketHelper.spawnParticles(world, pos,
+          entity.getPositionVector().addVector(0, entity.height / 2, 0), effect.color);
+      return true;
+    }
+    return false;
   }
 
   private void getPlayersInRange() {
@@ -122,7 +143,21 @@ public class TileChaosNode extends TileEntitySL implements ITickable, IChaosProv
       return;
 
     players = world.getPlayers(EntityPlayerMP.class,
-        player -> player.getDistanceSq(getPos()) < SEARCH_RADIUS_SQUARED);
+        player -> player.getDistanceSq(getPos()) < SEARCH_RADIUS_SQUARED && canSee(player));
+  }
+
+  private void getPassivesInRange() {
+
+    if (!passives.isEmpty())
+      return;
+
+    Entity entity;
+    for (int i = 0; i < world.loadedEntityList.size(); ++i) {
+      entity = world.loadedEntityList.get(i);
+      if (entity instanceof EntityLivingBase && !(entity instanceof IMob)
+          && entity.getDistanceSq(pos) < SEARCH_RADIUS_SQUARED && canSee(entity))
+        passives.add((EntityLivingBase) entity);
+    }
   }
 
   private void getHostilesInRange() {
@@ -133,15 +168,20 @@ public class TileChaosNode extends TileEntitySL implements ITickable, IChaosProv
     Entity entity;
     for (int i = 0; i < world.loadedEntityList.size(); ++i) {
       entity = world.loadedEntityList.get(i);
-      if (entity instanceof EntityMob && entity.getDistanceSq(pos) < SEARCH_RADIUS_SQUARED)
-        hostiles.add((EntityMob) entity);
+      if (entity instanceof EntityLivingBase && entity instanceof IMob
+          && entity.getDistanceSq(pos) < SEARCH_RADIUS_SQUARED && canSee(entity))
+        hostiles.add((EntityLivingBase) entity);
     }
   }
 
-  private void spawnPacketInWorld(EntityChaosNodePacket packet) {
+  private boolean canSee(BlockPos target) {
 
-    packet.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-    world.spawnEntity(packet);
+    return ChaosUtil.canSee(world, pos, target);
+  }
+
+  private boolean canSee(Entity target) {
+
+    return ChaosUtil.canSee(world, pos, target);
   }
 
   private boolean sendChaosToPlayers(int amountForEach) {
@@ -158,7 +198,7 @@ public class TileChaosNode extends TileEntitySL implements ITickable, IChaosProv
       if (amountPlayerCanAccept > 0) {
         amount = Math.min(amount, amountPlayerCanAccept);
         extractEnergy(amount, false);
-        ChaosUtil.spawnPacketToEntity(world, pos, player, amount);
+        ChaosUtil.sendEnergyTo(world, pos, player, amount);
         flag = true;
       }
     }
@@ -179,95 +219,11 @@ public class TileChaosNode extends TileEntitySL implements ITickable, IChaosProv
       amount = accepter.receiveCharge(amount, true);
       if (amount > 0) {
         extractEnergy(amount, false);
-        ChaosUtil.spawnPacketToBlock(world, pos, ((TileEntity) accepter).getPos(), amount);
+        ChaosUtil.sendEnergyTo(world, pos, ((TileEntity) accepter).getPos(), amount);
         flag = true;
       }
     }
     return flag;
-  }
-
-  private boolean tryGiveRegen() {
-
-    getPlayersInRange();
-
-    boolean flag = false;
-    Random rand = SilentGems.random;
-    for (EntityPlayerMP player : players) {
-      if (player.getHealth() < player.getMaxHealth() && rand.nextFloat() < TRY_REGEN_CHANCE) {
-        spawnPacketInWorld(new EntityPacketRegen(world, player));
-        flag = true;
-      }
-    }
-    return flag;
-  }
-
-  private boolean tryGiveSaturation() {
-
-    getPlayersInRange();
-
-    boolean flag = false;
-    Random rand = SilentGems.random;
-    for (EntityPlayerMP player : players) {
-      if (player.getFoodStats().needFood() && rand.nextFloat() < TRY_SATURATION_CHANCE) {
-        spawnPacketInWorld(new EntityPacketSaturation(world, player));
-        flag = true;
-      }
-    }
-    return flag;
-  }
-
-  private boolean tryRepairItems() {
-
-    getPlayersInRange();
-
-    boolean flag = false;
-    Random rand = SilentGems.instance.random;
-    for (EntityPlayerMP player : players) {
-      if (rand.nextFloat() < TRY_REPAIR_CHANCE) {
-        spawnPacketInWorld(new EntityPacketRepair(world, player));
-        flag = true;
-      }
-    }
-    return flag;
-  }
-
-  private boolean tryAttackHostiles() {
-
-    getHostilesInRange();
-
-    int num = 0;
-    Random rand = SilentGems.instance.random;
-
-    for (EntityMob mob : hostiles) {
-      if (rand.nextFloat() < ATTACK_HOSTILE_CHANCE) {
-        // Send an attack packet to the mob.
-        float amount = (float) (ATTACK_HOSTILE_BASE_DAMAGE
-            + ATTACK_HOSTILE_DAMAGE_DEVIATION * rand.nextGaussian());
-        spawnPacketInWorld(new EntityPacketAttack(world, mob, amount));
-        ++num;
-        if (num > 10) break;
-      }
-    }
-    return num > 0;
-  }
-
-  private boolean tryLevitateHostiles() {
-
-    getHostilesInRange();
-
-    int num = 0;
-    Random rand = SilentGems.random;
-
-    for (EntityMob mob : hostiles) {
-      if (rand.nextFloat() < TRY_LEVITATION_CHANCE) {
-        // Send levitation packet
-        spawnPacketInWorld(new EntityPacketLevitation(world, mob));
-        ++num;
-        if (num > 10) break;
-      }
-    }
-
-    return num > 0;
   }
 
   private void spawnParticles() {

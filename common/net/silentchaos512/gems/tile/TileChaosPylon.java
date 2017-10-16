@@ -11,11 +11,10 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.BlockPos;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosProvider;
-import net.silentchaos512.gems.entity.packet.EntityPacketChaos;
 import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ChaosUtil;
@@ -93,14 +92,9 @@ public class TileChaosPylon extends TileInventorySL implements ITickable, IChaos
       amount = Math.min(getCharge(), amountForEach);
       amount = accepter.receiveCharge(amount, true);
       if (amount > 0) {
-        extractEnergy(amount, false);
-        EntityPacketChaos packet = ChaosUtil.spawnPacketToBlock(world, pos,
-            ((TileEntity) accepter).getPos(), amount);
-        // Set packets velocity to something less random.
-        if (packet != null) {
-          Vec3d vel = new Vec3d(0.1, 0.25, 0.0);
-          vel = vel.rotateYaw(2 * (float) Math.PI * SilentGems.random.nextFloat());
-          packet.setVelocity(vel);
+        BlockPos target = ((TileEntity) accepter).getPos();
+        if (ChaosUtil.sendEnergyTo(world, pos, target, amount)) {
+          extractEnergy(amount, false);
         }
       }
     }
@@ -123,14 +117,9 @@ public class TileChaosPylon extends TileInventorySL implements ITickable, IChaos
       int amountPlayerCanAccept = ChaosUtil.getAmountPlayerCanAccept(player, amount);
       if (amountPlayerCanAccept > 0) {
         amount = Math.min(amount, amountPlayerCanAccept);
-        EntityPacketChaos packet = ChaosUtil.spawnPacketToEntity(world, pos, player, amount);
-        // Set packets velocity to something less random.
-        if (packet != null) {
-          Vec3d vel = new Vec3d(0.1, 0.25, 0.0);
-          vel = vel.rotateYaw(2 * (float) Math.PI * SilentGems.random.nextFloat());
-          packet.setVelocity(vel);
+        if (ChaosUtil.sendEnergyTo(world, pos, player, amount)) {
+          extractEnergy(amount, false);
         }
-        extractEnergy(amount, false);
       }
     }
   }

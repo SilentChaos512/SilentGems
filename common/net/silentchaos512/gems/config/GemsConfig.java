@@ -1,10 +1,13 @@
 package net.silentchaos512.gems.config;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.item.Item;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.config.Configuration;
 import net.silentchaos512.gems.SilentGems;
@@ -13,7 +16,6 @@ import net.silentchaos512.gems.enchantment.EnchantmentIceAspect;
 import net.silentchaos512.gems.enchantment.EnchantmentLifeSteal;
 import net.silentchaos512.gems.enchantment.EnchantmentLightningAspect;
 import net.silentchaos512.gems.enchantment.EnchantmentMagicDamage;
-import net.silentchaos512.gems.entity.packet.EntityPacketRepair;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
@@ -74,7 +76,8 @@ public class GemsConfig extends AdaptiveConfig {
   public static ConfigOptionToolClass sword = new ConfigOptionToolClass(ModItems.sword, "sword");
   public static ConfigOptionToolClass dagger = new ConfigOptionToolClass(ModItems.dagger, "dagger");
   public static ConfigOptionToolClass katana = new ConfigOptionToolClass(ModItems.katana, "katana");
-  public static ConfigOptionToolClass machete = new ConfigOptionToolClass(ModItems.machete, "machete");
+  public static ConfigOptionToolClass machete = new ConfigOptionToolClass(ModItems.machete,
+      "machete");
   public static ConfigOptionToolClass scepter = new ConfigOptionToolClass(ModItems.scepter,
       "scepter");
   public static ConfigOptionToolClass tomahawk = new ConfigOptionToolClass(ModItems.tomahawk,
@@ -99,17 +102,13 @@ public class GemsConfig extends AdaptiveConfig {
   public static List<String> PART_BLACKLIST = Lists.newArrayList();
 
   /*
-   * Chaos
-   */
-
-  public static boolean CHAOS_DIRECT_TRANSFER = false;
-
-  /*
    * Nodes
    */
 
-  public static boolean REMOVE_NODE_PACKETS_ON_SERVER_START = true;
+  public static boolean CHAOS_NODE_SALT_DELAY = true;
   public static int CHAOS_NODE_PARTICLE_OVERRIDE = -1;
+  public static Set<Item> NODE_REPAIR_WHITELIST = new HashSet<>();
+  public static Set<Item> NODE_REPAIR_BLACKLIST = new HashSet<>();
 
   /*
    * GUI
@@ -349,31 +348,21 @@ public class GemsConfig extends AdaptiveConfig {
           enchEnabledComment);
 
       /*
-       * Chaos
-       */
-
-      config.setCategoryComment(CAT_CHAOS, "Options for the Chaos energy system");
-      CHAOS_DIRECT_TRANSFER = loadBoolean("Direct Transfer", CAT_CHAOS, CHAOS_DIRECT_TRANSFER,
-          "If true, Chaos transfer entities will not be spawned, the energy is just sent directly"
-          + " to the target. This might help if your server is struggling with large numbers of"
-          + " nodes and pylons.");
-
-      /*
        * Nodes
        */
 
-      REMOVE_NODE_PACKETS_ON_SERVER_START = loadBoolean("Remove Node Packets on Server Start", CAT_NODES,
-          REMOVE_NODE_PACKETS_ON_SERVER_START,
-          "If true, all chaos node packets (the things nodes shoot out) will be removed each time"
-          + " your server/world is started. This can prevent some rare crashes.");
+      CHAOS_NODE_SALT_DELAY = loadBoolean("Salted Delay", CAT_NODES, true,
+          "Adds a extra value to the delays on node activity. The value is not truly random but"
+          + " based on the position of the node. If disabled, all nodes will try the same effect"
+          + " at the same time.");
       CHAOS_NODE_PARTICLE_OVERRIDE = loadInt("Particle Setting Override", CAT_NODES,
           CHAOS_NODE_PARTICLE_OVERRIDE, -1, 2,
           "Override vanilla particle settings for chaos nodes. -1 will use vanilla settings, 0 is"
           + " All, 1 is Decreased, and 2 is Minimal");
-      EntityPacketRepair.loadItemList(true, config.getStringList("Repair Whitelist", CAT_NODES,
+      loadNodeItemList(true, config.getStringList("Repair Whitelist", CAT_NODES,
           new String[0],
           "Repair packets will try to repair these items, if possible. REMOVING ITEMS REQUIRES A RESTART."));
-      EntityPacketRepair.loadItemList(false, config.getStringList("Repair Blacklist", CAT_NODES,
+      loadNodeItemList(false, config.getStringList("Repair Blacklist", CAT_NODES,
           new String[0],
           "Repair packets will not try to repair these items. REMOVING ITEMS REQUIRES A RESTART."));
 
@@ -485,6 +474,20 @@ public class GemsConfig extends AdaptiveConfig {
       //@formatter:on
     } catch (Exception e) {
       System.out.println("Oh noes!!! Couldn't load configuration file properly!");
+    }
+  }
+
+  public static void loadNodeItemList(boolean whitelist, String[] list) {
+
+    for (int i = 0; i < list.length; ++i) {
+      Item item = Item.getByNameOrId(list[i]);
+      if (item != null) {
+        if (whitelist) {
+          NODE_REPAIR_WHITELIST.add(item);
+        } else {
+          NODE_REPAIR_BLACKLIST.add(item);
+        }
+      }
     }
   }
 

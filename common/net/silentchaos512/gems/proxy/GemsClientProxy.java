@@ -14,16 +14,13 @@ import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.render.ModBlockRenderers;
 import net.silentchaos512.gems.client.render.entity.RenderChaosProjectile;
-import net.silentchaos512.gems.client.render.entity.RenderEntityPacket;
 import net.silentchaos512.gems.client.render.entity.RenderThrownTomahawk;
+import net.silentchaos512.gems.client.render.particle.ParticleChaos;
 import net.silentchaos512.gems.client.render.particle.ParticleCompass;
 import net.silentchaos512.gems.client.render.particle.ParticleFreezing;
 import net.silentchaos512.gems.client.render.particle.ParticleShocking;
-import net.silentchaos512.gems.client.render.particle.ParticleChaos;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.EntityThrownTomahawk;
-import net.silentchaos512.gems.entity.ModEntities;
-import net.silentchaos512.gems.entity.packet.EntityChaosNodePacket;
 import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.ColorHandlers;
@@ -55,7 +52,6 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
     super.init(registry);
     registry.clientInit();
     registerColorHandlers();
-    EntityChaosNodePacket.initColors();
   }
 
   @Override
@@ -71,7 +67,6 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
 
     // ModBlockRenderers.init(reg);
 
-    reg.registerEntityRenderer(EntityChaosNodePacket.class, new RenderEntityPacket.Factory());
     reg.registerEntityRenderer(EntityChaosProjectile.class, new RenderChaosProjectile.Factory());
     reg.registerEntityRenderer(EntityThrownTomahawk.class, new RenderThrownTomahawk.Factory());
   }

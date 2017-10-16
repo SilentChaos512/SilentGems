@@ -7,6 +7,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.Skulls;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.event.GemsCommonEvents;
@@ -52,6 +53,7 @@ public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
   public void postInit(SRegistry registry) {
 
     super.postInit(registry);
+    Skulls.init();
     ModItems.enchantmentToken.addModRecipes();
     ModItems.guideBook.book.postInit();
 
