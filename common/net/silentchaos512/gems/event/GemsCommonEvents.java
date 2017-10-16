@@ -5,10 +5,13 @@ import java.util.Random;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,6 +29,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.Skulls;
 import net.silentchaos512.gems.enchantment.EnchantmentIceAspect;
 import net.silentchaos512.gems.enchantment.EnchantmentLightningAspect;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
@@ -57,7 +61,8 @@ public class GemsCommonEvents {
 
     Greetings.greetPlayer(event.player);
 
-    SilentGems.instance.logHelper.info("Recalculating tool and armor stats for " + event.player.getDisplayNameString());
+    SilentGems.instance.logHelper
+        .info("Recalculating tool and armor stats for " + event.player.getDisplayNameString());
     // Recalculate tool stats.
     for (ItemStack stack : PlayerHelper.getNonEmptyStacks(event.player)) {
       if (stack != null) {
@@ -135,7 +140,8 @@ public class GemsCommonEvents {
       if (StackHelper.isValid(mainHand)) {
         lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal, mainHand);
         iceAspectLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.iceAspect, mainHand);
-        lightningAspectLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lightningAspect, mainHand);
+        lightningAspectLevel = EnchantmentHelper
+            .getEnchantmentLevel(ModEnchantments.lightningAspect, mainHand);
       }
       // If not, is it on off hand?
       if (lifeStealLevel < 1 && StackHelper.isValid(offHand)) {
@@ -191,13 +197,14 @@ public class GemsCommonEvents {
       Entity killed = event.getEntity();
       Soul soul = ModItems.soulGem.getSoul(killed.getClass());
       // TODO: Uncomment when ready to use soul gems.
-//      if (soul != null && SilentGems.random.nextFloat() < soul.getDropRate()) {
-//        ItemStack soulGem = ModItems.soulGem.getStack(soul);
-//        if (StackHelper.isValid(soulGem)) {
-//          EntityItem entityItem = new EntityItem(killed.world, killed.posX, killed.posY + killed.height / 2f, killed.posZ, soulGem);
-//          killed.world.spawnEntity(entityItem);
-//        }
-//      }
+      // if (soul != null && SilentGems.random.nextFloat() < soul.getDropRate()) {
+      // ItemStack soulGem = ModItems.soulGem.getStack(soul);
+      // if (StackHelper.isValid(soulGem)) {
+      // EntityItem entityItem = new EntityItem(killed.world, killed.posX, killed.posY + killed.height / 2f,
+      // killed.posZ, soulGem);
+      // killed.world.spawnEntity(entityItem);
+      // }
+      // }
     }
   }
 
@@ -240,7 +247,8 @@ public class GemsCommonEvents {
             double motionX = 0.005 * rand.nextGaussian();
             double motionY = 0.005 * rand.nextGaussian();
             double motionZ = 0.005 * rand.nextGaussian();
-            SilentGems.proxy.spawnParticles(EnumModParticles.FREEZING, new Color(0x76e3f2), entity.world, posX, posY, posZ, motionX, motionY, motionZ);
+            SilentGems.proxy.spawnParticles(EnumModParticles.FREEZING, new Color(0x76e3f2),
+                entity.world, posX, posY, posZ, motionX, motionY, motionZ);
           }
         }
 
@@ -284,9 +292,24 @@ public class GemsCommonEvents {
             double motionX = 0.02 * rand.nextGaussian();
             double motionY = 0.05 + Math.abs(0.1 * rand.nextGaussian());
             double motionZ = 0.02 * rand.nextGaussian();
-            SilentGems.proxy.spawnParticles(EnumModParticles.SHOCKING, new Color(0xffef63), entity.world, posX, posY, posZ, motionX, motionY, motionZ);
+            SilentGems.proxy.spawnParticles(EnumModParticles.SHOCKING, new Color(0xffef63),
+                entity.world, posX, posY, posZ, motionX, motionY, motionZ);
           }
         }
+      }
+    }
+  }
+
+  @SubscribeEvent
+  public void onLivingSpawn(LivingUpdateEvent event) {
+
+    // FIXME: Halloween detection!
+    if (event.getEntity() instanceof IMob) {
+      if (!event.getEntityLiving().getEntityData().getBoolean("SG_HW_Mob")) {
+        ItemStack skull = Skulls.getSkull(EntityCreeper.class);
+        event.getEntityLiving().setItemStackToSlot(EntityEquipmentSlot.HEAD, skull);
+        ((EntityLiving) event.getEntityLiving()).setDropChance(EntityEquipmentSlot.HEAD, 1.0f);
+        event.getEntityLiving().getEntityData().setBoolean("SG_HW_Mob", true);
       }
     }
   }
@@ -307,7 +330,8 @@ public class GemsCommonEvents {
       for (ItemStack stack : PlayerHelper.getNonEmptyStacks(event.getEntityPlayer())) {
         if (stack.getItem() instanceof ItemBlockPlacer) {
           ItemBlockPlacer itemPlacer = (ItemBlockPlacer) stack.getItem();
-          IBlockState state = ((ItemBlock) entityStack.getItem()).getBlock().getStateFromMeta(entityStack.getItemDamage());
+          IBlockState state = ((ItemBlock) entityStack.getItem()).getBlock()
+              .getStateFromMeta(entityStack.getItemDamage());
           if (state.equals(itemPlacer.getBlockPlaced(stack))) {
             // TODO
             // event.getItem().setDead();
