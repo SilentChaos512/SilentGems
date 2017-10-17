@@ -795,6 +795,22 @@ item.silentgems:GemShard28.name=Lepidolite Shard
 item.silentgems:GemShard29.name=Ametrine Shard
 item.silentgems:GemShard30.name=Black Diamond Shard
 item.silentgems:GemShard31.name=Alexandrite Shard
+item.silentgems:GemShard32.name=Pyrope Shard
+item.silentgems:GemShard33.name=Coral Shard
+item.silentgems:GemShard34.name=Sunstone Shard
+item.silentgems:GemShard35.name=Cat's Eye Shard
+item.silentgems:GemShard36.name=Zircon Shard
+item.silentgems:GemShard37.name=Jade Shard
+item.silentgems:GemShard38.name=Chrysoprase Shard
+item.silentgems:GemShard39.name=Apatite Shard
+item.silentgems:GemShard40.name=Fluorite Shard
+item.silentgems:GemShard41.name=Kyanite Shard
+item.silentgems:GemShard42.name=Sodalite Shard
+item.silentgems:GemShard43.name=Ammolite Shard
+item.silentgems:GemShard44.name=Kunzite Shard
+item.silentgems:GemShard45.name=Rose Quartz Shard
+item.silentgems:GemShard46.name=Tektite Shard
+item.silentgems:GemShard47.name=Pearl Shard
 
 item.silentgems:GlowRoseFertilizer.name=Glow Rose Fertilizer
 item.silentgems:GlowRoseFertilizer.desc=Grows glow roses. Say that three times fast!
@@ -868,6 +884,7 @@ item.silentgems:ChaosIronUnfired.name=Unfired Chaos Iron Ingot
 item.silentgems:EnderEssence.name=Ender Essence
 item.silentgems:EnderEssenceShard.name=Ender Essence Shard
 item.silentgems:EnderFrost.name=Ender Frost
+item.silentgems:EnderSlimeBall.name=Ender Slimeball
 item.silentgems:FluffyFabric.name=Fluffy Fabric
 item.silentgems:GildedString.name=Gilded String
 item.silentgems:IronPotato.name=Iron Potato
@@ -960,6 +977,11 @@ donut.silentgems:5=Spicy! Why is it spicy!?
 donut.silentgems:6=But nobody came.
 donut.silentgems:7=The donut whispers in a tiny voice... "Tell your friends!"
 donut.silentgems:8=You feel... something.
+
+
+
+# Entities
+entity.EnderSlime.name=Ender Slime
 
 
 

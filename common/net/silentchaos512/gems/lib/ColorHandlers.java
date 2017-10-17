@@ -62,16 +62,6 @@ public class ColorHandlers {
       }
     }, ModItems.gemHelmet, ModItems.gemChestplate, ModItems.gemLeggings, ModItems.gemBoots);
 
-    // Gem Shards
-    itemColors.registerItemColorHandler(new IItemColor() {
-
-      @Override
-      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
-
-        return stack.getItemDamage() > 15 ? 0x999999 : 0xFFFFFF;
-      }
-    }, ModItems.gemShard);
-
     // Enchantment Tokens
     itemColors.registerItemColorHandler(new IItemColor() {
 

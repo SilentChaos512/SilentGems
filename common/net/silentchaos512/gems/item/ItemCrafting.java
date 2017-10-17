@@ -35,17 +35,19 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
       Names.MAGNIFYING_GLASS, Names.PLUME, Names.SHINY_PLUME, Names.ENDER_FROST, Names.NETHER_SHARD,
       Names.NETHER_CLUSTER, Names.GILDED_STRING, Names.YARN_BALL, Names.RAWHIDE_BONE,
       Names.ARMOR_LATTICE_MUNDANE, Names.ARMOR_LATTICE_REGULAR, Names.ARMOR_LATTICE_SUPER,
-      Names.BLAZESTONE, Names.MYSTERY_GOO, Names.CHAOS_IRON_UNFIRED, Names.CHAOS_IRON };
+      Names.BLAZESTONE, Names.MYSTERY_GOO, Names.CHAOS_IRON_UNFIRED, Names.CHAOS_IRON,
+      Names.ENDER_SLIMEBALL };
 
   public static final String[] SORTED_NAMES = { //
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_FROST, Names.ENDER_ESSENCE_SHARD,
       Names.CHAOS_IRON_UNFIRED, Names.CHAOS_IRON, Names.NETHER_SHARD, Names.NETHER_CLUSTER,
-      Names.CHAOS_COAL, Names.STICK_IRON, Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER,
-      Names.ARMOR_LATTICE_MUNDANE, Names.ARMOR_LATTICE_REGULAR, Names.ARMOR_LATTICE_SUPER,
-      Names.GILDED_STRING, Names.BLAZESTONE, Names.MYSTERY_GOO, Names.CHAOS_CORE, Names.IRON_POTATO,
-      Names.FLUFFY_FABRIC, Names.PLUME, Names.SHINY_PLUME, Names.YARN_BALL, Names.RAWHIDE_BONE,
-      Names.MAGNIFYING_GLASS, Names.NAME_PLATE, Names.UPGRADE_BASE };
+      Names.ENDER_SLIMEBALL, Names.CHAOS_COAL, Names.STICK_IRON, Names.ORNATE_STICK_GOLD,
+      Names.ORNATE_STICK_SILVER, Names.ARMOR_LATTICE_MUNDANE, Names.ARMOR_LATTICE_REGULAR,
+      Names.ARMOR_LATTICE_SUPER, Names.GILDED_STRING, Names.BLAZESTONE, Names.MYSTERY_GOO,
+      Names.CHAOS_CORE, Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.PLUME, Names.SHINY_PLUME,
+      Names.YARN_BALL, Names.RAWHIDE_BONE, Names.MAGNIFYING_GLASS, Names.NAME_PLATE,
+      Names.UPGRADE_BASE };
 
   public final ItemStack armorLatticeMundane = getStack(Names.ARMOR_LATTICE_MUNDANE);
   public final ItemStack armorLatticeRegular = getStack(Names.ARMOR_LATTICE_REGULAR);
@@ -62,6 +64,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
   public final ItemStack enderEssence = getStack(Names.ENDER_ESSENCE);
   public final ItemStack enderEssenceShard = getStack(Names.ENDER_ESSENCE_SHARD);
   public final ItemStack enderFrost = getStack(Names.ENDER_FROST);
+  public final ItemStack enderSlimeBall = getStack(Names.ENDER_SLIMEBALL);
   public final ItemStack fluffyFabric = getStack(Names.FLUFFY_FABRIC);
   public final ItemStack gildedString = getStack(Names.GILDED_STRING);
   public final ItemStack ironPotato = getStack(Names.IRON_POTATO);

@@ -35,13 +35,18 @@ public class ModRecipes implements IRegistrationHandler<IRecipe> {
     // Light <--> Dark gem conversion.
     ItemStack slimeBall = new ItemStack(Items.SLIME_BALL);
     ItemStack magmaCream = new ItemStack(Items.MAGMA_CREAM);
+    ItemStack enderSlime = ModItems.craftingMaterial.enderSlimeBall;
     for (int i = 0; i < 16; ++i) {
-      EnumGem light = EnumGem.values()[i];
+      EnumGem classic = EnumGem.values()[i];
       EnumGem dark = EnumGem.values()[i + 16];
-      ItemStack lightShards = new ItemStack(ModItems.gemShard, 6, light.ordinal());
+      EnumGem light = EnumGem.values()[i + 32];
+      ItemStack classicShards = new ItemStack(ModItems.gemShard, 6, classic.ordinal());
       ItemStack darkShards = new ItemStack(ModItems.gemShard, 6, dark.ordinal());
-      SilentGemsAPI.addAltarRecipe(darkShards, light.getItem(), 80000, magmaCream);
-      SilentGemsAPI.addAltarRecipe(lightShards, dark.getItem(), 80000, slimeBall);
+      ItemStack lightShards = new ItemStack(ModItems.gemShard, 6, light.ordinal());
+      SilentGemsAPI.addAltarRecipe(darkShards, classic.getItem(), 80000, magmaCream);
+      SilentGemsAPI.addAltarRecipe(classicShards, dark.getItem(), 80000, slimeBall);
+      SilentGemsAPI.addAltarRecipe(lightShards, classic.getItem(), 80000, enderSlime);
+      SilentGemsAPI.addAltarRecipe(classicShards, light.getItem(), 80000, slimeBall);
     }
 
     // Recipe handlers.

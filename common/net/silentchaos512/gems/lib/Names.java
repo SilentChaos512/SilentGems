@@ -74,6 +74,7 @@ public class Names {
   public static final String ENDER_ESSENCE = "EnderEssence";
   public static final String ENDER_ESSENCE_SHARD = "EnderEssenceShard";
   public static final String ENDER_FROST = "EnderFrost";
+  public static final String ENDER_SLIMEBALL = "EnderSlimeBall";
   public static final String FLUFFY_FABRIC = "FluffyFabric";
   public static final String GILDED_STRING = "GildedString";
   public static final String IRON_POTATO = "IronPotato";
