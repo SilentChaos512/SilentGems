@@ -1,17 +1,14 @@
 package net.silentchaos512.gems.event;
 
 import java.util.Random;
+import java.util.UUID;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,7 +26,6 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
-import net.silentchaos512.gems.api.Skulls;
 import net.silentchaos512.gems.enchantment.EnchantmentIceAspect;
 import net.silentchaos512.gems.enchantment.EnchantmentLightningAspect;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
@@ -40,6 +36,8 @@ import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemBlockPlacer;
 import net.silentchaos512.gems.item.ItemSoulGem.Soul;
+import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.item.ToolRenderHelperBase;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
@@ -77,10 +75,10 @@ public class GemsCommonEvents {
   @SubscribeEvent
   public void onItemCrafted(ItemCraftedEvent event) {
 
-    if (event.crafting.getItem() instanceof ITool) {
+    // Set original owner, update model cache of tools/armor.
+    if (event.crafting.getItem() instanceof ITool || event.crafting.getItem() instanceof IArmor) {
       ToolHelper.setOriginalOwner(event.crafting, event.player);
-    } else if (event.crafting.getItem() instanceof IArmor) {
-      ArmorHelper.setOriginalOwner(event.crafting, event.player);
+      ModItems.toolRenderHelper.updateModelCache(event.crafting);
     }
     // Transfer Chaos when upgrading an orb.
     else if (event.crafting.getItem() == ModItems.chaosOrb) {

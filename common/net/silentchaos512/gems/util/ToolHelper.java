@@ -295,6 +295,7 @@ public class ToolHelper {
     if (isBroken(tool)) {
       // Player broke the tool. Update the head model.
       recalculateStats(tool);
+      ModItems.toolRenderHelper.updateModelCache(tool);
     } else if (GemsConfigHC.TOOLS_BREAK && wouldBreak) {
       entityLiving.renderBrokenItemStack(tool);
       StackHelper.shrink(tool, 1);
