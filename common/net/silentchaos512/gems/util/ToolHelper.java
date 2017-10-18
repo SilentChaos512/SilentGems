@@ -62,6 +62,7 @@ import net.silentchaos512.gems.config.GemsConfigHC;
 import net.silentchaos512.gems.guide.GuideBookGems;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.item.ToolRenderHelperBase;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemPickaxe;
@@ -112,6 +113,9 @@ public class ToolHelper {
 
   // Settings
   public static final String NBT_SETTINGS_SPECIAL = "SpecialEnabled";
+
+  // Special
+  public static final String NBT_LOCK_STATS = "SG_LockStats";
 
   // Construction
   public static final String NBT_PART_ROOT = "Part";
@@ -190,21 +194,23 @@ public class ToolHelper {
     if (parts.length == 0)
       return;
 
-    ToolStats stats = new ToolStats(tool, parts, grades).calculate();
-
     // Clear old render cache
     clearOldRenderCache(tool);
 
-    setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_DURABILITY, (int) stats.durability);
-    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_SPEED, stats.harvestSpeed);
-    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MELEE_DAMAGE, stats.meleeDamage);
-    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MAGIC_DAMAGE, stats.magicDamage);
-    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MELEE_SPEED, stats.meleeSpeed);
-    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_SPEED, stats.chargeSpeed);
-    setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_PROTECTION, stats.protection);
-    setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_ENCHANTABILITY, (int) stats.enchantability);
-    setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_LEVEL, stats.harvestLevel);
-    setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_TOOL_TIER, parts[0].getTier().ordinal());
+    if (!tool.getTagCompound().getBoolean(NBT_LOCK_STATS)) {
+      ToolStats stats = new ToolStats(tool, parts, grades).calculate();
+
+      setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_DURABILITY, (int) stats.durability);
+      setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_SPEED, stats.harvestSpeed);
+      setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MELEE_DAMAGE, stats.meleeDamage);
+      setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MAGIC_DAMAGE, stats.magicDamage);
+      setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MELEE_SPEED, stats.meleeSpeed);
+      setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_SPEED, stats.chargeSpeed);
+      setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_PROTECTION, stats.protection);
+      setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_ENCHANTABILITY, (int) stats.enchantability);
+      setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_LEVEL, stats.harvestLevel);
+      setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_TOOL_TIER, parts[0].getTier().ordinal());
+    }
   }
 
   @SuppressWarnings("deprecation")

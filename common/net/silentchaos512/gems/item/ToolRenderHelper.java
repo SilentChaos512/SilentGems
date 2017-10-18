@@ -121,6 +121,10 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
         list.add(loc.getMiscText("Tooltip.OriginalOwner.Unknown"));
     }
 
+    if (controlDown && tool.getTagCompound().getBoolean(ToolHelper.NBT_LOCK_STATS)) {
+      list.add(loc.getMiscText("Tooltip.LockedStats"));
+    }
+
     // Example tool?
     if (tool.hasTagCompound() && tool.getTagCompound().hasKey(ToolHelper.NBT_EXAMPLE_TOOL_TIER)) {
       EnumMaterialTier tier = EnumMaterialTier.values()[tool.getTagCompound()

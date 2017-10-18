@@ -96,6 +96,8 @@ public class RecipeDecorateTool extends RecipeBaseSL {
 
     result = ToolHelper.decorateTool(tool, west, north, east, south);
 
+    boolean lockedStats = result.getTagCompound().getBoolean(ToolHelper.NBT_LOCK_STATS);
+
     // Other materials
     for (ItemStack other : otherMats) {
       ToolPart part = ToolPartRegistry.fromStack(other);
@@ -106,6 +108,10 @@ public class RecipeDecorateTool extends RecipeBaseSL {
         // TODO: Are we removing grips?
         //ToolHelper.setRenderPart(result, part, grade, EnumPartPosition.ROD_GRIP);
       } else if (part instanceof ToolPartTip) {
+        if (lockedStats) {
+          // Tips change stats, so using them with locked tools is not allowed.
+          return StackHelper.empty();
+        }
         ToolHelper.setRenderPart(result, part, grade, EnumPartPosition.TIP);
       }
     }
