@@ -69,15 +69,18 @@ public class TileChaosNode extends TileEntitySL implements ITickable, IChaosProv
     // Generate chaos.
     chaosStored = Math.min(getCharge() + CHAOS_GENERATION_RATE, getMaxCharge());
 
+    if (world.isRemote) {
+      spawnParticles();
+      return;
+    }
+
     // Clear entity lists each tick. These will be repopulated when necessary.
     players.clear();
     passives.clear();
     hostiles.clear();
 
     long time = world.getTotalWorldTime() + timeSalt;
-    // Using a random seeded with world time seems to keep the particles (client) synced with which ones actually are
-    // affected (server)... at least in singleplayer.
-    Random random = new Random(time);
+    Random random = SilentGems.random;
     boolean playSound = false;
 
     // Send Chaos?
@@ -122,9 +125,6 @@ public class TileChaosNode extends TileEntitySL implements ITickable, IChaosProv
     if (playSound)
       world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_HOE_TILL,
           SoundCategory.AMBIENT, 1.0f, (float) (0.4f + 0.05f * SilentGems.random.nextGaussian()));
-
-    if (world.isRemote)
-      spawnParticles();
   }
 
   public boolean tryApplyEffectToEntity(EntityLivingBase entity, NodeEffect effect, Random random) {

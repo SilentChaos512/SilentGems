@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+2.5.7
+Fixed: Tools not updating their colors are breaking/repairing.
+Fixed: Node/pylon particles not syncing with clients properly.
+
 2.5.6
 Added: Halloween Hijinks. Even the baddies wanna dress up! Can be disabled in the config (misc category)
 Added: Config to change the way decorating repairs tools and armor. This is under the hardcore/tools category. The new default is MATERIAL_BASED, which restores half the materials durability (considering the grade) to tools, and a quarter for armor. The tool's "repair multiplier" still counts (shovels get twice the repair value, etc.) Change to CLASSIC if you want the old behavior.
@@ -8,7 +12,7 @@ Added: Missing pages in the Crafting Materials chapter of the manual.
 Added: (Hardcore) Option to make supercharged gems require ender essence instead of glowstone (disabled by default).
 Added: Ender Slimes, a new mob that spawn in the end. They drop Ender Slimeballs.
 Added: Transmutation recipes for light gems. Catalyst is Ender Slimeballs, of course.
-Changed: Nodes and pylons no longer create entities to transfer effects. They transfer all effects directly to the target block/entity. Note: There may be some discrepancies between what the client sees and what the server does. I don't have a means to reliably test this.
+Changed: Nodes and pylons no longer create entities to transfer effects. They transfer all effects directly to the target block/entity. Note: There are discrepancies between what the client sees and what the server does when playing on servers. I'll work on it.
 Changed: Nodes and pylons require a direct line-of-sight to transfer effects. This should ignore blocks with no collision boxes (other nodes, grass, etc.)
 Changed: Material grader is now cheaper to craft.
 Changed: Material grader now works much faster and uses much less chaos. It can also work without chaos, but at 1/6 of the speed.

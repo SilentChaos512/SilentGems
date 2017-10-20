@@ -1,11 +1,13 @@
 package net.silentchaos512.gems.util;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.EnumModParticles;
+import net.silentchaos512.gems.network.NetworkHandler;
+import net.silentchaos512.gems.network.message.MessageTransferParticles;
 import net.silentchaos512.lib.util.Color;
 
 public class NodePacketHelper {
@@ -23,6 +25,14 @@ public class NodePacketHelper {
   }
 
   public static void spawnParticles(World world, Vec3d from, Vec3d to, int color) {
+
+    if (!world.isRemote) {
+      // We can only spawn particles on the client, so send a packet out to the clients if we try to do this on the
+      // server side!
+      NetworkHandler.INSTANCE.sendToAllAround(new MessageTransferParticles(from, to, color),
+          new TargetPoint(world.provider.getDimension(), from.x, from.y, from.z, 64));
+      return;
+    }
 
     final int stepCount = 20 - 4 * SilentGems.proxy.getParticleSettings();
     final double distance = (float) from.distanceTo(to);

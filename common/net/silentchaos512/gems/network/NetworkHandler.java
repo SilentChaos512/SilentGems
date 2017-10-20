@@ -10,6 +10,7 @@ import net.silentchaos512.gems.network.message.MessageKeyReturnHome;
 import net.silentchaos512.gems.network.message.MessageSetFlight;
 import net.silentchaos512.gems.network.message.MessageToggleChaosGem;
 import net.silentchaos512.gems.network.message.MessageToggleSpecial;
+import net.silentchaos512.gems.network.message.MessageTransferParticles;
 
 public class NetworkHandler {
 
@@ -26,6 +27,7 @@ public class NetworkHandler {
     register(MessageSetFlight.class, Side.CLIENT);
     register(MessageToggleChaosGem.class, Side.SERVER);
     register(MessageKeyReturnHome.class, Side.SERVER);
+    register(MessageTransferParticles.class, Side.CLIENT);
   }
 
   private static void register(Class clazz, Side handlerSide) {
