@@ -200,8 +200,7 @@ public class SkillAreaMiner extends ToolSkillDigger {
     tool.onBlockDestroyed(world, state, pos, player);
 
     if (!world.isRemote) {
-
-      block.onBlockHarvested(world, pos, state, player);
+//      block.onBlockHarvested(world, pos, state, player);
 
       if (block.removedByPlayer(state, world, pos, player, true)) {
         block.onBlockDestroyedByPlayer(world, pos, state);
