@@ -36,7 +36,8 @@ public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject 
   }
 
   @Override
-  public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+  public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state,
+      int fortune) {
 
     List<ItemStack> list = Lists.newArrayList(new ItemStack(getSeed()));
 
@@ -68,7 +69,8 @@ public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject 
   }
 
   @Override
-  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
+      EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     ItemStack heldItem = player.getHeldItem(hand);
 
@@ -86,6 +88,11 @@ public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject 
         if (i == 0 || RANDOM.nextInt(15) <= age) {
           drops.add(new ItemStack(getCrop(), 1, damageDropped(state)));
         }
+      }
+
+      // Soul gem drops (since they normally only drop when breaking blocks).
+      if (SilentGems.random.nextFloat() < 0.025f) { // FIXME: Get the actual drop rate
+        drops.add(ModItems.soulGem.getStack("FluffyPuff"));
       }
 
       // Reset to newly planted state

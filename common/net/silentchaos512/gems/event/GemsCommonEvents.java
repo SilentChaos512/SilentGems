@@ -1,12 +1,14 @@
 package net.silentchaos512.gems.event;
 
 import java.util.Random;
-import java.util.UUID;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockCrops;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -20,6 +22,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -35,9 +38,8 @@ import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemBlockPlacer;
+import net.silentchaos512.gems.item.ItemSoulGem;
 import net.silentchaos512.gems.item.ItemSoulGem.Soul;
-import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.item.ToolRenderHelperBase;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
@@ -192,17 +194,18 @@ public class GemsCommonEvents {
         ToolHelper.incrementStatKillCount(weapon, 1);
 
       // Soul Gems
-      Entity killed = event.getEntity();
+      EntityLivingBase killed = event.getEntityLiving();
       Soul soul = ModItems.soulGem.getSoul(killed.getClass());
-      // TODO: Uncomment when ready to use soul gems.
-      // if (soul != null && SilentGems.random.nextFloat() < soul.getDropRate()) {
-      // ItemStack soulGem = ModItems.soulGem.getStack(soul);
-      // if (StackHelper.isValid(soulGem)) {
-      // EntityItem entityItem = new EntityItem(killed.world, killed.posX, killed.posY + killed.height / 2f,
-      // killed.posZ, soulGem);
-      // killed.world.spawnEntity(entityItem);
-      // }
-      // }
+      if (soul != null && SilentGems.random.nextFloat() < soul.getDropRate()) {
+        ItemStack soulGem = ModItems.soulGem.getStack(soul);
+        if (StackHelper.isValid(soulGem)) {
+          EntityItem entityItem = new EntityItem(killed.world, killed.posX,
+              killed.posY + killed.height / 2f, killed.posZ, soulGem);
+          killed.world.spawnEntity(entityItem);
+        }
+      }
+
+      // TODO: Soul XP, head bonus
     }
   }
 
@@ -294,6 +297,21 @@ public class GemsCommonEvents {
                 entity.world, posX, posY, posZ, motionX, motionY, motionZ);
           }
         }
+      }
+    }
+  }
+
+  @SubscribeEvent
+  public void onBlockDrops(BlockEvent.HarvestDropsEvent event) {
+
+    ItemSoulGem.Soul soul = ModItems.soulGem.getSoul(event);
+    Block block = event.getState().getBlock();
+    boolean isCrop = block instanceof BlockCrops;
+    boolean isMature = isCrop && ((BlockCrops) block).isMaxAge(event.getState());
+    if (soul != null && (!isCrop || (isCrop && isMature))) {
+      float dropRate = soul.getDropRate() * (1f + 0.15f * event.getFortuneLevel());
+      if (SilentGems.random.nextFloat() < dropRate) {
+        event.getDrops().add(soul.getStack());
       }
     }
   }

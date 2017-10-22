@@ -38,6 +38,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
@@ -52,7 +53,6 @@ import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
-
 
   public static final Material[] effectiveMaterials = new Material[] { Material.CACTUS,
       Material.LEAVES, Material.PLANTS, Material.VINE, Material.WEB };
@@ -158,6 +158,10 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
               int fortune = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
               block.getDrops(drops, world, targetPos, state, fortune);
 
+              // Fire block harvesting event, mostly for soul gem drops.
+              ForgeEventFactory.fireBlockHarvesting(drops, world, targetPos, state, fortune, 1.0f,
+                  false, player);
+
               // Spawn drops in world, remove first seed.
               boolean foundSeed = false;
               for (ItemStack dropStack : drops) {
@@ -170,6 +174,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
                   Block.spawnAsEntity(world, targetPos, dropStack);
                 }
               }
+
               // Reset to default state.
               world.setBlockState(targetPos, block.getDefaultState(), 2);
               flag = true;
@@ -181,6 +186,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
 
     if (flag) {
       ToolHelper.attemptDamageTool(stack, DURABILITY_USAGE, player);
+      player.addExhaustion(0.02f);
     }
     return flag ? EnumActionResult.SUCCESS : EnumActionResult.PASS;
   }
@@ -201,7 +207,8 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
     return onSickleStartBreak(sickle, pos, player, BREAK_RANGE);
   }
 
-  public boolean onSickleStartBreak(ItemStack sickle, BlockPos pos, EntityPlayer player, int range) {
+  public boolean onSickleStartBreak(ItemStack sickle, BlockPos pos, EntityPlayer player,
+      int range) {
 
     if (ToolHelper.isBroken(sickle)) {
       return false;
