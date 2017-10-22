@@ -2,8 +2,6 @@ package net.silentchaos512.gems.api;
 
 import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;

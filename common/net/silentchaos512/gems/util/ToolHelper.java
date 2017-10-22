@@ -1074,50 +1074,7 @@ public class ToolHelper {
     }
   }
 
-  public static void addExampleRecipe(Item item, String line1, String line2, String line3) {
-
-    if (SilentLib.getMCVersion() >= 12) {
-      addExampleRecipeMC12(item, line1, line2, line3);
-    } else {
-      addExampleRecipeMC11(item, line1, line2, line3);
-    }
-  }
-
-  private static void addExampleRecipeMC11(Item item, String line1, String line2, String line3) {
-
-    // Classic recipes
-
-    ConfigOptionToolClass config = ((ITool) item).getConfig();
-
-    ItemStack head, rod, filler;
-    for (EnumMaterialTier tier : EnumMaterialTier.values()) {
-      if (config.validTiers.contains(tier)) {
-        if (tier == EnumMaterialTier.SUPER) {
-          rod = ModItems.craftingMaterial.toolRodGold;
-        } else {
-          rod = new ItemStack(Items.STICK);
-        }
-        filler = tier.getFillerStack();
-
-        List<ToolPart> heads = new ArrayList<>();
-        for (ToolPart part : ToolPartRegistry.getMains()) {
-          if (part.getTier() == tier && StackHelper.isValid(part.getCraftingStack())) {
-            head = part.getCraftingStack();
-
-            // Don't need registry names for pre-1.12.
-            if (line1.contains("f") || line2.contains("f") || line3.contains("f"))
-              SilentGems.registry.recipes.addShaped("", constructTool(item, rod, head, head, head),
-                  line1, line2, line3, 'g', head, 's', rod, 'f', filler);
-            else
-              SilentGems.registry.recipes.addShaped("", constructTool(item, rod, head), line1,
-                  line2, line3, 'g', head, 's', rod);
-          }
-        }
-      }
-    }
-  }
-
-  private static void addExampleRecipeMC12(Item item, String line1, String line2, String line3) {
+  public static void addExampleRecipe(Item item, String... lines) {
 
     // New ingredient-based recipes
 
@@ -1148,13 +1105,8 @@ public class ToolHelper {
       tags.setInteger(NBT_EXAMPLE_TOOL_TIER, tier.ordinal());
       result.setTagCompound(tags);
 
-      if (line1.contains("f") || line2.contains("f") || line3.contains("f"))
-        GameRegistry.addShapedRecipe(recipeName, new ResourceLocation(SilentGems.MODID), result,
-            line1, line2, line3, 'g', headIngredient, 's', rodIngredient, 'f',
-            tier.getFillerStack());
-      else
-        GameRegistry.addShapedRecipe(recipeName, new ResourceLocation(SilentGems.MODID), result,
-            line1, line2, line3, 'g', headIngredient, 's', rodIngredient);
+      GameRegistry.addShapedRecipe(recipeName, new ResourceLocation(SilentGems.MODID), result,
+            lines, 'g', headIngredient, 's', rodIngredient);
     }
   }
 

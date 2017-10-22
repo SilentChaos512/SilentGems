@@ -114,7 +114,7 @@ public class ItemGemDagger extends ItemGemSword {
   public void addRecipes(RecipeMaker recipes) {
 
     if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, "g", "s", "f");
+      ToolHelper.addExampleRecipe(this, "g", "s");
   }
 
   @Override

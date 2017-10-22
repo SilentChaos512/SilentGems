@@ -1,5 +1,9 @@
 package net.silentchaos512.gems.init;
 
+import static net.silentchaos512.gems.api.lib.EnumMaterialTier.MUNDANE;
+import static net.silentchaos512.gems.api.lib.EnumMaterialTier.REGULAR;
+import static net.silentchaos512.gems.api.lib.EnumMaterialTier.SUPER;
+
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -11,10 +15,8 @@ import net.silentchaos512.gems.recipe.RecipeChaosGemUpgrade;
 import net.silentchaos512.gems.recipe.RecipeDecorateArmor;
 import net.silentchaos512.gems.recipe.RecipeDecorateTool;
 import net.silentchaos512.gems.recipe.RecipeHoldingGemSetBlock;
+import net.silentchaos512.gems.recipe.RecipeMixedMaterialItem;
 import net.silentchaos512.gems.recipe.RecipeMultiGemArmor;
-import net.silentchaos512.gems.recipe.RecipeMultiGemBow;
-import net.silentchaos512.gems.recipe.RecipeMultiGemShield;
-import net.silentchaos512.gems.recipe.RecipeMultiGemTool;
 import net.silentchaos512.gems.recipe.RecipeNamePlate;
 import net.silentchaos512.lib.registry.IRegistrationHandler;
 import net.silentchaos512.lib.registry.RecipeMaker;
@@ -49,10 +51,55 @@ public class ModRecipes implements IRegistrationHandler<IRecipe> {
       SilentGemsAPI.addAltarRecipe(classicShards, light.getItem(), 80000, slimeBall);
     }
 
-    // Recipe handlers.
-    recipes.addCustomRecipe("multipart_tool", new RecipeMultiGemTool());
-    recipes.addCustomRecipe("multipart_shield", new RecipeMultiGemShield());
-    recipes.addCustomRecipe("multipart_bow", new RecipeMultiGemBow());
+    //@formatter:off
+    // Axe
+    recipes.addCustomRecipe("multipart_axe",
+        new RecipeMixedMaterialItem(null, ModItems.axe, "hh", "hr", " r"));
+    // Bow
+    recipes.addCustomRecipe("multipart_bow_mundane",
+        new RecipeMixedMaterialItem(MUNDANE, ModItems.bow, "rhs", "h s", "rhs", 's', Items.STRING));
+    recipes.addCustomRecipe("multipart_bow_regular",
+        new RecipeMixedMaterialItem(REGULAR, ModItems.bow, "rhs", "h s", "rhs", 's', Items.STRING));
+    recipes.addCustomRecipe("multipart_bow_super",
+        new RecipeMixedMaterialItem(SUPER, ModItems.bow, "rhs", "h s", "rhs", 's', ModItems.craftingMaterial.gildedString));
+    // Dagger
+    recipes.addCustomRecipe("multipart_dagger",
+        new RecipeMixedMaterialItem(null, ModItems.dagger, "h", "r"));
+    // Hoe
+    recipes.addCustomRecipe("multipart_hoe",
+        new RecipeMixedMaterialItem(null, ModItems.hoe, "hh", " r", " r"));
+    // Katana
+    recipes.addCustomRecipe("multipart_katana",
+        new RecipeMixedMaterialItem(null, ModItems.katana, "hh", "h ", "r "));
+    // Machete
+    recipes.addCustomRecipe("multipart_machete",
+        new RecipeMixedMaterialItem(null, ModItems.machete, " hh", " h ", "r  "));
+    // Paxel
+    recipes.addCustomRecipe("multipart_paxel",
+        new RecipeMixedMaterialItem(null, ModItems.paxel, "hhh", "hrh", "hr "));
+    // Pickaxe
+    recipes.addCustomRecipe("multipart_pickaxe",
+        new RecipeMixedMaterialItem(null, ModItems.pickaxe, "hhh", " r ", " r "));
+    // Scepter
+    recipes.addCustomRecipe("multipart_scepter",
+        new RecipeMixedMaterialItem(null, ModItems.scepter, " h ", "hrh", "hrh"));
+    // Shield
+    recipes.addCustomRecipe("multipart_shield",
+        new RecipeMixedMaterialItem(null, ModItems.shield, "hwh", "wrw", " h ", 'w', "plankWood"));
+    // Shovel
+    recipes.addCustomRecipe("multipart_shovel",
+        new RecipeMixedMaterialItem(null, ModItems.shovel, "h", "r", "r"));
+    // Sickle
+    recipes.addCustomRecipe("multipart_sickle",
+        new RecipeMixedMaterialItem(null, ModItems.sickle, " h", "hh", "r "));
+    // Sword
+    recipes.addCustomRecipe("multipart_sword",
+        new RecipeMixedMaterialItem(null, ModItems.sword, "h", "h", "r"));
+    // Tomahawk
+    recipes.addCustomRecipe("multipart_tomahawk",
+        new RecipeMixedMaterialItem(null, ModItems.tomahawk, "hhh", "hr ", " r "));
+    //@formatter:on
+
     recipes.addCustomRecipe("multipart_armor", new RecipeMultiGemArmor());
     recipes.addCustomRecipe("decorate_tool", new RecipeDecorateTool());
     recipes.addCustomRecipe("decorate_armor", new RecipeDecorateArmor());
