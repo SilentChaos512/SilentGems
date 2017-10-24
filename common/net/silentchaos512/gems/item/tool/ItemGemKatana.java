@@ -122,7 +122,7 @@ public class ItemGemKatana extends ItemGemSword {
   public void addRecipes(RecipeMaker recipes) {
 
     if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, "gg", "g ", "s ");
+      ToolHelper.addExampleRecipe(this, "hh", "h ", "r ");
   }
 
   @Override

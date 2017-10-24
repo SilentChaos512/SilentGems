@@ -134,7 +134,7 @@ public class ItemGemPaxel extends ItemGemPickaxe {
   public void addRecipes(RecipeMaker recipes) {
 
     if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, "ggg", "gsg", "gs ");
+      ToolHelper.addExampleRecipe(this, "hhh", "hrh", "hr ");
   }
 
   @Override

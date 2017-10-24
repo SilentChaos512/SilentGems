@@ -1,8 +1,11 @@
 Silent's Gems - Changelog
 
 2.5.7
-Fixed: Tools not updating their colors are breaking/repairing.
+Rewrote tool construction recipes for flexibility. Hopefully nothing was broken in the process, but keep an eye out.
+Changed: Soul gems will drop again, but they still don't have a use yet. They've been brought more or less up-to-date with the experimental branch, so crop soul gems are in.
+Fixed: Tools not updating their colors when breaking/repairing.
 Fixed: Node/pylon particles not syncing with clients properly.
+Fixed: Area Miner duplicating blocks in some cases (Thermal Expansion machines, for example) (#218)
 
 2.5.6
 Added: Halloween Hijinks. Even the baddies wanna dress up! Can be disabled in the config (misc category)

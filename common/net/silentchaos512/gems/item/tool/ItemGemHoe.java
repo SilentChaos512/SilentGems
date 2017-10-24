@@ -279,7 +279,7 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
   public void addRecipes(RecipeMaker recipes) {
 
     if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, "gg", " s", " s");
+      ToolHelper.addExampleRecipe(this, "hh", " r", " r");
   }
 
   @Override

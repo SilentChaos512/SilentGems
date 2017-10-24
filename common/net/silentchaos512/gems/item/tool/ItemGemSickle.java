@@ -425,7 +425,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   public void addRecipes(RecipeMaker recipes) {
 
     if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, " g", "gg", "s ");
+      ToolHelper.addExampleRecipe(this, " h", "hh", "r ");
   }
 
   @Override

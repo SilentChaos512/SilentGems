@@ -86,7 +86,7 @@ public class ItemGemScepter extends ItemGemSword {
   public void addRecipes(RecipeMaker recipes) {
 
     if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, " g ", "gsg", "gsg");
+      ToolHelper.addExampleRecipe(this, " h ", "hrh", "hrh");
   }
 
   @Override

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.inventory.InventoryCrafting;
@@ -81,7 +82,9 @@ public class RecipeMixedMaterialItem extends RecipeBaseSL {
     for (String str : layout) {
       for (char chr : str.toCharArray()) {
         Ingredient ing = itemMap.get(chr);
-        ingredients.set(x++, ing);
+        if (ing != null) {
+          ingredients.set(x++, ing);
+        }
       }
     }
 
@@ -102,6 +105,13 @@ public class RecipeMixedMaterialItem extends RecipeBaseSL {
     // If we return true here with an otherwise correct layout, we get an empty
     // tool thanks to the example recipes.
     return this.shapedRecipe.matches(inv, world);
+  }
+
+  @Override
+  public @Nonnull ItemStack getRecipeOutput() {
+
+    // Doesn't affect crafting, this just allows CraftTweaker to find the recipe.
+    return new ItemStack(this.toolItem);
   }
 
   protected boolean partTiersMatch(InventoryCrafting inv) {
@@ -152,7 +162,7 @@ public class RecipeMixedMaterialItem extends RecipeBaseSL {
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       ItemStack stack = inv.getStackInSlot(i);
       ToolPart part = ToolPartRegistry.fromStack(stack);
-      if (part != null && part instanceof ToolPartMain) {
+      if (part != null && !part.isBlacklisted(stack) && part instanceof ToolPartMain) {
         list.add(stack);
       }
     }

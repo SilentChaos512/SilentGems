@@ -278,7 +278,7 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   public void addRecipes(RecipeMaker recipes) {
 
     if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, "gg", "gs", " s");
+      ToolHelper.addExampleRecipe(this, "hh", "hr", " r");
   }
 
   @Override

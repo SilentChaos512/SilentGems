@@ -144,7 +144,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   public void addRecipes(RecipeMaker recipes) {
 
     if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, "ggg", "gs ", " s ");
+      ToolHelper.addExampleRecipe(this, "hhh", "hr ", " r ");
   }
 
   @Override

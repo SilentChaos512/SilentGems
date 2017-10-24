@@ -286,7 +286,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   public void addRecipes(RecipeMaker recipes) {
 
     if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, "ggg", " s ", " s ");
+      ToolHelper.addExampleRecipe(this, "hhh", " r ", " r ");
   }
 
   @Override

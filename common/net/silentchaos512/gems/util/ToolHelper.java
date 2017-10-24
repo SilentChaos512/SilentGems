@@ -42,7 +42,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.IBlockPlacer;
@@ -62,7 +61,6 @@ import net.silentchaos512.gems.config.GemsConfigHC;
 import net.silentchaos512.gems.guide.GuideBookGems;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.item.ToolRenderHelperBase;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemPickaxe;
@@ -78,7 +76,6 @@ import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillAreaTill;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
-import net.silentchaos512.lib.SilentLib;
 import net.silentchaos512.lib.recipe.IngredientSL;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
@@ -1076,11 +1073,17 @@ public class ToolHelper {
 
   public static void addExampleRecipe(Item item, String... lines) {
 
+    addExampleRecipe(item, EnumMaterialTier.values(), lines);
+  }
+
+  public static void addExampleRecipe(Item item, EnumMaterialTier[] tiers, String[] lines,
+      Object... extraParams) {
+
     // New ingredient-based recipes
 
     ConfigOptionToolClass config = ((ITool) item).getConfig();
 
-    for (EnumMaterialTier tier : EnumMaterialTier.values()) {
+    for (EnumMaterialTier tier : tiers) {
       // Only add recipes for valid tiers
       if (!config.validTiers.contains(tier))
         continue;
@@ -1105,8 +1108,18 @@ public class ToolHelper {
       tags.setInteger(NBT_EXAMPLE_TOOL_TIER, tier.ordinal());
       result.setTagCompound(tags);
 
-      GameRegistry.addShapedRecipe(recipeName, new ResourceLocation(SilentGems.MODID), result,
-            lines, 'g', headIngredient, 's', rodIngredient);
+      // Super ugly, but I've got never better at the moment.
+      List<Object> params = new ArrayList<>();
+      for (String line : lines)
+        params.add(line);
+      params.add('h');
+      params.add(headIngredient);
+      params.add('r');
+      params.add(rodIngredient);
+      for (Object obj : extraParams)
+        params.add(obj);
+
+      SilentGems.registry.recipes.addShaped(recipeName.getResourcePath(), result, params.toArray());
     }
   }
 

@@ -291,7 +291,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   public void addRecipes(RecipeMaker recipes) {
 
     if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, "g", "s", "s");
+      ToolHelper.addExampleRecipe(this, "h", "r", "r");
   }
 
   @Override

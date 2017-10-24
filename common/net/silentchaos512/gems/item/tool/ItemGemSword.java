@@ -341,7 +341,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
   public void addRecipes(RecipeMaker recipes) {
 
     if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, "g", "g", "s");
+      ToolHelper.addExampleRecipe(this, "h", "h", "r");
   }
 
   @Override
