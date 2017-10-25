@@ -1,7 +1,11 @@
 Silent's Gems - Changelog
 
+2.5.8
+Fixed: Some recipes accepting (and effectively destroying) extra items (#219)
+
 2.5.7
 Rewrote tool construction recipes for flexibility. Hopefully nothing was broken in the process, but keep an eye out.
+Added: CraftTweaker support for tool recipes. Allows both the shape to be changed and extra ingredients to be added to the recipe.
 Changed: Soul gems will drop again, but they still don't have a use yet. They've been brought more or less up-to-date with the experimental branch, so crop soul gems are in.
 Fixed: Tools not updating their colors when breaking/repairing.
 Fixed: Node/pylon particles not syncing with clients properly.

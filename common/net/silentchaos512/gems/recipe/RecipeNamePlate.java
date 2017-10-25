@@ -2,6 +2,7 @@ package net.silentchaos512.gems.recipe;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.lib.recipe.RecipeBaseSL;
 import net.silentchaos512.lib.util.StackHelper;
@@ -9,34 +10,42 @@ import net.silentchaos512.lib.util.StackHelper;
 public class RecipeNamePlate extends RecipeBaseSL {
 
   @Override
+  public boolean matches(InventoryCrafting inv, World world) {
+
+    int countNamePlate = 0;
+    int countOther = 0;
+
+    for (ItemStack stack : getNonEmptyStacks(inv)) {
+      // Name Plate
+      if (stack.isItemEqual(ModItems.craftingMaterial.namePlate) && stack.hasDisplayName())
+        ++countNamePlate;
+      // Other
+      else
+        ++countOther;
+    }
+
+    return countNamePlate == 1 && countOther == 1;
+  }
+
+  @Override
   public ItemStack getCraftingResult(InventoryCrafting inv) {
 
     ItemStack stackNamePlate = StackHelper.empty();
     ItemStack stackOther = StackHelper.empty();
-    ItemStack stack;
-    ItemStack namePlateForMatching = ModItems.craftingMaterial.namePlate;
 
-    for (int i = 0; i < inv.getSizeInventory(); ++i) {
-      stack = inv.getStackInSlot(i);
-      if (StackHelper.isValid(stack)) {
-        // Name plate?
-        if (stack.isItemEqual(namePlateForMatching)) {
-          if (StackHelper.isValid(stackNamePlate)) {
-            return StackHelper.empty();
-          }
-          stackNamePlate = stack;
-        }
-        // Other item?
-        else {
-          if (StackHelper.isValid(stackOther)) {
-            return StackHelper.empty();
-          }
-          stackOther = stack;
-        }
+    for (ItemStack stack : getNonEmptyStacks(inv)) {
+      // Name plate?
+      if (stack.isItemEqual(ModItems.craftingMaterial.namePlate)) {
+        stackNamePlate = stack;
+      }
+      // Other item?
+      else {
+        stackOther = stack;
       }
     }
 
-    if (StackHelper.isEmpty(stackNamePlate) || StackHelper.isEmpty(stackOther) || !stackNamePlate.hasDisplayName()) {
+    if (StackHelper.isEmpty(stackNamePlate) || StackHelper.isEmpty(stackOther)
+        || !stackNamePlate.hasDisplayName()) {
       return StackHelper.empty();
     }
 
