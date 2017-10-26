@@ -1,8 +1,14 @@
 package net.silentchaos512.gems.item.armor;
 
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -15,7 +21,6 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
@@ -33,8 +38,6 @@ import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.network.NetworkHandler;
-import net.silentchaos512.gems.network.message.MessageItemRename;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.item.ItemArmorSL;
@@ -43,14 +46,10 @@ import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.UUID;
-
 public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   // sum = 1, starts with boots
-  public static final float[] ABSORPTION_RATIO_BY_SLOT = {0.175f, 0.3f, 0.4f, 0.125f};
+  public static final float[] ABSORPTION_RATIO_BY_SLOT = { 0.175f, 0.3f, 0.4f, 0.125f };
   public static final boolean HAS_EFFECT = false; // Set true for enchanted glow.
 
   private List<ItemStack> subItems = null;
@@ -63,14 +62,17 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   @Override
   public ItemStack constructArmor(ItemStack... materials) {
+
     return ArmorHelper.constructArmor(this, materials);
   }
 
   public float getProtection(ItemStack armor) {
+
     return ABSORPTION_RATIO_BY_SLOT[armorType.getIndex()] * ArmorHelper.getProtection(armor);
   }
 
   public float getToughness(ItemStack stack) {
+
     float durability = ArmorHelper.getMaxDamage(stack) / 1536f;
     float protection = ArmorHelper.getProtection(stack) / 20f;
     float value = durability + protection - 0.8f;
@@ -79,12 +81,14 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   @Override
   public int getMaxDamage(ItemStack stack) {
+
     int x = ArmorHelper.getMaxDamage(stack);
     float y = (1.8f * x + 1515) / 131;
     return (int) (MAX_DAMAGE_ARRAY[armorType.getIndex()] * y);
   }
 
   public static int getPlayerTotalGemArmorValue(EntityLivingBase player) {
+
     float total = 0;
     for (ItemStack armor : player.getArmorInventoryList()) {
       if (StackHelper.isValid(armor)) {
@@ -101,6 +105,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   @Override
   public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor,
       DamageSource source, double damage, int slot) {
+
     // TODO: Special protection, like fall damage?
     if (source.isUnblockable()) {
       return new ArmorProperties(0, 1, 0);
@@ -120,18 +125,22 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
     }
 
     ArmorProperties prop = new ArmorProperties(0, ratio, Integer.MAX_VALUE);
-    //prop.Toughness = getToughness(armor);
+    // prop.Toughness = getToughness(armor);
     return prop;
   }
 
   @Override
   public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
-    return Math.round(getProtection(armor));
+
+    // Handled by attribute modifiers.
+    return 0;
+    // return Math.round(getProtection(armor));
   }
 
   @Override
-  public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source,
-      int damage, int slot) {
+  public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage,
+      int slot) {
+
     int amount = damage - (int) (getToughness(stack) * SilentGems.random.nextFloat());
     int durabilityLeft = getMaxDamage(stack) - stack.getItemDamage();
     amount = amount < 0 ? 0 : (amount > durabilityLeft ? durabilityLeft : amount);
@@ -140,16 +149,17 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   }
 
   @Override
-  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
+  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
+      ItemStack stack) {
 
     Multimap<String, AttributeModifier> multimap = HashMultimap.create();
 
-//    if (slot == this.armorType) {
-//      multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(
-//          ARMOR_MODIFIERS[slot.getIndex()], "Armor modifier", getProtection(stack), 0));
-//      multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(
-//          ARMOR_MODIFIERS[slot.getIndex()], "Armor toughness", getToughness(stack), 0));
-//    }
+    if (slot == this.armorType) {
+      multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(
+          ARMOR_MODIFIERS[slot.getIndex()], "Armor modifier", getProtection(stack), 0));
+      multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(
+          ARMOR_MODIFIERS[slot.getIndex()], "Armor toughness", getToughness(stack), 0));
+    }
 
     return multimap;
   }
@@ -161,7 +171,8 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
     // FIXME
     return SilentGems.RESOURCE_PREFIX + "textures/armor/temparmor.png";
-    //return SilentGems.RESOURCE_PREFIX + "textures/armor/gemarmor_" + (slot == EntityEquipmentSlot.LEGS ? "2" : "1") + ".png";
+    // return SilentGems.RESOURCE_PREFIX + "textures/armor/gemarmor_" + (slot == EntityEquipmentSlot.LEGS ? "2" : "1") +
+    // ".png";
   }
 
   // FIXME
@@ -169,6 +180,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   @SideOnly(Side.CLIENT)
   public ModelBiped getArmorModel(EntityLivingBase entity, ItemStack itemStack,
       EntityEquipmentSlot slot, ModelBiped original) {
+
     ModelGemArmor model = ModelGemArmor.getModel(ArmorHelper.getRenderColorList(itemStack));
     if (model != null) {
       model.setModelAttributes(original);
@@ -179,17 +191,20 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   @Override
   public boolean hasEffect(ItemStack stack) {
+
     return HAS_EFFECT;
   }
 
   @Override
   public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+
     // TODO Tier detection
     return false;
   }
 
   @Override
   public int getItemEnchantability(ItemStack stack) {
+
     return ArmorHelper.getItemEnchantability(stack);
   }
 
@@ -268,8 +283,8 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
         ToolPart part = parts[i];
         EnumMaterialGrade grade = grades[i];
 
-        line = "  " + TextFormatting.YELLOW + part.getKey() + TextFormatting.GOLD + " (" + grade +
-            ")";
+        line = "  " + TextFormatting.YELLOW + part.getKey() + TextFormatting.GOLD + " (" + grade
+            + ")";
         list.add(line);
       }
       list.add(sep);
@@ -280,6 +295,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   @Override
   protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
     if (!ItemHelper.isInCreativeTab(item, tab)) {
       return;
     }
@@ -317,6 +333,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   @Override
   public void addRecipes(RecipeMaker recipes) {
+
     addRecipe(recipes, itemName + "_flint", new ItemStack(Items.FLINT));
     for (EnumGem gem : EnumGem.values()) {
       addRecipe(recipes, itemName + "_" + gem.name(), gem.getItem());
@@ -325,6 +342,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   }
 
   protected void addRecipe(RecipeMaker recipes, String name, ItemStack material) {
+
     ToolPart part = ToolPartRegistry.fromStack(material);
     if (part != null && !part.isBlacklisted(material)) {
       recipes.addShaped(name, constructArmor(material), " g ", "gfg", " g ", 'g', material, 'f',
@@ -334,6 +352,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   @Override
   public String getUnlocalizedName(ItemStack stack) {
+
     return "item.silentgems:" + itemName;
   }
 }
