@@ -4,15 +4,15 @@ import javax.annotation.Nullable;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 
 public class IngredientToolPart extends Ingredient {
 
-  EnumPartPosition pos;
+  ToolPartPosition pos;
 
-  public IngredientToolPart(EnumPartPosition pos) {
+  public IngredientToolPart(ToolPartPosition pos) {
 
     this.pos = pos;
   }

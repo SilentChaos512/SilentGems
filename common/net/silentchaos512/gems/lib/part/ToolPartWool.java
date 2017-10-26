@@ -9,7 +9,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartGrip;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -28,7 +28,7 @@ public class ToolPartWool extends ToolPartGrip {
   }
 
   @Override
-  public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos, int frame) {
+  public ModelResourceLocation getModel(ItemStack tool, ToolPartPosition pos, int frame) {
 
     if (tool.getItem() instanceof ItemGemBow)
       return null;

@@ -23,7 +23,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.part.ToolPartGem;
@@ -79,7 +79,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
     // this.gravity = gravity;
 
     // Color
-    ToolPart part = ToolHelper.getRenderPart(castingStack, EnumPartPosition.HEAD);
+    ToolPart part = ToolHelper.getRenderPart(castingStack, ToolPartPosition.HEAD);
     if (part instanceof ToolPartGem) {
       ToolPartGem partGem = (ToolPartGem) part;
       this.color = new Color(partGem.getGem().getColor());

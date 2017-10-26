@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
@@ -200,7 +200,7 @@ public class ToolData {
     return ToolPartRegistry.getPart(tags.getString(key).split("#")[0]);
   }
 
-  public @Nullable ToolPart getPart(EnumPartPosition pos) {
+  public @Nullable ToolPart getPart(ToolPartPosition pos) {
 
     switch (pos) {
       case HEAD:
@@ -215,7 +215,7 @@ public class ToolData {
     }
   }
 
-  public void setPart(ToolPart part, EnumPartPosition pos) {
+  public void setPart(ToolPart part, ToolPartPosition pos) {
 
     switch (pos) {
       case HEAD:

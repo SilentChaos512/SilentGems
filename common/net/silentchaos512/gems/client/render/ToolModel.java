@@ -26,7 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
@@ -99,14 +99,14 @@ public class ToolModel extends MultiLayerModelSL {
 
     // String debug = "";
 
-    for (EnumPartPosition partPos : EnumPartPosition.values()) {
+    for (ToolPartPosition partPos : ToolPartPosition.values()) {
       // Scepter rods on top of head.
       if (tool.getItem() instanceof ItemGemScepter) {
-        if (partPos == EnumPartPosition.ROD) {
+        if (partPos == ToolPartPosition.ROD) {
           location = ToolRenderHelper.getInstance().getModel(tool, partPos);
           rodModel = modelManager.getModel(location);
           continue;
-        } else if (partPos == EnumPartPosition.ROD_DECO) {
+        } else if (partPos == ToolPartPosition.ROD_DECO) {
           quads.addAll(rodModel.getQuads(state, side, rand));
         }
       }

@@ -11,7 +11,7 @@ import net.silentchaos512.gems.api.IAmmoTool;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartGrip;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
@@ -103,7 +103,7 @@ public class RecipeDecorateTool extends RecipeBaseSL {
       ToolPart part = ToolPartRegistry.fromStack(other);
       EnumMaterialGrade grade = EnumMaterialGrade.fromStack(other);
       if (StackHelper.isValid(result) && part instanceof ToolPartRod) {
-        ToolHelper.setRenderPart(result, part, grade, EnumPartPosition.ROD);
+        ToolHelper.setRenderPart(result, part, grade, ToolPartPosition.ROD);
       } else if (part instanceof ToolPartGrip) {
         // TODO: Are we removing grips?
         //ToolHelper.setRenderPart(result, part, grade, EnumPartPosition.ROD_GRIP);
@@ -112,7 +112,7 @@ public class RecipeDecorateTool extends RecipeBaseSL {
           // Tips change stats, so using them with locked tools is not allowed.
           return StackHelper.empty();
         }
-        ToolHelper.setRenderPart(result, part, grade, EnumPartPosition.TIP);
+        ToolHelper.setRenderPart(result, part, grade, ToolPartPosition.TIP);
       }
     }
 

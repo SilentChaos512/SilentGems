@@ -28,7 +28,7 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.IPartPosition;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartTip;
@@ -271,7 +271,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       list.add("Render Layers");
       IModelData modelData = getModelCache(tool);
       if (modelData != null) {
-        for (EnumPartPosition pos : EnumPartPosition.values()) {
+        for (ToolPartPosition pos : ToolPartPosition.values()) {
           String key = "Layer" + pos.ordinal();
           String str = "  %s: %s, %X";
           ToolPart renderPart = ToolHelper.getRenderPart(tool, pos);
@@ -387,7 +387,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     Set<ModelResourceLocation> set = Sets.newConcurrentHashSet();
 
     for (ToolPart part : ToolPartRegistry.getValues()) {
-      for (EnumPartPosition pos : EnumPartPosition.values()) {
+      for (ToolPartPosition pos : ToolPartPosition.values()) {
         for (Item itemTool : ModItems.tools) {
           for (int frame = 0; frame < (itemTool instanceof ItemGemBow ? 4 : 1); ++frame) {
             ModelResourceLocation model = part.getModel(new ItemStack(itemTool), pos, frame);
@@ -465,7 +465,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
    * Gets the model for the specified tool and position. Gets the animation frame on its own. Models are cached for
    * performance.
    */
-  public @Nullable ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos) {
+  public @Nullable ModelResourceLocation getModel(ItemStack tool, ToolPartPosition pos) {
 
     if (StackHelper.isEmpty(tool)) {
       return modelError;
@@ -485,7 +485,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       // I assume broken tools won't be kept that way too often, so do we even need to cache that model?
 
       // Bow "arrow" models
-      if (pos == EnumPartPosition.ROD_GRIP && isBow) {
+      if (pos == ToolPartPosition.ROD_GRIP && isBow) {
         return getArrowModel(tool, frame);
       }
 

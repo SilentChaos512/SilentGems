@@ -19,7 +19,7 @@ import net.minecraftforge.common.crafting.CraftingHelper;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
@@ -59,8 +59,8 @@ public class RecipeMixedMaterialItem extends RecipeBaseSL {
 
     Map<Character, Ingredient> itemMap = new HashMap<>();
     itemMap.put(' ', Ingredient.EMPTY);
-    itemMap.put(CHAR_HEAD_PART, new IngredientToolPart(EnumPartPosition.HEAD));
-    itemMap.put(CHAR_ROD_PART, new IngredientToolPart(EnumPartPosition.ROD));
+    itemMap.put(CHAR_HEAD_PART, new IngredientToolPart(ToolPartPosition.HEAD));
+    itemMap.put(CHAR_ROD_PART, new IngredientToolPart(ToolPartPosition.ROD));
 
     // Read item map (ignoring any errors for now)
     for (; index < recipe.length; index += 2) {

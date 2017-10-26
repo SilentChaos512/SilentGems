@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.api.lib.IPartPosition;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.util.ToolHelper;
@@ -23,10 +23,10 @@ public class ToolModelData implements IModelData {
   public ToolModelData(ItemStack tool) {
 
     int totalFrames = ToolRenderHelper.getInstance().getTotalAnimationFrames(tool);
-    models = new ModelResourceLocation[totalFrames][EnumPartPosition.values().length];
-    colors = new int[EnumPartPosition.values().length];
+    models = new ModelResourceLocation[totalFrames][ToolPartPosition.values().length];
+    colors = new int[ToolPartPosition.values().length];
 
-    for (EnumPartPosition pass : EnumPartPosition.values()) {
+    for (ToolPartPosition pass : ToolPartPosition.values()) {
       // Get part for each render pass.
       ToolPart part = ToolHelper.getRenderPart(tool, pass);
       if (part != null) {

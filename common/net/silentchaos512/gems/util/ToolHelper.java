@@ -49,7 +49,7 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumDecoPos;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
@@ -117,22 +117,10 @@ public class ToolHelper {
   // Construction
   public static final String NBT_PART_ROOT = "Part";
 
-  public static final String NBT_PART_HEAD = "Part0";
-  public static final String NBT_PART_ROD = "PartRod";
-  public static final String NBT_PART_ROD_DECO = "PartRodDeco";
-  public static final String NBT_PART_ROD_WOOL = "PartRodWool";
-  public static final String NBT_PART_HEAD_TIP = "PartHeadTip";
-
   // Saves tool tier to save processing power.
   public static final String NBT_TOOL_TIER = "ToolTier";
   // Used for client-side name generation, stored temporarily then removed.
   public static final String NBT_TEMP_PARTLIST = "PartListForName";
-
-  // Decoration
-  public static final String NBT_DECO_HEAD_L = "DecoHeadL";
-  public static final String NBT_DECO_HEAD_M = "DecoHeadM";
-  public static final String NBT_DECO_HEAD_R = "DecoHeadR";
-  public static final String NBT_DECO_ROD = "DecoRod";
 
   // Stats
   public static final String NBT_PROP_DURABILITY = "Durability";
@@ -179,34 +167,37 @@ public class ToolHelper {
    * called any time changes are made to a tool (aside from incrementing statistics, or something like that). For
    * example, this is called during construction, decoration, and for all tools in the players inventory during login.
    * 
-   * @param tool
+   * @param toolOrArmor
    */
-  public static void recalculateStats(ItemStack tool) {
+  public static void recalculateStats(ItemStack toolOrArmor) {
 
     // Make sure the item has a UUID!
-    getUUID(tool);
+    getUUID(toolOrArmor);
 
-    ToolPart[] parts = getConstructionParts(tool);
-    EnumMaterialGrade[] grades = getConstructionGrades(tool);
+    ToolPart[] parts = getConstructionParts(toolOrArmor);
+    EnumMaterialGrade[] grades = getConstructionGrades(toolOrArmor);
     if (parts.length == 0)
       return;
 
     // Clear old render cache
-    clearOldRenderCache(tool);
+    clearOldRenderCache(toolOrArmor);
 
-    if (!tool.getTagCompound().getBoolean(NBT_LOCK_STATS)) {
-      ToolStats stats = new ToolStats(tool, parts, grades).calculate();
+    if (!toolOrArmor.getTagCompound().getBoolean(NBT_LOCK_STATS)) {
+      ToolStats stats = new ToolStats(toolOrArmor, parts, grades).calculate();
 
-      setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_DURABILITY, (int) stats.durability);
-      setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_SPEED, stats.harvestSpeed);
-      setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MELEE_DAMAGE, stats.meleeDamage);
-      setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MAGIC_DAMAGE, stats.magicDamage);
-      setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_MELEE_SPEED, stats.meleeSpeed);
-      setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_CHARGE_SPEED, stats.chargeSpeed);
-      setTagFloat(tool, NBT_ROOT_PROPERTIES, NBT_PROP_PROTECTION, stats.protection);
-      setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_ENCHANTABILITY, (int) stats.enchantability);
-      setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_PROP_HARVEST_LEVEL, stats.harvestLevel);
-      setTagInt(tool, NBT_ROOT_PROPERTIES, NBT_TOOL_TIER, parts[0].getTier().ordinal());
+      String root = NBT_ROOT_PROPERTIES;
+      if (toolOrArmor.getItem() instanceof ITool) {
+        setTagFloat(toolOrArmor, root, NBT_PROP_HARVEST_SPEED, stats.harvestSpeed);
+        setTagFloat(toolOrArmor, root, NBT_PROP_MELEE_DAMAGE, stats.meleeDamage);
+        setTagFloat(toolOrArmor, root, NBT_PROP_MAGIC_DAMAGE, stats.magicDamage);
+        setTagFloat(toolOrArmor, root, NBT_PROP_MELEE_SPEED, stats.meleeSpeed);
+        setTagFloat(toolOrArmor, root, NBT_PROP_CHARGE_SPEED, stats.chargeSpeed);
+        setTagInt(toolOrArmor, root, NBT_PROP_HARVEST_LEVEL, stats.harvestLevel);
+      }
+      setTagInt(toolOrArmor, root, NBT_PROP_DURABILITY, (int) stats.durability);
+      setTagFloat(toolOrArmor, root, NBT_PROP_PROTECTION, stats.protection);
+      setTagInt(toolOrArmor, root, NBT_PROP_ENCHANTABILITY, (int) stats.enchantability);
+      setTagInt(toolOrArmor, root, NBT_TOOL_TIER, parts[0].getTier().ordinal());
     }
   }
 
@@ -361,6 +352,9 @@ public class ToolHelper {
   }
 
   public static float getProtection(ItemStack shieldOrArmor) {
+
+    if (isBroken(shieldOrArmor))
+      return 0;
 
     return getTagFloat(shieldOrArmor, NBT_ROOT_PROPERTIES, NBT_PROP_PROTECTION);
   }
@@ -681,24 +675,26 @@ public class ToolHelper {
     return !isBroken && isTool;
   }
 
-  public static void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
+  public static void onUpdate(ItemStack toolOrArmor, World world, Entity entity, int itemSlot,
       boolean isSelected) {
 
     if (!world.isRemote) {
       // Randomize tools with no data.
-      if (hasNoConstruction(tool)) {
-        ItemStack newTool = ToolRandomizer.INSTANCE.randomize(tool);
+      if (hasNoConstruction(toolOrArmor)) {
+        ItemStack newTool = ToolRandomizer.INSTANCE.randomize(toolOrArmor);
       }
 
       // If the player gave him/herself a tool via JEI or creative, remove the example tag.
-      if (isExampleItem(tool)) {
+      if (isExampleItem(toolOrArmor)) {
         // tool.getTagCompound().setBoolean(NBT_EXAMPLE_TOOL, false);
-        tool.getTagCompound().removeTag(NBT_EXAMPLE_TOOL);
+        toolOrArmor.getTagCompound().removeTag(NBT_EXAMPLE_TOOL);
       }
 
+      initRootTag(toolOrArmor);
+
       // Generate UUID if tool does not have one.
-      if (!hasUUID(tool)) {
-        tool.getTagCompound().setUniqueId(NBT_UUID, UUID.randomUUID());
+      if (!hasUUID(toolOrArmor)) {
+        toolOrArmor.getTagCompound().setUniqueId(NBT_UUID, UUID.randomUUID());
       }
 
       return;
@@ -707,8 +703,8 @@ public class ToolHelper {
     // Client-side name generation
     if (world.getTotalWorldTime() % CHECK_NAME_FREQUENCY == 0 && entity instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) entity;
-      if (tool.hasTagCompound() && tool.getTagCompound().hasKey(NBT_TEMP_PARTLIST)) {
-        NBTTagCompound compound = tool.getTagCompound().getCompoundTag(NBT_TEMP_PARTLIST);
+      if (toolOrArmor.hasTagCompound() && toolOrArmor.getTagCompound().hasKey(NBT_TEMP_PARTLIST)) {
+        NBTTagCompound compound = toolOrArmor.getTagCompound().getCompoundTag(NBT_TEMP_PARTLIST);
 
         int i = 0;
         String key = "part" + i;
@@ -722,12 +718,12 @@ public class ToolHelper {
         } while (compound.hasKey(key));
 
         // Create name on the client.
-        String displayName = createToolName(tool.getItem(), parts);
+        String displayName = createToolName(toolOrArmor.getItem(), parts);
         // tool.setStackDisplayName(displayName);
 
         // Send to the server.
         MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName,
-            tool);
+            toolOrArmor);
         SilentGems.logHelper.info("Sending tool/armor name \"" + displayName + "\" to server.");
         NetworkHandler.INSTANCE.sendToServer(message);
       }
@@ -908,12 +904,12 @@ public class ToolHelper {
 
   public static ToolPart getConstructionTip(ItemStack tool) {
 
-    return getPart(tool, EnumPartPosition.TIP);
+    return getPart(tool, ToolPartPosition.TIP);
   }
 
   public static void setConstructionTip(ItemStack tool, ToolPart part) {
 
-    setTagPart(tool, NBT_PART_HEAD_TIP, part, EnumMaterialGrade.NONE);
+    setTagPart(tool, ToolPartPosition.TIP.getKey(0), part, EnumMaterialGrade.NONE);
   }
 
   public static ItemStack decorateTool(ItemStack tool, ItemStack west, ItemStack north,
@@ -966,23 +962,7 @@ public class ToolHelper {
       return tool;
 
     ItemStack result = StackHelper.safeCopy(tool);
-    switch (pos) {
-      case WEST:
-        setTagPart(result, NBT_DECO_HEAD_L, part, EnumMaterialGrade.fromStack(material));
-        break;
-      case NORTH:
-        setTagPart(result, NBT_DECO_HEAD_M, part, EnumMaterialGrade.fromStack(material));
-        break;
-      case EAST:
-        setTagPart(result, NBT_DECO_HEAD_R, part, EnumMaterialGrade.fromStack(material));
-        break;
-      case SOUTH:
-        setTagPart(result, NBT_PART_ROD_DECO, part, EnumMaterialGrade.fromStack(material));
-        break;
-      default:
-        SilentGems.instance.logHelper.warning("ToolHelper.decorate: invalid deco pos " + pos);
-        break;
-    }
+    setTagPart(result, pos.nbtKey, part, EnumMaterialGrade.fromStack(material));
     return result;
   }
 
@@ -1251,31 +1231,9 @@ public class ToolHelper {
     return EnumMaterialGrade.fromString(array[1]);
   }
 
-  public static ToolPart getPart(ItemStack tool, EnumPartPosition pos) {
+  public static ToolPart getPart(ItemStack tool, ToolPartPosition pos) {
 
-    // NBTTagCompound tag;
-    String key;
-    switch (pos) {
-      case HEAD:
-        key = getPartId(tool, NBT_PART_HEAD);
-        break;
-      case ROD:
-        key = getPartId(tool, NBT_PART_ROD);
-        break;
-      case ROD_DECO:
-        key = getPartId(tool, NBT_PART_ROD_DECO);
-        break;
-      case ROD_GRIP:
-        key = getPartId(tool, NBT_PART_ROD_WOOL);
-        break;
-      case TIP:
-        key = getPartId(tool, NBT_PART_HEAD_TIP);
-        break;
-      default:
-        Log.warn("ToolHelper.getPart: Unknown EnumPartPosition " + pos);
-        key = null;
-    }
-
+    String key = getPartId(tool, pos.getKey(0));
     if (key == null || key.isEmpty()) {
       return null;
     }
@@ -1283,90 +1241,30 @@ public class ToolHelper {
   }
 
   public static void setPart(ItemStack tool, ToolPart part, EnumMaterialGrade grade,
-      EnumPartPosition pos) {
+      ToolPartPosition pos) {
 
     if (!part.validForToolOfTier(getToolTier(tool))) {
       return;
     }
-    switch (pos) {
-      case HEAD:
-        setTagPart(tool, NBT_PART_HEAD, part, grade);
-        break;
-      case ROD:
-        setTagPart(tool, NBT_PART_ROD, part, grade);
-        break;
-      case ROD_DECO:
-        setTagPart(tool, NBT_PART_ROD_DECO, part, grade);
-        break;
-      case ROD_GRIP:
-        setTagPart(tool, NBT_PART_ROD_WOOL, part, grade);
-        break;
-      case TIP:
-        setTagPart(tool, NBT_PART_HEAD_TIP, part, grade);
-        break;
-      default:
-        Log.warn("ToolHelper.getPart: Unknown EnumPartPosition " + pos);
-    }
+    setTagPart(tool, pos.getKey(0), part, grade);
   }
 
-  public static ToolPart getRenderPart(ItemStack tool, EnumPartPosition pos) {
+  public static ToolPart getRenderPart(ItemStack tool, ToolPartPosition pos) {
 
-    // NBTTagCompound tag;
-    String key;
-    switch (pos) {
-      case HEAD:
-        key = getPartId(tool, NBT_DECO_HEAD_M);
-        break;
-      case ROD:
-        key = getPartId(tool, NBT_DECO_ROD);
-        break;
-      case ROD_DECO:
-        key = getPartId(tool, NBT_PART_ROD_DECO);
-        break;
-      case ROD_GRIP:
-        key = getPartId(tool, NBT_PART_ROD_WOOL);
-        break;
-      case TIP:
-        key = getPartId(tool, NBT_PART_HEAD_TIP);
-        break;
-      default:
-        Log.warn("ToolHelper.getPart: Unknown EnumPartPosition " + pos);
-        // tag = null;
-        key = null;
-    }
-
+    String key = getPartId(tool, pos.getKey(0));
     if (key == null || key.isEmpty()) {
-      // return null;
       return getPart(tool, pos);
     }
     return ToolPartRegistry.getPart(key);
   }
 
   public static void setRenderPart(ItemStack tool, ToolPart part, EnumMaterialGrade grade,
-      EnumPartPosition pos) {
+      ToolPartPosition pos) {
 
     if (!part.validForToolOfTier(getToolTier(tool))) {
       return;
     }
-    switch (pos) {
-      case HEAD:
-        setTagPart(tool, NBT_DECO_HEAD_M, part, grade);
-        break;
-      case ROD:
-        setTagPart(tool, NBT_DECO_ROD, part, grade);
-        break;
-      case ROD_DECO:
-        setTagPart(tool, NBT_PART_ROD_DECO, part, grade);
-        break;
-      case ROD_GRIP:
-        setTagPart(tool, NBT_PART_ROD_WOOL, part, grade);
-        break;
-      case TIP:
-        setTagPart(tool, NBT_PART_HEAD_TIP, part, grade);
-        break;
-      default:
-        Log.warn("ToolHelper.getPart: Unknown EnumPartPosition " + pos);
-    }
+    setTagPart(tool, pos.getKey(0), part, grade);
   }
 
   // --------------

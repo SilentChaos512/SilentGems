@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
@@ -87,7 +87,7 @@ public final class ToolStats {
     // Rod, tip, grip
     ToolPart partRod = ToolHelper.getConstructionRod(tool);
     ToolPart partTip = ToolHelper.getConstructionTip(tool);
-    ToolPart partGrip = ToolHelper.getPart(tool, EnumPartPosition.ROD_GRIP);
+    ToolPart partGrip = ToolHelper.getPart(tool, ToolPartPosition.ROD_GRIP);
 
     for (ToolPart part : Lists.newArrayList(partRod, partTip, partGrip)) {
       if (part != null) {

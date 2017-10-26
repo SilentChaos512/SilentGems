@@ -7,7 +7,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartTip;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumTipUpgrade;
@@ -29,7 +29,7 @@ public class ToolPartTipGems extends ToolPartTip {
   }
 
   @Override
-  public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos, int frame) {
+  public ModelResourceLocation getModel(ItemStack tool, ToolPartPosition pos, int frame) {
 
     String name = ((IRegistryObject) tool.getItem()).getName();
     name = SilentGems.MODID + ":" + name.toLowerCase() + "/" + name + "_" + tipName

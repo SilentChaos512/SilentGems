@@ -5,7 +5,7 @@ import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.config.GemsConfigHC;
 import net.silentchaos512.gems.util.ArmorHelper;
@@ -139,7 +139,7 @@ public class ToolPartMain extends ToolPart {
   }
 
   @Override
-  public boolean validForPosition(EnumPartPosition pos) {
+  public boolean validForPosition(ToolPartPosition pos) {
 
     switch (pos) {
       case HEAD:

@@ -2,8 +2,7 @@ package net.silentchaos512.gems.api.lib;
 
 import javax.annotation.Nullable;
 
-// TODO: Rename to ToolPartPosition
-public enum EnumPartPosition implements IPartPosition {
+public enum ToolPartPosition implements IPartPosition {
 
   ROD(0, "PartRod"),
   HEAD(1, "Part%d"),
@@ -12,17 +11,17 @@ public enum EnumPartPosition implements IPartPosition {
   ROD_GRIP(4, "PartRodWool");
 
   final int renderPass;
-  final String nbtKey; // TODO
+  final String nbtKey;
 
-  private EnumPartPosition(int renderPass, String nbtKey) {
+  private ToolPartPosition(int renderPass, String nbtKey) {
 
     this.renderPass = renderPass;
     this.nbtKey = nbtKey;
   }
 
-  public static @Nullable EnumPartPosition forRenderPass(int pass) {
+  public static @Nullable ToolPartPosition forRenderPass(int pass) {
 
-    for (EnumPartPosition pos : values()) {
+    for (ToolPartPosition pos : values()) {
       if (pos.renderPass == pass) {
         return pos;
       }
@@ -34,5 +33,13 @@ public enum EnumPartPosition implements IPartPosition {
   public int getRenderPass() {
 
     return renderPass;
+  }
+
+  @Override
+  public String getKey(int subPosition) {
+
+    if (nbtKey.contains("%d"))
+      return String.format(nbtKey, subPosition);
+    return nbtKey;
   }
 }

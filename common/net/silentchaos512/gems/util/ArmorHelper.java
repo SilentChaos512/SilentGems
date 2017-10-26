@@ -60,51 +60,7 @@ public class ArmorHelper {
 
   public static void recalculateStats(ItemStack armor) {
 
-    // Make sure the item has a UUID!
-    ToolHelper.getUUID(armor);
-
-    ToolPart[] parts = getConstructionParts(armor);
-    EnumMaterialGrade[] grades = getConstructionGrades(armor);
-
-    if (parts.length == 0)
-      return;
-
-    float sumDurability = 0f;
-    float sumProtection = 0f;
-    // TODO: Toughness?
-    float sumEnchantability = 0f;
-
-    Set<ToolPart> uniqueParts = Sets.newConcurrentHashSet();
-
-    // Get sum stats for parts.
-    for (int i = 0; i < parts.length; ++i) {
-      ToolPart part = parts[i];
-      EnumMaterialGrade grade = grades[i];
-      float multi = (100 + grade.bonusPercent) / 100f;
-
-      sumDurability += part.getDurability() * multi;
-      sumProtection += part.getProtection() * multi;
-      sumEnchantability += part.getEnchantability() * multi;
-      uniqueParts.add(part);
-    }
-
-    // Clear old render cache
-    ToolHelper.clearOldRenderCache(armor);
-
-    // Variety bonus
-    int variety = MathHelper.clamp(uniqueParts.size(), 1, 3);
-    float bonus = 1.0f + GemsConfig.VARIETY_BONUS * (variety - 1);
-
-    // Average stats
-    float durability = bonus * sumDurability / parts.length;
-    float protection = bonus * sumProtection / parts.length;
-    float enchantability = bonus * sumEnchantability / parts.length;
-
-    // Set NBT
-    setTagInt(armor, NBT_ROOT_PROPERTIES, NBT_PROP_DURABILITY, (int) durability);
-    setTagFloat(armor, NBT_ROOT_PROPERTIES, NBT_PROP_PROTECTION, protection);
-    setTagInt(armor, NBT_ROOT_PROPERTIES, NBT_PROP_ENCHANTABILITY, (int) enchantability);
-    setTagInt(armor, NBT_ROOT_PROPERTIES, NBT_ARMOR_TIER, parts[0].getTier().ordinal());
+    ToolHelper.recalculateStats(armor);
   }
 
   /*
@@ -113,25 +69,22 @@ public class ArmorHelper {
 
   public static float getProtection(ItemStack armor) {
 
-    if (isBroken(armor))
-      return 0;
-
-    return getTagFloat(armor, NBT_ROOT_PROPERTIES, NBT_PROP_PROTECTION);
+    return ToolHelper.getProtection(armor);
   }
 
   public static int getItemEnchantability(ItemStack armor) {
 
-    return getTagInt(armor, NBT_ROOT_PROPERTIES, NBT_PROP_ENCHANTABILITY);
+    return ToolHelper.getItemEnchantability(armor);
   }
 
   public static int getMaxDamage(ItemStack armor) {
 
-    return getTagInt(armor, NBT_ROOT_PROPERTIES, NBT_PROP_DURABILITY);
+    return ToolHelper.getMaxDamage(armor);
   }
 
   public static boolean isBroken(ItemStack armor) {
 
-    return armor.getItemDamage() >= armor.getItem().getMaxDamage(armor);
+    return ToolHelper.isBroken(armor);
   }
 
   // ==========================================================================
@@ -140,8 +93,7 @@ public class ArmorHelper {
 
   public static EnumMaterialTier getArmorTier(ItemStack armor) {
 
-    int id = getTagInt(armor, NBT_ROOT_PROPERTIES, NBT_ARMOR_TIER);
-    return EnumMaterialTier.values()[MathHelper.clamp(id, 0, EnumMaterialTier.values().length - 1)];
+    return ToolHelper.getToolTier(armor);
   }
 
   public static ToolPart[] getConstructionParts(ItemStack armor) {

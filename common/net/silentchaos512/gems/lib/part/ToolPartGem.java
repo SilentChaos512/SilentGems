@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
@@ -70,7 +70,7 @@ public class ToolPartGem extends ToolPartMain {
   }
 
   @Override
-  public ModelResourceLocation getModel(ItemStack tool, EnumPartPosition pos, int frame) {
+  public ModelResourceLocation getModel(ItemStack tool, ToolPartPosition pos, int frame) {
 
     String name = ((IRegistryObject) tool.getItem()).getName();
     name = SilentGems.RESOURCE_PREFIX + name + "/" + name;

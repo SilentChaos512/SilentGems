@@ -2,7 +2,7 @@ package net.silentchaos512.gems.api.tool.part;
 
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
 
 public class ToolPartRod extends ToolPart {
@@ -111,9 +111,9 @@ public class ToolPartRod extends ToolPart {
   }
 
   @Override
-  public boolean validForPosition(EnumPartPosition pos) {
+  public boolean validForPosition(ToolPartPosition pos) {
 
-    return pos == EnumPartPosition.ROD;
+    return pos == ToolPartPosition.ROD;
   }
 
   @Override

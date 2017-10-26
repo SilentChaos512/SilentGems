@@ -10,7 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.lib.ArmorPartPosition;
 import net.silentchaos512.gems.api.lib.EnumDecoPos;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemHoldingGem;
@@ -32,7 +32,7 @@ public class ColorHandlers {
       public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 
         return ToolRenderHelper.getInstance().getColor(stack,
-            EnumPartPosition.forRenderPass(tintIndex));
+            ToolPartPosition.forRenderPass(tintIndex));
       };
     }, ModItems.tools.toArray(new Item[ModItems.tools.size()]));
 
@@ -47,7 +47,7 @@ public class ColorHandlers {
         if (tintIndex < 0 || tintIndex >= passes.length)
           return 0xFFFFFF;
         return ToolRenderHelper.getInstance().getColor(stack,
-            EnumPartPosition.forRenderPass(tintIndex));
+            ToolPartPosition.forRenderPass(tintIndex));
       }
     }, ModItems.shield);
 

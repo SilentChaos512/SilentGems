@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.api.lib.EnumPartPosition;
+import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ToolRenderHelper;
@@ -164,28 +164,28 @@ public abstract class ToolPart {
    */
   @Deprecated
   @SideOnly(Side.CLIENT)
-  public ModelResourceLocation getModel(ItemStack toolOrArmor, EnumPartPosition pos) {
+  public ModelResourceLocation getModel(ItemStack toolOrArmor, ToolPartPosition pos) {
 
     return getModel(toolOrArmor, pos, 0);
   }
 
   @SideOnly(Side.CLIENT)
-  public ModelResourceLocation getModel(ItemStack toolOrArmor, EnumPartPosition pos, int frame) {
+  public ModelResourceLocation getModel(ItemStack toolOrArmor, ToolPartPosition pos, int frame) {
 
     return model;
   }
 
   @SideOnly(Side.CLIENT)
-  public ModelResourceLocation getBrokenModel(ItemStack toolOrArmor, EnumPartPosition pos,
+  public ModelResourceLocation getBrokenModel(ItemStack toolOrArmor, ToolPartPosition pos,
       int frame) {
 
-    if (pos == EnumPartPosition.HEAD) {
+    if (pos == ToolPartPosition.HEAD) {
       // Heads have a special broken model. It's a plain grayscale image, so an appropriate color should be returned in
       // getColor if the tool is broken (ToolHelper#isBroken).
       String name = ((IRegistryObject) toolOrArmor.getItem()).getName();
       name = SilentGems.RESOURCE_PREFIX + name + "/" + name + "_broken";
       return new ModelResourceLocation(name.toLowerCase(), "inventory");
-    } else if (pos == EnumPartPosition.TIP) {
+    } else if (pos == ToolPartPosition.TIP) {
       // Tips are not rendered on broken tools.
       return ToolRenderHelper.getInstance().modelBlank;
     }
@@ -258,7 +258,7 @@ public abstract class ToolPart {
    * @param pos
    * @return
    */
-  public abstract boolean validForPosition(EnumPartPosition pos);
+  public abstract boolean validForPosition(ToolPartPosition pos);
 
   @Override
   public String toString() {
