@@ -259,6 +259,10 @@ public class GuideBookGems extends GuideBook {
     new GuideChapter(this, "chaosNode", entryBlocks, new ItemStack(ModBlocks.chaosNode),
         new PagePicture(this, 1, new ResourceLocation(SilentGems.MODID, "textures/guide/chaosnode.png"), 125),
         new PageTextOnly(this, 2));
+    // Chaos Pylons
+    new GuideChapter(this, "chaosPylon", entryBlocks, new ItemStack(ModBlocks.chaosPylon),
+        new PageTextOnly(this, 1),
+        new PageTextOnly(this, 2));
     // Fluffy Blocks
     new GuideChapter(this, "fluffyBlocks", entryBlocks, new ItemStack(ModBlocks.fluffyBlock),
         new PageCrafting(this, 1, rec.makeShaped(new ItemStack(ModBlocks.fluffyBlock), "ff", "ff", 'f', ModItems.craftingMaterial.fluffyFabric)),
