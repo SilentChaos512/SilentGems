@@ -1,10 +1,14 @@
 Silent's Gems - Changelog
 
 2.5.8
+Bit of refactoring with tools and armor. I'm trying to get armor running on the same code as tools wherever possible, to reduce the number of oddities between updates.
 Fixed: Some recipes accepting (and effectively destroying) extra items (#219)
 Fixed: Armor not displaying attribute modifiers. Should still provide the same amount of protection, although you may see slight differences on the armor bar.
-Fixed: Armor breaking when breakable tools are not enabled.
+Fixed: Armor breaking when breakable tools are not enabled. When armor reaches 0 durability, it will be considered "broken" in the same way as tools. Broken armor provides no protection, but stays equipped.
+Fixed: Armor max durability now makes more sense, with mundane tiers being reduced and super tiers being increased.
 Fixed: Armor taking twice as much durability damage as it should.
+Fixed: Armor being "repaired" by crafting two pieces together, resulting in a data-less armor piece.
+Fixed: Data-less armor is now randomized in the same way as tools.
 
 2.5.7
 Rewrote tool construction recipes for flexibility. Hopefully nothing was broken in the process, but keep an eye out.

@@ -57,8 +57,10 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   public final EntityEquipmentSlot type;
 
   public ItemGemArmor(int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name) {
+
     super(SilentGems.MODID, name, ArmorMaterial.DIAMOND, renderIndexIn, equipmentSlotIn);
     this.type = equipmentSlotIn;
+    setNoRepair();
   }
 
   @Override
