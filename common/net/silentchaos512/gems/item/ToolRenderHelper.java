@@ -166,7 +166,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       line = TextFormatting.RESET + loc.getMiscText("ToolTier." + tier);
       list.add("  " + color + loc.getMiscText("ToolTier", line));
 
-      int durabilityMax = ToolHelper.getMaxDamage(tool);
+      int durabilityMax = tool.getMaxDamage();
       int durability = durabilityMax - tool.getItemDamage();
       String s1 = String.format(durability > 9999 ? "%,d" : "%d", durability);
       String s2 = String.format(durabilityMax > 9999 ? "%,d" : "%d", durabilityMax);

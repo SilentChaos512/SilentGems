@@ -31,6 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.client.gui.ModelGemArmor;
@@ -82,9 +83,11 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   @Override
   public int getMaxDamage(ItemStack stack) {
 
+    EnumMaterialTier tier = ToolHelper.getToolTier(stack);
     int x = ArmorHelper.getMaxDamage(stack);
     float y = (1.8f * x + 1515) / 131;
-    return (int) (MAX_DAMAGE_ARRAY[armorType.getIndex()] * y);
+    float z = tier != null ? y * (tier.ordinal() + 1f) / 2f : y;
+    return (int) (MAX_DAMAGE_ARRAY[armorType.getIndex()] * z);
   }
 
   public static int getPlayerTotalGemArmorValue(EntityLivingBase player) {
@@ -93,7 +96,9 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
     for (ItemStack armor : player.getArmorInventoryList()) {
       if (StackHelper.isValid(armor)) {
         if (armor.getItem() instanceof ItemGemArmor) {
-          total += ((ItemGemArmor) armor.getItem()).getProtection(armor);
+          if (!ToolHelper.isBroken(armor)) {
+            total += ((ItemGemArmor) armor.getItem()).getProtection(armor);
+          }
         } else if (armor.getItem() instanceof ItemArmor) {
           total += ((ItemArmor) armor.getItem()).damageReduceAmount;
         }
@@ -105,6 +110,10 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   @Override
   public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor,
       DamageSource source, double damage, int slot) {
+
+    if (ToolHelper.isBroken(armor)) {
+      return new ArmorProperties(0, 0.0, 0);
+    }
 
     // TODO: Special protection, like fall damage?
     if (source.isUnblockable()) {
@@ -123,8 +132,9 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
       // 40 armor points = invincible
       ratio *= MathHelper.clamp(protection / 100f, 0f, 0.98f) + 0.6f;
     }
+    int durabilityLeft = armor.getMaxDamage() - armor.getItemDamage();
 
-    ArmorProperties prop = new ArmorProperties(0, ratio, Integer.MAX_VALUE);
+    ArmorProperties prop = new ArmorProperties(0, ratio, durabilityLeft - 1);
     // prop.Toughness = getToughness(armor);
     return prop;
   }
@@ -141,11 +151,15 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage,
       int slot) {
 
-    int amount = damage - (int) (getToughness(stack) * SilentGems.random.nextFloat());
-    int durabilityLeft = getMaxDamage(stack) - stack.getItemDamage();
-    amount = amount < 0 ? 0 : (amount > durabilityLeft ? durabilityLeft : amount);
-    EntityPlayer player = entity instanceof EntityPlayer ? (EntityPlayer) entity : null;
-    ItemHelper.attemptDamageItem(stack, amount, SilentGems.random, player);
+    if (ToolHelper.isBroken(stack)) {
+      return;
+    }
+
+//    int amount = damage - (int) (getToughness(stack) * SilentGems.random.nextFloat());
+//    int durabilityLeft = stack.getMaxDamage() - stack.getItemDamage();
+//    amount = amount < 0 ? 0 : (amount > durabilityLeft ? durabilityLeft : amount);
+//    EntityPlayer player = entity instanceof EntityPlayer ? (EntityPlayer) entity : null;
+//    ToolHelper.attemptDamageTool(stack, amount, player);
   }
 
   @Override
@@ -154,7 +168,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
     Multimap<String, AttributeModifier> multimap = HashMultimap.create();
 
-    if (slot == this.armorType) {
+    if (slot == this.armorType && !ToolHelper.isBroken(stack)) {
       multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(
           ARMOR_MODIFIERS[slot.getIndex()], "Armor modifier", getProtection(stack), 0));
       multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(
@@ -198,8 +212,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   @Override
   public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
 
-    // TODO Tier detection
-    return false;
+    return ToolHelper.getIsRepairable(toRepair, repair);
   }
 
   @Override
@@ -304,9 +317,9 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
       subItems = Lists.newArrayList();
 
       // Test broken items.
-      // ItemStack testBroken = constructArmor(new ItemStack(Items.FLINT));
-      // testBroken.setItemDamage(getMaxDamage(testBroken) - 1);
-      // subItems.add(testBroken);
+      ItemStack testBroken = constructArmor(new ItemStack(Items.FLINT));
+      testBroken.setItemDamage(getMaxDamage(testBroken) - 1);
+      subItems.add(testBroken);
 
       // Flint
       subItems.add(constructArmor(new ItemStack(Items.FLINT)));

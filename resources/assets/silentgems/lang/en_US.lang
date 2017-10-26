@@ -966,6 +966,10 @@ tool.silentgems:Helmet=%s Helmet
 tool.silentgems:Chestplate=%s Chestplate
 tool.silentgems:Leggings=%s Leggings
 tool.silentgems:Boots=%s Boots
+item.silentgems:Helmet.name=Gem Helmet
+item.silentgems:Chestplate.name=Gem Chestplate
+item.silentgems:Leggings.name=Gem Leggings
+item.silentgems:Boots.name=Gem Boots
 
 # Donuts
 

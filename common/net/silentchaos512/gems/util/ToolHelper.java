@@ -114,9 +114,6 @@ public class ToolHelper {
   // Special
   public static final String NBT_LOCK_STATS = "SG_LockStats";
 
-  // Construction
-  public static final String NBT_PART_ROOT = "Part";
-
   // Saves tool tier to save processing power.
   public static final String NBT_TOOL_TIER = "ToolTier";
   // Used for client-side name generation, stored temporarily then removed.
@@ -186,6 +183,7 @@ public class ToolHelper {
       ToolStats stats = new ToolStats(toolOrArmor, parts, grades).calculate();
 
       String root = NBT_ROOT_PROPERTIES;
+      // Tools only
       if (toolOrArmor.getItem() instanceof ITool) {
         setTagFloat(toolOrArmor, root, NBT_PROP_HARVEST_SPEED, stats.harvestSpeed);
         setTagFloat(toolOrArmor, root, NBT_PROP_MELEE_DAMAGE, stats.meleeDamage);
@@ -194,6 +192,7 @@ public class ToolHelper {
         setTagFloat(toolOrArmor, root, NBT_PROP_CHARGE_SPEED, stats.chargeSpeed);
         setTagInt(toolOrArmor, root, NBT_PROP_HARVEST_LEVEL, stats.harvestLevel);
       }
+      // Tools and armor
       setTagInt(toolOrArmor, root, NBT_PROP_DURABILITY, (int) stats.durability);
       setTagFloat(toolOrArmor, root, NBT_PROP_PROTECTION, stats.protection);
       setTagInt(toolOrArmor, root, NBT_PROP_ENCHANTABILITY, (int) stats.enchantability);
@@ -269,9 +268,9 @@ public class ToolHelper {
   // Mining, using, repairing, etc
   // ==========================================================================
 
-  public static boolean getIsRepairable(ItemStack tool, ItemStack material) {
+  public static boolean getIsRepairable(ItemStack toolOrArmor, ItemStack material) {
 
-    EnumMaterialTier tierTool = getToolTier(tool);
+    EnumMaterialTier tierTool = getToolTier(toolOrArmor);
     EnumMaterialTier tierMat = EnumMaterialTier.fromStack(material);
 
     if (tierTool == null || tierMat == null)
@@ -282,7 +281,7 @@ public class ToolHelper {
   public static void attemptDamageTool(ItemStack tool, int amount, EntityLivingBase entityLiving) {
 
     if (!GemsConfigHC.TOOLS_BREAK) {
-      amount = Math.min(getMaxDamage(tool) - tool.getItemDamage(), amount);
+      amount = Math.min(tool.getMaxDamage() - tool.getItemDamage(), amount);
     }
     boolean wouldBreak = ItemHelper.attemptDamageItem(tool, amount, SilentGems.random);
 
@@ -388,7 +387,7 @@ public class ToolHelper {
       return false;
     }
 
-    int maxDamage = getMaxDamage(tool);
+    int maxDamage = tool.getMaxDamage();
     if (StackHelper.isEmpty(tool) || maxDamage <= 0) {
       return false;
     }
@@ -402,7 +401,7 @@ public class ToolHelper {
    */
   public static boolean hasNoConstruction(ItemStack tool) {
 
-    String key = getPartId(tool, "Part0");
+    String key = getPartId(tool, ToolPartPosition.HEAD.getKey(0));
     return key == null || key.isEmpty();
   }
 
@@ -801,7 +800,7 @@ public class ToolHelper {
       }
       part = ToolPartRegistry.fromStack(materials[i]);
       EnumMaterialGrade grade = EnumMaterialGrade.fromStack(materials[i]);
-      setTagPart(result, "Part" + i, part, grade);
+      setTagPart(result, ToolPartPosition.HEAD.getKey(i), part, grade);
 
       // Write part list for client-side name generation.
       result.getTagCompound().getCompoundTag(NBT_TEMP_PARTLIST).setTag("part" + i,
@@ -809,7 +808,7 @@ public class ToolHelper {
     }
     // Rod
     part = ToolPartRegistry.fromStack(rod);
-    setTagPart(result, "PartRod", part, EnumMaterialGrade.NONE);
+    setTagPart(result, ToolPartPosition.ROD.getKey(0), part, EnumMaterialGrade.NONE);
 
     // Create name
     String displayName = createToolName(item, materials);
@@ -868,7 +867,7 @@ public class ToolHelper {
     String key;
     ToolPart part;
     do {
-      key = getPartId(tool, "Part" + ++index);
+      key = getPartId(tool, ToolPartPosition.HEAD.getKey(++index));
       if (key != null) {
         part = ToolPartRegistry.getPart(key);
         if (part != null)
@@ -888,9 +887,9 @@ public class ToolHelper {
     int index = -1;
     String key;
     do {
-      key = getPartId(tool, "Part" + ++index);
+      key = getPartId(tool, ToolPartPosition.HEAD.getKey(++index));
       if (key != null)
-        grades.add(getPartGrade(tool, "Part" + index));
+        grades.add(getPartGrade(tool, ToolPartPosition.HEAD.getKey(index)));
     } while (key != null && !key.isEmpty());
 
     return grades.toArray(new EnumMaterialGrade[grades.size()]);
@@ -898,7 +897,7 @@ public class ToolHelper {
 
   public static ToolPart getConstructionRod(ItemStack tool) {
 
-    String key = getPartId(tool, "PartRod");
+    String key = getPartId(tool, ToolPartPosition.ROD.getKey(0));
     return ToolPartRegistry.getPart(key);
   }
 

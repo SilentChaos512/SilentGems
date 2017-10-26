@@ -2,7 +2,9 @@ Silent's Gems - Changelog
 
 2.5.8
 Fixed: Some recipes accepting (and effectively destroying) extra items (#219)
-Fixed: Armor not displaying attribute modifiers. Should still work the same way.
+Fixed: Armor not displaying attribute modifiers. Should still provide the same amount of protection, although you may see slight differences on the armor bar.
+Fixed: Armor breaking when breakable tools are not enabled.
+Fixed: Armor taking twice as much durability damage as it should.
 
 2.5.7
 Rewrote tool construction recipes for flexibility. Hopefully nothing was broken in the process, but keep an eye out.
