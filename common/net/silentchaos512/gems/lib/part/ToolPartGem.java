@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+import net.silentchaos512.gems.api.lib.IPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.init.ModItems;
@@ -41,11 +42,12 @@ public class ToolPartGem extends ToolPartMain {
   }
 
   @Override
-  public int getColor(ItemStack toolOrArmor) {
+  public int getColor(ItemStack toolOrArmor, IPartPosition position, int animationFrame) {
 
     Item item = toolOrArmor.getItem();
-    if (item instanceof IArmor || item instanceof ItemGemShield || item instanceof ItemGemBow
-        || ToolHelper.isBroken(toolOrArmor)) {
+    boolean isTextureUncolored = position == ToolPartPosition.ROD_DECO || item instanceof IArmor
+        || item instanceof ItemGemShield || item instanceof ItemGemBow;
+    if (isTextureUncolored || ToolHelper.isBroken(toolOrArmor)) {
       return gem.getColor();
     }
     return 0xFFFFFF;
@@ -54,7 +56,8 @@ public class ToolPartGem extends ToolPartMain {
   @Override
   public String getDisplayName(ItemStack stack) {
 
-    if (stack.hasDisplayName() || (stack.getItem() != ModItems.gem && stack.getItem() != ModItems.gemSuper)) {
+    if (stack.hasDisplayName()
+        || (stack.getItem() != ModItems.gem && stack.getItem() != ModItems.gemSuper)) {
       return stack.getDisplayName();
     }
 
@@ -82,7 +85,7 @@ public class ToolPartGem extends ToolPartMain {
         name += gemNum + frameNum;
         break;
       case ROD_DECO:
-        name += "deco";
+        name += "_deco";
         break;
       default:
         return null;

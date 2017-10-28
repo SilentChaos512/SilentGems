@@ -18,7 +18,7 @@ public class ArmorModelData implements IModelData {
     for (ArmorPartPosition pass : ArmorPartPosition.values()) {
       ToolPart part = ArmorHelper.getRenderPart(armor, pass);
       if (part != null) {
-        colors[pass.getRenderPass()] = part.getColor(armor);
+        colors[pass.getRenderPass()] = part.getColor(armor, pass, 0);
       } else {
         colors[pass.getRenderPass()] = 0xFFFFFF;
       }

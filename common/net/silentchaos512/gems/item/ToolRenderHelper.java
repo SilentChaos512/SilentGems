@@ -353,11 +353,11 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       // Clear tool model caches (TODO: configs?)
       if (ClientTickHandler.ticksInGame % (10 * 60 * 20) == 0) {
         modelCache.clear();
-        SilentGems.logHelper.debug("Cleared normal model cache.");
+        // SilentGems.logHelper.debug("Cleared normal model cache.");
       }
       if (ClientTickHandler.ticksInGame % (1 * 60 * 20) == 0) {
         modelCacheExamples.clear();
-        SilentGems.logHelper.debug("Cleared examples model cache.");
+        // SilentGems.logHelper.debug("Cleared examples model cache.");
       }
     }
   }

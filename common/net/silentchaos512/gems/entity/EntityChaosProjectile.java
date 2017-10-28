@@ -84,7 +84,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
       ToolPartGem partGem = (ToolPartGem) part;
       this.color = new Color(partGem.getGem().getColor());
     } else if (part != null) {
-      this.color = new Color(part.getColor(castingStack));
+      this.color = new Color(part.getColor(castingStack, ToolPartPosition.HEAD, 0));
     }
 
     // SilentGems.instance.logHelper.debug(posX, posY, posZ, motionX, motionY, motionZ);

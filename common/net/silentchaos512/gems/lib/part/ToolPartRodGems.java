@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+import net.silentchaos512.gems.api.lib.IPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
@@ -59,7 +60,7 @@ public class ToolPartRodGems extends ToolPartRod {
   }
 
   @Override
-  public int getColor(ItemStack toolOrArmor) {
+  public int getColor(ItemStack toolOrArmor, IPartPosition position, int animationFrame) {
 
     if (toolOrArmor.getItem() instanceof ItemGemShield)
       return color;

@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+import net.silentchaos512.gems.api.lib.IPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
@@ -47,11 +48,12 @@ public class ToolPartFlint extends ToolPartMain {
   }
 
   @Override
-  public int getColor(ItemStack toolOrArmor) {
+  public int getColor(ItemStack toolOrArmor, IPartPosition position, int animationFrame) {
 
     Item item = toolOrArmor.getItem();
-    return item instanceof IArmor || item instanceof ItemGemBow || item instanceof ItemGemShield || ToolHelper.isBroken(toolOrArmor)
-        ? COLOR : 0xFFFFFF;
+    boolean isTextureUncolored = position == ToolPartPosition.ROD_DECO || item instanceof IArmor
+        || item instanceof ItemGemBow || item instanceof ItemGemShield;
+    return isTextureUncolored || ToolHelper.isBroken(toolOrArmor) ? COLOR : 0xFFFFFF;
   }
 
   @Override

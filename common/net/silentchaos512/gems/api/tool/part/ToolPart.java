@@ -12,6 +12,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+import net.silentchaos512.gems.api.lib.IPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -102,13 +103,28 @@ public abstract class ToolPart {
   /**
    * Gets the color applied when rendering the part.
    * 
+   * @deprecated Use more sensitive version below.
    * @param toolOrArmor
    *          The tool or armor stack being rendered.
    * @return
    */
+  @Deprecated
   public int getColor(ItemStack toolOrArmor) {
 
     return color;
+  }
+
+  /**
+   * Gets the color applied when rendering the part.
+   * 
+   * @param toolOrArmor
+   *          The tool or armor stack being rendered.
+   * @return
+   */
+  public int getColor(ItemStack toolOrArmor, IPartPosition position, int animationFrame) {
+
+    // Pass control to deprecated method by default, for backwards compatibility.
+    return getColor(toolOrArmor);
   }
 
   /**

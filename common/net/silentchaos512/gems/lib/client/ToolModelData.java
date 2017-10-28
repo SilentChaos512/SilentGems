@@ -34,7 +34,7 @@ public class ToolModelData implements IModelData {
         for (int frame = 0; frame < totalFrames; ++frame) {
           models[frame][pass.ordinal()] = part.getModel(tool, pass, 0);
         }
-        colors[pass.ordinal()] = part.getColor(tool);
+        colors[pass.ordinal()] = part.getColor(tool, pass, 0);
       } else {
         // No part.
         colors[pass.ordinal()] = 0xFFFFFF;

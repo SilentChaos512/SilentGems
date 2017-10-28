@@ -238,6 +238,8 @@ public class ToolModel extends MultiLayerModelSL {
         break;
       case FIXED:
         matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().fixed);
+        // Fix item frame rotation
+        matrix.rotY((float) Math.PI);
         break;
       default:
         break;
