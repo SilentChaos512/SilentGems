@@ -214,17 +214,17 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
     if (entityLiving instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) entityLiving;
-      boolean flag = player.capabilities.isCreativeMode
+      boolean infiniteAmmo = player.capabilities.isCreativeMode
           || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
       ItemStack ammo = this.findAmmo(player);
 
       int i = this.getMaxItemUseDuration(stack) - timeLeft;
-      i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn,
-          (EntityPlayer) entityLiving, i, StackHelper.isValid(ammo) || flag);
+//      i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn,
+//          (EntityPlayer) entityLiving, i, StackHelper.isValid(ammo) || infiniteAmmo);
       if (i < 0)
         return;
 
-      if (StackHelper.isValid(ammo) || flag) {
+      if (StackHelper.isValid(ammo) || infiniteAmmo) {
         if (StackHelper.isEmpty(ammo)) {
           ammo = new ItemStack(Items.ARROW);
         }

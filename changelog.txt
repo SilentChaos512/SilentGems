@@ -3,6 +3,7 @@ Silent's Gems - Changelog
 2.5.8
 Bit of refactoring with tools and armor. I'm trying to get armor running on the same code as tools wherever possible, to reduce the number of oddities between updates.
 Fixed: Rod decoration not working.
+Fixed: Bow animation not working and arrow speed not being correct in some cases.
 Fixed: Some recipes accepting (and effectively destroying) extra items (#219)
 Fixed: Armor not displaying attribute modifiers. Should still provide the same amount of protection, although you may see slight differences on the armor bar.
 Fixed: Armor breaking when breakable tools are not enabled. When armor reaches 0 durability, it will be considered "broken" in the same way as tools. Broken armor provides no protection, but stays equipped.

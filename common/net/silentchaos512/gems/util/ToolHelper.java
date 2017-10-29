@@ -1023,9 +1023,7 @@ public class ToolHelper {
 
   public static boolean areToolsEqual(ItemStack a, ItemStack b) {
 
-    return a.getItem() == b.getItem()
-        && getRootTag(a, NBT_ROOT_CONSTRUCTION).equals(getRootTag(b, NBT_ROOT_CONSTRUCTION))
-        && getRootTag(a, NBT_ROOT_DECORATION).equals(getRootTag(b, NBT_ROOT_DECORATION));
+    return a.isItemEqual(b) && getUUID(a).equals(getUUID(b));
   }
 
   static int lastRecipeIndex = -1;

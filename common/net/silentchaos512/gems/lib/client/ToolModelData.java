@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.lib.client;
 
-import java.util.UUID;
-
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,7 +30,7 @@ public class ToolModelData implements IModelData {
       if (part != null) {
         // If part exists, get model for each frame and color.
         for (int frame = 0; frame < totalFrames; ++frame) {
-          models[frame][pass.ordinal()] = part.getModel(tool, pass, 0);
+          models[frame][pass.ordinal()] = part.getModel(tool, pass, frame);
         }
         colors[pass.ordinal()] = part.getColor(tool, pass, 0);
       } else {

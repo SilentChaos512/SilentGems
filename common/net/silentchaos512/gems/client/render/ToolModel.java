@@ -27,6 +27,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
+import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
@@ -98,6 +99,8 @@ public class ToolModel extends MultiLayerModelSL {
     }
 
     // String debug = "";
+    // debug += "Frame: " + (1 + ToolRenderHelper.getInstance().getAnimationFrame(tool)) + " / "
+    // + ToolRenderHelper.getInstance().getTotalAnimationFrames(tool) + "\n";
 
     for (ToolPartPosition partPos : ToolPartPosition.values()) {
       // Scepter rods on top of head.
@@ -228,9 +231,11 @@ public class ToolModel extends MultiLayerModelSL {
         break;
       case THIRD_PERSON_RIGHT_HAND:
         matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().thirdperson_right);
+        matrix.setTranslation(new javax.vecmath.Vector3f(0f, 0f, 0.2f));
         break;
       case THIRD_PERSON_LEFT_HAND:
         matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().thirdperson_left);
+        matrix.setTranslation(new javax.vecmath.Vector3f(0f, 0f, 0.2f));
         break;
       case GROUND:
         matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().ground);
