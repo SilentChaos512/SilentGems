@@ -12,10 +12,12 @@ import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.client.gui.GuiChaosAltar;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeCategory;
@@ -75,7 +77,8 @@ public class SilentGemsPlugin implements IModPlugin {
     reg.addRecipeHandlers(new AltarRecipeHandler());
 
     // Recipes
-    reg.addRecipes(AltarRecipeMaker.getRecipes());
+    reg.addRecipes(AltarRecipeMaker.getRecipes());//, SilentGems.MODID + ".altar");
+    reg.addRecipes(ToolHelper.EXAMPLE_RECIPES, VanillaRecipeCategoryUid.CRAFTING);
 
     // Click areas
     reg.addRecipeClickArea(GuiChaosAltar.class, 80, 34, 25, 16, AltarRecipeCategory.CATEGORY);

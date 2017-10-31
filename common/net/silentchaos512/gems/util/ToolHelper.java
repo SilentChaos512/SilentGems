@@ -14,7 +14,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
-import jline.internal.Log;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -31,6 +30,7 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -78,7 +78,6 @@ import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.lib.recipe.IngredientSL;
 import net.silentchaos512.lib.registry.IRegistryObject;
-import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
@@ -1027,26 +1026,7 @@ public class ToolHelper {
   }
 
   static int lastRecipeIndex = -1;
-
-  /**
-   * Adds a "display" or "example" recipes for players to view in JEI.
-   */
-  @Deprecated
-  public static void addRecipe(ItemStack result, String line1, String line2, String line3,
-      ItemStack head, Object rod) {
-
-    ToolPart part = ToolPartRegistry.fromStack(head);
-    EnumMaterialTier tier = getToolTier(result);
-    if (part != null && !part.isBlacklisted(head)) {
-      String name = "tool_example" + (++lastRecipeIndex);
-      RecipeMaker rec = SilentGems.registry.recipes;
-      Object filler = tier.getFiller();
-      if (line1.contains("f") || line2.contains("f") || line3.contains("f"))
-        rec.addShapedOre(name, result, line1, line2, line3, 'g', head, 's', rod, 'f', filler);
-      else
-        rec.addShapedOre(name, result, line1, line2, line3, 'g', head, 's', rod);
-    }
-  }
+  public static List<IRecipe> EXAMPLE_RECIPES = new ArrayList<>();
 
   public static void addExampleRecipe(Item item, String... lines) {
 
@@ -1096,7 +1076,8 @@ public class ToolHelper {
       for (Object obj : extraParams)
         params.add(obj);
 
-      SilentGems.registry.recipes.addShaped(recipeName.getResourcePath(), result, params.toArray());
+      EXAMPLE_RECIPES.add(SilentGems.registry.recipes.makeShaped(recipeName.getResourcePath(),
+          result, params.toArray()));
     }
   }
 
