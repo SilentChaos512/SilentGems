@@ -21,6 +21,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
 import net.silentchaos512.gems.lib.module.ModuleEntityRandomEquipment;
+import net.silentchaos512.gems.lib.module.ModuleHalloweenHijinks;
 import net.silentchaos512.gems.lib.module.ModuleHolidayCheer;
 import net.silentchaos512.gems.util.WeightedRandomItemSG;
 import net.silentchaos512.lib.config.AdaptiveConfig;
@@ -497,5 +498,6 @@ public class GemsConfig extends AdaptiveConfig {
     ModuleEntityRandomEquipment.loadConfig(config);
     ModuleHolidayCheer.instance.loadConfig(config);
     ModuleAprilTricks.instance.loadConfig(config);
+    ModuleHalloweenHijinks.instance.loadConfig(config);
   }
 }
