@@ -22,6 +22,6 @@ public class ModEntities {
     reg.registerEntity(EntityThrownTomahawk.class, "ThrownTomahawk");
 
     reg.registerEntity(EntityEnderSlime.class, "EnderSlime", 64, 4, false, 0x003333, 0xAA00AA);
-    EntityRegistry.addSpawn(EntityEnderSlime.class, 50, 1, 4, EnumCreatureType.MONSTER, Biomes.SKY);
+    EntityRegistry.addSpawn(EntityEnderSlime.class, 10, 1, 4, EnumCreatureType.MONSTER, Biomes.SKY);
   }
 }
