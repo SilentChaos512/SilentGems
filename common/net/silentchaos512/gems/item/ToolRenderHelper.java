@@ -13,7 +13,10 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
@@ -50,6 +53,7 @@ import net.silentchaos512.gems.lib.client.ArmorModelData;
 import net.silentchaos512.gems.lib.client.IModelData;
 import net.silentchaos512.gems.lib.client.ToolModelData;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
+import net.silentchaos512.gems.util.EnumMagicType;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
@@ -199,11 +203,20 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       } // @formatter:on
 
       if (isWeapon) {
-        list.add(color + getTooltipLine("MeleeSpeed", ToolHelper.getMeleeSpeedModifier(tool) + 4)
-            .replaceFirst("%", ""));
-        list.add(color + getTooltipLine("MeleeDamage", ToolHelper.getMeleeDamageModifier(tool)));
-        if (isCaster)
-          list.add(color + getTooltipLine("MagicDamage", ToolHelper.getMagicDamageModifier(tool)));
+        float meleeSpeed = 4 + ToolHelper.getMeleeSpeedModifier(tool);
+        list.add(color + getTooltipLine("MeleeSpeed", meleeSpeed).replaceFirst("%", ""));
+        float meleeDamage = 1 + ToolHelper.getMeleeDamageModifier(tool);
+        list.add(color + getTooltipLine("MeleeDamage", meleeDamage));
+
+        if (isCaster) {
+          EnumMagicType magicType = EnumMagicType.getMagicType(tool);
+          float damagePerShot = magicType.getDamagePerShot(tool);
+          String damageString = damagePerShot == (int) damagePerShot
+              ? Integer.toString((int) damagePerShot) : Float.toString(damagePerShot);
+          String str = damageString + "" + TextFormatting.DARK_GRAY + "x"
+              + magicType.getShotCount(tool);
+          list.add(color + getTooltipLine("MagicDamage", str));
+        }
       }
 
       if (isBow) {
@@ -297,26 +310,15 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
 
   public String getTooltipLine(String key, int value) {
 
-    // String number;
-    // if (value > 9999)
-    // number = "%,d";
-    // else
-    // number = "%d";
-    //
-    // number = String.format(number, value);
-    // String line = SilentGems.instance.localizationHelper.getMiscText("Tooltip." + key, number);
-    // return " " + line;
-
     return TooltipHelper.get(key, value, true);
   }
 
   public String getTooltipLine(String key, float value) {
 
-    // String number = "%.2f";
-    //
-    // number = String.format(number, value);
-    // String line = SilentGems.instance.localizationHelper.getMiscText("Tooltip." + key, number);
-    // return " " + line;
+    return TooltipHelper.get(key, value, true);
+  }
+
+  public String getTooltipLine(String key, String value) {
 
     return TooltipHelper.get(key, value, true);
   }

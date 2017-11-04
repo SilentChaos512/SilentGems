@@ -26,6 +26,8 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
@@ -33,6 +35,7 @@ import net.silentchaos512.gems.api.Skulls;
 import net.silentchaos512.gems.enchantment.EnchantmentIceAspect;
 import net.silentchaos512.gems.enchantment.EnchantmentLightningAspect;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
+import net.silentchaos512.gems.entity.EntityChaosProjectileScatter;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.init.ModBlocks;
@@ -360,6 +363,14 @@ public class GemsCommonEvents {
           }
         }
       }
+    }
+  }
+
+  @SubscribeEvent
+  public void onServerTickEnd(ServerTickEvent event) {
+
+    if (event.phase == Phase.END) {
+      EntityChaosProjectileScatter.DamageQueue.processDamage();
     }
   }
 }

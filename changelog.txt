@@ -1,5 +1,15 @@
 Silent's Gems - Changelog
 
+2.5.9
+Some behind the scenes work for some new features. Please excuse the dust!
+Added: Unique magic for machetes, the scatter shot. Basically, it's a shotgun. Each of the 8 shots is weak, but multiple shots can hit a single target at the same time.
+Added: Proper tooltips for rods, finally. It will show the stat multipliers that rods have.
+Changed: Tweaked melee/magic damage display values. Both are now consistent with the actual damage (players add 1 damage to all items) that should be dealt, not considering enchantments. Magic displays the number of projectiles and the damage dealt by each.
+Fixed: Chaos bar being way too high up when Better With Mods is installed.
+Fixed: Gems not having different charge speeds (copy-paste fail of sorts)
+Fixed: Ender Slime spawn rates should be more reasonable.
+Various minor tweaks and bugfixes.
+
 2.5.8
 Bit of refactoring with tools and armor. I'm trying to get armor running on the same code as tools wherever possible, to reduce the number of oddities between updates.
 Fixed: Rod decoration not working.

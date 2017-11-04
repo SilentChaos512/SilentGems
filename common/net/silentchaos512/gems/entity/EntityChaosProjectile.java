@@ -1,12 +1,13 @@
 package net.silentchaos512.gems.entity;
 
-import java.nio.charset.Charset;
+import java.util.Random;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.SoundEvents;
@@ -32,20 +33,22 @@ import net.silentchaos512.lib.util.Color;
 
 public class EntityChaosProjectile extends EntityThrowable implements IEntityAdditionalSpawnData {
 
-  public static final double RENDER_DISTANCE_WEIGHT = 10D;
-  public static final float SIZE = 1.0F;
+  static final double RENDER_DISTANCE_WEIGHT = 10D;
+  static final float SIZE = 1.0F;
+  static final float SPEED_MULTI = 1.7f;
 
-  public static final String NBT_COLOR = "Color";
-  public static final String NBT_DAMAGE = "Damage";
-  public static final String NBT_GRAVITY = "Gravity";
-  public static final String NBT_SHOOTER = "Shooter";
+  static final String NBT_COLOR = "Color";
+  static final String NBT_DAMAGE = "Damage";
+  static final String NBT_GRAVITY = "Gravity";
+  static final String NBT_SHOOTER = "Shooter";
 
   protected EntityLivingBase shooter;
   // protected ItemStack castingStack;
   private Color color = Color.WHITE;
   protected float damage = 0f;
-  protected boolean gravity = true;
+  protected double bounciness = 0.75;
   protected int bounces = 4;
+  protected float gravity = 0.025f;
 
   public EntityChaosProjectile(World worldIn) {
 
@@ -64,19 +67,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
     setSize(SIZE, SIZE);
 
-    Vec3d vec = shooter.getLookVec();
-    motionX = vec.x;
-    motionY = vec.y;
-    motionZ = vec.z;
-
-    float speedMulti = 0.7f;
-    motionX += shooter.motionX;
-    motionY += shooter.motionY;
-    motionZ += shooter.motionZ;
-    motionX *= speedMulti;
-    motionY *= speedMulti;
-    motionZ *= speedMulti;
-    // this.gravity = gravity;
+    setStartingVelocity(shooter, SilentGems.random);
 
     // Color
     ToolPart part = ToolHelper.getRenderPart(castingStack, ToolPartPosition.HEAD);
@@ -87,19 +78,24 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
       this.color = new Color(part.getColor(castingStack, ToolPartPosition.HEAD, 0));
     }
 
-    // SilentGems.instance.logHelper.debug(posX, posY, posZ, motionX, motionY, motionZ);
-
-    // gemId = gemId == -1 ? ModMaterials.CHAOS_GEM_ID : gemId;
-    // if (gemId >= 0 && gemId < COLORS.length) {
-    // setColor(COLORS[gemId]);
-    // } else {
-    // setColor(0xFFFFFF);
-    // LogHelper.warning("EntityProjectileChaosOrb (constructor): Unknown gemId! " + gemId);
-    // }
-
     posX += motionX;
     posY += motionY;
     posZ += motionZ;
+  }
+
+  protected void setStartingVelocity(EntityLivingBase shooter, Random random) {
+
+    Vec3d vec = shooter.getLookVec();
+    motionX = vec.x;
+    motionY = vec.y;
+    motionZ = vec.z;
+
+    motionX += shooter.motionX;
+    motionY += shooter.motionY;
+    motionZ += shooter.motionZ;
+    motionX *= SPEED_MULTI;
+    motionY *= SPEED_MULTI;
+    motionZ *= SPEED_MULTI;
   }
 
   public int getMaxLife() {
@@ -111,10 +107,6 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
   public void onUpdate() {
 
     super.onUpdate();
-
-    // if (homingTarget != null && homingTarget.isDead) {
-    // findHomingTarget();
-    // }
 
     Vec3d vec1 = new Vec3d(posX, posY, posZ);
     Vec3d vec2 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
@@ -150,45 +142,52 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
     BlockPos posHit = mop.getBlockPos();
     if (mop.typeOfHit == Type.ENTITY && shooter != null && mop.entityHit != shooter) {
-      // Collide with Entity?
-      mop.entityHit.attackEntityFrom(
-          DamageSource.causeIndirectMagicDamage(getShooter(), getShooter()), damage);
-      // if (castingStack != null) {
-      // ToolHelper.incrementStatShotsLanded(castingStack, 1);
-      // }
-      // worldObj.createExplosion(this, posX, posY, posZ, 1.25f, false);
-      setDead();
+      onImpactWithEntity(mop);
     } else if (mop.typeOfHit == Type.BLOCK
         && canCollideWithBlock(world.getBlockState(posHit), posHit)) {
-      // Collide with Block?
-      BlockPos pos = mop.getBlockPos();
-      IBlockState state = world.getBlockState(pos);
-      Block block = state.getBlock();
-      AxisAlignedBB boundingBox = state.getBoundingBox(world, pos);
+      onImpactWithBlock(mop);
+    }
+  }
 
-      // Bounce off of blocks that can be collided with.
-      if (bounces > 0 && boundingBox != null) {
-        --bounces;
-        switch (mop.sideHit) {
-          case UP:
-          case DOWN:
-            motionY *= -0.95;
-            break;
-          case NORTH:
-          case SOUTH:
-            motionZ *= -0.95;
-            break;
-          case EAST:
-          case WEST:
-            motionX *= -0.95;
-            break;
-        }
-        spawnHitParticles(16);
-        world.playSound(null, pos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.AMBIENT, 0.5f,
-            0.65f);
-      } else if (boundingBox != null) {
-        setDead();
+  public void onImpactWithEntity(RayTraceResult mop) {
+
+    Entity e = mop.entityHit;
+    e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(getShooter(), getShooter()), damage);
+//    e.hurtResistantTime -= 1;
+    // if (castingStack != null) {
+    // ToolHelper.incrementStatShotsLanded(castingStack, 1);
+    // }
+    setDead();
+  }
+
+  public void onImpactWithBlock(RayTraceResult mop) {
+
+    BlockPos pos = mop.getBlockPos();
+    IBlockState state = world.getBlockState(pos);
+    Block block = state.getBlock();
+    AxisAlignedBB boundingBox = state.getBoundingBox(world, pos);
+
+    // Bounce off of blocks that can be collided with.
+    if (bounces > 0 && boundingBox != null) {
+      --bounces;
+      switch (mop.sideHit) {
+        case UP:
+        case DOWN:
+          motionY *= -bounciness;
+          break;
+        case NORTH:
+        case SOUTH:
+          motionZ *= -bounciness;
+          break;
+        case EAST:
+        case WEST:
+          motionX *= -bounciness;
+          break;
       }
+      spawnHitParticles(16);
+      world.playSound(null, pos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.AMBIENT, 0.5f, 0.65f);
+    } else if (boundingBox != null) {
+      setDead();
     }
   }
 
@@ -204,7 +203,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
   @Override
   public float getGravityVelocity() {
 
-    return gravity ? 0.02f : 0f;
+    return gravity;
   }
 
   @Override
@@ -268,7 +267,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
     setColor(new Color(tags.getInteger(NBT_COLOR)));
     damage = tags.getFloat(NBT_DAMAGE);
-    gravity = tags.getBoolean(NBT_GRAVITY);
+    gravity = tags.getFloat(NBT_GRAVITY);
     if (tags.hasKey(NBT_SHOOTER)) {
       shooter = world.getPlayerEntityByName(tags.getString(NBT_SHOOTER));
       if (shooter == null) {
@@ -284,7 +283,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
     tags.setInteger(NBT_COLOR, color.getColor());
     tags.setFloat(NBT_DAMAGE, damage);
-    tags.setBoolean(NBT_GRAVITY, gravity);
+    tags.setFloat(NBT_GRAVITY, gravity);
     if (shooter != null) {
       tags.setString(NBT_SHOOTER, shooter.getName());
     }
@@ -296,7 +295,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
     try {
       color = new Color(data.readInt());
       damage = data.readFloat();
-      gravity = data.readBoolean();
+      gravity = data.readFloat();
       byte[] bytes = new byte[data.readableBytes()];
       data.readBytes(bytes);
       String shooterName = new String(bytes);
@@ -310,7 +309,7 @@ public class EntityChaosProjectile extends EntityThrowable implements IEntityAdd
 
     data.writeInt(color.getColor());
     data.writeFloat(damage);
-    data.writeBoolean(gravity);
+    data.writeFloat(gravity);
     ByteBufUtil.writeUtf8(data, shooter.getName());
   }
 }

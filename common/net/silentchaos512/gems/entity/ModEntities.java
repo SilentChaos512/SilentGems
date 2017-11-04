@@ -18,10 +18,11 @@ public class ModEntities {
     reg.registerEntity(EntityChaosProjectile.class, "ChaosProjectile", 64, 4, true);
     reg.registerEntity(EntityChaosProjectileHoming.class, "ChaosProjectileHoming", 64, 4, true);
     reg.registerEntity(EntityChaosProjectileSweep.class, "ChaosProjectileSweep", 64, 4, true);
+    reg.registerEntity(EntityChaosProjectileScatter.class, "ChaosProjectileScatter", 64, 4, true);
 
     reg.registerEntity(EntityThrownTomahawk.class, "ThrownTomahawk");
 
     reg.registerEntity(EntityEnderSlime.class, "EnderSlime", 64, 4, false, 0x003333, 0xAA00AA);
-    EntityRegistry.addSpawn(EntityEnderSlime.class, 10, 1, 4, EnumCreatureType.MONSTER, Biomes.SKY);
+    EntityRegistry.addSpawn(EntityEnderSlime.class, 6, 1, 4, EnumCreatureType.MONSTER, Biomes.SKY);
   }
 }

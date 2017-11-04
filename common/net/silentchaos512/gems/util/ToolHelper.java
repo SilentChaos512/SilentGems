@@ -288,6 +288,11 @@ public class ToolHelper {
 
   public static void attemptDamageTool(ItemStack tool, int amount, EntityLivingBase entityLiving) {
 
+    if (entityLiving instanceof EntityPlayer
+        && ((EntityPlayer) entityLiving).capabilities.isCreativeMode) {
+      return;
+    }
+
     if (!GemsConfigHC.TOOLS_BREAK) {
       amount = Math.min(tool.getMaxDamage() - tool.getItemDamage(), amount);
     }

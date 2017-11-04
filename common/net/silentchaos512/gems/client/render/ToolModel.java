@@ -27,9 +27,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
-import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
 import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
 import net.silentchaos512.gems.util.ToolHelper;
@@ -214,6 +214,7 @@ public class ToolModel extends MultiLayerModelSL {
   public Pair<? extends IBakedModel, Matrix4f> handlePerspective(
       TransformType cameraTransformType) {
 
+    boolean isBow = tool != null && tool.getItem() instanceof ItemGemBow;
     Matrix4f matrix = new Matrix4f();
     switch (cameraTransformType) {
       case FIRST_PERSON_RIGHT_HAND:
@@ -231,11 +232,13 @@ public class ToolModel extends MultiLayerModelSL {
         break;
       case THIRD_PERSON_RIGHT_HAND:
         matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().thirdperson_right);
-        matrix.setTranslation(new javax.vecmath.Vector3f(0f, 0f, 0.2f));
+        if (isBow)
+          matrix.setTranslation(new javax.vecmath.Vector3f(0f, 0f, 0.2f));
         break;
       case THIRD_PERSON_LEFT_HAND:
         matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().thirdperson_left);
-        matrix.setTranslation(new javax.vecmath.Vector3f(0f, 0f, 0.2f));
+        if (isBow)
+          matrix.setTranslation(new javax.vecmath.Vector3f(0f, 0f, 0.2f));
         break;
       case GROUND:
         matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().ground);

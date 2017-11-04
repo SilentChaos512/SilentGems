@@ -46,6 +46,7 @@ import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.util.EnumMagicType;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.item.IItemSL;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -168,6 +169,9 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
       return list;
     }
 
+    EnumMagicType magicType = EnumMagicType.getMagicType(stack);
+    int shotCount = magicType.getShotCount(stack);
+
     // Calculate magic damage.
     // Includes player "magic strength" (currently just a constant 1, might do something with it later).
     float damage = 1f + getMagicDamage(stack);
@@ -175,40 +179,41 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
     int magicEnchLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.magicDamage, stack);
     if (magicEnchLevel > 0)
       damage += ModEnchantments.magicDamage.calcDamage(magicEnchLevel);
+    damage *= magicType.getDamagePerShotMultiplier();
 
     Item item = stack.getItem();
     // Dagger
     if (item instanceof ItemGemDagger) {
-      list.add(new EntityChaosProjectileHoming(player, stack, damage, false, 0.0325, 0.25));
+      for (int i = 0; i < shotCount; ++i) {
+        list.add(new EntityChaosProjectileHoming(player, stack, damage, false, 0.0325, 0.25));
+      }
     }
     // Scepter
     else if (item instanceof ItemGemScepter) {
-      for (int i = 0; i < 5; ++i) {
+      for (int i = 0; i < shotCount; ++i) {
         list.add(new EntityChaosProjectileHoming(player, stack, damage, true, 0.075, 0.35));
       }
     }
     // Katana
     else if (item instanceof ItemGemKatana) {
       final float maxAngle = 0.05f;
-      for (float angle = -maxAngle; angle <= maxAngle; angle += maxAngle / 2) {
+      for (float angle = -maxAngle; angle <= maxAngle; angle += maxAngle / (shotCount / 2)) {
         list.add(new EntityChaosProjectileSweep(player, stack, damage, angle));
       }
     }
     // Machete
     else if (item instanceof ItemGemMachete) {
-      for (int i = 0; i < 8; ++i) {
-        list.add(new EntityChaosProjectileScatter(player, stack, damage / 4));
+      for (int i = 0; i < shotCount; ++i) {
+        list.add(new EntityChaosProjectileScatter(player, stack, damage));
       }
     }
     // Classic sword (default)
     else {
-      list.add(new EntityChaosProjectile(player, stack, damage));
-      EntityChaosProjectile e = new EntityChaosProjectile(player, stack, damage);
-      e.motionY += 0.2;
-      list.add(e);
-//      e = new EntityChaosProjectile(player, stack, damage);
-//      e.motionY -= 0.1;
-//      list.add(e);
+      for (int i = 0; i < shotCount; ++i) {
+        EntityChaosProjectile e = new EntityChaosProjectile(player, stack, damage);
+        e.motionY += 0.2 * i;
+        list.add(e);
+      }
     }
 
     return list;
@@ -219,17 +224,7 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
     if (player.capabilities.isCreativeMode)
       return 0;
 
-    if (StackHelper.isValid(stack)) {
-      Item item = stack.getItem();
-      // @formatter:off
-      if (item == ModItems.dagger) return 1000;
-      if (item == ModItems.scepter) return 5000;
-      if (item == ModItems.katana) return 2000;
-      if (item == ModItems.sword) return 1000;
-      // @formatter:on
-    }
-
-    return 1500;
+    return EnumMagicType.getMagicType(stack).getCost(stack);
   }
 
   private int getShotCooldown(EntityPlayer player, ItemStack stack) {

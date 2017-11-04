@@ -43,4 +43,10 @@ public class TooltipHelper {
     return (addSpaces ? "  " : "")
         + SilentGems.localizationHelper.getMiscText("Tooltip." + key, number);
   }
+
+  public static String get(String key, String value, boolean addSpaces) {
+
+    return (addSpaces ? "  " : "")
+        + SilentGems.localizationHelper.getMiscText("Tooltip." + key, value);
+  }
 }

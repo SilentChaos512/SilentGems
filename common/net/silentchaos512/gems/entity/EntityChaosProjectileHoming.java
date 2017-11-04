@@ -92,7 +92,7 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
       findHomingTarget();
     }
 
-    if (homingTarget != null && ticksExisted > 10) {
+    if (homingTarget != null && ticksExisted > 5) {
       posX = lastTickPosX;
       posY = lastTickPosY;
       posZ = lastTickPosZ;
