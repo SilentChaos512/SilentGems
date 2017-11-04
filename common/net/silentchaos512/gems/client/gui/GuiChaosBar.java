@@ -44,18 +44,21 @@ public class GuiChaosBar extends Gui {
   }
 
   public void update(int currentChaos, int maxChaos) {
+
     this.currentChaos = currentChaos;
     this.maxChaos = maxChaos < currentChaos ? currentChaos : maxChaos;
     show();
   }
 
   public void show() {
+
     lastUpdateTime = ClientTickHandler.ticksInGame;
   }
 
   @SubscribeEvent
-  public void onRenderGameOverlay(RenderGameOverlayEvent event) {
-    if (event.isCancelable() || event.getType() != ElementType.TEXT) {
+  public void onRenderGameOverlay(RenderGameOverlayEvent.Pre event) {
+
+    if (event.getType() != ElementType.AIR) {
       return;
     }
 
@@ -63,8 +66,8 @@ public class GuiChaosBar extends Gui {
     EntityPlayer player = mc.player;
 
     currentTime = ClientTickHandler.ticksInGame;
-    if (player.capabilities.isCreativeMode ||
-        (!GemsConfig.CHAOS_BAR_SHOW_ALWAYS && currentTime > lastUpdateTime + POPUP_TIME)) {
+    if (player.capabilities.isCreativeMode
+        || (!GemsConfig.CHAOS_BAR_SHOW_ALWAYS && currentTime > lastUpdateTime + POPUP_TIME)) {
       return;
     }
 
@@ -105,8 +108,8 @@ public class GuiChaosBar extends Gui {
       float hue = ((currentTime + COLOR_CHANGE_STEP * i) % COLOR_CHANGE_DELAY) / COLOR_CHANGE_DELAY;
       color.fromHSB(hue, 0.6f, 1f);
 
-      GlStateManager
-          .color(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 1f);
+      GlStateManager.color(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f,
+          1f);
 
       if (i * 2 + 1 < chaosHalves) {
         drawTexturedModalRect(x, y, textureX, textureY, textureWidth, textureHeight);
