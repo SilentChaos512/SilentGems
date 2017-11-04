@@ -336,7 +336,7 @@ public class ItemEnchantmentToken extends ItemSL {
     for (Entry<Enchantment, Integer> entry : enchants.entrySet()) {
       Enchantment e = entry.getKey();
       list.add(e.getTranslatedName(entry.getValue()));
-      String descKey = e.getName() + ".desc";
+      String descKey = e.getName().replaceAll(":", ".").toLowerCase() + ".desc";
       String desc = loc.getLocalizedString(descKey);
       if (!desc.equals(descKey))
         list.add(TextFormatting.ITALIC + "  " + desc);
