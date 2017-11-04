@@ -104,9 +104,12 @@ public class GemsClientEvents {
       boolean ctrlDown, boolean shiftDown) {
 
     int index = 1;
+    final String sep = loc.getMiscText("Tooltip.Separator");
+    List<String> list = event.getToolTip();
+    ToolPartRod.Stats stats = ((ToolPartRod) part).getStats();
 
     // Tool Rod indicator
-    event.getToolTip().add(index++, loc.getMiscText("ToolPart.Rod"));
+    list.add(index++, loc.getMiscText("ToolPart.Rod"));
 
     if (ctrlDown) {
       // Compatible tiers
@@ -116,15 +119,35 @@ public class GemsClientEvents {
           line += ", ";
         line += tier.getLocalizedName();
       }
-      event.getToolTip().add(index++, loc.getMiscText("ToolPart.ValidTiers"));
-      event.getToolTip().add(index++, "  " + line);
+      list.add(index++, loc.getMiscText("ToolPart.ValidTiers"));
+      list.add(index++, "  " + line);
+
+      list.add(index++, sep);
+      TextFormatting color = TextFormatting.GOLD;
+      list.add(index++,
+          color + TooltipHelper.getAsColoredPercentage("HarvestSpeed", stats.harvestSpeedMulti));
+      // list.add(index++, color + TooltipHelper.get("HarvestLevel", part.getHarvestLevel()));
+
+      color = TextFormatting.DARK_GREEN;
+      list.add(index++,
+          color + TooltipHelper.getAsColoredPercentage("MeleeDamage", stats.meleeDamageMulti));
+      list.add(index++,
+          color + TooltipHelper.getAsColoredPercentage("MagicDamage", stats.magicDamageMulti));
+      // list.add(index++, color + TooltipHelper.get("MeleeSpeed", (int) (part.getMeleeSpeed() * 100)));
+
+      color = TextFormatting.BLUE;
+      list.add(index++,
+          color + TooltipHelper.getAsColoredPercentage("Durability", stats.durabilityMulti));
+      list.add(index++, color
+          + TooltipHelper.getAsColoredPercentage("Enchantability", stats.enchantabilityMulti));
+      list.add(index++, sep);
 
       // Debug info
       if (shiftDown) {
-        event.getToolTip().add(index++, TextFormatting.DARK_GRAY + "* Part key: " + part.getKey());
+        list.add(index++, TextFormatting.DARK_GRAY + "* Part key: " + part.getKey());
       }
     } else {
-      event.getToolTip().add(index++, loc.getMiscText("PressCtrl"));
+      list.add(index++, loc.getMiscText("PressCtrl"));
     }
   }
 

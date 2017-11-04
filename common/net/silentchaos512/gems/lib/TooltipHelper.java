@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.lib;
 
+import net.minecraft.util.text.TextFormatting;
 import net.silentchaos512.gems.SilentGems;
 
 public class TooltipHelper {
@@ -7,6 +8,14 @@ public class TooltipHelper {
   public static final String FORMAT_INT = "%d";
   public static final String FORMAT_INT_LARGE = "%,d";
   public static final String FORMAT_FLOAT = "%.2f";
+
+  public static String getAsColoredPercentage(String key, float value) {
+
+    int percent = (int) (value * 100);
+    TextFormatting color = percent > 100 ? TextFormatting.GREEN
+        : percent < 100 ? TextFormatting.RED : TextFormatting.WHITE;
+    return SilentGems.localizationHelper.getMiscText("Tooltip." + key, color + "x" + percent + "%");
+  }
 
   public static String get(String key, int value) {
 
