@@ -32,6 +32,7 @@ import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.part.ModParts;
+import net.silentchaos512.gems.lib.soul.SoulSkill;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.gems.world.GemsWorldGenerator;
 import net.silentchaos512.lib.SilentLib;
@@ -122,6 +123,7 @@ public class SilentGems {
     registry.addRegistrationHandler(new ModItems(), Item.class);
     registry.addRegistrationHandler(new ModRecipes(), IRecipe.class);
     ModParts.init();
+    SoulSkill.init();
 
     GemsConfig.INSTANCE.loadModuleConfigs();
 

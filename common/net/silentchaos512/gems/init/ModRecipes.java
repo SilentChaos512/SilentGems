@@ -7,10 +7,12 @@ import static net.silentchaos512.gems.api.lib.EnumMaterialTier.SUPER;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.SilentGemsAPI;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.recipe.RecipeApplyEnchantmentToken;
+import net.silentchaos512.gems.recipe.RecipeApplyToolSoul;
 import net.silentchaos512.gems.recipe.RecipeChaosGemUpgrade;
 import net.silentchaos512.gems.recipe.RecipeDecorateArmor;
 import net.silentchaos512.gems.recipe.RecipeDecorateTool;
@@ -18,6 +20,7 @@ import net.silentchaos512.gems.recipe.RecipeHoldingGemSetBlock;
 import net.silentchaos512.gems.recipe.RecipeMixedMaterialItem;
 import net.silentchaos512.gems.recipe.RecipeMultiGemArmor;
 import net.silentchaos512.gems.recipe.RecipeNamePlate;
+import net.silentchaos512.gems.recipe.RecipeToolSoul;
 import net.silentchaos512.lib.registry.IRegistrationHandler;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.registry.SRegistry;
@@ -107,5 +110,9 @@ public class ModRecipes implements IRegistrationHandler<IRecipe> {
     recipes.addCustomRecipe("chaos_gem_upgrade", new RecipeChaosGemUpgrade());
     recipes.addCustomRecipe("name_plate_use", new RecipeNamePlate());
     recipes.addCustomRecipe("holding_gem_set_block", new RecipeHoldingGemSetBlock());
+    recipes.addCustomRecipe("craft_tool_soul", new RecipeToolSoul());
+    // TODO: Remove condition when ready to release.
+    if (SilentGems.instance.isDevBuild())
+      recipes.addCustomRecipe("apply_tool_soul", new RecipeApplyToolSoul());
   }
 }

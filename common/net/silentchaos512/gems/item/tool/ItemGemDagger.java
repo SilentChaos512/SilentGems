@@ -46,7 +46,7 @@ public class ItemGemDagger extends ItemGemSword {
   @Override
   public float getMeleeDamage(ItemStack tool) {
 
-    return (getBaseMeleeDamageModifier() + ToolHelper.getMeleeDamage(tool)) / 2;
+    return (getMeleeDamageModifier() + ToolHelper.getMeleeDamage(tool)) / 2;
   }
 
   @Override
@@ -56,13 +56,19 @@ public class ItemGemDagger extends ItemGemSword {
   }
 
   @Override
-  public float getBaseMeleeDamageModifier() {
+  public float getMeleeDamageModifier() {
 
     return 1.0f;
   }
 
   @Override
-  public float getBaseMeleeSpeedModifier() {
+  public float getMagicDamageModifier() {
+
+    return 1.0f;
+  }
+
+  @Override
+  public float getMeleeSpeedModifier() {
 
     return -1.4f;
   }

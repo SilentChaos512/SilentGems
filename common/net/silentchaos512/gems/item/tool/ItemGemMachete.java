@@ -32,19 +32,19 @@ public class ItemGemMachete extends ItemGemSword {
   }
 
   @Override
-  public float getMagicDamage(ItemStack tool) {
-
-    return 1.0f + ToolHelper.getMagicDamage(tool);
-  }
-
-  @Override
-  public float getBaseMeleeDamageModifier() {
+  public float getMeleeDamageModifier() {
 
     return 4.0f;
   }
 
   @Override
-  public float getBaseMeleeSpeedModifier() {
+  public float getMagicDamageModifier() {
+
+    return 1.0f;
+  }
+
+  @Override
+  public float getMeleeSpeedModifier() {
 
     return -2.7f;
   }

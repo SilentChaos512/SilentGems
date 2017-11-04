@@ -5,7 +5,7 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
 
-public class ToolPartTip extends ToolPart {
+public abstract class ToolPartTip extends ToolPart {
 
   private int miningLevel;
   private int durabilityBoost;

@@ -32,9 +32,11 @@ import net.silentchaos512.gems.item.ItemHoldingGem;
 import net.silentchaos512.gems.item.ItemNodeMover;
 import net.silentchaos512.gems.item.ItemPetSummoner;
 import net.silentchaos512.gems.item.ItemReturnHome;
+import net.silentchaos512.gems.item.ItemSkillOrb;
 import net.silentchaos512.gems.item.ItemSoulGem;
 import net.silentchaos512.gems.item.ItemTeleporterLinker;
 import net.silentchaos512.gems.item.ItemTipUpgrade;
+import net.silentchaos512.gems.item.ItemToolSoul;
 import net.silentchaos512.gems.item.ItemTorchBandolier;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.ToolRenderHelperBase;
@@ -72,6 +74,8 @@ public class ModItems implements IRegistrationHandler<Item> {
   public static final ItemCrafting craftingMaterial = new ItemCrafting();
   public static final ItemTipUpgrade tipUpgrade = new ItemTipUpgrade();
   public static final ItemEnchantmentToken enchantmentToken = new ItemEnchantmentToken();
+  public static final ItemToolSoul toolSoul = new ItemToolSoul();
+  public static final ItemSkillOrb skillOrb = new ItemSkillOrb();
   public static final ItemChaosGem chaosGem = new ItemChaosGem();
   public static final ItemChaosRune chaosRune = new ItemChaosRune();
   public static final ItemArmorFrame armorFrame = new ItemArmorFrame();
@@ -134,6 +138,11 @@ public class ModItems implements IRegistrationHandler<Item> {
     reg.registerItem(craftingMaterial).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(tipUpgrade).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(enchantmentToken).setCreativeTab(GemsCreativeTabs.utility);
+    // TODO: Remove condition when ready for release!
+    if (SilentGems.instance.isDevBuild()) {
+      reg.registerItem(toolSoul).setCreativeTab(GemsCreativeTabs.utility);
+      reg.registerItem(skillOrb).setCreativeTab(GemsCreativeTabs.utility);
+    }
     reg.registerItem(chaosGem).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(chaosRune).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(armorFrame).setCreativeTab(GemsCreativeTabs.materials);

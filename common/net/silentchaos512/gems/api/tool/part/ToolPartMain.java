@@ -11,7 +11,7 @@ import net.silentchaos512.gems.config.GemsConfigHC;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 
-public class ToolPartMain extends ToolPart {
+public abstract class ToolPartMain extends ToolPart {
 
   static final float[][] REPAIR_VALUES = {//
       { 0.500f, 1.000f, 1.000f, 1.000f }, // mundane

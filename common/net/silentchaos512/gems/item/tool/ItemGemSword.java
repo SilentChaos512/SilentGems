@@ -38,6 +38,7 @@ import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.EntityChaosProjectileHoming;
+import net.silentchaos512.gems.entity.EntityChaosProjectileScatter;
 import net.silentchaos512.gems.entity.EntityChaosProjectileSweep;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
@@ -99,25 +100,19 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
   }
 
   @Override
-  public float getMeleeDamage(ItemStack tool) {
-
-    return getBaseMeleeDamageModifier() + ToolHelper.getMeleeDamage(tool);
-  }
-
-  @Override
-  public float getMagicDamage(ItemStack tool) {
-
-    return 2.0f + ToolHelper.getMagicDamage(tool);
-  }
-
-  @Override
-  public float getBaseMeleeDamageModifier() {
+  public float getMeleeDamageModifier() {
 
     return 3.0f;
   }
 
   @Override
-  public float getBaseMeleeSpeedModifier() {
+  public float getMagicDamageModifier() {
+
+    return 2.0f;
+  }
+
+  @Override
+  public float getMeleeSpeedModifier() {
 
     return -2.4f;
   }
@@ -197,6 +192,12 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
       final float maxAngle = 0.05f;
       for (float angle = -maxAngle; angle <= maxAngle; angle += maxAngle / 2) {
         list.add(new EntityChaosProjectileSweep(player, stack, damage, angle));
+      }
+    }
+    // Machete
+    else if (item instanceof ItemGemMachete) {
+      for (int i = 0; i < 8; ++i) {
+        list.add(new EntityChaosProjectileScatter(player, stack, damage / 4));
       }
     }
     // Classic sword (default)

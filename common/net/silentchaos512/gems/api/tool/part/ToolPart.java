@@ -34,12 +34,6 @@ import net.silentchaos512.lib.registry.IRegistryObject;
 public abstract class ToolPart {
 
   /**
-   * Generally not used, since parts have different models for different tools, or even for different positions.
-   */
-  @SideOnly(Side.CLIENT)
-  @Deprecated
-  protected ModelResourceLocation model; // Use getter instead.
-  /**
    * The unique ID for the part. I recommend prefixing it with your mod ID. Example: SilentGems:RodGold.
    */
   protected @Nonnull String key;
@@ -61,11 +55,6 @@ public abstract class ToolPart {
    * of the resulting tool.
    */
   protected EnumMaterialTier tier;
-  /**
-   * The color apply to the layer when rendering.
-   */
-  @Deprecated // Use getter instead.
-  protected int color = 0xFFFFFF;
 
   public ToolPart(String key, ItemStack craftingStack) {
 
@@ -111,7 +100,7 @@ public abstract class ToolPart {
   @Deprecated
   public int getColor(ItemStack toolOrArmor) {
 
-    return color;
+    return 0xFFFFFF;
   }
 
   /**
@@ -186,10 +175,7 @@ public abstract class ToolPart {
   }
 
   @SideOnly(Side.CLIENT)
-  public ModelResourceLocation getModel(ItemStack toolOrArmor, ToolPartPosition pos, int frame) {
-
-    return model;
-  }
+  public abstract ModelResourceLocation getModel(ItemStack toolOrArmor, ToolPartPosition pos, int frame);
 
   @SideOnly(Side.CLIENT)
   public ModelResourceLocation getBrokenModel(ItemStack toolOrArmor, ToolPartPosition pos,
@@ -256,7 +242,6 @@ public abstract class ToolPart {
 
   public abstract float getChargeSpeed();
 
-  // Only needed for armor.
   public abstract float getProtection();
 
   /**

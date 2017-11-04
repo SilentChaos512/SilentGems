@@ -15,11 +15,11 @@ import net.silentchaos512.gems.event.GemsCommonEvents;
 import net.silentchaos512.gems.event.ShieldEventHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.module.ModuleHalloweenHijinks;
 import net.silentchaos512.gems.lib.module.ModuleHolidayCheer;
 import net.silentchaos512.gems.network.NetworkHandler;
+import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.Color;
@@ -42,6 +42,7 @@ public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
     MinecraftForge.EVENT_BUS.register(new PlayerDataHandler.EventHandler());
     MinecraftForge.EVENT_BUS.register(new GemsCommonEvents());
     MinecraftForge.EVENT_BUS.register(new ShieldEventHandler());
+    MinecraftForge.EVENT_BUS.register(new SoulManager());
     MinecraftForge.EVENT_BUS.register(ModuleHolidayCheer.instance);
     MinecraftForge.EVENT_BUS.register(ModuleHalloweenHijinks.instance);
   }

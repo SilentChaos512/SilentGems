@@ -70,6 +70,7 @@ import net.silentchaos512.gems.item.tool.ItemGemSickle;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageItemRename;
 import net.silentchaos512.gems.skills.SkillAreaMiner;
@@ -80,6 +81,7 @@ import net.silentchaos512.lib.recipe.IngredientSL;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
+import net.silentchaos512.lib.util.PlayerHelper;
 import net.silentchaos512.lib.util.StackHelper;
 import net.silentchaos512.lib.util.WorldHelper;
 
@@ -102,10 +104,12 @@ public class ToolHelper {
   public static final String NBT_ROOT_CONSTRUCTION = "SGConstruction";
   public static final String NBT_ROOT_DECORATION = "SGDecoration";
   public static final String NBT_ROOT_PROPERTIES = "SGProperties";
+  public static final String NBT_ROOT_TOOL_SOUL = "SGToolSoul";
   public static final String NBT_ROOT_STATISTICS = "SGStatistics";
 
   // UUID key
   public static final String NBT_UUID = "SG_UUID";
+  public static final String NBT_SOUL_UUID = "SG_SoulUUID";
 
   // Settings
   public static final String NBT_SETTINGS_SPECIAL = "SpecialEnabled";
@@ -180,6 +184,11 @@ public class ToolHelper {
 
     if (!toolOrArmor.getTagCompound().getBoolean(NBT_LOCK_STATS)) {
       ToolStats stats = new ToolStats(toolOrArmor, parts, grades).calculate();
+
+      ToolSoul soul = SoulManager.getSoul(toolOrArmor);
+      if (soul != null) {
+        soul.applyToStats(stats);
+      }
 
       String root = NBT_ROOT_PROPERTIES;
       // Tools only
@@ -289,6 +298,21 @@ public class ToolHelper {
       recalculateStats(tool);
       ModItems.toolRenderHelper.updateModelCache(tool);
     } else if (GemsConfigHC.TOOLS_BREAK && wouldBreak) {
+      // Return the tool soul, if though the tool is destroyed.
+      ToolSoul soul = SoulManager.getSoul(tool);
+      if (soul != null) {
+        ItemStack toGive = new ItemStack(ModItems.toolSoul);
+        ModItems.toolSoul.setSoul(toGive, soul);
+        if (soul.hasName()) {
+          // Soul already has a name.
+          toGive.setStackDisplayName(soul.getName(StackHelper.empty()));
+        } else if (tool.hasDisplayName()) {
+          // Soul wasn't named, tool was. Inherit the name.
+          toGive.setStackDisplayName(tool.getDisplayName());
+        }
+        PlayerHelper.giveItem((EntityPlayer) entityLiving, toGive);
+      }
+
       entityLiving.renderBrokenItemStack(tool);
       StackHelper.shrink(tool, 1);
     }
@@ -483,7 +507,7 @@ public class ToolHelper {
     if (!(tool.getItem() instanceof ITool))
       return 0.0f;
 
-    float base = ((ITool) tool.getItem()).getBaseMeleeSpeedModifier();
+    float base = ((ITool) tool.getItem()).getMeleeSpeedModifier();
     float speed = getMeleeSpeed(tool) + (isBroken(tool) ? 0.7f : 0f);
     return ((base + 4) * speed - 4);
   }
@@ -620,6 +644,13 @@ public class ToolHelper {
       skill.activate(stack, player, pos);
     incrementStatBlocksMined(stack, 1);
 
+    // XP for tool soul
+    if (player != null && !player.world.isRemote) {
+      IBlockState stateMined = player.world.getBlockState(pos);
+      SoulManager.addSoulXp(ToolSoul.getXpForBlockHarvest(player.world, pos, stateMined), stack,
+          player);
+    }
+
     // Mining achievements TODO: Uncomment
     // amount = getStatBlocksMined(stack);
     // if (amount >= 1000) {
@@ -675,6 +706,14 @@ public class ToolHelper {
 
   public static void onUpdate(ItemStack toolOrArmor, World world, Entity entity, int itemSlot,
       boolean isSelected) {
+
+    // Tick tool souls
+    if (entity instanceof EntityPlayer) {
+      ToolSoul soul = SoulManager.getSoul(toolOrArmor);
+      if (soul != null) {
+        soul.updateTick(toolOrArmor, (EntityPlayer) entity);
+      }
+    }
 
     if (!world.isRemote) {
       // Randomize tools with no data.
@@ -1081,11 +1120,39 @@ public class ToolHelper {
     }
   }
 
+  // Tool Souls
+
+  /**
+   * UUID for tool souls. Must be kept separate from the normal UUID to prevent soul duping.
+   * 
+   * @param toolOrArmor
+   * @return
+   */
+  public static @Nullable UUID getSoulUUID(ItemStack toolOrArmor) {
+
+    if (!(toolOrArmor.getItem() instanceof ITool || toolOrArmor.getItem() instanceof IArmor)) {
+      return null;
+    }
+
+    initRootTag(toolOrArmor);
+
+    if (!toolOrArmor.getTagCompound().hasUniqueId(NBT_SOUL_UUID)) {
+      return null;
+    }
+    return toolOrArmor.getTagCompound().getUniqueId(NBT_SOUL_UUID);
+  }
+
+  public static void setRandomSoulUUID(ItemStack toolOrArmor) {
+
+    initRootTag(toolOrArmor);
+    toolOrArmor.getTagCompound().setUniqueId(NBT_SOUL_UUID, UUID.randomUUID());
+  }
+
   // ==========================================================================
   // NBT helper methods
   // ==========================================================================
 
-  private static NBTTagCompound getRootTag(ItemStack tool, String key) {
+  static NBTTagCompound getRootTag(ItemStack tool, String key) {
 
     if (key != null && !key.isEmpty()) {
       if (!tool.getTagCompound().hasKey(key)) {
@@ -1096,7 +1163,7 @@ public class ToolHelper {
     return tool.getTagCompound();
   }
 
-  private static void initRootTag(ItemStack tool) {
+  static void initRootTag(ItemStack tool) {
 
     if (!tool.hasTagCompound()) {
       tool.setTagCompound(new NBTTagCompound());

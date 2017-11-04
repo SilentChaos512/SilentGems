@@ -5,8 +5,8 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
 
-
-public class ToolPartGrip extends ToolPart {
+@Deprecated
+public abstract class ToolPartGrip extends ToolPart {
 
   public ToolPartGrip(String key, ItemStack craftingStack) {
 

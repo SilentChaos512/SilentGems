@@ -46,8 +46,10 @@ public class Names {
   public static final String HOLDING_GEM = "HoldingGem";
   public static final String NODE_MOVER = "NodeMover";
   public static final String RETURN_HOME_CHARM = "ReturnHomeCharm";
+  public static final String SKILL_ORB = "SkillOrb";
   public static final String SOUL_GEM = "SoulGem";
   public static final String TELEPORTER_LINKER = "TeleporterLinker";
+  public static final String TOOL_SOUL = "ToolSoul";
   public static final String TORCH_BANDOLIER = "TorchBandolier";
   public static final String UPGRADE_TIP = "TipUpgrade";
   public static final String TOOL_RENDER_HELPER = "ToolRenderHelper";

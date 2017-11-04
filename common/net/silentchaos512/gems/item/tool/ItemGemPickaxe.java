@@ -92,23 +92,23 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   @Override
   public float getMeleeDamage(ItemStack tool) {
 
-    return getBaseMeleeDamageModifier() + ToolHelper.getMeleeDamage(tool);
+    return getMeleeDamageModifier() + ToolHelper.getMeleeDamage(tool);
   }
 
   @Override
-  public float getMagicDamage(ItemStack tool) {
-
-    return 0.0f;
-  }
-
-  @Override
-  public float getBaseMeleeDamageModifier() {
+  public float getMeleeDamageModifier() {
 
     return 1.0f;
   }
 
   @Override
-  public float getBaseMeleeSpeedModifier() {
+  public float getMagicDamageModifier() {
+
+    return 0.0f;
+  }
+
+  @Override
+  public float getMeleeSpeedModifier() {
 
     return -2.8f;
   }

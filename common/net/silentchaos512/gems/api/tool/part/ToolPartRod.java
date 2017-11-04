@@ -5,7 +5,7 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
 
-public class ToolPartRod extends ToolPart {
+public abstract class ToolPartRod extends ToolPart {
 
   protected float durabilityMulti = 1.0f;
   protected float harvestSpeedMulti = 1.0f;
@@ -135,5 +135,38 @@ public class ToolPartRod extends ToolPart {
   public boolean supportsDecoration() {
 
     return tier.ordinal() >= EnumMaterialTier.SUPER.ordinal();
+  }
+
+  public Stats getStats() {
+
+    return new Stats(this);
+  }
+
+  public static class Stats {
+
+    public final float durabilityMulti;
+    public final float harvestSpeedMulti;
+    public final float meleeDamageMulti;
+    public final float magicDamageMulti;
+    public final float enchantabilityMulti;
+
+    protected Stats(ToolPartRod part) {
+
+      this.durabilityMulti = part.durabilityMulti;
+      this.harvestSpeedMulti = part.harvestSpeedMulti;
+      this.meleeDamageMulti = part.meleeDamageMulti;
+      this.magicDamageMulti = part.magicDamageMulti;
+      this.enchantabilityMulti = part.enchantabilityMulti;
+    }
+
+    public Stats(float durabilityMulti, float harvestSpeedMulti, float meleeDamageMulti,
+        float magicDamageMulti, float enchantabilityMulti) {
+
+      this.durabilityMulti = durabilityMulti;
+      this.harvestSpeedMulti = harvestSpeedMulti;
+      this.meleeDamageMulti = meleeDamageMulti;
+      this.magicDamageMulti = magicDamageMulti;
+      this.enchantabilityMulti = enchantabilityMulti;
+    }
   }
 }

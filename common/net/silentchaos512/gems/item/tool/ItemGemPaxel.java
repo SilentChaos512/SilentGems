@@ -61,13 +61,13 @@ public class ItemGemPaxel extends ItemGemPickaxe {
   }
 
   @Override
-  public float getBaseMeleeDamageModifier() {
+  public float getMeleeDamageModifier() {
 
     return 2.0f;
   }
 
   @Override
-  public float getBaseMeleeSpeedModifier() {
+  public float getMeleeSpeedModifier() {
 
     return -3.2f;
   }

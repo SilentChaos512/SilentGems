@@ -65,6 +65,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.entity.EntityEnderSlime;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.soul.EnumSoulElement;
@@ -137,6 +138,7 @@ public class ItemSoulGem extends ItemSL {
     registerEntitySoul(EntityEnderman.class, new Soul("Enderman", LIGHTNING, ALIEN).setDropRate(rateHigh));
     registerEntitySoul(EntityEndermite.class, new Soul("Endermite", EARTH, ALIEN).setDropRate(rateHigh));
     registerEntitySoul(EntityShulker.class, new Soul("Shulker", WATER, ALIEN).setDropRate(2 * rateHigh));
+    registerEntitySoul(EntityEnderSlime.class, new Soul("EnderSlime", FIRE, ALIEN).setDropRate(rateHigh));
 
     registerEntitySoul(EntityPig.class, new Soul("Pig", FAUNA, EARTH));
     registerEntitySoul(EntitySheep.class, new Soul("Sheep", FAUNA, WIND));

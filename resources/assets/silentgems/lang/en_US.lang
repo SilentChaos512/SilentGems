@@ -848,6 +848,8 @@ item.silentgems:TeleporterLinker.desc=Links teleporters, obviously.
 item.silentgems:TeleporterLinker.Distance=Distance: %,d
 item.silentgems:TeleporterLinker.DifferentDimension=Dimension Hop
 
+item.silentgems:ToolSoul.name=Unnamed Tool Soul
+
 item.silentgems:TorchBandolier.name=Torch Bandolier
 
 item.silentgems:UpgradeIronTip.name=Iron-Tipped Upgrade
@@ -998,11 +1000,11 @@ enchantment.silentgems:LightningAspect=Lightning Aspect
 enchantment.silentgems:MagicDamage=Concentration
 
 # Enchantment Descriptions
-enchantment.silentgems:Gravity.desc=Improves harvest speed while flying or underwater.
-enchantment.silentgems:IceAspect.desc=Slows and continuously damages the victim.
-enchantment.silentgems:LifeSteal.desc=Heals the user for a small portion of damage dealt.
-enchantment.silentgems:LightningAspect.desc=Weakens and continuously damages the victim.
-enchantment.silentgems:MagicDamage.desc=Increases damage dealt by magic attacks.
+enchantment.silentgems.gravity.desc=Improves harvest speed while flying or underwater.
+enchantment.silentgems.iceaspect.desc=Slows and continuously damages the victim.
+enchantment.silentgems.lifesteal.desc=Heals the user for a small portion of damage dealt.
+enchantment.silentgems.lightningaspect.desc=Weakens and continuously damages the victim.
+enchantment.silentgems.magicdamage.desc=Increases damage dealt by magic attacks.
 
 
 
@@ -1101,6 +1103,30 @@ misc.silentgems:Tooltip.Separator=&8-------------------
 misc.silentgems:Tooltip.Properties=&6Properties
 misc.silentgems:Tooltip.Statistics=&6Statistics
 misc.silentgems:Tooltip.Construction=&6Construction
+
+# Tool Souls
+
+misc.silentgems:ToolSoul.level=Level %d (%,d / %,d XP)
+misc.silentgems:ToolSoul.actionPoints=AP: %d / %d
+misc.silentgems:ToolSoul.elements=Elements: %s
+misc.silentgems:ToolSoul.nameless=Nameless Soul
+misc.silentgems:ToolSoul.levelUp=%s is now level %d!
+misc.silentgems:ToolSoul.skillLearned=Learned skill "%s".
+misc.silentgems:ToolSoul.skillLevelUp=Skill "%s" is now level %d.
+misc.silentgems:ToolSoul.activated=%s activated %s
+
+# Soul Skills
+
+skill.silentgems:antivenom.name=Antivenom
+skill.silentgems:chill.name=Chill
+skill.silentgems:crop_growth.name=Nature's Bounty
+skill.silentgems:durability_boost.name=Reinforce
+skill.silentgems:harvest_speed_boost.name=Lighten
+skill.silentgems:head_bonus.name=Skull Collector
+skill.silentgems:magic_damage_boost.name=Focus
+skill.silentgems:melee_damage_boost.name=Sharpen
+skill.silentgems:slow_fall.name=Slow Fall
+skill.silentgems:warm.name=Warm
 
 
 

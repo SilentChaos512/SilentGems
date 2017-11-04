@@ -1,13 +1,10 @@
 package net.silentchaos512.gems.handler;
 
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.collect.Lists;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -17,13 +14,14 @@ import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
-import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageDataSync;
+import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.tile.SyncVariable;
 
@@ -100,12 +98,20 @@ public class PlayerDataHandler {
       }
     }
 
+    final int SOUL_TICK_DELAY = 600;
+    final int SOUL_TICK_SALT = 10 + SilentGems.random.nextInt(60);
+
     @SubscribeEvent
     public void onPlayerTick(LivingUpdateEvent event) {
 
       if (event.getEntityLiving() instanceof EntityPlayer) {
         EntityPlayer player = (EntityPlayer) event.getEntityLiving();
         PlayerDataHandler.get(player).tick();
+
+        // Save tool souls
+        if ((player.world.getTotalWorldTime() + SOUL_TICK_SALT) % SOUL_TICK_DELAY == 0) {
+          SoulManager.writeToolSoulsToNBT(player);
+        }
       }
     }
 
@@ -116,6 +122,12 @@ public class PlayerDataHandler {
         MessageDataSync message = new MessageDataSync(get(event.player));
         NetworkHandler.INSTANCE.sendTo(message, (EntityPlayerMP) event.player);
       }
+    }
+
+    @SubscribeEvent
+    public void onPlayerLogout(PlayerLoggedOutEvent event) {
+
+      SoulManager.writeToolSoulsToNBT(event.player);
     }
   }
 
@@ -214,7 +226,6 @@ public class PlayerDataHandler {
 
       int pulled = Math.min(maxChaos - chaos, amount);
       chaos += pulled;
-//      SilentGems.instance.logHelper.debug(client, pulled, chaos, maxChaos);
 
       if (pulled > 0) {
         save();
@@ -260,7 +271,6 @@ public class PlayerDataHandler {
         multi = 1.0f;
       }
 
-//      SilentGems.instance.logHelper.debug(multi);
       return (int) (multi * CHAOS_MAX_TRANSFER);
     }
 
@@ -279,11 +289,6 @@ public class PlayerDataHandler {
     public void writeToNBT(NBTTagCompound tags) {
 
       SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
-
-//      tags.setInteger(NBT_CHAOS, chaos);
-//      tags.setInteger(NBT_MAX_CHAOS, maxChaos);
-//      tags.setInteger(NBT_RECHARGE_COOLDOWN, rechargeCooldown);
-//      tags.setShort(NBT_FLIGHT_TIME, (short) flightTime);
     }
 
     public void load() {
@@ -302,9 +307,9 @@ public class PlayerDataHandler {
 
       SyncVariable.Helper.readSyncVars(this, tags);
 
-//      chaos = tags.getInteger(NBT_CHAOS);
-//      maxChaos = tags.getInteger(NBT_MAX_CHAOS);
-//      rechargeCooldown = tags.getInteger(NBT_RECHARGE_COOLDOWN);
+      // chaos = tags.getInteger(NBT_CHAOS);
+      // maxChaos = tags.getInteger(NBT_MAX_CHAOS);
+      // rechargeCooldown = tags.getInteger(NBT_RECHARGE_COOLDOWN);
     }
   }
 }

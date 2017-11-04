@@ -49,6 +49,8 @@ import net.silentchaos512.gems.lib.TooltipHelper;
 import net.silentchaos512.gems.lib.client.ArmorModelData;
 import net.silentchaos512.gems.lib.client.IModelData;
 import net.silentchaos512.gems.lib.client.ToolModelData;
+import net.silentchaos512.gems.lib.soul.ToolSoul;
+import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
@@ -107,6 +109,14 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     if (SilentGems.instance.isDevBuild() || (controlDown && shiftDown)) {
       UUID uuid = ToolHelper.hasUUID(tool) ? ToolHelper.getUUID(tool) : null;
       list.add(uuid == null ? "No UUID" : uuid.toString());
+      uuid = ToolHelper.getSoulUUID(tool);
+      list.add(uuid == null ? "No Soul UUID" : uuid.toString());
+    }
+
+    // Tool Soul
+    ToolSoul soul = SoulManager.getSoul(tool);
+    if (soul != null) {
+      soul.addInformation(tool, world, list, advanced);
     }
 
     // Show original owner?
@@ -346,9 +356,6 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     if (event.phase == Phase.END) {
       GemsClientEvents.debugTextOverlay = "Model caches: " + modelCache.size() + ", "
           + modelCacheExamples.size();
-      for (IModelData data : modelCache.values()) {
-        GemsClientEvents.debugTextOverlay += "\n" + data.toString();
-      }
 
       // Clear tool model caches (TODO: configs?)
       if (ClientTickHandler.ticksInGame % (10 * 60 * 20) == 0) {

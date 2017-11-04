@@ -56,6 +56,7 @@ public class ItemGemKatana extends ItemGemSword {
     return addDefaultGrip(result);
   }
 
+  @Deprecated
   public ItemStack addDefaultGrip(ItemStack katana) {
 
 //    if (StackHelper.isEmpty(katana))
@@ -69,25 +70,19 @@ public class ItemGemKatana extends ItemGemSword {
   }
 
   @Override
-  public float getMeleeDamage(ItemStack tool) {
-
-    return getBaseMeleeDamageModifier() + ToolHelper.getMeleeDamage(tool);
-  }
-
-  @Override
-  public float getMagicDamage(ItemStack tool) {
-
-    return 3.0f + ToolHelper.getMagicDamage(tool);
-  }
-
-  @Override
-  public float getBaseMeleeDamageModifier() {
+  public float getMeleeDamageModifier() {
 
     return 2.0f;
   }
 
   @Override
-  public float getBaseMeleeSpeedModifier() {
+  public float getMagicDamageModifier() {
+
+    return 3.0f;
+  }
+
+  @Override
+  public float getMeleeSpeedModifier() {
 
     return -2.2f;
   }

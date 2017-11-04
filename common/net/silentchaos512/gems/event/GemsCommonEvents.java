@@ -29,6 +29,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.Skulls;
 import net.silentchaos512.gems.enchantment.EnchantmentIceAspect;
 import net.silentchaos512.gems.enchantment.EnchantmentLightningAspect;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
@@ -44,11 +45,14 @@ import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
 import net.silentchaos512.gems.lib.module.ModuleEntityRandomEquipment;
+import net.silentchaos512.gems.lib.soul.SoulSkill;
+import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.loot.LootHandler;
 import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.gems.skills.ToolSkillDigger;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ModDamageSource;
+import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.PlayerHelper;
@@ -205,7 +209,22 @@ public class GemsCommonEvents {
         }
       }
 
-      // TODO: Soul XP, head bonus
+      ToolSoul toolSoul = SoulManager.getSoul(weapon);
+      if (toolSoul != null) {
+        // Head bonus?
+        if (toolSoul.hasSkill(SoulSkill.HEAD_BONUS)) {
+          int level = toolSoul.getSkillLevel(SoulSkill.HEAD_BONUS);
+          float rate = Skulls.getDropRate(killed);
+          if (SilentGems.random.nextFloat() < 1.5f * level * rate) {
+            ItemStack skull = Skulls.getSkull(killed);
+            if (StackHelper.isValid(skull)) {
+              EntityItem entityItem = new EntityItem(killed.world, killed.posX,
+                  killed.posY + killed.height / 2f, killed.posZ, skull);
+              killed.world.spawnEntity(entityItem);
+            }
+          }
+        }
+      }
     }
   }
 
