@@ -1,14 +1,12 @@
 package net.silentchaos512.gems.lib.part;
 
 import net.minecraft.init.Items;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.EnumTipUpgrade;
-import net.silentchaos512.gems.lib.Names;
 
 public class ModParts {
 
@@ -44,10 +42,5 @@ public class ModParts {
     ToolPartRegistry.putPart(new ToolPartTipGems("TipGold", EnumTipUpgrade.GOLD));
     ToolPartRegistry.putPart(new ToolPartTipGems("TipDiamond", EnumTipUpgrade.DIAMOND));
     ToolPartRegistry.putPart(new ToolPartTipGems("TipEmerald", EnumTipUpgrade.EMERALD));
-
-    // Wool
-    for (EnumDyeColor color : EnumDyeColor.values()) {
-      ToolPartRegistry.putPart(new ToolPartWool(color));
-    }
   }
 }

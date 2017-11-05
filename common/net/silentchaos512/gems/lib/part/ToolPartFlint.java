@@ -37,7 +37,7 @@ public class ToolPartFlint extends ToolPartMain {
         name += mat + frameNum;
         break;
       case ROD_DECO:
-        name += "deco" + mat;
+        name += "_deco";
         break;
       default:
         return null;
