@@ -3,8 +3,10 @@ package net.silentchaos512.gems.api.tool.part;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.lib.ArmorPartPosition;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+import net.silentchaos512.gems.api.lib.IPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.config.GemsConfigHC;
@@ -139,15 +141,10 @@ public abstract class ToolPartMain extends ToolPart {
   }
 
   @Override
-  public boolean validForPosition(ToolPartPosition pos) {
+  public boolean validForPosition(IPartPosition pos) {
 
-    switch (pos) {
-      case HEAD:
-      case ROD_DECO:
-        return true;
-      default:
-        return false;
-    }
+    return pos == ToolPartPosition.HEAD || pos == ToolPartPosition.ROD_DECO
+        || (pos instanceof ArmorPartPosition && pos != ArmorPartPosition.FRAME);
   }
 
   @Override

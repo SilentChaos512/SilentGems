@@ -28,7 +28,6 @@ public class ActionAddMixedMaterialRecipe extends ActionBaseAddRecipe {
     this.tier = tier;
     this.recipe = recipe;
     nameIndex = ++lastIndex;
-    SilentGems.logHelper.debug("nameIndex = " + nameIndex);
   }
 
   @Override

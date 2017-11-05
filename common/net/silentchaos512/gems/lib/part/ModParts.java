@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.lib.part;
 
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
@@ -42,5 +43,15 @@ public class ModParts {
     ToolPartRegistry.putPart(new ToolPartTipGems("TipGold", EnumTipUpgrade.GOLD));
     ToolPartRegistry.putPart(new ToolPartTipGems("TipDiamond", EnumTipUpgrade.DIAMOND));
     ToolPartRegistry.putPart(new ToolPartTipGems("TipEmerald", EnumTipUpgrade.EMERALD));
+
+    // Armor Frames
+    for (EnumMaterialTier tier : EnumMaterialTier.values()) {
+      for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+        if (slot.getSlotType() == EntityEquipmentSlot.Type.ARMOR) {
+          String key = "frame_" + slot.name().toLowerCase() + "_" + tier.name().toLowerCase();
+          ToolPartRegistry.putPart(new ArmorPartFrameGems(key, slot, tier));
+        }
+      }
+    }
   }
 }

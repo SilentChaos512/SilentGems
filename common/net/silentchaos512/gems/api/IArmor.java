@@ -4,5 +4,5 @@ import net.minecraft.item.ItemStack;
 
 public interface IArmor {
 
-  public ItemStack constructArmor(ItemStack... materials);
+  public ItemStack constructArmor(ItemStack frame, ItemStack... materials);
 }

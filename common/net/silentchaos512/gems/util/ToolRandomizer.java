@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.silentchaos512.gems.SilentGems;
@@ -163,7 +164,9 @@ public class ToolRandomizer {
       craftingStacks[i] = superTier ? gems[i].getItemSuper() : gems[i].getItem();
     }
 
-    ItemStack temp = ArmorHelper.constructArmor(armor.getItem(), craftingStacks);
+    ItemStack frame = ModItems.armorFrame.getFrameForArmorPiece((ItemArmor) armor.getItem(),
+        superTier ? EnumMaterialTier.SUPER : EnumMaterialTier.REGULAR);
+    ItemStack temp = ArmorHelper.constructArmor(armor.getItem(), frame, craftingStacks);
 
     // Set name
     String ownerName = nameAdjectives.get(SilentGems.random.nextInt(nameAdjectives.size())) + " "

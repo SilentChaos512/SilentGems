@@ -26,6 +26,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IAmmoTool;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+import net.silentchaos512.gems.api.tool.part.ArmorPartFrame;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
@@ -96,6 +97,9 @@ public class GemsClientEvents {
         onTooltipForToolRod(event, stack, part, ctrlDown, shiftDown);
       } else if (part instanceof ToolPartMain) {
         onTooltipForToolMaterial(event, stack, part, ctrlDown, shiftDown);
+      } else if (part instanceof ArmorPartFrame) {
+        // TODO: Localization
+        event.getToolTip().add(TextFormatting.GOLD + "Armor Frame");
       }
     }
   }

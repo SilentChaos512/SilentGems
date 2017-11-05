@@ -18,7 +18,6 @@ import net.silentchaos512.gems.recipe.RecipeDecorateArmor;
 import net.silentchaos512.gems.recipe.RecipeDecorateTool;
 import net.silentchaos512.gems.recipe.RecipeHoldingGemSetBlock;
 import net.silentchaos512.gems.recipe.RecipeMixedMaterialItem;
-import net.silentchaos512.gems.recipe.RecipeMultiGemArmor;
 import net.silentchaos512.gems.recipe.RecipeNamePlate;
 import net.silentchaos512.gems.recipe.RecipeToolSoul;
 import net.silentchaos512.lib.registry.IRegistrationHandler;
@@ -101,9 +100,21 @@ public class ModRecipes implements IRegistrationHandler<IRecipe> {
     // Tomahawk
     recipes.addCustomRecipe("multipart_tomahawk",
         new RecipeMixedMaterialItem(null, ModItems.tomahawk, "hhh", "hr ", " r "));
+
+    // Helmet
+    recipes.addCustomRecipe("multipart_helmet",
+        new RecipeMixedMaterialItem(null, ModItems.gemHelmet, " h ", "hfh", " h "));
+    // Chestplate
+    recipes.addCustomRecipe("multipart_chestplate",
+        new RecipeMixedMaterialItem(null, ModItems.gemChestplate, " h ", "hfh", " h "));
+    // Leggings
+    recipes.addCustomRecipe("multipart_leggings",
+        new RecipeMixedMaterialItem(null, ModItems.gemLeggings, " h ", "hfh", " h "));
+    // Boots
+    recipes.addCustomRecipe("multipart_boots",
+        new RecipeMixedMaterialItem(null, ModItems.gemBoots, " h ", "hfh", " h "));
     //@formatter:on
 
-    recipes.addCustomRecipe("multipart_armor", new RecipeMultiGemArmor());
     recipes.addCustomRecipe("decorate_tool", new RecipeDecorateTool());
     recipes.addCustomRecipe("decorate_armor", new RecipeDecorateArmor());
     recipes.addCustomRecipe("apply_enchantment_token", new RecipeApplyEnchantmentToken());

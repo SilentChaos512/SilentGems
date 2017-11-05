@@ -1,8 +1,15 @@
 Silent's Gems - Changelog
 
 2.5.10
+More under-the-hood changes. Possibly some minor performance improvements.
 Added: Patron name colors/formatting.
-Fixed: TiC materials having no color.
+Added: Gem shards can now be used for decorating, but only restore one tenth of the durability.
+Changed: Armor frames are now parts. Add-ons could add armor frames and make them affect stats. No built-in frames will change stats.
+Changed: Armor recipes now use the same system that tool recipes do. They can be modified with CraftTweaker.
+Fixed: Decorating not working properly. You can now update tool heads and rods again. Previous changes should not need to be reapplied.
+Fixed: When decorating, the output now updates rendering info (colors/models) before crafting.
+Fixed: Mod trying to load various unused models that no longer exist (#223)
+Fixed: TiC materials having no color (#224)
 
 2.5.9
 Some behind the scenes work for some new features. Please excuse the dust!

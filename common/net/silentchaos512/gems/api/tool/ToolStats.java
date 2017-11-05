@@ -8,11 +8,13 @@ import com.google.common.collect.Sets;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.lib.ArmorPartPosition;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
+import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public final class ToolStats {
@@ -84,12 +86,13 @@ public final class ToolStats {
       harvestSpeed *= itool.getHarvestSpeedMultiplier();
     }
 
-    // Rod, tip, grip
+    // Rod, tip, grip, frame
     ToolPart partRod = ToolHelper.getConstructionRod(tool);
     ToolPart partTip = ToolHelper.getConstructionTip(tool);
     ToolPart partGrip = ToolHelper.getPart(tool, ToolPartPosition.ROD_GRIP);
+    ToolPart partFrame = ArmorHelper.getPart(tool, ArmorPartPosition.FRAME);
 
-    for (ToolPart part : Lists.newArrayList(partRod, partTip, partGrip)) {
+    for (ToolPart part : Lists.newArrayList(partRod, partTip, partGrip, partFrame)) {
       if (part != null) {
         part.applyStats(this);
       }

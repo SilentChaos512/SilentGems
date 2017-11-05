@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -33,7 +34,12 @@ public class ItemArmorFrame extends ItemSL {
 
   public ItemStack getFrameForArmorPiece(ItemArmor itemArmor, EnumMaterialTier tier) {
 
-    int type = 3 - itemArmor.armorType.getIndex();
+    return getFrameForArmorPiece(itemArmor.armorType, tier);
+  }
+
+  public ItemStack getFrameForArmorPiece(EntityEquipmentSlot slot, EnumMaterialTier tier) {
+
+    int type = 3 - slot.getIndex();
     return new ItemStack(this, 1, type | (tier.ordinal() << 2));
   }
 

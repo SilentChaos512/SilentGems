@@ -1,14 +1,9 @@
 package net.silentchaos512.gems.util;
 
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.ArmorPartPosition;
 import net.silentchaos512.gems.api.lib.EnumDecoPos;
@@ -17,7 +12,6 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
-import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
@@ -35,18 +29,7 @@ public class ArmorHelper {
   public static final String NBT_ROOT_STATISTICS = "SGStatistics";
 
   // Construction
-  public static final String NBT_PART_WEST = "Part0";
-  public static final String NBT_PART_NORTH = "Part1";
-  public static final String NBT_PART_EAST = "Part2";
-  public static final String NBT_PART_SOUTH = "Part3";
-
   public static final String NBT_ARMOR_TIER = "ArmorTier";
-
-  // Decoration
-  public static final String NBT_DECO_WEST = "DecoWest";
-  public static final String NBT_DECO_NORTH = "DecoNorth";
-  public static final String NBT_DECO_EAST = "DecoEast";
-  public static final String NBT_DECO_SOUTH = "DecoSouth";
 
   // Stats
   public static final String NBT_PROP_DURABILITY = "Durability";
@@ -108,55 +91,19 @@ public class ArmorHelper {
 
   public static ToolPart getPart(ItemStack armor, ArmorPartPosition pos) {
 
-    String key;
-    switch (pos) {
-      case EAST:
-        key = getPartId(armor, NBT_PART_EAST);
-        break;
-      case NORTH:
-        key = getPartId(armor, NBT_PART_NORTH);
-        break;
-      case SOUTH:
-        key = getPartId(armor, NBT_PART_SOUTH);
-        break;
-      case WEST:
-        key = getPartId(armor, NBT_PART_WEST);
-        break;
-      default:
-        SilentGems.logHelper.warning("ArmorHelper.getPart: Unknown EnumDecoPos " + pos);
-        key = "";
-    }
-
-    if (key.isEmpty())
+    String key = getPartId(armor, pos.getKey(0));
+    if (key == null || key.isEmpty()) {
       return null;
-
+    }
     return ToolPartRegistry.getPart(key);
   }
 
   public static ToolPart getRenderPart(ItemStack armor, ArmorPartPosition pos) {
 
-    String key;
-    switch (pos) {
-      case EAST:
-        key = getPartId(armor, NBT_DECO_EAST);
-        break;
-      case NORTH:
-        key = getPartId(armor, NBT_DECO_NORTH);
-        break;
-      case SOUTH:
-        key = getPartId(armor, NBT_DECO_SOUTH);
-        break;
-      case WEST:
-        key = getPartId(armor, NBT_DECO_WEST);
-        break;
-      default:
-        SilentGems.logHelper.warning("ArmorHelper.getRenderPart: Unknown EnumDecoPos " + pos);
-        key = "";
-    }
-
-    if (key.isEmpty())
+    String key = getPartId(armor, pos.getDecoKey());
+    if (key == null || key.isEmpty()) {
       return getPart(armor, pos);
-
+    }
     return ToolPartRegistry.getPart(key);
   }
 
@@ -206,7 +153,7 @@ public class ArmorHelper {
     return EnumMaterialGrade.fromString(array[1]);
   }
 
-  public static ItemStack constructArmor(Item item, ItemStack... materials) {
+  public static ItemStack constructArmor(Item item, ItemStack frame, ItemStack... materials) {
 
     // Shortcut for JEI recipes.
     if (materials.length == 1) {
@@ -239,6 +186,11 @@ public class ArmorHelper {
       result.getTagCompound().getCompoundTag(ToolHelper.NBT_TEMP_PARTLIST).setTag("part" + i,
           materials[i].writeToNBT(new NBTTagCompound()));
     }
+    // Frame
+    part = ToolPartRegistry.fromStack(frame);
+    if (part != null) {
+      setTagPart(result, ArmorPartPosition.FRAME.getKey(0), part, EnumMaterialGrade.NONE);
+    }
 
     // Create name
     String displayName = ToolHelper.createToolName(item, materials);
@@ -261,14 +213,14 @@ public class ArmorHelper {
     }
 
     ItemStack result = StackHelper.safeCopy(armor);
-    result = decorate(result, west, EnumDecoPos.WEST);
-    result = decorate(result, north, EnumDecoPos.NORTH);
-    result = decorate(result, east, EnumDecoPos.EAST);
-    result = decorate(result, south, EnumDecoPos.SOUTH);
+    result = decorate(result, west, ArmorPartPosition.WEST);
+    result = decorate(result, north, ArmorPartPosition.NORTH);
+    result = decorate(result, east, ArmorPartPosition.EAST);
+    result = decorate(result, south, ArmorPartPosition.SOUTH);
     return result;
   }
 
-  private static ItemStack decorate(ItemStack armor, ItemStack material, EnumDecoPos pos) {
+  private static ItemStack decorate(ItemStack armor, ItemStack material, ArmorPartPosition pos) {
 
     if (StackHelper.isEmpty(armor))
       return StackHelper.empty();
@@ -284,23 +236,8 @@ public class ArmorHelper {
       return armor;
 
     ItemStack result = StackHelper.safeCopy(armor);
-    switch (pos) {
-      case WEST:
-        setTagPart(result, NBT_DECO_WEST, part, EnumMaterialGrade.fromStack(material));
-        break;
-      case NORTH:
-        setTagPart(result, NBT_DECO_NORTH, part, EnumMaterialGrade.fromStack(material));
-        break;
-      case EAST:
-        setTagPart(result, NBT_DECO_EAST, part, EnumMaterialGrade.fromStack(material));
-        break;
-      case SOUTH:
-        setTagPart(result, NBT_DECO_SOUTH, part, EnumMaterialGrade.fromStack(material));
-        break;
-      default:
-        SilentGems.instance.logHelper.warning("ArmorHelper.decorate: invalid deco pos " + pos);
-        break;
-    }
+    setTagPart(result, pos.getDecoKey(), part, EnumMaterialGrade.fromStack(material));
+
     return result;
   }
 

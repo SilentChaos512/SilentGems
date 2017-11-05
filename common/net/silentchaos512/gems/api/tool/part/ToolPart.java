@@ -309,7 +309,7 @@ public abstract class ToolPart {
    * @param pos
    * @return
    */
-  public abstract boolean validForPosition(ToolPartPosition pos);
+  public abstract boolean validForPosition(IPartPosition pos);
 
   @Override
   public String toString() {

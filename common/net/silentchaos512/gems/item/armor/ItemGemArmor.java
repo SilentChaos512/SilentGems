@@ -30,6 +30,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
+import net.silentchaos512.gems.api.lib.ArmorPartPosition;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
@@ -64,9 +65,9 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   }
 
   @Override
-  public ItemStack constructArmor(ItemStack... materials) {
+  public ItemStack constructArmor(ItemStack frame, ItemStack... materials) {
 
-    return ArmorHelper.constructArmor(this, materials);
+    return ArmorHelper.constructArmor(this, frame, materials);
   }
 
   public float getProtection(ItemStack armor) {
@@ -302,6 +303,9 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
             + ")";
         list.add(line);
       }
+      ToolPart partFrame = ArmorHelper.getPart(stack, ArmorPartPosition.FRAME);
+      if (partFrame != null)
+        list.add("  " + TextFormatting.YELLOW + partFrame.getKey());
       list.add(sep);
     } else {
       list.add(TextFormatting.GOLD + loc.getMiscText("PressAlt"));

@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
@@ -17,32 +18,36 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.lib.ArmorPartPosition;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
+import net.silentchaos512.gems.api.tool.part.ArmorPartFrame;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.lib.collection.ItemStackList;
 import net.silentchaos512.lib.recipe.RecipeBaseSL;
+import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class RecipeMixedMaterialItem extends RecipeBaseSL {
 
   public static final char CHAR_HEAD_PART = 'h';
   public static final char CHAR_ROD_PART = 'r';
-  public static final char CHAR_FILLER_ITEM = 'f';
+  public static final char CHAR_ARMOR_FRAME = 'f';
 
   final ShapedRecipes shapedRecipe;
   final Item toolItem;
   final @Nullable EnumMaterialTier tierRestriction;
 
-  public RecipeMixedMaterialItem(@Nullable EnumMaterialTier tierRestriction, Item toolItem,
+  public RecipeMixedMaterialItem(@Nullable EnumMaterialTier tierRestriction, Item toolOrArmorItem,
       Object... recipe) {
 
     this.tierRestriction = tierRestriction;
-    this.toolItem = toolItem;
+    this.toolItem = toolOrArmorItem;
 
     List<String> layout = new ArrayList<>();
     int recipeWidth = 0, recipeHeight = 0, recipeSize;
@@ -61,6 +66,7 @@ public class RecipeMixedMaterialItem extends RecipeBaseSL {
     itemMap.put(' ', Ingredient.EMPTY);
     itemMap.put(CHAR_HEAD_PART, new IngredientToolPart(ToolPartPosition.HEAD));
     itemMap.put(CHAR_ROD_PART, new IngredientToolPart(ToolPartPosition.ROD));
+    itemMap.put(CHAR_ARMOR_FRAME, new IngredientToolPart(ArmorPartPosition.FRAME));
 
     // Read item map (ignoring any errors for now)
     for (; index < recipe.length; index += 2) {
@@ -89,7 +95,7 @@ public class RecipeMixedMaterialItem extends RecipeBaseSL {
     }
 
     this.shapedRecipe = new ShapedRecipes(SilentGems.MODID, recipeWidth, recipeHeight, ingredients,
-        new ItemStack(toolItem));
+        new ItemStack(toolOrArmorItem));
   }
 
   @Override
@@ -99,6 +105,14 @@ public class RecipeMixedMaterialItem extends RecipeBaseSL {
       // Need to let the checks fall to the next candidate recipe if we have
       // tier restrictions.
       return false;
+    }
+
+    ItemStack stackFrame = getFrame(inv);
+    if (StackHelper.isValid(stackFrame)) {
+      ArmorPartFrame frame = (ArmorPartFrame) ToolPartRegistry.fromStack(stackFrame);
+      if (!doesFrameMatchItem(frame)) {
+        return false;
+      }
     }
 
     // Don't check tiers, we want to return an empty stack if things don't match.
@@ -140,7 +154,19 @@ public class RecipeMixedMaterialItem extends RecipeBaseSL {
 
     // Check rod
     ItemStack rod = getRod(inv);
-    return StackHelper.isValid(rod) && ToolPartRegistry.fromStack(rod).validForToolOfTier(tier);
+    if (StackHelper.isValid(rod))
+      return ToolPartRegistry.fromStack(rod).validForToolOfTier(tier);
+
+    // Check frame
+    ItemStack frame = getFrame(inv);
+    if (StackHelper.isValid(frame)) {
+      ToolPart partFrame = ToolPartRegistry.fromStack(frame);
+      if (partFrame instanceof ArmorPartFrame) {
+        return partFrame.validForToolOfTier(tier) && doesFrameMatchItem((ArmorPartFrame) partFrame);
+      }
+    }
+
+    return true;
   }
 
   @Override
@@ -151,9 +177,16 @@ public class RecipeMixedMaterialItem extends RecipeBaseSL {
     }
 
     ItemStack rod = getRod(inv);
+    ItemStack frame = getFrame(inv);
     ItemStackList materials = getMaterials(inv);
     ItemStack[] array = materials.toArray(new ItemStack[materials.size()]);
-    return ((ITool) toolItem).constructTool(rod, array);
+
+    if (toolItem instanceof ITool)
+      return ((ITool) toolItem).constructTool(rod, array);
+    if (toolItem instanceof IArmor)
+      return ((IArmor) toolItem).constructArmor(frame, array);
+
+    return StackHelper.empty();
   }
 
   protected ItemStackList getMaterials(InventoryCrafting inv) {
@@ -183,5 +216,28 @@ public class RecipeMixedMaterialItem extends RecipeBaseSL {
       }
     }
     return rod;
+  }
+
+  protected ItemStack getFrame(InventoryCrafting inv) {
+
+    ItemStack frame = StackHelper.empty();
+    for (ItemStack stack : getNonEmptyStacks(inv)) {
+      ToolPart part = ToolPartRegistry.fromStack(stack);
+      if (part != null && part instanceof ArmorPartFrame) {
+        if (StackHelper.isEmpty(frame)) {
+          frame = stack;
+        } else if (!frame.isItemEqual(stack)) {
+          return StackHelper.empty();
+        }
+      }
+    }
+    return frame;
+  }
+
+  protected boolean doesFrameMatchItem(ArmorPartFrame frame) {
+
+    if (!(toolItem instanceof ItemArmor))
+      return true;
+    return frame.getSlot() == ((ItemArmor) toolItem).armorType;
   }
 }

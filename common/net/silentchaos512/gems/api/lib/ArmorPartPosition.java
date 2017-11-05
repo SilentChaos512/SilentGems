@@ -4,10 +4,11 @@ import javax.annotation.Nullable;
 
 public enum ArmorPartPosition implements IPartPosition {
 
-  WEST(0, "Part0", "DecoWest"),
-  NORTH(1, "Part1", "DecoNorth"),
+  WEST(0, "Part1", "DecoWest"),
+  NORTH(1, "Part0", "DecoNorth"),
   EAST(2, "Part2", "DecoEast"),
-  SOUTH(3, "Part3", "DecoSouth");
+  SOUTH(3, "Part3", "DecoSouth"),
+  FRAME(4, "PartFrame", "");
 
   final int renderPass;
   final String nbtKey;
