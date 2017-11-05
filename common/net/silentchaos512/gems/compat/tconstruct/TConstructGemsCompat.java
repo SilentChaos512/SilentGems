@@ -1,9 +1,15 @@
 package net.silentchaos512.gems.compat.tconstruct;
 
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+
+import gnu.trove.map.hash.THashMap;
+import net.minecraft.init.Items;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.lib.EnumGem;
-import slimeknights.tconstruct.TinkerIntegration;
+import slimeknights.tconstruct.library.MaterialIntegration;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ArrowShaftMaterialStats;
 import slimeknights.tconstruct.library.materials.BowMaterialStats;
@@ -14,7 +20,11 @@ import slimeknights.tconstruct.library.materials.Material;
 
 public class TConstructGemsCompat {
 
-  public static void init() {
+  static final Map<String, Material> materials = new THashMap<>();
+  static final Map<String, MaterialIntegration> materialIntegrations = new THashMap<>();
+  static final Map<String, CompletionStage<?>> materialIntegrationStages = new THashMap<>();
+
+  public static void preInit() {
 
     SilentGems.logHelper.info("Loading TConstruct compatibility module...");
 
@@ -23,6 +33,8 @@ public class TConstructGemsCompat {
         register(gem, EnumMaterialTier.REGULAR);
       for (EnumGem gem : EnumGem.values())
         register(gem, EnumMaterialTier.SUPER);
+
+      preIntegrate(materials, materialIntegrations, materialIntegrationStages);
     } catch (NoSuchMethodError ex) {
       SilentGems.logHelper.info("Failed to load TConstruct module. Are Tinkers tools disabled?");
       ex.printStackTrace();
@@ -32,27 +44,37 @@ public class TConstructGemsCompat {
     }
   }
 
-  private static Material register(EnumGem gem, EnumMaterialTier tier) {
+  // Copied from PlusTiC
+  private static void preIntegrate(Map<String, Material> materials,
+      Map<String, MaterialIntegration> materialIntegrations,
+      Map<String, CompletionStage<?>> materialIntegrationStages) {
+
+    materials.forEach((k, v) -> {
+      if (!materialIntegrations.containsKey(k)) {
+        materialIntegrationStages.getOrDefault(k, CompletableFuture.completedFuture(null))
+            .thenRun(() -> {
+              MaterialIntegration mi;
+              if (v.getRepresentativeItem().getItem() == Items.EMERALD) {
+                mi = new MaterialIntegration(v, v.getFluid());
+              } else if (v.getFluid() != null) {
+                mi = new MaterialIntegration(v, v.getFluid(), k).toolforge();
+              } else {
+                mi = new MaterialIntegration(v);
+              }
+              TinkerRegistry.integrate(mi).preInit();
+              materialIntegrations.put(k, mi);
+            });
+      }
+    });
+  }
+
+  private static void register(EnumGem gem, EnumMaterialTier tier) {
 
     Material material = new TConstructMaterialGem(gem, tier);
-
-    String oreRequirement = tier == EnumMaterialTier.SUPER ? gem.getItemSuperOreName()
-        : gem.getItemOreName();
-    String oreSuffix = gem.getGemName() + (tier == EnumMaterialTier.SUPER ? "Super" : "");
-    MaterialIntegrationGems integration = new MaterialIntegrationGems(material, oreSuffix,
-        oreRequirement);
-
-    integration.setRepresentativeItem(oreRequirement);
-    integration.integrate();
-    TinkerRegistry.integrate(integration);
-
-    material.addItemIngot(oreRequirement); // FIXME?
+    String itemOreName = tier == EnumMaterialTier.SUPER ? gem.getItemSuperOreName() : gem.getItemOreName();
+    material.addItem(itemOreName, 1, Material.VALUE_Ingot);
     material.setCraftable(true);
-
-    // TConstructMaterialGem mat = new TConstructMaterialGem(gem, tier);
-    // TinkerRegistry.addMaterial(mat);
-    // TinkerRegistry.integrate(mat,
-    // tier == EnumMaterialTier.SUPER ? gem.getItemSuperOreName() : gem.getItemOreName());
+    material.setRenderInfo(gem.getColor());
 
     int durability = gem.getDurability(tier);
     float miningSpeed = gem.getMiningSpeed(tier);
@@ -66,10 +88,7 @@ public class TConstructGemsCompat {
         new HandleMaterialStats(0.875f, durability / 8), new ExtraMaterialStats(durability / 8),
         new BowMaterialStats(20f / drawDelay, 1f, 0.4f * meleeDamage - 1),
         new ArrowShaftMaterialStats(1.0f, 0));
-    // TinkerRegistry.addMaterialStats(mat, new BowStringMaterialStats(1f));
-    // TinkerRegistry.addMaterialStats(mat, new FletchingMaterialStats(1f, 1f));
-    // TinkerRegistry.addMaterialStats(mat, new ProjectileMaterialStats());
 
-    return material;
+    materials.put(material.identifier, material);
   }
 }

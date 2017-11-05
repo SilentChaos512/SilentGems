@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+2.5.10
+Added: Patron name colors/formatting.
+Fixed: TiC materials having no color.
+
 2.5.9
 Some behind the scenes work for some new features. Please excuse the dust!
 Added: Unique magic for machetes, the scatter shot. Basically, it's a shotgun. Each of the 8 shots is weak, but multiple shots can hit a single target at the same time.

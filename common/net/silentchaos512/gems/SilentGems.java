@@ -137,7 +137,7 @@ public class SilentGems {
 
     // Load TCon compatibility stuff?
     if (Loader.isModLoaded("tconstruct")) {
-      TConstructGemsCompat.init();
+      TConstructGemsCompat.preInit();
     }
 
     VeinMinerCompat.init();
