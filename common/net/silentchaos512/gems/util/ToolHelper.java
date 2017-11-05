@@ -1342,6 +1342,8 @@ public class ToolHelper {
         name = TextFormatting.BLUE + name;
       else if (name.equals(GuideBookGems.TOOL_OWNER_NAME))
         name = TextFormatting.AQUA + name;
+      else
+        name = PatronColors.instance.getColor(name) + name;
 
       setTagString(tool, NBT_ROOT_STATISTICS, NBT_STATS_ORIGINAL_OWNER, name);
     }
