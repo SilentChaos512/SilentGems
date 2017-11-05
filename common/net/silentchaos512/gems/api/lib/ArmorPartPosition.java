@@ -4,15 +4,20 @@ import javax.annotation.Nullable;
 
 public enum ArmorPartPosition implements IPartPosition {
 
-  WEST(0, "Part0"), NORTH(1, "Part1"), EAST(2, "Part2"), SOUTH(3, "Part3");
+  WEST(0, "Part0", "DecoWest"),
+  NORTH(1, "Part1", "DecoNorth"),
+  EAST(2, "Part2", "DecoEast"),
+  SOUTH(3, "Part3", "DecoSouth");
 
   final int renderPass;
   final String nbtKey;
+  final String decoNbtKey;
 
-  private ArmorPartPosition(int renderPass, String nbtKey) {
+  private ArmorPartPosition(int renderPass, String nbtKey, String decoNbtKey) {
 
     this.renderPass = renderPass;
     this.nbtKey = nbtKey;
+    this.decoNbtKey = decoNbtKey;
   }
 
   public static @Nullable ArmorPartPosition forRenderPass(int pass) {
@@ -37,5 +42,11 @@ public enum ArmorPartPosition implements IPartPosition {
     if (nbtKey.contains("%d"))
       return String.format(nbtKey, subPosition);
     return nbtKey;
+  }
+
+  @Override
+  public String getDecoKey() {
+
+    return decoNbtKey;
   }
 }

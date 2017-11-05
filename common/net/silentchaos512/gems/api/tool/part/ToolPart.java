@@ -18,6 +18,7 @@ import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.util.StackHelper;
 
 /**
  * Represents a part that tools can be made from. Add-ons should not extend this class! Extend one of the subclasses
@@ -69,16 +70,29 @@ public abstract class ToolPart {
     this.tier = EnumMaterialTier.REGULAR;
   }
 
+  /**
+   * @return The unique indentifier for the part.
+   */
   public @Nonnull String getKey() {
 
     return key;
   }
 
+  /**
+   * Gets the item used for constructing tools with this part.
+   * 
+   * @return The crafting stack.
+   */
   public @Nonnull ItemStack getCraftingStack() {
 
     return craftingStack;
   }
 
+  /**
+   * Gets the ore dictionary key for items used to construct the tool/armor.
+   * 
+   * @return The ore dictionary key to match when constructing.
+   */
   public @Nonnull String getCraftingOreDictName() {
 
     return craftingOreDictName;
@@ -156,6 +170,41 @@ public abstract class ToolPart {
   }
 
   /**
+   * Determines if the stack matches the tool part for crafting purposes. Override if more complex matching is needed.
+   * 
+   * @param partRep
+   *          The item we are checking for a match.
+   * @param matchOreDict
+   *          If true, the ore dictionary key will also be checked for a match.
+   * @return True if partRep matches the part, false otherwise.
+   */
+  public boolean matchesForCrafting(ItemStack partRep, boolean matchOreDict) {
+
+    if (StackHelper.isEmpty(partRep))
+      return false;
+    if (partRep.isItemEqual(getCraftingStack()))
+      return true;
+    if (matchOreDict)
+      return StackHelper.matchesOreDict(partRep, getCraftingOreDictName());
+    return false;
+  }
+
+  /**
+   * Determines if the stack matches the tool part for decorating purposes. Override if more complex matching is needed.
+   * By default, this just redirects to matchesForCrafting.
+   * 
+   * @param partRep
+   *          The item we are checking for a match.
+   * @param matchOreDict
+   *          If true, the ore dictionary key will also be checked for a match.
+   * @return True if partRep matches the part, false otherwise.
+   */
+  public boolean matchesForDecorating(ItemStack partRep, boolean matchOreDict) {
+
+    return matchesForCrafting(partRep, matchOreDict);
+  }
+
+  /**
    * Gets the model for the part on the specified tool and position. Some parts can exist in multiple positions
    * (ToolPartMain), plus the models are usually different for different tool types.
    * 
@@ -175,7 +224,8 @@ public abstract class ToolPart {
   }
 
   @SideOnly(Side.CLIENT)
-  public abstract ModelResourceLocation getModel(ItemStack toolOrArmor, ToolPartPosition pos, int frame);
+  public abstract ModelResourceLocation getModel(ItemStack toolOrArmor, ToolPartPosition pos,
+      int frame);
 
   @SideOnly(Side.CLIENT)
   public ModelResourceLocation getBrokenModel(ItemStack toolOrArmor, ToolPartPosition pos,

@@ -9,6 +9,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.util.ArmorHelper;
+import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.recipe.RecipeBaseSL;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
@@ -62,7 +63,7 @@ public class RecipeDecorateArmor extends RecipeBaseSL {
     for (i = 0; i < inv.getSizeInventory(); ++i) {
       stack = inv.getStackInSlot(i);
       if (StackHelper.isValid(stack) && !(stack.getItem() instanceof IArmor)) {
-        part = ToolPartRegistry.fromStack(stack);
+        part = ToolPartRegistry.fromDecoStack(stack);
         // Invalid part or not a part?
         if (part == null || !(part instanceof ToolPartMain)) {
           return StackHelper.empty();
@@ -88,6 +89,11 @@ public class RecipeDecorateArmor extends RecipeBaseSL {
     ArmorHelper.recalculateStats(result);
     ArmorHelper.incrementStatRedecorated(result, 1);
 
+    // Change the UUID so that rendering cache updates immediately for recipe output.
+    result.getTagCompound().removeTag(ToolHelper.NBT_UUID + "Most");
+    result.getTagCompound().removeTag(ToolHelper.NBT_UUID + "Least");
+    ToolHelper.getUUID(result);
+
     return result;
   }
 
@@ -97,7 +103,7 @@ public class RecipeDecorateArmor extends RecipeBaseSL {
       return true;
     }
 
-    ToolPart part = ToolPartRegistry.fromStack(stack);
+    ToolPart part = ToolPartRegistry.fromDecoStack(stack);
     return part != null && part instanceof ToolPartMain;
   }
 }

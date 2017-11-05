@@ -229,10 +229,6 @@ public class ToolHelper {
 
     initRootTag(tool);
 
-    // if (isExampleItem(tool)) {
-    // return null; // FIXME: This will cause bad FPS drops when browsing JEI?
-    // }
-
     if (!tool.getTagCompound().hasUniqueId(NBT_UUID)) {
       UUID uuid = UUID.randomUUID();
       tool.getTagCompound().setUniqueId(NBT_UUID, uuid);
@@ -995,7 +991,7 @@ public class ToolHelper {
     }
 
     // Get the tool part, making sure it exists.
-    ToolPart part = ToolPartRegistry.fromStack(material);
+    ToolPart part = ToolPartRegistry.fromDecoStack(material);
     if (part == null)
       return null;
 
@@ -1301,7 +1297,7 @@ public class ToolHelper {
 
   public static ToolPart getRenderPart(ItemStack tool, ToolPartPosition pos) {
 
-    String key = getPartId(tool, pos.getKey(0));
+    String key = getPartId(tool, pos.getDecoKey());
     if (key == null || key.isEmpty()) {
       return getPart(tool, pos);
     }
@@ -1314,7 +1310,7 @@ public class ToolHelper {
     if (!part.validForToolOfTier(getToolTier(tool))) {
       return;
     }
-    setTagPart(tool, pos.getKey(0), part, grade);
+    setTagPart(tool, pos.getDecoKey(), part, grade);
   }
 
   // --------------

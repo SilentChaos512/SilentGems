@@ -21,6 +21,7 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ToolPartGem extends ToolPartMain {
 
@@ -39,6 +40,27 @@ public class ToolPartGem extends ToolPartMain {
   public EnumGem getGem() {
 
     return gem;
+  }
+
+  @Override
+  public boolean matchesForDecorating(ItemStack partRep, boolean matchOreDict) {
+
+    // Allow shards to be used for decorating.
+    if (partRep.getItem() == ModItems.gemShard && partRep.getItemDamage() == gem.ordinal())
+      return true;
+    if (matchOreDict && StackHelper.matchesOreDict(partRep, gem.getShardOreName()))
+      return true;
+
+    return super.matchesForDecorating(partRep, matchOreDict);
+  }
+
+  @Override
+  public int getRepairAmount(ItemStack toolOrArmor, ItemStack partRep) {
+
+    if (partRep.getItem() == ModItems.gemShard)
+      return super.getRepairAmount(toolOrArmor, gem.getItem()) / 10;
+
+    return super.getRepairAmount(toolOrArmor, partRep);
   }
 
   @Override

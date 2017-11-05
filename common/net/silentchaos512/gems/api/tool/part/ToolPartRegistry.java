@@ -2,11 +2,13 @@ package net.silentchaos512.gems.api.tool.part;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
+import gnu.trove.map.hash.THashMap;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.lib.util.StackHelper;
 
@@ -18,10 +20,10 @@ import net.silentchaos512.lib.util.StackHelper;
  */
 public class ToolPartRegistry {
 
-  private static Map<String, ToolPart> map = new HashMap<>();
+  private static Map<String, ToolPart> map = new THashMap<>();
   private static List<ToolPartMain> mains = new ArrayList<>();
   private static List<ToolPartRod> rods = new ArrayList<>(); 
-  private static Map<ItemStack, ToolPart> STACK_TO_PART = new HashMap<>();
+  private static Map<ItemStack, ToolPart> STACK_TO_PART = new THashMap<>();
 
   /**
    * @param key
@@ -58,7 +60,7 @@ public class ToolPartRegistry {
    * @param stack
    * @return
    */
-  public static ToolPart fromStack(ItemStack stack) {
+  public static @Nullable ToolPart fromStack(ItemStack stack) {
 
     if (StackHelper.isEmpty(stack))
       return null;
@@ -67,19 +69,22 @@ public class ToolPartRegistry {
       return STACK_TO_PART.get(stack);
 
     for (ToolPart part : map.values()) {
-      // Exact match for crafting stack?
-      if (part.craftingStack != null && part.craftingStack.isItemEqual(stack)) {
+      if (part.matchesForCrafting(stack, true)) {
         STACK_TO_PART.put(stack, part);
         return part;
       }
-      // Matches ore dictionary key?
-      if (!part.craftingOreDictName.isEmpty()) {
-        for (ItemStack stackOre : StackHelper.getOres(part.craftingOreDictName)) {
-          if (stackOre.isItemEqual(stack)) {
-            STACK_TO_PART.put(stack, part);
-            return part;
-          }
-        }
+    }
+    return null;
+  }
+
+  public static @Nullable ToolPart fromDecoStack(ItemStack stack) {
+
+    if (StackHelper.isEmpty(stack))
+      return null;
+
+    for (ToolPart part : map.values()) {
+      if (part.matchesForDecorating(stack, true)) {
+        return part;
       }
     }
     return null;

@@ -275,7 +275,7 @@ public class ArmorHelper {
     if (StackHelper.isEmpty(material))
       return armor;
 
-    ToolPart part = ToolPartRegistry.fromStack(material);
+    ToolPart part = ToolPartRegistry.fromDecoStack(material);
     if (part == null)
       return null;
 

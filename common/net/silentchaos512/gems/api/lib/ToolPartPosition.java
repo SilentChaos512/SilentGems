@@ -4,19 +4,21 @@ import javax.annotation.Nullable;
 
 public enum ToolPartPosition implements IPartPosition {
 
-  ROD(0, "PartRod"),
-  HEAD(1, "Part%d"),
-  TIP(2, "PartHeadTip"),
-  ROD_DECO(3, "PartRodDeco"),
-  ROD_GRIP(4, "PartRodWool");
+  ROD(0, "PartRod", "DecoRod"),
+  HEAD(1, "Part%d", "DecoHeadM"),
+  TIP(2, "PartHeadTip", ""),
+  ROD_DECO(3, "PartRodDeco", "PartRodDeco"),
+  ROD_GRIP(4, "PartRodWool", "");
 
   final int renderPass;
   final String nbtKey;
+  final String decoNbtKey;
 
-  private ToolPartPosition(int renderPass, String nbtKey) {
+  private ToolPartPosition(int renderPass, String nbtKey, String decoNbtKey) {
 
     this.renderPass = renderPass;
     this.nbtKey = nbtKey;
+    this.decoNbtKey = decoNbtKey;
   }
 
   public static @Nullable ToolPartPosition forRenderPass(int pass) {
@@ -41,5 +43,11 @@ public enum ToolPartPosition implements IPartPosition {
     if (nbtKey.contains("%d"))
       return String.format(nbtKey, subPosition);
     return nbtKey;
+  }
+
+  @Override
+  public String getDecoKey() {
+
+    return decoNbtKey;
   }
 }
