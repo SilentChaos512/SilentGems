@@ -835,6 +835,12 @@ item.silentgems:ReturnHomeCharm.NotSane=&cDestination Y is less than or equal to
 item.silentgems:ReturnHomeCharm.NotSafe=&cDestination obstructed! There is a solid block at head level!
 item.silentgems:ReturnHomeCharm.NotEnoughCharge=Not enough Chaos!
 
+item.silentgems:SkillOrb.name=Skill Orb
+item.silentgems:SkillOrb.name_proper=Skill Orb: %s
+item.silentgems:SkillOrb.no_soul=That item has no soul.
+item.silentgems:SkillOrb.no_skill=This orb has no skill.
+item.silentgems:SkillOrb.max_level=The skill is already at the maximum level.
+
 item.silentgems:SoulGem.name=Soul Gem
 item.silentgems:SoulGem.name_proper=Soul Gem: %s
 
@@ -1098,6 +1104,7 @@ misc.silentgems:Tooltip.Redecorated=&eRedecorated:&f %s time(s)
 
 misc.silentgems:Tooltip.CtrlForProp=Properties <Press Ctrl>
 misc.silentgems:Tooltip.AltForStat=Statistics <Press Alt>
+misc.silentgems:Tooltip.keyForSkills=Skills <Press S>
 
 misc.silentgems:Tooltip.Separator=&8-------------------
 misc.silentgems:Tooltip.Properties=&6Properties

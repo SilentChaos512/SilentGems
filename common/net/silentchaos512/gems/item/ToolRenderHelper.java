@@ -39,6 +39,7 @@ import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.render.ToolItemOverrideHandler;
 import net.silentchaos512.gems.client.render.ToolModel;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
@@ -110,7 +111,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     }
 
     // UUID
-    if (SilentGems.instance.isDevBuild() || (controlDown && shiftDown)) {
+    if (GemsConfig.DEBUG_MODE && controlDown && shiftDown) {
       UUID uuid = ToolHelper.hasUUID(tool) ? ToolHelper.getUUID(tool) : null;
       list.add(uuid == null ? "No UUID" : uuid.toString());
       uuid = ToolHelper.getSoulUUID(tool);
@@ -212,7 +213,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
           EnumMagicType magicType = EnumMagicType.getMagicType(tool);
           float damagePerShot = magicType.getDamagePerShot(tool);
           String damageString = damagePerShot == (int) damagePerShot
-              ? Integer.toString((int) damagePerShot) : Float.toString(damagePerShot);
+              ? Integer.toString((int) damagePerShot)
+              : String.format(TooltipHelper.FORMAT_FLOAT, damagePerShot);
           String str = damageString + "" + TextFormatting.DARK_GRAY + "x"
               + magicType.getShotCount(tool);
           list.add(color + getTooltipLine("MagicDamage", str));

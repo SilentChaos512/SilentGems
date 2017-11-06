@@ -26,6 +26,7 @@ import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.item.ItemSoulGem;
 import net.silentchaos512.gems.item.ItemToolSoul;
+import net.silentchaos512.gems.lib.TooltipHelper;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.ChatHelper;
@@ -43,8 +44,8 @@ public class ToolSoul {
   public static final int AP_PER_LEVEL = 2;
   public static final int AP_REGEN_DELAY = 600;
 
-  static final int BASE_XP = 30;
-  static final float XP_CURVE_FACTOR = 2.5f;
+  static final int BASE_XP = 25;
+  static final float XP_CURVE_FACTOR = 2.4f;
 
   String name = "";
 
@@ -233,16 +234,34 @@ public class ToolSoul {
     list.add(loc.getMiscText("ToolSoul.level", level, xp, getXpToNextLevel()));
     list.add(loc.getMiscText("ToolSoul.actionPoints", actionPoints, getMaxActionPoints()));
 
-    boolean keyDown = Keyboard.isKeyDown(Keyboard.KEY_S);
+    boolean skillsKeyDown = Keyboard.isKeyDown(Keyboard.KEY_S);
 
-    if (keyDown || stack.getItem() instanceof ItemToolSoul) {
+    if (skillsKeyDown || stack.getItem() instanceof ItemToolSoul) {
       // Display elements.
       String e1 = element1 == null ? "None" : element1.getDisplayName();
       String e2 = element2 == null ? "None" : element2.getDisplayName();
       String elements = e1 + (e2.equalsIgnoreCase("none") ? "" : ", " + e2);
       list.add(loc.getMiscText("ToolSoul.elements", elements));
     }
-    if (keyDown) {
+    if (skillsKeyDown) {
+      // Display stat modifiers.
+      String color = "  " + TextFormatting.YELLOW;
+      float durability = getDurabilityModifier() - 1f;
+      float harvestSpeed = getHarvestSpeedModifier() - 1f;
+      float meleeDamage = getMeleeDamageModifier() - 1f;
+      float magicDamage = getMagicDamageModifier() - 1f;
+      float protection = getProtectionModifier() - 1f;
+      if (durability != 0f)
+        list.add(color + TooltipHelper.getAsColoredPercentage("Durability", durability, 0, true));
+      if (harvestSpeed != 0f)
+        list.add(color + TooltipHelper.getAsColoredPercentage("HarvestSpeed", harvestSpeed, 0, true));
+      if (meleeDamage != 0f)
+        list.add(color + TooltipHelper.getAsColoredPercentage("MeleeDamage", meleeDamage, 0, true));
+      if (magicDamage != 0f)
+        list.add(color + TooltipHelper.getAsColoredPercentage("MagicDamage", magicDamage, 0, true));
+      if (protection != 0f)
+        list.add(color + TooltipHelper.getAsColoredPercentage("Protection", protection, 0, true));
+
       // Display skills.
       for (Entry<SoulSkill, Integer> entry : skills.entrySet()) {
         SoulSkill skill = entry.getKey();
@@ -256,11 +275,44 @@ public class ToolSoul {
 
   public void applyToStats(ToolStats stats) {
 
+    // Elemental affinities
+    stats.durability *= getDurabilityModifier();
+    stats.harvestSpeed *= getHarvestSpeedModifier();
+    stats.meleeDamage *= getMeleeDamageModifier();
+    stats.magicDamage *= getMagicDamageModifier();
+    stats.protection *= getProtectionModifier();
+
+    // Skills
     for (Entry<SoulSkill, Integer> entry : skills.entrySet()) {
       SoulSkill skill = entry.getKey();
       int level = entry.getValue();
       skill.applyToStats(stats, level);
     }
+  }
+
+  protected float getDurabilityModifier() {
+
+    return 1f + element1.durabilityModifier + element2.durabilityModifier / 2f;
+  }
+
+  protected float getHarvestSpeedModifier() {
+
+    return 1f + element1.harvestSpeedModifier + element2.harvestSpeedModifier / 2f;
+  }
+
+  protected float getMeleeDamageModifier() {
+
+    return 1f + element1.meleeDamageModifier + element2.meleeDamageModifier / 2f;
+  }
+
+  protected float getMagicDamageModifier() {
+
+    return 1f + element1.magicDamageModifier + element2.magicDamageModifier / 2f;
+  }
+
+  protected float getProtectionModifier() {
+
+    return 1f + element1.protectionModifier + element2.protectionModifier / 2f;
   }
 
   public static ToolSoul construct(ItemSoulGem.Soul... souls) {

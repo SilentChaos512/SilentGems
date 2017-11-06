@@ -39,7 +39,7 @@ public class SoulSkill {
   public static final int SKILL_ACTIVATE_DELAY = 200;
 
   static Map<String, SoulSkill> SKILL_LIST = new HashMap<>();
-  static final float STAT_BOOST_MULTI = 0.1f;
+  static final float STAT_BOOST_MULTI = 0.05f;
 
 //  public static SoulSkill SUPER_SKILL;
   // Stat boosters
@@ -62,10 +62,10 @@ public class SoulSkill {
 
     //@formatter:off
 //    SUPER_SKILL = new SoulSkill("super_skill", 1, 0, 5, 0.0);
-    DURABILITY_BOOST = new SoulSkill("durability_boost", 5, 0, 0, 0.0, EARTH, METAL);
-    HARVEST_SPEED_BOOST = new SoulSkill("harvest_speed_boost", 5, 0, 0, 0.0, WIND, LIGHTNING);
-    MELEE_DAMAGE_BOOST = new SoulSkill("melee_damage_boost", 5, 0, 0, 0.0, FIRE, VENOM);
-    MAGIC_DAMAGE_BOOST = new SoulSkill("magic_damage_boost", 5, 0, 0, 0.0, WATER, ICE);
+    DURABILITY_BOOST = new SoulSkill("durability_boost", 10, 0, 0, 0.0, EARTH, METAL);
+    HARVEST_SPEED_BOOST = new SoulSkill("harvest_speed_boost", 10, 0, 0, 0.0, WIND, LIGHTNING);
+    MELEE_DAMAGE_BOOST = new SoulSkill("melee_damage_boost", 10, 0, 0, 0.0, FIRE, VENOM);
+    MAGIC_DAMAGE_BOOST = new SoulSkill("magic_damage_boost", 10, 0, 0, 0.0, WATER, ICE);
     WARM = new SoulSkill("warm", 3, 10, 3, -6.0, FIRE, METAL)
         .setFavorWeightMulti(0.5f);
     CHILL = new SoulSkill("chill", 3, 10, 3, -6.0, WATER, ICE)

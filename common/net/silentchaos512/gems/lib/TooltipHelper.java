@@ -11,10 +11,17 @@ public class TooltipHelper {
 
   public static String getAsColoredPercentage(String key, float value) {
 
+    return getAsColoredPercentage(key, value, 100, false);
+  }
+
+  public static String getAsColoredPercentage(String key, float value, int whitePercentage,
+      boolean addPlus) {
+
     int percent = (int) (value * 100);
-    TextFormatting color = percent > 100 ? TextFormatting.GREEN
-        : percent < 100 ? TextFormatting.RED : TextFormatting.WHITE;
-    return SilentGems.localizationHelper.getMiscText("Tooltip." + key, color + "x" + percent + "%");
+    TextFormatting color = percent > whitePercentage ? TextFormatting.GREEN
+        : percent < whitePercentage ? TextFormatting.RED : TextFormatting.WHITE;
+    return SilentGems.localizationHelper.getMiscText("Tooltip." + key,
+        color + (addPlus && percent > 0 ? "+" : "") + percent + "%");
   }
 
   public static String get(String key, int value) {
