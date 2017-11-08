@@ -10,6 +10,7 @@ Fixed: Decorating not working properly. You can now update tool heads and rods a
 Fixed: When decorating, the output now updates rendering info (colors/models) before crafting.
 Fixed: Mod trying to load various unused models that no longer exist (#223)
 Fixed: TiC materials having no color (#224)
+Fixed (Probably): A crash when nodes attack some entities (seems to be related to some CoFH mod) (#228)
 
 2.5.9
 Some behind the scenes work for some new features. Please excuse the dust!

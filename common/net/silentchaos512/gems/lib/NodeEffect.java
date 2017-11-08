@@ -14,6 +14,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.util.ModDamageSource;
 import net.silentchaos512.lib.collection.ItemStackList;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
@@ -69,7 +70,7 @@ public class NodeEffect {
 
     if (this == ATTACK) {
       if (!entity.world.isRemote)
-        entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(null, null),
+        entity.attackEntityFrom(ModDamageSource.NODE_ATTACK,
             (float) (4.0f + 0.75f * random.nextGaussian()));
       return true;
     } else if (this == REPAIR) {

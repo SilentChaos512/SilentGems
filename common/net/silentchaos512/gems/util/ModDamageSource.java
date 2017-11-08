@@ -10,6 +10,7 @@ public class ModDamageSource extends DamageSource {
 
   public static final DamageSource FREEZING = new ModDamageSource("freezing").setDamageBypassesArmor();
   public static final DamageSource SHOCKING = new ModDamageSource("shocking").setDamageBypassesArmor();
+  public static final DamageSource NODE_ATTACK = new ModDamageSource("node_attack").setDamageBypassesArmor().setMagicDamage();
 
   public ModDamageSource(String name) {
 
