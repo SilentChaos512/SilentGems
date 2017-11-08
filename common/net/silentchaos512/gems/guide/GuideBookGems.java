@@ -11,6 +11,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
@@ -224,7 +225,7 @@ public class GuideBookGems extends GuideBook {
         new PageCrafting(this, 2, rec.makeShapedOre(chTomahawk, "ggg", "gr ", " r ", 'g', chTomahawkGem, 'r', toolsEntryRod)).setNoText());
     // Armor
     ItemStack chHelmetGem = EnumGem.getRandom().getItemSuper();
-    ItemStack chHelmet = ModItems.gemHelmet.constructArmor(chHelmetGem, chHelmetGem, chHelmetGem, chHelmetGem);
+    ItemStack chHelmet = ModItems.gemHelmet.constructArmor(EnumMaterialTier.SUPER, chHelmetGem);
     ItemStack chHelmetFrame = ModItems.armorFrame.getFrameForArmorPiece(ModItems.gemHelmet, EnumMaterialTier.SUPER);
     ArmorHelper.setOriginalOwner(chHelmet, TOOL_OWNER_NAME);
     new GuideChapter(this, "armor", entryTools, chHelmet, -10,

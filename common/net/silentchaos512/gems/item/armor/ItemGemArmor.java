@@ -1,12 +1,12 @@
 package net.silentchaos512.gems.item.armor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.client.model.ModelBiped;
@@ -62,6 +62,12 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
     super(SilentGems.MODID, name, ArmorMaterial.DIAMOND, renderIndexIn, equipmentSlotIn);
     this.type = equipmentSlotIn;
     setNoRepair();
+  }
+
+  public ItemStack constructArmor(EnumMaterialTier tier, ItemStack material) {
+
+    ItemStack frame = ModItems.armorFrame.getFrameForArmorPiece(armorType, tier);
+    return constructArmor(frame, material, material, material, material);
   }
 
   @Override
@@ -158,11 +164,11 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
       return;
     }
 
-//    int amount = damage - (int) (getToughness(stack) * SilentGems.random.nextFloat());
-//    int durabilityLeft = stack.getMaxDamage() - stack.getItemDamage();
-//    amount = amount < 0 ? 0 : (amount > durabilityLeft ? durabilityLeft : amount);
-//    EntityPlayer player = entity instanceof EntityPlayer ? (EntityPlayer) entity : null;
-//    ToolHelper.attemptDamageTool(stack, amount, player);
+    // int amount = damage - (int) (getToughness(stack) * SilentGems.random.nextFloat());
+    // int durabilityLeft = stack.getMaxDamage() - stack.getItemDamage();
+    // amount = amount < 0 ? 0 : (amount > durabilityLeft ? durabilityLeft : amount);
+    // EntityPlayer player = entity instanceof EntityPlayer ? (EntityPlayer) entity : null;
+    // ToolHelper.attemptDamageTool(stack, amount, player);
   }
 
   @Override
@@ -320,25 +326,15 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
     }
 
     if (subItems == null) {
-      subItems = Lists.newArrayList();
+      subItems = new ArrayList<>();
 
-      // Test broken items.
-      ItemStack testBroken = constructArmor(new ItemStack(Items.FLINT));
-      testBroken.setItemDamage(getMaxDamage(testBroken) - 1);
-      subItems.add(testBroken);
-
-      // Flint
-      subItems.add(constructArmor(new ItemStack(Items.FLINT)));
-
-      // Regular Gems
-      for (EnumGem gem : EnumGem.values()) {
-        subItems.add(constructArmor(gem.getItem()));
-      }
-
-      // Super Gems
-      for (EnumGem gem : EnumGem.values()) {
-        subItems.add(constructArmor(gem.getItemSuper()));
-      }
+      ToolPartRegistry.getMains().forEach(part -> {
+        if (!part.isBlacklisted(part.getCraftingStack())) {
+          ItemStack armor = constructArmor(part.getTier(), part.getCraftingStack());
+          armor.getTagCompound().setBoolean(ToolHelper.NBT_EXAMPLE_TOOL, true);
+          subItems.add(armor);
+        }
+      });
 
       // Set maker name.
       for (ItemStack stack : subItems) {
@@ -364,8 +360,8 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
     ToolPart part = ToolPartRegistry.fromStack(material);
     if (part != null && !part.isBlacklisted(material)) {
-      recipes.addShaped(name, constructArmor(material), " g ", "gfg", " g ", 'g', material, 'f',
-          ModItems.armorFrame.getFrameForArmorPiece(this, part.getTier()));
+      recipes.addShaped(name, constructArmor(part.getTier(), material), " g ", "gfg", " g ", 'g',
+          material, 'f', ModItems.armorFrame.getFrameForArmorPiece(this, part.getTier()));
     }
   }
 
