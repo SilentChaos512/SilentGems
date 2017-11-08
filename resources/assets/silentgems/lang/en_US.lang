@@ -656,6 +656,7 @@ item.silentgems:DyeBlack.name=Black Dye
 item.silentgems:DyeBlue.name=Blue Dye
 
 item.silentgems:EnchantmentToken.name=Enchantment Token
+item.silentgems:EnchantmentToken.enchNameWithMod=%s (%s)
 item.silentgems:EnchantmentToken_Blank.name=Enchantment Token (Blank)
 item.silentgems:EnchantmentToken.maxLevel=&eMax Level:&r %d
 item.silentgems:EnchantmentToken.pressCtrl=&6<Press Ctrl for materials>

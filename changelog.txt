@@ -4,6 +4,7 @@ Silent's Gems - Changelog
 More under-the-hood changes. Possibly some minor performance improvements.
 Added: Patron name colors/formatting.
 Added: Gem shards can now be used for decorating, but only restore one tenth of the durability.
+Added: Enchantment Tokens now display the mod that adds the enchantment by the enchantment name.
 Changed: Armor frames are now parts. Add-ons could add armor frames and make them affect stats. No built-in frames will change stats.
 Changed: Armor recipes now use the same system that tool recipes do. They can be modified with CraftTweaker.
 Fixed: Decorating not working properly. You can now update tool heads and rods again. Previous changes should not need to be reapplied.

@@ -335,7 +335,10 @@ public class ItemEnchantmentToken extends ItemSL {
     // Enchantment list
     for (Entry<Enchantment, Integer> entry : enchants.entrySet()) {
       Enchantment e = entry.getKey();
-      list.add(e.getTranslatedName(entry.getValue()));
+      String enchName = e.getTranslatedName(entry.getValue());
+      String modName = Loader.instance().getIndexedModList()
+          .get(e.getRegistryName().getResourceDomain()).getName();
+      list.add(loc.getItemSubText(itemName, "enchNameWithMod", enchName, modName));
       String descKey = e.getName().replaceAll(":", ".").toLowerCase() + ".desc";
       String desc = loc.getLocalizedString(descKey);
       if (!desc.equals(descKey))
