@@ -110,7 +110,7 @@ public class RecipeDecorateTool extends RecipeBaseSL {
           // Tips change stats, so using them with locked tools is not allowed.
           return StackHelper.empty();
         }
-        ToolHelper.setRenderPart(result, part, grade, ToolPartPosition.TIP);
+        ToolHelper.setConstructionTip(result, part);
       }
     }
 
