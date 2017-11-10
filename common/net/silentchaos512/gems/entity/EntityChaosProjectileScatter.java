@@ -43,9 +43,8 @@ public class EntityChaosProjectileScatter extends EntityChaosProjectile {
   @Override
   protected void setStartingVelocity(EntityLivingBase shooter, Random random) {
 
-    Vec2f vecPitchYaw = shooter.getPitchYaw();
-    float pitch = (float) (vecPitchYaw.x + SCATTER_ANGLE * (2 * random.nextDouble() - 1));
-    float yaw = (float) (vecPitchYaw.y + SCATTER_ANGLE * (2 * random.nextDouble() - 1));
+    float pitch = (float) (shooter.rotationPitch + SCATTER_ANGLE * (2 * random.nextDouble() - 1));
+    float yaw = (float) (shooter.rotationYaw + SCATTER_ANGLE * (2 * random.nextDouble() - 1));
     Vec3d vec = Vec3d.fromPitchYaw(pitch, yaw);
 
     motionX = SPEED_MULTI * vec.x + shooter.motionX;
