@@ -187,7 +187,7 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     player.setHeldItem(EnumHand.OFF_HAND, currentOffhand);
 
     if (result == EnumActionResult.SUCCESS) {
-      stack.damageItem(1, player);
+      stack.setItemDamage(stack.getItemDamage() + 1);
     }
     return result;
   }
@@ -230,5 +230,17 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     ItemStack stack = new ItemStack(item);
     list.add(new ItemStack(item, 1, getMaxDamage(stack)));
     list.add(stack);
+  }
+
+  @Override
+  public boolean isDamaged(ItemStack stack) {
+
+    return false;
+  }
+
+  @Override
+  public boolean showDurabilityBar(ItemStack stack) {
+
+    return true;
   }
 }
