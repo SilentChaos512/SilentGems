@@ -134,7 +134,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
     }
 
     // Upgrade Base
-    recipe = recipes.addShapelessOre("upgrade_base", getStack(Names.UPGRADE_BASE, 4), "flint", "flint", "plankWood", "stickWood");
+    recipe = recipes.addShapelessOre("upgrade_base", getStack(Names.UPGRADE_BASE, 4), Items.FLINT, Items.FLINT, "plankWood", "stickWood");
     guideRecipeMap.put(upgradeBase.getItemDamage(), recipe);
 
     // Chaos Coal
@@ -193,7 +193,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
     recipes.addShapeless("nether_star", netherStar, netherCluster, netherCluster, netherCluster);
 
     // Armor Lattice
-    recipeLatticeMundane = recipes.addSurroundOre("armor_lattice_mundane", getStack(Names.ARMOR_LATTICE_MUNDANE, 24), "stickWood", "string", "flint");
+    recipeLatticeMundane = recipes.addSurroundOre("armor_lattice_mundane", getStack(Names.ARMOR_LATTICE_MUNDANE, 24), "stickWood", "string", Items.FLINT);
     guideRecipeMap.put(armorLatticeMundane.getItemDamage(), recipeLatticeMundane);
     recipeLatticeRegular = recipes.addSurroundOre("armor_lattice_regular", getStack(Names.ARMOR_LATTICE_REGULAR, 24), fluffyFabric, "ingotIron", new ItemStack(ModItems.gemShard, 1, OreDictionary.WILDCARD_VALUE));
     guideRecipeMap.put(armorLatticeRegular.getItemDamage(), recipeLatticeRegular);
