@@ -6,7 +6,6 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -26,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -46,7 +46,9 @@ import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.util.EnumMagicType;
+import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.item.IItemSL;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -243,6 +245,17 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
     }
 
     return 10;
+  }
+
+  @Override
+  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
+      EnumFacing facing, float hitX, float hitY, float hitZ) {
+
+    ToolSoul soul = SoulManager.getSoul(player.getHeldItem(hand));
+    if (soul != null && soul.activateSkillsOnBlock(player.getHeldItem(hand), player, world, pos, facing, hitX, hitY, hitZ)) {
+      return EnumActionResult.SUCCESS;
+    }
+    return EnumActionResult.PASS;
   }
 
   @Override

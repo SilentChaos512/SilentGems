@@ -132,7 +132,13 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
     // Vanilla bows would be 20.
     float mspeed = ToolHelper.getMeleeSpeed(stack);
     float dspeed = ToolHelper.getDigSpeedOnProperMaterial(stack);
-    return Math.max(32.7f - 1.1f * mspeed * dspeed, MIN_DRAW_DELAY);
+    return getDrawDelay(mspeed, dspeed);
+  }
+
+  public static float getDrawDelay(float meleeSpeed, float digSpeed) {
+
+    // Vanilla bows would be 20.
+    return Math.max(32.7f - 1.1f * meleeSpeed * digSpeed, MIN_DRAW_DELAY);
   }
 
   /**
@@ -146,6 +152,11 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
     return 20f / getDrawDelay(stack);
   }
 
+  public static float getDrawSpeedForDisplay(float meleeSpeed, float digSpeed) {
+
+    return 20f / getDrawDelay(meleeSpeed, digSpeed);
+  }
+
   public float getArrowVelocity(ItemStack stack, int charge) {
 
     float f = charge / getDrawDelay(stack);
@@ -155,7 +166,12 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
   public float getArrowDamage(ItemStack stack) {
 
-    return 0.4f * ToolHelper.getMeleeDamage(stack) - 1.0f;
+    return getArrowDamage(ToolHelper.getMeleeDamage(stack));
+  }
+
+  public static float getArrowDamage(float meleeDamage) {
+
+    return 0.4f * meleeDamage - 1.0f;
   }
 
   /**
@@ -166,6 +182,11 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
   public float getArrowDamageForDisplay(ItemStack stack) {
 
     return (2f + getArrowDamage(stack)) / 2f;
+  }
+
+  public static float getArrowDamageForDisplay(float meleeDamage) {
+
+    return (2f + getArrowDamage(meleeDamage)) / 2f;
   }
 
   protected ItemStack findAmmo(EntityPlayer player) {

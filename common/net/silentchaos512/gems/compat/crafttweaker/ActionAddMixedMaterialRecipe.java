@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.recipe.RecipeMixedMaterialItem;
 import net.silentchaos512.gems.util.ToolHelper;
@@ -62,7 +62,8 @@ public class ActionAddMixedMaterialRecipe extends ActionBaseAddRecipe {
     String[] arrayLines = recipeLines.toArray(new String[recipeLines.size()]);
     Object[] arrayExtraParams = extraParams.toArray();
 
-    ToolHelper.addExampleRecipe(toolItem, arrayTiers, arrayLines, arrayExtraParams);
+    if (toolItem instanceof ITool)
+      ToolHelper.addExampleRecipe(toolItem, arrayTiers, arrayLines, arrayExtraParams);
   }
 
   @Override

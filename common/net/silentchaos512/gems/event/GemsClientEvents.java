@@ -32,6 +32,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.client.gui.GuiCrosshairs;
+import net.silentchaos512.gems.client.gui.GuiToolSouls;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.render.particle.ParticleRenderDispatcher;
@@ -76,6 +77,8 @@ public class GemsClientEvents {
     renderCrosshairs(event);
     renderArmorExtra(event);
     renderAmmoCount(event);
+    GuiToolSouls.renderAPBars(event);
+    GuiToolSouls.renderXPBar(event);
   }
 
   @SubscribeEvent

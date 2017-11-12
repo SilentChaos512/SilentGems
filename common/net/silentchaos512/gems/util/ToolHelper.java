@@ -175,7 +175,6 @@ public class ToolHelper {
     getUUID(toolOrArmor);
 
     ToolPart[] parts = getConstructionParts(toolOrArmor);
-    EnumMaterialGrade[] grades = getConstructionGrades(toolOrArmor);
     if (parts.length == 0)
       return;
 
@@ -183,12 +182,7 @@ public class ToolHelper {
     clearOldRenderCache(toolOrArmor);
 
     if (!toolOrArmor.getTagCompound().getBoolean(NBT_LOCK_STATS)) {
-      ToolStats stats = new ToolStats(toolOrArmor, parts, grades).calculate();
-
-      ToolSoul soul = SoulManager.getSoul(toolOrArmor);
-      if (soul != null) {
-        soul.applyToStats(stats);
-      }
+      ToolStats stats = getStats(toolOrArmor, true);
 
       String root = NBT_ROOT_PROPERTIES;
       // Tools only
@@ -206,6 +200,41 @@ public class ToolHelper {
       setTagInt(toolOrArmor, root, NBT_PROP_ENCHANTABILITY, (int) stats.enchantability);
       setTagInt(toolOrArmor, root, NBT_TOOL_TIER, parts[0].getTier().ordinal());
     }
+  }
+
+  public static ToolStats getStats(ItemStack toolOrArmor, boolean applySoulModifiers) {
+
+    ToolPart[] parts = getConstructionParts(toolOrArmor);
+    EnumMaterialGrade[] grades = getConstructionGrades(toolOrArmor);
+    if (parts.length == 0)
+      return new ToolStats(toolOrArmor);
+
+    ToolStats stats = new ToolStats(toolOrArmor, parts, grades);
+
+    if (toolOrArmor.getTagCompound().getBoolean(NBT_LOCK_STATS)) {
+      // TODO: Is this right?
+      stats.chargeSpeed = getChargeSpeed(toolOrArmor);
+      stats.durability = getMaxDamage(toolOrArmor);
+      stats.enchantability = getItemEnchantability(toolOrArmor);
+      stats.harvestLevel = getHarvestLevel(toolOrArmor);
+      stats.harvestSpeed = getDigSpeedOnProperMaterial(toolOrArmor);
+      stats.magicDamage = getMagicDamage(toolOrArmor);
+      stats.meleeDamage = getMeleeDamage(toolOrArmor);
+      stats.meleeSpeed = getMeleeSpeed(toolOrArmor);
+      stats.protection = getProtection(toolOrArmor);
+      return stats;
+    }
+
+    stats.calculate();
+
+    if (applySoulModifiers) {
+      ToolSoul soul = SoulManager.getSoul(toolOrArmor);
+      if (soul != null) {
+        soul.applyToStats(stats);
+      }
+    }
+
+    return stats;
   }
 
   @SuppressWarnings("deprecation")
@@ -299,7 +328,7 @@ public class ToolHelper {
       recalculateStats(tool);
       ModItems.toolRenderHelper.updateModelCache(tool);
     } else if (GemsConfigHC.TOOLS_BREAK && wouldBreak) {
-      // Return the tool soul, if though the tool is destroyed.
+      // Return the tool soul, even though the tool is destroyed.
       ToolSoul soul = SoulManager.getSoul(tool);
       if (soul != null) {
         ItemStack toGive = new ItemStack(ModItems.toolSoul);
@@ -307,9 +336,6 @@ public class ToolHelper {
         if (soul.hasName()) {
           // Soul already has a name.
           toGive.setStackDisplayName(soul.getName(StackHelper.empty()));
-        } else if (tool.hasDisplayName()) {
-          // Soul wasn't named, tool was. Inherit the name.
-          toGive.setStackDisplayName(tool.getDisplayName());
         }
         PlayerHelper.giveItem((EntityPlayer) entityLiving, toGive);
       }

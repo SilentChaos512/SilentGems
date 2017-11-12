@@ -64,6 +64,11 @@ public class NodeEffect {
 
   public boolean applyToEntity(EntityLivingBase entity, Random random) {
 
+    return applyToEntity(entity, random, true);
+  }
+
+  public boolean applyToEntity(EntityLivingBase entity, Random random, boolean allowSounds) {
+
     if (random.nextFloat() > successChance || !needsEffect(entity)) {
       return false;
     }
@@ -91,8 +96,9 @@ public class NodeEffect {
 
       if (stackToRepair != null) {
         ItemHelper.attemptDamageItem(stackToRepair, (int) -amount, random, player);
-        entity.world.playSound(null, entity.getPosition(), SoundEvents.BLOCK_ANVIL_USE,
-            SoundCategory.BLOCKS, 0.5f, 2.0f + (float) (0.2 * random.nextGaussian()));
+        if (allowSounds)
+          entity.world.playSound(null, entity.getPosition(), SoundEvents.BLOCK_ANVIL_USE,
+              SoundCategory.BLOCKS, 0.5f, 2.0f + (float) (0.2 * random.nextGaussian()));
         return true;
       }
       return false;
@@ -103,8 +109,9 @@ public class NodeEffect {
 
       EntityPlayer player = (EntityPlayer) entity;
       player.getFoodStats().addStats(2, 0.1f);
-      entity.world.playSound(null, entity.getPosition(), SoundEvents.ENTITY_PLAYER_BURP,
-          SoundCategory.BLOCKS, 0.5f, 1.2f + (float) (0.05 * random.nextGaussian()));
+      if (allowSounds)
+        entity.world.playSound(null, entity.getPosition(), SoundEvents.ENTITY_PLAYER_BURP,
+            SoundCategory.BLOCKS, 0.5f, 1.2f + (float) (0.05 * random.nextGaussian()));
       return true;
     } else if (this instanceof NodeEffectPotion) {
       // General potion effect handler.

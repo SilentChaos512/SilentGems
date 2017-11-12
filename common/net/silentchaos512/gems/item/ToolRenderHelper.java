@@ -13,10 +13,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
@@ -32,6 +29,7 @@ import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.IPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
+import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartTip;
@@ -185,29 +183,36 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       int durability = durabilityMax - tool.getItemDamage();
       String s1 = String.format(durability > 9999 ? "%,d" : "%d", durability);
       String s2 = String.format(durabilityMax > 9999 ? "%,d" : "%d", durabilityMax);
-      line = loc.getMiscText("Tooltip.Durability", s1 + " / " + s2);
+      float durabilityBoost = ToolSoul.getDurabilityModifierForDisplay(soul);
+      String durBoostLine = durabilityBoost == 0f ? ""
+          : " (" + TooltipHelper.numberToPercent(durabilityBoost, 0, true) + TextFormatting.RESET
+              + ")";
+      line = loc.getMiscText("Tooltip.Durability", s1 + " / " + s2 + durBoostLine);
       list.add(color + "  " + line);
 
       if (isShield) {
         float magicProtection = (int) (ToolHelper.getMagicProtection(tool) * 100);
-        list.add(color + getTooltipLine("MagicProtection", magicProtection));
+        list.add(color + getTooltipLine("MagicProtection", magicProtection, 0f));
       }
 
       if (isDigger) { // @formatter:off
         int harvestLevel = ToolHelper.getHarvestLevel(tool);
-        String str = color + getTooltipLine("HarvestLevel", harvestLevel);
+        String str = color + getTooltipLine("HarvestLevel", harvestLevel, 0f);
         String key = "Tooltip.level" + harvestLevel;
         String val = SilentGems.localizationHelper.getMiscText(key);
         if (!val.equals("misc.silentgems:" + key)) str += " (" +  val + ")";
         list.add(str);
-        list.add(color + getTooltipLine("HarvestSpeed", ToolHelper.getDigSpeedOnProperMaterial(tool)));
+        float harvestSpeedModifier = ToolSoul.getHarvestSpeedModifierForDisplay(soul);
+        list.add(color + getTooltipLine("HarvestSpeed", ToolHelper.getDigSpeedOnProperMaterial(tool),
+            harvestSpeedModifier));
       } // @formatter:on
 
       if (isWeapon) {
         float meleeSpeed = 4 + ToolHelper.getMeleeSpeedModifier(tool);
-        list.add(color + getTooltipLine("MeleeSpeed", meleeSpeed).replaceFirst("%", ""));
+        list.add(color + getTooltipLine("MeleeSpeed", meleeSpeed, 0f).replaceFirst("%", ""));
         float meleeDamage = 1 + ToolHelper.getMeleeDamageModifier(tool);
-        list.add(color + getTooltipLine("MeleeDamage", meleeDamage));
+        float meleeModifier = ToolSoul.getMeleeDamageModifierForDisplay(soul);
+        list.add(color + getTooltipLine("MeleeDamage", meleeDamage, meleeModifier));
 
         if (isCaster) {
           EnumMagicType magicType = EnumMagicType.getMagicType(tool);
@@ -217,17 +222,26 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
               : String.format(TooltipHelper.FORMAT_FLOAT, damagePerShot);
           String str = damageString + "" + TextFormatting.DARK_GRAY + "x"
               + magicType.getShotCount(tool);
-          list.add(color + getTooltipLine("MagicDamage", str));
+          float magicModifier = ToolSoul.getMagicDamageModifierForDisplay(soul);
+          list.add(color + getTooltipLine("MagicDamage", str, magicModifier));
         }
       }
 
       if (isBow) {
-        list.add(color + getTooltipLine("DrawSpeed", ModItems.bow.getDrawSpeedForDisplay(tool)));
-        list.add(
-            color + getTooltipLine("ArrowDamage", ModItems.bow.getArrowDamageForDisplay(tool)));
+        ToolStats statsNoSoul = ToolHelper.getStats(tool, false);
+        float drawSpeed = ModItems.bow.getDrawSpeedForDisplay(tool);
+        float drawSpeedPreSoul = ItemGemBow.getDrawSpeedForDisplay(statsNoSoul.meleeSpeed,
+            statsNoSoul.harvestSpeed);
+        float drawSpeedBoost = (drawSpeed - drawSpeedPreSoul) / drawSpeedPreSoul;
+        list.add(color + getTooltipLine("DrawSpeed", drawSpeed, drawSpeedBoost));
+
+        float arrowDamage = ModItems.bow.getArrowDamageForDisplay(tool);
+        float arrowDamagePreSoul = ItemGemBow.getArrowDamageForDisplay(statsNoSoul.meleeDamage);
+        float arrowDamageBoost = (arrowDamage - arrowDamagePreSoul) / arrowDamagePreSoul;
+        list.add(color + getTooltipLine("ArrowDamage", arrowDamage, arrowDamageBoost));
       }
 
-      list.add(color + getTooltipLine("ChargeSpeed", ToolHelper.getChargeSpeed(tool)));
+      list.add(color + getTooltipLine("ChargeSpeed", ToolHelper.getChargeSpeed(tool), 0f));
     } else {
       list.add(TextFormatting.GOLD + loc.getMiscText("Tooltip.CtrlForProp"));
     }
@@ -238,32 +252,32 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
       line = loc.getMiscText("Tooltip.Statistics");
       list.add(line);
 
-      list.add(getTooltipLine("BlocksMined", ToolHelper.getStatBlocksMined(tool)));
+      list.add(getTooltipLine("BlocksMined", ToolHelper.getStatBlocksMined(tool), 0f));
 
       if (isDigger) {
-        list.add(getTooltipLine("BlocksPlaced", ToolHelper.getStatBlocksPlaced(tool)));
+        list.add(getTooltipLine("BlocksPlaced", ToolHelper.getStatBlocksPlaced(tool), 0f));
       }
 
       if (item instanceof ItemGemShovel) {
-        list.add(getTooltipLine("PathsMade", ToolHelper.getStatPathsMade(tool)));
+        list.add(getTooltipLine("PathsMade", ToolHelper.getStatPathsMade(tool), 0f));
       }
 
       if (item instanceof ItemGemHoe) {
-        list.add(getTooltipLine("BlocksTilled", ToolHelper.getStatBlocksTilled(tool)));
+        list.add(getTooltipLine("BlocksTilled", ToolHelper.getStatBlocksTilled(tool), 0f));
       }
 
-      list.add(getTooltipLine("HitsLanded", ToolHelper.getStatHitsLanded(tool)));
+      list.add(getTooltipLine("HitsLanded", ToolHelper.getStatHitsLanded(tool), 0f));
 
       if (isCaster || isBow)
-        list.add(getTooltipLine("ShotsFired", ToolHelper.getStatShotsFired(tool)));
+        list.add(getTooltipLine("ShotsFired", ToolHelper.getStatShotsFired(tool), 0f));
 
       if (item instanceof ItemGemTomahawk)
-        list.add(getTooltipLine("ThrownCount", ToolHelper.getStatThrownCount(tool)));
+        list.add(getTooltipLine("ThrownCount", ToolHelper.getStatThrownCount(tool), 0f));
 
       if (isWeapon)
-        list.add(getTooltipLine("KillCount", ToolHelper.getStatKillCount(tool)));
+        list.add(getTooltipLine("KillCount", ToolHelper.getStatKillCount(tool), 0f));
 
-      list.add(getTooltipLine("Redecorated", ToolHelper.getStatRedecorated(tool)));
+      list.add(getTooltipLine("Redecorated", ToolHelper.getStatRedecorated(tool), 0f));
       list.add(sep);
 
       line = loc.getMiscText("Tooltip.Construction");
@@ -310,19 +324,34 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
     }
   }
 
-  public String getTooltipLine(String key, int value) {
+  public String getTooltipLine(String key, int value, float soulBoost) {
 
-    return TooltipHelper.get(key, value, true);
+    String line = TooltipHelper.get(key, value, true);
+    if (soulBoost != 0f) {
+      line += TextFormatting.RESET + " (" + TooltipHelper.numberToPercent(soulBoost, 0, true)
+          + TextFormatting.RESET + ")";
+    }
+    return line;
   }
 
-  public String getTooltipLine(String key, float value) {
+  public String getTooltipLine(String key, float value, float soulBoost) {
 
-    return TooltipHelper.get(key, value, true);
+    String line = TooltipHelper.get(key, value, true);
+    if (soulBoost != 0f) {
+      line += TextFormatting.RESET + " (" + TooltipHelper.numberToPercent(soulBoost, 0, true)
+          + TextFormatting.RESET + ")";
+    }
+    return line;
   }
 
-  public String getTooltipLine(String key, String value) {
+  public String getTooltipLine(String key, String value, float soulBoost) {
 
-    return TooltipHelper.get(key, value, true);
+    String line = TooltipHelper.get(key, value, true);
+    if (soulBoost != 0f) {
+      line += TextFormatting.RESET + " (" + TooltipHelper.numberToPercent(soulBoost, 0, true)
+          + TextFormatting.RESET + ")";
+    }
+    return line;
   }
 
   public @Nullable IModelData getModelCache(ItemStack tool) {

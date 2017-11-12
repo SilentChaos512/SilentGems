@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.guide;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -11,7 +12,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
@@ -24,6 +24,7 @@ import net.silentchaos512.gems.client.gui.config.GuiConfigSilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.guide.page.PageDebugTool;
 import net.silentchaos512.gems.guide.page.PageOreSpawn;
+import net.silentchaos512.gems.guide.page.PageSoulSkill;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModItems;
@@ -33,6 +34,7 @@ import net.silentchaos512.gems.item.ItemEnchantmentToken;
 import net.silentchaos512.gems.item.ItemTipUpgrade;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.soul.SoulSkill;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.gems.util.ToolRandomizer;
@@ -55,6 +57,7 @@ public class GuideBookGems extends GuideBook {
   private GuideEntry entryBlocks;
   private GuideEntry entryItems;
   private GuideEntry entryTools;
+  private GuideEntry entrySouls;
   private GuideEntry entryEnchantments;
   private GuideEntry entryDebug;
 
@@ -75,6 +78,7 @@ public class GuideBookGems extends GuideBook {
     entryBlocks = new GuideEntry(this, "blocks");
     entryItems = new GuideEntry(this, "items");
     entryTools = new GuideEntry(this, "tools");
+    entrySouls = new GuideEntry(this, "souls");
     entryEnchantments = new GuideEntry(this, "enchantments");
     if (edition == 0 || GemsConfig.DEBUG_MODE)
       entryDebug = new GuideEntry(this, "debug").setSpecial();
@@ -379,6 +383,20 @@ public class GuideBookGems extends GuideBook {
     new GuideChapter(this, "torchBandolier", entryItems, chTorchBandolier,
         new PageTextOnly(this, 1),
         new PageTextOnly(this, 2));
+
+    // Souls
+    new GuideChapter(this, "toolSoul", entrySouls, new ItemStack(ModItems.toolSoul),
+        new PageTextOnly(this, 1),
+        new PageCrafting(this, 2, rec.makeShaped(new ItemStack(ModItems.toolSoul), " s ", "sds", " s ", 's', ModItems.soulGem, 'd', "gemDiamond")));
+
+    pages = new ArrayList<>();
+    pages.add(new PageTextOnly(this, 1));
+    pages.add(new PageTextOnly(this, 2));
+    for (SoulSkill skill : SoulSkill.getSkillList()) {
+      pages.add(new PageSoulSkill(this, skill));
+    }
+    new GuideChapter(this, "soulSkills", entrySouls, new ItemStack(ModItems.skillOrb),
+        pages.toArray(new IGuidePage[pages.size()]));
 
     // Enchantments
 

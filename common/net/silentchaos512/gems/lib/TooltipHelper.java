@@ -24,6 +24,14 @@ public class TooltipHelper {
         color + (addPlus && percent > 0 ? "+" : "") + percent + "%");
   }
 
+  public static String numberToPercent(float value, int whitePercentage, boolean addPlus) {
+
+    int percent = (int) (value * 100);
+    TextFormatting color = percent > whitePercentage ? TextFormatting.GREEN
+        : percent < whitePercentage ? TextFormatting.RED : TextFormatting.WHITE;
+    return color + (addPlus && percent > 0 ? "+" : "") + percent + "%";
+  }
+
   public static String get(String key, int value) {
 
     return get(key, value, false);

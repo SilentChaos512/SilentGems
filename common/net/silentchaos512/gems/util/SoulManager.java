@@ -6,20 +6,24 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.material.Material;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.init.ModEnchantments;
+import net.silentchaos512.gems.lib.soul.SoulSkill;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.lib.util.PlayerHelper;
 import net.silentchaos512.lib.util.StackHelper;
@@ -60,7 +64,7 @@ public class SoulManager {
       uuid = ToolHelper.getSoulUUID(tool);
     }
     map.put(uuid, soul);
-    SilentGems.logHelper.debug("Put tool soul " + soul + " in the map! Total count: " + map.size());
+    // SilentGems.logHelper.debug("Put tool soul " + soul + " in the map! Total count: " + map.size());
     return soul;
   }
 
@@ -98,7 +102,7 @@ public class SoulManager {
         ++count;
       }
     }
-    SilentGems.logHelper.debug("Saved " + count + " tool(s) for " + player.getName());
+    // SilentGems.logHelper.debug("Saved " + count + " tool(s) for " + player.getName());
   }
 
   @SubscribeEvent
@@ -108,7 +112,7 @@ public class SoulManager {
         && (event instanceof ClientTickEvent || event instanceof ServerTickEvent)) {
       if (++ticks % CLEAR_DELAY == 0) {
         map.clear();
-        SilentGems.logHelper.debug("Cleared out the tool soul map.");
+        // SilentGems.logHelper.debug("Cleared out the tool soul map.");
       }
     }
   }
@@ -121,17 +125,43 @@ public class SoulManager {
       EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
       ItemStack mainHand = player.getHeldItemMainhand();
 
-      // XP for causing damage.
       ToolSoul toolSoul = SoulManager.getSoul(mainHand);
+
       if (toolSoul != null) {
+        // Activate skills.
+        toolSoul.activateSkillsOnEntity(mainHand, player, hurt);
+
+        // XP for causing damage.
         // NOTE: event.getAmount() is before armor and potions are applied!
         // Should we consider that somehow?
         float damageAmount = Math.min(event.getAmount(), hurt.getMaxHealth());
         int xp = (int) (ToolSoul.XP_FACTOR_KILLS * damageAmount);
-        SilentGems.logHelper.debug(damageAmount, xp);
+        // SilentGems.logHelper.debug(damageAmount, xp);
         xp = MathHelper.clamp(xp, 1, 1000);
         toolSoul.addXp(xp, mainHand, player);
       }
+    }
+  }
+
+  @SubscribeEvent
+  public void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
+
+    EntityPlayer player = event.getEntityPlayer();
+    ItemStack mainHand = player.getHeldItemMainhand();
+
+    // Overridden by the Gravity enchantment.
+    if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gravity, mainHand) > 0)
+      return;
+
+    ToolSoul soul = getSoul(mainHand);
+    if (soul != null) {
+      // Aquatic or Aerial?
+      int aquatic = soul.getSkillLevel(SoulSkill.AQUATIC);
+      int aerial = soul.getSkillLevel(SoulSkill.AERIAL);
+      if (aquatic > 0 && player.isInsideOfMaterial(Material.WATER))
+        event.setNewSpeed(event.getNewSpeed() * (5f / (SoulSkill.AQUATIC.maxLevel - aquatic + 1)));
+      else if (aerial > 0 && (!player.onGround || player.capabilities.isFlying))
+        event.setNewSpeed(event.getNewSpeed() * (5f / SoulSkill.AERIAL.maxLevel - aerial + 1));
     }
   }
 }

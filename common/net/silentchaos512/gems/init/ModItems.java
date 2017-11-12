@@ -68,7 +68,8 @@ import net.silentchaos512.lib.registry.SRegistry;
 public class ModItems implements IRegistrationHandler<Item> {
 
   public static final ItemGem gem = new ItemGem();
-  public static final ItemSL gemSuper = new ItemSL(EnumGem.values().length, SilentGems.MODID, Names.GEM_SUPER);
+  public static final ItemSL gemSuper = new ItemSL(EnumGem.values().length, SilentGems.MODID,
+      Names.GEM_SUPER);
   public static final ItemGemShard gemShard = new ItemGemShard();
   public static final ItemSoulGem soulGem = new ItemSoulGem();
   public static final ItemCrafting craftingMaterial = new ItemCrafting();
@@ -138,11 +139,8 @@ public class ModItems implements IRegistrationHandler<Item> {
     reg.registerItem(craftingMaterial).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(tipUpgrade).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(enchantmentToken).setCreativeTab(GemsCreativeTabs.utility);
-    // TODO: Remove condition when ready for release!
-    if (SilentGems.instance.isDevBuild()) {
-      reg.registerItem(toolSoul).setCreativeTab(GemsCreativeTabs.utility);
-      reg.registerItem(skillOrb).setCreativeTab(GemsCreativeTabs.utility);
-    }
+    reg.registerItem(toolSoul).setCreativeTab(GemsCreativeTabs.utility);
+    reg.registerItem(skillOrb).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(chaosGem).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(chaosRune).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(armorFrame).setCreativeTab(GemsCreativeTabs.materials);

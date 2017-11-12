@@ -7,6 +7,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.ArmorPartPosition;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
@@ -32,6 +33,13 @@ public final class ToolStats {
   public float enchantability = 0f;
   public float protection = 0f;
   public int harvestLevel = 0;
+
+  public ToolStats(ItemStack tool) {
+
+    this.tool = tool;
+    this.parts = new ToolPart[0];
+    this.grades = new EnumMaterialGrade[0];
+  }
 
   public ToolStats(ItemStack tool, ToolPart[] parts, EnumMaterialGrade[] grades) {
 

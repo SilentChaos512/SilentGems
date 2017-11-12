@@ -1,5 +1,11 @@
 Silent's Gems - Changelog
 
+2.6.0
+Added: Tool Souls. These are upgrade items for tools and armor that let them level up and gain skills. Crafted with a diamond and four soul gems of your choice (mix and match). If the "tools break permanently" feature is enabled, the tool soul will be returned to you when the item breaks. Currently, there is no other way to remove them, but there will be. These were ported from the failed experimental branch, but have been tweaked and refined a bit. This feature is usable, but is missing some pieces and needs balancing. Feedback appreciated!
+Added: Skill Orbs. Can be used to apply skills to tools with souls. Creative-only right now. Hold the skill orb in your main hand, tool in your off, then right-click to apply.
+Fixed: Machete magic not working on servers.
+Fixed: Not being able to apply tip upgrades.
+
 2.5.10
 More under-the-hood changes. Possibly some minor performance improvements.
 Added: Patron name colors/formatting.

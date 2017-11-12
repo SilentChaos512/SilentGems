@@ -6,10 +6,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.annotation.Nullable;
 
 import org.lwjgl.input.Keyboard;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -40,11 +44,11 @@ public class ToolSoul {
   public static final float XP_FACTOR_BLOCK_MINED = 1.0f;
   public static final int XP_MAX_PER_BLOCK = 20;
   public static final float XP_MIN_BLOCK_HARDNESS = 0.5f;
-  public static final int AP_START = 10;
-  public static final int AP_PER_LEVEL = 2;
-  public static final int AP_REGEN_DELAY = 600;
+  public static final int AP_START = 50;
+  public static final int AP_PER_LEVEL = 10;
+  public static final int AP_REGEN_DELAY = 120;
 
-  static final int BASE_XP = 25;
+  static final int BASE_XP = 20;
   static final float XP_CURVE_FACTOR = 2.4f;
 
   String name = "";
@@ -60,7 +64,7 @@ public class ToolSoul {
   // TODO
 
   // Skills
-  int actionPoints = 10;
+  int actionPoints = AP_START;
   Map<SoulSkill, Integer> skills = new LinkedHashMap<>();
 
   // Temporary variables NOT saved to NBT
@@ -86,7 +90,11 @@ public class ToolSoul {
 
   public int getXpToNextLevel() {
 
-    int target = level + 1;
+    return getXpForLevel(level + 1);
+  }
+
+  public int getXpForLevel(int target) {
+
     return BASE_XP * (int) Math.pow(target, XP_CURVE_FACTOR);
   }
 
@@ -223,6 +231,8 @@ public class ToolSoul {
 
   public int getSkillLevel(SoulSkill skill) {
 
+    if (!hasSkill(skill))
+      return 0;
     return skills.get(skill);
   }
 
@@ -246,15 +256,16 @@ public class ToolSoul {
     if (skillsKeyDown) {
       // Display stat modifiers.
       String color = "  " + TextFormatting.YELLOW;
-      float durability = getDurabilityModifier() - 1f;
-      float harvestSpeed = getHarvestSpeedModifier() - 1f;
-      float meleeDamage = getMeleeDamageModifier() - 1f;
-      float magicDamage = getMagicDamageModifier() - 1f;
-      float protection = getProtectionModifier() - 1f;
+      float durability = getDurabilityModifierForDisplay(this);
+      float harvestSpeed = getHarvestSpeedModifierForDisplay(this);
+      float meleeDamage = getMeleeDamageModifierForDisplay(this);
+      float magicDamage = getMagicDamageModifierForDisplay(this);
+      float protection = getProtectionModifierForDisplay(this);
       if (durability != 0f)
         list.add(color + TooltipHelper.getAsColoredPercentage("Durability", durability, 0, true));
       if (harvestSpeed != 0f)
-        list.add(color + TooltipHelper.getAsColoredPercentage("HarvestSpeed", harvestSpeed, 0, true));
+        list.add(
+            color + TooltipHelper.getAsColoredPercentage("HarvestSpeed", harvestSpeed, 0, true));
       if (meleeDamage != 0f)
         list.add(color + TooltipHelper.getAsColoredPercentage("MeleeDamage", meleeDamage, 0, true));
       if (magicDamage != 0f)
@@ -313,6 +324,75 @@ public class ToolSoul {
   protected float getProtectionModifier() {
 
     return 1f + element1.protectionModifier + element2.protectionModifier / 2f;
+  }
+
+  public static float getDurabilityModifierForDisplay(@Nullable ToolSoul soul) {
+
+    if (soul == null)
+      return 0f;
+
+    float val = soul.getDurabilityModifier();
+    SoulSkill skill = SoulSkill.DURABILITY_BOOST;
+    val = getSkillStatModifier(soul, val, skill);
+
+    return val - 1f;
+  }
+
+  public static float getHarvestSpeedModifierForDisplay(@Nullable ToolSoul soul) {
+
+    if (soul == null)
+      return 0f;
+
+    float val = soul.getHarvestSpeedModifier();
+    SoulSkill skill = SoulSkill.HARVEST_SPEED_BOOST;
+    val = getSkillStatModifier(soul, val, skill);
+
+    return val - 1f;
+  }
+
+  public static float getMeleeDamageModifierForDisplay(@Nullable ToolSoul soul) {
+
+    if (soul == null)
+      return 0f;
+
+    float val = soul.getMeleeDamageModifier();
+    SoulSkill skill = SoulSkill.MELEE_DAMAGE_BOOST;
+    val = getSkillStatModifier(soul, val, skill);
+
+    return val - 1f;
+  }
+
+  public static float getMagicDamageModifierForDisplay(@Nullable ToolSoul soul) {
+
+    if (soul == null)
+      return 0f;
+
+    float val = soul.getMagicDamageModifier();
+    SoulSkill skill = SoulSkill.MAGIC_DAMAGE_BOOST;
+    val = getSkillStatModifier(soul, val, skill);
+
+    return val - 1f;
+  }
+
+  public static float getProtectionModifierForDisplay(@Nullable ToolSoul soul) {
+
+    if (soul == null)
+      return 0f;
+
+    float val = soul.getProtectionModifier();
+    SoulSkill skill = SoulSkill.PROTECTION_BOOST;
+    val = getSkillStatModifier(soul, val, skill);
+
+    return val - 1f;
+  }
+
+  private static float getSkillStatModifier(ToolSoul soul, float val, SoulSkill skill) {
+
+    if (skill != null && soul.skills != null && soul.skills.containsKey(skill)) {
+      int lvl = soul.skills.get(skill);
+      val += skill.getStatBoostMulti() * lvl;
+    }
+    return val;
   }
 
   public static ToolSoul construct(ItemSoulGem.Soul... souls) {
@@ -429,14 +509,19 @@ public class ToolSoul {
   public boolean activateSkillsOnBlock(ItemStack tool, EntityPlayer player, World world,
       BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
-    boolean activated = false;
-    for (SoulSkill skill : skills.keySet()) {
-      if (skill.activateOnBlock(this, tool, player, skills.get(skill), world, pos, facing, hitX,
-          hitY, hitZ)) {
-        activated = true;
-      }
-    }
-    return activated;
+    AtomicBoolean activated = new AtomicBoolean(false);
+    skills.forEach((skill, level) -> activated.set(activated.get()
+        || skill.activateOnBlock(this, tool, player, level, world, pos, facing, hitX, hitY, hitZ)));
+    return activated.get();
+  }
+
+  public boolean activateSkillsOnEntity(ItemStack tool, EntityPlayer player,
+      EntityLivingBase target) {
+
+    AtomicBoolean activated = new AtomicBoolean(false);
+    skills.forEach((skill, level) -> activated
+        .set(activated.get() || skill.onDamageEntity(this, tool, player, level, target)));
+    return activated.get();
   }
 
   public static ToolSoul readFromNBT(NBTTagCompound tags) {

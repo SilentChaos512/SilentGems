@@ -122,8 +122,6 @@ public class ModRecipes implements IRegistrationHandler<IRecipe> {
     recipes.addCustomRecipe("name_plate_use", new RecipeNamePlate());
     recipes.addCustomRecipe("holding_gem_set_block", new RecipeHoldingGemSetBlock());
     recipes.addCustomRecipe("craft_tool_soul", new RecipeToolSoul());
-    // TODO: Remove condition when ready to release.
-    if (SilentGems.instance.isDevBuild())
-      recipes.addCustomRecipe("apply_tool_soul", new RecipeApplyToolSoul());
+    recipes.addCustomRecipe("apply_tool_soul", new RecipeApplyToolSoul());
   }
 }

@@ -40,7 +40,9 @@ import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.util.ArmorHelper;
+import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.item.ItemArmorSL;
 import net.silentchaos512.lib.registry.RecipeMaker;
@@ -276,19 +278,22 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
     final String sep = loc.getMiscText("Tooltip.Separator");
 
     if (controlDown) {
+      ToolSoul soul = SoulManager.getSoul(stack);
       // Properties header
       list.add(loc.getMiscText("Tooltip.Properties"));
 
       TextFormatting color = TextFormatting.YELLOW;
-      list.add(color + helper.getTooltipLine("Durability", getMaxDamage(stack)));
-      list.add(color + helper.getTooltipLine("Protection", getProtection(stack)));
+      float durabilityBoost = ToolSoul.getDurabilityModifierForDisplay(soul);
+      list.add(color + helper.getTooltipLine("Durability", getMaxDamage(stack), durabilityBoost));
+      float protectionBoost = ToolSoul.getProtectionModifierForDisplay(soul);
+      list.add(color + helper.getTooltipLine("Protection", getProtection(stack), protectionBoost));
 
       // Statistics Header
       list.add(sep);
       list.add(loc.getMiscText("Tooltip.Statistics"));
 
-      list.add(helper.getTooltipLine("DamageTaken", ArmorHelper.getStatDamageTaken(stack)));
-      list.add(helper.getTooltipLine("Redecorated", ArmorHelper.getStatRedecorated(stack)));
+      list.add(helper.getTooltipLine("DamageTaken", ArmorHelper.getStatDamageTaken(stack), 0f));
+      list.add(helper.getTooltipLine("Redecorated", ArmorHelper.getStatRedecorated(stack), 0f));
 
       list.add(sep);
     } else {
