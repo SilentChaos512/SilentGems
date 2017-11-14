@@ -1156,6 +1156,7 @@ jei.silentgems:desc.ChaosPylon1=Produces Chaos energy from burnable fuel. Anythi
 jei.silentgems:desc.MaterialGrader=Analyzes tool materials, bringing out their potential. Each piece will get a random grade that applies a percentage bonus to each stat. Requires Chaos to function, so place it near Nodes or Pylons. Load materials into the first slot, then be patient. Graded items can be extracted from the bottom.
 
 jei.silentgems:desc.Gem=Gems are used for constructing and repairing tools and armor. A single tool or armor piece can be made with multiple types of gems. Craft gems next to a tool or armor piece to repair it.
+jei.silentgems:desc.FluffyPuffSeeds=Fluffy Puff Seeds can be obtained in the same manner as vanilla seeds. When planted on farmland, they will grow into a plant that produces Fluffy Puffs.
 jei.silentgems:desc.TorchBandolier=The torch bandolier stores a large number of torches. To place torches, just right-click. Torches will be absorbed automatically if auto-fill is on. To toggle auto-fill, right-click the air while sneaking. Swing the bandolier (left-click) while sneaking to remove a stack of torches (you should probably disable auto-fill first).
 
 
@@ -1343,6 +1344,9 @@ guide.silentgems:chapter.enchantmentLightningAspect.text1=Weapons with Lightning
 guide.silentgems:chapter.enchantmentMagicDamage.name=Concentration
 guide.silentgems:chapter.enchantmentMagicDamage.text1=Think <imp>Sharpness, but for the magic attacks<r> that super-tier weapons can fire. Concentration affects only magic projectiles, not actual melee damage. <vimp>You can't apply both Sharpness and Concentration to the same weapon<r>, so you'll need to decide whether you want a melee or magic focus. Can be obtained via the enchanting table or tokens. Does not work on non-Gems weapons.
 
+#Souls and Skills
+guide.silentgems:chapter.soulsImportant.name=IMPORTANT, PLEASE READ!
+guide.silentgems:chapter.soulsImportant.text1=Everything in this section of the manual is about the tool soul upgrade system only available in version 2.6.0 and higher. <vimp>If you are playing 2.5.x, you will not be able to craft anything here!<r> Everything else, such as the actual items, has been left in place just in case anyone accidentally "updates" from 2.6.0 to 2.5.11. Feel free to try the alpha versions if you want to try the new features, just be aware that <imp>tool souls are incomplete<r> (but usable) right now.
 guide.silentgems:chapter.toolSoul.name=Tool Souls
 guide.silentgems:chapter.toolSoul.text1=<item>Tool Souls<r> are an upgrade for tools and armor that allows them to <imp>level up through use and gain skills<r>. Souls gain experience by simply using the tool/armor (mining blocks, hitting mobs, etc.)<n><n> Souls have one or two (usually two) <imp>elements<r> that apply stat modifiers and affect what <imp>skills<r> can be learned. Souls have their own XP and AP (action points).
 guide.silentgems:chapter.toolSoul.text2=You may use any combination of soul gems. The soul gems will determine the elements of the tool soul.

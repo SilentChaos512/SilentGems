@@ -384,11 +384,20 @@ public class GuideBookGems extends GuideBook {
         new PageTextOnly(this, 1),
         new PageTextOnly(this, 2));
 
-    // Souls
+    /*******************
+     * Souls and Skills
+     *******************/
+
+    // Important Notice
+    new GuideChapter(this, "soulsImportant", entrySouls, new ItemStack(Items.DIAMOND),
+        new PageTextOnly(this, 1)).setImportant();
+
+    // Tool Souls
     new GuideChapter(this, "toolSoul", entrySouls, new ItemStack(ModItems.toolSoul),
         new PageTextOnly(this, 1),
         new PageCrafting(this, 2, rec.makeShaped(new ItemStack(ModItems.toolSoul), " s ", "sds", " s ", 's', ModItems.soulGem, 'd', "gemDiamond")));
 
+    // Soul Skills (includes a page for each skill!)
     pages = new ArrayList<>();
     pages.add(new PageTextOnly(this, 1));
     pages.add(new PageTextOnly(this, 2));

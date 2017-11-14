@@ -102,6 +102,7 @@ public class SilentGemsPlugin implements IModPlugin {
     reg.addDescription(new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE),
         prefix + Names.GEM);
     reg.addDescription(new ItemStack(ModItems.torchBandolier), prefix + Names.TORCH_BANDOLIER);
+    reg.addDescription(new ItemStack(ModItems.fluffyPuffSeeds), prefix + Names.FLUFFY_PUFF_SEEDS);
   }
 
   @Override

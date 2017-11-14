@@ -86,7 +86,7 @@ public class ItemSoulGem extends ItemSL {
 
     super(1, SilentGems.MODID, Names.SOUL_GEM);
 
-  //@formatter:off
+    //@formatter:off
     float blockDropRate = 0.025f;
     registerStackSoul(new Soul("Wheat", new ItemStack(Items.WHEAT),
         0xD5DA45, 0x404A10, FLORA, LIGHTNING).setDropRate(blockDropRate));
@@ -138,7 +138,8 @@ public class ItemSoulGem extends ItemSL {
     registerEntitySoul(EntityEnderman.class, new Soul("Enderman", LIGHTNING, ALIEN).setDropRate(rateHigh));
     registerEntitySoul(EntityEndermite.class, new Soul("Endermite", EARTH, ALIEN).setDropRate(rateHigh));
     registerEntitySoul(EntityShulker.class, new Soul("Shulker", WATER, ALIEN).setDropRate(2 * rateHigh));
-    registerEntitySoul(EntityEnderSlime.class, new Soul("EnderSlime", FIRE, ALIEN).setDropRate(rateHigh));
+    registerEntitySoul(EntityEnderSlime.class, new Soul("EnderSlime", 0x003333, 0xAA00AA, FIRE, ALIEN)
+        .setDropRate(rateHigh));
 
     registerEntitySoul(EntityPig.class, new Soul("Pig", FAUNA, EARTH));
     registerEntitySoul(EntitySheep.class, new Soul("Sheep", FAUNA, WIND));
