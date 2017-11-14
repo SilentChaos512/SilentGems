@@ -82,7 +82,10 @@ public class Skulls {
 
   public static float getDropRate(Class<? extends EntityLivingBase> entityClass) {
 
-    return map.get(entityClass).dropRate;
+    SkullInfo skullInfo = map.get(entityClass);
+    if (skullInfo == null)
+      return 0f;
+    return skullInfo.dropRate;
   }
 
   public static void put(Class<? extends EntityLivingBase> entityClass, ItemStack skull,
