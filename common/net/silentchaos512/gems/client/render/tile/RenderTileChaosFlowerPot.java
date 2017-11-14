@@ -30,12 +30,12 @@ public class RenderTileChaosFlowerPot extends TileEntitySpecialRendererSL<TileCh
     Tessellator tess = Tessellator.getInstance();
     BufferBuilderSL buff = BufferBuilderSL.INSTANCE.acquireBuffer(tess);
 
-    ItemStack stack = te.getFlowerItemStack();
-    if (StackHelper.isEmpty(stack) || stack.getItemDamage() < 0 || stack.getItemDamage() >= TEXTURES.length) {
+    int flowerId = te.getFlowerId();
+    if (flowerId < 0 || flowerId >= TEXTURES.length) {
       return;
     }
 
-    Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURES[stack.getItemDamage()]);
+    Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURES[flowerId]);
 
     double x1 = x + F;
     double x2 = x + 1 - F;

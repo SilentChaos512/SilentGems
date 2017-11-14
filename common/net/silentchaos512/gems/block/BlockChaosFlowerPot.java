@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.block;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -17,11 +18,12 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
@@ -32,8 +34,9 @@ import net.silentchaos512.gems.tile.TileChaosFlowerPot;
 import net.silentchaos512.lib.block.BlockSL;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
+import net.silentchaos512.wit.api.IWitHudInfo;
 
-public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider {
+public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider, IWitHudInfo {
 
   public static final AxisAlignedBB FLOWER_POT_AABB = new AxisAlignedBB(0.3125, 0.0, 0.3125, 0.6875,
       0.375, 0.6875);
@@ -156,30 +159,15 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
     }
   }
 
-  public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state,
-      EntityPlayer player) {
-
-    super.onBlockHarvested(worldIn, pos, state, player);
-
-    if (player.capabilities.isCreativeMode) {
-      TileChaosFlowerPot tileentityflowerpot = this.getTileEntity(worldIn, pos);
-
-//      if (tileentityflowerpot != null) {
-//        tileentityflowerpot.setFlowerItemStack(ItemStack.EMPTY);
-//      }
-    }
-  }
-
   @Override
-  public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state,
-      int fortune) {
+  public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos,
+      IBlockState state, int fortune) {
 
-    List<ItemStack> ret = super.getDrops(world, pos, state, fortune);
+    super.getDrops(drops, world, pos, state, fortune);
     TileChaosFlowerPot te = getTileEntity(world, pos);
     if (te != null && StackHelper.isValid(te.getFlowerItemStack())) {
-      ret.add(te.getFlowerItemStack());
+      drops.add(te.getFlowerItemStack());
     }
-    return ret;
   }
 
   @Override
@@ -203,5 +191,21 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider 
   public TileEntity createNewTileEntity(World worldIn, int meta) {
 
     return new TileChaosFlowerPot();
+  }
+
+  @Override
+  public List<String> getWitLines(IBlockState state, BlockPos pos, EntityPlayer player,
+      boolean advanced) {
+
+    List<String> list = new ArrayList<>();
+    TileEntity te = player.world.getTileEntity(pos);
+    if (te != null && te instanceof TileChaosFlowerPot) {
+      int flowerId = ((TileChaosFlowerPot) te).getFlowerId();
+      if (flowerId >= 0 && flowerId < 16) {
+        String key = "tile.silentgems:GlowRose" + flowerId + ".name";
+        list.add(TextFormatting.GRAY + SilentGems.localizationHelper.getLocalizedString(key));
+      }
+    }
+    return list;
   }
 }

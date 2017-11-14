@@ -13,7 +13,7 @@ import net.silentchaos512.gems.init.ModBlocks;
 
 public class TilePhantomLight extends TileEntity implements ITickable {
 
-  public static final int SPAWNER_CHECK_FREQUENCY = 600; // 1200?
+  public static final int SPAWNER_CHECK_FREQUENCY = 1200;
 
   BlockPos spawnerPos = null;
   boolean playerPlaced = false;
@@ -24,10 +24,6 @@ public class TilePhantomLight extends TileEntity implements ITickable {
 
     if (!world.isRemote && ++ticksExisted % SPAWNER_CHECK_FREQUENCY == 0) {
       if (!checkSpawnerStillExists()) {
-        String line = "REMOVED: Phantom light at %s. Spawner at %s.";
-        line = String.format(line, this.pos, spawnerPos);
-        SilentGems.instance.logHelper.info(line);
-
         world.setBlockToAir(this.pos);
       }
     }

@@ -6,9 +6,6 @@ import javax.annotation.Nonnull;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
@@ -19,6 +16,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.EnumModParticles;
+import net.silentchaos512.lib.tile.SyncVariable;
 import net.silentchaos512.lib.tile.TileInventorySL;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.StackHelper;
@@ -30,14 +28,17 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
   public static final int TE_SEARCH_RADIUS = 7;
 
   int ticksExisted = 0;
+  /** Used for rendering (see RenderTileChaosFlowerPot). */
+  @SyncVariable(name = "flower")
+  int flowerId = -1;
 
   @Override
   public void update() {
 
     if (ticksExisted == 0) {
-      // Quick fix for not syncing on world load
-      IBlockState state = world.getBlockState(pos);
-      world.notifyBlockUpdate(pos, state, state, 3);
+      ItemStack stack = getFlowerItemStack();
+      if (StackHelper.isValid(stack))
+        flowerId = stack.getItemDamage();
 
       // Add a random "salt" value to ticksExisted, so all flower pots don't
       // try to place lights at the same time.
@@ -163,6 +164,11 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
     }
   }
 
+  public int getFlowerId() {
+
+    return flowerId;
+  }
+
   public @Nonnull ItemStack getFlowerItemStack() {
 
     return getStackInSlot(0);
@@ -171,6 +177,7 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
   public void setFlowerItemStack(@Nonnull ItemStack stack) {
 
     setInventorySlotContents(0, stack);
+    flowerId = stack.getItemDamage();
     ticksExisted = 0;
   }
 
@@ -184,34 +191,5 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
   public String getName() {
 
     return "ChaosFlowerPot";
-  }
-
-  @Override
-  public SPacketUpdateTileEntity getUpdatePacket() {
-
-    return new SPacketUpdateTileEntity(pos, getBlockMetadata(), getUpdateTag());
-  }
-
-  @Override
-  public NBTTagCompound getUpdateTag() {
-
-    NBTTagCompound tags = new NBTTagCompound();
-    ItemStack flower = getFlowerItemStack();
-    if (StackHelper.isValid(flower))
-      tags.setTag("flower", flower.writeToNBT(new NBTTagCompound()));
-
-    return tags;
-  }
-
-  @Override
-  public final void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-
-    super.onDataPacket(net, pkt);
-    NBTTagCompound tags = pkt.getNbtCompound();
-
-    if (tags.hasKey("flower"))
-      setFlowerItemStack(StackHelper.loadFromNBT(tags.getCompoundTag("flower")));
-    else
-      setFlowerItemStack(StackHelper.empty());
   }
 }
