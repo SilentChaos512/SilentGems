@@ -873,6 +873,9 @@ public class ToolHelper {
     }
     // Rod
     part = ToolPartRegistry.fromStack(rod);
+    if (part == null) {
+      return StackHelper.empty();
+    }
     setTagPart(result, ToolPartPosition.ROD.getKey(0), part, EnumMaterialGrade.NONE);
 
     // Create name
