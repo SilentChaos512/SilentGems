@@ -68,6 +68,11 @@ public class SoulManager {
     return soul;
   }
 
+  public static @Nullable ToolSoul getSoulByUuid(UUID uuid) {
+
+    return map.get(uuid);
+  }
+
   public static void setSoul(ItemStack tool, ToolSoul soul, boolean randomizeUuid) {
 
     ToolHelper.initRootTag(tool);
@@ -135,7 +140,7 @@ public class SoulManager {
         // NOTE: event.getAmount() is before armor and potions are applied!
         // Should we consider that somehow?
         float damageAmount = Math.min(event.getAmount(), hurt.getMaxHealth());
-        int xp = (int) (ToolSoul.XP_FACTOR_KILLS * damageAmount);
+        int xp = Math.round(ToolSoul.XP_FACTOR_KILLS * damageAmount);
         // SilentGems.logHelper.debug(damageAmount, xp);
         xp = MathHelper.clamp(xp, 1, 1000);
         toolSoul.addXp(xp, mainHand, player);

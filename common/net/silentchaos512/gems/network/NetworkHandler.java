@@ -8,6 +8,7 @@ import net.silentchaos512.gems.network.message.MessageDataSync;
 import net.silentchaos512.gems.network.message.MessageItemRename;
 import net.silentchaos512.gems.network.message.MessageKeyReturnHome;
 import net.silentchaos512.gems.network.message.MessageSetFlight;
+import net.silentchaos512.gems.network.message.MessageSoulSync;
 import net.silentchaos512.gems.network.message.MessageToggleChaosGem;
 import net.silentchaos512.gems.network.message.MessageToggleSpecial;
 import net.silentchaos512.gems.network.message.MessageTransferParticles;
@@ -28,6 +29,7 @@ public class NetworkHandler {
     register(MessageToggleChaosGem.class, Side.SERVER);
     register(MessageKeyReturnHome.class, Side.SERVER);
     register(MessageTransferParticles.class, Side.CLIENT);
+    register(MessageSoulSync.class, Side.CLIENT);
   }
 
   private static void register(Class clazz, Side handlerSide) {

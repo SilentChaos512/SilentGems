@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
@@ -418,7 +420,7 @@ public class SoulSkill {
     // return this == ANTIVENOM || this == SLOW_FALL;
   }
 
-  public static SoulSkill getById(String id) {
+  public static @Nullable SoulSkill getById(String id) {
 
     return SKILL_LIST.get(id);
   }

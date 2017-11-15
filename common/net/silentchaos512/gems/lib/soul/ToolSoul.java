@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.Nullable;
@@ -15,6 +16,7 @@ import org.lwjgl.input.Keyboard;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -31,6 +33,8 @@ import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.item.ItemSoulGem;
 import net.silentchaos512.gems.item.ItemToolSoul;
 import net.silentchaos512.gems.lib.TooltipHelper;
+import net.silentchaos512.gems.network.NetworkHandler;
+import net.silentchaos512.gems.network.message.MessageSoulSync;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.ChatHelper;
@@ -78,14 +82,28 @@ public class ToolSoul {
   public void addXp(int amount, ItemStack tool, EntityPlayer player) {
 
     xp += amount;
+    SoulSkill skillLearned = null;
     if (xp >= getXpToNextLevel()) {
-      levelUp(tool, player);
+      skillLearned = levelUp(tool, player);
     }
+
+    sendUpdatePacket(tool, player, skillLearned);
   }
 
   public int getXp() {
 
     return xp;
+  }
+
+  /**
+   * Directly sets the XP amount. This DOES NOT check for level ups! It is meant to be used only by MessageSoulSync.
+   * 
+   * @param packetAmount
+   *          The amount to assign to xp.
+   */
+  public void setXp(int packetAmount) {
+
+    this.xp = packetAmount;
   }
 
   public int getXpToNextLevel() {
@@ -101,6 +119,17 @@ public class ToolSoul {
   public int getLevel() {
 
     return level;
+  }
+
+  /**
+   * Directly sets the level. This SHOULD NOT be used in most cases! It is meant to be used only by MessageSoulSync.
+   * 
+   * @param packetAmount
+   *          The amount to assign to level.
+   */
+  public void setLevel(int packetAmount) {
+
+    this.level = packetAmount;
   }
 
   public String getName(ItemStack tool) {
@@ -124,7 +153,7 @@ public class ToolSoul {
     return !name.isEmpty();
   }
 
-  protected void levelUp(ItemStack tool, EntityPlayer player) {
+  protected @Nullable SoulSkill levelUp(ItemStack tool, EntityPlayer player) {
 
     ++level;
     String line = String.format(
@@ -145,6 +174,8 @@ public class ToolSoul {
 
     // Save soul to NBT
     SoulManager.setSoul(tool, this, false);
+
+    return toLearn;
   }
 
   public static int getXpForBlockHarvest(World world, BlockPos pos, IBlockState state) {
@@ -170,6 +201,17 @@ public class ToolSoul {
     actionPoints = MathHelper.clamp(actionPoints + amount, 0, getMaxActionPoints());
   }
 
+  /**
+   * Directly sets the amount of AP. This SHOULD NOT be used in most cases! It is meant to be used only by MessageSoulSync.
+   * 
+   * @param packetAmount
+   *          The amount to assign to level.
+   */
+  public void setActionPoints(int packetAmount) {
+
+    this.actionPoints = packetAmount;
+  }
+
   public int getMaxActionPoints() {
 
     return AP_START + AP_PER_LEVEL * (level - 1);
@@ -193,7 +235,11 @@ public class ToolSoul {
   // = Skills =
   // ==========
 
-  public boolean addOrLevelSkill(SoulSkill skill, ItemStack tool, EntityPlayer player) {
+  public boolean addOrLevelSkill(SoulSkill skill, ItemStack tool, @Nullable EntityPlayer player) {
+
+    if (skill == null) {
+      return false;
+    }
 
     LocalizationHelper loc = SilentGems.localizationHelper;
     if (skills.containsKey(skill)) {
@@ -471,12 +517,15 @@ public class ToolSoul {
     // regenDelay /= 5;
     // }
 
+    boolean sendUpdate = false;
+
     if (!player.world.isRemote) {
       ++ticksExisted;
       // Regen action points
       int regenDelay = AP_REGEN_DELAY;
       if ((ticksExisted + apRegenSalt) % regenDelay == 0) {
         addActionPoints(1);
+        sendUpdate = true;
       }
 
       if (coffeeCooldown > 0) {
@@ -504,6 +553,9 @@ public class ToolSoul {
       }
     }
 
+    if (sendUpdate) {
+      sendUpdatePacket(tool, player, null);
+    }
   }
 
   public boolean activateSkillsOnBlock(ItemStack tool, EntityPlayer player, World world,
@@ -588,5 +640,15 @@ public class ToolSoul {
 
     return "ToolSoul{" + "Level: " + level + ", XP: " + xp + ", Elements: {" + element1.name()
         + ", " + element2.name() + "}" + "}";
+  }
+
+  protected void sendUpdatePacket(ItemStack tool, EntityPlayer player, SoulSkill skillLearned) {
+
+    // Server side: send update packet to player.
+    if (!player.world.isRemote) {
+      UUID uuid = ToolHelper.getSoulUUID(tool);
+      MessageSoulSync message = new MessageSoulSync(uuid, xp, level, actionPoints, skillLearned);
+      NetworkHandler.INSTANCE.sendTo(message, (EntityPlayerMP) player);
+    }
   }
 }
