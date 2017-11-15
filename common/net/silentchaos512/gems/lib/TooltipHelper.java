@@ -17,7 +17,7 @@ public class TooltipHelper {
   public static String getAsColoredPercentage(String key, float value, int whitePercentage,
       boolean addPlus) {
 
-    int percent = (int) (value * 100);
+    int percent = Math.round(value * 100);
     TextFormatting color = percent > whitePercentage ? TextFormatting.GREEN
         : percent < whitePercentage ? TextFormatting.RED : TextFormatting.WHITE;
     return SilentGems.localizationHelper.getMiscText("Tooltip." + key,
@@ -26,7 +26,7 @@ public class TooltipHelper {
 
   public static String numberToPercent(float value, int whitePercentage, boolean addPlus) {
 
-    int percent = (int) (value * 100);
+    int percent = Math.round(value * 100);
     TextFormatting color = percent > whitePercentage ? TextFormatting.GREEN
         : percent < whitePercentage ? TextFormatting.RED : TextFormatting.WHITE;
     return color + (addPlus && percent > 0 ? "+" : "") + percent + "%";

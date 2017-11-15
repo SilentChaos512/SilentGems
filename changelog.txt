@@ -2,10 +2,13 @@ Silent's Gems - Changelog
 
 2.6.1 and 2.5.11
 Dual release, I guess? We have 2.5.11 for those who prefer release builds, and 2.6.1 for the alpha users. The only difference is that all recipes related to tool souls are removed in 2.5.11.
+Added (2.6.1): The Aquatic and Aerial soul skills have additional effects. Check manual for details.
+Changed (2.6.1): Made soul XP curve a little steeper.
 Fixed: Chaos flower pot not rendering glow rose after world reload (#187)
 Fixed: Recipes that use flint (upgrade base, mundane lattice) not working. Apparently I dreamed up that ore dictionary key? (#230)
 Fixed: Holding Gems and Torch Bandoliers "working" with Unbreaking and Mending (#233)
 Fixed (2.5.11 & 2.6.0+): Not being able to apply tip upgrades (#235)
+Fixed (2.5.11 & 2.6.0+): Machete magic not working on servers.
 Fixed (2.6.1): Tool souls not syncing data properly when playing on a server.
 
 2.6.0

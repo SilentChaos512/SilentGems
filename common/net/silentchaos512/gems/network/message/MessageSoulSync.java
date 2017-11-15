@@ -2,6 +2,7 @@ package net.silentchaos512.gems.network.message;
 
 import java.util.UUID;
 
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
@@ -21,6 +22,7 @@ public class MessageSoulSync extends Message {
   public int level;
   public int ap;
   public String skillLearned;
+  public int skillLevel;
 
   public MessageSoulSync() {
 
@@ -36,7 +38,8 @@ public class MessageSoulSync extends Message {
    * @param skillLearned
    *          The skill learned when a level up occurred, or null otherwise.
    */
-  public MessageSoulSync(UUID uuid, int xp, int level, int ap, SoulSkill skillLearned) {
+  public MessageSoulSync(UUID uuid, int xp, int level, int ap, SoulSkill skillLearned,
+      int skillLevel) {
 
     this.uuidMost = uuid.getMostSignificantBits();
     this.uuidLeast = uuid.getLeastSignificantBits();
@@ -44,6 +47,7 @@ public class MessageSoulSync extends Message {
     this.level = level;
     this.ap = ap;
     this.skillLearned = skillLearned == null ? "" : skillLearned.id;
+    this.skillLevel = skillLevel;
   }
 
   @Override
@@ -59,7 +63,8 @@ public class MessageSoulSync extends Message {
         soul.setActionPoints(ap);
         if (skillLearned != null && !skillLearned.isEmpty()) {
           SoulSkill skill = SoulSkill.getById(skillLearned);
-          soul.addOrLevelSkill(skill, StackHelper.empty(), null);
+          soul.setSkillLevel(skill, skillLevel, StackHelper.empty(),
+              Minecraft.getMinecraft().player);
         }
       }
     });

@@ -27,6 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.tool.ToolStats;
@@ -53,7 +54,7 @@ public class ToolSoul {
   public static final int AP_REGEN_DELAY = 120;
 
   static final int BASE_XP = 20;
-  static final float XP_CURVE_FACTOR = 2.4f;
+  static final float XP_CURVE_FACTOR = 2.5f;
 
   String name = "";
 
@@ -87,7 +88,8 @@ public class ToolSoul {
       skillLearned = levelUp(tool, player);
     }
 
-    sendUpdatePacket(tool, player, skillLearned);
+    Integer skillLevel = getSkillLevel(skillLearned);
+    sendUpdatePacket(tool, player, skillLearned, skillLevel);
   }
 
   public int getXp() {
@@ -155,6 +157,9 @@ public class ToolSoul {
 
   protected @Nullable SoulSkill levelUp(ItemStack tool, EntityPlayer player) {
 
+    if (player == null || player.world.isRemote)
+      return null;
+
     ++level;
     String line = String.format(
         SilentGems.localizationHelper.getMiscText("ToolSoul.levelUp", getName(tool), level));
@@ -167,6 +172,7 @@ public class ToolSoul {
     // Learn new skill?
     SoulSkill toLearn = SoulSkill.selectSkillToLearn(this, tool);
     if (toLearn != null) {
+      SilentGems.logHelper.debug(player.world.isRemote);
       addOrLevelSkill(toLearn, tool, player);
     }
 
@@ -202,7 +208,8 @@ public class ToolSoul {
   }
 
   /**
-   * Directly sets the amount of AP. This SHOULD NOT be used in most cases! It is meant to be used only by MessageSoulSync.
+   * Directly sets the amount of AP. This SHOULD NOT be used in most cases! It is meant to be used only by
+   * MessageSoulSync.
    * 
    * @param packetAmount
    *          The amount to assign to level.
@@ -235,7 +242,7 @@ public class ToolSoul {
   // = Skills =
   // ==========
 
-  public boolean addOrLevelSkill(SoulSkill skill, ItemStack tool, @Nullable EntityPlayer player) {
+  public boolean addOrLevelSkill(SoulSkill skill, ItemStack tool, EntityPlayer player) {
 
     if (skill == null) {
       return false;
@@ -270,11 +277,38 @@ public class ToolSoul {
     }
   }
 
+  public void setSkillLevel(SoulSkill skill, int skillLevel, ItemStack tool, EntityPlayer player) {
+
+    if (skill == null) {
+      return;
+    }
+
+    if (skillLevel <= 0) {
+      skills.remove(skill);
+    }
+
+    skills.put(skill, skillLevel > skill.maxLevel ? skill.maxLevel : skillLevel);
+  }
+
+  /**
+   * Determine if the soul has learned any level of this skill.
+   * 
+   * @param skill
+   *          The skill to check.
+   * @return True if any level has been learned, false otherwise.
+   */
   public boolean hasSkill(SoulSkill skill) {
 
     return skills.containsKey(skill);
   }
 
+  /**
+   * Determine the level of the skill learned.
+   * 
+   * @param skill
+   *          The skill to check.
+   * @return The level of the skill that has been learned, or 0 if the skill has not been learned.
+   */
   public int getSkillLevel(SoulSkill skill) {
 
     if (!hasSkill(skill))
@@ -554,7 +588,7 @@ public class ToolSoul {
     }
 
     if (sendUpdate) {
-      sendUpdatePacket(tool, player, null);
+      sendUpdatePacket(tool, player, null, 0);
     }
   }
 
@@ -642,12 +676,14 @@ public class ToolSoul {
         + ", " + element2.name() + "}" + "}";
   }
 
-  protected void sendUpdatePacket(ItemStack tool, EntityPlayer player, SoulSkill skillLearned) {
+  protected void sendUpdatePacket(ItemStack tool, EntityPlayer player, SoulSkill skillLearned,
+      int skillLevel) {
 
     // Server side: send update packet to player.
     if (!player.world.isRemote) {
       UUID uuid = ToolHelper.getSoulUUID(tool);
-      MessageSoulSync message = new MessageSoulSync(uuid, xp, level, actionPoints, skillLearned);
+      MessageSoulSync message = new MessageSoulSync(uuid, xp, level, actionPoints, skillLearned,
+          skillLevel);
       NetworkHandler.INSTANCE.sendTo(message, (EntityPlayerMP) player);
     }
   }

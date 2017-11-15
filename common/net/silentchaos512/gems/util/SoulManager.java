@@ -10,8 +10,11 @@ import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -19,7 +22,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.init.ModEnchantments;
@@ -167,6 +172,59 @@ public class SoulManager {
         event.setNewSpeed(event.getNewSpeed() * (5f / (SoulSkill.AQUATIC.maxLevel - aquatic + 1)));
       else if (aerial > 0 && (!player.onGround || player.capabilities.isFlying))
         event.setNewSpeed(event.getNewSpeed() * (5f / SoulSkill.AERIAL.maxLevel - aerial + 1));
+    }
+  }
+
+  @SubscribeEvent
+  public void onPlayerDamage(LivingHurtEvent event) {
+
+    // Player took fall damage?
+    if (event.getSource() == DamageSource.FALL && event.getEntityLiving() instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+      ItemStack mainHand = player.getHeldItemMainhand();
+      ItemStack offHand = player.getHeldItemOffhand();
+      ToolSoul soulMain = getSoul(mainHand);
+      ToolSoul soulOff = getSoul(offHand);
+
+      // Get highest level of Aerial on either main or off hand.
+      int levelMain = soulMain == null ? 0 : soulMain.getSkillLevel(SoulSkill.AERIAL);
+      int levelOff = soulOff == null ? 0 : soulOff.getSkillLevel(SoulSkill.AERIAL);
+      ToolSoul soulToDrain = levelMain > levelOff ? soulMain : soulOff;
+      int aerialLevel = Math.max(levelMain, levelOff);
+
+      if (aerialLevel > 0) {
+        float amountToReduce = Math.max(2 + 2 * aerialLevel,
+            0.15f * aerialLevel * event.getAmount());
+        event.setAmount(event.getAmount() - amountToReduce);
+        soulToDrain.addActionPoints(-SoulSkill.AERIAL.apCost);
+      }
+    }
+  }
+
+  @SubscribeEvent
+  public void onPlayerTick(PlayerTickEvent event) {
+
+    // Max air is 300, so 30 per bubble
+    if (!event.player.world.isRemote && event.player.getAir() < 5) {
+      EntityPlayer player = event.player;
+      ItemStack mainHand = player.getHeldItemMainhand();
+      ItemStack offHand = player.getHeldItemOffhand();
+      ToolSoul soulMain = getSoul(mainHand);
+      ToolSoul soulOff = getSoul(offHand);
+
+      // Get highest level of Aquatic on either main or off hand.
+      int levelMain = soulMain == null ? 0 : soulMain.getSkillLevel(SoulSkill.AQUATIC);
+      int levelOff = soulOff == null ? 0 : soulOff.getSkillLevel(SoulSkill.AQUATIC);
+      ToolSoul soulToDrain = levelMain > levelOff ? soulMain : soulOff;
+      int aquaticLevel = Math.max(levelMain, levelOff);
+
+      if (aquaticLevel > 0) {
+        int amountToRestore = 60 * aquaticLevel;
+        player.setAir(player.getAir() + amountToRestore);
+        player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_HURT_DROWN,
+            SoundCategory.PLAYERS, 1f, 1f);
+        soulToDrain.addActionPoints(-SoulSkill.AQUATIC.apCost);
+      }
     }
   }
 }

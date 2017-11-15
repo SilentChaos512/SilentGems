@@ -101,8 +101,8 @@ public class SoulSkill {
 //        .setFavorWeightMulti(0.25f);
     MENDING = new SoulSkill("mending", 5, 5, 11, -2.0f, FLORA, ALIEN)
         .setFavorWeightMulti(0.75);
-    AQUATIC = new SoulSkill("aquatic", 4, 0, 9, -3.0f, WATER);
-    AERIAL = new SoulSkill("aerial", 4, 0, 9, -3.0f, WIND);
+    AQUATIC = new SoulSkill("aquatic", 5, 5, 9, -3.0f, WATER);
+    AERIAL = new SoulSkill("aerial", 5, 5, 9, -3.0f, WIND);
     //@formatter:on
   }
 
