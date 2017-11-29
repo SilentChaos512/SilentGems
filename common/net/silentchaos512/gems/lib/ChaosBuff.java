@@ -122,8 +122,8 @@ public class ChaosBuff {
     BLINDNESS       = new ChaosBuff(prefix + "blindness",       3,  -3,   5, dur, MobEffects.BLINDNESS);
     HUNGER          = new ChaosBuff(prefix + "hunger",          3,  -2,   5, dur, MobEffects.HUNGER);
     WEAKNESS        = new ChaosBuff(prefix + "weakness",        3,  -2,   5, dur, MobEffects.WEAKNESS);
-    POISON          = new ChaosBuff(prefix + "poison",          3,  -2,   5, dur, MobEffects.POISON);
-    WITHER          = new ChaosBuff(prefix + "wither",          2,  -3,   5, dur, MobEffects.WITHER);
+    POISON          = new ChaosBuff(prefix + "poison",          3,  -2,   5,  90, MobEffects.POISON);
+    WITHER          = new ChaosBuff(prefix + "wither",          2,  -3,   5,  80, MobEffects.WITHER);
 
     if (Loader.isModLoaded("toughasnails")) {
       Potion coldResist = Potion.getPotionFromResourceLocation("toughasnails:cold_resistance");
@@ -151,8 +151,10 @@ public class ChaosBuff {
   }
 
   // Save reference to these potion effects, because heat/cold resistance remove them.
-  static final Potion hyperthermia = Potion.getPotionFromResourceLocation("toughasnails:hyperthermia");
-  static final Potion hypothermia = Potion.getPotionFromResourceLocation("toughasnails:hypothermia");
+  static final Potion hyperthermia = Potion
+      .getPotionFromResourceLocation("toughasnails:hyperthermia");
+  static final Potion hypothermia = Potion
+      .getPotionFromResourceLocation("toughasnails:hypothermia");
 
   public void applyToPlayer(EntityPlayer player, int level, ItemStack stack) {
 
@@ -234,21 +236,22 @@ public class ChaosBuff {
   }
 
   /**
-   * @return The duration to apply for this effect. In most cases, this is just applyDuration, but regeneration has some
+   * @return The duration to apply for this effect. In most cases, this is just applyDuration, but some effects have
    *         special requirements.
    */
   public int getApplyDuration(EntityPlayer player, int level) {
 
-    if (this.key.equals(REGENERATION.key)) {
+    if (this == REGENERATION || this == POISON || this == WITHER) {
       // Should apply every 2 seconds for regen I, every second for regen II.
       // Regen resets its timer when reapplied, so it won't work if applied too often.
+      // Version 2.6.3: Modified a bit to handle poison and wither as well.
       boolean shouldApply = false;
 
-      PotionEffect activeRegen = player.getActivePotionEffect(MobEffects.REGENERATION);
-      if (activeRegen == null) {
+      PotionEffect activeEffect = player.getActivePotionEffect(this.potion);
+      if (activeEffect == null) {
         shouldApply = true;
       } else {
-        int remainingTime = activeRegen.getDuration();
+        int remainingTime = activeEffect.getDuration();
         int healTime = level == 2 ? 20 : 40;
         if (remainingTime + healTime <= applyDuration)
           shouldApply = true;

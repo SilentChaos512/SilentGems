@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.6.3
+Fixed: Poison and Wither runes not damaging the player (#246)
 Fixed (probably): Crash when extracting blocks from holding gems (#252)
 
 2.6.2
