@@ -37,6 +37,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.client.gui.ModelGemArmor;
 import net.silentchaos512.gems.client.key.KeyTracker;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -166,6 +167,13 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
       return;
     }
 
+    if (entity instanceof EntityPlayer) {
+      ToolSoul soul = SoulManager.getSoul(stack);
+      if (soul != null) {
+        soul.addXp((int) (ToolSoul.XP_FACTOR_ARMOR_DAMAGED * damage), stack, (EntityPlayer) entity);
+      }
+    }
+
     // int amount = damage - (int) (getToughness(stack) * SilentGems.random.nextFloat());
     // int durabilityLeft = stack.getMaxDamage() - stack.getItemDamage();
     // amount = amount < 0 ? 0 : (amount > durabilityLeft ? durabilityLeft : amount);
@@ -250,9 +258,17 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
     String line;
 
     // UUID
-    if (SilentGems.instance.isDevBuild() || (controlDown && shiftDown)) {
+    if (GemsConfig.DEBUG_MODE && controlDown && shiftDown) {
       UUID uuid = ToolHelper.hasUUID(stack) ? ToolHelper.getUUID(stack) : null;
       list.add(uuid == null ? "No UUID" : uuid.toString());
+      uuid = ToolHelper.getSoulUUID(stack);
+      list.add(uuid == null ? "No Soul UUID" : uuid.toString());
+    }
+
+    // Tool Soul
+    ToolSoul soul = SoulManager.getSoul(stack);
+    if (soul != null) {
+      soul.addInformation(stack, world, list, advanced);
     }
 
     // Show original owner?
@@ -278,7 +294,6 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
     final String sep = loc.getMiscText("Tooltip.Separator");
 
     if (controlDown) {
-      ToolSoul soul = SoulManager.getSoul(stack);
       // Properties header
       list.add(loc.getMiscText("Tooltip.Properties"));
 

@@ -21,6 +21,8 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
+import net.silentchaos512.gems.lib.soul.ToolSoul;
+import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.ChatHelper;
 
@@ -75,7 +77,8 @@ public class SkillAreaMiner extends ToolSkillDigger {
     if (data.chaos >= cost) {
       data.drainChaos(cost);
     } else {
-      String msg = SilentGems.localizationHelper.getLocalizedString("skill", "all.insufficientChaos");
+      String msg = SilentGems.localizationHelper.getLocalizedString("skill",
+          "all.insufficientChaos");
       ChatHelper.sendStatusMessage(player, msg, true);
       return false;
     }
@@ -199,8 +202,14 @@ public class SkillAreaMiner extends ToolSkillDigger {
 
     tool.onBlockDestroyed(world, state, pos, player);
 
+    // Add soul XP
+    ToolSoul soul = SoulManager.getSoul(tool);
+    if (soul != null) {
+      SoulManager.addSoulXp(soul.getXpForBlockHarvest(world, pos, state), tool, player);
+    }
+
     if (!world.isRemote) {
-//      block.onBlockHarvested(world, pos, state, player);
+      // block.onBlockHarvested(world, pos, state, player);
 
       if (block.removedByPlayer(state, world, pos, player, true)) {
         block.onBlockDestroyedByPlayer(world, pos, state);

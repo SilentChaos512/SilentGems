@@ -38,8 +38,10 @@ import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.skills.SkillAreaTill;
 import net.silentchaos512.gems.skills.ToolSkill;
+import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
@@ -132,9 +134,14 @@ public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
     // Sound, XP, damage, stats
     if (tilledCount > 0) {
       world.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1f, 1f);
-      // ToolHelper.addSoulXp((int) (ToolSoul.XP_FACTOR_TILLING * tilledCount), stack, player);
-      ToolHelper.incrementStatBlocksTilled(stack, tilledCount);
-      ToolHelper.attemptDamageTool(stack, tilledCount, player);
+      if (!world.isRemote) {
+        ToolSoul soul = SoulManager.getSoul(stack);
+        if (soul != null) {
+          soul.addXp((int) (ToolSoul.XP_FACTOR_TILLING * tilledCount), stack, player);
+        }
+        ToolHelper.incrementStatBlocksTilled(stack, tilledCount);
+        ToolHelper.attemptDamageTool(stack, tilledCount, player);
+      }
     }
 
     return EnumActionResult.SUCCESS;

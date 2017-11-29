@@ -2,6 +2,7 @@ package net.silentchaos512.gems.recipe;
 
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
+import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemToolSoul;
@@ -22,8 +23,8 @@ public class RecipeApplyToolSoul extends RecipeBaseSL {
 
     for (int i = 0; i < inv.getSizeInventory(); ++i) {
       ItemStack stack = inv.getStackInSlot(i);
-      // Found a tool?
-      if (stack.getItem() instanceof ITool) {
+      // Found a tool or armor piece?
+      if (stack.getItem() instanceof ITool || stack.getItem() instanceof IArmor) {
         if (StackHelper.isValid(tool)) {
           return StackHelper.empty();
         }

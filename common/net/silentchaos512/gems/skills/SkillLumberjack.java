@@ -1,5 +1,7 @@
 package net.silentchaos512.gems.skills;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -15,6 +17,8 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
+import net.silentchaos512.gems.lib.soul.ToolSoul;
+import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.ChatHelper;
 
@@ -78,13 +82,19 @@ public class SkillLumberjack extends ToolSkillDigger {
         if (data.chaos >= cost) {
           data.drainChaos(cost);
         } else {
-          String msg = SilentGems.localizationHelper.getLocalizedString("skill", "all.insufficientChaos");
+          String msg = SilentGems.localizationHelper.getLocalizedString("skill",
+              "all.insufficientChaos");
           ChatHelper.sendStatusMessage(player, msg, true);
           return false;
         }
 
-        int blocksBroken = breakTree(world, x, y, z, x, y, z, tool, state, player);
-        ToolHelper.incrementStatBlocksMined(tool, blocksBroken);
+        ToolSoul soul = SoulManager.getSoul(tool);
+        TreeBreakResult result = new TreeBreakResult();
+        result.soul = soul;
+
+        breakTree(result, world, x, y, z, x, y, z, tool, state, player);
+        ToolHelper.incrementStatBlocksMined(tool, result.blocksBroken);
+        soul.addXp(result.xpEarned, tool, player);
         return true;
       }
     }
@@ -122,10 +132,8 @@ public class SkillLumberjack extends ToolSkillDigger {
     return numLeaves > 3;
   }
 
-  private static int breakTree(World world, int x, int y, int z, int xStart, int yStart, int zStart,
-      ItemStack tool, IBlockState state, EntityPlayer player) {
-
-    int blocksBroken = 0;
+  private static void breakTree(TreeBreakResult result, World world, int x, int y, int z,
+      int xStart, int yStart, int zStart, ItemStack tool, IBlockState state, EntityPlayer player) {
 
     ItemGemAxe axe = (ItemGemAxe) tool.getItem();
     Block block = state.getBlock();
@@ -149,7 +157,8 @@ public class SkillLumberjack extends ToolSkillDigger {
             float localHardness = localBlock == null ? Float.MAX_VALUE
                 : localState.getBlockHardness(world, localPos);
 
-            if (harvestLevel <= axe.getHarvestLevel(tool, "axe", player, localState) && localHardness >= 0) {
+            if (harvestLevel <= axe.getHarvestLevel(tool, "axe", player, localState)
+                && localHardness >= 0) {
               boolean cancel = false;
 
               // Block break event
@@ -165,8 +174,8 @@ public class SkillLumberjack extends ToolSkillDigger {
 
               if (9 * xDist * xDist + yDist * yDist + 9 * zDist * zDist < 2500) {
                 if (cancel) {
-                  blocksBroken += breakTree(world, xPos, yPos, zPos, xStart, yStart, zStart, tool,
-                      state, player);
+                  breakTree(result, world, xPos, yPos, zPos, xStart, yStart, zStart, tool, state,
+                      player);
                 } else {
                   localMeta = localBlock.getMetaFromState(localState);
                   if (localBlock == block && localMeta % 4 == meta % 4) {
@@ -174,13 +183,14 @@ public class SkillLumberjack extends ToolSkillDigger {
                       localBlock.harvestBlock(world, player, pos, state, world.getTileEntity(pos),
                           tool);
                       axe.onBlockDestroyed(tool, world, localState, localPos, player);
-                      ++blocksBroken;
+                      ++result.blocksBroken;
+                      result.xpEarned += result.soul.getXpForBlockHarvest(world, localPos, localState);
                     }
 
                     world.setBlockToAir(localPos);
                     if (!world.isRemote) {
-                      blocksBroken += breakTree(world, xPos, yPos, zPos, xStart, yStart, zStart,
-                          tool, state, player);
+                      breakTree(result, world, xPos, yPos, zPos, xStart, yStart, zStart, tool,
+                          state, player);
                     }
                   }
                 }
@@ -190,13 +200,19 @@ public class SkillLumberjack extends ToolSkillDigger {
         }
       }
     }
-
-    return blocksBroken;
   }
 
   @Override
   public String getTranslatedName() {
 
     return SilentGems.instance.localizationHelper.getLocalizedString("skill", "Lumberjack");
+  }
+
+  static class TreeBreakResult {
+
+    int blocksBroken = 0;
+    int xpEarned = 0;
+    @Nullable
+    ToolSoul soul = null;
   }
 }

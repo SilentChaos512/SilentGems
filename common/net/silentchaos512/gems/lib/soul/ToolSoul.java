@@ -27,7 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.tool.ToolStats;
@@ -44,19 +44,21 @@ import net.silentchaos512.lib.util.StackHelper;
 
 public class ToolSoul {
 
-  public static final float XP_FACTOR_KILLS = 0.4f;
-  public static final float XP_FACTOR_TILLING = 2.0f;
+  public static final float XP_FACTOR_KILLS = 0.5f;
+  public static final float XP_FACTOR_TILLING = 4.0f;
   public static final float XP_FACTOR_BLOCK_MINED = 1.0f;
+  public static final float XP_FACTOR_ARMOR_DAMAGED = 3.0f;
   public static final int XP_MAX_PER_BLOCK = 20;
   public static final float XP_MIN_BLOCK_HARDNESS = 0.5f;
   public static final int AP_START = 50;
   public static final int AP_PER_LEVEL = 10;
   public static final int AP_REGEN_DELAY = 120;
 
-  static final int BASE_XP = 20;
-  static final float XP_CURVE_FACTOR = 2.5f;
+  static final int BASE_XP = 25;
+  static final float XP_CURVE_FACTOR = 2.0f;
 
   String name = "";
+  boolean readyToSave = false;
 
   // Experience and levels
   int xp = 0;
@@ -84,12 +86,17 @@ public class ToolSoul {
 
     xp += amount;
     SoulSkill skillLearned = null;
-    if (xp >= getXpToNextLevel()) {
+    boolean packetSent = false;
+    while (xp >= getXpToNextLevel()) {
       skillLearned = levelUp(tool, player);
+      Integer skillLevel = getSkillLevel(skillLearned);
+      sendUpdatePacket(tool, player, skillLearned, skillLevel);
+      packetSent = true;
     }
 
-    Integer skillLevel = getSkillLevel(skillLearned);
-    sendUpdatePacket(tool, player, skillLearned, skillLevel);
+    if (!packetSent) {
+      sendUpdatePacket(tool, player, null, 0);
+    }
   }
 
   public int getXp() {
@@ -180,17 +187,32 @@ public class ToolSoul {
 
     // Save soul to NBT
     SoulManager.setSoul(tool, this, false);
+    readyToSave = false;
 
     return toLearn;
   }
 
-  public static int getXpForBlockHarvest(World world, BlockPos pos, IBlockState state) {
+  public int getXpForBlockHarvest(World world, BlockPos pos, IBlockState state) {
 
     float hardness = state.getBlockHardness(world, pos);
     if (hardness < XP_MIN_BLOCK_HARDNESS) {
       return 0;
     }
-    return MathHelper.clamp(Math.round(XP_FACTOR_BLOCK_MINED * hardness), 1, XP_MAX_PER_BLOCK);
+
+    // Bonus XP for ores and wood
+    int oreBonus = 0;
+    ItemStack blockStack = new ItemStack(state.getBlock(), 1,
+        state.getBlock().getMetaFromState(state));
+    for (int oreId : OreDictionary.getOreIDs(blockStack)) {
+      String oreName = OreDictionary.getOreName(oreId);
+      if (oreName.startsWith("ore") || oreName.startsWith("log")) {
+        oreBonus = this.level;
+        break;
+      }
+    }
+
+    int clamp = MathHelper.clamp(Math.round(XP_FACTOR_BLOCK_MINED * hardness), 1, XP_MAX_PER_BLOCK);
+    return oreBonus + clamp;
   }
 
   // ======================
@@ -568,7 +590,8 @@ public class ToolSoul {
     }
 
     // Try to activate skills?
-    boolean isInHand = player.getHeldItemMainhand() == tool || player.getHeldItemOffhand() == tool;
+    boolean inMainHand = player.getHeldItemMainhand() == tool;
+    boolean isInHand = inMainHand || player.getHeldItemOffhand() == tool;
     boolean isArmor = tool.getItem() instanceof IArmor;
     int time = ticksExisted + skillActivateSalt;
 
@@ -587,9 +610,19 @@ public class ToolSoul {
       }
     }
 
+    if (readyToSave && !inMainHand) {
+      readyToSave = false;
+      SoulManager.setSoul(tool, this, false);
+    }
+
     if (sendUpdate) {
       sendUpdatePacket(tool, player, null, 0);
     }
+  }
+
+  public void setReadyToSave(boolean value) {
+
+    this.readyToSave = value;
   }
 
   public boolean activateSkillsOnBlock(ItemStack tool, EntityPlayer player, World world,

@@ -12,6 +12,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.init.ModRecipes;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.lib.item.ItemSL;
@@ -72,12 +73,15 @@ public class ItemToolSoul extends ItemSL {
   @Override
   public void addRecipes(RecipeMaker recipes) {
 
-    // FIXME? JEI only shows wheat souls?
-    NonNullList<ItemStack> listSouls = NonNullList.create();
-    ModItems.soulGem.getSubItems(ModItems.soulGem.getCreativeTab(), listSouls);
-    Ingredient ingSouls = Ingredient.fromStacks(listSouls.toArray(new ItemStack[listSouls.size()]));
+    if (ModRecipes.ADD_SOUL_RECIPES) {
+      // FIXME? JEI only shows wheat souls?
+      NonNullList<ItemStack> listSouls = NonNullList.create();
+      ModItems.soulGem.getSubItems(ModItems.soulGem.getCreativeTab(), listSouls);
+      Ingredient ingSouls = Ingredient
+          .fromStacks(listSouls.toArray(new ItemStack[listSouls.size()]));
 
-    recipe = recipes.addShaped("tool_soul", new ItemStack(this), " s ", "scs", " s ", 's', ingSouls,
-        'c', new ItemStack(Items.DIAMOND));
+      recipe = recipes.addShaped("tool_soul", new ItemStack(this), " s ", "scs", " s ", 's',
+          ingSouls, 'c', new ItemStack(Items.DIAMOND));
+    }
   }
 }

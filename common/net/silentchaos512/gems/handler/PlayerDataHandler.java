@@ -110,7 +110,7 @@ public class PlayerDataHandler {
 
         // Save tool souls
         if ((player.world.getTotalWorldTime() + SOUL_TICK_SALT) % SOUL_TICK_DELAY == 0) {
-          SoulManager.writeToolSoulsToNBT(player);
+          SoulManager.queueSoulsForWrite(player);
         }
       }
     }

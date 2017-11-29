@@ -674,8 +674,11 @@ public class ToolHelper {
     // XP for tool soul
     if (player != null && !player.world.isRemote) {
       IBlockState stateMined = player.world.getBlockState(pos);
-      SoulManager.addSoulXp(ToolSoul.getXpForBlockHarvest(player.world, pos, stateMined), stack,
-          player);
+      ToolSoul soul = SoulManager.getSoul(stack);
+      if (soul != null) {
+        int xpForBlockHarvest = soul.getXpForBlockHarvest(player.world, pos, stateMined);
+        SoulManager.addSoulXp(xpForBlockHarvest, stack, player);
+      }
     }
 
     // Mining achievements TODO: Uncomment
@@ -1070,7 +1073,8 @@ public class ToolHelper {
           }
           ItemStack rod = part.getTier() == EnumMaterialTier.SUPER ? rodGold
               : item instanceof ItemGemShield && part.getTier() == EnumMaterialTier.REGULAR
-                  ? rodIron : rodWood;
+                  ? rodIron
+                  : rodWood;
           ItemStack tool = constructTool(item, rod, part.getCraftingStack());
           tool.getTagCompound().setBoolean(NBT_EXAMPLE_TOOL, true);
           list.add(tool);

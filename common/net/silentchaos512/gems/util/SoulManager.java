@@ -24,7 +24,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.init.ModEnchantments;
@@ -95,6 +94,17 @@ public class SoulManager {
     if (soul != null && amount > 0) {
       int current = soul.getXp();
       soul.addXp(amount, tool, player);
+    }
+  }
+
+  public static void queueSoulsForWrite(EntityPlayer player) {
+
+    for (ItemStack tool : PlayerHelper.getNonEmptyStacks(player, true, true, true,
+        s -> s.getItem() instanceof ITool || s.getItem() instanceof IArmor)) {
+      ToolSoul soul = getSoul(tool);
+      if (soul != null) {
+        soul.setReadyToSave(true);
+      }
     }
   }
 
