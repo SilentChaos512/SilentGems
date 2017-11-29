@@ -25,6 +25,7 @@ import net.silentchaos512.gems.api.IBlockPlacer;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.util.ChatHelper;
+import net.silentchaos512.lib.util.EntityHelper;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
@@ -215,7 +216,7 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
       entity.motionX = vec.x;
       entity.motionY = vec.y;
       entity.motionZ = vec.z;
-      world.spawnEntity(entity);
+      EntityHelper.safeSpawn(entity);
     }
 
     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
