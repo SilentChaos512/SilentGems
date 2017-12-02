@@ -70,6 +70,7 @@ import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.soul.EnumSoulElement;
 import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
@@ -284,8 +285,15 @@ public class ItemSoulGem extends ItemSL {
     }
   }
 
+  @Override
+  public void addRecipes(RecipeMaker recipes) {
+
+    // TODO: Soul gems -> spawn eggs or seeds? Something like that?
+  }
+
   public static class Soul {
 
+    public final SoulType soulType;
     public final String id;
     public final int colorPrimary, colorSecondary;
     public final @Nonnull EnumSoulElement element1;
@@ -302,6 +310,7 @@ public class ItemSoulGem extends ItemSL {
       this.element1 = elements[0];
       this.element2 = elements.length > 1 ? elements[1] : EnumSoulElement.NONE;
       this.matchStack = StackHelper.empty();
+      this.soulType = SoulType.MOB;
     }
 
     public Soul(String entityId, EnumSoulElement... elements) {
@@ -322,6 +331,7 @@ public class ItemSoulGem extends ItemSL {
       this.element1 = elements[0];
       this.element2 = elements.length > 1 ? elements[1] : EnumSoulElement.NONE;
       this.matchStack = StackHelper.empty();
+      this.soulType = SoulType.MOB;
     }
 
     /**
@@ -336,6 +346,7 @@ public class ItemSoulGem extends ItemSL {
       this.element1 = elements[0];
       this.element2 = elements.length > 1 ? elements[1] : EnumSoulElement.NONE;
       this.matchStack = match;
+      this.soulType = SoulType.CROP;
     }
 
     public float getDropRate() {
@@ -373,5 +384,10 @@ public class ItemSoulGem extends ItemSL {
 
       return ModItems.soulGem.getStack(this);
     }
+  }
+
+  public static enum SoulType {
+
+    MOB, CROP, BLOCK;
   }
 }

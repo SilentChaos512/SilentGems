@@ -206,6 +206,8 @@ public class SoulSkill {
     // }
     // Mending
     else if (this == MENDING && soul.actionPoints > soul.getMaxActionPoints() / 2) {
+      if (tool.getItemDamage() == 0)
+        return false;
       if (random.nextFloat() < 0.2f) {
         int amount = 2 * (level + 1) + random.nextInt(4);
         player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_USE,

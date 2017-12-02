@@ -4,19 +4,19 @@ public enum EnumSoulElement {
 
   //@formatter:off
   //        WT    DUR     HRV     MEL     MAG     PRT
-  NONE(      1,  0.00f,  0.00f,  0.00f,  0.00f,  0.00f),
-  FIRE(     13,  0.00f,  0.00f, +0.15f,  0.00f, -0.05f),
-  WATER(    12,  0.00f,  0.00f, -0.05f, +0.15f,  0.00f),
-  EARTH(    11, +0.15f,  0.00f,  0.00f, -0.05f,  0.00f),
-  WIND(     10,  0.00f, +0.15f, -0.05f,  0.00f,  0.00f),
-  METAL(    18, +0.20f,  0.00f,  0.00f, -0.10f, +0.10f),
-  ICE(      17, -0.05f,  0.00f,  0.00f, +0.20f, -0.05f),
-  LIGHTNING(16, -0.05f, +0.10f, +0.10f, +0.05f, -0.10f),
-  VENOM(    15, +0.10f, -0.15f, +0.15f,  0.00f,  0.00f),
-  FLORA(     5, -0.05f,  0.00f, -0.10f, +0.10f,  0.00f),
-  FAUNA(     6,  0.00f,  0.00f, +0.10f, -0.10f, -0.05f),
-  MONSTER(   7, +0.10f, -0.05f,  0.00f, -0.10f,  0.00f),
-  ALIEN(     8,  0.00f, -0.10f,  0.00f, +0.15f, +0.05f);
+  NONE(      1,  0.00f,  0.00f,  0.00f,  0.00f,  0.00f, 0xFFFFFF),
+  FIRE(     13,  0.00f,  0.00f, +0.15f,  0.00f, -0.05f, 0xF48C42),
+  WATER(    12,  0.00f,  0.00f, -0.05f, +0.15f,  0.00f, 0x4189F4),
+  EARTH(    11, +0.15f,  0.00f,  0.00f, -0.05f,  0.00f, 0x1FC121),
+  WIND(     10,  0.00f, +0.15f, -0.05f,  0.00f,  0.00f, 0x83F7C1),
+  METAL(    18, +0.20f,  0.00f,  0.00f, -0.10f, +0.10f, 0xAAAAAA),
+  ICE(      17, -0.05f,  0.00f,  0.00f, +0.20f, -0.05f, 0x8EFFEC),
+  LIGHTNING(16, -0.05f, +0.10f, +0.10f, +0.05f, -0.10f, 0xFFFF47),
+  VENOM(    15, +0.10f, -0.15f, +0.15f,  0.00f,  0.00f, 0x83C14D),
+  FLORA(     5, -0.05f,  0.00f, -0.10f, +0.10f,  0.00f, 0x277C2F),
+  FAUNA(     6,  0.00f,  0.00f, +0.10f, -0.10f, -0.05f, 0xFFA3D7),
+  MONSTER(   7, +0.10f, -0.05f,  0.00f, -0.10f,  0.00f, 0x635538),
+  ALIEN(     8,  0.00f, -0.10f,  0.00f, +0.15f, +0.05f, 0x8E42A5);
   //@formatter:on
 
   public final int weight;
@@ -25,9 +25,10 @@ public enum EnumSoulElement {
   public final float meleeDamageModifier;
   public final float magicDamageModifier;
   public final float protectionModifier;
+  public final int color;
 
   private EnumSoulElement(int weight, float durability, float harvestSpeed, float meleeDamage,
-      float magicDamage, float protection) {
+      float magicDamage, float protection, int color) {
 
     this.weight = weight;
     this.durabilityModifier = durability;
@@ -35,6 +36,7 @@ public enum EnumSoulElement {
     this.meleeDamageModifier = meleeDamage;
     this.magicDamageModifier = magicDamage;
     this.protectionModifier = protection;
+    this.color = color;
   }
 
   public String getDisplayName() {

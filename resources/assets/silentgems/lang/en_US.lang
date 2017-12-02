@@ -855,7 +855,9 @@ item.silentgems:TeleporterLinker.desc=Links teleporters, obviously.
 item.silentgems:TeleporterLinker.Distance=Distance: %,d
 item.silentgems:TeleporterLinker.DifferentDimension=Dimension Hop
 
-item.silentgems:ToolSoul.name=Unnamed Tool Soul
+item.silentgems:ToolSoul.name=Tool Soul
+item.silentgems:ToolSoul.desc1=Craft with a tool or armor piece.
+item.silentgems:ToolSoul.desc2=Allows the item to level up and gain skills.
 
 item.silentgems:TorchBandolier.name=Torch Bandolier
 
@@ -1103,9 +1105,9 @@ misc.silentgems:Tooltip.ShotsLanded=&eShots Landed:&f %s
 misc.silentgems:Tooltip.ThrownCount=&eTimes Thrown:&f %s
 misc.silentgems:Tooltip.Redecorated=&eRedecorated:&f %s time(s)
 
-misc.silentgems:Tooltip.CtrlForProp=Properties <Press Ctrl>
-misc.silentgems:Tooltip.AltForStat=Statistics <Press Alt>
-misc.silentgems:Tooltip.keyForSkills=Skills <Press S>
+misc.silentgems:Tooltip.CtrlForProp=Properties &8<Press Ctrl>
+misc.silentgems:Tooltip.AltForStat=Statistics &8<Press Alt>
+misc.silentgems:Tooltip.keyForSkills=Skills &8<Press S>
 
 misc.silentgems:Tooltip.Separator=&8-------------------
 misc.silentgems:Tooltip.Properties=&6Properties
@@ -1114,9 +1116,9 @@ misc.silentgems:Tooltip.Construction=&6Construction
 
 # Tool Souls
 
-misc.silentgems:ToolSoul.level=Level %d (%,d / %,d XP)
-misc.silentgems:ToolSoul.actionPoints=AP: %d / %d
-misc.silentgems:ToolSoul.elements=Elements: %s
+misc.silentgems:ToolSoul.level=Level %d &r(%,d / %,d XP)
+misc.silentgems:ToolSoul.actionPoints=AP: &r%d / %d
+misc.silentgems:ToolSoul.elements=Elements: &r%s
 misc.silentgems:ToolSoul.nameless=Nameless Soul
 misc.silentgems:ToolSoul.levelUp=%s is now level %d!
 misc.silentgems:ToolSoul.skillLearned=Learned skill "%s".

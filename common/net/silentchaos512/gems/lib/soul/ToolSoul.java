@@ -341,10 +341,12 @@ public class ToolSoul {
   public void addInformation(ItemStack stack, World world, List<String> list, boolean advanced) {
 
     LocalizationHelper loc = SilentGems.localizationHelper;
+    String color;
 
     // Level, XP, AP
-    list.add(loc.getMiscText("ToolSoul.level", level, xp, getXpToNextLevel()));
-    list.add(loc.getMiscText("ToolSoul.actionPoints", actionPoints, getMaxActionPoints()));
+    color = "" + TextFormatting.GREEN;
+    list.add(color + loc.getMiscText("ToolSoul.level", level, xp, getXpToNextLevel()));
+    list.add(color + loc.getMiscText("ToolSoul.actionPoints", actionPoints, getMaxActionPoints()));
 
     boolean skillsKeyDown = Keyboard.isKeyDown(Keyboard.KEY_S);
 
@@ -357,7 +359,7 @@ public class ToolSoul {
     }
     if (skillsKeyDown) {
       // Display stat modifiers.
-      String color = "  " + TextFormatting.YELLOW;
+      color = "  " + TextFormatting.YELLOW;
       float durability = getDurabilityModifierForDisplay(this);
       float harvestSpeed = getHarvestSpeedModifierForDisplay(this);
       float meleeDamage = getMeleeDamageModifierForDisplay(this);

@@ -1,23 +1,22 @@
 package net.silentchaos512.gems.lib;
 
-import java.awt.Color;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.api.lib.ArmorPartPosition;
-import net.silentchaos512.gems.api.lib.EnumDecoPos;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemHoldingGem;
 import net.silentchaos512.gems.item.ItemSoulGem.Soul;
 import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.util.ArmorHelper;
-import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.Color;
 
 public class ColorHandlers {
 
@@ -150,7 +149,7 @@ public class ColorHandlers {
       }
     }, ModItems.holdingGem);
 
-    // Sould Gems
+    // Soul Gems
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
@@ -166,5 +165,30 @@ public class ColorHandlers {
         }
       }
     }, ModItems.soulGem);
+
+    // Tool Soul
+    itemColors.registerItemColorHandler(new IItemColor() {
+
+      @Override
+      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+
+        // TODO Auto-generated method stub
+        ToolSoul soul = ModItems.toolSoul.getSoul(stack);
+        if (soul == null)
+          return tintIndex == 1 ? 0xFF00FF : tintIndex == 2 ? 0x0 : 0xFFFFFF;
+
+        switch (tintIndex) {
+          case 0:
+            float ratio = 0.5f + MathHelper.sin((float) ClientTickHandler.ticksInGame / 15) / 6;
+            return Color.blend(soul.getPrimaryElement().color, soul.getSecondaryElement().color, ratio);
+          case 1:
+            return soul.getPrimaryElement().color;
+          case 2:
+            return soul.getSecondaryElement().color;
+          default:
+            return 0xFFFFFF;
+        }
+      }
+    }, ModItems.toolSoul);
   }
 }

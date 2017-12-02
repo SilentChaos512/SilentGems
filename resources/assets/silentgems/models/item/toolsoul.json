@@ -1,7 +1,9 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "silentgems:items/skill_orb",
-    "layer1": "silentgems:items/todo"
+    "layer0": "silentgems:items/toolsoul_middle",
+    "layer1": "silentgems:items/toolsoul_left",
+    "layer2": "silentgems:items/toolsoul_right",
+    "layer3": "silentgems:items/toolsoul_highlight"
   }
 }
