@@ -3,6 +3,7 @@ Silent's Gems - Changelog
 2.6.3
 Added: Proper model for tool souls. Shiny!
 Changed: Tweaked some tooltips for tools and souls.
+Fixed: TiC parts not being craftable on servers (#245)
 Fixed: Poison and Wither runes not damaging the player (#246)
 Fixed (probably): Crash when extracting blocks from holding gems (#252)
 Fixed: Lumberjack crashing the game if the axe has no soul attached (#253)

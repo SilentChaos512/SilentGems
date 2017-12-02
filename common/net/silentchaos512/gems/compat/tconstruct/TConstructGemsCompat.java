@@ -74,7 +74,7 @@ public class TConstructGemsCompat {
     String itemOreName = tier == EnumMaterialTier.SUPER ? gem.getItemSuperOreName() : gem.getItemOreName();
     material.addItem(itemOreName, 1, Material.VALUE_Ingot);
     material.setCraftable(true);
-    material.setRenderInfo(gem.getColor());
+    SilentGems.proxy.setTinkersRenderColor(material, gem.getColor());
 
     int durability = gem.getDurability(tier);
     float miningSpeed = gem.getMiningSpeed(tier);
