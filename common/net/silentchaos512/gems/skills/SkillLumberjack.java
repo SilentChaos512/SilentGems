@@ -94,7 +94,8 @@ public class SkillLumberjack extends ToolSkillDigger {
 
         breakTree(result, world, x, y, z, x, y, z, tool, state, player);
         ToolHelper.incrementStatBlocksMined(tool, result.blocksBroken);
-        soul.addXp(result.xpEarned, tool, player);
+        if (soul != null)
+          soul.addXp(result.xpEarned, tool, player);
         return true;
       }
     }
@@ -184,7 +185,8 @@ public class SkillLumberjack extends ToolSkillDigger {
                           tool);
                       axe.onBlockDestroyed(tool, world, localState, localPos, player);
                       ++result.blocksBroken;
-                      result.xpEarned += result.soul.getXpForBlockHarvest(world, localPos, localState);
+                      if (result.soul != null)
+                        result.xpEarned += result.soul.getXpForBlockHarvest(world, localPos, localState);
                     }
 
                     world.setBlockToAir(localPos);
