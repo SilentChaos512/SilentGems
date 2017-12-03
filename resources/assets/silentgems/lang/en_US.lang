@@ -635,9 +635,11 @@ item.silentgems:ChaosOrb.itemSend=Recharge Items: %s
 
 item.silentgems:ChaosRune.name=Chaos Rune
 item.silentgems:ChaosRune.desc=Craft with Chaos Gems
-item.silentgems:ChaosRune.chaosCost=Chaos Cost: %d
+item.silentgems:ChaosRune.appliesEffect=Applies the %s potion effect.
+item.silentgems:ChaosRune.chaosCost=Chaos Cost: %d %s
 item.silentgems:ChaosRune.maxLevel=Max Level: %d
 item.silentgems:ChaosRune.slotsUsed=Slots Used: %d
+item.silentgems:ChaosRune.variableCost=(variable)
 buff.silentgems:capacity=Capacity
 buff.silentgems:capacity.desc=Greatly increases Chaos capacity
 buff.silentgems:flight=Flight

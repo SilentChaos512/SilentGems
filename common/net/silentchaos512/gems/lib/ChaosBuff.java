@@ -19,6 +19,7 @@ import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageSetFlight;
+import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class ChaosBuff {
 
@@ -71,6 +72,10 @@ public class ChaosBuff {
    */
   final int chaosCost;
   /**
+   * Indicates that the chaos cost will vary by circustances. Only used for tooltips.
+   */
+  final boolean variableCost;
+  /**
    * The duration to apply. By default, this is done per tick, but there are exceptions. Note that smaller durations are
    * better. I use 20 ticks for most, but night vision requires more than 400 ticks to prevent the flashing effect.
    * Regeneration also has a special exception.
@@ -79,8 +84,8 @@ public class ChaosBuff {
    */
   final int applyDuration;
 
-  public ChaosBuff(String key, int maxLevel, int slotsUsed, int chaosCost, int applyDuration,
-      @Nullable Potion potion) {
+  public ChaosBuff(String key, int maxLevel, int slotsUsed, int chaosCost, boolean variableCost,
+      int applyDuration, @Nullable Potion potion) {
 
     if (buffMap.containsKey(key))
       throw new IllegalArgumentException("Buff with key " + key + " has already been added!");
@@ -91,6 +96,7 @@ public class ChaosBuff {
     this.slotsUsed = slotsUsed;
     this.chaosCost = chaosCost;
     this.applyDuration = applyDuration;
+    this.variableCost = variableCost;
 
     buffMap.put(key, this);
   }
@@ -100,38 +106,38 @@ public class ChaosBuff {
     final String prefix = SilentGems.RESOURCE_PREFIX;
     final int dur = 30;
     // @formatter:off
-    //                                                       mLvl slots cost duration
-    CAPACITY        = new ChaosBuff(prefix + "capacity",        4,   1,   0, dur, null);
-    RECHARGE        = new ChaosBuff(prefix + "recharge",        4,   1,   0, dur, null);
-    FLIGHT          = new ChaosBuff(prefix + "flight",          1,  10,  80, dur, null);
-    SPEED           = new ChaosBuff(prefix + "speed",           4,   4,  20, dur, MobEffects.SPEED);
-    HASTE           = new ChaosBuff(prefix + "haste",           2,   4,  30, dur, MobEffects.HASTE);
-    JUMP_BOOST      = new ChaosBuff(prefix + "jump_boost",      4,   4,  10, dur, MobEffects.JUMP_BOOST);
-    STRENGTH        = new ChaosBuff(prefix + "strength",        2,  10,  50, dur, MobEffects.STRENGTH);
-    REGENERATION    = new ChaosBuff(prefix + "regeneration",    2,   8,  42,  80, MobEffects.REGENERATION);
-    RESISTANCE      = new ChaosBuff(prefix + "resistance",      2,   6,  40, dur, MobEffects.RESISTANCE);
-    FIRE_RESISTANCE = new ChaosBuff(prefix + "fire_resistance", 1,   8,  40, dur, MobEffects.FIRE_RESISTANCE);
-    WATER_BREATHING = new ChaosBuff(prefix + "water_breathing", 1,   4,  30, dur, MobEffects.WATER_BREATHING);
-    NIGHT_VISION    = new ChaosBuff(prefix + "night_vision",    1,   2,  10, 410, MobEffects.NIGHT_VISION);
-    INVISIBILITY    = new ChaosBuff(prefix + "invisibility",    1,   6,  25, dur, MobEffects.INVISIBILITY);
-    LEVITATION      = new ChaosBuff(prefix + "levitation",      4,   3,  20, dur, MobEffects.LEVITATION);
-    GLOWING         = new ChaosBuff(prefix + "glowing",         1,   0,   5, dur, MobEffects.GLOWING);
-    SLOWNESS        = new ChaosBuff(prefix + "slowness",        3,  -2,   5, dur, MobEffects.SLOWNESS);
-    MINING_FATIGUE  = new ChaosBuff(prefix + "mining_fatigue",  3,  -2,   5, dur, MobEffects.MINING_FATIGUE);
-    NAUSEA          = new ChaosBuff(prefix + "nausea",          3,  -4,   5, dur, MobEffects.NAUSEA);
-    BLINDNESS       = new ChaosBuff(prefix + "blindness",       3,  -3,   5, dur, MobEffects.BLINDNESS);
-    HUNGER          = new ChaosBuff(prefix + "hunger",          3,  -2,   5, dur, MobEffects.HUNGER);
-    WEAKNESS        = new ChaosBuff(prefix + "weakness",        3,  -2,   5, dur, MobEffects.WEAKNESS);
-    POISON          = new ChaosBuff(prefix + "poison",          3,  -2,   5,  90, MobEffects.POISON);
-    WITHER          = new ChaosBuff(prefix + "wither",          2,  -3,   5,  80, MobEffects.WITHER);
+    //                                                       mLvl slots cost        duration
+    CAPACITY        = new ChaosBuff(prefix + "capacity",        4,   1,   0, false, dur, null);
+    RECHARGE        = new ChaosBuff(prefix + "recharge",        4,   1,   0, false, dur, null);
+    FLIGHT          = new ChaosBuff(prefix + "flight",          1,  10,  80,  true, dur, null);
+    SPEED           = new ChaosBuff(prefix + "speed",           4,   4,  20, false, dur, MobEffects.SPEED);
+    HASTE           = new ChaosBuff(prefix + "haste",           2,   4,  30, false, dur, MobEffects.HASTE);
+    JUMP_BOOST      = new ChaosBuff(prefix + "jump_boost",      4,   4,  10, false, dur, MobEffects.JUMP_BOOST);
+    STRENGTH        = new ChaosBuff(prefix + "strength",        2,  10,  50, false, dur, MobEffects.STRENGTH);
+    REGENERATION    = new ChaosBuff(prefix + "regeneration",    2,   8,  42, false,  80, MobEffects.REGENERATION);
+    RESISTANCE      = new ChaosBuff(prefix + "resistance",      2,   6,  40, false, dur, MobEffects.RESISTANCE);
+    FIRE_RESISTANCE = new ChaosBuff(prefix + "fire_resistance", 1,   8, 400,  true, dur, MobEffects.FIRE_RESISTANCE);
+    WATER_BREATHING = new ChaosBuff(prefix + "water_breathing", 1,   4,  30, false, dur, MobEffects.WATER_BREATHING);
+    NIGHT_VISION    = new ChaosBuff(prefix + "night_vision",    1,   2,  10, false, 410, MobEffects.NIGHT_VISION);
+    INVISIBILITY    = new ChaosBuff(prefix + "invisibility",    1,   6,  25, false, dur, MobEffects.INVISIBILITY);
+    LEVITATION      = new ChaosBuff(prefix + "levitation",      4,   3,  20, false, dur, MobEffects.LEVITATION);
+    GLOWING         = new ChaosBuff(prefix + "glowing",         1,   0,   5, false, dur, MobEffects.GLOWING);
+    SLOWNESS        = new ChaosBuff(prefix + "slowness",        3,  -2,   5, false, dur, MobEffects.SLOWNESS);
+    MINING_FATIGUE  = new ChaosBuff(prefix + "mining_fatigue",  3,  -2,   5, false, dur, MobEffects.MINING_FATIGUE);
+    NAUSEA          = new ChaosBuff(prefix + "nausea",          3,  -4,   5, false, dur, MobEffects.NAUSEA);
+    BLINDNESS       = new ChaosBuff(prefix + "blindness",       3,  -3,   5, false, dur, MobEffects.BLINDNESS);
+    HUNGER          = new ChaosBuff(prefix + "hunger",          3,  -2,   5, false, dur, MobEffects.HUNGER);
+    WEAKNESS        = new ChaosBuff(prefix + "weakness",        3,  -2,   5, false, dur, MobEffects.WEAKNESS);
+    POISON          = new ChaosBuff(prefix + "poison",          3,  -2,   5, false,  90, MobEffects.POISON);
+    WITHER          = new ChaosBuff(prefix + "wither",          2,  -3,   5, false,  80, MobEffects.WITHER);
 
     if (Loader.isModLoaded("toughasnails")) {
       Potion coldResist = Potion.getPotionFromResourceLocation("toughasnails:cold_resistance");
       Potion heatResist = Potion.getPotionFromResourceLocation("toughasnails:heat_resistance");
       Potion thirst = Potion.getPotionFromResourceLocation("toughasnails:thirst");
-      COLD_RESISTANCE = new ChaosBuff("toughasnails:cold_resistance", 1,  8, 50, dur, coldResist);
-      HEAT_RESISTANCE = new ChaosBuff("toughasnails:heat_resistance", 1,  8, 50, dur, heatResist);
-      THIRST          = new ChaosBuff("toughasnails:thirst",          1, -4,  5, dur, thirst);
+      COLD_RESISTANCE = new ChaosBuff("toughasnails:cold_resistance", 1,  8, 50, false, dur, coldResist);
+      HEAT_RESISTANCE = new ChaosBuff("toughasnails:heat_resistance", 1,  8, 50, false, dur, heatResist);
+      THIRST          = new ChaosBuff("toughasnails:thirst",          1, -4,  5, false, dur, thirst);
     } else {
       COLD_RESISTANCE = null;
       HEAT_RESISTANCE = null;
@@ -230,6 +236,8 @@ public class ChaosBuff {
         return normalCost / 10;
       else if (notFlying)
         return 0;
+    } else if (this == FIRE_RESISTANCE && player != null) {
+      return player.isBurning() ? chaosCost : 0;
     }
 
     return normalCost;
@@ -280,8 +288,12 @@ public class ChaosBuff {
   public String getDescription() {
 
     String descKey = "buff." + key + ".desc";
-    String desc = SilentGems.localizationHelper.getLocalizedString(descKey);
-    return !desc.equals(descKey) ? desc : "";
+    LocalizationHelper loc = SilentGems.localizationHelper;
+    String desc = loc.getLocalizedString(descKey);
+    if (!desc.equals(descKey))
+      return desc;
+    String potionName = loc.getLocalizedString(potion.getName());
+    return loc.getItemSubText(Names.CHAOS_RUNE, "appliesEffect", potionName);
   }
 
   public int getColor() {
@@ -310,5 +322,10 @@ public class ChaosBuff {
   public @Nullable Potion getPotion() {
 
     return potion;
+  }
+
+  public boolean hasVariableCost() {
+
+    return variableCost;
   }
 }

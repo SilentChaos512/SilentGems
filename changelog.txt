@@ -3,6 +3,7 @@ Silent's Gems - Changelog
 2.6.3
 Added: Proper model for tool souls. Shiny!
 Changed: Tweaked some tooltips for tools and souls.
+Changed: Fire resistance chaos rune will drain only when you are burning, but the cost has been increased by a factor of 10 (400/tick) (#229)
 Fixed: TiC parts not being craftable on servers (#245)
 Fixed: Poison and Wither runes not damaging the player (#246)
 Fixed (probably): Crash when extracting blocks from holding gems (#252)

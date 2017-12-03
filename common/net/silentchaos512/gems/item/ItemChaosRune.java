@@ -41,15 +41,20 @@ public class ItemChaosRune extends ItemSL {
       LocalizationHelper loc = SilentGems.localizationHelper;
 
       // Name
-      list.add(TextFormatting.GOLD + buff.getLocalizedName(1));
+      TextFormatting nameColor = buff.getPotion() != null && buff.getPotion().isBadEffect()
+          ? TextFormatting.RED
+          : TextFormatting.GOLD;
+      list.add(nameColor + buff.getLocalizedName(1));
       // Description (may not have one)
-      String desc = buff.getDescription();
+      String desc = "  " + buff.getDescription();
       if (!desc.isEmpty())
         list.add(TextFormatting.DARK_GRAY + desc);
 
       list.add("  " + loc.getItemSubText(itemName, "maxLevel", buff.getMaxLevel()));
       list.add("  " + loc.getItemSubText(itemName, "slotsUsed", buff.getSlotsUsed(1)));
-      list.add("  " + loc.getItemSubText(itemName, "chaosCost", buff.getChaosCost(1, null)));
+      String varCost = buff.hasVariableCost() ? loc.getItemSubText(itemName, "variableCost") : "";
+      list.add(
+          "  " + loc.getItemSubText(itemName, "chaosCost", buff.getChaosCost(1, null), varCost));
 
       // Debug
       if (KeyTracker.isAltDown()) {
@@ -63,7 +68,8 @@ public class ItemChaosRune extends ItemSL {
   @Override
   public void addRecipes(RecipeMaker recipes) {
 
-    addRecipe(ChaosBuff.CAPACITY, new ItemStack(ModItems.chaosOrb, 1, ItemChaosOrb.Type.FRAGILE.ordinal()), 1);
+    addRecipe(ChaosBuff.CAPACITY,
+        new ItemStack(ModItems.chaosOrb, 1, ItemChaosOrb.Type.FRAGILE.ordinal()), 1);
     addRecipe(ChaosBuff.RECHARGE, ModItems.craftingMaterial.chaosCore, 1);
     addRecipe(ChaosBuff.FLIGHT, ModItems.craftingMaterial.shinyPlume, 3);
     addRecipe(ChaosBuff.SPEED, Items.SUGAR, 3);
@@ -87,9 +93,11 @@ public class ItemChaosRune extends ItemSL {
     addRecipe(ChaosBuff.POISON, Items.SPIDER_EYE, 2);
     addRecipe(ChaosBuff.WITHER, new ItemStack(Items.SKULL, 1, 1), 1);
     if (Loader.isModLoaded("toughasnails")) {
-      addRecipe(ChaosBuff.COLD_RESISTANCE, new ItemStack(Item.getByNameOrId("toughasnails:ice_charge")), 3);
+      addRecipe(ChaosBuff.COLD_RESISTANCE,
+          new ItemStack(Item.getByNameOrId("toughasnails:ice_charge")), 3);
       addRecipe(ChaosBuff.HEAT_RESISTANCE, new ItemStack(Items.FIRE_CHARGE), 3);
-      addRecipe(ChaosBuff.THIRST, new ItemStack(Item.getByNameOrId("toughasnails:water_bottle")), 3);
+      addRecipe(ChaosBuff.THIRST, new ItemStack(Item.getByNameOrId("toughasnails:water_bottle")),
+          3);
     }
   }
 
@@ -101,8 +109,8 @@ public class ItemChaosRune extends ItemSL {
     String line3 = line1;
     setBuff(result, buff);
     String name = "chaos_rune_" + buff.getKey().replaceFirst(SilentGems.RESOURCE_PREFIX, "");
-    SilentGems.registry.recipes.addShapedOre(name, result, line1, line2, line3,
-        'r', "dustRedstone", 'c', ModItems.craftingMaterial.chaosEssenceEnriched, 'o', obj);
+    SilentGems.registry.recipes.addShapedOre(name, result, line1, line2, line3, 'r', "dustRedstone",
+        'c', ModItems.craftingMaterial.chaosEssenceEnriched, 'o', obj);
   }
 
   @Override
