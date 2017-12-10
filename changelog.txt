@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.6.4
+Added: Config to allow fake players to level up tools with souls (disabled by default) (#256)
 Fixed: Aerial skill not working properly (#257)
 Fixed: Gems with invalid metadata occasionally spawning in chests (#258)
 

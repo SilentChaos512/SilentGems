@@ -27,10 +27,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.tool.ToolStats;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ItemSoulGem;
 import net.silentchaos512.gems.item.ItemToolSoul;
 import net.silentchaos512.gems.lib.TooltipHelper;
@@ -83,6 +85,9 @@ public class ToolSoul {
   // =================
 
   public void addXp(int amount, ItemStack tool, EntityPlayer player) {
+
+    if (player instanceof FakePlayer && !GemsConfig.SOULS_GAIN_XP_FROM_FAKE_PLAYERS)
+      return;
 
     xp += amount;
     SoulSkill skillLearned = null;

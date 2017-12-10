@@ -94,6 +94,12 @@ public class GemsConfig extends AdaptiveConfig {
   public static ConfigOptionToolClass shield = new ConfigOptionToolClass(ModItems.shield, "shield");
 
   /*
+   * Tool Souls
+   */
+
+  public static boolean SOULS_GAIN_XP_FROM_FAKE_PLAYERS;
+
+  /*
    * Tool Parts
    */
 
@@ -169,6 +175,7 @@ public class GemsConfig extends AdaptiveConfig {
   public static final String CAT_NODES = CAT_MAIN + split + "chaos nodes";
   public static final String CAT_RECIPE = CAT_MAIN + split + "recipes";
   public static final String CAT_TOOL_PARTS = CAT_ITEM + split + "tool_parts";
+  public static final String CAT_TOOL_SOULS = CAT_ITEM + split + "tool_souls";
   public static final String CAT_TOOLS = CAT_ITEM + split + "tools";
   public static final String CAT_TOOLTIPS = CAT_MAIN + split + "tooltips";
   public static final String CAT_WORLD_GEN = CAT_MAIN + split + "world generation";
@@ -311,6 +318,13 @@ public class GemsConfig extends AdaptiveConfig {
       sickle.loadValue(config);
       bow.loadValue(config);
       shield.loadValue(config);
+
+      /*
+       * Tool Souls
+       */
+
+      SOULS_GAIN_XP_FROM_FAKE_PLAYERS = loadBoolean("Gain XP From Fake Players", CAT_TOOL_SOULS, false,
+          "If true, tools with souls can gain XP when used by fake players.");
 
       /*
        * Tool Parts
