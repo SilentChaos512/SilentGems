@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.6.4
+Fixed: Aerial skill not working properly (#257)
+
 2.6.3
 Added: Proper model for tool souls. Shiny!
 Changed: Tweaked some tooltips for tools and souls.

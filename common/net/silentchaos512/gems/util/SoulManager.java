@@ -181,7 +181,7 @@ public class SoulManager {
       if (aquatic > 0 && player.isInsideOfMaterial(Material.WATER))
         event.setNewSpeed(event.getNewSpeed() * (5f / (SoulSkill.AQUATIC.maxLevel - aquatic + 1)));
       else if (aerial > 0 && (!player.onGround || player.capabilities.isFlying))
-        event.setNewSpeed(event.getNewSpeed() * (5f / SoulSkill.AERIAL.maxLevel - aerial + 1));
+        event.setNewSpeed(event.getNewSpeed() * (5f / (SoulSkill.AERIAL.maxLevel - aerial + 1)));
     }
   }
 
