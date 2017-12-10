@@ -2,6 +2,7 @@ Silent's Gems - Changelog
 
 2.6.4
 Fixed: Aerial skill not working properly (#257)
+Fixed: Gems with invalid metadata occasionally spawning in chests (#258)
 
 2.6.3
 Added: Proper model for tool souls. Shiny!

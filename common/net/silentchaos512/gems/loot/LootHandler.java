@@ -31,10 +31,10 @@ public class LootHandler {
       LootPool main = event.getTable().getPool("main");
       if (main != null) {
         main.addEntry(
-            new LootEntryItem(ModItems.gem, 16, 1, countAndMeta(3, 8, 0, EnumGem.values().length),
+            new LootEntryItem(ModItems.gem, 16, 1, countAndMeta(3, 8, 0, EnumGem.values().length - 1),
                 new LootCondition[0], SilentGems.MODID + "Gems1"));
         main.addEntry(
-            new LootEntryItem(ModItems.gem, 16, 1, countAndMeta(3, 8, 0, EnumGem.values().length),
+            new LootEntryItem(ModItems.gem, 16, 1, countAndMeta(3, 8, 0, EnumGem.values().length - 1),
                 new LootCondition[0], SilentGems.MODID + "Gems2"));
       }
     }
