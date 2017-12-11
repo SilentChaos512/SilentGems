@@ -9,6 +9,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
+import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.EnumToolType;
 import net.silentchaos512.gems.util.ToolHelper;
 
@@ -86,5 +87,16 @@ public interface ITool {
       return EnumToolType.BOW;
 
     return EnumToolType.NONE;
+  }
+
+  public default boolean isDigger(ItemStack stack) {
+
+    return this instanceof ItemTool;
+  }
+
+  public default boolean isCaster(ItemStack stack) {
+
+    return (this instanceof ItemGemSword)
+        && ToolHelper.getToolTier(stack).ordinal() >= EnumMaterialTier.SUPER.ordinal();
   }
 }

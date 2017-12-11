@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.6.4
+Added: New "tooltips" for tools, weapons, and armor. These render above the vanilla tooltip window and use icons to quickly identify relevant stats. These will also compare the stats to whatever similar item you have equipped (main hand or same armor type) by displaying an green/red up/down arrow. A yellow dash is displayed if the stats are the same. Works on vanilla and most modded tools/weapons/armor. Probably won't work with TiC, I'll see what I can do if I get some time.
 Added: Config to allow fake players to level up tools with souls (disabled by default) (#256)
 Fixed: Aerial skill not working properly (#257)
 Fixed: Gems with invalid metadata occasionally spawning in chests (#258)

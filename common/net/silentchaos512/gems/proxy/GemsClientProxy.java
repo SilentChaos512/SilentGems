@@ -9,6 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.gui.EquipmentTooltips;
 import net.silentchaos512.gems.client.gui.GuiChaosBar;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
@@ -41,6 +42,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
     MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
     MinecraftForge.EVENT_BUS.register(new GemsClientEvents());
     MinecraftForge.EVENT_BUS.register(GuiChaosBar.INSTANCE);
+    MinecraftForge.EVENT_BUS.register(new EquipmentTooltips());
     MinecraftForge.EVENT_BUS.register(ModItems.toolRenderHelper);
     registry.clientPreInit();
     registerRenderers();
