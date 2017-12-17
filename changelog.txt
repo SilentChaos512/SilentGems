@@ -1,8 +1,14 @@
 Silent's Gems - Changelog
 
+2.6.5
+Changed: The freezing and shocking effects of the mod's Aspect enchantments are now potion effects.
+Changed: Freezing effect now reduces movement speed by 50% per level (halved on players), instead of applying Slowness.
+Changed: Shocking effect now reduces attack damage by 30% per level (halved on players), instead of applying Weakness.
+
 2.6.4
 Added: New "tooltips" for tools, weapons, and armor. These render above the vanilla tooltip window and use icons to quickly identify relevant stats. These will also compare the stats to whatever similar item you have equipped (main hand or same armor type) by displaying an green/red up/down arrow. A yellow dash is displayed if the stats are the same. Works on vanilla and most modded tools/weapons/armor. Probably won't work with TiC, I'll see what I can do if I get some time.
 Added: Config to allow fake players to level up tools with souls (disabled by default) (#256)
+Changed: Sped up chaos altar transmutation (chaos cost is the same)
 Fixed: Aerial skill not working properly (#257)
 Fixed: Gems with invalid metadata occasionally spawning in chests (#258)
 

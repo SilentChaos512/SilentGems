@@ -11,15 +11,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.potion.PotionEffect;
+import net.silentchaos512.gems.init.ModPotions;
 
 public class EnchantmentIceAspect extends Enchantment {
 
   public static final String NAME = "IceAspect";
-  public static final String EFFECT_NBT = NAME + "_timer";
   public static final int EFFECT_DURATION = 80;
-  public static final int EFFECT_AMPLIFIER = 3;
-  public static final int CONTINUOUS_DAMAGE_DELAY = 40;
-  public static final int CONTINUOUS_DAMAGE_AMOUNT = 1;
 
   public static boolean ENABLED = true;
 
@@ -78,23 +75,14 @@ public class EnchantmentIceAspect extends Enchantment {
    */
   public void applyTo(EntityLivingBase entityLiving, int enchLevel) {
 
-    int duration = getSlownessDuration(entityLiving, enchLevel);
-    int amplifier = getSlownessAmplifier(entityLiving, enchLevel);
-    entityLiving.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, duration, amplifier, true, false));
-    entityLiving.getEntityData().setInteger(EFFECT_NBT, duration);
+    int duration = getEffectDuration(entityLiving, enchLevel);
+    int amplifier = enchLevel - 1;
+    entityLiving.addPotionEffect(new PotionEffect(ModPotions.freezing, duration, amplifier, true, false));
   }
 
-  public int getSlownessDuration(EntityLivingBase entityLiving, int enchLevel) {
+  public int getEffectDuration(EntityLivingBase entityLiving, int enchLevel) {
 
     int ret = EFFECT_DURATION + (enchLevel - 1) * EFFECT_DURATION / 2;
-    if (entityLiving instanceof EntityPlayer)
-      ret /= 2;
-    return ret;
-  }
-
-  public int getSlownessAmplifier(EntityLivingBase entityLiving, int enchLevel) {
-
-    int ret = EFFECT_AMPLIFIER * enchLevel;
     if (entityLiving instanceof EntityPlayer)
       ret /= 2;
     return ret;

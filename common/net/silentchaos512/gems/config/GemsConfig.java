@@ -23,6 +23,8 @@ import net.silentchaos512.gems.lib.module.ModuleCoffee;
 import net.silentchaos512.gems.lib.module.ModuleEntityRandomEquipment;
 import net.silentchaos512.gems.lib.module.ModuleHalloweenHijinks;
 import net.silentchaos512.gems.lib.module.ModuleHolidayCheer;
+import net.silentchaos512.gems.potion.PotionFreezing;
+import net.silentchaos512.gems.potion.PotionShocking;
 import net.silentchaos512.gems.util.WeightedRandomItemSG;
 import net.silentchaos512.lib.config.AdaptiveConfig;
 
@@ -361,6 +363,13 @@ public class GemsConfig extends AdaptiveConfig {
           CAT_ENCHANTMENT, true, enchEnabledComment);
       EnchantmentMagicDamage.ENABLED = loadBoolean("Concentration - Enabled", CAT_ENCHANTMENT, true,
           enchEnabledComment);
+      // DoT and other effects
+      PotionFreezing.CONTINUOUS_DAMAGE_ENABLED = loadBoolean("Ice Aspect - DoT Enabled", CAT_ENCHANTMENT, true,
+          "Allow the damage over time (DoT) of Ice Aspect. Disabling will still apply the slowing effect.");
+      PotionShocking.CONTINUOUS_DAMAGE_ENABLED = loadBoolean("Lightning Aspect - DoT Enabled", CAT_ENCHANTMENT, true,
+          "Allow the damage over time (DoT) of Lightning Aspect. Disabling will still apply the slowing effect.");
+      PotionShocking.CHAINING_ENABLED = loadBoolean("Lightning Aspect - Chaining Enabled", CAT_ENCHANTMENT, true,
+          "Allow the chaining effect of Lightning Aspect, where the effect spreads to nearby entities.");
 
       /*
        * Nodes
