@@ -190,5 +190,16 @@ public class ColorHandlers {
         }
       }
     }, ModItems.toolSoul);
+    
+    // Arrows
+    itemColors.registerItemColorHandler(new IItemColor() {
+
+      @Override
+      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+
+        // TODO Auto-generated method stub
+        return 0xFFFFFF;
+      }
+    }, ModItems.arrow);
   }
 }

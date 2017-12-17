@@ -37,6 +37,11 @@ public class ModRecipes implements IRegistrationHandler<IRecipe> {
         ModItems.craftingMaterial.getStack(Names.CHAOS_ESSENCE_SHARD, 4), 240000,
         new ItemStack(Items.DIAMOND));
 
+    // Ender Essence creation.
+//    SilentGemsAPI.addAltarRecipe(ModItems.craftingMaterial.enderEssence,
+//        ModItems.craftingMaterial.getStack(Names.ENDER_ESSENCE_SHARD, 4), 240000,
+//        ModItems.craftingMaterial.enderSlimeBall);
+
     // Light <--> Dark gem conversion.
     ItemStack slimeBall = new ItemStack(Items.SLIME_BALL);
     ItemStack magmaCream = new ItemStack(Items.MAGMA_CREAM);

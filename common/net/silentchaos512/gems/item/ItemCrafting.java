@@ -234,6 +234,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
     OreDictionary.registerOre("gemEnderEssence", enderEssence);
     OreDictionary.registerOre("nuggetEnderEssence", enderEssenceShard);
     OreDictionary.registerOre("paper", fluffyFabric);
+    OreDictionary.registerOre("slimeball", enderSlimeBall);
   }
 
   @Override

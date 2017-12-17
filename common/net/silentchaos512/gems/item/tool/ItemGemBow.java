@@ -223,7 +223,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
     ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(stack,
         world, player, hand, hasAmmo);
-    if (ret != null)
+    if (ret != null && ret.getType() == EnumActionResult.FAIL)
       return ret;
 
     if (!player.capabilities.isCreativeMode && !hasAmmo) {

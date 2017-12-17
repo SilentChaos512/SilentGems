@@ -30,6 +30,7 @@ public class Names {
 
   // Items
   public static final String ARMOR_FRAME = "ArmorFrame";
+  public static final String ARROW = "Arrow";
   public static final String CHAOS_GEM = "ChaosGem";
   public static final String CHAOS_ORB = "ChaosOrb";
   public static final String CHAOS_RUNE = "ChaosRune";

@@ -26,6 +26,7 @@ import net.silentchaos512.gems.item.ItemFluffyPuff;
 import net.silentchaos512.gems.item.ItemFluffyPuffSeeds;
 import net.silentchaos512.gems.item.ItemFoodSG;
 import net.silentchaos512.gems.item.ItemGem;
+import net.silentchaos512.gems.item.ItemGemArrow;
 import net.silentchaos512.gems.item.ItemGemShard;
 import net.silentchaos512.gems.item.ItemGlowRoseFertilizer;
 import net.silentchaos512.gems.item.ItemHoldingGem;
@@ -95,6 +96,8 @@ public class ModItems implements IRegistrationHandler<Item> {
   public static final ItemPetSummoner petSummoner = new ItemPetSummoner();
   public static final ItemDebug debugItem = new ItemDebug();
 
+  public static final ItemGemArrow arrow = new ItemGemArrow();
+
   // Tools
   public static final ItemGemSword sword = new ItemGemSword();
   public static final ItemGemDagger dagger = new ItemGemDagger();
@@ -158,6 +161,8 @@ public class ModItems implements IRegistrationHandler<Item> {
     reg.registerItem(returnHomeCharm).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(petSummoner).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(debugItem).setCreativeTab(GemsCreativeTabs.utility);
+
+    reg.registerItem(arrow).setCreativeTab(GemsCreativeTabs.tools);
 
     // Tools
     reg.registerItem(sword, Names.SWORD);
