@@ -22,7 +22,7 @@ public class TileChaosAltar extends TileSidedInventorySL implements ITickable, I
   public static final int MAX_CHAOS_STORED = 10000000;
   public static final int MAX_RECEIVE = 100000;
   public static final int MAX_ITEM_SEND = 10000;
-  public static final int TRANSMUTE_CHAOS_PER_TICK = 80;
+  public static final int TRANSMUTE_CHAOS_PER_TICK = 400;
 
   public static final int[] SLOTS_BOTTOM = { 1 };
   public static final int[] SLOTS_TOP = { 0 };
