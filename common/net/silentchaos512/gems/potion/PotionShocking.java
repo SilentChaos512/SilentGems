@@ -35,7 +35,7 @@ public class PotionShocking extends Potion {
   public PotionShocking() {
 
     super(true, 0xf5ff3d);
-    String name = SilentGems.RESOURCE_PREFIX + "freezing";
+    String name = SilentGems.RESOURCE_PREFIX + "shocking";
     setPotionName("effect." + name);
     setRegistryName(new ResourceLocation(name));
 
