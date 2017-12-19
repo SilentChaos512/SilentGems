@@ -36,18 +36,18 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
       Names.NETHER_CLUSTER, Names.GILDED_STRING, Names.YARN_BALL, Names.RAWHIDE_BONE,
       Names.ARMOR_LATTICE_MUNDANE, Names.ARMOR_LATTICE_REGULAR, Names.ARMOR_LATTICE_SUPER,
       Names.BLAZESTONE, Names.MYSTERY_GOO, Names.CHAOS_IRON_UNFIRED, Names.CHAOS_IRON,
-      Names.ENDER_SLIMEBALL };
+      Names.ENDER_SLIMEBALL, Names.SOUL_SHELL };
 
   public static final String[] SORTED_NAMES = { //
       Names.CHAOS_ESSENCE, Names.CHAOS_ESSENCE_PLUS, Names.CHAOS_ESSENCE_PLUS_2,
       Names.CHAOS_ESSENCE_SHARD, Names.ENDER_ESSENCE, Names.ENDER_FROST, Names.ENDER_ESSENCE_SHARD,
       Names.CHAOS_IRON_UNFIRED, Names.CHAOS_IRON, Names.NETHER_SHARD, Names.NETHER_CLUSTER,
-      Names.ENDER_SLIMEBALL, Names.CHAOS_COAL, Names.STICK_IRON, Names.ORNATE_STICK_GOLD,
-      Names.ORNATE_STICK_SILVER, Names.ARMOR_LATTICE_MUNDANE, Names.ARMOR_LATTICE_REGULAR,
-      Names.ARMOR_LATTICE_SUPER, Names.GILDED_STRING, Names.BLAZESTONE, Names.MYSTERY_GOO,
-      Names.CHAOS_CORE, Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.PLUME, Names.SHINY_PLUME,
-      Names.YARN_BALL, Names.RAWHIDE_BONE, Names.MAGNIFYING_GLASS, Names.NAME_PLATE,
-      Names.UPGRADE_BASE };
+      Names.ENDER_SLIMEBALL, Names.SOUL_SHELL, Names.CHAOS_COAL, Names.STICK_IRON,
+      Names.ORNATE_STICK_GOLD, Names.ORNATE_STICK_SILVER, Names.ARMOR_LATTICE_MUNDANE,
+      Names.ARMOR_LATTICE_REGULAR, Names.ARMOR_LATTICE_SUPER, Names.GILDED_STRING, Names.BLAZESTONE,
+      Names.MYSTERY_GOO, Names.CHAOS_CORE, Names.IRON_POTATO, Names.FLUFFY_FABRIC, Names.PLUME,
+      Names.SHINY_PLUME, Names.YARN_BALL, Names.RAWHIDE_BONE, Names.MAGNIFYING_GLASS,
+      Names.NAME_PLATE, Names.UPGRADE_BASE };
 
   public final ItemStack armorLatticeMundane = getStack(Names.ARMOR_LATTICE_MUNDANE);
   public final ItemStack armorLatticeRegular = getStack(Names.ARMOR_LATTICE_REGULAR);
@@ -75,6 +75,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
   public final ItemStack plume = getStack(Names.PLUME);
   public final ItemStack rawhideBone = getStack(Names.RAWHIDE_BONE);
   public final ItemStack shinyPlume = getStack(Names.SHINY_PLUME);
+  public final ItemStack soulShell = getStack(Names.SOUL_SHELL);
   public final ItemStack toolRodGold = getStack(Names.ORNATE_STICK_GOLD);
   public final ItemStack toolRodIron = getStack(Names.STICK_IRON);
   public final ItemStack toolRodSilver = getStack(Names.ORNATE_STICK_SILVER);
@@ -205,6 +206,10 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
     guideRecipeMap.put(chaosIronUnfired.getItemDamage(), recipe);
     recipes.addSmelting(chaosIronUnfired, chaosIron, 0.4f);
 
+    // Soul Shell
+    recipe = recipes.addShapedOre("soul_shell", getStack(Names.SOUL_SHELL, 2), " g ", "gdg", " g ", 'g', "blockGlass", 'd', "gemDiamond");
+    guideRecipeMap.put(soulShell.getItemDamage(), recipe);
+
     // @formatter:on
   }
 
@@ -267,6 +272,7 @@ public class ItemCrafting extends ItemNamedSubtypesSorted {
   public int getItemBurnTime(ItemStack fuel) {
 
     return fuel.getItem() == this && fuel.getItemDamage() == chaosCoal.getItemDamage()
-        ? GemsConfig.BURN_TIME_CHAOS_COAL : 0;
+        ? GemsConfig.BURN_TIME_CHAOS_COAL
+        : 0;
   }
 }

@@ -395,7 +395,7 @@ public class GuideBookGems extends GuideBook {
     // Tool Souls
     new GuideChapter(this, "toolSoul", entrySouls, new ItemStack(ModItems.toolSoul),
         new PageTextOnly(this, 1),
-        new PageCrafting(this, 2, rec.makeShaped(new ItemStack(ModItems.toolSoul), " s ", "sds", " s ", 's', ModItems.soulGem, 'd', "gemDiamond")));
+        new PageCrafting(this, 2, rec.makeShaped(new ItemStack(ModItems.toolSoul), " s ", "sds", " s ", 's', ModItems.soulGem, 'd', ModItems.craftingMaterial.soulShell)));
 
     // Soul Skills (includes a page for each skill!)
     pages = new ArrayList<>();

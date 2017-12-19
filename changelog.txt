@@ -1,9 +1,13 @@
 Silent's Gems - Changelog
 
 2.6.5
+Changed: Tweaked Tool Soul XP curve again. It's much steeper now (cubic instead of ^2.5).
+Changed: Toul soul XP from combat and harvesting logs reduced. Level bonus applied to block harvesting also reduced.
 Changed: The freezing and shocking effects of the mod's Aspect enchantments are now potion effects.
 Changed: Freezing effect now reduces movement speed by 50% per level (halved on players), instead of applying Slowness.
 Changed: Shocking effect now reduces attack damage by 30% per level (halved on players), instead of applying Weakness.
+Changed: Tool Soul recipe requires a new item in place of the diamond (which itself requires a diamond to craft, but you get 2 per crafting). The new item will have an additional function later.
+Fixed: NBT tag getting on the wrong items, interfering with Chisels & Bits pattern placement (#261)
 
 2.6.4
 Added: New "tooltips" for tools, weapons, and armor. These render above the vanilla tooltip window and use icons to quickly identify relevant stats. These will also compare the stats to whatever similar item you have equipped (main hand or same armor type) by displaying an green/red up/down arrow. A yellow dash is displayed if the stats are the same. Works on vanilla and most modded tools/weapons/armor. Probably won't work with TiC, I'll see what I can do if I get some time.

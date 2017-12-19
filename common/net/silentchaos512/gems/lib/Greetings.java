@@ -16,11 +16,11 @@ import net.silentchaos512.lib.util.PlayerHelper;
 
 public class Greetings {
 
-  public static boolean IS_BETA_BUILD = false;
+  public static boolean IS_BETA_BUILD = true;
   public static final String PREFIX = "[Silent's Gems] BETA: ";
   // @formatter:off
   public static final String[] LINES = new String[] {
-      "Things may change, break, or spontaneously moonwalk."
+      "Try the new Tool Soul item! Also works on armor, in spite of the name... Check the guide for info. Any feedback is appreciated."
   };
   // @formatter:on
 

@@ -83,7 +83,7 @@ public class ItemToolSoul extends ItemSL {
           .fromStacks(listSouls.toArray(new ItemStack[listSouls.size()]));
 
       recipe = recipes.addShaped("tool_soul", new ItemStack(this), " s ", "scs", " s ", 's',
-          ingSouls, 'c', new ItemStack(Items.DIAMOND));
+          ingSouls, 'c', ModItems.craftingMaterial.soulShell);
     }
   }
 }

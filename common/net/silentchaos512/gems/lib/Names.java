@@ -91,6 +91,7 @@ public class Names {
   public static final String PLUME = "Plume";
   public static final String RAWHIDE_BONE = "RawhideBone";
   public static final String SHINY_PLUME = "ShinyPlume";
+  public static final String SOUL_SHELL = "SoulShell";
   public static final String STICK_IRON = "StickIron";
   public static final String UPGRADE_BASE = "UpgradeBase";
   public static final String YARN_BALL = "YarnBall";

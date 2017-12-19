@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 
 import org.lwjgl.input.Keyboard;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,7 +47,7 @@ import net.silentchaos512.lib.util.StackHelper;
 
 public class ToolSoul {
 
-  public static final float XP_FACTOR_KILLS = 0.5f;
+  public static final float XP_FACTOR_KILLS = 0.35f;
   public static final float XP_FACTOR_TILLING = 4.0f;
   public static final float XP_FACTOR_BLOCK_MINED = 1.0f;
   public static final float XP_FACTOR_ARMOR_DAMAGED = 3.0f;
@@ -56,8 +57,8 @@ public class ToolSoul {
   public static final int AP_PER_LEVEL = 10;
   public static final int AP_REGEN_DELAY = 120;
 
-  static final int BASE_XP = 25;
-  static final float XP_CURVE_FACTOR = 2.0f;
+  static final int BASE_XP = 10;
+  static final float XP_CURVE_FACTOR = 3.0f;
 
   String name = "";
   boolean readyToSave = false;
@@ -204,16 +205,21 @@ public class ToolSoul {
       return 0;
     }
 
-    // Bonus XP for ores and wood
+    // Bonus XP for ores and logs
     int oreBonus = 0;
     ItemStack blockStack = new ItemStack(state.getBlock(), 1,
         state.getBlock().getMetaFromState(state));
     for (int oreId : OreDictionary.getOreIDs(blockStack)) {
       String oreName = OreDictionary.getOreName(oreId);
       if (oreName.startsWith("ore") || oreName.startsWith("log")) {
-        oreBonus = this.level;
+        oreBonus = this.level / 2;
         break;
       }
+    }
+
+    // Wood gives less XP.
+    if (state.getMaterial() == Material.WOOD) {
+      hardness /= 2f;
     }
 
     int clamp = MathHelper.clamp(Math.round(XP_FACTOR_BLOCK_MINED * hardness), 1, XP_MAX_PER_BLOCK);

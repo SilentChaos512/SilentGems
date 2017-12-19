@@ -919,6 +919,7 @@ item.silentgems:OrnateStickSilver.name=Ornate Silver Rod
 item.silentgems:Plume.name=Plume
 item.silentgems:RawhideBone.name=Rawhide Bone
 item.silentgems:ShinyPlume.name=Shiny Plume
+item.silentgems:SoulShell.name=Soul Shell
 item.silentgems:StickIron.name=Iron Rod
 item.silentgems:UpgradeBase.name=Upgrade Base
 item.silentgems:YarnBall.name=Yarn Ball
@@ -1016,6 +1017,13 @@ enchantment.silentgems.iceaspect.desc=Slows and continuously damages the victim.
 enchantment.silentgems.lifesteal.desc=Heals the user for a small portion of damage dealt.
 enchantment.silentgems.lightningaspect.desc=Weakens and continuously damages the victim.
 enchantment.silentgems.magicdamage.desc=Increases damage dealt by magic attacks.
+
+
+
+# Potions
+
+effect.silentgems:freezing=Freezing
+effect.silentgems:shocking=Shocking
 
 
 
@@ -1350,10 +1358,10 @@ guide.silentgems:chapter.enchantmentMagicDamage.text1=Think <imp>Sharpness, but 
 
 #Souls and Skills
 guide.silentgems:chapter.soulsImportant.name=IMPORTANT, PLEASE READ!
-guide.silentgems:chapter.soulsImportant.text1=Everything in this section of the manual is about the tool soul upgrade system only available in version 2.6.0 and higher. <vimp>If you are playing 2.5.x, you will not be able to craft anything here!<r> Everything else, such as the actual items, has been left in place just in case anyone accidentally "updates" from 2.6.0 to 2.5.11. Feel free to try the alpha versions if you want to try the new features, just be aware that <imp>tool souls are incomplete<r> (but usable) right now.
+guide.silentgems:chapter.soulsImportant.text1=Everything in this section of the manual is about the tool soul upgrade system only available in version 2.6.0 and higher. <vimp>If you are playing 2.5.x, you will not be able to craft anything here!<r> Everything else, such as the actual items, has been left in place just in case anyone accidentally "updates" from 2.6.0 to 2.5.11. Feel free to try the beta versions if you want to try the new features, just be aware that <imp>tool souls are incomplete<r> (but usable) right now.
 guide.silentgems:chapter.toolSoul.name=Tool Souls
 guide.silentgems:chapter.toolSoul.text1=<item>Tool Souls<r> are an upgrade for tools and armor that allows them to <imp>level up through use and gain skills<r>. Souls gain experience by simply using the tool/armor (mining blocks, hitting mobs, etc.)<n><n> Souls have one or two (usually two) <imp>elements<r> that apply stat modifiers and affect what <imp>skills<r> can be learned. Souls have their own XP and AP (action points).
-guide.silentgems:chapter.toolSoul.text2=You may use any combination of soul gems. The soul gems will determine the elements of the tool soul.
+guide.silentgems:chapter.toolSoul.text2=You may use any combination of soul gems. The <imp>soul gems will determine the elements<r> of the tool soul.
 guide.silentgems:chapter.soulSkills.name=Soul Skills
 guide.silentgems:chapter.soulSkills.text1=Soul skills are <imp>abilities that tool souls can learn as they level up<r>. These range from skills that simply <imp>modify stats<r> to skills that affect <imp>blocks you click on<r> or <imp>entities you attack<r>. The skill that is learned each level is somewhat random, but the tool type, elements of the soul, and some other factors are weighed in when selecting one.
 guide.silentgems:chapter.soulSkills.text2=Skills can have <imp>multiple effects<r>, including a mix of passive or active ones. Some skills require AP to activate. Activation of a skill can occur in different situations, depending on the skill.<n><n>The following pages list details on each skill, including max level and AP cost. <imp>Skills can either favor or require elements<r>. <i>Favored<r> elements increase the chance of learning the skill. <i>Required<r> means the soul must have that element to learn it.
@@ -1366,7 +1374,7 @@ guide.silentgems:chapter.soulSkills.harvest_speed_boost=Increases <imp>harvest s
 guide.silentgems:chapter.soulSkills.head_bonus=Causes some mobs to <imp>drop their head when killed<r>. Chance increases with level. An API is provided for adding heads, if other mods wish to make their entities work with this.
 guide.silentgems:chapter.soulSkills.magic_damage_boost=Increases <imp>magic damage<r>. On shields, this will affect magic protection.
 guide.silentgems:chapter.soulSkills.melee_damage_boost=Increases <imp>melee damage<r>. On bows, this will increase arrow damage.
-guide.silentgems:chapter.soulSkills.mending=Occasionally repairs the item by a small amount. This when only activate if the soul has more than half its AP left.
+guide.silentgems:chapter.soulSkills.mending=Occasionally repairs the item by a small amount. This will only activate if the soul has more than half its AP left.
 guide.silentgems:chapter.soulSkills.protection_boost=Increases <imp>protection<r>. On shields, this will affect magic protection slightly.
 guide.silentgems:chapter.soulSkills.tag=Applies a <imp>glowing<r> affect to attacked mobs. The duration depends on the level.
 guide.silentgems:chapter.soulSkills.warm=<vimp>Skill is incomplete! Additional effects planned.<r><n><n>When on a sword, right-clicking a block has a chance of <imp>lighting it on fire<r>, at the cost of durability. Igniting a block uses 1/4 the listed amount of AP.
