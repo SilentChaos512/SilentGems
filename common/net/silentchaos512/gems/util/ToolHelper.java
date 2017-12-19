@@ -1188,6 +1188,10 @@ public class ToolHelper {
 
   static NBTTagCompound getRootTag(ItemStack tool, String key) {
 
+    if (!(tool.getItem() instanceof ITool || tool.getItem() instanceof IArmor)) {
+      return new NBTTagCompound();
+    }
+
     if (key != null && !key.isEmpty()) {
       if (!tool.getTagCompound().hasKey(key)) {
         tool.getTagCompound().setTag(key, new NBTTagCompound());
