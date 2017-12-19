@@ -13,11 +13,13 @@ import javax.annotation.Nullable;
 
 import org.lwjgl.input.Keyboard;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -207,14 +209,24 @@ public class ToolSoul {
 
     // Bonus XP for ores and logs
     int oreBonus = 0;
-    ItemStack blockStack = new ItemStack(state.getBlock(), 1,
-        state.getBlock().getMetaFromState(state));
-    for (int oreId : OreDictionary.getOreIDs(blockStack)) {
-      String oreName = OreDictionary.getOreName(oreId);
-      if (oreName.startsWith("ore") || oreName.startsWith("log")) {
-        oreBonus = this.level / 2;
-        break;
+    Block block = state.getBlock();
+    int blockMeta = state.getBlock().getMetaFromState(state);
+    if (block == Blocks.LIT_REDSTONE_ORE) {
+      block = Blocks.REDSTONE_ORE;
+      blockMeta = 0;
+    }
+    ItemStack blockStack = new ItemStack(block, 1, blockMeta);  
+    if (StackHelper.isValid(blockStack)) {
+      for (int oreId : OreDictionary.getOreIDs(blockStack)) {
+        String oreName = OreDictionary.getOreName(oreId);
+        if (oreName.startsWith("ore") || oreName.startsWith("log")) {
+          oreBonus = this.level / 2;
+          break;
+        }
       }
+    } else {
+      SilentGems.logHelper.warning("ToolSoul#getXpForBlockHarvest: Invalid block stack for " + block
+          + " (meta " + blockMeta + ")");
     }
 
     // Wood gives less XP.
