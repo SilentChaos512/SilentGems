@@ -57,7 +57,7 @@ public class ToolSoul {
   public static final int AP_PER_LEVEL = 10;
   public static final int AP_REGEN_DELAY = 120;
 
-  static final int BASE_XP = 10;
+  static final int BASE_XP = 30;
   static final float XP_CURVE_FACTOR = 3.0f;
 
   String name = "";
