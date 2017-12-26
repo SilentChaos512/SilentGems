@@ -791,7 +791,8 @@ public class ToolHelper {
         // Send to the server.
         MessageItemRename message = new MessageItemRename(player.getName(), itemSlot, displayName,
             toolOrArmor);
-        SilentGems.logHelper.info("Sending tool/armor name \"" + displayName + "\" to server.");
+        String line = String.format("%s crafted \"%s\"", player.getName(), displayName);
+        SilentGems.logHelper.info(line);
         NetworkHandler.INSTANCE.sendToServer(message);
       }
     }

@@ -458,7 +458,8 @@ public class GuideBookGems extends GuideBook {
       "Scathing comments since 2017!",
       "Muffin button not included.",
       "Now with more enchantments!",
-      "Send help.@SilentChaos512"
+      "Send help.@SilentChaos512",
+      "Good lookin' mainframes!"
   };//@formatter:on
 
   @Override

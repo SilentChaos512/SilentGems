@@ -1,8 +1,11 @@
 Silent's Gems - Changelog
 
+2.6.6
+Fixed: Tools with tool souls not being able to mine redstone ore (#262)
+
 2.6.5
 Changed: Tweaked Tool Soul XP curve again. It's much steeper now (cubic instead of ^2.5).
-Changed: Toul soul XP from combat and harvesting logs reduced. Level bonus applied to block harvesting also reduced.
+Changed: Toul soul XP from combat and harvesting logs reduced. Level bonus applied to ore harvesting also reduced.
 Changed: The freezing and shocking effects of the mod's Aspect enchantments are now potion effects.
 Changed: Freezing effect now reduces movement speed by 50% per level (halved on players), instead of applying Slowness.
 Changed: Shocking effect now reduces attack damage by 30% per level (halved on players), instead of applying Weakness.

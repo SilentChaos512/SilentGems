@@ -52,9 +52,6 @@ public class MessageItemRename extends Message {
     ItemStack stack = player.inventory.getStackInSlot(slot);
 
     if (player.getName().equals(playerName)) {
-      log.info(String.format("Tool/armor rename for player %s (slot %d)", player.getName(), slot));
-      log.info("    Unlocalized name = " + unlocalizedName);
-
       if (StackHelper.isEmpty(stack)) {
         log.warning("    ItemStack is null!");
         return null;
@@ -62,9 +59,6 @@ public class MessageItemRename extends Message {
         log.warning("    Unlocalized names do not match! Did the tool change slots?");
         return null;
       }
-
-      log.info("    Old name = " + stack.getDisplayName());
-      log.info("    New name = " + newItemName);
 
       stack.setStackDisplayName(newItemName);
 
