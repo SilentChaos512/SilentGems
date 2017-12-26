@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.6.6
+Fixed: Part blacklist not working for rods (#259)
 Fixed: Tools with tool souls not being able to mine redstone ore (#262)
 
 2.6.5

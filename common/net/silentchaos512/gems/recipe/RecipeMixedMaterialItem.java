@@ -207,7 +207,7 @@ public class RecipeMixedMaterialItem extends RecipeBaseSL {
     ItemStack rod = StackHelper.empty();
     for (ItemStack stack : getNonEmptyStacks(inv)) {
       ToolPart part = ToolPartRegistry.fromStack(stack);
-      if (part != null && part instanceof ToolPartRod) {
+      if (part != null && !part.isBlacklisted(stack) && part instanceof ToolPartRod) {
         if (StackHelper.isEmpty(rod)) {
           rod = stack;
         } else if (!rod.isItemEqual(stack)) {
