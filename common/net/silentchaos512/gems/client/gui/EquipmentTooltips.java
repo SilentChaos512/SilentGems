@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.client.gui;
 
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Multimap;
@@ -19,6 +20,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
@@ -26,6 +28,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderTooltipEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
@@ -41,31 +44,55 @@ public class EquipmentTooltips extends Gui {
       "textures/gui/hud.png");
 
   private int lastWidth = 0;
+  private boolean isTinkersLoaded;
+
+  public EquipmentTooltips() {
+
+    this.isTinkersLoaded = Loader.isModLoaded("tconstruct");
+  }
 
   @SubscribeEvent
   public void onRenderTooltip(RenderTooltipEvent.PostText event) {
 
     ItemStack stack = event.getStack();
     Item item = stack.getItem();
+    boolean isTinkersHarvestTool = isTinkersLoaded
+        && item instanceof slimeknights.tconstruct.library.tools.AoeToolCore;
+    boolean isTinkersWeapon = isTinkersLoaded
+        && item instanceof slimeknights.tconstruct.library.tools.SwordCore;
+    boolean isTinkersBow = isTinkersLoaded
+        && item instanceof slimeknights.tconstruct.library.tools.ranged.BowCore;
 
-    if (item instanceof ItemTool || item instanceof ItemHoe) {
+    // Tools (pickaxes, shovels, axes, and more)
+    if (item instanceof ItemTool || item instanceof ItemHoe || item instanceof ItemShears
+        || isTinkersHarvestTool) {
       renderBackground(event);
       renderForTool(event, stack);
-    } else if (item instanceof ItemSword) {
+    }
+    // Swords
+    else if (item instanceof ItemSword || isTinkersWeapon) {
       boolean isCaster = item instanceof ITool
           && ToolHelper.getToolTier(stack).ordinal() >= EnumMaterialTier.SUPER.ordinal();
       renderBackground(event);
       renderForWeapon(event, stack);
-    } else if (item instanceof ItemBow) {
+    }
+    // Bows
+    else if (item instanceof ItemBow || isTinkersBow) {
       renderBackground(event);
       renderForBow(event, stack);
-    } else if (item instanceof ItemShield) {
+    }
+    // Shields
+    else if (item instanceof ItemShield) {
       renderBackground(event);
       renderForShield(event, stack);
-    } else if (item instanceof ItemArmor) {
+    }
+    // Armor
+    else if (item instanceof ItemArmor) {
       renderBackground(event);
       renderForArmor(event, stack);
-    } else {
+    }
+    // Unknown
+    else {
       return;
     }
   }
@@ -88,6 +115,7 @@ public class EquipmentTooltips extends Gui {
     boolean isAxe = stack.getItem() instanceof ItemAxe;
     boolean isHoe = stack.getItem() instanceof ItemHoe;
     boolean isSickle = stack.getItem() instanceof ItemGemSickle;
+    boolean isShears = stack.getItem() instanceof ItemShears;
 
     double scale = 0.75;
     int x = (int) (event.getX() / scale);
@@ -119,12 +147,12 @@ public class EquipmentTooltips extends Gui {
     x = renderStat(mc, fontRenderer, 0, x, y, durability, equippedDurability,
         StackHelper.isValid(currentEquip));
     // Harvest Level
-    if (!isAxe && !isHoe && !isSickle) {
+    if (!isAxe && !isHoe && !isSickle && !isShears) {
       x = renderStat(mc, fontRenderer, 1, x, y, harvestLevel, equippedHarvestLevel,
           !currentIsDurabilityOnly && currentEquip.getItem() instanceof ItemTool);
     }
     // Harvest Speed
-    if (!isHoe && !isSickle)
+    if (!isHoe && !isSickle && !isShears)
       x = renderStat(mc, fontRenderer, 2, x, y, harvestSpeed, equippedHarvestSpeed,
           !currentIsDurabilityOnly && currentEquip.getItem() instanceof ItemTool);
     // Melee Damage and Speed
@@ -363,11 +391,18 @@ public class EquipmentTooltips extends Gui {
   private int getHarvestLevel(ItemStack stack, int defaultValue) {
 
     Item item = stack.getItem();
-    if (StackHelper.isEmpty(stack) || !(item instanceof ItemTool))
+    if (StackHelper.isEmpty(stack))
+      return defaultValue;
+
+    // Tinkers tools?
+    if (isTinkersLoaded && item instanceof slimeknights.tconstruct.library.tools.ToolCore)
+      return slimeknights.tconstruct.library.utils.ToolHelper.getHarvestLevelStat(stack);
+
+    if (!(item instanceof ItemTool))
       return defaultValue;
 
     ItemTool itemTool = (ItemTool) item;
-    IBlockState state = getBlockForTool(item);
+    IBlockState state = getBlockForTool(stack);
     int maxLevel = -1;
     for (String toolClass : itemTool.getToolClasses(stack)) {
       maxLevel = Math.max(maxLevel, itemTool.getHarvestLevel(stack, toolClass, null, state));
@@ -380,21 +415,28 @@ public class EquipmentTooltips extends Gui {
     Item item = stack.getItem();
     if (StackHelper.isEmpty(stack))
       return defaultValue;
+
+    if (isTinkersLoaded && item instanceof slimeknights.tconstruct.library.tools.ToolCore)
+      return slimeknights.tconstruct.library.utils.ToolHelper.getMiningSpeedStat(stack);
+
     if (!(item instanceof ItemTool))
       return 0;
 
     // Get an appropriate blockstate for the tool (assume stone if class is unknown).
-    IBlockState state = getBlockForTool(item);
+    IBlockState state = getBlockForTool(stack);
 
     return item.getStrVsBlock(stack, state);
   }
 
-  private IBlockState getBlockForTool(Item item) {
+  private IBlockState getBlockForTool(ItemStack stack) {
 
     IBlockState state;
-    if (item instanceof ItemSpade)
+    Item item = stack.getItem();
+    Set<String> toolClasses = item.getToolClasses(stack);
+
+    if (item instanceof ItemSpade || toolClasses.contains("shovel"))
       state = Blocks.DIRT.getDefaultState();
-    else if (item instanceof ItemAxe)
+    else if (item instanceof ItemAxe || toolClasses.contains("axe"))
       state = Blocks.LOG.getDefaultState();
     else
       state = Blocks.STONE.getDefaultState();
@@ -498,7 +540,9 @@ public class EquipmentTooltips extends Gui {
 
   private boolean isWeapon(ItemStack stack) {
 
-    return stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemAxe;
+    return stack.getItem() instanceof ItemSword || stack.getItem() instanceof ItemAxe
+        || (isTinkersLoaded
+            && stack.getItem() instanceof slimeknights.tconstruct.library.tools.SwordCore);
   }
 
   private boolean isCaster(ItemStack stack) {
