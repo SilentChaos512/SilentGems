@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.event;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.state.IBlockState;
@@ -13,7 +11,6 @@ import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -32,8 +29,6 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.Skulls;
-import net.silentchaos512.gems.enchantment.EnchantmentIceAspect;
-import net.silentchaos512.gems.enchantment.EnchantmentLightningAspect;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.EntityChaosProjectileScatter;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
@@ -44,7 +39,6 @@ import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemBlockPlacer;
 import net.silentchaos512.gems.item.ItemSoulGem;
 import net.silentchaos512.gems.item.ItemSoulGem.Soul;
-import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
 import net.silentchaos512.gems.lib.module.ModuleEntityRandomEquipment;
@@ -54,10 +48,8 @@ import net.silentchaos512.gems.loot.LootHandler;
 import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.gems.skills.ToolSkillDigger;
 import net.silentchaos512.gems.util.ArmorHelper;
-import net.silentchaos512.gems.util.ModDamageSource;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
-import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.PlayerHelper;
 import net.silentchaos512.lib.util.StackHelper;
 

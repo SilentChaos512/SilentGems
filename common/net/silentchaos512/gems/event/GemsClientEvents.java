@@ -62,7 +62,8 @@ public class GemsClientEvents {
     if (SilentGems.instance.isDevBuild() && GemsConfig.DEBUG_MODE
         && event.getType() == ElementType.TEXT) {
       GlStateManager.pushMatrix();
-      GlStateManager.scale(0.5f, 0.5f, 1.0f);
+      float scale = 1.0f;
+      GlStateManager.scale(scale, scale, 1.0f);
       int y = 5;
       for (String line : debugTextOverlay.split("\\n")) {
         Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(line, 5, y, 0xFFFFFF);

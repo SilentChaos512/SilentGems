@@ -387,8 +387,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase {
   public void onClientTick(ClientTickEvent event) {
 
     if (event.phase == Phase.END) {
-      GemsClientEvents.debugTextOverlay = "Model caches: " + modelCache.size() + ", "
-          + modelCacheExamples.size();
+//      GemsClientEvents.debugTextOverlay = "Model caches: " + modelCache.size() + ", "
+//          + modelCacheExamples.size();
 
       // Clear tool model caches (TODO: configs?)
       if (ClientTickHandler.ticksInGame % (10 * 60 * 20) == 0) {
