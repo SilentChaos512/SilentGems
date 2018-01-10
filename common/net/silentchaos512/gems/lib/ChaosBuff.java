@@ -182,7 +182,7 @@ public class ChaosBuff {
       PlayerData data = PlayerDataHandler.get(player);
       if (data != null)
         data.flightTime = 100;
-      if (!player.world.isRemote && player.ticksExisted % 20 == 0) {
+      if (!player.world.isRemote && player.world.getTotalWorldTime() % 20 == 0) {
         NetworkHandler.INSTANCE.sendTo(new MessageSetFlight(true), (EntityPlayerMP) player);
       }
     }
