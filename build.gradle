@@ -9,10 +9,6 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-//plugins {
-//    id "net.minecraftforge.gradle.forge" version "2.0.2"
-//}
-
 version = "2.6.6"
 def silentlib_version = "2.2.14"
 def buildNum = 0

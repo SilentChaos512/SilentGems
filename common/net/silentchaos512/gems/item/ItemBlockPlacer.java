@@ -17,6 +17,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -35,11 +36,15 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
 
   protected static final int ABSORB_DELAY = 20;
   protected static final String NBT_AUTO_FILL = "AutoFill";
+  protected static final String NBT_BLOCK_COUNT = "BlockCount";
 
-  public ItemBlockPlacer(String name, int maxDamage) {
+  protected int maxBlocks;
+
+  public ItemBlockPlacer(String name, int maxBlocks) {
 
     super(1, SilentGems.MODID, name);
-    setMaxDamage(maxDamage);
+    this.maxBlocks = maxBlocks;
+    setMaxDamage(0);
     setNoRepair();
     setMaxStackSize(1);
     setUnlocalizedName(name);
@@ -53,7 +58,7 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
 
     boolean autoFillOn = getAutoFillMode(stack);
     int currentBlocks = getRemainingBlocks(stack);
-    int maxBlocks = stack.getMaxDamage();
+    int maxBlocks = getMaxBlocksStored(stack);
 
     list.add(loc.getItemSubText(blockPlacer, "count", currentBlocks, maxBlocks));
     String onOrOff = loc.getMiscText("state." + (autoFillOn ? "on" : "off"));
@@ -72,7 +77,20 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   @Override
   public int getRemainingBlocks(ItemStack stack) {
 
-    return stack.getMaxDamage() - stack.getItemDamage();
+    return NBTHelper.getTagInt(stack, NBT_BLOCK_COUNT);
+  }
+
+  @Override
+  public void setRemainingBlocks(ItemStack stack, int value) {
+
+    value = MathHelper.clamp(value, 0, getMaxBlocksStored(stack));
+    NBTHelper.setTagInt(stack, NBT_BLOCK_COUNT, value);
+  }
+
+  @Override
+  public int getMaxBlocksStored(ItemStack stack) {
+
+    return maxBlocks;
   }
 
   public boolean getAutoFillMode(ItemStack stack) {
@@ -92,16 +110,26 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot,
       boolean isSelected) {
 
+    // Absorb blocks from inventory.
     if (!world.isRemote && world.getTotalWorldTime() % ABSORB_DELAY == 0) {
       if (entity instanceof EntityPlayer && getAutoFillMode(stack)) {
         absorbBlocksFromPlayer(stack, (EntityPlayer) entity);
       }
     }
+
+    // Convert to new NBT block count;
+    if (stack.getItemDamage() > 0 && !NBTHelper.hasKey(stack, NBT_BLOCK_COUNT)) {
+      int blockCount = getMaxBlocksStored(stack) - stack.getItemDamage();
+      SilentGems.logHelper.debug(blockCount);
+      NBTHelper.setTagInt(stack, NBT_BLOCK_COUNT, blockCount);
+      stack.setItemDamage(0);
+    }
   }
 
   protected ItemStack absorbBlocksFromPlayer(ItemStack stack, EntityPlayer player) {
 
-    if (stack.getItemDamage() == 0) {
+    int maxBlocksStored = getMaxBlocksStored(stack);
+    if (getRemainingBlocks(stack) >= maxBlocksStored) {
       return stack;
     }
 
@@ -114,19 +142,20 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
 
     for (ItemStack invStack : PlayerHelper.getNonEmptyStacks(player, true, true, false)) {
       if (invStack.getItem() == itemBlock && invStack.getItemDamage() == metaDropped) {
-        int damage = stack.getItemDamage();
+        int currentBlocks = getRemainingBlocks(stack);
 
-        // Decrease damage of block placer, reduce stack size of block stack.
-        if (damage - StackHelper.getCount(invStack) < 0) {
-          stack.setItemDamage(0);
-          StackHelper.shrink(invStack, damage);
+        // Add blocks to block placer, reduce stack size of block stack.
+        if (currentBlocks + StackHelper.getCount(invStack) > maxBlocksStored) {
+          setRemainingBlocks(stack, maxBlocks);
+          StackHelper.shrink(invStack, maxBlocksStored - currentBlocks);
           return stack;
         } else {
-          stack.setItemDamage(damage - StackHelper.getCount(invStack));
+          SilentGems.logHelper.debug(currentBlocks + StackHelper.getCount(invStack));
+          setRemainingBlocks(stack, currentBlocks + StackHelper.getCount(invStack));
           StackHelper.setCount(invStack, 0);
         }
 
-        // Remove empty stacks.
+        // Remove empty block stacks.
         if (StackHelper.getCount(invStack) <= 0) {
           PlayerHelper.removeItem(player, invStack);
         }
@@ -138,8 +167,17 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
 
   public int absorbBlocks(ItemStack placer, ItemStack blockStack) {
 
-    // TODO
-    return 0;
+    int placerCount = getRemainingBlocks(placer);
+    int blockCount = StackHelper.getCount(blockStack);
+    int maxBlocksStored = getMaxBlocksStored(placer);
+
+    if (placerCount + blockCount > maxBlocksStored) {
+      setRemainingBlocks(placer, maxBlocksStored);
+      return maxBlocksStored - placerCount;
+    } else {
+      setRemainingBlocks(placer, placerCount + blockCount);
+      return blockCount;
+    }
   }
 
   @Override
@@ -148,6 +186,7 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
 
     ItemStack stack = player.getHeldItem(hand);
     if (!player.world.isRemote && player.isSneaking()) {
+      // Toggle auto-fill mode.
       boolean mode = !getAutoFillMode(stack);
       setAutoFillMode(stack, mode);
 
@@ -165,8 +204,9 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
       EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 
     ItemStack stack = player.getHeldItem(hand);
-    if (stack.getItemDamage() == getMaxDamage(stack) && !player.capabilities.isCreativeMode) {
-      return EnumActionResult.PASS; // Empty and not in creative mode.
+    if (getRemainingBlocks(stack) <= 0 && !player.capabilities.isCreativeMode) {
+      // Empty and not in creative mode.
+      return EnumActionResult.PASS;
     }
 
     // Create fake block stack and use it.
@@ -176,7 +216,7 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     Block block = state.getBlock();
     ItemStack fakeBlockStack = new ItemStack(block, 1, block.getMetaFromState(state));
 
-    // In 1.11, we must place the fake stack in the player's hand!
+    // In 1.11+, we must place the fake stack in the player's hand!
     ItemStack currentOffhand = player.getHeldItemOffhand();
     player.setHeldItem(EnumHand.OFF_HAND, fakeBlockStack);
 
@@ -188,7 +228,7 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     player.setHeldItem(EnumHand.OFF_HAND, currentOffhand);
 
     if (result == EnumActionResult.SUCCESS) {
-      stack.setItemDamage(stack.getItemDamage() + 1);
+      setRemainingBlocks(stack, getRemainingBlocks(stack) - 1);
     }
     return result;
   }
@@ -206,7 +246,7 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
       // Create block stack to drop.
       ItemStack toDrop = new ItemStack(state.getBlock(), 1, meta);
       StackHelper.setCount(toDrop, Math.min(getRemainingBlocks(stack), toDrop.getMaxStackSize()));
-      stack.damageItem(StackHelper.getCount(toDrop), player);
+      setRemainingBlocks(stack, getRemainingBlocks(stack) - StackHelper.getCount(toDrop));
 
       // Make the EntityItem and spawn in world.
       Vec3d vec = player.getLookVec().scale(2.0);
@@ -228,9 +268,11 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     if (!ItemHelper.isInCreativeTab(item, tab))
       return;
 
-    ItemStack stack = new ItemStack(item);
-    list.add(new ItemStack(item, 1, getMaxDamage(stack)));
-    list.add(stack);
+    ItemStack stackEmpty = new ItemStack(item);
+    ItemStack stackFull = new ItemStack(item);
+    setRemainingBlocks(stackFull, getMaxBlocksStored(stackFull));
+    list.add(stackEmpty);
+    list.add(stackFull);
   }
 
   @Override
@@ -243,5 +285,14 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
   public boolean showDurabilityBar(ItemStack stack) {
 
     return true;
+  }
+
+  @Override
+  public double getDurabilityForDisplay(ItemStack stack) {
+
+    int maxBlocksStored = getMaxBlocksStored(stack);
+    if (maxBlocksStored <= 0)
+      return 1.0;
+    return 1.0 - (double) getRemainingBlocks(stack) / (double) maxBlocksStored;
   }
 }

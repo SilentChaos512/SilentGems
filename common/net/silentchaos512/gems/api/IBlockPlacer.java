@@ -14,4 +14,8 @@ public interface IBlockPlacer {
   public IBlockState getBlockPlaced(ItemStack stack);
 
   public int getRemainingBlocks(ItemStack stack);
+
+  public void setRemainingBlocks(ItemStack stack, int value);
+
+  public int getMaxBlocksStored(ItemStack stack);
 }

@@ -68,7 +68,6 @@ public class ItemHoldingGem extends ItemBlockPlacer {
 
     for (EnumGem gem : EnumGem.values()) {
       ItemStack stack = new ItemStack(this);
-      stack.setItemDamage(stack.getMaxDamage());
       stack.setTagCompound(new NBTTagCompound());
       stack.getTagCompound().setShort(NBT_GEM_ID, (short) gem.ordinal());
       recipes.addShapedOre("holding_gem_" + gem.name(), stack, "gcg", "s s", "gcg", 'g', "ingotGold", 'c',
@@ -90,7 +89,7 @@ public class ItemHoldingGem extends ItemBlockPlacer {
   public ItemStack construct(EnumGem gem) {
 
     ItemStack stack = new ItemStack(this);
-    stack.setItemDamage(stack.getMaxDamage());
+    setRemainingBlocks(stack, 0);
     stack.setTagCompound(new NBTTagCompound());
     stack.getTagCompound().setShort(NBT_GEM_ID, (short) gem.ordinal());
     return stack;

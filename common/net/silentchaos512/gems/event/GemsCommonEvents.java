@@ -9,9 +9,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -267,12 +269,22 @@ public class GemsCommonEvents {
       for (ItemStack stack : PlayerHelper.getNonEmptyStacks(event.getEntityPlayer())) {
         if (stack.getItem() instanceof ItemBlockPlacer) {
           ItemBlockPlacer itemPlacer = (ItemBlockPlacer) stack.getItem();
-          IBlockState state = ((ItemBlock) entityStack.getItem()).getBlock()
-              .getStateFromMeta(entityStack.getItemDamage());
-          if (state.equals(itemPlacer.getBlockPlaced(stack))) {
-            // TODO
-            // event.getItem().setDead();
-            break;
+          if (itemPlacer.getAutoFillMode(stack)) {
+            IBlockState state = ((ItemBlock) entityStack.getItem()).getBlock()
+                .getStateFromMeta(entityStack.getItemDamage());
+            if (state.equals(itemPlacer.getBlockPlaced(stack))) {
+              // TODO
+              int amountAbsorbed = itemPlacer.absorbBlocks(stack, entityStack);
+              if (amountAbsorbed > 0) {
+                StackHelper.shrink(entityStack, amountAbsorbed);
+                if (StackHelper.getCount(entityStack) <= 0) {
+                  event.getItem().setDead();
+                }
+                event.getEntityPlayer().world.playSound(null, event.getItem().getPosition(),
+                    SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1f, 1f);
+                break;
+              }
+            }
           }
         }
       }

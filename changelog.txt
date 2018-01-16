@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+2.6.7
+Added: Holding gems and torch bandoliers can now pick up blocks from the ground, even if your inventory is full.
+Fixed (probably): Holding gems and torch bandoliers being "repaired" by some less-than-smart machines (#266)
+
 2.6.6
 Fixed: Part blacklist not working for rods (#259)
 Fixed: Tools with tool souls not being able to mine redstone ore (#262)
