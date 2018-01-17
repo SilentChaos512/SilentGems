@@ -157,6 +157,9 @@ public class GemsConfig extends AdaptiveConfig {
   public static List<WeightedRandomItemSG> GEM_WEIGHTS = new ArrayList<>();
   public static List<WeightedRandomItemSG> GEM_WEIGHTS_DARK = new ArrayList<>();
   public static List<WeightedRandomItemSG> GEM_WEIGHTS_LIGHT = new ArrayList<>();
+  public static boolean GEM_REGIONS_ENABLED;
+  public static int GEM_REGIONS_SIZE;
+  public static float GEM_REGIONS_SECOND_GEM_CHANCE;
   public static int GLOW_ROSE_PER_CHUNK = 2;
   public static float CHAOS_NODES_PER_CHUNK = 0.006f;
 
@@ -182,6 +185,7 @@ public class GemsConfig extends AdaptiveConfig {
   public static final String CAT_TOOLTIPS = CAT_MAIN + split + "tooltips";
   public static final String CAT_WORLD_GEN = CAT_MAIN + split + "world generation";
   public static final String CAT_WORLD_GEN_GEM_WEIGHT = CAT_WORLD_GEN + split + "gem weights";
+  public static final String CAT_WORLD_GEN_REGIONS = CAT_WORLD_GEN + split + "gem regions";
 
   public static final GemsConfig INSTANCE = new GemsConfig();
 
@@ -493,6 +497,20 @@ public class GemsConfig extends AdaptiveConfig {
             break;
         }
       }
+
+      // Gem regions
+      config.setCategoryComment(CAT_WORLD_GEN_REGIONS, "Settings for \"gem regions\". This will"
+          + " randomly assign one or two gems to spawn in each region in the overworld. This does"
+          + " not consider things like biomes, it's purely random. The usual world gen configs"
+          + " still apply, this only changes which gem type is selected for each vein.");
+      GEM_REGIONS_ENABLED = loadBoolean("Enable", CAT_WORLD_GEN_REGIONS, false,
+          "Enables gem regions.");
+      GEM_REGIONS_SIZE = loadInt("Region Size", CAT_WORLD_GEN_REGIONS,
+          12, 1, 256,
+          "Each region is a square of this many chunks on each side.");
+      GEM_REGIONS_SECOND_GEM_CHANCE = config.getFloat("Second Gem Chance", CAT_WORLD_GEN_REGIONS,
+          0.75f, 0f, 1f,
+          "The chance of a second gem being selected to spawn in the region.");
 
       GemsConfigHC.load(this);
       //@formatter:on

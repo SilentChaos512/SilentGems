@@ -75,7 +75,7 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
 
       for (int i = 0; i < veinCount; ++i) {
         BlockPos pos = config.getRandomPos(random, posX, posZ);
-        IBlockState state = selectState(config, random);
+        IBlockState state = selectState(config, random, world, posX, posZ);
         new WorldGenMinable(state, veinSize, predicate).generate(world, random, pos);
       }
     }
@@ -89,12 +89,33 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
    * @param random
    * @return
    */
-  protected IBlockState selectState(ConfigOptionOreGen config, Random random) {
+  protected IBlockState selectState(ConfigOptionOreGen config, Random random, World world,
+      int chunkX, int chunkZ) {
 
     if (config == GemsConfig.WORLD_GEN_GEMS) {
-      int meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random,
-          GemsConfig.GEM_WEIGHTS)).getMeta();
-      EnumGem gem = EnumGem.values()[meta];
+      EnumGem gem;
+      if (GemsConfig.GEM_REGIONS_ENABLED) {
+        // Gem Regions
+        long dimension = (long) world.provider.getDimension();
+        long cx = (long) chunkX / 16 / GemsConfig.GEM_REGIONS_SIZE;
+        long cz = (long) chunkZ / 16 / GemsConfig.GEM_REGIONS_SIZE;
+        long seed = (world.getSeed() << 40L) | ((dimension & 0xFF) << 32L)
+            | ((cz & 0xFFFF) << 16L) | (cx & 0xFFFF);
+        Random regionRandom = new Random(seed);
+        EnumGem firstGem = EnumGem.values()[regionRandom.nextInt(16)];
+        EnumGem secondGem = EnumGem.values()[regionRandom.nextInt(16)];
+        if (regionRandom.nextFloat() < GemsConfig.GEM_REGIONS_SECOND_GEM_CHANCE
+            && random.nextBoolean()) {
+          gem = secondGem;
+        } else {
+          gem = firstGem;
+        }
+      } else {
+        // Classic logic
+        int meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random,
+            GemsConfig.GEM_WEIGHTS)).getMeta();
+        gem = EnumGem.values()[meta];
+      }
       return ModBlocks.gemOre.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
     } else if (config == GemsConfig.WORLD_GEN_CHAOS) {
       return ModBlocks.essenceOre.getDefaultState().withProperty(BlockEssenceOre.VARIANT,
