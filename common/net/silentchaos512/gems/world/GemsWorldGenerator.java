@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.google.common.base.Predicate;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
@@ -23,6 +22,10 @@ import net.silentchaos512.lib.world.WorldGeneratorSL;
 
 public class GemsWorldGenerator extends WorldGeneratorSL {
 
+  static final Predicate PREDICATE_STONE = BlockMatcher.forBlock(Blocks.STONE);
+  static final Predicate PREDICATE_NETHERRACK = BlockMatcher.forBlock(Blocks.NETHERRACK);
+  static final Predicate PREDICATE_END_STONE = BlockMatcher.forBlock(Blocks.END_STONE);
+
   public GemsWorldGenerator() {
 
     super(true, SilentGems.MODID + "_retrogen");
@@ -31,109 +34,87 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
   @Override
   protected void generateSurface(World world, Random random, int posX, int posZ) {
 
-    int i, meta, veinCount, veinSize;
-    BlockPos pos;
-    Block block;
-    IBlockState state;
-    ConfigOptionOreGen config;
-
     generateFlowers(world, random, posX, posZ);
     generateChaosNodes(world, random, posX, posZ);
 
     // Gems
-    config = GemsConfig.WORLD_GEN_GEMS;
-    if (config.isEnabled()) {
-      block = ModBlocks.gemOre;
-      veinCount = config.getVeinCount(random);
-      veinSize = config.veinSize;
-      for (i = 0; i < veinCount; ++i) {
-        pos = config.getRandomPos(random, posX, posZ);
-        meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS))
-            .getMeta();
-        EnumGem gem = EnumGem.values()[meta];
-        state = block.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
-        new WorldGenMinable(state, veinSize).generate(world, random, pos);
-      }
-    }
+    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_GEMS, PREDICATE_STONE);
 
     // Chaos Ore
-    config = GemsConfig.WORLD_GEN_CHAOS;
-    if (config.isEnabled()) {
-      block = ModBlocks.essenceOre;
-      veinCount = config.getVeinCount(random);
-      veinSize = config.veinSize;
-      for (i = 0; i < veinCount; ++i) {
-        pos = config.getRandomPos(random, posX, posZ);
-        state = block.getDefaultState().withProperty(BlockEssenceOre.VARIANT,
-            BlockEssenceOre.Type.CHAOS);
-        new WorldGenMinable(state, veinSize).generate(world, random, pos);
-      }
-    }
+    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_CHAOS, PREDICATE_STONE);
   }
 
   @Override
   protected void generateNether(World world, Random random, int posX, int posZ) {
 
-    int i, meta, veinCount, veinSize;
-    BlockPos pos;
-    Block block;
-    IBlockState state;
-    ConfigOptionOreGen config;
-    Predicate predicate = BlockMatcher.forBlock(Blocks.NETHERRACK);
-
     // Dark Gems
-    config = GemsConfig.WORLD_GEN_GEMS_DARK;
-    if (config.isEnabled()) {
-      block = ModBlocks.gemOreDark;
-      veinCount = config.getVeinCount(random);
-      veinSize = config.veinSize;
-      for (i = 0; i < veinCount; ++i) {
-        pos = config.getRandomPos(random, posX, posZ);
-        meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS_DARK))
-            .getMeta();
-        EnumGem gem = EnumGem.values()[meta];
-        state = block.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
-        new WorldGenMinable(state, veinSize, predicate).generate(world, random, pos);
-      }
-    }
+    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_GEMS_DARK, PREDICATE_NETHERRACK);
   }
 
   @Override
   protected void generateEnd(World world, Random random, int posX, int posZ) {
 
-    int i, meta, veinCount, veinSize;
-    BlockPos pos;
-    Block block;
-    IBlockState state;
-    ConfigOptionOreGen config;
-    Predicate predicate = BlockMatcher.forBlock(Blocks.END_STONE);
-
     // Ender Ore
-    config = GemsConfig.WORLD_GEN_ENDER;
-    block = ModBlocks.essenceOre;
-    veinCount = config.getVeinCount(random);
-    veinSize = config.veinSize;
-    for (i = 0; i < veinCount; ++i) {
-      pos = config.getRandomPos(random, posX, posZ);
-      state = block.getDefaultState().withProperty(BlockEssenceOre.VARIANT,
-          BlockEssenceOre.Type.ENDER);
-      new WorldGenMinable(state, veinSize, predicate).generate(world, random, pos);
-    }
+    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_ENDER, PREDICATE_END_STONE);
 
     // Light Gems
-    config = GemsConfig.WORLD_GEN_GEMS_LIGHT;
-    if (config.isEnabled()) {
-      block = ModBlocks.gemOreLight;
-      veinCount = config.getVeinCount(random);
-      veinSize = config.veinSize;
-      for (i = 0; i < veinCount; ++i) {
-        pos = config.getRandomPos(random, posX, posZ);
-        meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS_LIGHT))
-            .getMeta();
-        EnumGem gem = EnumGem.values()[meta];
-        state = block.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
+    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_GEMS_LIGHT, PREDICATE_END_STONE);
+  }
+
+  /**
+   * Generate the ores for the given config. Uses selectState to choose different gems.
+   */
+  protected void generateOres(World world, Random random, int posX, int posZ,
+      ConfigOptionOreGen config, Predicate predicate) {
+
+    final int dimension = world.provider.getDimension();
+
+    if (config.isEnabled() && config.canSpawnInDimension(dimension)) {
+      int veinCount = config.getVeinCount(random);
+      int veinSize = config.veinSize;
+
+      for (int i = 0; i < veinCount; ++i) {
+        BlockPos pos = config.getRandomPos(random, posX, posZ);
+        IBlockState state = selectState(config, random);
         new WorldGenMinable(state, veinSize, predicate).generate(world, random, pos);
       }
+    }
+  }
+
+  /**
+   * Selects an IBlockState for the config. For gems, it will normally choose one randomly each call. For essence ores,
+   * it selects the appropriate ore.
+   * 
+   * @param config
+   * @param random
+   * @return
+   */
+  protected IBlockState selectState(ConfigOptionOreGen config, Random random) {
+
+    if (config == GemsConfig.WORLD_GEN_GEMS) {
+      int meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random,
+          GemsConfig.GEM_WEIGHTS)).getMeta();
+      EnumGem gem = EnumGem.values()[meta];
+      return ModBlocks.gemOre.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
+    } else if (config == GemsConfig.WORLD_GEN_CHAOS) {
+      return ModBlocks.essenceOre.getDefaultState().withProperty(BlockEssenceOre.VARIANT,
+          BlockEssenceOre.Type.CHAOS);
+    } else if (config == GemsConfig.WORLD_GEN_GEMS_DARK) {
+      int meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random,
+          GemsConfig.GEM_WEIGHTS_DARK)).getMeta();
+      EnumGem gem = EnumGem.values()[meta];
+      return ModBlocks.gemOreDark.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
+    } else if (config == GemsConfig.WORLD_GEN_ENDER) {
+      return ModBlocks.essenceOre.getDefaultState().withProperty(BlockEssenceOre.VARIANT,
+          BlockEssenceOre.Type.ENDER);
+    } else if (config == GemsConfig.WORLD_GEN_GEMS_LIGHT) {
+      int meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random,
+          GemsConfig.GEM_WEIGHTS_LIGHT)).getMeta();
+      EnumGem gem = EnumGem.values()[meta];
+      return ModBlocks.gemOreLight.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
+    } else {
+      SilentGems.logHelper.severe("GemsWorldGenerator - Unknown ore config: " + config.name);
+      return null;
     }
   }
 

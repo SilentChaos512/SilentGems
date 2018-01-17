@@ -21,6 +21,7 @@ public class ConfigOptionOreGen extends ConfigOption {
   public int minY;
   public int maxY;
   public final int dimension;
+  public int[] dimensionBlacklist = new int[0];
 
   public ConfigOptionOreGen(String name, int dimension, float veinCount, int veinSize, int minY,
       int maxY) {
@@ -54,6 +55,7 @@ public class ConfigOptionOreGen extends ConfigOption {
     veinSize = c.get(category, "Vein Size", veinSize).getInt();
     minY = c.get(category, "Min Y", minY).getInt();
     maxY = c.get(category, "Max Y", maxY).getInt();
+    dimensionBlacklist = c.get(category, "Dimension Blacklist", new int[0]).getIntList();
     return this.validate();
   }
 
@@ -87,5 +89,13 @@ public class ConfigOptionOreGen extends ConfigOption {
         minY + random.nextInt(maxY - minY),
         posZ + random.nextInt(16));
     //@formatter:on
+  }
+
+  public boolean canSpawnInDimension(int dim) {
+
+    for (int i : dimensionBlacklist)
+      if (i == dim)
+        return false;
+    return true;
   }
 }
