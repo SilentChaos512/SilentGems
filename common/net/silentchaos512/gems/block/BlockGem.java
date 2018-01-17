@@ -84,4 +84,10 @@ public class BlockGem extends BlockGemSubtypes {
     }
     return super.canEntityDestroy(state, world, pos, entity);
   }
+
+  @Override
+  public boolean isBeaconBase(IBlockAccess worldObj, BlockPos pos, BlockPos beacon) {
+
+    return true;
+  }
 }
