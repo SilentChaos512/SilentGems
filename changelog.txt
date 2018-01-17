@@ -2,6 +2,10 @@ Silent's Gems - Changelog
 
 2.6.7
 Added: Holding gems and torch bandoliers can now pick up blocks from the ground, even if your inventory is full.
+Added: Dimension blacklists for all ores (#274)
+Changed: Stat tooltips should now work with shears, fishing rods, and Tinkers tools.
+Changed: Blacklisted parts no longer appear in recipes (#259)
+Changed: Gem blocks now register as beacon bases (#271)
 Fixed (probably): Holding gems and torch bandoliers being "repaired" by some less-than-smart machines (#266)
 
 2.6.6

@@ -19,6 +19,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemShield;
@@ -34,6 +35,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
+import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.item.tool.ItemGemSickle;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.StackHelper;
@@ -65,7 +67,7 @@ public class EquipmentTooltips extends Gui {
 
     // Tools (pickaxes, shovels, axes, and more)
     if (item instanceof ItemTool || item instanceof ItemHoe || item instanceof ItemShears
-        || isTinkersHarvestTool) {
+        || item instanceof ItemFishingRod || isTinkersHarvestTool) {
       renderBackground(event);
       renderForTool(event, stack);
     }
@@ -92,9 +94,6 @@ public class EquipmentTooltips extends Gui {
       renderForArmor(event, stack);
     }
     // Unknown
-    else {
-      return;
-    }
   }
 
   private void renderBackground(RenderTooltipEvent.PostText event) {
@@ -113,9 +112,11 @@ public class EquipmentTooltips extends Gui {
     FontRenderer fontRenderer = event.getFontRenderer();
     ItemStack currentEquip = mc.player.getHeldItemMainhand();
     boolean isAxe = stack.getItem() instanceof ItemAxe;
-    boolean isHoe = stack.getItem() instanceof ItemHoe;
-    boolean isSickle = stack.getItem() instanceof ItemGemSickle;
-    boolean isShears = stack.getItem() instanceof ItemShears;
+    boolean isDurabilityOnly = !(stack.getItem() instanceof ItemTool);
+    // boolean isHoe = stack.getItem() instanceof ItemHoe;
+    // boolean isSickle = stack.getItem() instanceof ItemGemSickle;
+    // boolean isShears = stack.getItem() instanceof ItemShears;
+    // boolean isFishingRod = stack.getItem() instanceof ItemFishingRod;
 
     double scale = 0.75;
     int x = (int) (event.getX() / scale);
@@ -139,7 +140,8 @@ public class EquipmentTooltips extends Gui {
     mc.renderEngine.bindTexture(TEXTURE);
 
     boolean currentIsDurabilityOnly = currentEquip.getItem() instanceof ItemHoe
-        || currentEquip.getItem() instanceof ItemGemSickle;
+        || currentEquip.getItem() instanceof ItemGemSickle
+        || currentEquip.getItem() instanceof ItemFishingRod;
     boolean bothWeapons = (isWeapon(stack) || stack.getItem() instanceof ItemTool)
         && (isWeapon(currentEquip) || currentEquip.getItem() instanceof ItemTool);
 
@@ -147,12 +149,12 @@ public class EquipmentTooltips extends Gui {
     x = renderStat(mc, fontRenderer, 0, x, y, durability, equippedDurability,
         StackHelper.isValid(currentEquip));
     // Harvest Level
-    if (!isAxe && !isHoe && !isSickle && !isShears) {
+    if (!isAxe && !isDurabilityOnly) {
       x = renderStat(mc, fontRenderer, 1, x, y, harvestLevel, equippedHarvestLevel,
           !currentIsDurabilityOnly && currentEquip.getItem() instanceof ItemTool);
     }
     // Harvest Speed
-    if (!isHoe && !isSickle && !isShears)
+    if (!isDurabilityOnly)
       x = renderStat(mc, fontRenderer, 2, x, y, harvestSpeed, equippedHarvestSpeed,
           !currentIsDurabilityOnly && currentEquip.getItem() instanceof ItemTool);
     // Melee Damage and Speed
@@ -269,6 +271,15 @@ public class EquipmentTooltips extends Gui {
 
     int durability = getDurability(stack, 0);
     int equippedDurability = getDurability(currentEquip, durability);
+    float magicProtection = stack.getItem() instanceof ItemGemShield
+        ? 100f * ToolHelper.getMagicProtection(stack)
+        : 0f;
+    float equippedMagicProtection = currentEquip.getItem() instanceof ItemGemShield
+        ? 100f * ToolHelper.getMagicProtection(currentEquip)
+        : 0f;
+
+    boolean bothAreShield = stack.getItem() instanceof ItemShield
+        && currentEquip.getItem() instanceof ItemShield;
 
     GlStateManager.pushMatrix();
     GlStateManager.color(1f, 1f, 1f, 1f);
@@ -279,8 +290,8 @@ public class EquipmentTooltips extends Gui {
     // Durability
     x = renderStat(mc, fontRenderer, 0, x, y, durability, equippedDurability,
         StackHelper.isValid(currentEquip));
-    // x = renderStat(mc, fontRenderer, 8, x, y, arrowDamage, equippedArrowDamage);
-    // x = renderStat(mc, fontRenderer, 5, x, y, drawSpeed, equippedDrawSpeed);
+    x = renderStat(mc, fontRenderer, 9, x, y, magicProtection, equippedMagicProtection,
+        bothAreShield);
     lastWidth = (int) (x * scale - event.getX());
 
     GlStateManager.popMatrix();
@@ -404,8 +415,10 @@ public class EquipmentTooltips extends Gui {
     ItemTool itemTool = (ItemTool) item;
     IBlockState state = getBlockForTool(stack);
     int maxLevel = -1;
+    // This doesn't work with all modded tools, but most.
     for (String toolClass : itemTool.getToolClasses(stack)) {
-      maxLevel = Math.max(maxLevel, itemTool.getHarvestLevel(stack, toolClass, null, state));
+      int harvestLevel = itemTool.getHarvestLevel(stack, toolClass, null, state);
+      maxLevel = Math.max(maxLevel, harvestLevel);
     }
     return maxLevel;
   }
