@@ -157,9 +157,21 @@ public class GemsConfig extends AdaptiveConfig {
   public static List<WeightedRandomItemSG> GEM_WEIGHTS = new ArrayList<>();
   public static List<WeightedRandomItemSG> GEM_WEIGHTS_DARK = new ArrayList<>();
   public static List<WeightedRandomItemSG> GEM_WEIGHTS_LIGHT = new ArrayList<>();
+
+  // Regions
   public static boolean GEM_REGIONS_ENABLED;
   public static int GEM_REGIONS_SIZE;
   public static float GEM_REGIONS_SECOND_GEM_CHANCE;
+
+  // Geodes
+  public static float GEODE_DARK_FREQUENCY;
+  public static float GEODE_LIGHT_FREQUENCY;
+  public static int GEODE_MIN_Y;
+  public static int GEODE_MAX_Y;
+  public static float GEODE_FILL_RATIO;
+  public static float GEODE_GEM_DENSITY;
+  public static boolean GEODE_SEAL_BREAKS;
+
   public static int GLOW_ROSE_PER_CHUNK = 2;
   public static float CHAOS_NODES_PER_CHUNK = 0.006f;
 
@@ -185,6 +197,7 @@ public class GemsConfig extends AdaptiveConfig {
   public static final String CAT_TOOLTIPS = CAT_MAIN + split + "tooltips";
   public static final String CAT_WORLD_GEN = CAT_MAIN + split + "world generation";
   public static final String CAT_WORLD_GEN_GEM_WEIGHT = CAT_WORLD_GEN + split + "gem weights";
+  public static final String CAT_WORLD_GEN_GEODES = CAT_WORLD_GEN + split + "gem geodes";
   public static final String CAT_WORLD_GEN_REGIONS = CAT_WORLD_GEN + split + "gem regions";
 
   public static final GemsConfig INSTANCE = new GemsConfig();
@@ -511,6 +524,32 @@ public class GemsConfig extends AdaptiveConfig {
       GEM_REGIONS_SECOND_GEM_CHANCE = config.getFloat("Second Gem Chance", CAT_WORLD_GEN_REGIONS,
           0.75f, 0f, 1f,
           "The chance of a second gem being selected to spawn in the region.");
+
+      // Gem geodes
+      config.setCategoryComment(CAT_WORLD_GEN_GEODES, "Geodes are deposits of Nether/End gems that"
+          + " spawn rarely in the overworld and similar dimensions. They are large, but encased in"
+          + " a tough shell.");
+      GEODE_DARK_FREQUENCY = config.getFloat("Dark Geode Frequency", CAT_WORLD_GEN_GEODES,
+          0.0125f, 0f, 1f,
+          "The chance a geode of Nether (dark) gems will spawn in any given chunk.");
+      GEODE_LIGHT_FREQUENCY = config.getFloat("Light Geode Frequency", CAT_WORLD_GEN_GEODES,
+          0.0125f, 0f, 1f,
+          "The chance a geode of End (light) gems will spawn in any given chunk.");
+      GEODE_FILL_RATIO = config.getFloat("Fill Ratio", CAT_WORLD_GEN_GEODES,
+          0.6f, 0f, 1f,
+          "The ratio of geodes that will attempt to fill with gems.");
+      GEODE_GEM_DENSITY = config.getFloat("Gem Density", CAT_WORLD_GEN_GEODES,
+          0.75f, 0f, 1f,
+          "The density of gems in the filled region of the geode.");
+      GEODE_MIN_Y = loadInt("Min Y", CAT_WORLD_GEN_GEODES,
+          20, 0, 255,
+          "The minimum height geodes will attempt to spawn at.");
+      GEODE_MAX_Y = loadInt("Max Y", CAT_WORLD_GEN_GEODES,
+          40, 0, 255,
+          "The maximum height geodes will attempt to spawn at.");
+      GEODE_SEAL_BREAKS = loadBoolean("Seal Breaks", CAT_WORLD_GEN_GEODES, true,
+          "If the geode is \"broken\" (intersects with a cave or something), the world generator"
+          + " will seal the break.");
 
       GemsConfigHC.load(this);
       //@formatter:on

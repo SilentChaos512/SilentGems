@@ -36,6 +36,7 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.part.ModParts;
 import net.silentchaos512.gems.lib.soul.SoulSkill;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.gems.world.GemsGeodeWorldGenerator;
 import net.silentchaos512.gems.world.GemsWorldGenerator;
 import net.silentchaos512.lib.SilentLib;
 import net.silentchaos512.lib.registry.SRegistry;
@@ -134,6 +135,7 @@ public class SilentGems {
 
     // World generation
     GameRegistry.registerWorldGenerator(new GemsWorldGenerator(), 0);
+    GameRegistry.registerWorldGenerator(new GemsGeodeWorldGenerator(), -10);
 
     // Headcrumbs
     FMLInterModComms.sendMessage("headcrumbs", "add-username", Names.SILENT_CHAOS_512);

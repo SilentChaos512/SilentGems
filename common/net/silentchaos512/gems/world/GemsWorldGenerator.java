@@ -90,15 +90,15 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
    * @return
    */
   protected IBlockState selectState(ConfigOptionOreGen config, Random random, World world,
-      int chunkX, int chunkZ) {
+      int posX, int posZ) {
 
     if (config == GemsConfig.WORLD_GEN_GEMS) {
       EnumGem gem;
       if (GemsConfig.GEM_REGIONS_ENABLED) {
         // Gem Regions
         long dimension = (long) world.provider.getDimension();
-        long cx = (long) chunkX / 16 / GemsConfig.GEM_REGIONS_SIZE;
-        long cz = (long) chunkZ / 16 / GemsConfig.GEM_REGIONS_SIZE;
+        long cx = (long) posX / 16 / GemsConfig.GEM_REGIONS_SIZE;
+        long cz = (long) posZ / 16 / GemsConfig.GEM_REGIONS_SIZE;
         long seed = (world.getSeed() << 40L) | ((dimension & 0xFF) << 32L)
             | ((cz & 0xFFFF) << 16L) | (cx & 0xFFFF);
         Random regionRandom = new Random(seed);

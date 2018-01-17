@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.6.7
+Added: Gem geodes. These large but rare deposits spawn in the overworld and similar dimensions, and contain Nether/End gems. Geodes have a tough outer shell which is as strong as obsidian. Geodes have several config options and can be disabled entirely.
 Added: Gem regions, disabled by default. If enabled, it selects one or two gems to spawn in each region (12x12 chunks, by default).
 Added: Holding gems and torch bandoliers can now pick up blocks from the ground, even if your inventory is full.
 Added: Dimension blacklists for all ores (#274)
