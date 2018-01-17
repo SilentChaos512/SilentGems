@@ -1122,13 +1122,15 @@ public class ToolHelper {
       // Head parts for tier
       List<ItemStack> heads = new ArrayList<>();
       for (ToolPart part : ToolPartRegistry.getMains())
-        if (part.getTier() == tier && StackHelper.isValid(part.getCraftingStack()))
+        if (!part.isBlacklisted(part.getCraftingStack()) && part.getTier() == tier
+            && StackHelper.isValid(part.getCraftingStack()))
           heads.add(part.getCraftingStack());
       IngredientSL headIngredient = IngredientSL.from(heads.toArray(new ItemStack[heads.size()]));
       // Rods for tier
       List<ItemStack> rods = new ArrayList<>();
       for (ToolPart part : ToolPartRegistry.getRods())
-        if (part.getCompatibleTiers().contains(tier))
+        if (!part.isBlacklisted(part.getCraftingStack())
+            && part.getCompatibleTiers().contains(tier))
           rods.add(part.getCraftingStack());
       IngredientSL rodIngredient = IngredientSL.from(rods.toArray(new ItemStack[rods.size()]));
 
