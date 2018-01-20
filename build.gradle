@@ -9,7 +9,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "2.6.7"
+version = "2.6.8"
 def silentlib_version = "2.2.14"
 def buildNum = 0
 group = "net.silentchaos512.gems"

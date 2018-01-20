@@ -1,5 +1,9 @@
 Silent's Gems - Changelog
 
+2.6.8
+Added: Force enable configs for holiday events (existing configs have moved to their own categories) (#277)
+Fixed: Potential crashes caused by equipment tools on certain items (#278)
+
 2.6.7
 Added: Gem geodes. These large but rare deposits spawn in the overworld and similar dimensions, and contain Nether/End gems. Geodes have a tough outer shell which is as strong as obsidian. Geodes have several config options and can be disabled entirely.
 Added: Gem regions, disabled by default. If enabled, it selects one or two gems to spawn in each region (12x12 chunks, by default).

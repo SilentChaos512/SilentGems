@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.Skulls;
 
 public class PatronColors {
 
@@ -27,6 +28,7 @@ public class PatronColors {
         String[] array = line.split(",");
         if (array.length > 1) {
           map.put(array[0], array[1].replaceAll("&", "\u00a7"));
+          Skulls.putPlayer(array[0]);
         } else {
           SilentGems.logHelper.warning("Malformed entry in Patrons file: " + line);
         }

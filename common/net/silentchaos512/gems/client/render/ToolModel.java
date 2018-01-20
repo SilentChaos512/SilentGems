@@ -125,7 +125,7 @@ public class ToolModel extends MultiLayerModelSL {
       }
     }
 
-    if (ModuleAprilTricks.instance.moduleEnabled && ModuleAprilTricks.instance.isRightDay()) {
+    if (ModuleAprilTricks.instance.isEnabled() && ModuleAprilTricks.instance.isRightDay()) {
       model = modelManager.getModel(ToolRenderHelper.getInstance().modelGooglyEyes);
       quads.addAll(model.getQuads(state, side, rand));
     }

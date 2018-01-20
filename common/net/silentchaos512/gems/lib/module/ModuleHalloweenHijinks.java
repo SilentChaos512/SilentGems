@@ -24,12 +24,13 @@ public class ModuleHalloweenHijinks {
   public static ModuleHalloweenHijinks instance = new ModuleHalloweenHijinks();
 
   static final String NBT_MARKER = "SG_HW_Mob";
-  static final float COSTUME_CHANCE = 0.66f;
-  static final float COSTUME_DROP_RATE = 0.01f;
 
   Calendar today;
   boolean rightDay = checkDate();
   boolean moduleEnabled = true;
+  boolean forcedOn = false;
+  float costumeChance = 0.3f;
+  float costumeDropRate = 0.01f;
 
   private boolean checkDate() {
 
@@ -42,17 +43,34 @@ public class ModuleHalloweenHijinks {
     return rightDay;
   }
 
+  public boolean isEnabled() {
+
+    return moduleEnabled || forcedOn;
+  }
+
   public void loadConfig(Configuration c) {
 
-    moduleEnabled = c.getBoolean("Enable Halloween Hijinks", GemsConfig.CAT_MISC, true,
+    String cat = GemsConfig.CAT_MISC + c.CATEGORY_SPLITTER + "halloween_hijinks";
+    c.setCategoryComment(cat,
+        "Halloween event options. WARNING: This feature is known to cause some lag spikes, as it"
+            + " loads skins. The spikes may reduce in frequency as you play.");
+
+    moduleEnabled = c.getBoolean("Enabled", cat, true,
         "Some mobs may dress up for the end of October.");
+    forcedOn = c.getBoolean("Forced On", cat, false,
+        "Halloween all year round! (See the warning in the category comment first).");
+    costumeChance = c.getFloat("Costume Chance", cat, 0.3f, 0f, 1f,
+        "The chance of a mob receiving a \"costume\".");
+    costumeDropRate = c.getFloat("Costume Drop Rate", cat, 0.01f, 0f, 1f,
+        "The chance that a mob will drop their \"costume\" when killed.");
   }
 
   @SubscribeEvent
   public void onLivingSpawn(LivingUpdateEvent event) {
 
-    if (!rightDay || !moduleEnabled)
+    if (!forcedOn && !(rightDay && moduleEnabled)) {
       return;
+    }
 
     // Hostile mobs only.
     Entity entity = event.getEntity();
@@ -62,11 +80,11 @@ public class ModuleHalloweenHijinks {
       if (!entityLiving.getEntityData().getBoolean(NBT_MARKER)) {
         // Mark the entity as processed, even if it does not receive a costume.
         entityLiving.getEntityData().setBoolean(NBT_MARKER, true);
-        if (SilentGems.random.nextFloat() < COSTUME_CHANCE) {
+        if (SilentGems.random.nextFloat() < costumeChance) {
           // Give costume
           ItemStack skull = Skulls.selectRandom(SilentGems.random);
           entityLiving.setItemStackToSlot(EntityEquipmentSlot.HEAD, skull);
-          ((EntityLiving) entityLiving).setDropChance(EntityEquipmentSlot.HEAD, COSTUME_DROP_RATE);
+          ((EntityLiving) entityLiving).setDropChance(EntityEquipmentSlot.HEAD, costumeDropRate);
         }
       }
     }

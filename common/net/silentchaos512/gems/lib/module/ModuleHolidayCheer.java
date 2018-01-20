@@ -32,28 +32,34 @@ public class ModuleHolidayCheer {
 
   public Calendar today;
   private boolean rightDay = checkDateAgain();
-  public boolean moduleEnabled = true;
+  boolean moduleEnabled = true;
+  boolean forcedOn = false;
 
   @SubscribeEvent
   public void onPlayerJoin(PlayerLoggedInEvent event) {
 
-    if (moduleEnabled)
+    if (isEnabled())
       greetPlayer(event.player);
   }
 
   @SubscribeEvent
   public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 
-    if (moduleEnabled && event.player.world.getTotalWorldTime() % CANDY_TRY_DELAY == 0) {
+    if (isEnabled() && event.player.world.getTotalWorldTime() % CANDY_TRY_DELAY == 0) {
       checkDateAgain();
       if (isRightDay() && !event.player.world.isRemote)
         tryGiveCandy(event.player);
     }
   }
 
+  public boolean isEnabled() {
+
+    return moduleEnabled || forcedOn;
+  }
+
   public boolean isRightDay() {
 
-    return rightDay;
+    return rightDay || forcedOn;
   }
 
   public boolean checkDateAgain() {
@@ -90,7 +96,11 @@ public class ModuleHolidayCheer {
 
   public void loadConfig(Configuration c) {
 
-    moduleEnabled = c.getBoolean("Enable Holiday Cheer", GemsConfig.CAT_MISC, moduleEnabled,
-        "Players will occasionally receive candy during a certain time of the year.");
+    String cat = GemsConfig.CAT_MISC + c.CATEGORY_SPLITTER + "holiday_cheer";
+    c.setCategoryComment(cat, "Winter holiday event options.");
+
+    moduleEnabled = c.getBoolean("Enabled", cat, true,
+        "Players will occasionally receive candy during part of December");
+    forcedOn = c.getBoolean("Forced On", cat, false, "'Tis the season, every day all day!");
   }
 }
