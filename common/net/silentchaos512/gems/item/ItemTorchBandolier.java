@@ -36,7 +36,8 @@ public class ItemTorchBandolier extends ItemBlockPlacer {
     String line1 = "lll";
     String line2 = "sgs";
 
-    ItemStack bandolier = new ItemStack(this, 1, MAX_DAMAGE);
+    ItemStack bandolier = new ItemStack(this);
+    setRemainingBlocks(bandolier, 0);
     ItemStack gem = new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE);
     Object[] stacks = new Object[] { "leather", ModItems.craftingMaterial.fluffyFabric };
 
