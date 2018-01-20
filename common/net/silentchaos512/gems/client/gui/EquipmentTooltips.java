@@ -149,12 +149,12 @@ public class EquipmentTooltips extends Gui {
     x = renderStat(mc, fontRenderer, 0, x, y, durability, equippedDurability,
         StackHelper.isValid(currentEquip));
     // Harvest Level
-    if (!isAxe && !isDurabilityOnly) {
+    if (!isAxe && !isDurabilityOnly && harvestLevel > -1) {
       x = renderStat(mc, fontRenderer, 1, x, y, harvestLevel, equippedHarvestLevel,
           !currentIsDurabilityOnly && currentEquip.getItem() instanceof ItemTool);
     }
     // Harvest Speed
-    if (!isDurabilityOnly)
+    if (!isDurabilityOnly && harvestSpeed > 0)
       x = renderStat(mc, fontRenderer, 2, x, y, harvestSpeed, equippedHarvestSpeed,
           !currentIsDurabilityOnly && currentEquip.getItem() instanceof ItemTool);
     // Melee Damage and Speed
@@ -438,7 +438,11 @@ public class EquipmentTooltips extends Gui {
     // Get an appropriate blockstate for the tool (assume stone if class is unknown).
     IBlockState state = getBlockForTool(stack);
 
-    return item.getStrVsBlock(stack, state);
+    try {
+      return item.getStrVsBlock(stack, state);
+    } catch (NullPointerException ex) {
+      return 0;
+    }
   }
 
   private IBlockState getBlockForTool(ItemStack stack) {
