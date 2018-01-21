@@ -8,11 +8,8 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModBlocks;
@@ -38,20 +35,33 @@ public class BlockTeleporterRedstone extends BlockTeleporter {
 
     ItemStack[] anyTeleporter = new ItemStack[] {
         new ItemStack(ModBlocks.teleporterRedstone, 1, OreDictionary.WILDCARD_VALUE),
-        new ItemStack(ModBlocks.teleporterRedstoneDark, 1, OreDictionary.WILDCARD_VALUE) };
+        new ItemStack(ModBlocks.teleporterRedstoneDark, 1, OreDictionary.WILDCARD_VALUE),
+        new ItemStack(ModBlocks.teleporterRedstoneLight, 1, OreDictionary.WILDCARD_VALUE) };
 
     int lastIndex = -1;
 
     for (int i = 0; i < subBlockCount; ++i) {
       EnumGem gem = getGem(i);
       ItemStack teleporterRedstone = new ItemStack(this, 1, i);
-      ItemStack teleporterBasic = new ItemStack(ModBlocks.teleporter, 1, i);
+      ItemStack teleporterBasic = getBasicTeleporter(i);
       recipes.addShapelessOre(blockName + i, teleporterRedstone, teleporterBasic, "dustRedstone");
       for (ItemStack stack : anyTeleporter) {
-        recipes.addShapelessOre(blockName + "_" + (++lastIndex) + "_recolor", new ItemStack(this, 1, i), stack,
-            gem.getItemOreName());
+        recipes.addShapelessOre(blockName + "_" + (++lastIndex) + "_recolor",
+            new ItemStack(this, 1, i), stack, gem.getItemOreName());
       }
     }
+  }
+
+  private ItemStack getBasicTeleporter(int meta) {
+
+    Block block;
+    if (this == ModBlocks.teleporterRedstone)
+      block = ModBlocks.teleporter;
+    else if (this == ModBlocks.teleporterRedstoneDark)
+      block = ModBlocks.teleporterDark;
+    else
+      block = ModBlocks.teleporterLight;
+    return new ItemStack(block, 1, meta);
   }
 
   @Override
