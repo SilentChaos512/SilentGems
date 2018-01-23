@@ -227,7 +227,7 @@ public class GemsCommonEvents {
         if (StackHelper.isValid(soulGem)) {
           EntityItem entityItem = new EntityItem(killed.world, killed.posX,
               killed.posY + killed.height / 2f, killed.posZ, soulGem);
-          killed.world.spawnEntity(entityItem);
+          event.getDrops().add(entityItem);
         }
       }
 
@@ -242,7 +242,7 @@ public class GemsCommonEvents {
             if (StackHelper.isValid(skull)) {
               EntityItem entityItem = new EntityItem(killed.world, killed.posX,
                   killed.posY + killed.height / 2f, killed.posZ, skull);
-              killed.world.spawnEntity(entityItem);
+              event.getDrops().add(entityItem);
             }
           }
         }
