@@ -11,9 +11,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.IPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
+import net.silentchaos512.gems.api.stats.ItemStat;
+import net.silentchaos512.gems.api.stats.ItemStatModifier;
+import net.silentchaos512.gems.api.stats.PartStats;
 import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ToolRenderHelper;
@@ -57,6 +61,9 @@ public abstract class ToolPart {
    */
   protected EnumMaterialTier tier;
 
+  protected int rarity;
+  protected @Nonnull PartStats stats;
+
   public ToolPart(String key, ItemStack craftingStack) {
 
     this(key, craftingStack, "");
@@ -68,6 +75,25 @@ public abstract class ToolPart {
     this.craftingStack = craftingStack;
     this.craftingOreDictName = craftingOreDictName;
     this.tier = EnumMaterialTier.REGULAR;
+  }
+
+  void setStatsFromOldMethods() {
+
+    if (stats == null) {
+      stats = new PartStats();
+      stats.armor = getProtection();
+      stats.attackSpeed = getMeleeSpeed();
+      stats.chargeSpeed = getChargeSpeed();
+      stats.durability = getDurability();
+      stats.enchantablity = getEnchantability();
+      stats.harvestLevel = getHarvestLevel();
+      stats.harvestSpeed = getHarvestSpeed();
+      stats.magicArmor = 0f;
+      stats.magicDamage = getMagicDamage();
+      stats.meleeDamage = getMeleeDamage();
+      stats.rangedDamage = 0f;
+      stats.rangedSpeed = 0f;
+    }
   }
 
   /**
@@ -168,6 +194,8 @@ public abstract class ToolPart {
 
     return 0;
   }
+
+  public abstract ItemStatModifier getStatModifier(ItemStat stat, EnumMaterialGrade grade);
 
   /**
    * Determines if the stack matches the tool part for crafting purposes. Override if more complex matching is needed.
@@ -272,26 +300,36 @@ public abstract class ToolPart {
       return GemsConfig.PART_BLACKLIST.contains(key);
   }
 
+  @Deprecated
   public void applyStats(ToolStats stats) {
 
   }
 
+  @Deprecated
   public abstract int getDurability();
 
+  @Deprecated
   public abstract float getHarvestSpeed();
 
+  @Deprecated
   public abstract int getHarvestLevel();
 
+  @Deprecated
   public abstract float getMeleeDamage();
 
+  @Deprecated
   public abstract float getMagicDamage();
 
+  @Deprecated
   public abstract int getEnchantability();
 
+  @Deprecated
   public abstract float getMeleeSpeed();
 
+  @Deprecated
   public abstract float getChargeSpeed();
 
+  @Deprecated
   public abstract float getProtection();
 
   /**

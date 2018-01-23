@@ -51,6 +51,11 @@ public class ToolPartRegistry {
       mains.add((ToolPartMain) part);
     else if (part instanceof ToolPartRod)
       rods.add((ToolPartRod) part);
+
+    // Compatibility for pre-modifier stats
+    if (part.stats == null) {
+      part.setStatsFromOldMethods();
+    }
   }
 
   /**

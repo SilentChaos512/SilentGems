@@ -1,9 +1,13 @@
 package net.silentchaos512.gems.api.tool.part;
 
 import net.minecraft.item.ItemStack;
+import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.IPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
+import net.silentchaos512.gems.api.stats.CommonItemStats;
+import net.silentchaos512.gems.api.stats.ItemStat;
+import net.silentchaos512.gems.api.stats.ItemStatModifier;
 import net.silentchaos512.gems.api.tool.ToolStats;
 
 public abstract class ToolPartRod extends ToolPart {
@@ -25,7 +29,8 @@ public abstract class ToolPartRod extends ToolPart {
   }
 
   public ToolPartRod(String key, ItemStack craftingStack, float durabilityMulti,
-      float harvestSpeedMutli, float meleeDamageMulti, float magicDamageMulti, float enchantabilityMulti) {
+      float harvestSpeedMutli, float meleeDamageMulti, float magicDamageMulti,
+      float enchantabilityMulti) {
 
     this(key, craftingStack);
     this.durabilityMulti = durabilityMulti;
@@ -36,7 +41,8 @@ public abstract class ToolPartRod extends ToolPart {
   }
 
   public ToolPartRod(String key, ItemStack craftingStack, String oreName, float durabilityMulti,
-      float harvestSpeedMutli, float meleeDamageMulti, float magicDamageMulti, float enchantabilityMulti) {
+      float harvestSpeedMutli, float meleeDamageMulti, float magicDamageMulti,
+      float enchantabilityMulti) {
 
     this(key, craftingStack, oreName);
     this.durabilityMulti = durabilityMulti;
@@ -44,6 +50,23 @@ public abstract class ToolPartRod extends ToolPart {
     this.meleeDamageMulti = meleeDamageMulti;
     this.magicDamageMulti = magicDamageMulti;
     this.enchantabilityMulti = enchantabilityMulti;
+  }
+
+  @Override
+  public ItemStatModifier getStatModifier(ItemStat stat, EnumMaterialGrade grade) {
+
+    float amount = 1f;
+    if (stat == CommonItemStats.DURABILITY)
+      amount = durabilityMulti;
+    else if (stat == CommonItemStats.HARVEST_SPEED)
+      amount = harvestSpeedMulti;
+    else if (stat == CommonItemStats.MELEE_DAMAGE)
+      amount = meleeDamageMulti;
+    else if (stat == CommonItemStats.MAGIC_DAMAGE)
+      amount = magicDamageMulti;
+    else if (stat == CommonItemStats.ENCHANTABILITY)
+      amount = enchantabilityMulti;
+    return new ItemStatModifier(getUnlocalizedName(), amount, ItemStatModifier.Operation.MULTIPLY);
   }
 
   @Override
@@ -126,8 +149,8 @@ public abstract class ToolPartRod extends ToolPart {
         return tier == EnumMaterialTier.MUNDANE || tier == EnumMaterialTier.REGULAR;
       case SUPER:
         return tier == EnumMaterialTier.REGULAR || tier == EnumMaterialTier.SUPER;
-//      case HYPER:
-//        return tier == EnumMaterialTier.SUPER || tier == EnumMaterialTier.HYPER;
+      // case HYPER:
+      // return tier == EnumMaterialTier.SUPER || tier == EnumMaterialTier.HYPER;
       default:
         return true;
     }

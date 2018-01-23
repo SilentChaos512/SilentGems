@@ -8,6 +8,9 @@ import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.IPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
+import net.silentchaos512.gems.api.stats.CommonItemStats;
+import net.silentchaos512.gems.api.stats.ItemStat;
+import net.silentchaos512.gems.api.stats.ItemStatModifier;
 import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.config.GemsConfigHC;
 import net.silentchaos512.gems.util.ArmorHelper;
@@ -30,6 +33,18 @@ public abstract class ToolPartMain extends ToolPart {
   public ToolPartMain(String key, ItemStack craftingStack, String oreName) {
 
     super(key, craftingStack, oreName);
+  }
+
+  @Override
+  public ItemStatModifier getStatModifier(ItemStat stat, EnumMaterialGrade grade) {
+
+    float val = stats.getStat(stat);
+    if (stat == CommonItemStats.HARVEST_LEVEL) {
+      return new ItemStatModifier(getUnlocalizedName(), val, ItemStatModifier.Operation.MAX);
+    } else {
+      val *= (100 + grade.bonusPercent) / 100f;
+      return new ItemStatModifier(getUnlocalizedName(), val, ItemStatModifier.Operation.AVERAGE);
+    }
   }
 
   @Override

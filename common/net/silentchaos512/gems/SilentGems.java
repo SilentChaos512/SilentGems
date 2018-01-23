@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.api.stats.CommonItemStats;
 import net.silentchaos512.gems.compat.ScalingHealthCompat;
 import net.silentchaos512.gems.compat.VeinMinerCompat;
 import net.silentchaos512.gems.compat.tconstruct.TConstructGemsCompat;
@@ -117,6 +118,7 @@ public class SilentGems {
     localizationHelper = new LocalizationHelper(MODID).setReplaceAmpersand(true);
     SilentLib.instance.registerLocalizationHelperForMod(MODID, localizationHelper);
 
+    CommonItemStats.init();
     ToolHelper.init();
 
     GemsConfig.INSTANCE.init(event.getSuggestedConfigurationFile());

@@ -4,9 +4,12 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.lib.ArmorPartPosition;
+import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.IPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
+import net.silentchaos512.gems.api.stats.ItemStat;
+import net.silentchaos512.gems.api.stats.ItemStatModifier;
 
 public class ArmorPartFrame extends ToolPart {
 
@@ -26,6 +29,15 @@ public class ArmorPartFrame extends ToolPart {
       throw new IllegalArgumentException("Cannot register armor frame for slot " + slot.getName());
     }
     this.armorSlot = slot;
+  }
+
+  @Override
+  public ItemStatModifier getStatModifier(ItemStat stat, EnumMaterialGrade grade) {
+
+    float val = stats.getStat(stat);
+    val += 1f;
+    return new ItemStatModifier(getUnlocalizedName(), val,
+        ItemStatModifier.Operation.MULTIPLY);
   }
 
   public EntityEquipmentSlot getSlot() {

@@ -1,9 +1,13 @@
 package net.silentchaos512.gems.api.tool.part;
 
 import net.minecraft.item.ItemStack;
+import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.IPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
+import net.silentchaos512.gems.api.stats.CommonItemStats;
+import net.silentchaos512.gems.api.stats.ItemStat;
+import net.silentchaos512.gems.api.stats.ItemStatModifier;
 import net.silentchaos512.gems.api.tool.ToolStats;
 
 @Deprecated
@@ -17,6 +21,15 @@ public abstract class ToolPartGrip extends ToolPart {
   public ToolPartGrip(String key, ItemStack craftingStack, String oreName) {
 
     super(key, craftingStack, oreName);
+  }
+
+  @Override
+  public ItemStatModifier getStatModifier(ItemStat stat, EnumMaterialGrade grade) {
+
+    float val = stats.getStat(stat);
+    if (stat == CommonItemStats.ATTACK_SPEED)
+      val -= 1f;
+    return new ItemStatModifier(getUnlocalizedName(), val, ItemStatModifier.Operation.ADD);
   }
 
   @Override

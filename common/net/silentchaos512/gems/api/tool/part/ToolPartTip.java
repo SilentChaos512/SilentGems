@@ -1,9 +1,14 @@
 package net.silentchaos512.gems.api.tool.part;
 
 import net.minecraft.item.ItemStack;
+import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.IPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
+import net.silentchaos512.gems.api.stats.CommonItemStats;
+import net.silentchaos512.gems.api.stats.ItemStat;
+import net.silentchaos512.gems.api.stats.ItemStatModifier;
+import net.silentchaos512.gems.api.stats.ItemStatModifier.Operation;
 import net.silentchaos512.gems.api.tool.ToolStats;
 
 public abstract class ToolPartTip extends ToolPart {
@@ -23,6 +28,18 @@ public abstract class ToolPartTip extends ToolPart {
     this.speedBoost = speedBoost;
     this.meleeBoost = meleeDamage;
     this.magicBoost = magicDamage;
+  }
+
+  @Override
+  public ItemStatModifier getStatModifier(ItemStat stat, EnumMaterialGrade grade) {
+
+    float val = stats.getStat(stat);
+    Operation op = ItemStatModifier.Operation.ADD;
+    if (stat == CommonItemStats.ATTACK_SPEED)
+      val -= 1f;
+    else if (stat == CommonItemStats.HARVEST_LEVEL)
+      op = ItemStatModifier.Operation.MAX;
+    return new ItemStatModifier(getUnlocalizedName(), val, op);
   }
 
   @Override
