@@ -18,6 +18,7 @@ import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -193,6 +194,30 @@ public class GemsCommonEvents {
       ItemStack weapon = player.getHeldItem(EnumHand.MAIN_HAND);
       if (StackHelper.isValid(weapon) && weapon.getItem() instanceof ITool)
         ToolHelper.incrementStatKillCount(weapon, 1);
+    }
+  }
+
+  @SubscribeEvent
+  public void onLivingUpdate(LivingUpdateEvent event) {
+
+    EntityLivingBase entity = event.getEntityLiving();
+    if (!entity.world.isRemote) {
+      // Rabbit coffee
+      if (entity instanceof EntityRabbit) {
+        EntityRabbit rabbit = (EntityRabbit) event.getEntityLiving();
+        ModuleCoffee.tickRabbit(rabbit);
+      }
+    }
+  }
+
+  @SubscribeEvent
+  public void onLivingDrops(LivingDropsEvent event) {
+
+    Entity entity = event.getSource().getTrueSource();
+
+    if (entity instanceof EntityPlayer) {
+      EntityPlayer player = (EntityPlayer) entity;
+      ItemStack weapon = player.getHeldItemMainhand();
 
       // Soul Gems
       EntityLivingBase killed = event.getEntityLiving();
@@ -221,19 +246,6 @@ public class GemsCommonEvents {
             }
           }
         }
-      }
-    }
-  }
-
-  @SubscribeEvent
-  public void onLivingUpdate(LivingUpdateEvent event) {
-
-    EntityLivingBase entity = event.getEntityLiving();
-    if (!entity.world.isRemote) {
-      // Rabbit coffee
-      if (entity instanceof EntityRabbit) {
-        EntityRabbit rabbit = (EntityRabbit) event.getEntityLiving();
-        ModuleCoffee.tickRabbit(rabbit);
       }
     }
   }
