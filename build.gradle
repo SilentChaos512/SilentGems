@@ -7,9 +7,12 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
+plugins {
+    id 'net.ltgt.apt' version '0.10'
+}
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "2.6.8"
+version = "2.6.9"
 def silentlib_version = "2.2.14"
 def buildNum = 0
 group = "net.silentchaos512.gems"
@@ -74,6 +77,9 @@ dependencies {
     deobfCompile "mezz.jei:jei_1.12:4.6.0.65"
     deobfCompile "slimeknights.mantle:Mantle:1.12-1.3.1.+"
     deobfCompile "slimeknights:TConstruct:1.12-2.7.2.+"
+
+    compileOnly 'org.projectlombok:lombok:1.16.20'
+    apt "org.projectlombok:lombok:1.16.20"
 }
 
 sourceSets {

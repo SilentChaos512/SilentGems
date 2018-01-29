@@ -285,7 +285,7 @@ public class GemsCommonEvents {
             IBlockState state = ((ItemBlock) entityStack.getItem()).getBlock()
                 .getStateFromMeta(entityStack.getItemDamage());
             if (state.equals(itemPlacer.getBlockPlaced(stack))) {
-              // TODO
+              // Absorb blocks into block placer.
               int amountAbsorbed = itemPlacer.absorbBlocks(stack, entityStack);
               if (amountAbsorbed > 0) {
                 StackHelper.shrink(entityStack, amountAbsorbed);
@@ -293,7 +293,8 @@ public class GemsCommonEvents {
                   event.getItem().setDead();
                 }
                 event.getEntityPlayer().world.playSound(null, event.getItem().getPosition(),
-                    SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1f, 1f);
+                    SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2f,
+                    (SilentGems.random.nextFloat() - SilentGems.random.nextFloat()) * 1.4F + 2.0F);
                 break;
               }
             }

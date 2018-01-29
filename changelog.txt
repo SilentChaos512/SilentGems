@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.6.9
+Fixed: Torch bandolier and holding gem pickup sound being way too loud (#282)
+
 2.6.8
 Some experimental changes with tool and armor stats. Values should still be the same, but if you spot anything that looks strange, please report it.
 Added: Force enable configs for holiday events (existing configs have moved to their own categories) (#277)
