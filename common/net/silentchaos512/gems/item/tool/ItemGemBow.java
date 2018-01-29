@@ -32,13 +32,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
-import net.silentchaos512.gems.api.tool.part.ToolPart;
-import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -246,8 +244,8 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
       ItemStack ammo = this.findAmmo(player);
 
       int i = this.getMaxItemUseDuration(stack) - timeLeft;
-//      i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn,
-//          (EntityPlayer) entityLiving, i, StackHelper.isValid(ammo) || infiniteAmmo);
+      // i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn,
+      // (EntityPlayer) entityLiving, i, StackHelper.isValid(ammo) || infiniteAmmo);
       if (i < 0)
         return;
 
@@ -260,11 +258,13 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
         if ((double) velocity >= 0.1D) {
           boolean flag1 = player.capabilities.isCreativeMode || (ammo.getItem() instanceof ItemArrow
-              ? ((ItemArrow) ammo.getItem()).isInfinite(ammo, stack, player) : false);
+              ? ((ItemArrow) ammo.getItem()).isInfinite(ammo, stack, player)
+              : false);
 
           if (!worldIn.isRemote) {
             ItemArrow itemarrow = (ItemArrow) ((ItemArrow) (ammo.getItem() instanceof ItemArrow
-                ? ammo.getItem() : Items.ARROW));
+                ? ammo.getItem()
+                : Items.ARROW));
             EntityArrow entityarrow = itemarrow.createArrow(worldIn, ammo, player);
             entityarrow.setAim(player, player.rotationPitch, player.rotationYaw, 0.0F,
                 velocity * 3.0F, 1.0F);
@@ -380,35 +380,12 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
     if (getConfig().isDisabled)
       return;
 
-    String line1 = "sgw";
-    String line2 = "g w";
-    String line3 = "sgw";
-
-    ItemStack flint = new ItemStack(Items.FLINT);
-    ItemStack rodWood = new ItemStack(Items.STICK);
-    ItemStack rodIron = ModItems.craftingMaterial.toolRodIron;
-    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
-    ItemStack gildedString = ModItems.craftingMaterial.gildedString;
-
-    // Flint
-    addRecipe(constructTool(rodWood, flint), flint, "stickWood", Items.STRING);
-    for (EnumGem gem : EnumGem.values()) {
-      // Regular
-      addRecipe(constructTool(rodIron, gem.getItem()), gem.getItem(), rodIron, Items.STRING);
-      // Super
-      addRecipe(constructTool(rodGold, gem.getItemSuper()), gem.getItemSuper(), rodGold,
-          gildedString);
-    }
-  }
-
-  int lastIndex = -1;
-
-  private void addRecipe(ItemStack result, ItemStack head, Object rod, Object string) {
-
-    ToolPart part = ToolPartRegistry.fromStack(head);
-    if (part != null && !part.isBlacklisted(head))
-      SilentGems.registry.recipes.addShapedOre("bow_example" + (++lastIndex), result, "sgw", "g w",
-          "sgw", 'g', head, 's', rod, 'w', string);
+    String[] lines = new String[] { "rhw", "h w", "rhw" };
+    ToolHelper.addExampleRecipe(this,
+        new EnumMaterialTier[] { EnumMaterialTier.MUNDANE, EnumMaterialTier.REGULAR }, lines, 'w',
+        new ItemStack(Items.STRING));
+    ToolHelper.addExampleRecipe(this, new EnumMaterialTier[] { EnumMaterialTier.SUPER }, lines, 'w',
+        ModItems.craftingMaterial.gildedString);
   }
 
   @Override

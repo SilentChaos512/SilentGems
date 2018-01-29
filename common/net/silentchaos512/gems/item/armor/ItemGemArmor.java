@@ -16,7 +16,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -40,7 +39,6 @@ import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.SoulManager;
@@ -369,20 +367,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   @Override
   public void addRecipes(RecipeMaker recipes) {
 
-    addRecipe(recipes, itemName + "_flint", new ItemStack(Items.FLINT));
-    for (EnumGem gem : EnumGem.values()) {
-      addRecipe(recipes, itemName + "_" + gem.name(), gem.getItem());
-      addRecipe(recipes, itemName + "_" + gem.name() + "_super", gem.getItemSuper());
-    }
-  }
-
-  protected void addRecipe(RecipeMaker recipes, String name, ItemStack material) {
-
-    ToolPart part = ToolPartRegistry.fromStack(material);
-    if (part != null && !part.isBlacklisted(material)) {
-      recipes.addShaped(name, constructArmor(part.getTier(), material), " g ", "gfg", " g ", 'g',
-          material, 'f', ModItems.armorFrame.getFrameForArmorPiece(this, part.getTier()));
-    }
+    ToolHelper.addExampleRecipe(this, new String[] { " h ", "hah", " h " });
   }
 
   @Override

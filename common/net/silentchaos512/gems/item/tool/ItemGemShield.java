@@ -16,31 +16,22 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
-import net.silentchaos512.gems.api.tool.part.ToolPart;
-import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -130,28 +121,8 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
     if (getConfig().isDisabled)
       return;
 
-    ItemStack flint = new ItemStack(Items.FLINT);
-
-    ItemStack rodWood = new ItemStack(Items.STICK);
-    ItemStack rodIron = ModItems.craftingMaterial.toolRodIron;
-    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
-
-    addRecipe(constructTool(rodWood, flint), flint, "stickWood");
-
-    for (EnumGem gem : EnumGem.values()) {
-      addRecipe(constructTool(rodIron, gem.getItem()), gem.getItem(), rodIron);
-      addRecipe(constructTool(rodGold, gem.getItemSuper()), gem.getItemSuper(), rodGold);
-    }
-  }
-
-  int lastIndex = -1;
-
-  private void addRecipe(ItemStack result, ItemStack head, Object rod) {
-
-    ToolPart part = ToolPartRegistry.fromStack(head);
-    if (part != null && !part.isBlacklisted(head))
-      SilentGems.registry.recipes.addShapedOre("shield_example" + (++lastIndex), result, "gwg",
-          "wrw", " g ", 'g', head, 'w', "plankWood", 'r', rod);
+    String[] lines = { "hwh", "wrw", " h " };
+    ToolHelper.addExampleRecipe(this, EnumMaterialTier.values(), lines, 'w', "plankWood");
   }
 
   @Override
@@ -272,7 +243,8 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
   @Override
   public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
 
-    ToolRenderHelper.getInstance().clAddInformation(stack, world, list, flag == TooltipFlags.ADVANCED);
+    ToolRenderHelper.getInstance().clAddInformation(stack, world, list,
+        flag == TooltipFlags.ADVANCED);
   }
 
   // getSubItems 1.10.2

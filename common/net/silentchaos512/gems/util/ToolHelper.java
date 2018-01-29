@@ -51,6 +51,7 @@ import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
+import net.silentchaos512.gems.api.tool.part.ArmorPartFrame;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
@@ -61,6 +62,7 @@ import net.silentchaos512.gems.config.GemsConfigHC;
 import net.silentchaos512.gems.guide.GuideBookGems;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.item.armor.ItemGemArmor;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemHoe;
 import net.silentchaos512.gems.item.tool.ItemGemPickaxe;
@@ -1107,16 +1109,22 @@ public class ToolHelper {
     addExampleRecipe(item, EnumMaterialTier.values(), lines);
   }
 
+  public static void addExampleRecipe(Item item, EnumMaterialTier tier, String[] lines,
+      Object... extraParams) {
+
+    addExampleRecipe(item, new EnumMaterialTier[] { tier }, lines, extraParams);
+  }
+
   public static void addExampleRecipe(Item item, EnumMaterialTier[] tiers, String[] lines,
       Object... extraParams) {
 
     // New ingredient-based recipes
 
-    ConfigOptionToolClass config = ((ITool) item).getConfig();
+    ConfigOptionToolClass config = item instanceof ITool ? ((ITool) item).getConfig() : null;
 
     for (EnumMaterialTier tier : tiers) {
       // Only add recipes for valid tiers
-      if (!config.validTiers.contains(tier))
+      if (config != null && !config.validTiers.contains(tier))
         continue;
 
       // Head parts for tier
@@ -1125,14 +1133,24 @@ public class ToolHelper {
         if (!part.isBlacklisted(part.getCraftingStack()) && part.getTier() == tier
             && StackHelper.isValid(part.getCraftingStack()))
           heads.add(part.getCraftingStack());
-      IngredientSL headIngredient = IngredientSL.from(heads.toArray(new ItemStack[heads.size()]));
+      IngredientSL headIngredient = IngredientSL.from(heads.toArray(new ItemStack[0]));
       // Rods for tier
       List<ItemStack> rods = new ArrayList<>();
       for (ToolPart part : ToolPartRegistry.getRods())
         if (!part.isBlacklisted(part.getCraftingStack())
             && part.getCompatibleTiers().contains(tier))
           rods.add(part.getCraftingStack());
-      IngredientSL rodIngredient = IngredientSL.from(rods.toArray(new ItemStack[rods.size()]));
+      IngredientSL rodIngredient = IngredientSL.from(rods.toArray(new ItemStack[0]));
+      // Armor frames
+      List<ItemStack> frames = new ArrayList<>();
+      if (item instanceof ItemGemArmor) {
+        EntityEquipmentSlot slot = ((ItemGemArmor) item).getEquipmentSlot();
+        for (ToolPart part : ToolPartRegistry.getValues())
+          if (part instanceof ArmorPartFrame && ((ArmorPartFrame) part).getSlot() == slot
+              && part.getTier() == tier && !part.isBlacklisted(part.getCraftingStack()))
+            frames.add(part.getCraftingStack());
+      }
+      IngredientSL frameIngredient = IngredientSL.from(frames.toArray(new ItemStack[0]));
 
       ResourceLocation recipeName = new ResourceLocation(
           item.getRegistryName().toString() + "_" + tier.name().toLowerCase() + "_example");
@@ -1145,16 +1163,32 @@ public class ToolHelper {
       List<Object> params = new ArrayList<>();
       for (String line : lines)
         params.add(line);
-      params.add('h');
-      params.add(headIngredient);
-      params.add('r');
-      params.add(rodIngredient);
+      if (recipeContainsKey(lines, "h")) {
+        params.add('h');
+        params.add(headIngredient);
+      }
+      if (recipeContainsKey(lines, "r")) {
+        params.add('r');
+        params.add(rodIngredient);
+      }
+      if (recipeContainsKey(lines, "a")) {
+        params.add('a');
+        params.add(frameIngredient);
+      }
       for (Object obj : extraParams)
         params.add(obj);
 
       EXAMPLE_RECIPES.add(SilentGems.registry.recipes.makeShaped(recipeName.getResourcePath(),
           result, params.toArray()));
     }
+  }
+
+  private static boolean recipeContainsKey(String[] lines, String c) {
+
+    for (String line : lines)
+      if (line.contains(c))
+        return true;
+    return false;
   }
 
   // Tool Souls
