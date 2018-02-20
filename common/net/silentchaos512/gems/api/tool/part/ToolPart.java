@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
@@ -127,6 +128,39 @@ public abstract class ToolPart {
   public EnumMaterialTier getTier() {
 
     return tier;
+  }
+
+  public int getRarity() {
+
+    if (rarity > 0)
+      return rarity;
+
+    switch (getTier()) {
+      case MUNDANE:
+        return 0;
+      case REGULAR:
+        return 40;
+      case SUPER:
+        return 60;
+      default:
+        return rarity;
+    }
+  }
+
+  public static TextFormatting getColorForRarity(int rarity) {
+
+    if (rarity > 99)
+      return TextFormatting.AQUA;
+    else if (rarity > 79)
+      return TextFormatting.GOLD;
+    else if (rarity > 59)
+      return TextFormatting.DARK_PURPLE;
+    else if (rarity > 39)
+      return TextFormatting.BLUE;
+    else if (rarity > 19)
+      return TextFormatting.GREEN;
+    else
+      return TextFormatting.WHITE;
   }
 
   /**

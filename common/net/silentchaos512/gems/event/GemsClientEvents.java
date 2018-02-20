@@ -174,7 +174,8 @@ public class GemsClientEvents {
 
     // Material tier
     EnumMaterialTier tier = part.getTier();
-    list.add(index++, loc.getMiscText("ToolPart.Tier", tier.getLocalizedName()));
+    String tierName = ToolPart.getColorForRarity(part.getRarity()) + tier.getLocalizedName();
+    list.add(index++, loc.getMiscText("ToolPart.Tier", tierName));
 
     // Show stats?
     if (ctrlDown) {
