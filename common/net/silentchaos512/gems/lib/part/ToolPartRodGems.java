@@ -27,7 +27,8 @@ public class ToolPartRodGems extends ToolPartRod {
 
     super(SilentGems.RESOURCE_PREFIX + name, stack, durabilityMulti, harvestSpeedMulti,
         meleeDamageMulti, magicDamageMulti, enchantabilityMulti);
-    this.rodName = name.toLowerCase().replaceFirst("rod", "rod_");
+    this.rodName = name.toLowerCase().replaceFirst("rod", "rod_").replaceFirst("_stone",
+        "_generic");
     this.tier = tier;
     this.color = color;
   }
@@ -38,7 +39,8 @@ public class ToolPartRodGems extends ToolPartRod {
 
     super(SilentGems.RESOURCE_PREFIX + name, stack, oreName, durabilityMulti, harvestSpeedMulti,
         meleeDamageMulti, magicDamageMulti, enchantabilityMulti);
-    this.rodName = name.toLowerCase().replaceFirst("rod", "rod_");
+    this.rodName = name.toLowerCase().replaceFirst("rod", "rod_").replaceFirst("_stone",
+        "_generic");
     this.tier = tier;
     this.color = color;
   }
@@ -62,7 +64,7 @@ public class ToolPartRodGems extends ToolPartRod {
   @Override
   public int getColor(ItemStack toolOrArmor, IPartPosition position, int animationFrame) {
 
-    if (toolOrArmor.getItem() instanceof ItemGemShield)
+    if (toolOrArmor.getItem() instanceof ItemGemShield || rodName.equals("rod_generic"))
       return color;
     return 0xFFFFFF;
   }

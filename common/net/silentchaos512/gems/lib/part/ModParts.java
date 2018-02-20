@@ -27,7 +27,10 @@ public class ModParts {
         1.0f, 1.0f, 1.0f, 1.0f, 0.8f));
     ToolPartRegistry.putPart(new ToolPartRodGems("RodBone", EnumMaterialTier.MUNDANE,
         new ItemStack(Items.BONE), 0xFFFDE9,
-        1.1f, 1.0f, 1.1f, 0.9f, 1.0f));
+        1.1f, 0.9f, 1.1f, 0.9f, 1.0f));
+    ToolPartRegistry.putPart(new ToolPartRodGems("RodStone", EnumMaterialTier.MUNDANE,
+        ModItems.craftingMaterial.toolRodStone, 0x777777, "stickStone",
+        0.9f, 1.1f, 1.0f, 1.0f, 0.7f));
     ToolPartRegistry.putPart(new ToolPartRodGems("RodIron", EnumMaterialTier.REGULAR,
         ModItems.craftingMaterial.toolRodIron, 0xA2A2A2, "stickIron",
         1.25f, 1.0f, 1.0f, 1.0f, 0.9f));

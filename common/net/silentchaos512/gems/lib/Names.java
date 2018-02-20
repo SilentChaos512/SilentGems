@@ -25,6 +25,7 @@ public class Names {
   public static final String MATERIAL_GRADER = "MaterialGrader";
   public static final String MISC_BLOCK = "MiscBlock";
   public static final String PHANTOM_LIGHT = "PhantomLight";
+  public static final String STONE_TORCH = "StoneTorch";
   public static final String TELEPORTER = "Teleporter";
   public static final String TELEPORTER_ANCHOR = "TeleporterAnchor";
   public static final String TELEPORTER_REDSTONE = "TeleporterRedstone";
@@ -94,6 +95,7 @@ public class Names {
   public static final String SHINY_PLUME = "ShinyPlume";
   public static final String SOUL_SHELL = "SoulShell";
   public static final String STICK_IRON = "StickIron";
+  public static final String STICK_STONE = "StickStone";
   public static final String UPGRADE_BASE = "UpgradeBase";
   public static final String YARN_BALL = "YarnBall";
 

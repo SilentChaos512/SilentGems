@@ -22,6 +22,7 @@ import net.silentchaos512.gems.block.BlockHardenedRock;
 import net.silentchaos512.gems.block.BlockMaterialGrader;
 import net.silentchaos512.gems.block.BlockMisc;
 import net.silentchaos512.gems.block.BlockPhantomLight;
+import net.silentchaos512.gems.block.BlockStoneTorch;
 import net.silentchaos512.gems.block.BlockTeleporter;
 import net.silentchaos512.gems.block.BlockTeleporterAnchor;
 import net.silentchaos512.gems.block.BlockTeleporterRedstone;
@@ -91,6 +92,7 @@ public class ModBlocks implements IRegistrationHandler<Block> {
   public static final BlockHardenedRock hardenedRock = new BlockHardenedRock();
   public static final BlockFluffyBlock fluffyBlock = new BlockFluffyBlock();
   public static final BlockFluffyPuffPlant fluffyPuffPlant = new BlockFluffyPuffPlant();
+  public static final BlockStoneTorch stoneTorch = new BlockStoneTorch();
   public static final BlockChaosFlowerPot chaosFlowerPot = new BlockChaosFlowerPot();
   public static final BlockMaterialGrader materialGrader = new BlockMaterialGrader();
   public static final BlockChaosNode chaosNode = new BlockChaosNode();
@@ -152,6 +154,7 @@ public class ModBlocks implements IRegistrationHandler<Block> {
     reg.registerBlock(hardenedRock);
     reg.registerBlock(fluffyBlock);
     reg.registerBlock(fluffyPuffPlant, Names.FLUFFY_PUFF_PLANT).setCreativeTab(null);
+    reg.registerBlock(stoneTorch);
     reg.registerBlock(chaosFlowerPot, Names.CHAOS_FLOWER_POT);
     reg.registerBlock(materialGrader);
     reg.registerBlock(chaosNode);
