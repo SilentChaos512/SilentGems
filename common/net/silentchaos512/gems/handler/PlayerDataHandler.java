@@ -3,8 +3,10 @@ package net.silentchaos512.gems.handler;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -41,7 +43,7 @@ public class PlayerDataHandler {
     }
 
     PlayerData data = playerData.get(key);
-    if (data.playerWR.get() != player) {
+    if (data != null && data.playerWR != null && data.playerWR.get() != player) {
       NBTTagCompound tags = new NBTTagCompound();
       data.writeToNBT(tags);
       playerData.remove(key);
@@ -55,11 +57,12 @@ public class PlayerDataHandler {
   public static void cleanup() {
 
     List<Integer> remove = new ArrayList();
-
-    for (int i : playerData.keySet()) {
-      PlayerData d = playerData.get(i);
+    Iterator<Entry<Integer, PlayerData>> iter = playerData.entrySet().iterator();
+    while(iter.hasNext()) {
+      Entry<Integer, PlayerData> item = iter.next();
+      PlayerData d = item.getValue();
       if (d != null && d.playerWR.get() == null) {
-        remove.add(i);
+        remove.add(item.getKey());
       }
     }
 

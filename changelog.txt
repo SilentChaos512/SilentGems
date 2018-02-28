@@ -4,6 +4,7 @@ Silent's Gems - Changelog
 Updated zh_CN.lang (Aemande123)
 Added: Stone torches (#290)
 Added: Stone rods, used for crafting stone torches or as tool rods (mundane tier)
+Fixed (maybe): A rare crash caused by concurrent modification exception (#289)
 
 2.6.9
 Changed: Bow, shield, and armor example recipes switched to the new style (#237)
