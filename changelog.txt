@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.6.9b
+Fixed: Server crash caused by previous version (#291)
+
 2.6.9
 Updated zh_CN.lang (Aemande123)
 Added: Stone torches (#290)

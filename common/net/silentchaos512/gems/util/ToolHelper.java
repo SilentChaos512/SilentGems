@@ -1144,7 +1144,7 @@ public class ToolHelper {
       // Armor frames
       List<ItemStack> frames = new ArrayList<>();
       if (item instanceof ItemGemArmor) {
-        EntityEquipmentSlot slot = ((ItemGemArmor) item).getEquipmentSlot();
+        EntityEquipmentSlot slot = ((ItemGemArmor) item).armorType;
         for (ToolPart part : ToolPartRegistry.getValues())
           if (part instanceof ArmorPartFrame && ((ArmorPartFrame) part).getSlot() == slot
               && part.getTier() == tier && !part.isBlacklisted(part.getCraftingStack()))
