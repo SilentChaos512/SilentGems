@@ -112,6 +112,8 @@ public final class ToolStats {
         .add(new ItemStatModifier(ID_VARIETY_BONUS, bonus, Operation.MULTIPLY));
     mods.get(CommonItemStats.ARMOR)
         .add(new ItemStatModifier(ID_VARIETY_BONUS, bonus, Operation.MULTIPLY));
+    mods.get(CommonItemStats.MAGIC_ARMOR)
+        .add(new ItemStatModifier(ID_VARIETY_BONUS, bonus, Operation.MULTIPLY));
 
     // Tool class multipliers
     if (tool.getItem() instanceof ITool) {
