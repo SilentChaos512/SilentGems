@@ -125,6 +125,7 @@ public class GemsConfig extends AdaptiveConfig {
 
   public static boolean SHOW_BONUS_ARMOR_BAR = true;
   public static boolean CHAOS_BAR_SHOW_ALWAYS = false;
+  public static boolean SHOW_ARROW_COUNT = true;
 
   /*
    * Recipes
@@ -417,6 +418,10 @@ public class GemsConfig extends AdaptiveConfig {
       CHAOS_BAR_SHOW_ALWAYS = loadBoolean("Show Chaos Bar Always", CAT_GUI,
           CHAOS_BAR_SHOW_ALWAYS,
           "Show the chaos bar at all times. By default, it only shows when you gain/lose chaos.");
+      SHOW_ARROW_COUNT = loadBoolean("Show Arrow Count", CAT_GUI,
+          true,
+          "Show how many arrows you have (and what kind will be fired) when you have a bow"
+          + " equipped. Compatible with quivers!");
 
       /*
        * Recipes

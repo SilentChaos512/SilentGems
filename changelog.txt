@@ -1,5 +1,10 @@
 Silent's Gems - Changelog
 
+2.7.0
+Added: Quivers. They can store four stacks of arrows. Should work with all bows and arrows that extended vanilla classes (i.e. not TiC).
+Fixed: Air bar color being changed by the chaos bar.
+Fixed: A minor error in some chaos rune recipe IDs.
+
 2.6.9b
 Fixed: Server crash caused by previous version (#291)
 

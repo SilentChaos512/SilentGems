@@ -43,6 +43,8 @@ import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.ToolRenderHelperBase;
 import net.silentchaos512.gems.item.armor.ItemArmorFrame;
 import net.silentchaos512.gems.item.armor.ItemGemArmor;
+import net.silentchaos512.gems.item.quiver.ItemQuiver;
+import net.silentchaos512.gems.item.quiver.ItemQuiverEmpty;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemDagger;
@@ -74,6 +76,8 @@ public class ModItems implements IRegistrationHandler<Item> {
   public static final ItemGemShard gemShard = new ItemGemShard();
   public static final ItemSoulGem soulGem = new ItemSoulGem();
   public static final ItemCrafting craftingMaterial = new ItemCrafting();
+  public static final ItemQuiver quiver = new ItemQuiver();
+  public static final ItemQuiverEmpty quiverEmpty = new ItemQuiverEmpty();
   public static final ItemTipUpgrade tipUpgrade = new ItemTipUpgrade();
   public static final ItemEnchantmentToken enchantmentToken = new ItemEnchantmentToken();
   public static final ItemToolSoul toolSoul = new ItemToolSoul();
@@ -140,6 +144,8 @@ public class ModItems implements IRegistrationHandler<Item> {
     reg.registerItem(gemShard).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(soulGem).setCreativeTab(GemsCreativeTabs.materials);
     reg.registerItem(craftingMaterial).setCreativeTab(GemsCreativeTabs.materials);
+    reg.registerItem(quiver).setCreativeTab(null);
+    reg.registerItem(quiverEmpty).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(tipUpgrade).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(enchantmentToken).setCreativeTab(GemsCreativeTabs.utility);
     reg.registerItem(toolSoul).setCreativeTab(GemsCreativeTabs.utility);

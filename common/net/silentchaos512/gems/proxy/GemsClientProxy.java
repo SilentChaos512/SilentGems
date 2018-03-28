@@ -11,6 +11,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.EquipmentTooltips;
 import net.silentchaos512.gems.client.gui.GuiChaosBar;
+import net.silentchaos512.gems.client.gui.GuiQuiverArrowOverlay;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.render.ModBlockRenderers;
@@ -43,6 +44,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
     MinecraftForge.EVENT_BUS.register(new GemsClientEvents());
     MinecraftForge.EVENT_BUS.register(GuiChaosBar.INSTANCE);
     MinecraftForge.EVENT_BUS.register(new EquipmentTooltips());
+    MinecraftForge.EVENT_BUS.register(new GuiQuiverArrowOverlay());
     MinecraftForge.EVENT_BUS.register(ModItems.toolRenderHelper);
     registry.clientPreInit();
     registerRenderers();

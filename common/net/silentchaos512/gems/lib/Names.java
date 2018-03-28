@@ -48,6 +48,8 @@ public class Names {
   public static final String GLOW_ROSE_FERTILIZER = "GlowRoseFertilizer";
   public static final String HOLDING_GEM = "HoldingGem";
   public static final String NODE_MOVER = "NodeMover";
+  public static final String QUIVER = "Quiver";
+  public static final String QUIVER_NON_EMPTY = "QuiverNonEmpty";
   public static final String RETURN_HOME_CHARM = "ReturnHomeCharm";
   public static final String SKILL_ORB = "SkillOrb";
   public static final String SOUL_GEM = "SoulGem";
