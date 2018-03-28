@@ -108,7 +108,7 @@ public class ItemChaosRune extends ItemSL {
     String line2 = count != 2 ? "ror" : "r r";
     String line3 = line1;
     setBuff(result, buff);
-    String name = "chaos_rune_" + buff.getKey().replaceFirst(SilentGems.RESOURCE_PREFIX, "");
+    String name = "chaos_rune_" + buff.getKey().replaceFirst(SilentGems.RESOURCE_PREFIX, "").replaceAll(":", "_");
     SilentGems.registry.recipes.addShapedOre(name, result, line1, line2, line3, 'r', "dustRedstone",
         'c', ModItems.craftingMaterial.chaosEssenceEnriched, 'o', obj);
   }
