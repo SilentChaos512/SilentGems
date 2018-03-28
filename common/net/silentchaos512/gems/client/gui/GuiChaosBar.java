@@ -118,6 +118,8 @@ public class GuiChaosBar extends Gui {
       }
     }
 
+    GlStateManager.color(1f, 1f, 1f, 1f);
+
     mc.renderEngine.bindTexture(Gui.ICONS);
     GlStateManager.disableBlend();
     GlStateManager.popMatrix();
