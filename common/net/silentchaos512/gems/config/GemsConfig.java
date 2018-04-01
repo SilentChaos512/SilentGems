@@ -155,6 +155,12 @@ public class GemsConfig extends AdaptiveConfig {
   public static boolean RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY = false;
 
   /*
+   * Compat
+   */
+
+  public static boolean ENABLE_TIC_SUPPORT = true;
+
+  /*
    * World generation
    */
 
@@ -193,6 +199,7 @@ public class GemsConfig extends AdaptiveConfig {
   public static final String CAT_DEBUG = CAT_MAIN + split + "debug";
   public static final String CAT_BLOCK = CAT_MAIN + split + "blocks";
   public static final String CAT_CHAOS = CAT_MAIN + split + "chaos";
+  public static final String CAT_COMPAT = CAT_MAIN + split + "compat";
   public static final String CAT_CONTROLS = CAT_MAIN + split + "controls";
   public static final String CAT_ENCHANTMENT = CAT_MAIN + split + "enchantment";
   public static final String CAT_ENTITY = CAT_MAIN + split + "entity";
@@ -496,6 +503,15 @@ public class GemsConfig extends AdaptiveConfig {
           RIGHT_CLICK_TO_PLACE_ON_SNEAK_ONLY,
           "If set to true and right-click to place is enabled, this ability will only activate "
               + "while sneaking (holding shift, normally).");
+
+      /*
+       * Compat
+       */
+
+      config.setCategoryRequiresMcRestart(CAT_COMPAT, true);
+      ENABLE_TIC_SUPPORT = loadBoolean("Tinkers Construct Support", CAT_COMPAT,
+          ENABLE_TIC_SUPPORT,
+          "Set to false to disable registration of TiC parts.");
 
       /*
        * World Generation

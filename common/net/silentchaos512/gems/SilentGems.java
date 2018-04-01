@@ -143,7 +143,7 @@ public class SilentGems {
     FMLInterModComms.sendMessage("headcrumbs", "add-username", Names.SILENT_CHAOS_512);
 
     // Load TCon compatibility stuff?
-    if (Loader.isModLoaded("tconstruct")) {
+    if (Loader.isModLoaded("tconstruct") && GemsConfig.ENABLE_TIC_SUPPORT) {
       TConstructGemsCompat.preInit();
     }
 
