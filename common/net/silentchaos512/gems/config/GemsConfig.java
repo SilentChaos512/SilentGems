@@ -120,6 +120,14 @@ public class GemsConfig extends AdaptiveConfig {
   public static Set<Item> NODE_REPAIR_BLACKLIST = new HashSet<>();
 
   /*
+   * Entities
+   */
+
+  public static int ENDER_SLIME_SPAWN_WEIGHT = 3;
+  public static int ENDER_SLIME_SPAWN_MIN = 1;
+  public static int ENDER_SLIME_SPAWN_MAX = 2;
+
+  /*
    * GUI
    */
 
@@ -187,6 +195,7 @@ public class GemsConfig extends AdaptiveConfig {
   public static final String CAT_CHAOS = CAT_MAIN + split + "chaos";
   public static final String CAT_CONTROLS = CAT_MAIN + split + "controls";
   public static final String CAT_ENCHANTMENT = CAT_MAIN + split + "enchantment";
+  public static final String CAT_ENTITY = CAT_MAIN + split + "entity";
   public static final String CAT_GUI = CAT_MAIN + split + "gui";
   public static final String CAT_ITEM = CAT_MAIN + split + "items";
   public static final String CAT_MISC = CAT_MAIN + split + "misc";
@@ -407,6 +416,25 @@ public class GemsConfig extends AdaptiveConfig {
       loadNodeItemList(false, config.getStringList("Repair Blacklist", CAT_NODES,
           new String[0],
           "Repair packets will not try to repair these items. REMOVING ITEMS REQUIRES A RESTART."));
+
+      /*
+       * Entities
+       */
+
+      String catEnderSlime = CAT_ENTITY + split + "ender_slime";
+      config.setCategoryRequiresMcRestart(catEnderSlime, true);
+      ENDER_SLIME_SPAWN_WEIGHT = loadInt("Spawn Weight", catEnderSlime,
+          ENDER_SLIME_SPAWN_WEIGHT, 0, Integer.MAX_VALUE,
+          "Spawn weight (how common they are). Set to 0 to disable.");
+      ENDER_SLIME_SPAWN_MIN = loadInt("Spawn Min", catEnderSlime,
+          ENDER_SLIME_SPAWN_MIN, 1, 8,
+          "Minimum group size. Should be less than or equal to max.");
+      ENDER_SLIME_SPAWN_MAX = loadInt("Spawn Max", catEnderSlime,
+          ENDER_SLIME_SPAWN_MAX, 1, 8,
+          "Maximum group size. Should be greater than or equal to min.");
+      if (ENDER_SLIME_SPAWN_MIN > ENDER_SLIME_SPAWN_MAX) {
+        ENDER_SLIME_SPAWN_MIN = ENDER_SLIME_SPAWN_MAX;
+      }
 
       /*
        * GUI
