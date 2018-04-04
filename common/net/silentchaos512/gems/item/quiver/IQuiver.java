@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.lib.util.PlayerHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public interface IQuiver {
@@ -62,9 +63,16 @@ public interface IQuiver {
         // Need to remove original quiver, replace with new one.
         ItemStack newQuiver = new ItemStack(intendedItem, 1);
         newQuiver.setTagCompound(stack.getTagCompound());
-        int oldIndex = player.inventory.getSlotFor(stack);
+        int oldIndex = -1;
+        for (int i = 0; i < player.inventory.mainInventory.size(); ++i) {
+          ItemStack itemstack = player.inventory.mainInventory.get(i);
+          if (StackHelper.isValid(itemstack) && ItemStack.areItemStacksEqual(stack, itemstack)) {
+            oldIndex = i;
+            break;
+          }
+        }
         if (oldIndex >= 0) {
-          //player.inventory.removeStackFromSlot(oldIndex);
+          // player.inventory.removeStackFromSlot(oldIndex);
           player.inventory.setInventorySlotContents(oldIndex, newQuiver);
         }
       }
