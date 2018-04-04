@@ -1,7 +1,9 @@
 Silent's Gems - Changelog
 
 2.7.0
-Added: Quivers. They can store four stacks of arrows. Should work with all bows and arrows that extended vanilla classes (i.e. not TiC).
+Added: Arrows. Should work with any bow that extends the vanilla class. They are crafted like vanilla arrows, but replace the flint with a main part (gem, ingot, etc.) and the stick with a rod of matching tier. The calculated melee damage affects arrow damage. Durability affects the number of arrows per crafting (anywhere from 4 to 64). To avoid a recipe conflict, "flint arrows" cannot be crafted, you will get vanilla arrows instead.
+Added: Quivers. They can store four stacks of arrows. Should work with all bows and arrows that extend vanilla classes (i.e. not TiC).
+Added: When holding a bow, the arrow stack you would fire is displayed to the right of the hotbar.
 Added: Configs to tweak ender slime spawning. Default weight and max group size have been halved (#292)
 Added: Config to disable TiC parts (#295)
 Fixed: Air bar color being changed by the chaos bar.

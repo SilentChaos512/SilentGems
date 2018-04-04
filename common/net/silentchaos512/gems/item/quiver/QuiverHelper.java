@@ -18,6 +18,8 @@ import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
@@ -83,6 +85,7 @@ public class QuiverHelper {
     //@formatter:on
   }
 
+  @SideOnly(Side.CLIENT)
   public static void addInformation(ItemStack stack, World worldIn, List<String> tooltip,
       ITooltipFlag flagIn) {
 

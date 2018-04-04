@@ -6,17 +6,20 @@ import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.api.lib.ArmorPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.ItemGemArrow;
 import net.silentchaos512.gems.item.ItemHoldingGem;
 import net.silentchaos512.gems.item.ItemSoulGem.Soul;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.lib.util.Color;
+import net.silentchaos512.lib.util.StackHelper;
 
 public class ColorHandlers {
 
@@ -180,7 +183,8 @@ public class ColorHandlers {
         switch (tintIndex) {
           case 0:
             float ratio = 0.5f + MathHelper.sin((float) ClientTickHandler.ticksInGame / 15) / 6;
-            return Color.blend(soul.getPrimaryElement().color, soul.getSecondaryElement().color, ratio);
+            return Color.blend(soul.getPrimaryElement().color, soul.getSecondaryElement().color,
+                ratio);
           case 1:
             return soul.getPrimaryElement().color;
           case 2:
@@ -190,15 +194,29 @@ public class ColorHandlers {
         }
       }
     }, ModItems.toolSoul);
-    
+
     // Arrows
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
       public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 
-        // TODO Auto-generated method stub
-        return 0xFFFFFF;
+        if (StackHelper.isEmpty(stack) || !stack.hasTagCompound()
+            || !stack.getTagCompound().hasKey(ItemGemArrow.NBT_STATS)) {
+          return 0xFFFFFF;
+        }
+
+        NBTTagCompound tags = stack.getTagCompound().getCompoundTag(ItemGemArrow.NBT_STATS);
+        switch (tintIndex) {
+          case 0:
+            return tags.getInteger(ItemGemArrow.NBT_COLOR_SHAFT);
+          case 1:
+            return tags.getInteger(ItemGemArrow.NBT_COLOR_FLETCHING);
+          case 2:
+            return tags.getInteger(ItemGemArrow.NBT_COLOR_HEAD);
+          default:
+            return 0xFFFFFF;
+        }
       }
     }, ModItems.arrow);
   }

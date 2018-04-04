@@ -123,6 +123,6 @@ public class ItemQuiver extends ItemArrow implements IRegistryObject, IQuiver {
   @Override
   public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    models.put(0, new ModelResourceLocation(getFullName(), NBT_INVENTORY));
+    models.put(0, new ModelResourceLocation(getFullName(), "inventory"));
   }
 }

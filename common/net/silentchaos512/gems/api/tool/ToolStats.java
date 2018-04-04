@@ -11,7 +11,6 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.ArmorPartPosition;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
@@ -20,7 +19,12 @@ import net.silentchaos512.gems.api.stats.CommonItemStats;
 import net.silentchaos512.gems.api.stats.ItemStat;
 import net.silentchaos512.gems.api.stats.ItemStatModifier;
 import net.silentchaos512.gems.api.stats.ItemStatModifier.Operation;
+import net.silentchaos512.gems.api.tool.part.ArmorPartFrame;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
+import net.silentchaos512.gems.api.tool.part.ToolPartGrip;
+import net.silentchaos512.gems.api.tool.part.ToolPartMain;
+import net.silentchaos512.gems.api.tool.part.ToolPartRod;
+import net.silentchaos512.gems.api.tool.part.ToolPartTip;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
@@ -57,6 +61,13 @@ public final class ToolStats {
     this.grades = grades;
   }
 
+  public ToolStats(ItemStack tool, Map<ToolPart, EnumMaterialGrade> parts) {
+
+    this.tool = tool;
+    this.parts = parts.keySet().toArray(new ToolPart[0]);
+    this.grades = parts.values().toArray(new EnumMaterialGrade[0]);
+  }
+
   public ToolStats calculate() {
 
     if (parts.length == 0)
@@ -68,15 +79,26 @@ public final class ToolStats {
     }
     Set<ToolPart> uniqueParts = Sets.newConcurrentHashSet();
 
-    // Head (main) parts
+    ToolPart partRod = null, partTip = null, partGrip = null, partFrame = null;
+
     for (int i = 0; i < parts.length; ++i) {
       ToolPart part = parts[i];
       EnumMaterialGrade grade = grades[i];
-      for (ItemStat stat : ItemStat.ALL_STATS) {
-        ItemStatModifier statModifier = part.getStatModifier(stat, grade);
-        if (statModifier != null) {
-          mods.get(stat).add(statModifier);
+      // Head (main) parts influence stats now, others are later.
+      if (part instanceof ToolPartMain) {
+        for (ItemStat stat : ItemStat.ALL_STATS) {
+          ItemStatModifier statModifier = part.getStatModifier(stat, grade);
+          if (statModifier != null) {
+            mods.get(stat).add(statModifier);
+          }
         }
+        uniqueParts.add(part);
+      } else if (part instanceof ToolPartRod) {
+        partRod = part;
+      } else if (part instanceof ToolPartTip) {
+        partTip = part;
+      } else if (part instanceof ArmorPartFrame) {
+        partFrame = part;
       }
 
       // float multi = (100 + grade.bonusPercent) / 100f;
@@ -89,8 +111,6 @@ public final class ToolStats {
       // chargeSpeed += part.getChargeSpeed() * multi;
       // protection += part.getProtection() * multi;
       // harvestLevel = Math.max(harvestLevel, part.getHarvestLevel());
-
-      uniqueParts.add(part);
     }
 
     // Variety bonus
@@ -123,10 +143,18 @@ public final class ToolStats {
     }
 
     // Rod, tip, grip, frame
-    ToolPart partRod = ToolHelper.getConstructionRod(tool);
-    ToolPart partTip = ToolHelper.getConstructionTip(tool);
-    ToolPart partGrip = ToolHelper.getPart(tool, ToolPartPosition.ROD_GRIP);
-    ToolPart partFrame = ArmorHelper.getPart(tool, ArmorPartPosition.FRAME);
+    if (partRod == null) {
+      partRod = ToolHelper.getConstructionRod(tool);
+    }
+    if (partTip == null) {
+      partTip = ToolHelper.getConstructionTip(tool);
+    }
+    if (partGrip == null) {
+      partGrip = ToolHelper.getPart(tool, ToolPartPosition.ROD_GRIP);
+    }
+    if (partFrame == null) {
+      partFrame = ArmorHelper.getPart(tool, ArmorPartPosition.FRAME);
+    }
 
     for (ToolPart part : Lists.newArrayList(partRod, partTip, partGrip, partFrame)) {
       if (part != null) {
@@ -154,13 +182,13 @@ public final class ToolStats {
 
   public float calcStat(ItemStat stat, Map<ItemStat, List<ItemStatModifier>> mods) {
 
-//    if (stat == CommonItemStats.CHARGE_SPEED) {
-//      String str = "";
-//      for (ItemStatModifier mod : mods.get(stat)) {
-//        str += "{" + mod.getId() + " " + mod.getOperation() + " " + mod.getAmount() + "}, "; 
-//      }
-//      SilentGems.logHelper.debug(str);
-//    }
+    // if (stat == CommonItemStats.CHARGE_SPEED) {
+    // String str = "";
+    // for (ItemStatModifier mod : mods.get(stat)) {
+    // str += "{" + mod.getId() + " " + mod.getOperation() + " " + mod.getAmount() + "}, ";
+    // }
+    // SilentGems.logHelper.debug(str);
+    // }
     return stat.compute(0f, mods.get(stat));
   }
 }

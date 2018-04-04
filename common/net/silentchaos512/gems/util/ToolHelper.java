@@ -61,6 +61,7 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.config.GemsConfigHC;
 import net.silentchaos512.gems.guide.GuideBookGems;
 import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.ItemGemArrow;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.armor.ItemGemArmor;
 import net.silentchaos512.gems.item.tool.ItemGemAxe;
@@ -434,6 +435,11 @@ public class ToolHelper {
   }
 
   public static boolean isBroken(ItemStack tool) {
+
+    if (tool.getItem() instanceof ItemGemArrow) {
+      // Quick hack for arrow coloring.
+      return true;
+    }
 
     if (GemsConfigHC.TOOLS_BREAK) {
       return false;
@@ -912,7 +918,7 @@ public class ToolHelper {
     Set<String> materialSet = Sets.newLinkedHashSet();
     for (ItemStack stack : materials) {
       part = ToolPartRegistry.fromStack(stack);
-      if (part != null) {
+      if (part instanceof ToolPartMain) {
         String prefix = part.getDisplayNamePrefix(stack);
         if (prefix != null && !prefix.isEmpty())
           prefixSet.add(prefix);
@@ -1363,9 +1369,9 @@ public class ToolHelper {
   public static void setPart(ItemStack tool, ToolPart part, EnumMaterialGrade grade,
       ToolPartPosition pos) {
 
-    if (!part.validForToolOfTier(getToolTier(tool))) {
-      return;
-    }
+//    if (!part.validForToolOfTier(getToolTier(tool))) {
+//      return;
+//    }
     setTagPart(tool, pos.getKey(0), part, grade);
   }
 

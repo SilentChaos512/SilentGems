@@ -29,5 +29,7 @@ public class ModEntities {
           GemsConfig.ENDER_SLIME_SPAWN_MIN, GemsConfig.ENDER_SLIME_SPAWN_MAX,
           EnumCreatureType.MONSTER, Biomes.SKY);
     }
+
+    reg.registerEntity(EntityGemArrow.class, "GemArrow");
   }
 }

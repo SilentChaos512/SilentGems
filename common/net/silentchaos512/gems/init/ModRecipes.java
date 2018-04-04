@@ -15,6 +15,7 @@ import net.silentchaos512.gems.recipe.RecipeApplyToolSoul;
 import net.silentchaos512.gems.recipe.RecipeChaosGemUpgrade;
 import net.silentchaos512.gems.recipe.RecipeDecorateArmor;
 import net.silentchaos512.gems.recipe.RecipeDecorateTool;
+import net.silentchaos512.gems.recipe.RecipeGemArrow;
 import net.silentchaos512.gems.recipe.RecipeHoldingGemSetBlock;
 import net.silentchaos512.gems.recipe.RecipeMixedMaterialItem;
 import net.silentchaos512.gems.recipe.RecipeNamePlate;
@@ -106,6 +107,9 @@ public class ModRecipes implements IRegistrationHandler<IRecipe> {
     // Tomahawk
     recipes.addCustomRecipe("multipart_tomahawk",
         new RecipeMixedMaterialItem(null, ModItems.tomahawk, "hhh", "hr ", " r "));
+
+    // Arrows
+    recipes.addCustomRecipe("multipart_arrows", new RecipeGemArrow());
 
     // Helmet
     recipes.addCustomRecipe("multipart_helmet",

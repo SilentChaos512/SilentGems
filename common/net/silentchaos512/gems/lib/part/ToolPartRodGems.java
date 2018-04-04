@@ -11,6 +11,7 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.IPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
+import net.silentchaos512.gems.item.ItemGemArrow;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.lib.registry.IRegistryObject;
 
@@ -64,7 +65,8 @@ public class ToolPartRodGems extends ToolPartRod {
   @Override
   public int getColor(ItemStack toolOrArmor, IPartPosition position, int animationFrame) {
 
-    if (toolOrArmor.getItem() instanceof ItemGemShield || rodName.equals("rod_generic"))
+    if (toolOrArmor.getItem() instanceof ItemGemShield
+        || toolOrArmor.getItem() instanceof ItemGemArrow || rodName.equals("rod_generic"))
       return color;
     return 0xFFFFFF;
   }

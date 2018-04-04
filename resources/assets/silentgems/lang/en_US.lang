@@ -969,6 +969,7 @@ item.silentgems:Hoe.name=Gem Hoe
 item.silentgems:Sickle.name=Gem Sickle
 item.silentgems:Bow.name=Gem Bow
 item.silentgems:Shield.name=Gem Shield
+item.silentgems:Arrow.name=GemArrow
 
 tool.silentgems:Sword=%s Sword
 tool.silentgems:Dagger=%s Dagger
@@ -984,6 +985,7 @@ tool.silentgems:Hoe=%s Hoe
 tool.silentgems:Sickle=%s Sickle
 tool.silentgems:Bow=%s Bow
 tool.silentgems:Shield=%s Shield
+tool.silentgems:Arrow=%s Arrow
 tool.silentgems:delimiter=-
 
 # Armor
