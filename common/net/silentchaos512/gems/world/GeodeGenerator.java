@@ -68,8 +68,7 @@ public class GeodeGenerator extends WorldGenMinable {
         float dy = y - position.getY();
         for (int z = zmin; z <= zmax; ++z) {
           float dz = z - position.getZ();
-          if ((dx * dx) / (diameterXZ * diameterXZ) + (dy * dy) / (diameterY * diameterY)
-              + (dz * dz) / (diameterXZ * diameterXZ) <= 0.25f) {
+          if ((dx * dx) / (diameterXZ * diameterXZ) + (dy * dy) / (diameterY * diameterY) + (dz * dz) / (diameterXZ * diameterXZ) <= 0.25f) {
             ++count;
             BlockPos blockpos = new BlockPos(x, y, z);
 
@@ -108,38 +107,42 @@ public class GeodeGenerator extends WorldGenMinable {
         float dy = y - position.getY();
         for (int z = zmin; z <= zmax; ++z) {
           float dz = z - position.getZ();
-          if ((dx * dx) / (diameterXZ * diameterXZ) + (dy * dy) / (diameterY * diameterY)
-              + (dz * dz) / (diameterXZ * diameterXZ) <= 0.25f) {
-            // We are in the spawn area.
-            if (rand.nextFloat() <= GemsConfig.GEODE_GEM_DENSITY) {
-              ++count;
-              BlockPos blockpos = new BlockPos(x, y, z);
+          count = tryPlaceGem(worldIn, rand, position, diameterXZ, diameterY, shellPredicate, block, count, x, dx, y, dy, z, dz);
+        }
+      }
+    }
+    // SilentGems.logHelper.debug(xmin, xmax, ymin, ymax, zmin, zmax, count);
+  }
 
-              IBlockState state = worldIn.getBlockState(blockpos);
-              if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, shellPredicate)) {
-                EnumGem gem = EnumGem.values()[rand.nextInt(16)];
-                IBlockState stateToPlace = block.getDefaultState().withProperty(EnumGem.VARIANT_GEM,
-                    gem);
-                worldIn.setBlockState(blockpos, stateToPlace, 2);
-              }
-            }
+  private int tryPlaceGem(World worldIn, Random rand, BlockPos position, float diameterXZ, float diameterY, Predicate shellPredicate, Block block, int count, int x, float dx, int y, float dy, int z,
+      float dz) {
 
-            // Make sure the geode is sealed (in case of intersection with a cave, for example.)
-            // TODO: Doesn't seem to work very well...
-            if (GemsConfig.GEODE_SEAL_BREAKS) {
-              for (EnumFacing facing : EnumFacing.values()) {
-                BlockPos offset = position.offset(facing);
-                IBlockState adjacent = worldIn.getBlockState(offset);
-                if (worldIn.isAirBlock(offset)
-                    || adjacent != shellBlock && adjacent.getBlock() != block) {
-                  worldIn.setBlockState(offset, shellBlock);
-                }
+    if ((dx * dx) / (diameterXZ * diameterXZ) + (dy * dy) / (diameterY * diameterY) + (dz * dz) / (diameterXZ * diameterXZ) <= 0.25f) {
+      // We are in the spawn area.
+      if (rand.nextFloat() <= GemsConfig.GEODE_GEM_DENSITY) {
+        ++count;
+        BlockPos blockpos = new BlockPos(x, y, z);
+
+        IBlockState state = worldIn.getBlockState(blockpos);
+        if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, shellPredicate)) {
+          EnumGem gem = EnumGem.values()[rand.nextInt(16)];
+          IBlockState stateToPlace = block.getDefaultState().withProperty(EnumGem.VARIANT_GEM,
+              gem);
+          worldIn.setBlockState(blockpos, stateToPlace, 2);
+
+          // Make sure the geode is sealed (in case of intersection with a cave, for example.)
+          if (GemsConfig.GEODE_SEAL_BREAKS) {
+            for (EnumFacing facing : EnumFacing.values()) {
+              BlockPos offset = position.offset(facing);
+              IBlockState adjacent = worldIn.getBlockState(offset);
+              if (worldIn.isAirBlock(offset) || adjacent != shellBlock && adjacent.getBlock() != block) {
+                worldIn.setBlockState(offset, shellBlock);
               }
             }
           }
         }
       }
     }
-    // SilentGems.logHelper.debug(xmin, xmax, ymin, ymax, zmin, zmax, count);
+    return count;
   }
 }

@@ -3,6 +3,7 @@ Silent's Gems - Changelog
 2.7.1
 Added: Configs to set position of chaos gem charge bars (#296)
 Added: Configs to offset chaos bar (#296)
+Fixed: Gem geodes spawning in midair (#297)
 
 2.7.0
 Added: Arrows. Should work with any bow that extends the vanilla class. They are crafted like vanilla arrows, but replace the flint with a main part (gem, ingot, etc.) and the stick with a rod of matching tier. The calculated melee damage affects arrow damage. Durability affects the number of arrows per crafting (anywhere from 4 to 64). To avoid a recipe conflict, "flint arrows" cannot be crafted, you will get vanilla arrows instead.
