@@ -201,7 +201,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   // ==================
 
   @Override
-  public float getStrVsBlock(ItemStack stack, IBlockState state) {
+  public float getDestroySpeed(ItemStack stack, IBlockState state) {
 
     return ToolHelper.getDigSpeed(stack, state, EXTRA_EFFECTIVE_MATERIALS);
   }

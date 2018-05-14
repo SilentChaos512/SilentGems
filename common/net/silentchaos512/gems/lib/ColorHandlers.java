@@ -31,7 +31,7 @@ public class ColorHandlers {
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
-      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+      public int colorMultiplier(ItemStack stack, int tintIndex) {
 
         return ToolRenderHelper.getInstance().getColor(stack,
             ToolPartPosition.forRenderPass(tintIndex));
@@ -44,7 +44,7 @@ public class ColorHandlers {
       int[] passes = { ToolRenderHelper.PASS_HEAD, ToolRenderHelper.PASS_ROD };
 
       @Override
-      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+      public int colorMultiplier(ItemStack stack, int tintIndex) {
 
         if (tintIndex < 0 || tintIndex >= passes.length)
           return 0xFFFFFF;
@@ -57,7 +57,7 @@ public class ColorHandlers {
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
-      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+      public int colorMultiplier(ItemStack stack, int tintIndex) {
 
         // return ArmorHelper.getRenderPart(stack, EnumDecoPos.NORTH).getColor(stack);
         return ArmorHelper.getRenderColor(stack, ArmorPartPosition.NORTH); // FIXME: Multiple passes needed?
@@ -68,7 +68,7 @@ public class ColorHandlers {
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
-      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+      public int colorMultiplier(ItemStack stack, int tintIndex) {
 
         if (tintIndex == 1)
           return ModItems.enchantmentToken.getOutlineColor(stack);
@@ -80,7 +80,7 @@ public class ColorHandlers {
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
-      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+      public int colorMultiplier(ItemStack stack, int tintIndex) {
 
         if (tintIndex == 0) {
           int meta = stack.getItemDamage();
@@ -97,7 +97,7 @@ public class ColorHandlers {
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
-      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+      public int colorMultiplier(ItemStack stack, int tintIndex) {
 
         return tintIndex != 1 ? 0xFFFFFF : ClientTickHandler.nodeMoverColor.getColor();
       }
@@ -107,7 +107,7 @@ public class ColorHandlers {
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
-      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+      public int colorMultiplier(ItemStack stack, int tintIndex) {
 
         return tintIndex == 0 ? ModItems.drawingCompass.getColor(stack).getColor() : 0xFFFFFF;
       }
@@ -117,7 +117,7 @@ public class ColorHandlers {
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
-      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+      public int colorMultiplier(ItemStack stack, int tintIndex) {
 
         if (tintIndex == 1) {
           ChaosBuff buff = ModItems.chaosRune.getBuff(stack);
@@ -133,7 +133,7 @@ public class ColorHandlers {
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
-      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+      public int colorMultiplier(ItemStack stack, int tintIndex) {
 
         if (tintIndex == 1) {
           if (stack.hasTagCompound()) {
@@ -156,7 +156,7 @@ public class ColorHandlers {
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
-      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+      public int colorMultiplier(ItemStack stack, int tintIndex) {
 
         Soul soul = ModItems.soulGem.getSoul(stack);
         if (soul == null) {
@@ -173,7 +173,7 @@ public class ColorHandlers {
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
-      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+      public int colorMultiplier(ItemStack stack, int tintIndex) {
 
         // TODO Auto-generated method stub
         ToolSoul soul = ModItems.toolSoul.getSoul(stack);
@@ -199,7 +199,7 @@ public class ColorHandlers {
     itemColors.registerItemColorHandler(new IItemColor() {
 
       @Override
-      public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+      public int colorMultiplier(ItemStack stack, int tintIndex) {
 
         if (StackHelper.isEmpty(stack) || !stack.hasTagCompound()
             || !stack.getTagCompound().hasKey(ItemGemArrow.NBT_STATS)) {

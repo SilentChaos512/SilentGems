@@ -209,7 +209,7 @@ public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
   // ==================
 
   @Override
-  public float getStrVsBlock(ItemStack stack, IBlockState state) {
+  public float getDestroySpeed(ItemStack stack, IBlockState state) {
 
     return ToolHelper.getDigSpeed(stack, state, null);
   }

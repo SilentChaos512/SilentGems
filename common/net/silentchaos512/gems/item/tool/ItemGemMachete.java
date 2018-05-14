@@ -74,7 +74,7 @@ public class ItemGemMachete extends ItemGemSword {
   }
 
   @Override
-  public float getStrVsBlock(ItemStack stack, IBlockState state) {
+  public float getDestroySpeed(ItemStack stack, IBlockState state) {
 
     float digSpeed = ToolHelper.getDigSpeed(stack, state, ItemGemAxe.EXTRA_EFFECTIVE_MATERIALS);
     // On blocks typically harvested with axes, reduce the harvest speed.

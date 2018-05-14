@@ -266,7 +266,7 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
                 ? ammo.getItem()
                 : Items.ARROW));
             EntityArrow entityarrow = itemarrow.createArrow(worldIn, ammo, player);
-            entityarrow.setAim(player, player.rotationPitch, player.rotationYaw, 0.0F,
+            entityarrow.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F,
                 velocity * 3.0F, 1.0F);
 
             if (velocity == 1.0F) {

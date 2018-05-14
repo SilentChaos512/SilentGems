@@ -366,14 +366,14 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   // ==================
 
   @Override
-  public float getStrVsBlock(ItemStack stack, IBlockState state) {
+  public float getDestroySpeed(ItemStack stack, IBlockState state) {
 
     for (Material material : effectiveMaterials) {
       if (state.getMaterial() == material) {
-        return this.efficiencyOnProperMaterial;
+        return this.efficiency;
       }
     }
-    return super.getStrVsBlock(stack, state);
+    return super.getDestroySpeed(stack, state);
   }
 
   @Override

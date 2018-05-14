@@ -71,7 +71,7 @@ public class EntityChaosProjectileHoming extends EntityChaosProjectile {
         // Target entities that are not the shooter and not on the same team.
         if (predicate.apply(entityLiving)) {
           // Add some randomness so that different shots will select different targets.
-          int distance = (int) entityLiving.getDistanceSqToEntity(projectile)
+          int distance = (int) entityLiving.getDistanceSq(projectile)
               + SilentGems.instance.random.nextInt(512);
           // Within certain range and closer than the closest selected entity so far.
           if (distance < 1200 && distance < minDistance) {

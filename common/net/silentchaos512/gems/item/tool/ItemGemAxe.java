@@ -192,7 +192,7 @@ public class ItemGemAxe extends ItemAxe implements IRegistryObject, ITool {
   // ==================
 
   @Override
-  public float getStrVsBlock(ItemStack stack, IBlockState state) {
+  public float getDestroySpeed(ItemStack stack, IBlockState state) {
 
     return ToolHelper.getDigSpeed(stack, state, EXTRA_EFFECTIVE_MATERIALS);
   }

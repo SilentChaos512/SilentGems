@@ -57,7 +57,7 @@ public class PotionShocking extends Potion {
       // Chain to nearby mobs. Half this mob's time and effect level 1.
       if (shockTimer % CHAIN_DELAY == 0 && halfTime > 0) {
         for (EntityLivingBase nearby : entityLiving.world.getEntities(EntityLivingBase.class,
-            e -> e.getDistanceSqToEntity(entityLiving) < CHAIN_RADIUS_SQUARED
+            e -> e.getDistanceSq(entityLiving) < CHAIN_RADIUS_SQUARED
                 && !(e instanceof EntityPlayer))) {
           PotionEffect effectNearby = nearby.getActivePotionEffect(this);
           if (effectNearby == null) {

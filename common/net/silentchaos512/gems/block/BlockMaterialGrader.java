@@ -41,7 +41,7 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
     setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     setHardness(3.0f);
     setResistance(100.0f);
-    this.isBlockContainer = true;
+    this.hasTileEntity = true;
   }
 
   @Override
