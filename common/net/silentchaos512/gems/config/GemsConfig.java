@@ -134,6 +134,10 @@ public class GemsConfig extends AdaptiveConfig {
   public static boolean SHOW_BONUS_ARMOR_BAR = true;
   public static boolean CHAOS_BAR_SHOW_ALWAYS = false;
   public static boolean SHOW_ARROW_COUNT = true;
+  public static int CHAOS_GEM_BAR_POS_X = 5;
+  public static int CHAOS_GEM_BAR_POS_Y = 5;
+  public static int CHAOS_BAR_OFFSET_X = 0;
+  public static int CHAOS_BAR_OFFSET_Y = 0;
 
   /*
    * Recipes
@@ -457,6 +461,18 @@ public class GemsConfig extends AdaptiveConfig {
           true,
           "Show how many arrows you have (and what kind will be fired) when you have a bow"
           + " equipped. Compatible with quivers!");
+      CHAOS_GEM_BAR_POS_X = loadInt("Chaos Gem Charge Bar X", CAT_GUI,
+          CHAOS_GEM_BAR_POS_X,
+          "The X position for chaos gem charge bars. Negative numbers will anchor to the right of the screen.");
+      CHAOS_GEM_BAR_POS_Y = loadInt("Chaos Gem Charge Bar Y", CAT_GUI,
+          CHAOS_GEM_BAR_POS_Y,
+          "The Y position for chaos gem charge bars. Negative numbers will anchor to the bottom of the screen.");
+      CHAOS_BAR_OFFSET_X = loadInt("Chaos Bar Offset X", CAT_GUI,
+          CHAOS_BAR_OFFSET_X,
+          "X offset for the player's chaos bar, relative to its normal position.");
+      CHAOS_BAR_OFFSET_Y = loadInt("Chaos Bar Offset Y", CAT_GUI,
+          CHAOS_BAR_OFFSET_Y,
+          "Y offset for the player's chaos bar, relative to its normal position.");
 
       /*
        * Recipes

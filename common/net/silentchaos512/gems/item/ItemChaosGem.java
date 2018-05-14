@@ -39,6 +39,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.compat.BaublesCompat;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -496,8 +497,11 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
         GL11.glPushMatrix();
         GL11.glScalef(scale, scale, 1f);
 
-        posX = (int) (res.getScaledWidth() / scale * 0.025f);
-        posY = (int) (res.getScaledHeight() / scale * 0.05f + index * (BAR_HEIGHT + 2));
+        posX = GemsConfig.CHAOS_GEM_BAR_POS_X;
+        posX = (int) ((posX < 0 ? res.getScaledWidth() + posX - BAR_WIDTH : posX) / scale);
+        posY = GemsConfig.CHAOS_GEM_BAR_POS_Y;
+        int signY = posY < 0 ? -1 : 1;
+        posY = (int) (((posY < 0 ? res.getScaledHeight() + posY : posY) + index * signY * (BAR_HEIGHT + 2)) / scale);
 
         // Bar
         GL11.glColor4f(red, green, blue, 0.5f);
@@ -526,8 +530,13 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
         FontRenderer fontRender = mc.fontRenderer;
         String format = "%.2f%%";
         String str = String.format(format, storedFraction * 100f);
-        posX = (int) (res.getScaledWidth() / scale * 0.025f + 3);
-        posY = (int) (res.getScaledHeight() / scale * 0.05f + index * (BAR_HEIGHT + 2) / scale + 1);
+
+        posX = GemsConfig.CHAOS_GEM_BAR_POS_X;
+        posX = (int) ((posX < 0 ? res.getScaledWidth() + posX - BAR_WIDTH + 3 : posX + 3) / scale);
+        posY = GemsConfig.CHAOS_GEM_BAR_POS_Y;
+        signY = posY < 0 ? -1 : 1;
+        posY = (int) (((posY < 0 ? res.getScaledHeight() + posY : posY) + index * signY * (BAR_HEIGHT + 2) + 2) / scale);
+
         fontRender.drawStringWithShadow(str, posX, posY, 0xFFFFFF);
 
         GL11.glPopMatrix();
