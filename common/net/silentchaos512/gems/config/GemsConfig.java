@@ -138,6 +138,7 @@ public class GemsConfig extends AdaptiveConfig {
   public static int CHAOS_GEM_BAR_POS_Y = 5;
   public static int CHAOS_BAR_OFFSET_X = 0;
   public static int CHAOS_BAR_OFFSET_Y = 0;
+  public static boolean CHAOS_BAR_BUMP_HEIGHT = true;
 
   /*
    * Recipes
@@ -473,6 +474,9 @@ public class GemsConfig extends AdaptiveConfig {
       CHAOS_BAR_OFFSET_Y = loadInt("Chaos Bar Offset Y", CAT_GUI,
           CHAOS_BAR_OFFSET_Y,
           "Y offset for the player's chaos bar, relative to its normal position.");
+      CHAOS_BAR_BUMP_HEIGHT = loadBoolean("Chaos Bar Bump Height", CAT_GUI, true,
+          "Set false if you are moving the chaos bar to a different position. If true, increases the \"GUI height\" variable when drawing the chaos bar."
+          + " The variable affects the position of other bars drawn on the same side.");
 
       /*
        * Recipes

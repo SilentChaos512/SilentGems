@@ -12,17 +12,17 @@ plugins {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "2.7.0"
-def silentlib_version = "2.2.14"
+version = "2.7.2"
+def silentlib_version = "2.3.1"
 def buildNum = 0
 group = "net.silentchaos512.gems"
-archivesBaseName = "SilentsGems-1.12"
+archivesBaseName = "SilentsGems-1.12.2"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
-    version = "1.12-14.21.1.2443"
+    version = "1.12.2-14.23.3.2669"
     runDir = "eclipse"
 
     def versionFile = file('version.properties')
@@ -42,7 +42,7 @@ minecraft {
     replace "BUILD_NUM = 0", "BUILD_NUM = " + buildNum
     replaceIn "SilentGems.java"
 
-    mappings = "snapshot_20170624"
+    mappings = "snapshot_20171003"
 }
 
 repositories {

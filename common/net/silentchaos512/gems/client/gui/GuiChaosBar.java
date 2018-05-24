@@ -83,7 +83,8 @@ public class GuiChaosBar extends Gui {
 
     int left = width / 2 + 10 + GemsConfig.CHAOS_BAR_OFFSET_X;
     int top = height - GuiIngameForge.right_height + GemsConfig.CHAOS_BAR_OFFSET_Y;
-    GuiIngameForge.right_height += rowHeight;
+    if (GemsConfig.CHAOS_BAR_BUMP_HEIGHT)
+      GuiIngameForge.right_height += rowHeight;
 
     final int textureX = 0;
     final int textureY = 23;
