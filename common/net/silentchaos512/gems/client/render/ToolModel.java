@@ -25,6 +25,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.ForgeHooksClient;
+import net.minecraftforge.common.model.TRSRTransformation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.init.ModItems;
@@ -37,14 +38,12 @@ import net.silentchaos512.lib.client.model.MultiLayerModelSL;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.LogHelper;
 
-@SuppressWarnings("deprecation")
 public class ToolModel extends MultiLayerModelSL {
 
   private static ModelManager modelManager = null;
   private final IBakedModel baseModel;
 
   private ItemStack tool;
-  @SuppressWarnings("unused")
   private boolean isGui = false;
 
   public ToolModel(IBakedModel baseModel) {
@@ -218,34 +217,34 @@ public class ToolModel extends MultiLayerModelSL {
     Matrix4f matrix = new Matrix4f();
     switch (cameraTransformType) {
       case FIRST_PERSON_RIGHT_HAND:
-        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().firstperson_right);
+        matrix = getMatrix(getItemCameraTransforms().firstperson_right);
         break;
       case FIRST_PERSON_LEFT_HAND:
-        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().firstperson_left);
+        matrix = getMatrix(getItemCameraTransforms().firstperson_left);
         break;
       case GUI:
-        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().gui);
+        matrix = getMatrix(getItemCameraTransforms().gui);
         isGui = true;
         break;
       case HEAD:
-        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().head);
+        matrix = getMatrix(getItemCameraTransforms().head);
         break;
       case THIRD_PERSON_RIGHT_HAND:
-        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().thirdperson_right);
+        matrix = getMatrix(getItemCameraTransforms().thirdperson_right);
         if (isBow)
           matrix.setTranslation(new javax.vecmath.Vector3f(0f, 0f, 0.2f));
         break;
       case THIRD_PERSON_LEFT_HAND:
-        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().thirdperson_left);
+        matrix = getMatrix(getItemCameraTransforms().thirdperson_left);
         if (isBow)
           matrix.setTranslation(new javax.vecmath.Vector3f(0f, 0f, 0.2f));
         break;
       case GROUND:
-        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().ground);
+        matrix = getMatrix(getItemCameraTransforms().ground);
         matrix.setScale(matrix.getScale() * 0.5f);
         break;
       case FIXED:
-        matrix = ForgeHooksClient.getMatrix(getItemCameraTransforms().fixed);
+        matrix = getMatrix(getItemCameraTransforms().fixed);
         // Fix item frame rotation
         matrix.rotY((float) Math.PI);
         break;
@@ -281,5 +280,28 @@ public class ToolModel extends MultiLayerModelSL {
   public ItemOverrideList getOverrides() {
 
     return ToolItemOverrideHandler.INSTANCE;
+  }
+
+  // Was in ForgeHooksClient, removed in 2703.
+  public static Matrix4f getMatrix(ItemTransformVec3f transform) {
+
+    javax.vecmath.Matrix4f m = new javax.vecmath.Matrix4f(), t = new javax.vecmath.Matrix4f();
+    m.setIdentity();
+    m.setTranslation(TRSRTransformation.toVecmath(transform.translation));
+    t.setIdentity();
+    t.rotY(transform.rotation.y);
+    m.mul(t);
+    t.setIdentity();
+    t.rotX(transform.rotation.x);
+    m.mul(t);
+    t.setIdentity();
+    t.rotZ(transform.rotation.z);
+    m.mul(t);
+    t.setIdentity();
+    t.m00 = transform.scale.x;
+    t.m11 = transform.scale.y;
+    t.m22 = transform.scale.z;
+    m.mul(t);
+    return m;
   }
 }
