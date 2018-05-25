@@ -150,6 +150,9 @@ public class ItemGemArrow extends ItemArrow implements IRegistryObject {
   @Override
   public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
 
+    if (!isInCreativeTab(tab))
+      return;
+
     ItemStack rodWood = new ItemStack(Items.STICK);
     ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
 
