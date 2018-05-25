@@ -247,6 +247,7 @@ public class GuideBookGems extends GuideBook {
         new PageTextOnly(this, 1),
         new PageOreSpawn(this, 2, GemsConfig.WORLD_GEN_GEMS),
         new PageOreSpawn(this, 3, GemsConfig.WORLD_GEN_GEMS_DARK),
+        new PageOreSpawn(this, 8, GemsConfig.WORLD_GEN_GEMS_LIGHT),
         new PageOreSpawn(this, 4, GemsConfig.WORLD_GEN_CHAOS),
         new PageFurnace(this, 5, ModItems.craftingMaterial.chaosEssence),
         new PageOreSpawn(this, 6, GemsConfig.WORLD_GEN_ENDER),
@@ -263,7 +264,8 @@ public class GuideBookGems extends GuideBook {
         new PageTextOnly(this, 2));
     // Chaos Node
     new GuideChapter(this, "chaosNode", entryBlocks, new ItemStack(ModBlocks.chaosNode),
-        new PagePicture(this, 1, new ResourceLocation(SilentGems.MODID, "textures/guide/chaosnode.png"), 125),
+        new PagePicture(this, 3, new ResourceLocation(SilentGems.MODID, "textures/guide/chaosnode.png"), 125),
+        new PageTextOnly(this, 1),
         new PageTextOnly(this, 2));
     // Chaos Pylons
     new GuideChapter(this, "chaosPylon", entryBlocks, new ItemStack(ModBlocks.chaosPylon),
@@ -278,7 +280,8 @@ public class GuideBookGems extends GuideBook {
         new PageTextOnly(this, 1));
     // Material Grader
     new GuideChapter(this, "materialGrader", entryBlocks, new ItemStack(ModBlocks.materialGrader),
-        new PageTextOnly(this, 1));
+        new PageTextOnly(this, 1),
+        new PageTextOnly(this, 2));
     // Decorative Gem Blocks
     new GuideChapter(this, "gemDecoBlocks", entryBlocks, new ItemStack(ModBlocks.gemBrickCoated, 1, SilentGems.random.nextInt(16)), -10,
         new PageTextOnly(this, 1));
@@ -389,8 +392,8 @@ public class GuideBookGems extends GuideBook {
      *******************/
 
     // Important Notice
-    new GuideChapter(this, "soulsImportant", entrySouls, new ItemStack(Items.DIAMOND),
-        new PageTextOnly(this, 1)).setImportant();
+//    new GuideChapter(this, "soulsImportant", entrySouls, new ItemStack(Items.DIAMOND),
+//        new PageTextOnly(this, 1)).setImportant();
 
     // Tool Souls
     new GuideChapter(this, "toolSoul", entrySouls, new ItemStack(ModItems.toolSoul),

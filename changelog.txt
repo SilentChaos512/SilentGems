@@ -2,6 +2,8 @@ Silent's Gems - Changelog
 
 2.7.2
 Added: An additional config for chaos bar position, which will fix the oxygen bar being too high up when disabled (#305)
+Added: More information on grades to the material grader entry in the guide book... since apparently the terminology section never existed?
+Fixed: Numerous errors in the guide book.
 
 2.7.1
 Added: Configs to set position of chaos gem charge bars (#296)
