@@ -6,17 +6,21 @@ import java.util.Map;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
+import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
@@ -24,6 +28,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.entity.EntityGemArrow;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IRegistryObject;
@@ -108,7 +113,8 @@ public class ItemGemArrow extends ItemArrow implements IRegistryObject {
   public void addInformation(ItemStack stack, World worldIn, List<String> tooltip,
       ITooltipFlag flagIn) {
 
-    tooltip.add("Damage: " + getBaseDamage(stack));
+    // TODO
+    tooltip.add(String.format("Damage: %.1f", getBaseDamage(stack)));
   }
 
   @Override
@@ -139,5 +145,24 @@ public class ItemGemArrow extends ItemArrow implements IRegistryObject {
   public void getModels(Map<Integer, ModelResourceLocation> models) {
 
     models.put(0, new ModelResourceLocation(getFullName(), "inventory"));
+  }
+
+  @Override
+  public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+
+    ItemStack rodWood = new ItemStack(Items.STICK);
+    ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
+
+    for (ToolPartMain part : ToolPartRegistry.getMains()) {
+      ItemStack main = part.getCraftingStack();
+      if (StackHelper.isValid(main) && !part.isBlacklisted(main)) {
+        ItemStack rod = part.getTier() == EnumMaterialTier.SUPER ? rodGold : rodWood;
+        ItemStack arrow = construct(main, rod);
+        if (StackHelper.isValid(arrow)) {
+          StackHelper.setCount(arrow, 1);
+          list.add(arrow);
+        }
+      }
+    }
   }
 }
