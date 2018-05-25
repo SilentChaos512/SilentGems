@@ -1,13 +1,12 @@
 package net.silentchaos512.gems.item;
 
-import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
@@ -59,6 +58,8 @@ public class ItemFluffyPuffSeeds extends ItemSeeds implements IRegistryObject {
         && state.getBlock().canSustainPlant(state, worldIn, pos, EnumFacing.UP, this)
         && worldIn.isAirBlock(pos.up())) {
       worldIn.setBlockState(pos.up(), getPlant(worldIn, pos));
+      if (playerIn instanceof EntityPlayerMP)
+        CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) playerIn, pos.up(), stack);
       StackHelper.shrink(stack, 1);
       return EnumActionResult.SUCCESS;
     } else {

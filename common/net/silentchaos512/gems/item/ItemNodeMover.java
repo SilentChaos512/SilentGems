@@ -1,12 +1,11 @@
 package net.silentchaos512.gems.item;
 
-import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -59,7 +58,10 @@ public class ItemNodeMover extends ItemSL {
     }
 
     if (stack.hasTagCompound()) {
-      return releaseNode(stack, worldIn, pos, facing);
+      EnumActionResult result = releaseNode(stack, worldIn, pos, facing);
+      if (result == EnumActionResult.SUCCESS && playerIn instanceof EntityPlayerMP)
+        CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) playerIn, pos, stack);
+      return result;
     }
 
     TileEntity tile = worldIn.getTileEntity(pos);

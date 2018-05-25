@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.tile;
 
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,7 +28,6 @@ import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.LogHelper;
-import net.silentchaos512.lib.util.PlayerHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class TileTeleporter extends TileEntity implements IChaosAccepter {
@@ -111,8 +111,9 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
 
     DimensionalPosition position = new DimensionalPosition(pos, player.dimension);
     position.writeToNBT(heldItem.getTagCompound());
-    ChatHelper.sendMessage(player,
-        SilentGems.localizationHelper.getBlockSubText(Names.TELEPORTER, "ReturnHomeBound"));
+    ChatHelper.sendMessage(player, SilentGems.localizationHelper.getBlockSubText(Names.TELEPORTER, "ReturnHomeBound"));
+    if (player instanceof EntityPlayerMP)
+      CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos, heldItem);
     return true;
   }
 
@@ -163,6 +164,9 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
       linker.setLinked(heldItem, false);
       tile1.markDirty();
       tile2.markDirty();
+
+      if (player instanceof EntityPlayerMP)
+        CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos, heldItem);
     } else {
       // Inactive state: set active and location.
       linker.setLinkedPosition(heldItem, new DimensionalPosition(pos, player.dimension));

@@ -1,6 +1,7 @@
 Silent's Gems - Changelog
 
 2.7.2
+Added: Advancements. And lots of them!
 Added: An additional config for chaos bar position, which will fix the oxygen bar being too high up when disabled (#305)
 Added: Sub-items for arrows. No example recipes yet, but they are still craftable (head material + matching rod + feather)
 Added: More information on grades to the material grader entry in the guide book... since apparently the terminology section never existed?

@@ -3,11 +3,13 @@ package net.silentchaos512.gems.block;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -76,6 +78,9 @@ public class BlockChaosFlowerPot extends BlockSL implements ITileEntityProvider,
           worldIn.notifyBlockUpdate(pos, state, state, 3);
           worldIn.checkLight(pos);
           playerIn.addStat(StatList.FLOWER_POTTED);
+
+          if (playerIn instanceof EntityPlayerMP)
+            CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) playerIn, pos, heldItem);
 
           if (!playerIn.capabilities.isCreativeMode) {
             StackHelper.shrink(heldItem, 1);
