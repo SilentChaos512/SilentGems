@@ -2,6 +2,8 @@ Silent's Gems - Changelog
 
 2.7.3
 Updated JEI plugin
+Added: Ore generation configs allow you to set custom blocks to replace (instead of just vanilla stone, netherrack, etc) (#309)
+Added: Ore generation configs now allow the dimension blacklist to be a whitelist
 
 2.7.2
 The 'b' build fixes a client-side crash with Forge 2703 (#307)

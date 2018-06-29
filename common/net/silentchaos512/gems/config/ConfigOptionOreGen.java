@@ -1,37 +1,50 @@
 package net.silentchaos512.gems.config;
 
-import java.util.Random;
-
+import com.google.common.base.Predicate;
+import lombok.AccessLevel;
+import lombok.Getter;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.config.Configuration;
+import net.silentchaos512.gems.SilentGems;
 
+import java.util.*;
+
+@Getter(value = AccessLevel.PUBLIC)
 public class ConfigOptionOreGen extends ConfigOption {
 
-  public static final float VEIN_COUNT_MIN = 0.0f;
-  public static final float VEIN_COUNT_MAX = 1000.0f;
-  public static final int VEIN_SIZE_MIN = 0;
-  public static final int VEIN_SIZE_MAX = 1000;
-  public static final int Y_MIN = 0;
-  public static final int Y_MAX = 255;
+  private static final float VEIN_COUNT_MIN = 0.0f;
+  private static final float VEIN_COUNT_MAX = 1000.0f;
+  private static final int VEIN_SIZE_MIN = 0;
+  private static final int VEIN_SIZE_MAX = 1000;
+  private static final int Y_MIN = 0;
+  private static final int Y_MAX = 255;
 
-  public final String name;
-  public float veinCount;
-  public int veinSize;
-  public int minY;
-  public int maxY;
-  public final int dimension;
-  public int[] dimensionBlacklist = new int[0];
+  private final String name;
+  private float veinCount;
+  private int veinSize;
+  private int minY;
+  private int maxY;
+  private final int dimension;
 
-  public ConfigOptionOreGen(String name, int dimension, float veinCount, int veinSize, int minY,
-      int maxY) {
+  @Getter(value = AccessLevel.NONE)
+  private final Set<Integer> dimensionList = new HashSet<>();
+  private boolean dimensionListIsWhitelist = false;
+
+  private final Set<Block> blockList = new HashSet<>();
+  private Predicate<IBlockState> blockPredicate;
+
+  public ConfigOptionOreGen(String name, int dimension, float veinCount, int veinSize, int minY, int maxY) {
 
     this.name = name;
-    this.dimension = dimension;
     this.veinCount = veinCount;
     this.veinSize = veinSize;
     this.minY = minY;
     this.maxY = maxY;
+    this.dimension = dimension;
   }
 
   public int getVeinCount(Random random) {
@@ -55,7 +68,21 @@ public class ConfigOptionOreGen extends ConfigOption {
     veinSize = c.get(category, "Vein Size", veinSize).getInt();
     minY = c.get(category, "Min Y", minY).getInt();
     maxY = c.get(category, "Max Y", maxY).getInt();
-    dimensionBlacklist = c.get(category, "Dimension Blacklist", new int[0]).getIntList();
+
+    // Dimension blacklist/whitelist
+    dimensionList.clear();
+    int[] dimList = c.get(category, "Dimension Blacklist", new int[0]).getIntList();
+    for (int dim : dimList) dimensionList.add(dim);
+    dimensionListIsWhitelist = c.get(category, "Dimension List Is Whitelist", false).getBoolean();
+
+    // Block replacements
+    blockList.clear();
+    String[] blocksDefault = new String[] {dimension == -1 ? "minecraft:netherrack" : dimension == 1 ? "minecraft:end_stone" : "minecraft:stone"};
+    String[] blocks = c.get(category, "Blocks To Replace", blocksDefault).getStringList();
+    Arrays.stream(blocks).map(Block::getBlockFromName).filter(Objects::nonNull).forEach(blockList::add);
+    if (blockList.isEmpty()) blockList.add(Blocks.STONE);
+    blockPredicate = state -> state != null && blockList.contains(state.getBlock());
+
     return this.validate();
   }
 
@@ -69,6 +96,7 @@ public class ConfigOptionOreGen extends ConfigOption {
 
     // Sanity check: max Y must be greater than min Y.
     if (maxY <= minY) {
+      SilentGems.logHelper.warning("Ore config \"" + name + "\": Min Y is greater than Max Y!");
       maxY = minY + 1;
     }
 
@@ -83,19 +111,14 @@ public class ConfigOptionOreGen extends ConfigOption {
 
   public BlockPos getRandomPos(Random random, int posX, int posZ) {
 
-    //@formatter:off
     return new BlockPos(
-        posX + random.nextInt(16),
-        minY + random.nextInt(maxY - minY),
-        posZ + random.nextInt(16));
-    //@formatter:on
+            posX + random.nextInt(16),
+            minY + random.nextInt(maxY - minY),
+            posZ + random.nextInt(16));
   }
 
   public boolean canSpawnInDimension(int dim) {
 
-    for (int i : dimensionBlacklist)
-      if (i == dim)
-        return false;
-    return true;
+    return dimensionList.contains(dim) == dimensionListIsWhitelist;
   }
 }

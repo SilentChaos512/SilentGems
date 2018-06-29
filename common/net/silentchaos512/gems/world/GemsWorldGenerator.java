@@ -1,12 +1,6 @@
 package net.silentchaos512.gems.world;
 
-import java.util.Random;
-
-import com.google.common.base.Predicate;
-
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.block.state.pattern.BlockMatcher;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -17,14 +11,11 @@ import net.silentchaos512.gems.config.ConfigOptionOreGen;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.util.WeightedRandomItemSG;
 import net.silentchaos512.lib.world.WorldGeneratorSL;
 
-public class GemsWorldGenerator extends WorldGeneratorSL {
+import java.util.Random;
 
-  static final Predicate PREDICATE_STONE = BlockMatcher.forBlock(Blocks.STONE);
-  static final Predicate PREDICATE_NETHERRACK = BlockMatcher.forBlock(Blocks.NETHERRACK);
-  static final Predicate PREDICATE_END_STONE = BlockMatcher.forBlock(Blocks.END_STONE);
+public class GemsWorldGenerator extends WorldGeneratorSL {
 
   public GemsWorldGenerator() {
 
@@ -38,45 +29,44 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
     generateChaosNodes(world, random, posX, posZ);
 
     // Gems
-    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_GEMS, PREDICATE_STONE);
+    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_GEMS);
 
     // Chaos Ore
-    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_CHAOS, PREDICATE_STONE);
+    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_CHAOS);
   }
 
   @Override
   protected void generateNether(World world, Random random, int posX, int posZ) {
 
     // Dark Gems
-    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_GEMS_DARK, PREDICATE_NETHERRACK);
+    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_GEMS_DARK);
   }
 
   @Override
   protected void generateEnd(World world, Random random, int posX, int posZ) {
 
     // Ender Ore
-    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_ENDER, PREDICATE_END_STONE);
+    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_ENDER);
 
     // Light Gems
-    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_GEMS_LIGHT, PREDICATE_END_STONE);
+    generateOres(world, random, posX, posZ, GemsConfig.WORLD_GEN_GEMS_LIGHT);
   }
 
   /**
    * Generate the ores for the given config. Uses selectState to choose different gems.
    */
-  protected void generateOres(World world, Random random, int posX, int posZ,
-      ConfigOptionOreGen config, Predicate predicate) {
+  protected void generateOres(World world, Random random, int posX, int posZ, ConfigOptionOreGen config) {
 
     final int dimension = world.provider.getDimension();
 
     if (config.isEnabled() && config.canSpawnInDimension(dimension)) {
       int veinCount = config.getVeinCount(random);
-      int veinSize = config.veinSize;
+      int veinSize = config.getVeinSize();
 
       for (int i = 0; i < veinCount; ++i) {
         BlockPos pos = config.getRandomPos(random, posX, posZ);
         IBlockState state = selectState(config, random, world, posX, posZ);
-        new WorldGenMinable(state, veinSize, predicate).generate(world, random, pos);
+        new WorldGenMinable(state, veinSize, config.getBlockPredicate()).generate(world, random, pos);
       }
     }
   }
@@ -84,7 +74,7 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
   /**
    * Selects an IBlockState for the config. For gems, it will normally choose one randomly each call. For essence ores,
    * it selects the appropriate ore.
-   * 
+   *
    * @param config
    * @param random
    * @return
@@ -112,31 +102,30 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
         }
       } else {
         // Classic logic
-        int meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random,
-            GemsConfig.GEM_WEIGHTS)).getMeta();
+        int meta = WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS).getMeta();
         gem = EnumGem.values()[meta];
       }
       return ModBlocks.gemOre.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
-    } else if (config == GemsConfig.WORLD_GEN_CHAOS) {
-      return ModBlocks.essenceOre.getDefaultState().withProperty(BlockEssenceOre.VARIANT,
-          BlockEssenceOre.Type.CHAOS);
-    } else if (config == GemsConfig.WORLD_GEN_GEMS_DARK) {
-      int meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random,
-          GemsConfig.GEM_WEIGHTS_DARK)).getMeta();
+    }
+    if (config == GemsConfig.WORLD_GEN_CHAOS) {
+      return ModBlocks.essenceOre.getDefaultState().withProperty(BlockEssenceOre.VARIANT, BlockEssenceOre.Type.CHAOS);
+    }
+    if (config == GemsConfig.WORLD_GEN_GEMS_DARK) {
+      int meta = WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS_DARK).getMeta();
       EnumGem gem = EnumGem.values()[meta];
       return ModBlocks.gemOreDark.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
-    } else if (config == GemsConfig.WORLD_GEN_ENDER) {
-      return ModBlocks.essenceOre.getDefaultState().withProperty(BlockEssenceOre.VARIANT,
-          BlockEssenceOre.Type.ENDER);
-    } else if (config == GemsConfig.WORLD_GEN_GEMS_LIGHT) {
-      int meta = ((WeightedRandomItemSG) WeightedRandom.getRandomItem(random,
-          GemsConfig.GEM_WEIGHTS_LIGHT)).getMeta();
+    }
+    if (config == GemsConfig.WORLD_GEN_ENDER) {
+      return ModBlocks.essenceOre.getDefaultState().withProperty(BlockEssenceOre.VARIANT, BlockEssenceOre.Type.ENDER);
+    }
+    if (config == GemsConfig.WORLD_GEN_GEMS_LIGHT) {
+      int meta = WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS_LIGHT).getMeta();
       EnumGem gem = EnumGem.values()[meta];
       return ModBlocks.gemOreLight.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
-    } else {
-      SilentGems.logHelper.severe("GemsWorldGenerator - Unknown ore config: " + config.name);
-      return null;
     }
+
+    SilentGems.logHelper.severe("GemsWorldGenerator - Unknown ore config: " + config.getName());
+    return null;
   }
 
   private void generateFlowers(World world, Random random, int posX, int posZ) {
