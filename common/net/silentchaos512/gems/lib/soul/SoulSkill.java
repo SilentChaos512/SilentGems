@@ -1,15 +1,5 @@
 package net.silentchaos512.gems.lib.soul;
 
-import static net.silentchaos512.gems.lib.soul.EnumSoulElement.*;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
@@ -32,6 +22,11 @@ import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.lib.EnumToolType;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.ItemHelper;
+
+import javax.annotation.Nullable;
+import java.util.*;
+
+import static net.silentchaos512.gems.lib.soul.EnumSoulElement.*;
 
 public class SoulSkill {
 
@@ -210,8 +205,8 @@ public class SoulSkill {
         return false;
       if (random.nextFloat() < 0.2f) {
         int amount = 2 * (level + 1) + random.nextInt(4);
-        player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_USE,
-            SoundCategory.BLOCKS, 0.5f, 2.0f + (float) (0.2 * random.nextGaussian()));
+//        player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_USE,
+//            SoundCategory.BLOCKS, 0.5f, 2.0f + (float) (0.2 * random.nextGaussian()));
         ItemHelper.attemptDamageItem(tool, -amount, random, player);
         return true;
       }
