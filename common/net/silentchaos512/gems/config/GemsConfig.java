@@ -1,32 +1,20 @@
 package net.silentchaos512.gems.config;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.item.Item;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.config.Configuration;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.enchantment.EnchantmentGravity;
-import net.silentchaos512.gems.enchantment.EnchantmentIceAspect;
-import net.silentchaos512.gems.enchantment.EnchantmentLifeSteal;
-import net.silentchaos512.gems.enchantment.EnchantmentLightningAspect;
-import net.silentchaos512.gems.enchantment.EnchantmentMagicDamage;
+import net.silentchaos512.gems.enchantment.*;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
-import net.silentchaos512.gems.lib.module.ModuleCoffee;
-import net.silentchaos512.gems.lib.module.ModuleEntityRandomEquipment;
-import net.silentchaos512.gems.lib.module.ModuleHalloweenHijinks;
-import net.silentchaos512.gems.lib.module.ModuleHolidayCheer;
+import net.silentchaos512.gems.lib.module.*;
 import net.silentchaos512.gems.potion.PotionFreezing;
 import net.silentchaos512.gems.potion.PotionShocking;
 import net.silentchaos512.gems.util.WeightedRandomItemSG;
 import net.silentchaos512.lib.config.AdaptiveConfig;
+
+import java.util.*;
 
 public class GemsConfig extends AdaptiveConfig {
 
@@ -193,7 +181,9 @@ public class GemsConfig extends AdaptiveConfig {
   public static boolean GEODE_SEAL_BREAKS;
 
   public static int GLOW_ROSE_PER_CHUNK = 2;
+  public static final Set<Integer> GLOW_ROSE_DIMENSION_BLACKLIST = new HashSet<>();
   public static float CHAOS_NODES_PER_CHUNK = 0.006f;
+  public static final Set<Integer> CHAOS_NODE_DIMENSION_BLACKLIST = new HashSet<>();
 
   /*
    * Categories
@@ -251,7 +241,7 @@ public class GemsConfig extends AdaptiveConfig {
 
       DEBUG_LOG_POTS_AND_LIGHTS = config.getBoolean("Log Pots and Lights", CAT_DEBUG,
           DEBUG_LOG_POTS_AND_LIGHTS,
-          "Logs the existence of Chaos Flower Pots and Phantom Lights. Their tile entities, to " 
+          "Logs the existence of Chaos Flower Pots and Phantom Lights. Their tile entities, to "
               + "be more precise. Also lists the position of each one.");
       DEBUG_LOT_POTS_AND_LIGHTS_DELAY = config.getInt("Log Pots and Lights - Delay", CAT_DEBUG,
           DEBUG_LOT_POTS_AND_LIGHTS_DELAY, 600, 72000,
@@ -319,7 +309,7 @@ public class GemsConfig extends AdaptiveConfig {
       RETURN_HOME_MAX_CHARGE = loadInt("Max Charge", catReturnHome,
           RETURN_HOME_MAX_CHARGE, 0, Integer.MAX_VALUE,
           "The maximum amount of Chaos a charm can hold.");
-      
+
       /*
        * Tools
        */
@@ -545,6 +535,13 @@ public class GemsConfig extends AdaptiveConfig {
           "The number of chaos nodes to try to spawn per chunk. If less than 1 (recommended), you"
               + " can think of this as the chance to spawn in a chunk.");
 
+      GLOW_ROSE_DIMENSION_BLACKLIST.clear();
+      GLOW_ROSE_DIMENSION_BLACKLIST.addAll(tryParseDimensionList(config.getStringList("Flowers Dimension Blacklist", CAT_WORLD_GEN,
+              new String[0], "The dimensions that glow roses may not spawn in.")));
+      CHAOS_NODE_DIMENSION_BLACKLIST.clear();
+      CHAOS_NODE_DIMENSION_BLACKLIST.addAll(tryParseDimensionList(config.getStringList("Chaos Node Dimension Blacklist", CAT_WORLD_GEN,
+              new String[0], "The dimensions that chaos nodes may not spawn in.")));
+
       WORLD_GEN_GEMS = new ConfigOptionOreGen("Gems (Overworld)", 0, 10.0f, 8, 5, 45);
       WORLD_GEN_GEMS.loadValue(config, CAT_WORLD_GEN);
       WORLD_GEN_GEMS_DARK = new ConfigOptionOreGen("Dark Gems (Nether)", -1, 12.5f, 10, 30, 100);
@@ -648,5 +645,17 @@ public class GemsConfig extends AdaptiveConfig {
     ModuleHolidayCheer.instance.loadConfig(config);
     ModuleAprilTricks.instance.loadConfig(config);
     ModuleHalloweenHijinks.instance.loadConfig(config);
+  }
+
+  private Collection<Integer> tryParseDimensionList(String[] dims) {
+    List<Integer> list = new ArrayList<>();
+    for (String str : dims) {
+      try {
+        list.add(Integer.parseInt(str));
+      } catch (NumberFormatException ex) {
+        SilentGems.logHelper.debug("Could not parse \"" + str + "\" as integer for dimension blacklist.");
+      }
+    }
+    return list;
   }
 }

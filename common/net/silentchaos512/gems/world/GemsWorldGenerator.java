@@ -130,6 +130,8 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
 
   private void generateFlowers(World world, Random random, int posX, int posZ) {
 
+    if (GemsConfig.GLOW_ROSE_DIMENSION_BLACKLIST.contains(world.provider.getDimension())) return;
+
     int i, x, y, z, meta;
     IBlockState state;
     BlockPos pos;
@@ -157,6 +159,8 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
   }
 
   private void generateChaosNodes(World world, Random random, int posX, int posZ) {
+
+    if (GemsConfig.CHAOS_NODE_DIMENSION_BLACKLIST.contains(world.provider.getDimension())) return;
 
     int i, x, y, z;
     IBlockState state;
