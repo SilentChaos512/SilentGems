@@ -1,24 +1,13 @@
 package net.silentchaos512.gems.compat.jei;
 
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.IItemBlacklist;
-import mezz.jei.api.IJeiHelpers;
-import mezz.jei.api.IJeiRuntime;
-import mezz.jei.api.IModPlugin;
-import mezz.jei.api.IModRegistry;
-import mezz.jei.api.ISubtypeRegistry;
-import mezz.jei.api.ISubtypeRegistry.ISubtypeInterpreter;
-import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.*;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.client.gui.GuiChaosAltar;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeCategory;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeHandler;
@@ -133,29 +122,15 @@ public class SilentGemsPlugin implements IModPlugin {
 //    }
 
     // Enchantment tokens
-    reg.registerSubtypeInterpreter(ModItems.enchantmentToken, new ISubtypeInterpreter() {
-
-      @Override
-      public String getSubtypeInfo(ItemStack stack) {
-
-        Enchantment ench = ModItems.enchantmentToken.getSingleEnchantment(stack);
-        if (ench == null)
-          return "none";
-        return ench.getName();
-      }
+    reg.registerSubtypeInterpreter(ModItems.enchantmentToken, stack -> {
+      Enchantment ench = ModItems.enchantmentToken.getSingleEnchantment(stack);
+      return ench == null ? "none" : ench.getName();
     });
 
     // Chaos Runes
-    reg.registerSubtypeInterpreter(ModItems.chaosRune, new ISubtypeInterpreter() {
-
-      @Override
-      public String getSubtypeInfo(ItemStack stack) {
-
-        ChaosBuff buff = ModItems.chaosRune.getBuff(stack);
-        if (buff == null)
-          return "none";
-        return buff.getKey();
-      }
+    reg.registerSubtypeInterpreter(ModItems.chaosRune, stack -> {
+      ChaosBuff buff = ModItems.chaosRune.getBuff(stack);
+      return buff == null ? "none" : buff.getKey();
     });
   }
 
@@ -163,6 +138,6 @@ public class SilentGemsPlugin implements IModPlugin {
   public void registerCategories(IRecipeCategoryRegistration arg0) {
 
     // TODO Auto-generated method stub
-    
+
   }
 }
