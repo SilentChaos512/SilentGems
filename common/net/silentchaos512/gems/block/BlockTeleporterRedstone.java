@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.event.ServerTickHandler;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
@@ -65,18 +66,17 @@ public class BlockTeleporterRedstone extends BlockTeleporter {
   }
 
   @Override
-  protected void clOnNeighborChanged(IBlockState state, World world, BlockPos pos, Block block) {
-
+  public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos p_189540_5_) {
     final double searchRange = GemsConfig.TELEPORTER_REDSTONE_SEARCH_RADIUS
-        * GemsConfig.TELEPORTER_REDSTONE_SEARCH_RADIUS;
+            * GemsConfig.TELEPORTER_REDSTONE_SEARCH_RADIUS;
 
     TileTeleporter tile = (TileTeleporter) world.getTileEntity(pos);
+    if (tile == null)
+      return;
 
     if (!world.isRemote && world.isBlockIndirectlyGettingPowered(pos) != 0) {
       // Is this a "dumb" teleport and are they allowed if so?
       if (!tile.isDestinationAllowedIfDumb(null)) {
-        String str = SilentGems.instance.localizationHelper.getBlockSubText(Names.TELEPORTER,
-            "NoReceiver");
         return;
       }
 
@@ -88,8 +88,7 @@ public class BlockTeleporterRedstone extends BlockTeleporter {
       boolean playSound = false;
       // Check all entities, teleport those close to the teleporter.
       DimensionalPosition source = null;
-      for (Entity entity : world.getEntities(Entity.class,
-          e -> e.getDistanceSqToCenter(pos) < searchRange)) {
+      for (Entity entity : world.getEntities(Entity.class, e -> e.getDistanceSqToCenter(pos) < searchRange)) {
         // Get source position (have to have the entity for this because dim?)
         if (source == null) {
           source = new DimensionalPosition(pos, entity.dimension);
@@ -102,15 +101,15 @@ public class BlockTeleporterRedstone extends BlockTeleporter {
           }
         }
         if (tile.teleportEntityToDestination(entity)) {
+          ServerTickHandler.schedule(() -> tile.teleportEntityToDestination(entity));
           playSound = true;
         }
       }
 
       if (playSound) {
-        float pitch = 0.7f + 0.3f * SilentGems.instance.random.nextFloat();
+        float pitch = 0.7f + 0.3f * SilentGems.random.nextFloat();
         for (BlockPos p : new BlockPos[] { pos, tile.getDestination().toBlockPos() }) {
-          world.playSound(null, p, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS, 1.0f,
-              pitch);
+          world.playSound(null, p, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.BLOCKS, 1.0f, pitch);
         }
       }
     }
