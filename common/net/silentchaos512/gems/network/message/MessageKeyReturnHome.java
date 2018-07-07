@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.silentchaos512.gems.compat.BaublesCompat;
+import net.silentchaos512.gems.event.ServerTickHandler;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.network.Message;
 import net.silentchaos512.lib.collection.ItemStackList;
@@ -33,7 +34,7 @@ public class MessageKeyReturnHome extends Message {
     if (stacks.isEmpty())
       return null;
 
-    ModItems.returnHomeCharm.tryTeleportPlayer(stacks.get(0), player);
+    ServerTickHandler.schedule(() -> ModItems.returnHomeCharm.tryTeleportPlayer(stacks.get(0), player));
 
     return null;
   }
