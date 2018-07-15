@@ -160,6 +160,9 @@ public class GemsConfig extends AdaptiveConfig {
   public static ConfigOptionOreGen WORLD_GEN_GEMS;
   public static ConfigOptionOreGen WORLD_GEN_GEMS_DARK;
   public static ConfigOptionOreGen WORLD_GEN_GEMS_LIGHT;
+  public static boolean GEM_CLASSIC_USE_MULTI_ORE;
+  public static boolean GEM_DARK_USE_MULTI_ORE;
+  public static boolean GEM_LIGHT_USE_MULTI_ORE;
   public static ConfigOptionOreGen WORLD_GEN_CHAOS;
   public static ConfigOptionOreGen WORLD_GEN_ENDER;
   public static List<WeightedRandomItemSG> GEM_WEIGHTS = new ArrayList<>();
@@ -542,12 +545,24 @@ public class GemsConfig extends AdaptiveConfig {
       CHAOS_NODE_DIMENSION_BLACKLIST.addAll(tryParseDimensionList(config.getStringList("Chaos Node Dimension Blacklist", CAT_WORLD_GEN,
               new String[0], "The dimensions that chaos nodes may not spawn in.")));
 
-      WORLD_GEN_GEMS = new ConfigOptionOreGen("Gems (Overworld)", 0, 10.0f, 8, 5, 45);
+      String catGemsClassic = "Gems (Overworld)";
+      WORLD_GEN_GEMS = new ConfigOptionOreGen(catGemsClassic, 0, 10.0f, 8, 5, 45);
       WORLD_GEN_GEMS.loadValue(config, CAT_WORLD_GEN);
-      WORLD_GEN_GEMS_DARK = new ConfigOptionOreGen("Dark Gems (Nether)", -1, 12.5f, 10, 30, 100);
+      GEM_CLASSIC_USE_MULTI_ORE = loadBoolean("Replace With Multi Gem Ore", CAT_WORLD_GEN + split + catGemsClassic, false,
+              "Replace all classic gem ores with multi-gem ore, a single block that drops random classic gems.");
+
+      String catGemsDark = "Dark Gems (Nether)";
+      WORLD_GEN_GEMS_DARK = new ConfigOptionOreGen(catGemsDark, -1, 12.5f, 10, 30, 100);
       WORLD_GEN_GEMS_DARK.loadValue(config, CAT_WORLD_GEN);
-      WORLD_GEN_GEMS_LIGHT = new ConfigOptionOreGen("Light Gems (The End)", 1, 12.5f, 8, 16, 64);
+      GEM_DARK_USE_MULTI_ORE = loadBoolean("Replace With Multi Gem Ore", CAT_WORLD_GEN + split + catGemsDark, false,
+              "Replace all dark gem ores with multi-gem ore, a single block that drops random dark gems.");
+
+      String catGemsLight = "Light Gems (The End)";
+      WORLD_GEN_GEMS_LIGHT = new ConfigOptionOreGen(catGemsLight, 1, 12.5f, 8, 16, 64);
       WORLD_GEN_GEMS_LIGHT.loadValue(config, CAT_WORLD_GEN);
+      GEM_LIGHT_USE_MULTI_ORE = loadBoolean("Replace With Multi Gem Ore", CAT_WORLD_GEN + split + catGemsLight, false,
+              "Replace all light gem ores with multi-gem ore, a single block that drops random light gems.");
+
       WORLD_GEN_CHAOS = new ConfigOptionOreGen("Chaos Ore", 0, 1.75f, 16, 5, 20);
       WORLD_GEN_CHAOS.loadValue(config, CAT_WORLD_GEN);
       WORLD_GEN_ENDER = new ConfigOptionOreGen("Ender Essence Ore", 1, 1.0f, 32, 10, 70);

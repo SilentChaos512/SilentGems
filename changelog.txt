@@ -1,5 +1,12 @@
 Silent's Gems - Changelog
 
+2.7.5
+Added: Multi-gem ore. Optionally replaces standard ore generation with a single block that can drop any gem from its respective set. (#294)
+
+2.7.4
+Fixed: Return home charm crash (#314)
+Fixed (partially): Redstone teleporters being funky. Server still complains, but they work (#293)
+
 2.7.3
 Updated JEI plugin
 Added: Ore generation configs allow you to set custom blocks to replace (instead of just vanilla stone, netherrack, etc) (#309)

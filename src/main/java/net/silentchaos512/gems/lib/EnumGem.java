@@ -11,6 +11,8 @@ import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.lib.util.StackHelper;
 
+import java.util.Random;
+
 public enum EnumGem implements IStringSerializable {
 
   // @formatter:off
@@ -315,7 +317,7 @@ public enum EnumGem implements IStringSerializable {
       return Set.LIGHT;
   }
 
-  public static enum Set {
+  public enum Set {
 
     CLASSIC(0), DARK(16), LIGHT(32); // Overworld, Nether, and the End
 
@@ -324,6 +326,11 @@ public enum EnumGem implements IStringSerializable {
     Set(int startMeta) {
 
       this.startMeta = startMeta;
+    }
+
+    public EnumGem selectRandom(Random random) {
+      int id = random.nextInt(16) + startMeta;
+      return EnumGem.values()[id];
     }
   }
 }

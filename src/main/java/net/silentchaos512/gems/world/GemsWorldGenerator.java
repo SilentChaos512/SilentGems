@@ -84,7 +84,9 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
 
     if (config == GemsConfig.WORLD_GEN_GEMS) {
       EnumGem gem;
-      if (GemsConfig.GEM_REGIONS_ENABLED) {
+      if (GemsConfig.GEM_CLASSIC_USE_MULTI_ORE) {
+        return ModBlocks.multiGemOreClassic.getDefaultState();
+      } else if (GemsConfig.GEM_REGIONS_ENABLED) {
         // Gem Regions
         long dimension = (long) world.provider.getDimension();
         long cx = (long) posX / 16 / GemsConfig.GEM_REGIONS_SIZE;
@@ -111,6 +113,9 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
       return ModBlocks.essenceOre.getDefaultState().withProperty(BlockEssenceOre.VARIANT, BlockEssenceOre.Type.CHAOS);
     }
     if (config == GemsConfig.WORLD_GEN_GEMS_DARK) {
+      if (GemsConfig.GEM_DARK_USE_MULTI_ORE) {
+        return ModBlocks.multiGemOreDark.getDefaultState();
+      }
       int meta = WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS_DARK).getMeta();
       EnumGem gem = EnumGem.values()[meta];
       return ModBlocks.gemOreDark.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
@@ -119,6 +124,9 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
       return ModBlocks.essenceOre.getDefaultState().withProperty(BlockEssenceOre.VARIANT, BlockEssenceOre.Type.ENDER);
     }
     if (config == GemsConfig.WORLD_GEN_GEMS_LIGHT) {
+      if (GemsConfig.GEM_LIGHT_USE_MULTI_ORE) {
+        return ModBlocks.multiGemOreLight.getDefaultState();
+      }
       int meta = WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS_LIGHT).getMeta();
       EnumGem gem = EnumGem.values()[meta];
       return ModBlocks.gemOreLight.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);

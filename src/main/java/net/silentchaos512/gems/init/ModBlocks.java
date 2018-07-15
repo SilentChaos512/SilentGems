@@ -1,48 +1,26 @@
 package net.silentchaos512.gems.init;
 
-import static net.silentchaos512.gems.lib.EnumGem.Set.CLASSIC;
-import static net.silentchaos512.gems.lib.EnumGem.Set.DARK;
-import static net.silentchaos512.gems.lib.EnumGem.Set.LIGHT;
-
 import net.minecraft.block.Block;
-import net.silentchaos512.gems.block.BlockChaosAltar;
-import net.silentchaos512.gems.block.BlockChaosFlowerPot;
-import net.silentchaos512.gems.block.BlockChaosNode;
-import net.silentchaos512.gems.block.BlockChaosPylon;
-import net.silentchaos512.gems.block.BlockEssenceOre;
-import net.silentchaos512.gems.block.BlockFluffyBlock;
-import net.silentchaos512.gems.block.BlockFluffyPuffPlant;
-import net.silentchaos512.gems.block.BlockGem;
-import net.silentchaos512.gems.block.BlockGemBrick;
-import net.silentchaos512.gems.block.BlockGemGlass;
-import net.silentchaos512.gems.block.BlockGemLamp;
-import net.silentchaos512.gems.block.BlockGemOre;
-import net.silentchaos512.gems.block.BlockGlowRose;
-import net.silentchaos512.gems.block.BlockHardenedRock;
-import net.silentchaos512.gems.block.BlockMaterialGrader;
-import net.silentchaos512.gems.block.BlockMisc;
-import net.silentchaos512.gems.block.BlockPhantomLight;
-import net.silentchaos512.gems.block.BlockStoneTorch;
-import net.silentchaos512.gems.block.BlockTeleporter;
-import net.silentchaos512.gems.block.BlockTeleporterAnchor;
-import net.silentchaos512.gems.block.BlockTeleporterRedstone;
+import net.minecraft.item.ItemBlock;
+import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.item.block.ItemBlockGemLamp;
+import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.tile.TileChaosAltar;
-import net.silentchaos512.gems.tile.TileChaosFlowerPot;
-import net.silentchaos512.gems.tile.TileChaosNode;
-import net.silentchaos512.gems.tile.TileChaosPylon;
-import net.silentchaos512.gems.tile.TileMaterialGrader;
-import net.silentchaos512.gems.tile.TilePhantomLight;
-import net.silentchaos512.gems.tile.TileTeleporter;
+import net.silentchaos512.gems.tile.*;
 import net.silentchaos512.lib.registry.IRegistrationHandler;
 import net.silentchaos512.lib.registry.SRegistry;
+
+import static net.silentchaos512.gems.lib.EnumGem.Set.*;
 
 public class ModBlocks implements IRegistrationHandler<Block> {
 
   public static final BlockGemOre gemOre = new BlockGemOre(CLASSIC);
   public static final BlockGemOre gemOreDark = new BlockGemOre(DARK);
   public static final BlockGemOre gemOreLight = new BlockGemOre(LIGHT);
+
+  public static final BlockGemOreMulti multiGemOreClassic = new BlockGemOreMulti(EnumGem.Set.CLASSIC);
+  public static final BlockGemOreMulti multiGemOreDark = new BlockGemOreMulti(EnumGem.Set.DARK);
+  public static final BlockGemOreMulti multiGemOreLight = new BlockGemOreMulti(EnumGem.Set.LIGHT);
 
   public static final BlockGem gemBlock = new BlockGem(CLASSIC, false);
   public static final BlockGem gemBlockDark = new BlockGem(DARK, false);
@@ -148,6 +126,10 @@ public class ModBlocks implements IRegistrationHandler<Block> {
     reg.registerBlock(teleporterRedstoneDark);
     reg.registerBlock(teleporterRedstoneLight);
 
+    registerBlockStandardItem(reg, multiGemOreClassic, "multi_gem_ore_classic");
+    registerBlockStandardItem(reg,multiGemOreDark, "multi_gem_ore_dark");
+    registerBlockStandardItem(reg,multiGemOreLight, "multi_gem_ore_light");
+
     reg.registerBlock(glowRose, Names.GLOW_ROSE);
     reg.registerBlock(essenceOre);
     reg.registerBlock(miscBlock);
@@ -169,5 +151,10 @@ public class ModBlocks implements IRegistrationHandler<Block> {
     reg.registerTileEntity(TileChaosAltar.class, Names.CHAOS_ALTAR);
     reg.registerTileEntity(TileChaosPylon.class, Names.CHAOS_PYLON);
     reg.registerTileEntity(TilePhantomLight.class, Names.PHANTOM_LIGHT);
+  }
+
+  private void registerBlockStandardItem(SRegistry reg, Block block, String name) {
+    // TODO: SRegistry will handle this properly in 1.13, can't fix it now.
+    reg.registerBlock(block, name, new ItemBlock(block));
   }
 }
