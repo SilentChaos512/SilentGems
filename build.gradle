@@ -127,9 +127,6 @@ build.dependsOn incrementBuild
 repositories {
     jcenter()
     mavenCentral()
-    maven { // Jitpack
-        url 'https://jitpack.io'
-    }
     maven { // JEI
         name = "Progwml6 maven"
         url = "http://dvs1.progwml6.com/files/maven"
@@ -137,6 +134,12 @@ repositories {
     maven { // JEI mirror
         name = "ModMaven"
         url = "modmaven.k-4u.nl"
+    }
+    repositories {
+        maven { url 'https://maven.mcmoddev.com' }
+    }
+    maven { // Jitpack
+        url 'https://jitpack.io'
     }
 }
 
@@ -159,8 +162,8 @@ dependencies {
     }
 
     // TODO: Remove in 1.13
-    deobfProvided "slimeknights.mantle:Mantle:1.12-1.3.2.+"
-    deobfProvided "slimeknights:TConstruct:1.12.2-2.10.1.+"
+//    deobfProvided "slimeknights.mantle:Mantle:1.12-1.3.2.+"
+//    deobfProvided "slimeknights:TConstruct:1.12.2-2.10.1.+"
 }
 
 processResources {

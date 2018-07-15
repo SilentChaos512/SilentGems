@@ -1,14 +1,7 @@
 package net.silentchaos512.gems.item.armor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -49,11 +42,18 @@ import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
 
   // sum = 1, starts with boots
-  public static final float[] ABSORPTION_RATIO_BY_SLOT = { 0.175f, 0.3f, 0.4f, 0.125f };
-  public static final boolean HAS_EFFECT = false; // Set true for enchanted glow.
+  private static final float[] ABSORPTION_RATIO_BY_SLOT = { 0.175f, 0.3f, 0.4f, 0.125f };
+  // Screw access transformers, they don't work half the time!
+  private static final int[] MAX_DAMAGE_ARRAY = new int[]{13, 15, 16, 11};
+  private static final UUID[] ARMOR_MODIFIERS = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
 
   private List<ItemStack> subItems = null;
   public final EntityEquipmentSlot type;
@@ -223,7 +223,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   @Override
   public boolean hasEffect(ItemStack stack) {
 
-    return HAS_EFFECT;
+    return false;
   }
 
   @Override
