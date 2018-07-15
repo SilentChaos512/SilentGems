@@ -1,1 +1,1 @@
-include 'deobfCompileOnly'
+rootProject.name = archivesBaseName

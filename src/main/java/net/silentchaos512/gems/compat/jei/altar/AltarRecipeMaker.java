@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.compat.jei.altar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -10,14 +11,13 @@ import net.silentchaos512.gems.api.recipe.altar.RecipeChaosAltar;
 
 public class AltarRecipeMaker {
 
-  @Nonnull
-  public static List<AltarRecipeJei> getRecipes() {
+    @Nonnull
+    public static List<AltarRecipeJei> getRecipes() {
+        List<AltarRecipeJei> recipes = new ArrayList<>();
 
-    List<AltarRecipeJei> recipes = Lists.newArrayList();
+        for (RecipeChaosAltar recipe : RecipeChaosAltar.ALL_RECIPES)
+            recipes.add(new AltarRecipeJei(recipe));
 
-    for (RecipeChaosAltar recipe : RecipeChaosAltar.ALL_RECIPES)
-      recipes.add(new AltarRecipeJei(recipe));
-
-    return recipes;
-  }
+        return recipes;
+    }
 }

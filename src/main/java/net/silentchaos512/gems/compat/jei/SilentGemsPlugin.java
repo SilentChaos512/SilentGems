@@ -21,90 +21,80 @@ import net.silentchaos512.gems.util.ToolHelper;
 @JEIPlugin
 public class SilentGemsPlugin implements IModPlugin {
 
-  public static IJeiHelpers jeiHelper;
+    public static IJeiHelpers jeiHelper;
 
-  @Override
-  public void onRuntimeAvailable(IJeiRuntime runtime) {
+    @Override
+    public void register(IModRegistry reg) {
 
-  }
+        jeiHelper = reg.getJeiHelpers();
+        IGuiHelper guiHelper = jeiHelper.getGuiHelper();
 
-  @Override
-  public void register(IModRegistry reg) {
+        doItemBlacklist(jeiHelper.getIngredientBlacklist());
 
-    jeiHelper = reg.getJeiHelpers();
-    IGuiHelper guiHelper = jeiHelper.getGuiHelper();
+        doRecipeRegistration(reg, guiHelper);
 
-    doItemBlacklist(jeiHelper.getIngredientBlacklist());
+        doAddDescriptions(reg);
+    }
 
-    doRecipeRegistration(reg, guiHelper);
+    @Override
+    public void registerCategories(IRecipeCategoryRegistration reg) {
+        reg.addRecipeCategories(new AltarRecipeCategory(jeiHelper.getGuiHelper()));
+    }
 
-    doAddDescriptions(reg);
-  }
+    private void doItemBlacklist(IIngredientBlacklist list) {
 
-  private void doItemBlacklist(IIngredientBlacklist list) {
+        // Hide certain blocks/items
+        int any = OreDictionary.WILDCARD_VALUE;
+        list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampInverted, 1, any));
+        list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampInvertedDark, 1, any));
+        list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampInvertedLight, 1, any));
+        list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampLit, 1, any));
+        list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampLitDark, 1, any));
+        list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampLitLight, 1, any));
+        list.addIngredientToBlacklist(new ItemStack(ModBlocks.fluffyPuffPlant));
+        list.addIngredientToBlacklist(new ItemStack(ModItems.toolRenderHelper));
+        list.addIngredientToBlacklist(new ItemStack(ModItems.debugItem));
+    }
 
-    // Hide certain blocks/items
-    int any = OreDictionary.WILDCARD_VALUE;
-    list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampInverted, 1, any));
-    list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampInvertedDark, 1, any));
-    list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampInvertedLight, 1, any));
-    list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampLit, 1, any));
-    list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampLitDark, 1, any));
-    list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampLitLight, 1, any));
-    list.addIngredientToBlacklist(new ItemStack(ModBlocks.fluffyPuffPlant));
-    list.addIngredientToBlacklist(new ItemStack(ModItems.toolRenderHelper));
-    list.addIngredientToBlacklist(new ItemStack(ModItems.debugItem));
-  }
+    // FIXME
+    private void doRecipeRegistration(IModRegistry reg, IGuiHelper guiHelper) {
+        // Recipes
+        reg.addRecipes(AltarRecipeMaker.getRecipes(), AltarRecipeCategory.CATEGORY);
+        reg.addRecipes(ToolHelper.EXAMPLE_RECIPES, VanillaRecipeCategoryUid.CRAFTING);
 
-  // FIXME
-  private void doRecipeRegistration(IModRegistry reg, IGuiHelper guiHelper) {
+        // Click areas
+        reg.addRecipeClickArea(GuiChaosAltar.class, 80, 34, 25, 16, AltarRecipeCategory.CATEGORY);
 
-    // Categories
-    reg.addRecipeCategories(new AltarRecipeCategory(guiHelper));
+        // Recipe crafting items
+        reg.addRecipeCatalyst(new ItemStack(ModBlocks.chaosAltar), AltarRecipeCategory.CATEGORY);
+    }
 
-    // Handlers
-    reg.addRecipeHandlers(new AltarRecipeHandler());
+    private void doAddDescriptions(IModRegistry reg) {
 
-    // Recipes
-    reg.addRecipes(AltarRecipeMaker.getRecipes());//, SilentGems.MODID + ".altar");
-    reg.addRecipes(ToolHelper.EXAMPLE_RECIPES, VanillaRecipeCategoryUid.CRAFTING);
+        String prefix = "jei.silentgems:desc.";
 
-    // Click areas
-    reg.addRecipeClickArea(GuiChaosAltar.class, 80, 34, 25, 16, AltarRecipeCategory.CATEGORY);
+        reg.addDescription(new ItemStack(ModBlocks.chaosAltar), prefix + Names.CHAOS_ALTAR);
+        reg.addDescription(new ItemStack(ModBlocks.chaosFlowerPot), prefix + Names.CHAOS_FLOWER_POT);
+        reg.addDescription(new ItemStack(ModBlocks.chaosNode), prefix + Names.CHAOS_NODE);
+        reg.addDescription(new ItemStack(ModBlocks.chaosPylon, 1, 0), prefix + Names.CHAOS_PYLON + "0");
+        reg.addDescription(new ItemStack(ModBlocks.chaosPylon, 1, 1), prefix + Names.CHAOS_PYLON + "1");
+        reg.addDescription(new ItemStack(ModBlocks.materialGrader), prefix + Names.MATERIAL_GRADER);
 
-    // Recipe crafting items
-    reg.addRecipeCategoryCraftingItem(new ItemStack(ModBlocks.chaosAltar),
-        AltarRecipeCategory.CATEGORY);
-  }
+        reg.addDescription(new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE),
+                prefix + Names.GEM);
+        reg.addDescription(new ItemStack(ModItems.torchBandolier), prefix + Names.TORCH_BANDOLIER);
+        reg.addDescription(new ItemStack(ModItems.fluffyPuffSeeds), prefix + Names.FLUFFY_PUFF_SEEDS);
+    }
 
-  private void doAddDescriptions(IModRegistry reg) {
+    @Override
+    public void registerIngredients(IModIngredientRegistration arg0) {
 
-    String prefix = "jei.silentgems:desc.";
+    }
 
-    reg.addDescription(new ItemStack(ModBlocks.chaosAltar), prefix + Names.CHAOS_ALTAR);
-    reg.addDescription(new ItemStack(ModBlocks.chaosFlowerPot), prefix + Names.CHAOS_FLOWER_POT);
-    reg.addDescription(new ItemStack(ModBlocks.chaosNode), prefix + Names.CHAOS_NODE);
-    reg.addDescription(new ItemStack(ModBlocks.chaosPylon, 1, 0), prefix + Names.CHAOS_PYLON + "0");
-    reg.addDescription(new ItemStack(ModBlocks.chaosPylon, 1, 1), prefix + Names.CHAOS_PYLON + "1");
-    reg.addDescription(new ItemStack(ModBlocks.materialGrader), prefix + Names.MATERIAL_GRADER);
+    @Override
+    public void registerItemSubtypes(ISubtypeRegistry reg) {
 
-    reg.addDescription(new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE),
-        prefix + Names.GEM);
-    reg.addDescription(new ItemStack(ModItems.torchBandolier), prefix + Names.TORCH_BANDOLIER);
-    reg.addDescription(new ItemStack(ModItems.fluffyPuffSeeds), prefix + Names.FLUFFY_PUFF_SEEDS);
-  }
-
-  @Override
-  public void registerIngredients(IModIngredientRegistration arg0) {
-
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void registerItemSubtypes(ISubtypeRegistry reg) {
-
-    // Tools
+        // Tools
 //    for (Item item : new Item[] { ModItems.sword, ModItems.katana, ModItems.scepter,
 //        ModItems.tomahawk, ModItems.pickaxe, ModItems.shovel, ModItems.axe, ModItems.paxel,
 //        ModItems.hoe, ModItems.sickle, ModItems.bow, ModItems.shield }) {
@@ -121,23 +111,16 @@ public class SilentGemsPlugin implements IModPlugin {
 //      });
 //    }
 
-    // Enchantment tokens
-    reg.registerSubtypeInterpreter(ModItems.enchantmentToken, stack -> {
-      Enchantment ench = ModItems.enchantmentToken.getSingleEnchantment(stack);
-      return ench == null ? "none" : ench.getName();
-    });
+        // Enchantment tokens
+        reg.registerSubtypeInterpreter(ModItems.enchantmentToken, stack -> {
+            Enchantment ench = ModItems.enchantmentToken.getSingleEnchantment(stack);
+            return ench == null ? "none" : ench.getName();
+        });
 
-    // Chaos Runes
-    reg.registerSubtypeInterpreter(ModItems.chaosRune, stack -> {
-      ChaosBuff buff = ModItems.chaosRune.getBuff(stack);
-      return buff == null ? "none" : buff.getKey();
-    });
-  }
-
-  @Override
-  public void registerCategories(IRecipeCategoryRegistration arg0) {
-
-    // TODO Auto-generated method stub
-
-  }
+        // Chaos Runes
+        reg.registerSubtypeInterpreter(ModItems.chaosRune, stack -> {
+            ChaosBuff buff = ModItems.chaosRune.getBuff(stack);
+            return buff == null ? "none" : buff.getKey();
+        });
+    }
 }

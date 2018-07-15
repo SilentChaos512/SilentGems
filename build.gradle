@@ -1,112 +1,341 @@
 buildscript {
     repositories {
         jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
+        maven {
+            name = 'forge'
+            url = 'http://files.minecraftforge.net/maven'
+        }
+        maven {
+            name = 'gradle'
+            url 'https://plugins.gradle.org/m2/'
+        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath "net.minecraftforge.gradle:${project.fg_version}"
     }
 }
+
 plugins {
-    id 'net.ltgt.apt' version '0.10'
+    id "com.matthewprenger.cursegradle" version "1.0.10"
+    id 'net.ltgt.apt' version '0.10' // for lombok
 }
+
 apply plugin: 'net.minecraftforge.gradle.forge'
-
-version = "2.7.3"
-def silentlib_version = "2.3.1"
-def buildNum = 0
-group = "net.silentchaos512.gems"
-archivesBaseName = "SilentsGems-1.12.2"
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-minecraft {
-    version = "1.12.2-14.23.3.2669"
-    runDir = "eclipse"
-
-    def versionFile = file('version.properties')
-    if (versionFile.canRead()) {
-        def Properties versionProps = new Properties()
-
-        versionProps.load(new FileInputStream(versionFile))
-
-        buildNum = versionProps['BUILD_NUM'].toInteger() + 1
-
-        versionProps['BUILD_NUM'] = buildNum.toString()
-        versionProps.store(versionFile.newWriter(), null)
-    }
-
-    replace "@VERSION@", project.version
-    replace "SL_VERSION", silentlib_version
-    replace "BUILD_NUM = 0", "BUILD_NUM = " + buildNum
-    replaceIn "SilentGems.java"
-
-    mappings = "snapshot_20171003"
-}
+apply plugin: 'com.matthewprenger.cursegradle'
 
 repositories {
-    //mavenCentral()
-    maven {
-        name = "DVS1 Maven FS"
-        url "http://dvs1.progwml6.com/files/maven"
-    }
-}
-
-jar {
-    classifier = buildNum
-    manifest {
-        attributes "FMLAT": "silentgems_at.cfg"
-    }
-}
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = buildNum + '-sources'
-    from sourceSets.main.allSource
-}
-task deobfJar(type: Jar) {
-    from(sourceSets.main.output) {
-        classifier = buildNum + "-deobf"
-    }
-}
-artifacts {
-    archives sourcesJar
-    archives deobfJar
+    mavenLocal()
+    mavenCentral()
 }
 
 dependencies {
-    deobfCompile "mezz.jei:jei_1.12:4.6.0.65"
-    deobfCompile "slimeknights.mantle:Mantle:1.12-1.3.1.+"
-    deobfCompile "slimeknights:TConstruct:1.12-2.7.2.+"
-
-    compileOnly 'org.projectlombok:lombok:1.16.22'
-    apt "org.projectlombok:lombok:1.16.22"
 }
 
-sourceSets {
-    main {
-        java { srcDirs = ["$projectDir/common"] }
-        resources { srcDirs = ["$projectDir/resources"] }
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs = [
+            '-Xlint:deprecation', // deprecation, rawtypes, cast, unchecked, all
+//  '-Xdiags:verbose',
+//  '-Werror'
+    ]
+}
+
+javadoc {
+    failOnError = false
+}
+
+def mod_file = getModFile()
+def short_version = getVersion('VERSION', mod_file)
+version = mc_version + '-' + short_version
+def display_version = short_version
+def build_num = getBuildNumber()
+
+//if (System.getenv().BUILD_NUMBER) {
+//  version += '.' + System.getenv().BUILD_NUMBER
+//  display_version += '.' + System.getenv().BUILD_NUMBER
+//}
+
+sourceCompatibility = targetCompatibility = '1.8'
+
+eclipse.project {
+    buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
+    natures 'org.eclipse.buildship.core.gradleprojectnature'
+}
+
+minecraft {
+    version = project.forge_mc_version + '-' + project.forge_version
+    runDir = 'run'
+    mappings = project.mcp_mappings
+
+    replace "BUILD_NUM = 0", "BUILD_NUM = " + build_num
+    replaceIn "SilentGems.java"
+
+    if (project.hasProperty('coreplugin')) {
+        clientJvmArgs += '-Dfml.coreMods.load=' + project.coreplugin
+        serverJvmArgs += '-Dfml.coreMods.load=' + project.coreplugin
+    }
+
+    if (project.hasProperty('mc_username')) {
+        clientRunArgs += ['--username', project.mc_username]
+        if (project.hasProperty('mc_password')) {
+            clientRunArgs += ['--password', project.mc_password]
+        }
+    }
+    if (project.hasProperty('mc_uuid')) {
+        clientRunArgs += ['--uuid', project.mc_uuid]
+    }
+
+    // disable server gui
+    serverRunArgs += 'nogui'
+
+    // skip the screen to confirm that you want to load a world with missing registry entries
+    serverJvmArgs += '-Dfml.doNotBackup=true'
+    clientJvmArgs += '-Dfml.doNotBackup=true'
+
+    // skip having to confirm on server
+    serverJvmArgs += '-Dfml.queryResult=confirm'
+
+    //skip jansi warnings in the log
+    serverJvmArgs += '-Dlog4j.skipJansi=true'
+    clientJvmArgs += '-Dlog4j.skipJansi=true'
+
+    if (project.hasProperty('client_args')) {
+        clientJvmArgs += project.client_args
+    }
+    if (project.hasProperty('server_args')) {
+        serverJvmArgs += project.server_args
     }
 }
 
-processResources
-{
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+task incrementBuild {
+    doFirst {
+        def versionFile = file('version.properties')
+        if (versionFile.canRead()) {
+            Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionFile))
+            build_num = versionProps['build_num'].toInteger() + 1
+            println("incrementing BuildNumber to: " + build_num)
+            versionProps['build_num'] = build_num.toString()
+            versionProps.store(versionFile.newWriter(), null)
+        } else {
+            println("version.properties file not found! Ignoring.")
+        }
+    }
+}
+build.dependsOn incrementBuild
 
-    // replace stuff in mcmod.info, nothing else
+repositories {
+    jcenter()
+    mavenCentral()
+    maven { // Jitpack
+        url 'https://jitpack.io'
+    }
+    maven { // JEI
+        name = "Progwml6 maven"
+        url = "http://dvs1.progwml6.com/files/maven"
+    }
+    maven { // JEI mirror
+        name = "ModMaven"
+        url = "modmaven.k-4u.nl"
+    }
+}
+
+dependencies {
+    // lombok
+    if (project.hasProperty('lombok_version')) {
+        compile "org.projectlombok:lombok:${project.lombok_version}"
+        apt "org.projectlombok:lombok:${project.lombok_version}"
+    }
+
+    // JEI
+    if (project.hasProperty('jei_version')) {
+        deobfProvided "mezz.jei:jei_${project.mc_version}:${project.jei_version}:api"
+        //runtime "mezz.jei:jei_${project.mc_version}:${project.jei_version}"
+    }
+
+    // Silent Lib
+    if (project.hasProperty('sl_version')) {
+        compileOnly "com.github.SilentChaos512:SilentLib:${project.sl_version}"
+    }
+
+    // TODO: Remove in 1.13
+    deobfProvided "slimeknights.mantle:Mantle:1.12-1.3.2.+"
+    deobfProvided "slimeknights:TConstruct:1.12.2-2.10.1.+"
+}
+
+processResources {
+    inputs.property 'version', project.version
+    inputs.property 'mcversion', project.minecraft.version
+
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version': short_version, 'mcversion': project.minecraft.version
     }
 
-    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
 
     rename '(.+_at.cfg)', 'META-INF/$1'
+}
+
+jar {
+    mustRunAfter incrementBuild
+    doFirst {
+        build_num = getBuildNumber()
+        if (build_num > 0) {
+            classifier = build_num
+        }
+    }
+    manifest {
+        if (project.hasProperty('coreplugin')) {
+            attributes 'FMLCorePluginContainsFMLMod': 'true'
+            attributes 'FMLCorePlugin': project.coreplugin
+        }
+        attributes 'FMLAT' : 'silentgems_at.cfg'
+    }
+}
+
+task apiJar(type: Jar) {
+    classifier = 'apiClasses'
+    from apiClasses
+}
+
+task deobfJar(type: Jar) {
+    classifier = 'deobf'
+    from sourceSets.main.output
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.getDestinationDir()
+}
+
+artifacts {
+    if (project.hasProperty('doAPIJar')) {
+        archives apiJar
+    }
+    if (project.hasProperty('doDeobfJar')) {
+        archives deobfJar
+    }
+    if (project.hasProperty('doSourceJar')) {
+        archives sourceJar
+    }
+    if (project.hasProperty('doJavadocJar')) {
+        archives javadocJar
+    }
+}
+
+class Secrets {
+    def data = null
+
+    def getProperty(String key) {
+        return data ? data[key] : ''
+    }
+}
+
+import groovy.json.JsonSlurper
+
+def secretFile
+if (System.getenv().SECRET_FILE) {
+    secretFile = file System.getenv().SECRET_FILE
+} else {
+    secretFile = file 'secret.json'
+}
+
+project.ext.secret = new Secrets()
+if (secretFile.exists()) {
+    secretFile.withReader {
+        project.ext.secret.data = new JsonSlurper().parse it
+    }
+}
+
+curseforge {
+    if (project.hasProperty('cf_project_id') && project.hasProperty('cf_release_type') && project.hasProperty('cf_changelog_filename') &&
+            ((project.cf_release_type == 'alpha') || (project.cf_release_type == 'beta') || (project.cf_release_type == 'release'))) {
+        apiKey = secret.curseforgeAPIKey
+        project {
+            id = project.cf_project_id
+            changelog = file(project.cf_changelog_filename)
+            releaseType = project.cf_release_type
+            addGameVersion(project.mc_version)
+            mainArtifact(jar) {
+//                displayName = "$project.description $display_version"
+                relations {
+                    requiredLibrary 'silent-lib'
+                }
+            }
+//            if (project.hasProperty('doAPIJar')) {
+//                addArtifact(apiJar) {
+//                    displayName = "$project.description $display_version API"
+//                }
+//            }
+//            if (project.hasProperty('doSourceJar')) {
+//                addArtifact(sourceJar) {
+//                    displayName = "$project.description $display_version Sources"
+//                }
+//            }
+//            if (project.hasProperty('doDeobfJar')) {
+//                addArtifact(deobfJar) {
+//                    displayName = "$project.description $display_version Development"
+//                }
+//            }
+//            if (project.hasProperty('doJavadocJar')) {
+//                addArtifact(javadocJar) {
+//                    displayName = "$project.description $display_version Javadoc"
+//                }
+//            }
+        }
+    }
+}
+
+String getModFile() {
+    String path = ''
+    FileTree tree = fileTree(dir: 'src/main/java')
+    tree.include '**/*.java'
+    tree.visit { element ->
+        if (element.file.isFile()) {
+            element.file.eachLine { String s ->
+                s = s.trim()
+                if (s.startsWith('@Mod(')) {
+                    path = "src/main/java/$element.relativePath"
+                }
+            }
+        }
+    }
+    return path
+}
+
+String getVersion(String type, String mod_file) {
+    String major = '0'
+    String revision = '0'
+    String patch = '0'
+    File file = file(mod_file)
+    def prefix = ~/^(?:public|protected|private) static final String $type = ".*$/
+    file.eachLine { String s ->
+        s = s.trim()
+        if (s ==~ prefix || prefix.matcher(s).matches()) {
+            String[] bits = s.split("=")
+            String interesting = bits[1].trim()
+            interesting = interesting.substring(1, interesting.length() - 2)
+            String[] pts = interesting.trim().split("\\.")
+
+            major = pts[0] ?: '0'
+            revision = pts[1] ?: '0'
+            patch = pts[2] ?: '0'
+        }
+    }
+    return "$major.$revision.$patch"
+}
+
+int getBuildNumber() {
+    def versionFile = file('version.properties')
+    if (versionFile.canRead()) {
+        Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionFile))
+        return versionProps['build_num'].toInteger()
+    } else {
+        println('version.properties file not found! Build number will be 0')
+        return 0
+    }
 }
