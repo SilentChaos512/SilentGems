@@ -2,7 +2,9 @@ package net.silentchaos512.gems.proxy;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -47,6 +49,8 @@ public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
     MinecraftForge.EVENT_BUS.register(new SoulManager());
     MinecraftForge.EVENT_BUS.register(ModuleHolidayCheer.instance);
     MinecraftForge.EVENT_BUS.register(ModuleHalloweenHijinks.instance);
+
+    LootTableList.register(new ResourceLocation(SilentGems.MODID, "ender_slime"));
   }
 
   @Override

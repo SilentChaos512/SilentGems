@@ -2,6 +2,7 @@ Silent's Gems - Changelog
 
 2.7.5
 Added: Multi-gem ore. Optionally replaces standard ore generation with a single block that can drop any gem from its respective set. (#294)
+Added: Loot table for ender slimes (#269)
 
 2.7.4
 Fixed: Return home charm crash (#314)

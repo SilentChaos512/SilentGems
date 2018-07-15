@@ -1,14 +1,13 @@
 package net.silentchaos512.gems.entity;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Biomes;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.lib.registry.SRegistry;
+
+import java.util.List;
 
 public class ModEntities {
 
