@@ -1,11 +1,7 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.IGrowable;
@@ -52,6 +48,9 @@ import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
+import java.util.List;
+import java.util.Map;
+
 public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
 
   public static final Material[] effectiveMaterials = new Material[] { Material.CACTUS,
@@ -64,7 +63,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
   public ItemGemSickle() {
 
     super(ToolHelper.FAKE_MATERIAL, Sets.newHashSet(new Block[] {}));
-    setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.SICKLE);
+    setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.SICKLE);
     setNoRepair();
   }
 
@@ -280,7 +279,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
     if (playerMP.capabilities.isCreativeMode) {
       block.onBlockHarvested(world, pos, state, player);
       if (block.removedByPlayer(state, world, pos, playerMP, false)) {
-        block.onBlockDestroyedByPlayer(world, pos, state);
+        block.onPlayerDestroy(world, pos, state);
       }
       if (!world.isRemote) {
         playerMP.connection.sendPacket(new SPacketBlockChange(world, pos));
@@ -292,7 +291,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
       block.onBlockHarvested(world, pos, state, playerMP);
 
       if (block.removedByPlayer(state, world, pos, playerMP, true)) {
-        block.onBlockDestroyedByPlayer(world, pos, state);
+        block.onPlayerDestroy(world, pos, state);
         block.harvestBlock(world, player, pos, state, null, sickle);
         block.dropXpOnBlockBreak(world, pos, xpDropped);
       }
@@ -302,7 +301,7 @@ public class ItemGemSickle extends ItemTool implements IRegistryObject, ITool {
       int meta = block.getMetaFromState(state);
       world.playEvent(2001, pos, Block.getIdFromBlock(block) + (meta << 12));
       if (block.removedByPlayer(state, world, pos, playerMP, true)) {
-        block.onBlockDestroyedByPlayer(world, pos, state);
+        block.onPlayerDestroy(world, pos, state);
       }
 
       sickle.onBlockDestroyed(world, state, pos, playerMP);

@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.item;
 
-import java.util.Map;
-
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -24,12 +22,14 @@ import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
+import java.util.Map;
+
 public class ItemFluffyPuffSeeds extends ItemSeeds implements IRegistryObject {
 
   public ItemFluffyPuffSeeds() {
 
     super(ModBlocks.fluffyPuffPlant, Blocks.FARMLAND);
-    setUnlocalizedName(Names.FLUFFY_PUFF_SEEDS);
+    setTranslationKey(Names.FLUFFY_PUFF_SEEDS);
     MinecraftForge.addGrassSeed(new ItemStack(this), 2);
   }
 
@@ -68,7 +68,7 @@ public class ItemFluffyPuffSeeds extends ItemSeeds implements IRegistryObject {
   }
 
   @Override
-  public String getUnlocalizedName(ItemStack stack) {
+  public String getTranslationKey(ItemStack stack) {
 
     return "item.silentgems:" + Names.FLUFFY_PUFF_SEEDS;
   }

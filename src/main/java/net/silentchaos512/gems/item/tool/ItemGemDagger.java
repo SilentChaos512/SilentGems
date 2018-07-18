@@ -17,9 +17,9 @@ public class ItemGemDagger extends ItemGemSword {
   public ItemGemDagger() {
 
     super();
-    setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.DAGGER);
+    setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.DAGGER);
   }
-  
+
   public ConfigOptionToolClass getConfig() {
 
     return GemsConfig.dagger;

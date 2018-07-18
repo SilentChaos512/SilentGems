@@ -1,10 +1,5 @@
 package net.silentchaos512.gems.block;
 
-import java.util.List;
-import java.util.Map;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -28,6 +23,8 @@ import net.silentchaos512.lib.block.BlockSL;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
+import java.util.Map;
+
 public class BlockFluffyBlock extends BlockSL {
 
   public static final PropertyEnum COLOR = PropertyEnum.create("color", EnumDyeColor.class);
@@ -42,7 +39,7 @@ public class BlockFluffyBlock extends BlockSL {
     setSoundType(SoundType.CLOTH);
     setHarvestLevel("", 0);
 
-    setUnlocalizedName(Names.FLUFFY_BLOCK);
+    setTranslationKey(Names.FLUFFY_BLOCK);
   }
 
   @Override
@@ -50,7 +47,7 @@ public class BlockFluffyBlock extends BlockSL {
 
     ItemStack any = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
     for (EnumDyeColor color : EnumDyeColor.values()) {
-      String dyeName = color.getUnlocalizedName();
+      String dyeName = color.getTranslationKey();
       if (dyeName.equals("silver")) {
         dyeName = "lightGray";
       }

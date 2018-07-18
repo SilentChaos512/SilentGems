@@ -1,8 +1,5 @@
 package net.silentchaos512.gems.item.quiver;
 
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,12 +14,15 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
 
+import java.util.List;
+import java.util.Map;
+
 public class ItemQuiverEmpty extends Item implements IRegistryObject, IQuiver {
 
   public ItemQuiverEmpty() {
 
     setMaxStackSize(1);
-    setUnlocalizedName(getFullName());
+    setTranslationKey(getFullName());
     setRegistryName(getName());
   }
 

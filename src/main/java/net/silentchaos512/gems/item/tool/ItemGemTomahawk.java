@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.util.List;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -30,6 +28,8 @@ import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
+import java.util.List;
+
 public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
 
   public static final String NBT_AMMO = "SG.Ammo";
@@ -37,7 +37,7 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
   public ItemGemTomahawk() {
 
     super();
-    setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.TOMAHAWK);
+    setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.TOMAHAWK);
   }
 
   public ConfigOptionToolClass getConfig() {

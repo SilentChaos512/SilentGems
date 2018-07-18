@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.block;
 
-import java.util.List;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -18,8 +16,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.init.ModItems;
@@ -28,6 +24,8 @@ import net.silentchaos512.gems.tile.TileMaterialGrader;
 import net.silentchaos512.lib.block.BlockContainerSL;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.wit.api.IWitHudInfo;
+
+import java.util.List;
 
 public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo {
 
@@ -104,7 +102,7 @@ public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo
   @Override
   public IBlockState getStateFromMeta(int meta) {
 
-    return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+    return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta));
   }
 
   @Override

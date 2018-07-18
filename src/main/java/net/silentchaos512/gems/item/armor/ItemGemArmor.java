@@ -371,7 +371,7 @@ public class ItemGemArmor extends ItemArmorSL implements ISpecialArmor, IArmor {
   }
 
   @Override
-  public String getUnlocalizedName(ItemStack stack) {
+  public String getTranslationKey(ItemStack stack) {
 
     return "item.silentgems:" + itemName;
   }

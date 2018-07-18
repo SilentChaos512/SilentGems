@@ -1,8 +1,5 @@
 package net.silentchaos512.gems.item.quiver;
 
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -11,21 +8,20 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.Enchantments;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
+
+import java.util.List;
+import java.util.Map;
 
 public class ItemQuiver extends ItemArrow implements IRegistryObject, IQuiver {
 
@@ -34,7 +30,7 @@ public class ItemQuiver extends ItemArrow implements IRegistryObject, IQuiver {
   public ItemQuiver() {
 
     setMaxStackSize(1);
-    setUnlocalizedName(getFullName());
+    setTranslationKey(getFullName());
     setRegistryName(getName());
   }
 

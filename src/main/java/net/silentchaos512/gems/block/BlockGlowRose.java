@@ -1,10 +1,5 @@
 package net.silentchaos512.gems.block;
 
-import java.util.List;
-import java.util.Map;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.IProperty;
@@ -17,16 +12,17 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IHasSubtypes;
 import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
+
+import java.util.List;
+import java.util.Map;
 
 public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSubtypes {
 
@@ -37,7 +33,7 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
     setSoundType(SoundType.PLANT);
 
     lightValue = GemsConfig.GLOW_ROSE_LIGHT_LEVEL;
-    setUnlocalizedName(Names.GLOW_ROSE);
+    setTranslationKey(Names.GLOW_ROSE);
   }
 
   @Override
@@ -158,7 +154,7 @@ public class BlockGlowRose extends BlockBush implements IRegistryObject, IHasSub
   }
 
   @Override
-  public String getUnlocalizedName() {
+  public String getTranslationKey() {
 
     return "tile." + Names.GLOW_ROSE;
   }

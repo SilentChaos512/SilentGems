@@ -1,25 +1,13 @@
 package net.silentchaos512.gems.item;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.MapMaker;
-
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
@@ -34,11 +22,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
@@ -55,6 +41,13 @@ import net.silentchaos512.lib.util.EnchantmentUtils;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
+
+import javax.annotation.Nullable;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class ItemEnchantmentToken extends ItemSL {
 
@@ -337,7 +330,7 @@ public class ItemEnchantmentToken extends ItemSL {
       Enchantment e = entry.getKey();
       String enchName = e.getTranslatedName(entry.getValue());
       String modName = Loader.instance().getIndexedModList()
-          .get(e.getRegistryName().getResourceDomain()).getName();
+          .get(e.getRegistryName().getNamespace()).getName();
       list.add(loc.getItemSubText(itemName, "enchNameWithMod", enchName, modName));
       String descKey = e.getName().replaceAll(":", ".").toLowerCase() + ".desc";
       String desc = loc.getLocalizedString(descKey);

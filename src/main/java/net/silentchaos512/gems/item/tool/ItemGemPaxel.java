@@ -1,22 +1,19 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
+
+import java.util.Set;
 
 public class ItemGemPaxel extends ItemGemPickaxe {
 
@@ -24,7 +21,7 @@ public class ItemGemPaxel extends ItemGemPickaxe {
 
   public ItemGemPaxel() {
 
-    setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.PAXEL);
+    setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.PAXEL);
     materialLength = 6;
   }
 
@@ -40,7 +37,7 @@ public class ItemGemPaxel extends ItemGemPickaxe {
       set.add(mat);
     return set.toArray(new Material[set.size()]);
   }
-  
+
   public ConfigOptionToolClass getConfig() {
 
     return GemsConfig.paxel;

@@ -1,9 +1,6 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,12 +14,14 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.RecipeMaker;
 
+import java.util.Set;
+
 public class ItemGemMachete extends ItemGemSword {
 
   public ItemGemMachete() {
 
     super();
-    setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.MACHETE);
+    setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.MACHETE);
   }
 
   @Override

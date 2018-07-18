@@ -1,9 +1,6 @@
 package net.silentchaos512.gems.util;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,11 +18,13 @@ import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.lib.collection.ItemStackList;
 import net.silentchaos512.lib.util.PlayerHelper;
 
+import java.util.List;
+
 public class ChaosUtil {
 
   /**
    * Gets nearby IChaosAccepters that are within the search box and can be seen from center.
-   * 
+   *
    * @param world
    * @param center
    *          The location of the sender.
@@ -67,7 +66,7 @@ public class ChaosUtil {
   /**
    * Determine if the target position can be "seen" from the source position. Ignores liquids and blocks with no
    * collision.
-   * 
+   *
    * @return True if there is a clear line of sight, false otherwise.
    */
   public static boolean canSee(World world, BlockPos source, BlockPos target) {
@@ -84,13 +83,13 @@ public class ChaosUtil {
   /**
    * Determines if the target entity can be "seen" from the source position. Ignores liquids and blocks with no
    * collision.
-   * 
+   *
    * @return True if there is a clear line of sight, false otherwise.
    */
   public static boolean canSee(World world, BlockPos source, Entity target) {
 
     Vec3d startPos = new Vec3d(source.getX() + 0.5, source.getY() + 0.5, source.getZ() + 0.5);
-    Vec3d targetPos = target.getPositionVector().addVector(0, target.height / 2, 0);
+    Vec3d targetPos = target.getPositionVector().add(0, target.height / 2, 0);
     RayTraceResult result = world.rayTraceBlocks(startPos, targetPos, false, true, false);
     return result == null
         || result.getBlockPos().equals(target.getPosition().up((int) (target.height / 2)));
@@ -162,7 +161,7 @@ public class ChaosUtil {
 
   /**
    * Send chaos to an entity. Replaces the old packet spawning methods. Also spawns particles.
-   * 
+   *
    * @return True if the entity was able to receive chaos, false otherwise.
    */
   public static boolean sendEnergyTo(World world, BlockPos start, EntityLivingBase target,
@@ -182,7 +181,7 @@ public class ChaosUtil {
       }
 
       NodePacketHelper.spawnParticles(world, start,
-          target.getPositionVector().addVector(0, target.height / 2, 0), 0xFFFF99);
+          target.getPositionVector().add(0, target.height / 2, 0), 0xFFFF99);
       return true;
     }
 
@@ -191,7 +190,7 @@ public class ChaosUtil {
 
   /**
    * Send chaos to a tile entity. Replaces the old packet spawning methods. Also spawns particles.
-   * 
+   *
    * @return True if the tile entity was able to receive chaos, false otherwise.
    */
   public static boolean sendEnergyTo(World world, BlockPos start, BlockPos target, int amount) {

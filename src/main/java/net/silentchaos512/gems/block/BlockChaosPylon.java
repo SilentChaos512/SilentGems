@@ -1,10 +1,5 @@
 package net.silentchaos512.gems.block;
 
-import java.util.List;
-import java.util.Map;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -28,23 +23,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumPylonType;
-import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosPylon;
 import net.silentchaos512.lib.block.BlockContainerSL;
 import net.silentchaos512.lib.registry.IHasSubtypes;
-import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
+
+import java.util.List;
+import java.util.Map;
 
 public class BlockChaosPylon extends BlockContainerSL implements ITileEntityProvider, IHasSubtypes {
 
-  public static enum VariantType implements IStringSerializable {
+  public enum VariantType implements IStringSerializable {
 
     PASSIVE, BURNER;
 
@@ -202,7 +196,7 @@ public class BlockChaosPylon extends BlockContainerSL implements ITileEntityProv
   }
 
   @Override
-  public String getUnlocalizedName() {
+  public String getTranslationKey() {
 
     return "tile." + Names.CHAOS_PYLON;
   }
@@ -212,7 +206,7 @@ public class BlockChaosPylon extends BlockContainerSL implements ITileEntityProv
 
     TileEntity tilePylon = world.getTileEntity(pos);
 
-    if (tilePylon != null && tilePylon instanceof TileChaosPylon) {
+    if (tilePylon instanceof TileChaosPylon) {
       InventoryHelper.dropInventoryItems(world, pos, (TileChaosPylon) tilePylon);
       world.updateComparatorOutputLevel(pos, this);
     }

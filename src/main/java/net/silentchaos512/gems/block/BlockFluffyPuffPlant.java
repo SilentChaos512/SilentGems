@@ -1,13 +1,6 @@
 package net.silentchaos512.gems.block;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -27,12 +20,17 @@ import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject {
 
   public BlockFluffyPuffPlant() {
 
     setHardness(0.1f);
-    setUnlocalizedName(Names.FLUFFY_PUFF_PLANT);
+    setTranslationKey(Names.FLUFFY_PUFF_PLANT);
   }
 
   @Override
@@ -126,7 +124,7 @@ public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject 
   }
 
   @Override
-  public String getUnlocalizedName() {
+  public String getTranslationKey() {
 
     return "tile." + Names.FLUFFY_PUFF_PLANT;
   }

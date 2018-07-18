@@ -2,26 +2,23 @@ package net.silentchaos512.gems.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
-import net.minecraftforge.oredict.OreDictionary;
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class ModRecipeHelper {
 
   //@formatter:off
   private static final String SAG_MILL_MSG =
-      "<recipeGroup name=\"SilentGems\">" + 
+      "<recipeGroup name=\"SilentGems\">" +
         "<recipe name=\"%s\" energyCost=\"%d\">" +
           "<input>" +
             "<itemStack modID=\"SilentGems\" itemName=\"%s\" itemMeta=\"%d\" />" +
           "</input>" +
           "<output>" +
             "<itemStack modID=\"SilentGems\" itemName=\"%s\" itemMeta=\"%d\" number=\"%d\" />" +
-            "<itemStack modID=\"SilentGems\" itemName=\"%s\" itemMeta=\"%d\" number=\"1\" chance=\"0.1\" />" +    
+            "<itemStack modID=\"SilentGems\" itemName=\"%s\" itemMeta=\"%d\" number=\"1\" chance=\"0.1\" />" +
             "<itemStack modID=\"minecraft\" itemName=\"%s\" chance=\"0.15\"/>" +
           "</output>" +
-        "</recipe>" + 
+        "</recipe>" +
       "</recipeGroup>";
   //@formatter:on
 
@@ -36,13 +33,13 @@ public class ModRecipeHelper {
 
     String inputName = input.getItem() instanceof IRegistryObject
         ? ((IRegistryObject) input.getItem()).getName()
-        : input.getItem().getUnlocalizedName().replaceFirst("(item\\.silentgems:|tile\\.)", "");
+        : input.getItem().getTranslationKey().replaceFirst("(item\\.silentgems:|tile\\.)", "");
     String outputName = output.getItem() instanceof IRegistryObject
         ? ((IRegistryObject) output.getItem()).getName()
-        : output.getItem().getUnlocalizedName().replaceFirst("(item\\.silentgems:|tile\\.)", "");
+        : output.getItem().getTranslationKey().replaceFirst("(item\\.silentgems:|tile\\.)", "");
     String extraName = extra.getItem() instanceof IRegistryObject
         ? ((IRegistryObject) extra.getItem()).getName()
-        : extra.getItem().getUnlocalizedName().replaceFirst("(item\\.silentgems:|tile\\.)", "");
+        : extra.getItem().getTranslationKey().replaceFirst("(item\\.silentgems:|tile\\.)", "");
 
     int inputMeta = input.getItemDamage();
     int outputMeta = output.getItemDamage();

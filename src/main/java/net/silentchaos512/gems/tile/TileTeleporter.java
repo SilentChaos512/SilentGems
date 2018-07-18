@@ -181,7 +181,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
   public void markDirty() {
 
     super.markDirty();
-    Chunk chunk = world.getChunkFromBlockCoords(pos);
+    Chunk chunk = world.getChunk(pos);
     IBlockState state = world.getBlockState(pos);
     world.markAndNotifyBlock(pos, chunk, state, state, 2);
   }

@@ -1,9 +1,5 @@
 package net.silentchaos512.gems.item;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -35,6 +31,10 @@ import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ItemGemArrow extends ItemArrow implements IRegistryObject {
 
   public static final String NBT_STATS = "SGArrowStats";
@@ -45,7 +45,7 @@ public class ItemGemArrow extends ItemArrow implements IRegistryObject {
 
   public ItemGemArrow() {
 
-    setUnlocalizedName(getFullName());
+    setTranslationKey(getFullName());
     setRegistryName(getName());
   }
 

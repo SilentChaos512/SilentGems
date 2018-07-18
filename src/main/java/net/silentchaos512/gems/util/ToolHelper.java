@@ -1,19 +1,8 @@
 package net.silentchaos512.gems.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -51,11 +40,7 @@ import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
-import net.silentchaos512.gems.api.tool.part.ArmorPartFrame;
-import net.silentchaos512.gems.api.tool.part.ToolPart;
-import net.silentchaos512.gems.api.tool.part.ToolPartMain;
-import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
-import net.silentchaos512.gems.api.tool.part.ToolPartRod;
+import net.silentchaos512.gems.api.tool.part.*;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.config.GemsConfigHC;
@@ -64,13 +49,7 @@ import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemGemArrow;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.armor.ItemGemArmor;
-import net.silentchaos512.gems.item.tool.ItemGemAxe;
-import net.silentchaos512.gems.item.tool.ItemGemHoe;
-import net.silentchaos512.gems.item.tool.ItemGemPickaxe;
-import net.silentchaos512.gems.item.tool.ItemGemShield;
-import net.silentchaos512.gems.item.tool.ItemGemShovel;
-import net.silentchaos512.gems.item.tool.ItemGemSickle;
-import net.silentchaos512.gems.item.tool.ItemGemSword;
+import net.silentchaos512.gems.item.tool.*;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
@@ -82,11 +61,10 @@ import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.lib.recipe.IngredientSL;
 import net.silentchaos512.lib.registry.IRegistryObject;
-import net.silentchaos512.lib.util.ItemHelper;
-import net.silentchaos512.lib.util.LocalizationHelper;
-import net.silentchaos512.lib.util.PlayerHelper;
-import net.silentchaos512.lib.util.StackHelper;
-import net.silentchaos512.lib.util.WorldHelper;
+import net.silentchaos512.lib.util.*;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class ToolHelper {
 
@@ -169,7 +147,7 @@ public class ToolHelper {
    * Recalculate all stats and properties, including the rendering cache for the given tool. In general, this should be
    * called any time changes are made to a tool (aside from incrementing statistics, or something like that). For
    * example, this is called during construction, decoration, and for all tools in the players inventory during login.
-   * 
+   *
    * @param toolOrArmor
    */
   public static void recalculateStats(ItemStack toolOrArmor) {
@@ -248,7 +226,7 @@ public class ToolHelper {
 
   /**
    * Gets the tool's or armor's UUID. If it currently does not have a UUID, one will be created if appropriate.
-   * 
+   *
    * @param tool
    *          The tool or armor stack. The stack's item must implement either ITool or IArmor.
    * @return The UUID of the tool or armor, or null if the item is not allowed to have one.
@@ -280,7 +258,7 @@ public class ToolHelper {
 
   /**
    * Determine if tool is an "example" (JEI, creative tabs, etc.)
-   * 
+   *
    * @return True if the tool has the example tool tag, false otherwise
    */
   public static boolean isExampleItem(ItemStack tool) {
@@ -291,7 +269,7 @@ public class ToolHelper {
 
   /**
    * Determine if tool is the output of an "example recipe" (the output of the recipes that show in JEI).
-   * 
+   *
    * @return True if the tool has the example tool tier tag, false otherwise.
    */
   public static boolean isExampleRecipeOutput(ItemStack tool) {
@@ -454,7 +432,7 @@ public class ToolHelper {
 
   /**
    * Check if the tool has no construction parts. Only checks the head, but no valid tools will have no head parts.
-   * 
+   *
    * @return true if the has no construction parts.
    */
   public static boolean hasNoConstruction(ItemStack tool) {
@@ -667,7 +645,7 @@ public class ToolHelper {
 
   /**
    * Called by mining tools if block breaking isn't canceled.
-   * 
+   *
    * @return False in all cases, because this method is only called when Item.onBlockStartBreak returns false.
    */
   public static boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
@@ -1184,7 +1162,7 @@ public class ToolHelper {
       for (Object obj : extraParams)
         params.add(obj);
 
-      EXAMPLE_RECIPES.add(SilentGems.registry.recipes.makeShaped(recipeName.getResourcePath(),
+      EXAMPLE_RECIPES.add(SilentGems.registry.recipes.makeShaped(recipeName.getPath(),
           result, params.toArray()));
     }
   }
@@ -1201,7 +1179,7 @@ public class ToolHelper {
 
   /**
    * UUID for tool souls. Must be kept separate from the normal UUID to prevent soul duping.
-   * 
+   *
    * @param toolOrArmor
    * @return
    */

@@ -74,7 +74,7 @@ public class BlockTeleporterRedstone extends BlockTeleporter {
     if (tile == null)
       return;
 
-    if (!world.isRemote && world.isBlockIndirectlyGettingPowered(pos) != 0) {
+    if (!world.isRemote && world.getRedstonePowerFromNeighbors(pos) != 0) {
       // Is this a "dumb" teleport and are they allowed if so?
       if (!tile.isDestinationAllowedIfDumb(null)) {
         return;

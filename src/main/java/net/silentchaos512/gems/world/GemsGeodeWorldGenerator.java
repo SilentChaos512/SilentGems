@@ -1,20 +1,16 @@
 package net.silentchaos512.gems.world;
 
-import java.util.Random;
-
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.BlockHardenedRock;
-import net.silentchaos512.gems.config.ConfigOptionOreGen;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.EnumGem.Set;
 import net.silentchaos512.lib.world.WorldGeneratorSL;
+
+import java.util.Random;
 
 public class GemsGeodeWorldGenerator extends WorldGeneratorSL {
 
@@ -42,7 +38,6 @@ public class GemsGeodeWorldGenerator extends WorldGeneratorSL {
     BlockPos pos = new BlockPos(posX + random.nextInt(16) + 8,
         GemsConfig.GEODE_MIN_Y + random.nextInt(GemsConfig.GEODE_MAX_Y - GemsConfig.GEODE_MIN_Y),
         posZ + random.nextInt(16) + 8);
-    SilentGems.logHelper.debug(pos);
     new GeodeGenerator(shellBlock, gemSet).generate(world, random, pos);
   }
 }

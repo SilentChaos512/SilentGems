@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.item;
 
-import java.util.List;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -24,6 +22,8 @@ import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
+
+import java.util.List;
 
 public class ItemSkillOrb extends ItemSL {
 
@@ -68,7 +68,7 @@ public class ItemSkillOrb extends ItemSL {
     LocalizationHelper loc = SilentGems.localizationHelper;
     SoulSkill skill = getSkill(stack);
     if (skill == null) {
-      return getUnlocalizedName(stack);
+      return getTranslationKey(stack);
     }
 
     return loc.getItemSubText(Names.SKILL_ORB, "name_proper",

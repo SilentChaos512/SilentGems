@@ -1,11 +1,6 @@
 package net.silentchaos512.gems.item;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
@@ -30,6 +25,10 @@ import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class ItemFoodSG extends ItemFoodSL {
 
@@ -128,12 +127,12 @@ public class ItemFoodSG extends ItemFoodSL {
   }
 
   @Override
-  public String getUnlocalizedName(ItemStack stack) {
+  public String getTranslationKey(ItemStack stack) {
 
     if (stack.getItemDamage() < NAMES.length) {
       return "item.silentgems:" + NAMES[stack.getItemDamage()];
     } else {
-      return super.getUnlocalizedName(stack);
+      return super.getTranslationKey(stack);
     }
   }
 

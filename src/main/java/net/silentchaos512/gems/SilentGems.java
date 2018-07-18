@@ -1,7 +1,5 @@
 package net.silentchaos512.gems;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
@@ -26,11 +24,7 @@ import net.silentchaos512.gems.compat.VeinMinerCompat;
 import net.silentchaos512.gems.compat.tconstruct.TConstructGemsCompat;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.ModEntities;
-import net.silentchaos512.gems.init.ModBlocks;
-import net.silentchaos512.gems.init.ModEnchantments;
-import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.init.ModPotions;
-import net.silentchaos512.gems.init.ModRecipes;
+import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
@@ -43,6 +37,8 @@ import net.silentchaos512.lib.SilentLib;
 import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.LogHelper;
+
+import java.util.Random;
 
 //@formatter:off
 @Mod(modid = SilentGems.MODID,
@@ -58,7 +54,7 @@ public class SilentGems {
   public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
   public static final String MOD_NAME = "Silent's Gems";
   public static final String VERSION = "2.7.5";
-  public static final String VERSION_SILENTLIB = "2.3.1";
+  public static final String VERSION_SILENTLIB = "2.3.8";
   public static final int BUILD_NUM = 0;
   public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
       + "after:baubles;after:enderio;after:enderzoo;after:tconstruct;after:veinminer";

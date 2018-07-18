@@ -1,9 +1,5 @@
 package net.silentchaos512.gems.tile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
@@ -26,6 +22,10 @@ import net.silentchaos512.gems.util.NodePacketHelper;
 import net.silentchaos512.lib.tile.SyncVariable;
 import net.silentchaos512.lib.tile.TileEntitySL;
 import net.silentchaos512.lib.util.Color;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class TileChaosNode extends TileEntitySL implements ITickable, IChaosProvider {
 
@@ -131,7 +131,7 @@ public class TileChaosNode extends TileEntitySL implements ITickable, IChaosProv
 
     if (effect.applyToEntity(entity, random)) {
       NodePacketHelper.spawnParticles(world, pos,
-          entity.getPositionVector().addVector(0, entity.height / 2, 0), effect.color);
+          entity.getPositionVector().add(0, entity.height / 2, 0), effect.color);
       return true;
     }
     return false;

@@ -1,9 +1,5 @@
 package net.silentchaos512.gems.item;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -25,12 +21,10 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IBlockPlacer;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ItemSL;
-import net.silentchaos512.lib.util.ChatHelper;
-import net.silentchaos512.lib.util.EntityHelper;
-import net.silentchaos512.lib.util.ItemHelper;
-import net.silentchaos512.lib.util.LocalizationHelper;
-import net.silentchaos512.lib.util.PlayerHelper;
-import net.silentchaos512.lib.util.StackHelper;
+import net.silentchaos512.lib.util.*;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
 
@@ -47,7 +41,7 @@ public abstract class ItemBlockPlacer extends ItemSL implements IBlockPlacer {
     setMaxDamage(0);
     setNoRepair();
     setMaxStackSize(1);
-    setUnlocalizedName(name);
+    setTranslationKey(name);
   }
 
   @Override

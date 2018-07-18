@@ -2,13 +2,11 @@ package net.silentchaos512.gems.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.inventory.ContainerQuiver;
-import net.silentchaos512.gems.tile.TileMaterialGrader;
 
 public class GuiQuiver extends GuiContainer {
 
@@ -39,7 +37,7 @@ public class GuiQuiver extends GuiContainer {
 
     fontRenderer.drawString(
         SilentGems.localizationHelper
-            .getLocalizedString(ModItems.quiver.getUnlocalizedName() + ".name"),
+            .getLocalizedString(ModItems.quiver.getTranslationKey() + ".name"),
         container.getBorderSide() + 1, 6, 0x404040);
     int invTitleX = container.getPlayerInvXOffset() + 1;
     int invTitleY = container.getBorderTop() + container.getContainerInvHeight() + 3;

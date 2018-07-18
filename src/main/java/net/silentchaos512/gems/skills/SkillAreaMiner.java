@@ -191,7 +191,7 @@ public class SkillAreaMiner extends ToolSkillDigger {
     if (player.capabilities.isCreativeMode) {
       block.onBlockHarvested(world, pos, state, player);
       if (block.removedByPlayer(state, world, pos, player, false)) {
-        block.onBlockDestroyedByPlayer(world, pos, state);
+        block.onPlayerDestroy(world, pos, state);
       }
 
       if (!world.isRemote) {
@@ -212,7 +212,7 @@ public class SkillAreaMiner extends ToolSkillDigger {
       // block.onBlockHarvested(world, pos, state, player);
 
       if (block.removedByPlayer(state, world, pos, player, true)) {
-        block.onBlockDestroyedByPlayer(world, pos, state);
+        block.onPlayerDestroy(world, pos, state);
         block.harvestBlock(world, player, pos, state, world.getTileEntity(pos), tool);
         block.dropXpOnBlockBreak(world, pos, xpDropped);
       }
@@ -222,7 +222,7 @@ public class SkillAreaMiner extends ToolSkillDigger {
       int meta = block.getMetaFromState(state);
       world.playEvent(2001, pos, Block.getIdFromBlock(block) + (meta << 12));
       if (block.removedByPlayer(state, world, pos, player, true)) {
-        block.onBlockDestroyedByPlayer(world, pos, state);
+        block.onPlayerDestroy(world, pos, state);
       }
 
       tool.onBlockDestroyed(world, state, pos, player);
@@ -257,7 +257,7 @@ public class SkillAreaMiner extends ToolSkillDigger {
     if (player instanceof EntityPlayerMP) {
       d3 = ((EntityPlayerMP) player).interactionManager.getBlockReachDistance();
     }
-    Vec3d vec31 = vec3.addVector((double) f7 * d3, (double) f6 * d3, (double) f8 * d3);
+    Vec3d vec31 = vec3.add((double) f7 * d3, (double) f6 * d3, (double) f8 * d3);
     return world.rayTraceBlocks(vec3, vec31, par3, !par3, par3);
   }
 

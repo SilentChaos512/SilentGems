@@ -1,10 +1,5 @@
 package net.silentchaos512.gems.block;
 
-import java.util.List;
-import java.util.Map;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -24,9 +19,11 @@ import net.silentchaos512.gems.util.ModRecipeHelper;
 import net.silentchaos512.lib.block.BlockSL;
 import net.silentchaos512.lib.registry.RecipeMaker;
 
+import java.util.Map;
+
 public class BlockEssenceOre extends BlockSL {
 
-  public static enum Type implements IStringSerializable {
+  public enum Type implements IStringSerializable {
 
     CHAOS, ENDER;
 
@@ -50,7 +47,7 @@ public class BlockEssenceOre extends BlockSL {
     setHarvestLevel("pickaxe", 3, getDefaultState().withProperty(VARIANT, Type.CHAOS));
     setHarvestLevel("pickaxe", 4, getDefaultState().withProperty(VARIANT, Type.ENDER));
 
-    setUnlocalizedName(Names.ESSENCE_ORE);
+    setTranslationKey(Names.ESSENCE_ORE);
   }
 
   @Override

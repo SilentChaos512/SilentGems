@@ -1,13 +1,8 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -44,6 +39,10 @@ import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, ITool {
 
   public static final Set<Material> BASE_EFFECTIVE_MATERIALS = Sets.newHashSet(Material.ANVIL,
@@ -56,7 +55,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements IRegistryObject, IToo
   public ItemGemPickaxe() {
 
     super(ToolHelper.FAKE_MATERIAL);
-    setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.PICKAXE);
+    setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.PICKAXE);
     setNoRepair();
   }
 

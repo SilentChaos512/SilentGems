@@ -43,7 +43,7 @@ public class BlockGemGlass extends BlockGemSubtypes {
 
   @SideOnly(Side.CLIENT)
   @Override
-  public BlockRenderLayer getBlockLayer() {
+  public BlockRenderLayer getRenderLayer() {
 
     return BlockRenderLayer.TRANSLUCENT;
   }

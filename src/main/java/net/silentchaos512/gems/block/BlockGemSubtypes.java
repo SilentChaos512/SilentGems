@@ -1,16 +1,15 @@
 package net.silentchaos512.gems.block;
 
-import java.util.Map;
-import java.util.Random;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.block.BlockSL;
+
+import java.util.Map;
+import java.util.Random;
 
 public class BlockGemSubtypes extends BlockSL {
 
@@ -38,7 +37,7 @@ public class BlockGemSubtypes extends BlockSL {
     this.gemSet = set;
 
     setDefaultState(blockState.getBaseState().withProperty(EnumGem.VARIANT_GEM, EnumGem.RUBY));
-    setUnlocalizedName(name);
+    setTranslationKey(name);
   }
 
   protected static String nameForSet(EnumGem.Set set, String baseName) {

@@ -1,10 +1,6 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.Multimap;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
@@ -22,11 +18,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
@@ -48,12 +40,15 @@ import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
+import java.util.List;
+import java.util.Map;
+
 public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
 
   public ItemGemHoe() {
 
     super(ToolHelper.FAKE_MATERIAL);
-    setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.HOE);
+    setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.HOE);
     setNoRepair();
   }
 

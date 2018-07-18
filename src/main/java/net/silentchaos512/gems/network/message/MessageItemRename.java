@@ -14,7 +14,7 @@ import net.silentchaos512.lib.util.StackHelper;
 /**
  * Used to generate tool/armor names on the client-side. Sends the new display name to the server and removes the
  * temporary part list.
- * 
+ *
  * @author Silent
  *
  */
@@ -34,7 +34,7 @@ public class MessageItemRename extends Message {
     this.playerName = playerName;
     this.slot = slot;
     this.newItemName = newItemName;
-    this.unlocalizedName = stack.getUnlocalizedName();
+    this.unlocalizedName = stack.getTranslationKey();
   }
 
   @Override
@@ -55,7 +55,7 @@ public class MessageItemRename extends Message {
       if (StackHelper.isEmpty(stack)) {
         log.warning("    ItemStack is null!");
         return null;
-      } else if (!stack.getUnlocalizedName().equals(unlocalizedName)) {
+      } else if (!stack.getTranslationKey().equals(unlocalizedName)) {
         log.warning("    Unlocalized names do not match! Did the tool change slots?");
         return null;
       }

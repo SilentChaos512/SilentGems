@@ -1,36 +1,29 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.util.List;
-
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
-import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.api.lib.ToolPartPosition;
-import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
+import java.util.List;
+
 public class ItemGemKatana extends ItemGemSword {
 
   public ItemGemKatana() {
 
     super();
-    setUnlocalizedName(SilentGems.RESOURCE_PREFIX + Names.KATANA);
+    setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.KATANA);
   }
-  
+
   public ConfigOptionToolClass getConfig() {
 
     return GemsConfig.katana;
