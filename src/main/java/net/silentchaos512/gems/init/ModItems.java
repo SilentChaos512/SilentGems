@@ -1,9 +1,6 @@
 package net.silentchaos512.gems.init;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -14,51 +11,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.guide.GuideBookGems;
-import net.silentchaos512.gems.item.ItemChaosGem;
-import net.silentchaos512.gems.item.ItemChaosOrb;
-import net.silentchaos512.gems.item.ItemChaosRune;
-import net.silentchaos512.gems.item.ItemCrafting;
-import net.silentchaos512.gems.item.ItemDebug;
-import net.silentchaos512.gems.item.ItemDrawingCompass;
-import net.silentchaos512.gems.item.ItemDyeSG;
-import net.silentchaos512.gems.item.ItemEnchantmentToken;
-import net.silentchaos512.gems.item.ItemFluffyPuff;
-import net.silentchaos512.gems.item.ItemFluffyPuffSeeds;
-import net.silentchaos512.gems.item.ItemFoodSG;
-import net.silentchaos512.gems.item.ItemGem;
-import net.silentchaos512.gems.item.ItemGemArrow;
-import net.silentchaos512.gems.item.ItemGemShard;
-import net.silentchaos512.gems.item.ItemGlowRoseFertilizer;
-import net.silentchaos512.gems.item.ItemHoldingGem;
-import net.silentchaos512.gems.item.ItemNodeMover;
-import net.silentchaos512.gems.item.ItemPetSummoner;
-import net.silentchaos512.gems.item.ItemReturnHome;
-import net.silentchaos512.gems.item.ItemSkillOrb;
-import net.silentchaos512.gems.item.ItemSoulGem;
-import net.silentchaos512.gems.item.ItemTeleporterLinker;
-import net.silentchaos512.gems.item.ItemTipUpgrade;
-import net.silentchaos512.gems.item.ItemToolSoul;
-import net.silentchaos512.gems.item.ItemTorchBandolier;
-import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.item.ToolRenderHelperBase;
+import net.silentchaos512.gems.item.*;
 import net.silentchaos512.gems.item.armor.ItemArmorFrame;
 import net.silentchaos512.gems.item.armor.ItemGemArmor;
 import net.silentchaos512.gems.item.quiver.ItemQuiver;
 import net.silentchaos512.gems.item.quiver.ItemQuiverEmpty;
-import net.silentchaos512.gems.item.tool.ItemGemAxe;
-import net.silentchaos512.gems.item.tool.ItemGemBow;
-import net.silentchaos512.gems.item.tool.ItemGemDagger;
-import net.silentchaos512.gems.item.tool.ItemGemHoe;
-import net.silentchaos512.gems.item.tool.ItemGemKatana;
-import net.silentchaos512.gems.item.tool.ItemGemMachete;
-import net.silentchaos512.gems.item.tool.ItemGemPaxel;
-import net.silentchaos512.gems.item.tool.ItemGemPickaxe;
-import net.silentchaos512.gems.item.tool.ItemGemScepter;
-import net.silentchaos512.gems.item.tool.ItemGemShield;
-import net.silentchaos512.gems.item.tool.ItemGemShovel;
-import net.silentchaos512.gems.item.tool.ItemGemSickle;
-import net.silentchaos512.gems.item.tool.ItemGemSword;
-import net.silentchaos512.gems.item.tool.ItemGemTomahawk;
+import net.silentchaos512.gems.item.tool.*;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
@@ -67,6 +25,8 @@ import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.registry.IRegistrationHandler;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.registry.SRegistry;
+
+import java.util.List;
 
 public class ModItems implements IRegistrationHandler<Item> {
 
@@ -196,7 +156,7 @@ public class ModItems implements IRegistrationHandler<Item> {
     reg.registerItem(toolRenderHelper).setCreativeTab(null);
     toolRenderHelper.init();
 
-    reg.registerItem(guideBook);
+    reg.registerItem(guideBook, "guide_book");
 
     initExtraRecipes();
   }
