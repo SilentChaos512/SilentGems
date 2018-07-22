@@ -1,5 +1,8 @@
 Silent's Gems - Changelog
 
+2.7.6
+Updated for Silent Lib 2.3.11 (required)
+
 2.7.5
 Added: Multi-gem ore. Optionally replaces standard ore generation with a single block that can drop any gem from its respective set. (#294)
 Added: Loot table for ender slimes (#269)
