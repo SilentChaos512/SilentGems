@@ -6,7 +6,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.potion.Potion;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -19,7 +18,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.stats.CommonItemStats;
-import net.silentchaos512.gems.compat.ScalingHealthCompat;
 import net.silentchaos512.gems.compat.VeinMinerCompat;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.ModEntities;
@@ -53,7 +51,7 @@ public class SilentGems {
   public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
   public static final String MOD_NAME = "Silent's Gems";
   public static final String VERSION = "2.7.7";
-  public static final String VERSION_SILENTLIB = "2.3.11";
+  public static final String VERSION_SILENTLIB = "2.3.12";
   public static final int BUILD_NUM = 0;
   public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
       + "after:baubles;after:enderio;after:enderzoo;after:tconstruct;after:veinminer";
@@ -148,11 +146,6 @@ public class SilentGems {
     ModEntities.init(registry);
 
     GemsConfig.INSTANCE.save();
-
-    // Scaling Health compat
-    if (Loader.isModLoaded("scalinghealth")) {
-      ScalingHealthCompat.init();
-    }
 
     proxy.init(registry);
   }
