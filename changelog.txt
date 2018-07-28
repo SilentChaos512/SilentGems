@@ -1,4 +1,6 @@
-Silent's Gems - Changelog
+2.7.7
+Removed: TiC integration, moved to new mod (Silent's Gems - TiC Support)
+Fixed: Guide book translation
 
 2.7.6
 Updated for Silent Lib 2.3.11 (required)

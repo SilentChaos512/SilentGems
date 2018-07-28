@@ -828,7 +828,7 @@ item.silentgems:GemShard47.name=Pearl Shard
 item.silentgems:GlowRoseFertilizer.name=Glow Rose Fertilizer
 item.silentgems:GlowRoseFertilizer.desc=Grows glow roses. Say that three times fast!
 
-item.silentgems:guide_book.name=Silent's Gems Manual
+item.silentgems.guide_book.name=Silent's Gems Manual
 
 item.silentgems:HoldingGem.name=Holding Gem
 item.silentgems:HoldingGem.desc=Can store large quantities of a single block and place them.
@@ -1263,7 +1263,7 @@ jei.silentgems:desc.TorchBandolier=The torch bandolier stores a large number of 
 
 # Guide Book (Silent Lib)
 
-item.silentgems:guide_book.desc=Guide book for Silent's Gems
+item.silentgems.guide_book.desc=Guide book for Silent's Gems
 
 guide.silentgems:manualName.1=Silent's Gems
 guide.silentgems:manualName.2=Guide
