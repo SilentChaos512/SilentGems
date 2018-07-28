@@ -21,7 +21,6 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.stats.CommonItemStats;
 import net.silentchaos512.gems.compat.ScalingHealthCompat;
 import net.silentchaos512.gems.compat.VeinMinerCompat;
-import net.silentchaos512.gems.compat.tconstruct.TConstructGemsCompat;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.ModEntities;
 import net.silentchaos512.gems.init.*;
@@ -137,11 +136,6 @@ public class SilentGems {
 
     // Headcrumbs
     FMLInterModComms.sendMessage("headcrumbs", "add-username", Names.SILENT_CHAOS_512);
-
-    // Load TCon compatibility stuff?
-    if (Loader.isModLoaded("tconstruct") && GemsConfig.ENABLE_TIC_SUPPORT) {
-      TConstructGemsCompat.preInit();
-    }
 
     VeinMinerCompat.init();
 

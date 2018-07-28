@@ -144,11 +144,4 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
 
     return Minecraft.getMinecraft().player;
   }
-
-  @Override
-  public void setTinkersRenderColor(slimeknights.tconstruct.library.materials.Material material,
-      int color) {
-
-    material.setRenderInfo(color);
-  }
 }

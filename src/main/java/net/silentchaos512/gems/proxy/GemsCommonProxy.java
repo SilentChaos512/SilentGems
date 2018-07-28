@@ -101,10 +101,4 @@ public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
     return (mainhand != null && mainhand.getItem() == ModItems.debugItem)
         || (offhand != null && offhand.getItem() == ModItems.debugItem);
   }
-
-  public void setTinkersRenderColor(slimeknights.tconstruct.library.materials.Material material,
-      int color) {
-
-    // Client-side only.
-  }
 }
