@@ -226,10 +226,6 @@ public class GemsConfig extends AdaptiveConfig {
   public void load() {
 
     try {
-      //@formatter:off
-
-      String comment;
-
       /*
        * Debug
        */
@@ -633,9 +629,9 @@ public class GemsConfig extends AdaptiveConfig {
           + " will seal the break.");
 
       GemsConfigHC.load(this);
-      //@formatter:on
     } catch (Exception e) {
-      System.out.println("Oh noes!!! Couldn't load configuration file properly!");
+      SilentGems.logHelper.error("Could not load configuration file!");
+      SilentGems.logHelper.catching(e);
     }
   }
 

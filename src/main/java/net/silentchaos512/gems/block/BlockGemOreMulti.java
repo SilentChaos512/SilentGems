@@ -1,5 +1,5 @@
 /*
- * Silent's Gems
+ * Silent's Gems -- BlockGemOreMulti
  * Copyright (C) 2018 SilentChaos512
  *
  * This library is free software; you can redistribute it and/or

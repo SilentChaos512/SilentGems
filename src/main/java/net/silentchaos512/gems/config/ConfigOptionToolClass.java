@@ -1,14 +1,13 @@
 package net.silentchaos512.gems.config;
 
-import java.util.List;
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-
 import net.minecraftforge.common.config.Configuration;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
+
+import java.util.List;
+import java.util.Set;
 
 public class ConfigOptionToolClass extends ConfigOption {
 
@@ -22,9 +21,9 @@ public class ConfigOptionToolClass extends ConfigOption {
     this.tool = tool;
     this.toolName = toolName;
   }
-  
+
   public ConfigOption loadValue(Configuration c) {
-    
+
     return loadValue(c, GemsConfig.CAT_TOOLS + GemsConfig.split + toolName);
   }
 
@@ -34,7 +33,6 @@ public class ConfigOptionToolClass extends ConfigOption {
     return loadValue(c, category, "Configure tool class " + toolName);
   }
 
-  @SuppressWarnings("deprecation")
   @Override
   public ConfigOption loadValue(Configuration c, String category, String comment) {
 
@@ -44,7 +42,7 @@ public class ConfigOptionToolClass extends ConfigOption {
     // Valid tiers
     List<EnumMaterialTier> tierList = Lists.newArrayList();
     for (EnumMaterialTier tier : EnumMaterialTier.values()) {
-      boolean _default = tool.isSuperTool() ? tier.ordinal() >= EnumMaterialTier.SUPER.ordinal() : true;
+      boolean _default = !tool.isSuperTool() || tier.ordinal() >= EnumMaterialTier.SUPER.ordinal();
       boolean allowed = c.get(category, "Tier " + tier.name() + " Allowed", _default).getBoolean();
       if (allowed) {
         tierList.add(tier);

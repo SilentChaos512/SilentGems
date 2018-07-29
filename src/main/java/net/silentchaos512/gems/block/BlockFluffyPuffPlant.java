@@ -1,3 +1,21 @@
+/*
+ * Silent's Gems -- BlockFluffyPuffPlant
+ * Copyright (C) 2018 SilentChaos512
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation version 3
+ * of the License.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package net.silentchaos512.gems.block;
 
 import com.google.common.collect.Lists;
@@ -9,160 +27,98 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.EnumPlantType;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.registry.IRegistryObject;
-import net.silentchaos512.lib.registry.RecipeMaker;
+import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.util.StackHelper;
 
-import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
-public class BlockFluffyPuffPlant extends BlockCrops implements IRegistryObject {
+public class BlockFluffyPuffPlant extends BlockCrops implements ICustomModel {
+    public BlockFluffyPuffPlant() {
+        setHardness(0.1f);
+    }
 
-  public BlockFluffyPuffPlant() {
+    @Override
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        drops.add(new ItemStack(getSeed()));
+        int age = getAge(state);
 
-    setHardness(0.1f);
-    setTranslationKey(Names.FLUFFY_PUFF_PLANT);
-  }
-
-  @Override
-  public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state,
-      int fortune) {
-
-    List<ItemStack> list = Lists.newArrayList(new ItemStack(getSeed()));
-
-    int age = getAge(state);
-    Random rand = SilentGems.instance.random;
-
-    if (age >= 7) {
-      // Seeds
-      for (int i = 0; i < 1 + fortune; ++i) {
-        if (rand.nextInt(15) <= age) {
-          list.add(new ItemStack(getSeed()));
+        if (age >= 7) {
+            int seedCount = 1 + fortune;
+            int puffCount = 2 + fortune + SilentGems.random.nextInt(3);
+            // Seeds
+            for (int i = 0; i < seedCount; ++i)
+                if (SilentGems.random.nextInt(15) <= age)
+                    drops.add(new ItemStack(getSeed()));
+            // Puffs
+            for (int i = 0; i < puffCount; ++i)
+                drops.add(new ItemStack(getCrop()));
         }
-      }
-      // Puffs
-      for (int i = 0; i < 2 + fortune + rand.nextInt(3); ++i) {
-        list.add(new ItemStack(getCrop()));
-      }
     }
 
-    return list;
-  }
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        ItemStack heldItem = player.getHeldItem(hand);
+        if (StackHelper.isValid(heldItem) && heldItem.getItem() == ModItems.sickle)
+            return false;
 
-  // 1.10.2 compat
-  public boolean func_180639_a(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-      EnumHand hand, @Nullable ItemStack heldItem, EnumFacing facing, float hitX, float hitY,
-      float hitZ) {
+        // Right-click to harvest
+        List<ItemStack> drops = Lists.newArrayList();
+        int age = state.getValue(AGE);
 
-    return onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
-  }
+        // Get drops if mature
+        if (age >= 7) {
+            for (int i = 0; i < 3; ++i)
+                if (i == 0 || RANDOM.nextInt(15) <= age)
+                    drops.add(new ItemStack(getCrop(), 1, damageDropped(state)));
 
-  @Override
-  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-      EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+            // Soul gem drops (since they normally only drop when breaking blocks).
+            if (SilentGems.random.nextFloat() < 0.025f) {
+                drops.add(ModItems.soulGem.getStack("FluffyPuff"));
+            }
 
-    ItemStack heldItem = player.getHeldItem(hand);
-
-    if (StackHelper.isValid(heldItem) && heldItem.getItem() == ModItems.sickle) {
-      return false;
-    }
-
-    // Right-click to harvest
-    List<ItemStack> drops = Lists.newArrayList();
-    int age = state.getValue(AGE);
-
-    // Get drops if mature
-    if (age >= 7) {
-      for (int i = 0; i < 3; ++i) {
-        if (i == 0 || RANDOM.nextInt(15) <= age) {
-          drops.add(new ItemStack(getCrop(), 1, damageDropped(state)));
+            // Reset to newly planted state
+            world.setBlockState(pos, getDefaultState());
         }
-      }
 
-      // Soul gem drops (since they normally only drop when breaking blocks).
-      if (SilentGems.random.nextFloat() < 0.025f) { // FIXME: Get the actual drop rate
-        drops.add(ModItems.soulGem.getStack("FluffyPuff"));
-      }
+        // Spawn items in world
+        for (ItemStack stack : drops) {
+            spawnAsEntity(world, pos, stack);
+        }
 
-      // Reset to newly planted state
-      world.setBlockState(pos, getDefaultState());
+        return !drops.isEmpty();
     }
 
-    // Spawn items in world
-    for (ItemStack stack : drops) {
-      spawnAsEntity(world, pos, stack);
+    @Override
+    protected Item getSeed() {
+        return ModItems.fluffyPuffSeeds;
     }
 
-    return !drops.isEmpty();
-  }
-
-  @Override
-  protected Item getSeed() {
-
-    return ModItems.fluffyPuffSeeds;
-  }
-
-  @Override
-  protected Item getCrop() {
-
-    return ModItems.fluffyPuff;
-  }
-
-  @Override
-  public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) {
-
-    return EnumPlantType.Crop;
-  }
-
-  @Override
-  public String getTranslationKey() {
-
-    return "tile." + Names.FLUFFY_PUFF_PLANT;
-  }
-
-  @Override
-  public void addRecipes(RecipeMaker recipes) {
-
-  }
-
-  @Override
-  public void addOreDict() {
-
-  }
-
-  @Override
-  public String getName() {
-
-    return Names.FLUFFY_PUFF_PLANT;
-  }
-
-  @Override
-  public String getFullName() {
-
-    return getModId() + ":" + getName();
-  }
-
-  @Override
-  public String getModId() {
-
-    return SilentGems.MODID;
-  }
-
-  @Override
-  public void getModels(Map<Integer, ModelResourceLocation> models) {
-
-    String name = getFullName().toLowerCase();
-    for (int i = 0; i < 4; ++i) {
-      models.put(i, new ModelResourceLocation(name + i, "inventory"));
+    @Override
+    protected Item getCrop() {
+        return ModItems.fluffyPuff;
     }
-  }
+
+    @Override
+    public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) {
+        return EnumPlantType.Crop;
+    }
+
+    @Override
+    public void registerModels() {
+        Item item = Item.getItemFromBlock(this);
+        String fullName = SilentGems.RESOURCE_PREFIX + Names.FLUFFY_BLOCK;
+        for (int i = 0; i < 4; ++i) {
+            ModelResourceLocation model = new ModelResourceLocation(fullName + i, "inventory");
+            ModelLoader.setCustomModelResourceLocation(item, i, model);
+        }
+    }
 }

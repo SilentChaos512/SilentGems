@@ -1,7 +1,25 @@
+/*
+ * Silent's Gems -- BlockMaterialGrader
+ * Copyright (C) 2018 SilentChaos512
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation version 3
+ * of the License.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package net.silentchaos512.gems.block;
 
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -19,156 +37,116 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
-import net.silentchaos512.lib.block.BlockContainerSL;
+import net.silentchaos512.lib.block.ITileEntityBlock;
+import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.RecipeMaker;
-import net.silentchaos512.wit.api.IWitHudInfo;
 
-import java.util.List;
+public class BlockMaterialGrader extends BlockContainer implements ITileEntityBlock, IAddRecipes {
+    private static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+    private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.4, 1.0);
 
-public class BlockMaterialGrader extends BlockContainerSL implements IWitHudInfo {
-
-  public static final PropertyDirection FACING = PropertyDirection.create("facing",
-      EnumFacing.Plane.HORIZONTAL);
-  public static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.4, 1.0);
-
-  public BlockMaterialGrader() {
-
-    super(1, SilentGems.MODID, Names.MATERIAL_GRADER, Material.IRON);
-    setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
-    setHardness(3.0f);
-    setResistance(100.0f);
-    this.hasTileEntity = true;
-  }
-
-  @Override
-  public void addRecipes(RecipeMaker recipes) {
-
-    // @formatter:off
-    recipes.addShapedOre("material_grader", new ItemStack(this),
-        " m ", "i i", "gig",
-        'm', ModItems.craftingMaterial.magnifyingGlass,
-        'i', ModItems.craftingMaterial.chaosIron,
-        'g', "ingotGold");
-    // @formatter:on
-  }
-
-  public EnumBlockRenderType getRenderType(IBlockState state) {
-
-    return EnumBlockRenderType.MODEL;
-  }
-
-  @Override
-  public TileEntity createNewTileEntity(World worldIn, int meta) {
-
-    return new TileMaterialGrader();
-  }
-
-  @Override
-  protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-      EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-
-    if (world.isRemote) {
-      return true;
+    public BlockMaterialGrader() {
+        super(Material.IRON);
+        setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        setHardness(3.0f);
+        setResistance(100.0f);
+        this.hasTileEntity = true;
     }
 
-    TileEntity tile = world.getTileEntity(pos);
-    if (tile instanceof TileMaterialGrader) {
-      player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_MATERIAL_GRADER, world,
-          pos.getX(), pos.getY(), pos.getZ());
+    @Override
+    public Class<? extends TileEntity> getTileEntityClass() {
+        return TileMaterialGrader.class;
     }
 
-    return true;
-  }
+    @Override
+    public void addRecipes(RecipeMaker recipes) {
+        recipes.addShapedOre("material_grader", new ItemStack(this),
+                " m ", "i i", "gig",
+                'm', ModItems.craftingMaterial.magnifyingGlass,
+                'i', ModItems.craftingMaterial.chaosIron,
+                'g', "ingotGold");
+    }
 
-  @Override
-  public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX,
-      float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.MODEL;
+    }
 
-    IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer);
-    return state.withProperty(FACING, placer.getHorizontalFacing());
-  }
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        return new TileMaterialGrader();
+    }
 
-  @Override
-  public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer,
-      ItemStack stack) {
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        if (world.isRemote) return true;
 
-    super.onBlockPlacedBy(world, pos, state, placer, stack);
-    EnumFacing side = placer.getHorizontalFacing().getOpposite();
-    world.setBlockState(pos, state.withProperty(FACING, side), 2);
-  }
+        TileEntity tile = world.getTileEntity(pos);
+        if (tile instanceof TileMaterialGrader)
+            player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_MATERIAL_GRADER, world, pos.getX(), pos.getY(), pos.getZ());
+        return true;
+    }
 
-  @Override
-  public IBlockState getStateFromMeta(int meta) {
+    @Override
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
+        IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer);
+        return state.withProperty(FACING, placer.getHorizontalFacing());
+    }
 
-    return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta));
-  }
+    @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        super.onBlockPlacedBy(world, pos, state, placer, stack);
+        EnumFacing side = placer.getHorizontalFacing().getOpposite();
+        world.setBlockState(pos, state.withProperty(FACING, side), 2);
+    }
 
-  @Override
-  public int getMetaFromState(IBlockState state) {
+    @Override
+    public IBlockState getStateFromMeta(int meta) {
+        return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta));
+    }
 
-    return ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();
-  }
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        return state.getValue(FACING).getHorizontalIndex();
+    }
 
-  @Override
-  protected BlockStateContainer createBlockState() {
+    @Override
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, FACING);
+    }
 
-    return new BlockStateContainer(this, new IProperty[] { FACING });
-  }
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
+        return BOUNDING_BOX;
+    }
 
-  @Override
-  public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return BOUNDING_BOX;
+    }
 
-    return BOUNDING_BOX;
-  }
+    @Override
+    public boolean isTranslucent(IBlockState state) {
+        return false;
+    }
 
-  @Override
-  public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    @Override
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
 
-    return BOUNDING_BOX;
-  }
+    @Override
+    public boolean isFullBlock(IBlockState state) {
+        return false;
+    }
 
-  @Override
-  public List<String> getWitLines(IBlockState state, BlockPos pos, EntityPlayer player,
-      boolean advanced) {
+    @Override
+    public boolean isFullCube(IBlockState state) {
+        return false;
+    }
 
-    // TileEntity tileEntity = player.worldObj.getTileEntity(pos);
-    // if (tileEntity != null && tileEntity instanceof TileMaterialGrader) {
-    // TileMaterialGrader tile = (TileMaterialGrader) tileEntity;
-    // return Lists.newArrayList("Charge: " + tile.getField(0));
-    // }
-    return null;
-  }
-
-  @Override
-  public boolean isTranslucent(IBlockState state) {
-
-    return false;
-  }
-
-  @Override
-  public boolean isOpaqueCube(IBlockState state) {
-
-    return false;
-  }
-
-  @Override
-  public boolean isFullBlock(IBlockState state) {
-
-    return false;
-  }
-
-  @Override
-  public boolean isFullCube(IBlockState state) {
-
-    return false;
-  }
-
-  @Override
-  public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos,
-      EnumFacing face) {
-
-    return face == EnumFacing.DOWN;
-  }
+    @Override
+    public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face) {
+        return face == EnumFacing.DOWN;
+    }
 }

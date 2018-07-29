@@ -47,118 +47,112 @@ import java.util.Random;
 //@formatter:on
 public class SilentGems {
 
-  public static final String MODID = "silentgems";
-  public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
-  public static final String MOD_NAME = "Silent's Gems";
-  public static final String VERSION = "2.7.7";
-  public static final String VERSION_SILENTLIB = "2.3.12";
-  public static final int BUILD_NUM = 0;
-  public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
-      + "after:baubles;after:enderio;after:enderzoo;after:tconstruct;after:veinminer";
-  public static final String ACCEPTED_MC_VERSIONS = "[1.12,1.12.2]";
-  public static final String RESOURCE_PREFIX = MODID + ":";
+    public static final String MODID = "silentgems";
+    public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
+    public static final String MOD_NAME = "Silent's Gems";
+    public static final String VERSION = "2.7.7";
+    public static final String VERSION_SILENTLIB = "2.3.12";
+    public static final int BUILD_NUM = 0;
+    public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
+            + "after:baubles;after:enderio;after:enderzoo;after:tconstruct;after:veinminer";
+    public static final String ACCEPTED_MC_VERSIONS = "[1.12,1.12.2]";
+    public static final String RESOURCE_PREFIX = MODID + ":";
 
-  public static Random random = new Random();
-  public static LogHelper logHelper = new LogHelper(MOD_NAME, BUILD_NUM);
-  public static LocalizationHelper localizationHelper;
+    public static Random random = new Random();
+    public static LogHelper logHelper = new LogHelper(MOD_NAME, BUILD_NUM);
+    public static LocalizationHelper localizationHelper;
 
-  public static SRegistry registry = new SRegistry(MODID, logHelper) {
+    public static SRegistry registry = new SRegistry(MODID, logHelper) {
 
-    @Override
-    public Block registerBlock(Block block, String key, ItemBlock itemBlock) {
+        @Override
+        public Block registerBlock(Block block, String key, ItemBlock itemBlock) {
 
-      super.registerBlock(block, key, itemBlock);
-      block.setCreativeTab(GemsCreativeTabs.blocks);
-      return block;
-    }
-
-    @Override
-    public Item registerItem(Item item, String key) {
-
-      super.registerItem(item, key);
-      if (item instanceof ITool) {
-        // Works with repair packets.
-        GemsConfig.NODE_REPAIR_WHITELIST.add(item);
-
-        // Not adding shields to tools tab and shields don't use custom model.
-        if (!(item instanceof ItemGemShield)) {
-          item.setCreativeTab(GemsCreativeTabs.tools);
-          ModItems.tools.add(item);
+            super.registerBlock(block, key, itemBlock);
+            block.setCreativeTab(GemsCreativeTabs.blocks);
+            return block;
         }
-      } else if (item instanceof IArmor) {
-        GemsConfig.NODE_REPAIR_WHITELIST.add(item);
-        item.setCreativeTab(GemsCreativeTabs.tools);
-      } else {
-        item.setCreativeTab(GemsCreativeTabs.materials);
-      }
-      return item;
+
+        @Override
+        public Item registerItem(Item item, String key) {
+
+            super.registerItem(item, key);
+            if (item instanceof ITool) {
+                // Works with repair packets.
+                GemsConfig.NODE_REPAIR_WHITELIST.add(item);
+
+                // Not adding shields to tools tab and shields don't use custom model.
+                if (!(item instanceof ItemGemShield)) {
+                    item.setCreativeTab(GemsCreativeTabs.tools);
+                    ModItems.tools.add(item);
+                }
+            } else if (item instanceof IArmor) {
+                GemsConfig.NODE_REPAIR_WHITELIST.add(item);
+                item.setCreativeTab(GemsCreativeTabs.tools);
+            } else {
+                item.setCreativeTab(GemsCreativeTabs.materials);
+            }
+            return item;
+        }
+    };
+
+    @Instance(MODID)
+    public static SilentGems instance;
+
+    @SidedProxy(clientSide = "net.silentchaos512.gems.proxy.GemsClientProxy", serverSide = "net.silentchaos512.gems.proxy.GemsCommonProxy")
+    public static net.silentchaos512.gems.proxy.GemsCommonProxy proxy;
+
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        localizationHelper = new LocalizationHelper(MODID).setReplaceAmpersand(true);
+        SilentLib.instance.registerLocalizationHelperForMod(MODID, localizationHelper);
+
+        registry.recipes.setJsonHellMode(true);
+
+        CommonItemStats.init();
+        ToolHelper.init();
+        // Initialize static fields in ModBlocks/Items so the stacktrace is less confusing...
+//        ModBlocks.init();
+//        ModItems.init();
+
+        GemsConfig.INSTANCE.init(event.getSuggestedConfigurationFile());
+
+        registry.addRegistrationHandler(new ModEnchantments(), Enchantment.class);
+        registry.addRegistrationHandler(new ModBlocks(), Block.class);
+        registry.addRegistrationHandler(new ModItems(), Item.class);
+        registry.addRegistrationHandler(new ModPotions(), Potion.class);
+        registry.addRegistrationHandler(new ModRecipes(), IRecipe.class);
+        ModParts.init();
+        SoulSkill.init();
+
+        GemsConfig.INSTANCE.loadModuleConfigs();
+
+        // World generation
+        GameRegistry.registerWorldGenerator(new GemsWorldGenerator(), 0);
+        GameRegistry.registerWorldGenerator(new GemsGeodeWorldGenerator(), -10);
+
+        // Headcrumbs
+        FMLInterModComms.sendMessage("headcrumbs", "add-username", Names.SILENT_CHAOS_512);
+
+        VeinMinerCompat.init();
+
+        proxy.preInit(registry);
     }
-  };
 
-  @Instance(MODID)
-  public static SilentGems instance;
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
+        ModEntities.init(registry);
+        GemsConfig.INSTANCE.save();
+        proxy.init(registry);
+    }
 
-  @SidedProxy(clientSide = "net.silentchaos512.gems.proxy.GemsClientProxy", serverSide = "net.silentchaos512.gems.proxy.GemsCommonProxy")
-  public static net.silentchaos512.gems.proxy.GemsCommonProxy proxy;
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        proxy.postInit(registry);
+    }
 
-  public SilentGems() {
+    @SuppressWarnings("all")
+    public boolean isDevBuild() {
 
-  }
-
-  @EventHandler
-  public void preInit(FMLPreInitializationEvent event) {
-
-    localizationHelper = new LocalizationHelper(MODID).setReplaceAmpersand(true);
-    SilentLib.instance.registerLocalizationHelperForMod(MODID, localizationHelper);
-
-    CommonItemStats.init();
-    ToolHelper.init();
-
-    GemsConfig.INSTANCE.init(event.getSuggestedConfigurationFile());
-
-    registry.addRegistrationHandler(new ModEnchantments(), Enchantment.class);
-    registry.addRegistrationHandler(new ModBlocks(), Block.class);
-    registry.addRegistrationHandler(new ModItems(), Item.class);
-    registry.addRegistrationHandler(new ModPotions(), Potion.class);
-    registry.addRegistrationHandler(new ModRecipes(), IRecipe.class);
-    ModParts.init();
-    SoulSkill.init();
-
-    GemsConfig.INSTANCE.loadModuleConfigs();
-
-    // TODO: Achievements
-
-    // World generation
-    GameRegistry.registerWorldGenerator(new GemsWorldGenerator(), 0);
-    GameRegistry.registerWorldGenerator(new GemsGeodeWorldGenerator(), -10);
-
-    // Headcrumbs
-    FMLInterModComms.sendMessage("headcrumbs", "add-username", Names.SILENT_CHAOS_512);
-
-    VeinMinerCompat.init();
-
-    proxy.preInit(registry);
-  }
-
-  @EventHandler
-  public void init(FMLInitializationEvent event) {
-
-    ModEntities.init(registry);
-
-    GemsConfig.INSTANCE.save();
-
-    proxy.init(registry);
-  }
-
-  @EventHandler
-  public void postInit(FMLPostInitializationEvent event) {
-
-    proxy.postInit(registry);
-  }
-
-  @SuppressWarnings("all")
-  public boolean isDevBuild() {
-
-    return BUILD_NUM == 0;
-  }
+        return BUILD_NUM == 0;
+    }
 }

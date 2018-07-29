@@ -1,15 +1,7 @@
 package net.silentchaos512.gems.lib.module;
 
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
-import org.apache.commons.lang3.mutable.MutableDouble;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
@@ -25,18 +17,16 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.StackHelper;
+
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public class ModuleEntityRandomEquipment {
 
   public static final String MODULE_NAME = "mob_equipment";
-
-  public static final ItemStack SILENT_KATANA = ModItems.katana.constructTool(
-      ModItems.craftingMaterial.toolRodSilver, EnumGem.RUBY.getItemSuper(),
-      EnumGem.ONYX.getItemSuper()); // Deliberately using 2 parts because I can :)
-
   public static boolean MODULE_ENABLED = true;
   public static float SWORD_CHANCE = 0.075f;
   public static float KATANA_CHANCE = 0.5f;

@@ -11,6 +11,7 @@ import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.lib.util.StackHelper;
 
+import java.util.Locale;
 import java.util.Random;
 
 public enum EnumGem implements IStringSerializable {
@@ -69,9 +70,9 @@ public enum EnumGem implements IStringSerializable {
   PEARL           ("Pearl",           256,  7.0f, 3.0f, 4.0f, 1.2f, 14, 20, 3.0f, 0xE2E8F1);
   // @formatter:on
 
-  public static final PropertyEnum VARIANT_GEM = PropertyEnum.create("gem", EnumGem.class, RUBY,
-      GARNET, TOPAZ, AMBER, HELIODOR, PERIDOT, BERYL, INDICOLITE, AQUAMARINE, SAPPHIRE, IOLITE,
-      AMETHYST, AGATE, MORGANITE, ONYX, OPAL);
+  public static final PropertyEnum<EnumGem> VARIANT_GEM = PropertyEnum.create("gem", EnumGem.class,
+          RUBY, GARNET, TOPAZ, AMBER, HELIODOR, PERIDOT, BERYL, INDICOLITE, AQUAMARINE, SAPPHIRE,
+          IOLITE, AMETHYST, AGATE, MORGANITE, ONYX, OPAL);
   // public static final PropertyEnum VARIANT_GEM_DARK = PropertyEnum.create("variant", EnumGem.class,
   // CARNELIAN, SPINEL, CITRINE, JASPER, GOLDEN_BERYL, MOLDAVITE, MALACHITE, TURQUOISE, MOONSTONE,
   // BLUE_TOPAZ, TANZANITE, VIOLET_SAPPHIRE, LEPIDOLITE, AMETRINE, BLACK_DIAMOND, ALEXANDRITE);
@@ -100,9 +101,8 @@ public enum EnumGem implements IStringSerializable {
   protected final float chargeSpeed;
   protected final int color;
 
-  private EnumGem(String name, int durability, float miningSpeed, float meleeDamage,
-      float magicDamage, float meleeSpeed, int protection, int enchantability, float chargeSpeed, int color) {
-
+  EnumGem(String name, int durability, float miningSpeed, float meleeDamage,
+          float magicDamage, float meleeSpeed, int protection, int enchantability, float chargeSpeed, int color) {
     this.name = name;
     this.durability = durability;
     this.miningSpeed = miningSpeed;
@@ -120,7 +120,6 @@ public enum EnumGem implements IStringSerializable {
    */
   @Override
   public String getName() {
-
     return name().toLowerCase();
   }
 
@@ -128,7 +127,6 @@ public enum EnumGem implements IStringSerializable {
    * @return A localization-friendly version of the name, capital case with no spaces or underscores.
    */
   public String getGemName() {
-
     return name;
   }
 
@@ -137,67 +135,54 @@ public enum EnumGem implements IStringSerializable {
   // ===========================
 
   public int getDurability(EnumMaterialTier tier) {
-
     return tier == EnumMaterialTier.SUPER ? durability * SUPER_DURABILITY_MULTI : durability;
   }
 
   public float getMiningSpeed(EnumMaterialTier tier) {
-
     return tier == EnumMaterialTier.SUPER ? miningSpeed + SUPER_MINING_SPEED_BOOST : miningSpeed;
   }
 
   public float getMeleeDamage(EnumMaterialTier tier) {
-
     return tier == EnumMaterialTier.SUPER ? meleeDamage + SUPER_MELEE_DAMAGE_BOOST : meleeDamage;
   }
 
   public float getMagicDamage(EnumMaterialTier tier) {
-
     return tier == EnumMaterialTier.SUPER ? magicDamage + SUPER_MAGIC_DAMAGE_BOOST : magicDamage;
   }
 
   public int getEnchantability(EnumMaterialTier tier) {
-
     return tier == EnumMaterialTier.SUPER ? enchantability + SUPER_ENCHANTABILITY_BOOST
         : enchantability;
   }
 
   public float getMeleeSpeed(EnumMaterialTier tier) {
-
     return tier == EnumMaterialTier.SUPER ? meleeSpeed + SUPER_MELEE_SPEED_BOOST : meleeSpeed;
   }
 
   public float getChargeSpeed(EnumMaterialTier tier) {
-
     return tier == EnumMaterialTier.SUPER ? chargeSpeed + SUPER_CHARGE_SPEED_BOOST : chargeSpeed;
   }
 
   public int getProtection(EnumMaterialTier tier) {
-
     return tier == EnumMaterialTier.SUPER ? protection + SUPER_PROTECTION_BOOST : protection;
   }
 
   public int getHarvestLevel(EnumMaterialTier tier) {
-
     return tier == EnumMaterialTier.SUPER ? SUPER_HARVEST_LEVEL : REGULAR_HARVEST_LEVEL;
   }
 
   public int getColor() {
-
     return color;
   }
 
   public static EnumGem getFromStack(ItemStack stack) {
-
     if (StackHelper.isEmpty(stack) || stack.getItem() != ModItems.gem) {
       return null;
     }
-
     return values()[MathHelper.clamp(stack.getItemDamage(), 0, values().length - 1)];
   }
 
   public static EnumGem getRandom() {
-
     return values()[SilentGems.random.nextInt(values().length)];
   }
 
@@ -209,7 +194,6 @@ public enum EnumGem implements IStringSerializable {
    * @return The gem block.
    */
   public ItemStack getBlock() {
-
     Block block = getSet() == Set.LIGHT ? ModBlocks.gemBlockLight
         : getSet() == Set.DARK ? ModBlocks.gemBlockDark : ModBlocks.gemBlock;
     return new ItemStack(block, 1, ordinal() & 0xF);
@@ -219,7 +203,6 @@ public enum EnumGem implements IStringSerializable {
    * @return The ore dictionary name for the gem block.
    */
   public String getBlockOreName() {
-
     return "block" + name;
   }
 
@@ -227,7 +210,6 @@ public enum EnumGem implements IStringSerializable {
    * @return The supercharged gem block.
    */
   public ItemStack getBlockSuper() {
-
     Block block = getSet() == Set.LIGHT ? ModBlocks.gemBlockSuperLight
         : getSet() == Set.DARK ? ModBlocks.gemBlockSuperDark : ModBlocks.gemBlockSuper;
     return new ItemStack(block, 1, ordinal() & 0xF);
@@ -237,7 +219,6 @@ public enum EnumGem implements IStringSerializable {
    * @return The ore dictionary name for the supercharged gem block.
    */
   public String getBlockSuperOreName() {
-
     return getBlockOreName() + STR_SUPER;
   }
 
@@ -245,7 +226,6 @@ public enum EnumGem implements IStringSerializable {
    * @return The gem ore block.
    */
   public ItemStack getOre() {
-
     Block block = getSet() == Set.LIGHT ? ModBlocks.gemOreLight
         : getSet() == Set.DARK ? ModBlocks.gemOreDark : ModBlocks.gemOre;
     return new ItemStack(block, 1, ordinal() & 0xF);
@@ -255,7 +235,6 @@ public enum EnumGem implements IStringSerializable {
    * @return The ore dictionary name for the gem ore block.
    */
   public String getOreOreName() {
-
     return "ore" + name;
   }
 
@@ -263,7 +242,6 @@ public enum EnumGem implements IStringSerializable {
    * @return The gem item.
    */
   public ItemStack getItem() {
-
     return new ItemStack(ModItems.gem, 1, ordinal());
   }
 
@@ -271,7 +249,6 @@ public enum EnumGem implements IStringSerializable {
    * @return The ore dictionary name for the gem item.
    */
   public String getItemOreName() {
-
     return "gem" + name;
   }
 
@@ -279,7 +256,6 @@ public enum EnumGem implements IStringSerializable {
    * @return The supercharged gem item.
    */
   public ItemStack getItemSuper() {
-
     return new ItemStack(ModItems.gemSuper, 1, ordinal());
   }
 
@@ -287,7 +263,6 @@ public enum EnumGem implements IStringSerializable {
    * @return The ore dictionary name for the supercharged gem item.
    */
   public String getItemSuperOreName() {
-
     return getItemOreName() + STR_SUPER;
   }
 
@@ -295,7 +270,6 @@ public enum EnumGem implements IStringSerializable {
    * @return The gem shard (nugget) item.
    */
   public ItemStack getShard() {
-
     return new ItemStack(ModItems.gemShard, 1, ordinal());
   }
 
@@ -303,12 +277,10 @@ public enum EnumGem implements IStringSerializable {
    * @return The ore dictionary name of the gem shard (nugget) item.
    */
   public String getShardOreName() {
-
     return "nugget" + name;
   }
 
   public Set getSet() {
-
     if (ordinal() < 16)
       return Set.CLASSIC;
     else if (ordinal() < 32)
@@ -318,19 +290,21 @@ public enum EnumGem implements IStringSerializable {
   }
 
   public enum Set {
-
     CLASSIC(0), DARK(16), LIGHT(32); // Overworld, Nether, and the End
 
     public final int startMeta;
 
     Set(int startMeta) {
-
       this.startMeta = startMeta;
     }
 
     public EnumGem selectRandom(Random random) {
       int id = random.nextInt(16) + startMeta;
       return EnumGem.values()[id];
+    }
+
+    public String getName() {
+        return name().toLowerCase(Locale.ROOT);
     }
   }
 }
