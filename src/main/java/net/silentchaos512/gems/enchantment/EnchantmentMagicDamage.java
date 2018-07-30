@@ -10,61 +10,50 @@ import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public class EnchantmentMagicDamage extends Enchantment {
+    public static final String NAME = "MagicDamage";
 
-  public static final String NAME = "MagicDamage";
+    public static boolean ENABLED = true;
 
-  public static boolean ENABLED = true;
-
-  public EnchantmentMagicDamage() {
-
-    super(Rarity.UNCOMMON, EnumEnchantmentType.WEAPON,
-        new EntityEquipmentSlot[] { EntityEquipmentSlot.MAINHAND });
-    setName(NAME);
-  }
-
-  public float calcDamage(int level) {
-
-    return 1f + Math.max(0, level - 1) / 2f;
-  }
-
-  @Override
-  public boolean canApplyAtEnchantingTable(ItemStack stack) {
-
-    if (!ENABLED) {
-      return true;
+    public EnchantmentMagicDamage() {
+        super(Rarity.UNCOMMON, EnumEnchantmentType.WEAPON,
+                new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+        setName(NAME);
     }
-    return stack.getItem() instanceof ItemGemSword
-        && ToolHelper.getToolTier(stack).ordinal() >= EnumMaterialTier.SUPER.ordinal()
-        && super.canApplyAtEnchantingTable(stack);
-  }
 
-  @Override
-  public boolean canApplyTogether(Enchantment ench) {
+    public float calcDamage(int level) {
+        return 1f + Math.max(0, level - 1) / 2f;
+    }
 
-    return !(ench instanceof EnchantmentDamage || ench == this);
-  }
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack) {
+        if (!ENABLED) return true;
+        return stack.getItem() instanceof ItemGemSword
+                && ToolHelper.getToolTier(stack).ordinal() >= EnumMaterialTier.SUPER.ordinal()
+                && super.canApplyAtEnchantingTable(stack);
+    }
 
-  @Override
-  public int getMinEnchantability(int level) {
+    @Override
+    public boolean canApplyTogether(Enchantment ench) {
+        return !(ench instanceof EnchantmentDamage || ench == this);
+    }
 
-    return 5 + (level - 1) * 10;
-  }
+    @Override
+    public int getMinEnchantability(int level) {
+        return 5 + (level - 1) * 10;
+    }
 
-  @Override
-  public int getMaxEnchantability(int level) {
+    @Override
+    public int getMaxEnchantability(int level) {
+        return getMinEnchantability(level) + 20;
+    }
 
-    return getMinEnchantability(level) + 20;
-  }
+    @Override
+    public int getMaxLevel() {
+        return 5;
+    }
 
-  @Override
-  public int getMaxLevel() {
-
-    return 5;
-  }
-
-  @Override
-  public String getName() {
-
-    return "enchantment.silentgems:" + NAME;
-  }
+    @Override
+    public String getName() {
+        return "enchantment.silentgems:" + NAME;
+    }
 }

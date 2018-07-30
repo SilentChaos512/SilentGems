@@ -7,66 +7,55 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class EnchantmentGravity extends Enchantment {
+    public static final String NAME = "Gravity";
 
-  public static final String NAME = "Gravity";
+    public static boolean ENABLED = true;
 
-  public static boolean ENABLED = true;
+    public EnchantmentGravity() {
+        super(Rarity.VERY_RARE, EnumEnchantmentType.DIGGER, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+        setName(NAME);
+    }
 
-  public EnchantmentGravity() {
+    @Override
+    public int getMinEnchantability(int level) {
+        return 20 + (level - 1) * 8;
+    }
 
-    super(Rarity.VERY_RARE, EnumEnchantmentType.DIGGER,
-        new EntityEquipmentSlot[] { EntityEquipmentSlot.MAINHAND });
-    setName(NAME);
-  }
+    @Override
+    public int getMaxEnchantability(int level) {
+        return getMinEnchantability(level) + 50;
+    }
 
-  @Override
-  public int getMinEnchantability(int level) {
+    @Override
+    public int getMaxLevel() {
+        return 3;
+    }
 
-    return 20 + (level - 1) * 8;
-  }
+    @Override
+    public String getName() {
+        return "enchantment.silentgems:" + NAME;
+    }
 
-  @Override
-  public int getMaxEnchantability(int level) {
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack) {
+        return ENABLED && super.canApplyAtEnchantingTable(stack);
+    }
 
-    return getMinEnchantability(level) + 50;
-  }
+    public void onGetBreakSpeed(PlayerEvent.BreakSpeed event, ItemStack tool, int enchLevel) {
+        if (StackHelper.isEmpty(tool) || enchLevel <= 0) return;
 
-  @Override
-  public int getMaxLevel() {
+        EntityPlayer player = event.getEntityPlayer();
+        float speedMulti = 5f / (getMaxLevel() - enchLevel + 1);
 
-    return 3;
-  }
+        // In air or flying?
+        if (!player.onGround || player.capabilities.isFlying)
+            event.setNewSpeed(event.getNewSpeed() * speedMulti);
 
-  @Override
-  public String getName() {
-
-    return "enchantment.silentgems:" + NAME;
-  }
-
-  @Override
-  public boolean canApplyAtEnchantingTable(ItemStack stack) {
-
-    return ENABLED ? super.canApplyAtEnchantingTable(stack) : false;
-  }
-
-  public void onGetBreakSpeed(PlayerEvent.BreakSpeed event, ItemStack tool, int enchLevel) {
-
-    if (StackHelper.isEmpty(tool) || enchLevel <= 0)
-      return;
-
-    EntityPlayer player = event.getEntityPlayer();
-    float speedMulti = 5f / (getMaxLevel() - enchLevel + 1);
-
-    // In air or flying?
-    if (!player.onGround || player.capabilities.isFlying)
-      event.setNewSpeed(event.getNewSpeed() * speedMulti);
-
-    // Underwater?
-    if (player.isInsideOfMaterial(Material.WATER))
-      event.setNewSpeed(event.getNewSpeed() * speedMulti);
-  }
+        // Underwater?
+        if (player.isInsideOfMaterial(Material.WATER))
+            event.setNewSpeed(event.getNewSpeed() * speedMulti);
+    }
 }

@@ -8,25 +8,19 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.silentchaos512.gems.entity.EntityGemArrow;
 
 public class RenderGemArrow extends RenderTippedArrow {
-
-  public RenderGemArrow(RenderManager manager) {
-
-    super(manager);
-  }
-
-  @Override
-  public void doRender(EntityTippedArrow entity, double x, double y, double z, float entityYaw,
-      float partialTicks) {
-
-    super.doRender(entity, x, y, z, entityYaw, partialTicks);
-  }
-
-  public static class Factory implements IRenderFactory<EntityGemArrow> {
+    private RenderGemArrow(RenderManager manager) {
+        super(manager);
+    }
 
     @Override
-    public Render<? super EntityGemArrow> createRenderFor(RenderManager manager) {
-
-      return new RenderGemArrow(manager);
+    public void doRender(EntityTippedArrow entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
-  }
+
+    public static class Factory implements IRenderFactory<EntityGemArrow> {
+        @Override
+        public Render<? super EntityGemArrow> createRenderFor(RenderManager manager) {
+            return new RenderGemArrow(manager);
+        }
+    }
 }

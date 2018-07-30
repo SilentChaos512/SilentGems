@@ -23,84 +23,72 @@ import net.silentchaos512.gems.network.message.MessageToggleSpecial;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public class KeyTracker {
+    public static KeyTracker INSTANCE = new KeyTracker();
 
-  public static KeyTracker INSTANCE = new KeyTracker();
+    private EntityPlayer player;
+    private KeyBinding toggleSpecial = createBinding("Toggle Special",
+            KeyConflictContext.IN_GAME, KeyModifier.SHIFT, Keyboard.KEY_C);
+    private KeyBinding toggleChaosGemFirst = createBinding("Toggle Chaos Gem (First)",
+            KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_G);
+    private KeyBinding toggleChaosGemAll = createBinding("Toggle Chaos Gem (All)",
+            KeyConflictContext.IN_GAME, KeyModifier.SHIFT, Keyboard.KEY_G);
+    private KeyBinding triggerReturnHome = createBinding("Use Return Home Charm",
+            KeyConflictContext.IN_GAME, KeyModifier.SHIFT, Keyboard.KEY_P);
 
-  private EntityPlayer player;
-  private KeyBinding toggleSpecial = createBinding("Toggle Special", KeyConflictContext.IN_GAME,
-      KeyModifier.SHIFT, Keyboard.KEY_C);
-  private KeyBinding toggleChaosGemFirst = createBinding("Toggle Chaos Gem (First)",
-      KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_G);
-  private KeyBinding toggleChaosGemAll = createBinding("Toggle Chaos Gem (All)",
-      KeyConflictContext.IN_GAME, KeyModifier.SHIFT, Keyboard.KEY_G);
-  private KeyBinding triggerReturnHome = createBinding("Use Return Home Charm",
-      KeyConflictContext.IN_GAME, KeyModifier.SHIFT, Keyboard.KEY_P);
-
-  /**
-   * Creates and registers a KeyBinding.
-   * 
-   * @return The created KeyBinding.
-   */
-  private KeyBinding createBinding(String name, IKeyConflictContext keyConflictContext,
-      KeyModifier keyModifier, int keyCode) {
-
-    KeyBinding binding = new KeyBinding(name, keyConflictContext, keyModifier, keyCode,
-        SilentGems.MODID);
-    ClientRegistry.registerKeyBinding(binding);
-    return binding;
-  }
-
-  public static boolean isShiftDown() {
-
-    return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
-  }
-
-  public static boolean isControlDown() {
-
-    return Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
-  }
-
-  public static boolean isAltDown() {
-
-    return Keyboard.isKeyDown(Keyboard.KEY_LMENU) || Keyboard.isKeyDown(Keyboard.KEY_RMENU);
-  }
-
-  @SubscribeEvent
-  public void onKeyInput(KeyInputEvent event) {
-
-    this.player = Minecraft.getMinecraft().player;
-
-    if (toggleSpecial.isKeyDown())
-      handleToggleSpecial();
-
-    if (toggleChaosGemAll.isKeyDown())
-      handleToggleChaosGem(true);
-    else if (toggleChaosGemFirst.isKeyDown())
-      handleToggleChaosGem(false);
-
-    if (triggerReturnHome.isPressed())
-      handleTriggerReturnHome();
-  }
-
-  private void handleToggleSpecial() {
-
-    ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
-
-    if (mainHand != null && mainHand.getItem() instanceof ITool) {
-      if (ToolHelper.getToolTier(mainHand).ordinal() >= EnumMaterialTier.SUPER.ordinal()) {
-        // ToolHelper.toggleSpecialAbility(mainHand);
-        NetworkHandler.INSTANCE.sendToServer(new MessageToggleSpecial());
-      }
+    /**
+     * Creates and registers a KeyBinding.
+     *
+     * @return The created KeyBinding.
+     */
+    private KeyBinding createBinding(String name, IKeyConflictContext keyConflictContext, KeyModifier keyModifier, int keyCode) {
+        KeyBinding binding = new KeyBinding(name, keyConflictContext, keyModifier, keyCode, SilentGems.MODID);
+        ClientRegistry.registerKeyBinding(binding);
+        return binding;
     }
-  }
 
-  private void handleToggleChaosGem(boolean all) {
+    public static boolean isShiftDown() {
+        return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+    }
 
-    NetworkHandler.INSTANCE.sendToServer(new MessageToggleChaosGem(all));
-  }
+    public static boolean isControlDown() {
+        return Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
+    }
 
-  private void handleTriggerReturnHome() {
+    public static boolean isAltDown() {
+        return Keyboard.isKeyDown(Keyboard.KEY_LMENU) || Keyboard.isKeyDown(Keyboard.KEY_RMENU);
+    }
 
-    NetworkHandler.INSTANCE.sendToServer(new MessageKeyReturnHome());
-  }
+    @SubscribeEvent
+    public void onKeyInput(KeyInputEvent event) {
+        this.player = Minecraft.getMinecraft().player;
+
+        if (toggleSpecial.isKeyDown())
+            handleToggleSpecial();
+
+        if (toggleChaosGemAll.isKeyDown())
+            handleToggleChaosGem(true);
+        else if (toggleChaosGemFirst.isKeyDown())
+            handleToggleChaosGem(false);
+
+        if (triggerReturnHome.isPressed())
+            handleTriggerReturnHome();
+    }
+
+    private void handleToggleSpecial() {
+        ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
+
+        if (mainHand.getItem() instanceof ITool) {
+            if (ToolHelper.getToolTier(mainHand).ordinal() >= EnumMaterialTier.SUPER.ordinal()) {
+                NetworkHandler.INSTANCE.sendToServer(new MessageToggleSpecial());
+            }
+        }
+    }
+
+    private void handleToggleChaosGem(boolean all) {
+        NetworkHandler.INSTANCE.sendToServer(new MessageToggleChaosGem(all));
+    }
+
+    private void handleTriggerReturnHome() {
+        NetworkHandler.INSTANCE.sendToServer(new MessageKeyReturnHome());
+    }
 }

@@ -8,60 +8,47 @@ import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.math.MathHelper;
-import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.util.ToolHelper;
 
 public class EnchantmentLifeSteal extends Enchantment {
+    public static final String NAME = "LifeSteal";
+    public static final float HEAL_AMOUNT_MULTI = 1f / 40f;
+    public static final float HEAL_AMOUNT_CAP = 1f;
 
-  public static final String NAME = "LifeSteal";
-  public static final float HEAL_AMOUNT_MULTI = 1f / 40f;
-  public static final float HEAL_AMOUNT_CAP = 1f;
+    public static boolean ENABLED = true;
 
-  public static boolean ENABLED = true;
-
-  public EnchantmentLifeSteal() {
-
-    super(Rarity.RARE, EnumEnchantmentType.WEAPON,
-        new EntityEquipmentSlot[] { EntityEquipmentSlot.MAINHAND });
-    setName(NAME);
-  }
-
-  public float getAmountHealed(int level, float damageDealt) {
-
-    return MathHelper.clamp(level * damageDealt * HEAL_AMOUNT_MULTI, 0f, HEAL_AMOUNT_CAP);
-  }
-
-  @Override
-  public boolean canApplyAtEnchantingTable(ItemStack stack) {
-
-    if (!ENABLED) {
-      return false;
+    public EnchantmentLifeSteal() {
+        super(Rarity.RARE, EnumEnchantmentType.WEAPON, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+        setName(NAME);
     }
-    Item item = stack.getItem();
-    return item instanceof ItemSword || item instanceof ItemAxe;
-  }
 
-  @Override
-  public int getMinEnchantability(int level) {
+    public float getAmountHealed(int level, float damageDealt) {
+        return MathHelper.clamp(level * damageDealt * HEAL_AMOUNT_MULTI, 0f, HEAL_AMOUNT_CAP);
+    }
 
-    return 15 + (level - 1) * 9;
-  }
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack) {
+        if (!ENABLED) return false;
+        Item item = stack.getItem();
+        return item instanceof ItemSword || item instanceof ItemAxe;
+    }
 
-  @Override
-  public int getMaxEnchantability(int level) {
+    @Override
+    public int getMinEnchantability(int level) {
+        return 15 + (level - 1) * 9;
+    }
 
-    return getMinEnchantability(level) + 50;
-  }
+    @Override
+    public int getMaxEnchantability(int level) {
+        return getMinEnchantability(level) + 50;
+    }
 
-  @Override
-  public int getMaxLevel() {
+    @Override
+    public int getMaxLevel() {
+        return 2;
+    }
 
-    return 2;
-  }
-
-  @Override
-  public String getName() {
-
-    return "enchantment.silentgems:" + NAME;
-  }
+    @Override
+    public String getName() {
+        return "enchantment.silentgems:" + NAME;
+    }
 }

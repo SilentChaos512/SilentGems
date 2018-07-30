@@ -13,79 +13,69 @@ import net.minecraft.potion.PotionEffect;
 import net.silentchaos512.gems.init.ModPotions;
 
 public class EnchantmentLightningAspect extends Enchantment {
+    public static final String NAME = "LightningAspect";
+    public static final int EFFECT_DURATION = 120;
 
-  public static final String NAME = "LightningAspect";
-  public static final int EFFECT_DURATION = 120;
+    public static boolean ENABLED = true;
 
-  public static boolean ENABLED = true;
+    public EnchantmentLightningAspect() {
+        super(Rarity.RARE, EnumEnchantmentType.WEAPON,
+                new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
+        setName(NAME);
+    }
 
-  public EnchantmentLightningAspect() {
+    @Override
+    public boolean canApplyTogether(Enchantment ench) {
+        return !(ench instanceof EnchantmentFireAspect) && !(ench instanceof EnchantmentIceAspect)
+                && super.canApplyTogether(ench);
+    }
 
-    super(Rarity.RARE, EnumEnchantmentType.WEAPON,
-        new EntityEquipmentSlot[] { EntityEquipmentSlot.MAINHAND });
-    setName(NAME);
-  }
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack) {
+        Item item = stack.getItem();
+        return item instanceof ItemSword;
+    }
 
-  @Override
-  public boolean canApplyTogether(Enchantment ench) {
+    @Override
+    public int getMinEnchantability(int level) {
+        return 10 + 20 * (level - 1);
+    }
 
-    return !(ench instanceof EnchantmentFireAspect) && !(ench instanceof EnchantmentIceAspect)
-        && super.canApplyTogether(ench);
-  }
+    @Override
+    public int getMaxEnchantability(int level) {
+        return getMinEnchantability(level) + 50;
+    }
 
-  @Override
-  public boolean canApplyAtEnchantingTable(ItemStack stack) {
+    @Override
+    public int getMaxLevel() {
+        return 2;
+    }
 
-    Item item = stack.getItem();
-    return item instanceof ItemSword;
-  }
+    @Override
+    public String getName() {
+        return "enchantment.silentgems:" + NAME;
+    }
 
-  @Override
-  public int getMinEnchantability(int level) {
+    /**
+     * Apply effect to mob. Called in GemsCommonEvents#onLivingAttack. Also see
+     * GemsCommonEvents#onLivingUpdate.
+     *
+     * @param entityLiving
+     * @param enchLevel
+     */
+    public void applyTo(EntityLivingBase entityLiving, int enchLevel, int duration) {
+        int amplifier = enchLevel - 1;
+        entityLiving.addPotionEffect(new PotionEffect(ModPotions.shocking, duration, amplifier, true, false));
+    }
 
-    return 10 + 20 * (level - 1);
-  }
+    public void applyTo(EntityLivingBase entityLiving, int enchLevel) {
+        applyTo(entityLiving, enchLevel, getEffectDuration(entityLiving, enchLevel));
+    }
 
-  @Override
-  public int getMaxEnchantability(int level) {
-
-    return getMinEnchantability(level) + 50;
-  }
-
-  @Override
-  public int getMaxLevel() {
-
-    return 2;
-  }
-
-  @Override
-  public String getName() {
-
-    return "enchantment.silentgems:" + NAME;
-  }
-
-  /**
-   * Apply effect to mob. Called in GemsCommonEvents#onLivingAttack. Also see GemsCommonEvents#onLivingUpdate.
-   * 
-   * @param entityLiving
-   * @param enchLevel
-   */
-  public void applyTo(EntityLivingBase entityLiving, int enchLevel, int duration) {
-
-    int amplifier = enchLevel - 1;
-    entityLiving.addPotionEffect(new PotionEffect(ModPotions.shocking, duration, amplifier, true, false));
-  }
-
-  public void applyTo(EntityLivingBase entityLiving, int enchLevel) {
-
-    applyTo(entityLiving, enchLevel, getEffectDuration(entityLiving, enchLevel));
-  }
-
-  public int getEffectDuration(EntityLivingBase entityLiving, int enchLevel) {
-
-    int ret = EFFECT_DURATION + (enchLevel - 1) * EFFECT_DURATION / 2;
-    if (entityLiving instanceof EntityPlayer)
-      ret /= 2;
-    return ret;
-  }
+    public int getEffectDuration(EntityLivingBase entityLiving, int enchLevel) {
+        int ret = EFFECT_DURATION + (enchLevel - 1) * EFFECT_DURATION / 2;
+        if (entityLiving instanceof EntityPlayer)
+            ret /= 2;
+        return ret;
+    }
 }
