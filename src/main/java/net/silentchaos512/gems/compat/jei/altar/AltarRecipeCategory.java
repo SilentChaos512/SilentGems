@@ -1,12 +1,5 @@
 package net.silentchaos512.gems.compat.jei.altar;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import com.google.common.collect.Lists;
-
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableAnimated;
@@ -15,16 +8,14 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.compat.jei.SilentGemsPlugin;
+
+import javax.annotation.Nonnull;
 
 public class AltarRecipeCategory implements IRecipeCategory {
-
     public static final String CATEGORY = SilentGems.MODID + ":ChaosAltar";
-
     private static final int GUI_START_X = 42;
     private static final int GUI_START_Y = 28;
     private static final int GUI_WIDTH = 98;
@@ -38,17 +29,14 @@ public class AltarRecipeCategory implements IRecipeCategory {
     private final String localizedName = SilentGems.localizationHelper.getLocalizedString("jei", "recipe.altar");
 
     public AltarRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation backgroundLocation = new ResourceLocation(SilentGems.RESOURCE_PREFIX
-                + "textures/gui/ChaosAltar.png");
+        ResourceLocation backgroundLocation = new ResourceLocation(SilentGems.RESOURCE_PREFIX + "textures/gui/ChaosAltar.png");
 
         // background
-        background = SilentGemsPlugin.jeiHelper.getGuiHelper().createDrawable(backgroundLocation,
-                GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
+        background = guiHelper.createDrawable(backgroundLocation, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
 
         // arrow
         IDrawableStatic arrowDrawable = guiHelper.createDrawable(backgroundLocation, 176, 14, 24, 17);
-        arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 200,
-                IDrawableAnimated.StartDirection.LEFT, false);
+        arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 200, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
     @Override

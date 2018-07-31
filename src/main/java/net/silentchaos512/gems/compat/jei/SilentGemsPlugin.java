@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.client.gui.GuiChaosAltar;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeCategory;
-import net.silentchaos512.gems.compat.jei.altar.AltarRecipeHandler;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeMaker;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModItems;
@@ -20,29 +19,19 @@ import net.silentchaos512.gems.util.ToolHelper;
 
 @JEIPlugin
 public class SilentGemsPlugin implements IModPlugin {
-
-    public static IJeiHelpers jeiHelper;
-
     @Override
     public void register(IModRegistry reg) {
-
-        jeiHelper = reg.getJeiHelpers();
-        IGuiHelper guiHelper = jeiHelper.getGuiHelper();
-
-        doItemBlacklist(jeiHelper.getIngredientBlacklist());
-
-        doRecipeRegistration(reg, guiHelper);
-
+        doItemBlacklist(reg.getJeiHelpers().getIngredientBlacklist());
+        doRecipeRegistration(reg, reg.getJeiHelpers().getGuiHelper());
         doAddDescriptions(reg);
     }
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration reg) {
-        reg.addRecipeCategories(new AltarRecipeCategory(jeiHelper.getGuiHelper()));
+        reg.addRecipeCategories(new AltarRecipeCategory(reg.getJeiHelpers().getGuiHelper()));
     }
 
     private void doItemBlacklist(IIngredientBlacklist list) {
-
         // Hide certain blocks/items
         int any = OreDictionary.WILDCARD_VALUE;
         list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampInverted, 1, any));
@@ -70,7 +59,6 @@ public class SilentGemsPlugin implements IModPlugin {
     }
 
     private void doAddDescriptions(IModRegistry reg) {
-
         String prefix = "jei.silentgems:desc.";
 
         reg.addDescription(new ItemStack(ModBlocks.chaosAltar), prefix + Names.CHAOS_ALTAR);
@@ -80,37 +68,17 @@ public class SilentGemsPlugin implements IModPlugin {
         reg.addDescription(new ItemStack(ModBlocks.chaosPylon, 1, 1), prefix + Names.CHAOS_PYLON + "1");
         reg.addDescription(new ItemStack(ModBlocks.materialGrader), prefix + Names.MATERIAL_GRADER);
 
-        reg.addDescription(new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE),
-                prefix + Names.GEM);
+        reg.addDescription(new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE), prefix + Names.GEM);
         reg.addDescription(new ItemStack(ModItems.torchBandolier), prefix + Names.TORCH_BANDOLIER);
         reg.addDescription(new ItemStack(ModItems.fluffyPuffSeeds), prefix + Names.FLUFFY_PUFF_SEEDS);
     }
 
     @Override
     public void registerIngredients(IModIngredientRegistration arg0) {
-
     }
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistry reg) {
-
-        // Tools
-//    for (Item item : new Item[] { ModItems.sword, ModItems.katana, ModItems.scepter,
-//        ModItems.tomahawk, ModItems.pickaxe, ModItems.shovel, ModItems.axe, ModItems.paxel,
-//        ModItems.hoe, ModItems.sickle, ModItems.bow, ModItems.shield }) {
-//      reg.registerSubtypeInterpreter(item, new ISubtypeInterpreter() {
-//
-//        @Override
-//        public String getSubtypeInfo(ItemStack stack) {
-//
-//          ToolPart[] parts = ToolHelper.getConstructionParts(stack);
-//          if (parts.length == 0)
-//            return "unknown";
-//          return parts[0].getKey();
-//        }
-//      });
-//    }
-
         // Enchantment tokens
         reg.registerSubtypeInterpreter(ModItems.enchantmentToken, stack -> {
             Enchantment ench = ModItems.enchantmentToken.getSingleEnchantment(stack);
