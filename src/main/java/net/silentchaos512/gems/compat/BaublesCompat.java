@@ -1,12 +1,10 @@
 package net.silentchaos512.gems.compat;
 
-import com.google.common.base.Predicate;
-
 import baubles.api.BaublesApi;
 import baubles.api.cap.IBaublesItemHandler;
+import com.google.common.base.Predicate;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.silentchaos512.lib.collection.ItemStackList;
 import net.silentchaos512.lib.util.StackHelper;
 

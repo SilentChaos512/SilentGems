@@ -1,13 +1,5 @@
 package net.silentchaos512.gems.recipe;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -23,15 +15,17 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.ArmorPartPosition;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
-import net.silentchaos512.gems.api.tool.part.ArmorPartFrame;
-import net.silentchaos512.gems.api.tool.part.ToolPart;
-import net.silentchaos512.gems.api.tool.part.ToolPartMain;
-import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
-import net.silentchaos512.gems.api.tool.part.ToolPartRod;
+import net.silentchaos512.gems.api.tool.part.*;
 import net.silentchaos512.lib.collection.ItemStackList;
 import net.silentchaos512.lib.recipe.RecipeBaseSL;
-import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.StackHelper;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RecipeMixedMaterialItem extends RecipeBaseSL {
 

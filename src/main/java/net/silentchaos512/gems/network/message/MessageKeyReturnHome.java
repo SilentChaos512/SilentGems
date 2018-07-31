@@ -1,7 +1,6 @@
 package net.silentchaos512.gems.network.message;
 
 import com.google.common.base.Predicate;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;

@@ -1,16 +1,10 @@
 package net.silentchaos512.gems.recipe;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.IArmor;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.api.tool.part.ArmorPartFrame;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
@@ -19,6 +13,8 @@ import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.lib.collection.ItemStackList;
 import net.silentchaos512.lib.recipe.RecipeBaseSL;
 import net.silentchaos512.lib.util.StackHelper;
+
+import javax.annotation.Nonnull;
 
 public class RecipeGemArrow extends RecipeBaseSL {
 

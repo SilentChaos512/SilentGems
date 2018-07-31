@@ -1,16 +1,11 @@
 package net.silentchaos512.gems.lib;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -18,6 +13,10 @@ import net.silentchaos512.gems.util.ModDamageSource;
 import net.silentchaos512.lib.collection.ItemStackList;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class NodeEffect {
 
@@ -129,7 +128,7 @@ public class NodeEffect {
   /**
    * Return true if the entity needs the effect. For example, I don't want to send regen if the entity does not need
    * healing. Potion logic is in NodeEffectPotion.
-   * 
+   *
    * @param entity
    * @return
    */
