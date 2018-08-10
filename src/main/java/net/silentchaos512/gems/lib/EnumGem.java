@@ -120,7 +120,7 @@ public enum EnumGem implements IStringSerializable {
    */
   @Override
   public String getName() {
-    return name().toLowerCase();
+    return name().toLowerCase(Locale.ROOT);
   }
 
   /**

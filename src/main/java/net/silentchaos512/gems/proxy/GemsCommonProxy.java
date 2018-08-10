@@ -16,10 +16,12 @@ import net.silentchaos512.gems.api.Skulls;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.compat.crafttweaker.CTSilentGems;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.event.GemsCommonEvents;
 import net.silentchaos512.gems.event.ShieldEventHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.init.SGearMaterials;
 import net.silentchaos512.gems.item.quiver.QuiverHelper;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.module.ModuleHalloweenHijinks;
@@ -51,6 +53,10 @@ public class GemsCommonProxy implements IProxy {
         MinecraftForge.EVENT_BUS.register(ModuleHalloweenHijinks.instance);
 
         LootTableList.register(new ResourceLocation(SilentGems.MODID, "ender_slime"));
+
+        // Silent Gear support?
+        if (Loader.isModLoaded("silentgear") && GemsConfig.ENABLE_SGEAR_MATERIALS)
+            SGearMaterials.init();
 
         registry.preInit(event);
     }

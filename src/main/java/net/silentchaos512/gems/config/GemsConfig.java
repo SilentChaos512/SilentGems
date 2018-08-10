@@ -151,7 +151,7 @@ public class GemsConfig extends AdaptiveConfig {
    * Compat
    */
 
-  public static boolean ENABLE_TIC_SUPPORT = true;
+  public static boolean ENABLE_SGEAR_MATERIALS = true;
 
   /*
    * World generation
@@ -518,9 +518,8 @@ public class GemsConfig extends AdaptiveConfig {
        */
 
       config.setCategoryRequiresMcRestart(CAT_COMPAT, true);
-      ENABLE_TIC_SUPPORT = loadBoolean("Tinkers Construct Support", CAT_COMPAT,
-          ENABLE_TIC_SUPPORT,
-          "Set to false to disable registration of TiC parts.");
+      ENABLE_SGEAR_MATERIALS = loadBoolean("Silent Gear Materials", CAT_COMPAT,
+          true, "Set to false to disable registration of Silent Gear materials.");
 
       /*
        * World Generation
