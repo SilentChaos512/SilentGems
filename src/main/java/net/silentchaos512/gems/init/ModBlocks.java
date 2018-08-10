@@ -1,18 +1,15 @@
 package net.silentchaos512.gems.init;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemBlockMetaSubtypes;
-import net.silentchaos512.lib.registry.IRegistrationHandler;
 import net.silentchaos512.lib.registry.SRegistry;
 
 import static net.silentchaos512.gems.lib.EnumGem.Set.*;
 
-public class ModBlocks implements IRegistrationHandler<Block> {
-
+public class ModBlocks {
     public static final BlockGemOre gemOre = new BlockGemOre(CLASSIC);
     public static final BlockGemOre gemOreDark = new BlockGemOre(DARK);
     public static final BlockGemOre gemOreLight = new BlockGemOre(LIGHT);
@@ -74,8 +71,7 @@ public class ModBlocks implements IRegistrationHandler<Block> {
     public static final BlockChaosPylon chaosPylon = new BlockChaosPylon();
     public static final BlockPhantomLight phantomLight = new BlockPhantomLight();
 
-    @Override
-    public void registerAll(SRegistry reg) {
+    public static void registerAll(SRegistry reg) {
         reg.registerBlock(gemOre, "gemore");
         reg.registerBlock(gemOreDark, "gemoredark");
         reg.registerBlock(gemOreLight, "gemorelight");
@@ -136,9 +132,5 @@ public class ModBlocks implements IRegistrationHandler<Block> {
         reg.registerBlock(chaosAltar, Names.CHAOS_ALTAR);
         reg.registerBlock(chaosPylon, Names.CHAOS_PYLON, new ItemBlockMetaSubtypes(chaosPylon, BlockChaosPylon.VariantType.values().length));
         reg.registerBlock(phantomLight, Names.PHANTOM_LIGHT);
-    }
-
-    public static void init() {
-        // NO-OP, just exists to call clinit
     }
 }

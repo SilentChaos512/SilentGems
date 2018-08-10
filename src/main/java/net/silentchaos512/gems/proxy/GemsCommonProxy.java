@@ -7,6 +7,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.Skulls;
@@ -24,81 +27,75 @@ import net.silentchaos512.gems.lib.module.ModuleHolidayCheer;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.proxy.IProxy;
 import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.Color;
 
-public class GemsCommonProxy extends net.silentchaos512.lib.proxy.CommonProxy {
+public class GemsCommonProxy implements IProxy {
+    @Override
+    public void preInit(SRegistry registry, FMLPreInitializationEvent event) {
+        ToolHelper.FAKE_MATERIAL.setRepairItem(ModItems.craftingMaterial.chaosEssenceEnriched);
 
-  @Override
-  public void preInit(SRegistry registry) {
+        ModItems.guideBook.book.preInit();
 
-    super.preInit(registry);
+        NetworkHandler.init();
 
-    ToolHelper.FAKE_MATERIAL.setRepairItem(ModItems.craftingMaterial.chaosEssenceEnriched);
+        NetworkRegistry.INSTANCE.registerGuiHandler(SilentGems.instance, new GuiHandlerSilentGems());
 
-    ModItems.guideBook.book.preInit();
+        MinecraftForge.EVENT_BUS.register(new PlayerDataHandler.EventHandler());
+        MinecraftForge.EVENT_BUS.register(new GemsCommonEvents());
+        MinecraftForge.EVENT_BUS.register(new ShieldEventHandler());
+        MinecraftForge.EVENT_BUS.register(QuiverHelper.instance);
+        MinecraftForge.EVENT_BUS.register(new SoulManager());
+        MinecraftForge.EVENT_BUS.register(ModuleHolidayCheer.instance);
+        MinecraftForge.EVENT_BUS.register(ModuleHalloweenHijinks.instance);
 
-    NetworkHandler.init();
+        LootTableList.register(new ResourceLocation(SilentGems.MODID, "ender_slime"));
 
-    NetworkRegistry.INSTANCE.registerGuiHandler(SilentGems.instance, new GuiHandlerSilentGems());
-
-    MinecraftForge.EVENT_BUS.register(new PlayerDataHandler.EventHandler());
-    MinecraftForge.EVENT_BUS.register(new GemsCommonEvents());
-    MinecraftForge.EVENT_BUS.register(new ShieldEventHandler());
-    MinecraftForge.EVENT_BUS.register(QuiverHelper.instance);
-    MinecraftForge.EVENT_BUS.register(new SoulManager());
-    MinecraftForge.EVENT_BUS.register(ModuleHolidayCheer.instance);
-    MinecraftForge.EVENT_BUS.register(ModuleHalloweenHijinks.instance);
-
-    LootTableList.register(new ResourceLocation(SilentGems.MODID, "ender_slime"));
-  }
-
-  @Override
-  public void init(SRegistry registry) {
-
-    super.init(registry);
-  }
-
-  @Override
-  public void postInit(SRegistry registry) {
-
-    super.postInit(registry);
-    Skulls.init();
-    ModItems.enchantmentToken.addModRecipes();
-    ModItems.guideBook.book.postInit();
-
-    if (Loader.isModLoaded(BaublesCompat.MOD_ID))
-      BaublesCompat.MOD_LOADED = true;
-
-    if (Loader.isModLoaded("crafttweaker"))
-      CTSilentGems.postInit();
-  }
-
-  public void spawnParticles(EnumModParticles type, Color color, World world, double x, double y,
-      double z, double motionX, double motionY, double motionZ) {
-
-  }
-
-  public int getParticleSettings() {
-
-    return 0;
-  }
-
-  public EntityPlayer getClientPlayer() {
-
-    return null;
-  }
-
-  public boolean isClientPlayerHoldingDebugItem() {
-
-    EntityPlayer player = getClientPlayer();
-    if (player == null) {
-      return false;
+        registry.preInit(event);
     }
 
-    ItemStack mainhand = player.getHeldItemMainhand();
-    ItemStack offhand = player.getHeldItemOffhand();
-    return (mainhand != null && mainhand.getItem() == ModItems.debugItem)
-        || (offhand != null && offhand.getItem() == ModItems.debugItem);
-  }
+    @Override
+    public void init(SRegistry registry, FMLInitializationEvent event) {
+        registry.init(event);
+    }
+
+    @Override
+    public void postInit(SRegistry registry, FMLPostInitializationEvent event) {
+        Skulls.init();
+        ModItems.enchantmentToken.addModRecipes();
+        ModItems.guideBook.book.postInit();
+
+        if (Loader.isModLoaded(BaublesCompat.MOD_ID))
+            BaublesCompat.MOD_LOADED = true;
+
+        if (Loader.isModLoaded("crafttweaker"))
+            CTSilentGems.postInit();
+
+        registry.postInit(event);
+    }
+
+    public void spawnParticles(EnumModParticles type, Color color, World world, double x, double y, double z, double motionX, double motionY, double motionZ) {
+    }
+
+    @Override
+    public int getParticleSettings() {
+        return 0;
+    }
+
+    @Override
+    public EntityPlayer getClientPlayer() {
+        return null;
+    }
+
+    public boolean isClientPlayerHoldingDebugItem() {
+        EntityPlayer player = getClientPlayer();
+        if (player == null) {
+            return false;
+        }
+
+        ItemStack mainhand = player.getHeldItemMainhand();
+        ItemStack offhand = player.getHeldItemOffhand();
+        return mainhand.getItem() == ModItems.debugItem || offhand.getItem() == ModItems.debugItem;
+    }
 }

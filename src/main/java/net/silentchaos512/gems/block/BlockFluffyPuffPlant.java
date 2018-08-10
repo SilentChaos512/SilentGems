@@ -115,7 +115,7 @@ public class BlockFluffyPuffPlant extends BlockCrops implements ICustomModel {
     @Override
     public void registerModels() {
         Item item = Item.getItemFromBlock(this);
-        String fullName = SilentGems.RESOURCE_PREFIX + Names.FLUFFY_BLOCK;
+        String fullName = SilentGems.RESOURCE_PREFIX + Names.FLUFFY_PUFF_PLANT;
         for (int i = 0; i < 4; ++i) {
             ModelResourceLocation model = new ModelResourceLocation(fullName + i, "inventory");
             ModelLoader.setCustomModelResourceLocation(item, i, model);

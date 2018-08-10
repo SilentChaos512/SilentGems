@@ -1,36 +1,20 @@
 package net.silentchaos512.gems.init;
 
-import static net.silentchaos512.gems.api.lib.EnumMaterialTier.MUNDANE;
-import static net.silentchaos512.gems.api.lib.EnumMaterialTier.REGULAR;
-import static net.silentchaos512.gems.api.lib.EnumMaterialTier.SUPER;
-
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.silentchaos512.gems.api.SilentGemsAPI;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.recipe.RecipeApplyEnchantmentToken;
-import net.silentchaos512.gems.recipe.RecipeApplyToolSoul;
-import net.silentchaos512.gems.recipe.RecipeChaosGemUpgrade;
-import net.silentchaos512.gems.recipe.RecipeDecorateArmor;
-import net.silentchaos512.gems.recipe.RecipeDecorateTool;
-import net.silentchaos512.gems.recipe.RecipeGemArrow;
-import net.silentchaos512.gems.recipe.RecipeHoldingGemSetBlock;
-import net.silentchaos512.gems.recipe.RecipeMixedMaterialItem;
-import net.silentchaos512.gems.recipe.RecipeNamePlate;
-import net.silentchaos512.gems.recipe.RecipeToolSoul;
-import net.silentchaos512.lib.registry.IRegistrationHandler;
+import net.silentchaos512.gems.recipe.*;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.registry.SRegistry;
 
-public class ModRecipes implements IRegistrationHandler<IRecipe> {
+import static net.silentchaos512.gems.api.lib.EnumMaterialTier.*;
 
+public class ModRecipes {
   public static final boolean ADD_SOUL_RECIPES = true;
 
-  @Override
-  public void registerAll(SRegistry reg) {
-
+  public static void registerAll(SRegistry reg) {
     RecipeMaker recipes = reg.recipes;
 
     // Chaos Essence creation.

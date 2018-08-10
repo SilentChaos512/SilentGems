@@ -50,8 +50,8 @@ public class SilentGems {
     public static final String MODID = "silentgems";
     public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
     public static final String MOD_NAME = "Silent's Gems";
-    public static final String VERSION = "2.7.8";
-    public static final String VERSION_SILENTLIB = "2.3.12";
+    public static final String VERSION = "2.7.9";
+    public static final String VERSION_SILENTLIB = "2.3.16";
     public static final int BUILD_NUM = 0;
     public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
             + "after:baubles;after:enderio;after:enderzoo;after:tconstruct;after:veinminer";
@@ -106,21 +106,19 @@ public class SilentGems {
         localizationHelper = new LocalizationHelper(MODID).setReplaceAmpersand(true);
         SilentLib.instance.registerLocalizationHelperForMod(MODID, localizationHelper);
 
+        registry.setMod(this);
         registry.recipes.setJsonHellMode(isDevBuild());
 
         CommonItemStats.init();
         ToolHelper.init();
-        // Initialize static fields in ModBlocks/Items so the stacktrace is less confusing...
-//        ModBlocks.init();
-//        ModItems.init();
 
         GemsConfig.INSTANCE.init(event.getSuggestedConfigurationFile());
 
-        registry.addRegistrationHandler(new ModEnchantments(), Enchantment.class);
-        registry.addRegistrationHandler(new ModBlocks(), Block.class);
-        registry.addRegistrationHandler(new ModItems(), Item.class);
-        registry.addRegistrationHandler(new ModPotions(), Potion.class);
-        registry.addRegistrationHandler(new ModRecipes(), IRecipe.class);
+        registry.addRegistrationHandler(ModEnchantments::registerAll, Enchantment.class);
+        registry.addRegistrationHandler(ModBlocks::registerAll, Block.class);
+        registry.addRegistrationHandler(ModItems::registerAll, Item.class);
+        registry.addRegistrationHandler(ModPotions::registerAll, Potion.class);
+        registry.addRegistrationHandler(ModRecipes::registerAll, IRecipe.class);
         ModParts.init();
         SoulSkill.init();
 
@@ -135,19 +133,19 @@ public class SilentGems {
 
         VeinMinerCompat.init();
 
-        proxy.preInit(registry);
+        proxy.preInit(registry, event);
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
         ModEntities.init(registry);
         GemsConfig.INSTANCE.save();
-        proxy.init(registry);
+        proxy.init(registry, event);
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        proxy.postInit(registry);
+        proxy.postInit(registry, event);
     }
 
     @SuppressWarnings("all")

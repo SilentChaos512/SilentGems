@@ -22,14 +22,12 @@ import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemGuideBookSL;
 import net.silentchaos512.lib.item.ItemSL;
-import net.silentchaos512.lib.registry.IRegistrationHandler;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.registry.SRegistry;
 
 import java.util.List;
 
-public class ModItems implements IRegistrationHandler<Item> {
-
+public class ModItems {
     public static final ItemGem gem = new ItemGem();
     public static final ItemSL gemSuper = new ItemSL(EnumGem.values().length, SilentGems.MODID, Names.GEM_SUPER);
     public static final ItemGemShard gemShard = new ItemGemShard();
@@ -91,8 +89,7 @@ public class ModItems implements IRegistrationHandler<Item> {
 
     public static final List<Item> tools = Lists.newArrayList(); // Filled by SRegistry override
 
-    @Override
-    public void registerAll(SRegistry reg) {
+    public static void registerAll(SRegistry reg) {
         reg.registerItem(gem).setCreativeTab(GemsCreativeTabs.materials);
         reg.registerItem(gemSuper).setCreativeTab(GemsCreativeTabs.materials);
         reg.registerItem(gemShard).setCreativeTab(GemsCreativeTabs.materials);
@@ -159,9 +156,5 @@ public class ModItems implements IRegistrationHandler<Item> {
         RecipeMaker recipes = SilentGems.registry.recipes;
         recipes.addShapeless("flint", new ItemStack(Items.FLINT), Blocks.GRAVEL, Blocks.GRAVEL);
         recipes.addShapeless("guide_book", new ItemStack(guideBook), Items.BOOK, new ItemStack(gem, 1, OreDictionary.WILDCARD_VALUE));
-    }
-
-    public static void init() {
-        // NO-OP, just exists to call clinit
     }
 }
