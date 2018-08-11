@@ -1,3 +1,6 @@
+2.8.0
+Fixed: Teleporter crash (#325)
+
 2.7.9
 Fixed: Crash with Silent Lib 2.3.16
 

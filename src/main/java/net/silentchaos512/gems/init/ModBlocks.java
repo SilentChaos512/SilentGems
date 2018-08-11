@@ -4,6 +4,7 @@ import net.minecraft.item.ItemBlock;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.tile.TileTeleporter;
 import net.silentchaos512.lib.item.ItemBlockMetaSubtypes;
 import net.silentchaos512.lib.registry.SRegistry;
 
@@ -114,6 +115,8 @@ public class ModBlocks {
         reg.registerBlock(teleporterRedstone, "teleporterredstone");
         reg.registerBlock(teleporterRedstoneDark, "teleporterredstonedark");
         reg.registerBlock(teleporterRedstoneLight, "teleporterredstonelight");
+        // Need to register teleporter tile entity manually
+        reg.registerTileEntity(TileTeleporter.class, "teleporter");
 
         reg.registerBlock(multiGemOreClassic, "multi_gem_ore_classic");
         reg.registerBlock(multiGemOreDark, "multi_gem_ore_dark");
