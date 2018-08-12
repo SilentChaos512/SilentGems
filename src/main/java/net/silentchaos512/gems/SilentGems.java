@@ -50,7 +50,7 @@ public class SilentGems {
     public static final String MODID = "silentgems";
     public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
     public static final String MOD_NAME = "Silent's Gems";
-    public static final String VERSION = "2.7.9";
+    public static final String VERSION = "2.8.0";
     public static final String VERSION_SILENTLIB = "2.3.16";
     public static final int BUILD_NUM = 0;
     public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
@@ -62,7 +62,7 @@ public class SilentGems {
     public static LogHelper logHelper = new LogHelper(MOD_NAME, BUILD_NUM);
     public static LocalizationHelper localizationHelper;
 
-    public static SRegistry registry = new SRegistry(MODID, logHelper) {
+    public static SRegistry registry = new SRegistry() {
 
         @Override
         public Block registerBlock(Block block, String key, ItemBlock itemBlock) {
