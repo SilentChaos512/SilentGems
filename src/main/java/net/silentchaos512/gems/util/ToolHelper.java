@@ -60,7 +60,6 @@ import net.silentchaos512.gems.skills.SkillAreaTill;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.lib.recipe.IngredientSL;
-import net.silentchaos512.lib.registry.IRegistryObject;
 import net.silentchaos512.lib.util.*;
 
 import javax.annotation.Nullable;
@@ -909,7 +908,7 @@ public class ToolHelper {
       prefix += " ";
     String delimiter = loc.getLocalizedString("tool.silentgems:delimiter");
     String materialName = String.join(delimiter, materialSet);
-    String toolName = ((IRegistryObject) item).getName();
+    String toolName = Objects.requireNonNull(item.getRegistryName()).getPath();
     String name = loc.getLocalizedString("tool", toolName, materialName);
 
     return prefix + name;

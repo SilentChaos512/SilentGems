@@ -1,8 +1,5 @@
 package net.silentchaos512.gems.item.quiver;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -26,38 +23,37 @@ import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.util.StackHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class QuiverHelper {
+    public static final QuiverHelper instance = new QuiverHelper();
 
-  public static final QuiverHelper instance = new QuiverHelper();
+    private List<EntityArrow> firedArrows = new ArrayList<>();
 
-  List<EntityArrow> firedArrows = new ArrayList<>();
-
-  public void addFiredArrow(EntityArrow arrow) {
-
-    firedArrows.add(arrow);
-  }
-
-  @SubscribeEvent
-  public void onWorldTick(WorldTickEvent event) {
-
-    if (event.phase != TickEvent.Phase.START) {
-      return;
+    void addFiredArrow(EntityArrow arrow) {
+        firedArrows.add(arrow);
     }
 
-    for (EntityArrow arrow : firedArrows) {
-      arrow.pickupStatus = PickupStatus.ALLOWED;
+    @SubscribeEvent
+    public void onWorldTick(WorldTickEvent event) {
+        if (event.phase != TickEvent.Phase.START) {
+            return;
+        }
+
+        for (EntityArrow arrow : firedArrows) {
+            arrow.pickupStatus = PickupStatus.ALLOWED;
+        }
+
+        firedArrows.removeIf(a -> true);
     }
 
-    firedArrows.removeIf(a -> true);
-  }
+    @SubscribeEvent
+    public void onItemPickup(EntityItemPickupEvent event) {
+        // FIXME: Works for arrow items, but not arrow entities stuck in ground. Also does not work properly if quiver GUI
+        // is open.
 
-  @SubscribeEvent
-  public void onItemPickup(EntityItemPickupEvent event) {
-
-    // FIXME: Works for arrow items, but not arrow entities stuck in ground. Also does not work properly if quiver GUI
-    // is open.
-
-    //@formatter:off
+        //@formatter:off
 //    ItemStack entityStack = event.getItem().getItem();
 //    if (entityStack.getItem() instanceof ItemArrow && !(entityStack.getItem() instanceof IQuiver)) {
 //      // It's an arrow
@@ -83,35 +79,32 @@ public class QuiverHelper {
 //      }
 //    }
     //@formatter:on
-  }
-
-  @SideOnly(Side.CLIENT)
-  public static void addInformation(ItemStack stack, World worldIn, List<String> tooltip,
-      ITooltipFlag flagIn) {
-
-    if (StackHelper.isEmpty(stack) || !(stack.getItem() instanceof IQuiver)) {
-      return;
     }
 
-    IItemHandler itemHandler = ((IQuiver) stack.getItem()).getInventory(stack);
-    for (int i = 0; i < itemHandler.getSlots(); ++i) {
-      ItemStack arrow = itemHandler.getStackInSlot(i);
-      if (StackHelper.isValid(arrow)) {
-        tooltip.add(SilentGems.localizationHelper.getItemSubText(Names.QUIVER, "arrowFormat",
-            arrow.getCount(), arrow.getDisplayName()));
-      }
+    @SideOnly(Side.CLIENT)
+    public static void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        if (StackHelper.isEmpty(stack) || !(stack.getItem() instanceof IQuiver)) {
+            return;
+        }
+
+        IItemHandler itemHandler = ((IQuiver) stack.getItem()).getInventory(stack);
+        for (int i = 0; i < itemHandler.getSlots(); ++i) {
+            ItemStack arrow = itemHandler.getStackInSlot(i);
+            if (StackHelper.isValid(arrow)) {
+                tooltip.add(SilentGems.localizationHelper.getItemSubText(Names.QUIVER, "arrowFormat",
+                        arrow.getCount(), arrow.getDisplayName()));
+            }
+        }
     }
-  }
 
-  public static ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+    public static ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack heldItem = player.getHeldItem(hand);
 
-    ItemStack heldItem = player.getHeldItem(hand);
+        world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_CLOTH_BREAK,
+                SoundCategory.NEUTRAL, 0.8F, 0.8F, false);
+        player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_QUIVER, world,
+                hand == EnumHand.OFF_HAND ? 1 : 0, 0, 0);
 
-    world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_CLOTH_BREAK,
-        SoundCategory.NEUTRAL, 0.8F, 0.8F, false);
-    player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_QUIVER, world,
-        hand == EnumHand.OFF_HAND ? 1 : 0, 0, 0);
-
-    return ActionResult.newResult(EnumActionResult.SUCCESS, heldItem);
-  }
+        return ActionResult.newResult(EnumActionResult.SUCCESS, heldItem);
+    }
 }

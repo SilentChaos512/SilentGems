@@ -90,40 +90,40 @@ public class ModItems {
     public static final List<Item> tools = Lists.newArrayList(); // Filled by SRegistry override
 
     public static void registerAll(SRegistry reg) {
-        reg.registerItem(gem).setCreativeTab(GemsCreativeTabs.materials);
-        reg.registerItem(gemSuper).setCreativeTab(GemsCreativeTabs.materials);
-        reg.registerItem(gemShard).setCreativeTab(GemsCreativeTabs.materials);
-        reg.registerItem(soulGem).setCreativeTab(GemsCreativeTabs.materials);
-        reg.registerItem(craftingMaterial).setCreativeTab(GemsCreativeTabs.materials);
-        reg.registerItem(quiver).setCreativeTab(null);
-        reg.registerItem(quiverEmpty).setCreativeTab(GemsCreativeTabs.utility);
-        reg.registerItem(tipUpgrade).setCreativeTab(GemsCreativeTabs.utility);
-        reg.registerItem(enchantmentToken).setCreativeTab(GemsCreativeTabs.utility);
-        reg.registerItem(toolSoul).setCreativeTab(GemsCreativeTabs.utility);
-        reg.registerItem(skillOrb).setCreativeTab(GemsCreativeTabs.utility);
-        reg.registerItem(chaosGem).setCreativeTab(GemsCreativeTabs.utility);
-        reg.registerItem(chaosRune).setCreativeTab(GemsCreativeTabs.utility);
-        reg.registerItem(armorFrame).setCreativeTab(GemsCreativeTabs.materials);
+        reg.registerItem(gem, Names.GEM).setCreativeTab(GemsCreativeTabs.materials);
+        reg.registerItem(gemSuper, Names.GEM_SUPER).setCreativeTab(GemsCreativeTabs.materials);
+        reg.registerItem(gemShard, Names.GEM_SHARD).setCreativeTab(GemsCreativeTabs.materials);
+        reg.registerItem(soulGem, Names.SOUL_GEM).setCreativeTab(GemsCreativeTabs.materials);
+        reg.registerItem(craftingMaterial, Names.CRAFTING_MATERIAL).setCreativeTab(GemsCreativeTabs.materials);
+        reg.registerItem(quiver, Names.QUIVER_NON_EMPTY).setCreativeTab(null);
+        reg.registerItem(quiverEmpty, Names.QUIVER).setCreativeTab(GemsCreativeTabs.utility);
+        reg.registerItem(tipUpgrade, Names.UPGRADE_TIP).setCreativeTab(GemsCreativeTabs.utility);
+        reg.registerItem(enchantmentToken, Names.ENCHANTMENT_TOKEN).setCreativeTab(GemsCreativeTabs.utility);
+        reg.registerItem(toolSoul, Names.TOOL_SOUL).setCreativeTab(GemsCreativeTabs.utility);
+        reg.registerItem(skillOrb, Names.SKILL_ORB).setCreativeTab(GemsCreativeTabs.utility);
+        reg.registerItem(chaosGem, Names.CHAOS_GEM).setCreativeTab(GemsCreativeTabs.utility);
+        reg.registerItem(chaosRune, Names.CHAOS_RUNE).setCreativeTab(GemsCreativeTabs.utility);
+        reg.registerItem(armorFrame, Names.ARMOR_FRAME).setCreativeTab(GemsCreativeTabs.materials);
         reg.registerItem(fluffyPuffSeeds, Names.FLUFFY_PUFF_SEEDS);
-        reg.registerItem(fluffyPuff).setCreativeTab(GemsCreativeTabs.materials);
-        reg.registerItem(glowRoseFertilizier).setCreativeTab(GemsCreativeTabs.materials);
-        reg.registerItem(dye).setCreativeTab(GemsCreativeTabs.materials);
+        reg.registerItem(fluffyPuff, Names.FLUFFY_PUFF).setCreativeTab(GemsCreativeTabs.materials);
+        reg.registerItem(glowRoseFertilizier, Names.GLOW_ROSE_FERTILIZER).setCreativeTab(GemsCreativeTabs.materials);
+        reg.registerItem(dye, Names.DYE).setCreativeTab(GemsCreativeTabs.materials);
         reg.registerItem(food, Names.FOOD).setCreativeTab(GemsCreativeTabs.utility);
-        reg.registerItem(holdingGem).setCreativeTab(GemsCreativeTabs.tools);
-        reg.registerItem(torchBandolier).setCreativeTab(GemsCreativeTabs.tools);
-        reg.registerItem(drawingCompass).setCreativeTab(GemsCreativeTabs.utility);
-        reg.registerItem(chaosOrb).setCreativeTab(GemsCreativeTabs.utility);
-        reg.registerItem(nodeMover).setCreativeTab(GemsCreativeTabs.utility);
-        reg.registerItem(teleporterLinker).setCreativeTab(GemsCreativeTabs.utility);
-        reg.registerItem(returnHomeCharm).setCreativeTab(GemsCreativeTabs.utility);
-        reg.registerItem(petSummoner).setCreativeTab(GemsCreativeTabs.utility);
-        reg.registerItem(debugItem).setCreativeTab(GemsCreativeTabs.utility);
+        reg.registerItem(holdingGem, Names.HOLDING_GEM).setCreativeTab(GemsCreativeTabs.tools);
+        reg.registerItem(torchBandolier, Names.TORCH_BANDOLIER).setCreativeTab(GemsCreativeTabs.tools);
+        reg.registerItem(drawingCompass, Names.DRAWING_COMPASS).setCreativeTab(GemsCreativeTabs.utility);
+        reg.registerItem(chaosOrb, Names.CHAOS_ORB).setCreativeTab(GemsCreativeTabs.utility);
+        reg.registerItem(nodeMover, Names.NODE_MOVER).setCreativeTab(GemsCreativeTabs.utility);
+        reg.registerItem(teleporterLinker, Names.TELEPORTER_LINKER).setCreativeTab(GemsCreativeTabs.utility);
+        reg.registerItem(returnHomeCharm, Names.RETURN_HOME_CHARM).setCreativeTab(GemsCreativeTabs.utility);
+        reg.registerItem(petSummoner, Names.PET_SUMMONER).setCreativeTab(GemsCreativeTabs.utility);
+        reg.registerItem(debugItem, Names.DEBUG_ITEM).setCreativeTab(GemsCreativeTabs.utility);
 
-        reg.registerItem(arrow).setCreativeTab(GemsCreativeTabs.tools);
+        reg.registerItem(arrow, Names.ARROW).setCreativeTab(GemsCreativeTabs.tools);
 
         // Tools
         reg.registerItem(sword, Names.SWORD);
-        reg.registerItem(dagger);
+        reg.registerItem(dagger, Names.DAGGER);
         reg.registerItem(katana, Names.KATANA);
         reg.registerItem(machete, Names.MACHETE);
         reg.registerItem(scepter, Names.SCEPTER);
@@ -144,7 +144,7 @@ public class ModItems {
         reg.registerItem(gemBoots, Names.BOOTS);
 
         // ToolRenderHelper
-        reg.registerItem(toolRenderHelper).setCreativeTab(null);
+        reg.registerItem(toolRenderHelper, Names.TOOL_RENDER_HELPER).setCreativeTab(null);
         toolRenderHelper.init();
 
         reg.registerItem(guideBook, "guide_book");
