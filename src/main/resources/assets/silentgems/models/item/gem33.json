@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "silentgems:items/gemlight1"
+    "layer0": "silentgems:items/gems/coral"
   }
 }
 

@@ -1,4 +1,6 @@
 2.8.0
+Added: Regular gems can now be used to craft Silent Gear tools and armor. Supercharged gems will not work, expect a new system for that in the future.
+Added: New gem textures (regular only, supers are still the same for now, need to change some code for that)
 Fixed: Teleporter crash (#325)
 
 2.7.9
