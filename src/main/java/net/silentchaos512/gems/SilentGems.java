@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.potion.Potion;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -19,6 +20,7 @@ import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.stats.CommonItemStats;
 import net.silentchaos512.gems.compat.VeinMinerCompat;
+import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.ModEntities;
 import net.silentchaos512.gems.init.*;
@@ -46,17 +48,22 @@ import java.util.Random;
     guiFactory = "net.silentchaos512.gems.client.gui.config.GuiFactorySilentGems")
 //@formatter:on
 public class SilentGems {
-
-    public static final String MODID = "silentgems";
+        public static final String MODID = "silentgems";
     public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
     public static final String MOD_NAME = "Silent's Gems";
     public static final String VERSION = "2.8.0";
-    public static final String VERSION_SILENTLIB = "2.3.16";
+    public static final String VERSION_SILENTLIB = "2.3.17";
     public static final int BUILD_NUM = 0;
     public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
             + "after:baubles;after:enderio;after:enderzoo;after:veinminer;after:silentgear";
     public static final String ACCEPTED_MC_VERSIONS = "[1.12,1.12.2]";
     public static final String RESOURCE_PREFIX = MODID + ":";
+
+    static {
+        if (Loader.isModLoaded("silentgear")) {
+            SGearStatHandler.init();
+        }
+    }
 
     public static Random random = new Random();
     public static LogHelper logHelper = new LogHelper(MOD_NAME, BUILD_NUM);

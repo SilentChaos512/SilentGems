@@ -130,6 +130,10 @@ public enum EnumGem implements IStringSerializable {
     return name;
   }
 
+  public int getMetadata() {
+    return this.ordinal();
+  }
+
   // ===========================
   // Tier-sensitive stat getters
   // ===========================

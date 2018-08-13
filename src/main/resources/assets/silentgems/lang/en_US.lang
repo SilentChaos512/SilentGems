@@ -1027,6 +1027,7 @@ enchantment.silentgems:IceAspect=Ice Aspect
 enchantment.silentgems:LifeSteal=Life Steal
 enchantment.silentgems:LightningAspect=Lightning Aspect
 enchantment.silentgems:MagicDamage=Concentration
+enchantment.silentgems.supercharged=Supercharged
 
 # Enchantment Descriptions
 enchantment.silentgems.gravity.desc=Improves harvest speed while flying or underwater.
@@ -1110,6 +1111,9 @@ material.silentgems.main_kunzite.name=Kunzite
 material.silentgems.main_rose_quartz.name=Rose Quartz
 material.silentgems.main_tektite.name=Tektite
 material.silentgems.main_pearl.name=Pearl
+
+#Silent Gear stats
+stat.silentgems.chargeability=Chargeability
 
 
 

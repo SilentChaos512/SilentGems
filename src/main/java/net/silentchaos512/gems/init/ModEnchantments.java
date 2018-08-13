@@ -9,6 +9,7 @@ public class ModEnchantments {
     public static EnchantmentMagicDamage magicDamage = new EnchantmentMagicDamage();
     public static EnchantmentIceAspect iceAspect = new EnchantmentIceAspect();
     public static EnchantmentLightningAspect lightningAspect = new EnchantmentLightningAspect();
+    public static EnchantmentSupercharged supercharged = new EnchantmentSupercharged();
 
     public static void registerAll(SRegistry reg) {
         reg.registerEnchantment(lifeSteal, EnchantmentLifeSteal.NAME);
@@ -16,5 +17,6 @@ public class ModEnchantments {
         reg.registerEnchantment(gravity, EnchantmentGravity.NAME);
         reg.registerEnchantment(iceAspect, EnchantmentIceAspect.NAME);
         reg.registerEnchantment(lightningAspect, EnchantmentLightningAspect.NAME);
+        reg.registerEnchantment(supercharged, "supercharged");
     }
 }
