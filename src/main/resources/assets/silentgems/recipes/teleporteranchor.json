@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "silentgems:teleporteranchor",
+    "count": 4
+  },
+  "pattern": [
+    "cec",
+    " i ",
+    "cec"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "ore": "gemChaos",
+      "type": "forge:ore_dict"
+    },
+    "e": {
+      "item": "minecraft:ender_pearl"
+    },
+    "i": {
+      "ore": "blockIron",
+      "type": "forge:ore_dict"
+    }
+  }
+}

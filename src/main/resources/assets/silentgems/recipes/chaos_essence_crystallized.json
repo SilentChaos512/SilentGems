@@ -1,0 +1,26 @@
+{
+  "result": {
+    "item": "silentgems:craftingmaterial",
+    "data": 2
+  },
+  "pattern": [
+    "xyx",
+    "ycy",
+    "xyx"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "silentgems:craftingmaterial",
+      "data": 4
+    },
+    "x": {
+      "item": "silentgems:craftingmaterial",
+      "data": 19
+    },
+    "y": {
+      "item": "silentgems:craftingmaterial",
+      "data": 1
+    }
+  }
+}

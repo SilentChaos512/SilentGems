@@ -1,0 +1,27 @@
+{
+  "result": {
+    "item": "silentgems:craftingmaterial",
+    "data": 25,
+    "count": 24
+  },
+  "pattern": [
+    "xyx",
+    "ycy",
+    "xyx"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "item": "silentgems:craftingmaterial",
+      "data": 11
+    },
+    "x": {
+      "ore": "ingotIron",
+      "type": "forge:ore_dict"
+    },
+    "y": {
+      "item": "silentgems:gemshard",
+      "data": 32767
+    }
+  }
+}

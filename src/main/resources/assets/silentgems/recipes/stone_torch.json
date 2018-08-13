@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "silentgems:stonetorch",
+    "count": 4
+  },
+  "pattern": [
+    "c",
+    "s"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "item": "minecraft:coal",
+      "data": 32767
+    },
+    "s": {
+      "ore": "rodStone",
+      "type": "forge:ore_dict"
+    }
+  }
+}

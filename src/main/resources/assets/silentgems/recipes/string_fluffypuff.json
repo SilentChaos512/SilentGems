@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "minecraft:string"
+  },
+  "pattern": [
+    "pp"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "silentgems:fluffypuff"
+    }
+  }
+}

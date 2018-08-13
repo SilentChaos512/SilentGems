@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "silentgems:teleporterredstone",
+    "data": 0
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:teleporterredstonedark",
+      "data": 32767
+    },
+    {
+      "ore": "gemRuby",
+      "type": "forge:ore_dict"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "silentgems:gemshard",
+    "data": 35,
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:gem",
+      "data": 35
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

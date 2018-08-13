@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "silentgems:teleporterredstonelight",
+    "data": 11
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:teleporterlight",
+      "data": 11
+    },
+    {
+      "ore": "dustRedstone",
+      "type": "forge:ore_dict"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

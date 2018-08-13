@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "silentgems:gembrickspeckled",
+    "data": 9,
+    "count": 8
+  },
+  "pattern": [
+    "xxx",
+    "xcx",
+    "xxx"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "ore": "nuggetSapphire",
+      "type": "forge:ore_dict"
+    },
+    "x": {
+      "item": "minecraft:stonebrick",
+      "data": 32767
+    }
+  }
+}

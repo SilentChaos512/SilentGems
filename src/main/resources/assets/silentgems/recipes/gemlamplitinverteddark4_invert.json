@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "silentgems:gemlamplitinverteddark",
+    "data": 4
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:gemlampdark",
+      "data": 4
+    },
+    {
+      "item": "minecraft:redstone_torch"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

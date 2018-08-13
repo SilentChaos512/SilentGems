@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "silentgems:gem",
+    "data": 40,
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:gemblocklight",
+      "data": 8
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

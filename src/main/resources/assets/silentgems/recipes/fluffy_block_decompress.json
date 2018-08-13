@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "silentgems:craftingmaterial",
+    "data": 11,
+    "count": 4
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:fluffyblock",
+      "data": 0
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

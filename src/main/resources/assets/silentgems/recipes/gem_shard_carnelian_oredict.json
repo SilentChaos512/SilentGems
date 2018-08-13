@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "silentgems:gemshard",
+    "data": 16,
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "ore": "gemCarnelian",
+      "type": "forge:ore_dict"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

@@ -1,0 +1,45 @@
+{
+  "result": {
+    "item": "silentgems:gem",
+    "data": 31
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:gemshard",
+      "data": 31
+    },
+    {
+      "item": "silentgems:gemshard",
+      "data": 31
+    },
+    {
+      "item": "silentgems:gemshard",
+      "data": 31
+    },
+    {
+      "item": "silentgems:gemshard",
+      "data": 31
+    },
+    {
+      "item": "silentgems:gemshard",
+      "data": 31
+    },
+    {
+      "item": "silentgems:gemshard",
+      "data": 31
+    },
+    {
+      "item": "silentgems:gemshard",
+      "data": 31
+    },
+    {
+      "item": "silentgems:gemshard",
+      "data": 31
+    },
+    {
+      "item": "silentgems:gemshard",
+      "data": 31
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

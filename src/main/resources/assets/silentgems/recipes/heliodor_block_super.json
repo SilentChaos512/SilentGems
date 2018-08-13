@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "silentgems:gemblocksuper",
+    "data": 4
+  },
+  "pattern": [
+    " g ",
+    "gog",
+    " g "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "g": {
+      "ore": "gemHeliodorSuper",
+      "type": "forge:ore_dict"
+    },
+    "o": {
+      "ore": "obsidian",
+      "type": "forge:ore_dict"
+    }
+  }
+}

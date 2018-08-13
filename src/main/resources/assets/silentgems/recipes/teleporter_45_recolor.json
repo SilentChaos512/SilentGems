@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "silentgems:teleporterlight",
+    "data": 15
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:teleporter",
+      "data": 32767
+    },
+    {
+      "ore": "gemPearl",
+      "type": "forge:ore_dict"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

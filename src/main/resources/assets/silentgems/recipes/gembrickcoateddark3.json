@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "silentgems:gembrickcoateddark",
+    "data": 3,
+    "count": 8
+  },
+  "pattern": [
+    "xxx",
+    "xcx",
+    "xxx"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "ore": "gemJasper",
+      "type": "forge:ore_dict"
+    },
+    "x": {
+      "item": "minecraft:stonebrick",
+      "data": 32767
+    }
+  }
+}

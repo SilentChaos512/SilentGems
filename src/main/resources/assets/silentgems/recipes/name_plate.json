@@ -1,0 +1,27 @@
+{
+  "result": {
+    "item": "silentgems:craftingmaterial",
+    "data": 13,
+    "count": 4
+  },
+  "pattern": [
+    "iii",
+    "pcp",
+    "iii"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "p": {
+      "ore": "paper",
+      "type": "forge:ore_dict"
+    },
+    "c": {
+      "ore": "gemChaos",
+      "type": "forge:ore_dict"
+    },
+    "i": {
+      "ore": "ingotIron",
+      "type": "forge:ore_dict"
+    }
+  }
+}

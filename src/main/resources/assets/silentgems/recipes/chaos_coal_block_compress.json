@@ -1,0 +1,45 @@
+{
+  "result": {
+    "item": "silentgems:miscblock",
+    "data": 3
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:craftingmaterial",
+      "data": 6
+    },
+    {
+      "item": "silentgems:craftingmaterial",
+      "data": 6
+    },
+    {
+      "item": "silentgems:craftingmaterial",
+      "data": 6
+    },
+    {
+      "item": "silentgems:craftingmaterial",
+      "data": 6
+    },
+    {
+      "item": "silentgems:craftingmaterial",
+      "data": 6
+    },
+    {
+      "item": "silentgems:craftingmaterial",
+      "data": 6
+    },
+    {
+      "item": "silentgems:craftingmaterial",
+      "data": 6
+    },
+    {
+      "item": "silentgems:craftingmaterial",
+      "data": 6
+    },
+    {
+      "item": "silentgems:craftingmaterial",
+      "data": 6
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

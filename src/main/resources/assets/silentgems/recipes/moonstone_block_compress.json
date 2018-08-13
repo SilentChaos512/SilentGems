@@ -1,0 +1,45 @@
+{
+  "result": {
+    "item": "silentgems:gemblockdark",
+    "data": 8
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:gem",
+      "data": 24
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 24
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 24
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 24
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 24
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 24
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 24
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 24
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 24
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

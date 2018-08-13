@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "silentgems:craftingmaterial",
+    "data": 11
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:fluffypuff"
+    },
+    {
+      "item": "silentgems:fluffypuff"
+    },
+    {
+      "item": "silentgems:fluffypuff"
+    },
+    {
+      "item": "silentgems:fluffypuff"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

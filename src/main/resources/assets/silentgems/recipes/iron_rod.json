@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "silentgems:craftingmaterial",
+    "data": 7,
+    "count": 8
+  },
+  "pattern": [
+    "igi",
+    "igi",
+    "igi"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "g": {
+      "item": "silentgems:gemshard",
+      "data": 32767
+    },
+    "i": {
+      "ore": "ingotIron",
+      "type": "forge:ore_dict"
+    }
+  }
+}

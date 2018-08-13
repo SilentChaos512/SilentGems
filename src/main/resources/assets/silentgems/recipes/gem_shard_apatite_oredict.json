@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "silentgems:gemshard",
+    "data": 39,
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "ore": "gemApatite",
+      "type": "forge:ore_dict"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

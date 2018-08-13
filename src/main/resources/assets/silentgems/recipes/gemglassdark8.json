@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "silentgems:gemglassdark",
+    "data": 8,
+    "count": 8
+  },
+  "pattern": [
+    "xxx",
+    "xcx",
+    "xxx"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "ore": "nuggetMoonstone",
+      "type": "forge:ore_dict"
+    },
+    "x": {
+      "ore": "blockGlass",
+      "type": "forge:ore_dict"
+    }
+  }
+}

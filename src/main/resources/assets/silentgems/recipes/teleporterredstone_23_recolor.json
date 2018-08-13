@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "silentgems:teleporterredstone",
+    "data": 7
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:teleporterredstonelight",
+      "data": 32767
+    },
+    {
+      "ore": "gemIndicolite",
+      "type": "forge:ore_dict"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

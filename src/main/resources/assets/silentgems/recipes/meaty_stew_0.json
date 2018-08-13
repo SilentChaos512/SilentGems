@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "silentgems:food",
+    "data": 3
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:bowl"
+    },
+    {
+      "item": "minecraft:beef"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:carrot"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

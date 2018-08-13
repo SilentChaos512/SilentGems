@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "silentgems:gemshard",
+    "data": 21,
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "ore": "gemMoldavite",
+      "type": "forge:ore_dict"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "silentgems:chaosorb",
+    "data": 2
+  },
+  "pattern": [
+    " c ",
+    "coc",
+    " c "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "silentgems:craftingmaterial",
+      "data": 1
+    },
+    "o": {
+      "item": "silentgems:chaosorb",
+      "data": 1
+    }
+  }
+}

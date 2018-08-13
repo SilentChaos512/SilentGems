@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "silentgems:chaosgem",
+    "data": 26
+  },
+  "pattern": [
+    "xxx",
+    "xcx",
+    "xxx"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "ore": "blockTanzanite",
+      "type": "forge:ore_dict"
+    },
+    "x": {
+      "item": "silentgems:craftingmaterial",
+      "data": 1
+    }
+  }
+}

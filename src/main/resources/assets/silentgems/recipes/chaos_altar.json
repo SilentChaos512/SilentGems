@@ -1,0 +1,29 @@
+{
+  "result": {
+    "item": "silentgems:chaosaltar"
+  },
+  "pattern": [
+    "rer",
+    "dod",
+    "ooo"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "r": {
+      "ore": "dustRedstone",
+      "type": "forge:ore_dict"
+    },
+    "d": {
+      "ore": "gemDiamond",
+      "type": "forge:ore_dict"
+    },
+    "e": {
+      "item": "silentgems:craftingmaterial",
+      "data": 1
+    },
+    "o": {
+      "ore": "obsidian",
+      "type": "forge:ore_dict"
+    }
+  }
+}

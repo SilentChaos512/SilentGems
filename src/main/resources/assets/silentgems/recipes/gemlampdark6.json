@@ -1,0 +1,26 @@
+{
+  "result": {
+    "item": "silentgems:gemlampdark",
+    "data": 6
+  },
+  "pattern": [
+    "xyx",
+    "ycy",
+    "xyx"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "ore": "gemMalachite",
+      "type": "forge:ore_dict"
+    },
+    "x": {
+      "ore": "dustRedstone",
+      "type": "forge:ore_dict"
+    },
+    "y": {
+      "ore": "dustGlowstone",
+      "type": "forge:ore_dict"
+    }
+  }
+}

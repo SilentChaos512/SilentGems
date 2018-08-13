@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "silentgems:teleporter_linker"
+  },
+  "pattern": [
+    "c",
+    "r"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "r": {
+      "item": "silentgems:craftingmaterial",
+      "data": 8
+    },
+    "c": {
+      "item": "silentgems:craftingmaterial",
+      "data": 1
+    }
+  }
+}

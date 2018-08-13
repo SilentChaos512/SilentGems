@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "silentgems:gemglass",
+    "data": 6,
+    "count": 8
+  },
+  "pattern": [
+    "xxx",
+    "xcx",
+    "xxx"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "ore": "nuggetBeryl",
+      "type": "forge:ore_dict"
+    },
+    "x": {
+      "ore": "blockGlass",
+      "type": "forge:ore_dict"
+    }
+  }
+}

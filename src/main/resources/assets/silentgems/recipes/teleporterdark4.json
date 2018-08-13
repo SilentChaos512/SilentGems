@@ -1,0 +1,27 @@
+{
+  "result": {
+    "item": "silentgems:teleporterdark",
+    "data": 4,
+    "count": 2
+  },
+  "pattern": [
+    "cec",
+    " g ",
+    "cec"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "item": "silentgems:craftingmaterial",
+      "data": 1
+    },
+    "e": {
+      "item": "silentgems:craftingmaterial",
+      "data": 4
+    },
+    "g": {
+      "ore": "blockGoldenBeryl",
+      "type": "forge:ore_dict"
+    }
+  }
+}

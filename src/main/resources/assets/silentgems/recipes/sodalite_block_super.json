@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "silentgems:gemblocksuperlight",
+    "data": 10
+  },
+  "pattern": [
+    " g ",
+    "gog",
+    " g "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "g": {
+      "ore": "gemSodaliteSuper",
+      "type": "forge:ore_dict"
+    },
+    "o": {
+      "ore": "obsidian",
+      "type": "forge:ore_dict"
+    }
+  }
+}

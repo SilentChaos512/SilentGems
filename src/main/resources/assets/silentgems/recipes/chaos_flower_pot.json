@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "silentgems:chaosflowerpot"
+  },
+  "pattern": [
+    "c",
+    "f"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "silentgems:craftingmaterial",
+      "data": 1
+    },
+    "f": {
+      "item": "minecraft:flower_pot"
+    }
+  }
+}

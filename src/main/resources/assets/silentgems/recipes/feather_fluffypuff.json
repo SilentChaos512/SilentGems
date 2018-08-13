@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "minecraft:feather"
+  },
+  "pattern": [
+    " pp",
+    "pp ",
+    "p  "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "silentgems:fluffypuff"
+    }
+  }
+}

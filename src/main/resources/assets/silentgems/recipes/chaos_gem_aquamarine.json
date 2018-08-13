@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "silentgems:chaosgem",
+    "data": 8
+  },
+  "pattern": [
+    "xxx",
+    "xcx",
+    "xxx"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "ore": "blockAquamarine",
+      "type": "forge:ore_dict"
+    },
+    "x": {
+      "item": "silentgems:craftingmaterial",
+      "data": 1
+    }
+  }
+}

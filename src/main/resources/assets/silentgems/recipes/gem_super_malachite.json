@@ -1,0 +1,26 @@
+{
+  "result": {
+    "item": "silentgems:gemsuper",
+    "data": 22
+  },
+  "pattern": [
+    "cgc",
+    "cdc",
+    "cgc"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "ore": "gemChaos",
+      "type": "forge:ore_dict"
+    },
+    "d": {
+      "ore": "dustGlowstone",
+      "type": "forge:ore_dict"
+    },
+    "g": {
+      "item": "silentgems:gem",
+      "data": 22
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "silentgems:chaosorb",
+    "data": 1
+  },
+  "pattern": [
+    "ccc",
+    "cdc",
+    "ccc"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "ore": "gemChaos",
+      "type": "forge:ore_dict"
+    },
+    "d": {
+      "ore": "gemDiamond",
+      "type": "forge:ore_dict"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "result": {
+    "item": "silentgems:gemblocklight",
+    "data": 1
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:gem",
+      "data": 33
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 33
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 33
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 33
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 33
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 33
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 33
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 33
+    },
+    {
+      "item": "silentgems:gem",
+      "data": 33
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

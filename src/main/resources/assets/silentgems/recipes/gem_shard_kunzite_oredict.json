@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "silentgems:gemshard",
+    "data": 44,
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "ore": "gemKunzite",
+      "type": "forge:ore_dict"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

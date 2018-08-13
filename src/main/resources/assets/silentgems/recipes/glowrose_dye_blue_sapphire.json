@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "silentgems:dye",
+    "data": 4,
+    "count": 2
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:glowrose",
+      "data": 9
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

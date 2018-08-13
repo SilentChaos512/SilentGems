@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "silentgems:chaosgem",
+    "data": 11
+  },
+  "pattern": [
+    "xxx",
+    "xcx",
+    "xxx"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "ore": "blockAmethyst",
+      "type": "forge:ore_dict"
+    },
+    "x": {
+      "item": "silentgems:craftingmaterial",
+      "data": 1
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "silentgems:craftingmaterial",
+    "data": 33,
+    "count": 4
+  },
+  "pattern": [
+    "s",
+    "s"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "s": {
+      "ore": "cobblestone",
+      "type": "forge:ore_dict"
+    }
+  }
+}

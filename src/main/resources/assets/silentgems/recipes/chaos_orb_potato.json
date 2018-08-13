@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "silentgems:chaosorb",
+    "data": 0
+  },
+  "pattern": [
+    "ccc",
+    "cpc",
+    "ccc"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "p": {
+      "item": "minecraft:potato"
+    },
+    "c": {
+      "ore": "nuggetChaos",
+      "type": "forge:ore_dict"
+    }
+  }
+}

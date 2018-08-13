@@ -1,0 +1,11 @@
+{
+  "result": {
+    "item": "silentgems:fluffypuffseeds"
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:fluffypuff"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

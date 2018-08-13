@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "silentgems:fluffyblock",
+    "data": 9,
+    "count": 8
+  },
+  "pattern": [
+    "xxx",
+    "xcx",
+    "xxx"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "ore": "dyeCyan",
+      "type": "forge:ore_dict"
+    },
+    "x": {
+      "item": "silentgems:fluffyblock",
+      "data": 32767
+    }
+  }
+}

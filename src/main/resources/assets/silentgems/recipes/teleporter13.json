@@ -1,0 +1,27 @@
+{
+  "result": {
+    "item": "silentgems:teleporter",
+    "data": 13,
+    "count": 2
+  },
+  "pattern": [
+    "cec",
+    " g ",
+    "cec"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "item": "silentgems:craftingmaterial",
+      "data": 1
+    },
+    "e": {
+      "item": "silentgems:craftingmaterial",
+      "data": 4
+    },
+    "g": {
+      "ore": "blockMorganite",
+      "type": "forge:ore_dict"
+    }
+  }
+}

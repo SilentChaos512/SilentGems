@@ -1,0 +1,27 @@
+{
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "data": 256,
+    "count": 12
+  },
+  "pattern": [
+    "ggg",
+    "lcl",
+    "ggg"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "ore": "gemChaos",
+      "type": "forge:ore_dict"
+    },
+    "g": {
+      "ore": "ingotGold",
+      "type": "forge:ore_dict"
+    },
+    "l": {
+      "ore": "gemLapis",
+      "type": "forge:ore_dict"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "silentgems:armorframe",
+    "data": 0
+  },
+  "pattern": [
+    "lll",
+    "l l"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "l": {
+      "item": "silentgems:craftingmaterial",
+      "data": 24
+    }
+  }
+}

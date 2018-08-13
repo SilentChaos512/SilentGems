@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "silentgems:craftingmaterial",
+    "data": 20
+  },
+  "pattern": [
+    "sss",
+    "s s",
+    "sss"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "s": {
+      "item": "silentgems:craftingmaterial",
+      "data": 19
+    }
+  }
+}

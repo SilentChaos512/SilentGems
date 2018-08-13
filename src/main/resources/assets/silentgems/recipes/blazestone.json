@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "silentgems:craftingmaterial",
+    "data": 27
+  },
+  "pattern": [
+    "xxx",
+    "xcx",
+    "xxx"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "ore": "dustRedstone",
+      "type": "forge:ore_dict"
+    },
+    "x": {
+      "item": "minecraft:blaze_powder"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "silentgems:craftingmaterial",
+    "data": 23
+  },
+  "pattern": [
+    " l ",
+    "lbl",
+    " l "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "b": {
+      "item": "minecraft:bone"
+    },
+    "l": {
+      "item": "minecraft:leather"
+    }
+  }
+}

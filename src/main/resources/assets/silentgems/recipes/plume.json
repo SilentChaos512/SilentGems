@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "silentgems:craftingmaterial",
+    "data": 16
+  },
+  "pattern": [
+    "xxx",
+    "xcx",
+    "xxx"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "c": {
+      "item": "silentgems:gemshard",
+      "data": 32767
+    },
+    "x": {
+      "ore": "feather",
+      "type": "forge:ore_dict"
+    }
+  }
+}

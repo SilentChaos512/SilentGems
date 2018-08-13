@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "silentgems:petsummoner",
+    "data": 0
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:gem",
+      "data": 32767
+    },
+    {
+      "item": "minecraft:fish",
+      "data": 32767
+    },
+    {
+      "item": "silentgems:craftingmaterial",
+      "data": 22
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

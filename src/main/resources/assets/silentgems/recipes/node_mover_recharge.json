@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "silentgems:nodemover"
+  },
+  "pattern": [
+    "sms"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "s": {
+      "item": "silentgems:craftingmaterial",
+      "data": 19
+    },
+    "m": {
+      "item": "silentgems:nodemover",
+      "data": 2
+    }
+  }
+}

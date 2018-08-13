@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "silentgems:gemblocksuperdark",
+    "data": 13
+  },
+  "pattern": [
+    " g ",
+    "gog",
+    " g "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "g": {
+      "ore": "gemAmetrineSuper",
+      "type": "forge:ore_dict"
+    },
+    "o": {
+      "ore": "obsidian",
+      "type": "forge:ore_dict"
+    }
+  }
+}

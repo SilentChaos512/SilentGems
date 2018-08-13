@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "silentgems:gemshard",
+    "data": 14,
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "ore": "gemOnyx",
+      "type": "forge:ore_dict"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

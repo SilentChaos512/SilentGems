@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "silentgems:teleporterredstonelight",
+    "data": 10
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:teleporterredstonelight",
+      "data": 32767
+    },
+    {
+      "ore": "gemSodalite",
+      "type": "forge:ore_dict"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

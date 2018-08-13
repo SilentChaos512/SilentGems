@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "minecraft:nether_star"
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:craftingmaterial",
+      "data": 20
+    },
+    {
+      "item": "silentgems:craftingmaterial",
+      "data": 20
+    },
+    {
+      "item": "silentgems:craftingmaterial",
+      "data": 20
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

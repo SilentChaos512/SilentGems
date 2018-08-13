@@ -1,0 +1,30 @@
+{
+  "result": {
+    "item": "silentgems:returnhomecharm",
+    "data": 27
+  },
+  "pattern": [
+    " s ",
+    "sgs",
+    "ici"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "s": {
+      "item": "silentgems:craftingmaterial",
+      "data": 21
+    },
+    "c": {
+      "item": "silentgems:chaosorb",
+      "data": 1
+    },
+    "g": {
+      "ore": "gemVioletSapphire",
+      "type": "forge:ore_dict"
+    },
+    "i": {
+      "ore": "ingotGold",
+      "type": "forge:ore_dict"
+    }
+  }
+}

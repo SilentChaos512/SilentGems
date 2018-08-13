@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "silentgems:gemshard",
+    "data": 35,
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "ore": "gemCatsEye",
+      "type": "forge:ore_dict"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

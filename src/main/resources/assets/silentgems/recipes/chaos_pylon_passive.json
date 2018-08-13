@@ -1,0 +1,26 @@
+{
+  "result": {
+    "item": "silentgems:chaospylon",
+    "data": 0
+  },
+  "pattern": [
+    "lel",
+    "lol",
+    "ooo"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "e": {
+      "item": "silentgems:craftingmaterial",
+      "data": 14
+    },
+    "l": {
+      "ore": "gemLapis",
+      "type": "forge:ore_dict"
+    },
+    "o": {
+      "ore": "obsidian",
+      "type": "forge:ore_dict"
+    }
+  }
+}

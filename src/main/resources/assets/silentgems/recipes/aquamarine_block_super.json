@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "silentgems:gemblocksuper",
+    "data": 8
+  },
+  "pattern": [
+    " g ",
+    "gog",
+    " g "
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "g": {
+      "ore": "gemAquamarineSuper",
+      "type": "forge:ore_dict"
+    },
+    "o": {
+      "ore": "obsidian",
+      "type": "forge:ore_dict"
+    }
+  }
+}

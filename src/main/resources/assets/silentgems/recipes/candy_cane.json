@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "silentgems:food",
+    "data": 5,
+    "count": 6
+  },
+  "pattern": [
+    "ss",
+    "rs",
+    " s"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "r": {
+      "ore": "dyeRed",
+      "type": "forge:ore_dict"
+    },
+    "s": {
+      "item": "minecraft:sugar"
+    }
+  }
+}

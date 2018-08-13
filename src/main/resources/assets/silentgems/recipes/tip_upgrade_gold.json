@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "silentgems:tipupgrade",
+    "data": 1
+  },
+  "ingredients": [
+    {
+      "ore": "ingotGold",
+      "type": "forge:ore_dict"
+    },
+    {
+      "item": "silentgems:craftingmaterial",
+      "data": 12
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

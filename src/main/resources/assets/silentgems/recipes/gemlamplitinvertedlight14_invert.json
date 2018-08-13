@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "silentgems:gemlamplitinvertedlight",
+    "data": 14
+  },
+  "ingredients": [
+    {
+      "item": "silentgems:gemlamplight",
+      "data": 14
+    },
+    {
+      "item": "minecraft:redstone_torch"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

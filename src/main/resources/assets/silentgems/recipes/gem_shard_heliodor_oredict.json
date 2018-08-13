@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "silentgems:gemshard",
+    "data": 4,
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "ore": "gemHeliodor",
+      "type": "forge:ore_dict"
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}
