@@ -33,27 +33,33 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModEnchantments;
 
 import java.util.Map;
-import java.util.function.ToDoubleBiFunction;
+import java.util.function.ToDoubleFunction;
 
+/**
+ * Handles the {@link GetStatModifierEvent} to apply stat bonuses to Silent Gear materials with the
+ * Supercharged enchantment. Does not work with the old Silent's Gems tool system.
+ */
 @Mod.EventBusSubscriber
 public class SGearStatHandler {
     public static final ItemStat CHARGEABILITY = new ItemStat(new ResourceLocation(SilentGems.MODID, "chargeability"),
             1f, 0f, 100f, false, TextFormatting.GOLD).setSynergyApplies(false).setAffectedByGrades(false).setHidden(true);
 
-    private static final Map<ItemStat, ToDoubleBiFunction<Float, Float>> BOOSTED_STATS =
-            ImmutableMap.<ItemStat, ToDoubleBiFunction<Float, Float>>builder()
-                    .put(CommonItemStats.DURABILITY, (level, value) -> value * Math.pow(2.0, level))
-                    .put(CommonItemStats.ARMOR_DURABILITY, (level, value) -> value * Math.pow(1.8, level))
-                    .put(CommonItemStats.ENCHANTABILITY, (level, value) -> value + level * 4)
-                    .put(CommonItemStats.RARITY, (level, value) -> value + level * 15)
-                    .put(CommonItemStats.HARVEST_LEVEL, (level, value) -> value + level)
-                    .put(CommonItemStats.HARVEST_SPEED, (level, value) -> value + level * level * 4)
-                    .put(CommonItemStats.MELEE_DAMAGE, (level, value) -> value + level * 2)
-                    .put(CommonItemStats.MAGIC_DAMAGE, (level, value) -> value + level * 2)
-                    .put(CommonItemStats.RANGED_DAMAGE, (level, value) -> value + level)
-                    .put(CommonItemStats.ARMOR, (level, value) -> value + level * 2)
-                    .put(CommonItemStats.ARMOR_TOUGHNESS, (level, value) -> value + level)
-                    .put(CommonItemStats.MAGIC_ARMOR, (level, value) -> value + level)
+    private static final Map<ItemStat, ToDoubleFunction<ChargedProperties>> BOOSTED_STATS =
+            ImmutableMap.<ItemStat, ToDoubleFunction<ChargedProperties>>builder()
+                    //@formatter:off
+                    .put(CommonItemStats.DURABILITY,        prop -> prop.originalStat * Math.pow(2.0, prop.chargeValue))
+                    .put(CommonItemStats.ARMOR_DURABILITY,  prop -> prop.originalStat * Math.pow(1.8, prop.chargeValue))
+                    .put(CommonItemStats.ENCHANTABILITY,    prop -> prop.originalStat + prop.chargeValue * 4)
+                    .put(CommonItemStats.RARITY,            prop -> prop.originalStat + prop.superchargedLevel * 15)
+                    .put(CommonItemStats.HARVEST_LEVEL,     prop -> prop.originalStat + prop.superchargedLevel)
+                    .put(CommonItemStats.HARVEST_SPEED,     prop -> prop.originalStat + prop.superchargedLevel * prop.chargeValue * 4)
+                    .put(CommonItemStats.MELEE_DAMAGE,      prop -> prop.originalStat + prop.chargeValue * 2)
+                    .put(CommonItemStats.MAGIC_DAMAGE,      prop -> prop.originalStat + prop.chargeValue * 2)
+                    .put(CommonItemStats.RANGED_DAMAGE,     prop -> prop.originalStat + prop.chargeValue)
+                    .put(CommonItemStats.ARMOR,             prop -> prop.originalStat + prop.chargeValue)
+                    .put(CommonItemStats.ARMOR_TOUGHNESS,   prop -> prop.originalStat + prop.chargeValue / 2)
+                    .put(CommonItemStats.MAGIC_ARMOR,       prop -> prop.originalStat + prop.chargeValue)
+                    //@formatter:on
                     .build();
 
     @SubscribeEvent
@@ -65,14 +71,15 @@ public class SGearStatHandler {
             float chargeability = CHARGEABILITY.compute(0, event.getPart().getStatModifiers(CHARGEABILITY));
             if (chargeability == 0) chargeability = 1;
             float chargeLevel = chargeability * supercharged;
-//            SilentGems.logHelper.debug(chargeability, chargeLevel);
+            SilentGems.logHelper.debug(chargeability, chargeLevel);
 
             for (int i = 0; i < event.getModifiers().size(); ++i) {
                 StatInstance instance = event.getModifiers().get(i);
                 if (instance.getOp() == StatInstance.Operation.AVG || instance.getOp() == StatInstance.Operation.MAX) {
                     // Replace instance with a modified one
+                    ChargedProperties chargedProperties = new ChargedProperties(supercharged, chargeLevel, instance.getValue());
                     StatInstance replacement = new StatInstance(instance.getId() + "_supercharged_" + supercharged,
-                            (float) BOOSTED_STATS.get(event.getStat()).applyAsDouble(chargeLevel, instance.getValue()),
+                            (float) BOOSTED_STATS.get(event.getStat()).applyAsDouble(chargedProperties),
                             instance.getOp());
                     event.getModifiers().remove(instance);
                     event.getModifiers().add(replacement);
@@ -83,5 +90,26 @@ public class SGearStatHandler {
 
     public static void init() {
         // NO-OP
+    }
+
+    private static class ChargedProperties {
+        /**
+         * The supercharged enchantment level, before chargeability is applied
+         */
+        private final int superchargedLevel;
+        /**
+         * The actual charge level after applying the chargeability stat multiplier
+         */
+        private final float chargeValue;
+        /**
+         * The original value of the stat being modified
+         */
+        private final float originalStat;
+
+        private ChargedProperties(int superchargedLevel, float chargeValue, float originalStat) {
+            this.superchargedLevel = superchargedLevel;
+            this.chargeValue = chargeValue;
+            this.originalStat = originalStat;
+        }
     }
 }
