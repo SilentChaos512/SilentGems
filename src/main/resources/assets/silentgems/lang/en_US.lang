@@ -304,8 +304,8 @@ tile.silentgems.gemglasslight13.name=Rose Quartz Glass
 tile.silentgems.gemglasslight14.name=Tektite Glass
 tile.silentgems.gemglasslight15.name=Pearl Glass
 
-tile.silentgems:gemlamp.lit=Lit
-tile.silentgems:gemlamp.inverted=Inverted
+tile.silentgems.gemlamp.lit=Lit
+tile.silentgems.gemlamp.inverted=Inverted
 
 tile.silentgems.gemlamp0.name=Ruby Lamp
 tile.silentgems.gemlamp1.name=Garnet Lamp
@@ -576,8 +576,8 @@ item.silentgems:armorframe9.name=Chestplate Frame (Super)
 item.silentgems:armorframe10.name=Leggings Frame (Super)
 item.silentgems:armorframe11.name=Boots Frame (Super)
 
-item.silentgems:blockplacer.autoFill=Auto-Fill: %s
-item.silentgems:blockplacer.count=&e%d / %d
+item.silentgems.blockplacer.autoFill=Auto-Fill: %s
+item.silentgems.blockplacer.count=&e%d / %d
 
 item.silentgems:chaosgem0.name=Chaos Ruby
 item.silentgems:chaosgem1.name=Chaos Garnet
@@ -677,54 +677,54 @@ item.silentgems:enchantmenttoken.materials=&6Materials:
 item.silentgems:fluffypuff.name=Fluffy Puff
 item.silentgems:fluffypuffseeds.name=Fluffy Puff Seeds
 
-item.silentgems:gem0.name=Ruby
-item.silentgems:gem1.name=Garnet
-item.silentgems:gem2.name=Topaz
-item.silentgems:gem3.name=Amber
-item.silentgems:gem4.name=Heliodor
-item.silentgems:gem5.name=Peridot
-item.silentgems:gem6.name=Beryl
-item.silentgems:gem7.name=Indicolite
-item.silentgems:gem8.name=Aquamarine
-item.silentgems:gem9.name=Sapphire
-item.silentgems:gem10.name=Iolite
-item.silentgems:gem11.name=Amethyst
-item.silentgems:gem12.name=Agate
-item.silentgems:gem13.name=Morganite
-item.silentgems:gem14.name=Onyx
-item.silentgems:gem15.name=Opal
-item.silentgems:gem16.name=Carnelian
-item.silentgems:gem17.name=Spinel
-item.silentgems:gem18.name=Citrine
-item.silentgems:gem19.name=Jasper
-item.silentgems:gem20.name=Golden Beryl
-item.silentgems:gem21.name=Moldavite
-item.silentgems:gem22.name=Malachite
-item.silentgems:gem23.name=Turquoise
-item.silentgems:gem24.name=Moonstone
-item.silentgems:gem25.name=Blue Topaz
-item.silentgems:gem26.name=Tanzanite
-item.silentgems:gem27.name=Violet Sapphire
-item.silentgems:gem28.name=Lepidolite
-item.silentgems:gem29.name=Ametrine
-item.silentgems:gem30.name=Black Diamond
-item.silentgems:gem31.name=Alexandrite
-item.silentgems:gem32.name=Pyrope
-item.silentgems:gem33.name=Coral
-item.silentgems:gem34.name=Sunstone
-item.silentgems:gem35.name=Cat's Eye
-item.silentgems:gem36.name=Zircon
-item.silentgems:gem37.name=Jade
-item.silentgems:gem38.name=Chrysoprase
-item.silentgems:gem39.name=Apatite
-item.silentgems:gem40.name=Fluorite
-item.silentgems:gem41.name=Kyanite
-item.silentgems:gem42.name=Sodalite
-item.silentgems:gem43.name=Ammolite
-item.silentgems:gem44.name=Kunzite
-item.silentgems:gem45.name=Rose Quartz
-item.silentgems:gem46.name=Tektite
-item.silentgems:gem47.name=Pearl
+item.silentgems.gem0.name=Ruby
+item.silentgems.gem1.name=Garnet
+item.silentgems.gem2.name=Topaz
+item.silentgems.gem3.name=Amber
+item.silentgems.gem4.name=Heliodor
+item.silentgems.gem5.name=Peridot
+item.silentgems.gem6.name=Beryl
+item.silentgems.gem7.name=Indicolite
+item.silentgems.gem8.name=Aquamarine
+item.silentgems.gem9.name=Sapphire
+item.silentgems.gem10.name=Iolite
+item.silentgems.gem11.name=Amethyst
+item.silentgems.gem12.name=Agate
+item.silentgems.gem13.name=Morganite
+item.silentgems.gem14.name=Onyx
+item.silentgems.gem15.name=Opal
+item.silentgems.gem16.name=Carnelian
+item.silentgems.gem17.name=Spinel
+item.silentgems.gem18.name=Citrine
+item.silentgems.gem19.name=Jasper
+item.silentgems.gem20.name=Golden Beryl
+item.silentgems.gem21.name=Moldavite
+item.silentgems.gem22.name=Malachite
+item.silentgems.gem23.name=Turquoise
+item.silentgems.gem24.name=Moonstone
+item.silentgems.gem25.name=Blue Topaz
+item.silentgems.gem26.name=Tanzanite
+item.silentgems.gem27.name=Violet Sapphire
+item.silentgems.gem28.name=Lepidolite
+item.silentgems.gem29.name=Ametrine
+item.silentgems.gem30.name=Black Diamond
+item.silentgems.gem31.name=Alexandrite
+item.silentgems.gem32.name=Pyrope
+item.silentgems.gem33.name=Coral
+item.silentgems.gem34.name=Sunstone
+item.silentgems.gem35.name=Cat's Eye
+item.silentgems.gem36.name=Zircon
+item.silentgems.gem37.name=Jade
+item.silentgems.gem38.name=Chrysoprase
+item.silentgems.gem39.name=Apatite
+item.silentgems.gem40.name=Fluorite
+item.silentgems.gem41.name=Kyanite
+item.silentgems.gem42.name=Sodalite
+item.silentgems.gem43.name=Ammolite
+item.silentgems.gem44.name=Kunzite
+item.silentgems.gem45.name=Rose Quartz
+item.silentgems.gem46.name=Tektite
+item.silentgems.gem47.name=Pearl
 item.silentgems:gemsuper0.name=Supercharged Ruby
 item.silentgems:gemsuper1.name=Supercharged Garnet
 item.silentgems:gemsuper2.name=Supercharged Topaz
@@ -830,8 +830,8 @@ item.silentgems:glowrosefertilizer.desc=Grows glow roses. Say that three times f
 
 item.silentgems.guide_book.name=Silent's Gems Manual
 
-item.silentgems:holdinggem.name=Holding Gem
-item.silentgems:holdinggem.desc=Can store large quantities of a single block and place them.
+item.silentgems.holdinggem.name=Holding Gem
+item.silentgems.holdinggem.desc=Can store large quantities of a single block and place them
 
 item.silentgems:nodemover0.name=Chaos Node Mover (Empty)
 item.silentgems:nodemover1.name=Chaos Node Mover (Filled)
@@ -875,7 +875,7 @@ item.silentgems:toolsoul.name=Tool Soul
 item.silentgems:toolsoul.desc1=Craft with a tool or armor piece.
 item.silentgems:toolsoul.desc2=Allows the item to level up and gain skills.
 
-item.silentgems:torchbandolier.name=Torch Bandolier
+item.silentgems.torchbandolier.name=Torch Bandolier
 
 item.silentgems:upgradeirontip.name=Iron-Tipped Upgrade
 item.silentgems:upgradediamondtip.name=Diamond-Tipped Upgrade
@@ -1194,8 +1194,10 @@ misc.silentgems:ChaosCharge=Chaos: %,d / %,d
 misc.silentgems:PressCtrl=<Press Ctrl>
 misc.silentgems:PressAlt=<Press Alt>
 misc.silentgems:PressShift=<Press Shift>
-misc.silentgems:state.on=On
-misc.silentgems:state.off=Off
+misc.silentgems.state.on=On
+misc.silentgems.state.off=Off
+
+misc.silentgems.legacyItem=§6§oLegacy Item
 
 
 
@@ -1305,16 +1307,16 @@ skill.silentgems:warm.name=Warm
 jei.silentgems:recipe.altar=Altar Transmutation
 jei.silentgems:recipe.altar.catalyst=Catalyst:
 
-jei.silentgems:desc.ChaosAltar=A block that can store Chaos. It will recharge Chaos-storing items placed in it. Place near Nodes and/or Pylons. It can also transmute certain items. Most transmutations also require a catalyst, which is not consumed.
-jei.silentgems:desc.ChaosFlowerPot=A flower pot that amplifies the light of Glow Roses. Not only that, it will place phantom lights in the nearby area wherever they are needed. The phantom lights can be easily destroyed if necessary, and will disappear shortly after the flower pot is removed.
-jei.silentgems:desc.ChaosNode=Chaos Nodes pour out various energies into the world. Most notably they produce Chaos energy, which certain blocks and items require to function.\n\nSome have reported Nodes doing other things as well, such as attacking monsters and healing the injured.\n\nNodes cannot be picked up like ordinary blocks. You will need an item like the Chaos Node Mover to move them.
-jei.silentgems:desc.ChaosPylon0=Produces Chaos energy out of nothing, similar to Nodes. Unlike Nodes, it only produces Chaos. They have no other effects, so don't expect them to defend your base.
-jei.silentgems:desc.ChaosPylon1=Produces Chaos energy from burnable fuel. Anything that a furnace can burn will work! They produce far more Chaos per tick than Passive Chaos Pylons. These blocks only produce Chaos and have no other effects.
-jei.silentgems:desc.MaterialGrader=Analyzes tool materials, bringing out their potential. Each piece will get a random grade that applies a percentage bonus to each stat. Requires Chaos to function, so place it near Nodes or Pylons. Load materials into the first slot, then be patient. Graded items can be extracted from the bottom.
+jei.silentgems.chaosaltar.desc=A block that can store Chaos. It will recharge Chaos-storing items placed in it. Place near Nodes and/or Pylons. It can also transmute certain items. Most transmutations also require a catalyst, which is not consumed.
+jei.silentgems.chaosflowerpot.desc=A flower pot that amplifies the light of Glow Roses. Not only that, it will place phantom lights in the nearby area wherever they are needed. The phantom lights can be easily destroyed if necessary, and will disappear shortly after the flower pot is removed.
+jei.silentgems.chaosnode.desc=Chaos Nodes pour out various energies into the world. Most notably they produce Chaos energy, which certain blocks and items require to function.\n\nSome have reported Nodes doing other things as well, such as attacking monsters and healing the injured.\n\nNodes cannot be picked up like ordinary blocks. You will need an item like the Chaos Node Mover to move them.
+jei.silentgems.chaospylon0.desc=Produces Chaos energy out of nothing, similar to Nodes. Unlike Nodes, it only produces Chaos. They have no other effects, so don't expect them to defend your base.
+jei.silentgems.chaospylon1.desc=Produces Chaos energy from burnable fuel. Anything that a furnace can burn will work! They produce far more Chaos per tick than Passive Chaos Pylons. These blocks only produce Chaos and have no other effects.
+jei.silentgems.materialgrader.desc=Analyzes tool materials, bringing out their potential. Each piece will get a random grade that applies a percentage bonus to each stat. Requires Chaos to function, so place it near Nodes or Pylons. Load materials into the first slot, then be patient. Graded items can be extracted from the bottom.
 
-jei.silentgems:desc.Gem=Gems are used for constructing and repairing tools and armor. A single tool or armor piece can be made with multiple types of gems. Craft gems next to a tool or armor piece to repair it.
-jei.silentgems:desc.FluffyPuffSeeds=Fluffy Puff Seeds can be obtained in the same manner as vanilla seeds. When planted on farmland, they will grow into a plant that produces Fluffy Puffs.
-jei.silentgems:desc.TorchBandolier=The torch bandolier stores a large number of torches. To place torches, just right-click. Torches will be absorbed automatically if auto-fill is on. To toggle auto-fill, right-click the air while sneaking. Swing the bandolier (left-click) while sneaking to remove a stack of torches (you should probably disable auto-fill first).
+jei.silentgems.gem.desc=Gems are used for constructing and repairing tools and armor. A single tool or armor piece can be made with multiple types of gems. Craft gems next to a tool or armor piece to repair it.
+jei.silentgems.fluffypuffseeds.desc=Fluffy Puff Seeds can be obtained in the same manner as vanilla seeds. When planted on farmland, they will grow into a plant that produces Fluffy Puffs.
+jei.silentgems.torchbandolier.desc=The torch bandolier stores a large number of torches. To place torches, just right-click. Torches will be absorbed automatically if auto-fill is on. To toggle auto-fill, right-click the air while sneaking. Swing the bandolier (left-click) while sneaking to remove a stack of torches (you should probably disable auto-fill first).
 
 
 
@@ -1549,6 +1551,11 @@ guide.silentgems:chapter.progression.text10=Still with me? The next step is to m
 guide.silentgems:chapter.progression.text11=Now for <imp>super-tier tools<r>! You will need Chaos Essence and glowstone dust to craft <imp>supercharged gems<r>, so you might need to make a trip to the Nether (keep an eye out for <item>dark gems<r> while you're there).<n><n>Super-tier tools also <imp>require special rods<r> instead of sticks. They might be pricy, but some super-tier tools have <imp>special skills<r>. Some tools are also super-tier only (called <imp>super tools<r>), like <item>katanas<r> and <item>paxels<r>.
 guide.silentgems:chapter.progression.text12=Here's a katana as an example. Again, you can <imp>mix any materials of the same tier<r> and you must <imp>use rods that support the tier of the materials<r>.
 guide.silentgems:chapter.progression.text13=This concludes the chapter on progression. Hopefully you now have a good grasp on tool crafting. I encourage you to look at the chapters for all the tool classes for more information.
+
+guide.silentgems:chapter.youBrokeIt.name=You Broke It!
+guide.silentgems:chapter.youBrokeIt.text1=Having a problem? Bugs happen. First make sure you have up-to-date versions of all mods. Note that I only upload my mods to Minecraft CurseForge. If you downloaded this elsewhere (with the exception of as part of a mod pack), it was uploaded without permission, is likely out-of-date, and may have been modified.
+guide.silentgems:chapter.youBrokeIt.text2=If updating does not fix the problem, please make a new issue on the GitHub issue tracker. The button below will take you there.
+guide.silentgems:chapter.youBrokeIt.button2=Go To Issue Tracker
 
 # Debug
 guide.silentgems:chapter.toolTest.name=Tool Test

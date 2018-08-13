@@ -7,15 +7,21 @@ import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiChaosAltar;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeCategory;
 import net.silentchaos512.gems.compat.jei.altar.AltarRecipeMaker;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.ChaosBuff;
-import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.StackHelper;
+
+import java.util.Collection;
+import java.util.Objects;
 
 @JEIPlugin
 public class SilentGemsPlugin implements IModPlugin {
@@ -59,18 +65,10 @@ public class SilentGemsPlugin implements IModPlugin {
     }
 
     private void doAddDescriptions(IModRegistry reg) {
-        String prefix = "jei.silentgems:desc.";
-
-        reg.addDescription(new ItemStack(ModBlocks.chaosAltar), prefix + Names.CHAOS_ALTAR);
-        reg.addDescription(new ItemStack(ModBlocks.chaosFlowerPot), prefix + Names.CHAOS_FLOWER_POT);
-        reg.addDescription(new ItemStack(ModBlocks.chaosNode), prefix + Names.CHAOS_NODE);
-        reg.addDescription(new ItemStack(ModBlocks.chaosPylon, 1, 0), prefix + Names.CHAOS_PYLON + "0");
-        reg.addDescription(new ItemStack(ModBlocks.chaosPylon, 1, 1), prefix + Names.CHAOS_PYLON + "1");
-        reg.addDescription(new ItemStack(ModBlocks.materialGrader), prefix + Names.MATERIAL_GRADER);
-
-        reg.addDescription(new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE), prefix + Names.GEM);
-        reg.addDescription(new ItemStack(ModItems.torchBandolier), prefix + Names.TORCH_BANDOLIER);
-        reg.addDescription(new ItemStack(ModItems.fluffyPuffSeeds), prefix + Names.FLUFFY_PUFF_SEEDS);
+        addIngredientInfoPages(reg, SilentGems.registry.getBlocks());
+        addIngredientInfoPages(reg, SilentGems.registry.getItems());
+        reg.addIngredientInfo(new ItemStack(ModBlocks.chaosPylon, 1, 0), ItemStack.class, getDescKey("chaospylon0"));
+        reg.addIngredientInfo(new ItemStack(ModBlocks.chaosPylon, 1, 1), ItemStack.class, getDescKey("chaospylon1"));
     }
 
     @Override
@@ -90,5 +88,25 @@ public class SilentGemsPlugin implements IModPlugin {
             ChaosBuff buff = ModItems.chaosRune.getBuff(stack);
             return buff == null ? "none" : buff.getKey();
         });
+    }
+
+    private void addIngredientInfoPages(IModRegistry registry, Collection<? extends IForgeRegistryEntry<?>> list) {
+        for (IForgeRegistryEntry<?> obj : list) {
+            String key = getDescKey(Objects.requireNonNull(obj.getRegistryName()));
+            SilentGems.logHelper.debug("JEI desc key: {}", key);
+            if (SilentGems.i18n.hasKey(key)) {
+                ItemStack stack = StackHelper.fromBlockOrItem(obj);
+                stack.setItemDamage(OreDictionary.WILDCARD_VALUE);
+                registry.addIngredientInfo(stack, ItemStack.class, key);
+            }
+        }
+    }
+
+    private String getDescKey(String name) {
+        return "jei." + SilentGems.MODID + "." + name + ".desc";
+    }
+
+    private String getDescKey(ResourceLocation name) {
+        return "jei." + name.getNamespace() + "." + name.getPath() + ".desc";
     }
 }

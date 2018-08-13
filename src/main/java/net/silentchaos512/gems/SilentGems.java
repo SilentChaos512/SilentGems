@@ -1,5 +1,6 @@
 package net.silentchaos512.gems;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
@@ -33,25 +34,29 @@ import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.gems.world.GemsGeodeWorldGenerator;
 import net.silentchaos512.gems.world.GemsWorldGenerator;
 import net.silentchaos512.lib.SilentLib;
+import net.silentchaos512.lib.base.IModBase;
 import net.silentchaos512.lib.registry.SRegistry;
+import net.silentchaos512.lib.util.I18nHelper;
 import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.LogHelper;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
+import java.util.function.Consumer;
 
-//@formatter:off
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @Mod(modid = SilentGems.MODID,
-    name = SilentGems.MOD_NAME,
-    version = SilentGems.VERSION,
-    dependencies = SilentGems.DEPENDENCIES,
-    acceptedMinecraftVersions = SilentGems.ACCEPTED_MC_VERSIONS,
-    guiFactory = "net.silentchaos512.gems.client.gui.config.GuiFactorySilentGems")
-//@formatter:on
-public class SilentGems {
-        public static final String MODID = "silentgems";
+        name = SilentGems.MOD_NAME,
+        version = SilentGems.VERSION,
+        dependencies = SilentGems.DEPENDENCIES,
+        acceptedMinecraftVersions = SilentGems.ACCEPTED_MC_VERSIONS,
+        guiFactory = "net.silentchaos512.gems.client.gui.config.GuiFactorySilentGems")
+public class SilentGems implements IModBase {
+    public static final String MODID = "silentgems";
     public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
     public static final String MOD_NAME = "Silent's Gems";
-    public static final String VERSION = "2.8.0";
+    public static final String VERSION = "2.8.1";
     public static final String VERSION_SILENTLIB = "2.3.17";
     public static final int BUILD_NUM = 0;
     public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
@@ -61,27 +66,27 @@ public class SilentGems {
 
     static {
         if (Loader.isModLoaded("silentgear")) {
+            // Load added stat(s) before Silent Gear loads material JSONs
             SGearStatHandler.init();
         }
     }
 
-    public static Random random = new Random();
-    public static LogHelper logHelper = new LogHelper(MOD_NAME, BUILD_NUM);
+    public static final Random random = new Random();
+    public static final LogHelper logHelper = new LogHelper(MOD_NAME, BUILD_NUM);
+    @Deprecated
     public static LocalizationHelper localizationHelper;
+    public static final I18nHelper i18n = new I18nHelper(MODID, logHelper, true);
 
-    public static SRegistry registry = new SRegistry() {
-
+    public static final SRegistry registry = new SRegistry() {
         @Override
-        public Block registerBlock(Block block, String key, ItemBlock itemBlock) {
-
+        public <T extends Block> T registerBlock(T block, String key, ItemBlock itemBlock) {
             super.registerBlock(block, key, itemBlock);
             block.setCreativeTab(GemsCreativeTabs.blocks);
             return block;
         }
 
         @Override
-        public Item registerItem(Item item, String key) {
-
+        public <T extends Item> T registerItem(T item, String key) {
             super.registerItem(item, key);
             if (item instanceof ITool) {
                 // Works with repair packets.
@@ -121,11 +126,11 @@ public class SilentGems {
 
         GemsConfig.INSTANCE.init(event.getSuggestedConfigurationFile());
 
-        registry.addRegistrationHandler(ModEnchantments::registerAll, Enchantment.class);
-        registry.addRegistrationHandler(ModBlocks::registerAll, Block.class);
-        registry.addRegistrationHandler(ModItems::registerAll, Item.class);
-        registry.addRegistrationHandler(ModPotions::registerAll, Potion.class);
-        registry.addRegistrationHandler(ModRecipes::registerAll, IRecipe.class);
+        registry.addRegistrationHandler((Consumer<SRegistry>) ModEnchantments::registerAll, Enchantment.class);
+        registry.addRegistrationHandler((Consumer<SRegistry>) ModBlocks::registerAll, Block.class);
+        registry.addRegistrationHandler((Consumer<SRegistry>) ModItems::registerAll, Item.class);
+        registry.addRegistrationHandler((Consumer<SRegistry>) ModPotions::registerAll, Potion.class);
+        registry.addRegistrationHandler((Consumer<SRegistry>) ModRecipes::registerAll, IRecipe.class);
         ModParts.init();
         SoulSkill.init();
 
@@ -155,9 +160,28 @@ public class SilentGems {
         proxy.postInit(registry, event);
     }
 
-    @SuppressWarnings("all")
-    public boolean isDevBuild() {
+    @Override
+    public String getModId() {
+        return MODID;
+    }
 
-        return BUILD_NUM == 0;
+    @Override
+    public String getModName() {
+        return MOD_NAME;
+    }
+
+    @Override
+    public String getVersion() {
+        return VERSION;
+    }
+
+    @Override
+    public int getBuildNum() {
+        return BUILD_NUM;
+    }
+
+    @Override
+    public LogHelper getLog() {
+        return logHelper;
     }
 }
