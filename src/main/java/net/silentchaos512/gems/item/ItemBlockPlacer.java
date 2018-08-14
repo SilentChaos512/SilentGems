@@ -41,20 +41,18 @@ public abstract class ItemBlockPlacer extends Item implements IBlockPlacer, IIte
 
     @Override
     public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag flag) {
-        String blockPlacer = "blockplacer";
-
         boolean autoFillOn = getAutoFillMode(stack);
         int currentBlocks = getRemainingBlocks(stack);
         int maxBlocks = getMaxBlocksStored(stack);
 
-        list.add(SilentGems.i18n.subText(blockPlacer, "item", "count", currentBlocks, maxBlocks));
+        list.add(SilentGems.i18n.subText("blockplacer", "item", "count", currentBlocks, maxBlocks));
         String onOrOff = SilentGems.i18n.miscText("state." + (autoFillOn ? "on" : "off"));
-        list.add(SilentGems.i18n.subText(blockPlacer, "autoFill", onOrOff));
+        list.add(SilentGems.i18n.subText("blockplacer", "item", "autoFill", onOrOff));
     }
 
     @Override
-    public abstract @Nullable
-    IBlockState getBlockPlaced(ItemStack stack);
+    @Nullable
+    public abstract IBlockState getBlockPlaced(ItemStack stack);
 
     public int getBlockMetaDropped(ItemStack stack) {
         IBlockState state = getBlockPlaced(stack);

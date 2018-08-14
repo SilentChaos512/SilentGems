@@ -14,83 +14,83 @@ import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemGemDagger extends ItemGemSword {
 
-  public ItemGemDagger() {
+    public ItemGemDagger() {
 
-    super();
-    setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.DAGGER);
-  }
+        super();
+        setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.DAGGER);
+    }
 
-  public ConfigOptionToolClass getConfig() {
+    public ConfigOptionToolClass getConfig() {
 
-    return GemsConfig.dagger;
-  }
+        return GemsConfig.dagger;
+    }
 
-  @Override
-  public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
+    @Override
+    public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (getConfig().isDisabled)
-      return StackHelper.empty();
-    return ToolHelper.constructTool(this, rod, materials);
-  }
+        if (getConfig().isDisabled)
+            return StackHelper.empty();
+        return ToolHelper.constructTool(this, rod, materials);
+    }
 
-  @Override
-  public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
+    @Override
+    public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    if (getConfig().isDisabled)
-      return StackHelper.empty();
-    ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
-        : new ItemStack(Items.STICK);
-    return ToolHelper.constructTool(this, rod, materials);
-  }
+        if (getConfig().isDisabled)
+            return StackHelper.empty();
+        ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
+                : new ItemStack(Items.STICK);
+        return ToolHelper.constructTool(this, rod, materials);
+    }
 
-  @Override
-  public float getMeleeDamage(ItemStack tool) {
+    @Override
+    public float getMeleeDamage(ItemStack tool) {
 
-    return (getMeleeDamageModifier() + ToolHelper.getMeleeDamage(tool)) / 2;
-  }
+        return (getMeleeDamageModifier() + ToolHelper.getMeleeDamage(tool)) / 2;
+    }
 
-  @Override
-  public float getMagicDamage(ItemStack tool) {
+    @Override
+    public float getMagicDamage(ItemStack tool) {
 
-    return 1.0f + ToolHelper.getMagicDamage(tool);
-  }
+        return 1.0f + ToolHelper.getMagicDamage(tool);
+    }
 
-  @Override
-  public float getMeleeDamageModifier() {
+    @Override
+    public float getMeleeDamageModifier() {
 
-    return 1.0f;
-  }
+        return 1.0f;
+    }
 
-  @Override
-  public float getMagicDamageModifier() {
+    @Override
+    public float getMagicDamageModifier() {
 
-    return 1.0f;
-  }
+        return 1.0f;
+    }
 
-  @Override
-  public float getMeleeSpeedModifier() {
+    @Override
+    public float getMeleeSpeedModifier() {
 
-    return -1.4f;
-  }
+        return -1.4f;
+    }
 
-  @Override
-  public float getDurabilityMultiplier() {
+    @Override
+    public float getDurabilityMultiplier() {
 
-    return 1.0f;
-  }
+        return 1.0f;
+    }
 
-  @Override
-  public float getRepairMultiplier() {
+    @Override
+    public float getRepairMultiplier() {
 
-    return 2.0f;
-  }
+        return 2.0f;
+    }
 
-  @Override
-  public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+    @Override
+    public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
 
-    target.hurtResistantTime *= 0.67f; // Make target vulnerable sooner.
-    return super.hitEntity(stack, target, attacker);
-  }
+        target.hurtResistantTime *= 0.67f; // Make target vulnerable sooner.
+        return super.hitEntity(stack, target, attacker);
+    }
 
 //  // onItemRightClick 1.10.2
 //  public ActionResult<ItemStack> func_77659_a(ItemStack stack, World world, EntityPlayer player,
@@ -116,16 +116,16 @@ public class ItemGemDagger extends ItemGemSword {
 //    return new ActionResult<ItemStack>(EnumActionResult.PASS, player.getHeldItem(hand));
 //  }
 
-  @Override
-  public void addRecipes(RecipeMaker recipes) {
+    @Override
+    public void addRecipes(RecipeMaker recipes) {
 
-    if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, "h", "r");
-  }
+        if (!getConfig().isDisabled)
+            ToolHelper.addExampleRecipe(this, "h", "r");
+    }
 
-  @Override
-  public String getName() {
+    @Override
+    public String getName() {
 
-    return Names.DAGGER;
-  }
+        return Names.DAGGER;
+    }
 }

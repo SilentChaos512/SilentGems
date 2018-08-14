@@ -5,29 +5,25 @@ import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.BlockGemLamp;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.item.ItemBlockSL;
+import net.silentchaos512.lib.item.ItemBlockMetaSubtypes;
 
-public class ItemBlockGemLamp extends ItemBlockSL {
+public class ItemBlockGemLamp extends ItemBlockMetaSubtypes {
+    public ItemBlockGemLamp(Block block) {
+        super(block, 16);
+    }
 
-  public ItemBlockGemLamp(Block block) {
+    @Override
+    public String getItemStackDisplayName(ItemStack stack) {
+        BlockGemLamp block = (BlockGemLamp) Block.getBlockFromItem(stack.getItem());
+        String suffix = block.inverted
+                ? " (" + SilentGems.i18n.blockSubText(Names.GEM_LAMP, "inverted") + ")"
+                : "";
+        return super.getItemStackDisplayName(stack) + suffix;
+    }
 
-    super(block);
-  }
-
-  @Override
-  public String getItemStackDisplayName(ItemStack stack) {
-
-    BlockGemLamp block = (BlockGemLamp) Block.getBlockFromItem(stack.getItem());
-    String suffix = block.inverted
-        ? " (" + SilentGems.localizationHelper.getBlockSubText(Names.GEM_LAMP, "inverted") + ")"
-        : "";
-    return super.getItemStackDisplayName(stack) + suffix;
-  }
-
-  @Override
-  public String getTranslationKey(ItemStack stack) {
-
-    BlockGemLamp block = (BlockGemLamp) Block.getBlockFromItem(stack.getItem());
-    return "tile." + SilentGems.RESOURCE_PREFIX + block.nameForLocalization + stack.getItemDamage();
-  }
+    @Override
+    public String getTranslationKey(ItemStack stack) {
+        BlockGemLamp block = (BlockGemLamp) Block.getBlockFromItem(stack.getItem());
+        return "tile." + SilentGems.RESOURCE_PREFIX + block.nameForLocalization + stack.getItemDamage();
+    }
 }

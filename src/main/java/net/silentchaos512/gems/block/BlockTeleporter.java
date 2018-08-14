@@ -122,21 +122,21 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
 
         // Destination set?
         if (!tile.isDestinationSet()) {
-            ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "NoDestination"));
+            ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "noDestination"));
             return true;
         }
 
         // Safety checks before teleporting:
         if (!tile.isDestinationSane(player)) {
-            ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "NotSane"));
+            ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "notSane"));
             return true;
         }
         if (!tile.isDestinationSafe(player)) {
-            ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "NotSafe"));
+            ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "notSafe"));
             return true;
         }
         if (!tile.isDestinationAllowedIfDumb(player)) {
-            ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "NoReceiver"));
+            ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "noReceiver"));
             return true;
         }
 

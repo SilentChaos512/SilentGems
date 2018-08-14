@@ -16,80 +16,80 @@ import java.util.List;
 
 public class ItemGemScepter extends ItemGemSword {
 
-  public ItemGemScepter() {
+    public ItemGemScepter() {
 
-    super();
-    setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.SCEPTER);
-  }
-
-  public ConfigOptionToolClass getConfig() {
-
-    return GemsConfig.scepter;
-  }
-
-  @Override
-  public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
-
-    if (getConfig().isDisabled) return StackHelper.empty();
-
-    if (materials.length >= 2) {
-      ItemStack temp = materials[0];
-      materials[0] = materials[1];
-      materials[1] = temp;
+        super();
+        setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.SCEPTER);
     }
-    return ToolHelper.constructTool(this, rod, materials);
-  }
 
-  @Override
-  public float getMeleeDamageModifier() {
+    public ConfigOptionToolClass getConfig() {
 
-    return 1.0f;
-  }
+        return GemsConfig.scepter;
+    }
 
-  @Override
-  public float getMagicDamageModifier() {
+    @Override
+    public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    return 5.0f;
-  }
+        if (getConfig().isDisabled) return StackHelper.empty();
 
-  @Override
-  public float getMeleeSpeedModifier() {
+        if (materials.length >= 2) {
+            ItemStack temp = materials[0];
+            materials[0] = materials[1];
+            materials[1] = temp;
+        }
+        return ToolHelper.constructTool(this, rod, materials);
+    }
 
-    return -3.2f;
-  }
+    @Override
+    public float getMeleeDamageModifier() {
 
-  @Override
-  public float getDurabilityMultiplier() {
+        return 1.0f;
+    }
 
-    return 0.75f;
-  }
+    @Override
+    public float getMagicDamageModifier() {
 
-  @SuppressWarnings("deprecation")
-  @Override
-  public boolean isSuperTool() {
+        return 5.0f;
+    }
 
-    return true;
-  }
+    @Override
+    public float getMeleeSpeedModifier() {
 
-  @Override
-  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+        return -3.2f;
+    }
 
-    if (!ItemHelper.isInCreativeTab(item, tab))
-      return;
+    @Override
+    public float getDurabilityMultiplier() {
 
-    list.addAll(ToolHelper.getSubItems(item, 5));
-  }
+        return 0.75f;
+    }
 
-  @Override
-  public void addRecipes(RecipeMaker recipes) {
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean isSuperTool() {
 
-    if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, " h ", "hrh", "hrh");
-  }
+        return true;
+    }
 
-  @Override
-  public String getName() {
+    @Override
+    protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    return Names.SCEPTER;
-  }
+        if (!ItemHelper.isInCreativeTab(item, tab))
+            return;
+
+        list.addAll(ToolHelper.getSubItems(item, 5));
+    }
+
+    @Override
+    public void addRecipes(RecipeMaker recipes) {
+
+        if (!getConfig().isDisabled)
+            ToolHelper.addExampleRecipe(this, " h ", "hrh", "hrh");
+    }
+
+    @Override
+    public String getName() {
+
+        return Names.SCEPTER;
+    }
 }

@@ -1,15 +1,8 @@
 package net.silentchaos512.gems.item.tool;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Multimap;
-
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.client.util.ITooltipFlag.TooltipFlags;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,11 +10,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemShield;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -39,237 +28,233 @@ import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Map;
+
 public class ItemGemShield extends ItemShield implements IRegistryObject, ITool {
 
-  public ItemGemShield() {
+    public ItemGemShield() {
 
-    setNoRepair();
-  }
+        setNoRepair();
+    }
 
-  public boolean shouldBlockDamage(EntityLivingBase entityLiving) {
+    public boolean shouldBlockDamage(EntityLivingBase entityLiving) {
 
-    if (!(entityLiving instanceof EntityPlayer))
-      return false;
+        if (!(entityLiving instanceof EntityPlayer))
+            return false;
 
-    EntityPlayer player = (EntityPlayer) entityLiving;
-    if (!player.isActiveItemStackBlocking() || player.getActiveItemStack().getItem() != this)
-      return false;
+        EntityPlayer player = (EntityPlayer) entityLiving;
+        if (!player.isActiveItemStackBlocking() || player.getActiveItemStack().getItem() != this)
+            return false;
 
-    return !ToolHelper.isBroken(player.getActiveItemStack());
-  }
+        return !ToolHelper.isBroken(player.getActiveItemStack());
+    }
 
-  @Override
-  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
-      ItemStack stack) {
+    @Override
+    public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
+                                                                     ItemStack stack) {
 
-    return ToolHelper.getAttributeModifiers(slot, stack);
-  }
+        return ToolHelper.getAttributeModifiers(slot, stack);
+    }
 
-  // ================
-  // = Construction =
-  // ================
+    // ================
+    // = Construction =
+    // ================
 
-  public ConfigOptionToolClass getConfig() {
+    public ConfigOptionToolClass getConfig() {
 
-    return GemsConfig.shield;
-  }
+        return GemsConfig.shield;
+    }
 
-  @Override
-  public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
+    @Override
+    public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (getConfig().isDisabled)
-      return StackHelper.empty();
+        if (getConfig().isDisabled)
+            return StackHelper.empty();
 
-    if (materials.length == 1)
-      return constructTool(rod, materials[0], materials[0], materials[0]);
-    return ToolHelper.constructTool(this, rod, materials);
-  }
+        if (materials.length == 1)
+            return constructTool(rod, materials[0], materials[0], materials[0]);
+        return ToolHelper.constructTool(this, rod, materials);
+    }
 
-  @Override
-  public float getMeleeDamage(ItemStack tool) {
+    @Override
+    public float getMeleeDamage(ItemStack tool) {
 
-    return Math.max(0, (getMeleeDamageModifier() + ToolHelper.getMeleeDamage(tool)) / 2);
-  }
+        return Math.max(0, (getMeleeDamageModifier() + ToolHelper.getMeleeDamage(tool)) / 2);
+    }
 
-  @Override
-  public float getMagicDamage(ItemStack tool) {
+    @Override
+    public float getMagicDamage(ItemStack tool) {
 
-    return 0.0f;
-  }
+        return 0.0f;
+    }
 
-  @Override
-  public float getMeleeDamageModifier() {
+    @Override
+    public float getMeleeDamageModifier() {
 
-    return -4.0f;
-  }
+        return -4.0f;
+    }
 
-  @Override
-  public float getMagicDamageModifier() {
+    @Override
+    public float getMagicDamageModifier() {
 
-    return 0.0f;
-  }
+        return 0.0f;
+    }
 
-  @Override
-  public float getMeleeSpeedModifier() {
+    @Override
+    public float getMeleeSpeedModifier() {
 
-    return -3.2f;
-  }
+        return -3.2f;
+    }
 
-  @Override
-  public void addRecipes(RecipeMaker recipes) {
+    @Override
+    public void addRecipes(RecipeMaker recipes) {
 
-    if (getConfig().isDisabled)
-      return;
+        if (getConfig().isDisabled)
+            return;
 
-    String[] lines = { "hwh", "wrw", " h " };
-    ToolHelper.addExampleRecipe(this, EnumMaterialTier.values(), lines, 'w', "plankWood");
-  }
+        String[] lines = {"hwh", "wrw", " h "};
+        ToolHelper.addExampleRecipe(this, EnumMaterialTier.values(), lines, 'w', "plankWood");
+    }
 
-  @Override
-  public void addOreDict() {
+    @Override
+    public void addOreDict() {
 
-  }
+    }
 
-  // ========================
-  // = ItemShield overrides =
-  // ========================
+    // ========================
+    // = ItemShield overrides =
+    // ========================
 
-  public EnumAction getItemUseAction(ItemStack stack) {
+    public EnumAction getItemUseAction(ItemStack stack) {
 
-    return ToolHelper.isBroken(stack) ? EnumAction.NONE : EnumAction.BLOCK;
-  }
+        return ToolHelper.isBroken(stack) ? EnumAction.NONE : EnumAction.BLOCK;
+    }
 
-  // ==================
-  // = Item overrides =
-  // ==================
+    // ==================
+    // = Item overrides =
+    // ==================
 
-  @Override
-  public int getMaxDamage(ItemStack stack) {
+    @Override
+    public int getMaxDamage(ItemStack stack) {
 
-    return ToolHelper.getMaxDamage(stack);
-  }
+        return ToolHelper.getMaxDamage(stack);
+    }
 
-  @Override
-  public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
-      boolean slotChanged) {
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
+                                               boolean slotChanged) {
 
-    return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
-  }
+        return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
+    }
 
-  @Override
-  public boolean hasEffect(ItemStack stack) {
+    @Override
+    public boolean hasEffect(ItemStack stack) {
 
-    return ToolRenderHelper.instance.hasEffect(stack);
-  }
+        return ToolRenderHelper.instance.hasEffect(stack);
+    }
 
-  @Override
-  public EnumRarity getRarity(ItemStack stack) {
+    @Override
+    public EnumRarity getRarity(ItemStack stack) {
 
-    return ToolRenderHelper.instance.getRarity(stack);
-  }
+        return ToolRenderHelper.instance.getRarity(stack);
+    }
 
-  @Override
-  public int getItemEnchantability(ItemStack stack) {
+    @Override
+    public int getItemEnchantability(ItemStack stack) {
 
-    return ToolHelper.getItemEnchantability(stack);
-  }
+        return ToolHelper.getItemEnchantability(stack);
+    }
 
-  @Override
-  public void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
-      boolean isSelected) {
+    @Override
+    public void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
+                         boolean isSelected) {
 
-    ToolHelper.onUpdate(tool, world, entity, itemSlot, isSelected);
-  }
+        ToolHelper.onUpdate(tool, world, entity, itemSlot, isSelected);
+    }
 
-  @Override
-  public boolean onEntityItemUpdate(EntityItem entityItem) {
+    @Override
+    public boolean onEntityItemUpdate(EntityItem entityItem) {
 
-    return ToolHelper.onEntityItemUpdate(entityItem);
-  }
+        return ToolHelper.onEntityItemUpdate(entityItem);
+    }
 
-  @Override
-  public boolean isShield(ItemStack stack, @Nullable EntityLivingBase entity) {
+    @Override
+    public boolean isShield(ItemStack stack, @Nullable EntityLivingBase entity) {
 
-    return true;
-  }
+        return true;
+    }
 
-  // =============================
-  // = IRegistryObject overrides =
-  // =============================
+    // =============================
+    // = IRegistryObject overrides =
+    // =============================
 
-  @Override
-  public String getName() {
+    @Override
+    public String getName() {
 
-    return Names.SHIELD;
-  }
+        return Names.SHIELD;
+    }
 
-  @Override
-  public String getFullName() {
+    @Override
+    public String getFullName() {
 
-    return getModId() + ":" + getName();
-  }
+        return getModId() + ":" + getName();
+    }
 
-  @Override
-  public String getModId() {
+    @Override
+    public String getModId() {
 
-    return SilentGems.MODID;
-  }
+        return SilentGems.MODID;
+    }
 
-  @Override
-  public void getModels(Map<Integer, ModelResourceLocation> models) {
+    @Override
+    public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    models.put(0, new ModelResourceLocation(getFullName().toLowerCase(), "inventory"));
-  }
+        models.put(0, new ModelResourceLocation(getFullName().toLowerCase(), "inventory"));
+    }
 
-  @Override
-  public boolean registerModels() {
+    @Override
+    public boolean registerModels() {
 
-    // TODO Auto-generated method stub
-    return false;
-  }
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-  // =================================
-  // Cross Compatibility (MC 10/11/12)
-  // =================================
+    // =================================
+    // Cross Compatibility (MC 10/11/12)
+    // =================================
 
-  // addInformation 1.10.2/1.11.2
-  @SideOnly(Side.CLIENT)
-  public void func_77624_a(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
 
-    ToolRenderHelper.getInstance().clAddInformation(stack, player.world, list, advanced);
-  }
+        ToolRenderHelper.getInstance().addInformation(stack, world, list, flag);
+    }
 
-  @SideOnly(Side.CLIENT)
-  @Override
-  public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
+    // getSubItems 1.10.2
+    public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    ToolRenderHelper.getInstance().clAddInformation(stack, world, list,
-        flag == TooltipFlags.ADVANCED);
-  }
+        clGetSubItems(item, tab, list);
+    }
 
-  // getSubItems 1.10.2
-  public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
+    // getSubItems 1.11.2
+    public void func_150895_a(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
 
-    clGetSubItems(item, tab, list);
-  }
+        clGetSubItems(item, tab, list);
+    }
 
-  // getSubItems 1.11.2
-  public void func_150895_a(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+    @Override
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
 
-    clGetSubItems(item, tab, list);
-  }
+        clGetSubItems(this, tab, list);
+    }
 
-  @Override
-  public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+    protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    clGetSubItems(this, tab, list);
-  }
+        if (!ItemHelper.isInCreativeTab(item, tab))
+            return;
 
-  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-
-    if (!ItemHelper.isInCreativeTab(item, tab))
-      return;
-
-    list.addAll(ToolHelper.getSubItems(item, 3));
-  }
+        list.addAll(ToolHelper.getSubItems(item, 3));
+    }
 }

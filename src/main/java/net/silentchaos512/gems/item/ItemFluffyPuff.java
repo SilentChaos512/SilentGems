@@ -2,22 +2,15 @@ package net.silentchaos512.gems.item;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.item.ItemSL;
+import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.RecipeMaker;
 
-public class ItemFluffyPuff extends ItemSL {
-
-  public ItemFluffyPuff() {
-
-    super(1, SilentGems.MODID, Names.FLUFFY_PUFF);
-  }
-
+public class ItemFluffyPuff extends Item implements IAddRecipes {
   @Override
   public void addRecipes(RecipeMaker recipes) {
 

@@ -18,39 +18,39 @@ import java.util.List;
 
 public class ItemGemKatana extends ItemGemSword {
 
-  public ItemGemKatana() {
+    public ItemGemKatana() {
 
-    super();
-    setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.KATANA);
-  }
+        super();
+        setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.KATANA);
+    }
 
-  public ConfigOptionToolClass getConfig() {
+    public ConfigOptionToolClass getConfig() {
 
-    return GemsConfig.katana;
-  }
+        return GemsConfig.katana;
+    }
 
-  @Override
-  public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
+    @Override
+    public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    if (getConfig().isDisabled)
-      return StackHelper.empty();
-    ItemStack result = ToolHelper.constructTool(this, rod, materials);
-    return addDefaultGrip(result);
-  }
+        if (getConfig().isDisabled)
+            return StackHelper.empty();
+        ItemStack result = ToolHelper.constructTool(this, rod, materials);
+        return addDefaultGrip(result);
+    }
 
-  @Override
-  public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
+    @Override
+    public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    if (getConfig().isDisabled)
-      return StackHelper.empty();
-    ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
-        : new ItemStack(Items.STICK);
-    ItemStack result = ToolHelper.constructTool(this, rod, materials);
-    return addDefaultGrip(result);
-  }
+        if (getConfig().isDisabled)
+            return StackHelper.empty();
+        ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
+                : new ItemStack(Items.STICK);
+        ItemStack result = ToolHelper.constructTool(this, rod, materials);
+        return addDefaultGrip(result);
+    }
 
-  @Deprecated
-  public ItemStack addDefaultGrip(ItemStack katana) {
+    @Deprecated
+    public ItemStack addDefaultGrip(ItemStack katana) {
 
 //    if (StackHelper.isEmpty(katana))
 //      return StackHelper.empty();
@@ -59,63 +59,63 @@ public class ItemGemKatana extends ItemGemSword {
 //        ? EnumDyeColor.BLACK.getMetadata() : EnumDyeColor.SILVER.getMetadata());
 //    ToolHelper.setPart(katana, ToolPartRegistry.fromStack(wool), EnumMaterialGrade.NONE,
 //        EnumPartPosition.ROD_GRIP);
-    return katana;
-  }
-
-  @Override
-  public float getMeleeDamageModifier() {
-
-    return 2.0f;
-  }
-
-  @Override
-  public float getMagicDamageModifier() {
-
-    return 3.0f;
-  }
-
-  @Override
-  public float getMeleeSpeedModifier() {
-
-    return -2.2f;
-  }
-
-  @Override
-  public float getDurabilityMultiplier() {
-
-    return 0.75f;
-  }
-
-  @SuppressWarnings("deprecation")
-  @Override
-  public boolean isSuperTool() {
-
-    return true;
-  }
-
-  @Override
-  public void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-
-    if (!ItemHelper.isInCreativeTab(item, tab))
-      return;
-
-    List<ItemStack> subItems = ToolHelper.getSubItems(item, 3);
-    for (ItemStack stack : subItems) {
-      stack = addDefaultGrip(stack);
+        return katana;
     }
-    list.addAll(subItems);
-  }
 
-  @Override
-  public void addRecipes(RecipeMaker recipes) {
+    @Override
+    public float getMeleeDamageModifier() {
 
-    if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, "hh", "h ", "r ");
-  }
+        return 2.0f;
+    }
 
-  @Override
-  public String getName() {
+    @Override
+    public float getMagicDamageModifier() {
 
-    return Names.KATANA;
-  }
+        return 3.0f;
+    }
+
+    @Override
+    public float getMeleeSpeedModifier() {
+
+        return -2.2f;
+    }
+
+    @Override
+    public float getDurabilityMultiplier() {
+
+        return 0.75f;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean isSuperTool() {
+
+        return true;
+    }
+
+    @Override
+    public void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+        if (!ItemHelper.isInCreativeTab(item, tab))
+            return;
+
+        List<ItemStack> subItems = ToolHelper.getSubItems(item, 3);
+        for (ItemStack stack : subItems) {
+            stack = addDefaultGrip(stack);
+        }
+        list.addAll(subItems);
+    }
+
+    @Override
+    public void addRecipes(RecipeMaker recipes) {
+
+        if (!getConfig().isDisabled)
+            ToolHelper.addExampleRecipe(this, "hh", "h ", "r ");
+    }
+
+    @Override
+    public String getName() {
+
+        return Names.KATANA;
+    }
 }

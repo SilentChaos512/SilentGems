@@ -4,7 +4,6 @@ import com.google.common.collect.Multimap;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.client.util.ITooltipFlag.TooltipFlags;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -45,325 +44,318 @@ import java.util.Map;
 
 public class ItemGemHoe extends ItemHoe implements IRegistryObject, ITool {
 
-  public ItemGemHoe() {
+    public ItemGemHoe() {
 
-    super(ToolHelper.FAKE_MATERIAL);
-    setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.HOE);
-    setNoRepair();
-  }
-
-  public ItemStack constructTool(boolean supercharged, ItemStack material) {
-
-    return constructTool(supercharged, material, material, material);
-  }
-
-  public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
-
-    ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
-        : new ItemStack(Items.STICK);
-    return ToolHelper.constructTool(this, rod, materials);
-  }
-
-  @Override
-  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
-      EnumFacing side, float hitX, float hitY, float hitZ) {
-
-    ItemStack stack = player.getHeldItem(hand);
-
-    if (ToolHelper.isBroken(stack)) {
-      return EnumActionResult.PASS;
+        super(ToolHelper.FAKE_MATERIAL);
+        setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.HOE);
+        setNoRepair();
     }
 
-    int tilledCount = 0;
-    EnumActionResult result;
+    public ItemStack constructTool(boolean supercharged, ItemStack material) {
 
-    // Till the target block first.
-    result = super.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
-    if (result == EnumActionResult.SUCCESS) {
-      ++tilledCount;
-    } else {
-      return EnumActionResult.FAIL;
+        return constructTool(supercharged, material, material, material);
     }
 
-    // Do we have super till and can it be used?
-    ToolSkill skill = ToolHelper.getSuperSkill(stack);
-    boolean skillEnabled = skill instanceof SkillAreaTill
-        && ToolHelper.isSpecialAbilityEnabled(stack);
-    int skillCost = skill != null ? skill.getCost(stack, player, pos) : 0;
-    PlayerData data = PlayerDataHandler.get(player);
+    public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    // Must have tilled first block, has skill and is enabled, player has enough chaos.
-    if (tilledCount > 0 && skillEnabled && data.getCurrentChaos() >= skillCost) {
-      EnumFacing playerFacing = player.getHorizontalFacing();
+        ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
+                : new ItemStack(Items.STICK);
+        return ToolHelper.constructTool(this, rod, materials);
+    }
 
-      // Tilling up to 8 extra blocks in the direction the player is facing.
-      for (int i = 0, yOffset = 0; i < 8; ++i) {
-        BlockPos blockpos = pos.offset(playerFacing, i + 1).up(yOffset);
-        if (super.onItemUse(player, world, blockpos, hand, side, hitX, hitY,
-            hitZ) == EnumActionResult.SUCCESS) {
-          // Same height.
-          ++tilledCount;
-        } else if (super.onItemUse(player, world, blockpos.up(1), hand, side, hitX, hitY,
-            hitZ) == EnumActionResult.SUCCESS) {
-          // Go up one block.
-          ++tilledCount;
-          ++yOffset;
-        } else if (super.onItemUse(player, world, blockpos.down(1), hand, side, hitX, hitY,
-            hitZ) == EnumActionResult.SUCCESS) {
-          // Go down one block.
-          ++tilledCount;
-          --yOffset;
+    @Override
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
+                                      EnumFacing side, float hitX, float hitY, float hitZ) {
+
+        ItemStack stack = player.getHeldItem(hand);
+
+        if (ToolHelper.isBroken(stack)) {
+            return EnumActionResult.PASS;
+        }
+
+        int tilledCount = 0;
+        EnumActionResult result;
+
+        // Till the target block first.
+        result = super.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
+        if (result == EnumActionResult.SUCCESS) {
+            ++tilledCount;
         } else {
-          // Hit a cliff or wall.
-          break;
+            return EnumActionResult.FAIL;
         }
-      }
 
-      if (tilledCount > 1) {
-        if (data != null) {
-          data.drainChaos(skillCost);
+        // Do we have super till and can it be used?
+        ToolSkill skill = ToolHelper.getSuperSkill(stack);
+        boolean skillEnabled = skill instanceof SkillAreaTill
+                && ToolHelper.isSpecialAbilityEnabled(stack);
+        int skillCost = skill != null ? skill.getCost(stack, player, pos) : 0;
+        PlayerData data = PlayerDataHandler.get(player);
+
+        // Must have tilled first block, has skill and is enabled, player has enough chaos.
+        if (tilledCount > 0 && skillEnabled && data.getCurrentChaos() >= skillCost) {
+            EnumFacing playerFacing = player.getHorizontalFacing();
+
+            // Tilling up to 8 extra blocks in the direction the player is facing.
+            for (int i = 0, yOffset = 0; i < 8; ++i) {
+                BlockPos blockpos = pos.offset(playerFacing, i + 1).up(yOffset);
+                if (super.onItemUse(player, world, blockpos, hand, side, hitX, hitY,
+                        hitZ) == EnumActionResult.SUCCESS) {
+                    // Same height.
+                    ++tilledCount;
+                } else if (super.onItemUse(player, world, blockpos.up(1), hand, side, hitX, hitY,
+                        hitZ) == EnumActionResult.SUCCESS) {
+                    // Go up one block.
+                    ++tilledCount;
+                    ++yOffset;
+                } else if (super.onItemUse(player, world, blockpos.down(1), hand, side, hitX, hitY,
+                        hitZ) == EnumActionResult.SUCCESS) {
+                    // Go down one block.
+                    ++tilledCount;
+                    --yOffset;
+                } else {
+                    // Hit a cliff or wall.
+                    break;
+                }
+            }
+
+            if (tilledCount > 1) {
+                if (data != null) {
+                    data.drainChaos(skillCost);
+                }
+            }
         }
-      }
-    }
 
-    // Sound, XP, damage, stats
-    if (tilledCount > 0) {
-      world.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1f, 1f);
-      if (!world.isRemote) {
-        ToolSoul soul = SoulManager.getSoul(stack);
-        if (soul != null) {
-          soul.addXp((int) (ToolSoul.XP_FACTOR_TILLING * tilledCount), stack, player);
+        // Sound, XP, damage, stats
+        if (tilledCount > 0) {
+            world.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1f, 1f);
+            if (!world.isRemote) {
+                ToolSoul soul = SoulManager.getSoul(stack);
+                if (soul != null) {
+                    soul.addXp((int) (ToolSoul.XP_FACTOR_TILLING * tilledCount), stack, player);
+                }
+                ToolHelper.incrementStatBlocksTilled(stack, tilledCount);
+                ToolHelper.attemptDamageTool(stack, tilledCount, player);
+            }
         }
-        ToolHelper.incrementStatBlocksTilled(stack, tilledCount);
-        ToolHelper.attemptDamageTool(stack, tilledCount, player);
-      }
+
+        return EnumActionResult.SUCCESS;
     }
 
-    return EnumActionResult.SUCCESS;
-  }
+    @Override
+    protected void setBlock(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos,
+                            IBlockState state) {
 
-  @Override
-  protected void setBlock(ItemStack stack, EntityPlayer player, World worldIn, BlockPos pos,
-      IBlockState state) {
-
-    // Unlike ItemHoe#setBlock, this does not play a sound or damage the tool.
-    // That will be handled in onItemUse
-    if (!worldIn.isRemote) {
-      worldIn.setBlockState(pos, state, 11);
+        // Unlike ItemHoe#setBlock, this does not play a sound or damage the tool.
+        // That will be handled in onItemUse
+        if (!worldIn.isRemote) {
+            worldIn.setBlockState(pos, state, 11);
+        }
     }
-  }
 
-  // ===============
-  // ITool overrides
-  // ===============
+    // ===============
+    // ITool overrides
+    // ===============
 
-  public ConfigOptionToolClass getConfig() {
+    public ConfigOptionToolClass getConfig() {
 
-    return GemsConfig.hoe;
-  }
-
-  @Override
-  public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
-
-    if (getConfig().isDisabled)
-      return StackHelper.empty();
-    return ToolHelper.constructTool(this, rod, materials);
-  }
-
-  @Override
-  public float getMeleeDamageModifier() {
-
-    return -4.0f;
-  }
-
-  @Override
-  public float getMagicDamageModifier() {
-
-    return 0.0f;
-  }
-
-  @Override
-  public float getMeleeSpeedModifier() {
-
-    return 1.0f;
-  }
-
-  // ==============
-  // Item overrides
-  // ==============
-
-  @Override
-  public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
-
-    boolean canceled = super.onBlockStartBreak(stack, pos, player);
-    if (!canceled) {
-      ToolHelper.onBlockStartBreak(stack, pos, player);
+        return GemsConfig.hoe;
     }
-    return canceled;
-  }
 
-  @Override
-  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
-      ItemStack stack) {
+    @Override
+    public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    return ToolHelper.getAttributeModifiers(slot, stack);
-  }
+        if (getConfig().isDisabled)
+            return StackHelper.empty();
+        return ToolHelper.constructTool(this, rod, materials);
+    }
 
-  @Override
-  public int getMaxDamage(ItemStack stack) {
+    @Override
+    public float getMeleeDamageModifier() {
 
-    return ToolHelper.getMaxDamage(stack);
-  }
+        return -4.0f;
+    }
 
-  // @Override
-  // public int getColorFromItemStack(ItemStack stack, int pass) {
-  //
-  // return ToolRenderHelper.getInstance().getColorFromItemStack(stack, pass);
-  // }
+    @Override
+    public float getMagicDamageModifier() {
 
-  @Override
-  public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
-      boolean slotChanged) {
+        return 0.0f;
+    }
 
-    return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
-  }
+    @Override
+    public float getMeleeSpeedModifier() {
 
-  @Override
-  public boolean hasEffect(ItemStack stack) {
+        return 1.0f;
+    }
 
-    return ToolRenderHelper.instance.hasEffect(stack);
-  }
+    // ==============
+    // Item overrides
+    // ==============
 
-  @Override
-  public EnumRarity getRarity(ItemStack stack) {
+    @Override
+    public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
 
-    return ToolRenderHelper.instance.getRarity(stack);
-  }
+        boolean canceled = super.onBlockStartBreak(stack, pos, player);
+        if (!canceled) {
+            ToolHelper.onBlockStartBreak(stack, pos, player);
+        }
+        return canceled;
+    }
 
-  @Override
-  public int getItemEnchantability(ItemStack stack) {
+    @Override
+    public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
+                                                                     ItemStack stack) {
 
-    return ToolHelper.getItemEnchantability(stack);
-  }
+        return ToolHelper.getAttributeModifiers(slot, stack);
+    }
 
-  @Override
-  public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
+    @Override
+    public int getMaxDamage(ItemStack stack) {
 
-    return ToolHelper.hitEntity(stack, entity1, entity2);
-  }
+        return ToolHelper.getMaxDamage(stack);
+    }
 
-  @Override
-  public boolean getIsRepairable(ItemStack stack1, ItemStack stack2) {
+    // @Override
+    // public int getColorFromItemStack(ItemStack stack, int pass) {
+    //
+    // return ToolRenderHelper.getInstance().getColorFromItemStack(stack, pass);
+    // }
 
-    return ToolHelper.getIsRepairable(stack1, stack2);
-  }
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
+                                               boolean slotChanged) {
 
-  @Override
-  public void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
-      boolean isSelected) {
+        return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
+    }
 
-    ToolHelper.onUpdate(tool, world, entity, itemSlot, isSelected);
-  }
+    @Override
+    public boolean hasEffect(ItemStack stack) {
 
-  @Override
-  public boolean onEntityItemUpdate(EntityItem entityItem) {
+        return ToolRenderHelper.instance.hasEffect(stack);
+    }
 
-    return ToolHelper.onEntityItemUpdate(entityItem);
-  }
+    @Override
+    public EnumRarity getRarity(ItemStack stack) {
 
-  // ===============
-  // IRegistryObject
-  // ===============
+        return ToolRenderHelper.instance.getRarity(stack);
+    }
 
-  @Override
-  public void addRecipes(RecipeMaker recipes) {
+    @Override
+    public int getItemEnchantability(ItemStack stack) {
 
-    if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, "hh", " r", " r");
-  }
+        return ToolHelper.getItemEnchantability(stack);
+    }
 
-  @Override
-  public void addOreDict() {
+    @Override
+    public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
 
-  }
+        return ToolHelper.hitEntity(stack, entity1, entity2);
+    }
 
-  @Override
-  public String getName() {
+    @Override
+    public boolean getIsRepairable(ItemStack stack1, ItemStack stack2) {
 
-    return Names.HOE;
-  }
+        return ToolHelper.getIsRepairable(stack1, stack2);
+    }
 
-  @Override
-  public String getFullName() {
+    @Override
+    public void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
+                         boolean isSelected) {
 
-    return getModId() + ":" + getName();
-  }
+        ToolHelper.onUpdate(tool, world, entity, itemSlot, isSelected);
+    }
 
-  @Override
-  public String getModId() {
+    @Override
+    public boolean onEntityItemUpdate(EntityItem entityItem) {
 
-    return SilentGems.MODID;
-  }
+        return ToolHelper.onEntityItemUpdate(entityItem);
+    }
 
-  @Override
-  public void getModels(Map<Integer, ModelResourceLocation> models) {
+    // ===============
+    // IRegistryObject
+    // ===============
 
-    models.put(0, ToolRenderHelper.SMART_MODEL);
-  }
+    @Override
+    public void addRecipes(RecipeMaker recipes) {
 
-  @Override
-  public boolean registerModels() {
+        if (!getConfig().isDisabled)
+            ToolHelper.addExampleRecipe(this, "hh", " r", " r");
+    }
 
-    return false;
-  }
+    @Override
+    public void addOreDict() {
 
-  // =================================
-  // Cross Compatibility (MC 10/11/12)
-  // =================================
+    }
 
-  // addInformation 1.10.2/1.11.2
-  public void func_77624_a(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+    @Override
+    public String getName() {
 
-    ToolRenderHelper.getInstance().clAddInformation(stack, player.world, list, advanced);
-  }
+        return Names.HOE;
+    }
 
-  @Override
-  public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
+    @Override
+    public String getFullName() {
 
-    ToolRenderHelper.getInstance().clAddInformation(stack, world, list,
-        flag == TooltipFlags.ADVANCED);
-  }
+        return getModId() + ":" + getName();
+    }
 
-  // getSubItems 1.10.2
-  public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
+    @Override
+    public String getModId() {
 
-    clGetSubItems(item, tab, list);
-  }
+        return SilentGems.MODID;
+    }
 
-  // getSubItems 1.11.2
-  public void func_150895_a(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+    @Override
+    public void getModels(Map<Integer, ModelResourceLocation> models) {
 
-    clGetSubItems(item, tab, list);
-  }
+        models.put(0, ToolRenderHelper.SMART_MODEL);
+    }
 
-  @Override
-  public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+    @Override
+    public boolean registerModels() {
 
-    clGetSubItems(this, tab, list);
-  }
+        return false;
+    }
 
-  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+    // =================================
+    // Cross Compatibility (MC 10/11/12)
+    // =================================
 
-    if (!ItemHelper.isInCreativeTab(item, tab))
-      return;
+    @Override
+    public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
 
-    list.addAll(ToolHelper.getSubItems(item, 2));
-  }
+        ToolRenderHelper.getInstance().addInformation(stack, world, list, flag);
+    }
 
-  // onItemUse
-  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
-      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    // getSubItems 1.10.2
+    public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
 
-    return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
-  }
+        clGetSubItems(item, tab, list);
+    }
+
+    // getSubItems 1.11.2
+    public void func_150895_a(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+
+        clGetSubItems(item, tab, list);
+    }
+
+    @Override
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+
+        clGetSubItems(this, tab, list);
+    }
+
+    protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+        if (!ItemHelper.isInCreativeTab(item, tab))
+            return;
+
+        list.addAll(ToolHelper.getSubItems(item, 2));
+    }
+
+    // onItemUse
+    public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
+                                          BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+        return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
+    }
 }

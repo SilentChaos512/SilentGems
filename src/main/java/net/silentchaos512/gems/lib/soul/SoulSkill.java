@@ -24,7 +24,10 @@ import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.ItemHelper;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Random;
 
 import static net.silentchaos512.gems.lib.soul.EnumSoulElement.*;
 
@@ -510,12 +513,7 @@ public class SoulSkill {
     return selected;
   }
 
-  public static SoulSkill[] getSkillList() {
-
-    List<SoulSkill> list = new ArrayList<>();
-    for (SoulSkill skill : SKILL_LIST.values()) {
-      list.add(skill);
-    }
-    return list.toArray(new SoulSkill[list.size()]);
+  public static Collection<SoulSkill> getSkillList() {
+    return SKILL_LIST.values();
   }
 }

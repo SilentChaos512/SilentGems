@@ -6,7 +6,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.client.util.ITooltipFlag.TooltipFlags;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -44,331 +43,324 @@ import java.util.Set;
 
 public class ItemGemShovel extends ItemSpade implements IRegistryObject, ITool {
 
-  public static final Set<Material> BASE_EFFECTIVE_MATERIALS = Sets.newHashSet(Material.CLAY,
-      Material.CRAFTED_SNOW, Material.GRASS, Material.GROUND, Material.SAND, Material.SNOW);
+    public static final Set<Material> BASE_EFFECTIVE_MATERIALS = Sets.newHashSet(Material.CLAY,
+            Material.CRAFTED_SNOW, Material.GRASS, Material.GROUND, Material.SAND, Material.SNOW);
 
-  public ItemGemShovel() {
+    public ItemGemShovel() {
 
-    super(ToolHelper.FAKE_MATERIAL);
-    setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.SHOVEL);
-    setNoRepair();
-  }
-
-  public ItemStack constructTool(boolean supercharged, ItemStack material) {
-
-    return constructTool(supercharged, material, material, material);
-  }
-
-  public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
-
-    if (getConfig().isDisabled)
-      return StackHelper.empty();
-    ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
-        : new ItemStack(Items.STICK);
-    return ToolHelper.constructTool(this, rod, materials);
-  }
-
-  // ===============
-  // ITool overrides
-  // ===============
-
-  public ConfigOptionToolClass getConfig() {
-
-    return GemsConfig.shovel;
-  }
-
-  @Override
-  public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
-
-    if (getConfig().isDisabled)
-      return StackHelper.empty();
-    if (materials.length == 1) {
-      return ToolHelper.constructTool(this, rod, materials[0], materials[0], materials[0]);
+        super(ToolHelper.FAKE_MATERIAL);
+        setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.SHOVEL);
+        setNoRepair();
     }
-    return ToolHelper.constructTool(this, rod, materials);
-  }
 
-  @Override
-  public float getMeleeDamageModifier() {
+    public ItemStack constructTool(boolean supercharged, ItemStack material) {
 
-    return 1.5f;
-  }
-
-  @Override
-  public float getMagicDamageModifier() {
-
-    return 0.0f;
-  }
-
-  @Override
-  public float getMeleeSpeedModifier() {
-
-    return -3.0f;
-  }
-
-  @Override
-  public float getRepairMultiplier() {
-
-    return 2.0f;
-  }
-
-  @Override
-  public boolean isDiggingTool() {
-
-    return true;
-  }
-
-  // ==============
-  // Item overrides
-  // ==============
-
-  @Override
-  public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
-      EnumFacing side, float hitX, float hitY, float hitZ) {
-
-    ItemStack stack = player.getHeldItem(hand);
-    boolean broken = ToolHelper.isBroken(stack);
-    // Check for normal shovel use first if not broken, to allow path blocks to be made (1.11+).
-    // Use ItemHelper for xcompat, diamond shovel to "simulate" a super.onItemUse call.
-    if (!broken && ItemHelper.onItemUse(Items.DIAMOND_SHOVEL, player, world, pos, hand, side, hitX,
-        hitY, hitZ) != EnumActionResult.SUCCESS) {
-      // Place block.
-      return ToolHelper.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
-    } else if (!broken) {
-      // Made path block.
-      ToolHelper.incrementStatPathsMade(stack, 1);
-      return EnumActionResult.SUCCESS;
+        return constructTool(supercharged, material, material, material);
     }
-    // Broken.
-    return EnumActionResult.PASS;
-  }
 
-  @Override
-  public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
+    public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
 
-    boolean canceled = super.onBlockStartBreak(stack, pos, player);
-    if (!canceled) {
-      ToolHelper.onBlockStartBreak(stack, pos, player);
+        if (getConfig().isDisabled)
+            return StackHelper.empty();
+        ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
+                : new ItemStack(Items.STICK);
+        return ToolHelper.constructTool(this, rod, materials);
     }
-    return canceled;
-  }
 
-  @Override
-  public int getMaxDamage(ItemStack stack) {
+    // ===============
+    // ITool overrides
+    // ===============
 
-    return ToolHelper.getMaxDamage(stack);
-  }
+    public ConfigOptionToolClass getConfig() {
 
-  // @Override
-  // public int getColorFromItemStack(ItemStack stack, int pass) {
-  //
-  // return ToolRenderHelper.getInstance().getColorFromItemStack(stack, pass);
-  // }
-
-  @Override
-  public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
-      boolean slotChanged) {
-
-    return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
-  }
-
-  @Override
-  public boolean hasEffect(ItemStack stack) {
-
-    return ToolRenderHelper.instance.hasEffect(stack);
-  }
-
-  @Override
-  public EnumRarity getRarity(ItemStack stack) {
-
-    return ToolRenderHelper.instance.getRarity(stack);
-  }
-
-  @Override
-  public int getItemEnchantability(ItemStack stack) {
-
-    return ToolHelper.getItemEnchantability(stack);
-  }
-
-  @Override
-  public void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
-      boolean isSelected) {
-
-    ToolHelper.onUpdate(tool, world, entity, itemSlot, isSelected);
-  }
-
-  @Override
-  public boolean onEntityItemUpdate(EntityItem entityItem) {
-
-    return ToolHelper.onEntityItemUpdate(entityItem);
-  }
-
-  // ==================
-  // ItemTool overrides
-  // ==================
-
-  @Override
-  public float getDestroySpeed(ItemStack stack, IBlockState state) {
-
-    return ToolHelper.getDigSpeed(stack, state, null);
-  }
-
-  @Override
-  public boolean onBlockDestroyed(ItemStack stack, World world, IBlockState state, BlockPos pos,
-      EntityLivingBase entityLiving) {
-
-    return ToolHelper.onBlockDestroyed(stack, world, state, pos, entityLiving);
-  }
-
-  @Override
-  public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player,
-      IBlockState state) {
-
-    if (super.getHarvestLevel(stack, toolClass, player, state) < 0 || ToolHelper.isBroken(stack)) {
-      return -1;
+        return GemsConfig.shovel;
     }
-    return ToolHelper.getHarvestLevel(stack);
-  }
 
-  @Override
-  public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
-      ItemStack stack) {
+    @Override
+    public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
 
-    return ToolHelper.getAttributeModifiers(slot, stack);
-  }
+        if (getConfig().isDisabled)
+            return StackHelper.empty();
+        if (materials.length == 1) {
+            return ToolHelper.constructTool(this, rod, materials[0], materials[0], materials[0]);
+        }
+        return ToolHelper.constructTool(this, rod, materials);
+    }
 
-  @Override
-  public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
+    @Override
+    public float getMeleeDamageModifier() {
 
-    return ToolHelper.hitEntity(stack, entity1, entity2);
-  }
+        return 1.5f;
+    }
 
-  @Override
-  public boolean getIsRepairable(ItemStack stack1, ItemStack stack2) {
+    @Override
+    public float getMagicDamageModifier() {
 
-    return ToolHelper.getIsRepairable(stack1, stack2);
-  }
+        return 0.0f;
+    }
 
-  // Forge ItemStack-sensitive version
-  @Override
-  public boolean canHarvestBlock(IBlockState state, ItemStack tool) {
+    @Override
+    public float getMeleeSpeedModifier() {
 
-    return canHarvestBlock(state, ToolHelper.getHarvestLevel(tool));
-  }
+        return -3.0f;
+    }
 
-  // Vanilla version... Not good because we can't get the actual harvest level.
-  @Override
-  public boolean canHarvestBlock(IBlockState state) {
+    @Override
+    public float getRepairMultiplier() {
 
-    // Assume a very high level since we can't get the actual value.
-    return canHarvestBlock(state, 10);
-  }
+        return 2.0f;
+    }
 
-  private boolean canHarvestBlock(IBlockState state, int toolLevel) {
+    @Override
+    public boolean isDiggingTool() {
 
-    // Wrong harvest level?
-    if (state.getBlock().getHarvestLevel(state) > toolLevel)
-      return false;
-    // Included in base materials?
-    if (BASE_EFFECTIVE_MATERIALS.contains(state.getMaterial()))
-      return true;
+        return true;
+    }
 
-    return super.canHarvestBlock(state);
-  }
+    // ==============
+    // Item overrides
+    // ==============
 
-  // ===============
-  // IRegistryObject
-  // ===============
+    @Override
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
+                                      EnumFacing side, float hitX, float hitY, float hitZ) {
 
-  @Override
-  public void addRecipes(RecipeMaker recipes) {
+        ItemStack stack = player.getHeldItem(hand);
+        boolean broken = ToolHelper.isBroken(stack);
+        // Check for normal shovel use first if not broken, to allow path blocks to be made (1.11+).
+        // Use ItemHelper for xcompat, diamond shovel to "simulate" a super.onItemUse call.
+        if (!broken && ItemHelper.onItemUse(Items.DIAMOND_SHOVEL, player, world, pos, hand, side, hitX,
+                hitY, hitZ) != EnumActionResult.SUCCESS) {
+            // Place block.
+            return ToolHelper.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
+        } else if (!broken) {
+            // Made path block.
+            ToolHelper.incrementStatPathsMade(stack, 1);
+            return EnumActionResult.SUCCESS;
+        }
+        // Broken.
+        return EnumActionResult.PASS;
+    }
 
-    if (!getConfig().isDisabled)
-      ToolHelper.addExampleRecipe(this, "h", "r", "r");
-  }
+    @Override
+    public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
 
-  @Override
-  public void addOreDict() {
+        boolean canceled = super.onBlockStartBreak(stack, pos, player);
+        if (!canceled) {
+            ToolHelper.onBlockStartBreak(stack, pos, player);
+        }
+        return canceled;
+    }
 
-  }
+    @Override
+    public int getMaxDamage(ItemStack stack) {
 
-  @Override
-  public String getName() {
+        return ToolHelper.getMaxDamage(stack);
+    }
 
-    return Names.SHOVEL;
-  }
+    // @Override
+    // public int getColorFromItemStack(ItemStack stack, int pass) {
+    //
+    // return ToolRenderHelper.getInstance().getColorFromItemStack(stack, pass);
+    // }
 
-  @Override
-  public String getFullName() {
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
+                                               boolean slotChanged) {
 
-    return getModId() + ":" + getName();
-  }
+        return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
+    }
 
-  @Override
-  public String getModId() {
+    @Override
+    public boolean hasEffect(ItemStack stack) {
 
-    return SilentGems.MODID;
-  }
+        return ToolRenderHelper.instance.hasEffect(stack);
+    }
 
-  @Override
-  public void getModels(Map<Integer, ModelResourceLocation> models) {
+    @Override
+    public EnumRarity getRarity(ItemStack stack) {
 
-    models.put(0, ToolRenderHelper.SMART_MODEL);
-  }
+        return ToolRenderHelper.instance.getRarity(stack);
+    }
 
-  @Override
-  public boolean registerModels() {
+    @Override
+    public int getItemEnchantability(ItemStack stack) {
 
-    return false;
-  }
+        return ToolHelper.getItemEnchantability(stack);
+    }
 
-  // =================================
-  // Cross Compatibility (MC 10/11/12)
-  // =================================
+    @Override
+    public void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
+                         boolean isSelected) {
 
-  // addInformation 1.10.2/1.11.2
-  public void func_77624_a(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
+        ToolHelper.onUpdate(tool, world, entity, itemSlot, isSelected);
+    }
 
-    ToolRenderHelper.getInstance().clAddInformation(stack, player.world, list, advanced);
-  }
+    @Override
+    public boolean onEntityItemUpdate(EntityItem entityItem) {
 
-  @Override
-  public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
+        return ToolHelper.onEntityItemUpdate(entityItem);
+    }
 
-    ToolRenderHelper.getInstance().clAddInformation(stack, world, list,
-        flag == TooltipFlags.ADVANCED);
-  }
+    // ==================
+    // ItemTool overrides
+    // ==================
 
-  // getSubItems 1.10.2
-  public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
+    @Override
+    public float getDestroySpeed(ItemStack stack, IBlockState state) {
 
-    clGetSubItems(item, tab, list);
-  }
+        return ToolHelper.getDigSpeed(stack, state, null);
+    }
 
-  // getSubItems 1.11.2
-  public void func_150895_a(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+    @Override
+    public boolean onBlockDestroyed(ItemStack stack, World world, IBlockState state, BlockPos pos,
+                                    EntityLivingBase entityLiving) {
 
-    clGetSubItems(item, tab, list);
-  }
+        return ToolHelper.onBlockDestroyed(stack, world, state, pos, entityLiving);
+    }
 
-  @Override
-  public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+    @Override
+    public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player,
+                               IBlockState state) {
 
-    clGetSubItems(this, tab, list);
-  }
+        if (super.getHarvestLevel(stack, toolClass, player, state) < 0 || ToolHelper.isBroken(stack)) {
+            return -1;
+        }
+        return ToolHelper.getHarvestLevel(stack);
+    }
 
-  protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+    @Override
+    public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
+                                                                     ItemStack stack) {
 
-    if (!ItemHelper.isInCreativeTab(item, tab))
-      return;
+        return ToolHelper.getAttributeModifiers(slot, stack);
+    }
 
-    list.addAll(ToolHelper.getSubItems(item, 1));
-  }
+    @Override
+    public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
 
-  // onItemUse
-  public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
-      BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        return ToolHelper.hitEntity(stack, entity1, entity2);
+    }
 
-    return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
-  }
+    @Override
+    public boolean getIsRepairable(ItemStack stack1, ItemStack stack2) {
+
+        return ToolHelper.getIsRepairable(stack1, stack2);
+    }
+
+    // Forge ItemStack-sensitive version
+    @Override
+    public boolean canHarvestBlock(IBlockState state, ItemStack tool) {
+
+        return canHarvestBlock(state, ToolHelper.getHarvestLevel(tool));
+    }
+
+    // Vanilla version... Not good because we can't get the actual harvest level.
+    @Override
+    public boolean canHarvestBlock(IBlockState state) {
+
+        // Assume a very high level since we can't get the actual value.
+        return canHarvestBlock(state, 10);
+    }
+
+    private boolean canHarvestBlock(IBlockState state, int toolLevel) {
+
+        // Wrong harvest level?
+        if (state.getBlock().getHarvestLevel(state) > toolLevel)
+            return false;
+        // Included in base materials?
+        if (BASE_EFFECTIVE_MATERIALS.contains(state.getMaterial()))
+            return true;
+
+        return super.canHarvestBlock(state);
+    }
+
+    // ===============
+    // IRegistryObject
+    // ===============
+
+    @Override
+    public void addRecipes(RecipeMaker recipes) {
+
+        if (!getConfig().isDisabled)
+            ToolHelper.addExampleRecipe(this, "h", "r", "r");
+    }
+
+    @Override
+    public void addOreDict() {
+
+    }
+
+    @Override
+    public String getName() {
+
+        return Names.SHOVEL;
+    }
+
+    @Override
+    public String getFullName() {
+
+        return getModId() + ":" + getName();
+    }
+
+    @Override
+    public String getModId() {
+
+        return SilentGems.MODID;
+    }
+
+    @Override
+    public void getModels(Map<Integer, ModelResourceLocation> models) {
+
+        models.put(0, ToolRenderHelper.SMART_MODEL);
+    }
+
+    @Override
+    public boolean registerModels() {
+
+        return false;
+    }
+
+    // =================================
+    // Cross Compatibility (MC 10/11/12)
+    // =================================
+
+    @Override
+    public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
+
+        ToolRenderHelper.getInstance().addInformation(stack, world, list, flag);
+    }
+
+    // getSubItems 1.10.2
+    public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+        clGetSubItems(item, tab, list);
+    }
+
+    // getSubItems 1.11.2
+    public void func_150895_a(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+
+        clGetSubItems(item, tab, list);
+    }
+
+    @Override
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+
+        clGetSubItems(this, tab, list);
+    }
+
+    protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
+
+        if (!ItemHelper.isInCreativeTab(item, tab))
+            return;
+
+        list.addAll(ToolHelper.getSubItems(item, 1));
+    }
+
+    // onItemUse
+    public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
+                                          BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+
+        return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
+    }
 }

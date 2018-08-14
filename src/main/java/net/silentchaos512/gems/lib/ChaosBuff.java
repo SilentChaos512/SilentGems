@@ -61,13 +61,13 @@ public class ChaosBuff {
   final int maxLevel;
   /**
    * The base number of slots used. Additional slots are used for higher levels.
-   * 
+   *
    * @see {@link ChaosBuff#getSlotsUsed(int)}
    */
   final int slotsUsed;
   /**
    * The amount of Chaos used per tick to apply the buff. Higher levels consume additional Chaos.
-   * 
+   *
    * @see {@link ChaosBuff#getChaosCost(int)}
    */
   final int chaosCost;
@@ -79,7 +79,7 @@ public class ChaosBuff {
    * The duration to apply. By default, this is done per tick, but there are exceptions. Note that smaller durations are
    * better. I use 20 ticks for most, but night vision requires more than 400 ticks to prevent the flashing effect.
    * Regeneration also has a special exception.
-   * 
+   *
    * @see {@link ChaosBuff#getApplyDuration(EntityPlayer, int)}
    */
   final int applyDuration;
@@ -216,7 +216,7 @@ public class ChaosBuff {
 
   /**
    * Get the Chaos cost for this buff.
-   * 
+   *
    * @param level
    *          The buff level. Should be greater than zero.
    * @param player
@@ -292,6 +292,8 @@ public class ChaosBuff {
     String desc = loc.getLocalizedString(descKey);
     if (!desc.equals(descKey))
       return desc;
+    if (potion == null)
+      return "Null potion!";
     String potionName = loc.getLocalizedString(potion.getName());
     return loc.getItemSubText(Names.CHAOS_RUNE, "appliesEffect", potionName);
   }

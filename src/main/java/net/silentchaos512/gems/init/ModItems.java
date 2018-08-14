@@ -17,11 +17,9 @@ import net.silentchaos512.gems.item.armor.ItemGemArmor;
 import net.silentchaos512.gems.item.quiver.ItemQuiver;
 import net.silentchaos512.gems.item.quiver.ItemQuiverEmpty;
 import net.silentchaos512.gems.item.tool.*;
-import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemGuideBookSL;
-import net.silentchaos512.lib.item.ItemSL;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.registry.SRegistry;
 
@@ -29,7 +27,7 @@ import java.util.List;
 
 public class ModItems {
     public static final ItemGem gem = new ItemGem();
-    public static final ItemSL gemSuper = new ItemSL(EnumGem.values().length, SilentGems.MODID, Names.GEM_SUPER);
+    public static final ItemGemSuper gemSuper = new ItemGemSuper();
     public static final ItemGemShard gemShard = new ItemGemShard();
     public static final ItemSoulGem soulGem = new ItemSoulGem();
     public static final ItemCrafting craftingMaterial = new ItemCrafting();
@@ -76,10 +74,10 @@ public class ModItems {
     public static final ItemGemSickle sickle = new ItemGemSickle();
 
     // Armor
-    public static final ItemGemArmor gemHelmet = new ItemGemArmor(0, EntityEquipmentSlot.HEAD, Names.HELMET);
-    public static final ItemGemArmor gemChestplate = new ItemGemArmor(1, EntityEquipmentSlot.CHEST, Names.CHESTPLATE);
-    public static final ItemGemArmor gemLeggings = new ItemGemArmor(2, EntityEquipmentSlot.LEGS, Names.LEGGINGS);
-    public static final ItemGemArmor gemBoots = new ItemGemArmor(3, EntityEquipmentSlot.FEET, Names.BOOTS);
+    public static final ItemGemArmor gemHelmet = new ItemGemArmor(0, EntityEquipmentSlot.HEAD);
+    public static final ItemGemArmor gemChestplate = new ItemGemArmor(1, EntityEquipmentSlot.CHEST);
+    public static final ItemGemArmor gemLeggings = new ItemGemArmor(2, EntityEquipmentSlot.LEGS);
+    public static final ItemGemArmor gemBoots = new ItemGemArmor(3, EntityEquipmentSlot.FEET);
 
     public static final ToolRenderHelperBase toolRenderHelper = FMLCommonHandler.instance()
             .getSide() == Side.CLIENT ? new ToolRenderHelper() : new ToolRenderHelperBase();

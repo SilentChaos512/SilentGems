@@ -33,7 +33,7 @@ public class ItemGem extends Item implements IAddRecipes, ICustomModel {
         boolean controlDown = KeyTracker.isControlDown();
 
         if (controlDown && (gem == EnumGem.RUBY || gem == EnumGem.BERYL || gem == EnumGem.SAPPHIRE || gem == EnumGem.TOPAZ)) {
-            list.add(SilentGems.localizationHelper.getItemSubText("gem", "original4"));
+            list.add(SilentGems.i18n.subText(this, "original4"));
         }
     }
 
@@ -68,7 +68,7 @@ public class ItemGem extends Item implements IAddRecipes, ICustomModel {
 
             // If Silent Gear is present, add new supercharged gems
             // TODO: Remove me? Supercharged gem sub-items might be a bit much...
-            if (Loader.isModLoaded("silentgear")) {
+            if (Loader.isModLoaded("silentgear") && SilentGems.instance.isDevBuild()) {
                 for (int level = 1; level <= ModEnchantments.supercharged.getMaxLevel(); ++level) {
                     ItemStack stack = gem.getItem();
                     EnchantmentHelper.setEnchantments(ImmutableMap.of(ModEnchantments.supercharged, level), stack);
