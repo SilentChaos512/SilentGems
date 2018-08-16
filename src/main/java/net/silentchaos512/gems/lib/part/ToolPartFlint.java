@@ -13,106 +13,91 @@ import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
 import net.silentchaos512.gems.util.ToolHelper;
-import net.silentchaos512.lib.registry.IRegistryObject;
 
 public class ToolPartFlint extends ToolPartMain {
+    private static final int COLOR = 0x424242;
 
-  public static final int COLOR = 0x424242;
-
-  public ToolPartFlint() {
-
-    super(SilentGems.MODID + ":flint", new ItemStack(Items.FLINT));
-  }
-
-  @Override
-  public ModelResourceLocation getModel(ItemStack tool, ToolPartPosition pos, int frame) {
-
-    String name = ((IRegistryObject) tool.getItem()).getName();
-    name = SilentGems.RESOURCE_PREFIX + name + "/" + name;
-    String mat = tool.getItem() instanceof ItemGemBow ? "" : "flint";
-    String frameNum = frame == 3 ? "_3" : "";
-
-    switch (pos) {
-      case HEAD:
-        name += mat + frameNum;
-        break;
-      case ROD_DECO:
-        name += "_deco";
-        break;
-      default:
-        return null;
+    ToolPartFlint() {
+        super(SilentGems.MODID + ":flint", new ItemStack(Items.FLINT));
     }
 
-    name = name.toLowerCase();
-    return new ModelResourceLocation(name, "inventory");
-  }
+    @Override
+    public ModelResourceLocation getModel(ItemStack tool, ToolPartPosition pos, int frame) {
+        String name = tool.getItem().getRegistryName().getPath();
+        name = SilentGems.RESOURCE_PREFIX + name + "/" + name;
+        String mat = tool.getItem() instanceof ItemGemBow ? "" : "flint";
+        String frameNum = frame == 3 ? "_3" : "";
 
-  @Override
-  public int getColor(ItemStack toolOrArmor, IPartPosition position, int animationFrame) {
+        switch (pos) {
+            case HEAD:
+                name += mat + frameNum;
+                break;
+            case ROD_DECO:
+                name += "_deco";
+                break;
+            default:
+                return null;
+        }
 
-    Item item = toolOrArmor.getItem();
-    boolean isTextureUncolored = position == ToolPartPosition.ROD_DECO || item instanceof IArmor
-        || item instanceof ItemGemBow || item instanceof ItemGemShield;
-    return isTextureUncolored || ToolHelper.isBroken(toolOrArmor) ? COLOR : 0xFFFFFF;
-  }
+        name = name.toLowerCase();
+        return new ModelResourceLocation(name, "inventory");
+    }
 
-  @Override
-  public int getDurability() {
+    @Override
+    public int getColor(ItemStack toolOrArmor, IPartPosition position, int animationFrame) {
+        Item item = toolOrArmor.getItem();
+        boolean isTextureUncolored = position == ToolPartPosition.ROD_DECO || item instanceof IArmor
+                || item instanceof ItemGemBow || item instanceof ItemGemShield;
+        return isTextureUncolored || ToolHelper.isBroken(toolOrArmor) ? COLOR : 0xFFFFFF;
+    }
 
-    return 128;
-  }
+    @Override
+    public int getDurability() {
+        return 128;
+    }
 
-  @Override
-  public float getHarvestSpeed() {
+    @Override
+    public float getHarvestSpeed() {
+        return 5.0f;
+    }
 
-    return 5.0f;
-  }
+    @Override
+    public int getHarvestLevel() {
+        return 1;
+    }
 
-  @Override
-  public int getHarvestLevel() {
+    @Override
+    public float getMeleeDamage() {
+        return 1.5f;
+    }
 
-    return 1;
-  }
+    @Override
+    public float getMagicDamage() {
+        return 0.0f;
+    }
 
-  @Override
-  public float getMeleeDamage() {
+    @Override
+    public int getEnchantability() {
+        return 8;
+    }
 
-    return 1.5f;
-  }
+    @Override
+    public float getMeleeSpeed() {
+        return 1.1f;
+    }
 
-  @Override
-  public float getMagicDamage() {
+    @Override
+    public float getChargeSpeed() {
+        return 0.5f;
+    }
 
-    return 0.0f;
-  }
+    @Override
+    public float getProtection() {
+        return 3;
+    }
 
-  @Override
-  public int getEnchantability() {
-
-    return 8;
-  }
-
-  @Override
-  public float getMeleeSpeed() {
-
-    return 1.1f;
-  }
-
-  @Override
-  public float getChargeSpeed() {
-
-    return 0.5f;
-  }
-
-  @Override
-  public float getProtection() {
-
-    return 3;
-  }
-
-  @Override
-  public EnumMaterialTier getTier() {
-
-    return EnumMaterialTier.MUNDANE;
-  }
+    @Override
+    public EnumMaterialTier getTier() {
+        return EnumMaterialTier.MUNDANE;
+    }
 }

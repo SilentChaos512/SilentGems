@@ -18,6 +18,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
@@ -119,6 +120,12 @@ public class ItemCrafting extends Item implements IAddRecipes, ICustomModel {
     @Override
     public void addInformation(ItemStack stack, @Nullable World world, List<String> list, ITooltipFlag flag) {
         list.add(TextFormatting.GOLD + SilentGems.i18n.itemSubText(Names.CRAFTING_MATERIAL, "desc"));
+
+        if (KeyTracker.isShiftDown()) {
+            String key = this.getTranslationKey(stack) + ".desc";
+            if (SilentGems.i18n.hasKey(key))
+                list.add(TextFormatting.ITALIC + SilentGems.i18n.translate(key));
+        }
     }
 
     @Override

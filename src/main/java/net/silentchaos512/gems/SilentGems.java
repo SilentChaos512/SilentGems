@@ -33,25 +33,24 @@ import net.silentchaos512.gems.lib.soul.SoulSkill;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.gems.world.GemsGeodeWorldGenerator;
 import net.silentchaos512.gems.world.GemsWorldGenerator;
-import net.silentchaos512.lib.SilentLib;
 import net.silentchaos512.lib.base.IModBase;
 import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.I18nHelper;
-import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.LogHelper;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 import java.util.function.Consumer;
 
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 @Mod(modid = SilentGems.MODID,
         name = SilentGems.MOD_NAME,
         version = SilentGems.VERSION,
         dependencies = SilentGems.DEPENDENCIES,
         acceptedMinecraftVersions = SilentGems.ACCEPTED_MC_VERSIONS,
         guiFactory = "net.silentchaos512.gems.client.gui.config.GuiFactorySilentGems")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class SilentGems implements IModBase {
     public static final String MODID = "silentgems";
     public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
@@ -73,8 +72,6 @@ public class SilentGems implements IModBase {
 
     public static final Random random = new Random();
     public static final LogHelper logHelper = new LogHelper(MOD_NAME, BUILD_NUM);
-    @Deprecated
-    public static LocalizationHelper localizationHelper;
     public static final I18nHelper i18n = new I18nHelper(MODID, logHelper, true);
 
     public static final SRegistry registry = new SRegistry() {
@@ -115,9 +112,6 @@ public class SilentGems implements IModBase {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        localizationHelper = new LocalizationHelper(MODID).setReplaceAmpersand(true);
-        SilentLib.instance.registerLocalizationHelperForMod(MODID, localizationHelper);
-
         registry.setMod(this);
         registry.recipes.setJsonHellMode(isDevBuild());
 
@@ -185,3 +179,7 @@ public class SilentGems implements IModBase {
         return logHelper;
     }
 }
+
+
+
+

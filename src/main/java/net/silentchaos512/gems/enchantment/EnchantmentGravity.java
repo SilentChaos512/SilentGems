@@ -7,16 +7,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.lib.util.StackHelper;
 
 public class EnchantmentGravity extends Enchantment {
-    public static final String NAME = "Gravity";
-
     public static boolean ENABLED = true;
 
     public EnchantmentGravity() {
         super(Rarity.VERY_RARE, EnumEnchantmentType.DIGGER, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
-        setName(NAME);
+        setName(SilentGems.MODID + ".gravity");
     }
 
     @Override
@@ -32,11 +31,6 @@ public class EnchantmentGravity extends Enchantment {
     @Override
     public int getMaxLevel() {
         return 3;
-    }
-
-    @Override
-    public String getName() {
-        return "enchantment.silentgems:" + NAME;
     }
 
     @Override

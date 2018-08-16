@@ -5,19 +5,19 @@ import net.minecraft.enchantment.EnchantmentDamage;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public class EnchantmentMagicDamage extends Enchantment {
-    public static final String NAME = "MagicDamage";
 
     public static boolean ENABLED = true;
 
     public EnchantmentMagicDamage() {
         super(Rarity.UNCOMMON, EnumEnchantmentType.WEAPON,
                 new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
-        setName(NAME);
+        setName(SilentGems.MODID + ".magicdamage");
     }
 
     public float calcDamage(int level) {
@@ -50,10 +50,5 @@ public class EnchantmentMagicDamage extends Enchantment {
     @Override
     public int getMaxLevel() {
         return 5;
-    }
-
-    @Override
-    public String getName() {
-        return "enchantment.silentgems:" + NAME;
     }
 }

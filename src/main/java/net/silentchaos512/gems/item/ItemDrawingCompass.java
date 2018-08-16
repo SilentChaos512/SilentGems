@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.item;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
@@ -7,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModItems;
@@ -18,6 +20,9 @@ import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.DyeHelper;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class ItemDrawingCompass extends Item implements IAddRecipes {
     public enum State {
         EMPTY, BLOCK1, BLOCK2
@@ -26,6 +31,11 @@ public class ItemDrawingCompass extends Item implements IAddRecipes {
     public ItemDrawingCompass() {
         setMaxStackSize(1);
         addPropertyOverride(new ResourceLocation("state"), (stack, worldIn, entityIn) -> getState(stack).ordinal());
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(TextFormatting.ITALIC + SilentGems.i18n.subText(this, "desc"));
     }
 
     @Override

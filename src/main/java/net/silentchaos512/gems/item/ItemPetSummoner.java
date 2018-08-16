@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.item;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityTameable;
@@ -15,6 +16,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
@@ -24,11 +26,19 @@ import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class ItemPetSummoner extends Item implements IAddRecipes, ICustomModel {
     private static final String[] NAMES = { Names.SUMMON_KITTY, Names.SUMMON_PUPPY };
 
     public ItemPetSummoner() {
         setHasSubtypes(true);
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(TextFormatting.ITALIC + SilentGems.i18n.translate(this.getTranslationKey(stack) + ".desc"));
     }
 
     @Override

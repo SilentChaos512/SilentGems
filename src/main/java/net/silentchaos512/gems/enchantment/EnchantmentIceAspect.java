@@ -10,10 +10,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.potion.PotionEffect;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModPotions;
 
 public class EnchantmentIceAspect extends Enchantment {
-    public static final String NAME = "IceAspect";
     public static final int EFFECT_DURATION = 80;
 
     public static boolean ENABLED = true;
@@ -21,7 +21,7 @@ public class EnchantmentIceAspect extends Enchantment {
     public EnchantmentIceAspect() {
         super(Rarity.RARE, EnumEnchantmentType.WEAPON,
                 new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
-        setName(NAME);
+        setName(SilentGems.MODID + ".iceaspect");
     }
 
     @Override
@@ -50,11 +50,6 @@ public class EnchantmentIceAspect extends Enchantment {
     @Override
     public int getMaxLevel() {
         return 2;
-    }
-
-    @Override
-    public String getName() {
-        return "enchantment.silentgems:" + NAME;
     }
 
     /**

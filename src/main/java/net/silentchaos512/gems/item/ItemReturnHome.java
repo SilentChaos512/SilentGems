@@ -73,7 +73,7 @@ public class ItemReturnHome extends ItemChaosStorage implements IAddRecipes, ICu
             if (modifier) {
                 list.add(SilentGems.i18n.subText(this, TEXT_BOUND_TO, pos));
             } else {
-                list.add(SilentGems.i18n.miscText("PressCtrl"));
+                list.add(SilentGems.i18n.miscText("pressCtrl"));
             }
         } else {
             list.add(SilentGems.i18n.subText(this, TEXT_NOT_BOUND));

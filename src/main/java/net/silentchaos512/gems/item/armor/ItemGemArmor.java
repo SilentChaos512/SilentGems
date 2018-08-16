@@ -246,22 +246,22 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IArmor, IA
         if (controlDown) {
             String owner = ArmorHelper.getOriginalOwner(stack);
             if (!owner.isEmpty()) {
-                list.add(SilentGems.i18n.miscText("Tooltip.OriginalOwner", owner));
+                list.add(SilentGems.i18n.miscText("tooltip.OriginalOwner", owner));
             } else {
-                list.add(SilentGems.i18n.miscText("Tooltip.OriginalOwner.Unknown"));
+                list.add(SilentGems.i18n.miscText("tooltip.OriginalOwner.Unknown"));
             }
         }
 
         // Broken?
         if (ArmorHelper.isBroken(stack)) {
-            list.add(SilentGems.i18n.miscText("Tooltip.Broken"));
+            list.add(SilentGems.i18n.miscText("tooltip.Broken"));
         }
 
-        final String sep = SilentGems.i18n.miscText("Tooltip.Separator");
+        final String sep = SilentGems.i18n.miscText("tooltip.Separator");
 
         if (controlDown) {
             // Properties header
-            list.add(SilentGems.i18n.miscText("Tooltip.Properties"));
+            list.add(SilentGems.i18n.miscText("tooltip.Properties"));
 
             TextFormatting color = TextFormatting.YELLOW;
             float durabilityBoost = ToolSoul.getDurabilityModifierForDisplay(soul);
@@ -271,18 +271,18 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IArmor, IA
 
             // Statistics Header
             list.add(sep);
-            list.add(SilentGems.i18n.miscText("Tooltip.Statistics"));
+            list.add(SilentGems.i18n.miscText("tooltip.Statistics"));
 
             list.add(helper.getTooltipLine("DamageTaken", ArmorHelper.getStatDamageTaken(stack), 0f));
             list.add(helper.getTooltipLine("Redecorated", ArmorHelper.getStatRedecorated(stack), 0f));
 
             list.add(sep);
         } else {
-            list.add(TextFormatting.GOLD + SilentGems.i18n.miscText("PressCtrl"));
+            list.add(TextFormatting.GOLD + SilentGems.i18n.miscText("pressCtrl"));
         }
 
         if (altDown) {
-            list.add(SilentGems.i18n.miscText("Tooltip.Construction"));
+            list.add(SilentGems.i18n.miscText("tooltip.Construction"));
 
             ToolPart[] parts = ArmorHelper.getConstructionParts(stack);
             EnumMaterialGrade[] grades = ArmorHelper.getConstructionGrades(stack);
@@ -300,7 +300,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IArmor, IA
                 list.add("  " + TextFormatting.YELLOW + partFrame.getKey());
             list.add(sep);
         } else {
-            list.add(TextFormatting.GOLD + SilentGems.i18n.miscText("PressAlt"));
+            list.add(TextFormatting.GOLD + SilentGems.i18n.miscText("pressAlt"));
         }
     }
 

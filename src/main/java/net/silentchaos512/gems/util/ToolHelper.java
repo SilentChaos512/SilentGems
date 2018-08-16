@@ -890,7 +890,6 @@ public class ToolHelper {
   public static String createToolName(Item item, List<ItemStack> materials) {
 
     ToolPart part;
-    LocalizationHelper loc = SilentGems.localizationHelper;
     Set<String> prefixSet = Sets.newLinkedHashSet();
     Set<String> materialSet = Sets.newLinkedHashSet();
     for (ItemStack stack : materials) {
@@ -906,10 +905,10 @@ public class ToolHelper {
     String prefix = String.join(" ", prefixSet);
     if (!prefix.isEmpty())
       prefix += " ";
-    String delimiter = loc.getLocalizedString("tool.silentgems:delimiter");
+    String delimiter = SilentGems.i18n.translate("tool.silentgems.delimiter");
     String materialName = String.join(delimiter, materialSet);
     String toolName = Objects.requireNonNull(item.getRegistryName()).getPath();
-    String name = loc.getLocalizedString("tool", toolName, materialName);
+    String name = SilentGems.i18n.translate("tool", toolName, materialName);
 
     return prefix + name;
   }
@@ -932,7 +931,7 @@ public class ToolHelper {
       }
     } while (key != null && !key.isEmpty());
 
-    return parts.toArray(new ToolPart[parts.size()]);
+    return parts.toArray(new ToolPart[0]);
   }
 
   public static EnumMaterialGrade[] getConstructionGrades(ItemStack tool) {
@@ -949,7 +948,7 @@ public class ToolHelper {
         grades.add(getPartGrade(tool, ToolPartPosition.HEAD.getKey(index)));
     } while (key != null && !key.isEmpty());
 
-    return grades.toArray(new EnumMaterialGrade[grades.size()]);
+    return grades.toArray(new EnumMaterialGrade[0]);
   }
 
   public static ToolPart getConstructionRod(ItemStack tool) {
@@ -971,8 +970,8 @@ public class ToolHelper {
   public static ItemStack decorateTool(ItemStack tool, ItemStack west, ItemStack north,
       ItemStack east, ItemStack south) {
 
-    if (StackHelper.isEmpty(tool))
-      return StackHelper.empty();
+    if (tool.isEmpty())
+      return ItemStack.EMPTY;
 
     ItemStack result = tool.copy();
     result = decorate(result, west, EnumDecoPos.WEST);
@@ -984,10 +983,10 @@ public class ToolHelper {
 
   private static ItemStack decorate(ItemStack tool, ItemStack material, EnumDecoPos pos) {
 
-    if (StackHelper.isEmpty(tool)) // Something went wrong
-      return StackHelper.empty();
+    if (tool.isEmpty()) // Something went wrong
+      return ItemStack.EMPTY;
 
-    if (StackHelper.isEmpty(material)) // No material in the slot is OK.
+    if (material.isEmpty()) // No material in the slot is OK.
       return tool;
 
     // Shields have different deco positions.
@@ -995,11 +994,11 @@ public class ToolHelper {
     // North - 'Plate' (deco)
     // East - 'Top-Right' (head middle or 1)
     // South - 'Bottom' (head right or 2)
-    if (tool.getItem() instanceof ItemGemShield) { //@formatter:off
+    if (tool.getItem() instanceof ItemGemShield) {
       if (pos == EnumDecoPos.NORTH) pos = EnumDecoPos.SOUTH;
       else if (pos == EnumDecoPos.EAST)  pos = EnumDecoPos.NORTH;
       else if (pos == EnumDecoPos.SOUTH) pos = EnumDecoPos.EAST;
-    } //@formatter:on
+    }
 
     // No deco bit on certain (mostly non-super) rods.
     if (pos == EnumDecoPos.SOUTH && !(tool.getItem() instanceof ItemGemShield)) {
@@ -1017,14 +1016,14 @@ public class ToolHelper {
     if (!(part instanceof ToolPartMain))
       return tool;
 
-    ItemStack result = StackHelper.safeCopy(tool);
+    ItemStack result = tool.copy();
     setTagPart(result, pos.nbtKey, part, EnumMaterialGrade.fromStack(material));
     return result;
   }
 
-  static boolean foundEmptyPart = false;
-  static Set<ToolPartMain> emptyPartSet = Sets.newHashSet();
-  static Map<Item, List<ItemStack>> toolSubItems = new HashMap<>();
+  private static boolean foundEmptyPart = false;
+  private static Set<ToolPartMain> emptyPartSet = Sets.newHashSet();
+  private static Map<Item, List<ItemStack>> toolSubItems = new HashMap<>();
 
   public static List<ItemStack> getSubItems(Item item, int materialLength) {
 
@@ -1044,7 +1043,7 @@ public class ToolHelper {
       if (StackHelper.isEmpty(part.getCraftingStack())) {
         if (!emptyPartSet.contains(part)) {
           emptyPartSet.add(part);
-          SilentGems.logHelper.severe("Part with empty crafting stack: " + part);
+          SilentGems.logHelper.error("Part with empty crafting stack: " + part);
           if (!foundEmptyPart) {
             Greetings.addExtraMessage(TextFormatting.RED
                 + "Errored tool part found! Please report this issue on the GitHub issue tracker.");
@@ -1069,7 +1068,7 @@ public class ToolHelper {
     }
 
     // Set maker name.
-    String makerName = SilentGems.localizationHelper.getMiscText("Tooltip.OriginalOwner.Creative");
+    String makerName = SilentGems.i18n.miscText("tooltip.OriginalOwner.Creative");
     for (ItemStack stack : list)
       ToolHelper.setOriginalOwner(stack, makerName);
 

@@ -1,24 +1,20 @@
 package net.silentchaos512.gems.potion;
 
-import java.util.Random;
-import java.util.UUID;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.enchantment.EnchantmentLightningAspect;
-import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.util.ModDamageSource;
 import net.silentchaos512.lib.util.Color;
+
+import java.util.Random;
+import java.util.UUID;
 
 public class PotionShocking extends Potion {
 
@@ -35,12 +31,8 @@ public class PotionShocking extends Potion {
   public PotionShocking() {
 
     super(true, 0xf5ff3d);
-    String name = SilentGems.RESOURCE_PREFIX + "shocking";
-    setPotionName("effect." + name);
-    setRegistryName(new ResourceLocation(name));
-
-    modifier = new AttributeModifier(UUID.fromString("966ce179-1967-4b80-b894-bc743f1edbef"),
-        getName(), -0.3, 2);
+    setPotionName("effect." + SilentGems.MODID + ".shocking");
+    modifier = new AttributeModifier(UUID.fromString("966ce179-1967-4b80-b894-bc743f1edbef"), getName(), -0.3, 2);
   }
 
   @Override

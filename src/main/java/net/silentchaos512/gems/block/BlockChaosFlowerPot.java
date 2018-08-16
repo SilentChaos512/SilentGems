@@ -199,8 +199,8 @@ public class BlockChaosFlowerPot extends Block implements ITileEntityProvider, I
         if (te instanceof TileChaosFlowerPot) {
             int flowerId = ((TileChaosFlowerPot) te).getFlowerId();
             if (flowerId >= 0 && flowerId < 16) {
-                String key = "tile.silentgems:GlowRose" + flowerId + ".name";
-                list.add(TextFormatting.GRAY + SilentGems.localizationHelper.getLocalizedString(key));
+                String key = "tile.silentgems.glowrose" + flowerId + ".name";
+                list.add(TextFormatting.GRAY + SilentGems.i18n.translate(key));
             }
         }
         return list;

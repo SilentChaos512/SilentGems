@@ -1,9 +1,6 @@
 package net.silentchaos512.gems.tile;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,6 +18,8 @@ import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.lib.tile.SyncVariable;
 import net.silentchaos512.lib.tile.TileSidedInventorySL;
 import net.silentchaos512.lib.util.StackHelper;
+
+import java.util.List;
 
 public class TileMaterialGrader extends TileSidedInventorySL implements ITickable, IChaosAccepter {
 

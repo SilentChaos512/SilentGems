@@ -12,11 +12,11 @@ public class ModEnchantments {
     public static EnchantmentSupercharged supercharged = new EnchantmentSupercharged();
 
     public static void registerAll(SRegistry reg) {
-        reg.registerEnchantment(lifeSteal, EnchantmentLifeSteal.NAME);
-        reg.registerEnchantment(magicDamage, EnchantmentMagicDamage.NAME);
-        reg.registerEnchantment(gravity, EnchantmentGravity.NAME);
-        reg.registerEnchantment(iceAspect, EnchantmentIceAspect.NAME);
-        reg.registerEnchantment(lightningAspect, EnchantmentLightningAspect.NAME);
+        reg.registerEnchantment(lifeSteal, "lifesteal");
+        reg.registerEnchantment(magicDamage, "magicdamage");
+        reg.registerEnchantment(gravity, "gravity");
+        reg.registerEnchantment(iceAspect, "iceaspect");
+        reg.registerEnchantment(lightningAspect, "lightningaspect");
         reg.registerEnchantment(supercharged, "supercharged");
     }
 }

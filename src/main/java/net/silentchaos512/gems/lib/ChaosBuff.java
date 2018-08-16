@@ -276,9 +276,9 @@ public class ChaosBuff {
     String str;
 
     if (potion != null)
-      str = SilentGems.localizationHelper.getLocalizedString(potion.getName());
+      str = SilentGems.i18n.translate(potion.getName());
     else
-      str = SilentGems.localizationHelper.getLocalizedString("buff." + key);
+      str = SilentGems.i18n.translate("buff." + key);
 
     if (level > 1)
       str += " " + (level == 2 ? "II" : level == 3 ? "III" : level == 4 ? "IV" : "" + level);
@@ -288,14 +288,13 @@ public class ChaosBuff {
   public String getDescription() {
 
     String descKey = "buff." + key + ".desc";
-    LocalizationHelper loc = SilentGems.localizationHelper;
-    String desc = loc.getLocalizedString(descKey);
+    String desc = SilentGems.i18n.translate(descKey);
     if (!desc.equals(descKey))
       return desc;
     if (potion == null)
       return "Null potion!";
-    String potionName = loc.getLocalizedString(potion.getName());
-    return loc.getItemSubText(Names.CHAOS_RUNE, "appliesEffect", potionName);
+    String potionName = SilentGems.i18n.translate(potion.getName());
+    return SilentGems.i18n.itemSubText(Names.CHAOS_RUNE, "appliesEffect", potionName);
   }
 
   public int getColor() {

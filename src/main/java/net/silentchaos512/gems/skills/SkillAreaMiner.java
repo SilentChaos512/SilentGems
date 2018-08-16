@@ -77,8 +77,7 @@ public class SkillAreaMiner extends ToolSkillDigger {
     if (data.chaos >= cost) {
       data.drainChaos(cost);
     } else {
-      String msg = SilentGems.localizationHelper.getLocalizedString("skill",
-          "all.insufficientChaos");
+      String msg = SilentGems.i18n.translate("skill", "all.insufficientChaos");
       ChatHelper.sendStatusMessage(player, msg, true);
       return false;
     }
@@ -264,6 +263,6 @@ public class SkillAreaMiner extends ToolSkillDigger {
   @Override
   public String getTranslatedName() {
 
-    return SilentGems.instance.localizationHelper.getLocalizedString("skill", "AreaMiner");
+    return SilentGems.i18n.translate("skill", "AreaMiner");
   }
 }

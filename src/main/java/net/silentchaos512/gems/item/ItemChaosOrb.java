@@ -80,7 +80,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
     public void addInformation(ItemStack stack, @Nullable World world, List<String> list, ITooltipFlag flag) {
         final boolean shifted = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 
-        list.add(SilentGems.i18n.miscText("ChaosCharge", getCharge(stack), getMaxCharge(stack)));
+        list.add(SilentGems.i18n.miscText("chaosCharge", getCharge(stack), getMaxCharge(stack)));
         list.add(SilentGems.i18n.itemSubText(Names.CHAOS_ORB, "breakChance", (int) (getType(stack).breakChance * 100)));
 
         boolean mode = isItemSendEnabled(stack);

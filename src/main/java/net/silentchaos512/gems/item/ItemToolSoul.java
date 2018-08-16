@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.RecipeMaker;
@@ -61,6 +62,8 @@ public class ItemToolSoul extends Item implements IAddRecipes {
 
     @Override
     public void addRecipes(RecipeMaker recipes) {
+        recipe = recipes.addShaped("tool_soul", new ItemStack(this), " s ", "scs", " s ",
+                's', new ItemStack(ModItems.soulGem), 'c', ModItems.craftingMaterial.soulShell);
 //        if (ModRecipes.ADD_SOUL_RECIPES) {
 //            // FIXME? JEI only shows wheat souls?
 //            NonNullList<ItemStack> listSouls = NonNullList.create();

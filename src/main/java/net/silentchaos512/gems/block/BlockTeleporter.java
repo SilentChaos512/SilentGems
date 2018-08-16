@@ -25,7 +25,6 @@ import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
-import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.StackHelper;
 import net.silentchaos512.wit.api.IWitHudInfo;
 
@@ -118,25 +117,23 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
             return false;
         }
 
-        LocalizationHelper loc = SilentGems.localizationHelper;
-
         // Destination set?
         if (!tile.isDestinationSet()) {
-            ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "noDestination"));
+            ChatHelper.sendMessage(player, SilentGems.i18n.blockSubText(Names.TELEPORTER, "noDestination"));
             return true;
         }
 
         // Safety checks before teleporting:
         if (!tile.isDestinationSane(player)) {
-            ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "notSane"));
+            ChatHelper.sendMessage(player, SilentGems.i18n.blockSubText(Names.TELEPORTER, "notSane"));
             return true;
         }
         if (!tile.isDestinationSafe(player)) {
-            ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "notSafe"));
+            ChatHelper.sendMessage(player, SilentGems.i18n.blockSubText(Names.TELEPORTER, "notSafe"));
             return true;
         }
         if (!tile.isDestinationAllowedIfDumb(player)) {
-            ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "noReceiver"));
+            ChatHelper.sendMessage(player, SilentGems.i18n.blockSubText(Names.TELEPORTER, "noReceiver"));
             return true;
         }
 

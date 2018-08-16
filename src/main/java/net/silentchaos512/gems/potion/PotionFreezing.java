@@ -1,23 +1,20 @@
 package net.silentchaos512.gems.potion;
 
-import java.util.Random;
-import java.util.UUID;
-import java.util.Map.Entry;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.util.ModDamageSource;
 import net.silentchaos512.lib.util.Color;
+
+import java.util.Random;
+import java.util.UUID;
 
 public class PotionFreezing extends Potion {
 
@@ -31,12 +28,8 @@ public class PotionFreezing extends Potion {
   public PotionFreezing() {
 
     super(true, 0x8cfbff);
-    String name = SilentGems.RESOURCE_PREFIX + "freezing";
-    setPotionName("effect." + name);
-    setRegistryName(new ResourceLocation(name));
-
-    modifier = new AttributeModifier(UUID.fromString("c45e3a61-996a-4cea-977c-5d315365631a"),
-        getName(), -0.5, 2);
+    setPotionName("effect." + SilentGems.MODID + ".freezing");
+    modifier = new AttributeModifier(UUID.fromString("c45e3a61-996a-4cea-977c-5d315365631a"), getName(), -0.5, 2);
   }
 
   @Override

@@ -501,11 +501,11 @@ tile.silentgems.teleporterlight14.name=Tektite Teleporter
 tile.silentgems.teleporterlight15.name=Pearl Teleporter
 
 tile.silentgems.teleporter.linkStart=teleporter selected.
-tile.silentgems.teleporter.linkSuccess=&2Teleporters linked!
-tile.silentgems.teleporter.linkFail=&4Failed to link teleporters! Was one removed?
+tile.silentgems.teleporter.linkSuccess=§2Teleporters linked!
+tile.silentgems.teleporter.linkFail=§4Failed to link teleporters! Was one removed?
 tile.silentgems.teleporter.notEnoughChaos=Not enough Chaos (%,d / %,d)
-tile.silentgems.teleporter.notSafe=&4destination obstructed.
-tile.silentgems.teleporter.notSane=&4the destination seems unreasonable...
+tile.silentgems.teleporter.notSafe=§4destination obstructed.
+tile.silentgems.teleporter.notSane=§4the destination seems unreasonable...
 tile.silentgems.teleporter.noReceiver=No teleporter at destination!
 tile.silentgems.teleporter.noDestination=no destination set.
 tile.silentgems.teleporter.returnHomeBound=Bound to teleporter!
@@ -660,6 +660,7 @@ item.silentgems.debugitem.name=Debug Item
 item.silentgems.debugitem.desc=No one here but us space chickens!
 
 item.silentgems.drawingcompass.name=Drawing Compass
+item.silentgems.drawingcompass.desc=Draws imaginary circles in the world. Can be dyed to change color.
 item.silentgems.drawingcompass.radius=Radius = %d
 item.silentgems.drawingcompass.howToReset=Right-click while sneaking to reset.
 
@@ -669,9 +670,9 @@ item.silentgems.dyeblue.name=Blue Dye
 item.silentgems.enchantmenttoken.name=Enchantment Token
 item.silentgems.enchantmenttoken.enchNameWithMod=%s (%s)
 item.silentgems.enchantmenttoken_blank.name=Enchantment Token (Blank)
-item.silentgems.enchantmenttoken.maxLevel=&eMax Level:&r %d
-item.silentgems.enchantmenttoken.pressCtrl=&6<Press Ctrl for materials>
-item.silentgems.enchantmenttoken.materials=&6Materials:
+item.silentgems.enchantmenttoken.maxLevel=§eMax Level:§r %d
+item.silentgems.enchantmenttoken.pressCtrl=§6<Press Ctrl for materials>
+item.silentgems.enchantmenttoken.materials=§6Materials:
 
 item.silentgems.fluffypuff.name=Fluffy Puff
 item.silentgems.fluffypuffseeds.name=Fluffy Puff Seeds
@@ -773,7 +774,7 @@ item.silentgems.gemsuper45.name=Supercharged Rose Quartz
 item.silentgems.gemsuper46.name=Supercharged Tektite
 item.silentgems.gemsuper47.name=Supercharged Pearl
 item.silentgems.gem.superPrefix=Supercharged
-item.silentgems.gem.original4=&5Original Four
+item.silentgems.gem.original4=§5Original Four
 
 item.silentgems.gemshard0.name=Ruby Shard
 item.silentgems.gemshard1.name=Garnet Shard
@@ -844,12 +845,12 @@ item.silentgems.quivernonempty.name=Quiver
 item.silentgems.quiver.arrowFormat=%dx %s
 
 item.silentgems.returnhomecharm.name=Return Home Charm
-item.silentgems.returnhomecharm.desc=&8Hold right-click to use.
-item.silentgems.returnhomecharm.boundto=&2Bound to: %s
-item.silentgems.returnhomecharm.notbound=not bound. Right-click on a Teleporter.
-item.silentgems.returnhomecharm.notsane=&cDestination Y is less than or equal to zero! Try re-linking!
-item.silentgems.returnhomecharm.notsafe=&cDestination obstructed! There is a solid block at head level!
-item.silentgems.returnhomecharm.notenoughcharge=Not enough Chaos!
+item.silentgems.returnhomecharm.desc=§8Hold right-click to use.
+item.silentgems.returnhomecharm.boundTo=§2Bound to: %s
+item.silentgems.returnhomecharm.notBound=Not bound. Right-click on a Teleporter.
+item.silentgems.returnhomecharm.notSane=§cDestination Y is less than or equal to zero! Try re-linking!
+item.silentgems.returnhomecharm.notSafe=§cDestination obstructed! There is a solid block at head level!
+item.silentgems.returnhomecharm.notEnoughCharge=Not enough Chaos!
 
 item.silentgems.skillorb.name=Skill Orb
 item.silentgems.skillorb.name_proper=Skill Orb: %s
@@ -880,13 +881,13 @@ item.silentgems.upgradeirontip.name=Iron-Tipped Upgrade
 item.silentgems.upgradediamondtip.name=Diamond-Tipped Upgrade
 item.silentgems.upgradeemeraldtip.name=Emerald-Tipped Upgrade
 item.silentgems.upgradegoldtip.name=Gold-Tipped Upgrade
-item.silentgems.tipupgrade.willReplace=&cWill replace existing tips, if any.
-item.silentgems.tipupgrade.harvestLevel=&aRaises harvest level to %d (if lower)
-item.silentgems.tipupgrade.durability=&aDurability %s
-item.silentgems.tipupgrade.harvestSpeed=&aHarvest Speed %s
-item.silentgems.tipupgrade.attackSpeed=&aAttack Speed %s
-item.silentgems.tipupgrade.meleeDamage=&aMelee Damage %s
-item.silentgems.tipupgrade.magicDamage=&aMagic Damage %s
+item.silentgems.tipupgrade.willReplace=§cWill replace existing tips, if any.
+item.silentgems.tipupgrade.harvestLevel=§aRaises harvest level to %d (if lower)
+item.silentgems.tipupgrade.durability=§aDurability %s
+item.silentgems.tipupgrade.harvestSpeed=§aHarvest Speed %s
+item.silentgems.tipupgrade.attackSpeed=§aAttack Speed %s
+item.silentgems.tipupgrade.meleeDamage=§aMelee Damage %s
+item.silentgems.tipupgrade.magicDamage=§aMagic Damage %s
 
 # Crafting Materials
 
@@ -908,7 +909,7 @@ item.silentgems.chaosessenceshard.desc=Are you some kind of wizard, or something
 item.silentgems.chaosiron.name=Chaos Iron Ingot
 item.silentgems.chaosironunfired.name=Unfired Chaos Iron Ingot
 item.silentgems.enderessence.name=Ender Essence
-item.silentgems.enderessenceShard.name=Ender Essence Shard
+item.silentgems.enderessenceshard.name=Ender Essence Shard
 item.silentgems.enderfrost.name=Ender Frost
 item.silentgems.enderslimeball.name=Ender Slimeball
 item.silentgems.fluffyfabric.name=Fluffy Fabric
@@ -954,52 +955,53 @@ item.silentgems.meatystew.desc=A simple feast!
 item.silentgems.candycane.name=Candy Cane
 item.silentgems.candycane.desc=It isn't much, but this is my gift to you!
 item.silentgems.coffeecup.name=Cup of Coffee
+item.silentgems.coffeecup.desc=100%% Organic!
 
 # Tools
 
 # These don't display under normal circumstances... but what the heck is normal?
-item.silentgems:sword.name=Gem Sword
-item.silentgems:dagger.name=Gem Dagger
-item.silentgems:katana.name=Gem Katana
-item.silentgems:machete.name=Gem Machete
-item.silentgems:scepter.name=Gem Scepter
-item.silentgems:tomahawk.name=Gem Tomahawk
-item.silentgems:pickaxe.name=Gem Pickaxe
-item.silentgems:shovel.name=Gem Shovel
-item.silentgems:axe.name=Gem Axe
-item.silentgems:paxel.name=Gem Paxel
-item.silentgems:hoe.name=Gem Hoe
-item.silentgems:sickle.name=Gem Sickle
-item.silentgems:bow.name=Gem Bow
-item.silentgems:shield.name=Gem Shield
-item.silentgems:arrow.name=GemArrow
+item.silentgems.sword.name=Gem Sword
+item.silentgems.dagger.name=Gem Dagger
+item.silentgems.katana.name=Gem Katana
+item.silentgems.machete.name=Gem Machete
+item.silentgems.scepter.name=Gem Scepter
+item.silentgems.tomahawk.name=Gem Tomahawk
+item.silentgems.pickaxe.name=Gem Pickaxe
+item.silentgems.shovel.name=Gem Shovel
+item.silentgems.axe.name=Gem Axe
+item.silentgems.paxel.name=Gem Paxel
+item.silentgems.hoe.name=Gem Hoe
+item.silentgems.sickle.name=Gem Sickle
+item.silentgems.bow.name=Gem Bow
+item.silentgems.shield.name=Gem Shield
+item.silentgems.arrow.name=GemArrow
 
-tool.silentgems:sword=%s Sword
-tool.silentgems:dagger=%s Dagger
-tool.silentgems:katana=%s Katana
-tool.silentgems:machete=%s Machete
-tool.silentgems:scepter=%s Scepter
-tool.silentgems:tomahawk=%s Tomahawk
-tool.silentgems:pickaxe=%s Pickaxe
-tool.silentgems:shovel=%s Shovel
-tool.silentgems:axe=%s Axe
-tool.silentgems:paxel=%s Paxel
-tool.silentgems:hoe=%s Hoe
-tool.silentgems:sickle=%s Sickle
-tool.silentgems:bow=%s Bow
-tool.silentgems:shield=%s Shield
-tool.silentgems:arrow=%s Arrow
-tool.silentgems:delimiter=-
+tool.silentgems.sword=%s Sword
+tool.silentgems.dagger=%s Dagger
+tool.silentgems.katana=%s Katana
+tool.silentgems.machete=%s Machete
+tool.silentgems.scepter=%s Scepter
+tool.silentgems.tomahawk=%s Tomahawk
+tool.silentgems.pickaxe=%s Pickaxe
+tool.silentgems.shovel=%s Shovel
+tool.silentgems.axe=%s Axe
+tool.silentgems.paxel=%s Paxel
+tool.silentgems.hoe=%s Hoe
+tool.silentgems.sickle=%s Sickle
+tool.silentgems.bow=%s Bow
+tool.silentgems.shield=%s Shield
+tool.silentgems.arrow=%s Arrow
+tool.silentgems.delimiter=-
 
 # Armor
-tool.silentgems:helmet=%s Helmet
-tool.silentgems:chestplate=%s Chestplate
-tool.silentgems:leggings=%s Leggings
-tool.silentgems:boots=%s Boots
-item.silentgems:helmet.name=Gem Helmet
-item.silentgems:chestplate.name=Gem Chestplate
-item.silentgems:leggings.name=Gem Leggings
-item.silentgems:boots.name=Gem Boots
+tool.silentgems.helmet=%s Helmet
+tool.silentgems.chestplate=%s Chestplate
+tool.silentgems.leggings=%s Leggings
+tool.silentgems.boots=%s Boots
+item.silentgems.helmet.name=Gem Helmet
+item.silentgems.chestplate.name=Gem Chestplate
+item.silentgems.leggings.name=Gem Leggings
+item.silentgems.boots.name=Gem Boots
 
 # Donuts
 
@@ -1021,11 +1023,11 @@ entity.enderslime.name=Ender Slime
 
 # Enchantments
 
-enchantment.silentgems:gravity=gravity
-enchantment.silentgems:iceaspect=Ice Aspect
-enchantment.silentgems:lifesteal=Life Steal
-enchantment.silentgems:lightningaspect=Lightning Aspect
-enchantment.silentgems:magicdamage=Concentration
+enchantment.silentgems.gravity=gravity
+enchantment.silentgems.iceaspect=Ice Aspect
+enchantment.silentgems.lifesteal=Life Steal
+enchantment.silentgems.lightningaspect=Lightning Aspect
+enchantment.silentgems.magicdamage=Concentration
 enchantment.silentgems.supercharged=Supercharged
 
 # Enchantment Descriptions
@@ -1034,21 +1036,22 @@ enchantment.silentgems.iceaspect.desc=Slows and continuously damages the victim.
 enchantment.silentgems.lifesteal.desc=Heals the user for a small portion of damage dealt.
 enchantment.silentgems.lightningaspect.desc=Weakens and continuously damages the victim.
 enchantment.silentgems.magicdamage.desc=Increases damage dealt by magic attacks.
+enchantment.silentgems.supercharged.desc=WIP, powers up Silent Gear materials
 
 
 
 # Potions
 
-effect.silentgems:freezing=Freezing
-effect.silentgems:shocking=Shocking
+effect.silentgems.freezing=Freezing
+effect.silentgems.shocking=Shocking
 
 
 
 # Tool Skills
-skill.silentgems:areaminer.name=Area Miner
-skill.silentgems:areatill.name=Row Tiller
-skill.silentgems:lumberjack.name=lumberjack
-skill.silentgems:all.insufficientChaos=Not enough Chaos!
+skill.silentgems.AreaMiner.name=Area Miner
+skill.silentgems.AreaTill.name=Row Tiller
+skill.silentgems.Lumberjack.name=lumberjack
+skill.silentgems.all.insufficientChaos=Not enough Chaos!
 
 
 
@@ -1189,122 +1192,122 @@ advancements.silentgems:return_home_charm.description=Craft a return home charm 
 
 # Misc
 
-misc.silentgems:chaoscharge=Chaos: %,d / %,d
-misc.silentgems:pressctrl=<Press Ctrl>
-misc.silentgems:pressalt=<Press Alt>
-misc.silentgems:pressshift=<Press Shift>
+misc.silentgems.chaosCharge=Chaos: %,d / %,d
+misc.silentgems.pressCtrl=<Press Ctrl>
+misc.silentgems.pressAlt=<Press Alt>
+misc.silentgems.pressShift=<Press Shift>
 misc.silentgems.state.on=On
 misc.silentgems.state.off=Off
 
-misc.silentgems.legacyItem=§6§oLegacy Item
+misc.silentgems.legacyItem=§3§oLegacy Item
 
 
 
 # Tool and Armor Information
 
-misc.silentgems:toolpart.Rod=&3Tool Rod
-misc.silentgems:toolpart.Grade=&3Grade: %s
-misc.silentgems:toolpart.Tier=&3Tier: %s
-misc.silentgems:toolpart.ValidTiers=Valid tool tiers:
-misc.silentgems:tooltier=Tier: %s
-misc.silentgems:tooltier.MUNDANE=Mundane
-misc.silentgems:tooltier.REGULAR=Regular
-misc.silentgems:tooltier.SUPER=Super
-misc.silentgems:tooltier.HYPER=Hyper
+misc.silentgems.toolpart.Rod=§3Tool Rod
+misc.silentgems.toolpart.Grade=§3Grade: %s
+misc.silentgems.toolpart.Tier=§3Tier: %s
+misc.silentgems.toolpart.ValidTiers=Valid tool tiers:
+misc.silentgems.tooltier=Tier: %s
+misc.silentgems.tooltier.MUNDANE=Mundane
+misc.silentgems.tooltier.REGULAR=Regular
+misc.silentgems.tooltier.SUPER=Super
+misc.silentgems.tooltier.HYPER=Hyper
 
-misc.silentgems:grade.none=None
+misc.silentgems.grade.none=None
 
-misc.silentgems:tooltip.tipped=%s-Tipped
-misc.silentgems:tooltip.tipiron=&fIron
-misc.silentgems:tooltip.tipdiamond=&bDiamond
-misc.silentgems:tooltip.tipemerald=&2Emerald
-misc.silentgems:tooltip.tipgold=&eGold
+misc.silentgems.tooltip.tipped=%s-Tipped
+misc.silentgems.tooltip.tipiron=§fIron
+misc.silentgems.tooltip.tipdiamond=§bDiamond
+misc.silentgems.tooltip.tipemerald=§2Emerald
+misc.silentgems.tooltip.tipgold=§eGold
 
-misc.silentgems:tooltip.level0=Stone
-misc.silentgems:tooltip.level1=Iron
-misc.silentgems:tooltip.level2=Diamond
-misc.silentgems:tooltip.level3=Obsidian
-misc.silentgems:tooltip.level4=Cobalt
+misc.silentgems.tooltip.level0=Stone
+misc.silentgems.tooltip.level1=Iron
+misc.silentgems.tooltip.level2=Diamond
+misc.silentgems.tooltip.level3=Obsidian
+misc.silentgems.tooltip.level4=Cobalt
 
-misc.silentgems:tooltip.ArrowDamage=Arrow Damage:&f %sx
-misc.silentgems:tooltip.BlockingPower=Blocking Power:&f %s
-misc.silentgems:tooltip.Broken=&cYou broke it!
-misc.silentgems:tooltip.ExampleTool=&cExample recipe (%s Tier)
-misc.silentgems:tooltip.LockedStats=&cLocked Stats
-misc.silentgems:tooltip.NoData1=&cAppears to be made of... nothing.
-misc.silentgems:tooltip.NoData2=&c(This tool is missing NBT. Something has gone wrong.)
-misc.silentgems:tooltip.ChargeSpeed=Charge Speed:&f %s
-misc.silentgems:tooltip.DrawSpeed=Draw Speed:&f %sx
-misc.silentgems:tooltip.Durability=Durability:&f %s
-misc.silentgems:tooltip.Enchantability=Enchantability:&f %s
-misc.silentgems:tooltip.HarvestLevel=Harvest Level:&f %s
-misc.silentgems:tooltip.HarvestSpeed=Base Harvest Speed:&f %s
-misc.silentgems:tooltip.MagicDamage=Magic Damage:&f %s
-misc.silentgems:tooltip.MagicProtection=Magic Protection:&f %s%%
-misc.silentgems:tooltip.MeleeDamage=Melee Damage:&f %s
-misc.silentgems:tooltip.MeleeSpeed=Attack Speed:&f %s%%
-misc.silentgems:tooltip.OriginalOwner=&8Made by %s
-misc.silentgems:tooltip.OriginalOwner.Creative=a cheater!
-misc.silentgems:tooltip.OriginalOwner.Mob=%s(?)
-misc.silentgems:tooltip.OriginalOwner.Unknown=&8Maker unknown
-misc.silentgems:tooltip.Protection=Protection:&f %s
+misc.silentgems.tooltip.ArrowDamage=Arrow Damage:§f %sx
+misc.silentgems.tooltip.BlockingPower=Blocking Power:§f %s
+misc.silentgems.tooltip.Broken=§cYou broke it!
+misc.silentgems.tooltip.ExampleTool=§cExample recipe (%s Tier)
+misc.silentgems.tooltip.LockedStats=§cLocked Stats
+misc.silentgems.tooltip.NoData1=§cAppears to be made of... nothing.
+misc.silentgems.tooltip.NoData2=§c(This tool is missing NBT. Something has gone wrong.)
+misc.silentgems.tooltip.ChargeSpeed=Charge Speed:§f %s
+misc.silentgems.tooltip.DrawSpeed=Draw Speed:§f %sx
+misc.silentgems.tooltip.Durability=Durability:§f %s
+misc.silentgems.tooltip.Enchantability=Enchantability:§f %s
+misc.silentgems.tooltip.HarvestLevel=Harvest Level:§f %s
+misc.silentgems.tooltip.HarvestSpeed=Base Harvest Speed:§f %s
+misc.silentgems.tooltip.MagicDamage=Magic Damage:§f %s
+misc.silentgems.tooltip.MagicProtection=Magic Protection:§f %s%%
+misc.silentgems.tooltip.MeleeDamage=Melee Damage:§f %s
+misc.silentgems.tooltip.MeleeSpeed=Attack Speed:§f %s%%
+misc.silentgems.tooltip.OriginalOwner=§8Made by %s
+misc.silentgems.tooltip.OriginalOwner.Creative=a cheater!
+misc.silentgems.tooltip.OriginalOwner.Mob=%s(?)
+misc.silentgems.tooltip.OriginalOwner.Unknown=§8Maker unknown
+misc.silentgems.tooltip.Protection=Protection:§f %s
 
-misc.silentgems:tooltip.BlocksMined=&eBlocks Mined:&f %s
-misc.silentgems:tooltip.BlocksPlaced=&eBlocks Placed:&f %s
-misc.silentgems:tooltip.BlocksTilled=&eBlocks Tilled:&f %s
-misc.silentgems:tooltip.DamageTaken=&eDamage Taken:&f %s
-misc.silentgems:tooltip.HitsLanded=&eHits Landed:&f %s
-misc.silentgems:tooltip.KillCount=&eKill Count:&f %s
-misc.silentgems:tooltip.PathsMade=&ePaths Made:&f %s
-misc.silentgems:tooltip.ShotsFired=&eShots Fired:&f %s
-misc.silentgems:tooltip.ShotsLanded=&eShots Landed:&f %s
-misc.silentgems:tooltip.ThrownCount=&eTimes Thrown:&f %s
-misc.silentgems:tooltip.Redecorated=&eRedecorated:&f %s time(s)
+misc.silentgems.tooltip.BlocksMined=§eBlocks Mined:§f %s
+misc.silentgems.tooltip.BlocksPlaced=§eBlocks Placed:§f %s
+misc.silentgems.tooltip.BlocksTilled=§eBlocks Tilled:§f %s
+misc.silentgems.tooltip.DamageTaken=§eDamage Taken:§f %s
+misc.silentgems.tooltip.HitsLanded=§eHits Landed:§f %s
+misc.silentgems.tooltip.KillCount=§eKill Count:§f %s
+misc.silentgems.tooltip.PathsMade=§ePaths Made:§f %s
+misc.silentgems.tooltip.ShotsFired=§eShots Fired:§f %s
+misc.silentgems.tooltip.ShotsLanded=§eShots Landed:§f %s
+misc.silentgems.tooltip.ThrownCount=§eTimes Thrown:§f %s
+misc.silentgems.tooltip.Redecorated=§eRedecorated:§f %s time(s)
 
-misc.silentgems:tooltip.CtrlForProp=Properties &8<Press Ctrl>
-misc.silentgems:tooltip.AltForStat=Statistics &8<Press Alt>
-misc.silentgems:tooltip.keyForSkills=Skills &8<Press S>
+misc.silentgems.tooltip.CtrlForProp=Properties §8<Press Ctrl>
+misc.silentgems.tooltip.AltForStat=Statistics §8<Press Alt>
+misc.silentgems.tooltip.keyForSkills=Skills §8<Press S>
 
-misc.silentgems:tooltip.Separator=&8-------------------
-misc.silentgems:tooltip.Properties=&6Properties
-misc.silentgems:tooltip.Statistics=&6Statistics
-misc.silentgems:tooltip.Construction=&6Construction
+misc.silentgems.tooltip.Separator=§8-------------------
+misc.silentgems.tooltip.Properties=§6Properties
+misc.silentgems.tooltip.Statistics=§6Statistics
+misc.silentgems.tooltip.Construction=§6Construction
 
 # Tool Souls
 
-misc.silentgems:toolsoul.level=Level %d &r(%,d / %,d XP)
-misc.silentgems:toolsoul.actionPoints=AP: &r%d / %d
-misc.silentgems:toolsoul.elements=Elements: &r%s
-misc.silentgems:toolsoul.nameless=Nameless Soul
-misc.silentgems:toolsoul.levelUp=%s is now level %d!
-misc.silentgems:toolsoul.skillLearned=Learned skill "%s".
-misc.silentgems:toolsoul.skillLevelUp=Skill "%s" is now level %d.
-misc.silentgems:toolsoul.activated=%s activated %s
+misc.silentgems.toolsoul.level=Level %d §r(%,d / %,d XP)
+misc.silentgems.toolsoul.actionPoints=AP: §r%d / %d
+misc.silentgems.toolsoul.elements=Elements: §r%s
+misc.silentgems.toolsoul.nameless=Nameless Soul
+misc.silentgems.toolsoul.levelUp=%s is now level %d!
+misc.silentgems.toolsoul.skillLearned=Learned skill "%s".
+misc.silentgems.toolsoul.skillLevelUp=Skill "%s" is now level %d.
+misc.silentgems.toolsoul.activated=%s activated %s
 
 # Soul Skills
 
-skill.silentgems:aerial.name=Aerial
-skill.silentgems:antivenom.name=Antivenom
-skill.silentgems:aquatic.name=Aquatic
-skill.silentgems:chill.name=Chill
-skill.silentgems:crop_growth.name=Nature's Bounty
-skill.silentgems:durability_boost.name=Reinforce
-skill.silentgems:harvest_speed_boost.name=Lighten
-skill.silentgems:head_bonus.name=Skull Collector
-skill.silentgems:magic_damage_boost.name=Focus
-skill.silentgems:melee_damage_boost.name=Sharpen
-skill.silentgems:mending.name=Mending
-skill.silentgems:protection_boost.name=Harden
-skill.silentgems:slow_fall.name=Slow Fall
-skill.silentgems:tag.name=Tag
-skill.silentgems:warm.name=Warm
+skill.silentgems.aerial.name=Aerial
+skill.silentgems.antivenom.name=Antivenom
+skill.silentgems.aquatic.name=Aquatic
+skill.silentgems.chill.name=Chill
+skill.silentgems.crop_growth.name=Nature's Bounty
+skill.silentgems.durability_boost.name=Reinforce
+skill.silentgems.harvest_speed_boost.name=Lighten
+skill.silentgems.head_bonus.name=Skull Collector
+skill.silentgems.magic_damage_boost.name=Focus
+skill.silentgems.melee_damage_boost.name=Sharpen
+skill.silentgems.mending.name=Mending
+skill.silentgems.protection_boost.name=Harden
+skill.silentgems.slow_fall.name=Slow Fall
+skill.silentgems.tag.name=Tag
+skill.silentgems.warm.name=Warm
 
 
 
 # JEI
 
-jei.silentgems:recipe.altar=Altar Transmutation
-jei.silentgems:recipe.altar.catalyst=Catalyst:
+jei.silentgems.recipe.altar=Altar Transmutation
+jei.silentgems.recipe.altar.catalyst=Catalyst:
 
 jei.silentgems.chaosaltar.desc=A block that can store Chaos. It will recharge Chaos-storing items placed in it. Place near Nodes and/or Pylons. It can also transmute certain items. Most transmutations also require a catalyst, which is not consumed.
 jei.silentgems.chaosflowerpot.desc=A flower pot that amplifies the light of Glow Roses. Not only that, it will place phantom lights in the nearby area wherever they are needed. The phantom lights can be easily destroyed if necessary, and will disappear shortly after the flower pot is removed.
@@ -1338,19 +1341,19 @@ guide.silentgems:indexEntry.enchantments.name=Enchantments
 guide.silentgems:indexEntry.allAndSearch.name=List of Everything
 guide.silentgems:indexEntry.debug.name=Debug!
 
-guide.silentgems:oreConfigPage=&n%s<r><n><n>Veins per chunk: %.2f<n>Vein size: %d<n>Min Y: %d<n>Max Y: %d<n><n>
-guide.silentgems:soulSkillPage=&n%s<r><n><n>Max Level: %s<n>AP Cost: %s<n>Elements: %s
+guide.silentgems:oreConfigPage=§n%s<r><n><n>Veins per chunk: %.2f<n>Vein size: %d<n>Min Y: %d<n>Max Y: %d<n><n>
+guide.silentgems:soulSkillPage=§n%s<r><n><n>Max Level: %s<n>AP Cost: %s<n>Elements: %s
 guide.silentgems:soulSkillPage.elements.lockedTo=Requires %s
 guide.silentgems:soulSkillPage.elements.favors=Favors %s
 guide.silentgems:soulSkillPage.elements.none=No Preference
-guide.silentgems:toolPartPage=&n%s<r><n><n>Tier: %s<n>OreDict: %s<n>
+guide.silentgems:toolPartPage=§n%s<r><n><n>Tier: %s<n>OreDict: %s<n>
 
 #Blocks
 guide.silentgems:chapter.chaosAltar.name=Chaos Altar
 guide.silentgems:chapter.chaosAltar.text1=The <item>Chaos Altar<r> serves two purposes. It can recharge items that store Chaos and it can transmute certain items.<n><n>The Altar can receive <imp>Chaos<r> from any Chaos-producing block (Nodes, Pylons, etc.) and stores a large amount.
-guide.silentgems:chapter.chaosAltar.text2=&nRecharging<r><n><n>Place <imp>Chaos-storing items<r> in the Altar's first slot (left) to charge them. Anything can be in the catalyst slot (the bottom one). Fully charged items will be moved to the last slot (right), if possible.
-guide.silentgems:chapter.chaosAltar.text3=&nTransmutation<r><n><n>Place the <imp>input item<r> in the left slot and the <imp>catalyst item<r> in the bottom slot. The catalyst will <imp>never be consumed<r>. The Altar <vimp>must have a supply of Chaos energy<r> in order to do transmutations!
-guide.silentgems:chapter.chaosAltar.text4=&nRecipes<r><n><n>Gems can be converted into similar gems from different sets. If the catalyst is a slime ball, it makes classic gems. Magma cream makes dark gems. Ender slime balls make light gems. Gems conversions are lossy, producing <imp>6 shards from a full gem<r>. Chaos Essence Shards can be turned into Chaos Essence (duplicated) with a diamond as a catalyst.
+guide.silentgems:chapter.chaosAltar.text2=§nRecharging<r><n><n>Place <imp>Chaos-storing items<r> in the Altar's first slot (left) to charge them. Anything can be in the catalyst slot (the bottom one). Fully charged items will be moved to the last slot (right), if possible.
+guide.silentgems:chapter.chaosAltar.text3=§nTransmutation<r><n><n>Place the <imp>input item<r> in the left slot and the <imp>catalyst item<r> in the bottom slot. The catalyst will <imp>never be consumed<r>. The Altar <vimp>must have a supply of Chaos energy<r> in order to do transmutations!
+guide.silentgems:chapter.chaosAltar.text4=§nRecipes<r><n><n>Gems can be converted into similar gems from different sets. If the catalyst is a slime ball, it makes classic gems. Magma cream makes dark gems. Ender slime balls make light gems. Gems conversions are lossy, producing <imp>6 shards from a full gem<r>. Chaos Essence Shards can be turned into Chaos Essence (duplicated) with a diamond as a catalyst.
 guide.silentgems:chapter.chaosFlowerPot.name=Chaos Flower Pot
 guide.silentgems:chapter.chaosFlowerPot.text1=The <item>Chaos Flower Pot<r> amplifies the light of <item>Glow Roses<r>. Plant a Glow Rose in it and it will start placing <imp>phantom lights<r> in the area wherever additional light is needed.
 guide.silentgems:chapter.chaosFlowerPot.text2=Phantom light placement is faster at first. Light checks slow down after 30 seconds to reduce lag. Locations checked are random, so a destroyed light may take some time to be replaced.
@@ -1368,7 +1371,7 @@ guide.silentgems:chapter.glowRose.name=Glow Rose
 guide.silentgems:chapter.glowRose.text1=<item>Glow Roses<r> are light-emitting flowers. They can be found throughout the world or grown with <item>Glow Rose Fertilizer<r>. Their light is <imp>a bit dim<r> however. But a Chaos Flower Pot can amplify and spread their light.
 guide.silentgems:chapter.materialGrader.name=Material Grader
 guide.silentgems:chapter.materialGrader.text1=The <item>Material Grader<r> uses Chaos to enhance tool materials by "grading" them. The grading process is random; you have no control over the assigned grade. <n><n>The Material Grader has four output slots (since items with different grades do not stack), but only one input slot. Items can be inserted through the top or sides, and extracted from the bottom.
-guide.silentgems:chapter.materialGrader.text2=&nGrades<r><n><n>Possible grades from worst to best are <vimp>E, D, C, B, A, S, SS, SSS<r>. Grades are normally distributed, with B being the average. That means the further a grade is from B, the rarer it is. Most of the time you will get D-S.<n><n>Every grade increases stats, even E. E gives a 2%% bonus to most stats. SSS increases stats by 32%%.
+guide.silentgems:chapter.materialGrader.text2=§nGrades<r><n><n>Possible grades from worst to best are <vimp>E, D, C, B, A, S, SS, SSS<r>. Grades are normally distributed, with B being the average. That means the further a grade is from B, the rarer it is. Most of the time you will get D-S.<n><n>Every grade increases stats, even E. E gives a 2%% bonus to most stats. SSS increases stats by 32%%.
 guide.silentgems:chapter.ores.name=Ores
 guide.silentgems:chapter.ores.text1=What would this mod be without <imp>shinies to mine<r>? This chapter contains information on ores your can find in your world. The numbers in the following pages are pulled directly from your config, so they are accurate.<n><n>Note that <vimp>this mod does not have its own "retrogen"<r>, so ores will not spawn in chunks that existed before the mod was added. Try the Simpleretrogen mod if this is an issue for you.
 guide.silentgems:chapter.ores.text2=The 16 "classic gems" spawn <imp>in the overworld (and similar dimensions)<r>. By default, they are fairly common and all types are equally likely to spawn. The gem selected for each vein is random, so you may find more of some types than others by chance.
@@ -1430,11 +1433,11 @@ guide.silentgems:chapter.drawingCompass.name=Drawing Compass
 guide.silentgems:chapter.drawingCompass.text1=The <item>drawing compass<r> is a curious tool that is able to <imp>draw circles<r> in the world and <imp>measure distances<r>.<n><n>With the drawing compass in your main hand, right-click where you want the center of the circle. Then right-click the edge of the circle.
 guide.silentgems:chapter.drawingCompass.text2=The circle will be drawn with <imp>particles<r> when the drawing compass <imp>is held in either hand<r> (I suggest moving it to your off-hand while building). The particles are the same color as the drawing compass, which can be changed by crafting it with dye. Note they form a proper circle and <vimp>do not snap to blocks<r>. You may want to reference a site like plotz.co.uk if you are not accustomed to building circles.
 guide.silentgems:chapter.enchantmentToken.name=Enchantment Tokens
-guide.silentgems:chapter.enchantmentToken.text1=&nIntroduction<r><n><n><item>Enchantment tokens<r> provide a way to <imp>enchant tools, weapons, and armor without an enchanting table<r>. Instead of XP, you invest materials to craft tokens for the enchantments you want. This also means you have <imp>total control<r> over the enchantments you get. You can also add enchantments to already enchanted tools. Normal enchanting rules still apply though.
-guide.silentgems:chapter.enchantmentToken.text2=&nCrafting<r><n><n>Start by crafting <item>blank enchantment tokens<r>. Blanks are then crafted with two of some type of gem and one to five of some other material to make an enchanted token. All recipes are in JEI, but I have included some examples on the next two pages. Note that <vimp>some tokens may not be craftable<r>, especially for enchantments from other mods.
+guide.silentgems:chapter.enchantmentToken.text1=§nIntroduction<r><n><n><item>Enchantment tokens<r> provide a way to <imp>enchant tools, weapons, and armor without an enchanting table<r>. Instead of XP, you invest materials to craft tokens for the enchantments you want. This also means you have <imp>total control<r> over the enchantments you get. You can also add enchantments to already enchanted tools. Normal enchanting rules still apply though.
+guide.silentgems:chapter.enchantmentToken.text2=§nCrafting<r><n><n>Start by crafting <item>blank enchantment tokens<r>. Blanks are then crafted with two of some type of gem and one to five of some other material to make an enchanted token. All recipes are in JEI, but I have included some examples on the next two pages. Note that <vimp>some tokens may not be craftable<r>, especially for enchantments from other mods.
 guide.silentgems:chapter.enchantmentToken.text3=Crafting the <item>blank tokens<r> which are needed for all token recipes. Note that <imp>the recipe makes twelve<r>.
 guide.silentgems:chapter.enchantmentToken.text4=All <item>enchanted tokens<r> have a recipe like this. Blank token in the middle, gems in the upper corners, upper middle empty, and the other material in the remaining slots.
-guide.silentgems:chapter.enchantmentToken.text5=&nApplying<r><n><n>Like many things in Silent's Gems, tokens are applied to items by just <imp>crafting them with the tool/weapon/armor<r>. You can <imp>apply several at once<r> by filling up the grid with tokens. Each token applied <imp>increases the level of the enchantment by one<r>. Tokens can be applied to almost any item extending the appropriate vanilla classes (i.e., nearly anything but TiC tools).
+guide.silentgems:chapter.enchantmentToken.text5=§nApplying<r><n><n>Like many things in Silent's Gems, tokens are applied to items by just <imp>crafting them with the tool/weapon/armor<r>. You can <imp>apply several at once<r> by filling up the grid with tokens. Each token applied <imp>increases the level of the enchantment by one<r>. Tokens can be applied to almost any item extending the appropriate vanilla classes (i.e., nearly anything but TiC tools).
 guide.silentgems:chapter.enchantmentToken.text6=Token applying example. Again, normal enchanting rules apply. That means fortune is limited to level 3, we can't have fortune with silk touch, and so on.
 guide.silentgems:chapter.fluffyPuff.name=Fluffy Puffs and Seeds
 guide.silentgems:chapter.fluffyPuff.text1=<item>Fluffy puffs<r> can be used to craft string, wool, feathers, fluffy fabric, and fluffy blocks. They are grown from fluffy plants. Break some tall grass to get <item>fluffy puff seeds<r>, but remember they are less common than wheat seeds.
@@ -1445,14 +1448,14 @@ guide.silentgems:chapter.gem.text3=Supercharged gems are crafted like so. Costly
 guide.silentgems:chapter.holdingGem.name=Holding Gem
 guide.silentgems:chapter.holdingGem.text1=<item>Holding Gems<r> are items capable of <imp>storing a large number of a single block<r>. They can also <imp>place and dispense<r> the block they hold. They function identically to <item>torch bandoliers<r>, aside from being able to choose the block stored.
 guide.silentgems:chapter.holdingGem.text2=Craft an empty holding gem with a block to <imp>set the block it will store<r>. You can reset it later, but it <vimp>must be empty<r>. Note the gem used to craft the holding gem is purely a cosmetic choice.
-guide.silentgems:chapter.holdingGem.text3=&nControls<r><n><n>Once the block is set, the holding gem will <imp>absorb blocks from your inventory<r> on its own. When holding it, right-click to place blocks. Sneak and right-click in the air to <imp>disable auto-fill mode<r>. Sneak and left-click (preferably in the air with auto-fill off) to <imp>extract blocks<r>, a stack at a time.
+guide.silentgems:chapter.holdingGem.text3=§nControls<r><n><n>Once the block is set, the holding gem will <imp>absorb blocks from your inventory<r> on its own. When holding it, right-click to place blocks. Sneak and right-click in the air to <imp>disable auto-fill mode<r>. Sneak and left-click (preferably in the air with auto-fill off) to <imp>extract blocks<r>, a stack at a time.
 guide.silentgems:chapter.tipUpgrade.name=Tip Upgrades
 guide.silentgems:chapter.tipUpgrade.text1=<item>Tip upgrades<r> allow tools and weapons to be upgraded past their normal limits. This includes increasing the <imp>harvest level and speed<r>, durability, melee/magic damage, and attack speed.<n><n>Tips can be freely changed at any time. However, tips <vimp>do not stack<r>. Applying a new tip upgrade <imp>replaces the old one and does not give the materials back<r>.
 guide.silentgems:chapter.tipUpgrade.text2=For harvest levels, a tool will be the highest level of any part, including tips. This means that if a tip has a lower harvest level than the base tool, it <imp>will NOT lower the harvest level<r>. So don't be afraid of the gold and emerald tips, they have their uses!<n><n>Most other stats are <imp>additive<r>. For example, diamond tips add a flat 512 durability to the final value.
 guide.silentgems:chapter.tipUpgrade.text3=All tip upgrades are crafted with the item of the tip (iron ingot, gold ingot, diamond, or emerald) and an upgrade base. Here's the upgrade base recipe, for those of you who's religion forbids the use of JEI for some reason.
 guide.silentgems:chapter.torchBandolier.name=Torch Bandolier
 guide.silentgems:chapter.torchBandolier.text1=<item>Torch Bandolier<r> can <imp>store a large number of torches<r> and can <imp>place and dispense<r> them as well.<n><n>Note that you can <imp>right-click with harvest tools<r> to use the bandolier just like a stack of torches. For example, I keep mine in the last slot of my hotbar and right-click with my pickaxe in slot 2 to place torches.
-guide.silentgems:chapter.torchBandolier.text2=&nControls<r><n><n>A torch bandolier will <imp>absorb torches from your inventory<r> on its own. When holding it, right-click to place torches. Sneak and right-click in the air to <imp>disable auto-fill mode<r>. Sneak and left-click (preferably in the air with auto-fill off) to <imp>extract torches<r>, a stack at a time.
+guide.silentgems:chapter.torchBandolier.text2=§nControls<r><n><n>A torch bandolier will <imp>absorb torches from your inventory<r> on its own. When holding it, right-click to place torches. Sneak and right-click in the air to <imp>disable auto-fill mode<r>. Sneak and left-click (preferably in the air with auto-fill off) to <imp>extract torches<r>, a stack at a time.
 
 #Tools
 guide.silentgems:chapter.toolParts.name=Tool Parts
@@ -1472,15 +1475,15 @@ guide.silentgems:chapter.katana.name=Katanas
 guide.silentgems:chapter.katana.text1=<item>Katanas<r> are a subclass of swords and are <vimp>super-tier only<r> by default. They <imp>swing significantly faster<r>, but deal <imp>less melee damage<r>. They also have <imp>higher magic damage<r>.<n><n>Like swords, they have a <imp>magic attack<r> (sneak and left-click). It creates five projectiles that trace the ground and keep going for a while, even after hitting something.
 guide.silentgems:chapter.machete.name=Machetes
 guide.silentgems:chapter.machete.text1=<item>Machetes<r> are a subclass of swords. Compared to classic swords, machetes <imp>do a bit more melee damage, less magic damage, and swing a little slower<r>. But they aren't just effective at chopping up zombies! Machetes can also <imp>clear small areas of vegetation<r> (like a sickle, but with a smaller range) and can <imp>chop wood<r> (but not as well as an axe).
-guide.silentgems:chapter.machete.text3=&nMagic<r><n><n>Machetes have the scatter shot magic. It fires eight shots that move fast, aren't affected by gravity, and don't last as long as most magic types. Each shot is weak, but multiple shots can hit one target at once. Basically, it's like a shotgun.
-guide.silentgems:chapter.machete.text4=&nTrivia<r><n><n>The textures for machetes are based on the &obolo<r>. The blade swells near the tip to improve chopping efficiency. To make the 16x16 textures look good, I had to make the blade about twice as wide as it actually would be. But I'm happy with the result.
+guide.silentgems:chapter.machete.text3=§nMagic<r><n><n>Machetes have the scatter shot magic. It fires eight shots that move fast, aren't affected by gravity, and don't last as long as most magic types. Each shot is weak, but multiple shots can hit one target at once. Basically, it's like a shotgun.
+guide.silentgems:chapter.machete.text4=§nTrivia<r><n><n>The textures for machetes are based on the §obolo<r>. The blade swells near the tip to improve chopping efficiency. To make the 16x16 textures look good, I had to make the blade about twice as wide as it actually would be. But I'm happy with the result.
 guide.silentgems:chapter.paxel.name=Paxels
 guide.silentgems:chapter.paxel.text1=<item>Paxels<r> are multi-purpose (all-in-one) tools. They can mine anything that a pickaxe, shovel, or axe can. They are a bit slower than specialized tools and more durable. Paxels have the <imp>Area Miner<r> super skill and can place blocks in the same way that the tools they replace can. They are <vimp>super-tier only<r>.
 guide.silentgems:chapter.pickaxe.name=Pickaxes
 guide.silentgems:chapter.pickaxe.text1=The classic mining tool, <item>pickaxes<r> are effective on most blocks aside from soil and wood. Unlike vanilla pickaxes, these are <imp>effective on glass and some other materials<r> as well. Blocks in the slot after the pickaxe or in the last hotbar slot can be placed by right-clicking.<n><n>Super-tier pickaxes have the <imp>Area Miner<r> skill, which allows a 3x3 area to be mined when activated.
 guide.silentgems:chapter.scepter.name=Scepters
-guide.silentgems:chapter.scepter.text1=<item>Scepters<r> are magic-oriented weapons. Their melee damage is low and they are incredibly slow, but they fire a volley of <imp>powerful homing shots<r>. Like swords (scepters are &otechnically<r> swords), you fire by swinging the scepter while sneaking.
-guide.silentgems:chapter.scepter.text3=&nTrivia<r><n><n>The scepter textures were taken from my original mod. Some concepts from that mod were scrapped entirely. The rest became Silent's Gems.<n><n>Gems 2 was originally supposed to have a customizable magic system, but it was never implemented. Sadly, the scepters are not as amazing as they could have been because of that.
+guide.silentgems:chapter.scepter.text1=<item>Scepters<r> are magic-oriented weapons. Their melee damage is low and they are incredibly slow, but they fire a volley of <imp>powerful homing shots<r>. Like swords (scepters are §otechnically<r> swords), you fire by swinging the scepter while sneaking.
+guide.silentgems:chapter.scepter.text3=§nTrivia<r><n><n>The scepter textures were taken from my original mod. Some concepts from that mod were scrapped entirely. The rest became Silent's Gems.<n><n>Gems 2 was originally supposed to have a customizable magic system, but it was never implemented. Sadly, the scepters are not as amazing as they could have been because of that.
 guide.silentgems:chapter.shield.name=Shields
 guide.silentgems:chapter.shield.text1=<item>Shields<r> are meant for blocking! They block all melee damage like vanilla shields, and can also <imp>block some magic damage<r>. Magic protection depends mostly on the magic damage stat, with the protection stat having some impact. Materials with high <imp>melee damage<r> will cause shields to <imp>reflect some of the damage<r> back to the attacker. Shields can be repaired like any other "tool", but they do not work with banners. Strangely, shields also accept tip upgrades.
 guide.silentgems:chapter.shovel.name=Shovels
@@ -1502,7 +1505,7 @@ guide.silentgems:chapter.enchantmentIceAspect.name=Ice Aspect
 guide.silentgems:chapter.enchantmentIceAspect.text1=Weapons with Ice Aspect will <imp>chill<r> whatever they hit, <imp>slowing/immobilizing the target and causing continuous damage<r> for a short time. Mobs that are naturally immune to fire (like those found in the Nether) take significantly more damage.<n><n>Ice Aspect <vimp>cannot be applied with Fire/Lightning Aspect<r>. Like most enchantments, it can be obtained via the enchanting table or tokens. Works on swords from vanilla and other mods.
 guide.silentgems:chapter.enchantmentLifeSteal.name=Life Steal
 guide.silentgems:chapter.enchantmentLifeSteal.text1=Life Steal will <imp>heal the user by a fraction of the damage dealt<r>. The item with Life Steal on it doesn't need to be the source of the damage, but it must be in either hand. This enchantment can be obtained via the enchanting table or tokens, same as most enchantments. Works with swords and axes from vanilla and other mods.
-guide.silentgems:chapter.enchantmentLifeSteal.text2=The healing amount is about one fourtieth of damage dealt and is capped at half a heart per hit. &oFor those who don't know, health is stored as a decimal (floating point) number of half hearts, so you can take/heal less than half a heart.<r>
+guide.silentgems:chapter.enchantmentLifeSteal.text2=The healing amount is about one fourtieth of damage dealt and is capped at half a heart per hit. §oFor those who don't know, health is stored as a decimal (floating point) number of half hearts, so you can take/heal less than half a heart.<r>
 guide.silentgems:chapter.enchantmentLightningAspect.name=Lightning Aspect
 guide.silentgems:chapter.enchantmentLightningAspect.text1=Weapons with Lightning Aspect will <imp>electrocute<r> whatever they hit, <imp>weakening the target and causing continuous damage<r> for a short time. The effect also <imp>chains to nearby mobs<r>, but with duration cut in half each time the effect is passed along.<n><n>Lightning Aspect <vimp>cannot be applied with Fire/Ice Aspect<r>. Like most enchantments, it can be obtained via the enchanting table or tokens. Works on swords from vanilla and other mods.
 guide.silentgems:chapter.enchantmentMagicDamage.name=Concentration
@@ -1533,14 +1536,14 @@ guide.silentgems:chapter.soulSkills.warm=<vimp>Skill is incomplete! Additional e
 
 # Getting Started
 guide.silentgems:chapter.introduction.name=Introduction
-guide.silentgems:chapter.introduction.text1=Welcome to <imp>Silent's Gems<r>! The mod is mostly about tools and various random blocks and items that expand vanilla without trampling on it too much.<n><n>This &7(hopefully not too poorly written guide)<r> will help you in the first steps of your journey.<n><n>
+guide.silentgems:chapter.introduction.text1=Welcome to <imp>Silent's Gems<r>! The mod is mostly about tools and various random blocks and items that expand vanilla without trampling on it too much.<n><n>This §7(hopefully not too poorly written guide)<r> will help you in the first steps of your journey.<n><n>
 guide.silentgems:chapter.introduction.text2=This is a <imp>Silent Lib guide book<r>, which is heavily inspired by the booklet from the Actually Additions mod by Ellpeck. It's controls are very similar. The buttons in the bottom-left and -right will navigate the <imp>pages<r> of the <imp>chapter<r>. Click the back button in the upper-left to go back to the "Getting Started" <imp>entry<r>. From there, I <vimp>recommend reading the "Mod Progression" chapter<r> after you finish this one.
 guide.silentgems:chapter.introduction.text3=Good, you turned the page! Silent Lib guide books also remember where you last were, so feel free to close the book by <imp>pressing Esc<r> any time you need to. Finally, if you are not sure where to look for something, try the <imp>search box on the right side<r>.
 guide.silentgems:chapter.progression.name=Mod Progression
-guide.silentgems:chapter.progression.text1=Silent's Gems has a <imp>rich tool building system<r> that can (if you choose to do so) completely bypass all vanilla and other modded tools. By itself, this mod allows you to build tools out of <item>flint<r> and <item>gems<r>. Add-ons like &5Silent's Gems: Extra Parts<r> add additional materials which can be freely combined with materials from the base mod. We'll go into the fine details later. First, there are trees to punch!
-guide.silentgems:chapter.progression.text2=Let's make some <imp>flint tools<r> first &7(if using Extra Parts, also consider polished wood/stone)<r>. Grab some wood for sticks and some flint. Use this recipe to craft flint from gravel if you like.
+guide.silentgems:chapter.progression.text1=Silent's Gems has a <imp>rich tool building system<r> that can (if you choose to do so) completely bypass all vanilla and other modded tools. By itself, this mod allows you to build tools out of <item>flint<r> and <item>gems<r>. Add-ons like §5Silent's Gems: Extra Parts<r> add additional materials which can be freely combined with materials from the base mod. We'll go into the fine details later. First, there are trees to punch!
+guide.silentgems:chapter.progression.text2=Let's make some <imp>flint tools<r> first §7(if using Extra Parts, also consider polished wood/stone)<r>. Grab some wood for sticks and some flint. Use this recipe to craft flint from gravel if you like.
 guide.silentgems:chapter.progression.text3=All Silent's Gems tools <vimp>can be crafted in vanilla crafting grids<r>! Here is an example for crafting a flint pickaxe. Flint is better than stone and has the same harvest level.
-guide.silentgems:chapter.progression.text4=&nInformation Everywhere!<r><n><n>Hover over a tool or tool material and <imp>hold Ctrl to view the stats<r>. Try it with both the flint and the flint pickaxe on the previous page right now!<n><n>Several types of items from this mod will add extra information to the tooltip when modifier keys (Ctrl, Alt, Shift) are held. Try different combinations of these keys to see what you can learn!
+guide.silentgems:chapter.progression.text4=§nInformation Everywhere!<r><n><n>Hover over a tool or tool material and <imp>hold Ctrl to view the stats<r>. Try it with both the flint and the flint pickaxe on the previous page right now!<n><n>Several types of items from this mod will add extra information to the tooltip when modifier keys (Ctrl, Alt, Shift) are held. Try different combinations of these keys to see what you can learn!
 guide.silentgems:chapter.progression.text5=If your tools wear down or break (broken tools <vimp>do not disappear<r>, unless a certain config option is enabled), you can repair them by crafting them with a tool material, such as flint or gems.
 guide.silentgems:chapter.progression.text6=Your flint pickaxe <imp>can mine iron<r>, but it's not good enough to mine gems, which are the next tier up. No, <vimp>do not craft an iron pickaxe<r>! I mean you could, but there's a better way.<n><n>Existing tools can be upgraded further by crafting them with <imp>tip upgrades<r>. Tips will upgrade the tool's harvest level (if lower than the tip's). Most tips also boost durability, harvest speed, and damage dealt. They can be applied to <imp>any tool<r>... even bows and shields, strangely enough.
 guide.silentgems:chapter.progression.text7=Craft the tip upgrade then <imp>apply it by crafting it with your tool<r>. Now you can mine gems! Note almost everything in Silent's Gems can be done in vanilla crafting grids. Very convenient.

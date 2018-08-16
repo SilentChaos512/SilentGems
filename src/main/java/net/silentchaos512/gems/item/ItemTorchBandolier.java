@@ -48,7 +48,7 @@ public class ItemTorchBandolier extends ItemBlockPlacer {
 
     @Override
     public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag flag) {
-        list.add(I18n.format("misc.silentgems.legacyItem"));
         super.addInformation(stack, world, list, flag);
+        list.add(I18n.format("misc.silentgems.legacyItem"));
     }
 }

@@ -1,9 +1,6 @@
 package net.silentchaos512.gems.util;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -16,6 +13,8 @@ import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemKatana;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.lib.util.EntityHelper;
+
+import java.util.List;
 
 public class ToolRandomizer {
 
@@ -44,7 +43,7 @@ public class ToolRandomizer {
 
     for (String name : EntityHelper.getEntityNameList()) {
       String entityName = "entity." + name + ".name";
-      String localizedName = SilentGems.localizationHelper.getLocalizedString(entityName);
+      String localizedName = SilentGems.i18n.translate(entityName);
       if (!localizedName.endsWith(".name")) {
         nameNouns.add(localizedName.toLowerCase());
       }

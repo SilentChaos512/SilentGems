@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.item.armor;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -7,6 +8,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.init.ModItems;
@@ -15,6 +17,9 @@ import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.StackHelper;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class ItemArmorFrame extends Item implements IAddRecipes, ICustomModel {
     public ItemArmorFrame() {
         // Meta bits: TTAA
@@ -22,6 +27,11 @@ public class ItemArmorFrame extends Item implements IAddRecipes, ICustomModel {
         // For armor type, 0 = Helmet, 1 = Chestplate, etc. (opposite of slot index)
 
         setHasSubtypes(true);
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(SilentGems.i18n.miscText("legacyItem"));
     }
 
     public ItemStack getFrameForArmorPiece(ItemArmor itemArmor, EnumMaterialTier tier) {

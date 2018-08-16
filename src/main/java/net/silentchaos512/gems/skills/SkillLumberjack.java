@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.skills;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -21,6 +19,8 @@ import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.ChatHelper;
+
+import javax.annotation.Nullable;
 
 public class SkillLumberjack extends ToolSkillDigger {
 
@@ -82,8 +82,7 @@ public class SkillLumberjack extends ToolSkillDigger {
         if (data.chaos >= cost) {
           data.drainChaos(cost);
         } else {
-          String msg = SilentGems.localizationHelper.getLocalizedString("skill",
-              "all.insufficientChaos");
+          String msg = SilentGems.i18n.translate("skill", "all.insufficientChaos");
           ChatHelper.sendStatusMessage(player, msg, true);
           return false;
         }
@@ -207,7 +206,7 @@ public class SkillLumberjack extends ToolSkillDigger {
   @Override
   public String getTranslatedName() {
 
-    return SilentGems.instance.localizationHelper.getLocalizedString("skill", "Lumberjack");
+    return SilentGems.i18n.translate("skill", "Lumberjack");
   }
 
   static class TreeBreakResult {

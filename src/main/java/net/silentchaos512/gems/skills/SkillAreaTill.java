@@ -26,6 +26,6 @@ public class SkillAreaTill extends ToolSkill {
   @Override
   public String getTranslatedName() {
 
-    return SilentGems.localizationHelper.getLocalizedString("skill", "AreaTill.name");
+    return SilentGems.i18n.translate("skill", "AreaTill.name");
   }
 }

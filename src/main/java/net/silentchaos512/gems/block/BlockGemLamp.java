@@ -36,7 +36,6 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemBlockMetaSubtypes;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.RecipeMaker;
-import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.wit.api.IWitHudInfo;
 import org.apache.commons.lang3.NotImplementedException;
 
@@ -208,14 +207,13 @@ public class BlockGemLamp extends BlockGemSubtypes implements IAddRecipes, IWitH
     @Override
     public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag flag) {
         if (inverted)
-            list.add(SilentGems.localizationHelper.getBlockSubText(Names.GEM_LAMP, "inverted"));
+            list.add(SilentGems.i18n.blockSubText(Names.GEM_LAMP, "inverted"));
     }
 
     @Override
     public List<String> getWitLines(IBlockState state, BlockPos pos, EntityPlayer player, boolean advanced) {
-        LocalizationHelper loc = SilentGems.localizationHelper;
-        String line = inverted ? loc.getBlockSubText(Names.GEM_LAMP, "inverted") : "";
-        line += lit ? (line.isEmpty() ? "" : ", ") + loc.getBlockSubText(Names.GEM_LAMP, "lit") : "";
+        String line = inverted ? SilentGems.i18n.blockSubText(Names.GEM_LAMP, "inverted") : "";
+        line += lit ? (line.isEmpty() ? "" : ", ") + SilentGems.i18n.blockSubText(Names.GEM_LAMP, "lit") : "";
         return line.isEmpty() ? null : Lists.newArrayList(line);
     }
 
@@ -229,7 +227,7 @@ public class BlockGemLamp extends BlockGemSubtypes implements IAddRecipes, IWitH
         public String getItemStackDisplayName(@Nonnull ItemStack stack) {
             BlockGemLamp block = (BlockGemLamp) Block.getBlockFromItem(stack.getItem());
             String suffix = block.inverted
-                    ? " (" + SilentGems.localizationHelper.getLocalizedString("tile." + SilentGems.MODID + "." + Names.GEM_LAMP + ".inverted") + ")"
+                    ? " (" + SilentGems.i18n.translate("tile." + SilentGems.MODID + "." + Names.GEM_LAMP + ".inverted") + ")"
                     : "";
             return super.getItemStackDisplayName(stack) + suffix;
         }

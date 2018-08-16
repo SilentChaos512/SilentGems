@@ -90,9 +90,8 @@ public class QuiverHelper {
         IItemHandler itemHandler = ((IQuiver) stack.getItem()).getInventory(stack);
         for (int i = 0; i < itemHandler.getSlots(); ++i) {
             ItemStack arrow = itemHandler.getStackInSlot(i);
-            if (StackHelper.isValid(arrow)) {
-                tooltip.add(SilentGems.localizationHelper.getItemSubText(Names.QUIVER, "arrowFormat",
-                        arrow.getCount(), arrow.getDisplayName()));
+            if (!arrow.isEmpty()) {
+                tooltip.add(SilentGems.i18n.itemSubText(Names.QUIVER, "arrowFormat", arrow.getCount(), arrow.getDisplayName()));
             }
         }
     }

@@ -104,8 +104,7 @@ public class ModuleEntityRandomEquipment {
 
     ItemStack currentMain = entity.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
     if (StackHelper.isValid(sword) && (StackHelper.isEmpty(currentMain) || !currentMain.hasTagCompound())) {
-      String makerName = SilentGems.localizationHelper.getMiscText("Tooltip.OriginalOwner.Mob",
-          entity.getName());
+      String makerName = SilentGems.i18n.miscText("tooltip.OriginalOwner.Mob", entity.getName());
       ToolHelper.setOriginalOwner(sword, makerName);
       entity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, sword);
       if (entity instanceof EntityLiving)
@@ -160,9 +159,9 @@ public class ModuleEntityRandomEquipment {
       return;
 
     // Set tool owner name.
-    String makerName = SilentGems.localizationHelper.getMiscText("Tooltip.OriginalOwner.Mob",
+    String makerName = SilentGems.i18n.miscText("tooltip.OriginalOwner.Mob",
         entity.getName());
-    ItemStack copy = StackHelper.safeCopy(stack);
+    ItemStack copy = stack.copy();
     ToolHelper.setOriginalOwner(copy, makerName);
 
     // Set it.

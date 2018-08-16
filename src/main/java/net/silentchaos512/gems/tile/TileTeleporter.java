@@ -26,7 +26,6 @@ import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.gems.util.TeleportUtil;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
-import net.silentchaos512.lib.util.LocalizationHelper;
 import net.silentchaos512.lib.util.LogHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
@@ -111,7 +110,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
 
     DimensionalPosition position = new DimensionalPosition(pos, player.dimension);
     position.writeToNBT(heldItem.getTagCompound());
-    ChatHelper.sendMessage(player, SilentGems.localizationHelper.getBlockSubText(Names.TELEPORTER, "ReturnHomeBound"));
+    ChatHelper.sendMessage(player, SilentGems.i18n.blockSubText(Names.TELEPORTER, "returnHomeBound"));
     if (player instanceof EntityPlayerMP)
       CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos, heldItem);
     return true;
@@ -125,11 +124,10 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
     }
 
     LogHelper log = SilentGems.logHelper;
-    LocalizationHelper loc = SilentGems.localizationHelper;
     ItemTeleporterLinker linker = ModItems.teleporterLinker;
 
     if (StackHelper.isEmpty(heldItem) || heldItem.getItem() != linker) {
-      log.warning("TileTeleporter.linkTeleporters: heldItem is not a linker?");
+      log.warn("TileTeleporter.linkTeleporters: heldItem is not a linker?");
       return false;
     }
 
@@ -139,7 +137,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
       DimensionalPosition position2 = new DimensionalPosition(pos, player.dimension);
 
       if (position1 == null) {
-        log.warning("Teleporter Linker tried to link with no position set?");
+        log.warn("Teleporter Linker tried to link with no position set?");
         return true;
       }
 
@@ -150,8 +148,8 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
 
       if (tile1 == null || tile2 == null) {
         // Could not find a teleporter?
-        ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "LinkFail"));
-        log.warning("Could not find teleporter when linking:" + "\nTeleporter1 @ "
+        ChatHelper.sendMessage(player, SilentGems.i18n.blockSubText(Names.TELEPORTER, "linkFail"));
+        log.warn("Could not find teleporter when linking:" + "\nTeleporter1 @ "
             + position1.toString() + "\nTeleporter2 @ " + position2.toString());
         linker.setLinked(heldItem, false);
         return false;
@@ -160,7 +158,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
       // Create "link"
       tile1.destination = position2;
       tile2.destination = position1;
-      ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "LinkSuccess"));
+      ChatHelper.sendMessage(player, SilentGems.i18n.blockSubText(Names.TELEPORTER, "linkSuccess"));
       linker.setLinked(heldItem, false);
       tile1.markDirty();
       tile2.markDirty();
@@ -171,7 +169,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
       // Inactive state: set active and location.
       linker.setLinkedPosition(heldItem, new DimensionalPosition(pos, player.dimension));
       linker.setLinked(heldItem, true);
-      ChatHelper.sendMessage(player, loc.getBlockSubText(Names.TELEPORTER, "LinkStart"));
+      ChatHelper.sendMessage(player, SilentGems.i18n.blockSubText(Names.TELEPORTER, "linkStart"));
     }
 
     return true;
@@ -196,8 +194,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
     int cost = getRequiredChaos(player);
     int available = getCharge() + ChaosUtil.getTotalChaosAvailable(player);
     if (cost > available) {
-      String str = SilentGems.localizationHelper.getBlockSubText(Names.TELEPORTER,
-          "NotEnoughChaos");
+      String str = SilentGems.i18n.blockSubText(Names.TELEPORTER, "notEnoughChaos");
       str = String.format(str, getCharge(), cost);
       ChatHelper.sendMessage(player, str);
       return false;

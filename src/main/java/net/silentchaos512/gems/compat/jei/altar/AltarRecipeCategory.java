@@ -26,7 +26,7 @@ public class AltarRecipeCategory implements IRecipeCategory {
     @Nonnull
     private final IDrawableAnimated arrow;
     @Nonnull
-    private final String localizedName = SilentGems.localizationHelper.getLocalizedString("jei", "recipe.altar");
+    private final String localizedName = SilentGems.i18n.translate("jei", "recipe.altar");
 
     public AltarRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation backgroundLocation = new ResourceLocation(SilentGems.RESOURCE_PREFIX + "textures/gui/ChaosAltar.png");

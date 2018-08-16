@@ -28,10 +28,7 @@ public class GuiQuiver extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-
-        fontRenderer.drawString(
-                SilentGems.localizationHelper.getLocalizedString(ModItems.quiver.getTranslationKey() + ".name"),
-                container.getBorderSide() + 1, 6, 0x404040);
+        fontRenderer.drawString(SilentGems.i18n.translatedName(ModItems.quiver), container.getBorderSide() + 1, 6, 0x404040);
     }
 
     @Override

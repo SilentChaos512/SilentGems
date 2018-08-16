@@ -226,13 +226,13 @@ public class ToolRenderHelper extends ToolRenderHelperBase implements ICustomMod
 
             list.add(color + getTooltipLine("ChargeSpeed", ToolHelper.getChargeSpeed(tool), 0f));
         } else {
-            list.add(TextFormatting.GOLD + SilentGems.i18n.miscText("Tooltip.CtrlForProp"));
+            list.add(TextFormatting.GOLD + SilentGems.i18n.miscText("tooltip.CtrlForProp"));
         }
 
         if (altDown) {
             // Statistics Header
             list.add(sep);
-            line = SilentGems.i18n.miscText("Tooltip.Statistics");
+            line = SilentGems.i18n.miscText("tooltip.Statistics");
             list.add(line);
 
             list.add(getTooltipLine("BlocksMined", ToolHelper.getStatBlocksMined(tool), 0f));

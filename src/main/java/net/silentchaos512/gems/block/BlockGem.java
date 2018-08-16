@@ -20,21 +20,15 @@ package net.silentchaos512.gems.block;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.RecipeMaker;
-
-import java.util.List;
 
 public class BlockGem extends BlockGemSubtypes implements IAddRecipes {
     public final boolean supercharged;
@@ -74,17 +68,6 @@ public class BlockGem extends BlockGemSubtypes implements IAddRecipes {
             }
         }
     }
-
-    @Override
-    public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag flag) {
-        list.addAll(SilentGems.localizationHelper.getBlockDescriptionLines(Names.GEM_BLOCK));
-    }
-
-//    @Override
-//    public EnumRarity getRarity(int meta) {
-//
-//        return supercharged ? EnumRarity.RARE : EnumRarity.COMMON;
-//    }
 
     @Override
     public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
