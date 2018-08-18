@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.silentchaos512.lib.SilentLib;
 import org.lwjgl.opengl.GL11;
 
 public class ArmorModelRenderer extends ModelRenderer {
@@ -37,11 +36,6 @@ public class ArmorModelRenderer extends ModelRenderer {
   @Override
   @SideOnly(Side.CLIENT)
   public void compileDisplayList(float scale) {
-
-    if (SilentLib.getMCVersion() < 12) {
-      // Does not work in MC 10/11, but we separated that into its own branch anyways.
-      return;
-    }
     this.displayList = GLAllocation.generateDisplayLists(1);
     GlStateManager.glNewList(this.displayList, GL11.GL_COMPILE);
     BufferBuilder vertexBuffer = Tessellator.getInstance().getBuffer();

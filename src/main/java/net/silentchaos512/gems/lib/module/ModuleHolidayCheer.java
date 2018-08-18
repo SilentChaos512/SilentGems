@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.lib.module;
 
-import java.util.Calendar;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
@@ -14,7 +12,8 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
-import net.silentchaos512.lib.util.StackHelper;
+
+import java.util.Calendar;
 
 public class ModuleHolidayCheer {
 
@@ -79,7 +78,7 @@ public class ModuleHolidayCheer {
       str = String.format(str, SilentGems.MOD_NAME/* , day */);
 
       ChatHelper.sendMessage(player, TextFormatting.GREEN + str);
-      ItemStack stack = StackHelper.safeCopy(ModItems.food.candyCane);
+      ItemStack stack = ModItems.food.candyCane.copy();
       PlayerHelper.giveItem(player, stack);
     }
   }
@@ -88,8 +87,8 @@ public class ModuleHolidayCheer {
 
     if (SilentGems.random.nextFloat() <= CANDY_RATE) {
       int count = SilentGems.random.nextInt(CANDY_MAX_QUANTITY);
-      ItemStack stack = StackHelper.safeCopy(ModItems.food.candyCane);
-      StackHelper.setCount(stack, count);
+      ItemStack stack = ModItems.food.candyCane.copy();
+      stack.setCount(count);
       PlayerHelper.giveItem(player, stack);
     }
   }

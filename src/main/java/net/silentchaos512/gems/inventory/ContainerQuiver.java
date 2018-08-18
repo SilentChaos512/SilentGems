@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.inventory;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ClickType;
@@ -15,11 +13,13 @@ import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.quiver.IQuiver;
 import net.silentchaos512.gems.item.quiver.ItemQuiver;
 
+import javax.annotation.Nonnull;
+
 /**
  * Lots of code borrowed/adapted from Iron Backpacks: {@link} <a href=
  * "https://github.com/gr8pefish/IronBackpacks/blob/dev-1.12/src/main/java/gr8pefish/ironbackpacks/container/ContainerBackpack.java">Iron
  * Backpacks' ContainerBackpack.java</a>
- * 
+ *
  * @author Silent
  *
  */
@@ -99,7 +99,7 @@ public class ContainerQuiver extends Container {
 
     super.onContainerClosed(playerIn);
     if (!(quiver.getItem() instanceof IQuiver)) {
-      SilentGems.logHelper.warning("Item is not a quiver? " + quiver.getItem());
+      SilentGems.logHelper.warn("Item is not a quiver? " + quiver.getItem());
       return;
     }
     ((IQuiver) quiver.getItem()).updateQuiver(quiver, itemHandler, playerIn);

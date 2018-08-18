@@ -32,8 +32,6 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
-import net.silentchaos512.lib.util.EnchantmentUtils;
-import net.silentchaos512.lib.util.StackHelper;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -103,7 +101,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
     }
 
     public Map<Enchantment, Integer> getEnchantments(ItemStack token) {
-        if (StackHelper.isEmpty(token) || !token.hasTagCompound())
+        if (token.isEmpty() || !token.hasTagCompound())
             return new HashMap<>();
 
         NBTTagList tagList = token.getTagCompound().getTagList(NBT_ENCHANTMENTS, 10);
@@ -122,7 +120,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
     }
 
     public void setEnchantments(ItemStack token, Map<Enchantment, Integer> map) {
-        if (StackHelper.isEmpty(token))
+        if (token.isEmpty())
             return;
         if (!token.hasTagCompound())
             token.setTagCompound(new NBTTagCompound());
@@ -149,7 +147,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
     // ========
 
     public boolean applyTokenToTool(ItemStack token, ItemStack tool) {
-        if (StackHelper.isEmpty(token) || StackHelper.isEmpty(tool)) {
+        if (token.isEmpty() || tool.isEmpty()) {
             return false;
         }
 
@@ -170,7 +168,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
 
             // Does new enchantment conflict with any existing ones?
             for (Enchantment enchTool : enchantmentsOnTool.keySet()) {
-                if (!ench.equals(enchTool) && !EnchantmentUtils.canApplyTogether(ench, enchTool))
+                if (!ench.equals(enchTool) && !ench.isCompatibleWith(enchTool))
                     return false;
             }
         }
@@ -490,7 +488,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
 
         ItemStack token = constructToken(ench);
         String recipeName = "enchantment_token_" + ench.getName().replaceAll(":", "_");
-        SilentGems.registry.recipes.addShapedOre(recipeName, token, line1, line2, line3, 'g',
+        SilentGems.registry.getRecipeMaker().addShapedOre(recipeName, token, line1, line2, line3, 'g',
                 gem.getItemOreName(), 'o', other, 't', new ItemStack(this, 1, BLANK_META));
 
         // Add to recipe map (tooltip recipe info)

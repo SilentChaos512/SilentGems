@@ -18,7 +18,6 @@ import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.ChatHelper;
-import net.silentchaos512.lib.util.StackHelper;
 
 import javax.annotation.Nullable;
 
@@ -38,7 +37,7 @@ public class ItemSkillOrb extends Item {
 
     @Nullable
     private SoulSkill getSkill(ItemStack stack) {
-        if (StackHelper.isEmpty(stack) || !stack.hasTagCompound()) {
+        if (stack.isEmpty() || !stack.hasTagCompound()) {
             return null;
         }
         return SoulSkill.getById(stack.getTagCompound().getString(NBT_ID));
@@ -64,7 +63,7 @@ public class ItemSkillOrb extends Item {
         ItemStack offhand = player.getHeldItemOffhand();
 
         // Orb in main hand, tool/armor in offhand.
-        if (hand != EnumHand.MAIN_HAND || StackHelper.isEmpty(offhand)
+        if (hand != EnumHand.MAIN_HAND || offhand.isEmpty()
                 || !(offhand.getItem() instanceof ITool || offhand.getItem() instanceof IArmor)) {
             return new ActionResult<>(EnumActionResult.PASS, player.getHeldItem(hand));
         }

@@ -42,7 +42,6 @@ import net.silentchaos512.gems.util.EnumMagicType;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.util.StackHelper;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -305,6 +304,8 @@ public class ToolRenderHelper extends ToolRenderHelperBase implements ICustomMod
                 }
             }
         }
+
+        list.add(SilentGems.i18n.miscText("legacyItem"));
     }
 
     public String getTooltipLine(String key, int value, float soulBoost) {
@@ -454,7 +455,7 @@ public class ToolRenderHelper extends ToolRenderHelperBase implements ICustomMod
     }
 
     public int getColor(ItemStack toolOrArmor, @Nullable IPartPosition pos) {
-        if (StackHelper.isEmpty(toolOrArmor) || pos == null) {
+        if (toolOrArmor.isEmpty() || pos == null) {
             return 0xFFFFFF;
         }
 

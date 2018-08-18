@@ -3,7 +3,6 @@ package net.silentchaos512.gems.item.tool;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -36,41 +35,31 @@ import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.util.EnumMagicType;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
-import net.silentchaos512.lib.item.IItemSL;
-import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.item.ILeftClickItem;
+import net.silentchaos512.lib.registry.IAddRecipes;
+import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.EntityHelper;
-import net.silentchaos512.lib.util.ItemHelper;
-import net.silentchaos512.lib.util.StackHelper;
 
 import java.util.List;
-import java.util.Map;
 
-public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, IItemSL {
-
+public class ItemGemSword extends ItemSword implements ITool, ILeftClickItem, IAddRecipes, ICustomModel {
     public ItemGemSword() {
-
         super(ToolHelper.FAKE_MATERIAL);
-        setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.SWORD);
         setNoRepair();
     }
 
     public ItemStack constructTool(boolean supercharged, ItemStack material) {
-
         return constructTool(supercharged, material, material, material);
     }
 
     public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
-
-        if (getConfig().isDisabled)
-            return StackHelper.empty();
-        ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold
-                : new ItemStack(Items.STICK);
+        if (getConfig().isDisabled) return ItemStack.EMPTY;
+        ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold : new ItemStack(Items.STICK);
         return ToolHelper.constructTool(this, rod, materials);
     }
 
@@ -79,15 +68,13 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
     // ===============
 
     public ConfigOptionToolClass getConfig() {
-
         return GemsConfig.sword;
     }
 
     @Override
     public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
-
         if (getConfig().isDisabled)
-            return StackHelper.empty();
+            return ItemStack.EMPTY;
         if (materials.length == 2) {
             ItemStack temp = materials[0];
             materials[0] = materials[1];
@@ -98,19 +85,16 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
 
     @Override
     public float getMeleeDamageModifier() {
-
         return 3.0f;
     }
 
     @Override
     public float getMagicDamageModifier() {
-
         return 2.0f;
     }
 
     @Override
     public float getMeleeSpeedModifier() {
-
         return -2.4f;
     }
 
@@ -119,19 +103,16 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
     // ==============
 
     @Override
-    public ActionResult<ItemStack> onItemLeftClickSL(World world, EntityPlayer player,
-                                                     EnumHand hand) {
-
+    public ActionResult<ItemStack> onItemLeftClickSL(World world, EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
 
-        if (!player.isSneaking()
-                || ToolHelper.getToolTier(stack).ordinal() < EnumMaterialTier.SUPER.ordinal()) {
-            return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
+        if (!player.isSneaking() || ToolHelper.getToolTier(stack).ordinal() < EnumMaterialTier.SUPER.ordinal()) {
+            return new ActionResult<>(EnumActionResult.PASS, stack);
         }
 
         if (world.isRemote) {
             GuiChaosBar.INSTANCE.show();
-            return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
+            return new ActionResult<>(EnumActionResult.SUCCESS, stack);
         }
 
         int costToCast = getShotCost(player, stack);
@@ -147,18 +128,15 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
 
             ToolHelper.incrementStatShotsFired(stack, 1);
 
-            if (!world.isRemote) {
-                for (EntityChaosProjectile shot : getShots(player, stack)) {
-                    EntityHelper.safeSpawn(shot);
-                }
+            for (EntityChaosProjectile shot : getShots(player, stack)) {
+                EntityHelper.safeSpawn(shot);
             }
         }
 
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
+        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
 
     private List<EntityChaosProjectile> getShots(EntityPlayer player, ItemStack stack) {
-
         List<EntityChaosProjectile> list = Lists.newArrayList();
 
         if (ToolHelper.getToolTier(stack).ordinal() < EnumMaterialTier.SUPER.ordinal()) {
@@ -216,7 +194,6 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
     }
 
     private int getShotCost(EntityPlayer player, ItemStack stack) {
-
         if (player.capabilities.isCreativeMode)
             return 0;
 
@@ -224,27 +201,22 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
     }
 
     private int getShotCooldown(EntityPlayer player, ItemStack stack) {
-
         if (player.capabilities.isCreativeMode)
             return 0;
 
-        if (StackHelper.isValid(stack)) {
+        if (!stack.isEmpty()) {
             Item item = stack.getItem();
-            // @formatter:off
-      if (item == ModItems.dagger) return 5;
-      if (item == ModItems.scepter) return 20;
-      if (item == ModItems.katana) return 10;
-      if (item == ModItems.sword) return 5;
-      // @formatter:on
+            if (item == ModItems.dagger) return 5;
+            if (item == ModItems.scepter) return 20;
+            if (item == ModItems.katana) return 10;
+            if (item == ModItems.sword) return 5;
         }
 
         return 10;
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
-                                      EnumFacing facing, float hitX, float hitY, float hitZ) {
-
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ToolSoul soul = SoulManager.getSoul(player.getHeldItem(hand));
         if (soul != null && soul.activateSkillsOnBlock(player.getHeldItem(hand), player, world, pos, facing, hitX, hitY, hitZ)) {
             return EnumActionResult.SUCCESS;
@@ -254,7 +226,6 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
 
     @Override
     public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, EntityPlayer player) {
-
         boolean canceled = super.onBlockStartBreak(stack, pos, player);
         if (!canceled) {
             ToolHelper.onBlockStartBreak(stack, pos, player);
@@ -264,45 +235,36 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
 
     @Override
     public int getMaxDamage(ItemStack stack) {
-
         return ToolHelper.getMaxDamage(stack);
     }
 
     @Override
-    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
-                                               boolean slotChanged) {
-
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
     }
 
     @Override
     public boolean hasEffect(ItemStack stack) {
-
         return ToolRenderHelper.instance.hasEffect(stack);
     }
 
     @Override
     public EnumRarity getRarity(ItemStack stack) {
-
         return ToolRenderHelper.instance.getRarity(stack);
     }
 
     @Override
     public int getItemEnchantability(ItemStack stack) {
-
         return ToolHelper.getItemEnchantability(stack);
     }
 
     @Override
-    public void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
-                         boolean isSelected) {
-
+    public void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot, boolean isSelected) {
         ToolHelper.onUpdate(tool, world, entity, itemSlot, isSelected);
     }
 
     @Override
     public boolean onEntityItemUpdate(EntityItem entityItem) {
-
         return ToolHelper.onEntityItemUpdate(entityItem);
     }
 
@@ -311,117 +273,44 @@ public class ItemGemSword extends ItemSword implements IRegistryObject, ITool, I
     // ==================
 
     @Override
-    public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
-                                                                     ItemStack stack) {
-
+    public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
         return ToolHelper.getAttributeModifiers(slot, stack);
     }
 
     @Override
-    public boolean onBlockDestroyed(ItemStack stack, World world, IBlockState state, BlockPos pos,
-                                    EntityLivingBase entityLiving) {
-
+    public boolean onBlockDestroyed(ItemStack stack, World world, IBlockState state, BlockPos pos, EntityLivingBase entityLiving) {
         return ToolHelper.onBlockDestroyed(stack, world, state, pos, entityLiving);
     }
 
     @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase entity1, EntityLivingBase entity2) {
-
         return ToolHelper.hitEntity(stack, entity1, entity2);
     }
 
     @Override
     public boolean getIsRepairable(ItemStack stack1, ItemStack stack2) {
-
         return ToolHelper.getIsRepairable(stack1, stack2);
     }
 
-    // ===============
-    // IRegistryObject
-    // ===============
-
     @Override
     public void addRecipes(RecipeMaker recipes) {
-
         if (!getConfig().isDisabled)
             ToolHelper.addExampleRecipe(this, "h", "h", "r");
     }
 
     @Override
-    public void addOreDict() {
-
-    }
-
-    @Override
-    public String getName() {
-
-        return Names.SWORD;
-    }
-
-    @Override
-    public String getFullName() {
-
-        return getModId() + ":" + getName();
-    }
-
-    @Override
-    public String getModId() {
-
-        return SilentGems.MODID;
-    }
-
-    @Override
-    public void getModels(Map<Integer, ModelResourceLocation> models) {
-
-        models.put(0, ToolRenderHelper.SMART_MODEL);
-    }
-
-    @Override
-    public boolean registerModels() {
-
-        return false;
-    }
-
-    // =================================
-    // Cross Compatibility (MC 10/11/12)
-    // =================================
-
-    @Override
     public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
-
         ToolRenderHelper.getInstance().addInformation(stack, world, list, flag);
-    }
-
-    // getSubItems 1.10.2
-    public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
-
-        clGetSubItems(item, tab, list);
-    }
-
-    // getSubItems 1.11.2
-    public void func_150895_a(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
-
-        clGetSubItems(item, tab, list);
     }
 
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
-
-        clGetSubItems(this, tab, list);
+        if (!isInCreativeTab(tab)) return;
+        list.addAll(ToolHelper.getSubItems(this, 3));
     }
 
-    protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-
-        if (!ItemHelper.isInCreativeTab(item, tab))
-            return;
-
-        list.addAll(ToolHelper.getSubItems(item, 3));
+    @Override
+    public void registerModels() {
+        SilentGems.registry.setModel(this, 0, "tool");
     }
-
-    // onItemUse
-    // public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world, BlockPos pos,
-    // EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-    //
-    // return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
-    // }
 }

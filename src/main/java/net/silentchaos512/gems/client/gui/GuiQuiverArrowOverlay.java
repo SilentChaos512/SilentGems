@@ -17,7 +17,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.quiver.IQuiver;
-import net.silentchaos512.lib.util.StackHelper;
 
 public class GuiQuiverArrowOverlay extends Gui {
 
@@ -29,21 +28,21 @@ public class GuiQuiverArrowOverlay extends Gui {
         // Player holding a bow?
         EntityPlayer player = SilentGems.proxy.getClientPlayer();
         ItemStack bow = getActiveBow(player);
-        if (StackHelper.isValid(bow)) {
+        if (!bow.isEmpty()) {
             // Get the "arrow" the bow would fire.
-            ItemStack arrow = StackHelper.empty();
+            ItemStack arrow = ItemStack.EMPTY;
             int arrowCount = 0;
 
             ItemStack stack = findAmmo(player);
-            if (StackHelper.isValid(stack)) {
+            if (!stack.isEmpty()) {
                 // Is it a quiver?
                 if (stack.getItem() instanceof IQuiver) {
                     // Find first arrow.
                     IItemHandler itemHandler = ((IQuiver) stack.getItem()).getInventory(stack);
                     for (int i = 0; i < itemHandler.getSlots(); ++i) {
                         ItemStack itemstack = itemHandler.getStackInSlot(i);
-                        if (StackHelper.isValid(itemstack) && itemstack.getItem() instanceof ItemArrow) {
-                            if (StackHelper.isEmpty(arrow)) {
+                        if (!itemstack.isEmpty() && itemstack.getItem() instanceof ItemArrow) {
+                            if (arrow.isEmpty()) {
                                 arrow = itemstack;
                                 arrowCount = arrow.getCount();
                             } else if (arrow.isItemEqual(itemstack)
@@ -60,7 +59,7 @@ public class GuiQuiverArrowOverlay extends Gui {
                 }
             }
 
-            if (StackHelper.isValid(arrow)) {
+            if (!arrow.isEmpty()) {
                 renderArrow(arrow, arrowCount, player);
             }
         }

@@ -8,53 +8,33 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IAmmoTool;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.EntityThrownTomahawk;
-import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.RecipeMaker;
-import net.silentchaos512.lib.util.ItemHelper;
-import net.silentchaos512.lib.util.StackHelper;
-
-import java.util.List;
 
 public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
-
     public static final String NBT_AMMO = "SG.Ammo";
 
-    public ItemGemTomahawk() {
-
-        super();
-        setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.TOMAHAWK);
-    }
-
     public ConfigOptionToolClass getConfig() {
-
         return GemsConfig.tomahawk;
     }
 
     @Override
     public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
-
         if (getConfig().isDisabled)
-            return StackHelper.empty();
+            return ItemStack.EMPTY;
         return ToolHelper.constructTool(this, rod, materials);
     }
 
     public float getThrownDamage(ItemStack tomahawk) {
-
         int sharpness = EnchantmentHelper.getEnchantmentLevel(Enchantments.SHARPNESS, tomahawk);
         float modifier = sharpness > 0 ? 1f + Math.max(0, sharpness - 1) / 2f : 0f;
         return 6.0f + modifier + ToolHelper.getMeleeDamage(tomahawk);
@@ -62,32 +42,27 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
 
     @Override
     public float getMeleeDamage(ItemStack tool) {
-
         return (getMeleeDamageModifier() + ToolHelper.getMeleeDamage(tool)) / 2;
     }
 
     @Override
     public float getMeleeDamageModifier() {
-
         return 1.0f;
     }
 
     @Override
     public float getMagicDamageModifier() {
-
         return 1.0f;
     }
 
     @Override
     public float getMeleeSpeedModifier() {
-
         return -1.8f;
     }
 
     @Override
     public int getAmmo(ItemStack tool) {
-
-        if (StackHelper.isValid(tool) && tool.hasTagCompound()) {
+        if (!tool.isEmpty() && tool.hasTagCompound()) {
             if (!tool.getTagCompound().hasKey(NBT_AMMO))
                 tool.getTagCompound().setByte(NBT_AMMO, (byte) getMaxAmmo(tool));
             return tool.getTagCompound().getByte(NBT_AMMO);
@@ -97,14 +72,12 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
 
     @Override
     public int getMaxAmmo(ItemStack tool) {
-
         return GemsConfig.TOMAHAWK_MAX_AMMO;
     }
 
     @Override
     public void addAmmo(ItemStack tool, int amount) {
-
-        if (StackHelper.isValid(tool) && tool.hasTagCompound()) {
+        if (!tool.isEmpty() && tool.hasTagCompound()) {
             int current = getAmmo(tool);
             int newAmount = Math.min(current + amount, getMaxAmmo(tool));
             tool.getTagCompound().setByte(NBT_AMMO, (byte) newAmount);
@@ -113,13 +86,11 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
 
     @Override
     public boolean isDiggingTool() {
-
         return false; // Don't need custom crosshairs.
     }
 
     @Override
     public float getDestroySpeed(ItemStack stack, IBlockState state) {
-
         float digSpeed = ToolHelper.getDigSpeed(stack, state, EXTRA_EFFECTIVE_MATERIALS);
         // On blocks typically harvested with axes, reduce the harvest speed.
         // Note: Ladders use the "circuits" material. Weird, but true!
@@ -132,44 +103,31 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
     }
 
     @Override
-    protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-
-        if (!ItemHelper.isInCreativeTab(item, tab))
-            return;
-
-        list.addAll(ToolHelper.getSubItems(item, 4));
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
+        if (!isInCreativeTab(tab)) return;
+        list.addAll(ToolHelper.getSubItems(this, 4));
     }
 
     @Override
     public void addRecipes(RecipeMaker recipes) {
-
         if (!getConfig().isDisabled)
             ToolHelper.addExampleRecipe(this, "hhh", "hr ", " r ");
     }
 
     @Override
-    public String getName() {
-
-        return Names.TOMAHAWK;
-    }
-
-    @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-
         ItemStack stack = player.getHeldItem(hand);
 
         // Prepare to throw
         if (!ToolHelper.isBroken(stack) && (getAmmo(stack) > 0 || player.capabilities.isCreativeMode)) {
             player.setActiveHand(hand);
-            return new ActionResult(EnumActionResult.SUCCESS, stack);
+            return new ActionResult<>(EnumActionResult.SUCCESS, stack);
         }
-        return new ActionResult(EnumActionResult.FAIL, stack);
+        return new ActionResult<>(EnumActionResult.FAIL, stack);
     }
 
     @Override
-    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving,
-                                     int timeLeft) {
-
+    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft) {
         // Throw it!
         if (entityLiving instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entityLiving;
@@ -196,40 +154,18 @@ public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
     }
 
     @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
-                                      EnumFacing side, float hitX, float hitY, float hitZ) {
-
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         // Cancel right-click-to-place.
         return EnumActionResult.PASS;
     }
 
     @Override
     public int getMaxItemUseDuration(ItemStack stack) {
-
         return 72000;
     }
 
     @Override
     public EnumAction getItemUseAction(ItemStack stack) {
-
         return EnumAction.BOW;
-    }
-
-    // =================================
-    // Cross Compatibility (MC 10/11/12)
-    // =================================
-
-    // onItemUse
-    public EnumActionResult func_180614_a(ItemStack stack, EntityPlayer player, World world,
-                                          BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-
-        return onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
-    }
-
-    // onItemRightClick
-    public ActionResult<ItemStack> func_77659_a(ItemStack stack, World world, EntityPlayer player,
-                                                EnumHand hand) {
-
-        return onItemRightClick(world, player, hand);
     }
 }

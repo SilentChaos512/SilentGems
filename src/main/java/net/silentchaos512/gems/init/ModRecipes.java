@@ -15,7 +15,7 @@ public class ModRecipes {
   public static final boolean ADD_SOUL_RECIPES = true;
 
   public static void registerAll(SRegistry reg) {
-    RecipeMaker recipes = reg.recipes;
+    RecipeMaker recipes = reg.getRecipeMaker();
 
     // Chaos Essence creation.
     SilentGemsAPI.addAltarRecipe(ModItems.craftingMaterial.chaosEssence,

@@ -16,7 +16,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.util.StackHelper;
 
 public class ItemFluffyPuffSeeds extends ItemSeeds {
     public ItemFluffyPuffSeeds() {
@@ -41,7 +40,7 @@ public class ItemFluffyPuffSeeds extends ItemSeeds {
             worldIn.setBlockState(pos.up(), getPlant(worldIn, pos));
             if (playerIn instanceof EntityPlayerMP)
                 CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) playerIn, pos.up(), stack);
-            StackHelper.shrink(stack, 1);
+            stack.shrink(1);
             return EnumActionResult.SUCCESS;
         } else {
             return EnumActionResult.FAIL;

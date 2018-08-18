@@ -25,7 +25,6 @@ import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
-import net.silentchaos512.lib.util.StackHelper;
 import net.silentchaos512.wit.api.IWitHudInfo;
 
 import java.util.List;
@@ -90,8 +89,8 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack heldItem = player.getHeldItem(hand);
-        boolean holdingLinker = StackHelper.isValid(heldItem) && heldItem.getItem() == ModItems.teleporterLinker;
-        boolean holdingReturnHome = StackHelper.isValid(heldItem) && heldItem.getItem() == ModItems.returnHomeCharm;
+        boolean holdingLinker = !heldItem.isEmpty() && heldItem.getItem() == ModItems.teleporterLinker;
+        boolean holdingReturnHome = !heldItem.isEmpty() && heldItem.getItem() == ModItems.returnHomeCharm;
 
         if (world.isRemote)
             return (holdingLinker || holdingReturnHome) || !isAnchor;

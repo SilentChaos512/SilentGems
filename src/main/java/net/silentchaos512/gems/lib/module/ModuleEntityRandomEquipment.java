@@ -18,8 +18,8 @@ import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.util.ToolHelper;
-import net.silentchaos512.lib.util.StackHelper;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -80,7 +80,7 @@ public class ModuleEntityRandomEquipment {
     DifficultyInstance localDiff = entity.world.getDifficultyForLocation(entity.getPosition());
     Random rand = SilentGems.random;
 
-    ItemStack sword = null;
+    ItemStack sword = ItemStack.EMPTY;
 
     // Allowed mobs: zombies, skeletons, and Headcrumbs humans. Different mobs have different
     // chances of spawning with equipment.
@@ -103,7 +103,7 @@ public class ModuleEntityRandomEquipment {
     }*/ // FIXME
 
     ItemStack currentMain = entity.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
-    if (StackHelper.isValid(sword) && (StackHelper.isEmpty(currentMain) || !currentMain.hasTagCompound())) {
+    if (!sword.isEmpty() && (currentMain.isEmpty() || !currentMain.hasTagCompound())) {
       String makerName = SilentGems.i18n.miscText("tooltip.OriginalOwner.Mob", entity.getName());
       ToolHelper.setOriginalOwner(sword, makerName);
       entity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, sword);
@@ -112,6 +112,7 @@ public class ModuleEntityRandomEquipment {
     }
   }
 
+  @Nonnull
   public static ItemStack generateRandomMeleeWeapon(EntityLivingBase entity, Random rand) {
 
     EnumDifficulty worldDiff = entity.world.getDifficulty();
@@ -143,24 +144,23 @@ public class ModuleEntityRandomEquipment {
       mats.add(superTier ? gem.getItemSuper() : gem.getItem());
 
     // SilentGems.logHelper.debug(superTier, gemList);
-    return item.constructTool(superTier, mats.toArray(new ItemStack[mats.size()]));
+    return item.constructTool(superTier, mats.toArray(new ItemStack[0]));
   }
 
   public static void equipEntityWithItem(EntityLivingBase entity, ItemStack stack,
       EntityEquipmentSlot slot) {
 
     // Null checks.
-    if (entity == null || StackHelper.isEmpty(stack))
+    if (entity == null || stack.isEmpty())
       return;
 
     // Don't replace items with NBT.
     ItemStack current = entity.getItemStackFromSlot(slot);
-    if (StackHelper.isValid(current) && current.hasTagCompound())
+    if (!current.isEmpty() && current.hasTagCompound())
       return;
 
     // Set tool owner name.
-    String makerName = SilentGems.i18n.miscText("tooltip.OriginalOwner.Mob",
-        entity.getName());
+    String makerName = SilentGems.i18n.miscText("tooltip.OriginalOwner.Mob", entity.getName());
     ItemStack copy = stack.copy();
     ToolHelper.setOriginalOwner(copy, makerName);
 

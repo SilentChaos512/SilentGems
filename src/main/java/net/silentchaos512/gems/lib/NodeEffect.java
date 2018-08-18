@@ -6,11 +6,11 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.util.ModDamageSource;
-import net.silentchaos512.lib.collection.ItemStackList;
 import net.silentchaos512.lib.util.ItemHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 
@@ -87,14 +87,14 @@ public class NodeEffect {
       ItemStack stackToRepair = null;
 
       // Select a random item.
-      ItemStackList items = PlayerHelper.getNonEmptyStacks(player);
+      NonNullList<ItemStack> items = PlayerHelper.getNonEmptyStacks(player);
       items.removeIf(stack -> !canRepair(stack));
       if (items.size() > 0) {
         stackToRepair = items.get(random.nextInt(items.size()));
       }
 
       if (stackToRepair != null) {
-        ItemHelper.attemptDamageItem(stackToRepair, (int) -amount, random, player);
+        ItemHelper.attemptDamageItem(stackToRepair, -amount, random, player);
         if (allowSounds)
           entity.world.playSound(null, entity.getPosition(), SoundEvents.BLOCK_ANVIL_USE,
               SoundCategory.BLOCKS, 0.5f, 2.0f + (float) (0.2 * random.nextGaussian()));
@@ -121,7 +121,7 @@ public class NodeEffect {
       return true;
     }
 
-    SilentGems.logHelper.warning("Potentially unknown node effect: " + key);
+    SilentGems.logHelper.warn("Potentially unknown node effect: " + key);
     return false;
   }
 

@@ -1,20 +1,14 @@
 package net.silentchaos512.gems.api.tool.part;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
 import gnu.trove.map.hash.THashMap;
 import net.minecraft.item.ItemStack;
-import net.silentchaos512.lib.util.StackHelper;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * Used to register tool parts, and match parts to item stacks.
- * 
+ *
  * @author SilentChaos512
  *
  */
@@ -22,7 +16,7 @@ public class ToolPartRegistry {
 
   private static Map<String, ToolPart> map = new THashMap<>();
   private static List<ToolPartMain> mains = new ArrayList<>();
-  private static List<ToolPartRod> rods = new ArrayList<>(); 
+  private static List<ToolPartRod> rods = new ArrayList<>();
   private static Map<ItemStack, ToolPart> STACK_TO_PART = new THashMap<>();
 
   /**
@@ -37,7 +31,7 @@ public class ToolPartRegistry {
 
   /**
    * Registers a tool part.
-   * 
+   *
    * @param part
    */
   public static void putPart(ToolPart part) {
@@ -61,13 +55,13 @@ public class ToolPartRegistry {
   /**
    * Gets the tool part that matches the ItemStack. Also checks the ore dictionary for parts that have an ore dictionary
    * key.
-   * 
+   *
    * @param stack
    * @return
    */
   public static @Nullable ToolPart fromStack(ItemStack stack) {
 
-    if (StackHelper.isEmpty(stack))
+    if (stack.isEmpty())
       return null;
 
     if (STACK_TO_PART.containsKey(stack))
@@ -84,7 +78,7 @@ public class ToolPartRegistry {
 
   public static @Nullable ToolPart fromDecoStack(ItemStack stack) {
 
-    if (StackHelper.isEmpty(stack))
+    if (stack.isEmpty())
       return null;
 
     for (ToolPart part : map.values()) {

@@ -39,7 +39,6 @@ import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.PlayerHelper;
-import net.silentchaos512.lib.util.StackHelper;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -113,12 +112,11 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
     }
 
     public boolean isEnabled(ItemStack stack) {
-        return StackHelper.isValid(stack) && stack.hasTagCompound()
-                && stack.getTagCompound().getBoolean(NBT_ENABLED);
+        return !stack.isEmpty() && stack.hasTagCompound() && stack.getTagCompound().getBoolean(NBT_ENABLED);
     }
 
     public void setEnabled(ItemStack stack, boolean val) {
-        if (StackHelper.isEmpty(stack))
+        if (stack.isEmpty())
             return;
         if (!stack.hasTagCompound())
             stack.setTagCompound(new NBTTagCompound());
@@ -136,8 +134,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
     }
 
     public Map<ChaosBuff, Integer> getBuffs(ItemStack stack) {
-        if (StackHelper.isEmpty(stack) || !stack.hasTagCompound()
-                || !stack.getTagCompound().hasKey(NBT_BUFF_LIST))
+        if (stack.isEmpty() || !stack.hasTagCompound() || !stack.getTagCompound().hasKey(NBT_BUFF_LIST))
             return Maps.newHashMap();
 
         NBTTagList tagList = stack.getTagCompound().getTagList(NBT_BUFF_LIST, 10);
@@ -171,7 +168,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
     }
 
     public void setBuffs(ItemStack stack, Map<ChaosBuff, Integer> buffs) {
-        if (StackHelper.isEmpty(stack))
+        if (stack.isEmpty())
             return;
         if (!stack.hasTagCompound())
             stack.setTagCompound(new NBTTagCompound());
@@ -193,7 +190,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
     }
 
     public boolean canAddBuff(ItemStack stack, ChaosBuff buff) {
-        if (StackHelper.isEmpty(stack))
+        if (stack.isEmpty())
             return false;
         if (!stack.hasTagCompound())
             return true;
@@ -278,7 +275,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
 
         ItemStack stack = player.getHeldItem(hand);
         // Enable/disable
-        if (StackHelper.isValid(stack) && getCharge(stack) > 0) {
+        if (!stack.isEmpty() && getCharge(stack) > 0) {
             setEnabled(stack, !isEnabled(stack));
             if (isEnabled(stack))
                 applyEffects(stack, player);
@@ -421,7 +418,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
             List<ItemStack> playerInventory = PlayerHelper.getNonEmptyStacks(player);
             playerInventory.addAll(BaublesCompat.getBaubles(player, s -> s.getItem() instanceof ItemChaosGem));
             for (ItemStack stack : playerInventory)
-                if (StackHelper.isValid(stack) && stack.getItem() instanceof ItemChaosGem)
+                if (!stack.isEmpty() && stack.getItem() instanceof ItemChaosGem)
                     if (chaosGem.isEnabled(stack) && chaosGem.getTotalChargeDrain(stack, player) > 0)
                         gems.add(stack);
 

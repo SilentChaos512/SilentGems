@@ -8,7 +8,6 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.lib.util.StackHelper;
 
 public class EnchantmentGravity extends Enchantment {
     public static boolean ENABLED = true;
@@ -39,7 +38,7 @@ public class EnchantmentGravity extends Enchantment {
     }
 
     public void onGetBreakSpeed(PlayerEvent.BreakSpeed event, ItemStack tool, int enchLevel) {
-        if (StackHelper.isEmpty(tool) || enchLevel <= 0) return;
+        if (tool.isEmpty() || enchLevel <= 0) return;
 
         EntityPlayer player = event.getEntityPlayer();
         float speedMulti = 5f / (getMaxLevel() - enchLevel + 1);

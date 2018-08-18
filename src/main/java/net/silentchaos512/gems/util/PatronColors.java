@@ -1,16 +1,15 @@
 package net.silentchaos512.gems.util;
 
+import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.Skulls;
+
+import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.annotation.Nonnull;
-
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.Skulls;
 
 public class PatronColors {
 
@@ -30,11 +29,11 @@ public class PatronColors {
           map.put(array[0], array[1].replaceAll("&", "\u00a7"));
           Skulls.putPlayer(array[0]);
         } else {
-          SilentGems.logHelper.warning("Malformed entry in Patrons file: " + line);
+          SilentGems.logHelper.warn("Malformed entry in Patrons file: " + line);
         }
       }
     } catch (IOException e) {
-      SilentGems.logHelper.warning("IOException when reading Patrons file");
+      SilentGems.logHelper.warn("IOException when reading Patrons file");
       e.printStackTrace();
     }
   }

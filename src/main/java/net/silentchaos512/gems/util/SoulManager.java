@@ -1,11 +1,5 @@
 package net.silentchaos512.gems.util;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,7 +24,11 @@ import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.lib.soul.SoulSkill;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.lib.util.PlayerHelper;
-import net.silentchaos512.lib.util.StackHelper;
+
+import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class SoulManager {
 
@@ -41,7 +39,7 @@ public class SoulManager {
 
   public static @Nullable ToolSoul getSoul(ItemStack tool) {
 
-    if (StackHelper.isEmpty(tool)
+    if (tool.isEmpty()
         || !(tool.getItem() instanceof ITool || tool.getItem() instanceof IArmor)
         || ToolHelper.isExampleItem(tool)) {
       return null;

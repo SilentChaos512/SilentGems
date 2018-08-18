@@ -38,7 +38,6 @@ import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
-import net.silentchaos512.lib.util.StackHelper;
 import org.apache.commons.lang3.NotImplementedException;
 import org.lwjgl.input.Keyboard;
 
@@ -282,7 +281,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
     }
 
     public boolean isItemSendEnabled(ItemStack stack) {
-        if (StackHelper.isEmpty(stack) || !stack.hasTagCompound())
+        if (stack.isEmpty() || !stack.hasTagCompound())
             return false;
         if (!stack.getTagCompound().hasKey(NBT_ITEM_SEND))
             return true;
@@ -290,7 +289,7 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
     }
 
     public void toggleItemSendEnabled(ItemStack stack) {
-        if (StackHelper.isEmpty(stack))
+        if (stack.isEmpty())
             return;
         if (!stack.hasTagCompound())
             stack.setTagCompound(new NBTTagCompound());

@@ -31,7 +31,6 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.item.ItemChaosGem;
 import net.silentchaos512.gems.tile.TileChaosPlinth;
 import net.silentchaos512.lib.block.ITileEntityBlock;
-import net.silentchaos512.lib.util.StackHelper;
 
 public class BlockChaosPlinth extends BlockContainer implements ITileEntityBlock {
     protected BlockChaosPlinth() {
@@ -57,11 +56,11 @@ public class BlockChaosPlinth extends BlockContainer implements ITileEntityBlock
             TileChaosPlinth tile = (TileChaosPlinth) t;
             ItemStack currentGem = tile.getStackInSlot(0);
 
-            if (StackHelper.isValid(heldItem) && heldItem.getItem() instanceof ItemChaosGem) {
+            if (!heldItem.isEmpty() && heldItem.getItem() instanceof ItemChaosGem) {
                 player.setHeldItem(hand, currentGem);
                 tile.setInventorySlotContents(0, heldItem);
                 return true;
-            } else if (StackHelper.isValid(currentGem) && StackHelper.isEmpty(heldItem)) {
+            } else if (!currentGem.isEmpty() && heldItem.isEmpty()) {
                 // TODO
             }
         }

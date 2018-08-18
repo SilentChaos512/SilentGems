@@ -97,7 +97,7 @@ public class ItemChaosRune extends Item implements IAddRecipes {
         String line3 = line1;
         setBuff(result, buff);
         String name = "chaos_rune_" + buff.getKey().replaceFirst(SilentGems.RESOURCE_PREFIX, "").replaceAll(":", "_");
-        SilentGems.registry.recipes.addShapedOre(name, result, line1, line2, line3, 'r', "dustRedstone",
+        SilentGems.registry.getRecipeMaker().addShapedOre(name, result, line1, line2, line3, 'r', "dustRedstone",
                 'c', ModItems.craftingMaterial.chaosEssenceEnriched, 'o', obj);
     }
 

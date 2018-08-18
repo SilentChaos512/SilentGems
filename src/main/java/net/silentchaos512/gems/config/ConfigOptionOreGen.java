@@ -96,7 +96,7 @@ public class ConfigOptionOreGen extends ConfigOption {
 
     // Sanity check: max Y must be greater than min Y.
     if (maxY <= minY) {
-      SilentGems.logHelper.warning("Ore config \"" + name + "\": Min Y is greater than Max Y!");
+      SilentGems.logHelper.warn("Ore config \"" + name + "\": Min Y is greater than Max Y!");
       maxY = minY + 1;
     }
 

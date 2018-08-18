@@ -89,6 +89,10 @@ public class ItemCrafting extends Item implements IAddRecipes, ICustomModel {
 
     public final Map<Integer, IRecipe> guideRecipeMap = Maps.newHashMap();
 
+    public ItemCrafting() {
+        setHasSubtypes(true);
+    }
+
     public ItemStack getStack(String name) {
         return getStack(name, 1);
     }

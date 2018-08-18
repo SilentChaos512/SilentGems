@@ -8,7 +8,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.lib.util.StackHelper;
 
 import javax.annotation.Nonnull;
 
@@ -17,7 +16,7 @@ public interface IQuiver {
     String NBT_INVENTORY = "inventory";
 
     default IItemHandler getInventory(@Nonnull ItemStack stack) {
-        if (StackHelper.isEmpty(stack)) {
+        if (stack.isEmpty()) {
             return null;
         }
         if (!stack.hasTagCompound()) {
@@ -47,7 +46,7 @@ public interface IQuiver {
             for (int i = 0; i < itemHandler.getSlots(); i++) {
                 ItemStack arrowStack = itemHandler.getStackInSlot(i);
                 invTag.appendTag(arrowStack.serializeNBT());
-                containsArrows |= StackHelper.isValid(arrowStack);
+                containsArrows |= !arrowStack.isEmpty();
             }
 
             stack.getTagCompound().setTag(NBT_INVENTORY, invTag);
@@ -61,7 +60,7 @@ public interface IQuiver {
                 int oldIndex = -1;
                 for (int i = 0; i < player.inventory.mainInventory.size(); ++i) {
                     ItemStack itemstack = player.inventory.mainInventory.get(i);
-                    if (StackHelper.isValid(itemstack) && ItemStack.areItemStacksEqual(stack, itemstack)) {
+                    if (!itemstack.isEmpty() && ItemStack.areItemStacksEqual(stack, itemstack)) {
                         oldIndex = i;
                         break;
                     }

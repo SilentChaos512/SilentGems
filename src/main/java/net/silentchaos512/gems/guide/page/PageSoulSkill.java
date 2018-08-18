@@ -8,43 +8,38 @@ import net.silentchaos512.lib.guidebook.GuideBook;
 import net.silentchaos512.lib.guidebook.page.PageTextOnly;
 
 public class PageSoulSkill extends PageTextOnly {
+    private final SoulSkill skill;
 
-  final SoulSkill skill;
-
-  public PageSoulSkill(GuideBook book, SoulSkill skill) {
-
-    super(book, 0);
-    this.skill = skill;
-  }
-
-  @Override
-  public String getInfoText() {
-
-    String elementPreference = skill.favoredElements.length == 0 ? "none"
-        : skill.isLockedToFavoredElements() ? "lockedTo" : "favors";
-    String elements = "";
-    for (EnumSoulElement elem : skill.favoredElements) {
-      if (!elements.isEmpty())
-        elements += ", ";
-      elements += elem.getDisplayName();
+    public PageSoulSkill(GuideBook book, SoulSkill skill) {
+        super(book, 0);
+        this.skill = skill;
     }
-    elementPreference = book.loc.getLocalizedString(
-        "guide.silentgems:soulSkillPage.elements." + elementPreference,
-        (elementPreference.equals("none") ? new Object[0] : elements));
 
-    String str = book.loc.getLocalizedString("guide", "soulSkillPage",
-        skill.getLocalizedName(null, 0), Integer.toString(skill.maxLevel),
-        Integer.toString(skill.apCost), elementPreference);
+    @Override
+    public String getInfoText() {
+        String elementPreference = skill.favoredElements.length == 0 ? "none"
+                : skill.isLockedToFavoredElements() ? "lockedTo" : "favors";
+        String elements = "";
+        for (EnumSoulElement elem : skill.favoredElements) {
+            if (!elements.isEmpty())
+                elements += ", ";
+            elements += elem.getDisplayName();
+        }
+        elementPreference = book.i18n.translate(
+                "guide.silentgems.soulSkillPage.elements." + elementPreference,
+                (elementPreference.equals("none") ? new Object[0] : elements));
 
-    str += "\n\n" + book.loc.getLocalizedString(this.getLocalizationKey());
-    return doTextReplacements(str);
-  }
+        String str = book.i18n.translate("guide", "soulSkillPage",
+                skill.getLocalizedName(null, 0), Integer.toString(skill.maxLevel),
+                Integer.toString(skill.apCost), elementPreference);
 
-  @Override
-  @SideOnly(Side.CLIENT)
-  protected String getLocalizationKey() {
+        str += "\n\n" + book.i18n.translate(this.getLocalizationKey());
+        return doTextReplacements(str);
+    }
 
-    return "guide." + book.getModId() + ":chapter." + this.chapter.getIdentifier() + "."
-        + skill.id;
-  }
+    @Override
+    @SideOnly(Side.CLIENT)
+    protected String getLocalizationKey() {
+        return "guide." + book.getModId() + ".chapter." + this.chapter.getIdentifier() + "." + skill.id;
+    }
 }

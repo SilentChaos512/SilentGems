@@ -5,52 +5,52 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.lib.recipe.RecipeBaseSL;
-import net.silentchaos512.lib.util.StackHelper;
 
 public class RecipeNamePlate extends RecipeBaseSL {
+    @Override
+    public boolean matches(InventoryCrafting inv, World world) {
+        int countNamePlate = 0;
+        int countOther = 0;
 
-  @Override
-  public boolean matches(InventoryCrafting inv, World world) {
+        for (ItemStack stack : getNonEmptyStacks(inv)) {
+            // Name Plate
+            if (stack.isItemEqual(ModItems.craftingMaterial.namePlate) && stack.hasDisplayName())
+                ++countNamePlate;
+                // Other
+            else
+                ++countOther;
+        }
 
-    int countNamePlate = 0;
-    int countOther = 0;
-
-    for (ItemStack stack : getNonEmptyStacks(inv)) {
-      // Name Plate
-      if (stack.isItemEqual(ModItems.craftingMaterial.namePlate) && stack.hasDisplayName())
-        ++countNamePlate;
-      // Other
-      else
-        ++countOther;
+        return countNamePlate == 1 && countOther == 1;
     }
 
-    return countNamePlate == 1 && countOther == 1;
-  }
+    @Override
+    public ItemStack getCraftingResult(InventoryCrafting inv) {
+        ItemStack stackNamePlate = ItemStack.EMPTY;
+        ItemStack stackOther = ItemStack.EMPTY;
 
-  @Override
-  public ItemStack getCraftingResult(InventoryCrafting inv) {
+        for (ItemStack stack : getNonEmptyStacks(inv)) {
+            // Name plate?
+            if (stack.isItemEqual(ModItems.craftingMaterial.namePlate)) {
+                stackNamePlate = stack;
+            }
+            // Other item?
+            else {
+                stackOther = stack;
+            }
+        }
 
-    ItemStack stackNamePlate = StackHelper.empty();
-    ItemStack stackOther = StackHelper.empty();
+        if (stackNamePlate.isEmpty() || stackOther.isEmpty() || !stackNamePlate.hasDisplayName()) {
+            return ItemStack.EMPTY;
+        }
 
-    for (ItemStack stack : getNonEmptyStacks(inv)) {
-      // Name plate?
-      if (stack.isItemEqual(ModItems.craftingMaterial.namePlate)) {
-        stackNamePlate = stack;
-      }
-      // Other item?
-      else {
-        stackOther = stack;
-      }
+        ItemStack result = stackOther.copy();
+        result.setStackDisplayName(stackNamePlate.getDisplayName());
+        return result;
     }
 
-    if (StackHelper.isEmpty(stackNamePlate) || StackHelper.isEmpty(stackOther)
-        || !stackNamePlate.hasDisplayName()) {
-      return StackHelper.empty();
+    @Override
+    public ItemStack getRecipeOutput() {
+        return ItemStack.EMPTY;
     }
-
-    ItemStack result = StackHelper.safeCopy(stackOther);
-    result.setStackDisplayName(stackNamePlate.getDisplayName());
-    return result;
-  }
 }

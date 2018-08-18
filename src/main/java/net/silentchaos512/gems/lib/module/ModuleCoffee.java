@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.lib.module;
 
-import java.util.Random;
-
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -9,7 +7,8 @@ import net.minecraftforge.common.config.Configuration;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.lib.util.StackHelper;
+
+import java.util.Random;
 
 public class ModuleCoffee {
 
@@ -60,10 +59,10 @@ public class ModuleCoffee {
       int rabbitType = rabbit.getRabbitType();
       ItemStack coffee = getCoffeeForRabbitType(rabbitType);
 
-      if (StackHelper.isValid(coffee)) {
+      if (!coffee.isEmpty()) {
         rabbit.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0f,
             (rand.nextFloat() - rand.nextFloat()) * 0.2f + 1.0f);
-        rabbit.entityDropItem(StackHelper.safeCopy(coffee), 0.0f);
+        rabbit.entityDropItem(coffee.copy(), 0.0f);
       }
       time = getIntervalToNextCoffee(rabbit, rand);
     }

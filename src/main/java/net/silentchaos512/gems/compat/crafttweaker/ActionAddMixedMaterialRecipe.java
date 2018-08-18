@@ -58,8 +58,8 @@ public class ActionAddMixedMaterialRecipe extends ActionBaseAddRecipe {
       extraParams.add(recipe[index]);
     }
 
-    EnumMaterialTier[] arrayTiers = tiers.toArray(new EnumMaterialTier[tiers.size()]);
-    String[] arrayLines = recipeLines.toArray(new String[recipeLines.size()]);
+    EnumMaterialTier[] arrayTiers = tiers.toArray(new EnumMaterialTier[0]);
+    String[] arrayLines = recipeLines.toArray(new String[0]);
     Object[] arrayExtraParams = extraParams.toArray();
 
     if (toolItem instanceof ITool)

@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.client.render.tile;
 
-import java.util.Random;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -15,7 +13,8 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.tile.TileChaosAltar;
 import net.silentchaos512.lib.client.render.tileentity.TileEntitySpecialRendererSL;
-import net.silentchaos512.lib.util.StackHelper;
+
+import java.util.Random;
 
 public class RenderTileChaosAltar extends TileEntitySpecialRendererSL<TileChaosAltar> {
 
@@ -56,7 +55,7 @@ public class RenderTileChaosAltar extends TileEntitySpecialRendererSL<TileChaosA
     if (stack != null) {
       // GlStateManager.translate(0.5, 0.5, 0.5);
       EntityItem entityitem = new EntityItem(world, 0.0D, 0.0D, 0.0D, stack.copy());
-      StackHelper.setCount(entityitem.getItem(), 1);
+      entityitem.getItem().setCount(1);
       entityitem.hoverStart = 0.0F;
       GlStateManager.pushMatrix();
       GlStateManager.disableLighting();

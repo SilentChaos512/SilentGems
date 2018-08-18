@@ -11,7 +11,6 @@ import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.RecipeMaker;
-import net.silentchaos512.lib.util.StackHelper;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -53,7 +52,7 @@ public class ItemToolSoul extends Item implements IAddRecipes {
 
     @Override
     public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        if (StackHelper.isValid(stack) && !stack.hasTagCompound()) {
+        if (!stack.isEmpty() && !stack.hasTagCompound()) {
             // Randomize souls with no data!
             ToolSoul soul = ToolSoul.randomSoul();
             setSoul(stack, soul);

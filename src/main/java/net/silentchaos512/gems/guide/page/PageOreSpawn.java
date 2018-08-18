@@ -23,7 +23,7 @@ public class PageOreSpawn extends PageTextOnly {
   @Override
   public String getInfoText() {
 
-    String str = book.loc.getLocalizedString("guide", "oreConfigPage", config.getName(), config.getVeinCount(),
+    String str = book.i18n.translate("guide", "oreConfigPage", config.getName(), config.getVeinCount(),
             config.getVeinSize(), config.getMinY(), config.getMaxY());
     str = doTextReplacements(str);
     str += super.getInfoText();

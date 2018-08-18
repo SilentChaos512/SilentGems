@@ -39,7 +39,6 @@ import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.RecipeMaker;
-import net.silentchaos512.lib.util.StackHelper;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -95,7 +94,7 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IArmor, IA
     public static int getPlayerTotalGemArmorValue(EntityLivingBase player) {
         float total = 0;
         for (ItemStack armor : player.getArmorInventoryList()) {
-            if (StackHelper.isValid(armor)) {
+            if (!armor.isEmpty()) {
                 if (armor.getItem() instanceof ItemGemArmor) {
                     if (!ToolHelper.isBroken(armor)) {
                         total += ((ItemGemArmor) armor.getItem()).getProtection(armor);
@@ -302,6 +301,8 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IArmor, IA
         } else {
             list.add(TextFormatting.GOLD + SilentGems.i18n.miscText("pressAlt"));
         }
+
+        list.add(SilentGems.i18n.miscText("legacyItem"));
     }
 
     @Override

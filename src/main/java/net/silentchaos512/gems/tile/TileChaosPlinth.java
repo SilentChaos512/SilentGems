@@ -6,7 +6,6 @@ import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.item.ItemChaosGem;
 import net.silentchaos512.lib.tile.SyncVariable;
 import net.silentchaos512.lib.tile.TileInventorySL;
-import net.silentchaos512.lib.util.StackHelper;
 
 public class TileChaosPlinth extends TileInventorySL implements ITickable, IChaosAccepter {
 
@@ -25,7 +24,7 @@ public class TileChaosPlinth extends TileInventorySL implements ITickable, IChao
 
     // Get the Chaos Gem (if any)
     ItemStack stack = getStackInSlot(0);
-    if (StackHelper.isEmpty(stack) || !(stack.getItem() instanceof ItemChaosGem))
+    if (stack.isEmpty() || !(stack.getItem() instanceof ItemChaosGem))
       return;
 
     ItemChaosGem item = (ItemChaosGem) stack.getItem();

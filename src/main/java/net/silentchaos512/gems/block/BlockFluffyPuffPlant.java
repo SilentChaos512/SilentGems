@@ -37,7 +37,6 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.util.StackHelper;
 
 import java.util.List;
 
@@ -67,7 +66,7 @@ public class BlockFluffyPuffPlant extends BlockCrops implements ICustomModel {
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack heldItem = player.getHeldItem(hand);
-        if (StackHelper.isValid(heldItem) && heldItem.getItem() == ModItems.sickle)
+        if (!heldItem.isEmpty() && heldItem.getItem() == ModItems.sickle)
             return false;
 
         // Right-click to harvest

@@ -12,7 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.silentchaos512.gems.entity.EntityThrownTomahawk;
-import net.silentchaos512.lib.util.StackHelper;
+
+import javax.annotation.Nullable;
 
 public class RenderThrownTomahawk extends Render<EntityThrownTomahawk> {
     private RenderThrownTomahawk(RenderManager manager) {
@@ -25,10 +26,10 @@ public class RenderThrownTomahawk extends Render<EntityThrownTomahawk> {
     }
 
     @Override
-    public void doRender(EntityThrownTomahawk entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(@Nullable EntityThrownTomahawk entity, double x, double y, double z, float entityYaw, float partialTicks) {
         if (entity == null) return;
         ItemStack stack = entity.getThrownStack();
-        if (stack == null || stack.getItem() == null || StackHelper.isEmpty(stack)) return;
+        if (stack == null || stack.isEmpty()) return;
 
         RenderItem itemRenderer = Minecraft.getMinecraft().getRenderItem();
 

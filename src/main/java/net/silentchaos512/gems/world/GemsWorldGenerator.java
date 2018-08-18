@@ -132,7 +132,7 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
       return ModBlocks.gemOreLight.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
     }
 
-    SilentGems.logHelper.severe("GemsWorldGenerator - Unknown ore config: " + config.getName());
+    SilentGems.logHelper.error("GemsWorldGenerator - Unknown ore config: " + config.getName());
     return null;
   }
 

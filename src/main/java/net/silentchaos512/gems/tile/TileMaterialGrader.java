@@ -108,17 +108,17 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
         progress = 0;
 
         // Take one from input stack.
-        ItemStack stack = StackHelper.safeCopy(input);
-        StackHelper.setCount(stack, 1);
-        StackHelper.shrink(input, 1);
+        ItemStack stack = input.copy();
+        stack.setCount(1);
+        input.shrink(1);
 
         // Assign random grade.
         EnumMaterialGrade.selectRandom(SilentGems.random).setGradeOnStack(stack);
 
         // Set to output slot, clear input slot if needed.
         setInventorySlotContents(outputSlot, stack);
-        if (StackHelper.getCount(input) <= 0) {
-          setInventorySlotContents(SLOT_INPUT, StackHelper.empty());
+        if (input.getCount() <= 0) {
+          setInventorySlotContents(SLOT_INPUT, ItemStack.EMPTY);
         }
 
         requireClientSync = true;
@@ -141,7 +141,7 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
   public int getFreeOutputSlot() {
 
     for (int i = SLOT_OUTPUT_START; i < INVENTORY_SIZE; ++i)
-      if (StackHelper.isEmpty(getStackInSlot(i)))
+      if (getStackInSlot(i).isEmpty())
         return i;
     return -1;
   }
@@ -178,7 +178,7 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
     writeSyncVars(tags, SyncVariable.Type.PACKET);
 
     ItemStack input = getStackInSlot(SLOT_INPUT);
-    if (StackHelper.isValid(input)) {
+    if (!input.isEmpty()) {
       NBTTagCompound tagCompound = new NBTTagCompound();
       input.writeToNBT(tagCompound);
       tags.setTag("InputItem", tagCompound);
@@ -196,7 +196,7 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
     // Pass the input slot for rendering. No need for the client to know output slots at this time.
     NBTTagList tagList = new NBTTagList();
     ItemStack input = getStackInSlot(SLOT_INPUT);
-    if (StackHelper.isValid(input)) {
+    if (!input.isEmpty()) {
       NBTTagCompound tagCompound = new NBTTagCompound();
       tagCompound.setByte("Slot", (byte) SLOT_INPUT);
       input.writeToNBT(tagCompound);
@@ -218,7 +218,7 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
       setInventorySlotContents(SLOT_INPUT,
           StackHelper.loadFromNBT(tags.getCompoundTag("InputItem")));
     else
-      setInventorySlotContents(SLOT_INPUT, StackHelper.empty());
+      setInventorySlotContents(SLOT_INPUT, ItemStack.EMPTY);
   }
 
   @Override
@@ -234,13 +234,24 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
   public boolean isItemValidForSlot(int index, ItemStack stack) {
 
     if (index == SLOT_INPUT) {
-      if (StackHelper.isEmpty(stack)) {
+      if (stack.isEmpty()) {
         return false;
       }
 
-      ToolPart part = ToolPartRegistry.fromStack(stack);
+      // Different item in input slot?
+      if (!getStackInSlot(index).isEmpty() && !getStackInSlot(index).isItemEqual(stack)) {
+        return false;
+      }
+
+      // Already graded?
       EnumMaterialGrade grade = EnumMaterialGrade.fromStack(stack);
-      if (part != null && part instanceof ToolPartMain && grade == EnumMaterialGrade.NONE) {
+      if (grade != EnumMaterialGrade.NONE) {
+        return false;
+      }
+
+      // Valid main part?
+      ToolPart part = ToolPartRegistry.fromStack(stack);
+      if (part instanceof ToolPartMain) {
         return true;
       }
 

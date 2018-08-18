@@ -1,10 +1,5 @@
 package net.silentchaos512.gems.tile;
 
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
@@ -13,13 +8,14 @@ import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumSkyBlock;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.lib.tile.SyncVariable;
 import net.silentchaos512.lib.tile.TileInventorySL;
 import net.silentchaos512.lib.util.Color;
-import net.silentchaos512.lib.util.StackHelper;
+
+import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
 
@@ -37,7 +33,7 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
 
     if (ticksExisted == 0) {
       ItemStack stack = getFlowerItemStack();
-      if (StackHelper.isValid(stack))
+      if (!stack.isEmpty())
         flowerId = stack.getItemDamage();
 
       // Add a random "salt" value to ticksExisted, so all flower pots don't
@@ -47,16 +43,13 @@ public class TileChaosFlowerPot extends TileInventorySL implements ITickable {
 
     final int delay = ticksExisted < 600 ? 10 : TRY_LIGHT_DELAY;
     if (++ticksExisted % delay == 0) {
-      boolean result = tryPlacePhantomLight();
-    }
-    if (!world.isRemote && GemsConfig.DEBUG_LOG_POTS_AND_LIGHTS
-        && ticksExisted % GemsConfig.DEBUG_LOT_POTS_AND_LIGHTS_DELAY == 0) {
+      tryPlacePhantomLight();
     }
   }
 
   private boolean tryPlacePhantomLight() {
 
-    if (world.isRemote || StackHelper.isEmpty(getFlowerItemStack())) {
+    if (world.isRemote || getFlowerItemStack().isEmpty()) {
       return false;
     }
 

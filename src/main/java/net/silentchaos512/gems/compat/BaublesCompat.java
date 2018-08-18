@@ -2,11 +2,11 @@ package net.silentchaos512.gems.compat;
 
 import baubles.api.BaublesApi;
 import baubles.api.cap.IBaublesItemHandler;
-import com.google.common.base.Predicate;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.silentchaos512.lib.collection.ItemStackList;
-import net.silentchaos512.lib.util.StackHelper;
+import net.minecraft.util.NonNullList;
+
+import java.util.function.Predicate;
 
 public class BaublesCompat {
 
@@ -14,9 +14,9 @@ public class BaublesCompat {
 
   public static boolean MOD_LOADED = false;
 
-  public static ItemStackList getBaubles(EntityPlayer player, Predicate<ItemStack> predicate) {
+  public static NonNullList<ItemStack> getBaubles(EntityPlayer player, Predicate<ItemStack> predicate) {
 
-    ItemStackList list = ItemStackList.create();
+    NonNullList<ItemStack> list = NonNullList.create();
 
     if (!MOD_LOADED)
       return list;
@@ -25,7 +25,7 @@ public class BaublesCompat {
 
     for (int i = 0; i < inv.getSlots(); ++i) {
       ItemStack stack = inv.getStackInSlot(i);
-      if (StackHelper.isValid(stack) && predicate.apply(stack)) {
+      if (!stack.isEmpty() && predicate.test(stack)) {
         list.add(stack);
       }
     }

@@ -1,11 +1,9 @@
 package net.silentchaos512.gems.api.recipe.altar;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.item.ItemStack;
-import net.silentchaos512.lib.util.StackHelper;
+
+import java.util.List;
 
 public class RecipeChaosAltar {
 
@@ -31,7 +29,7 @@ public class RecipeChaosAltar {
 
   public static RecipeChaosAltar getMatchingRecipe(ItemStack inputStack, ItemStack catalystStack) {
 
-    if (StackHelper.isEmpty(inputStack))
+    if (inputStack.isEmpty())
       return null;
 
     for (RecipeChaosAltar recipe : ALL_RECIPES)
@@ -43,7 +41,7 @@ public class RecipeChaosAltar {
 
   public static RecipeChaosAltar getRecipeByOutput(ItemStack outputStack) {
 
-    if (StackHelper.isEmpty(outputStack))
+    if (outputStack.isEmpty())
       return null;
 
     for (RecipeChaosAltar recipe : ALL_RECIPES)
@@ -55,7 +53,7 @@ public class RecipeChaosAltar {
 
   public static boolean isValidIngredient(ItemStack inputStack) {
 
-    if (StackHelper.isEmpty(inputStack))
+    if (inputStack.isEmpty())
       return false;
 
     for (RecipeChaosAltar recipe : ALL_RECIPES)
@@ -67,26 +65,25 @@ public class RecipeChaosAltar {
 
   public boolean matches(ItemStack inputStack, ItemStack catalystStack) {
 
-    boolean catalystMatch = (StackHelper.isEmpty(catalystStack) && StackHelper.isEmpty(this.catalyst))
-        || (StackHelper.isValid(catalystStack) && catalystStack.isItemEqual(this.catalyst));
-    return StackHelper.isValid(inputStack) && StackHelper.isValid(this.input)
-        && StackHelper.isValid(this.output) && inputStack.isItemEqual(this.input)
-        && StackHelper.getCount(inputStack) >= StackHelper.getCount(this.input) && catalystMatch;
+    boolean catalystMatch = (catalystStack.isEmpty() && this.catalyst.isEmpty())
+        || (!catalystStack.isEmpty() && catalystStack.isItemEqual(this.catalyst));
+    return !inputStack.isEmpty() && !this.input.isEmpty() && !this.output.isEmpty() && inputStack.isItemEqual(this.input)
+        && inputStack.getCount() >= this.input.getCount() && catalystMatch;
   }
 
   public ItemStack getInput() {
 
-    return StackHelper.safeCopy(input);
+    return input.copy();
   }
 
   public ItemStack getOutput() {
 
-    return StackHelper.safeCopy(output);
+    return output.copy();
   }
 
   public ItemStack getCatalyst() {
 
-    return StackHelper.safeCopy(catalyst);
+    return catalyst.copy();
   }
 
   public int getChaosCost() {

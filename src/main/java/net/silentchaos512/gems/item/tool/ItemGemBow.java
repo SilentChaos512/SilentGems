@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.item.tool;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -12,7 +11,10 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.*;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.ItemArrow;
+import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
@@ -23,40 +25,28 @@ import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
-import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.registry.IAddRecipes;
+import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
-import net.silentchaos512.lib.util.ItemHelper;
-import net.silentchaos512.lib.util.StackHelper;
 
 import java.util.List;
-import java.util.Map;
 
-public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
-
+public class ItemGemBow extends ItemBow implements ITool, IAddRecipes, ICustomModel {
     private static final int MIN_DRAW_DELAY = 10;
     public static final float ENCHANTABILITY_MULTIPLIER = 0.45f;
     public static final ResourceLocation RESOURCE_PULL = new ResourceLocation("pull");
     public static final ResourceLocation RESOURCE_PULLING = new ResourceLocation("pulling");
 
     public ItemGemBow() {
-
-        setTranslationKey(SilentGems.RESOURCE_PREFIX + Names.BOW);
         setNoRepair();
 
-        addPropertyOverride(RESOURCE_PULL, new IItemPropertyGetter() {
-
-            @Override
-            public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn) {
-
-                if (entityIn == null)
-                    return 0f;
-                ItemStack itemstack = entityIn.getActiveItemStack();
-                return StackHelper.isValid(itemstack) && ToolHelper.areToolsEqual(stack, itemstack)
-                        ? (stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / getDrawDelay(stack)
-                        : 0f;
-            }
+        addPropertyOverride(RESOURCE_PULL, (stack, worldIn, entityIn) -> {
+            if (entityIn == null) return 0f;
+            ItemStack itemstack = entityIn.getActiveItemStack();
+            return !itemstack.isEmpty() && ToolHelper.areToolsEqual(stack, itemstack)
+                    ? (stack.getMaxItemUseDuration() - entityIn.getItemInUseCount()) / getDrawDelay(stack)
+                    : 0f;
         });
     }
 
@@ -65,15 +55,13 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
     // ===================
 
     public ConfigOptionToolClass getConfig() {
-
         return GemsConfig.bow;
     }
 
     @Override
     public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
-
         if (getConfig().isDisabled)
-            return StackHelper.empty();
+            return ItemStack.EMPTY;
 
         if (materials.length == 1)
             return constructTool(rod, materials[0], materials[0], materials[0]);
@@ -82,31 +70,26 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
     @Override
     public float getMeleeDamage(ItemStack tool) {
-
         return 0;
     }
 
     @Override
     public float getMagicDamage(ItemStack tool) {
-
         return 0;
     }
 
     @Override
     public float getMeleeDamageModifier() {
-
         return 0;
     }
 
     @Override
     public float getMagicDamageModifier() {
-
         return 0;
     }
 
     @Override
     public float getMeleeSpeedModifier() {
-
         return 0;
     }
 
@@ -115,7 +98,6 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
     // =============
 
     public float getDrawDelay(ItemStack stack) {
-
         // Vanilla bows would be 20.
         float mspeed = ToolHelper.getMeleeSpeed(stack);
         float dspeed = ToolHelper.getDigSpeedOnProperMaterial(stack);
@@ -123,7 +105,6 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
     }
 
     public static float getDrawDelay(float meleeSpeed, float digSpeed) {
-
         // Vanilla bows would be 20.
         return Math.max(32.7f - 1.1f * meleeSpeed * digSpeed, MIN_DRAW_DELAY);
     }
@@ -135,29 +116,24 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
      * @return Draw speed for tooltip display.
      */
     public float getDrawSpeedForDisplay(ItemStack stack) {
-
         return 20f / getDrawDelay(stack);
     }
 
     public static float getDrawSpeedForDisplay(float meleeSpeed, float digSpeed) {
-
         return 20f / getDrawDelay(meleeSpeed, digSpeed);
     }
 
     public float getArrowVelocity(ItemStack stack, int charge) {
-
         float f = charge / getDrawDelay(stack);
         f = (f * f + f * 2f) / 3f;
         return f > 1f ? 1f : f;
     }
 
     public float getArrowDamage(ItemStack stack) {
-
         return getArrowDamage(ToolHelper.getMeleeDamage(stack));
     }
 
     public static float getArrowDamage(float meleeDamage) {
-
         return 0.4f * meleeDamage - 1.0f;
     }
 
@@ -167,17 +143,14 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
      * @return Arrow damage for tooltip display.
      */
     public float getArrowDamageForDisplay(ItemStack stack) {
-
         return (2f + getArrowDamage(stack)) / 2f;
     }
 
     public static float getArrowDamageForDisplay(float meleeDamage) {
-
         return (2f + getArrowDamage(meleeDamage)) / 2f;
     }
 
-    protected ItemStack findAmmo(EntityPlayer player) {
-
+    private ItemStack findAmmo(EntityPlayer player) {
         if (this.isArrow(player.getHeldItem(EnumHand.OFF_HAND))) {
             return player.getHeldItem(EnumHand.OFF_HAND);
         } else if (this.isArrow(player.getHeldItem(EnumHand.MAIN_HAND))) {
@@ -191,22 +164,20 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
                 }
             }
 
-            return StackHelper.empty();
+            return ItemStack.EMPTY;
         }
     }
 
     // Same as vanilla bow, except it can be fired without arrows with infinity.
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-
         ItemStack stack = player.getHeldItem(hand);
 
-        boolean hasAmmo = StackHelper.isValid(findAmmo(player))
-                || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
+        boolean hasAmmo = !findAmmo(player).isEmpty() || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
         boolean isBroken = ToolHelper.isBroken(stack);
 
         if (isBroken)
-            return new ActionResult(EnumActionResult.PASS, stack);
+            return new ActionResult<>(EnumActionResult.PASS, stack);
 
         ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(stack,
                 world, player, hand, hasAmmo);
@@ -214,22 +185,18 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
             return ret;
 
         if (!player.capabilities.isCreativeMode && !hasAmmo) {
-            return !hasAmmo ? new ActionResult(EnumActionResult.FAIL, stack)
-                    : new ActionResult(EnumActionResult.PASS, stack);
+            return new ActionResult<>(EnumActionResult.FAIL, stack);
         } else {
             player.setActiveHand(hand);
-            return new ActionResult(EnumActionResult.SUCCESS, stack);
+            return new ActionResult<>(EnumActionResult.SUCCESS, stack);
         }
     }
 
     @Override
-    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving,
-                                     int timeLeft) {
-
+    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft) {
         if (entityLiving instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entityLiving;
-            boolean infiniteAmmo = player.capabilities.isCreativeMode
-                    || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
+            boolean infiniteAmmo = player.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
             ItemStack ammo = this.findAmmo(player);
 
             int i = this.getMaxItemUseDuration(stack) - timeLeft;
@@ -238,25 +205,20 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
             if (i < 0)
                 return;
 
-            if (StackHelper.isValid(ammo) || infiniteAmmo) {
-                if (StackHelper.isEmpty(ammo)) {
+            if (!ammo.isEmpty() || infiniteAmmo) {
+                if (ammo.isEmpty()) {
                     ammo = new ItemStack(Items.ARROW);
                 }
 
                 float velocity = getArrowVelocity(stack, i);
 
                 if ((double) velocity >= 0.1D) {
-                    boolean flag1 = player.capabilities.isCreativeMode || (ammo.getItem() instanceof ItemArrow
-                            ? ((ItemArrow) ammo.getItem()).isInfinite(ammo, stack, player)
-                            : false);
+                    boolean flag1 = player.capabilities.isCreativeMode || (ammo.getItem() instanceof ItemArrow && ((ItemArrow) ammo.getItem()).isInfinite(ammo, stack, player));
 
                     if (!worldIn.isRemote) {
-                        ItemArrow itemarrow = (ItemArrow) ((ItemArrow) (ammo.getItem() instanceof ItemArrow
-                                ? ammo.getItem()
-                                : Items.ARROW));
+                        ItemArrow itemarrow = (ItemArrow) (ammo.getItem() instanceof ItemArrow ? ammo.getItem() : Items.ARROW);
                         EntityArrow entityarrow = itemarrow.createArrow(worldIn, ammo, player);
-                        entityarrow.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F,
-                                velocity * 3.0F, 1.0F);
+                        entityarrow.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 3.0F, 1.0F);
 
                         if (velocity == 1.0F) {
                             entityarrow.setIsCritical(true);
@@ -286,14 +248,14 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
                         worldIn.spawnEntity(entityarrow);
                     }
 
-                    worldIn.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ,
+                    worldIn.playSound(null, player.posX, player.posY, player.posZ,
                             SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 1.0F,
                             1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + velocity * 0.5F);
 
                     if (!flag1) {
-                        StackHelper.shrink(ammo, 1);
+                        ammo.shrink(1);
 
-                        if (StackHelper.getCount(ammo) == 0) {
+                        if (ammo.getCount() == 0) {
                             player.inventory.deleteStack(ammo);
                         }
                     }
@@ -312,55 +274,37 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
 
     @Override
     public int getMaxDamage(ItemStack stack) {
-
         return ToolHelper.getMaxDamage(stack);
     }
 
     @Override
-    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
-                                               boolean slotChanged) {
-
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
     }
 
     @Override
     public boolean hasEffect(ItemStack stack) {
-
         return ToolRenderHelper.instance.hasEffect(stack);
     }
 
     @Override
     public EnumRarity getRarity(ItemStack stack) {
-
         return ToolRenderHelper.instance.getRarity(stack);
     }
 
     @Override
     public int getItemEnchantability(ItemStack stack) {
-
         return Math.round(ToolHelper.getItemEnchantability(stack) * ENCHANTABILITY_MULTIPLIER);
     }
 
     @Override
-    public void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
-                         boolean isSelected) {
-
+    public void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot, boolean isSelected) {
         ToolHelper.onUpdate(tool, world, entity, itemSlot, isSelected);
     }
 
     @Override
     public boolean onEntityItemUpdate(EntityItem entityItem) {
-
         return ToolHelper.onEntityItemUpdate(entityItem);
-    }
-
-    // =============================
-    // = IRegistryObject overrides =
-    // =============================
-
-    @Override
-    public void addOreDict() {
-
     }
 
     @Override
@@ -378,68 +322,18 @@ public class ItemGemBow extends ItemBow implements IRegistryObject, ITool {
     }
 
     @Override
-    public String getFullName() {
-
-        return getModId() + ":" + getName();
-    }
-
-    @Override
-    public String getModId() {
-
-        return SilentGems.MODID;
-    }
-
-    @Override
-    public String getName() {
-
-        return Names.BOW;
-    }
-
-    @Override
-    public void getModels(Map<Integer, ModelResourceLocation> models) {
-
-        models.put(0, ToolRenderHelper.SMART_MODEL);
-    }
-
-    @Override
-    public boolean registerModels() {
-
-        return false;
-    }
-
-    // =================================
-    // Cross Compatibility (MC 10/11/12)
-    // =================================
-
-    @Override
     public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
-
         ToolRenderHelper.getInstance().addInformation(stack, world, list, flag);
-    }
-
-    // getSubItems 1.10.2
-    public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
-
-        clGetSubItems(item, tab, list);
-    }
-
-    // getSubItems 1.11.2
-    public void func_150895_a(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
-
-        clGetSubItems(item, tab, list);
     }
 
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
-
-        clGetSubItems(this, tab, list);
+        if (!isInCreativeTab(tab)) return;
+        list.addAll(ToolHelper.getSubItems(this, 3));
     }
 
-    protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-
-        if (!ItemHelper.isInCreativeTab(item, tab))
-            return;
-
-        list.addAll(ToolHelper.getSubItems(item, 3));
+    @Override
+    public void registerModels() {
+        SilentGems.registry.setModel(this, 0, "tool");
     }
 }

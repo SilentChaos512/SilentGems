@@ -1,11 +1,5 @@
 package net.silentchaos512.gems.lib;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,6 +11,11 @@ import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.guide.GuideBookGems;
 import net.silentchaos512.gems.util.ToolHelper;
+
+import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class ToolData {
 
@@ -210,7 +209,7 @@ public class ToolData {
       case TIP:
         return partTip;
       default:
-        SilentGems.logHelper.warning("ToolData#getPart: Unknown part position " + pos);
+        SilentGems.logHelper.warn("ToolData#getPart: Unknown part position " + pos);
         return null;
     }
   }
@@ -226,7 +225,7 @@ public class ToolData {
       case TIP:
         partTip = part;
       default:
-        SilentGems.logHelper.warning("ToolData#setPart: Unknown part position " + pos);
+        SilentGems.logHelper.warn("ToolData#setPart: Unknown part position " + pos);
     }
   }
 

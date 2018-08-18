@@ -40,7 +40,6 @@ import net.silentchaos512.gems.skills.SkillAreaTill;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.gems.util.ToolHelper;
-import net.silentchaos512.lib.util.StackHelper;
 
 import java.util.List;
 
@@ -82,7 +81,7 @@ public class GemsClientEvents {
         boolean ctrlDown = KeyTracker.isControlDown();
         boolean shiftDown = KeyTracker.isShiftDown();
         ItemStack stack = event.getItemStack();
-        ToolPart part = StackHelper.isValid(stack) ? ToolPartRegistry.fromStack(stack) : null;
+        ToolPart part = !stack.isEmpty() ? ToolPartRegistry.fromStack(stack) : null;
 
         if (part != null && !part.isBlacklisted(stack)) {
             if (part instanceof ToolPartRod) {

@@ -1,11 +1,5 @@
 package net.silentchaos512.gems.api;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -16,7 +10,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.util.StackHelper;
+
+import java.util.*;
 
 public class Skulls {
 
@@ -53,13 +48,13 @@ public class Skulls {
 
     SkullInfo skullInfo = map.get(entityClass);
     if (skullInfo == null) {
-      return StackHelper.empty();
+      return ItemStack.EMPTY;
     }
     ItemStack stack = skullInfo.stack;
     if (stack == null) {
-      return StackHelper.empty();
+      return ItemStack.EMPTY;
     }
-    return StackHelper.safeCopy(stack);
+    return stack.copy();
   }
 
   /**
@@ -72,7 +67,7 @@ public class Skulls {
     if (random.nextFloat() < 0.25f)
       return playerSkulls.get(random.nextInt(playerSkulls.size()));
     else
-      return mobSkulls.get(random.nextInt(mobSkulls.size())); 
+      return mobSkulls.get(random.nextInt(mobSkulls.size()));
   }
 
   public static float getDropRate(EntityLivingBase entity) {

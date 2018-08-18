@@ -10,7 +10,6 @@ import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.item.tool.ItemGemKatana;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.lib.util.EntityHelper;
 
@@ -112,8 +111,6 @@ public class ToolRandomizer {
     }
 
     ItemStack temp = ToolHelper.constructTool(tool.getItem(), rod, craftingStacks);
-    if (temp.getItem() instanceof ItemGemKatana)
-      temp = ((ItemGemKatana) temp.getItem()).addDefaultGrip(temp);
 
     // Set name
     String ownerName = nameAdjectives.get(SilentGems.random.nextInt(nameAdjectives.size())) + " "

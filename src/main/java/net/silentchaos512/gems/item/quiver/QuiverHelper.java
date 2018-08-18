@@ -21,7 +21,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.util.StackHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +82,7 @@ public class QuiverHelper {
 
     @SideOnly(Side.CLIENT)
     public static void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (StackHelper.isEmpty(stack) || !(stack.getItem() instanceof IQuiver)) {
+        if (stack.isEmpty() || !(stack.getItem() instanceof IQuiver)) {
             return;
         }
 

@@ -20,6 +20,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -59,8 +60,9 @@ import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillAreaTill;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
-import net.silentchaos512.lib.recipe.IngredientSL;
-import net.silentchaos512.lib.util.*;
+import net.silentchaos512.lib.util.ItemHelper;
+import net.silentchaos512.lib.util.PlayerHelper;
+import net.silentchaos512.lib.util.StackHelper;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -251,7 +253,7 @@ public class ToolHelper {
    */
   public static boolean hasUUID(ItemStack tool) {
 
-    return StackHelper.isValid(tool) && tool.hasTagCompound()
+    return !tool.isEmpty() && tool.hasTagCompound()
         && tool.getTagCompound().hasUniqueId(NBT_UUID);
   }
 
@@ -262,7 +264,7 @@ public class ToolHelper {
    */
   public static boolean isExampleItem(ItemStack tool) {
 
-    return StackHelper.isValid(tool) && tool.hasTagCompound()
+    return !tool.isEmpty() && tool.hasTagCompound()
         && tool.getTagCompound().getBoolean(NBT_EXAMPLE_TOOL);
   }
 
@@ -273,7 +275,7 @@ public class ToolHelper {
    */
   public static boolean isExampleRecipeOutput(ItemStack tool) {
 
-    return StackHelper.isValid(tool) && tool.hasTagCompound()
+    return !tool.isEmpty() && tool.hasTagCompound()
         && tool.getTagCompound().getBoolean(NBT_EXAMPLE_TOOL_TIER);
   }
 
@@ -315,13 +317,14 @@ public class ToolHelper {
         ModItems.toolSoul.setSoul(toGive, soul);
         if (soul.hasName()) {
           // Soul already has a name.
-          toGive.setStackDisplayName(soul.getName(StackHelper.empty()));
+          toGive.setStackDisplayName(soul.getName(ItemStack.EMPTY));
         }
-        PlayerHelper.giveItem((EntityPlayer) entityLiving, toGive);
+        if (entityLiving instanceof EntityPlayer)
+          PlayerHelper.giveItem((EntityPlayer) entityLiving, toGive);
       }
 
       entityLiving.renderBrokenItemStack(tool);
-      StackHelper.shrink(tool, 1);
+      tool.shrink(1);
     }
   }
 
@@ -423,7 +426,7 @@ public class ToolHelper {
     }
 
     int maxDamage = tool.getMaxDamage();
-    if (StackHelper.isEmpty(tool) || maxDamage <= 0) {
+    if (tool.isEmpty() || maxDamage <= 0) {
       return false;
     }
     return tool.getItemDamage() >= maxDamage;
@@ -534,15 +537,14 @@ public class ToolHelper {
 
     // If block is in offhand, allow that to place instead.
     ItemStack stackOffHand = player.getHeldItemOffhand();
-    if (StackHelper.isValid(stackOffHand) && stackOffHand.getItem() instanceof ItemBlock) {
+    if (!stackOffHand.isEmpty() && stackOffHand.getItem() instanceof ItemBlock) {
       ItemBlock itemBlock = (ItemBlock) stackOffHand.getItem();
       BlockPos target = pos;
 
       if (!itemBlock.getBlock().isReplaceable(world, pos))
         target = pos.offset(side);
 
-      if (player.canPlayerEdit(target, side, stackOffHand) && WorldHelper.mayPlace(world,
-          itemBlock.getBlock(), target, false, side, player, stackOffHand))
+      if (player.canPlayerEdit(target, side, stackOffHand) && world.mayPlace(itemBlock.getBlock(), target, false, side, player))
         return EnumActionResult.PASS;
     }
 
@@ -559,13 +561,13 @@ public class ToolHelper {
     EnumActionResult result = EnumActionResult.PASS;
     int toolSlot = player.inventory.currentItem;
     int itemSlot = toolSlot + 1;
-    ItemStack nextStack = StackHelper.empty();
+    ItemStack nextStack = ItemStack.EMPTY;
     ItemStack lastStack = player.inventory.getStackInSlot(8); // Slot 9 in hotbar
 
     if (toolSlot < 8) {
       // Get stack in slot after tool.
       nextStack = player.inventory.getStackInSlot(itemSlot);
-      boolean emptyOrNoPlacingTag = StackHelper.isEmpty(nextStack)
+      boolean emptyOrNoPlacingTag = nextStack.isEmpty()
           || (nextStack.hasTagCompound() && nextStack.getTagCompound().hasKey("NoPlacing"));
 
       // If there's nothing there we can use, try slot 9 instead.
@@ -575,7 +577,7 @@ public class ToolHelper {
         itemSlot = 8;
       }
 
-      emptyOrNoPlacingTag = StackHelper.isEmpty(nextStack)
+      emptyOrNoPlacingTag = nextStack.isEmpty()
           || (nextStack.hasTagCompound() && nextStack.getTagCompound().hasKey("NoPlacing"));
 
       if (!emptyOrNoPlacingTag) {
@@ -595,25 +597,25 @@ public class ToolHelper {
             AxisAlignedBB playerBounds = player.getEntityBoundingBox();
             ItemBlock itemBlock = (ItemBlock) item;
             Block block = itemBlock.getBlock();
-            IBlockState state = block.getStateFromMeta(itemBlock.getMetadata(nextStack));
+            @SuppressWarnings("deprecation") IBlockState state = block.getStateFromMeta(itemBlock.getMetadata(nextStack));
             if (state.getMaterial().blocksMovement() && playerBounds.intersects(blockBounds)) {
               return EnumActionResult.FAIL;
             }
           }
 
-          int prevSize = StackHelper.getCount(nextStack);
+          int prevSize = nextStack.getCount();
           result = ItemHelper.useItemAsPlayer(nextStack, player, world, pos, side, hitX, hitY,
               hitZ);
 
           // Don't consume in creative mode?
           if (player.capabilities.isCreativeMode) {
-            StackHelper.setCount(nextStack, prevSize);
+            nextStack.setCount(prevSize);
           }
 
           // Remove empty stacks.
-          if (StackHelper.isEmpty(nextStack)) {
-            nextStack = StackHelper.empty();
-            player.inventory.setInventorySlotContents(itemSlot, StackHelper.empty());
+          if (nextStack.isEmpty()) {
+            nextStack = ItemStack.EMPTY;
+            player.inventory.setInventorySlotContents(itemSlot, ItemStack.EMPTY);
           }
         }
       }
@@ -625,7 +627,8 @@ public class ToolHelper {
     return result;
   }
 
-  public static @Nullable ToolSkill getSuperSkill(ItemStack tool) {
+  @Nullable
+  public static ToolSkill getSuperSkill(ItemStack tool) {
 
     if (getToolTier(tool).ordinal() < EnumMaterialTier.SUPER.ordinal())
       return null;
@@ -846,7 +849,7 @@ public class ToolHelper {
     ToolPart part;
     // Head
     for (int i = 0; i < materials.length; ++i) {
-      if (StackHelper.isEmpty(materials[i])) {
+      if (materials[i].isEmpty()) {
         String str = "ToolHelper.constructTool: empty part! ";
         for (ItemStack stack : materials)
           str += stack + ", ";
@@ -863,7 +866,7 @@ public class ToolHelper {
     // Rod
     part = ToolPartRegistry.fromStack(rod);
     if (part == null) {
-      return StackHelper.empty();
+      return ItemStack.EMPTY;
     }
     setTagPart(result, ToolPartPosition.ROD.getKey(0), part, EnumMaterialGrade.NONE);
 
@@ -876,7 +879,7 @@ public class ToolHelper {
     // Is this tier valid for this tool class?
     EnumMaterialTier toolTier = getToolTier(result);
     if (item instanceof ITool && !((ITool) item).getValidTiers().contains(toolTier)) {
-      return StackHelper.empty();
+      return ItemStack.EMPTY;
     }
 
     return result;
@@ -915,7 +918,7 @@ public class ToolHelper {
 
   public static ToolPart[] getConstructionParts(ItemStack tool) {
 
-    if (StackHelper.isEmpty(tool))
+    if (tool.isEmpty())
       return new ToolPart[] {};
 
     List<ToolPart> parts = Lists.newArrayList();
@@ -936,10 +939,10 @@ public class ToolHelper {
 
   public static EnumMaterialGrade[] getConstructionGrades(ItemStack tool) {
 
-    if (StackHelper.isEmpty(tool))
+    if (tool.isEmpty())
       return new EnumMaterialGrade[] {};
 
-    List<EnumMaterialGrade> grades = Lists.newArrayList();
+    List<EnumMaterialGrade> grades = new ArrayList<>();
     int index = -1;
     String key;
     do {
@@ -1040,7 +1043,7 @@ public class ToolHelper {
 
     for (ToolPartMain part : ToolPartRegistry.getMains()) {
       // Check for parts with empty crafting stacks and scream at the user if any are found.
-      if (StackHelper.isEmpty(part.getCraftingStack())) {
+      if (part.getCraftingStack().isEmpty()) {
         if (!emptyPartSet.contains(part)) {
           emptyPartSet.add(part);
           SilentGems.logHelper.error("Part with empty crafting stack: " + part);
@@ -1113,16 +1116,16 @@ public class ToolHelper {
       List<ItemStack> heads = new ArrayList<>();
       for (ToolPart part : ToolPartRegistry.getMains())
         if (!part.isBlacklisted(part.getCraftingStack()) && part.getTier() == tier
-            && StackHelper.isValid(part.getCraftingStack()))
+            && !part.getCraftingStack().isEmpty())
           heads.add(part.getCraftingStack());
-      IngredientSL headIngredient = IngredientSL.from(heads.toArray(new ItemStack[0]));
+      Ingredient headIngredient = Ingredient.fromStacks(heads.toArray(new ItemStack[0]));
       // Rods for tier
       List<ItemStack> rods = new ArrayList<>();
       for (ToolPart part : ToolPartRegistry.getRods())
         if (!part.isBlacklisted(part.getCraftingStack())
             && part.getCompatibleTiers().contains(tier))
           rods.add(part.getCraftingStack());
-      IngredientSL rodIngredient = IngredientSL.from(rods.toArray(new ItemStack[0]));
+      Ingredient rodIngredient = Ingredient.fromStacks(rods.toArray(new ItemStack[0]));
       // Armor frames
       List<ItemStack> frames = new ArrayList<>();
       if (item instanceof ItemGemArmor) {
@@ -1132,7 +1135,7 @@ public class ToolHelper {
               && part.getTier() == tier && !part.isBlacklisted(part.getCraftingStack()))
             frames.add(part.getCraftingStack());
       }
-      IngredientSL frameIngredient = IngredientSL.from(frames.toArray(new ItemStack[0]));
+      Ingredient frameIngredient = Ingredient.fromStacks(frames.toArray(new ItemStack[0]));
 
       ResourceLocation recipeName = new ResourceLocation(
           item.getRegistryName().toString() + "_" + tier.name().toLowerCase() + "_example");
@@ -1160,7 +1163,7 @@ public class ToolHelper {
       for (Object obj : extraParams)
         params.add(obj);
 
-      EXAMPLE_RECIPES.add(SilentGems.registry.recipes.makeShaped(recipeName.getPath(),
+      EXAMPLE_RECIPES.add(SilentGems.registry.getRecipeMaker().makeShaped(recipeName.getPath(),
           result, params.toArray()));
     }
   }

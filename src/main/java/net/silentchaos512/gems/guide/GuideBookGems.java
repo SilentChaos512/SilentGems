@@ -37,7 +37,6 @@ import net.silentchaos512.lib.guidebook.chapter.GuideChapter;
 import net.silentchaos512.lib.guidebook.entry.GuideEntry;
 import net.silentchaos512.lib.guidebook.page.*;
 import net.silentchaos512.lib.registry.RecipeMaker;
-import net.silentchaos512.lib.util.StackHelper;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public class GuideBookGems extends GuideBook {
     private GuideEntry entryDebug;
 
     public GuideBookGems() {
-        super(SilentGems.MODID);
+        super(SilentGems.MODID, SilentGems.i18n);
         this.resourceGui = new ResourceLocation(SilentGems.MODID, "textures/guide/gui_guide.png");
         this.resourceGadgets = new ResourceLocation(SilentGems.MODID, "textures/guide/gui_guide_gadgets.png");
         edition = SilentGems.instance.getBuildNum();
@@ -77,7 +76,7 @@ public class GuideBookGems extends GuideBook {
     @SuppressWarnings("unused")
     @Override
     public void initChapters() {
-        RecipeMaker rec = SilentGems.registry.recipes;
+        RecipeMaker rec = SilentGems.registry.getRecipeMaker();
 
         // Getting Started
 
@@ -89,7 +88,7 @@ public class GuideBookGems extends GuideBook {
         // Progression
         ItemStack flintPickaxe = ModItems.pickaxe.constructTool(false, new ItemStack(Items.FLINT));
         ToolHelper.setOriginalOwner(flintPickaxe, TOOL_OWNER_NAME);
-        ItemStack flintPickaxeBroken = StackHelper.safeCopy(flintPickaxe);
+        ItemStack flintPickaxeBroken = flintPickaxe.copy();
         flintPickaxeBroken.setItemDamage(ToolHelper.getMaxDamage(flintPickaxeBroken));
         ItemStack ironTipUpgrade = new ItemStack(ModItems.tipUpgrade);
         ItemStack flintPickaxeIronTips = ModItems.tipUpgrade.applyToTool(flintPickaxe, ironTipUpgrade);
@@ -298,7 +297,7 @@ public class GuideBookGems extends GuideBook {
         // Chaos Gems
         ItemStack chChaosGem = new ItemStack(ModItems.chaosGem, 1, EnumGem.getRandom().ordinal());
         ModItems.chaosGem.receiveCharge(chChaosGem, ModItems.chaosGem.getMaxCharge(chChaosGem), false);
-        ItemStack chChaosGemWithBuffs = StackHelper.safeCopy(chChaosGem);
+        ItemStack chChaosGemWithBuffs = chChaosGem.copy();
         ItemStack chChaosGemRuneStrength = new ItemStack(ModItems.chaosRune);
         ModItems.chaosRune.setBuff(chChaosGemRuneStrength, ChaosBuff.STRENGTH);
         ItemStack chChaosGemRuneResistance = new ItemStack(ModItems.chaosRune);
@@ -326,7 +325,7 @@ public class GuideBookGems extends GuideBook {
         ItemStack chEnchantmentToken = new ItemStack(ModItems.enchantmentToken, 1, ItemEnchantmentToken.BLANK_META);
         ItemStack tokenSharpness = ModItems.enchantmentToken.constructToken(Enchantments.SHARPNESS);
         ItemStack chEnchantmentTokenPickaxe = ToolRandomizer.INSTANCE.randomize(new ItemStack(ModItems.pickaxe), 0.75f);
-        ItemStack chEnchantmentTokenPickaxeEnchanted = StackHelper.safeCopy(chEnchantmentTokenPickaxe);
+        ItemStack chEnchantmentTokenPickaxeEnchanted = chEnchantmentTokenPickaxe.copy();
         ItemStack tokenUnbreaking = ModItems.enchantmentToken.constructToken(Enchantments.UNBREAKING);
         ItemStack tokenFortune = ModItems.enchantmentToken.constructToken(Enchantments.FORTUNE);
         for (int i = 0; i < 3; ++i) {
@@ -345,16 +344,17 @@ public class GuideBookGems extends GuideBook {
                 new PageTextOnly(this, 1));
         // Gems
         EnumGem chGem = EnumGem.getRandom();
-        ItemStack craftedShards = StackHelper.setCount(StackHelper.safeCopy(chGem.getShard()), 9);
+        ItemStack craftedShards = chGem.getShard();
+        craftedShards.setCount(9);
         new GuideChapter(this, "gem", entryItems, chGem.getItem(),
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapelessOre(craftedShards, chGem.getItem())),
                 new PageCrafting(this, 3, rec.makeShapedOre(chGem.getItemSuper(), "cgc", "cdc", "cgc", 'c', ModItems.craftingMaterial.chaosEssence, 'g', chGem.getItem(), 'd', "dustGlowstone")));
         // Holding Gem
         ItemStack chHoldingGem = ModItems.holdingGem.construct(EnumGem.getRandom());
-        ItemStack chHoldingGemIcon = StackHelper.safeCopy(chHoldingGem);
+        ItemStack chHoldingGemIcon = chHoldingGem.copy();
         chHoldingGemIcon.setItemDamage(0);
-        ItemStack chHoldingGemSet = StackHelper.safeCopy(chHoldingGem);
+        ItemStack chHoldingGemSet = chHoldingGem.copy();
         ModItems.holdingGem.setBlockPlaced(chHoldingGemSet, Blocks.COBBLESTONE.getDefaultState());
         chHoldingGemSet.setItemDamage(chHoldingGemSet.getMaxDamage() - 1);
         new GuideChapter(this, "holdingGem", entryItems, chHoldingGemIcon,
@@ -370,8 +370,7 @@ public class GuideBookGems extends GuideBook {
         for (IRecipe recipe : ItemTipUpgrade.RECIPES) {
             pages.add(new PageCrafting(this, 0, recipe).setNoText());
         }
-        new GuideChapter(this, "tipUpgrade", entryItems, chTipUpgrade,
-                pages.toArray(new IGuidePage[pages.size()]));
+        new GuideChapter(this, "tipUpgrade", entryItems, chTipUpgrade, pages.toArray(new IGuidePage[0]));
         // Torch Bandolier
         ItemStack chTorchBandolier = new ItemStack(ModItems.torchBandolier);
         new GuideChapter(this, "torchBandolier", entryItems, chTorchBandolier,
@@ -399,7 +398,7 @@ public class GuideBookGems extends GuideBook {
             pages.add(new PageSoulSkill(this, skill));
         }
         new GuideChapter(this, "soulSkills", entrySouls, new ItemStack(ModItems.skillOrb),
-                pages.toArray(new IGuidePage[pages.size()]));
+                pages.toArray(new IGuidePage[0]));
 
         // Enchantments
 

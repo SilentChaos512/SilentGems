@@ -4,11 +4,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.silentchaos512.lib.util.StackHelper;
 
 public class EntityGemArrow extends EntityTippedArrow {
 
-  ItemStack arrowStack = StackHelper.empty();
+  ItemStack arrowStack = ItemStack.EMPTY;
 
   public EntityGemArrow(World worldIn) {
 
@@ -28,8 +27,8 @@ public class EntityGemArrow extends EntityTippedArrow {
   public EntityGemArrow(World worldIn, EntityLivingBase shooter, ItemStack arrowStack) {
 
     super(worldIn, shooter);
-    this.arrowStack = StackHelper.safeCopy(arrowStack);
-    StackHelper.setCount(this.arrowStack, 1);
+    this.arrowStack = arrowStack.copy();
+    this.arrowStack.setCount(1);
   }
 
   @Override

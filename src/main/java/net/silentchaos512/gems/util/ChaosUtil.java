@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -15,7 +16,6 @@ import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
-import net.silentchaos512.lib.collection.ItemStackList;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 import java.util.List;
@@ -207,10 +207,8 @@ public class ChaosUtil {
   /**
    * Gets all chaos-storing items on the player, including baubles.
    */
-  public static ItemStackList getChaosStorageItems(EntityPlayer player) {
-
-    ItemStackList list = BaublesCompat.getBaubles(player,
-        s -> s.getItem() instanceof IChaosStorage);
+  public static NonNullList<ItemStack> getChaosStorageItems(EntityPlayer player) {
+    NonNullList<ItemStack> list = BaublesCompat.getBaubles(player, s -> s.getItem() instanceof IChaosStorage);
     for (ItemStack stack : PlayerHelper.getNonEmptyStacks(player))
       if (stack.getItem() instanceof IChaosStorage)
         list.add(stack);

@@ -31,7 +31,6 @@ import net.silentchaos512.gems.network.message.MessageSoulSync;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.ChatHelper;
-import net.silentchaos512.lib.util.StackHelper;
 import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
@@ -195,7 +194,7 @@ public class ToolSoul {
             blockMeta = 0;
         }
         ItemStack blockStack = new ItemStack(block, 1, blockMeta);
-        if (StackHelper.isValid(blockStack)) {
+        if (!blockStack.isEmpty()) {
             for (int oreId : OreDictionary.getOreIDs(blockStack)) {
                 String oreName = OreDictionary.getOreName(oreId);
                 if (oreName.startsWith("ore") || oreName.startsWith("log")) {
@@ -204,7 +203,7 @@ public class ToolSoul {
                 }
             }
         } else {
-            SilentGems.logHelper.warning("ToolSoul#getXpForBlockHarvest: Invalid block stack for " + block
+            SilentGems.logHelper.warn("ToolSoul#getXpForBlockHarvest: Invalid block stack for " + block
                     + " (meta " + blockMeta + ")");
         }
 

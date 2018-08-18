@@ -56,7 +56,7 @@ public class SilentGems implements IModBase {
     public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
     public static final String MOD_NAME = "Silent's Gems";
     public static final String VERSION = "2.8.1";
-    public static final String VERSION_SILENTLIB = "2.3.17";
+    public static final String VERSION_SILENTLIB = "3.0.0";
     public static final int BUILD_NUM = 0;
     public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
             + "after:baubles;after:enderio;after:enderzoo;after:veinminer;after:silentgear";
@@ -78,7 +78,7 @@ public class SilentGems implements IModBase {
         @Override
         public <T extends Block> T registerBlock(T block, String key, ItemBlock itemBlock) {
             super.registerBlock(block, key, itemBlock);
-            block.setCreativeTab(GemsCreativeTabs.blocks);
+            block.setCreativeTab(GemsCreativeTabs.BLOCKS);
             return block;
         }
 
@@ -91,14 +91,14 @@ public class SilentGems implements IModBase {
 
                 // Not adding shields to tools tab and shields don't use custom model.
                 if (!(item instanceof ItemGemShield)) {
-                    item.setCreativeTab(GemsCreativeTabs.tools);
+                    item.setCreativeTab(GemsCreativeTabs.TOOLS);
                     ModItems.tools.add(item);
                 }
             } else if (item instanceof IArmor) {
                 GemsConfig.NODE_REPAIR_WHITELIST.add(item);
-                item.setCreativeTab(GemsCreativeTabs.tools);
+                item.setCreativeTab(GemsCreativeTabs.TOOLS);
             } else {
-                item.setCreativeTab(GemsCreativeTabs.materials);
+                item.setCreativeTab(GemsCreativeTabs.MATERIALS);
             }
             return item;
         }
@@ -113,7 +113,7 @@ public class SilentGems implements IModBase {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         registry.setMod(this);
-        registry.recipes.setJsonHellMode(isDevBuild());
+        registry.getRecipeMaker().setJsonHellMode(isDevBuild());
 
         CommonItemStats.init();
         ToolHelper.init();

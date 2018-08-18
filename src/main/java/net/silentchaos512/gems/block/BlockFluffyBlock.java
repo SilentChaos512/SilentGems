@@ -42,7 +42,6 @@ import net.silentchaos512.lib.block.BlockMetaSubtypes;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
-import net.silentchaos512.lib.util.StackHelper;
 
 public class BlockFluffyBlock extends BlockMetaSubtypes implements ICustomModel, IAddRecipes {
     private static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
@@ -88,7 +87,7 @@ public class BlockFluffyBlock extends BlockMetaSubtypes implements ICustomModel,
 
     public void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
         ItemStack mainHand = event.getEntityPlayer().getHeldItem(EnumHand.MAIN_HAND);
-        if (StackHelper.isValid(mainHand) && mainHand.getItem() instanceof ItemShears) {
+        if (!mainHand.isEmpty() && mainHand.getItem() instanceof ItemShears) {
             int efficiency = EnchantmentHelper.getEfficiencyModifier(event.getEntityPlayer());
 
             float speed = event.getNewSpeed() * 4;

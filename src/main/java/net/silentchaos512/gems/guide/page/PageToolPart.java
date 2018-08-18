@@ -7,7 +7,6 @@ import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.lib.guidebook.GuideBook;
 import net.silentchaos512.lib.guidebook.internal.GuiGuideBase;
 import net.silentchaos512.lib.guidebook.page.GuidePage;
-import net.silentchaos512.lib.util.StackHelper;
 
 public class PageToolPart extends GuidePage {
 
@@ -29,7 +28,7 @@ public class PageToolPart extends GuidePage {
 
     ItemStack repStack = part.getCraftingStack();
     String title = part.getDisplayNamePrefix(repStack) + " " + part.getDisplayName(repStack);
-    String str = book.loc.getLocalizedString("guide", "toolPartPage",
+    String str = book.i18n.translate("guide", "toolPartPage",
         title,
         part.getTier().toString(),
         part.getCraftingOreDictName());
@@ -44,7 +43,7 @@ public class PageToolPart extends GuidePage {
 
     super.initGui(gui, startX, startY);
 
-    if (StackHelper.isValid(part.getCraftingStack()))
+    if (!part.getCraftingStack().isEmpty())
       gui.addOrModifyItemRenderer(part.getCraftingStack(), 5, 5, 1.0f, false);
   }
 }

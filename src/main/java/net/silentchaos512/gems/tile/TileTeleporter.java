@@ -27,7 +27,6 @@ import net.silentchaos512.gems.util.TeleportUtil;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
 import net.silentchaos512.lib.util.LogHelper;
-import net.silentchaos512.lib.util.StackHelper;
 
 public class TileTeleporter extends TileEntity implements IChaosAccepter {
 
@@ -126,7 +125,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
     LogHelper log = SilentGems.logHelper;
     ItemTeleporterLinker linker = ModItems.teleporterLinker;
 
-    if (StackHelper.isEmpty(heldItem) || heldItem.getItem() != linker) {
+    if (heldItem.isEmpty() || heldItem.getItem() != linker) {
       log.warn("TileTeleporter.linkTeleporters: heldItem is not a linker?");
       return false;
     }

@@ -54,7 +54,6 @@ import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
-import net.silentchaos512.lib.util.StackHelper;
 
 public class GemsCommonEvents {
 
@@ -63,8 +62,7 @@ public class GemsCommonEvents {
 
     Greetings.greetPlayer(event.player);
 
-    SilentGems.instance.logHelper
-        .info("Recalculating tool and armor stats for " + event.player.getDisplayNameString());
+    SilentGems.logHelper.info("Recalculating tool and armor stats for " + event.player.getDisplayNameString());
     // Recalculate tool stats.
     for (ItemStack stack : PlayerHelper.getNonEmptyStacks(event.player)) {
       if (stack != null) {
@@ -88,7 +86,7 @@ public class GemsCommonEvents {
     else if (event.crafting.getItem() == ModItems.chaosOrb) {
       for (int i = 0; i < event.craftMatrix.getSizeInventory(); ++i) {
         ItemStack stack = event.craftMatrix.getStackInSlot(i);
-        if (StackHelper.isValid(stack) && stack.getItem() == ModItems.chaosOrb) {
+        if (!stack.isEmpty() && stack.getItem() == ModItems.chaosOrb) {
           int oldCharge = ModItems.chaosOrb.getCharge(stack);
           ModItems.chaosOrb.receiveCharge(event.crafting, oldCharge, false);
         }
@@ -102,9 +100,9 @@ public class GemsCommonEvents {
     EntityPlayer player = event.getEntityPlayer();
     ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
 
-    if (StackHelper.isValid(mainHand)) {
+    if (!mainHand.isEmpty()) {
       // Shears on Fluffy Blocks
-      if (event.getState() == ModBlocks.fluffyBlock) {
+      if (event.getState().getBlock() == ModBlocks.fluffyBlock) {
         ModBlocks.fluffyBlock.onGetBreakSpeed(event);
       }
 
@@ -139,14 +137,14 @@ public class GemsCommonEvents {
       int lightningAspectLevel = 0;
 
       // Get levels of relevant enchantments.
-      if (StackHelper.isValid(mainHand)) {
+      if (!mainHand.isEmpty()) {
         lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal, mainHand);
         iceAspectLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.iceAspect, mainHand);
         lightningAspectLevel = EnchantmentHelper
             .getEnchantmentLevel(ModEnchantments.lightningAspect, mainHand);
       }
       // If not, is it on off hand?
-      if (lifeStealLevel < 1 && StackHelper.isValid(offHand)) {
+      if (lifeStealLevel < 1 && !offHand.isEmpty()) {
         lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal, offHand);
       }
 
@@ -192,7 +190,7 @@ public class GemsCommonEvents {
 
     if (player != null) {
       ItemStack weapon = player.getHeldItem(EnumHand.MAIN_HAND);
-      if (StackHelper.isValid(weapon) && weapon.getItem() instanceof ITool)
+      if (!weapon.isEmpty() && weapon.getItem() instanceof ITool)
         ToolHelper.incrementStatKillCount(weapon, 1);
     }
   }
@@ -224,7 +222,7 @@ public class GemsCommonEvents {
       Soul soul = ModItems.soulGem.getSoul(killed.getClass());
       if (soul != null && SilentGems.random.nextFloat() < soul.getDropRate()) {
         ItemStack soulGem = ModItems.soulGem.getStack(soul);
-        if (StackHelper.isValid(soulGem)) {
+        if (!soulGem.isEmpty()) {
           EntityItem entityItem = new EntityItem(killed.world, killed.posX,
               killed.posY + killed.height / 2f, killed.posZ, soulGem);
           event.getDrops().add(entityItem);
@@ -239,7 +237,7 @@ public class GemsCommonEvents {
           float rate = Skulls.getDropRate(killed);
           if (SilentGems.random.nextFloat() < 1.5f * level * rate) {
             ItemStack skull = Skulls.getSkull(killed);
-            if (StackHelper.isValid(skull)) {
+            if (!skull.isEmpty()) {
               EntityItem entityItem = new EntityItem(killed.world, killed.posX,
                   killed.posY + killed.height / 2f, killed.posZ, skull);
               event.getDrops().add(entityItem);
@@ -288,8 +286,8 @@ public class GemsCommonEvents {
               // Absorb blocks into block placer.
               int amountAbsorbed = itemPlacer.absorbBlocks(stack, entityStack);
               if (amountAbsorbed > 0) {
-                StackHelper.shrink(entityStack, amountAbsorbed);
-                if (StackHelper.getCount(entityStack) <= 0) {
+                entityStack.shrink(amountAbsorbed);
+                if (entityStack.getCount() <= 0) {
                   event.getItem().setDead();
                 }
                 event.getEntityPlayer().world.playSound(null, event.getItem().getPosition(),

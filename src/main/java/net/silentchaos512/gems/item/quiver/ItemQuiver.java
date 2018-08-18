@@ -14,7 +14,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.lib.util.StackHelper;
 
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class ItemQuiver extends ItemArrow implements IQuiver {
         IItemHandler itemHandler = getInventory(quiverStack);
         for (int i = 0; i < itemHandler.getSlots(); ++i) {
             ItemStack arrowStack = itemHandler.getStackInSlot(i);
-            if (!StackHelper.isEmpty(arrowStack) && arrowStack.getItem() instanceof ItemArrow) {
+            if (!arrowStack.isEmpty() && arrowStack.getItem() instanceof ItemArrow) {
                 // Found arrow stack in quiver
                 boolean playerIsCreativeMode = shooter instanceof EntityPlayer
                         && ((EntityPlayer) shooter).capabilities.isCreativeMode;

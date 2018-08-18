@@ -9,7 +9,6 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.lib.util.StackHelper;
 
 import java.util.Locale;
 import java.util.Random;
@@ -180,7 +179,7 @@ public enum EnumGem implements IStringSerializable {
   }
 
   public static EnumGem getFromStack(ItemStack stack) {
-    if (StackHelper.isEmpty(stack) || stack.getItem() != ModItems.gem) {
+    if (stack.isEmpty() || stack.getItem() != ModItems.gem) {
       return null;
     }
     return values()[MathHelper.clamp(stack.getItemDamage(), 0, values().length - 1)];

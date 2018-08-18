@@ -1,8 +1,7 @@
 package net.silentchaos512.gems.network.message;
 
-import java.util.UUID;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
@@ -12,7 +11,8 @@ import net.silentchaos512.gems.lib.soul.SoulSkill;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.network.Message;
 import net.silentchaos512.gems.util.SoulManager;
-import net.silentchaos512.lib.util.StackHelper;
+
+import java.util.UUID;
 
 public class MessageSoulSync extends Message {
 
@@ -63,7 +63,7 @@ public class MessageSoulSync extends Message {
         soul.setActionPoints(ap);
         if (skillLearned != null && !skillLearned.isEmpty()) {
           SoulSkill skill = SoulSkill.getById(skillLearned);
-          soul.setSkillLevel(skill, skillLevel, StackHelper.empty(),
+          soul.setSkillLevel(skill, skillLevel, ItemStack.EMPTY,
               Minecraft.getMinecraft().player);
         }
       }

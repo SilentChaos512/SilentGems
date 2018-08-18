@@ -225,7 +225,7 @@ public abstract class ToolPart {
      * @return True if partRep matches the part, false otherwise.
      */
     public boolean matchesForCrafting(ItemStack partRep, boolean matchOreDict) {
-        if (StackHelper.isEmpty(partRep))
+        if (partRep.isEmpty())
             return false;
         if (partRep.isItemEqual(getCraftingStack()))
             return true;

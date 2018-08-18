@@ -15,7 +15,6 @@ import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
-import net.silentchaos512.lib.util.StackHelper;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -76,7 +75,7 @@ public class ItemArmorFrame extends Item implements IAddRecipes, ICustomModel {
                     : tier == 1 ? ModItems.craftingMaterial.armorLatticeRegular
                     : tier == 2 ? ModItems.craftingMaterial.armorLatticeSuper : ItemStack.EMPTY;
 
-            if (StackHelper.isValid(lattice))
+            if (!lattice.isEmpty())
                 for (int type = 0; type < 4; ++type)
                     addRecipe(recipes, "armor_frame_" + tier, new ItemStack(this, 1, type + (tier << 2)), lattice, type);
         }

@@ -18,14 +18,14 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IBlockPlacer;
 import net.silentchaos512.gems.util.NBTHelper;
-import net.silentchaos512.lib.item.IItemSL;
+import net.silentchaos512.lib.item.ILeftClickItem;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.util.*;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public abstract class ItemBlockPlacer extends Item implements IBlockPlacer, IItemSL, IAddRecipes {
+public abstract class ItemBlockPlacer extends Item implements IBlockPlacer, ILeftClickItem, IAddRecipes {
     private static final int ABSORB_DELAY = 20;
     private static final String NBT_AUTO_FILL = "AutoFill";
     private static final String NBT_BLOCK_COUNT = "BlockCount";
@@ -98,7 +98,6 @@ public abstract class ItemBlockPlacer extends Item implements IBlockPlacer, IIte
         // Convert to new NBT block count;
         if (stack.getItemDamage() > 0 && !NBTHelper.hasKey(stack, NBT_BLOCK_COUNT)) {
             int blockCount = getMaxBlocksStored(stack) - stack.getItemDamage();
-            SilentGems.logHelper.debug(blockCount);
             NBTHelper.setTagInt(stack, NBT_BLOCK_COUNT, blockCount);
             stack.setItemDamage(0);
         }
@@ -122,18 +121,17 @@ public abstract class ItemBlockPlacer extends Item implements IBlockPlacer, IIte
                 int currentBlocks = getRemainingBlocks(stack);
 
                 // Add blocks to block placer, reduce stack size of block stack.
-                if (currentBlocks + StackHelper.getCount(invStack) > maxBlocksStored) {
+                if (currentBlocks + invStack.getCount() > maxBlocksStored) {
                     setRemainingBlocks(stack, maxBlocks);
-                    StackHelper.shrink(invStack, maxBlocksStored - currentBlocks);
+                    invStack.shrink(maxBlocksStored - currentBlocks);
                     return stack;
                 } else {
-                    SilentGems.logHelper.debug(currentBlocks + StackHelper.getCount(invStack));
-                    setRemainingBlocks(stack, currentBlocks + StackHelper.getCount(invStack));
-                    StackHelper.setCount(invStack, 0);
+                    setRemainingBlocks(stack, currentBlocks + invStack.getCount());
+                    invStack.setCount(0);
                 }
 
                 // Remove empty block stacks.
-                if (StackHelper.getCount(invStack) <= 0) {
+                if (invStack.getCount() <= 0) {
                     PlayerHelper.removeItem(player, invStack);
                 }
             }
@@ -144,7 +142,7 @@ public abstract class ItemBlockPlacer extends Item implements IBlockPlacer, IIte
 
     public int absorbBlocks(ItemStack placer, ItemStack blockStack) {
         int placerCount = getRemainingBlocks(placer);
-        int blockCount = StackHelper.getCount(blockStack);
+        int blockCount = blockStack.getCount();
         int maxBlocksStored = getMaxBlocksStored(placer);
 
         if (placerCount + blockCount > maxBlocksStored) {
@@ -214,13 +212,12 @@ public abstract class ItemBlockPlacer extends Item implements IBlockPlacer, IIte
 
             // Create block stack to drop.
             ItemStack toDrop = new ItemStack(state.getBlock(), 1, meta);
-            StackHelper.setCount(toDrop, Math.min(getRemainingBlocks(stack), toDrop.getMaxStackSize()));
-            setRemainingBlocks(stack, getRemainingBlocks(stack) - StackHelper.getCount(toDrop));
+            toDrop.setCount(Math.min(getRemainingBlocks(stack), toDrop.getMaxStackSize()));
+            setRemainingBlocks(stack, getRemainingBlocks(stack) - toDrop.getCount());
 
             // Make the EntityItem and spawn in world.
             Vec3d vec = player.getLookVec().scale(2.0);
-            EntityItem entity = new EntityItem(world, player.posX + vec.x, player.posY + 1 + vec.y,
-                    player.posZ + vec.x, toDrop);
+            EntityItem entity = new EntityItem(world, player.posX + vec.x, player.posY + 1 + vec.y, player.posZ + vec.x, toDrop);
             vec = vec.scale(-0.125);
             entity.motionX = vec.x;
             entity.motionY = vec.y;

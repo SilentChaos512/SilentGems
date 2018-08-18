@@ -88,12 +88,18 @@ public class SilentGemsPlugin implements IModPlugin {
             ChaosBuff buff = ModItems.chaosRune.getBuff(stack);
             return buff == null ? "none" : buff.getKey();
         });
+
+        // Soul Gems
+//        reg.registerSubtypeInterpreter(ModItems.soulGem, stack -> {
+//            ItemSoulGem.Soul soul = ModItems.soulGem.getSoul(stack);
+//            return soul != null ? soul.id : "null";
+//        });
     }
 
     private void addIngredientInfoPages(IModRegistry registry, Collection<? extends IForgeRegistryEntry<?>> list) {
         for (IForgeRegistryEntry<?> obj : list) {
             String key = getDescKey(Objects.requireNonNull(obj.getRegistryName()));
-            SilentGems.logHelper.debug("JEI desc key: {}", key);
+//            SilentGems.logHelper.debug("JEI desc key: {}", key);
             if (SilentGems.i18n.hasKey(key)) {
                 ItemStack stack = StackHelper.fromBlockOrItem(obj);
                 stack.setItemDamage(OreDictionary.WILDCARD_VALUE);

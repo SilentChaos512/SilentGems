@@ -18,7 +18,6 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
-import net.silentchaos512.lib.util.StackHelper;
 
 import java.util.List;
 
@@ -54,7 +53,7 @@ public class ItemGem extends Item implements IAddRecipes, ICustomModel {
             // Gems <--> shards
             recipes.addCompression("gem_" + gem.name(), gem.getShard(), gem.getItem(), 9);
             ItemStack shards = gem.getShard();
-            StackHelper.setCount(shards, 9);
+            shards.setCount(9);
             recipes.addShapelessOre("gem_shard_" + gem.name() + "_oredict", shards, gem.getItemOreName());
         }
     }

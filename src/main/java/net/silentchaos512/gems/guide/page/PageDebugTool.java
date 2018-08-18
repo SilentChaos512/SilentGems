@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.guide.page;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,7 +13,6 @@ import net.silentchaos512.gems.util.ToolRandomizer;
 import net.silentchaos512.lib.guidebook.GuideBook;
 import net.silentchaos512.lib.guidebook.internal.GuiGuideBase;
 import net.silentchaos512.lib.guidebook.page.GuidePage;
-import net.silentchaos512.lib.util.StackHelper;
 
 public class PageDebugTool extends GuidePage {
 
@@ -64,7 +62,7 @@ public class PageDebugTool extends GuidePage {
       }
       // Fill in the remainder of the row.
       for (int i = 0; i < 7 - ModItems.tools.size() % 7; ++i) {
-        addItem(gui, startX, startY, StackHelper.empty());
+        addItem(gui, startX, startY, ItemStack.EMPTY);
       }
       // Broken tools.
       for (Item item : ModItems.tools) {

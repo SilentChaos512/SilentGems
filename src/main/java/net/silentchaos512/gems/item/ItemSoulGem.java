@@ -21,7 +21,6 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.entity.EntityEnderSlime;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.soul.EnumSoulElement;
-import net.silentchaos512.lib.util.StackHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -157,7 +156,7 @@ public class ItemSoulGem extends Item {
 
     @Nullable
     public Soul getSoul(ItemStack soulGem) {
-        if (StackHelper.isEmpty(soulGem) || !soulGem.hasTagCompound()) {
+        if (soulGem.isEmpty() || !soulGem.hasTagCompound()) {
             return null;
         }
         return idToSoul.get(soulGem.getTagCompound().getString(NBT_SOUL));
@@ -201,10 +200,10 @@ public class ItemSoulGem extends Item {
     public String getItemStackDisplayName(ItemStack stack) {
         Soul soul = getSoul(stack);
         if (soul == null) {
-            return getTranslationKey(stack);
+            return SilentGems.i18n.translatedName(this);
         }
 
-        if (StackHelper.isValid(soul.matchStack)) {
+        if (!soul.matchStack.isEmpty()) {
             return SilentGems.i18n.subText(this, "name_proper", soul.matchStack.getDisplayName());
         } else {
             String name = "entity." + soul.id + ".name";

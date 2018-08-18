@@ -1,7 +1,5 @@
 package net.silentchaos512.gems.tile;
 
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -12,14 +10,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosProvider;
 import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.lib.tile.TileInventorySL;
-import net.silentchaos512.lib.util.StackHelper;
+
+import java.util.List;
 
 public class TileChaosPylon extends TileInventorySL implements ITickable, IChaosProvider {
 
@@ -126,7 +124,7 @@ public class TileChaosPylon extends TileInventorySL implements ITickable, IChaos
 
   public ItemStack getFuel() {
 
-    return getSizeInventory() > 0 ? getStackInSlot(0) : StackHelper.empty();
+    return getSizeInventory() > 0 ? getStackInSlot(0) : ItemStack.EMPTY;
   }
 
   private void burnFuel() {
@@ -139,12 +137,12 @@ public class TileChaosPylon extends TileInventorySL implements ITickable, IChaos
     }
 
     if (burnTimeRemaining <= 0 && getCharge() < getMaxCharge()) {
-      if (StackHelper.isValid(getFuel())) {
+      if (!getFuel().isEmpty()) {
         int fuelBurnTime = TileEntityFurnace.getItemBurnTime(getFuel());
         if (fuelBurnTime > 0) {
           currentItemBurnTime = burnTimeRemaining = fuelBurnTime;
           decrStackSize(0, 1);
-          if (StackHelper.isEmpty(getFuel()))
+          if (getFuel().isEmpty())
             setInventorySlotContents(0, getFuel().getItem().getContainerItem(getFuel()));
           else
             setInventorySlotContents(0, getFuel());

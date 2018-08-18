@@ -71,7 +71,6 @@ public class SGearStatHandler {
             float chargeability = CHARGEABILITY.compute(0, event.getPart().getStatModifiers(CHARGEABILITY));
             if (chargeability == 0) chargeability = 1;
             float chargeLevel = chargeability * supercharged;
-            SilentGems.logHelper.debug(chargeability, chargeLevel);
 
             for (int i = 0; i < event.getModifiers().size(); ++i) {
                 StatInstance instance = event.getModifiers().get(i);

@@ -1,7 +1,6 @@
 package net.silentchaos512.gems.item.tool;
 
 import com.google.common.collect.Multimap;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -10,37 +9,32 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.*;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.ItemShield;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ToolHelper;
-import net.silentchaos512.lib.registry.IRegistryObject;
+import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.RecipeMaker;
-import net.silentchaos512.lib.util.ItemHelper;
-import net.silentchaos512.lib.util.StackHelper;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
 
-public class ItemGemShield extends ItemShield implements IRegistryObject, ITool {
-
+public class ItemGemShield extends ItemShield implements ITool, IAddRecipes {
     public ItemGemShield() {
-
         setNoRepair();
     }
 
     public boolean shouldBlockDamage(EntityLivingBase entityLiving) {
-
         if (!(entityLiving instanceof EntityPlayer))
             return false;
 
@@ -52,9 +46,7 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
     }
 
     @Override
-    public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot,
-                                                                     ItemStack stack) {
-
+    public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
         return ToolHelper.getAttributeModifiers(slot, stack);
     }
 
@@ -63,15 +55,13 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
     // ================
 
     public ConfigOptionToolClass getConfig() {
-
         return GemsConfig.shield;
     }
 
     @Override
     public ItemStack constructTool(ItemStack rod, ItemStack... materials) {
-
         if (getConfig().isDisabled)
-            return StackHelper.empty();
+            return ItemStack.EMPTY;
 
         if (materials.length == 1)
             return constructTool(rod, materials[0], materials[0], materials[0]);
@@ -80,37 +70,31 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
 
     @Override
     public float getMeleeDamage(ItemStack tool) {
-
         return Math.max(0, (getMeleeDamageModifier() + ToolHelper.getMeleeDamage(tool)) / 2);
     }
 
     @Override
     public float getMagicDamage(ItemStack tool) {
-
         return 0.0f;
     }
 
     @Override
     public float getMeleeDamageModifier() {
-
         return -4.0f;
     }
 
     @Override
     public float getMagicDamageModifier() {
-
         return 0.0f;
     }
 
     @Override
     public float getMeleeSpeedModifier() {
-
         return -3.2f;
     }
 
     @Override
     public void addRecipes(RecipeMaker recipes) {
-
         if (getConfig().isDisabled)
             return;
 
@@ -118,17 +102,11 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
         ToolHelper.addExampleRecipe(this, EnumMaterialTier.values(), lines, 'w', "plankWood");
     }
 
-    @Override
-    public void addOreDict() {
-
-    }
-
     // ========================
     // = ItemShield overrides =
     // ========================
 
     public EnumAction getItemUseAction(ItemStack stack) {
-
         return ToolHelper.isBroken(stack) ? EnumAction.NONE : EnumAction.BLOCK;
     }
 
@@ -138,123 +116,53 @@ public class ItemGemShield extends ItemShield implements IRegistryObject, ITool 
 
     @Override
     public int getMaxDamage(ItemStack stack) {
-
         return ToolHelper.getMaxDamage(stack);
     }
 
     @Override
-    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack,
-                                               boolean slotChanged) {
-
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return ToolRenderHelper.instance.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
     }
 
     @Override
     public boolean hasEffect(ItemStack stack) {
-
         return ToolRenderHelper.instance.hasEffect(stack);
     }
 
     @Override
     public EnumRarity getRarity(ItemStack stack) {
-
         return ToolRenderHelper.instance.getRarity(stack);
     }
 
     @Override
     public int getItemEnchantability(ItemStack stack) {
-
         return ToolHelper.getItemEnchantability(stack);
     }
 
     @Override
-    public void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot,
-                         boolean isSelected) {
-
+    public void onUpdate(ItemStack tool, World world, Entity entity, int itemSlot, boolean isSelected) {
         ToolHelper.onUpdate(tool, world, entity, itemSlot, isSelected);
     }
 
     @Override
     public boolean onEntityItemUpdate(EntityItem entityItem) {
-
         return ToolHelper.onEntityItemUpdate(entityItem);
     }
 
     @Override
     public boolean isShield(ItemStack stack, @Nullable EntityLivingBase entity) {
-
         return true;
     }
-
-    // =============================
-    // = IRegistryObject overrides =
-    // =============================
-
-    @Override
-    public String getName() {
-
-        return Names.SHIELD;
-    }
-
-    @Override
-    public String getFullName() {
-
-        return getModId() + ":" + getName();
-    }
-
-    @Override
-    public String getModId() {
-
-        return SilentGems.MODID;
-    }
-
-    @Override
-    public void getModels(Map<Integer, ModelResourceLocation> models) {
-
-        models.put(0, new ModelResourceLocation(getFullName().toLowerCase(), "inventory"));
-    }
-
-    @Override
-    public boolean registerModels() {
-
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    // =================================
-    // Cross Compatibility (MC 10/11/12)
-    // =================================
 
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack stack, World world, List list, ITooltipFlag flag) {
-
         ToolRenderHelper.getInstance().addInformation(stack, world, list, flag);
-    }
-
-    // getSubItems 1.10.2
-    public void func_150895_a(Item item, CreativeTabs tab, List<ItemStack> list) {
-
-        clGetSubItems(item, tab, list);
-    }
-
-    // getSubItems 1.11.2
-    public void func_150895_a(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
-
-        clGetSubItems(item, tab, list);
     }
 
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
-
-        clGetSubItems(this, tab, list);
-    }
-
-    protected void clGetSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-
-        if (!ItemHelper.isInCreativeTab(item, tab))
-            return;
-
-        list.addAll(ToolHelper.getSubItems(item, 3));
+        if (!isInCreativeTab(tab)) return;
+        list.addAll(ToolHelper.getSubItems(this, 3));
     }
 }

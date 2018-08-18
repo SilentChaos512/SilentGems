@@ -19,7 +19,6 @@ import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageSetFlight;
-import net.silentchaos512.lib.util.LocalizationHelper;
 
 public class ChaosBuff {
 

@@ -1,40 +1,36 @@
 package net.silentchaos512.gems.network.message;
 
-import com.google.common.base.Predicate;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.silentchaos512.gems.compat.BaublesCompat;
-import net.silentchaos512.gems.event.ServerTickHandler;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.network.Message;
-import net.silentchaos512.lib.collection.ItemStackList;
+import net.silentchaos512.lib.event.ServerTicks;
 import net.silentchaos512.lib.util.PlayerHelper;
 
+import java.util.function.Predicate;
+
 public class MessageKeyReturnHome extends Message {
+    public MessageKeyReturnHome() {
+    }
 
-  public MessageKeyReturnHome() {
+    @Override
+    public IMessage handleMessage(MessageContext ctx) {
+        if (ctx.side != Side.SERVER)
+            return null;
 
-  }
+        Predicate<ItemStack> predicate = s -> s.getItem() == ModItems.returnHomeCharm;
+        EntityPlayer player = ctx.getServerHandler().player;
+        NonNullList<ItemStack> stacks = BaublesCompat.getBaubles(player, predicate);
+        stacks.addAll(PlayerHelper.getNonEmptyStacks(player, predicate));
 
-  @Override
-  public IMessage handleMessage(MessageContext ctx) {
+        if (!stacks.isEmpty())
+            ServerTicks.scheduleAction(() -> ModItems.returnHomeCharm.tryTeleportPlayer(stacks.get(0), player));
 
-    if (ctx.side != Side.SERVER)
-      return null;
-
-    Predicate<ItemStack> predicate = s -> s.getItem() == ModItems.returnHomeCharm;
-    EntityPlayer player = ctx.getServerHandler().player;
-    ItemStackList stacks = BaublesCompat.getBaubles(player, predicate);
-    stacks.addAll(PlayerHelper.getNonEmptyStacks(player, predicate));
-
-    if (stacks.isEmpty())
-      return null;
-
-    ServerTickHandler.schedule(() -> ModItems.returnHomeCharm.tryTeleportPlayer(stacks.get(0), player));
-
-    return null;
-  }
+        return null;
+    }
 }

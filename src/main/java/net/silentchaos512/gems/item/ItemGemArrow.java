@@ -24,7 +24,6 @@ import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.entity.EntityGemArrow;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.util.ToolHelper;
-import net.silentchaos512.lib.util.StackHelper;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -83,7 +82,7 @@ public class ItemGemArrow extends ItemArrow {
     }
 
     public double getBaseDamage(ItemStack stack) {
-        if (StackHelper.isEmpty(stack) || !stack.hasTagCompound() || !stack.getTagCompound().hasKey(NBT_STATS)) {
+        if (stack.isEmpty() || !stack.hasTagCompound() || !stack.getTagCompound().hasKey(NBT_STATS)) {
             return 2.0;
         }
         float damage = stack.getTagCompound().getCompoundTag(NBT_STATS).getFloat(NBT_DAMAGE);
@@ -105,10 +104,10 @@ public class ItemGemArrow extends ItemArrow {
 
         for (ToolPartMain part : ToolPartRegistry.getMains()) {
             ItemStack main = part.getCraftingStack();
-            if (StackHelper.isValid(main) && !part.isBlacklisted(main)) {
+            if (!main.isEmpty() && !part.isBlacklisted(main)) {
                 ItemStack rod = part.getTier() == EnumMaterialTier.SUPER ? rodGold : rodWood;
                 ItemStack arrow = construct(main, rod);
-                if (StackHelper.isValid(arrow)) {
+                if (!arrow.isEmpty()) {
                     arrow.setCount(1);
                     list.add(arrow);
                 }

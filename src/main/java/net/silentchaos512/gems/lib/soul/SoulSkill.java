@@ -489,7 +489,6 @@ public class SoulSkill {
 
         for (SoulSkill skill : candidates.keySet()) {
             double value = -Math.log(rand.nextFloat() / candidates.get(skill));
-            SilentGems.logHelper.debug(skill.id, candidates.get(skill), value, bestValue);
 
             if (value > bestValue) {
                 bestValue = value;
