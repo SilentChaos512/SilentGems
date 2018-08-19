@@ -33,6 +33,6 @@
     },
     "availability": {
         "enabled": true,
-        "tier": 2
+        "tier": 3
     }
 }
