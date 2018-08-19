@@ -1,0 +1,25 @@
+{
+  "pattern": [
+    "g g",
+    "oto",
+    "ooo"
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemOpal"
+    },
+    "o": {
+      "item": "minecraft:ice"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "silentgems:iceaspect"
+  },
+  "type": "silentgems:enchantment_token"
+}

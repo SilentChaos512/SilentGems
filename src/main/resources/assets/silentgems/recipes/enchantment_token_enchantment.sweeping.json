@@ -1,0 +1,25 @@
+{
+  "pattern": [
+    "g g",
+    "oto",
+    "ooo"
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemMoldavite"
+    },
+    "o": {
+      "item": "minecraft:reeds"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "minecraft:sweeping"
+  },
+  "type": "silentgems:enchantment_token"
+}

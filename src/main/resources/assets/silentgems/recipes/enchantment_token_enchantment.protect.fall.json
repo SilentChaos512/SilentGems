@@ -1,0 +1,26 @@
+{
+  "pattern": [
+    "g g",
+    " t ",
+    "o o"
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemMalachite"
+    },
+    "o": {
+      "item": "silentgems:craftingmaterial",
+      "data": 16
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "minecraft:feather_falling"
+  },
+  "type": "silentgems:enchantment_token"
+}

@@ -1,0 +1,25 @@
+{
+  "pattern": [
+    "g g",
+    "oto",
+    "o o"
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemAmethyst"
+    },
+    "o": {
+      "item": "minecraft:spider_eye"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "minecraft:bane_of_arthropods"
+  },
+  "type": "silentgems:enchantment_token"
+}

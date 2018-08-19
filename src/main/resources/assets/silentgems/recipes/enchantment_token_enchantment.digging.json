@@ -1,0 +1,26 @@
+{
+  "pattern": [
+    "g g",
+    "oto",
+    "o o"
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemBeryl"
+    },
+    "o": {
+      "type": "forge:ore_dict",
+      "ore": "dustGlowstone"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "minecraft:efficiency"
+  },
+  "type": "silentgems:enchantment_token"
+}

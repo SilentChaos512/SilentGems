@@ -1,0 +1,25 @@
+{
+  "pattern": [
+    "g g",
+    " t ",
+    "o o"
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemJasper"
+    },
+    "o": {
+      "item": "minecraft:piston"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "minecraft:punch"
+  },
+  "type": "silentgems:enchantment_token"
+}

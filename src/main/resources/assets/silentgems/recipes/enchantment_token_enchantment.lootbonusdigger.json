@@ -1,0 +1,26 @@
+{
+  "pattern": [
+    "g g",
+    " t ",
+    "ooo"
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemGoldenBeryl"
+    },
+    "o": {
+      "type": "forge:ore_dict",
+      "ore": "gemDiamond"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "minecraft:fortune"
+  },
+  "type": "silentgems:enchantment_token"
+}

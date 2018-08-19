@@ -1,0 +1,25 @@
+{
+  "pattern": [
+    "g g",
+    "oto",
+    "ooo"
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemRuby"
+    },
+    "o": {
+      "item": "minecraft:flint"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "minecraft:sharpness"
+  },
+  "type": "silentgems:enchantment_token"
+}

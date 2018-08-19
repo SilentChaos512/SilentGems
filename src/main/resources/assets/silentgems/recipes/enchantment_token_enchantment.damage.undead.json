@@ -1,0 +1,25 @@
+{
+  "pattern": [
+    "g g",
+    "oto",
+    "ooo"
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemPeridot"
+    },
+    "o": {
+      "item": "minecraft:rotten_flesh"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "minecraft:smite"
+  },
+  "type": "silentgems:enchantment_token"
+}

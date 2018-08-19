@@ -1,0 +1,25 @@
+{
+  "pattern": [
+    "g g",
+    " t ",
+    " o "
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemBlackDiamond"
+    },
+    "o": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "minecraft:mending"
+  },
+  "type": "silentgems:enchantment_token"
+}

@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.item;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -29,6 +30,7 @@ import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.recipe.RecipeJsonHell;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
@@ -387,6 +389,19 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
 
     @Override
     public void addRecipes(RecipeMaker recipes) {
+        // Add custom serializer to allow enchantment token recipe JSONs
+        SilentGems.registry.getRecipeMaker().setRecipeSerializer(this, (result, components) -> {
+            JsonObject json = RecipeJsonHell.ShapedSerializer.INSTANCE.serialize(result, components);
+            json.remove("type");
+            json.addProperty("type", "silentgems:enchantment_token");
+            Enchantment enchantment = this.getSingleEnchantment(result);
+            if (enchantment != null) {
+                SilentGems.logHelper.debug(enchantment.getRegistryName().toString());
+                json.getAsJsonObject("result").addProperty("enchantment", enchantment.getRegistryName().toString());
+            }
+            return json;
+        });
+
         // Blank
         recipes.addShapedOre("enchantment_token_blank", new ItemStack(this, 12, BLANK_META), "ggg",
                 "lcl", "ggg", 'g', "ingotGold", 'l', "gemLapis", 'c', "gemChaos");

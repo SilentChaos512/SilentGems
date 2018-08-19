@@ -1,0 +1,5 @@
+{
+    "recipes": {
+        "enchantment_token": "net.silentchaos512.gems.recipe.EnchantmentTokenRecipeFactory"
+    }
+}

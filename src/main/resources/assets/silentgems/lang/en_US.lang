@@ -1023,7 +1023,7 @@ entity.enderslime.name=Ender Slime
 
 # Enchantments
 
-enchantment.silentgems.gravity=gravity
+enchantment.silentgems.gravity=Gravity
 enchantment.silentgems.iceaspect=Ice Aspect
 enchantment.silentgems.lifesteal=Life Steal
 enchantment.silentgems.lightningaspect=Lightning Aspect

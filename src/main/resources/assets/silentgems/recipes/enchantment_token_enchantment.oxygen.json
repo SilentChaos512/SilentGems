@@ -1,0 +1,26 @@
+{
+  "pattern": [
+    "g g",
+    " t ",
+    " o "
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemTanzanite"
+    },
+    "o": {
+      "item": "minecraft:fish",
+      "data": 3
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "minecraft:respiration"
+  },
+  "type": "silentgems:enchantment_token"
+}
