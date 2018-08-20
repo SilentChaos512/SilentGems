@@ -1,3 +1,6 @@
+2.8.2
+Fixed: Crash when Silent Gear is not installed (#327)
+
 2.8.1
 Updated for Silent Lib 3.0.0 (hopefully the last compatibility-breaking update for a while)
 Added: Enchantment tokens support JSON recipes now

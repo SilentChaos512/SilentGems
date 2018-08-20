@@ -23,7 +23,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.silentchaos512.gear.api.event.GetStatModifierEvent;
 import net.silentchaos512.gear.api.stats.CommonItemStats;
@@ -39,7 +38,6 @@ import java.util.function.ToDoubleFunction;
  * Handles the {@link GetStatModifierEvent} to apply stat bonuses to Silent Gear materials with the
  * Supercharged enchantment. Does not work with the old Silent's Gems tool system.
  */
-@Mod.EventBusSubscriber
 public class SGearStatHandler {
     public static final ItemStat CHARGEABILITY = new ItemStat(new ResourceLocation(SilentGems.MODID, "chargeability"),
             1f, 0f, 100f, false, TextFormatting.GOLD).setSynergyApplies(false).setAffectedByGrades(false).setHidden(true);
@@ -63,7 +61,7 @@ public class SGearStatHandler {
                     .build();
 
     @SubscribeEvent
-    public static void onGetPartStats(GetStatModifierEvent event) {
+    public void onGetPartStats(GetStatModifierEvent event) {
         ItemStack stack = event.getPart().getCraftingItem();
         int supercharged = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.supercharged, stack);
 
@@ -85,10 +83,6 @@ public class SGearStatHandler {
                 }
             }
         }
-    }
-
-    public static void init() {
-        // NO-OP
     }
 
     private static class ChargedProperties {
