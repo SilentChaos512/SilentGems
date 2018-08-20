@@ -396,7 +396,6 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
             json.addProperty("type", "silentgems:enchantment_token");
             Enchantment enchantment = this.getSingleEnchantment(result);
             if (enchantment != null) {
-                SilentGems.logHelper.debug(enchantment.getRegistryName().toString());
                 json.getAsJsonObject("result").addProperty("enchantment", enchantment.getRegistryName().toString());
             }
             return json;

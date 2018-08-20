@@ -11,7 +11,6 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.lib.util.EntityHelper;
 
 import java.util.List;
 
@@ -40,13 +39,14 @@ public class ToolRandomizer {
 
   private ToolRandomizer() {
 
-    for (String name : EntityHelper.getEntityNameList()) {
-      String entityName = "entity." + name + ".name";
-      String localizedName = SilentGems.i18n.translate(entityName);
-      if (!localizedName.endsWith(".name")) {
-        nameNouns.add(localizedName.toLowerCase());
-      }
-    }
+    // FIXME: Server text translation for entity names
+//    for (String name : EntityHelper.getEntityNameList()) {
+//      String entityName = "entity." + name + ".name";
+//      String localizedName = SilentGems.i18n.translate(entityName);
+//      if (!localizedName.endsWith(".name")) {
+//        nameNouns.add(localizedName.toLowerCase());
+//      }
+//    }
   }
 
   public ItemStack randomize(ItemStack tool) {
