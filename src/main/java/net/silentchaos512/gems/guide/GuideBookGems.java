@@ -376,6 +376,11 @@ public class GuideBookGems extends GuideBook {
         new GuideChapter(this, "torchBandolier", entryItems, chTorchBandolier,
                 new PageTextOnly(this, 1),
                 new PageTextOnly(this, 2));
+        // Legacy items
+        ItemStack chLegacyItems = EnumGem.getRandom().getItemSuper();
+        new GuideChapter(this, "legacyItems", entryItems, chLegacyItems,
+                new PageTextOnly(this, 1),
+                new PageTextOnly(this, 2));
 
         /*
          * Souls and Skills

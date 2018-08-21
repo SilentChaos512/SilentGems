@@ -1,3 +1,6 @@
+2.8.3
+Added: Guide book chapter about legacy items
+
 2.8.2
 Fixed: Crash when Silent Gear is not installed (#327)
 
