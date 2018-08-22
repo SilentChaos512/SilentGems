@@ -10,82 +10,82 @@
     "gem": {
       "ruby": {
         "textures": {
-          "all": "silentgems:blocks/gemblock0"
+          "all": "silentgems:blocks/gem/ruby_block"
         }
       },
       "garnet": {
         "textures": {
-          "all": "silentgems:blocks/gemblock1"
+          "all": "silentgems:blocks/gem/garnet_block"
         }
       },
       "topaz": {
         "textures": {
-          "all": "silentgems:blocks/gemblock2"
+          "all": "silentgems:blocks/gem/topaz_block"
         }
       },
       "amber": {
         "textures": {
-          "all": "silentgems:blocks/gemblock3"
+          "all": "silentgems:blocks/gem/amber_block"
         }
       },
       "heliodor": {
         "textures": {
-          "all": "silentgems:blocks/gemblock4"
+          "all": "silentgems:blocks/gem/heliodor_block"
         }
       },
       "peridot": {
         "textures": {
-          "all": "silentgems:blocks/gemblock5"
+          "all": "silentgems:blocks/gem/peridot_block"
         }
       },
       "beryl": {
         "textures": {
-          "all": "silentgems:blocks/gemblock6"
+          "all": "silentgems:blocks/gem/green_sapphire_block"
         }
       },
       "indicolite": {
         "textures": {
-          "all": "silentgems:blocks/gemblock7"
+          "all": "silentgems:blocks/gem/indicolite_block"
         }
       },
       "aquamarine": {
         "textures": {
-          "all": "silentgems:blocks/gemblock8"
+          "all": "silentgems:blocks/gem/aquamarine_block"
         }
       },
       "sapphire": {
         "textures": {
-          "all": "silentgems:blocks/gemblock9"
+          "all": "silentgems:blocks/gem/sapphire_block"
         }
       },
       "iolite": {
         "textures": {
-          "all": "silentgems:blocks/gemblock10"
+          "all": "silentgems:blocks/gem/iolite_block"
         }
       },
       "amethyst": {
         "textures": {
-          "all": "silentgems:blocks/gemblock11"
+          "all": "silentgems:blocks/gem/amethyst_block"
         }
       },
       "agate": {
         "textures": {
-          "all": "silentgems:blocks/gemblock12"
+          "all": "silentgems:blocks/gem/agate_block"
         }
       },
       "morganite": {
         "textures": {
-          "all": "silentgems:blocks/gemblock13"
+          "all": "silentgems:blocks/gem/morganite_block"
         }
       },
       "onyx": {
         "textures": {
-          "all": "silentgems:blocks/gemblock14"
+          "all": "silentgems:blocks/gem/onyx_block"
         }
       },
       "opal": {
         "textures": {
-          "all": "silentgems:blocks/gemblock15"
+          "all": "silentgems:blocks/gem/opal_block"
         }
       }
     }
