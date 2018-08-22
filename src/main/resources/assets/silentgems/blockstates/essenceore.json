@@ -10,12 +10,12 @@
     "gem": {
       "chaos": {
         "textures": {
-          "all": "silentgems:blocks/essenceore0"
+          "all": "silentgems:blocks/ore/chaos_ore"
         }
       },
       "ender": {
         "textures": {
-          "all": "silentgems:blocks/essenceore1"
+          "all": "silentgems:blocks/ore/ender_ore"
         }
       }
     }

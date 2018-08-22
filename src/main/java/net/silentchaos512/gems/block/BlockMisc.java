@@ -23,11 +23,17 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -39,13 +45,15 @@ import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
 
+import java.util.Locale;
+
 public class BlockMisc extends BlockMetaSubtypes implements ICustomModel, IAddRecipes {
     public enum Type implements IStringSerializable {
-        CHAOS_ESSENCE, CHAOS_ESSENCE_ENRICHED, CHAOS_ESSENCE_CRYSTALLIZED, CHAOS_COAL;
+        CHAOS_ESSENCE, CHAOS_ESSENCE_ENRICHED, CHAOS_ESSENCE_CRYSTALLIZED, CHAOS_COAL, CHAOS_IRON, ENDER_ESSENCE;
 
         @Override
         public String getName() {
-            return name().toLowerCase();
+            return name().toLowerCase(Locale.ROOT);
         }
     }
     private static final PropertyEnum<Type> VARIANT = PropertyEnum.create("type", Type.class);
@@ -63,15 +71,27 @@ public class BlockMisc extends BlockMetaSubtypes implements ICustomModel, IAddRe
         ItemStack chaosEssence = getStack(Type.CHAOS_ESSENCE, 1);
         ItemStack chaosEssenceCrystallized = getStack(Type.CHAOS_ESSENCE_CRYSTALLIZED, 1);
         ItemStack chaosEssenceEnriched = getStack(Type.CHAOS_ESSENCE_ENRICHED, 1);
+        ItemStack chaosIron = getStack(Type.CHAOS_IRON, 1);
+        ItemStack enderEssence = getStack(Type.ENDER_ESSENCE, 1);
 
         recipes.addCompression("chaos_essence_block", ModItems.craftingMaterial.chaosEssence, chaosEssence, 9);
         recipes.addCompression("chaos_essence_enriched_block", ModItems.craftingMaterial.chaosEssenceEnriched, chaosEssenceEnriched, 9);
         recipes.addCompression("chaos_essence_crystallized_block", ModItems.craftingMaterial.chaosEssenceCrystallized, chaosEssenceCrystallized, 9);
         recipes.addCompression("chaos_coal_block", ModItems.craftingMaterial.chaosCoal, chaosCoal, 9);
+        recipes.addCompression("chaos_iron_block", ModItems.craftingMaterial.chaosIron, chaosIron, 9);
+        recipes.addCompression("ender_essence_block", ModItems.craftingMaterial.enderEssence, enderEssence, 9);
     }
 
     public ItemStack getStack(Type type, int count) {
         return new ItemStack(this, count, type.ordinal());
+    }
+
+    @Override
+    public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
+        if (entityIn instanceof EntityLivingBase && worldIn.getBlockState(pos) == this.getStateFromMeta(Type.ENDER_ESSENCE.ordinal())) {
+            ((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 100, 1));
+        }
+        super.onEntityWalk(worldIn, pos, entityIn);
     }
 
     @Override

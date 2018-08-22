@@ -1,0 +1,14 @@
+{
+  "ingredients": [
+    {
+      "item": "silentgems:miscblock",
+      "data": 4
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "result": {
+    "item": "silentgems:craftingmaterial",
+    "data": 30,
+    "count": 9
+  }
+}

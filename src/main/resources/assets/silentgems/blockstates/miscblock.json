@@ -10,22 +10,32 @@
     "type": {
       "chaos_essence": {
         "textures": {
-          "all": "silentgems:blocks/chaosessenceblock"
+          "all": "silentgems:blocks/misc/chaos_essence_block"
         }
       },
       "chaos_essence_enriched": {
         "textures": {
-          "all": "silentgems:blocks/chaosessenceblockenriched"
+          "all": "silentgems:blocks/misc/enriched_chaos_essence_block"
         }
       },
       "chaos_essence_crystallized": {
         "textures": {
-          "all": "silentgems:blocks/chaosessenceblockcrystallized"
+          "all": "silentgems:blocks/misc/crystallized_chaos_essence_block"
         }
       },
       "chaos_coal": {
         "textures": {
-          "all": "silentgems:blocks/chaoscoalblock"
+          "all": "silentgems:blocks/misc/chaos_coal_block"
+        }
+      },
+      "chaos_iron": {
+        "textures": {
+          "all": "silentgems:blocks/misc/chaos_iron_block"
+        }
+      },
+      "ender_essence": {
+        "textures": {
+          "all": "silentgems:blocks/misc/ender_essence_block"
         }
       }
     }

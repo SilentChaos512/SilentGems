@@ -1,5 +1,8 @@
 2.8.3
 Added: Guide book chapter about legacy items
+Added: Chaos iron and ender essence blocks
+Added: Walking on ender essence blocks gives a levitation effect
+Changed: Updated textures for gem blocks, essence ores, and misc blocks (essence, chaos coal)
 
 2.8.2
 Fixed: Crash when Silent Gear is not installed (#327)

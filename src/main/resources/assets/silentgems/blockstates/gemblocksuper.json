@@ -40,17 +40,17 @@
       },
       "beryl": {
         "textures": {
-          "all": "silentgems:blocks/gem/green_sapphire_b
+          "all": "silentgems:blocks/gem/green_sapphire_block"
         }
       },
       "indicolite": {
         "textures": {
-          "all": "silentgems:blocks/gem/indicolite_block
+          "all": "silentgems:blocks/gem/indicolite_block"
         }
       },
       "aquamarine": {
         "textures": {
-          "all": "silentgems:blocks/gem/aquamarine_block
+          "all": "silentgems:blocks/gem/aquamarine_block"
         }
       },
       "sapphire": {

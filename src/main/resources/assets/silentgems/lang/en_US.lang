@@ -434,10 +434,13 @@ tile.silentgems.materialgrader.name=Material Grader
 tile.silentgems.materialgrader.desc1=Assigns random grades to tool crafting
 tile.silentgems.materialgrader.desc2=materials, giving stat bonuses.
 
-tile.silentgems.miscblock0.name=Chaos Essence Block
-tile.silentgems.miscblock1.name=Enriched Chaos Essence Block
-tile.silentgems.miscblock2.name=Crystallized Chaos Essence Block
-tile.silentgems.miscblock3.name=Chaos Coal Block
+tile.silentgems.miscblock0.name=Block of Chaos Essence
+tile.silentgems.miscblock1.name=Block of Enriched Chaos Essence
+tile.silentgems.miscblock2.name=Block of Crystallized Chaos Essence
+tile.silentgems.miscblock3.name=Block of Chaos Coal
+tile.silentgems.miscblock4.name=Block of Chaos Iron
+tile.silentgems.miscblock5.name=Block of Ender Essence
+
 
 tile.silentgems.multi_gem_ore_classic.name=Multi-Gem Ore (Classic)
 tile.silentgems.multi_gem_ore_dark.name=Multi-Gem Ore (Dark)
