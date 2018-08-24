@@ -4,7 +4,6 @@ import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,16 +17,12 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.silentchaos512.gems.api.IArmor;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.stats.CommonItemStats;
 import net.silentchaos512.gems.compat.VeinMinerCompat;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.ModEntities;
 import net.silentchaos512.gems.init.*;
-import net.silentchaos512.gems.item.tool.ItemGemShield;
-import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.part.ModParts;
 import net.silentchaos512.gems.lib.soul.SoulSkill;
@@ -41,13 +36,11 @@ import net.silentchaos512.lib.util.LogHelper;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
-import java.util.function.Consumer;
 
 @Mod(modid = SilentGems.MODID,
         name = SilentGems.MOD_NAME,
         version = SilentGems.VERSION,
         dependencies = SilentGems.DEPENDENCIES,
-        acceptedMinecraftVersions = SilentGems.ACCEPTED_MC_VERSIONS,
         guiFactory = "net.silentchaos512.gems.client.gui.config.GuiFactorySilentGems")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -56,12 +49,11 @@ public class SilentGems implements IModBase {
     public static final String MODID = "silentgems";
     public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
     public static final String MOD_NAME = "Silent's Gems";
-    public static final String VERSION = "2.8.2";
-    public static final String VERSION_SILENTLIB = "3.0.0";
+    public static final String VERSION = "2.8.3";
+    public static final String VERSION_SILENTLIB = "3.0.1";
     public static final int BUILD_NUM = 0;
     public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
             + "after:baubles;after:enderio;after:enderzoo;after:veinminer;after:silentgear";
-    public static final String ACCEPTED_MC_VERSIONS = "[1.12,1.12.2]";
     public static final String RESOURCE_PREFIX = MODID + ":";
 
     static {
@@ -75,35 +67,7 @@ public class SilentGems implements IModBase {
     public static final LogHelper logHelper = new LogHelper(MOD_NAME, BUILD_NUM);
     public static final I18nHelper i18n = new I18nHelper(MODID, logHelper, true);
 
-    public static final SRegistry registry = new SRegistry() {
-        @Override
-        public <T extends Block> T registerBlock(T block, String key, ItemBlock itemBlock) {
-            super.registerBlock(block, key, itemBlock);
-            block.setCreativeTab(GemsCreativeTabs.BLOCKS);
-            return block;
-        }
-
-        @Override
-        public <T extends Item> T registerItem(T item, String key) {
-            super.registerItem(item, key);
-            if (item instanceof ITool) {
-                // Works with repair packets.
-                GemsConfig.NODE_REPAIR_WHITELIST.add(item);
-
-                // Not adding shields to tools tab and shields don't use custom model.
-                if (!(item instanceof ItemGemShield)) {
-                    item.setCreativeTab(GemsCreativeTabs.TOOLS);
-                    ModItems.tools.add(item);
-                }
-            } else if (item instanceof IArmor) {
-                GemsConfig.NODE_REPAIR_WHITELIST.add(item);
-                item.setCreativeTab(GemsCreativeTabs.TOOLS);
-            } else {
-                item.setCreativeTab(GemsCreativeTabs.MATERIALS);
-            }
-            return item;
-        }
-    };
+    public static final SRegistry registry = new SRegistry();
 
     @Instance(MODID)
     public static SilentGems instance;
@@ -114,18 +78,18 @@ public class SilentGems implements IModBase {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         registry.setMod(this);
-        registry.getRecipeMaker().setJsonHellMode(isDevBuild());
+        registry.getRecipeMaker().setJsonHellMode(this.isDevBuild());
 
         CommonItemStats.init();
         ToolHelper.init();
 
         GemsConfig.INSTANCE.init(event.getSuggestedConfigurationFile());
 
-        registry.addRegistrationHandler((Consumer<SRegistry>) ModEnchantments::registerAll, Enchantment.class);
-        registry.addRegistrationHandler((Consumer<SRegistry>) ModBlocks::registerAll, Block.class);
-        registry.addRegistrationHandler((Consumer<SRegistry>) ModItems::registerAll, Item.class);
-        registry.addRegistrationHandler((Consumer<SRegistry>) ModPotions::registerAll, Potion.class);
-        registry.addRegistrationHandler((Consumer<SRegistry>) ModRecipes::registerAll, IRecipe.class);
+        registry.addRegistrationHandler(ModEnchantments::registerAll, Enchantment.class);
+        registry.addRegistrationHandler(ModBlocks::registerAll, Block.class);
+        registry.addRegistrationHandler(ModItems::registerAll, Item.class);
+        registry.addRegistrationHandler(ModPotions::registerAll, Potion.class);
+        registry.addRegistrationHandler(ModRecipes::registerAll, IRecipe.class);
         ModParts.init();
         SoulSkill.init();
 

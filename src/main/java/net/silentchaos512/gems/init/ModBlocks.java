@@ -3,6 +3,7 @@ package net.silentchaos512.gems.init;
 import net.minecraft.item.ItemBlock;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileTeleporter;
 import net.silentchaos512.lib.item.ItemBlockMetaSubtypes;
@@ -71,8 +72,11 @@ public class ModBlocks {
     public static final BlockChaosAltar chaosAltar = new BlockChaosAltar();
     public static final BlockChaosPylon chaosPylon = new BlockChaosPylon();
     public static final BlockPhantomLight phantomLight = new BlockPhantomLight();
+    public static final BlockSupercharger supercharger = new BlockSupercharger();
 
     public static void registerAll(SRegistry reg) {
+        reg.setDefaultCreativeTab(GemsCreativeTabs.BLOCKS);
+
         reg.registerBlock(gemOre, "gemore");
         reg.registerBlock(gemOreDark, "gemoredark");
         reg.registerBlock(gemOreLight, "gemorelight");

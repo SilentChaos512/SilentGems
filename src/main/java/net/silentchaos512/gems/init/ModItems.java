@@ -1,15 +1,13 @@
 package net.silentchaos512.gems.init;
 
-import com.google.common.collect.Lists;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.guide.GuideBookGems;
 import net.silentchaos512.gems.item.*;
 import net.silentchaos512.gems.item.armor.ItemArmorFrame;
@@ -22,7 +20,9 @@ import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemGuideBookSL;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.registry.SRegistry;
+import net.silentchaos512.lib.util.GameUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModItems {
@@ -79,13 +79,13 @@ public class ModItems {
     public static final ItemGemArmor gemLeggings = new ItemGemArmor(2, EntityEquipmentSlot.LEGS);
     public static final ItemGemArmor gemBoots = new ItemGemArmor(3, EntityEquipmentSlot.FEET);
 
-    public static final ToolRenderHelperBase toolRenderHelper = FMLCommonHandler.instance()
-            .getSide() == Side.CLIENT ? new ToolRenderHelper() : new ToolRenderHelperBase();
+    public static final ToolRenderHelperBase toolRenderHelper = GameUtil.isClient()
+            ? new ToolRenderHelper() : new ToolRenderHelperBase();
 
     // Guide Book
     public static final ItemGuideBookSL guideBook = new ItemGuideBookSL(new GuideBookGems());
 
-    public static final List<Item> tools = Lists.newArrayList(); // Filled by SRegistry override
+    public static final List<Item> tools = new ArrayList<>();
 
     public static void registerAll(SRegistry reg) {
         reg.registerItem(gem, Names.GEM).setCreativeTab(GemsCreativeTabs.MATERIALS);
@@ -102,7 +102,7 @@ public class ModItems {
         reg.registerItem(chaosGem, Names.CHAOS_GEM).setCreativeTab(GemsCreativeTabs.UTILITY);
         reg.registerItem(chaosRune, Names.CHAOS_RUNE).setCreativeTab(GemsCreativeTabs.UTILITY);
         reg.registerItem(armorFrame, Names.ARMOR_FRAME).setCreativeTab(GemsCreativeTabs.MATERIALS);
-        reg.registerItem(fluffyPuffSeeds, Names.FLUFFY_PUFF_SEEDS);
+        reg.registerItem(fluffyPuffSeeds, Names.FLUFFY_PUFF_SEEDS).setCreativeTab(GemsCreativeTabs.MATERIALS);
         reg.registerItem(fluffyPuff, Names.FLUFFY_PUFF).setCreativeTab(GemsCreativeTabs.MATERIALS);
         reg.registerItem(glowRoseFertilizier, Names.GLOW_ROSE_FERTILIZER).setCreativeTab(GemsCreativeTabs.MATERIALS);
         reg.registerItem(dye, Names.DYE).setCreativeTab(GemsCreativeTabs.MATERIALS);
@@ -117,29 +117,31 @@ public class ModItems {
         reg.registerItem(petSummoner, Names.PET_SUMMONER).setCreativeTab(GemsCreativeTabs.UTILITY);
         reg.registerItem(debugItem, Names.DEBUG_ITEM).setCreativeTab(GemsCreativeTabs.UTILITY);
 
+        reg.setDefaultCreativeTab(GemsCreativeTabs.TOOLS);
+
         reg.registerItem(arrow, Names.ARROW).setCreativeTab(GemsCreativeTabs.TOOLS);
 
         // Tools
-        reg.registerItem(sword, Names.SWORD);
-        reg.registerItem(dagger, Names.DAGGER);
-        reg.registerItem(katana, Names.KATANA);
-        reg.registerItem(machete, Names.MACHETE);
-        reg.registerItem(scepter, Names.SCEPTER);
-        reg.registerItem(tomahawk, Names.TOMAHAWK);
-        reg.registerItem(bow, Names.BOW).setCreativeTab(GemsCreativeTabs.TOOLS);
-        reg.registerItem(shield, Names.SHIELD).setCreativeTab(GemsCreativeTabs.TOOLS);
-        reg.registerItem(pickaxe, Names.PICKAXE);
-        reg.registerItem(shovel, Names.SHOVEL);
-        reg.registerItem(axe, Names.AXE);
-        reg.registerItem(paxel, Names.PAXEL);
-        reg.registerItem(hoe, Names.HOE);
-        reg.registerItem(sickle, Names.SICKLE);
+        registerTool(reg, sword, Names.SWORD);
+        registerTool(reg, dagger, Names.DAGGER);
+        registerTool(reg, katana, Names.KATANA);
+        registerTool(reg, machete, Names.MACHETE);
+        registerTool(reg, scepter, Names.SCEPTER);
+        registerTool(reg, tomahawk, Names.TOMAHAWK);
+        registerTool(reg, bow, Names.BOW);
+        registerTool(reg, shield, Names.SHIELD);
+        registerTool(reg, pickaxe, Names.PICKAXE);
+        registerTool(reg, shovel, Names.SHOVEL);
+        registerTool(reg, axe, Names.AXE);
+        registerTool(reg, paxel, Names.PAXEL);
+        registerTool(reg, hoe, Names.HOE);
+        registerTool(reg, sickle, Names.SICKLE);
 
         // Armor
-        reg.registerItem(gemHelmet, Names.HELMET);
-        reg.registerItem(gemChestplate, Names.CHESTPLATE);
-        reg.registerItem(gemLeggings, Names.LEGGINGS);
-        reg.registerItem(gemBoots, Names.BOOTS);
+        registerArmor(reg, gemHelmet, Names.HELMET);
+        registerArmor(reg, gemChestplate, Names.CHESTPLATE);
+        registerArmor(reg, gemLeggings, Names.LEGGINGS);
+        registerArmor(reg, gemBoots, Names.BOOTS);
 
         // ToolRenderHelper
         reg.registerItem(toolRenderHelper, Names.TOOL_RENDER_HELPER).setCreativeTab(null);
@@ -148,6 +150,17 @@ public class ModItems {
         reg.registerItem(guideBook, "guide_book");
 
         initExtraRecipes();
+    }
+
+    private static void registerTool(SRegistry registry, Item item, String name) {
+        registry.registerItem(item, name).setCreativeTab(GemsCreativeTabs.TOOLS);
+        GemsConfig.NODE_REPAIR_WHITELIST.add(item);
+        if (!(item instanceof ItemGemShield)) tools.add(item);
+    }
+
+    private static void registerArmor(SRegistry registry, Item item, String name) {
+        registry.registerItem(item, name).setCreativeTab(GemsCreativeTabs.TOOLS);
+        GemsConfig.NODE_REPAIR_WHITELIST.add(item);
     }
 
     private static void initExtraRecipes() {
