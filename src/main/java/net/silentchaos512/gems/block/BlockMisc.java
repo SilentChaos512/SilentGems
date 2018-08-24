@@ -88,8 +88,16 @@ public class BlockMisc extends BlockMetaSubtypes implements ICustomModel, IAddRe
 
     @Override
     public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
-        if (entityIn instanceof EntityLivingBase && worldIn.getBlockState(pos) == this.getStateFromMeta(Type.ENDER_ESSENCE.ordinal())) {
-            ((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 100, 1));
+        IBlockState enderBlock = this.getStateFromMeta(Type.ENDER_ESSENCE.ordinal());
+        // Levitation effect from ender essence blocks
+        if (entityIn instanceof EntityLivingBase && worldIn.getBlockState(pos) == enderBlock) {
+            int stackedBlocks = 1;
+            IBlockState state = worldIn.getBlockState(pos.down(stackedBlocks));
+            // Stack up to 5 blocks, each increasing the levitation level
+            while (state == enderBlock && stackedBlocks < 5) {
+                state = worldIn.getBlockState(pos.down(++stackedBlocks));
+            }
+            ((EntityLivingBase) entityIn).addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 100, stackedBlocks - 1));
         }
         super.onEntityWalk(worldIn, pos, entityIn);
     }
