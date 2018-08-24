@@ -725,18 +725,10 @@ public class ToolHelper {
   public static void onUpdate(ItemStack toolOrArmor, World world, Entity entity, int itemSlot,
       boolean isSelected) {
 
-    // Tick tool souls
-    if (entity instanceof EntityPlayer) {
-      ToolSoul soul = SoulManager.getSoul(toolOrArmor);
-      if (soul != null) {
-        soul.updateTick(toolOrArmor, (EntityPlayer) entity);
-      }
-    }
-
     if (!world.isRemote) {
       // Randomize tools with no data.
-      if (hasNoConstruction(toolOrArmor)) {
-        ItemStack newTool = ToolRandomizer.INSTANCE.randomize(toolOrArmor);
+      if (!toolOrArmor.hasTagCompound()) {
+        ToolRandomizer.INSTANCE.randomize(toolOrArmor);
       }
 
       // If the player gave him/herself a tool via JEI or creative, remove the example tag.
@@ -751,9 +743,17 @@ public class ToolHelper {
       if (!hasUUID(toolOrArmor)) {
         toolOrArmor.getTagCompound().setUniqueId(NBT_UUID, UUID.randomUUID());
       }
-
-      return;
     }
+
+    // Tick tool souls
+    if (entity instanceof EntityPlayer) {
+      ToolSoul soul = SoulManager.getSoul(toolOrArmor);
+      if (soul != null) {
+        soul.updateTick(toolOrArmor, (EntityPlayer) entity);
+      }
+    }
+
+    if (!world.isRemote) return;
 
     // Client-side name generation
     if (world.getTotalWorldTime() % CHECK_NAME_FREQUENCY == 0 && entity instanceof EntityPlayer) {
