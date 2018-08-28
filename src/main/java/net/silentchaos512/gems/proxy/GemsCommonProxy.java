@@ -16,6 +16,7 @@ import net.silentchaos512.gems.api.Skulls;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.compat.crafttweaker.CTSilentGems;
+import net.silentchaos512.gems.compat.gear.SGearCompat;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.event.GemsCommonEvents;
 import net.silentchaos512.gems.event.ShieldEventHandler;
@@ -103,5 +104,19 @@ public class GemsCommonProxy implements IProxy {
         ItemStack mainhand = player.getHeldItemMainhand();
         ItemStack offhand = player.getHeldItemOffhand();
         return mainhand.getItem() == ModItems.debugItem || offhand.getItem() == ModItems.debugItem;
+    }
+
+    public boolean isSGearMainPart(ItemStack stack) {
+        if (Loader.isModLoaded("silentgear")) {
+            return SGearCompat.isMainPart(stack);
+        }
+        return false;
+    }
+
+    public int getSGearPartTier(ItemStack stack) {
+        if (Loader.isModLoaded("silentgear")) {
+            return SGearCompat.getPartTier(stack);
+        }
+        return -1;
     }
 }

@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FOVModifier;
@@ -20,7 +21,10 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.silentchaos512.gear.compat.jei.JeiPlugin;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IAmmoTool;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
@@ -46,6 +50,21 @@ import java.util.List;
 public class GemsClientEvents {
     public static String debugTextOverlay = "";
     int fovModifier = 0;
+
+    @SubscribeEvent
+    public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        if (Loader.isModLoaded("jei")) {
+            if (JeiPlugin.hasInitFailed()) {
+                String msg = "The JEI plugin seems to have failed. Some recipes may not be visible. Please report with a copy of your log file.";
+                SilentGems.logHelper.error(msg);
+                event.player.sendMessage(new TextComponentString(TextFormatting.RED + "[Silent's Gems] " + msg));
+            } else {
+                SilentGems.logHelper.info("JEI plugin seems to have loaded correctly.");
+            }
+        } else {
+            SilentGems.logHelper.info("JEI is not installed?");
+        }
+    }
 
     @SubscribeEvent
     public void onRenderGameOverlay(RenderGameOverlayEvent event) {

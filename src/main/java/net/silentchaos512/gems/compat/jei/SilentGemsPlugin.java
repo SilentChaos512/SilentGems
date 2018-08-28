@@ -25,16 +25,26 @@ import java.util.Objects;
 
 @JEIPlugin
 public class SilentGemsPlugin implements IModPlugin {
+    private static boolean initFailed = true;
+
+    public static boolean hasInitFailed() {
+        return initFailed;
+    }
+
     @Override
     public void register(IModRegistry reg) {
+        initFailed = true;
         doItemBlacklist(reg.getJeiHelpers().getIngredientBlacklist());
         doRecipeRegistration(reg, reg.getJeiHelpers().getGuiHelper());
         doAddDescriptions(reg);
+        initFailed = false;
     }
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration reg) {
+        initFailed = true;
         reg.addRecipeCategories(new AltarRecipeCategory(reg.getJeiHelpers().getGuiHelper()));
+        initFailed = false;
     }
 
     private void doItemBlacklist(IIngredientBlacklist list) {
@@ -77,6 +87,7 @@ public class SilentGemsPlugin implements IModPlugin {
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistry reg) {
+        initFailed = true;
         // Enchantment tokens
         reg.registerSubtypeInterpreter(ModItems.enchantmentToken, stack -> {
             Enchantment ench = ModItems.enchantmentToken.getSingleEnchantment(stack);
@@ -94,6 +105,7 @@ public class SilentGemsPlugin implements IModPlugin {
 //            ItemSoulGem.Soul soul = ModItems.soulGem.getSoul(stack);
 //            return soul != null ? soul.id : "null";
 //        });
+        initFailed = false;
     }
 
     private void addIngredientInfoPages(IModRegistry registry, Collection<? extends IForgeRegistryEntry<?>> list) {

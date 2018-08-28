@@ -56,7 +56,6 @@ import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 public class GemsCommonEvents {
-
   @SubscribeEvent
   public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
 

@@ -139,5 +139,6 @@ public class ModBlocks {
         reg.registerBlock(chaosAltar, Names.CHAOS_ALTAR);
         reg.registerBlock(chaosPylon, Names.CHAOS_PYLON, new ItemBlockMetaSubtypes(chaosPylon, BlockChaosPylon.VariantType.values().length));
         reg.registerBlock(phantomLight, Names.PHANTOM_LIGHT);
+        reg.registerBlock(supercharger, "supercharger");
     }
 }
