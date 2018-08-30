@@ -16,6 +16,7 @@ import net.silentchaos512.gems.api.Skulls;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.compat.crafttweaker.CTSilentGems;
+import net.silentchaos512.gems.compat.evilcraft.EvilCraftCompat;
 import net.silentchaos512.gems.compat.gear.SGearCompat;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.event.GemsCommonEvents;
@@ -65,6 +66,10 @@ public class GemsCommonProxy implements IProxy {
     @Override
     public void init(SRegistry registry, FMLInitializationEvent event) {
         registry.init(event);
+
+        if (Loader.isModLoaded("evilcraft")) {
+            EvilCraftCompat.init();
+        }
     }
 
     @Override
