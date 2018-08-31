@@ -119,5 +119,7 @@ public class ModRecipes {
       recipes.addCustomRecipe("craft_tool_soul", new RecipeToolSoul());
       recipes.addCustomRecipe("apply_tool_soul", new RecipeApplyToolSoul());
     }
+
+    recipes.addCustomRecipe("soul_urn_modify", new RecipeSoulUrnModify());
   }
 }

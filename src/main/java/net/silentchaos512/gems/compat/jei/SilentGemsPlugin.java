@@ -6,6 +6,8 @@ import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
@@ -17,6 +19,7 @@ import net.silentchaos512.gems.compat.jei.altar.AltarRecipeMaker;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.ChaosBuff;
+import net.silentchaos512.gems.recipe.RecipeSoulUrnModify;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
@@ -67,6 +70,9 @@ public class SilentGemsPlugin implements IModPlugin {
         reg.addRecipes(AltarRecipeMaker.getRecipes(), AltarRecipeCategory.CATEGORY);
         reg.addRecipes(ToolHelper.EXAMPLE_RECIPES, VanillaRecipeCategoryUid.CRAFTING);
 
+        // Soul urn modify hints
+        reg.addRecipes(RecipeSoulUrnModify.getExampleRecipes(), VanillaRecipeCategoryUid.CRAFTING);
+
         // Click areas
         reg.addRecipeClickArea(GuiChaosAltar.class, 80, 34, 25, 16, AltarRecipeCategory.CATEGORY);
 
@@ -105,6 +111,12 @@ public class SilentGemsPlugin implements IModPlugin {
 //            ItemSoulGem.Soul soul = ModItems.soulGem.getSoul(stack);
 //            return soul != null ? soul.id : "null";
 //        });
+
+        // Soul Urns
+        reg.registerSubtypeInterpreter(Item.getItemFromBlock(ModBlocks.soulUrn), stack -> {
+            EnumDyeColor color = ModBlocks.soulUrn.getClayColor(stack);
+            return color != null ? color.getName() : "uncolored";
+        });
         initFailed = false;
     }
 

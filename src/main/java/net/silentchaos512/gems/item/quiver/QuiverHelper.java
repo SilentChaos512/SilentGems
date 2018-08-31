@@ -100,7 +100,7 @@ public class QuiverHelper {
 
         world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_CLOTH_BREAK,
                 SoundCategory.NEUTRAL, 0.8F, 0.8F, false);
-        player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_QUIVER, world,
+        player.openGui(SilentGems.instance, GuiHandlerSilentGems.GuiType.QUIVER.id, world,
                 hand == EnumHand.OFF_HAND ? 1 : 0, 0, 0);
 
         return ActionResult.newResult(EnumActionResult.SUCCESS, heldItem);

@@ -83,7 +83,8 @@ public class BlockMaterialGrader extends BlockContainer implements ITileEntityBl
 
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof TileMaterialGrader)
-            player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_MATERIAL_GRADER, world, pos.getX(), pos.getY(), pos.getZ());
+            player.openGui(SilentGems.instance, GuiHandlerSilentGems.GuiType.MATERIAL_GRADER.id,
+                    world, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
 

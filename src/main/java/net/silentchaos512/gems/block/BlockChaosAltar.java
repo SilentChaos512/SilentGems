@@ -75,7 +75,8 @@ public class BlockChaosAltar extends BlockContainer implements ITileEntityBlock,
         if (world.isRemote) return true;
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof TileChaosAltar)
-            player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_ALTAR, world, pos.getX(), pos.getY(), pos.getZ());
+            player.openGui(SilentGems.instance, GuiHandlerSilentGems.GuiType.ALTAR.id,
+                    world, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
 

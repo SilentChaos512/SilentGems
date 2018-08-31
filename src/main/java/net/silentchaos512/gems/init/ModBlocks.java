@@ -2,6 +2,7 @@ package net.silentchaos512.gems.init;
 
 import net.minecraft.item.ItemBlock;
 import net.silentchaos512.gems.block.*;
+import net.silentchaos512.gems.block.urn.BlockSoulUrn;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
@@ -73,6 +74,7 @@ public class ModBlocks {
     public static final BlockChaosPylon chaosPylon = new BlockChaosPylon();
     public static final BlockPhantomLight phantomLight = new BlockPhantomLight();
     public static final BlockSupercharger supercharger = new BlockSupercharger();
+    public static final BlockSoulUrn soulUrn = new BlockSoulUrn();
 
     public static void registerAll(SRegistry reg) {
         reg.setDefaultCreativeTab(GemsCreativeTabs.BLOCKS);
@@ -140,5 +142,6 @@ public class ModBlocks {
         reg.registerBlock(chaosPylon, Names.CHAOS_PYLON, new ItemBlockMetaSubtypes(chaosPylon, BlockChaosPylon.VariantType.values().length));
         reg.registerBlock(phantomLight, Names.PHANTOM_LIGHT);
         reg.registerBlock(supercharger, "supercharger");
+        reg.registerBlock(soulUrn, "soul_urn", new BlockSoulUrn.ItemBlockSoulUrn(soulUrn));
     }
 }

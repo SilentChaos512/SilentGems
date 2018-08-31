@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "facing=south,lid=closed": { "model": "silentgems:soul_urn" },
+        "facing=west,lid=closed": { "model": "silentgems:soul_urn", "y": 90 },
+        "facing=north,lid=closed": { "model": "silentgems:soul_urn", "y": 180 },
+        "facing=east,lid=closed": { "model": "silentgems:soul_urn", "y": 270 },
+        "facing=south,lid=open": { "model": "silentgems:soul_urn_open" },
+        "facing=west,lid=open": { "model": "silentgems:soul_urn_open", "y": 90 },
+        "facing=north,lid=open": { "model": "silentgems:soul_urn_open", "y": 180 },
+        "facing=east,lid=open": { "model": "silentgems:soul_urn_open", "y": 270 }
+    }
+}

@@ -118,8 +118,8 @@ public class BlockChaosPylon extends BlockContainer implements ITileEntityProvid
         if (type == EnumPylonType.BURNER) {
             TileEntity tile = world.getTileEntity(pos);
             if (tile instanceof TileChaosPylon) {
-                player.openGui(SilentGems.instance, GuiHandlerSilentGems.ID_BURNER_PYLON, world, pos.getX(),
-                        pos.getY(), pos.getZ());
+                player.openGui(SilentGems.instance, GuiHandlerSilentGems.GuiType.BURNER_PYLON.id,
+                        world, pos.getX(), pos.getY(), pos.getZ());
             }
             return true;
         }

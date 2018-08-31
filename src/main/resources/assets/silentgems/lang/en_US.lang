@@ -448,6 +448,12 @@ tile.silentgems.multi_gem_ore_light.name=Multi-Gem Ore (Light)
 
 tile.silentgems.phantomlight.name=Phantom Light
 
+tile.silentgems.soul_urn.name=Soul Urn
+tile.silentgems.soul_urn.color=Color: %s
+tile.silentgems.soul_urn.color.uncolored=Not dyed
+tile.silentgems.soul_urn.gem=Gem: %s
+container.silentgems.soul_urn=Soul Urn
+
 tile.silentgems.stonetorch.name=Stone Torch
 
 tile.silentgems.teleporteranchor.name=Teleporter Anchor
