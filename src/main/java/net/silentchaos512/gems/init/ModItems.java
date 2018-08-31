@@ -31,6 +31,7 @@ public class ModItems {
     public static final ItemGemShard gemShard = new ItemGemShard();
     public static final ItemSoulGem soulGem = new ItemSoulGem();
     public static final CraftingItems.ItemCrafting craftingMaterial = CraftingItems.ItemCrafting.INSTANCE;
+    public static final ItemChargingAgent chargingAgent = new ItemChargingAgent();
     public static final ItemQuiver quiver = new ItemQuiver();
     public static final ItemQuiverEmpty quiverEmpty = new ItemQuiverEmpty();
     public static final ItemTipUpgrade tipUpgrade = new ItemTipUpgrade();
@@ -93,6 +94,7 @@ public class ModItems {
         reg.registerItem(gemShard, Names.GEM_SHARD).setCreativeTab(GemsCreativeTabs.MATERIALS);
         reg.registerItem(soulGem, Names.SOUL_GEM).setCreativeTab(GemsCreativeTabs.MATERIALS);
         reg.registerItem(craftingMaterial, Names.CRAFTING_MATERIAL).setCreativeTab(GemsCreativeTabs.MATERIALS);
+        reg.registerItem(chargingAgent, "charging_agent").setCreativeTab(GemsCreativeTabs.MATERIALS);
         reg.registerItem(quiver, Names.QUIVER_NON_EMPTY).setCreativeTab(null);
         reg.registerItem(quiverEmpty, Names.QUIVER).setCreativeTab(GemsCreativeTabs.UTILITY);
         reg.registerItem(tipUpgrade, Names.UPGRADE_TIP).setCreativeTab(GemsCreativeTabs.UTILITY);

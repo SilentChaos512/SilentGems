@@ -665,6 +665,10 @@ buff.silentgems.flight.desc=Better than wings
 buff.silentgems.recharge=Recharge
 buff.silentgems.recharge.desc=Generates Chaos when not in use
 
+item.silentgems.charging_agent.name=Charging Agent
+item.silentgems.charging_agent.tier=Tier: %s
+item.silentgems.charging_agent.tier.invalid=INVALID
+
 item.silentgems.debugitem.name=Debug Item
 item.silentgems.debugitem.desc=No one here but us space chickens!
 
