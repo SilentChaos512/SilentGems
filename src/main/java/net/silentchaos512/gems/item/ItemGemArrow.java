@@ -22,7 +22,6 @@ import net.silentchaos512.gems.api.tool.part.ToolPartMain;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartRod;
 import net.silentchaos512.gems.entity.EntityGemArrow;
-import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.util.ToolHelper;
 
 import java.util.LinkedHashMap;
@@ -100,7 +99,7 @@ public class ItemGemArrow extends ItemArrow {
         if (!isInCreativeTab(tab)) return;
 
         ItemStack rodWood = new ItemStack(Items.STICK);
-        ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
+        ItemStack rodGold = CraftingItems.ORNATE_GOLD_ROD.getStack();
 
         for (ToolPartMain part : ToolPartRegistry.getMains()) {
             ItemStack main = part.getCraftingStack();

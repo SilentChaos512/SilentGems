@@ -61,12 +61,12 @@ public class ItemChaosRune extends Item implements IAddRecipes {
     @Override
     public void addRecipes(RecipeMaker recipes) {
         addRecipe(ChaosBuff.CAPACITY, new ItemStack(ModItems.chaosOrb, 1, ItemChaosOrb.Type.FRAGILE.ordinal()), 1);
-        addRecipe(ChaosBuff.RECHARGE, ModItems.craftingMaterial.chaosCore, 1);
-        addRecipe(ChaosBuff.FLIGHT, ModItems.craftingMaterial.shinyPlume, 3);
+        addRecipe(ChaosBuff.RECHARGE, CraftingItems.CHAOS_CORE.getStack(), 1);
+        addRecipe(ChaosBuff.FLIGHT, CraftingItems.SHINY_PLUME.getStack(), 3);
         addRecipe(ChaosBuff.SPEED, Items.SUGAR, 3);
         addRecipe(ChaosBuff.HASTE, "dustGlowstone", 3);
-        addRecipe(ChaosBuff.JUMP_BOOST, ModItems.craftingMaterial.plume, 2);
-        addRecipe(ChaosBuff.STRENGTH, ModItems.craftingMaterial.blazestone, 3);
+        addRecipe(ChaosBuff.JUMP_BOOST, CraftingItems.PLUME.getStack(), 2);
+        addRecipe(ChaosBuff.STRENGTH, CraftingItems.BLAZESTONE.getStack(), 3);
         addRecipe(ChaosBuff.REGENERATION, Items.GHAST_TEAR, 3);
         addRecipe(ChaosBuff.RESISTANCE, "blockIron", 1);
         addRecipe(ChaosBuff.FIRE_RESISTANCE, Items.MAGMA_CREAM, 3);
@@ -98,7 +98,7 @@ public class ItemChaosRune extends Item implements IAddRecipes {
         setBuff(result, buff);
         String name = "chaos_rune_" + buff.getKey().replaceFirst(SilentGems.RESOURCE_PREFIX, "").replaceAll(":", "_");
         SilentGems.registry.getRecipeMaker().addShapedOre(name, result, line1, line2, line3, 'r', "dustRedstone",
-                'c', ModItems.craftingMaterial.chaosEssenceEnriched, 'o', obj);
+                'c', CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack(), 'o', obj);
     }
 
     @Override

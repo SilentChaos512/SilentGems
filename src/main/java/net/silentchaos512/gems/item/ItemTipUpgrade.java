@@ -13,7 +13,6 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartTip;
-import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
@@ -68,7 +67,7 @@ public class ItemTipUpgrade extends Item implements IAddRecipes, ICustomModel {
 
     @Override
     public void addRecipes(RecipeMaker recipes) {
-        ItemStack base = ModItems.craftingMaterial.upgradeBase;
+        ItemStack base = CraftingItems.UPGRADE_BASE.getStack();
         RECIPES.add(recipes.addShapelessOre("tip_upgrade_iron", new ItemStack(this, 1, 0), "ingotIron", base));
         RECIPES.add(recipes.addShapelessOre("tip_upgrade_gold", new ItemStack(this, 1, 1), "ingotGold", base));
         RECIPES.add(recipes.addShapelessOre("tip_upgrade_diamond", new ItemStack(this, 1, 2), "gemDiamond", base));

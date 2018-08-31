@@ -36,7 +36,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
-import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
 import net.silentchaos512.lib.block.ITileEntityBlock;
 import net.silentchaos512.lib.registry.IAddRecipes;
@@ -63,8 +63,8 @@ public class BlockMaterialGrader extends BlockContainer implements ITileEntityBl
     public void addRecipes(RecipeMaker recipes) {
         recipes.addShapedOre("material_grader", new ItemStack(this),
                 " m ", "i i", "gig",
-                'm', ModItems.craftingMaterial.magnifyingGlass,
-                'i', ModItems.craftingMaterial.chaosIron,
+                'm', CraftingItems.MAGNIFYING_GLASS.getStack(),
+                'i', CraftingItems.CHAOS_IRON.getStack(),
                 'g', "ingotGold");
     }
 

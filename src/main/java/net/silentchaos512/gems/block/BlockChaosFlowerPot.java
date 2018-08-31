@@ -41,7 +41,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
-import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.tile.TileChaosFlowerPot;
 import net.silentchaos512.lib.block.ITileEntityBlock;
 import net.silentchaos512.lib.registry.IAddRecipes;
@@ -128,8 +128,9 @@ public class BlockChaosFlowerPot extends Block implements ITileEntityProvider, I
 
     @Override
     public void addRecipes(RecipeMaker recipes) {
-        recipe = recipes.addShaped("chaos_flower_pot", new ItemStack(this), "c", "f", 'c',
-                ModItems.craftingMaterial.chaosEssenceEnriched, 'f', Items.FLOWER_POT);
+        recipe = recipes.addShaped("chaos_flower_pot", new ItemStack(this),
+                "c", "f",
+                'c', CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack(), 'f', Items.FLOWER_POT);
     }
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {

@@ -27,7 +27,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IAddRecipes;
@@ -53,7 +53,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements ITool, IAddRecipes, I
     }
 
     public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
-        ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold : new ItemStack(Items.STICK);
+        ItemStack rod = supercharged ? CraftingItems.ORNATE_GOLD_ROD.getStack() : new ItemStack(Items.STICK);
         return ToolHelper.constructTool(this, rod, materials);
     }
 

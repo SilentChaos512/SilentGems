@@ -62,7 +62,7 @@ public class ItemToolSoul extends Item implements IAddRecipes {
     @Override
     public void addRecipes(RecipeMaker recipes) {
         recipe = recipes.addShaped("tool_soul", new ItemStack(this), " s ", "scs", " s ",
-                's', new ItemStack(ModItems.soulGem), 'c', ModItems.craftingMaterial.soulShell);
+                's', new ItemStack(ModItems.soulGem), 'c', CraftingItems.SOUL_SHELL.getStack());
 //        if (ModRecipes.ADD_SOUL_RECIPES) {
 //            // FIXME? JEI only shows wheat souls?
 //            NonNullList<ItemStack> listSouls = NonNullList.create();

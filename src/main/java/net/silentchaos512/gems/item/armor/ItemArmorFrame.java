@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
@@ -71,9 +72,9 @@ public class ItemArmorFrame extends Item implements IAddRecipes, ICustomModel {
         ItemStack lattice;
 
         for (int tier = 0; tier < EnumMaterialTier.values().length; ++tier) {
-            lattice = tier == 0 ? ModItems.craftingMaterial.armorLatticeMundane
-                    : tier == 1 ? ModItems.craftingMaterial.armorLatticeRegular
-                    : tier == 2 ? ModItems.craftingMaterial.armorLatticeSuper : ItemStack.EMPTY;
+            lattice = tier == 0 ? CraftingItems.ARMOR_LATTICE_MUNDANE.getStack()
+                    : tier == 1 ? CraftingItems.ARMOR_LATTICE_REGULAR.getStack()
+                    : tier == 2 ? CraftingItems.ARMOR_LATTICE_SUPER.getStack() : ItemStack.EMPTY;
 
             if (!lattice.isEmpty())
                 for (int type = 0; type < 4; ++type)

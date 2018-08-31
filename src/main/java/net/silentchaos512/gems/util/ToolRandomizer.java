@@ -10,6 +10,7 @@ import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.lib.EnumGem;
 
 import java.util.List;
@@ -101,12 +102,12 @@ public class ToolRandomizer {
     // Select rod
     ItemStack rod;
     if (superTier) {
-      ItemStack[] choices = new ItemStack[] { ModItems.craftingMaterial.toolRodGold,
-          ModItems.craftingMaterial.toolRodSilver, ModItems.craftingMaterial.toolRodIron };
+      ItemStack[] choices = new ItemStack[] { CraftingItems.ORNATE_GOLD_ROD.getStack(),
+              CraftingItems.ORNATE_SILVER_ROD.getStack(), CraftingItems.IRON_ROD.getStack() };
       rod = choices[SilentGems.random.nextInt(choices.length)];
     } else {
       ItemStack[] choices = new ItemStack[] { new ItemStack(Items.STICK), new ItemStack(Items.BONE),
-          ModItems.craftingMaterial.toolRodIron };
+              CraftingItems.IRON_ROD.getStack() };
       rod = choices[SilentGems.random.nextInt(choices.length)];
     }
 

@@ -14,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
-import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosNode;
 import net.silentchaos512.lib.registry.IAddRecipes;
@@ -34,9 +33,9 @@ public class ItemNodeMover extends Item implements IAddRecipes, ICustomModel {
     public void addRecipes(RecipeMaker recipes) {
         ItemStack empty = new ItemStack(this, 1, META_EMPTY);
         ItemStack spent = new ItemStack(this, 1, META_USED);
-        ItemStack chaosCore = ModItems.craftingMaterial.chaosCore;
-        ItemStack netherShard = ModItems.craftingMaterial.netherShard;
-        ItemStack enderFrost = ModItems.craftingMaterial.enderFrost;
+        ItemStack chaosCore = CraftingItems.CHAOS_CORE.getStack();
+        ItemStack netherShard = CraftingItems.NETHER_SHARD.getStack();
+        ItemStack enderFrost = CraftingItems.ENDER_FROST.getStack();
 
         recipes.addSurroundOre("node_mover", empty, chaosCore, netherShard, enderFrost);
         recipes.addShaped("node_mover_recharge", empty, "sms", 's', netherShard, 'm', spent);

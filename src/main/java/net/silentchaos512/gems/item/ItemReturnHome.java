@@ -85,7 +85,7 @@ public class ItemReturnHome extends ItemChaosStorage implements IAddRecipes, ICu
         for (EnumGem gem : EnumGem.values()) {
             ItemStack result = new ItemStack(this, 1, gem.ordinal());
             recipes.addShapedOre("return_home_" + gem.name(), result, " s ", "sgs", "ici", 's',
-                    ModItems.craftingMaterial.gildedString, 'g', gem.getItemOreName(), 'i', "ingotGold", 'c',
+                    CraftingItems.GILDED_STRING.getStack(), 'g', gem.getItemOreName(), 'i', "ingotGold", 'c',
                     new ItemStack(ModItems.chaosOrb, 1, ItemChaosOrb.Type.FRAGILE.ordinal()));
         }
     }

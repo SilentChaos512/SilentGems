@@ -29,7 +29,6 @@ import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
-import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.gems.util.NBTHelper;
@@ -95,8 +94,8 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
     @Override
     public void addRecipes(RecipeMaker recipes) {
         String chaosEssence = "gemChaos";
-        ItemStack chaosEssenceEnriched = ModItems.craftingMaterial.chaosEssenceEnriched;
-        ItemStack chaosEssenceCrystallized = ModItems.craftingMaterial.chaosEssenceCrystallized;
+        ItemStack chaosEssenceEnriched = CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack();
+        ItemStack chaosEssenceCrystallized = CraftingItems.CRYSTALLIZED_CHAOS_ESSENCE.getStack();
         String chaosEssenceShard = "nuggetChaos";
 
         for (Type type : Type.values()) {

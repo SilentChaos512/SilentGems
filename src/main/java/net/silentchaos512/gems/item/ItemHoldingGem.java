@@ -11,7 +11,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.lib.registry.RecipeMaker;
 
@@ -62,7 +61,7 @@ public class ItemHoldingGem extends ItemBlockPlacer {
             stack.setTagCompound(new NBTTagCompound());
             stack.getTagCompound().setShort(NBT_GEM_ID, (short) gem.ordinal());
             recipes.addShapedOre("holding_gem_" + gem.name(), stack, "gcg", "s s", "gcg", 'g', "ingotGold", 'c',
-                    ModItems.craftingMaterial.chaosEssenceEnriched, 's', gem.getItemOreName());
+                    CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack(), 's', gem.getItemOreName());
         }
     }
 

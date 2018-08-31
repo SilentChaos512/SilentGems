@@ -3,8 +3,8 @@ package net.silentchaos512.gems.init;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.SilentGemsAPI;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.recipe.*;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.registry.SRegistry;
@@ -18,8 +18,8 @@ public class ModRecipes {
     RecipeMaker recipes = reg.getRecipeMaker();
 
     // Chaos Essence creation.
-    SilentGemsAPI.addAltarRecipe(ModItems.craftingMaterial.chaosEssence,
-        ModItems.craftingMaterial.getStack(Names.CHAOS_ESSENCE_SHARD, 4), 240000,
+    SilentGemsAPI.addAltarRecipe(CraftingItems.CHAOS_ESSENCE.getStack(),
+            CraftingItems.CHAOS_ESSENCE_SHARD.getStack(4), 240000,
         new ItemStack(Items.DIAMOND));
 
     // Ender Essence creation.
@@ -30,7 +30,7 @@ public class ModRecipes {
     // Light <--> Dark gem conversion.
     ItemStack slimeBall = new ItemStack(Items.SLIME_BALL);
     ItemStack magmaCream = new ItemStack(Items.MAGMA_CREAM);
-    ItemStack enderSlime = ModItems.craftingMaterial.enderSlimeBall;
+    ItemStack enderSlime = CraftingItems.ENDER_SLIMEBALL.getStack();
     for (int i = 0; i < 16; ++i) {
       EnumGem classic = EnumGem.values()[i];
       EnumGem dark = EnumGem.values()[i + 16];
@@ -54,7 +54,7 @@ public class ModRecipes {
     recipes.addCustomRecipe("multipart_bow_regular",
         new RecipeMixedMaterialItem(REGULAR, ModItems.bow, "rhs", "h s", "rhs", 's', Items.STRING));
     recipes.addCustomRecipe("multipart_bow_super",
-        new RecipeMixedMaterialItem(SUPER, ModItems.bow, "rhs", "h s", "rhs", 's', ModItems.craftingMaterial.gildedString));
+        new RecipeMixedMaterialItem(SUPER, ModItems.bow, "rhs", "h s", "rhs", 's', CraftingItems.GILDED_STRING.getStack()));
     // Dagger
     recipes.addCustomRecipe("multipart_dagger",
         new RecipeMixedMaterialItem(null, ModItems.dagger, "h", "r"));

@@ -18,6 +18,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileTeleporter;
@@ -67,8 +68,8 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
         for (int i = 0; i < 16; ++i) {
             EnumGem gem = getGem(i);
             recipes.addShapedOre(getBlockName() + i, new ItemStack(this, 2, i), "cec", " g ", "cec", 'c',
-                    ModItems.craftingMaterial.chaosEssenceEnriched, 'e',
-                    ModItems.craftingMaterial.enderEssence, 'g', gem.getBlockOreName());
+                    CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack(), 'e',
+                    CraftingItems.ENDER_ESSENCE.getStack(), 'g', gem.getBlockOreName());
             for (ItemStack stack : anyTeleporter) {
                 recipes.addShapelessOre(blockName + "_" + (++lastIndex) + "_recolor", new ItemStack(this, 1, i), stack,
                         gem.getItemOreName());

@@ -32,7 +32,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ModRecipeHelper;
 import net.silentchaos512.lib.block.BlockMetaSubtypes;
@@ -65,12 +65,12 @@ public class BlockEssenceOre extends BlockMetaSubtypes implements ICustomModel, 
     @Override
     public void addRecipes(RecipeMaker recipes) {
         ItemStack chaosOre = new ItemStack(this, 1, 0);
-        ItemStack chaosEssence = ModItems.craftingMaterial.chaosEssence;
+        ItemStack chaosEssence = CraftingItems.CHAOS_ESSENCE.getStack();
         GameRegistry.addSmelting(chaosOre, chaosEssence, 0.7f);
         ModRecipeHelper.addSagMillRecipe("ChaosOre", chaosOre, chaosEssence, "cobblestone", 4000);
 
         ItemStack enderOre = new ItemStack(this, 1, 1);
-        ItemStack enderEssence = ModItems.craftingMaterial.enderEssence;
+        ItemStack enderEssence = CraftingItems.ENDER_ESSENCE.getStack();
         GameRegistry.addSmelting(enderOre, enderEssence, 1.0f);
         ModRecipeHelper.addSagMillRecipe("EnderEssenceOre", enderOre, enderEssence, "end_stone", 4000);
     }

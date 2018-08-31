@@ -27,7 +27,6 @@ import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModEnchantments;
-import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.recipe.RecipeJsonHell;
@@ -416,7 +415,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
         addTokenRecipe(Enchantments.EFFICIENCY, EnumGem.BERYL, "dustGlowstone", 4);
         addTokenRecipe(Enchantments.FORTUNE, EnumGem.GOLDEN_BERYL, "gemDiamond", 3);
         addTokenRecipe(Enchantments.SILK_TOUCH, EnumGem.VIOLET_SAPPHIRE, "gemEmerald", 3);
-        ItemStack netherShard = ModItems.craftingMaterial.netherShard;
+        ItemStack netherShard = CraftingItems.NETHER_SHARD.getStack();
         addTokenRecipe(ModEnchantments.gravity, EnumGem.AMBER, netherShard, 2);
 
         // Melee weapons
@@ -446,7 +445,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
         // Armor
         addTokenRecipe(Enchantments.AQUA_AFFINITY, EnumGem.BLUE_TOPAZ, "blockLapis", 2);
         addTokenRecipe(Enchantments.BLAST_PROTECTION, EnumGem.ONYX, Items.GUNPOWDER, 5);
-        ItemStack plume = ModItems.craftingMaterial.plume;
+        ItemStack plume = CraftingItems.PLUME.getStack();
         addTokenRecipe(Enchantments.FEATHER_FALLING, EnumGem.MALACHITE, plume, 2);
         addTokenRecipe(Enchantments.FIRE_PROTECTION, EnumGem.CITRINE, Items.MAGMA_CREAM, 2);
         addTokenRecipe(Enchantments.PROJECTILE_PROTECTION, EnumGem.AGATE, Items.ARROW, 4);
@@ -454,7 +453,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
         addTokenRecipe(Enchantments.RESPIRATION, EnumGem.TANZANITE, new ItemStack(Items.FISH, 1, 3), 1);
         addTokenRecipe(Enchantments.THORNS, EnumGem.TOPAZ, new ItemStack(Blocks.DOUBLE_PLANT, 1, 4), 2);
         addTokenRecipe(Enchantments.DEPTH_STRIDER, EnumGem.MOONSTONE, Blocks.CLAY, 3);
-        ItemStack enderFrost = ModItems.craftingMaterial.enderFrost;
+        ItemStack enderFrost = CraftingItems.ENDER_FROST.getStack();
         addTokenRecipe(Enchantments.FROST_WALKER, EnumGem.ALEXANDRITE, enderFrost, 4);
     }
 

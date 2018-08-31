@@ -37,7 +37,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.block.BlockMetaSubtypes;
 import net.silentchaos512.lib.item.ItemBlockMetaSubtypes;
@@ -74,12 +74,12 @@ public class BlockMisc extends BlockMetaSubtypes implements ICustomModel, IAddRe
         ItemStack chaosIron = getStack(Type.CHAOS_IRON, 1);
         ItemStack enderEssence = getStack(Type.ENDER_ESSENCE, 1);
 
-        recipes.addCompression("chaos_essence_block", ModItems.craftingMaterial.chaosEssence, chaosEssence, 9);
-        recipes.addCompression("chaos_essence_enriched_block", ModItems.craftingMaterial.chaosEssenceEnriched, chaosEssenceEnriched, 9);
-        recipes.addCompression("chaos_essence_crystallized_block", ModItems.craftingMaterial.chaosEssenceCrystallized, chaosEssenceCrystallized, 9);
-        recipes.addCompression("chaos_coal_block", ModItems.craftingMaterial.chaosCoal, chaosCoal, 9);
-        recipes.addCompression("chaos_iron_block", ModItems.craftingMaterial.chaosIron, chaosIron, 9);
-        recipes.addCompression("ender_essence_block", ModItems.craftingMaterial.enderEssence, enderEssence, 9);
+        recipes.addCompression("chaos_essence_block", CraftingItems.CHAOS_ESSENCE.getStack(), chaosEssence, 9);
+        recipes.addCompression("chaos_essence_enriched_block", CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack(), chaosEssenceEnriched, 9);
+        recipes.addCompression("chaos_essence_crystallized_block", CraftingItems.CRYSTALLIZED_CHAOS_ESSENCE.getStack(), chaosEssenceCrystallized, 9);
+        recipes.addCompression("chaos_coal_block", CraftingItems.CHAOS_COAL.getStack(), chaosCoal, 9);
+        recipes.addCompression("chaos_iron_block", CraftingItems.CHAOS_IRON.getStack(), chaosIron, 9);
+        recipes.addCompression("ender_essence_block", CraftingItems.ENDER_ESSENCE.getStack(), enderEssence, 9);
     }
 
     public ItemStack getStack(Type type, int count) {

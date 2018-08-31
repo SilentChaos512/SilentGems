@@ -47,14 +47,14 @@ public class ItemPetSummoner extends Item implements IAddRecipes, ICustomModel {
 
         recipes.addShapelessOre("summon_kitty", new ItemStack(this, 1, 0), anyGem,
                 new ItemStack(Items.FISH, 1, OreDictionary.WILDCARD_VALUE),
-                ModItems.craftingMaterial.yarnBall);
+                CraftingItems.YARN_BALL.getStack());
 
         recipes.addShapelessOre("summon_puppy_0", new ItemStack(this, 1, 1), anyGem, Items.BEEF,
-                ModItems.craftingMaterial.rawhideBone);
+                CraftingItems.RAWHIDE_BONE.getStack());
         recipes.addShapelessOre("summon_puppy_1", new ItemStack(this, 1, 1), anyGem, Items.PORKCHOP,
-                ModItems.craftingMaterial.rawhideBone);
+                CraftingItems.RAWHIDE_BONE.getStack());
         recipes.addShapelessOre("summon_puppy_2", new ItemStack(this, 1, 1), anyGem, Items.CHICKEN,
-                ModItems.craftingMaterial.rawhideBone);
+                CraftingItems.RAWHIDE_BONE.getStack());
     }
 
     @Override

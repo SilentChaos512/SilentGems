@@ -16,7 +16,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
@@ -34,7 +33,7 @@ public class ItemTeleporterLinker extends Item implements IAddRecipes, ICustomMo
     @Override
     public void addRecipes(RecipeMaker recipes) {
         recipes.addShaped("teleporter_linker", new ItemStack(this), "c", "r", 'c',
-                ModItems.craftingMaterial.chaosEssenceEnriched, 'r', ModItems.craftingMaterial.toolRodGold);
+                CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack(), 'r', CraftingItems.ORNATE_GOLD_ROD.getStack());
     }
 
     @Override

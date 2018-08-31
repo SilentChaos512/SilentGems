@@ -35,7 +35,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
-import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.tile.TileChaosAltar;
 import net.silentchaos512.lib.block.ITileEntityBlock;
 import net.silentchaos512.lib.registry.IAddRecipes;
@@ -65,9 +65,9 @@ public class BlockChaosAltar extends BlockContainer implements ITileEntityBlock,
     @Override
     public void addRecipes(RecipeMaker recipes) {
         ItemStack result = new ItemStack(this);
-        ItemStack chaos = ModItems.craftingMaterial.chaosEssenceEnriched;
-        recipe = recipes.addShapedOre("chaos_altar", result, "rer", "dod", "ooo", 'e', chaos, 'r', "dustRedstone", 'o',
-                "obsidian", 'd', "gemDiamond");
+        recipe = recipes.addShapedOre("chaos_altar", result,
+                "rer", "dod", "ooo",
+                'e', CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack(), 'r', "dustRedstone", 'o', "obsidian", 'd', "gemDiamond");
     }
 
     @Override

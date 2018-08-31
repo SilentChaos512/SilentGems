@@ -3,7 +3,7 @@ package net.silentchaos512.gems.recipe;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.lib.recipe.RecipeBaseSL;
 
 public class RecipeNamePlate extends RecipeBaseSL {
@@ -14,7 +14,7 @@ public class RecipeNamePlate extends RecipeBaseSL {
 
         for (ItemStack stack : getNonEmptyStacks(inv)) {
             // Name Plate
-            if (stack.isItemEqual(ModItems.craftingMaterial.namePlate) && stack.hasDisplayName())
+            if (stack.isItemEqual(CraftingItems.NAME_PLATE.getStack()) && stack.hasDisplayName())
                 ++countNamePlate;
                 // Other
             else
@@ -31,7 +31,7 @@ public class RecipeNamePlate extends RecipeBaseSL {
 
         for (ItemStack stack : getNonEmptyStacks(inv)) {
             // Name plate?
-            if (stack.isItemEqual(ModItems.craftingMaterial.namePlate)) {
+            if (stack.isItemEqual(CraftingItems.NAME_PLATE.getStack())) {
                 stackNamePlate = stack;
             }
             // Other item?

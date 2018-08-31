@@ -7,6 +7,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.gems.util.ToolRandomizer;
@@ -66,7 +67,7 @@ public class PageDebugTool extends GuidePage {
       }
       // Broken tools.
       for (Item item : ModItems.tools) {
-        ItemStack stack = ToolHelper.constructTool(item, ModItems.craftingMaterial.toolRodGold,
+        ItemStack stack = ToolHelper.constructTool(item, CraftingItems.ORNATE_GOLD_ROD.getStack(),
             EnumGem.getRandom().getItemSuper());
         stack.setItemDamage(stack.getMaxDamage());
         stack.getTagCompound().setBoolean(ToolHelper.NBT_EXAMPLE_TOOL, true);

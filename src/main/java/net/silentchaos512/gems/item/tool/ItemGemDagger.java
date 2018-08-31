@@ -5,7 +5,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.RecipeMaker;
 
@@ -23,7 +23,7 @@ public class ItemGemDagger extends ItemGemSword {
     @Override
     public ItemStack constructTool(boolean supercharged, ItemStack... materials) {
         if (getConfig().isDisabled) return ItemStack.EMPTY;
-        ItemStack rod = supercharged ? ModItems.craftingMaterial.toolRodGold : new ItemStack(Items.STICK);
+        ItemStack rod = supercharged ? CraftingItems.ORNATE_GOLD_ROD.getStack() : new ItemStack(Items.STICK);
         return ToolHelper.constructTool(this, rod, materials);
     }
 

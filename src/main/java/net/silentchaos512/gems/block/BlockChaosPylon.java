@@ -42,7 +42,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
-import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosPylon;
@@ -82,12 +82,14 @@ public class BlockChaosPylon extends BlockContainer implements ITileEntityProvid
     public void addRecipes(RecipeMaker recipes) {
         ItemStack pylonPassive = new ItemStack(this, 1, EnumPylonType.PASSIVE.getMeta());
         ItemStack pylonBurner = new ItemStack(this, 1, EnumPylonType.BURNER.getMeta());
-        ItemStack chaosCore = ModItems.craftingMaterial.chaosCore;
+        ItemStack chaosCore = CraftingItems.CHAOS_CORE.getStack();
 
-        recipes.addShapedOre("chaos_pylon_passive", pylonPassive, "lel", "lol", "ooo", 'e', chaosCore,
-                'l', "gemLapis", 'o', "obsidian");
-        recipes.addShapedOre("chaos_pylon_burner", pylonBurner, " e ", "rpr", "ofo", 'p', pylonPassive,
-                'e', chaosCore, 'f', Blocks.FURNACE, 'r', "blockRedstone", 'o', "obsidian");
+        recipes.addShapedOre("chaos_pylon_passive", pylonPassive,
+                "lel", "lol", "ooo",
+                'e', chaosCore, 'l', "gemLapis", 'o', "obsidian");
+        recipes.addShapedOre("chaos_pylon_burner", pylonBurner,
+                " e ", "rpr", "ofo",
+                'p', pylonPassive, 'e', chaosCore, 'f', Blocks.FURNACE, 'r', "blockRedstone", 'o', "obsidian");
     }
 
     @Override

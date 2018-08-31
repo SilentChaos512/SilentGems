@@ -13,7 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
-import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.RecipeMaker;
@@ -24,7 +23,7 @@ public class ItemGlowRoseFertilizer extends Item implements IAddRecipes {
     @Override
     public void addRecipes(RecipeMaker recipes) {
         recipes.addSurround("glowrose_fertilizer", new ItemStack(this, 4),
-                ModItems.craftingMaterial.chaosEssence,
+                CraftingItems.CHAOS_ESSENCE.getStack(),
                 new ItemStack(Items.DYE, 1, EnumDyeColor.WHITE.getDyeDamage()));
     }
 

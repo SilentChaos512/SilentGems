@@ -30,7 +30,7 @@ public class ModItems {
     public static final ItemGemSuper gemSuper = new ItemGemSuper();
     public static final ItemGemShard gemShard = new ItemGemShard();
     public static final ItemSoulGem soulGem = new ItemSoulGem();
-    public static final ItemCrafting craftingMaterial = new ItemCrafting();
+    public static final CraftingItems.ItemCrafting craftingMaterial = CraftingItems.ItemCrafting.INSTANCE;
     public static final ItemQuiver quiver = new ItemQuiver();
     public static final ItemQuiverEmpty quiverEmpty = new ItemQuiverEmpty();
     public static final ItemTipUpgrade tipUpgrade = new ItemTipUpgrade();

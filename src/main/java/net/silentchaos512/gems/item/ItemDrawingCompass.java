@@ -11,7 +11,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.registry.IAddRecipes;
@@ -42,7 +41,7 @@ public class ItemDrawingCompass extends Item implements IAddRecipes {
     public void addRecipes(RecipeMaker recipes) {
         ItemStack base = new ItemStack(this);
         recipes.addShaped("drawing_compass", base, " c ", "r r", 'c',
-                ModItems.craftingMaterial.chaosEssenceEnriched, 'r', ModItems.craftingMaterial.toolRodGold);
+                CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack(), 'r', CraftingItems.ORNATE_GOLD_ROD.getStack());
         for (EnumDyeColor dye : EnumDyeColor.values()) {
             ItemStack result = new ItemStack(this);
             NBTHelper.setTagInt(result, "Color", DyeHelper.getColor(dye));

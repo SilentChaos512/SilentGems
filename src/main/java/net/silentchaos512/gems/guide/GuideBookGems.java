@@ -21,10 +21,7 @@ import net.silentchaos512.gems.guide.page.PageSoulSkill;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.item.ItemChaosOrb;
-import net.silentchaos512.gems.item.ItemCrafting;
-import net.silentchaos512.gems.item.ItemEnchantmentToken;
-import net.silentchaos512.gems.item.ItemTipUpgrade;
+import net.silentchaos512.gems.item.*;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.soul.SoulSkill;
@@ -113,10 +110,10 @@ public class GuideBookGems extends GuideBook {
                 new PageCrafting(this, 10, rec.makeShapeless(gemPickaxeDiamondTips, gemPickaxe, diamondTipUpgrade)),
                 new PageTextOnly(this, 11),
                 new PageCrafting(this, 12, rec.makeShapedOre(katana, "lo", "d ", "r ", 'l', EnumGem.LEPIDOLITE.getItemSuper(), 'o',
-                        EnumGem.OPAL.getItemSuper(), 'd', EnumGem.BLACK_DIAMOND.getItemSuper(), 'r', ModItems.craftingMaterial.toolRodGold)),
+                        EnumGem.OPAL.getItemSuper(), 'd', EnumGem.BLACK_DIAMOND.getItemSuper(), 'r', CraftingItems.ORNATE_GOLD_ROD.getStack())),
                 new PageTextOnly(this, 13)).setImportant();
         // You Broke It
-        new GuideChapter(this, "youBrokeIt", entryGettingStarted, ModItems.craftingMaterial.magnifyingGlass,
+        new GuideChapter(this, "youBrokeIt", entryGettingStarted, CraftingItems.MAGNIFYING_GLASS.getStack(),
                 new PageTextOnly(this, 1),
                 new PageLinkButton(this, 2, "https://github.com/SilentChaos512/SilentGems/issues"));
 
@@ -131,7 +128,7 @@ public class GuideBookGems extends GuideBook {
 //    new GuideChapter(this, "toolParts", entryTools, EnumGem.getRandom().getItem(), 100,
 //        pagesParts.toArray(new IGuidePage[pagesParts.size()]));
         // Axes
-        ItemStack toolsEntryRod = SilentGems.random.nextFloat() < 0.67f ? ModItems.craftingMaterial.toolRodGold : ModItems.craftingMaterial.toolRodSilver;
+        ItemStack toolsEntryRod = SilentGems.random.nextFloat() < 0.67f ? CraftingItems.ORNATE_GOLD_ROD.getStack() : CraftingItems.ORNATE_SILVER_ROD.getStack();
         ItemStack chAxeGem = EnumGem.getRandom().getItemSuper();
         ItemStack chAxe = makeTool(ModItems.axe, toolsEntryRod, chAxeGem, 3);
         new GuideChapter(this, "axe", entryTools, chAxe,
@@ -142,7 +139,7 @@ public class GuideBookGems extends GuideBook {
         ItemStack chBow = makeTool(ModItems.bow, toolsEntryRod, chBowGem, 3);
         new GuideChapter(this, "bow", entryTools, chBow,
                 new PageTextOnly(this, 1),
-                new PageCrafting(this, 2, rec.makeShapedOre(chBow, "rgs", "g s", "rgs", 'g', chBowGem, 'r', toolsEntryRod, 's', ModItems.craftingMaterial.gildedString)));
+                new PageCrafting(this, 2, rec.makeShapedOre(chBow, "rgs", "g s", "rgs", 'g', chBowGem, 'r', toolsEntryRod, 's', CraftingItems.GILDED_STRING.getStack())));
         // Daggers
         ItemStack chDaggerGem = EnumGem.getRandom().getItemSuper();
         ItemStack chDagger = makeTool(ModItems.dagger, toolsEntryRod, chDaggerGem, 1);
@@ -224,10 +221,10 @@ public class GuideBookGems extends GuideBook {
         ArmorHelper.setOriginalOwner(chHelmet, TOOL_OWNER_NAME);
         new GuideChapter(this, "armor", entryTools, chHelmet, -10,
                 new PageTextOnly(this, 1),
-                new PageCrafting(this, 2, ModItems.craftingMaterial.recipeLatticeMundane).setNoText(),
-                new PageCrafting(this, 3, ModItems.craftingMaterial.recipeLatticeRegular).setNoText(),
-                new PageCrafting(this, 4, ModItems.craftingMaterial.recipeLatticeSuper).setNoText(),
-                new PageCrafting(this, 5, rec.makeShaped(chHelmetFrame, "lll", "l l", 'l', ModItems.craftingMaterial.armorLatticeSuper)),
+                new PageCrafting(this, 2, CraftingItems.ItemCrafting.recipeLatticeMundane).setNoText(),
+                new PageCrafting(this, 3, CraftingItems.ItemCrafting.recipeLatticeRegular).setNoText(),
+                new PageCrafting(this, 4, CraftingItems.ItemCrafting.recipeLatticeSuper).setNoText(),
+                new PageCrafting(this, 5, rec.makeShaped(chHelmetFrame, "lll", "l l", 'l', CraftingItems.ARMOR_LATTICE_SUPER.getStack())),
                 new PageCrafting(this, 6, rec.makeShapedOre(chHelmet, " g ", "gfg", " g ", 'g', chHelmetGem, 'f', chHelmetFrame)));
 
         // Blocks
@@ -239,9 +236,9 @@ public class GuideBookGems extends GuideBook {
                 new PageOreSpawn(this, 3, GemsConfig.WORLD_GEN_GEMS_DARK),
                 new PageOreSpawn(this, 8, GemsConfig.WORLD_GEN_GEMS_LIGHT),
                 new PageOreSpawn(this, 4, GemsConfig.WORLD_GEN_CHAOS),
-                new PageFurnace(this, 5, ModItems.craftingMaterial.chaosEssence),
+                new PageFurnace(this, 5, CraftingItems.CHAOS_ESSENCE.getStack()),
                 new PageOreSpawn(this, 6, GemsConfig.WORLD_GEN_ENDER),
-                new PageFurnace(this, 7, ModItems.craftingMaterial.enderEssence)).setImportant();
+                new PageFurnace(this, 7, CraftingItems.ENDER_ESSENCE.getStack())).setImportant();
         // Chaos Altar
         new GuideChapter(this, "chaosAltar", entryBlocks, new ItemStack(ModBlocks.chaosAltar),
                 new PageCrafting(this, 1, ModBlocks.chaosAltar.recipe),
@@ -263,7 +260,7 @@ public class GuideBookGems extends GuideBook {
                 new PageTextOnly(this, 2));
         // Fluffy Blocks
         new GuideChapter(this, "fluffyBlocks", entryBlocks, new ItemStack(ModBlocks.fluffyBlock),
-                new PageCrafting(this, 1, rec.makeShaped(new ItemStack(ModBlocks.fluffyBlock), "ff", "ff", 'f', ModItems.craftingMaterial.fluffyFabric)),
+                new PageCrafting(this, 1, rec.makeShaped(new ItemStack(ModBlocks.fluffyBlock), "ff", "ff", 'f', CraftingItems.FLUFFY_FABRIC.getStack())),
                 new PageTextOnly(this, 2));
         // Glow Rose
         new GuideChapter(this, "glowRose", entryBlocks, new ItemStack(ModBlocks.glowRose),
@@ -281,18 +278,18 @@ public class GuideBookGems extends GuideBook {
         // Crafting Materials
         List<IGuidePage> pages = Lists.newArrayList();
         pages.add(new PageTextOnly(this, 1));
-        for (String str : ItemCrafting.SORTED_NAMES) {
-            ItemStack stack = ModItems.craftingMaterial.getStack(str);
-            IRecipe recipe = ModItems.craftingMaterial.guideRecipeMap.get(stack.getItemDamage());
+        for (CraftingItems item : CraftingItems.values()) {
+            ItemStack stack = item.getStack();
+            IRecipe recipe = CraftingItems.ItemCrafting.guideRecipeMap.get(stack.getItemDamage());
 
-            if (stack.isItemEqual(ModItems.craftingMaterial.chaosEssence) || stack.isItemEqual(ModItems.craftingMaterial.enderEssence) || stack.isItemEqual(ModItems.craftingMaterial.chaosIron))
+            if (stack.isItemEqual(CraftingItems.CHAOS_ESSENCE.getStack()) || stack.isItemEqual(CraftingItems.ENDER_ESSENCE.getStack()) || stack.isItemEqual(CraftingItems.CHAOS_IRON.getStack()))
                 pages.add(new PageFurnace(this, 100 + stack.getItemDamage(), stack));
             else if (recipe != null)
                 pages.add(new PageCrafting(this, 100 + stack.getItemDamage(), recipe));
             else
                 pages.add(new PageTextOnly(this, 100 + stack.getItemDamage()));
         }
-        new GuideChapter(this, "craftingMaterial", entryItems, ModItems.craftingMaterial.chaosEssence,
+        new GuideChapter(this, "craftingMaterial", entryItems, CraftingItems.CHAOS_ESSENCE.getStack(),
                 pages.toArray(new IGuidePage[0]));
         // Chaos Gems
         ItemStack chChaosGem = new ItemStack(ModItems.chaosGem, 1, EnumGem.getRandom().ordinal());
@@ -349,7 +346,7 @@ public class GuideBookGems extends GuideBook {
         new GuideChapter(this, "gem", entryItems, chGem.getItem(),
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapelessOre(craftedShards, chGem.getItem())),
-                new PageCrafting(this, 3, rec.makeShapedOre(chGem.getItemSuper(), "cgc", "cdc", "cgc", 'c', ModItems.craftingMaterial.chaosEssence, 'g', chGem.getItem(), 'd', "dustGlowstone")));
+                new PageCrafting(this, 3, rec.makeShapedOre(chGem.getItemSuper(), "cgc", "cdc", "cgc", 'c', CraftingItems.CHAOS_ESSENCE.getStack(), 'g', chGem.getItem(), 'd', "dustGlowstone")));
         // Holding Gem
         ItemStack chHoldingGem = ModItems.holdingGem.construct(EnumGem.getRandom());
         ItemStack chHoldingGemIcon = chHoldingGem.copy();
@@ -366,7 +363,7 @@ public class GuideBookGems extends GuideBook {
         pages = Lists.newArrayList();
         pages.add(new PageTextOnly(this, 1));
         pages.add(new PageTextOnly(this, 2));
-        pages.add(new PageCrafting(this, 3, rec.makeShapelessOre(ModItems.craftingMaterial.upgradeBase, Items.FLINT, Items.FLINT, "stickWood", "plankWood")));
+        pages.add(new PageCrafting(this, 3, rec.makeShapelessOre(CraftingItems.UPGRADE_BASE.getStack(), Items.FLINT, Items.FLINT, "stickWood", "plankWood")));
         for (IRecipe recipe : ItemTipUpgrade.RECIPES) {
             pages.add(new PageCrafting(this, 0, recipe).setNoText());
         }
@@ -393,7 +390,7 @@ public class GuideBookGems extends GuideBook {
         // Tool Souls
         new GuideChapter(this, "toolSoul", entrySouls, new ItemStack(ModItems.toolSoul),
                 new PageTextOnly(this, 1),
-                new PageCrafting(this, 2, rec.makeShaped(new ItemStack(ModItems.toolSoul), " s ", "sds", " s ", 's', ModItems.soulGem, 'd', ModItems.craftingMaterial.soulShell)));
+                new PageCrafting(this, 2, rec.makeShaped(new ItemStack(ModItems.toolSoul), " s ", "sds", " s ", 's', ModItems.soulGem, 'd', CraftingItems.SOUL_SHELL.getStack())));
 
         // Soul Skills (includes a page for each skill!)
         pages = new ArrayList<>();
@@ -428,7 +425,7 @@ public class GuideBookGems extends GuideBook {
 
         if (entryDebug != null) {
             // Tool test
-            new GuideChapter(this, "toolTest", entryDebug, ModItems.craftingMaterial.ironPotato,
+            new GuideChapter(this, "toolTest", entryDebug, CraftingItems.IRON_POTATO.getStack(),
                     new PageDebugTool(this, 1),
                     new PageDebugTool(this, 2));
         }

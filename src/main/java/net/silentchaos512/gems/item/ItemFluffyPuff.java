@@ -15,11 +15,11 @@ public class ItemFluffyPuff extends Item implements IAddRecipes {
   public void addRecipes(RecipeMaker recipes) {
 
     ItemStack puff = new ItemStack(this);
-    ItemStack fabric = ModItems.craftingMaterial.fluffyFabric;
+    ItemStack fabric = CraftingItems.FLUFFY_FABRIC.getStack();
     ItemStack block = new ItemStack(ModBlocks.fluffyBlock);
 
     IRecipe rec = recipes.addCompression("fluffy_fabric", puff, fabric, 4)[0];
-    ModItems.craftingMaterial.guideRecipeMap.put(fabric.getItemDamage(), rec);
+    CraftingItems.ItemCrafting.guideRecipeMap.put(fabric.getItemDamage(), rec);
     recipes.addCompression("fluffy_block", fabric, block, 4);
 
     ItemStack string = new ItemStack(Items.STRING);

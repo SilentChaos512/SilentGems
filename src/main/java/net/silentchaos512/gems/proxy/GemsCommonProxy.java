@@ -24,6 +24,7 @@ import net.silentchaos512.gems.event.ShieldEventHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.init.SGearMaterials;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.quiver.QuiverHelper;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.module.ModuleHalloweenHijinks;
@@ -38,7 +39,7 @@ import net.silentchaos512.lib.util.Color;
 public class GemsCommonProxy implements IProxy {
     @Override
     public void preInit(SRegistry registry, FMLPreInitializationEvent event) {
-        ToolHelper.FAKE_MATERIAL.setRepairItem(ModItems.craftingMaterial.chaosEssenceEnriched);
+        ToolHelper.FAKE_MATERIAL.setRepairItem(CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack());
 
         ModItems.guideBook.book.preInit();
 

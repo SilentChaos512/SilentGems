@@ -23,7 +23,7 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IAddRecipes;
@@ -318,7 +318,7 @@ public class ItemGemBow extends ItemBow implements ITool, IAddRecipes, ICustomMo
                 new EnumMaterialTier[]{EnumMaterialTier.MUNDANE, EnumMaterialTier.REGULAR}, lines, 'w',
                 new ItemStack(Items.STRING));
         ToolHelper.addExampleRecipe(this, new EnumMaterialTier[]{EnumMaterialTier.SUPER}, lines, 'w',
-                ModItems.craftingMaterial.gildedString);
+                CraftingItems.GILDED_STRING.getStack());
     }
 
     @Override

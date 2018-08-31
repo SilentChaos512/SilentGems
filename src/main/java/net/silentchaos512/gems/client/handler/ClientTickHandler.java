@@ -1,8 +1,5 @@
 package net.silentchaos512.gems.client.handler;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,15 +11,18 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.item.ToolRenderHelper;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.tile.TileChaosNode;
 import net.silentchaos512.lib.util.Color;
+
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 // Borrowed from Psi... Still much to learn.
 // https://github.com/Vazkii/Psi/blob/master/src/main/java/vazkii/psi/client/core/handler/ClientTickHandler.java
 public class ClientTickHandler {
 
-  public static volatile Queue<Runnable> scheduledActions = new ArrayDeque();
+  public static volatile Queue<Runnable> scheduledActions = new ArrayDeque<>();
 
   public static int ticksInGame = 0;
   public static float partialTicks = 0f;
@@ -52,7 +52,7 @@ public class ClientTickHandler {
         ItemStack heldItem = player.getHeldItemMainhand();
 
         // Magnifying glass FOV modifier
-        if (heldItem != null && heldItem.isItemEqual(ModItems.craftingMaterial.magnifyingGlass)) {
+        if (heldItem != null && heldItem.isItemEqual(CraftingItems.MAGNIFYING_GLASS.getStack())) {
           if (fovModifier < 30f) {
             fovModifier += partialTicks / 3;
           }

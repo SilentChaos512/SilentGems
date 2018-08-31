@@ -47,6 +47,7 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.config.GemsConfigHC;
 import net.silentchaos512.gems.guide.GuideBookGems;
 import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.ItemGemArrow;
 import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.armor.ItemGemArmor;
@@ -1038,8 +1039,8 @@ public class ToolHelper {
     List<ItemStack> list = Lists.newArrayList();
     // final boolean isSuperTool = item instanceof ITool && ((ITool) item).isSuperTool();
     final ItemStack rodWood = new ItemStack(Items.STICK);
-    final ItemStack rodIron = ModItems.craftingMaterial.toolRodIron;
-    final ItemStack rodGold = ModItems.craftingMaterial.toolRodGold;
+    final ItemStack rodIron = CraftingItems.IRON_ROD.getStack();
+    final ItemStack rodGold = CraftingItems.ORNATE_GOLD_ROD.getStack();
 
     for (ToolPartMain part : ToolPartRegistry.getMains()) {
       // Check for parts with empty crafting stacks and scream at the user if any are found.

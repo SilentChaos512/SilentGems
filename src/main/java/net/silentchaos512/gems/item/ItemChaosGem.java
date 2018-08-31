@@ -69,7 +69,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
     public void addRecipes(RecipeMaker recipes) {
         for (EnumGem gem : EnumGem.values())
             recipes.addSurroundOre("chaos_gem_" + gem.name(), new ItemStack(this, 1, gem.ordinal()),
-                    gem.getBlockOreName(), ModItems.craftingMaterial.chaosEssenceEnriched);
+                    gem.getBlockOreName(), CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack());
     }
 
     // =================
