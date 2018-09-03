@@ -24,7 +24,6 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import net.silentchaos512.gear.compat.jei.JeiPlugin;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IAmmoTool;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
@@ -35,6 +34,7 @@ import net.silentchaos512.gems.client.gui.GuiToolSouls;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.client.render.particle.ParticleRenderDispatcher;
+import net.silentchaos512.gems.compat.jei.SilentGemsPlugin;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemChaosGem;
@@ -54,7 +54,7 @@ public class GemsClientEvents {
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         if (Loader.isModLoaded("jei")) {
-            if (JeiPlugin.hasInitFailed()) {
+            if (SilentGemsPlugin.hasInitFailed()) {
                 String msg = "The JEI plugin seems to have failed. Some recipes may not be visible. Please report with a copy of your log file.";
                 SilentGems.logHelper.error(msg);
                 event.player.sendMessage(new TextComponentString(TextFormatting.RED + "[Silent's Gems] " + msg));

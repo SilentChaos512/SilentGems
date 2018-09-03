@@ -1,7 +1,12 @@
+2.8.4
+Fixed: A crash when Silent Gear is not installed... again (#332)
+
 2.8.3
+Added: Soul urns. These are far from finished, so don't put anything too important in them, just in case a later update changes the default inventory size.
 Added: Guide book chapter about legacy items
 Added: Chaos iron and ender essence blocks
 Added: Walking on ender essence blocks gives a levitation effect
+Added: EvilCraft's blood chest can now repair Gems tools and armor (#331)
 Changed: Updated textures for gem blocks, essence ores, and misc blocks (essence, chaos coal)
 
 2.8.2
