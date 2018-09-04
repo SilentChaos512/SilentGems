@@ -47,7 +47,8 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.urn.ISoulUrnUpgrade;
+import net.silentchaos512.gems.lib.urn.UrnConst;
+import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 
 import javax.annotation.Nullable;
 
@@ -58,7 +59,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     private static final int INVENTORY_ROWS_UPGRADE_2 = 6;
 
     private NonNullList<ItemStack> items;
-    private NonNullList<ISoulUrnUpgrade> upgrades = NonNullList.create();
+    private NonNullList<UrnUpgrade> upgrades = NonNullList.create();
     @Setter
     @Nullable
     private EnumDyeColor color;
@@ -106,7 +107,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     }
 
     public boolean tryAddItemToInventory(ItemStack stack) {
-        if (this.isFull()) return false;
+        if (this.isFull() || !canInsertItem(0, stack, EnumFacing.UP)) return false;
 
         for (int slot = 0; slot < this.items.size(); ++slot) {
             ItemStack stackInSlot = this.getStackInSlot(slot);
@@ -168,14 +169,15 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         ++this.ticksExisted;
 
         // Tick upgrades
-        for (ISoulUrnUpgrade upgrade : this.upgrades) {
-            upgrade.tickTile(this, lid, this.world, this.pos);
+        SoulUrnState state = new SoulUrnState(this, lid);
+        for (UrnUpgrade upgrade : this.upgrades) {
+            upgrade.tickTile(state, this.world, this.pos);
         }
 
         // Hopper functions
-//        if (lid.isOpen() && ticksExisted % 30 == 0) {
-//            this.updateHopper();
-//        }
+        if (!state.itemsAbsorbed && lid.isOpen() && ticksExisted % 30 == 0) {
+            this.updateHopper();
+        }
     }
 
     @Override
@@ -214,8 +216,10 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
             this.customName = compound.getString("CustomName");
 
         loadColorFromNBT(compound);
-
         loadGemFromNBT(compound);
+
+        this.upgrades.clear();
+        this.upgrades.addAll(UrnUpgrade.ListHelper.load(compound));
     }
 
     public NBTTagCompound saveToNBT(NBTTagCompound compound) {
@@ -227,16 +231,18 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
             this.getLockCode().toNBT(compound);
 
         if (this.color != null)
-            compound.setString("UrnColor", this.color.getName());
+            compound.setString(UrnConst.NBT_COLOR, this.color.getName());
         if (this.gem != null)
-            compound.setString("UrnGem", this.gem.getName());
+            compound.setString(UrnConst.NBT_GEM, this.gem.getName());
+
+        UrnUpgrade.ListHelper.save(this.upgrades, compound);
 
         return compound;
     }
 
     private void loadColorFromNBT(NBTTagCompound compound) {
-        if (compound.hasKey("UrnColor")) {
-            String str = compound.getString("UrnColor");
+        if (compound.hasKey(UrnConst.NBT_COLOR)) {
+            String str = compound.getString(UrnConst.NBT_COLOR);
             for (EnumDyeColor color : EnumDyeColor.values()) {
                 if (color.getName().equals(str)) {
                     this.color = color;
@@ -247,8 +253,8 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     }
 
     private void loadGemFromNBT(NBTTagCompound compound) {
-        if (compound.hasKey("UrnGem")) {
-            String str = compound.getString("UrnGem");
+        if (compound.hasKey(UrnConst.NBT_GEM)) {
+            String str = compound.getString(UrnConst.NBT_GEM);
             for (EnumGem gem : EnumGem.values()) {
                 if (gem.getName().equals(str)) {
                     this.gem = gem;
@@ -285,9 +291,11 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         NBTTagCompound tags = super.getUpdateTag();
 
         if (this.color != null)
-            tags.setString("UrnColor", this.color.getName());
+            tags.setString(UrnConst.NBT_COLOR, this.color.getName());
         if (this.gem != null)
-            tags.setString("UrnGem", this.gem.getName());
+            tags.setString(UrnConst.NBT_GEM, this.gem.getName());
+
+        UrnUpgrade.ListHelper.save(this.upgrades, tags);
 
         return tags;
     }
@@ -426,4 +434,17 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     }
 
     //endregion
+
+    @Getter
+    @Setter
+    public static class SoulUrnState {
+        private final TileSoulUrn tileEntity;
+        private final BlockSoulUrn.LidState lidState;
+        private boolean itemsAbsorbed = false;
+
+        private SoulUrnState(TileSoulUrn tile, BlockSoulUrn.LidState lidState) {
+            this.tileEntity = tile;
+            this.lidState = lidState;
+        }
+    }
 }

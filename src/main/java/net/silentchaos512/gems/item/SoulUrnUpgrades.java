@@ -21,9 +21,10 @@ package net.silentchaos512.gems.item;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.lib.urn.ISoulUrnUpgrade;
-import net.silentchaos512.gems.lib.urn.SoulUrnUpgradeBase;
+import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 import net.silentchaos512.gems.lib.urn.UpgradeVacuum;
 import net.silentchaos512.lib.item.IEnumItems;
 
@@ -33,32 +34,18 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public enum SoulUrnUpgrades implements IEnumItems<SoulUrnUpgrades, SoulUrnUpgrades.UpgradeItem> {
-    EXTENDED_STORAGE_BASIC("silentgems:basic_storage", 2, SoulUrnUpgradeBase::new),
-    EXTENDED_STORAGE_ADVANCED("silentgems:advanced_storage", 2, SoulUrnUpgradeBase::new),
-    VACUUM("silentgems:vacuum", 1, UpgradeVacuum::new);
+    EXTENDED_STORAGE_BASIC(2, basicSerializer("basic_storage", UrnUpgrade::new)),
+    EXTENDED_STORAGE_ADVANCED(2, basicSerializer("advanced_storage", UrnUpgrade::new)),
+    VACUUM(1, basicSerializer("vacuum", UpgradeVacuum::new));
 
-    private final String upgradeId;
     private final UpgradeItem item;
+    private final UrnUpgrade.Serializer<? extends UrnUpgrade> serializer;
     private final int maxCopies;
-    private final Supplier<? extends ISoulUrnUpgrade> upgradeFactory;
 
-    SoulUrnUpgrades(String id, int maxCopies, Supplier<? extends ISoulUrnUpgrade> upgradeFactory) {
-        this.upgradeId = id;
+    SoulUrnUpgrades(int maxCopies, UrnUpgrade.Serializer<? extends UrnUpgrade> serializer) {
         this.item = new UpgradeItem();
         this.maxCopies = maxCopies;
-        this.upgradeFactory = upgradeFactory;
-    }
-
-    @Nullable
-    public static SoulUrnUpgrades byId(String id) {
-        for (SoulUrnUpgrades upgrade : values())
-            if (upgrade.upgradeId.equals(id))
-                return upgrade;
-        return null;
-    }
-
-    public ISoulUrnUpgrade createUpgradeObject() {
-        return this.upgradeFactory.get();
+        this.serializer = serializer;
     }
 
     @Nonnull
@@ -84,5 +71,9 @@ public enum SoulUrnUpgrades implements IEnumItems<SoulUrnUpgrades, SoulUrnUpgrad
         public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
             // TODO
         }
+    }
+
+    private static UrnUpgrade.Serializer<UrnUpgrade> basicSerializer(String name, Supplier<UrnUpgrade> constructor) {
+        return new UrnUpgrade.Serializer<>(new ResourceLocation(SilentGems.MODID, name), constructor);
     }
 }

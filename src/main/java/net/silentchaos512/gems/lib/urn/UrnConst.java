@@ -1,5 +1,5 @@
 /*
- * Silent's Gems -- ISoulUrnUpgrade
+ * Silent's Gems -- UrnConstants
  * Copyright (C) 2018 SilentChaos512
  *
  * This library is free software; you can redistribute it and/or
@@ -18,17 +18,10 @@
 
 package net.silentchaos512.gems.lib.urn;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.silentchaos512.gems.block.urn.BlockSoulUrn;
-import net.silentchaos512.gems.block.urn.TileSoulUrn;
-
-public interface ISoulUrnUpgrade extends INBTSerializable<NBTTagCompound> {
-    void tickTile(TileSoulUrn urn, BlockSoulUrn.LidState lid, World world, BlockPos pos);
-
-    void tickItem(ItemStack urn, World world, EntityPlayer player, int itemSlot, boolean isSelected);
+public class UrnConst {
+    public static final String NBT_ROOT = "BlockEntityTag";
+    public static final String NBT_COLOR = "UrnColor";
+    public static final String NBT_GEM = "UrnGem";
+    public static final String NBT_UPGRADE_ID = "ID";
+    public static final String NBT_UPGRADES = "Upgrades";
 }

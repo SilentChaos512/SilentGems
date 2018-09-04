@@ -39,7 +39,6 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -54,9 +53,9 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.init.ModSounds;
-import net.silentchaos512.gems.item.SoulUrnUpgrades;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.urn.ISoulUrnUpgrade;
+import net.silentchaos512.gems.lib.urn.UrnConst;
+import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 import net.silentchaos512.lib.block.IColoredBlock;
 import net.silentchaos512.lib.block.ITileEntityBlock;
 import net.silentchaos512.lib.recipe.RecipeJsonHell;
@@ -89,11 +88,6 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         }
     }
 
-    private static final String NBT_ROOT = "silentgems_soul_urn";
-    private static final String NBT_COLOR = "color";
-    private static final String NBT_GEM = "gem";
-    private static final String NBT_UPGRADES = "upgrades";
-
     //@formatter:off
     private static final AxisAlignedBB BOUNDING_BOX_CLOSED = new AxisAlignedBB(
              1/16f,  0/16f,  1/16f,
@@ -125,9 +119,9 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
 
     @Nullable
     public EnumDyeColor getClayColor(ItemStack stack) {
-        NBTTagCompound tags = stack.getOrCreateSubCompound(NBT_ROOT);
-        if (tags.hasKey(NBT_COLOR)) {
-            String str = tags.getString(NBT_COLOR);
+        NBTTagCompound tags = stack.getOrCreateSubCompound(UrnConst.NBT_ROOT);
+        if (tags.hasKey(UrnConst.NBT_COLOR)) {
+            String str = tags.getString(UrnConst.NBT_COLOR);
             for (EnumDyeColor color : EnumDyeColor.values())
                 if (color.getName().equals(str))
                     return color;
@@ -136,14 +130,14 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
     }
 
     public void setClayColor(ItemStack stack, EnumDyeColor color) {
-        stack.getOrCreateSubCompound(NBT_ROOT).setString(NBT_COLOR, color.getName());
+        stack.getOrCreateSubCompound(UrnConst.NBT_ROOT).setString(UrnConst.NBT_COLOR, color.getName());
     }
 
     @Nullable
     public EnumGem getGem(ItemStack stack) {
-        NBTTagCompound tags = stack.getOrCreateSubCompound(NBT_ROOT);
-        if (tags.hasKey(NBT_GEM)) {
-            String str = tags.getString(NBT_GEM);
+        NBTTagCompound tags = stack.getOrCreateSubCompound(UrnConst.NBT_ROOT);
+        if (tags.hasKey(UrnConst.NBT_GEM)) {
+            String str = tags.getString(UrnConst.NBT_GEM);
             for (EnumGem gem : EnumGem.values())
                 if (gem.getName().equals(str))
                     return gem;
@@ -152,28 +146,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
     }
 
     public void setGem(ItemStack stack, EnumGem gem) {
-        stack.getOrCreateSubCompound(NBT_ROOT).setString(NBT_GEM, gem.getName());
-    }
-
-    public static NonNullList<ISoulUrnUpgrade> getUpgrades(ItemStack stack) {
-        NonNullList<ISoulUrnUpgrade> list = NonNullList.create();
-
-        NBTTagList tagList = stack.getOrCreateSubCompound(NBT_ROOT).getTagList(NBT_UPGRADES, 10);
-        for (NBTBase nbt : tagList) {
-            if (nbt instanceof NBTTagCompound) {
-                NBTTagCompound compound = (NBTTagCompound) nbt;
-                String id = compound.getString("UpgradeID");
-                SoulUrnUpgrades upgrade = SoulUrnUpgrades.byId(id);
-
-                if (upgrade != null) {
-                    ISoulUrnUpgrade upgradeInstance = upgrade.createUpgradeObject();
-                    upgradeInstance.deserializeNBT(compound);
-                    list.add(upgradeInstance);
-                }
-            }
-        }
-
-        return list;
+        stack.getOrCreateSubCompound(UrnConst.NBT_ROOT).setString(UrnConst.NBT_GEM, gem.getName());
     }
 
     public ItemStack getStack(@Nullable EnumDyeColor color, @Nullable EnumGem gem) {
@@ -276,7 +249,10 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
             }
 
             tileSoulUrn.init(this.getClayColor(stack), this.getGem(stack), 2);
-            tileSoulUrn.getUpgrades().addAll(getUpgrades(stack));
+
+            NBTTagCompound tagCompound = stack.getOrCreateSubCompound(UrnConst.NBT_ROOT);
+            tileSoulUrn.getUpgrades().clear();
+            tileSoulUrn.getUpgrades().addAll(UrnUpgrade.ListHelper.load(tagCompound));
         }
     }
 
@@ -295,7 +271,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
 
                 NBTTagCompound compound = new NBTTagCompound();
                 NBTTagCompound compound1 = new NBTTagCompound();
-                compound.setTag("BlockEntityTag", tileSoulUrn.saveToNBT(compound1));
+                compound.setTag(UrnConst.NBT_ROOT, tileSoulUrn.saveToNBT(compound1));
                 stack.setTagCompound(compound);
 
                 if (tileSoulUrn.hasCustomName()) {
@@ -431,7 +407,6 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
 
     @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-        SilentGems.logHelper.debug("" + meta);
         return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand)
                 .withProperty(PROPERTY_FACING, placer.getHorizontalFacing())
                 .withProperty(PROPERTY_LID, meta == 0 ? LidState.CLOSED : LidState.NO_LID);
@@ -522,13 +497,14 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
             if (SAMPLE_SUB_ITEMS == null) {
                 SAMPLE_SUB_ITEMS = new ArrayList<>();
 
+                // Test urn
                 if (SilentGems.instance.isDevBuild()) {
                     ItemStack test = this.blockSoulUrn.getStack(null, null);
                     NBTTagList tagList = new NBTTagList();
                     NBTTagCompound tagCompound = new NBTTagCompound();
-                    tagCompound.setString("UpgradeID", "silentgems:vacuum");
+                    tagCompound.setString("ID", "silentgems:vacuum");
                     tagList.appendTag(tagCompound);
-                    test.getOrCreateSubCompound(NBT_ROOT).setTag(NBT_UPGRADES, tagList);
+                    test.getOrCreateSubCompound(UrnConst.NBT_ROOT).setTag(UrnConst.NBT_UPGRADES, tagList);
                     SAMPLE_SUB_ITEMS.add(test);
                 }
 

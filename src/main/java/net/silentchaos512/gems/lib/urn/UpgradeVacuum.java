@@ -23,29 +23,31 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.block.urn.BlockSoulUrn;
 import net.silentchaos512.gems.block.urn.TileSoulUrn;
 
-public class UpgradeVacuum extends SoulUrnUpgradeBase {
+public class UpgradeVacuum extends UrnUpgrade {
     private static final int RANGE = 4;
 
     @Override
-    public void tickTile(TileSoulUrn urn, BlockSoulUrn.LidState lid, World world, BlockPos pos) {
-        if (!lid.isOpen()) return;
+    public void tickTile(TileSoulUrn.SoulUrnState state, World world, BlockPos pos) {
+        if (!state.getLidState().isOpen()) return;
 
         Vec3d target = new Vec3d(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5);
         AxisAlignedBB axisAlignedBB = new AxisAlignedBB(
                 pos.getX() - RANGE, pos.getY() - RANGE, pos.getZ() - RANGE,
                 pos.getX() + RANGE + 1, pos.getY() + RANGE, pos.getZ() + RANGE + 1
         );
+        boolean itemsAbsorbed = false;
 
         for (EntityItem entity : world.getEntitiesWithinAABB(EntityItem.class, axisAlignedBB)) {
             double distanceSq = entity.getDistanceSq(target.x, target.y, target.z);
             if (distanceSq < 0.5) {
                 // Try to add item to urn's inventory
-                urn.tryAddItemToInventory(entity.getItem());
-                if (entity.getItem().isEmpty()) {
-                    entity.setDead();
+                if (state.getTileEntity().tryAddItemToInventory(entity.getItem())) {
+                    itemsAbsorbed = true;
+                    if (entity.getItem().isEmpty()) {
+                        entity.setDead();
+                    }
                 }
             } else {
                 // Accelerate to target point
@@ -58,6 +60,10 @@ public class UpgradeVacuum extends SoulUrnUpgradeBase {
                 }
                 entity.addVelocity(vec.x, vec.y, vec.z);
             }
+        }
+
+        if (itemsAbsorbed) {
+            state.setItemsAbsorbed(true);
         }
     }
 }
