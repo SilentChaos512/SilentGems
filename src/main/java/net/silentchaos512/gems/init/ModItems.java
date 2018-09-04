@@ -17,6 +17,7 @@ import net.silentchaos512.gems.item.quiver.ItemQuiverEmpty;
 import net.silentchaos512.gems.item.tool.*;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.item.IEnumItems;
 import net.silentchaos512.lib.item.ItemGuideBookSL;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.registry.SRegistry;
@@ -89,12 +90,15 @@ public class ModItems {
     public static final List<Item> tools = new ArrayList<>();
 
     public static void registerAll(SRegistry reg) {
+        IEnumItems.RegistrationHelper enumItems = new IEnumItems.RegistrationHelper(reg);
+
         reg.registerItem(gem, Names.GEM).setCreativeTab(GemsCreativeTabs.MATERIALS);
         reg.registerItem(gemSuper, Names.GEM_SUPER).setCreativeTab(GemsCreativeTabs.MATERIALS);
         reg.registerItem(gemShard, Names.GEM_SHARD).setCreativeTab(GemsCreativeTabs.MATERIALS);
         reg.registerItem(soulGem, Names.SOUL_GEM).setCreativeTab(GemsCreativeTabs.MATERIALS);
         reg.registerItem(craftingMaterial, Names.CRAFTING_MATERIAL).setCreativeTab(GemsCreativeTabs.MATERIALS);
         reg.registerItem(chargingAgent, "charging_agent").setCreativeTab(GemsCreativeTabs.MATERIALS);
+        enumItems.registerItems(SoulUrnUpgrades.values());
         reg.registerItem(quiver, Names.QUIVER_NON_EMPTY).setCreativeTab(null);
         reg.registerItem(quiverEmpty, Names.QUIVER).setCreativeTab(GemsCreativeTabs.UTILITY);
         reg.registerItem(tipUpgrade, Names.UPGRADE_TIP).setCreativeTab(GemsCreativeTabs.UTILITY);

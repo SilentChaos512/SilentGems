@@ -193,12 +193,15 @@ public enum CraftingItems {
                 OreDictionary.registerOre("feather", Items.FEATHER);
 
             OreDictionary.registerOre("gemChaos", CHAOS_ESSENCE.getStack());
-            OreDictionary.registerOre("nuggetChaos", CHAOS_ESSENCE_SHARD.getStack());
             OreDictionary.registerOre("gemEnderEssence", ENDER_ESSENCE.getStack());
+            OreDictionary.registerOre("nuggetChaos", CHAOS_ESSENCE_SHARD.getStack());
             OreDictionary.registerOre("nuggetEnderEssence", ENDER_ESSENCE_SHARD.getStack());
             OreDictionary.registerOre("paper", FLUFFY_FABRIC.getStack());
-            OreDictionary.registerOre("slimeball", ENDER_SLIMEBALL.getStack());
+            OreDictionary.registerOre("rodGold", ORNATE_GOLD_ROD.getStack());
+            OreDictionary.registerOre("rodIron", IRON_ROD.getStack());
+            OreDictionary.registerOre("rodSilver", ORNATE_SILVER_ROD.getStack());
             OreDictionary.registerOre("rodStone", STONE_ROD.getStack());
+            OreDictionary.registerOre("slimeball", ENDER_SLIMEBALL.getStack());
         }
 
         @Override

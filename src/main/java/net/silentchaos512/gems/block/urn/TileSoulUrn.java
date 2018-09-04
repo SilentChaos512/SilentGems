@@ -47,12 +47,18 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.urn.ISoulUrnUpgrade;
 
 import javax.annotation.Nullable;
 
 @Getter
 public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, ISidedInventory, IHopper {
+    private static final int INVENTORY_ROWS_BASE = 2;
+    private static final int INVENTORY_ROWS_UPGRADE_1 = 4;
+    private static final int INVENTORY_ROWS_UPGRADE_2 = 6;
+
     private NonNullList<ItemStack> items;
+    private NonNullList<ISoulUrnUpgrade> upgrades = NonNullList.create();
     @Setter
     @Nullable
     private EnumDyeColor color;
@@ -62,6 +68,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     @Setter
     private boolean destroyedByCreativePlayer;
     private boolean cleared;
+
     @Getter(value = AccessLevel.NONE)
     private int ticksExisted;
 
@@ -70,9 +77,20 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     }
 
     public TileSoulUrn(@Nullable EnumDyeColor color, @Nullable EnumGem gem) {
-        this.items = NonNullList.withSize(9, ItemStack.EMPTY);
+        this.items = NonNullList.withSize(9 * INVENTORY_ROWS_BASE, ItemStack.EMPTY);
         this.color = color;
         this.gem = gem;
+    }
+
+    public void init(@Nullable EnumDyeColor color, @Nullable EnumGem gem, int inventoryRowCount) {
+        this.color = color;
+        this.gem = gem;
+
+        NonNullList<ItemStack> newList = NonNullList.withSize(9 * inventoryRowCount, ItemStack.EMPTY);
+        for (int i = 0; i < newList.size() && i < this.items.size(); ++i) {
+            newList.set(i, this.items.get(i));
+        }
+        this.items = newList;
     }
 
     @Override
@@ -85,6 +103,30 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
         Block block = Block.getBlockFromItem(itemStackIn.getItem());
         return !(block instanceof BlockSoulUrn || block instanceof BlockShulkerBox);
+    }
+
+    public boolean tryAddItemToInventory(ItemStack stack) {
+        if (this.isFull()) return false;
+
+        for (int slot = 0; slot < this.items.size(); ++slot) {
+            ItemStack stackInSlot = this.getStackInSlot(slot);
+            if (stackInSlot.isEmpty() || stackInSlot.isItemEqual(stack)) {
+                if (!stackInSlot.isEmpty()) {
+                    int amountCanFit = Math.min(stack.getCount(), stackInSlot.getMaxStackSize() - stackInSlot.getCount());
+//                    SilentGems.logHelper.debug("{}, {}, {}", amountCanFit, stack.getCount(), stackInSlot.getCount());
+                    stackInSlot.setCount(stackInSlot.getCount() + amountCanFit);
+                    stack.setCount(stack.getCount() - amountCanFit);
+
+                    this.setInventorySlotContents(slot, stackInSlot);
+                } else {
+                    this.setInventorySlotContents(slot, stack.copy());
+                    stack.setCount(0);
+                }
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -122,14 +164,18 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         if (this.world.isRemote)
             return;
 
-        // TODO: TileSoulUrn#update
+        BlockSoulUrn.LidState lid = ModBlocks.soulUrn.getStateFromMeta(this.getBlockMetadata()).getValue(BlockSoulUrn.PROPERTY_LID);
         ++this.ticksExisted;
-        if (ticksExisted % 30 == 0) {
-            BlockSoulUrn.LidState lidState = ModBlocks.soulUrn.getStateFromMeta(this.getBlockMetadata()).getValue(BlockSoulUrn.PROPERTY_LID);
-            if (lidState == BlockSoulUrn.LidState.OPEN) {
-                this.updateHopper();
-            }
+
+        // Tick upgrades
+        for (ISoulUrnUpgrade upgrade : this.upgrades) {
+            upgrade.tickTile(this, lid, this.world, this.pos);
         }
+
+        // Hopper functions
+//        if (lid.isOpen() && ticksExisted % 30 == 0) {
+//            this.updateHopper();
+//        }
     }
 
     @Override

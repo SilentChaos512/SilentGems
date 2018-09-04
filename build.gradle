@@ -165,6 +165,10 @@ dependencies {
         compileOnly "com.github.SilentChaos512:SilentLib:${project.sl_version}"
     }
 
+    if (project.hasProperty('sgear_version')) {
+        compileOnly "com.github.SilentChaos512:Silent-Gear:${project.sgear_version}"
+    }
+
     // EvilCraft
     compileOnly "org.cyclops.cyclopscore:CyclopsCore:${project.mc_version}-${project.cyclops_core_version}:deobf"
     compileOnly "org.cyclops.evilcraft:EvilCraft:${project.mc_version}-${project.evilcraft_version}:deobf"

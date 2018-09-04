@@ -45,7 +45,7 @@ public class RecipeSoulUrnModify extends RecipeBaseSL {
         StackList list = StackHelper.getNonEmptyStacks(inv);
         ItemStack urn = list.uniqueMatch(RecipeSoulUrnModify::isSoulUrn);
         Collection<ItemStack> mods = list.allMatches(RecipeSoulUrnModify::isModifierItem);
-        return !urn.isEmpty() && !mods.isEmpty();
+        return !urn.isEmpty() && (list.size() == 1 || !mods.isEmpty());
     }
 
     @Override
@@ -53,7 +53,14 @@ public class RecipeSoulUrnModify extends RecipeBaseSL {
         StackList list = StackHelper.getNonEmptyStacks(inv);
         ItemStack urn = list.uniqueMatch(RecipeSoulUrnModify::isSoulUrn).copy();
         Collection<ItemStack> mods = list.allMatches(RecipeSoulUrnModify::isModifierItem);
-        mods.forEach(mod -> applyModifierItem(urn, mod));
+
+        if (mods.isEmpty()) {
+            boolean lidless = ModBlocks.soulUrn.isStackLidless(urn);
+            ModBlocks.soulUrn.setStackLidless(urn, !lidless);
+        } else {
+            mods.forEach(mod -> applyModifierItem(urn, mod));
+        }
+
         return urn;
     }
 

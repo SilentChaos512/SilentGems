@@ -1,0 +1,31 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "cec",
+    "ana",
+    "cec"
+  ],
+  "key": {
+    "a": {
+      "item": "silentgems:charging_agent",
+      "data": 1
+    },
+    "c": {
+      "type": "forge:ore_dict",
+      "ore": "gemChaos"
+    },
+    "e": {
+      "type": "forge:ore_dict",
+      "ore": "gemEnderEssence"
+    },
+    "n": {
+      "item": "silentgems:craftingmaterial",
+      "data": 19
+    }
+  },
+  "result": {
+    "item": "silentgems:charging_agent",
+    "data": 2,
+    "count": 2
+  }
+}

@@ -1,3 +1,7 @@
+2.8.5
+Added: Lidless version of the soul urn. Place in a crafting grid by itself to switch between lidded and lidless versions.
+Changed: Soul urn open model rotated so lid is on the right side
+
 2.8.4
 Fixed: A crash when Silent Gear is not installed... again (#332)
 

@@ -1,0 +1,27 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "cgc",
+    "cbc",
+    "cgc"
+  ],
+  "key": {
+    "b": {
+      "item": "silentgems:craftingmaterial",
+      "data": 27
+    },
+    "c": {
+      "type": "forge:ore_dict",
+      "ore": "gemChaos"
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "dustGlowstone"
+    }
+  },
+  "result": {
+    "item": "silentgems:charging_agent",
+    "data": 0,
+    "count": 2
+  }
+}
