@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " s ",
+    "eue",
+    " s "
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:shulker_shell"
+    },
+    "u": {
+      "item": "silentgems:craftingmaterial",
+      "data": 34
+    },
+    "e": {
+      "item": "silentgems:craftingmaterial",
+      "data": 4
+    }
+  },
+  "result": {
+    "item": "silentgems:urn_upgrade_extended_storage_advanced"
+  }
+}

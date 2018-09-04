@@ -83,7 +83,8 @@ public enum CraftingItems {
     RAWHIDE_BONE(23, "rawhidebone"),
     MAGNIFYING_GLASS(15, "magnifyingglass"),
     NAME_PLATE(13, "nameplate"),
-    UPGRADE_BASE(12, "upgradebase");
+    UPGRADE_BASE(12, "upgradebase"),
+    URN_UPGRADE_BASE(34, "urn_upgrade_base");
 
     @Getter
     private final int metadata;
@@ -344,6 +345,12 @@ public enum CraftingItems {
             // Stone Rods
             recipe = recipes.addShapedOre("stone_rod", STONE_ROD.getStack(4), "s", "s", 's', "cobblestone");
             guideRecipeMap.put(STONE_ROD.getMetadata(), recipe);
+
+            recipe = recipes.addShaped("urn_upgrade_base", URN_UPGRADE_BASE.getStack(6),
+                    "cic", "csc", "cic",
+                    'c', new ItemStack(Blocks.HARDENED_CLAY),
+                    'i', CraftingItems.CHAOS_IRON.getStack(),
+                    's', new ItemStack(ModItems.soulGem));
         }
     }
 }

@@ -1,0 +1,25 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "bcb",
+    " u ",
+    "bcb"
+  ],
+  "key": {
+    "b": {
+      "item": "silentgems:craftingmaterial",
+      "data": 27
+    },
+    "c": {
+      "type": "forge:ore_dict",
+      "ore": "chestWood"
+    },
+    "u": {
+      "item": "silentgems:craftingmaterial",
+      "data": 34
+    }
+  },
+  "result": {
+    "item": "silentgems:urn_upgrade_extended_storage_basic"
+  }
+}

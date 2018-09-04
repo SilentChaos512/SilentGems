@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cic",
+    "csc",
+    "cic"
+  ],
+  "key": {
+    "c": {
+      "item": "minecraft:hardened_clay"
+    },
+    "s": {
+      "item": "silentgems:soulgem",
+      "data": 0
+    },
+    "i": {
+      "item": "silentgems:craftingmaterial",
+      "data": 30
+    }
+  },
+  "result": {
+    "item": "silentgems:craftingmaterial",
+    "data": 34,
+    "count": 6
+  }
+}

@@ -51,6 +51,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
+import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.init.ModSounds;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -168,8 +169,6 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
 
-        tooltip.add(TextFormatting.RED + "WIP - missing upgrade system");
-
         EnumDyeColor color = this.getClayColor(stack);
         EnumGem gem = this.getGem(stack);
 
@@ -184,6 +183,18 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         if (gem != null) {
             String str = SilentGems.i18n.translatedName(gem.getItem());
             tooltip.add(SilentGems.i18n.subText(this, "gem", str));
+        }
+
+        if (KeyTracker.isControlDown()) {
+            tooltip.add(TextFormatting.YELLOW + SilentGems.i18n.subText(this, "upgrades", ""));
+            List<UrnUpgrade> upgrades = UrnUpgrade.ListHelper.load(stack);
+            for (UrnUpgrade upgrade : upgrades) {
+                String upgradeName = SilentGems.i18n.translate(upgrade.getTranslationKey());
+                tooltip.add(SilentGems.i18n.subText(this, "upgrade_list", upgradeName));
+            }
+        } else {
+            String pressCtrl = TextFormatting.DARK_GRAY + SilentGems.i18n.miscText("pressCtrl");
+            tooltip.add(TextFormatting.YELLOW + SilentGems.i18n.subText(this, "upgrades", pressCtrl));
         }
     }
 
@@ -248,11 +259,10 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
                 tileSoulUrn.setCustomName(stack.getDisplayName());
             }
 
-            tileSoulUrn.init(this.getClayColor(stack), this.getGem(stack), 2);
+            tileSoulUrn.setColorAndGem(this.getClayColor(stack), this.getGem(stack));
 
             NBTTagCompound tagCompound = stack.getOrCreateSubCompound(UrnConst.NBT_ROOT);
-            tileSoulUrn.getUpgrades().clear();
-            tileSoulUrn.getUpgrades().addAll(UrnUpgrade.ListHelper.load(tagCompound));
+            tileSoulUrn.setUpgrades(UrnUpgrade.ListHelper.load(tagCompound));
         }
     }
 
@@ -480,7 +490,6 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
             this.blockSoulUrn = block;
             this.setMaxStackSize(1);
             this.setMaxDamage(0);
-            this.setHasSubtypes(true);
         }
 
         @Override

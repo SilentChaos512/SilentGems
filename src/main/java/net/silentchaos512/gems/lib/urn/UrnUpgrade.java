@@ -51,6 +51,10 @@ public class UrnUpgrade {
     public void tickItem(ItemStack urn, World world, EntityPlayer player, int itemSlot, boolean isSelected) {
     }
 
+    public String getTranslationKey() {
+        return "urn_upgrade." + this.id;
+    }
+
     public static class Serializer<T extends UrnUpgrade> {
         @Getter
         private final ResourceLocation id;
@@ -75,6 +79,10 @@ public class UrnUpgrade {
     }
 
     public static class ListHelper {
+        public static NonNullList<UrnUpgrade> load(ItemStack urn) {
+            return load(urn.getOrCreateSubCompound(UrnConst.NBT_ROOT));
+        }
+
         public static NonNullList<UrnUpgrade> load(NBTTagCompound tagCompound) {
             NonNullList<UrnUpgrade> result = NonNullList.create();
 

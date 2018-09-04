@@ -54,9 +54,8 @@ public class RecipeSoulUrnModify extends RecipeBaseSL {
         for (ItemStack mod : mods) {
             if (mod.getItem() instanceof IUrnUpgradeItem) {
                 IUrnUpgradeItem upgradeItem = (IUrnUpgradeItem) mod.getItem();
-                NBTTagCompound urnSubcompound = urn.getOrCreateSubCompound(UrnConst.NBT_ROOT);
 
-                List<UrnUpgrade> currentUpgrades = UrnUpgrade.ListHelper.load(urnSubcompound);
+                List<UrnUpgrade> currentUpgrades = UrnUpgrade.ListHelper.load(urn);
                 if (UrnUpgrade.ListHelper.contains(currentUpgrades, upgradeItem.getSerializer())) {
                     return false;
                 }

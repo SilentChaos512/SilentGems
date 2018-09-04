@@ -46,11 +46,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.item.SoulUrnUpgrades;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 @Getter
 public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, ISidedInventory, IHopper {
@@ -73,24 +75,35 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     @Getter(value = AccessLevel.NONE)
     private int ticksExisted;
 
+    @SuppressWarnings("WeakerAccess")
     public TileSoulUrn() {
         this(null, null);
     }
 
-    public TileSoulUrn(@Nullable EnumDyeColor color, @Nullable EnumGem gem) {
-        this.items = NonNullList.withSize(9 * INVENTORY_ROWS_BASE, ItemStack.EMPTY);
+    private TileSoulUrn(@Nullable EnumDyeColor color, @Nullable EnumGem gem) {
+        this.items = NonNullList.withSize(9 * INVENTORY_ROWS_UPGRADE_2, ItemStack.EMPTY);
         this.color = color;
         this.gem = gem;
     }
 
-    public void init(@Nullable EnumDyeColor color, @Nullable EnumGem gem, int inventoryRowCount) {
+    void setColorAndGem(@Nullable EnumDyeColor color, @Nullable EnumGem gem) {
         this.color = color;
         this.gem = gem;
+    }
 
-        NonNullList<ItemStack> newList = NonNullList.withSize(9 * inventoryRowCount, ItemStack.EMPTY);
-        for (int i = 0; i < newList.size() && i < this.items.size(); ++i) {
+    void setUpgrades(List<UrnUpgrade> list) {
+        this.upgrades.clear();
+        this.upgrades.addAll(list);
+
+        int inventoryRows = INVENTORY_ROWS_BASE;
+        if (UrnUpgrade.ListHelper.contains(this.upgrades, SoulUrnUpgrades.EXTENDED_STORAGE_ADVANCED.getSerializer()))
+            inventoryRows = INVENTORY_ROWS_UPGRADE_2;
+        else if (UrnUpgrade.ListHelper.contains(this.upgrades, SoulUrnUpgrades.EXTENDED_STORAGE_BASIC.getSerializer()))
+            inventoryRows = INVENTORY_ROWS_UPGRADE_1;
+
+        NonNullList<ItemStack> newList = NonNullList.withSize(9 * inventoryRows, ItemStack.EMPTY);
+        for (int i = 0; i < newList.size() && i < this.items.size(); ++i)
             newList.set(i, this.items.get(i));
-        }
         this.items = newList;
     }
 
