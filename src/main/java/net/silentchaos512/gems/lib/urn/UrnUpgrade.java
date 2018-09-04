@@ -36,6 +36,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+/**
+ * A soul urn upgrade. Instances of this are stored on the tile entity. To add a new upgrade, just
+ * construct a new {@link Serializer}, extending the class if necessary.
+ */
 public class UrnUpgrade {
     private static final Map<ResourceLocation, Serializer<? extends UrnUpgrade>> SERIALIZERS = new HashMap<>();
 
@@ -59,11 +63,11 @@ public class UrnUpgrade {
             SERIALIZERS.put(id, this);
         }
 
-        protected NBTTagCompound serialize() {
+        public NBTTagCompound serialize() {
             return new NBTTagCompound();
         }
 
-        protected T deserialize(NBTTagCompound nbt) {
+        public T deserialize(NBTTagCompound nbt) {
             T result = constructor.get();
             result.id = this.id;
             return result;
@@ -107,6 +111,13 @@ public class UrnUpgrade {
             }
 
             tagCompound.setTag(UrnConst.NBT_UPGRADES, tagList);
+        }
+
+        public static boolean contains(List<UrnUpgrade> upgrades, Serializer<? extends UrnUpgrade> serializer) {
+            for (UrnUpgrade upgrade : upgrades)
+                if (upgrade.id.equals(serializer.id))
+                    return true;
+            return false;
         }
     }
 }

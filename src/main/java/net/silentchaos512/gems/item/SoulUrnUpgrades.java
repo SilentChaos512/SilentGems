@@ -24,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.lib.urn.IUrnUpgradeItem;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 import net.silentchaos512.gems.lib.urn.UpgradeVacuum;
 import net.silentchaos512.lib.item.IEnumItems;
@@ -66,14 +67,19 @@ public enum SoulUrnUpgrades implements IEnumItems<SoulUrnUpgrades, SoulUrnUpgrad
         return "urn_upgrade";
     }
 
-    public static class UpgradeItem extends Item {
+    private static UrnUpgrade.Serializer<UrnUpgrade> basicSerializer(String name, Supplier<UrnUpgrade> constructor) {
+        return new UrnUpgrade.Serializer<>(new ResourceLocation(SilentGems.MODID, name), constructor);
+    }
+
+    public class UpgradeItem extends Item implements IUrnUpgradeItem {
+        @Override
+        public UrnUpgrade.Serializer<? extends UrnUpgrade> getSerializer() {
+            return serializer;
+        }
+
         @Override
         public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
             // TODO
         }
-    }
-
-    private static UrnUpgrade.Serializer<UrnUpgrade> basicSerializer(String name, Supplier<UrnUpgrade> constructor) {
-        return new UrnUpgrade.Serializer<>(new ResourceLocation(SilentGems.MODID, name), constructor);
     }
 }

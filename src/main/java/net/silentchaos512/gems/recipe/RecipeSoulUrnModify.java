@@ -24,11 +24,15 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.urn.IUrnUpgradeItem;
+import net.silentchaos512.gems.lib.urn.UrnConst;
+import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 import net.silentchaos512.lib.collection.StackList;
 import net.silentchaos512.lib.recipe.RecipeBaseSL;
 import net.silentchaos512.lib.registry.RecipeMaker;
@@ -45,6 +49,20 @@ public class RecipeSoulUrnModify extends RecipeBaseSL {
         StackList list = StackHelper.getNonEmptyStacks(inv);
         ItemStack urn = list.uniqueMatch(RecipeSoulUrnModify::isSoulUrn);
         Collection<ItemStack> mods = list.allMatches(RecipeSoulUrnModify::isModifierItem);
+
+        // For upgrade items, make sure the urn doesn't have it already
+        for (ItemStack mod : mods) {
+            if (mod.getItem() instanceof IUrnUpgradeItem) {
+                IUrnUpgradeItem upgradeItem = (IUrnUpgradeItem) mod.getItem();
+                NBTTagCompound urnSubcompound = urn.getOrCreateSubCompound(UrnConst.NBT_ROOT);
+
+                List<UrnUpgrade> currentUpgrades = UrnUpgrade.ListHelper.load(urnSubcompound);
+                if (UrnUpgrade.ListHelper.contains(currentUpgrades, upgradeItem.getSerializer())) {
+                    return false;
+                }
+            }
+        }
+
         return !urn.isEmpty() && (list.size() == 1 || !mods.isEmpty());
     }
 
@@ -74,17 +92,27 @@ public class RecipeSoulUrnModify extends RecipeBaseSL {
     }
 
     private static boolean isModifierItem(ItemStack stack) {
-        return DyeHelper.isItemDye(stack) || stack.getItem() == ModItems.gem;
+        return DyeHelper.isItemDye(stack)
+                || stack.getItem() == ModItems.gem
+                || stack.getItem() instanceof IUrnUpgradeItem;
     }
 
     private static void applyModifierItem(ItemStack urn, ItemStack mod) {
-        SilentGems.logHelper.debug("{}, {}", urn, mod);
+        SilentGems.logHelper.debug("RecipeSoulUrnModify#applyModifierItem: {}, {}", urn, mod);
+
         if (mod.getItem() == ModItems.gem) {
             EnumGem gem = EnumGem.getFromStack(mod);
             ModBlocks.soulUrn.setGem(urn, gem);
         } else if (DyeHelper.isItemDye(mod)) {
             EnumDyeColor color = EnumDyeColor.byMetadata(DyeHelper.oreDictDyeToVanilla(mod).getItemDamage());
             ModBlocks.soulUrn.setClayColor(urn, color);
+        } else if (mod.getItem() instanceof IUrnUpgradeItem) {
+            IUrnUpgradeItem upgradeItem = (IUrnUpgradeItem) mod.getItem();
+            NBTTagCompound urnSubcompound = urn.getOrCreateSubCompound(UrnConst.NBT_ROOT);
+
+            List<UrnUpgrade> list = UrnUpgrade.ListHelper.load(urnSubcompound);
+            list.add(upgradeItem.getSerializer().deserialize(new NBTTagCompound()));
+            UrnUpgrade.ListHelper.save(list, urnSubcompound);
         }
     }
 

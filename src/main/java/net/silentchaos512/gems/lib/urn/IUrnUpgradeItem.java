@@ -1,5 +1,5 @@
 /*
- * Silent's Gems -- UrnConstants
+ * Silent's Gems -- IUrnUpgradeItem
  * Copyright (C) 2018 SilentChaos512
  *
  * This library is free software; you can redistribute it and/or
@@ -19,12 +19,8 @@
 package net.silentchaos512.gems.lib.urn;
 
 /**
- * NBT constants used by soul urns (used by block, tile entity, and upgrades)
+ * Implement on Items that should act as soul urn upgrades.
  */
-public class UrnConst {
-    public static final String NBT_ROOT = "BlockEntityTag";
-    public static final String NBT_COLOR = "UrnColor";
-    public static final String NBT_GEM = "UrnGem";
-    public static final String NBT_UPGRADE_ID = "ID";
-    public static final String NBT_UPGRADES = "Upgrades";
+public interface IUrnUpgradeItem {
+    UrnUpgrade.Serializer<? extends UrnUpgrade> getSerializer();
 }
