@@ -18,12 +18,19 @@
 
 package net.silentchaos512.gems.init;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.lib.registry.SRegistry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ModSounds {
+    private static final List<SoundEvent> ALL = new ArrayList<>();
+
     public static final SoundEvent SOUL_URN_LID = create("soul_urn_lid");
     public static final SoundEvent SOUL_URN_OPEN = create("soul_urn_open");
 
@@ -33,6 +40,17 @@ public class ModSounds {
     }
 
     private static SoundEvent create(String soundId) {
-        return new SoundEvent(new ResourceLocation(SilentGems.MODID, soundId));
+        SoundEvent soundEvent = new SoundEvent(new ResourceLocation(SilentGems.MODID, soundId));
+        ALL.add(soundEvent);
+        return soundEvent;
+    }
+
+    public static void playAllHotswapFix(EntityPlayer player) {
+        // Hotswapping code before certain resources are used causes them to not load. In the case
+        // of SoundEvents, this causes the game to freeze. Obviously not an issue outside of an
+        // IDE, but playing all the sounds here should ensure I don't crash more than necessary...
+        for (SoundEvent sound : ALL) {
+            player.world.playSound(null, player.getPosition(), sound, SoundCategory.PLAYERS, 0.05f, 1f);
+        }
     }
 }

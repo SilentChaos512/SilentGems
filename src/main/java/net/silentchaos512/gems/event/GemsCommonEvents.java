@@ -39,6 +39,7 @@ import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.init.ModSounds;
 import net.silentchaos512.gems.item.ItemBlockPlacer;
 import net.silentchaos512.gems.item.ItemSoulGem;
 import net.silentchaos512.gems.item.ItemSoulGem.Soul;
@@ -53,6 +54,7 @@ import net.silentchaos512.gems.skills.ToolSkillDigger;
 import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
+import net.silentchaos512.lib.util.GameUtil;
 import net.silentchaos512.lib.util.PlayerHelper;
 
 public class GemsCommonEvents {
@@ -70,6 +72,11 @@ public class GemsCommonEvents {
         if (stack.getItem() instanceof IArmor)
           ArmorHelper.recalculateStats(stack);
       }
+    }
+
+    if (GameUtil.isDeobfuscated()) {
+      // Play sounds now to prevent crashes after hotswapping
+      ModSounds.playAllHotswapFix(event.player);
     }
   }
 
