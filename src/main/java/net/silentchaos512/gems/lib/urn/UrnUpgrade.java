@@ -30,6 +30,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.urn.TileSoulUrn;
+import net.silentchaos512.gems.item.SoulUrnUpgrades;
 
 import java.util.HashMap;
 import java.util.List;
@@ -126,6 +127,10 @@ public class UrnUpgrade {
                 if (upgrade.id.equals(serializer.id))
                     return true;
             return false;
+        }
+
+        public static boolean contains(List<UrnUpgrade> upgrades, SoulUrnUpgrades upgrade) {
+            return contains(upgrades, upgrade.getSerializer());
         }
     }
 }

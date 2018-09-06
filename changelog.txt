@@ -1,5 +1,6 @@
 2.8.5
 Added: Lidless version of the soul urn. Place in a crafting grid by itself to switch between lidded and lidless versions.
+Changed: Soul urn can now be dyed any color, like leather armor. Right-click a cauldron with water to remove dye. Existing urns may turn black.
 Changed: Soul urn open model rotated so lid is on the right side
 
 2.8.4

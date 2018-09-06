@@ -6,8 +6,6 @@ import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
@@ -113,10 +111,10 @@ public class SilentGemsPlugin implements IModPlugin {
 //        });
 
         // Soul Urns
-        reg.registerSubtypeInterpreter(Item.getItemFromBlock(ModBlocks.soulUrn), stack -> {
-            EnumDyeColor color = ModBlocks.soulUrn.getClayColor(stack);
-            return color != null ? color.getName() : "uncolored";
-        });
+//        reg.registerSubtypeInterpreter(Item.getItemFromBlock(ModBlocks.soulUrn), stack -> {
+//            int color = ModBlocks.soulUrn.getClayColor(stack);
+//            return color != UrnConst.UNDYED_COLOR ? Integer.toString(color, 16) : "uncolored";
+//        });
         initFailed = false;
     }
 

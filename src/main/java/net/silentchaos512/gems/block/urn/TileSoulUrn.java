@@ -31,7 +31,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -63,11 +62,10 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     private NonNullList<ItemStack> items;
     private NonNullList<UrnUpgrade> upgrades = NonNullList.create();
     @Setter
-    @Nullable
-    private EnumDyeColor color;
+    private int color;
     @Setter
     @Nullable
-    private EnumGem gem;
+    private EnumGem gem = null;
     @Setter
     private boolean destroyedByCreativePlayer;
     private boolean cleared;
@@ -77,16 +75,10 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
 
     @SuppressWarnings("WeakerAccess")
     public TileSoulUrn() {
-        this(null, null);
-    }
-
-    private TileSoulUrn(@Nullable EnumDyeColor color, @Nullable EnumGem gem) {
         this.items = NonNullList.withSize(9 * INVENTORY_ROWS_UPGRADE_2, ItemStack.EMPTY);
-        this.color = color;
-        this.gem = gem;
     }
 
-    void setColorAndGem(@Nullable EnumDyeColor color, @Nullable EnumGem gem) {
+    void setColorAndGem(int color, @Nullable EnumGem gem) {
         this.color = color;
         this.gem = gem;
     }
@@ -96,9 +88,9 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         this.upgrades.addAll(list);
 
         int inventoryRows = INVENTORY_ROWS_BASE;
-        if (UrnUpgrade.ListHelper.contains(this.upgrades, SoulUrnUpgrades.EXTENDED_STORAGE_ADVANCED.getSerializer()))
+        if (UrnUpgrade.ListHelper.contains(this.upgrades, SoulUrnUpgrades.EXTENDED_STORAGE_ADVANCED))
             inventoryRows = INVENTORY_ROWS_UPGRADE_2;
-        else if (UrnUpgrade.ListHelper.contains(this.upgrades, SoulUrnUpgrades.EXTENDED_STORAGE_BASIC.getSerializer()))
+        else if (UrnUpgrade.ListHelper.contains(this.upgrades, SoulUrnUpgrades.EXTENDED_STORAGE_BASIC))
             inventoryRows = INVENTORY_ROWS_UPGRADE_1;
 
         NonNullList<ItemStack> newList = NonNullList.withSize(9 * inventoryRows, ItemStack.EMPTY);
@@ -231,8 +223,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         loadColorFromNBT(compound);
         loadGemFromNBT(compound);
 
-        this.upgrades.clear();
-        this.upgrades.addAll(UrnUpgrade.ListHelper.load(compound));
+        this.setUpgrades(UrnUpgrade.ListHelper.load(compound));
     }
 
     public NBTTagCompound saveToNBT(NBTTagCompound compound) {
@@ -243,8 +234,8 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         if (!compound.hasKey("Lock") && this.isLocked())
             this.getLockCode().toNBT(compound);
 
-        if (this.color != null)
-            compound.setString(UrnConst.NBT_COLOR, this.color.getName());
+        if (this.color != UrnConst.UNDYED_COLOR)
+            compound.setInteger(UrnConst.NBT_COLOR, this.color);
         if (this.gem != null)
             compound.setString(UrnConst.NBT_GEM, this.gem.getName());
 
@@ -255,13 +246,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
 
     private void loadColorFromNBT(NBTTagCompound compound) {
         if (compound.hasKey(UrnConst.NBT_COLOR)) {
-            String str = compound.getString(UrnConst.NBT_COLOR);
-            for (EnumDyeColor color : EnumDyeColor.values()) {
-                if (color.getName().equals(str)) {
-                    this.color = color;
-                    break;
-                }
-            }
+            this.color = compound.getInteger(UrnConst.NBT_COLOR);
         }
     }
 
@@ -303,8 +288,8 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     public NBTTagCompound getUpdateTag() {
         NBTTagCompound tags = super.getUpdateTag();
 
-        if (this.color != null)
-            tags.setString(UrnConst.NBT_COLOR, this.color.getName());
+        if (this.color != UrnConst.UNDYED_COLOR)
+            tags.setInteger(UrnConst.NBT_COLOR, this.color);
         if (this.gem != null)
             tags.setString(UrnConst.NBT_GEM, this.gem.getName());
 
@@ -340,7 +325,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     }
 
     private boolean updateHopper() {
-        if (this.world != null & !this.world.isRemote) {
+        if (this.world != null && !this.world.isRemote) {
             boolean flag = false;
 
             // TODO: Hopper upgrade?

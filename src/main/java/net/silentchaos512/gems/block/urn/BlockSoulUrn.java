@@ -19,6 +19,7 @@
 package net.silentchaos512.gems.block.urn;
 
 import com.google.gson.JsonObject;
+import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -40,7 +41,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -70,6 +70,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IColoredBlock, ICustomModel, IAddRecipes {
+
     public enum LidState implements IStringSerializable {
         CLOSED, OPEN, NO_LID;
 
@@ -118,20 +119,13 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         return TileSoulUrn.class;
     }
 
-    @Nullable
-    public EnumDyeColor getClayColor(ItemStack stack) {
+    public int getClayColor(ItemStack stack) {
         NBTTagCompound tags = stack.getOrCreateSubCompound(UrnConst.NBT_ROOT);
-        if (tags.hasKey(UrnConst.NBT_COLOR)) {
-            String str = tags.getString(UrnConst.NBT_COLOR);
-            for (EnumDyeColor color : EnumDyeColor.values())
-                if (color.getName().equals(str))
-                    return color;
-        }
-        return null;
+        return tags.hasKey(UrnConst.NBT_COLOR) ? tags.getInteger(UrnConst.NBT_COLOR) : UrnConst.UNDYED_COLOR;
     }
 
-    public void setClayColor(ItemStack stack, EnumDyeColor color) {
-        stack.getOrCreateSubCompound(UrnConst.NBT_ROOT).setString(UrnConst.NBT_COLOR, color.getName());
+    public void setClayColor(ItemStack stack, int color) {
+        stack.getOrCreateSubCompound(UrnConst.NBT_ROOT).setInteger(UrnConst.NBT_COLOR, color);
     }
 
     @Nullable
@@ -150,18 +144,18 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         stack.getOrCreateSubCompound(UrnConst.NBT_ROOT).setString(UrnConst.NBT_GEM, gem.getName());
     }
 
-    public ItemStack getStack(@Nullable EnumDyeColor color, @Nullable EnumGem gem) {
+    public ItemStack getStack(int color, @Nullable EnumGem gem) {
         ItemStack stack = new ItemStack(this);
-        if (color != null) this.setClayColor(stack, color);
+        if (color != UrnConst.UNDYED_COLOR) this.setClayColor(stack, color);
         if (gem != null) this.setGem(stack, gem);
         return stack;
     }
 
-    public boolean isStackLidless(ItemStack stack) {
+    public boolean isLidless(ItemStack stack) {
         return stack.getItemDamage() != 0;
     }
 
-    public void setStackLidless(ItemStack stack, boolean lidless) {
+    public void setLidless(ItemStack stack, boolean lidless) {
         stack.setItemDamage(lidless ? LidState.NO_LID.ordinal() << 2 : 0);
     }
 
@@ -169,12 +163,11 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
 
-        EnumDyeColor color = this.getClayColor(stack);
+        int color = this.getClayColor(stack);
         EnumGem gem = this.getGem(stack);
 
-        if (color != null) {
-            String colorName = SilentGems.i18n.translate(color.getTranslationKey());
-            tooltip.add(SilentGems.i18n.subText(this, "color", colorName));
+        if (color != UrnConst.UNDYED_COLOR) {
+            tooltip.add(SilentGems.i18n.subText(this, "color", String.format("#%06X", color)));
         } else {
             String str = SilentGems.i18n.subText(this, "color.uncolored");
             tooltip.add(SilentGems.i18n.subText(this, "color", str));
@@ -248,7 +241,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         EnumFacing side = placer.getHorizontalFacing().getOpposite();
         IBlockState newState = state.withProperty(PROPERTY_FACING, side)
-                .withProperty(PROPERTY_LID, isStackLidless(stack) ? LidState.NO_LID : LidState.CLOSED);
+                .withProperty(PROPERTY_LID, isLidless(stack) ? LidState.NO_LID : LidState.CLOSED);
 
         worldIn.setBlockState(pos, newState, 2);
 
@@ -276,7 +269,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
             if (!tileSoulUrn.isCleared() && tileSoulUrn.shouldDrop()) {
                 ItemStack stack = new ItemStack(this);
                 if (state.getValue(PROPERTY_LID) == LidState.NO_LID) {
-                    setStackLidless(stack, true);
+                    setLidless(stack, true);
                 }
 
                 NBTTagCompound compound = new NBTTagCompound();
@@ -289,7 +282,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
                     tileSoulUrn.setCustomName("");
                 }
 
-                if (tileSoulUrn.getColor() != null)
+                if (tileSoulUrn.getColor() != UrnConst.UNDYED_COLOR)
                     this.setClayColor(stack, tileSoulUrn.getColor());
                 if (tileSoulUrn.getGem() != null)
                     this.setGem(stack, tileSoulUrn.getGem());
@@ -326,12 +319,11 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
                 if (worldIn != null && pos != null) {
                     TileEntity tile = worldIn.getTileEntity(pos);
                     if (tile instanceof TileSoulUrn) {
-                        EnumDyeColor color = ((TileSoulUrn) tile).getColor();
-                        if (color != null) return color.getColorValue();
+                        return ((TileSoulUrn) tile).getColor();
                     }
                 }
                 // Fallback to plain hardened clay color
-                return 0x985F45;
+                return UrnConst.UNDYED_COLOR;
             } else if (tintIndex == 1) {
                 // Decorative gem color
                 if (worldIn != null && pos != null) {
@@ -349,12 +341,10 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
 
     @Override
     public IItemColor getItemColorHandler() {
-        // TODO
         return (stack, tintIndex) -> {
             if (tintIndex == 0) {
                 // Main body/clay color
-                EnumDyeColor color = this.getClayColor(stack);
-                return color != null ? color.getColorValue() : 0x985F45;
+                return this.getClayColor(stack);
             } else if (tintIndex == 1) {
                 // Decorative gem color
                 EnumGem gem = this.getGem(stack);
@@ -460,9 +450,12 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
     private void addRecipe(RecipeMaker recipes, @Nullable EnumDyeColor color) {
         ItemStack clay = color == null ? new ItemStack(Blocks.HARDENED_CLAY)
                 : new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, color.getMetadata());
-        recipes.addShaped("soul_urn" + (color != null ? "_" + color.getName() : ""), getStack(color, null),
+
+        recipes.addShaped("soul_urn" + (color != null ? "_" + color.getName() : ""),
+                getStack(color == null ? UrnConst.UNDYED_COLOR : color.getColorValue(), null),
                 "cgc", "csc", "ccc",
-                'c', clay, 'g', new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE),
+                'c', clay,
+                'g', new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE),
                 's', new ItemStack(ModItems.soulGem));
     }
 
@@ -493,6 +486,24 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         }
 
         @Override
+        public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+            IBlockState state = worldIn.getBlockState(pos);
+            // Cauldrons can remove dye color
+            if (state.getBlock() == Blocks.CAULDRON) {
+                int waterLevel = state.getValue(BlockCauldron.LEVEL);
+                if (waterLevel > 0) {
+                    blockSoulUrn.setClayColor(player.getHeldItem(hand), UrnConst.UNDYED_COLOR);
+                    Blocks.CAULDRON.setWaterLevel(worldIn, pos, state, waterLevel - 1);
+                    return EnumActionResult.SUCCESS;
+                }
+
+                return EnumActionResult.PASS;
+            }
+
+            return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+        }
+
+        @Override
         public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
             super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
             // TODO: Tick upgrades
@@ -506,20 +517,9 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
             if (SAMPLE_SUB_ITEMS == null) {
                 SAMPLE_SUB_ITEMS = new ArrayList<>();
 
-                // Test urn
-                if (SilentGems.instance.isDevBuild()) {
-                    ItemStack test = this.blockSoulUrn.getStack(null, null);
-                    NBTTagList tagList = new NBTTagList();
-                    NBTTagCompound tagCompound = new NBTTagCompound();
-                    tagCompound.setString("ID", "silentgems:vacuum");
-                    tagList.appendTag(tagCompound);
-                    test.getOrCreateSubCompound(UrnConst.NBT_ROOT).setTag(UrnConst.NBT_UPGRADES, tagList);
-                    SAMPLE_SUB_ITEMS.add(test);
-                }
-
-                SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(null, EnumGem.getRandom()));
+                SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(UrnConst.UNDYED_COLOR, EnumGem.getRandom()));
                 for (EnumDyeColor color : EnumDyeColor.values())
-                    SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(color, EnumGem.getRandom()));
+                    SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(color.getColorValue(), EnumGem.getRandom()));
             }
 
             items.addAll(SAMPLE_SUB_ITEMS);

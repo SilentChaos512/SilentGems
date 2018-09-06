@@ -23,8 +23,10 @@ package net.silentchaos512.gems.lib.urn;
  */
 public class UrnConst {
     public static final String NBT_ROOT = "BlockEntityTag";
-    public static final String NBT_COLOR = "UrnColor";
-    public static final String NBT_GEM = "UrnGem";
+    public static final String NBT_COLOR = "Color";
+    public static final String NBT_GEM = "Gem";
     public static final String NBT_UPGRADE_ID = "ID";
     public static final String NBT_UPGRADES = "Upgrades";
+
+    public static final int UNDYED_COLOR = 0x985F45;
 }

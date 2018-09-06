@@ -36,6 +36,7 @@ import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.item.ItemGem;
 import net.silentchaos512.gems.item.ItemSoulGem;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.lib.collection.StackList;
 import net.silentchaos512.lib.util.StackHelper;
 
@@ -68,7 +69,7 @@ public class SoulUrnRecipeFactory implements IRecipeFactory {
                     color = EnumDyeColor.byMetadata(clay.getItemDamage());
                 }
 
-                return ModBlocks.soulUrn.getStack(color, gem);
+                return ModBlocks.soulUrn.getStack(color == null ? UrnConst.UNDYED_COLOR : color.getColorValue(), gem);
             }
         };
     }
