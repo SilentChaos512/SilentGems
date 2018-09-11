@@ -88,9 +88,9 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         this.upgrades.addAll(list);
 
         int inventoryRows = INVENTORY_ROWS_BASE;
-        if (UrnUpgrade.ListHelper.contains(this.upgrades, SoulUrnUpgrades.EXTENDED_STORAGE_ADVANCED))
+        if (UrnUpgrade.ListHelper.contains(this.upgrades, SoulUrnUpgrades.STORAGE_ADVANCED))
             inventoryRows = INVENTORY_ROWS_UPGRADE_2;
-        else if (UrnUpgrade.ListHelper.contains(this.upgrades, SoulUrnUpgrades.EXTENDED_STORAGE_BASIC))
+        else if (UrnUpgrade.ListHelper.contains(this.upgrades, SoulUrnUpgrades.STORAGE_BASIC))
             inventoryRows = INVENTORY_ROWS_UPGRADE_1;
 
         NonNullList<ItemStack> newList = NonNullList.withSize(9 * inventoryRows, ItemStack.EMPTY);

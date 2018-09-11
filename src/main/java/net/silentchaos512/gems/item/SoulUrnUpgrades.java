@@ -39,8 +39,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public enum SoulUrnUpgrades implements IEnumItems<SoulUrnUpgrades, SoulUrnUpgrades.UpgradeItem> {
-    EXTENDED_STORAGE_BASIC(basicSerializer("basic_storage", UrnUpgrade::new)),
-    EXTENDED_STORAGE_ADVANCED(basicSerializer("advanced_storage", UrnUpgrade::new)),
+    STORAGE_BASIC(basicSerializer("basic_storage", UrnUpgrade::new)),
+    STORAGE_ADVANCED(basicSerializer("advanced_storage", UrnUpgrade::new)),
     VACUUM(basicSerializer("vacuum", UpgradeVacuum::new));
 
     private final UpgradeItem item;
@@ -88,14 +88,14 @@ public enum SoulUrnUpgrades implements IEnumItems<SoulUrnUpgrades, SoulUrnUpgrad
         @Override
         public void addRecipes(RecipeMaker recipes) {
             switch (getEnum()) {
-                case EXTENDED_STORAGE_BASIC:
+                case STORAGE_BASIC:
                     recipes.addShapedOre(getName(), getStack(),
                             "bcb", " u ", "bcb",
                             'u', CraftingItems.URN_UPGRADE_BASE.getStack(),
                             'b', CraftingItems.BLAZESTONE.getStack(),
                             'c', "chestWood");
                     break;
-                case EXTENDED_STORAGE_ADVANCED:
+                case STORAGE_ADVANCED:
                     recipes.addShaped(getName(), getStack(),
                             " s ", "eue", " s ",
                             'u', CraftingItems.URN_UPGRADE_BASE.getStack(),

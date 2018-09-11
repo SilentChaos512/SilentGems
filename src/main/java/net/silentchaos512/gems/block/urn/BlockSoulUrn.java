@@ -63,6 +63,7 @@ import net.silentchaos512.lib.recipe.RecipeJsonHell;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
+import net.silentchaos512.lib.util.DyeHelper;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -70,7 +71,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IColoredBlock, ICustomModel, IAddRecipes {
-
     public enum LidState implements IStringSerializable {
         CLOSED, OPEN, NO_LID;
 
@@ -103,9 +103,10 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
     private static final PropertyEnum<EnumFacing> PROPERTY_FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
     public BlockSoulUrn() {
-        super(Material.CIRCUITS);
+        super(Material.ROCK);
         this.setHardness(0.5f);
         this.setResistance(20f);
+        this.setHarvestLevel("pickaxe", 1);
     }
 
     @Nullable
@@ -299,14 +300,18 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
     @Override
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
         ItemStack stack = super.getItem(worldIn, pos, state);
+
         TileSoulUrn tileSoulUrn = (TileSoulUrn) worldIn.getTileEntity(pos);
-        NBTTagCompound compound = tileSoulUrn.saveToNBT(new NBTTagCompound());
+        if (tileSoulUrn != null) {
+            NBTTagCompound compound = tileSoulUrn.saveToNBT(new NBTTagCompound());
 
-        if (!compound.isEmpty())
-            stack.setTagInfo("BlockEntityInfo", compound);
+            if (!compound.isEmpty())
+                stack.setTagInfo("BlockEntityInfo", compound);
 
-        this.setClayColor(stack, tileSoulUrn.getColor());
-        this.setGem(stack, tileSoulUrn.getGem());
+            this.setClayColor(stack, tileSoulUrn.getColor());
+            if (tileSoulUrn.getGem() != null)
+                this.setGem(stack, tileSoulUrn.getGem());
+        }
 
         return stack;
     }
@@ -519,7 +524,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
 
                 SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(UrnConst.UNDYED_COLOR, EnumGem.getRandom()));
                 for (EnumDyeColor color : EnumDyeColor.values())
-                    SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(color.getColorValue(), EnumGem.getRandom()));
+                    SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(DyeHelper.getColor(color), EnumGem.getRandom()));
             }
 
             items.addAll(SAMPLE_SUB_ITEMS);
