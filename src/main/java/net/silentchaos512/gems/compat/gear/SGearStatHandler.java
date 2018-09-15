@@ -47,10 +47,10 @@ public class SGearStatHandler {
                     //@formatter:off
                     .put(CommonItemStats.DURABILITY,        prop -> prop.originalStat * Math.pow(2.0, prop.chargeValue))
                     .put(CommonItemStats.ARMOR_DURABILITY,  prop -> prop.originalStat * Math.pow(1.8, prop.chargeValue))
-                    .put(CommonItemStats.ENCHANTABILITY,    prop -> prop.originalStat + prop.chargeValue * 4)
-                    .put(CommonItemStats.RARITY,            prop -> prop.originalStat + prop.superchargedLevel * 15)
+                    .put(CommonItemStats.ENCHANTABILITY,    prop -> prop.originalStat * (1 + prop.superchargedLevel * (Math.sqrt(prop.chargeability) - 1)))
+                    .put(CommonItemStats.RARITY,            prop -> prop.originalStat + prop.superchargedLevel * 10)
                     .put(CommonItemStats.HARVEST_LEVEL,     prop -> prop.originalStat + prop.superchargedLevel)
-                    .put(CommonItemStats.HARVEST_SPEED,     prop -> prop.originalStat + prop.superchargedLevel * prop.chargeValue * 4)
+                    .put(CommonItemStats.HARVEST_SPEED,     prop -> prop.originalStat + prop.superchargedLevel * prop.chargeValue * 3)
                     .put(CommonItemStats.MELEE_DAMAGE,      prop -> prop.originalStat + prop.chargeValue * 2)
                     .put(CommonItemStats.MAGIC_DAMAGE,      prop -> prop.originalStat + prop.chargeValue * 2)
                     .put(CommonItemStats.RANGED_DAMAGE,     prop -> prop.originalStat + prop.chargeValue)
@@ -95,6 +95,10 @@ public class SGearStatHandler {
          */
         private final float chargeValue;
         /**
+         * The chargeability stat
+         */
+        private final float chargeability;
+        /**
          * The original value of the stat being modified
          */
         private final float originalStat;
@@ -102,6 +106,7 @@ public class SGearStatHandler {
         private ChargedProperties(int superchargedLevel, float chargeValue, float originalStat) {
             this.superchargedLevel = superchargedLevel;
             this.chargeValue = chargeValue;
+            this.chargeability = this.chargeValue / this.superchargedLevel;
             this.originalStat = originalStat;
         }
     }

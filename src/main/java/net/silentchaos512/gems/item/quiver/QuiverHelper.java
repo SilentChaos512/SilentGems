@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
+import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.lib.Names;
 
 import java.util.ArrayList;
@@ -100,8 +100,7 @@ public class QuiverHelper {
 
         world.playSound(player.posX, player.posY, player.posZ, SoundEvents.BLOCK_CLOTH_BREAK,
                 SoundCategory.NEUTRAL, 0.8F, 0.8F, false);
-        player.openGui(SilentGems.instance, GuiHandlerSilentGems.GuiType.QUIVER.id, world,
-                hand == EnumHand.OFF_HAND ? 1 : 0, 0, 0);
+        GuiTypes.QUIVER.open(player, world, hand == EnumHand.OFF_HAND ? 1 : 0);
 
         return ActionResult.newResult(EnumActionResult.SUCCESS, heldItem);
     }

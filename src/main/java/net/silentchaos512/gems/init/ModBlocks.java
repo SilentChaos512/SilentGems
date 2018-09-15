@@ -2,6 +2,7 @@ package net.silentchaos512.gems.init;
 
 import net.minecraft.item.ItemBlock;
 import net.silentchaos512.gems.block.*;
+import net.silentchaos512.gems.block.supercharger.BlockSupercharger;
 import net.silentchaos512.gems.block.urn.BlockSoulUrn;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.GemsCreativeTabs;

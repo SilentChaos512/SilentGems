@@ -1,7 +1,8 @@
 {
   "result": {
     "item": "silentgems:craftingmaterial",
-    "data": 27
+    "data": 27,
+    "count": 2
   },
   "pattern": [
     "xxx",

@@ -55,6 +55,10 @@ public class BlockMisc extends BlockMetaSubtypes implements ICustomModel, IAddRe
         public String getName() {
             return name().toLowerCase(Locale.ROOT);
         }
+
+        public int getMetadata() {
+            return ordinal();
+        }
     }
     private static final PropertyEnum<Type> VARIANT = PropertyEnum.create("type", Type.class);
 

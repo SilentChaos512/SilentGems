@@ -33,8 +33,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
+import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.tile.TileChaosAltar;
 import net.silentchaos512.lib.block.ITileEntityBlock;
@@ -75,8 +74,7 @@ public class BlockChaosAltar extends BlockContainer implements ITileEntityBlock,
         if (world.isRemote) return true;
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof TileChaosAltar)
-            player.openGui(SilentGems.instance, GuiHandlerSilentGems.GuiType.ALTAR.id,
-                    world, pos.getX(), pos.getY(), pos.getZ());
+            GuiTypes.ALTAR.open(player, world, pos);
         return true;
     }
 

@@ -44,6 +44,10 @@ public class ItemChargingAgent extends Item implements IAddRecipes, ICustomModel
         this.setHasSubtypes(true);
     }
 
+    public int getTier(ItemStack stack) {
+        return stack.getItem() == this ? stack.getItemDamage() + 1 : 0;
+    }
+
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         String tier = stack.getItemDamage() < SUBTYPES ? "" + (1 + stack.getItemDamage())

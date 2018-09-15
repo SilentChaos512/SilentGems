@@ -50,7 +50,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
+import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.init.ModSounds;
@@ -104,7 +104,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
 
     public BlockSoulUrn() {
         super(Material.ROCK);
-        this.setHardness(0.5f);
+        this.setHardness(5f);
         this.setResistance(20f);
         this.setHarvestLevel("pickaxe", 1);
     }
@@ -220,8 +220,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
                 // Open inventory if lid is open (or there is no lid)
                 TileEntity tile = worldIn.getTileEntity(pos);
                 if (tile instanceof TileSoulUrn) {
-                    playerIn.openGui(SilentGems.instance, GuiHandlerSilentGems.GuiType.SOUL_URN.id,
-                            worldIn, pos.getX(), pos.getY(), pos.getZ());
+                    GuiTypes.SOUL_URN.open(playerIn, worldIn, pos);
                     worldIn.playSound(null, pos, ModSounds.SOUL_URN_OPEN, SoundCategory.BLOCKS, 0.6f,
                             (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
                 }

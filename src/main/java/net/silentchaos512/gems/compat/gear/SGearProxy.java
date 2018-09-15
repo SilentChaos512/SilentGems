@@ -1,5 +1,5 @@
 /*
- * Silent's Gems -- SGearCompat
+ * Silent's Gems -- SGearProxy
  * Copyright (C) 2018 SilentChaos512
  *
  * This library is free software; you can redistribute it and/or
@@ -19,27 +19,38 @@
 package net.silentchaos512.gems.compat.gear;
 
 import net.minecraft.item.ItemStack;
-import net.silentchaos512.gear.api.parts.ItemPartData;
-import net.silentchaos512.gear.api.parts.MaterialGrade;
-import net.silentchaos512.gear.api.parts.PartMain;
-import net.silentchaos512.gear.api.parts.PartRegistry;
+import net.minecraftforge.fml.common.Loader;
+import net.silentchaos512.gems.SilentGems;
 
-public final class SGearCompat {
-    private SGearCompat() {
+public final class SGearProxy {
+    private static boolean modLoaded = false;
+
+    private SGearProxy() {
         throw new IllegalAccessError("Utility class");
     }
 
+    public static void detectSilentGear() {
+        modLoaded = Loader.isModLoaded("silentgear");
+        if (modLoaded)
+            SilentGems.logHelper.info("Detected Silent Gear!");
+    }
+
+    public static boolean isLoaded() {
+        return modLoaded;
+    }
+
     public static String getGradeString(ItemStack stack) {
-        MaterialGrade grade = MaterialGrade.fromStack(stack);
-        return grade.name();
+        if (modLoaded) return SGearCompat.getGradeString(stack);
+        return "N/A";
     }
 
     public static int getPartTier(ItemStack stack) {
-        ItemPartData part = ItemPartData.fromStack(stack);
-        return part != null ? part.getPart().getTier() : -1;
+        if (modLoaded) return SGearCompat.getPartTier(stack);
+        return -1;
     }
 
     public static boolean isMainPart(ItemStack stack) {
-        return PartRegistry.get(stack) instanceof PartMain;
+        if (modLoaded) return SGearCompat.isMainPart(stack);
+        return false;
     }
 }

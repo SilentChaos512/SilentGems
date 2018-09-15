@@ -19,7 +19,6 @@
 package net.silentchaos512.gems.block;
 
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -41,7 +40,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
+import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.lib.Names;
@@ -51,13 +50,15 @@ import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
 
-public class BlockChaosPylon extends BlockContainer implements ITileEntityProvider, ITileEntityBlock, ICustomModel, IAddRecipes {
+import java.util.Locale;
+
+public class BlockChaosPylon extends BlockContainer implements ITileEntityBlock, ICustomModel, IAddRecipes {
     public enum VariantType implements IStringSerializable {
         PASSIVE, BURNER;
 
         @Override
         public String getName() {
-            return name().toLowerCase();
+            return name().toLowerCase(Locale.ROOT);
         }
     }
 
@@ -120,8 +121,7 @@ public class BlockChaosPylon extends BlockContainer implements ITileEntityProvid
         if (type == EnumPylonType.BURNER) {
             TileEntity tile = world.getTileEntity(pos);
             if (tile instanceof TileChaosPylon) {
-                player.openGui(SilentGems.instance, GuiHandlerSilentGems.GuiType.BURNER_PYLON.id,
-                        world, pos.getX(), pos.getY(), pos.getZ());
+                GuiTypes.BURNER_PYLON.open(player, world, pos);
             }
             return true;
         }

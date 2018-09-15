@@ -17,7 +17,7 @@ import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.compat.crafttweaker.CTSilentGems;
 import net.silentchaos512.gems.compat.evilcraft.EvilCraftCompat;
-import net.silentchaos512.gems.compat.gear.SGearCompat;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.event.GemsCommonEvents;
 import net.silentchaos512.gems.event.ShieldEventHandler;
@@ -58,8 +58,10 @@ public class GemsCommonProxy implements IProxy {
         LootTableList.register(new ResourceLocation(SilentGems.MODID, "ender_slime"));
 
         // Silent Gear support?
-        if (Loader.isModLoaded("silentgear") && GemsConfig.ENABLE_SGEAR_MATERIALS)
+        SGearProxy.detectSilentGear();
+        if (SGearProxy.isLoaded() && GemsConfig.ENABLE_SGEAR_MATERIALS) {
             SGearMaterials.init();
+        }
 
         registry.preInit(event);
     }
@@ -110,19 +112,5 @@ public class GemsCommonProxy implements IProxy {
         ItemStack mainhand = player.getHeldItemMainhand();
         ItemStack offhand = player.getHeldItemOffhand();
         return mainhand.getItem() == ModItems.debugItem || offhand.getItem() == ModItems.debugItem;
-    }
-
-    public boolean isSGearMainPart(ItemStack stack) {
-        if (Loader.isModLoaded("silentgear")) {
-            return SGearCompat.isMainPart(stack);
-        }
-        return false;
-    }
-
-    public int getSGearPartTier(ItemStack stack) {
-        if (Loader.isModLoaded("silentgear")) {
-            return SGearCompat.getPartTier(stack);
-        }
-        return -1;
     }
 }

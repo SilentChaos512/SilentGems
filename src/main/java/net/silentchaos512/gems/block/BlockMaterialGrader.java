@@ -34,8 +34,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
+import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
 import net.silentchaos512.lib.block.ITileEntityBlock;
@@ -83,8 +82,7 @@ public class BlockMaterialGrader extends BlockContainer implements ITileEntityBl
 
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof TileMaterialGrader)
-            player.openGui(SilentGems.instance, GuiHandlerSilentGems.GuiType.MATERIAL_GRADER.id,
-                    world, pos.getX(), pos.getY(), pos.getZ());
+            GuiTypes.MATERIAL_GRADER.open(player, world, pos);
         return true;
     }
 
