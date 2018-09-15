@@ -162,7 +162,11 @@ dependencies {
 
     // Silent Lib
     if (project.hasProperty('sl_version')) {
-        compileOnly "com.github.SilentChaos512:SilentLib:${project.sl_version}"
+        def slversion = "com.github.SilentChaos512:SilentLib:${project.sl_version}"
+        if (findProject(":SilentLib") != null)
+            compileOnly slversion
+        else
+            provided slversion
     }
 
     if (project.hasProperty('sgear_version')) {

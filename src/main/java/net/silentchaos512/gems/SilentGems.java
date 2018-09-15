@@ -50,7 +50,7 @@ public class SilentGems implements IModBase {
     public static final String MODID = "silentgems";
     public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
     public static final String MOD_NAME = "Silent's Gems";
-    public static final String VERSION = "2.8.5";
+    public static final String VERSION = "2.8.6";
     public static final String VERSION_SILENTLIB = "3.0.5";
     public static final int BUILD_NUM = 0;
     public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
@@ -66,7 +66,7 @@ public class SilentGems implements IModBase {
 
     public static final Random random = new Random();
     public static final LogHelper logHelper = new LogHelper(MOD_NAME, BUILD_NUM);
-    public static final I18nHelper i18n = new I18nHelper(MODID, logHelper, true);
+    public static final I18nHelper i18n = new I18nHelper(MODID, logHelper, false);
 
     public static final SRegistry registry = new SRegistry();
 

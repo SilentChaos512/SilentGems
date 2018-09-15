@@ -1,8 +1,5 @@
 package net.silentchaos512.gems.compat.crafttweaker;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import crafttweaker.mc1120.recipes.MCRecipeManager.ActionBaseAddRecipe;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
@@ -12,6 +9,9 @@ import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.recipe.RecipeMixedMaterialItem;
 import net.silentchaos512.gems.util.ToolHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActionAddMixedMaterialRecipe extends ActionBaseAddRecipe {
 
@@ -73,7 +73,7 @@ public class ActionAddMixedMaterialRecipe extends ActionBaseAddRecipe {
   }
 
   @Override
-  protected String calculateName() {
+  public String calculateName() {
 
     return "multipart_custom" + nameIndex;
   }
