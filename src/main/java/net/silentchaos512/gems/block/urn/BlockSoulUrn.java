@@ -18,7 +18,6 @@
 
 package net.silentchaos512.gems.block.urn;
 
-import com.google.gson.JsonObject;
 import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -37,7 +36,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -48,22 +46,20 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.client.key.KeyTracker;
-import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.init.ModSounds;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.urn.UrnConst;
+import net.silentchaos512.gems.lib.urn.UrnHelper;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 import net.silentchaos512.lib.block.IColoredBlock;
 import net.silentchaos512.lib.block.ITileEntityBlock;
-import net.silentchaos512.lib.recipe.RecipeJsonHell;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.DyeHelper;
+import net.silentchaos512.lib.util.MathUtils;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -74,12 +70,6 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
     public enum LidState implements IStringSerializable {
         CLOSED, OPEN, NO_LID;
 
-        public static LidState fromMetadata(int meta) {
-            meta = meta >> 2;
-            if (meta < 0 || meta >= values().length) return LidState.NO_LID;
-            return values()[meta];
-        }
-
         public boolean isOpen() {
             return this == OPEN || this == NO_LID;
         }
@@ -89,17 +79,11 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
             return name().toLowerCase(Locale.ROOT);
         }
     }
+    private static final AxisAlignedBB BOUNDING_BOX_CLOSED = MathUtils.boundingBoxByPixels(1, 0, 1, 15, 15, 15);
 
-    //@formatter:off
-    private static final AxisAlignedBB BOUNDING_BOX_CLOSED = new AxisAlignedBB(
-             1/16f,  0/16f,  1/16f,
-            15/16f, 15/16f, 15/16f);
-    private static final AxisAlignedBB BOUNDING_BOX_OPEN = new AxisAlignedBB(
-             1/16f,  0/16f,  1/16f,
-            15/16f, 14/16f, 15/16f);
-    //@formatter:on
-
+    private static final AxisAlignedBB BOUNDING_BOX_OPEN = MathUtils.boundingBoxByPixels(1, 0, 1, 15, 14, 15);
     static final PropertyEnum<LidState> PROPERTY_LID = PropertyEnum.create("lid", LidState.class);
+
     private static final PropertyEnum<EnumFacing> PROPERTY_FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
     public BlockSoulUrn() {
@@ -120,52 +104,19 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         return TileSoulUrn.class;
     }
 
-    public int getClayColor(ItemStack stack) {
-        NBTTagCompound tags = stack.getOrCreateSubCompound(UrnConst.NBT_ROOT);
-        return tags.hasKey(UrnConst.NBT_COLOR) ? tags.getInteger(UrnConst.NBT_COLOR) : UrnConst.UNDYED_COLOR;
-    }
-
-    public void setClayColor(ItemStack stack, int color) {
-        stack.getOrCreateSubCompound(UrnConst.NBT_ROOT).setInteger(UrnConst.NBT_COLOR, color);
-    }
-
-    @Nullable
-    public EnumGem getGem(ItemStack stack) {
-        NBTTagCompound tags = stack.getOrCreateSubCompound(UrnConst.NBT_ROOT);
-        if (tags.hasKey(UrnConst.NBT_GEM)) {
-            String str = tags.getString(UrnConst.NBT_GEM);
-            for (EnumGem gem : EnumGem.values())
-                if (gem.getName().equals(str))
-                    return gem;
-        }
-        return null;
-    }
-
-    public void setGem(ItemStack stack, EnumGem gem) {
-        stack.getOrCreateSubCompound(UrnConst.NBT_ROOT).setString(UrnConst.NBT_GEM, gem.getName());
-    }
-
     public ItemStack getStack(int color, @Nullable EnumGem gem) {
         ItemStack stack = new ItemStack(this);
-        if (color != UrnConst.UNDYED_COLOR) this.setClayColor(stack, color);
-        if (gem != null) this.setGem(stack, gem);
+        if (color != UrnConst.UNDYED_COLOR) UrnHelper.setClayColor(stack, color);
+        if (gem != null) UrnHelper.setGem(stack, gem);
         return stack;
-    }
-
-    public boolean isLidless(ItemStack stack) {
-        return stack.getItemDamage() != 0;
-    }
-
-    public void setLidless(ItemStack stack, boolean lidless) {
-        stack.setItemDamage(lidless ? LidState.NO_LID.ordinal() << 2 : 0);
     }
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
 
-        int color = this.getClayColor(stack);
-        EnumGem gem = this.getGem(stack);
+        int color = UrnHelper.getClayColor(stack);
+        EnumGem gem = UrnHelper.getGem(stack);
 
         if (color != UrnConst.UNDYED_COLOR) {
             tooltip.add(SilentGems.i18n.subText(this, "color", String.format("#%06X", color)));
@@ -213,7 +164,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
 
             if (lid != LidState.NO_LID && (playerIn.isSneaking() || !lid.isOpen())) {
                 // Toggle lid state when sneaking or if closed
-                worldIn.setBlockState(pos, this.toggleLid(state), 2);
+                worldIn.setBlockState(pos, toggleLid(state), 2);
                 worldIn.playSound(null, pos, ModSounds.SOUL_URN_LID, SoundCategory.BLOCKS, 0.6f,
                         (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
             } else {
@@ -230,7 +181,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         return true;
     }
 
-    private IBlockState toggleLid(IBlockState state) {
+    private static IBlockState toggleLid(IBlockState state) {
         LidState lid = state.getValue(PROPERTY_LID);
         if (lid == LidState.NO_LID) return state;
         return state.withProperty(PROPERTY_LID, lid == LidState.CLOSED ? LidState.OPEN : LidState.CLOSED);
@@ -241,7 +192,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         EnumFacing side = placer.getHorizontalFacing().getOpposite();
         IBlockState newState = state.withProperty(PROPERTY_FACING, side)
-                .withProperty(PROPERTY_LID, isLidless(stack) ? LidState.NO_LID : LidState.CLOSED);
+                .withProperty(PROPERTY_LID, UrnHelper.isLidless(stack) ? LidState.NO_LID : LidState.CLOSED);
 
         worldIn.setBlockState(pos, newState, 2);
 
@@ -252,7 +203,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
                 tileSoulUrn.setCustomName(stack.getDisplayName());
             }
 
-            tileSoulUrn.setColorAndGem(this.getClayColor(stack), this.getGem(stack));
+            tileSoulUrn.setColorAndGem(UrnHelper.getClayColor(stack), UrnHelper.getGem(stack));
 
             NBTTagCompound tagCompound = stack.getOrCreateSubCompound(UrnConst.NBT_ROOT);
             tileSoulUrn.setUpgrades(UrnUpgrade.ListHelper.load(tagCompound));
@@ -269,7 +220,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
             if (!tileSoulUrn.isCleared() && tileSoulUrn.shouldDrop()) {
                 ItemStack stack = new ItemStack(this);
                 if (state.getValue(PROPERTY_LID) == LidState.NO_LID) {
-                    setLidless(stack, true);
+                    UrnHelper.setLidless(stack, true);
                 }
 
                 NBTTagCompound compound = new NBTTagCompound();
@@ -283,9 +234,9 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
                 }
 
                 if (tileSoulUrn.getColor() != UrnConst.UNDYED_COLOR)
-                    this.setClayColor(stack, tileSoulUrn.getColor());
+                    UrnHelper.setClayColor(stack, tileSoulUrn.getColor());
                 if (tileSoulUrn.getGem() != null)
-                    this.setGem(stack, tileSoulUrn.getGem());
+                    UrnHelper.setGem(stack, tileSoulUrn.getGem());
 
                 spawnAsEntity(worldIn, pos, stack);
             }
@@ -307,9 +258,9 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
             if (!compound.isEmpty())
                 stack.setTagInfo("BlockEntityInfo", compound);
 
-            this.setClayColor(stack, tileSoulUrn.getColor());
+            UrnHelper.setClayColor(stack, tileSoulUrn.getColor());
             if (tileSoulUrn.getGem() != null)
-                this.setGem(stack, tileSoulUrn.getGem());
+                UrnHelper.setGem(stack, tileSoulUrn.getGem());
         }
 
         return stack;
@@ -348,62 +299,72 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         return (stack, tintIndex) -> {
             if (tintIndex == 0) {
                 // Main body/clay color
-                return this.getClayColor(stack);
+                return UrnHelper.getClayColor(stack);
             } else if (tintIndex == 1) {
                 // Decorative gem color
-                EnumGem gem = this.getGem(stack);
+                EnumGem gem = UrnHelper.getGem(stack);
                 return gem != null ? gem.getColor() : 0xFFFFFF;
             }
             return 0xFFFFFF;
         };
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.MODEL;
     }
 
+    @SuppressWarnings("deprecation")
     @Nullable
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
         return blockState.getValue(PROPERTY_LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return state.getValue(PROPERTY_LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean causesSuffocation(IBlockState state) {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean isTranslucent(IBlockState state) {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean isFullBlock(IBlockState state) {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean isFullCube(IBlockState state) {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean hasComparatorInputOverride(IBlockState state) {
         return true;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public int getComparatorInputOverride(IBlockState blockState, World worldIn, BlockPos pos) {
         return Container.calcRedstoneFromInventory((IInventory) worldIn.getTileEntity(pos));
@@ -416,12 +377,19 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
                 .withProperty(PROPERTY_LID, meta == 0 ? LidState.CLOSED : LidState.NO_LID);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public IBlockState getStateFromMeta(int meta) {
         // LLFF
         return this.getDefaultState()
                 .withProperty(PROPERTY_FACING, EnumFacing.byHorizontalIndex(meta))
-                .withProperty(PROPERTY_LID, LidState.fromMetadata(meta));
+                .withProperty(PROPERTY_LID, lidStateFromMeta(meta));
+    }
+
+    private static LidState lidStateFromMeta(int meta) {
+        meta = meta >> 2;
+        if (meta < 0 || meta >= LidState.values().length) return LidState.NO_LID;
+        return LidState.values()[meta];
     }
 
     @Override
@@ -436,32 +404,32 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         return new BlockStateContainer(this, PROPERTY_LID, PROPERTY_FACING);
     }
 
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        // Need custom serializer
-        recipes.setRecipeSerializer(Item.getItemFromBlock(this), (result, components) -> {
-            JsonObject json = RecipeJsonHell.ShapedSerializer.INSTANCE.serialize(result, components);
-            json.remove("type");
-            json.addProperty("type", "silentgems:soul_urn");
-            return json;
-        });
-
+//    @Override
+//    public void addRecipes(RecipeMaker recipes) {
+//        // Need custom serializer
+//        recipes.setRecipeSerializer(Item.getItemFromBlock(this), (result, components) -> {
+//            JsonObject json = RecipeJsonHell.ShapedSerializer.INSTANCE.serialize(result, components);
+//            json.remove("type");
+//            json.addProperty("type", "silentgems:soul_urn");
+//            return json;
+//        });
+//
 //        addRecipe(recipes, null);
 //        for (EnumDyeColor color : EnumDyeColor.values())
 //            addRecipe(recipes, color);
-    }
+//    }
 
-    private void addRecipe(RecipeMaker recipes, @Nullable EnumDyeColor color) {
-        ItemStack clay = color == null ? new ItemStack(Blocks.HARDENED_CLAY)
-                : new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, color.getMetadata());
-
-        recipes.addShaped("soul_urn" + (color != null ? "_" + color.getName() : ""),
-                getStack(color == null ? UrnConst.UNDYED_COLOR : color.getColorValue(), null),
-                "cgc", "csc", "ccc",
-                'c', clay,
-                'g', new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE),
-                's', new ItemStack(ModItems.soulGem));
-    }
+//    private void addRecipe(RecipeMaker recipes, @Nullable EnumDyeColor color) {
+//        ItemStack clay = color == null ? new ItemStack(Blocks.HARDENED_CLAY)
+//                : new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, color.getMetadata());
+//
+//        recipes.addShaped("soul_urn" + (color != null ? "_" + color.getName() : ""),
+//                getStack(color == null ? UrnConst.UNDYED_COLOR : color.getColorValue(), null),
+//                "cgc", "csc", "ccc",
+//                'c', clay,
+//                'g', new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE),
+//                's', new ItemStack(ModItems.soulGem));
+//    }
 
     @Override
     public void registerModels() {
@@ -496,7 +464,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
             if (state.getBlock() == Blocks.CAULDRON) {
                 int waterLevel = state.getValue(BlockCauldron.LEVEL);
                 if (waterLevel > 0) {
-                    blockSoulUrn.setClayColor(player.getHeldItem(hand), UrnConst.UNDYED_COLOR);
+                    UrnHelper.setClayColor(player.getHeldItem(hand), UrnConst.UNDYED_COLOR);
                     Blocks.CAULDRON.setWaterLevel(worldIn, pos, state, waterLevel - 1);
                     return EnumActionResult.SUCCESS;
                 }

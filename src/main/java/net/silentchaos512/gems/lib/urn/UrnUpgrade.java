@@ -79,7 +79,10 @@ public class UrnUpgrade {
         }
     }
 
-    public static class ListHelper {
+    public static final class ListHelper {
+        private ListHelper() {
+        }
+
         public static NonNullList<UrnUpgrade> load(ItemStack urn) {
             return load(urn.getOrCreateSubCompound(UrnConst.NBT_ROOT));
         }

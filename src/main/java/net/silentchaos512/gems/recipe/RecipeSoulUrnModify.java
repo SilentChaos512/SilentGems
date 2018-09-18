@@ -33,6 +33,7 @@ import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.urn.IUrnUpgradeItem;
 import net.silentchaos512.gems.lib.urn.UrnConst;
+import net.silentchaos512.gems.lib.urn.UrnHelper;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 import net.silentchaos512.lib.collection.StackList;
 import net.silentchaos512.lib.recipe.RecipeBaseSL;
@@ -74,8 +75,8 @@ public class RecipeSoulUrnModify extends RecipeBaseSL {
         Collection<ItemStack> dyes = list.allMatches(DyeUtils::isDye);
 
         if (mods.isEmpty() && dyes.isEmpty()) {
-            boolean lidless = ModBlocks.soulUrn.isLidless(urn);
-            ModBlocks.soulUrn.setLidless(urn, !lidless);
+            boolean lidless = UrnHelper.isLidless(urn);
+            UrnHelper.setLidless(urn, !lidless);
         } else {
             mods.forEach(mod -> applyModifierItem(urn, mod));
             applyDyes(urn, dyes);
@@ -102,7 +103,7 @@ public class RecipeSoulUrnModify extends RecipeBaseSL {
 
         if (mod.getItem() == ModItems.gem) {
             EnumGem gem = EnumGem.getFromStack(mod);
-            ModBlocks.soulUrn.setGem(urn, gem);
+            UrnHelper.setGem(urn, gem);
         } else if (mod.getItem() instanceof IUrnUpgradeItem) {
             IUrnUpgradeItem upgradeItem = (IUrnUpgradeItem) mod.getItem();
             NBTTagCompound urnSubcompound = urn.getOrCreateSubCompound(UrnConst.NBT_ROOT);
@@ -119,7 +120,7 @@ public class RecipeSoulUrnModify extends RecipeBaseSL {
         int maxColorSum = 0;
         int colorCount = 0;
 
-        int clayColor = ModBlocks.soulUrn.getClayColor(urn);
+        int clayColor = UrnHelper.getClayColor(urn);
         if (clayColor != UrnConst.UNDYED_COLOR) {
             float r = (float) (clayColor >> 16 & 255) / 255.0F;
             float g = (float) (clayColor >> 8 & 255) / 255.0F;
@@ -154,7 +155,7 @@ public class RecipeSoulUrnModify extends RecipeBaseSL {
             b = (int) ((float) b * maxAverage / max);
             int finalColor = (r << 8) + g;
             finalColor = (finalColor << 8) + b;
-            ModBlocks.soulUrn.setClayColor(urn, finalColor);
+            UrnHelper.setClayColor(urn, finalColor);
         }
     }
 

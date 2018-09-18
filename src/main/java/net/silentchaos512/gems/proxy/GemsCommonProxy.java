@@ -29,6 +29,7 @@ import net.silentchaos512.gems.item.quiver.QuiverHelper;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.module.ModuleHalloweenHijinks;
 import net.silentchaos512.gems.lib.module.ModuleHolidayCheer;
+import net.silentchaos512.gems.lib.urn.UpgradePlanter;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
@@ -73,6 +74,8 @@ public class GemsCommonProxy implements IProxy {
         if (Loader.isModLoaded("evilcraft")) {
             EvilCraftCompat.init();
         }
+
+        UpgradePlanter.init();
     }
 
     @Override

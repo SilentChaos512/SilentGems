@@ -41,7 +41,9 @@ import java.util.function.Supplier;
 public enum SoulUrnUpgrades implements IEnumItems<SoulUrnUpgrades, SoulUrnUpgrades.UpgradeItem> {
     STORAGE_BASIC(basicSerializer("basic_storage", UrnUpgrade::new)),
     STORAGE_ADVANCED(basicSerializer("advanced_storage", UrnUpgrade::new)),
-    VACUUM(basicSerializer("vacuum", UpgradeVacuum::new));
+    VACUUM(basicSerializer("vacuum", UpgradeVacuum::new)),
+//    PLANTER(basicSerializer("planter", UpgradePlanter::new));
+    ;
 
     private final UpgradeItem item;
     @Getter
