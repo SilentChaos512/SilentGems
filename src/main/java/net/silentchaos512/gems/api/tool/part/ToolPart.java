@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
@@ -17,7 +18,6 @@ import net.silentchaos512.gems.api.stats.PartStats;
 import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ToolRenderHelper;
-import net.silentchaos512.lib.util.StackHelper;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -225,12 +225,19 @@ public abstract class ToolPart {
      * @return True if partRep matches the part, false otherwise.
      */
     public boolean matchesForCrafting(ItemStack partRep, boolean matchOreDict) {
-        if (partRep.isEmpty())
+        if (partRep.isEmpty()) {
             return false;
-        if (partRep.isItemEqual(getCraftingStack()))
+        }
+        if (partRep.isItemEqual(this.craftingStack)) {
             return true;
-        if (matchOreDict)
-            return StackHelper.matchesOreDict(partRep, getCraftingOreDictName());
+        }
+        if (matchOreDict && !this.craftingOreDictName.isEmpty()) {
+            for (int id : OreDictionary.getOreIDs(partRep)) {
+                if (this.craftingOreDictName.equals(OreDictionary.getOreName(id))) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
