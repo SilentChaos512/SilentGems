@@ -21,6 +21,7 @@ package net.silentchaos512.gems.block.supercharger;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
@@ -31,14 +32,17 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.lib.block.ITileEntityBlock;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.RecipeMaker;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class BlockSupercharger extends BlockContainer implements ITileEntityBlock, IAddRecipes {
     public BlockSupercharger() {
@@ -59,6 +63,11 @@ public class BlockSupercharger extends BlockContainer implements ITileEntityBloc
     @Override
     public void addRecipes(RecipeMaker recipes) {
         // TODO
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(TextFormatting.ITALIC + SilentGems.i18n.subText(this, "desc"));
     }
 
     @Override
