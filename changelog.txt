@@ -1,5 +1,6 @@
 2.8.6
 Added Supercharger (PLEASE WRITE DESCRIPTION)
+Fixed: Concentration enchantment appearing on incorrect items
 
 2.8.5
 Added: Soul urn storage upgrades, basic is 4 rows, advanced is 6. They do not stack.
