@@ -5,8 +5,10 @@
 - Supercharger (incomplete, only relevant to Silent Gear)
 ### Changed
 - Optimize ore dictionary lookup for materials (should improve load times slightly) [#341]
+- Stop tooltips from being created in certain states to improve world startup/shutdown time [#341]
 ### Fixed
 - Concentration enchantment appearing on incorrect items
+- Meecreeps picking up phantom lights [#330]
 
 # Note
 

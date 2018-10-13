@@ -22,6 +22,7 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
@@ -97,12 +98,20 @@ public class GemsClientEvents {
 
     @SubscribeEvent
     public void onTooltip(ItemTooltipEvent event) {
-        boolean ctrlDown = KeyTracker.isControlDown();
-        boolean shiftDown = KeyTracker.isShiftDown();
+        LoaderState state = Loader.instance().getLoaderState();
+        if (state == LoaderState.INITIALIZATION || state == LoaderState.SERVER_ABOUT_TO_START || state == LoaderState.SERVER_STOPPING) {
+            // Skip tooltips during block/item remapping
+            // JEI tooltip caches are done in AVAILABLE, in-game is SERVER_STARTED
+            return;
+        }
+
         ItemStack stack = event.getItemStack();
         ToolPart part = !stack.isEmpty() ? ToolPartRegistry.fromStack(stack) : null;
 
         if (part != null && !part.isBlacklisted(stack)) {
+            final boolean ctrlDown = KeyTracker.isControlDown();
+            final boolean shiftDown = KeyTracker.isShiftDown();
+
             if (part instanceof ToolPartRod) {
                 onTooltipForToolRod(event, stack, part, ctrlDown, shiftDown);
             } else if (part instanceof ToolPartMain) {
