@@ -162,15 +162,17 @@ dependencies {
 
     // Silent Lib
     if (project.hasProperty('sl_version')) {
-        def slversion = "com.github.SilentChaos512:SilentLib:${project.sl_version}"
         if (findProject(":SilentLib") != null)
-            compileOnly slversion
+            compileOnly project(":SilentLib")
         else
-            provided slversion
+            provided "com.github.SilentChaos512:SilentLib:${project.sl_version}"
     }
 
     if (project.hasProperty('sgear_version')) {
-        compileOnly "com.github.SilentChaos512:Silent-Gear:${project.sgear_version}"
+        if (findProject(":SilentGear"))
+            compileOnly project(":SilentGear")
+        else
+            provided "com.github.SilentChaos512:Silent-Gear:${project.sgear_version}"
     }
 
     // EvilCraft

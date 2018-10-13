@@ -1,6 +1,20 @@
-2.8.6
-Added: Supercharger (incomplete, only relevant to Silent Gear)
-Fixed: Concentration enchantment appearing on incorrect items
+# Changelog
+
+## [Unreleased]
+### Added
+- Supercharger (incomplete, only relevant to Silent Gear)
+### Changed
+- Optimize ore dictionary lookup for materials (should improve load times slightly) [#341]
+### Fixed
+- Concentration enchantment appearing on incorrect items
+
+# Note
+
+Changelog format changed on 2018-10-13. The old log has not changed and follows below. It does not
+support markdown and viewing as raw text is recommended.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 2.8.5
 Added: Soul urn storage upgrades, basic is 4 rows, advanced is 6. They do not stack.
