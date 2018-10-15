@@ -280,6 +280,7 @@ curseforge {
 //                displayName = "$project.description $display_version"
                 relations {
                     requiredLibrary 'silent-lib'
+                    optionalLibrary 'jei'
                 }
             }
 //            if (project.hasProperty('doAPIJar')) {

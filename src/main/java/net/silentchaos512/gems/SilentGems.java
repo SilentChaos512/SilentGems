@@ -51,7 +51,7 @@ public class SilentGems implements IModBase {
     public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
     public static final String MOD_NAME = "Silent's Gems";
     public static final String VERSION = "2.8.6";
-    public static final String VERSION_SILENTLIB = "3.0.5";
+    public static final String VERSION_SILENTLIB = "3.0.6";
     public static final int BUILD_NUM = 0;
     public static final String DEPENDENCIES = "required-after:silentlib@[" + VERSION_SILENTLIB + ",);"
             + "after:baubles;after:enderio;after:enderzoo;after:veinminer;after:silentgear";
@@ -76,10 +76,13 @@ public class SilentGems implements IModBase {
     @SidedProxy(clientSide = "net.silentchaos512.gems.proxy.GemsClientProxy", serverSide = "net.silentchaos512.gems.proxy.GemsCommonProxy")
     public static net.silentchaos512.gems.proxy.GemsCommonProxy proxy;
 
+    // Change to true to generate recipe JSONs
+    private static final boolean RECIPE_HELL_IN_DEV = false;
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         registry.setMod(this);
-        registry.getRecipeMaker().setJsonHellMode(this.isDevBuild());
+        registry.getRecipeMaker().setJsonHellMode(RECIPE_HELL_IN_DEV && this.isDevBuild());
 
         CommonItemStats.init();
         ToolHelper.init();

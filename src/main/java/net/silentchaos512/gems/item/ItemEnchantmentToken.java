@@ -315,22 +315,25 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
         }
 
         // Sort by type, then enchantment name.
-        tokens.sort((o1, o2) -> {
-            int k = -getModelKey(o1).compareTo(getModelKey(o2));
-            if (k == 0) {
-                Enchantment ench1 = getSingleEnchantment(o1);
-                Enchantment ench2 = getSingleEnchantment(o2);
-                if (ench1 == null || ench2 == null)
-                    return 0;
-                return ench1.getTranslatedName(1).compareTo(ench2.getTranslatedName(1));
-            }
-            return k;
-        });
+        tokens.sort(this::compareEnchantmentNames);
 
         // Empty token first.
         tokens.add(0, new ItemStack(this, 1, BLANK_META));
 
         list.addAll(tokens);
+    }
+
+    private int compareEnchantmentNames(ItemStack o1, ItemStack o2) {
+        int k = -getModelKey(o1).compareTo(getModelKey(o2));
+        if (k == 0) {
+            Enchantment ench1 = getSingleEnchantment(o1);
+            Enchantment ench2 = getSingleEnchantment(o2);
+            if (ench1 != null && ench2 != null) {
+                // If this crashes the enchantment is at fault, nothing should be done about it.
+                k = ench1.getTranslatedName(1).compareTo(ench2.getTranslatedName(1));
+            }
+        }
+        return k;
     }
 
     @Nullable
