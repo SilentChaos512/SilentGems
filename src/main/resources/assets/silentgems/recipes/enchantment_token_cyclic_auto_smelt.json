@@ -1,0 +1,31 @@
+{
+  "conditions": [
+    {
+      "type": "mod_loaded",
+      "modid": "cyclicmagic"
+    }
+  ],
+  "pattern": [
+    "g g",
+    " t ",
+    "ooo"
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemGarnet"
+    },
+    "o": {
+      "item": "minecraft:furnace"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "cyclicmagic:enchantment.autosmelt"
+  },
+  "type": "silentgems:enchantment_token"
+}

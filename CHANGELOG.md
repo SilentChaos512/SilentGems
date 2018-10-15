@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 ### Added
+- Built-in recipes for enchantment tokens of Cyclic's enchantments [#340]
+
+## [2.8.6] - 2018-10-14
+### Added
 - Supercharger (incomplete, only relevant to Silent Gear)
 ### Changed
 - Optimize ore dictionary lookup for materials (should improve load times slightly) [#341]

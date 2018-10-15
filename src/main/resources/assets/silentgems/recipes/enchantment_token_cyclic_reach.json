@@ -1,0 +1,32 @@
+{
+  "conditions": [
+    {
+      "type": "mod_loaded",
+      "modid": "cyclicmagic"
+    }
+  ],
+  "pattern": [
+    "g g",
+    " t ",
+    "ooo"
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemCoral"
+    },
+    "o": {
+      "type": "forge:ore_dict",
+      "ore": "endstone"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "cyclicmagic:enchantment.reach"
+  },
+  "type": "silentgems:enchantment_token"
+}

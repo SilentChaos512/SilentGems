@@ -1,0 +1,31 @@
+{
+  "conditions": [
+    {
+      "type": "mod_loaded",
+      "modid": "cyclicmagic"
+    }
+  ],
+  "pattern": [
+    "g g",
+    " t ",
+    " o "
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemFluorite"
+    },
+    "o": {
+      "item": "minecraft:waterlily"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "cyclicmagic:enchantment.waterwalking"
+  },
+  "type": "silentgems:enchantment_token"
+}

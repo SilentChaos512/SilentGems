@@ -1,0 +1,31 @@
+{
+  "conditions": [
+    {
+      "type": "mod_loaded",
+      "modid": "cyclicmagic"
+    }
+  ],
+  "pattern": [
+    "g g",
+    " t ",
+    "o o"
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemVioletSapphire"
+    },
+    "o": {
+      "item": "minecraft:iron_sword"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "cyclicmagic:enchantment.beheading"
+  },
+  "type": "silentgems:enchantment_token"
+}

@@ -1,4 +1,7 @@
 {
+    "conditions": {
+        "mod_loaded": "net.silentchaos512.gems.recipe.ConditionModLoaded"
+    },
     "recipes": {
         "enchantment_token": "net.silentchaos512.gems.recipe.EnchantmentTokenRecipeFactory",
         "soul_urn": "net.silentchaos512.gems.recipe.SoulUrnRecipeFactory"
