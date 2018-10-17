@@ -1,8 +1,10 @@
 # Changelog
 
-## [Unreleased]
+## [2.8.7] - 2018-10-17
 ### Added
 - Built-in recipes for enchantment tokens of Cyclic's enchantments [#340]
+### Fixed
+- Possible crash from mod interaction, exact cause unknown. Adds additional info to log when caught. [#344]
 
 ## [2.8.6] - 2018-10-14
 ### Added

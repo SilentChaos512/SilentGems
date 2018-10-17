@@ -314,9 +314,13 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IArmor, IA
 
             ToolPartRegistry.getMains().forEach(part -> {
                 if (!part.isBlacklisted(part.getCraftingStack())) {
-                    ItemStack armor = constructArmor(part.getTier(), part.getCraftingStack());
-                    armor.getTagCompound().setBoolean(ToolHelper.NBT_EXAMPLE_TOOL, true);
-                    subItems.add(armor);
+                    if (!part.getCraftingStack().isEmpty()) {
+                        ItemStack armor = constructArmor(part.getTier(), part.getCraftingStack());
+                        armor.getTagCompound().setBoolean(ToolHelper.NBT_EXAMPLE_TOOL, true);
+                        subItems.add(armor);
+                    } else {
+                        SilentGems.logHelper.warn("Constructing armor subitems: part '{}' has no crafting item?", part);
+                    }
                 }
             });
 
