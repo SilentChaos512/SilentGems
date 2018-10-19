@@ -48,8 +48,16 @@ public class EnchantmentTokenRecipeFactory implements IRecipeFactory {
 
         String key = resultObj.get("enchantment").getAsString();
         Enchantment enchantment = Enchantment.REGISTRY.getObject(new ResourceLocation(key));
-        if (enchantment == null)
-            throw new NullPointerException("Enchantment " + key + " not found!");
+        if (enchantment == null) {
+            // Enchantment is missing -- typo or registry tamper?
+            // Just log a warning normally, let it crash in dev
+            if (SilentGems.instance.isDevBuild()) {
+                throw new NullPointerException("Enchantment '" + key + "' not found!");
+            } else {
+                SilentGems.logHelper.warn("Failed to load enchantment token recipe: enchantment '{}' not found!", key);
+                return new DummyRecipe();
+            }
+        }
 
         ItemStack result = ModItems.enchantmentToken.constructToken(enchantment);
         result.setCount(recipe.getRecipeOutput().getCount());
