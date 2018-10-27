@@ -68,10 +68,10 @@ public class ItemTipUpgrade extends Item implements IAddRecipes, ICustomModel {
     @Override
     public void addRecipes(RecipeMaker recipes) {
         ItemStack base = CraftingItems.UPGRADE_BASE.getStack();
-        RECIPES.add(recipes.addShapelessOre("tip_upgrade_iron", new ItemStack(this, 1, 0), "ingotIron", base));
-        RECIPES.add(recipes.addShapelessOre("tip_upgrade_gold", new ItemStack(this, 1, 1), "ingotGold", base));
-        RECIPES.add(recipes.addShapelessOre("tip_upgrade_diamond", new ItemStack(this, 1, 2), "gemDiamond", base));
-        RECIPES.add(recipes.addShapelessOre("tip_upgrade_emerald", new ItemStack(this, 1, 3), "gemEmerald", base));
+        RECIPES.add(recipes.makeShapelessOre("tip_upgrade_iron", new ItemStack(this, 1, 0), "ingotIron", base));
+        RECIPES.add(recipes.makeShapelessOre("tip_upgrade_gold", new ItemStack(this, 1, 1), "ingotGold", base));
+        RECIPES.add(recipes.makeShapelessOre("tip_upgrade_diamond", new ItemStack(this, 1, 2), "gemDiamond", base));
+        RECIPES.add(recipes.makeShapelessOre("tip_upgrade_emerald", new ItemStack(this, 1, 3), "gemEmerald", base));
     }
 
     @Override

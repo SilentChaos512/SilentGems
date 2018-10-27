@@ -17,23 +17,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.DimensionalPosition;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemTeleporterLinker extends Item implements IAddRecipes, ICustomModel {
+public class ItemTeleporterLinker extends Item implements ICustomModel {
     public ItemTeleporterLinker() {
         setMaxStackSize(1);
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        recipes.addShaped("teleporter_linker", new ItemStack(this), "c", "r", 'c',
-                CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack(), 'r', CraftingItems.ORNATE_GOLD_ROD.getStack());
     }
 
     @Override

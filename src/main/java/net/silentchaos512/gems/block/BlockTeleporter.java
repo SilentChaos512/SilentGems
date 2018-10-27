@@ -14,23 +14,18 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileTeleporter;
-import net.silentchaos512.lib.registry.IAddRecipes;
-import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
 import net.silentchaos512.wit.api.IWitHudInfo;
 
 import java.util.List;
 
-public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProvider, IAddRecipes, IWitHudInfo {
+public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProvider, IWitHudInfo {
     private final boolean isAnchor;
     private final String blockName;
 
@@ -54,27 +49,6 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
         setResistance(2000.0f);
         setSoundType(SoundType.METAL);
         setHarvestLevel("pickaxe", 1);
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        ItemStack[] anyTeleporter = new ItemStack[]{
-                new ItemStack(ModBlocks.teleporter, 1, OreDictionary.WILDCARD_VALUE),
-                new ItemStack(ModBlocks.teleporterDark, 1, OreDictionary.WILDCARD_VALUE),
-                new ItemStack(ModBlocks.teleporterLight, 1, OreDictionary.WILDCARD_VALUE)
-        };
-        int lastIndex = -1;
-
-        for (int i = 0; i < 16; ++i) {
-            EnumGem gem = getGem(i);
-            recipes.addShapedOre(getBlockName() + i, new ItemStack(this, 2, i), "cec", " g ", "cec", 'c',
-                    CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack(), 'e',
-                    CraftingItems.ENDER_ESSENCE.getStack(), 'g', gem.getBlockOreName());
-            for (ItemStack stack : anyTeleporter) {
-                recipes.addShapelessOre(blockName + "_" + (++lastIndex) + "_recolor", new ItemStack(this, 1, i), stack,
-                        gem.getItemOreName());
-            }
-        }
     }
 
     @Override

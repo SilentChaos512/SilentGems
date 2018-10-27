@@ -9,7 +9,6 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,13 +19,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModBlocks;
-import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.recipe.RecipeJsonHell;
@@ -398,70 +395,15 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
             json.addProperty("type", "silentgems:enchantment_token");
             Enchantment enchantment = this.getSingleEnchantment(result);
             if (enchantment != null) {
-                json.getAsJsonObject("result").addProperty("enchantment", enchantment.getRegistryName().toString());
+                ResourceLocation name = Objects.requireNonNull(enchantment.getRegistryName());
+                json.getAsJsonObject("result").addProperty("enchantment", name.toString());
             }
             return json;
         });
-
-        // Blank
-        recipes.addShapedOre("enchantment_token_blank", new ItemStack(this, 12, BLANK_META), "ggg",
-                "lcl", "ggg", 'g', "ingotGold", 'l', "gemLapis", 'c', "gemChaos");
-        // Uncrafting
-        recipes.addShapeless("enchantment_token_clear", new ItemStack(this, 1, BLANK_META),
-                new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE));
-
-        // All
-        addTokenRecipe(Enchantments.UNBREAKING, EnumGem.SAPPHIRE, "ingotIron", 5);
-        addTokenRecipe(Enchantments.MENDING, EnumGem.BLACK_DIAMOND, Items.NETHER_STAR, 1);
-
-        // Digging tools
-        addTokenRecipe(Enchantments.EFFICIENCY, EnumGem.BERYL, "dustGlowstone", 4);
-        addTokenRecipe(Enchantments.FORTUNE, EnumGem.GOLDEN_BERYL, "gemDiamond", 3);
-        addTokenRecipe(Enchantments.SILK_TOUCH, EnumGem.VIOLET_SAPPHIRE, "gemEmerald", 3);
-        ItemStack netherShard = CraftingItems.NETHER_SHARD.getStack();
-        addTokenRecipe(ModEnchantments.gravity, EnumGem.AMBER, netherShard, 2);
-
-        // Melee weapons
-        addTokenRecipe(Enchantments.BANE_OF_ARTHROPODS, EnumGem.AMETHYST, Items.SPIDER_EYE, 4);
-        addTokenRecipe(Enchantments.FIRE_ASPECT, EnumGem.GARNET, Items.BLAZE_POWDER, 4);
-        addTokenRecipe(Enchantments.KNOCKBACK, EnumGem.AQUAMARINE, Items.FEATHER, 5);
-        addTokenRecipe(Enchantments.LOOTING, EnumGem.TURQUOISE, "gemEmerald", 2);
-        addTokenRecipe(Enchantments.SHARPNESS, EnumGem.RUBY, Items.FLINT, 5);
-        addTokenRecipe(Enchantments.SMITE, EnumGem.PERIDOT, Items.ROTTEN_FLESH, 5);
-        addTokenRecipe(Enchantments.SWEEPING, EnumGem.MOLDAVITE, Items.REEDS, 5);
-        addTokenRecipe(ModEnchantments.lifeSteal, EnumGem.MORGANITE, Items.GOLDEN_APPLE, 3);
-        addTokenRecipe(ModEnchantments.magicDamage, EnumGem.LEPIDOLITE, Items.BLAZE_ROD, 4);
-        addTokenRecipe(ModEnchantments.iceAspect, EnumGem.OPAL, Blocks.ICE, 5);
-        addTokenRecipe(ModEnchantments.lightningAspect, EnumGem.HELIODOR, Items.GLOWSTONE_DUST, 4);
-
-        // Ranged weapons
-        addTokenRecipe(Enchantments.FLAME, EnumGem.SPINEL, Items.BLAZE_ROD, 2);
-        addTokenRecipe(Enchantments.INFINITY, EnumGem.AMETRINE, Items.ENDER_EYE, 4);
-        addTokenRecipe(Enchantments.POWER, EnumGem.CARNELIAN, Items.ARROW, 5);
-        addTokenRecipe(Enchantments.PUNCH, EnumGem.JASPER, Blocks.PISTON, 2);
-
-        // Fishing Rod
-        addTokenRecipe(Enchantments.LUCK_OF_THE_SEA, EnumGem.AQUAMARINE,
-                new ItemStack(Items.FISH, 1, OreDictionary.WILDCARD_VALUE), 5);
-        addTokenRecipe(Enchantments.LURE, EnumGem.INDICOLITE, Blocks.TRIPWIRE_HOOK, 4);
-
-        // Armor
-        addTokenRecipe(Enchantments.AQUA_AFFINITY, EnumGem.BLUE_TOPAZ, "blockLapis", 2);
-        addTokenRecipe(Enchantments.BLAST_PROTECTION, EnumGem.ONYX, Items.GUNPOWDER, 5);
-        ItemStack plume = CraftingItems.PLUME.getStack();
-        addTokenRecipe(Enchantments.FEATHER_FALLING, EnumGem.MALACHITE, plume, 2);
-        addTokenRecipe(Enchantments.FIRE_PROTECTION, EnumGem.CITRINE, Items.MAGMA_CREAM, 2);
-        addTokenRecipe(Enchantments.PROJECTILE_PROTECTION, EnumGem.AGATE, Items.ARROW, 4);
-        addTokenRecipe(Enchantments.PROTECTION, EnumGem.IOLITE, Blocks.IRON_BARS, 4);
-        addTokenRecipe(Enchantments.RESPIRATION, EnumGem.TANZANITE, new ItemStack(Items.FISH, 1, 3), 1);
-        addTokenRecipe(Enchantments.THORNS, EnumGem.TOPAZ, new ItemStack(Blocks.DOUBLE_PLANT, 1, 4), 2);
-        addTokenRecipe(Enchantments.DEPTH_STRIDER, EnumGem.MOONSTONE, Blocks.CLAY, 3);
-        ItemStack enderFrost = CraftingItems.ENDER_FROST.getStack();
-        addTokenRecipe(Enchantments.FROST_WALKER, EnumGem.ALEXANDRITE, enderFrost, 4);
     }
 
     public void addModRecipes() {
-
+        // FIXME?
         if (modRecipesInitialized)
             return;
         modRecipesInitialized = true;

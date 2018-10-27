@@ -35,15 +35,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.block.BlockMetaSubtypes;
-import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.registry.RecipeMaker;
 
-public class BlockFluffyBlock extends BlockMetaSubtypes implements ICustomModel, IAddRecipes {
+public class BlockFluffyBlock extends BlockMetaSubtypes implements ICustomModel {
     private static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
 
     public BlockFluffyBlock() {
@@ -53,19 +50,6 @@ public class BlockFluffyBlock extends BlockMetaSubtypes implements ICustomModel,
         setResistance(3.0f);
         setSoundType(SoundType.CLOTH);
         setHarvestLevel("", 0);
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        ItemStack any = new ItemStack(this, 1, OreDictionary.WILDCARD_VALUE);
-        for (EnumDyeColor color : EnumDyeColor.values()) {
-            String dyeName = color.getTranslationKey();
-            if (dyeName.equals("silver")) {
-                dyeName = "lightGray";
-            }
-            dyeName = "dye" + Character.toUpperCase(dyeName.charAt(0)) + dyeName.substring(1);
-            recipes.addSurroundOre("fluffy_block_" + color.ordinal(), new ItemStack(this, 8, color.getMetadata()), dyeName, any);
-        }
     }
 
     @Override

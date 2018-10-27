@@ -13,7 +13,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -32,12 +31,9 @@ import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.gems.util.NBTHelper;
-import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.PlayerHelper;
-import org.apache.commons.lang3.NotImplementedException;
 import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
@@ -46,7 +42,7 @@ import java.util.List;
 @Optional.InterfaceList({
         @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesCompat.MOD_ID),
         @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = BaublesCompat.MOD_ID)})
-public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBauble, IAddRecipes, ICustomModel {
+public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBauble, ICustomModel {
     public enum Type {
         POTATO(5000, 0.01f, 1),
         FRAGILE(100000, 0.20f, 3),
@@ -88,39 +84,6 @@ public class ItemChaosOrb extends ItemChaosStorage implements IBauble, IRenderBa
 
         if (shifted) {
             list.add(TextFormatting.ITALIC + SilentGems.i18n.itemSubText(Names.CHAOS_ORB, "desc"));
-        }
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        String chaosEssence = "gemChaos";
-        ItemStack chaosEssenceEnriched = CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack();
-        ItemStack chaosEssenceCrystallized = CraftingItems.CRYSTALLIZED_CHAOS_ESSENCE.getStack();
-        String chaosEssenceShard = "nuggetChaos";
-
-        for (Type type : Type.values()) {
-            ItemStack result = new ItemStack(this, 1, type.ordinal());
-
-            switch (type) {
-                case FRAGILE:
-                    recipes.addShapedOre("chaos_orb_fragile", result, "ccc", "cdc", "ccc", 'c', chaosEssence,
-                            'd', "gemDiamond");
-                    break;
-                case POTATO:
-                    recipes.addShapedOre("chaos_orb_potato", result, "ccc", "cpc", "ccc", 'c',
-                            chaosEssenceShard, 'p', Items.POTATO);
-                    break;
-                case REFINED:
-                    recipes.addShaped("chaos_orb_refined", result, " c ", "coc", " c ", 'c',
-                            chaosEssenceEnriched, 'o', new ItemStack(this, 1, Type.FRAGILE.ordinal()));
-                    break;
-                case SUPREME:
-                    recipes.addShaped("chaos_orb_supreme", result, " c ", "coc", " c ", 'c',
-                            chaosEssenceCrystallized, 'o', new ItemStack(this, 1, Type.REFINED.ordinal()));
-                    break;
-                default:
-                    throw new NotImplementedException("No recipe for chaos orb of type " + type);
-            }
         }
     }
 

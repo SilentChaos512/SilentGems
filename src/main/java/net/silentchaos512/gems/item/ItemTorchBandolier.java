@@ -6,9 +6,6 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
-import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.lib.registry.RecipeMaker;
 
 import java.util.List;
 
@@ -27,23 +24,6 @@ public class ItemTorchBandolier extends ItemBlockPlacer {
     @Override
     public int getBlockMetaDropped(ItemStack stack) {
         return 0;
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        String line1 = "lll";
-        String line2 = "sgs";
-
-        ItemStack bandolier = new ItemStack(this);
-        setRemainingBlocks(bandolier, 0);
-        ItemStack gem = new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE);
-        Object[] stacks = new Object[]{"leather", CraftingItems.FLUFFY_FABRIC.getStack()};
-
-        int i = -1;
-        for (Object stack : stacks) {
-            recipes.addShapedOre("torch_bandolier_" + (++i), bandolier, line1, line2, line1, 'l', stack,
-                    's', "stickWood", 'g', gem);
-        }
     }
 
     @Override

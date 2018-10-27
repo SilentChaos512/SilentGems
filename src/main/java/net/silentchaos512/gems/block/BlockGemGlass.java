@@ -33,22 +33,12 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IAddRecipes;
-import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class BlockGemGlass extends BlockGemSubtypes implements IAddRecipes {
     public BlockGemGlass(EnumGem.Set set) {
         super(set, Material.GLASS);
         setHardness(0.3f);
         setSoundType(SoundType.GLASS);
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        for (int i = 0; i < 16; ++i) {
-            EnumGem gem = getGem(i);
-            recipes.addSurroundOre(Names.GEM_GLASS + this.getGemSet().getName() + i, new ItemStack(this, 8, i),
-                    gem.getShardOreName(), "blockGlass");
-        }
     }
 
     @Override

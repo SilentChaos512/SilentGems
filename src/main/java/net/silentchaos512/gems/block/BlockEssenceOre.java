@@ -29,16 +29,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.util.ModRecipeHelper;
 import net.silentchaos512.lib.block.BlockMetaSubtypes;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.registry.RecipeMaker;
+
+import java.util.Locale;
 
 public class BlockEssenceOre extends BlockMetaSubtypes implements ICustomModel, IAddRecipes {
     public enum Type implements IStringSerializable {
@@ -46,7 +44,7 @@ public class BlockEssenceOre extends BlockMetaSubtypes implements ICustomModel, 
 
         @Override
         public String getName() {
-            return name().toLowerCase();
+            return name().toLowerCase(Locale.ROOT);
         }
     }
 
@@ -60,19 +58,6 @@ public class BlockEssenceOre extends BlockMetaSubtypes implements ICustomModel, 
         setSoundType(SoundType.STONE);
         setHarvestLevel("pickaxe", 3, getDefaultState().withProperty(VARIANT, Type.CHAOS));
         setHarvestLevel("pickaxe", 4, getDefaultState().withProperty(VARIANT, Type.ENDER));
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        ItemStack chaosOre = new ItemStack(this, 1, 0);
-        ItemStack chaosEssence = CraftingItems.CHAOS_ESSENCE.getStack();
-        GameRegistry.addSmelting(chaosOre, chaosEssence, 0.7f);
-        ModRecipeHelper.addSagMillRecipe("ChaosOre", chaosOre, chaosEssence, "cobblestone", 4000);
-
-        ItemStack enderOre = new ItemStack(this, 1, 1);
-        ItemStack enderEssence = CraftingItems.ENDER_ESSENCE.getStack();
-        GameRegistry.addSmelting(enderOre, enderEssence, 1.0f);
-        ModRecipeHelper.addSagMillRecipe("EnderEssenceOre", enderOre, enderEssence, "end_stone", 4000);
     }
 
     @Override

@@ -35,9 +35,7 @@ import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.PlayerHelper;
 import org.lwjgl.opengl.GL11;
 
@@ -48,7 +46,7 @@ import java.util.Map.Entry;
 @Optional.InterfaceList({
         @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesCompat.MOD_ID),
         @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = BaublesCompat.MOD_ID)})
-public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBauble, IAddRecipes, ICustomModel {
+public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBauble, ICustomModel {
     private static final String NBT_ENABLED = "enabled";
     private static final String NBT_BUFF_LIST = "buff_list";
     private static final String NBT_BUFF_KEY = "key";
@@ -63,13 +61,6 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
     public ItemChaosGem() {
         super(EnumGem.values().length + 1, BASE_CAPACITY);
         setMaxStackSize(1);
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        for (EnumGem gem : EnumGem.values())
-            recipes.addSurroundOre("chaos_gem_" + gem.name(), new ItemStack(this, 1, gem.ordinal()),
-                    gem.getBlockOreName(), CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack());
     }
 
     // =================

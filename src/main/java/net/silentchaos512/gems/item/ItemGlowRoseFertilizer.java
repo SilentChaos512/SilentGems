@@ -2,10 +2,7 @@ package net.silentchaos512.gems.item;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -14,19 +11,10 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.lib.registry.IAddRecipes;
-import net.silentchaos512.lib.registry.RecipeMaker;
 
 import java.util.Random;
 
-public class ItemGlowRoseFertilizer extends Item implements IAddRecipes {
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        recipes.addSurround("glowrose_fertilizer", new ItemStack(this, 4),
-                CraftingItems.CHAOS_ESSENCE.getStack(),
-                new ItemStack(Items.DYE, 1, EnumDyeColor.WHITE.getDyeDamage()));
-    }
-
+public class ItemGlowRoseFertilizer extends Item {
     @Override
     public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         Random rand = SilentGems.random;

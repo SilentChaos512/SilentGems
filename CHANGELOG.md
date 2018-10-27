@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Changed
+- Removed most recipes register in-code. About 83% of the mod's 1400+ recipes are already converted to JSON and these were redundant.
 ### Fixed
 - Crash when loading enchantment token recipes if the enchantment has been removed [#340]
 

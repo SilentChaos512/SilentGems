@@ -5,11 +5,9 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -23,16 +21,14 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemFoodSG extends ItemFood implements IAddRecipes, ICustomModel {
+public class ItemFoodSG extends ItemFood implements ICustomModel {
     private static final String[] NAMES = {Names.POTATO_STICK, Names.SUGAR_COOKIE, Names.SECRET_DONUT,
             Names.MEATY_STEW_UNCOOKED, Names.MEATY_STEW, Names.CANDY_CANE, Names.COFFEE_CUP};
 
@@ -231,26 +227,6 @@ public class ItemFoodSG extends ItemFood implements IAddRecipes, ICustomModel {
         if (!isInCreativeTab(tab)) return;
         for (String name : NAMES)
             items.add(getStack(name));
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        // Potato on a Stick
-        recipes.addShapedOre("potato_stick", getStack(Names.POTATO_STICK, 1), " p", "s ", 'p', Items.BAKED_POTATO, 's', "stickWood");
-        // Sugar Cookie
-        recipes.addShaped("sugar_cookie", getStack(Names.SUGAR_COOKIE, 8), " s ", "www", " s ", 's', Items.SUGAR, 'w', Items.WHEAT);
-        // Secret Donut
-        recipes.addSurround("secret_donut", getStack(Names.SECRET_DONUT, 8), new ItemStack(Blocks.RED_MUSHROOM), Items.WHEAT);
-        // Meaty Stew
-        Item[] meats = {Items.BEEF, Items.PORKCHOP, Items.CHICKEN};
-        int i = -1;
-        for (Item meat : meats) {
-            recipes.addShapeless("meaty_stew_" + (++i), getStack(Names.MEATY_STEW_UNCOOKED, 1), Items.BOWL, meat,
-                    Items.POTATO, Items.CARROT);
-        }
-        recipes.addSmelting(getStack(Names.MEATY_STEW_UNCOOKED, 1), getStack(Names.MEATY_STEW, 1), 0.5f);
-        // Candy Cane
-        recipes.addShapedOre("candy_cane", getStack(Names.CANDY_CANE, 6), "ss", "rs", " s", 's', Items.SUGAR, 'r', "dyeRed");
     }
 
     @Override

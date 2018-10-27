@@ -12,12 +12,10 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.key.KeyTracker;
-import net.silentchaos512.gems.config.GemsConfigHC;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.registry.RecipeMaker;
 
 import java.util.List;
 
@@ -41,20 +39,6 @@ public class ItemGem extends Item implements IAddRecipes, ICustomModel {
         for (EnumGem gem : EnumGem.values()) {
             OreDictionary.registerOre(gem.getItemOreName(), gem.getItem());
             OreDictionary.registerOre(gem.getItemSuperOreName(), gem.getItemSuper());
-        }
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        String centerItem = GemsConfigHC.HARD_SUPER_GEMS ? "gemEnderEssence" : "dustGlowstone";
-        for (EnumGem gem : EnumGem.values()) {
-            // Supercharged gems
-            recipes.addShapedOre("gem_super_" + gem.name(), gem.getItemSuper(), "cgc", "cdc", "cgc", 'g', gem.getItem(), 'd', centerItem, 'c', "gemChaos");
-            // Gems <--> shards
-            recipes.addCompression("gem_" + gem.name(), gem.getShard(), gem.getItem(), 9);
-            ItemStack shards = gem.getShard();
-            shards.setCount(9);
-            recipes.addShapelessOre("gem_shard_" + gem.name() + "_oredict", shards, gem.getItemOreName());
         }
     }
 

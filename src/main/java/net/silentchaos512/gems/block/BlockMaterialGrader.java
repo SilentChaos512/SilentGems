@@ -35,13 +35,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.client.gui.GuiTypes;
-import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.tile.TileMaterialGrader;
 import net.silentchaos512.lib.block.ITileEntityBlock;
-import net.silentchaos512.lib.registry.IAddRecipes;
-import net.silentchaos512.lib.registry.RecipeMaker;
 
-public class BlockMaterialGrader extends BlockContainer implements ITileEntityBlock, IAddRecipes {
+public class BlockMaterialGrader extends BlockContainer implements ITileEntityBlock {
     private static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.4, 1.0);
 
@@ -56,15 +53,6 @@ public class BlockMaterialGrader extends BlockContainer implements ITileEntityBl
     @Override
     public Class<? extends TileEntity> getTileEntityClass() {
         return TileMaterialGrader.class;
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        recipes.addShapedOre("material_grader", new ItemStack(this),
-                " m ", "i i", "gig",
-                'm', CraftingItems.MAGNIFYING_GLASS.getStack(),
-                'i', CraftingItems.CHAOS_IRON.getStack(),
-                'g', "ingotGold");
     }
 
     public EnumBlockRenderType getRenderType(IBlockState state) {

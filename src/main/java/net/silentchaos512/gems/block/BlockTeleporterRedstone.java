@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.event.ServerTickHandler;
@@ -17,33 +16,11 @@ import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileTeleporter;
-import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.DimensionalPosition;
 
 public class BlockTeleporterRedstone extends BlockTeleporter {
     public BlockTeleporterRedstone(EnumGem.Set set) {
         super(set, false, Names.TELEPORTER_REDSTONE);
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        ItemStack[] anyTeleporter = new ItemStack[]{
-                new ItemStack(ModBlocks.teleporterRedstone, 1, OreDictionary.WILDCARD_VALUE),
-                new ItemStack(ModBlocks.teleporterRedstoneDark, 1, OreDictionary.WILDCARD_VALUE),
-                new ItemStack(ModBlocks.teleporterRedstoneLight, 1, OreDictionary.WILDCARD_VALUE)};
-
-        int lastIndex = -1;
-
-        for (int i = 0; i < 16; ++i) {
-            EnumGem gem = getGem(i);
-            ItemStack teleporterRedstone = new ItemStack(this, 1, i);
-            ItemStack teleporterBasic = getBasicTeleporter(i);
-            recipes.addShapelessOre(getBlockName() + i, teleporterRedstone, teleporterBasic, "dustRedstone");
-            for (ItemStack stack : anyTeleporter) {
-                recipes.addShapelessOre(getBlockName() + "_" + (++lastIndex) + "_recolor",
-                        new ItemStack(this, 1, i), stack, gem.getItemOreName());
-            }
-        }
     }
 
     private ItemStack getBasicTeleporter(int meta) {

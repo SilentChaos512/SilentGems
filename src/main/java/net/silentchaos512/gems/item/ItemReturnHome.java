@@ -28,14 +28,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.gems.util.TeleportUtil;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;
 import org.lwjgl.input.Keyboard;
@@ -77,16 +75,6 @@ public class ItemReturnHome extends ItemChaosStorage implements IAddRecipes, ICu
             }
         } else {
             list.add(SilentGems.i18n.subText(this, TEXT_NOT_BOUND));
-        }
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        for (EnumGem gem : EnumGem.values()) {
-            ItemStack result = new ItemStack(this, 1, gem.ordinal());
-            recipes.addShapedOre("return_home_" + gem.name(), result, " s ", "sgs", "ici", 's',
-                    CraftingItems.GILDED_STRING.getStack(), 'g', gem.getItemOreName(), 'i', "ingotGold", 'c',
-                    new ItemStack(ModItems.chaosOrb, 1, ItemChaosOrb.Type.FRAGILE.ordinal()));
         }
     }
 

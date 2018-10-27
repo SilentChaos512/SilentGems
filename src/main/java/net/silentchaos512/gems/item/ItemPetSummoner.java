@@ -7,7 +7,6 @@ import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
@@ -18,18 +17,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.registry.RecipeMaker;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemPetSummoner extends Item implements IAddRecipes, ICustomModel {
+public class ItemPetSummoner extends Item implements ICustomModel {
     private static final String[] NAMES = { Names.SUMMON_KITTY, Names.SUMMON_PUPPY };
 
     public ItemPetSummoner() {
@@ -39,22 +34,6 @@ public class ItemPetSummoner extends Item implements IAddRecipes, ICustomModel {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add(TextFormatting.ITALIC + SilentGems.i18n.translate(this.getTranslationKey(stack) + ".desc"));
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        ItemStack anyGem = new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE);
-
-        recipes.addShapelessOre("summon_kitty", new ItemStack(this, 1, 0), anyGem,
-                new ItemStack(Items.FISH, 1, OreDictionary.WILDCARD_VALUE),
-                CraftingItems.YARN_BALL.getStack());
-
-        recipes.addShapelessOre("summon_puppy_0", new ItemStack(this, 1, 1), anyGem, Items.BEEF,
-                CraftingItems.RAWHIDE_BONE.getStack());
-        recipes.addShapelessOre("summon_puppy_1", new ItemStack(this, 1, 1), anyGem, Items.PORKCHOP,
-                CraftingItems.RAWHIDE_BONE.getStack());
-        recipes.addShapelessOre("summon_puppy_2", new ItemStack(this, 1, 1), anyGem, Items.CHICKEN,
-                CraftingItems.RAWHIDE_BONE.getStack());
     }
 
     @Override

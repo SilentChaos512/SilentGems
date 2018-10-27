@@ -128,7 +128,7 @@ public class BlockChaosFlowerPot extends Block implements ITileEntityProvider, I
 
     @Override
     public void addRecipes(RecipeMaker recipes) {
-        recipe = recipes.addShaped("chaos_flower_pot", new ItemStack(this),
+        recipe = recipes.makeShaped("chaos_flower_pot", new ItemStack(this),
                 "c", "f",
                 'c', CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack(), 'f', Items.FLOWER_POT);
     }

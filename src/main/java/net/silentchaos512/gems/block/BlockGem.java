@@ -28,7 +28,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.IAddRecipes;
-import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class BlockGem extends BlockGemSubtypes implements IAddRecipes {
     public final boolean supercharged;
@@ -41,20 +40,6 @@ public class BlockGem extends BlockGemSubtypes implements IAddRecipes {
         setResistance(supercharged ? 6000000.0F : 30.0f);
         setSoundType(SoundType.METAL);
         setHarvestLevel("pickaxe", supercharged ? 3 : 1);
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        for (int i = 0; i < 16; ++i) {
-            EnumGem gem = getGem(i);
-
-            if (supercharged) {
-                recipes.addShapedOre(gem.name() + "_block_super", gem.getBlockSuper(), " g ", "gog", " g ",
-                        'g', gem.getItemSuperOreName(), 'o', "obsidian");
-            } else {
-                recipes.addCompression(gem.name() + "_block", gem.getItem(), gem.getBlock(), 9);
-            }
-        }
     }
 
     @Override

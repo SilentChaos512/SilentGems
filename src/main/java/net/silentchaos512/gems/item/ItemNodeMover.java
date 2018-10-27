@@ -16,29 +16,15 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosNode;
-import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.registry.RecipeMaker;
 
-public class ItemNodeMover extends Item implements IAddRecipes, ICustomModel {
+public class ItemNodeMover extends Item implements ICustomModel {
     private static final int META_EMPTY = 0;
     private static final int META_FILLED = 1;
     private static final int META_USED = 2;
 
     public ItemNodeMover() {
         setMaxStackSize(1);
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        ItemStack empty = new ItemStack(this, 1, META_EMPTY);
-        ItemStack spent = new ItemStack(this, 1, META_USED);
-        ItemStack chaosCore = CraftingItems.CHAOS_CORE.getStack();
-        ItemStack netherShard = CraftingItems.NETHER_SHARD.getStack();
-        ItemStack enderFrost = CraftingItems.ENDER_FROST.getStack();
-
-        recipes.addSurroundOre("node_mover", empty, chaosCore, netherShard, enderFrost);
-        recipes.addShaped("node_mover_recharge", empty, "sms", 's', netherShard, 'm', spent);
     }
 
     @Override

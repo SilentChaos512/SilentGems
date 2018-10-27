@@ -27,7 +27,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -41,18 +40,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiTypes;
-import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileChaosPylon;
 import net.silentchaos512.lib.block.ITileEntityBlock;
-import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.registry.RecipeMaker;
 
 import java.util.Locale;
 
-public class BlockChaosPylon extends BlockContainer implements ITileEntityBlock, ICustomModel, IAddRecipes {
+public class BlockChaosPylon extends BlockContainer implements ITileEntityBlock, ICustomModel {
     public enum VariantType implements IStringSerializable {
         PASSIVE, BURNER;
 
@@ -77,20 +73,6 @@ public class BlockChaosPylon extends BlockContainer implements ITileEntityBlock,
     @Override
     public Class<? extends TileEntity> getTileEntityClass() {
         return TileChaosPylon.class;
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        ItemStack pylonPassive = new ItemStack(this, 1, EnumPylonType.PASSIVE.getMeta());
-        ItemStack pylonBurner = new ItemStack(this, 1, EnumPylonType.BURNER.getMeta());
-        ItemStack chaosCore = CraftingItems.CHAOS_CORE.getStack();
-
-        recipes.addShapedOre("chaos_pylon_passive", pylonPassive,
-                "lel", "lol", "ooo",
-                'e', chaosCore, 'l', "gemLapis", 'o', "obsidian");
-        recipes.addShapedOre("chaos_pylon_burner", pylonBurner,
-                " e ", "rpr", "ofo",
-                'p', pylonPassive, 'e', chaosCore, 'f', Blocks.FURNACE, 'r', "blockRedstone", 'o', "obsidian");
     }
 
     @Override

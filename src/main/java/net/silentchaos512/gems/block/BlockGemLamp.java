@@ -24,7 +24,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -35,7 +34,6 @@ import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.item.ItemBlockMetaSubtypes;
 import net.silentchaos512.lib.registry.IAddRecipes;
-import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.wit.api.IWitHudInfo;
 import org.apache.commons.lang3.NotImplementedException;
 
@@ -184,24 +182,6 @@ public class BlockGemLamp extends BlockGemSubtypes implements IAddRecipes, IWitH
     @Override
     protected ItemStack getSilkTouchDrop(IBlockState state) {
         return new ItemStack(getItemDropped(state, SilentGems.random, 0));
-    }
-
-    @Override
-    public void addRecipes(RecipeMaker recipes) {
-        if (!lit && !inverted) {
-            // Normal lamps
-            for (int i = 0; i < 16; ++i) {
-                recipes.addSurroundOre(getBlockName() + i, new ItemStack(this, 1, i), getGem(i).getItemOreName(),
-                        "dustRedstone", "dustGlowstone");
-            }
-        } else if (lit && inverted) {
-            // Inverted lamps
-            ItemStack redstoneTorch = new ItemStack(Blocks.REDSTONE_TORCH);
-            for (int i = 0; i < 16; ++i) {
-                recipes.addShapeless(getBlockName() + i + "_invert", new ItemStack(this, 1, i),
-                        new ItemStack(getLamp(this.getGemSet(), false, false), 1, i), redstoneTorch);
-            }
-        }
     }
 
     @Override

@@ -64,7 +64,7 @@ public class BlockChaosAltar extends BlockContainer implements ITileEntityBlock,
     @Override
     public void addRecipes(RecipeMaker recipes) {
         ItemStack result = new ItemStack(this);
-        recipe = recipes.addShapedOre("chaos_altar", result,
+        recipe = recipes.makeShapedOre("chaos_altar", result,
                 "rer", "dod", "ooo",
                 'e', CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack(), 'r', "dustRedstone", 'o', "obsidian", 'd', "gemDiamond");
     }
