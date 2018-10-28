@@ -3,6 +3,10 @@
 ## [Unreleased]
 ### Changed
 - Removed most recipes register in-code. About 83% of the mod's 1400+ recipes are already converted to JSON and these were redundant.
+- Updated textures for ammolite, aquamarine, blue topaz, golden beryl, heliodor, kyanite, morganite, pyrope, topaz (base gem items only)
+- Morganite's color has been changed to match the real gem's typical color, salmon pink (applies only to the gem item, your tools are safe... for now)
+- Rename some gems (internal names unchanged)
+    - Beryl - Green Sapphire
 ### Fixed
 - Crash when loading enchantment token recipes if the enchantment has been removed [#340]
 
