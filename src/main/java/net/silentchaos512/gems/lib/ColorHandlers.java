@@ -63,7 +63,7 @@ public class ColorHandlers {
         int meta = stack.getItemDamage();
         if (meta >= 0 && meta < EnumGem.values().length) {
           EnumGem gem = EnumGem.values()[meta];
-          return gem.color;
+          return gem.getColor();
         }
       }
       return 0xFFFFFF;
@@ -92,7 +92,7 @@ public class ColorHandlers {
         if (stack.hasTagCompound()) {
           int id = stack.getTagCompound().getShort(ItemHoldingGem.NBT_GEM_ID);
           if (id >= 0 && id < EnumGem.values().length)
-            return EnumGem.values()[id].color;
+            return EnumGem.values()[id].getColor();
         }
       } else if (tintIndex == 2) {
         IBlockState state = ModItems.holdingGem.getBlockPlaced(stack);

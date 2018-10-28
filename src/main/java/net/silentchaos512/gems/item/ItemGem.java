@@ -37,7 +37,9 @@ public class ItemGem extends Item implements IAddRecipes, ICustomModel {
     @Override
     public void addOreDict() {
         for (EnumGem gem : EnumGem.values()) {
-            OreDictionary.registerOre(gem.getItemOreName(), gem.getItem());
+            for (String key : gem.getItemOreNames()) {
+                OreDictionary.registerOre(key, gem.getItem());
+            }
             OreDictionary.registerOre(gem.getItemSuperOreName(), gem.getItemSuper());
         }
     }

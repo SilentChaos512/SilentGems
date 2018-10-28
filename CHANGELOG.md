@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Added
+- Extra ore dictionary keys for some gems (mostly common synonyms)
 ### Changed
 - Removed most recipes register in-code. About 83% of the mod's 1400+ recipes are already converted to JSON and these were redundant.
 - Updated textures for ammolite, aquamarine, blue topaz, golden beryl, heliodor, kyanite, morganite, pyrope, topaz (base gem items only)
