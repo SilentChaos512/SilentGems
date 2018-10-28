@@ -8,7 +8,7 @@
 - Rename some gems (internal names unchanged)
     - Beryl - Green Sapphire
 ### Fixed
-- Crash when loading enchantment token recipes if the enchantment has been removed [#340]
+- Crash or warning when loading enchantment token recipes if the enchantment has been removed [#340]
 
 ## [2.8.7] - 2018-10-17
 ### Added

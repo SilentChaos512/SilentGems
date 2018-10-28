@@ -54,7 +54,7 @@ public class EnchantmentTokenRecipeFactory implements IRecipeFactory {
             if (SilentGems.instance.isDevBuild()) {
                 throw new NullPointerException("Enchantment '" + key + "' not found!");
             } else {
-                SilentGems.logHelper.warn("Failed to load enchantment token recipe: enchantment '{}' not found!", key);
+//                SilentGems.logHelper.warn("Failed to load enchantment token recipe: enchantment '{}' not found!", key);
                 return new DummyRecipe();
             }
         }
