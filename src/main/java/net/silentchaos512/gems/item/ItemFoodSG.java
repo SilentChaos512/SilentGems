@@ -21,14 +21,16 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
+import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemFoodSG extends ItemFood implements ICustomModel {
+public class ItemFoodSG extends ItemFood implements IAddRecipes, ICustomModel {
     private static final String[] NAMES = {Names.POTATO_STICK, Names.SUGAR_COOKIE, Names.SECRET_DONUT,
             Names.MEATY_STEW_UNCOOKED, Names.MEATY_STEW, Names.CANDY_CANE, Names.COFFEE_CUP};
 
@@ -227,6 +229,11 @@ public class ItemFoodSG extends ItemFood implements ICustomModel {
         if (!isInCreativeTab(tab)) return;
         for (String name : NAMES)
             items.add(getStack(name));
+    }
+
+    @Override
+    public void addRecipes(RecipeMaker recipes) {
+        recipes.addSmelting(getStack(Names.MEATY_STEW_UNCOOKED, 1), getStack(Names.MEATY_STEW, 1), 0.5f);
     }
 
     @Override

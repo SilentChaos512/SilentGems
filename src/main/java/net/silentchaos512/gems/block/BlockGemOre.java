@@ -31,7 +31,9 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.EnumGem;
 import net.silentchaos512.gems.lib.Names;
+import net.silentchaos512.gems.util.ModRecipeHelper;
 import net.silentchaos512.lib.registry.IAddRecipes;
+import net.silentchaos512.lib.registry.RecipeMaker;
 
 import java.util.Random;
 
@@ -42,6 +44,23 @@ public class BlockGemOre extends BlockGemSubtypes implements IAddRecipes {
         setResistance(15.0f);
         setSoundType(SoundType.STONE);
         setHarvestLevel("pickaxe", 2);
+    }
+
+    @Override
+    public void addRecipes(RecipeMaker recipes) {
+        ItemStack ore, item;
+        for (int i = 0; i < 16; ++i) {
+            EnumGem gem = getGem(i);
+            ore = gem.getOre();
+            item = gem.getItem();
+            // Smelting
+            recipes.addSmelting(ore, item, 0.5f);
+            // SAG Mill
+            ModRecipeHelper.addSagMillRecipe(gem.getGemName() + "Ore", ore, item,
+                    getGemSet() == EnumGem.Set.LIGHT ? "endstone"
+                            : getGemSet() == EnumGem.Set.DARK ? "netherrack" : "cobblestone",
+                    3000);
+        }
     }
 
     @Override

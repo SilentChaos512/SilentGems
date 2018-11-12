@@ -1,14 +1,19 @@
 # Changelog
 
-## [Unreleased]
+## [2.8.9] - 2018-11-12
+### Added
+- Chaos iron main material (Silent Gear only) - And yes, I know the textures are broken right now.
+### Fixed
+- Several missing smelting recipes [#346]
+
+## [2.8.8] - 2018-11-05
 ### Added
 - Extra ore dictionary keys for some gems (mostly common synonyms)
 ### Changed
-- Removed most recipes register in-code. About 83% of the mod's 1400+ recipes are already converted to JSON and these were redundant.
-- Updated textures for ammolite, aquamarine, blue topaz, golden beryl, heliodor, kyanite, morganite, pyrope, topaz (base gem items only)
-- Morganite's color has been changed to match the real gem's typical color, salmon pink (applies only to the gem item, your tools are safe... for now)
-- Rename some gems (internal names unchanged)
-    - Beryl - Green Sapphire
+- Removed most recipes registered in-code. About 83% of the mod's 1400+ recipes are already converted to JSON and these were redundant.
+- Updated textures for ammolite, aquamarine, blue topaz, golden beryl, heliodor, kyanite, morganite, pyrope, topaz (base gem items only, legacy supercharged gems are the same as always)
+- Morganite's color has been changed to match the real gem's typical color, salmon pink (applies only to the gem item, your tools are safe... at least for now)
+- Rename beryl to green sapphire. Internal names unchanged for now.
 ### Fixed
 - Crash or warning when loading enchantment token recipes if the enchantment has been removed [#340]
 
