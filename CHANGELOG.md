@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.8.10]
+### Fixed
+- GUIs not opening when playing on a server [#349]
+
 ## [2.8.9] - 2018-11-12
 ### Added
 - Chaos iron main material (Silent Gear only) - And yes, I know the textures are broken right now.

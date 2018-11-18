@@ -26,6 +26,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.supercharger.ContainerSupercharger;
 import net.silentchaos512.gems.block.supercharger.GuiSupercharger;
@@ -50,6 +52,7 @@ public enum GuiTypes {
             return new ContainerChaosAltar(player.inventory, (TileChaosAltar) tile);
         }
 
+        @SideOnly(Side.CLIENT)
         @Override
         GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
             return new GuiChaosAltar(player.inventory, (TileChaosAltar) tile);
@@ -61,6 +64,7 @@ public enum GuiTypes {
             return new ContainerBurnerPylon(player.inventory, (TileChaosPylon) tile);
         }
 
+        @SideOnly(Side.CLIENT)
         @Override
         GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
             return new GuiBurnerPylon(player.inventory, (TileChaosPylon) tile);
@@ -72,6 +76,7 @@ public enum GuiTypes {
             return new ContainerMaterialGrader(player.inventory, (TileMaterialGrader) tile);
         }
 
+        @SideOnly(Side.CLIENT)
         @Override
         GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
             return new GuiMaterialGrader(player.inventory, (TileMaterialGrader) tile);
@@ -85,6 +90,7 @@ public enum GuiTypes {
             return new ContainerQuiver(stack, player.inventory, hand);
         }
 
+        @SideOnly(Side.CLIENT)
         @Override
         GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
             return new GuiQuiver((ContainerQuiver) getContainer(tile, player, subtype));
@@ -96,6 +102,7 @@ public enum GuiTypes {
             return new ContainerSoulUrn(player.inventory, (TileSoulUrn) tile);
         }
 
+        @SideOnly(Side.CLIENT)
         @Override
         GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
             return new GuiSoulUrn(player.inventory, (TileSoulUrn) tile);
@@ -107,6 +114,7 @@ public enum GuiTypes {
             return new ContainerSupercharger(player.inventory, (TileSupercharger) tile);
         }
 
+        @SideOnly(Side.CLIENT)
         @Override
         GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
             return new GuiSupercharger(player.inventory, (TileSupercharger) tile);
@@ -144,6 +152,7 @@ public enum GuiTypes {
 
     abstract Container getContainer(TileEntity tile, EntityPlayer player, int subtype);
 
+    @SideOnly(Side.CLIENT)
     abstract GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype);
 
     boolean tileEntityMatches(@Nullable TileEntity tile) {
