@@ -7,8 +7,8 @@
   ],
   "key": {
     "b": {
-      "item": "silentgems:craftingmaterial",
-      "data": 27
+      "type": "forge:ore_dict",
+      "ore": "gemLapis"
     },
     "c": {
       "type": "forge:ore_dict",

@@ -1,0 +1,32 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "ada",
+    "clc",
+    "ooo"
+  ],
+  "key": {
+    "a": {
+      "item": "silentgems:charging_agent"
+    },
+    "c": {
+      "item": "silentgems:craftingmaterial",
+      "data": 30
+    },
+    "d": {
+      "type": "forge:ore_dict",
+      "ore": "gemDiamond"
+    },
+    "l": {
+      "type": "forge:ore_dict",
+      "ore": "blockLapis"
+    },
+    "o": {
+      "type": "forge:ore_dict",
+      "ore": "obsidian"
+    }
+  },
+  "result": {
+    "item": "silentgems:supercharger"
+  }
+}

@@ -67,7 +67,9 @@ public class BlockSupercharger extends BlockContainer implements ITileEntityBloc
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(TextFormatting.ITALIC + SilentGems.i18n.subText(this, "desc"));
+        tooltip.add(TextFormatting.ITALIC + SilentGems.i18n.subText(this, "desc1"));
+        tooltip.add(TextFormatting.ITALIC + SilentGems.i18n.subText(this, "desc2"));
+        tooltip.add(TextFormatting.RED + SilentGems.i18n.subText(this, "desc3"));
     }
 
     @Override

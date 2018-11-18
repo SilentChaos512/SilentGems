@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.config.GemsConfig;
 
 public class GuiSupercharger extends GuiContainer {
     private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MODID, "textures/gui/chaosaltar.png");
@@ -42,10 +43,12 @@ public class GuiSupercharger extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        int y = 5;
-        for (String line : getDebugText().split("\n")) {
-            this.fontRenderer.drawStringWithShadow(line, 5, y, 0xFFFFFF);
-            y += 10;
+        if (GemsConfig.DEBUG_MODE) {
+            int y = 5;
+            for (String line : getDebugText().split("\n")) {
+                this.fontRenderer.drawStringWithShadow(line, 5, y, 0xFFFFFF);
+                y += 10;
+            }
         }
     }
 
