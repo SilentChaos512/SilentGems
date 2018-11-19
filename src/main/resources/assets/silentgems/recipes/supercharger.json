@@ -7,7 +7,8 @@
   ],
   "key": {
     "a": {
-      "item": "silentgems:charging_agent"
+      "item": "silentgems:charging_agent",
+      "data": 0
     },
     "c": {
       "item": "silentgems:craftingmaterial",
