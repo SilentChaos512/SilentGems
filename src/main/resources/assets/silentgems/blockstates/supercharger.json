@@ -1,13 +1,6 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "all": "silentgems:blocks/supercharger"
-        },
-        "model": "cube_all"
-    },
     "variants": {
-        "inventory": [{}],
-        "normal": [{}]
+        "normal": {"model": "silentgems:supercharger"},
+        "inventory": {"model": "silentgems:supercharger"}
     }
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+### Added
+- Textures for the Supercharger (KelleyEngineering)
+
 ## [2.8.10] - 2018-11-19
 The Supercharger should now be completely usable in survival. The in-game guide book does not contain any information, please read the [wiki page](https://github.com/SilentChaos512/SilentGems/wiki/Supercharger-(SGear)) instead. Note it's a **multi-block structure** with three possible configurations. The wiki page contains screenshots.
 ### Added
