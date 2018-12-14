@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [2.8.11] - 2018-12-14
 ### Added
 - Textures for the Supercharger (KelleyEngineering)
 ### Changed

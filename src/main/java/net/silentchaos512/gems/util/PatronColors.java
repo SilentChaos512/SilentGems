@@ -20,8 +20,9 @@ public class PatronColors {
   public PatronColors() {
 
     InputStream input = getClass().getResourceAsStream("/assets/silentgems/patrons");
+    if (input == null) return;
     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-    String line = null;
+    String line;
     try {
       while((line = reader.readLine()) != null) {
         String[] array = line.split(",");
