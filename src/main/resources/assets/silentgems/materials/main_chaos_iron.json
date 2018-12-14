@@ -31,8 +31,8 @@
         "hidden": false,
         "texture_domain": "silentgear",
         "texture_suffix": "iron",
-        "texture_color": "E9E1DC",
-        "broken_color": "E9E1DC"
+        "texture_color": "CEBEB1",
+        "broken_color": "CEBEB1"
     },
     "availability": {
         "enabled": true,
