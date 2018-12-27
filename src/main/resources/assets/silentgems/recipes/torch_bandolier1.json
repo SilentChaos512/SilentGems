@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "silentgems:torchbandolier"
+  },
+  "pattern": [
+    "mmm",
+    "sgs",
+    "mmm"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "m": {
+      "ore": "leather",
+      "type": "forge:ore_dict"
+    },
+    "s": {
+      "ore": "stickWood",
+      "type": "forge:ore_dict"
+    },
+    "g": {
+      "item": "silentgems:gem",
+      "data": 32767
+    }
+  }
+}

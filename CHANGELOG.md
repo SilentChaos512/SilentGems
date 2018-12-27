@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.8.12] - 2018-12-27
+### Fixed
+- Add missing armor textures (Silent Gear)
+- Add missing recipes for torch bandolier [#350]
+
 ## [2.8.11] - 2018-12-14
 ### Added
 - Textures for the Supercharger (KelleyEngineering)
