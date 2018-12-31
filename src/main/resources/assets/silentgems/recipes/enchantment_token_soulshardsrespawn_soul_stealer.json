@@ -1,0 +1,32 @@
+{
+  "conditions": [
+    {
+      "type": "mod_loaded",
+      "modid": "soulshardsrespawn"
+    }
+  ],
+  "pattern": [
+    "g g",
+    " t ",
+    "ooo"
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "dustCorrupted"
+    },
+    "o": {
+      "type": "forge:ore_dict",
+      "ore": "ingotCorrupted"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "soulshardsrespawn:soul_stealer"
+  },
+  "type": "silentgems:enchantment_token"
+}
