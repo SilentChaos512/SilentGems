@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileTeleporter;
 import net.silentchaos512.lib.util.ChatHelper;
@@ -36,11 +36,11 @@ public class BlockTeleporter extends BlockGemSubtypes implements ITileEntityProv
         this.blockName = name;
     }
 
-    public BlockTeleporter(EnumGem.Set set, boolean isAnchor) {
+    public BlockTeleporter(Gems.Set set, boolean isAnchor) {
         this(set, isAnchor, Names.TELEPORTER);
     }
 
-    public BlockTeleporter(EnumGem.Set set, boolean isAnchor, String name) {
+    public BlockTeleporter(Gems.Set set, boolean isAnchor, String name) {
         super(set, Material.IRON);
         this.isAnchor = isAnchor;
         this.blockName = name;

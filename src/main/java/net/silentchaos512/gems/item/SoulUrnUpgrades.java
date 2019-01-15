@@ -73,7 +73,7 @@ public enum SoulUrnUpgrades implements IEnumItems<SoulUrnUpgrades, SoulUrnUpgrad
     }
 
     private static UrnUpgrade.Serializer<UrnUpgrade> basicSerializer(String name, Supplier<UrnUpgrade> constructor) {
-        return new UrnUpgrade.Serializer<>(new ResourceLocation(SilentGems.MODID, name), constructor);
+        return new UrnUpgrade.Serializer<>(new ResourceLocation(SilentGems.MOD_ID, name), constructor);
     }
 
     public class UpgradeItem extends Item implements IUrnUpgradeItem, IAddRecipes {

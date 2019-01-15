@@ -62,6 +62,6 @@ public class EnchantmentTokenRecipeFactory implements IRecipeFactory {
         ItemStack result = ModItems.enchantmentToken.constructToken(enchantment);
         result.setCount(recipe.getRecipeOutput().getCount());
 
-        return new ShapedOreRecipe(new ResourceLocation(SilentGems.MODID, "enchantment_token"), result, primer);
+        return new ShapedOreRecipe(new ResourceLocation(SilentGems.MOD_ID, "enchantment_token"), result, primer);
     }
 }

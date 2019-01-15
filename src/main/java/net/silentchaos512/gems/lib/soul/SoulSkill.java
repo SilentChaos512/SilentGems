@@ -16,11 +16,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.IArmor;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.tool.ToolStats;
-import net.silentchaos512.gems.lib.EnumToolType;
-import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.ItemHelper;
 
 import javax.annotation.Nullable;

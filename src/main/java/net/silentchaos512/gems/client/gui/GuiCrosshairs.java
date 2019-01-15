@@ -23,7 +23,7 @@ import net.silentchaos512.gems.skills.ToolSkill;
 public class GuiCrosshairs extends GuiIngame {
     public static final GuiCrosshairs INSTANCE = new GuiCrosshairs(Minecraft.getMinecraft());
 
-    private static final ResourceLocation TEXTURE_CROSSHAIRS = new ResourceLocation(SilentGems.MODID, "textures/gui/hud.png");
+    private static final ResourceLocation TEXTURE_CROSSHAIRS = new ResourceLocation(SilentGems.MOD_ID, "textures/gui/hud.png");
 
     public GuiCrosshairs(Minecraft mcIn) {
         super(mcIn);

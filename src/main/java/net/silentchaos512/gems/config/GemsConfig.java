@@ -7,7 +7,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.enchantment.*;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.module.*;
 import net.silentchaos512.gems.potion.PotionFreezing;
 import net.silentchaos512.gems.potion.PotionShocking;
@@ -219,7 +219,7 @@ public class GemsConfig extends AdaptiveConfig {
 
   public GemsConfig() {
 
-    super(SilentGems.MODID, true, SilentGems.BUILD_NUM);
+    super(SilentGems.MOD_ID, true, SilentGems.BUILD_NUM);
   }
 
   @Override
@@ -570,7 +570,7 @@ public class GemsConfig extends AdaptiveConfig {
               + "higher weight is more likely to be selected when placing gems in the world.\n"
               + "Just increasing weights will NOT increase the number of gems that spawn!\n"
               + "Values must be between 1 and " + weightMax + ", inclusive.");
-      for (EnumGem gem : EnumGem.values()) {
+      for (Gems gem : Gems.values()) {
         int k = config.get(CAT_WORLD_GEN_GEM_WEIGHT, gem.getGemName(), 10).getInt();
         k = MathHelper.clamp(k, 1, weightMax);
         WeightedRandomItemSG item = new WeightedRandomItemSG(k, gem.ordinal() & 0xF);

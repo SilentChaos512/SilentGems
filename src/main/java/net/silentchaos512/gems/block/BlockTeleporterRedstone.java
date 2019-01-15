@@ -13,13 +13,13 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.event.ServerTickHandler;
 import net.silentchaos512.gems.init.ModBlocks;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.tile.TileTeleporter;
 import net.silentchaos512.lib.util.DimensionalPosition;
 
 public class BlockTeleporterRedstone extends BlockTeleporter {
-    public BlockTeleporterRedstone(EnumGem.Set set) {
+    public BlockTeleporterRedstone(Gems.Set set) {
         super(set, false, Names.TELEPORTER_REDSTONE);
     }
 

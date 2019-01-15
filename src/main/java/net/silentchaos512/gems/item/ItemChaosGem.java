@@ -33,7 +33,7 @@ import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.ChaosBuff;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.util.PlayerHelper;
@@ -52,14 +52,14 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
     private static final String NBT_BUFF_KEY = "key";
     private static final String NBT_BUFF_LEVEL = "level";
 
-    private static final int ID_CHEATY_GEM = EnumGem.values().length;
+    private static final int ID_CHEATY_GEM = Gems.values().length;
     private static final int BASE_CAPACITY = 2000000;
     private static final int UPGRADE_CAPACITY = 1000000;
     private static final int SELF_RECHARGE_BASE = 10;
     private static final int MAX_SLOTS = 20;
 
     public ItemChaosGem() {
-        super(EnumGem.values().length + 1, BASE_CAPACITY);
+        super(Gems.values().length + 1, BASE_CAPACITY);
         setMaxStackSize(1);
     }
 
@@ -322,7 +322,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
         if (!isInCreativeTab(tab)) return;
 
-        for (int i = 0; i < EnumGem.values().length + 1; ++i) {
+        for (int i = 0; i < Gems.values().length + 1; ++i) {
             // Empty
             ItemStack stack1 = new ItemStack(this, 1, i);
             list.add(stack1);
@@ -384,7 +384,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
 
     @Override
     public void registerModels() {
-        for (int i = 0; i < EnumGem.values().length + 1; ++i) {
+        for (int i = 0; i < Gems.values().length + 1; ++i) {
             SilentGems.registry.setModel(this, i, Names.CHAOS_GEM + i);
         }
     }
@@ -394,8 +394,8 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
     // ==============
 
     public static final class Gui {
-        static final ResourceLocation TEXTURE_FRAME = new ResourceLocation(SilentGems.MODID, "textures/gui/chaosbarframe.png");
-        static final ResourceLocation TEXTURE_BAR = new ResourceLocation(SilentGems.MODID, "textures/gui/chaosbar.png");
+        static final ResourceLocation TEXTURE_FRAME = new ResourceLocation(SilentGems.MOD_ID, "textures/gui/chaosbarframe.png");
+        static final ResourceLocation TEXTURE_BAR = new ResourceLocation(SilentGems.MOD_ID, "textures/gui/chaosbar.png");
 
         static final int BAR_WIDTH = 40;
         static final int BAR_HEIGHT = 8;
@@ -437,8 +437,8 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
                 float green = 1f;
                 float blue = 1f;
                 int gemId = gem.getItemDamage();
-                if (gemId >= 0 && gemId < EnumGem.values().length) {
-                    int color = EnumGem.values()[gemId].getColor();
+                if (gemId >= 0 && gemId < Gems.values().length) {
+                    int color = Gems.values()[gemId].getColor();
                     red = (color >> 16 & 255) / 255f;
                     green = (color >> 8 & 255) / 255f;
                     blue = (color & 255) / 255f;

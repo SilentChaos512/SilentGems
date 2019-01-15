@@ -9,7 +9,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.tool.ItemGemShield;
-import net.silentchaos512.gems.util.ToolHelper;
 
 public class ShieldEventHandler {
 

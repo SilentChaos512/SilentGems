@@ -14,13 +14,11 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageKeyReturnHome;
 import net.silentchaos512.gems.network.message.MessageToggleChaosGem;
 import net.silentchaos512.gems.network.message.MessageToggleSpecial;
-import net.silentchaos512.gems.util.ToolHelper;
 
 public class KeyTracker {
     public static KeyTracker INSTANCE = new KeyTracker();
@@ -41,7 +39,7 @@ public class KeyTracker {
      * @return The created KeyBinding.
      */
     private KeyBinding createBinding(String name, IKeyConflictContext keyConflictContext, KeyModifier keyModifier, int keyCode) {
-        KeyBinding binding = new KeyBinding(name, keyConflictContext, keyModifier, keyCode, SilentGems.MODID);
+        KeyBinding binding = new KeyBinding(name, keyConflictContext, keyModifier, keyCode, SilentGems.MOD_ID);
         ClientRegistry.registerKeyBinding(binding);
         return binding;
     }

@@ -18,8 +18,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
-import net.silentchaos512.gems.api.IArmor;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.lib.soul.SoulSkill;
 import net.silentchaos512.gems.lib.soul.ToolSoul;

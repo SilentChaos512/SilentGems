@@ -46,7 +46,7 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.item.SoulUrnUpgrades;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 
@@ -65,7 +65,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     private int color;
     @Setter
     @Nullable
-    private EnumGem gem = null;
+    private Gems gem = null;
     @Setter
     private boolean destroyedByCreativePlayer;
     private boolean cleared;
@@ -78,7 +78,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         this.items = NonNullList.withSize(9 * INVENTORY_ROWS_UPGRADE_2, ItemStack.EMPTY);
     }
 
-    void setColorAndGem(int color, @Nullable EnumGem gem) {
+    void setColorAndGem(int color, @Nullable Gems gem) {
         this.color = color;
         this.gem = gem;
     }
@@ -197,7 +197,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
 
     @Override
     public String getName() {
-        return this.hasCustomName() ? this.customName : "container." + SilentGems.MODID + ".soul_urn";
+        return this.hasCustomName() ? this.customName : "container." + SilentGems.MOD_ID + ".soul_urn";
     }
 
     @Override
@@ -253,7 +253,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     private void loadGemFromNBT(NBTTagCompound compound) {
         if (compound.hasKey(UrnConst.NBT_GEM)) {
             String str = compound.getString(UrnConst.NBT_GEM);
-            for (EnumGem gem : EnumGem.values()) {
+            for (Gems gem : Gems.values()) {
                 if (gem.getName().equals(str)) {
                     this.gem = gem;
                     break;

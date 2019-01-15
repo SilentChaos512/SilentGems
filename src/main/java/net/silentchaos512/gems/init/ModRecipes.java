@@ -2,9 +2,8 @@ package net.silentchaos512.gems.init;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.silentchaos512.gems.api.SilentGemsAPI;
 import net.silentchaos512.gems.item.CraftingItems;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.recipe.*;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.registry.SRegistry;
@@ -32,9 +31,9 @@ public class ModRecipes {
     ItemStack magmaCream = new ItemStack(Items.MAGMA_CREAM);
     ItemStack enderSlime = CraftingItems.ENDER_SLIMEBALL.getStack();
     for (int i = 0; i < 16; ++i) {
-      EnumGem classic = EnumGem.values()[i];
-      EnumGem dark = EnumGem.values()[i + 16];
-      EnumGem light = EnumGem.values()[i + 32];
+      Gems classic = Gems.values()[i];
+      Gems dark = Gems.values()[i + 16];
+      Gems light = Gems.values()[i + 32];
       ItemStack classicShards = new ItemStack(ModItems.gemShard, 6, classic.ordinal());
       ItemStack darkShards = new ItemStack(ModItems.gemShard, 6, dark.ordinal());
       ItemStack lightShards = new ItemStack(ModItems.gemShard, 6, light.ordinal());

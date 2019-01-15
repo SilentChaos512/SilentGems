@@ -8,7 +8,7 @@ import net.silentchaos512.gems.config.GemsConfig;
 public class GuiConfigSilentGems extends GuiConfig {
 
   public GuiConfigSilentGems(GuiScreen parent) {
-    super(parent, GemsConfig.INSTANCE.getConfigElements(), SilentGems.MODID, false, false,
+    super(parent, GemsConfig.INSTANCE.getConfigElements(), SilentGems.MOD_ID, false, false,
         "Silent's Gems Config");
   }
 }

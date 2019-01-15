@@ -10,7 +10,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.tile.TileMaterialGrader;
 import net.silentchaos512.lib.client.render.tileentity.TileEntitySpecialRendererSL;
 
 public class RenderTileMaterialGrader extends TileEntitySpecialRendererSL<TileMaterialGrader> {

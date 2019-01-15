@@ -16,8 +16,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.IBlockPlacer;
-import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.item.ILeftClickItem;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.util.*;

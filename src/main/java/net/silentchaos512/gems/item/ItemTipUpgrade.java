@@ -13,7 +13,6 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.api.tool.part.ToolPartTip;
-import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
@@ -76,7 +75,7 @@ public class ItemTipUpgrade extends Item implements IAddRecipes, ICustomModel {
 
     @Override
     public String getTranslationKey(ItemStack stack) {
-        return "item." + SilentGems.MODID + "." + NAMES[MathHelper.clamp(stack.getItemDamage(), 0, NAMES.length - 1)];
+        return "item." + SilentGems.MOD_ID + "." + NAMES[MathHelper.clamp(stack.getItemDamage(), 0, NAMES.length - 1)];
     }
 
     @Override

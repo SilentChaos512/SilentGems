@@ -3,7 +3,6 @@ package net.silentchaos512.gems.config;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import net.minecraftforge.common.config.Configuration;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 
 import java.util.List;

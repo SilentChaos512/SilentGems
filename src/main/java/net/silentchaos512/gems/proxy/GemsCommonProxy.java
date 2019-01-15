@@ -32,7 +32,6 @@ import net.silentchaos512.gems.lib.module.ModuleHolidayCheer;
 import net.silentchaos512.gems.lib.urn.UpgradePlanter;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.util.SoulManager;
-import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.proxy.IProxy;
 import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.Color;
@@ -40,10 +39,6 @@ import net.silentchaos512.lib.util.Color;
 public class GemsCommonProxy implements IProxy {
     @Override
     public void preInit(SRegistry registry, FMLPreInitializationEvent event) {
-        ToolHelper.FAKE_MATERIAL.setRepairItem(CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack());
-
-        ModItems.guideBook.book.preInit();
-
         NetworkHandler.init();
 
         NetworkRegistry.INSTANCE.registerGuiHandler(SilentGems.instance, new GuiHandlerSilentGems());
@@ -56,7 +51,7 @@ public class GemsCommonProxy implements IProxy {
         MinecraftForge.EVENT_BUS.register(ModuleHolidayCheer.instance);
         MinecraftForge.EVENT_BUS.register(ModuleHalloweenHijinks.instance);
 
-        LootTableList.register(new ResourceLocation(SilentGems.MODID, "ender_slime"));
+        LootTableList.register(new ResourceLocation(SilentGems.MOD_ID, "ender_slime"));
 
         // Silent Gear support?
         SGearProxy.detectSilentGear();

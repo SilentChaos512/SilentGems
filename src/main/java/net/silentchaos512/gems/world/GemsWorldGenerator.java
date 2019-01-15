@@ -10,7 +10,7 @@ import net.silentchaos512.gems.block.BlockEssenceOre;
 import net.silentchaos512.gems.config.ConfigOptionOreGen;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModBlocks;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.lib.world.WorldGeneratorSL;
 
 import java.util.Random;
@@ -19,7 +19,7 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
 
   public GemsWorldGenerator() {
 
-    super(true, SilentGems.MODID + "_retrogen");
+    super(true, SilentGems.MOD_ID + "_retrogen");
   }
 
   @Override
@@ -83,7 +83,7 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
       int posX, int posZ) {
 
     if (config == GemsConfig.WORLD_GEN_GEMS) {
-      EnumGem gem;
+      Gems gem;
       if (GemsConfig.GEM_CLASSIC_USE_MULTI_ORE) {
         return ModBlocks.multiGemOreClassic.getDefaultState();
       } else if (GemsConfig.GEM_REGIONS_ENABLED) {
@@ -94,8 +94,8 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
         long seed = (world.getSeed() << 40L) | ((dimension & 0xFF) << 32L)
             | ((cz & 0xFFFF) << 16L) | (cx & 0xFFFF);
         Random regionRandom = new Random(seed);
-        EnumGem firstGem = EnumGem.values()[regionRandom.nextInt(16)];
-        EnumGem secondGem = EnumGem.values()[regionRandom.nextInt(16)];
+        Gems firstGem = Gems.values()[regionRandom.nextInt(16)];
+        Gems secondGem = Gems.values()[regionRandom.nextInt(16)];
         if (regionRandom.nextFloat() < GemsConfig.GEM_REGIONS_SECOND_GEM_CHANCE
             && random.nextBoolean()) {
           gem = secondGem;
@@ -105,9 +105,9 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
       } else {
         // Classic logic
         int meta = WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS).getMeta();
-        gem = EnumGem.values()[meta];
+        gem = Gems.values()[meta];
       }
-      return ModBlocks.gemOre.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
+      return ModBlocks.gemOre.getDefaultState().withProperty(Gems.VARIANT_GEM, gem);
     }
     if (config == GemsConfig.WORLD_GEN_CHAOS) {
       return ModBlocks.essenceOre.getDefaultState().withProperty(BlockEssenceOre.VARIANT, BlockEssenceOre.Type.CHAOS);
@@ -117,8 +117,8 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
         return ModBlocks.multiGemOreDark.getDefaultState();
       }
       int meta = WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS_DARK).getMeta();
-      EnumGem gem = EnumGem.values()[meta];
-      return ModBlocks.gemOreDark.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
+      Gems gem = Gems.values()[meta];
+      return ModBlocks.gemOreDark.getDefaultState().withProperty(Gems.VARIANT_GEM, gem);
     }
     if (config == GemsConfig.WORLD_GEN_ENDER) {
       return ModBlocks.essenceOre.getDefaultState().withProperty(BlockEssenceOre.VARIANT, BlockEssenceOre.Type.ENDER);
@@ -128,8 +128,8 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
         return ModBlocks.multiGemOreLight.getDefaultState();
       }
       int meta = WeightedRandom.getRandomItem(random, GemsConfig.GEM_WEIGHTS_LIGHT).getMeta();
-      EnumGem gem = EnumGem.values()[meta];
-      return ModBlocks.gemOreLight.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
+      Gems gem = Gems.values()[meta];
+      return ModBlocks.gemOreLight.getDefaultState().withProperty(Gems.VARIANT_GEM, gem);
     }
 
     SilentGems.logHelper.error("GemsWorldGenerator - Unknown ore config: " + config.getName());
@@ -151,8 +151,8 @@ public class GemsWorldGenerator extends WorldGeneratorSL {
       pos = new BlockPos(x, y, z);
 
       meta = random.nextInt(16);
-      EnumGem gem = EnumGem.values()[meta];
-      state = ModBlocks.glowRose.getDefaultState().withProperty(EnumGem.VARIANT_GEM, gem);
+      Gems gem = Gems.values()[meta];
+      state = ModBlocks.glowRose.getDefaultState().withProperty(Gems.VARIANT_GEM, gem);
 
       // Find top-most valid block
       for (; y > 50; --y) {

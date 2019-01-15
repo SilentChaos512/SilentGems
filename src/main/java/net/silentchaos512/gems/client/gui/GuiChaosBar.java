@@ -23,7 +23,7 @@ import org.lwjgl.util.Color;
 public class GuiChaosBar extends Gui {
     public static final GuiChaosBar INSTANCE = new GuiChaosBar(Minecraft.getMinecraft());
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MODID, "textures/gui/hud.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MOD_ID, "textures/gui/hud.png");
     private static final int POPUP_TIME = 300;
     private static final float COLOR_CHANGE_DELAY = 200f;
     private static final float COLOR_CHANGE_STEP = 8f;

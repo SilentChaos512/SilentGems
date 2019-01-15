@@ -14,7 +14,7 @@ public class ModDamageSource extends DamageSource {
 
   public ModDamageSource(String name) {
 
-    super(SilentGems.MODID + "." + name);
+    super(SilentGems.MOD_ID + "." + name);
   }
 
   @Override

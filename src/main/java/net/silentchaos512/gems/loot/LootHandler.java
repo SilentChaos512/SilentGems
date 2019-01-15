@@ -1,7 +1,6 @@
 package net.silentchaos512.gems.loot;
 
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.storage.loot.LootEntryItem;
 import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.LootTableList;
@@ -13,7 +12,7 @@ import net.minecraft.world.storage.loot.functions.SetMetadata;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 
 public class LootHandler {
 
@@ -23,7 +22,7 @@ public class LootHandler {
       LootPool main = event.getTable().getPool("main");
       if (main != null) {
         main.addEntry(new LootEntryItem(Items.FLINT, 30, 0, count(6, 12), new LootCondition[0],
-            SilentGems.MODID + ":flint"));
+            SilentGems.MOD_ID + ":flint"));
       }
     } else if (event.getName().equals(LootTableList.CHESTS_ABANDONED_MINESHAFT)
         || event.getName().equals(LootTableList.CHESTS_DESERT_PYRAMID)
@@ -31,11 +30,11 @@ public class LootHandler {
       LootPool main = event.getTable().getPool("main");
       if (main != null) {
         main.addEntry(
-            new LootEntryItem(ModItems.gem, 16, 1, countAndMeta(3, 8, 0, EnumGem.values().length - 1),
-                new LootCondition[0], SilentGems.MODID + "Gems1"));
+            new LootEntryItem(ModItems.gem, 16, 1, countAndMeta(3, 8, 0, Gems.values().length - 1),
+                new LootCondition[0], SilentGems.MOD_ID + "Gems1"));
         main.addEntry(
-            new LootEntryItem(ModItems.gem, 16, 1, countAndMeta(3, 8, 0, EnumGem.values().length - 1),
-                new LootCondition[0], SilentGems.MODID + "Gems2"));
+            new LootEntryItem(ModItems.gem, 16, 1, countAndMeta(3, 8, 0, Gems.values().length - 1),
+                new LootCondition[0], SilentGems.MOD_ID + "Gems2"));
       }
     }
   }

@@ -29,8 +29,6 @@ import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.util.ChaosUtil;
-import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.PlayerHelper;

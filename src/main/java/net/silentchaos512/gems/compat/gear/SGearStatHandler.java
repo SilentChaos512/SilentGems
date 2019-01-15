@@ -39,7 +39,7 @@ import java.util.function.ToDoubleFunction;
  * Supercharged enchantment. Does not work with the old Silent's Gems tool system.
  */
 public class SGearStatHandler {
-    public static final ItemStat CHARGEABILITY = new ItemStat(new ResourceLocation(SilentGems.MODID, "chargeability"),
+    public static final ItemStat CHARGEABILITY = new ItemStat(new ResourceLocation(SilentGems.MOD_ID, "chargeability"),
             1f, 0f, 100f, false, TextFormatting.GOLD).setSynergyApplies(false).setAffectedByGrades(false).setHidden(true);
 
     private static final Map<ItemStat, ToDoubleFunction<ChargedProperties>> BOOSTED_STATS =

@@ -18,7 +18,6 @@ import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.ChaosBuff;
 import net.silentchaos512.gems.recipe.RecipeSoulUrnModify;
-import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.StackHelper;
 
 import java.util.Collection;
@@ -131,7 +130,7 @@ public class SilentGemsPlugin implements IModPlugin {
     }
 
     private String getDescKey(String name) {
-        return "jei." + SilentGems.MODID + "." + name + ".desc";
+        return "jei." + SilentGems.MOD_ID + "." + name + ".desc";
     }
 
     private String getDescKey(ResourceLocation name) {

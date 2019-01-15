@@ -28,9 +28,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.util.NBTHelper;
 import net.silentchaos512.gems.util.TeleportUtil;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
@@ -54,7 +53,7 @@ public class ItemReturnHome extends ItemChaosStorage implements IAddRecipes, ICu
     private static final String NBT_READY = "IsReady";
 
     public ItemReturnHome() {
-        super(EnumGem.values().length, GemsConfig.RETURN_HOME_MAX_CHARGE);
+        super(Gems.values().length, GemsConfig.RETURN_HOME_MAX_CHARGE);
     }
 
     @Override
@@ -82,7 +81,7 @@ public class ItemReturnHome extends ItemChaosStorage implements IAddRecipes, ICu
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
         if (!isInCreativeTab(tab)) return;
 
-        for (EnumGem gem : EnumGem.values()) {
+        for (Gems gem : Gems.values()) {
             ItemStack stack = new ItemStack(this, 1, gem.ordinal());
             setCharge(stack, getMaxCharge(stack));
             list.add(stack);
@@ -231,7 +230,7 @@ public class ItemReturnHome extends ItemChaosStorage implements IAddRecipes, ICu
     @Override
     public void registerModels() {
         ModelResourceLocation model = new ModelResourceLocation(SilentGems.RESOURCE_PREFIX + Names.RETURN_HOME_CHARM, "inventory");
-        for (int i = 0; i < EnumGem.values().length; ++i) {
+        for (int i = 0; i < Gems.values().length; ++i) {
             ModelLoader.setCustomModelResourceLocation(this, i, model);
         }
     }

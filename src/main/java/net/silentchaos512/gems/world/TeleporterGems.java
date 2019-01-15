@@ -5,14 +5,10 @@ import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
 public class TeleporterGems extends Teleporter {
+    public TeleporterGems(WorldServer worldIn) {
+        super(worldIn);
+    }
 
-  public TeleporterGems(WorldServer worldIn) {
-
-    super(worldIn);
-  }
-
-  @Override
-  public void placeInPortal(Entity entity, float yaw) {
-
-  }
+    @Override
+    public void placeInPortal(Entity entity, float yaw) { }
 }

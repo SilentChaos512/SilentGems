@@ -22,18 +22,18 @@ import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gear.api.parts.PartMain;
 import net.silentchaos512.gear.api.parts.PartRegistry;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 
 public final class SGearMaterials {
     private SGearMaterials() {}
 
     public static void init() {
-        for (EnumGem gem : EnumGem.values()) {
-            String gemName = gem == EnumGem.BERYL ? "green_sapphire" : gem.getName();
-            ResourceLocation name = new ResourceLocation(SilentGems.MODID, "main_" + gemName);
+        for (Gems gem : Gems.values()) {
+            String gemName = gem == Gems.GREEN_SAPPHIRE ? "green_sapphire" : gem.getName();
+            ResourceLocation name = new ResourceLocation(SilentGems.MOD_ID, "main_" + gemName);
             PartRegistry.putPart(new PartMain(name));
         }
 
-        PartRegistry.putPart(new PartMain(new ResourceLocation(SilentGems.MODID, "main_chaos_iron")));
+        PartRegistry.putPart(new PartMain(new ResourceLocation(SilentGems.MOD_ID, "main_chaos_iron")));
     }
 }

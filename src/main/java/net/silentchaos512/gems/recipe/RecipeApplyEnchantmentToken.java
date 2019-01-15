@@ -5,7 +5,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.item.ItemEnchantmentToken;
+import net.silentchaos512.gems.item.EnchantmentToken;
 import net.silentchaos512.lib.recipe.RecipeBaseSL;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class RecipeApplyEnchantmentToken extends RecipeBaseSL {
         List<ItemStack> tokens = Lists.newArrayList();
 
         for (ItemStack stack : getNonEmptyStacks(inv)) {
-            if (stack.getItem() instanceof ItemEnchantmentToken) {
+            if (stack.getItem() instanceof EnchantmentToken) {
                 tokens.add(stack);
             } else {
                 if (!tool.isEmpty()) {

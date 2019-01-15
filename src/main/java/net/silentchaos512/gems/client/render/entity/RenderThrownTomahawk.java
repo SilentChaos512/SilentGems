@@ -11,7 +11,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.silentchaos512.gems.entity.EntityThrownTomahawk;
 
 import javax.annotation.Nullable;
 

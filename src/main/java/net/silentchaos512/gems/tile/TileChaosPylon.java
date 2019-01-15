@@ -14,7 +14,6 @@ import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosProvider;
 import net.silentchaos512.gems.lib.EnumPylonType;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.lib.tile.TileInventorySL;
 
 import java.util.List;

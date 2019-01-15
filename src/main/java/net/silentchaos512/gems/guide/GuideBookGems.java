@@ -11,7 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.client.gui.config.GuiConfigSilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -23,11 +22,8 @@ import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.*;
 import net.silentchaos512.gems.lib.ChaosBuff;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.soul.SoulSkill;
-import net.silentchaos512.gems.util.ArmorHelper;
-import net.silentchaos512.gems.util.ToolHelper;
-import net.silentchaos512.gems.util.ToolRandomizer;
 import net.silentchaos512.lib.guidebook.GuideBook;
 import net.silentchaos512.lib.guidebook.IGuidePage;
 import net.silentchaos512.lib.guidebook.chapter.GuideChapter;
@@ -52,9 +48,9 @@ public class GuideBookGems extends GuideBook {
     private GuideEntry entryDebug;
 
     public GuideBookGems() {
-        super(SilentGems.MODID, SilentGems.i18n);
-        this.resourceGui = new ResourceLocation(SilentGems.MODID, "textures/guide/gui_guide.png");
-        this.resourceGadgets = new ResourceLocation(SilentGems.MODID, "textures/guide/gui_guide_gadgets.png");
+        super(SilentGems.MOD_ID, SilentGems.i18n);
+        this.resourceGui = new ResourceLocation(SilentGems.MOD_ID, "textures/guide/gui_guide.png");
+        this.resourceGadgets = new ResourceLocation(SilentGems.MOD_ID, "textures/guide/gui_guide_gadgets.png");
         edition = SilentGems.instance.getBuildNum();
     }
 
@@ -90,11 +86,11 @@ public class GuideBookGems extends GuideBook {
         ItemStack ironTipUpgrade = new ItemStack(ModItems.tipUpgrade);
         ItemStack flintPickaxeIronTips = ModItems.tipUpgrade.applyToTool(flintPickaxe, ironTipUpgrade);
         ItemStack gravel = new ItemStack(Blocks.GRAVEL);
-        ItemStack gemPickaxe = ModItems.pickaxe.constructTool(new ItemStack(Items.STICK), EnumGem.RUBY.getItem(), EnumGem.SAPPHIRE.getItem(), EnumGem.RUBY.getItem());
+        ItemStack gemPickaxe = ModItems.pickaxe.constructTool(new ItemStack(Items.STICK), Gems.RUBY.getItem(), Gems.SAPPHIRE.getItem(), Gems.RUBY.getItem());
         ToolHelper.setOriginalOwner(gemPickaxe, TOOL_OWNER_NAME);
         ItemStack diamondTipUpgrade = new ItemStack(ModItems.tipUpgrade, 1, 2);
         ItemStack gemPickaxeDiamondTips = ModItems.tipUpgrade.applyToTool(gemPickaxe, diamondTipUpgrade);
-        ItemStack katana = ModItems.katana.constructTool(true, EnumGem.LEPIDOLITE.getItemSuper(), EnumGem.OPAL.getItemSuper(), EnumGem.BLACK_DIAMOND.getItemSuper());
+        ItemStack katana = ModItems.katana.constructTool(true, Gems.LEPIDOLITE.getItemSuper(), Gems.OPAL.getItemSuper(), Gems.BLACK_DIAMOND.getItemSuper());
         ToolHelper.setOriginalOwner(katana, TOOL_OWNER_NAME);
         new GuideChapter(this, "progression", entryGettingStarted, flintPickaxeIronTips, 100,
                 new PageTextOnly(this, 1),
@@ -104,13 +100,13 @@ public class GuideBookGems extends GuideBook {
                 new PageCrafting(this, 5, rec.makeShapeless(flintPickaxe, flintPickaxeBroken, Items.FLINT, Items.FLINT)),
                 new PageTextOnly(this, 6),
                 new PageCrafting(this, 7, rec.makeShapelessOre(flintPickaxeIronTips, flintPickaxe, ironTipUpgrade)),
-                new PageCrafting(this, 8, rec.makeShapedOre(gemPickaxe, "rsr", " t ", " t ", 'r', EnumGem.RUBY.getItem(), 's',
-                        EnumGem.SAPPHIRE.getItem(), 't', "stickWood")),
+                new PageCrafting(this, 8, rec.makeShapedOre(gemPickaxe, "rsr", " t ", " t ", 'r', Gems.RUBY.getItem(), 's',
+                        Gems.SAPPHIRE.getItem(), 't', "stickWood")),
                 new PageTextOnly(this, 9),
                 new PageCrafting(this, 10, rec.makeShapeless(gemPickaxeDiamondTips, gemPickaxe, diamondTipUpgrade)),
                 new PageTextOnly(this, 11),
-                new PageCrafting(this, 12, rec.makeShapedOre(katana, "lo", "d ", "r ", 'l', EnumGem.LEPIDOLITE.getItemSuper(), 'o',
-                        EnumGem.OPAL.getItemSuper(), 'd', EnumGem.BLACK_DIAMOND.getItemSuper(), 'r', CraftingItems.ORNATE_GOLD_ROD.getStack())),
+                new PageCrafting(this, 12, rec.makeShapedOre(katana, "lo", "d ", "r ", 'l', Gems.LEPIDOLITE.getItemSuper(), 'o',
+                        Gems.OPAL.getItemSuper(), 'd', Gems.BLACK_DIAMOND.getItemSuper(), 'r', CraftingItems.ORNATE_GOLD_ROD.getStack())),
                 new PageTextOnly(this, 13)).setImportant();
         // You Broke It
         new GuideChapter(this, "youBrokeIt", entryGettingStarted, CraftingItems.MAGNIFYING_GLASS.getStack(),
@@ -125,41 +121,41 @@ public class GuideBookGems extends GuideBook {
 //    for (ToolPart part : ToolPartRegistry.getMains()) {
 //      pagesParts.add(new PageToolPart(this, 0, part));
 //    }
-//    new GuideChapter(this, "toolParts", entryTools, EnumGem.getRandom().getItem(), 100,
+//    new GuideChapter(this, "toolParts", entryTools, EnumGem.selectRandom().getItem(), 100,
 //        pagesParts.toArray(new IGuidePage[pagesParts.size()]));
         // Axes
         ItemStack toolsEntryRod = SilentGems.random.nextFloat() < 0.67f ? CraftingItems.ORNATE_GOLD_ROD.getStack() : CraftingItems.ORNATE_SILVER_ROD.getStack();
-        ItemStack chAxeGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chAxeGem = Gems.selectRandom().getItemSuper();
         ItemStack chAxe = makeTool(ModItems.axe, toolsEntryRod, chAxeGem, 3);
         new GuideChapter(this, "axe", entryTools, chAxe,
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapedOre(chAxe, "gg", "gr", " r", 'g', chAxeGem, 'r', toolsEntryRod)).setNoText());
         // Bows
-        ItemStack chBowGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chBowGem = Gems.selectRandom().getItemSuper();
         ItemStack chBow = makeTool(ModItems.bow, toolsEntryRod, chBowGem, 3);
         new GuideChapter(this, "bow", entryTools, chBow,
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapedOre(chBow, "rgs", "g s", "rgs", 'g', chBowGem, 'r', toolsEntryRod, 's', CraftingItems.GILDED_STRING.getStack())));
         // Daggers
-        ItemStack chDaggerGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chDaggerGem = Gems.selectRandom().getItemSuper();
         ItemStack chDagger = makeTool(ModItems.dagger, toolsEntryRod, chDaggerGem, 1);
         new GuideChapter(this, "dagger", entryTools, chDagger,
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapedOre(chDagger, "g", "r", "f", 'g', chDaggerGem, 'r', toolsEntryRod, 'f', "ingotGold")));
         // Hoes
-        ItemStack chHoeGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chHoeGem = Gems.selectRandom().getItemSuper();
         ItemStack chHoe = makeTool(ModItems.hoe, toolsEntryRod, chHoeGem, 2);
         new GuideChapter(this, "hoe", entryTools, chHoe,
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapedOre(chHoe, "gg", " r", " r", 'g', chHoeGem, 'r', toolsEntryRod)).setNoText());
         // Katana
-        ItemStack chKatanaGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chKatanaGem = Gems.selectRandom().getItemSuper();
         ItemStack chKatana = makeTool(ModItems.katana, toolsEntryRod, chKatanaGem, 3);
         new GuideChapter(this, "katana", entryTools, chKatana,
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapedOre(chKatana, "gg", "g ", "r ", 'g', chKatanaGem, 'r', toolsEntryRod)).setNoText());
         // Machetes
-        ItemStack chMacheteGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chMacheteGem = Gems.selectRandom().getItemSuper();
         ItemStack chMachete = makeTool(ModItems.machete, toolsEntryRod, chMacheteGem, 3);
         new GuideChapter(this, "machete", entryTools, chMachete,
                 new PageTextOnly(this, 1),
@@ -167,55 +163,55 @@ public class GuideBookGems extends GuideBook {
                 new PageTextOnly(this, 3),
                 new PageTextOnly(this, 4));
         // Paxels
-        ItemStack chPaxelGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chPaxelGem = Gems.selectRandom().getItemSuper();
         ItemStack chPaxel = makeTool(ModItems.paxel, toolsEntryRod, chPaxelGem, 6);
         new GuideChapter(this, "paxel", entryTools, chPaxel,
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapedOre(chPaxel, "ggg", "grg", "gr ", 'g', chPaxelGem, 'r', toolsEntryRod)).setNoText());
         // Pickaxes
-        ItemStack chPickaxeGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chPickaxeGem = Gems.selectRandom().getItemSuper();
         ItemStack chPickaxe = makeTool(ModItems.pickaxe, toolsEntryRod, chPickaxeGem, 3);
         new GuideChapter(this, "pickaxe", entryTools, chPickaxe,
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapedOre(chPickaxe, "ggg", " r ", " r ", 'g', chPickaxeGem, 'r', toolsEntryRod)).setNoText());
         // Scepters
-        ItemStack chScepterGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chScepterGem = Gems.selectRandom().getItemSuper();
         ItemStack chScepter = makeTool(ModItems.scepter, toolsEntryRod, chScepterGem, 5);
         new GuideChapter(this, "scepter", entryTools, chScepter,
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapedOre(chScepter, " g ", "grg", "grg", 'g', chScepterGem, 'r', toolsEntryRod)).setNoText(),
                 new PageTextOnly(this, 3));
-        ItemStack chShieldGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chShieldGem = Gems.selectRandom().getItemSuper();
         ItemStack chShield = makeTool(ModItems.shield, toolsEntryRod, chShieldGem, 3);
         new GuideChapter(this, "shield", entryTools, chShield,
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapedOre(chShield, "gwg", "wrw", " g ", 'g', chShieldGem, 'r', toolsEntryRod, 'w', "plankWood")).setNoText());
         // Shovels
-        ItemStack chShovelGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chShovelGem = Gems.selectRandom().getItemSuper();
         ItemStack chShovel = makeTool(ModItems.shovel, toolsEntryRod, chShovelGem, 1);
         new GuideChapter(this, "shovel", entryTools, chShovel,
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapedOre(chShovel, "g", "r", "r", 'g', chShovelGem, 'r', toolsEntryRod)).setNoText());
         // Sickles
-        ItemStack chSickleGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chSickleGem = Gems.selectRandom().getItemSuper();
         ItemStack chSickle = makeTool(ModItems.sickle, toolsEntryRod, chSickleGem, 3);
         new GuideChapter(this, "sickle", entryTools, chSickle,
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapedOre(chSickle, " g", "gg", "r ", 'g', chSickleGem, 'r', toolsEntryRod)).setNoText());
         // Swords
-        ItemStack chSwordGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chSwordGem = Gems.selectRandom().getItemSuper();
         ItemStack chSword = makeTool(ModItems.sword, toolsEntryRod, chSwordGem, 2);
         new GuideChapter(this, "sword", entryTools, chSword,
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapedOre(chSword, "g", "g", "r", 'g', chSwordGem, 'r', toolsEntryRod)).setNoText());
         // Tomahawks
-        ItemStack chTomahawkGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chTomahawkGem = Gems.selectRandom().getItemSuper();
         ItemStack chTomahawk = makeTool(ModItems.tomahawk, toolsEntryRod, chTomahawkGem, 4);
         new GuideChapter(this, "tomahawk", entryTools, chTomahawk,
                 new PageTextOnly(this, 1),
                 new PageCrafting(this, 2, rec.makeShapedOre(chTomahawk, "ggg", "gr ", " r ", 'g', chTomahawkGem, 'r', toolsEntryRod)).setNoText());
         // Armor
-        ItemStack chHelmetGem = EnumGem.getRandom().getItemSuper();
+        ItemStack chHelmetGem = Gems.selectRandom().getItemSuper();
         ItemStack chHelmet = ModItems.gemHelmet.constructArmor(EnumMaterialTier.SUPER, chHelmetGem);
         ItemStack chHelmetFrame = ModItems.armorFrame.getFrameForArmorPiece(ModItems.gemHelmet, EnumMaterialTier.SUPER);
         ArmorHelper.setOriginalOwner(chHelmet, TOOL_OWNER_NAME);
@@ -251,7 +247,7 @@ public class GuideBookGems extends GuideBook {
                 new PageTextOnly(this, 2));
         // Chaos Node
         new GuideChapter(this, "chaosNode", entryBlocks, new ItemStack(ModBlocks.chaosNode),
-                new PagePicture(this, 3, new ResourceLocation(SilentGems.MODID, "textures/guide/chaosnode.png"), 125),
+                new PagePicture(this, 3, new ResourceLocation(SilentGems.MOD_ID, "textures/guide/chaosnode.png"), 125),
                 new PageTextOnly(this, 1),
                 new PageTextOnly(this, 2));
         // Chaos Pylons
@@ -292,7 +288,7 @@ public class GuideBookGems extends GuideBook {
         new GuideChapter(this, "craftingMaterial", entryItems, CraftingItems.CHAOS_ESSENCE.getStack(),
                 pages.toArray(new IGuidePage[0]));
         // Chaos Gems
-        ItemStack chChaosGem = new ItemStack(ModItems.chaosGem, 1, EnumGem.getRandom().ordinal());
+        ItemStack chChaosGem = new ItemStack(ModItems.chaosGem, 1, Gems.selectRandom().ordinal());
         ModItems.chaosGem.receiveCharge(chChaosGem, ModItems.chaosGem.getMaxCharge(chChaosGem), false);
         ItemStack chChaosGemWithBuffs = chChaosGem.copy();
         ItemStack chChaosGemRuneStrength = new ItemStack(ModItems.chaosRune);
@@ -319,7 +315,7 @@ public class GuideBookGems extends GuideBook {
                 new PageTextOnly(this, 1),
                 new PageTextOnly(this, 2));
         // Enchantment Tokens
-        ItemStack chEnchantmentToken = new ItemStack(ModItems.enchantmentToken, 1, ItemEnchantmentToken.BLANK_META);
+        ItemStack chEnchantmentToken = new ItemStack(ModItems.enchantmentToken, 1, EnchantmentToken.BLANK_META);
         ItemStack tokenSharpness = ModItems.enchantmentToken.constructToken(Enchantments.SHARPNESS);
         ItemStack chEnchantmentTokenPickaxe = ToolRandomizer.INSTANCE.randomize(new ItemStack(ModItems.pickaxe), 0.75f);
         ItemStack chEnchantmentTokenPickaxeEnchanted = chEnchantmentTokenPickaxe.copy();
@@ -332,7 +328,7 @@ public class GuideBookGems extends GuideBook {
         new GuideChapter(this, "enchantmentToken", entryItems, chEnchantmentToken,
                 new PageTextOnly(this, 1),
                 new PageTextOnly(this, 2),
-                new PageCrafting(this, 3, rec.makeShapedOre(new ItemStack(ModItems.enchantmentToken, 12, ItemEnchantmentToken.BLANK_META), "ggg", "lcl", "ggg", 'g', "ingotGold", 'l', "gemLapis", 'c', "gemChaos")),
+                new PageCrafting(this, 3, rec.makeShapedOre(new ItemStack(ModItems.enchantmentToken, 12, EnchantmentToken.BLANK_META), "ggg", "lcl", "ggg", 'g', "ingotGold", 'l', "gemLapis", 'c', "gemChaos")),
                 new PageCrafting(this, 4, rec.makeShapedOre(tokenSharpness, "r r", "fbf", "fff", 'r', "gemRuby", 'f', Items.FLINT, 'b', chEnchantmentToken)),
                 new PageTextOnly(this, 5),
                 new PageCrafting(this, 6, rec.makeShapeless(chEnchantmentTokenPickaxeEnchanted, chEnchantmentTokenPickaxe, tokenUnbreaking, tokenUnbreaking, tokenUnbreaking, tokenFortune, tokenFortune, tokenFortune)));
@@ -340,7 +336,7 @@ public class GuideBookGems extends GuideBook {
         new GuideChapter(this, "fluffyPuff", entryItems, new ItemStack(ModItems.fluffyPuff),
                 new PageTextOnly(this, 1));
         // Gems
-        EnumGem chGem = EnumGem.getRandom();
+        Gems chGem = Gems.selectRandom();
         ItemStack craftedShards = chGem.getShard();
         craftedShards.setCount(9);
         new GuideChapter(this, "gem", entryItems, chGem.getItem(),
@@ -348,7 +344,7 @@ public class GuideBookGems extends GuideBook {
                 new PageCrafting(this, 2, rec.makeShapelessOre(craftedShards, chGem.getItem())),
                 new PageCrafting(this, 3, rec.makeShapedOre(chGem.getItemSuper(), "cgc", "cdc", "cgc", 'c', CraftingItems.CHAOS_ESSENCE.getStack(), 'g', chGem.getItem(), 'd', "dustGlowstone")));
         // Holding Gem
-        ItemStack chHoldingGem = ModItems.holdingGem.construct(EnumGem.getRandom());
+        ItemStack chHoldingGem = ModItems.holdingGem.construct(Gems.selectRandom());
         ItemStack chHoldingGemIcon = chHoldingGem.copy();
         chHoldingGemIcon.setItemDamage(0);
         ItemStack chHoldingGemSet = chHoldingGem.copy();
@@ -374,7 +370,7 @@ public class GuideBookGems extends GuideBook {
                 new PageTextOnly(this, 1),
                 new PageTextOnly(this, 2));
         // Legacy items
-        ItemStack chLegacyItems = EnumGem.getRandom().getItemSuper();
+        ItemStack chLegacyItems = Gems.selectRandom().getItemSuper();
         new GuideChapter(this, "legacyItems", entryItems, chLegacyItems,
                 new PageTextOnly(this, 1),
                 new PageTextOnly(this, 2));

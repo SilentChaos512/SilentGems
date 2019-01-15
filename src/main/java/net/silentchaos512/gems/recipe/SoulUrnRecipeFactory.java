@@ -33,9 +33,9 @@ import net.minecraftforge.common.crafting.JsonContext;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
-import net.silentchaos512.gems.item.ItemGem;
+import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.item.ItemSoulGem;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.lib.collection.StackList;
 import net.silentchaos512.lib.util.StackHelper;
@@ -53,17 +53,17 @@ public class SoulUrnRecipeFactory implements IRecipeFactory {
         primer.mirrored = JsonUtils.getBoolean(json, "mirrored", true);
         primer.input = recipe.getIngredients();
 
-        return new ShapedOreRecipe(new ResourceLocation(SilentGems.MODID, "soul_urn"), new ItemStack(ModBlocks.soulUrn), primer) {
+        return new ShapedOreRecipe(new ResourceLocation(SilentGems.MOD_ID, "soul_urn"), new ItemStack(ModBlocks.soulUrn), primer) {
             @Nonnull
             @Override
             public ItemStack getCraftingResult(@Nonnull InventoryCrafting var1) {
                 StackList list = StackHelper.getNonEmptyStacks(var1);
                 ItemStack clay = list.firstMatch(stack ->
-                        !(stack.getItem() instanceof ItemGem || stack.getItem() instanceof ItemSoulGem));
-                ItemStack gemStack = list.firstOfType(ItemGem.class);
+                        !(stack.getItem() instanceof GemItem || stack.getItem() instanceof ItemSoulGem));
+                ItemStack gemStack = list.firstOfType(GemItem.class);
 //                ItemStack soulGem = list.firstOfType(ItemSoulGem.class);
 
-                EnumGem gem = EnumGem.getFromStack(gemStack);
+                Gems gem = Gems.fromStack(gemStack);
                 EnumDyeColor color = null;
                 if (clay.getItem() == Item.getItemFromBlock(Blocks.STAINED_HARDENED_CLAY)) {
                     color = EnumDyeColor.byMetadata(clay.getItemDamage());

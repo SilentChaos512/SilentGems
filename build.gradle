@@ -1,359 +1,89 @@
 buildscript {
     repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
-        maven {
-            name = 'forge'
-            url = 'http://files.minecraftforge.net/maven'
-        }
-        maven {
-            name = 'gradle'
-            url 'https://plugins.gradle.org/m2/'
-        }
+        mavenCentral()
     }
     dependencies {
-        classpath "net.minecraftforge.gradle:${project.fg_version}"
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
+apply plugin: 'net.minecraftforge.gradle'
+//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'eclipse'
 
-plugins {
-    id "com.matthewprenger.cursegradle" version "1.1.0"
-    id 'net.ltgt.apt' version '0.10' // for lombok
-}
+version = '3.0.0'
+group = 'net.silentchaos512.gems' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'silents-gems'
 
-apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'com.matthewprenger.cursegradle'
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
-
-dependencies {
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.compilerArgs = [
-            '-Xlint:deprecation', // deprecation, rawtypes, cast, unchecked, all
-//  '-Xdiags:verbose',
-//  '-Werror'
-    ]
-}
-
-javadoc {
-    failOnError = false
-}
-
-def mod_file = getModFile()
-def short_version = getVersion('VERSION', mod_file)
-version = mc_version + '-' + short_version
-def display_version = short_version
-def build_num = getBuildNumber()
-
-//if (System.getenv().BUILD_NUMBER) {
-//  version += '.' + System.getenv().BUILD_NUMBER
-//  display_version += '.' + System.getenv().BUILD_NUMBER
-//}
-
-sourceCompatibility = targetCompatibility = '1.8'
-
-eclipse.project {
-    buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
-    natures 'org.eclipse.buildship.core.gradleprojectnature'
-}
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    version = project.forge_mc_version + '-' + project.forge_version
-    runDir = 'run'
-    mappings = project.mcp_mappings
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not always work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    mappings channel: 'snapshot', version: '20180921-1.13'
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    
+    //accessTransformer = file('my_at.cfg')
 
-    replace "BUILD_NUM = 0", "BUILD_NUM = " + build_num
-    replaceIn "SilentGems.java"
-
-    if (project.hasProperty('coreplugin')) {
-        clientJvmArgs += '-Dfml.coreMods.load=' + project.coreplugin
-        serverJvmArgs += '-Dfml.coreMods.load=' + project.coreplugin
-    }
-
-    if (project.hasProperty('mc_username')) {
-        clientRunArgs += ['--username', project.mc_username]
-        if (project.hasProperty('mc_password')) {
-            clientRunArgs += ['--password', project.mc_password]
+    // default run configurations.
+    // these can be tweaked, removed, or duplicated as needed.
+    runs {
+        client = {
+            workingDirectory project.file('run').canonicalPath
+            source sourceSets.main
         }
-    }
-    if (project.hasProperty('mc_uuid')) {
-        clientRunArgs += ['--uuid', project.mc_uuid]
-    }
-
-    // disable server gui
-    serverRunArgs += 'nogui'
-
-    // skip the screen to confirm that you want to load a world with missing registry entries
-    serverJvmArgs += '-Dfml.doNotBackup=true'
-    clientJvmArgs += '-Dfml.doNotBackup=true'
-
-    // skip having to confirm on server
-    serverJvmArgs += '-Dfml.queryResult=confirm'
-
-    //skip jansi warnings in the log
-    serverJvmArgs += '-Dlog4j.skipJansi=true'
-    clientJvmArgs += '-Dlog4j.skipJansi=true'
-
-    if (project.hasProperty('client_args')) {
-        clientJvmArgs += project.client_args
-    }
-    if (project.hasProperty('server_args')) {
-        serverJvmArgs += project.server_args
-    }
-}
-
-task incrementBuild {
-    doFirst {
-        def versionFile = file('version.properties')
-        if (versionFile.canRead()) {
-            Properties versionProps = new Properties()
-            versionProps.load(new FileInputStream(versionFile))
-            build_num = versionProps['build_num'].toInteger() + 1
-            println("incrementing BuildNumber to: " + build_num)
-            versionProps['build_num'] = build_num.toString()
-            versionProps.store(versionFile.newWriter(), null)
-        } else {
-            println("version.properties file not found! Ignoring.")
+        server = {
+            workingDirectory project.file('run').canonicalPath
         }
-    }
-}
-build.dependsOn incrementBuild
-
-repositories {
-    jcenter()
-    mavenCentral()
-    maven { // JEI
-        name = "Progwml6 maven"
-        url = "http://dvs1.progwml6.com/files/maven"
-    }
-    maven { // JEI mirror
-        name = "ModMaven"
-        url = "modmaven.k-4u.nl"
-    }
-    maven {
-        name "Cyclops Repo"
-        url "https://oss.jfrog.org/artifactory/simple/libs-release/"
-    }
-    repositories {
-        maven { url 'https://maven.mcmoddev.com' }
-    }
-    maven { // Jitpack
-        url 'https://jitpack.io'
     }
 }
 
 dependencies {
-    // lombok
-    if (project.hasProperty('lombok_version')) {
-        compile "org.projectlombok:lombok:${project.lombok_version}"
-        apt "org.projectlombok:lombok:${project.lombok_version}"
-    }
+    // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
+    // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
+    // The userdev artifact is a special name and will get all sorts of transformations applied to it.
+    minecraft 'net.minecraftforge.test:forge:1.13-24.0.81-1.13-pre'
 
-    // JEI
-    if (project.hasProperty('jei_version')) {
-        deobfProvided "mezz.jei:jei_${project.mc_version}:${project.jei_version}:api"
-        //runtime "mezz.jei:jei_${project.mc_version}:${project.jei_version}"
-    }
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
 
-    // Silent Lib
-    if (project.hasProperty('sl_version')) {
-        if (findProject(":SilentLib") != null)
-            compileOnly project(":SilentLib")
-        else
-            provided "com.github.SilentChaos512:SilentLib:${project.sl_version}"
-    }
+    // real examples
+    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 
-    if (project.hasProperty('sgear_version')) {
-        if (findProject(":SilentGear"))
-            compileOnly project(":SilentGear")
-        else
-            provided "com.github.SilentChaos512:Silent-Gear:${project.sgear_version}"
-    }
+    // the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
+    //provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
 
-    // EvilCraft
-    compileOnly "org.cyclops.cyclopscore:CyclopsCore:${project.mc_version}-${project.cyclops_core_version}:deobf"
-    compileOnly "org.cyclops.evilcraft:EvilCraft:${project.mc_version}-${project.evilcraft_version}:deobf"
+    // These dependencies get remapped to your current MCP mappings
+    //deobf 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
 }
 
 processResources {
+    // this will ensure that this task is redone when the versions change.
     inputs.property 'version', project.version
-    inputs.property 'mcversion', project.minecraft.version
+    inputs.property 'mcversion', '1.13'
 
+    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version': short_version, 'mcversion': project.minecraft.version
+        include 'META_INF/mods.toml'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion': '1.13'
     }
 
+    // copy everything else except the mods.toml
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-
-    rename '(.+_at.cfg)', 'META-INF/$1'
-}
-
-jar {
-    mustRunAfter incrementBuild
-    doFirst {
-        build_num = getBuildNumber()
-        if (build_num > 0) {
-            classifier = build_num
-        }
-    }
-    manifest {
-        if (project.hasProperty('coreplugin')) {
-            attributes 'FMLCorePluginContainsFMLMod': 'true'
-            attributes 'FMLCorePlugin': project.coreplugin
-        }
-        attributes 'FMLAT' : 'silentgems_at.cfg'
-    }
-}
-
-task apiJar(type: Jar) {
-    classifier = 'apiClasses'
-    from apiClasses
-}
-
-task deobfJar(type: Jar) {
-    classifier = 'deobf'
-    from sourceSets.main.output
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.getDestinationDir()
-}
-
-artifacts {
-    if (project.hasProperty('doAPIJar')) {
-        archives apiJar
-    }
-    if (project.hasProperty('doDeobfJar')) {
-        archives deobfJar
-    }
-    if (project.hasProperty('doSourceJar')) {
-        archives sourceJar
-    }
-    if (project.hasProperty('doJavadocJar')) {
-        archives javadocJar
-    }
-}
-
-class Secrets {
-    def data = null
-
-    def getProperty(String key) {
-        return data ? data[key] : ''
-    }
-}
-
-import groovy.json.JsonSlurper
-
-def secretFile
-if (System.getenv().SECRET_FILE) {
-    secretFile = file System.getenv().SECRET_FILE
-} else {
-    secretFile = file 'secret.json'
-}
-
-project.ext.secret = new Secrets()
-if (secretFile.exists()) {
-    secretFile.withReader {
-        project.ext.secret.data = new JsonSlurper().parse it
-    }
-}
-
-curseforge {
-    if (project.hasProperty('cf_project_id') && project.hasProperty('cf_release_type') && project.hasProperty('cf_changelog_filename') &&
-            ((project.cf_release_type == 'alpha') || (project.cf_release_type == 'beta') || (project.cf_release_type == 'release'))) {
-        apiKey = secret.curseforgeAPIKey
-        project {
-            id = project.cf_project_id
-            changelog = file(project.cf_changelog_filename)
-            releaseType = project.cf_release_type
-            addGameVersion(project.mc_version)
-            mainArtifact(jar) {
-//                displayName = "$project.description $display_version"
-                relations {
-                    requiredLibrary 'silent-lib'
-                    optionalLibrary 'jei'
-                }
-            }
-//            if (project.hasProperty('doAPIJar')) {
-//                addArtifact(apiJar) {
-//                    displayName = "$project.description $display_version API"
-//                }
-//            }
-//            if (project.hasProperty('doSourceJar')) {
-//                addArtifact(sourceJar) {
-//                    displayName = "$project.description $display_version Sources"
-//                }
-//            }
-//            if (project.hasProperty('doDeobfJar')) {
-//                addArtifact(deobfJar) {
-//                    displayName = "$project.description $display_version Development"
-//                }
-//            }
-//            if (project.hasProperty('doJavadocJar')) {
-//                addArtifact(javadocJar) {
-//                    displayName = "$project.description $display_version Javadoc"
-//                }
-//            }
-        }
-    }
-}
-
-String getModFile() {
-    String path = ''
-    FileTree tree = fileTree(dir: 'src/main/java')
-    tree.include '**/*.java'
-    tree.visit { element ->
-        if (element.file.isFile()) {
-            element.file.eachLine { String s ->
-                s = s.trim()
-                if (s.startsWith('@Mod(')) {
-                    path = "src/main/java/$element.relativePath"
-                }
-            }
-        }
-    }
-    return path
-}
-
-String getVersion(String type, String mod_file) {
-    String major = '0'
-    String revision = '0'
-    String patch = '0'
-    File file = file(mod_file)
-    def prefix = ~/^(?:public|protected|private) static final String $type = ".*$/
-    file.eachLine { String s ->
-        s = s.trim()
-        if (s ==~ prefix || prefix.matcher(s).matches()) {
-            String[] bits = s.split("=")
-            String interesting = bits[1].trim()
-            interesting = interesting.substring(1, interesting.length() - 2)
-            String[] pts = interesting.trim().split("\\.")
-
-            major = pts[0] ?: '0'
-            revision = pts[1] ?: '0'
-            patch = pts[2] ?: '0'
-        }
-    }
-    return "$major.$revision.$patch"
-}
-
-int getBuildNumber() {
-    def versionFile = file('version.properties')
-    if (versionFile.canRead()) {
-        Properties versionProps = new Properties()
-        versionProps.load(new FileInputStream(versionFile))
-        return versionProps['build_num'].toInteger()
-    } else {
-        println('version.properties file not found! Build number will be 0')
-        return 0
+        exclude 'META_INF/mods.toml'
     }
 }

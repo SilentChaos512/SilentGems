@@ -18,6 +18,7 @@
 
 package net.silentchaos512.gems.block;
 
+import net.minecraft.block.BlockOre;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -34,7 +35,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.util.ModRecipeHelper;
 import net.silentchaos512.lib.block.BlockMetaSubtypes;
 import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
@@ -42,7 +42,7 @@ import net.silentchaos512.lib.registry.RecipeMaker;
 
 import java.util.Locale;
 
-public class BlockEssenceOre extends BlockMetaSubtypes implements ICustomModel, IAddRecipes {
+public class BlockEssenceOre extends BlockOre {
     public enum Type implements IStringSerializable {
         CHAOS, ENDER;
 

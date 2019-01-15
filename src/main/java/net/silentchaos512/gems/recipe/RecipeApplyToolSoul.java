@@ -3,13 +3,10 @@ package net.silentchaos512.gems.recipe;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.api.IArmor;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemToolSoul;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.util.SoulManager;
-import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.recipe.RecipeBaseSL;
 
 

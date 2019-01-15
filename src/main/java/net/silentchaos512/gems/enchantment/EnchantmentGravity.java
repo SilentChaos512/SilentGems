@@ -1,20 +1,17 @@
 package net.silentchaos512.gems.enchantment;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.silentchaos512.gems.SilentGems;
 
 public class EnchantmentGravity extends Enchantment {
     public static boolean ENABLED = true;
 
     public EnchantmentGravity() {
         super(Rarity.VERY_RARE, EnumEnchantmentType.DIGGER, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
-        setName(SilentGems.MODID + ".gravity");
     }
 
     @Override
@@ -44,11 +41,13 @@ public class EnchantmentGravity extends Enchantment {
         float speedMulti = 5f / (getMaxLevel() - enchLevel + 1);
 
         // In air or flying?
-        if (!player.onGround || player.capabilities.isFlying)
+        if (!player.onGround || player.abilities.isFlying) {
             event.setNewSpeed(event.getNewSpeed() * speedMulti);
+        }
 
         // Underwater?
-        if (player.isInsideOfMaterial(Material.WATER))
+        if (player.isInWater()) {
             event.setNewSpeed(event.getNewSpeed() * speedMulti);
+        }
     }
 }

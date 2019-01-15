@@ -29,11 +29,8 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.IArmor;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.Skulls;
-import net.silentchaos512.gems.entity.EntityChaosProjectile;
-import net.silentchaos512.gems.entity.EntityChaosProjectileScatter;
+import net.silentchaos512.gems.enchantment.EnchantmentLifeSteal;
 import net.silentchaos512.gems.handler.PlayerDataHandler;
 import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.init.ModBlocks;
@@ -45,15 +42,12 @@ import net.silentchaos512.gems.item.ItemSoulGem;
 import net.silentchaos512.gems.item.ItemSoulGem.Soul;
 import net.silentchaos512.gems.lib.Greetings;
 import net.silentchaos512.gems.lib.module.ModuleCoffee;
-import net.silentchaos512.gems.lib.module.ModuleEntityRandomEquipment;
 import net.silentchaos512.gems.lib.soul.SoulSkill;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.loot.LootHandler;
 import net.silentchaos512.gems.skills.ToolSkill;
 import net.silentchaos512.gems.skills.ToolSkillDigger;
-import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.SoulManager;
-import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.GameUtil;
 import net.silentchaos512.lib.util.PlayerHelper;
 
@@ -131,7 +125,7 @@ public class GemsCommonEvents {
   }
 
   @SubscribeEvent
-  public void onLivingAttack(LivingAttackEvent event) {
+  public static void onLivingAttack(LivingAttackEvent event) {
 
     if (event.getSource().getTrueSource() instanceof EntityPlayer) {
       EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
@@ -157,7 +151,7 @@ public class GemsCommonEvents {
       // Do life steal?
       if (lifeStealLevel > 0) {
         float amount = Math.min(event.getAmount(), event.getEntityLiving().getHealth());
-        float healAmount = ModEnchantments.lifeSteal.getAmountHealed(lifeStealLevel, amount);
+        float healAmount = EnchantmentLifeSteal.getAmountHealed(lifeStealLevel, amount);
         player.heal(healAmount);
       }
 

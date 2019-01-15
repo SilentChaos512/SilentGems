@@ -40,7 +40,7 @@ public class ModSounds {
     }
 
     private static SoundEvent create(String soundId) {
-        SoundEvent soundEvent = new SoundEvent(new ResourceLocation(SilentGems.MODID, soundId));
+        SoundEvent soundEvent = new SoundEvent(new ResourceLocation(SilentGems.MOD_ID, soundId));
         ALL.add(soundEvent);
         return soundEvent;
     }

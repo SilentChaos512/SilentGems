@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.proxy;
 
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -25,10 +26,7 @@ import net.silentchaos512.gems.client.render.particle.ParticleChaos;
 import net.silentchaos512.gems.client.render.particle.ParticleCompass;
 import net.silentchaos512.gems.client.render.particle.ParticleFreezing;
 import net.silentchaos512.gems.client.render.particle.ParticleShocking;
-import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.EntityEnderSlime;
-import net.silentchaos512.gems.entity.EntityGemArrow;
-import net.silentchaos512.gems.entity.EntityThrownTomahawk;
 import net.silentchaos512.gems.event.GemsClientEvents;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.lib.ColorHandlers;
@@ -41,24 +39,19 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
     @Override
     public void preInit(SRegistry registry, FMLPreInitializationEvent event) {
         super.preInit(registry, event);
-        OBJLoader.INSTANCE.addDomain(SilentGems.MODID);
-        MinecraftForge.EVENT_BUS.register(KeyTracker.INSTANCE);
+        OBJLoader.INSTANCE.addDomain(SilentGems.MOD_ID);
+//        MinecraftForge.EVENT_BUS.register(KeyTracker.INSTANCE);
         MinecraftForge.EVENT_BUS.register(new ClientTickHandler());
         MinecraftForge.EVENT_BUS.register(new GemsClientEvents());
-        MinecraftForge.EVENT_BUS.register(GuiChaosBar.INSTANCE);
-        MinecraftForge.EVENT_BUS.register(new GuiQuiverArrowOverlay());
-        MinecraftForge.EVENT_BUS.register(ModItems.toolRenderHelper);
         registry.clientPreInit(event);
         registerRenderers();
         ModBlockRenderers.init(SilentGems.registry);
-        ModItems.enchantmentToken.setColorsForDefaultTokens();
     }
 
     @Override
     public void init(SRegistry registry, FMLInitializationEvent event) {
         super.init(registry, event);
         registry.clientInit(event);
-        registerColorHandlers();
     }
 
     @Override
@@ -70,10 +63,7 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
     private void registerRenderers() {
         SRegistry reg = SilentGems.registry;
 
-        reg.registerEntityRenderer(EntityChaosProjectile.class, new RenderChaosProjectile.Factory());
-        reg.registerEntityRenderer(EntityThrownTomahawk.class, new RenderThrownTomahawk.Factory());
         reg.registerEntityRenderer(EntityEnderSlime.class, new RenderEnderSlime.Factory());
-        reg.registerEntityRenderer(EntityGemArrow.class, new RenderGemArrow.Factory());
     }
 
     private void registerColorHandlers() {

@@ -11,12 +11,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.IArmor;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.lib.soul.SoulSkill;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.util.SoulManager;
-import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.ChatHelper;
 
 import javax.annotation.Nullable;

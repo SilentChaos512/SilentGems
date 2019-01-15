@@ -4,7 +4,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
-import net.silentchaos512.gems.util.NBTHelper;
 
 public class ItemChaosStorage extends Item implements IChaosStorage {
     private static final String NBT_CHARGE = "ChaosCharge";

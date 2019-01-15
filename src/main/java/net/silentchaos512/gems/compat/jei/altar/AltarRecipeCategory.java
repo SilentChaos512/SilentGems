@@ -15,7 +15,7 @@ import net.silentchaos512.gems.SilentGems;
 import javax.annotation.Nonnull;
 
 public class AltarRecipeCategory implements IRecipeCategory {
-    public static final String CATEGORY = SilentGems.MODID + ":ChaosAltar";
+    public static final String CATEGORY = SilentGems.MOD_ID + ":ChaosAltar";
     private static final int GUI_START_X = 42;
     private static final int GUI_START_Y = 28;
     private static final int GUI_WIDTH = 98;

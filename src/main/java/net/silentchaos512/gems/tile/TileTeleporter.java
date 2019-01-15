@@ -22,7 +22,6 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemTeleporterLinker;
 import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.gems.util.TeleportUtil;
 import net.silentchaos512.lib.util.ChatHelper;
 import net.silentchaos512.lib.util.DimensionalPosition;

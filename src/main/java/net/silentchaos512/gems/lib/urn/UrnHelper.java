@@ -21,7 +21,7 @@ package net.silentchaos512.gems.lib.urn;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.silentchaos512.gems.block.urn.BlockSoulUrn;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.lib.collection.StackList;
 
 import javax.annotation.Nullable;
@@ -41,18 +41,18 @@ public final class UrnHelper {
     }
 
     @Nullable
-    public static EnumGem getGem(ItemStack stack) {
+    public static Gems getGem(ItemStack stack) {
         NBTTagCompound tags = stack.getOrCreateSubCompound(UrnConst.NBT_ROOT);
         if (tags.hasKey(UrnConst.NBT_GEM)) {
             String str = tags.getString(UrnConst.NBT_GEM);
-            for (EnumGem gem : EnumGem.values())
+            for (Gems gem : Gems.values())
                 if (gem.getName().equals(str))
                     return gem;
         }
         return null;
     }
 
-    public static void setGem(ItemStack stack, EnumGem gem) {
+    public static void setGem(ItemStack stack, Gems gem) {
         stack.getOrCreateSubCompound(UrnConst.NBT_ROOT).setString(UrnConst.NBT_GEM, gem.getName());
     }
 

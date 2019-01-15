@@ -17,7 +17,6 @@ import net.silentchaos512.gems.api.energy.IChaosProvider;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.lib.NodeEffect;
-import net.silentchaos512.gems.util.ChaosUtil;
 import net.silentchaos512.gems.util.NodePacketHelper;
 import net.silentchaos512.lib.tile.SyncVariable;
 import net.silentchaos512.lib.tile.TileEntitySL;

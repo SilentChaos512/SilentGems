@@ -26,7 +26,6 @@ import net.minecraftforge.fml.common.LoaderState;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.IAmmoTool;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.tool.part.*;
@@ -44,7 +43,6 @@ import net.silentchaos512.gems.skills.SkillAreaMiner;
 import net.silentchaos512.gems.skills.SkillAreaTill;
 import net.silentchaos512.gems.skills.SkillLumberjack;
 import net.silentchaos512.gems.skills.ToolSkill;
-import net.silentchaos512.gems.util.ToolHelper;
 
 import java.util.List;
 

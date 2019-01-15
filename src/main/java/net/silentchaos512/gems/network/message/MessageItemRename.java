@@ -7,7 +7,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.network.Message;
-import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.LogHelper;
 
 /**

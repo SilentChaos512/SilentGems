@@ -30,7 +30,7 @@ import net.minecraftforge.oredict.DyeUtils;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.urn.IUrnUpgradeItem;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.gems.lib.urn.UrnHelper;
@@ -102,7 +102,7 @@ public class RecipeSoulUrnModify extends RecipeBaseSL {
         SilentGems.logHelper.debug("RecipeSoulUrnModify#applyModifierItem: {}, {}", urn, mod);
 
         if (mod.getItem() == ModItems.gem) {
-            EnumGem gem = EnumGem.getFromStack(mod);
+            Gems gem = Gems.fromStack(mod);
             UrnHelper.setGem(urn, gem);
         } else if (mod.getItem() instanceof IUrnUpgradeItem) {
             IUrnUpgradeItem upgradeItem = (IUrnUpgradeItem) mod.getItem();
@@ -172,7 +172,7 @@ public class RecipeSoulUrnModify extends RecipeBaseSL {
                     new ItemStack(Items.DYE, 1, color.getDyeDamage())));
         }
 
-        for (EnumGem gem : EnumGem.values()) {
+        for (Gems gem : Gems.values()) {
             result.add(recipes.makeShapeless(
                     ModBlocks.soulUrn.getStack(UrnConst.UNDYED_COLOR, gem),
                     urnBasic,

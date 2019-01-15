@@ -10,22 +10,20 @@ import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModBlocks;
-import net.silentchaos512.gems.lib.EnumGem;
-import net.silentchaos512.gems.lib.EnumGem.Set;
+import net.silentchaos512.gems.lib.Gems;
+import net.silentchaos512.gems.lib.Gems.Set;
 
 public class GeodeGenerator extends WorldGenMinable {
 
-  private final EnumGem.Set gemSet;
+  private final Gems.Set gemSet;
   private final IBlockState shellBlock;
   private Predicate<IBlockState> predicate;
 
-  public GeodeGenerator(IBlockState shell, EnumGem.Set gemSet) {
+  public GeodeGenerator(IBlockState shell, Gems.Set gemSet) {
 
     super(shell, 30);
     this.gemSet = gemSet;
@@ -33,7 +31,7 @@ public class GeodeGenerator extends WorldGenMinable {
     this.predicate = BlockMatcher.forBlock(Blocks.STONE);
   }
 
-  public GeodeGenerator(IBlockState shell, EnumGem.Set gemSet, Predicate<IBlockState> predicate) {
+  public GeodeGenerator(IBlockState shell, Gems.Set gemSet, Predicate<IBlockState> predicate) {
 
     super(shell, 30, predicate);
     this.gemSet = gemSet;
@@ -125,8 +123,8 @@ public class GeodeGenerator extends WorldGenMinable {
 
         IBlockState state = worldIn.getBlockState(blockpos);
         if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, shellPredicate)) {
-          EnumGem gem = EnumGem.values()[rand.nextInt(16)];
-          IBlockState stateToPlace = block.getDefaultState().withProperty(EnumGem.VARIANT_GEM,
+          Gems gem = Gems.values()[rand.nextInt(16)];
+          IBlockState stateToPlace = block.getDefaultState().withProperty(Gems.VARIANT_GEM,
               gem);
           worldIn.setBlockState(blockpos, stateToPlace, 2);
 

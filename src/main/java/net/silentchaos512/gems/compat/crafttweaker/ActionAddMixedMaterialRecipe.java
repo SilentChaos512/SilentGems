@@ -5,10 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.recipe.RecipeMixedMaterialItem;
-import net.silentchaos512.gems.util.ToolHelper;
 
 import java.util.ArrayList;
 import java.util.List;

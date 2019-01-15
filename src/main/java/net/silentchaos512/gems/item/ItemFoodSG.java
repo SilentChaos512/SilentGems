@@ -30,6 +30,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated // See Foods enum
 public class ItemFoodSG extends ItemFood implements IAddRecipes, ICustomModel {
     private static final String[] NAMES = {Names.POTATO_STICK, Names.SUGAR_COOKIE, Names.SECRET_DONUT,
             Names.MEATY_STEW_UNCOOKED, Names.MEATY_STEW, Names.CANDY_CANE, Names.COFFEE_CUP};
@@ -119,7 +120,7 @@ public class ItemFoodSG extends ItemFood implements IAddRecipes, ICustomModel {
     @Override
     public String getTranslationKey(ItemStack stack) {
         if (stack.getItemDamage() < NAMES.length) {
-            return "item." + SilentGems.MODID + "." + NAMES[stack.getItemDamage()];
+            return "item." + SilentGems.MOD_ID + "." + NAMES[stack.getItemDamage()];
         } else {
             return super.getTranslationKey(stack);
         }
@@ -186,10 +187,10 @@ public class ItemFoodSG extends ItemFood implements IAddRecipes, ICustomModel {
         if (SilentGems.random.nextFloat() < GemsConfig.FOOD_SECRET_DONUT_TEXT_CHANCE) {
             List<String> list = new ArrayList<>();
             int i = 1;
-            String key = "donut." + SilentGems.MODID + "." + i;
+            String key = "donut." + SilentGems.MOD_ID + "." + i;
             do {
                 list.add(SilentGems.i18n.translate(key));
-                key = "donut." + SilentGems.MODID + "." + (++i);
+                key = "donut." + SilentGems.MOD_ID + "." + (++i);
             } while (SilentGems.i18n.hasKey(key));
             String line = list.get(SilentGems.random.nextInt(list.size()));
             ChatHelper.sendMessage(player, line);

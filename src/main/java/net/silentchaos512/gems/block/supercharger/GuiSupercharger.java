@@ -26,7 +26,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 
 public class GuiSupercharger extends GuiContainer {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MODID, "textures/gui/chaosaltar.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MOD_ID, "textures/gui/chaosaltar.png");
     private final TileSupercharger tileEntity;
 
     public GuiSupercharger(InventoryPlayer inventoryPlayer, TileSupercharger tileEntity) {

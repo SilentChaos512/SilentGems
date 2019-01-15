@@ -12,12 +12,9 @@ import net.silentchaos512.gems.api.lib.ArmorPartPosition;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.item.ItemGemArrow;
 import net.silentchaos512.gems.item.ItemHoldingGem;
 import net.silentchaos512.gems.item.ItemSoulGem.Soul;
-import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
-import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.lib.util.Color;
 
 public class ColorHandlers {
@@ -61,8 +58,8 @@ public class ColorHandlers {
     itemColors.registerItemColorHandler((stack, tintIndex) -> {
       if (tintIndex == 0) {
         int meta = stack.getItemDamage();
-        if (meta >= 0 && meta < EnumGem.values().length) {
-          EnumGem gem = EnumGem.values()[meta];
+        if (meta >= 0 && meta < Gems.values().length) {
+          Gems gem = Gems.values()[meta];
           return gem.getColor();
         }
       }
@@ -91,8 +88,8 @@ public class ColorHandlers {
       if (tintIndex == 1) {
         if (stack.hasTagCompound()) {
           int id = stack.getTagCompound().getShort(ItemHoldingGem.NBT_GEM_ID);
-          if (id >= 0 && id < EnumGem.values().length)
-            return EnumGem.values()[id].getColor();
+          if (id >= 0 && id < Gems.values().length)
+            return Gems.values()[id].getColor();
         }
       } else if (tintIndex == 2) {
         IBlockState state = ModItems.holdingGem.getBlockPlaced(stack);

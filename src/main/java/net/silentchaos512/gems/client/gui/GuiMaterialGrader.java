@@ -7,11 +7,9 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.inventory.ContainerMaterialGrader;
-import net.silentchaos512.gems.tile.TileMaterialGrader;
 
 public class GuiMaterialGrader extends GuiContainer {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MODID, "textures/gui/materialgrader.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MOD_ID, "textures/gui/materialgrader.png");
     private TileMaterialGrader tileInventory;
 
     public GuiMaterialGrader(InventoryPlayer playerInventory, TileMaterialGrader tileInventory) {

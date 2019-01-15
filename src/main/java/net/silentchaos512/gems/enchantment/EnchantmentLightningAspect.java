@@ -6,11 +6,10 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.potion.PotionEffect;
-import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.event.GemsCommonEvents;
 import net.silentchaos512.gems.init.ModPotions;
 
 public class EnchantmentLightningAspect extends Enchantment {
@@ -19,21 +18,20 @@ public class EnchantmentLightningAspect extends Enchantment {
     public static boolean ENABLED = true;
 
     public EnchantmentLightningAspect() {
-        super(Rarity.RARE, EnumEnchantmentType.WEAPON,
-                new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
-        setName(SilentGems.MODID + ".lightningaspect");
+        super(Rarity.RARE, EnumEnchantmentType.WEAPON, new EntityEquipmentSlot[]{EntityEquipmentSlot.MAINHAND});
     }
 
     @Override
     public boolean canApplyTogether(Enchantment ench) {
-        return !(ench instanceof EnchantmentFireAspect) && !(ench instanceof EnchantmentIceAspect)
+        return !(ench instanceof EnchantmentFireAspect)
+                && !(ench instanceof EnchantmentIceAspect)
                 && super.canApplyTogether(ench);
     }
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        Item item = stack.getItem();
-        return item instanceof ItemSword;
+        if (!ENABLED) return false;
+        return stack.getItem() instanceof ItemSword;
     }
 
     @Override
@@ -52,22 +50,19 @@ public class EnchantmentLightningAspect extends Enchantment {
     }
 
     /**
-     * Apply effect to mob. Called in GemsCommonEvents#onLivingAttack. Also see
-     * GemsCommonEvents#onLivingUpdate.
-     *
-     * @param entityLiving
-     * @param enchLevel
+     * Apply effect to mob. Called in {@link GemsCommonEvents#onLivingAttack}. Also see {@link
+     * GemsCommonEvents#onLivingUpdate}.
      */
-    public void applyTo(EntityLivingBase entityLiving, int enchLevel, int duration) {
+    public static void applyTo(EntityLivingBase entityLiving, int enchLevel, int duration) {
         int amplifier = enchLevel - 1;
         entityLiving.addPotionEffect(new PotionEffect(ModPotions.shocking, duration, amplifier, true, false));
     }
 
-    public void applyTo(EntityLivingBase entityLiving, int enchLevel) {
+    public static void applyTo(EntityLivingBase entityLiving, int enchLevel) {
         applyTo(entityLiving, enchLevel, getEffectDuration(entityLiving, enchLevel));
     }
 
-    public int getEffectDuration(EntityLivingBase entityLiving, int enchLevel) {
+    private static int getEffectDuration(EntityLivingBase entityLiving, int enchLevel) {
         int ret = EFFECT_DURATION + (enchLevel - 1) * EFFECT_DURATION / 2;
         if (entityLiving instanceof EntityPlayer)
             ret /= 2;

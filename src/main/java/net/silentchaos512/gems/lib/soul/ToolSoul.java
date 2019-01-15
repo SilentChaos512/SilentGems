@@ -20,7 +20,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ItemSoulGem;
@@ -29,7 +28,6 @@ import net.silentchaos512.gems.lib.TooltipHelper;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageSoulSync;
 import net.silentchaos512.gems.util.SoulManager;
-import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.ChatHelper;
 import org.lwjgl.input.Keyboard;
 

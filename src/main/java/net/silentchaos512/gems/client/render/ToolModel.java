@@ -12,11 +12,9 @@ import net.minecraftforge.common.model.TRSRTransformation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.init.ModItems;
-import net.silentchaos512.gems.item.ToolRenderHelper;
 import net.silentchaos512.gems.item.tool.ItemGemBow;
 import net.silentchaos512.gems.item.tool.ItemGemScepter;
 import net.silentchaos512.gems.lib.module.ModuleAprilTricks;
-import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.client.model.MultiLayerModelSL;
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.util.vector.Vector3f;
@@ -61,7 +59,7 @@ public class ToolModel extends MultiLayerModelSL {
         // Invalid tools models.
         if (ToolHelper.getMaxDamage(tool) <= 0) {
             String name = tool.getItem().getRegistryName().getPath();
-            location = new ModelResourceLocation(SilentGems.MODID + ":" + name.toLowerCase() + "/_error", "inventory");
+            location = new ModelResourceLocation(SilentGems.MOD_ID + ":" + name.toLowerCase() + "/_error", "inventory");
             model = modelManager.getModel(location);
             if (model != null) {
                 quads.addAll(model.getQuads(state, side, rand));

@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -16,6 +17,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.lib.ModItemGroups;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.util.DimensionalPosition;
@@ -23,22 +25,17 @@ import net.silentchaos512.lib.util.DimensionalPosition;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemTeleporterLinker extends Item implements ICustomModel {
+public class ItemTeleporterLinker extends Item {
     public ItemTeleporterLinker() {
-        setMaxStackSize(1);
+        super(new Builder().maxStackSize(1).group(ModItemGroups.UTILITY));
     }
 
     @Override
     public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag flag) {
         DimensionalPosition pos = getLinkedPosition(stack);
-        if (pos != null)
-            list.add(pos.toString());
-    }
-
-    @Override
-    public void registerModels() {
-        SilentGems.registry.setModel(this, 0, Names.TELEPORTER_LINKER);
-        SilentGems.registry.setModel(this, 1, Names.TELEPORTER_LINKER);
+        if (pos != null) {
+            list.add(new TextComponentString(pos.toString()));
+        }
     }
 
     public boolean isLinked(ItemStack stack) {

@@ -50,7 +50,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModSounds;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.gems.lib.urn.UrnHelper;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
@@ -104,7 +104,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         return TileSoulUrn.class;
     }
 
-    public ItemStack getStack(int color, @Nullable EnumGem gem) {
+    public ItemStack getStack(int color, @Nullable Gems gem) {
         ItemStack stack = new ItemStack(this);
         if (color != UrnConst.UNDYED_COLOR) UrnHelper.setClayColor(stack, color);
         if (gem != null) UrnHelper.setGem(stack, gem);
@@ -116,7 +116,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         super.addInformation(stack, worldIn, tooltip, flagIn);
 
         int color = UrnHelper.getClayColor(stack);
-        EnumGem gem = UrnHelper.getGem(stack);
+        Gems gem = UrnHelper.getGem(stack);
 
         if (color != UrnConst.UNDYED_COLOR) {
             tooltip.add(SilentGems.i18n.subText(this, "color", String.format("#%06X", color)));
@@ -284,7 +284,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
                 if (worldIn != null && pos != null) {
                     TileEntity tile = worldIn.getTileEntity(pos);
                     if (tile instanceof TileSoulUrn) {
-                        EnumGem gem = ((TileSoulUrn) tile).getGem();
+                        Gems gem = ((TileSoulUrn) tile).getGem();
                         if (gem != null) return gem.getColor();
                     }
                 }
@@ -302,7 +302,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
                 return UrnHelper.getClayColor(stack);
             } else if (tintIndex == 1) {
                 // Decorative gem color
-                EnumGem gem = UrnHelper.getGem(stack);
+                Gems gem = UrnHelper.getGem(stack);
                 return gem != null ? gem.getColor() : 0xFFFFFF;
             }
             return 0xFFFFFF;
@@ -489,9 +489,9 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
             if (SAMPLE_SUB_ITEMS == null) {
                 SAMPLE_SUB_ITEMS = new ArrayList<>();
 
-                SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(UrnConst.UNDYED_COLOR, EnumGem.getRandom()));
+                SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(UrnConst.UNDYED_COLOR, Gems.selectRandom()));
                 for (EnumDyeColor color : EnumDyeColor.values())
-                    SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(DyeHelper.getColor(color), EnumGem.getRandom()));
+                    SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(DyeHelper.getColor(color), Gems.selectRandom()));
             }
 
             items.addAll(SAMPLE_SUB_ITEMS);

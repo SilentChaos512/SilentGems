@@ -37,11 +37,9 @@ import net.silentchaos512.gems.block.urn.GuiSoulUrn;
 import net.silentchaos512.gems.block.urn.TileSoulUrn;
 import net.silentchaos512.gems.inventory.ContainerBurnerPylon;
 import net.silentchaos512.gems.inventory.ContainerChaosAltar;
-import net.silentchaos512.gems.inventory.ContainerMaterialGrader;
 import net.silentchaos512.gems.inventory.ContainerQuiver;
 import net.silentchaos512.gems.tile.TileChaosAltar;
 import net.silentchaos512.gems.tile.TileChaosPylon;
-import net.silentchaos512.gems.tile.TileMaterialGrader;
 
 import javax.annotation.Nullable;
 

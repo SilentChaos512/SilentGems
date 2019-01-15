@@ -11,7 +11,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.lib.registry.RecipeMaker;
 
 import java.util.List;
@@ -56,7 +56,7 @@ public class ItemHoldingGem extends ItemBlockPlacer {
 
     @Override
     public void addRecipes(RecipeMaker recipes) {
-        for (EnumGem gem : EnumGem.values()) {
+        for (Gems gem : Gems.values()) {
             ItemStack stack = new ItemStack(this);
             stack.setTagCompound(new NBTTagCompound());
             stack.getTagCompound().setShort(NBT_GEM_ID, (short) gem.ordinal());
@@ -68,12 +68,12 @@ public class ItemHoldingGem extends ItemBlockPlacer {
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
         if (!isInCreativeTab(tab)) return;
-        for (EnumGem gem : EnumGem.values()) {
+        for (Gems gem : Gems.values()) {
             list.add(construct(gem));
         }
     }
 
-    public ItemStack construct(EnumGem gem) {
+    public ItemStack construct(Gems gem) {
         ItemStack stack = new ItemStack(this);
         setRemainingBlocks(stack, 0);
         stack.setTagCompound(new NBTTagCompound());

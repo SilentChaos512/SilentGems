@@ -16,7 +16,7 @@ import net.silentchaos512.gems.network.message.MessageTransferParticles;
 public class NetworkHandler {
 
   public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE
-      .newSimpleChannel(SilentGems.MODID);
+      .newSimpleChannel(SilentGems.MOD_ID);
 
   private static int i = 0;
 

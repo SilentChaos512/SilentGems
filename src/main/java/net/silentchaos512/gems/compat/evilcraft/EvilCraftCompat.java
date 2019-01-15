@@ -20,9 +20,6 @@ package net.silentchaos512.gems.compat.evilcraft;
 
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.IArmor;
-import net.silentchaos512.gems.api.ITool;
-import net.silentchaos512.gems.util.ToolHelper;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;

@@ -20,11 +20,9 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.network.NetworkHandler;
 import net.silentchaos512.gems.network.message.MessageDataSync;
 import net.silentchaos512.gems.util.SoulManager;
-import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.tile.SyncVariable;
 
 // Lots of inspiration from Psi here. Previous version of the mod used IExtendedEntityProperties,

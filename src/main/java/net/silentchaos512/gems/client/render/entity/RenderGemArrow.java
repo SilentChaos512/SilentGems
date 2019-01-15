@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderTippedArrow;
 import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.silentchaos512.gems.entity.EntityGemArrow;
 
 public class RenderGemArrow extends RenderTippedArrow {
     private RenderGemArrow(RenderManager manager) {
