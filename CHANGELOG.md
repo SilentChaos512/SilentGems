@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.8.13] - 2019-01-15
+Updated for Silent Gear 0.5.0
+
 ## [2.8.12] - 2018-12-27
 ### Fixed
 - Add missing armor textures (Silent Gear)

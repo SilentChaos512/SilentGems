@@ -20,6 +20,7 @@ package net.silentchaos512.gems.init;
 
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gear.api.parts.PartMain;
+import net.silentchaos512.gear.api.parts.PartOrigins;
 import net.silentchaos512.gear.api.parts.PartRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.EnumGem;
@@ -31,9 +32,9 @@ public final class SGearMaterials {
         for (EnumGem gem : EnumGem.values()) {
             String gemName = gem == EnumGem.BERYL ? "green_sapphire" : gem.getName();
             ResourceLocation name = new ResourceLocation(SilentGems.MODID, "main_" + gemName);
-            PartRegistry.putPart(new PartMain(name));
+            PartRegistry.putPart(new PartMain(name, PartOrigins.BUILTIN_ADDON));
         }
 
-        PartRegistry.putPart(new PartMain(new ResourceLocation(SilentGems.MODID, "main_chaos_iron")));
+        PartRegistry.putPart(new PartMain(new ResourceLocation(SilentGems.MODID, "main_chaos_iron"), PartOrigins.BUILTIN_ADDON));
     }
 }
