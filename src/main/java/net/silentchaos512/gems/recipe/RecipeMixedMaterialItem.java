@@ -8,6 +8,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
@@ -221,5 +222,17 @@ public class RecipeMixedMaterialItem extends RecipeBaseSL {
         if (!(toolItem instanceof ItemArmor))
             return true;
         return frame.getSlot() == ((ItemArmor) toolItem).armorType;
+    }
+
+    @Override
+    public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
+        NonNullList<ItemStack> list = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+
+        for (int i = 0; i < list.size(); ++i) {
+            ItemStack itemstack = inv.getStackInSlot(i);
+            list.set(i, ForgeHooks.getContainerItem(itemstack));
+        }
+
+        return list;
     }
 }

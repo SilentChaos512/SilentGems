@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+### Fixed
+- Extra ingredients being consumed when crafting tool or armor in Refined Storage crafting grid [#339]
+
 ## [2.8.13] - 2019-01-15
 Updated for Silent Gear 0.5.0
 
