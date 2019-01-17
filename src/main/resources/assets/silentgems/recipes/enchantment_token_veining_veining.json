@@ -1,0 +1,31 @@
+{
+  "conditions": [
+    {
+      "type": "mod_loaded",
+      "modid": "veining"
+    }
+  ],
+  "pattern": [
+    "g g",
+    " t ",
+    "ooo"
+  ],
+  "key": {
+    "t": {
+      "item": "silentgems:enchantmenttoken",
+      "data": 256
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "gemBlackDiamond"
+    },
+    "o": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "result": {
+    "item": "silentgems:enchantmenttoken",
+    "enchantment": "veining:veining"
+  },
+  "type": "silentgems:enchantment_token"
+}
