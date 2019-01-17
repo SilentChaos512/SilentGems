@@ -1,6 +1,8 @@
 # Changelog
 
-## [Unreleased]
+## [2.8.14] - 2019-01-17
+### Added
+- Enchantment token recipe for Veining and Soul Shards: Respawned (vertex101) [#351]
 ### Fixed
 - Extra ingredients being consumed when crafting tool or armor in Refined Storage crafting grid [#339]
 
