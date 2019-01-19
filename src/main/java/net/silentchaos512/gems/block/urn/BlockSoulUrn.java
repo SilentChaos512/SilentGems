@@ -35,22 +35,29 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.EnumProperty;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModSounds;
 import net.silentchaos512.gems.lib.Gems;
+import net.silentchaos512.gems.lib.ModItemGroups;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.gems.lib.urn.UrnHelper;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
@@ -66,7 +73,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IColoredBlock, ICustomModel, IAddRecipes {
+public class BlockSoulUrn extends BlockContainer implements IColoredBlock {
     public enum LidState implements IStringSerializable {
         CLOSED, OPEN, NO_LID;
 
@@ -82,26 +89,19 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
     private static final AxisAlignedBB BOUNDING_BOX_CLOSED = MathUtils.boundingBoxByPixels(1, 0, 1, 15, 15, 15);
 
     private static final AxisAlignedBB BOUNDING_BOX_OPEN = MathUtils.boundingBoxByPixels(1, 0, 1, 15, 14, 15);
-    static final PropertyEnum<LidState> PROPERTY_LID = PropertyEnum.create("lid", LidState.class);
+    static final EnumProperty<LidState> PROPERTY_LID = EnumProperty.create("lid", LidState.class);
 
-    private static final PropertyEnum<EnumFacing> PROPERTY_FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+    private static final EnumProperty<EnumFacing> PROPERTY_FACING = DirectionProperty.create("facing", EnumFacing.Plane.HORIZONTAL);
 
     public BlockSoulUrn() {
-        super(Material.ROCK);
-        this.setHardness(5f);
-        this.setResistance(20f);
-        this.setHarvestLevel("pickaxe", 1);
+        super(Builder.create(Material.ROCK)
+                .hardnessAndResistance(5, 20));
     }
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createNewTileEntity(IBlockReader worldIn) {
         return new TileSoulUrn();
-    }
-
-    @Override
-    public Class<? extends TileEntity> getTileEntityClass() {
-        return TileSoulUrn.class;
     }
 
     public ItemStack getStack(int color, @Nullable Gems gem) {
@@ -112,35 +112,35 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
-
+    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         int color = UrnHelper.getClayColor(stack);
         Gems gem = UrnHelper.getGem(stack);
 
         if (color != UrnConst.UNDYED_COLOR) {
-            tooltip.add(SilentGems.i18n.subText(this, "color", String.format("#%06X", color)));
+            tooltip.add(translate("color", String.format("#%06X", color)));
         } else {
-            String str = SilentGems.i18n.subText(this, "color.uncolored");
-            tooltip.add(SilentGems.i18n.subText(this, "color", str));
+            tooltip.add(translate("color", translate("color.uncolored")));
         }
 
         if (gem != null) {
-            String str = SilentGems.i18n.translatedName(gem.getItem());
-            tooltip.add(SilentGems.i18n.subText(this, "gem", str));
+            tooltip.add(translate("gem", gem.getItemStack().getDisplayName()));
         }
 
         if (KeyTracker.isControlDown()) {
-            tooltip.add(TextFormatting.YELLOW + SilentGems.i18n.subText(this, "upgrades", ""));
+            tooltip.add(translate("upgrades").applyTextStyle(TextFormatting.YELLOW));
             List<UrnUpgrade> upgrades = UrnUpgrade.ListHelper.load(stack);
             for (UrnUpgrade upgrade : upgrades) {
-                String upgradeName = SilentGems.i18n.translate(upgrade.getTranslationKey());
-                tooltip.add(SilentGems.i18n.subText(this, "upgrade_list", upgradeName));
+                tooltip.add(translate("upgrade_list", upgrade.getDisplayName()));
             }
         } else {
-            String pressCtrl = TextFormatting.DARK_GRAY + SilentGems.i18n.miscText("pressCtrl");
-            tooltip.add(TextFormatting.YELLOW + SilentGems.i18n.subText(this, "upgrades", pressCtrl));
+            ITextComponent pressCtrl = new TextComponentTranslation("misc.silentgems.pressCtrl")
+                    .applyTextStyle(TextFormatting.DARK_GRAY)
+            tooltip.add(translate("upgrades", pressCtrl).applyTextStyle(TextFormatting.YELLOW));
         }
+    }
+
+    private static ITextComponent translate(String key, Object... args) {
+        return new TextComponentTranslation("block.silentgems.soul_urn." + key, args);
     }
 
     @Override
@@ -148,21 +148,21 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         TileEntity tile = worldIn.getTileEntity(pos);
         if (tile instanceof TileSoulUrn) {
             TileSoulUrn tileSoulUrn = (TileSoulUrn) tile;
-            tileSoulUrn.setDestroyedByCreativePlayer(player.capabilities.isCreativeMode);
+            tileSoulUrn.setDestroyedByCreativePlayer(player.abilities.isCreativeMode);
             tileSoulUrn.fillWithLoot(player);
         }
     }
 
     @Override
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+    public void dropBlockAsItemWithChance(IBlockState state, World worldIn, BlockPos pos, float chancePerItem, int fortune) {
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
-            LidState lid = state.getValue(PROPERTY_LID);
+            LidState lid = state.get(PROPERTY_LID);
 
-            if (lid != LidState.NO_LID && (playerIn.isSneaking() || !lid.isOpen())) {
+            if (lid != LidState.NO_LID && (player.isSneaking() || !lid.isOpen())) {
                 // Toggle lid state when sneaking or if closed
                 worldIn.setBlockState(pos, toggleLid(state), 2);
                 worldIn.playSound(null, pos, ModSounds.SOUL_URN_LID, SoundCategory.BLOCKS, 0.6f,
@@ -171,7 +171,7 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
                 // Open inventory if lid is open (or there is no lid)
                 TileEntity tile = worldIn.getTileEntity(pos);
                 if (tile instanceof TileSoulUrn) {
-                    GuiTypes.SOUL_URN.open(playerIn, worldIn, pos);
+                    GuiTypes.SOUL_URN.open(player, worldIn, pos);
                     worldIn.playSound(null, pos, ModSounds.SOUL_URN_OPEN, SoundCategory.BLOCKS, 0.6f,
                             (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
                 }
@@ -182,17 +182,17 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
     }
 
     private static IBlockState toggleLid(IBlockState state) {
-        LidState lid = state.getValue(PROPERTY_LID);
+        LidState lid = state.get(PROPERTY_LID);
         if (lid == LidState.NO_LID) return state;
-        return state.withProperty(PROPERTY_LID, lid == LidState.CLOSED ? LidState.OPEN : LidState.CLOSED);
+        return state.with(PROPERTY_LID, lid == LidState.CLOSED ? LidState.OPEN : LidState.CLOSED);
     }
 
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         EnumFacing side = placer.getHorizontalFacing().getOpposite();
-        IBlockState newState = state.withProperty(PROPERTY_FACING, side)
-                .withProperty(PROPERTY_LID, UrnHelper.isLidless(stack) ? LidState.NO_LID : LidState.CLOSED);
+        IBlockState newState = state.with(PROPERTY_FACING, side)
+                .with(PROPERTY_LID, UrnHelper.isLidless(stack) ? LidState.NO_LID : LidState.CLOSED);
 
         worldIn.setBlockState(pos, newState, 2);
 
@@ -205,13 +205,13 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
 
             tileSoulUrn.setColorAndGem(UrnHelper.getClayColor(stack), UrnHelper.getGem(stack));
 
-            NBTTagCompound tagCompound = stack.getOrCreateSubCompound(UrnConst.NBT_ROOT);
+            NBTTagCompound tagCompound = stack.getOrCreateChildTag(UrnConst.NBT_ROOT);
             tileSoulUrn.setUpgrades(UrnUpgrade.ListHelper.load(tagCompound));
         }
     }
 
     @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+    public void onReplaced(IBlockState state, World worldIn, BlockPos pos, IBlockState newState, boolean isMoving) {
         TileEntity tile = worldIn.getTileEntity(pos);
 
         if (tile instanceof TileSoulUrn) {
@@ -219,18 +219,18 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
 
             if (!tileSoulUrn.isCleared() && tileSoulUrn.shouldDrop()) {
                 ItemStack stack = new ItemStack(this);
-                if (state.getValue(PROPERTY_LID) == LidState.NO_LID) {
+                if (state.get(PROPERTY_LID) == LidState.NO_LID) {
                     UrnHelper.setLidless(stack, true);
                 }
 
                 NBTTagCompound compound = new NBTTagCompound();
                 NBTTagCompound compound1 = new NBTTagCompound();
                 compound.setTag(UrnConst.NBT_ROOT, tileSoulUrn.saveToNBT(compound1));
-                stack.setTagCompound(compound);
+                stack.setTag(compound);
 
                 if (tileSoulUrn.hasCustomName()) {
-                    stack.setStackDisplayName(tileSoulUrn.getName());
-                    tileSoulUrn.setCustomName("");
+                    stack.setDisplayName(tileSoulUrn.getName());
+                    tileSoulUrn.setCustomName(new TextComponentString(""));
                 }
 
                 if (tileSoulUrn.getColor() != UrnConst.UNDYED_COLOR)
@@ -244,11 +244,11 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
             worldIn.updateComparatorOutputLevel(pos, state.getBlock());
         }
 
-        super.breakBlock(worldIn, pos, state);
+        super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
 
     @Override
-    public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
+    public ItemStack getItem(IBlockReader worldIn, BlockPos pos, IBlockState state) {
         ItemStack stack = super.getItem(worldIn, pos, state);
 
         TileSoulUrn tileSoulUrn = (TileSoulUrn) worldIn.getTileEntity(pos);
@@ -315,38 +315,32 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         return EnumBlockRenderType.MODEL;
     }
 
-    @SuppressWarnings("deprecation")
     @Nullable
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-        return blockState.getValue(PROPERTY_LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
+        return blockState.get(PROPERTY_LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return state.getValue(PROPERTY_LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean causesSuffocation(IBlockState state) {
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean isTranslucent(IBlockState state) {
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean isFullBlock(IBlockState state) {
         return false;
@@ -370,80 +364,30 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         return Container.calcRedstoneFromInventory((IInventory) worldIn.getTileEntity(pos));
     }
 
+    @Nullable
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-        return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand)
-                .withProperty(PROPERTY_FACING, placer.getHorizontalFacing())
-                .withProperty(PROPERTY_LID, meta == 0 ? LidState.CLOSED : LidState.NO_LID);
-    }
+    public IBlockState getStateForPlacement(BlockItemUseContext context) {
+        if (context.replacingClickedOnBlock()) {
+            IBlockState currentState = context.getWorld().getBlockState(context.getPos());
+            return toggleLid(currentState);
+        }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public IBlockState getStateFromMeta(int meta) {
-        // LLFF
-        return this.getDefaultState()
-                .withProperty(PROPERTY_FACING, EnumFacing.byHorizontalIndex(meta))
-                .withProperty(PROPERTY_LID, lidStateFromMeta(meta));
-    }
-
-    private static LidState lidStateFromMeta(int meta) {
-        meta = meta >> 2;
-        if (meta < 0 || meta >= LidState.values().length) return LidState.NO_LID;
-        return LidState.values()[meta];
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        // LLFF
-        return state.getValue(PROPERTY_FACING).getHorizontalIndex()
-                + (state.getValue(PROPERTY_LID).ordinal() << 2);
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, PROPERTY_LID, PROPERTY_FACING);
+        return this.getDefaultState().with(PROPERTY_FACING, context.getPlacementHorizontalFacing());
     }
 
 //    @Override
-//    public void addRecipes(RecipeMaker recipes) {
-//        // Need custom serializer
-//        recipes.setRecipeSerializer(Item.getItemFromBlock(this), (result, components) -> {
-//            JsonObject json = RecipeJsonHell.ShapedSerializer.INSTANCE.serialize(result, components);
-//            json.remove("type");
-//            json.addProperty("type", "silentgems:soul_urn");
-//            return json;
-//        });
-//
-//        addRecipe(recipes, null);
-//        for (EnumDyeColor color : EnumDyeColor.values())
-//            addRecipe(recipes, color);
+//    public void registerModels() {
+//        for (LidState lidState : LidState.values()) {
+//            for (EnumFacing facing : EnumFacing.HORIZONTALS) {
+//                IBlockState state = this.getDefaultState()
+//                        .withProperty(PROPERTY_LID, lidState)
+//                        .withProperty(PROPERTY_FACING, facing);
+//                int meta = this.getMetaFromState(state);
+//                String variant = String.format("facing=%s,lid=%s", facing.getName(), lidState.getName());
+//                SilentGems.registry.setModel(this, meta, "soul_urn", variant);
+//            }
+//        }
 //    }
-
-//    private void addRecipe(RecipeMaker recipes, @Nullable EnumDyeColor color) {
-//        ItemStack clay = color == null ? new ItemStack(Blocks.HARDENED_CLAY)
-//                : new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, color.getMetadata());
-//
-//        recipes.addShaped("soul_urn" + (color != null ? "_" + color.getName() : ""),
-//                getStack(color == null ? UrnConst.UNDYED_COLOR : color.getColorValue(), null),
-//                "cgc", "csc", "ccc",
-//                'c', clay,
-//                'g', new ItemStack(ModItems.gem, 1, OreDictionary.WILDCARD_VALUE),
-//                's', new ItemStack(ModItems.soulGem));
-//    }
-
-    @Override
-    public void registerModels() {
-        for (LidState lidState : LidState.values()) {
-            for (EnumFacing facing : EnumFacing.HORIZONTALS) {
-                IBlockState state = this.getDefaultState()
-                        .withProperty(PROPERTY_LID, lidState)
-                        .withProperty(PROPERTY_FACING, facing);
-                int meta = this.getMetaFromState(state);
-                String variant = String.format("facing=%s,lid=%s", facing.getName(), lidState.getName());
-                SilentGems.registry.setModel(this, meta, "soul_urn", variant);
-            }
-        }
-    }
 
     public static class ItemBlockSoulUrn extends ItemBlock {
         private static List<ItemStack> SAMPLE_SUB_ITEMS;
@@ -451,47 +395,48 @@ public class BlockSoulUrn extends BlockContainer implements ITileEntityBlock, IC
         private final BlockSoulUrn blockSoulUrn;
 
         public ItemBlockSoulUrn(BlockSoulUrn block) {
-            super(block);
+            super(block, new Item.Builder()
+                    .maxStackSize(1)
+                    .group(ModItemGroups.BLOCKS));
+
             this.blockSoulUrn = block;
-            this.setMaxStackSize(1);
-            this.setMaxDamage(0);
         }
 
         @Override
-        public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-            IBlockState state = worldIn.getBlockState(pos);
+        public EnumActionResult onItemUse(ItemUseContext context) {
+            IBlockState state = context.getWorld().getBlockState(context.getPos());
             // Cauldrons can remove dye color
             if (state.getBlock() == Blocks.CAULDRON) {
-                int waterLevel = state.getValue(BlockCauldron.LEVEL);
+                int waterLevel = state.get(BlockCauldron.LEVEL);
                 if (waterLevel > 0) {
-                    UrnHelper.setClayColor(player.getHeldItem(hand), UrnConst.UNDYED_COLOR);
-                    Blocks.CAULDRON.setWaterLevel(worldIn, pos, state, waterLevel - 1);
+                    UrnHelper.setClayColor(context.getItem(), UrnConst.UNDYED_COLOR);
+                    ((BlockCauldron) Blocks.CAULDRON).setWaterLevel(context.getWorld(), context.getPos(), state, waterLevel - 1);
                     return EnumActionResult.SUCCESS;
                 }
 
                 return EnumActionResult.PASS;
             }
 
-            return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+            return super.onItemUse(context);
         }
 
         @Override
-        public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-            super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
+        public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+            super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
             // TODO: Tick upgrades
         }
 
         @Override
-        public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-            if (!this.isInCreativeTab(tab)) return;
+        public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+            if (!this.isInGroup(group)) return;
 
-            // Since their are over 800 possible combinations, let's just show one of each clay color
+            // Just show one of each clay color
             if (SAMPLE_SUB_ITEMS == null) {
                 SAMPLE_SUB_ITEMS = new ArrayList<>();
 
                 SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(UrnConst.UNDYED_COLOR, Gems.selectRandom()));
                 for (EnumDyeColor color : EnumDyeColor.values())
-                    SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(DyeHelper.getColor(color), Gems.selectRandom()));
+                    SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(color.func_196060_f(), Gems.selectRandom()));
             }
 
             items.addAll(SAMPLE_SUB_ITEMS);

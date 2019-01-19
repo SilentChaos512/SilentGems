@@ -1,8 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "silentgems:items/nodemover0",
-    "layer1": "silentgems:items/nodemover1"
-  }
-}
-

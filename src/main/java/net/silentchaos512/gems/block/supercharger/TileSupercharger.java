@@ -21,22 +21,22 @@ package net.silentchaos512.gems.block.supercharger;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.block.BlockMisc;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.init.ModTileEntities;
 import net.silentchaos512.lib.tile.SyncVariable;
-import net.silentchaos512.lib.tile.TileSidedInventorySL;
 import net.silentchaos512.lib.util.MathUtils;
 import net.silentchaos512.lib.util.TimeHelper;
 
-public class TileSupercharger extends TileSidedInventorySL implements ITickable, IChaosAccepter {
+public class TileSupercharger extends TileEntity /* TileSidedInventorySL implements ITickable, IChaosAccepter */{
     static final int MAX_CHAOS_STORED = 1_000_000;
     private static final int INVENTORY_SIZE = 3;
     private static final int UPDATE_FREQUENCY = TimeHelper.ticksFromSeconds(15);
@@ -49,6 +49,10 @@ public class TileSupercharger extends TileSidedInventorySL implements ITickable,
     private int structureLevel;
     private int updateTimer = 0;
 
+    public TileSupercharger() {
+        super(ModTileEntities.SUPERCHARGER.type().get());
+    }
+
     @Override
     public void update() {
         if (this.world.isRemote) return;
@@ -57,7 +61,7 @@ public class TileSupercharger extends TileSidedInventorySL implements ITickable,
 
         if (updateTimer > UPDATE_FREQUENCY) {
             if (checkStructureLevel()) {
-                SilentGems.logHelper.info("Supercharger at {}: structure level updated to {}",
+                SilentGems.LOGGER.info("Supercharger at {}: structure level updated to {}",
                         this.pos, this.structureLevel);
             }
             sendUpdate();

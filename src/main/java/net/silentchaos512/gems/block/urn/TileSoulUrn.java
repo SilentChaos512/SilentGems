@@ -42,9 +42,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.init.ModTileEntities;
 import net.silentchaos512.gems.item.SoulUrnUpgrades;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.urn.UrnConst;
@@ -75,6 +79,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
 
     @SuppressWarnings("WeakerAccess")
     public TileSoulUrn() {
+        super(ModTileEntities.SOUL_URN.type());
         this.items = NonNullList.withSize(9 * INVENTORY_ROWS_UPGRADE_2, ItemStack.EMPTY);
     }
 
@@ -166,11 +171,11 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     }
 
     @Override
-    public void update() {
+    public void tick() {
         if (this.world.isRemote)
             return;
 
-        BlockSoulUrn.LidState lid = ModBlocks.soulUrn.getStateFromMeta(this.getBlockMetadata()).getValue(BlockSoulUrn.PROPERTY_LID);
+        BlockSoulUrn.LidState lid = world.getBlockState(this.pos).get(BlockSoulUrn.PROPERTY_LID);
         ++this.ticksExisted;
 
         // Tick upgrades
@@ -195,30 +200,33 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         return SilentGems.RESOURCE_PREFIX + "soul_urn";
     }
 
+    @Nullable
     @Override
-    public String getName() {
-        return this.hasCustomName() ? this.customName : "container." + SilentGems.MOD_ID + ".soul_urn";
+    public ITextComponent getCustomName() {
+        return this.hasCustomName()
+                ? this.customName
+                : new TextComponentTranslation("container." + SilentGems.MOD_ID + ".soul_urn");
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
+    public void read(NBTTagCompound compound) {
+        super.read(compound);
         this.loadFromNBT(compound);
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
+    public NBTTagCompound write(NBTTagCompound compound) {
+        super.write(compound);
         return this.saveToNBT(compound);
     }
 
     public void loadFromNBT(NBTTagCompound compound) {
         this.items = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
 
-        if (!this.checkLootAndRead(compound) && compound.hasKey("Items", 9))
+        if (!this.checkLootAndRead(compound) && compound.hasKey("Items"))
             ItemStackHelper.loadAllItems(compound, this.items);
-        if (compound.hasKey("CustomName", 8))
-            this.customName = compound.getString("CustomName");
+        if (compound.hasKey("CustomName"))
+            this.customName = new TextComponentString(compound.getString("CustomName"));
 
         loadColorFromNBT(compound);
         loadGemFromNBT(compound);
@@ -230,12 +238,12 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         if (!this.checkLootAndWrite(compound))
             ItemStackHelper.saveAllItems(compound, this.items, false);
         if (this.hasCustomName())
-            compound.setString("CustomName", this.customName);
+            compound.setString("CustomName", this.customName.getFormattedText());
         if (!compound.hasKey("Lock") && this.isLocked())
             this.getLockCode().toNBT(compound);
 
         if (this.color != UrnConst.UNDYED_COLOR)
-            compound.setInteger(UrnConst.NBT_COLOR, this.color);
+            compound.setInt(UrnConst.NBT_COLOR, this.color);
         if (this.gem != null)
             compound.setString(UrnConst.NBT_GEM, this.gem.getName());
 
@@ -246,7 +254,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
 
     private void loadColorFromNBT(NBTTagCompound compound) {
         if (compound.hasKey(UrnConst.NBT_COLOR)) {
-            this.color = compound.getInteger(UrnConst.NBT_COLOR);
+            this.color = compound.getInt(UrnConst.NBT_COLOR);
         }
     }
 
@@ -289,7 +297,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         NBTTagCompound tags = super.getUpdateTag();
 
         if (this.color != UrnConst.UNDYED_COLOR)
-            tags.setInteger(UrnConst.NBT_COLOR, this.color);
+            tags.setInt(UrnConst.NBT_COLOR, this.color);
         if (this.gem != null)
             tags.setString(UrnConst.NBT_GEM, this.gem.getName());
 

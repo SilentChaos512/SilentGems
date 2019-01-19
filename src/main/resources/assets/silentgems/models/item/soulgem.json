@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "silentgems:items/soul_gem_back",
-    "layer1": "silentgems:items/soul_gem_front"
-  }
-}

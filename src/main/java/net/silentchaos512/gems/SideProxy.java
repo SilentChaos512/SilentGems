@@ -12,10 +12,11 @@ class SideProxy {
         FMLModLoadingContext.get().getModEventBus().addListener(this::imcProcess);
 
         MinecraftForge.EVENT_BUS.addListener(ModBlocks::registerAll);
-        MinecraftForge.EVENT_BUS.addListener(ModItems::registerAll);
         MinecraftForge.EVENT_BUS.addListener(ModEntities::registerAll);
+        MinecraftForge.EVENT_BUS.addListener(ModItems::registerAll);
         MinecraftForge.EVENT_BUS.addListener(ModPotions::registerAll);
         MinecraftForge.EVENT_BUS.addListener(ModSounds::registerAll);
+        MinecraftForge.EVENT_BUS.addListener(ModTileEntities::registerAll);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

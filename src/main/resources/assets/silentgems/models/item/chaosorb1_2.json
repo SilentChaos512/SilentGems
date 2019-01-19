@@ -1,8 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "silentgems:items/chaosorb1",
-    "layer1": "silentgems:items/chaosorb_crack2"
-  }
-}
-

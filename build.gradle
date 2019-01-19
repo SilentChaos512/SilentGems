@@ -8,13 +8,24 @@ buildscript {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
+
+plugins {
+    id 'net.ltgt.apt' version '0.10' // for lombok
+//    id 'java-library'
+    id 'maven-publish'
+    id "com.jfrog.bintray" version "1.8.4"
+}
+
 apply plugin: 'net.minecraftforge.gradle'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 
-version = '3.0.0'
+def modName = 'silents-gems'
+def modVersion = '3.0.0'
+
+version = modVersion
 group = 'net.silentchaos512.gems' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'silents-gems'
+archivesBaseName = modName
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -42,31 +53,25 @@ minecraft {
     }
 }
 
+repositories {
+    jcenter()
+    mavenLocal()
+
+    maven {
+        url  "https://dl.bintray.com/silentchaos512/${modName}"
+    }
+}
+
 dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge.test:forge:1.13-24.0.81-1.13-pre'
+    minecraft 'net.minecraftforge.test:forge:1.13-24.0.83-1.13-pre'
 
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
+    compile "org.projectlombok:lombok:1.18.0"
+    apt "org.projectlombok:lombok:1.18.0"
 
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
-    //provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
-
-    // These dependencies get remapped to your current MCP mappings
-    //deobf 'com.mod-buildcraft:buildcraft:6.0.8:dev'
-
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
+//    compile "net.silentchaos512:silent-utils:0.1"
 }
 
 processResources {
@@ -87,3 +92,49 @@ processResources {
         exclude 'META_INF/mods.toml'
     }
 }
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+publishing {
+    publications {
+        myPublication(MavenPublication) {
+            groupId 'net.silentchaos512'
+            artifactId modName
+            version modVersion
+
+            from components.java
+
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+
+    pkg {
+        repo = 'maven'
+        name = modName
+        licenses = ["LGPL-3.0"]
+        vcsUrl = 'https://github.com/SilentChaos512/SilentGems.git'
+
+        version {
+            name = modVersion
+            desc = "Silent's Gems"
+            released = new Date()
+            vcsTag = modVersion
+//            attributes = []
+        }
+    }
+}
+

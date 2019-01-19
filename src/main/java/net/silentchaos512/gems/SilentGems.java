@@ -5,6 +5,8 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Random;
 
@@ -30,6 +32,8 @@ public final class SilentGems {
 //    public static final I18nHelper i18n = new I18nHelper(MOD_ID, logHelper, false);
 
 //    public static final SRegistry registry = new SRegistry();
+
+    public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
 
     public static SilentGems INSTANCE;
     public static SideProxy PROXY;

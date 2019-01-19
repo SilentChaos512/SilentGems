@@ -21,12 +21,14 @@ package net.silentchaos512.gems.lib.urn;
 import lombok.Getter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.INBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.urn.TileSoulUrn;
@@ -52,8 +54,13 @@ public class UrnUpgrade {
     public void tickItem(ItemStack urn, World world, EntityPlayer player, int itemSlot, boolean isSelected) {
     }
 
+    @Deprecated
     public String getTranslationKey() {
         return "urn_upgrade." + this.id;
+    }
+
+    public ITextComponent getDisplayName() {
+        return new TextComponentTranslation("urn_upgrade." + this.id);
     }
 
     public static class Serializer<T extends UrnUpgrade> {
@@ -84,14 +91,14 @@ public class UrnUpgrade {
         }
 
         public static NonNullList<UrnUpgrade> load(ItemStack urn) {
-            return load(urn.getOrCreateSubCompound(UrnConst.NBT_ROOT));
+            return load(urn.getOrCreateChildTag(UrnConst.NBT_ROOT));
         }
 
         public static NonNullList<UrnUpgrade> load(NBTTagCompound tagCompound) {
             NonNullList<UrnUpgrade> result = NonNullList.create();
 
-            NBTTagList tagList = tagCompound.getTagList(UrnConst.NBT_UPGRADES, 10);
-            for (NBTBase nbt : tagList) {
+            NBTTagList tagList = tagCompound.getList(UrnConst.NBT_UPGRADES, 10);
+            for (INBTBase nbt : tagList) {
                 if (nbt instanceof NBTTagCompound) {
                     NBTTagCompound tags = (NBTTagCompound) nbt;
                     ResourceLocation id = new ResourceLocation(tags.getString(UrnConst.NBT_UPGRADE_ID));
@@ -100,7 +107,7 @@ public class UrnUpgrade {
                     if (serializer != null) {
                         result.add(serializer.deserialize(tags));
                     } else {
-                        SilentGems.logHelper.error("Serializer for urn upgrade {} not found! Data will be lost.", id);
+                        SilentGems.LOGGER.error("Serializer for urn upgrade {} not found! Data will be lost.", id);
                     }
                 }
             }
@@ -116,9 +123,9 @@ public class UrnUpgrade {
                 if (serializer != null) {
                     NBTTagCompound tags = serializer.serialize();
                     tags.setString(UrnConst.NBT_UPGRADE_ID, upgrade.id.toString());
-                    tagList.appendTag(tags);
+                    tagList.add(tags);
                 } else {
-                    SilentGems.logHelper.error("Serializer for urn upgrade {} not found! Data will be lost.", upgrade.id);
+                    SilentGems.LOGGER.error("Serializer for urn upgrade {} not found! Data will be lost.", upgrade.id);
                 }
             }
 

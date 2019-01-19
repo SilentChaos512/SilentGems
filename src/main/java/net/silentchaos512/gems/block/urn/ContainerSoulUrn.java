@@ -39,18 +39,18 @@ public class ContainerSoulUrn extends Container {
         // Add urn slots
         for (int row = 0; row < this.inventoryRows; ++row) {
             for (int x = 0; x < 9; ++x) {
-                this.addSlotToContainer(new SlotSoulUrn(this.tileEntity, x + row * 9, 8 + x * 18, 18 + row * 18));
+                this.addSlot(new SlotSoulUrn(this.tileEntity, x + row * 9, 8 + x * 18, 18 + row * 18));
             }
         }
 
         // Add player/hotbar slots
         for (int row = 0; row < 3; ++row) {
             for (int x = 0; x < 9; ++x) {
-                this.addSlotToContainer(new Slot(playerInventory, x + row * 9 + 9, 8 + x * 18, 103 + row * 18 + playerSlotsOffset));
+                this.addSlot(new Slot(playerInventory, x + row * 9 + 9, 8 + x * 18, 103 + row * 18 + playerSlotsOffset));
             }
         }
         for (int x = 0; x < 9; ++x) {
-            this.addSlotToContainer(new Slot(playerInventory, x, 8 + x * 18, 161 + playerSlotsOffset));
+            this.addSlot(new Slot(playerInventory, x, 8 + x * 18, 161 + playerSlotsOffset));
         }
     }
 
@@ -59,6 +59,7 @@ public class ContainerSoulUrn extends Container {
         return this.tileEntity.isUsableByPlayer(playerIn);
     }
 
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);

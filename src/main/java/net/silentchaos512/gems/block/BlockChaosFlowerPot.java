@@ -25,100 +25,84 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModBlocks;
-import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.tile.TileChaosFlowerPot;
-import net.silentchaos512.lib.block.ITileEntityBlock;
-import net.silentchaos512.lib.registry.IAddRecipes;
-import net.silentchaos512.lib.registry.RecipeMaker;
-import net.silentchaos512.wit.api.IWitHudInfo;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.Nullable;
 
-public class BlockChaosFlowerPot extends Block implements ITileEntityProvider, ITileEntityBlock, IAddRecipes, IWitHudInfo {
+public class BlockChaosFlowerPot extends Block implements ITileEntityProvider {
     private static final AxisAlignedBB FLOWER_POT_AABB = new AxisAlignedBB(0.3125, 0.0, 0.3125, 0.6875, 0.375, 0.6875);
-    @Deprecated
-    public IRecipe recipe;
 
     public BlockChaosFlowerPot() {
-        super(Material.CIRCUITS);
-        setHardness(1.0f);
-        setResistance(30.0f);
-        lightValue = 2;
+        super(Builder.create(Material.CIRCUITS)
+                .hardnessAndResistance(1, 30)
+                .lightValue(2));
     }
 
     @Override
-    public Class<? extends TileEntity> getTileEntityClass() {
-        return TileChaosFlowerPot.class;
-    }
-
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        ItemStack heldItem = playerIn.getHeldItem(hand);
+    public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        ItemStack heldItem = player.getHeldItem(hand);
 
         if (!heldItem.isEmpty() && heldItem.getItem() instanceof ItemBlock) {
-            TileChaosFlowerPot tileentityflowerpot = getTileEntity(worldIn, pos);
+            TileChaosFlowerPot tile = getTileEntity(worldIn, pos);
 
-            if (tileentityflowerpot == null) {
-                return false;
-            } else if (!tileentityflowerpot.getFlowerItemStack().isEmpty()) {
-                return false;
-            } else {
+            if (tile != null && tile.getFlowerItemStack().isEmpty()) {
                 Block block = Block.getBlockFromItem(heldItem.getItem());
 
-                if (block != ModBlocks.glowRose) {
-                    return false;
-                } else {
-                    ItemStack flower = new ItemStack(heldItem.getItem(), 1, heldItem.getItemDamage());
-                    tileentityflowerpot.setFlowerItemStack(flower);
-                    tileentityflowerpot.markDirty();
+                if (block instanceof Glowrose) {
+                    ItemStack flower = new ItemStack(heldItem.getItem(), 1);
+                    tile.setFlowerItemStack(flower);
+                    tile.markDirty();
                     worldIn.notifyBlockUpdate(pos, state, state, 3);
                     worldIn.checkLight(pos);
-                    playerIn.addStat(StatList.FLOWER_POTTED);
+                    player.addStat(StatList.POT_FLOWER);
 
-                    if (playerIn instanceof EntityPlayerMP)
-                        CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) playerIn, pos, heldItem);
+                    if (player instanceof EntityPlayerMP) {
+                        EntityPlayerMP playerMP = (EntityPlayerMP) player;
+                        CriteriaTriggers.PLACED_BLOCK.trigger(playerMP, pos, heldItem);
+                    }
 
-                    if (!playerIn.capabilities.isCreativeMode) {
+                    if (!player.abilities.isCreativeMode) {
                         heldItem.shrink(1);
                     }
 
                     return true;
                 }
             }
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     @Override
-    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public int getLightValue(IBlockState state, IWorldReader world, BlockPos pos) {
         TileChaosFlowerPot tile = getTileEntity(world, pos);
         return tile != null && !tile.getFlowerItemStack().isEmpty() ? 15 : lightValue;
     }
 
     @Override
-    public int getLightOpacity(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public boolean propagatesSkylightDown(IBlockState state, IBlockReader reader, BlockPos pos) {
+        return true;
+    }
+
+    @Override
+    public int getOpacity(IBlockState state, IBlockReader worldIn, BlockPos pos) {
         return 0;
     }
 
-    public TileChaosFlowerPot getTileEntity(IBlockAccess world, BlockPos pos) {
+    @Nullable
+    public static TileChaosFlowerPot getTileEntity(IBlockReader world, BlockPos pos) {
         TileEntity tile = world.getTileEntity(pos);
         if (!(tile instanceof TileChaosFlowerPot)) {
             return null;
@@ -126,50 +110,42 @@ public class BlockChaosFlowerPot extends Block implements ITileEntityProvider, I
         return (TileChaosFlowerPot) tile;
     }
 
+//    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+//        return FLOWER_POT_AABB;
+//    }
+
     @Override
-    public void addRecipes(RecipeMaker recipes) {
-        recipe = recipes.makeShaped("chaos_flower_pot", new ItemStack(this),
-                "c", "f",
-                'c', CraftingItems.ENRICHED_CHAOS_ESSENCE.getStack(), 'f', Items.FLOWER_POT);
-    }
-
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return FLOWER_POT_AABB;
-    }
-
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
     public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.MODEL;
     }
 
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
+    @Override
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT;
     }
 
+    @Override
     public boolean isFullCube(IBlockState state) {
         return false;
     }
 
-    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-        return super.canPlaceBlockAt(worldIn, pos)
-                && worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, EnumFacing.UP);
+    @Override
+    public boolean isValidPosition(IBlockState state, IWorldReaderBase worldIn, BlockPos pos) {
+        return super.isValidPosition(state, worldIn, pos);
+//                && worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, EnumFacing.UP);
     }
 
     @Override
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        if (!world.getBlockState(pos.down()).isSideSolid(world, pos, EnumFacing.UP)) {
-            this.dropBlockAsItem(world, pos, state, 0);
-            world.setBlockToAir(pos);
-        }
+//        if (!world.getBlockState(pos.down()).isSideSolid(world, pos, EnumFacing.UP)) {
+//            this.dropBlockAsItem(world, pos, state, 0);
+//            world.setBlockToAir(pos);
+//        }
     }
 
     @Override
-    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        super.getDrops(drops, world, pos, state, fortune);
+    public void getDrops(IBlockState state, NonNullList<ItemStack> drops, World world, BlockPos pos, int fortune) {
+        super.getDrops(state, drops, world, pos, fortune);
         TileChaosFlowerPot te = getTileEntity(world, pos);
         if (te != null && !te.getFlowerItemStack().isEmpty()) {
             drops.add(te.getFlowerItemStack());
@@ -177,32 +153,19 @@ public class BlockChaosFlowerPot extends Block implements ITileEntityProvider, I
     }
 
     @Override
-    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
-        return willHarvest || super.removedByPlayer(state, world, pos, player, willHarvest);
+    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest, IFluidState fluid) {
+        return willHarvest || super.removedByPlayer(state, world, pos, player, willHarvest, fluid);
     }
 
     @Override
     public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack tool) {
         super.harvestBlock(world, player, pos, state, te, tool);
-        world.setBlockToAir(pos);
+        world.removeBlock(pos);
     }
 
+    @Nullable
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new TileChaosFlowerPot();
-    }
-
-    @Override
-    public List<String> getWitLines(IBlockState state, BlockPos pos, EntityPlayer player, boolean advanced) {
-        List<String> list = new ArrayList<>();
-        TileEntity te = player.world.getTileEntity(pos);
-        if (te instanceof TileChaosFlowerPot) {
-            int flowerId = ((TileChaosFlowerPot) te).getFlowerId();
-            if (flowerId >= 0 && flowerId < 16) {
-                String key = "tile.silentgems.glowrose" + flowerId + ".name";
-                list.add(TextFormatting.GRAY + SilentGems.i18n.translate(key));
-            }
-        }
-        return list;
+    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+        return new TileChaosFlowerPot(null); // FIXME: tile type
     }
 }

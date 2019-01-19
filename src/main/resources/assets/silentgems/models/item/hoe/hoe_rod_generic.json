@@ -1,7 +1,0 @@
-{
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "silentgems:items/hoe/hoe_rod_generic"
-  }
-}
-

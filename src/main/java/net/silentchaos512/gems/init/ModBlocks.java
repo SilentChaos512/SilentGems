@@ -25,8 +25,7 @@ public final class ModBlocks {
 
         registerGemBlocks(reg, Gems::getOre, gem -> gem.getName() + "_ore");
         registerGemBlocks(reg, Gems::getBlock, gem -> gem.getName() + "_block");
-        registerGemBlocks(reg, Gems::getCoatedBricks, gem -> gem.getName() + "_coated_bricks");
-        registerGemBlocks(reg, Gems::getSpeckledBricks, gem -> gem.getName() + "_speckled_bricks");
+        registerGemBlocks(reg, Gems::getBricks, gem -> gem.getName() + "_bricks");
         for (GemLamp.State state : GemLamp.State.values()) {
             registerGemBlocks(reg, gem -> gem.getLamp(state), gem -> GemLamp.nameFor(gem, state));
         }

@@ -32,17 +32,17 @@ public final class UrnHelper {
     }
 
     public static int getClayColor(ItemStack stack) {
-        NBTTagCompound tags = stack.getOrCreateSubCompound(UrnConst.NBT_ROOT);
-        return tags.hasKey(UrnConst.NBT_COLOR) ? tags.getInteger(UrnConst.NBT_COLOR) : UrnConst.UNDYED_COLOR;
+        NBTTagCompound tags = stack.getOrCreateChildTag(UrnConst.NBT_ROOT);
+        return tags.hasKey(UrnConst.NBT_COLOR) ? tags.getInt(UrnConst.NBT_COLOR) : UrnConst.UNDYED_COLOR;
     }
 
     public static void setClayColor(ItemStack stack, int color) {
-        stack.getOrCreateSubCompound(UrnConst.NBT_ROOT).setInteger(UrnConst.NBT_COLOR, color);
+        stack.getOrCreateChildTag(UrnConst.NBT_ROOT).setInt(UrnConst.NBT_COLOR, color);
     }
 
     @Nullable
     public static Gems getGem(ItemStack stack) {
-        NBTTagCompound tags = stack.getOrCreateSubCompound(UrnConst.NBT_ROOT);
+        NBTTagCompound tags = stack.getOrCreateChildTag(UrnConst.NBT_ROOT);
         if (tags.hasKey(UrnConst.NBT_GEM)) {
             String str = tags.getString(UrnConst.NBT_GEM);
             for (Gems gem : Gems.values())
@@ -53,7 +53,7 @@ public final class UrnHelper {
     }
 
     public static void setGem(ItemStack stack, Gems gem) {
-        stack.getOrCreateSubCompound(UrnConst.NBT_ROOT).setString(UrnConst.NBT_GEM, gem.getName());
+        stack.getOrCreateChildTag(UrnConst.NBT_ROOT).setString(UrnConst.NBT_GEM, gem.getName());
     }
 
     public static boolean isLidless(ItemStack stack) {

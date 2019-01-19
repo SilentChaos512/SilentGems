@@ -46,7 +46,7 @@ public class UpgradeVacuum extends UrnUpgrade {
                 if (state.getTileEntity().tryAddItemToInventory(entity.getItem())) {
                     itemsAbsorbed = true;
                     if (entity.getItem().isEmpty()) {
-                        entity.setDead();
+                        entity.remove();
                     }
                 }
             } else {

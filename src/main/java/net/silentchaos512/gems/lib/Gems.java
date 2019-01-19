@@ -1,7 +1,11 @@
 package net.silentchaos512.gems.lib;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.item.GemItem;
@@ -73,8 +77,7 @@ public enum Gems implements IStringSerializable {
     // Blocks
     final GemOre ore;
     final GemBlock block;
-    final GemBricks brickCoated;
-    final GemBricks brickSpeckled;
+    final GemBricks bricks;
     final GemLamp lampUnlit;
     final GemLamp lampLit;
     final GemLamp lampInvertedLit;
@@ -85,16 +88,18 @@ public enum Gems implements IStringSerializable {
     final GemItem item;
     final GemShard shard;
 
+    // Tags
+    final Tag<Item> itemTag;
+
     Gems(Set set, String name, int color, String... extraOreKeys) {
         this.set = set;
         this.name = name;
         this.color = color;
-        this.extraOreKeys = extraOreKeys;
+        this.extraOreKeys = extraOreKeys; // FIXME
 
         this.ore = new GemOre(this);
         this.block = new GemBlock(this);
-        this.brickCoated = new GemBricks(this);
-        this.brickSpeckled = new GemBricks(this);
+        this.bricks = new GemBricks(this);
         this.lampUnlit = new GemLamp(this, GemLamp.State.UNLIT);
         this.lampLit = new GemLamp(this, GemLamp.State.LIT);
         this.lampInvertedLit = new GemLamp(this, GemLamp.State.INVERTED_LIT);
@@ -103,6 +108,8 @@ public enum Gems implements IStringSerializable {
 
         this.item = new GemItem(this);
         this.shard = new GemShard(this);
+
+        this.itemTag = new ItemTags.Wrapper(new ResourceLocation(SilentGems.MOD_ID, this.name));
     }
 
     /**
@@ -153,12 +160,8 @@ public enum Gems implements IStringSerializable {
         return block;
     }
 
-    public GemBricks getCoatedBricks() {
-        return brickCoated;
-    }
-
-    public GemBricks getSpeckledBricks() {
-        return brickSpeckled;
+    public GemBricks getBricks() {
+        return bricks;
     }
 
     public GemLamp getLamp(GemLamp.State state) {
@@ -187,19 +190,13 @@ public enum Gems implements IStringSerializable {
         return item;
     }
 
-//    /**
-//     * @return The ore dictionary name for the gem item.
-//     */
-//    public String getItemOreName() {
-//        return "gem" + name;
-//    }
-//
-//    public String[] getItemOreNames() {
-//        String[] result = new String[extraOreKeys.length + 1];
-//        result[0] = getItemOreName();
-//        System.arraycopy(extraOreKeys, 0, result, 1, extraOreKeys.length);
-//        return result;
-//    }
+    public ItemStack getItemStack() {
+        return new ItemStack(this.item);
+    }
+
+    public Tag<Item> getItemTag() {
+        return itemTag;
+    }
 
     /**
      * @return The gem shard (nugget) item.
