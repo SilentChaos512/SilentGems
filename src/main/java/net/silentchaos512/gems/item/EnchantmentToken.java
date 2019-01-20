@@ -19,9 +19,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
-import net.silentchaos512.gems.client.handler.ClientTickHandler;
+import net.silentchaos512.gems.client.handler.ClientTicks;
 import net.silentchaos512.gems.client.key.KeyTracker;
-import net.silentchaos512.gems.lib.ModItemGroups;
+import net.silentchaos512.gems.init.ModItemGroups;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -332,7 +332,7 @@ public final class EnchantmentToken extends Item {
             int g = (k >> 8) & 255;
             int b = k & 255;
 
-            int j = (int) (160 * MathHelper.sin(ClientTickHandler.ticksInGame * OUTLINE_PULSATE_SPEED));
+            int j = (int) (160 * MathHelper.sin(ClientTicks.ticksInGame() * OUTLINE_PULSATE_SPEED));
             j = MathHelper.clamp(j, 0, 255);
             r = MathHelper.clamp(r + j, 0, 255);
             g = MathHelper.clamp(g + j, 0, 255);

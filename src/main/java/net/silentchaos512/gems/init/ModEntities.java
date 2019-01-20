@@ -8,7 +8,6 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.EntityEnderSlime;
 
 public class ModEntities {
@@ -20,7 +19,7 @@ public class ModEntities {
         ENDER_SLIME = register(reg, "ender_slime", EntityType.Builder.create(EntityEnderSlime.class, EntityEnderSlime::new));
         // TODO: How to add spawn eggs? ItemSpawnEgg
 //        reg.registerEntity(EntityEnderSlime.class, "EnderSlime", 64, 4, false, 0x003333, 0xAA00AA);
-        if (GemsConfig.ENDER_SLIME_SPAWN_WEIGHT > 0) {
+        if (3 > 0) { // TODO: config
 //            EntityRegistry.addSpawn(EntityEnderSlime.class, GemsConfig.ENDER_SLIME_SPAWN_WEIGHT,
 //                    GemsConfig.ENDER_SLIME_SPAWN_MIN, GemsConfig.ENDER_SLIME_SPAWN_MAX,
 //                    EnumCreatureType.MONSTER, Biomes.SKY);

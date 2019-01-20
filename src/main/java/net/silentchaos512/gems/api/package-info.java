@@ -1,3 +1,7 @@
-@API(owner = "SilentGems", apiVersion = "4", provides = "SilentGemsAPI")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 package net.silentchaos512.gems.api;
-import net.minecraftforge.fml.common.API;
+
+import mcp.MethodsReturnNonnullByDefault;
+
+import javax.annotation.ParametersAreNonnullByDefault;

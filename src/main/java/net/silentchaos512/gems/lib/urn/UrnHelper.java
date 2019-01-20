@@ -20,9 +20,7 @@ package net.silentchaos512.gems.lib.urn;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.silentchaos512.gems.block.urn.BlockSoulUrn;
 import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.lib.collection.StackList;
 
 import javax.annotation.Nullable;
 
@@ -56,16 +54,18 @@ public final class UrnHelper {
         stack.getOrCreateChildTag(UrnConst.NBT_ROOT).setString(UrnConst.NBT_GEM, gem.getName());
     }
 
+    // TODO: change to hasLid?
     public static boolean isLidless(ItemStack stack) {
-        return stack.getItemDamage() != 0;
+//        return stack.getItemDamage() != 0;
+        return false;
     }
 
     public static void setLidless(ItemStack stack, boolean lidless) {
-        stack.setItemDamage(lidless ? BlockSoulUrn.LidState.NO_LID.ordinal() << 2 : 0);
+//        stack.setItemDamage(lidless ? BlockSoulUrn.LidState.NO_LID.ordinal() << 2 : 0);
     }
 
-    public static StackList getContainedItems(ItemStack urn) {
-        NBTTagCompound tags = urn.getOrCreateSubCompound(UrnConst.NBT_ROOT);
-        return StackList.fromNBT(tags.getTagList("Items", 10));
-    }
+//    public static StackList getContainedItems(ItemStack urn) {
+//        NBTTagCompound tags = urn.getOrCreateSubCompound(UrnConst.NBT_ROOT);
+//        return StackList.fromNBT(tags.getTagList("Items", 10));
+//    }
 }

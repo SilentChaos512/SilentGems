@@ -1,10 +1,8 @@
 package net.silentchaos512.gems;
 
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +21,7 @@ public final class SilentGems {
     static {
         if (ModList.get().isLoaded("silentgear")) {
             // Load added stat(s) before Silent Gear loads material JSONs
-            MinecraftForge.EVENT_BUS.register(new SGearStatHandler());
+//            MinecraftForge.EVENT_BUS.register(new SGearStatHandler());
         }
     }
 

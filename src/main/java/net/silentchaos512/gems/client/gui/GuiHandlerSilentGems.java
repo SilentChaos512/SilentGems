@@ -21,12 +21,12 @@ public class GuiHandlerSilentGems implements IGuiHandler {
             if (type.tileEntityMatches(tile)) {
                 return type.getContainer(tile, player, x);
             } else {
-                SilentGems.logHelper.warn(
+                SilentGems.LOGGER.warn(
                         "Tried to open GUI type {} (ID {}), but TileEntity {} at position {} does not match!",
                         type, ID, tile, pos);
             }
         } else {
-            SilentGems.logHelper.warn("Tried to open GUI with unknown ID {} (position {})", ID, pos);
+            SilentGems.LOGGER.warn("Tried to open GUI with unknown ID {} (position {})", ID, pos);
         }
 
         return null;
@@ -43,12 +43,12 @@ public class GuiHandlerSilentGems implements IGuiHandler {
             if (type.tileEntityMatches(tile)) {
                 return type.getGuiScreen(tile, player, x);
             } else {
-                SilentGems.logHelper.warn(
+                SilentGems.LOGGER.warn(
                         "Tried to open GUI type {} (ID {}), but TileEntity {} at position {} does not match!",
                         type, ID, tile, pos);
             }
         } else {
-            SilentGems.logHelper.warn("Tried to open GUI with unknown ID {} (position {})", ID, pos);
+            SilentGems.LOGGER.warn("Tried to open GUI with unknown ID {} (position {})", ID, pos);
         }
 
         return null;

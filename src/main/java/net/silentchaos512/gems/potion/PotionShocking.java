@@ -8,13 +8,9 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.util.ModDamageSource;
-import net.silentchaos512.lib.util.Color;
 
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 public class PotionShocking extends Potion {
@@ -52,17 +48,17 @@ public class PotionShocking extends Potion {
         }
 
         // Spawn shock effect particles.
-        Random rand = SilentGems.random;
-        for (int i = 0; i < 3 - SilentGems.proxy.getParticleSettings(); ++i) {
-            double posX = entity.posX + 1.2f * (rand.nextFloat() - 0.5f) * entity.width;
-            double posY = entity.posY + 1.1f * rand.nextFloat() * entity.height;
-            double posZ = entity.posZ + 1.2f * (rand.nextFloat() - 0.5f) * entity.width;
-            double motionX = 0.02 * rand.nextGaussian();
-            double motionY = 0.05 + Math.abs(0.1 * rand.nextGaussian());
-            double motionZ = 0.02 * rand.nextGaussian();
-            SilentGems.proxy.spawnParticles(EnumModParticles.SHOCKING, new Color(0xffef63),
-                    entity.world, posX, posY, posZ, motionX, motionY, motionZ);
-        }
+//        Random rand = SilentGems.random;
+//        for (int i = 0; i < 3 - SilentGems.proxy.getParticleSettings(); ++i) {
+//            double posX = entity.posX + 1.2f * (rand.nextFloat() - 0.5f) * entity.width;
+//            double posY = entity.posY + 1.1f * rand.nextFloat() * entity.height;
+//            double posZ = entity.posZ + 1.2f * (rand.nextFloat() - 0.5f) * entity.width;
+//            double motionX = 0.02 * rand.nextGaussian();
+//            double motionY = 0.05 + Math.abs(0.1 * rand.nextGaussian());
+//            double motionZ = 0.02 * rand.nextGaussian();
+//            SilentGems.proxy.spawnParticles(EnumModParticles.SHOCKING, new Color(0xffef63),
+//                    entity.world, posX, posY, posZ, motionX, motionY, motionZ);
+//        }
     }
 
     private void tryChaining(EntityLivingBase source, int sourceDuration, int amplifier) {

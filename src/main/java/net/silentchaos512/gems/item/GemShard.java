@@ -2,7 +2,7 @@ package net.silentchaos512.gems.item;
 
 import net.minecraft.item.Item;
 import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.gems.lib.ModItemGroups;
+import net.silentchaos512.gems.init.ModItemGroups;
 import net.silentchaos512.gems.lib.IGem;
 
 

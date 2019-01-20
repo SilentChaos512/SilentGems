@@ -18,72 +18,56 @@
 
 package net.silentchaos512.gems.compat.gear;
 
-import com.google.common.collect.ImmutableMap;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.silentchaos512.gear.api.event.GetStatModifierEvent;
-import net.silentchaos512.gear.api.stats.CommonItemStats;
-import net.silentchaos512.gear.api.stats.ItemStat;
-import net.silentchaos512.gear.api.stats.StatInstance;
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModEnchantments;
-
-import java.util.Map;
-import java.util.function.ToDoubleFunction;
-
 /**
- * Handles the {@link GetStatModifierEvent} to apply stat bonuses to Silent Gear materials with the
+ * Handles the GetStatModifierEvent to apply stat bonuses to Silent Gear materials with the
  * Supercharged enchantment. Does not work with the old Silent's Gems tool system.
  */
 public class SGearStatHandler {
-    public static final ItemStat CHARGEABILITY = new ItemStat(new ResourceLocation(SilentGems.MOD_ID, "chargeability"),
-            1f, 0f, 100f, false, TextFormatting.GOLD).setSynergyApplies(false).setAffectedByGrades(false).setHidden(true);
-
-    private static final Map<ItemStat, ToDoubleFunction<ChargedProperties>> BOOSTED_STATS =
-            ImmutableMap.<ItemStat, ToDoubleFunction<ChargedProperties>>builder()
-                    //@formatter:off
-                    .put(CommonItemStats.DURABILITY,        prop -> prop.originalStat * Math.pow(2.0, prop.chargeValue))
-                    .put(CommonItemStats.ARMOR_DURABILITY,  prop -> prop.originalStat * Math.pow(1.8, prop.chargeValue))
-                    .put(CommonItemStats.ENCHANTABILITY,    prop -> prop.originalStat * (1 + prop.superchargedLevel * (Math.sqrt(prop.chargeability) - 1)))
-                    .put(CommonItemStats.RARITY,            prop -> prop.originalStat + prop.superchargedLevel * 10)
-                    .put(CommonItemStats.HARVEST_LEVEL,     prop -> prop.originalStat + prop.superchargedLevel)
-                    .put(CommonItemStats.HARVEST_SPEED,     prop -> prop.originalStat + prop.superchargedLevel * prop.chargeValue * 3)
-                    .put(CommonItemStats.MELEE_DAMAGE,      prop -> prop.originalStat + prop.chargeValue * 2)
-                    .put(CommonItemStats.MAGIC_DAMAGE,      prop -> prop.originalStat + prop.chargeValue * 2)
-                    .put(CommonItemStats.RANGED_DAMAGE,     prop -> prop.originalStat + prop.chargeValue)
-                    .put(CommonItemStats.ARMOR,             prop -> prop.originalStat + prop.chargeValue)
-                    .put(CommonItemStats.ARMOR_TOUGHNESS,   prop -> prop.originalStat + prop.chargeValue / 2)
-                    .put(CommonItemStats.MAGIC_ARMOR,       prop -> prop.originalStat + prop.chargeValue)
-                    //@formatter:on
-                    .build();
-
-    @SubscribeEvent
-    public void onGetPartStats(GetStatModifierEvent event) {
-        ItemStack stack = event.getPart().getCraftingItem();
-        int supercharged = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.supercharged, stack);
-
-        if (supercharged > 0 && BOOSTED_STATS.containsKey(event.getStat())) {
-            float chargeability = CHARGEABILITY.compute(0, event.getPart().getStatModifiers(CHARGEABILITY));
-            if (chargeability == 0) chargeability = 1;
-            float chargeLevel = chargeability * supercharged;
-
-            for (int i = 0; i < event.getModifiers().size(); ++i) {
-                StatInstance instance = event.getModifiers().get(i);
-                if (instance.getOp() == StatInstance.Operation.AVG || instance.getOp() == StatInstance.Operation.MAX) {
-                    // Replace instance with a modified one
-                    ChargedProperties chargedProperties = new ChargedProperties(supercharged, chargeLevel, instance.getValue());
-                    StatInstance replacement = new StatInstance(instance.getId() + "_supercharged_" + supercharged,
-                            (float) BOOSTED_STATS.get(event.getStat()).applyAsDouble(chargedProperties),
-                            instance.getOp());
-                    event.getModifiers().remove(instance);
-                    event.getModifiers().add(replacement);
-                }
-            }
-        }
-    }
+//    public static final ItemStat CHARGEABILITY = new ItemStat(new ResourceLocation(SilentGems.MOD_ID, "chargeability"),
+//            1f, 0f, 100f, false, TextFormatting.GOLD).setSynergyApplies(false).setAffectedByGrades(false).setHidden(true);
+//
+//    private static final Map<ItemStat, ToDoubleFunction<ChargedProperties>> BOOSTED_STATS =
+//            ImmutableMap.<ItemStat, ToDoubleFunction<ChargedProperties>>builder()
+//                    //@formatter:off
+//                    .put(CommonItemStats.DURABILITY,        prop -> prop.originalStat * Math.pow(2.0, prop.chargeValue))
+//                    .put(CommonItemStats.ARMOR_DURABILITY,  prop -> prop.originalStat * Math.pow(1.8, prop.chargeValue))
+//                    .put(CommonItemStats.ENCHANTABILITY,    prop -> prop.originalStat * (1 + prop.superchargedLevel * (Math.sqrt(prop.chargeability) - 1)))
+//                    .put(CommonItemStats.RARITY,            prop -> prop.originalStat + prop.superchargedLevel * 10)
+//                    .put(CommonItemStats.HARVEST_LEVEL,     prop -> prop.originalStat + prop.superchargedLevel)
+//                    .put(CommonItemStats.HARVEST_SPEED,     prop -> prop.originalStat + prop.superchargedLevel * prop.chargeValue * 3)
+//                    .put(CommonItemStats.MELEE_DAMAGE,      prop -> prop.originalStat + prop.chargeValue * 2)
+//                    .put(CommonItemStats.MAGIC_DAMAGE,      prop -> prop.originalStat + prop.chargeValue * 2)
+//                    .put(CommonItemStats.RANGED_DAMAGE,     prop -> prop.originalStat + prop.chargeValue)
+//                    .put(CommonItemStats.ARMOR,             prop -> prop.originalStat + prop.chargeValue)
+//                    .put(CommonItemStats.ARMOR_TOUGHNESS,   prop -> prop.originalStat + prop.chargeValue / 2)
+//                    .put(CommonItemStats.MAGIC_ARMOR,       prop -> prop.originalStat + prop.chargeValue)
+//                    //@formatter:on
+//                    .build();
+//
+//    @SubscribeEvent
+//    public void onGetPartStats(GetStatModifierEvent event) {
+//        ItemStack stack = event.getPart().getCraftingItem();
+//        int supercharged = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.supercharged, stack);
+//
+//        if (supercharged > 0 && BOOSTED_STATS.containsKey(event.getStat())) {
+//            float chargeability = CHARGEABILITY.compute(0, event.getPart().getStatModifiers(CHARGEABILITY));
+//            if (chargeability == 0) chargeability = 1;
+//            float chargeLevel = chargeability * supercharged;
+//
+//            for (int i = 0; i < event.getModifiers().size(); ++i) {
+//                StatInstance instance = event.getModifiers().get(i);
+//                if (instance.getOp() == StatInstance.Operation.AVG || instance.getOp() == StatInstance.Operation.MAX) {
+//                    // Replace instance with a modified one
+//                    ChargedProperties chargedProperties = new ChargedProperties(supercharged, chargeLevel, instance.getValue());
+//                    StatInstance replacement = new StatInstance(instance.getId() + "_supercharged_" + supercharged,
+//                            (float) BOOSTED_STATS.get(event.getStat()).applyAsDouble(chargedProperties),
+//                            instance.getOp());
+//                    event.getModifiers().remove(instance);
+//                    event.getModifiers().add(replacement);
+//                }
+//            }
+//        }
+//    }
 
     private static class ChargedProperties {
         /**

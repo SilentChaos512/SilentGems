@@ -8,12 +8,8 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.gems.util.ModDamageSource;
-import net.silentchaos512.lib.util.Color;
 
-import java.util.Random;
 import java.util.UUID;
 
 public class PotionFreezing extends Potion {
@@ -49,17 +45,17 @@ public class PotionFreezing extends Potion {
         }
 
         // Spawn freeze effect particles.
-        Random rand = SilentGems.random;
-        for (int i = 0; i < 2; ++i) {
-            double posX = entityLiving.posX + 1.2f * (rand.nextFloat() - 0.5f) * entityLiving.width;
-            double posY = entityLiving.posY + 1.1f * rand.nextFloat() * entityLiving.height;
-            double posZ = entityLiving.posZ + 1.2f * (rand.nextFloat() - 0.5f) * entityLiving.width;
-            double motionX = 0.005 * rand.nextGaussian();
-            double motionY = 0.005 * rand.nextGaussian();
-            double motionZ = 0.005 * rand.nextGaussian();
-            SilentGems.proxy.spawnParticles(EnumModParticles.FREEZING, new Color(0x76e3f2),
-                    entityLiving.world, posX, posY, posZ, motionX, motionY, motionZ);
-        }
+//        Random rand = SilentGems.random;
+//        for (int i = 0; i < 2; ++i) {
+//            double posX = entityLiving.posX + 1.2f * (rand.nextFloat() - 0.5f) * entityLiving.width;
+//            double posY = entityLiving.posY + 1.1f * rand.nextFloat() * entityLiving.height;
+//            double posZ = entityLiving.posZ + 1.2f * (rand.nextFloat() - 0.5f) * entityLiving.width;
+//            double motionX = 0.005 * rand.nextGaussian();
+//            double motionY = 0.005 * rand.nextGaussian();
+//            double motionZ = 0.005 * rand.nextGaussian();
+//            SilentGems.proxy.spawnParticles(EnumModParticles.FREEZING, new Color(0x76e3f2),
+//                    entityLiving.world, posX, posY, posZ, motionX, motionY, motionZ);
+//        }
     }
 
     @Override

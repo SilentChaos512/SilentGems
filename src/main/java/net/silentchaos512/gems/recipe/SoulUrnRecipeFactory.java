@@ -34,7 +34,6 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.item.GemItem;
-import net.silentchaos512.gems.item.ItemSoulGem;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.lib.collection.StackList;

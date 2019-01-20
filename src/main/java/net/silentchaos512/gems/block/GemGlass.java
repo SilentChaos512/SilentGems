@@ -18,63 +18,27 @@
 
 package net.silentchaos512.gems.block;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockGlass;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.gems.lib.Names;
-import net.silentchaos512.lib.registry.IAddRecipes;
 
-public class GemGlass extends BlockGemSubtypes implements IAddRecipes {
-    public GemGlass(Gems.Set set) {
-        super(set, Material.GLASS);
-        setHardness(0.3f);
-        setSoundType(SoundType.GLASS);
+import java.util.Random;
+
+public class GemGlass extends BlockGlass {
+    private final Gems gem;
+
+    public GemGlass(Gems gem) {
+        super(Builder.create(Material.GLASS)
+                .hardnessAndResistance(0.3f, 5)
+                .sound(SoundType.GLASS));
+        this.gem = gem;
     }
 
     @Override
-    public void addOreDict() {
-        for (int i = 0; i < 16; ++i) {
-            OreDictionary.registerOre("blockGlass", new ItemStack(this, 1, i));
-        }
-    }
-
-    @Override
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
-    }
-
-    @Override
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isFullCube(IBlockState state) {
-        return false;
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-        IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
-        Block block = iblockstate.getBlock();
-        return this == block && blockState != iblockstate || block != this
-                && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
-
-    }
-
-    @Override
-    String getBlockName() {
-        return nameForSet(this.getGemSet(), Names.GEM_GLASS);
+    public int quantityDropped(IBlockState state, Random random) {
+        // Don't destroy
+        return 1;
     }
 }

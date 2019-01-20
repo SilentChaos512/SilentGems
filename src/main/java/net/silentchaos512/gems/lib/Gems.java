@@ -78,6 +78,7 @@ public enum Gems implements IStringSerializable {
     final GemOre ore;
     final GemBlock block;
     final GemBricks bricks;
+    final GemGlass glass;
     final GemLamp lampUnlit;
     final GemLamp lampLit;
     final GemLamp lampInvertedLit;
@@ -100,6 +101,7 @@ public enum Gems implements IStringSerializable {
         this.ore = new GemOre(this);
         this.block = new GemBlock(this);
         this.bricks = new GemBricks(this);
+        this.glass = new GemGlass(this);
         this.lampUnlit = new GemLamp(this, GemLamp.State.UNLIT);
         this.lampLit = new GemLamp(this, GemLamp.State.LIT);
         this.lampInvertedLit = new GemLamp(this, GemLamp.State.INVERTED_LIT);
@@ -162,6 +164,10 @@ public enum Gems implements IStringSerializable {
 
     public GemBricks getBricks() {
         return bricks;
+    }
+
+    public GemGlass getGlass() {
+        return glass;
     }
 
     public GemLamp getLamp(GemLamp.State state) {

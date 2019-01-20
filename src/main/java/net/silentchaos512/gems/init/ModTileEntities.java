@@ -31,7 +31,7 @@ public enum ModTileEntities {
     public static void registerAll(RegistryEvent.Register<TileEntityType<?>> event) {
         IForgeRegistry<TileEntityType<?>> reg = event.getRegistry();
         for (ModTileEntities tileEnum : values()) {
-            register(reg, tileEnum.name().toLowerCase(Locale.ROOT), tileEnum.type().get());
+            register(reg, tileEnum.name().toLowerCase(Locale.ROOT), tileEnum.type());
         }
     }
 

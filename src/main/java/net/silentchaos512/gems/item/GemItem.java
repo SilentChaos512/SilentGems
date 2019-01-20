@@ -8,7 +8,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.gems.lib.ModItemGroups;
+import net.silentchaos512.gems.init.ModItemGroups;
 import net.silentchaos512.gems.lib.IGem;
 
 import javax.annotation.Nullable;

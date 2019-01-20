@@ -23,7 +23,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.config.GemsConfig;
 
 public class GuiSupercharger extends GuiContainer {
     private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MOD_ID, "textures/gui/chaosaltar.png");
@@ -35,21 +34,21 @@ public class GuiSupercharger extends GuiContainer {
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    public void render(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        super.render(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        if (GemsConfig.DEBUG_MODE) {
-            int y = 5;
-            for (String line : getDebugText().split("\n")) {
-                this.fontRenderer.drawStringWithShadow(line, 5, y, 0xFFFFFF);
-                y += 10;
-            }
-        }
+//        if (GemsConfig.DEBUG_MODE) {
+//            int y = 5;
+//            for (String line : getDebugText().split("\n")) {
+//                this.fontRenderer.drawStringWithShadow(line, 5, y, 0xFFFFFF);
+//                y += 10;
+//            }
+//        }
     }
 
     private String getDebugText() {
@@ -63,7 +62,7 @@ public class GuiSupercharger extends GuiContainer {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(TEXTURE);
         int xPos = (this.width - this.xSize) / 2;
         int yPos = (this.height - this.ySize) / 2;

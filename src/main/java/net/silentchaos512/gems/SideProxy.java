@@ -3,6 +3,7 @@ package net.silentchaos512.gems;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLModLoadingContext;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.init.*;
 
 class SideProxy {
@@ -17,6 +18,15 @@ class SideProxy {
         MinecraftForge.EVENT_BUS.addListener(ModPotions::registerAll);
         MinecraftForge.EVENT_BUS.addListener(ModSounds::registerAll);
         MinecraftForge.EVENT_BUS.addListener(ModTileEntities::registerAll);
+
+        ModLoot.init();
+
+        // Silent Gear support?
+        // TODO: Should this be converted to use IMC? Not sure that would actually work.
+        SGearProxy.detectSilentGear();
+        if (SGearProxy.isLoaded()) {
+            SGearMaterials.init();
+        }
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
@@ -31,6 +41,8 @@ class SideProxy {
     static class Client extends SideProxy {
         Client() {
             FMLModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+
+//            OBJLoader.INSTANCE.addDomain(SilentGems.MOD_ID);
         }
 
         private void clientSetup(FMLClientSetupEvent event) {

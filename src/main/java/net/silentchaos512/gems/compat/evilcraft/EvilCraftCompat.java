@@ -18,41 +18,34 @@
 
 package net.silentchaos512.gems.compat.evilcraft;
 
-import net.minecraft.item.ItemStack;
-import net.silentchaos512.gems.SilentGems;
-import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
-import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;
-
-import java.util.Random;
-
 public class EvilCraftCompat {
     public static void init() {
-        SilentGems.logHelper.info("Loading EvilCraft compatibility");
-
-        IBloodChestRepairActionRegistry reg = EvilCraft._instance.getRegistryManager().getRegistry(IBloodChestRepairActionRegistry.class);
-        reg.register(new DamageableItemRepairAction() {
-            @Override
-            public boolean isItemValidForSlot(ItemStack itemStack) {
-                return itemStack.getItem() instanceof ITool || itemStack.getItem() instanceof IArmor;
-            }
-
-            @Override
-            public boolean canRepair(ItemStack itemStack, int tick) {
-                return itemStack.isItemDamaged() &&
-                        (itemStack.getItem() instanceof ITool || itemStack.getItem() instanceof IArmor);
-            }
-
-            @Override
-            public float repair(ItemStack itemStack, Random random, boolean doAction, boolean isBulk) {
-                boolean wasBroken = ToolHelper.isBroken(itemStack);
-                float result = super.repair(itemStack, random, doAction, isBulk);
-                boolean isBroken = ToolHelper.isBroken(itemStack);
-
-                // If the item was broken before but isn't now, we need to restore its state
-                if (wasBroken != isBroken) ToolHelper.recalculateStats(itemStack);
-                return result;
-            }
-        });
+        // FIXME
+//        SilentGems.logHelper.info("Loading EvilCraft compatibility");
+//
+//        IBloodChestRepairActionRegistry reg = EvilCraft._instance.getRegistryManager().getRegistry(IBloodChestRepairActionRegistry.class);
+//        reg.register(new DamageableItemRepairAction() {
+//            @Override
+//            public boolean isItemValidForSlot(ItemStack itemStack) {
+//                return itemStack.getItem() instanceof ITool || itemStack.getItem() instanceof IArmor;
+//            }
+//
+//            @Override
+//            public boolean canRepair(ItemStack itemStack, int tick) {
+//                return itemStack.isItemDamaged() &&
+//                        (itemStack.getItem() instanceof ITool || itemStack.getItem() instanceof IArmor);
+//            }
+//
+//            @Override
+//            public float repair(ItemStack itemStack, Random random, boolean doAction, boolean isBulk) {
+//                boolean wasBroken = ToolHelper.isBroken(itemStack);
+//                float result = super.repair(itemStack, random, doAction, isBulk);
+//                boolean isBroken = ToolHelper.isBroken(itemStack);
+//
+//                // If the item was broken before but isn't now, we need to restore its state
+//                if (wasBroken != isBroken) ToolHelper.recalculateStats(itemStack);
+//                return result;
+//            }
+//        });
     }
 }

@@ -21,25 +21,19 @@ package net.silentchaos512.gems.client.gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.silentchaos512.gems.SilentGems;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.silentchaos512.gems.block.supercharger.ContainerSupercharger;
 import net.silentchaos512.gems.block.supercharger.GuiSupercharger;
 import net.silentchaos512.gems.block.supercharger.TileSupercharger;
 import net.silentchaos512.gems.block.urn.ContainerSoulUrn;
 import net.silentchaos512.gems.block.urn.GuiSoulUrn;
 import net.silentchaos512.gems.block.urn.TileSoulUrn;
-import net.silentchaos512.gems.inventory.ContainerBurnerPylon;
 import net.silentchaos512.gems.inventory.ContainerChaosAltar;
-import net.silentchaos512.gems.inventory.ContainerQuiver;
 import net.silentchaos512.gems.tile.TileChaosAltar;
-import net.silentchaos512.gems.tile.TileChaosPylon;
 
 import javax.annotation.Nullable;
 
@@ -50,48 +44,10 @@ public enum GuiTypes {
             return new ContainerChaosAltar(player.inventory, (TileChaosAltar) tile);
         }
 
-        @SideOnly(Side.CLIENT)
+        @OnlyIn(Dist.CLIENT)
         @Override
         GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
             return new GuiChaosAltar(player.inventory, (TileChaosAltar) tile);
-        }
-    },
-    BURNER_PYLON(1, TileChaosPylon.class) {
-        @Override
-        Container getContainer(TileEntity tile, EntityPlayer player, int subtype) {
-            return new ContainerBurnerPylon(player.inventory, (TileChaosPylon) tile);
-        }
-
-        @SideOnly(Side.CLIENT)
-        @Override
-        GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
-            return new GuiBurnerPylon(player.inventory, (TileChaosPylon) tile);
-        }
-    },
-    MATERIAL_GRADER(2, TileMaterialGrader.class) {
-        @Override
-        Container getContainer(TileEntity tile, EntityPlayer player, int subtype) {
-            return new ContainerMaterialGrader(player.inventory, (TileMaterialGrader) tile);
-        }
-
-        @SideOnly(Side.CLIENT)
-        @Override
-        GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
-            return new GuiMaterialGrader(player.inventory, (TileMaterialGrader) tile);
-        }
-    },
-    QUIVER(3, null) {
-        @Override
-        Container getContainer(TileEntity tile, EntityPlayer player, int subtype) {
-            EnumHand hand = subtype == 1 ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
-            ItemStack stack = player.getHeldItem(hand);
-            return new ContainerQuiver(stack, player.inventory, hand);
-        }
-
-        @SideOnly(Side.CLIENT)
-        @Override
-        GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
-            return new GuiQuiver((ContainerQuiver) getContainer(tile, player, subtype));
         }
     },
     SOUL_URN(4, TileSoulUrn.class) {
@@ -100,7 +56,7 @@ public enum GuiTypes {
             return new ContainerSoulUrn(player.inventory, (TileSoulUrn) tile);
         }
 
-        @SideOnly(Side.CLIENT)
+        @OnlyIn(Dist.CLIENT)
         @Override
         GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
             return new GuiSoulUrn(player.inventory, (TileSoulUrn) tile);
@@ -112,7 +68,7 @@ public enum GuiTypes {
             return new ContainerSupercharger(player.inventory, (TileSupercharger) tile);
         }
 
-        @SideOnly(Side.CLIENT)
+        @OnlyIn(Dist.CLIENT)
         @Override
         GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
             return new GuiSupercharger(player.inventory, (TileSupercharger) tile);
@@ -135,7 +91,7 @@ public enum GuiTypes {
      * @param pos The tile entity position
      */
     public void open(EntityPlayer player, World world, BlockPos pos) {
-        player.openGui(SilentGems.instance, this.id, world, pos.getX(), pos.getY(), pos.getZ());
+//        player.openGui(SilentGems.instance, this.id, world, pos.getX(), pos.getY(), pos.getZ());
     }
 
     /**
@@ -145,12 +101,12 @@ public enum GuiTypes {
      * @param subtype Subtype parameter, interpreted by the GuiTypes
      */
     public void open(EntityPlayer player, World world, int subtype) {
-        player.openGui(SilentGems.instance, this.id, world, subtype, 0, 0);
+//        player.openGui(SilentGems.instance, this.id, world, subtype, 0, 0);
     }
 
     abstract Container getContainer(TileEntity tile, EntityPlayer player, int subtype);
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     abstract GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype);
 
     boolean tileEntityMatches(@Nullable TileEntity tile) {

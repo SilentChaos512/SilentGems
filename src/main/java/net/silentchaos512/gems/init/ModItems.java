@@ -8,7 +8,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.*;
 import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.gems.lib.ModItemGroups;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,6 +29,8 @@ public final class ModItems {
 
         registerGemItems(reg, Gems::getItem, Gems::getName);
         registerGemItems(reg, Gems::getShard, gem -> gem.getName() + "_shard");
+
+        register(reg, "soul_gem", ItemSoulGem.INSTANCE.get());
 
         register(reg, "blank_enchantment_token", new Item(new Item.Builder().group(ModItemGroups.UTILITY)));
         register(reg, "enchantment_token", EnchantmentToken.INSTANCE);

@@ -11,7 +11,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.block.Glowrose;
 import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.gems.lib.ModItemGroups;
+import net.silentchaos512.gems.init.ModItemGroups;
 
 public class GlowroseFertilizer extends Item {
     private static final int SPREAD = 3;

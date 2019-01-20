@@ -72,6 +72,7 @@ dependencies {
     apt "org.projectlombok:lombok:1.18.0"
 
 //    compile "net.silentchaos512:silent-utils:0.1"
+    compile "net.silentchaos512:silent-lib:3.1.0"
 }
 
 processResources {

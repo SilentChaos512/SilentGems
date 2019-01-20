@@ -19,7 +19,7 @@
 package net.silentchaos512.gems.compat.gear;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.ModList;
 import net.silentchaos512.gems.SilentGems;
 
 public final class SGearProxy {
@@ -30,9 +30,10 @@ public final class SGearProxy {
     }
 
     public static void detectSilentGear() {
-        modLoaded = Loader.isModLoaded("silentgear");
-        if (modLoaded)
-            SilentGems.logHelper.info("Detected Silent Gear!");
+        modLoaded = ModList.get().isLoaded("silentgear");
+        if (modLoaded) {
+            SilentGems.LOGGER.info("Detected Silent Gear!");
+        }
     }
 
     public static boolean isLoaded() {

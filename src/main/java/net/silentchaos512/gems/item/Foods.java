@@ -13,14 +13,21 @@ import java.util.List;
 import java.util.Locale;
 
 public enum Foods {
-    POTATO_ON_A_STICK(FoodSG.Builder.create(8, 0.8f, false)),
-    SUGAR_COOKIE(FoodSG.Builder.create(2, 0.4f, false)),
-    SECRET_DONUT(FoodSG.Builder.create(6, 0.8f, false)),
-    UNCOOKED_MEATY_STEW(FoodSG.Builder.create(4, 0.6f, false)),
-    MEATY_STEW(FoodSG.Builder.create(12, 1.6f, false)),
-    CANDY_CANE(FoodSG.Builder.create(2, 0.2f, false)
+    POTATO_ON_A_STICK(FoodSG.Builder
+            .create(8, 0.8f, false)),
+    SUGAR_COOKIE(FoodSG.Builder
+            .create(2, 0.4f, false)),
+    SECRET_DONUT(FoodSG.Builder
+            .create(6, 0.8f, false)),
+    UNCOOKED_MEATY_STEW(FoodSG.Builder
+            .create(4, 0.6f, false)),
+    MEATY_STEW(FoodSG.Builder
+            .create(12, 1.6f, false)),
+    CANDY_CANE(FoodSG.Builder
+            .create(2, 0.2f, false)
             .setUseDuration(16)),
-    COFFEE_CUP(FoodSG.Builder.create(1, 0.2f, false)
+    COFFEE_CUP(FoodSG.Builder
+            .create(1, 0.2f, false)
             .setUseAction(EnumAction.DRINK));
 
     private final FoodSG item;

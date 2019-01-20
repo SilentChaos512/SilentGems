@@ -19,29 +19,39 @@
 package net.silentchaos512.gems.init;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.lib.registry.SRegistry;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Locale;
 
-public class ModSounds {
-    private static final List<SoundEvent> ALL = new ArrayList<>();
+public enum ModSounds {
+    SOUL_URN_LID,
+    SOUL_URN_OPEN;
 
-    public static final SoundEvent SOUL_URN_LID = create("soul_urn_lid");
-    public static final SoundEvent SOUL_URN_OPEN = create("soul_urn_open");
+    final LazyLoadBase<SoundEvent> sound;
 
-    public static void registerAll(SRegistry reg) {
-        reg.registerSoundEvent(SOUL_URN_LID, "soul_urn_lid");
-        reg.registerSoundEvent(SOUL_URN_OPEN, "soul_urn_open");
+    ModSounds() {
+        sound = new LazyLoadBase<>(() -> create(name().toLowerCase(Locale.ROOT)));
+    }
+
+    public SoundEvent get() {
+        return sound.getValue();
+    }
+
+    public static void registerAll(IForgeRegistry<SoundEvent> reg) {
+        for (ModSounds sound : values()) {
+            reg.register(sound.get());
+        }
     }
 
     private static SoundEvent create(String soundId) {
-        SoundEvent soundEvent = new SoundEvent(new ResourceLocation(SilentGems.MOD_ID, soundId));
-        ALL.add(soundEvent);
+        ResourceLocation name = new ResourceLocation(SilentGems.MOD_ID, soundId);
+        SoundEvent soundEvent = new SoundEvent(name);
+        soundEvent.setRegistryName(name);
         return soundEvent;
     }
 
@@ -49,8 +59,8 @@ public class ModSounds {
         // Hotswapping code before certain resources are used causes them to not load. In the case
         // of SoundEvents, this causes the game to freeze. Obviously not an issue outside of an
         // IDE, but playing all the sounds here should ensure I don't crash more than necessary...
-        for (SoundEvent sound : ALL) {
-            player.world.playSound(null, player.getPosition(), sound, SoundCategory.PLAYERS, 0.05f, 1f);
+        for (ModSounds sound : values()) {
+            player.world.playSound(null, player.getPosition(), sound.get(), SoundCategory.PLAYERS, 0.05f, 1f);
         }
     }
 }

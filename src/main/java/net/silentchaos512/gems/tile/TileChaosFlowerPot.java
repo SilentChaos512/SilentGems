@@ -162,7 +162,7 @@ public class TileChaosFlowerPot extends TileEntity implements ITickable {
 
     @Deprecated
     public int getFlowerId() {
-        return flowerId;
+        return -1;
     }
 
     @Nonnull

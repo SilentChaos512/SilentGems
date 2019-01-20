@@ -33,25 +33,25 @@ public class ContainerSupercharger extends Container {
     public ContainerSupercharger(InventoryPlayer playerInventory, TileSupercharger tileEntity) {
         this.tileEntity = tileEntity;
 
-        this.addSlotToContainer(new Slot(this.tileEntity, 0, 56, 35));
-        this.addSlotToContainer(new Slot(tileEntity, 1, 83, 54));
-        this.addSlotToContainer(new SlotOutputOnly(this.tileEntity, 2, 111, 35));
+        this.addSlot(new Slot(this.tileEntity, 0, 56, 35));
+        this.addSlot(new Slot(tileEntity, 1, 83, 54));
+        this.addSlot(new SlotOutputOnly(this.tileEntity, 2, 111, 35));
 
         int i;
         for (i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
 
         for (i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new Slot(playerInventory, i, 8 + i * 18, 142));
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
 
     @Override
     public boolean canInteractWith(EntityPlayer playerIn) {
-        return this.tileEntity.isUsable(playerIn);
+        return this.tileEntity.isUsableByPlayer(playerIn);
     }
 
     @Nonnull

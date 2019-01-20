@@ -7,16 +7,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.BlockFluffyPuffPlant;
+import net.silentchaos512.gems.block.FluffyPuffPlant;
 import net.silentchaos512.gems.block.GemLamp;
 import net.silentchaos512.gems.block.HardenedRock;
 import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.gems.lib.ModItemGroups;
 
 import java.util.function.Function;
 
 public final class ModBlocks {
-    public static BlockFluffyPuffPlant fluffyPuffPlant;
+    public static FluffyPuffPlant fluffyPuffPlant;
 
     private ModBlocks() {}
 
@@ -26,6 +25,7 @@ public final class ModBlocks {
         registerGemBlocks(reg, Gems::getOre, gem -> gem.getName() + "_ore");
         registerGemBlocks(reg, Gems::getBlock, gem -> gem.getName() + "_block");
         registerGemBlocks(reg, Gems::getBricks, gem -> gem.getName() + "_bricks");
+        registerGemBlocks(reg, Gems::getGlass, gem -> gem.getName() + "_glass");
         for (GemLamp.State state : GemLamp.State.values()) {
             registerGemBlocks(reg, gem -> gem.getLamp(state), gem -> GemLamp.nameFor(gem, state));
         }
@@ -41,7 +41,7 @@ public final class ModBlocks {
 
 //        soulUrn = register(reg, "soul_urn", new BlockSoulUrn(), new BlockSoulUrn.ItemBlockSoulUrn(soulUrn));
 
-        fluffyPuffPlant = register(reg, "fluffy_puff_plant", new BlockFluffyPuffPlant());
+        fluffyPuffPlant = register(reg, "fluffy_puff_plant", new FluffyPuffPlant());
     }
 
     private static <T extends Block> T register(IForgeRegistry<Block> reg, String name, T block) {

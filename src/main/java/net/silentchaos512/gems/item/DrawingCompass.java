@@ -12,8 +12,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.lib.EnumModParticles;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -186,8 +184,8 @@ public class DrawingCompass extends Item {
     }
 
     private void particle(EntityPlayer player, World world, int color, double x, double y, double z) {
-        if (player.getDistanceSq(x, y, z) < 2048) {
-            SilentGems.proxy.spawnParticles(EnumModParticles.DRAWING_COMPASS, color, world, x, y, z, 0, 0, 0);
-        }
+//        if (player.getDistanceSq(x, y, z) < 2048) {
+//            SilentGems.proxy.spawnParticles(EnumModParticles.DRAWING_COMPASS, color, world, x, y, z, 0, 0, 0);
+//        }
     }
 }

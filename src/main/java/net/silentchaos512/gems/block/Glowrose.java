@@ -26,7 +26,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Gems;
 
 public class Glowrose extends BlockBush {
@@ -35,7 +34,7 @@ public class Glowrose extends BlockBush {
     public Glowrose(Gems gem) {
         super(Builder.create(Material.PLANTS)
                 .sound(SoundType.PLANT)
-                .lightValue(GemsConfig.GLOW_ROSE_LIGHT_LEVEL));
+                .lightValue(10));
         this.gem = gem;
     }
 

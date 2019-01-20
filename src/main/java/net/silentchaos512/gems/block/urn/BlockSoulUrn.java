@@ -21,14 +21,10 @@ package net.silentchaos512.gems.block.urn;
 import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,39 +37,29 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModSounds;
 import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.gems.lib.ModItemGroups;
+import net.silentchaos512.gems.init.ModItemGroups;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.gems.lib.urn.UrnHelper;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
-import net.silentchaos512.lib.block.IColoredBlock;
-import net.silentchaos512.lib.block.ITileEntityBlock;
-import net.silentchaos512.lib.registry.IAddRecipes;
-import net.silentchaos512.lib.registry.ICustomModel;
-import net.silentchaos512.lib.util.DyeHelper;
-import net.silentchaos512.lib.util.MathUtils;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class BlockSoulUrn extends BlockContainer implements IColoredBlock {
+public class BlockSoulUrn extends BlockContainer {
     public enum LidState implements IStringSerializable {
         CLOSED, OPEN, NO_LID;
 
@@ -86,9 +72,9 @@ public class BlockSoulUrn extends BlockContainer implements IColoredBlock {
             return name().toLowerCase(Locale.ROOT);
         }
     }
-    private static final AxisAlignedBB BOUNDING_BOX_CLOSED = MathUtils.boundingBoxByPixels(1, 0, 1, 15, 15, 15);
+//    private static final AxisAlignedBB BOUNDING_BOX_CLOSED = MathUtils.boundingBoxByPixels(1, 0, 1, 15, 15, 15);
+//    private static final AxisAlignedBB BOUNDING_BOX_OPEN = MathUtils.boundingBoxByPixels(1, 0, 1, 15, 14, 15);
 
-    private static final AxisAlignedBB BOUNDING_BOX_OPEN = MathUtils.boundingBoxByPixels(1, 0, 1, 15, 14, 15);
     static final EnumProperty<LidState> PROPERTY_LID = EnumProperty.create("lid", LidState.class);
 
     private static final EnumProperty<EnumFacing> PROPERTY_FACING = DirectionProperty.create("facing", EnumFacing.Plane.HORIZONTAL);
@@ -134,7 +120,7 @@ public class BlockSoulUrn extends BlockContainer implements IColoredBlock {
             }
         } else {
             ITextComponent pressCtrl = new TextComponentTranslation("misc.silentgems.pressCtrl")
-                    .applyTextStyle(TextFormatting.DARK_GRAY)
+                    .applyTextStyle(TextFormatting.DARK_GRAY);
             tooltip.add(translate("upgrades", pressCtrl).applyTextStyle(TextFormatting.YELLOW));
         }
     }
@@ -165,14 +151,14 @@ public class BlockSoulUrn extends BlockContainer implements IColoredBlock {
             if (lid != LidState.NO_LID && (player.isSneaking() || !lid.isOpen())) {
                 // Toggle lid state when sneaking or if closed
                 worldIn.setBlockState(pos, toggleLid(state), 2);
-                worldIn.playSound(null, pos, ModSounds.SOUL_URN_LID, SoundCategory.BLOCKS, 0.6f,
+                worldIn.playSound(null, pos, ModSounds.SOUL_URN_LID.get(), SoundCategory.BLOCKS, 0.6f,
                         (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
             } else {
                 // Open inventory if lid is open (or there is no lid)
                 TileEntity tile = worldIn.getTileEntity(pos);
                 if (tile instanceof TileSoulUrn) {
                     GuiTypes.SOUL_URN.open(player, worldIn, pos);
-                    worldIn.playSound(null, pos, ModSounds.SOUL_URN_OPEN, SoundCategory.BLOCKS, 0.6f,
+                    worldIn.playSound(null, pos, ModSounds.SOUL_URN_OPEN.get(), SoundCategory.BLOCKS, 0.6f,
                             (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
                 }
             }
@@ -266,7 +252,6 @@ public class BlockSoulUrn extends BlockContainer implements IColoredBlock {
         return stack;
     }
 
-    @Override
     public IBlockColor getColorHandler() {
         return (state, worldIn, pos, tintIndex) -> {
             if (tintIndex == 0) {
@@ -294,7 +279,6 @@ public class BlockSoulUrn extends BlockContainer implements IColoredBlock {
         };
     }
 
-    @Override
     public IItemColor getItemColorHandler() {
         return (stack, tintIndex) -> {
             if (tintIndex == 0) {
@@ -315,36 +299,36 @@ public class BlockSoulUrn extends BlockContainer implements IColoredBlock {
         return EnumBlockRenderType.MODEL;
     }
 
-    @Nullable
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-        return blockState.get(PROPERTY_LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
-    }
-
-    @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return state.getValue(PROPERTY_LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
-    }
+//    @Nullable
+//    @Override
+//    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+//        return blockState.get(PROPERTY_LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
+//    }
+//
+//    @Override
+//    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+//        return state.getValue(PROPERTY_LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
+//    }
 
     @Override
     public boolean causesSuffocation(IBlockState state) {
         return false;
     }
 
-    @Override
-    public boolean isTranslucent(IBlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isFullBlock(IBlockState state) {
-        return false;
-    }
+//    @Override
+//    public boolean isTranslucent(IBlockState state) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isOpaqueCube(IBlockState state) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isFullBlock(IBlockState state) {
+//        return false;
+//    }
 
     @SuppressWarnings("deprecation")
     @Override
@@ -442,10 +426,10 @@ public class BlockSoulUrn extends BlockContainer implements IColoredBlock {
             items.addAll(SAMPLE_SUB_ITEMS);
         }
 
-        @Override
-        public String getTranslationKey(ItemStack stack) {
-            return super.getTranslationKey(stack)
-                    + (stack.getItemDamage() >> 2 == LidState.NO_LID.ordinal() ? "_no_lid" : "");
-        }
+//        @Override
+//        public String getTranslationKey(ItemStack stack) {
+//            return super.getTranslationKey(stack)
+//                    + (stack.getItemDamage() >> 2 == LidState.NO_LID.ordinal() ? "_no_lid" : "");
+//        }
     }
 }
