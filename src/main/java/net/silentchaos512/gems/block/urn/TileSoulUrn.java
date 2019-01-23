@@ -18,13 +18,8 @@
 
 package net.silentchaos512.gems.block.urn;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockShulkerBox;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -41,13 +36,10 @@ import net.minecraft.tileentity.TileEntityLockableLoot;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.init.ModTileEntities;
 import net.silentchaos512.gems.item.SoulUrnUpgrades;
 import net.silentchaos512.gems.lib.Gems;
@@ -57,7 +49,6 @@ import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 import javax.annotation.Nullable;
 import java.util.List;
 
-@Getter
 public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, ISidedInventory, IHopper {
     private static final int INVENTORY_ROWS_BASE = 2;
     private static final int INVENTORY_ROWS_UPGRADE_1 = 4;
@@ -65,16 +56,11 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
 
     private NonNullList<ItemStack> items;
     private NonNullList<UrnUpgrade> upgrades = NonNullList.create();
-    @Setter
     private int color;
-    @Setter
-    @Nullable
     private Gems gem = null;
-    @Setter
     private boolean destroyedByCreativePlayer;
     private boolean cleared;
 
-    @Getter(value = AccessLevel.NONE)
     private int ticksExisted;
 
     @SuppressWarnings("WeakerAccess")
@@ -102,6 +88,22 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         for (int i = 0; i < newList.size() && i < this.items.size(); ++i)
             newList.set(i, this.items.get(i));
         this.items = newList;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public Gems getGem() {
+        return gem;
+    }
+
+    public void setDestroyedByCreativePlayer(boolean destroyedByCreativePlayer) {
+        this.destroyedByCreativePlayer = destroyedByCreativePlayer;
+    }
+
+    public boolean isCleared() {
+        return cleared;
     }
 
     @Override
@@ -200,6 +202,11 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         return SilentGems.RESOURCE_PREFIX + "soul_urn";
     }
 
+    @Override
+    public ITextComponent getName() {
+        return null;
+    }
+
     @Nullable
     @Override
     public ITextComponent getCustomName() {
@@ -276,15 +283,25 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         super.clear();
     }
 
-    public boolean shouldDrop() {
-        return !this.isDestroyedByCreativePlayer() || !this.isEmpty() || this.hasCustomName() || this.lootTable != null;
+    @Override
+    protected NonNullList<ItemStack> getItems() {
+        return items;
     }
 
     @Override
-    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-        // Prevents inventory loss when opening/closing lid or rotating
-        return oldState.getBlock() != newState.getBlock();
+    protected void setItems(NonNullList<ItemStack> itemsIn) {
+        // TODO
     }
+
+    public boolean shouldDrop() {
+        return !this.destroyedByCreativePlayer || !this.isEmpty() || this.hasCustomName() || this.lootTable != null;
+    }
+
+//    @Override
+//    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+//        // Prevents inventory loss when opening/closing lid or rotating
+//        return oldState.getBlock() != newState.getBlock();
+//    }
 
     @Nullable
     @Override
@@ -384,11 +401,11 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
                 }
             }
         } else {
-            for (EntityItem entityitem : TileEntityHopper.getCaptureItems(this.getWorld(), this.getXPos(), this.getYPos(), this.getZPos())) {
-                if (TileEntityHopper.putDropInInventoryAllSlots(null, this, entityitem)) {
-                    return true;
-                }
-            }
+//            for (EntityItem entityitem : TileEntityHopper.getCaptureItems(this.getWorld(), this.getXPos(), this.getYPos(), this.getZPos())) {
+//                if (TileEntityHopper.putDropInInventoryAllSlots(null, this, entityitem)) {
+//                    return true;
+//                }
+//            }
         }
 
         return false;
@@ -441,8 +458,6 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
 
     //endregion
 
-    @Getter
-    @Setter
     public static class SoulUrnState {
         private final TileSoulUrn tileEntity;
         private final BlockSoulUrn.LidState lidState;
@@ -451,6 +466,22 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         private SoulUrnState(TileSoulUrn tile, BlockSoulUrn.LidState lidState) {
             this.tileEntity = tile;
             this.lidState = lidState;
+        }
+
+        public TileSoulUrn getTileEntity() {
+            return tileEntity;
+        }
+
+        public BlockSoulUrn.LidState getLidState() {
+            return lidState;
+        }
+
+        public boolean getItemsAbsorbed() {
+            return itemsAbsorbed;
+        }
+
+        public void setItemsAbsorbed(boolean value) {
+            itemsAbsorbed = value;
         }
     }
 }

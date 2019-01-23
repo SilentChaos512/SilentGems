@@ -88,7 +88,7 @@ public class GemLamp extends Block {
     }
 
     public static String nameFor(Gems gem, State lampState) {
-        return gem.getName() + lampState.suffix;
+        return gem.getName() + "_lamp" + lampState.suffix;
     }
 
     private void checkAndUpdateState(World world, BlockPos pos) {

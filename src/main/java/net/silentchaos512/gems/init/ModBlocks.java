@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.FluffyPuffPlant;
@@ -20,7 +21,9 @@ public final class ModBlocks {
     private ModBlocks() {}
 
     public static void registerAll(RegistryEvent.Register<Block> event) {
-        IForgeRegistry<Block> reg = event.getRegistry();
+        if (event.getRegistry().getRegistrySuperType() != Block.class) return;
+
+        IForgeRegistry<Block> reg = ForgeRegistries.BLOCKS;
 
         registerGemBlocks(reg, Gems::getOre, gem -> gem.getName() + "_ore");
         registerGemBlocks(reg, Gems::getBlock, gem -> gem.getName() + "_block");

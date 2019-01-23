@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.*;
@@ -23,14 +24,16 @@ public final class ModItems {
     private ModItems() {}
 
     public static void registerAll(RegistryEvent.Register<Item> event) {
-        IForgeRegistry<Item> reg = event.getRegistry();
+        if (event.getRegistry().getRegistrySuperType() != Item.class) return;
+
+        IForgeRegistry<Item> reg = ForgeRegistries.ITEMS;
 
         blocksToRegister.forEach(reg::register);
 
         registerGemItems(reg, Gems::getItem, Gems::getName);
         registerGemItems(reg, Gems::getShard, gem -> gem.getName() + "_shard");
 
-        register(reg, "soul_gem", ItemSoulGem.INSTANCE.get());
+//        register(reg, "soul_gem", ItemSoulGem.INSTANCE.get());
 
         register(reg, "blank_enchantment_token", new Item(new Item.Builder().group(ModItemGroups.UTILITY)));
         register(reg, "enchantment_token", EnchantmentToken.INSTANCE);

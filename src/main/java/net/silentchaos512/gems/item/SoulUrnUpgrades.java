@@ -18,7 +18,6 @@
 
 package net.silentchaos512.gems.item;
 
-import lombok.Getter;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
@@ -38,7 +37,6 @@ public enum SoulUrnUpgrades {
     ;
 
     private final UpgradeItem item;
-    @Getter
     private final UrnUpgrade.Serializer<? extends UrnUpgrade> serializer;
 
     SoulUrnUpgrades(UrnUpgrade.Serializer<? extends UrnUpgrade> serializer) {
@@ -49,6 +47,10 @@ public enum SoulUrnUpgrades {
     @Nonnull
     public UpgradeItem getItem() {
         return this.item;
+    }
+
+    public UrnUpgrade.Serializer<? extends UrnUpgrade> getSerializer() {
+        return serializer;
     }
 
     private static UrnUpgrade.Serializer<UrnUpgrade> basicSerializer(String name, Supplier<UrnUpgrade> constructor) {

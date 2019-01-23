@@ -4,6 +4,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.GameData;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.supercharger.TileSupercharger;
@@ -29,7 +31,10 @@ public enum ModTileEntities {
     }
 
     public static void registerAll(RegistryEvent.Register<TileEntityType<?>> event) {
-        IForgeRegistry<TileEntityType<?>> reg = event.getRegistry();
+        if (!event.getName().equals(GameData.TILEENTITIES)) return;
+
+        IForgeRegistry<TileEntityType<?>> reg = ForgeRegistries.TILE_ENTITIES;
+
         for (ModTileEntities tileEnum : values()) {
             register(reg, tileEnum.name().toLowerCase(Locale.ROOT), tileEnum.type());
         }

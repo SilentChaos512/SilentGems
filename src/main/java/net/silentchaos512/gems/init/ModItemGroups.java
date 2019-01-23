@@ -10,7 +10,7 @@ import net.silentchaos512.gems.lib.Gems;
 import java.util.function.Supplier;
 
 public class ModItemGroups {
-    public static final ItemGroup BLOCKS = create("blocks", () -> Gems.selectRandom().getOre());
+    public static final ItemGroup BLOCKS = create("blocks", () -> Gems.selectRandom().getBlock());
     public static final ItemGroup MATERIALS = create("materials", () -> Gems.selectRandom().getItem());
     public static final ItemGroup UTILITY = create("utility", () -> Items.BAKED_POTATO /*ModItems.drawingCompass*/);
 

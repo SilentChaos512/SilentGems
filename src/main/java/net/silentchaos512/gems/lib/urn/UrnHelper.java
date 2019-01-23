@@ -54,14 +54,17 @@ public final class UrnHelper {
         stack.getOrCreateChildTag(UrnConst.NBT_ROOT).setString(UrnConst.NBT_GEM, gem.getName());
     }
 
-    // TODO: change to hasLid?
-    public static boolean isLidless(ItemStack stack) {
+    public static boolean hasLid(ItemStack stack) {
 //        return stack.getItemDamage() != 0;
         return false;
     }
 
-    public static void setLidless(ItemStack stack, boolean lidless) {
-//        stack.setItemDamage(lidless ? BlockSoulUrn.LidState.NO_LID.ordinal() << 2 : 0);
+    public static void setHasLid(ItemStack stack, boolean lidded) {
+        // TODO
+    }
+
+    public static void toggleHasLid(ItemStack stack) {
+        setHasLid(stack, !hasLid(stack));
     }
 
 //    public static StackList getContainedItems(ItemStack urn) {

@@ -3,6 +3,7 @@ package net.silentchaos512.gems.init;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.potion.PotionFreezing;
@@ -13,7 +14,9 @@ public class ModPotions {
     public static PotionShocking shocking;
 
     public static void registerAll(RegistryEvent.Register<Potion> event) {
-        IForgeRegistry<Potion> reg = event.getRegistry();
+        if (event.getRegistry().getRegistrySuperType() != Potion.class) return;
+
+        IForgeRegistry<Potion> reg = ForgeRegistries.POTIONS;
 
         freezing = register(reg, "freezing", new PotionFreezing());
         shocking = register(reg, "shocking", new PotionShocking());

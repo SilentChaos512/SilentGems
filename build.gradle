@@ -57,21 +57,22 @@ repositories {
     jcenter()
     mavenLocal()
 
-    maven {
-        url  "https://dl.bintray.com/silentchaos512/${modName}"
-    }
+//    maven {
+//        url  "https://dl.bintray.com/silentchaos512/${modName}"
+//    }
 }
 
 dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge.test:forge:1.13-24.0.83-1.13-pre'
+    minecraft 'net.minecraftforge.test:forge:1.13-24.0.94-1.13-pre'
 
     compile "org.projectlombok:lombok:1.18.0"
     apt "org.projectlombok:lombok:1.18.0"
 
-//    compile "net.silentchaos512:silent-utils:0.1"
+    // Silent Lib
+    // TODO: This currently pulls from Maven local, need to publish to bintray
     compile "net.silentchaos512:silent-lib:3.1.0"
 }
 

@@ -23,6 +23,8 @@ import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
 
@@ -42,7 +44,11 @@ public enum ModSounds {
         return sound.getValue();
     }
 
-    public static void registerAll(IForgeRegistry<SoundEvent> reg) {
+    public static void registerAll(RegistryEvent.Register<SoundEvent> event) {
+        if (event.getRegistry().getRegistrySuperType() != SoundEvent.class) return;
+
+        IForgeRegistry<SoundEvent> reg = ForgeRegistries.SOUND_EVENTS;
+
         for (ModSounds sound : values()) {
             reg.register(sound.get());
         }

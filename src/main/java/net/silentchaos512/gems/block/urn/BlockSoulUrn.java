@@ -61,10 +61,25 @@ import java.util.Locale;
 
 public class BlockSoulUrn extends BlockContainer {
     public enum LidState implements IStringSerializable {
-        CLOSED, OPEN, NO_LID;
+        /**
+         * Lidded, lid closed
+         */
+        CLOSED,
+        /**
+         * Lidded, lid open
+         */
+        OPEN,
+        /**
+         * Lidless (always open)
+         */
+        NO_LID;
 
         public boolean isOpen() {
             return this == OPEN || this == NO_LID;
+        }
+
+        public boolean hasLid() {
+            return this != NO_LID;
         }
 
         @Override
@@ -178,7 +193,7 @@ public class BlockSoulUrn extends BlockContainer {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         EnumFacing side = placer.getHorizontalFacing().getOpposite();
         IBlockState newState = state.with(PROPERTY_FACING, side)
-                .with(PROPERTY_LID, UrnHelper.isLidless(stack) ? LidState.NO_LID : LidState.CLOSED);
+                .with(PROPERTY_LID, UrnHelper.hasLid(stack) ? LidState.CLOSED : LidState.NO_LID);
 
         worldIn.setBlockState(pos, newState, 2);
 
@@ -205,9 +220,7 @@ public class BlockSoulUrn extends BlockContainer {
 
             if (!tileSoulUrn.isCleared() && tileSoulUrn.shouldDrop()) {
                 ItemStack stack = new ItemStack(this);
-                if (state.get(PROPERTY_LID) == LidState.NO_LID) {
-                    UrnHelper.setLidless(stack, true);
-                }
+                UrnHelper.setHasLid(stack, state.get(PROPERTY_LID).hasLid());
 
                 NBTTagCompound compound = new NBTTagCompound();
                 NBTTagCompound compound1 = new NBTTagCompound();

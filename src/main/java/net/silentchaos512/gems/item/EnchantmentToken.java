@@ -28,8 +28,6 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public final class EnchantmentToken extends Item {
-    public static final EnchantmentToken INSTANCE = new EnchantmentToken();
-
     private static final String NBT_ENCHANTMENTS = "TokenEnchantments";
     /*
      * Model keys
@@ -47,6 +45,8 @@ public final class EnchantmentToken extends Item {
     private static final Map<String, Integer> modelMap = new HashMap<>();
     //    private static final Map<Enchantment, String> recipeMap = new HashMap<>();
     private static final Map<Enchantment, Integer> colorMap = new HashMap<>();
+
+    public static final EnchantmentToken INSTANCE = new EnchantmentToken();
 
     private EnchantmentToken() {
         super(new Builder().group(ModItemGroups.UTILITY));

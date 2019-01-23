@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
@@ -75,19 +76,19 @@ public enum Gems implements IStringSerializable {
     final String[] extraOreKeys;
 
     // Blocks
-    final GemOre ore;
-    final GemBlock block;
-    final GemBricks bricks;
-    final GemGlass glass;
-    final GemLamp lampUnlit;
-    final GemLamp lampLit;
-    final GemLamp lampInvertedLit;
-    final GemLamp lampInvertedUnlit;
-    final Glowrose glowrose;
+    final LazyLoadBase<GemOre> ore;
+    final LazyLoadBase<GemBlock> block;
+    final LazyLoadBase<GemBricks> bricks;
+    final LazyLoadBase<GemGlass> glass;
+    final LazyLoadBase<GemLamp> lampUnlit;
+    final LazyLoadBase<GemLamp> lampLit;
+    final LazyLoadBase<GemLamp> lampInvertedLit;
+    final LazyLoadBase<GemLamp> lampInvertedUnlit;
+    final LazyLoadBase<Glowrose> glowrose;
 
     // Items
-    final GemItem item;
-    final GemShard shard;
+    final LazyLoadBase<GemItem> item;
+    final LazyLoadBase<GemShard> shard;
 
     // Tags
     final Tag<Item> itemTag;
@@ -98,20 +99,20 @@ public enum Gems implements IStringSerializable {
         this.color = color;
         this.extraOreKeys = extraOreKeys; // FIXME
 
-        this.ore = new GemOre(this);
-        this.block = new GemBlock(this);
-        this.bricks = new GemBricks(this);
-        this.glass = new GemGlass(this);
-        this.lampUnlit = new GemLamp(this, GemLamp.State.UNLIT);
-        this.lampLit = new GemLamp(this, GemLamp.State.LIT);
-        this.lampInvertedLit = new GemLamp(this, GemLamp.State.INVERTED_LIT);
-        this.lampInvertedUnlit = new GemLamp(this, GemLamp.State.INVERTED_UNLIT);
-        glowrose = new Glowrose(this);
+        this.ore = new LazyLoadBase<>(() -> new GemOre(this));
+        this.block = new LazyLoadBase<>(() -> new GemBlock(this));
+        this.bricks = new LazyLoadBase<>(() -> new GemBricks(this));
+        this.glass = new LazyLoadBase<>(() -> new GemGlass(this));
+        this.lampUnlit = new LazyLoadBase<>(() -> new GemLamp(this, GemLamp.State.UNLIT));
+        this.lampLit = new LazyLoadBase<>(() -> new GemLamp(this, GemLamp.State.LIT));
+        this.lampInvertedLit = new LazyLoadBase<>(() -> new GemLamp(this, GemLamp.State.INVERTED_LIT));
+        this.lampInvertedUnlit = new LazyLoadBase<>(() -> new GemLamp(this, GemLamp.State.INVERTED_UNLIT));
+        this.glowrose = new LazyLoadBase<>(() -> new Glowrose(this));
 
-        this.item = new GemItem(this);
-        this.shard = new GemShard(this);
+        this.item = new LazyLoadBase<>(() -> new GemItem(this));
+        this.shard = new LazyLoadBase<>(() -> new GemShard(this));
 
-        this.itemTag = new ItemTags.Wrapper(new ResourceLocation(SilentGems.MOD_ID, this.name));
+        this.itemTag = new ItemTags.Wrapper(new ResourceLocation(SilentGems.MOD_ID, this.getName()));
     }
 
     /**
@@ -122,24 +123,49 @@ public enum Gems implements IStringSerializable {
         return name().toLowerCase(Locale.ROOT);
     }
 
-    /**
-     * @return A localization-friendly version of the name, capital case with no spaces or
-     * underscores.
-     */
-    @Deprecated // TODO Is this needed?
-    public String getGemName() {
-        return name;
-    }
-
     public int getColor() {
         return color;
     }
 
+    /**
+     * Gets the gem associated with the item. Also checks item tags. See {@link #from(ItemStack,
+     * boolean)}.
+     *
+     * @param stack The item
+     * @return The gem, or null if it cannot be determined
+     */
     @Nullable
-    public static Gems fromStack(ItemStack stack) {
-        if (!stack.isEmpty() && stack.getItem() instanceof IGem) {
-            return ((IGem) stack.getItem()).getGem();
+    public static Gems from(ItemStack stack) {
+        return from(stack, true);
+    }
+
+    /**
+     * Gets the gem associated with the item.
+     *
+     * @param stack    The item
+     * @param matchTag Should we also match item tags?
+     * @return The gem, or null if it cannot be determined
+     */
+    @Nullable
+    public static Gems from(ItemStack stack, boolean matchTag) {
+        if (!stack.isEmpty()) {
+            Item item = stack.getItem();
+
+            // Gems and shards, maybe others in the future?
+            if (item instanceof IGem) {
+                return ((IGem) item).getGem();
+            }
+
+            // Match item tag?
+            if (matchTag) {
+                for (Gems gem : values()) {
+                    if (gem.itemTag.contains(item)) {
+                        return gem;
+                    }
+                }
+            }
         }
+
         return null;
     }
 
@@ -159,22 +185,22 @@ public enum Gems implements IStringSerializable {
      * @return The gem block.
      */
     public GemBlock getBlock() {
-        return block;
+        return block.getValue();
     }
 
     public GemBricks getBricks() {
-        return bricks;
+        return bricks.getValue();
     }
 
     public GemGlass getGlass() {
-        return glass;
+        return glass.getValue();
     }
 
     public GemLamp getLamp(GemLamp.State state) {
-        if (state == GemLamp.State.UNLIT) return lampUnlit;
-        if (state == GemLamp.State.LIT) return lampLit;
-        if (state == GemLamp.State.INVERTED_LIT) return lampInvertedLit;
-        if (state == GemLamp.State.INVERTED_UNLIT) return lampInvertedUnlit;
+        if (state == GemLamp.State.UNLIT) return lampUnlit.getValue();
+        if (state == GemLamp.State.LIT) return lampLit.getValue();
+        if (state == GemLamp.State.INVERTED_LIT) return lampInvertedLit.getValue();
+        if (state == GemLamp.State.INVERTED_UNLIT) return lampInvertedUnlit.getValue();
         throw new IllegalArgumentException("Unknown GemLamp.State: " + state);
     }
 
@@ -182,22 +208,22 @@ public enum Gems implements IStringSerializable {
      * @return The gem ore block.
      */
     public GemOre getOre() {
-        return ore;
+        return ore.getValue();
     }
 
     public Glowrose getGlowrose() {
-        return glowrose;
+        return glowrose.getValue();
     }
 
     /**
      * @return The gem item.
      */
     public GemItem getItem() {
-        return item;
+        return item.getValue();
     }
 
     public ItemStack getItemStack() {
-        return new ItemStack(this.item);
+        return new ItemStack(this.item.getValue());
     }
 
     public Tag<Item> getItemTag() {
@@ -208,7 +234,7 @@ public enum Gems implements IStringSerializable {
      * @return The gem shard (nugget) item.
      */
     public GemShard getShard() {
-        return shard;
+        return shard.getValue();
     }
 
     public Set getSet() {

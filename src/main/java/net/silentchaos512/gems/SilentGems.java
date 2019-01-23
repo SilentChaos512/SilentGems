@@ -1,8 +1,9 @@
 package net.silentchaos512.gems;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,12 +19,12 @@ public final class SilentGems {
     public static final int BUILD_NUM = 0;
     public static final String RESOURCE_PREFIX = MOD_ID + ":";
 
-    static {
-        if (ModList.get().isLoaded("silentgear")) {
-            // Load added stat(s) before Silent Gear loads material JSONs
+//    static {
+//        if (ModList.get().isLoaded("silentgear")) {
+//            // Load added stat(s) before Silent Gear loads material JSONs
 //            MinecraftForge.EVENT_BUS.register(new SGearStatHandler());
-        }
-    }
+//        }
+//    }
 
     public static final Random random = new Random();
 //    public static final LogHelper logHelper = new LogHelper(MOD_NAME, BUILD_NUM);
@@ -39,5 +40,15 @@ public final class SilentGems {
     public SilentGems() {
         INSTANCE = this;
         PROXY = DistExecutor.runForDist(() -> () -> new SideProxy.Client(), () -> () -> new SideProxy.Server());
+    }
+
+    public static void safeSetRegistryName(IForgeRegistryEntry<?> obj, ResourceLocation name) {
+        if (obj.getRegistryName() == null) {
+            obj.setRegistryName(name);
+        } else if (!obj.getRegistryName().equals(name)) {
+            LOGGER.warn("Already set registry name for '{}', and new name '{}' is different!", name, obj);
+        } else {
+            LOGGER.warn("Already set registry name for '{}' ({})", name, obj);
+        }
     }
 }

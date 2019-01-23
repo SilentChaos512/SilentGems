@@ -3,6 +3,7 @@ package net.silentchaos512.gems.init;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.enchantment.*;
@@ -17,7 +18,8 @@ public final class ModEnchantments {
     private ModEnchantments() {}
 
     public static void registerAll(RegistryEvent.Register<Enchantment> event) {
-        IForgeRegistry<Enchantment> reg = event.getRegistry();
+        if (event.getRegistry().getRegistrySuperType() != Enchantment.class) return;
+        IForgeRegistry<Enchantment> reg = ForgeRegistries.ENCHANTMENTS;
 
         lifeSteal = register(reg, "life_steal", new EnchantmentLifeSteal());
         gravity = register(reg, "gravity", new EnchantmentGravity());

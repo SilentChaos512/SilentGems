@@ -1,13 +1,11 @@
 package net.silentchaos512.gems.client.key;
 
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.util.InputMappings;
 import net.minecraftforge.client.settings.IKeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
-import org.lwjgl.glfw.GLFW;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.apache.commons.lang3.NotImplementedException;
 
 public class KeyTracker {
     public static KeyTracker INSTANCE = new KeyTracker();
@@ -31,19 +29,22 @@ public class KeyTracker {
 //        KeyBinding binding = new KeyBinding(name, keyConflictContext, keyModifier, keyCode, SilentGems.MOD_ID);
 //        ClientRegistry.registerKeyBinding(binding);
 //        return binding;
-        throw new NotImplementedException();
+        throw new NotImplementedException("Not implemented");
     }
 
     public static boolean isShiftDown() {
-        return InputMappings.isKeyDown(GLFW.GLFW_MOD_SHIFT);
+//        return InputMappings.isKeyDown(GLFW.GLFW_MOD_SHIFT);
+        return false;
     }
 
     public static boolean isControlDown() {
-        return InputMappings.isKeyDown(GLFW.GLFW_MOD_CONTROL);
+//        return InputMappings.isKeyDown(GLFW.GLFW_MOD_CONTROL);
+        return false;
     }
 
     public static boolean isAltDown() {
-        return InputMappings.isKeyDown(GLFW.GLFW_MOD_ALT);
+//        return InputMappings.isKeyDown(GLFW.GLFW_MOD_ALT);
+        return false;
     }
 
     @SubscribeEvent
