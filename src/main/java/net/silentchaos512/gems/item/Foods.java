@@ -26,7 +26,7 @@ public enum Foods {
     CANDY_CANE(FoodSG.Builder
             .create(2, 0.2f, false)
             .setUseDuration(16)),
-    COFFEE_CUP(FoodSG.Builder
+    CUP_OF_COFFEE(FoodSG.Builder
             .create(1, 0.2f, false)
             .setUseAction(EnumAction.DRINK));
 

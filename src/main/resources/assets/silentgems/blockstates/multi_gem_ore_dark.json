@@ -1,13 +1,13 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "all": "silentgems:blocks/multi_gem_ore_dark"
-        },
-        "model": "cube_all"
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "silentgems:blocks/ore/multi_dark"
     },
-    "variants": {
-        "inventory": [{}],
-        "normal": [{}]
-    }
+    "model": "cube_all"
+  },
+  "variants": {
+    "inventory": [{}],
+    "normal": [{}]
+  }
 }

@@ -1,3 +1,5 @@
+"""Generates blockstates and block/item model JSON files for gem blocks."""
+
 import json
 import io
 import os
@@ -96,11 +98,47 @@ def write_item_model(file_path, parent_path):
     })
 
 
-BLOCK_TYPE = 'gem'
+# Details of all models to generate
+blockTypes = {
+    'block': {
+        'names': [gem + '_block' for gem in gems],
+        'textures': ['gem/' + gem + '_block' for gem in gems]
+    },
+    'bricks': {
+        'names': [gem + '_bricks' for gem in gems],
+        'textures': ['bricks/' + gem for gem in gems]
+    },
+    'glass': {
+        'names': [gem + '_glass' for gem in gems],
+        'textures': ['bricks/' + gem for gem in gems]
+    },
+    'lamp': {
+        'names': [gem + '_lamp' for gem in gems],
+        'textures': ['lamp/' + gem for gem in gems]
+    },
+    'lamp_inverted': {
+        'names': [gem + '_lamp_inverted' for gem in gems],
+        'textures': ['lamp/' + gem for gem in gems]
+    },
+    'lamp_inverted_lit': {
+        'names': [gem + '_lamp_inverted_lit' for gem in gems],
+        'textures': ['lamp/' + gem + '_lit' for gem in gems]
+    },
+    'lamp_lit': {
+        'names': [gem + '_lamp_lit' for gem in gems],
+        'textures': ['lamp/' + gem + '_lit' for gem in gems]
+    },
+    'glowrose': {
+        'names': [gem + '_glowrose' for gem in gems],
+        'textures': ['glowrose/' + gem for gem in gems]
+    }
+}
 
-for gem in gems:
-    block = BLOCK_TYPE + '/' + gem
-    print('Create JSON files for ' + block)
-    write_blockstate('blockstates/' + block, 'block/' + block)
-    write_block_model('models/block/' + block, 'blocks/' + block)
-    write_item_model('models/item/' + block, 'block/' + block)
+
+for block_name, obj in blockTypes.items():
+    for (name, texture) in zip(obj['names'], obj['textures']):
+        print('Create JSON files for ' + name)
+        print('        texture: ' + texture)
+        write_blockstate('blockstates/' + name, 'block/' + name)
+        write_block_model('models/block/' + name, 'blocks/' + texture)
+        write_item_model('models/item/' + name, 'block/' + name)
