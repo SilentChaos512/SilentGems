@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:glass"
+    },
+    "/": {
+      "tag": "forge:nuggets/aquamarine"
+    }
+  },
+  "result": {
+    "item": "silentgems:aquamarine_glass",
+    "count": 5
+  }
+}

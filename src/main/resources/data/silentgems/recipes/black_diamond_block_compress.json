@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:black_diamond"
+    }
+  },
+  "result": {
+    "item": "silentgems:black_diamond_block"
+  }
+}

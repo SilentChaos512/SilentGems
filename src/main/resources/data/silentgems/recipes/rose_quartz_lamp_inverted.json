@@ -1,0 +1,15 @@
+{
+  "type": "crafting_shapeless",
+  "group": "silentgems",
+  "ingredients": [
+    {
+      "item": "silentgems:rose_quartz_lamp"
+    },
+    {
+      "item": "minecraft:redstone_torch"
+    }
+  ],
+  "result": {
+    "item": "silentgems:rose_quartz_lamp_inverted"
+  }
+}

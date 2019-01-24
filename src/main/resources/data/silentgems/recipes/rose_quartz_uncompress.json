@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:rose_quartz"
+    }
+  },
+  "result": {
+    "item": "silentgems:rose_quartz_shard",
+    "count": 9
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:ammolite_block"
+    }
+  },
+  "result": {
+    "item": "silentgems:ammolite",
+    "count": 9
+  }
+}

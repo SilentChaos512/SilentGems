@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:iolite"
+    }
+  },
+  "result": {
+    "item": "silentgems:iolite_block"
+  }
+}

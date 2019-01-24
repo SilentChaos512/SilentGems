@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shapeless",
+  "group": "silentgems",
+  "ingredients": [
+    {
+      "item": "minecraft:bowl"
+    },
+    {
+      "tag": "silentgems:stew_meat"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:carrot"
+    }
+  ],
+  "result": {
+    "item": "silentgems:uncooked_meaty_stew"
+  }
+}

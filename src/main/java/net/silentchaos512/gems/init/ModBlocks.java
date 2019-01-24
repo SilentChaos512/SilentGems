@@ -11,12 +11,14 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.FluffyPuffPlant;
 import net.silentchaos512.gems.block.GemLamp;
 import net.silentchaos512.gems.block.HardenedRock;
+import net.silentchaos512.gems.block.urn.BlockSoulUrn;
 import net.silentchaos512.gems.lib.Gems;
 
 import java.util.function.Function;
 
 public final class ModBlocks {
     public static FluffyPuffPlant fluffyPuffPlant;
+    public static BlockSoulUrn soulUrn;
 
     private ModBlocks() {}
 
@@ -42,7 +44,8 @@ public final class ModBlocks {
             register(reg, type.getName(), type.getBlock());
         }
 
-//        soulUrn = register(reg, "soul_urn", new BlockSoulUrn(), new BlockSoulUrn.ItemBlockSoulUrn(soulUrn));
+        soulUrn = new BlockSoulUrn();
+        register(reg, "soul_urn", soulUrn, new BlockSoulUrn.ItemBlockSoulUrn(soulUrn));
 
         fluffyPuffPlant = register(reg, "fluffy_puff_plant", new FluffyPuffPlant());
     }

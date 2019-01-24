@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#|#",
+    "#|#",
+    "#|#"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:nuggets/gold"
+    },
+    "|": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "item": "silentgems:gilded_string",
+    "count": 3
+  }
+}

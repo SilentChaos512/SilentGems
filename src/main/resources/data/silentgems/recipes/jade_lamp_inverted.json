@@ -1,0 +1,15 @@
+{
+  "type": "crafting_shapeless",
+  "group": "silentgems",
+  "ingredients": [
+    {
+      "item": "silentgems:jade_lamp"
+    },
+    {
+      "item": "minecraft:redstone_torch"
+    }
+  ],
+  "result": {
+    "item": "silentgems:jade_lamp_inverted"
+  }
+}

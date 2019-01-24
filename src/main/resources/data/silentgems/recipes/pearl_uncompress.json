@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:pearl"
+    }
+  },
+  "result": {
+    "item": "silentgems:pearl_shard",
+    "count": 9
+  }
+}

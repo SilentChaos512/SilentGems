@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:stone_bricks"
+    },
+    "/": {
+      "tag": "forge:nuggets/moonstone"
+    }
+  },
+  "result": {
+    "item": "silentgems:moonstone_bricks",
+    "count": 5
+  }
+}

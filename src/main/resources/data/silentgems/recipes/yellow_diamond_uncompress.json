@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:yellow_diamond"
+    }
+  },
+  "result": {
+    "item": "silentgems:yellow_diamond_shard",
+    "count": 9
+  }
+}

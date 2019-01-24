@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:stone_bricks"
+    },
+    "/": {
+      "tag": "forge:nuggets/iolite"
+    }
+  },
+  "result": {
+    "item": "silentgems:iolite_bricks",
+    "count": 5
+  }
+}

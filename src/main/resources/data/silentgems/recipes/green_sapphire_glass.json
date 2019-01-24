@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:glass"
+    },
+    "/": {
+      "tag": "forge:nuggets/green_sapphire"
+    }
+  },
+  "result": {
+    "item": "silentgems:green_sapphire_glass",
+    "count": 5
+  }
+}

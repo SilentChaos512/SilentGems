@@ -1,0 +1,23 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "i#i",
+    "#p#",
+    "i#i"
+  ],
+  "key": {
+    "p": {
+      "item": "minecraft:potato"
+    },
+    "#": {
+      "tag": "forge:storage_blocks/iron"
+    },
+    "i": {
+      "item": "silentgems:chaos_iron"
+    }
+  },
+  "result": {
+    "item": "silentgems:iron_potato"
+  }
+}

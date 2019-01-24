@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:glass"
+    },
+    "/": {
+      "tag": "forge:nuggets/opal"
+    }
+  },
+  "result": {
+    "item": "silentgems:opal_glass",
+    "count": 5
+  }
+}

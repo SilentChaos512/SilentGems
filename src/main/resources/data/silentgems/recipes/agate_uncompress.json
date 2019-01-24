@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:agate"
+    }
+  },
+  "result": {
+    "item": "silentgems:agate_shard",
+    "count": 9
+  }
+}

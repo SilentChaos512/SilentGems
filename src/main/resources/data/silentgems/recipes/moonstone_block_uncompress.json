@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:moonstone_block"
+    }
+  },
+  "result": {
+    "item": "silentgems:moonstone",
+    "count": 9
+  }
+}

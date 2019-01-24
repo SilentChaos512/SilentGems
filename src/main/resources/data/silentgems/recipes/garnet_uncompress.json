@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:garnet"
+    }
+  },
+  "result": {
+    "item": "silentgems:garnet_shard",
+    "count": 9
+  }
+}

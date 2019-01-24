@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:jasper_block"
+    }
+  },
+  "result": {
+    "item": "silentgems:jasper",
+    "count": 9
+  }
+}

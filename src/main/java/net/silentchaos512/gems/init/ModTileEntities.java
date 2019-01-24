@@ -2,6 +2,7 @@ package net.silentchaos512.gems.init;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -18,16 +19,14 @@ public enum ModTileEntities {
     SUPERCHARGER(() -> TileEntityType.Builder.create(TileSupercharger::new).build(null)),
     SOUL_URN(() -> TileEntityType.Builder.create(TileSoulUrn::new).build(null));
 
-    private final Supplier<TileEntityType<?>> typeFactory;
-    private TileEntityType<?> type;
+    private final LazyLoadBase<TileEntityType<?>> type;
 
     ModTileEntities(Supplier<TileEntityType<?>> typeFactory) {
-        this.typeFactory = typeFactory;
+        this.type = new LazyLoadBase<>(typeFactory);
     }
 
     public TileEntityType<?> type() {
-        if (type == null) type = typeFactory.get();
-        return type;
+        return type.getValue();
     }
 
     public static void registerAll(RegistryEvent.Register<TileEntityType<?>> event) {

@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:onyx"
+    }
+  },
+  "result": {
+    "item": "silentgems:onyx_shard",
+    "count": 9
+  }
+}

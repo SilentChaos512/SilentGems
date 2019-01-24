@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:amethyst"
+    }
+  },
+  "result": {
+    "item": "silentgems:amethyst_shard",
+    "count": 9
+  }
+}

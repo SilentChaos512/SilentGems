@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:sunstone"
+    }
+  },
+  "result": {
+    "item": "silentgems:sunstone_block"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:topaz"
+    }
+  },
+  "result": {
+    "item": "silentgems:topaz_shard",
+    "count": 9
+  }
+}

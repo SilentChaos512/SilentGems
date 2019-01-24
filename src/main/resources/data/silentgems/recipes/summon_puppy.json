@@ -1,0 +1,23 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    " m ",
+    "#g#",
+    " m "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:leather"
+    },
+    "g": {
+      "tag": "silentgems:mod_gems"
+    },
+    "m": {
+      "tag": "silentgems:stew_meat"
+    }
+  },
+  "result": {
+    "item": "silentgems:summon_puppy"
+  }
+}

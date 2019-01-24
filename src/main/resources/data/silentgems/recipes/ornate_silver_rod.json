@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#",
+    "c",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:ingots/silver"
+    },
+    "c": {
+      "item": "silentgems:enriched_chaos_crystal"
+    }
+  },
+  "result": {
+    "item": "silentgems:ornate_silver_rod",
+    "count": 4
+  }
+}

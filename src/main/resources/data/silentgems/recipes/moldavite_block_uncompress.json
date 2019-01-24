@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:moldavite_block"
+    }
+  },
+  "result": {
+    "item": "silentgems:moldavite",
+    "count": 9
+  }
+}

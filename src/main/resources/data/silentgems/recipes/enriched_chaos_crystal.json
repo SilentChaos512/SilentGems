@@ -1,0 +1,23 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "gcg",
+    "cqc",
+    "gcg"
+  ],
+  "key": {
+    "q": {
+      "tag": "forge:gems/quartz"
+    },
+    "c": {
+      "tag": "forge:gems/chaos"
+    },
+    "g": {
+      "tag": "forge:dusts/glowstone"
+    }
+  },
+  "result": {
+    "item": "silentgems:enriched_chaos_crystal"
+  }
+}

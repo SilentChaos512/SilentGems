@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:stone_bricks"
+    },
+    "/": {
+      "tag": "forge:nuggets/amethyst"
+    }
+  },
+  "result": {
+    "item": "silentgems:amethyst_bricks",
+    "count": 5
+  }
+}

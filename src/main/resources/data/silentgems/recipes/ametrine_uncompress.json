@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:ametrine"
+    }
+  },
+  "result": {
+    "item": "silentgems:ametrine_shard",
+    "count": 9
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:ametrine_block"
+    }
+  },
+  "result": {
+    "item": "silentgems:ametrine",
+    "count": 9
+  }
+}

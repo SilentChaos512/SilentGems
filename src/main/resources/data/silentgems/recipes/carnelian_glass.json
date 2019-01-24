@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:glass"
+    },
+    "/": {
+      "tag": "forge:nuggets/carnelian"
+    }
+  },
+  "result": {
+    "item": "silentgems:carnelian_glass",
+    "count": 5
+  }
+}

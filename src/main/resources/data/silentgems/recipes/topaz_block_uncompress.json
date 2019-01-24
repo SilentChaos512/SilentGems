@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:topaz_block"
+    }
+  },
+  "result": {
+    "item": "silentgems:topaz",
+    "count": 9
+  }
+}

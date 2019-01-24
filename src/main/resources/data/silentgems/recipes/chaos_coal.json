@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "###",
+    "#c#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:charcoal"
+    },
+    "c": {
+      "item": "silentgems:chaos_crystal"
+    }
+  },
+  "result": {
+    "item": "silentgems:chaos_coal",
+    "count": 6
+  }
+}

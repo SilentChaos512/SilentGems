@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:citrine"
+    }
+  },
+  "result": {
+    "item": "silentgems:citrine_block"
+  }
+}

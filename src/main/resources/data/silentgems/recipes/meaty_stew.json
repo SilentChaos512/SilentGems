@@ -1,0 +1,10 @@
+{
+  "type": "smelting",
+  "group": "silentgems",
+  "ingredient": {
+    "item": "silentgems:uncooked_meaty_stew"
+  },
+  "result": "silentgems:meaty_stew",
+  "experience": 0.45,
+  "cookingtime": 200
+}

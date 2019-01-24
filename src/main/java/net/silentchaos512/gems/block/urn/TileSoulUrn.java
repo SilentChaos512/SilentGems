@@ -177,7 +177,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         if (this.world.isRemote)
             return;
 
-        BlockSoulUrn.LidState lid = world.getBlockState(this.pos).get(BlockSoulUrn.PROPERTY_LID);
+        BlockSoulUrn.LidState lid = world.getBlockState(this.pos).get(BlockSoulUrn.LID);
         ++this.ticksExisted;
 
         // Tick upgrades

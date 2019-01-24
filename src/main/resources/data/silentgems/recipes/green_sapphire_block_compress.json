@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:green_sapphire"
+    }
+  },
+  "result": {
+    "item": "silentgems:green_sapphire_block"
+  }
+}

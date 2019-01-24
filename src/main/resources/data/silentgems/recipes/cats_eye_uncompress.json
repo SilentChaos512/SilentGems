@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:cats_eye"
+    }
+  },
+  "result": {
+    "item": "silentgems:cats_eye_shard",
+    "count": 9
+  }
+}

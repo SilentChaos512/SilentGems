@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:amethyst_shard"
+    }
+  },
+  "result": {
+    "item": "silentgems:amethyst"
+  }
+}

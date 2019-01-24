@@ -92,6 +92,7 @@ public enum Gems implements IStringSerializable {
 
     // Tags
     final Tag<Item> itemTag;
+    final Tag<Item> shardTag;
 
     Gems(Set set, String name, int color, String... extraOreKeys) {
         this.set = set;
@@ -112,7 +113,8 @@ public enum Gems implements IStringSerializable {
         this.item = new LazyLoadBase<>(() -> new GemItem(this));
         this.shard = new LazyLoadBase<>(() -> new GemShard(this));
 
-        this.itemTag = new ItemTags.Wrapper(new ResourceLocation(SilentGems.MOD_ID, this.getName()));
+        this.itemTag = new ItemTags.Wrapper(new ResourceLocation("forge", "gems/" + this.getName()));
+        this.shardTag = new ItemTags.Wrapper(new ResourceLocation("forge", "nuggets/" + this.getName()));
     }
 
     /**
@@ -228,6 +230,10 @@ public enum Gems implements IStringSerializable {
 
     public Tag<Item> getItemTag() {
         return itemTag;
+    }
+
+    public Tag<Item> getShardTag() {
+        return shardTag;
     }
 
     /**

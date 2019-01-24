@@ -4,6 +4,7 @@ import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLModLoadingContext;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.init.*;
+import net.silentchaos512.gems.util.RecipeGen;
 
 class SideProxy {
     SideProxy() {
@@ -22,6 +23,7 @@ class SideProxy {
         FMLModLoadingContext.get().getModEventBus().addListener(ModTileEntities::registerAll);
 
         ModLoot.init();
+        ModRecipes.init();
 
         // Silent Gear support?
         // TODO: Should this be converted to use IMC? Not sure that would actually work.
@@ -33,6 +35,8 @@ class SideProxy {
 
     private void commonSetup(FMLCommonSetupEvent event) {
         SilentGems.LOGGER.info("Gems commonSetup");
+
+        RecipeGen.generateRecipes();
     }
 
     private void imcEnqueue(InterModEnqueueEvent event) {

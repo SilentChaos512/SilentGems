@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:stone_bricks"
+    },
+    "/": {
+      "tag": "forge:nuggets/ametrine"
+    }
+  },
+  "result": {
+    "item": "silentgems:ametrine_bricks",
+    "count": 5
+  }
+}

@@ -21,6 +21,8 @@ package net.silentchaos512.gems.item;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -30,28 +32,28 @@ import net.silentchaos512.gems.init.ModItemGroups;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Locale;
 
-public enum CraftingItems {
+public enum CraftingItems implements IItemProvider, IStringSerializable {
     CHAOS_CRYSTAL,
     ENRICHED_CHAOS_CRYSTAL,
     CHAOS_CRYSTAL_SHARD,
+    CHAOS_DUST,
     ENDER_CRYSTAL,
-    ENDER_FROST,
     ENDER_CRYSTAL_SHARD,
+    ENDER_FROST,
     CHAOS_IRON_UNFIRED,
     CHAOS_IRON,
+    CHAOS_COAL,
     ENDER_SLIMEBALL,
     SOUL_SHELL,
-    CHAOS_COAL,
     ORNATE_GOLD_ROD,
     ORNATE_SILVER_ROD,
     GILDED_STRING,
     MYSTERY_GOO,
     IRON_POTATO,
     FLUFFY_FABRIC,
-    YARN_BALL,
-    RAWHIDE_BONE,
-    URN_UPGRADE_BASE();
+    URN_UPGRADE_BASE;
 
     private final ItemCrafting item;
 
@@ -61,6 +63,16 @@ public enum CraftingItems {
 
     public Item getItem() {
         return item;
+    }
+
+    @Override
+    public Item asItem() {
+        return item;
+    }
+
+    @Override
+    public String getName() {
+        return name().toLowerCase(Locale.ROOT);
     }
 
     public ItemStack getStack() {

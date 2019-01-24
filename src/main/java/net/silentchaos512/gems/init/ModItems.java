@@ -18,6 +18,8 @@ public final class ModItems {
     // item fields here
     public static Item fluffyPuff;
     public static FluffyPuffSeeds fluffyPuffSeeds;
+    public static PetSummoner summonKitty;
+    public static PetSummoner summonPuppy;
 
     static final Collection<ItemBlock> blocksToRegister = new ArrayList<>();
 
@@ -35,6 +37,10 @@ public final class ModItems {
 
 //        register(reg, "soul_gem", ItemSoulGem.INSTANCE.get());
 
+        for (CraftingItems item : CraftingItems.values()) {
+            register(reg, item.getName(), item.asItem());
+        }
+
         register(reg, "blank_enchantment_token", new Item(new Item.Builder().group(ModItemGroups.UTILITY)));
         register(reg, "enchantment_token", EnchantmentToken.INSTANCE);
 
@@ -47,8 +53,8 @@ public final class ModItems {
             register(reg, food.getName(), food.getItem());
         }
 
-        register(reg, "summon_kitty", new PetSummoner(PetSummoner::getCat));
-        register(reg, "summon_puppy", new PetSummoner(PetSummoner::getDog));
+        summonKitty = register(reg, "summon_kitty", new PetSummoner(PetSummoner::getCat));
+        summonPuppy = register(reg, "summon_puppy", new PetSummoner(PetSummoner::getDog));
     }
 
     private static <T extends Item> T register(IForgeRegistry<Item> reg, String name, T item) {

@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:carnelian_block"
+    }
+  },
+  "result": {
+    "item": "silentgems:carnelian",
+    "count": 9
+  }
+}

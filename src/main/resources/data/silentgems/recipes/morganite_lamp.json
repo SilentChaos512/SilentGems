@@ -1,0 +1,23 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "rgr",
+    "g#g",
+    "rgr"
+  ],
+  "key": {
+    "r": {
+      "tag": "forge:dusts/redstone"
+    },
+    "#": {
+      "tag": "forge:gems/morganite"
+    },
+    "g": {
+      "tag": "forge:dusts/glowstone"
+    }
+  },
+  "result": {
+    "item": "silentgems:morganite_lamp"
+  }
+}

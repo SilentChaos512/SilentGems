@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:opal"
+    }
+  },
+  "result": {
+    "item": "silentgems:opal_shard",
+    "count": 9
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:benitoite"
+    }
+  },
+  "result": {
+    "item": "silentgems:benitoite_block"
+  }
+}

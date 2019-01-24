@@ -131,6 +131,10 @@ blockTypes = {
     'glowrose': {
         'names': [gem + '_glowrose' for gem in gems],
         'textures': ['glowrose/' + gem for gem in gems]
+    },
+    'ore': {
+        'names': [gem + '_ore' for gem in gems],
+        'textures': ['ore/gem/' + gem for gem in gems]
     }
 }
 

@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:phosphophyllite_shard"
+    }
+  },
+  "result": {
+    "item": "silentgems:phosphophyllite"
+  }
+}

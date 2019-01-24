@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:turquoise"
+    }
+  },
+  "result": {
+    "item": "silentgems:turquoise_shard",
+    "count": 9
+  }
+}

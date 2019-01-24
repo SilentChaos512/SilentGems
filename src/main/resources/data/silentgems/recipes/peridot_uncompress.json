@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:peridot"
+    }
+  },
+  "result": {
+    "item": "silentgems:peridot_shard",
+    "count": 9
+  }
+}

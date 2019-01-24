@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:kyanite"
+    }
+  },
+  "result": {
+    "item": "silentgems:kyanite_shard",
+    "count": 9
+  }
+}

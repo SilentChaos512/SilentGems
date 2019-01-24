@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:fluorite"
+    }
+  },
+  "result": {
+    "item": "silentgems:fluorite_block"
+  }
+}

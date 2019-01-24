@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:glass"
+    },
+    "/": {
+      "tag": "forge:nuggets/rose_quartz"
+    }
+  },
+  "result": {
+    "item": "silentgems:rose_quartz_glass",
+    "count": 5
+  }
+}

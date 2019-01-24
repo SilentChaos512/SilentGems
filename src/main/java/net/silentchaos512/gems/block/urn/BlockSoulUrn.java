@@ -18,6 +18,7 @@
 
 package net.silentchaos512.gems.block.urn;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -35,6 +36,7 @@ import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -44,12 +46,10 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.client.key.KeyTracker;
-import net.silentchaos512.gems.init.ModSounds;
-import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.gems.lib.urn.UrnHelper;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
@@ -90,13 +90,21 @@ public class BlockSoulUrn extends BlockContainer {
 //    private static final AxisAlignedBB BOUNDING_BOX_CLOSED = MathUtils.boundingBoxByPixels(1, 0, 1, 15, 15, 15);
 //    private static final AxisAlignedBB BOUNDING_BOX_OPEN = MathUtils.boundingBoxByPixels(1, 0, 1, 15, 14, 15);
 
-    static final EnumProperty<LidState> PROPERTY_LID = EnumProperty.create("lid", LidState.class);
+    static final EnumProperty<LidState> LID = EnumProperty.create("lid", LidState.class);
 
-    private static final EnumProperty<EnumFacing> PROPERTY_FACING = DirectionProperty.create("facing", EnumFacing.Plane.HORIZONTAL);
+    private static final EnumProperty<EnumFacing> FACING = DirectionProperty.create("facing", EnumFacing.Plane.HORIZONTAL);
 
     public BlockSoulUrn() {
         super(Builder.create(Material.ROCK)
-                .hardnessAndResistance(5, 20));
+                .hardnessAndResistance(5, 40));
+        this.setDefaultState(this.getDefaultState()
+                .with(FACING, EnumFacing.SOUTH)
+                .with(LID, LidState.CLOSED));
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
+        builder.add(FACING).add(LID);
     }
 
     @Nullable
@@ -161,20 +169,22 @@ public class BlockSoulUrn extends BlockContainer {
     @Override
     public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
-            LidState lid = state.get(PROPERTY_LID);
+            LidState lid = state.get(LID);
 
             if (lid != LidState.NO_LID && (player.isSneaking() || !lid.isOpen())) {
                 // Toggle lid state when sneaking or if closed
                 worldIn.setBlockState(pos, toggleLid(state), 2);
-                worldIn.playSound(null, pos, ModSounds.SOUL_URN_LID.get(), SoundCategory.BLOCKS, 0.6f,
-                        (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
+                // FIXME: Sound crashes game with "Error reading the header"
+//                worldIn.playSound(null, pos, ModSounds.SOUL_URN_LID.get(), SoundCategory.BLOCKS, 0.6f,
+//                        (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
             } else {
                 // Open inventory if lid is open (or there is no lid)
                 TileEntity tile = worldIn.getTileEntity(pos);
                 if (tile instanceof TileSoulUrn) {
                     GuiTypes.SOUL_URN.open(player, worldIn, pos);
-                    worldIn.playSound(null, pos, ModSounds.SOUL_URN_OPEN.get(), SoundCategory.BLOCKS, 0.6f,
-                            (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
+                    // FIXME: Sound crashes game with "Error reading the header"
+//                    worldIn.playSound(null, pos, ModSounds.SOUL_URN_OPEN.get(), SoundCategory.BLOCKS, 0.6f,
+//                            (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
                 }
             }
         }
@@ -183,17 +193,17 @@ public class BlockSoulUrn extends BlockContainer {
     }
 
     private static IBlockState toggleLid(IBlockState state) {
-        LidState lid = state.get(PROPERTY_LID);
+        LidState lid = state.get(LID);
         if (lid == LidState.NO_LID) return state;
-        return state.with(PROPERTY_LID, lid == LidState.CLOSED ? LidState.OPEN : LidState.CLOSED);
+        return state.with(LID, lid == LidState.CLOSED ? LidState.OPEN : LidState.CLOSED);
     }
 
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         EnumFacing side = placer.getHorizontalFacing().getOpposite();
-        IBlockState newState = state.with(PROPERTY_FACING, side)
-                .with(PROPERTY_LID, UrnHelper.hasLid(stack) ? LidState.CLOSED : LidState.NO_LID);
+        IBlockState newState = state.with(FACING, side)
+                .with(LID, UrnHelper.hasLid(stack) ? LidState.CLOSED : LidState.NO_LID);
 
         worldIn.setBlockState(pos, newState, 2);
 
@@ -220,7 +230,7 @@ public class BlockSoulUrn extends BlockContainer {
 
             if (!tileSoulUrn.isCleared() && tileSoulUrn.shouldDrop()) {
                 ItemStack stack = new ItemStack(this);
-                UrnHelper.setHasLid(stack, state.get(PROPERTY_LID).hasLid());
+                UrnHelper.setHasLid(stack, state.get(LID).hasLid());
 
                 NBTTagCompound compound = new NBTTagCompound();
                 NBTTagCompound compound1 = new NBTTagCompound();
@@ -315,12 +325,12 @@ public class BlockSoulUrn extends BlockContainer {
 //    @Nullable
 //    @Override
 //    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-//        return blockState.get(PROPERTY_LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
+//        return blockState.get(LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
 //    }
 //
 //    @Override
 //    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-//        return state.getValue(PROPERTY_LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
+//        return state.getValue(LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
 //    }
 
     @Override
@@ -369,7 +379,7 @@ public class BlockSoulUrn extends BlockContainer {
             return toggleLid(currentState);
         }
 
-        return this.getDefaultState().with(PROPERTY_FACING, context.getPlacementHorizontalFacing());
+        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
     }
 
 //    @Override
@@ -377,8 +387,8 @@ public class BlockSoulUrn extends BlockContainer {
 //        for (LidState lidState : LidState.values()) {
 //            for (EnumFacing facing : EnumFacing.HORIZONTALS) {
 //                IBlockState state = this.getDefaultState()
-//                        .withProperty(PROPERTY_LID, lidState)
-//                        .withProperty(PROPERTY_FACING, facing);
+//                        .withProperty(LID, lidState)
+//                        .withProperty(FACING, facing);
 //                int meta = this.getMetaFromState(state);
 //                String variant = String.format("facing=%s,lid=%s", facing.getName(), lidState.getName());
 //                SilentGems.registry.setModel(this, meta, "soul_urn", variant);

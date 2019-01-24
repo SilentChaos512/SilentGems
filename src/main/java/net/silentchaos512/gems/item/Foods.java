@@ -5,14 +5,17 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.init.ModItemGroups;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
 
-public enum Foods {
+public enum Foods implements IItemProvider, IStringSerializable {
     POTATO_ON_A_STICK(FoodSG.Builder
             .create(8, 0.8f, false)),
     SUGAR_COOKIE(FoodSG.Builder
@@ -23,6 +26,10 @@ public enum Foods {
             .create(4, 0.6f, false)),
     MEATY_STEW(FoodSG.Builder
             .create(12, 1.6f, false)),
+    UNCOOKED_FISHY_STEW(FoodSG.Builder
+            .create(4, 0.5f, false)),
+    FISHY_STEW(FoodSG.Builder
+            .create(10, 1.2f, false)),
     CANDY_CANE(FoodSG.Builder
             .create(2, 0.2f, false)
             .setUseDuration(16)),
@@ -40,6 +47,12 @@ public enum Foods {
         return item;
     }
 
+    @Override
+    public Item asItem() {
+        return item;
+    }
+
+    @Override
     public String getName() {
         return name().toLowerCase(Locale.ROOT);
     }
@@ -58,6 +71,7 @@ public enum Foods {
                 builder.healAmount = healAmount;
                 builder.saturation = saturation;
                 builder.isMeat = isMeat;
+                builder.group(ModItemGroups.UTILITY);
                 return builder;
             }
 

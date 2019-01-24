@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:tektite_shard"
+    }
+  },
+  "result": {
+    "item": "silentgems:tektite"
+  }
+}

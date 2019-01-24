@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:zircon"
+    }
+  },
+  "result": {
+    "item": "silentgems:zircon_shard",
+    "count": 9
+  }
+}

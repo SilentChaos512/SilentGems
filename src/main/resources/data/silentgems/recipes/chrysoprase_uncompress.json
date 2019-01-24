@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:chrysoprase"
+    }
+  },
+  "result": {
+    "item": "silentgems:chrysoprase_shard",
+    "count": 9
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:jasper"
+    }
+  },
+  "result": {
+    "item": "silentgems:jasper_shard",
+    "count": 9
+  }
+}

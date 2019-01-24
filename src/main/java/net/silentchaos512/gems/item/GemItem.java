@@ -6,6 +6,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.init.ModItemGroups;
@@ -35,6 +36,7 @@ public class GemItem extends Item implements IGem {
 //        if (controlDown && (gem == Gems.RUBY || gem == Gems.GREEN_SAPPHIRE || gem == Gems.SAPPHIRE || gem == Gems.TOPAZ)) {
 //            list.add(SilentGems.i18n.subText(this, "original4"));
 //        }
+        list.add(new TextComponentString("Set: " + gem.getSet()));
     }
 
     @Override
