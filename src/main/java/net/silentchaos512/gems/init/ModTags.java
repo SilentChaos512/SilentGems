@@ -9,8 +9,8 @@ import net.silentchaos512.gems.SilentGems;
 public class ModTags {
     public static class Items {
         public static final Tag<Item> GEMS_CHAOS = tag("forge", "gems/chaos");
-        public static final Tag<Item> MOD_GEMS = tag("mod_gems");
-        public static final Tag<Item> MOD_SHARDS = tag("mod_shards");
+        public static final Tag<Item> MOD_GEMS = tag("gems");
+        public static final Tag<Item> MOD_SHARDS = tag("shards");
         public static final Tag<Item> RODS_ORNATE_GOLD = tag("forge", "rods/ornate_gold");
         public static final Tag<Item> RODS_ORNATE_SILVER = tag("forge", "rods/ornate_silver");
         public static final Tag<Item> STEW_FISH = tag("stew_fish");

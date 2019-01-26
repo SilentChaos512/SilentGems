@@ -59,7 +59,7 @@ gems = [
 
 
 def get_data(gem_name):
-    obj_name = 'silentgems:' + gem_name + '_block'
+    obj_name = 'silentgems:' + gem_name + '_ore'
 
     return {
         'replace': False,
