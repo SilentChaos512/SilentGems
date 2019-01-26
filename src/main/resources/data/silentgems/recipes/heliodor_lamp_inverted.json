@@ -1,6 +1,6 @@
 {
   "type": "crafting_shapeless",
-  "group": "silentgems",
+  "group": "silentgems:classic_inverted_lamp",
   "ingredients": [
     {
       "item": "silentgems:heliodor_lamp"

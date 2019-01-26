@@ -1,6 +1,5 @@
 {
   "type": "crafting_shapeless",
-  "group": "silentgems",
   "ingredients": [
     {
       "item": "minecraft:bowl"

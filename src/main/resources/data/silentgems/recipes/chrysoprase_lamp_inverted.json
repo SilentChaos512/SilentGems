@@ -1,6 +1,6 @@
 {
   "type": "crafting_shapeless",
-  "group": "silentgems",
+  "group": "silentgems:light_inverted_lamp",
   "ingredients": [
     {
       "item": "silentgems:chrysoprase_lamp"

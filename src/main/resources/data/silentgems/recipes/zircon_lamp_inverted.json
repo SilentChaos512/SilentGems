@@ -1,6 +1,6 @@
 {
   "type": "crafting_shapeless",
-  "group": "silentgems",
+  "group": "silentgems:dark_inverted_lamp",
   "ingredients": [
     {
       "item": "silentgems:zircon_lamp"

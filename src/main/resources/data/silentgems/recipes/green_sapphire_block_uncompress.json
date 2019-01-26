@@ -1,6 +1,6 @@
 {
   "type": "crafting_shaped",
-  "group": "silentgems",
+  "group": "silentgems:classic_gem_block_uncompress",
   "pattern": [
     "#"
   ],

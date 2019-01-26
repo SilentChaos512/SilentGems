@@ -1,6 +1,5 @@
 {
   "type": "smelting",
-  "group": "silentgems",
   "ingredient": {
     "item": "silentgems:uncooked_fishy_stew"
   },
