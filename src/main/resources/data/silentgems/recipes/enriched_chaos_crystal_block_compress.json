@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:enriched_chaos_crystal"
+    }
+  },
+  "result": {
+    "item": "silentgems:enriched_chaos_crystal_block"
+  }
+}

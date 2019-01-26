@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GemLamp;
+import net.silentchaos512.gems.block.MiscBlocks;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.init.ModTags;
 import net.silentchaos512.gems.item.CraftingItems;
@@ -52,6 +53,11 @@ public class RecipeGen {
                     .create(gem.getLamp(GemLamp.State.INVERTED_UNLIT))
                     .ingredient(gem.getLamp(GemLamp.State.UNLIT))
                     .ingredient(Blocks.REDSTONE_TORCH));
+        }
+
+        // Misc storage blocks
+        for (MiscBlocks misc : MiscBlocks.values()) {
+            RecipeGenerator.compress9(name(misc.getName()), misc, misc.getStoredItem());
         }
 
         // Crafting Items

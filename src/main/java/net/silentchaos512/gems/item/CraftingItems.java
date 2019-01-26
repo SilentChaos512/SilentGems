@@ -23,6 +23,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -55,19 +56,15 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
     FLUFFY_FABRIC,
     URN_UPGRADE_BASE;
 
-    private final ItemCrafting item;
+    private final LazyLoadBase<ItemCrafting> item;
 
     CraftingItems() {
-        this.item = new ItemCrafting();
-    }
-
-    public Item getItem() {
-        return item;
+        this.item = new LazyLoadBase<>(ItemCrafting::new);
     }
 
     @Override
     public Item asItem() {
-        return item;
+        return item.getValue();
     }
 
     @Override
@@ -80,7 +77,7 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
     }
 
     public ItemStack getStack(int count) {
-        return new ItemStack(item, count);
+        return new ItemStack(this, count);
     }
 
     public static final class ItemCrafting extends Item {
@@ -102,7 +99,7 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
 
         @Override
         public int getBurnTime(ItemStack itemStack) {
-            return itemStack.getItem() == CHAOS_COAL.item ? 6400 : 0; // TODO: config
+            return itemStack.getItem() == CHAOS_COAL.asItem() ? 6400 : 0; // TODO: config
         }
     }
 }

@@ -48,6 +48,9 @@
     "#forge:storage_blocks/kunzite",
     "#forge:storage_blocks/rose_quartz",
     "#forge:storage_blocks/tektite",
-    "#forge:storage_blocks/pearl"
+    "#forge:storage_blocks/pearl",
+    "#forge:storage_blocks/chaos",
+    "#forge:storage_blocks/chaos_coal",
+    "#forge:storage_blocks/chaos_iron"
   ]
 }

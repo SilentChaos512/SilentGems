@@ -29,23 +29,24 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.GemBlock;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.init.ModEnchantments;
+import net.silentchaos512.gems.init.ModTags;
 import net.silentchaos512.gems.init.ModTileEntities;
+import net.silentchaos512.lib.util.MathUtils;
 
 import javax.annotation.Nullable;
 
-public class TileSupercharger extends TileEntity implements ITickable, IInventory /* TileSidedInventorySL implements ITickable, IChaosAccepter */{
+public class TileSupercharger extends TileEntity implements ITickable, IInventory /* TileSidedInventorySL implements ITickable, IChaosAccepter */ {
     static final int MAX_CHAOS_STORED = 1_000_000;
     private static final int INVENTORY_SIZE = 3;
     private static final int UPDATE_FREQUENCY = 15 * 20; // TimeHelper.ticksFromSeconds(15);
 
-//    @SyncVariable(name = "Energy")
+    //    @SyncVariable(name = "Energy")
     private int chaosStored;
-//    @SyncVariable(name = "Progress")
+    //    @SyncVariable(name = "Progress")
     private int progress;
-//    @SyncVariable(name = "StructureLevel")
+    //    @SyncVariable(name = "StructureLevel")
     private int structureLevel;
     private int updateTimer = 0;
 
@@ -123,7 +124,7 @@ public class TileSupercharger extends TileEntity implements ITickable, IInventor
 
     private boolean checkStructureLevel() {
         int oldValue = this.structureLevel;
-        this.structureLevel = min(
+        this.structureLevel = MathUtils.min(
                 this.getPillarLevel(this.pos.offset(EnumFacing.NORTH, 3).offset(EnumFacing.WEST, 3)),
                 this.getPillarLevel(this.pos.offset(EnumFacing.NORTH, 3).offset(EnumFacing.EAST, 3)),
                 this.getPillarLevel(this.pos.offset(EnumFacing.SOUTH, 3).offset(EnumFacing.WEST, 3)),
@@ -132,50 +133,29 @@ public class TileSupercharger extends TileEntity implements ITickable, IInventor
     }
 
     private int getPillarLevel(BlockPos pos) {
-//        IBlockState state1 = this.world.getBlockState(pos);
-//        IBlockState state2 = this.world.getBlockState(pos.up());
-//        if (isMiscBlock(state1, BlockMisc.Type.CHAOS_IRON) && isGemBlock(state2))
-//            return 1;
-//
-//        IBlockState state3 = this.world.getBlockState(pos.up(2));
-//        if (isMiscBlock(state1, BlockMisc.Type.CHAOS_ESSENCE_ENRICHED)
-//                && isMiscBlock(state2, BlockMisc.Type.CHAOS_IRON)
-//                && isGemBlock(state3))
-//            return 2;
-//
-//        IBlockState state4 = this.world.getBlockState(pos.up(3));
-//        IBlockState state5 = this.world.getBlockState(pos.up(4));
-//        if (isMiscBlock(state1, BlockMisc.Type.ENDER_ESSENCE)
-//                && isMiscBlock(state2, BlockMisc.Type.ENDER_ESSENCE)
-//                && isMiscBlock(state3, BlockMisc.Type.CHAOS_ESSENCE_ENRICHED)
-//                && isMiscBlock(state4, BlockMisc.Type.CHAOS_IRON)
-//                && isGemBlock(state5))
-//            return 3;
+        IBlockState state1 = this.world.getBlockState(pos);
+        IBlockState state2 = this.world.getBlockState(pos.up());
+        if (state1.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_LEVEL1)
+                && state2.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_CAP))
+            return 1;
+
+        IBlockState state3 = this.world.getBlockState(pos.up(2));
+        if (state1.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_LEVEL2)
+                && state2.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_LEVEL1)
+                && state3.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_CAP))
+            return 2;
+
+        IBlockState state4 = this.world.getBlockState(pos.up(3));
+        IBlockState state5 = this.world.getBlockState(pos.up(4));
+        if (state1.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_LEVEL3)
+                && state2.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_LEVEL3)
+                && state3.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_LEVEL2)
+                && state4.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_LEVEL1)
+                && state5.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_CAP))
+            return 3;
 
         return 0;
     }
-
-    private static int min(int a, final int b, final int c) {
-        if (b < a) a = b;
-        if (c < a) a = c;
-        return a;
-    }
-
-    private static int min(int a, final int b, final int c, final int d) {
-        if (b < a) a = b;
-        if (c < a) a = c;
-        if (d < a) a = d;
-        return a;
-    }
-
-    private static boolean isGemBlock(IBlockState state) {
-        // TODO Maybe use block tags?
-        return state.getBlock() instanceof GemBlock;
-    }
-
-//    private static boolean isMiscBlock(IBlockState state, BlockMisc.Type type) {
-//        return state.getBlock() == ModBlocks.miscBlock && state.getBlock().getMetaFromState(state) == type.getMetadata();
-//    }
 
     private boolean wouldFitInOutputSlot(ItemStack input, int chargeTier) {
         ItemStack output = getStackInSlot(2);

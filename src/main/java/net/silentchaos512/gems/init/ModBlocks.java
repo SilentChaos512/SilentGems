@@ -6,11 +6,11 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.FluffyPuffPlant;
 import net.silentchaos512.gems.block.GemLamp;
 import net.silentchaos512.gems.block.HardenedRock;
+import net.silentchaos512.gems.block.MiscBlocks;
 import net.silentchaos512.gems.block.urn.BlockSoulUrn;
 import net.silentchaos512.gems.lib.Gems;
 
@@ -25,40 +25,42 @@ public final class ModBlocks {
     public static void registerAll(RegistryEvent.Register<Block> event) {
         if (event.getRegistry().getRegistrySuperType() != Block.class) return;
 
-        IForgeRegistry<Block> reg = ForgeRegistries.BLOCKS;
-
-        registerGemBlocks(reg, Gems::getOre, gem -> gem.getName() + "_ore");
-        registerGemBlocks(reg, Gems::getBlock, gem -> gem.getName() + "_block");
-        registerGemBlocks(reg, Gems::getBricks, gem -> gem.getName() + "_bricks");
-        registerGemBlocks(reg, Gems::getGlass, gem -> gem.getName() + "_glass");
+        registerGemBlocks(Gems::getOre, gem -> gem.getName() + "_ore");
+        registerGemBlocks(Gems::getBlock, gem -> gem.getName() + "_block");
+        registerGemBlocks(Gems::getBricks, gem -> gem.getName() + "_bricks");
+        registerGemBlocks(Gems::getGlass, gem -> gem.getName() + "_glass");
         for (GemLamp.State state : GemLamp.State.values()) {
-            registerGemBlocks(reg, gem -> gem.getLamp(state), gem -> GemLamp.nameFor(gem, state));
+            registerGemBlocks(gem -> gem.getLamp(state), gem -> GemLamp.nameFor(gem, state));
         }
-        registerGemBlocks(reg, Gems::getGlowrose, gem -> gem.getName() + "_glowrose");
+        registerGemBlocks(Gems::getGlowrose, gem -> gem.getName() + "_glowrose");
 
-        register(reg, "multi_ore_classic", Gems.Set.CLASSIC.getMultiOre());
-        register(reg, "multi_ore_dark", Gems.Set.DARK.getMultiOre());
-        register(reg, "multi_ore_light", Gems.Set.LIGHT.getMultiOre());
+        register("multi_ore_classic", Gems.Set.CLASSIC.getMultiOre());
+        register("multi_ore_dark", Gems.Set.DARK.getMultiOre());
+        register("multi_ore_light", Gems.Set.LIGHT.getMultiOre());
+
+        for (MiscBlocks misc : MiscBlocks.values()) {
+            register(misc.getName(), misc.getBlock());
+        }
 
         for (HardenedRock.Type type : HardenedRock.Type.values()) {
-            register(reg, type.getName(), type.getBlock());
+            register(type.getName(), type.getBlock());
         }
 
         soulUrn = new BlockSoulUrn();
-        register(reg, "soul_urn", soulUrn, new BlockSoulUrn.ItemBlockSoulUrn(soulUrn));
+        register("soul_urn", soulUrn, new BlockSoulUrn.ItemBlockSoulUrn(soulUrn));
 
-        fluffyPuffPlant = register(reg, "fluffy_puff_plant", new FluffyPuffPlant());
+        fluffyPuffPlant = register("fluffy_puff_plant", new FluffyPuffPlant());
     }
 
-    private static <T extends Block> T register(IForgeRegistry<Block> reg, String name, T block) {
+    private static <T extends Block> T register(String name, T block) {
         ItemBlock item = new ItemBlock(block, new Item.Builder().group(ModItemGroups.BLOCKS));
-        return register(reg, name, block, item);
+        return register(name, block, item);
     }
 
-    private static <T extends Block> T register(IForgeRegistry<Block> reg, String name, T block, ItemBlock item) {
+    private static <T extends Block> T register(String name, T block, ItemBlock item) {
         ResourceLocation id = new ResourceLocation(SilentGems.MOD_ID, name);
         block.setRegistryName(id);
-        reg.register(block);
+        ForgeRegistries.BLOCKS.register(block);
 
         item.setRegistryName(id);
         ModItems.blocksToRegister.add(item);
@@ -66,9 +68,9 @@ public final class ModBlocks {
         return block;
     }
 
-    private static void registerGemBlocks(IForgeRegistry<Block> reg, Function<Gems, ? extends Block> factory, Function<Gems, String> name) {
+    private static void registerGemBlocks(Function<Gems, ? extends Block> factory, Function<Gems, String> name) {
         for (Gems gem : Gems.values()) {
-            register(reg, name.apply(gem), factory.apply(gem));
+            register(name.apply(gem), factory.apply(gem));
         }
     }
 }

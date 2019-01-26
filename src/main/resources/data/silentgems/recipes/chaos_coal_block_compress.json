@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:chaos_coal"
+    }
+  },
+  "result": {
+    "item": "silentgems:chaos_coal_block"
+  }
+}

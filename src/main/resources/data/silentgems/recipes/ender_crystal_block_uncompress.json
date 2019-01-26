@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:ender_crystal_block"
+    }
+  },
+  "result": {
+    "item": "silentgems:ender_crystal",
+    "count": 9
+  }
+}
