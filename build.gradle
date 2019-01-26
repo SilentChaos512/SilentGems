@@ -23,25 +23,16 @@ apply plugin: 'eclipse'
 def modName = 'silents-gems'
 def modVersion = '3.0.0'
 
-version = modVersion
-group = 'net.silentchaos512.gems' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = modName
+def versionInfo = getGitVersion()
+version = "${versionInfo['version']}"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    // the mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   snapshot are built nightly.
-    // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20180921-1.13'
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    
-    //accessTransformer = file('my_at.cfg')
+    mappings channel: "${project.mcp_mappings_channel}".toString(),
+             version: "${project.mcp_mappings_version}".toString()
 
-    // default run configurations.
-    // these can be tweaked, removed, or duplicated as needed.
+    // Run configurations
     runs {
         client = {
             workingDirectory project.file('run').canonicalPath
@@ -63,17 +54,14 @@ repositories {
 }
 
 dependencies {
-    // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
-    // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
-    // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge.test:forge:1.13-24.0.94-1.13-pre'
+    minecraft 'net.minecraftforge.test:forge:1.13-24.0.123-1.13-pre'
 
     compile "org.projectlombok:lombok:1.18.0"
     apt "org.projectlombok:lombok:1.18.0"
 
     // Silent Lib
     // TODO: This currently pulls from Maven local, need to publish to bintray
-    compile "net.silentchaos512:silent-lib:3.1.0"
+    compile "net.silentchaos512:silent-lib:${project.sl_version}"
 }
 
 processResources {
@@ -94,6 +82,11 @@ processResources {
         exclude 'META_INF/mods.toml'
     }
 }
+
+jar {
+    appendix = "${project.mc_version}"
+}
+
 
 task sourcesJar(type: Jar) {
     classifier = 'sources'
@@ -139,4 +132,64 @@ bintray {
         }
     }
 }
+
+// Version stuff
+
+def getGitVersion() {
+    def out = [:]
+
+    // Call git command
+    def outStream = new ByteArrayOutputStream()
+    def result = exec {
+        executable = 'git'
+        args = [ 'describe', '--long' ]
+        standardOutput = outStream
+    }
+
+    def fullVersion = outStream.toString().trim()
+    def matcher = fullVersion =~ /(\d+).(\d+).(\d+)-(.*)/
+
+    def maj = matcher[0][1]
+    def min = matcher[0][2]
+    def rev = matcher[0][3]
+    def bn = getBuildNumber()
+
+    out['build.major.number'] = maj.toString()
+    out['build.minor.number'] = min.toString()
+    out['build.revision.number'] = rev.toString()
+    out['build.githash'] = matcher[0][4].toString()
+    out['build.number'] = bn.toString()
+    out['version'] = "${maj}.${min}.${rev}+${bn}".toString()
+
+    return out;
+}
+
+// Build number tracking
+
+String getBuildNumber() {
+    def versionFile = file('version.properties')
+    if (versionFile.canRead()) {
+        Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionFile))
+        return versionProps['build_num'].toString()
+    }
+    return "1"
+}
+
+task incrementBuild {
+    doFirst {
+        def versionFile = file('version.properties')
+        if (versionFile.canRead()) {
+            Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionFile))
+            def num = versionProps['build_num'].toInteger() + 1
+            println("incrementing BuildNumber to: " + num)
+            versionProps['build_num'] = num.toString()
+            versionProps.store(versionFile.newWriter(), null)
+        } else {
+            println("version.properties file not found! Ignoring.")
+        }
+    }
+}
+build.finalizedBy incrementBuild
 
