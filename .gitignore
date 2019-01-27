@@ -32,6 +32,7 @@ libs/*
 curse_logo.png
 CurseLogo.*
 image_test/
+scripts/output
 
 .DS_Store
 

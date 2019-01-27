@@ -1,7 +1,9 @@
 package net.silentchaos512.gems.lib;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.IStringSerializable;
@@ -26,7 +28,7 @@ public enum Gems implements IStringSerializable {
     TOPAZ(Set.CLASSIC, "Topaz", 0xE6711D),
     AMBER(Set.CLASSIC, "Amber", 0xE6A31D),
     HELIODOR(Set.CLASSIC, "Heliodor", 0xE6C51D),
-    PERIDOT(Set.CLASSIC, "Peridot", 0xA3E61D, "gemOlivine"),
+    PERIDOT(Set.CLASSIC, "Peridot", 0xA3E61D),
     GREEN_SAPPHIRE(Set.CLASSIC, "GreenSapphire", 0x1DE61D),
     PHOSPHOPHYLLITE(Set.CLASSIC, "Phosphophyllite", 0x1DE682),
     AQUAMARINE(Set.CLASSIC, "Aquamarine", 0x1DE6E6),
@@ -48,7 +50,7 @@ public enum Gems implements IStringSerializable {
     TURQUOISE(Set.DARK, "Turquoise", 0x00A388),
     EUCLASE(Set.DARK, "Euclase", 0x006DA3),
     BENITOITE(Set.DARK, "Benitoite", 0x001BA3),
-    IOLITE(Set.DARK, "Iolite", 0x5F00A3, "gemCordierite"),
+    IOLITE(Set.DARK, "Iolite", 0x5F00A3),
     ALEXANDRITE(Set.DARK, "Alexandrite", 0x9500A3),
     LEPIDOLITE(Set.DARK, "Lepidolite", 0xA3007A),
     AMETRINE(Set.DARK, "Ametrine", 0xA30052),
@@ -75,8 +77,6 @@ public enum Gems implements IStringSerializable {
     final Set set;
     final String name;
     final int color;
-    // Additional ore dictionary keys, which apply only to standard gem items.
-    final String[] extraOreKeys;
 
     // Blocks
     final LazyLoadBase<GemOre> ore;
@@ -94,15 +94,16 @@ public enum Gems implements IStringSerializable {
     final LazyLoadBase<GemShard> shard;
 
     // Tags
+    final Tag<Block> glowroseTag;
     final Tag<Item> itemTag;
     final Tag<Item> shardTag;
 
-    Gems(Set set, String name, int color, String... extraOreKeys) {
+    Gems(Set set, String name, int color) {
         this.set = set;
         this.name = name;
         this.color = color;
-        this.extraOreKeys = extraOreKeys; // FIXME
 
+        // Blocks
         this.ore = new LazyLoadBase<>(() -> new GemOre(this));
         this.block = new LazyLoadBase<>(() -> new GemBlock(this));
         this.bricks = new LazyLoadBase<>(() -> new GemBricks(this));
@@ -113,9 +114,12 @@ public enum Gems implements IStringSerializable {
         this.lampInvertedUnlit = new LazyLoadBase<>(() -> new GemLamp(this, GemLamp.State.INVERTED_UNLIT));
         this.glowrose = new LazyLoadBase<>(() -> new Glowrose(this));
 
+        // Items
         this.item = new LazyLoadBase<>(() -> new GemItem(this));
         this.shard = new LazyLoadBase<>(() -> new GemShard(this));
 
+        // Tags
+        this.glowroseTag = new BlockTags.Wrapper(new ResourceLocation(SilentGems.MOD_ID, "glowroses/" + this.getName()));
         this.itemTag = new ItemTags.Wrapper(new ResourceLocation("forge", "gems/" + this.getName()));
         this.shardTag = new ItemTags.Wrapper(new ResourceLocation("forge", "nuggets/" + this.getName()));
     }
