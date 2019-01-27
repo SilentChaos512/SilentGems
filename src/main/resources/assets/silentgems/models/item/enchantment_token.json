@@ -50,6 +50,12 @@
       "predicate": {
         "model_index": 7
       },
+      "model": "silentgems:item/enchantment_token_trident"
+    },
+    {
+      "predicate": {
+        "model_index": 8
+      },
       "model": "silentgems:item/enchantment_token_unknown"
     }
   ]

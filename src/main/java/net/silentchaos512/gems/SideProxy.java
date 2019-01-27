@@ -1,9 +1,11 @@
 package net.silentchaos512.gems;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLModLoadingContext;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.init.*;
+import net.silentchaos512.gems.lib.ColorHandlers;
 import net.silentchaos512.gems.util.ModelGen;
 import net.silentchaos512.gems.util.RecipeGen;
 import net.silentchaos512.lib.util.GameUtil;
@@ -56,6 +58,9 @@ class SideProxy {
         Client() {
             SilentGems.LOGGER.info("Gems SideProxy.Client init");
             FMLModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+
+            MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onBlockColors);
+            MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onItemColors);
 
 //            OBJLoader.INSTANCE.addDomain(SilentGems.MOD_ID);
         }

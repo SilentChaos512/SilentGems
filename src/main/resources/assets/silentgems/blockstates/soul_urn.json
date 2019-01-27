@@ -1,16 +1,16 @@
 {
     "variants": {
-        "facing=south,lid=closed": { "model": "silentgems:soul_urn" },
-        "facing=west,lid=closed": { "model": "silentgems:soul_urn", "y": 90 },
-        "facing=north,lid=closed": { "model": "silentgems:soul_urn", "y": 180 },
-        "facing=east,lid=closed": { "model": "silentgems:soul_urn", "y": 270 },
-        "facing=south,lid=open": { "model": "silentgems:soul_urn_open", "y": 90 },
-        "facing=west,lid=open": { "model": "silentgems:soul_urn_open", "y": 180 },
-        "facing=north,lid=open": { "model": "silentgems:soul_urn_open", "y": 270 },
-        "facing=east,lid=open": { "model": "silentgems:soul_urn_open" },
-        "facing=south,lid=no_lid": { "model": "silentgems:soul_urn_no_lid" },
-        "facing=west,lid=no_lid": { "model": "silentgems:soul_urn_no_lid", "y": 90 },
-        "facing=north,lid=no_lid": { "model": "silentgems:soul_urn_no_lid", "y": 180 },
-        "facing=east,lid=no_lid": { "model": "silentgems:soul_urn_no_lid", "y": 270 }
+        "facing=south,lid=closed": { "model": "silentgems:block/soul_urn" },
+        "facing=west,lid=closed": { "model": "silentgems:block/soul_urn", "y": 90 },
+        "facing=north,lid=closed": { "model": "silentgems:block/soul_urn", "y": 180 },
+        "facing=east,lid=closed": { "model": "silentgems:block/soul_urn", "y": 270 },
+        "facing=south,lid=open": { "model": "silentgems:block/soul_urn_open", "y": 90 },
+        "facing=west,lid=open": { "model": "silentgems:block/soul_urn_open", "y": 180 },
+        "facing=north,lid=open": { "model": "silentgems:block/soul_urn_open", "y": 270 },
+        "facing=east,lid=open": { "model": "silentgems:block/soul_urn_open" },
+        "facing=south,lid=no_lid": { "model": "silentgems:block/soul_urn_no_lid" },
+        "facing=west,lid=no_lid": { "model": "silentgems:block/soul_urn_no_lid", "y": 90 },
+        "facing=north,lid=no_lid": { "model": "silentgems:block/soul_urn_no_lid", "y": 180 },
+        "facing=east,lid=no_lid": { "model": "silentgems:block/soul_urn_no_lid", "y": 270 }
     }
 }

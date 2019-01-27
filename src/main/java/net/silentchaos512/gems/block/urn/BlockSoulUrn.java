@@ -23,8 +23,6 @@ import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.color.IBlockColor;
-import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -45,6 +43,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.client.key.KeyTracker;
@@ -275,45 +274,42 @@ public class BlockSoulUrn extends BlockContainer {
         return stack;
     }
 
-    public IBlockColor getColorHandler() {
-        return (state, worldIn, pos, tintIndex) -> {
-            if (tintIndex == 0) {
-                // Main body/clay color
-                if (worldIn != null && pos != null) {
-                    TileEntity tile = worldIn.getTileEntity(pos);
-                    if (tile instanceof TileSoulUrn) {
-                        return ((TileSoulUrn) tile).getColor();
-                    }
+    @SuppressWarnings("TypeMayBeWeakened")
+    public static int getBlockColor(IBlockState state, @Nullable IWorldReaderBase world, @Nullable BlockPos pos, int tintIndex) {
+        if (tintIndex == 0) {
+            // Main body/clay color
+            if (world != null && pos != null) {
+                TileEntity tile = world.getTileEntity(pos);
+                if (tile instanceof TileSoulUrn) {
+                    return ((TileSoulUrn) tile).getColor();
                 }
-                // Fallback to plain hardened clay color
-                return UrnConst.UNDYED_COLOR;
-            } else if (tintIndex == 1) {
-                // Decorative gem color
-                if (worldIn != null && pos != null) {
-                    TileEntity tile = worldIn.getTileEntity(pos);
-                    if (tile instanceof TileSoulUrn) {
-                        Gems gem = ((TileSoulUrn) tile).getGem();
-                        if (gem != null) return gem.getColor();
-                    }
-                }
-                // Fall through to white if gem is null
             }
-            return 0xFFFFFF;
-        };
+            // Fallback to plain hardened clay color
+            return UrnConst.UNDYED_COLOR;
+        } else if (tintIndex == 1) {
+            // Decorative gem color
+            if (world != null && pos != null) {
+                TileEntity tile = world.getTileEntity(pos);
+                if (tile instanceof TileSoulUrn) {
+                    Gems gem = ((TileSoulUrn) tile).getGem();
+                    if (gem != null) return gem.getColor();
+                }
+            }
+            // Fall through to white if gem is null
+        }
+        return 0xFFFFFF;
     }
 
-    public IItemColor getItemColorHandler() {
-        return (stack, tintIndex) -> {
-            if (tintIndex == 0) {
-                // Main body/clay color
-                return UrnHelper.getClayColor(stack);
-            } else if (tintIndex == 1) {
-                // Decorative gem color
-                Gems gem = UrnHelper.getGem(stack);
-                return gem != null ? gem.getColor() : 0xFFFFFF;
-            }
-            return 0xFFFFFF;
-        };
+    public static int getItemColor(ItemStack stack, int tintIndex) {
+        if (tintIndex == 0) {
+            // Main body/clay color
+            return UrnHelper.getClayColor(stack);
+        } else if (tintIndex == 1) {
+            // Decorative gem color
+            Gems gem = UrnHelper.getGem(stack);
+            return gem != null ? gem.getColor() : 0xFFFFFF;
+        }
+        return 0xFFFFFF;
     }
 
     @SuppressWarnings("deprecation")

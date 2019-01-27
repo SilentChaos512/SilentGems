@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge.test:forge:1.13-24.0.123-1.13-pre'
+    minecraft 'net.minecraftforge.test:forge:1.13-24.0.128-1.13-pre'
 
     compile "org.projectlombok:lombok:1.18.0"
     apt "org.projectlombok:lombok:1.18.0"

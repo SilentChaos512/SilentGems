@@ -94,6 +94,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         return color;
     }
 
+    @Nullable
     public Gems getGem() {
         return gem;
     }

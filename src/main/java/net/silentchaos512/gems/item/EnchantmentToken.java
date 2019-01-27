@@ -4,11 +4,14 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -28,33 +31,41 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public final class EnchantmentToken extends Item {
-    private static final String NBT_ENCHANTMENTS = "TokenEnchantments";
-    /*
-     * Model keys
-     */
-    private static final String KEY_ANY = "Any";
-    private static final String KEY_ARMOR = "Armor";
-    private static final String KEY_BOW = "Bow";
-    private static final String KEY_EMPTY = "Empty";
-    private static final String KEY_FISHING_ROD = "FishingRod";
-    private static final String KEY_WEAPON = "Sword";
-    private static final String KEY_DIGGER = "Tool";
-    private static final String KEY_UNKNOWN = "Unknown";
-    private static final String[] MODEL_TYPES = {KEY_ANY, KEY_ARMOR, KEY_BOW, KEY_EMPTY, KEY_FISHING_ROD, KEY_WEAPON, KEY_DIGGER, KEY_UNKNOWN};
+    public enum Icon implements IStringSerializable {
+        ANY, ARMOR, BOW, EMPTY, FISHING_ROD, SWORD, TOOL, TRIDENT, UNKNOWN;
 
-    private static final Map<String, Integer> modelMap = new HashMap<>();
-    //    private static final Map<Enchantment, String> recipeMap = new HashMap<>();
-    private static final Map<Enchantment, Integer> colorMap = new HashMap<>();
+        @Override
+        public String getName() {
+            return name().toLowerCase(Locale.ROOT);
+        }
+    }
+
+    private static final String NBT_ENCHANTMENTS = "TokenEnchantments";
+
+    private static final Map<Enchantment, Integer> OUTLINE_COLOR_MAP = new HashMap<>();
+    private static final Map<EnumEnchantmentType, Icon> MODELS_BY_TYPE = new EnumMap<>(EnumEnchantmentType.class);
+
+    static {
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ALL, Icon.ANY);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.BREAKABLE, Icon.ANY);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR, Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_CHEST, Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_FEET, Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_HEAD, Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_LEGS, Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.WEARABLE, Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.BOW, Icon.BOW);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.DIGGER, Icon.TOOL);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.FISHING_ROD, Icon.FISHING_ROD);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.TRIDENT, Icon.TRIDENT);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.WEAPON, Icon.SWORD);
+    }
 
     public static final EnchantmentToken INSTANCE = new EnchantmentToken();
 
     private EnchantmentToken() {
         super(new Builder().group(ModItemGroups.UTILITY));
-        for (int i = 0; i < MODEL_TYPES.length; ++i) {
-            modelMap.put(MODEL_TYPES[i], i);
-        }
-        addPropertyOverride(new ResourceLocation("model_index"), (stack, world, entity) ->
-                modelMap.get(getModelKey(stack)));
+        addPropertyOverride(new ResourceLocation("model_index"), EnchantmentToken::getModel);
     }
 
     // ==============================================
@@ -178,48 +189,6 @@ public final class EnchantmentToken extends Item {
         return true;
     }
 
-    // =========
-    // Rendering
-    // =========
-
-    private boolean loggedIssue139Catch = false;
-
-    private String getModelKey(ItemStack stack) {
-        Map<Enchantment, Integer> enchMap = getEnchantmentMap(stack);
-
-        if (!enchMap.isEmpty()) {
-            Enchantment ench = enchMap.keySet().iterator().next();
-            if (ench == null || ench.type == null) {
-                return KEY_UNKNOWN;
-            }
-
-            switch (ench.type) {
-                case ALL:
-                case BREAKABLE:
-                    return KEY_ANY;
-                case ARMOR:
-                case ARMOR_CHEST:
-                case ARMOR_FEET:
-                case ARMOR_HEAD:
-                case ARMOR_LEGS:
-                case WEARABLE:
-                    return KEY_ARMOR;
-                case BOW:
-                    return KEY_BOW;
-                case DIGGER:
-                    return KEY_DIGGER;
-                case FISHING_ROD:
-                    return KEY_FISHING_ROD;
-                case WEAPON:
-                    return KEY_WEAPON;
-                default:
-                    return KEY_UNKNOWN;
-            }
-        }
-
-        return KEY_EMPTY;
-    }
-
     // =========================
     // Item and ItemSL overrides
     // =========================
@@ -287,12 +256,13 @@ public final class EnchantmentToken extends Item {
         }
 
         // Sort by type, then enchantment name
-        tokens.sort(this::compareEnchantmentNames);
+        tokens.sort(EnchantmentToken::compareEnchantmentNames);
         items.addAll(tokens);
     }
 
-    private int compareEnchantmentNames(ItemStack o1, ItemStack o2) {
-        int k = -getModelKey(o1).compareTo(getModelKey(o2));
+    private static int compareEnchantmentNames(ItemStack o1, ItemStack o2) {
+        // First compare icon names (group together enchantments of one type)
+        int k = -getModelIcon(o1).getName().compareTo(getModelIcon(o2).getName());
         if (k == 0) {
             Enchantment ench1 = getSingleEnchantment(o1);
             Enchantment ench2 = getSingleEnchantment(o2);
@@ -324,10 +294,12 @@ public final class EnchantmentToken extends Item {
 
     private static float OUTLINE_PULSATE_SPEED = 1f / (3f * (float) Math.PI);
 
-    public int getOutlineColor(ItemStack stack) {
+    public static int getItemColor(ItemStack stack, int tintIndex) {
+        if (tintIndex != 1) return 0xFFFFFF;
+
         Enchantment ench = getSingleEnchantment(stack);
-        if (ench != null && colorMap.containsKey(ench)) {
-            int k = colorMap.get(ench);
+        if (ench != null && OUTLINE_COLOR_MAP.containsKey(ench)) {
+            int k = OUTLINE_COLOR_MAP.get(ench);
             int r = (k >> 16) & 255;
             int g = (k >> 8) & 255;
             int b = k & 255;
@@ -339,18 +311,22 @@ public final class EnchantmentToken extends Item {
             b = MathHelper.clamp(b + j, 0, 255);
             return (r << 16) | (g << 8) | b;
         }
-        return 0xFFFFFF;
+        return 0x8040CC;
     }
 
-//    @Override
-//    public void registerModels() {
-//        SilentGems.registry.setModel(this, 0, Names.ENCHANTMENT_TOKEN);
-//        int i = 1;
-//        for (String type : MODEL_TYPES) {
-//            SilentGems.registry.setModel(this, i++, Names.ENCHANTMENT_TOKEN + "_" + type.toLowerCase(Locale.ROOT));
-//        }
-//        SilentGems.registry.setModel(this, BLANK_META, Names.ENCHANTMENT_TOKEN);
-//    }
+    public static void setOutlineColor(Enchantment enchantment, int color) {
+        OUTLINE_COLOR_MAP.put(enchantment, color);
+    }
+
+    private static float getModel(ItemStack stack, World world, EntityLivingBase entity) {
+        return getModelIcon(stack).ordinal();
+    }
+
+    private static Icon getModelIcon(ItemStack stack) {
+        Map<Enchantment, Integer> map = getEnchantmentMap(stack);
+        if (map.isEmpty()) return Icon.EMPTY;
+        return MODELS_BY_TYPE.getOrDefault(map.keySet().iterator().next().type, Icon.UNKNOWN);
+    }
 
     private String getEnchantmentDebugInfo(Enchantment ench) {
         String str = ench.toString();
