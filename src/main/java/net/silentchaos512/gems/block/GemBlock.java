@@ -22,19 +22,34 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.silentchaos512.gems.lib.Gems;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class GemBlock extends Block {
+    private final Gems gem;
+
     public GemBlock(Gems gem) {
         super(Block.Builder.create(Material.IRON)
                 .hardnessAndResistance(3, 30)
                 .sound(SoundType.METAL));
+        this.gem = gem;
     }
 
     @Override
     public boolean isBeaconBase(IBlockState state, IWorldReader world, BlockPos pos, BlockPos beacon) {
         return true;
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(gem.getSet().getDisplayName());
     }
 }

@@ -1,11 +1,12 @@
 package net.silentchaos512.gems.client.key;
 
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.util.InputMappings;
 import net.minecraftforge.client.settings.IKeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import org.apache.commons.lang3.NotImplementedException;
+import org.lwjgl.glfw.GLFW;
 
 public class KeyTracker {
     public static KeyTracker INSTANCE = new KeyTracker();
@@ -33,21 +34,21 @@ public class KeyTracker {
     }
 
     public static boolean isShiftDown() {
-//        return InputMappings.isKeyDown(GLFW.GLFW_MOD_SHIFT);
-        return false;
+        return InputMappings.isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT)
+                || InputMappings.isKeyDown(GLFW.GLFW_KEY_RIGHT_SHIFT);
     }
 
     public static boolean isControlDown() {
-//        return InputMappings.isKeyDown(GLFW.GLFW_MOD_CONTROL);
-        return false;
+        return InputMappings.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)
+                || InputMappings.isKeyDown(GLFW.GLFW_KEY_RIGHT_CONTROL);
     }
 
     public static boolean isAltDown() {
-//        return InputMappings.isKeyDown(GLFW.GLFW_MOD_ALT);
-        return false;
+        return InputMappings.isKeyDown(GLFW.GLFW_KEY_LEFT_ALT)
+                || InputMappings.isKeyDown(GLFW.GLFW_KEY_RIGHT_ALT);
     }
 
-    @SubscribeEvent
+    //    @SubscribeEvent
     public void onKeyInput(KeyInputEvent event) {
 //        this.player = Minecraft.getMinecraft().player;
 //

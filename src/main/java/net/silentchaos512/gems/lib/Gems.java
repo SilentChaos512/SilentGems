@@ -7,6 +7,9 @@ import net.minecraft.tags.Tag;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.item.GemItem;
@@ -275,6 +278,11 @@ public enum Gems implements IStringSerializable {
 
         public String getName() {
             return name().toLowerCase(Locale.ROOT);
+        }
+
+        public ITextComponent getDisplayName() {
+            TextComponentTranslation textSet = new TextComponentTranslation("gem.silentgems.set." + getName());
+            return new TextComponentTranslation("gem.silentgems.set", textSet).applyTextStyle(TextFormatting.ITALIC);
         }
     }
 }

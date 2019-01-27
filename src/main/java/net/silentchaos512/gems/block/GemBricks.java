@@ -20,11 +20,26 @@ package net.silentchaos512.gems.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.IBlockReader;
 import net.silentchaos512.gems.lib.Gems;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class GemBricks extends Block {
+    private final Gems gem;
+
     public GemBricks(Gems gem) {
         super(Block.Builder.create(Material.ROCK)
                 .hardnessAndResistance(2, 30));
+        this.gem = gem;
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(gem.getSet().getDisplayName());
     }
 }

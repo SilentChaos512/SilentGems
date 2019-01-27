@@ -146,9 +146,8 @@ public class GemLamp extends Block {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable IBlockReader world, List<ITextComponent> list, ITooltipFlag flag) {
-//        if (inverted)
-//            list.add(SilentGems.i18n.blockSubText(Names.GEM_LAMP, "inverted"));
+    public void addInformation(ItemStack stack, @Nullable IBlockReader world, List<ITextComponent> tooltip, ITooltipFlag flag) {
+        tooltip.add(gem.getSet().getDisplayName());
     }
 
 //    @Override

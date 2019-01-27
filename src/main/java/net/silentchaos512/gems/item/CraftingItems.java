@@ -29,6 +29,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModItemGroups;
 
 import javax.annotation.Nullable;
@@ -90,10 +91,14 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
             tooltip.add(new TextComponentTranslation("item.silentgems.crafting_material.desc")
                     .applyTextStyle(TextFormatting.GOLD));
 
+            if (KeyTracker.isShiftDown()) {
+                tooltip.add(new TextComponentTranslation("item.silentgems.crafting_material.desc.more"));
+            }
+
             ResourceLocation registryName = getRegistryName();
             if (registryName != null) {
-                tooltip.add(new TextComponentTranslation("item." + registryName + ".desc")
-                        .applyTextStyle(TextFormatting.ITALIC));
+                String key = "item." + registryName.getNamespace() + "." + registryName.getPath() + ".desc";
+                tooltip.add(new TextComponentTranslation(key).applyTextStyle(TextFormatting.ITALIC));
             }
         }
 

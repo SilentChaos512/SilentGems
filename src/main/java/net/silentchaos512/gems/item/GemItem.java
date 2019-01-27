@@ -6,10 +6,9 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.IGem;
 
 import javax.annotation.Nullable;
@@ -30,13 +29,7 @@ public class GemItem extends Item implements IGem {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
-//        Gems gem = Gems.fromStack(stack);
-//        boolean controlDown = KeyTracker.isControlDown();
-//
-//        if (controlDown && (gem == Gems.RUBY || gem == Gems.GREEN_SAPPHIRE || gem == Gems.SAPPHIRE || gem == Gems.TOPAZ)) {
-//            list.add(SilentGems.i18n.subText(this, "original4"));
-//        }
-        list.add(new TextComponentString("Set: " + gem.getSet()));
+        list.add(gem.getSet().getDisplayName());
     }
 
     @Override
