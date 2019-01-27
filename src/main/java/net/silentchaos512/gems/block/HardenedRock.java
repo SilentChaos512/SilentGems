@@ -21,35 +21,45 @@ package net.silentchaos512.gems.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.Item;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.LazyLoadBase;
 
 import java.util.Locale;
 
-public final class HardenedRock extends Block {
-    public enum Type {
-        STONE, NETHERRACK, END_STONE;
+public enum HardenedRock implements IItemProvider, IStringSerializable {
+    STONE, NETHERRACK, END_STONE;
 
-        private final HardenedRock block;
+    private final LazyLoadBase<Block> block;
 
-        Type() {
-            this.block = new HardenedRock();
-        }
-
-        public HardenedRock getBlock() {
-            return block;
-        }
-
-        public String getName() {
-            return "hardened_" + name().toLowerCase(Locale.ROOT);
-        }
-    }
-
-    private HardenedRock() {
-        super(Builder.create(Material.ROCK)
-                .hardnessAndResistance(50, 2000));
+    public Block getBlock() {
+        return block.getValue();
     }
 
     @Override
-    public int getHarvestLevel(IBlockState state) {
-        return 3;
+    public Item asItem() {
+        return getBlock().asItem();
+    }
+
+    @Override
+    public String getName() {
+        return "hardened_" + name().toLowerCase(Locale.ROOT);
+    }
+
+    HardenedRock() {
+        block = new LazyLoadBase<>(HardenedRockBlock::new);
+    }
+
+    public static class HardenedRockBlock extends Block {
+        HardenedRockBlock() {
+            super(Builder.create(Material.ROCK)
+                    .hardnessAndResistance(50, 2000));
+        }
+
+        @Override
+        public int getHarvestLevel(IBlockState state) {
+            return 3;
+        }
     }
 }

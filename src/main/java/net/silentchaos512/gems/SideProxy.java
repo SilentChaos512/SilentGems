@@ -4,7 +4,9 @@ import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLModLoadingContext;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.init.*;
+import net.silentchaos512.gems.util.ModelGen;
 import net.silentchaos512.gems.util.RecipeGen;
+import net.silentchaos512.lib.util.GameUtil;
 
 class SideProxy {
     SideProxy() {
@@ -36,7 +38,10 @@ class SideProxy {
     private void commonSetup(FMLCommonSetupEvent event) {
         SilentGems.LOGGER.info("Gems commonSetup");
 
-        RecipeGen.generateRecipes();
+        if (GameUtil.isDeobfuscated()) {
+            ModelGen.generateModels();
+            RecipeGen.generateRecipes();
+        }
     }
 
     private void imcEnqueue(InterModEnqueueEvent event) {

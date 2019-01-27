@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/bricks/sapphire"
+    "all": "silentgems:blocks/glass/sapphire"
   }
 }

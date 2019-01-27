@@ -1,0 +1,8 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "silentgems:items/enchantment_token/base",
+    "layer1": "silentgems:items/blank",
+    "layer2": "silentgems:items/enchantment_token/empty"
+  }
+}

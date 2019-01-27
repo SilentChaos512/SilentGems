@@ -42,7 +42,7 @@ public final class ModBlocks {
             register(misc.getName(), misc.getBlock());
         }
 
-        for (HardenedRock.Type type : HardenedRock.Type.values()) {
+        for (HardenedRock type : HardenedRock.values()) {
             register(type.getName(), type.getBlock());
         }
 

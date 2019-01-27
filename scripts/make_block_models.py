@@ -110,7 +110,7 @@ blockTypes = {
     },
     'glass': {
         'names': [gem + '_glass' for gem in gems],
-        'textures': ['bricks/' + gem for gem in gems]
+        'textures': ['glass/' + gem for gem in gems]
     },
     'lamp': {
         'names': [gem + '_lamp' for gem in gems],
