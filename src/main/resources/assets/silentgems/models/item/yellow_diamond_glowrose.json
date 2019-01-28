@@ -1,3 +1,6 @@
 {
-  "parent": "silentgems:block/yellow_diamond_glowrose"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "silentgems:block/glowrose/yellow_diamond"
+  }
 }

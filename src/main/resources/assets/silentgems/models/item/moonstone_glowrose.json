@@ -1,3 +1,6 @@
 {
-  "parent": "silentgems:block/moonstone_glowrose"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "silentgems:block/glowrose/moonstone"
+  }
 }

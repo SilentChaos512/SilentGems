@@ -1,3 +1,6 @@
 {
-  "parent": "silentgems:block/pyrope_glowrose"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "silentgems:block/glowrose/pyrope"
+  }
 }

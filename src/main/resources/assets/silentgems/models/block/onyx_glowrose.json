@@ -1,6 +1,6 @@
 {
-  "parent": "block/cube_all",
+  "parent": "block/cross",
   "textures": {
-    "all": "silentgems:block/glowrose/onyx"
+    "cross": "silentgems:block/glowrose/onyx"
   }
 }

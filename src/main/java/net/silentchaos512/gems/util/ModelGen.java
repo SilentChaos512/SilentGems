@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.util;
 
+import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GemLamp;
 import net.silentchaos512.gems.block.HardenedRock;
@@ -37,7 +38,12 @@ public final class ModelGen {
                     .texture("glass/" + gem.getName()));
             // Glowroses
             ModelGenerator.create(BlockBuilder.create(gem.getGlowrose())
-                    .texture("glowrose/" + gem.getName()));
+                    .parent("block/cross")
+                    .texture("cross", "glowrose/" + gem.getName())
+                    .item(ItemBuilder.create(gem.getGlowrose().asItem())
+                            .texture(new ResourceLocation(SilentGems.MOD_ID, "block/glowrose/" + gem.getName()))
+                    )
+            );
             // Ores
             ModelGenerator.create(BlockBuilder.create(gem.getOre())
                     .texture("ore/gem/" + gem.getName()));

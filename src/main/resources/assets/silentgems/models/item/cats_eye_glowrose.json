@@ -1,3 +1,6 @@
 {
-  "parent": "silentgems:block/cats_eye_glowrose"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "silentgems:block/glowrose/cats_eye"
+  }
 }
