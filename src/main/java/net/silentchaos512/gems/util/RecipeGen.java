@@ -106,7 +106,7 @@ public final class RecipeGen {
         // Fluffy Fabric
         RecipeGenerator.compress4(name(CraftingItems.FLUFFY_FABRIC),
                 CraftingItems.FLUFFY_FABRIC,
-                ModItems.fluffyPuff);
+                CraftingItems.FLUFFY_PUFF);
         // Gilded String
         RecipeGenerator.create(name(CraftingItems.GILDED_STRING), ShapedBuilder
                 .create(CraftingItems.GILDED_STRING, 3)

@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/lamp/jasper"
+    "all": "silentgems:block/lamp/jasper"
   }
 }

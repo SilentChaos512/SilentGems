@@ -28,7 +28,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
-import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.item.CraftingItems;
+import net.silentchaos512.gems.item.FluffyPuffSeeds;
 
 public class FluffyPuffPlant extends BlockCrops {
     public FluffyPuffPlant() {
@@ -91,12 +92,12 @@ public class FluffyPuffPlant extends BlockCrops {
 
     @Override
     protected IItemProvider getSeedsItem() {
-        return ModItems.fluffyPuffSeeds;
+        return FluffyPuffSeeds.INSTANCE.getValue();
     }
 
     @Override
     protected IItemProvider getCropsItem() {
-        return ModItems.fluffyPuff;
+        return CraftingItems.FLUFFY_PUFF;
     }
 
     @Override

@@ -1,12 +1,12 @@
 {
-    "parent": "block/cube_all",
-    "textures": {
-        "particle": "silentgems:blocks/supercharger_side",
-        "down": "silentgems:blocks/supercharger_bottom",
-        "up": "silentgems:blocks/supercharger_top",
-        "north": "silentgems:blocks/supercharger_side",
-        "east": "silentgems:blocks/supercharger_side",
-        "south": "silentgems:blocks/supercharger_side",
-        "west": "silentgems:blocks/supercharger_side"
-    }
+  "parent": "block/cube_all",
+  "textures": {
+    "particle": "silentgems:block/supercharger_side",
+    "down": "silentgems:block/supercharger_bottom",
+    "up": "silentgems:block/supercharger_top",
+    "north": "silentgems:block/supercharger_side",
+    "east": "silentgems:block/supercharger_side",
+    "south": "silentgems:block/supercharger_side",
+    "west": "silentgems:block/supercharger_side"
+  }
 }

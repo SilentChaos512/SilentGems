@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/glass/phosphophyllite"
+    "all": "silentgems:block/glass/phosphophyllite"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/lamp/ametrine"
+    "all": "silentgems:block/lamp/ametrine"
   }
 }

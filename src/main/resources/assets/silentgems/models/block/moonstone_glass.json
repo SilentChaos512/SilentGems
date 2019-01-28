@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/glass/moonstone"
+    "all": "silentgems:block/glass/moonstone"
   }
 }

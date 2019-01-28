@@ -15,9 +15,6 @@ import java.util.Collection;
 import java.util.function.Function;
 
 public final class ModItems {
-    // item fields here
-    public static Item fluffyPuff;
-    public static FluffyPuffSeeds fluffyPuffSeeds;
     public static PetSummoner summonKitty;
     public static PetSummoner summonPuppy;
 
@@ -41,13 +38,10 @@ public final class ModItems {
             register(reg, item.getName(), item.asItem());
         }
 
-        register(reg, "blank_enchantment_token", new Item(new Item.Builder().group(ModItemGroups.UTILITY)));
         register(reg, "enchantment_token", EnchantmentToken.INSTANCE);
 
-        Item.Builder defaultBuilder = new Item.Builder().group(ModItemGroups.MATERIALS);
-        fluffyPuff = register(reg, "fluffy_puff", new Item(defaultBuilder));
-        fluffyPuffSeeds = register(reg, "fluffy_puff_seeds", new FluffyPuffSeeds());
-        register(reg, "glowrose_fertilizer", new GlowroseFertilizer());
+        register(reg, "fluffy_puff_seeds", FluffyPuffSeeds.INSTANCE.getValue());
+        register(reg, "glowrose_fertilizer", GlowroseFertilizer.INSTANCE.getValue());
 
         for (Foods food : Foods.values()) {
             register(reg, food.getName(), food.getItem());

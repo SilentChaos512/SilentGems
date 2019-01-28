@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "silentgems:items/gem/jade"
+    "layer0": "silentgems:item/gem/jade"
   }
 }

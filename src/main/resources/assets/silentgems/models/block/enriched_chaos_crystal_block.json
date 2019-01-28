@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/misc/enriched_chaos_crystal_block"
+    "all": "silentgems:block/misc/enriched_chaos_crystal_block"
   }
 }

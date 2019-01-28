@@ -1,8 +1,8 @@
 {
   "ambientocclusion": false,
   "textures": {
-    "particle": "silentgems:blocks/luminous_flower_pot",
-    "flowerpot": "silentgems:blocks/luminous_flower_pot",
+    "particle": "silentgems:block/luminous_flower_pot",
+    "flowerpot": "silentgems:block/luminous_flower_pot",
     "dirt": "minecraft:block/dirt"
   },
   "elements": [

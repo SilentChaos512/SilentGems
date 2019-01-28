@@ -1,8 +1,8 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "silentgems:items/enchantment_token/base",
-    "layer1": "silentgems:items/enchantment_token/outline",
-    "layer2": "silentgems:items/enchantment_token/bow"
+    "layer0": "silentgems:item/enchantment_token/base",
+    "layer1": "silentgems:item/enchantment_token/outline",
+    "layer2": "silentgems:item/enchantment_token/bow"
   }
 }

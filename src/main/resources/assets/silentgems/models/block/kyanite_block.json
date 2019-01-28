@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/gem/kyanite_block"
+    "all": "silentgems:block/gem/kyanite_block"
   }
 }

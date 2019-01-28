@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "silentgems:items/luminous_flower_pot"
+    "layer0": "silentgems:item/luminous_flower_pot"
   }
 }

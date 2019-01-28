@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/glowrose/rose_quartz"
+    "all": "silentgems:block/glowrose/rose_quartz"
   }
 }

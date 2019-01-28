@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/gem/peridot_block"
+    "all": "silentgems:block/gem/peridot_block"
   }
 }

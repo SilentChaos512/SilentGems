@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/lamp/ammolite_lit"
+    "all": "silentgems:block/lamp/ammolite_lit"
   }
 }

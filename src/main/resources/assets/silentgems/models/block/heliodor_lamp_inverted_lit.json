@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/lamp/heliodor_lit"
+    "all": "silentgems:block/lamp/heliodor_lit"
   }
 }

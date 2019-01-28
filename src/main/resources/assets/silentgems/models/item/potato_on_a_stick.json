@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "silentgems:items/potato_on_a_stick"
+    "layer0": "silentgems:item/potato_on_a_stick"
   }
 }

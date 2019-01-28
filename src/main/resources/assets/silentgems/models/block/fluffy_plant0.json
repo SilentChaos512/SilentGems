@@ -1,6 +1,6 @@
 {
   "parent": "block/cross",
   "textures": {
-    "cross": "silentgems:blocks/fluffy_plant0"
+    "cross": "silentgems:block/fluffy_plant0"
   }
 }

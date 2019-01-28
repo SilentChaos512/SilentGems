@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/glowrose/tanzanite"
+    "all": "silentgems:block/glowrose/tanzanite"
   }
 }

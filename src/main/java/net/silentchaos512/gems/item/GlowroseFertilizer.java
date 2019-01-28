@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -16,7 +17,9 @@ import net.silentchaos512.gems.init.ModItemGroups;
 public class GlowroseFertilizer extends Item {
     private static final int SPREAD = 3;
 
-    public GlowroseFertilizer() {
+    public static final LazyLoadBase<GlowroseFertilizer> INSTANCE = new LazyLoadBase<>(GlowroseFertilizer::new);
+
+    private GlowroseFertilizer() {
         super(new Builder().group(ModItemGroups.UTILITY));
     }
 

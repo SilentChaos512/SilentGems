@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "silentgems:items/meaty_stew"
+    "layer0": "silentgems:item/meaty_stew"
   }
 }

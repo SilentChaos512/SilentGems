@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/glass/cats_eye"
+    "all": "silentgems:block/glass/cats_eye"
   }
 }

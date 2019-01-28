@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/lamp/spinel_lit"
+    "all": "silentgems:block/lamp/spinel_lit"
   }
 }

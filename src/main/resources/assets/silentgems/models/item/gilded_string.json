@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "silentgems:items/gilded_string"
+    "layer0": "silentgems:item/gilded_string"
   }
 }

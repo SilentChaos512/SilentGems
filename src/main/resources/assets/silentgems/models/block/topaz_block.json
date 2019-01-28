@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/gem/topaz_block"
+    "all": "silentgems:block/gem/topaz_block"
   }
 }

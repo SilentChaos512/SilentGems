@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/lamp/benitoite"
+    "all": "silentgems:block/lamp/benitoite"
   }
 }

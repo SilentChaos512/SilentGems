@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/glowrose/malachite"
+    "all": "silentgems:block/glowrose/malachite"
   }
 }

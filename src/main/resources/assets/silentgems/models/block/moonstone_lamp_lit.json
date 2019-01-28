@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/lamp/moonstone_lit"
+    "all": "silentgems:block/lamp/moonstone_lit"
   }
 }

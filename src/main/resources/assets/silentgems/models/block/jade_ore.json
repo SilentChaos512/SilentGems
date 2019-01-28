@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/ore/gem/jade"
+    "all": "silentgems:block/ore/gem/jade"
   }
 }

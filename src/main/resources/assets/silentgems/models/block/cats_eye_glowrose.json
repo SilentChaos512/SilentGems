@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/glowrose/cats_eye"
+    "all": "silentgems:block/glowrose/cats_eye"
   }
 }

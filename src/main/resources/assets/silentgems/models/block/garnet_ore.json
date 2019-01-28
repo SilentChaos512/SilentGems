@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/ore/gem/garnet"
+    "all": "silentgems:block/ore/gem/garnet"
   }
 }

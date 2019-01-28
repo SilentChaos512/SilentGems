@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/gem/lepidolite_block"
+    "all": "silentgems:block/gem/lepidolite_block"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "silentgems:items/ender_frost"
+    "layer0": "silentgems:item/ender_frost"
   }
 }

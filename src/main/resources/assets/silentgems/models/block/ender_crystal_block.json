@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "silentgems:blocks/misc/ender_crystal_block"
+    "all": "silentgems:block/misc/ender_crystal_block"
   }
 }

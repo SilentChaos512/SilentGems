@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "silentgems:items/enriched_chaos_crystal"
+    "layer0": "silentgems:item/enriched_chaos_crystal"
   }
 }
