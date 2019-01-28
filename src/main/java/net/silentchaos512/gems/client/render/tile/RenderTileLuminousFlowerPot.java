@@ -7,16 +7,16 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
+import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotTileEntity;
 import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.gems.tile.TileChaosFlowerPot;
 
-public class RenderTileChaosFlowerPot extends TileEntityRenderer<TileChaosFlowerPot> {
+public class RenderTileLuminousFlowerPot extends TileEntityRenderer<LuminousFlowerPotTileEntity> {
     // Was "F", has something to do with vertex positions, I think?
     private static final double POORLY_NAMED_CONSTANT = 0.4 * (1 - Math.sqrt(2) / 2);
 
     private static final ResourceLocation[] TEXTURES = new ResourceLocation[Gems.values().length];
 
-    public RenderTileChaosFlowerPot() {
+    public RenderTileLuminousFlowerPot() {
         for (int i = 0; i < TEXTURES.length; ++i) {
             Gems gem = Gems.values()[i];
             TEXTURES[i] = new ResourceLocation("silentgems:textures/blocks/glowrose/" + gem.getName() + ".png");
@@ -24,7 +24,7 @@ public class RenderTileChaosFlowerPot extends TileEntityRenderer<TileChaosFlower
     }
 
     @Override
-    public void render(TileChaosFlowerPot te, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(LuminousFlowerPotTileEntity te, double x, double y, double z, float partialTicks, int destroyStage) {
         Tessellator tess = Tessellator.getInstance();
         BufferBuilder buff = tess.getBuffer();
 

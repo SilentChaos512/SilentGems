@@ -1,5 +1,5 @@
 {
   "variants": {
-    "normal": { "model": "silentgems:phantom_light" }
+    "": { "model": "silentgems:block/phantom_light" }
   }
 }

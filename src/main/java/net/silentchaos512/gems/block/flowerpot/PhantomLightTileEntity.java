@@ -1,43 +1,38 @@
-package net.silentchaos512.gems.tile;
+package net.silentchaos512.gems.block.flowerpot;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
+import net.silentchaos512.gems.init.ModTileEntities;
+import net.silentchaos512.lib.util.TimeUtils;
 
-public class TilePhantomLight extends TileEntity implements ITickable {
-    private static final int SPAWNER_CHECK_FREQUENCY = 1200;
+public class PhantomLightTileEntity extends TileEntity implements ITickable {
+    private static final int SPAWNER_CHECK_FREQUENCY = TimeUtils.ticksFromSeconds(60);
 
     private BlockPos spawnerPos = null;
     private boolean playerPlaced = false;
     private int ticksExisted = 0;
 
-    public TilePhantomLight(TileEntityType<?> tileEntityTypeIn) {
-        // FIXME
-        super(tileEntityTypeIn);
+    public PhantomLightTileEntity() {
+        super(ModTileEntities.PHANTOM_LIGHT.type());
     }
 
     @Override
     public void tick() {
         if (!world.isRemote && ++ticksExisted % SPAWNER_CHECK_FREQUENCY == 0) {
-            if (!checkSpawnerStillExists()) {
+            if (shouldRemove()) {
                 world.removeBlock(this.pos);
             }
         }
     }
 
-    private boolean checkSpawnerStillExists() {
-        if (playerPlaced) {
-            return true;
-        }
-        if (spawnerPos == null) {
-            return false;
-        }
-        IBlockState state = world.getBlockState(spawnerPos);
+    private boolean shouldRemove() {
+        if (playerPlaced) return false;
+        if (spawnerPos == null) return true;
+
         TileEntity tile = world.getTileEntity(spawnerPos);
-        return tile instanceof TileChaosFlowerPot;
+        return tile == null || !(tile instanceof LuminousFlowerPotTileEntity);
     }
 
     void setSpawnerPos(BlockPos pos) {

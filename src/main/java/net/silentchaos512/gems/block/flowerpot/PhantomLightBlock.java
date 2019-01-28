@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.block;
+package net.silentchaos512.gems.block.flowerpot;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -10,12 +10,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.IItemProvider;
+import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.tile.TilePhantomLight;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -23,7 +23,9 @@ import java.util.Random;
 public class PhantomLightBlock extends Block implements ITileEntityProvider {
     private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.3, 0.3, 0.3, 0.7, 0.7, 0.7);
 
-    public PhantomLightBlock() {
+    public static final LazyLoadBase<PhantomLightBlock> INSTANCE = new LazyLoadBase<>(PhantomLightBlock::new);
+
+    private PhantomLightBlock() {
         super(Builder.create(Material.CIRCUITS)
                 .hardnessAndResistance(0.5f, 6000000)
                 .lightValue(15));
@@ -32,8 +34,7 @@ public class PhantomLightBlock extends Block implements ITileEntityProvider {
     @Nullable
     @Override
     public TileEntity createNewTileEntity(IBlockReader worldIn) {
-        // FIXME
-        return null;
+        return new PhantomLightTileEntity();
     }
 
     @Override
@@ -66,8 +67,8 @@ public class PhantomLightBlock extends Block implements ITileEntityProvider {
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         TileEntity tile = worldIn.getTileEntity(pos);
-        if (tile instanceof TilePhantomLight) {
-            ((TilePhantomLight) tile).setPlacedByPlayer(true);
+        if (tile instanceof PhantomLightTileEntity) {
+            ((PhantomLightTileEntity) tile).setPlacedByPlayer(true);
         }
     }
 

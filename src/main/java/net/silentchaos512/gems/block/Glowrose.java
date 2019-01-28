@@ -30,11 +30,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.IBlockReader;
 import net.silentchaos512.gems.lib.Gems;
+import net.silentchaos512.gems.lib.IGem;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Glowrose extends BlockBush {
+public class Glowrose extends BlockBush implements IGem {
     private final Gems gem;
 
     public Glowrose(Gems gem) {
@@ -42,6 +43,11 @@ public class Glowrose extends BlockBush {
                 .sound(SoundType.PLANT)
                 .lightValue(10));
         this.gem = gem;
+    }
+
+    @Override
+    public Gems getGem() {
+        return gem;
     }
 
     @Override

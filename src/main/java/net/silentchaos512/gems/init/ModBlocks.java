@@ -11,6 +11,8 @@ import net.silentchaos512.gems.block.FluffyPuffPlant;
 import net.silentchaos512.gems.block.GemLamp;
 import net.silentchaos512.gems.block.HardenedRock;
 import net.silentchaos512.gems.block.MiscBlocks;
+import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
+import net.silentchaos512.gems.block.flowerpot.PhantomLightBlock;
 import net.silentchaos512.gems.block.urn.BlockSoulUrn;
 import net.silentchaos512.gems.lib.Gems;
 
@@ -48,6 +50,9 @@ public final class ModBlocks {
 
         soulUrn = new BlockSoulUrn();
         register("soul_urn", soulUrn, new BlockSoulUrn.ItemBlockSoulUrn(soulUrn));
+
+        register("luminous_flower_pot", LuminousFlowerPotBlock.INSTANCE.getValue());
+        register("phantom_light", PhantomLightBlock.INSTANCE.getValue());
 
         fluffyPuffPlant = register("fluffy_puff_plant", new FluffyPuffPlant());
     }

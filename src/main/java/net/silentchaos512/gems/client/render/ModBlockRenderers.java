@@ -19,7 +19,7 @@ public class ModBlockRenderers {
 //        reg.registerTileEntitySpecialRenderer(TileChaosPylon.class, new RenderTileChaosPylon());
 //
 //        // Flower Pot
-//        reg.registerTileEntitySpecialRenderer(TileChaosFlowerPot.class, new RenderTileChaosFlowerPot());
+//        reg.registerTileEntitySpecialRenderer(LuminousFlowerPotTileEntity.class, new RenderTileLuminousFlowerPot());
 //
 //        // Grader
 //        reg.registerTileEntitySpecialRenderer(TileMaterialGrader.class, new RenderTileMaterialGrader());

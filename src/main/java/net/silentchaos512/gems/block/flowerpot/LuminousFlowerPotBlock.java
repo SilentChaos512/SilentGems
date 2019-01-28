@@ -1,5 +1,5 @@
 /*
- * Silent's Gems -- ChaosFlowerPotBlock
+ * Silent's Gems -- LuminousFlowerPotBlock
  * Copyright (C) 2018 SilentChaos512
  *
  * This library is free software; you can redistribute it and/or
@@ -16,11 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.silentchaos512.gems.block;
+package net.silentchaos512.gems.block.flowerpot;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,14 +37,16 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.tile.TileChaosFlowerPot;
+import net.silentchaos512.gems.block.Glowrose;
 
 import javax.annotation.Nullable;
 
-public class ChaosFlowerPotBlock extends Block implements ITileEntityProvider {
+public class LuminousFlowerPotBlock extends BlockContainer {
     private static final AxisAlignedBB FLOWER_POT_AABB = new AxisAlignedBB(0.3125, 0.0, 0.3125, 0.6875, 0.375, 0.6875);
 
-    public ChaosFlowerPotBlock() {
+    public static final LazyLoadBase<LuminousFlowerPotBlock> INSTANCE = new LazyLoadBase<>(LuminousFlowerPotBlock::new);
+
+    private LuminousFlowerPotBlock() {
         super(Builder.create(Material.CIRCUITS)
                 .hardnessAndResistance(1, 30)
                 .lightValue(2));
@@ -55,14 +57,14 @@ public class ChaosFlowerPotBlock extends Block implements ITileEntityProvider {
         ItemStack heldItem = player.getHeldItem(hand);
 
         if (!heldItem.isEmpty() && heldItem.getItem() instanceof ItemBlock) {
-            TileChaosFlowerPot tile = getTileEntity(worldIn, pos);
+            LuminousFlowerPotTileEntity tile = getTileEntity(worldIn, pos);
 
-            if (tile != null && tile.getFlowerItemStack().isEmpty()) {
+            if (tile != null && tile.getFlower().isEmpty()) {
                 Block block = Block.getBlockFromItem(heldItem.getItem());
 
                 if (block instanceof Glowrose) {
                     ItemStack flower = new ItemStack(heldItem.getItem(), 1);
-                    tile.setFlowerItemStack(flower);
+                    tile.setFlower(flower);
                     tile.markDirty();
                     worldIn.notifyBlockUpdate(pos, state, state, 3);
                     worldIn.checkLight(pos);
@@ -87,8 +89,8 @@ public class ChaosFlowerPotBlock extends Block implements ITileEntityProvider {
 
     @Override
     public int getLightValue(IBlockState state, IWorldReader world, BlockPos pos) {
-        TileChaosFlowerPot tile = getTileEntity(world, pos);
-        return tile != null && !tile.getFlowerItemStack().isEmpty() ? 15 : lightValue;
+        LuminousFlowerPotTileEntity tile = getTileEntity(world, pos);
+        return tile != null && !tile.getFlower().isEmpty() ? 15 : lightValue;
     }
 
     @Override
@@ -102,12 +104,12 @@ public class ChaosFlowerPotBlock extends Block implements ITileEntityProvider {
     }
 
     @Nullable
-    public static TileChaosFlowerPot getTileEntity(IBlockReader world, BlockPos pos) {
+    public static LuminousFlowerPotTileEntity getTileEntity(IBlockReader world, BlockPos pos) {
         TileEntity tile = world.getTileEntity(pos);
-        if (!(tile instanceof TileChaosFlowerPot)) {
+        if (!(tile instanceof LuminousFlowerPotTileEntity)) {
             return null;
         }
-        return (TileChaosFlowerPot) tile;
+        return (LuminousFlowerPotTileEntity) tile;
     }
 
 //    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
@@ -146,9 +148,9 @@ public class ChaosFlowerPotBlock extends Block implements ITileEntityProvider {
     @Override
     public void getDrops(IBlockState state, NonNullList<ItemStack> drops, World world, BlockPos pos, int fortune) {
         super.getDrops(state, drops, world, pos, fortune);
-        TileChaosFlowerPot te = getTileEntity(world, pos);
-        if (te != null && !te.getFlowerItemStack().isEmpty()) {
-            drops.add(te.getFlowerItemStack());
+        LuminousFlowerPotTileEntity te = getTileEntity(world, pos);
+        if (te != null && !te.getFlower().isEmpty()) {
+            drops.add(te.getFlower());
         }
     }
 
@@ -165,7 +167,13 @@ public class ChaosFlowerPotBlock extends Block implements ITileEntityProvider {
 
     @Nullable
     @Override
+    public TileEntity createTileEntity(IBlockState state, IBlockReader world) {
+        return new LuminousFlowerPotTileEntity();
+    }
+
+    @Nullable
+    @Override
     public TileEntity createNewTileEntity(IBlockReader worldIn) {
-        return new TileChaosFlowerPot(null); // FIXME: tile type
+        return createTileEntity(getDefaultState(), worldIn);
     }
 }

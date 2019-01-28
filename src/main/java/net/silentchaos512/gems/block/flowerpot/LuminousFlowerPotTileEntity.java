@@ -1,42 +1,41 @@
-package net.silentchaos512.gems.tile;
+package net.silentchaos512.gems.block.flowerpot;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumLightType;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.Glowrose;
+import net.silentchaos512.gems.init.ModTileEntities;
+import net.silentchaos512.lib.util.TimeUtils;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
-public class TileChaosFlowerPot extends TileEntity implements ITickable {
-    public static final int TRY_LIGHT_DELAY = 80;
-    public static final int LIGHT_DISTANCE = 8;
-    public static final int TE_SEARCH_RADIUS = 7;
+public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable {
+    private static final int TRY_LIGHT_DELAY = TimeUtils.ticksFromSeconds(5);
+    private static final int TE_SEARCH_RADIUS = 7;
+    private static final String NBT_FLOWER = "PottedFlowerItem";
 
-    int ticksExisted = 0;
-    /**
-     * Used for rendering (see RenderTileChaosFlowerPot).
-     */
-//    @SyncVariable(name = "flower")
-    int flowerId = -1;
+    private int ticksExisted = 0;
+    private ItemStack flower = ItemStack.EMPTY;
+    private boolean plantedGlowrose = false;
 
-    public TileChaosFlowerPot(TileEntityType<?> tileEntityTypeIn) {
-        super(tileEntityTypeIn);
+    public LuminousFlowerPotTileEntity() {
+        super(ModTileEntities.CHAOS_FLOWER_POT.type());
     }
 
     @Override
     public void tick() {
         if (ticksExisted == 0) {
-            ItemStack stack = getFlowerItemStack();
-//            if (!stack.isEmpty())
-//                flowerId = stack.getItemDamage();
-
             // Add a random "salt" value to ticksExisted, so all flower pots don't
             // try to place lights at the same time.
             ticksExisted += SilentGems.random.nextInt(300);
@@ -48,10 +47,8 @@ public class TileChaosFlowerPot extends TileEntity implements ITickable {
         }
     }
 
-    private boolean tryPlacePhantomLight() {
-        if (world.isRemote || getFlowerItemStack().isEmpty()) {
-            return false;
-        }
+    private void tryPlacePhantomLight() {
+        if (world.isRemote || flower.isEmpty()) return;
 
         Random rand = SilentGems.random;
 
@@ -96,7 +93,7 @@ public class TileChaosFlowerPot extends TileEntity implements ITickable {
 
         if (canPlacePhantomLightAt(tryPos)) {
             placePhantomLightAt(tryPos);
-            return true;
+            return;
         }
 
         for (int ty = y + 1; ty > y - 2; --ty) {
@@ -105,13 +102,11 @@ public class TileChaosFlowerPot extends TileEntity implements ITickable {
                     tryPos.setPos(tx, ty, tz);
                     if (canPlacePhantomLightAt(tryPos)) {
                         placePhantomLightAt(tryPos);
-                        return true;
+                        return;
                     }
                 }
             }
         }
-
-        return false;
     }
 
     private boolean canPlacePhantomLightAt(BlockPos target) {
@@ -149,31 +144,74 @@ public class TileChaosFlowerPot extends TileEntity implements ITickable {
     private void placePhantomLightAt(BlockPos target) {
         world.setBlockState(target, getLightBlock());
         TileEntity tile = world.getTileEntity(target);
-        if (tile instanceof TilePhantomLight) {
-            TilePhantomLight tileLight = (TilePhantomLight) tile;
+        if (tile instanceof PhantomLightTileEntity) {
+            PhantomLightTileEntity tileLight = (PhantomLightTileEntity) tile;
             tileLight.setSpawnerPos(this.pos);
         }
     }
 
     private static IBlockState getLightBlock() {
-        // FIXME
-        return null;
+        return PhantomLightBlock.INSTANCE.getValue().getDefaultState();
     }
 
     @Deprecated
     public int getFlowerId() {
+        Block flowerBlock = Block.getBlockFromItem(flower.getItem());
+        if (!flower.isEmpty() && flowerBlock instanceof Glowrose) {
+            return ((Glowrose) flowerBlock).getGem().ordinal();
+        }
         return -1;
     }
 
-    @Nonnull
-    public ItemStack getFlowerItemStack() {
-//        return getStackInSlot(0);
-        return ItemStack.EMPTY;
+    ItemStack getFlower() {
+        return flower;
     }
 
-    public void setFlowerItemStack(@Nonnull ItemStack stack) {
-//        setInventorySlotContents(0, stack);
-//        flowerId = stack.getItemDamage();
+    void setFlower(ItemStack stack) {
+        if (stack.isEmpty()) return;
+
+        this.flower = stack;
+        this.plantedGlowrose = Block.getBlockFromItem(stack.getItem()) instanceof Glowrose;
         ticksExisted = 0;
+    }
+
+    @Override
+    public void read(NBTTagCompound tags) {
+        if (tags.hasKey(NBT_FLOWER)) {
+            this.flower = ItemStack.read(tags.getCompound(NBT_FLOWER));
+        }
+        super.read(tags);
+    }
+
+    @Override
+    public NBTTagCompound write(NBTTagCompound tags) {
+        if (!flower.isEmpty()) {
+            tags.setTag(NBT_FLOWER, flower.serializeNBT());
+        }
+        return super.write(tags);
+    }
+
+    @Override
+    public NBTTagCompound getUpdateTag() {
+        NBTTagCompound tags = super.getUpdateTag();
+        if (!flower.isEmpty()) {
+            // Create a copy of just the flower item, ignore any NBT it may have
+            tags.setTag(NBT_FLOWER, new ItemStack(flower.getItem()).serializeNBT());
+        }
+        return tags;
+    }
+
+    @Nullable
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        return new SPacketUpdateTileEntity(this.pos, 0, getUpdateTag());
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+        if (pkt.getNbtCompound().hasKey(NBT_FLOWER)) {
+            this.flower = ItemStack.read(pkt.getNbtCompound().getCompound(NBT_FLOWER));
+        }
+        super.onDataPacket(net, pkt);
     }
 }
