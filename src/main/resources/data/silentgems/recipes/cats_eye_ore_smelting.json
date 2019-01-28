@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:cats_eye_ore"
+  },
+  "result": "silentgems:cats_eye",
+  "experience": 0.75,
+  "cookingtime": 200
+}

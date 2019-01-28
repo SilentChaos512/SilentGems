@@ -78,7 +78,7 @@ blocks = {
     },
     'block': {
         'keys': [block_key(gem + '_block') for gem in gems.keys()],
-        'values': [gem + ' Block' for gem in gems.values()]
+        'values': ['Block of ' + gem for gem in gems.values()]
     },
     'bricks': {
         'keys': [block_key(gem + '_bricks') for gem in gems.keys()],

@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:garnet_ore"
+  },
+  "result": "silentgems:garnet",
+  "experience": 0.75,
+  "cookingtime": 200
+}

@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:black_diamond_ore"
+  },
+  "result": "silentgems:black_diamond",
+  "experience": 0.75,
+  "cookingtime": 200
+}

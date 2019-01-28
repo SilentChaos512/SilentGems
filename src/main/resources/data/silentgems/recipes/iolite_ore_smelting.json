@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:iolite_ore"
+  },
+  "result": "silentgems:iolite",
+  "experience": 0.75,
+  "cookingtime": 200
+}

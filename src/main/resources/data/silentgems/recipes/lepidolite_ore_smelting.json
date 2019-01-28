@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:lepidolite_ore"
+  },
+  "result": "silentgems:lepidolite",
+  "experience": 0.75,
+  "cookingtime": 200
+}

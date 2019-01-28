@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:pearl_ore"
+  },
+  "result": "silentgems:pearl",
+  "experience": 0.75,
+  "cookingtime": 200
+}

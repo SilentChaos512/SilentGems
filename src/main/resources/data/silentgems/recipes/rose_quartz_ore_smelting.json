@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:rose_quartz_ore"
+  },
+  "result": "silentgems:rose_quartz",
+  "experience": 0.75,
+  "cookingtime": 200
+}

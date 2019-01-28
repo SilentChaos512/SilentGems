@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:aquamarine_ore"
+  },
+  "result": "silentgems:aquamarine",
+  "experience": 0.75,
+  "cookingtime": 200
+}

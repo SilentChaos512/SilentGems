@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:ender_ore"
+  },
+  "result": "silentgems:ender_crystal",
+  "experience": 1.0,
+  "cookingtime": 200
+}

@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:jade_ore"
+  },
+  "result": "silentgems:jade",
+  "experience": 0.75,
+  "cookingtime": 200
+}

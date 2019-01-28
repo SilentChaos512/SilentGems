@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:ametrine_ore"
+  },
+  "result": "silentgems:ametrine",
+  "experience": 0.75,
+  "cookingtime": 200
+}

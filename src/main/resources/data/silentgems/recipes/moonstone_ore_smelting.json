@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:moonstone_ore"
+  },
+  "result": "silentgems:moonstone",
+  "experience": 0.75,
+  "cookingtime": 200
+}

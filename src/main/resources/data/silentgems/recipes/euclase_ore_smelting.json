@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:euclase_ore"
+  },
+  "result": "silentgems:euclase",
+  "experience": 0.75,
+  "cookingtime": 200
+}

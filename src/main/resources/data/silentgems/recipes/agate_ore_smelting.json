@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:agate_ore"
+  },
+  "result": "silentgems:agate",
+  "experience": 0.75,
+  "cookingtime": 200
+}

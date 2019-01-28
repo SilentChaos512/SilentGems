@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:amber_ore"
+  },
+  "result": "silentgems:amber",
+  "experience": 0.75,
+  "cookingtime": 200
+}

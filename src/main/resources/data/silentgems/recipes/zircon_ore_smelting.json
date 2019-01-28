@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:zircon_ore"
+  },
+  "result": "silentgems:zircon",
+  "experience": 0.75,
+  "cookingtime": 200
+}

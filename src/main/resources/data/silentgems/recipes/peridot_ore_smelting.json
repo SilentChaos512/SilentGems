@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:peridot_ore"
+  },
+  "result": "silentgems:peridot",
+  "experience": 0.75,
+  "cookingtime": 200
+}

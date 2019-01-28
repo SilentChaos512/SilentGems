@@ -7,10 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.FluffyPuffPlant;
-import net.silentchaos512.gems.block.GemLamp;
-import net.silentchaos512.gems.block.HardenedRock;
-import net.silentchaos512.gems.block.MiscBlocks;
+import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightBlock;
 import net.silentchaos512.gems.block.urn.BlockSoulUrn;
@@ -42,6 +39,10 @@ public final class ModBlocks {
 
         for (MiscBlocks misc : MiscBlocks.values()) {
             register(misc.getName(), misc.getBlock());
+        }
+
+        for (MiscOres ore : MiscOres.values()) {
+            register(ore.getName(), ore.getBlock());
         }
 
         for (HardenedRock type : HardenedRock.values()) {

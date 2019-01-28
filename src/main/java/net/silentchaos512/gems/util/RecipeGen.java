@@ -9,6 +9,7 @@ import net.minecraftforge.common.Tags;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GemLamp;
 import net.silentchaos512.gems.block.MiscBlocks;
+import net.silentchaos512.gems.block.MiscOres;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.init.ModTags;
 import net.silentchaos512.gems.item.CraftingItems;
@@ -63,11 +64,24 @@ public final class RecipeGen {
                     .group(name(set + "_inverted_lamp"))
                     .ingredient(gem.getLamp(GemLamp.State.UNLIT))
                     .ingredient(Blocks.REDSTONE_TORCH));
+            // Ore smelting
+            RecipeGenerator.create(name(gem.getName() + "_ore_smelting"), SmeltingBuilder
+                    .create(gem.getItem())
+                    .ingredient(gem.getOre())
+                    .experience(0.75f));
         }
 
         // Misc storage blocks
         for (MiscBlocks misc : MiscBlocks.values()) {
             RecipeGenerator.compress9(name(misc.getName()), misc, misc.getStoredItem());
+        }
+
+        // Misc ore smelting
+        for (MiscOres ore : MiscOres.values()) {
+            RecipeGenerator.create(name(ore.getName() + "_smelting"), SmeltingBuilder
+                    .create(ore.getBlock().getDroppedItem())
+                    .ingredient(ore.getBlock())
+                    .experience(1.0f));
         }
 
         // Crafting Items

@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:malachite_ore"
+  },
+  "result": "silentgems:malachite",
+  "experience": 0.75,
+  "cookingtime": 200
+}

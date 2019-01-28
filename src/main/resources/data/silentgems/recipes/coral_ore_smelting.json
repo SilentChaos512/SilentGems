@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:coral_ore"
+  },
+  "result": "silentgems:coral",
+  "experience": 0.75,
+  "cookingtime": 200
+}

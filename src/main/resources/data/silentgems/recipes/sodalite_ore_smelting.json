@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:sodalite_ore"
+  },
+  "result": "silentgems:sodalite",
+  "experience": 0.75,
+  "cookingtime": 200
+}

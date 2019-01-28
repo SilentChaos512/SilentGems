@@ -62,6 +62,7 @@ dependencies {
     // Silent Lib
     // TODO: This currently pulls from Maven local, need to publish to bintray
     compile "net.silentchaos512:silent-lib:${project.sl_version}"
+    compile "net.silentchaos512:wit:1.1.+"
 }
 
 processResources {

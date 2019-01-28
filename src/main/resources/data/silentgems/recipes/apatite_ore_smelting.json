@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "silentgems:apatite_ore"
+  },
+  "result": "silentgems:apatite",
+  "experience": 0.75,
+  "cookingtime": 200
+}
