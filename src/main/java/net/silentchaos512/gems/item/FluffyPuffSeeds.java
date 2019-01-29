@@ -2,11 +2,9 @@ package net.silentchaos512.gems.item;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemSeeds;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import net.minecraftforge.common.MinecraftForge;
 import net.silentchaos512.gems.init.ModBlocks;
 
 public class FluffyPuffSeeds extends ItemSeeds {
@@ -14,7 +12,7 @@ public class FluffyPuffSeeds extends ItemSeeds {
 
     private FluffyPuffSeeds() {
         super(ModBlocks.fluffyPuffPlant, new Builder());
-        MinecraftForge.addGrassSeed(new ItemStack(this), 2);
+//        MinecraftForge.addGrassSeed(new ItemStack(this), 2);
     }
 
     @Override
