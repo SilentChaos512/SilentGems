@@ -18,8 +18,7 @@ import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.item.GemShard;
 
 import javax.annotation.Nullable;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 
 public enum Gems implements IStringSerializable {
     // Classic Gems
@@ -100,6 +99,7 @@ public enum Gems implements IStringSerializable {
 
     Gems(Set set, String name, int color) {
         this.set = set;
+        this.set.gems.add(this);
         this.name = name;
         this.color = color;
 
@@ -254,11 +254,12 @@ public enum Gems implements IStringSerializable {
         return set;
     }
 
-    public enum Set {
+    public enum Set implements Iterable<Gems> {
         CLASSIC(0), DARK(16), LIGHT(32); // Overworld, Nether, and the End
 
         private final int startMeta; // TODO: Should probably do away with this... but works for now
         private final MultiGemOre multiOre;
+        private final Collection<Gems> gems = new ArrayList<>();
 
         Set(int startMeta) {
             this.startMeta = startMeta;
@@ -287,6 +288,11 @@ public enum Gems implements IStringSerializable {
         public ITextComponent getDisplayName() {
             TextComponentTranslation textSet = new TextComponentTranslation("gem.silentgems.set." + getName());
             return new TextComponentTranslation("gem.silentgems.set", textSet).applyTextStyle(TextFormatting.ITALIC);
+        }
+
+        @Override
+        public Iterator<Gems> iterator() {
+            return gems.iterator();
         }
     }
 }
