@@ -170,11 +170,13 @@ jar {
 }
 
 task apiJar(type: Jar) {
+    appendix = "${project.mc_version}"
     classifier = 'apiClasses'
     from apiClasses
 }
 
 task deobfJar(type: Jar) {
+    appendix = "${project.mc_version}"
     classifier = 'deobf'
     from sourceSets.main.output
 }
@@ -186,6 +188,7 @@ task sourcesJar(type: Jar) {
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
+    appendix = "${project.mc_version}"
     classifier = 'javadoc'
     from javadoc.getDestinationDir()
 }

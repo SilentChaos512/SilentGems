@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.8.15] - 2019-02-04
+### Fixed
+- Possible crash when crafting tool souls [#352]
+
 ## [2.8.14] - 2019-01-17
 ### Added
 - Enchantment token recipe for Veining and Soul Shards: Respawned (vertex101) [#351]
