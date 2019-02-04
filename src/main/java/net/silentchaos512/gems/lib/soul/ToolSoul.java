@@ -472,12 +472,18 @@ public class ToolSoul {
 
     public static ToolSoul construct(ItemSoulGem.Soul... souls) {
         // Soul weight map
-        Map<EnumSoulElement, Integer> elements = new HashMap<>();
+        Map<EnumSoulElement, Integer> elements = new EnumMap<>(EnumSoulElement.class);
         for (ItemSoulGem.Soul soul : souls) {
-            int current = elements.containsKey(soul.element1) ? elements.get(soul.element1) : 0;
+            if (soul == null) {
+                SilentGems.logHelper.error("Got a null soul when constructing a tool soul",
+                        new NullPointerException("soul is null"));
+                continue;
+            }
+
+            int current = elements.getOrDefault(soul.element1, 0);
             elements.put(soul.element1, current + 5);
             if (soul.element2 != EnumSoulElement.NONE) {
-                current = elements.containsKey(soul.element2) ? elements.get(soul.element2) : 0;
+                current = elements.getOrDefault(soul.element2, 0);
                 elements.put(soul.element2, current + 3);
             }
         }
