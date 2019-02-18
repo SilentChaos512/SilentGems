@@ -47,7 +47,7 @@ public class LuminousFlowerPotBlock extends BlockContainer {
     public static final LazyLoadBase<LuminousFlowerPotBlock> INSTANCE = new LazyLoadBase<>(LuminousFlowerPotBlock::new);
 
     private LuminousFlowerPotBlock() {
-        super(Builder.create(Material.CIRCUITS)
+        super(Properties.create(Material.CIRCUITS)
                 .hardnessAndResistance(1, 30)
                 .lightValue(2));
     }

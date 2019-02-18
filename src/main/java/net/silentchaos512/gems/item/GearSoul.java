@@ -7,7 +7,7 @@ public class GearSoul extends Item {
     private static final String NBT_KEY = "SGGearSoul";
 
     public GearSoul() {
-        super(new Item.Builder()
+        super(new Properties()
                 .maxStackSize(1)
                 .group(ModItemGroups.UTILITY));
     }

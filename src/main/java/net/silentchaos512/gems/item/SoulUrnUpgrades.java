@@ -59,7 +59,7 @@ public enum SoulUrnUpgrades {
 
     public class UpgradeItem extends Item implements IUrnUpgradeItem {
         UpgradeItem() {
-            super(new Builder().group(ModItemGroups.UTILITY));
+            super(new Properties().group(ModItemGroups.UTILITY));
         }
 
         @Override

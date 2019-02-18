@@ -36,7 +36,7 @@ public class GemGlass extends BlockGlass {
     private final Gems gem;
 
     public GemGlass(Gems gem) {
-        super(Builder.create(Material.GLASS)
+        super(Properties.create(Material.GLASS)
                 .hardnessAndResistance(0.3f, 5)
                 .sound(SoundType.GLASS));
         this.gem = gem;

@@ -1,9 +1,10 @@
 package net.silentchaos512.gems;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.event.lifecycle.*;
-import net.minecraftforge.fml.javafmlmod.FMLModLoadingContext;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.lib.ColorHandlers;
@@ -16,17 +17,17 @@ class SideProxy {
     SideProxy() {
         SilentGems.LOGGER.info("Gems SideProxy init");
 
-        FMLModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
-        FMLModLoadingContext.get().getModEventBus().addListener(this::imcEnqueue);
-        FMLModLoadingContext.get().getModEventBus().addListener(this::imcProcess);
+        getLifeCycleEventBus().addListener(this::commonSetup);
+        getLifeCycleEventBus().addListener(this::imcEnqueue);
+        getLifeCycleEventBus().addListener(this::imcProcess);
 
-        FMLModLoadingContext.get().getModEventBus().addListener(ModBlocks::registerAll);
-        FMLModLoadingContext.get().getModEventBus().addListener(ModEnchantments::registerAll);
-        FMLModLoadingContext.get().getModEventBus().addListener(ModEntities::registerAll);
-        FMLModLoadingContext.get().getModEventBus().addListener(ModItems::registerAll);
-        FMLModLoadingContext.get().getModEventBus().addListener(ModPotions::registerAll);
-        FMLModLoadingContext.get().getModEventBus().addListener(ModSounds::registerAll);
-        FMLModLoadingContext.get().getModEventBus().addListener(ModTileEntities::registerAll);
+        getLifeCycleEventBus().addListener(ModBlocks::registerAll);
+        getLifeCycleEventBus().addListener(ModEnchantments::registerAll);
+        getLifeCycleEventBus().addListener(ModEntities::registerAll);
+        getLifeCycleEventBus().addListener(ModItems::registerAll);
+        getLifeCycleEventBus().addListener(ModPotions::registerAll);
+        getLifeCycleEventBus().addListener(ModSounds::registerAll);
+        getLifeCycleEventBus().addListener(ModTileEntities::registerAll);
 
         ModLoot.init();
         ModRecipes.init();
@@ -37,6 +38,10 @@ class SideProxy {
         if (SGearProxy.isLoaded()) {
             SGearMaterials.init();
         }
+    }
+
+    private static IEventBus getLifeCycleEventBus() {
+        return FMLJavaModLoadingContext.get().getModEventBus();
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
@@ -61,7 +66,7 @@ class SideProxy {
     static class Client extends SideProxy {
         Client() {
             SilentGems.LOGGER.info("Gems SideProxy.Client init");
-            FMLModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+            SideProxy.getLifeCycleEventBus().addListener(this::clientSetup);
 
             MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onBlockColors);
             MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onItemColors);
@@ -77,7 +82,7 @@ class SideProxy {
     static class Server extends SideProxy {
         Server() {
             SilentGems.LOGGER.info("Gems SideProxy.Server init");
-            FMLModLoadingContext.get().getModEventBus().addListener(this::serverSetup);
+            SideProxy.getLifeCycleEventBus().addListener(this::serverSetup);
         }
 
         private void serverSetup(FMLDedicatedServerSetupEvent event) {

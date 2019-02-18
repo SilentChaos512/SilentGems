@@ -53,7 +53,7 @@ public enum HardenedRock implements IItemProvider, IStringSerializable {
 
     public static class HardenedRockBlock extends Block {
         HardenedRockBlock() {
-            super(Builder.create(Material.ROCK)
+            super(Properties.create(Material.ROCK)
                     .hardnessAndResistance(50, 2000));
         }
 

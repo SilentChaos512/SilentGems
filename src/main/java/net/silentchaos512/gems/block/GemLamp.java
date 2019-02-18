@@ -79,7 +79,7 @@ public class GemLamp extends Block {
     private final State lampState;
 
     public GemLamp(Gems gem, State lampState) {
-        super(Builder.create(Material.REDSTONE_LIGHT)
+        super(Properties.create(Material.REDSTONE_LIGHT)
                 .hardnessAndResistance(0.3f, 15)
                 .lightValue(lampState.lit ? 15 : 0));
 

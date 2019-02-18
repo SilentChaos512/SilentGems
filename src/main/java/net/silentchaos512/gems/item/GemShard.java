@@ -17,7 +17,7 @@ public class GemShard extends Item implements IGem {
     private final Gems gem;
 
     public GemShard(Gems gem) {
-        super(new Item.Builder().group(ModItemGroups.MATERIALS));
+        super(new Properties().group(ModItemGroups.MATERIALS));
         this.gem = gem;
     }
 

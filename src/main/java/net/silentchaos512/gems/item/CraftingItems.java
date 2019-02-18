@@ -20,17 +20,18 @@ package net.silentchaos512.gems.item;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.LazyLoadBase;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -57,17 +58,24 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
     MYSTERY_GOO,
     IRON_POTATO,
     FLUFFY_FABRIC,
-    URN_UPGRADE_BASE;
+    URN_UPGRADE_BASE,
+    LOLINOMICON(false);
 
-    private final LazyLoadBase<ItemCrafting> item;
+    private final Lazy<ItemCrafting> item;
+    private final boolean shownInGroup;
 
     CraftingItems() {
-        this.item = new LazyLoadBase<>(ItemCrafting::new);
+        this(true);
+    }
+
+    CraftingItems(boolean shownInGroup) {
+        this.item = Lazy.of(ItemCrafting::new);
+        this.shownInGroup = shownInGroup;
     }
 
     @Override
     public Item asItem() {
-        return item.getValue();
+        return item.get();
     }
 
     @Override
@@ -83,19 +91,15 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
         return new ItemStack(this, count);
     }
 
-    public static final class ItemCrafting extends Item {
+    final class ItemCrafting extends Item {
         private ItemCrafting() {
-            super(new Item.Builder().group(ModItemGroups.MATERIALS));
+            super(new Item.Properties().group(ModItemGroups.MATERIALS));
         }
 
         @Override
         public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
             tooltip.add(new TextComponentTranslation("item.silentgems.crafting_material.desc")
                     .applyTextStyle(TextFormatting.GOLD));
-
-            if (KeyTracker.isShiftDown()) {
-                tooltip.add(new TextComponentTranslation("item.silentgems.crafting_material.desc.more"));
-            }
 
             ResourceLocation registryName = getRegistryName();
             if (registryName != null) {
@@ -107,6 +111,12 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
         @Override
         public int getBurnTime(ItemStack itemStack) {
             return itemStack.getItem() == CHAOS_COAL.asItem() ? 6400 : 0; // TODO: config
+        }
+
+        @Override
+        public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+            if (!shownInGroup || !isInGroup(group)) return;
+            super.fillItemGroup(group, items);
         }
     }
 }

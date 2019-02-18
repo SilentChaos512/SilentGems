@@ -8,6 +8,7 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.LazyLoadBase;
 import net.silentchaos512.gems.item.CraftingItems;
+import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
 
@@ -29,22 +30,22 @@ public enum MiscBlocks implements IItemProvider, IStringSerializable {
             CraftingItems.CHAOS_IRON,
             builder(Material.IRON));
 
-    private final LazyLoadBase<Block> block;
+    private final Lazy<Block> block;
     // The item this block is made from
     private final IItemProvider storedItem;
 
-    MiscBlocks(IItemProvider storedItem, Block.Builder builder) {
-        block = new LazyLoadBase<>(() -> new Block(builder));
+    MiscBlocks(IItemProvider storedItem, Block.Properties builder) {
+        block = Lazy.of(() -> new Block(builder));
         this.storedItem = storedItem;
     }
 
-    private static Block.Builder builder(Material material) {
-        return Block.Builder.create(material)
+    private static Block.Properties builder(Material material) {
+        return Block.Properties.create(material)
                 .hardnessAndResistance(4, 30);
     }
 
     public Block getBlock() {
-        return block.getValue();
+        return block.get();
     }
 
     @Override

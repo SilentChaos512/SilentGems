@@ -94,7 +94,7 @@ public class BlockSoulUrn extends BlockContainer {
     private static final EnumProperty<EnumFacing> FACING = DirectionProperty.create("facing", EnumFacing.Plane.HORIZONTAL);
 
     public BlockSoulUrn() {
-        super(Builder.create(Material.ROCK)
+        super(Properties.create(Material.ROCK)
                 .hardnessAndResistance(5, 40));
         this.setDefaultState(this.getDefaultState()
                 .with(FACING, EnumFacing.SOUTH)
@@ -398,7 +398,7 @@ public class BlockSoulUrn extends BlockContainer {
         private final BlockSoulUrn blockSoulUrn;
 
         public ItemBlockSoulUrn(BlockSoulUrn block) {
-            super(block, new Item.Builder()
+            super(block, new Item.Properties()
                     .maxStackSize(1)
                     .group(ModItemGroups.BLOCKS));
 

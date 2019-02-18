@@ -12,9 +12,9 @@ import net.silentchaos512.gems.item.FluffyPuffSeeds;
 import net.silentchaos512.gems.item.Foods;
 import net.silentchaos512.gems.item.GlowroseFertilizer;
 import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.lib.util.model.ModelGenerator;
-import net.silentchaos512.lib.util.model.ModelGenerator.BlockBuilder;
-import net.silentchaos512.lib.util.model.ModelGenerator.ItemBuilder;
+import net.silentchaos512.lib.util.generator.ModelGenerator;
+import net.silentchaos512.lib.util.generator.ModelGenerator.BlockBuilder;
+import net.silentchaos512.lib.util.generator.ModelGenerator.ItemBuilder;
 
 /**
  * Generates model JSON files. This doesn't necessarily generate ALL models. Models with custom

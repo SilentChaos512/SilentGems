@@ -21,7 +21,7 @@ public class BlockTeleporter extends Block implements ITileEntityProvider {
     private final boolean isAnchor;
 
     public BlockTeleporter(@Nullable Gems gem, boolean isAnchor) {
-        super(Builder.create(Material.IRON)
+        super(Properties.create(Material.IRON)
                 .hardnessAndResistance(15, 2000)
                 .sound(SoundType.METAL));
         this.gem = gem;

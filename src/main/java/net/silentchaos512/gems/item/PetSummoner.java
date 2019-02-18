@@ -27,7 +27,7 @@ public class PetSummoner extends Item {
     private final Function<World, ? extends EntityTameable> petFactory;
 
     public PetSummoner(Function<World, ? extends EntityTameable> petFactory) {
-        super(new Builder().group(ModItemGroups.UTILITY));
+        super(new Properties().group(ModItemGroups.UTILITY));
         this.petFactory = petFactory;
     }
 

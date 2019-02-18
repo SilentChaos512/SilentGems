@@ -5,7 +5,7 @@ import net.silentchaos512.gems.init.ModItemGroups;
 
 public class TeleporterLinker extends Item {
     public TeleporterLinker() {
-        super(new Builder().maxStackSize(1).group(ModItemGroups.UTILITY));
+        super(new Properties().maxStackSize(1).group(ModItemGroups.UTILITY));
     }
 
 //    @Override

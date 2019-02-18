@@ -2,6 +2,8 @@ package net.silentchaos512.gems.init;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -62,6 +64,12 @@ public final class ModItems {
     private static void registerGemItems(IForgeRegistry<Item> reg, Function<Gems, ? extends Item> factory, Function<Gems, String> name) {
         for (Gems gem : Gems.values()) {
             register(reg, name.apply(gem), factory.apply(gem));
+        }
+    }
+
+    private static <E extends Enum<E> & IItemProvider & IStringSerializable> void registerFromEnum(Class<E> enumClass) {
+        for (E e : enumClass.getEnumConstants()) {
+            register(ForgeRegistries.ITEMS, e.getName(), e.asItem());
         }
     }
 }

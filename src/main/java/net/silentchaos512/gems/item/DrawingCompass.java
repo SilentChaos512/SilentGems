@@ -22,7 +22,7 @@ public class DrawingCompass extends Item {
     }
 
     public DrawingCompass() {
-        super(new Builder().maxStackSize(1));
+        super(new Properties().maxStackSize(1));
         addPropertyOverride(new ResourceLocation("state"),
                 (stack, worldIn, entityIn) -> getState(stack).ordinal());
     }

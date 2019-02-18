@@ -3,6 +3,7 @@ package net.silentchaos512.gems.init;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -59,7 +60,7 @@ public final class ModBlocks {
     }
 
     private static <T extends Block> T register(String name, T block) {
-        ItemBlock item = new ItemBlock(block, new Item.Builder().group(ModItemGroups.BLOCKS));
+        ItemBlock item = new ItemBlock(block, new Item.Properties().group(ModItemGroups.BLOCKS));
         return register(name, block, item);
     }
 

@@ -37,7 +37,7 @@ public class GemBlock extends Block {
     private final Gems gem;
 
     public GemBlock(Gems gem) {
-        super(Block.Builder.create(Material.IRON)
+        super(Properties.create(Material.IRON)
                 .hardnessAndResistance(3, 30)
                 .sound(SoundType.METAL));
         this.gem = gem;

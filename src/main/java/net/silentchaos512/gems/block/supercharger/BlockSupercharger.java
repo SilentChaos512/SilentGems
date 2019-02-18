@@ -45,7 +45,7 @@ import java.util.List;
 
 public class BlockSupercharger extends BlockContainer {
     public BlockSupercharger() {
-        super(Builder.create(Material.IRON)
+        super(Properties.create(Material.IRON)
                 .hardnessAndResistance(5, 50)
                 .sound(SoundType.METAL));
     }

@@ -11,7 +11,7 @@ public class FluffyPuffSeeds extends ItemSeeds {
     public static final LazyLoadBase<FluffyPuffSeeds> INSTANCE = new LazyLoadBase<>(FluffyPuffSeeds::new);
 
     private FluffyPuffSeeds() {
-        super(ModBlocks.fluffyPuffPlant, new Builder());
+        super(ModBlocks.fluffyPuffPlant, new Properties());
 //        MinecraftForge.addGrassSeed(new ItemStack(this), 2);
     }
 

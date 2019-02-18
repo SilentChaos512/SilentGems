@@ -26,7 +26,7 @@ public class PhantomLightBlock extends Block implements ITileEntityProvider {
     public static final LazyLoadBase<PhantomLightBlock> INSTANCE = new LazyLoadBase<>(PhantomLightBlock::new);
 
     private PhantomLightBlock() {
-        super(Builder.create(Material.CIRCUITS)
+        super(Properties.create(Material.CIRCUITS)
                 .hardnessAndResistance(0.5f, 6000000)
                 .lightValue(15));
     }

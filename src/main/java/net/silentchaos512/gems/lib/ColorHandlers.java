@@ -16,7 +16,7 @@ public final class ColorHandlers {
         SilentGems.LOGGER.info("ColorHandlers#onBlockColors: {}", colors);
 
         // Soul Urn
-        colors.register(BlockSoulUrn::getBlockColor, ModBlocks.soulUrn);
+//        colors.register(BlockSoulUrn::getBlockColor, ModBlocks.soulUrn);
     }
 
     public static void onItemColors(ColorHandlerEvent.Item event) {

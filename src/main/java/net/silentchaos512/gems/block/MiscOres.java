@@ -19,7 +19,7 @@ public enum MiscOres implements IItemProvider, IStringSerializable {
 
     MiscOres(IItemProvider droppedItem, int harvestLevel) {
         block = new LazyLoadBase<>(() -> new MiscOreBlock(droppedItem, harvestLevel,
-                Block.Builder.create(Material.ROCK)
+                Block.Properties.create(Material.ROCK)
                         .hardnessAndResistance(4, 20)));
     }
 
@@ -38,7 +38,7 @@ public enum MiscOres implements IItemProvider, IStringSerializable {
     }
 
     public static class MiscOreBlock extends OreBlockSG {
-        MiscOreBlock(IItemProvider droppedItem, int harvestLevel, Builder builder) {
+        MiscOreBlock(IItemProvider droppedItem, int harvestLevel, Properties builder) {
             super(droppedItem, harvestLevel, builder);
         }
 

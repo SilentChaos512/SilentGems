@@ -59,7 +59,7 @@ public enum Foods implements IItemProvider, IStringSerializable {
 
     // TODO: How to handle potion effects?
     private static final class FoodSG extends ItemFood {
-        private static final class Builder extends Item.Builder {
+        private static final class Builder extends Item.Properties {
             private int healAmount;
             private float saturation;
             private boolean isMeat;

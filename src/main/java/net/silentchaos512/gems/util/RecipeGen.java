@@ -15,10 +15,10 @@ import net.silentchaos512.gems.init.ModTags;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.Foods;
 import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.lib.util.recipe.RecipeGenerator;
-import net.silentchaos512.lib.util.recipe.RecipeGenerator.ShapedBuilder;
-import net.silentchaos512.lib.util.recipe.RecipeGenerator.ShapelessBuilder;
-import net.silentchaos512.lib.util.recipe.RecipeGenerator.SmeltingBuilder;
+import net.silentchaos512.lib.util.generator.RecipeGenerator;
+import net.silentchaos512.lib.util.generator.RecipeGenerator.ShapedBuilder;
+import net.silentchaos512.lib.util.generator.RecipeGenerator.ShapelessBuilder;
+import net.silentchaos512.lib.util.generator.RecipeGenerator.SmeltingBuilder;
 
 /**
  * Generates recipe JSON files. This does not add the recipes in-game. The files need to be copied

@@ -33,7 +33,7 @@ import net.silentchaos512.gems.item.FluffyPuffSeeds;
 
 public class FluffyPuffPlant extends BlockCrops {
     public FluffyPuffPlant() {
-        super(Builder.create(Material.PLANTS)
+        super(Properties.create(Material.PLANTS)
                 .hardnessAndResistance(0)); // was 0.1
     }
 

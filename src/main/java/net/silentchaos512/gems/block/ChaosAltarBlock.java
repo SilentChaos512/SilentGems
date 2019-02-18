@@ -39,7 +39,7 @@ public class ChaosAltarBlock extends BlockContainer {
     private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.0f, 0.0f, 0.0f, 1.0f, 0.75f, 1.0f);
 
     public ChaosAltarBlock() {
-        super(Builder.create(Material.IRON)
+        super(Properties.create(Material.IRON)
                 .hardnessAndResistance(12, 6000));
     }
 

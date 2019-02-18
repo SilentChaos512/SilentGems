@@ -33,7 +33,7 @@ public class ReturnHomeCharm extends Item /*ItemChaosStorage implements IAddReci
     private static final String NBT_READY = "IsReady";
 
     public ReturnHomeCharm() {
-        super(new Item.Builder()
+        super(new Properties()
                 .group(ModItemGroups.UTILITY));
     }
 

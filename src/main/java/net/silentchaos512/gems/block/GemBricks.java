@@ -33,7 +33,7 @@ public class GemBricks extends Block {
     private final Gems gem;
 
     public GemBricks(Gems gem) {
-        super(Block.Builder.create(Material.ROCK)
+        super(Properties.create(Material.ROCK)
                 .hardnessAndResistance(2, 30));
         this.gem = gem;
     }

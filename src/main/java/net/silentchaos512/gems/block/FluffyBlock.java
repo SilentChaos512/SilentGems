@@ -45,7 +45,7 @@ public class FluffyBlock extends Block {
     }
 
     private FluffyBlock(EnumDyeColor color) {
-        super(Builder.create(Material.CLOTH)
+        super(Properties.create(Material.CLOTH)
                 .hardnessAndResistance(0.8f, 3)
                 .sound(SoundType.CLOTH));
         this.color = color;

@@ -18,7 +18,6 @@
 
 package net.silentchaos512.gems.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -34,7 +33,7 @@ public class GemOre extends OreBlockSG {
     private final Gems gem;
 
     public GemOre(Gems gem) {
-        super(gem.getItem(), 2, Block.Builder.create(Material.ROCK)
+        super(gem.getItem(), 2, Properties.create(Material.ROCK)
                 .hardnessAndResistance(3, 15));
         this.gem = gem;
     }

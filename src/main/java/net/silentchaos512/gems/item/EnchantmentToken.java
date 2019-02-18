@@ -22,6 +22,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.client.handler.ClientTicks;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModItemGroups;
@@ -64,7 +65,7 @@ public final class EnchantmentToken extends Item {
     public static final EnchantmentToken INSTANCE = new EnchantmentToken();
 
     private EnchantmentToken() {
-        super(new Builder().group(ModItemGroups.UTILITY));
+        super(new Properties().group(ModItemGroups.UTILITY));
         addPropertyOverride(new ResourceLocation("model_index"), EnchantmentToken::getModel);
     }
 
@@ -81,7 +82,7 @@ public final class EnchantmentToken extends Item {
     public static void addEnchantment(ItemStack stack, EnchantmentData data) {
         NBTTagList tagList = getEnchantments(stack);
         boolean needToAddEnchantment = true;
-        ResourceLocation id = Enchantment.REGISTRY.getKey(data.enchantment);
+        ResourceLocation id = ForgeRegistries.ENCHANTMENTS.getKey(data.enchantment);
 
         for (int i = 0; i < tagList.size(); ++i) {
             NBTTagCompound tags = tagList.getCompound(i);
@@ -118,7 +119,7 @@ public final class EnchantmentToken extends Item {
         for (int i = 0; i < tagList.size(); ++i) {
             NBTTagCompound tag = tagList.getCompound(i);
             ResourceLocation id = ResourceLocation.makeResourceLocation(tag.getString("id"));
-            Enchantment enchantment = Enchantment.REGISTRY.get(id);
+            Enchantment enchantment = ForgeRegistries.ENCHANTMENTS.getValue(id);
             if (enchantment != null) {
                 map.put(enchantment, tag.getInt("lvl"));
             }
@@ -251,7 +252,7 @@ public final class EnchantmentToken extends Item {
         if (!isInGroup(group)) return;
 
         List<ItemStack> tokens = NonNullList.create();
-        for (Enchantment enchantment : Enchantment.REGISTRY) {
+        for (Enchantment enchantment : ForgeRegistries.ENCHANTMENTS) {
             tokens.add(construct(new EnchantmentData(enchantment, 1)));
         }
 

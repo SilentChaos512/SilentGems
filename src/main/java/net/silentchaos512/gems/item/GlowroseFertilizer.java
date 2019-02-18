@@ -20,7 +20,7 @@ public class GlowroseFertilizer extends Item {
     public static final LazyLoadBase<GlowroseFertilizer> INSTANCE = new LazyLoadBase<>(GlowroseFertilizer::new);
 
     private GlowroseFertilizer() {
-        super(new Builder().group(ModItemGroups.UTILITY));
+        super(new Properties().group(ModItemGroups.UTILITY));
     }
 
     @Override
@@ -31,7 +31,7 @@ public class GlowroseFertilizer extends Item {
 
         if (world.isAirBlock(center)) {
             // Always one at position used.
-            Gems gem = Gems.Set.forDimension(world.dimension.getId()).selectRandom(random);
+            Gems gem = Gems.Set.forDimension(world.dimension.getType().getId()).selectRandom(random);
             Glowrose blockGlowrose = gem.getGlowrose();
             IBlockState stateToPlace = blockGlowrose.getDefaultState();
 
@@ -68,7 +68,7 @@ public class GlowroseFertilizer extends Item {
                     y,
                     center.getZ() + MathHelper.nextInt(random, -SPREAD, SPREAD));
 
-            Gems gem = Gems.Set.forDimension(world.dimension.getId()).selectRandom(random);
+            Gems gem = Gems.Set.forDimension(world.dimension.getType().getId()).selectRandom(random);
             Glowrose block = gem.getGlowrose();
             IBlockState state = block.getDefaultState();
 

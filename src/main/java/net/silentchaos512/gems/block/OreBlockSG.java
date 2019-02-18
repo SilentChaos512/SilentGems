@@ -20,7 +20,7 @@ public abstract class OreBlockSG extends BlockOre {
     private final IItemProvider droppedItem;
     private final int harvestLevel;
 
-    public OreBlockSG(IItemProvider droppedItem, int harvestLevel, Builder builder) {
+    public OreBlockSG(IItemProvider droppedItem, int harvestLevel, Properties builder) {
         super(builder);
         this.droppedItem = droppedItem;
         this.harvestLevel = harvestLevel;

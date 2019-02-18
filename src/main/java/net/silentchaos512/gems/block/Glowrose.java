@@ -39,7 +39,7 @@ public class Glowrose extends BlockBush implements IGem {
     private final Gems gem;
 
     public Glowrose(Gems gem) {
-        super(Builder.create(Material.PLANTS)
+        super(Properties.create(Material.PLANTS)
                 .sound(SoundType.PLANT)
                 .lightValue(10));
         this.gem = gem;
