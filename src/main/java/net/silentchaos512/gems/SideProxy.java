@@ -11,7 +11,6 @@ import net.silentchaos512.gems.lib.ColorHandlers;
 import net.silentchaos512.gems.util.gen.GenModels;
 import net.silentchaos512.gems.util.gen.GenRecipes;
 import net.silentchaos512.gems.world.GemsWorldFeatures;
-import net.silentchaos512.lib.util.GameUtil;
 
 class SideProxy {
     SideProxy() {
@@ -49,7 +48,7 @@ class SideProxy {
 
         DeferredWorkQueue.runLater(GemsWorldFeatures::addFeaturesToBiomes);
 
-        if (GameUtil.isDeobfuscated()) {
+        if (SilentGems.RUN_GENERATORS) {
             GenModels.generateModels();
             GenRecipes.generateRecipes();
         }

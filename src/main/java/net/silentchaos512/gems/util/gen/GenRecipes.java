@@ -32,40 +32,40 @@ public final class GenRecipes {
         for (Gems gem : Gems.values()) {
             String set = gem.getSet().getName();
             // Block <--> Gem
-            RecipeGenerator.compress9(name(gem.getName() + "_block"), name(set + "_gem_block"),
+            RecipeGenerator.compress9(name("storage_blocks/" + gem.getName()), name(set + "_gem_block"),
                     gem.getBlock(), gem.getItem());
             // Gem <--> Shard
-            RecipeGenerator.compress9(name(gem.getName()), name(set + "_gem"),
+            RecipeGenerator.compress9(name("gems/" + gem.getName()), name(set + "_gem"),
                     gem.getItem(), gem.getShard());
             // Bricks
-            RecipeGenerator.create(name(gem.getName() + "_bricks"), ShapedBuilder
+            RecipeGenerator.create(name("bricks/" + gem.getName()), ShapedBuilder
                     .create(new ItemStack(gem.getBricks(), 5))
                     .group(name(set + "_gem_bricks"))
                     .layout("/#/", "###", "/#/")
                     .key('/', gem.getShardTag())
                     .key('#', Blocks.STONE_BRICKS));
             // Glass
-            RecipeGenerator.create(name(gem.getName() + "_glass"), ShapedBuilder
+            RecipeGenerator.create(name("glass/" + gem.getName()), ShapedBuilder
                     .create(new ItemStack(gem.getGlass(), 5))
                     .group(name(set + "_gem_glass"))
                     .layout("/#/", "###", "/#/")
                     .key('/', gem.getShardTag())
                     .key('#', Blocks.GLASS));
             // Lamps
-            RecipeGenerator.create(name(gem.getName() + "_lamp"), ShapedBuilder
+            RecipeGenerator.create(name("lamps/" + gem.getName()), ShapedBuilder
                     .create(gem.getLamp(GemLamp.State.UNLIT))
                     .group(set + "_gem_lamp")
                     .layout("rgr", "g#g", "rgr")
                     .key('r', Tags.Items.DUSTS_REDSTONE)
                     .key('g', Tags.Items.DUSTS_GLOWSTONE)
                     .key('#', gem.getItemTag()));
-            RecipeGenerator.create(name(gem.getName() + "_lamp_inverted"), ShapelessBuilder
+            RecipeGenerator.create(name("lamps/" + gem.getName() + "_inverted"), ShapelessBuilder
                     .create(gem.getLamp(GemLamp.State.INVERTED_UNLIT))
                     .group(name(set + "_inverted_lamp"))
                     .ingredient(gem.getLamp(GemLamp.State.UNLIT))
                     .ingredient(Blocks.REDSTONE_TORCH));
             // Ore smelting
-            RecipeGenerator.create(name(gem.getName() + "_ore_smelting"), SmeltingBuilder
+            RecipeGenerator.create(name("smelting/" + gem.getName() + "_ore"), SmeltingBuilder
                     .create(gem.getItem())
                     .ingredient(gem.getOre())
                     .experience(0.75f));
@@ -73,12 +73,12 @@ public final class GenRecipes {
 
         // Misc storage blocks
         for (MiscBlocks misc : MiscBlocks.values()) {
-            RecipeGenerator.compress9(name(misc.getName()), misc, misc.getStoredItem());
+            RecipeGenerator.compress9(name("storage_blocks/" + misc.getName()), misc, misc.getStoredItem());
         }
 
         // Misc ore smelting
         for (MiscOres ore : MiscOres.values()) {
-            RecipeGenerator.create(name(ore.getName() + "_smelting"), SmeltingBuilder
+            RecipeGenerator.create(name("smelting/" + ore.getName()), SmeltingBuilder
                     .create(ore.getBlock().getDroppedItem())
                     .ingredient(ore.getBlock())
                     .experience(1.0f));
