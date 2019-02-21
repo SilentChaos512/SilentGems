@@ -30,8 +30,7 @@ import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public enum SoulUrnUpgrades {
-    STORAGE_BASIC(basicSerializer("basic_storage", UrnUpgrade::new)),
-    STORAGE_ADVANCED(basicSerializer("advanced_storage", UrnUpgrade::new)),
+    EXTRA_STORAGE(basicSerializer("extra_storage", UrnUpgrade::new)),
     VACUUM(basicSerializer("vacuum", UpgradeVacuum::new)),
 //    PLANTER(basicSerializer("planter", UpgradePlanter::new));
     ;

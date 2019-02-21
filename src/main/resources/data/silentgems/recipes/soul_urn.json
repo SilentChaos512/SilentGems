@@ -6,15 +6,13 @@
   ],
   "key": {
     "c": {
-      "item": "minecraft:hardened_clay"
+      "item": "minecraft:terracotta"
     },
     "s": {
-      "item": "silentgems:soulgem",
-      "data": 0
+      "item": "silentgems:soul_gem"
     },
     "g": {
-      "item": "silentgems:gem",
-      "data": 32767
+      "tag": "silentgems:gems"
     }
   },
   "result": {

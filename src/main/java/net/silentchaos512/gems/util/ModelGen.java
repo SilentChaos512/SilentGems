@@ -101,8 +101,8 @@ public final class ModelGen {
             ModelGenerator.create(food.asItem());
         }
 
-        ModelGenerator.create(FluffyPuffSeeds.INSTANCE.getValue());
-        ModelGenerator.create(GlowroseFertilizer.INSTANCE.getValue());
+        ModelGenerator.create(FluffyPuffSeeds.INSTANCE.get());
+        ModelGenerator.create(GlowroseFertilizer.INSTANCE.get());
         ModelGenerator.create(ModItems.summonKitty);
         ModelGenerator.create(ModItems.summonPuppy);
     }

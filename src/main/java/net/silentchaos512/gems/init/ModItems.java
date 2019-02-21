@@ -42,11 +42,11 @@ public final class ModItems {
 
         register(reg, "enchantment_token", EnchantmentToken.INSTANCE);
 
-        register(reg, "fluffy_puff_seeds", FluffyPuffSeeds.INSTANCE.getValue());
-        register(reg, "glowrose_fertilizer", GlowroseFertilizer.INSTANCE.getValue());
+        register(reg, "fluffy_puff_seeds", FluffyPuffSeeds.INSTANCE.get());
+        register(reg, "glowrose_fertilizer", GlowroseFertilizer.INSTANCE.get());
 
         for (Foods food : Foods.values()) {
-            register(reg, food.getName(), food.getItem());
+            register(reg, food.getName(), food.asItem());
         }
 
         summonKitty = register(reg, "summon_kitty", new PetSummoner(PetSummoner::getCat));

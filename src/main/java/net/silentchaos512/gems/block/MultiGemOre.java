@@ -40,7 +40,7 @@ public class MultiGemOre extends BlockOre {
 
     public MultiGemOre(Gems.Set gemSet) {
         super(Properties.create(Material.ROCK)
-                .hardnessAndResistance(3, 15));
+                .hardnessAndResistance(3, 4));
         this.gemSet = gemSet;
     }
 

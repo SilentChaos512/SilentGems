@@ -151,7 +151,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
     }
 
     private static IBlockState getLightBlock() {
-        return PhantomLightBlock.INSTANCE.getValue().getDefaultState();
+        return PhantomLightBlock.INSTANCE.get().getDefaultState();
     }
 
     @Deprecated

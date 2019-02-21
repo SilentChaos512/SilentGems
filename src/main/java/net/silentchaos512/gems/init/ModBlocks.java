@@ -3,7 +3,6 @@ package net.silentchaos512.gems.init;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -53,8 +52,8 @@ public final class ModBlocks {
         soulUrn = new BlockSoulUrn();
         register("soul_urn", soulUrn, new BlockSoulUrn.ItemBlockSoulUrn(soulUrn));
 
-        register("luminous_flower_pot", LuminousFlowerPotBlock.INSTANCE.getValue());
-        register("phantom_light", PhantomLightBlock.INSTANCE.getValue());
+        register("luminous_flower_pot", LuminousFlowerPotBlock.INSTANCE.get());
+        register("phantom_light", PhantomLightBlock.INSTANCE.get());
 
         fluffyPuffPlant = register("fluffy_puff_plant", new FluffyPuffPlant());
     }

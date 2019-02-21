@@ -7,7 +7,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -16,6 +15,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.item.GemShard;
+import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -78,19 +78,19 @@ public enum Gems implements IStringSerializable {
     final int color;
 
     // Blocks
-    final LazyLoadBase<GemOre> ore;
-    final LazyLoadBase<GemBlock> block;
-    final LazyLoadBase<GemBricks> bricks;
-    final LazyLoadBase<GemGlass> glass;
-    final LazyLoadBase<GemLamp> lampUnlit;
-    final LazyLoadBase<GemLamp> lampLit;
-    final LazyLoadBase<GemLamp> lampInvertedLit;
-    final LazyLoadBase<GemLamp> lampInvertedUnlit;
-    final LazyLoadBase<Glowrose> glowrose;
+    final Lazy<GemOre> ore;
+    final Lazy<GemBlock> block;
+    final Lazy<GemBricks> bricks;
+    final Lazy<GemGlass> glass;
+    final Lazy<GemLamp> lampUnlit;
+    final Lazy<GemLamp> lampLit;
+    final Lazy<GemLamp> lampInvertedLit;
+    final Lazy<GemLamp> lampInvertedUnlit;
+    final Lazy<Glowrose> glowrose;
 
     // Items
-    final LazyLoadBase<GemItem> item;
-    final LazyLoadBase<GemShard> shard;
+    final Lazy<GemItem> item;
+    final Lazy<GemShard> shard;
 
     // Tags
     final Tag<Block> glowroseTag;
@@ -104,19 +104,19 @@ public enum Gems implements IStringSerializable {
         this.color = color;
 
         // Blocks
-        this.ore = new LazyLoadBase<>(() -> new GemOre(this));
-        this.block = new LazyLoadBase<>(() -> new GemBlock(this));
-        this.bricks = new LazyLoadBase<>(() -> new GemBricks(this));
-        this.glass = new LazyLoadBase<>(() -> new GemGlass(this));
-        this.lampUnlit = new LazyLoadBase<>(() -> new GemLamp(this, GemLamp.State.UNLIT));
-        this.lampLit = new LazyLoadBase<>(() -> new GemLamp(this, GemLamp.State.LIT));
-        this.lampInvertedLit = new LazyLoadBase<>(() -> new GemLamp(this, GemLamp.State.INVERTED_LIT));
-        this.lampInvertedUnlit = new LazyLoadBase<>(() -> new GemLamp(this, GemLamp.State.INVERTED_UNLIT));
-        this.glowrose = new LazyLoadBase<>(() -> new Glowrose(this));
+        this.ore = Lazy.of(() -> new GemOre(this));
+        this.block = Lazy.of(() -> new GemBlock(this));
+        this.bricks = Lazy.of(() -> new GemBricks(this));
+        this.glass = Lazy.of(() -> new GemGlass(this));
+        this.lampUnlit = Lazy.of(() -> new GemLamp(this, GemLamp.State.UNLIT));
+        this.lampLit = Lazy.of(() -> new GemLamp(this, GemLamp.State.LIT));
+        this.lampInvertedLit = Lazy.of(() -> new GemLamp(this, GemLamp.State.INVERTED_LIT));
+        this.lampInvertedUnlit = Lazy.of(() -> new GemLamp(this, GemLamp.State.INVERTED_UNLIT));
+        this.glowrose = Lazy.of(() -> new Glowrose(this));
 
         // Items
-        this.item = new LazyLoadBase<>(() -> new GemItem(this));
-        this.shard = new LazyLoadBase<>(() -> new GemShard(this));
+        this.item = Lazy.of(() -> new GemItem(this));
+        this.shard = Lazy.of(() -> new GemShard(this));
 
         // Tags
         this.glowroseTag = new BlockTags.Wrapper(new ResourceLocation(SilentGems.MOD_ID, "glowroses/" + this.getName()));
@@ -194,22 +194,22 @@ public enum Gems implements IStringSerializable {
      * @return The gem block.
      */
     public GemBlock getBlock() {
-        return block.getValue();
+        return block.get();
     }
 
     public GemBricks getBricks() {
-        return bricks.getValue();
+        return bricks.get();
     }
 
     public GemGlass getGlass() {
-        return glass.getValue();
+        return glass.get();
     }
 
     public GemLamp getLamp(GemLamp.State state) {
-        if (state == GemLamp.State.UNLIT) return lampUnlit.getValue();
-        if (state == GemLamp.State.LIT) return lampLit.getValue();
-        if (state == GemLamp.State.INVERTED_LIT) return lampInvertedLit.getValue();
-        if (state == GemLamp.State.INVERTED_UNLIT) return lampInvertedUnlit.getValue();
+        if (state == GemLamp.State.UNLIT) return lampUnlit.get();
+        if (state == GemLamp.State.LIT) return lampLit.get();
+        if (state == GemLamp.State.INVERTED_LIT) return lampInvertedLit.get();
+        if (state == GemLamp.State.INVERTED_UNLIT) return lampInvertedUnlit.get();
         throw new IllegalArgumentException("Unknown GemLamp.State: " + state);
     }
 
@@ -217,22 +217,22 @@ public enum Gems implements IStringSerializable {
      * @return The gem ore block.
      */
     public GemOre getOre() {
-        return ore.getValue();
+        return ore.get();
     }
 
     public Glowrose getGlowrose() {
-        return glowrose.getValue();
+        return glowrose.get();
     }
 
     /**
      * @return The gem item.
      */
     public GemItem getItem() {
-        return item.getValue();
+        return item.get();
     }
 
     public ItemStack getItemStack() {
-        return new ItemStack(this.item.getValue());
+        return new ItemStack(this.item.get());
     }
 
     public Tag<Item> getItemTag() {
@@ -247,7 +247,7 @@ public enum Gems implements IStringSerializable {
      * @return The gem shard (nugget) item.
      */
     public GemShard getShard() {
-        return shard.getValue();
+        return shard.get();
     }
 
     public Set getSet() {

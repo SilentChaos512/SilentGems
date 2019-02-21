@@ -10,12 +10,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.IItemProvider;
-import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
+import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -23,7 +23,7 @@ import java.util.Random;
 public class PhantomLightBlock extends Block implements ITileEntityProvider {
     private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.3, 0.3, 0.3, 0.7, 0.7, 0.7);
 
-    public static final LazyLoadBase<PhantomLightBlock> INSTANCE = new LazyLoadBase<>(PhantomLightBlock::new);
+    public static final Lazy<PhantomLightBlock> INSTANCE = Lazy.of(PhantomLightBlock::new);
 
     private PhantomLightBlock() {
         super(Properties.create(Material.CIRCUITS)

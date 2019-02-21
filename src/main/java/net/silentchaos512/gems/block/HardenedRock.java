@@ -24,17 +24,17 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.LazyLoadBase;
+import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
 
 public enum HardenedRock implements IItemProvider, IStringSerializable {
     STONE, NETHERRACK, END_STONE;
 
-    private final LazyLoadBase<Block> block;
+    private final Lazy<Block> block;
 
     public Block getBlock() {
-        return block.getValue();
+        return block.get();
     }
 
     @Override
@@ -48,7 +48,7 @@ public enum HardenedRock implements IItemProvider, IStringSerializable {
     }
 
     HardenedRock() {
-        block = new LazyLoadBase<>(HardenedRockBlock::new);
+        block = Lazy.of(HardenedRockBlock::new);
     }
 
     public static class HardenedRockBlock extends Block {

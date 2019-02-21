@@ -2,7 +2,6 @@ package net.silentchaos512.gems.init;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -11,6 +10,7 @@ import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotTileEntity;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightTileEntity;
 import net.silentchaos512.gems.block.supercharger.TileSupercharger;
 import net.silentchaos512.gems.block.urn.TileSoulUrn;
+import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
 import java.util.function.Supplier;
@@ -21,14 +21,14 @@ public enum ModTileEntities {
     SOUL_URN(() -> TileEntityType.Builder.create(TileSoulUrn::new).build(null)),
     SUPERCHARGER(() -> TileEntityType.Builder.create(TileSupercharger::new).build(null));
 
-    private final LazyLoadBase<TileEntityType<?>> type;
+    private final Lazy<TileEntityType<?>> type;
 
     ModTileEntities(Supplier<TileEntityType<?>> typeFactory) {
-        this.type = new LazyLoadBase<>(typeFactory);
+        this.type = Lazy.of(typeFactory);
     }
 
     public TileEntityType<?> type() {
-        return type.getValue();
+        return type.get();
     }
 
     public static void registerAll(RegistryEvent.Register<TileEntityType<?>> event) {

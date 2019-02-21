@@ -6,20 +6,18 @@
   ],
   "key": {
     "c": {
-      "item": "minecraft:stained_hardened_clay",
-      "data": 0
+      "item": "minecraft:white_terracotta"
     },
     "s": {
-      "item": "silentgems:soulgem",
-      "data": 0
+      "item": "silentgems:soul_gem"
     },
     "g": {
-      "item": "silentgems:gem",
-      "data": 32767
+      "tag": "silentgems:gems"
     }
   },
   "result": {
     "item": "silentgems:soul_urn"
   },
+  "urn_clay_color": "#F9FFFE",
   "type": "silentgems:soul_urn"
 }

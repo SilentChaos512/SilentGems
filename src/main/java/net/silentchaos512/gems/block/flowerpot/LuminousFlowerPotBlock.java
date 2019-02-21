@@ -38,13 +38,14 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.block.Glowrose;
+import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 
 public class LuminousFlowerPotBlock extends BlockContainer {
     private static final AxisAlignedBB FLOWER_POT_AABB = new AxisAlignedBB(0.3125, 0.0, 0.3125, 0.6875, 0.375, 0.6875);
 
-    public static final LazyLoadBase<LuminousFlowerPotBlock> INSTANCE = new LazyLoadBase<>(LuminousFlowerPotBlock::new);
+    public static final Lazy<LuminousFlowerPotBlock> INSTANCE = Lazy.of(LuminousFlowerPotBlock::new);
 
     private LuminousFlowerPotBlock() {
         super(Properties.create(Material.CIRCUITS)

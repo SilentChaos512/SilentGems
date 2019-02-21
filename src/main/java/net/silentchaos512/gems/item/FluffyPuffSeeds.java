@@ -2,13 +2,13 @@ package net.silentchaos512.gems.item;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemSeeds;
-import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.utils.Lazy;
 
 public class FluffyPuffSeeds extends ItemSeeds {
-    public static final LazyLoadBase<FluffyPuffSeeds> INSTANCE = new LazyLoadBase<>(FluffyPuffSeeds::new);
+    public static final Lazy<FluffyPuffSeeds> INSTANCE = Lazy.of(FluffyPuffSeeds::new);
 
     private FluffyPuffSeeds() {
         super(ModBlocks.fluffyPuffPlant, new Properties());

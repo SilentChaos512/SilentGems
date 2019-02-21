@@ -50,9 +50,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, ISidedInventory, IHopper {
-    private static final int INVENTORY_ROWS_BASE = 2;
-    private static final int INVENTORY_ROWS_UPGRADE_1 = 4;
-    private static final int INVENTORY_ROWS_UPGRADE_2 = 6;
+    private static final int INVENTORY_ROWS_BASE = 3;
+    private static final int INVENTORY_ROWS_UPGRADED = 6;
 
     private NonNullList<ItemStack> items;
     private NonNullList<UrnUpgrade> upgrades = NonNullList.create();
@@ -66,7 +65,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     @SuppressWarnings("WeakerAccess")
     public TileSoulUrn() {
         super(ModTileEntities.SOUL_URN.type());
-        this.items = NonNullList.withSize(9 * INVENTORY_ROWS_UPGRADE_2, ItemStack.EMPTY);
+        this.items = NonNullList.withSize(9 * INVENTORY_ROWS_BASE, ItemStack.EMPTY);
     }
 
     void setColorAndGem(int color, @Nullable Gems gem) {
@@ -79,10 +78,8 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         this.upgrades.addAll(list);
 
         int inventoryRows = INVENTORY_ROWS_BASE;
-        if (UrnUpgrade.ListHelper.contains(this.upgrades, SoulUrnUpgrades.STORAGE_ADVANCED))
-            inventoryRows = INVENTORY_ROWS_UPGRADE_2;
-        else if (UrnUpgrade.ListHelper.contains(this.upgrades, SoulUrnUpgrades.STORAGE_BASIC))
-            inventoryRows = INVENTORY_ROWS_UPGRADE_1;
+        if (UrnUpgrade.ListHelper.contains(this.upgrades, SoulUrnUpgrades.EXTRA_STORAGE))
+            inventoryRows = INVENTORY_ROWS_UPGRADED;
 
         NonNullList<ItemStack> newList = NonNullList.withSize(9 * inventoryRows, ItemStack.EMPTY);
         for (int i = 0; i < newList.size() && i < this.items.size(); ++i)

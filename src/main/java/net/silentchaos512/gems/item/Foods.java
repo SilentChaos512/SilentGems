@@ -10,6 +10,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -37,19 +38,15 @@ public enum Foods implements IItemProvider, IStringSerializable {
             .create(1, 0.2f, false)
             .setUseAction(EnumAction.DRINK));
 
-    private final FoodSG item;
+    private final Lazy<FoodSG> item;
 
     Foods(FoodSG.Builder builder) {
-        this.item = new FoodSG(builder);
-    }
-
-    public FoodSG getItem() {
-        return item;
+        this.item = Lazy.of(() -> new FoodSG(builder));
     }
 
     @Override
     public Item asItem() {
-        return item;
+        return item.get();
     }
 
     @Override

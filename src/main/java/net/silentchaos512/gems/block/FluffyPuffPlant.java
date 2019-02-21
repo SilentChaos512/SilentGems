@@ -92,7 +92,7 @@ public class FluffyPuffPlant extends BlockCrops {
 
     @Override
     protected IItemProvider getSeedsItem() {
-        return FluffyPuffSeeds.INSTANCE.getValue();
+        return FluffyPuffSeeds.INSTANCE.get();
     }
 
     @Override

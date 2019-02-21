@@ -19,7 +19,6 @@
 package net.silentchaos512.gems.init;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -27,6 +26,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
 
@@ -34,14 +34,14 @@ public enum ModSounds {
     SOUL_URN_LID,
     SOUL_URN_OPEN;
 
-    final LazyLoadBase<SoundEvent> sound;
+    final Lazy<SoundEvent> sound;
 
     ModSounds() {
-        sound = new LazyLoadBase<>(() -> create(name().toLowerCase(Locale.ROOT)));
+        sound = Lazy.of(() -> create(name().toLowerCase(Locale.ROOT)));
     }
 
     public SoundEvent get() {
-        return sound.getValue();
+        return sound.get();
     }
 
     public static void registerAll(RegistryEvent.Register<SoundEvent> event) {

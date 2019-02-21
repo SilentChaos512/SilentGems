@@ -34,7 +34,7 @@ public class GemOre extends OreBlockSG {
 
     public GemOre(Gems gem) {
         super(gem.getItem(), 2, Properties.create(Material.ROCK)
-                .hardnessAndResistance(3, 15));
+                .hardnessAndResistance(3, 4));
         this.gem = gem;
     }
 

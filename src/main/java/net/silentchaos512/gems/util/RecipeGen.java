@@ -172,7 +172,7 @@ public final class RecipeGen {
                 .key('/', Items.WHEAT)
                 .key('m', Blocks.RED_MUSHROOM));
         RecipeGenerator.create(name(Foods.SUGAR_COOKIE), ShapedBuilder
-                .create(Foods.SUGAR_COOKIE.getItem(), 8)
+                .create(Foods.SUGAR_COOKIE.asItem(), 8)
                 .layout(" s ", "///", " s ")
                 .key('s', Items.SUGAR)
                 .key('/', Items.WHEAT));

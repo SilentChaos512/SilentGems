@@ -8,14 +8,15 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.RecipeSerializers;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.lib.collection.StackList;
+import net.silentchaos512.utils.Color;
 
 public class SoulUrnRecipe implements IRecipe {
     private static final ResourceLocation NAME = new ResourceLocation(SilentGems.MOD_ID, "soul_urn");
@@ -39,11 +40,8 @@ public class SoulUrnRecipe implements IRecipe {
     public ItemStack getCraftingResult(IInventory inv) {
         StackList list = StackList.from(inv);
         ItemStack gemStack = list.firstOfType(GemItem.class);
-
         Gems gem = Gems.from(gemStack);
-        // FIXME
-//        return ModBlocks.soulUrn.getStack(color, gem);
-        return ItemStack.EMPTY;
+        return ModBlocks.soulUrn.getStack(color, gem);
     }
 
     @Override
@@ -79,8 +77,7 @@ public class SoulUrnRecipe implements IRecipe {
         @Override
         public SoulUrnRecipe read(ResourceLocation recipeId, JsonObject json) {
             ShapedRecipe recipe = RecipeSerializers.CRAFTING_SHAPED.read(recipeId, json);
-            // TODO: Change to hex color code
-            int color = JsonUtils.getInt(json, "urn_clay_color", UrnConst.UNDYED_COLOR);
+            int color = Color.from(json, "urn_clay_color", UrnConst.UNDYED_COLOR).getColor();
             return new SoulUrnRecipe(recipe, color);
         }
 
