@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.util;
+package net.silentchaos512.gems.util.gen;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -24,8 +24,8 @@ import net.silentchaos512.lib.util.generator.RecipeGenerator.SmeltingBuilder;
  * Generates recipe JSON files. This does not add the recipes in-game. The files need to be copied
  * to the correct directory for them to load. They end up in 'run/output'.
  */
-public final class RecipeGen {
-    private RecipeGen() { throw new IllegalAccessError("Utility class"); }
+public final class GenRecipes {
+    private GenRecipes() { throw new IllegalAccessError("Utility class"); }
 
     @SuppressWarnings("OverlyLongMethod")
     public static void generateRecipes() {

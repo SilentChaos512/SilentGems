@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.util;
+package net.silentchaos512.gems.util.gen;
 
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
@@ -21,8 +21,8 @@ import net.silentchaos512.lib.util.generator.ModelGenerator.ItemBuilder;
  * shapes are omitted. This does not add anything in-game. The files need to be copied to the
  * correct directory for them to load. They end up in 'run/output'.
  */
-public final class ModelGen {
-    private ModelGen() { throw new IllegalAccessError("Utility class"); }
+public final class GenModels {
+    private GenModels() { throw new IllegalAccessError("Utility class"); }
 
     public static void generateModels() {
         SilentGems.LOGGER.info("DEV: Generating model files...");

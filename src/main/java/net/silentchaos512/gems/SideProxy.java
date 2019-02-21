@@ -8,8 +8,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.lib.ColorHandlers;
-import net.silentchaos512.gems.util.ModelGen;
-import net.silentchaos512.gems.util.RecipeGen;
+import net.silentchaos512.gems.util.gen.GenModels;
+import net.silentchaos512.gems.util.gen.GenRecipes;
 import net.silentchaos512.gems.world.GemsWorldFeatures;
 import net.silentchaos512.lib.util.GameUtil;
 
@@ -50,8 +50,8 @@ class SideProxy {
         DeferredWorkQueue.runLater(GemsWorldFeatures::addFeaturesToBiomes);
 
         if (GameUtil.isDeobfuscated()) {
-            ModelGen.generateModels();
-            RecipeGen.generateRecipes();
+            GenModels.generateModels();
+            GenRecipes.generateRecipes();
         }
     }
 
