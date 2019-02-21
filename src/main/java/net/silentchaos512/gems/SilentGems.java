@@ -14,6 +14,7 @@ public final class SilentGems {
     public static final String MOD_ID = "silentgems";
     public static final String MODID_NBT = "SilentGems"; // The original ID, used in NBT.
     public static final String MOD_NAME = "Silent's Gems";
+    public static final String VERSION = "3.0.1";
     public static final boolean RUN_GENERATORS = false;
     public static final String RESOURCE_PREFIX = MOD_ID + ":";
 
