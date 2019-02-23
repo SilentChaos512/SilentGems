@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:alexandrite",
+            "tag": "forge:gems/alexandrite"
+        },
+        "small": {
+            "item": "silentgems:alexandrite_shard",
+            "size": 9,
+            "tag": "forge:nuggets/alexandrite"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.alexandrite",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 1024
+        },
+        {
+            "name": "armor_durability",
+            "value": 20
+        },
+        {
+            "name": "enchantability",
+            "value": 18
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 8
+        },
+        {
+            "name": "melee_damage",
+            "value": 4
+        },
+        {
+            "name": "magic_damage",
+            "value": 3
+        },
+        {
+            "name": "attack_speed",
+            "value": 0
+        },
+        {
+            "name": "armor",
+            "value": 14
+        },
+        {
+            "name": "armor_toughness",
+            "value": 0
+        },
+        {
+            "name": "magic_armor",
+            "value": 6
+        },
+        {
+            "name": "ranged_damage",
+            "value": 4
+        },
+        {
+            "name": "ranged_speed",
+            "value": -0.1
+        },
+        {
+            "name": "chargeability",
+            "value": 1.2
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#9500A3",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "alexandrite"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

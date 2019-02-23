@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:rose_quartz",
+            "tag": "forge:gems/rose_quartz"
+        },
+        "small": {
+            "item": "silentgems:rose_quartz_shard",
+            "size": 9,
+            "tag": "forge:nuggets/rose_quartz"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.rose_quartz",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 1024
+        },
+        {
+            "name": "armor_durability",
+            "value": 20
+        },
+        {
+            "name": "enchantability",
+            "value": 20
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 10
+        },
+        {
+            "name": "melee_damage",
+            "value": 5
+        },
+        {
+            "name": "magic_damage",
+            "value": 4
+        },
+        {
+            "name": "attack_speed",
+            "value": 0
+        },
+        {
+            "name": "armor",
+            "value": 15
+        },
+        {
+            "name": "armor_toughness",
+            "value": 0
+        },
+        {
+            "name": "magic_armor",
+            "value": 10
+        },
+        {
+            "name": "ranged_damage",
+            "value": 2
+        },
+        {
+            "name": "ranged_speed",
+            "value": -0.1
+        },
+        {
+            "name": "chargeability",
+            "value": 1.2
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#FF78B6",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "rose_quartz"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

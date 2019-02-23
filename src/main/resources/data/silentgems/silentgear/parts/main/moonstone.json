@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:moonstone",
+            "tag": "forge:gems/moonstone"
+        },
+        "small": {
+            "item": "silentgems:moonstone_shard",
+            "size": 9,
+            "tag": "forge:nuggets/moonstone"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.moonstone",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 768
+        },
+        {
+            "name": "armor_durability",
+            "value": 16
+        },
+        {
+            "name": "enchantability",
+            "value": 20
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 8
+        },
+        {
+            "name": "melee_damage",
+            "value": 3
+        },
+        {
+            "name": "magic_damage",
+            "value": 3
+        },
+        {
+            "name": "attack_speed",
+            "value": -0.2
+        },
+        {
+            "name": "armor",
+            "value": 14
+        },
+        {
+            "name": "armor_toughness",
+            "value": 0
+        },
+        {
+            "name": "magic_armor",
+            "value": 10
+        },
+        {
+            "name": "ranged_damage",
+            "value": 3
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0.1
+        },
+        {
+            "name": "chargeability",
+            "value": 1.1
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#898989",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "moonstone"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

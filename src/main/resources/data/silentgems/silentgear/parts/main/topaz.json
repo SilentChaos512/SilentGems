@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:topaz",
+            "tag": "forge:gems/topaz"
+        },
+        "small": {
+            "item": "silentgems:topaz_shard",
+            "size": 9,
+            "tag": "forge:nuggets/topaz"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.topaz",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 768
+        },
+        {
+            "name": "armor_durability",
+            "value": 21
+        },
+        {
+            "name": "enchantability",
+            "value": 10
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 9
+        },
+        {
+            "name": "melee_damage",
+            "value": 4
+        },
+        {
+            "name": "magic_damage",
+            "value": 2
+        },
+        {
+            "name": "attack_speed",
+            "value": -0.1
+        },
+        {
+            "name": "armor",
+            "value": 20
+        },
+        {
+            "name": "armor_toughness",
+            "value": 4
+        },
+        {
+            "name": "magic_armor",
+            "value": 6
+        },
+        {
+            "name": "ranged_damage",
+            "value": 2
+        },
+        {
+            "name": "ranged_speed",
+            "value": -0.1
+        },
+        {
+            "name": "chargeability",
+            "value": 1.0
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#E6711D",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "topaz"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

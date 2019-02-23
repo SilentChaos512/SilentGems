@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:kyanite",
+            "tag": "forge:gems/kyanite"
+        },
+        "small": {
+            "item": "silentgems:kyanite_shard",
+            "size": 9,
+            "tag": "forge:nuggets/kyanite"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.kyanite",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 1280
+        },
+        {
+            "name": "armor_durability",
+            "value": 28
+        },
+        {
+            "name": "enchantability",
+            "value": 14
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 14
+        },
+        {
+            "name": "melee_damage",
+            "value": 5
+        },
+        {
+            "name": "magic_damage",
+            "value": 7
+        },
+        {
+            "name": "attack_speed",
+            "value": 0.3
+        },
+        {
+            "name": "armor",
+            "value": 17
+        },
+        {
+            "name": "armor_toughness",
+            "value": 2
+        },
+        {
+            "name": "magic_armor",
+            "value": 8
+        },
+        {
+            "name": "ranged_damage",
+            "value": 2
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0.2
+        },
+        {
+            "name": "chargeability",
+            "value": 1.2
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#4583FF",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "kyanite"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

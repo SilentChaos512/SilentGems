@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:apatite",
+            "tag": "forge:gems/apatite"
+        },
+        "small": {
+            "item": "silentgems:apatite_shard",
+            "size": 9,
+            "tag": "forge:nuggets/apatite"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.apatite",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 512
+        },
+        {
+            "name": "armor_durability",
+            "value": 8
+        },
+        {
+            "name": "enchantability",
+            "value": 11
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 10
+        },
+        {
+            "name": "melee_damage",
+            "value": 3
+        },
+        {
+            "name": "magic_damage",
+            "value": 5
+        },
+        {
+            "name": "attack_speed",
+            "value": 0
+        },
+        {
+            "name": "armor",
+            "value": 12
+        },
+        {
+            "name": "armor_toughness",
+            "value": 0
+        },
+        {
+            "name": "magic_armor",
+            "value": 10
+        },
+        {
+            "name": "ranged_damage",
+            "value": 3
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0.1
+        },
+        {
+            "name": "chargeability",
+            "value": 1.4
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#45FFD1",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "apatite"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

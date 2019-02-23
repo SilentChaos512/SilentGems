@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:benitoite",
+            "tag": "forge:gems/benitoite"
+        },
+        "small": {
+            "item": "silentgems:benitoite_shard",
+            "size": 9,
+            "tag": "forge:nuggets/benitoite"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.benitoite",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 768
+        },
+        {
+            "name": "armor_durability",
+            "value": 17
+        },
+        {
+            "name": "enchantability",
+            "value": 17
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 9
+        },
+        {
+            "name": "melee_damage",
+            "value": 5
+        },
+        {
+            "name": "magic_damage",
+            "value": 3
+        },
+        {
+            "name": "attack_speed",
+            "value": 0.2
+        },
+        {
+            "name": "armor",
+            "value": 16
+        },
+        {
+            "name": "armor_toughness",
+            "value": 2
+        },
+        {
+            "name": "magic_armor",
+            "value": 4
+        },
+        {
+            "name": "ranged_damage",
+            "value": 2
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0.1
+        },
+        {
+            "name": "chargeability",
+            "value": 1.2
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#001BA3",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "benitoite"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

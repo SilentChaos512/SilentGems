@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:citrine",
+            "tag": "forge:gems/citrine"
+        },
+        "small": {
+            "item": "silentgems:citrine_shard",
+            "size": 9,
+            "tag": "forge:nuggets/citrine"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.citrine",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 768
+        },
+        {
+            "name": "armor_durability",
+            "value": 18
+        },
+        {
+            "name": "enchantability",
+            "value": 16
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 10
+        },
+        {
+            "name": "melee_damage",
+            "value": 4
+        },
+        {
+            "name": "magic_damage",
+            "value": 2
+        },
+        {
+            "name": "attack_speed",
+            "value": 0.1
+        },
+        {
+            "name": "armor",
+            "value": 16
+        },
+        {
+            "name": "armor_toughness",
+            "value": 2
+        },
+        {
+            "name": "magic_armor",
+            "value": 4
+        },
+        {
+            "name": "ranged_damage",
+            "value": 3
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0.1
+        },
+        {
+            "name": "chargeability",
+            "value": 1.1
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#A35F00",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "citrine"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:agate",
+            "tag": "forge:gems/agate"
+        },
+        "small": {
+            "item": "silentgems:agate_shard",
+            "size": 9,
+            "tag": "forge:nuggets/agate"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.agate",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 384
+        },
+        {
+            "name": "armor_durability",
+            "value": 14
+        },
+        {
+            "name": "enchantability",
+            "value": 14
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 8
+        },
+        {
+            "name": "melee_damage",
+            "value": 3
+        },
+        {
+            "name": "magic_damage",
+            "value": 3
+        },
+        {
+            "name": "attack_speed",
+            "value": 0.1
+        },
+        {
+            "name": "armor",
+            "value": 16
+        },
+        {
+            "name": "armor_toughness",
+            "value": 4
+        },
+        {
+            "name": "magic_armor",
+            "value": 6
+        },
+        {
+            "name": "ranged_damage",
+            "value": 1
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0.1
+        },
+        {
+            "name": "chargeability",
+            "value": 1.4
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#E61DE6",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "agate"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

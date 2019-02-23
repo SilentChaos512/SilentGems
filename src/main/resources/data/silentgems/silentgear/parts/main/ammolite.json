@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:ammolite",
+            "tag": "forge:gems/ammolite"
+        },
+        "small": {
+            "item": "silentgems:ammolite_shard",
+            "size": 9,
+            "tag": "forge:nuggets/ammolite"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.ammolite",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 512
+        },
+        {
+            "name": "armor_durability",
+            "value": 18
+        },
+        {
+            "name": "enchantability",
+            "value": 11
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 12
+        },
+        {
+            "name": "melee_damage",
+            "value": 4
+        },
+        {
+            "name": "magic_damage",
+            "value": 7
+        },
+        {
+            "name": "attack_speed",
+            "value": 0.3
+        },
+        {
+            "name": "armor",
+            "value": 20
+        },
+        {
+            "name": "armor_toughness",
+            "value": 4
+        },
+        {
+            "name": "magic_armor",
+            "value": 14
+        },
+        {
+            "name": "ranged_damage",
+            "value": 2
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0.3
+        },
+        {
+            "name": "chargeability",
+            "value": 1.5
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#E045FF",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "ammolite"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

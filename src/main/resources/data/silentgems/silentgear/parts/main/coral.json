@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:coral",
+            "tag": "forge:gems/coral"
+        },
+        "small": {
+            "item": "silentgems:coral_shard",
+            "size": 9,
+            "tag": "forge:nuggets/coral"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.coral",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 512
+        },
+        {
+            "name": "armor_durability",
+            "value": 9
+        },
+        {
+            "name": "enchantability",
+            "value": 10
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 10
+        },
+        {
+            "name": "melee_damage",
+            "value": 4
+        },
+        {
+            "name": "magic_damage",
+            "value": 6
+        },
+        {
+            "name": "attack_speed",
+            "value": 0.2
+        },
+        {
+            "name": "armor",
+            "value": 12
+        },
+        {
+            "name": "armor_toughness",
+            "value": 0
+        },
+        {
+            "name": "magic_armor",
+            "value": 12
+        },
+        {
+            "name": "ranged_damage",
+            "value": 1
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0.2
+        },
+        {
+            "name": "chargeability",
+            "value": 1.4
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#FF5545",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "coral"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

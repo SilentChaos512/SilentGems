@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:turquoise",
+            "tag": "forge:gems/turquoise"
+        },
+        "small": {
+            "item": "silentgems:turquoise_shard",
+            "size": 9,
+            "tag": "forge:nuggets/turquoise"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.turquoise",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 512
+        },
+        {
+            "name": "armor_durability",
+            "value": 11
+        },
+        {
+            "name": "enchantability",
+            "value": 15
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 9
+        },
+        {
+            "name": "melee_damage",
+            "value": 3
+        },
+        {
+            "name": "magic_damage",
+            "value": 3
+        },
+        {
+            "name": "attack_speed",
+            "value": -0.1
+        },
+        {
+            "name": "armor",
+            "value": 16
+        },
+        {
+            "name": "armor_toughness",
+            "value": 2
+        },
+        {
+            "name": "magic_armor",
+            "value": 10
+        },
+        {
+            "name": "ranged_damage",
+            "value": 3
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0.3
+        },
+        {
+            "name": "chargeability",
+            "value": 1.1
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#00A388",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "turquoise"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

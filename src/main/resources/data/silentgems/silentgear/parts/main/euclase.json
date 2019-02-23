@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:euclase",
+            "tag": "forge:gems/euclase"
+        },
+        "small": {
+            "item": "silentgems:euclase_shard",
+            "size": 9,
+            "tag": "forge:nuggets/euclase"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.euclase",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 1024
+        },
+        {
+            "name": "armor_durability",
+            "value": 14
+        },
+        {
+            "name": "enchantability",
+            "value": 15
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 10
+        },
+        {
+            "name": "melee_damage",
+            "value": 3
+        },
+        {
+            "name": "magic_damage",
+            "value": 5
+        },
+        {
+            "name": "attack_speed",
+            "value": -0.1
+        },
+        {
+            "name": "armor",
+            "value": 14
+        },
+        {
+            "name": "armor_toughness",
+            "value": 4
+        },
+        {
+            "name": "magic_armor",
+            "value": 6
+        },
+        {
+            "name": "ranged_damage",
+            "value": 4
+        },
+        {
+            "name": "ranged_speed",
+            "value": -0.2
+        },
+        {
+            "name": "chargeability",
+            "value": 1.4
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#006DA3",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "euclase"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

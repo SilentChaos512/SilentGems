@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:sunstone",
+            "tag": "forge:gems/sunstone"
+        },
+        "small": {
+            "item": "silentgems:sunstone_shard",
+            "size": 9,
+            "tag": "forge:nuggets/sunstone"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.sunstone",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 768
+        },
+        {
+            "name": "armor_durability",
+            "value": 15
+        },
+        {
+            "name": "enchantability",
+            "value": 16
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 8
+        },
+        {
+            "name": "melee_damage",
+            "value": 6
+        },
+        {
+            "name": "magic_damage",
+            "value": 6
+        },
+        {
+            "name": "attack_speed",
+            "value": -0.1
+        },
+        {
+            "name": "armor",
+            "value": 14
+        },
+        {
+            "name": "armor_toughness",
+            "value": 2
+        },
+        {
+            "name": "magic_armor",
+            "value": 8
+        },
+        {
+            "name": "ranged_damage",
+            "value": 3
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0.1
+        },
+        {
+            "name": "chargeability",
+            "value": 1.1
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#FF7445",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "sunstone"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:morganite",
+            "tag": "forge:gems/morganite"
+        },
+        "small": {
+            "item": "silentgems:morganite_shard",
+            "size": 9,
+            "tag": "forge:nuggets/morganite"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.morganite",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 512
+        },
+        {
+            "name": "armor_durability",
+            "value": 14
+        },
+        {
+            "name": "enchantability",
+            "value": 12
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 9
+        },
+        {
+            "name": "melee_damage",
+            "value": 4
+        },
+        {
+            "name": "magic_damage",
+            "value": 2
+        },
+        {
+            "name": "attack_speed",
+            "value": -0.1
+        },
+        {
+            "name": "armor",
+            "value": 14
+        },
+        {
+            "name": "armor_toughness",
+            "value": 0
+        },
+        {
+            "name": "magic_armor",
+            "value": 8
+        },
+        {
+            "name": "ranged_damage",
+            "value": 2
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0.1
+        },
+        {
+            "name": "chargeability",
+            "value": 1.2
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#FF88FE",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "morganite"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

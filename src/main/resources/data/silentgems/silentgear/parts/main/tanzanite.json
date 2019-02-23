@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:tanzanite",
+            "tag": "forge:gems/tanzanite"
+        },
+        "small": {
+            "item": "silentgems:tanzanite_shard",
+            "size": 9,
+            "tag": "forge:nuggets/tanzanite"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.tanzanite",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 512
+        },
+        {
+            "name": "armor_durability",
+            "value": 15
+        },
+        {
+            "name": "enchantability",
+            "value": 12
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 6
+        },
+        {
+            "name": "melee_damage",
+            "value": 3
+        },
+        {
+            "name": "magic_damage",
+            "value": 4
+        },
+        {
+            "name": "attack_speed",
+            "value": -0.3
+        },
+        {
+            "name": "armor",
+            "value": 18
+        },
+        {
+            "name": "armor_toughness",
+            "value": 2
+        },
+        {
+            "name": "magic_armor",
+            "value": 4
+        },
+        {
+            "name": "ranged_damage",
+            "value": 3
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0.3
+        },
+        {
+            "name": "chargeability",
+            "value": 1.3
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#601DE6",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "tanzanite"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

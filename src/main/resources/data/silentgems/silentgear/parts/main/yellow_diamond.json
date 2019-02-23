@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:yellow_diamond",
+            "tag": "forge:gems/yellow_diamond"
+        },
+        "small": {
+            "item": "silentgems:yellow_diamond_shard",
+            "size": 9,
+            "tag": "forge:nuggets/yellow_diamond"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.yellow_diamond",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 1536
+        },
+        {
+            "name": "armor_durability",
+            "value": 32
+        },
+        {
+            "name": "enchantability",
+            "value": 18
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 9
+        },
+        {
+            "name": "melee_damage",
+            "value": 5
+        },
+        {
+            "name": "magic_damage",
+            "value": 4
+        },
+        {
+            "name": "attack_speed",
+            "value": 0.2
+        },
+        {
+            "name": "armor",
+            "value": 20
+        },
+        {
+            "name": "armor_toughness",
+            "value": 4
+        },
+        {
+            "name": "magic_armor",
+            "value": 6
+        },
+        {
+            "name": "ranged_damage",
+            "value": 3
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0
+        },
+        {
+            "name": "chargeability",
+            "value": 1.1
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#FFFF45",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "yellow_diamond"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

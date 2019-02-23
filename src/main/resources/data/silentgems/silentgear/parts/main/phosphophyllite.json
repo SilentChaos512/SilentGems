@@ -1,0 +1,93 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:phosphophyllite",
+            "tag": "forge:gems/phosphophyllite"
+        },
+        "small": {
+            "item": "silentgems:phosphophyllite_shard",
+            "size": 9,
+            "tag": "forge:nuggets/phosphophyllite"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.phosphophyllite",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 384
+        },
+        {
+            "name": "armor_durability",
+            "value": 6
+        },
+        {
+            "name": "enchantability",
+            "value": 20
+        },
+        {
+            "name": "harvest_level",
+            "value": 2
+        },
+        {
+            "name": "harvest_speed",
+            "value": 11
+        },
+        {
+            "name": "melee_damage",
+            "value": 2
+        },
+        {
+            "name": "magic_damage",
+            "value": 5
+        },
+        {
+            "name": "attack_speed",
+            "value": 0.3
+        },
+        {
+            "name": "armor",
+            "value": 10
+        },
+        {
+            "name": "armor_toughness",
+            "value": 0
+        },
+        {
+            "name": "magic_armor",
+            "value": 8
+        },
+        {
+            "name": "ranged_damage",
+            "value": 2
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0.3
+        },
+        {
+            "name": "chargeability",
+            "value": 1.2
+        }
+    ],
+    "textures": {
+        "all": {
+            "broken_color": "#1DE682",
+            "normal_color": "#FFFFFF",
+            "texture_domain": "silentgems",
+            "texture_suffix": "phosphophyllite"
+        }
+    },
+    "traits": [
+        {
+            "level": 1,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}
