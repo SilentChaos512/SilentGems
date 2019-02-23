@@ -45,6 +45,10 @@ public final class GenModels {
                             .texture(new ResourceLocation(SilentGems.MOD_ID, "block/glowrose/" + gem.getName()))
                     )
             );
+            // Potted Glowroses
+            ModelGenerator.create(BlockBuilder.create(gem.getPottedGlowrose())
+                    .parent("block/flower_pot_cross")
+                    .texture("plant", "glowrose/" + gem.getName()));
             // Ores
             ModelGenerator.create(BlockBuilder.create(gem.getOre())
                     .texture("ore/gem/" + gem.getName()));

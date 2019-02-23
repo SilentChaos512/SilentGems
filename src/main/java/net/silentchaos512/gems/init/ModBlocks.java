@@ -32,6 +32,7 @@ public final class ModBlocks {
             registerGemBlocks(gem -> gem.getLamp(state), gem -> GemLamp.nameFor(gem, state));
         }
         registerGemBlocks(Gems::getGlowrose, gem -> gem.getName() + "_glowrose");
+        registerGemBlocks(Gems::getPottedGlowrose, gem -> "potted_" + gem.getName() + "_glowrose");
 
         register("multi_ore_classic", Gems.Set.CLASSIC.getMultiOre());
         register("multi_ore_dark", Gems.Set.DARK.getMultiOre());

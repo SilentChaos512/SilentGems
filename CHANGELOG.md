@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased]
+### Added
+- Glowroses can now be planted in vanilla flower pots. This amplifies their light level to 15.
+### Fixed
+- Silent Gear part files corrected. These should function correctly whenever Gear is ready to release.
+
+## [3.0.1] - 2019-02-21
+### Fixed
+- Crash caused by a build error [#354]
+
 ## [3.0.0] - 2019-02-21
 Ported to 1.13.2. This version will bring some major changes:
 - The Flattening has changed almost every block and item ID. Old worlds are not compatible.

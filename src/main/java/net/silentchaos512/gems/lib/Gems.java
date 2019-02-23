@@ -1,6 +1,8 @@
 package net.silentchaos512.gems.lib;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFlowerPot;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
@@ -87,6 +89,7 @@ public enum Gems implements IStringSerializable {
     final Lazy<GemLamp> lampInvertedLit;
     final Lazy<GemLamp> lampInvertedUnlit;
     final Lazy<Glowrose> glowrose;
+    final Lazy<BlockFlowerPot> pottedGlowrose;
 
     // Items
     final Lazy<GemItem> item;
@@ -113,6 +116,10 @@ public enum Gems implements IStringSerializable {
         this.lampInvertedLit = Lazy.of(() -> new GemLamp(this, GemLamp.State.INVERTED_LIT));
         this.lampInvertedUnlit = Lazy.of(() -> new GemLamp(this, GemLamp.State.INVERTED_UNLIT));
         this.glowrose = Lazy.of(() -> new Glowrose(this));
+        this.pottedGlowrose = Lazy.of(() -> new BlockFlowerPot(this.getGlowrose(), Block.Properties
+                .create(Material.CIRCUITS)
+                .lightValue(15)
+                .hardnessAndResistance(0)));
 
         // Items
         this.item = Lazy.of(() -> new GemItem(this));
@@ -222,6 +229,10 @@ public enum Gems implements IStringSerializable {
 
     public Glowrose getGlowrose() {
         return glowrose.get();
+    }
+
+    public BlockFlowerPot getPottedGlowrose() {
+        return pottedGlowrose.get();
     }
 
     /**
