@@ -4,6 +4,7 @@
 ### Added
 - Glowroses can now be planted in vanilla flower pots. This amplifies their light level to 15.
 ### Fixed
+- Glowrose hit box and collision fixed
 - Silent Gear part files corrected. These should function correctly whenever Gear is ready to release.
 
 ## [3.0.1] - 2019-02-21

@@ -19,7 +19,7 @@
 package net.silentchaos512.gems.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBush;
+import net.minecraft.block.BlockFlower;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -35,13 +35,16 @@ import net.silentchaos512.gems.lib.IGem;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Glowrose extends BlockBush implements IGem {
+public class Glowrose extends BlockFlower implements IGem {
     private final Gems gem;
 
     public Glowrose(Gems gem) {
         super(Properties.create(Material.PLANTS)
                 .sound(SoundType.PLANT)
-                .lightValue(10));
+                .lightValue(10)
+                .hardnessAndResistance(0)
+                .doesNotBlockMovement()
+        );
         this.gem = gem;
     }
 
