@@ -1,6 +1,8 @@
 package net.silentchaos512.gems.world;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
@@ -15,28 +17,33 @@ import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.world.feature.GlowroseFeature;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Experimental world generation. Not sure if Forge intends to add something, but this should work
  * for now.
  */
-public class GemsWorldFeatures {
+public final class GemsWorldFeatures {
+    private GemsWorldFeatures() {}
+
     public static void addFeaturesToBiomes() {
         EnumSet<Gems> selected = EnumSet.noneOf(Gems.class);
 
         for (Biome biome : ForgeRegistries.BIOMES) {
             // TODO: Nether and End just uses multi-gem ore.
             if (biome.getCategory() == Biome.Category.NETHER) {
-                addOre(biome, Gems.Set.DARK.getMultiOre(), 8, 12, 25, 95);
+                addOre(biome, Gems.Set.DARK.getMultiOre(), 8, 12, 25, 95, state ->
+                        state.getBlock() == Blocks.NETHERRACK);
             } else if (biome.getCategory() == Biome.Category.THEEND) {
-                addOre(biome, Gems.Set.LIGHT.getMultiOre(), 8, 12, 16, 64);
+                addOre(biome, Gems.Set.LIGHT.getMultiOre(), 8, 12, 16, 64, state ->
+                        state.getBlock() == Blocks.END_STONE);
             } else {
                 long seed = getBaseSeed()
                         + Objects.requireNonNull(biome.getRegistryName()).toString().hashCode()
                         + biome.getCategory().ordinal() * 100
                         + biome.getPrecipitation().ordinal() * 10
                         + biome.getTempCategory().ordinal();
-                SilentGems.LOGGER.info("get biome feature seed {} -> {}", getBaseSeed(), seed);
+                SilentGems.LOGGER.debug("get biome feature seed {} -> {}", getBaseSeed(), seed);
 
                 Random random = new Random(seed);
 
@@ -63,7 +70,7 @@ public class GemsWorldFeatures {
         notSelected.removeIf(gem -> gem.getSet() != Gems.Set.CLASSIC);
 
         if (!notSelected.isEmpty()) {
-            SilentGems.LOGGER.warn("Some gems were not selected, adding to random biomes.");
+            SilentGems.LOGGER.debug("Some gems were not selected, adding to random biomes.");
             Random random = new Random(getBaseSeed());
             Biome[] biomes = ForgeRegistries.BIOMES.getValues().toArray(new Biome[0]);
 
@@ -85,14 +92,21 @@ public class GemsWorldFeatures {
     private static void addGemOre(Biome biome, Gems gem, Random random) {
         int size = MathHelper.nextInt(random, 6, 8);
         int count = MathHelper.nextInt(random, 2, 4);
-        SilentGems.LOGGER.info("    Biome {}: add gem {} (size {}, count {})", biome.getRegistryName(), gem, size, count);
-        addOre(biome, gem.getOre(), size, count, 5, 45);
+        int minHeight = random.nextInt(8);
+        int maxHeight = random.nextInt(40) + 30;
+        SilentGems.LOGGER.debug("    Biome {}: add gem {} (size {}, count {}, height [{}, {}])",
+                biome, gem, size, count, minHeight, maxHeight);
+        addOre(biome, gem.getOre(), size, count, minHeight, maxHeight);
     }
 
     private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight) {
+        addOre(biome, block, size, count, minHeight, maxHeight, MinableConfig.IS_ROCK);
+    }
+
+    private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight, Predicate<IBlockState> blockToReplace) {
         biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createCompositeFeature(
                 Feature.MINABLE, new MinableConfig(
-                        MinableConfig.IS_ROCK,
+                        blockToReplace,
                         block.getDefaultState(),
                         size
                 ),
