@@ -13,8 +13,10 @@ import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.MiscOres;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.world.feature.GlowroseFeature;
+import net.silentchaos512.utils.MathUtils;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -30,23 +32,21 @@ public final class GemsWorldFeatures {
         EnumSet<Gems> selected = EnumSet.noneOf(Gems.class);
 
         for (Biome biome : ForgeRegistries.BIOMES) {
+            long seed = getBiomeSeed(biome);
+            Random random = new Random(seed);
+
             // TODO: Nether and End just uses multi-gem ore.
             if (biome.getCategory() == Biome.Category.NETHER) {
+                // Nether
                 addOre(biome, Gems.Set.DARK.getMultiOre(), 8, 12, 25, 95, state ->
                         state.getBlock() == Blocks.NETHERRACK);
             } else if (biome.getCategory() == Biome.Category.THEEND) {
+                // The End
                 addOre(biome, Gems.Set.LIGHT.getMultiOre(), 8, 12, 16, 64, state ->
                         state.getBlock() == Blocks.END_STONE);
+                addEnderOre(biome, random);
             } else {
-                long seed = getBaseSeed()
-                        + Objects.requireNonNull(biome.getRegistryName()).toString().hashCode()
-                        + biome.getCategory().ordinal() * 100
-                        + biome.getPrecipitation().ordinal() * 10
-                        + biome.getTempCategory().ordinal();
-                SilentGems.LOGGER.debug("get biome feature seed {} -> {}", getBaseSeed(), seed);
-
-                Random random = new Random(seed);
-
+                // Overworld and other dimensions
                 Collection<Gems> toAdd = EnumSet.noneOf(Gems.class);
                 for (int i = 0; toAdd.size() < Math.abs(seed % 3) + 3 && i < 100; ++i) {
                     toAdd.add(Gems.Set.CLASSIC.selectRandom(random));
@@ -63,6 +63,8 @@ public final class GemsWorldFeatures {
                         Biome.SURFACE_PLUS_32,
                         new FrequencyConfig(2)
                 ));
+
+                addChaosOre(biome, random);
             }
         }
 
@@ -87,6 +89,20 @@ public final class GemsWorldFeatures {
                 }
             }
         }
+    }
+
+    private static void addChaosOre(Biome biome, Random random) {
+        int count = MathUtils.nextIntInclusive(random, 1, 2);
+        int size = MathUtils.nextIntInclusive(random, 10, 20);
+        int maxHeight = MathUtils.nextIntInclusive(random, 15, 25);
+        SilentGems.LOGGER.debug("    Biome {}: add chaos ore (size {}, count {}, maxHeight {})",
+                biome, size, count, maxHeight);
+        addOre(biome, MiscOres.CHAOS.getBlock(), size, count, 5, maxHeight);
+    }
+
+    private static void addEnderOre(Biome biome, Random random) {
+        addOre(biome, MiscOres.ENDER.getBlock(), 32, 1, 10, 70, state ->
+                state.getBlock() == Blocks.END_STONE);
     }
 
     private static void addGemOre(Biome biome, Gems gem, Random random) {
@@ -122,5 +138,13 @@ public final class GemsWorldFeatures {
             return ModList.get().size() * 10000;
         }
         return username.hashCode();
+    }
+
+    private static long getBiomeSeed(Biome biome) {
+        return getBaseSeed()
+                + Objects.requireNonNull(biome.getRegistryName()).toString().hashCode()
+                + biome.getCategory().ordinal() * 100
+                + biome.getPrecipitation().ordinal() * 10
+                + biome.getTempCategory().ordinal();
     }
 }

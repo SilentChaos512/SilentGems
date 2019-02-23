@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Added
 - Glowroses can now be planted in vanilla flower pots. This amplifies their light level to 15.
+- Chaos and Ender ore generation
 ### Fixed
 - Nether and End gems not spawning. Currently, both will spawn multi-gem ore. The overworld still has biome-dependent spawns.
 - Glowrose hit box and collision fixed
