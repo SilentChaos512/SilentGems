@@ -14,6 +14,10 @@ public final class ColorHandlers {
     public static void onBlockColors(ColorHandlerEvent.Block event) {
         BlockColors colors = event.getBlockColors();
         SilentGems.LOGGER.info("ColorHandlers#onBlockColors: {}", colors);
+        if (colors == null) {
+            SilentGems.LOGGER.error("BlockColors is null?", new IllegalStateException("wat?"));
+            return;
+        }
 
         // Soul Urn
         colors.register(BlockSoulUrn::getBlockColor, ModBlocks.soulUrn);
@@ -22,6 +26,10 @@ public final class ColorHandlers {
     public static void onItemColors(ColorHandlerEvent.Item event) {
         ItemColors colors = event.getItemColors();
         SilentGems.LOGGER.info("ColorHandlers#onItemColors: {}", colors);
+        if (colors == null) {
+            SilentGems.LOGGER.error("ItemColors is null?", new IllegalStateException("wat?"));
+            return;
+        }
 
         // Soul Urn
         colors.register(BlockSoulUrn::getItemColor, ModBlocks.soulUrn);
