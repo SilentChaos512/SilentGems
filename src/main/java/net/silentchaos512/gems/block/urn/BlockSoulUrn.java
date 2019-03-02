@@ -45,8 +45,11 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.ModSounds;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.gems.lib.urn.UrnHelper;
@@ -158,6 +161,7 @@ public class BlockSoulUrn extends BlockContainer {
             tileSoulUrn.setDestroyedByCreativePlayer(player.abilities.isCreativeMode);
             tileSoulUrn.fillWithLoot(player);
         }
+        super.onBlockHarvested(worldIn, pos, state, player);
     }
 
     @Override
@@ -172,18 +176,16 @@ public class BlockSoulUrn extends BlockContainer {
             if (lid != LidState.NO_LID && (player.isSneaking() || !lid.isOpen())) {
                 // Toggle lid state when sneaking or if closed
                 worldIn.setBlockState(pos, toggleLid(state), 2);
-                // FIXME: Sound crashes game with "Error reading the header"
-//                worldIn.playSound(null, pos, ModSounds.SOUL_URN_LID.get(), SoundCategory.BLOCKS, 0.6f,
-//                        (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
+                worldIn.playSound(null, pos, ModSounds.SOUL_URN_LID.get(), SoundCategory.BLOCKS, 0.6f,
+                        (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
             } else {
                 // Open inventory if lid is open (or there is no lid)
                 TileEntity tile = worldIn.getTileEntity(pos);
                 if (tile instanceof TileSoulUrn) {
-//                    GuiTypes.SOUL_URN.display(player, worldIn, pos);
-                    player.displayGUIChest((TileSoulUrn) tile);
-                    // FIXME: Sound crashes game with "Error reading the header"
-//                    worldIn.playSound(null, pos, ModSounds.SOUL_URN_OPEN.get(), SoundCategory.BLOCKS, 0.6f,
-//                            (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
+                    GuiTypes.SOUL_URN.display(player, worldIn, pos);
+//                    player.displayGUIChest((TileSoulUrn) tile);
+                    worldIn.playSound(null, pos, ModSounds.SOUL_URN_OPEN.get(), SoundCategory.BLOCKS, 0.6f,
+                            (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
                 }
             }
         }
@@ -224,7 +226,7 @@ public class BlockSoulUrn extends BlockContainer {
     public void onReplaced(IBlockState state, World worldIn, BlockPos pos, IBlockState newState, boolean isMoving) {
         TileEntity tile = worldIn.getTileEntity(pos);
 
-        if (tile instanceof TileSoulUrn) {
+        if (state.getBlock() != newState.getBlock() && tile instanceof TileSoulUrn) {
             TileSoulUrn tileSoulUrn = (TileSoulUrn) tile;
 
             if (!tileSoulUrn.isCleared() && tileSoulUrn.shouldDrop()) {

@@ -30,17 +30,17 @@ public final class UrnHelper {
     }
 
     public static int getClayColor(ItemStack stack) {
-        NBTTagCompound tags = stack.getOrCreateChildTag(UrnConst.NBT_ROOT);
+        NBTTagCompound tags = getData(stack);
         return tags.hasKey(UrnConst.NBT_COLOR) ? tags.getInt(UrnConst.NBT_COLOR) : UrnConst.UNDYED_COLOR;
     }
 
     public static void setClayColor(ItemStack stack, int color) {
-        stack.getOrCreateChildTag(UrnConst.NBT_ROOT).setInt(UrnConst.NBT_COLOR, color);
+        getData(stack).setInt(UrnConst.NBT_COLOR, color);
     }
 
     @Nullable
     public static Gems getGem(ItemStack stack) {
-        NBTTagCompound tags = stack.getOrCreateChildTag(UrnConst.NBT_ROOT);
+        NBTTagCompound tags = getData(stack);
         if (tags.hasKey(UrnConst.NBT_GEM)) {
             String str = tags.getString(UrnConst.NBT_GEM);
             for (Gems gem : Gems.values())
@@ -51,20 +51,24 @@ public final class UrnHelper {
     }
 
     public static void setGem(ItemStack stack, Gems gem) {
-        stack.getOrCreateChildTag(UrnConst.NBT_ROOT).setString(UrnConst.NBT_GEM, gem.getName());
+        getData(stack).setString(UrnConst.NBT_GEM, gem.getName());
     }
 
     public static boolean hasLid(ItemStack stack) {
-//        return stack.getItemDamage() != 0;
-        return false;
+        NBTTagCompound tag = getData(stack);
+        return !tag.hasKey(UrnConst.NBT_LIDDED) || tag.getBoolean(UrnConst.NBT_LIDDED);
     }
 
     public static void setHasLid(ItemStack stack, boolean lidded) {
-        // TODO
+        getData(stack).setBoolean(UrnConst.NBT_LIDDED, lidded);
     }
 
     public static void toggleHasLid(ItemStack stack) {
         setHasLid(stack, !hasLid(stack));
+    }
+
+    private static NBTTagCompound getData(ItemStack stack) {
+        return stack.getOrCreateChildTag(UrnConst.NBT_ROOT);
     }
 
 //    public static StackList getContainedItems(ItemStack urn) {

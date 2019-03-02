@@ -25,6 +25,7 @@ public class UrnConst {
     public static final String NBT_ROOT = "BlockEntityTag";
     public static final String NBT_COLOR = "Color";
     public static final String NBT_GEM = "Gem";
+    public static final String NBT_LIDDED = "Lidded";
     public static final String NBT_UPGRADE_ID = "ID";
     public static final String NBT_UPGRADES = "Upgrades";
 

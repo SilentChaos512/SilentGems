@@ -62,7 +62,6 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
 
     private int ticksExisted;
 
-    @SuppressWarnings("WeakerAccess")
     public TileSoulUrn() {
         super(ModTileEntities.SOUL_URN.type());
         this.items = NonNullList.withSize(9 * INVENTORY_ROWS_BASE, ItemStack.EMPTY);
@@ -454,7 +453,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
 
     //endregion
 
-    public static class SoulUrnState {
+    public static final class SoulUrnState {
         private final TileSoulUrn tileEntity;
         private final BlockSoulUrn.LidState lidState;
         private boolean itemsAbsorbed = false;
