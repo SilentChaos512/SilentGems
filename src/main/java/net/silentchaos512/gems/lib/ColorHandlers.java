@@ -1,9 +1,16 @@
 package net.silentchaos512.gems.lib;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.util.IItemProvider;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.urn.BlockSoulUrn;
+import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.item.EnchantmentToken;
 
 public final class ColorHandlers {
     private ColorHandlers() {}
@@ -16,8 +23,7 @@ public final class ColorHandlers {
             return;
         }
 
-        // Soul Urn
-//        colors.register(BlockSoulUrn::getBlockColor, ModBlocks.soulUrn);
+        registerBlocks(colors, BlockSoulUrn::getBlockColor, ModBlocks.soulUrn);
     }
 
     public static void onItemColors(ColorHandlerEvent.Item event) {
@@ -28,11 +34,8 @@ public final class ColorHandlers {
             return;
         }
 
-        // Soul Urn
-//        colors.register(BlockSoulUrn::getItemColor, ModBlocks.soulUrn);
-
-        // Enchantment Tokens
-//        colors.register(EnchantmentToken::getItemColor, EnchantmentToken.INSTANCE);
+        registerItems(colors, BlockSoulUrn::getItemColor, ModBlocks.soulUrn);
+        registerItems(colors, EnchantmentToken::getItemColor, EnchantmentToken.INSTANCE);
 
         // Return Home Charm
 //        itemColors.register((stack, tintIndex) -> {
@@ -109,5 +112,21 @@ public final class ColorHandlers {
 //                    return 0xFFFFFF;
 //            }
 //        }, ModItems.toolSoul);
+    }
+
+    private static void registerBlocks(BlockColors handler, IBlockColor blockColor, Block... blocks) {
+        try {
+            handler.register(blockColor, blocks);
+        } catch (NullPointerException ex) {
+            SilentGems.LOGGER.error("Something went horribly wrong when registering block colors (Forge bug?)", ex);
+        }
+    }
+
+    private static void registerItems(ItemColors handler, IItemColor itemColor, IItemProvider... items) {
+        try {
+            handler.register(itemColor, items);
+        } catch (NullPointerException ex) {
+            SilentGems.LOGGER.error("Something went horribly wrong when registering item colors (Forge bug?)", ex);
+        }
     }
 }
