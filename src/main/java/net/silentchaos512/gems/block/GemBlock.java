@@ -26,6 +26,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.silentchaos512.gems.lib.Gems;
@@ -51,5 +52,10 @@ public class GemBlock extends Block {
     @Override
     public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         tooltip.add(gem.getSet().getDisplayName());
+    }
+
+    @Override
+    public ITextComponent getNameTextComponent() {
+        return new TextComponentTranslation("block.silentgems.gem_block", this.gem.getDisplayName());
     }
 }

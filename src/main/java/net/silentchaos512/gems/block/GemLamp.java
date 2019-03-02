@@ -29,6 +29,7 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -148,6 +149,12 @@ public class GemLamp extends Block {
     @Override
     public void addInformation(ItemStack stack, @Nullable IBlockReader world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         tooltip.add(gem.getSet().getDisplayName());
+    }
+
+    @Override
+    public ITextComponent getNameTextComponent() {
+        String translationKey = "block.silentgems.gem_lamp" + (this.lampState.inverted ? "_inverted" : "");
+        return new TextComponentTranslation(translationKey, this.gem.getDisplayName());
     }
 
 //    @Override

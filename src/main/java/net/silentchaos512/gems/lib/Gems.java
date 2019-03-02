@@ -2,7 +2,6 @@ package net.silentchaos512.gems.lib;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlowerPot;
-import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
@@ -116,10 +115,7 @@ public enum Gems implements IStringSerializable {
         this.lampInvertedLit = Lazy.of(() -> new GemLamp(this, GemLamp.State.INVERTED_LIT));
         this.lampInvertedUnlit = Lazy.of(() -> new GemLamp(this, GemLamp.State.INVERTED_UNLIT));
         this.glowrose = Lazy.of(() -> new Glowrose(this));
-        this.pottedGlowrose = Lazy.of(() -> new BlockFlowerPot(this.getGlowrose(), Block.Properties
-                .create(Material.CIRCUITS)
-                .lightValue(15)
-                .hardnessAndResistance(0)));
+        this.pottedGlowrose = Lazy.of(() -> new PottedGlowrose(this.glowrose.get()));
 
         // Items
         this.item = Lazy.of(() -> new GemItem(this));
@@ -141,6 +137,10 @@ public enum Gems implements IStringSerializable {
 
     public int getColor() {
         return color;
+    }
+
+    public ITextComponent getDisplayName() {
+        return new TextComponentTranslation("gem.silentgems." + this.getName());
     }
 
     /**

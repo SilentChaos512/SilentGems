@@ -13,6 +13,7 @@ import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightBlock;
 import net.silentchaos512.gems.block.supercharger.BlockSupercharger;
 import net.silentchaos512.gems.block.urn.BlockSoulUrn;
+import net.silentchaos512.gems.item.GemBlockItem;
 import net.silentchaos512.gems.lib.Gems;
 
 import java.util.function.Function;
@@ -67,7 +68,7 @@ public final class ModBlocks {
     }
 
     private static <T extends Block> T register(String name, T block) {
-        ItemBlock item = new ItemBlock(block, new Item.Properties().group(ModItemGroups.BLOCKS));
+        ItemBlock item = new GemBlockItem(block, new Item.Properties().group(ModItemGroups.BLOCKS));
         return register(name, block, item);
     }
 

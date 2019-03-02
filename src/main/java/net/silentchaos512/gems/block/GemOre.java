@@ -23,13 +23,15 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockReader;
 import net.silentchaos512.gems.lib.Gems;
+import net.silentchaos512.gems.lib.IGem;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class GemOre extends OreBlockSG {
+public class GemOre extends OreBlockSG implements IGem {
     private final Gems gem;
 
     public GemOre(Gems gem) {
@@ -47,5 +49,15 @@ public class GemOre extends OreBlockSG {
     public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         tooltip.add(gem.getSet().getDisplayName());
         super.addInformation(stack, worldIn, tooltip, flagIn);
+    }
+
+    @Override
+    public ITextComponent getNameTextComponent() {
+        return new TextComponentTranslation("block.silentgems.gem_ore", this.gem.getDisplayName());
+    }
+
+    @Override
+    public Gems getGem() {
+        return gem;
     }
 }

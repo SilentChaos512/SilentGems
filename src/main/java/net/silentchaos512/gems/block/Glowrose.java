@@ -28,6 +28,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockReader;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.IGem;
@@ -73,5 +74,10 @@ public class Glowrose extends BlockFlower implements IGem {
     @Override
     public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         tooltip.add(gem.getSet().getDisplayName());
+    }
+
+    @Override
+    public ITextComponent getNameTextComponent() {
+        return new TextComponentTranslation("block.silentgems.glowrose", this.gem.getDisplayName());
     }
 }

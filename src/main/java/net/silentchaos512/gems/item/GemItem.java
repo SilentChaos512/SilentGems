@@ -6,6 +6,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.init.ModItemGroups;
 import net.silentchaos512.gems.lib.Gems;
@@ -30,6 +31,11 @@ public class GemItem extends Item implements IGem {
     @Override
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
         list.add(gem.getSet().getDisplayName());
+    }
+
+    @Override
+    public ITextComponent getName() {
+        return new TextComponentTranslation("item.silentgems.gem", this.gem.getDisplayName());
     }
 
     @Override

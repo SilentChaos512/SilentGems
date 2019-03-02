@@ -59,8 +59,8 @@ public abstract class OreBlockSG extends BlockOre {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(new TextComponentTranslation("misc.silentgems.dropFromOre",
-                this.droppedItem.asItem().getName())
+        ITextComponent itemName = this.droppedItem.asItem().getName();
+        tooltip.add(new TextComponentTranslation("misc.silentgems.dropFromOre", itemName)
                 .applyTextStyle(TextFormatting.GRAY));
     }
 }
