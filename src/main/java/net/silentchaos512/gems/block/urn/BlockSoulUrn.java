@@ -176,16 +176,14 @@ public class BlockSoulUrn extends BlockContainer {
             if (lid != LidState.NO_LID && (player.isSneaking() || !lid.isOpen())) {
                 // Toggle lid state when sneaking or if closed
                 worldIn.setBlockState(pos, toggleLid(state), 2);
-                worldIn.playSound(null, pos, ModSounds.SOUL_URN_LID.get(), SoundCategory.BLOCKS, 0.6f,
-                        (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
+                ModSounds.SOUL_URN_LID.play(worldIn, pos);
             } else {
                 // Open inventory if lid is open (or there is no lid)
                 TileEntity tile = worldIn.getTileEntity(pos);
                 if (tile instanceof TileSoulUrn) {
                     GuiTypes.SOUL_URN.display(player, worldIn, pos);
 //                    player.displayGUIChest((TileSoulUrn) tile);
-                    worldIn.playSound(null, pos, ModSounds.SOUL_URN_OPEN.get(), SoundCategory.BLOCKS, 0.6f,
-                            (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));
+                    ModSounds.SOUL_URN_OPEN.play(worldIn, pos);
                 }
             }
         }

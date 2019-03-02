@@ -22,43 +22,83 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
 
 public enum ModSounds {
-    SOUL_URN_LID,
-    SOUL_URN_OPEN;
+    SOUL_URN_LID(0.6f, 0, 1.1f, 0.05f),
+    SOUL_URN_OPEN(0.6f, 0, 1.1f, 0.05f);
 
     final Lazy<SoundEvent> sound;
+    final float volume;
+    final float volumeVariation;
+    final float pitch;
+    final float pitchVariation;
 
-    ModSounds() {
-        sound = Lazy.of(() -> create(name().toLowerCase(Locale.ROOT)));
+    ModSounds(float volume, float volumeVariation, float pitch, float pitchVariation) {
+        this.volume = volume;
+        this.volumeVariation = volumeVariation;
+        this.pitch = pitch;
+        this.pitchVariation = pitchVariation;
+
+        sound = Lazy.of(() -> {
+            ResourceLocation id = new ResourceLocation(SilentGems.MOD_ID, getName());
+            return new SoundEvent(id);
+        });
     }
 
     public SoundEvent get() {
         return sound.get();
     }
 
-    public static void registerAll(RegistryEvent.Register<SoundEvent> event) {
-        if (event.getRegistry().getRegistrySuperType() != SoundEvent.class) return;
+    public String getName() {
+        return name().toLowerCase(Locale.ROOT);
+    }
 
-        IForgeRegistry<SoundEvent> reg = ForgeRegistries.SOUND_EVENTS;
+    /**
+     * Play the sound at the given position, using the sound's default volume and pitch (plus
+     * variation).
+     *
+     * @param world The world
+     * @param pos   The position
+     */
+    public void play(IWorld world, BlockPos pos) {
+        float volume = this.volume + volumeVariation * (float) SilentGems.random.nextGaussian();
+        float pitch = this.pitch + pitchVariation * (float) SilentGems.random.nextGaussian();
+        play(world, pos, volume, pitch);
+    }
+
+    /**
+     * Play the sound at the given position, with the given volume and pitch (caller is responsible
+     * for variation, if desired).
+     *
+     * @param world  The world
+     * @param pos    The position
+     * @param volume The exact volume level
+     * @param pitch  The exact pitch level
+     */
+    public void play(IWorld world, BlockPos pos, float volume, float pitch) {
+        world.playSound(null, pos, this.get(), SoundCategory.PLAYERS, volume, pitch);
+    }
+
+    public static void registerAll(RegistryEvent.Register<SoundEvent> event) {
+        if (!event.getName().equals(ForgeRegistries.SOUND_EVENTS.getRegistryName())) return;
 
         for (ModSounds sound : values()) {
-            reg.register(sound.get());
+            register(sound.getName(), sound.get());
         }
     }
 
-    private static SoundEvent create(String soundId) {
-        ResourceLocation name = new ResourceLocation(SilentGems.MOD_ID, soundId);
-        SoundEvent soundEvent = new SoundEvent(name);
-        soundEvent.setRegistryName(name);
-        return soundEvent;
+    private static void register(String name, SoundEvent sound) {
+        ResourceLocation id = new ResourceLocation(SilentGems.MOD_ID, name);
+        sound.setRegistryName(id);
+        ForgeRegistries.SOUND_EVENTS.register(sound);
     }
 
     public static void playAllHotswapFix(EntityPlayer player) {
