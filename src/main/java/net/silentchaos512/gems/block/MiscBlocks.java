@@ -3,11 +3,22 @@ package net.silentchaos512.gems.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.LazyLoadBase;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.CraftingItems;
+import net.silentchaos512.lib.advancements.LibTriggers;
 import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
@@ -30,21 +41,22 @@ public enum MiscBlocks implements IItemProvider, IStringSerializable {
             CraftingItems.CHAOS_IRON,
             builder(Material.IRON));
 
-    private final Lazy<Block> block;
+    private final Lazy<MiscBlock> block;
     // The item this block is made from
     private final IItemProvider storedItem;
 
     MiscBlocks(IItemProvider storedItem, Block.Properties builder) {
-        block = Lazy.of(() -> new Block(builder));
+        block = Lazy.of(() -> new MiscBlock(this, builder));
         this.storedItem = storedItem;
     }
 
     private static Block.Properties builder(Material material) {
         return Block.Properties.create(material)
-                .hardnessAndResistance(4, 30);
+                .hardnessAndResistance(4, 30)
+                .sound(SoundType.METAL);
     }
 
-    public Block getBlock() {
+    public MiscBlock getBlock() {
         return block.get();
     }
 
@@ -65,5 +77,45 @@ public enum MiscBlocks implements IItemProvider, IStringSerializable {
      */
     public IItemProvider getStoredItem() {
         return storedItem;
+    }
+
+    static final class MiscBlock extends Block {
+        private final MiscBlocks type;
+
+        MiscBlock(MiscBlocks type, Properties properties) {
+            super(properties);
+            this.type = type;
+        }
+
+        @Override
+        public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
+            if (this.type == ENDER_CRYSTAL) {
+                // Levitation effect from ender crystal blocks
+                if (entityIn instanceof EntityLivingBase && worldIn.getBlockState(pos).getBlock() == this) {
+                    // Stack up to 5 blocks, each increasing the levitation level
+                    final int stackedBlocks = getStackedBlocks(worldIn, pos);
+                    PotionEffect effect = new PotionEffect(MobEffects.LEVITATION, 100, stackedBlocks - 1);
+                    EntityLivingBase entityLiving = (EntityLivingBase) entityIn;
+                    entityLiving.addPotionEffect(effect);
+
+                    // Advancement triggers?
+                    if (entityIn instanceof EntityPlayerMP) {
+                        ResourceLocation triggerType = new ResourceLocation(SilentGems.MOD_ID, "walk_on_" + this.type.getName());
+                        LibTriggers.GENERIC_INT.trigger((EntityPlayerMP) entityIn, triggerType, stackedBlocks);
+                    }
+                }
+            }
+        }
+
+        private int getStackedBlocks(IBlockReader world, BlockPos pos) {
+            // Count the number of identical blocks below this one
+            int result = 1;
+            IBlockState state = world.getBlockState(pos.down());
+            while (state.getBlock() == this && result < 5) {
+                ++result;
+                state = world.getBlockState(pos.down(result));
+            }
+            return result;
+        }
     }
 }

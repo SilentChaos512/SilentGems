@@ -1,0 +1,23 @@
+{
+    "display": {
+        "icon": {
+            "item": "silentgems:ender_crystal_block"
+        },
+        "title": {
+            "translate": "advancements.silentgems.ender_crystal_block.title"
+        },
+        "description": {
+            "translate": "advancements.silentgems.ender_crystal_block.description"
+        }
+    },
+    "parent": "silentgems:ender_crystal",
+    "criteria": {
+        "walk_on": {
+            "trigger": "silentlib:generic_int",
+            "conditions": {
+                "type": "silentgems:walk_on_ender_crystal_block",
+                "value": 1
+            }
+        }
+    }
+}
