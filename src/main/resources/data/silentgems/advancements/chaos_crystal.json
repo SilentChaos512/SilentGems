@@ -1,23 +1,23 @@
 {
     "display": {
         "icon": {
-            "item": "silentgems:enchantment_token"
+            "item": "silentgems:chaos_crystal"
         },
         "title": {
-            "translate": "advancements.silentgems:get_enchantment_token.title"
+            "translate": "advancements.silentgems.chaos_crystal.title"
         },
         "description": {
-            "translate": "advancements.silentgems:get_enchantment_token.description"
+            "translate": "advancements.silentgems.chaos_crystal.description"
         }
     },
-    "parent": "silentgems:get_chaos_crystal",
+    "parent": "silentgems:root",
     "criteria": {
         "get_item": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "item": "silentgems:enchantment_token"
+                        "item": "silentgems:chaos_crystal"
                     }
                 ]
             }

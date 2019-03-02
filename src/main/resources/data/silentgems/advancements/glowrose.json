@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "silentgems:ruby_glowrose"
+        },
+        "title": {
+            "translate": "advancements.silentgems.glowrose.title"
+        },
+        "description": {
+            "translate": "advancements.silentgems.glowrose.description"
+        }
+    },
+    "parent": "silentgems:root",
+    "criteria": {
+        "get_items": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "tag": "silentgems:glowroses"
+                    }
+                ]
+            }
+        }
+    }
+}

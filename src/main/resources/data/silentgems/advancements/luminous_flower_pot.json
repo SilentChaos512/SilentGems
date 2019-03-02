@@ -5,13 +5,13 @@
         },
         "frame": "goal",
         "title": {
-            "translate": "advancements.silentgems:luminous_flower_pot.title"
+            "translate": "advancements.silentgems.luminous_flower_pot.title"
         },
         "description": {
-            "translate": "advancements.silentgems:luminous_flower_pot.description"
+            "translate": "advancements.silentgems.luminous_flower_pot.description"
         }
     },
-    "parent": "silentgems:get_glowrose",
+    "parent": "silentgems:glowrose",
     "criteria": {
         "get_pot": {
             "trigger": "minecraft:inventory_changed",

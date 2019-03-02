@@ -1,23 +1,23 @@
 {
     "display": {
         "icon": {
-            "item": "silentgems:ruby_glowrose"
+            "item": "silentgems:enriched_chaos_crystal"
         },
         "title": {
-            "translate": "advancements.silentgems:get_glowrose.title"
+            "translate": "advancements.silentgems.enriched_chaos.title"
         },
         "description": {
-            "translate": "advancements.silentgems:get_glowrose.description"
+            "translate": "advancements.silentgems.enriched_chaos.description"
         }
     },
-    "parent": "silentgems:root",
+    "parent": "silentgems:chaos_crystal",
     "criteria": {
-        "get_items": {
+        "get_item": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "tag": "silentgems:glowroses"
+                        "item": "silentgems:enriched_chaos_crystal"
                     }
                 ]
             }

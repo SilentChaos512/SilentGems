@@ -4,10 +4,10 @@
             "item": "silentgems:ruby_shard"
         },
         "title": {
-            "translate": "advancements.silentgems:root.title"
+            "translate": "advancements.silentgems.root.title"
         },
         "description": {
-            "translate": "advancements.silentgems:root.description"
+            "translate": "advancements.silentgems.root.description"
         },
         "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
         "show_toast": false,
