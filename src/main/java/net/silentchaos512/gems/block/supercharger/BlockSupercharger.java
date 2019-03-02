@@ -88,7 +88,7 @@ public class BlockSupercharger extends BlockContainer {
         if (!worldIn.isRemote) {
             TileEntity tile = worldIn.getTileEntity(pos);
             if (tile instanceof TileSupercharger) {
-                GuiTypes.SUPERCHARGER.open(player, worldIn, pos);
+                GuiTypes.SUPERCHARGER.display(player, worldIn, pos);
             }
         }
         return true;

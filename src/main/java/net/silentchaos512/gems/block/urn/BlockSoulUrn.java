@@ -45,7 +45,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModItemGroups;
 import net.silentchaos512.gems.lib.Gems;
@@ -180,7 +179,8 @@ public class BlockSoulUrn extends BlockContainer {
                 // Open inventory if lid is open (or there is no lid)
                 TileEntity tile = worldIn.getTileEntity(pos);
                 if (tile instanceof TileSoulUrn) {
-                    GuiTypes.SOUL_URN.open(player, worldIn, pos);
+//                    GuiTypes.SOUL_URN.display(player, worldIn, pos);
+                    player.displayGUIChest((TileSoulUrn) tile);
                     // FIXME: Sound crashes game with "Error reading the header"
 //                    worldIn.playSound(null, pos, ModSounds.SOUL_URN_OPEN.get(), SoundCategory.BLOCKS, 0.6f,
 //                            (float) (1.1f + 0.05f * SilentGems.random.nextGaussian()));

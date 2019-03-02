@@ -55,7 +55,7 @@ public class ChaosAltarBlock extends BlockContainer {
         if (world.isRemote) return true;
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof TileChaosAltar)
-            GuiTypes.ALTAR.open(player, world, pos);
+            GuiTypes.ALTAR.display(player, world, pos);
         return true;
     }
 

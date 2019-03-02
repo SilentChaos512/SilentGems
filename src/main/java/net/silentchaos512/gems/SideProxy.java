@@ -1,16 +1,25 @@
 package net.silentchaos512.gems;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DeferredWorkQueue;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.lib.ColorHandlers;
 import net.silentchaos512.gems.util.gen.GenModels;
 import net.silentchaos512.gems.util.gen.GenRecipes;
 import net.silentchaos512.gems.world.GemsWorldFeatures;
+import net.silentchaos512.lib.inventory.ContainerType;
+
+import java.util.function.BiFunction;
 
 class SideProxy {
     SideProxy() {
@@ -37,6 +46,8 @@ class SideProxy {
         if (SGearProxy.isLoaded()) {
             SGearMaterials.init();
         }
+
+        registerContainersCommon();
     }
 
     private static IEventBus getLifeCycleEventBus() {
@@ -62,6 +73,14 @@ class SideProxy {
         SilentGems.LOGGER.info("Gems imcProcess");
     }
 
+    private static void registerContainersCommon() {
+        for (GuiTypes type : GuiTypes.values()) {
+            //noinspection Convert2MethodRef -- compiler error
+            ContainerType.register(type::getContainerType, (tileType, player) ->
+                    type.getContainer(tileType, player));
+        }
+    }
+
     static class Client extends SideProxy {
         Client() {
             SilentGems.LOGGER.info("Gems SideProxy.Client init");
@@ -71,10 +90,28 @@ class SideProxy {
             MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onItemColors);
 
 //            OBJLoader.INSTANCE.addDomain(SilentGems.MOD_ID);
+
+            registerContainers();
         }
 
         private void clientSetup(FMLClientSetupEvent event) {
             SilentGems.LOGGER.info("Gems clientSetup");
+        }
+
+        private static void registerContainers() {
+            for (GuiTypes type : GuiTypes.values()) {
+                //noinspection Convert2MethodRef -- compiler error
+                ContainerType.registerGui(type::getContainerType, (tileType, player) ->
+                        type.getGui(tileType, player));
+            }
+
+            ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, () -> packet -> {
+                ContainerType<?> type = ContainerType.factories.get(packet.getId()).get();
+                if (packet.getAdditionalData() != null) type.fromBytes(packet.getAdditionalData());
+                //noinspection unchecked
+                return ((BiFunction<ContainerType<?>, EntityPlayer, GuiContainer>) ContainerType.guiFactories.get(packet.getId()))
+                        .apply(type, Minecraft.getInstance().player);
+            });
         }
     }
 

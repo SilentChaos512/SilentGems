@@ -202,15 +202,13 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
 
     @Override
     public ITextComponent getName() {
-        return null;
+        return new TextComponentTranslation("container." + SilentGems.MOD_ID + ".soul_urn");
     }
 
     @Nullable
     @Override
     public ITextComponent getCustomName() {
-        return this.hasCustomName()
-                ? this.customName
-                : new TextComponentTranslation("container." + SilentGems.MOD_ID + ".soul_urn");
+        return this.hasCustomName() ? this.customName : this.getName();
     }
 
     @Override

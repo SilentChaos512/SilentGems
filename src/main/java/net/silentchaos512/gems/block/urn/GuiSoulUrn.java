@@ -50,7 +50,9 @@ public class GuiSoulUrn extends GuiContainer {
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         ITextComponent displayName = this.tileEntity.getDisplayName();
-        this.fontRenderer.drawString(displayName.getFormattedText(), 8, 6, 4210752);
+        if (displayName != null) {
+            this.fontRenderer.drawString(displayName.getFormattedText(), 8, 6, 4210752);
+        }
         this.fontRenderer.drawString(this.playerInventory.getDisplayName().getFormattedText(),
                 8, this.ySize - 96 + 2, 4210752);
     }

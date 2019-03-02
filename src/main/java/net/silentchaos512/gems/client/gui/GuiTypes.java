@@ -18,14 +18,22 @@
 
 package net.silentchaos512.gems.client.gui;
 
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraftforge.fml.network.NetworkHooks;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.supercharger.ContainerSupercharger;
 import net.silentchaos512.gems.block.supercharger.GuiSupercharger;
 import net.silentchaos512.gems.block.supercharger.TileSupercharger;
@@ -34,54 +42,73 @@ import net.silentchaos512.gems.block.urn.GuiSoulUrn;
 import net.silentchaos512.gems.block.urn.TileSoulUrn;
 import net.silentchaos512.gems.inventory.ContainerChaosAltar;
 import net.silentchaos512.gems.tile.TileChaosAltar;
+import net.silentchaos512.lib.inventory.TileEntityContainerType;
 
 import javax.annotation.Nullable;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Optional;
 
 public enum GuiTypes {
-    ALTAR(0, TileChaosAltar.class) {
+    ALTAR() {
         @Override
-        Container getContainer(TileEntity tile, EntityPlayer player, int subtype) {
-            return new ContainerChaosAltar(player.inventory, (TileChaosAltar) tile);
+        public Container getContainer(TileEntityContainerType<?> tileType, EntityPlayer player) {
+            TileChaosAltar tileEntity = (TileChaosAltar) tileType.getTileEntity(player);
+            return new ContainerChaosAltar(player.inventory, Objects.requireNonNull(tileEntity));
         }
 
         @OnlyIn(Dist.CLIENT)
         @Override
-        GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
-            return new GuiChaosAltar(player.inventory, (TileChaosAltar) tile);
+        public GuiContainer getGui(TileEntityContainerType<?> tileType, EntityPlayer player) {
+            TileChaosAltar tileEntity = (TileChaosAltar) tileType.getTileEntity(player);
+            return new GuiChaosAltar(player.inventory, Objects.requireNonNull(tileEntity));
         }
     },
-    SOUL_URN(4, TileSoulUrn.class) {
+    SOUL_URN() {
         @Override
-        Container getContainer(TileEntity tile, EntityPlayer player, int subtype) {
-            return new ContainerSoulUrn(player.inventory, (TileSoulUrn) tile);
+        public Container getContainer(TileEntityContainerType<?> tileType, EntityPlayer player) {
+            TileSoulUrn tileEntity = (TileSoulUrn) tileType.getTileEntity(player);
+            return new ContainerSoulUrn(player.inventory, Objects.requireNonNull(tileEntity));
         }
 
         @OnlyIn(Dist.CLIENT)
         @Override
-        GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
-            return new GuiSoulUrn(player.inventory, (TileSoulUrn) tile);
+        public GuiContainer getGui(TileEntityContainerType<?> tileType, EntityPlayer player) {
+            TileSoulUrn tileEntity = (TileSoulUrn) tileType.getTileEntity(player);
+            return new GuiSoulUrn(player.inventory, Objects.requireNonNull(tileEntity));
         }
     },
-    SUPERCHARGER(5, TileSupercharger.class) {
+    SUPERCHARGER() {
         @Override
-        Container getContainer(TileEntity tile, EntityPlayer player, int subtype) {
-            return new ContainerSupercharger(player.inventory, (TileSupercharger) tile);
+        public Container getContainer(TileEntityContainerType<?> tileType, EntityPlayer player) {
+            TileSupercharger tileEntity = (TileSupercharger) tileType.getTileEntity(player);
+            return new ContainerSupercharger(player.inventory, Objects.requireNonNull(tileEntity));
         }
 
         @OnlyIn(Dist.CLIENT)
         @Override
-        GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype) {
-            return new GuiSupercharger(player.inventory, (TileSupercharger) tile);
+        public GuiContainer getGui(TileEntityContainerType<?> tileType, EntityPlayer player) {
+            TileSupercharger tileEntity = (TileSupercharger) tileType.getTileEntity(player);
+            return new GuiSupercharger(player.inventory, Objects.requireNonNull(tileEntity));
         }
     };
 
-    private final int id;
-    @Nullable
-    private final Class<? extends TileEntity> tileClass;
+    private final ResourceLocation guiId;
 
-    GuiTypes(int id, @Nullable Class<? extends TileEntity> tileClass) {
-        this.id = id;
-        this.tileClass = tileClass;
+    GuiTypes() {
+        this.guiId = new ResourceLocation(SilentGems.MOD_ID, name().toLowerCase(Locale.ROOT));
+    }
+
+    public ResourceLocation getId() {
+        return guiId;
+    }
+
+    public <C extends Container> TileEntityContainerType<C> getContainerType() {
+        return new TileEntityContainerType<>(guiId);
+    }
+
+    public TileEntityContainerType<?> getContainerType(BlockPos pos) {
+        return new TileEntityContainerType<>(guiId, pos);
     }
 
     /**
@@ -90,34 +117,65 @@ public enum GuiTypes {
      * @param world The world
      * @param pos The tile entity position
      */
-    public void open(EntityPlayer player, World world, BlockPos pos) {
-//        player.openGui(SilentGems.instance, this.id, world, pos.getX(), pos.getY(), pos.getZ());
+    public void display(EntityPlayer player, World world, BlockPos pos) {
+        if (!(player instanceof EntityPlayerMP)) {
+            SilentGems.LOGGER.error("Tried to send GUI packet from client?");
+            return;
+        }
+        TileEntityContainerType<?> tileType = getContainerType(pos);
+        IInteractionObject containerSupplier = new Interactable(this, pos);
+        NetworkHooks.openGui((EntityPlayerMP) player, containerSupplier, tileType::toBytes);
     }
 
-    /**
-     * Try to open a non-block GUI for the player.
-     * @param player The player
-     * @param world The world
-     * @param subtype Subtype parameter, interpreted by the GuiTypes
-     */
-    public void open(EntityPlayer player, World world, int subtype) {
-//        player.openGui(SilentGems.instance, this.id, world, subtype, 0, 0);
-    }
-
-    abstract Container getContainer(TileEntity tile, EntityPlayer player, int subtype);
+    public abstract Container getContainer(TileEntityContainerType<?> tileType, EntityPlayer player);
 
     @OnlyIn(Dist.CLIENT)
-    abstract GuiScreen getGuiScreen(TileEntity tile, EntityPlayer player, int subtype);
+    public abstract GuiContainer getGui(TileEntityContainerType<?> tileType, EntityPlayer player);
 
-    boolean tileEntityMatches(@Nullable TileEntity tile) {
-        return this.tileClass == null || this.tileClass.isInstance(tile);
+    @OnlyIn(Dist.CLIENT)
+    public static Optional<GuiTypes> from(FMLPlayMessages.OpenContainer msg) {
+        for (GuiTypes type : values()) {
+            if (type.getId().equals(msg.getId())) {
+                return Optional.of(type);
+            }
+        }
+        return Optional.empty();
     }
 
-    @Nullable
-    static GuiTypes byId(int id) {
-        for (GuiTypes type : values())
-            if (type.id == id)
-                return type;
-        return null;
+    static class Interactable implements IInteractionObject {
+        private final GuiTypes type;
+        private final BlockPos pos;
+
+        Interactable(GuiTypes type, BlockPos pos) {
+            this.type = type;
+            this.pos = pos;
+        }
+
+        @Override
+        public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+            return type.getContainer(type.getContainerType(pos), playerIn);
+        }
+
+        @Override
+        public String getGuiID() {
+            return type.getId().toString();
+        }
+
+        @Override
+        public ITextComponent getName() {
+            ResourceLocation id = type.getId();
+            return new TextComponentTranslation("container." + id.getNamespace() + "." + id.getPath());
+        }
+
+        @Override
+        public boolean hasCustomName() {
+            return false;
+        }
+
+        @Nullable
+        @Override
+        public ITextComponent getCustomName() {
+            return null;
+        }
     }
 }
