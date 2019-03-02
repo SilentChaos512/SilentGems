@@ -11,6 +11,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightBlock;
+import net.silentchaos512.gems.block.supercharger.BlockSupercharger;
 import net.silentchaos512.gems.block.urn.BlockSoulUrn;
 import net.silentchaos512.gems.lib.Gems;
 
@@ -58,6 +59,7 @@ public final class ModBlocks {
         soulUrn = new BlockSoulUrn();
         register("soul_urn", soulUrn, new BlockSoulUrn.ItemBlockSoulUrn(soulUrn));
 
+        register("supercharger", BlockSupercharger.INSTANCE.get());
         register("luminous_flower_pot", LuminousFlowerPotBlock.INSTANCE.get());
         register("phantom_light", PhantomLightBlock.INSTANCE.get());
 

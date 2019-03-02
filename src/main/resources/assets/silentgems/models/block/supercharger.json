@@ -1,12 +1,23 @@
 {
-  "parent": "block/cube_all",
-  "textures": {
-    "particle": "silentgems:block/supercharger_side",
-    "down": "silentgems:block/supercharger_bottom",
-    "up": "silentgems:block/supercharger_top",
-    "north": "silentgems:block/supercharger_side",
-    "east": "silentgems:block/supercharger_side",
-    "south": "silentgems:block/supercharger_side",
-    "west": "silentgems:block/supercharger_side"
-  }
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "silentgems:block/supercharger_bottom",
+		"1": "silentgems:block/supercharger_side",
+		"2": "silentgems:block/supercharger_top",
+		"particle": "silentgems:block/supercharger_bottom"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 12, 16],
+			"faces": {
+				"north": {"uv": [0, 4, 16, 16], "texture": "#1"},
+				"east": {"uv": [0, 4, 16, 16], "texture": "#1"},
+				"south": {"uv": [0, 4, 16, 16], "texture": "#1"},
+				"west": {"uv": [0, 4, 16, 16], "texture": "#1"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#0"}
+			}
+		}
+	]
 }

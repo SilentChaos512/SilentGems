@@ -1,10 +1,13 @@
 package net.silentchaos512.gems;
 
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Mod(SilentGems.MOD_ID)
@@ -16,13 +19,6 @@ public final class SilentGems {
     public static final boolean RUN_GENERATORS = false;
     public static final String RESOURCE_PREFIX = MOD_ID + ":";
 
-//    static {
-//        if (ModList.get().isLoaded("silentgear")) {
-//            // Load added stat(s) before Silent Gear loads material JSONs
-//            MinecraftForge.EVENT_BUS.register(new SGearStatHandler());
-//        }
-//    }
-
     public static final Random random = new Random();
     public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
 
@@ -32,5 +28,14 @@ public final class SilentGems {
     public SilentGems() {
         INSTANCE = this;
         PROXY = DistExecutor.runForDist(() -> () -> new SideProxy.Client(), () -> () -> new SideProxy.Server());
+    }
+
+    public static String getVersion() {
+        Optional<? extends ModContainer> o = ModList.get().getModContainerById(MOD_ID);
+        if (o.isPresent()) {
+            String str = o.get().getModInfo().getVersion().toString();
+            return "NONE".equals(str) ? VERSION : str;
+        }
+        return "0.0.0";
     }
 }

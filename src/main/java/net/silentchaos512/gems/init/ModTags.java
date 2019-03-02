@@ -28,6 +28,10 @@ public class ModTags {
     }
 
     public static final class Items {
+        public static final Tag<Item> CHARGING_AGENT_TIER1 = tag("charging_agents/tier1");
+        public static final Tag<Item> CHARGING_AGENT_TIER2 = tag("charging_agents/tier2");
+        public static final Tag<Item> CHARGING_AGENT_TIER3 = tag("charging_agents/tier3");
+        public static final Tag<Item> CHARGING_AGENTS = tag("charging_agents");
         public static final Tag<Item> GEMS_CHAOS = tag("forge", "gems/chaos");
         public static final Tag<Item> MOD_GEMS = tag("gems");
         public static final Tag<Item> MOD_SHARDS = tag("shards");

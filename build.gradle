@@ -56,6 +56,14 @@ minecraft {
 
     runs {
         client = {
+            // Removes some logging data from the default configuration
+            // Run clientVerbose to print the extra info
+            properties 'forge.logging.markers': ''
+            properties 'forge.logging.console.level': 'debug'
+            workingDirectory project.file('run').canonicalPath
+            source sourceSets.main
+        }
+        clientVerbose = {
             // recommended logging data for a userdev environment
             properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
             // recommended logging level for the console
@@ -84,6 +92,7 @@ dependencies {
 
     compile "com.udojava:EvalEx:2.1"
     compile "net.silentchaos512:silent-lib:${project.sl_version}"
+    compile "net.silentchaos512:silent-gear:1.+"
 }
 
 jar {

@@ -18,6 +18,7 @@
 
 package net.silentchaos512.gems.block.supercharger;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -34,23 +35,30 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.ModList;
 import net.silentchaos512.gems.client.gui.GuiTypes;
+import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockSupercharger extends BlockContainer {
-    public BlockSupercharger() {
+public final class BlockSupercharger extends BlockContainer {
+    public static final Lazy<BlockSupercharger> INSTANCE = Lazy.of(BlockSupercharger::new);
+
+    private static final VoxelShape SHAPE = Block.makeCuboidShape(0, 0, 0, 16, 12, 16);
+
+    private BlockSupercharger() {
         super(Properties.create(Material.IRON)
                 .hardnessAndResistance(5, 50)
                 .sound(SoundType.METAL));
     }
 
-    @Nullable
     @Override
     public TileEntity createNewTileEntity(IBlockReader world) {
         return new TileSupercharger();
@@ -58,9 +66,8 @@ public class BlockSupercharger extends BlockContainer {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-//        tooltip.add(TextFormatting.ITALIC + SilentGems.i18n.subText(this, "desc1"));
-//        tooltip.add(TextFormatting.ITALIC + SilentGems.i18n.subText(this, "desc2"));
-//        tooltip.add(TextFormatting.RED + SilentGems.i18n.subText(this, "desc3"));
+        tooltip.add(new TextComponentTranslation(this.getTranslationKey() + ".desc1").applyTextStyle(TextFormatting.ITALIC));
+        tooltip.add(new TextComponentTranslation(this.getTranslationKey() + ".desc2").applyTextStyle(TextFormatting.ITALIC));
     }
 
     @Override
@@ -83,6 +90,7 @@ public class BlockSupercharger extends BlockContainer {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
@@ -94,8 +102,14 @@ public class BlockSupercharger extends BlockContainer {
         return true;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.MODEL;
+    }
+
+    @Override
+    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+        return SHAPE;
     }
 }

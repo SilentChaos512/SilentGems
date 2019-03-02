@@ -19,11 +19,9 @@
 package net.silentchaos512.gems.compat.gear;
 
 import net.minecraft.item.ItemStack;
-//import net.silentchaos512.gear.api.parts.ItemPartData;
-//import net.silentchaos512.gear.api.parts.MaterialGrade;
-//import net.silentchaos512.gear.api.parts.PartMain;
-//import net.silentchaos512.gear.api.parts.PartRegistry;
-import org.apache.commons.lang3.NotImplementedException;
+import net.silentchaos512.gear.api.parts.MaterialGrade;
+import net.silentchaos512.gear.api.parts.PartType;
+import net.silentchaos512.gear.parts.PartData;
 
 public final class SGearCompat {
     private SGearCompat() {
@@ -31,19 +29,17 @@ public final class SGearCompat {
     }
 
     public static String getGradeString(ItemStack stack) {
-//        MaterialGrade grade = MaterialGrade.fromStack(stack);
-//        return grade.name();
-        throw new NotImplementedException("Silent Gear compat missing!");
+        MaterialGrade grade = MaterialGrade.fromStack(stack);
+        return grade.name();
     }
 
     public static int getPartTier(ItemStack stack) {
-//        ItemPartData part = ItemPartData.fromStack(stack);
-//        return part != null ? part.getPart().getTier() : -1;
-        throw new NotImplementedException("Silent Gear compat missing!");
+        PartData part = PartData.fromStackFast(stack);
+        return part != null ? part.getPart().getTier() : -1;
     }
 
     public static boolean isMainPart(ItemStack stack) {
-//        return PartRegistry.get(stack) instanceof PartMain;
-        throw new NotImplementedException("Silent Gear compat missing!");
+        PartData part = PartData.fromStackFast(stack);
+        return part != null && part.getType() == PartType.MAIN;
     }
 }

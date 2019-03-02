@@ -5,6 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Supercharger is back, along with full Silent Gear integration
 - Fluffy blocks are back
 - Advancements are back
 ### Fixed

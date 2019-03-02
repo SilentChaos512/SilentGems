@@ -12,6 +12,7 @@ import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
+import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.lib.ColorHandlers;
 import net.silentchaos512.gems.util.gen.GenModels;
@@ -23,7 +24,7 @@ import java.util.function.BiFunction;
 
 class SideProxy {
     SideProxy() {
-        SilentGems.LOGGER.info("Gems SideProxy init");
+        SilentGems.LOGGER.debug("Gems SideProxy init");
 
         getLifeCycleEventBus().addListener(this::commonSetup);
         getLifeCycleEventBus().addListener(this::imcEnqueue);
@@ -40,13 +41,6 @@ class SideProxy {
         ModLoot.init();
         ModRecipes.init();
 
-        // Silent Gear support?
-        // TODO: Should this be converted to use IMC? Not sure that would actually work.
-        SGearProxy.detectSilentGear();
-        if (SGearProxy.isLoaded()) {
-            SGearMaterials.init();
-        }
-
         registerContainersCommon();
     }
 
@@ -55,7 +49,13 @@ class SideProxy {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        SilentGems.LOGGER.info("Gems commonSetup");
+        SilentGems.LOGGER.debug("Gems commonSetup");
+
+        SGearProxy.detectSilentGear();
+        if (SGearProxy.isLoaded()) {
+            // Register new stats
+            MinecraftForge.EVENT_BUS.register(new SGearStatHandler());
+        }
 
         DeferredWorkQueue.runLater(GemsWorldFeatures::addFeaturesToBiomes);
 
@@ -66,11 +66,11 @@ class SideProxy {
     }
 
     private void imcEnqueue(InterModEnqueueEvent event) {
-        SilentGems.LOGGER.info("Gems imcEnqueue");
+        SilentGems.LOGGER.debug("Gems imcEnqueue");
     }
 
     private void imcProcess(InterModProcessEvent event) {
-        SilentGems.LOGGER.info("Gems imcProcess");
+        SilentGems.LOGGER.debug("Gems imcProcess");
     }
 
     private static void registerContainersCommon() {
@@ -83,7 +83,7 @@ class SideProxy {
 
     static class Client extends SideProxy {
         Client() {
-            SilentGems.LOGGER.info("Gems SideProxy.Client init");
+            SilentGems.LOGGER.debug("Gems SideProxy.Client init");
             SideProxy.getLifeCycleEventBus().addListener(this::clientSetup);
 
             MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onBlockColors);
@@ -95,7 +95,7 @@ class SideProxy {
         }
 
         private void clientSetup(FMLClientSetupEvent event) {
-            SilentGems.LOGGER.info("Gems clientSetup");
+            SilentGems.LOGGER.debug("Gems clientSetup");
         }
 
         private static void registerContainers() {
@@ -117,12 +117,12 @@ class SideProxy {
 
     static class Server extends SideProxy {
         Server() {
-            SilentGems.LOGGER.info("Gems SideProxy.Server init");
+            SilentGems.LOGGER.debug("Gems SideProxy.Server init");
             SideProxy.getLifeCycleEventBus().addListener(this::serverSetup);
         }
 
         private void serverSetup(FMLDedicatedServerSetupEvent event) {
-            SilentGems.LOGGER.info("Gems serverSetup");
+            SilentGems.LOGGER.debug("Gems serverSetup");
         }
     }
 }

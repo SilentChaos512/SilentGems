@@ -1,6 +1,7 @@
 {
     "variants": {
-        "normal": {"model": "silentgems:supercharger"},
-        "inventory": {"model": "silentgems:supercharger"}
+        "": {
+            "model": "silentgems:block/supercharger"
+        }
     }
 }
