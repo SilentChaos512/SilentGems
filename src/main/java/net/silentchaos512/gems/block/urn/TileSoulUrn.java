@@ -43,6 +43,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModTileEntities;
 import net.silentchaos512.gems.item.SoulUrnUpgrades;
 import net.silentchaos512.gems.lib.Gems;
+import net.silentchaos512.gems.lib.urn.LidState;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 
@@ -174,7 +175,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         if (this.world.isRemote)
             return;
 
-        BlockSoulUrn.LidState lid = world.getBlockState(this.pos).get(BlockSoulUrn.LID);
+        LidState lid = world.getBlockState(this.pos).get(BlockSoulUrn.LID);
         ++this.ticksExisted;
 
         // Tick upgrades
@@ -455,10 +456,10 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
 
     public static final class SoulUrnState {
         private final TileSoulUrn tileEntity;
-        private final BlockSoulUrn.LidState lidState;
+        private final LidState lidState;
         private boolean itemsAbsorbed = false;
 
-        private SoulUrnState(TileSoulUrn tile, BlockSoulUrn.LidState lidState) {
+        private SoulUrnState(TileSoulUrn tile, LidState lidState) {
             this.tileEntity = tile;
             this.lidState = lidState;
         }
@@ -467,7 +468,7 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
             return tileEntity;
         }
 
-        public BlockSoulUrn.LidState getLidState() {
+        public LidState getLidState() {
             return lidState;
         }
 

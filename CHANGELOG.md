@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Fluffy blocks are back
 - Advancements are back
+### Fixed
+- Soul urns should be fully functional (but cannot be crafted in survival due to lack of soul gem drops)
 
 ## [3.0.3] - 2019-02-24
 ### Added

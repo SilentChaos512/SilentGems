@@ -38,6 +38,8 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -45,12 +47,12 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModItemGroups;
 import net.silentchaos512.gems.init.ModSounds;
 import net.silentchaos512.gems.lib.Gems;
+import net.silentchaos512.gems.lib.urn.LidState;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.gems.lib.urn.UrnHelper;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
@@ -58,38 +60,10 @@ import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class BlockSoulUrn extends BlockContainer {
-    public enum LidState implements IStringSerializable {
-        /**
-         * Lidded, lid closed
-         */
-        CLOSED,
-        /**
-         * Lidded, lid open
-         */
-        OPEN,
-        /**
-         * Lidless (always open)
-         */
-        NO_LID;
-
-        public boolean isOpen() {
-            return this == OPEN || this == NO_LID;
-        }
-
-        public boolean hasLid() {
-            return this != NO_LID;
-        }
-
-        @Override
-        public String getName() {
-            return name().toLowerCase(Locale.ROOT);
-        }
-    }
-//    private static final AxisAlignedBB BOUNDING_BOX_CLOSED = MathUtils.boundingBoxByPixels(1, 0, 1, 15, 15, 15);
-//    private static final AxisAlignedBB BOUNDING_BOX_OPEN = MathUtils.boundingBoxByPixels(1, 0, 1, 15, 14, 15);
+    private static final VoxelShape SHAPE_CLOSED = Block.makeCuboidShape(1, 0, 1, 15, 15, 15);
+    private static final VoxelShape SHAPE_OPEN = Block.makeCuboidShape(1, 0, 1, 15, 14, 15);
 
     static final EnumProperty<LidState> LID = EnumProperty.create("lid", LidState.class);
 
@@ -105,7 +79,7 @@ public class BlockSoulUrn extends BlockContainer {
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
-        builder.add(FACING).add(LID);
+        builder.add(FACING, LID);
     }
 
     @Nullable
@@ -164,10 +138,12 @@ public class BlockSoulUrn extends BlockContainer {
         super.onBlockHarvested(worldIn, pos, state, player);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void dropBlockAsItemWithChance(IBlockState state, World worldIn, BlockPos pos, float chancePerItem, int fortune) {
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
@@ -198,11 +174,13 @@ public class BlockSoulUrn extends BlockContainer {
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, @Nullable EntityLivingBase placer, ItemStack stack) {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-        EnumFacing side = placer.getHorizontalFacing().getOpposite();
-        IBlockState newState = state.with(FACING, side)
-                .with(LID, UrnHelper.hasLid(stack) ? LidState.CLOSED : LidState.NO_LID);
+        EnumFacing side = placer != null
+                ? placer.getHorizontalFacing().getOpposite()
+                : EnumFacing.SOUTH;
+        LidState lid = LidState.fromItem(stack);
+        IBlockState newState = state.with(FACING, side).with(LID, lid);
 
         worldIn.setBlockState(pos, newState, 2);
 
@@ -256,10 +234,10 @@ public class BlockSoulUrn extends BlockContainer {
     }
 
     @Override
-    public ItemStack getItem(IBlockReader worldIn, BlockPos pos, IBlockState state) {
-        ItemStack stack = super.getItem(worldIn, pos, state);
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, EntityPlayer player) {
+        ItemStack stack = super.getPickBlock(state, target, world, pos, player);
 
-        TileSoulUrn tileSoulUrn = (TileSoulUrn) worldIn.getTileEntity(pos);
+        TileSoulUrn tileSoulUrn = (TileSoulUrn) world.getTileEntity(pos);
         if (tileSoulUrn != null) {
             NBTTagCompound compound = tileSoulUrn.saveToNBT(new NBTTagCompound());
 
@@ -318,40 +296,32 @@ public class BlockSoulUrn extends BlockContainer {
         return EnumBlockRenderType.MODEL;
     }
 
-//    @Nullable
-//    @Override
-//    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-//        return blockState.get(LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
-//    }
-//
-//    @Override
-//    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-//        return state.getValue(LID).isOpen() ? BOUNDING_BOX_OPEN : BOUNDING_BOX_CLOSED;
-//    }
+    @SuppressWarnings("deprecation")
+    @Override
+    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+        return state.get(LID).isOpen() ? SHAPE_OPEN : SHAPE_CLOSED;
+    }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean causesSuffocation(IBlockState state) {
         return false;
     }
 
-//    @Override
-//    public boolean isTranslucent(IBlockState state) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isOpaqueCube(IBlockState state) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isFullBlock(IBlockState state) {
-//        return false;
-//    }
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean isSolid(IBlockState state) {
+        return false;
+    }
 
     @SuppressWarnings("deprecation")
     @Override
     public boolean isFullCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
+    public boolean isNormalCube(IBlockState state, IBlockReader world, BlockPos pos) {
         return false;
     }
 
@@ -377,20 +347,6 @@ public class BlockSoulUrn extends BlockContainer {
 
         return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
     }
-
-//    @Override
-//    public void registerModels() {
-//        for (LidState lidState : LidState.values()) {
-//            for (EnumFacing facing : EnumFacing.HORIZONTALS) {
-//                IBlockState state = this.getDefaultState()
-//                        .withProperty(LID, lidState)
-//                        .withProperty(FACING, facing);
-//                int meta = this.getMetaFromState(state);
-//                String variant = String.format("facing=%s,lid=%s", facing.getName(), lidState.getName());
-//                SilentGems.registry.setModel(this, meta, "soul_urn", variant);
-//            }
-//        }
-//    }
 
     public static class ItemBlockSoulUrn extends ItemBlock {
         private static List<ItemStack> SAMPLE_SUB_ITEMS;
