@@ -4,9 +4,6 @@ import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.urn.BlockSoulUrn;
-import net.silentchaos512.gems.init.ModBlocks;
-import net.silentchaos512.gems.item.EnchantmentToken;
 
 public final class ColorHandlers {
     private ColorHandlers() {}
@@ -20,7 +17,7 @@ public final class ColorHandlers {
         }
 
         // Soul Urn
-        colors.register(BlockSoulUrn::getBlockColor, ModBlocks.soulUrn);
+//        colors.register(BlockSoulUrn::getBlockColor, ModBlocks.soulUrn);
     }
 
     public static void onItemColors(ColorHandlerEvent.Item event) {
@@ -32,10 +29,10 @@ public final class ColorHandlers {
         }
 
         // Soul Urn
-        colors.register(BlockSoulUrn::getItemColor, ModBlocks.soulUrn);
+//        colors.register(BlockSoulUrn::getItemColor, ModBlocks.soulUrn);
 
         // Enchantment Tokens
-        colors.register(EnchantmentToken::getItemColor, EnchantmentToken.INSTANCE);
+//        colors.register(EnchantmentToken::getItemColor, EnchantmentToken.INSTANCE);
 
         // Return Home Charm
 //        itemColors.register((stack, tintIndex) -> {
