@@ -31,11 +31,23 @@ public final class SilentGems {
     }
 
     public static String getVersion() {
+        return getVersion(false);
+    }
+
+    public static String getVersion(boolean correctInDev) {
         Optional<? extends ModContainer> o = ModList.get().getModContainerById(MOD_ID);
         if (o.isPresent()) {
             String str = o.get().getModInfo().getVersion().toString();
-            return "NONE".equals(str) ? VERSION : str;
+            if (correctInDev && "NONE".equals(str))
+                return VERSION;
+            return str;
         }
         return "0.0.0";
+    }
+
+    public static boolean isDevBuild() {
+        // TODO: Is there a better way? Guess it works though...
+        String version = getVersion(false);
+        return "NONE".equals(version);
     }
 }

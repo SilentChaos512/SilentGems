@@ -42,6 +42,10 @@ class SideProxy {
         ModRecipes.init();
 
         registerContainersCommon();
+
+        if (SilentGems.isDevBuild()) {
+            SilentGems.LOGGER.info("Silent's Gems (version {}) detected as a dev build. If this is not a development environment, this is a bug!", SilentGems.getVersion());
+        }
     }
 
     private static IEventBus getLifeCycleEventBus() {
@@ -59,7 +63,7 @@ class SideProxy {
 
         DeferredWorkQueue.runLater(GemsWorldFeatures::addFeaturesToBiomes);
 
-        if (SilentGems.RUN_GENERATORS) {
+        if (SilentGems.RUN_GENERATORS && SilentGems.isDevBuild()) {
             GenModels.generateModels();
             GenRecipes.generateRecipes();
         }
