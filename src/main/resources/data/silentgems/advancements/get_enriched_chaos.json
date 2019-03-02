@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "silentgems:enriched_chaos_crystal"
+        },
+        "title": {
+            "translate": "advancements.silentgems:get_enriched_chaos.title"
+        },
+        "description": {
+            "translate": "advancements.silentgems:get_enriched_chaos.description"
+        }
+    },
+    "parent": "silentgems:get_chaos_crystal",
+    "criteria": {
+        "get_item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "silentgems:enriched_chaos_crystal"
+                    }
+                ]
+            }
+        }
+    }
+}

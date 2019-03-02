@@ -1,0 +1,42 @@
+{
+    "display": {
+        "icon": {
+            "item": "silentgems:luminous_flower_pot"
+        },
+        "frame": "goal",
+        "title": {
+            "translate": "advancements.silentgems:luminous_flower_pot.title"
+        },
+        "description": {
+            "translate": "advancements.silentgems:luminous_flower_pot.description"
+        }
+    },
+    "parent": "silentgems:get_glowrose",
+    "criteria": {
+        "get_pot": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "item": {
+                    "item": "silentgems:luminous_flower_pot"
+                }
+            }
+        },
+        "get_flower": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "item": {
+                    "tag": "silentgems:glowroses"
+                }
+            }
+        },
+        "plant_flower": {
+            "trigger": "minecraft:placed_block",
+            "conditions": {
+                "block": "silentgems:luminous_flower_pot",
+                "item": {
+                    "tag": "silentgems:glowroses"
+                }
+            }
+        }
+    }
+}

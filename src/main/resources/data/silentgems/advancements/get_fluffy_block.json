@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "silentgems:white_fluffy_block"
+        },
+        "title": {
+            "translate": "advancements.silentgems:get_fluffy_block.title"
+        },
+        "description": {
+            "translate": "advancements.silentgems:get_fluffy_block.description"
+        }
+    },
+    "parent": "silentgems:grow_fluffy_puffs",
+    "criteria": {
+        "get_item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "tag": "silentgems:fluffy_blocks"
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.init;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
@@ -48,6 +49,10 @@ public final class ModBlocks {
 
         for (HardenedRock type : HardenedRock.values()) {
             register(type.getName(), type.getBlock());
+        }
+
+        for (EnumDyeColor color : EnumDyeColor.values()) {
+            register(color.getName() + "_fluffy_block", FluffyBlock.get(color));
         }
 
         soulUrn = new BlockSoulUrn();

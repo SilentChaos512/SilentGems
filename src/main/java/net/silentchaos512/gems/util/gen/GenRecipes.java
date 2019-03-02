@@ -2,11 +2,13 @@ package net.silentchaos512.gems.util.gen;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.FluffyBlock;
 import net.silentchaos512.gems.block.GemLamp;
 import net.silentchaos512.gems.block.MiscBlocks;
 import net.silentchaos512.gems.block.MiscOres;
@@ -82,6 +84,20 @@ public final class GenRecipes {
                     .create(ore.getBlock().getDroppedItem())
                     .ingredient(ore.getBlock())
                     .experience(1.0f));
+        }
+
+        // Fluffy blocks
+        RecipeGenerator.create(name("fluffy_blocks/base"), ShapedBuilder
+                .create(FluffyBlock.get(EnumDyeColor.WHITE))
+                .layout("##", "##")
+                .key('#', CraftingItems.FLUFFY_FABRIC));
+        for (EnumDyeColor color : EnumDyeColor.values()) {
+            RecipeGenerator.create(name("fluffy_blocks/" + color.getName()), ShapedBuilder
+                    .create(FluffyBlock.get(color), 8)
+                    .group(name("fluffy_blocks_recolor"))
+                    .layout("###", "#d#", "###")
+                    .key('#', "silentgems:fluffy_blocks")
+                    .key('d', color.getTag()));
         }
 
         // Crafting Items

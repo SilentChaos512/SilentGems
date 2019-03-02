@@ -1,0 +1,33 @@
+{
+    "display": {
+        "icon": {
+            "item": "silentgems:phosphophyllite"
+        },
+        "frame": "challenge",
+        "title": {
+            "translate": "advancements.silentgems:get_all_gems_overworld.title"
+        },
+        "description": {
+            "translate": "advancements.silentgems:get_all_gems_overworld.description"
+        }
+    },
+    "parent": "silentgems:get_gem",
+    "criteria": {
+        "gem0": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:ruby"}]}},
+        "gem1": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:garnet"}]}},
+        "gem2": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:topaz"}]}},
+        "gem3": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:amber"}]}},
+        "gem4": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:heliodor"}]}},
+        "gem5": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:peridot"}]}},
+        "gem6": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:green_sapphire"}]}},
+        "gem7": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:phosphophyllite"}]}},
+        "gem8": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:aquamarine"}]}},
+        "gem9": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:sapphire"}]}},
+        "gem10": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:tanzanite"}]}},
+        "gem11": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:amethyst"}]}},
+        "gem12": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:agate"}]}},
+        "gem13": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:morganite"}]}},
+        "gem14": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:onyx"}]}},
+        "gem15": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:opal"}]}}
+    }
+}

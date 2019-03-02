@@ -1,0 +1,33 @@
+{
+    "display": {
+        "icon": {
+            "item": "silentgems:citrine"
+        },
+        "frame": "challenge",
+        "title": {
+            "translate": "advancements.silentgems:get_all_gems_nether.title"
+        },
+        "description": {
+            "translate": "advancements.silentgems:get_all_gems_nether.description"
+        }
+    },
+    "parent": "silentgems:get_gem",
+    "criteria": {
+        "gem0": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:carnelian"}]}},
+        "gem1": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:spinel"}]}},
+        "gem2": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:citrine"}]}},
+        "gem3": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:jasper"}]}},
+        "gem4": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:zircon"}]}},
+        "gem5": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:moldavite"}]}},
+        "gem6": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:malachite"}]}},
+        "gem7": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:turquoise"}]}},
+        "gem8": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:euclase"}]}},
+        "gem9": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:benitoite"}]}},
+        "gem10": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:iolite"}]}},
+        "gem11": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:alexandrite"}]}},
+        "gem12": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:lepidolite"}]}},
+        "gem13": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:ametrine"}]}},
+        "gem14": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:black_diamond"}]}},
+        "gem15": {"trigger": "minecraft:inventory_changed", "conditions":{"items":[{"item": "silentgems:moonstone"}]}}
+    }
+}

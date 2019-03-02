@@ -1,11 +1,9 @@
 package net.silentchaos512.gems.util.gen;
 
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.GemLamp;
-import net.silentchaos512.gems.block.HardenedRock;
-import net.silentchaos512.gems.block.MiscBlocks;
-import net.silentchaos512.gems.block.MiscOres;
+import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.FluffyPuffSeeds;
@@ -84,6 +82,11 @@ public final class GenModels {
         for (MiscOres ore : MiscOres.values()) {
             ModelGenerator.create(BlockBuilder.create(ore.getBlock())
                     .texture("ore/" + ore.getName()));
+        }
+
+        for (EnumDyeColor color : EnumDyeColor.values()) {
+            ModelGenerator.create(BlockBuilder.create(FluffyBlock.get(color))
+                    .texture("fluffy/" + color.getName()));
         }
 
         // Won't work, does not generate all block models

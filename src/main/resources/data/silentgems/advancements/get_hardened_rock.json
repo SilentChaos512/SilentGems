@@ -1,0 +1,32 @@
+{
+    "display": {
+        "icon": {
+            "item": "silentgems:hardened_stone"
+        },
+        "title": {
+            "translate": "advancements.silentgems:get_hardened_rock.title"
+        },
+        "description": {
+            "translate": "advancements.silentgems:get_hardened_rock.description"
+        }
+    },
+    "parent": "silentgems:root",
+    "criteria": {
+        "get_item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "silentgems:hardened_stone"
+                    },
+                    {
+                        "item": "silentgems:hardened_netherrack"
+                    },
+                    {
+                        "item": "silentgems:hardened_end_stone"
+                    }
+                ]
+            }
+        }
+    }
+}
