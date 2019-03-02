@@ -33,6 +33,11 @@ public class GemShard extends Item implements IGem {
     }
 
     @Override
+    public ITextComponent getDisplayName(ItemStack stack) {
+        return getName();
+    }
+
+    @Override
     public ITextComponent getName() {
         return new TextComponentTranslation("item.silentgems.gem_shard", this.gem.getDisplayName());
     }

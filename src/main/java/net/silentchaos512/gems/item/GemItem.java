@@ -34,6 +34,11 @@ public class GemItem extends Item implements IGem {
     }
 
     @Override
+    public ITextComponent getDisplayName(ItemStack stack) {
+        return getName();
+    }
+
+    @Override
     public ITextComponent getName() {
         return new TextComponentTranslation("item.silentgems.gem", this.gem.getDisplayName());
     }
