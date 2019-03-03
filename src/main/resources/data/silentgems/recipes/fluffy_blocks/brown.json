@@ -1,0 +1,21 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems:fluffy_blocks_recolor",
+  "pattern": [
+    "###",
+    "#d#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "silentgems:fluffy_blocks"
+    },
+    "d": {
+      "tag": "forge:dyes/brown"
+    }
+  },
+  "result": {
+    "item": "silentgems:brown_fluffy_block",
+    "count": 8
+  }
+}

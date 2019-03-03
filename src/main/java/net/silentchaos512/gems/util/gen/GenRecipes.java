@@ -62,7 +62,7 @@ public final class GenRecipes {
                     .key('g', Tags.Items.DUSTS_GLOWSTONE)
                     .key('#', gem.getItemTag()));
             RecipeGenerator.create(name("lamps/" + gem.getName() + "_inverted"), ShapelessBuilder
-                    .create(gem.getLamp(GemLamp.State.INVERTED_UNLIT))
+                    .create(gem.getLamp(GemLamp.State.INVERTED_LIT))
                     .group(name(set + "_inverted_lamp"))
                     .ingredient(gem.getLamp(GemLamp.State.UNLIT))
                     .ingredient(Blocks.REDSTONE_TORCH));
@@ -97,7 +97,7 @@ public final class GenRecipes {
                     .group(name("fluffy_blocks_recolor"))
                     .layout("###", "#d#", "###")
                     .key('#', "silentgems:fluffy_blocks")
-                    .key('d', color.getTag()));
+                    .key('d', "forge:dyes/" + color.getName()));
         }
 
         // Crafting Items
@@ -121,7 +121,7 @@ public final class GenRecipes {
                 .layout("###", "#c#", "###")
                 .key('#', Items.COAL)
                 .key('c', CraftingItems.CHAOS_CRYSTAL));
-        RecipeGenerator.create(name(CraftingItems.CHAOS_COAL), ShapedBuilder
+        RecipeGenerator.create(name(CraftingItems.CHAOS_COAL.getName() + "_charcoal"), ShapedBuilder
                 .create(CraftingItems.CHAOS_COAL, 6)
                 .layout("###", "#c#", "###")
                 .key('#', Items.CHARCOAL)

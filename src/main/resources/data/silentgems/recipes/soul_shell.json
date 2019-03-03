@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "silentgems:soul_shell",
+    "count": 2
+  },
+  "pattern": [
+    " # ",
+    "#o#",
+    " # "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "o": {
+      "tag": "forge:gems/diamond"
+    },
+    "#": {
+      "item": "minecraft:glass"
+    }
+  }
+}

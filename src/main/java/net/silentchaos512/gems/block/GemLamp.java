@@ -29,6 +29,7 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
@@ -149,6 +150,9 @@ public class GemLamp extends Block {
     @Override
     public void addInformation(ItemStack stack, @Nullable IBlockReader world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         tooltip.add(gem.getSet().getDisplayName());
+        if (flag.isAdvanced()) {
+            tooltip.add(new TextComponentString("Type: " + this.lampState));
+        }
     }
 
     @Override

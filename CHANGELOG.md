@@ -9,12 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fluffy blocks are back
 - Advancements are back
 - Color handlers are back. Wrapped in a try-catch to (hopefully) prevent crashes.
+- Lots of missing recipes
 ### Changed
 - Overhauled the localization file, minimizing duplication. Should make translating the mod easier.
 ### Fixed
 - Soul urns should be fully functional (but cannot be crafted in survival due to lack of soul gem drops)
 - Ender crystal block effect was missing
 - Chaos coal blocks not working as fuel
+- Broken translations
 
 ## [3.0.3] - 2019-02-24
 ### Added

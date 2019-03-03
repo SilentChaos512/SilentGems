@@ -7,7 +7,7 @@
   ],
   "key": {
     "#": {
-      "item": "minecraft:charcoal"
+      "item": "minecraft:coal"
     },
     "c": {
       "item": "silentgems:chaos_crystal"
@@ -15,6 +15,6 @@
   },
   "result": {
     "item": "silentgems:chaos_coal",
-    "count": 6
+    "count": 8
   }
 }

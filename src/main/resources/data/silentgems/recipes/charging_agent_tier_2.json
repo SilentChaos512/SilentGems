@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cfc",
+    "aea",
+    "cfc"
+  ],
+  "key": {
+    "a": {
+      "item": "silentgems:charging_agent"
+    },
+    "c": {
+      "tag": "forge:gems/chaos"
+    },
+    "e": {
+      "item": "minecraft:ender_eye"
+    },
+    "f": {
+      "item": "minecraft:chorus_fruit"
+    }
+  },
+  "result": {
+    "item": "silentgems:super_charging_agent",
+    "count": 2
+  }
+}

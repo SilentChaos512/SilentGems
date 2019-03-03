@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ada",
+    "clc",
+    "###"
+  ],
+  "key": {
+    "a": {
+      "item": "silentgems:charging_agent"
+    },
+    "c": {
+      "item": "silentgems:chaos_iron"
+    },
+    "d": {
+      "tag": "forge:gems/diamond"
+    },
+    "l": {
+      "item": "minecraft:lapis_block"
+    },
+    "#": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "silentgems:supercharger"
+  }
+}

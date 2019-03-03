@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cgc",
+    "cbc",
+    "cgc"
+  ],
+  "key": {
+    "b": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "c": {
+      "tag": "forge:gems/chaos"
+    },
+    "g": {
+      "item": "minecraft:glowstone_dust"
+    }
+  },
+  "result": {
+    "item": "silentgems:charging_agent",
+    "count": 2
+  }
+}
