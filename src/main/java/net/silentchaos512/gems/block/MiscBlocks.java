@@ -9,6 +9,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.IStringSerializable;
@@ -17,6 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.init.ModItemGroups;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.lib.advancements.LibTriggers;
 import net.silentchaos512.utils.Lazy;
@@ -58,6 +61,10 @@ public enum MiscBlocks implements IItemProvider, IStringSerializable {
 
     public MiscBlock getBlock() {
         return block.get();
+    }
+
+    public MiscBlockItem getBlockItem() {
+        return new MiscBlockItem(this, new Item.Properties().group(ModItemGroups.BLOCKS));
     }
 
     @Override
@@ -116,6 +123,20 @@ public enum MiscBlocks implements IItemProvider, IStringSerializable {
                 state = world.getBlockState(pos.down(result));
             }
             return result;
+        }
+    }
+
+    static final class MiscBlockItem extends ItemBlock {
+        private final MiscBlocks type;
+
+        MiscBlockItem(MiscBlocks type, Properties builder) {
+            super(type.getBlock(), builder);
+            this.type = type;
+        }
+
+        @Override
+        public int getBurnTime(ItemStack itemStack) {
+            return this.type == CHAOS_COAL ? 64000 : 0;
         }
     }
 }

@@ -42,7 +42,7 @@ public final class ModBlocks {
         register("multi_ore_light", Gems.Set.LIGHT.getMultiOre());
 
         for (MiscBlocks misc : MiscBlocks.values()) {
-            register(misc.getName(), misc.getBlock());
+            register(misc.getName(), misc.getBlock(), misc.getBlockItem());
         }
 
         for (MiscOres ore : MiscOres.values()) {
