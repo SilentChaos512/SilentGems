@@ -16,6 +16,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.MiscOres;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.world.feature.GlowroseFeature;
+import net.silentchaos512.gems.world.feature.WildFluffyPuffFeature;
 import net.silentchaos512.utils.MathUtils;
 
 import java.util.*;
@@ -65,6 +66,10 @@ public final class GemsWorldFeatures {
                 ));
 
                 addChaosOre(biome, random);
+
+                if (biome.getDownfall() > 0.4f) {
+                    addWildFluffyPuffs(biome);
+                }
             }
         }
 
@@ -128,6 +133,14 @@ public final class GemsWorldFeatures {
                 ),
                 Biome.COUNT_RANGE,
                 new CountRangeConfig(count, minHeight, 0, maxHeight)
+        ));
+    }
+
+    private static void addWildFluffyPuffs(Biome biome) {
+        biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createCompositeFlowerFeature(
+                new WildFluffyPuffFeature(),
+                Biome.SURFACE_PLUS_32,
+                new FrequencyConfig(1)
         ));
     }
 

@@ -19,7 +19,6 @@ import net.silentchaos512.gems.lib.Gems;
 import java.util.function.Function;
 
 public final class ModBlocks {
-    public static FluffyPuffPlant fluffyPuffPlant;
     public static BlockSoulUrn soulUrn;
 
     private ModBlocks() {}
@@ -64,7 +63,8 @@ public final class ModBlocks {
         register("luminous_flower_pot", LuminousFlowerPotBlock.INSTANCE.get());
         register("phantom_light", PhantomLightBlock.INSTANCE.get());
 
-        fluffyPuffPlant = register("fluffy_puff_plant", new FluffyPuffPlant());
+        register("fluffy_puff_plant", FluffyPuffPlant.NORMAL.get());
+        register("wild_fluffy_puff_plant", FluffyPuffPlant.WILD.get());
     }
 
     private static <T extends Block> T register(String name, T block) {

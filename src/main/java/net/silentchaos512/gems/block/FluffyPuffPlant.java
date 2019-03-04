@@ -18,9 +18,12 @@
 
 package net.silentchaos512.gems.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.NonNullList;
@@ -30,11 +33,34 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.FluffyPuffSeeds;
+import net.silentchaos512.utils.Lazy;
 
-public class FluffyPuffPlant extends BlockCrops {
-    public FluffyPuffPlant() {
+public final class FluffyPuffPlant extends BlockCrops {
+    public static final Lazy<FluffyPuffPlant> NORMAL = Lazy.of(() -> new FluffyPuffPlant(false));
+    public static final Lazy<FluffyPuffPlant> WILD = Lazy.of(() -> new FluffyPuffPlant(true));
+
+    private final boolean wild;
+
+    private FluffyPuffPlant(boolean wild) {
         super(Properties.create(Material.PLANTS)
-                .hardnessAndResistance(0)); // was 0.1
+                .hardnessAndResistance(0) // was 0.1
+                .doesNotBlockMovement()
+                .sound(SoundType.PLANT)
+        );
+        this.wild = wild;
+    }
+
+    public IBlockState getMaturePlant() {
+        return withAge(getMaxAge());
+    }
+
+    @Override
+    protected boolean isValidGround(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+        if (wild) {
+            Block block = state.getBlock();
+            return block == Blocks.GRASS_BLOCK || block == Blocks.DIRT || block == Blocks.COARSE_DIRT || block == Blocks.PODZOL;
+        }
+        return super.isValidGround(state, worldIn, pos);
     }
 
     @Override
@@ -55,41 +81,6 @@ public class FluffyPuffPlant extends BlockCrops {
         }
     }
 
-//    @Override
-//    public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-//        ItemStack heldItem = player.getHeldItem(hand);
-//        if (!heldItem.isEmpty() && heldItem.getItem() == ModItems.sickle)
-//            return false;
-//
-//        // Right-click to harvest
-//        List<ItemStack> drops = Lists.newArrayList();
-//        int age = state.getValue(AGE);
-//
-//        // Get drops if mature
-//        if (age >= 7) {
-//            for (int i = 0; i < 3; ++i)
-//                if (i == 0 || RANDOM.nextInt(15) <= age)
-//                    drops.add(new ItemStack(getCrop(), 1, damageDropped(state)));
-//
-//            // Soul gem drops (since they normally only drop when breaking blocks).
-//            if (SilentGems.random.nextFloat() < 0.025f) {
-//                drops.add(ModItems.soulGem.getStack("FluffyPuff"));
-//            }
-//
-//            // Reset to newly planted state
-//            world.setBlockState(pos, getDefaultState());
-//        }
-//
-//        // Spawn items in world
-//        for (ItemStack stack : drops) {
-//            spawnAsEntity(world, pos, stack);
-//        }
-//
-//        return !drops.isEmpty();
-//    }
-
-
-
     @Override
     protected IItemProvider getSeedsItem() {
         return FluffyPuffSeeds.INSTANCE.get();
@@ -104,14 +95,4 @@ public class FluffyPuffPlant extends BlockCrops {
     public EnumPlantType getPlantType(IBlockReader world, BlockPos pos) {
         return EnumPlantType.Crop;
     }
-
-//    @Override
-//    public void registerModels() {
-//        Item item = Item.getItemFromBlock(this);
-//        String fullName = SilentGems.RESOURCE_PREFIX + Names.FLUFFY_PUFF_PLANT;
-//        for (int i = 0; i < 4; ++i) {
-//            ModelResourceLocation model = new ModelResourceLocation(fullName + i, "inventory");
-//            ModelLoader.setCustomModelResourceLocation(item, i, model);
-//        }
-//    }
 }
