@@ -73,6 +73,10 @@
         {
             "name": "chargeability",
             "value": 1.4
+        },
+        {
+            "name": "rarity",
+            "value": 35
         }
     ],
     "textures": {
