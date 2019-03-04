@@ -15,6 +15,7 @@ import net.silentchaos512.gems.block.MiscOres;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.init.ModTags;
 import net.silentchaos512.gems.item.CraftingItems;
+import net.silentchaos512.gems.item.FluffyPuffSeeds;
 import net.silentchaos512.gems.item.Foods;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.lib.util.generator.RecipeGenerator;
@@ -226,6 +227,23 @@ public final class GenRecipes {
                 .key('#', Items.LEATHER)
                 .key('m', ModTags.Items.STEW_MEAT)
                 .key('g', ModTags.Items.MOD_GEMS));
+
+        // Fluffy puff uses
+        RecipeGenerator.create(name("fluffy_string"), ShapedBuilder
+                .create(Items.STRING)
+                .layout("##")
+                .key('#', CraftingItems.FLUFFY_PUFF));
+        RecipeGenerator.create(name("fluffy_wool"), ShapedBuilder
+                .create(Blocks.WHITE_WOOL)
+                .layout("###", "# #", "###")
+                .key('#', CraftingItems.FLUFFY_PUFF));
+        RecipeGenerator.create(name("fluffy_feather"), ShapedBuilder
+                .create(Items.FEATHER)
+                .layout(" ##", "## ", "#  ")
+                .key('#', CraftingItems.FLUFFY_PUFF));
+        RecipeGenerator.create(name("fluffy_seeds"), ShapelessBuilder
+                .create(FluffyPuffSeeds.INSTANCE.get())
+                .ingredient(CraftingItems.FLUFFY_PUFF));
     }
 
     private static ResourceLocation name(String name) {
