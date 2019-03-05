@@ -1,6 +1,8 @@
 package net.silentchaos512.gems.item;
 
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
@@ -12,6 +14,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.lib.util.PlayerUtils;
 import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
@@ -20,25 +23,40 @@ import java.util.Locale;
 
 public enum Foods implements IItemProvider, IStringSerializable {
     POTATO_ON_A_STICK(FoodSG.Builder
-            .create(8, 0.8f, false)),
+            .create(8, 0.8f, false)
+            .setReturnItem(Items.STICK)
+    ),
     SUGAR_COOKIE(FoodSG.Builder
-            .create(2, 0.4f, false)),
+            .create(2, 0.4f, false)
+    ),
     SECRET_DONUT(FoodSG.Builder
-            .create(6, 0.8f, false)),
+            .create(6, 0.8f, false)
+    ),
     UNCOOKED_MEATY_STEW(FoodSG.Builder
-            .create(4, 0.6f, false)),
+            .create(4, 0.6f, false)
+            .setReturnItem(Items.BOWL)
+    ),
     MEATY_STEW(FoodSG.Builder
-            .create(12, 1.6f, false)),
+            .create(12, 1.6f, false)
+            .setReturnItem(Items.BOWL)
+    ),
     UNCOOKED_FISHY_STEW(FoodSG.Builder
-            .create(4, 0.5f, false)),
+            .create(4, 0.5f, false)
+            .setReturnItem(Items.BOWL)
+    ),
     FISHY_STEW(FoodSG.Builder
-            .create(10, 1.2f, false)),
+            .create(10, 1.2f, false)
+            .setReturnItem(Items.BOWL)
+    ),
     CANDY_CANE(FoodSG.Builder
             .create(2, 0.2f, false)
-            .setUseDuration(16)),
+            .setUseDuration(16)
+    ),
     CUP_OF_COFFEE(FoodSG.Builder
             .create(1, 0.2f, false)
-            .setUseAction(EnumAction.DRINK));
+            .setActionToDrink()
+            .setAlwaysEdible()
+    );
 
     private final Lazy<FoodSG> item;
 
@@ -58,10 +76,13 @@ public enum Foods implements IItemProvider, IStringSerializable {
 
     // TODO: How to handle potion effects?
     private static final class FoodSG extends ItemFood {
+        @SuppressWarnings("SameParameterValue")
         private static final class Builder extends Item.Properties {
             private int healAmount;
             private float saturation;
             private boolean isMeat;
+            private boolean alwaysEdible;
+            @Nullable private IItemProvider returnItem;
             private EnumAction useAction = EnumAction.EAT;
             private int useDuration = 32;
 
@@ -74,8 +95,18 @@ public enum Foods implements IItemProvider, IStringSerializable {
                 return builder;
             }
 
-            private Builder setUseAction(EnumAction useAction) {
-                this.useAction = useAction;
+            private Builder setReturnItem(IItemProvider returnItem) {
+                this.returnItem = returnItem;
+                return this;
+            }
+
+            private Builder setAlwaysEdible() {
+                this.alwaysEdible = true;
+                return this;
+            }
+
+            private Builder setActionToDrink() {
+                this.useAction = EnumAction.DRINK;
                 return this;
             }
 
@@ -87,11 +118,28 @@ public enum Foods implements IItemProvider, IStringSerializable {
 
         private final EnumAction useAction;
         private final int useDuration;
+        @Nullable private final IItemProvider returnItem;
 
         FoodSG(FoodSG.Builder builder) {
             super(builder.healAmount, builder.saturation, builder.isMeat, builder);
+            this.returnItem = builder.returnItem;
             this.useAction = builder.useAction;
             this.useDuration = builder.useDuration;
+            if (builder.alwaysEdible) setAlwaysEdible();
+        }
+
+        @Override
+        protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
+            super.onFoodEaten(stack, worldIn, player);
+
+            if (returnItem != null) {
+                PlayerUtils.giveItem(player, new ItemStack(returnItem));
+            }
+        }
+
+        @Override
+        public EnumAction getUseAction(ItemStack stack) {
+            return useAction;
         }
 
         @Override

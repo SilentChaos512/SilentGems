@@ -1,7 +1,9 @@
 package net.silentchaos512.gems;
 
+import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.command.CommandSource;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -9,8 +11,10 @@ import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.event.lifecycle.*;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silentchaos512.gems.client.gui.GuiTypes;
+import net.silentchaos512.gems.command.HungryCommand;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.init.*;
@@ -37,6 +41,8 @@ class SideProxy {
         getLifeCycleEventBus().addListener(ModPotions::registerAll);
         getLifeCycleEventBus().addListener(ModSounds::registerAll);
         getLifeCycleEventBus().addListener(ModTileEntities::registerAll);
+
+        MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStart);
 
         ModLoot.init();
         ModRecipes.init();
@@ -75,6 +81,13 @@ class SideProxy {
 
     private void imcProcess(InterModProcessEvent event) {
         SilentGems.LOGGER.debug("Gems imcProcess");
+    }
+
+    private void serverAboutToStart(FMLServerAboutToStartEvent event) {
+        CommandDispatcher<CommandSource> dispatcher = event.getServer().getCommandManager().getDispatcher();
+        if (SilentGems.isDevBuild()) {
+            HungryCommand.register(dispatcher);
+        }
     }
 
     private static void registerContainersCommon() {
