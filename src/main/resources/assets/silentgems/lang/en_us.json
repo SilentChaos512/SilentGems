@@ -129,6 +129,8 @@
     "block.silentgems.yellow_fluffy_block": "Yellow Fluffy Block",
     "buff.silentgems.flight": "Flight",
     "buff.silentgems.flight.desc": "Better than wings",
+    "command.silentgems.chaos.get": "Chaos of %s: %,d",
+    "command.silentgems.chaos.set": "Set chaos of %s to %,d",
     "container.silentgems.soul_urn": "Soul Urn",
     "death.attack.silentgems.freezing": "%1$s was frozen solid",
     "death.attack.silentgems.freezing.player": "%1$s was frozen solid whilst fighting %2$s",

@@ -52,6 +52,10 @@ public final class ModBlocks {
             register(type.getName(), type.getBlock());
         }
 
+        for (CorruptedBlocks block : CorruptedBlocks.values()) {
+            register(block.getName(), block.asBlock());
+        }
+
         for (EnumDyeColor color : EnumDyeColor.values()) {
             register(color.getName() + "_fluffy_block", FluffyBlock.get(color));
         }

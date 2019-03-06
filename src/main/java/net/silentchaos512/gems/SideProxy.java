@@ -13,7 +13,9 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.silentchaos512.gems.chaos.ChaosSourceCapability;
 import net.silentchaos512.gems.client.gui.GuiTypes;
+import net.silentchaos512.gems.command.ChaosCommand;
 import net.silentchaos512.gems.command.HungryCommand;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
@@ -61,6 +63,8 @@ class SideProxy {
     private void commonSetup(FMLCommonSetupEvent event) {
         SilentGems.LOGGER.debug("Gems commonSetup");
 
+        ChaosSourceCapability.register();
+
         SGearProxy.detectSilentGear();
         if (SGearProxy.isLoaded()) {
             // Register new stats
@@ -85,6 +89,7 @@ class SideProxy {
 
     private void serverAboutToStart(FMLServerAboutToStartEvent event) {
         CommandDispatcher<CommandSource> dispatcher = event.getServer().getCommandManager().getDispatcher();
+        ChaosCommand.register(dispatcher);
         if (SilentGems.isDevBuild()) {
             HungryCommand.register(dispatcher);
         }

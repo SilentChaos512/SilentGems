@@ -9,6 +9,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.CorruptedBlocks;
 import net.silentchaos512.gems.item.*;
 import net.silentchaos512.gems.lib.Gems;
 
@@ -45,6 +46,10 @@ public final class ModItems {
 
         register(reg, "fluffy_puff_seeds", FluffyPuffSeeds.INSTANCE.get());
         register(reg, "glowrose_fertilizer", GlowroseFertilizer.INSTANCE.get());
+
+        for (CorruptedBlocks block : CorruptedBlocks.values()) {
+            register(reg, block.getName() + "_pile", block.getPile());
+        }
 
         for (Foods food : Foods.values()) {
             register(reg, food.getName(), food.asItem());
