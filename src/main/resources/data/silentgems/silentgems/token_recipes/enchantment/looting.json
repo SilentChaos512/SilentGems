@@ -1,0 +1,28 @@
+{
+  "chaosGenerated": 300,
+  "processTime": 100,
+  "ingredients": {
+    "token": {
+      "item": "silentgems:blank_token"
+    },
+    "others": [
+      {
+        "tag": "forge:gems/turquoise",
+        "count": 2
+      },
+      {
+        "tag": "forge:gems/emerald",
+        "count": 2
+      }
+    ]
+  },
+  "result": {
+    "item": "silentgems:enchantment_token",
+    "enchantments": [
+      {
+        "name": "minecraft:looting",
+        "level": 1
+      }
+    ]
+  }
+}

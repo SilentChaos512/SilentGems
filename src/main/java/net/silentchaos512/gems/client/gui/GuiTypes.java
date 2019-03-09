@@ -37,6 +37,9 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.supercharger.ContainerSupercharger;
 import net.silentchaos512.gems.block.supercharger.GuiSupercharger;
 import net.silentchaos512.gems.block.supercharger.TileSupercharger;
+import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterContainer;
+import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterGui;
+import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterTileEntity;
 import net.silentchaos512.gems.block.urn.ContainerSoulUrn;
 import net.silentchaos512.gems.block.urn.GuiSoulUrn;
 import net.silentchaos512.gems.block.urn.TileSoulUrn;
@@ -91,7 +94,22 @@ public enum GuiTypes {
             TileSupercharger tileEntity = (TileSupercharger) tileType.getTileEntity(player);
             return new GuiSupercharger(player.inventory, Objects.requireNonNull(tileEntity));
         }
-    };
+    },
+    TOKEN_ENCHANTER {
+        @Override
+        public Container getContainer(TileEntityContainerType<?> tileType, EntityPlayer player) {
+            TokenEnchanterTileEntity tileEntity = (TokenEnchanterTileEntity) tileType.getTileEntity(player);
+            return new TokenEnchanterContainer(player.inventory, Objects.requireNonNull(tileEntity));
+        }
+
+        @OnlyIn(Dist.CLIENT)
+        @Override
+        public GuiContainer getGui(TileEntityContainerType<?> tileType, EntityPlayer player) {
+            TokenEnchanterTileEntity tileEntity = (TokenEnchanterTileEntity) tileType.getTileEntity(player);
+            return new TokenEnchanterGui(player.inventory, Objects.requireNonNull(tileEntity));
+        }
+    }
+    ;
 
     private final ResourceLocation guiId;
 

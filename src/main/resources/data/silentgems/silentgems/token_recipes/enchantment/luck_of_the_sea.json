@@ -1,0 +1,28 @@
+{
+  "chaosGenerated": 300,
+  "processTime": 100,
+  "ingredients": {
+    "token": {
+      "item": "silentgems:blank_token"
+    },
+    "others": [
+      {
+        "tag": "forge:gems/aquamarine",
+        "count": 2
+      },
+      {
+        "tag": "silentgems:stew_fish",
+        "count": 5
+      }
+    ]
+  },
+  "result": {
+    "item": "silentgems:enchantment_token",
+    "enchantments": [
+      {
+        "name": "minecraft:luck_of_the_sea",
+        "level": 1
+      }
+    ]
+  }
+}

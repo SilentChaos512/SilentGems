@@ -19,6 +19,7 @@ import net.silentchaos512.gems.command.ChaosCommand;
 import net.silentchaos512.gems.command.HungryCommand;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
+import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
 import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.lib.ColorHandlers;
 import net.silentchaos512.gems.util.gen.GenModels;
@@ -88,6 +89,7 @@ class SideProxy {
     }
 
     private void serverAboutToStart(FMLServerAboutToStartEvent event) {
+        event.getServer().getResourceManager().addReloadListener(TokenEnchanterRecipeManager.INSTANCE);
         CommandDispatcher<CommandSource> dispatcher = event.getServer().getCommandManager().getDispatcher();
         ChaosCommand.register(dispatcher);
         if (SilentGems.isDevBuild()) {

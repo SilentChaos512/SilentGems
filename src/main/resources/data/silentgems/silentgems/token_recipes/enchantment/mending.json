@@ -1,0 +1,28 @@
+{
+  "chaosGenerated": 500,
+  "processTime": 200,
+  "ingredients": {
+    "token": {
+      "item": "silentgems:blank_token"
+    },
+    "others": [
+      {
+        "tag": "forge:gems/black_diamond",
+        "count": 2
+      },
+      {
+        "item": "minecraft:nether_star",
+        "count": 1
+      }
+    ]
+  },
+  "result": {
+    "item": "silentgems:enchantment_token",
+    "enchantments": [
+      {
+        "name": "minecraft:mending",
+        "level": 1
+      }
+    ]
+  }
+}

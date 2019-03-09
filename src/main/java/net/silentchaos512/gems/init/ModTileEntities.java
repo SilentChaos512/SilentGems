@@ -9,6 +9,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotTileEntity;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightTileEntity;
 import net.silentchaos512.gems.block.supercharger.TileSupercharger;
+import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterTileEntity;
 import net.silentchaos512.gems.block.urn.TileSoulUrn;
 import net.silentchaos512.utils.Lazy;
 
@@ -19,7 +20,8 @@ public enum ModTileEntities {
     CHAOS_FLOWER_POT(() -> TileEntityType.Builder.create(LuminousFlowerPotTileEntity::new).build(null)),
     PHANTOM_LIGHT(() -> TileEntityType.Builder.create(PhantomLightTileEntity::new).build(null)),
     SOUL_URN(() -> TileEntityType.Builder.create(TileSoulUrn::new).build(null)),
-    SUPERCHARGER(() -> TileEntityType.Builder.create(TileSupercharger::new).build(null));
+    SUPERCHARGER(() -> TileEntityType.Builder.create(TileSupercharger::new).build(null)),
+    TOKEN_ENCHANTER(() -> TileEntityType.Builder.create(TokenEnchanterTileEntity::new).build(null));
 
     private final Lazy<TileEntityType<?>> type;
 

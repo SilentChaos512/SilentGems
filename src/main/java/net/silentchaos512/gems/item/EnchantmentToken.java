@@ -79,6 +79,10 @@ public final class EnchantmentToken extends Item {
         return stack;
     }
 
+    public static void addEnchantment(ItemStack stack, Enchantment enchantment, int level) {
+        addEnchantment(stack, new EnchantmentData(enchantment, level));
+    }
+
     public static void addEnchantment(ItemStack stack, EnchantmentData data) {
         NBTTagList tagList = getEnchantments(stack);
         boolean needToAddEnchantment = true;
