@@ -23,6 +23,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
+import net.silentchaos512.utils.Color;
 
 public class GuiSupercharger extends GuiContainer {
     private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MOD_ID, "textures/gui/chaosaltar.png");
@@ -42,22 +44,11 @@ public class GuiSupercharger extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-//        if (GemsConfig.DEBUG_MODE) {
-//            int y = 5;
-//            for (String line : getDebugText().split("\n")) {
-//                this.fontRenderer.drawStringWithShadow(line, 5, y, 0xFFFFFF);
-//                y += 10;
-//            }
-//        }
-    }
-
-    private String getDebugText() {
-        final int chaos = this.tileEntity.getField(0);
-        final int maxChaos = TileSupercharger.MAX_CHAOS_STORED;
-        final int progress = this.tileEntity.getField(1);
-        final int cost = this.tileEntity.getChaosCostForCharging();
-        final int rate = this.tileEntity.getChaosDrainPerTick();
-        return String.format("Chaos: %,d / %,d\nProgress: %,d / %,d\nRate: %d", chaos, maxChaos, progress, cost, rate);
+        // Chaos generated
+        int chaosGenerated = this.tileEntity.getChaosGenerated();
+        ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaosGenerated);
+        String text = emissionRate.getEmissionText().getFormattedText();
+        fontRenderer.drawString(text, 5, 5, Color.BLACK.getColor());
     }
 
     @Override
@@ -69,13 +60,9 @@ public class GuiSupercharger extends GuiContainer {
         this.drawTexturedModalRect(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         // Progress arrow
-        int progress = this.tileEntity.getField(1);
-        int cost = this.tileEntity.getChaosCostForCharging();
+        int progress = this.tileEntity.getProgress();
+        int cost = this.tileEntity.getProcessTime();
         int length = cost > 0 && progress > 0 && progress < cost ? progress * 24 / cost : 0;
         drawTexturedModalRect(xPos + 79, yPos + 34, 176, 14, length + 1, 16);
-
-        // Chaos stored
-        int chaos = this.tileEntity.getField(0);
-        drawTexturedModalRect(xPos + 79, yPos + 34, 176, 31, 24 * chaos / TileSupercharger.MAX_CHAOS_STORED, 17);
     }
 }

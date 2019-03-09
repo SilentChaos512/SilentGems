@@ -18,6 +18,7 @@
 
 package net.silentchaos512.gems.block.supercharger;
 
+import lombok.Getter;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
@@ -28,6 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModTags;
@@ -40,16 +42,22 @@ import net.silentchaos512.utils.MathUtils;
 import javax.annotation.Nullable;
 
 public class TileSupercharger extends TileSidedInventorySL implements ITickable {
-    static final int MAX_CHAOS_STORED = 1_000_000;
     private static final int INVENTORY_SIZE = 3;
     private static final int UPDATE_FREQUENCY =  TimeUtils.ticksFromSeconds(15);
 
-    @SyncVariable(name = "Energy")
-    private int chaosStored;
+    @Getter
     @SyncVariable(name = "Progress")
     private int progress;
+    @Getter
+    @SyncVariable(name = "ProcessTime")
+    private int processTime;
+    @Getter
     @SyncVariable(name = "StructureLevel")
     private int structureLevel;
+    @Getter
+    @SyncVariable(name = "ChaosGenerated")
+    private int chaosGenerated;
+
     private int updateTimer = 0;
 
     public TileSupercharger() {
@@ -67,35 +75,37 @@ public class TileSupercharger extends TileSidedInventorySL implements ITickable 
                 SilentGems.LOGGER.info("Supercharger at {}: structure level updated to {}",
                         this.pos, this.structureLevel);
             }
-            sendUpdate();
             updateTimer = 0;
+            sendUpdate();
         }
 
         ItemStack input = getInputItem();
         ItemStack catalyst = getCatalystItem();
 
-        // temp hack to make it work
-        receiveCharge(10000, false);
-
-        if (!input.isEmpty() && !catalyst.isEmpty())
+        if (!input.isEmpty() && !catalyst.isEmpty()) {
             handleCharging(input, catalyst);
-        else progress = 0;
+        } else if (progress > 0) {
+            progress = 0;
+            chaosGenerated = 0;
+            processTime = 100;
+            sendUpdate();
+        }
     }
 
     private void handleCharging(ItemStack input, ItemStack catalyst) {
         int chargeTier = getChargingAgentTier(catalyst);
         if (chargeTier > 0 && chargeTier <= this.structureLevel) {
-            int totalCost = getChaosCostForCharging();
-            int chaosDrained = MathUtils.min(chaosStored,
-                    getChaosDrainPerTick(),
-                    totalCost - progress);
+            int partTier = SGearProxy.getPartTier(this.getInputItem());
+            chaosGenerated = getEmissionRate(partTier, chargeTier);
 
             if (wouldFitInOutputSlot(input, chargeTier)) {
-                if (chaosDrained > 0) {
-                    chaosStored -= chaosDrained;
-                    progress += chaosDrained;
+                ++progress;
+                if (chaosGenerated > 0) {
+                    Chaos.generate(this.world, chaosGenerated);
                 }
-                if (progress >= totalCost) {
+                processTime = getProcessTime(partTier, chargeTier);
+
+                if (progress >= processTime) {
                     if (getStackInSlot(2).isEmpty()) {
                         ItemStack output = input.copy();
                         output.setCount(1);
@@ -109,9 +119,9 @@ public class TileSupercharger extends TileSidedInventorySL implements ITickable 
                     decrStackSize(0, 1);
                     decrStackSize(1, 1);
                 }
-
-                if (chaosDrained > 0) sendUpdate();
             }
+
+            sendUpdate();
         }
     }
 
@@ -180,59 +190,14 @@ public class TileSupercharger extends TileSidedInventorySL implements ITickable 
                 && SGearProxy.getGradeString(input).equalsIgnoreCase(SGearProxy.getGradeString(output));
     }
 
-    //region New chaos stuff, WIP
-
-    public static int getTotalChaosGenerated(ItemStack gearPart, ItemStack catalyst) {
-        if (gearPart.isEmpty() || catalyst.isEmpty()) return 0;
-        return getTotalChaosGenerated(SGearProxy.getPartTier(gearPart), getChargingAgentTier(catalyst));
-    }
-
-    public static int getTotalChaosGenerated(int partTier, int chargeTier) {
-        if (partTier >= 0 && chargeTier > 0)
-            return chargeTier * (chargeTier + 1) * (int) Math.pow(10, partTier + 1);
-        return 0;
+    public static int getEmissionRate(int partTier, int chargeTier) {
+        if (chargeTier <= 0 || partTier < 0) return 0;
+        return (int) (4 * chargeTier * Math.pow(5, partTier));
     }
 
     public static int getProcessTime(int partTier, int chargeTier) {
-        if (chargeTier < 1) return 0;
-        return (int) (2 * chargeTier * Math.pow(5, partTier));
-    }
-
-    public static int getEmissionRate(int partTier, int chargeTier) {
-        int total = getTotalChaosGenerated(partTier, chargeTier);
-        int time = getProcessTime(partTier, chargeTier);
-        if (time <= 0) return 0;
-        return total / time;
-    }
-
-    //endregion
-
-    int getChaosCostForCharging() {
-        return getChaosCostForCharging(this.getInputItem(), this.getCatalystItem());
-    }
-
-    @Deprecated
-    private static int getChaosCostForCharging(ItemStack gearPart, ItemStack catalyst) {
-        if (gearPart.isEmpty() || catalyst.isEmpty()) return -1;
-        final int tier = SGearProxy.getPartTier(gearPart);
-        final int chargeTier = getChargingAgentTier(catalyst);
-        return tier >= 0 && chargeTier > 0 ? chargeTier * (chargeTier + 1) * (int) Math.pow(10, tier + 1) : -1;
-    }
-
-    @Deprecated
-    int getChaosDrainPerTick() {
-        final int partTier = SGearProxy.getPartTier(this.getInputItem());
-        final int chargeTier = getChargingAgentTier(this.getCatalystItem());
-        if (partTier < 0 || chargeTier <= 0) return 0;
-        int rate = getChaosDrainPerTick(partTier, chargeTier);
-        // Limit the rate so low tier materials don't supercharge instantly
-        return Math.min(rate, getChaosCostForCharging() / 20);
-    }
-
-    @Deprecated
-    private static int getChaosDrainPerTick(int partTier, int chargeTier) {
-        if (chargeTier < 1) return 0;
-        return (int) (2 * chargeTier * Math.pow(5, partTier));
+        if (chargeTier <= 0 || partTier < 0) return 0;
+        return (int) (4 + 3 * chargeTier * Math.pow(2, partTier + 1));
     }
 
     @Override
@@ -240,29 +205,6 @@ public class TileSupercharger extends TileSidedInventorySL implements ITickable 
         if (index == 0) return SGearProxy.isMainPart(stack);
         if (index == 1) return stack.getItem().isIn(ModTags.Items.CHARGING_AGENTS);
         return false;
-    }
-
-//    @Override
-    public int receiveCharge(int maxReceive, boolean simulate) {
-        int received = Math.min(MAX_CHAOS_STORED - chaosStored, maxReceive);
-        if (!simulate) {
-            chaosStored += received;
-            if (received != 0) {
-                sendUpdate();
-            }
-        }
-        return received;
-    }
-
-//    @Override
-    public int getCharge() {
-//        return chaosStored;
-        return MAX_CHAOS_STORED;
-    }
-
-//    @Override
-    public int getMaxCharge() {
-        return MAX_CHAOS_STORED;
     }
 
     @Override
@@ -277,25 +219,7 @@ public class TileSupercharger extends TileSidedInventorySL implements ITickable 
     }
 
     @Override
-    public int getFieldCount() {
-        return 2;
-    }
-
-    @Override
     public void clear() {
-    }
-
-    @Override
-    public int getField(int id) {
-        if (id == 0) return this.chaosStored;
-        if (id == 1) return this.progress;
-        return 0;
-    }
-
-    @Override
-    public void setField(int id, int value) {
-        if (id == 0) this.chaosStored = value;
-        if (id == 1) this.progress = value;
     }
 
     @Override
