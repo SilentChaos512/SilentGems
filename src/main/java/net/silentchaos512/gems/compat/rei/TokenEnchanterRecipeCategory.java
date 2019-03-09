@@ -15,7 +15,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipe;
 
@@ -27,6 +26,7 @@ import java.util.function.Supplier;
 
 public class TokenEnchanterRecipeCategory implements RecipeCategory<TokenEnchanterRecipeDisplay> {
     private static final ResourceLocation DISPLAY_TEXTURE = SilentGems.getId("textures/gui/recipe_display.png");
+
     @Override
     public ResourceLocation getLocation() {
         return ReiPluginGems.TOKEN_ENCHANTING;
@@ -79,8 +79,7 @@ public class TokenEnchanterRecipeCategory implements RecipeCategory<TokenEnchant
         // Labels
         int x = startPoint.x + 40;
         TokenEnchanterRecipe tokenRecipe = recipeDisplaySupplier.get().getTokenRecipe();
-        ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(tokenRecipe.getChaosGenerated());
-        widgets.add(new LabelWidget(x, startPoint.y + 36, emissionRate.getEmissionText().getFormattedText()));
+        widgets.add(new ChaosEmissionLabelWidget(x, startPoint.y + 36, tokenRecipe.getChaosGenerated()));
         ITextComponent text = new TextComponentTranslation("misc.silentgems.processTime", String.valueOf(tokenRecipe.getProcessTime()));
         widgets.add(new LabelWidget(x, startPoint.y + 46, text.getFormattedText()));
         return widgets;

@@ -180,6 +180,33 @@ public class TileSupercharger extends TileSidedInventorySL implements ITickable 
                 && SGearProxy.getGradeString(input).equalsIgnoreCase(SGearProxy.getGradeString(output));
     }
 
+    //region New chaos stuff, WIP
+
+    public static int getTotalChaosGenerated(ItemStack gearPart, ItemStack catalyst) {
+        if (gearPart.isEmpty() || catalyst.isEmpty()) return 0;
+        return getTotalChaosGenerated(SGearProxy.getPartTier(gearPart), getChargingAgentTier(catalyst));
+    }
+
+    public static int getTotalChaosGenerated(int partTier, int chargeTier) {
+        if (partTier >= 0 && chargeTier > 0)
+            return chargeTier * (chargeTier + 1) * (int) Math.pow(10, partTier + 1);
+        return 0;
+    }
+
+    public static int getProcessTime(int partTier, int chargeTier) {
+        if (chargeTier < 1) return 0;
+        return (int) (2 * chargeTier * Math.pow(5, partTier));
+    }
+
+    public static int getEmissionRate(int partTier, int chargeTier) {
+        int total = getTotalChaosGenerated(partTier, chargeTier);
+        int time = getProcessTime(partTier, chargeTier);
+        if (time <= 0) return 0;
+        return total / time;
+    }
+
+    //endregion
+
     int getChaosCostForCharging() {
         return getChaosCostForCharging(this.getInputItem(), this.getCatalystItem());
     }

@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Token enchanter. This is the new way of creating enchantment tokens. It supports loading recipes from data packs (place the files in `data/*/silentgems/token_recipes`, where `*` is your data pack's namespace). These recipes are not limited to enchantment tokens, you could use it to create anything.
+- Partial REI support for token enchanter and supercharger. Speed crafting (shift-click to transfer ingredients) is _not_ supported at this time.
 - Wild fluffy puff plants to provide a source of seeds. Can be found in most (not all) biomes that get rain.
 - All foods have their respective effects again
 ### Fixed

@@ -6,10 +6,12 @@ import me.shedaniel.rei.api.REIPlugin;
 import me.shedaniel.rei.api.RecipeHelper;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
 
 @IREIPlugin(identifier = SilentGems.RESOURCE_PREFIX + "default_plugin")
 public class ReiPluginGems implements REIPlugin {
+    public static final ResourceLocation SUPERCHARGING = SilentGems.getId("plugins/supercharging");
     public static final ResourceLocation TOKEN_ENCHANTING = SilentGems.getId("plugins/token_enchanting");
 
     @Override
@@ -22,6 +24,10 @@ public class ReiPluginGems implements REIPlugin {
         SilentGems.LOGGER.debug("REI registerPluginCategories");
 
         recipeHelper.registerCategory(new TokenEnchanterRecipeCategory());
+
+        if (SGearProxy.isLoaded()) {
+            recipeHelper.registerCategory(new SuperchargerRecipeCategory());
+        }
     }
 
     @Override
@@ -30,6 +36,12 @@ public class ReiPluginGems implements REIPlugin {
 
         TokenEnchanterRecipeManager.getValues().forEach(recipe ->
                 recipeHelper.registerDisplay(TOKEN_ENCHANTING, new TokenEnchanterRecipeDisplay(recipe)));
+
+        if (SGearProxy.isLoaded()) {
+            for (int i = 1; i <= 3; ++i) {
+                recipeHelper.registerDisplay(SUPERCHARGING, new SuperchargerRecipeDisplay(i));
+            }
+        }
     }
 
     @Override

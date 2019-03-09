@@ -130,6 +130,7 @@
     "block.silentgems.yellow_fluffy_block": "Yellow Fluffy Block",
     "buff.silentgems.flight": "Flight",
     "buff.silentgems.flight.desc": "Better than wings",
+    "category.silentgems.supercharging": "Supercharging",
     "category.silentgems.token_enchanting": "Token Enchanting",
     "chaos.silentgems.emission": "Chaos generated: %s",
     "chaos.silentgems.emissionRate.extreme": "Extreme",
