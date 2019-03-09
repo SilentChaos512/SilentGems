@@ -4,7 +4,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 public final class Chaos {
-    private static final int DISSIPATION_SCALE = 5;
+    // TODO: Probably should lower this substantially when pylons are back
+    private static final int DISSIPATION_SCALE = 200;
 
     private Chaos() {throw new IllegalAccessError("Utility class");}
 

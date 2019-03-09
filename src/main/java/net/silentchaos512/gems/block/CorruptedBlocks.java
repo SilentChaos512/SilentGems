@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
@@ -19,7 +20,7 @@ import java.util.function.Predicate;
 
 public enum CorruptedBlocks implements IBlockProvider {
     STONE(block -> block.isIn(Tags.Blocks.STONE)),
-    DIRT(block -> block.isIn(Tags.Blocks.DIRT));
+    DIRT(block -> block.isIn(Tags.Blocks.DIRT) || block == Blocks.GRASS_BLOCK);
 
     private final Lazy<CorruptedBlock> block;
     private final Lazy<Item> pile;

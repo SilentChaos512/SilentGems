@@ -16,7 +16,7 @@ import org.apache.logging.log4j.MarkerManager;
 @Mod.EventBusSubscriber(modid = SilentGems.MOD_ID)
 public final class ChaosHandler {
     // TODO: Add configs!
-    private static final int ENTITY_TO_WORLD_RATE = 10;
+    private static final int ENTITY_TO_WORLD_RATE = 500;
     private static final Marker MARKER = MarkerManager.getMarker("ChaosHandler");
 
     private ChaosHandler() {}
@@ -56,7 +56,7 @@ public final class ChaosHandler {
             worldSource.addChaos(amount);
             source.addChaos(-amount);
         });
-        SilentGems.LOGGER.debug(MARKER, "entity = {}", source.getChaos());
+//        SilentGems.LOGGER.debug(MARKER, "entity = {}", source.getChaos());
 
         // Try chaos events
         if (world.getGameTime() % 100 == 0) {
@@ -72,7 +72,7 @@ public final class ChaosHandler {
         if (world.getGameTime() % 20 == 0) {
             world.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {
                 source.addChaos(-Chaos.getDissipationRate(world));
-                SilentGems.LOGGER.debug(MARKER, "world = {}", source.getChaos());
+//                SilentGems.LOGGER.debug(MARKER, "world = {}", source.getChaos());
             });
         }
     }

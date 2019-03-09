@@ -25,17 +25,17 @@ public final class ChaosEvents {
 
     static {
         EVENT_LIST.add((entity, chaos) -> {
-            if (chaos > 1000 && tryChance(0.25f, chaos, MAX_CHAOS)) {
+            if (chaos > 10_000 && tryChance(0.25f, chaos, MAX_CHAOS)) {
                 SilentGems.LOGGER.info(MARKER, "Lightning @ {}", entity);
                 spawnLightningBolt(entity, entity.world);
-                Chaos.dissipate(entity.world, 100);
+                Chaos.dissipate(entity.world, 1000);
             }
         });
         EVENT_LIST.add((entity, chaos) -> {
-            if (chaos > 10_000 && tryChance(0.25f, chaos, MAX_CHAOS)) {
+            if (chaos > 100_000 && tryChance(0.25f, chaos, MAX_CHAOS)) {
                 SilentGems.LOGGER.info(MARKER, "Corrupt blocks @ {}", entity);
                 corruptBlocks(entity, entity.world);
-                Chaos.dissipate(entity.world, 1000);
+                Chaos.dissipate(entity.world, 10_000);
             }
         });
     }
