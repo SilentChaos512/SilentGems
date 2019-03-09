@@ -16,7 +16,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.item.EnchantmentToken;
 import net.silentchaos512.lib.collection.StackList;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class TokenEnchanterRecipe {
@@ -24,8 +24,8 @@ public class TokenEnchanterRecipe {
     @Getter private int chaosGenerated;
     @Getter private int processTime;
     @Getter private ItemStack result;
-    @Getter private ItemStack token;
-    @Getter private final Map<Ingredient, Integer> ingredients = new HashMap<>();
+    @Getter private Ingredient token;
+    @Getter private final Map<Ingredient, Integer> ingredients = new LinkedHashMap<>();
     private boolean valid = true;
 
     public TokenEnchanterRecipe(ResourceLocation id) {
@@ -42,7 +42,7 @@ public class TokenEnchanterRecipe {
         StackList list = StackList.from(inv);
 
         // Token?
-        if (list.firstMatch(s -> s.isItemEqual(token)).isEmpty()) return false;
+        if (list.firstMatch(s -> token.test(s)).isEmpty()) return false;
 
         // Others?
         for (Map.Entry<Ingredient, Integer> entry : ingredients.entrySet()) {
@@ -73,7 +73,7 @@ public class TokenEnchanterRecipe {
 
         // Ingredients
         JsonObject ingredientsJson = json.get("ingredients").getAsJsonObject();
-        recipe.token = deserializeItem(ingredientsJson.get("token").getAsJsonObject());
+        recipe.token = Ingredient.fromJson(ingredientsJson.get("token").getAsJsonObject());
         JsonArray othersArray = ingredientsJson.get("others").getAsJsonArray();
         for (JsonElement elem : othersArray) {
             Ingredient ingredient = Ingredient.fromJson(elem);
@@ -106,7 +106,7 @@ public class TokenEnchanterRecipe {
     public static TokenEnchanterRecipe read(ResourceLocation id, PacketBuffer buffer) {
         TokenEnchanterRecipe recipe = new TokenEnchanterRecipe(id);
         recipe.result = buffer.readItemStack();
-        recipe.token = buffer.readItemStack();
+        recipe.token = Ingredient.fromBuffer(buffer);
         int otherCount = buffer.readVarInt();
         for (int i = 0; i < otherCount; ++i) {
             Ingredient ingredient = Ingredient.fromBuffer(buffer);
@@ -118,7 +118,7 @@ public class TokenEnchanterRecipe {
 
     public static void write(TokenEnchanterRecipe recipe, PacketBuffer buffer) {
         buffer.writeItemStack(recipe.result);
-        buffer.writeItemStack(recipe.token);
+        recipe.token.writeToBuffer(buffer);
         buffer.writeVarInt(recipe.ingredients.size());
         recipe.ingredients.forEach((ingredient, count) -> {
             ingredient.writeToBuffer(buffer);

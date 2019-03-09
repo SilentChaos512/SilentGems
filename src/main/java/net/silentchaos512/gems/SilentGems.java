@@ -1,5 +1,6 @@
 package net.silentchaos512.gems;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
@@ -49,5 +50,9 @@ public final class SilentGems {
         // TODO: Is there a better way? Guess it works though...
         String version = getVersion(false);
         return "NONE".equals(version);
+    }
+
+    public static ResourceLocation getId(String path) {
+        return new ResourceLocation(MOD_ID, path);
     }
 }

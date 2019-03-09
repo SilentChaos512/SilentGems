@@ -85,6 +85,7 @@ minecraft {
 repositories {
     jcenter()
     mavenLocal()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -93,6 +94,8 @@ dependencies {
     compile "com.udojava:EvalEx:2.1"
     compile "net.silentchaos512:silent-lib:${project.sl_version}"
     compile "net.silentchaos512:silent-gear:1.+"
+
+    implementation 'com.github.shedaniel:RoughlyEnoughItems:1.13.2-forge-SNAPSHOT'
 }
 
 jar {

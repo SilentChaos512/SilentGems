@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 import net.silentchaos512.utils.Color;
 
 public class TokenEnchanterGui extends GuiContainer {
@@ -42,7 +43,8 @@ public class TokenEnchanterGui extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         // Chaos generated
         int chaosGenerated = this.tileEntity.getChaosGenerated();
-        String text = "Chaos generated: " + chaosGenerated;
+        ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaosGenerated);
+        String text = emissionRate.getEmissionText().getFormattedText();
         fontRenderer.drawString(text, 5, 5, Color.BLACK.getColor());
     }
 }
