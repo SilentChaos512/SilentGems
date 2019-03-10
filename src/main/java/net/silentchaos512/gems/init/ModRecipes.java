@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.crafting.ApplyEnchantmentTokenRecipe;
 import net.silentchaos512.gems.crafting.ModifySoulUrnRecipe;
+import net.silentchaos512.gems.crafting.SoulGemIngredient;
 import net.silentchaos512.gems.crafting.SoulUrnRecipe;
 import net.silentchaos512.lib.util.GameUtil;
 
@@ -14,6 +15,8 @@ public final class ModRecipes {
     private ModRecipes() {}
 
     public static void init() {
+        SoulGemIngredient.Serializer.register();
+
         RecipeSerializers.register(ApplyEnchantmentTokenRecipe.Serializer.INSTANCE);
         RecipeSerializers.register(ModifySoulUrnRecipe.Serializer.INSTANCE);
         RecipeSerializers.register(SoulUrnRecipe.Serializer.INSTANCE);

@@ -91,6 +91,11 @@ public class Soul {
     }
 
     @Nullable
+    public static Soul from(ResourceLocation id) {
+        return from(id.toString());
+    }
+
+    @Nullable
     public static Soul from(String id) {
         return MAP_BY_ID.get(id);
     }
