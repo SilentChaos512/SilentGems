@@ -35,8 +35,7 @@ public final class ModItems {
         registerGemItems(reg, Gems::getItem, Gems::getName);
         registerGemItems(reg, Gems::getShard, gem -> gem.getName() + "_shard");
 
-        // temp placeholder
-        register(reg, "soul_gem", new Item(new Item.Properties()));
+        register(reg, "soul_gem", SoulGem.INSTANCE.get());
 
         for (CraftingItems item : CraftingItems.values()) {
             register(reg, item.getName(), item.asItem());

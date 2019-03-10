@@ -11,6 +11,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.urn.BlockSoulUrn;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.item.EnchantmentToken;
+import net.silentchaos512.gems.item.SoulGem;
 
 public final class ColorHandlers {
     private ColorHandlers() {}
@@ -82,16 +83,7 @@ public final class ColorHandlers {
 //        }, ModItems.holdingGem);
 
         // Soul Gems
-//        itemColors.registerItemColorHandler((stack, tintIndex) -> {
-//            Soul soul = ModItems.soulGem.getSoul(stack);
-//            if (soul == null) {
-//                return 0xFFFFFF;
-//            } else if (tintIndex == 1) {
-//                return soul.colorSecondary;
-//            } else {
-//                return soul.colorPrimary;
-//            }
-//        }, ModItems.soulGem);
+        registerItems(colors, SoulGem::getColor, SoulGem.INSTANCE.get());
 
         // Tool Soul
 //        itemColors.registerItemColorHandler((stack, tintIndex) -> {

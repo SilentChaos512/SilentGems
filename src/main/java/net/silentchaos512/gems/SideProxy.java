@@ -22,6 +22,7 @@ import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
 import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.lib.ColorHandlers;
+import net.silentchaos512.gems.lib.soul.Soul;
 import net.silentchaos512.gems.util.gen.GenModels;
 import net.silentchaos512.gems.util.gen.GenRecipes;
 import net.silentchaos512.gems.world.GemsWorldFeatures;
@@ -46,6 +47,7 @@ class SideProxy {
         getLifeCycleEventBus().addListener(ModTileEntities::registerAll);
 
         MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStart);
+        MinecraftForge.EVENT_BUS.register(Soul.Events.INSTANCE);
 
         ModLoot.init();
         ModRecipes.init();
