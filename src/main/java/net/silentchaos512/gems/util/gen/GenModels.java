@@ -4,6 +4,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
+import net.silentchaos512.gems.block.teleporter.TeleporterAnchor;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.FluffyPuffSeeds;
@@ -35,6 +36,11 @@ public final class GenModels {
             // Glass
             ModelGenerator.create(BlockBuilder.create(gem.getGlass())
                     .texture("glass/" + gem.getName()));
+            // Teleporters
+            ModelGenerator.create(BlockBuilder.create(gem.getTeleporter())
+                    .texture("teleporter/standard/" + gem.getName()));
+            ModelGenerator.create(BlockBuilder.create(gem.getRedstoneTeleporter())
+                    .texture("teleporter/redstone/" + gem.getName()));
             // Glowroses
             ModelGenerator.create(BlockBuilder.create(gem.getGlowrose())
                     .parent("block/cross")
@@ -64,6 +70,9 @@ public final class GenModels {
             ModelGenerator.create(ItemBuilder.create(gem.getShard())
                     .texture("shard/" + gem.getName()));
         }
+
+        ModelGenerator.create(BlockBuilder.create(TeleporterAnchor.INSTANCE.get())
+                .texture("teleporter/anchor"));
 
         for (Gems.Set set : Gems.Set.values()) {
             ModelGenerator.create(BlockBuilder.create(set.getMultiOre())

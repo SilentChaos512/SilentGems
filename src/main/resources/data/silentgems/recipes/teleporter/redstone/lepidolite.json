@@ -1,0 +1,15 @@
+{
+  "type": "crafting_shapeless",
+  "group": "silentgems:teleporter/redstone",
+  "ingredients": [
+    {
+      "item": "silentgems:lepidolite_teleporter"
+    },
+    {
+      "tag": "forge:dusts/redstone"
+    }
+  ],
+  "result": {
+    "item": "silentgems:lepidolite_redstone_teleporter"
+  }
+}

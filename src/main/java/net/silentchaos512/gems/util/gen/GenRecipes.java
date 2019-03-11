@@ -12,6 +12,7 @@ import net.silentchaos512.gems.block.FluffyBlock;
 import net.silentchaos512.gems.block.GemLamp;
 import net.silentchaos512.gems.block.MiscBlocks;
 import net.silentchaos512.gems.block.MiscOres;
+import net.silentchaos512.gems.block.teleporter.TeleporterAnchor;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.init.ModTags;
 import net.silentchaos512.gems.item.CraftingItems;
@@ -67,12 +68,31 @@ public final class GenRecipes {
                     .group(name(set + "_inverted_lamp"))
                     .ingredient(gem.getLamp(GemLamp.State.UNLIT))
                     .ingredient(Blocks.REDSTONE_TORCH));
+            RecipeGenerator.create(name("teleporter/standard/" + gem.getName()), ShapedBuilder
+                    .create(gem.getTeleporter(), 2)
+                    .group(name("teleporter/standard"))
+                    .layout("cec", " # ", "cec")
+                    .key('#', gem.getBlockTag())
+                    .key('c', CraftingItems.ENRICHED_CHAOS_CRYSTAL)
+                    .key('e', "silentgems:teleporter_catalyst"));
+            RecipeGenerator.create(name("teleporter/redstone/" + gem.getName()), ShapelessBuilder
+                    .create(gem.getRedstoneTeleporter())
+                    .group(name("teleporter/redstone"))
+                    .ingredient(gem.getTeleporter())
+                    .ingredient(Tags.Items.DUSTS_REDSTONE));
             // Ore smelting
             RecipeGenerator.create(name("smelting/" + gem.getName() + "_ore"), SmeltingBuilder
                     .create(gem.getItem())
                     .ingredient(gem.getOre())
                     .experience(0.75f));
         }
+
+        RecipeGenerator.create(name("teleporter/anchor"), ShapedBuilder
+                .create(TeleporterAnchor.INSTANCE.get(), 4)
+                .layout("cec", " # ", "cec")
+                .key('#', Tags.Items.STORAGE_BLOCKS_IRON)
+                .key('c', CraftingItems.ENRICHED_CHAOS_CRYSTAL)
+                .key('e', Items.ENDER_PEARL));
 
         // Misc storage blocks
         for (MiscBlocks misc : MiscBlocks.values()) {

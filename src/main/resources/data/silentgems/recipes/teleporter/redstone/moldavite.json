@@ -1,0 +1,15 @@
+{
+  "type": "crafting_shapeless",
+  "group": "silentgems:teleporter/redstone",
+  "ingredients": [
+    {
+      "item": "silentgems:moldavite_teleporter"
+    },
+    {
+      "tag": "forge:dusts/redstone"
+    }
+  ],
+  "result": {
+    "item": "silentgems:moldavite_redstone_teleporter"
+  }
+}

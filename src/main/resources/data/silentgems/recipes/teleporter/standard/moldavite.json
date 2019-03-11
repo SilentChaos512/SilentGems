@@ -1,0 +1,24 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems:teleporter/standard",
+  "pattern": [
+    "cec",
+    " # ",
+    "cec"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:storage_blocks/moldavite"
+    },
+    "c": {
+      "item": "silentgems:enriched_chaos_crystal"
+    },
+    "e": {
+      "tag": "silentgems:teleporter_catalyst"
+    }
+  },
+  "result": {
+    "item": "silentgems:moldavite_teleporter",
+    "count": 2
+  }
+}

@@ -14,6 +14,8 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
+import net.silentchaos512.gems.block.teleporter.GemTeleporter;
+import net.silentchaos512.gems.block.teleporter.GemTeleporterRedstone;
 import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.item.GemShard;
 import net.silentchaos512.utils.Lazy;
@@ -87,6 +89,8 @@ public enum Gems implements IStringSerializable {
     final Lazy<GemLamp> lampLit;
     final Lazy<GemLamp> lampInvertedLit;
     final Lazy<GemLamp> lampInvertedUnlit;
+    final Lazy<GemTeleporter> teleporter;
+    final Lazy<GemTeleporterRedstone> redstoneTeleporter;
     final Lazy<Glowrose> glowrose;
     final Lazy<BlockFlowerPot> pottedGlowrose;
 
@@ -95,6 +99,7 @@ public enum Gems implements IStringSerializable {
     final Lazy<GemShard> shard;
 
     // Tags
+    final Tag<Block> blockTag;
     final Tag<Block> glowroseTag;
     final Tag<Item> itemTag;
     final Tag<Item> shardTag;
@@ -114,6 +119,8 @@ public enum Gems implements IStringSerializable {
         this.lampLit = Lazy.of(() -> new GemLamp(this, GemLamp.State.LIT));
         this.lampInvertedLit = Lazy.of(() -> new GemLamp(this, GemLamp.State.INVERTED_LIT));
         this.lampInvertedUnlit = Lazy.of(() -> new GemLamp(this, GemLamp.State.INVERTED_UNLIT));
+        this.teleporter = Lazy.of(() -> new GemTeleporter(this, false));
+        this.redstoneTeleporter = Lazy.of(() -> new GemTeleporterRedstone(this, false));
         this.glowrose = Lazy.of(() -> new Glowrose(this));
         this.pottedGlowrose = Lazy.of(() -> new PottedGlowrose(this.glowrose.get()));
 
@@ -122,6 +129,7 @@ public enum Gems implements IStringSerializable {
         this.shard = Lazy.of(() -> new GemShard(this));
 
         // Tags
+        this.blockTag = new BlockTags.Wrapper(new ResourceLocation("forge", "storage_blocks/" + this.getName()));
         this.glowroseTag = new BlockTags.Wrapper(new ResourceLocation(SilentGems.MOD_ID, "glowroses/" + this.getName()));
         this.itemTag = new ItemTags.Wrapper(new ResourceLocation("forge", "gems/" + this.getName()));
         this.shardTag = new ItemTags.Wrapper(new ResourceLocation("forge", "nuggets/" + this.getName()));
@@ -235,6 +243,14 @@ public enum Gems implements IStringSerializable {
         return pottedGlowrose.get();
     }
 
+    public GemTeleporter getTeleporter() {
+        return teleporter.get();
+    }
+
+    public GemTeleporterRedstone getRedstoneTeleporter() {
+        return redstoneTeleporter.get();
+    }
+
     /**
      * @return The gem item.
      */
@@ -244,6 +260,10 @@ public enum Gems implements IStringSerializable {
 
     public ItemStack getItemStack() {
         return new ItemStack(this.item.get());
+    }
+
+    public Tag<Block> getBlockTag() {
+        return blockTag;
     }
 
     public Tag<Item> getItemTag() {

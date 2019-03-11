@@ -12,6 +12,7 @@ import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightBlock;
 import net.silentchaos512.gems.block.supercharger.BlockSupercharger;
+import net.silentchaos512.gems.block.teleporter.TeleporterAnchor;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
 import net.silentchaos512.gems.block.urn.BlockSoulUrn;
 import net.silentchaos512.gems.item.GemBlockItem;
@@ -36,6 +37,9 @@ public final class ModBlocks {
         }
         registerGemBlocks(Gems::getGlowrose, gem -> gem.getName() + "_glowrose");
         registerGemBlocks(Gems::getPottedGlowrose, gem -> "potted_" + gem.getName() + "_glowrose");
+        registerGemBlocks(Gems::getTeleporter, gem -> gem.getName() + "_teleporter");
+        registerGemBlocks(Gems::getRedstoneTeleporter, gem -> gem.getName() + "_redstone_teleporter");
+        register("teleporter_anchor", TeleporterAnchor.INSTANCE.get());
 
         register("multi_ore_classic", Gems.Set.CLASSIC.getMultiOre());
         register("multi_ore_dark", Gems.Set.DARK.getMultiOre());

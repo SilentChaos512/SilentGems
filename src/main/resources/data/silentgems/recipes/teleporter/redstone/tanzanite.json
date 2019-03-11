@@ -1,0 +1,15 @@
+{
+  "type": "crafting_shapeless",
+  "group": "silentgems:teleporter/redstone",
+  "ingredients": [
+    {
+      "item": "silentgems:tanzanite_teleporter"
+    },
+    {
+      "tag": "forge:dusts/redstone"
+    }
+  ],
+  "result": {
+    "item": "silentgems:tanzanite_redstone_teleporter"
+  }
+}

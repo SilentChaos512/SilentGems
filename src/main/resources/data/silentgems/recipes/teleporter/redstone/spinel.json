@@ -1,0 +1,15 @@
+{
+  "type": "crafting_shapeless",
+  "group": "silentgems:teleporter/redstone",
+  "ingredients": [
+    {
+      "item": "silentgems:spinel_teleporter"
+    },
+    {
+      "tag": "forge:dusts/redstone"
+    }
+  ],
+  "result": {
+    "item": "silentgems:spinel_redstone_teleporter"
+  }
+}

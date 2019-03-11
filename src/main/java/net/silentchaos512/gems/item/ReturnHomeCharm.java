@@ -14,8 +14,9 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.lib.Gems;
+import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -24,6 +25,8 @@ import java.util.List;
 //        @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesCompat.MOD_ID),
 //        @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = BaublesCompat.MOD_ID)})
 public class ReturnHomeCharm extends Item /*ItemChaosStorage implements IAddRecipes, ICustomModel, IBauble, IRenderBauble*/ {
+    public static final Lazy<ReturnHomeCharm> INSTANCE = Lazy.of(ReturnHomeCharm::new);
+
     private static final String TEXT_BOUND_TO = "boundTo";
     private static final String TEXT_NOT_BOUND = "notBound";
     private static final String TEXT_NOT_ENOUGH_CHARGE = "notEnoughCharge";
@@ -108,7 +111,7 @@ public class ReturnHomeCharm extends Item /*ItemChaosStorage implements IAddReci
 //        } else {
 //            // PlayerHelper.addChatMessage(player,
 //            // SilentGems.instance.localizationHelper.getItemSubText(itemName, TEXT_NOT_BOUND));
-            return new ActionResult<>(EnumActionResult.PASS, stack);
+        return new ActionResult<>(EnumActionResult.PASS, stack);
 //        }
     }
 

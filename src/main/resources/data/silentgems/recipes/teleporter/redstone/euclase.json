@@ -1,0 +1,15 @@
+{
+  "type": "crafting_shapeless",
+  "group": "silentgems:teleporter/redstone",
+  "ingredients": [
+    {
+      "item": "silentgems:euclase_teleporter"
+    },
+    {
+      "tag": "forge:dusts/redstone"
+    }
+  ],
+  "result": {
+    "item": "silentgems:euclase_redstone_teleporter"
+  }
+}

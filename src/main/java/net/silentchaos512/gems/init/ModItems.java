@@ -42,6 +42,8 @@ public final class ModItems {
         }
 
         register(reg, "enchantment_token", EnchantmentToken.INSTANCE);
+        register(reg, "return_home_charm", ReturnHomeCharm.INSTANCE.get());
+        register(reg, "teleporter_linker", TeleporterLinker.INSTANCE.get());
 
         register(reg, "fluffy_puff_seeds", FluffyPuffSeeds.INSTANCE.get());
         register(reg, "glowrose_fertilizer", GlowroseFertilizer.INSTANCE.get());

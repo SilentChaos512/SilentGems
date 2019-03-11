@@ -21,6 +21,7 @@ import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
 import net.silentchaos512.gems.init.*;
+import net.silentchaos512.gems.item.TeleporterLinker;
 import net.silentchaos512.gems.lib.ColorHandlers;
 import net.silentchaos512.gems.lib.soul.Soul;
 import net.silentchaos512.gems.util.gen.GenModels;
@@ -114,6 +115,7 @@ class SideProxy {
 
             MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onBlockColors);
             MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onItemColors);
+            MinecraftForge.EVENT_BUS.addListener(TeleporterLinker::renderGameOverlay);
 
 //            OBJLoader.INSTANCE.addDomain(SilentGems.MOD_ID);
 
