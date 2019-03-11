@@ -16,7 +16,7 @@ public class ChaosEmissionLabelWidget extends LabelWidget implements Highlightab
 
     private static String textFromAmount(int amount) {
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(amount);
-        return emissionRate.getEmissionText().getFormattedText();
+        return emissionRate.getEmissionText(amount).getFormattedText();
     }
 
     @Override

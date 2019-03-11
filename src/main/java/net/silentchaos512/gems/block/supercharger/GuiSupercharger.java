@@ -47,7 +47,7 @@ public class GuiSupercharger extends GuiContainer {
         // Chaos generated
         int chaosGenerated = this.tileEntity.getChaosGenerated();
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaosGenerated);
-        String text = emissionRate.getEmissionText().getFormattedText();
+        String text = emissionRate.getEmissionText(chaosGenerated).getFormattedText();
         fontRenderer.drawString(text, 5, 5, Color.BLACK.getColor());
     }
 
