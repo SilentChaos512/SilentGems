@@ -1,0 +1,23 @@
+{
+  "chaosGenerated": 1000,
+  "processTime": 200,
+  "ingredients": {
+    "token": {
+      "item": "minecraft:egg"
+    },
+    "others": [
+      {
+        "type": "silentgems:soul_gem",
+        "soul": "minecraft:tropical_fish",
+        "count": 4
+      },
+      {
+        "item": "silentgems:enriched_chaos_crystal",
+        "count": 4
+      }
+    ]
+  },
+  "result": {
+    "item": "minecraft:tropical_fish_spawn_egg"
+  }
+}

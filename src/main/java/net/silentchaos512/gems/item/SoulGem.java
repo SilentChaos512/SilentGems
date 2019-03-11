@@ -39,6 +39,12 @@ public class SoulGem extends Item {
         return result;
     }
 
+    public static ItemStack getStack(ResourceLocation soulId) {
+        ItemStack result = new ItemStack(INSTANCE.get());
+        result.getOrCreateTag().setString(NBT_KEY, soulId.toString());
+        return result;
+    }
+
     @Nullable
     public static Soul getSoul(ItemStack stack) {
         return Soul.from(getSoulId(stack));

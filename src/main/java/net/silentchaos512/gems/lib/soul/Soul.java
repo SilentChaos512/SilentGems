@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSpawnEgg;
 import net.minecraft.item.ItemStack;
@@ -72,13 +73,22 @@ public class Soul {
     }
 
     public float getDropRate(EntityLivingBase entity) {
-        if (entity.isNonBoss())
-            return this.dropRate;
-        return 1;
+        // 100% for bosses
+        if (!entity.isNonBoss())
+            return 1;
+        // Half rate for slimes
+        if (entity instanceof EntitySlime)
+            return this.dropRate / 2;
+        return this.dropRate;
     }
 
     public ItemStack getSoulGem() {
         return SoulGem.getStack(this);
+    }
+
+    @Nullable
+    public ItemSpawnEgg getSpawnEgg() {
+        return ItemSpawnEgg.getEgg(this.entityType);
     }
 
     public ITextComponent getEntityName() {

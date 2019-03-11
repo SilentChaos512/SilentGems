@@ -13,6 +13,10 @@
       {
         "item": "silentgems:ender_frost",
         "count": 4
+      },
+      {
+        "item": "minecraft:blue_ice",
+        "count": 2
       }
     ]
   },
