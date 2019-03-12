@@ -48,7 +48,6 @@ public class Soul {
     private static final Map<EntityType<?>, Soul> MAP = new HashMap<>();
     private static final Map<String, Soul> MAP_BY_ID = new HashMap<>();
 
-    @SuppressWarnings("ConstantConditions") // egg can be null
     private Soul(long seed, EntityType<?> entityType) {
         this.entityType = entityType;
         this.id = Objects.requireNonNull(entityType.getRegistryName());
@@ -60,16 +59,34 @@ public class Soul {
         this.secondaryElement = element2 != this.primaryElement ? element2 : SoulElement.NONE;
         this.dropRate = 0.035f + 0.002f * (float) random.nextGaussian();
 
-        ItemSpawnEgg egg = ItemSpawnEgg.getEgg(entityType);
+        ItemSpawnEgg egg = getSpawnEggForType(entityType);
         if (egg != null) {
-            this.primaryColor = egg.getColor(0);
-            this.secondaryColor = egg.getColor(1);
+            this.primaryColor = getEggPrimaryColor(egg);
+            this.secondaryColor = getEggSecondaryColor(egg);
         } else {
             this.primaryColor = random.nextInt(0x1000000);
             this.secondaryColor = random.nextInt(0x1000000);
             SilentGems.LOGGER.debug(MARKER, "No spawn egg for {}, setting colors to {} and {}",
                     this.id, Color.format(this.primaryColor), Color.format(this.secondaryColor));
         }
+    }
+
+    @Nullable
+    private static ItemSpawnEgg getSpawnEggForType(EntityType<?> entityType) {
+        for (ItemSpawnEgg egg : ItemSpawnEgg.getEggs()) {
+            if (egg.getType(null) == entityType) {
+                return egg;
+            }
+        }
+        return null;
+    }
+
+    private static int getEggPrimaryColor(ItemSpawnEgg egg) {
+        return ObfuscationReflectionHelper.getPrivateValue(ItemSpawnEgg.class, egg, "field_195988_c");
+    }
+
+    private static int getEggSecondaryColor(ItemSpawnEgg egg) {
+        return ObfuscationReflectionHelper.getPrivateValue(ItemSpawnEgg.class, egg, "field_195989_d");
     }
 
     public float getDropRate(EntityLivingBase entity) {
@@ -84,11 +101,6 @@ public class Soul {
 
     public ItemStack getSoulGem() {
         return SoulGem.getStack(this);
-    }
-
-    @Nullable
-    public ItemSpawnEgg getSpawnEgg() {
-        return ItemSpawnEgg.getEgg(this.entityType);
     }
 
     public ITextComponent getEntityName() {
@@ -165,14 +177,14 @@ public class Soul {
             if (server instanceof DedicatedServer) {
                 DedicatedServer dedicatedServer = (DedicatedServer) server;
                 PropertyManager settings = ObfuscationReflectionHelper.getPrivateValue(
-                        DedicatedServer.class, dedicatedServer, "settings");
+                        DedicatedServer.class, dedicatedServer, "field_71340_o"); // settings
                 // Not sure how dedicated server actually computes the seed
                 // All that matters is we get a consistent result
                 return settings.getStringProperty("level-seed", "").hashCode();
             } else if (server instanceof IntegratedServer) {
                 IntegratedServer integratedServer = (IntegratedServer) server;
                 WorldSettings settings = ObfuscationReflectionHelper.getPrivateValue(
-                        IntegratedServer.class, integratedServer, "worldSettings");
+                        IntegratedServer.class, integratedServer, "field_71350_m"); // worldSettings
                 return settings.getSeed();
             }
 
