@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.dimension.DimensionType;
 import net.silentchaos512.gems.SilentGems;
@@ -11,8 +12,15 @@ import net.silentchaos512.gems.world.TeleporterGems;
 import net.silentchaos512.lib.event.ServerTicks;
 import net.silentchaos512.lib.util.DimPos;
 
+import javax.annotation.Nullable;
+
 public final class TeleportUtil {
     private TeleportUtil() {throw new IllegalAccessError("Utility class");}
+
+    public static boolean teleportPlayerTo(EntityPlayerMP player, DimPos pos) {
+        WorldServer world = getServerWorld(player, pos);
+        return teleportPlayerTo(player, world, pos);
+    }
 
     public static boolean teleportPlayerTo(EntityPlayerMP player, WorldServer destinationWorld, DimPos pos) {
         int oldDimension = player.dimension.getId();
@@ -29,19 +37,9 @@ public final class TeleportUtil {
             }
 
             // Teleport player to dimension, using a custom teleporter to prevent Nether portal spawns
-            MinecraftServer server = player.getServer();
-            if (server == null) return false;
-            server.getPlayerList().transferEntityToWorld(
-                    player,
-                    DimensionType.getById(pos.getDimension()),
-                    player.getServerWorld(),
-                    destinationWorld,
-                    new TeleporterGems(destinationWorld)
-            );
-            if (oldDimension == 1) {
-                // Fixes world not loading when teleporting from the End.
-                destinationWorld.spawnEntity(player);
-            }
+            DimensionType dimensionType = DimensionType.getById(pos.getDimension());
+            if (dimensionType == null) return false;
+            player.changeDimension(dimensionType, new TeleporterGems(destinationWorld));
         }
 
         ServerTicks.scheduleAction(() -> player.setPositionAndUpdate(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5));
@@ -67,5 +65,24 @@ public final class TeleportUtil {
         }
 
         return true;
+    }
+
+    public static boolean isDestinationSafe(EntityLivingBase entity, DimPos destination) {
+        WorldServer world = getServerWorld(entity, destination);
+        if (world == null) return false;
+
+        BlockPos headLevel = destination.getPos().up(Math.round(entity.getEyeHeight()));
+        return !world.getBlockState(headLevel).causesSuffocation();
+    }
+
+    @Nullable
+    private static WorldServer getServerWorld(EntityLivingBase entity, DimPos pos) {
+        MinecraftServer server = entity.getServer();
+        if (server == null) return null;
+
+        DimensionType dimensionType = DimensionType.getById(pos.getDimension());
+        if (dimensionType == null) return null;
+
+        return server.getWorld(dimensionType);
     }
 }

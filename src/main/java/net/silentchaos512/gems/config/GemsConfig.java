@@ -5,4 +5,5 @@ public class GemsConfig {
     public static final int TELEPORTER_COST_PER_BLOCK = 50;
     public static final int TELEPORTER_FREE_RANGE = 64;
     public static final int TELEPORTER_COST_CROSS_DIMENSION = 50_000;
+    public static final int RETURN_HOME_USE_TIME = 16;
 }

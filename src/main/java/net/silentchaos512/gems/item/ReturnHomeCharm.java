@@ -4,18 +4,25 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.*;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
+import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.chaos.Chaos;
+import net.silentchaos512.gems.client.key.KeyTracker;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItemGroups;
 import net.silentchaos512.gems.lib.Gems;
+import net.silentchaos512.gems.util.TeleportUtil;
+import net.silentchaos512.lib.util.DimPos;
 import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
@@ -24,41 +31,59 @@ import java.util.List;
 //@Optional.InterfaceList({
 //        @Optional.Interface(iface = "baubles.api.IBauble", modid = BaublesCompat.MOD_ID),
 //        @Optional.Interface(iface = "baubles.api.render.IRenderBauble", modid = BaublesCompat.MOD_ID)})
-public class ReturnHomeCharm extends Item /*ItemChaosStorage implements IAddRecipes, ICustomModel, IBauble, IRenderBauble*/ {
+public class ReturnHomeCharm extends Item /*implements IBauble, IRenderBauble*/ {
     public static final Lazy<ReturnHomeCharm> INSTANCE = Lazy.of(ReturnHomeCharm::new);
 
-    private static final String TEXT_BOUND_TO = "boundTo";
-    private static final String TEXT_NOT_BOUND = "notBound";
-    private static final String TEXT_NOT_ENOUGH_CHARGE = "notEnoughCharge";
-    private static final String TEXT_NOT_SANE = "notSane";
-    private static final String TEXT_NOT_SAFE = "notSafe";
-
+    private static final String NBT_GEM = "Gem";
     private static final String NBT_READY = "IsReady";
 
     public ReturnHomeCharm() {
         super(new Properties()
-                .group(ModItemGroups.UTILITY));
+                .group(ModItemGroups.UTILITY)
+                .maxStackSize(1)
+        );
+    }
+
+    @Nullable
+    public static Gems getGem(ItemStack stack) {
+        return Gems.fromName(stack.getOrCreateTag().getString(NBT_GEM));
+    }
+
+    public static void setGem(ItemStack stack, Gems gem) {
+        stack.getOrCreateTag().setString(NBT_GEM, gem.getName());
+    }
+
+    @Nullable
+    public static DimPos getBoundPosition(ItemStack stack) {
+        if (!stack.hasTag()) return null;
+        DimPos pos = DimPos.read(stack.getOrCreateTag());
+        if (pos.equals(DimPos.ZERO)) return null;
+        return pos;
+    }
+
+    public int getTeleportCost(ItemStack stack, EntityPlayer player) {
+        return Chaos.getChaosGeneratedByTeleport(player, getBoundPosition(stack));
     }
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
-//        // Is ctrl key down?
-//        boolean modifier = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
-//
-//        // How to use
-//        list.add(TextFormatting.ITALIC + SilentGems.i18n.subText(this, "desc"));
-//
-//        // Display coordinates if modifier key is held.
-//        DimensionalPosition pos = getBoundPosition(stack);
-//        if (pos != null) {
-//            if (modifier) {
-//                list.add(SilentGems.i18n.subText(this, TEXT_BOUND_TO, pos));
-//            } else {
-//                list.add(SilentGems.i18n.miscText("pressCtrl"));
-//            }
-//        } else {
-//            list.add(SilentGems.i18n.subText(this, TEXT_NOT_BOUND));
-//        }
+        // Gem
+        Gems gem = getGem(stack);
+        if (gem != null) list.add(gem.getDisplayName());
+        // How to use
+        list.add(new TextComponentTranslation(this.getTranslationKey() + ".desc"));
+
+        // Display coordinates if modifier key is held.
+        DimPos pos = getBoundPosition(stack);
+        if (pos != null) {
+            if (KeyTracker.isControlDown()) {
+                list.add(new TextComponentTranslation(this.getTranslationKey() + ".boundTo", pos));
+            } else {
+                list.add(new TextComponentTranslation("misc.silentgems.pressCtrl"));
+            }
+        } else {
+            list.add(new TextComponentTranslation(this.getTranslationKey() + ".notBound"));
+        }
     }
 
     @Override
@@ -67,7 +92,7 @@ public class ReturnHomeCharm extends Item /*ItemChaosStorage implements IAddReci
 
         for (Gems gem : Gems.values()) {
             ItemStack stack = new ItemStack(this);
-            // TODO: how to set gem?
+            setGem(stack, gem);
             items.add(stack);
         }
     }
@@ -84,52 +109,37 @@ public class ReturnHomeCharm extends Item /*ItemChaosStorage implements IAddReci
 
     @Override
     public boolean hasEffect(ItemStack stack) {
-//        return NBTHelper.getTagBoolean(stack, NBT_READY);
-        return false;
+        return stack.getOrCreateTag().getBoolean(NBT_READY);
     }
-
-//    @Nullable
-//    public DimensionalPosition getBoundPosition(ItemStack stack) {
-//        if (!stack.hasTagCompound()) {
-//            return null;
-//        }
-//
-//        DimensionalPosition pos = DimensionalPosition.readFromNBT(stack.getTagCompound());
-//        if (pos.equals(DimensionalPosition.ZERO)) {
-//            return null;
-//        }
-//        return pos;
-//    }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
-//        DimensionalPosition pos = getBoundPosition(stack);
-//        if (pos != null) {
-//            player.setActiveHand(hand);
-//            return new ActionResult<>(EnumActionResult.SUCCESS, stack);
-//        } else {
-//            // PlayerHelper.addChatMessage(player,
-//            // SilentGems.instance.localizationHelper.getItemSubText(itemName, TEXT_NOT_BOUND));
-        return new ActionResult<>(EnumActionResult.PASS, stack);
-//        }
+        DimPos pos = getBoundPosition(stack);
+        if (pos != null) {
+            player.setActiveHand(hand);
+            return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+        } else {
+            player.sendMessage(new TextComponentTranslation(this.getTranslationKey() + ".notBound"));
+            return new ActionResult<>(EnumActionResult.PASS, stack);
+        }
     }
 
     @Override
     public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
-//        if (player.world.isRemote) {
-//            int timeUsed = getMaxItemUseDuration(stack) - count;
-//            if (timeUsed >= GemsConfig.RETURN_HOME_USE_TIME) {
-//                NBTHelper.setTagBoolean(stack, NBT_READY, true);
-//            }
-//        }
+        if (player.world.isRemote) {
+            int timeUsed = getUseDuration(stack) - count;
+            if (timeUsed >= GemsConfig.RETURN_HOME_USE_TIME) {
+                stack.getOrCreateTag().setBoolean(NBT_READY, true);
+            }
+        }
     }
 
     @Override
     public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-//        if (!isSelected && NBTHelper.getTagBoolean(stack, NBT_READY)) {
-//            NBTHelper.setTagBoolean(stack, NBT_READY, false);
-//        }
+        if (!isSelected && stack.getOrCreateTag().getBoolean(NBT_READY)) {
+            stack.getOrCreateTag().setBoolean(NBT_READY, false);
+        }
     }
 
     @Override
@@ -139,69 +149,52 @@ public class ReturnHomeCharm extends Item /*ItemChaosStorage implements IAddReci
         }
         EntityPlayer player = (EntityPlayer) entity;
 
-//        if (world.isRemote) {
-//            NBTHelper.setTagBoolean(stack, NBT_READY, false);
-//        } else {
-//            int timeUsed = getMaxItemUseDuration(stack) - timeLeft;
-//
-//            // Did player use item long enough?
-//            if (timeUsed < GemsConfig.RETURN_HOME_USE_TIME) {
-//                return;
-//            }
-//
-//            tryTeleportPlayer(stack, player);
-//        }
-    }
-
-    public int getTeleportCost(ItemStack stack, EntityPlayer player) {
-        // Currently a flat cost, but could be changed to consider distance.
-//        return player.capabilities.isCreativeMode ? 0 : GemsConfig.RETURN_HOME_USE_COST;
-        return 0;
+        if (world.isRemote) {
+            stack.getOrCreateTag().setBoolean(NBT_READY, false);
+        } else {
+            // Did player use item long enough?
+            int timeUsed = getUseDuration(stack) - timeLeft;
+            if (timeUsed >= GemsConfig.RETURN_HOME_USE_TIME) {
+                tryTeleportPlayer(stack, player);
+            }
+        }
     }
 
     public void tryTeleportPlayer(ItemStack stack, EntityPlayer player) {
-//        DimensionalPosition pos = getBoundPosition(stack);
-//
-//        // Not bound?
-//        if (pos == null) {
-//            return;
-//        }
-//
-//        // Enough charge?
-//        if (getCharge(stack) < getTeleportCost(stack, player)) {
-//            ChatHelper.sendMessage(player, SilentGems.i18n.subText(this, TEXT_NOT_ENOUGH_CHARGE));
-//            return;
-//        }
-//
-//        // Is the destination sane? (ie, y > 0)
-//        if (pos.y <= 0) {
-//            ChatHelper.sendMessage(player, SilentGems.i18n.subText(this, TEXT_NOT_SANE));
-//            return;
-//        }
-//
-//        // Is the destination safe? (ie, no solid block at head level)
-//        WorldServer worldServer = player.getServer().getWorld(pos.dim);
-//        int height = (int) Math.ceil(player.eyeHeight);
-//        BlockPos target = pos.toBlockPos().up(height);
-//
-//        // It should be safe to teleport.
-//        // Reset fall distance then teleport.
-//        player.fallDistance = 0.0f;
-//        teleportPlayer(stack, player, pos);
-//        // Play sounds
-//        float soundPitch = 0.8f + 0.3f * SilentGems.random.nextFloat();
-//        for (BlockPos p : new BlockPos[]{player.getPosition(), pos.toBlockPos()}) {
-//            player.world.playSound(null, p, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS,
-//                    1.0f, soundPitch);
-//        }
-    }
+        DimPos pos = getBoundPosition(stack);
+        if (pos == null || !(player instanceof EntityPlayerMP)) return;
 
-//    private void teleportPlayer(ItemStack stack, EntityPlayer player, DimensionalPosition pos) {
-//        if (player instanceof EntityPlayerMP) {
-//            TeleportUtil.teleportPlayerTo((EntityPlayerMP) player, pos);
-//        }
-//        extractCharge(stack, getTeleportCost(stack, player), false);
-//    }
+        // Dimension valid?
+        DimensionType dimensionType = DimensionType.getById(pos.getDimension());
+        if (dimensionType == null) {
+            player.sendMessage(new TextComponentTranslation("teleporter.silentgems.invalidDimension"));
+            return;
+        }
+
+        // Is the destination sane? (ie, y > 0)
+        if (pos.getY() <= 0) {
+            player.sendMessage(new TextComponentTranslation("teleporter.silentgems.notSane"));
+            return;
+        }
+
+        // Is the destination safe? (ie, no solid block at head level)
+        if (!TeleportUtil.isDestinationSafe(player, pos)) {
+            player.sendMessage(new TextComponentTranslation("teleporter.silentgems.notSafe"));
+            return;
+        }
+
+        // It should be safe to teleport.
+        // Reset fall distance then teleport.
+        player.fallDistance = 0;
+        float soundPitch = 0.8f + 0.3f * SilentGems.random.nextFloat();
+        // Sound at source
+        player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0f, soundPitch);
+        if (TeleportUtil.teleportPlayerTo((EntityPlayerMP) player, pos)) {
+            Chaos.generate(player, getTeleportCost(stack, player));
+        }
+        // Sound at destination
+        player.world.playSound(null, pos.getPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0f, soundPitch);
+    }
 
     // ===================
     // = Baubles support =
