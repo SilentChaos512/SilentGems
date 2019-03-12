@@ -61,7 +61,7 @@
         "translate": true,
         "name": "part.silentgems.rod.ornate_silver"
     },
-    "display": {
+    "textures": {
         "all": {
             "texture_domain": "silentgear",
             "texture_suffix": "generic_hc",
