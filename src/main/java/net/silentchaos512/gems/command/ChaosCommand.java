@@ -11,6 +11,7 @@ import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.WorldServer;
 import net.silentchaos512.gems.chaos.ChaosSourceCapability;
 
 public final class ChaosCommand {
@@ -21,25 +22,40 @@ public final class ChaosCommand {
                 source.hasPermissionLevel(2));
 
         // get
-        builder.then(
-                Commands.literal("get").then(
-                        Commands.argument("targets", EntityArgument.multiplePlayers()).executes(
-                                ChaosCommand::runGet
-                        )
-                ).executes(context ->
-                        runGetSingle(context, context.getSource().asPlayer())
-                )
-        );
-        // set
-        builder.then(
-                Commands.literal("set").then(
-                        Commands.argument("targets", EntityArgument.multiplePlayers()).then(
-                                Commands.argument("amount", IntegerArgumentType.integer(0)).executes(
-                                        ChaosCommand::runSet
+        builder
+                .then(Commands.literal("get")
+                        .then(Commands.argument("targets", EntityArgument.multiplePlayers())
+                                .executes(
+                                        ChaosCommand::runGet
                                 )
                         )
-                )
-        );
+                        .then(Commands.literal("world")
+                                .executes(
+                                        ChaosCommand::runGetWorld
+                                )
+                        )
+                        .executes(
+                                context -> runGetSingle(context, context.getSource().asPlayer())
+                        )
+                );
+        // set
+        builder
+                .then(Commands.literal("set")
+                        .then(Commands.argument("targets", EntityArgument.multiplePlayers())
+                                .then(Commands.argument("amount", IntegerArgumentType.integer(0))
+                                        .executes(
+                                                ChaosCommand::runSet
+                                        )
+                                )
+                        )
+                        .then(Commands.literal("world")
+                                .then(Commands.argument("amount", IntegerArgumentType.integer(0))
+                                        .executes(
+                                                ChaosCommand::runSetWorld
+                                        )
+                                )
+                        )
+                );
 
         dispatcher.register(builder);
     }
@@ -53,7 +69,18 @@ public final class ChaosCommand {
 
     private static int runGetSingle(CommandContext<CommandSource> context, EntityPlayerMP player) {
         player.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {
-            ITextComponent text = translate("chaos.get", player.getName(), source.getChaos());
+            String format = String.format("%,d", source.getChaos());
+            ITextComponent text = translate("chaos.get", player.getName(), format);
+            context.getSource().sendFeedback(text, true);
+        });
+        return 1;
+    }
+
+    private static int runGetWorld(CommandContext<CommandSource> context) {
+        WorldServer world = context.getSource().getWorld();
+        world.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {
+            String format = String.format("%,d", source.getChaos());
+            ITextComponent text = translate("chaos.get", "world", format);
             context.getSource().sendFeedback(text, true);
         });
         return 1;
@@ -64,10 +91,23 @@ public final class ChaosCommand {
         for (EntityPlayerMP player : EntityArgument.getPlayers(context, "targets")) {
             player.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {
                 source.setChaos(amount);
-                ITextComponent text = translate("chaos.set", player.getName(), source.getChaos());
+                String format = String.format("%,d", source.getChaos());
+                ITextComponent text = translate("chaos.set", player.getName(), format);
                 context.getSource().sendFeedback(text, true);
             });
         }
+        return 1;
+    }
+
+    private static int runSetWorld(CommandContext<CommandSource> context) {
+        int amount = IntegerArgumentType.getInteger(context, "amount");
+        WorldServer world = context.getSource().getWorld();
+        world.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {
+            source.setChaos(amount);
+            String format = String.format("%,d", source.getChaos());
+            ITextComponent text = translate("chaos.set", "world", format);
+            context.getSource().sendFeedback(text, true);
+        });
         return 1;
     }
 
