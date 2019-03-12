@@ -1,0 +1,26 @@
+{
+  "type": "crafting_shaped",
+  "group": "silentgems:return_home_charm",
+  "pattern": [
+    " / ",
+    "/g/",
+    "#o#"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:gems/chaos"
+    },
+    "g": {
+      "tag": "forge:gems/green_sapphire"
+    },
+    "/": {
+      "item": "silentgems:gilded_string"
+    },
+    "o": {
+      "item": "minecraft:ender_pearl"
+    }
+  },
+  "result": {
+    "item": "silentgems:green_sapphire_return_home_charm"
+  }
+}

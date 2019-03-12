@@ -304,7 +304,7 @@
     "item.silentgems.potato_on_a_stick": "Potato on a Stick",
     "item.silentgems.potato_on_a_stick.desc": "The legend lives on",
     "item.silentgems.refined_chaos_orb": "Refined Chaos Orb",
-    "item.silentgems.return_home_charm": "Return Home Charm",
+    "item.silentgems.return_home_charm": "%s Return Home Charm",
     "item.silentgems.return_home_charm.boundTo": "Bound to: %s",
     "item.silentgems.return_home_charm.desc": "Hold right-click to use.",
     "item.silentgems.return_home_charm.notBound": "Not bound. Right-click on a Teleporter.",

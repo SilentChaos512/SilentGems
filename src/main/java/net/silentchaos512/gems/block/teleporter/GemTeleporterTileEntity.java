@@ -99,7 +99,7 @@ public class GemTeleporterTileEntity extends TileEntity {
             return linkTeleporters(player, this.world, this.pos, heldItem, hand);
         }
         // Link a return home charm
-        if (!heldItem.isEmpty() && heldItem.getItem() == ReturnHomeCharm.INSTANCE.get()) {
+        if (!heldItem.isEmpty() && heldItem.getItem() instanceof ReturnHomeCharm) {
             return linkReturnHomeCharm(player, this.world, this.pos, heldItem, hand);
         }
         // Anchors do not teleport

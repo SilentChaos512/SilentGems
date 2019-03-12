@@ -59,7 +59,7 @@ public class GemTeleporter extends Block implements ITileEntityProvider {
     public boolean onBlockActivated(IBlockState state, World world, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         ItemStack heldItem = player.getHeldItem(hand);
         boolean holdingLinker = !heldItem.isEmpty() && heldItem.getItem() == TeleporterLinker.INSTANCE.get();
-        boolean holdingReturnHome = !heldItem.isEmpty() && heldItem.getItem() == ReturnHomeCharm.INSTANCE.get();
+        boolean holdingReturnHome = !heldItem.isEmpty() && heldItem.getItem() instanceof ReturnHomeCharm;
 
         if (world.isRemote)
             return (holdingLinker || holdingReturnHome) || !isAnchor;

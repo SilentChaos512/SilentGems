@@ -85,6 +85,15 @@ public final class GenRecipes {
                     .create(gem.getItem())
                     .ingredient(gem.getOre())
                     .experience(0.75f));
+            // Return home charm
+            RecipeGenerator.create(name("return_home_charm/" + gem.getName()), ShapedBuilder
+                    .create(gem.getReturnHomeCharm())
+                    .group(name("return_home_charm"))
+                    .layout(" / ", "/g/", "#o#")
+                    .key('/', CraftingItems.GILDED_STRING)
+                    .key('g', gem.getItemTag())
+                    .key('#', ModTags.Items.GEMS_CHAOS)
+                    .key('o', Items.ENDER_PEARL));
         }
 
         RecipeGenerator.create(name("teleporter/anchor"), ShapedBuilder

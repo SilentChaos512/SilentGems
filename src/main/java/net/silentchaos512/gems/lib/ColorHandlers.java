@@ -11,7 +11,10 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.urn.BlockSoulUrn;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.item.EnchantmentToken;
+import net.silentchaos512.gems.item.ReturnHomeCharm;
 import net.silentchaos512.gems.item.SoulGem;
+
+import java.util.Arrays;
 
 public final class ColorHandlers {
     private ColorHandlers() {}
@@ -39,16 +42,9 @@ public final class ColorHandlers {
         registerItems(colors, EnchantmentToken::getItemColor, EnchantmentToken.INSTANCE);
 
         // Return Home Charm
-//        itemColors.register((stack, tintIndex) -> {
-//            if (tintIndex == 0) {
-//                int meta = stack.getItemDamage();
-//                if (meta >= 0 && meta < Gems.values().length) {
-//                    Gems gem = Gems.values()[meta];
-//                    return gem.getColor();
-//                }
-//            }
-//            return 0xFFFFFF;
-//        }, ModItems.returnHomeCharm);
+        registerItems(colors, ReturnHomeCharm::getColor, Arrays.stream(Gems.values())
+                .map(Gems::getReturnHomeCharm)
+                .toArray(IItemProvider[]::new));
 
         // Drawing Compass
 //        itemColors.register((stack, tintIndex) -> tintIndex == 0 ? ModItems.drawingCompass.getColor(stack).getColor() : 0xFFFFFF, ModItems.drawingCompass);

@@ -69,6 +69,10 @@ public final class GenModels {
             // Shards
             ModelGenerator.create(ItemBuilder.create(gem.getShard())
                     .texture("shard/" + gem.getName()));
+            // Return Home Charm
+            ModelGenerator.create(ItemBuilder.create(gem.getReturnHomeCharm())
+                    .texture("return_home_gem")
+                    .texture("return_home_base"));
         }
 
         ModelGenerator.create(BlockBuilder.create(TeleporterAnchor.INSTANCE.get())
