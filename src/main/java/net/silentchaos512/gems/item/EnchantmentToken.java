@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.item;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
@@ -240,8 +241,10 @@ public final class EnchantmentToken extends Item {
                 }
             }
             list.add(subText("enchNameWithMod", enchName, modName));
-            String descKey = registryName.toString().replace(':', '.').toLowerCase(Locale.ROOT) + ".desc";
-            list.add(new TextComponentTranslation(descKey).applyTextStyle(TextFormatting.ITALIC));
+            String descKey = enchantment.getName() + ".desc";
+            if (I18n.hasKey(descKey)) {
+                list.add(new TextComponentTranslation(descKey).applyTextStyle(TextFormatting.ITALIC));
+            }
         }
     }
 
