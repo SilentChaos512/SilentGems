@@ -124,6 +124,7 @@ class SideProxy {
 
         private void clientSetup(FMLClientSetupEvent event) {
             SilentGems.LOGGER.debug("Gems clientSetup");
+            ModEntities.registerRenderers(event);
         }
 
         private static void registerContainers() {

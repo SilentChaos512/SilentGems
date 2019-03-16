@@ -2,6 +2,8 @@ package net.silentchaos512.gems.world;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
@@ -14,6 +16,8 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.MiscOres;
+import net.silentchaos512.gems.entity.EntityEnderSlime;
+import net.silentchaos512.gems.init.ModEntities;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.world.feature.GlowroseFeature;
 import net.silentchaos512.gems.world.feature.WildFluffyPuffFeature;
@@ -46,6 +50,7 @@ public final class GemsWorldFeatures {
                 addOre(biome, Gems.Set.LIGHT.getMultiOre(), 8, 12, 16, 64, state ->
                         state.getBlock() == Blocks.END_STONE);
                 addEnderOre(biome, random);
+                addEnderSlimeSpawns(biome);
             } else {
                 // Overworld and other dimensions
                 Collection<Gems> toAdd = EnumSet.noneOf(Gems.class);
@@ -142,6 +147,12 @@ public final class GemsWorldFeatures {
                 Biome.SURFACE_PLUS_32,
                 new FrequencyConfig(1)
         ));
+    }
+
+    @SuppressWarnings("unchecked") // cast to EntityType<EntityEnderSlime> is valid
+    private static void addEnderSlimeSpawns(Biome biome) {
+        EntityType<EntityEnderSlime> type = (EntityType<EntityEnderSlime>) ModEntities.ENDER_SLIME.type();
+        biome.getSpawns(EnumCreatureType.MONSTER).add(new Biome.SpawnListEntry(type, 3, 1, 2));
     }
 
     private static long getBaseSeed() {

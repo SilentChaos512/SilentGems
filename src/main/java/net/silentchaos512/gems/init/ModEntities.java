@@ -1,39 +1,74 @@
 package net.silentchaos512.gems.init;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemSpawnEgg;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.gen.Heightmap;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.render.entity.RenderEnderSlime;
 import net.silentchaos512.gems.entity.EntityEnderSlime;
+import net.silentchaos512.utils.Lazy;
 
-public class ModEntities {
-    public static EntityType<EntityEnderSlime> ENDER_SLIME;
+import java.util.Locale;
+import java.util.function.Supplier;
 
-    public static void registerAll(RegistryEvent.Register<EntityType<?>> event) {
-//        IForgeRegistry<EntityType<?>> reg = event.getRegistry();
-//
-//        ENDER_SLIME = register(reg, "ender_slime", EntityType.Builder.create(EntityEnderSlime.class, EntityEnderSlime::new));
-//        // TODO: How to add spawn eggs? ItemSpawnEgg
-////        reg.registerEntity(EntityEnderSlime.class, "EnderSlime", 64, 4, false, 0x003333, 0xAA00AA);
-//        if (3 > 0) { // TODO: config
-////            EntityRegistry.addSpawn(EntityEnderSlime.class, GemsConfig.ENDER_SLIME_SPAWN_WEIGHT,
-////                    GemsConfig.ENDER_SLIME_SPAWN_MIN, GemsConfig.ENDER_SLIME_SPAWN_MAX,
-////                    EnumCreatureType.MONSTER, Biomes.SKY);
-//            // TODO: Wat?
-//            EntitySpawnPlacementRegistry.register(ENDER_SLIME,
-//                    EntitySpawnPlacementRegistry.SpawnPlacementType.ON_GROUND,
-//                    Heightmap.Type.WORLD_SURFACE,
-//                    null);
-//        }
+public enum ModEntities {
+    ENDER_SLIME(() -> EntityType.Builder.create(EntityEnderSlime.class, EntityEnderSlime::new), 0x003333, 0xAA00AA);
+
+    private final Lazy<EntityType<?>> entityType;
+    private final Lazy<ItemSpawnEgg> spawnEgg;
+
+    ModEntities(Supplier<EntityType.Builder<?>> factory, int eggPrimaryColor, int eggSecondaryColor) {
+        this.entityType = Lazy.of(() -> {
+            ResourceLocation id = SilentGems.getId(this.getName());
+            return factory.get().build(id.toString());
+        });
+        this.spawnEgg = Lazy.of(() -> {
+            Item.Properties props = new Item.Properties().group(ItemGroup.MISC);
+            return new ItemSpawnEgg(this.type(), eggPrimaryColor, eggSecondaryColor, props);
+        });
     }
 
-    private static <T extends Entity> EntityType<T> register(IForgeRegistry<EntityType<?>> reg, String name, EntityType.Builder<T> builder) {
-        ResourceLocation id = new ResourceLocation(SilentGems.MOD_ID, name);
-        EntityType<T> entityType = builder.build(id.toString());
-        entityType.setRegistryName(id);
-        reg.register(entityType);
-        return entityType;
+    public EntityType<?> type() {
+        return this.entityType.get();
+    }
+
+    public ItemSpawnEgg getSpawnEgg() {
+        return this.spawnEgg.get();
+    }
+
+    public String getName() {
+        return this.name().toLowerCase(Locale.ROOT);
+    }
+
+    public static void registerAll(RegistryEvent.Register<EntityType<?>> event) {
+        if (!event.getRegistry().getRegistryName().equals(ForgeRegistries.ENTITIES.getRegistryName())) return;
+
+        for (ModEntities entity : values()) {
+            EntityType<?> type = entity.type();
+            type.setRegistryName(SilentGems.getId(entity.getName()));
+            ForgeRegistries.ENTITIES.register(type);
+
+            EntitySpawnPlacementRegistry.register(
+                    type,
+                    EntitySpawnPlacementRegistry.SpawnPlacementType.ON_GROUND,
+                    Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+                    null
+            );
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void registerRenderers(FMLClientSetupEvent event) {
+        RenderingRegistry.registerEntityRenderingHandler(EntityEnderSlime.class, new RenderEnderSlime.Factory());
     }
 }

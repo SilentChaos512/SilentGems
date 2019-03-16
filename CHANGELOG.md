@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - More advancements (supercharger pillar tiers, teleporters, and more)
 - Teleporter linker recipe
+- Ender slime spawns (plus spawn egg)
 ### Changed
 - Enriched chaos crystals are now crafted in the token enchanter (same ingredients)
 - Reorganized some advancements
