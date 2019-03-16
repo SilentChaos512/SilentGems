@@ -33,6 +33,8 @@ public final class TeleporterLinker extends Item {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
+        if (!isLinked(stack)) return;
+
         DimPos pos = getLinkedPosition(stack);
         if (!DimPos.ZERO.equals(pos)) {
             list.add(new TextComponentString(pos.toString()));

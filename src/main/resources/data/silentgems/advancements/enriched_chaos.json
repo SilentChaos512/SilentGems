@@ -10,7 +10,7 @@
             "translate": "advancements.silentgems.enriched_chaos.description"
         }
     },
-    "parent": "silentgems:chaos_crystal",
+    "parent": "silentgems:token_enchanter",
     "criteria": {
         "get_item": {
             "trigger": "minecraft:inventory_changed",

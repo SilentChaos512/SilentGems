@@ -1,23 +1,23 @@
 {
     "display": {
         "icon": {
-            "item": "silentgems:supercharger"
+            "item": "silentgems:teleporter_anchor"
         },
         "title": {
-            "translate": "advancements.silentgems.supercharger.title"
+            "translate": "advancements.silentgems.teleporter_anchor.title"
         },
         "description": {
-            "translate": "advancements.silentgems.supercharger.description"
+            "translate": "advancements.silentgems.teleporter_anchor.description"
         }
     },
-    "parent": "silentgems:chaos_iron",
+    "parent": "silentgems:chaos_crystal",
     "criteria": {
         "get_item": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "item": "silentgems:supercharger"
+                        "item": "silentgems:teleporter_anchor"
                     }
                 ]
             }

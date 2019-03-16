@@ -5,9 +5,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- More advancements (supercharger pillar tiers, teleporters, and more)
 - Teleporter linker recipe
+### Changed
+- Enriched chaos crystals are now crafted in the token enchanter (same ingredients)
+- Reorganized some advancements
 ### Fixed
-- Chaos dust is now craftable
+- Chaos dust is now craftable (and therefore chaos iron)
 - Ender slime loot table
 
 ## [3.0.7] - 2019-03-12

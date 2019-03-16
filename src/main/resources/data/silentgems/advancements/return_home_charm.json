@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "silentgems:ruby_return_home_charm"
+        },
+        "title": {
+            "translate": "advancements.silentgems.return_home_charm.title"
+        },
+        "description": {
+            "translate": "advancements.silentgems.return_home_charm.description"
+        }
+    },
+    "parent": "silentgems:teleporter_anchor",
+    "criteria": {
+        "get_items": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "tag": "silentgems:return_home_charms"
+                    }
+                ]
+            }
+        }
+    }
+}

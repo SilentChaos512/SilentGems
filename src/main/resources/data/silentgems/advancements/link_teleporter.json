@@ -1,0 +1,34 @@
+{
+    "display": {
+        "icon": {
+            "item": "silentgems:teleporter_linker"
+        },
+        "title": {
+            "translate": "advancements.silentgems.link_teleporter.title"
+        },
+        "description": {
+            "translate": "advancements.silentgems.link_teleporter.description"
+        }
+    },
+    "parent": "silentgems:teleporter",
+    "criteria": {
+        "get_linker": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "silentgems:teleporter_linker"
+                    }
+                ]
+            }
+        },
+        "link_teleporters": {
+            "trigger": "minecraft:placed_block",
+            "conditions": {
+                "item": {
+                    "item": "silentgems:teleporter_linker"
+                }
+            }
+        }
+    }
+}

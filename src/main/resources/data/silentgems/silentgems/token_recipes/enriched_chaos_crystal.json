@@ -1,0 +1,22 @@
+{
+  "chaosGenerated": 150,
+  "processTime": 20,
+  "ingredients": {
+    "token": {
+      "item": "minecraft:quartz"
+    },
+    "others": [
+      {
+        "tag": "forge:gems/chaos",
+        "count": 4
+      },
+      {
+        "tag": "forge:dusts/glowstone",
+        "count": 4
+      }
+    ]
+  },
+  "result": {
+    "item": "silentgems:enriched_chaos_crystal"
+  }
+}
