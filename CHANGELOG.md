@@ -4,7 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Teleporter linker recipe
 ### Fixed
+- Chaos dust is now craftable
 - Ender slime loot table
 
 ## [3.0.7] - 2019-03-12

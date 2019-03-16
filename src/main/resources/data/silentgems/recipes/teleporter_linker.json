@@ -1,0 +1,18 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "#",
+    "/"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:enriched_chaos_crystal"
+    },
+    "/": {
+      "item": "silentgems:ornate_gold_rod"
+    }
+  },
+  "result": {
+    "item": "silentgems:teleporter_linker"
+  }
+}
