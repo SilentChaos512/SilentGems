@@ -2,12 +2,9 @@ package net.silentchaos512.gems.init;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.CorruptedBlocks;
 import net.silentchaos512.gems.item.*;
@@ -26,57 +23,53 @@ public final class ModItems {
     private ModItems() {}
 
     public static void registerAll(RegistryEvent.Register<Item> event) {
-        if (event.getRegistry().getRegistrySuperType() != Item.class) return;
+        if (!event.getRegistry().getRegistryName().equals(ForgeRegistries.ITEMS.getRegistryName())) return;
 
-        IForgeRegistry<Item> reg = ForgeRegistries.ITEMS;
+        blocksToRegister.forEach(ForgeRegistries.ITEMS::register);
 
-        blocksToRegister.forEach(reg::register);
+        registerGemItems(Gems::getItem, Gems::getName);
+        registerGemItems(Gems::getShard, gem -> gem.getName() + "_shard");
 
-        registerGemItems(reg, Gems::getItem, Gems::getName);
-        registerGemItems(reg, Gems::getShard, gem -> gem.getName() + "_shard");
-
-        register(reg, "soul_gem", SoulGem.INSTANCE.get());
+        register("soul_gem", SoulGem.INSTANCE.get());
 
         for (CraftingItems item : CraftingItems.values()) {
-            register(reg, item.getName(), item.asItem());
+            register(item.getName(), item.asItem());
         }
 
-        register(reg, "enchantment_token", EnchantmentToken.INSTANCE);
-        registerGemItems(reg, Gems::getReturnHomeCharm, gem -> gem.getName() + "_return_home_charm");
-        register(reg, "teleporter_linker", TeleporterLinker.INSTANCE.get());
+        register("enchantment_token", EnchantmentToken.INSTANCE);
+        registerGemItems(Gems::getReturnHomeCharm, gem -> gem.getName() + "_return_home_charm");
+        register("teleporter_linker", TeleporterLinker.INSTANCE.get());
 
-        register(reg, "fluffy_puff_seeds", FluffyPuffSeeds.INSTANCE.get());
-        register(reg, "glowrose_fertilizer", GlowroseFertilizer.INSTANCE.get());
+        register("fluffy_puff_seeds", FluffyPuffSeeds.INSTANCE.get());
+        register("glowrose_fertilizer", GlowroseFertilizer.INSTANCE.get());
 
         for (CorruptedBlocks block : CorruptedBlocks.values()) {
-            register(reg, block.getName() + "_pile", block.getPile());
+            register(block.getName() + "_pile", block.getPile());
         }
 
         for (Foods food : Foods.values()) {
-            register(reg, food.getName(), food.asItem());
+            register(food.getName(), food.asItem());
         }
 
-        summonKitty = register(reg, "summon_kitty", new PetSummoner(PetSummoner::getCat));
-        summonPuppy = register(reg, "summon_puppy", new PetSummoner(PetSummoner::getDog));
+        summonKitty = register("summon_kitty", new PetSummoner(PetSummoner::getCat));
+        summonPuppy = register("summon_puppy", new PetSummoner(PetSummoner::getDog));
+
+        for (ModEntities entity : ModEntities.values()) {
+            register(entity.getName() + "_spawn_egg", entity.getSpawnEgg());
+        }
     }
 
-    private static <T extends Item> T register(IForgeRegistry<Item> reg, String name, T item) {
+    private static <T extends Item> T register(String name, T item) {
         ResourceLocation id = new ResourceLocation(SilentGems.MOD_ID, name);
         item.setRegistryName(id);
-        reg.register(item);
+        ForgeRegistries.ITEMS.register(item);
 
         return item;
     }
 
-    private static void registerGemItems(IForgeRegistry<Item> reg, Function<Gems, ? extends Item> factory, Function<Gems, String> name) {
+    private static void registerGemItems(Function<Gems, ? extends Item> factory, Function<Gems, String> name) {
         for (Gems gem : Gems.values()) {
-            register(reg, name.apply(gem), factory.apply(gem));
-        }
-    }
-
-    private static <E extends Enum<E> & IItemProvider & IStringSerializable> void registerFromEnum(Class<E> enumClass) {
-        for (E e : enumClass.getEnumConstants()) {
-            register(ForgeRegistries.ITEMS, e.getName(), e.asItem());
+            register(name.apply(gem), factory.apply(gem));
         }
     }
 }

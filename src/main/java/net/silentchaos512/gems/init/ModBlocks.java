@@ -26,7 +26,7 @@ public final class ModBlocks {
     private ModBlocks() {}
 
     public static void registerAll(RegistryEvent.Register<Block> event) {
-        if (event.getRegistry().getRegistrySuperType() != Block.class) return;
+        if (!event.getRegistry().getRegistryName().equals(ForgeRegistries.BLOCKS.getRegistryName())) return;
 
         registerGemBlocks(Gems::getOre, gem -> gem.getName() + "_ore");
         registerGemBlocks(Gems::getBlock, gem -> gem.getName() + "_block");
