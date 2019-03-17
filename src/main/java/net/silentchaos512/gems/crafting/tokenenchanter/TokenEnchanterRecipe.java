@@ -13,7 +13,10 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.silentchaos512.gems.item.ChaosRune;
 import net.silentchaos512.gems.item.EnchantmentToken;
+import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
+import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
 import net.silentchaos512.lib.collection.StackList;
 
 import java.util.LinkedHashMap;
@@ -84,6 +87,8 @@ public class TokenEnchanterRecipe {
         // Result
         JsonObject resultJson = json.get("result").getAsJsonObject();
         recipe.result = deserializeItem(resultJson);
+
+        // Enchantments (for tokens, and maybe other things)
         JsonElement elem = resultJson.get("enchantments");
         if (elem != null) {
             for (JsonElement elem1 : elem.getAsJsonArray()) {
@@ -96,6 +101,18 @@ public class TokenEnchanterRecipe {
                 } else {
                     int level = JsonUtils.getInt(elemObj, "level", 1);
                     addEnchantment(recipe.result, enchantment, level);
+                }
+            }
+        }
+
+        // Chaos rune buff
+        if (recipe.result.getItem() instanceof ChaosRune) {
+            JsonElement elem1 = resultJson.get("buff");
+            if (elem1 != null) {
+                String str = elem1.getAsString();
+                IChaosBuff buff = ChaosBuffManager.get(str);
+                if (buff != null) {
+                    recipe.result = ChaosRune.getStack(buff);
                 }
             }
         }

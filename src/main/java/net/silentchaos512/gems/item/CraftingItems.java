@@ -59,6 +59,7 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
     GILDED_STRING,
     GILDED_BOWSTRING,
     BLANK_TOKEN,
+    RUNE_SLATE,
     SOUL_SHELL,
     MYSTERY_GOO,
     IRON_POTATO,

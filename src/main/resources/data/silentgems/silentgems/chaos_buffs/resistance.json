@@ -1,10 +1,10 @@
 {
     "type": "silentgems:potion",
-    "potion": "minecraft:r",
+    "potion": "minecraft:resistance",
     "maxLevel": 2,
     "displayName": {
         "translate": true,
-        "name": "effect.minecraft.regeneration"
+        "name": "effect.minecraft.resistance"
     },
     "slots": [
         8,

@@ -1,0 +1,23 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "#/#",
+    "/o/",
+    "#/#"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:stone"
+    },
+    "/": {
+      "item": "silentgems:enriched_chaos_crystal"
+    },
+    "o": {
+      "tag": "forge:dusts/redstone"
+    }
+  },
+  "result": {
+    "item": "silentgems:rune_slate",
+    "count": 2
+  }
+}

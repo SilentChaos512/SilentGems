@@ -1,0 +1,19 @@
+{
+  "chaosGenerated": 250,
+  "processTime": 100,
+  "ingredients": {
+    "token": {
+      "item": "silentgems:rune_slate"
+    },
+    "others": [
+      {
+        "item": "minecraft:fermented_spider_eye",
+        "count": 4
+      }
+    ]
+  },
+  "result": {
+    "item": "silentgems:chaos_rune",
+    "buff": "silentgems:invisibility"
+  }
+}

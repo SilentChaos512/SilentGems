@@ -324,6 +324,7 @@
     "item.silentgems.return_home_charm.notBound": "Not bound. Right-click on a Teleporter.",
     "item.silentgems.return_home_charm.notSafe": "Destination obstructed! There is a solid block at head level!",
     "item.silentgems.return_home_charm.notSane": "Destination Y is less than or equal to zero! Try re-linking!",
+    "item.silentgems.rune_slate": "Rune Slate",
     "item.silentgems.secret_donut": "Secret Donut",
     "item.silentgems.secret_donut.desc": "You cannot comprehend this donut",
     "item.silentgems.shiny_plume": "Shiny Plume",
