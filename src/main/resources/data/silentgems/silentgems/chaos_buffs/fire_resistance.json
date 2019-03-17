@@ -1,0 +1,17 @@
+{
+    "type": "silentgems:potion",
+    "potion": "minecraft:fire_resistance",
+    "maxLevel": 1,
+    "displayName": {
+        "translate": true,
+        "name": "effect.minecraft.fire_resistance"
+    },
+    "slots": 8,
+    "cost": {
+        "inactive": 5,
+        "active": 200,
+        "conditions": [
+            "burning"
+        ]
+    }
+}

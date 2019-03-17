@@ -3,13 +3,10 @@ package net.silentchaos512.gems.init;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.RecipeSerializers;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.crafting.ApplyEnchantmentTokenRecipe;
-import net.silentchaos512.gems.crafting.ModifySoulUrnRecipe;
-import net.silentchaos512.gems.crafting.SoulGemIngredient;
-import net.silentchaos512.gems.crafting.SoulUrnRecipe;
-import net.silentchaos512.lib.util.GameUtil;
+import net.silentchaos512.gems.crafting.*;
 
 public final class ModRecipes {
     private ModRecipes() {}
@@ -17,12 +14,13 @@ public final class ModRecipes {
     public static void init() {
         SoulGemIngredient.Serializer.register();
 
+        RecipeSerializers.register(ApplyChaosRuneRecipe.Serializer.INSTANCE);
         RecipeSerializers.register(ApplyEnchantmentTokenRecipe.Serializer.INSTANCE);
         RecipeSerializers.register(ModifySoulUrnRecipe.Serializer.INSTANCE);
         RecipeSerializers.register(SoulUrnRecipe.Serializer.INSTANCE);
 
-        if (GameUtil.isDeobfuscated()) {
-            //MinecraftForge.EVENT_BUS.addListener(ModRecipes::onPlayerJoinServer);
+        if (SilentGems.isDevBuild()) {
+            MinecraftForge.EVENT_BUS.addListener(ModRecipes::onPlayerJoinServer);
         }
     }
 

@@ -1,0 +1,27 @@
+{
+    "type": "silentgems:potion",
+    "potion": "minecraft:jump_boost",
+    "maxLevel": 4,
+    "displayName": {
+        "translate": true,
+        "name": "effect.minecraft.jump_boost"
+    },
+    "slots": [
+        4,
+        5,
+        6,
+        7
+    ],
+    "cost": {
+        "inactive": 0,
+        "active": [
+            10,
+            12,
+            14,
+            16
+        ],
+        "conditions": [
+            "in_air"
+        ]
+    }
+}

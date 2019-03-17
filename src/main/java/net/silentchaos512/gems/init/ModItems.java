@@ -40,6 +40,9 @@ public final class ModItems {
         registerGemItems(Gems::getReturnHomeCharm, gem -> gem.getName() + "_return_home_charm");
         register("teleporter_linker", TeleporterLinker.INSTANCE.get());
 
+        registerGemItems(Gems::getChaosGem, gem -> "chaos_" + gem.getName());
+        register("chaos_rune", ChaosRune.INSTANCE.get());
+
         register("fluffy_puff_seeds", FluffyPuffSeeds.INSTANCE.get());
         register("glowrose_fertilizer", GlowroseFertilizer.INSTANCE.get());
 

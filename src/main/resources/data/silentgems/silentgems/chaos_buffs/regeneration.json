@@ -1,0 +1,23 @@
+{
+    "type": "silentgems:potion",
+    "potion": "minecraft:regeneration",
+    "maxLevel": 2,
+    "displayName": {
+        "translate": true,
+        "name": "effect.minecraft.regeneration"
+    },
+    "slots": [
+        8,
+        12
+    ],
+    "cost": {
+        "inactive": 10,
+        "active": [
+            42,
+            64
+        ],
+        "conditions": [
+            "hurt"
+        ]
+    }
+}

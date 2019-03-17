@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DeferredWorkQueue;
@@ -23,6 +24,7 @@ import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManag
 import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.item.TeleporterLinker;
 import net.silentchaos512.gems.lib.ColorHandlers;
+import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
 import net.silentchaos512.gems.lib.soul.Soul;
 import net.silentchaos512.gems.util.gen.GenModels;
 import net.silentchaos512.gems.util.gen.GenRecipes;
@@ -92,7 +94,10 @@ class SideProxy {
     }
 
     private void serverAboutToStart(FMLServerAboutToStartEvent event) {
-        event.getServer().getResourceManager().addReloadListener(TokenEnchanterRecipeManager.INSTANCE);
+        IReloadableResourceManager resourceManager = event.getServer().getResourceManager();
+        resourceManager.addReloadListener(ChaosBuffManager.INSTANCE);
+        resourceManager.addReloadListener(TokenEnchanterRecipeManager.INSTANCE);
+
         CommandDispatcher<CommandSource> dispatcher = event.getServer().getCommandManager().getDispatcher();
         ChaosCommand.register(dispatcher);
         if (SilentGems.isDevBuild()) {

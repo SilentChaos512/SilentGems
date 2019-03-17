@@ -1,0 +1,25 @@
+{
+    "type": "silentgems:potion",
+    "potion": "minecraft:levitation",
+    "maxLevel": 4,
+    "displayName": {
+        "translate": true,
+        "name": "effect.minecraft.levitation"
+    },
+    "slots": [
+        4,
+        5,
+        6,
+        7
+    ],
+    "cost": {
+        "inactive": 0,
+        "active": [
+            35,
+            40,
+            45,
+            50
+        ],
+        "conditions": []
+    }
+}

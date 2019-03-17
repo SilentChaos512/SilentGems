@@ -73,6 +73,9 @@ public final class GenModels {
             ModelGenerator.create(ItemBuilder.create(gem.getReturnHomeCharm())
                     .texture("return_home_gem")
                     .texture("return_home_base"));
+            // Chaos Gem
+            ModelGenerator.create(ItemBuilder.create(gem.getChaosGem())
+                    .texture("chaos_gem/" + gem.getName()));
         }
 
         ModelGenerator.create(BlockBuilder.create(TeleporterAnchor.INSTANCE.get())

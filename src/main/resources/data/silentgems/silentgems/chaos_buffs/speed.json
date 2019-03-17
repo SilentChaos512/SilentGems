@@ -1,0 +1,27 @@
+{
+    "type": "silentgems:potion",
+    "potion": "minecraft:speed",
+    "maxLevel": 4,
+    "displayName": {
+        "translate": true,
+        "name": "effect.minecraft.speed"
+    },
+    "slots": [
+        4,
+        5,
+        6,
+        7
+    ],
+    "cost": {
+        "inactive": 2,
+        "active": [
+            20,
+            24,
+            28,
+            32
+        ],
+        "conditions": [
+            "moving"
+        ]
+    }
+}

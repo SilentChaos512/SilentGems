@@ -1,0 +1,16 @@
+{
+    "type": "silentgems:potion",
+    "potion": "minecraft:night_vision",
+    "effectDuration": 410,
+    "maxLevel": 1,
+    "displayName": {
+        "translate": true,
+        "name": "effect.minecraft.night_vision"
+    },
+    "slots": 2,
+    "cost": {
+        "inactive": 0,
+        "active": 20,
+        "conditions": []
+    }
+}

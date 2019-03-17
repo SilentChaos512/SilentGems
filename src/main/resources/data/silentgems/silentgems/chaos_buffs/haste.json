@@ -1,0 +1,23 @@
+{
+    "type": "silentgems:potion",
+    "potion": "minecraft:haste",
+    "maxLevel": 2,
+    "displayName": {
+        "translate": true,
+        "name": "effect.minecraft.haste"
+    },
+    "slots": [
+        4,
+        6
+    ],
+    "cost": {
+        "inactive": 3,
+        "active": [
+            30,
+            36,
+            42,
+            48
+        ],
+        "conditions": []
+    }
+}

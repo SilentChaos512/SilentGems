@@ -16,6 +16,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.block.teleporter.GemTeleporter;
 import net.silentchaos512.gems.block.teleporter.GemTeleporterRedstone;
+import net.silentchaos512.gems.item.ChaosGem;
 import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.item.GemShard;
 import net.silentchaos512.gems.item.ReturnHomeCharm;
@@ -98,6 +99,7 @@ public enum Gems implements IStringSerializable {
     final Lazy<GemItem> item;
     final Lazy<GemShard> shard;
     final Lazy<ReturnHomeCharm> returnHomeCharm;
+    final Lazy<ChaosGem> chaosGem;
 
     // Tags
     final Tag<Block> blockTag;
@@ -128,6 +130,7 @@ public enum Gems implements IStringSerializable {
         this.item = Lazy.of(() -> new GemItem(this));
         this.shard = Lazy.of(() -> new GemShard(this));
         this.returnHomeCharm = Lazy.of(() -> new ReturnHomeCharm(this));
+        this.chaosGem = Lazy.of(() -> new ChaosGem(this));
 
         // Tags
         this.blockTag = new BlockTags.Wrapper(new ResourceLocation("forge", "storage_blocks/" + this.getName()));
@@ -294,6 +297,10 @@ public enum Gems implements IStringSerializable {
 
     public ReturnHomeCharm getReturnHomeCharm() {
         return returnHomeCharm.get();
+    }
+
+    public ChaosGem getChaosGem() {
+        return chaosGem.get();
     }
 
     public Set getSet() {
