@@ -5,6 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Chaos gems and chaos runes are back. Both are crafted in the token enchanter.
 - More advancements (supercharger pillar tiers, teleporters, and more)
 - Teleporter linker recipe
 - Ender slime spawns (plus spawn egg)

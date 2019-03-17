@@ -10,6 +10,7 @@ import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.urn.BlockSoulUrn;
 import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.item.ChaosRune;
 import net.silentchaos512.gems.item.EnchantmentToken;
 import net.silentchaos512.gems.item.ReturnHomeCharm;
 import net.silentchaos512.gems.item.SoulGem;
@@ -50,15 +51,7 @@ public final class ColorHandlers {
 //        itemColors.register((stack, tintIndex) -> tintIndex == 0 ? ModItems.drawingCompass.getColor(stack).getColor() : 0xFFFFFF, ModItems.drawingCompass);
 
         // Chaos Runes
-//        itemColors.registerItemColorHandler((stack, tintIndex) -> {
-//            if (tintIndex == 1) {
-//                ChaosBuff buff = ModItems.chaosRune.getBuff(stack);
-//                if (buff != null) {
-//                    return buff.getColor();
-//                }
-//            }
-//            return 0xFFFFFF;
-//        }, ModItems.chaosRune);
+        registerItems(colors, ChaosRune::getColor, ChaosRune.INSTANCE.get());
 
         // Holding Gem
 //        itemColors.registerItemColorHandler((stack, tintIndex) -> {
