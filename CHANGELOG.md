@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.0.8] - 2019-03-16
 ### Added
 - Chaos gems and chaos runes are back. Both are crafted in the token enchanter.
 - More advancements (supercharger pillar tiers, teleporters, and more)
@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enriched chaos crystals are now crafted in the token enchanter (same ingredients)
 - Reorganized some advancements
 ### Fixed
+- "Modify soul urn" recipe is working again. Craft a soul urn with a gem or dyes to change its appearance. Dyeing working just like leather armor.
 - Chaos dust is now craftable (and therefore chaos iron)
 - Ender slime loot table
 

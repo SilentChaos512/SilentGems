@@ -13,6 +13,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.urn.IUrnUpgradeItem;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ModifySoulUrnRecipe implements IRecipe {
-    private static final ResourceLocation NAME = new ResourceLocation(SilentGems.MOD_ID, "modify_soul_urn");
+    private static final ResourceLocation NAME = SilentGems.getId("modify_soul_urn");
 
     @Override
     public boolean matches(IInventory inv, World worldIn) {
@@ -70,8 +71,7 @@ public class ModifySoulUrnRecipe implements IRecipe {
     }
 
     private static boolean isSoulUrn(ItemStack stack) {
-        // FIXME
-        return false;
+        return stack.getItem() == ModBlocks.soulUrn.asItem();
     }
 
     private static boolean isModifierItem(ItemStack stack) {
