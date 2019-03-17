@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.8.16] - 2019-03-17
+### Fixed
+- Secret donut text causing server crash
+
 ## [2.8.15] - 2019-02-04
 ### Fixed
 - Possible crash when crafting tool souls [#352]

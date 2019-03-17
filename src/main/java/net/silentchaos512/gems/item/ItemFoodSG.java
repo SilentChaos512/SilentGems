@@ -16,6 +16,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
@@ -25,6 +27,7 @@ import net.silentchaos512.lib.registry.IAddRecipes;
 import net.silentchaos512.lib.registry.ICustomModel;
 import net.silentchaos512.lib.registry.RecipeMaker;
 import net.silentchaos512.lib.util.ChatHelper;
+import net.silentchaos512.lib.util.MathUtils;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -184,15 +187,8 @@ public class ItemFoodSG extends ItemFood implements IAddRecipes, ICustomModel {
 
         // Add chat message
         if (SilentGems.random.nextFloat() < GemsConfig.FOOD_SECRET_DONUT_TEXT_CHANCE) {
-            List<String> list = new ArrayList<>();
-            int i = 1;
-            String key = "donut." + SilentGems.MODID + "." + i;
-            do {
-                list.add(SilentGems.i18n.translate(key));
-                key = "donut." + SilentGems.MODID + "." + (++i);
-            } while (SilentGems.i18n.hasKey(key));
-            String line = list.get(SilentGems.random.nextInt(list.size()));
-            ChatHelper.sendMessage(player, line);
+            int index = MathUtils.nextIntInclusive(1, 8);
+            player.sendMessage(new TextComponentTranslation("donut.silentgems." + index));
         }
     }
 
