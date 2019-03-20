@@ -19,5 +19,6 @@
     "item": "silentgems:soul_urn"
   },
   "urn_clay_color": "#1D1D21",
-  "type": "silentgems:soul_urn"
+  "type": "silentgems:soul_urn",
+  "group": "silentgems:soul_urns"
 }

@@ -3,7 +3,6 @@ package net.silentchaos512.gems.crafting;
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.RecipeSerializers;
 import net.minecraft.item.crafting.ShapedRecipe;
@@ -20,10 +19,11 @@ import net.silentchaos512.lib.collection.StackList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class GearSoulRecipe implements IRecipe {
+public class GearSoulRecipe extends ShapedRecipe {
     private final ShapedRecipe recipe;
 
     public GearSoulRecipe(ShapedRecipe recipe) {
+        super(recipe.getId(), recipe.getGroup(), recipe.getRecipeWidth(), recipe.getRecipeHeight(), recipe.getIngredients(), recipe.getRecipeOutput());
         this.recipe = recipe;
     }
 
@@ -55,11 +55,6 @@ public class GearSoulRecipe implements IRecipe {
     @Override
     public ItemStack getRecipeOutput() {
         return recipe.getRecipeOutput();
-    }
-
-    @Override
-    public boolean isDynamic() {
-        return true;
     }
 
     @Override

@@ -3,7 +3,6 @@ package net.silentchaos512.gems.crafting;
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.RecipeSerializers;
 import net.minecraft.item.crafting.ShapedRecipe;
@@ -18,7 +17,7 @@ import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.lib.collection.StackList;
 import net.silentchaos512.utils.Color;
 
-public class SoulUrnRecipe implements IRecipe {
+public final class SoulUrnRecipe extends ShapedRecipe {
     private static final ResourceLocation NAME = new ResourceLocation(SilentGems.MOD_ID, "soul_urn");
 
     // We're piggybacking on this ShapedRecipe. Just need to add an extra property on top (color).
@@ -26,8 +25,9 @@ public class SoulUrnRecipe implements IRecipe {
     // The clay color of the urn being crafted. Typically matches the terracotta color, could be anything.
     private final int color;
 
-    private SoulUrnRecipe(ShapedRecipe recipeTemplate, int color) {
-        this.recipe = recipeTemplate;
+    private SoulUrnRecipe(ShapedRecipe recipe, int color) {
+        super(recipe.getId(), recipe.getGroup(), recipe.getRecipeWidth(), recipe.getRecipeHeight(), recipe.getIngredients(), recipe.getRecipeOutput());
+        this.recipe = recipe;
         this.color = color;
     }
 
@@ -41,7 +41,7 @@ public class SoulUrnRecipe implements IRecipe {
         StackList list = StackList.from(inv);
         ItemStack gemStack = list.firstOfType(GemItem.class);
         Gems gem = Gems.from(gemStack);
-        return ModBlocks.soulUrn.getStack(color, gem);
+        return ModBlocks.soulUrn.getStack(this.color, gem);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class SoulUrnRecipe implements IRecipe {
 
     @Override
     public ItemStack getRecipeOutput() {
-        return recipe.getRecipeOutput();
+        return ModBlocks.soulUrn.getStack(this.color, null);
     }
 
     @Override
