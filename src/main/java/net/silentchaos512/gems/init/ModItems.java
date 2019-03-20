@@ -7,6 +7,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.CorruptedBlocks;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.item.*;
 import net.silentchaos512.gems.lib.Gems;
 
@@ -31,6 +32,9 @@ public final class ModItems {
         registerGemItems(Gems::getShard, gem -> gem.getName() + "_shard");
 
         register("soul_gem", SoulGem.INSTANCE.get());
+        if (SGearProxy.isLoaded()) {
+            register("gear_soul", GearSoulItem.INSTANCE.get());
+        }
 
         for (CraftingItems item : CraftingItems.values()) {
             register(item.getName(), item.asItem());

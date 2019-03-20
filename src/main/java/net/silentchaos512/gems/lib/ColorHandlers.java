@@ -10,10 +10,7 @@ import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.urn.BlockSoulUrn;
 import net.silentchaos512.gems.init.ModBlocks;
-import net.silentchaos512.gems.item.ChaosRune;
-import net.silentchaos512.gems.item.EnchantmentToken;
-import net.silentchaos512.gems.item.ReturnHomeCharm;
-import net.silentchaos512.gems.item.SoulGem;
+import net.silentchaos512.gems.item.*;
 
 import java.util.Arrays;
 
@@ -74,25 +71,8 @@ public final class ColorHandlers {
         // Soul Gems
         registerItems(colors, SoulGem::getColor, SoulGem.INSTANCE.get());
 
-        // Tool Soul
-//        itemColors.registerItemColorHandler((stack, tintIndex) -> {
-//            ToolSoul soul = ModItems.toolSoul.getSoul(stack);
-//            if (soul == null)
-//                return tintIndex == 1 ? 0xFF00FF : tintIndex == 2 ? 0x0 : 0xFFFFFF;
-//
-//            switch (tintIndex) {
-//                case 0:
-//                    float ratio = 0.5f + MathHelper.sin((float) ClientTickHandler.ticksInGame / 15) / 6;
-//                    return Color.blend(soul.getPrimaryElement().color, soul.getSecondaryElement().color,
-//                            ratio);
-//                case 1:
-//                    return soul.getPrimaryElement().color;
-//                case 2:
-//                    return soul.getSecondaryElement().color;
-//                default:
-//                    return 0xFFFFFF;
-//            }
-//        }, ModItems.toolSoul);
+        // Gear Soul
+        registerItems(colors, GearSoulItem::getColor, GearSoulItem.INSTANCE.get());
     }
 
     private static void registerBlocks(BlockColors handler, IBlockColor blockColor, Block... blocks) {

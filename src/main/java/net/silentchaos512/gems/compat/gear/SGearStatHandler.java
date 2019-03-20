@@ -66,7 +66,7 @@ public class SGearStatHandler {
         int supercharged = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.supercharged, stack);
 
         if (supercharged > 0 && BOOSTED_STATS.containsKey(event.getStat())) {
-            float chargeability = CHARGEABILITY.compute(0, event.getPart().getStatModifiers(CHARGEABILITY));
+            float chargeability = CHARGEABILITY.compute(0, event.getPart().getStatModifiers(ItemStack.EMPTY, CHARGEABILITY));
             if (chargeability == 0) chargeability = 1;
             float chargeLevel = chargeability * supercharged;
 

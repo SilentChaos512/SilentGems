@@ -54,4 +54,13 @@ public enum SoulElement {
             return NONE;
         return values()[MathUtils.nextIntInclusive(random, 1, SoulElement.values().length - 1)];
     }
+
+    public static SoulElement fromString(String str) {
+        for (SoulElement element : values()) {
+            if (element.name().equalsIgnoreCase(str)) {
+                return element;
+            }
+        }
+        return NONE;
+    }
 }

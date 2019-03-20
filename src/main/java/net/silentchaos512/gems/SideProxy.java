@@ -21,6 +21,7 @@ import net.silentchaos512.gems.command.HungryCommand;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
+import net.silentchaos512.gems.util.SoulEvents;
 import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.item.TeleporterLinker;
 import net.silentchaos512.gems.lib.ColorHandlers;
@@ -36,6 +37,8 @@ import java.util.function.BiFunction;
 class SideProxy {
     SideProxy() {
         SilentGems.LOGGER.debug("Gems SideProxy init");
+
+        SGearProxy.detectSilentGear();
 
         getLifeCycleEventBus().addListener(this::commonSetup);
         getLifeCycleEventBus().addListener(this::imcEnqueue);
@@ -57,6 +60,10 @@ class SideProxy {
 
         registerContainersCommon();
 
+        if (SGearProxy.isLoaded()) {
+            MinecraftForge.EVENT_BUS.register(SoulEvents.INSTANCE);
+        }
+
         if (SilentGems.isDevBuild()) {
             SilentGems.LOGGER.info("Silent's Gems (version {}) detected as a dev build. If this is not a development environment, this is a bug!", SilentGems.getVersion());
         }
@@ -71,7 +78,6 @@ class SideProxy {
 
         ChaosSourceCapability.register();
 
-        SGearProxy.detectSilentGear();
         if (SGearProxy.isLoaded()) {
             // Register new stats
             MinecraftForge.EVENT_BUS.register(new SGearStatHandler());
@@ -121,6 +127,7 @@ class SideProxy {
             MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onBlockColors);
             MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onItemColors);
             MinecraftForge.EVENT_BUS.addListener(TeleporterLinker::renderGameOverlay);
+            MinecraftForge.EVENT_BUS.register(SoulEvents.Client.INSTANCE);
 
 //            OBJLoader.INSTANCE.addDomain(SilentGems.MOD_ID);
 

@@ -1,0 +1,19 @@
+{
+  "type": "silentgems:gear_soul",
+  "pattern": [
+    " # ",
+    "#s#",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:soul_gem"
+    },
+    "s": {
+      "item": "silentgems:soul_shell"
+    }
+  },
+  "result": {
+    "item": "silentgems:gear_soul"
+  }
+}

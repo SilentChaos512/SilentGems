@@ -1,0 +1,9 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "silentgems:item/gear_soul_middle",
+    "layer1": "silentgems:item/gear_soul_left",
+    "layer2": "silentgems:item/gear_soul_right",
+    "layer3": "silentgems:item/gear_soul_highlight"
+  }
+}

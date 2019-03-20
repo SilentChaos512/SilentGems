@@ -16,6 +16,8 @@ public final class ModRecipes {
 
         RecipeSerializers.register(ApplyChaosRuneRecipe.Serializer.INSTANCE);
         RecipeSerializers.register(ApplyEnchantmentTokenRecipe.Serializer.INSTANCE);
+        RecipeSerializers.register(ApplyGearSoulRecipe.Serializer.INSTANCE);
+        RecipeSerializers.register(GearSoulRecipe.Serializer.INSTANCE);
         RecipeSerializers.register(ModifySoulUrnRecipe.Serializer.INSTANCE);
         RecipeSerializers.register(SoulUrnRecipe.Serializer.INSTANCE);
 
