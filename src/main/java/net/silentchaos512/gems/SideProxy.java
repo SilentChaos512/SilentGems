@@ -52,7 +52,8 @@ class SideProxy {
         getLifeCycleEventBus().addListener(ModEnchantments::registerAll);
         getLifeCycleEventBus().addListener(ModEntities::registerAll);
         getLifeCycleEventBus().addListener(ModItems::registerAll);
-        getLifeCycleEventBus().addListener(ModPotions::registerAll);
+        getLifeCycleEventBus().addListener(ModPotions::registerPotions);
+        getLifeCycleEventBus().addListener(ModPotions::registerPotionTypes);
         getLifeCycleEventBus().addListener(ModSounds::registerAll);
         getLifeCycleEventBus().addListener(ModTileEntities::registerAll);
 

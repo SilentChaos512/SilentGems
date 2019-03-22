@@ -8,6 +8,7 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.silentchaos512.gems.init.ModPotions;
 import net.silentchaos512.gems.util.ModDamageSource;
 
 import java.util.List;
@@ -26,8 +27,10 @@ public class PotionShocking extends Potion {
 
     public PotionShocking() {
         super(true, 0xf5ff3d);
-//        setPotionName("effect." + SilentGems.MOD_ID + ".shocking");
-        modifier = new AttributeModifier(UUID.fromString("966ce179-1967-4b80-b894-bc743f1edbef"), getName(), -0.3, 2);
+        modifier = new AttributeModifier(
+                UUID.fromString("966ce179-1967-4b80-b894-bc743f1edbef"),
+                "silentgems:shocking_weakness",
+                -0.3, 2);
     }
 
     @Override
@@ -39,7 +42,7 @@ public class PotionShocking extends Potion {
 
         tryChaining(entity, shockTimer, amplifier);
 
-        if (!entity.world.isRemote && CONTINUOUS_DAMAGE_ENABLED) {
+        if (!entity.world.isRemote && CONTINUOUS_DAMAGE_ENABLED && !isGrounded(entity)) {
             // Continuous shock damage
             // Add entity ID for a bit of "randomness" in the delay
             if ((shockTimer + entity.getEntityId()) % CONTINUOUS_DAMAGE_DELAY == 0) {
@@ -81,6 +84,10 @@ public class PotionShocking extends Potion {
                 e.getDistanceSq(source) < CHAIN_RADIUS_SQUARED && !(e instanceof EntityPlayer));
     }
 
+    private static boolean isGrounded(EntityLivingBase entity) {
+        return entity.getActivePotionEffect(ModPotions.grounded) != null;
+    }
+
     @Override
     public boolean isReady(int duration, int amplifier) {
         return true;
@@ -88,6 +95,8 @@ public class PotionShocking extends Potion {
 
     @Override
     public void applyAttributesModifiersToEntity(EntityLivingBase entity, AbstractAttributeMap attributeMap, int amplifier) {
+        if (isGrounded(entity)) return;
+
         IAttributeInstance iattributeinstance = attributeMap.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
 
         if (iattributeinstance != null) {

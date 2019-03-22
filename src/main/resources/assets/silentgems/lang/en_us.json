@@ -163,6 +163,8 @@
     "donut.silentgems.7": "The donut whispers in a tiny voice... \"Tell your friends!\"",
     "donut.silentgems.8": "You feel... something.",
     "effect.silentgems.freezing": "Freezing",
+    "effect.silentgems.grounded": "Grounded",
+    "effect.silentgems.insulated": "Insulated",
     "effect.silentgems.shocking": "Shocking",
     "enchantment.silentgems.gravity": "Gravity",
     "enchantment.silentgems.gravity.desc": "Improves harvest speed while flying or underwater",

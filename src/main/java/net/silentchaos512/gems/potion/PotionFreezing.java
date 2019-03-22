@@ -8,6 +8,7 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.silentchaos512.gems.init.ModPotions;
 import net.silentchaos512.gems.util.ModDamageSource;
 
 import java.util.UUID;
@@ -22,13 +23,15 @@ public class PotionFreezing extends Potion {
 
     public PotionFreezing() {
         super(true, 0x8cfbff);
-//    setPotionName("effect." + SilentGems.MOD_ID + ".freezing");
-        modifier = new AttributeModifier(UUID.fromString("c45e3a61-996a-4cea-977c-5d315365631a"), getName(), -0.5, 2);
+        modifier = new AttributeModifier(
+                UUID.fromString("c45e3a61-996a-4cea-977c-5d315365631a"),
+                "silentgems:freezing_slowness",
+                -0.5, 2);
     }
 
     @Override
     public void performEffect(EntityLivingBase entityLiving, int amplifier) {
-        if (CONTINUOUS_DAMAGE_ENABLED) {
+        if (CONTINUOUS_DAMAGE_ENABLED && !isInsulated(entityLiving)) {
             // Continuous freeze damage.
             PotionEffect effect = entityLiving.getActivePotionEffect(this);
             if (effect == null)
@@ -58,6 +61,10 @@ public class PotionFreezing extends Potion {
 //        }
     }
 
+    private static boolean isInsulated(EntityLivingBase entity) {
+        return entity.getActivePotionEffect(ModPotions.insulated) != null;
+    }
+
     @Override
     public boolean isReady(int duration, int amplifier) {
         // DoT delay can vary by mob, so we handle that in performEffect instead.
@@ -66,6 +73,8 @@ public class PotionFreezing extends Potion {
 
     @Override
     public void applyAttributesModifiersToEntity(EntityLivingBase entity, AbstractAttributeMap attributeMap, int amplifier) {
+        if (isInsulated(entity)) return;
+
         IAttributeInstance iattributeinstance = attributeMap.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
 
         if (iattributeinstance != null) {
