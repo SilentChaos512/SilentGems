@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - A server crash (EntityPlayerSP in ChaosGem)
 - Crash when Silent Gear is not loaded
+- Fluffy puffs not growing [#360]
 
 ## [3.0.8] - 2019-03-16
 ### Added
