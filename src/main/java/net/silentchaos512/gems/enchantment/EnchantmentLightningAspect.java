@@ -9,7 +9,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.potion.PotionEffect;
-import net.silentchaos512.gems.event.GemsCommonEvents;
+import net.silentchaos512.gems.event.EnchantmentEvents;
 import net.silentchaos512.gems.init.ModPotions;
 
 public class EnchantmentLightningAspect extends Enchantment {
@@ -50,8 +50,8 @@ public class EnchantmentLightningAspect extends Enchantment {
     }
 
     /**
-     * Apply effect to mob. Called in {@link GemsCommonEvents#onLivingAttack}. Also see {@link
-     * GemsCommonEvents#onLivingUpdate}.
+     * Apply effect to mob. Called in {@link EnchantmentEvents#onLivingAttack}. Also see {@link
+     * EnchantmentEvents#onLivingUpdate}.
      */
     public static void applyTo(EntityLivingBase entityLiving, int enchLevel, int duration) {
         int amplifier = enchLevel - 1;

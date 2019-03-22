@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A server crash (EntityPlayerSP in ChaosGem)
 - Crash when Silent Gear is not loaded
 - Fluffy puffs not growing [#360]
+- Life Steal, Lightning Aspect, and Ice Aspect not working (Gravity still seems off)
 
 ## [3.0.8] - 2019-03-16
 ### Added

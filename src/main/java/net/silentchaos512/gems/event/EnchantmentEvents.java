@@ -1,25 +1,25 @@
 package net.silentchaos512.gems.event;
 
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.enchantment.EnchantmentIceAspect;
 import net.silentchaos512.gems.enchantment.EnchantmentLifeSteal;
 import net.silentchaos512.gems.enchantment.EnchantmentLightningAspect;
 import net.silentchaos512.gems.init.ModEnchantments;
-import net.silentchaos512.gems.item.CraftingItems;
-import net.silentchaos512.utils.MathUtils;
 
-public class GemsCommonEvents {
+@Mod.EventBusSubscriber(modid = SilentGems.MOD_ID)
+public final class EnchantmentEvents {
+    private EnchantmentEvents() {}
+
     @SubscribeEvent
-    public void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
+    public static void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
 
         EntityPlayer player = event.getEntityPlayer();
         ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
@@ -72,13 +72,6 @@ public class GemsCommonEvents {
             if (lightningAspectLevel > 0) {
                 EnchantmentLightningAspect.applyTo(event.getEntityLiving(), lightningAspectLevel);
             }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onLivingDrops(LivingDropsEvent event) {
-        if (event.getEntity() instanceof EntityWitch && MathUtils.tryPercentage(0.01)) {
-            event.getDrops().add(event.getEntity().entityDropItem(new ItemStack(CraftingItems.LOLINOMICON)));
         }
     }
 }
