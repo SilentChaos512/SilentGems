@@ -11,8 +11,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.client.handler.ClientTicks;
 import net.silentchaos512.gems.tile.TileChaosAltar;
+import net.silentchaos512.lib.event.ClientTicks;
 
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.crafting;
+package net.silentchaos512.gems.crafting.recipe;
 
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.IInventory;
@@ -10,21 +10,25 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.item.SoulGem;
-import net.silentchaos512.gems.lib.soul.GearSoul;
-import net.silentchaos512.gems.lib.soul.Soul;
-import net.silentchaos512.gems.util.SoulManager;
+import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.item.GemItem;
+import net.silentchaos512.gems.lib.Gems;
+import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.lib.collection.StackList;
+import net.silentchaos512.utils.Color;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
+public final class SoulUrnRecipe extends ShapedRecipe {
+    private static final ResourceLocation NAME = new ResourceLocation(SilentGems.MOD_ID, "soul_urn");
 
-public class GearSoulRecipe extends ShapedRecipe {
+    // We're piggybacking on this ShapedRecipe. Just need to add an extra property on top (color).
     private final ShapedRecipe recipe;
+    // The clay color of the urn being crafted. Typically matches the terracotta color, could be anything.
+    private final int color;
 
-    public GearSoulRecipe(ShapedRecipe recipe) {
+    private SoulUrnRecipe(ShapedRecipe recipe, int color) {
         super(recipe.getId(), recipe.getGroup(), recipe.getRecipeWidth(), recipe.getRecipeHeight(), recipe.getIngredients(), recipe.getRecipeOutput());
         this.recipe = recipe;
+        this.color = color;
     }
 
     @Override
@@ -34,17 +38,10 @@ public class GearSoulRecipe extends ShapedRecipe {
 
     @Override
     public ItemStack getCraftingResult(IInventory inv) {
-        ItemStack result = recipe.getCraftingResult(inv);
-
-        // Grab the souls gems, collect the souls, and construct a gear soul
         StackList list = StackList.from(inv);
-        Collection<Soul> souls = list.allOfType(SoulGem.class).stream()
-                .map(SoulGem::getSoul)
-                .collect(Collectors.toList());
-        GearSoul gearSoul = GearSoul.construct(souls);
-        SoulManager.setSoul(result, gearSoul);
-
-        return result;
+        ItemStack gemStack = list.firstOfType(GemItem.class);
+        Gems gem = Gems.from(gemStack);
+        return ModBlocks.soulUrn.getStack(this.color, gem);
     }
 
     @Override
@@ -54,7 +51,12 @@ public class GearSoulRecipe extends ShapedRecipe {
 
     @Override
     public ItemStack getRecipeOutput() {
-        return recipe.getRecipeOutput();
+        return ModBlocks.soulUrn.getStack(this.color, null);
+    }
+
+    @Override
+    public String getGroup() {
+        return recipe.getGroup();
     }
 
     @Override
@@ -67,27 +69,29 @@ public class GearSoulRecipe extends ShapedRecipe {
         return Serializer.INSTANCE;
     }
 
-    public static final class Serializer implements IRecipeSerializer<GearSoulRecipe> {
-        private static final ResourceLocation NAME = SilentGems.getId("gear_soul");
+    public static final class Serializer implements IRecipeSerializer<SoulUrnRecipe> {
         public static final Serializer INSTANCE = new Serializer();
 
         private Serializer() { }
 
         @Override
-        public GearSoulRecipe read(ResourceLocation recipeId, JsonObject json) {
+        public SoulUrnRecipe read(ResourceLocation recipeId, JsonObject json) {
             ShapedRecipe recipe = RecipeSerializers.CRAFTING_SHAPED.read(recipeId, json);
-            return new GearSoulRecipe(recipe);
+            int color = Color.from(json, "urn_clay_color", UrnConst.UNDYED_COLOR).getColor();
+            return new SoulUrnRecipe(recipe, color);
         }
 
         @Override
-        public GearSoulRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
+        public SoulUrnRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
             ShapedRecipe recipe = RecipeSerializers.CRAFTING_SHAPED.read(recipeId, buffer);
-            return new GearSoulRecipe(recipe);
+            int color = buffer.readVarInt();
+            return new SoulUrnRecipe(recipe, color);
         }
 
         @Override
-        public void write(PacketBuffer buffer, GearSoulRecipe recipe) {
+        public void write(PacketBuffer buffer, SoulUrnRecipe recipe) {
             RecipeSerializers.CRAFTING_SHAPED.write(buffer, recipe.recipe);
+            buffer.writeVarInt(recipe.color);
         }
 
         @Override

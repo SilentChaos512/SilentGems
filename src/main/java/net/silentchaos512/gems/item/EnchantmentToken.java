@@ -24,9 +24,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.silentchaos512.gems.client.handler.ClientTicks;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.lib.event.ClientTicks;
 
 import javax.annotation.Nullable;
 import java.util.*;

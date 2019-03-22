@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.silentchaos512.gems.crafting;
+package net.silentchaos512.gems.crafting.recipe;
 
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.IInventory;

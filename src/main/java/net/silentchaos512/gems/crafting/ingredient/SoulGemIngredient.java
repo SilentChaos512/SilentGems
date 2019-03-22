@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.crafting;
+package net.silentchaos512.gems.crafting.ingredient;
 
 import com.google.gson.JsonObject;
 import net.minecraft.item.crafting.Ingredient;

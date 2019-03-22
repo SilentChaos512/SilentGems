@@ -6,7 +6,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.crafting.*;
+import net.silentchaos512.gems.crafting.ingredient.SoulGemIngredient;
+import net.silentchaos512.gems.crafting.recipe.*;
 
 public final class ModRecipes {
     private ModRecipes() {}
