@@ -14,11 +14,13 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.silentchaos512.gear.api.item.ICoreItem;
 import net.silentchaos512.gear.util.GearHelper;
 import net.silentchaos512.gear.util.TraitHelper;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.lib.soul.GearSoul;
 import net.silentchaos512.gems.lib.soul.SoulTraits;
+import net.silentchaos512.lib.util.PlayerUtils;
 import net.silentchaos512.lib.util.TimeUtils;
 
 public final class SoulEvents {
@@ -105,7 +107,7 @@ public final class SoulEvents {
 
     @SubscribeEvent
     public void onPlayerLogout(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent event) {
-        SoulManager.writeSoulsToNBT(event.getPlayer());
+        SoulManager.writeSoulsToNBT(event.getPlayer(), true);
     }
 
     @SubscribeEvent
@@ -124,6 +126,14 @@ public final class SoulEvents {
 
         if (ticks % SOUL_WRITE_DELAY == 0) {
             SoulManager.queueSoulsForWrite(player);
+        }
+
+        // TODO: Maybe make this less frequent? Or avoid using PlayerUtils.
+        for (ItemStack stack : PlayerUtils.getNonEmptyStacks(player, stack -> stack.getItem() instanceof ICoreItem)) {
+            GearSoul soul = SoulManager.getSoul(stack);
+            if (soul != null) {
+                soul.updateTick(stack, player);
+            }
         }
     }
 

@@ -7,6 +7,7 @@ import net.silentchaos512.gear.api.item.ICoreItem;
 import net.silentchaos512.gear.parts.PartData;
 import net.silentchaos512.gear.util.GearData;
 import net.silentchaos512.gear.util.GearHelper;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.GearSoulItem;
 import net.silentchaos512.gems.lib.soul.GearSoul;
 import net.silentchaos512.gems.lib.soul.GearSoulPart;
@@ -82,7 +83,7 @@ public final class SoulManager {
         }
     }
 
-    public static void queueSoulsForWrite(EntityPlayer player) {
+    static void queueSoulsForWrite(EntityPlayer player) {
         for (ItemStack tool : PlayerUtils.getNonEmptyStacks(player, true, true, true, s -> s.getItem() instanceof ICoreItem)) {
             GearSoul soul = getSoul(tool);
             if (soul != null) {
@@ -91,19 +92,17 @@ public final class SoulManager {
         }
     }
 
-    public static void writeSoulsToNBT(EntityPlayer player) {
+    static void writeSoulsToNBT(EntityPlayer player, boolean forceAll) {
         // Find all the players tools. Find the matching souls in the map.
         int count = 0;
         for (ItemStack tool : PlayerUtils.getNonEmptyStacks(player, true, true, true, s -> s.getItem() instanceof ICoreItem)) {
-            // UUID uuid = getSoulUUID(tool);
-            // ToolSoul soul = toolSoulMap.get(uuid);
             GearSoul soul = getSoul(tool);
-            if (soul != null) {
+            if (soul != null && (forceAll || soul.isReadyToSave())) {
                 setSoul(tool, soul);
                 ++count;
             }
         }
-        // SilentGems.logHelper.debug("Saved " + count + " tool(s) for " + player.getName());
+        SilentGems.LOGGER.info("Saved {} gear souls for {}", count, player.getScoreboardName());
     }
 
 

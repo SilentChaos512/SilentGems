@@ -454,6 +454,10 @@ public class GearSoul {
         }
     }
 
+    public boolean isReadyToSave() {
+        return this.readyToSave;
+    }
+
     public void setReadyToSave(boolean value) {
         this.readyToSave = value;
     }
