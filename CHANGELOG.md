@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Gear souls (formerly tool souls) are back! These work with Silent Gear items only. Soul skills are now learnable traits. Currently no way to customize the skill list, but it will likely happen. This means ANY trait could be made learnable, even user-defined traits.
+### Fixed
+- A server crash (EntityPlayerSP in ChaosGem)
+- Crash when Silent Gear is not loaded
 
 ## [3.0.8] - 2019-03-16
 ### Added

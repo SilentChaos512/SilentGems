@@ -21,6 +21,7 @@ import net.silentchaos512.gems.command.HungryCommand;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
+import net.silentchaos512.gems.lib.soul.GearSoulPart;
 import net.silentchaos512.gems.util.SoulEvents;
 import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.item.TeleporterLinker;
@@ -39,6 +40,9 @@ class SideProxy {
         SilentGems.LOGGER.debug("Gems SideProxy init");
 
         SGearProxy.detectSilentGear();
+        if (SGearProxy.isLoaded()) {
+            SilentGems.LOGGER.info("Register part type {}", GearSoulPart.TYPE);
+        }
 
         getLifeCycleEventBus().addListener(this::commonSetup);
         getLifeCycleEventBus().addListener(this::imcEnqueue);

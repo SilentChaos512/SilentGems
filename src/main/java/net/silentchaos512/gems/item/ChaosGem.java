@@ -16,6 +16,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.init.ModItemGroups;
@@ -223,6 +225,7 @@ public class ChaosGem extends Item implements IGem {
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         getBuffs(stack).forEach((buff, level) -> tooltip.add(buff.getDisplayName(level)));

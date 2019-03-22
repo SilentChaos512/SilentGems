@@ -5,7 +5,6 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.silentchaos512.gems.lib.soul.GearSoulPart;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,7 +15,7 @@ import java.util.Random;
 public final class SilentGems {
     public static final String MOD_ID = "silentgems";
     public static final String MOD_NAME = "Silent's Gems";
-    public static final String VERSION = "3.0.8";
+    public static final String VERSION = "3.0.9";
     public static final boolean RUN_GENERATORS = true;
     public static final String RESOURCE_PREFIX = MOD_ID + ":";
 
@@ -25,12 +24,6 @@ public final class SilentGems {
 
     public static SilentGems INSTANCE;
     public static SideProxy PROXY;
-
-    static {
-        // Make sure part type gets registered, hopefully before the serializers
-        // Should probably handle this differently in SGear?
-        SilentGems.LOGGER.info("Register part type {}", GearSoulPart.TYPE);
-    }
 
     public SilentGems() {
         INSTANCE = this;
