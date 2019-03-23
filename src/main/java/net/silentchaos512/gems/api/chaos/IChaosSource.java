@@ -8,4 +8,10 @@ public interface IChaosSource {
     default void addChaos(int amount) {
         setChaos(getChaos() + amount);
     }
+
+    default int dissipateChaos(int amount) {
+        int current = getChaos();
+        addChaos(-amount);
+        return Math.max(amount - current, 0);
+    }
 }

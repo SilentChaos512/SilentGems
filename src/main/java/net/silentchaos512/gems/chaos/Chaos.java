@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.chaos.IChaosSource;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.lib.util.DimPos;
 
@@ -25,8 +26,18 @@ public final class Chaos {
         }
     }
 
-    public static void dissipate(ICapabilityProvider obj, int amount) {
-        generate(obj, -amount);
+    public static void dissipate(World world, int amount) {
+        if (amount <= 0) return;
+        IChaosSource worldSource = world.getCapability(ChaosSourceCapability.INSTANCE).orElseThrow(IllegalStateException::new);
+        int amountLeft = worldSource.dissipateChaos(amount);
+        if (amountLeft <= 0) return;
+
+        // If all world chaos is gone, dissipate from players
+        int amountPerPlayer = amountLeft / world.playerEntities.size();
+        for (EntityPlayer player : world.playerEntities) {
+            player.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source ->
+                    source.dissipateChaos(amountPerPlayer));
+        }
     }
 
     public static int getDissipationRate(World world) {

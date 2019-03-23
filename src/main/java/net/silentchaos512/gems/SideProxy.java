@@ -15,13 +15,16 @@ import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silentchaos512.gems.chaos.ChaosSourceCapability;
+import net.silentchaos512.gems.client.gui.DebugOverlay;
 import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.gems.command.ChaosCommand;
 import net.silentchaos512.gems.command.HungryCommand;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
+import net.silentchaos512.gems.event.TraitEvents;
 import net.silentchaos512.gems.lib.soul.GearSoulPart;
+import net.silentchaos512.gems.network.Network;
 import net.silentchaos512.gems.util.SoulEvents;
 import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.item.TeleporterLinker;
@@ -39,9 +42,12 @@ class SideProxy {
     SideProxy() {
         SilentGems.LOGGER.debug("Gems SideProxy init");
 
+        // Detect Silent Gear and load anything needed for compatibility
         SGearProxy.detectSilentGear();
         if (SGearProxy.isLoaded()) {
             SilentGems.LOGGER.info("Register part type {}", GearSoulPart.TYPE);
+            MinecraftForge.EVENT_BUS.register(SoulEvents.INSTANCE);
+            MinecraftForge.EVENT_BUS.register(TraitEvents.INSTANCE);
         }
 
         getLifeCycleEventBus().addListener(this::commonSetup);
@@ -65,9 +71,7 @@ class SideProxy {
 
         registerContainersCommon();
 
-        if (SGearProxy.isLoaded()) {
-            MinecraftForge.EVENT_BUS.register(SoulEvents.INSTANCE);
-        }
+        Network.init();
 
         if (SilentGems.isDevBuild()) {
             SilentGems.LOGGER.info("Silent's Gems (version {}) detected as a dev build. If this is not a development environment, this is a bug!", SilentGems.getVersion());
@@ -133,6 +137,10 @@ class SideProxy {
             MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onItemColors);
             MinecraftForge.EVENT_BUS.addListener(TeleporterLinker::renderGameOverlay);
             MinecraftForge.EVENT_BUS.register(SoulEvents.Client.INSTANCE);
+
+            if (SilentGems.isDevBuild()) {
+                MinecraftForge.EVENT_BUS.register(new DebugOverlay());
+            }
 
 //            OBJLoader.INSTANCE.addDomain(SilentGems.MOD_ID);
 
