@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Config file (finally)
 ### Changed
 - Glowroses spawn in sparser patches (you can tweak this in the config file). You can get the old behavior by setting `glowrose.world.placeTryCount` to 64 and maybe increase `glowrose.world.maxPerPatch`
+- Soul gem average drop rate reduced to 2.5% (from 3.5%). You can change this in the config file.
 
 ## [3.0.9] - 2019-03-21
 ### Added

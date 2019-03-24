@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.SoulGem;
 import net.silentchaos512.utils.Color;
 import net.silentchaos512.utils.MathUtils;
@@ -33,7 +34,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class Soul {
+public final class Soul {
     @Getter private final ResourceLocation id;
     @Getter private final SoulElement primaryElement;
     @Getter private final SoulElement secondaryElement;
@@ -57,7 +58,9 @@ public class Soul {
         this.primaryElement = SoulElement.selectRandom(random);
         SoulElement element2 = SoulElement.selectRandom(random, 0.2f);
         this.secondaryElement = element2 != this.primaryElement ? element2 : SoulElement.NONE;
-        this.dropRate = 0.035f + 0.002f * (float) random.nextGaussian();
+        // Drop rate = average + deviation * randomGaussian
+        this.dropRate = (float) (GemsConfig.COMMON.soulGemDropRateAverage.get()
+                + GemsConfig.COMMON.soulGemDropRateDeviation.get() * random.nextGaussian());
 
         ItemSpawnEgg egg = getSpawnEggForType(entityType);
         if (egg != null) {
@@ -90,9 +93,9 @@ public class Soul {
     }
 
     public float getDropRate(EntityLivingBase entity) {
-        // 100% for bosses
+        // Separate rate for bosses (default is 100%)
         if (!entity.isNonBoss())
-            return 1;
+            return GemsConfig.COMMON.soulGemDropRateBoss.get().floatValue();
         // Half rate for slimes
         if (entity instanceof EntitySlime)
             return this.dropRate / 2;
@@ -165,8 +168,12 @@ public class Soul {
         }
 
         private static boolean shouldDropSoulGem(LivingDropsEvent event, EntityLivingBase entity, @Nonnull Soul soul) {
-            return event.getSource().getTrueSource() instanceof EntityPlayer
-                    && MathUtils.tryPercentage(soul.getDropRate(entity));
+            boolean killedByPlayer = event.getSource().getTrueSource() instanceof EntityPlayer;
+            float dropRate = soul.getDropRate(entity);
+            if (killedByPlayer && SilentGems.LOGGER.isDebugEnabled()) {
+                SilentGems.LOGGER.debug("Soul.shouldDropSoulGem: {}", dropRate);
+            }
+            return killedByPlayer && MathUtils.tryPercentage(dropRate);
         }
 
         private static long calculateSeed(FMLServerAboutToStartEvent event) {

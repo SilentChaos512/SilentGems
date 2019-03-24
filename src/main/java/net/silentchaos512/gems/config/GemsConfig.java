@@ -4,6 +4,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.utils.config.BooleanValue;
 import net.silentchaos512.utils.config.ConfigSpecWrapper;
+import net.silentchaos512.utils.config.DoubleValue;
 import net.silentchaos512.utils.config.IntValue;
 
 public final class GemsConfig {
@@ -22,6 +23,9 @@ public final class GemsConfig {
         public final IntValue glowrosePottedLight;
         public final IntValue glowroseSpawnTryCount;
         public final IntValue returnHomeUseTime;
+        public final DoubleValue soulGemDropRateAverage;
+        public final DoubleValue soulGemDropRateBoss;
+        public final DoubleValue soulGemDropRateDeviation;
         public final IntValue teleporterChaosCrossDimension;
         public final IntValue teleporterChaosPerBlock;
         public final IntValue teleporterFreeRange;
@@ -64,6 +68,22 @@ public final class GemsConfig {
                     .builder("returnHomeCharm.useTime")
                     .comment("The time (in ticks) the player must use a return home charm to activate it")
                     .defineInRange(16, 0, Integer.MAX_VALUE);
+            wrapper.comment("soulGem.dropRate",
+                    "Drop rate of soul gems is randomly selected based on the world seed.",
+                    "There is an average and a deviation, which makes a normal distribution.",
+                    "The numbers will tend to be close to average, but could occasionally be plus/minus a couple deviations.");
+            soulGemDropRateAverage = wrapper
+                    .builder("soulGem.dropRate.average")
+                    .comment("Average drop rate of soul gems (1 = 100%) [0 ~ 1]")
+                    .defineInRange(0.025, 0, 1);
+            soulGemDropRateBoss = wrapper
+                    .builder("soulGem.dropRate.boss")
+                    .comment("The drop rate for boss creatures (overrides normal calculation) [0 ~ 1]")
+                    .defineInRange(1.0, 0, 1);
+            soulGemDropRateDeviation = wrapper
+                    .builder("soulGem.dropRate.deviation")
+                    .comment("Standard deviation of drop rate (should be no more than a quarter of the average, preferably less) [0 ~ 1]")
+                    .defineInRange(0.002, 0, 1);
             teleporterChaosCrossDimension = wrapper
                     .builder("teleporter.chaos.crossDimension")
                     .comment("The chaos produced when traveling between dimensions using a teleport")
