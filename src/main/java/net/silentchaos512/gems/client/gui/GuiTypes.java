@@ -34,6 +34,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.altar.AltarContainer;
+import net.silentchaos512.gems.block.altar.AltarGui;
+import net.silentchaos512.gems.block.altar.AltarTileEntity;
 import net.silentchaos512.gems.block.supercharger.ContainerSupercharger;
 import net.silentchaos512.gems.block.supercharger.GuiSupercharger;
 import net.silentchaos512.gems.block.supercharger.TileSupercharger;
@@ -43,8 +46,6 @@ import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterTileEntity;
 import net.silentchaos512.gems.block.urn.ContainerSoulUrn;
 import net.silentchaos512.gems.block.urn.GuiSoulUrn;
 import net.silentchaos512.gems.block.urn.TileSoulUrn;
-import net.silentchaos512.gems.inventory.ContainerChaosAltar;
-import net.silentchaos512.gems.tile.TileChaosAltar;
 import net.silentchaos512.lib.inventory.TileEntityContainerType;
 
 import javax.annotation.Nullable;
@@ -53,20 +54,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 public enum GuiTypes {
-    ALTAR() {
-        @Override
-        public Container getContainer(TileEntityContainerType<?> tileType, EntityPlayer player) {
-            TileChaosAltar tileEntity = (TileChaosAltar) tileType.getTileEntity(player);
-            return new ContainerChaosAltar(player.inventory, Objects.requireNonNull(tileEntity));
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        @Override
-        public GuiContainer getGui(TileEntityContainerType<?> tileType, EntityPlayer player) {
-            TileChaosAltar tileEntity = (TileChaosAltar) tileType.getTileEntity(player);
-            return new GuiChaosAltar(player.inventory, Objects.requireNonNull(tileEntity));
-        }
-    },
     SOUL_URN() {
         @Override
         public Container getContainer(TileEntityContainerType<?> tileType, EntityPlayer player) {
@@ -108,8 +95,21 @@ public enum GuiTypes {
             TokenEnchanterTileEntity tileEntity = (TokenEnchanterTileEntity) tileType.getTileEntity(player);
             return new TokenEnchanterGui(player.inventory, Objects.requireNonNull(tileEntity));
         }
-    }
-    ;
+    },
+    TRANSMUTATION_ALTAR() {
+        @Override
+        public Container getContainer(TileEntityContainerType<?> tileType, EntityPlayer player) {
+            AltarTileEntity tileEntity = (AltarTileEntity) tileType.getTileEntity(player);
+            return new AltarContainer(player.inventory, Objects.requireNonNull(tileEntity));
+        }
+
+        @OnlyIn(Dist.CLIENT)
+        @Override
+        public GuiContainer getGui(TileEntityContainerType<?> tileType, EntityPlayer player) {
+            AltarTileEntity tileEntity = (AltarTileEntity) tileType.getTileEntity(player);
+            return new AltarGui(player.inventory, Objects.requireNonNull(tileEntity));
+        }
+    };
 
     private final ResourceLocation guiId;
 

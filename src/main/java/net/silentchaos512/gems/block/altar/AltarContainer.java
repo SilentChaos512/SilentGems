@@ -1,39 +1,42 @@
-package net.silentchaos512.gems.inventory;
+package net.silentchaos512.gems.block.altar;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.silentchaos512.lib.inventory.SlotOutputOnly;
 
 import javax.annotation.Nonnull;
 
-public class ContainerChaosAltar extends Container {
-    private final IInventory tileAltar;
+public class AltarContainer extends Container {
+    private final AltarTileEntity altar;
 
-    public ContainerChaosAltar(InventoryPlayer playerInventory, IInventory altarInventory) {
-        this.tileAltar = altarInventory;
-        this.addSlot(new Slot(altarInventory, 0, 56, 35));
-        this.addSlot(new SlotOutputOnly(altarInventory, 1, 111, 35));
-        this.addSlot(new Slot(altarInventory, 2, 83, 54));
+    public AltarContainer(InventoryPlayer inventoryPlayer, AltarTileEntity altar) {
+        this.altar = altar;
+        this.setupSlots(inventoryPlayer);
+    }
+
+    private void setupSlots(InventoryPlayer inventoryPlayer) {
+        this.addSlot(new Slot(this.altar, 0, 56, 35));
+        this.addSlot(new Slot(this.altar, 1, 83, 54));
+        this.addSlot(new SlotOutputOnly(this.altar, 2, 111, 35));
 
         int i;
         for (i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlot(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
 
         for (i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
+            this.addSlot(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
         }
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer player) {
-        return tileAltar.isUsableByPlayer(player);
+    public boolean canInteractWith(EntityPlayer playerIn) {
+        return this.altar.isUsableByPlayer(playerIn);
     }
 
     @Nonnull
@@ -53,7 +56,7 @@ public class ContainerChaosAltar extends Container {
 
                 slot.onSlotChange(stack1, stack);
             } else if (slotIndex != 0) {
-                if (tileAltar.isItemValidForSlot(0, stack1)) {
+                if (this.altar.isItemValidForSlot(0, stack1)) {
                     if (!this.mergeItemStack(stack1, 0, 1, false)) {
                         return ItemStack.EMPTY;
                     }

@@ -11,6 +11,7 @@ import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManag
 
 @IREIPlugin(identifier = SilentGems.RESOURCE_PREFIX + "default_plugin")
 public class ReiPluginGems implements REIPlugin {
+    public static final ResourceLocation ALTAR_TRANSMUTATION = SilentGems.getId("plugins/altar_transmutation");
     public static final ResourceLocation SUPERCHARGING = SilentGems.getId("plugins/supercharging");
     public static final ResourceLocation TOKEN_ENCHANTING = SilentGems.getId("plugins/token_enchanting");
 
@@ -24,6 +25,8 @@ public class ReiPluginGems implements REIPlugin {
         SilentGems.LOGGER.debug("REI registerPluginCategories");
 
         recipeHelper.registerCategory(new TokenEnchanterRecipeCategory());
+        // TODO: uncomment
+//        recipeHelper.registerCategory(new AltarRecipeCategory());
 
         if (SGearProxy.isLoaded()) {
             recipeHelper.registerCategory(new SuperchargerRecipeCategory());
@@ -36,6 +39,9 @@ public class ReiPluginGems implements REIPlugin {
 
         TokenEnchanterRecipeManager.getValues().forEach(recipe ->
                 recipeHelper.registerDisplay(TOKEN_ENCHANTING, new TokenEnchanterRecipeDisplay(recipe)));
+        // TODO: uncomment
+//        AltarRecipeManager.INSTANCE.getValues().forEach(recipe ->
+//                recipeHelper.registerDisplay(ALTAR_TRANSMUTATION, new AltarRecipeDisplay(recipe)));
 
         if (SGearProxy.isLoaded()) {
             for (int i = 1; i <= 3; ++i) {

@@ -70,6 +70,8 @@ public final class ModBlocks {
 
         register("supercharger", BlockSupercharger.INSTANCE.get());
         register("token_enchanter", TokenEnchanterBlock.INSTANCE.get());
+        // TODO: uncomment
+//        register("transmutation_altar", AltarBlock.INSTANCE.get());
         register("luminous_flower_pot", LuminousFlowerPotBlock.INSTANCE.get());
         register("phantom_light", PhantomLightBlock.INSTANCE.get());
 

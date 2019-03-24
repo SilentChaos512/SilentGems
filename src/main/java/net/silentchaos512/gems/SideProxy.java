@@ -22,6 +22,7 @@ import net.silentchaos512.gems.command.HungryCommand;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.crafting.altar.AltarRecipeManager;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
 import net.silentchaos512.gems.event.TraitEvents;
 import net.silentchaos512.gems.init.*;
@@ -114,6 +115,7 @@ class SideProxy {
         IReloadableResourceManager resourceManager = event.getServer().getResourceManager();
         resourceManager.addReloadListener(ChaosBuffManager.INSTANCE);
         resourceManager.addReloadListener(TokenEnchanterRecipeManager.INSTANCE);
+        resourceManager.addReloadListener(AltarRecipeManager.INSTANCE);
 
         CommandDispatcher<CommandSource> dispatcher = event.getServer().getCommandManager().getDispatcher();
         ChaosCommand.register(dispatcher);

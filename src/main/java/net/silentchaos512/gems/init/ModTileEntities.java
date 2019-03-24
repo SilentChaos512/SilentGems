@@ -6,6 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.altar.AltarTileEntity;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotTileEntity;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightTileEntity;
 import net.silentchaos512.gems.block.supercharger.TileSupercharger;
@@ -23,7 +24,8 @@ public enum ModTileEntities {
     SOUL_URN(() -> TileEntityType.Builder.create(TileSoulUrn::new).build(null)),
     SUPERCHARGER(() -> TileEntityType.Builder.create(TileSupercharger::new).build(null)),
     TELEPORTER(() -> TileEntityType.Builder.create(GemTeleporterTileEntity::new).build(null)),
-    TOKEN_ENCHANTER(() -> TileEntityType.Builder.create(TokenEnchanterTileEntity::new).build(null));
+    TOKEN_ENCHANTER(() -> TileEntityType.Builder.create(TokenEnchanterTileEntity::new).build(null)),
+    TRANSMUTATION_ALTAR(() -> TileEntityType.Builder.create(AltarTileEntity::new).build(null));
 
     private final Lazy<TileEntityType<?>> type;
 

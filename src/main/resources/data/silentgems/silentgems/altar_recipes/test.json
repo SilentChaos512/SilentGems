@@ -1,0 +1,15 @@
+{
+  "chaosGenerated": 200,
+  "processTime": 100,
+  "catalystConsumed": 20,
+  "input": {
+    "tag": "forge:ingots/iron"
+  },
+  "catalyst": {
+    "tag": "forge:gems/diamond"
+  },
+  "result": {
+    "item": "silentgems:enriched_chaos_crystal",
+    "count": 2
+  }
+}
