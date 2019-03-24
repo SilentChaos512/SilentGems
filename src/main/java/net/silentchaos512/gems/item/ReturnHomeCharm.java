@@ -132,7 +132,7 @@ public class ReturnHomeCharm extends Item implements IGem /*implements IBauble, 
     public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
         if (player.world.isRemote) {
             int timeUsed = getUseDuration(stack) - count;
-            if (timeUsed >= GemsConfig.RETURN_HOME_USE_TIME) {
+            if (timeUsed >= GemsConfig.COMMON.returnHomeUseTime.get()) {
                 stack.getOrCreateTag().setBoolean(NBT_READY, true);
             }
         }
@@ -157,7 +157,7 @@ public class ReturnHomeCharm extends Item implements IGem /*implements IBauble, 
         } else {
             // Did player use item long enough?
             int timeUsed = getUseDuration(stack) - timeLeft;
-            if (timeUsed >= GemsConfig.RETURN_HOME_USE_TIME) {
+            if (timeUsed >= GemsConfig.COMMON.returnHomeUseTime.get()) {
                 tryTeleportPlayer(stack, player);
             }
         }

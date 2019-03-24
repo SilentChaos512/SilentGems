@@ -1,9 +1,89 @@
 package net.silentchaos512.gems.config;
 
-public class GemsConfig {
-    // TODO: Actual config needed
-    public static final int TELEPORTER_COST_PER_BLOCK = 50;
-    public static final int TELEPORTER_FREE_RANGE = 64;
-    public static final int TELEPORTER_COST_CROSS_DIMENSION = 50_000;
-    public static final int RETURN_HOME_USE_TIME = 16;
+import net.minecraftforge.fml.loading.FMLPaths;
+import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.utils.config.BooleanValue;
+import net.silentchaos512.utils.config.ConfigSpecWrapper;
+import net.silentchaos512.utils.config.IntValue;
+
+public final class GemsConfig {
+    private static final ConfigSpecWrapper WRAPPER = ConfigSpecWrapper.create(
+            FMLPaths.CONFIGDIR.get().resolve("silentgems-common.toml"));
+
+    public static final Common COMMON = new Common(WRAPPER);
+
+    public static class Common {
+        public final IntValue chaosCoalBurnTime;
+        public final BooleanValue debugMasterSwitch;
+        public final BooleanValue debugShowOverlay;
+        public final BooleanValue gearSoulsGetXpFromFakePlayers;
+        public final IntValue glowroseMaxPlaceCount;
+        public final IntValue glowroseNormalLight;
+        public final IntValue glowrosePottedLight;
+        public final IntValue glowroseSpawnTryCount;
+        public final IntValue returnHomeUseTime;
+        public final IntValue teleporterChaosCrossDimension;
+        public final IntValue teleporterChaosPerBlock;
+        public final IntValue teleporterFreeRange;
+
+        Common(ConfigSpecWrapper wrapper) {
+            chaosCoalBurnTime = wrapper
+                    .builder("general.chaosCoalBurnTime")
+                    .comment("The burn time (in ticks) of chaos coal (normal coal is 1600)")
+                    .defineInRange(6400, 0, Integer.MAX_VALUE);
+            debugMasterSwitch = wrapper
+                    .builder("debug.masterSwitch")
+                    .comment("Must be true for any other debug settings to take effect")
+                    .define(SilentGems.isDevBuild());
+            debugShowOverlay = wrapper
+                    .builder("debug.showOverlay")
+                    .comment("Display text on-screen with various information, such as player/world chaos")
+                    .define(true);
+            gearSoulsGetXpFromFakePlayers = wrapper
+                    .builder("gearSoul.fakePlayersGetXp")
+                    .comment("If true, gear souls can gain XP when being used by fake players (certain machines)")
+                    .define(false);
+            glowroseMaxPlaceCount = wrapper
+                    .builder("glowrose.world.maxPerPatch")
+                    .comment("The most glowroses that can be in a single patch")
+                    .defineInRange(16, 0, Integer.MAX_VALUE);
+            glowroseNormalLight = wrapper
+                    .builder("glowrose.normalLight")
+                    .comment("The light level of free-standing glowroses [0 ~ 15]")
+                    .defineInRange(10, 0, 15);
+            glowrosePottedLight = wrapper
+                    .builder("glowrose.pottedLight")
+                    .comment("The light level of glowroses planted in vanilla flower pots [0 ~ 15]")
+                    .defineInRange(15, 0, 15);
+            glowroseSpawnTryCount = wrapper
+                    .builder("glowrose.world.placeTryCount")
+                    .comment("The number of placement attempts when generating new chunks (higher numbers = bigger patches)",
+                            "Note this is the number of 'attempts', not the actual number you will likely see in any given patch")
+                    .defineInRange(40, 0, Integer.MAX_VALUE);
+            returnHomeUseTime = wrapper
+                    .builder("returnHomeCharm.useTime")
+                    .comment("The time (in ticks) the player must use a return home charm to activate it")
+                    .defineInRange(16, 0, Integer.MAX_VALUE);
+            teleporterChaosCrossDimension = wrapper
+                    .builder("teleporter.chaos.crossDimension")
+                    .comment("The chaos produced when traveling between dimensions using a teleport")
+                    .defineInRange(50_000, 0, Integer.MAX_VALUE);
+            teleporterChaosPerBlock = wrapper
+                    .builder("teleporter.chaos.perBlock")
+                    .comment("The chaos produced per block traveled (ignores Y-axis)",
+                            " Does not apply when teleporting to another dimension")
+                    .defineInRange(50, 0, Integer.MAX_VALUE);
+            teleporterFreeRange = wrapper
+                    .builder("teleporter.chaos.freeRange")
+                    .comment("When teleporting this distance or less, no chaos is produced (ignores Y-axis)")
+                    .defineInRange(64, 0, Integer.MAX_VALUE);
+        }
+    }
+
+    private GemsConfig() { }
+
+    public static void init() {
+        WRAPPER.validate();
+        WRAPPER.validate();
+    }
 }

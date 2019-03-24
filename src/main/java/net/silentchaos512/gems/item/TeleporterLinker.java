@@ -95,7 +95,7 @@ public final class TeleporterLinker extends Item {
                 if (pos.getDimension() != player.dimension.getId()) {
                     color = 0xff6600; // Different dimension
                     str = I18n.format("item.silentgems.teleporter_linker.differentDimension");
-                } else if (distance < GemsConfig.TELEPORTER_FREE_RANGE) {
+                } else if (distance < GemsConfig.COMMON.teleporterFreeRange.get()) {
                     color = 0x00aaff; // Inside free range
                 }
                 fontRender.drawStringWithShadow(str, textX, textY, color);

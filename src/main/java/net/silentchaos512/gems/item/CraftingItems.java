@@ -30,6 +30,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItemGroups;
 import net.silentchaos512.utils.Lazy;
 
@@ -116,7 +117,10 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
 
         @Override
         public int getBurnTime(ItemStack itemStack) {
-            return itemStack.getItem() == CHAOS_COAL.asItem() ? 6400 : 0; // TODO: config
+            if (itemStack.getItem() == CHAOS_COAL.asItem()) {
+                return GemsConfig.COMMON.chaosCoalBurnTime.get();
+            }
+            return 0;
         }
 
         @Override

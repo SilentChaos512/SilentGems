@@ -2,9 +2,7 @@ package net.silentchaos512.gems.item;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
@@ -41,22 +39,5 @@ public class GemItem extends Item implements IGem {
     @Override
     public ITextComponent getName() {
         return new TextComponentTranslation("item.silentgems.gem", this.gem.getDisplayName());
-    }
-
-    @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (!isInGroup(group)) return;
-
-        items.add(new ItemStack(this));
-
-        // If Silent Gear is present, add new supercharged gems
-        // TODO: Remove me? Supercharged gem sub-items might be a bit much...
-//        if (Loader.isModLoaded("silentgear") && SilentGems.instance.isDevBuild()) {
-//            for (int level = 1; level <= ModEnchantments.supercharged.getMaxLevel(); ++level) {
-//                ItemStack stack = gem.getItem();
-//                EnchantmentHelper.setEnchantments(ImmutableMap.of(ModEnchantments.supercharged, level), stack);
-//                items.add(stack);
-//            }
-//        }
     }
 }

@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.crafting.recipe;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.EnumDyeColor;
@@ -148,12 +147,6 @@ public class ModifySoulUrnRecipe implements IRecipe {
         return Optional.ofNullable(EnumDyeColor.getColor(dye));
     }
 
-    // Examples for JEI (see SilentGemsPlugin in compat.jei package)
-    public static Collection<IRecipe> getExampleRecipes() {
-        // FIXME
-        return ImmutableList.of();
-    }
-
     @Override
     public boolean canFit(int width, int height) {
         return true;
@@ -161,8 +154,7 @@ public class ModifySoulUrnRecipe implements IRecipe {
 
     @Override
     public ItemStack getRecipeOutput() {
-        // FIXME
-        return ItemStack.EMPTY;
+        return new ItemStack(ModBlocks.soulUrn);
     }
 
     @Override

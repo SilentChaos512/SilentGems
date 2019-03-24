@@ -25,6 +25,7 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.FakePlayer;
 import net.silentchaos512.gear.util.GearData;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.GearSoulItem;
 import net.silentchaos512.gems.util.SoulManager;
 
@@ -67,8 +68,7 @@ public class GearSoul {
     // =================
 
     public void addXp(int amount, ItemStack tool, EntityPlayer player) {
-        // FIXME
-        if (player instanceof FakePlayer /*&& !GemsConfig.SOULS_GAIN_XP_FROM_FAKE_PLAYERS*/) {
+        if (!GemsConfig.COMMON.gearSoulsGetXpFromFakePlayers.get() && player instanceof FakePlayer) {
             return;
         }
 
@@ -521,7 +521,7 @@ public class GearSoul {
 
     private void sendUpdatePacket(ItemStack tool, EntityPlayer player, @Nullable SoulTraits skillLearned, int skillLevel) {
         // Server side: send update packet to player.
-        // TODO: GearSoul sendUpdatePacket
+        // TODO: GearSoul sendUpdatePacket -- Is this still necessary?
 //        if (!player.world.isRemote) {
 //            UUID uuid = ToolHelper.getSoulUUID(tool);
 //            MessageSoulSync message = new MessageSoulSync(uuid, xp, level, actionPoints, skillLearned,
