@@ -53,11 +53,13 @@ public final class GemsConfig {
                     .defineInRange(16, 0, Integer.MAX_VALUE);
             glowroseNormalLight = wrapper
                     .builder("glowrose.normalLight")
-                    .comment("The light level of free-standing glowroses [0 ~ 15]")
+                    .comment("The light level of free-standing glowroses [0 ~ 15]",
+                            "Requires a Minecraft restart")
                     .defineInRange(10, 0, 15);
             glowrosePottedLight = wrapper
                     .builder("glowrose.pottedLight")
-                    .comment("The light level of glowroses planted in vanilla flower pots [0 ~ 15]")
+                    .comment("The light level of glowroses planted in vanilla flower pots [0 ~ 15]",
+                            "Requires a Minecraft restart")
                     .defineInRange(15, 0, 15);
             glowroseSpawnTryCount = wrapper
                     .builder("glowrose.world.placeTryCount")

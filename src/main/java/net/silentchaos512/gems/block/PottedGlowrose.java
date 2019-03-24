@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Gems;
 
 public class PottedGlowrose extends BlockFlowerPot {
@@ -16,7 +17,7 @@ public class PottedGlowrose extends BlockFlowerPot {
     public PottedGlowrose(Glowrose flower) {
         super(flower, Block.Properties
                 .create(Material.CIRCUITS)
-                .lightValue(15)
+                .lightValue(GemsConfig.COMMON.glowrosePottedLight.get())
                 .hardnessAndResistance(0)
         );
         this.gem = flower.getGem();

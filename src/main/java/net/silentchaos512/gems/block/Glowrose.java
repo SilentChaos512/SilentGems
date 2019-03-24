@@ -30,6 +30,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockReader;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.IGem;
 
@@ -42,7 +43,7 @@ public class Glowrose extends BlockFlower implements IGem {
     public Glowrose(Gems gem) {
         super(Properties.create(Material.PLANTS)
                 .sound(SoundType.PLANT)
-                .lightValue(10)
+                .lightValue(GemsConfig.COMMON.glowroseNormalLight.get())
                 .hardnessAndResistance(0)
                 .doesNotBlockMovement()
         );
