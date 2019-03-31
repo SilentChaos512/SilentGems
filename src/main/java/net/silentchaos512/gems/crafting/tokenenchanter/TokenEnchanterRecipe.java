@@ -76,10 +76,10 @@ public class TokenEnchanterRecipe {
 
         // Ingredients
         JsonObject ingredientsJson = json.get("ingredients").getAsJsonObject();
-        recipe.token = Ingredient.fromJson(ingredientsJson.get("token").getAsJsonObject());
+        recipe.token = Ingredient.deserialize(ingredientsJson.get("token").getAsJsonObject());
         JsonArray othersArray = ingredientsJson.get("others").getAsJsonArray();
         for (JsonElement elem : othersArray) {
-            Ingredient ingredient = Ingredient.fromJson(elem);
+            Ingredient ingredient = Ingredient.deserialize(elem);
             int count = JsonUtils.getInt(elem.getAsJsonObject(), "count", 1);
             recipe.ingredients.put(ingredient, count);
         }
@@ -123,10 +123,10 @@ public class TokenEnchanterRecipe {
     public static TokenEnchanterRecipe read(ResourceLocation id, PacketBuffer buffer) {
         TokenEnchanterRecipe recipe = new TokenEnchanterRecipe(id);
         recipe.result = buffer.readItemStack();
-        recipe.token = Ingredient.fromBuffer(buffer);
+        recipe.token = Ingredient.read(buffer);
         int otherCount = buffer.readVarInt();
         for (int i = 0; i < otherCount; ++i) {
-            Ingredient ingredient = Ingredient.fromBuffer(buffer);
+            Ingredient ingredient = Ingredient.read(buffer);
             int count = buffer.readVarInt();
             recipe.ingredients.put(ingredient, count);
         }
@@ -135,10 +135,10 @@ public class TokenEnchanterRecipe {
 
     public static void write(TokenEnchanterRecipe recipe, PacketBuffer buffer) {
         buffer.writeItemStack(recipe.result);
-        recipe.token.writeToBuffer(buffer);
+        recipe.token.write(buffer);
         buffer.writeVarInt(recipe.ingredients.size());
         recipe.ingredients.forEach((ingredient, count) -> {
-            ingredient.writeToBuffer(buffer);
+            ingredient.write(buffer);
             buffer.writeVarInt(count);
         });
     }

@@ -17,8 +17,8 @@ public final class HungryCommand {
         LiteralArgumentBuilder<CommandSource> builder = Commands.literal("mesohungry").requires(source ->
                 source.hasPermissionLevel(2));
         builder.then(
-                Commands.argument("target", EntityArgument.singlePlayer()).executes(context -> {
-                    EntityPlayerMP player = EntityArgument.getOnePlayer(context, "target");
+                Commands.argument("target", EntityArgument.player()).executes(context -> {
+                    EntityPlayerMP player = EntityArgument.getPlayer(context, "target");
                     player.getFoodStats().setFoodLevel(2);
                     return 1;
                 })

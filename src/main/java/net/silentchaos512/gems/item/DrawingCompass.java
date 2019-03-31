@@ -70,9 +70,9 @@ public class DrawingCompass extends Item {
 
     private static void setBlock(ItemStack stack, BlockPos pos, int index) {
         NBTTagCompound tags = stack.getOrCreateChildTag("Block" + index);
-        tags.setInt("X", pos.getX());
-        tags.setInt("Y", pos.getY());
-        tags.setInt("Z", pos.getZ());
+        tags.putInt("X", pos.getX());
+        tags.putInt("Y", pos.getY());
+        tags.putInt("Z", pos.getZ());
     }
 
     private static void clearBlocks(ItemStack stack) {
@@ -89,7 +89,7 @@ public class DrawingCompass extends Item {
 
     private static int getColor(ItemStack stack) {
         NBTTagCompound tags = stack.getOrCreateTag();
-        if (tags.hasKey("CompassColor"))
+        if (tags.contains("CompassColor"))
             return tags.getInt("CompassColor");
         return 0xFFFFFF;
     }

@@ -24,7 +24,7 @@ public final class ChaosCommand {
         // get
         builder
                 .then(Commands.literal("get")
-                        .then(Commands.argument("targets", EntityArgument.multiplePlayers())
+                        .then(Commands.argument("targets", EntityArgument.players())
                                 .executes(
                                         ChaosCommand::runGet
                                 )
@@ -41,7 +41,7 @@ public final class ChaosCommand {
         // set
         builder
                 .then(Commands.literal("set")
-                        .then(Commands.argument("targets", EntityArgument.multiplePlayers())
+                        .then(Commands.argument("targets", EntityArgument.players())
                                 .then(Commands.argument("amount", IntegerArgumentType.integer(0))
                                         .executes(
                                                 ChaosCommand::runSet

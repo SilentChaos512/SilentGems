@@ -177,7 +177,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
 
     @Override
     public void read(NBTTagCompound tags) {
-        if (tags.hasKey(NBT_FLOWER)) {
+        if (tags.contains(NBT_FLOWER)) {
             this.flower = ItemStack.read(tags.getCompound(NBT_FLOWER));
         }
         super.read(tags);
@@ -186,7 +186,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
     @Override
     public NBTTagCompound write(NBTTagCompound tags) {
         if (!flower.isEmpty()) {
-            tags.setTag(NBT_FLOWER, flower.serializeNBT());
+            tags.put(NBT_FLOWER, flower.serializeNBT());
         }
         return super.write(tags);
     }
@@ -196,7 +196,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
         NBTTagCompound tags = super.getUpdateTag();
         if (!flower.isEmpty()) {
             // Create a copy of just the flower item, ignore any NBT it may have
-            tags.setTag(NBT_FLOWER, new ItemStack(flower.getItem()).serializeNBT());
+            tags.put(NBT_FLOWER, new ItemStack(flower.getItem()).serializeNBT());
         }
         return tags;
     }
@@ -209,7 +209,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-        if (pkt.getNbtCompound().hasKey(NBT_FLOWER)) {
+        if (pkt.getNbtCompound().contains(NBT_FLOWER)) {
             this.flower = ItemStack.read(pkt.getNbtCompound().getCompound(NBT_FLOWER));
         }
         super.onDataPacket(net, pkt);

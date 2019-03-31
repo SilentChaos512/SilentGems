@@ -226,9 +226,9 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     public void loadFromNBT(NBTTagCompound compound) {
         this.items = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
 
-        if (!this.checkLootAndRead(compound) && compound.hasKey("Items"))
+        if (!this.checkLootAndRead(compound) && compound.contains("Items"))
             ItemStackHelper.loadAllItems(compound, this.items);
-        if (compound.hasKey("CustomName"))
+        if (compound.contains("CustomName"))
             this.customName = new TextComponentString(compound.getString("CustomName"));
 
         loadColorFromNBT(compound);
@@ -241,14 +241,14 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         if (!this.checkLootAndWrite(compound))
             ItemStackHelper.saveAllItems(compound, this.items, false);
         if (this.hasCustomName())
-            compound.setString("CustomName", this.customName.getFormattedText());
-        if (!compound.hasKey("Lock") && this.isLocked())
-            this.getLockCode().toNBT(compound);
+            compound.putString("CustomName", this.customName.getFormattedText());
+        if (!compound.contains("Lock") && this.isLocked())
+            this.getLockCode().write(compound);
 
         if (this.color != UrnConst.UNDYED_COLOR)
-            compound.setInt(UrnConst.NBT_COLOR, this.color);
+            compound.putInt(UrnConst.NBT_COLOR, this.color);
         if (this.gem != null)
-            compound.setString(UrnConst.NBT_GEM, this.gem.getName());
+            compound.putString(UrnConst.NBT_GEM, this.gem.getName());
 
         UrnUpgrade.ListHelper.save(this.upgrades, compound);
 
@@ -256,13 +256,13 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
     }
 
     private void loadColorFromNBT(NBTTagCompound compound) {
-        if (compound.hasKey(UrnConst.NBT_COLOR)) {
+        if (compound.contains(UrnConst.NBT_COLOR)) {
             this.color = compound.getInt(UrnConst.NBT_COLOR);
         }
     }
 
     private void loadGemFromNBT(NBTTagCompound compound) {
-        if (compound.hasKey(UrnConst.NBT_GEM)) {
+        if (compound.contains(UrnConst.NBT_GEM)) {
             String str = compound.getString(UrnConst.NBT_GEM);
             for (Gems gem : Gems.values()) {
                 if (gem.getName().equals(str)) {
@@ -310,9 +310,9 @@ public class TileSoulUrn extends TileEntityLockableLoot implements ITickable, IS
         NBTTagCompound tags = super.getUpdateTag();
 
         if (this.color != UrnConst.UNDYED_COLOR)
-            tags.setInt(UrnConst.NBT_COLOR, this.color);
+            tags.putInt(UrnConst.NBT_COLOR, this.color);
         if (this.gem != null)
-            tags.setString(UrnConst.NBT_GEM, this.gem.getName());
+            tags.putString(UrnConst.NBT_GEM, this.gem.getName());
 
         UrnUpgrade.ListHelper.save(this.upgrades, tags);
 

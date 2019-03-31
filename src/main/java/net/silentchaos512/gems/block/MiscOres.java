@@ -30,7 +30,7 @@ public enum MiscOres implements IItemProvider, IStringSerializable {
     MiscOres(IItemProvider droppedItem, int harvestLevel) {
         block = Lazy.of(() -> new MiscOreBlock(droppedItem, harvestLevel,
                 Block.Properties.create(Material.ROCK)
-                        .needsRandomTick()
+                        .tickRandomly()
                         .hardnessAndResistance(4, 20)));
     }
 
@@ -114,7 +114,7 @@ public enum MiscOres implements IItemProvider, IStringSerializable {
                     double d1 = axis == EnumFacing.Axis.X ? 0.5D + 0.5625D * (double) enumfacing.getXOffset() : (double) random.nextFloat();
                     double d2 = axis == EnumFacing.Axis.Y ? 0.5D + 0.5625D * (double) enumfacing.getYOffset() : (double) random.nextFloat();
                     double d3 = axis == EnumFacing.Axis.Z ? 0.5D + 0.5625D * (double) enumfacing.getZOffset() : (double) random.nextFloat();
-                    world.spawnParticle(RedstoneParticleData.REDSTONE_DUST, (double) pos.getX() + d1, (double) pos.getY() + d2, (double) pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
+                    world.addParticle(RedstoneParticleData.REDSTONE_DUST, (double) pos.getX() + d1, (double) pos.getY() + d2, (double) pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
                 }
             }
         }

@@ -43,6 +43,7 @@ public final class TokenEnchanterBlock extends BlockContainer {
         super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {

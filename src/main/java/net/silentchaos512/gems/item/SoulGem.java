@@ -34,14 +34,14 @@ public class SoulGem extends Item {
         EntityType<?> entityType = soul.getEntityType();
         if (entityType != null) {
             ResourceLocation name = Objects.requireNonNull(entityType.getRegistryName());
-            result.getOrCreateTag().setString(NBT_KEY, name.toString());
+            result.getOrCreateTag().putString(NBT_KEY, name.toString());
         }
         return result;
     }
 
     public static ItemStack getStack(ResourceLocation soulId) {
         ItemStack result = new ItemStack(INSTANCE.get());
-        result.getOrCreateTag().setString(NBT_KEY, soulId.toString());
+        result.getOrCreateTag().putString(NBT_KEY, soulId.toString());
         return result;
     }
 

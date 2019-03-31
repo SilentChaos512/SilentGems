@@ -33,7 +33,7 @@ public final class Skulls {
     public static ItemStack getPlayerSkull(String playerName) {
         ItemStack skull = new ItemStack(Items.PLAYER_HEAD);
         NBTTagCompound tags = skull.getOrCreateTag();
-        tags.setString("SkullOwner", playerName);
+        tags.putString("SkullOwner", playerName);
         return skull;
     }
 

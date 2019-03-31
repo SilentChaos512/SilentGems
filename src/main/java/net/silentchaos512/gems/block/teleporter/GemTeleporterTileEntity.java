@@ -66,7 +66,7 @@ public class GemTeleporterTileEntity extends TileEntity {
         if (this.isDestinationSet()) {
             destination.write(tags);
         }
-        tags.setBoolean("IsAnchor", isAnchor);
+        tags.putBoolean("IsAnchor", isAnchor);
         return tags;
     }
 

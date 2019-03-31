@@ -133,7 +133,7 @@ public class ReturnHomeCharm extends Item implements IGem /*implements IBauble, 
         if (player.world.isRemote) {
             int timeUsed = getUseDuration(stack) - count;
             if (timeUsed >= GemsConfig.COMMON.returnHomeUseTime.get()) {
-                stack.getOrCreateTag().setBoolean(NBT_READY, true);
+                stack.getOrCreateTag().putBoolean(NBT_READY, true);
             }
         }
     }
@@ -141,7 +141,7 @@ public class ReturnHomeCharm extends Item implements IGem /*implements IBauble, 
     @Override
     public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
         if (!isSelected && stack.getOrCreateTag().getBoolean(NBT_READY)) {
-            stack.getOrCreateTag().setBoolean(NBT_READY, false);
+            stack.getOrCreateTag().putBoolean(NBT_READY, false);
         }
     }
 
@@ -153,7 +153,7 @@ public class ReturnHomeCharm extends Item implements IGem /*implements IBauble, 
         EntityPlayer player = (EntityPlayer) entity;
 
         if (world.isRemote) {
-            stack.getOrCreateTag().setBoolean(NBT_READY, false);
+            stack.getOrCreateTag().putBoolean(NBT_READY, false);
         } else {
             // Did player use item long enough?
             int timeUsed = getUseDuration(stack) - timeLeft;

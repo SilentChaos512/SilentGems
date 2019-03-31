@@ -101,12 +101,12 @@ dependencies {
 jar {
     appendix = "${project.mc_version}"
     manifest {
-        attributes(["Specification-Title": project.mod_id,
-                    "Specification-Vendor": "SilentChaos512",
-                    "Specification-Version": "25.0", // We are version 1 of the modlauncher specification
-                    "Implementation-Title": project.name,
-                    "Implementation-Version": "${version}",
-                    "Implementation-Vendor" :"SilentChaos512",
+        attributes(["Specification-Title"     : project.mod_id,
+                    "Specification-Vendor"    : "SilentChaos512",
+                    "Specification-Version"   : "25.0", // We are version 1 of the modlauncher specification
+                    "Implementation-Title"    : project.name,
+                    "Implementation-Version"  : "${version}",
+                    "Implementation-Vendor"   : "SilentChaos512",
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
 }
@@ -257,7 +257,7 @@ def getGitVersion() {
     def outStream = new ByteArrayOutputStream()
     def result = exec {
         executable = 'git'
-        args = [ 'describe', '--long' ]
+        args = ['describe', '--long']
         standardOutput = outStream
     }
 

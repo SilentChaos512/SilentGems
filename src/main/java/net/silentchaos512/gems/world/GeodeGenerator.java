@@ -31,7 +31,7 @@ public class GeodeGenerator extends MinableFeature {
     }
 
     @Override
-    public boolean func_212245_a(IWorld world, IChunkGenerator<? extends IChunkGenSettings> chunkGenerator, Random random, BlockPos pos, MinableConfig minableConfig) {
+    public boolean place(IWorld world, IChunkGenerator<? extends IChunkGenSettings> generator, Random random, BlockPos pos, MinableConfig config) {
         float diameterXZ = 2f * random.nextFloat() + 5;
         float diameterY = 3f * random.nextFloat() + 7;
         generateShell(world, random, pos, diameterXZ, diameterY);

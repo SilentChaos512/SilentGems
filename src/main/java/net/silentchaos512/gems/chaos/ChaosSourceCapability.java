@@ -45,7 +45,7 @@ public class ChaosSourceCapability implements IChaosSource, ICapabilitySerializa
     @Override
     public NBTTagCompound serializeNBT() {
         NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setInt(NBT_CHAOS, chaos);
+        nbt.putInt(NBT_CHAOS, chaos);
         return nbt;
     }
 

@@ -43,7 +43,7 @@ public final class FluffyPuffPlant extends BlockCrops {
 
     private FluffyPuffPlant(boolean wild) {
         super(Properties.create(Material.PLANTS)
-                .needsRandomTick()
+                .tickRandomly()
                 .hardnessAndResistance(0) // was 0.1
                 .doesNotBlockMovement()
                 .sound(SoundType.PLANT)

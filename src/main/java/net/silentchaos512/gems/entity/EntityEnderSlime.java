@@ -67,7 +67,7 @@ public class EntityEnderSlime extends EntitySlime {
 
     @Nonnull
     @Override
-    protected IParticleData func_195404_m() {
+    protected IParticleData getSquishParticle() {
         return Particles.DRAGON_BREATH;
     }
 

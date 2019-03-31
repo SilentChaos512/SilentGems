@@ -15,12 +15,13 @@ import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.FluffyPuffPlant;
 import net.silentchaos512.gems.block.MiscOres;
 import net.silentchaos512.gems.entity.EntityEnderSlime;
 import net.silentchaos512.gems.init.ModEntities;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.world.feature.GlowroseFeature;
-import net.silentchaos512.gems.world.feature.WildFluffyPuffFeature;
+import net.silentchaos512.lib.world.feature.PlantFeature;
 import net.silentchaos512.utils.MathUtils;
 
 import java.util.*;
@@ -143,7 +144,7 @@ public final class GemsWorldFeatures {
 
     private static void addWildFluffyPuffs(Biome biome) {
         biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createCompositeFlowerFeature(
-                new WildFluffyPuffFeature(),
+                new PlantFeature(FluffyPuffPlant.WILD.get().getMaturePlant(), 32, 6),
                 Biome.SURFACE_PLUS_32,
                 new FrequencyConfig(1)
         ));

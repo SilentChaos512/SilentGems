@@ -57,14 +57,14 @@ public class AltarRecipe {
     }
 
     public static int getCatalystAmount(ItemStack stack) {
-        if (!stack.hasTag() || !stack.getOrCreateTag().hasKey(NBT_CATALYST_VALUE)) {
+        if (!stack.hasTag() || !stack.getOrCreateTag().contains(NBT_CATALYST_VALUE)) {
             return CATALYST_VALUE;
         }
         return stack.getOrCreateTag().getInt(NBT_CATALYST_VALUE);
     }
 
     private static void setCatalystAmount(ItemStack stack, int amount) {
-        stack.getOrCreateTag().setInt(NBT_CATALYST_VALUE, amount);
+        stack.getOrCreateTag().putInt(NBT_CATALYST_VALUE, amount);
     }
 
     public static AltarRecipe read(ResourceLocation id, JsonObject json) {
@@ -76,8 +76,8 @@ public class AltarRecipe {
         recipe.catalystConsumed = JsonUtils.getInt(json, "catalystConsumed", 10);
 
         // Ingredients
-        recipe.input = Ingredient.fromJson(json.get("input"));
-        recipe.catalyst = Ingredient.fromJson(json.get("catalyst"));
+        recipe.input = Ingredient.deserialize(json.get("input"));
+        recipe.catalyst = Ingredient.deserialize(json.get("catalyst"));
 
         // Result
         JsonObject resultJson = json.get("result").getAsJsonObject();
@@ -89,8 +89,8 @@ public class AltarRecipe {
     public static AltarRecipe read(ResourceLocation id, PacketBuffer buffer) {
         AltarRecipe recipe = new AltarRecipe(id);
         recipe.result = buffer.readItemStack();
-        recipe.input = Ingredient.fromBuffer(buffer);
-        recipe.catalyst = Ingredient.fromBuffer(buffer);
+        recipe.input = Ingredient.read(buffer);
+        recipe.catalyst = Ingredient.read(buffer);
         recipe.chaosGenerated = buffer.readVarInt();
         recipe.processTime = buffer.readVarInt();
         recipe.catalystConsumed = buffer.readVarInt();
@@ -99,8 +99,8 @@ public class AltarRecipe {
 
     public static void write(AltarRecipe recipe, PacketBuffer buffer) {
         buffer.writeItemStack(recipe.result);
-        recipe.input.writeToBuffer(buffer);
-        recipe.catalyst.writeToBuffer(buffer);
+        recipe.input.write(buffer);
+        recipe.catalyst.write(buffer);
         buffer.writeVarInt(recipe.chaosGenerated);
         buffer.writeVarInt(recipe.processTime);
         buffer.writeVarInt(recipe.catalystConsumed);

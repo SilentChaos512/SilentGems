@@ -46,7 +46,7 @@ public final class TeleporterLinker extends Item {
     }
 
     public static void setLinked(ItemStack stack, boolean value) {
-        stack.getOrCreateTag().setBoolean(NBT_LINKED, value);
+        stack.getOrCreateTag().putBoolean(NBT_LINKED, value);
     }
 
     public static DimPos getLinkedPosition(ItemStack stack) {

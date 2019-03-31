@@ -33,7 +33,7 @@ public final class ChaosRune extends Item {
 
     public static ItemStack getStack(IChaosBuff buff) {
         ItemStack result = new ItemStack(INSTANCE.get());
-        result.getOrCreateTag().setString(NBT_KEY, buff.getId().toString());
+        result.getOrCreateTag().putString(NBT_KEY, buff.getId().toString());
         return result;
     }
 

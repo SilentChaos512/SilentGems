@@ -59,7 +59,7 @@ public class ChaosGem extends Item implements IGem {
     //region Buffs and chaos
 
     public static Map<IChaosBuff, Integer> getBuffs(ItemStack stack) {
-        if (stack.isEmpty() || !stack.hasTag() || !stack.getOrCreateTag().hasKey(NBT_BUFF_LIST)) {
+        if (stack.isEmpty() || !stack.hasTag() || !stack.getOrCreateTag().contains(NBT_BUFF_LIST)) {
             return new HashMap<>();
         }
 
@@ -101,8 +101,8 @@ public class ChaosGem extends Item implements IGem {
         if (stack.isEmpty()) return;
 
         NBTTagCompound tag = stack.getOrCreateTag();
-        if (tag.hasKey(NBT_BUFF_LIST)) {
-            tag.removeTag(NBT_BUFF_LIST);
+        if (tag.contains(NBT_BUFF_LIST)) {
+            tag.remove(NBT_BUFF_LIST);
         }
 
         NBTTagList tagList = new NBTTagList();
@@ -111,12 +111,12 @@ public class ChaosGem extends Item implements IGem {
             IChaosBuff buff = entry.getKey();
             int level = entry.getValue();
             NBTTagCompound compound = new NBTTagCompound();
-            compound.setString(NBT_BUFF_KEY, buff.getId().toString());
-            compound.setShort(NBT_BUFF_LEVEL, (short) level);
+            compound.putString(NBT_BUFF_KEY, buff.getId().toString());
+            compound.putShort(NBT_BUFF_LEVEL, (short) level);
             tagList.add(compound);
         }
 
-        tag.setTag(NBT_BUFF_LIST, tagList);
+        tag.put(NBT_BUFF_LIST, tagList);
     }
 
     public static boolean canAddBuff(ItemStack stack, IChaosBuff buff) {
@@ -169,7 +169,7 @@ public class ChaosGem extends Item implements IGem {
 
     public static void setEnabled(ItemStack stack, boolean value) {
         if (stack.isEmpty()) return;
-        stack.getOrCreateTag().setBoolean(NBT_ENABLED, value);
+        stack.getOrCreateTag().putBoolean(NBT_ENABLED, value);
     }
 
     public static int getBuffLevel(ItemStack stack, IChaosBuff buff) {

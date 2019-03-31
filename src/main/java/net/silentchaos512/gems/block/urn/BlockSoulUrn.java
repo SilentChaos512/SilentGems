@@ -211,7 +211,7 @@ public class BlockSoulUrn extends BlockContainer {
 
                 NBTTagCompound compound = new NBTTagCompound();
                 NBTTagCompound compound1 = new NBTTagCompound();
-                compound.setTag(UrnConst.NBT_ROOT, tileSoulUrn.saveToNBT(compound1));
+                compound.put(UrnConst.NBT_ROOT, tileSoulUrn.saveToNBT(compound1));
                 stack.setTag(compound);
 
                 if (tileSoulUrn.hasCustomName()) {
@@ -394,8 +394,9 @@ public class BlockSoulUrn extends BlockContainer {
                 SAMPLE_SUB_ITEMS = new ArrayList<>();
 
                 SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(UrnConst.UNDYED_COLOR, Gems.selectRandom()));
-                for (EnumDyeColor color : EnumDyeColor.values())
-                    SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(color.func_196060_f(), Gems.selectRandom()));
+                for (EnumDyeColor color : EnumDyeColor.values()) {
+                    SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(color.func_196057_c(), Gems.selectRandom()));
+                }
             }
 
             items.addAll(SAMPLE_SUB_ITEMS);

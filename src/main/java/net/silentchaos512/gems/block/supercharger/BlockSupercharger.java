@@ -108,6 +108,7 @@ public final class BlockSupercharger extends BlockContainer {
         return EnumBlockRenderType.MODEL;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
         return SHAPE;

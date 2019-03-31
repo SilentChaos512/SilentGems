@@ -56,10 +56,10 @@ public class PhantomLightTileEntity extends TileEntity implements ITickable {
     @Override
     public NBTTagCompound write(NBTTagCompound compound) {
         super.write(compound);
-        compound.setInt("spawnerX", spawnerPos != null ? spawnerPos.getX() : 0);
-        compound.setInt("spawnerY", spawnerPos != null ? spawnerPos.getY() : 0);
-        compound.setInt("spawnerZ", spawnerPos != null ? spawnerPos.getZ() : 0);
-        compound.setBoolean("placedByPlayer", playerPlaced);
+        compound.putInt("spawnerX", spawnerPos != null ? spawnerPos.getX() : 0);
+        compound.putInt("spawnerY", spawnerPos != null ? spawnerPos.getY() : 0);
+        compound.putInt("spawnerZ", spawnerPos != null ? spawnerPos.getZ() : 0);
+        compound.putBoolean("placedByPlayer", playerPlaced);
         return compound;
     }
 }

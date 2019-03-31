@@ -152,7 +152,7 @@ public class SoulTraits {
 
     @Nullable
     public static SoulTraits get(String id) {
-        ResourceLocation resourceLocation = ResourceLocation.makeResourceLocation(id);
+        ResourceLocation resourceLocation = ResourceLocation.tryCreate(id);
         if (resourceLocation == null) return null;
         return get(resourceLocation);
     }

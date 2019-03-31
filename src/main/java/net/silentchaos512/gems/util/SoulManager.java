@@ -43,7 +43,7 @@ public final class SoulManager {
         // Find soul part, if it exists
         // We can't actually read/write anything to part data, just make sure the part is there
         PartData part = GearData.getPartOfType(gear, GearSoulPart.TYPE);
-        if (part == null || !gear.hasTag() || !gear.getOrCreateTag().hasKey(NBT_SOUL)) {
+        if (part == null || !gear.hasTag() || !gear.getOrCreateTag().contains(NBT_SOUL)) {
             return null;
         }
 
@@ -73,7 +73,7 @@ public final class SoulManager {
     public static void setSoul(ItemStack gear, GearSoul soul) {
         NBTTagCompound tags = new NBTTagCompound();
         soul.write(tags);
-        gear.getOrCreateTag().setTag(NBT_SOUL, tags);
+        gear.getOrCreateTag().put(NBT_SOUL, tags);
     }
 
     public static void addSoulXp(int amount, ItemStack tool, EntityPlayer player) {
@@ -104,6 +104,4 @@ public final class SoulManager {
         }
         SilentGems.LOGGER.info("Saved {} gear souls for {}", count, player.getScoreboardName());
     }
-
-
 }

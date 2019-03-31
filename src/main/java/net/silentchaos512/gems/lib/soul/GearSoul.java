@@ -492,22 +492,22 @@ public class GearSoul {
 
     public void write(NBTTagCompound tags) {
         if (!name.isEmpty()) {
-            tags.setString("name", name);
+            tags.putString("name", name);
         }
-        tags.setString("element1", this.primaryElement.name());
-        tags.setString("element2", this.secondaryElement.name());
-        tags.setInt("xp", xp);
-        tags.setInt("level", level);
+        tags.putString("element1", this.primaryElement.name());
+        tags.putString("element2", this.secondaryElement.name());
+        tags.putInt("xp", xp);
+        tags.putInt("level", level);
 
         // Save skills
         NBTTagList tagList = new NBTTagList();
         skills.forEach((trait, level) -> {
             NBTTagCompound tag = new NBTTagCompound();
-            tag.setString("id", trait.getTraitId().toString());
-            tag.setShort("level", level.shortValue());
+            tag.putString("id", trait.getTraitId().toString());
+            tag.putShort("level", level.shortValue());
             tagList.add(tag);
         });
-        tags.setTag("skills", tagList);
+        tags.put("skills", tagList);
     }
 
     @Override

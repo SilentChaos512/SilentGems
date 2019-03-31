@@ -122,14 +122,14 @@ public class UrnUpgrade {
                 Serializer<? extends UrnUpgrade> serializer = SERIALIZERS.get(upgrade.id);
                 if (serializer != null) {
                     NBTTagCompound tags = serializer.serialize();
-                    tags.setString(UrnConst.NBT_UPGRADE_ID, upgrade.id.toString());
+                    tags.putString(UrnConst.NBT_UPGRADE_ID, upgrade.id.toString());
                     tagList.add(tags);
                 } else {
                     SilentGems.LOGGER.error("Serializer for urn upgrade {} not found! Data will be lost.", upgrade.id);
                 }
             }
 
-            tagCompound.setTag(UrnConst.NBT_UPGRADES, tagList);
+            tagCompound.put(UrnConst.NBT_UPGRADES, tagList);
         }
 
         public static boolean contains(List<UrnUpgrade> upgrades, Serializer<? extends UrnUpgrade> serializer) {

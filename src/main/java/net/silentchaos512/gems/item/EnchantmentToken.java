@@ -91,10 +91,10 @@ public final class EnchantmentToken extends Item {
 
         for (int i = 0; i < tagList.size(); ++i) {
             NBTTagCompound tags = tagList.getCompound(i);
-            ResourceLocation existingId = ResourceLocation.makeResourceLocation(tags.getString("id"));
+            ResourceLocation existingId = ResourceLocation.tryCreate(tags.getString("id"));
             if (existingId != null && existingId.equals(id)) {
                 if (tags.getInt("lvl") < data.enchantmentLevel) {
-                    tags.setShort("lvl", (short) data.enchantmentLevel);
+                    tags.putShort("lvl", (short) data.enchantmentLevel);
                 }
 
                 needToAddEnchantment = false;
@@ -104,12 +104,12 @@ public final class EnchantmentToken extends Item {
 
         if (needToAddEnchantment) {
             NBTTagCompound tags = new NBTTagCompound();
-            tags.setString("id", String.valueOf(id));
-            tags.setShort("lvl", (short) data.enchantmentLevel);
+            tags.putString("id", String.valueOf(id));
+            tags.putShort("lvl", (short) data.enchantmentLevel);
             tagList.add(tags);
         }
 
-        stack.getOrCreateTag().setTag(NBT_ENCHANTMENTS, tagList);
+        stack.getOrCreateTag().put(NBT_ENCHANTMENTS, tagList);
     }
 
     public static NBTTagList getEnchantments(ItemStack stack) {
@@ -123,7 +123,7 @@ public final class EnchantmentToken extends Item {
 
         for (int i = 0; i < tagList.size(); ++i) {
             NBTTagCompound tag = tagList.getCompound(i);
-            ResourceLocation id = ResourceLocation.makeResourceLocation(tag.getString("id"));
+            ResourceLocation id = ResourceLocation.tryCreate(tag.getString("id"));
             Enchantment enchantment = ForgeRegistries.ENCHANTMENTS.getValue(id);
             if (enchantment != null) {
                 map.put(enchantment, tag.getInt("lvl"));
@@ -231,7 +231,7 @@ public final class EnchantmentToken extends Item {
         // Enchantment list
         for (Entry<Enchantment, Integer> entry : enchants.entrySet()) {
             Enchantment enchantment = entry.getKey();
-            ITextComponent enchName = enchantment.func_200305_d(entry.getValue());
+            ITextComponent enchName = enchantment.getDisplayName(entry.getValue());
             ResourceLocation registryName = Objects.requireNonNull(enchantment.getRegistryName());
             String modName = "Unknown";
             for (ModInfo info : ModList.get().getMods()) {
@@ -276,8 +276,8 @@ public final class EnchantmentToken extends Item {
             Enchantment ench2 = getSingleEnchantment(o2);
             if (ench1 != null && ench2 != null) {
                 // If this crashes the enchantment is at fault, nothing should be done about it.
-                ITextComponent name1 = ench1.func_200305_d(1);
-                ITextComponent name2 = ench2.func_200305_d(1);
+                ITextComponent name1 = ench1.getDisplayName(1);
+                ITextComponent name2 = ench2.getDisplayName(1);
                 return name1.getFormattedText().compareTo(name2.getFormattedText());
             }
         }

@@ -20,7 +20,7 @@ public class GlowroseFeature extends AbstractFlowersFeature {
     }
 
     @Override
-    public boolean func_212245_a(IWorld world, IChunkGenerator<? extends IChunkGenSettings> chunkGenerator, Random random, BlockPos pos, NoFeatureConfig config) {
+    public boolean place(IWorld world, IChunkGenerator<? extends IChunkGenSettings> generator, Random random, BlockPos pos, NoFeatureConfig config) {
         IBlockState flower = this.getRandomFlower(random, pos);
         int numberPlaced = 0;
         int maxCount = GemsConfig.COMMON.glowroseMaxPlaceCount.get();
