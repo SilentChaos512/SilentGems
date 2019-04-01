@@ -53,10 +53,22 @@ public class TokenEnchanterTileEntity extends TileSidedInventorySL implements IT
                 progress = 0;
             }
             sendUpdate();
-        } else if (progress > 0) {
+        } else {
+            setNeutralState();
+        }
+    }
+
+    private void setNeutralState() {
+        boolean update = false;
+        if (progress > 0) {
             progress = 0;
+            update = true;
+        }
+        if (chaosGenerated > 0) {
             chaosGenerated = 0;
-            processTime = 100;
+            update = true;
+        }
+        if (update) {
             sendUpdate();
         }
     }

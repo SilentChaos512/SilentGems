@@ -1,0 +1,19 @@
+{
+  "chaosGenerated": 250,
+  "processTime": 20,
+  "ingredients": {
+    "token": {
+      "tag": "forge:gems/chaos"
+    },
+    "others": [
+      {
+        "item": "minecraft:charcoal",
+        "count": 8
+      }
+    ]
+  },
+  "result": {
+    "item": "silentgems:chaos_coal",
+    "count": 6
+  }
+}
