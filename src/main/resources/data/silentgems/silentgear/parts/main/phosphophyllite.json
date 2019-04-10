@@ -89,7 +89,11 @@
     },
     "traits": [
         {
-            "level": 1,
+            "level": 3,
+            "name": "silentgear:synergistic"
+        },
+        {
+            "level": 4,
             "name": "silentgear:brittle"
         }
     ],

@@ -89,7 +89,11 @@
     },
     "traits": [
         {
-            "level": 1,
+            "level": 2,
+            "name": "silentgear:chipping"
+        },
+        {
+            "level": 2,
             "name": "silentgear:brittle"
         }
     ],

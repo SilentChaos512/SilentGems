@@ -90,6 +90,10 @@
     "traits": [
         {
             "level": 1,
+            "name": "silentgems:luna"
+        },
+        {
+            "level": 2,
             "name": "silentgear:brittle"
         }
     ],

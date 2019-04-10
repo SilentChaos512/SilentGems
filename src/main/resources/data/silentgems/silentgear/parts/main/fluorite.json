@@ -90,6 +90,10 @@
     "traits": [
         {
             "level": 1,
+            "name": "silentgems:ice_aura"
+        },
+        {
+            "level": 2,
             "name": "silentgear:brittle"
         }
     ],

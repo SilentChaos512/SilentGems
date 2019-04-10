@@ -89,7 +89,11 @@
     },
     "traits": [
         {
-            "level": 1,
+            "level": 4,
+            "name": "silentgear:stellar"
+        },
+        {
+            "level": 2,
             "name": "silentgear:brittle"
         }
     ],

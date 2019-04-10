@@ -90,6 +90,10 @@
     "traits": [
         {
             "level": 1,
+            "name": "silentgems:runic"
+        },
+        {
+            "level": 3,
             "name": "silentgear:brittle"
         }
     ],

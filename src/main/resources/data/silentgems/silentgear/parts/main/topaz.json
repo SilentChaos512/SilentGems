@@ -89,6 +89,10 @@
     },
     "traits": [
         {
+            "level": 2,
+            "name": "silentgear:lustrous"
+        },
+        {
             "level": 1,
             "name": "silentgear:brittle"
         }
