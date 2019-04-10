@@ -101,7 +101,7 @@ public class TileSupercharger extends TileSidedInventorySL implements ITickable 
             if (wouldFitInOutputSlot(input, chargeTier)) {
                 ++progress;
                 if (chaosGenerated > 0) {
-                    Chaos.generate(this.world, chaosGenerated);
+                    Chaos.generate(this.world, chaosGenerated, this.pos);
                 }
                 processTime = getProcessTime(partTier, chargeTier);
 

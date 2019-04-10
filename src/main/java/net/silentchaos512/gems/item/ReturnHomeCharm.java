@@ -193,7 +193,7 @@ public class ReturnHomeCharm extends Item implements IGem /*implements IBauble, 
         // Sound at source
         player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0f, soundPitch);
         if (TeleportUtil.teleportPlayerTo((EntityPlayerMP) player, pos)) {
-            Chaos.generate(player, getTeleportCost(stack, player));
+            Chaos.generate(player, getTeleportCost(stack, player), true);
         }
         // Sound at destination
         player.world.playSound(null, pos.getPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0f, soundPitch);

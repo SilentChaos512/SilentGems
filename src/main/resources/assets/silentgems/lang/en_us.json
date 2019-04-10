@@ -255,7 +255,7 @@
     "item.silentgems.chaos_gem.slots": "Slots: %d / %d",
     "item.silentgems.chaos_iron": "Chaos Iron Ingot",
     "item.silentgems.chaos_iron_unfired": "Unfired Chaos Iron Ingot",
-    "item.silentgems.chaos_orb.break": "Your %1$s shatters into %2$,d pieces",
+    "item.silentgems.chaos_orb.break": "Your %1$s shatters into %2$s pieces",
     "item.silentgems.chaos_orb.breakChance": "Max break chance: %d%%",
     "item.silentgems.chaos_orb.crack": "Your %s has cracked...",
     "item.silentgems.chaos_orb.desc": "Absorbs chaos, but may break when strained",

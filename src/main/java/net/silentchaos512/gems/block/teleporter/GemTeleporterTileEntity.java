@@ -136,7 +136,7 @@ public class GemTeleporterTileEntity extends TileEntity {
         world.playSound(null, this.pos, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0f, pitch);
         int chaosGenerated = getChaosGenerated(player);
         if (this.teleportEntityToDestination(player)) {
-            Chaos.generate(player, chaosGenerated);
+            Chaos.generate(player, chaosGenerated, true);
         }
         world.playSound(null, this.destination.getPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0f, pitch);
 

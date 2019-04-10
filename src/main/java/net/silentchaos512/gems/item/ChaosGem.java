@@ -197,7 +197,7 @@ public class ChaosGem extends Item implements IGem {
         if (isEnabled(stack)) {
             EntityPlayer player = (EntityPlayer) entity;
             applyEffects(stack, player);
-            Chaos.generate(player, getChaosGenerated(stack, player));
+            Chaos.generate(player, getChaosGenerated(stack, player), true);
         }
     }
 

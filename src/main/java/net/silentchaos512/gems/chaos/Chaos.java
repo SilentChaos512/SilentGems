@@ -2,11 +2,14 @@ package net.silentchaos512.gems.chaos;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.chaos.IChaosSource;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.item.ChaosOrb;
 import net.silentchaos512.lib.util.DimPos;
 
 public final class Chaos {
@@ -15,14 +18,36 @@ public final class Chaos {
 
     private Chaos() {throw new IllegalAccessError("Utility class");}
 
-    public static void generate(ICapabilityProvider obj, int amount) {
+    public static void generate(EntityPlayer player, int amount, boolean allowOrbs) {
+        if (amount == 0) return;
+
+        int amountLeft = amount;
+        if (allowOrbs) {
+            for (ItemStack stack : player.inventory.mainInventory) {
+                if (!stack.isEmpty() && stack.getItem() instanceof ChaosOrb) {
+                    amountLeft = ChaosOrb.absorbChaos(player, stack, amountLeft);
+                    if (SilentGems.LOGGER.isDebugEnabled()) {
+                        SilentGems.LOGGER.debug("{}'s {} absorbed {} chaos ({} left)",
+                                player.getScoreboardName(), stack, amount - amountLeft, amountLeft);
+                    }
+                    break;
+                }
+            }
+        }
+
+        generate(player, amountLeft, player.getPosition());
+    }
+
+    public static void generate(ICapabilityProvider obj, int amount, BlockPos pos) {
         if (amount == 0) return;
         obj.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> source.addChaos(amount));
 
-        if (amount > 0) {
-            SilentGems.LOGGER.debug("Generated {} chaos", String.format("%,d", amount));
-        } else {
-            SilentGems.LOGGER.debug("Dissipated {} chaos", String.format("%,d", -amount));
+        if (SilentGems.LOGGER.isDebugEnabled()) {
+            if (amount > 0) {
+                SilentGems.LOGGER.debug("Generated {} chaos", String.format("%,d", amount));
+            } else {
+                SilentGems.LOGGER.debug("Dissipated {} chaos", String.format("%,d", -amount));
+            }
         }
     }
 

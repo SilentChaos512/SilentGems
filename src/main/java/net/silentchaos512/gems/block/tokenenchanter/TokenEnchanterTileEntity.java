@@ -44,7 +44,7 @@ public class TokenEnchanterTileEntity extends TileSidedInventorySL implements IT
             ++progress;
             chaosGenerated = recipe.getChaosGenerated();
             processTime = recipe.getProcessTime();
-            Chaos.generate(this.world, chaosGenerated);
+            Chaos.generate(this.world, chaosGenerated, this.pos);
 
             if (progress >= processTime) {
                 // Create result
