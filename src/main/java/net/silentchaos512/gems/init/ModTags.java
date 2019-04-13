@@ -39,6 +39,10 @@ public class ModTags {
         public static final Tag<Item> RODS_ORNATE_SILVER = tag("forge", "rods/ornate_silver");
         public static final Tag<Item> STEW_FISH = tag("stew_fish");
         public static final Tag<Item> STEW_MEAT = tag("stew_meat");
+        public static final Tag<Item> SUPERCHARGER_PILLAR_CAP = tag("supercharger_pillar/cap");
+        public static final Tag<Item> SUPERCHARGER_PILLAR_LEVEL1 = tag("supercharger_pillar/level1");
+        public static final Tag<Item> SUPERCHARGER_PILLAR_LEVEL2 = tag("supercharger_pillar/level2");
+        public static final Tag<Item> SUPERCHARGER_PILLAR_LEVEL3 = tag("supercharger_pillar/level3");
 
         private Items() {}
 

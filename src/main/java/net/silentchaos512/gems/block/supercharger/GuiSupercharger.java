@@ -20,11 +20,11 @@ package net.silentchaos512.gems.block.supercharger;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
-import net.silentchaos512.utils.Color;
 
 public class GuiSupercharger extends GuiContainer {
     private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.MOD_ID, "textures/gui/altar.png");
@@ -44,11 +44,18 @@ public class GuiSupercharger extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        int color = -1;
+
+        // Structure tier
+        int tier = this.tileEntity.getStructureLevel();
+        String textTier = I18n.format("block.silentgems.supercharger.tier", String.valueOf(tier));
+        fontRenderer.drawStringWithShadow(textTier, 5, 5, color);
+
         // Chaos generated
         int chaosGenerated = this.tileEntity.getChaosGenerated();
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaosGenerated);
         String text = emissionRate.getEmissionText(chaosGenerated).getFormattedText();
-        fontRenderer.drawString(text, 5, 5, Color.BLACK.getColor());
+        fontRenderer.drawStringWithShadow(text, 5, 15, color);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.compat.jei;
 
+import com.google.common.collect.ImmutableList;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
@@ -11,16 +12,20 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
+import net.silentchaos512.gems.block.supercharger.BlockSupercharger;
+import net.silentchaos512.gems.block.supercharger.GuiSupercharger;
+import net.silentchaos512.gems.block.supercharger.SuperchargerPillarStructure;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterGui;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
+import net.silentchaos512.gems.init.ModTags;
 import net.silentchaos512.gems.item.ChaosRune;
 import net.silentchaos512.gems.item.EnchantmentToken;
 import net.silentchaos512.gems.item.SoulGem;
 import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
 import net.silentchaos512.gems.lib.soul.Soul;
 
-import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,12 +33,11 @@ import java.util.stream.Stream;
 @JeiPlugin
 public class SilentGemsPlugin implements IModPlugin {
     private static final ResourceLocation PLUGIN_UID = SilentGems.getId("plugin/main");
+    static final ResourceLocation SUPERCHARGER_PILLAR = SilentGems.getId("category/supercharger_pillar");
     static final ResourceLocation TOKEN_ENCHANTING = SilentGems.getId("category/token_enchanting");
     static final ResourceLocation GUI_TEXTURE = SilentGems.getId("textures/gui/recipe_display.png");
 
     private static boolean initFailed = true;
-
-    @Nullable private TokenEnchanterRecipeCategoryJei tokenEnchanterCategory;
 
     public static boolean hasInitFailed() {
         return initFailed;
@@ -49,10 +53,14 @@ public class SilentGemsPlugin implements IModPlugin {
         initFailed = true;
 
         IGuiHelper guiHelper = reg.getJeiHelpers().getGuiHelper();
-        tokenEnchanterCategory = new TokenEnchanterRecipeCategoryJei(guiHelper);
         reg.addRecipeCategories(
-                tokenEnchanterCategory
+                new TokenEnchanterRecipeCategoryJei(guiHelper)
         );
+        if (SGearProxy.isLoaded()) {
+            reg.addRecipeCategories(
+                    new SuperchargerPillarCategory(guiHelper)
+            );
+        }
 
         initFailed = false;
     }
@@ -61,9 +69,28 @@ public class SilentGemsPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration reg) {
         initFailed = true;
 
-        checkNotNull(tokenEnchanterCategory, "tokenEnchanterCategory");
-
         reg.addRecipes(TokenEnchanterRecipeManager.getValues(), TOKEN_ENCHANTING);
+
+        if (SGearProxy.isLoaded()) {
+            reg.addRecipes(ImmutableList.of(
+                    new SuperchargerPillarStructure(1, ImmutableList.of(
+                            ModTags.Items.SUPERCHARGER_PILLAR_LEVEL1,
+                            ModTags.Items.SUPERCHARGER_PILLAR_CAP
+                    )),
+                    new SuperchargerPillarStructure(2, ImmutableList.of(
+                            ModTags.Items.SUPERCHARGER_PILLAR_LEVEL2,
+                            ModTags.Items.SUPERCHARGER_PILLAR_LEVEL1,
+                            ModTags.Items.SUPERCHARGER_PILLAR_CAP
+                    )),
+                    new SuperchargerPillarStructure(3, ImmutableList.of(
+                            ModTags.Items.SUPERCHARGER_PILLAR_LEVEL3,
+                            ModTags.Items.SUPERCHARGER_PILLAR_LEVEL3,
+                            ModTags.Items.SUPERCHARGER_PILLAR_LEVEL2,
+                            ModTags.Items.SUPERCHARGER_PILLAR_LEVEL1,
+                            ModTags.Items.SUPERCHARGER_PILLAR_CAP
+                    ))
+            ), SUPERCHARGER_PILLAR);
+        }
 
         addInfoPage(reg, LuminousFlowerPotBlock.INSTANCE.get());
         addInfoPage(reg, SoulGem.INSTANCE.get(), Soul.getValues().stream().map(Soul::getSoulGem));
@@ -76,11 +103,13 @@ public class SilentGemsPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration reg) {
+        reg.addRecipeCatalyst(new ItemStack(BlockSupercharger.INSTANCE.get()), SUPERCHARGER_PILLAR);
         reg.addRecipeCatalyst(new ItemStack(TokenEnchanterBlock.INSTANCE.get()), TOKEN_ENCHANTING);
     }
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration reg) {
+        reg.addRecipeClickArea(GuiSupercharger.class, 4, 4, 100, 10, SUPERCHARGER_PILLAR);
         reg.addRecipeClickArea(TokenEnchanterGui.class, 102, 32, 24, 23, TOKEN_ENCHANTING);
     }
 
@@ -111,12 +140,6 @@ public class SilentGemsPlugin implements IModPlugin {
 //            return color != UrnConst.UNDYED_COLOR ? Integer.toString(color, 16) : "uncolored";
 //        });
         initFailed = false;
-    }
-
-    private static void checkNotNull(@Nullable Object obj, String name) {
-        if (obj == null) {
-            throw new NullPointerException(name + " must not be null");
-        }
     }
 
     private static void addInfoPage(IRecipeRegistration reg, IItemProvider item) {
