@@ -48,9 +48,9 @@ public final class ModItems {
         register("chaos_rune", ChaosRune.INSTANCE.get());
 
         register("chaos_potato", new ChaosOrb(0, 5000, 0.5f));
-        register("fragile_chaos_orb", new ChaosOrb(3, 100_000, 0.2f));
-        register("refined_chaos_orb", new ChaosOrb(3, 1_000_000, 0.1f));
-        register("perfect_chaos_orb", new ChaosOrb(3, 10_000_000, 0.05f));
+        register("fragile_chaos_orb", new ChaosOrb(2, 100_000, 0.2f));
+        register("refined_chaos_orb", new ChaosOrb(4, 1_000_000, 0.1f));
+        register("perfect_chaos_orb", new ChaosOrb(4, 10_000_000, 0.05f));
 
         register("fluffy_puff_seeds", FluffyPuffSeeds.INSTANCE.get());
         register("glowrose_fertilizer", GlowroseFertilizer.INSTANCE.get());
