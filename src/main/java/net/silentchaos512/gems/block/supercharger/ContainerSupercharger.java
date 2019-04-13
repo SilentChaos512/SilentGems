@@ -33,9 +33,9 @@ public class ContainerSupercharger extends Container {
     public ContainerSupercharger(InventoryPlayer playerInventory, TileSupercharger tileEntity) {
         this.tileEntity = tileEntity;
 
-        this.addSlot(new Slot(this.tileEntity, 0, 56, 35));
-        this.addSlot(new Slot(tileEntity, 1, 83, 54));
-        this.addSlot(new SlotOutputOnly(this.tileEntity, 2, 111, 35));
+        this.addSlot(new Slot(this.tileEntity, 0, 56, 25));
+        this.addSlot(new Slot(this.tileEntity, 1, 56, 45));
+        this.addSlot(new SlotOutputOnly(this.tileEntity, 2, 115, 35));
 
         int i;
         for (i = 0; i < 3; ++i) {

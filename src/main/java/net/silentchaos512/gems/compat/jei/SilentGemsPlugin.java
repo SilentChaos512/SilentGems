@@ -28,12 +28,14 @@ import net.silentchaos512.gems.lib.soul.Soul;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @JeiPlugin
 public class SilentGemsPlugin implements IModPlugin {
     private static final ResourceLocation PLUGIN_UID = SilentGems.getId("plugin/main");
     static final ResourceLocation SUPERCHARGER_PILLAR = SilentGems.getId("category/supercharger_pillar");
+    static final ResourceLocation SUPERCHARGING = SilentGems.getId("category/supercharging");
     static final ResourceLocation TOKEN_ENCHANTING = SilentGems.getId("category/token_enchanting");
     static final ResourceLocation GUI_TEXTURE = SilentGems.getId("textures/gui/recipe_display.png");
 
@@ -58,7 +60,8 @@ public class SilentGemsPlugin implements IModPlugin {
         );
         if (SGearProxy.isLoaded()) {
             reg.addRecipeCategories(
-                    new SuperchargerPillarCategory(guiHelper)
+                    new SuperchargerPillarCategory(guiHelper),
+                    new SuperchargingRecipeCategoryJei(guiHelper)
             );
         }
 
@@ -90,6 +93,9 @@ public class SilentGemsPlugin implements IModPlugin {
                             ModTags.Items.SUPERCHARGER_PILLAR_CAP
                     ))
             ), SUPERCHARGER_PILLAR);
+            reg.addRecipes(IntStream.rangeClosed(1, 3)
+                    .mapToObj(SuperchargingRecipeCategoryJei.Recipe::new)
+                    .collect(Collectors.toList()), SUPERCHARGING);
         }
 
         addInfoPage(reg, LuminousFlowerPotBlock.INSTANCE.get());
@@ -103,13 +109,13 @@ public class SilentGemsPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration reg) {
-        reg.addRecipeCatalyst(new ItemStack(BlockSupercharger.INSTANCE.get()), SUPERCHARGER_PILLAR);
+        reg.addRecipeCatalyst(new ItemStack(BlockSupercharger.INSTANCE.get()), SUPERCHARGING, SUPERCHARGER_PILLAR);
         reg.addRecipeCatalyst(new ItemStack(TokenEnchanterBlock.INSTANCE.get()), TOKEN_ENCHANTING);
     }
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration reg) {
-        reg.addRecipeClickArea(GuiSupercharger.class, 4, 4, 100, 10, SUPERCHARGER_PILLAR);
+        reg.addRecipeClickArea(GuiSupercharger.class, 79, 32, 24, 23, SUPERCHARGING, SUPERCHARGER_PILLAR);
         reg.addRecipeClickArea(TokenEnchanterGui.class, 102, 32, 24, 23, TOKEN_ENCHANTING);
     }
 

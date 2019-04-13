@@ -4,7 +4,6 @@ import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
-import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
@@ -36,7 +35,6 @@ public class TokenEnchanterRecipeCategoryJei implements IRecipeCategory<TokenEnc
     public TokenEnchanterRecipeCategoryJei(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(SilentGemsPlugin.GUI_TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
         icon = guiHelper.createDrawableIngredient(new ItemStack(TokenEnchanterBlock.INSTANCE.get()));
-        IDrawableStatic arrowDrawable = guiHelper.createDrawable(SilentGemsPlugin.GUI_TEXTURE, 73, 14, 24, 17);
         arrow = guiHelper.drawableBuilder(SilentGemsPlugin.GUI_TEXTURE, 73, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
         localizedName = I18n.format("category.silentgems.token_enchanting");

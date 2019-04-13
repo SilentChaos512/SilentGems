@@ -18,9 +18,9 @@ public class AltarContainer extends Container {
     }
 
     private void setupSlots(InventoryPlayer inventoryPlayer) {
-        this.addSlot(new Slot(this.altar, 0, 56, 35));
-        this.addSlot(new Slot(this.altar, 1, 83, 54));
-        this.addSlot(new SlotOutputOnly(this.altar, 2, 111, 35));
+        this.addSlot(new Slot(this.altar, 0, 56, 25));
+        this.addSlot(new Slot(this.altar, 1, 56, 45));
+        this.addSlot(new SlotOutputOnly(this.altar, 2, 115, 35));
 
         int i;
         for (i = 0; i < 3; ++i) {
