@@ -20,17 +20,30 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class PedestalTileEntity extends TileSidedInventorySL implements ITickable {
+    private int timer;
+
     public PedestalTileEntity() {
         super(ModTileEntities.PEDESTAL.type());
     }
 
-    public ItemStack getItem() {
-        return getStackInSlot(0);
-    }
-
     @Override
     public void tick() {
-        // TODO
+        boolean sendUpdate = false;
+
+        // TODO: chaos gem support
+
+        ++timer;
+        if ((timer + this.hashCode()) % 600 == 0) {
+            sendUpdate = true;
+        }
+
+        if (sendUpdate) {
+            sendUpdate();
+        }
+    }
+
+    public ItemStack getItem() {
+        return getStackInSlot(0);
     }
 
     public void setItem(ItemStack stack) {
