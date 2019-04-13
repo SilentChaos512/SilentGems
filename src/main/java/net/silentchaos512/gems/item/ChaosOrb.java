@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.item;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -13,8 +14,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModItemGroups;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ChaosOrb extends Item {
     private final int maxAbsorb;
@@ -130,5 +135,10 @@ public class ChaosOrb extends Item {
         ChaosOrb item = (ChaosOrb) stack.getItem();
         float ratio = (float) getChaosAbsorbed(stack) / item.maxAbsorb;
         return MathHelper.clamp((int) (ratio * (item.crackStages + 1)), 0, item.crackStages);
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(new TextComponentTranslation("item.silentgems.chaos_orb.leakage", (int) (100 * this.leakage)));
     }
 }
