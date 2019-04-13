@@ -1,0 +1,19 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    " / ",
+    "/#/",
+    " / "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:glass"
+    },
+    "/": {
+      "item": "silentgems:chaos_crystal"
+    }
+  },
+  "result": {
+    "item": "silentgems:fragile_chaos_orb"
+  }
+}
