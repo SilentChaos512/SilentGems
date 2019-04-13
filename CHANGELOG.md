@@ -4,6 +4,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- JEI plugin is back
+- Token enchanter JEI support
+
+## [3.0.10] - 2019-04-12
 Add some traits to some gems (still working on this). Many of the new traits do nothing right now.
 ### Added
 - Chaos orbs are back. They absorb chaos, but efficiency varies. All orbs have a certain amount of "leakage". They can absorb a fixed amount of chaos, then they break.

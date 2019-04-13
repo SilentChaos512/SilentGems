@@ -19,14 +19,15 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
+@SuppressWarnings("deprecation")
 public final class TokenEnchanterRecipeManager implements IResourceManagerReloadListener {
     public static final TokenEnchanterRecipeManager INSTANCE = new TokenEnchanterRecipeManager();
     private static final String DATA_PATH = "silentgems/token_recipes/";
     private static final Marker MARKER = MarkerManager.getMarker("TokenEnchanterRecipeManager");
-    private static final Map<ResourceLocation, TokenEnchanterRecipe> MAP = new HashMap<>();
+    private static final Map<ResourceLocation, TokenEnchanterRecipe> MAP = new LinkedHashMap<>();
 
     private TokenEnchanterRecipeManager() {}
 

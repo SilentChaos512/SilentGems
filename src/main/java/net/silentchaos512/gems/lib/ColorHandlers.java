@@ -37,7 +37,7 @@ public final class ColorHandlers {
         }
 
         registerItems(colors, BlockSoulUrn::getItemColor, ModBlocks.soulUrn);
-        registerItems(colors, EnchantmentToken::getItemColor, EnchantmentToken.INSTANCE);
+        registerItems(colors, EnchantmentToken::getItemColor, EnchantmentToken.INSTANCE.get());
 
         // Return Home Charm
         registerItems(colors, ReturnHomeCharm::getColor, Arrays.stream(Gems.values())

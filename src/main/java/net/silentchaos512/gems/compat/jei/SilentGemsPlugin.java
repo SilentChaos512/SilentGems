@@ -1,139 +1,136 @@
-//package net.silentchaos512.gems.compat.jei;
-//
-//import mezz.jei.api.*;
-//import mezz.jei.api.ingredients.IIngredientBlacklist;
-//import mezz.jei.api.ingredients.IModIngredientRegistration;
-//import mezz.jei.api.recipe.IRecipeCategoryRegistration;
-//import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
-//import net.minecraft.enchantment.Enchantment;
-//import net.minecraft.item.ItemStack;
-//import net.minecraft.util.ResourceLocation;
-//import net.minecraftforge.oredict.OreDictionary;
-//import net.minecraftforge.registries.IForgeRegistryEntry;
-//import net.silentchaos512.gems.SilentGems;
-//import net.silentchaos512.gems.client.gui.GuiChaosAltar;
-//import net.silentchaos512.gems.compat.jei.altar.AltarRecipeCategory;
-//import net.silentchaos512.gems.compat.jei.altar.AltarRecipeMaker;
-//import net.silentchaos512.gems.init.ModBlocks;
-//import net.silentchaos512.gems.init.ModItems;
-//import net.silentchaos512.gems.lib.ChaosBuff;
-//import net.silentchaos512.gems.recipe.RecipeSoulUrnModify;
-//import net.silentchaos512.lib.util.StackHelper;
-//
-//import java.util.Collection;
-//import java.util.Objects;
-//
-//@JEIPlugin
-//public class SilentGemsPlugin implements IModPlugin {
-//    private static boolean initFailed = true;
-//
-//    public static boolean hasInitFailed() {
-//        return initFailed;
-//    }
-//
-//    @Override
-//    public void register(IModRegistry reg) {
-//        initFailed = true;
-//        doItemBlacklist(reg.getJeiHelpers().getIngredientBlacklist());
-//        doRecipeRegistration(reg, reg.getJeiHelpers().getGuiHelper());
-//        doAddDescriptions(reg);
-//        initFailed = false;
-//    }
-//
-//    @Override
-//    public void registerCategories(IRecipeCategoryRegistration reg) {
-//        initFailed = true;
-//        reg.addRecipeCategories(new AltarRecipeCategory(reg.getJeiHelpers().getGuiHelper()));
-//        initFailed = false;
-//    }
-//
-//    private void doItemBlacklist(IIngredientBlacklist list) {
-//        // Hide certain blocks/items
-//        int any = OreDictionary.WILDCARD_VALUE;
-//        list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampInverted, 1, any));
-//        list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampInvertedDark, 1, any));
-//        list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampInvertedLight, 1, any));
-//        list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampLit, 1, any));
-//        list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampLitDark, 1, any));
-//        list.addIngredientToBlacklist(new ItemStack(ModBlocks.gemLampLitLight, 1, any));
-//        list.addIngredientToBlacklist(new ItemStack(ModBlocks.fluffyPuffPlant));
-//        list.addIngredientToBlacklist(new ItemStack(ModItems.toolRenderHelper));
-//        list.addIngredientToBlacklist(new ItemStack(ModItems.debugItem));
-//    }
-//
-//    // FIXME
-//    private void doRecipeRegistration(IModRegistry reg, IGuiHelper guiHelper) {
-//        // Recipes
-//        reg.addRecipes(AltarRecipeMaker.getRecipes(), AltarRecipeCategory.CATEGORY);
-//        reg.addRecipes(ToolHelper.EXAMPLE_RECIPES, VanillaRecipeCategoryUid.CRAFTING);
-//
-//        // Soul urn modify hints
+package net.silentchaos512.gems.compat.jei;
+
+import mezz.jei.api.IModPlugin;
+import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.registration.*;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.ResourceLocation;
+import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
+import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
+import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterGui;
+import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
+import net.silentchaos512.gems.item.ChaosRune;
+import net.silentchaos512.gems.item.EnchantmentToken;
+import net.silentchaos512.gems.item.SoulGem;
+import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
+import net.silentchaos512.gems.lib.soul.Soul;
+
+import javax.annotation.Nullable;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+@JeiPlugin
+public class SilentGemsPlugin implements IModPlugin {
+    private static final ResourceLocation PLUGIN_UID = SilentGems.getId("plugin/main");
+    static final ResourceLocation TOKEN_ENCHANTING = SilentGems.getId("category/token_enchanting");
+    static final ResourceLocation GUI_TEXTURE = SilentGems.getId("textures/gui/recipe_display.png");
+
+    private static boolean initFailed = true;
+
+    @Nullable private TokenEnchanterRecipeCategoryJei tokenEnchanterCategory;
+
+    public static boolean hasInitFailed() {
+        return initFailed;
+    }
+
+    @Override
+    public ResourceLocation getPluginUid() {
+        return PLUGIN_UID;
+    }
+
+    @Override
+    public void registerCategories(IRecipeCategoryRegistration reg) {
+        initFailed = true;
+
+        IGuiHelper guiHelper = reg.getJeiHelpers().getGuiHelper();
+        tokenEnchanterCategory = new TokenEnchanterRecipeCategoryJei(guiHelper);
+        reg.addRecipeCategories(
+                tokenEnchanterCategory
+        );
+
+        initFailed = false;
+    }
+
+    @Override
+    public void registerRecipes(IRecipeRegistration reg) {
+        initFailed = true;
+
+        checkNotNull(tokenEnchanterCategory, "tokenEnchanterCategory");
+
+        reg.addRecipes(TokenEnchanterRecipeManager.getValues(), TOKEN_ENCHANTING);
+
+        addInfoPage(reg, LuminousFlowerPotBlock.INSTANCE.get());
+        addInfoPage(reg, SoulGem.INSTANCE.get(), Soul.getValues().stream().map(Soul::getSoulGem));
+
+        // Soul urn modify hints
 //        reg.addRecipes(RecipeSoulUrnModify.getExampleRecipes(), VanillaRecipeCategoryUid.CRAFTING);
-//
-//        // Click areas
-//        reg.addRecipeClickArea(GuiChaosAltar.class, 80, 34, 25, 16, AltarRecipeCategory.CATEGORY);
-//
-//        // Recipe crafting items
-//        reg.addRecipeCatalyst(new ItemStack(ModBlocks.chaosAltar), AltarRecipeCategory.CATEGORY);
-//    }
-//
-//    private void doAddDescriptions(IModRegistry reg) {
-//        addIngredientInfoPages(reg, SilentGems.registry.getBlocks());
-//        addIngredientInfoPages(reg, SilentGems.registry.getItems());
-//        reg.addIngredientInfo(new ItemStack(ModBlocks.chaosPylon, 1, 0), ItemStack.class, getDescKey("chaospylon0"));
-//        reg.addIngredientInfo(new ItemStack(ModBlocks.chaosPylon, 1, 1), ItemStack.class, getDescKey("chaospylon1"));
-//    }
-//
-//    @Override
-//    public void registerIngredients(IModIngredientRegistration arg0) {
-//    }
-//
-//    @Override
-//    public void registerItemSubtypes(ISubtypeRegistry reg) {
-//        initFailed = true;
-//        // Enchantment tokens
-//        reg.registerSubtypeInterpreter(ModItems.enchantmentToken, stack -> {
-//            Enchantment ench = ModItems.enchantmentToken.getSingleEnchantment(stack);
-//            return ench == null ? "none" : ench.getName();
+
+        initFailed = false;
+    }
+
+    @Override
+    public void registerRecipeCatalysts(IRecipeCatalystRegistration reg) {
+        reg.addRecipeCatalyst(new ItemStack(TokenEnchanterBlock.INSTANCE.get()), TOKEN_ENCHANTING);
+    }
+
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration reg) {
+        reg.addRecipeClickArea(TokenEnchanterGui.class, 102, 32, 24, 23, TOKEN_ENCHANTING);
+    }
+
+    @Override
+    public void registerItemSubtypes(ISubtypeRegistration reg) {
+        initFailed = true;
+        // Enchantment tokens
+        reg.registerSubtypeInterpreter(EnchantmentToken.INSTANCE.get(), stack -> {
+            Enchantment enchantment = EnchantmentToken.getSingleEnchantment(stack);
+            return enchantment != null ? enchantment.getName() : "none";
+        });
+
+        // Chaos Runes
+        reg.registerSubtypeInterpreter(ChaosRune.INSTANCE.get(), stack -> {
+            IChaosBuff buff = ChaosRune.getBuff(stack);
+            return buff != null ? buff.getId().toString() : "none";
+        });
+
+        // Soul Gems
+        reg.registerSubtypeInterpreter(SoulGem.INSTANCE.get(), stack -> {
+            Soul soul = SoulGem.getSoul(stack);
+            return soul != null ? soul.getId().toString() : "none";
+        });
+
+        // Soul Urns
+//        reg.registerSubtypeInterpreter(Item.getItemFromBlock(ModBlocks.soulUrn), stack -> {
+//            int color = ModBlocks.soulUrn.getClayColor(stack);
+//            return color != UrnConst.UNDYED_COLOR ? Integer.toString(color, 16) : "uncolored";
 //        });
-//
-//        // Chaos Runes
-//        reg.registerSubtypeInterpreter(ModItems.chaosRune, stack -> {
-//            ChaosBuff buff = ModItems.chaosRune.getBuff(stack);
-//            return buff == null ? "none" : buff.getKey();
-//        });
-//
-//        // Soul Gems
-////        reg.registerSubtypeInterpreter(ModItems.soulGem, stack -> {
-////            ItemSoulGem.Soul soul = ModItems.soulGem.getSoul(stack);
-////            return soul != null ? soul.id : "null";
-////        });
-//
-//        // Soul Urns
-////        reg.registerSubtypeInterpreter(Item.getItemFromBlock(ModBlocks.soulUrn), stack -> {
-////            int color = ModBlocks.soulUrn.getClayColor(stack);
-////            return color != UrnConst.UNDYED_COLOR ? Integer.toString(color, 16) : "uncolored";
-////        });
-//        initFailed = false;
-//    }
-//
-//    private void addIngredientInfoPages(IModRegistry registry, Collection<? extends IForgeRegistryEntry<?>> list) {
-//        for (IForgeRegistryEntry<?> obj : list) {
-//            String key = getDescKey(Objects.requireNonNull(obj.getRegistryName()));
-////            SilentGems.logHelper.debug("JEI desc key: {}", key);
-//            if (SilentGems.i18n.hasKey(key)) {
-//                ItemStack stack = StackHelper.fromBlockOrItem(obj);
-//                stack.setItemDamage(OreDictionary.WILDCARD_VALUE);
-//                registry.addIngredientInfo(stack, ItemStack.class, key);
-//            }
-//        }
-//    }
-//
-//    private String getDescKey(String name) {
-//        return "jei." + SilentGems.MOD_ID + "." + name + ".desc";
-//    }
-//
-//    private String getDescKey(ResourceLocation name) {
-//        return "jei." + name.getNamespace() + "." + name.getPath() + ".desc";
-//    }
-//}
+        initFailed = false;
+    }
+
+    private static void checkNotNull(@Nullable Object obj, String name) {
+        if (obj == null) {
+            throw new NullPointerException(name + " must not be null");
+        }
+    }
+
+    private static void addInfoPage(IRecipeRegistration reg, IItemProvider item) {
+        String key = getDescKey(Objects.requireNonNull(item.asItem().getRegistryName()));
+        ItemStack stack = new ItemStack(item);
+        reg.addIngredientInfo(stack, VanillaTypes.ITEM, key);
+    }
+
+    private static void addInfoPage(IRecipeRegistration reg, IItemProvider item, Stream<ItemStack> variants) {
+        String key = getDescKey(Objects.requireNonNull(item.asItem().getRegistryName()));
+        reg.addIngredientInfo(variants.collect(Collectors.toList()), VanillaTypes.ITEM, key);
+    }
+
+    private static String getDescKey(ResourceLocation name) {
+        return "jei." + name.getNamespace() + "." + name.getPath() + ".desc";
+    }
+}

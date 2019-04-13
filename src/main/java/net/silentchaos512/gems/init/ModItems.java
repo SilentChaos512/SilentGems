@@ -40,7 +40,7 @@ public final class ModItems {
             register(item.getName(), item.asItem());
         }
 
-        register("enchantment_token", EnchantmentToken.INSTANCE);
+        register("enchantment_token", EnchantmentToken.INSTANCE.get());
         registerGemItems(Gems::getReturnHomeCharm, gem -> gem.getName() + "_return_home_charm");
         register("teleporter_linker", TeleporterLinker.INSTANCE.get());
 

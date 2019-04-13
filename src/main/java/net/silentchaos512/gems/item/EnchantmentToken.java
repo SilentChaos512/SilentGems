@@ -27,6 +27,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModItemGroups;
 import net.silentchaos512.lib.event.ClientTicks;
+import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -63,7 +64,7 @@ public final class EnchantmentToken extends Item {
         MODELS_BY_TYPE.put(EnumEnchantmentType.WEAPON, Icon.SWORD);
     }
 
-    public static final EnchantmentToken INSTANCE = new EnchantmentToken();
+    public static final Lazy<EnchantmentToken> INSTANCE = Lazy.of(EnchantmentToken::new);
 
     private EnchantmentToken() {
         super(new Properties().group(ModItemGroups.UTILITY));
@@ -75,7 +76,7 @@ public final class EnchantmentToken extends Item {
     // ==============================================
 
     public static ItemStack construct(EnchantmentData data) {
-        ItemStack stack = new ItemStack(INSTANCE);
+        ItemStack stack = new ItemStack(INSTANCE.get());
         addEnchantment(stack, data);
         return stack;
     }
@@ -285,7 +286,7 @@ public final class EnchantmentToken extends Item {
     }
 
     @Nullable
-    private static Enchantment getSingleEnchantment(ItemStack token) {
+    public static Enchantment getSingleEnchantment(ItemStack token) {
         Map<Enchantment, Integer> map = getEnchantmentMap(token);
         if (map.size() != 1) return null;
         return map.keySet().iterator().next();
