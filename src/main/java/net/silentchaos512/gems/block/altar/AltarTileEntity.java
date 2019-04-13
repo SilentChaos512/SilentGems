@@ -27,6 +27,7 @@ public class AltarTileEntity extends TileSidedInventorySL implements ITickable {
     @Getter
     @SyncVariable(name = "ChaosGenerated")
     private int chaosGenerated;
+    private int chaosBuffer;
 
     public AltarTileEntity() {
         super(ModTileEntities.TRANSMUTATION_ALTAR.type());
@@ -41,8 +42,8 @@ public class AltarTileEntity extends TileSidedInventorySL implements ITickable {
             // Process
             ++progress;
             chaosGenerated = recipe.getChaosGenerated();
+            chaosBuffer += chaosGenerated;
             processTime = recipe.getProcessTime();
-            Chaos.generate(this.world, chaosGenerated, this.pos);
 
             if (progress >= processTime) {
                 // Create result
@@ -54,6 +55,11 @@ public class AltarTileEntity extends TileSidedInventorySL implements ITickable {
         } else {
             // Not processing anything
             setNeutralState();
+        }
+
+        if (this.chaosBuffer > 0 && this.world.getGameTime() % 20 == 0) {
+            Chaos.generate(this.world, this.chaosBuffer, this.pos);
+            this.chaosBuffer = 0;
         }
     }
 

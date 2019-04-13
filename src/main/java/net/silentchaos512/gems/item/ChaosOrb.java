@@ -8,9 +8,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.IWorld;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModItemGroups;
 
@@ -39,7 +41,7 @@ public class ChaosOrb extends Item {
         if (!(stack.getItem() instanceof ChaosOrb)) return 0;
 
         ChaosOrb item = (ChaosOrb) stack.getItem();
-        int toAbsorb = (int) (amount * (1 - item.leakage));
+        int toAbsorb = getChaosToAbsorb(amount, item);
         int crackStage = getCrackStage(stack);
 
         // Absorb chaos amount minus leakage, destroy if durability depleted
@@ -58,26 +60,64 @@ public class ChaosOrb extends Item {
         return amount - toAbsorb;
     }
 
+    public static int absorbChaos(IWorld world, BlockPos pos, ItemStack stack, int amount) {
+        if (!(stack.getItem() instanceof ChaosOrb)) return 0;
+
+        ChaosOrb item = (ChaosOrb) stack.getItem();
+        int toAbsorb = getChaosToAbsorb(amount, item);
+        int crackStage = getCrackStage(stack);
+
+        // Absorb chaos amount minus leakage, destroy if durability depleted
+        if (stack.attemptDamageItem(toAbsorb, SilentGems.random, null)) {
+            destroyOrb(world, pos, stack);
+        }
+
+        // If not destroyed, check crack stage and play sound
+        if (!stack.isEmpty()) {
+            int newCrackStage = getCrackStage(stack);
+            if (newCrackStage != crackStage) {
+                playBreakSound(world, pos);
+            }
+        }
+
+        return amount - toAbsorb;
+    }
+
+    private static int getChaosToAbsorb(int amount, ChaosOrb item) {
+        return (int) (amount * (1 - item.leakage));
+    }
+
     private static void notifyOrbCracked(EntityLivingBase entity, ItemStack stack) {
         entity.sendMessage(new TextComponentTranslation("item.silentgems.chaos_orb.crack", stack.getDisplayName()));
-        entity.world.playSound(null, entity.getPosition(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.AMBIENT, 0.6f, 1.5f);
+        playCrackSound(entity.world, entity.getPosition());
     }
 
     private static void destroyOrb(EntityLivingBase entity, ItemStack stack) {
         // Display name will be Air after we shrink, so get it now
         ITextComponent displayName = stack.getDisplayName();
         entity.renderBrokenItemStack(stack);
-        stack.shrink(1);
-        stack.setDamage(0);
         if (entity instanceof EntityPlayer) {
             ((EntityPlayer) entity).addStat(StatList.ITEM_BROKEN.get(stack.getItem()));
         }
+        destroyOrb(entity.world, entity.getPosition(), stack);
 
         int pieceCount = entity.getRNG().nextInt(99000) + 1000;
         String piecesFormatted = String.format("%,d", pieceCount);
         entity.sendMessage(new TextComponentTranslation("item.silentgems.chaos_orb.break", displayName, piecesFormatted));
+    }
 
-        entity.world.playSound(null, entity.getPosition(), SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.AMBIENT, 0.7f, -2.5f);
+    private static void destroyOrb(IWorld world, BlockPos pos, ItemStack stack) {
+        stack.shrink(1);
+        stack.setDamage(0);
+        playBreakSound(world, pos);
+    }
+
+    private static void playCrackSound(IWorld world, BlockPos pos) {
+        world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.AMBIENT, 0.6f, 1.5f);
+    }
+
+    private static void playBreakSound(IWorld world, BlockPos pos) {
+        world.playSound(null, pos, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.AMBIENT, 0.7f, -2.5f);
     }
 
     public static int getChaosAbsorbed(ItemStack stack) {

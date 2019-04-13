@@ -4,7 +4,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+Add some traits to some gems (still working on this). Many of the new traits do nothing right now.
 ### Added
+- Chaos orbs are back. They absorb chaos, but efficiency varies. All orbs have a certain amount of "leakage". They can absorb a fixed amount of chaos, then they break.
+- Pedestals. Currently just a plain stone variety, will likely add more. Right-click to place/remove an item. Holds one item only.
+- Chaos orbs placed on pedestals will absorb chaos produced by nearby blocks
 - Config file (finally)
 ### Changed
 - Glowroses spawn in sparser patches (you can tweak this in the config file). You can get the old behavior by setting `glowrose.world.placeTryCount` to 64 and maybe increase `glowrose.world.maxPerPatch`

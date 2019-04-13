@@ -4,33 +4,39 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.altar.AltarTileEntity;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotTileEntity;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightTileEntity;
+import net.silentchaos512.gems.block.pedestal.PedestalTileEntity;
 import net.silentchaos512.gems.block.supercharger.TileSupercharger;
 import net.silentchaos512.gems.block.teleporter.GemTeleporterTileEntity;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterTileEntity;
 import net.silentchaos512.gems.block.urn.TileSoulUrn;
+import net.silentchaos512.gems.client.render.tile.PedestalRenderer;
 import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
 import java.util.function.Supplier;
 
 public enum ModTileEntities {
-    CHAOS_FLOWER_POT(() -> TileEntityType.Builder.create(LuminousFlowerPotTileEntity::new).build(null)),
-    PHANTOM_LIGHT(() -> TileEntityType.Builder.create(PhantomLightTileEntity::new).build(null)),
-    SOUL_URN(() -> TileEntityType.Builder.create(TileSoulUrn::new).build(null)),
-    SUPERCHARGER(() -> TileEntityType.Builder.create(TileSupercharger::new).build(null)),
-    TELEPORTER(() -> TileEntityType.Builder.create(GemTeleporterTileEntity::new).build(null)),
-    TOKEN_ENCHANTER(() -> TileEntityType.Builder.create(TokenEnchanterTileEntity::new).build(null)),
-    TRANSMUTATION_ALTAR(() -> TileEntityType.Builder.create(AltarTileEntity::new).build(null));
+    CHAOS_FLOWER_POT(LuminousFlowerPotTileEntity::new),
+    PEDESTAL(PedestalTileEntity::new),
+    PHANTOM_LIGHT(PhantomLightTileEntity::new),
+    SOUL_URN(TileSoulUrn::new),
+    SUPERCHARGER(TileSupercharger::new),
+    TELEPORTER(GemTeleporterTileEntity::new),
+    TOKEN_ENCHANTER(TokenEnchanterTileEntity::new),
+    TRANSMUTATION_ALTAR(AltarTileEntity::new);
 
     private final Lazy<TileEntityType<?>> type;
 
-    ModTileEntities(Supplier<TileEntityType<?>> typeFactory) {
-        this.type = Lazy.of(typeFactory);
+    ModTileEntities(Supplier<TileEntity> factory) {
+        //noinspection ConstantConditions -- null parameter in build
+        this.type = Lazy.of(() -> TileEntityType.Builder.create(factory).build(null));
     }
 
     public TileEntityType<?> type() {
@@ -43,6 +49,10 @@ public enum ModTileEntities {
         for (ModTileEntities tileEnum : values()) {
             register(tileEnum.name().toLowerCase(Locale.ROOT), tileEnum.type());
         }
+    }
+
+    public static void registerRenderers(FMLClientSetupEvent event) {
+        ClientRegistry.bindTileEntitySpecialRenderer(PedestalTileEntity.class, new PedestalRenderer());
     }
 
     private static <T extends TileEntity> void register(String name, TileEntityType<T> type) {

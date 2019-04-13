@@ -3,9 +3,12 @@ package net.silentchaos512.gems.block.tokenenchanter;
 import lombok.Getter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipe;
@@ -14,6 +17,7 @@ import net.silentchaos512.gems.init.ModTileEntities;
 import net.silentchaos512.lib.tile.SyncVariable;
 import net.silentchaos512.lib.tile.TileSidedInventorySL;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
@@ -29,6 +33,7 @@ public class TokenEnchanterTileEntity extends TileSidedInventorySL implements IT
     @Getter
     @SyncVariable(name = "ChaosGenerated")
     private int chaosGenerated;
+    private int chaosBuffer;
 
     public TokenEnchanterTileEntity() {
         super(ModTileEntities.TOKEN_ENCHANTER.type());
@@ -41,20 +46,25 @@ public class TokenEnchanterTileEntity extends TileSidedInventorySL implements IT
         TokenEnchanterRecipe recipe = getMatchingRecipe();
         if (recipe != null && hasRoomInOutput(recipe)) {
             // Process
-            ++progress;
-            chaosGenerated = recipe.getChaosGenerated();
-            processTime = recipe.getProcessTime();
-            Chaos.generate(this.world, chaosGenerated, this.pos);
+            ++this.progress;
+            this.chaosGenerated = recipe.getChaosGenerated();
+            this.processTime = recipe.getProcessTime();
+            this.chaosBuffer += this.chaosGenerated;
 
-            if (progress >= processTime) {
+            if (this.progress >= this.processTime) {
                 // Create result
                 placeResultInOutput(recipe);
                 consumeIngredients(recipe);
-                progress = 0;
+                this.progress = 0;
             }
             sendUpdate();
         } else {
             setNeutralState();
+        }
+
+        if (this.chaosBuffer > 0 && this.world.getGameTime() % 20 == 0) {
+            Chaos.generate(this.world, this.chaosBuffer, this.pos);
+            this.chaosBuffer = 0;
         }
     }
 
@@ -140,5 +150,11 @@ public class TokenEnchanterTileEntity extends TileSidedInventorySL implements IT
     @Override
     public ITextComponent getCustomName() {
         return null;
+    }
+
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable EnumFacing side) {
+        return super.getCapability(cap, side);
     }
 }

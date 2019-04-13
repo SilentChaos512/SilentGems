@@ -11,6 +11,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightBlock;
+import net.silentchaos512.gems.block.pedestal.PedestalBlock;
 import net.silentchaos512.gems.block.supercharger.BlockSupercharger;
 import net.silentchaos512.gems.block.teleporter.TeleporterAnchor;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
@@ -72,6 +73,7 @@ public final class ModBlocks {
         register("token_enchanter", TokenEnchanterBlock.INSTANCE.get());
         // TODO: uncomment
 //        register("transmutation_altar", AltarBlock.INSTANCE.get());
+        register("stone_pedestal", new PedestalBlock());
         register("luminous_flower_pot", LuminousFlowerPotBlock.INSTANCE.get());
         register("phantom_light", PhantomLightBlock.INSTANCE.get());
 

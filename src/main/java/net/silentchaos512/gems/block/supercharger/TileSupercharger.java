@@ -57,6 +57,7 @@ public class TileSupercharger extends TileSidedInventorySL implements ITickable 
     @Getter
     @SyncVariable(name = "ChaosGenerated")
     private int chaosGenerated;
+    private int chaosBuffer;
 
     private int updateTimer = 0;
 
@@ -97,12 +98,10 @@ public class TileSupercharger extends TileSidedInventorySL implements ITickable 
         if (chargeTier > 0 && chargeTier <= this.structureLevel) {
             int partTier = SGearProxy.getPartTier(this.getInputItem());
             chaosGenerated = getEmissionRate(partTier, chargeTier);
+            chaosBuffer += chaosGenerated;
 
             if (wouldFitInOutputSlot(input, chargeTier)) {
                 ++progress;
-                if (chaosGenerated > 0) {
-                    Chaos.generate(this.world, chaosGenerated, this.pos);
-                }
                 processTime = getProcessTime(partTier, chargeTier);
 
                 if (progress >= processTime) {
@@ -122,6 +121,11 @@ public class TileSupercharger extends TileSidedInventorySL implements ITickable 
             }
 
             sendUpdate();
+        }
+
+        if (this.chaosBuffer > 0 && this.world.getGameTime() % 20 == 0) {
+            Chaos.generate(this.world, this.chaosBuffer, this.pos);
+            this.chaosBuffer = 0;
         }
     }
 
