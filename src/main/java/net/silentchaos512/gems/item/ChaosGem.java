@@ -13,11 +13,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.silentchaos512.gems.api.IPedestalItem;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.init.ModItemGroups;
@@ -32,13 +34,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ChaosGem extends Item implements IGem {
+public class ChaosGem extends Item implements IGem, IPedestalItem {
     private static final String NBT_ENABLED = "Enabled";
     private static final String NBT_BUFF_LIST = "Buffs";
     private static final String NBT_BUFF_KEY = "ID";
     private static final String NBT_BUFF_LEVEL = "Level";
 
     private static final int MAX_SLOTS = 20;
+    private static final int PEDESTAL_RANGE_SQ = 64;
 
     private final Gems gem;
 
@@ -183,6 +186,33 @@ public class ChaosGem extends Item implements IGem {
 
     public static void removeEffects(ItemStack stack, EntityPlayer player) {
         getBuffs(stack).keySet().forEach(buff -> buff.removeFrom(player));
+    }
+
+    //endregion
+
+    //region IPedestalItem
+
+    @Override
+    public boolean pedestalPowerChange(ItemStack stack, World world, BlockPos pos, boolean powered) {
+        setEnabled(stack, powered);
+        return true;
+    }
+
+    @Override
+    public void pedestalTick(ItemStack stack, World world, BlockPos pos) {
+        if (world.isRemote || !isEnabled(stack)) return;
+
+        int totalChaos = 0;
+        List<EntityPlayer> players = world.getPlayers(EntityPlayer.class, p -> p.getDistanceSq(pos) < PEDESTAL_RANGE_SQ);
+        for (EntityPlayer player : players) {
+            applyEffects(stack, player);
+            totalChaos += getChaosGenerated(stack, player);
+        }
+
+        // Generate chaos, but scale back with more players
+        float divisor = 1 + 0.25f * (players.size() - 1);
+        int discountedChaos = (int) (totalChaos / divisor);
+        Chaos.generate(world, discountedChaos, pos);
     }
 
     //endregion

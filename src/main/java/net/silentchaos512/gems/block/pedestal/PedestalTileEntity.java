@@ -13,6 +13,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.silentchaos512.gems.api.IPedestalItem;
 import net.silentchaos512.gems.init.ModTileEntities;
 import net.silentchaos512.lib.tile.TileSidedInventorySL;
 
@@ -21,6 +22,7 @@ import javax.annotation.Nullable;
 
 public class PedestalTileEntity extends TileSidedInventorySL implements ITickable {
     private int timer;
+    private boolean poweredLastTick;
 
     public PedestalTileEntity() {
         super(ModTileEntities.PEDESTAL.type());
@@ -28,9 +30,22 @@ public class PedestalTileEntity extends TileSidedInventorySL implements ITickabl
 
     @Override
     public void tick() {
+        ItemStack stack = getItem();
         boolean sendUpdate = false;
 
-        // TODO: chaos gem support
+        // Tick items with pedestal support
+        if (!stack.isEmpty() && stack.getItem() instanceof IPedestalItem) {
+            IPedestalItem pedestalItem = (IPedestalItem) stack.getItem();
+
+            final boolean powered = this.world.isBlockPowered(this.pos);
+            if (powered != this.poweredLastTick) {
+                // Redstone power change
+                sendUpdate = pedestalItem.pedestalPowerChange(stack, this.world, this.pos, powered);
+                this.poweredLastTick = powered;
+            }
+
+            pedestalItem.pedestalTick(stack, this.world, this.pos);
+        }
 
         ++timer;
         if ((timer + this.hashCode()) % 600 == 0) {
