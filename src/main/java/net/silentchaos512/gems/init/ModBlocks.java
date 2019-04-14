@@ -74,6 +74,9 @@ public final class ModBlocks {
         // TODO: uncomment
 //        register("transmutation_altar", AltarBlock.INSTANCE.get());
         register("stone_pedestal", new PedestalBlock());
+        register("granite_pedestal", new PedestalBlock());
+        register("diorite_pedestal", new PedestalBlock());
+        register("andesite_pedestal", new PedestalBlock());
         register("luminous_flower_pot", LuminousFlowerPotBlock.INSTANCE.get());
         register("phantom_light", PhantomLightBlock.INSTANCE.get());
 
