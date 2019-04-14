@@ -21,6 +21,7 @@ import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
 import net.silentchaos512.gems.init.ModTags;
 import net.silentchaos512.gems.item.ChaosRune;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.EnchantmentToken;
 import net.silentchaos512.gems.item.SoulGem;
 import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
@@ -98,6 +99,7 @@ public class SilentGemsPlugin implements IModPlugin {
                     .collect(Collectors.toList()), SUPERCHARGING);
         }
 
+        addInfoPage(reg, CraftingItems.ENDER_SLIMEBALL);
         addInfoPage(reg, LuminousFlowerPotBlock.INSTANCE.get());
         addInfoPage(reg, SoulGem.INSTANCE.get(), Soul.getValues().stream().map(Soul::getSoulGem));
 

@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add leakage rate to chaos orb tooltip
 ### Fixed
 - Pedestals not showing items on world load. Currently fixing this by just sending an update packet occasionally, so you may need to wait a few seconds.
+- Various localization errors
 
 ## [3.0.10] - 2019-04-12
 Add some traits to some gems (still working on this). Many of the new traits do nothing right now.

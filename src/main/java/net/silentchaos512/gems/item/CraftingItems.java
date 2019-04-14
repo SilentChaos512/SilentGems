@@ -18,6 +18,7 @@
 
 package net.silentchaos512.gems.item;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -25,7 +26,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
@@ -108,10 +108,9 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
             tooltip.add(new TextComponentTranslation("item.silentgems.crafting_material.desc")
                     .applyTextStyle(TextFormatting.GOLD));
 
-            ResourceLocation registryName = getRegistryName();
-            if (registryName != null) {
-                String key = "item." + registryName.getNamespace() + "." + registryName.getPath() + ".desc";
-                tooltip.add(new TextComponentTranslation(key).applyTextStyle(TextFormatting.ITALIC));
+            String descKey = this.getTranslationKey() + ".desc";
+            if (I18n.hasKey(descKey)) {
+                tooltip.add(new TextComponentTranslation(descKey).applyTextStyle(TextFormatting.ITALIC));
             }
         }
 

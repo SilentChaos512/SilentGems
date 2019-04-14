@@ -11,6 +11,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.ModItemGroups;
 import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
@@ -67,7 +68,9 @@ public final class ChaosRune extends Item {
 
         tooltip.add(new TextComponentTranslation(this.getTranslationKey() + ".maxLevel", buff.getMaxLevel()));
         tooltip.add(new TextComponentTranslation(this.getTranslationKey() + ".slotsUsed", buff.getSlotsForLevel(1)));
-        tooltip.add(new TextComponentTranslation(this.getTranslationKey() + ".chaosCost", buff.getActiveChaosGenerated(1)));
+        int activeChaosGenerated = buff.getActiveChaosGenerated(1);
+        ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(activeChaosGenerated);
+        tooltip.add(new TextComponentTranslation(this.getTranslationKey() + ".chaos", emissionRate.getEmissionText(activeChaosGenerated)));
 
         // Debug
         if (KeyTracker.isAltDown()) {
