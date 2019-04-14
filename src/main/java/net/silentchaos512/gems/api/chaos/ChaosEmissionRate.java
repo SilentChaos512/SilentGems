@@ -7,12 +7,12 @@ import java.util.Locale;
 
 public enum ChaosEmissionRate {
     NONE(0),
-    MINIMAL(10),
-    SMALL(100),
-    MODERATE(1000),
-    HIGH(10_000),
-    VERY_HIGH(100_000),
-    EXTREME(1_000_000);
+    MINIMAL(8),
+    SMALL(64),
+    MODERATE(512),
+    HIGH(4096),
+    VERY_HIGH(32_768),
+    EXTREME(262_144);
 
     private final int maxValue;
 

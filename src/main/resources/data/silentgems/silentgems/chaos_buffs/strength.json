@@ -13,8 +13,8 @@
     "cost": {
         "inactive": 2,
         "active": [
-            50,
-            75
+            150,
+            250
         ],
         "conditions": []
     }

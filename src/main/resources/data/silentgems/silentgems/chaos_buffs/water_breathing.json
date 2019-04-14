@@ -8,8 +8,8 @@
     },
     "slots": 6,
     "cost": {
-        "inactive": 5,
-        "active": 100,
+        "inactive": 0,
+        "active": 120,
         "conditions": [
             "underwater"
         ]

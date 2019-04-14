@@ -15,10 +15,10 @@
     "cost": {
         "inactive": 0,
         "active": [
-            10,
-            12,
-            14,
-            16
+            30,
+            36,
+            48,
+            60
         ],
         "conditions": [
             "in_air"

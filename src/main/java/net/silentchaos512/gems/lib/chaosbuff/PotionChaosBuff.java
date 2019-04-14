@@ -28,7 +28,7 @@ public class PotionChaosBuff extends SimpleChaosBuff {
     private static void readJson(PotionChaosBuff buff, JsonObject json) {
         String str = JsonUtils.getString(json, "potion");
         buff.potion = ForgeRegistries.POTIONS.getValue(new ResourceLocation(str));
-        buff.effectDuration = JsonUtils.getInt(json, "effectDuration", 110);
+        buff.effectDuration = JsonUtils.getInt(json, "effectDuration", 50);
     }
 
     @Override

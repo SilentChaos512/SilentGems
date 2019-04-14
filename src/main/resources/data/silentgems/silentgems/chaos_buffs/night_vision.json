@@ -10,7 +10,7 @@
     "slots": 2,
     "cost": {
         "inactive": 0,
-        "active": 20,
+        "active": 30,
         "conditions": []
     }
 }

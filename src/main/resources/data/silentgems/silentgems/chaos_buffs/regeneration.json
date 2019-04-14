@@ -11,10 +11,10 @@
         12
     ],
     "cost": {
-        "inactive": 10,
+        "inactive": 25,
         "active": [
-            42,
-            64
+            100,
+            200
         ],
         "conditions": [
             "hurt"

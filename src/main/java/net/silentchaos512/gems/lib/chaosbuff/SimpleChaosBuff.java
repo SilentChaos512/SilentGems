@@ -176,7 +176,11 @@ public class SimpleChaosBuff implements IChaosBuff {
                 buff.costConditions = new CostConditions[array.size()];
                 for (int i = 0; i < array.size(); ++i) {
                     String str = array.get(i).getAsString();
-                    buff.costConditions[i] = CostConditions.from(str);
+                    CostConditions condition = CostConditions.from(str);
+                    if (condition == null) {
+                        SilentGems.LOGGER.warn("Unknown chaos buff condition: {}", str);
+                    }
+                    buff.costConditions[i] = condition;
                 }
             } else {
                 buff.costConditions = new CostConditions[]{CostConditions.from(elem1.getAsString())};

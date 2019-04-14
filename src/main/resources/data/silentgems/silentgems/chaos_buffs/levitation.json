@@ -16,9 +16,9 @@
         "inactive": 0,
         "active": [
             35,
-            40,
             45,
-            50
+            55,
+            65
         ],
         "conditions": []
     }

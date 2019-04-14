@@ -15,10 +15,10 @@
     "cost": {
         "inactive": 2,
         "active": [
-            20,
-            24,
-            28,
-            32
+            30,
+            40,
+            50,
+            60
         ],
         "conditions": [
             "moving"
