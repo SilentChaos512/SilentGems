@@ -65,8 +65,8 @@ public class GemLamp extends Block {
             return inverted;
         }
 
-        public boolean hiddenFromGroup() {
-            return lit != inverted;
+        public boolean hasItem() {
+            return lit == inverted;
         }
 
         public State withPower(boolean powered) {
@@ -142,7 +142,7 @@ public class GemLamp extends Block {
 
     @Override
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (!this.lampState.hiddenFromGroup()) {
+        if (this.lampState.hasItem()) {
             super.fillItemGroup(group, items);
         }
     }

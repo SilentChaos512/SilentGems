@@ -19,6 +19,7 @@ import net.silentchaos512.gems.block.urn.BlockSoulUrn;
 import net.silentchaos512.gems.item.GemBlockItem;
 import net.silentchaos512.gems.lib.Gems;
 
+import javax.annotation.Nullable;
 import java.util.function.Function;
 
 public final class ModBlocks {
@@ -34,10 +35,16 @@ public final class ModBlocks {
         registerGemBlocks(Gems::getBricks, gem -> gem.getName() + "_bricks");
         registerGemBlocks(Gems::getGlass, gem -> gem.getName() + "_glass");
         for (GemLamp.State state : GemLamp.State.values()) {
-            registerGemBlocks(gem -> gem.getLamp(state), gem -> GemLamp.nameFor(gem, state));
+            Function<Gems, Block> blockFactory = gem -> gem.getLamp(state);
+            Function<Gems, String> nameFactory = gem -> GemLamp.nameFor(gem, state);
+            if (state.hasItem()) {
+                registerGemBlocks(blockFactory, nameFactory);
+            } else {
+                registerGemBlocksNoItem(blockFactory, nameFactory);
+            }
         }
         registerGemBlocks(Gems::getGlowrose, gem -> gem.getName() + "_glowrose");
-        registerGemBlocks(Gems::getPottedGlowrose, gem -> "potted_" + gem.getName() + "_glowrose");
+        registerGemBlocksNoItem(Gems::getPottedGlowrose, gem -> "potted_" + gem.getName() + "_glowrose");
         registerGemBlocks(Gems::getTeleporter, gem -> gem.getName() + "_teleporter");
         registerGemBlocks(Gems::getRedstoneTeleporter, gem -> gem.getName() + "_redstone_teleporter");
         register("teleporter_anchor", TeleporterAnchor.INSTANCE.get());
@@ -78,10 +85,10 @@ public final class ModBlocks {
         register("diorite_pedestal", new PedestalBlock());
         register("andesite_pedestal", new PedestalBlock());
         register("luminous_flower_pot", LuminousFlowerPotBlock.INSTANCE.get());
-        register("phantom_light", PhantomLightBlock.INSTANCE.get());
+        register("phantom_light", PhantomLightBlock.INSTANCE.get(), null);
 
-        register("fluffy_puff_plant", FluffyPuffPlant.NORMAL.get());
-        register("wild_fluffy_puff_plant", FluffyPuffPlant.WILD.get());
+        register("fluffy_puff_plant", FluffyPuffPlant.NORMAL.get(), null);
+        register("wild_fluffy_puff_plant", FluffyPuffPlant.WILD.get(), null);
     }
 
     private static <T extends Block> T register(String name, T block) {
@@ -89,13 +96,15 @@ public final class ModBlocks {
         return register(name, block, item);
     }
 
-    private static <T extends Block> T register(String name, T block, ItemBlock item) {
+    private static <T extends Block> T register(String name, T block, @Nullable ItemBlock item) {
         ResourceLocation id = new ResourceLocation(SilentGems.MOD_ID, name);
         block.setRegistryName(id);
         ForgeRegistries.BLOCKS.register(block);
 
-        item.setRegistryName(id);
-        ModItems.blocksToRegister.add(item);
+        if (item != null) {
+            item.setRegistryName(id);
+            ModItems.blocksToRegister.add(item);
+        }
 
         return block;
     }
@@ -103,6 +112,12 @@ public final class ModBlocks {
     private static void registerGemBlocks(Function<Gems, ? extends Block> factory, Function<Gems, String> name) {
         for (Gems gem : Gems.values()) {
             register(name.apply(gem), factory.apply(gem));
+        }
+    }
+
+    private static void registerGemBlocksNoItem(Function<Gems, ? extends Block> factory, Function<Gems, String> name) {
+        for (Gems gem : Gems.values()) {
+            register(name.apply(gem), factory.apply(gem), null);
         }
     }
 }

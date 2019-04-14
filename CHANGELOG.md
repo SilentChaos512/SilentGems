@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - JEI plugin is back
 - Supercharger JEI support, also shows the blocks required for different pillar tiers
 - Token enchanter JEI support
+### Removed
+- Unneeded block items (blocks you would normally never see in your inventory)
 ### Changed
 - Add leakage rate to chaos orb tooltip
 ### Fixed
