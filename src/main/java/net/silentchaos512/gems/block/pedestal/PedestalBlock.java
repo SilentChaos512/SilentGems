@@ -1,10 +1,12 @@
 package net.silentchaos512.gems.block.pedestal;
 
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
@@ -74,6 +76,7 @@ public class PedestalBlock extends BlockContainer {
                     // Place
                     ItemStack inHand = player.getHeldItemMainhand();
                     if (!inHand.isEmpty()) {
+                        CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos, inHand);
                         // setItem makes a copy, no need to do so here
                         pedestal.setItem(inHand);
                         inHand.shrink(1);

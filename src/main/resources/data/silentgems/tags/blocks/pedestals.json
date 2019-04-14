@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "silentgems:andesite_pedestal",
+    "silentgems:diorite_pedestal",
+    "silentgems:granite_pedestal",
+    "silentgems:obsidian_pedestal",
+    "silentgems:stone_pedestal"
+  ]
+}

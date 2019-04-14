@@ -1,0 +1,24 @@
+{
+    "display": {
+        "icon": {
+            "item": "silentgems:obsidian_pedestal"
+        },
+        "title": {
+            "translate": "advancements.silentgems.chaos_gem_on_pedestal.title"
+        },
+        "description": {
+            "translate": "advancements.silentgems.chaos_gem_on_pedestal.description"
+        }
+    },
+    "parent": "silentgems:pedestal",
+    "criteria": {
+        "place": {
+            "trigger": "minecraft:placed_block",
+            "conditions": {
+                "item": {
+                    "tag": "silentgems:chaos_gems"
+                }
+            }
+        }
+    }
+}
