@@ -34,13 +34,9 @@ public enum ChaosEmissionRate {
         return new TextComponentTranslation("chaos.silentgems.emissionRate." + name);
     }
 
-    public ITextComponent getEmissionText() {
-        return new TextComponentTranslation("chaos.silentgems.emission", getDisplayName());
-    }
-
-    public ITextComponent getEmissionText(int chaos) {
+    public ITextComponent getDisplayName(int chaos) {
         if (this == NONE || this == MINIMAL) {
-            return getEmissionText();
+            return getDisplayName();
         }
 
         ChaosEmissionRate previous = values()[this.ordinal() - 1];
@@ -48,13 +44,21 @@ public enum ChaosEmissionRate {
 
         if (chaos > (previous.maxValue + 2 * diff / 3)) {
             ITextComponent text = new TextComponentTranslation("chaos.silentgems.emissionRate.plus2");
-            return getEmissionText().appendSibling(text);
+            return getDisplayName().appendSibling(text);
         }
         if (chaos > (previous.maxValue + diff / 3)) {
             ITextComponent text = new TextComponentTranslation("chaos.silentgems.emissionRate.plus1");
-            return getEmissionText().appendSibling(text);
+            return getDisplayName().appendSibling(text);
         }
 
-        return getEmissionText();
+        return getDisplayName();
+    }
+
+    public ITextComponent getEmissionText() {
+        return new TextComponentTranslation("chaos.silentgems.emission", getDisplayName());
+    }
+
+    public ITextComponent getEmissionText(int chaos) {
+        return new TextComponentTranslation("chaos.silentgems.emission", getDisplayName(chaos));
     }
 }

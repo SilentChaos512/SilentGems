@@ -70,7 +70,7 @@ public final class ChaosRune extends Item {
         tooltip.add(new TextComponentTranslation(this.getTranslationKey() + ".slotsUsed", buff.getSlotsForLevel(1)));
         int activeChaosGenerated = buff.getActiveChaosGenerated(1);
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(activeChaosGenerated);
-        tooltip.add(new TextComponentTranslation(this.getTranslationKey() + ".chaos", emissionRate.getEmissionText(activeChaosGenerated)));
+        tooltip.add(new TextComponentTranslation(this.getTranslationKey() + ".chaos", emissionRate.getDisplayName(activeChaosGenerated)));
 
         // Debug
         if (KeyTracker.isAltDown()) {

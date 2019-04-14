@@ -266,7 +266,7 @@ public class ChaosGem extends Item implements IGem, IPedestalItem {
 
     private static ITextComponent chaosGenTooltip(String key, int chaos) {
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaos);
-        return new TextComponentTranslation(key, emissionRate.getEmissionText(chaos));
+        return new TextComponentTranslation(key, emissionRate.getDisplayName(chaos));
     }
 
     @Override
