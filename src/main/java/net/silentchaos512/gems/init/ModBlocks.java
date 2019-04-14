@@ -1,6 +1,8 @@
 package net.silentchaos512.gems.init;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -80,10 +82,11 @@ public final class ModBlocks {
         register("token_enchanter", TokenEnchanterBlock.INSTANCE.get());
         // TODO: uncomment
 //        register("transmutation_altar", AltarBlock.INSTANCE.get());
-        register("stone_pedestal", new PedestalBlock());
-        register("granite_pedestal", new PedestalBlock());
-        register("diorite_pedestal", new PedestalBlock());
-        register("andesite_pedestal", new PedestalBlock());
+        register("stone_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));
+        register("granite_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));
+        register("diorite_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));
+        register("andesite_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));
+        register("obsidian_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(30, 1200).sound(SoundType.STONE)));
         register("luminous_flower_pot", LuminousFlowerPotBlock.INSTANCE.get());
         register("phantom_light", PhantomLightBlock.INSTANCE.get(), null);
 

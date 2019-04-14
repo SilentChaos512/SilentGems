@@ -5,6 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Granite, diorite, andesite, and obsidian pedestals. Obsidian pedestal is black-resistant.
 - Chaos gems placed on pedestals will apply effects to nearby players, if enabled. The chaos produced is reduced slightly when applied to multiple players. Chaos gems can be enabled/disabled with redstone.
 - JEI plugin is back
 - Supercharger JEI support, also shows the blocks required for different pillar tiers
@@ -13,7 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Unneeded block items (blocks you would normally never see in your inventory)
 ### Changed
-- Pedestals can now accept a redstone signal to control some items. 
+- Pedestals can now accept a redstone signal to control some items.
+- Rebalanced chaos buff costs 
 - Add leakage rate to chaos orb tooltip
 ### Fixed
 - Pedestals not showing items on world load. Currently fixing this by just sending an update packet occasionally, so you may need to wait a few seconds.

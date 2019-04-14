@@ -2,8 +2,6 @@ package net.silentchaos512.gems.block.pedestal;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,11 +35,8 @@ public class PedestalBlock extends BlockContainer {
         return shape;
     }
 
-    public PedestalBlock() {
-        super(Properties.create(Material.ROCK)
-                .hardnessAndResistance(4, 5)
-                .sound(SoundType.STONE)
-        );
+    public PedestalBlock(Properties properties) {
+        super(properties);
     }
 
     @Override
