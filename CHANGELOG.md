@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- Crash when Silent Gear not installed [#365]
+
 ## [3.0.11] - 2019-04-14
 ### Added
 - Granite, diorite, andesite, and obsidian pedestals. Obsidian pedestal is black-resistant.

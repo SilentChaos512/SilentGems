@@ -140,7 +140,10 @@ class SideProxy {
             MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onBlockColors);
             MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onItemColors);
             MinecraftForge.EVENT_BUS.addListener(TeleporterLinker::renderGameOverlay);
-            MinecraftForge.EVENT_BUS.register(SoulEvents.Client.INSTANCE);
+
+            if (SGearProxy.isLoaded()) {
+                MinecraftForge.EVENT_BUS.register(SoulEvents.Client.INSTANCE);
+            }
 
             if (SilentGems.isDevBuild()) {
                 MinecraftForge.EVENT_BUS.register(new DebugOverlay());
