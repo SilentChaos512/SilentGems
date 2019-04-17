@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - World chaos will now balance at a certain level, instead of zero. The level fluctuates over time. 
 ### Fixed
 - Crash when Silent Gear not installed [#365]
+- Server crash
 
 ## [3.0.11] - 2019-04-14
 ### Added
