@@ -12,48 +12,83 @@ import net.silentchaos512.gems.block.pedestal.PedestalTileEntity;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ChaosOrb;
 import net.silentchaos512.lib.util.DimPos;
+import net.silentchaos512.lib.util.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 public final class Chaos {
-    // TODO: Probably should lower this substantially when pylons are back
-    private static final int DISSIPATION_SCALE = 200;
+    // Rate of natural dissipation
+    private static final int DISSIPATION_SCALE = 20;
+    // Chaos will balance out to certain levels, which will vary slightly over time
+    private static final int EQUILIBRIUM_BASE = 100_000;
+    private static final int EQUILIBRIUM_VARIATION = 80_000;
+    private static final int EQUILIBRIUM_CYCLE_LENGTH = TimeUtils.ticksFromHours(4);
+    private static final double EQUILIBRIUM_CYCLE_CONSTANT = 2 * Math.PI / EQUILIBRIUM_CYCLE_LENGTH;
+    // Distance to search for pedestals with chaos orb
     private static final int PEDESTAL_SEARCH_RADIUS = 6;
 
     private Chaos() {throw new IllegalAccessError("Utility class");}
 
+    /**
+     * Adds to the chaos of the player.
+     *
+     * @param player    The player
+     * @param amount    The amount of chaos
+     * @param allowOrbs If true, chaos will first be sent to one chaos orb in the player's
+     *                  inventory, with leakage spilling over to the player
+     */
     public static void generate(EntityPlayer player, int amount, boolean allowOrbs) {
         if (amount == 0) return;
 
         int amountLeft = amount;
         if (allowOrbs) {
+            // Chaos orbs absorb chaos, but put it all into the first we find
             for (ItemStack stack : player.inventory.mainInventory) {
                 if (!stack.isEmpty() && stack.getItem() instanceof ChaosOrb) {
                     amountLeft = ChaosOrb.absorbChaos(player, stack, amountLeft);
-/*                    if (SilentGems.LOGGER.isDebugEnabled()) {
-                        SilentGems.LOGGER.debug("{}'s {} absorbed {} chaos ({} left)",
-                                player.getScoreboardName(), stack, amount - amountLeft, amountLeft);
-                    }*/
                     break;
                 }
             }
         }
 
-        generate(player, amountLeft, player.getPosition());
+        generate(player, amountLeft, player.getPosition(), false);
     }
 
+    /**
+     * Adds to the chaos of object. Sends chaos to nearby pedestals with chaos orbs first. This
+     * version is typically used for {@link World}s.
+     *
+     * @param obj    The chaos source (typically World, could be EntityPlayer)
+     * @param amount The amount of chaos
+     * @param pos    The position of whatever generated the chaos
+     */
     public static void generate(ICapabilityProvider obj, int amount, BlockPos pos) {
+        generate(obj, amount, pos, true);
+    }
+
+    /**
+     * Adds to the chaos of object. This version is typically used for {@link World}s.
+     *
+     * @param obj             The chaos source
+     * @param amount          The amount of chaos
+     * @param pos             The position of whatever generated the chaos
+     * @param sendToPedestals If true, chaos will be sent to nearby pedestals with chaos orbs. The
+     *                        remainder is sent directly to obj.
+     */
+    public static void generate(ICapabilityProvider obj, int amount, BlockPos pos, boolean sendToPedestals) {
         if (amount == 0) return;
         int amountLeft = amount;
 
-        if (obj instanceof World) {
+        if (sendToPedestals && obj instanceof World) {
+            // Search for pedestals with chaos orbs to send chaos to
             World world = (World) obj;
             Collection<PedestalTileEntity> pedestals = getNearbyPedestals(world, pos);
 
             if (!pedestals.isEmpty()) {
-                amountLeft = 0;
+                // Divide evenly between pedestals
                 int amountPerOrb = amount / pedestals.size();
+                amountLeft = 0;
 
                 for (PedestalTileEntity pedestal : pedestals) {
                     ItemStack stack = pedestal.getItem();
@@ -67,17 +102,53 @@ public final class Chaos {
         if (remainder > 0) {
             obj.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> source.addChaos(remainder));
         }
-
-/*        if (SilentGems.LOGGER.isDebugEnabled()) {
-            if (amount > 0) {
-                SilentGems.LOGGER.debug("Generated {} chaos", String.format("%,d", amount));
-            } else {
-                SilentGems.LOGGER.debug("Dissipated {} chaos", String.format("%,d", -amount));
-            }
-        }*/
     }
 
-    @SuppressWarnings("OverlyNestedMethod") // Maybe clean this up a bit later?
+    /**
+     * Dissipate chaos from the world. If the world's chaos is drained, it dissipates chaos from all
+     * players instead.
+     *
+     * @param world  The world
+     * @param amount The amount to dissipate
+     */
+    public static void dissipate(World world, int amount) {
+        if (amount <= 0) return;
+        IChaosSource worldSource = world.getCapability(ChaosSourceCapability.INSTANCE).orElseThrow(IllegalStateException::new);
+        int amountLeft = worldSource.dissipateChaos(amount);
+        if (amountLeft <= 0) return;
+
+        // If all world chaos is gone, dissipate from players
+        int amountPerPlayer = amountLeft / world.playerEntities.size();
+        for (EntityPlayer player : world.playerEntities) {
+            player.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source ->
+                    source.dissipateChaos(amountPerPlayer));
+        }
+    }
+
+    /**
+     * Gets the chaos dissipation rate, which scales with the number of players in the world.
+     *
+     * @param world The world
+     * @return The dissipation rate
+     */
+    public static int getDissipationRate(World world) {
+        return world.playerEntities.size() * DISSIPATION_SCALE;
+    }
+
+    public static int getEquilibriumPoint(World world) {
+        long time = world.getGameTime();
+        return (int) (EQUILIBRIUM_BASE + EQUILIBRIUM_VARIATION * Math.cos(EQUILIBRIUM_CYCLE_CONSTANT * time));
+    }
+
+    /**
+     * Gets nearby pedestals holding chaos orbs. Pedestals holding nothing or other items are not
+     * included.
+     *
+     * @param world The world
+     * @param pos   The center point
+     * @return List of pedestals holding chaos orbs
+     */
+    @SuppressWarnings("OverlyNestedMethod") // TODO: Use SilentLib WorldUtils when lib is updated
     private static Collection<PedestalTileEntity> getNearbyPedestals(World world, BlockPos pos) {
         Collection<PedestalTileEntity> list = new ArrayList<>();
         int xMin = pos.getX() - PEDESTAL_SEARCH_RADIUS;
@@ -108,24 +179,14 @@ public final class Chaos {
         return list;
     }
 
-    public static void dissipate(World world, int amount) {
-        if (amount <= 0) return;
-        IChaosSource worldSource = world.getCapability(ChaosSourceCapability.INSTANCE).orElseThrow(IllegalStateException::new);
-        int amountLeft = worldSource.dissipateChaos(amount);
-        if (amountLeft <= 0) return;
-
-        // If all world chaos is gone, dissipate from players
-        int amountPerPlayer = amountLeft / world.playerEntities.size();
-        for (EntityPlayer player : world.playerEntities) {
-            player.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source ->
-                    source.dissipateChaos(amountPerPlayer));
-        }
-    }
-
-    public static int getDissipationRate(World world) {
-        return world.playerEntities.size() * DISSIPATION_SCALE;
-    }
-
+    /**
+     * Get the chaos generated when this entity teleports to the given position. Used by teleporter
+     * blocks and return home charms.
+     *
+     * @param entity      The entity (most likely a player)
+     * @param destination The destination
+     * @return The amount of chaos to generate
+     */
     public static int getChaosGeneratedByTeleport(EntityLivingBase entity, DimPos destination) {
         // Free for creative players
         if (entity instanceof EntityPlayer && ((EntityPlayer) entity).abilities.isCreativeMode)

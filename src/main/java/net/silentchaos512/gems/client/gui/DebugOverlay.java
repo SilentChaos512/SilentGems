@@ -13,8 +13,10 @@ public class DebugOverlay extends DebugRenderOverlay {
     @Override
     public List<String> getDebugText() {
         return ImmutableList.of(
-                "Chaos (player)=" + ClientPlayerInfo.playerChaos,
-                "Chaos (world)=" + ClientPlayerInfo.worldChaos
+                "Chaos",
+                "- Player=" + String.format("%,d", ClientPlayerInfo.playerChaos),
+                "- World=" + String.format("%,d", ClientPlayerInfo.worldChaos),
+                "- Equilibrium=" + String.format("%,d", ClientPlayerInfo.equilibriumChaos)
         );
     }
 

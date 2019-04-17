@@ -15,6 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.utils.Lazy;
 
@@ -49,6 +50,8 @@ public enum MiscOres implements IItemProvider, IStringSerializable {
     }
 
     public static class MiscOreBlock extends OreBlockSG {
+        private static final int CHAOS_ORE_CHAOS_GENERATED = 200;
+
         public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
         MiscOreBlock(IItemProvider droppedItem, int harvestLevel, Properties builder) {
@@ -66,6 +69,7 @@ public enum MiscOres implements IItemProvider, IStringSerializable {
             return state.get(LIT) ? 9 : 0;
         }
 
+        @SuppressWarnings("deprecation")
         @Override
         public void onBlockClicked(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player) {
             activate(state, worldIn, pos);
@@ -78,6 +82,7 @@ public enum MiscOres implements IItemProvider, IStringSerializable {
             super.onEntityWalk(worldIn, pos, entityIn);
         }
 
+        @SuppressWarnings("deprecation")
         @Override
         public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
             activate(state, worldIn, pos);
@@ -88,6 +93,10 @@ public enum MiscOres implements IItemProvider, IStringSerializable {
             spawnParticles(world, pos);
             if (!state.get(LIT)) {
                 world.setBlockState(pos, state.with(LIT, true));
+
+                if (state.getBlock() == CHAOS.getBlock()) {
+                    Chaos.generate(world, CHAOS_ORE_CHAOS_GENERATED, pos);
+                }
             }
         }
 

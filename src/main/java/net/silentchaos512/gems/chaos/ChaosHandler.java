@@ -56,7 +56,6 @@ public final class ChaosHandler {
             worldSource.addChaos(amount);
             source.addChaos(-amount);
         });
-//        SilentGems.LOGGER.debug(MARKER, "entity = {}", source.getChaos());
 
         // Try chaos events
         if (world.getGameTime() % 100 == 0) {
@@ -70,9 +69,12 @@ public final class ChaosHandler {
         if (world.isRemote) return;
 
         if (world.getGameTime() % 20 == 0) {
+            final int equilibrium = Chaos.getEquilibriumPoint(world);
+            final int rate = Chaos.getDissipationRate(world);
+
+            // Add/subtract chaos to get closer to equilibrium point
             world.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {
-                source.addChaos(-Chaos.getDissipationRate(world));
-//                SilentGems.LOGGER.debug(MARKER, "world = {}", source.getChaos());
+                source.addChaos(source.getChaos() > equilibrium ? -rate : rate);
             });
         }
     }
