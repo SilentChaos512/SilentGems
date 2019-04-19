@@ -72,6 +72,7 @@ public final class GemsWorldFeatures {
                 ));
 
                 addChaosOre(biome, random);
+                addSilverOre(biome, random);
 
                 if (biome.getDownfall() > 0.4f) {
                     addWildFluffyPuffs(biome);
@@ -108,12 +109,16 @@ public final class GemsWorldFeatures {
         int maxHeight = MathUtils.nextIntInclusive(random, 15, 25);
         SilentGems.LOGGER.debug("    Biome {}: add chaos ore (size {}, count {}, maxHeight {})",
                 biome, size, count, maxHeight);
-        addOre(biome, MiscOres.CHAOS.getBlock(), size, count, 5, maxHeight);
+        addOre(biome, MiscOres.CHAOS.asBlock(), size, count, 5, maxHeight);
     }
 
     private static void addEnderOre(Biome biome, Random random) {
-        addOre(biome, MiscOres.ENDER.getBlock(), 32, 1, 10, 70, state ->
+        addOre(biome, MiscOres.ENDER.asBlock(), 32, 1, 10, 70, state ->
                 state.getBlock() == Blocks.END_STONE);
+    }
+
+    private static void addSilverOre(Biome biome, Random random) {
+        addOre(biome, MiscOres.SILVER.asBlock(), 6, 2, 6, 28);
     }
 
     private static void addGemOre(Biome biome, Gems gem, Random random) {

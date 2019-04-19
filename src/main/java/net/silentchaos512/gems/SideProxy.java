@@ -29,6 +29,7 @@ import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.item.TeleporterLinker;
 import net.silentchaos512.gems.lib.ColorHandlers;
 import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
+import net.silentchaos512.gems.lib.fun.AprilFools;
 import net.silentchaos512.gems.lib.soul.GearSoulPart;
 import net.silentchaos512.gems.lib.soul.Soul;
 import net.silentchaos512.gems.network.Network;
@@ -149,7 +150,10 @@ class SideProxy {
                 MinecraftForge.EVENT_BUS.register(new DebugOverlay());
             }
 
-//            OBJLoader.INSTANCE.addDomain(SilentGems.MOD_ID);
+            if (AprilFools.isRightDay()) {
+                SilentGems.LOGGER.info("Registered April Fools Day events");
+                MinecraftForge.EVENT_BUS.register(AprilFools.INSTANCE);
+            }
 
             registerContainers();
         }

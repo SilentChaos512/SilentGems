@@ -29,20 +29,29 @@ import java.util.Locale;
 public enum MiscBlocks implements IItemProvider, IStringSerializable {
     CHAOS_CRYSTAL(
             CraftingItems.CHAOS_CRYSTAL,
-            builder(Material.IRON)),
+            builder(Material.IRON)
+    ),
     ENRICHED_CHAOS_CRYSTAL(
             CraftingItems.ENRICHED_CHAOS_CRYSTAL,
-            builder(Material.IRON)),
+            builder(Material.IRON)
+    ),
     ENDER_CRYSTAL(
             CraftingItems.ENDER_CRYSTAL,
-            builder(Material.IRON)),
+            builder(Material.IRON)
+    ),
     CHAOS_COAL(
             CraftingItems.CHAOS_COAL,
             builder(Material.ROCK)
-                    .sound(SoundType.STONE)),
+                    .sound(SoundType.STONE)
+    ),
+    SILVER(
+            CraftingItems.SILVER_INGOT,
+            builder(Material.IRON)
+    ),
     CHAOS_IRON(
             CraftingItems.CHAOS_IRON,
-            builder(Material.IRON));
+            builder(Material.IRON)
+    );
 
     private final Lazy<MiscBlock> block;
     // The item this block is made from

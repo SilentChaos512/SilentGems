@@ -10,38 +10,61 @@ import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.item.CraftingItems;
+import net.silentchaos512.lib.block.IBlockProvider;
 import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
 import java.util.Random;
+import java.util.function.Supplier;
 
-public enum MiscOres implements IItemProvider, IStringSerializable {
-    CHAOS(CraftingItems.CHAOS_CRYSTAL, 3),
-    ENDER(CraftingItems.ENDER_CRYSTAL, 4);
+public enum MiscOres implements IBlockProvider, IStringSerializable {
+    CHAOS(() -> new MiscOreBlock(CraftingItems.CHAOS_CRYSTAL, 3, Block.Properties.create(Material.ROCK).tickRandomly().hardnessAndResistance(4, 20)) {
+        @Override
+        public int getExpRandom() {
+            return MathHelper.nextInt(RANDOM, 2, 7);
+        }
+    }),
+    ENDER(() -> new MiscOreBlock(CraftingItems.ENDER_CRYSTAL, 4, Block.Properties.create(Material.ROCK).tickRandomly().hardnessAndResistance(4, 20)) {
+        @Override
+        public int getExpRandom() {
+            return MathHelper.nextInt(RANDOM, 4, 8);
+        }
+    }),
+    SILVER(() -> new OreBlockSG(null, 2, Block.Properties.create(Material.ROCK).hardnessAndResistance(3, 12)) {
+        @Override
+        public int getExpRandom() {
+            return 0;
+        }
+    });
 
-    private final Lazy<MiscOreBlock> block;
+    private final Lazy<OreBlockSG> block;
 
-    MiscOres(IItemProvider droppedItem, int harvestLevel) {
-        block = Lazy.of(() -> new MiscOreBlock(droppedItem, harvestLevel,
-                Block.Properties.create(Material.ROCK)
-                        .tickRandomly()
-                        .hardnessAndResistance(4, 20)));
+    MiscOres(Supplier<OreBlockSG> blockSupplier) {
+        this.block = Lazy.of(blockSupplier);
     }
 
-    public MiscOreBlock getBlock() {
-        return block.get();
+    public OreBlockSG getBlock() {
+        return this.block.get();
+    }
+
+    @Override
+    public Block asBlock() {
+        return getBlock();
     }
 
     @Override
     public Item asItem() {
-        return getBlock().asItem();
+        return asBlock().asItem();
     }
 
     @Override
@@ -49,19 +72,14 @@ public enum MiscOres implements IItemProvider, IStringSerializable {
         return name().toLowerCase(Locale.ROOT) + "_ore";
     }
 
-    public static class MiscOreBlock extends OreBlockSG {
+    public static abstract class MiscOreBlock extends OreBlockSG {
         private static final int CHAOS_ORE_CHAOS_GENERATED = 200;
 
-        public static final BooleanProperty LIT = BlockStateProperties.LIT;
+        static final BooleanProperty LIT = BlockStateProperties.LIT;
 
         MiscOreBlock(IItemProvider droppedItem, int harvestLevel, Properties builder) {
             super(droppedItem, harvestLevel, builder);
             setDefaultState(getDefaultState().with(LIT, false));
-        }
-
-        @Override
-        public int getExpRandom() {
-            return MathHelper.nextInt(RANDOM, 2, 7);
         }
 
         @Override
@@ -94,7 +112,7 @@ public enum MiscOres implements IItemProvider, IStringSerializable {
             if (!state.get(LIT)) {
                 world.setBlockState(pos, state.with(LIT, true));
 
-                if (state.getBlock() == CHAOS.getBlock()) {
+                if (state.getBlock() == CHAOS.asBlock()) {
                     Chaos.generate(world, CHAOS_ORE_CHAOS_GENERATED, pos);
                 }
             }

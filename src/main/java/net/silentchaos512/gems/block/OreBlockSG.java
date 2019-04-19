@@ -17,10 +17,18 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public abstract class OreBlockSG extends BlockOre {
-    private final IItemProvider droppedItem;
+    @Nullable private final IItemProvider droppedItem;
     private final int harvestLevel;
 
-    public OreBlockSG(IItemProvider droppedItem, int harvestLevel, Properties builder) {
+    /**
+     * Constructor. If the ore drops itself, {@code droppedItem} should be null.
+     *
+     * @param droppedItem  The item dropped when mined without silk touch, or null if the block
+     *                     should always drop itself.
+     * @param harvestLevel The harvest level required
+     * @param builder      The block properties
+     */
+    public OreBlockSG(@Nullable IItemProvider droppedItem, int harvestLevel, Properties builder) {
         super(builder);
         this.droppedItem = droppedItem;
         this.harvestLevel = harvestLevel;
@@ -30,7 +38,7 @@ public abstract class OreBlockSG extends BlockOre {
      * Gets the item dropped when mined with a non-silk touch tool
      */
     public IItemProvider getDroppedItem() {
-        return droppedItem;
+        return this.droppedItem != null ? this.droppedItem : this;
     }
 
     /**
@@ -54,12 +62,12 @@ public abstract class OreBlockSG extends BlockOre {
 
     @Override
     public IItemProvider getItemDropped(IBlockState state, World worldIn, BlockPos pos, int fortune) {
-        return this.droppedItem;
+        return this.getDroppedItem();
     }
 
     @Override
     public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        ITextComponent itemName = this.droppedItem.asItem().getName();
+        ITextComponent itemName = this.getDroppedItem().asItem().getName();
         tooltip.add(new TextComponentTranslation("misc.silentgems.dropFromOre", itemName)
                 .applyTextStyle(TextFormatting.GRAY));
     }

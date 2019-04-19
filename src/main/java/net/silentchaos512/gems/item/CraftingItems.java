@@ -47,6 +47,8 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
     ENDER_CRYSTAL_SHARD,
     ENDER_FROST,
     NETHER_STAR_SHARD,
+    SILVER_INGOT,
+    SILVER_NUGGET,
     CHAOS_IRON_UNFIRED,
     CHAOS_IRON,
     CHARGING_AGENT,

@@ -60,9 +60,9 @@ authors="SilentChaos512" #optional
     versionRange="[4.0.7,)"
     ordering = "NONE"
     side = "BOTH"
-#[[dependencies.silentgems]]
-#    modId="silentgear"
-#    mandatory=false
-#    versionRange="[0,)"
-#    ordering="AFTER"
-#    side="BOTH"
+[[dependencies.silentgems]]
+    modId="silentgear"
+    mandatory=false
+    versionRange="[1.0.8,)"
+    ordering="AFTER"
+    side="BOTH"

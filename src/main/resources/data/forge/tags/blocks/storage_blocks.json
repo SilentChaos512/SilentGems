@@ -51,6 +51,7 @@
     "#forge:storage_blocks/pearl",
     "#forge:storage_blocks/chaos",
     "#forge:storage_blocks/chaos_coal",
-    "#forge:storage_blocks/chaos_iron"
+    "#forge:storage_blocks/chaos_iron",
+    "#forge:storage_blocks/silver"
   ]
 }

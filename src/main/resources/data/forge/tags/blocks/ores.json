@@ -48,6 +48,7 @@
     "#forge:ores/kunzite",
     "#forge:ores/rose_quartz",
     "#forge:ores/tektite",
-    "#forge:ores/pearl"
+    "#forge:ores/pearl",
+    "#forge:ores/silver"
   ]
 }

@@ -71,7 +71,7 @@ public final class FluffyPuffPlant extends BlockCrops {
 
         if (age >= 7) {
             int seedCount = 1 + fortune;
-            int puffCount = 2 + fortune + RANDOM.nextInt(3);
+            int puffCount = this.wild ? 0 : 2 + fortune + RANDOM.nextInt(3);
             // Seeds
             for (int i = 0; i < seedCount; ++i)
                 if (RANDOM.nextInt(15) <= age)

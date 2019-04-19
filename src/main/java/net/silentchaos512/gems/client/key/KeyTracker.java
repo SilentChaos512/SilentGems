@@ -2,9 +2,9 @@ package net.silentchaos512.gems.client.key;
 
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.settings.IKeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
-import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import org.apache.commons.lang3.NotImplementedException;
 import org.lwjgl.glfw.GLFW;
 
@@ -49,7 +49,7 @@ public class KeyTracker {
     }
 
     //    @SubscribeEvent
-    public void onKeyInput(KeyInputEvent event) {
+    public void onKeyInput(InputEvent.KeyInputEvent event) {
 //        this.player = Minecraft.getMinecraft().player;
 //
 //        if (toggleSpecial.isKeyDown())
