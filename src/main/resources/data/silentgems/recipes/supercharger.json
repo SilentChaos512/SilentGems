@@ -7,7 +7,7 @@
   ],
   "key": {
     "a": {
-      "item": "silentgems:charging_agent"
+      "tag": "forge:ingots/silver"
     },
     "c": {
       "item": "silentgems:chaos_iron"

@@ -3,9 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.0.12] - 2019-04-24
 ### Added
 - Silver
+- Corrupting powder and purifying powder. These will create corrupted blocks, or restore them to their normal state. Recipes subject to change.
 ### Changed
 - World chaos will now balance at a certain level, instead of zero. The level fluctuates over time.
 - Wild fluffy puff plants will only drop seeds now 

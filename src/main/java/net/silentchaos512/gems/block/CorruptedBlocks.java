@@ -19,14 +19,16 @@ import java.util.Random;
 import java.util.function.Predicate;
 
 public enum CorruptedBlocks implements IBlockProvider {
-    STONE(block -> block.isIn(Tags.Blocks.STONE)),
-    DIRT(block -> block.isIn(Tags.Blocks.DIRT) || block == Blocks.GRASS_BLOCK);
+    STONE(Blocks.STONE, block -> block.isIn(Tags.Blocks.STONE)),
+    DIRT(Blocks.DIRT, block -> block.isIn(Tags.Blocks.DIRT) || block == Blocks.GRASS_BLOCK);
 
     private final Lazy<CorruptedBlock> block;
     private final Lazy<Item> pile;
+    private final Block purifyBlock;
     private final Predicate<Block> canReplace;
 
-    CorruptedBlocks(Predicate<Block> canReplace) {
+    CorruptedBlocks(Block purifyBlock, Predicate<Block> canReplace) {
+        this.purifyBlock = purifyBlock;
         block = Lazy.of(CorruptedBlock::new);
         pile = Lazy.of(() -> new Item(new Item.Properties().group(ModItemGroups.MATERIALS)));
         this.canReplace = canReplace;
@@ -44,6 +46,10 @@ public enum CorruptedBlocks implements IBlockProvider {
 
     public Item getPile() {
         return pile.get();
+    }
+
+    public Block getPurifyBlock() {
+        return purifyBlock;
     }
 
     public String getName() {

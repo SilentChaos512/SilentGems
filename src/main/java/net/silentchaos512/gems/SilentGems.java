@@ -46,7 +46,6 @@ public final class SilentGems {
     }
 
     public static boolean isDevBuild() {
-        // TODO: Is there a better way? Guess it works though...
         String version = getVersion(false);
         return "NONE".equals(version);
     }

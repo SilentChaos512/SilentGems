@@ -59,6 +59,9 @@ public final class ModItems {
             register(block.getName() + "_pile", block.getPile());
         }
 
+        register("corrupting_powder", PatchBlockChangerItem.CORRUPTING_POWDER.get());
+        register("purifying_powder", PatchBlockChangerItem.PURIFYING_POWDER.get());
+
         for (Foods food : Foods.values()) {
             register(food.getName(), food.asItem());
         }
