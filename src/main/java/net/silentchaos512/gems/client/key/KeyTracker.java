@@ -2,7 +2,6 @@ package net.silentchaos512.gems.client.key;
 
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
-import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.settings.IKeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import org.apache.commons.lang3.NotImplementedException;
@@ -49,7 +48,7 @@ public class KeyTracker {
     }
 
     //    @SubscribeEvent
-    public void onKeyInput(InputEvent.KeyInputEvent event) {
+//    public void onKeyInput(InputEvent.KeyInputEvent event) {
 //        this.player = Minecraft.getMinecraft().player;
 //
 //        if (toggleSpecial.isKeyDown())
@@ -62,7 +61,7 @@ public class KeyTracker {
 //
 //        if (triggerReturnHome.isPressed())
 //            handleTriggerReturnHome();
-    }
+//    }
 
     private void handleToggleChaosGem(boolean all) {
 //        NetworkHandler.INSTANCE.sendToServer(new MessageToggleChaosGem(all));

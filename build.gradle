@@ -14,7 +14,7 @@ plugins {
     id 'maven'
     id 'maven-publish'
     id "com.jfrog.bintray" version "1.8.4"
-    id "com.matthewprenger.cursegradle" version "1.1.2"
+    id "com.matthewprenger.cursegradle" version "1.2.0"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -107,12 +107,9 @@ dependencies {
     }
 
     compileOnly 'com.github.shedaniel:RoughlyEnoughItems:1.13.2-forge-SNAPSHOT'
-//    implementation 'com.github.mezz:JustEnoughItems:1.13-SNAPSHOT'
 
-    // compile against the JEI API but do not include it at runtime
-    //compile "mezz.jei:jei-${project.minecraft_version}:${project.jei_version}:api"
-    // at runtime, use the full JEI jar
-    deobf "mezz.jei:jei-${project.mc_version}:${project.jei_version}"
+    //deobf "mezz.jei:jei-${project.mc_version}:${project.jei_version}"
+    compile 'com.github.mezz:JustEnoughItems:1.13-SNAPSHOT'
 }
 
 jar {
