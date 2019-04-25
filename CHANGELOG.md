@@ -1,8 +1,9 @@
 # Changelog
 
-## [Unreleased]
+## [2.8.17] - 2019-04-25
 ### Fixed
 - Improve material grader's compatibility with pipes/ducts/etc [#362]
+- Super cheaty chaos gem not working
 
 ## [2.8.16] - 2019-03-17
 ### Fixed

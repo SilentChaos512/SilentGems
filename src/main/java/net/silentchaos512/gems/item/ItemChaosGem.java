@@ -112,7 +112,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
         if (!stack.hasTagCompound())
             stack.setTagCompound(new NBTTagCompound());
 
-        if (getCharge(stack) <= 0)
+        if (!isCheatyGem(stack) && getCharge(stack) <= 0)
             val = false;
         stack.getTagCompound().setBoolean(NBT_ENABLED, val);
     }
@@ -205,7 +205,7 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
     }
 
     public boolean isCheatyGem(ItemStack stack) {
-        return stack.getItemDamage() == 32;
+        return stack.getItemDamage() == ID_CHEATY_GEM;
     }
 
     public void applyEffects(ItemStack stack, EntityPlayer player) {
@@ -254,7 +254,6 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
 
     @Override
     public boolean onDroppedByPlayer(ItemStack stack, EntityPlayer player) {
-
         // Set disabled
         setEnabled(stack, false);
         removeEffects(stack, player);
@@ -263,10 +262,9 @@ public class ItemChaosGem extends ItemChaosStorage implements IBauble, IRenderBa
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-
         ItemStack stack = player.getHeldItem(hand);
         // Enable/disable
-        if (!stack.isEmpty() && getCharge(stack) > 0) {
+        if (!stack.isEmpty() && (isCheatyGem(stack) || getCharge(stack) > 0)) {
             setEnabled(stack, !isEnabled(stack));
             if (isEnabled(stack))
                 applyEffects(stack, player);
