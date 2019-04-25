@@ -9,6 +9,10 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
@@ -20,6 +24,7 @@ import net.silentchaos512.lib.tile.TileSidedInventorySL;
 import net.silentchaos512.lib.util.StackHelper;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileMaterialGrader extends TileSidedInventorySL implements ITickable, IChaosAccepter {
@@ -271,5 +276,24 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
     @Override
     public int getSizeInventory() {
         return INVENTORY_SIZE;
+    }
+
+    private final IItemHandler handlerTop = new SidedInvWrapper(this, net.minecraft.util.EnumFacing.UP);
+    private final IItemHandler handlerBottom = new SidedInvWrapper(this, net.minecraft.util.EnumFacing.DOWN);
+    private final IItemHandler handlerSide = new SidedInvWrapper(this, net.minecraft.util.EnumFacing.WEST);
+
+    @SuppressWarnings("unchecked")
+    @Nullable
+    @Override
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing)
+    {
+        if (facing != null && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+            if (facing == EnumFacing.DOWN)
+                return (T) handlerBottom;
+            else if (facing == EnumFacing.UP)
+                return (T) handlerTop;
+            else
+                return (T) handlerSide;
+        return super.getCapability(capability, facing);
     }
 }

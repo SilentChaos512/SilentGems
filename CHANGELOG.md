@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+### Fixed
+- Improve material grader's compatibility with pipes/ducts/etc [#362]
+
 ## [2.8.16] - 2019-03-17
 ### Fixed
 - Secret donut text causing server crash
