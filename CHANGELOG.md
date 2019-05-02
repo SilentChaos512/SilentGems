@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Configs for ender slime spawns are back
+
 ## [3.0.12] - 2019-04-24
 ### Added
 - Silver
@@ -11,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - World chaos will now balance at a certain level, instead of zero. The level fluctuates over time.
 - Wild fluffy puff plants will only drop seeds now 
 ### Fixed
+- Possible fix for [#366]
 - Crash when Silent Gear not installed [#365]
 - Server crash
 

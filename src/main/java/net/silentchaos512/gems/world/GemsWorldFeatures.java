@@ -17,6 +17,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.FluffyPuffPlant;
 import net.silentchaos512.gems.block.MiscOres;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.EntityEnderSlime;
 import net.silentchaos512.gems.init.ModEntities;
 import net.silentchaos512.gems.lib.Gems;
@@ -158,7 +159,12 @@ public final class GemsWorldFeatures {
     @SuppressWarnings("unchecked") // cast to EntityType<EntityEnderSlime> is valid
     private static void addEnderSlimeSpawns(Biome biome) {
         EntityType<EntityEnderSlime> type = (EntityType<EntityEnderSlime>) ModEntities.ENDER_SLIME.type();
-        biome.getSpawns(EnumCreatureType.MONSTER).add(new Biome.SpawnListEntry(type, 3, 1, 2));
+        biome.getSpawns(EnumCreatureType.MONSTER).add(new Biome.SpawnListEntry(
+                type,
+                GemsConfig.COMMON.enderSlimeSpawnWeight.get(),
+                GemsConfig.COMMON.enderSlimeGroupSizeMin.get(),
+                GemsConfig.COMMON.enderSlimeGroupSizeMax.get()
+        ));
     }
 
     private static long getBaseSeed() {

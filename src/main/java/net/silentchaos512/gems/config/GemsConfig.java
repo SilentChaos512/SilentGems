@@ -17,6 +17,9 @@ public final class GemsConfig {
         public final IntValue chaosCoalBurnTime;
         public final BooleanValue debugMasterSwitch;
         public final BooleanValue debugShowOverlay;
+        public final IntValue enderSlimeSpawnWeight;
+        public final IntValue enderSlimeGroupSizeMin;
+        public final IntValue enderSlimeGroupSizeMax;
         public final BooleanValue gearSoulsGetXpFromFakePlayers;
         public final IntValue glowroseMaxPlaceCount;
         public final IntValue glowroseNormalLight;
@@ -43,6 +46,19 @@ public final class GemsConfig {
                     .builder("debug.showOverlay")
                     .comment("Display text on-screen with various information, such as player/world chaos")
                     .define(true);
+            wrapper.comment("entity.enderSlime.spawn", "Ender slime spawn properties (REQUIRES RESTART)");
+            enderSlimeSpawnWeight = wrapper
+                    .builder("entity.enderSlime.spawn.weight")
+                    .comment("Spawn weight of ender slimes in The End. Set to zero to disable spawns.")
+                    .defineInRange(3, 0, Integer.MAX_VALUE);
+            enderSlimeGroupSizeMin = wrapper
+                    .builder("entity.enderSlime.spawn.minGroupSize")
+                    .comment("Smallest possible group size")
+                    .defineInRange(1, 1, Integer.MAX_VALUE);
+            enderSlimeGroupSizeMax = wrapper
+                    .builder("entity.enderSlime.spawn.maxGroupSize")
+                    .comment("Largest possible group size")
+                    .defineInRange(2, 1, Integer.MAX_VALUE);
             gearSoulsGetXpFromFakePlayers = wrapper
                     .builder("gearSoul.fakePlayersGetXp")
                     .comment("If true, gear souls can gain XP when being used by fake players (certain machines)")
