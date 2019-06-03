@@ -4,34 +4,33 @@ import net.minecraft.item.ItemStack;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 
 public interface IPartProperties {
+    String getName();
 
-  public String getName();
+    String getNamePrefix();
 
-  public String getNamePrefix();
+    int getColor();
 
-  public int getColor();
+    EnumMaterialTier getTier();
 
-  public EnumMaterialTier getTier();
+    int getDurability();
 
-  public int getDurability();
+    float getMiningSpeed(); // Harvest speed
 
-  public float getMiningSpeed(); // Harvest speed
+    int getHarvestLevel();
 
-  public int getHarvestLevel();
+    float getMeleeDamage();
 
-  public float getMeleeDamage();
+    float getMagicDamage();
 
-  public float getMagicDamage();
+    float getMeleeSpeed();
 
-  public float getMeleeSpeed();
+    int getEnchantability();
 
-  public int getEnchantability();
+    float getChargeSpeed();
 
-  public float getChargeSpeed();
+    float getProtection();
 
-  public float getProtection();
+    ItemStack getCraftingStack();
 
-  public ItemStack getCraftingStack();
-
-  public String getCraftingOreName();
+    String getCraftingOreName();
 }

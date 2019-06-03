@@ -6,88 +6,77 @@ import net.minecraft.item.ItemStack;
 import java.util.List;
 
 public class RecipeChaosAltar {
+    public static final List<RecipeChaosAltar> ALL_RECIPES = Lists.newArrayList();
 
-  public static final List<RecipeChaosAltar> ALL_RECIPES = Lists.newArrayList();
+    private ItemStack input;
+    private ItemStack output;
+    private ItemStack catalyst;
+    private int chaosCost;
 
-  private ItemStack input;
-  private ItemStack output;
-  private ItemStack catalyst;
-  private int chaosCost;
+    public RecipeChaosAltar(ItemStack output, ItemStack input, int chaosCost) {
+        this(output, input, chaosCost, null);
+    }
 
-  public RecipeChaosAltar(ItemStack output, ItemStack input, int chaosCost) {
+    public RecipeChaosAltar(ItemStack output, ItemStack input, int chaosCost, ItemStack catalyst) {
+        this.output = output;
+        this.input = input;
+        this.chaosCost = chaosCost;
+        this.catalyst = catalyst;
+    }
 
-    this(output, input, chaosCost, null);
-  }
+    public static RecipeChaosAltar getMatchingRecipe(ItemStack inputStack, ItemStack catalystStack) {
+        if (inputStack.isEmpty())
+            return null;
 
-  public RecipeChaosAltar(ItemStack output, ItemStack input, int chaosCost, ItemStack catalyst) {
+        for (RecipeChaosAltar recipe : ALL_RECIPES)
+            if (recipe.matches(inputStack, catalystStack))
+                return recipe;
 
-    this.output = output;
-    this.input = input;
-    this.chaosCost = chaosCost;
-    this.catalyst = catalyst;
-  }
+        return null;
+    }
 
-  public static RecipeChaosAltar getMatchingRecipe(ItemStack inputStack, ItemStack catalystStack) {
+    public static RecipeChaosAltar getRecipeByOutput(ItemStack outputStack) {
+        if (outputStack.isEmpty())
+            return null;
 
-    if (inputStack.isEmpty())
-      return null;
+        for (RecipeChaosAltar recipe : ALL_RECIPES)
+            if (recipe.output.isItemEqual(outputStack))
+                return recipe;
 
-    for (RecipeChaosAltar recipe : ALL_RECIPES)
-      if (recipe.matches(inputStack, catalystStack))
-        return recipe;
+        return null;
+    }
 
-    return null;
-  }
+    public static boolean isValidIngredient(ItemStack inputStack) {
+        if (inputStack.isEmpty())
+            return false;
 
-  public static RecipeChaosAltar getRecipeByOutput(ItemStack outputStack) {
+        for (RecipeChaosAltar recipe : ALL_RECIPES)
+            if (recipe.input.isItemEqual(inputStack))
+                return true;
 
-    if (outputStack.isEmpty())
-      return null;
+        return false;
+    }
 
-    for (RecipeChaosAltar recipe : ALL_RECIPES)
-      if (recipe.output.isItemEqual(outputStack))
-        return recipe;
+    public boolean matches(ItemStack inputStack, ItemStack catalystStack) {
+        boolean catalystMatch = (catalystStack.isEmpty() && this.catalyst.isEmpty())
+                || (!catalystStack.isEmpty() && catalystStack.isItemEqual(this.catalyst));
+        return !inputStack.isEmpty() && !this.input.isEmpty() && !this.output.isEmpty() && inputStack.isItemEqual(this.input)
+                && inputStack.getCount() >= this.input.getCount() && catalystMatch;
+    }
 
-    return null;
-  }
+    public ItemStack getInput() {
+        return input.copy();
+    }
 
-  public static boolean isValidIngredient(ItemStack inputStack) {
+    public ItemStack getOutput() {
+        return output.copy();
+    }
 
-    if (inputStack.isEmpty())
-      return false;
+    public ItemStack getCatalyst() {
+        return catalyst.copy();
+    }
 
-    for (RecipeChaosAltar recipe : ALL_RECIPES)
-      if (recipe.input.isItemEqual(inputStack))
-        return true;
-
-    return false;
-  }
-
-  public boolean matches(ItemStack inputStack, ItemStack catalystStack) {
-
-    boolean catalystMatch = (catalystStack.isEmpty() && this.catalyst.isEmpty())
-        || (!catalystStack.isEmpty() && catalystStack.isItemEqual(this.catalyst));
-    return !inputStack.isEmpty() && !this.input.isEmpty() && !this.output.isEmpty() && inputStack.isItemEqual(this.input)
-        && inputStack.getCount() >= this.input.getCount() && catalystMatch;
-  }
-
-  public ItemStack getInput() {
-
-    return input.copy();
-  }
-
-  public ItemStack getOutput() {
-
-    return output.copy();
-  }
-
-  public ItemStack getCatalyst() {
-
-    return catalyst.copy();
-  }
-
-  public int getChaosCost() {
-
-    return chaosCost;
-  }
+    public int getChaosCost() {
+        return chaosCost;
+    }
 }

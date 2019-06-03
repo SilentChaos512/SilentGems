@@ -21,265 +21,240 @@ import javax.annotation.Nonnull;
  * Backpacks' ContainerBackpack.java</a>
  *
  * @author Silent
- *
  */
 public class ContainerQuiver extends Container {
+    @Nonnull
+    private final ItemStack quiver;
+    @Nonnull
+    private final IItemHandler itemHandler;
 
-  @Nonnull
-  private final ItemStack quiver;
-  @Nonnull
-  private final IItemHandler itemHandler;
+    private int blocked = -1;
 
-  private int blocked = -1;
+    public ContainerQuiver(@Nonnull ItemStack quiver, @Nonnull InventoryPlayer inventoryPlayer, @Nonnull EnumHand hand) {
+        this.quiver = quiver;
+        this.itemHandler = ModItems.quiver.getInventory(quiver);
 
-  public ContainerQuiver(@Nonnull ItemStack quiver, @Nonnull InventoryPlayer inventoryPlayer,
-      @Nonnull EnumHand hand) {
-
-    this.quiver = quiver;
-    this.itemHandler = ModItems.quiver.getInventory(quiver);
-
-    setupSlots(inventoryPlayer, itemHandler, hand);
-  }
-
-  @Override
-  public boolean canInteractWith(EntityPlayer playerIn) {
-
-    return true;
-  }
-
-  @Nonnull
-  @Override
-  public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
-
-    Slot slot = this.getSlot(slotIndex);
-
-    if (!slot.canTakeStack(player))
-      return slot.getStack();
-
-    if (slotIndex == blocked)
-      return ItemStack.EMPTY;
-
-    if (!slot.getHasStack())
-      return ItemStack.EMPTY;
-
-    ItemStack stack = slot.getStack();
-    ItemStack newStack = stack.copy();
-
-    if (slotIndex < ItemQuiver.MAX_STACKS) {
-      if (!this.mergeItemStack(stack, ItemQuiver.MAX_STACKS, this.inventorySlots.size(), true))
-        return ItemStack.EMPTY;
-      slot.onSlotChanged();
-    } else if (!this.mergeItemStack(stack, 0, ItemQuiver.MAX_STACKS, false))
-      return ItemStack.EMPTY;
-
-    if (stack.isEmpty())
-      slot.putStack(ItemStack.EMPTY);
-    else
-      slot.onSlotChanged();
-
-    return slot.onTake(player, newStack);
-  }
-
-  @Nonnull
-  @Override
-  public ItemStack slotClick(int slotId, int button, ClickType flag, EntityPlayer player) {
-
-    if (slotId < 0 || slotId > inventorySlots.size())
-      return super.slotClick(slotId, button, flag, player);
-
-    Slot slot = inventorySlots.get(slotId);
-    if (!canTake(slotId, slot, button, player, flag))
-      return slot.getStack();
-
-    return super.slotClick(slotId, button, flag, player);
-  }
-
-  @Override
-  public void onContainerClosed(EntityPlayer playerIn) {
-
-    super.onContainerClosed(playerIn);
-    if (!(quiver.getItem() instanceof IQuiver)) {
-      SilentGems.logHelper.warn("Item is not a quiver? " + quiver.getItem());
-      return;
-    }
-    ((IQuiver) quiver.getItem()).updateQuiver(quiver, itemHandler, playerIn);
-  }
-
-  public boolean canTake(int slotId, Slot slot, int button, EntityPlayer player,
-      ClickType clickType) {
-
-    if (slotId == blocked)
-      return false;
-
-    if (slotId <= ItemQuiver.MAX_STACKS - 1) {
-      if (player.inventory.getItemStack().getItem() instanceof IQuiver)
-        return false;
+        setupSlots(inventoryPlayer, itemHandler, hand);
     }
 
-    // Hotbar swapping via number keys
-    if (clickType == ClickType.SWAP) {
-      int hotbarId = ItemQuiver.MAX_STACKS + 27 + button;
-      // Block swapping with quiver
-      if (blocked == hotbarId)
-        return false;
-
-      Slot hotbarSlot = getSlot(hotbarId);
-      if (slotId <= ItemQuiver.MAX_STACKS - 1) {
-        if (slot.getStack().getItem() instanceof IQuiver
-            || hotbarSlot.getStack().getItem() instanceof IQuiver)
-          return false;
-      }
+    @Override
+    public boolean canInteractWith(EntityPlayer playerIn) {
+        return true;
     }
 
-    return true;
-  }
+    @Nonnull
+    @Override
+    public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
+        Slot slot = this.getSlot(slotIndex);
 
-  private void setupSlots(InventoryPlayer inventoryPlayer, IItemHandler itemHandler,
-      EnumHand hand) {
+        if (!slot.canTakeStack(player))
+            return slot.getStack();
 
-    setupQuiverSlots(itemHandler);
-    setupPlayerSlots(inventoryPlayer, hand);
-  }
+        if (slotIndex == blocked)
+            return ItemStack.EMPTY;
 
-  private void setupQuiverSlots(IItemHandler itemHandler) {
+        if (!slot.getHasStack())
+            return ItemStack.EMPTY;
 
-    int xOffset = 1 + getContainerInvXOffset();
-    int yOffset = 1 + getBorderTop();
-    for (int x = 0; x < ItemQuiver.MAX_STACKS; ++x) {
-      addSlotToContainer(new SlotQuiver(itemHandler, x, xOffset + x * 18, yOffset));
+        ItemStack stack = slot.getStack();
+        ItemStack newStack = stack.copy();
+
+        if (slotIndex < ItemQuiver.MAX_STACKS) {
+            if (!this.mergeItemStack(stack, ItemQuiver.MAX_STACKS, this.inventorySlots.size(), true))
+                return ItemStack.EMPTY;
+            slot.onSlotChanged();
+        } else if (!this.mergeItemStack(stack, 0, ItemQuiver.MAX_STACKS, false))
+            return ItemStack.EMPTY;
+
+        if (stack.isEmpty())
+            slot.putStack(ItemStack.EMPTY);
+        else
+            slot.onSlotChanged();
+
+        return slot.onTake(player, newStack);
     }
-  }
 
-  private void setupPlayerSlots(InventoryPlayer inventoryPlayer, EnumHand hand) {
+    @Nonnull
+    @Override
+    public ItemStack slotClick(int slotId, int button, ClickType flag, EntityPlayer player) {
+        if (slotId < 0 || slotId > inventorySlots.size())
+            return super.slotClick(slotId, button, flag, player);
 
-    int xOffset = 1 + getPlayerInvXOffset();
-    int yOffset = 1 + getBorderTop() + getContainerInvHeight() + getBufferInventory();
+        Slot slot = inventorySlots.get(slotId);
+        if (!canTake(slotId, slot, button, player, flag))
+            return slot.getStack();
 
-    // Inventory
-    for (int y = 0; y < 3; y++, yOffset += 18)
-      for (int x = 0; x < 9; x++)
-        addSlotToContainer(new Slot(inventoryPlayer, x + y * 9 + 9, xOffset + x * 18, yOffset));
+        return super.slotClick(slotId, button, flag, player);
+    }
 
-    // Hotbar
-    yOffset += getBufferHotbar();
-    for (int x = 0; x < 9; x++) {
-      Slot slot = addSlotToContainer(new Slot(inventoryPlayer, x, xOffset + x * 18, yOffset) {
-
-        @Override
-        public boolean canTakeStack(final EntityPlayer playerIn) {
-
-          return slotNumber != blocked;
+    @Override
+    public void onContainerClosed(EntityPlayer playerIn) {
+        super.onContainerClosed(playerIn);
+        if (!(quiver.getItem() instanceof IQuiver)) {
+            SilentGems.logHelper.warn("Item is not a quiver? " + quiver.getItem());
+            return;
         }
-      });
-      if (x == inventoryPlayer.currentItem && hand == EnumHand.MAIN_HAND)
-        blocked = slot.slotNumber;
+        ((IQuiver) quiver.getItem()).updateQuiver(quiver, itemHandler, playerIn);
     }
-  }
 
-  // GUI/slot setup helpers
+    public boolean canTake(int slotId, Slot slot, int button, EntityPlayer player, ClickType clickType) {
+        if (slotId == blocked)
+            return false;
 
-  /**
-   * Returns the size of the top border in pixels.
-   */
-  public int getBorderTop() {
+        if (slotId <= ItemQuiver.MAX_STACKS - 1) {
+            if (player.inventory.getItemStack().getItem() instanceof IQuiver)
+                return false;
+        }
 
-    return 34;
-  }
+        // Hotbar swapping via number keys
+        if (clickType == ClickType.SWAP) {
+            int hotbarId = ItemQuiver.MAX_STACKS + 27 + button;
+            // Block swapping with quiver
+            if (blocked == hotbarId)
+                return false;
 
-  /**
-   * Returns the size of the side border in pixels.
-   */
-  public int getBorderSide() {
+            Slot hotbarSlot = getSlot(hotbarId);
+            if (slotId <= ItemQuiver.MAX_STACKS - 1) {
+                if (slot.getStack().getItem() instanceof IQuiver
+                        || hotbarSlot.getStack().getItem() instanceof IQuiver)
+                    return false;
+            }
+        }
 
-    return 7;
-  }
+        return true;
+    }
 
-  /**
-   * Returns the size of the bottom border in pixels.
-   */
-  public int getBorderBottom() {
+    private void setupSlots(InventoryPlayer inventoryPlayer, IItemHandler itemHandler, EnumHand hand) {
+        setupQuiverSlots(itemHandler);
+        setupPlayerSlots(inventoryPlayer, hand);
+    }
 
-    return 7;
-  }
+    private void setupQuiverSlots(IItemHandler itemHandler) {
+        int xOffset = 1 + getContainerInvXOffset();
+        int yOffset = 1 + getBorderTop();
+        for (int x = 0; x < ItemQuiver.MAX_STACKS; ++x) {
+            addSlotToContainer(new SlotQuiver(itemHandler, x, xOffset + x * 18, yOffset));
+        }
+    }
 
-  /**
-   * Returns the space between container and player inventory in pixels.
-   */
-  public int getBufferInventory() {
+    private void setupPlayerSlots(InventoryPlayer inventoryPlayer, EnumHand hand) {
+        int xOffset = 1 + getPlayerInvXOffset();
+        int yOffset = 1 + getBorderTop() + getContainerInvHeight() + getBufferInventory();
 
-    return 31;
-  }
+        // Inventory
+        for (int y = 0; y < 3; y++, yOffset += 18)
+            for (int x = 0; x < 9; x++)
+                addSlotToContainer(new Slot(inventoryPlayer, x + y * 9 + 9, xOffset + x * 18, yOffset));
 
-  /**
-   * Returns the space between player inventory and hotbar in pixels.
-   */
-  public int getBufferHotbar() {
+        // Hotbar
+        yOffset += getBufferHotbar();
+        for (int x = 0; x < 9; x++) {
+            Slot slot = addSlotToContainer(new Slot(inventoryPlayer, x, xOffset + x * 18, yOffset) {
 
-    return 4;
-  }
+                @Override
+                public boolean canTakeStack(final EntityPlayer playerIn) {
 
-  /**
-   * Returns the total width of the container in pixels.
-   */
-  public int getWidth() {
+                    return slotNumber != blocked;
+                }
+            });
+            if (x == inventoryPlayer.currentItem && hand == EnumHand.MAIN_HAND)
+                blocked = slot.slotNumber;
+        }
+    }
 
-    return ItemQuiver.MAX_STACKS * 18 + getBorderSide() * 2;
-  }
+    // GUI/slot setup helpers
 
-  /**
-   * Returns the total height of the container in pixels.
-   */
-  public int getHeight() {
+    /**
+     * Returns the size of the top border in pixels.
+     */
+    public int getBorderTop() {
+        return 34;
+    }
 
-    return getBorderTop() + (1 * 18) + getBufferInventory() + (4 * 18) + getBufferHotbar()
-        + getBorderBottom();
-  }
+    /**
+     * Returns the size of the side border in pixels.
+     */
+    public int getBorderSide() {
+        return 7;
+    }
 
-  /**
-   * Returns the size of the container's width, only the inventory/slots, not the border, in pixels.
-   */
-  public int getContainerInvWidth() {
+    /**
+     * Returns the size of the bottom border in pixels.
+     */
+    public int getBorderBottom() {
+        return 7;
+    }
 
-    return ItemQuiver.MAX_STACKS * 18;
-  }
+    /**
+     * Returns the space between container and player inventory in pixels.
+     */
+    public int getBufferInventory() {
+        return 31;
+    }
 
-  /**
-   * Returns the size of the container's height, only the inventory/slots, not the border, in pixels.
-   */
-  public int getContainerInvHeight() {
+    /**
+     * Returns the space between player inventory and hotbar in pixels.
+     */
+    public int getBufferHotbar() {
+        return 4;
+    }
 
-    return 1 * 18;
-  }
+    /**
+     * Returns the total width of the container in pixels.
+     */
+    public int getWidth() {
+        return ItemQuiver.MAX_STACKS * 18 + getBorderSide() * 2;
+    }
 
-  /**
-   * Returns the size of the x offset for the backpack container in pixels.
-   */
-  public int getContainerInvXOffset() {
+    /**
+     * Returns the total height of the container in pixels.
+     */
+    public int getHeight() {
+        return getBorderTop() + (1 * 18) + getBufferInventory() + (4 * 18) + getBufferHotbar()
+                + getBorderBottom();
+    }
 
-    return getBorderSide() + Math.max(0, (getPlayerInvWidth() - getContainerInvWidth()) / 2);
-  }
+    /**
+     * Returns the size of the container's width, only the inventory/slots, not the border, in
+     * pixels.
+     */
+    public int getContainerInvWidth() {
+        return ItemQuiver.MAX_STACKS * 18;
+    }
 
-  /**
-   * Returns the size of the x offset for the player's inventory in pixels.
-   */
-  public int getPlayerInvXOffset() {
+    /**
+     * Returns the size of the container's height, only the inventory/slots, not the border, in
+     * pixels.
+     */
+    public int getContainerInvHeight() {
+        return 1 * 18;
+    }
 
-    return getBorderSide() + Math.max(0, (getContainerInvWidth() - getPlayerInvWidth()) / 2);
-  }
+    /**
+     * Returns the size of the x offset for the backpack container in pixels.
+     */
+    public int getContainerInvXOffset() {
+        return getBorderSide() + Math.max(0, (getPlayerInvWidth() - getContainerInvWidth()) / 2);
+    }
 
-  /**
-   * Returns the size of the player's inventory width, not including the borders, in pixels.
-   */
-  public int getPlayerInvWidth() {
+    /**
+     * Returns the size of the x offset for the player's inventory in pixels.
+     */
+    public int getPlayerInvXOffset() {
+        return getBorderSide() + Math.max(0, (getContainerInvWidth() - getPlayerInvWidth()) / 2);
+    }
 
-    return 9 * 18;
-  }
+    /**
+     * Returns the size of the player's inventory width, not including the borders, in pixels.
+     */
+    public int getPlayerInvWidth() {
+        return 9 * 18;
+    }
 
-  /**
-   * Returns the size of the player's inventory height, including the hotbar, in pixels.
-   */
-  public int getPlayerInvHeight() {
-
-    return 4 * 18 + getBufferHotbar();
-  }
+    /**
+     * Returns the size of the player's inventory height, including the hotbar, in pixels.
+     */
+    public int getPlayerInvHeight() {
+        return 4 * 18 + getBufferHotbar();
+    }
 }

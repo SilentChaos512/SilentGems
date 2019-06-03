@@ -1,10 +1,9 @@
 package net.silentchaos512.gems.api.lib;
 
 public interface IPartPosition {
+    int getRenderPass();
 
-  public int getRenderPass();
+    String getKey(int subPosition);
 
-  public String getKey(int subPosition);
-
-  public String getDecoKey();
+    String getDecoKey();
 }

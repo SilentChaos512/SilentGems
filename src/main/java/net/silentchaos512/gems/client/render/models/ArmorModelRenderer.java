@@ -14,50 +14,45 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 public class ArmorModelRenderer extends ModelRenderer {
+    protected Object2IntMap<ModelBox> childColors = new Object2IntOpenHashMap<>();
 
-  protected Object2IntMap<ModelBox> childColors = new Object2IntOpenHashMap<>();
-
-  public ArmorModelRenderer(ModelBase model) {
-
-    super(model);
-  }
-
-  public void addChild(ModelBox box, int color) {
-
-    cubeList.add(box);
-    childColors.put(box, color);
-  }
-
-  public void addChild(ModelBox box) {
-
-    cubeList.add(box);
-  }
-
-  @Override
-  @SideOnly(Side.CLIENT)
-  public void compileDisplayList(float scale) {
-    this.displayList = GLAllocation.generateDisplayLists(1);
-    GlStateManager.glNewList(this.displayList, GL11.GL_COMPILE);
-    BufferBuilder vertexBuffer = Tessellator.getInstance().getBuffer();
-
-    for (ModelBox box : this.cubeList) {
-      int color = 0xFFFFFF;
-      if (childColors.containsKey(box)) {
-        color = childColors.getInt(box);
-      }
-      GlStateManager
-          .color((color >> 16 & 0xFF) / 255f, (color >> 8 & 0xFF) / 255f, (color & 0xFF) / 255f);
-      box.render(vertexBuffer, scale);
+    public ArmorModelRenderer(ModelBase model) {
+        super(model);
     }
-    GlStateManager.color(1, 1, 1, 1);
-    GlStateManager.glEndList();
-    this.compiled = true;
-  }
 
-  public void dispose() {
+    public void addChild(ModelBox box, int color) {
+        cubeList.add(box);
+        childColors.put(box, color);
+    }
 
-    compiled = false;
-    GLAllocation.deleteDisplayLists(displayList);
-    displayList = 0;
-  }
+    public void addChild(ModelBox box) {
+        cubeList.add(box);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void compileDisplayList(float scale) {
+        this.displayList = GLAllocation.generateDisplayLists(1);
+        GlStateManager.glNewList(this.displayList, GL11.GL_COMPILE);
+        BufferBuilder vertexBuffer = Tessellator.getInstance().getBuffer();
+
+        for (ModelBox box : this.cubeList) {
+            int color = 0xFFFFFF;
+            if (childColors.containsKey(box)) {
+                color = childColors.getInt(box);
+            }
+            GlStateManager
+                    .color((color >> 16 & 0xFF) / 255f, (color >> 8 & 0xFF) / 255f, (color & 0xFF) / 255f);
+            box.render(vertexBuffer, scale);
+        }
+        GlStateManager.color(1, 1, 1, 1);
+        GlStateManager.glEndList();
+        this.compiled = true;
+    }
+
+    public void dispose() {
+        compiled = false;
+        GLAllocation.deleteDisplayLists(displayList);
+        displayList = 0;
+    }
 }

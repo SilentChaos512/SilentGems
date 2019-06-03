@@ -10,22 +10,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class ToolItemOverrideHandler extends ItemOverrideList {
+    public static final ToolItemOverrideHandler INSTANCE = new ToolItemOverrideHandler();
+    public static IBakedModel baseModel;
 
-  public static final ToolItemOverrideHandler INSTANCE = new ToolItemOverrideHandler();
-  public static IBakedModel baseModel;
-
-  public ToolItemOverrideHandler() {
-
-    super(ImmutableList.<ItemOverride> of());
-  }
-
-  @Override
-  public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world,
-      EntityLivingBase entity) {
-
-    if (stack == null) {
-      return baseModel;
+    public ToolItemOverrideHandler() {
+        super(ImmutableList.<ItemOverride>of());
     }
-    return new ToolModel(baseModel).handleItemState(stack);
-  }
+
+    @Override
+    public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
+        if (stack == null) {
+            return baseModel;
+        }
+        return new ToolModel(baseModel).handleItemState(stack);
+    }
 }

@@ -5,10 +5,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 
 public abstract class ToolSkill {
+    public abstract boolean activate(ItemStack tool, EntityPlayer player, BlockPos pos);
 
-  public abstract boolean activate(ItemStack tool, EntityPlayer player, BlockPos pos);
+    public abstract int getCost(ItemStack tool, EntityPlayer player, BlockPos pos);
 
-  public abstract int getCost(ItemStack tool, EntityPlayer player, BlockPos pos);
-
-  public abstract String getTranslatedName();
+    public abstract String getTranslatedName();
 }

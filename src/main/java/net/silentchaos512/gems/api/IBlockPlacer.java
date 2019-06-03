@@ -4,18 +4,17 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 
 /**
- * An item that places blocks. Implementing on an item will make them work with tool's 'right-click to place' ability.
- * 
- * @author SilentChaos512
+ * An item that places blocks. Implementing on an item will make them work with tool's 'right-click
+ * to place' ability.
  *
+ * @author SilentChaos512
  */
 public interface IBlockPlacer {
+    IBlockState getBlockPlaced(ItemStack stack);
 
-  public IBlockState getBlockPlaced(ItemStack stack);
+    int getRemainingBlocks(ItemStack stack);
 
-  public int getRemainingBlocks(ItemStack stack);
+    void setRemainingBlocks(ItemStack stack, int value);
 
-  public void setRemainingBlocks(ItemStack stack, int value);
-
-  public int getMaxBlocksStored(ItemStack stack);
+    int getMaxBlocksStored(ItemStack stack);
 }

@@ -3,51 +3,46 @@ package net.silentchaos512.gems.api.lib;
 import javax.annotation.Nullable;
 
 public enum ToolPartPosition implements IPartPosition {
+    ROD(0, "PartRod", "DecoRod"),
+    HEAD(1, "Part%d", "DecoHeadM"),
+    TIP(2, "PartHeadTip", ""),
+    ROD_DECO(3, "PartRodDeco", "PartRodDeco"),
+    ROD_GRIP(4, "PartRodWool", "");
 
-  ROD(0, "PartRod", "DecoRod"),
-  HEAD(1, "Part%d", "DecoHeadM"),
-  TIP(2, "PartHeadTip", ""),
-  ROD_DECO(3, "PartRodDeco", "PartRodDeco"),
-  ROD_GRIP(4, "PartRodWool", "");
+    final int renderPass;
+    final String nbtKey;
+    final String decoNbtKey;
 
-  final int renderPass;
-  final String nbtKey;
-  final String decoNbtKey;
-
-  private ToolPartPosition(int renderPass, String nbtKey, String decoNbtKey) {
-
-    this.renderPass = renderPass;
-    this.nbtKey = nbtKey;
-    this.decoNbtKey = decoNbtKey;
-  }
-
-  public static @Nullable ToolPartPosition forRenderPass(int pass) {
-
-    for (ToolPartPosition pos : values()) {
-      if (pos.renderPass == pass) {
-        return pos;
-      }
+    ToolPartPosition(int renderPass, String nbtKey, String decoNbtKey) {
+        this.renderPass = renderPass;
+        this.nbtKey = nbtKey;
+        this.decoNbtKey = decoNbtKey;
     }
-    return null;
-  }
 
-  @Override
-  public int getRenderPass() {
+    @Nullable
+    public static ToolPartPosition forRenderPass(int pass) {
+        for (ToolPartPosition pos : values()) {
+            if (pos.renderPass == pass) {
+                return pos;
+            }
+        }
+        return null;
+    }
 
-    return renderPass;
-  }
+    @Override
+    public int getRenderPass() {
+        return renderPass;
+    }
 
-  @Override
-  public String getKey(int subPosition) {
+    @Override
+    public String getKey(int subPosition) {
+        if (nbtKey.contains("%d"))
+            return String.format(nbtKey, subPosition);
+        return nbtKey;
+    }
 
-    if (nbtKey.contains("%d"))
-      return String.format(nbtKey, subPosition);
-    return nbtKey;
-  }
-
-  @Override
-  public String getDecoKey() {
-
-    return decoNbtKey;
-  }
+    @Override
+    public String getDecoKey() {
+        return decoNbtKey;
+    }
 }

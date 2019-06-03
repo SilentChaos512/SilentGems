@@ -17,154 +17,137 @@ import net.silentchaos512.gems.util.ArmorHelper;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public abstract class ToolPartMain extends ToolPart {
+    static final float[][] REPAIR_VALUES = {//
+            {0.500f, 1.000f, 1.000f, 1.000f}, // mundane
+            {0.000f, 0.500f, 1.000f, 1.000f}, // regular
+            {0.000f, 0.250f, 1.000f, 1.000f}, // super
+            {0.000f, 0.125f, 0.500f, 1.000f}  // hyper
+    };
 
-  static final float[][] REPAIR_VALUES = {//
-      { 0.500f, 1.000f, 1.000f, 1.000f }, // mundane
-      { 0.000f, 0.500f, 1.000f, 1.000f }, // regular
-      { 0.000f, 0.250f, 1.000f, 1.000f }, // super
-      { 0.000f, 0.125f, 0.500f, 1.000f }  // hyper
-  };
-
-  public ToolPartMain(String key, ItemStack craftingStack) {
-
-    super(key, craftingStack);
-  }
-
-  public ToolPartMain(String key, ItemStack craftingStack, String oreName) {
-
-    super(key, craftingStack, oreName);
-  }
-
-  @Override
-  public ItemStatModifier getStatModifier(ItemStat stat, EnumMaterialGrade grade) {
-
-    float val = stats.getStat(stat);
-    if (stat == CommonItemStats.HARVEST_LEVEL) {
-      return new ItemStatModifier(getUnlocalizedName(), val, ItemStatModifier.Operation.MAX);
-    } else {
-      val *= (100 + grade.bonusPercent) / 100f;
-      return new ItemStatModifier(getUnlocalizedName(), val, ItemStatModifier.Operation.AVERAGE);
-    }
-  }
-
-  @Override
-  public int getRepairAmount(ItemStack toolOrArmor, ItemStack partRep) {
-
-    if (isBlacklisted(partRep)) {
-      return 0;
+    public ToolPartMain(String key, ItemStack craftingStack) {
+        super(key, craftingStack);
     }
 
-    if (GemsConfigHC.REPAIR_LOGIC != GemsConfigHC.EnumRepairLogic.CLASSIC) {
-      ToolPart repairPart = ToolPartRegistry.fromStack(partRep);
-      EnumMaterialGrade repairGrade = EnumMaterialGrade.fromStack(partRep);
-      float amount = repairPart.getDurability() * (100 + repairGrade.bonusPercent) / 100;
-
-      // Since armor has much lower durability per item, we'll adjust down for armor.
-      if (toolOrArmor.getItem() instanceof IArmor) {
-        amount /= 2f;
-      }
-
-      switch (GemsConfigHC.REPAIR_LOGIC) {
-        case HARD_MATERIAL_BASED:
-          return (int) (amount / 4f);
-        case MATERIAL_BASED:
-          return (int) (amount / 2f);
-        case NOT_ALLOWED:
-          return 0;
-        default:
-          break;
-      }
+    public ToolPartMain(String key, ItemStack craftingStack, String oreName) {
+        super(key, craftingStack, oreName);
     }
 
-    // Classic repair logic.
-    int max = toolOrArmor.getMaxDamage();
-    float scale = 0.0f;
+    @Override
+    public ItemStatModifier getStatModifier(ItemStat stat, EnumMaterialGrade grade) {
+        float val = stats.getStat(stat);
+        if (stat == CommonItemStats.HARVEST_LEVEL) {
+            return new ItemStatModifier(getUnlocalizedName(), val, ItemStatModifier.Operation.MAX);
+        } else {
+            val *= (100 + grade.bonusPercent) / 100f;
+            return new ItemStatModifier(getUnlocalizedName(), val, ItemStatModifier.Operation.AVERAGE);
+        }
+    }
 
-    EnumMaterialTier partTier = getTier();
-    EnumMaterialTier stackTier = toolOrArmor.getItem() instanceof ITool
-        ? ToolHelper.getToolTier(toolOrArmor)
-        : (toolOrArmor.getItem() instanceof IArmor ? ArmorHelper.getArmorTier(toolOrArmor) : null);
+    @Override
+    public int getRepairAmount(ItemStack toolOrArmor, ItemStack partRep) {
+        if (isBlacklisted(partRep)) {
+            return 0;
+        }
 
-    if (stackTier == null)
-      return 0;
+        if (GemsConfigHC.REPAIR_LOGIC != GemsConfigHC.EnumRepairLogic.CLASSIC) {
+            ToolPart repairPart = ToolPartRegistry.fromStack(partRep);
+            EnumMaterialGrade repairGrade = EnumMaterialGrade.fromStack(partRep);
+            float amount = repairPart.getDurability() * (100 + repairGrade.bonusPercent) / 100;
 
-    int toolTierIndex = ToolHelper.getToolTier(toolOrArmor).ordinal();
-    int partTierIndex = partTier.ordinal();
-    scale = REPAIR_VALUES[toolTierIndex][partTierIndex];
+            // Since armor has much lower durability per item, we'll adjust down for armor.
+            if (toolOrArmor.getItem() instanceof IArmor) {
+                amount /= 2f;
+            }
 
-    return (int) (scale * max);
-  }
+            switch (GemsConfigHC.REPAIR_LOGIC) {
+                case HARD_MATERIAL_BASED:
+                    return (int) (amount / 4f);
+                case MATERIAL_BASED:
+                    return (int) (amount / 2f);
+                case NOT_ALLOWED:
+                    return 0;
+                default:
+                    break;
+            }
+        }
 
-  @Override
-  public final void applyStats(ToolStats stats) {
+        // Classic repair logic.
+        int max = toolOrArmor.getMaxDamage();
+        float scale = 0.0f;
 
-    // Custom logic not allowed.
-  }
+        EnumMaterialTier partTier = getTier();
+        EnumMaterialTier stackTier = toolOrArmor.getItem() instanceof ITool
+                ? ToolHelper.getToolTier(toolOrArmor)
+                : (toolOrArmor.getItem() instanceof IArmor ? ArmorHelper.getArmorTier(toolOrArmor) : null);
 
-  @Override
-  public int getDurability() {
+        if (stackTier == null)
+            return 0;
 
-    return 0;
-  }
+        int toolTierIndex = ToolHelper.getToolTier(toolOrArmor).ordinal();
+        int partTierIndex = partTier.ordinal();
+        scale = REPAIR_VALUES[toolTierIndex][partTierIndex];
 
-  @Override
-  public float getHarvestSpeed() {
+        return (int) (scale * max);
+    }
 
-    return 0;
-  }
+    @Override
+    public final void applyStats(ToolStats stats) {
+        // Custom logic not allowed.
+    }
 
-  @Override
-  public int getHarvestLevel() {
+    @Override
+    public int getDurability() {
+        return 0;
+    }
 
-    return 0;
-  }
+    @Override
+    public float getHarvestSpeed() {
+        return 0;
+    }
 
-  @Override
-  public float getMeleeDamage() {
+    @Override
+    public int getHarvestLevel() {
+        return 0;
+    }
 
-    return 0;
-  }
+    @Override
+    public float getMeleeDamage() {
+        return 0;
+    }
 
-  @Override
-  public float getMagicDamage() {
+    @Override
+    public float getMagicDamage() {
+        return 0;
+    }
 
-    return 0;
-  }
+    @Override
+    public int getEnchantability() {
+        return 0;
+    }
 
-  @Override
-  public int getEnchantability() {
+    @Override
+    public float getMeleeSpeed() {
+        return 0;
+    }
 
-    return 0;
-  }
+    @Override
+    public float getChargeSpeed() {
+        return 0;
+    }
 
-  @Override
-  public float getMeleeSpeed() {
+    @Override
+    public float getProtection() {
+        return 0;
+    }
 
-    return 0;
-  }
+    @Override
+    public boolean validForPosition(IPartPosition pos) {
+        return pos == ToolPartPosition.HEAD || pos == ToolPartPosition.ROD_DECO
+                || (pos instanceof ArmorPartPosition && pos != ArmorPartPosition.FRAME);
+    }
 
-  @Override
-  public float getChargeSpeed() {
-
-    return 0;
-  }
-
-  @Override
-  public float getProtection() {
-
-    return 0;
-  }
-
-  @Override
-  public boolean validForPosition(IPartPosition pos) {
-
-    return pos == ToolPartPosition.HEAD || pos == ToolPartPosition.ROD_DECO
-        || (pos instanceof ArmorPartPosition && pos != ArmorPartPosition.FRAME);
-  }
-
-  @Override
-  public boolean validForToolOfTier(EnumMaterialTier toolTier) {
-
-    return getTier() == toolTier;
-  }
+    @Override
+    public boolean validForToolOfTier(EnumMaterialTier toolTier) {
+        return getTier() == toolTier;
+    }
 }

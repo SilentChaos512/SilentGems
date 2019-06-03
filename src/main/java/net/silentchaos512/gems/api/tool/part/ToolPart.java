@@ -35,7 +35,6 @@ import java.util.List;
  * @author SilentChaos512
  */
 public abstract class ToolPart {
-
     /**
      * The unique ID for the part. I recommend prefixing it with your mod ID. Example:
      * SilentGems:RodGold.

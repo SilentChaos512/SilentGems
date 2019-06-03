@@ -10,26 +10,22 @@ import net.silentchaos512.gems.SilentGems;
 import javax.annotation.Nullable;
 
 public class EntityEnderSlime extends EntityMagmaCube {
+    public EntityEnderSlime(World worldIn) {
+        super(worldIn);
+    }
 
-  public EntityEnderSlime(World worldIn) {
+    @Override
+    protected EnumParticleTypes getParticleType() {
+        return EnumParticleTypes.DRAGON_BREATH;
+    }
 
-    super(worldIn);
-  }
+    protected EntitySlime createInstance() {
+        return new EntityEnderSlime(this.world);
+    }
 
-  @Override
-  protected EnumParticleTypes getParticleType() {
-
-    return EnumParticleTypes.DRAGON_BREATH;
-  }
-
-  protected EntitySlime createInstance() {
-
-    return new EntityEnderSlime(this.world);
-  }
-
-  @Override
-  protected @Nullable ResourceLocation getLootTable() {
-
-    return new ResourceLocation(SilentGems.MODID, "ender_slime");
-  }
+    @Nullable
+    @Override
+    protected ResourceLocation getLootTable() {
+        return new ResourceLocation(SilentGems.MODID, "ender_slime");
+    }
 }

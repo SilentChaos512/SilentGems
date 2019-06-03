@@ -15,25 +15,22 @@ import net.silentchaos512.gems.network.message.MessageTransferParticles;
 
 public class NetworkHandler {
 
-  public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE
-      .newSimpleChannel(SilentGems.MODID);
+    public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(SilentGems.MODID);
 
-  private static int i = 0;
+    private static int i = 0;
 
-  public static void init() {
+    public static void init() {
+        register(MessageDataSync.class, Side.CLIENT);
+        register(MessageToggleSpecial.class, Side.SERVER);
+        register(MessageItemRename.class, Side.SERVER);
+        register(MessageSetFlight.class, Side.CLIENT);
+        register(MessageToggleChaosGem.class, Side.SERVER);
+        register(MessageKeyReturnHome.class, Side.SERVER);
+        register(MessageTransferParticles.class, Side.CLIENT);
+        register(MessageSoulSync.class, Side.CLIENT);
+    }
 
-    register(MessageDataSync.class, Side.CLIENT);
-    register(MessageToggleSpecial.class, Side.SERVER);
-    register(MessageItemRename.class, Side.SERVER);
-    register(MessageSetFlight.class, Side.CLIENT);
-    register(MessageToggleChaosGem.class, Side.SERVER);
-    register(MessageKeyReturnHome.class, Side.SERVER);
-    register(MessageTransferParticles.class, Side.CLIENT);
-    register(MessageSoulSync.class, Side.CLIENT);
-  }
-
-  private static void register(Class clazz, Side handlerSide) {
-
-    INSTANCE.registerMessage(clazz, clazz, i++, handlerSide);
-  }
+    private static void register(Class clazz, Side handlerSide) {
+        INSTANCE.registerMessage(clazz, clazz, i++, handlerSide);
+    }
 }

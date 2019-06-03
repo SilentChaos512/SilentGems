@@ -1,13 +1,13 @@
 package net.silentchaos512.gems.lib.client;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.silentchaos512.gems.api.lib.IPartPosition;
 
+import javax.annotation.Nullable;
+
 public interface IModelData {
+    @Nullable
+    ModelResourceLocation getModel(IPartPosition pos, int frame);
 
-  public @Nullable ModelResourceLocation getModel(IPartPosition pos, int frame);
-
-  public int getColor(IPartPosition pos, int frame);
+    int getColor(IPartPosition pos, int frame);
 }

@@ -12,20 +12,18 @@ import net.silentchaos512.gems.network.Message;
 import net.silentchaos512.gems.util.ToolHelper;
 
 public class MessageToggleSpecial extends Message {
+    @Override
+    public IMessage handleMessage(MessageContext context) {
+        if (context.side == Side.SERVER) {
+            EntityPlayerMP player = context.getServerHandler().player;
+            ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
 
-  @Override
-  public IMessage handleMessage(MessageContext context) {
-
-    if (context.side == Side.SERVER) {
-      EntityPlayerMP player = context.getServerHandler().player;
-      ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
-
-      if (!mainHand.isEmpty() && mainHand.getItem() instanceof ITool) {
-        if (ToolHelper.getToolTier(mainHand) == EnumMaterialTier.SUPER) {
-          ToolHelper.toggleSpecialAbility(mainHand);
+            if (!mainHand.isEmpty() && mainHand.getItem() instanceof ITool) {
+                if (ToolHelper.getToolTier(mainHand) == EnumMaterialTier.SUPER) {
+                    ToolHelper.toggleSpecialAbility(mainHand);
+                }
+            }
         }
-      }
+        return null;
     }
-    return null;
-  }
 }

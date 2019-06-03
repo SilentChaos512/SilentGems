@@ -25,183 +25,167 @@ import java.util.Random;
 import java.util.Set;
 
 public class ModuleEntityRandomEquipment {
+    public static final String MODULE_NAME = "mob_equipment";
+    public static boolean MODULE_ENABLED = true;
+    public static float SWORD_CHANCE = 0.075f;
+    public static float KATANA_CHANCE = 0.5f;
+    public static float MACHETE_CHANCE = 0.4f;
+    public static float SUPER_CHANCE = 0.25f;
+    public static float SWORD_EXTRA_GEM_CHANCE = 0.33f;
+    public static float SELECT_EXTRA_GEM_CHANCE = 0.6f;
+    public static float EQUIPMENT_DROP_CHANCE = 0.11f; // Vanilla 8.5%
+    public static float SWORD_MULTI_HUMAN = 2.0f;
+    public static float SWORD_MULTI_SKELETON = 0.5f;
+    public static float SWORD_MULTI_ZOMBIE = 1.0f;
 
-  public static final String MODULE_NAME = "mob_equipment";
-  public static boolean MODULE_ENABLED = true;
-  public static float SWORD_CHANCE = 0.075f;
-  public static float KATANA_CHANCE = 0.5f;
-  public static float MACHETE_CHANCE = 0.4f;
-  public static float SUPER_CHANCE = 0.25f;
-  public static float SWORD_EXTRA_GEM_CHANCE = 0.33f;
-  public static float SELECT_EXTRA_GEM_CHANCE = 0.6f;
-  public static float EQUIPMENT_DROP_CHANCE = 0.11f; // Vanilla 8.5%
-  public static float SWORD_MULTI_HUMAN = 2.0f;
-  public static float SWORD_MULTI_SKELETON = 0.5f;
-  public static float SWORD_MULTI_ZOMBIE = 1.0f;
+    public static void loadConfig(Configuration c) {
+        String cat = GemsConfig.CAT_MAIN + c.CATEGORY_SPLITTER + MODULE_NAME;
+        c.setCategoryComment(cat, "Configs for mobs spawning with gem equipment.");
 
-  public static void loadConfig(Configuration c) {
+        MODULE_ENABLED = c.getBoolean("Enabled", cat, MODULE_ENABLED,
+                "Enables/disables mob gem equipment spawns.");
 
-    String cat = GemsConfig.CAT_MAIN + c.CATEGORY_SPLITTER + MODULE_NAME;
-    c.setCategoryComment(cat, "Configs for mobs spawning with gem equipment.");
+        SWORD_CHANCE = c.getFloat("SwordChance", cat, SWORD_CHANCE, 0, 1,
+                "Base chance of a mob getting a gem sword.");
+        KATANA_CHANCE = c.getFloat("KatanaChance", cat, KATANA_CHANCE, 0, 1,
+                "Chance that a super-tier sword will be a katana.");
+        MACHETE_CHANCE = c.getFloat("MacheteChance", cat, MACHETE_CHANCE, 0, 1,
+                "Chance that a machete will be given instead of a classic sword.");
+        SUPER_CHANCE = c.getFloat("SuperChance", cat, SUPER_CHANCE, 0, 1,
+                "Chance that equipment will be super-tier if given.");
+        SWORD_EXTRA_GEM_CHANCE = c.getFloat("SwordExtraGemChance", cat, SWORD_EXTRA_GEM_CHANCE, 0, 1,
+                "Chance that a sword (not katanas) will get a third gem. The cheaters!");
+        SELECT_EXTRA_GEM_CHANCE = c.getFloat("SelectExtraGemChance", cat, SELECT_EXTRA_GEM_CHANCE, 0, 1,
+                "Chance that another gem will be selected after the previous one (for example, after one is\n"
+                        + "selected this is the chance of getting a second.)");
+        EQUIPMENT_DROP_CHANCE = c.getFloat("EquipmentDropChance", cat, EQUIPMENT_DROP_CHANCE, 0, 1,
+                "Chance the item will be dropped on death (vanilla is 0.085)");
 
-    MODULE_ENABLED = c.getBoolean("Enabled", cat, MODULE_ENABLED,
-        "Enables/disables mob gem equipment spawns.");
+        SWORD_MULTI_HUMAN = c.getFloat("SwordMulti.Human", cat, SWORD_MULTI_HUMAN, 0, 100,
+                "Multiplier for the chance that a Headcrumbs mob will spawn with gem equipment.");
+        SWORD_MULTI_SKELETON = c.getFloat("SwordMulti.Skeleton", cat, SWORD_MULTI_SKELETON, 0, 100,
+                "Multiplier for the chance that a Skelton will spawn with gem equipment.");
+        SWORD_MULTI_ZOMBIE = c.getFloat("SwordMulti.Zombie", cat, SWORD_MULTI_ZOMBIE, 0, 100,
+                "Multiplier for the chance that a Zombie will spawn with gem equipment.");
+    }
 
-    SWORD_CHANCE = c.getFloat("SwordChance", cat, SWORD_CHANCE, 0, 1,
-        "Base chance of a mob getting a gem sword.");
-    KATANA_CHANCE = c.getFloat("KatanaChance", cat, KATANA_CHANCE, 0, 1,
-        "Chance that a super-tier sword will be a katana.");
-    MACHETE_CHANCE = c.getFloat("MacheteChance", cat, MACHETE_CHANCE, 0, 1,
-        "Chance that a machete will be given instead of a classic sword.");
-    SUPER_CHANCE = c.getFloat("SuperChance", cat, SUPER_CHANCE, 0, 1,
-        "Chance that equipment will be super-tier if given.");
-    SWORD_EXTRA_GEM_CHANCE = c.getFloat("SwordExtraGemChance", cat, SWORD_EXTRA_GEM_CHANCE, 0, 1,
-        "Chance that a sword (not katanas) will get a third gem. The cheaters!");
-    SELECT_EXTRA_GEM_CHANCE = c.getFloat("SelectExtraGemChance", cat, SELECT_EXTRA_GEM_CHANCE, 0, 1,
-        "Chance that another gem will be selected after the previous one (for example, after one is\n"
-            + "selected this is the chance of getting a second.)");
-    EQUIPMENT_DROP_CHANCE = c.getFloat("EquipmentDropChance", cat, EQUIPMENT_DROP_CHANCE, 0, 1,
-        "Chance the item will be dropped on death (vanilla is 0.085)");
+    public static void tryGiveMobEquipment(EntityLivingBase entity) {
+        if (!MODULE_ENABLED || entity.world.isRemote || !(entity instanceof EntityMob))
+            return;
 
-    SWORD_MULTI_HUMAN = c.getFloat("SwordMulti.Human", cat, SWORD_MULTI_HUMAN, 0, 100,
-        "Multiplier for the chance that a Headcrumbs mob will spawn with gem equipment.");
-    SWORD_MULTI_SKELETON = c.getFloat("SwordMulti.Skeleton", cat, SWORD_MULTI_SKELETON, 0, 100,
-        "Multiplier for the chance that a Skelton will spawn with gem equipment.");
-    SWORD_MULTI_ZOMBIE = c.getFloat("SwordMulti.Zombie", cat, SWORD_MULTI_ZOMBIE, 0, 100,
-        "Multiplier for the chance that a Zombie will spawn with gem equipment.");
-  }
+        EnumDifficulty worldDiff = entity.world.getDifficulty();
+        DifficultyInstance localDiff = entity.world.getDifficultyForLocation(entity.getPosition());
+        Random rand = SilentGems.random;
 
-  public static void tryGiveMobEquipment(EntityLivingBase entity) {
+        ItemStack sword = ItemStack.EMPTY;
 
-    if (!MODULE_ENABLED || entity.world.isRemote || !(entity instanceof EntityMob))
-      return;
-
-    EnumDifficulty worldDiff = entity.world.getDifficulty();
-    DifficultyInstance localDiff = entity.world.getDifficultyForLocation(entity.getPosition());
-    Random rand = SilentGems.random;
-
-    ItemStack sword = ItemStack.EMPTY;
-
-    // Allowed mobs: zombies, skeletons, and Headcrumbs humans. Different mobs have different
-    // chances of spawning with equipment.
-    if (entity instanceof EntityZombie) {
-      if (selectBasedOnDifficulty(SWORD_MULTI_ZOMBIE * SWORD_CHANCE, worldDiff, localDiff, rand))
-        sword = generateRandomMeleeWeapon(entity, rand);
-    } else if (entity instanceof EntitySkeleton) {
-      if (selectBasedOnDifficulty(SWORD_MULTI_SKELETON * SWORD_CHANCE, worldDiff, localDiff, rand))
-        sword = generateRandomMeleeWeapon(entity, rand);
-    } /*else if (EntityList.NAME_TO_CLASS.get("headcrumbs.Human") == entity.getClass()) {
-      if (selectBasedOnDifficulty(SWORD_MULTI_HUMAN * SWORD_CHANCE, worldDiff, localDiff, rand)) {
-        // A little easter egg...
-        if (entity.getName().equals(Names.SILENT_CHAOS_512)) {
-          sword = SILENT_KATANA.copy();
-          sword.setStackDisplayName("Silent's Creatively Named Katana");
-        } else {
-          sword = generateRandomMeleeWeapon(entity, rand);
+        // Allowed mobs: zombies, skeletons, and Headcrumbs humans. Different mobs have different
+        // chances of spawning with equipment.
+        if (entity instanceof EntityZombie) {
+            if (selectBasedOnDifficulty(SWORD_MULTI_ZOMBIE * SWORD_CHANCE, worldDiff, localDiff, rand))
+                sword = generateRandomMeleeWeapon(entity, rand);
+        } else if (entity instanceof EntitySkeleton) {
+            if (selectBasedOnDifficulty(SWORD_MULTI_SKELETON * SWORD_CHANCE, worldDiff, localDiff, rand))
+                sword = generateRandomMeleeWeapon(entity, rand);
         }
-      }
-    }*/ // FIXME
 
-    ItemStack currentMain = entity.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
-    if (!sword.isEmpty() && (currentMain.isEmpty() || !currentMain.hasTagCompound())) {
-      String makerName = SilentGems.i18n.miscText("tooltip.OriginalOwner.Mob", entity.getName());
-      ToolHelper.setOriginalOwner(sword, makerName);
-      entity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, sword);
-      if (entity instanceof EntityLiving)
-        ((EntityLiving) entity).setDropChance(EntityEquipmentSlot.MAINHAND, EQUIPMENT_DROP_CHANCE);
-    }
-  }
-
-  @Nonnull
-  public static ItemStack generateRandomMeleeWeapon(EntityLivingBase entity, Random rand) {
-
-    EnumDifficulty worldDiff = entity.world.getDifficulty();
-    DifficultyInstance localDiff = entity.world.getDifficultyForLocation(entity.getPosition());
-
-    boolean superTier = selectBasedOnDifficulty(SUPER_CHANCE, worldDiff, localDiff, rand);
-    boolean genKatana = superTier && rand.nextFloat() < KATANA_CHANCE;
-    boolean genMachete = !genKatana && rand.nextFloat() < MACHETE_CHANCE;
-
-    ItemGemSword item;
-    int maxGemCount;
-
-    if (genMachete) {
-      item = ModItems.machete;
-      maxGemCount = 3;
-    } else if (genKatana) {
-      item = ModItems.katana;
-      maxGemCount = 3;
-    } else {
-      item = ModItems.sword;
-      maxGemCount = rand.nextFloat() < SWORD_EXTRA_GEM_CHANCE ? 3 : 2;
+        ItemStack currentMain = entity.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
+        if (!sword.isEmpty() && (currentMain.isEmpty() || !currentMain.hasTagCompound())) {
+            String makerName = SilentGems.i18n.miscText("tooltip.OriginalOwner.Mob", entity.getName());
+            ToolHelper.setOriginalOwner(sword, makerName);
+            entity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, sword);
+            if (entity instanceof EntityLiving)
+                ((EntityLiving) entity).setDropChance(EntityEquipmentSlot.MAINHAND, EQUIPMENT_DROP_CHANCE);
+        }
     }
 
-    Set<EnumGem> gemSet = selectRandomGems(maxGemCount, rand);
-    List<EnumGem> gemList = expandGemsSet(gemSet, maxGemCount, rand);
+    @Nonnull
+    public static ItemStack generateRandomMeleeWeapon(EntityLivingBase entity, Random rand) {
+        EnumDifficulty worldDiff = entity.world.getDifficulty();
+        DifficultyInstance localDiff = entity.world.getDifficultyForLocation(entity.getPosition());
 
-    List<ItemStack> mats = Lists.newArrayList();
-    for (EnumGem gem : gemList)
-      mats.add(superTier ? gem.getItemSuper() : gem.getItem());
+        boolean superTier = selectBasedOnDifficulty(SUPER_CHANCE, worldDiff, localDiff, rand);
+        boolean genKatana = superTier && rand.nextFloat() < KATANA_CHANCE;
+        boolean genMachete = !genKatana && rand.nextFloat() < MACHETE_CHANCE;
 
-    // SilentGems.logHelper.debug(superTier, gemList);
-    return item.constructTool(superTier, mats.toArray(new ItemStack[0]));
-  }
+        ItemGemSword item;
+        int maxGemCount;
 
-  public static void equipEntityWithItem(EntityLivingBase entity, ItemStack stack,
-      EntityEquipmentSlot slot) {
+        if (genMachete) {
+            item = ModItems.machete;
+            maxGemCount = 3;
+        } else if (genKatana) {
+            item = ModItems.katana;
+            maxGemCount = 3;
+        } else {
+            item = ModItems.sword;
+            maxGemCount = rand.nextFloat() < SWORD_EXTRA_GEM_CHANCE ? 3 : 2;
+        }
 
-    // Null checks.
-    if (entity == null || stack.isEmpty())
-      return;
+        Set<EnumGem> gemSet = selectRandomGems(maxGemCount, rand);
+        List<EnumGem> gemList = expandGemsSet(gemSet, maxGemCount, rand);
 
-    // Don't replace items with NBT.
-    ItemStack current = entity.getItemStackFromSlot(slot);
-    if (!current.isEmpty() && current.hasTagCompound())
-      return;
+        List<ItemStack> mats = Lists.newArrayList();
+        for (EnumGem gem : gemList)
+            mats.add(superTier ? gem.getItemSuper() : gem.getItem());
 
-    // Set tool owner name.
-    String makerName = SilentGems.i18n.miscText("tooltip.OriginalOwner.Mob", entity.getName());
-    ItemStack copy = stack.copy();
-    ToolHelper.setOriginalOwner(copy, makerName);
+        // SilentGems.logHelper.debug(superTier, gemList);
+        return item.constructTool(superTier, mats.toArray(new ItemStack[0]));
+    }
 
-    // Set it.
-    entity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, copy);
-  }
+    public static void equipEntityWithItem(EntityLivingBase entity, ItemStack stack, EntityEquipmentSlot slot) {
+        // Null checks.
+        if (entity == null || stack.isEmpty())
+            return;
 
-  public static Set<EnumGem> selectRandomGems(int maxCount, Random rand) {
+        // Don't replace items with NBT.
+        ItemStack current = entity.getItemStackFromSlot(slot);
+        if (!current.isEmpty() && current.hasTagCompound())
+            return;
 
-    Set<EnumGem> gems = Sets.newHashSet();
-    for (int i = 0; i < maxCount; ++i) {
-      int index = rand.nextInt(EnumGem.values().length);
-      gems.add(EnumGem.values()[index]);
-      if (rand.nextFloat() > SELECT_EXTRA_GEM_CHANCE)
+        // Set tool owner name.
+        String makerName = SilentGems.i18n.miscText("tooltip.OriginalOwner.Mob", entity.getName());
+        ItemStack copy = stack.copy();
+        ToolHelper.setOriginalOwner(copy, makerName);
+
+        // Set it.
+        entity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, copy);
+    }
+
+    public static Set<EnumGem> selectRandomGems(int maxCount, Random rand) {
+        Set<EnumGem> gems = Sets.newHashSet();
+        for (int i = 0; i < maxCount; ++i) {
+            int index = rand.nextInt(EnumGem.values().length);
+            gems.add(EnumGem.values()[index]);
+            if (rand.nextFloat() > SELECT_EXTRA_GEM_CHANCE)
+                return gems;
+        }
         return gems;
     }
-    return gems;
-  }
 
-  public static List<EnumGem> expandGemsSet(Set<EnumGem> gems, int targetCount, Random rand) {
-
-    List<EnumGem> list = Lists.newArrayList(gems.iterator());
-    for (int i = list.size(); i < targetCount; ++i)
-      list.add(list.get(rand.nextInt(gems.size())));
-    return list;
-  }
-
-  public static boolean selectBasedOnDifficulty(float baseChance, EnumDifficulty worldDifficulty,
-      DifficultyInstance localDifficulty, Random rand) {
-
-    float f = 1.0f;
-    switch (worldDifficulty) {
-      //@formatter:off
-      case PEACEFUL: return false;
-      case EASY: f = 0.5f; break;
-      case NORMAL: f = 1.0f; break;
-      case HARD: f = 1.75f; break;
-      // @formatter:on
+    public static List<EnumGem> expandGemsSet(Set<EnumGem> gems, int targetCount, Random rand) {
+        List<EnumGem> list = Lists.newArrayList(gems.iterator());
+        for (int i = list.size(); i < targetCount; ++i)
+            list.add(list.get(rand.nextInt(gems.size())));
+        return list;
     }
-    f *= 1.0f + localDifficulty.getClampedAdditionalDifficulty();
-    // SilentGems.logHelper.debug("f = " + f, "c = " + baseChance, "fc = " + f * baseChance);
-    return rand.nextFloat() < f * baseChance;
-  }
+
+    public static boolean selectBasedOnDifficulty(float baseChance, EnumDifficulty worldDifficulty, DifficultyInstance localDifficulty, Random rand) {
+        float f = 1.0f;
+        switch (worldDifficulty) {
+            case PEACEFUL:
+                return false;
+            case EASY:
+                f = 0.5f;
+                break;
+            case NORMAL:
+                f = 1.0f;
+                break;
+            case HARD:
+                f = 1.75f;
+                break;
+        }
+        f *= 1.0f + localDifficulty.getClampedAdditionalDifficulty();
+        return rand.nextFloat() < f * baseChance;
+    }
 }

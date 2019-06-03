@@ -17,64 +17,61 @@ import net.silentchaos512.lib.client.render.tileentity.TileEntitySpecialRenderer
 import java.util.Random;
 
 public class RenderTileChaosAltar extends TileEntitySpecialRendererSL<TileChaosAltar> {
+    // ModelAltarDiamond diamond;
 
-  // ModelAltarDiamond diamond;
+    @Override
+    public void clRender(TileChaosAltar te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+        if (te != null && te.getWorld() != null && !te.getWorld().isBlockLoaded(te.getPos(), false)) {
+            return;
+        }
 
-  @Override
-  public void clRender(TileChaosAltar te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+        // if (diamond==null)
+        // {
+        // diamond = new ModelAltarDiamond();
+        // }
 
-    if (te != null && te.getWorld() != null && !te.getWorld().isBlockLoaded(te.getPos(), false)) {
-      return;
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x + 0.5, y + 0.85, z + 0.5);
+        Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+        double worldTime = (te.getWorld() == null) ? 0
+                : (double) (ClientTickHandler.ticksInGame + partialTicks)
+                + new Random(te.getPos().hashCode()).nextInt(360);
+
+        GlStateManager.translate(0, 0.05f * Math.sin(worldTime / 15), 0);
+        GlStateManager.rotate((float) worldTime * 2, 0, 1, 0);
+
+        // diamond.renderDiamond();
+
+        renderItem(te.getWorld(), te.getStackToRender(), partialTicks);
+
+        GlStateManager.popMatrix();
     }
 
-    // if (diamond==null)
-    // {
-    // diamond = new ModelAltarDiamond();
-    // }
+    private void renderItem(World world, ItemStack stack, float partialTicks) {
+        RenderItem itemRenderer = Minecraft.getMinecraft().getRenderItem();
+        if (stack != null) {
+            // GlStateManager.translate(0.5, 0.5, 0.5);
+            EntityItem entityitem = new EntityItem(world, 0.0D, 0.0D, 0.0D, stack.copy());
+            entityitem.getItem().setCount(1);
+            entityitem.hoverStart = 0.0F;
+            GlStateManager.pushMatrix();
+            GlStateManager.disableLighting();
 
-    GlStateManager.pushMatrix();
-    GlStateManager.translate(x + 0.5, y + 0.85, z + 0.5);
-    Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-    double worldTime = (te.getWorld() == null) ? 0
-        : (double) (ClientTickHandler.ticksInGame + partialTicks)
-            + new Random(te.getPos().hashCode()).nextInt(360);
+            float rotation = (float) (720.0 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
+            GlStateManager.rotate(rotation, 0.0F, 1.0F, 0);
+            Vec3d vec = new Vec3d(0.0, 0.25, 0.0);
+            GlStateManager.translate(vec.x, vec.y, vec.z);
 
-    GlStateManager.translate(0, 0.05f * Math.sin(worldTime / 15), 0);
-    GlStateManager.rotate((float) worldTime * 2, 0, 1, 0);
+            float scale = 0.5f;
+            GlStateManager.scale(scale, scale, scale);
+            GlStateManager.pushAttrib();
+            RenderHelper.enableStandardItemLighting();
+            itemRenderer.renderItem(entityitem.getItem(), ItemCameraTransforms.TransformType.FIXED);
+            RenderHelper.disableStandardItemLighting();
+            GlStateManager.popAttrib();
 
-    // diamond.renderDiamond();
-
-    renderItem(te.getWorld(), te.getStackToRender(), partialTicks);
-
-    GlStateManager.popMatrix();
-  }
-
-  private void renderItem(World world, ItemStack stack, float partialTicks) {
-
-    RenderItem itemRenderer = Minecraft.getMinecraft().getRenderItem();
-    if (stack != null) {
-      // GlStateManager.translate(0.5, 0.5, 0.5);
-      EntityItem entityitem = new EntityItem(world, 0.0D, 0.0D, 0.0D, stack.copy());
-      entityitem.getItem().setCount(1);
-      entityitem.hoverStart = 0.0F;
-      GlStateManager.pushMatrix();
-      GlStateManager.disableLighting();
-
-      float rotation = (float) (720.0 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
-      GlStateManager.rotate(rotation, 0.0F, 1.0F, 0);
-      Vec3d vec = new Vec3d(0.0, 0.25, 0.0);
-      GlStateManager.translate(vec.x, vec.y, vec.z);
-
-      float scale = 0.5f;
-      GlStateManager.scale(scale, scale, scale);
-      GlStateManager.pushAttrib();
-      RenderHelper.enableStandardItemLighting();
-      itemRenderer.renderItem(entityitem.getItem(), ItemCameraTransforms.TransformType.FIXED);
-      RenderHelper.disableStandardItemLighting();
-      GlStateManager.popAttrib();
-
-      GlStateManager.enableLighting();
-      GlStateManager.popMatrix();
+            GlStateManager.enableLighting();
+            GlStateManager.popMatrix();
+        }
     }
-  }
 }

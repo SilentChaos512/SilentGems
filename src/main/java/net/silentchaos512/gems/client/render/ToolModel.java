@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ToolModel extends MultiLayerModelSL {
-
     private static ModelManager modelManager = null;
     private final IBakedModel baseModel;
 

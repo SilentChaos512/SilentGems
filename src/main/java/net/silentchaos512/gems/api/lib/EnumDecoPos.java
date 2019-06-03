@@ -1,13 +1,12 @@
 package net.silentchaos512.gems.api.lib;
 
 public enum EnumDecoPos {
+    WEST("DecoHeadL"), NORTH("DecoHeadM"), EAST("DecoHeadR"), SOUTH("PartRodDeco"), ROD("DecoRod");
 
-  WEST("DecoHeadL"), NORTH("DecoHeadM"), EAST("DecoHeadR"), SOUTH("PartRodDeco"), ROD("DecoRod");
+    public final String nbtKey;
 
-  public final String nbtKey;
+    EnumDecoPos(String nbtKey) {
 
-  private EnumDecoPos(String nbtKey) {
-
-    this.nbtKey = nbtKey;
-  }
+        this.nbtKey = nbtKey;
+    }
 }

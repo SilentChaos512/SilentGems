@@ -13,30 +13,25 @@ import net.silentchaos512.gems.handler.PlayerDataHandler.PlayerData;
 import net.silentchaos512.gems.network.Message;
 
 public class MessageDataSync extends Message {
+    public NBTTagCompound tags;
 
-  public NBTTagCompound tags;
+    public MessageDataSync() {
+    }
 
-  public MessageDataSync() {
+    public MessageDataSync(PlayerData data) {
+        tags = new NBTTagCompound();
+        data.writeToNBT(tags);
+    }
 
-  }
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IMessage handleMessage(MessageContext context) {
+        ClientTickHandler.scheduledActions.add(() -> {
+            PlayerData data = PlayerDataHandler.get(SilentGems.proxy.getClientPlayer());
+            data.readFromNBT(tags);
+            GuiChaosBar.INSTANCE.update(data.chaos, data.maxChaos);
+        });
 
-  public MessageDataSync(PlayerData data) {
-
-    tags = new NBTTagCompound();
-    data.writeToNBT(tags);
-    ;
-  }
-
-  @Override
-  @SideOnly(Side.CLIENT)
-  public IMessage handleMessage(MessageContext context) {
-
-    ClientTickHandler.scheduledActions.add(() -> {
-      PlayerData data = PlayerDataHandler.get(SilentGems.proxy.getClientPlayer());
-      data.readFromNBT(tags);
-      GuiChaosBar.INSTANCE.update(data.chaos, data.maxChaos);
-    });
-
-    return null;
-  }
+        return null;
+    }
 }
