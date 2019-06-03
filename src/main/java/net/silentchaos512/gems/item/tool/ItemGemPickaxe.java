@@ -61,6 +61,7 @@ public class ItemGemPickaxe extends ItemPickaxe implements ITool, IAddRecipes, I
     // ITool overrides
     // ===============
 
+    @Override
     public ConfigOptionToolClass getConfig() {
         return GemsConfig.pickaxe;
     }

@@ -142,6 +142,7 @@ public class ItemGemHoe extends ItemHoe implements ITool, IAddRecipes, ICustomMo
     // ITool overrides
     // ===============
 
+    @Override
     public ConfigOptionToolClass getConfig() {
         return GemsConfig.hoe;
     }

@@ -68,6 +68,7 @@ public class ItemGemSword extends ItemSword implements ITool, ILeftClickItem, IA
     // ITool overrides
     // ===============
 
+    @Override
     public ConfigOptionToolClass getConfig() {
         return GemsConfig.sword;
     }

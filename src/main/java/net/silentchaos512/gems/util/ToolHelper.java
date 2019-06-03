@@ -35,6 +35,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.IBlockPlacer;
+import net.silentchaos512.gems.api.IGearItem;
 import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.lib.EnumDecoPos;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
@@ -879,7 +880,7 @@ public class ToolHelper {
 
     // Is this tier valid for this tool class?
     EnumMaterialTier toolTier = getToolTier(result);
-    if (item instanceof ITool && !((ITool) item).getValidTiers().contains(toolTier)) {
+    if (item instanceof IGearItem && !((IGearItem) item).getValidTiers().contains(toolTier)) {
       return ItemStack.EMPTY;
     }
 
@@ -1057,13 +1058,10 @@ public class ToolHelper {
         }
       } else {
         if (!part.isBlacklisted(part.getCraftingStack())) {
-          if (item instanceof ITool && !((ITool) item).getValidTiers().contains(part.getTier())) {
+          if (item instanceof IGearItem && !((IGearItem) item).getValidTiers().contains(part.getTier())) {
             continue;
           }
-          ItemStack rod = part.getTier() == EnumMaterialTier.SUPER ? rodGold
-              : item instanceof ItemGemShield && part.getTier() == EnumMaterialTier.REGULAR
-                  ? rodIron
-                  : rodWood;
+          ItemStack rod = part.getTier() == EnumMaterialTier.SUPER ? rodGold : item instanceof ItemGemShield && part.getTier() == EnumMaterialTier.REGULAR ? rodIron : rodWood;
           ItemStack tool = constructTool(item, rod, part.getCraftingStack());
           tool.getTagCompound().setBoolean(NBT_EXAMPLE_TOOL, true);
           list.add(tool);
@@ -1106,7 +1104,7 @@ public class ToolHelper {
 
     // New ingredient-based recipes
 
-    ConfigOptionToolClass config = item instanceof ITool ? ((ITool) item).getConfig() : null;
+    ConfigOptionToolClass config = item instanceof IGearItem ? ((IGearItem) item).getConfig() : null;
 
     for (EnumMaterialTier tier : tiers) {
       // Only add recipes for valid tiers

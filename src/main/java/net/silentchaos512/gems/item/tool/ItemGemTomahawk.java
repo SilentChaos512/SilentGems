@@ -23,6 +23,7 @@ import net.silentchaos512.lib.registry.RecipeMaker;
 public class ItemGemTomahawk extends ItemGemAxe implements IAmmoTool {
     public static final String NBT_AMMO = "SG.Ammo";
 
+    @Override
     public ConfigOptionToolClass getConfig() {
         return GemsConfig.tomahawk;
     }

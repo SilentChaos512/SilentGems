@@ -64,24 +64,21 @@ public class GemsConfig extends AdaptiveConfig {
   public static int TOMAHAWK_AMMO_PER_MAT = 1;
   public static boolean SWITCH_AXE_SUPER = false;
 
-  public static ConfigOptionToolClass sword = new ConfigOptionToolClass(ModItems.sword, "sword");
-  public static ConfigOptionToolClass dagger = new ConfigOptionToolClass(ModItems.dagger, "dagger");
-  public static ConfigOptionToolClass katana = new ConfigOptionToolClass(ModItems.katana, "katana");
-  public static ConfigOptionToolClass machete = new ConfigOptionToolClass(ModItems.machete,
-      "machete");
-  public static ConfigOptionToolClass scepter = new ConfigOptionToolClass(ModItems.scepter,
-      "scepter");
-  public static ConfigOptionToolClass tomahawk = new ConfigOptionToolClass(ModItems.tomahawk,
-      "tomahawk");
-  public static ConfigOptionToolClass pickaxe = new ConfigOptionToolClass(ModItems.pickaxe,
-      "pickaxe");
-  public static ConfigOptionToolClass shovel = new ConfigOptionToolClass(ModItems.shovel, "shovel");
-  public static ConfigOptionToolClass axe = new ConfigOptionToolClass(ModItems.axe, "axe");
-  public static ConfigOptionToolClass paxel = new ConfigOptionToolClass(ModItems.paxel, "paxel");
-  public static ConfigOptionToolClass hoe = new ConfigOptionToolClass(ModItems.hoe, "hoe");
-  public static ConfigOptionToolClass sickle = new ConfigOptionToolClass(ModItems.sickle, "sickle");
-  public static ConfigOptionToolClass bow = new ConfigOptionToolClass(ModItems.bow, "hoe");
-  public static ConfigOptionToolClass shield = new ConfigOptionToolClass(ModItems.shield, "shield");
+  public static ConfigOptionToolClass sword = new ConfigOptionToolClass("sword");
+  public static ConfigOptionToolClass dagger = new ConfigOptionToolClass("dagger");
+  public static ConfigOptionToolClass katana = new ConfigOptionToolClass("katana");
+  public static ConfigOptionToolClass machete = new ConfigOptionToolClass("machete");
+  public static ConfigOptionToolClass scepter = new ConfigOptionToolClass("scepter");
+  public static ConfigOptionToolClass tomahawk = new ConfigOptionToolClass("tomahawk");
+  public static ConfigOptionToolClass pickaxe = new ConfigOptionToolClass("pickaxe");
+  public static ConfigOptionToolClass shovel = new ConfigOptionToolClass("shovel");
+  public static ConfigOptionToolClass axe = new ConfigOptionToolClass("axe");
+  public static ConfigOptionToolClass paxel = new ConfigOptionToolClass("paxel");
+  public static ConfigOptionToolClass hoe = new ConfigOptionToolClass("hoe");
+  public static ConfigOptionToolClass sickle = new ConfigOptionToolClass("sickle");
+  public static ConfigOptionToolClass bow = new ConfigOptionToolClass("hoe");
+  public static ConfigOptionToolClass shield = new ConfigOptionToolClass("shield");
+  public static ConfigOptionToolClass armor = new ConfigOptionToolClass("armor");
 
   /*
    * Tool Souls
@@ -348,6 +345,7 @@ public class GemsConfig extends AdaptiveConfig {
       sickle.loadValue(config);
       bow.loadValue(config);
       shield.loadValue(config);
+      armor.loadValue(config);
 
       /*
        * Tool Souls

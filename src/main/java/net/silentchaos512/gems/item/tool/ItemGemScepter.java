@@ -9,6 +9,7 @@ import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class ItemGemScepter extends ItemGemSword {
+    @Override
     public ConfigOptionToolClass getConfig() {
         return GemsConfig.scepter;
     }

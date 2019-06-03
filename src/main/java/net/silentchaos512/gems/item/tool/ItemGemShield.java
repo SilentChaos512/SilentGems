@@ -54,6 +54,7 @@ public class ItemGemShield extends ItemShield implements ITool, IAddRecipes {
     // = Construction =
     // ================
 
+    @Override
     public ConfigOptionToolClass getConfig() {
         return GemsConfig.shield;
     }

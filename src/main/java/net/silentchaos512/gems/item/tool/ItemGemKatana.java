@@ -9,6 +9,7 @@ import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.registry.RecipeMaker;
 
 public class ItemGemKatana extends ItemGemSword {
+    @Override
     public ConfigOptionToolClass getConfig() {
         return GemsConfig.katana;
     }

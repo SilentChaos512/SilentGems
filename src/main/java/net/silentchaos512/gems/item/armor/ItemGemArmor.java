@@ -30,6 +30,7 @@ import net.silentchaos512.gems.api.tool.part.ToolPart;
 import net.silentchaos512.gems.api.tool.part.ToolPartRegistry;
 import net.silentchaos512.gems.client.gui.ModelGemArmor;
 import net.silentchaos512.gems.client.key.KeyTracker;
+import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ToolRenderHelper;
@@ -61,6 +62,11 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IArmor, IA
         setNoRepair();
     }
 
+    @Override
+    public ConfigOptionToolClass getConfig() {
+        return GemsConfig.armor;
+    }
+
     public ItemStack constructArmor(EnumMaterialTier tier, ItemStack material) {
         ItemStack frame = ModItems.armorFrame.getFrameForArmorPiece(armorType, tier);
         return constructArmor(frame, material, material, material, material);
@@ -68,6 +74,8 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IArmor, IA
 
     @Override
     public ItemStack constructArmor(ItemStack frame, ItemStack... materials) {
+        if (getConfig().isDisabled)
+            return ItemStack.EMPTY;
         return ArmorHelper.constructArmor(this, frame, materials);
     }
 
@@ -186,8 +194,8 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IArmor, IA
         // return SilentGems.RESOURCE_PREFIX + "textures/armor/gemarmor_" + (slot == EntityEquipmentSlot.LEGS ? "2" : "1") +
         // ".png";
     }
-
     // FIXME
+
     @Override
     @SideOnly(Side.CLIENT)
     public ModelBiped getArmorModel(EntityLivingBase entity, ItemStack itemStack, EntityEquipmentSlot slot, ModelBiped original) {
@@ -316,8 +324,10 @@ public class ItemGemArmor extends ItemArmor implements ISpecialArmor, IArmor, IA
                 if (!part.isBlacklisted(part.getCraftingStack())) {
                     if (!part.getCraftingStack().isEmpty()) {
                         ItemStack armor = constructArmor(part.getTier(), part.getCraftingStack());
-                        armor.getTagCompound().setBoolean(ToolHelper.NBT_EXAMPLE_TOOL, true);
-                        subItems.add(armor);
+                        if (!armor.isEmpty() && armor.hasTagCompound()) {
+                            armor.getTagCompound().setBoolean(ToolHelper.NBT_EXAMPLE_TOOL, true);
+                            subItems.add(armor);
+                        }
                     } else {
                         SilentGems.logHelper.warn("Constructing armor subitems: part '{}' has no crafting item?", part);
                     }

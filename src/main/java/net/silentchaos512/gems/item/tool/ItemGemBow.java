@@ -54,6 +54,7 @@ public class ItemGemBow extends ItemBow implements ITool, IAddRecipes, ICustomMo
     // = ITool overrides =
     // ===================
 
+    @Override
     public ConfigOptionToolClass getConfig() {
         return GemsConfig.bow;
     }

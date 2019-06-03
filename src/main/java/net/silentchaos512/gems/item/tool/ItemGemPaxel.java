@@ -30,6 +30,7 @@ public class ItemGemPaxel extends ItemGemPickaxe {
         return set.toArray(new Material[0]);
     }
 
+    @Override
     public ConfigOptionToolClass getConfig() {
         return GemsConfig.paxel;
     }

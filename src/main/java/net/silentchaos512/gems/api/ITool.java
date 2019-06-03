@@ -1,102 +1,79 @@
 package net.silentchaos512.gems.api;
 
-import java.util.Set;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.silentchaos512.gems.api.lib.EnumMaterialTier;
-import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.item.tool.ItemGemSword;
 import net.silentchaos512.gems.lib.EnumToolType;
 import net.silentchaos512.gems.util.ToolHelper;
 
-public interface ITool {
+public interface ITool extends IGearItem {
+    ItemStack constructTool(ItemStack rod, ItemStack... materials);
 
-  public ItemStack constructTool(ItemStack rod, ItemStack... materials);
+    default float getMeleeDamage(ItemStack tool) {
+        return getMeleeDamageModifier() + ToolHelper.getMeleeDamage(tool);
+    }
 
-  public default float getMeleeDamage(ItemStack tool) {
+    default float getMagicDamage(ItemStack tool) {
+        return getMagicDamageModifier() + ToolHelper.getMagicDamage(tool);
+    }
 
-    return getMeleeDamageModifier() + ToolHelper.getMeleeDamage(tool);
-  }
+    float getMeleeDamageModifier();
 
-  public default float getMagicDamage(ItemStack tool) {
+    float getMagicDamageModifier();
 
-    return getMagicDamageModifier() + ToolHelper.getMagicDamage(tool);
-  }
+    float getMeleeSpeedModifier();
 
-  public float getMeleeDamageModifier();
+    default float getHarvestSpeedMultiplier() {
+        return 1.0f;
+    }
 
-  public float getMagicDamageModifier();
+    default float getDurabilityMultiplier() {
+        return 1.0f;
+    }
 
-  public float getMeleeSpeedModifier();
+    default float getRepairMultiplier() {
+        return 1.0f;
+    }
 
-  public default float getHarvestSpeedMultiplier() {
+    default boolean isDiggingTool() {
+        return false;
+    }
 
-    return 1.0f;
-  }
+    @Deprecated
+    default boolean isSuperTool() {
+        return false;
+    }
 
-  public default float getDurabilityMultiplier() {
+    @Deprecated
+    default Material[] getExtraEffectiveMaterials() {
+        return new Material[]{};
+    }
 
-    return 1.0f;
-  }
+    default Material[] getExtraEffectiveMaterials(ItemStack tool) {
+        return new Material[]{};
+    }
 
-  public default float getRepairMultiplier() {
+    @Override
+    default EnumToolType getToolType() {
+        if (this instanceof ItemSword)
+            return EnumToolType.SWORD;
+        if (this instanceof ItemTool)
+            return EnumToolType.HARVEST;
+        if (this instanceof ItemBow)
+            return EnumToolType.BOW;
 
-    return 1.0f;
-  }
+        return EnumToolType.NONE;
+    }
 
-  public default boolean isDiggingTool() {
+    default boolean isDigger(ItemStack stack) {
+        return this instanceof ItemTool;
+    }
 
-    return false;
-  }
-
-  public ConfigOptionToolClass getConfig();
-
-  @Deprecated
-  public default boolean isSuperTool() {
-
-    return false;
-  }
-
-  public default Set<EnumMaterialTier> getValidTiers() {
-
-    return getConfig().validTiers;
-  }
-
-  @Deprecated
-  public default Material[] getExtraEffectiveMaterials() {
-
-    return new Material[] {};
-  }
-
-  public default Material[] getExtraEffectiveMaterials(ItemStack tool) {
-
-    return new Material[] {};
-  }
-
-  public default EnumToolType getToolType() {
-
-    if (this instanceof ItemSword)
-      return EnumToolType.SWORD;
-    if (this instanceof ItemTool)
-      return EnumToolType.HARVEST;
-    if (this instanceof ItemBow)
-      return EnumToolType.BOW;
-
-    return EnumToolType.NONE;
-  }
-
-  public default boolean isDigger(ItemStack stack) {
-
-    return this instanceof ItemTool;
-  }
-
-  public default boolean isCaster(ItemStack stack) {
-
-    return (this instanceof ItemGemSword)
-        && ToolHelper.getToolTier(stack).ordinal() >= EnumMaterialTier.SUPER.ordinal();
-  }
+    default boolean isCaster(ItemStack stack) {
+        return this instanceof ItemGemSword && ToolHelper.getToolTier(stack).ordinal() >= EnumMaterialTier.SUPER.ordinal();
+    }
 }

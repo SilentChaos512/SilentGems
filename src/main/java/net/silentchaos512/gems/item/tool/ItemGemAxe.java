@@ -58,6 +58,7 @@ public class ItemGemAxe extends ItemAxe implements ITool, IAddRecipes, ICustomMo
     // ITool overrides
     // ===============
 
+    @Override
     public ConfigOptionToolClass getConfig() {
         return GemsConfig.axe;
     }

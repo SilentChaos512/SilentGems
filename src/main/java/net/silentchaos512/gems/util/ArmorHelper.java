@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.silentchaos512.gems.api.IGearItem;
 import net.silentchaos512.gems.api.lib.ArmorPartPosition;
 import net.silentchaos512.gems.api.lib.EnumDecoPos;
 import net.silentchaos512.gems.api.lib.EnumMaterialGrade;
@@ -167,7 +168,6 @@ public class ArmorHelper {
 
     // Construction
     ToolPart part;
-    EnumMaterialGrade grade;
     for (int i = 0; i < materials.length; ++i) {
       if (materials[i].isEmpty()) {
         String str = "ArmorHelper.constructArmor: empty part! ";
@@ -177,7 +177,7 @@ public class ArmorHelper {
       }
 
       part = ToolPartRegistry.fromStack(materials[i]);
-      grade = EnumMaterialGrade.fromStack(materials[i]);
+      EnumMaterialGrade grade = EnumMaterialGrade.fromStack(materials[i]);
       setTagPart(result, "Part" + i, part, grade);
 
       // Write part list for client-side name generation.
@@ -195,6 +195,12 @@ public class ArmorHelper {
     result.setStackDisplayName(displayName);
 
     recalculateStats(result);
+
+    // Is this tier valid for this tool class?
+    EnumMaterialTier toolTier = ToolHelper.getToolTier(result);
+    if (item instanceof IGearItem && !((IGearItem) item).getValidTiers().contains(toolTier)) {
+      return ItemStack.EMPTY;
+    }
 
     return result;
   }

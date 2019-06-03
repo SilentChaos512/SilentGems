@@ -60,6 +60,7 @@ public class ItemGemShovel extends ItemSpade implements ITool, IAddRecipes, ICus
     // ITool overrides
     // ===============
 
+    @Override
     public ConfigOptionToolClass getConfig() {
         return GemsConfig.shovel;
     }

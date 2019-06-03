@@ -70,6 +70,7 @@ public class ItemGemSickle extends ItemTool implements ITool, IAddRecipes, ICust
     // ITool overrides
     // ===============
 
+    @Override
     public ConfigOptionToolClass getConfig() {
         return GemsConfig.sickle;
     }

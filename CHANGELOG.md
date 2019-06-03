@@ -1,6 +1,8 @@
 # Changelog
 
 ## [2.8.18] - 2019-06-03
+### Added
+- Configs to disable armor, including specific tiers
 ### Fixed
 - Teleporter code improved, hopefully fixes lag after teleporting [#372]
 - Disabled some logging statements ("Unlocalized names do not match") [#372]
