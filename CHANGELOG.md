@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.8.18] - 2019-06-03
+### Fixed
+- Teleporter code improved, hopefully fixes lag after teleporting [#372]
+- Disabled some logging statements ("Unlocalized names do not match") [#372]
+
 ## [2.8.17] - 2019-04-25
 ### Fixed
 - Improve material grader's compatibility with pipes/ducts/etc [#362]
