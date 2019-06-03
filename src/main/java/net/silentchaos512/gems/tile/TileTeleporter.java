@@ -262,12 +262,7 @@ public class TileTeleporter extends TileEntity implements IChaosAccepter {
         if (destination == null || destination.equals(DimensionalPosition.ZERO)) {
             return false;
         }
-
-        if (entity instanceof EntityPlayerMP) {
-            return TeleportUtil.teleportPlayerTo((EntityPlayerMP) entity, destination);
-        } else {
-            return TeleportUtil.teleportEntityTo(entity, destination);
-        }
+        return TeleportUtil.teleport(entity, destination);
     }
 
     @Override

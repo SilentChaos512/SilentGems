@@ -223,7 +223,7 @@ public class ItemReturnHome extends ItemChaosStorage implements IAddRecipes, ICu
 
     private void teleportPlayer(ItemStack stack, EntityPlayer player, DimensionalPosition pos) {
         if (player instanceof EntityPlayerMP) {
-            TeleportUtil.teleportPlayerTo((EntityPlayerMP) player, pos);
+            TeleportUtil.teleport(player, pos);
         }
         extractCharge(stack, getTeleportCost(stack, player), false);
     }
