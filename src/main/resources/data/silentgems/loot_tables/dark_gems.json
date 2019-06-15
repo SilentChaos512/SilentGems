@@ -1,0 +1,90 @@
+{
+    "pools": [
+        {
+            "name": "main",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "silentgems:carnelian",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:spinel",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:citrine",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:jasper",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:zircon",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:moldavite",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:malachite",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:turquoise",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:euclase",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:benitoite",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:iolite",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:alexandrite",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:lepidolite",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:ametrine",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:black_diamond",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:moonstone",
+                    "weight": 10
+                }
+            ]
+        }
+    ]
+}

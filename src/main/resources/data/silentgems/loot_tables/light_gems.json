@@ -1,0 +1,90 @@
+{
+    "pools": [
+        {
+            "name": "main",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "silentgems:pyrope",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:coral",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:sunstone",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:cats_eye",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:yellow_diamond",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:jade",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:chrysoprase",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:apatite",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:fluorite",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:kyanite",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:sodalite",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:ammolite",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:kunzite",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:rose_quartz",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:tektite",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "silentgems:pearl",
+                    "weight": 10
+                }
+            ]
+        }
+    ]
+}

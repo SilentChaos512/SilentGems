@@ -154,7 +154,7 @@ public class SoulUrnBlock extends ContainerBlock {
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
         TileEntity tile = builder.get(LootParameters.BLOCK_ENTITY);
         if (tile instanceof SoulUrnTileEntity) {
-            SoulUrnTileEntity soulUrn = (SoulUrnTileEntity) tile;
+            IInventory soulUrn = (SoulUrnTileEntity) tile;
             builder = builder.withDynamicDrop(ShulkerBoxBlock.field_220169_b, (context, consumer) -> {
                 for (int i = 0; i < soulUrn.getSizeInventory(); ++i) {
                     consumer.accept(soulUrn.getStackInSlot(i));
@@ -190,7 +190,6 @@ public class SoulUrnBlock extends ContainerBlock {
 
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         Direction side = placer != null ? placer.getHorizontalFacing().getOpposite() : Direction.SOUTH;
         LidState lid = LidState.fromItem(stack);
         BlockState newState = state.with(FACING, side).with(LID, lid);
@@ -225,14 +224,10 @@ public class SoulUrnBlock extends ContainerBlock {
 
         SoulUrnTileEntity tileSoulUrn = (SoulUrnTileEntity) world.getTileEntity(pos);
         if (tileSoulUrn != null) {
-            CompoundNBT compound = tileSoulUrn.saveToNBT(new CompoundNBT());
-
-            if (!compound.isEmpty())
-                stack.setTagInfo("BlockEntityInfo", compound);
-
-            UrnHelper.setClayColor(stack, tileSoulUrn.getColor());
-            if (tileSoulUrn.getGem() != null)
-                UrnHelper.setGem(stack, tileSoulUrn.getGem());
+            CompoundNBT tag = tileSoulUrn.saveToNBT(new CompoundNBT());
+            if (!tag.isEmpty()) {
+                stack.setTagInfo("BlockEntityInfo", tag);
+            }
         }
 
         return stack;
