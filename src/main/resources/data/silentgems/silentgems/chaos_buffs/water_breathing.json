@@ -1,6 +1,6 @@
 {
     "type": "silentgems:potion",
-    "potion": "minecraft:water_breathing",
+    "effect": "minecraft:water_breathing",
     "maxLevel": 1,
     "displayName": {
         "translate": true,

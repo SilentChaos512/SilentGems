@@ -17,9 +17,7 @@ import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -142,9 +140,8 @@ public final class Soul {
         public void onServerAboutToStart(FMLServerAboutToStartEvent event) {
             MAP.clear();
             long seed = calculateSeed(event);
-            World world = event.getServer().getWorld(DimensionType.OVERWORLD);
             for (EntityType<?> entityType : ForgeRegistries.ENTITIES.getValues()) {
-                if (canHaveSoulGem(entityType, world)) {
+                if (canHaveSoulGem(entityType)) {
                     Soul soul = new Soul(seed, entityType);
                     MAP.put(entityType, soul);
                     ResourceLocation id = Objects.requireNonNull(entityType.getRegistryName());
@@ -153,9 +150,15 @@ public final class Soul {
             }
         }
 
-        private static boolean canHaveSoulGem(EntityType<?> type, World world) {
-            Entity entity = type.create(world);
-            return entity instanceof MobEntity || entity instanceof PlayerEntity;
+        private static boolean canHaveSoulGem(EntityType<?> type) {
+            try {
+                //noinspection ConstantConditions -- null world, it doesn't exist yet
+                Entity entity = type.create(null);
+                return entity instanceof MobEntity || entity instanceof PlayerEntity;
+            } catch (Exception ex) {
+                SilentGems.LOGGER.debug(MARKER, "Could not verify type of {}", type.getRegistryName());
+                return false;
+            }
         }
 
         @SuppressWarnings("MethodMayBeStatic")

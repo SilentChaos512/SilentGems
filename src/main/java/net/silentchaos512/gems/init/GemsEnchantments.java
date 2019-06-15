@@ -8,14 +8,14 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.enchantment.*;
 
-public final class ModEnchantments {
+public final class GemsEnchantments {
     public static EnchantmentGravity gravity;
     public static EnchantmentLifeSteal lifeSteal;
     public static EnchantmentIceAspect iceAspect;
     public static EnchantmentLightningAspect lightningAspect;
     public static EnchantmentSupercharged supercharged;
 
-    private ModEnchantments() {}
+    private GemsEnchantments() {}
 
     public static void registerAll(RegistryEvent.Register<Enchantment> event) {
         if (event.getRegistry().getRegistrySuperType() != Enchantment.class) return;

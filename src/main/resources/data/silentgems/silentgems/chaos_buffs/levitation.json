@@ -1,6 +1,6 @@
 {
     "type": "silentgems:potion",
-    "potion": "minecraft:levitation",
+    "effect": "minecraft:levitation",
     "maxLevel": 4,
     "displayName": {
         "translate": true,

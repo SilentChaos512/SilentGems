@@ -22,13 +22,13 @@ import net.silentchaos512.utils.Lazy;
 import java.util.Locale;
 import java.util.function.Supplier;
 
-public enum ModEntities {
+public enum GemsEntities {
     ENDER_SLIME(() -> EntityType.Builder.create(EnderSlimeEntity::new, EntityClassification.MONSTER), 0x003333, 0xAA00AA);
 
     private final Lazy<EntityType<?>> entityType;
     private final Lazy<SpawnEggItem> spawnEgg;
 
-    ModEntities(Supplier<EntityType.Builder<?>> factory, int eggPrimaryColor, int eggSecondaryColor) {
+    GemsEntities(Supplier<EntityType.Builder<?>> factory, int eggPrimaryColor, int eggSecondaryColor) {
         this.entityType = Lazy.of(() -> {
             ResourceLocation id = SilentGems.getId(this.getName());
             return factory.get().build(id.toString());
@@ -54,7 +54,7 @@ public enum ModEntities {
     public static void registerAll(RegistryEvent.Register<EntityType<?>> event) {
         if (!event.getRegistry().getRegistryName().equals(ForgeRegistries.ENTITIES.getRegistryName())) return;
 
-        for (ModEntities entity : values()) {
+        for (GemsEntities entity : values()) {
             EntityType<?> type = entity.type();
             type.setRegistryName(SilentGems.getId(entity.getName()));
             ForgeRegistries.ENTITIES.register(type);

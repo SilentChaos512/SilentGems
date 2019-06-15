@@ -1,13 +1,12 @@
 package net.silentchaos512.gems.client.render.tile;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -17,14 +16,14 @@ import net.silentchaos512.lib.event.ClientTicks;
 public class PedestalRenderer extends TileEntityRenderer<PedestalTileEntity> {
     @Override
     public void render(PedestalTileEntity te, double x, double y, double z, float partialTicks, int destroyStage) {
-        if (te.getWorld() == null || !te.getWorld().isBlockLoaded(te.getPos(), false)) return;
+        if (te.getWorld() == null || !te.getWorld().isBlockLoaded(te.getPos())) return;
 
         ItemStack stack = te.getItem();
         if (stack.isEmpty()) return;
 
         GlStateManager.pushMatrix();
         GlStateManager.translated(x + 0.5, y + 1.1, z + 0.5);
-        Minecraft.getInstance().textureManager.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+        Minecraft.getInstance().textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
         double worldTime = ClientTicks.ticksInGame() + partialTicks + (te.getPos().hashCode() % 360);
 
 //        GlStateManager.translated(0, 0.05f * Math.sin(worldTime / 15), 0);
@@ -38,9 +37,8 @@ public class PedestalRenderer extends TileEntityRenderer<PedestalTileEntity> {
     private static void renderItem(World world, ItemStack stack, float partialTicks) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         if (stack != null) {
-            EntityItem entityitem = new EntityItem(world, 0.0D, 0.0D, 0.0D, stack.copy());
-            entityitem.getItem().setCount(1);
-            entityitem.hoverStart = 0.0F;
+            ItemStack itemStack = stack.copy();
+            itemStack.setCount(1);
             GlStateManager.pushMatrix();
             GlStateManager.disableLighting();
 
@@ -51,11 +49,11 @@ public class PedestalRenderer extends TileEntityRenderer<PedestalTileEntity> {
 
             float scale = 0.5f;
             GlStateManager.scalef(scale, scale, scale);
-            GlStateManager.pushLightingAttrib();
+            GlStateManager.pushLightingAttributes();
             RenderHelper.enableStandardItemLighting();
-            itemRenderer.renderItem(entityitem.getItem(), ItemCameraTransforms.TransformType.FIXED);
+            itemRenderer.renderItem(itemStack, ItemCameraTransforms.TransformType.FIXED);
             RenderHelper.disableStandardItemLighting();
-            GlStateManager.popAttrib();
+            GlStateManager.popAttributes();
 
             GlStateManager.enableLighting();
             GlStateManager.popMatrix();

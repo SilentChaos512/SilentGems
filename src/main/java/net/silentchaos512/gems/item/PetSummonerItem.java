@@ -17,7 +17,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -28,7 +28,7 @@ public class PetSummonerItem extends Item {
     private final Function<World, ? extends TameableEntity> petFactory;
 
     public PetSummonerItem(Function<World, ? extends TameableEntity> petFactory) {
-        super(new Properties().group(ModItemGroups.UTILITY));
+        super(new Properties().group(GemsItemGroups.UTILITY));
         this.petFactory = petFactory;
     }
 

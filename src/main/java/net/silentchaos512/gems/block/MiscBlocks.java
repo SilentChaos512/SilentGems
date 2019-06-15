@@ -19,7 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.lib.advancements.LibTriggers;
 import net.silentchaos512.utils.Lazy;
@@ -73,7 +73,7 @@ public enum MiscBlocks implements IItemProvider, IStringSerializable {
     }
 
     public MiscBlockItem getBlockItem() {
-        return new MiscBlockItem(this, new Item.Properties().group(ModItemGroups.BLOCKS));
+        return new MiscBlockItem(this, new Item.Properties().group(GemsItemGroups.BLOCKS));
     }
 
     @Override

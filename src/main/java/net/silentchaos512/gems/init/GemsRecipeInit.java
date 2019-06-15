@@ -9,8 +9,8 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.crafting.ingredient.SoulGemIngredient;
 import net.silentchaos512.gems.crafting.recipe.*;
 
-public final class ModRecipes {
-    private ModRecipes() {}
+public final class GemsRecipeInit {
+    private GemsRecipeInit() {}
 
     public static void init() {
         SoulGemIngredient.Serializer.register();
@@ -23,7 +23,7 @@ public final class ModRecipes {
        register(SoulUrnRecipe.NAME, SoulUrnRecipe.SERIALIZER);
 
         if (SilentGems.isDevBuild()) {
-            MinecraftForge.EVENT_BUS.addListener(ModRecipes::onPlayerJoinServer);
+            MinecraftForge.EVENT_BUS.addListener(GemsRecipeInit::onPlayerJoinServer);
         }
     }
 

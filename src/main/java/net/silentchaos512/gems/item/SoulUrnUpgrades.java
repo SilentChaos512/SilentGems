@@ -21,7 +21,7 @@ package net.silentchaos512.gems.item;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.lib.urn.IUrnUpgradeItem;
 import net.silentchaos512.gems.lib.urn.UpgradeVacuum;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
@@ -58,7 +58,7 @@ public enum SoulUrnUpgrades {
 
     public class UpgradeItem extends Item implements IUrnUpgradeItem {
         UpgradeItem() {
-            super(new Properties().group(ModItemGroups.UTILITY));
+            super(new Properties().group(GemsItemGroups.UTILITY));
         }
 
         @Override

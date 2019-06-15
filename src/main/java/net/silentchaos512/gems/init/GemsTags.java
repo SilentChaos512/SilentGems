@@ -8,7 +8,7 @@ import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 
-public class ModTags {
+public class GemsTags {
     public static final class Blocks {
         public static final Tag<Block> GLOWROSES = tag("glowroses");
         public static final Tag<Block> SUPERCHARGER_PILLAR_CAP = tag("supercharger_pillar/cap");

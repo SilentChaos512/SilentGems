@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.block.GlowroseBlock;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.utils.Lazy;
 
@@ -20,7 +20,7 @@ public class GlowroseFertilizerItem extends Item {
     public static final Lazy<GlowroseFertilizerItem> INSTANCE = Lazy.of(GlowroseFertilizerItem::new);
 
     private GlowroseFertilizerItem() {
-        super(new Properties().group(ModItemGroups.UTILITY));
+        super(new Properties().group(GemsItemGroups.UTILITY));
     }
 
     @Override

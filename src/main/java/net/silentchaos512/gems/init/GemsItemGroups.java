@@ -8,12 +8,12 @@ import net.silentchaos512.gems.lib.Gems;
 
 import java.util.function.Supplier;
 
-public final class ModItemGroups {
+public final class GemsItemGroups {
     public static final ItemGroup BLOCKS = create("blocks", () -> Gems.selectRandom().getBlock());
     public static final ItemGroup MATERIALS = create("materials", () -> Gems.selectRandom().getItem());
     public static final ItemGroup UTILITY = create("utility", () -> Gems.selectRandom().getChaosGem());
 
-    private ModItemGroups() {}
+    private GemsItemGroups() {}
 
     private static ItemGroup create(String name, Supplier<IItemProvider> icon) {
         return new ItemGroup(SilentGems.MOD_ID + "." + name) {

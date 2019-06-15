@@ -37,8 +37,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
-import net.silentchaos512.gems.init.ModEnchantments;
-import net.silentchaos512.gems.init.ModTags;
+import net.silentchaos512.gems.init.GemsEnchantments;
+import net.silentchaos512.gems.init.GemsTags;
 import net.silentchaos512.gems.init.GemsTileEntities;
 import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
 import net.silentchaos512.lib.tile.SyncVariable;
@@ -155,7 +155,7 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
                     if (getStackInSlot(2).isEmpty()) {
                         ItemStack output = input.copy();
                         output.setCount(1);
-                        output.addEnchantment(ModEnchantments.supercharged, chargeTier);
+                        output.addEnchantment(GemsEnchantments.supercharged, chargeTier);
                         setInventorySlotContents(2, output);
                     } else {
                         getStackInSlot(2).grow(1);
@@ -206,23 +206,23 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
     private int getPillarLevel(BlockPos pos) {
         BlockState state1 = this.world.getBlockState(pos);
         BlockState state2 = this.world.getBlockState(pos.up());
-        if (state1.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_LEVEL1)
-                && state2.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_CAP))
+        if (state1.isIn(GemsTags.Blocks.SUPERCHARGER_PILLAR_LEVEL1)
+                && state2.isIn(GemsTags.Blocks.SUPERCHARGER_PILLAR_CAP))
             return 1;
 
         BlockState state3 = this.world.getBlockState(pos.up(2));
-        if (state1.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_LEVEL2)
-                && state2.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_LEVEL1)
-                && state3.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_CAP))
+        if (state1.isIn(GemsTags.Blocks.SUPERCHARGER_PILLAR_LEVEL2)
+                && state2.isIn(GemsTags.Blocks.SUPERCHARGER_PILLAR_LEVEL1)
+                && state3.isIn(GemsTags.Blocks.SUPERCHARGER_PILLAR_CAP))
             return 2;
 
         BlockState state4 = this.world.getBlockState(pos.up(3));
         BlockState state5 = this.world.getBlockState(pos.up(4));
-        if (state1.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_LEVEL3)
-                && state2.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_LEVEL3)
-                && state3.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_LEVEL2)
-                && state4.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_LEVEL1)
-                && state5.isIn(ModTags.Blocks.SUPERCHARGER_PILLAR_CAP))
+        if (state1.isIn(GemsTags.Blocks.SUPERCHARGER_PILLAR_LEVEL3)
+                && state2.isIn(GemsTags.Blocks.SUPERCHARGER_PILLAR_LEVEL3)
+                && state3.isIn(GemsTags.Blocks.SUPERCHARGER_PILLAR_LEVEL2)
+                && state4.isIn(GemsTags.Blocks.SUPERCHARGER_PILLAR_LEVEL1)
+                && state5.isIn(GemsTags.Blocks.SUPERCHARGER_PILLAR_CAP))
             return 3;
 
         return 0;
@@ -230,11 +230,11 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
 
     private static int getChargingAgentTier(ItemStack stack) {
         Item item = stack.getItem();
-        if (item.isIn(ModTags.Items.CHARGING_AGENT_TIER3))
+        if (item.isIn(GemsTags.Items.CHARGING_AGENT_TIER3))
             return 3;
-        if (item.isIn(ModTags.Items.CHARGING_AGENT_TIER2))
+        if (item.isIn(GemsTags.Items.CHARGING_AGENT_TIER2))
             return 2;
-        if (item.isIn(ModTags.Items.CHARGING_AGENT_TIER1))
+        if (item.isIn(GemsTags.Items.CHARGING_AGENT_TIER1))
             return 1;
         return 0;
     }
@@ -244,7 +244,7 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
         if (output.isEmpty()) return true;
         return output.getCount() < output.getMaxStackSize()
                 && input.isItemEqual(output)
-                && EnchantmentHelper.getEnchantmentLevel(ModEnchantments.supercharged, output) == chargeTier
+                && EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.supercharged, output) == chargeTier
                 && SGearProxy.getGradeString(input).equalsIgnoreCase(SGearProxy.getGradeString(output));
     }
 
@@ -261,7 +261,7 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
         if (index == 0) return SGearProxy.isMainPart(stack);
-        if (index == 1) return stack.getItem().isIn(ModTags.Items.CHARGING_AGENTS);
+        if (index == 1) return stack.getItem().isIn(GemsTags.Items.CHARGING_AGENTS);
         return false;
     }
 

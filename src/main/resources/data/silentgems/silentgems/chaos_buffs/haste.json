@@ -1,6 +1,6 @@
 {
     "type": "silentgems:potion",
-    "potion": "minecraft:haste",
+    "effect": "minecraft:haste",
     "maxLevel": 2,
     "displayName": {
         "translate": true,

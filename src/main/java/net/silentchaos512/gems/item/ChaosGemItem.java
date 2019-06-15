@@ -23,7 +23,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.silentchaos512.gems.api.IPedestalItem;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 import net.silentchaos512.gems.chaos.Chaos;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.IGem;
 import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
@@ -48,7 +48,7 @@ public class ChaosGemItem extends Item implements IGem, IPedestalItem {
 
     public ChaosGemItem(Gems gem) {
         super(new Properties()
-                .group(ModItemGroups.UTILITY)
+                .group(GemsItemGroups.UTILITY)
                 .maxStackSize(1)
                 .rarity(Rarity.RARE)
         );

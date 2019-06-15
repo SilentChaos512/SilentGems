@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.silentchaos512.gear.api.item.ICoreItem;
 import net.silentchaos512.gear.util.GearHelper;
 import net.silentchaos512.gear.util.TraitHelper;
-import net.silentchaos512.gems.init.ModEnchantments;
+import net.silentchaos512.gems.init.GemsEnchantments;
 import net.silentchaos512.gems.lib.soul.GearSoul;
 import net.silentchaos512.gems.lib.soul.SoulTraits;
 import net.silentchaos512.lib.util.PlayerUtils;
@@ -52,7 +52,7 @@ public final class SoulEvents {
         ItemStack mainHand = player.getHeldItemMainhand();
 
         // Overridden by the Gravity enchantment.
-        if (EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gravity, mainHand) > 0) {
+        if (EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.gravity, mainHand) > 0) {
             return;
         }
 

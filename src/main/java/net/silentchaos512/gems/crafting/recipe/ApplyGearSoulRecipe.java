@@ -8,6 +8,7 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.gear.api.item.ICoreItem;
 import net.silentchaos512.gear.util.GearData;
@@ -47,7 +48,7 @@ public class ApplyGearSoulRecipe implements ICraftingRecipe {
         // Set the soul's actual data to the gear
         SoulManager.setSoul(result, soul);
 
-        GearData.recalculateStats(null, result);
+        GearData.recalculateStats(result, ForgeHooks.getCraftingPlayer());
         return result;
     }
 

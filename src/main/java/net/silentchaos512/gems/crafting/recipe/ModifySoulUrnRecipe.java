@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.init.GemsBlocks;
 import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.urn.IUrnUpgradeItem;
@@ -72,7 +72,7 @@ public class ModifySoulUrnRecipe implements ICraftingRecipe {
     }
 
     private static boolean isSoulUrn(ItemStack stack) {
-        return stack.getItem() == ModBlocks.soulUrn.asItem();
+        return stack.getItem() == GemsBlocks.soulUrn.asItem();
     }
 
     private static boolean isModifierItem(ItemStack stack) {
@@ -156,7 +156,7 @@ public class ModifySoulUrnRecipe implements ICraftingRecipe {
 
     @Override
     public ItemStack getRecipeOutput() {
-        return new ItemStack(ModBlocks.soulUrn);
+        return new ItemStack(GemsBlocks.soulUrn);
     }
 
     @Override

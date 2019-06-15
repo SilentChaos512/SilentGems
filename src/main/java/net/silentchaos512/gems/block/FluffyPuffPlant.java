@@ -24,7 +24,7 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.PlantType;
-import net.silentchaos512.gems.init.ModItems;
+import net.silentchaos512.gems.init.GemsItems;
 import net.silentchaos512.utils.Lazy;
 
 public final class FluffyPuffPlant extends CropsBlock {
@@ -58,7 +58,7 @@ public final class FluffyPuffPlant extends CropsBlock {
 
     @Override
     protected IItemProvider getSeedsItem() {
-        return ModItems.fluffyPuffSeeds;
+        return GemsItems.fluffyPuffSeeds;
     }
 
     @Override

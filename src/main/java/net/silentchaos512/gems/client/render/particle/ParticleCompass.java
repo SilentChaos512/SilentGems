@@ -1,11 +1,12 @@
 package net.silentchaos512.gems.client.render.particle;
 
-import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.IParticleRenderType;
+import net.minecraft.client.particle.TexturedParticle;
+import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
-public class ParticleCompass extends Particle {
+public class ParticleCompass extends TexturedParticle {
     private static final int MAX_AGE = 5;
     private static final int MAX_SCALE = 1;
 
@@ -14,8 +15,8 @@ public class ParticleCompass extends Particle {
         this.motionX = motionX;
         this.motionY = motionY;
         this.motionZ = motionZ;
-        this.particleTextureIndexX = 4;
-        this.particleTextureIndexY = 11;
+//        this.particleTextureIndexX = 4;
+//        this.particleTextureIndexY = 11;
         this.particleRed = red;
         this.particleGreen = green;
         this.particleBlue = blue;
@@ -46,8 +47,8 @@ public class ParticleCompass extends Particle {
     }
 
     @Override
-    public void renderParticle(BufferBuilder buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
-        float uMin = (float) this.particleTextureIndexX / 16.0F;
+    public void renderParticle(BufferBuilder buffer, ActiveRenderInfo entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+/*        float uMin = (float) this.particleTextureIndexX / 16.0F;
         float uMax = uMin + .0625f;
         float vMin = (float) this.particleTextureIndexY / 16.0F;
         float vMax = vMin + .0625f;
@@ -91,6 +92,31 @@ public class ParticleCompass extends Particle {
                         (double) (f7 + rotationYZ * f4 - rotationXZ * f4))
                 .tex((double) uMin, (double) vMax)
                 .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
-                .lightmap(j, k).endVertex();
+                .lightmap(j, k).endVertex();*/
+    }
+
+    @Override
+    public IParticleRenderType getRenderType() {
+        return IParticleRenderType.CUSTOM;
+    }
+
+    @Override
+    protected float func_217563_c() {
+        return 0;
+    }
+
+    @Override
+    protected float func_217564_d() {
+        return 0;
+    }
+
+    @Override
+    protected float func_217562_e() {
+        return 0;
+    }
+
+    @Override
+    protected float func_217560_f() {
+        return 0;
     }
 }

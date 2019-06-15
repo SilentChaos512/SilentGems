@@ -1,6 +1,6 @@
 {
     "type": "silentgems:potion",
-    "potion": "minecraft:invisibility",
+    "effect": "minecraft:invisibility",
     "effectDuration": 410,
     "maxLevel": 1,
     "displayName": {

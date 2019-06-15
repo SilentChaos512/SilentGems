@@ -1,6 +1,6 @@
 {
     "type": "silentgems:potion",
-    "potion": "minecraft:dolphins_grace",
+    "effect": "minecraft:dolphins_grace",
     "maxLevel": 1,
     "displayName": {
         "translate": true,

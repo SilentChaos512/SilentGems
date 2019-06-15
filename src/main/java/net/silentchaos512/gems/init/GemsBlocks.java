@@ -15,6 +15,7 @@ import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightBlock;
 import net.silentchaos512.gems.block.pedestal.PedestalBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
+import net.silentchaos512.gems.block.teleporter.GemTeleporterBlock;
 import net.silentchaos512.gems.block.teleporter.TeleporterAnchorBlock;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
 import net.silentchaos512.gems.block.urn.SoulUrnBlock;
@@ -22,12 +23,17 @@ import net.silentchaos512.gems.item.GemBlockItem;
 import net.silentchaos512.gems.lib.Gems;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
-public final class ModBlocks {
+public final class GemsBlocks {
+    public static final List<PedestalBlock> pedestals = new ArrayList<>();
+    public static final List<GemTeleporterBlock> teleporters = new ArrayList<>();
     public static SoulUrnBlock soulUrn;
 
-    private ModBlocks() {}
+    private GemsBlocks() {}
 
     public static void registerAll(RegistryEvent.Register<Block> event) {
         if (!event.getRegistry().getRegistryName().equals(ForgeRegistries.BLOCKS.getRegistryName()))
@@ -48,9 +54,10 @@ public final class ModBlocks {
         }
         registerGemBlocks(Gems::getGlowrose, gem -> gem.getName() + "_glowrose");
         registerGemBlocksNoItem(Gems::getPottedGlowrose, gem -> "potted_" + gem.getName() + "_glowrose");
-        registerGemBlocks(Gems::getTeleporter, gem -> gem.getName() + "_teleporter");
-        registerGemBlocks(Gems::getRedstoneTeleporter, gem -> gem.getName() + "_redstone_teleporter");
-        register("teleporter_anchor", TeleporterAnchorBlock.INSTANCE.get());
+
+        registerGemBlocks(Gems::getTeleporter, gem -> gem.getName() + "_teleporter", teleporters::add);
+        registerGemBlocks(Gems::getRedstoneTeleporter, gem -> gem.getName() + "_redstone_teleporter", teleporters::add);
+        teleporters.add(register("teleporter_anchor", TeleporterAnchorBlock.INSTANCE.get()));
 
         register("multi_ore_classic", Gems.Set.CLASSIC.getMultiOre());
         register("multi_ore_dark", Gems.Set.DARK.getMultiOre());
@@ -76,18 +83,19 @@ public final class ModBlocks {
             register(color.getName() + "_fluffy_block", FluffyBlock.get(color));
         }
 
-        soulUrn = new SoulUrnBlock();
-        register("soul_urn", soulUrn, new SoulUrnBlock.SoulUrnBlockItem(soulUrn));
+        soulUrn = register("soul_urn", SoulUrnBlock.INSTANCE.get(), new SoulUrnBlock.SoulUrnBlockItem(SoulUrnBlock.INSTANCE.get()));
 
         register("supercharger", SuperchargerBlock.INSTANCE.get());
         register("token_enchanter", TokenEnchanterBlock.INSTANCE.get());
         // TODO: uncomment
 //        register("transmutation_altar", AltarBlock.INSTANCE.get());
-        register("stone_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));
-        register("granite_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));
-        register("diorite_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));
-        register("andesite_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));
-        register("obsidian_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(30, 1200).sound(SoundType.STONE)));
+
+        registerPedestal("stone_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));
+        registerPedestal("granite_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));
+        registerPedestal("diorite_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));
+        registerPedestal("andesite_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));
+        registerPedestal("obsidian_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(30, 1200).sound(SoundType.STONE)));
+
         register("luminous_flower_pot", LuminousFlowerPotBlock.INSTANCE.get());
         register("phantom_light", PhantomLightBlock.INSTANCE.get(), null);
 
@@ -95,8 +103,13 @@ public final class ModBlocks {
         register("wild_fluffy_puff_plant", FluffyPuffPlant.WILD.get(), null);
     }
 
+    private static void registerPedestal(String name, PedestalBlock block) {
+        register(name, block);
+        pedestals.add(block);
+    }
+
     private static <T extends Block> T register(String name, T block) {
-        BlockItem item = new GemBlockItem(block, new Item.Properties().group(ModItemGroups.BLOCKS));
+        BlockItem item = new GemBlockItem(block, new Item.Properties().group(GemsItemGroups.BLOCKS));
         return register(name, block, item);
     }
 
@@ -107,19 +120,25 @@ public final class ModBlocks {
 
         if (item != null) {
             item.setRegistryName(id);
-            ModItems.blocksToRegister.add(item);
+            GemsItems.blocksToRegister.add(item);
         }
 
         return block;
     }
 
-    private static void registerGemBlocks(Function<Gems, ? extends Block> factory, Function<Gems, String> name) {
+    private static <T extends Block> void registerGemBlocks(Function<Gems, T> factory, Function<Gems, String> name) {
+        registerGemBlocks(factory, name, t -> {});
+    }
+
+    private static <T extends Block> void registerGemBlocks(Function<Gems, T> factory, Function<Gems, String> name, Consumer<T> extraAction) {
         for (Gems gem : Gems.values()) {
-            register(name.apply(gem), factory.apply(gem));
+            T block = factory.apply(gem);
+            register(name.apply(gem), block);
+            extraAction.accept(block);
         }
     }
 
-    private static void registerGemBlocksNoItem(Function<Gems, ? extends Block> factory, Function<Gems, String> name) {
+    private static <T extends Block> void registerGemBlocksNoItem(Function<Gems, T> factory, Function<Gems, String> name) {
         for (Gems gem : Gems.values()) {
             register(name.apply(gem), factory.apply(gem), null);
         }

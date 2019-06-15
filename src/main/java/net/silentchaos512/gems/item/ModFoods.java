@@ -17,7 +17,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.lib.util.PlayerUtils;
 import net.silentchaos512.lib.util.TimeUtils;
 import net.silentchaos512.utils.Lazy;
@@ -92,7 +92,7 @@ public enum ModFoods implements IItemProvider, IStringSerializable {
 
             private static Builder create() {
                 Builder builder = new Builder();
-                builder.group(ModItemGroups.UTILITY);
+                builder.group(GemsItemGroups.UTILITY);
                 return builder;
             }
 

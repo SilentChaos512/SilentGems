@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.potion.EffectInstance;
 import net.silentchaos512.gems.event.EnchantmentEvents;
-import net.silentchaos512.gems.init.ModEffects;
+import net.silentchaos512.gems.init.GemsEffects;
 
 public class EnchantmentIceAspect extends Enchantment {
     public static final int EFFECT_DURATION = 80;
@@ -50,7 +50,7 @@ public class EnchantmentIceAspect extends Enchantment {
     public static void applyTo(LivingEntity entityLiving, int enchLevel) {
         int duration = getEffectDuration(entityLiving, enchLevel);
         int amplifier = enchLevel - 1;
-        entityLiving.addPotionEffect(new EffectInstance(ModEffects.freezing, duration, amplifier, true, false));
+        entityLiving.addPotionEffect(new EffectInstance(GemsEffects.freezing, duration, amplifier, true, false));
     }
 
     private static int getEffectDuration(LivingEntity entityLiving, int enchLevel) {

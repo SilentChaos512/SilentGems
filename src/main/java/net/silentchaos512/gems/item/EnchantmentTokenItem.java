@@ -25,7 +25,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.client.key.KeyTracker;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.lib.event.ClientTicks;
 import net.silentchaos512.utils.Lazy;
 
@@ -67,7 +67,7 @@ public final class EnchantmentTokenItem extends Item {
     public static final Lazy<EnchantmentTokenItem> INSTANCE = Lazy.of(EnchantmentTokenItem::new);
 
     private EnchantmentTokenItem() {
-        super(new Properties().group(ModItemGroups.UTILITY));
+        super(new Properties().group(GemsItemGroups.UTILITY));
         addPropertyOverride(new ResourceLocation("model_index"), EnchantmentTokenItem::getModel);
     }
 

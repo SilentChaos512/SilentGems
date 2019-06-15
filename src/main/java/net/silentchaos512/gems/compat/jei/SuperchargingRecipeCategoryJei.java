@@ -53,7 +53,7 @@ public class SuperchargingRecipeCategoryJei /*implements IRecipeCategory<Superch
                 Ingredient.fromTag(catalystTag)
         ));
         List<ItemStack> outputs = Arrays.asList(GearPartIngredient.of(PartType.MAIN).getMatchingStacks());
-        outputs.forEach(stack -> stack.addEnchantment(ModEnchantments.supercharged, recipe.tier));
+        outputs.forEach(stack -> stack.addEnchantment(GemsEnchantments.supercharged, recipe.tier));
         ingredients.setOutputLists(VanillaTypes.ITEM, Collections.singletonList(outputs));
     }
 
@@ -86,9 +86,9 @@ public class SuperchargingRecipeCategoryJei /*implements IRecipeCategory<Superch
 
         @Nullable
         Tag<Item> getCatalystTag() {
-            if (tier == 1) return ModTags.Items.CHARGING_AGENT_TIER1;
-            if (tier == 2) return ModTags.Items.CHARGING_AGENT_TIER2;
-            if (tier == 3) return ModTags.Items.CHARGING_AGENT_TIER3;
+            if (tier == 1) return GemsTags.Items.CHARGING_AGENT_TIER1;
+            if (tier == 2) return GemsTags.Items.CHARGING_AGENT_TIER2;
+            if (tier == 3) return GemsTags.Items.CHARGING_AGENT_TIER3;
             return null;
         }
     }*/

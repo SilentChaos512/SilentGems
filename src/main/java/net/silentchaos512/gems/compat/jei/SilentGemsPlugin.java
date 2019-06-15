@@ -49,20 +49,20 @@ public class SilentGemsPlugin /*implements IModPlugin*/ {
         if (SGearProxy.isLoaded()) {
             reg.addRecipes(ImmutableList.of(
                     new SuperchargerPillarStructure(1, ImmutableList.of(
-                            ModTags.Items.SUPERCHARGER_PILLAR_LEVEL1,
-                            ModTags.Items.SUPERCHARGER_PILLAR_CAP
+                            GemsTags.Items.SUPERCHARGER_PILLAR_LEVEL1,
+                            GemsTags.Items.SUPERCHARGER_PILLAR_CAP
                     )),
                     new SuperchargerPillarStructure(2, ImmutableList.of(
-                            ModTags.Items.SUPERCHARGER_PILLAR_LEVEL2,
-                            ModTags.Items.SUPERCHARGER_PILLAR_LEVEL1,
-                            ModTags.Items.SUPERCHARGER_PILLAR_CAP
+                            GemsTags.Items.SUPERCHARGER_PILLAR_LEVEL2,
+                            GemsTags.Items.SUPERCHARGER_PILLAR_LEVEL1,
+                            GemsTags.Items.SUPERCHARGER_PILLAR_CAP
                     )),
                     new SuperchargerPillarStructure(3, ImmutableList.of(
-                            ModTags.Items.SUPERCHARGER_PILLAR_LEVEL3,
-                            ModTags.Items.SUPERCHARGER_PILLAR_LEVEL3,
-                            ModTags.Items.SUPERCHARGER_PILLAR_LEVEL2,
-                            ModTags.Items.SUPERCHARGER_PILLAR_LEVEL1,
-                            ModTags.Items.SUPERCHARGER_PILLAR_CAP
+                            GemsTags.Items.SUPERCHARGER_PILLAR_LEVEL3,
+                            GemsTags.Items.SUPERCHARGER_PILLAR_LEVEL3,
+                            GemsTags.Items.SUPERCHARGER_PILLAR_LEVEL2,
+                            GemsTags.Items.SUPERCHARGER_PILLAR_LEVEL1,
+                            GemsTags.Items.SUPERCHARGER_PILLAR_CAP
                     ))
             ), SUPERCHARGER_PILLAR);
             reg.addRecipes(IntStream.rangeClosed(1, 3)
@@ -114,8 +114,8 @@ public class SilentGemsPlugin /*implements IModPlugin*/ {
         });
 
         // Soul Urns
-//        reg.registerSubtypeInterpreter(Item.getItemFromBlock(ModBlocks.soulUrn), stack -> {
-//            int color = ModBlocks.soulUrn.getClayColor(stack);
+//        reg.registerSubtypeInterpreter(Item.getItemFromBlock(GemsBlocks.soulUrn), stack -> {
+//            int color = GemsBlocks.soulUrn.getClayColor(stack);
 //            return color != UrnConst.UNDYED_COLOR ? Integer.toString(color, 16) : "uncolored";
 //        });
         initFailed = false;

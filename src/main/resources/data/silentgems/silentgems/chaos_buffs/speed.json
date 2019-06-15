@@ -1,6 +1,6 @@
 {
     "type": "silentgems:potion",
-    "potion": "minecraft:speed",
+    "effect": "minecraft:speed",
     "maxLevel": 4,
     "displayName": {
         "translate": true,

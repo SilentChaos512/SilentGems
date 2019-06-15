@@ -3,7 +3,6 @@ package net.silentchaos512.gems.init;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BlockNamedItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -18,14 +17,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Function;
 
-public final class ModItems {
+public final class GemsItems {
     public static BlockNamedItem fluffyPuffSeeds;
     public static PetSummonerItem summonKitty;
     public static PetSummonerItem summonPuppy;
 
     static final Collection<BlockItem> blocksToRegister = new ArrayList<>();
 
-    private ModItems() {}
+    private GemsItems() {}
 
     public static void registerAll(RegistryEvent.Register<Item> event) {
         if (!event.getRegistry().getRegistryName().equals(ForgeRegistries.ITEMS.getRegistryName())) return;
@@ -56,7 +55,7 @@ public final class ModItems {
         register("refined_chaos_orb", new ChaosOrbItem(4, 1_000_000, 0.1f));
         register("perfect_chaos_orb", new ChaosOrbItem(4, 10_000_000, 0.05f));
 
-        fluffyPuffSeeds = register("fluffy_puff_seeds", new BlockNamedItem(FluffyPuffPlant.NORMAL.get(), new Item.Properties().group(ModItemGroups.MATERIALS)));
+        fluffyPuffSeeds = register("fluffy_puff_seeds", new BlockNamedItem(FluffyPuffPlant.NORMAL.get(), new Item.Properties().group(GemsItemGroups.MATERIALS)));
         register("glowrose_fertilizer", GlowroseFertilizerItem.INSTANCE.get());
 
         for (CorruptedBlocks block : CorruptedBlocks.values()) {
@@ -73,7 +72,7 @@ public final class ModItems {
         summonKitty = register("summon_kitty", new PetSummonerItem(PetSummonerItem::getCat));
         summonPuppy = register("summon_puppy", new PetSummonerItem(PetSummonerItem::getDog));
 
-        for (ModEntities entity : ModEntities.values()) {
+        for (GemsEntities entity : GemsEntities.values()) {
             register(entity.getName() + "_spawn_egg", entity.getSpawnEgg());
         }
     }

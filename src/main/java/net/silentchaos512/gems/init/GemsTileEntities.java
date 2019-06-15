@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.init;
 
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
@@ -10,35 +11,47 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.altar.AltarBlock;
 import net.silentchaos512.gems.block.altar.AltarTileEntity;
+import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotTileEntity;
+import net.silentchaos512.gems.block.flowerpot.PhantomLightBlock;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightTileEntity;
 import net.silentchaos512.gems.block.pedestal.PedestalTileEntity;
+import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerTileEntity;
 import net.silentchaos512.gems.block.teleporter.GemTeleporterTileEntity;
+import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterTileEntity;
+import net.silentchaos512.gems.block.urn.SoulUrnBlock;
 import net.silentchaos512.gems.block.urn.SoulUrnTileEntity;
 import net.silentchaos512.gems.client.render.tile.PedestalRenderer;
 import net.silentchaos512.utils.Lazy;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.function.Supplier;
 
 public enum GemsTileEntities {
-    CHAOS_FLOWER_POT(LuminousFlowerPotTileEntity::new),
-    PEDESTAL(PedestalTileEntity::new),
-    PHANTOM_LIGHT(PhantomLightTileEntity::new),
-    SOUL_URN(SoulUrnTileEntity::new),
-    SUPERCHARGER(SuperchargerTileEntity::new),
-    TELEPORTER(GemTeleporterTileEntity::new),
-    TOKEN_ENCHANTER(TokenEnchanterTileEntity::new),
-    TRANSMUTATION_ALTAR(AltarTileEntity::new);
+    CHAOS_FLOWER_POT(LuminousFlowerPotTileEntity::new, LuminousFlowerPotBlock.INSTANCE::get),
+    PEDESTAL(PedestalTileEntity::new, GemsBlocks.pedestals),
+    PHANTOM_LIGHT(PhantomLightTileEntity::new, PhantomLightBlock.INSTANCE::get),
+    SOUL_URN(SoulUrnTileEntity::new, SoulUrnBlock.INSTANCE::get),
+    SUPERCHARGER(SuperchargerTileEntity::new, SuperchargerBlock.INSTANCE::get),
+    TELEPORTER(GemTeleporterTileEntity::new, GemsBlocks.teleporters),
+    TOKEN_ENCHANTER(TokenEnchanterTileEntity::new, TokenEnchanterBlock.INSTANCE::get),
+    TRANSMUTATION_ALTAR(AltarTileEntity::new, AltarBlock.INSTANCE::get);
 
     private final Lazy<TileEntityType<?>> type;
 
-    GemsTileEntities(Supplier<TileEntity> factory) {
+    GemsTileEntities(Supplier<TileEntity> factory, Supplier<? extends Block> block) {
         //noinspection ConstantConditions -- null parameter in build
-        this.type = Lazy.of(() -> TileEntityType.Builder.create(factory).build(null));
+        this.type = Lazy.of(() -> TileEntityType.Builder.create(factory, block.get()).build(null));
+    }
+
+    GemsTileEntities(Supplier<TileEntity> factory, List<? extends Block> blocks) {
+        //noinspection ConstantConditions -- null parameter in build
+        this.type = Lazy.of(() -> TileEntityType.Builder.create(factory, blocks.toArray(new Block[0])).build(null));
     }
 
     public TileEntityType<?> type() {

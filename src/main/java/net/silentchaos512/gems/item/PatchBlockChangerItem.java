@@ -7,7 +7,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.block.CorruptedBlocks;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.lib.util.WorldUtils;
 import net.silentchaos512.utils.Lazy;
 
@@ -25,7 +25,7 @@ public class PatchBlockChangerItem extends Item {
     private final Function<Block, Block> replaceFunction;
 
     public PatchBlockChangerItem(int range, Function<Block, Block> replaceFunction) {
-        super(new Properties().group(ModItemGroups.UTILITY));
+        super(new Properties().group(GemsItemGroups.UTILITY));
         this.range = range;
         this.replaceFunction = replaceFunction;
     }

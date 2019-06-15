@@ -1,6 +1,6 @@
 {
     "type": "silentgems:potion",
-    "potion": "minecraft:resistance",
+    "effect": "minecraft:resistance",
     "maxLevel": 2,
     "displayName": {
         "translate": true,

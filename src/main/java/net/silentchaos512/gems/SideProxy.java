@@ -46,21 +46,21 @@ class SideProxy {
         getLifeCycleEventBus().addListener(this::imcEnqueue);
         getLifeCycleEventBus().addListener(this::imcProcess);
 
-        getLifeCycleEventBus().addListener(ModBlocks::registerAll);
+        getLifeCycleEventBus().addListener(GemsBlocks::registerAll);
         getLifeCycleEventBus().addListener(GemsContainers::registerAll);
-        getLifeCycleEventBus().addListener(ModEnchantments::registerAll);
-        getLifeCycleEventBus().addListener(ModEntities::registerAll);
-        getLifeCycleEventBus().addListener(ModItems::registerAll);
-        getLifeCycleEventBus().addListener(ModEffects::registerEffects);
-        getLifeCycleEventBus().addListener(ModEffects::registerPotions);
-        getLifeCycleEventBus().addListener(ModSounds::registerAll);
+        getLifeCycleEventBus().addListener(GemsEnchantments::registerAll);
+        getLifeCycleEventBus().addListener(GemsEntities::registerAll);
+        getLifeCycleEventBus().addListener(GemsItems::registerAll);
+        getLifeCycleEventBus().addListener(GemsEffects::registerEffects);
+        getLifeCycleEventBus().addListener(GemsEffects::registerPotions);
+        getLifeCycleEventBus().addListener(GemsSounds::registerAll);
         getLifeCycleEventBus().addListener(GemsTileEntities::registerAll);
 
         MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStart);
         MinecraftForge.EVENT_BUS.register(Soul.Events.INSTANCE);
 
-        ModLoot.init();
-        ModRecipes.init();
+        GemsLoot.init();
+        GemsRecipeInit.init();
 
         GemsConfig.init();
         Network.init();
@@ -133,7 +133,7 @@ class SideProxy {
 
         private void clientSetup(FMLClientSetupEvent event) {
             SilentGems.LOGGER.debug("Gems clientSetup");
-            ModEntities.registerRenderers(event);
+            GemsEntities.registerRenderers(event);
             GemsTileEntities.registerRenderers(event);
             GemsContainers.registerScreens(event);
         }

@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.lib.util.DimPos;
 import net.silentchaos512.utils.Lazy;
 
@@ -28,7 +28,7 @@ public final class TeleporterLinkerItem extends Item {
     private static final String NBT_LINKED = "Linked";
 
     private TeleporterLinkerItem() {
-        super(new Properties().maxStackSize(1).group(ModItemGroups.UTILITY));
+        super(new Properties().maxStackSize(1).group(GemsItemGroups.UTILITY));
     }
 
     @Override

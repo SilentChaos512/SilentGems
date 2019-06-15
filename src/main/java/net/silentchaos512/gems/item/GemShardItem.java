@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.IGem;
 
@@ -18,7 +18,7 @@ public class GemShardItem extends Item implements IGem {
     private final Gems gem;
 
     public GemShardItem(Gems gem) {
-        super(new Properties().group(ModItemGroups.MATERIALS));
+        super(new Properties().group(GemsItemGroups.MATERIALS));
         this.gem = gem;
     }
 

@@ -47,9 +47,9 @@ public class SuperchargerRecipeDisplay /*implements RecipeDisplay*/ {
 
     @Nullable
     private Tag<Item> getCatalystTag() {
-        if (tier == 1) return ModTags.Items.CHARGING_AGENT_TIER1;
-        if (tier == 2) return ModTags.Items.CHARGING_AGENT_TIER2;
-        if (tier == 3) return ModTags.Items.CHARGING_AGENT_TIER3;
+        if (tier == 1) return GemsTags.Items.CHARGING_AGENT_TIER1;
+        if (tier == 2) return GemsTags.Items.CHARGING_AGENT_TIER2;
+        if (tier == 3) return GemsTags.Items.CHARGING_AGENT_TIER3;
         return null;
     }
 
@@ -61,13 +61,13 @@ public class SuperchargerRecipeDisplay /*implements RecipeDisplay*/ {
             IItemProvider item = part.getMaterials().getItem();
             if (item != null) {
                 ItemStack stack = new ItemStack(item);
-                stack.addEnchantment(ModEnchantments.supercharged, this.tier);
+                stack.addEnchantment(GemsEnchantments.supercharged, this.tier);
                 list.add(stack);
             } else if (tag != null) {
                 ItemStack[] matchingStacks = Ingredient.fromTag(tag).getMatchingStacks();
                 if (matchingStacks.length > 0) {
                     ItemStack stack = matchingStacks[0].copy();
-                    stack.addEnchantment(ModEnchantments.supercharged, this.tier);
+                    stack.addEnchantment(GemsEnchantments.supercharged, this.tier);
                     list.add(stack);
                 }
             }

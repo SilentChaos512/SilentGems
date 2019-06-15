@@ -20,7 +20,7 @@ import net.silentchaos512.gems.block.FluffyPuffPlant;
 import net.silentchaos512.gems.block.MiscOres;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.EnderSlimeEntity;
-import net.silentchaos512.gems.init.ModEntities;
+import net.silentchaos512.gems.init.GemsEntities;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.world.feature.GlowroseFeature;
 import net.silentchaos512.gems.world.feature.SGOreFeature;
@@ -163,7 +163,7 @@ public final class GemsWorldFeatures {
 
     @SuppressWarnings("unchecked") // cast to EntityType<EnderSlimeEntity> is valid
     private static void addEnderSlimeSpawns(Biome biome) {
-        EntityType<EnderSlimeEntity> type = (EntityType<EnderSlimeEntity>) ModEntities.ENDER_SLIME.type();
+        EntityType<EnderSlimeEntity> type = (EntityType<EnderSlimeEntity>) GemsEntities.ENDER_SLIME.type();
         biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(
                 type,
                 GemsConfig.COMMON.enderSlimeSpawnWeight.get(),

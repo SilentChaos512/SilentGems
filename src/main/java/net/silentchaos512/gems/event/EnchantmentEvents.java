@@ -12,7 +12,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.enchantment.EnchantmentIceAspect;
 import net.silentchaos512.gems.enchantment.EnchantmentLifeSteal;
 import net.silentchaos512.gems.enchantment.EnchantmentLightningAspect;
-import net.silentchaos512.gems.init.ModEnchantments;
+import net.silentchaos512.gems.init.GemsEnchantments;
 
 @Mod.EventBusSubscriber(modid = SilentGems.MOD_ID)
 public final class EnchantmentEvents {
@@ -25,9 +25,9 @@ public final class EnchantmentEvents {
 
         if (!mainHand.isEmpty()) {
             // Gravity enchantment.
-            int gravityLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.gravity, mainHand);
+            int gravityLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.gravity, mainHand);
             if (gravityLevel > 0) {
-                ModEnchantments.gravity.onGetBreakSpeed(event, mainHand, gravityLevel);
+                GemsEnchantments.gravity.onGetBreakSpeed(event, mainHand, gravityLevel);
             }
         }
     }
@@ -45,14 +45,14 @@ public final class EnchantmentEvents {
 
             // Get levels of relevant enchantments.
             if (!mainHand.isEmpty()) {
-                lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal, mainHand);
-                iceAspectLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.iceAspect, mainHand);
+                lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.lifeSteal, mainHand);
+                iceAspectLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.iceAspect, mainHand);
                 lightningAspectLevel = EnchantmentHelper
-                        .getEnchantmentLevel(ModEnchantments.lightningAspect, mainHand);
+                        .getEnchantmentLevel(GemsEnchantments.lightningAspect, mainHand);
             }
             // If not, is it on off hand?
             if (lifeStealLevel < 1 && !offHand.isEmpty()) {
-                lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.lifeSteal, offHand);
+                lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.lifeSteal, offHand);
             }
 
             // Do life steal?

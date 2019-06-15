@@ -10,10 +10,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.altar.AltarContainer;
+import net.silentchaos512.gems.block.altar.AltarScreen;
 import net.silentchaos512.gems.block.supercharger.SuperchargerContainer;
 import net.silentchaos512.gems.block.supercharger.SuperchargerScreen;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterContainer;
+import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterScreen;
 import net.silentchaos512.gems.block.urn.SoulUrnContainer;
+import net.silentchaos512.gems.block.urn.SoulUrnScreen;
 import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
@@ -44,7 +47,10 @@ public enum GemsContainers {
     @SuppressWarnings("unchecked")
     @OnlyIn(Dist.CLIENT)
     public static void registerScreens(FMLClientSetupEvent event) {
+        ScreenManager.registerFactory((ContainerType<? extends SoulUrnContainer>) SOUL_URN.type(), SoulUrnScreen::new);
         ScreenManager.registerFactory((ContainerType<? extends SuperchargerContainer>) SUPERCHARGER.type(), SuperchargerScreen::new);
+        ScreenManager.registerFactory((ContainerType<? extends TokenEnchanterContainer>) TOKEN_ENCHANTER.type(), TokenEnchanterScreen::new);
+        ScreenManager.registerFactory((ContainerType<? extends AltarContainer>) TRANSMUTATION_ALTAR.type(), AltarScreen::new);
     }
 
     private static void register(String name, ContainerType<?> type) {

@@ -1,12 +1,13 @@
 package net.silentchaos512.gems.client.render.particle;
 
-import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.IParticleRenderType;
+import net.minecraft.client.particle.TexturedParticle;
+import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class ParticleFreezing extends Particle {
+public class ParticleFreezing extends TexturedParticle {
     private static final int MAX_AGE = 40;
     private static final int MAX_SCALE = 1;
 
@@ -15,8 +16,8 @@ public class ParticleFreezing extends Particle {
         this.motionX = motionX;
         this.motionY = motionY;
         this.motionZ = motionZ;
-        this.particleTextureIndexX = 7;
-        this.particleTextureIndexY = 0; // 11;
+//        this.particleTextureIndexX = 7;
+//        this.particleTextureIndexY = 0; // 11;
         this.particleRed = red;
         this.particleGreen = green;
         this.particleBlue = blue;
@@ -39,16 +40,41 @@ public class ParticleFreezing extends Particle {
 
         this.move(this.motionX, this.motionY, this.motionZ);
 
-        this.particleTextureIndexX = 7 - 7 * age / maxAge;
+//        this.particleTextureIndexX = 7 - 7 * age / maxAge;
         this.particleScale *= 0.95f;
         // this.particleAlpha -= 0.8f / (particleMaxAge * 1.25f);
     }
 
     @Override
-    public void renderParticle(BufferBuilder buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+    public void renderParticle(BufferBuilder buffer, ActiveRenderInfo entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
         float f = 1.5f * ((float) this.age + partialTicks) / (float) this.maxAge * 32.0F;
         f = MathHelper.clamp(f, 0.0F, 1.0F);
         this.particleScale = MAX_SCALE * f;
         super.renderParticle(buffer, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
+    }
+
+    @Override
+    protected float func_217563_c() {
+        return 0;
+    }
+
+    @Override
+    protected float func_217564_d() {
+        return 0;
+    }
+
+    @Override
+    protected float func_217562_e() {
+        return 0;
+    }
+
+    @Override
+    protected float func_217560_f() {
+        return 0;
+    }
+
+    @Override
+    public IParticleRenderType getRenderType() {
+        return IParticleRenderType.CUSTOM;
     }
 }

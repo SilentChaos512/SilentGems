@@ -1,6 +1,6 @@
 {
     "type": "silentgems:potion",
-    "potion": "minecraft:slow_falling",
+    "effect": "minecraft:slow_falling",
     "maxLevel": 1,
     "displayName": {
         "translate": true,

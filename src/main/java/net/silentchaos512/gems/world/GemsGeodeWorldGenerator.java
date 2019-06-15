@@ -12,11 +12,11 @@ public class GemsGeodeWorldGenerator /*extends WorldGeneratorSL*/ {
 //
 //    if (random.nextFloat() < GemsConfig.GEODE_DARK_FREQUENCY)
 //      generateGeode(world, random, posX, posZ, Gems.Set.DARK,
-//          ModBlocks.hardenedRock.getDefaultState().withProperty(HardenedRock.VARIANT,
+//          GemsBlocks.hardenedRock.getDefaultState().withProperty(HardenedRock.VARIANT,
 //              HardenedRock.Type.NETHERRACK));
 //    if (random.nextFloat() < GemsConfig.GEODE_LIGHT_FREQUENCY)
 //      generateGeode(world, random, posX, posZ, Gems.Set.LIGHT,
-//          ModBlocks.hardenedRock.getDefaultState().withProperty(HardenedRock.VARIANT,
+//          GemsBlocks.hardenedRock.getDefaultState().withProperty(HardenedRock.VARIANT,
 //              HardenedRock.Type.END_STONE));
 //  }
 //

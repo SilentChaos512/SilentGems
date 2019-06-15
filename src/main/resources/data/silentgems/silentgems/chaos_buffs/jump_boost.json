@@ -1,6 +1,6 @@
 {
     "type": "silentgems:potion",
-    "potion": "minecraft:jump_boost",
+    "effect": "minecraft:jump_boost",
     "maxLevel": 4,
     "displayName": {
         "translate": true,

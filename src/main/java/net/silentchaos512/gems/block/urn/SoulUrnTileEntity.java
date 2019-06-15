@@ -256,7 +256,7 @@ public class SoulUrnTileEntity extends LockableLootTileEntity implements ITickab
         return this.saveToNBT(compound);
     }
 
-    public void loadFromNBT(CompoundNBT compound) {
+    void loadFromNBT(CompoundNBT compound) {
         this.items = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         this.setUpgrades(UrnUpgrade.ListHelper.load(compound));
 
@@ -268,7 +268,7 @@ public class SoulUrnTileEntity extends LockableLootTileEntity implements ITickab
         loadGemFromNBT(compound);
     }
 
-    public CompoundNBT saveToNBT(CompoundNBT compound) {
+    CompoundNBT saveToNBT(CompoundNBT compound) {
         if (!this.checkLootAndWrite(compound))
             ItemStackHelper.saveAllItems(compound, this.items, false);
 

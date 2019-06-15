@@ -17,7 +17,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.IGem;
 import net.silentchaos512.gems.util.TeleportUtil;
@@ -37,7 +37,7 @@ public class ReturnHomeCharmItem extends Item implements IGem /*implements IBaub
 
     public ReturnHomeCharmItem(Gems gem) {
         super(new Properties()
-                .group(ModItemGroups.UTILITY)
+                .group(GemsItemGroups.UTILITY)
                 .maxStackSize(1)
         );
         this.gem = gem;

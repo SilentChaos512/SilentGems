@@ -13,13 +13,13 @@ import net.silentchaos512.gems.potion.FreezingEffect;
 import net.silentchaos512.gems.potion.ShockingEffect;
 import net.silentchaos512.lib.util.TimeUtils;
 
-public final class ModEffects {
+public final class GemsEffects {
     public static FreezingEffect freezing;
     public static ShockingEffect shocking;
     public static Effect insulated;
     public static Effect grounded;
 
-    private ModEffects() {}
+    private GemsEffects() {}
 
     public static void registerEffects(RegistryEvent.Register<Potion> event) {
         if (!event.getRegistry().getRegistryName().equals(ForgeRegistries.POTIONS.getRegistryName())) {

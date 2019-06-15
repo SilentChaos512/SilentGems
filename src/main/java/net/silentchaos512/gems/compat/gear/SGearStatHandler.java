@@ -29,7 +29,7 @@ import net.silentchaos512.gear.api.stats.CommonItemStats;
 import net.silentchaos512.gear.api.stats.ItemStat;
 import net.silentchaos512.gear.api.stats.StatInstance;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModEnchantments;
+import net.silentchaos512.gems.init.GemsEnchantments;
 
 import java.util.Map;
 import java.util.function.ToDoubleFunction;
@@ -63,7 +63,7 @@ public class SGearStatHandler {
     @SubscribeEvent
     public void onGetPartStats(GetStatModifierEvent event) {
         ItemStack stack = event.getPart().getCraftingItem();
-        int supercharged = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.supercharged, stack);
+        int supercharged = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.supercharged, stack);
 
         if (supercharged > 0 && BOOSTED_STATS.containsKey(event.getStat())) {
             float chargeability = CHARGEABILITY.compute(0, event.getPart().getStatModifiers(ItemStack.EMPTY, CHARGEABILITY));

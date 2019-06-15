@@ -16,7 +16,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -28,7 +28,7 @@ public class ChaosOrbItem extends Item {
 
     public ChaosOrbItem(int crackStages, int maxAbsorb, float leakage) {
         super(new Properties()
-                .group(ModItemGroups.UTILITY)
+                .group(GemsItemGroups.UTILITY)
                 .maxStackSize(1)
                 .defaultMaxDamage(maxAbsorb)
                 .setNoRepair()

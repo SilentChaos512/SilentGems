@@ -9,7 +9,7 @@ import net.minecraft.util.IItemProvider;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.urn.SoulUrnBlock;
-import net.silentchaos512.gems.init.ModBlocks;
+import net.silentchaos512.gems.init.GemsBlocks;
 import net.silentchaos512.gems.item.*;
 
 import java.util.Arrays;
@@ -25,7 +25,7 @@ public final class ColorHandlers {
             return;
         }
 
-        registerBlocks(colors, SoulUrnBlock::getBlockColor, ModBlocks.soulUrn);
+        registerBlocks(colors, SoulUrnBlock::getBlockColor, GemsBlocks.soulUrn);
     }
 
     public static void onItemColors(ColorHandlerEvent.Item event) {
@@ -36,19 +36,18 @@ public final class ColorHandlers {
             return;
         }
 
-        registerItems(colors, SoulUrnBlock::getItemColor, ModBlocks.soulUrn);
+        registerItems(colors, SoulUrnBlock::getItemColor, GemsBlocks.soulUrn);
         registerItems(colors, EnchantmentTokenItem::getItemColor, EnchantmentTokenItem.INSTANCE.get());
-
-        // Return Home Charm
         registerItems(colors, ReturnHomeCharmItem::getColor, Arrays.stream(Gems.values())
                 .map(Gems::getReturnHomeCharm)
                 .toArray(IItemProvider[]::new));
+        registerItems(colors, ChaosRuneItem::getColor, ChaosRuneItem.INSTANCE.get());
+        registerItems(colors, SoulGemItem::getColor, SoulGemItem.INSTANCE.get());
+        registerItems(colors, GearSoulItem::getColor, GearSoulItem.INSTANCE.get());
 
         // Drawing Compass
-//        itemColors.register((stack, tintIndex) -> tintIndex == 0 ? ModItems.drawingCompass.getColor(stack).getColor() : 0xFFFFFF, ModItems.drawingCompass);
+//        itemColors.register((stack, tintIndex) -> tintIndex == 0 ? GemsItems.drawingCompass.getColor(stack).getColor() : 0xFFFFFF, GemsItems.drawingCompass);
 
-        // Chaos Runes
-        registerItems(colors, ChaosRuneItem::getColor, ChaosRuneItem.INSTANCE.get());
 
         // Holding Gem
 //        itemColors.registerItemColorHandler((stack, tintIndex) -> {
@@ -59,20 +58,14 @@ public final class ColorHandlers {
 //                        return Gems.values()[id].getColor();
 //                }
 //            } else if (tintIndex == 2) {
-//                IBlockState state = ModItems.holdingGem.getBlockPlaced(stack);
+//                IBlockState state = GemsItems.holdingGem.getBlockPlaced(stack);
 //                if (state != null) {
 //                    return 0xFFFFFF;
 //                    // return state.getMapColor().colorValue;
 //                }
 //            }
 //            return 0xFFFFFF;
-//        }, ModItems.holdingGem);
-
-        // Soul Gems
-        registerItems(colors, SoulGemItem::getColor, SoulGemItem.INSTANCE.get());
-
-        // Gear Soul
-        registerItems(colors, GearSoulItem::getColor, GearSoulItem.INSTANCE.get());
+//        }, GemsItems.holdingGem);
     }
 
     private static void registerBlocks(BlockColors handler, IBlockColor blockColor, Block... blocks) {

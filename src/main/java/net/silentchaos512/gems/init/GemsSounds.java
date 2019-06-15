@@ -1,5 +1,5 @@
 /*
- * Silent's Gems -- ModSounds
+ * Silent's Gems -- GemsSounds
  * Copyright (C) 2018 SilentChaos512
  *
  * This library is free software; you can redistribute it and/or
@@ -31,7 +31,7 @@ import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
 
-public enum ModSounds {
+public enum GemsSounds {
     SOUL_URN_LID(0.6f, 0, 1.1f, 0.05f),
     SOUL_URN_OPEN(0.6f, 0, 1.1f, 0.05f);
 
@@ -41,7 +41,7 @@ public enum ModSounds {
     final float pitch;
     final float pitchVariation;
 
-    ModSounds(float volume, float volumeVariation, float pitch, float pitchVariation) {
+    GemsSounds(float volume, float volumeVariation, float pitch, float pitchVariation) {
         this.volume = volume;
         this.volumeVariation = volumeVariation;
         this.pitch = pitch;
@@ -90,7 +90,7 @@ public enum ModSounds {
     public static void registerAll(RegistryEvent.Register<SoundEvent> event) {
         if (!event.getName().equals(ForgeRegistries.SOUND_EVENTS.getRegistryName())) return;
 
-        for (ModSounds sound : values()) {
+        for (GemsSounds sound : values()) {
             register(sound.getName(), sound.get());
         }
     }
@@ -105,7 +105,7 @@ public enum ModSounds {
         // Hotswapping code before certain resources are used causes them to not load. In the case
         // of SoundEvents, this causes the game to freeze. Obviously not an issue outside of an
         // IDE, but playing all the sounds here should ensure I don't crash more than necessary...
-        for (ModSounds sound : values()) {
+        for (GemsSounds sound : values()) {
             player.world.playSound(null, player.getPosition(), sound.get(), SoundCategory.PLAYERS, 0.05f, 1f);
         }
     }

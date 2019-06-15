@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.potion.EffectInstance;
 import net.silentchaos512.gems.event.EnchantmentEvents;
-import net.silentchaos512.gems.init.ModEffects;
+import net.silentchaos512.gems.init.GemsEffects;
 
 public class EnchantmentLightningAspect extends Enchantment {
     public static final int EFFECT_DURATION = 120;
@@ -49,7 +49,7 @@ public class EnchantmentLightningAspect extends Enchantment {
      */
     public static void applyTo(LivingEntity entityLiving, int enchLevel, int duration) {
         int amplifier = enchLevel - 1;
-        entityLiving.addPotionEffect(new EffectInstance(ModEffects.shocking, duration, amplifier, true, false));
+        entityLiving.addPotionEffect(new EffectInstance(GemsEffects.shocking, duration, amplifier, true, false));
     }
 
     public static void applyTo(LivingEntity entityLiving, int enchLevel) {

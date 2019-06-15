@@ -31,7 +31,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
@@ -102,7 +102,7 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
 
     final class ItemCrafting extends Item {
         private ItemCrafting() {
-            super(new Item.Properties().group(ModItemGroups.MATERIALS));
+            super(new Item.Properties().group(GemsItemGroups.MATERIALS));
         }
 
         @Override

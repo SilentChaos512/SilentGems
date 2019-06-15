@@ -4,16 +4,16 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
+import net.minecraft.potion.Effect;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 import net.silentchaos512.gems.client.key.KeyTracker;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
 import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
 import net.silentchaos512.gems.lib.chaosbuff.PotionChaosBuff;
@@ -29,7 +29,7 @@ public final class ChaosRuneItem extends Item {
     private static final String NBT_KEY = "SGems_BuffRune";
 
     private ChaosRuneItem() {
-        super(new Properties().group(ModItemGroups.UTILITY));
+        super(new Properties().group(GemsItemGroups.UTILITY));
     }
 
     public static ItemStack getStack(IChaosBuff buff) {
@@ -77,8 +77,8 @@ public final class ChaosRuneItem extends Item {
             tooltip.add(new StringTextComponent(String.format("Buff ID: %s", buff.getId())).applyTextStyle(TextFormatting.DARK_GRAY));
             tooltip.add(new StringTextComponent(String.format("Color: %X", buff.getRuneColor())).applyTextStyle(TextFormatting.DARK_GRAY));
             if (buff instanceof PotionChaosBuff) {
-                Potion potion = ((PotionChaosBuff) buff).getEffect();
-                tooltip.add(new StringTextComponent(String.format("Potion: %s", potion)).applyTextStyle(TextFormatting.DARK_GRAY));
+                Effect effect = ((PotionChaosBuff) buff).getEffect();
+                tooltip.add(new StringTextComponent(String.format("Effect: %s", effect)).applyTextStyle(TextFormatting.DARK_GRAY));
             }
         }
     }

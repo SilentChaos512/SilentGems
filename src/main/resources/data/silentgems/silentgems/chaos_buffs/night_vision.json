@@ -1,6 +1,6 @@
 {
     "type": "silentgems:potion",
-    "potion": "minecraft:night_vision",
+    "effect": "minecraft:night_vision",
     "effectDuration": 410,
     "maxLevel": 1,
     "displayName": {

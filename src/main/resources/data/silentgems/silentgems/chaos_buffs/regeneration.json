@@ -1,6 +1,6 @@
 {
     "type": "silentgems:potion",
-    "potion": "minecraft:regeneration",
+    "effect": "minecraft:regeneration",
     "maxLevel": 2,
     "displayName": {
         "translate": true,

@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
-import net.silentchaos512.gems.init.ModEffects;
+import net.silentchaos512.gems.init.GemsEffects;
 import net.silentchaos512.gems.util.ModDamageSource;
 
 import java.util.UUID;
@@ -62,7 +62,7 @@ public class FreezingEffect extends Effect {
     }
 
     private static boolean isInsulated(LivingEntity entity) {
-        return entity.getActivePotionEffect(ModEffects.insulated) != null;
+        return entity.getActivePotionEffect(GemsEffects.insulated) != null;
     }
 
     @Override

@@ -8,7 +8,7 @@ import net.minecraft.item.Rarity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.lib.soul.GearSoul;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.lib.event.ClientTicks;
@@ -23,7 +23,7 @@ public final class GearSoulItem extends Item {
 
     private GearSoulItem() {
         super(new Properties()
-                .group(ModItemGroups.UTILITY)
+                .group(GemsItemGroups.UTILITY)
                 .rarity(Rarity.RARE)
                 .maxStackSize(1)
         );

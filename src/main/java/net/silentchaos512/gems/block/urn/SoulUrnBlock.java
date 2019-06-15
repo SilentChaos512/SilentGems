@@ -51,12 +51,12 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootParameters;
-import net.silentchaos512.gems.init.ModItemGroups;
-import net.silentchaos512.gems.init.ModSounds;
+import net.silentchaos512.gems.init.GemsItemGroups;
+import net.silentchaos512.gems.init.GemsSounds;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.urn.LidState;
 import net.silentchaos512.gems.lib.urn.UrnConst;
@@ -64,12 +64,15 @@ import net.silentchaos512.gems.lib.urn.UrnHelper;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 import net.silentchaos512.lib.client.key.InputUtils;
 import net.silentchaos512.utils.Color;
+import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SoulUrnBlock extends ContainerBlock {
+    public static final Lazy<SoulUrnBlock> INSTANCE = Lazy.of(SoulUrnBlock::new);
+
     private static final VoxelShape SHAPE_CLOSED = Block.makeCuboidShape(1, 0, 1, 15, 15, 15);
     private static final VoxelShape SHAPE_OPEN = Block.makeCuboidShape(1, 0, 1, 15, 14, 15);
 
@@ -171,13 +174,13 @@ public class SoulUrnBlock extends ContainerBlock {
             if (lid != LidState.NO_LID && (player.isSneaking() || !lid.isOpen())) {
                 // Toggle lid state when sneaking or if closed
                 worldIn.setBlockState(pos, toggleLid(state), 2);
-                ModSounds.SOUL_URN_LID.play(worldIn, pos);
+                GemsSounds.SOUL_URN_LID.play(worldIn, pos);
             } else {
                 // Open inventory if lid is open (or there is no lid)
                 TileEntity tile = worldIn.getTileEntity(pos);
                 if (tile instanceof SoulUrnTileEntity) {
                     player.openContainer((INamedContainerProvider) tile);
-                    ModSounds.SOUL_URN_OPEN.play(worldIn, pos);
+                    GemsSounds.SOUL_URN_OPEN.play(worldIn, pos);
                 }
             }
         }
@@ -200,7 +203,7 @@ public class SoulUrnBlock extends ContainerBlock {
             if (stack.hasDisplayName()) {
                 tileSoulUrn.setCustomName(stack.getDisplayName());
             }
-            tileSoulUrn.read(stack.getOrCreateChildTag(UrnConst.NBT_ROOT));
+            tileSoulUrn.loadFromNBT(stack.getOrCreateChildTag(UrnConst.NBT_ROOT));
         }
     }
 
@@ -284,7 +287,7 @@ public class SoulUrnBlock extends ContainerBlock {
     }
 
     @SuppressWarnings("TypeMayBeWeakened")
-    public static int getBlockColor(BlockState state, @Nullable IWorldReader world, @Nullable BlockPos pos, int tintIndex) {
+    public static int getBlockColor(BlockState state, @Nullable IEnviromentBlockReader world, @Nullable BlockPos pos, int tintIndex) {
         if (tintIndex == 0) {
             // Main body/clay color
             if (world != null && pos != null) {
@@ -393,7 +396,7 @@ public class SoulUrnBlock extends ContainerBlock {
         public SoulUrnBlockItem(SoulUrnBlock block) {
             super(block, new Item.Properties()
                     .maxStackSize(1)
-                    .group(ModItemGroups.BLOCKS));
+                    .group(GemsItemGroups.BLOCKS));
 
             this.blockSoulUrn = block;
         }

@@ -6,7 +6,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.Tags;
-import net.silentchaos512.gems.init.ModItemGroups;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.lib.block.IBlockProvider;
 import net.silentchaos512.utils.Lazy;
 
@@ -25,7 +25,7 @@ public enum CorruptedBlocks implements IBlockProvider {
     CorruptedBlocks(Block purifyBlock, Predicate<Block> canReplace) {
         this.purifyBlock = purifyBlock;
         block = Lazy.of(() -> new Block(Block.Properties.create(Material.CLAY).hardnessAndResistance(1).sound(SoundType.GROUND)));
-        pile = Lazy.of(() -> new Item(new Item.Properties().group(ModItemGroups.MATERIALS)));
+        pile = Lazy.of(() -> new Item(new Item.Properties().group(GemsItemGroups.MATERIALS)));
         this.canReplace = canReplace;
     }
 

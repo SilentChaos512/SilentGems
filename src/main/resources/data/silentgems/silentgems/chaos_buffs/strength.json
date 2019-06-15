@@ -1,6 +1,6 @@
 {
     "type": "silentgems:potion",
-    "potion": "minecraft:strength",
+    "effect": "minecraft:strength",
     "maxLevel": 2,
     "displayName": {
         "translate": true,

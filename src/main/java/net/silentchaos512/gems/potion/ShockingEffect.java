@@ -10,7 +10,7 @@ import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.silentchaos512.gems.init.ModEffects;
+import net.silentchaos512.gems.init.GemsEffects;
 import net.silentchaos512.gems.util.ModDamageSource;
 
 import java.util.List;
@@ -88,7 +88,7 @@ public class ShockingEffect extends Effect {
     }
 
     private static boolean isGrounded(LivingEntity entity) {
-        return entity.getActivePotionEffect(ModEffects.grounded) != null;
+        return entity.getActivePotionEffect(GemsEffects.grounded) != null;
     }
 
     @Override
