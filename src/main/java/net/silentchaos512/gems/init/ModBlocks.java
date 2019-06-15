@@ -6,7 +6,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -16,7 +15,7 @@ import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightBlock;
 import net.silentchaos512.gems.block.pedestal.PedestalBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
-import net.silentchaos512.gems.block.teleporter.TeleporterAnchor;
+import net.silentchaos512.gems.block.teleporter.TeleporterAnchorBlock;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
 import net.silentchaos512.gems.block.urn.SoulUrnBlock;
 import net.silentchaos512.gems.item.GemBlockItem;
@@ -51,7 +50,7 @@ public final class ModBlocks {
         registerGemBlocksNoItem(Gems::getPottedGlowrose, gem -> "potted_" + gem.getName() + "_glowrose");
         registerGemBlocks(Gems::getTeleporter, gem -> gem.getName() + "_teleporter");
         registerGemBlocks(Gems::getRedstoneTeleporter, gem -> gem.getName() + "_redstone_teleporter");
-        register("teleporter_anchor", TeleporterAnchor.INSTANCE.get());
+        register("teleporter_anchor", TeleporterAnchorBlock.INSTANCE.get());
 
         register("multi_ore_classic", Gems.Set.CLASSIC.getMultiOre());
         register("multi_ore_dark", Gems.Set.DARK.getMultiOre());

@@ -1,11 +1,9 @@
 package net.silentchaos512.gems.client.render.entity;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.silentchaos512.gems.SilentGems;
@@ -13,11 +11,11 @@ import net.silentchaos512.gems.entity.EnderSlimeEntity;
 
 import javax.annotation.Nonnull;
 
-public final class RenderEnderSlime extends MobRenderer<EnderSlimeEntity> {
-    private static final ResourceLocation ENDER_SLIME_TEXTURES = new ResourceLocation(SilentGems.RESOURCE_PREFIX + "textures/entity/ender_slime.png");
+public final class EnderSlimeRenderer extends MobRenderer<EnderSlimeEntity, EnderSlimeModel> {
+    private static final ResourceLocation TEXTURE = new ResourceLocation(SilentGems.RESOURCE_PREFIX + "textures/entity/ender_slime.png");
 
-    private RenderEnderSlime(EntityRendererManager renderManagerIn) {
-        super(renderManagerIn, new ModelEnderSlime(), 0.25F);
+    private EnderSlimeRenderer(EntityRendererManager renderManagerIn) {
+        super(renderManagerIn, new EnderSlimeModel(), 0.25F);
     }
 
     /**
@@ -26,7 +24,7 @@ public final class RenderEnderSlime extends MobRenderer<EnderSlimeEntity> {
      */
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EnderSlimeEntity entity) {
-        return ENDER_SLIME_TEXTURES;
+        return TEXTURE;
     }
 
     /**
@@ -44,8 +42,8 @@ public final class RenderEnderSlime extends MobRenderer<EnderSlimeEntity> {
 
     public static class Factory implements IRenderFactory<EnderSlimeEntity> {
         @Override
-        public Render<? super EnderSlimeEntity> createRenderFor(RenderManager manager) {
-            return new RenderEnderSlime(manager);
+        public EntityRenderer<? super EnderSlimeEntity> createRenderFor(EntityRendererManager manager) {
+            return new EnderSlimeRenderer(manager);
         }
     }
 }

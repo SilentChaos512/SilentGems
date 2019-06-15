@@ -9,6 +9,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.altar.AltarContainer;
 import net.silentchaos512.gems.block.supercharger.SuperchargerContainer;
 import net.silentchaos512.gems.block.supercharger.SuperchargerScreen;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterContainer;
@@ -20,7 +21,8 @@ import java.util.Locale;
 public enum GemsContainers {
     SOUL_URN(SoulUrnContainer::new),
     SUPERCHARGER(SuperchargerContainer::new),
-    TOKEN_ENCHANTER(TokenEnchanterContainer::new);
+    TOKEN_ENCHANTER(TokenEnchanterContainer::new),
+    TRANSMUTATION_ALTAR(AltarContainer::new);
 
     private final Lazy<ContainerType<?>> type;
 

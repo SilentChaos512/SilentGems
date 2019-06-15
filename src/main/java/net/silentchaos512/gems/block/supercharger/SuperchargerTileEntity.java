@@ -25,6 +25,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
@@ -263,37 +266,6 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
     }
 
     @Override
-    public int getSizeInventory() {
-        return INVENTORY_SIZE;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        // TODO
-        return false;
-    }
-
-    @Override
-    public void clear() {
-    }
-
-    @Override
-    public ITextComponent getName() {
-        return new TranslationTextComponent("container.silentgems.supercharger");
-    }
-
-    @Override
-    public boolean hasCustomName() {
-        return false;
-    }
-
-    @Nullable
-    @Override
-    public ITextComponent getCustomName() {
-        return null;
-    }
-
-    @Override
     protected ITextComponent getDefaultName() {
         return new TranslationTextComponent("container.silentgems.supercharger");
     }
@@ -309,7 +281,7 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
             case UP:
                 return new int[]{0, 1};
             case DOWN:
-                return new int[]{2};
+                return new int[]{0, 1, 2};
             default:
                 return new int[]{0, 1, 2};
         }
@@ -323,5 +295,31 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
     @Override
     public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
         return index == 2;
+    }
+
+    @Override
+    public void read(CompoundNBT tags) {
+        super.read(tags);
+        SyncVariable.Helper.readSyncVars(this, tags);
+    }
+
+    @Override
+    public CompoundNBT write(CompoundNBT tags) {
+        super.write(tags);
+        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
+        return tags;
+    }
+
+    @Override
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tags = super.getUpdateTag();
+        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.PACKET);
+        return tags;
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
+        super.onDataPacket(net, packet);
+        SyncVariable.Helper.readSyncVars(this, packet.getNbtCompound());
     }
 }

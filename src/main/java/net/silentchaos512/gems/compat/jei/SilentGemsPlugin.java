@@ -1,39 +1,10 @@
 package net.silentchaos512.gems.compat.jei;
 
-import com.google.common.collect.ImmutableList;
-import mezz.jei.api.IModPlugin;
-import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.registration.*;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
-import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
-import net.silentchaos512.gems.block.supercharger.SuperchargerScreen;
-import net.silentchaos512.gems.block.supercharger.SuperchargerPillarStructure;
-import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
-import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterGui;
-import net.silentchaos512.gems.compat.gear.SGearProxy;
-import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
-import net.silentchaos512.gems.init.ModTags;
-import net.silentchaos512.gems.item.ChaosRuneItem;
-import net.silentchaos512.gems.item.CraftingItems;
-import net.silentchaos512.gems.item.EnchantmentTokenItem;
-import net.silentchaos512.gems.item.SoulGemItem;
-import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
-import net.silentchaos512.gems.lib.soul.Soul;
 
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
-@JeiPlugin
-public class SilentGemsPlugin implements IModPlugin {
+//@JeiPlugin
+public class SilentGemsPlugin /*implements IModPlugin*/ {
     private static final ResourceLocation PLUGIN_UID = SilentGems.getId("plugin/main");
     static final ResourceLocation SUPERCHARGER_PILLAR = SilentGems.getId("category/supercharger_pillar");
     static final ResourceLocation SUPERCHARGING = SilentGems.getId("category/supercharging");
@@ -46,7 +17,7 @@ public class SilentGemsPlugin implements IModPlugin {
         return initFailed;
     }
 
-    @Override
+    /*@Override
     public ResourceLocation getPluginUid() {
         return PLUGIN_UID;
     }
@@ -118,7 +89,7 @@ public class SilentGemsPlugin implements IModPlugin {
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration reg) {
         reg.addRecipeClickArea(SuperchargerScreen.class, 79, 32, 24, 23, SUPERCHARGING, SUPERCHARGER_PILLAR);
-        reg.addRecipeClickArea(TokenEnchanterGui.class, 102, 32, 24, 23, TOKEN_ENCHANTING);
+        reg.addRecipeClickArea(TokenEnchanterScreen.class, 102, 32, 24, 23, TOKEN_ENCHANTING);
     }
 
     @Override
@@ -163,5 +134,5 @@ public class SilentGemsPlugin implements IModPlugin {
 
     private static String getDescKey(ResourceLocation name) {
         return "jei." + name.getNamespace() + "." + name.getPath() + ".desc";
-    }
+    }*/
 }

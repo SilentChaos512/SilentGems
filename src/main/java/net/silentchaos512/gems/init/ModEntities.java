@@ -15,7 +15,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.client.render.entity.RenderEnderSlime;
+import net.silentchaos512.gems.client.render.entity.EnderSlimeRenderer;
 import net.silentchaos512.gems.entity.EnderSlimeEntity;
 import net.silentchaos512.utils.Lazy;
 
@@ -69,6 +69,6 @@ public enum ModEntities {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderers(FMLClientSetupEvent event) {
-        RenderingRegistry.registerEntityRenderingHandler(EnderSlimeEntity.class, new RenderEnderSlime.Factory());
+        RenderingRegistry.registerEntityRenderingHandler(EnderSlimeEntity.class, new EnderSlimeRenderer.Factory());
     }
 }

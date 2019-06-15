@@ -1,18 +1,18 @@
 package net.silentchaos512.gems.block.teleporter;
 
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.silentchaos512.utils.Lazy;
 
-public final class TeleporterAnchor extends GemTeleporterBlock {
-    public static final Lazy<TeleporterAnchor> INSTANCE = Lazy.of(TeleporterAnchor::new);
+public final class TeleporterAnchorBlock extends GemTeleporterBlock {
+    public static final Lazy<TeleporterAnchorBlock> INSTANCE = Lazy.of(TeleporterAnchorBlock::new);
 
-    private TeleporterAnchor() {
+    private TeleporterAnchorBlock() {
         super(null, true);
     }
 
     @Override
     public ITextComponent getNameTextComponent() {
-        return new TextComponentTranslation("block.silentgems.teleporter_anchor");
+        return new TranslationTextComponent("block.silentgems.teleporter_anchor");
     }
 }

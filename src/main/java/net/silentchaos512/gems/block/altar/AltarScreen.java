@@ -1,56 +1,55 @@
 package net.silentchaos512.gems.block.altar;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.InventoryPlayer;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 
-public class AltarGui extends GuiContainer {
+public class AltarScreen extends ContainerScreen<AltarContainer> {
     private static final ResourceLocation TEXTURE = SilentGems.getId("textures/gui/altar.png");
 
-    private final InventoryPlayer playerInventory;
-    private final AltarTileEntity altar;
+    private final PlayerInventory playerInventory;
 
-    public AltarGui(InventoryPlayer inventoryPlayer, AltarTileEntity altar) {
-        super(new AltarContainer(inventoryPlayer, altar));
-        this.playerInventory = inventoryPlayer;
-        this.altar = altar;
+    public AltarScreen(AltarContainer container, PlayerInventory playerInventory, ITextComponent title) {
+        super(container, playerInventory, title);
+        this.playerInventory = playerInventory;
     }
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
-        this.drawDefaultBackground();
+        this.renderBackground();
         super.render(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+        if (minecraft == null) return;
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(TEXTURE);
+        minecraft.getTextureManager().bindTexture(TEXTURE);
         int xPos = (this.width - this.xSize) / 2;
         int yPos = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(xPos, yPos, 0, 0, this.xSize, this.ySize);
+        this.blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         // Progress arrow
-        int progress = this.altar.getProgress();
-        int cost = this.altar.getProcessTime();
+        int progress = container.tileEntity.getProgress();
+        int cost = container.tileEntity.getProcessTime();
         int length = cost != 0 && progress > 0 && progress < cost ? progress * 24 / cost : 0;
-        drawTexturedModalRect(xPos + 79, yPos + 34, 176, 14, length + 1, 16);
+        blit(xPos + 79, yPos + 34, 176, 14, length + 1, 16);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        String s = this.altar.getDisplayName().getFormattedText();
-        this.fontRenderer.drawString(s, (float)(this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2), 6.0F, 4210752);
-        this.fontRenderer.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, (float)(this.ySize - 96 + 2), 4210752);
+        this.font.drawString(title.getFormattedText(), (float)(this.xSize / 2 - this.font.getStringWidth(title.getFormattedText()) / 2), 6.0F, 4210752);
+        this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, (float)(this.ySize - 96 + 2), 4210752);
 
         // Chaos generated
-        int chaosGenerated = this.altar.getChaosGenerated();
+        int chaosGenerated = container.tileEntity.getChaosGenerated();
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaosGenerated);
         String text = emissionRate.getEmissionText(chaosGenerated).getFormattedText();
-        fontRenderer.drawString(text, 5, 7 + fontRenderer.FONT_HEIGHT, 4210752);
+        font.drawString(text, 5, 7 + font.FONT_HEIGHT, 4210752);
     }
 }

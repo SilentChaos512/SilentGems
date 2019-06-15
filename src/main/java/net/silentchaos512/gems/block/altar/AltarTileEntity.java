@@ -1,21 +1,28 @@
 package net.silentchaos512.gems.block.altar;
 
 import lombok.Getter;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ITickable;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.crafting.altar.AltarRecipe;
 import net.silentchaos512.gems.crafting.altar.AltarRecipeManager;
 import net.silentchaos512.gems.init.GemsTileEntities;
+import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
 import net.silentchaos512.lib.tile.SyncVariable;
-import net.silentchaos512.lib.tile.TileSidedInventorySL;
 
 import javax.annotation.Nullable;
 
-public class AltarTileEntity extends TileSidedInventorySL implements ITickable {
+public class AltarTileEntity extends LockableSidedInventoryTileEntity implements ITickableTileEntity {
     private static final int INVENTORY_SIZE = 3;
 
     @Getter
@@ -30,12 +37,12 @@ public class AltarTileEntity extends TileSidedInventorySL implements ITickable {
     private int chaosBuffer;
 
     public AltarTileEntity() {
-        super(GemsTileEntities.TRANSMUTATION_ALTAR.type());
+        super(GemsTileEntities.TRANSMUTATION_ALTAR.type(), INVENTORY_SIZE);
     }
 
     @Override
     public void tick() {
-        if (this.world.isRemote) return;
+        if (world == null || world.isRemote) return;
 
         AltarRecipe recipe = getMatchingRecipe();
         if (recipe != null && hasRoomInOutput(recipe)) {
@@ -60,6 +67,13 @@ public class AltarTileEntity extends TileSidedInventorySL implements ITickable {
         if (this.chaosBuffer > 0 && this.world.getGameTime() % 20 == 0) {
             Chaos.generate(this.world, this.chaosBuffer, this.pos);
             this.chaosBuffer = 0;
+        }
+    }
+
+    private void sendUpdate() {
+        if (world != null) {
+            BlockState state = world.getBlockState(pos);
+            world.notifyBlockUpdate(pos, state, state, 3);
         }
     }
 
@@ -106,23 +120,60 @@ public class AltarTileEntity extends TileSidedInventorySL implements ITickable {
     }
 
     @Override
-    public int getSizeInventory() {
-        return INVENTORY_SIZE;
+    public int[] getSlotsForFace(Direction side) {
+        switch (side) {
+            case UP:
+                return new int[]{0, 1};
+            case DOWN:
+                return new int[]{0, 1, 2};
+            default:
+                return new int[]{0, 1, 2};
+        }
     }
 
     @Override
-    public boolean isEmpty() {
-        return false;
+    public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
+        return index != 2;
     }
 
     @Override
-    public ITextComponent getName() {
-        return new TextComponentTranslation("container.silentgems.transmutation_altar");
+    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+        return index == 2;
     }
 
-    @Nullable
     @Override
-    public ITextComponent getCustomName() {
-        return null;
+    protected ITextComponent getDefaultName() {
+        return new TranslationTextComponent("container.silentgems.transmutation_altar");
+    }
+
+    @Override
+    protected Container createMenu(int p_213906_1_, PlayerInventory p_213906_2_) {
+        return new AltarContainer(p_213906_1_, p_213906_2_, this);
+    }
+
+    @Override
+    public void read(CompoundNBT tags) {
+        super.read(tags);
+        SyncVariable.Helper.readSyncVars(this, tags);
+    }
+
+    @Override
+    public CompoundNBT write(CompoundNBT tags) {
+        super.write(tags);
+        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
+        return tags;
+    }
+
+    @Override
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tags = super.getUpdateTag();
+        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.PACKET);
+        return tags;
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
+        super.onDataPacket(net, packet);
+        SyncVariable.Helper.readSyncVars(this, packet.getNbtCompound());
     }
 }

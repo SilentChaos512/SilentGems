@@ -26,17 +26,20 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.silentchaos512.gems.init.GemsContainers;
 import net.silentchaos512.lib.util.InventoryUtils;
 
 public class SoulUrnContainer extends Container {
-    private final SoulUrnTileEntity tileEntity;
+    final SoulUrnTileEntity tileEntity;
     private final int inventoryRows;
 
     public SoulUrnContainer(int id, PlayerInventory playerInventory) {
         this(id, playerInventory, new SoulUrnTileEntity());
     }
 
+    @SuppressWarnings("OverridableMethodCallDuringObjectConstruction")
     public SoulUrnContainer(int id, PlayerInventory playerInventory, SoulUrnTileEntity tileEntity) {
+        super(GemsContainers.SOUL_URN.type(), id);
         this.tileEntity = tileEntity;
         this.inventoryRows = this.tileEntity.getSizeInventory() / 9;
         int playerSlotsOffset = (this.inventoryRows - 4) * 18;
@@ -49,7 +52,7 @@ public class SoulUrnContainer extends Container {
         }
 
         // Add player/hotbar slots
-        InventoryUtils.createPlayerSlots(playerInventory, 8, 103).forEach(this::addSlot);
+        InventoryUtils.createPlayerSlots(playerInventory, 8, 103 + playerSlotsOffset).forEach(this::addSlot);
     }
 
     @Override

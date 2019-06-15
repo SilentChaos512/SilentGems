@@ -1,13 +1,13 @@
 package net.silentchaos512.gems.block.flowerpot;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.silentchaos512.gems.init.GemsTileEntities;
 import net.silentchaos512.lib.util.TimeUtils;
 
-public class PhantomLightTileEntity extends TileEntity implements ITickable {
+public class PhantomLightTileEntity extends TileEntity implements ITickableTileEntity {
     private static final int SPAWNER_CHECK_FREQUENCY = TimeUtils.ticksFromSeconds(60);
 
     private BlockPos spawnerPos = null;
@@ -22,7 +22,7 @@ public class PhantomLightTileEntity extends TileEntity implements ITickable {
     public void tick() {
         if (!world.isRemote && ++ticksExisted % SPAWNER_CHECK_FREQUENCY == 0) {
             if (shouldRemove()) {
-                world.removeBlock(this.pos);
+                world.removeBlock(this.pos, false);
             }
         }
     }
@@ -44,7 +44,7 @@ public class PhantomLightTileEntity extends TileEntity implements ITickable {
     }
 
     @Override
-    public void read(NBTTagCompound compound) {
+    public void read(CompoundNBT compound) {
         super.read(compound);
         spawnerPos = new BlockPos(
                 compound.getInt("spawnerX"),
@@ -54,7 +54,7 @@ public class PhantomLightTileEntity extends TileEntity implements ITickable {
     }
 
     @Override
-    public NBTTagCompound write(NBTTagCompound compound) {
+    public CompoundNBT write(CompoundNBT compound) {
         super.write(compound);
         compound.putInt("spawnerX", spawnerPos != null ? spawnerPos.getX() : 0);
         compound.putInt("spawnerY", spawnerPos != null ? spawnerPos.getY() : 0);

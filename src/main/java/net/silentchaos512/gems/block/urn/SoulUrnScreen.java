@@ -1,5 +1,5 @@
 /*
- * Silent's Gems -- GuiSoulUrn
+ * Silent's Gems -- SoulUrnScreen
  * Copyright (C) 2018 SilentChaos512
  *
  * This library is free software; you can redistribute it and/or
@@ -18,50 +18,47 @@
 
 package net.silentchaos512.gems.block.urn;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.InventoryPlayer;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
-public class GuiSoulUrn extends GuiContainer {
+public class SoulUrnScreen extends ContainerScreen<SoulUrnContainer> {
     // TODO: Change this
     private static final ResourceLocation TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
 
-    private final SoulUrnTileEntity tileEntity;
-    private final InventoryPlayer playerInventory;
+    private final PlayerInventory playerInventory;
     private final int inventoryRows;
 
-    public GuiSoulUrn(InventoryPlayer playerInventory, SoulUrnTileEntity tileEntity) {
-        super(new SoulUrnContainer(playerInventory, tileEntity));
-        this.tileEntity = tileEntity;
+    public SoulUrnScreen(SoulUrnContainer container, PlayerInventory playerInventory, ITextComponent title) {
+        super(container, playerInventory, title);
         this.playerInventory = playerInventory;
-        this.inventoryRows = this.tileEntity.getSizeInventory() / 9;
+        this.inventoryRows = this.container.tileEntity.getSizeInventory() / 9;
         this.ySize = 114 + this.inventoryRows * 18;
     }
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
-        this.drawDefaultBackground();
+        this.renderBackground();
         super.render(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        ITextComponent displayName = this.tileEntity.getDisplayName();
-        this.fontRenderer.drawString(displayName.getFormattedText(), 8, 6, 4210752);
-        this.fontRenderer.drawString(this.playerInventory.getDisplayName().getFormattedText(),
-                8, this.ySize - 96 + 2, 4210752);
+        this.font.drawString(title.getFormattedText(), 8, 6, 4210752);
+        this.font.drawString(playerInventory.getDisplayName().getFormattedText(), 8, this.ySize - 96 + 2, 4210752);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+        if (minecraft == null) return;
         GlStateManager.color4f(1, 1, 1, 1);
-        this.mc.getTextureManager().bindTexture(TEXTURE);
+        minecraft.getTextureManager().bindTexture(TEXTURE);
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.inventoryRows * 18 + 17);
-        this.drawTexturedModalRect(i, j + this.inventoryRows * 18 + 17, 0, 126, this.xSize, 96);
+        blit(i, j, 0, 0, this.xSize, this.inventoryRows * 18 + 17);
+        blit(i, j + this.inventoryRows * 18 + 17, 0, 126, this.xSize, 96);
     }
 }

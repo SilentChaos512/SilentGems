@@ -1,17 +1,17 @@
 package net.silentchaos512.gems.block.flowerpot;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.EnumLightType;
+import net.minecraft.world.LightType;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GlowroseBlock;
 import net.silentchaos512.gems.init.GemsTileEntities;
@@ -20,7 +20,7 @@ import net.silentchaos512.lib.util.TimeUtils;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable {
+public class LuminousFlowerPotTileEntity extends TileEntity implements ITickableTileEntity {
     private static final int TRY_LIGHT_DELAY = TimeUtils.ticksFromSeconds(5);
     private static final int TE_SEARCH_RADIUS = 7;
     private static final String NBT_FLOWER = "PottedFlowerItem";
@@ -111,7 +111,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
 
     private boolean canPlacePhantomLightAt(BlockPos target) {
         // Check that target pos is air and needs more light.
-        if (!world.isAirBlock(target) || world.getLightFor(EnumLightType.BLOCK, target) > 9)
+        if (!world.isAirBlock(target) || world.getLightFor(LightType.BLOCK, target) > 9)
             return false;
 
         // Check for equal tile entities above and below target pos (ie prevent from spawning inside
@@ -150,7 +150,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
         }
     }
 
-    private static IBlockState getLightBlock() {
+    private static BlockState getLightBlock() {
         return PhantomLightBlock.INSTANCE.get().getDefaultState();
     }
 
@@ -176,7 +176,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
     }
 
     @Override
-    public void read(NBTTagCompound tags) {
+    public void read(CompoundNBT tags) {
         if (tags.contains(NBT_FLOWER)) {
             this.flower = ItemStack.read(tags.getCompound(NBT_FLOWER));
         }
@@ -184,7 +184,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
     }
 
     @Override
-    public NBTTagCompound write(NBTTagCompound tags) {
+    public CompoundNBT write(CompoundNBT tags) {
         if (!flower.isEmpty()) {
             tags.put(NBT_FLOWER, flower.serializeNBT());
         }
@@ -192,8 +192,8 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
     }
 
     @Override
-    public NBTTagCompound getUpdateTag() {
-        NBTTagCompound tags = super.getUpdateTag();
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tags = super.getUpdateTag();
         if (!flower.isEmpty()) {
             // Create a copy of just the flower item, ignore any NBT it may have
             tags.put(NBT_FLOWER, new ItemStack(flower.getItem()).serializeNBT());
@@ -203,12 +203,12 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
 
     @Nullable
     @Override
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        return new SPacketUpdateTileEntity(this.pos, 0, getUpdateTag());
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(this.pos, 0, getUpdateTag());
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         if (pkt.getNbtCompound().contains(NBT_FLOWER)) {
             this.flower = ItemStack.read(pkt.getNbtCompound().getCompound(NBT_FLOWER));
         }

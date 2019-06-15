@@ -1,19 +1,19 @@
 package net.silentchaos512.gems.block.teleporter;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
@@ -24,11 +24,11 @@ import net.silentchaos512.gems.lib.Gems;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class GemTeleporter extends Block implements ITileEntityProvider {
+public class GemTeleporterBlock extends Block implements ITileEntityProvider {
     @Nullable final Gems gem;
     private final boolean isAnchor;
 
-    public GemTeleporter(@Nullable Gems gem, boolean isAnchor) {
+    public GemTeleporterBlock(@Nullable Gems gem, boolean isAnchor) {
         super(Properties.create(Material.IRON)
                 .hardnessAndResistance(15, 2000)
                 .sound(SoundType.METAL));
@@ -52,11 +52,12 @@ public class GemTeleporter extends Block implements ITileEntityProvider {
     @Override
     public ITextComponent getNameTextComponent() {
         if (this.gem == null) return super.getNameTextComponent();
-        return new TextComponentTranslation("block.silentgems.teleporter", this.gem.getDisplayName());
+        return new TranslationTextComponent("block.silentgems.teleporter", this.gem.getDisplayName());
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public boolean onBlockActivated(IBlockState state, World world, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         ItemStack heldItem = player.getHeldItem(hand);
         boolean holdingLinker = !heldItem.isEmpty() && heldItem.getItem() == TeleporterLinkerItem.INSTANCE.get();
         boolean holdingReturnHome = !heldItem.isEmpty() && heldItem.getItem() instanceof ReturnHomeCharmItem;

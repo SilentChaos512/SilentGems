@@ -14,8 +14,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
-import net.silentchaos512.gems.block.teleporter.GemTeleporter;
-import net.silentchaos512.gems.block.teleporter.GemTeleporterRedstone;
+import net.silentchaos512.gems.block.teleporter.GemTeleporterBlock;
+import net.silentchaos512.gems.block.teleporter.RedstoneGemTeleporterBlock;
 import net.silentchaos512.gems.item.ChaosGemItem;
 import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.item.GemShardItem;
@@ -90,8 +90,8 @@ public enum Gems implements IStringSerializable {
     final Lazy<GemLampBlock> lampLit;
     final Lazy<GemLampBlock> lampInvertedLit;
     final Lazy<GemLampBlock> lampInvertedUnlit;
-    final Lazy<GemTeleporter> teleporter;
-    final Lazy<GemTeleporterRedstone> redstoneTeleporter;
+    final Lazy<GemTeleporterBlock> teleporter;
+    final Lazy<RedstoneGemTeleporterBlock> redstoneTeleporter;
     final Lazy<GlowroseBlock> glowrose;
     final Lazy<FlowerPotBlock> pottedGlowrose;
 
@@ -121,8 +121,8 @@ public enum Gems implements IStringSerializable {
         this.lampLit = Lazy.of(() -> new GemLampBlock(this, GemLampBlock.State.LIT));
         this.lampInvertedLit = Lazy.of(() -> new GemLampBlock(this, GemLampBlock.State.INVERTED_LIT));
         this.lampInvertedUnlit = Lazy.of(() -> new GemLampBlock(this, GemLampBlock.State.INVERTED_UNLIT));
-        this.teleporter = Lazy.of(() -> new GemTeleporter(this, false));
-        this.redstoneTeleporter = Lazy.of(() -> new GemTeleporterRedstone(this, false));
+        this.teleporter = Lazy.of(() -> new GemTeleporterBlock(this, false));
+        this.redstoneTeleporter = Lazy.of(() -> new RedstoneGemTeleporterBlock(this, false));
         this.glowrose = Lazy.of(() -> new GlowroseBlock(this));
         this.pottedGlowrose = Lazy.of(() -> new PottedGlowroseBlock(this.glowrose.get()));
 
@@ -257,11 +257,11 @@ public enum Gems implements IStringSerializable {
         return pottedGlowrose.get();
     }
 
-    public GemTeleporter getTeleporter() {
+    public GemTeleporterBlock getTeleporter() {
         return teleporter.get();
     }
 
-    public GemTeleporterRedstone getRedstoneTeleporter() {
+    public RedstoneGemTeleporterBlock getRedstoneTeleporter() {
         return redstoneTeleporter.get();
     }
 

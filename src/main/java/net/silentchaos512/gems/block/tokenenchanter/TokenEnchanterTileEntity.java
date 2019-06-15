@@ -1,28 +1,36 @@
 package net.silentchaos512.gems.block.tokenenchanter;
 
 import lombok.Getter;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipe;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
 import net.silentchaos512.gems.init.GemsTileEntities;
+import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
 import net.silentchaos512.lib.tile.SyncVariable;
-import net.silentchaos512.lib.tile.TileSidedInventorySL;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.stream.IntStream;
 
-public class TokenEnchanterTileEntity extends TileSidedInventorySL implements ITickable {
+// TODO: Can we implement IRecipeHolder, IRecipeHelperPopulator?
+public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity implements ITickableTileEntity {
     private static final int INVENTORY_SIZE = 1 + 6 + 1;
+    private static final int[] SLOTS_INPUT = IntStream.range(0, 7).toArray();
+    private static final int[] SLOTS_OUTPUT = {7};
+    private static final int[] SLOTS_ALL = IntStream.range(0, 8).toArray();
 
     @Getter
     @SyncVariable(name = "Progress")
@@ -36,12 +44,12 @@ public class TokenEnchanterTileEntity extends TileSidedInventorySL implements IT
     private int chaosBuffer;
 
     public TokenEnchanterTileEntity() {
-        super(GemsTileEntities.TOKEN_ENCHANTER.type());
+        super(GemsTileEntities.TOKEN_ENCHANTER.type(), INVENTORY_SIZE);
     }
 
     @Override
     public void tick() {
-        if (this.world.isRemote) return;
+        if (world == null || world.isRemote) return;
 
         TokenEnchanterRecipe recipe = getMatchingRecipe();
         if (recipe != null && hasRoomInOutput(recipe)) {
@@ -65,6 +73,13 @@ public class TokenEnchanterTileEntity extends TileSidedInventorySL implements IT
         if (this.chaosBuffer > 0 && this.world.getGameTime() % 20 == 0) {
             Chaos.generate(this.world, this.chaosBuffer, this.pos);
             this.chaosBuffer = 0;
+        }
+    }
+
+    private void sendUpdate() {
+        if (world != null) {
+            BlockState state = world.getBlockState(pos);
+            world.notifyBlockUpdate(pos, state, state, 3);
         }
     }
 
@@ -132,29 +147,61 @@ public class TokenEnchanterTileEntity extends TileSidedInventorySL implements IT
     }
 
     @Override
-    public int getSizeInventory() {
-        return INVENTORY_SIZE;
+    protected ITextComponent getDefaultName() {
+        return new TranslationTextComponent("container.silentgems.token_enchanter");
     }
 
     @Override
-    public boolean isEmpty() {
-        return false;
+    protected Container createMenu(int p_213906_1_, PlayerInventory p_213906_2_) {
+        return new TokenEnchanterContainer(p_213906_1_, p_213906_2_, this);
+    }
+
+    @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+    @Override
+    public int[] getSlotsForFace(Direction side) {
+        switch (side) {
+            case UP:
+                return SLOTS_INPUT;
+            case DOWN:
+                return SLOTS_ALL;
+            default:
+                return SLOTS_ALL;
+        }
     }
 
     @Override
-    public ITextComponent getName() {
-        return new TextComponentTranslation("container.silentgems.token_enchanter");
+    public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
+        return index < INVENTORY_SIZE - 1;
     }
 
-    @Nullable
     @Override
-    public ITextComponent getCustomName() {
-        return null;
+    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+        return index == INVENTORY_SIZE - 1;
     }
 
-    @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable EnumFacing side) {
-        return super.getCapability(cap, side);
+    public void read(CompoundNBT tags) {
+        super.read(tags);
+        SyncVariable.Helper.readSyncVars(this, tags);
+    }
+
+    @Override
+    public CompoundNBT write(CompoundNBT tags) {
+        super.write(tags);
+        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
+        return tags;
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
+        super.onDataPacket(net, packet);
+        SyncVariable.Helper.readSyncVars(this, packet.getNbtCompound());
+    }
+
+    @Override
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tags = super.getUpdateTag();
+        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.PACKET);
+        return tags;
     }
 }

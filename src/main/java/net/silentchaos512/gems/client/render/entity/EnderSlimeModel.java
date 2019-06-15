@@ -5,11 +5,11 @@ import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.entity.EnderSlimeEntity;
 
-public class ModelEnderSlime extends EntityModel<EnderSlimeEntity> {
+public class EnderSlimeModel extends EntityModel<EnderSlimeEntity> {
     private final RendererModel[] segments = new RendererModel[8];
     private final RendererModel core;
 
-    public ModelEnderSlime() {
+    public EnderSlimeModel() {
         for (int i = 0; i < this.segments.length; ++i) {
             int j = 0;
             int k = i;

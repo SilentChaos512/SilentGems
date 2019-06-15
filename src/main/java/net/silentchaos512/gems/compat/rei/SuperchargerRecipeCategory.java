@@ -1,30 +1,12 @@
 package net.silentchaos512.gems.compat.rei;
 
-import me.shedaniel.rei.api.RecipeCategory;
-import me.shedaniel.rei.gui.widget.IWidget;
-import me.shedaniel.rei.gui.widget.ItemSlotWidget;
-import me.shedaniel.rei.gui.widget.RecipeBaseWidget;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
-import net.silentchaos512.gems.block.supercharger.SuperchargerTileEntity;
 
-import java.awt.*;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.function.Supplier;
-
-public class SuperchargerRecipeCategory implements RecipeCategory<SuperchargerRecipeDisplay> {
+public class SuperchargerRecipeCategory /*implements RecipeCategory<SuperchargerRecipeDisplay>*/ {
     private static final ResourceLocation DISPLAY_TEXTURE = SilentGems.getId("textures/gui/recipe_display.png");
 
-    @Override
+    /*@Override
     public ResourceLocation getLocation() {
         return ReiPluginGems.SUPERCHARGING;
     }
@@ -69,5 +51,5 @@ public class SuperchargerRecipeCategory implements RecipeCategory<SuperchargerRe
         int chaosGenerated = SuperchargerTileEntity.getEmissionRate(3, recipeDisplaySupplier.get().getTier());
         widgets.add(new ChaosEmissionLabelWidget(x, startPoint.y + 38, chaosGenerated));
         return widgets;
-    }
+    }*/
 }
