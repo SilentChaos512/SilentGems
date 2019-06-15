@@ -8,7 +8,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.resources.IResource;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourceManagerReloadListener;
-import net.minecraft.util.JsonUtils;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import org.apache.commons.io.IOUtils;
@@ -46,7 +46,7 @@ public final class TokenEnchanterRecipeManager implements IResourceManagerReload
                 ResourceLocation name = new ResourceLocation(id.getNamespace(), path);
                 SilentGems.LOGGER.debug(MARKER, "Found likely token enchanter recipe: {}, trying to read as {}", id, name);
 
-                JsonObject json = JsonUtils.fromJson(gson, IOUtils.toString(iresource.getInputStream(), StandardCharsets.UTF_8), JsonObject.class);
+                JsonObject json = JSONUtils.fromJson(gson, IOUtils.toString(iresource.getInputStream(), StandardCharsets.UTF_8), JsonObject.class);
                 if (json == null) {
                     SilentGems.LOGGER.error(MARKER, "Could not load token enchanter recipe {} as it's null or empty", name);
                 } else {

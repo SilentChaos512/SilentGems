@@ -1,7 +1,7 @@
 package net.silentchaos512.gems.lib;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFlowerPot;
+import net.minecraft.block.FlowerPotBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
@@ -10,16 +10,16 @@ import net.minecraft.tags.Tag;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.block.teleporter.GemTeleporter;
 import net.silentchaos512.gems.block.teleporter.GemTeleporterRedstone;
-import net.silentchaos512.gems.item.ChaosGem;
+import net.silentchaos512.gems.item.ChaosGemItem;
 import net.silentchaos512.gems.item.GemItem;
-import net.silentchaos512.gems.item.GemShard;
-import net.silentchaos512.gems.item.ReturnHomeCharm;
+import net.silentchaos512.gems.item.GemShardItem;
+import net.silentchaos512.gems.item.ReturnHomeCharmItem;
 import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
@@ -82,24 +82,24 @@ public enum Gems implements IStringSerializable {
     final int color;
 
     // Blocks
-    final Lazy<GemOre> ore;
+    final Lazy<GemOreBlock> ore;
     final Lazy<GemBlock> block;
-    final Lazy<GemBricks> bricks;
-    final Lazy<GemGlass> glass;
-    final Lazy<GemLamp> lampUnlit;
-    final Lazy<GemLamp> lampLit;
-    final Lazy<GemLamp> lampInvertedLit;
-    final Lazy<GemLamp> lampInvertedUnlit;
+    final Lazy<GemBricksBlock> bricks;
+    final Lazy<GemGlassBlock> glass;
+    final Lazy<GemLampBlock> lampUnlit;
+    final Lazy<GemLampBlock> lampLit;
+    final Lazy<GemLampBlock> lampInvertedLit;
+    final Lazy<GemLampBlock> lampInvertedUnlit;
     final Lazy<GemTeleporter> teleporter;
     final Lazy<GemTeleporterRedstone> redstoneTeleporter;
-    final Lazy<Glowrose> glowrose;
-    final Lazy<BlockFlowerPot> pottedGlowrose;
+    final Lazy<GlowroseBlock> glowrose;
+    final Lazy<FlowerPotBlock> pottedGlowrose;
 
     // Items
     final Lazy<GemItem> item;
-    final Lazy<GemShard> shard;
-    final Lazy<ReturnHomeCharm> returnHomeCharm;
-    final Lazy<ChaosGem> chaosGem;
+    final Lazy<GemShardItem> shard;
+    final Lazy<ReturnHomeCharmItem> returnHomeCharm;
+    final Lazy<ChaosGemItem> chaosGem;
 
     // Tags
     final Tag<Block> blockTag;
@@ -113,24 +113,24 @@ public enum Gems implements IStringSerializable {
         this.color = color;
 
         // Blocks
-        this.ore = Lazy.of(() -> new GemOre(this));
+        this.ore = Lazy.of(() -> new GemOreBlock(this));
         this.block = Lazy.of(() -> new GemBlock(this));
-        this.bricks = Lazy.of(() -> new GemBricks(this));
-        this.glass = Lazy.of(() -> new GemGlass(this));
-        this.lampUnlit = Lazy.of(() -> new GemLamp(this, GemLamp.State.UNLIT));
-        this.lampLit = Lazy.of(() -> new GemLamp(this, GemLamp.State.LIT));
-        this.lampInvertedLit = Lazy.of(() -> new GemLamp(this, GemLamp.State.INVERTED_LIT));
-        this.lampInvertedUnlit = Lazy.of(() -> new GemLamp(this, GemLamp.State.INVERTED_UNLIT));
+        this.bricks = Lazy.of(() -> new GemBricksBlock(this));
+        this.glass = Lazy.of(() -> new GemGlassBlock(this));
+        this.lampUnlit = Lazy.of(() -> new GemLampBlock(this, GemLampBlock.State.UNLIT));
+        this.lampLit = Lazy.of(() -> new GemLampBlock(this, GemLampBlock.State.LIT));
+        this.lampInvertedLit = Lazy.of(() -> new GemLampBlock(this, GemLampBlock.State.INVERTED_LIT));
+        this.lampInvertedUnlit = Lazy.of(() -> new GemLampBlock(this, GemLampBlock.State.INVERTED_UNLIT));
         this.teleporter = Lazy.of(() -> new GemTeleporter(this, false));
         this.redstoneTeleporter = Lazy.of(() -> new GemTeleporterRedstone(this, false));
-        this.glowrose = Lazy.of(() -> new Glowrose(this));
-        this.pottedGlowrose = Lazy.of(() -> new PottedGlowrose(this.glowrose.get()));
+        this.glowrose = Lazy.of(() -> new GlowroseBlock(this));
+        this.pottedGlowrose = Lazy.of(() -> new PottedGlowroseBlock(this.glowrose.get()));
 
         // Items
         this.item = Lazy.of(() -> new GemItem(this));
-        this.shard = Lazy.of(() -> new GemShard(this));
-        this.returnHomeCharm = Lazy.of(() -> new ReturnHomeCharm(this));
-        this.chaosGem = Lazy.of(() -> new ChaosGem(this));
+        this.shard = Lazy.of(() -> new GemShardItem(this));
+        this.returnHomeCharm = Lazy.of(() -> new ReturnHomeCharmItem(this));
+        this.chaosGem = Lazy.of(() -> new ChaosGemItem(this));
 
         // Tags
         this.blockTag = new BlockTags.Wrapper(new ResourceLocation("forge", "storage_blocks/" + this.getName()));
@@ -152,7 +152,7 @@ public enum Gems implements IStringSerializable {
     }
 
     public ITextComponent getDisplayName() {
-        return new TextComponentTranslation("gem.silentgems." + this.getName());
+        return new TranslationTextComponent("gem.silentgems." + this.getName());
     }
 
     /**
@@ -226,34 +226,34 @@ public enum Gems implements IStringSerializable {
         return block.get();
     }
 
-    public GemBricks getBricks() {
+    public GemBricksBlock getBricks() {
         return bricks.get();
     }
 
-    public GemGlass getGlass() {
+    public GemGlassBlock getGlass() {
         return glass.get();
     }
 
-    public GemLamp getLamp(GemLamp.State state) {
-        if (state == GemLamp.State.UNLIT) return lampUnlit.get();
-        if (state == GemLamp.State.LIT) return lampLit.get();
-        if (state == GemLamp.State.INVERTED_LIT) return lampInvertedLit.get();
-        if (state == GemLamp.State.INVERTED_UNLIT) return lampInvertedUnlit.get();
-        throw new IllegalArgumentException("Unknown GemLamp.State: " + state);
+    public GemLampBlock getLamp(GemLampBlock.State state) {
+        if (state == GemLampBlock.State.UNLIT) return lampUnlit.get();
+        if (state == GemLampBlock.State.LIT) return lampLit.get();
+        if (state == GemLampBlock.State.INVERTED_LIT) return lampInvertedLit.get();
+        if (state == GemLampBlock.State.INVERTED_UNLIT) return lampInvertedUnlit.get();
+        throw new IllegalArgumentException("Unknown GemLampBlock.State: " + state);
     }
 
     /**
      * @return The gem ore block.
      */
-    public GemOre getOre() {
+    public GemOreBlock getOre() {
         return ore.get();
     }
 
-    public Glowrose getGlowrose() {
+    public GlowroseBlock getGlowrose() {
         return glowrose.get();
     }
 
-    public BlockFlowerPot getPottedGlowrose() {
+    public FlowerPotBlock getPottedGlowrose() {
         return pottedGlowrose.get();
     }
 
@@ -291,15 +291,15 @@ public enum Gems implements IStringSerializable {
     /**
      * @return The gem shard (nugget) item.
      */
-    public GemShard getShard() {
+    public GemShardItem getShard() {
         return shard.get();
     }
 
-    public ReturnHomeCharm getReturnHomeCharm() {
+    public ReturnHomeCharmItem getReturnHomeCharm() {
         return returnHomeCharm.get();
     }
 
-    public ChaosGem getChaosGem() {
+    public ChaosGemItem getChaosGem() {
         return chaosGem.get();
     }
 
@@ -311,12 +311,12 @@ public enum Gems implements IStringSerializable {
         CLASSIC(0), DARK(16), LIGHT(32); // Overworld, Nether, and the End
 
         private final int startMeta; // TODO: Should probably do away with this... but works for now
-        private final MultiGemOre multiOre;
+        private final MultiGemOreBlock multiOre;
         private final Collection<Gems> gems = new ArrayList<>();
 
         Set(int startMeta) {
             this.startMeta = startMeta;
-            multiOre = new MultiGemOre(this);
+            multiOre = new MultiGemOreBlock(this);
         }
 
         public static Set forDimension(int dimension) {
@@ -325,7 +325,7 @@ public enum Gems implements IStringSerializable {
             return CLASSIC;
         }
 
-        public MultiGemOre getMultiOre() {
+        public MultiGemOreBlock getMultiOre() {
             return multiOre;
         }
 
@@ -339,8 +339,8 @@ public enum Gems implements IStringSerializable {
         }
 
         public ITextComponent getDisplayName() {
-            TextComponentTranslation textSet = new TextComponentTranslation("gem.silentgems.set." + getName());
-            return new TextComponentTranslation("gem.silentgems.set", textSet).applyTextStyle(TextFormatting.ITALIC);
+            TranslationTextComponent textSet = new TranslationTextComponent("gem.silentgems.set." + getName());
+            return new TranslationTextComponent("gem.silentgems.set", textSet).applyTextStyle(TextFormatting.ITALIC);
         }
 
         @Override

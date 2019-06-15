@@ -2,6 +2,7 @@ package net.silentchaos512.gems.block.teleporter;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.command.ICommandSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,16 +16,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.DimensionType;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.chaos.Chaos;
-import net.silentchaos512.gems.init.ModTileEntities;
-import net.silentchaos512.gems.item.ReturnHomeCharm;
-import net.silentchaos512.gems.item.TeleporterLinker;
+import net.silentchaos512.gems.init.GemsTileEntities;
+import net.silentchaos512.gems.item.ReturnHomeCharmItem;
+import net.silentchaos512.gems.item.TeleporterLinkerItem;
 import net.silentchaos512.gems.util.TeleportUtil;
 import net.silentchaos512.lib.util.DimPos;
 import org.apache.logging.log4j.Marker;
@@ -43,7 +44,7 @@ public class GemTeleporterTileEntity extends TileEntity {
     }
 
     public GemTeleporterTileEntity(boolean isAnchor) {
-        super(ModTileEntities.TELEPORTER.type());
+        super(GemsTileEntities.TELEPORTER.type());
         this.isAnchor = isAnchor;
     }
 
@@ -54,15 +55,13 @@ public class GemTeleporterTileEntity extends TileEntity {
     @Override
     public void read(NBTTagCompound tags) {
         super.read(tags);
-
-        destination = DimPos.read(tags);
+        tryReadDestination(tags);
         isAnchor = tags.getBoolean("IsAnchor");
     }
 
     @Override
     public NBTTagCompound write(NBTTagCompound tags) {
         super.write(tags);
-
         if (this.isDestinationSet()) {
             destination.write(tags);
         }
@@ -72,10 +71,7 @@ public class GemTeleporterTileEntity extends TileEntity {
 
     @Override
     public SPacketUpdateTileEntity getUpdatePacket() {
-        NBTTagCompound tags = new NBTTagCompound();
-        if (this.isDestinationSet()) {
-            destination.write(tags);
-        }
+        NBTTagCompound tags = getUpdateTag();
         return new SPacketUpdateTileEntity(pos, 0, tags);
     }
 
@@ -90,16 +86,38 @@ public class GemTeleporterTileEntity extends TileEntity {
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        this.destination = DimPos.read(packet.getNbtCompound());
+        tryReadDestination(packet.getNbtCompound());
+    }
+
+    @Override
+    public void handleUpdateTag(NBTTagCompound tag) {
+        super.handleUpdateTag(tag);
+        tryReadDestination(tag);
+    }
+
+    @Override
+    public void markDirty() {
+        super.markDirty();
+        if (world != null && !world.isRemote) {
+            IBlockState state = world.getBlockState(pos);
+            world.notifyBlockUpdate(pos, state, state, 3);
+        }
+    }
+
+    private void tryReadDestination(NBTTagCompound tag) {
+        DimPos dimPos = DimPos.read(tag);
+        if (!dimPos.equals(DimPos.ZERO)) {
+            this.destination = dimPos;
+        }
     }
 
     public boolean interact(EntityPlayer player, ItemStack heldItem, EnumHand hand) {
         // Link teleporters
-        if (!heldItem.isEmpty() && heldItem.getItem() == TeleporterLinker.INSTANCE.get()) {
+        if (!heldItem.isEmpty() && heldItem.getItem() == TeleporterLinkerItem.INSTANCE.get()) {
             return linkTeleporters(player, this.world, this.pos, heldItem, hand);
         }
         // Link a return home charm
-        if (!heldItem.isEmpty() && heldItem.getItem() instanceof ReturnHomeCharm) {
+        if (!heldItem.isEmpty() && heldItem.getItem() instanceof ReturnHomeCharmItem) {
             return linkReturnHomeCharm(player, this.world, this.pos, heldItem, hand);
         }
         // Anchors do not teleport
@@ -107,48 +125,63 @@ public class GemTeleporterTileEntity extends TileEntity {
             return false;
         }
         // Teleport away!
-        return tryTeleportPlayer(player);
+        return tryTeleport(player, true);
     }
 
-    private boolean tryTeleportPlayer(EntityPlayer player) {
+    public boolean tryTeleport(Entity entity, boolean playSfx) {
         // Destination set?
         if (!this.isDestinationSet()) {
-            player.sendMessage(new TextComponentTranslation("teleporter.silentgems.noDestination"));
+            sendMessage(entity, "noDestination");
             return true;
         }
 
         // Safety checks before teleporting:
-        if (!this.isDestinationSane(player)) {
-            player.sendMessage(new TextComponentTranslation("teleporter.silentgems.notSane"));
+        if (!this.isDestinationSane(entity)) {
+            sendMessage(entity, "notSane");
             return true;
         }
-        if (!this.isDestinationSafe(player)) {
-            player.sendMessage(new TextComponentTranslation("teleporter.silentgems.notSafe"));
+        if (!this.isDestinationSafe(entity)) {
+            sendMessage(entity, "notSafe");
             return true;
         }
-        if (!this.isDestinationAllowedIfDumb(player)) {
-            player.sendMessage(new TextComponentTranslation("teleporter.silentgems.noReceiver"));
+        if (!this.isDestinationAllowedIfDumb(entity)) {
+            sendMessage(entity, "noReceiver");
             return true;
         }
 
         // Teleport player
-        float pitch = 0.7f + 0.3f * SilentGems.random.nextFloat();
-        world.playSound(null, this.pos, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0f, pitch);
-        int chaosGenerated = getChaosGenerated(player);
-        if (this.teleportEntityToDestination(player)) {
-            Chaos.generate(player, chaosGenerated, true);
+        int chaosGenerated = getChaosGenerated(entity);
+        if (this.teleportEntityToDestination(entity) && chaosGenerated > 0) {
+            generateChaos(entity, chaosGenerated);
         }
-        world.playSound(null, this.destination.getPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0f, pitch);
+
+        // Effects
+        if (playSfx) {
+            playSound();
+        }
 
         return true;
     }
 
-    private boolean linkReturnHomeCharm(EntityPlayer player, World world, BlockPos pos, ItemStack heldItem, EnumHand hand) {
+    public void playSound() {
+        float pitch = 0.7f + 0.3f * SilentGems.random.nextFloat();
+        world.playSound(null, this.pos, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0f, pitch);
+        world.playSound(null, this.destination.getPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0f, pitch);
+    }
+
+    private static void sendMessage(ICommandSource entity, String key) {
+        if (entity instanceof EntityPlayer) {
+            ITextComponent text = new TextComponentTranslation("teleporter.silentgems." + key);
+            entity.sendMessage(text);
+        }
+    }
+
+    private static boolean linkReturnHomeCharm(EntityPlayer player, World world, BlockPos pos, ItemStack heldItem, EnumHand hand) {
         if (world.isRemote) return true;
 
         DimPos position = DimPos.of(pos, player.dimension.getId());
         position.write(heldItem.getOrCreateTag());
-        player.sendMessage(new TextComponentTranslation("teleporter.silentgems.returnHomeBound"));
+        sendMessage(player, "returnHomeBound");
         if (player instanceof EntityPlayerMP) {
             CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos, heldItem);
         }
@@ -160,14 +193,14 @@ public class GemTeleporterTileEntity extends TileEntity {
             return true;
         }
 
-        if (heldItem.isEmpty() || heldItem.getItem() != TeleporterLinker.INSTANCE.get()) {
+        if (heldItem.isEmpty() || heldItem.getItem() != TeleporterLinkerItem.INSTANCE.get()) {
             SilentGems.LOGGER.warn("GemTeleporterTileEntity.linkTeleporters: heldItem is not a linker?");
             return false;
         }
 
-        if (TeleporterLinker.isLinked(heldItem)) {
+        if (TeleporterLinkerItem.isLinked(heldItem)) {
             // Active state: link teleporters and set inactive.
-            DimPos position1 = TeleporterLinker.getLinkedPosition(heldItem);
+            DimPos position1 = TeleporterLinkerItem.getLinkedPosition(heldItem);
             DimPos position2 = DimPos.of(pos, player.dimension.getId());
 
             if (DimPos.ZERO.equals(position1)) {
@@ -180,30 +213,32 @@ public class GemTeleporterTileEntity extends TileEntity {
 
             if (tile1 == null || tile2 == null) {
                 // Could not find a teleporter?
-                player.sendMessage(new TextComponentTranslation("teleporter.silentgems.linkFail"));
+                sendMessage(player, "linkFail");
                 SilentGems.LOGGER.warn("Could not find teleporter when linking:");
                 SilentGems.LOGGER.warn("Teleporter1 @ {}", position1);
                 SilentGems.LOGGER.warn("Teleporter1 @ {}", position2);
-                TeleporterLinker.setLinked(heldItem, false);
+                TeleporterLinkerItem.setLinked(heldItem, false);
                 return false;
             }
 
             // Create "link"
             tile1.destination = position2;
             tile2.destination = position1;
-            player.sendMessage(new TextComponentTranslation("teleporter.silentgems.linkSuccess"));
-            TeleporterLinker.setLinked(heldItem, false);
+            SilentGems.LOGGER.debug("Teleporter1: {}", tile1.destination);
+            SilentGems.LOGGER.debug("Teleporter2: {}", tile2.destination);
+            TeleporterLinkerItem.setLinked(heldItem, false);
             tile1.markDirty();
             tile2.markDirty();
+            sendMessage(player, "linkSuccess");
 
             if (player instanceof EntityPlayerMP) {
                 CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos, heldItem);
             }
         } else {
             // Inactive state: set active and location.
-            TeleporterLinker.setLinkedPosition(heldItem, DimPos.of(pos, player.dimension.getId()));
-            TeleporterLinker.setLinked(heldItem, true);
-            player.sendMessage(new TextComponentTranslation("teleporter.silentgems.linkStart"));
+            TeleporterLinkerItem.setLinkedPosition(heldItem, DimPos.of(pos, player.dimension.getId()));
+            TeleporterLinkerItem.setLinked(heldItem, true);
+            sendMessage(player, "linkStart");
         }
 
         return true;
@@ -227,35 +262,35 @@ public class GemTeleporterTileEntity extends TileEntity {
         return server.getWorld(dimensionType);
     }
 
-    @Override
-    public void markDirty() {
-        super.markDirty();
-        Chunk chunk = world.getChunk(pos);
-        IBlockState state = world.getBlockState(pos);
-        world.markAndNotifyBlock(pos, chunk, state, state, 2);
+    private int getChaosGenerated(Entity entity) {
+        return Chaos.getChaosGeneratedByTeleport(entity, this.destination);
     }
 
-    private int getChaosGenerated(EntityPlayer player) {
-        return Chaos.getChaosGeneratedByTeleport(player, this.destination);
+    private static void generateChaos(Entity entity, int amount) {
+        if (entity instanceof EntityPlayer) {
+            Chaos.generate((EntityPlayer) entity, amount, true);
+        } else {
+            Chaos.generate(entity.world, amount, entity.getPosition());
+        }
     }
 
-    private boolean isDestinationSafe(@Nullable EntityPlayer player) {
+    private boolean isDestinationSafe(@Nullable Entity entity) {
         // Check for obstruction at head level. Could use some additional checks maybe...
-        if (player == null || !isDestinationSet()) {
+        if (entity == null || !isDestinationSet()) {
             return true;
         }
-        return TeleportUtil.isDestinationSafe(player, this.destination);
+        return TeleportUtil.isDestinationSafe(entity, this.destination);
     }
 
-    private boolean isDestinationSane(@Nullable EntityPlayer player) {
+    private boolean isDestinationSane(@Nullable Entity entity) {
         // Checks that the given destination makes sense.
-        if (player == null || !isDestinationSet()) {
+        if (entity == null || !isDestinationSet()) {
             return false;
         }
         return destination.getY() >= 0 && destination.getY() < 256;
     }
 
-    private boolean isDestinationAllowedIfDumb(EntityPlayer player) {
+    private boolean isDestinationAllowedIfDumb(Entity player) {
         // Checks for a teleporter at the destination if dumb teleports are not allowed.
 //        if (player == null || GemsConfig.TELEPORTER_ALLOW_DUMB || destination == null
 //                || destination.equals(DimensionalPosition.ZERO)) {
@@ -275,12 +310,7 @@ public class GemTeleporterTileEntity extends TileEntity {
             return false;
         }
 
-        if (entity instanceof EntityPlayerMP) {
-            EntityPlayerMP playerMP = (EntityPlayerMP) entity;
-            WorldServer world = playerMP.getServerWorld();
-            return TeleportUtil.teleportPlayerTo(playerMP, world, destination);
-        } else {
-            return TeleportUtil.teleportEntityTo(entity, destination);
-        }
+        TeleportUtil.teleport(entity, this.destination);
+        return true;
     }
 }

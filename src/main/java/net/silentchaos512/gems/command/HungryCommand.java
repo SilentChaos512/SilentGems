@@ -5,7 +5,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
 
 /**
  * Just here to make testing foods easier.
@@ -18,7 +18,7 @@ public final class HungryCommand {
                 source.hasPermissionLevel(2));
         builder.then(
                 Commands.argument("target", EntityArgument.player()).executes(context -> {
-                    EntityPlayerMP player = EntityArgument.getPlayer(context, "target");
+                    ServerPlayerEntity player = EntityArgument.getPlayer(context, "target");
                     player.getFoodStats().setFoodLevel(2);
                     return 1;
                 })

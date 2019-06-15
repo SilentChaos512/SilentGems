@@ -1,11 +1,10 @@
 package net.silentchaos512.gems.client.key;
 
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.util.InputMappings;
 import net.minecraftforge.client.settings.IKeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
+import net.silentchaos512.lib.client.key.InputUtils;
 import org.apache.commons.lang3.NotImplementedException;
-import org.lwjgl.glfw.GLFW;
 
 public class KeyTracker {
     public static KeyTracker INSTANCE = new KeyTracker();
@@ -33,18 +32,15 @@ public class KeyTracker {
     }
 
     public static boolean isShiftDown() {
-        return InputMappings.isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT)
-                || InputMappings.isKeyDown(GLFW.GLFW_KEY_RIGHT_SHIFT);
+        return InputUtils.isShiftDown();
     }
 
     public static boolean isControlDown() {
-        return InputMappings.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)
-                || InputMappings.isKeyDown(GLFW.GLFW_KEY_RIGHT_CONTROL);
+        return InputUtils.isControlDown();
     }
 
     public static boolean isAltDown() {
-        return InputMappings.isKeyDown(GLFW.GLFW_KEY_LEFT_ALT)
-                || InputMappings.isKeyDown(GLFW.GLFW_KEY_RIGHT_ALT);
+        return InputUtils.isAltDown();
     }
 
     //    @SubscribeEvent

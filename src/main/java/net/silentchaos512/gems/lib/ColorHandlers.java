@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.util.IItemProvider;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.urn.BlockSoulUrn;
+import net.silentchaos512.gems.block.urn.SoulUrnBlock;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.item.*;
 
@@ -25,7 +25,7 @@ public final class ColorHandlers {
             return;
         }
 
-        registerBlocks(colors, BlockSoulUrn::getBlockColor, ModBlocks.soulUrn);
+        registerBlocks(colors, SoulUrnBlock::getBlockColor, ModBlocks.soulUrn);
     }
 
     public static void onItemColors(ColorHandlerEvent.Item event) {
@@ -36,11 +36,11 @@ public final class ColorHandlers {
             return;
         }
 
-        registerItems(colors, BlockSoulUrn::getItemColor, ModBlocks.soulUrn);
-        registerItems(colors, EnchantmentToken::getItemColor, EnchantmentToken.INSTANCE.get());
+        registerItems(colors, SoulUrnBlock::getItemColor, ModBlocks.soulUrn);
+        registerItems(colors, EnchantmentTokenItem::getItemColor, EnchantmentTokenItem.INSTANCE.get());
 
         // Return Home Charm
-        registerItems(colors, ReturnHomeCharm::getColor, Arrays.stream(Gems.values())
+        registerItems(colors, ReturnHomeCharmItem::getColor, Arrays.stream(Gems.values())
                 .map(Gems::getReturnHomeCharm)
                 .toArray(IItemProvider[]::new));
 
@@ -48,7 +48,7 @@ public final class ColorHandlers {
 //        itemColors.register((stack, tintIndex) -> tintIndex == 0 ? ModItems.drawingCompass.getColor(stack).getColor() : 0xFFFFFF, ModItems.drawingCompass);
 
         // Chaos Runes
-        registerItems(colors, ChaosRune::getColor, ChaosRune.INSTANCE.get());
+        registerItems(colors, ChaosRuneItem::getColor, ChaosRuneItem.INSTANCE.get());
 
         // Holding Gem
 //        itemColors.registerItemColorHandler((stack, tintIndex) -> {
@@ -69,7 +69,7 @@ public final class ColorHandlers {
 //        }, ModItems.holdingGem);
 
         // Soul Gems
-        registerItems(colors, SoulGem::getColor, SoulGem.INSTANCE.get());
+        registerItems(colors, SoulGemItem::getColor, SoulGemItem.INSTANCE.get());
 
         // Gear Soul
         registerItems(colors, GearSoulItem::getColor, GearSoulItem.INSTANCE.get());

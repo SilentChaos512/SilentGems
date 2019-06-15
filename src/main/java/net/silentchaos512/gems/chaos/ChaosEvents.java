@@ -1,10 +1,11 @@
 package net.silentchaos512.gems.chaos;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap;
 import net.silentchaos512.gems.SilentGems;
@@ -55,11 +56,13 @@ public final class ChaosEvents {
     }
 
     private static void spawnLightningBolt(Entity entity, World world) {
-        double posX = entity.posX + MathUtils.nextIntInclusive(-64, 64);
-        double posZ = entity.posZ + MathUtils.nextIntInclusive(-64, 64);
-        int height = world.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) posX, (int) posZ);
-        EntityLightningBolt bolt = new EntityLightningBolt(world, posX, height, posZ, false);
-        world.addWeatherEffect(bolt);
+        if (world instanceof ServerWorld) {
+            double posX = entity.posX + MathUtils.nextIntInclusive(-64, 64);
+            double posZ = entity.posZ + MathUtils.nextIntInclusive(-64, 64);
+            int height = world.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) posX, (int) posZ);
+            LightningBoltEntity bolt = new LightningBoltEntity(world, posX, height, posZ, false);
+            ((ServerWorld) world).addLightningBolt(bolt);
+        }
     }
 
     private static void corruptBlocks(Entity entity, World world) {
@@ -70,7 +73,7 @@ public final class ChaosEvents {
         BlockPos pos = new BlockPos(posX, posY, posZ);
         boolean done = false;
         while (pos.getY() > 5 && !done) {
-            IBlockState state = world.getBlockState(pos);
+            BlockState state = world.getBlockState(pos);
             for (CorruptedBlocks corruptedBlocks : CorruptedBlocks.values()) {
                 if (corruptedBlocks.canReplace(state.getBlock())) {
                     makeCorruptedBlockCluster(world, pos, corruptedBlocks);
@@ -83,7 +86,7 @@ public final class ChaosEvents {
 
     private static void makeCorruptedBlockCluster(World world, BlockPos pos, CorruptedBlocks corruptedBlock) {
         SilentGems.LOGGER.debug(MARKER, "corrupted cluster @ {}", pos);
-        IBlockState newState = corruptedBlock.asBlockState();
+        BlockState newState = corruptedBlock.asBlockState();
         world.setBlockState(pos, newState, 3);
         for (int i = 0; i < 40; ++i) {
             BlockPos pos1 = new BlockPos(
@@ -91,7 +94,7 @@ public final class ChaosEvents {
                     pos.getY() + (int) (1.5 * SilentGems.random.nextGaussian()),
                     pos.getZ() + (int) (1.5 * SilentGems.random.nextGaussian())
             );
-            IBlockState target = world.getBlockState(pos1);
+            BlockState target = world.getBlockState(pos1);
             if (corruptedBlock.canReplace(target.getBlock())) {
                 world.setBlockState(pos1, newState, 3);
             }

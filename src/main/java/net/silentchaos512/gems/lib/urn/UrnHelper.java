@@ -19,7 +19,7 @@
 package net.silentchaos512.gems.lib.urn;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.silentchaos512.gems.lib.Gems;
 
 import javax.annotation.Nullable;
@@ -30,7 +30,7 @@ public final class UrnHelper {
     }
 
     public static int getClayColor(ItemStack stack) {
-        NBTTagCompound tags = getData(stack);
+        CompoundNBT tags = getData(stack);
         return tags.contains(UrnConst.NBT_COLOR) ? tags.getInt(UrnConst.NBT_COLOR) : UrnConst.UNDYED_COLOR;
     }
 
@@ -40,7 +40,7 @@ public final class UrnHelper {
 
     @Nullable
     public static Gems getGem(ItemStack stack) {
-        NBTTagCompound tags = getData(stack);
+        CompoundNBT tags = getData(stack);
         if (tags.contains(UrnConst.NBT_GEM)) {
             String str = tags.getString(UrnConst.NBT_GEM);
             for (Gems gem : Gems.values())
@@ -55,7 +55,7 @@ public final class UrnHelper {
     }
 
     public static boolean hasLid(ItemStack stack) {
-        NBTTagCompound tag = getData(stack);
+        CompoundNBT tag = getData(stack);
         return !tag.contains(UrnConst.NBT_LIDDED) || tag.getBoolean(UrnConst.NBT_LIDDED);
     }
 
@@ -67,12 +67,12 @@ public final class UrnHelper {
         setHasLid(stack, !hasLid(stack));
     }
 
-    private static NBTTagCompound getData(ItemStack stack) {
+    private static CompoundNBT getData(ItemStack stack) {
         return stack.getOrCreateChildTag(UrnConst.NBT_ROOT);
     }
 
 //    public static StackList getContainedItems(ItemStack urn) {
-//        NBTTagCompound tags = urn.getOrCreateSubCompound(UrnConst.NBT_ROOT);
+//        CompoundNBT tags = urn.getOrCreateSubCompound(UrnConst.NBT_ROOT);
 //        return StackList.fromNBT(tags.getTagList("Items", 10));
 //    }
 }

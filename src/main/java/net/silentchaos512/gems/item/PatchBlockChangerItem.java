@@ -3,7 +3,7 @@ package net.silentchaos512.gems.item;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.block.CorruptedBlocks;
@@ -49,12 +49,12 @@ public class PatchBlockChangerItem extends Item {
     }
 
     @Override
-    public EnumActionResult onItemUse(ItemUseContext context) {
+    public ActionResultType onItemUse(ItemUseContext context) {
         if (applyToPatch(context.getWorld(), context.getPos())) {
             context.getItem().shrink(1);
-            return EnumActionResult.SUCCESS;
+            return ActionResultType.SUCCESS;
         }
-        return EnumActionResult.PASS;
+        return ActionResultType.PASS;
     }
 
     private boolean applyToPatch(World world, BlockPos pos) {

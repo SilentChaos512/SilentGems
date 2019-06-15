@@ -32,6 +32,7 @@ public final class GemsConfig {
         public final IntValue teleporterChaosCrossDimension;
         public final IntValue teleporterChaosPerBlock;
         public final IntValue teleporterFreeRange;
+        public final IntValue teleporterSearchRadius;
 
         Common(ConfigSpecWrapper wrapper) {
             chaosCoalBurnTime = wrapper
@@ -115,6 +116,11 @@ public final class GemsConfig {
                     .builder("teleporter.chaos.freeRange")
                     .comment("When teleporting this distance or less, no chaos is produced (ignores Y-axis)")
                     .defineInRange(64, 0, Integer.MAX_VALUE);
+            teleporterSearchRadius = wrapper
+                    .builder("teleporter.redstone.searchRadius")
+                    .comment("All entities within this distance of a redstone teleporter will teleport when activated with redstone.",
+                            "Default is 2 blocks, restricted to [1,16]")
+                    .defineInRange(2, 1, 16);
         }
     }
 

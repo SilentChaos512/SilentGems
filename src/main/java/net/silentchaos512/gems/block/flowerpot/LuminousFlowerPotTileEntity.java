@@ -13,8 +13,8 @@ import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumLightType;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.Glowrose;
-import net.silentchaos512.gems.init.ModTileEntities;
+import net.silentchaos512.gems.block.GlowroseBlock;
+import net.silentchaos512.gems.init.GemsTileEntities;
 import net.silentchaos512.lib.util.TimeUtils;
 
 import javax.annotation.Nullable;
@@ -30,7 +30,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
     private boolean plantedGlowrose = false;
 
     public LuminousFlowerPotTileEntity() {
-        super(ModTileEntities.CHAOS_FLOWER_POT.type());
+        super(GemsTileEntities.CHAOS_FLOWER_POT.type());
     }
 
     @Override
@@ -157,8 +157,8 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
     @Deprecated
     public int getFlowerId() {
         Block flowerBlock = Block.getBlockFromItem(flower.getItem());
-        if (!flower.isEmpty() && flowerBlock instanceof Glowrose) {
-            return ((Glowrose) flowerBlock).getGem().ordinal();
+        if (!flower.isEmpty() && flowerBlock instanceof GlowroseBlock) {
+            return ((GlowroseBlock) flowerBlock).getGem().ordinal();
         }
         return -1;
     }
@@ -171,7 +171,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
         if (stack.isEmpty()) return;
 
         this.flower = stack;
-        this.plantedGlowrose = Block.getBlockFromItem(stack.getItem()) instanceof Glowrose;
+        this.plantedGlowrose = Block.getBlockFromItem(stack.getItem()) instanceof GlowroseBlock;
         ticksExisted = 0;
     }
 

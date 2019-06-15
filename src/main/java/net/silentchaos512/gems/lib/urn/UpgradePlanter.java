@@ -19,15 +19,15 @@
 package net.silentchaos512.gems.lib.urn;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.block.urn.TileSoulUrn;
+import net.silentchaos512.gems.block.urn.SoulUrnTileEntity;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public class UpgradePlanter extends UrnUpgrade {
     private int ticks = 0;
 
     @Override
-    public void tickTile(TileSoulUrn.SoulUrnState state, World world, BlockPos pos) {
+    public void tickTile(SoulUrnTileEntity.SoulUrnState state, World world, BlockPos pos) {
 //        if (!state.getLidState().isOpen()) return;
 //
 //        ++ticks;
@@ -60,7 +60,7 @@ public class UpgradePlanter extends UrnUpgrade {
     }
 
     @Override
-    public void tickItem(ItemStack urn, World world, EntityPlayer player, int itemSlot, boolean isSelected) {
+    public void tickItem(ItemStack urn, World world, PlayerEntity player, int itemSlot, boolean isSelected) {
 //        if (!UrnHelper.isLidless(urn)) return;
 //
 //        ++ticks;

@@ -1,16 +1,16 @@
 package net.silentchaos512.gems.item;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -56,7 +56,7 @@ public class DrawingCompass extends Item {
     }
 
     private static BlockPos getBlock(ItemStack stack, int index) {
-        NBTTagCompound tags = stack.getOrCreateChildTag("Block" + index);
+        CompoundNBT tags = stack.getOrCreateChildTag("Block" + index);
         return new BlockPos(tags.getInt("X"), tags.getInt("Y"), tags.getInt("Z"));
     }
 
@@ -69,15 +69,15 @@ public class DrawingCompass extends Item {
     }
 
     private static void setBlock(ItemStack stack, BlockPos pos, int index) {
-        NBTTagCompound tags = stack.getOrCreateChildTag("Block" + index);
+        CompoundNBT tags = stack.getOrCreateChildTag("Block" + index);
         tags.putInt("X", pos.getX());
         tags.putInt("Y", pos.getY());
         tags.putInt("Z", pos.getZ());
     }
 
     private static void clearBlocks(ItemStack stack) {
-        setBlock1(stack, BlockPos.ORIGIN);
-        setBlock2(stack, BlockPos.ORIGIN);
+        setBlock1(stack, BlockPos.ZERO);
+        setBlock2(stack, BlockPos.ZERO);
     }
 
 //    private Color getColor(ItemStack stack) {
@@ -88,21 +88,21 @@ public class DrawingCompass extends Item {
 //    }
 
     private static int getColor(ItemStack stack) {
-        NBTTagCompound tags = stack.getOrCreateTag();
+        CompoundNBT tags = stack.getOrCreateTag();
         if (tags.contains("CompassColor"))
             return tags.getInt("CompassColor");
         return 0xFFFFFF;
     }
 
     @Override
-    public EnumActionResult onItemUse(ItemUseContext context) {
+    public ActionResultType onItemUse(ItemUseContext context) {
         // Only allow changes when in main hand?
 //        if (hand == EnumHand.OFF_HAND) {
 //            return EnumActionResult.PASS;
 //        }
 
         if (context.getWorld().isRemote) {
-            return EnumActionResult.SUCCESS; // Swing on client-side.
+            return ActionResultType.SUCCESS; // Swing on client-side.
         }
 
         ItemStack stack = context.getItem();
@@ -110,8 +110,8 @@ public class DrawingCompass extends Item {
         // Get current state.
         State state = getState(stack);
         BlockPos pos = context.getPos();
-        EnumFacing facing = context.getFace();
-        EntityPlayer player = context.getPlayer();
+        Direction facing = context.getFace();
+        PlayerEntity player = context.getPlayer();
 
         if (state == State.BLOCK1) {
             // Set block 2
@@ -121,7 +121,7 @@ public class DrawingCompass extends Item {
 //            String str = SilentGems.i18n.subText(this, "radius", radius);
 //            ChatHelper.sendMessage(playerIn, str);
             if (player != null) {
-                player.sendMessage(new TextComponentString("radius = " + radius)); // FIXME
+                player.sendMessage(new StringTextComponent("radius = " + radius)); // FIXME
             }
         } else if (state == State.EMPTY) {
             // Set block 1
@@ -129,23 +129,23 @@ public class DrawingCompass extends Item {
         } else if (player != null) {
 //            String str = SilentGems.i18n.subText(this, "howToReset");
 //            ChatHelper.sendMessage(playerIn, str);
-            player.sendMessage(new TextComponentString("howToReset")); // FIXME
+            player.sendMessage(new StringTextComponent("howToReset")); // FIXME
         }
 
-        return EnumActionResult.PASS;
+        return ActionResultType.PASS;
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand hand) {
         ItemStack stack = playerIn.getHeldItem(hand);
-        if (hand == EnumHand.MAIN_HAND && playerIn.isSneaking() && !worldIn.isRemote) {
+        if (hand == Hand.MAIN_HAND && playerIn.isSneaking() && !worldIn.isRemote) {
             clearBlocks(stack);
-            return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+            return new ActionResult<>(ActionResultType.SUCCESS, stack);
         }
-        return new ActionResult<>(EnumActionResult.PASS, stack);
+        return new ActionResult<>(ActionResultType.PASS, stack);
     }
 
-    public boolean spawnParticles(ItemStack stack, EntityPlayer player, World world) {
+    public boolean spawnParticles(ItemStack stack, PlayerEntity player, World world) {
         BlockPos pos1 = getBlock1(stack);
         BlockPos pos2 = getBlock2(stack);
 
@@ -183,7 +183,7 @@ public class DrawingCompass extends Item {
         return true;
     }
 
-    private void particle(EntityPlayer player, World world, int color, double x, double y, double z) {
+    private void particle(PlayerEntity player, World world, int color, double x, double y, double z) {
 //        if (player.getDistanceSq(x, y, z) < 2048) {
 //            SilentGems.proxy.spawnParticles(EnumModParticles.DRAWING_COMPASS, color, world, x, y, z, 0, 0, 0);
 //        }

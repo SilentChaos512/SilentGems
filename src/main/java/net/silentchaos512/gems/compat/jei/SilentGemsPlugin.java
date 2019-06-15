@@ -12,18 +12,18 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
-import net.silentchaos512.gems.block.supercharger.BlockSupercharger;
-import net.silentchaos512.gems.block.supercharger.GuiSupercharger;
+import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
+import net.silentchaos512.gems.block.supercharger.SuperchargerScreen;
 import net.silentchaos512.gems.block.supercharger.SuperchargerPillarStructure;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterGui;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
 import net.silentchaos512.gems.init.ModTags;
-import net.silentchaos512.gems.item.ChaosRune;
+import net.silentchaos512.gems.item.ChaosRuneItem;
 import net.silentchaos512.gems.item.CraftingItems;
-import net.silentchaos512.gems.item.EnchantmentToken;
-import net.silentchaos512.gems.item.SoulGem;
+import net.silentchaos512.gems.item.EnchantmentTokenItem;
+import net.silentchaos512.gems.item.SoulGemItem;
 import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
 import net.silentchaos512.gems.lib.soul.Soul;
 
@@ -101,7 +101,7 @@ public class SilentGemsPlugin implements IModPlugin {
 
         addInfoPage(reg, CraftingItems.ENDER_SLIMEBALL);
         addInfoPage(reg, LuminousFlowerPotBlock.INSTANCE.get());
-        addInfoPage(reg, SoulGem.INSTANCE.get(), Soul.getValues().stream().map(Soul::getSoulGem));
+        addInfoPage(reg, SoulGemItem.INSTANCE.get(), Soul.getValues().stream().map(Soul::getSoulGem));
 
         // Soul urn modify hints
 //        reg.addRecipes(RecipeSoulUrnModify.getExampleRecipes(), VanillaRecipeCategoryUid.CRAFTING);
@@ -111,13 +111,13 @@ public class SilentGemsPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration reg) {
-        reg.addRecipeCatalyst(new ItemStack(BlockSupercharger.INSTANCE.get()), SUPERCHARGING, SUPERCHARGER_PILLAR);
+        reg.addRecipeCatalyst(new ItemStack(SuperchargerBlock.INSTANCE.get()), SUPERCHARGING, SUPERCHARGER_PILLAR);
         reg.addRecipeCatalyst(new ItemStack(TokenEnchanterBlock.INSTANCE.get()), TOKEN_ENCHANTING);
     }
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration reg) {
-        reg.addRecipeClickArea(GuiSupercharger.class, 79, 32, 24, 23, SUPERCHARGING, SUPERCHARGER_PILLAR);
+        reg.addRecipeClickArea(SuperchargerScreen.class, 79, 32, 24, 23, SUPERCHARGING, SUPERCHARGER_PILLAR);
         reg.addRecipeClickArea(TokenEnchanterGui.class, 102, 32, 24, 23, TOKEN_ENCHANTING);
     }
 
@@ -125,20 +125,20 @@ public class SilentGemsPlugin implements IModPlugin {
     public void registerItemSubtypes(ISubtypeRegistration reg) {
         initFailed = true;
         // Enchantment tokens
-        reg.registerSubtypeInterpreter(EnchantmentToken.INSTANCE.get(), stack -> {
-            Enchantment enchantment = EnchantmentToken.getSingleEnchantment(stack);
+        reg.registerSubtypeInterpreter(EnchantmentTokenItem.INSTANCE.get(), stack -> {
+            Enchantment enchantment = EnchantmentTokenItem.getSingleEnchantment(stack);
             return enchantment != null ? enchantment.getName() : "none";
         });
 
         // Chaos Runes
-        reg.registerSubtypeInterpreter(ChaosRune.INSTANCE.get(), stack -> {
-            IChaosBuff buff = ChaosRune.getBuff(stack);
+        reg.registerSubtypeInterpreter(ChaosRuneItem.INSTANCE.get(), stack -> {
+            IChaosBuff buff = ChaosRuneItem.getBuff(stack);
             return buff != null ? buff.getId().toString() : "none";
         });
 
         // Soul Gems
-        reg.registerSubtypeInterpreter(SoulGem.INSTANCE.get(), stack -> {
-            Soul soul = SoulGem.getSoul(stack);
+        reg.registerSubtypeInterpreter(SoulGemItem.INSTANCE.get(), stack -> {
+            Soul soul = SoulGemItem.getSoul(stack);
             return soul != null ? soul.getId().toString() : "none";
         });
 

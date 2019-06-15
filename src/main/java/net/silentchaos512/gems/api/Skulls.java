@@ -1,14 +1,14 @@
 package net.silentchaos512.gems.api;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntityWitherSkeleton;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.monster.SkeletonEntity;
+import net.minecraft.entity.monster.WitherSkeletonEntity;
+import net.minecraft.entity.monster.ZombieEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.silentchaos512.gems.lib.Names;
 
 import java.util.*;
@@ -22,26 +22,26 @@ public final class Skulls {
 
     private Skulls() {}
 
-    private static final Map<Class<? extends EntityLivingBase>, SkullInfo> map = new HashMap<>();
+    private static final Map<Class<? extends LivingEntity>, SkullInfo> map = new HashMap<>();
     private static final List<SkullInfo> mobSkulls = new ArrayList<>();
     private static final List<SkullInfo> playerSkulls = new ArrayList<>();
 
-    public static ItemStack getPlayerSkull(EntityPlayer player) {
+    public static ItemStack getPlayerSkull(PlayerEntity player) {
         return getPlayerSkull(player.getName().getFormattedText());
     }
 
     public static ItemStack getPlayerSkull(String playerName) {
         ItemStack skull = new ItemStack(Items.PLAYER_HEAD);
-        NBTTagCompound tags = skull.getOrCreateTag();
+        CompoundNBT tags = skull.getOrCreateTag();
         tags.putString("SkullOwner", playerName);
         return skull;
     }
 
-    public static ItemStack getSkull(EntityLivingBase entity) {
+    public static ItemStack getSkull(LivingEntity entity) {
         return getSkull(entity.getClass());
     }
 
-    public static ItemStack getSkull(Class<? extends EntityLivingBase> entityClass) {
+    public static ItemStack getSkull(Class<? extends LivingEntity> entityClass) {
         SkullInfo skullInfo = map.get(entityClass);
         if (skullInfo == null) return ItemStack.EMPTY;
         return skullInfo.stack.get();
@@ -64,16 +64,16 @@ public final class Skulls {
         }
     }
 
-    public static float getDropRate(EntityLivingBase entity) {
+    public static float getDropRate(LivingEntity entity) {
         return getDropRate(entity.getClass());
     }
 
-    public static float getDropRate(Class<? extends EntityLivingBase> entityClass) {
+    public static float getDropRate(Class<? extends LivingEntity> entityClass) {
         SkullInfo skullInfo = map.get(entityClass);
         return skullInfo != null ? skullInfo.dropRate : 0;
     }
 
-    public static void put(Class<? extends EntityLivingBase> entityClass, Supplier<ItemStack> skull, float dropRate) {
+    public static void put(Class<? extends LivingEntity> entityClass, Supplier<ItemStack> skull, float dropRate) {
         SkullInfo info = new SkullInfo();
         info.stack = skull;
         info.dropRate = dropRate;
@@ -88,11 +88,11 @@ public final class Skulls {
     }
 
     static {
-        put(EntitySkeleton.class, () -> new ItemStack(Items.SKELETON_SKULL), 0.1f);
-        put(EntityWitherSkeleton.class, () -> new ItemStack(Items.WITHER_SKELETON_SKULL), 0.1f);
-        put(EntityZombie.class, () -> new ItemStack(Items.ZOMBIE_HEAD), 0.1f);
-        put(EntityPlayer.class, () -> new ItemStack(Items.PLAYER_HEAD), 0.5f);
-        put(EntityCreeper.class, () -> new ItemStack(Items.CREEPER_HEAD), 0.05f);
+        put(SkeletonEntity.class, () -> new ItemStack(Items.SKELETON_SKULL), 0.1f);
+        put(WitherSkeletonEntity.class, () -> new ItemStack(Items.WITHER_SKELETON_SKULL), 0.1f);
+        put(ZombieEntity.class, () -> new ItemStack(Items.ZOMBIE_HEAD), 0.1f);
+        put(PlayerEntity.class, () -> new ItemStack(Items.PLAYER_HEAD), 0.5f);
+        put(CreeperEntity.class, () -> new ItemStack(Items.CREEPER_HEAD), 0.05f);
 
         putPlayer(Names.SILENT_CHAOS_512);
         putPlayer(Names.CHAOTIC_PLAYZ);

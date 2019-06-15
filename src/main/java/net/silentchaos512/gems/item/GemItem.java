@@ -4,7 +4,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.init.ModItemGroups;
 import net.silentchaos512.gems.lib.Gems;
@@ -38,6 +38,6 @@ public class GemItem extends Item implements IGem {
 
     @Override
     public ITextComponent getName() {
-        return new TextComponentTranslation("item.silentgems.gem", this.gem.getDisplayName());
+        return new TranslationTextComponent("item.silentgems.gem", this.gem.getDisplayName());
     }
 }

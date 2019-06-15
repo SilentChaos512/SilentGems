@@ -3,7 +3,7 @@ package net.silentchaos512.gems.crafting.ingredient;
 import com.google.gson.JsonObject;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JsonUtils;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
@@ -42,7 +42,7 @@ public class SoulGemIngredient extends Ingredient {
 
         @Override
         public SoulGemIngredient parse(JsonObject json) {
-            String soulIdStr = JsonUtils.getString(json, "soul");
+            String soulIdStr = JSONUtils.getString(json, "soul");
             ResourceLocation soulId = new ResourceLocation(soulIdStr);
             return new SoulGemIngredient(soulId);
         }

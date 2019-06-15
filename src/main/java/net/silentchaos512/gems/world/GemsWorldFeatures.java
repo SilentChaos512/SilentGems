@@ -1,27 +1,30 @@
 package net.silentchaos512.gems.world;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.MinableConfig;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
+import net.minecraft.world.gen.placement.Placement;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.FluffyPuffPlant;
 import net.silentchaos512.gems.block.MiscOres;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.entity.EntityEnderSlime;
+import net.silentchaos512.gems.entity.EnderSlimeEntity;
 import net.silentchaos512.gems.init.ModEntities;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.world.feature.GlowroseFeature;
+import net.silentchaos512.gems.world.feature.SGOreFeature;
+import net.silentchaos512.gems.world.feature.SGOreFeatureConfig;
 import net.silentchaos512.lib.world.feature.PlantFeature;
 import net.silentchaos512.utils.MathUtils;
 
@@ -66,9 +69,10 @@ public final class GemsWorldFeatures {
                 }
 
                 // Spawn glowroses of same type
-                biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createCompositeFlowerFeature(
+                biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(
                         new GlowroseFeature(toAdd),
-                        Biome.SURFACE_PLUS_32,
+                        NoFeatureConfig.NO_FEATURE_CONFIG,
+                        Placement.COUNT_HEIGHTMAP_32,
                         new FrequencyConfig(2)
                 ));
 
@@ -114,8 +118,7 @@ public final class GemsWorldFeatures {
     }
 
     private static void addEnderOre(Biome biome, Random random) {
-        addOre(biome, MiscOres.ENDER.asBlock(), 32, 1, 10, 70, state ->
-                state.getBlock() == Blocks.END_STONE);
+        addOre(biome, MiscOres.ENDER.asBlock(), 32, 1, 10, 70, state -> state.getBlock() == Blocks.END_STONE);
     }
 
     private static void addSilverOre(Biome biome, Random random) {
@@ -133,33 +136,35 @@ public final class GemsWorldFeatures {
     }
 
     private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight) {
-        addOre(biome, block, size, count, minHeight, maxHeight, MinableConfig.IS_ROCK);
+        addOre(biome, block, size, count, minHeight, maxHeight, s -> s.isIn(Tags.Blocks.STONE));
     }
 
-    private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight, Predicate<IBlockState> blockToReplace) {
-        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createCompositeFeature(
-                Feature.MINABLE, new MinableConfig(
-                        blockToReplace,
+    private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight, Predicate<BlockState> blockToReplace) {
+        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
+                SGOreFeature.INSTANCE,
+                new SGOreFeatureConfig(
                         block.getDefaultState(),
-                        size
+                        size,
+                        blockToReplace
                 ),
-                Biome.COUNT_RANGE,
+                Placement.COUNT_RANGE,
                 new CountRangeConfig(count, minHeight, 0, maxHeight)
         ));
     }
 
     private static void addWildFluffyPuffs(Biome biome) {
-        biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createCompositeFlowerFeature(
+        biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(
                 new PlantFeature(FluffyPuffPlant.WILD.get().getMaturePlant(), 32, 6),
-                Biome.SURFACE_PLUS_32,
+                NoFeatureConfig.NO_FEATURE_CONFIG,
+                Placement.COUNT_HEIGHTMAP_32,
                 new FrequencyConfig(1)
         ));
     }
 
-    @SuppressWarnings("unchecked") // cast to EntityType<EntityEnderSlime> is valid
+    @SuppressWarnings("unchecked") // cast to EntityType<EnderSlimeEntity> is valid
     private static void addEnderSlimeSpawns(Biome biome) {
-        EntityType<EntityEnderSlime> type = (EntityType<EntityEnderSlime>) ModEntities.ENDER_SLIME.type();
-        biome.getSpawns(EnumCreatureType.MONSTER).add(new Biome.SpawnListEntry(
+        EntityType<EnderSlimeEntity> type = (EntityType<EnderSlimeEntity>) ModEntities.ENDER_SLIME.type();
+        biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(
                 type,
                 GemsConfig.COMMON.enderSlimeSpawnWeight.get(),
                 GemsConfig.COMMON.enderSlimeGroupSizeMin.get(),

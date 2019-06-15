@@ -13,7 +13,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipe;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
-import net.silentchaos512.gems.init.ModTileEntities;
+import net.silentchaos512.gems.init.GemsTileEntities;
 import net.silentchaos512.lib.tile.SyncVariable;
 import net.silentchaos512.lib.tile.TileSidedInventorySL;
 
@@ -36,7 +36,7 @@ public class TokenEnchanterTileEntity extends TileSidedInventorySL implements IT
     private int chaosBuffer;
 
     public TokenEnchanterTileEntity() {
-        super(ModTileEntities.TOKEN_ENCHANTER.type());
+        super(GemsTileEntities.TOKEN_ENCHANTER.type());
     }
 
     @Override

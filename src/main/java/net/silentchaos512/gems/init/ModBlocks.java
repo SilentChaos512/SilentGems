@@ -3,7 +3,8 @@ package net.silentchaos512.gems.init;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
@@ -14,10 +15,10 @@ import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightBlock;
 import net.silentchaos512.gems.block.pedestal.PedestalBlock;
-import net.silentchaos512.gems.block.supercharger.BlockSupercharger;
+import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
 import net.silentchaos512.gems.block.teleporter.TeleporterAnchor;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
-import net.silentchaos512.gems.block.urn.BlockSoulUrn;
+import net.silentchaos512.gems.block.urn.SoulUrnBlock;
 import net.silentchaos512.gems.item.GemBlockItem;
 import net.silentchaos512.gems.lib.Gems;
 
@@ -25,20 +26,21 @@ import javax.annotation.Nullable;
 import java.util.function.Function;
 
 public final class ModBlocks {
-    public static BlockSoulUrn soulUrn;
+    public static SoulUrnBlock soulUrn;
 
     private ModBlocks() {}
 
     public static void registerAll(RegistryEvent.Register<Block> event) {
-        if (!event.getRegistry().getRegistryName().equals(ForgeRegistries.BLOCKS.getRegistryName())) return;
+        if (!event.getRegistry().getRegistryName().equals(ForgeRegistries.BLOCKS.getRegistryName()))
+            return;
 
         registerGemBlocks(Gems::getOre, gem -> gem.getName() + "_ore");
         registerGemBlocks(Gems::getBlock, gem -> gem.getName() + "_block");
         registerGemBlocks(Gems::getBricks, gem -> gem.getName() + "_bricks");
         registerGemBlocks(Gems::getGlass, gem -> gem.getName() + "_glass");
-        for (GemLamp.State state : GemLamp.State.values()) {
+        for (GemLampBlock.State state : GemLampBlock.State.values()) {
             Function<Gems, Block> blockFactory = gem -> gem.getLamp(state);
-            Function<Gems, String> nameFactory = gem -> GemLamp.nameFor(gem, state);
+            Function<Gems, String> nameFactory = gem -> GemLampBlock.nameFor(gem, state);
             if (state.hasItem()) {
                 registerGemBlocks(blockFactory, nameFactory);
             } else {
@@ -71,14 +73,14 @@ public final class ModBlocks {
             register(block.getName(), block.asBlock());
         }
 
-        for (EnumDyeColor color : EnumDyeColor.values()) {
+        for (DyeColor color : DyeColor.values()) {
             register(color.getName() + "_fluffy_block", FluffyBlock.get(color));
         }
 
-        soulUrn = new BlockSoulUrn();
-        register("soul_urn", soulUrn, new BlockSoulUrn.ItemBlockSoulUrn(soulUrn));
+        soulUrn = new SoulUrnBlock();
+        register("soul_urn", soulUrn, new SoulUrnBlock.SoulUrnBlockItem(soulUrn));
 
-        register("supercharger", BlockSupercharger.INSTANCE.get());
+        register("supercharger", SuperchargerBlock.INSTANCE.get());
         register("token_enchanter", TokenEnchanterBlock.INSTANCE.get());
         // TODO: uncomment
 //        register("transmutation_altar", AltarBlock.INSTANCE.get());
@@ -95,12 +97,12 @@ public final class ModBlocks {
     }
 
     private static <T extends Block> T register(String name, T block) {
-        ItemBlock item = new GemBlockItem(block, new Item.Properties().group(ModItemGroups.BLOCKS));
+        BlockItem item = new GemBlockItem(block, new Item.Properties().group(ModItemGroups.BLOCKS));
         return register(name, block, item);
     }
 
-    private static <T extends Block> T register(String name, T block, @Nullable ItemBlock item) {
-        ResourceLocation id = new ResourceLocation(SilentGems.MOD_ID, name);
+    private static <T extends Block> T register(String name, T block, @Nullable BlockItem item) {
+        ResourceLocation id = SilentGems.getId(name);
         block.setRegistryName(id);
         ForgeRegistries.BLOCKS.register(block);
 

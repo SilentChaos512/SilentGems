@@ -2,9 +2,9 @@ package net.silentchaos512.gems.item;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Rarity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
@@ -24,7 +24,7 @@ public final class GearSoulItem extends Item {
     private GearSoulItem() {
         super(new Properties()
                 .group(ModItemGroups.UTILITY)
-                .rarity(EnumRarity.RARE)
+                .rarity(Rarity.RARE)
                 .maxStackSize(1)
         );
     }

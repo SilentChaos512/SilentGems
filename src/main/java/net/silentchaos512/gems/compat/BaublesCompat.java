@@ -1,6 +1,6 @@
 package net.silentchaos512.gems.compat;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
@@ -11,7 +11,7 @@ public class BaublesCompat {
 
     public static boolean MOD_LOADED = false;
 
-    public static NonNullList<ItemStack> getBaubles(EntityPlayer player, Predicate<ItemStack> predicate) {
+    public static NonNullList<ItemStack> getBaubles(PlayerEntity player, Predicate<ItemStack> predicate) {
         NonNullList<ItemStack> list = NonNullList.create();
 
         if (!MOD_LOADED)

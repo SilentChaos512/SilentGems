@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JsonUtils;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 
 public class AltarRecipe {
@@ -71,9 +71,9 @@ public class AltarRecipe {
         AltarRecipe recipe = new AltarRecipe(id);
 
         // Chaos and processing time
-        recipe.chaosGenerated = JsonUtils.getInt(json, "chaosGenerated", 200);
-        recipe.processTime = JsonUtils.getInt(json, "processTime", 100);
-        recipe.catalystConsumed = JsonUtils.getInt(json, "catalystConsumed", 10);
+        recipe.chaosGenerated = JSONUtils.getInt(json, "chaosGenerated", 200);
+        recipe.processTime = JSONUtils.getInt(json, "processTime", 100);
+        recipe.catalystConsumed = JSONUtils.getInt(json, "catalystConsumed", 10);
 
         // Ingredients
         recipe.input = Ingredient.deserialize(json.get("input"));

@@ -1,27 +1,31 @@
 package net.silentchaos512.gems.world.feature;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.gen.IChunkGenSettings;
-import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraft.world.gen.feature.AbstractFlowersFeature;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.feature.FlowersFeature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Gems;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 
-public class GlowroseFeature extends AbstractFlowersFeature {
+public class GlowroseFeature extends FlowersFeature {
     private final List<Gems> gems = new ArrayList<>();
 
     public GlowroseFeature(Collection<Gems> gems) {
+        super(NoFeatureConfig::deserialize);
         this.gems.addAll(gems);
     }
 
     @Override
-    public boolean place(IWorld world, IChunkGenerator<? extends IChunkGenSettings> generator, Random random, BlockPos pos, NoFeatureConfig config) {
-        IBlockState flower = this.getRandomFlower(random, pos);
+    public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos pos, NoFeatureConfig config) {
+        BlockState flower = this.getRandomFlower(random, pos);
         int numberPlaced = 0;
         int maxCount = GemsConfig.COMMON.glowroseMaxPlaceCount.get();
         int tryCount = GemsConfig.COMMON.glowroseSpawnTryCount.get();
@@ -43,7 +47,7 @@ public class GlowroseFeature extends AbstractFlowersFeature {
     }
 
     @Override
-    public IBlockState getRandomFlower(Random random, BlockPos pos) {
+    public BlockState getRandomFlower(Random random, BlockPos pos) {
         int index = random.nextInt(this.gems.size());
         Gems gem = this.gems.get(index);
         return gem.getGlowrose().getDefaultState();

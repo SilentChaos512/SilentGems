@@ -4,7 +4,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.silentchaos512.gems.init.ModTileEntities;
+import net.silentchaos512.gems.init.GemsTileEntities;
 import net.silentchaos512.lib.util.TimeUtils;
 
 public class PhantomLightTileEntity extends TileEntity implements ITickable {
@@ -15,7 +15,7 @@ public class PhantomLightTileEntity extends TileEntity implements ITickable {
     private int ticksExisted = 0;
 
     public PhantomLightTileEntity() {
-        super(ModTileEntities.PHANTOM_LIGHT.type());
+        super(GemsTileEntities.PHANTOM_LIGHT.type());
     }
 
     @Override

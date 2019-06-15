@@ -57,7 +57,7 @@ authors="SilentChaos512" #optional
 [[dependencies.silentgems]]
     modId="silentlib"
     mandatory=true
-    versionRange="[4.0.7,)"
+    versionRange="[4.0.10,)"
     ordering = "NONE"
     side = "BOTH"
 [[dependencies.silentgems]]

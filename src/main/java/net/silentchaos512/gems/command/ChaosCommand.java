@@ -8,10 +8,10 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.world.WorldServer;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.ServerWorld;
 import net.silentchaos512.gems.chaos.ChaosSourceCapability;
 
 public final class ChaosCommand {
@@ -61,13 +61,13 @@ public final class ChaosCommand {
     }
 
     private static int runGet(CommandContext<CommandSource> context) throws CommandSyntaxException {
-        for (EntityPlayerMP player : EntityArgument.getPlayers(context, "targets")) {
+        for (ServerPlayerEntity player : EntityArgument.getPlayers(context, "targets")) {
             runGetSingle(context, player);
         }
         return 1;
     }
 
-    private static int runGetSingle(CommandContext<CommandSource> context, EntityPlayerMP player) {
+    private static int runGetSingle(CommandContext<CommandSource> context, ServerPlayerEntity player) {
         player.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {
             String format = String.format("%,d", source.getChaos());
             ITextComponent text = translate("chaos.get", player.getName(), format);
@@ -77,7 +77,7 @@ public final class ChaosCommand {
     }
 
     private static int runGetWorld(CommandContext<CommandSource> context) {
-        WorldServer world = context.getSource().getWorld();
+        ServerWorld world = context.getSource().getWorld();
         world.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {
             String format = String.format("%,d", source.getChaos());
             ITextComponent text = translate("chaos.get", "world", format);
@@ -88,7 +88,7 @@ public final class ChaosCommand {
 
     private static int runSet(CommandContext<CommandSource> context) throws CommandSyntaxException {
         int amount = IntegerArgumentType.getInteger(context, "amount");
-        for (EntityPlayerMP player : EntityArgument.getPlayers(context, "targets")) {
+        for (ServerPlayerEntity player : EntityArgument.getPlayers(context, "targets")) {
             player.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {
                 source.setChaos(amount);
                 String format = String.format("%,d", source.getChaos());
@@ -101,7 +101,7 @@ public final class ChaosCommand {
 
     private static int runSetWorld(CommandContext<CommandSource> context) {
         int amount = IntegerArgumentType.getInteger(context, "amount");
-        WorldServer world = context.getSource().getWorld();
+        ServerWorld world = context.getSource().getWorld();
         world.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {
             source.setChaos(amount);
             String format = String.format("%,d", source.getChaos());
@@ -112,6 +112,6 @@ public final class ChaosCommand {
     }
 
     private static ITextComponent translate(String key, Object... params) {
-        return new TextComponentTranslation("command.silentgems." + key, params);
+        return new TranslationTextComponent("command.silentgems." + key, params);
     }
 }

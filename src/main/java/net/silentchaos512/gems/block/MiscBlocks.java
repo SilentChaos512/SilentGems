@@ -1,17 +1,17 @@
 package net.silentchaos512.gems.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.MobEffects;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
@@ -107,17 +107,17 @@ public enum MiscBlocks implements IItemProvider, IStringSerializable {
         public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
             if (this.type == ENDER_CRYSTAL) {
                 // Levitation effect from ender crystal blocks
-                if (entityIn instanceof EntityLivingBase && worldIn.getBlockState(pos).getBlock() == this) {
+                if (entityIn instanceof LivingEntity && worldIn.getBlockState(pos).getBlock() == this) {
                     // Stack up to 5 blocks, each increasing the levitation level
                     final int stackedBlocks = getStackedBlocks(worldIn, pos);
-                    PotionEffect effect = new PotionEffect(MobEffects.LEVITATION, 100, stackedBlocks - 1);
-                    EntityLivingBase entityLiving = (EntityLivingBase) entityIn;
+                    EffectInstance effect = new EffectInstance(Effects.LEVITATION, 100, stackedBlocks - 1);
+                    LivingEntity entityLiving = (LivingEntity) entityIn;
                     entityLiving.addPotionEffect(effect);
 
                     // Advancement triggers?
-                    if (entityIn instanceof EntityPlayerMP) {
+                    if (entityIn instanceof ServerPlayerEntity) {
                         ResourceLocation triggerType = new ResourceLocation(SilentGems.MOD_ID, "walk_on_" + this.type.getName());
-                        LibTriggers.GENERIC_INT.trigger((EntityPlayerMP) entityIn, triggerType, stackedBlocks);
+                        LibTriggers.GENERIC_INT.trigger((ServerPlayerEntity) entityIn, triggerType, stackedBlocks);
                     }
                 }
             }
@@ -126,7 +126,7 @@ public enum MiscBlocks implements IItemProvider, IStringSerializable {
         private int getStackedBlocks(IBlockReader world, BlockPos pos) {
             // Count the number of identical blocks below this one
             int result = 1;
-            IBlockState state = world.getBlockState(pos.down());
+            BlockState state = world.getBlockState(pos.down());
             while (state.getBlock() == this && result < 5) {
                 ++result;
                 state = world.getBlockState(pos.down(result));
@@ -135,7 +135,7 @@ public enum MiscBlocks implements IItemProvider, IStringSerializable {
         }
     }
 
-    static final class MiscBlockItem extends ItemBlock {
+    static final class MiscBlockItem extends BlockItem {
         private final MiscBlocks type;
 
         MiscBlockItem(MiscBlocks type, Properties builder) {

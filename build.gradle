@@ -52,7 +52,7 @@ def build_num = getBuildNumber()
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: "${project.mcp_channel}".toString(), version: "${project.mcp_mappings}".toString()
+    mappings channel: project.mcp_channel, version: "${project.mcp_mappings}-${project.mc_version}"
 
     runs {
         client = {
@@ -99,17 +99,18 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${project.forge_version}"
+    minecraft "net.minecraftforge:forge:${project.mc_version}-${project.forge_version}"
 
-    compile "net.silentchaos512:silent-lib:${project.sl_version}"
-    compile("net.silentchaos512:silent-gear:1.+") {
+    compile "net.silentchaos512:silent-lib-${project.mc_version}:${project.sl_version}"
+    compile("net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}") {
         exclude module: "RoughlyEnoughItems"
     }
 
-    compileOnly 'com.github.shedaniel:RoughlyEnoughItems:1.13.2-forge-SNAPSHOT'
-
-    //deobf "mezz.jei:jei-${project.mc_version}:${project.jei_version}"
-    compile 'com.github.mezz:JustEnoughItems:1.13-SNAPSHOT'
+//    compileOnly 'com.github.shedaniel:RoughlyEnoughItems:1.13.2-forge-SNAPSHOT'
+    
+//    deobf "mezz.jei:jei-${project.mc_version}:${project.jei_version}"
+//    compile 'com.github.mezz:JustEnoughItems:v5.0.0'
+//    compile 'com.github.mezz:JustEnoughItems:1.13-SNAPSHOT'
 }
 
 jar {
@@ -117,7 +118,7 @@ jar {
     manifest {
         attributes(["Specification-Title"     : project.mod_id,
                     "Specification-Vendor"    : "SilentChaos512",
-                    "Specification-Version"   : "25.0", // We are version 1 of the modlauncher specification
+                    "Specification-Version"   : "3.1",
                     "Implementation-Title"    : project.name,
                     "Implementation-Version"  : "${version}",
                     "Implementation-Vendor"   : "SilentChaos512",
@@ -191,7 +192,7 @@ curseforge {
             mainArtifact(jar) {
 //                displayName = "$project.description $display_version"
                 relations {
-                    requiredLibrary 'silent-lib'
+                    requiredDependency 'silent-lib'
                 }
             }
 //            if (project.hasProperty('doAPIJar')) {
@@ -222,9 +223,9 @@ curseforge {
 
 publishing {
     publications {
-        silentsGems(MavenPublication) {
-            groupId 'net.silentchaos512'
-            artifactId 'silents-gems'
+        publication(MavenPublication) {
+            groupId project.group
+            artifactId project.repoName
             version "${versionInfo['version_short']}".toString()
 
             from components.java
@@ -238,17 +239,17 @@ publishing {
 bintray {
     user = secret.BINTRAY_USER ?: System.getenv('BINTRAY_USER')
     key = secret.BINTRAY_KEY ?: System.getenv('BINTRAY_KEY')
-    publications = ['silentsGems']
+    publications = ['publication']
 
     pkg {
-        repo = 'silents-gems'
-        name = 'silents-gems'
+        repo = project.repoName
+        name = "${project.repoName}-${project.mc_version}"
         licenses = ["LGPL-3.0"]
-        vcsUrl = 'https://github.com/SilentChaos512/SilentGems.git'
+        vcsUrl = project.vcsUrl
 
         version {
             name = "${versionInfo['version_short']}".toString()
-            desc = "Silent's Gems (${project.mc_version}) ${versionInfo['version_short']}".toString()
+            desc = "${project.name} (${project.mc_version}) ${versionInfo['version_short']}".toString()
             released = new Date()
             vcsTag = "v${versionInfo['version_short']}".toString()
         }

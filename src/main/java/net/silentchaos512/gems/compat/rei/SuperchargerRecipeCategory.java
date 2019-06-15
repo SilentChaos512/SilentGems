@@ -12,8 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.supercharger.BlockSupercharger;
-import net.silentchaos512.gems.block.supercharger.TileSupercharger;
+import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
+import net.silentchaos512.gems.block.supercharger.SuperchargerTileEntity;
 
 import java.awt.*;
 import java.util.Collections;
@@ -31,7 +31,7 @@ public class SuperchargerRecipeCategory implements RecipeCategory<SuperchargerRe
 
     @Override
     public ItemStack getCategoryIcon() {
-        return new ItemStack(BlockSupercharger.INSTANCE.get());
+        return new ItemStack(SuperchargerBlock.INSTANCE.get());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class SuperchargerRecipeCategory implements RecipeCategory<SuperchargerRe
         // Labels
         int x = startPoint.x + 40;
         // TODO: Assuming part tier of 3, maybe fix this later?
-        int chaosGenerated = TileSupercharger.getEmissionRate(3, recipeDisplaySupplier.get().getTier());
+        int chaosGenerated = SuperchargerTileEntity.getEmissionRate(3, recipeDisplaySupplier.get().getTier());
         widgets.add(new ChaosEmissionLabelWidget(x, startPoint.y + 38, chaosGenerated));
         return widgets;
     }

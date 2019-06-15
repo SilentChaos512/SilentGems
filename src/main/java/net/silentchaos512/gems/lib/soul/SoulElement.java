@@ -1,8 +1,8 @@
 package net.silentchaos512.gems.lib.soul;
 
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.silentchaos512.utils.MathUtils;
 
 import java.util.Locale;
@@ -45,7 +45,7 @@ public enum SoulElement {
 
     public ITextComponent getDisplayName() {
         String translationKey = "soul.silentgems.element." + this.name().toLowerCase(Locale.ROOT);
-        return new TextComponentTranslation(translationKey).applyTextStyle(this.textColor);
+        return new TranslationTextComponent(translationKey).applyTextStyle(this.textColor);
     }
 
     public static SoulElement selectRandom(Random random) {

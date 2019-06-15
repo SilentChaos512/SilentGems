@@ -1,9 +1,9 @@
 package net.silentchaos512.gems.chaos;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.*;
@@ -14,7 +14,7 @@ import net.silentchaos512.gems.api.chaos.IChaosSource;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ChaosSourceCapability implements IChaosSource, ICapabilitySerializable<NBTTagCompound> {
+public class ChaosSourceCapability implements IChaosSource, ICapabilitySerializable<CompoundNBT> {
     @CapabilityInject(IChaosSource.class)
     public static Capability<IChaosSource> INSTANCE = null;
     public static ResourceLocation NAME = new ResourceLocation(SilentGems.MOD_ID, "chaos_source");
@@ -38,25 +38,25 @@ public class ChaosSourceCapability implements IChaosSource, ICapabilitySerializa
 
     @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable EnumFacing side) {
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         return INSTANCE.orEmpty(cap, holder);
     }
 
     @Override
-    public NBTTagCompound serializeNBT() {
-        NBTTagCompound nbt = new NBTTagCompound();
+    public CompoundNBT serializeNBT() {
+        CompoundNBT nbt = new CompoundNBT();
         nbt.putInt(NBT_CHAOS, chaos);
         return nbt;
     }
 
     @Override
-    public void deserializeNBT(NBTTagCompound nbt) {
+    public void deserializeNBT(CompoundNBT nbt) {
         chaos = nbt.getInt(NBT_CHAOS);
     }
 
     public static boolean canAttachTo(ICapabilityProvider obj) {
         if (obj.getCapability(INSTANCE).isPresent()) return false;
-        return obj instanceof EntityPlayer || obj instanceof World;
+        return obj instanceof PlayerEntity || obj instanceof World;
     }
 
     public static void register() {
@@ -66,17 +66,17 @@ public class ChaosSourceCapability implements IChaosSource, ICapabilitySerializa
     private static class Storage implements Capability.IStorage<IChaosSource> {
         @Nullable
         @Override
-        public INBTBase writeNBT(Capability<IChaosSource> capability, IChaosSource instance, EnumFacing side) {
+        public INBT writeNBT(Capability<IChaosSource> capability, IChaosSource instance, Direction side) {
             if (instance instanceof ChaosSourceCapability) {
                 return ((ChaosSourceCapability) instance).serializeNBT();
             }
-            return new NBTTagCompound();
+            return new CompoundNBT();
         }
 
         @Override
-        public void readNBT(Capability<IChaosSource> capability, IChaosSource instance, EnumFacing side, INBTBase nbt) {
+        public void readNBT(Capability<IChaosSource> capability, IChaosSource instance, Direction side, INBT nbt) {
             if (instance instanceof ChaosSourceCapability) {
-                ((ChaosSourceCapability) instance).deserializeNBT((NBTTagCompound) nbt);
+                ((ChaosSourceCapability) instance).deserializeNBT((CompoundNBT) nbt);
             }
         }
     }

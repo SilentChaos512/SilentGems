@@ -1,22 +1,25 @@
 package net.silentchaos512.gems.lib.soul;
 
 import lombok.Getter;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemSpawnEgg;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.monster.SlimeEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
+import net.minecraft.network.rcon.IServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedServer;
-import net.minecraft.server.dedicated.PropertyManager;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -24,7 +27,7 @@ import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.item.SoulGem;
+import net.silentchaos512.gems.item.SoulGemItem;
 import net.silentchaos512.utils.Color;
 import net.silentchaos512.utils.MathUtils;
 import org.apache.logging.log4j.Marker;
@@ -54,7 +57,7 @@ public final class Soul {
         this.id = Objects.requireNonNull(entityType.getRegistryName());
         SilentGems.LOGGER.debug(MARKER, "Creating soul for {}", this.id);
 
-        Random random = new Random(seed + entityType.getEntityClass().getCanonicalName().hashCode());
+        Random random = new Random(seed + entityType.getRegistryName().hashCode());
         this.primaryElement = SoulElement.selectRandom(random);
         SoulElement element2 = SoulElement.selectRandom(random, 0.2f);
         this.secondaryElement = element2 != this.primaryElement ? element2 : SoulElement.NONE;
@@ -62,7 +65,7 @@ public final class Soul {
         this.dropRate = (float) (GemsConfig.COMMON.soulGemDropRateAverage.get()
                 + GemsConfig.COMMON.soulGemDropRateDeviation.get() * random.nextGaussian());
 
-        ItemSpawnEgg egg = getSpawnEggForType(entityType);
+        SpawnEggItem egg = getSpawnEggForType(entityType);
         if (egg != null) {
             this.primaryColor = getEggPrimaryColor(egg);
             this.secondaryColor = getEggSecondaryColor(egg);
@@ -75,8 +78,8 @@ public final class Soul {
     }
 
     @Nullable
-    private static ItemSpawnEgg getSpawnEggForType(EntityType<?> entityType) {
-        for (ItemSpawnEgg egg : ItemSpawnEgg.getEggs()) {
+    private static SpawnEggItem getSpawnEggForType(EntityType<?> entityType) {
+        for (SpawnEggItem egg : SpawnEggItem.getEggs()) {
             if (egg.getType(null) == entityType) {
                 return egg;
             }
@@ -84,34 +87,34 @@ public final class Soul {
         return null;
     }
 
-    private static int getEggPrimaryColor(ItemSpawnEgg egg) {
-        return ObfuscationReflectionHelper.getPrivateValue(ItemSpawnEgg.class, egg, "field_195988_c");
+    private static int getEggPrimaryColor(SpawnEggItem egg) {
+        return ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "field_195988_c");
     }
 
-    private static int getEggSecondaryColor(ItemSpawnEgg egg) {
-        return ObfuscationReflectionHelper.getPrivateValue(ItemSpawnEgg.class, egg, "field_195989_d");
+    private static int getEggSecondaryColor(SpawnEggItem egg) {
+        return ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "field_195989_d");
     }
 
-    public float getDropRate(EntityLivingBase entity) {
+    public float getDropRate(LivingEntity entity) {
         // Separate rate for bosses (default is 100%)
         if (!entity.isNonBoss())
             return GemsConfig.COMMON.soulGemDropRateBoss.get().floatValue();
         // Half rate for slimes
-        if (entity instanceof EntitySlime)
+        if (entity instanceof SlimeEntity)
             return this.dropRate / 2;
         return this.dropRate;
     }
 
     public ItemStack getSoulGem() {
-        return SoulGem.getStack(this);
+        return SoulGemItem.getStack(this);
     }
 
     public ITextComponent getEntityName() {
-        return new TextComponentTranslation("entity." + this.id.getNamespace() + "." + this.id.getPath());
+        return new TranslationTextComponent("entity." + this.id.getNamespace() + "." + this.id.getPath());
     }
 
     @Nullable
-    public static Soul from(EntityLivingBase entity) {
+    public static Soul from(LivingEntity entity) {
         return MAP.get(entity.getType());
     }
 
@@ -139,8 +142,9 @@ public final class Soul {
         public void onServerAboutToStart(FMLServerAboutToStartEvent event) {
             MAP.clear();
             long seed = calculateSeed(event);
+            World world = event.getServer().getWorld(DimensionType.OVERWORLD);
             for (EntityType<?> entityType : ForgeRegistries.ENTITIES.getValues()) {
-                if (canHaveSoulGem(entityType)) {
+                if (canHaveSoulGem(entityType, world)) {
                     Soul soul = new Soul(seed, entityType);
                     MAP.put(entityType, soul);
                     ResourceLocation id = Objects.requireNonNull(entityType.getRegistryName());
@@ -149,26 +153,26 @@ public final class Soul {
             }
         }
 
-        private static boolean canHaveSoulGem(EntityType<?> type) {
-            return EntityLivingBase.class.isAssignableFrom(type.getEntityClass())
-                    && !EntityArmorStand.class.isAssignableFrom(type.getEntityClass());
+        private static boolean canHaveSoulGem(EntityType<?> type, World world) {
+            Entity entity = type.create(world);
+            return entity instanceof MobEntity || entity instanceof PlayerEntity;
         }
 
         @SuppressWarnings("MethodMayBeStatic")
         @SubscribeEvent
         public void onLivingDrops(LivingDropsEvent event) {
-            EntityLivingBase entity = event.getEntityLiving();
+            LivingEntity entity = event.getEntityLiving();
             Soul soul = Soul.from(entity);
 
             if (soul != null && shouldDropSoulGem(event, entity, soul)) {
                 ItemStack soulGem = soul.getSoulGem();
-                EntityItem entityItem = entity.entityDropItem(soulGem);
+                ItemEntity entityItem = entity.entityDropItem(soulGem);
                 event.getDrops().add(entityItem);
             }
         }
 
-        private static boolean shouldDropSoulGem(LivingDropsEvent event, EntityLivingBase entity, @Nonnull Soul soul) {
-            boolean killedByPlayer = event.getSource().getTrueSource() instanceof EntityPlayer;
+        private static boolean shouldDropSoulGem(LivingDropsEvent event, LivingEntity entity, @Nonnull Soul soul) {
+            boolean killedByPlayer = event.getSource().getTrueSource() instanceof PlayerEntity;
             float dropRate = soul.getDropRate(entity);
             if (killedByPlayer && SilentGems.LOGGER.isDebugEnabled()) {
                 SilentGems.LOGGER.debug("Soul.shouldDropSoulGem: {}", dropRate);
@@ -182,12 +186,10 @@ public final class Soul {
 
             //noinspection ChainOfInstanceofChecks
             if (server instanceof DedicatedServer) {
-                DedicatedServer dedicatedServer = (DedicatedServer) server;
-                PropertyManager settings = ObfuscationReflectionHelper.getPrivateValue(
-                        DedicatedServer.class, dedicatedServer, "field_71340_o"); // settings
+                IServer dedicatedServer = (DedicatedServer) server;
                 // Not sure how dedicated server actually computes the seed
                 // All that matters is we get a consistent result
-                return settings.getStringProperty("level-seed", "").hashCode();
+                return dedicatedServer.getServerProperties().worldSeed.hashCode();
             } else if (server instanceof IntegratedServer) {
                 IntegratedServer integratedServer = (IntegratedServer) server;
                 WorldSettings settings = ObfuscationReflectionHelper.getPrivateValue(

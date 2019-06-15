@@ -1,5 +1,7 @@
 package net.silentchaos512.gems.init;
 
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.BlockNamedItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
@@ -7,6 +9,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.CorruptedBlocks;
+import net.silentchaos512.gems.block.FluffyPuffPlant;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.item.*;
 import net.silentchaos512.gems.lib.Gems;
@@ -16,10 +19,11 @@ import java.util.Collection;
 import java.util.function.Function;
 
 public final class ModItems {
-    public static PetSummoner summonKitty;
-    public static PetSummoner summonPuppy;
+    public static BlockNamedItem fluffyPuffSeeds;
+    public static PetSummonerItem summonKitty;
+    public static PetSummonerItem summonPuppy;
 
-    static final Collection<ItemBlock> blocksToRegister = new ArrayList<>();
+    static final Collection<BlockItem> blocksToRegister = new ArrayList<>();
 
     private ModItems() {}
 
@@ -31,7 +35,7 @@ public final class ModItems {
         registerGemItems(Gems::getItem, Gems::getName);
         registerGemItems(Gems::getShard, gem -> gem.getName() + "_shard");
 
-        register("soul_gem", SoulGem.INSTANCE.get());
+        register("soul_gem", SoulGemItem.INSTANCE.get());
         if (SGearProxy.isLoaded()) {
             register("gear_soul", GearSoulItem.INSTANCE.get());
         }
@@ -40,20 +44,20 @@ public final class ModItems {
             register(item.getName(), item.asItem());
         }
 
-        register("enchantment_token", EnchantmentToken.INSTANCE.get());
+        register("enchantment_token", EnchantmentTokenItem.INSTANCE.get());
         registerGemItems(Gems::getReturnHomeCharm, gem -> gem.getName() + "_return_home_charm");
-        register("teleporter_linker", TeleporterLinker.INSTANCE.get());
+        register("teleporter_linker", TeleporterLinkerItem.INSTANCE.get());
 
         registerGemItems(Gems::getChaosGem, gem -> "chaos_" + gem.getName());
-        register("chaos_rune", ChaosRune.INSTANCE.get());
+        register("chaos_rune", ChaosRuneItem.INSTANCE.get());
 
-        register("chaos_potato", new ChaosOrb(0, 5000, 0.5f));
-        register("fragile_chaos_orb", new ChaosOrb(2, 100_000, 0.2f));
-        register("refined_chaos_orb", new ChaosOrb(4, 1_000_000, 0.1f));
-        register("perfect_chaos_orb", new ChaosOrb(4, 10_000_000, 0.05f));
+        register("chaos_potato", new ChaosOrbItem(0, 5000, 0.5f));
+        register("fragile_chaos_orb", new ChaosOrbItem(2, 100_000, 0.2f));
+        register("refined_chaos_orb", new ChaosOrbItem(4, 1_000_000, 0.1f));
+        register("perfect_chaos_orb", new ChaosOrbItem(4, 10_000_000, 0.05f));
 
-        register("fluffy_puff_seeds", FluffyPuffSeeds.INSTANCE.get());
-        register("glowrose_fertilizer", GlowroseFertilizer.INSTANCE.get());
+        fluffyPuffSeeds = register("fluffy_puff_seeds", new BlockNamedItem(FluffyPuffPlant.NORMAL.get(), new Item.Properties().group(ModItemGroups.MATERIALS)));
+        register("glowrose_fertilizer", GlowroseFertilizerItem.INSTANCE.get());
 
         for (CorruptedBlocks block : CorruptedBlocks.values()) {
             register(block.getName() + "_pile", block.getPile());
@@ -62,12 +66,12 @@ public final class ModItems {
         register("corrupting_powder", PatchBlockChangerItem.CORRUPTING_POWDER.get());
         register("purifying_powder", PatchBlockChangerItem.PURIFYING_POWDER.get());
 
-        for (Foods food : Foods.values()) {
+        for (ModFoods food : ModFoods.values()) {
             register(food.getName(), food.asItem());
         }
 
-        summonKitty = register("summon_kitty", new PetSummoner(PetSummoner::getCat));
-        summonPuppy = register("summon_puppy", new PetSummoner(PetSummoner::getDog));
+        summonKitty = register("summon_kitty", new PetSummonerItem(PetSummonerItem::getCat));
+        summonPuppy = register("summon_puppy", new PetSummonerItem(PetSummonerItem::getDog));
 
         for (ModEntities entity : ModEntities.values()) {
             register(entity.getName() + "_spawn_egg", entity.getSpawnEgg());

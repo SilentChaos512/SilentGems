@@ -1,20 +1,15 @@
 package net.silentchaos512.gems.compat.rei;
 
-import me.shedaniel.rei.api.RecipeDisplay;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.crafting.altar.AltarRecipe;
 
-import java.util.*;
-
-public class AltarRecipeDisplay implements RecipeDisplay {
+public class AltarRecipeDisplay /*implements RecipeDisplay*/ {
     private final AltarRecipe recipe;
 
     public AltarRecipeDisplay(AltarRecipe recipe) {
         this.recipe = recipe;
     }
 
-    @Override
+    /*@Override
     public Optional getRecipe() {
         return Optional.empty();
     }
@@ -39,5 +34,5 @@ public class AltarRecipeDisplay implements RecipeDisplay {
     @Override
     public ResourceLocation getRecipeCategory() {
         return ReiPluginGems.ALTAR_TRANSMUTATION;
-    }
+    }*/
 }

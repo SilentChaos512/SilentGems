@@ -18,7 +18,7 @@
 
 package net.silentchaos512.gems.init;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -101,7 +101,7 @@ public enum ModSounds {
         ForgeRegistries.SOUND_EVENTS.register(sound);
     }
 
-    public static void playAllHotswapFix(EntityPlayer player) {
+    public static void playAllHotswapFix(PlayerEntity player) {
         // Hotswapping code before certain resources are used causes them to not load. In the case
         // of SoundEvents, this causes the game to freeze. Obviously not an issue outside of an
         // IDE, but playing all the sounds here should ensure I don't crash more than necessary...

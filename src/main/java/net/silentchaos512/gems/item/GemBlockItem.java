@@ -1,11 +1,11 @@
 package net.silentchaos512.gems.item;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 
-public class GemBlockItem extends ItemBlock {
+public class GemBlockItem extends BlockItem {
     private final Block block;
 
     public GemBlockItem(Block blockIn, Properties builder) {

@@ -1,13 +1,7 @@
 package net.silentchaos512.gems.compat.rei;
 
-import me.shedaniel.rei.gui.widget.HighlightableWidget;
-import me.shedaniel.rei.gui.widget.LabelWidget;
-import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
-
-import java.awt.*;
-
-public class ChaosEmissionLabelWidget extends LabelWidget implements HighlightableWidget {
-    private final int amount;
+public class ChaosEmissionLabelWidget /*extends LabelWidget implements HighlightableWidget*/ {
+    /*private final int amount;
 
     public ChaosEmissionLabelWidget(int x, int y, int amount) {
         super(x, y, textFromAmount(amount));
@@ -32,5 +26,5 @@ public class ChaosEmissionLabelWidget extends LabelWidget implements Highlightab
             colour = 16777120;
         String line = this.text + (isHighlighted(mouseX, mouseY) ? " (" + this.amount + ")" : "");
         drawCenteredString(fontRenderer, line, x, y, colour);
-    }
+    }*/
 }

@@ -18,18 +18,18 @@
 
 package net.silentchaos512.gems.lib.urn;
 
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.block.urn.TileSoulUrn;
+import net.silentchaos512.gems.block.urn.SoulUrnTileEntity;
 
 public class UpgradeVacuum extends UrnUpgrade {
     private static final int RANGE = 4;
 
     @Override
-    public void tickTile(TileSoulUrn.SoulUrnState state, World world, BlockPos pos) {
+    public void tickTile(SoulUrnTileEntity.SoulUrnState state, World world, BlockPos pos) {
         if (!state.getLidState().isOpen()) return;
 
         Vec3d target = new Vec3d(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5);
@@ -39,7 +39,7 @@ public class UpgradeVacuum extends UrnUpgrade {
         );
         boolean itemsAbsorbed = false;
 
-        for (EntityItem entity : world.getEntitiesWithinAABB(EntityItem.class, axisAlignedBB)) {
+        for (ItemEntity entity : world.getEntitiesWithinAABB(ItemEntity.class, axisAlignedBB)) {
             double distanceSq = entity.getDistanceSq(target.x, target.y, target.z);
             if (distanceSq < 0.5) {
                 // Try to add item to urn's inventory

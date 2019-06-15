@@ -9,7 +9,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.crafting.altar.AltarRecipe;
 import net.silentchaos512.gems.crafting.altar.AltarRecipeManager;
-import net.silentchaos512.gems.init.ModTileEntities;
+import net.silentchaos512.gems.init.GemsTileEntities;
 import net.silentchaos512.lib.tile.SyncVariable;
 import net.silentchaos512.lib.tile.TileSidedInventorySL;
 
@@ -30,7 +30,7 @@ public class AltarTileEntity extends TileSidedInventorySL implements ITickable {
     private int chaosBuffer;
 
     public AltarTileEntity() {
-        super(ModTileEntities.TRANSMUTATION_ALTAR.type());
+        super(GemsTileEntities.TRANSMUTATION_ALTAR.type());
     }
 
     @Override

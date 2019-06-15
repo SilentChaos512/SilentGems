@@ -19,8 +19,8 @@
 package net.silentchaos512.gems.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.IStringSerializable;
@@ -58,7 +58,7 @@ public enum HardenedRock implements IItemProvider, IStringSerializable {
         }
 
         @Override
-        public int getHarvestLevel(IBlockState state) {
+        public int getHarvestLevel(BlockState state) {
             return 3;
         }
     }

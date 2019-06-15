@@ -1,7 +1,7 @@
 package net.silentchaos512.gems.lib.fun;
 
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -23,7 +23,7 @@ public final class AprilFools {
             ITextComponent text = event.getToolTip().get(i);
             String str = text.getFormattedText();
             if (str.contains("Silent's Gems 3")) {
-                event.getToolTip().set(i, text.appendSibling(new TextComponentString(" & Knuckles")));
+                event.getToolTip().set(i, text.appendSibling(new StringTextComponent(" & Knuckles")));
             }
         }
     }

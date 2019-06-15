@@ -12,7 +12,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
-import net.silentchaos512.gems.block.supercharger.BlockSupercharger;
+import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerPillarStructure;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class SuperchargerPillarCategory implements IRecipeCategory<SuperchargerP
 
     public SuperchargerPillarCategory(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(SilentGemsPlugin.GUI_TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(BlockSupercharger.INSTANCE.get()));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(SuperchargerBlock.INSTANCE.get()));
         localizedName = I18n.format("category.silentgems.supercharger_pillar");
     }
 
@@ -64,7 +64,7 @@ public class SuperchargerPillarCategory implements IRecipeCategory<SuperchargerP
     public void setIngredients(SuperchargerPillarStructure recipe, IIngredients ingredients) {
         List<Ingredient> inputs = new ArrayList<>(recipe.getBlocks());
         ingredients.setInputIngredients(inputs);
-        ingredients.setOutput(VanillaTypes.ITEM, new ItemStack(BlockSupercharger.INSTANCE.get()));
+        ingredients.setOutput(VanillaTypes.ITEM, new ItemStack(SuperchargerBlock.INSTANCE.get()));
     }
 
     @Override

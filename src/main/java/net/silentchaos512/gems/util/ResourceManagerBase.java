@@ -7,7 +7,7 @@ import com.google.gson.JsonParseException;
 import net.minecraft.resources.IResource;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourceManagerReloadListener;
-import net.minecraft.util.JsonUtils;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.Logger;
@@ -73,7 +73,7 @@ public abstract class ResourceManagerBase<T> implements IResourceManagerReloadLi
                 ResourceLocation name = new ResourceLocation(id.getNamespace(), path);
                 this.logger.debug(this.logMarker, "Found resource file '{}', reading as '{}'", id, name);
 
-                JsonObject json = JsonUtils.fromJson(gson, IOUtils.toString(iResource.getInputStream(), StandardCharsets.UTF_8), JsonObject.class);
+                JsonObject json = JSONUtils.fromJson(gson, IOUtils.toString(iResource.getInputStream(), StandardCharsets.UTF_8), JsonObject.class);
                 if (json == null) {
                     this.logger.error(this.logMarker, "Could not load resource '{}' as it's null or empty", name);
                 } else {

@@ -1,9 +1,9 @@
 package net.silentchaos512.gems.event;
 
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,9 +20,8 @@ public final class EnchantmentEvents {
 
     @SubscribeEvent
     public static void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
-
-        EntityPlayer player = event.getEntityPlayer();
-        ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
+        PlayerEntity player = event.getEntityPlayer();
+        ItemStack mainHand = player.getHeldItem(Hand.MAIN_HAND);
 
         if (!mainHand.isEmpty()) {
             // Gravity enchantment.
@@ -35,8 +34,8 @@ public final class EnchantmentEvents {
 
     @SubscribeEvent
     public static void onLivingAttack(LivingAttackEvent event) {
-        if (event.getSource().getTrueSource() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
+        if (event.getSource().getTrueSource() instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
             ItemStack mainHand = player.getHeldItemMainhand();
             ItemStack offHand = player.getHeldItemOffhand();
 

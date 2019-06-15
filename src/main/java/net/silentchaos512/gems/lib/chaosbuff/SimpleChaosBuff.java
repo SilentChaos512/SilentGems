@@ -4,14 +4,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JsonUtils;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.utils.Color;
 
@@ -41,13 +41,13 @@ public class SimpleChaosBuff implements IChaosBuff {
     }
 
     @Override
-    public void applyTo(EntityPlayer player, int level) { }
+    public void applyTo(PlayerEntity player, int level) { }
 
     @Override
-    public void removeFrom(EntityPlayer player) { }
+    public void removeFrom(PlayerEntity player) { }
 
     @Override
-    public int getChaosGenerated(@Nullable EntityPlayer player, int level) {
+    public int getChaosGenerated(@Nullable PlayerEntity player, int level) {
         if (player != null && !this.isActive(player) || this.activeCostByLevel.length == 0) {
             return this.inactiveCost;
         }
@@ -70,7 +70,7 @@ public class SimpleChaosBuff implements IChaosBuff {
     }
 
     @Override
-    public boolean isActive(EntityPlayer player) {
+    public boolean isActive(PlayerEntity player) {
         for (CostConditions c : costConditions) {
             if (c != null && !c.appliesTo(player)) {
                 return false;
@@ -86,7 +86,7 @@ public class SimpleChaosBuff implements IChaosBuff {
         }
         return displayName.get()
                 .appendText(" ")
-                .appendSibling(new TextComponentTranslation("enchantment.level." + level));
+                .appendSibling(new TranslationTextComponent("enchantment.level." + level));
     }
 
     @Override
@@ -121,7 +121,7 @@ public class SimpleChaosBuff implements IChaosBuff {
         @Override
         public T read(ResourceLocation id, JsonObject json) {
             T buff = factory.apply(id);
-            buff.maxLevel = JsonUtils.getInt(json, "maxLevel", 1);
+            buff.maxLevel = JSONUtils.getInt(json, "maxLevel", 1);
             buff.displayName = readTextComponent(json, "displayName");
 
             readSlots(buff, json);
@@ -153,7 +153,7 @@ public class SimpleChaosBuff implements IChaosBuff {
             }
             JsonObject json = jsonElement.getAsJsonObject();
 
-            buff.inactiveCost = JsonUtils.getInt(json, "inactive", 0);
+            buff.inactiveCost = JSONUtils.getInt(json, "inactive", 0);
 
             JsonElement elem = json.get("active");
             if (elem == null) {
@@ -208,11 +208,11 @@ public class SimpleChaosBuff implements IChaosBuff {
             JsonElement element = json.get(name);
             if (element != null && element.isJsonObject()) {
                 JsonObject obj = element.getAsJsonObject();
-                final boolean translate = JsonUtils.getBoolean(obj, "translate", false);
-                final String value = JsonUtils.getString(obj, "name");
+                final boolean translate = JSONUtils.getBoolean(obj, "translate", false);
+                final String value = JSONUtils.getString(obj, "name");
                 return translate
-                        ? () -> new TextComponentTranslation(value)
-                        : () -> new TextComponentString(value);
+                        ? () -> new TranslationTextComponent(value)
+                        : () -> new StringTextComponent(value);
             } else if (element != null) {
                 throw new JsonParseException("Expected '" + name + "' to be an object");
             } else {

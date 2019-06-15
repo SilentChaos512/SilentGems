@@ -23,10 +23,10 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.ItemShears;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.ShearsItem;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -36,22 +36,22 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class FluffyBlock extends Block {
-    private static final Map<EnumDyeColor, FluffyBlock> MAP = new EnumMap<>(EnumDyeColor.class);
+    private static final Map<DyeColor, FluffyBlock> MAP = new EnumMap<>(DyeColor.class);
 
-    private final EnumDyeColor color;
+    private final DyeColor color;
 
     static {
         MinecraftForge.EVENT_BUS.addListener(FluffyBlock::onGetBreakSpeed);
     }
 
-    private FluffyBlock(EnumDyeColor color) {
-        super(Properties.create(Material.CLOTH)
+    private FluffyBlock(DyeColor color) {
+        super(Properties.create(Material.WOOL)
                 .hardnessAndResistance(0.8f, 3)
                 .sound(SoundType.CLOTH));
         this.color = color;
     }
 
-    public static FluffyBlock get(EnumDyeColor color) {
+    public static FluffyBlock get(DyeColor color) {
         if (!MAP.containsKey(color)) {
             FluffyBlock block = new FluffyBlock(color);
             MAP.put(color, block);
@@ -77,8 +77,8 @@ public class FluffyBlock extends Block {
     }
 
     private static void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
-        ItemStack mainHand = event.getEntityPlayer().getHeldItem(EnumHand.MAIN_HAND);
-        if (!mainHand.isEmpty() && mainHand.getItem() instanceof ItemShears) {
+        ItemStack mainHand = event.getEntityPlayer().getHeldItem(Hand.MAIN_HAND);
+        if (!mainHand.isEmpty() && mainHand.getItem() instanceof ShearsItem) {
             int efficiency = EnchantmentHelper.getEfficiencyModifier(event.getEntityPlayer());
 
             float speed = event.getNewSpeed() * 4;

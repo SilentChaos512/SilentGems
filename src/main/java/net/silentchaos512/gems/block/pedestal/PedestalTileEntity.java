@@ -1,31 +1,28 @@
 package net.silentchaos512.gems.block.pedestal;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.minecraft.util.text.StringTextComponent;
 import net.silentchaos512.gems.api.IPedestalItem;
-import net.silentchaos512.gems.init.ModTileEntities;
-import net.silentchaos512.lib.tile.TileSidedInventorySL;
+import net.silentchaos512.gems.init.GemsTileEntities;
+import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class PedestalTileEntity extends TileSidedInventorySL implements ITickable {
+public class PedestalTileEntity extends LockableSidedInventoryTileEntity implements ITickableTileEntity {
     private int timer;
     private boolean poweredLastTick;
 
     public PedestalTileEntity() {
-        super(ModTileEntities.PEDESTAL.type());
+        super(GemsTileEntities.PEDESTAL.type(), 1);
     }
 
     @Override
@@ -67,6 +64,13 @@ public class PedestalTileEntity extends TileSidedInventorySL implements ITickabl
         setInventorySlotContents(0, copy);
     }
 
+    private void sendUpdate() {
+        if (world != null) {
+            BlockState state = world.getBlockState(pos);
+            world.notifyBlockUpdate(pos, state, state, 3);
+        }
+    }
+
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
         super.setInventorySlotContents(index, stack);
@@ -89,15 +93,15 @@ public class PedestalTileEntity extends TileSidedInventorySL implements ITickabl
     }
 
     @Override
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        NBTTagCompound tag = getUpdateTag();
-        return new SPacketUpdateTileEntity(pos, 1, tag);
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        CompoundNBT tag = getUpdateTag();
+        return new SUpdateTileEntityPacket(pos, 1, tag);
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
         super.onDataPacket(net, packet);
-        NBTTagCompound tag = packet.getNbtCompound();
+        CompoundNBT tag = packet.getNbtCompound();
         if (tag.contains("PItem")) {
             setItem(ItemStack.read(tag.getCompound("PItem")));
         } else {
@@ -106,54 +110,37 @@ public class PedestalTileEntity extends TileSidedInventorySL implements ITickabl
     }
 
     @Override
-    public NBTTagCompound getUpdateTag() {
-        NBTTagCompound tag = super.getUpdateTag();
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tag = super.getUpdateTag();
         ItemStack stack = getItem();
         if (!stack.isEmpty()) {
-            tag.put("PItem", stack.write(new NBTTagCompound()));
+            tag.put("PItem", stack.write(new CompoundNBT()));
         }
         return tag;
     }
 
     @Override
-    public ITextComponent getName() {
-        return new TextComponentTranslation("container.silentgems.pedestal");
+    protected ITextComponent getDefaultName() {
+        return new StringTextComponent("");
     }
 
-    @Nullable
     @Override
-    public ITextComponent getCustomName() {
+    protected Container createMenu(int p_213906_1_, PlayerInventory p_213906_2_) {
         return null;
     }
 
     @Override
-    public int[] getSlotsForFace(EnumFacing side) {
+    public int[] getSlotsForFace(Direction side) {
         return new int[]{0};
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack stack, @Nullable EnumFacing direction) {
+    public boolean canInsertItem(int index, ItemStack stack, @Nullable Direction direction) {
         return isEmpty();
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
         return !isEmpty();
-    }
-
-    private final LazyOptional<? extends IItemHandler>[] handlers =
-            SidedInvWrapper.create(this, EnumFacing.UP, EnumFacing.DOWN, EnumFacing.NORTH);
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable EnumFacing side) {
-        if (!this.removed && side != null && cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            if (side == EnumFacing.UP)
-                return handlers[0].cast();
-            if (side == EnumFacing.DOWN)
-                return handlers[1].cast();
-            return handlers[2].cast();
-        }
-        return super.getCapability(cap, side);
     }
 }

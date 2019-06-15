@@ -3,7 +3,7 @@ package net.silentchaos512.gems.lib.chaosbuff;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JsonUtils;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 
@@ -29,7 +29,7 @@ public final class ChaosBuffSerializers {
     }
 
     public static IChaosBuff deserialize(ResourceLocation id, JsonObject json) {
-        String typeStr = JsonUtils.getString(json, "type");
+        String typeStr = JSONUtils.getString(json, "type");
         if (!typeStr.contains(":")) typeStr = SilentGems.RESOURCE_PREFIX + typeStr;
         ResourceLocation type = new ResourceLocation(typeStr);
 

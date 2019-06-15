@@ -1,16 +1,7 @@
 package net.silentchaos512.gems.compat.rei;
 
-import me.shedaniel.rei.api.RecipeDisplay;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
-import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipe;
-
-import java.util.*;
-
-public class TokenEnchanterRecipeDisplay implements RecipeDisplay {
-    private final TokenEnchanterRecipe recipe;
+public class TokenEnchanterRecipeDisplay /*implements RecipeDisplay*/ {
+    /*private final TokenEnchanterRecipe recipe;
 
     public TokenEnchanterRecipeDisplay(TokenEnchanterRecipe recipe) {
         this.recipe = recipe;
@@ -52,5 +43,5 @@ public class TokenEnchanterRecipeDisplay implements RecipeDisplay {
     @Override
     public ResourceLocation getRecipeCategory() {
         return ReiPluginGems.TOKEN_ENCHANTING;
-    }
+    }*/
 }

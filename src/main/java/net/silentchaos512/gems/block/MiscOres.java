@@ -1,22 +1,23 @@
 package net.silentchaos512.gems.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.item.CraftingItems;
@@ -83,13 +84,13 @@ public enum MiscOres implements IBlockProvider, IStringSerializable {
         }
 
         @Override
-        public int getLightValue(IBlockState state, IWorldReader world, BlockPos pos) {
+        public int getLightValue(BlockState state, IEnviromentBlockReader world, BlockPos pos) {
             return state.get(LIT) ? 9 : 0;
         }
 
         @SuppressWarnings("deprecation")
         @Override
-        public void onBlockClicked(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player) {
+        public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
             activate(state, worldIn, pos);
             super.onBlockClicked(state, worldIn, pos, player);
         }
@@ -102,12 +103,12 @@ public enum MiscOres implements IBlockProvider, IStringSerializable {
 
         @SuppressWarnings("deprecation")
         @Override
-        public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+        public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
             activate(state, worldIn, pos);
-            return super.onBlockActivated(state, worldIn, pos, player, hand, side, hitX, hitY, hitZ);
+            return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
         }
 
-        private static void activate(IBlockState state, World world, BlockPos pos) {
+        private static void activate(BlockState state, World world, BlockPos pos) {
             spawnParticles(world, pos);
             if (!state.get(LIT)) {
                 world.setBlockState(pos, state.with(LIT, true));
@@ -118,15 +119,16 @@ public enum MiscOres implements IBlockProvider, IStringSerializable {
             }
         }
 
+        @SuppressWarnings("deprecation")
         @Override
-        public void tick(IBlockState state, World worldIn, BlockPos pos, Random random) {
+        public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
             if (state.get(LIT)) {
                 worldIn.setBlockState(pos, state.with(LIT, false), 3);
             }
         }
 
         @Override
-        public void animateTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+        public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
             if (stateIn.get(LIT)) {
                 spawnParticles(worldIn, pos);
             }
@@ -134,20 +136,20 @@ public enum MiscOres implements IBlockProvider, IStringSerializable {
 
         private static void spawnParticles(World world, BlockPos pos) {
             Random random = world.rand;
-            for (EnumFacing enumfacing : EnumFacing.values()) {
-                BlockPos blockpos = pos.offset(enumfacing);
+            for (Direction direction : Direction.values()) {
+                BlockPos blockpos = pos.offset(direction);
                 if (!world.getBlockState(blockpos).isOpaqueCube(world, blockpos)) {
-                    EnumFacing.Axis axis = enumfacing.getAxis();
-                    double d1 = axis == EnumFacing.Axis.X ? 0.5D + 0.5625D * (double) enumfacing.getXOffset() : (double) random.nextFloat();
-                    double d2 = axis == EnumFacing.Axis.Y ? 0.5D + 0.5625D * (double) enumfacing.getYOffset() : (double) random.nextFloat();
-                    double d3 = axis == EnumFacing.Axis.Z ? 0.5D + 0.5625D * (double) enumfacing.getZOffset() : (double) random.nextFloat();
+                    Direction.Axis axis = direction.getAxis();
+                    double d1 = axis == Direction.Axis.X ? 0.5D + 0.5625D * (double) direction.getXOffset() : (double) random.nextFloat();
+                    double d2 = axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double) direction.getYOffset() : (double) random.nextFloat();
+                    double d3 = axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double) direction.getZOffset() : (double) random.nextFloat();
                     world.addParticle(RedstoneParticleData.REDSTONE_DUST, (double) pos.getX() + d1, (double) pos.getY() + d2, (double) pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
                 }
             }
         }
 
         @Override
-        protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
+        protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
             builder.add(LIT);
         }
     }

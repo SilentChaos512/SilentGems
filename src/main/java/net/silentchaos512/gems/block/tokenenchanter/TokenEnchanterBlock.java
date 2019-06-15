@@ -1,23 +1,23 @@
 package net.silentchaos512.gems.block.tokenenchanter;
 
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.client.gui.GuiTypes;
 import net.silentchaos512.utils.Lazy;
 
-public final class TokenEnchanterBlock extends BlockContainer {
+public final class TokenEnchanterBlock extends ContainerBlock {
     public static final Lazy<TokenEnchanterBlock> INSTANCE = Lazy.of(TokenEnchanterBlock::new);
 
     private TokenEnchanterBlock() {
@@ -31,8 +31,9 @@ public final class TokenEnchanterBlock extends BlockContainer {
         return new TokenEnchanterTileEntity();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public void onReplaced(IBlockState state, World worldIn, BlockPos pos, IBlockState newState, boolean isMoving) {
+    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             TileEntity tile = worldIn.getTileEntity(pos);
             if (tile instanceof IInventory) {
@@ -45,11 +46,11 @@ public final class TokenEnchanterBlock extends BlockContainer {
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
             TileEntity tile = worldIn.getTileEntity(pos);
             if (tile instanceof TokenEnchanterTileEntity) {
-                GuiTypes.TOKEN_ENCHANTER.display(player, worldIn, pos);
+                player.openContainer((INamedContainerProvider) tile);
             }
         }
         return true;
@@ -57,7 +58,7 @@ public final class TokenEnchanterBlock extends BlockContainer {
 
     @SuppressWarnings("deprecation")
     @Override
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.MODEL;
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 }

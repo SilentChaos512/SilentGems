@@ -37,7 +37,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.block.Glowrose;
+import net.silentchaos512.gems.block.GlowroseBlock;
 import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
@@ -63,7 +63,7 @@ public class LuminousFlowerPotBlock extends BlockContainer {
             if (tile != null && tile.getFlower().isEmpty()) {
                 Block block = Block.getBlockFromItem(heldItem.getItem());
 
-                if (block instanceof Glowrose) {
+                if (block instanceof GlowroseBlock) {
                     ItemStack flower = new ItemStack(heldItem.getItem(), 1);
                     tile.setFlower(flower);
                     tile.markDirty();

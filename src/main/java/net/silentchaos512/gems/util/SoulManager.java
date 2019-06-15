@@ -1,8 +1,8 @@
 package net.silentchaos512.gems.util;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.silentchaos512.gear.api.item.ICoreItem;
 import net.silentchaos512.gear.parts.PartData;
 import net.silentchaos512.gear.util.GearData;
@@ -61,7 +61,7 @@ public final class SoulManager {
     }
 
     private static GearSoul getSoulFromItem(ItemStack soulItem) {
-        NBTTagCompound tags = soulItem.getOrCreateChildTag(NBT_SOUL);
+        CompoundNBT tags = soulItem.getOrCreateChildTag(NBT_SOUL);
         return GearSoul.read(tags);
     }
 
@@ -71,19 +71,19 @@ public final class SoulManager {
     }
 
     public static void setSoul(ItemStack gear, GearSoul soul) {
-        NBTTagCompound tags = new NBTTagCompound();
+        CompoundNBT tags = new CompoundNBT();
         soul.write(tags);
         gear.getOrCreateTag().put(NBT_SOUL, tags);
     }
 
-    public static void addSoulXp(int amount, ItemStack tool, EntityPlayer player) {
+    public static void addSoulXp(int amount, ItemStack tool, PlayerEntity player) {
         GearSoul soul = getSoul(tool);
         if (soul != null && amount > 0) {
             soul.addXp(amount, tool, player);
         }
     }
 
-    static void queueSoulsForWrite(EntityPlayer player) {
+    static void queueSoulsForWrite(PlayerEntity player) {
         for (ItemStack tool : PlayerUtils.getNonEmptyStacks(player, true, true, true, s -> s.getItem() instanceof ICoreItem)) {
             GearSoul soul = getSoul(tool);
             if (soul != null) {
@@ -92,7 +92,7 @@ public final class SoulManager {
         }
     }
 
-    static void writeSoulsToNBT(EntityPlayer player, boolean forceAll) {
+    static void writeSoulsToNBT(PlayerEntity player, boolean forceAll) {
         // Find all the players tools. Find the matching souls in the map.
         int count = 0;
         for (ItemStack tool : PlayerUtils.getNonEmptyStacks(player, true, true, true, s -> s.getItem() instanceof ICoreItem)) {

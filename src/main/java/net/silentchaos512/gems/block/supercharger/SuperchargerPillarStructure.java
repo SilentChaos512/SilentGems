@@ -7,6 +7,9 @@ import net.minecraft.tags.Tag;
 
 import java.util.*;
 
+/**
+ * Currently just used by JEI? Could possibly use this to simplify tile entity code somewhat.
+ */
 public class SuperchargerPillarStructure {
     @Getter private final int tier;
     private final List<Ingredient> list = new ArrayList<>();

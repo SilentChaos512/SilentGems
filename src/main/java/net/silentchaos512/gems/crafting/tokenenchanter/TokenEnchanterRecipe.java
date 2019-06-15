@@ -10,11 +10,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JsonUtils;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.silentchaos512.gems.item.ChaosRune;
-import net.silentchaos512.gems.item.EnchantmentToken;
+import net.silentchaos512.gems.item.ChaosRuneItem;
+import net.silentchaos512.gems.item.EnchantmentTokenItem;
 import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
 import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
 import net.silentchaos512.lib.collection.StackList;
@@ -71,8 +71,8 @@ public class TokenEnchanterRecipe {
         TokenEnchanterRecipe recipe = new TokenEnchanterRecipe(id);
 
         // Chaos and processing time
-        recipe.chaosGenerated = JsonUtils.getInt(json, "chaosGenerated", 200);
-        recipe.processTime = JsonUtils.getInt(json, "processTime", 50);
+        recipe.chaosGenerated = JSONUtils.getInt(json, "chaosGenerated", 200);
+        recipe.processTime = JSONUtils.getInt(json, "processTime", 50);
 
         // Ingredients
         JsonObject ingredientsJson = json.get("ingredients").getAsJsonObject();
@@ -80,7 +80,7 @@ public class TokenEnchanterRecipe {
         JsonArray othersArray = ingredientsJson.get("others").getAsJsonArray();
         for (JsonElement elem : othersArray) {
             Ingredient ingredient = Ingredient.deserialize(elem);
-            int count = JsonUtils.getInt(elem.getAsJsonObject(), "count", 1);
+            int count = JSONUtils.getInt(elem.getAsJsonObject(), "count", 1);
             recipe.ingredients.put(ingredient, count);
         }
 
@@ -93,26 +93,26 @@ public class TokenEnchanterRecipe {
         if (elem != null) {
             for (JsonElement elem1 : elem.getAsJsonArray()) {
                 JsonObject elemObj = elem1.getAsJsonObject();
-                String name = JsonUtils.getString(elemObj, "name");
+                String name = JSONUtils.getString(elemObj, "name");
                 Enchantment enchantment = ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(name));
                 if (enchantment == null) {
                     // Enchantment does not exist!
                     recipe.valid = false;
                 } else {
-                    int level = JsonUtils.getInt(elemObj, "level", 1);
+                    int level = JSONUtils.getInt(elemObj, "level", 1);
                     addEnchantment(recipe.result, enchantment, level);
                 }
             }
         }
 
         // Chaos rune buff
-        if (recipe.result.getItem() instanceof ChaosRune) {
+        if (recipe.result.getItem() instanceof ChaosRuneItem) {
             JsonElement elem1 = resultJson.get("buff");
             if (elem1 != null) {
                 String str = elem1.getAsString();
                 IChaosBuff buff = ChaosBuffManager.get(str);
                 if (buff != null) {
-                    recipe.result = ChaosRune.getStack(buff);
+                    recipe.result = ChaosRuneItem.getStack(buff);
                 }
             }
         }
@@ -149,8 +149,8 @@ public class TokenEnchanterRecipe {
 
     private static void addEnchantment(ItemStack stack, Enchantment enchantment, int level) {
         // Enchantment tokens are a special case
-        if (stack.getItem() instanceof EnchantmentToken) {
-            EnchantmentToken.addEnchantment(stack, enchantment, level);
+        if (stack.getItem() instanceof EnchantmentTokenItem) {
+            EnchantmentTokenItem.addEnchantment(stack, enchantment, level);
         } else {
             stack.addEnchantment(enchantment, level);
         }

@@ -1,13 +1,13 @@
 package net.silentchaos512.gems.util;
 
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -35,8 +35,8 @@ public final class SoulEvents {
 
     @SubscribeEvent
     public void onBreakBlock(BlockEvent.BreakEvent event) {
-        EntityPlayer player = event.getPlayer();
-        if (player instanceof EntityPlayerMP) {
+        PlayerEntity player = event.getPlayer();
+        if (player instanceof ServerPlayerEntity) {
             ItemStack mainHand = player.getHeldItemMainhand();
             GearSoul soul = SoulManager.getSoul(mainHand);
 
@@ -48,7 +48,7 @@ public final class SoulEvents {
 
     @SubscribeEvent
     public void onBreakSpeed(PlayerEvent.BreakSpeed event) {
-        EntityPlayer player = event.getEntityPlayer();
+        PlayerEntity player = event.getEntityPlayer();
         ItemStack mainHand = player.getHeldItemMainhand();
 
         // Overridden by the Gravity enchantment.
@@ -75,9 +75,9 @@ public final class SoulEvents {
 
     @SubscribeEvent
     public void onLivingHurt(LivingHurtEvent event) {
-        if (event.getSource().getTrueSource() instanceof EntityPlayerMP) {
-            EntityLivingBase hurt = event.getEntityLiving();
-            EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
+        if (event.getSource().getTrueSource() instanceof ServerPlayerEntity) {
+            LivingEntity hurt = event.getEntityLiving();
+            PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
             ItemStack mainHand = player.getHeldItemMainhand();
             GearSoul soul = SoulManager.getSoul(mainHand);
 
@@ -91,8 +91,8 @@ public final class SoulEvents {
     @SubscribeEvent
     public void onPlayerDamage(LivingHurtEvent event) {
         // Aerial - fall damage protection
-        if (event.getSource() == DamageSource.FALL && event.getEntity() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.getEntity();
+        if (event.getSource() == DamageSource.FALL && event.getEntity() instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) event.getEntity();
             SoulTraits.getHighestLevelEitherHand(player, SoulTraits.AERIAL).ifPresent(tuple -> {
                 // Reduce by 2 + 2 * level, or 15% per level, whichever is greater
                 float amountToReduce = Math.max(
@@ -112,7 +112,7 @@ public final class SoulEvents {
 
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        EntityPlayer player = event.player;
+        PlayerEntity player = event.player;
 
         // Aquatic - drowning protection (max air is 300, so 30 per bubble)
         if (!player.world.isRemote && player.getAir() < 5) {

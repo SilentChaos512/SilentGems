@@ -1,6 +1,6 @@
 package net.silentchaos512.gems.network;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.silentchaos512.gems.chaos.Chaos;
@@ -23,7 +23,7 @@ public class GeneralSyncPacket {
         this.equilibrium = equilibrium;
     }
 
-    public GeneralSyncPacket(EntityPlayer player) {
+    public GeneralSyncPacket(PlayerEntity player) {
         player.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source ->
                 this.playerChaos = source.getChaos());
         player.world.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source ->

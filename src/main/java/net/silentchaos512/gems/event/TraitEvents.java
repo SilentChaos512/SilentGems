@@ -1,6 +1,6 @@
 package net.silentchaos512.gems.event;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
@@ -18,7 +18,7 @@ public final class TraitEvents {
 
     @SubscribeEvent
     public void criticalHit(CriticalHitEvent event) {
-        EntityPlayer player = event.getEntityPlayer();
+        PlayerEntity player = event.getEntityPlayer();
         ItemStack weapon = player.getHeldItemMainhand();
         if (GearHelper.isGear(weapon)) {
             int critical = TraitHelper.getTraitLevel(weapon, GemsTraits.CRITICAL);

@@ -1,36 +1,38 @@
 package net.silentchaos512.gems.crafting.recipe;
 
 import com.google.gson.JsonObject;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ICraftingRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.item.EnchantmentToken;
+import net.silentchaos512.gems.item.EnchantmentTokenItem;
 
 import java.util.List;
 
-public class ApplyEnchantmentTokenRecipe implements IRecipe {
-    private static final ResourceLocation NAME = new ResourceLocation(SilentGems.MOD_ID, "apply_enchantment_token");
+public class ApplyEnchantmentTokenRecipe implements ICraftingRecipe {
+    public static final ResourceLocation NAME = SilentGems.getId("apply_enchantment_token");
+    public static final Serializer SERIALIZER = new Serializer();
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(CraftingInventory inv, World worldIn) {
         return !getCraftingResult(inv).isEmpty();
     }
 
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack getCraftingResult(CraftingInventory inv) {
         ItemStack tool = ItemStack.EMPTY;
         List<ItemStack> tokens = NonNullList.create();
 
         for (int i = 0; i < inv.getSizeInventory(); ++i) {
             ItemStack stack = inv.getStackInSlot(i);
             if (!stack.isEmpty()) {
-                if (stack.getItem() instanceof EnchantmentToken) {
+                if (stack.getItem() instanceof EnchantmentTokenItem) {
                     // Any number of tokens
                     tokens.add(stack);
                 } else {
@@ -49,7 +51,7 @@ public class ApplyEnchantmentTokenRecipe implements IRecipe {
 
         ItemStack result = tool.copy();
         for (ItemStack token : tokens) {
-            if (!EnchantmentToken.applyTokenToTool(token, result)) {
+            if (!EnchantmentTokenItem.applyTokenToTool(token, result)) {
                 return ItemStack.EMPTY;
             }
         }
@@ -74,7 +76,7 @@ public class ApplyEnchantmentTokenRecipe implements IRecipe {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return Serializer.INSTANCE;
+        return SERIALIZER;
     }
 
     @Override
@@ -88,10 +90,8 @@ public class ApplyEnchantmentTokenRecipe implements IRecipe {
         return true;
     }
 
-    public static final class Serializer implements IRecipeSerializer<ApplyEnchantmentTokenRecipe> {
-        public static final Serializer INSTANCE = new Serializer();
-
-        private Serializer() { }
+    public static final class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<ApplyEnchantmentTokenRecipe> {
+        private Serializer() {}
 
         @Override
         public ApplyEnchantmentTokenRecipe read(ResourceLocation recipeId, JsonObject json) {
@@ -104,11 +104,6 @@ public class ApplyEnchantmentTokenRecipe implements IRecipe {
         }
 
         @Override
-        public void write(PacketBuffer buffer, ApplyEnchantmentTokenRecipe recipe) { }
-
-        @Override
-        public ResourceLocation getName() {
-            return NAME;
-        }
+        public void write(PacketBuffer buffer, ApplyEnchantmentTokenRecipe recipe) {}
     }
 }

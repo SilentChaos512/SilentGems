@@ -19,19 +19,19 @@
 package net.silentchaos512.gems.lib.urn;
 
 import lombok.Getter;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.urn.TileSoulUrn;
+import net.silentchaos512.gems.block.urn.SoulUrnTileEntity;
 import net.silentchaos512.gems.item.SoulUrnUpgrades;
 
 import java.util.HashMap;
@@ -48,10 +48,10 @@ public class UrnUpgrade {
 
     ResourceLocation id;
 
-    public void tickTile(TileSoulUrn.SoulUrnState state, World world, BlockPos pos) {
+    public void tickTile(SoulUrnTileEntity.SoulUrnState state, World world, BlockPos pos) {
     }
 
-    public void tickItem(ItemStack urn, World world, EntityPlayer player, int itemSlot, boolean isSelected) {
+    public void tickItem(ItemStack urn, World world, PlayerEntity player, int itemSlot, boolean isSelected) {
     }
 
     @Deprecated
@@ -60,7 +60,7 @@ public class UrnUpgrade {
     }
 
     public ITextComponent getDisplayName() {
-        return new TextComponentTranslation("urn_upgrade." + this.id);
+        return new TranslationTextComponent("urn_upgrade." + this.id);
     }
 
     public static class Serializer<T extends UrnUpgrade> {
@@ -75,11 +75,11 @@ public class UrnUpgrade {
             SERIALIZERS.put(id, this);
         }
 
-        public NBTTagCompound serialize() {
-            return new NBTTagCompound();
+        public CompoundNBT serialize() {
+            return new CompoundNBT();
         }
 
-        public T deserialize(NBTTagCompound nbt) {
+        public T deserialize(CompoundNBT nbt) {
             T result = constructor.get();
             result.id = this.id;
             return result;
@@ -94,13 +94,13 @@ public class UrnUpgrade {
             return load(urn.getOrCreateChildTag(UrnConst.NBT_ROOT));
         }
 
-        public static NonNullList<UrnUpgrade> load(NBTTagCompound tagCompound) {
+        public static NonNullList<UrnUpgrade> load(CompoundNBT tagCompound) {
             NonNullList<UrnUpgrade> result = NonNullList.create();
 
-            NBTTagList tagList = tagCompound.getList(UrnConst.NBT_UPGRADES, 10);
-            for (INBTBase nbt : tagList) {
-                if (nbt instanceof NBTTagCompound) {
-                    NBTTagCompound tags = (NBTTagCompound) nbt;
+            ListNBT tagList = tagCompound.getList(UrnConst.NBT_UPGRADES, 10);
+            for (INBT nbt : tagList) {
+                if (nbt instanceof CompoundNBT) {
+                    CompoundNBT tags = (CompoundNBT) nbt;
                     ResourceLocation id = new ResourceLocation(tags.getString(UrnConst.NBT_UPGRADE_ID));
                     Serializer<? extends UrnUpgrade> serializer = SERIALIZERS.get(id);
 
@@ -115,13 +115,13 @@ public class UrnUpgrade {
             return result;
         }
 
-        public static void save(List<UrnUpgrade> upgrades, NBTTagCompound tagCompound) {
-            NBTTagList tagList = new NBTTagList();
+        public static void save(List<UrnUpgrade> upgrades, CompoundNBT tagCompound) {
+            ListNBT tagList = new ListNBT();
 
             for (UrnUpgrade upgrade : upgrades) {
                 Serializer<? extends UrnUpgrade> serializer = SERIALIZERS.get(upgrade.id);
                 if (serializer != null) {
-                    NBTTagCompound tags = serializer.serialize();
+                    CompoundNBT tags = serializer.serialize();
                     tags.putString(UrnConst.NBT_UPGRADE_ID, upgrade.id.toString());
                     tagList.add(tags);
                 } else {

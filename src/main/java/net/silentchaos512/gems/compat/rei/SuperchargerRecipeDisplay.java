@@ -1,22 +1,7 @@
 package net.silentchaos512.gems.compat.rei;
 
-import me.shedaniel.rei.api.RecipeDisplay;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.Tag;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
-import net.silentchaos512.gear.api.parts.IGearPart;
-import net.silentchaos512.gear.parts.PartManager;
-import net.silentchaos512.gems.init.ModEnchantments;
-import net.silentchaos512.gems.init.ModTags;
-
-import javax.annotation.Nullable;
-import java.util.*;
-
-public class SuperchargerRecipeDisplay implements RecipeDisplay {
-    private final int tier;
+public class SuperchargerRecipeDisplay /*implements RecipeDisplay*/ {
+    /*private final int tier;
 
     public SuperchargerRecipeDisplay(int tier) {
         this.tier = tier;
@@ -93,5 +78,5 @@ public class SuperchargerRecipeDisplay implements RecipeDisplay {
     @Override
     public ResourceLocation getRecipeCategory() {
         return ReiPluginGems.SUPERCHARGING;
-    }
+    }*/
 }

@@ -19,13 +19,13 @@
 package net.silentchaos512.gems.enchantment;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.enchantment.EnchantmentType;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 
 public class EnchantmentSupercharged extends Enchantment {
     public EnchantmentSupercharged() {
-        super(Rarity.VERY_RARE, EnumEnchantmentType.ALL, new EntityEquipmentSlot[0]);
+        super(Rarity.VERY_RARE, EnchantmentType.ALL, new EquipmentSlotType[0]);
     }
 
     @Override

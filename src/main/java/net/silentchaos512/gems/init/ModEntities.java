@@ -1,10 +1,11 @@
 package net.silentchaos512.gems.init;
 
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemSpawnEgg;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,17 +16,17 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.render.entity.RenderEnderSlime;
-import net.silentchaos512.gems.entity.EntityEnderSlime;
+import net.silentchaos512.gems.entity.EnderSlimeEntity;
 import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
 import java.util.function.Supplier;
 
 public enum ModEntities {
-    ENDER_SLIME(() -> EntityType.Builder.create(EntityEnderSlime.class, EntityEnderSlime::new), 0x003333, 0xAA00AA);
+    ENDER_SLIME(() -> EntityType.Builder.create(EnderSlimeEntity::new, EntityClassification.MONSTER), 0x003333, 0xAA00AA);
 
     private final Lazy<EntityType<?>> entityType;
-    private final Lazy<ItemSpawnEgg> spawnEgg;
+    private final Lazy<SpawnEggItem> spawnEgg;
 
     ModEntities(Supplier<EntityType.Builder<?>> factory, int eggPrimaryColor, int eggSecondaryColor) {
         this.entityType = Lazy.of(() -> {
@@ -34,7 +35,7 @@ public enum ModEntities {
         });
         this.spawnEgg = Lazy.of(() -> {
             Item.Properties props = new Item.Properties().group(ItemGroup.MISC);
-            return new ItemSpawnEgg(this.type(), eggPrimaryColor, eggSecondaryColor, props);
+            return new SpawnEggItem(this.type(), eggPrimaryColor, eggSecondaryColor, props);
         });
     }
 
@@ -42,7 +43,7 @@ public enum ModEntities {
         return this.entityType.get();
     }
 
-    public ItemSpawnEgg getSpawnEgg() {
+    public SpawnEggItem getSpawnEgg() {
         return this.spawnEgg.get();
     }
 
@@ -60,15 +61,14 @@ public enum ModEntities {
 
             EntitySpawnPlacementRegistry.register(
                     type,
-                    EntitySpawnPlacementRegistry.SpawnPlacementType.ON_GROUND,
-                    Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
-                    null
+                    EntitySpawnPlacementRegistry.PlacementType.ON_GROUND,
+                    Heightmap.Type.MOTION_BLOCKING_NO_LEAVES
             );
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderers(FMLClientSetupEvent event) {
-        RenderingRegistry.registerEntityRenderingHandler(EntityEnderSlime.class, new RenderEnderSlime.Factory());
+        RenderingRegistry.registerEntityRenderingHandler(EnderSlimeEntity.class, new RenderEnderSlime.Factory());
     }
 }

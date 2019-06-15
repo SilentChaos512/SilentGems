@@ -1,37 +1,38 @@
 package net.silentchaos512.gems.world;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.gen.IChunkGenSettings;
-import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraft.world.gen.feature.MinableConfig;
-import net.minecraft.world.gen.feature.MinableFeature;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationSettings;
 import net.minecraftforge.common.Tags;
 import net.silentchaos512.gems.lib.Gems;
+import net.silentchaos512.gems.world.feature.SGOreFeature;
+import net.silentchaos512.gems.world.feature.SGOreFeatureConfig;
 
 import java.util.Random;
 import java.util.function.Predicate;
 
-public class GeodeGenerator extends MinableFeature {
+public class GeodeGenerator extends SGOreFeature {
     private final Gems.Set gemSet;
     private final Block shellBlock;
-    private final Predicate<Block> predicate;
+    private final Predicate<BlockState> predicate;
 
     public GeodeGenerator(Block shell, Gems.Set gemSet) {
-        this(shell, gemSet, Tags.Blocks.STONE::contains);
+        this(shell, gemSet, s -> s.isIn(Tags.Blocks.STONE));
     }
 
-    public GeodeGenerator(Block shell, Gems.Set gemSet, Predicate<Block> predicate) {
+    public GeodeGenerator(Block shell, Gems.Set gemSet, Predicate<BlockState> predicate) {
+        super(SGOreFeatureConfig::deserialize);
         this.gemSet = gemSet;
         this.shellBlock = shell;
         this.predicate = predicate;
     }
 
     @Override
-    public boolean place(IWorld world, IChunkGenerator<? extends IChunkGenSettings> generator, Random random, BlockPos pos, MinableConfig config) {
+    public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos pos, SGOreFeatureConfig config) {
         float diameterXZ = 2f * random.nextFloat() + 5;
         float diameterY = 3f * random.nextFloat() + 7;
         generateShell(world, random, pos, diameterXZ, diameterY);
@@ -56,9 +57,9 @@ public class GeodeGenerator extends MinableFeature {
                     if ((dx * dx) / (diameterXZ * diameterXZ) + (dy * dy) / (diameterY * diameterY) + (dz * dz) / (diameterXZ * diameterXZ) <= 0.25f) {
                         BlockPos blockpos = new BlockPos(x, y, z);
 
-                        IBlockState state = worldIn.getBlockState(blockpos);
+                        BlockState state = worldIn.getBlockState(blockpos);
 //                        if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, this.predicate)) {
-                        if (this.predicate.test(state.getBlock())) {
+                        if (this.predicate.test(state)) {
                             worldIn.setBlockState(blockpos, shellBlock.getDefaultState(), 2);
                         }
                     }
@@ -103,7 +104,7 @@ public class GeodeGenerator extends MinableFeature {
                 ++count;
                 BlockPos blockpos = new BlockPos(x, y, z);
 
-                IBlockState state = worldIn.getBlockState(blockpos);
+                BlockState state = worldIn.getBlockState(blockpos);
 //                if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, shellPredicate)) {
                 if (shellPredicate.test(state.getBlock())) {
                     Gems gem = gemSet.selectRandom(rand);
@@ -111,10 +112,10 @@ public class GeodeGenerator extends MinableFeature {
 
                     // Make sure the geode is sealed (in case of intersection with a cave, for example.)
                     if (true /*GemsConfig.GEODE_SEAL_BREAKS*/) {
-                        for (EnumFacing facing : EnumFacing.values()) {
+                        for (Direction facing : Direction.values()) {
                             BlockPos offset = position.offset(facing);
-                            IBlockState adjacent = worldIn.getBlockState(offset);
-                            if (worldIn.isAirBlock(offset) || adjacent != shellBlock && adjacent.getBlock() != block) {
+                            BlockState adjacent = worldIn.getBlockState(offset);
+                            if (worldIn.isAirBlock(offset) || adjacent.getBlock() != shellBlock && adjacent.getBlock() != block) {
                                 worldIn.setBlockState(offset, shellBlock.getDefaultState(), 2);
                             }
                         }

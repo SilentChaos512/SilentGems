@@ -18,8 +18,8 @@ import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gear.api.parts.PartType;
 import net.silentchaos512.gear.crafting.ingredient.GearPartIngredient;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
-import net.silentchaos512.gems.block.supercharger.BlockSupercharger;
-import net.silentchaos512.gems.block.supercharger.TileSupercharger;
+import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
+import net.silentchaos512.gems.block.supercharger.SuperchargerTileEntity;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.init.ModTags;
 
@@ -41,7 +41,7 @@ public class SuperchargingRecipeCategoryJei implements IRecipeCategory<Superchar
 
     public SuperchargingRecipeCategoryJei(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(SilentGemsPlugin.GUI_TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(BlockSupercharger.INSTANCE.get()));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(SuperchargerBlock.INSTANCE.get()));
         arrow = guiHelper.drawableBuilder(SilentGemsPlugin.GUI_TEXTURE, 73, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
         localizedName = I18n.format("category.silentgems.supercharging");
@@ -101,7 +101,7 @@ public class SuperchargingRecipeCategoryJei implements IRecipeCategory<Superchar
 
         Minecraft mc = Minecraft.getInstance();
         // Chaos emission rate
-        int chaos = TileSupercharger.getEmissionRate(3, recipe.tier);
+        int chaos = SuperchargerTileEntity.getEmissionRate(3, recipe.tier);
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaos);
         String str = emissionRate.getEmissionText(chaos).getFormattedText();
         mc.fontRenderer.drawStringWithShadow(str, 1, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT + 1, -1);

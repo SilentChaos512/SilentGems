@@ -1,7 +1,7 @@
 package net.silentchaos512.gems.init;
 
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.RecipeSerializers;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -15,16 +15,20 @@ public final class ModRecipes {
     public static void init() {
         SoulGemIngredient.Serializer.register();
 
-        RecipeSerializers.register(ApplyChaosRuneRecipe.Serializer.INSTANCE);
-        RecipeSerializers.register(ApplyEnchantmentTokenRecipe.Serializer.INSTANCE);
-        RecipeSerializers.register(ApplyGearSoulRecipe.Serializer.INSTANCE);
-        RecipeSerializers.register(GearSoulRecipe.Serializer.INSTANCE);
-        RecipeSerializers.register(ModifySoulUrnRecipe.Serializer.INSTANCE);
-        RecipeSerializers.register(SoulUrnRecipe.Serializer.INSTANCE);
+       register(ApplyChaosRuneRecipe.NAME, ApplyChaosRuneRecipe.SERIALIZER);
+       register(ApplyEnchantmentTokenRecipe.NAME, ApplyEnchantmentTokenRecipe.SERIALIZER);
+       register(ApplyGearSoulRecipe.NAME, ApplyGearSoulRecipe.SERIALIZER);
+       register(GearSoulRecipe.NAME, GearSoulRecipe.SERIALIZER);
+       register(ModifySoulUrnRecipe.NAME, ModifySoulUrnRecipe.SERIALIZER);
+       register(SoulUrnRecipe.NAME, SoulUrnRecipe.SERIALIZER);
 
         if (SilentGems.isDevBuild()) {
             MinecraftForge.EVENT_BUS.addListener(ModRecipes::onPlayerJoinServer);
         }
+    }
+
+    private static void register(ResourceLocation name, IRecipeSerializer<?> serializer) {
+        IRecipeSerializer.register(name.toString(), serializer);
     }
 
     private static void onPlayerJoinServer(PlayerEvent.PlayerLoggedInEvent event) {

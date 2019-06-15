@@ -7,7 +7,7 @@ import com.google.gson.JsonParseException;
 import net.minecraft.resources.IResource;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourceManagerReloadListener;
-import net.minecraft.util.JsonUtils;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import org.apache.commons.io.IOUtils;
@@ -48,7 +48,7 @@ public final class ChaosBuffManager implements IResourceManagerReloadListener {
                 ResourceLocation name = new ResourceLocation(id.getNamespace(), path);
                 SilentGems.LOGGER.debug(MARKER, "Found likely chaos buff file: {}, trying to read as {}", id, name);
 
-                JsonObject json = JsonUtils.fromJson(gson, IOUtils.toString(iresource.getInputStream(), StandardCharsets.UTF_8), JsonObject.class);
+                JsonObject json = JSONUtils.fromJson(gson, IOUtils.toString(iresource.getInputStream(), StandardCharsets.UTF_8), JsonObject.class);
                 if (json == null) {
                     SilentGems.LOGGER.error(MARKER, "could not load chaos buff {} as it's null or empty", name);
                 } else {

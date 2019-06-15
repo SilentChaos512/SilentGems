@@ -1,7 +1,7 @@
 package net.silentchaos512.gems.lib.chaosbuff;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
@@ -14,13 +14,13 @@ public enum CostConditions {
     MOVING(CostConditions::hasMoved),
     UNDERWATER(Entity::isInWater);
 
-    private final Predicate<EntityPlayer> condition;
+    private final Predicate<PlayerEntity> condition;
 
-    CostConditions(Predicate<EntityPlayer> condition) {
+    CostConditions(Predicate<PlayerEntity> condition) {
         this.condition = condition;
     }
 
-    public boolean appliesTo(EntityPlayer player) {
+    public boolean appliesTo(PlayerEntity player) {
         return this.condition.test(player);
     }
 
@@ -34,7 +34,7 @@ public enum CostConditions {
         return null;
     }
 
-    private static boolean hasMoved(EntityPlayer player) {
+    private static boolean hasMoved(PlayerEntity player) {
         // FIXME: does not work
 //        double dx = player.prevPosX - player.posX;
 //        double dz = player.prevPosZ - player.posZ;

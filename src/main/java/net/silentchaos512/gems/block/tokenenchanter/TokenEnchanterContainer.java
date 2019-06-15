@@ -1,18 +1,26 @@
 package net.silentchaos512.gems.block.tokenenchanter;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.silentchaos512.gems.init.GemsContainers;
 import net.silentchaos512.lib.inventory.SlotOutputOnly;
+import net.silentchaos512.lib.util.InventoryUtils;
 
 import javax.annotation.Nonnull;
 
 public class TokenEnchanterContainer extends Container {
-    private final TokenEnchanterTileEntity tileEntity;
+    final TokenEnchanterTileEntity tileEntity;
 
-    public TokenEnchanterContainer(InventoryPlayer playerInventory, TokenEnchanterTileEntity tileEntity) {
+    public TokenEnchanterContainer(int id, PlayerInventory playerInventory) {
+        this(id, playerInventory, new TokenEnchanterTileEntity());
+    }
+
+    @SuppressWarnings("OverridableMethodCallDuringObjectConstruction")
+    public TokenEnchanterContainer(int id, PlayerInventory playerInventory, TokenEnchanterTileEntity tileEntity) {
+        super(GemsContainers.TOKEN_ENCHANTER.type(), id);
         this.tileEntity = tileEntity;
 
         // Token slot
@@ -27,26 +35,17 @@ public class TokenEnchanterContainer extends Container {
         // Output
         this.addSlot(new SlotOutputOnly(this.tileEntity, 7, 132, 35));
 
-        int i;
-        for (i = 0; i < 3; ++i) {
-            for (int j = 0; j < 9; ++j) {
-                this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-            }
-        }
-
-        for (i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
-        }
+        InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer playerIn) {
+    public boolean canInteractWith(PlayerEntity playerIn) {
         return this.tileEntity.isUsableByPlayer(playerIn);
     }
 
     @Nonnull
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
+    public ItemStack transferStackInSlot(PlayerEntity player, int slotIndex) {
         ItemStack stack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(slotIndex);
 

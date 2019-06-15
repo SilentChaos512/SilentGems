@@ -1,44 +1,46 @@
 package net.silentchaos512.gems.crafting.recipe;
 
 import com.google.gson.JsonObject;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ICraftingRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.item.ChaosGem;
-import net.silentchaos512.gems.item.ChaosRune;
+import net.silentchaos512.gems.item.ChaosGemItem;
+import net.silentchaos512.gems.item.ChaosRuneItem;
 import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
 import net.silentchaos512.lib.collection.StackList;
 
 import java.util.List;
 
-public class ApplyChaosRuneRecipe implements IRecipe {
-    private static final ResourceLocation NAME = SilentGems.getId("apply_chaos_rune");
+public class ApplyChaosRuneRecipe implements ICraftingRecipe {
+    public static final ResourceLocation NAME = SilentGems.getId("apply_chaos_rune");
+    public static final Serializer SERIALIZER = new Serializer();
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(CraftingInventory inv, World worldIn) {
         StackList list = StackList.from(inv);
         // One and only one chaos gem
-        ItemStack chaosGem = list.uniqueOfType(ChaosGem.class);
+        ItemStack chaosGem = list.uniqueOfType(ChaosGemItem.class);
         // At least one rune
-        int runes = list.countOfType(ChaosRune.class);
+        int runes = list.countOfType(ChaosRuneItem.class);
         return !chaosGem.isEmpty() && runes > 0;
     }
 
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack getCraftingResult(CraftingInventory inv) {
         ItemStack chaosGem = ItemStack.EMPTY;
         List<ItemStack> runes = NonNullList.create();
 
         for (int i = 0; i < inv.getSizeInventory(); ++i) {
             ItemStack stack = inv.getStackInSlot(i);
             if (!stack.isEmpty()) {
-                if (stack.getItem() instanceof ChaosRune) {
+                if (stack.getItem() instanceof ChaosRuneItem) {
                     // Any number of runes
                     runes.add(stack);
                 } else {
@@ -57,8 +59,8 @@ public class ApplyChaosRuneRecipe implements IRecipe {
 
         ItemStack result = chaosGem.copy();
         for (ItemStack rune : runes) {
-            IChaosBuff buff = ChaosRune.getBuff(rune);
-            if (buff == null || !ChaosGem.addBuff(result, buff)) {
+            IChaosBuff buff = ChaosRuneItem.getBuff(rune);
+            if (buff == null || !ChaosGemItem.addBuff(result, buff)) {
                 return ItemStack.EMPTY;
             }
         }
@@ -83,7 +85,7 @@ public class ApplyChaosRuneRecipe implements IRecipe {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return Serializer.INSTANCE;
+        return SERIALIZER;
     }
 
     @Override
@@ -92,10 +94,8 @@ public class ApplyChaosRuneRecipe implements IRecipe {
         return true;
     }
 
-    public static final class Serializer implements IRecipeSerializer<ApplyChaosRuneRecipe> {
-        public static final Serializer INSTANCE = new Serializer();
-
-        private Serializer() { }
+    public static final class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<ApplyChaosRuneRecipe> {
+        private Serializer() {}
 
         @Override
         public ApplyChaosRuneRecipe read(ResourceLocation recipeId, JsonObject json) {
@@ -108,11 +108,6 @@ public class ApplyChaosRuneRecipe implements IRecipe {
         }
 
         @Override
-        public void write(PacketBuffer buffer, ApplyChaosRuneRecipe recipe) { }
-
-        @Override
-        public ResourceLocation getName() {
-            return NAME;
-        }
+        public void write(PacketBuffer buffer, ApplyChaosRuneRecipe recipe) {}
     }
 }

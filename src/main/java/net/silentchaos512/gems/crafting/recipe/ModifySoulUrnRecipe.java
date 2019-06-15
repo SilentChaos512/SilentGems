@@ -1,16 +1,18 @@
 package net.silentchaos512.gems.crafting.recipe;
 
 import com.google.gson.JsonObject;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ICraftingRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.item.GemItem;
@@ -25,11 +27,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class ModifySoulUrnRecipe implements IRecipe {
-    private static final ResourceLocation NAME = SilentGems.getId("modify_soul_urn");
+public class ModifySoulUrnRecipe implements ICraftingRecipe {
+    public static final ResourceLocation NAME = SilentGems.getId("modify_soul_urn");
+    public static final Serializer SERIALIZER = new Serializer();
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(CraftingInventory inv, World worldIn) {
         StackList list = StackList.from(inv);
         ItemStack urn = list.uniqueMatch(ModifySoulUrnRecipe::isSoulUrn);
         Collection<ItemStack> mods = list.allMatches(ModifySoulUrnRecipe::isModifierItem);
@@ -51,7 +54,7 @@ public class ModifySoulUrnRecipe implements IRecipe {
     }
 
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack getCraftingResult(CraftingInventory inv) {
         StackList list = StackList.from(inv);
         ItemStack urn = list.uniqueMatch(ModifySoulUrnRecipe::isSoulUrn).copy();
         Collection<ItemStack> mods = list.allMatches(ModifySoulUrnRecipe::isModifierItem);
@@ -88,10 +91,10 @@ public class ModifySoulUrnRecipe implements IRecipe {
             UrnHelper.setGem(urn, gem);
         } else if (mod.getItem() instanceof IUrnUpgradeItem) {
             IUrnUpgradeItem upgradeItem = (IUrnUpgradeItem) mod.getItem();
-            NBTTagCompound urnSubcompound = urn.getOrCreateChildTag(UrnConst.NBT_ROOT);
+            CompoundNBT urnSubcompound = urn.getOrCreateChildTag(UrnConst.NBT_ROOT);
 
             List<UrnUpgrade> list = UrnUpgrade.ListHelper.load(urnSubcompound);
-            list.add(upgradeItem.getSerializer().deserialize(new NBTTagCompound()));
+            list.add(upgradeItem.getSerializer().deserialize(new CompoundNBT()));
             UrnUpgrade.ListHelper.save(list, urnSubcompound);
         }
     }
@@ -116,7 +119,7 @@ public class ModifySoulUrnRecipe implements IRecipe {
 
         for (ItemStack dye : dyes) {
             float[] componentValues = getDyeColor(dye)
-                    .orElse(EnumDyeColor.WHITE)
+                    .orElse(DyeColor.WHITE)
                     .getColorComponentValues();
             int r = (int) (componentValues[0] * 255.0F);
             int g = (int) (componentValues[1] * 255.0F);
@@ -143,8 +146,8 @@ public class ModifySoulUrnRecipe implements IRecipe {
         }
     }
 
-    private static Optional<EnumDyeColor> getDyeColor(ItemStack dye) {
-        return Optional.ofNullable(EnumDyeColor.getColor(dye));
+    private static Optional<DyeColor> getDyeColor(ItemStack dye) {
+        return Optional.ofNullable(DyeColor.getColor(dye));
     }
 
     @Override
@@ -175,13 +178,12 @@ public class ModifySoulUrnRecipe implements IRecipe {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return Serializer.INSTANCE;
+        return SERIALIZER;
     }
 
-    public static final class Serializer implements IRecipeSerializer<ModifySoulUrnRecipe> {
-        public static final Serializer INSTANCE = new Serializer();
+    public static final class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<ModifySoulUrnRecipe> {
 
-        private Serializer() { }
+        private Serializer() {}
 
         @Override
         public ModifySoulUrnRecipe read(ResourceLocation recipeId, JsonObject json) {
@@ -194,11 +196,6 @@ public class ModifySoulUrnRecipe implements IRecipe {
         }
 
         @Override
-        public void write(PacketBuffer buffer, ModifySoulUrnRecipe recipe) { }
-
-        @Override
-        public ResourceLocation getName() {
-            return NAME;
-        }
+        public void write(PacketBuffer buffer, ModifySoulUrnRecipe recipe) {}
     }
 }

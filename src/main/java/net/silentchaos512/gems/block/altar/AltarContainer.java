@@ -1,47 +1,53 @@
 package net.silentchaos512.gems.block.altar;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.silentchaos512.gems.init.GemsContainers;
 import net.silentchaos512.lib.inventory.SlotOutputOnly;
 
 import javax.annotation.Nonnull;
 
 public class AltarContainer extends Container {
-    private final AltarTileEntity altar;
+    final AltarTileEntity tileEntity;
 
-    public AltarContainer(InventoryPlayer inventoryPlayer, AltarTileEntity altar) {
-        this.altar = altar;
-        this.setupSlots(inventoryPlayer);
+    public AltarContainer(int id, PlayerInventory playerInventory) {
+        this(id, playerInventory, new AltarTileEntity());
     }
 
-    private void setupSlots(InventoryPlayer inventoryPlayer) {
-        this.addSlot(new Slot(this.altar, 0, 56, 25));
-        this.addSlot(new Slot(this.altar, 1, 56, 45));
-        this.addSlot(new SlotOutputOnly(this.altar, 2, 115, 35));
+    public AltarContainer(int id, PlayerInventory playerInventory, AltarTileEntity altar) {
+        super(GemsContainers.TRANSMUTATION_ALTAR.type(), id);
+        this.tileEntity = altar;
+        this.setupSlots(playerInventory);
+    }
+
+    private void setupSlots(PlayerInventory playerInventory) {
+        this.addSlot(new Slot(this.tileEntity, 0, 56, 25));
+        this.addSlot(new Slot(this.tileEntity, 1, 56, 45));
+        this.addSlot(new SlotOutputOnly(this.tileEntity, 2, 115, 35));
 
         int i;
         for (i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlot(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
 
         for (i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer playerIn) {
-        return this.altar.isUsableByPlayer(playerIn);
+    public boolean canInteractWith(PlayerEntity playerIn) {
+        return this.tileEntity.isUsableByPlayer(playerIn);
     }
 
     @Nonnull
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) {
+    public ItemStack transferStackInSlot(PlayerEntity player, int slotIndex) {
         ItemStack stack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(slotIndex);
 
@@ -56,7 +62,7 @@ public class AltarContainer extends Container {
 
                 slot.onSlotChange(stack1, stack);
             } else if (slotIndex != 0) {
-                if (this.altar.isItemValidForSlot(0, stack1)) {
+                if (this.tileEntity.isItemValidForSlot(0, stack1)) {
                     if (!this.mergeItemStack(stack1, 0, 1, false)) {
                         return ItemStack.EMPTY;
                     }

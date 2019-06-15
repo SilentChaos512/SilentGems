@@ -1,13 +1,14 @@
 package net.silentchaos512.gems.crafting.recipe;
 
 import com.google.gson.JsonObject;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ICraftingRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.gear.api.item.ICoreItem;
 import net.silentchaos512.gear.util.GearData;
 import net.silentchaos512.gems.SilentGems;
@@ -16,12 +17,14 @@ import net.silentchaos512.gems.lib.soul.GearSoul;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.lib.collection.StackList;
 
-public class ApplyGearSoulRecipe implements IRecipe {
-    public ApplyGearSoulRecipe() {
-    }
+public class ApplyGearSoulRecipe implements ICraftingRecipe {
+    public static final ResourceLocation NAME = SilentGems.getId("apply_gear_soul");
+    public static final Serializer SERIALIZER = new Serializer();
+
+    public ApplyGearSoulRecipe() {}
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(CraftingInventory inv, World worldIn) {
         StackList list = StackList.from(inv);
         ItemStack gear = list.uniqueOfType(ICoreItem.class);
         ItemStack gearSoul = list.uniqueOfType(GearSoulItem.class);
@@ -30,7 +33,7 @@ public class ApplyGearSoulRecipe implements IRecipe {
     }
 
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack getCraftingResult(CraftingInventory inv) {
         StackList list = StackList.from(inv);
         ItemStack result = list.uniqueOfType(ICoreItem.class).copy();
         ItemStack gearSoul = list.uniqueOfType(GearSoulItem.class);
@@ -65,19 +68,16 @@ public class ApplyGearSoulRecipe implements IRecipe {
 
     @Override
     public ResourceLocation getId() {
-        return Serializer.NAME;
+        return NAME;
     }
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return Serializer.INSTANCE;
+        return SERIALIZER;
     }
 
-    public static final class Serializer implements IRecipeSerializer<ApplyGearSoulRecipe> {
-        private static final ResourceLocation NAME = SilentGems.getId("apply_gear_soul");
-        public static final Serializer INSTANCE = new Serializer();
-
-        private Serializer() { }
+    public static final class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<ApplyGearSoulRecipe> {
+        private Serializer() {}
 
         @Override
         public ApplyGearSoulRecipe read(ResourceLocation recipeId, JsonObject json) {
@@ -90,12 +90,6 @@ public class ApplyGearSoulRecipe implements IRecipe {
         }
 
         @Override
-        public void write(PacketBuffer buffer, ApplyGearSoulRecipe recipe) {
-        }
-
-        @Override
-        public ResourceLocation getName() {
-            return NAME;
-        }
+        public void write(PacketBuffer buffer, ApplyGearSoulRecipe recipe) {}
     }
 }
