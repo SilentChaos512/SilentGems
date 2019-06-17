@@ -1,0 +1,32 @@
+{
+  "parent": "silentgems:recipes/root",
+  "rewards": {
+    "recipes": [
+      "silentgems:smelting/chaos_ore"
+    ]
+  },
+  "criteria": {
+    "has_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "silentgems:chaos_ore"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "silentgems:smelting/chaos_ore"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_item",
+      "has_the_recipe"
+    ]
+  ]
+}

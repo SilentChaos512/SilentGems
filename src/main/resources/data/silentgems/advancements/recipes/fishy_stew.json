@@ -1,0 +1,32 @@
+{
+  "parent": "silentgems:recipes/root",
+  "rewards": {
+    "recipes": [
+      "silentgems:fishy_stew"
+    ]
+  },
+  "criteria": {
+    "has_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "silentgems:uncooked_fishy_stew"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "silentgems:fishy_stew"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_item",
+      "has_the_recipe"
+    ]
+  ]
+}

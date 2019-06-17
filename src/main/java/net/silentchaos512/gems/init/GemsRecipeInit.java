@@ -3,7 +3,6 @@ package net.silentchaos512.gems.init;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.crafting.ingredient.SoulGemIngredient;
@@ -23,7 +22,7 @@ public final class GemsRecipeInit {
        register(SoulUrnRecipe.NAME, SoulUrnRecipe.SERIALIZER);
 
         if (SilentGems.isDevBuild()) {
-            MinecraftForge.EVENT_BUS.addListener(GemsRecipeInit::onPlayerJoinServer);
+//            MinecraftForge.EVENT_BUS.addListener(GemsRecipeInit::onPlayerJoinServer);
         }
     }
 
