@@ -3,11 +3,13 @@ package net.silentchaos512.gems.init;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.*;
+import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.loot.functions.SetSoulFunction;
 
 import java.util.Map;
 
@@ -31,6 +33,8 @@ public final class GemsLoot {
     private GemsLoot() {}
 
     public static void init() {
+        LootFunctionManager.registerFunction(SetSoulFunction.SERIALIZER);
+
         MinecraftForge.EVENT_BUS.addListener(GemsLoot::onLootTableLoad);
     }
 

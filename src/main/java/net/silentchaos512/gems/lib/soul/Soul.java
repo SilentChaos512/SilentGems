@@ -17,11 +17,13 @@ import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -137,11 +139,12 @@ public final class Soul {
 
         @SuppressWarnings("MethodMayBeStatic")
         @SubscribeEvent
-        public void onServerAboutToStart(FMLServerAboutToStartEvent event) {
+        public void onServerAboutToStart(FMLServerStartingEvent event) {
             MAP.clear();
             long seed = calculateSeed(event);
+            World world = event.getServer().getWorld(DimensionType.OVERWORLD);
             for (EntityType<?> entityType : ForgeRegistries.ENTITIES.getValues()) {
-                if (canHaveSoulGem(entityType)) {
+                if (canHaveSoulGem(entityType, world)) {
                     Soul soul = new Soul(seed, entityType);
                     MAP.put(entityType, soul);
                     ResourceLocation id = Objects.requireNonNull(entityType.getRegistryName());
@@ -150,13 +153,15 @@ public final class Soul {
             }
         }
 
-        private static boolean canHaveSoulGem(EntityType<?> type) {
+        private static boolean canHaveSoulGem(EntityType<?> type, World world) {
             try {
-                //noinspection ConstantConditions -- null world, it doesn't exist yet
-                Entity entity = type.create(null);
-                return entity instanceof MobEntity || entity instanceof PlayerEntity;
+                Entity entity = type.create(world);
+                boolean result = entity instanceof MobEntity || entity instanceof PlayerEntity;
+                if (entity != null) entity.remove();
+                return result;
             } catch (Exception ex) {
                 SilentGems.LOGGER.debug(MARKER, "Could not verify type of {}", type.getRegistryName());
+                SilentGems.LOGGER.catching(ex);
                 return false;
             }
         }
@@ -183,7 +188,7 @@ public final class Soul {
             return killedByPlayer && MathUtils.tryPercentage(dropRate);
         }
 
-        private static long calculateSeed(FMLServerAboutToStartEvent event) {
+        private static long calculateSeed(FMLServerStartingEvent event) {
             // Have to get the seed before the world actually exists...
             MinecraftServer server = event.getServer();
 
