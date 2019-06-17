@@ -76,9 +76,9 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
                 case 1:
                     return SuperchargerTileEntity.this.processTime;
                 case 2:
-                    return SuperchargerTileEntity.this.structureLevel;
-                case 3:
                     return SuperchargerTileEntity.this.chaosGenerated;
+                case 3:
+                    return SuperchargerTileEntity.this.structureLevel;
                 default:
                     return 0;
             }
@@ -94,10 +94,10 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
                     processTime = value;
                     break;
                 case 2:
-                    structureLevel = value;
+                    chaosGenerated = value;
                     break;
                 case 3:
-                    chaosGenerated = value;
+                    structureLevel = value;
                     break;
             }
         }

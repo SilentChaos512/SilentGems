@@ -11,6 +11,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -42,6 +43,42 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
     @SyncVariable(name = "ChaosGenerated")
     private int chaosGenerated;
     private int chaosBuffer;
+
+    final IIntArray fields = new IIntArray() {
+        @Override
+        public int get(int index) {
+            switch (index) {
+                case 0:
+                    return TokenEnchanterTileEntity.this.progress;
+                case 1:
+                    return TokenEnchanterTileEntity.this.processTime;
+                case 2:
+                    return TokenEnchanterTileEntity.this.chaosGenerated;
+                default:
+                    return 0;
+            }
+        }
+
+        @Override
+        public void set(int index, int value) {
+            switch (index) {
+                case 0:
+                    progress = value;
+                    break;
+                case 1:
+                    processTime = value;
+                    break;
+                case 2:
+                    chaosGenerated = value;
+                    break;
+            }
+        }
+
+        @Override
+        public int size() {
+            return 3;
+        }
+    };
 
     public TokenEnchanterTileEntity() {
         super(GemsTileEntities.TOKEN_ENCHANTER.type(), INVENTORY_SIZE);

@@ -36,6 +36,8 @@ public class TokenEnchanterContainer extends Container {
         this.addSlot(new SlotOutputOnly(this.tileEntity, 7, 132, 35));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
+
+        func_216961_a(this.tileEntity.fields);
     }
 
     @Override
