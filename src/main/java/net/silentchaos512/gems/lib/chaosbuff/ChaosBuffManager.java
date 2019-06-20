@@ -46,7 +46,9 @@ public final class ChaosBuffManager implements IResourceManagerReloadListener {
             try (IResource iresource = resourceManager.getResource(id)) {
                 String path = id.getPath().substring(DATA_PATH.length(), id.getPath().length() - ".json".length());
                 ResourceLocation name = new ResourceLocation(id.getNamespace(), path);
-                SilentGems.LOGGER.debug(MARKER, "Found likely chaos buff file: {}, trying to read as {}", id, name);
+                if (SilentGems.LOGGER.isTraceEnabled()) {
+                    SilentGems.LOGGER.trace(MARKER, "Found likely chaos buff file: {}, trying to read as {}", id, name);
+                }
 
                 JsonObject json = JSONUtils.fromJson(gson, IOUtils.toString(iresource.getInputStream(), StandardCharsets.UTF_8), JsonObject.class);
                 if (json == null) {

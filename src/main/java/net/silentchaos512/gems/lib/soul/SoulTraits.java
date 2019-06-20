@@ -3,8 +3,8 @@ package net.silentchaos512.gems.lib.soul;
 import lombok.Getter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Tuple;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.silentchaos512.gear.api.item.GearType;
@@ -162,17 +162,17 @@ public class SoulTraits {
         return SOUL_TRAITS.get(id);
     }
 
-    public static Optional<Tuple<ItemStack, Integer>> getHighestLevelEitherHand(PlayerEntity player, ResourceLocation trait) {
+    public static Optional<Hand> getHighestLevelEitherHand(PlayerEntity player, ResourceLocation trait) {
         ItemStack mainHand = player.getHeldItemMainhand();
         ItemStack offHand = player.getHeldItemOffhand();
         int levelMain = traitLevelWithSafetyChecks(mainHand, trait);
         int levelOff = traitLevelWithSafetyChecks(offHand, trait);
 
         if (levelMain > 0 && levelMain >= levelOff) {
-            return Optional.of(new Tuple<>(mainHand, levelMain));
+            return Optional.of(Hand.MAIN_HAND);
         }
         if (levelOff > 0) {
-            return Optional.of(new Tuple<>(offHand, levelOff));
+            return Optional.of(Hand.OFF_HAND);
         }
         return Optional.empty();
     }

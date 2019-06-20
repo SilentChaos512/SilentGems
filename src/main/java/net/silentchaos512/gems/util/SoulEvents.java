@@ -93,14 +93,13 @@ public final class SoulEvents {
         // Aerial - fall damage protection
         if (event.getSource() == DamageSource.FALL && event.getEntity() instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) event.getEntity();
-            SoulTraits.getHighestLevelEitherHand(player, SoulTraits.AERIAL).ifPresent(tuple -> {
+            SoulTraits.getHighestLevelEitherHand(player, SoulTraits.AERIAL).ifPresent(hand -> {
+                ItemStack stack = player.getHeldItem(hand);
+                int level = TraitHelper.getTraitLevel(stack, SoulTraits.AERIAL);
                 // Reduce by 2 + 2 * level, or 15% per level, whichever is greater
-                float amountToReduce = Math.max(
-                        2 + 2 * tuple.getB(),
-                        0.15f * tuple.getB() * event.getAmount()
-                );
+                float amountToReduce = Math.max(2 + 2 * level, 0.15f * level* event.getAmount());
                 event.setAmount(event.getAmount() - amountToReduce);
-                GearHelper.attemptDamage(tuple.getA(), 2, player);
+                GearHelper.attemptDamage(stack, 2, player, hand);
             });
         }
     }
@@ -116,10 +115,12 @@ public final class SoulEvents {
 
         // Aquatic - drowning protection (max air is 300, so 30 per bubble)
         if (!player.world.isRemote && player.getAir() < 5) {
-            SoulTraits.getHighestLevelEitherHand(player, SoulTraits.AQUATIC).ifPresent(tuple -> {
-                int amountToRestore = 60 * tuple.getB();
+            SoulTraits.getHighestLevelEitherHand(player, SoulTraits.AQUATIC).ifPresent(hand -> {
+                ItemStack stack = player.getHeldItem(hand);
+                int level = TraitHelper.getTraitLevel(stack, SoulTraits.AQUATIC);
+                int amountToRestore = 60 * level;
                 player.setAir(player.getAir() + amountToRestore);
-                GearHelper.attemptDamage(tuple.getA(), 2, player);
+                GearHelper.attemptDamage(stack, 2, player, hand);
                 player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_HURT_DROWN, SoundCategory.PLAYERS, 1f, 1f);
             });
         }

@@ -38,6 +38,7 @@ class SideProxy {
         SGearProxy.detectSilentGear();
         if (SGearProxy.isLoaded()) {
             SilentGems.LOGGER.info("Register part type {}", GearSoulPart.TYPE);
+            GemsTraits.registerSerializers();
             MinecraftForge.EVENT_BUS.register(SoulEvents.INSTANCE);
             MinecraftForge.EVENT_BUS.register(TraitEvents.INSTANCE);
         }

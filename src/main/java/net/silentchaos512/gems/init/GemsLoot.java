@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.*;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
+import net.minecraft.world.storage.loot.functions.SetCount;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -51,7 +52,10 @@ public final class GemsLoot {
         event.getTable().addPool((new LootPool.Builder())
                 .name("silentgems_added_gems")
                 .func_216046_a(new RandomValueRange(1, maxRolls))
-                .func_216045_a(TableLootEntry.func_216171_a(RANDOM_GEMS).func_216086_a(10))
+                .func_216045_a(TableLootEntry.func_216171_a(RANDOM_GEMS)
+                        .func_216086_a(10)
+                        .func_212841_b_(SetCount.func_215932_a(new RandomValueRange(2, 5)))
+                )
                 .func_216044_b());
     }
 }

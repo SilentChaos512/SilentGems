@@ -77,6 +77,10 @@
             "item": "silentgems:chaos_iron"
         }
     },
+    "name": {
+        "name": "part.silentgems.main.chaos_iron",
+        "translate": true
+    },
     "textures": {
         "texture_domain": "silentgear",
         "texture_suffix": "iron",

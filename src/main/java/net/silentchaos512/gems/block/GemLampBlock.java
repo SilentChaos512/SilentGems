@@ -24,7 +24,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IItemProvider;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -103,24 +102,22 @@ public class GemLampBlock extends Block {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean p_220082_5_) {
             checkAndUpdateState(worldIn, pos);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
             checkAndUpdateState(worldIn, pos);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void tick(BlockState state, World world, BlockPos pos, Random random) {
             checkAndUpdateState(world, pos);
-    }
-
-    private IItemProvider getUnpoweredLamp() {
-        State unpowered = this.lampState.withPower(false);
-        return this.gem.getLamp(unpowered);
     }
 
     @Override

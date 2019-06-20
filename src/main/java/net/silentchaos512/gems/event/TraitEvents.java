@@ -8,7 +8,7 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.silentchaos512.gear.util.GearHelper;
 import net.silentchaos512.gear.util.TraitHelper;
-import net.silentchaos512.gems.lib.GemsTraits;
+import net.silentchaos512.gems.init.GemsTraits;
 import net.silentchaos512.utils.MathUtils;
 
 public final class TraitEvents {

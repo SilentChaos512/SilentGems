@@ -50,6 +50,7 @@ public final class ChaosBuffSerializers {
         return serializer.read(id, buffer);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends IChaosBuff> void write(T trait, PacketBuffer buffer) {
         buffer.writeResourceLocation(trait.getId());
         buffer.writeResourceLocation(trait.getSerializer().getName());

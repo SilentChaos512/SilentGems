@@ -22,6 +22,7 @@ public class RedstoneGemTeleporterBlock extends GemTeleporterBlock {
         return new TranslationTextComponent("block.silentgems.redstone_teleporter", this.gem.getDisplayName());
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
         GemTeleporterTileEntity tile = (GemTeleporterTileEntity) world.getTileEntity(pos);
