@@ -15,9 +15,11 @@
         "get_items": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "item": {
-                    "tag": "silentgems:pedestals"
-                }
+                "items": [
+                    {
+                        "tag": "silentgems:pedestals"
+                    }
+                ]
             }
         }
     }

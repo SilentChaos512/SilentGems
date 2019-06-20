@@ -24,18 +24,22 @@
         "get_flower": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "item": {
-                    "tag": "silentgems:glowroses"
-                }
+                "items": [
+                    {
+                        "tag": "silentgems:glowroses"
+                    }
+                ]
             }
         },
         "plant_flower": {
             "trigger": "minecraft:placed_block",
             "conditions": {
                 "block": "silentgems:luminous_flower_pot",
-                "item": {
-                    "tag": "silentgems:glowroses"
-                }
+                "items": [
+                    {
+                        "tag": "silentgems:glowroses"
+                    }
+                ]
             }
         }
     }

@@ -4,8 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Requirements on some advancements (pedestals, hardened rock) [#373]
+
+## [3.1.0] - 2019-06-17
 ### Added
 - Configs for ender slime spawns are back
+- Recipe advancements for most items (except gem stuff)
 
 ## [3.0.12] - 2019-04-24
 ### Added

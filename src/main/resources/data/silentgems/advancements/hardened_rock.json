@@ -17,13 +17,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "silentgems:hardened_stone"
-                    },
-                    {
-                        "item": "silentgems:hardened_netherrack"
-                    },
-                    {
-                        "item": "silentgems:hardened_end_stone"
+                        "tag": "silentgems:hardened_rock"
                     }
                 ]
             }
