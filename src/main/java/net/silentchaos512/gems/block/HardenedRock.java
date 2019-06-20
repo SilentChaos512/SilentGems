@@ -22,24 +22,24 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
-import net.minecraft.util.IItemProvider;
 import net.minecraft.util.IStringSerializable;
+import net.silentchaos512.lib.block.IBlockProvider;
 import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
 
-public enum HardenedRock implements IItemProvider, IStringSerializable {
+public enum HardenedRock implements IBlockProvider, IStringSerializable {
     STONE, NETHERRACK, END_STONE;
 
     private final Lazy<Block> block;
 
-    public Block getBlock() {
+    public Block asBlock() {
         return block.get();
     }
 
     @Override
     public Item asItem() {
-        return getBlock().asItem();
+        return asBlock().asItem();
     }
 
     @Override

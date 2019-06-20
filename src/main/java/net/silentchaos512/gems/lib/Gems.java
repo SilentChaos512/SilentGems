@@ -20,6 +20,7 @@ import net.silentchaos512.gems.item.ChaosGemItem;
 import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.item.GemShardItem;
 import net.silentchaos512.gems.item.ReturnHomeCharmItem;
+import net.silentchaos512.lib.block.IBlockProvider;
 import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
@@ -308,15 +309,19 @@ public enum Gems implements IStringSerializable {
     }
 
     public enum Set implements Iterable<Gems> {
-        CLASSIC(0), DARK(16), LIGHT(32); // Overworld, Nether, and the End
+        CLASSIC(0, HardenedRock.STONE), // Overworld
+        DARK(16, HardenedRock.NETHERRACK), // Nether
+        LIGHT(32, HardenedRock.END_STONE); // The End
 
         private final int startMeta; // TODO: Should probably do away with this... but works for now
         private final MultiGemOreBlock multiOre;
+        private final IBlockProvider geodeShell;
         private final Collection<Gems> gems = new ArrayList<>();
 
-        Set(int startMeta) {
+        Set(int startMeta, IBlockProvider geodeShell) {
             this.startMeta = startMeta;
             multiOre = new MultiGemOreBlock(this);
+            this.geodeShell = geodeShell;
         }
 
         public static Set forDimension(int dimension) {
@@ -327,6 +332,10 @@ public enum Gems implements IStringSerializable {
 
         public MultiGemOreBlock getMultiOre() {
             return multiOre;
+        }
+
+        public IBlockProvider getGeodeShell() {
+            return geodeShell;
         }
 
         public Gems selectRandom(Random random) {

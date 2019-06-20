@@ -4,7 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Gem geodes are back. These are deposits of gems that are encased in hardened rock. There are classic, dark, and light variants, all found in the overworld.
 ### Changed
+- Updated dark gem ores to match new netherrack texture
 - Hardened stone, netherrack, and end stone textures
 ### Fixed
 - Requirements on some advancements (pedestals, hardened rock) [#373]

@@ -72,7 +72,7 @@ public final class GemsBlocks {
         }
 
         for (HardenedRock type : HardenedRock.values()) {
-            register(type.getName(), type.getBlock());
+            register(type.getName(), type.asBlock());
         }
 
         for (CorruptedBlocks block : CorruptedBlocks.values()) {

@@ -9,6 +9,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.placement.ChanceRangeConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.Placement;
@@ -22,9 +23,7 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.EnderSlimeEntity;
 import net.silentchaos512.gems.init.GemsEntities;
 import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.gems.world.feature.GlowroseFeature;
-import net.silentchaos512.gems.world.feature.SGOreFeature;
-import net.silentchaos512.gems.world.feature.SGOreFeatureConfig;
+import net.silentchaos512.gems.world.feature.*;
 import net.silentchaos512.lib.world.feature.PlantFeature;
 import net.silentchaos512.utils.MathUtils;
 
@@ -81,6 +80,10 @@ public final class GemsWorldFeatures {
 
                 if (biome.getDownfall() > 0.4f) {
                     addWildFluffyPuffs(biome);
+                }
+
+                for (Gems.Set gemSet : Gems.Set.values()) {
+                    addGemGeode(biome, gemSet, random);
                 }
             }
         }
@@ -149,6 +152,16 @@ public final class GemsWorldFeatures {
                 ),
                 Placement.COUNT_RANGE,
                 new CountRangeConfig(count, minHeight, 0, maxHeight)
+        ));
+    }
+
+    private static void addGemGeode(Biome biome, Gems.Set gemSet, Random random) {
+        float chance = 0.05f + 0.0025f * (float) random.nextGaussian();
+        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
+                GemGeodeFeature.INSTANCE,
+                new GemGeodeFeatureConfig(gemSet, gemSet.getGeodeShell().asBlockState(), s -> s.isIn(Tags.Blocks.STONE)),
+                Placement.CHANCE_RANGE,
+                new ChanceRangeConfig(chance, 20, 0, 40)
         ));
     }
 
