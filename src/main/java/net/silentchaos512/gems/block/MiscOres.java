@@ -74,7 +74,7 @@ public enum MiscOres implements IBlockProvider, IStringSerializable {
     }
 
     public static abstract class MiscOreBlock extends OreBlockSG {
-        private static final int CHAOS_ORE_CHAOS_GENERATED = 200;
+        private static final int CHAOS_ORE_CHAOS_GENERATED = 500;
 
         static final BooleanProperty LIT = BlockStateProperties.LIT;
 

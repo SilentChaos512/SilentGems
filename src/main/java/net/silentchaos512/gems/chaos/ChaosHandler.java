@@ -16,7 +16,7 @@ import org.apache.logging.log4j.MarkerManager;
 @Mod.EventBusSubscriber(modid = SilentGems.MOD_ID)
 public final class ChaosHandler {
     // TODO: Add configs!
-    private static final int ENTITY_TO_WORLD_RATE = 500;
+    private static final int ENTITY_TO_WORLD_RATE = 100;
     private static final Marker MARKER = MarkerManager.getMarker("ChaosHandler");
 
     private ChaosHandler() {}

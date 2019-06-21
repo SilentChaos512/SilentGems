@@ -89,8 +89,16 @@
     },
     "traits": [
         {
-            "level": 1,
+            "level": 3,
             "name": "silentgear:brittle"
+        },
+        {
+            "level": 1,
+            "name": "silentgear:eroded"
+        },
+        {
+            "level": 1,
+            "name": "silentgems:chaotic"
         }
     ],
     "type": "silentgear:main"

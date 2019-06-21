@@ -182,9 +182,6 @@ public final class Soul {
         private static boolean shouldDropSoulGem(LivingDropsEvent event, LivingEntity entity, @Nonnull Soul soul) {
             boolean killedByPlayer = event.getSource().getTrueSource() instanceof PlayerEntity;
             float dropRate = soul.getDropRate(entity);
-            if (killedByPlayer && SilentGems.LOGGER.isDebugEnabled()) {
-                SilentGems.LOGGER.debug("Soul.shouldDropSoulGem: {}", dropRate);
-            }
             return killedByPlayer && MathUtils.tryPercentage(dropRate);
         }
 

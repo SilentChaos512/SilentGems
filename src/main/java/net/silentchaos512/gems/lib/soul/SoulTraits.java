@@ -15,6 +15,7 @@ import net.silentchaos512.gear.util.GearData;
 import net.silentchaos512.gear.util.GearHelper;
 import net.silentchaos512.gear.util.TraitHelper;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.init.GemsTraits;
 
 import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
@@ -61,6 +62,7 @@ public class SoulTraits {
         Builder.create(ARMOR, 10)
                 .favorsElements(SoulElement.METAL)
                 .favorsGear(GearType.ARMOR)
+                .lockToFavoredGearType()
                 .add();
 
         Builder.create(AERIAL, 5)
@@ -82,6 +84,7 @@ public class SoulTraits {
                 .medianLevel(13)
                 .weight(-7, 0.25)
                 .favorsElements(SoulElement.FLORA, SoulElement.EARTH)
+                .lockToFavoredElements()
                 .add();
         Builder.create(PERSISTENCE, 5)
                 .medianLevel(11)
@@ -97,6 +100,19 @@ public class SoulTraits {
                 .weight(-6, 0.5)
                 .favorsElements(SoulElement.FIRE, SoulElement.METAL)
                 .add();
+
+        Builder.create(GemsTraits.CRITICAL, 5)
+                .medianLevel(7)
+                .weight(0, 1.1)
+                .favorsElements(SoulElement.LIGHTNING, SoulElement.MONSTER)
+                .favorsGear(GearType.TOOL)
+                .lockToFavoredGearType()
+                .add();
+        Builder.create(GemsTraits.LUNA, 5)
+                .medianLevel(10)
+                .weight(-8, 0.5)
+                .favorsElements(SoulElement.ICE, SoulElement.FAUNA)
+                .add();
     }
 
     private final ResourceLocation traitId;
@@ -105,6 +121,7 @@ public class SoulTraits {
     private final double weight;
     private final SoulElement[] favoredElements;
     private final boolean lockedToFavoredElements;
+    private final boolean lockedToFavoredGearType;
     private final double favoredWeightMulti;
     @Nullable private final GearType favoredGearType;
 
@@ -115,6 +132,7 @@ public class SoulTraits {
         this.weight = builder.weight;
         this.favoredElements = builder.favoredElements;
         this.lockedToFavoredElements = builder.lockedToFavoredElements;
+        this.lockedToFavoredGearType = builder.lockedToFavoredGearType;
         this.favoredWeightMulti = builder.favoredWeightMulti;
         this.favoredGearType = builder.favoredGearType;
     }
@@ -125,6 +143,11 @@ public class SoulTraits {
     }
 
     public boolean canLearn(GearSoul soul, ItemStack gear) {
+        GearType gearType = GearHelper.getType(gear);
+        // Locked to specific gear type(s)?
+        if (lockedToFavoredGearType && (favoredGearType == null || gearType == null || !favoredGearType.matches(gearType.getName())))
+            return false;
+
         if (this.lockedToFavoredElements) {
             boolean foundMatch = false;
             for (SoulElement element : this.favoredElements) {
@@ -274,6 +297,7 @@ public class SoulTraits {
         private double weight;
         private SoulElement[] favoredElements = new SoulElement[0];
         private boolean lockedToFavoredElements;
+        private boolean lockedToFavoredGearType;
         private double favoredWeightMulti;
         private GearType favoredGearType;
 
@@ -309,6 +333,11 @@ public class SoulTraits {
 
         public Builder lockToFavoredElements() {
             this.lockedToFavoredElements = true;
+            return this;
+        }
+
+        public Builder lockToFavoredGearType() {
+            this.lockedToFavoredGearType = true;
             return this;
         }
 

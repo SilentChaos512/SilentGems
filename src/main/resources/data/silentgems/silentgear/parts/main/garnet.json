@@ -89,6 +89,10 @@
     },
     "traits": [
         {
+            "level": 2,
+            "name": "silentgear:fiery"
+        },
+        {
             "level": 1,
             "name": "silentgear:brittle"
         }

@@ -89,6 +89,10 @@
     },
     "traits": [
         {
+            "level": 3,
+            "name": "silentgear:adamant"
+        },
+        {
             "level": 1,
             "name": "silentgear:brittle"
         }

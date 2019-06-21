@@ -89,7 +89,11 @@
     },
     "traits": [
         {
-            "level": 1,
+            "level": 2,
+            "name": "silentgems:sol"
+        },
+        {
+            "level": 3,
             "name": "silentgear:brittle"
         }
     ],
