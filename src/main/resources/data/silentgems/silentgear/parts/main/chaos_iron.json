@@ -3,7 +3,7 @@
     "stats": [
         {
             "name": "durability",
-            "value": 360
+            "value": 512
         },
         {
             "name": "armor_durability",
@@ -68,8 +68,12 @@
             "level": 3
         },
         {
-            "name": "silentgear:speed_boost_light",
+            "name": "silentgems:chaotic",
             "level": 3
+        },
+        {
+            "name": "silentgems:entropy",
+            "level": 2
         }
     ],
     "crafting_items": {
@@ -82,10 +86,12 @@
         "translate": true
     },
     "textures": {
-        "texture_domain": "silentgear",
-        "texture_suffix": "iron",
-        "texture_color": "CEBEB1",
-        "broken_color": "CEBEB1"
+        "all": {
+            "texture_domain": "silentgear",
+            "texture_suffix": "iron",
+            "normal_color": "#CEBEB1",
+            "broken_color": "#CEBEB1"
+        }
     },
     "availability": {
         "tier": 3

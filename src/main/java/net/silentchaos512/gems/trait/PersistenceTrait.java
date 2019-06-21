@@ -11,7 +11,7 @@ public class PersistenceTrait extends SimpleTrait {
     public static final Serializer<PersistenceTrait> SERIALIZER = new Serializer<>(SilentGems.getId("persistence"), PersistenceTrait::new);
 
     public PersistenceTrait(ResourceLocation id) {
-        super(id);
+        super(id, SERIALIZER);
     }
 
     @Override

@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
 import net.silentchaos512.gems.api.chaos.IChaosSource;
 import net.silentchaos512.gems.block.pedestal.PedestalTileEntity;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -140,6 +141,11 @@ public final class Chaos {
     public static int getEquilibriumPoint(World world) {
         long time = world.getGameTime();
         return (int) (EQUILIBRIUM_BASE + EQUILIBRIUM_VARIATION * Math.cos(EQUILIBRIUM_CYCLE_CONSTANT * time));
+    }
+
+    public static int getChaos(ICapabilityProvider provider) {
+        LazyOptional<IChaosSource> optional = provider.getCapability(ChaosSourceCapability.INSTANCE);
+        return optional.isPresent() ? optional.orElseGet(ChaosSourceCapability::new).getChaos() : 0;
     }
 
     /**

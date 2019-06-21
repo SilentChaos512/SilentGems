@@ -18,6 +18,6 @@
   "result": {
     "item": "silentgems:soul_urn"
   },
-  "type": "crafting_shaped",
+  "type": "silentgems:soul_urn",
   "group": "silentgems:soul_urns"
 }

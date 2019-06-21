@@ -1,6 +1,6 @@
 {
-    "type": "silentgear:simple_trait",
-    "max_level": 5,
+    "type": "silentgems:runic",
+    "max_level": 1,
     "cancels_with": [],
     "name": {
         "translate": true,

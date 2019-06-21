@@ -4,13 +4,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+Minimum Silent Gear version: 1.1.2
 ### Added
 - Gem geodes are back. These are deposits of gems that are encased in hardened rock. There are classic, dark, and light variants, all found in the overworld.
+- Implemented traits (some traits are still missing effects)
+    - Chaotic - generates chaos when used
+    - Entropy - increases block breaking speed depending on chaos levels
+    - Luna - attacks deal more damage at night (cancels with Sol)
+    - Persistence - slow self-repair
+    - Runic - adds damage based on magic damage stat (this will change later)
+    - Sol - attacks deal more damage during the day (cancels with Luna)
 ### Changed
 - Updated dark gem ores to match new netherrack texture
 - Hardened stone, netherrack, and end stone textures
+- Gear souls no longer gain the armor trait unless on an armor item
 ### Fixed
 - Requirements on some advancements (pedestals, hardened rock) [#373]
+- Undyed soul urn recipe not considering gem used
 
 ## [3.1.0] - 2019-06-17
 ### Added

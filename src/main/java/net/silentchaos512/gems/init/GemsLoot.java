@@ -51,11 +51,11 @@ public final class GemsLoot {
         SilentGems.LOGGER.info("Add gems to loot pool {} ({} rolls)", event.getName(), maxRolls);
         event.getTable().addPool((new LootPool.Builder())
                 .name("silentgems_added_gems")
-                .func_216046_a(new RandomValueRange(1, maxRolls))
-                .func_216045_a(TableLootEntry.func_216171_a(RANDOM_GEMS)
-                        .func_216086_a(10)
-                        .func_212841_b_(SetCount.func_215932_a(new RandomValueRange(2, 5)))
+                .rolls(new RandomValueRange(1, maxRolls))
+                .addEntry(TableLootEntry.func_216171_a(RANDOM_GEMS)
+                        .weight(10)
+                        .acceptFunction(SetCount.func_215932_a(new RandomValueRange(2, 5)))
                 )
-                .func_216044_b());
+                .build());
     }
 }
