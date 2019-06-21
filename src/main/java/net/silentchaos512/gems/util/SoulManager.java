@@ -39,6 +39,7 @@ public final class SoulManager {
         return null;
     }
 
+    @Nullable
     private static GearSoul getSoulFromGear(ItemStack gear) {
         // Find soul part, if it exists
         // We can't actually read/write anything to part data, just make sure the part is there

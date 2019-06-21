@@ -16,7 +16,6 @@ public final class GemsRecipeInit {
 
        register(ApplyChaosRuneRecipe.NAME, ApplyChaosRuneRecipe.SERIALIZER);
        register(ApplyEnchantmentTokenRecipe.NAME, ApplyEnchantmentTokenRecipe.SERIALIZER);
-       register(ApplyGearSoulRecipe.NAME, ApplyGearSoulRecipe.SERIALIZER);
        register(GearSoulRecipe.NAME, GearSoulRecipe.SERIALIZER);
        register(ModifySoulUrnRecipe.NAME, ModifySoulUrnRecipe.SERIALIZER);
        register(SoulUrnRecipe.NAME, SoulUrnRecipe.SERIALIZER);

@@ -25,8 +25,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.silentchaos512.gear.api.event.GetStatModifierEvent;
-import net.silentchaos512.gear.api.stats.CommonItemStats;
 import net.silentchaos512.gear.api.stats.ItemStat;
+import net.silentchaos512.gear.api.stats.ItemStats;
 import net.silentchaos512.gear.api.stats.StatInstance;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.GemsEnchantments;
@@ -45,18 +45,18 @@ public class SGearStatHandler {
     private static final Map<ItemStat, ToDoubleFunction<ChargedProperties>> BOOSTED_STATS =
             ImmutableMap.<ItemStat, ToDoubleFunction<ChargedProperties>>builder()
                     //@formatter:off
-                    .put(CommonItemStats.DURABILITY,        prop -> prop.originalStat * Math.pow(2.0, prop.chargeValue))
-                    .put(CommonItemStats.ARMOR_DURABILITY,  prop -> prop.originalStat * Math.pow(1.8, prop.chargeValue))
-                    .put(CommonItemStats.ENCHANTABILITY,    prop -> prop.originalStat * (1 + prop.superchargedLevel * (Math.sqrt(prop.chargeability) - 1)))
-                    .put(CommonItemStats.RARITY,            prop -> prop.originalStat + prop.superchargedLevel * 10)
-                    .put(CommonItemStats.HARVEST_LEVEL,     prop -> prop.originalStat + prop.superchargedLevel)
-                    .put(CommonItemStats.HARVEST_SPEED,     prop -> prop.originalStat + prop.superchargedLevel * prop.chargeValue * 3)
-                    .put(CommonItemStats.MELEE_DAMAGE,      prop -> prop.originalStat + prop.chargeValue * 2)
-                    .put(CommonItemStats.MAGIC_DAMAGE,      prop -> prop.originalStat + prop.chargeValue * 2)
-                    .put(CommonItemStats.RANGED_DAMAGE,     prop -> prop.originalStat + prop.chargeValue)
-                    .put(CommonItemStats.ARMOR,             prop -> prop.originalStat + prop.chargeValue)
-                    .put(CommonItemStats.ARMOR_TOUGHNESS,   prop -> prop.originalStat + prop.chargeValue / 2)
-                    .put(CommonItemStats.MAGIC_ARMOR,       prop -> prop.originalStat + prop.chargeValue)
+                    .put(ItemStats.DURABILITY,        prop -> prop.originalStat * Math.pow(2.0, prop.chargeValue))
+                    .put(ItemStats.ARMOR_DURABILITY,  prop -> prop.originalStat * Math.pow(1.8, prop.chargeValue))
+                    .put(ItemStats.ENCHANTABILITY,    prop -> prop.originalStat * (1 + prop.superchargedLevel * (Math.sqrt(prop.chargeability) - 1)))
+                    .put(ItemStats.RARITY,            prop -> prop.originalStat + prop.superchargedLevel * 10)
+                    .put(ItemStats.HARVEST_LEVEL,     prop -> prop.originalStat + prop.superchargedLevel)
+                    .put(ItemStats.HARVEST_SPEED,     prop -> prop.originalStat + prop.superchargedLevel * prop.chargeValue * 3)
+                    .put(ItemStats.MELEE_DAMAGE,      prop -> prop.originalStat + prop.chargeValue * 2)
+                    .put(ItemStats.MAGIC_DAMAGE,      prop -> prop.originalStat + prop.chargeValue * 2)
+                    .put(ItemStats.RANGED_DAMAGE,     prop -> prop.originalStat + prop.chargeValue)
+                    .put(ItemStats.ARMOR,             prop -> prop.originalStat + prop.chargeValue)
+                    .put(ItemStats.ARMOR_TOUGHNESS,   prop -> prop.originalStat + prop.chargeValue / 2)
+                    .put(ItemStats.MAGIC_ARMOR, prop -> prop.originalStat + prop.chargeValue)
                     //@formatter:on
                     .build();
 

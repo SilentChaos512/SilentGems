@@ -6,8 +6,8 @@ import net.silentchaos512.gear.api.parts.IPartPosition;
 import net.silentchaos512.gear.api.parts.IPartSerializer;
 import net.silentchaos512.gear.api.parts.IUpgradePart;
 import net.silentchaos512.gear.api.parts.PartType;
-import net.silentchaos512.gear.api.stats.CommonItemStats;
 import net.silentchaos512.gear.api.stats.ItemStat;
+import net.silentchaos512.gear.api.stats.ItemStats;
 import net.silentchaos512.gear.api.stats.StatInstance;
 import net.silentchaos512.gear.api.traits.ITrait;
 import net.silentchaos512.gear.parts.AbstractGearPart;
@@ -62,7 +62,7 @@ public class GearSoulPart extends AbstractGearPart implements IUpgradePart {
     public Collection<StatInstance> getStatModifiers(ItemStack gear, ItemStat stat, PartData part) {
         Collection<StatInstance> mods = super.getStatModifiers(gear, stat, part);
 
-        GearSoul soul = SoulManager.getSoul(gear);
+        GearSoul soul = SoulManager.getSoul(!gear.isEmpty() ? gear : part.getCraftingItem());
         if (soul != null) {
             float amount = getSoulStatModifier(soul, stat);
             if (!MathUtils.doublesEqual(amount, 0)) {
@@ -74,11 +74,11 @@ public class GearSoulPart extends AbstractGearPart implements IUpgradePart {
     }
 
     private static float getSoulStatModifier(GearSoul soul, ItemStat stat) {
-        if (stat == CommonItemStats.ARMOR) return soul.getArmorModifier();
-        if (stat == CommonItemStats.DURABILITY) return soul.getDurabilityModifier();
-        if (stat == CommonItemStats.HARVEST_SPEED) return soul.getHarvestSpeedModifier();
-        if (stat == CommonItemStats.MAGIC_DAMAGE) return soul.getMagicDamageModifier();
-        if (stat == CommonItemStats.MELEE_DAMAGE) return soul.getMeleeDamageModifier();
+        if (stat == ItemStats.ARMOR) return soul.getArmorModifier();
+        if (stat == ItemStats.DURABILITY) return soul.getDurabilityModifier();
+        if (stat == ItemStats.HARVEST_SPEED) return soul.getHarvestSpeedModifier();
+        if (stat == ItemStats.MAGIC_DAMAGE) return soul.getMagicDamageModifier();
+        if (stat == ItemStats.MELEE_DAMAGE) return soul.getMeleeDamageModifier();
         return 0;
     }
 
@@ -96,5 +96,15 @@ public class GearSoulPart extends AbstractGearPart implements IUpgradePart {
         }
 
         return traits;
+    }
+
+    @Override
+    public void onAddToGear(ItemStack gear, ItemStack part) {
+        GearSoul soul = SoulManager.getSoul(part);
+        if (soul == null) {
+            SilentGems.LOGGER.warn("Gear soul is missing soul data: {}", part);
+            return;
+        }
+        SoulManager.setSoul(gear, soul);
     }
 }

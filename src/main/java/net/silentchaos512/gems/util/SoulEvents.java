@@ -97,7 +97,7 @@ public final class SoulEvents {
                 ItemStack stack = player.getHeldItem(hand);
                 int level = TraitHelper.getTraitLevel(stack, SoulTraits.AERIAL);
                 // Reduce by 2 + 2 * level, or 15% per level, whichever is greater
-                float amountToReduce = Math.max(2 + 2 * level, 0.15f * level* event.getAmount());
+                float amountToReduce = Math.max(2 + 2 * level, 0.15f * level * event.getAmount());
                 event.setAmount(event.getAmount() - amountToReduce);
                 GearHelper.attemptDamage(stack, 2, player, hand);
             });
@@ -155,11 +155,9 @@ public final class SoulEvents {
         @SubscribeEvent
         public void onTooltip(ItemTooltipEvent event) {
             ItemStack stack = event.getItemStack();
-            if (GearHelper.isGear(stack)) {
-                GearSoul soul = SoulManager.getSoul(stack);
-                if (soul != null) {
-                    soul.addInformation(stack, null, event.getToolTip(), event.getFlags().isAdvanced());
-                }
+            GearSoul soul = SoulManager.getSoul(stack);
+            if (soul != null) {
+                soul.addInformation(stack, null, event.getToolTip(), event.getFlags().isAdvanced());
             }
         }
     }
