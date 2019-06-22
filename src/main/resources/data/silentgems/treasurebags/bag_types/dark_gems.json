@@ -1,0 +1,6 @@
+{
+    "displayName": "Dark Gems Bag",
+    "lootTable": "silentgems:bags/dark_gems",
+    "bagColor": "crimson",
+    "bagOverlayColor": "gold"
+}

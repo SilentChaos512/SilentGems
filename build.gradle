@@ -111,6 +111,8 @@ dependencies {
 //    deobf "mezz.jei:jei-${project.mc_version}:${project.jei_version}"
 //    compile 'com.github.mezz:JustEnoughItems:v5.0.0'
 //    compile 'com.github.mezz:JustEnoughItems:1.13-SNAPSHOT'
+
+    compile "net.silentchaos512:treasure-bags:0.+"
 }
 
 jar {
