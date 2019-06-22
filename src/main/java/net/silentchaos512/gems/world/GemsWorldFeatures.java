@@ -24,6 +24,8 @@ import net.silentchaos512.gems.entity.EnderSlimeEntity;
 import net.silentchaos512.gems.init.GemsEntities;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.world.feature.*;
+import net.silentchaos512.gems.world.placement.NetherFloorWithExtra;
+import net.silentchaos512.gems.world.placement.NetherFloorWithExtraConfig;
 import net.silentchaos512.lib.world.feature.PlantFeature;
 import net.silentchaos512.utils.MathUtils;
 
@@ -44,17 +46,43 @@ public final class GemsWorldFeatures {
             long seed = getBiomeSeed(biome);
             Random random = new Random(seed);
 
-            // TODO: Nether and End just uses multi-gem ore.
             if (biome.getCategory() == Biome.Category.NETHER) {
                 // Nether
-                addOre(biome, Gems.Set.DARK.getMultiOre(), 8, 12, 25, 95, state ->
-                        state.getBlock() == Blocks.NETHERRACK);
+                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
+                        RegionalGemsFeature.INSTANCE,
+                        new RegionalGemsFeatureConfig(Gems.Set.DARK, 10, 8, state -> state.getBlock() == Blocks.NETHERRACK),
+                        Placement.COUNT_RANGE,
+                        new CountRangeConfig(12, 25, 0, 95)
+                ));
+
+//                addOre(biome, Gems.Set.DARK.getMultiOre(), 8, 12, 25, 95, state -> state.getBlock() == Blocks.NETHERRACK);
+
+                biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(
+                        new GlowroseFeature(Gems.Set.DARK),
+                        NoFeatureConfig.NO_FEATURE_CONFIG,
+                        NetherFloorWithExtra.INSTANCE,
+                        new NetherFloorWithExtraConfig(0, 0.25f, 1, 32, 96)
+                ));
             } else if (biome.getCategory() == Biome.Category.THEEND) {
                 // The End
-                addOre(biome, Gems.Set.LIGHT.getMultiOre(), 8, 12, 16, 64, state ->
-                        state.getBlock() == Blocks.END_STONE);
+                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
+                        RegionalGemsFeature.INSTANCE,
+                        new RegionalGemsFeatureConfig(Gems.Set.LIGHT, 10, 6, state -> state.getBlock() == Blocks.END_STONE),
+                        Placement.COUNT_RANGE,
+                        new CountRangeConfig(12, 16, 0, 72)
+                ));
+
+//                addOre(biome, Gems.Set.LIGHT.getMultiOre(), 8, 12, 16, 64, state -> state.getBlock() == Blocks.END_STONE);
+
                 addEnderOre(biome, random);
                 addEnderSlimeSpawns(biome);
+
+                biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(
+                        new GlowroseFeature(Gems.Set.LIGHT),
+                        NoFeatureConfig.NO_FEATURE_CONFIG,
+                        Placement.COUNT_HEIGHTMAP_32,
+                        new FrequencyConfig(1)
+                ));
             } else {
                 // Overworld and other dimensions
                 Collection<Gems> toAdd = EnumSet.noneOf(Gems.class);

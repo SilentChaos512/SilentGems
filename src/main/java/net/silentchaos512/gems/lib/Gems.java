@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.lib;
 
+import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.Block;
 import net.minecraft.block.FlowerPotBlock;
 import net.minecraft.item.Item;
@@ -328,6 +329,11 @@ public enum Gems implements IStringSerializable {
             if (dimension == -1) return DARK;
             if (dimension == 1) return LIGHT;
             return CLASSIC;
+        }
+
+        public static Set deserialize(Dynamic<?> dynamic) {
+            String setName = dynamic.get("gem_set").asString("classic");
+            return "light".equals(setName) ? Gems.Set.LIGHT : "dark".equals(setName) ? Gems.Set.DARK : Gems.Set.CLASSIC;
         }
 
         public MultiGemOreBlock getMultiOre() {

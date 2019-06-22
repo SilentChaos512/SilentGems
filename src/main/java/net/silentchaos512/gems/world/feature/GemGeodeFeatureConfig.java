@@ -32,8 +32,7 @@ public class GemGeodeFeatureConfig implements IFeatureConfig {
     }
 
     public static GemGeodeFeatureConfig deserialize(Dynamic<?> dynamic) {
-        String setName = dynamic.get("gem_set").asString("classic");
-        Gems.Set gemSet = "light".equals(setName) ? Gems.Set.LIGHT : "dark".equals(setName) ? Gems.Set.DARK : Gems.Set.CLASSIC;
+        Gems.Set gemSet = Gems.Set.deserialize(dynamic);
         BlockState shellBlock = dynamic.get("shell_block").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
         // TODO: How to handle target? What even is this Dynamic stuff anyway?
         return new GemGeodeFeatureConfig(gemSet, shellBlock, s -> s.getBlock() == Blocks.STONE);

@@ -23,6 +23,11 @@ public class GlowroseFeature extends FlowersFeature {
         this.gems.addAll(gems);
     }
 
+    public GlowroseFeature(Gems.Set gemSet) {
+        super(NoFeatureConfig::deserialize);
+        gemSet.forEach(this.gems::add);
+    }
+
     @Override
     public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos pos, NoFeatureConfig config) {
         BlockState flower = this.getRandomFlower(random, pos);

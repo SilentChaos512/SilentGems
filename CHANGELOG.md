@@ -3,10 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.1.2] - 2019-06-21
+(would have been 3.1.1, Git had other plans)  
 Minimum Silent Gear version: 1.1.2
 ### Added
 - Gem geodes are back. These are deposits of gems that are encased in hardened rock. There are classic, dark, and light variants, all found in the overworld.
+- Gem ores in the Nether and The End now spawn in "regions", similar to old optional configs. Each region will have 2-4 types of gems.
+- Dark and light glowroses now spawn in the Nether and The End, respectively
 - Implemented traits (some traits are still missing effects)
     - Chaotic - generates chaos when used
     - Entropy - increases block breaking speed depending on chaos levels
