@@ -17,7 +17,6 @@ import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.crafting.altar.AltarRecipeManager;
-import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
 import net.silentchaos512.gems.event.TraitEvents;
 import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.item.TeleporterLinkerItem;
@@ -99,7 +98,6 @@ class SideProxy {
     private void serverAboutToStart(FMLServerAboutToStartEvent event) {
         IReloadableResourceManager resourceManager = event.getServer().getResourceManager();
         resourceManager.addReloadListener(ChaosBuffManager.INSTANCE);
-        resourceManager.addReloadListener(TokenEnchanterRecipeManager.INSTANCE);
         resourceManager.addReloadListener(AltarRecipeManager.INSTANCE);
 
         CommandDispatcher<CommandSource> dispatcher = event.getServer().getCommandManager().getDispatcher();

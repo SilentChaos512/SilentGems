@@ -58,6 +58,7 @@ types = [
 
 def get_json(entity_type: str):
     return {
+        'type': 'silentgems:token_enchanting',
         'chaosGenerated': 1000,
         'processTime': 200,
         'ingredients': {

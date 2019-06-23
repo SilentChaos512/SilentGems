@@ -1,0 +1,19 @@
+{
+  "type": "silentgems:token_enchanting",
+  "chaosGenerated": 3333,
+  "processTime": 300,
+  "ingredients": {
+    "token": {
+      "tag": "forge:storage_blocks/iolite"
+    },
+    "others": [
+      {
+        "item": "silentgems:enriched_chaos_crystal",
+        "count": 10
+      }
+    ]
+  },
+  "result": {
+    "item": "silentgems:chaos_iolite"
+  }
+}

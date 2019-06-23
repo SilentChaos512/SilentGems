@@ -1,0 +1,20 @@
+{
+  "type": "silentgems:token_enchanting",
+  "chaosGenerated": 250,
+  "processTime": 100,
+  "ingredients": {
+    "token": {
+      "item": "silentgems:rune_slate"
+    },
+    "others": [
+      {
+        "tag": "forge:storage_blocks/iron",
+        "count": 2
+      }
+    ]
+  },
+  "result": {
+    "item": "silentgems:chaos_rune",
+    "buff": "silentgems:resistance"
+  }
+}

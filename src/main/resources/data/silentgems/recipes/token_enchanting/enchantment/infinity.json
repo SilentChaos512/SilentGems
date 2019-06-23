@@ -1,0 +1,33 @@
+{
+  "type": "silentgems:token_enchanting",
+  "chaosGenerated": 400,
+  "processTime": 100,
+  "ingredients": {
+    "token": {
+      "item": "silentgems:blank_token"
+    },
+    "others": [
+      {
+        "tag": "forge:gems/ametrine",
+        "count": 2
+      },
+      {
+        "item": "minecraft:ender_eye",
+        "count": 6
+      },
+      {
+        "item": "minecraft:arrow",
+        "count": 64
+      }
+    ]
+  },
+  "result": {
+    "item": "silentgems:enchantment_token",
+    "enchantments": [
+      {
+        "name": "minecraft:infinity",
+        "level": 1
+      }
+    ]
+  }
+}

@@ -2,17 +2,22 @@ package net.silentchaos512.gems.block.tokenenchanter;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.RecipeBookContainer;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.RecipeItemHelper;
+import net.minecraft.world.World;
 import net.silentchaos512.gems.init.GemsContainers;
 import net.silentchaos512.lib.inventory.SlotOutputOnly;
 import net.silentchaos512.lib.util.InventoryUtils;
 
 import javax.annotation.Nonnull;
 
-public class TokenEnchanterContainer extends Container {
+public class TokenEnchanterContainer extends RecipeBookContainer<IInventory> {
     final TokenEnchanterTileEntity tileEntity;
+    private final World world;
 
     public TokenEnchanterContainer(int id, PlayerInventory playerInventory) {
         this(id, playerInventory, new TokenEnchanterTileEntity());
@@ -22,6 +27,7 @@ public class TokenEnchanterContainer extends Container {
     public TokenEnchanterContainer(int id, PlayerInventory playerInventory, TokenEnchanterTileEntity tileEntity) {
         super(GemsContainers.TOKEN_ENCHANTER.type(), id);
         this.tileEntity = tileEntity;
+        this.world = playerInventory.player.world;
 
         // Token slot
         this.addSlot(new Slot(this.tileEntity, 0, 22, 35));
@@ -105,5 +111,40 @@ public class TokenEnchanterContainer extends Container {
         }
 
         return stack;
+    }
+
+    @Override
+    public void func_201771_a(RecipeItemHelper helper) {
+        tileEntity.fillStackedContents(helper);
+    }
+
+    @Override
+    public void clear() {
+        tileEntity.clear();
+    }
+
+    @Override
+    public boolean matches(IRecipe<? super IInventory> recipeIn) {
+        return recipeIn.matches(tileEntity, world);
+    }
+
+    @Override
+    public int getOutputSlot() {
+        return TokenEnchanterTileEntity.INVENTORY_SIZE - 1;
+    }
+
+    @Override
+    public int getWidth() {
+        return 3;
+    }
+
+    @Override
+    public int getHeight() {
+        return 3;
+    }
+
+    @Override
+    public int getSize() {
+        return TokenEnchanterTileEntity.INVENTORY_SIZE;
     }
 }

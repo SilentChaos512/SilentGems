@@ -3,32 +3,37 @@ package net.silentchaos512.gems.block.tokenenchanter;
 import lombok.Getter;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IRecipeHelperPopulator;
+import net.minecraft.inventory.IRecipeHolder;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.RecipeItemHelper;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipe;
-import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipeManager;
 import net.silentchaos512.gems.init.GemsTileEntities;
 import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
 import net.silentchaos512.lib.tile.SyncVariable;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
 // TODO: Can we implement IRecipeHolder, IRecipeHelperPopulator?
-public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity implements ITickableTileEntity {
-    private static final int INVENTORY_SIZE = 1 + 6 + 1;
+public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity implements IRecipeHolder, IRecipeHelperPopulator, ITickableTileEntity {
+    static final int INVENTORY_SIZE = 1 + 6 + 1;
     private static final int[] SLOTS_INPUT = IntStream.range(0, 7).toArray();
     private static final int[] SLOTS_OUTPUT = {7};
     private static final int[] SLOTS_ALL = IntStream.range(0, 8).toArray();
@@ -43,6 +48,8 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
     @SyncVariable(name = "ChaosGenerated")
     private int chaosGenerated;
     private int chaosBuffer;
+
+    private final Map<ResourceLocation, Integer> recipeUsedCount = new HashMap<>();
 
     final IIntArray fields = new IIntArray() {
         @Override
@@ -88,7 +95,7 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
     public void tick() {
         if (world == null || world.isRemote) return;
 
-        TokenEnchanterRecipe recipe = getMatchingRecipe();
+        TokenEnchanterRecipe recipe = world.getRecipeManager().getRecipe(TokenEnchanterRecipe.RECIPE_TYPE, this, world).orElse(null);
         if (recipe != null && hasRoomInOutput(recipe)) {
             // Process
             ++this.progress;
@@ -135,19 +142,6 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
         }
     }
 
-    @Nullable
-    private TokenEnchanterRecipe getMatchingRecipe() {
-        // Check that we at least have some items in the input slots before
-        // searching for a recipe match.
-        if (getStackInSlot(0).isEmpty()) return null;
-        for (int i = 1; i < INVENTORY_SIZE - 1; ++i) {
-            if (!getStackInSlot(i).isEmpty()) {
-                return TokenEnchanterRecipeManager.getMatch(this);
-            }
-        }
-        return null;
-    }
-
     private boolean hasRoomInOutput(TokenEnchanterRecipe recipe) {
         ItemStack output = getStackInSlot(INVENTORY_SIZE - 1);
         return output.isEmpty() || ItemHandlerHelper.canItemStacksStack(output, recipe.getResult());
@@ -155,7 +149,7 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
 
     private void consumeIngredients(TokenEnchanterRecipe recipe) {
         decrStackSize(0, 1);
-        for (Map.Entry<Ingredient, Integer> entry : recipe.getIngredients().entrySet()) {
+        for (Map.Entry<Ingredient, Integer> entry : recipe.getIngredientMap().entrySet()) {
             Ingredient ingredient = entry.getKey();
             int countRemaining = entry.getValue();
 
@@ -240,5 +234,25 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
         CompoundNBT tags = super.getUpdateTag();
         SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.PACKET);
         return tags;
+    }
+
+    @Override
+    public void fillStackedContents(RecipeItemHelper helper) {
+        for (ItemStack stack : this.items) {
+            helper.accountStack(stack);
+        }
+    }
+
+    @Override
+    public void setRecipeUsed(@Nullable IRecipe<?> recipe) {
+        if (recipe != null) {
+            recipeUsedCount.compute(recipe.getId(), (id, count) -> 1 + (count == null ? 0 : count));
+        }
+    }
+
+    @Nullable
+    @Override
+    public IRecipe<?> getRecipeUsed() {
+        return null;
     }
 }
