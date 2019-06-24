@@ -15,6 +15,7 @@ import net.silentchaos512.gems.chaos.ChaosSourceCapability;
 import net.silentchaos512.gems.client.gui.DebugOverlay;
 import net.silentchaos512.gems.command.ChaosCommand;
 import net.silentchaos512.gems.command.HungryCommand;
+import net.silentchaos512.gems.command.SoulCommand;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -108,6 +109,7 @@ class SideProxy implements IProxy {
 
         CommandDispatcher<CommandSource> dispatcher = event.getServer().getCommandManager().getDispatcher();
         ChaosCommand.register(dispatcher);
+        SoulCommand.register(dispatcher);
         if (SilentGems.isDevBuild()) {
             HungryCommand.register(dispatcher);
         }

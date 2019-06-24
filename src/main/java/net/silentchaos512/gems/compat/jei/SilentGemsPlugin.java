@@ -25,9 +25,11 @@ import net.silentchaos512.gems.item.ChaosRuneItem;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.EnchantmentTokenItem;
 import net.silentchaos512.gems.item.SoulGemItem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
 import net.silentchaos512.gems.lib.soul.Soul;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -105,6 +107,7 @@ public class SilentGemsPlugin implements IModPlugin {
         }
 
         addInfoPage(reg, CraftingItems.ENDER_SLIMEBALL);
+        addInfoPage(reg, "glowrose", Arrays.stream(Gems.values()).map(gem -> new ItemStack(gem.getGlowrose())));
         addInfoPage(reg, LuminousFlowerPotBlock.INSTANCE.get());
         addInfoPage(reg, SoulGemItem.INSTANCE.get(), Soul.getValues().stream().map(Soul::getSoulGem));
 
@@ -163,6 +166,11 @@ public class SilentGemsPlugin implements IModPlugin {
 
     private static void addInfoPage(IRecipeRegistration reg, IItemProvider item, Stream<ItemStack> variants) {
         String key = getDescKey(Objects.requireNonNull(item.asItem().getRegistryName()));
+        reg.addIngredientInfo(variants.collect(Collectors.toList()), VanillaTypes.ITEM, key);
+    }
+
+    private static void addInfoPage(IRecipeRegistration reg, String itemName, Stream<ItemStack> variants) {
+        String key = getDescKey(SilentGems.getId(itemName));
         reg.addIngredientInfo(variants.collect(Collectors.toList()), VanillaTypes.ITEM, key);
     }
 

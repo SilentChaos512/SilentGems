@@ -16,6 +16,7 @@ import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
 public class SoulGemIngredient extends Ingredient {
+    // Souls don't exist yet, so we store the ID and get the soul when testing
     private final ResourceLocation soulId;
 
     public SoulGemIngredient(ResourceLocation soulId) {

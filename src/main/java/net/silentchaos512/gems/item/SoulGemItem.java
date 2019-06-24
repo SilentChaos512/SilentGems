@@ -27,12 +27,38 @@ public class SoulGemItem extends Item {
         super(new Properties().group(GemsItemGroups.MATERIALS));
     }
 
+    /**
+     * Get a stack with the given soul. In many cases, it may be better to use {@link
+     * #getStack(ResourceLocation)}.
+     *
+     * @param soul The soul
+     * @return A stack of a single soul gem with the given soul
+     */
     public static ItemStack getStack(Soul soul) {
-        ItemStack result = new ItemStack(INSTANCE.get());
+        return getStack(soul, 1);
+    }
+
+    /**
+     * Get a stack with the given soul. In many cases, it may be better to use {@link
+     * #getStack(ResourceLocation)}.
+     *
+     * @param soul The soul
+     * @param count The stack size
+     * @return A stack of {@code count} soul gems with the given soul
+     */
+    public static ItemStack getStack(Soul soul, int count) {
+        ItemStack result = new ItemStack(INSTANCE.get(), count);
         setSoul(result, soul);
         return result;
     }
 
+    /**
+     * Get a stack with the given soul. Does not check whether or not the soul actually exists,
+     * making this version useful for loading recipes and ingredients, when souls don't exist yet.
+     *
+     * @param soulId The soul ID (should match the entity ID)
+     * @return A stack of a single soul gem with the given soul
+     */
     public static ItemStack getStack(ResourceLocation soulId) {
         ItemStack result = new ItemStack(INSTANCE.get());
         result.getOrCreateTag().putString(NBT_KEY, soulId.toString());
