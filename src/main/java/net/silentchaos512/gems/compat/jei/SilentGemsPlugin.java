@@ -1,10 +1,41 @@
 package net.silentchaos512.gems.compat.jei;
 
+import com.google.common.collect.ImmutableList;
+import mezz.jei.api.IModPlugin;
+import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.registration.*;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
+import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
+import net.silentchaos512.gems.block.supercharger.SuperchargerPillarStructure;
+import net.silentchaos512.gems.block.supercharger.SuperchargerScreen;
+import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
+import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterScreen;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
+import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipe;
+import net.silentchaos512.gems.init.GemsTags;
+import net.silentchaos512.gems.item.ChaosRuneItem;
+import net.silentchaos512.gems.item.CraftingItems;
+import net.silentchaos512.gems.item.EnchantmentTokenItem;
+import net.silentchaos512.gems.item.SoulGemItem;
+import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
+import net.silentchaos512.gems.lib.soul.Soul;
 
-//@JeiPlugin
-public class SilentGemsPlugin /*implements IModPlugin*/ {
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+@JeiPlugin
+public class SilentGemsPlugin implements IModPlugin {
     private static final ResourceLocation PLUGIN_UID = SilentGems.getId("plugin/main");
     static final ResourceLocation SUPERCHARGER_PILLAR = SilentGems.getId("category/supercharger_pillar");
     static final ResourceLocation SUPERCHARGING = SilentGems.getId("category/supercharging");
@@ -17,7 +48,7 @@ public class SilentGemsPlugin /*implements IModPlugin*/ {
         return initFailed;
     }
 
-    /*@Override
+    @Override
     public ResourceLocation getPluginUid() {
         return PLUGIN_UID;
     }
@@ -44,7 +75,10 @@ public class SilentGemsPlugin /*implements IModPlugin*/ {
     public void registerRecipes(IRecipeRegistration reg) {
         initFailed = true;
 
-        reg.addRecipes(TokenEnchanterRecipeManager.getValues(), TOKEN_ENCHANTING);
+        List<IRecipe<?>> tokenRecipes = SilentGems.PROXY.getServer().getRecipeManager().getRecipes().stream()
+                .filter(r -> r.getType() == TokenEnchanterRecipe.RECIPE_TYPE)
+                .collect(Collectors.toList());
+        reg.addRecipes(tokenRecipes, TOKEN_ENCHANTING);
 
         if (SGearProxy.isLoaded()) {
             reg.addRecipes(ImmutableList.of(
@@ -134,5 +168,5 @@ public class SilentGemsPlugin /*implements IModPlugin*/ {
 
     private static String getDescKey(ResourceLocation name) {
         return "jei." + name.getNamespace() + "." + name.getPath() + ".desc";
-    }*/
+    }
 }

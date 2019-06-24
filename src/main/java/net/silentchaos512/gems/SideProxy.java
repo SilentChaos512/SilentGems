@@ -1,10 +1,12 @@
 package net.silentchaos512.gems;
 
 import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resources.IReloadableResourceManager;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
@@ -25,11 +27,16 @@ import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
 import net.silentchaos512.gems.lib.fun.AprilFools;
 import net.silentchaos512.gems.lib.soul.GearSoulPart;
 import net.silentchaos512.gems.lib.soul.Soul;
+import net.silentchaos512.gems.lib.urn.UpgradePlanter;
 import net.silentchaos512.gems.network.Network;
 import net.silentchaos512.gems.util.SoulEvents;
 import net.silentchaos512.gems.world.GemsWorldFeatures;
 
-class SideProxy {
+import javax.annotation.Nullable;
+
+class SideProxy implements IProxy {
+    private MinecraftServer server = null;
+
     SideProxy() {
         SilentGems.LOGGER.debug("Gems SideProxy init");
 
@@ -42,19 +49,19 @@ class SideProxy {
             MinecraftForge.EVENT_BUS.register(TraitEvents.INSTANCE);
         }
 
-        getLifeCycleEventBus().addListener(this::commonSetup);
-        getLifeCycleEventBus().addListener(this::imcEnqueue);
-        getLifeCycleEventBus().addListener(this::imcProcess);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcEnqueue);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcProcess);
 
-        getLifeCycleEventBus().addListener(GemsBlocks::registerAll);
-        getLifeCycleEventBus().addListener(GemsContainers::registerAll);
-        getLifeCycleEventBus().addListener(GemsEnchantments::registerAll);
-        getLifeCycleEventBus().addListener(GemsEntities::registerAll);
-        getLifeCycleEventBus().addListener(GemsItems::registerAll);
-        getLifeCycleEventBus().addListener(GemsEffects::registerEffects);
-        getLifeCycleEventBus().addListener(GemsEffects::registerPotions);
-        getLifeCycleEventBus().addListener(GemsSounds::registerAll);
-        getLifeCycleEventBus().addListener(GemsTileEntities::registerAll);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(GemsBlocks::registerAll);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(GemsContainers::registerAll);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(GemsEnchantments::registerAll);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(GemsEntities::registerAll);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(GemsItems::registerAll);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(GemsEffects::registerEffects);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(GemsEffects::registerPotions);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(GemsSounds::registerAll);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(GemsTileEntities::registerAll);
 
         MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStart);
         MinecraftForge.EVENT_BUS.register(Soul.Events.INSTANCE);
@@ -70,14 +77,11 @@ class SideProxy {
         }
     }
 
-    private static IEventBus getLifeCycleEventBus() {
-        return FMLJavaModLoadingContext.get().getModEventBus();
-    }
-
     private void commonSetup(FMLCommonSetupEvent event) {
         SilentGems.LOGGER.debug("Gems commonSetup");
 
         ChaosSourceCapability.register();
+        UpgradePlanter.init();
 
         if (SGearProxy.isLoaded()) {
             // Register new stats
@@ -96,6 +100,8 @@ class SideProxy {
     }
 
     private void serverAboutToStart(FMLServerAboutToStartEvent event) {
+        server = event.getServer();
+
         IReloadableResourceManager resourceManager = event.getServer().getResourceManager();
         resourceManager.addReloadListener(ChaosBuffManager.INSTANCE);
         resourceManager.addReloadListener(AltarRecipeManager.INSTANCE);
@@ -107,13 +113,18 @@ class SideProxy {
         }
     }
 
+    @Override
+    public MinecraftServer getServer() {
+        return server;
+    }
+
     static class Client extends SideProxy {
         Client() {
             SilentGems.LOGGER.debug("Gems SideProxy.Client init");
-            SideProxy.getLifeCycleEventBus().addListener(this::clientSetup);
+            FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 
-            MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onBlockColors);
-            MinecraftForge.EVENT_BUS.addListener(ColorHandlers::onItemColors);
+            FMLJavaModLoadingContext.get().getModEventBus().addListener(ColorHandlers::onBlockColors);
+            FMLJavaModLoadingContext.get().getModEventBus().addListener(ColorHandlers::onItemColors);
             MinecraftForge.EVENT_BUS.addListener(TeleporterLinkerItem::renderGameOverlay);
 
             if (SGearProxy.isLoaded()) {
@@ -136,12 +147,18 @@ class SideProxy {
             GemsTileEntities.registerRenderers(event);
             GemsContainers.registerScreens(event);
         }
+
+        @Nullable
+        @Override
+        public PlayerEntity getClientPlayer() {
+            return Minecraft.getInstance().player;
+        }
     }
 
     static class Server extends SideProxy {
         Server() {
             SilentGems.LOGGER.debug("Gems SideProxy.Server init");
-            SideProxy.getLifeCycleEventBus().addListener(this::serverSetup);
+            FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverSetup);
         }
 
         private void serverSetup(FMLDedicatedServerSetupEvent event) {

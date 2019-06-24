@@ -1,4 +1,7 @@
 {
   "replace": false,
-  "values": ["#silentgems:gem_blocks"]
+  "values": [
+    "#silentgems:gem_blocks",
+    "#forge:storage_blocks/silver"
+  ]
 }

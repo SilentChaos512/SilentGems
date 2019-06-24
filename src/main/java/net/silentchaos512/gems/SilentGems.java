@@ -23,7 +23,7 @@ public final class SilentGems {
     public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
 
     public static SilentGems INSTANCE;
-    public static SideProxy PROXY;
+    public static IProxy PROXY;
 
     public SilentGems() {
         INSTANCE = this;

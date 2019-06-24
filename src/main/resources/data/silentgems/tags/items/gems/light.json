@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:gems/pyrope",
+    "#forge:gems/coral",
+    "#forge:gems/sunstone",
+    "#forge:gems/cats_eye",
+    "#forge:gems/yellow_diamond",
+    "#forge:gems/jade",
+    "#forge:gems/chrysoprase",
+    "#forge:gems/apatite",
+    "#forge:gems/fluorite",
+    "#forge:gems/kyanite",
+    "#forge:gems/sodalite",
+    "#forge:gems/ammolite",
+    "#forge:gems/kunzite",
+    "#forge:gems/rose_quartz",
+    "#forge:gems/tektite",
+    "#forge:gems/pearl"
+  ]
+}

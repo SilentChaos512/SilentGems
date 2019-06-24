@@ -1,12 +1,40 @@
 package net.silentchaos512.gems.compat.jei;
 
-public class SuperchargingRecipeCategoryJei /*implements IRecipeCategory<SuperchargingRecipeCategoryJei.Recipe>*/ {
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.drawable.IDrawableAnimated;
+import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.Tag;
+import net.minecraft.util.ResourceLocation;
+import net.silentchaos512.gear.api.parts.PartType;
+import net.silentchaos512.gear.crafting.ingredient.GearPartIngredient;
+import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
+import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
+import net.silentchaos512.gems.block.supercharger.SuperchargerTileEntity;
+import net.silentchaos512.gems.init.GemsEnchantments;
+import net.silentchaos512.gems.init.GemsTags;
+
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class SuperchargingRecipeCategoryJei implements IRecipeCategory<SuperchargingRecipeCategoryJei.Recipe> {
     private static final int GUI_START_X = 0;
     private static final int GUI_START_Y = 117;
     private static final int GUI_WIDTH = 120;
     private static final int GUI_HEIGHT = 48;
 
-    /*private final IDrawable background;
+    private final IDrawable background;
     private final IDrawable icon;
     private final IDrawableAnimated arrow;
     private final String localizedName;
@@ -91,5 +119,5 @@ public class SuperchargingRecipeCategoryJei /*implements IRecipeCategory<Superch
             if (tier == 3) return GemsTags.Items.CHARGING_AGENT_TIER3;
             return null;
         }
-    }*/
+    }
 }

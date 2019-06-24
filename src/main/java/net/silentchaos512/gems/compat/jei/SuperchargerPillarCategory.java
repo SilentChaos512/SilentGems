@@ -1,12 +1,31 @@
 package net.silentchaos512.gems.compat.jei;
 
-public class SuperchargerPillarCategory /*implements IRecipeCategory<SuperchargerPillarStructure>*/ {
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.ResourceLocation;
+import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
+import net.silentchaos512.gems.block.supercharger.SuperchargerPillarStructure;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class SuperchargerPillarCategory implements IRecipeCategory<SuperchargerPillarStructure> {
     private static final int GUI_START_X = 0;
     private static final int GUI_START_Y = 87;
     private static final int GUI_WIDTH = 120;
     private static final int GUI_HEIGHT = 30;
 
-    /*private final IDrawable background;
+    private final IDrawable background;
     private final IDrawable icon;
     private final String localizedName;
 
@@ -72,5 +91,5 @@ public class SuperchargerPillarCategory /*implements IRecipeCategory<Supercharge
         int tier = recipe.getTier();
         String str = I18n.format("block.silentgems.supercharger.tier", String.valueOf(tier));
         mc.fontRenderer.drawStringWithShadow(str, 2, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT - 1, -1);
-    }*/
+    }
 }

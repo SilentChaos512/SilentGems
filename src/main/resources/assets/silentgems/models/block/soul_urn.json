@@ -3,7 +3,8 @@
   "parent": "block/block",
   "textures": {
     "0": "silentgems:block/soul_urn",
-    "1": "silentgems:block/gem/opal_block"
+    "1": "silentgems:block/gem/opal_block",
+    "particle": "silentgems:block/soul_urn"
   },
   "elements": [
     {

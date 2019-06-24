@@ -4,7 +4,8 @@
   "textures": {
     "0": "silentgems:block/soul_urn",
     "1": "silentgems:block/gem/opal_block",
-    "2": "silentgems:block/soul_urn_inside"
+    "2": "silentgems:block/soul_urn_inside",
+    "particle": "silentgems:block/soul_urn"
   },
   "elements": [
     {

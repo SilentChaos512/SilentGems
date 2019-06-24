@@ -1,12 +1,33 @@
 package net.silentchaos512.gems.compat.jei;
 
-public class TokenEnchanterRecipeCategoryJei /*implements IRecipeCategory<TokenEnchanterRecipe>*/ {
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.drawable.IDrawableAnimated;
+import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.ResourceLocation;
+import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
+import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
+import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipe;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class TokenEnchanterRecipeCategoryJei implements IRecipeCategory<TokenEnchanterRecipe> {
     private static final int GUI_START_X = 0;
     private static final int GUI_START_Y = 37;
     private static final int GUI_WIDTH = 133;
     private static final int GUI_HEIGHT = 50;
 
-    /*private final IDrawable background;
+    private final IDrawable background;
     private final IDrawable icon;
     private final IDrawableAnimated arrow;
     private final String localizedName;
@@ -48,7 +69,7 @@ public class TokenEnchanterRecipeCategoryJei /*implements IRecipeCategory<TokenE
     public void setIngredients(TokenEnchanterRecipe recipe, IIngredients ingredients) {
         List<Ingredient> inputs = new ArrayList<>();
         inputs.add(recipe.getToken());
-        inputs.addAll(recipe.getIngredients().keySet());
+        inputs.addAll(recipe.getIngredientMap().keySet());
         ingredients.setInputIngredients(inputs);
         ingredients.setOutput(VanillaTypes.ITEM, recipe.getResult());
     }
@@ -67,7 +88,7 @@ public class TokenEnchanterRecipeCategoryJei /*implements IRecipeCategory<TokenE
 
         itemStacks.set(0, Arrays.asList(recipe.getToken().getMatchingStacks()));
         List<List<ItemStack>> inputs = new ArrayList<>();
-        recipe.getIngredients().forEach((ingredient, count) -> {
+        recipe.getIngredientMap().forEach((ingredient, count) -> {
             List<ItemStack> list = Arrays.asList(ingredient.getMatchingStacks());
             list.forEach(stack -> stack.setCount(count));
             inputs.add(list);
@@ -88,5 +109,5 @@ public class TokenEnchanterRecipeCategoryJei /*implements IRecipeCategory<TokenE
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaos);
         String str = emissionRate.getEmissionText(chaos).getFormattedText();
         mc.fontRenderer.drawStringWithShadow(str, 1, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT - 1, -1);
-    }*/
+    }
 }
