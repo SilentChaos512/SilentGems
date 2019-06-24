@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.crafting.ingredient;
 
 import com.google.gson.JsonObject;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
@@ -8,21 +9,25 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.item.SoulGemItem;
 import net.silentchaos512.gems.lib.soul.Soul;
 
+import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
 public class SoulGemIngredient extends Ingredient {
     private final ResourceLocation soulId;
 
     public SoulGemIngredient(ResourceLocation soulId) {
-        super(getStream(soulId));
+        super(Stream.of(new SingleItemList(SoulGemItem.getStack(soulId))));
         this.soulId = soulId;
     }
 
-    private static Stream<? extends IItemList> getStream(ResourceLocation soulId) {
+    @Override
+    public boolean test(@Nullable ItemStack stack) {
+        if (stack == null || stack.isEmpty()) return false;
         Soul soul = Soul.from(soulId);
-        return soul != null ? Stream.of(new SingleItemList(soul.getSoulGem())) : Stream.of();
+        return soul != null && stack.getItem() instanceof SoulGemItem && soul == SoulGemItem.getSoul(stack);
     }
 
     @Override
@@ -49,7 +54,6 @@ public class SoulGemIngredient extends Ingredient {
 
         @Override
         public void write(PacketBuffer buffer, SoulGemIngredient ingredient) {
-            buffer.writeResourceLocation(NAME);
             buffer.writeResourceLocation(ingredient.soulId);
         }
 
