@@ -19,20 +19,22 @@
 package net.silentchaos512.gems.item;
 
 import net.minecraft.item.Item;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.lib.urn.IUrnUpgradeItem;
+import net.silentchaos512.gems.lib.urn.UpgradePlanter;
 import net.silentchaos512.gems.lib.urn.UpgradeVacuum;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 
-import javax.annotation.Nonnull;
+import java.util.Locale;
 import java.util.function.Supplier;
 
-public enum SoulUrnUpgrades {
+public enum SoulUrnUpgrades implements IItemProvider {
     EXTRA_STORAGE(basicSerializer("extra_storage", UrnUpgrade::new)),
     VACUUM(basicSerializer("vacuum", UpgradeVacuum::new)),
-//    PLANTER(basicSerializer("planter", UpgradePlanter::new));
+    PLANTER(basicSerializer("planter", UpgradePlanter::new));
     ;
 
     private final UpgradeItem item;
@@ -43,8 +45,12 @@ public enum SoulUrnUpgrades {
         this.serializer = serializer;
     }
 
-    @Nonnull
-    public UpgradeItem getItem() {
+    public String getName() {
+        return name().toLowerCase(Locale.ROOT) + "_urn_upgrade";
+    }
+
+    @Override
+    public UpgradeItem asItem() {
         return this.item;
     }
 

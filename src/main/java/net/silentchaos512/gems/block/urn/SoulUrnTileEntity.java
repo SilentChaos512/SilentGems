@@ -33,6 +33,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.silentchaos512.gems.init.GemsTileEntities;
 import net.silentchaos512.gems.item.SoulUrnUpgrades;
 import net.silentchaos512.gems.lib.Gems;
@@ -40,6 +45,7 @@ import net.silentchaos512.gems.lib.urn.LidState;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.function.Supplier;
@@ -50,6 +56,9 @@ public class SoulUrnTileEntity extends LockableLootTileEntity implements ITickab
     private static final int INVENTORY_ROWS_UPGRADED = 6;
     private static final int[] SLOTS_BASE = IntStream.range(0, 9 * INVENTORY_ROWS_BASE).toArray();
     private static final int[] SLOTS_UPGRADED = IntStream.range(0, 9 * INVENTORY_ROWS_UPGRADED).toArray();
+
+    private final LazyOptional<? extends IItemHandler>[] handlers =
+            SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 
     private NonNullList<ItemStack> items;
     private final NonNullList<UrnUpgrade> upgrades = NonNullList.create();
@@ -349,6 +358,27 @@ public class SoulUrnTileEntity extends LockableLootTileEntity implements ITickab
 
         public void setItemsAbsorbed(boolean value) {
             itemsAbsorbed = value;
+        }
+    }
+
+    @Nullable
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        if (!this.removed && side != null && cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            if (side == Direction.UP)
+                return handlers[0].cast();
+            if (side == Direction.DOWN)
+                return handlers[1].cast();
+            return handlers[2].cast();
+        }
+        return super.getCapability(cap, side);
+    }
+
+    @Override
+    public void remove() {
+        super.remove();
+        for (LazyOptional<? extends IItemHandler> handler : handlers) {
+            handler.invalidate();
         }
     }
 }

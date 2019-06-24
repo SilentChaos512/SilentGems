@@ -26,6 +26,7 @@ import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterTileEntity;
 import net.silentchaos512.gems.block.urn.SoulUrnBlock;
 import net.silentchaos512.gems.block.urn.SoulUrnTileEntity;
 import net.silentchaos512.gems.client.render.tile.PedestalRenderer;
+import net.silentchaos512.gems.client.render.tile.SoulUrnRenderer;
 import net.silentchaos512.utils.Lazy;
 
 import java.util.List;
@@ -69,6 +70,7 @@ public enum GemsTileEntities {
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderers(FMLClientSetupEvent event) {
         ClientRegistry.bindTileEntitySpecialRenderer(PedestalTileEntity.class, new PedestalRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(SoulUrnTileEntity.class, new SoulUrnRenderer());
     }
 
     private static <T extends TileEntity> void register(String name, TileEntityType<T> type) {

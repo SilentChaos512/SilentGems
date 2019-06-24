@@ -21,13 +21,17 @@ package net.silentchaos512.gems.lib.urn;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.urn.SoulUrnTileEntity;
+import net.silentchaos512.lib.util.TimeUtils;
+import net.silentchaos512.utils.MathUtils;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -36,32 +40,33 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class UpgradePlanter extends UrnUpgrade {
-    private static final int TICK_FREQUENCY = 30 * 20; //TimeHelper.ticksFromSeconds(30);
+    private static final int TICK_FREQUENCY = TimeUtils.ticksFromSeconds(30);
     private static final Map<IItemProvider, Plant> PLANTS = new HashMap<>();
 
     private int ticks = 0;
 
     @Override
     public void tickTile(SoulUrnTileEntity.SoulUrnState state, World world, BlockPos pos) {
-//        if (!state.getLidState().isOpen()) return;
-//
-//        ++ticks;
-//        if (ticks >= TICK_FREQUENCY) {
-//            ticks = 0;
-//            // FIXME
-//            ItemStack seed = StackHelper.firstMatch(state.getTileEntity(), UpgradePlanter::isGrowablePlant);
-//            if (!seed.isEmpty()) {
-//                Plant plant = PLANTS.get(seed.getItem());
-//                if (plant != null)
-//                    for (ItemStack stack : plant.drops.apply(SilentGems.random))
-//                        state.getTileEntity().tryAddItemToInventory(stack);
-//            }
-//        }
+        if (!state.getLidState().isOpen()) return;
+
+        ++ticks;
+        if (ticks >= TICK_FREQUENCY) {
+            ticks = 0;
+            ItemStack seed = getSeed(state);
+            if (!seed.isEmpty()) {
+                Plant plant = PLANTS.get(seed.getItem());
+                if (plant != null) {
+                    for (ItemStack stack : plant.drops.apply(SilentGems.random)) {
+                        state.getTileEntity().tryAddItemToInventory(stack);
+                    }
+                }
+            }
+        }
     }
 
     @Override
     public void tickItem(ItemStack urn, World world, PlayerEntity player, int itemSlot, boolean isSelected) {
-//        if (!UrnHelper.isLidless(urn)) return;
+//        if (UrnHelper.hasLid(urn)) return;
 //
 //        ++ticks;
 //        if (ticks >= TICK_FREQUENCY) {
@@ -76,6 +81,17 @@ public class UpgradePlanter extends UrnUpgrade {
 //        }
     }
 
+    private static ItemStack getSeed(SoulUrnTileEntity.SoulUrnState state) {
+        IItemHandler itemHandler = state.getTileEntity().getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElseThrow(IllegalStateException::new);
+        for (int i = 0; i < itemHandler.getSlots(); ++i) {
+            ItemStack stack = itemHandler.getStackInSlot(i);
+            if (isGrowablePlant(stack)) {
+                return stack;
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
     private static boolean initialized = false;
 
     public static void init() {
@@ -84,10 +100,10 @@ public class UpgradePlanter extends UrnUpgrade {
 
         PLANTS.put(Items.BEETROOT_SEEDS, new Plant(1, random -> dropsWithChance(random,
                 new ItemStack(Items.BEETROOT), 1.0,
-                new ItemStack(Items.BEETROOT_SEEDS), 0.15)));
+                new ItemStack(Items.BEETROOT_SEEDS), 0.5)));
         PLANTS.put(Items.CARROT, new Plant(1, random -> dropsWithChance(random,
                 new ItemStack(Items.CARROT), 1.0)));
-        PLANTS.put(Item.getItemFromBlock(Blocks.CHORUS_FLOWER), new Plant(2, random -> dropsWithChance(random,
+        PLANTS.put(Blocks.CHORUS_FLOWER, new Plant(2, random -> dropsWithChance(random,
                 new ItemStack(Items.CHORUS_FRUIT), 1.0,
                 new ItemStack(Blocks.CHORUS_FLOWER), 0.05)));
         PLANTS.put(Items.MELON_SEEDS, new Plant(1, random -> dropsWithChance(random,
@@ -105,23 +121,23 @@ public class UpgradePlanter extends UrnUpgrade {
                 new ItemStack(Blocks.SUGAR_CANE, random.nextInt(2) + 1), 0.85)));
         PLANTS.put(Items.WHEAT_SEEDS, new Plant(1, random -> dropsWithChance(random,
                 new ItemStack(Items.WHEAT), 1.0,
-                new ItemStack(Items.WHEAT_SEEDS), 0.15)));
+                new ItemStack(Items.WHEAT_SEEDS), 0.5)));
     }
 
     private static boolean isGrowablePlant(ItemStack stack) {
-        return PLANTS.containsKey(stack.getItem());
+        return !stack.isEmpty() && PLANTS.containsKey(stack.getItem());
     }
 
     private static Collection<ItemStack> dropsWithChance(Random random, ItemStack stack1, double rate1) {
         ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-//        if (!stack1.isEmpty() && MathUtils.tryPercentage(random, rate1)) builder.add(stack1);
+        if (!stack1.isEmpty() && MathUtils.tryPercentage(random, rate1)) builder.add(stack1);
         return builder.build();
     }
 
     private static Collection<ItemStack> dropsWithChance(Random random, ItemStack stack1, double rate1, ItemStack stack2, double rate2) {
         ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-//        if (!stack1.isEmpty() && MathUtils.tryPercentage(random, rate1)) builder.add(stack1);
-//        if (!stack2.isEmpty() && MathUtils.tryPercentage(random, rate2)) builder.add(stack2);
+        if (!stack1.isEmpty() && MathUtils.tryPercentage(random, rate1)) builder.add(stack1);
+        if (!stack2.isEmpty() && MathUtils.tryPercentage(random, rate2)) builder.add(stack2);
         return builder.build();
     }
 

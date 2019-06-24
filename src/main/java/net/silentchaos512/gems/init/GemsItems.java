@@ -58,6 +58,10 @@ public final class GemsItems {
         fluffyPuffSeeds = register("fluffy_puff_seeds", new BlockNamedItem(FluffyPuffPlant.NORMAL.get(), new Item.Properties().group(GemsItemGroups.MATERIALS)));
         register("glowrose_fertilizer", GlowroseFertilizerItem.INSTANCE.get());
 
+        for (SoulUrnUpgrades upgrade : SoulUrnUpgrades.values()) {
+            register(upgrade.getName(), upgrade.asItem());
+        }
+
         for (CorruptedBlocks block : CorruptedBlocks.values()) {
             register(block.getName() + "_pile", block.getPile());
         }
