@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Changed
 - Tool souls now work on Silent Gear tools. Bit of a hack, so support may not be as good as 1.14+.
+- Enchantment tokens partially rewritten with 1.14 version's code. This should prevent some enchantments from causing errors in the log [#369]
 
 ## [2.8.18] - 2019-06-03
 ### Added

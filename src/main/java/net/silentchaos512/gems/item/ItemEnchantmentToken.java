@@ -1,12 +1,14 @@
 package net.silentchaos512.gems.item;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.Item;
@@ -19,6 +21,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.handler.ClientTickHandler;
 import net.silentchaos512.gems.client.key.KeyTracker;
@@ -36,45 +39,64 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomModel {
-    private static final String NBT_ENCHANTMENTS = "TokenEnchantments";
-    /*
-     * Model keys
-     */
-    private static final String KEY_ANY = "Any";
-    private static final String KEY_ARMOR = "Armor";
-    private static final String KEY_BOW = "Bow";
-    private static final String KEY_EMPTY = "Empty";
-    private static final String KEY_FISHING_ROD = "FishingRod";
-    private static final String KEY_WEAPON = "Sword";
-    private static final String KEY_DIGGER = "Tool";
-    private static final String KEY_UNKNOWN = "Unknown";
-    private static final String[] MODEL_TYPES = {KEY_ANY, KEY_ARMOR, KEY_BOW, KEY_EMPTY, KEY_FISHING_ROD, KEY_WEAPON, KEY_DIGGER, KEY_UNKNOWN};
+    public enum Icon {
+        ANY, ARMOR, BOW, EMPTY, FISHING_ROD, SWORD, TOOL, UNKNOWN;
 
-    private Map<String, Integer> modelMap = new HashMap<>();
-    private Map<Enchantment, String> recipeMap = new HashMap<>();
-    private Map<Enchantment, Integer> colorMap = new HashMap<>();
+        public String getName() {
+            return name().toLowerCase(Locale.ROOT);
+        }
+    }
+
+    private static final String NBT_ENCHANTMENTS = "TokenEnchantments";
+
+    private static final Map<Enchantment, String> RECIPE_MAP = new HashMap<>();
+    private static final Map<Enchantment, Integer> OUTLINE_COLOR_MAP = new HashMap<>();
+    private static final Map<EnumEnchantmentType, Icon> MODELS_BY_TYPE = new EnumMap<>(EnumEnchantmentType.class);
+
+    static {
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ALL, Icon.ANY);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.BREAKABLE, Icon.ANY);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR, Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_CHEST, Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_FEET, Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_HEAD, Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_LEGS, Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.WEARABLE, Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.BOW, Icon.BOW);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.DIGGER, Icon.TOOL);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.FISHING_ROD, Icon.FISHING_ROD);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.WEAPON, Icon.SWORD);
+    }
+
     private boolean modRecipesInitialized = false;
 
     public static final int BLANK_META = 256;
 
     public ItemEnchantmentToken() {
-        for (int i = 0; i < MODEL_TYPES.length; ++i) {
-            modelMap.put(MODEL_TYPES[i], i);
-        }
-        addPropertyOverride(new ResourceLocation("model_index"), (stack, world, entity) ->
-                modelMap.get(getModelKey(stack)));
+        addPropertyOverride(new ResourceLocation("model_index"), ItemEnchantmentToken::getModel);
     }
 
     // ==============================================
     // Methods for "constructing" enchantment tokens.
     // ==============================================
 
+    @Nullable
+    private static ResourceLocation tryGetId(String id) {
+        try {
+            return new ResourceLocation(id);
+        } catch (NullPointerException ex) {
+            return null;
+        }
+    }
+
     public ItemStack constructToken(Enchantment enchantment) {
         return constructToken(enchantment, 1);
     }
 
     public ItemStack constructToken(Enchantment enchantment, int level) {
-        return addEnchantment(new ItemStack(this), enchantment, level);
+        ItemStack stack = new ItemStack(this);
+        addEnchantment(stack, new EnchantmentData(enchantment, level));
+        return stack;
     }
 
     public ItemStack constructToken(Map<Enchantment, Integer> enchantmentMap) {
@@ -83,44 +105,40 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
         return result;
     }
 
-    public ItemStack addEnchantment(ItemStack stack, Enchantment enchantment, int level) {
-        ItemStack result = stack.copy();
-        try {
-            Map<Enchantment, Integer> map = getEnchantments(stack);
-            map.put(enchantment, level);
-            setEnchantments(result, map);
-        } catch (NullPointerException ex) {
-            String str = "Failed to construct an enchantment token! This will likely result in a broken recipe.\n";
-            str += "The following is a list of details on the enchantment at fault. Please direct your anger at:\n";
-            str += getEnchantmentDebugInfo(enchantment);
-            SilentGems.logHelper.warn(str);
-        }
-        return result;
-    }
-
-    public Map<Enchantment, Integer> getEnchantments(ItemStack token) {
-        if (token.isEmpty() || !token.hasTagCompound())
-            return new HashMap<>();
-
-        NBTTagList tagList = token.getTagCompound().getTagList(NBT_ENCHANTMENTS, 10);
-        Map<Enchantment, Integer> map = new HashMap<>();
+    public static void addEnchantment(ItemStack stack, EnchantmentData data) {
+        NBTTagList tagList = getEnchantments(stack);
+        boolean needToAddEnchantment = true;
+        ResourceLocation id = ForgeRegistries.ENCHANTMENTS.getKey(data.enchantment);
 
         for (int i = 0; i < tagList.tagCount(); ++i) {
-            String name = tagList.getCompoundTagAt(i).getString("name");
-            int level = tagList.getCompoundTagAt(i).getShort("lvl");
+            NBTTagCompound tags = tagList.getCompoundTagAt(i);
+            ResourceLocation existingId = tryGetId(tags.getString("id"));
+            if (existingId != null && existingId.equals(id)) {
+                if (tags.getInteger("lvl") < data.enchantmentLevel) {
+                    tags.setShort("lvl", (short) data.enchantmentLevel);
+                }
 
-            Enchantment ench = Enchantment.REGISTRY.getObject(new ResourceLocation(name));
-            if (ench != null)
-                map.put(ench, level);
+                needToAddEnchantment = false;
+                break;
+            }
         }
 
-        return map;
+        if (needToAddEnchantment) {
+            NBTTagCompound tags = new NBTTagCompound();
+            tags.setString("id", String.valueOf(id));
+            tags.setShort("lvl", (short) data.enchantmentLevel);
+            tagList.appendTag(tags);
+        }
+
+        if (stack.getTagCompound() == null)
+            stack.setTagCompound(new NBTTagCompound());
+        stack.getTagCompound().setTag(NBT_ENCHANTMENTS, tagList);
     }
 
-    public void setEnchantments(ItemStack token, Map<Enchantment, Integer> map) {
+    public static void setEnchantments(ItemStack token, Map<Enchantment, Integer> map) {
         if (token.isEmpty())
             return;
-        if (!token.hasTagCompound())
+        if (token.getTagCompound() == null)
             token.setTagCompound(new NBTTagCompound());
         if (token.getTagCompound().hasKey(NBT_ENCHANTMENTS))
             token.getTagCompound().removeTag(NBT_ENCHANTMENTS);
@@ -140,17 +158,40 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
         token.getTagCompound().setTag(NBT_ENCHANTMENTS, tagList);
     }
 
+    public static NBTTagList getEnchantments(ItemStack stack) {
+        NBTTagCompound tags = stack.getTagCompound();
+        return tags != null ? tags.getTagList(NBT_ENCHANTMENTS, 10) : new NBTTagList();
+    }
+
+    private static Map<Enchantment, Integer> getEnchantmentMap(ItemStack stack) {
+        Map<Enchantment, Integer> map = new HashMap<>();
+        NBTTagList tagList = getEnchantments(stack);
+
+        for (int i = 0; i < tagList.tagCount(); ++i) {
+            NBTTagCompound tag = tagList.getCompoundTagAt(i);
+            ResourceLocation id = tryGetId(tag.getString("id"));
+            if (id != null) {
+                Enchantment enchantment = ForgeRegistries.ENCHANTMENTS.getValue(id);
+                if (enchantment != null) {
+                    map.put(enchantment, tag.getInteger("lvl"));
+                }
+            }
+        }
+
+        return map;
+    }
+
     // ========
     // Crafting
     // ========
 
-    public boolean applyTokenToTool(ItemStack token, ItemStack tool) {
+    public static boolean applyTokenToTool(ItemStack token, ItemStack tool) {
         if (token.isEmpty() || tool.isEmpty()) {
             return false;
         }
 
         // Get enchantments on token.
-        Map<Enchantment, Integer> enchantmentsOnToken = getEnchantments(token);
+        Map<Enchantment, Integer> enchantmentsOnToken = getEnchantmentMap(token);
         if (enchantmentsOnToken.isEmpty())
             return false;
 
@@ -179,7 +220,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
         return true;
     }
 
-    public boolean mergeEnchantmentLists(Map<Enchantment, Integer> ench1, Map<Enchantment, Integer> ench2) {
+    public static boolean mergeEnchantmentLists(Map<Enchantment, Integer> ench1, Map<Enchantment, Integer> ench2) {
         int level, newLevel;
         // Add enchantments from second list to first...
         for (Enchantment enchantment : ench2.keySet()) {
@@ -202,55 +243,14 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
     // Rendering
     // =========
 
-    private boolean loggedIssue139Catch = false;
+    private static float getModel(ItemStack stack, World world, EntityLivingBase entity) {
+        return getModelIcon(stack).ordinal();
+    }
 
-    public String getModelKey(ItemStack stack) {
-
-        Map<Enchantment, Integer> enchMap = getEnchantments(stack);
-        String key = KEY_EMPTY;
-
-        if (!enchMap.isEmpty()) {
-            Enchantment ench = enchMap.keySet().iterator().next();
-            if (ench == null || ench.type == null)
-                return KEY_UNKNOWN;
-
-            try {
-                switch (ench.type) {
-                    case ALL:
-                    case BREAKABLE:
-                        return KEY_ANY;
-                    case ARMOR:
-                    case ARMOR_CHEST:
-                    case ARMOR_FEET:
-                    case ARMOR_HEAD:
-                    case ARMOR_LEGS:
-                    case WEARABLE:
-                        return KEY_ARMOR;
-                    case BOW:
-                        return KEY_BOW;
-                    case DIGGER:
-                        return KEY_DIGGER;
-                    case FISHING_ROD:
-                        return KEY_FISHING_ROD;
-                    case WEAPON:
-                        return KEY_WEAPON;
-                    default:
-                        return KEY_UNKNOWN;
-                }
-            } catch (ArrayIndexOutOfBoundsException ex) {
-                // Some mod is causing a crash I can't reproduce. Try to catch it and log any information possible.
-                if (!loggedIssue139Catch) {
-                    loggedIssue139Catch = true;
-                    SilentGems.logHelper.noticableWarning(true, ImmutableList.of(
-                            "Caught an odd exception in ItemEnchantmentToken#getModelKey. This will only be logged once.",
-                            "Offending token: " + stack,
-                            "Offending enchantment: " + ench + " (" + ench.getName() + ")"));
-                    return KEY_EMPTY;
-                }
-            }
-        }
-
-        return key;
+    private static Icon getModelIcon(ItemStack stack) {
+        Map<Enchantment, Integer> map = getEnchantmentMap(stack);
+        if (map.isEmpty()) return Icon.EMPTY;
+        return MODELS_BY_TYPE.getOrDefault(map.keySet().iterator().next().type, Icon.UNKNOWN);
     }
 
     // =========================
@@ -258,8 +258,8 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
     // =========================
 
     @Override
-    public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag flag) {
-        Map<Enchantment, Integer> enchants = getEnchantments(stack);
+    public void addInformation(ItemStack stack, @Nullable World world, List<String> list, ITooltipFlag flag) {
+        Map<Enchantment, Integer> enchants = getEnchantmentMap(stack);
 
         if (enchants.size() == 1) {
             Enchantment ench = enchants.keySet().iterator().next();
@@ -268,7 +268,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
             // Recipe info
             if (KeyTracker.isControlDown()) {
                 list.add(SilentGems.i18n.subText(this, "materials"));
-                String recipeString = recipeMap.get(ench);
+                String recipeString = RECIPE_MAP.get(ench);
                 if (recipeString != null && !recipeString.isEmpty()) {
                     for (String str : recipeString.split(";")) {
                         list.add("  " + str);
@@ -293,7 +293,8 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
             ResourceLocation registryName = Objects.requireNonNull(e.getRegistryName());
             String modName = Loader.instance().getIndexedModList().get(registryName.getNamespace()).getName();
             list.add(SilentGems.i18n.subText(this, "enchNameWithMod", enchName, modName));
-            String descKey = e.getName().replaceAll(":", ".").toLowerCase() + ".desc";
+            //noinspection DynamicRegexReplaceableByCompiledPattern
+            String descKey = e.getName().replaceAll(":", ".").toLowerCase(Locale.ROOT) + ".desc";
             String desc = SilentGems.i18n.translate(descKey);
             if (!desc.equals(descKey))
                 list.add(TextFormatting.ITALIC + "  " + desc);
@@ -321,7 +322,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
     }
 
     private int compareEnchantmentNames(ItemStack o1, ItemStack o2) {
-        int k = -getModelKey(o1).compareTo(getModelKey(o2));
+        int k = -getModelIcon(o1).compareTo(getModelIcon(o2));
         if (k == 0) {
             Enchantment ench1 = getSingleEnchantment(o1);
             Enchantment ench2 = getSingleEnchantment(o2);
@@ -335,14 +336,14 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
 
     @Nullable
     public Enchantment getSingleEnchantment(ItemStack token) {
-        Map<Enchantment, Integer> map = getEnchantments(token);
+        Map<Enchantment, Integer> map = getEnchantmentMap(token);
         if (map.size() != 1) return null;
         return map.keySet().iterator().next();
     }
 
     @Override
     public String getTranslationKey(ItemStack stack) {
-        boolean hasEnchants = stack.hasTagCompound() && stack.getTagCompound().hasKey(NBT_ENCHANTMENTS);
+        boolean hasEnchants = stack.getTagCompound() != null && stack.getTagCompound().hasKey(NBT_ENCHANTMENTS);
         return super.getTranslationKey(stack) + (hasEnchants ? "" : "_blank");
     }
 
@@ -355,12 +356,12 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
         return false;
     }
 
-    private static float OUTLINE_PULSATE_SPEED = 1f / (3f * (float) Math.PI);
+    private static final float OUTLINE_PULSATE_SPEED = 1f / (3f * (float) Math.PI);
 
     public int getOutlineColor(ItemStack stack) {
         Enchantment ench = getSingleEnchantment(stack);
-        if (ench != null && colorMap.containsKey(ench)) {
-            int k = colorMap.get(ench);
+        if (ench != null && OUTLINE_COLOR_MAP.containsKey(ench)) {
+            int k = OUTLINE_COLOR_MAP.get(ench);
             int r = (k >> 16) & 255;
             int g = (k >> 8) & 255;
             int b = k & 255;
@@ -379,7 +380,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
      * Token outline colors can be customized here.
      */
     public void setColorsForDefaultTokens() {
-        // colorMap.put(Enchantments.UNBREAKING, 0x0000FF); // example
+        // OUTLINE_COLOR_MAP.put(Enchantments.UNBREAKING, 0x0000FF); // example
     }
 
     // =========================
@@ -389,6 +390,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
     @Override
     public void addRecipes(RecipeMaker recipes) {
         // Add custom serializer to allow enchantment token recipe JSONs
+        //noinspection OverlyLongLambda
         SilentGems.registry.getRecipeMaker().setRecipeSerializer(this, (result, components) -> {
             JsonObject json = RecipeJsonHell.ShapedSerializer.INSTANCE.serialize(result, components);
             json.remove("type");
@@ -402,6 +404,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
         });
     }
 
+    @Deprecated
     public void addModRecipes() {
         // FIXME?
         if (modRecipesInitialized)
@@ -430,6 +433,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
         }
     }
 
+    @Deprecated
     public void addTokenRecipe(Enchantment ench, EnumGem gem, Object other, int otherCount) {
         if ((ench == Enchantments.FROST_WALKER && GemsConfig.RECIPE_TOKEN_FROST_WALKER_DISABLE)
                 || (ench == Enchantments.MENDING && GemsConfig.RECIPE_TOKEN_MENDING_DISABLE)) {
@@ -437,20 +441,22 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
         }
 
         // Add a default outline color based on gem color.
-        if (!colorMap.containsKey(ench))
-            colorMap.put(ench, gem.getColor());
+        if (!OUTLINE_COLOR_MAP.containsKey(ench))
+            OUTLINE_COLOR_MAP.put(ench, gem.getColor());
 
         String line1 = "g g";
         String line2 = otherCount > 3 ? "oto" : " t ";
         String line3 = otherCount == 3 || otherCount > 4 ? "ooo" : (otherCount == 2 || otherCount == 4 ? "o o" : " o ");
 
         ItemStack token = constructToken(ench);
+        //noinspection DynamicRegexReplaceableByCompiledPattern
         String recipeName = "enchantment_token_" + ench.getName().replaceAll(":", "_");
         SilentGems.registry.getRecipeMaker().addShapedOre(recipeName, token, line1, line2, line3, 'g',
                 gem.getItemOreName(), 'o', other, 't', new ItemStack(this, 1, BLANK_META));
 
         // Add to recipe map (tooltip recipe info)
         String recipeString = "2 " + gem.getItemOreName() + ";" + otherCount + " ";
+        //noinspection ChainOfInstanceofChecks
         if (other instanceof String)
             recipeString += (String) other;
         else if (other instanceof ItemStack)
@@ -459,9 +465,10 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
             recipeString += (new ItemStack((Block) other)).getDisplayName();
         else if (other instanceof Item)
             recipeString += (new ItemStack((Item) other)).getDisplayName();
-        recipeMap.put(ench, recipeString);
+        RECIPE_MAP.put(ench, recipeString);
     }
 
+    @Deprecated
     public void addModTokenRecipe(String enchantmentName, EnumGem gem, Object other, int otherCount) {
         SilentGems.logHelper.info("    Attempting to add token recipe for {}...", enchantmentName);
         Enchantment enchantment = Enchantment.REGISTRY.getObject(new ResourceLocation(enchantmentName));
@@ -476,22 +483,9 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
     public void registerModels() {
         SilentGems.registry.setModel(this, 0, Names.ENCHANTMENT_TOKEN);
         int i = 1;
-        for (String type : MODEL_TYPES) {
-            SilentGems.registry.setModel(this, i++, Names.ENCHANTMENT_TOKEN + "_" + type.toLowerCase(Locale.ROOT));
+        for (Icon type : Icon.values()) {
+            SilentGems.registry.setModel(this, i++, Names.ENCHANTMENT_TOKEN + "_" + type.getName());
         }
         SilentGems.registry.setModel(this, BLANK_META, Names.ENCHANTMENT_TOKEN);
-    }
-
-    private String getEnchantmentDebugInfo(Enchantment ench) {
-        String str = ench.toString();
-        str += "\n    Name: " + ench.getName();
-        str += "\n    Registry Name: " + ench.getRegistryName();
-        str += "\n    Translated Name: " + ench.getTranslatedName(1);
-        str += "\n    Max Level: " + ench.getMaxLevel();
-        str += "\n    Type: " + ench.type;
-        str += "\n    Allowed On Books: " + ench.isAllowedOnBooks();
-        str += "\n    Curse: " + ench.isCurse();
-        str += "\n    Treasure: " + ench.isTreasureEnchantment();
-        return str;
     }
 }
