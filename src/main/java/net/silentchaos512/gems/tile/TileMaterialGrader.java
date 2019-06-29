@@ -26,6 +26,7 @@ import net.silentchaos512.lib.util.StackHelper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class TileMaterialGrader extends TileSidedInventorySL implements ITickable, IChaosAccepter {
     /*
@@ -35,7 +36,8 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
     public static final int SLOT_OUTPUT_START = 1;
     public static final int INVENTORY_SIZE = 5;
     private static final int[] SLOTS_INPUT = new int[]{0};
-    private static final int[] SLOTS_OUTPUT = new int[]{1, 2, 3, 4};
+    private static final int[] SLOTS_OUTPUT = IntStream.range(1, 6).toArray();
+    private static final int[] SLOTS_ALL = IntStream.range(0, 6).toArray();
 
     /*
      * Tile behavior constants
@@ -223,8 +225,10 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
         switch (side) {
             case DOWN:
                 return SLOTS_OUTPUT;
-            default:
+            case UP:
                 return SLOTS_INPUT;
+            default:
+                return SLOTS_ALL;
         }
     }
 
@@ -256,12 +260,12 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
 
     @Override
     public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
-        return isItemValidForSlot(index, itemStackIn);
+        return index == 0 && isItemValidForSlot(index, itemStackIn);
     }
 
     @Override
     public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
-        return true;
+        return index != 0;
     }
 
     public List<String> getDebugLines() {
@@ -278,16 +282,15 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
         return INVENTORY_SIZE;
     }
 
-    private final IItemHandler handlerTop = new SidedInvWrapper(this, net.minecraft.util.EnumFacing.UP);
-    private final IItemHandler handlerBottom = new SidedInvWrapper(this, net.minecraft.util.EnumFacing.DOWN);
-    private final IItemHandler handlerSide = new SidedInvWrapper(this, net.minecraft.util.EnumFacing.WEST);
+    private final IItemHandler handlerTop = new SidedInvWrapper(this, EnumFacing.UP);
+    private final IItemHandler handlerBottom = new SidedInvWrapper(this, EnumFacing.DOWN);
+    private final IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.WEST);
 
     @SuppressWarnings("unchecked")
     @Nullable
     @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing)
-    {
-        if (facing != null && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
             if (facing == EnumFacing.DOWN)
                 return (T) handlerBottom;
             else if (facing == EnumFacing.UP)
@@ -295,5 +298,10 @@ public class TileMaterialGrader extends TileSidedInventorySL implements ITickabl
             else
                 return (T) handlerSide;
         return super.getCapability(capability, facing);
+    }
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
     }
 }

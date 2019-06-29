@@ -3,12 +3,19 @@ package net.silentchaos512.gems.tile;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.silentchaos512.gems.api.energy.IChaosAccepter;
 import net.silentchaos512.gems.api.energy.IChaosStorage;
 import net.silentchaos512.gems.api.recipe.altar.RecipeChaosAltar;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.lib.tile.SyncVariable;
 import net.silentchaos512.lib.tile.TileSidedInventorySL;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class TileChaosAltar extends TileSidedInventorySL implements ITickable, IChaosAccepter {
     public static final int MAX_CHAOS_STORED = 10000000;
@@ -188,16 +195,39 @@ public class TileChaosAltar extends TileSidedInventorySL implements ITickable, I
 
     @Override
     public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
-        return isItemValidForSlot(index, itemStackIn);
+        return index != SLOT_OUTPUT && isItemValidForSlot(index, itemStackIn);
     }
 
     @Override
     public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
-        return direction == EnumFacing.DOWN;
+        return index == SLOT_OUTPUT;
     }
 
     @Override
     public int getSizeInventory() {
         return INVENTORY_SIZE;
+    }
+
+    private final IItemHandler handlerTop = new SidedInvWrapper(this, EnumFacing.UP);
+    private final IItemHandler handlerBottom = new SidedInvWrapper(this, EnumFacing.DOWN);
+    private final IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.WEST);
+
+    @SuppressWarnings("unchecked")
+    @Nullable
+    @Override
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+            if (facing == EnumFacing.DOWN)
+                return (T) handlerBottom;
+            else if (facing == EnumFacing.UP)
+                return (T) handlerTop;
+            else
+                return (T) handlerSide;
+        return super.getCapability(capability, facing);
+    }
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
     }
 }
