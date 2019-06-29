@@ -24,8 +24,11 @@ import net.silentchaos512.gear.api.parts.PartOrigins;
 import net.silentchaos512.gear.api.parts.PartRegistry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.lib.EnumGem;
+import net.silentchaos512.gems.lib.soul.ToolSoulPart;
 
 public final class SGearMaterials {
+    public static ToolSoulPart soulPart;
+
     private SGearMaterials() {}
 
     public static void init() {
@@ -36,5 +39,7 @@ public final class SGearMaterials {
         }
 
         PartRegistry.putPart(new PartMain(new ResourceLocation(SilentGems.MODID, "main_chaos_iron"), PartOrigins.BUILTIN_ADDON));
+
+        soulPart = PartRegistry.putPart(new ToolSoulPart(new ResourceLocation(SilentGems.MODID, "gear_soul"), PartOrigins.BUILTIN_ADDON));
     }
 }

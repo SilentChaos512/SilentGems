@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+### Changed
+- Tool souls now work on Silent Gear tools. Bit of a hack, so support may not be as good as 1.14+.
+
 ## [2.8.18] - 2019-06-03
 ### Added
 - Configs to disable armor, including specific tiers

@@ -43,6 +43,7 @@ import net.silentchaos512.gems.api.lib.EnumMaterialTier;
 import net.silentchaos512.gems.api.lib.ToolPartPosition;
 import net.silentchaos512.gems.api.tool.ToolStats;
 import net.silentchaos512.gems.api.tool.part.*;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.config.ConfigOptionToolClass;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.config.GemsConfigHC;
@@ -232,7 +233,7 @@ public class ToolHelper {
      */
     @Nullable
     public static UUID getUUID(ItemStack tool) {
-        if (!(tool.getItem() instanceof ITool || tool.getItem() instanceof IArmor)) {
+        if (!(tool.getItem() instanceof IGearItem || SGearProxy.isGearItem(tool))) {
             return null;
         }
 
@@ -1120,7 +1121,7 @@ public class ToolHelper {
      */
     public static @Nullable
     UUID getSoulUUID(ItemStack toolOrArmor) {
-        if (!(toolOrArmor.getItem() instanceof ITool || toolOrArmor.getItem() instanceof IArmor)) {
+        if (!(toolOrArmor.getItem() instanceof ITool || toolOrArmor.getItem() instanceof IArmor || SGearProxy.isGearItem(toolOrArmor))) {
             return null;
         }
 
@@ -1142,7 +1143,7 @@ public class ToolHelper {
     // ==========================================================================
 
     static NBTTagCompound getRootTag(ItemStack tool, String key) {
-        if (!(tool.getItem() instanceof ITool || tool.getItem() instanceof IArmor)) {
+        if (!(tool.getItem() instanceof ITool || tool.getItem() instanceof IArmor || SGearProxy.isGearItem(tool))) {
             return new NBTTagCompound();
         }
 

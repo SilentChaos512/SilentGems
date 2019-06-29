@@ -16,18 +16,14 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.api.IArmor;
-import net.silentchaos512.gems.api.ITool;
 import net.silentchaos512.gems.api.tool.ToolStats;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.lib.EnumToolType;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.util.ItemHelper;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import static net.silentchaos512.gems.lib.soul.EnumSoulElement.*;
 
@@ -144,9 +140,7 @@ public class SoulSkill {
      */
     protected boolean lockedToFavoredElements = false;
 
-    public SoulSkill(String id, int maxLevel, int apCost, int medianXpLevel, double weightDiff,
-                     EnumSoulElement... favoredElements) {
-
+    public SoulSkill(String id, int maxLevel, int apCost, int medianXpLevel, double weightDiff, EnumSoulElement... favoredElements) {
         this.id = id;
         this.maxLevel = maxLevel;
         this.apCost = apCost;
@@ -161,7 +155,6 @@ public class SoulSkill {
     }
 
     public boolean activate(ToolSoul soul, ItemStack tool, EntityPlayer player, int level) {
-
         if (!shouldActivateOnClient() && player.world.isRemote) {
             return false;
         }
@@ -236,9 +229,7 @@ public class SoulSkill {
 
     static final int WARM_CHILL_ACT_COST = 10;
 
-    public boolean activateOnBlock(ToolSoul soul, ItemStack tool, EntityPlayer player, int level,
-                                   World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ) {
-
+    public boolean activateOnBlock(ToolSoul soul, ItemStack tool, EntityPlayer player, int level, World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (this == WARM && soul.actionPoints >= WARM_CHILL_ACT_COST) {
             BlockPos blockpos = pos.offset(facing);
             // Can place fire?
@@ -292,9 +283,7 @@ public class SoulSkill {
         return false;
     }
 
-    public boolean onDamageEntity(ToolSoul soul, ItemStack tool, EntityPlayer player, int level,
-                                  EntityLivingBase target) {
-
+    public boolean onDamageEntity(ToolSoul soul, ItemStack tool, EntityPlayer player, int level, EntityLivingBase target) {
         if (soul.actionPoints < this.apCost)
             return false;
 
@@ -313,7 +302,6 @@ public class SoulSkill {
     }
 
     public void applyToStats(ToolStats stats, int level) {
-
         if (this == DURABILITY_BOOST) {
             stats.durability *= 1f + (getStatBoostMulti() * level);
         } else if (this == HARVEST_SPEED_BOOST) {
@@ -440,10 +428,7 @@ public class SoulSkill {
 
                 // Favors certain tool types?
                 if (skill.favoredType != EnumToolType.NONE) {
-                    EnumToolType toolType = tool.getItem() instanceof ITool
-                            ? ((ITool) tool.getItem()).getToolType()
-                            : tool.getItem() instanceof IArmor ? ((IArmor) tool.getItem()).getToolType()
-                            : EnumToolType.NONE;
+                    EnumToolType toolType = SGearProxy.getSGemsTypeFromGearItem(tool);
                     if (toolType == skill.favoredType) {
                         weight += 5;
                     }
@@ -479,9 +464,7 @@ public class SoulSkill {
         }
 
         // Seed based on soul elements, level, and tool UUID.
-        Random rand = new Random(
-                soul.getPrimaryElement().ordinal() + (soul.getSecondaryElement().ordinal() << 4)
-                        + (soul.getLevel() << 8) + (ToolHelper.getUUID(tool).getLeastSignificantBits() << 16));
+        Random rand = new Random(getSoulRandomSeed(soul, tool));
 
         // Weighted random selection.
         SoulSkill selected = null;
@@ -501,5 +484,13 @@ public class SoulSkill {
 
     public static Collection<SoulSkill> getSkillList() {
         return SKILL_LIST.values();
+    }
+
+    private static long getSoulRandomSeed(ToolSoul soul, ItemStack tool) {
+        UUID uuid = ToolHelper.getUUID(tool);
+        return soul.getPrimaryElement().ordinal()
+                + (soul.getSecondaryElement().ordinal() << 4)
+                + (soul.getLevel() << 8)
+                + (uuid != null ? (uuid.getLeastSignificantBits() << 16) : 0);
     }
 }

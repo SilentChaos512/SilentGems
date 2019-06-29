@@ -1,0 +1,19 @@
+{
+    "type": "gear_soul",
+    "stats": [],
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:tool_soul"
+        }
+    },
+    "display": {
+        "hidden": false,
+        "texture_suffix": "soul",
+        "texture_color": "FFFFFF",
+        "broken_color": "FFFFFF"
+    },
+    "availability": {
+        "enabled": true,
+        "tier": 3
+    }
+}

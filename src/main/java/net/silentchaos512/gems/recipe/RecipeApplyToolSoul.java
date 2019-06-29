@@ -3,15 +3,14 @@ package net.silentchaos512.gems.recipe;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.api.IArmor;
-import net.silentchaos512.gems.api.ITool;
+import net.minecraftforge.common.ForgeHooks;
+import net.silentchaos512.gems.api.IGearItem;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.init.ModItems;
 import net.silentchaos512.gems.item.ItemToolSoul;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
 import net.silentchaos512.gems.util.SoulManager;
-import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.recipe.RecipeBaseSL;
-
 
 public class RecipeApplyToolSoul extends RecipeBaseSL {
     @Override
@@ -27,7 +26,7 @@ public class RecipeApplyToolSoul extends RecipeBaseSL {
         for (int i = 0; i < inv.getSizeInventory(); ++i) {
             ItemStack stack = inv.getStackInSlot(i);
             // Found a tool or armor piece?
-            if (stack.getItem() instanceof ITool || stack.getItem() instanceof IArmor) {
+            if (stack.getItem() instanceof IGearItem || SGearProxy.isGearItem(stack)) {
                 if (!tool.isEmpty()) {
                     return ItemStack.EMPTY;
                 }
@@ -70,7 +69,7 @@ public class RecipeApplyToolSoul extends RecipeBaseSL {
         }
 
         // Recalculate stats and return.
-        ToolHelper.recalculateStats(result);
+        ToolSoul.recalculateGearStats(result, ForgeHooks.getCraftingPlayer());
         return result;
     }
 

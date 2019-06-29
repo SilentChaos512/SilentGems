@@ -27,6 +27,7 @@ import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.lib.Names;
 import net.silentchaos512.gems.lib.part.ModParts;
 import net.silentchaos512.gems.lib.soul.SoulSkill;
+import net.silentchaos512.gems.lib.soul.ToolSoulPart;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.gems.world.GemsGeodeWorldGenerator;
 import net.silentchaos512.gems.world.GemsWorldGenerator;
@@ -57,18 +58,19 @@ public class SilentGems implements IModBase {
             + "after:baubles;after:enderio;after:enderzoo;after:veinminer;after:silentgear";
     public static final String RESOURCE_PREFIX = MODID + ":";
 
-    static {
-        if (Loader.isModLoaded("silentgear")) {
-            // Load added stat(s) before Silent Gear loads material JSONs
-            MinecraftForge.EVENT_BUS.register(new SGearStatHandler());
-        }
-    }
-
     public static final Random random = new Random();
     public static final LogHelper logHelper = new LogHelper(MOD_NAME, BUILD_NUM);
     public static final I18nHelper i18n = new I18nHelper(MODID, logHelper, false);
 
     public static final SRegistry registry = new SRegistry();
+
+    static {
+        if (Loader.isModLoaded("silentgear")) {
+            // Load added stat(s) before Silent Gear loads material JSONs
+            MinecraftForge.EVENT_BUS.register(new SGearStatHandler());
+            logHelper.info("Registering tool soul part for Silent Gear: {}", ToolSoulPart.PART_TYPE);
+        }
+    }
 
     @Instance(MODID)
     public static SilentGems instance;

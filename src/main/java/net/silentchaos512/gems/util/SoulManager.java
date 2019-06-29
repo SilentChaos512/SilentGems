@@ -21,6 +21,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 import net.silentchaos512.gems.api.IArmor;
 import net.silentchaos512.gems.api.IGearItem;
 import net.silentchaos512.gems.api.ITool;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.init.ModEnchantments;
 import net.silentchaos512.gems.lib.soul.SoulSkill;
 import net.silentchaos512.gems.lib.soul.ToolSoul;
@@ -40,7 +41,7 @@ public class SoulManager {
     @Nullable
     public static ToolSoul getSoul(ItemStack tool) {
         if (tool.isEmpty()
-                || !(tool.getItem() instanceof ITool || tool.getItem() instanceof IArmor)
+                || !(tool.getItem() instanceof ITool || tool.getItem() instanceof IArmor || SGearProxy.isGearItem(tool))
                 || ToolHelper.isExampleItem(tool)) {
             return null;
         }
@@ -83,6 +84,10 @@ public class SoulManager {
         if (randomizeUuid) {
             ToolHelper.setRandomSoulUUID(tool);
         }
+
+        if (SGearProxy.isGearItem(tool)) {
+            SGearProxy.addSoulPart(tool);
+        }
     }
 
     public static void addSoulXp(int amount, ItemStack tool, EntityPlayer player) {
@@ -106,7 +111,7 @@ public class SoulManager {
         // Find all the players tools. Find the matching souls in the map.
         int count = 0;
         for (ItemStack tool : PlayerHelper.getNonEmptyStacks(player, true, true, true,
-                s -> s.getItem() instanceof ITool || s.getItem() instanceof IArmor)) {
+                s -> s.getItem() instanceof ITool || s.getItem() instanceof IArmor || SGearProxy.isGearItem(s))) {
             // UUID uuid = getSoulUUID(tool);
             // ToolSoul soul = toolSoulMap.get(uuid);
             ToolSoul soul = getSoul(tool);

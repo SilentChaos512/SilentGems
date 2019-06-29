@@ -139,7 +139,7 @@ dependencies {
 
     compile "net.silentchaos512:silent-lib:3.0+"
 
-    provided "net.silentchaos512:silent-gear:${project.sgear_version}"
+    compile "net.silentchaos512:silent-gear:${project.sgear_version}"
 
     // EvilCraft
     compileOnly "org.cyclops.cyclopscore:CyclopsCore:${project.mc_version}-${project.cyclops_core_version}:deobf"

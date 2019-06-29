@@ -18,11 +18,17 @@
 
 package net.silentchaos512.gems.compat.gear;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.silentchaos512.gear.api.parts.ItemPartData;
-import net.silentchaos512.gear.api.parts.MaterialGrade;
-import net.silentchaos512.gear.api.parts.PartMain;
-import net.silentchaos512.gear.api.parts.PartRegistry;
+import net.silentchaos512.gear.api.item.ICoreArmor;
+import net.silentchaos512.gear.api.item.ICoreItem;
+import net.silentchaos512.gear.api.parts.*;
+import net.silentchaos512.gear.util.GearData;
+import net.silentchaos512.gems.init.SGearMaterials;
+import net.silentchaos512.gems.lib.EnumToolType;
+import net.silentchaos512.gems.lib.soul.ToolSoulPart;
+
+import javax.annotation.Nullable;
 
 public final class SGearCompat {
     private SGearCompat() {
@@ -39,7 +45,40 @@ public final class SGearCompat {
         return part != null ? part.getPart().getTier() : -1;
     }
 
+    public static boolean isGearItem(ItemStack stack) {
+        return stack.getItem() instanceof ICoreItem;
+    }
+
     public static boolean isMainPart(ItemStack stack) {
         return PartRegistry.get(stack) instanceof PartMain;
+    }
+
+    @SuppressWarnings("ChainOfInstanceofChecks")
+    public static EnumToolType getSGemsTypeFromGearItem(ItemStack stack) {
+        if (stack.getItem() instanceof ICoreArmor) {
+            return EnumToolType.ARMOR;
+        }
+        if (stack.getItem() instanceof ICoreItem) {
+            ICoreItem item = (ICoreItem) stack.getItem();
+            if (item.getGearType().matches("melee_weapon"))
+                return EnumToolType.SWORD;
+            if (item.getGearType().matches("ranged_weapon"))
+                return EnumToolType.BOW;
+            if (item.getGearType().matches("harvest_tool"))
+                return EnumToolType.HARVEST;
+        }
+
+        return EnumToolType.NONE;
+    }
+
+    public static void recalculateStats(ItemStack stack, @Nullable EntityPlayer player) {
+        GearData.recalculateStats(player, stack);
+    }
+
+    public static void addSoulPart(ItemStack stack) {
+        PartDataList parts = GearData.getConstructionParts(stack);
+        parts.removeIf(p -> p.getPart().getType() == ToolSoulPart.PART_TYPE);
+        parts.add(ItemPartData.instance(SGearMaterials.soulPart));
+        GearData.writeConstructionParts(stack, parts);
     }
 }

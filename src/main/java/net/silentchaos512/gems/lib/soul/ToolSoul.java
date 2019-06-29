@@ -21,7 +21,9 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.oredict.OreDictionary;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.IArmor;
+import net.silentchaos512.gems.api.IGearItem;
 import net.silentchaos512.gems.api.tool.ToolStats;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.ItemSoulGem;
 import net.silentchaos512.gems.item.ItemToolSoul;
@@ -158,19 +160,17 @@ public class ToolSoul {
         ++level;
         String line = SilentGems.i18n.miscText("toolsoul.levelUp", getName(tool), level);
         ChatHelper.sendMessage(player, line);
-        player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP,
-                SoundCategory.PLAYERS, 1.0f, 1.0f);
+        player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1.0f, 1.0f);
 
         addActionPoints(AP_PER_LEVEL);
 
         // Learn new skill?
         SoulSkill toLearn = SoulSkill.selectSkillToLearn(this, tool);
         if (toLearn != null) {
-            SilentGems.logHelper.debug("{}", player.world.isRemote);
             addOrLevelSkill(toLearn, tool, player);
         }
 
-        ToolHelper.recalculateStats(tool);
+        recalculateGearStats(tool, player);
 
         // Save soul to NBT
         SoulManager.setSoul(tool, this, false);
@@ -203,8 +203,7 @@ public class ToolSoul {
                 }
             }
         } else {
-            SilentGems.logHelper.warn("ToolSoul#getXpForBlockHarvest: Invalid block stack for " + block
-                    + " (meta " + blockMeta + ")");
+            SilentGems.logHelper.warn("ToolSoul#getXpForBlockHarvest: Invalid block stack for " + block + " (meta " + blockMeta + ")");
         }
 
         // Wood gives less XP.
@@ -214,6 +213,13 @@ public class ToolSoul {
 
         int clamp = MathHelper.clamp(Math.round(XP_FACTOR_BLOCK_MINED * hardness), 1, XP_MAX_PER_BLOCK);
         return oreBonus + clamp;
+    }
+
+    public static void recalculateGearStats(ItemStack stack, EntityPlayer player) {
+        if (stack.getItem() instanceof IGearItem)
+            ToolHelper.recalculateStats(stack);
+        else if (SGearProxy.isGearItem(stack))
+            SGearProxy.recalculateStats(stack, player);
     }
 
     // ======================
