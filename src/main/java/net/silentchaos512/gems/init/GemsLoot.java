@@ -48,7 +48,9 @@ public final class GemsLoot {
     }
 
     private static void addGemsToTable(LootTableLoadEvent event, int maxRolls) {
-        SilentGems.LOGGER.info("Add gems to loot pool {} ({} rolls)", event.getName(), maxRolls);
+        if (hasLootPool(event.getTable(), "silentgems_added_gems")) return;
+
+        SilentGems.LOGGER.info("Add gems to loot table {} ({} rolls)", event.getName(), maxRolls);
         event.getTable().addPool((new LootPool.Builder())
                 .name("silentgems_added_gems")
                 .rolls(new RandomValueRange(1, maxRolls))
@@ -57,5 +59,10 @@ public final class GemsLoot {
                         .acceptFunction(SetCount.func_215932_a(new RandomValueRange(2, 5)))
                 )
                 .build());
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private static boolean hasLootPool(LootTable table, String poolName) {
+        return table.getPool(poolName) != null;
     }
 }

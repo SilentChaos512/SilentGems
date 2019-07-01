@@ -36,9 +36,6 @@ public final class GemsBlocks {
     private GemsBlocks() {}
 
     public static void registerAll(RegistryEvent.Register<Block> event) {
-        if (!event.getRegistry().getRegistryName().equals(ForgeRegistries.BLOCKS.getRegistryName()))
-            return;
-
         registerGemBlocks(Gems::getOre, gem -> gem.getName() + "_ore");
         registerGemBlocks(Gems::getBlock, gem -> gem.getName() + "_block");
         registerGemBlocks(Gems::getBricks, gem -> gem.getName() + "_bricks");
@@ -120,7 +117,7 @@ public final class GemsBlocks {
 
         if (item != null) {
             item.setRegistryName(id);
-            GemsItems.blocksToRegister.add(item);
+            GemsItems.BLOCKS_TO_REGISTER.add(item);
         }
 
         return block;

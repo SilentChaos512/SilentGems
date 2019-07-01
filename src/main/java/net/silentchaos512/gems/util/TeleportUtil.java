@@ -15,7 +15,9 @@ public final class TeleportUtil {
     private TeleportUtil() {throw new IllegalAccessError("Utility class");}
 
     public static boolean teleport(Entity entity, DimPos pos) {
-        TeleporterSL teleporter = TeleporterSL.of(pos.offset(Direction.UP, 1));
+        ServerWorld world = getServerWorld(entity, pos);
+        if (world == null) return false;
+        TeleporterSL teleporter = TeleporterSL.of(world, pos.offset(Direction.UP, 1));
         teleporter.teleportWithMount(entity);
         return true;
     }

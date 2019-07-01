@@ -95,6 +95,10 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.k-4u.nl"
     }
+    maven {
+        // Curios
+        url = "https://maven.theillusivec4.top/"
+    }
     maven { url 'https://jitpack.io' }
 }
 
@@ -114,8 +118,11 @@ dependencies {
     // at runtime, use the full JEI jar
     runtimeOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${project.jei_version}")
 
+    // Curios
+    //compile fg.deobf("top.theillusivec4.curios:curios:FORGE-${project.mc_version}-{$project.curios_version}")
+
     // Other mods
-    compile "net.silentchaos512:treasure-bags:0.+"
+    //compile "net.silentchaos512:treasure-bags:0.+"
 }
 
 jar {
@@ -123,7 +130,7 @@ jar {
     manifest {
         attributes(["Specification-Title"     : project.mod_id,
                     "Specification-Vendor"    : "SilentChaos512",
-                    "Specification-Version"   : "3.1",
+                    "Specification-Version"   : "3.2",
                     "Implementation-Title"    : project.name,
                     "Implementation-Version"  : "${version}",
                     "Implementation-Vendor"   : "SilentChaos512",

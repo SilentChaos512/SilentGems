@@ -36,9 +36,8 @@ public enum GemsContainers {
     public ContainerType<?> type() {
         return type.get();
     }
-    public static void registerAll(RegistryEvent.Register<ContainerType<?>> event) {
-        if (!event.getName().equals(ForgeRegistries.CONTAINERS.getRegistryName())) return;
 
+    public static void registerAll(RegistryEvent.Register<ContainerType<?>> event) {
         for (GemsContainers container : values()) {
             register(container.name().toLowerCase(Locale.ROOT), container.type());
         }

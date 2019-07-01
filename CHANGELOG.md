@@ -3,11 +3,16 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.1.3] - 2019-06-24
+JEI plugin is up to date. Recommended Forge is 26.0.51 or later.
 ### Added
 - Treasure Bags support (adds bags for gem sets, no way to obtain aside from commands yet)
+- A new command, `sg_soul`. Can currently be used to give soul gems or get a list of all registered souls.
 ### Changed
 - Token enchanter recipes now use the vanilla recipe system, so they have moved to the recipes folder. `type` is `silentgems:token_enchanting`, the format is the same otherwise.
+- Updated gem shard textures
+### Fixed
+- Soul gem ingredient not working correctly
 
 ## [3.1.2] - 2019-06-21
 (would have been 3.1.1, Git had other plans)  

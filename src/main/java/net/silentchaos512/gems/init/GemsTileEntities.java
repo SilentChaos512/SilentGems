@@ -60,8 +60,6 @@ public enum GemsTileEntities {
     }
 
     public static void registerAll(RegistryEvent.Register<TileEntityType<?>> event) {
-        if (!event.getName().equals(ForgeRegistries.TILE_ENTITIES.getRegistryName())) return;
-
         for (GemsTileEntities tileEnum : values()) {
             register(tileEnum.name().toLowerCase(Locale.ROOT), tileEnum.type());
         }

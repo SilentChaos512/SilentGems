@@ -6,6 +6,7 @@ import com.mojang.datafixers.types.DynamicOps;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraftforge.common.Tags;
 
 import java.util.function.Predicate;
 
@@ -32,6 +33,6 @@ public class SGOreFeatureConfig implements IFeatureConfig {
         int size = dynamic.get("size").asInt(0);
         BlockState state = dynamic.get("state").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
         // TODO: How to handle target? What even is this Dynamic stuff anyway?
-        return new SGOreFeatureConfig(state, size, s -> s.getBlock() == Blocks.STONE);
+        return new SGOreFeatureConfig(state, size, s -> s.isIn(Tags.Blocks.STONE));
     }
 }

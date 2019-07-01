@@ -88,8 +88,6 @@ public enum GemsSounds {
     }
 
     public static void registerAll(RegistryEvent.Register<SoundEvent> event) {
-        if (!event.getName().equals(ForgeRegistries.SOUND_EVENTS.getRegistryName())) return;
-
         for (GemsSounds sound : values()) {
             register(sound.getName(), sound.get());
         }

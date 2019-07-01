@@ -21,11 +21,7 @@ public final class GemsEffects {
 
     private GemsEffects() {}
 
-    public static void registerEffects(RegistryEvent.Register<Potion> event) {
-        if (!event.getRegistry().getRegistryName().equals(ForgeRegistries.POTIONS.getRegistryName())) {
-            return;
-        }
-
+    public static void registerEffects(RegistryEvent.Register<Effect> event) {
         freezing = registerEffect("freezing", new FreezingEffect());
         shocking = registerEffect("shocking", new ShockingEffect());
         insulated = registerEffect("insulated", new BaseEffect(EffectType.BENEFICIAL, 0x009499));

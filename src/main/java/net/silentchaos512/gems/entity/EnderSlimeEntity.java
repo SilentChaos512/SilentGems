@@ -21,6 +21,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.silentchaos512.gems.SilentGems;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class EnderSlimeEntity extends SlimeEntity {
     private static final ResourceLocation LOOT_TABLE = SilentGems.getId("ender_slime");
@@ -36,8 +37,12 @@ public class EnderSlimeEntity extends SlimeEntity {
     }
 
     @Override
-    protected boolean canSpawn(IWorld worldIn, SpawnReason reason, BlockPos pos) {
+    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
         return worldIn.getDifficulty() != Difficulty.PEACEFUL;
+    }
+
+    public static boolean canSpawnAt(EntityType<EnderSlimeEntity> entityType, IWorld world, SpawnReason reason, BlockPos pos, Random random) {
+        return world.getDifficulty() != Difficulty.PEACEFUL;
     }
 
     @Override

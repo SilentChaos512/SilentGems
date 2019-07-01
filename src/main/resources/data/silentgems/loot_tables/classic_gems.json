@@ -6,83 +6,67 @@
             "entries": [
                 {
                     "type": "item",
-                    "name": "silentgems:ruby",
-                    "weight": 10
+                    "name": "silentgems:ruby"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:garnet",
-                    "weight": 10
+                    "name": "silentgems:garnet"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:topaz",
-                    "weight": 10
+                    "name": "silentgems:topaz"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:amber",
-                    "weight": 10
+                    "name": "silentgems:amber"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:heliodor",
-                    "weight": 10
+                    "name": "silentgems:heliodor"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:peridot",
-                    "weight": 10
+                    "name": "silentgems:peridot"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:green_sapphire",
-                    "weight": 10
+                    "name": "silentgems:green_sapphire"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:phosphophyllite",
-                    "weight": 10
+                    "name": "silentgems:phosphophyllite"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:aquamarine",
-                    "weight": 10
+                    "name": "silentgems:aquamarine"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:sapphire",
-                    "weight": 10
+                    "name": "silentgems:sapphire"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:tanzanite",
-                    "weight": 10
+                    "name": "silentgems:tanzanite"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:amethyst",
-                    "weight": 10
+                    "name": "silentgems:amethyst"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:agate",
-                    "weight": 10
+                    "name": "silentgems:agate"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:morganite",
-                    "weight": 10
+                    "name": "silentgems:morganite"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:onyx",
-                    "weight": 10
+                    "name": "silentgems:onyx"
                 },
                 {
                     "type": "item",
-                    "name": "silentgems:opal",
-                    "weight": 10
+                    "name": "silentgems:opal"
                 }
             ]
         }

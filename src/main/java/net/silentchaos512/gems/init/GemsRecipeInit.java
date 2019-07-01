@@ -19,20 +19,20 @@ public final class GemsRecipeInit {
         SoulGemIngredient.Serializer.register();
 
         registerRecipeType("token_enchanting", TokenEnchanterRecipe.RECIPE_TYPE);
-        register(SilentGems.getId("token_enchanting"), TokenEnchanterRecipe.SERIALIZER);
+        registerSerializer(SilentGems.getId("token_enchanting"), TokenEnchanterRecipe.SERIALIZER);
 
-        register(ApplyChaosRuneRecipe.NAME, ApplyChaosRuneRecipe.SERIALIZER);
-        register(ApplyEnchantmentTokenRecipe.NAME, ApplyEnchantmentTokenRecipe.SERIALIZER);
-        register(GearSoulRecipe.NAME, GearSoulRecipe.SERIALIZER);
-        register(ModifySoulUrnRecipe.NAME, ModifySoulUrnRecipe.SERIALIZER);
-        register(SoulUrnRecipe.NAME, SoulUrnRecipe.SERIALIZER);
+        registerSerializer(ApplyChaosRuneRecipe.NAME, ApplyChaosRuneRecipe.SERIALIZER);
+        registerSerializer(ApplyEnchantmentTokenRecipe.NAME, ApplyEnchantmentTokenRecipe.SERIALIZER);
+        registerSerializer(GearSoulRecipe.NAME, GearSoulRecipe.SERIALIZER);
+        registerSerializer(ModifySoulUrnRecipe.NAME, ModifySoulUrnRecipe.SERIALIZER);
+        registerSerializer(SoulUrnRecipe.NAME, SoulUrnRecipe.SERIALIZER);
 
         if (SilentGems.isDevBuild()) {
 //            MinecraftForge.EVENT_BUS.addListener(GemsRecipeInit::onPlayerJoinServer);
         }
     }
 
-    private static void register(ResourceLocation name, IRecipeSerializer<?> serializer) {
+    private static void registerSerializer(ResourceLocation name, IRecipeSerializer<?> serializer) {
         IRecipeSerializer.register(name.toString(), serializer);
     }
 

@@ -22,14 +22,12 @@ public final class GemsItems {
     public static PetSummonerItem summonKitty;
     public static PetSummonerItem summonPuppy;
 
-    static final Collection<BlockItem> blocksToRegister = new ArrayList<>();
+    static final Collection<BlockItem> BLOCKS_TO_REGISTER = new ArrayList<>();
 
     private GemsItems() {}
 
     public static void registerAll(RegistryEvent.Register<Item> event) {
-        if (!event.getRegistry().getRegistryName().equals(ForgeRegistries.ITEMS.getRegistryName())) return;
-
-        blocksToRegister.forEach(ForgeRegistries.ITEMS::register);
+        BLOCKS_TO_REGISTER.forEach(ForgeRegistries.ITEMS::register);
 
         registerGemItems(Gems::getItem, Gems::getName);
         registerGemItems(Gems::getShard, gem -> gem.getName() + "_shard");
