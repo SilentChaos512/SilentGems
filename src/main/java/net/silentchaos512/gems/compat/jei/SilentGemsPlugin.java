@@ -6,9 +6,11 @@ import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
@@ -77,10 +79,7 @@ public class SilentGemsPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration reg) {
         initFailed = true;
 
-        List<IRecipe<?>> tokenRecipes = SilentGems.PROXY.getServer().getRecipeManager().getRecipes().stream()
-                .filter(r -> r.getType() == TokenEnchanterRecipe.RECIPE_TYPE)
-                .collect(Collectors.toList());
-        reg.addRecipes(tokenRecipes, TOKEN_ENCHANTING);
+        reg.addRecipes(getRecipesOfType(TokenEnchanterRecipe.RECIPE_TYPE), TOKEN_ENCHANTING);
 
         if (SGearProxy.isLoaded()) {
             reg.addRecipes(ImmutableList.of(
@@ -115,6 +114,12 @@ public class SilentGemsPlugin implements IModPlugin {
 //        reg.addRecipes(RecipeSoulUrnModify.getExampleRecipes(), VanillaRecipeCategoryUid.CRAFTING);
 
         initFailed = false;
+    }
+
+    private static List<IRecipe<?>> getRecipesOfType(IRecipeType<?> recipeType) {
+        return Minecraft.getInstance().world.getRecipeManager().getRecipes().stream()
+                .filter(r -> r.getType() == recipeType)
+                .collect(Collectors.toList());
     }
 
     @Override
