@@ -3,6 +3,17 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- Token enchanter recipes preventing server connection [#378]
+
+## [3.2.0] - 2019-07-01
+Update to Minecraft 1.14.3
+### Added
+- Gems added to some loot tables
+### Fixed
+- Teleporters and return home charms not working
+
 ## [3.1.3] - 2019-06-24
 JEI plugin is up to date. Recommended Forge is 26.0.51 or later.
 ### Added

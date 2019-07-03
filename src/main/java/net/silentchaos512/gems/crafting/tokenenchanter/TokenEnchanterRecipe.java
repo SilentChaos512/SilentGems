@@ -23,13 +23,12 @@ import net.silentchaos512.lib.collection.StackList;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class TokenEnchanterRecipe implements IRecipe<IInventory> {
     public static final IRecipeType<TokenEnchanterRecipe> RECIPE_TYPE = new IRecipeType<TokenEnchanterRecipe>() {
         @Override
-        public <C extends IInventory> Optional<TokenEnchanterRecipe> matches(IRecipe<C> recipe, World worldIn, C inv) {
-            return recipe.matches(inv, worldIn) ? Optional.of((TokenEnchanterRecipe) recipe) : Optional.empty();
+        public String toString() {
+            return "silentgems:token_enchanting";
         }
     };
     public static final Serializer SERIALIZER = new Serializer();
@@ -91,7 +90,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return null;
+        return SERIALIZER;
     }
 
     @Override
