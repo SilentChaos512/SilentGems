@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.lib.chaosbuff;
 
-import com.google.gson.JsonObject;
 import lombok.Getter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effect;
@@ -10,12 +9,26 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 
+import java.util.Objects;
+
 public class PotionChaosBuff extends SimpleChaosBuff {
     private static final ResourceLocation SERIALIZER_ID = SilentGems.getId("potion");
     static final IChaosBuffSerializer<PotionChaosBuff> SERIALIZER = new Serializer<>(
             SERIALIZER_ID,
             PotionChaosBuff::new,
-            PotionChaosBuff::readJson
+            (buff, json) -> {
+                String str = JSONUtils.getString(json, "effect");
+                buff.effect = ForgeRegistries.POTIONS.getValue(new ResourceLocation(str));
+                buff.effectDuration = JSONUtils.getInt(json, "effectDuration", 50);
+            },
+            (buff, buffer) -> {
+                buff.effect = ForgeRegistries.POTIONS.getValue(buffer.readResourceLocation());
+                buff.effectDuration = buffer.readVarInt();
+            },
+            (buff, buffer) -> {
+                buffer.writeResourceLocation(Objects.requireNonNull(buff.effect.getRegistryName()));
+                buffer.writeVarInt(buff.effectDuration);
+            }
     );
 
     @Getter private Effect effect;
@@ -23,12 +36,6 @@ public class PotionChaosBuff extends SimpleChaosBuff {
 
     public PotionChaosBuff(ResourceLocation id) {
         super(id);
-    }
-
-    private static void readJson(PotionChaosBuff buff, JsonObject json) {
-        String str = JSONUtils.getString(json, "effect");
-        buff.effect = ForgeRegistries.POTIONS.getValue(new ResourceLocation(str));
-        buff.effectDuration = JSONUtils.getInt(json, "effectDuration", 50);
     }
 
     @Override
@@ -45,5 +52,10 @@ public class PotionChaosBuff extends SimpleChaosBuff {
     public int getRuneColor() {
         if (effect != null) return effect.getLiquidColor();
         return super.getRuneColor();
+    }
+
+    @Override
+    public IChaosBuffSerializer<?> getSerializer() {
+        return SERIALIZER;
     }
 }

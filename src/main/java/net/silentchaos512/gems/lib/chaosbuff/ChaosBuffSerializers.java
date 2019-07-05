@@ -35,7 +35,7 @@ public final class ChaosBuffSerializers {
 
         IChaosBuffSerializer<?> serializer = REGISTRY.get(type);
         if (serializer == null) {
-            throw new JsonParseException("Invalid or unsupported trait type " + type);
+            throw new JsonParseException("Invalid or unsupported chaos buff type " + type);
         }
         return serializer.read(id, json);
     }
@@ -45,16 +45,16 @@ public final class ChaosBuffSerializers {
         ResourceLocation type = buffer.readResourceLocation();
         IChaosBuffSerializer<?> serializer = REGISTRY.get(type);
         if (serializer == null) {
-            throw new IllegalArgumentException("Unknown trait serializer " + type);
+            throw new IllegalArgumentException("Unknown chaos buff serializer " + type);
         }
         return serializer.read(id, buffer);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends IChaosBuff> void write(T trait, PacketBuffer buffer) {
-        buffer.writeResourceLocation(trait.getId());
-        buffer.writeResourceLocation(trait.getSerializer().getName());
-        IChaosBuffSerializer<T> serializer = (IChaosBuffSerializer<T>) trait.getSerializer();
-        serializer.write(buffer, trait);
+    public static <T extends IChaosBuff> void write(T buff, PacketBuffer buffer) {
+        buffer.writeResourceLocation(buff.getId());
+        buffer.writeResourceLocation(buff.getSerializer().getName());
+        IChaosBuffSerializer<T> serializer = (IChaosBuffSerializer<T>) buff.getSerializer();
+        serializer.write(buffer, buff);
     }
 }

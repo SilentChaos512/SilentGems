@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 public enum CostConditions {
+    NO_CONDITION(p -> true),
     BURNING(Entity::isBurning),
     FLYING(p -> p.abilities.isFlying),
     HURT(p -> p.getHealth() < p.getMaxHealth() - 0.5f),

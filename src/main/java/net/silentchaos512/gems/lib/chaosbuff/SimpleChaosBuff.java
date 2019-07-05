@@ -14,8 +14,10 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.utils.Color;
+import net.silentchaos512.utils.EnumUtils;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -104,18 +106,24 @@ public class SimpleChaosBuff implements IChaosBuff {
 
         private final ResourceLocation serializerId;
         private final Function<ResourceLocation, T> factory;
-        private final BiConsumer<T, JsonObject> readJson;
+        @Nullable private final BiConsumer<T, JsonObject> readJson;
+        @Nullable private final BiConsumer<T, PacketBuffer> readBuffer;
+        @Nullable private final BiConsumer<T, PacketBuffer> writeBuffer;
 
         public Serializer(ResourceLocation serializerId, Function<ResourceLocation, T> factory) {
-            this(serializerId, factory, null);
+            this(serializerId, factory, null, null, null);
         }
 
         public Serializer(ResourceLocation serializerId,
                           Function<ResourceLocation, T> factory,
-                          @Nullable BiConsumer<T, JsonObject> readJson) {
+                          @Nullable BiConsumer<T, JsonObject> readJson,
+                          @Nullable BiConsumer<T, PacketBuffer> readBuffer,
+                          @Nullable BiConsumer<T, PacketBuffer> writeBuffer) {
             this.serializerId = serializerId;
             this.factory = factory;
             this.readJson = readJson;
+            this.readBuffer = readBuffer;
+            this.writeBuffer = writeBuffer;
         }
 
         @Override
@@ -190,13 +198,37 @@ public class SimpleChaosBuff implements IChaosBuff {
         @Override
         public T read(ResourceLocation id, PacketBuffer buffer) {
             T buff = factory.apply(id);
-            // TODO
+            ITextComponent displayName = buffer.readTextComponent();
+            buff.displayName = displayName::deepCopy;
+            buff.maxLevel = buffer.readByte();
+            buff.slotsByLevel = buffer.readVarIntArray();
+            buff.inactiveCost = buffer.readVarInt();
+            buff.activeCostByLevel = buffer.readVarIntArray();
+            buff.costConditions = new CostConditions[buffer.readByte()];
+            for (int i = 0; i < buff.costConditions.length; ++i) {
+                buff.costConditions[i] = EnumUtils.byOrdinal(buffer.readByte(), CostConditions.NO_CONDITION);
+            }
+
+            if (readBuffer != null) {
+                readBuffer.accept(buff, buffer);
+            }
+
             return buff;
         }
 
         @Override
-        public void write(PacketBuffer buffer, T trait) {
-            // TODO
+        public void write(PacketBuffer buffer, T buff) {
+            buffer.writeTextComponent(buff.displayName.get());
+            buffer.writeByte(buff.maxLevel);
+            buffer.writeVarIntArray(buff.slotsByLevel);
+            buffer.writeVarInt(buff.inactiveCost);
+            buffer.writeVarIntArray(buff.activeCostByLevel);
+            buffer.writeByte(buff.costConditions.length);
+            Arrays.stream(buff.costConditions).mapToInt(Enum::ordinal).forEach(buffer::writeByte);
+
+            if (writeBuffer != null) {
+                writeBuffer.accept(buff, buffer);
+            }
         }
 
         @Override

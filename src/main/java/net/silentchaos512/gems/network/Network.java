@@ -4,6 +4,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
 import net.silentchaos512.gems.lib.soul.Soul;
 
 import java.util.Objects;
@@ -28,6 +29,11 @@ public final class Network {
                 .decoder(SyncSoulsPacket::fromBytes)
                 .encoder(SyncSoulsPacket::toBytes)
                 .consumer(Soul::handleSyncPacket)
+                .add();
+        channel.messageBuilder(SyncChaosBuffsPacket.class, 3)
+                .decoder(SyncChaosBuffsPacket::fromBytes)
+                .encoder(SyncChaosBuffsPacket::toBytes)
+                .consumer(ChaosBuffManager::handlePacket)
                 .add();
     }
 

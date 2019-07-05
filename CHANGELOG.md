@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Soul gems not having their data on the client when playing on a server [#380]
 - Soul gem drops crashing the game in some cases [#380]
 - Hardened stone generating over the ocean [#379]
+- Information on chaos buffs (runes for chaos gems) is now synced with the client
 
 ## [3.2.1] - 2019-07-03
 ### Fixed
