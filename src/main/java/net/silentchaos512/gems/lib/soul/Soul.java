@@ -119,6 +119,9 @@ public final class Soul {
             MAP.put(soul.entityType, soul);
             MAP_BY_ID.put(soul.id.toString(), soul);
         });
+
+        SilentGems.LOGGER.info("Received {} soul info objects from server", MAP.size());
+        context.get().setPacketHandled(true);
     }
 
     //endregion
@@ -182,12 +185,12 @@ public final class Soul {
         return MAP.values();
     }
 
+    @SuppressWarnings("MethodMayBeStatic")
     public static final class Events {
         public static final Events INSTANCE = new Events();
 
         private Events() {}
 
-        @SuppressWarnings("MethodMayBeStatic")
         @SubscribeEvent
         public void onServerAboutToStart(FMLServerStartingEvent event) {
             MAP.clear();
@@ -221,20 +224,25 @@ public final class Soul {
             // Send soul information to player
             PlayerEntity player = event.getPlayer();
             if (player instanceof ServerPlayerEntity) {
+                Collection<Soul> souls = MAP.values();
+                SilentGems.LOGGER.info("Sending {} soul info objects to {}", souls.size(), player.getScoreboardName());
+
                 NetworkManager netManager = ((ServerPlayerEntity) player).connection.netManager;
-                Network.channel.sendTo(new SyncSoulsPacket(MAP.values()), netManager, NetworkDirection.PLAY_TO_CLIENT);
+                Network.channel.sendTo(new SyncSoulsPacket(souls), netManager, NetworkDirection.PLAY_TO_CLIENT);
             }
         }
 
-        @SuppressWarnings("MethodMayBeStatic")
         @SubscribeEvent
         public void onLivingDrops(LivingDropsEvent event) {
+            // Handle dropping soul gems
+            // Unfortunately, loot tables load before souls are created, so they must be handled this way
+
             LivingEntity entity = event.getEntityLiving();
             Soul soul = Soul.from(entity);
 
             if (soul != null && shouldDropSoulGem(event, entity, soul)) {
                 ItemStack soulGem = soul.getSoulGem();
-                ItemEntity entityItem = entity.entityDropItem(soulGem);
+                ItemEntity entityItem = new ItemEntity(entity.world, entity.posX, entity.posY + entity.getHeight() / 2, entity.posZ, soulGem);
                 event.getDrops().add(entityItem);
             }
         }
@@ -242,7 +250,8 @@ public final class Soul {
         private static boolean shouldDropSoulGem(LivingDropsEvent event, LivingEntity entity, @Nonnull Soul soul) {
             boolean killedByPlayer = event.getSource().getTrueSource() instanceof PlayerEntity;
             float dropRate = soul.getDropRate(entity);
-            return killedByPlayer && MathUtils.tryPercentage(dropRate);
+            float lootingBonus = dropRate * event.getLootingLevel() / 5;
+            return killedByPlayer && MathUtils.tryPercentage(dropRate + lootingBonus);
         }
 
         private static long calculateSeed(FMLServerStartingEvent event) {

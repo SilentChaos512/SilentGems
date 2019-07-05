@@ -31,6 +31,10 @@ public class SetSoulFunction implements ILootFunction {
         return result;
     }
 
+    public static ILootFunction.IBuilder builder(Soul soul) {
+        return () -> new SetSoulFunction(soul.getId().toString());
+    }
+
     public static class Serializer extends ILootFunction.Serializer<SetSoulFunction> {
         protected Serializer(ResourceLocation location, Class<SetSoulFunction> clazz) {
             super(location, clazz);
@@ -38,7 +42,7 @@ public class SetSoulFunction implements ILootFunction {
 
         @Override
         public void serialize(JsonObject json, SetSoulFunction value, JsonSerializationContext serializationContext) {
-                json.addProperty("soul", value.soulId);
+            json.addProperty("soul", value.soulId);
         }
 
         @Override
