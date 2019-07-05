@@ -1,8 +1,10 @@
 package net.silentchaos512.gems.lib.soul;
 
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.silentchaos512.utils.EnumUtils;
 import net.silentchaos512.utils.MathUtils;
 
 import java.util.Locale;
@@ -65,5 +67,13 @@ public enum SoulElement {
             }
         }
         return NONE;
+    }
+
+    public static SoulElement read(PacketBuffer buffer) {
+        return EnumUtils.byOrdinal(buffer.readByte(), NONE);
+    }
+
+    public void write(PacketBuffer buffer) {
+        buffer.writeByte(ordinal());
     }
 }

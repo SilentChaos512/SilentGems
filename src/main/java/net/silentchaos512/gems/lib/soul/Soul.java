@@ -8,8 +8,11 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.rcon.IServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedServer;
@@ -23,11 +26,16 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.network.NetworkDirection;
+import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.SoulGemItem;
+import net.silentchaos512.gems.network.Network;
+import net.silentchaos512.gems.network.SyncSoulsPacket;
 import net.silentchaos512.utils.Color;
 import net.silentchaos512.utils.MathUtils;
 import org.apache.logging.log4j.Marker;
@@ -36,6 +44,7 @@ import org.apache.logging.log4j.MarkerManager;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Supplier;
 
 public final class Soul {
     @Getter private final ResourceLocation id;
@@ -77,6 +86,43 @@ public final class Soul {
         }
     }
 
+    //region Network
+
+    private Soul(PacketBuffer buffer) {
+        this.id = buffer.readResourceLocation();
+        this.primaryElement = SoulElement.read(buffer);
+        this.secondaryElement = SoulElement.read(buffer);
+        this.primaryColor = buffer.readVarInt();
+        this.secondaryColor = buffer.readVarInt();
+        this.dropRate = buffer.readFloat();
+        this.entityType = ForgeRegistries.ENTITIES.getValue(this.id);
+    }
+
+    public static Soul read(PacketBuffer buffer) {
+        return new Soul(buffer);
+    }
+
+    public void write(PacketBuffer buffer) {
+        buffer.writeResourceLocation(id);
+        primaryElement.write(buffer);
+        secondaryElement.write(buffer);
+        buffer.writeVarInt(primaryColor);
+        buffer.writeVarInt(secondaryColor);
+        buffer.writeFloat(dropRate);
+    }
+
+    public static void handleSyncPacket(SyncSoulsPacket packet, Supplier<NetworkEvent.Context> context) {
+        MAP.clear();
+        MAP_BY_ID.clear();
+
+        packet.getSouls().forEach(soul -> {
+            MAP.put(soul.entityType, soul);
+            MAP_BY_ID.put(soul.id.toString(), soul);
+        });
+    }
+
+    //endregion
+
     @Nullable
     private static SpawnEggItem getSpawnEggForType(EntityType<?> entityType) {
         for (SpawnEggItem egg : SpawnEggItem.getEggs()) {
@@ -102,6 +148,10 @@ public final class Soul {
         // Half rate for slimes
         if (entity instanceof SlimeEntity)
             return this.dropRate / 2;
+        return this.dropRate;
+    }
+
+    public float getBaseDropRate() {
         return this.dropRate;
     }
 
@@ -163,6 +213,16 @@ public final class Soul {
                 SilentGems.LOGGER.debug(MARKER, "Could not verify type of {}", type.getRegistryName());
                 SilentGems.LOGGER.catching(ex);
                 return false;
+            }
+        }
+
+        @SubscribeEvent
+        public void onPlayerJoinServer(PlayerEvent.PlayerLoggedInEvent event) {
+            // Send soul information to player
+            PlayerEntity player = event.getPlayer();
+            if (player instanceof ServerPlayerEntity) {
+                NetworkManager netManager = ((ServerPlayerEntity) player).connection.netManager;
+                Network.channel.sendTo(new SyncSoulsPacket(MAP.values()), netManager, NetworkDirection.PLAY_TO_CLIENT);
             }
         }
 

@@ -7,8 +7,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.lib.soul.Soul;
 import net.silentchaos512.gems.lib.soul.SoulElement;
@@ -108,12 +111,20 @@ public class SoulGemItem extends Item {
             if (element2 != SoulElement.NONE) {
                 tooltip.add(element2.getDisplayName());
             }
+
+            if (flagIn.isAdvanced()) {
+                tooltip.add(new StringTextComponent("Soul ID: " + soul.getId()).applyTextStyle(TextFormatting.DARK_GRAY));
+            }
+
+            if (GemsConfig.COMMON.debugExtraTooltipInfo.get()) {
+                tooltip.add(new StringTextComponent("DEBUG:"));
+                tooltip.add(new StringTextComponent(String.format("- Base drop rate: %.4f", soul.getBaseDropRate())));
+            }
         }
     }
 
     @Override
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        // TODO: We need to send Souls to the client, right? Should fix no items in creative menu
         if (!isInGroup(group)) return;
         for (Soul soul : Soul.getValues()) {
             items.add(getStack(soul));

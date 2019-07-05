@@ -5,6 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
+- Soul gems not having their data on the client when playing on a server [#380]
 - Hardened stone generating over the ocean [#379]
 
 ## [3.2.1] - 2019-07-03

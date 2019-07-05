@@ -7,6 +7,8 @@ import net.silentchaos512.utils.config.ConfigSpecWrapper;
 import net.silentchaos512.utils.config.DoubleValue;
 import net.silentchaos512.utils.config.IntValue;
 
+import java.util.function.Supplier;
+
 public final class GemsConfig {
     private static final ConfigSpecWrapper WRAPPER = ConfigSpecWrapper.create(
             FMLPaths.CONFIGDIR.get().resolve("silentgems-common.toml"));
@@ -16,7 +18,8 @@ public final class GemsConfig {
     public static class Common {
         public final IntValue chaosCoalBurnTime;
         public final BooleanValue debugMasterSwitch;
-        public final BooleanValue debugShowOverlay;
+        public final Supplier<Boolean> debugShowOverlay;
+        public final Supplier<Boolean> debugExtraTooltipInfo;
         public final IntValue enderSlimeSpawnWeight;
         public final IntValue enderSlimeGroupSizeMin;
         public final IntValue enderSlimeGroupSizeMax;
@@ -43,10 +46,14 @@ public final class GemsConfig {
                     .builder("debug.masterSwitch")
                     .comment("Must be true for any other debug settings to take effect")
                     .define(SilentGems.isDevBuild());
-            debugShowOverlay = wrapper
+            debugShowOverlay = debugConfig(wrapper
                     .builder("debug.showOverlay")
                     .comment("Display text on-screen with various information, such as player/world chaos")
-                    .define(true);
+                    .define(true));
+            debugExtraTooltipInfo = debugConfig(wrapper
+                    .builder("debug.extraTooltipInfo")
+                    .comment("Add additional tooltip information to some items")
+                    .define(true));
             wrapper.comment("entity.enderSlime.spawn", "Ender slime spawn properties (REQUIRES RESTART)");
             enderSlimeSpawnWeight = wrapper
                     .builder("entity.enderSlime.spawn.weight")
@@ -121,6 +128,10 @@ public final class GemsConfig {
                     .comment("All entities within this distance of a redstone teleporter will teleport when activated with redstone.",
                             "Default is 2 blocks, restricted to [1,16]")
                     .defineInRange(2, 1, 16);
+        }
+
+        private Supplier<Boolean> debugConfig(BooleanValue config) {
+            return () -> debugMasterSwitch.get() && config.get();
         }
     }
 
