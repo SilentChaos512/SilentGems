@@ -21,11 +21,14 @@ public class GemGeodeFeature extends Feature<GemGeodeFeatureConfig> {
 
     @Override
     public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos pos, GemGeodeFeatureConfig config) {
-        float diameterXZ = 2f * random.nextFloat() + 5;
-        float diameterY = 3f * random.nextFloat() + 7;
-        generateShell(worldIn, random, pos, diameterXZ, diameterY, config);
-        generateGems(worldIn, random, pos, diameterXZ, diameterY, config);
-        return true;
+        if (config.target.test(worldIn.getBlockState(pos))) {
+            float diameterXZ = 2f * random.nextFloat() + 5;
+            float diameterY = 3f * random.nextFloat() + 7;
+            generateShell(worldIn, random, pos, diameterXZ, diameterY, config);
+            generateGems(worldIn, random, pos, diameterXZ, diameterY, config);
+            return true;
+        }
+        return false;
     }
 
     private void generateShell(IWorld worldIn, Random rand, BlockPos position, float diameterXZ, float diameterY, GemGeodeFeatureConfig config) {
