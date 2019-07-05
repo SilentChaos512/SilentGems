@@ -30,6 +30,7 @@ import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.event.TraitEvents;
 import net.silentchaos512.gems.init.*;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.TeleporterLinkerItem;
 import net.silentchaos512.gems.lib.ColorHandlers;
 import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
@@ -41,6 +42,7 @@ import net.silentchaos512.gems.network.Network;
 import net.silentchaos512.gems.util.SoulEvents;
 import net.silentchaos512.gems.world.GemsWorldFeatures;
 import net.silentchaos512.gems.world.feature.structure.ShrineTest;
+import net.silentchaos512.lib.util.LibHooks;
 
 import javax.annotation.Nullable;
 
@@ -93,6 +95,9 @@ class SideProxy implements IProxy {
 
         ChaosSourceCapability.register();
         UpgradePlanter.init();
+
+        LibHooks.registerCompostable(0.3f, GemsItems.fluffyPuffSeeds);
+        LibHooks.registerCompostable(0.5f, CraftingItems.FLUFFY_PUFF);
 
         if (SGearProxy.isLoaded()) {
             // Register new stats

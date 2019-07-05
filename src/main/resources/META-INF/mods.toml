@@ -1,53 +1,28 @@
-# This is an example mods.toml file. It contains the data relating to the loading mods.
-# There are several mandatory fields (#mandatory), and many more that are optional (#optional).
-# The overall format is standard TOML format, v0.5.0.
-# Note that there are a couple of TOML lists in this file.
-# Find more information on toml format here:  https://github.com/toml-lang/toml
-# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
-modLoader="javafml" #mandatory
-# A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion="[27,)" #mandatory (24 is current forge version)
-# A URL to query for updates for this mod. See the JSON update specification <here>
+modLoader="javafml"
+loaderVersion="[27,)"
 #updateJSONURL="http://myurl.me/" #optional
-# A URL to refer people to when problems occur with this mod
-issueTrackerURL="https://github.com/SilentChaos512/SilentGems/issues" #optional
-# A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="https://minecraft.curseforge.com/projects/silents-gems" #optional
-# A file name (in the root of the mod JAR) containing a logo for display
+issueTrackerURL="https://github.com/SilentChaos512/SilentGems/issues"
+displayURL="https://minecraft.curseforge.com/projects/silents-gems"
 #logoFile="examplemod.png" #optional
-# A text field displayed in the mod UI
-credits="" #optional
-# A text field displayed in the mod UI
-authors="SilentChaos512" #optional
-# A list of mods - how many allowed here is determined by the individual mod loader
-[[mods]] #mandatory
-    # The modid of the mod
-    modId="silentgems" #mandatory
-    # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-    version="${file.jarVersion}" #mandatory
-     # A display name for the mod
-    displayName="Silent's Gems 3" #mandatory
-    # The description text for the mod (multi line!) (#mandatory)
+credits=""
+authors="SilentChaos512"
+
+[[mods]]
+    modId="silentgems"
+    version="${file.jarVersion}"
+    displayName="Silent's Gems 3"
     description='''
-    Downloads: https://minecraft.curseforge.com/projects/silents-gems
-               (I do not upload anywhere else)
+    Downloads: https://minecraft.curseforge.com/projects/silents-gems (I do not upload anywhere else)
     Source: https://github.com/SilentChaos512/SilentGems/
     Issues: https://github.com/SilentChaos512/SilentGems/issues
     '''
 
-# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.silentgems]] #optional
-    # the modid of the dependency
-    modId="forge" #mandatory
-    # Does this dependency have to exist - if not, ordering below must be specified
-    mandatory=true #mandatory
-    # The version range of the dependency
-    versionRange="[27,)" #mandatory
-    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+[[dependencies.silentgems]]
+    modId="forge"
+    mandatory=true
+    versionRange="[27,)"
     ordering="NONE"
-    # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"
-# Here's another dependency
 [[dependencies.silentgems]]
     modId="minecraft"
     mandatory=true
@@ -57,12 +32,12 @@ authors="SilentChaos512" #optional
 [[dependencies.silentgems]]
     modId="silentlib"
     mandatory=true
-    versionRange="[4,)"
+    versionRange="[4.2.1,)"
     ordering = "NONE"
     side = "BOTH"
 [[dependencies.silentgems]]
     modId="silentgear"
     mandatory=false
-    versionRange="[1.1.2,)"
+    versionRange="[1.2.0,)"
     ordering="AFTER"
     side="BOTH"
