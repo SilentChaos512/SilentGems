@@ -2,10 +2,7 @@ package net.silentchaos512.gems.config;
 
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.utils.config.BooleanValue;
-import net.silentchaos512.utils.config.ConfigSpecWrapper;
-import net.silentchaos512.utils.config.DoubleValue;
-import net.silentchaos512.utils.config.IntValue;
+import net.silentchaos512.utils.config.*;
 
 import java.util.function.Supplier;
 
@@ -16,6 +13,7 @@ public final class GemsConfig {
     public static final Common COMMON = new Common(WRAPPER);
 
     public static class Common {
+        public final StringValue baseBiomeSeedOverride;
         public final IntValue chaosCoalBurnTime;
         public final BooleanValue debugMasterSwitch;
         public final Supplier<Boolean> debugShowOverlay;
@@ -38,6 +36,11 @@ public final class GemsConfig {
         public final IntValue teleporterSearchRadius;
 
         Common(ConfigSpecWrapper wrapper) {
+            baseBiomeSeedOverride = wrapper
+                    .builder("world.generation.baseBiomeSeedOverride")
+                    .comment("Seed used when setting up ore generation. This affects what biomes gems can spawn in.",
+                            "If left empty, your PC username is hashed to create the seed.")
+                    .defineString("");
             chaosCoalBurnTime = wrapper
                     .builder("general.chaosCoalBurnTime")
                     .comment("The burn time (in ticks) of chaos coal (normal coal is 1600)")

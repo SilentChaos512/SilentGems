@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
@@ -31,12 +32,15 @@ import net.silentchaos512.utils.MathUtils;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Experimental world generation. Not sure if Forge intends to add something, but this should work
  * for now.
  */
 public final class GemsWorldFeatures {
+    private static final EnumMap<Gems, Set<ResourceLocation>> GEM_BIOMES = new EnumMap<>(Gems.class);
+
     private GemsWorldFeatures() {}
 
     public static void addFeaturesToBiomes() {
@@ -137,14 +141,28 @@ public final class GemsWorldFeatures {
                 }
             }
         }
+
+        logGemBiomes();
+    }
+
+    private static void logGemBiomes() {
+        // List which biomes each gem will spawn in, in a compact format.
+        SilentGems.LOGGER.info("Your base biome seed is {}", getBaseSeed());
+
+        for (Gems gem : Gems.values()) {
+            Set<ResourceLocation> biomes = GEM_BIOMES.get(gem);
+            if (biomes != null) {
+                String biomeList = biomes.stream().map(ResourceLocation::toString).collect(Collectors.joining(", "));
+                SilentGems.LOGGER.info("{}: {}", gem, biomeList);
+            }
+        }
     }
 
     private static void addChaosOre(Biome biome, Random random) {
         int count = MathUtils.nextIntInclusive(random, 1, 2);
-        int size = MathUtils.nextIntInclusive(random, 10, 20);
+        int size = MathUtils.nextIntInclusive(random, 12, 18);
         int maxHeight = MathUtils.nextIntInclusive(random, 15, 25);
-        SilentGems.LOGGER.debug("    Biome {}: add chaos ore (size {}, count {}, maxHeight {})",
-                biome, size, count, maxHeight);
+        //SilentGems.LOGGER.debug("    Biome {}: add chaos ore (size {}, count {}, maxHeight {})", biome, size, count, maxHeight);
         addOre(biome, MiscOres.CHAOS.asBlock(), size, count, 5, maxHeight);
     }
 
@@ -161,9 +179,9 @@ public final class GemsWorldFeatures {
         int count = MathHelper.nextInt(random, 2, 4);
         int minHeight = random.nextInt(8);
         int maxHeight = random.nextInt(40) + 30;
-        SilentGems.LOGGER.debug("    Biome {}: add gem {} (size {}, count {}, height [{}, {}])",
-                biome, gem, size, count, minHeight, maxHeight);
+        //SilentGems.LOGGER.debug("    Biome {}: add gem {} (size {}, count {}, height [{}, {}])", biome, gem, size, count, minHeight, maxHeight);
         addOre(biome, gem.getOre(), size, count, minHeight, maxHeight);
+        GEM_BIOMES.computeIfAbsent(gem, g -> new HashSet<>()).add(biome.getRegistryName());
     }
 
     private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight) {
@@ -214,9 +232,16 @@ public final class GemsWorldFeatures {
     }
 
     private static long getBaseSeed() {
-        // TODO: Fixed seed config?
+        // Config override?
+        String overrideValue = GemsConfig.COMMON.baseBiomeSeedOverride.get();
+        if (!overrideValue.isEmpty()) {
+            return overrideValue.hashCode();
+        }
+
+        // Default value is based on PC username
         String username = System.getProperty("user.name");
-        if (username == null) {
+        if (username == null || username.isEmpty()) {
+            // Fallback value
             return ModList.get().size() * 10000;
         }
         return username.hashCode();

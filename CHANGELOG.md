@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Config to override the "base biome seed", which will change which biomes gems will spawn in.
+### Changed
+- Log biomes for gems in a more compact more, should appear in latest.log
+
 ## [3.2.2] - 2019-07-05
 ### Changed
 - Soul gem drop rates receive a small bonus from looting
