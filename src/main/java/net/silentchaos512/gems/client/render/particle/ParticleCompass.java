@@ -96,27 +96,27 @@ public class ParticleCompass extends TexturedParticle {
     }
 
     @Override
+    protected float getMinU() {
+        return 0;
+    }
+
+    @Override
+    protected float getMaxU() {
+        return 1;
+    }
+
+    @Override
+    protected float getMinV() {
+        return 0;
+    }
+
+    @Override
+    protected float getMaxV() {
+        return 1;
+    }
+
+    @Override
     public IParticleRenderType getRenderType() {
         return IParticleRenderType.CUSTOM;
-    }
-
-    @Override
-    protected float func_217563_c() {
-        return 0;
-    }
-
-    @Override
-    protected float func_217564_d() {
-        return 0;
-    }
-
-    @Override
-    protected float func_217562_e() {
-        return 0;
-    }
-
-    @Override
-    protected float func_217560_f() {
-        return 0;
     }
 }

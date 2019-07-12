@@ -54,7 +54,7 @@ public final class GemsLoot {
         event.getTable().addPool((new LootPool.Builder())
                 .name("silentgems_added_gems")
                 .rolls(new RandomValueRange(1, maxRolls))
-                .addEntry(TableLootEntry.func_216171_a(RANDOM_GEMS)
+                .addEntry(TableLootEntry.builder(RANDOM_GEMS)
                         .weight(10)
                         .acceptFunction(SetCount.func_215932_a(new RandomValueRange(2, 5)))
                 )

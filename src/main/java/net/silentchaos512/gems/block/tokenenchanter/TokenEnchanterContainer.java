@@ -43,7 +43,7 @@ public class TokenEnchanterContainer extends RecipeBookContainer<IInventory> {
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
 
-        func_216961_a(this.tileEntity.fields);
+        trackIntArray(this.tileEntity.fields);
     }
 
     @Override

@@ -54,23 +54,23 @@ public class ParticleFreezing extends TexturedParticle {
     }
 
     @Override
-    protected float func_217563_c() {
+    protected float getMinU() {
         return 0;
     }
 
     @Override
-    protected float func_217564_d() {
+    protected float getMaxU() {
+        return 1;
+    }
+
+    @Override
+    protected float getMinV() {
         return 0;
     }
 
     @Override
-    protected float func_217562_e() {
-        return 0;
-    }
-
-    @Override
-    protected float func_217560_f() {
-        return 0;
+    protected float getMaxV() {
+        return 1;
     }
 
     @Override

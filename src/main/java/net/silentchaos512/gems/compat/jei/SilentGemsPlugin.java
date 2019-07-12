@@ -108,7 +108,8 @@ public class SilentGemsPlugin implements IModPlugin {
         addInfoPage(reg, CraftingItems.ENDER_SLIMEBALL);
         addInfoPage(reg, "glowrose", Arrays.stream(Gems.values()).map(gem -> new ItemStack(gem.getGlowrose())));
         addInfoPage(reg, LuminousFlowerPotBlock.INSTANCE.get());
-        addInfoPage(reg, SoulGemItem.INSTANCE.get(), Soul.getValues().stream().map(Soul::getSoulGem));
+        // FIXME: Fails on servers
+//        addInfoPage(reg, SoulGemItem.INSTANCE.get(), Soul.getValues().stream().map(Soul::getSoulGem));
 
         // Soul urn modify hints
 //        reg.addRecipes(RecipeSoulUrnModify.getExampleRecipes(), VanillaRecipeCategoryUid.CRAFTING);
