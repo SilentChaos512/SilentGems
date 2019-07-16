@@ -51,21 +51,21 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
 
     private static final Map<Enchantment, String> RECIPE_MAP = new HashMap<>();
     private static final Map<Enchantment, Integer> OUTLINE_COLOR_MAP = new HashMap<>();
-    private static final Map<EnumEnchantmentType, Icon> MODELS_BY_TYPE = new EnumMap<>(EnumEnchantmentType.class);
+    private static final Map<String, Icon> MODELS_BY_TYPE = new HashMap<>();
 
     static {
-        MODELS_BY_TYPE.put(EnumEnchantmentType.ALL, Icon.ANY);
-        MODELS_BY_TYPE.put(EnumEnchantmentType.BREAKABLE, Icon.ANY);
-        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR, Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_CHEST, Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_FEET, Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_HEAD, Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_LEGS, Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnumEnchantmentType.WEARABLE, Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnumEnchantmentType.BOW, Icon.BOW);
-        MODELS_BY_TYPE.put(EnumEnchantmentType.DIGGER, Icon.TOOL);
-        MODELS_BY_TYPE.put(EnumEnchantmentType.FISHING_ROD, Icon.FISHING_ROD);
-        MODELS_BY_TYPE.put(EnumEnchantmentType.WEAPON, Icon.SWORD);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ALL.toString(), Icon.ANY);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.BREAKABLE.toString(), Icon.ANY);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_CHEST.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_FEET.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_HEAD.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.ARMOR_LEGS.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.WEARABLE.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.BOW.toString(), Icon.BOW);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.DIGGER.toString(), Icon.TOOL);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.FISHING_ROD.toString(), Icon.FISHING_ROD);
+        MODELS_BY_TYPE.put(EnumEnchantmentType.WEAPON.toString(), Icon.SWORD);
     }
 
     private boolean modRecipesInitialized = false;
@@ -250,7 +250,11 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
     private static Icon getModelIcon(ItemStack stack) {
         Map<Enchantment, Integer> map = getEnchantmentMap(stack);
         if (map.isEmpty()) return Icon.EMPTY;
-        return MODELS_BY_TYPE.getOrDefault(map.keySet().iterator().next().type, Icon.UNKNOWN);
+
+        EnumEnchantmentType type = map.keySet().iterator().next().type;
+        if (type == null) return Icon.UNKNOWN;
+
+        return MODELS_BY_TYPE.getOrDefault(type.toString(), Icon.UNKNOWN);
     }
 
     // =========================
@@ -306,11 +310,7 @@ public class ItemEnchantmentToken extends Item implements IAddRecipes, ICustomMo
         if (!isInCreativeTab(tab)) return;
 
         List<ItemStack> tokens = new ArrayList<>();
-        for (ResourceLocation key : Enchantment.REGISTRY.getKeys()) {
-            Enchantment enchantment = Enchantment.REGISTRY.getObject(key);
-            if (enchantment != null)
-                tokens.add(constructToken(enchantment));
-        }
+        ForgeRegistries.ENCHANTMENTS.forEach(enchantment -> tokens.add(constructToken(enchantment)));
 
         // Sort by type, then enchantment name.
         tokens.sort(this::compareEnchantmentNames);

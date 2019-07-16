@@ -1,6 +1,10 @@
 # Changelog
 
-## [Unreleased]
+## [2.8.20] - 2019-07-16
+### Fixed
+- Should fix a crash caused by enchantment tokens, when used with certain mods
+
+## [2.8.19] - 2019-06-29
 ### Changed
 - Tool souls now work on Silent Gear tools. Bit of a hack, so support may not be as good as 1.14+.
 - Enchantment tokens partially rewritten with 1.14 version's code. This should prevent some enchantments from causing errors in the log [#369]
