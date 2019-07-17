@@ -1,7 +1,6 @@
 package net.silentchaos512.gems.item;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -205,23 +204,13 @@ public enum ModFoods implements IItemProvider, IStringSerializable {
 
             // Add chat message
             if (MathUtils.tryPercentage(random, SECRET_DONUT_TEXT_CHANCE)) {
-                String key = "donut.silentgems." + MathUtils.nextIntInclusive(1, getSecretDonutMessageCount());
+                String key = "donut.silentgems." + MathUtils.nextIntInclusive(1, 8);
                 player.sendMessage(new TranslationTextComponent(key));
             }
         }
 
         private static void addSecretDonutEffect(World world, PlayerEntity player) {
             SECRET_DONUT_EFFECTS.get(SilentGems.random.nextInt(SECRET_DONUT_EFFECTS.size())).accept(player);
-        }
-
-        private static int getSecretDonutMessageCount() {
-            if (donutMessageCount == 0) {
-                // Calculate the value
-                do {
-                    ++donutMessageCount;
-                } while (I18n.hasKey("donut.silentgems." + (donutMessageCount + 1)));
-            }
-            return donutMessageCount;
         }
 
         @Override
