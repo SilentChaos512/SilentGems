@@ -1,0 +1,51 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "silentgems:item/chaos_meter",
+        "layer1": "silentgems:item/chaos_meter_1"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "silentgems:chaos_level": 0
+            },
+            "model": "silentgems:item/chaos_meter_1"
+        },
+        {
+            "predicate": {
+                "silentgems:chaos_level": 1e2
+            },
+            "model": "silentgems:item/chaos_meter_2"
+        },
+        {
+            "predicate": {
+                "silentgems:chaos_level": 1e3
+            },
+            "model": "silentgems:item/chaos_meter_3"
+        },
+        {
+            "predicate": {
+                "silentgems:chaos_level": 1e4
+            },
+            "model": "silentgems:item/chaos_meter_4"
+        },
+        {
+            "predicate": {
+                "silentgems:chaos_level": 1e5
+            },
+            "model": "silentgems:item/chaos_meter_5"
+        },
+        {
+            "predicate": {
+                "silentgems:chaos_level": 1e6
+            },
+            "model": "silentgems:item/chaos_meter_6"
+        },
+        {
+            "predicate": {
+                "silentgems:chaos_level": 1e7
+            },
+            "model": "silentgems:item/chaos_meter_7"
+        }
+    ]
+}

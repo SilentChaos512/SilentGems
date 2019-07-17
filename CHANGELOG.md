@@ -5,9 +5,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Chaos meter item (textures need work, I know). Measures player and world chaos levels, sneak + right-click to change modes.
 - Config to override the "base biome seed", which will change which biomes gems will spawn in.
+- Tags for corruptable stone/dirt
 ### Changed
 - Log biomes for gems in a more compact more, should appear in latest.log
+### Fixed
+- Secret donuts kicking players from servers [#381]
 
 ## [3.2.2] - 2019-07-05
 ### Changed

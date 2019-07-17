@@ -67,6 +67,8 @@ public final class GemsItems {
         register("corrupting_powder", PatchBlockChangerItem.CORRUPTING_POWDER.get());
         register("purifying_powder", PatchBlockChangerItem.PURIFYING_POWDER.get());
 
+        register("chaos_meter", ChaosMeterItem.INSTANCE.get());
+
         for (ModFoods food : ModFoods.values()) {
             register(food.getName(), food.asItem());
         }
