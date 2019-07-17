@@ -10,6 +10,8 @@ import net.silentchaos512.gems.SilentGems;
 
 public class GemsTags {
     public static final class Blocks {
+        public static final Tag<Block> CORRUPTABLE_DIRT = tag("corruptables/dirt");
+        public static final Tag<Block> CORRUPTABLE_STONE = tag("corruptables/stone");
         public static final Tag<Block> GLOWROSES = tag("glowroses");
         public static final Tag<Block> SUPERCHARGER_PILLAR_CAP = tag("supercharger_pillar/cap");
         public static final Tag<Block> SUPERCHARGER_PILLAR_LEVEL1 = tag("supercharger_pillar/level1");
