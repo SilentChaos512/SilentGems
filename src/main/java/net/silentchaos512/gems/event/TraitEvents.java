@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.event;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -61,15 +62,26 @@ public final class TraitEvents {
         if (!stack.isEmpty() && stack.getItem() instanceof ICoreTool) {
             // Luna: extra damage at night
             int luna = TraitHelper.getTraitLevel(stack, GemsTraits.LUNA);
-            if (luna > 0 && !player.world.isDaytime()) {
-                event.setAmount(event.getAmount() + luna);
+            if (luna > 0 && !player.world.isDaytime() && MathUtils.tryPercentage(0.25)) {
+                event.setAmount(event.getAmount() + 4 * luna);
+                knockback(player, event.getEntityLiving(), 0.3f * luna);
             }
             // Sol: extra damage during the day
             int sol = TraitHelper.getTraitLevel(stack, GemsTraits.SOL);
-            if (sol > 0 && player.world.isDaytime()) {
-                event.setAmount(event.getAmount() + sol);
+            if (sol > 0 && player.world.isDaytime() && MathUtils.tryPercentage(0.25)) {
+                event.setAmount(event.getAmount() + 4 * sol);
+                knockback(player, event.getEntityLiving(), 0.3f * sol);
             }
         }
+    }
+
+    private static void knockback(LivingEntity attacker, LivingEntity target, float strength) {
+        double x = attacker.posX - target.posX;
+        double z;
+        for(z = attacker.posZ - target.posZ; x * x + z * z < 1.0E-4D; z = (Math.random() - Math.random()) * 0.01D) {
+            x = (Math.random() - Math.random()) * 0.01D;
+        }
+        target.knockBack(attacker, strength, x, z);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

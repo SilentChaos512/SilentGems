@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Log biomes for gems in a more compact more, should appear in latest.log
 - Default soul urn capacity is now 54 (6 rows), upgrade has no effect right now
+- Sol and Luna traits now deal much more bonus damage, but with only a 25% chance of activating. Added knockback to sol/luna procs.
 ### Fixed
 - Secret donuts kicking players from servers [#381]
 
