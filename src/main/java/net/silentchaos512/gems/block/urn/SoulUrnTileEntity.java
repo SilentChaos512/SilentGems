@@ -52,8 +52,8 @@ import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 public class SoulUrnTileEntity extends LockableLootTileEntity implements ITickableTileEntity, ISidedInventory, IHopper {
-    private static final int INVENTORY_ROWS_BASE = 3;
-    private static final int INVENTORY_ROWS_UPGRADED = 6;
+    private static final int INVENTORY_ROWS_BASE = 6;
+    private static final int INVENTORY_ROWS_UPGRADED = 6; // TODO
     private static final int[] SLOTS_BASE = IntStream.range(0, 9 * INVENTORY_ROWS_BASE).toArray();
     private static final int[] SLOTS_UPGRADED = IntStream.range(0, 9 * INVENTORY_ROWS_UPGRADED).toArray();
 

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tags for corruptable stone/dirt
 ### Changed
 - Log biomes for gems in a more compact more, should appear in latest.log
+- Default soul urn capacity is now 54 (6 rows), upgrade has no effect right now
 ### Fixed
 - Secret donuts kicking players from servers [#381]
 
