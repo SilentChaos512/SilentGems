@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.init;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.*;
@@ -10,8 +11,10 @@ import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.item.PatchBlockChangerItem;
 import net.silentchaos512.gems.loot.functions.SetSoulFunction;
 
+import java.util.List;
 import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = SilentGems.MOD_ID)
@@ -30,6 +33,14 @@ public final class GemsLoot {
             .put(LootTables.CHESTS_STRONGHOLD_CROSSING, 4)
             .put(LootTables.CHESTS_WOODLAND_MANSION, 4)
             .build();
+    private static final List<ResourceLocation> ADD_RARE_ITEMS_TO = ImmutableList.of(
+            LootTables.CHESTS_SIMPLE_DUNGEON,
+            LootTables.CHESTS_VILLAGE_VILLAGE_TEMPLE,
+            LootTables.CHESTS_NETHER_BRIDGE,
+            LootTables.CHESTS_STRONGHOLD_CORRIDOR,
+            LootTables.CHESTS_STRONGHOLD_CROSSING,
+            LootTables.CHESTS_PILLAGER_OUTPOST
+    );
 
     private GemsLoot() {}
 
@@ -45,6 +56,9 @@ public final class GemsLoot {
         if (ADD_GEMS_TO.keySet().contains(tableName)) {
             addGemsToTable(event, ADD_GEMS_TO.get(tableName));
         }
+        if (ADD_RARE_ITEMS_TO.contains(tableName)) {
+            addRareItemsToTable(event);
+        }
     }
 
     private static void addGemsToTable(LootTableLoadEvent event, int maxRolls) {
@@ -59,6 +73,27 @@ public final class GemsLoot {
                         .acceptFunction(SetCount.func_215932_a(new RandomValueRange(2, 5)))
                 )
                 .build());
+    }
+
+    private static void addRareItemsToTable(LootTableLoadEvent event) {
+        if (hasLootPool(event.getTable(), "silentgems_rare_items")) return;
+
+        SilentGems.LOGGER.info("Add 'rare' items to loot table {}", event.getName());
+        event.getTable().addPool((new LootPool.Builder())
+                .name("silentgems_rare_items")
+                .addEntry(ItemLootEntry.builder(PatchBlockChangerItem.CORRUPTING_POWDER.get())
+                        .weight(1)
+                        .acceptFunction(SetCount.func_215932_a(new RandomValueRange(1, 2)))
+                )
+                .addEntry(ItemLootEntry.builder(PatchBlockChangerItem.PURIFYING_POWDER.get())
+                        .weight(1)
+                        .acceptFunction(SetCount.func_215932_a(new RandomValueRange(1, 2)))
+                )
+                .addEntry(EmptyLootEntry.func_216167_a()
+                        .weight(3)
+                )
+                .build()
+        );
     }
 
     @SuppressWarnings("ConstantConditions")

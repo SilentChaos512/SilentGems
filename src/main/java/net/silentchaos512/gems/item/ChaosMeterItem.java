@@ -12,6 +12,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.ClientPlayerInfo;
+import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
@@ -23,7 +24,7 @@ public class ChaosMeterItem extends Item {
     private static final String NBT_PLAYER_MODE = "ChaosMeter.PlayerMode";
 
     public ChaosMeterItem() {
-        super(new Properties().maxStackSize(1));
+        super(new Properties().group(GemsItemGroups.UTILITY).maxStackSize(1));
         addPropertyOverride(SilentGems.getId("chaos_level"), (stack, world, entity) -> getChaosLevel(stack));
     }
 
@@ -64,6 +65,7 @@ public class ChaosMeterItem extends Item {
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         boolean playerMode = isPlayerMode(stack);
-        tooltip.add(new TranslationTextComponent("item.silentgems.chaos_meter.mode", playerMode));
+        ITextComponent mode = new TranslationTextComponent("misc.silentgems." + (playerMode ? "player" : "world"));
+        tooltip.add(new TranslationTextComponent("item.silentgems.chaos_meter.mode", mode));
     }
 }

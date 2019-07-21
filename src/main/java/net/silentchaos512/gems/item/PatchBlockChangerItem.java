@@ -3,6 +3,7 @@ package net.silentchaos512.gems.item;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.Rarity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,7 +26,7 @@ public class PatchBlockChangerItem extends Item {
     private final Function<Block, Block> replaceFunction;
 
     public PatchBlockChangerItem(int range, Function<Block, Block> replaceFunction) {
-        super(new Properties().group(GemsItemGroups.UTILITY));
+        super(new Properties().group(GemsItemGroups.UTILITY).rarity(Rarity.RARE));
         this.range = range;
         this.replaceFunction = replaceFunction;
     }

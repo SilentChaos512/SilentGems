@@ -1,8 +1,7 @@
 modLoader="javafml"
 loaderVersion="[27,)"
-#updateJSONURL="http://myurl.me/" #optional
 issueTrackerURL="https://github.com/SilentChaos512/SilentGems/issues"
-displayURL="https://minecraft.curseforge.com/projects/silents-gems"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/silents-gems"
 #logoFile="examplemod.png" #optional
 credits=""
 authors="SilentChaos512"
@@ -11,8 +10,10 @@ authors="SilentChaos512"
     modId="silentgems"
     version="${file.jarVersion}"
     displayName="Silent's Gems 3"
+    updateJSONURL="https://raw.githubusercontent.com/SilentChaos512/SilentGems/1.14/update.json"
     description='''
-    Downloads: https://minecraft.curseforge.com/projects/silents-gems (I do not upload anywhere else)
+    Downloads: https://www.curseforge.com/minecraft/mc-mods/silents-gems (I do not upload anywhere else)
+    Changelog: https://github.com/SilentChaos512/SilentGems/blob/1.14/CHANGELOG.md
     Source: https://github.com/SilentChaos512/SilentGems/
     Issues: https://github.com/SilentChaos512/SilentGems/issues
     '''
