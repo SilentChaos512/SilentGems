@@ -52,7 +52,7 @@ def build_num = getBuildNumber()
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: project.mcp_channel, version: "${project.mcp_mappings}-${project.mc_version}"
+    mappings channel: project.mcp_channel.toString(), version: project.mcp_mappings.toString();
 
     runs {
         client = {
@@ -103,20 +103,18 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${project.mc_version}-${project.forge_version}"
+    minecraft "net.minecraftforge:forge:${project.forge_version}"
 
     // Lib/Gear
     compile "net.silentchaos512:silent-lib-${project.mc_version}:${project.sl_version}"
-    compile("net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}") {
-        exclude module: "RoughlyEnoughItems"
-    }
+    compile "net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}"
 
     // JEI
 //    compile 'com.github.mezz:JustEnoughItems:1.13-SNAPSHOT'
     // compile against the JEI API but do not include it at runtime
-    compileOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${project.jei_version}:api")
+    compileOnly fg.deobf("mezz.jei:jei-1.14.3:${project.jei_version}:api")
     // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${project.jei_version}")
+//    runtimeOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${project.jei_version}")
 
     // Curios
     //compile fg.deobf("top.theillusivec4.curios:curios:FORGE-${project.mc_version}-{$project.curios_version}")

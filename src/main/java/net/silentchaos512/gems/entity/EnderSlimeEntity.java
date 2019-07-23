@@ -164,7 +164,7 @@ public class EnderSlimeEntity extends SlimeEntity {
         } else {
             net.minecraftforge.event.entity.living.EnderTeleportEvent event = new net.minecraftforge.event.entity.living.EnderTeleportEvent(this, x, y, z, 0);
             if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) return false;
-            boolean flag = this.func_213373_a(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true);
+            boolean flag = this.attemptTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true);
             if (flag) {
                 this.world.playSound(null, this.prevPosX, this.prevPosY, this.prevPosZ, SoundEvents.ENTITY_ENDERMAN_TELEPORT, this.getSoundCategory(), 1.0F, 1.0F);
                 this.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
