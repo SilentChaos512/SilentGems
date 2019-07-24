@@ -35,6 +35,11 @@ public final class Network {
                 .encoder(SyncChaosBuffsPacket::toBytes)
                 .consumer(ChaosBuffManager::handlePacket)
                 .add();
+        channel.messageBuilder(SpawnEntityPacket.class, 4)
+                .decoder(SpawnEntityPacket::decode)
+                .encoder(SpawnEntityPacket::encode)
+                .consumer(SpawnEntityPacket::handle)
+                .add();
     }
 
     private Network() {}

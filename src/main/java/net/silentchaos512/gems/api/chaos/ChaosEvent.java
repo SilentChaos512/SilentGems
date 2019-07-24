@@ -4,16 +4,16 @@ import net.minecraft.entity.Entity;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.utils.MathUtils;
 
-import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 public class ChaosEvent {
     private final float chance;
     private final int minChaos;
     private final int maxChaos;
     private final int chaosDissipated;
-    private final BiConsumer<Entity, Integer> action;
+    private final BiFunction<Entity, Integer, Boolean> action;
 
-    public ChaosEvent(float chance, int minChaos, int maxChaos, int chaosDissipated, BiConsumer<Entity, Integer> action) {
+    public ChaosEvent(float chance, int minChaos, int maxChaos, int chaosDissipated, BiFunction<Entity, Integer, Boolean> action) {
         this.chance = chance;
         this.minChaos = minChaos;
         this.maxChaos = maxChaos;
@@ -23,7 +23,13 @@ public class ChaosEvent {
 
     public boolean tryActivate(Entity entity, int chaos) {
         if (chaos > this.minChaos && tryChance(this.chance, chaos, this.maxChaos)) {
-            this.action.accept(entity, chaos);
+            return activate(entity, chaos);
+        }
+        return false;
+    }
+
+    public boolean activate(Entity entity, int chaos) {
+        if (this.action.apply(entity, chaos)) {
             Chaos.dissipate(entity.world, this.chaosDissipated);
             return true;
         }

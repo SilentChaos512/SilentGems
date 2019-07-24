@@ -12,8 +12,10 @@ import net.silentchaos512.gems.block.FluffyPuffPlant;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.item.*;
 import net.silentchaos512.gems.lib.Gems;
+import net.silentchaos512.gems.lib.WispTypes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Function;
 
@@ -76,9 +78,8 @@ public final class GemsItems {
         summonKitty = register("summon_kitty", new PetSummonerItem(PetSummonerItem::getCat));
         summonPuppy = register("summon_puppy", new PetSummonerItem(PetSummonerItem::getDog));
 
-        for (GemsEntities entity : GemsEntities.values()) {
-            register(entity.getName() + "_spawn_egg", entity.getSpawnEgg());
-        }
+        Arrays.stream(GemsEntities.values()).forEach(entity -> register(entity.getName() + "_spawn_egg", entity.getSpawnEgg()));
+        Arrays.stream(WispTypes.values()).forEach(entity -> register(entity.getName() + "_spawn_egg", entity.getSpawnEgg()));
     }
 
     private static <T extends Item> T register(String name, T item) {

@@ -5,9 +5,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Chaos meter item (textures need work, I know). Measures player and world chaos levels, sneak + right-click to change modes.
+- A new set of hostile mobs, wisps. These will occasionally spawn on the surface near the player, depending on chaos levels. There are a few different types, each firing a projectile with a different effect.
+- Chaos meter item. Measures player and world chaos levels, sneak + right-click to change modes.
 - Config to override the "base biome seed", which will change which biomes gems will spawn in.
 - Tags for corruptable stone/dirt
+- Missing textures and models for corrupted piles and corrupting/purifying powder
+- Corrupting/purifying powder to some chest loot tables
 ### Changed
 - Log biomes for gems in a more compact more, should appear in latest.log
 - Default soul urn capacity is now 54 (6 rows), upgrade has no effect right now

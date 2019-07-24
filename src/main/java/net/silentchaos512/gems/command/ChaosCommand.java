@@ -5,16 +5,23 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
+import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.command.arguments.EntityArgument;
+import net.minecraft.command.arguments.ResourceLocationArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
+import net.silentchaos512.gems.chaos.ChaosEvents;
 import net.silentchaos512.gems.chaos.ChaosSourceCapability;
 
 public final class ChaosCommand {
+    private static final SuggestionProvider<CommandSource> EVENT_ID_SUGGESTIONS = (ctx, builder) ->
+            ISuggestionProvider.func_212476_a(ChaosEvents.getEventIds().stream(), builder);
+
     private ChaosCommand() {}
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
@@ -56,6 +63,20 @@ public final class ChaosCommand {
                                 )
                         )
                 );
+        // trigger event
+        builder.then(Commands.literal("trigger_event")
+                .then(Commands.argument("target", EntityArgument.player())
+                        .then(Commands.argument("event", ResourceLocationArgument.resourceLocation())
+                                .suggests(EVENT_ID_SUGGESTIONS)
+                                .executes(context -> {
+                                    ChaosEvents.triggerEvent(
+                                            ResourceLocationArgument.getResourceLocation(context, "event"),
+                                            EntityArgument.getPlayer(context, "target"));
+                                    return 1;
+                                })
+                        )
+                )
+        );
 
         dispatcher.register(builder);
     }

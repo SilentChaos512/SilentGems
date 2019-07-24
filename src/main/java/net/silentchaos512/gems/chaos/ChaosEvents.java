@@ -3,6 +3,7 @@ package net.silentchaos512.gems.chaos;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -11,10 +12,12 @@ import net.minecraft.world.server.ServerWorld;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.chaos.ChaosEvent;
 import net.silentchaos512.gems.block.CorruptedBlocks;
+import net.silentchaos512.gems.world.spawner.WispSpawner;
 import net.silentchaos512.utils.MathUtils;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,12 +30,15 @@ public final class ChaosEvents {
 
     static {
         addChaosEvent(SilentGems.getId("chaos_lightning"), new ChaosEvent(
-                0.25f, 150_000, MAX_CHAOS, 10_000, (entity, chaos) ->
+                0.25f, 250_000, MAX_CHAOS, 20_000, (entity, chaos) ->
                 spawnLightningBolt(entity, entity.world)
         ));
         addChaosEvent(SilentGems.getId("corrupt_blocks"), new ChaosEvent(
                 0.25f, 1_000_000, MAX_CHAOS, 100_000, (entity, chaos) ->
                 corruptBlocks(entity, entity.world)
+        ));
+        addChaosEvent(SilentGems.getId("spawn_chaos_wisps"), new ChaosEvent(
+                0.15f, 100_000, MAX_CHAOS / 5, 5_000, WispSpawner::spawnWisps
         ));
     }
 
@@ -50,22 +56,32 @@ public final class ChaosEvents {
         });
     }
 
-    private static boolean tryChance(float max, int chaos, int maxChaos) {
-        float chance = Math.min(max * chaos / maxChaos, max);
-        return MathUtils.tryPercentage(chance);
+    public static Collection<ResourceLocation> getEventIds() {
+        return EVENTS.keySet();
     }
 
-    private static void spawnLightningBolt(Entity entity, World world) {
+    public static void triggerEvent(ResourceLocation eventId, PlayerEntity player) {
+        player.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {
+            ChaosEvent event = EVENTS.get(eventId);
+            if (event != null) {
+                event.activate(player, source.getChaos());
+            }
+        });
+    }
+
+    private static boolean spawnLightningBolt(Entity entity, World world) {
         if (world instanceof ServerWorld) {
             double posX = entity.posX + MathUtils.nextIntInclusive(-64, 64);
             double posZ = entity.posZ + MathUtils.nextIntInclusive(-64, 64);
             int height = world.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) posX, (int) posZ);
             LightningBoltEntity bolt = new LightningBoltEntity(world, posX, height, posZ, false);
             ((ServerWorld) world).addLightningBolt(bolt);
+            return true;
         }
+        return false;
     }
 
-    private static void corruptBlocks(Entity entity, World world) {
+    private static boolean corruptBlocks(Entity entity, World world) {
         int posX = (int) entity.posX + MathUtils.nextIntInclusive(-128, 128);
         int posZ = (int) entity.posZ + MathUtils.nextIntInclusive(-128, 128);
         int posY = 64 + MathUtils.nextIntInclusive(-32, 32);
@@ -82,6 +98,8 @@ public final class ChaosEvents {
             }
             pos = pos.down();
         }
+
+        return done;
     }
 
     private static void makeCorruptedBlockCluster(World world, BlockPos pos, CorruptedBlocks corruptedBlock) {
