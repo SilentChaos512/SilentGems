@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:amethyst",
             "tag": "forge:gems/amethyst"
         },
         "small": {
-            "item": "silentgems:amethyst_shard",
             "size": 9,
             "tag": "forge:nuggets/amethyst"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#A31DE6",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

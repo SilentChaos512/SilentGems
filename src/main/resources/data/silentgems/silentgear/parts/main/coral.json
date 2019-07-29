@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:coral",
             "tag": "forge:gems/coral"
         },
         "small": {
-            "item": "silentgems:coral_shard",
             "size": 9,
             "tag": "forge:nuggets/coral"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#FF5545",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

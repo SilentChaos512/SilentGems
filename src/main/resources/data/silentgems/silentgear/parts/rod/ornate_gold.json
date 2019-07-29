@@ -53,7 +53,6 @@
     ],
     "crafting_items": {
         "normal": {
-            "item": "silentgems:ornate_gold_rod",
             "tag": "forge:rods/ornate_gold"
         }
     },
@@ -63,6 +62,8 @@
     },
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "texture_domain": "silentgear",
             "texture_suffix": "generic_hc",
             "normal_color": "gold"

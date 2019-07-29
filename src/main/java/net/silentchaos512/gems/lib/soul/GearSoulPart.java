@@ -1,24 +1,21 @@
 package net.silentchaos512.gems.lib.soul;
 
+import com.google.common.collect.ImmutableList;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.silentchaos512.gear.api.parts.IPartPosition;
-import net.silentchaos512.gear.api.parts.IPartSerializer;
-import net.silentchaos512.gear.api.parts.IUpgradePart;
-import net.silentchaos512.gear.api.parts.PartType;
+import net.silentchaos512.gear.api.parts.*;
 import net.silentchaos512.gear.api.stats.ItemStat;
 import net.silentchaos512.gear.api.stats.ItemStats;
 import net.silentchaos512.gear.api.stats.StatInstance;
-import net.silentchaos512.gear.api.traits.ITrait;
 import net.silentchaos512.gear.parts.AbstractGearPart;
 import net.silentchaos512.gear.parts.PartData;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.utils.MathUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class GearSoulPart extends AbstractGearPart implements IUpgradePart {
     private static final ResourceLocation TYPE_ID = SilentGems.getId("gear_soul");
@@ -87,12 +84,16 @@ public class GearSoulPart extends AbstractGearPart implements IUpgradePart {
     }
 
     @Override
-    public Map<ITrait, Integer> getTraits(ItemStack gear, PartData part) {
-        Map<ITrait, Integer> traits = new HashMap<>(super.getTraits(gear, part));
+    public List<PartTraitInstance> getTraits(ItemStack gear, PartData part) {
+        List<PartTraitInstance> traits = new ArrayList<>(super.getTraits(gear, part));
 
         GearSoul soul = SoulManager.getSoul(gear);
         if (soul != null) {
-            soul.getSkills().forEach((skill, level) -> traits.put(skill.getTrait(), level));
+            soul.getSkills().forEach((skill, level) -> {
+                if (skill.getTrait() != null) {
+                    traits.add(new PartTraitInstance(skill.getTrait(), level, ImmutableList.of()));
+                }
+            });
         }
 
         return traits;

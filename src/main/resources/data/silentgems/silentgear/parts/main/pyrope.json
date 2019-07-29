@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:pyrope",
             "tag": "forge:gems/pyrope"
         },
         "small": {
-            "item": "silentgems:pyrope_shard",
             "size": 9,
             "tag": "forge:nuggets/pyrope"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#FF4574",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:garnet",
             "tag": "forge:gems/garnet"
         },
         "small": {
-            "item": "silentgems:garnet_shard",
             "size": 9,
             "tag": "forge:nuggets/garnet"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#E64F1D",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

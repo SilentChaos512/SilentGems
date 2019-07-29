@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:sodalite",
             "tag": "forge:gems/sodalite"
         },
         "small": {
-            "item": "silentgems:sodalite_shard",
             "size": 9,
             "tag": "forge:nuggets/sodalite"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#5445FF",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

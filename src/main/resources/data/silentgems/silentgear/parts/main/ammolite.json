@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:ammolite",
             "tag": "forge:gems/ammolite"
         },
         "small": {
-            "item": "silentgems:ammolite_shard",
             "size": 9,
             "tag": "forge:nuggets/ammolite"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#E045FF",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:aquamarine",
             "tag": "forge:gems/aquamarine"
         },
         "small": {
-            "item": "silentgems:aquamarine_shard",
             "size": 9,
             "tag": "forge:nuggets/aquamarine"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#1DE6E6",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:cats_eye",
             "tag": "forge:gems/cats_eye"
         },
         "small": {
-            "item": "silentgems:cats_eye_shard",
             "size": 9,
             "tag": "forge:nuggets/cats_eye"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#FFC145",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

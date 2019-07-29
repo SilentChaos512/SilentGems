@@ -203,6 +203,7 @@ curseforge {
 //                displayName = "$project.description $display_version"
                 relations {
                     requiredDependency 'silent-lib'
+                    optionalDependency 'silent-gear'
                 }
             }
 //            if (project.hasProperty('doAPIJar')) {

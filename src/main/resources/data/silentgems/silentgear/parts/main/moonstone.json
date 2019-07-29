@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:moonstone",
             "tag": "forge:gems/moonstone"
         },
         "small": {
-            "item": "silentgems:moonstone_shard",
             "size": 9,
             "tag": "forge:nuggets/moonstone"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#898989",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

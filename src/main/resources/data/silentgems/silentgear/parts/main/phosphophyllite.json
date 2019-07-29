@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:phosphophyllite",
             "tag": "forge:gems/phosphophyllite"
         },
         "small": {
-            "item": "silentgems:phosphophyllite_shard",
             "size": 9,
             "tag": "forge:nuggets/phosphophyllite"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#1DE682",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

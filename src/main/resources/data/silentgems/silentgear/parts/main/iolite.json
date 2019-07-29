@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:iolite",
             "tag": "forge:gems/iolite"
         },
         "small": {
-            "item": "silentgems:iolite_shard",
             "size": 9,
             "tag": "forge:nuggets/iolite"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#5F00A3",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

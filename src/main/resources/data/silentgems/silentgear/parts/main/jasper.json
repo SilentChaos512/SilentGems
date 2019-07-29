@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:jasper",
             "tag": "forge:gems/jasper"
         },
         "small": {
-            "item": "silentgems:jasper_shard",
             "size": 9,
             "tag": "forge:nuggets/jasper"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#A38800",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

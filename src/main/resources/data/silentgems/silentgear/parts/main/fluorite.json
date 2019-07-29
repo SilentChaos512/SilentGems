@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:fluorite",
             "tag": "forge:gems/fluorite"
         },
         "small": {
-            "item": "silentgems:fluorite_shard",
             "size": 9,
             "tag": "forge:nuggets/fluorite"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#45D1FF",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:amber",
             "tag": "forge:gems/amber"
         },
         "small": {
-            "item": "silentgems:amber_shard",
             "size": 9,
             "tag": "forge:nuggets/amber"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#E6A31D",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

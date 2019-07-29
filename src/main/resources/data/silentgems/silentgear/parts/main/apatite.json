@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:apatite",
             "tag": "forge:gems/apatite"
         },
         "small": {
-            "item": "silentgems:apatite_shard",
             "size": 9,
             "tag": "forge:nuggets/apatite"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#45FFD1",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

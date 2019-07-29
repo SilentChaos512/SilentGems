@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:opal",
             "tag": "forge:gems/opal"
         },
         "small": {
-            "item": "silentgems:opal_shard",
             "size": 9,
             "tag": "forge:nuggets/opal"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#E4E4E4E",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

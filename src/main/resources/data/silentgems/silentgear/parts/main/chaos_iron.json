@@ -87,6 +87,8 @@
     },
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "texture_domain": "silentgear",
             "texture_suffix": "iron",
             "normal_color": "#CEBEB1",

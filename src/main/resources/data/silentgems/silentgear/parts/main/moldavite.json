@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:moldavite",
             "tag": "forge:gems/moldavite"
         },
         "small": {
-            "item": "silentgems:moldavite_shard",
             "size": 9,
             "tag": "forge:nuggets/moldavite"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#88A300",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

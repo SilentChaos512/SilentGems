@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:onyx",
             "tag": "forge:gems/onyx"
         },
         "small": {
-            "item": "silentgems:onyx_shard",
             "size": 9,
             "tag": "forge:nuggets/onyx"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#2F2F2F",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",

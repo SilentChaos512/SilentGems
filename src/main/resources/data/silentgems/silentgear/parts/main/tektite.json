@@ -4,11 +4,9 @@
     },
     "crafting_items": {
         "normal": {
-            "item": "silentgems:tektite",
             "tag": "forge:gems/tektite"
         },
         "small": {
-            "item": "silentgems:tektite_shard",
             "size": 9,
             "tag": "forge:nuggets/tektite"
         }
@@ -81,6 +79,8 @@
     ],
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "broken_color": "#8F7C6B",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",
