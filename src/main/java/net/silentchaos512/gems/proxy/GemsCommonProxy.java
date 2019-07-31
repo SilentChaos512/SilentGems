@@ -17,7 +17,6 @@ import net.silentchaos512.gems.client.gui.GuiHandlerSilentGems;
 import net.silentchaos512.gems.compat.BaublesCompat;
 import net.silentchaos512.gems.compat.crafttweaker.CTSilentGems;
 import net.silentchaos512.gems.compat.evilcraft.EvilCraftCompat;
-import net.silentchaos512.gems.compat.gear.SGearCompatEvents;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.event.GemsCommonEvents;
@@ -63,7 +62,6 @@ public class GemsCommonProxy implements IProxy {
         SGearProxy.detectSilentGear();
         if (SGearProxy.isLoaded() && GemsConfig.ENABLE_SGEAR_MATERIALS) {
             SGearMaterials.init();
-            MinecraftForge.EVENT_BUS.register(new SGearCompatEvents());
         }
 
         registry.preInit(event);

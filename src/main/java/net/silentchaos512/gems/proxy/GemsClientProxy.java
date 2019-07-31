@@ -1,16 +1,14 @@
 package net.silentchaos512.gems.proxy;
 
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import org.apache.commons.lang3.NotImplementedException;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.gui.GuiChaosBar;
 import net.silentchaos512.gems.client.gui.GuiQuiverArrowOverlay;
@@ -25,6 +23,9 @@ import net.silentchaos512.gems.client.render.particle.ParticleChaos;
 import net.silentchaos512.gems.client.render.particle.ParticleCompass;
 import net.silentchaos512.gems.client.render.particle.ParticleFreezing;
 import net.silentchaos512.gems.client.render.particle.ParticleShocking;
+import net.silentchaos512.gems.compat.gear.SGearCompatEvents;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.EntityChaosProjectile;
 import net.silentchaos512.gems.entity.EntityEnderSlime;
 import net.silentchaos512.gems.entity.EntityGemArrow;
@@ -35,6 +36,7 @@ import net.silentchaos512.gems.lib.ColorHandlers;
 import net.silentchaos512.gems.lib.EnumModParticles;
 import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.Color;
+import org.apache.commons.lang3.NotImplementedException;
 
 public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonProxy {
 
@@ -52,6 +54,10 @@ public class GemsClientProxy extends net.silentchaos512.gems.proxy.GemsCommonPro
         registerRenderers();
         ModBlockRenderers.init(SilentGems.registry);
         ModItems.enchantmentToken.setColorsForDefaultTokens();
+
+        if (SGearProxy.isLoaded() && GemsConfig.ENABLE_SGEAR_MATERIALS) {
+            MinecraftForge.EVENT_BUS.register(new SGearCompatEvents());
+        }
     }
 
     @Override

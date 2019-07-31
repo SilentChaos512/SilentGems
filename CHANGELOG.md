@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.8.21] - 2019-07-31
+### Fixed
+- Server crash
+
 ## [2.8.20] - 2019-07-16
 ### Fixed
 - Should fix a crash caused by enchantment tokens, when used with certain mods
