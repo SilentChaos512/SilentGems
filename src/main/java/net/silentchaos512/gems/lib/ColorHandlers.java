@@ -9,7 +9,6 @@ import net.minecraft.util.IItemProvider;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.urn.SoulUrnBlock;
-import net.silentchaos512.gems.init.GemsBlocks;
 import net.silentchaos512.gems.item.*;
 
 import java.util.Arrays;
@@ -25,7 +24,7 @@ public final class ColorHandlers {
             return;
         }
 
-        registerBlocks(colors, SoulUrnBlock::getBlockColor, GemsBlocks.soulUrn);
+        registerBlocks(colors, SoulUrnBlock::getBlockColor, SoulUrnBlock.INSTANCE.get());
     }
 
     public static void onItemColors(ColorHandlerEvent.Item event) {
@@ -36,7 +35,7 @@ public final class ColorHandlers {
             return;
         }
 
-        registerItems(colors, SoulUrnBlock::getItemColor, GemsBlocks.soulUrn);
+        registerItems(colors, SoulUrnBlock::getItemColor, SoulUrnBlock.INSTANCE.get());
         registerItems(colors, EnchantmentTokenItem::getItemColor, EnchantmentTokenItem.INSTANCE.get());
         registerItems(colors, ReturnHomeCharmItem::getColor, Arrays.stream(Gems.values())
                 .map(Gems::getReturnHomeCharm)

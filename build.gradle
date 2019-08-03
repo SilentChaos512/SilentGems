@@ -114,7 +114,7 @@ dependencies {
     // compile against the JEI API but do not include it at runtime
     compileOnly fg.deobf("mezz.jei:jei-1.14.3:${project.jei_version}:api")
     // at runtime, use the full JEI jar
-//    runtimeOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${project.jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.14.3:${project.jei_version}")
 
     // Curios
     //compile fg.deobf("top.theillusivec4.curios:curios:FORGE-${project.mc_version}-{$project.curios_version}")

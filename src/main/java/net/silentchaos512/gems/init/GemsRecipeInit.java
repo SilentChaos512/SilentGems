@@ -7,6 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.crafting.ingredient.SoulElementIngredient;
 import net.silentchaos512.gems.crafting.ingredient.SoulGemIngredient;
 import net.silentchaos512.gems.crafting.recipe.*;
 import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipe;
@@ -16,6 +17,7 @@ public final class GemsRecipeInit {
     private GemsRecipeInit() {}
 
     public static void init() {
+        SoulElementIngredient.Serializer.register();
         SoulGemIngredient.Serializer.register();
 
         registerRecipeType("token_enchanting", TokenEnchanterRecipe.RECIPE_TYPE);
