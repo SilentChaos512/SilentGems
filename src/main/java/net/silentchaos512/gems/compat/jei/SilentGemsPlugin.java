@@ -13,6 +13,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
+import net.silentchaos512.gear.parts.PartManager;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
@@ -82,6 +83,7 @@ public class SilentGemsPlugin implements IModPlugin {
         reg.addRecipes(getRecipesOfType(TokenEnchanterRecipe.RECIPE_TYPE), TOKEN_ENCHANTING);
 
         if (SGearProxy.isLoaded()) {
+            // Supercharger pillars
             reg.addRecipes(ImmutableList.of(
                     new SuperchargerPillarStructure(1, ImmutableList.of(
                             GemsTags.Items.SUPERCHARGER_PILLAR_LEVEL1,
@@ -100,9 +102,14 @@ public class SilentGemsPlugin implements IModPlugin {
                             GemsTags.Items.SUPERCHARGER_PILLAR_CAP
                     ))
             ), SUPERCHARGER_PILLAR);
-            reg.addRecipes(IntStream.rangeClosed(1, 3)
-                    .mapToObj(SuperchargingRecipeCategoryJei.Recipe::new)
-                    .collect(Collectors.toList()), SUPERCHARGING);
+
+            // Supercharging
+            IntStream.rangeClosed(1, 3).forEach(tier -> reg.addRecipes(
+                    PartManager.getMains().stream()
+                            .map(part -> new SuperchargingRecipeCategoryJei.Recipe(part, tier))
+                            .collect(Collectors.toList()),
+                    SUPERCHARGING
+            ));
         }
 
         addInfoPage(reg, CraftingItems.ENDER_SLIMEBALL);

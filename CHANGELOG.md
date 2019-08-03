@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Recipe book crash on Forge 28.0.28+ [#385]
+- Supercharging in JEI showing items transforming into other items
 
 ## [3.3.1] - 2019-07-28
 - Updated for Silent Gear 1.3.2

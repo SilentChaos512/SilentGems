@@ -15,8 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
-import net.silentchaos512.gear.api.parts.PartType;
-import net.silentchaos512.gear.crafting.ingredient.GearPartIngredient;
+import net.silentchaos512.gear.api.parts.IGearPart;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerTileEntity;
@@ -24,6 +23,7 @@ import net.silentchaos512.gems.init.GemsEnchantments;
 import net.silentchaos512.gems.init.GemsTags;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -76,12 +76,17 @@ public class SuperchargingRecipeCategoryJei implements IRecipeCategory<Superchar
     public void setIngredients(SuperchargingRecipeCategoryJei.Recipe recipe, IIngredients ingredients) {
         Tag<Item> catalystTag = recipe.getCatalystTag();
         if (catalystTag == null) return;
+        Ingredient partMaterial = recipe.part.getMaterials().getNormal();
         ingredients.setInputIngredients(Arrays.asList(
-                GearPartIngredient.of(PartType.MAIN),
+                partMaterial,
                 Ingredient.fromTag(catalystTag)
         ));
-        List<ItemStack> outputs = Arrays.asList(GearPartIngredient.of(PartType.MAIN).getMatchingStacks());
-        outputs.forEach(stack -> stack.addEnchantment(GemsEnchantments.supercharged, recipe.tier));
+        List<ItemStack> outputs = new ArrayList<>();
+        Arrays.stream(partMaterial.getMatchingStacks()).forEach(stack -> {
+            ItemStack copy = stack.copy();
+            copy.addEnchantment(GemsEnchantments.supercharged, recipe.tier);
+            outputs.add(copy);
+        });
         ingredients.setOutputLists(VanillaTypes.ITEM, Collections.singletonList(outputs));
     }
 
@@ -108,9 +113,13 @@ public class SuperchargingRecipeCategoryJei implements IRecipeCategory<Superchar
     }
 
     static final class Recipe {
+        final IGearPart part;
         final int tier;
 
-        Recipe(int tier) {this.tier = tier;}
+        Recipe(IGearPart part, int tier) {
+            this.part = part;
+            this.tier = tier;
+        }
 
         @Nullable
         Tag<Item> getCatalystTag() {
