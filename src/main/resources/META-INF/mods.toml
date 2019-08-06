@@ -21,13 +21,13 @@ authors="SilentChaos512"
 [[dependencies.silentgems]]
     modId="forge"
     mandatory=true
-    versionRange="[28,)"
+    versionRange="[28.0.45,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.silentgems]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.14.2,1.14.4]"
+    versionRange="[1.14.4]"
     ordering="NONE"
     side="BOTH"
 [[dependencies.silentgems]]

@@ -3,7 +3,9 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.3.2] - 2019-08-06
+### Changed
+- Non-vanilla dimensions will now spawn classic gems in a "regional" style (similar to the Nether and The End).
 ### Fixed
 - Recipe book crash on Forge 28.0.28+ [#385]
 - Supercharging in JEI showing items transforming into other items
