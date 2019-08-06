@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.placement.ChanceRangeConfig;
@@ -52,41 +53,10 @@ public final class GemsWorldFeatures {
 
             if (biome.getCategory() == Biome.Category.NETHER) {
                 // Nether
-                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
-                        RegionalGemsFeature.INSTANCE,
-                        new RegionalGemsFeatureConfig(Gems.Set.DARK, 10, 8, state -> state.getBlock() == Blocks.NETHERRACK),
-                        Placement.COUNT_RANGE,
-                        new CountRangeConfig(12, 25, 0, 95)
-                ));
-
-//                addOre(biome, Gems.Set.DARK.getMultiOre(), 8, 12, 25, 95, state -> state.getBlock() == Blocks.NETHERRACK);
-
-                biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(
-                        new GlowroseFeature(Gems.Set.DARK),
-                        NoFeatureConfig.NO_FEATURE_CONFIG,
-                        NetherFloorWithExtra.INSTANCE,
-                        new NetherFloorWithExtraConfig(0, 0.25f, 1, 32, 96)
-                ));
+                addNetherFeatures(biome);
             } else if (biome.getCategory() == Biome.Category.THEEND) {
                 // The End
-                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
-                        RegionalGemsFeature.INSTANCE,
-                        new RegionalGemsFeatureConfig(Gems.Set.LIGHT, 10, 6, state -> state.getBlock() == Blocks.END_STONE),
-                        Placement.COUNT_RANGE,
-                        new CountRangeConfig(12, 16, 0, 72)
-                ));
-
-//                addOre(biome, Gems.Set.LIGHT.getMultiOre(), 8, 12, 16, 64, state -> state.getBlock() == Blocks.END_STONE);
-
-                addEnderOre(biome, random);
-                addEnderSlimeSpawns(biome);
-
-                biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(
-                        new GlowroseFeature(Gems.Set.LIGHT),
-                        NoFeatureConfig.NO_FEATURE_CONFIG,
-                        Placement.COUNT_HEIGHTMAP_32,
-                        new FrequencyConfig(1)
-                ));
+                addTheEndFeatures(biome, random);
             } else {
                 // Overworld and other dimensions
                 Collection<Gems> toAdd = EnumSet.noneOf(Gems.class);
@@ -95,7 +65,7 @@ public final class GemsWorldFeatures {
                 }
 
                 for (Gems gem : toAdd) {
-                    addGemOre(biome, gem, random);
+                    addGemOre(biome, gem, random, DimensionType.OVERWORLD);
                     selected.add(gem);
                 }
 
@@ -117,6 +87,15 @@ public final class GemsWorldFeatures {
                 for (Gems.Set gemSet : Gems.Set.values()) {
                     addGemGeode(biome, gemSet, random);
                 }
+
+                // Add regional gems for non-overworld dimensions
+                int regionSize = GemsConfig.COMMON.worldGenOtherDimensionGemsRegionSize.get();
+                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
+                        RegionalGemsFeature.INSTANCE,
+                        new RegionalGemsFeatureConfig(Gems.Set.CLASSIC, 8, regionSize, state -> state.isIn(Tags.Blocks.STONE), d -> d.getId() != DimensionType.OVERWORLD.getId()),
+                        Placement.COUNT_RANGE,
+                        new CountRangeConfig(10, 10, 0, 50)
+                ));
             }
         }
 
@@ -136,13 +115,54 @@ public final class GemsWorldFeatures {
                     // Make sure it's not Nether or End
                     // Theoretically, this could leave out gems, but the chance is negligible.
                     if (biome.getCategory() != Biome.Category.NETHER && biome.getCategory() != Biome.Category.THEEND) {
-                        addGemOre(biome, gem, random);
+                        addGemOre(biome, gem, random, DimensionType.OVERWORLD);
                     }
                 }
             }
         }
 
         logGemBiomes();
+    }
+
+    private static void addNetherFeatures(Biome biome) {
+        int regionSize = GemsConfig.COMMON.worldGenNetherGemsRegionSize.get();
+        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
+                RegionalGemsFeature.INSTANCE,
+                new RegionalGemsFeatureConfig(Gems.Set.DARK, 10, regionSize, state -> state.getBlock() == Blocks.NETHERRACK, DimensionType.THE_NETHER),
+                Placement.COUNT_RANGE,
+                new CountRangeConfig(12, 25, 0, 95)
+        ));
+
+        //addOre(biome, Gems.Set.DARK.getMultiOre(), 8, 12, 25, 95, state -> state.getBlock() == Blocks.NETHERRACK);
+
+        biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(
+                new GlowroseFeature(Gems.Set.DARK),
+                NoFeatureConfig.NO_FEATURE_CONFIG,
+                NetherFloorWithExtra.INSTANCE,
+                new NetherFloorWithExtraConfig(0, 0.25f, 1, 32, 96)
+        ));
+    }
+
+    private static void addTheEndFeatures(Biome biome, Random random) {
+        int regionSize = GemsConfig.COMMON.worldGenEndGemsRegionSize.get();
+        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
+                RegionalGemsFeature.INSTANCE,
+                new RegionalGemsFeatureConfig(Gems.Set.LIGHT, 10, regionSize, state -> state.getBlock() == Blocks.END_STONE, DimensionType.THE_END),
+                Placement.COUNT_RANGE,
+                new CountRangeConfig(12, 16, 0, 72)
+        ));
+
+        //addOre(biome, Gems.Set.LIGHT.getMultiOre(), 8, 12, 16, 64, state -> state.getBlock() == Blocks.END_STONE);
+
+        addEnderOre(biome, random);
+        addEnderSlimeSpawns(biome);
+
+        biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(
+                new GlowroseFeature(Gems.Set.LIGHT),
+                NoFeatureConfig.NO_FEATURE_CONFIG,
+                Placement.COUNT_HEIGHTMAP_32,
+                new FrequencyConfig(1)
+        ));
     }
 
     private static void logGemBiomes() {
@@ -163,38 +183,39 @@ public final class GemsWorldFeatures {
         int size = MathUtils.nextIntInclusive(random, 12, 18);
         int maxHeight = MathUtils.nextIntInclusive(random, 15, 25);
         //SilentGems.LOGGER.debug("    Biome {}: add chaos ore (size {}, count {}, maxHeight {})", biome, size, count, maxHeight);
-        addOre(biome, MiscOres.CHAOS.asBlock(), size, count, 5, maxHeight);
+        addOre(biome, MiscOres.CHAOS.asBlock(), size, count, 5, maxHeight, d -> true);
     }
 
     private static void addEnderOre(Biome biome, Random random) {
-        addOre(biome, MiscOres.ENDER.asBlock(), 32, 1, 10, 70, state -> state.getBlock() == Blocks.END_STONE);
+        addOre(biome, MiscOres.ENDER.asBlock(), 32, 1, 10, 70, state -> state.getBlock() == Blocks.END_STONE, d -> true);
     }
 
     private static void addSilverOre(Biome biome, Random random) {
-        addOre(biome, MiscOres.SILVER.asBlock(), 6, 2, 6, 28);
+        addOre(biome, MiscOres.SILVER.asBlock(), 6, 2, 6, 28, d -> true);
     }
 
-    private static void addGemOre(Biome biome, Gems gem, Random random) {
+    private static void addGemOre(Biome biome, Gems gem, Random random, DimensionType dimension) {
         int size = MathHelper.nextInt(random, 6, 8);
         int count = MathHelper.nextInt(random, 2, 4);
         int minHeight = random.nextInt(8);
         int maxHeight = random.nextInt(40) + 30;
         //SilentGems.LOGGER.debug("    Biome {}: add gem {} (size {}, count {}, height [{}, {}])", biome, gem, size, count, minHeight, maxHeight);
-        addOre(biome, gem.getOre(), size, count, minHeight, maxHeight);
+        addOre(biome, gem.getOre(), size, count, minHeight, maxHeight, d -> d.getId() == dimension.getId());
         GEM_BIOMES.computeIfAbsent(gem, g -> new HashSet<>()).add(biome.getRegistryName());
     }
 
-    private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight) {
-        addOre(biome, block, size, count, minHeight, maxHeight, s -> s.isIn(Tags.Blocks.STONE));
+    private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight, Predicate<DimensionType> dimension) {
+        addOre(biome, block, size, count, minHeight, maxHeight, s -> s.isIn(Tags.Blocks.STONE), dimension);
     }
 
-    private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight, Predicate<BlockState> blockToReplace) {
+    private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight, Predicate<BlockState> blockToReplace, Predicate<DimensionType> dimension) {
         biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
                 SGOreFeature.INSTANCE,
                 new SGOreFeatureConfig(
                         block.getDefaultState(),
                         size,
-                        blockToReplace
+                        blockToReplace,
+                        dimension
                 ),
                 Placement.COUNT_RANGE,
                 new CountRangeConfig(count, minHeight, 0, maxHeight)

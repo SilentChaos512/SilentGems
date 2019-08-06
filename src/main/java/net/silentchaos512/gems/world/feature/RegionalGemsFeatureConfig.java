@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.silentchaos512.gems.lib.Gems;
 
@@ -18,12 +19,18 @@ public class RegionalGemsFeatureConfig implements IFeatureConfig {
     public final int size;
     public final int regionSize;
     public final Predicate<BlockState> target;
+    public final Predicate<DimensionType> dimension;
 
-    public RegionalGemsFeatureConfig(Gems.Set gemSet, int size, int regionSize, Predicate<BlockState> target) {
+    public RegionalGemsFeatureConfig(Gems.Set gemSet, int size, int regionSize, Predicate<BlockState> target, DimensionType dimension) {
+        this(gemSet, size, regionSize, target, d -> d.getId() == dimension.getId());
+    }
+
+    public RegionalGemsFeatureConfig(Gems.Set gemSet, int size, int regionSize, Predicate<BlockState> target, Predicate<DimensionType> dimension) {
         this.gemSet = gemSet;
         this.size = size;
         this.regionSize = regionSize;
         this.target = target;
+        this.dimension = dimension;
     }
 
     public Gems selectGem(IWorld world, BlockPos pos, Random random) {
@@ -54,6 +61,7 @@ public class RegionalGemsFeatureConfig implements IFeatureConfig {
         Gems.Set gemSet = Gems.Set.deserialize(dynamic);
         int size = dynamic.get("size").asInt(0);
         int regionSize = dynamic.get("region_size").asInt(0);
-        return new RegionalGemsFeatureConfig(gemSet, size, regionSize, s -> s.getBlock() == Blocks.STONE);
+        int dimensionId = dynamic.get("dimension").asInt(0);
+        return new RegionalGemsFeatureConfig(gemSet, size, regionSize, s -> s.getBlock() == Blocks.STONE, d -> d.getId() == DimensionType.OVERWORLD.getId());
     }
 }

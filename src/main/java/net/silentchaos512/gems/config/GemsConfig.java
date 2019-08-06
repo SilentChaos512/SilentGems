@@ -34,6 +34,9 @@ public final class GemsConfig {
         public final IntValue teleporterChaosPerBlock;
         public final IntValue teleporterFreeRange;
         public final IntValue teleporterSearchRadius;
+        public final IntValue worldGenNetherGemsRegionSize;
+        public final IntValue worldGenEndGemsRegionSize;
+        public final IntValue worldGenOtherDimensionGemsRegionSize;
 
         Common(ConfigSpecWrapper wrapper) {
             baseBiomeSeedOverride = wrapper
@@ -131,6 +134,27 @@ public final class GemsConfig {
                     .comment("All entities within this distance of a redstone teleporter will teleport when activated with redstone.",
                             "Default is 2 blocks, restricted to [1,16]")
                     .defineInRange(2, 1, 16);
+
+            wrapper.comment("world.generation",
+                    "World generation settings (ores, etc.) Most of these REQUIRE A RESTART!");
+            worldGenNetherGemsRegionSize = wrapper
+                    .builder("world.generation.nether.gems.regionSize")
+                    .comment("The region size for gems in the Nether.",
+                            "Each 'size x size' chunk area is a 'region', which contains a couple types of gems.",
+                            "Larger regions will make finding many types of gems more difficult.")
+                    .defineInRange(8, 1, Integer.MAX_VALUE);
+            worldGenEndGemsRegionSize = wrapper
+                    .builder("world.generation.end.gems.regionSize")
+                    .comment("The region size for gems in The End.",
+                            "Each 'size x size' chunk area is a 'region', which contains a couple types of gems.",
+                            "Larger regions will make finding many types of gems more difficult.")
+                    .defineInRange(6, 1, Integer.MAX_VALUE);
+            worldGenOtherDimensionGemsRegionSize = wrapper
+                    .builder("world.generation.other.gems.regionSize")
+                    .comment("The region size for gems in non-vanilla dimensions.",
+                            "Each 'size x size' chunk area is a 'region', which contains a couple types of gems.",
+                            "Larger regions will make finding many types of gems more difficult.")
+                    .defineInRange(4, 1, Integer.MAX_VALUE);
         }
 
         private Supplier<Boolean> debugConfig(BooleanValue config) {
