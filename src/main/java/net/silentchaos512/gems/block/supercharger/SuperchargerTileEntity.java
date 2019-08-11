@@ -129,8 +129,9 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
 
         ItemStack input = getInputItem();
         ItemStack catalyst = getCatalystItem();
+        int superchargedLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.supercharged, input);
 
-        if (!input.isEmpty() && !catalyst.isEmpty()) {
+        if (!input.isEmpty() && !catalyst.isEmpty() && superchargedLevel < 1) {
             handleCharging(input, catalyst);
         } else if (progress > 0) {
             progress = 0;
@@ -143,7 +144,7 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
     private void handleCharging(ItemStack input, ItemStack catalyst) {
         int chargeTier = getChargingAgentTier(catalyst);
         if (chargeTier > 0 && chargeTier <= this.structureLevel) {
-            int partTier = SGearProxy.getPartTier(this.getInputItem());
+            int partTier = SGearProxy.getPartTier(input);
             chaosGenerated = getEmissionRate(partTier, chargeTier);
             chaosBuffer += chaosGenerated;
 

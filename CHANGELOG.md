@@ -5,6 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
+- Supercharger processing items that are already supercharged
 - HWYLA reporting the names of gem blocks incorrectly
 
 ## [3.3.2] - 2019-08-06
