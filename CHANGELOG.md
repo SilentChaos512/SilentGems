@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Increased odds of wisps spawning
 - Improved token enchanter's ingredient detection. It can now merge item stacks together if needed.
 ### Fixed
+- Soul urns losing the "lidless" property when harvested
+- Lidless soul urn items not rendering correctly
 - Supercharger processing items that are already supercharged
 - HWYLA reporting the names of gem blocks incorrectly [#390]
 - Wisps trying to spawn on peaceful difficulty

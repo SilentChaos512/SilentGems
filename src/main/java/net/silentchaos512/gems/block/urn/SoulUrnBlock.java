@@ -55,6 +55,7 @@ import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootParameters;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.init.GemsSounds;
 import net.silentchaos512.gems.lib.Gems;
@@ -394,6 +395,8 @@ public class SoulUrnBlock extends ContainerBlock {
                     .group(GemsItemGroups.BLOCKS));
 
             this.blockSoulUrn = block;
+
+            addPropertyOverride(SilentGems.getId("lidless"), (stack, world, entity) -> UrnHelper.hasLid(stack) ? 0 : 1);
         }
 
         @Override

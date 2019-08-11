@@ -28,7 +28,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.*;
+import net.minecraft.tileentity.HopperTileEntity;
+import net.minecraft.tileentity.IHopper;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
@@ -287,6 +290,8 @@ public class SoulUrnTileEntity extends LockableLootTileEntity implements ITickab
             compound.putInt(UrnConst.NBT_COLOR, this.color);
         if (this.gem != null)
             compound.putString(UrnConst.NBT_GEM, this.gem.getName());
+        if (this.world != null)
+            compound.putBoolean(UrnConst.NBT_LIDDED, this.world.getBlockState(this.pos).get(SoulUrnBlock.LID).hasLid());
 
         UrnUpgrade.ListHelper.save(this.upgrades, compound);
 
