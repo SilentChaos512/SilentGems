@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Recipe for perfect chaos orb (may still change, feedback would be appreciated)
 - Recipes for most vacuum and planter soul urn upgrades
 - Planter soul urn upgrade model/texture, name [#386]
+- Thunderstorm chaos event (very low probability, minimum 1 million chaos)
 ### Changed
 - Wisp colors now match their element
 - Increased odds of wisps spawning

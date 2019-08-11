@@ -6,6 +6,7 @@ import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.Heightmap;
@@ -14,6 +15,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.chaos.ChaosEvent;
 import net.silentchaos512.gems.block.CorruptedBlocks;
 import net.silentchaos512.gems.world.spawner.WispSpawner;
+import net.silentchaos512.lib.util.TimeUtils;
 import net.silentchaos512.utils.MathUtils;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
@@ -30,17 +32,19 @@ public final class ChaosEvents {
     private static final int MAX_CHAOS = 5_000_000;
 
     static {
-        addChaosEvent(SilentGems.getId("chaos_lightning"), new ChaosEvent(
-                0.25f, 250_000, MAX_CHAOS, 25_000, (entity, chaos) ->
+        addChaosEvent(SilentGems.getId("chaos_lightning"), new ChaosEvent(0.25f, 250_000, MAX_CHAOS, 25_000, (entity, chaos) ->
                 spawnLightningBolt(entity, entity.world)
         ));
-        addChaosEvent(SilentGems.getId("corrupt_blocks"), new ChaosEvent(
-                0.25f, 800_000, MAX_CHAOS, 150_000, (entity, chaos) ->
+        addChaosEvent(SilentGems.getId("corrupt_blocks"), new ChaosEvent(0.25f, 800_000, MAX_CHAOS, 150_000, (entity, chaos) ->
                 corruptBlocks(entity, entity.world)
         ));
-        addChaosEvent(SilentGems.getId("spawn_chaos_wisps"), new ChaosEvent(
-                0.4f, 100_000, MAX_CHAOS / 5, 5_000, WispSpawner::spawnWisps
+        addChaosEvent(SilentGems.getId("spawn_chaos_wisps"), new ChaosEvent(0.4f, 100_000, MAX_CHAOS / 5, 5_000,
+                WispSpawner::spawnWisps
         ));
+        addChaosEvent(SilentGems.getId("thunderstorm"), new ChaosEvent(0.05f, 1_000_000, MAX_CHAOS, 200_000, (entity, chaos) -> {
+            int time = TimeUtils.ticksFromMinutes(MathUtils.nextIntInclusive(7, 15));
+            return setThunderstorm(entity.world, time);
+        }));
     }
 
     private ChaosEvents() {throw new IllegalAccessError("Utility class");}
@@ -122,5 +126,17 @@ public final class ChaosEvents {
                 world.setBlockState(pos1, newState, 3);
             }
         }
+    }
+
+    private static boolean setThunderstorm(World world, int time) {
+        if (!world.getGameRules().getBoolean(GameRules.DO_WEATHER_CYCLE) || world.getWorldInfo().isThundering())
+            return false;
+
+        world.getWorldInfo().setClearWeatherTime(0);
+        world.getWorldInfo().setRainTime(time);
+        world.getWorldInfo().setThunderTime(time);
+        world.getWorldInfo().setRaining(true);
+        world.getWorldInfo().setThundering(true);
+        return true;
     }
 }
