@@ -30,6 +30,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.urn.SoulUrnTileEntity;
+import net.silentchaos512.lib.util.InventoryUtils;
 import net.silentchaos512.lib.util.TimeUtils;
 import net.silentchaos512.utils.MathUtils;
 
@@ -56,9 +57,7 @@ public class UpgradePlanter extends UrnUpgrade {
             if (!seed.isEmpty()) {
                 Plant plant = PLANTS.get(seed.getItem());
                 if (plant != null) {
-                    for (ItemStack stack : plant.drops.apply(SilentGems.random)) {
-                        state.getTileEntity().tryAddItemToInventory(stack);
-                    }
+                    InventoryUtils.mergeItems(state.getTileEntity(), 0, state.getTileEntity().getSizeInventory(), plant.drops.apply(SilentGems.random));
                 }
             }
         }
@@ -97,6 +96,9 @@ public class UpgradePlanter extends UrnUpgrade {
     public static void init() {
         if (initialized) return;
         initialized = true;
+
+        // TODO: Need a better way to handle this! Maybe loot tables? Would be nice if mods could
+        //  add plants as well.
 
         PLANTS.put(Items.BEETROOT_SEEDS, new Plant(1, random -> dropsWithChance(random,
                 new ItemStack(Items.BEETROOT), 1.0,

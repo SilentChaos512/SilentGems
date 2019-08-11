@@ -1,0 +1,28 @@
+{
+  "type": "silentgems:token_enchanting",
+  "chaosGenerated": 500,
+  "processTime": 100,
+  "ingredients": {
+    "token": {
+      "item": "silentgems:urn_upgrade_base"
+    },
+    "others": [
+      {
+        "item": "minecraft:dirt",
+        "count": 10
+      },
+      {
+        "item": "minecraft:bone_meal",
+        "count": 30
+      },
+      {
+        "tag": "silentgems:glowroses",
+        "count": 2
+      }
+    ]
+  },
+  "result": {
+    "item": "silentgems:planter_urn_upgrade",
+    "count": 1
+  }
+}

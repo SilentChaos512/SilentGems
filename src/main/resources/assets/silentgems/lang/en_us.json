@@ -399,6 +399,7 @@
     "item.silentgems.uncooked_meaty_stew.desc": "You might want to heat it up first",
     "item.silentgems.urn_upgrade_base": "Urn Upgrade Base",
     "item.silentgems.extra_storage_urn_upgrade": "Extended Storage Soul Urn Upgrade",
+    "item.silentgems.planter_urn_upgrade": "Planter Soul Urn Upgrade",
     "item.silentgems.vacuum_urn_upgrade": "Vacuum Soul Urn Upgrade",
     "item.silentgems.water_wisp_spawn_egg": "Water Wisp Spawn Egg",
     "itemGroup.silentgems.blocks": "Silent's Gems: Blocks",
@@ -536,5 +537,6 @@
     "trait.silentgems.soul.melee_damage.desc": "Increases attack damage by 5%% per level",
     "trait.silentgems.warm": "Warm",
     "urn_upgrade.silentgems.extra_storage": "Extended Storage",
+    "urn_upgrade.silentgems.planter": "Planter",
     "urn_upgrade.silentgems.vacuum": "Vacuum"
 }

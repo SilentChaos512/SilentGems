@@ -8,7 +8,6 @@ import net.minecraft.inventory.IRecipeHolder;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.RecipeItemHelper;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -106,7 +105,7 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
             if (this.progress >= this.processTime) {
                 // Create result
                 placeResultInOutput(recipe);
-                consumeIngredients(recipe);
+                recipe.consumeIngredients(this);
                 this.progress = 0;
             }
             sendUpdate();
@@ -145,27 +144,6 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
     private boolean hasRoomInOutput(TokenEnchanterRecipe recipe) {
         ItemStack output = getStackInSlot(INVENTORY_SIZE - 1);
         return output.isEmpty() || ItemHandlerHelper.canItemStacksStack(output, recipe.getResult());
-    }
-
-    private void consumeIngredients(TokenEnchanterRecipe recipe) {
-        decrStackSize(0, 1);
-        for (Map.Entry<Ingredient, Integer> entry : recipe.getIngredientMap().entrySet()) {
-            Ingredient ingredient = entry.getKey();
-            int countRemaining = entry.getValue();
-
-            for (int i = 1; i < INVENTORY_SIZE - 1; ++i) {
-                ItemStack stackInSlot = getStackInSlot(i);
-                if (ingredient.test(stackInSlot)) {
-                    int toRemove = Math.min(countRemaining, stackInSlot.getCount());
-                    decrStackSize(i, toRemove);
-                    countRemaining -= toRemove;
-
-                    if (countRemaining <= 0) {
-                        break;
-                    }
-                }
-            }
-        }
     }
 
     private void placeResultInOutput(TokenEnchanterRecipe recipe) {

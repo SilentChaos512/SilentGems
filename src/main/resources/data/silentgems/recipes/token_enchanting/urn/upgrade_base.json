@@ -1,0 +1,19 @@
+{
+  "type": "silentgems:token_enchanting",
+  "chaosGenerated": 100,
+  "processTime": 20,
+  "ingredients": {
+    "token": {
+      "item": "minecraft:terracotta"
+    },
+    "others": [
+      {
+        "item": "silentgems:enriched_chaos_crystal"
+      }
+    ]
+  },
+  "result": {
+    "item": "silentgems:urn_upgrade_base",
+    "count": 4
+  }
+}

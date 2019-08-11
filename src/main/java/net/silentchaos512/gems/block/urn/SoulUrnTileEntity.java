@@ -114,16 +114,18 @@ public class SoulUrnTileEntity extends LockableLootTileEntity implements ITickab
             if (stackInSlot.isEmpty() || stackInSlot.isItemEqual(stack)) {
                 if (!stackInSlot.isEmpty()) {
                     int amountCanFit = Math.min(stack.getCount(), stackInSlot.getMaxStackSize() - stackInSlot.getCount());
-//                    SilentGems.logHelper.debug("{}, {}, {}", amountCanFit, stack.getCount(), stackInSlot.getCount());
-                    stackInSlot.setCount(stackInSlot.getCount() + amountCanFit);
-                    stack.setCount(stack.getCount() - amountCanFit);
+                    if (amountCanFit > 0) {
+                        stackInSlot.setCount(stackInSlot.getCount() + amountCanFit);
+                        stack.setCount(stack.getCount() - amountCanFit);
 
-                    this.setInventorySlotContents(slot, stackInSlot);
+                        this.setInventorySlotContents(slot, stackInSlot);
+                        return true;
+                    }
                 } else {
                     this.setInventorySlotContents(slot, stack.copy());
                     stack.setCount(0);
+                    return true;
                 }
-                return true;
             }
         }
 
