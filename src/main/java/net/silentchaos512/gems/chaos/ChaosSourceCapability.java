@@ -55,8 +55,7 @@ public class ChaosSourceCapability implements IChaosSource, ICapabilitySerializa
     }
 
     public static boolean canAttachTo(ICapabilityProvider obj) {
-        if (obj.getCapability(INSTANCE).isPresent()) return false;
-        return obj instanceof PlayerEntity || obj instanceof World;
+        return (obj instanceof PlayerEntity || obj instanceof World) && !obj.getCapability(INSTANCE).isPresent();
     }
 
     public static void register() {

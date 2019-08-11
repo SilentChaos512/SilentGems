@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
 import net.silentchaos512.gems.SilentGems;
@@ -30,15 +31,15 @@ public final class ChaosEvents {
 
     static {
         addChaosEvent(SilentGems.getId("chaos_lightning"), new ChaosEvent(
-                0.25f, 250_000, MAX_CHAOS, 20_000, (entity, chaos) ->
+                0.25f, 250_000, MAX_CHAOS, 25_000, (entity, chaos) ->
                 spawnLightningBolt(entity, entity.world)
         ));
         addChaosEvent(SilentGems.getId("corrupt_blocks"), new ChaosEvent(
-                0.25f, 1_000_000, MAX_CHAOS, 100_000, (entity, chaos) ->
+                0.25f, 800_000, MAX_CHAOS, 150_000, (entity, chaos) ->
                 corruptBlocks(entity, entity.world)
         ));
         addChaosEvent(SilentGems.getId("spawn_chaos_wisps"), new ChaosEvent(
-                0.15f, 100_000, MAX_CHAOS / 5, 5_000, WispSpawner::spawnWisps
+                0.4f, 100_000, MAX_CHAOS / 5, 5_000, WispSpawner::spawnWisps
         ));
     }
 
@@ -70,7 +71,7 @@ public final class ChaosEvents {
     }
 
     private static boolean spawnLightningBolt(Entity entity, World world) {
-        if (world instanceof ServerWorld) {
+        if (world instanceof ServerWorld && canSpawnLightningIn(world.dimension.getType())) {
             double posX = entity.posX + MathUtils.nextIntInclusive(-64, 64);
             double posZ = entity.posZ + MathUtils.nextIntInclusive(-64, 64);
             int height = world.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) posX, (int) posZ);
@@ -79,6 +80,10 @@ public final class ChaosEvents {
             return true;
         }
         return false;
+    }
+
+    private static boolean canSpawnLightningIn(DimensionType dimensionType) {
+        return dimensionType.getId() != DimensionType.THE_NETHER.getId() && dimensionType.getId() != DimensionType.THE_END.getId();
     }
 
     private static boolean corruptBlocks(Entity entity, World world) {

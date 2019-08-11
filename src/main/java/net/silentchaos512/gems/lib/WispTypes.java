@@ -19,7 +19,7 @@ public enum WispTypes {
             EntityType.Builder.create(ChaosWispEntity::new, EntityClassification.MONSTER),
             EntityType.Builder.<AbstractWispShotEntity>create(ChaosWispShotEntity::new, EntityClassification.MISC)
                     .setCustomClientFactory((spawnEntity, world) -> new ChaosWispShotEntity(world)),
-            Color.KHAKI
+            Color.LAVENDER
     ),
     FIRE(
             EntityType.Builder.create(FireWispEntity::new, EntityClassification.MONSTER)

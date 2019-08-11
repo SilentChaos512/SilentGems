@@ -1,11 +1,13 @@
 package net.silentchaos512.gems.client.render.entity;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import net.silentchaos512.gems.entity.AbstractWispEntity;
+import net.silentchaos512.utils.Color;
 
-public class WispModel<T extends Entity> extends EntityModel<T> {
+public class WispModel<T extends AbstractWispEntity> extends EntityModel<T> {
     private final RendererModel[] satellites = new RendererModel[12];
     private final RendererModel mainBody;
 
@@ -21,12 +23,19 @@ public class WispModel<T extends Entity> extends EntityModel<T> {
 
     @Override
     public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        GlStateManager.pushMatrix();
+
+        Color color = entityIn.getWispType().getColor();
+        GlStateManager.color3f(color.getRed(), color.getGreen(), color.getBlue());
+
         this.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         this.mainBody.render(scale);
 
         for (RendererModel model : this.satellites) {
             model.render(scale);
         }
+
+        GlStateManager.popMatrix();
     }
 
     @Override

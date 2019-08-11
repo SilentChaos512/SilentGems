@@ -13,7 +13,7 @@ public class FireWispEntity extends AbstractWispEntity {
     }
 
     @Override
-    protected WispTypes getWispType() {
+    public WispTypes getWispType() {
         return WispTypes.FIRE;
     }
 

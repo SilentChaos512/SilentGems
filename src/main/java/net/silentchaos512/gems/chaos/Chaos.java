@@ -23,8 +23,8 @@ public final class Chaos {
     // Rate of natural dissipation
     private static final int DISSIPATION_SCALE = 20;
     // Chaos will balance out to certain levels, which will vary slightly over time
-    private static final int EQUILIBRIUM_BASE = 100_000;
-    private static final int EQUILIBRIUM_VARIATION = 80_000;
+    private static final int EQUILIBRIUM_BASE = 150_000;
+    private static final int EQUILIBRIUM_VARIATION = 100_000;
     private static final int EQUILIBRIUM_CYCLE_LENGTH = TimeUtils.ticksFromHours(4);
     private static final double EQUILIBRIUM_CYCLE_CONSTANT = 2 * Math.PI / EQUILIBRIUM_CYCLE_LENGTH;
     // Distance to search for pedestals with chaos orb

@@ -13,7 +13,7 @@ public class LightningWispEntity extends AbstractWispEntity {
     }
 
     @Override
-    protected WispTypes getWispType() {
+    public WispTypes getWispType() {
         return WispTypes.LIGHTNING;
     }
 

@@ -31,7 +31,7 @@ public abstract class AbstractWispEntity extends MonsterEntity {
         super(type, worldIn);
     }
 
-    protected abstract WispTypes getWispType();
+    public abstract WispTypes getWispType();
 
     protected abstract AbstractWispShotEntity getProjectile(AbstractWispEntity wisp, double accelX, double accelY, double accelZ);
 
