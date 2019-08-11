@@ -19,6 +19,7 @@ import net.silentchaos512.gems.item.ChaosRuneItem;
 import net.silentchaos512.gems.item.EnchantmentTokenItem;
 import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
 import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
+import net.silentchaos512.gems.util.InventoryUtils;
 import net.silentchaos512.lib.collection.StackList;
 
 import java.util.LinkedHashMap;
@@ -45,8 +46,9 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
         this.id = id;
     }
 
-    public boolean isValid() {
-        return valid;
+    public void consumeIngredients(IInventory inv) {
+        InventoryUtils.consumeItems(inv, token, 1);
+        ingredientMap.forEach(((ingredient, count) -> InventoryUtils.consumeItems(inv, ingredient, count)));
     }
 
     @Override
@@ -65,7 +67,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
 
             int countInInv = 0;
             for (ItemStack stack : list) {
-                if (ingredient.test(stack) && stack.getCount() >= count) {
+                if (ingredient.test(stack)) {
                     countInInv += stack.getCount();
                 }
             }
