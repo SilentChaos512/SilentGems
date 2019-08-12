@@ -1,0 +1,101 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "tag": "forge:gems/amazonite"
+        },
+        "small": {
+            "size": 9,
+            "tag": "forge:nuggets/amazonite"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.amazonite",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 1949
+        },
+        {
+            "name": "armor_durability",
+            "value": 94
+        },
+        {
+            "name": "enchantability",
+            "value": 37
+        },
+        {
+            "name": "harvest_level",
+            "value": 3
+        },
+        {
+            "name": "harvest_speed",
+            "value": 9
+        },
+        {
+            "name": "melee_damage",
+            "value": 4
+        },
+        {
+            "name": "magic_damage",
+            "value": 6
+        },
+        {
+            "name": "attack_speed",
+            "value": 0.0
+        },
+        {
+            "name": "armor",
+            "value": 17
+        },
+        {
+            "name": "armor_toughness",
+            "value": 2
+        },
+        {
+            "name": "magic_armor",
+            "value": 7
+        },
+        {
+            "name": "ranged_damage",
+            "value": 2
+        },
+        {
+            "name": "ranged_speed",
+            "value": 0.0
+        },
+        {
+            "name": "chargeability",
+            "value": 1.2
+        },
+        {
+            "name": "rarity",
+            "value": 30
+        }
+    ],
+    "textures": {
+        "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
+            "broken_color": "#28BEE0",
+            "normal_color": "#28BEE0",
+            "texture_domain": "silentgear",
+            "texture_suffix": "generic_hc"
+        }
+    },
+    "traits": [
+        {
+            "level": 4,
+            "name": "silentgems:critical"
+        },
+        {
+            "level": 2,
+            "name": "silentgear:brittle"
+        }
+    ],
+    "type": "silentgear:main"
+}

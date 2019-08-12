@@ -20,7 +20,7 @@ public final class EnchantmentEvents {
 
     @SubscribeEvent
     public static void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
-        PlayerEntity player = event.getEntityPlayer();
+        PlayerEntity player = event.getPlayer();
         ItemStack mainHand = player.getHeldItem(Hand.MAIN_HAND);
 
         if (!mainHand.isEmpty()) {

@@ -28,7 +28,7 @@ public final class TraitEvents {
 
     @SubscribeEvent
     public void criticalHit(CriticalHitEvent event) {
-        PlayerEntity player = event.getEntityPlayer();
+        PlayerEntity player = event.getPlayer();
         ItemStack weapon = player.getHeldItemMainhand();
         if (GearHelper.isGear(weapon)) {
             int critical = TraitHelper.getTraitLevel(weapon, GemsTraits.CRITICAL);
@@ -40,7 +40,7 @@ public final class TraitEvents {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onPlayerAttack(AttackEntityEvent event) {
-        PlayerEntity player = event.getEntityPlayer();
+        PlayerEntity player = event.getPlayer();
         ItemStack tool = player.getHeldItemMainhand();
 
         if (!tool.isEmpty() && tool.getItem() instanceof ICoreTool) {
@@ -100,7 +100,7 @@ public final class TraitEvents {
 
     @SubscribeEvent
     public void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
-        PlayerEntity player = event.getEntityPlayer();
+        PlayerEntity player = event.getPlayer();
         ItemStack tool = player.getHeldItemMainhand();
 
         if (!tool.isEmpty() && GearHelper.isGear(tool)) {

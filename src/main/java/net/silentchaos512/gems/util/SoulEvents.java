@@ -48,7 +48,7 @@ public final class SoulEvents {
 
     @SubscribeEvent
     public void onBreakSpeed(PlayerEvent.BreakSpeed event) {
-        PlayerEntity player = event.getEntityPlayer();
+        PlayerEntity player = event.getPlayer();
         ItemStack mainHand = player.getHeldItemMainhand();
 
         // Overridden by the Gravity enchantment.
