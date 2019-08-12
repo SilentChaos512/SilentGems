@@ -497,6 +497,8 @@
     "soul.silentgems.element.water": "Water",
     "soul.silentgems.element.wind": "Wind",
     "stat.silentgems.chargeability": "Chargeability",
+    "teleporter.silentgems.anchorBanned": "Binding to anchors is not allowed",
+    "teleporter.silentgems.gemsMustMatch": "Gems do not match",
     "teleporter.silentgems.invalidDimension": "Invalid dimension: %d",
     "teleporter.silentgems.linkFail": "Failed to link teleporters! Was one removed?",
     "teleporter.silentgems.linkStart": "Teleporter selected.",

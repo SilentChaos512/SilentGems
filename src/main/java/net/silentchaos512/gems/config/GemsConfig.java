@@ -26,6 +26,9 @@ public final class GemsConfig {
         public final IntValue glowroseNormalLight;
         public final IntValue glowrosePottedLight;
         public final IntValue glowroseSpawnTryCount;
+        public final BooleanValue returnHomeAllowAnchors;
+        public final BooleanValue returnHomeMatchGems;
+        public final IntValue returnHomeMaxUses;
         public final IntValue returnHomeUseTime;
         public final DoubleValue soulGemDropRateAverage;
         public final DoubleValue soulGemDropRateBoss;
@@ -96,6 +99,18 @@ public final class GemsConfig {
                     .comment("The number of placement attempts when generating new chunks (higher numbers = bigger patches)",
                             "Note this is the number of 'attempts', not the actual number you will likely see in any given patch")
                     .defineInRange(40, 0, Integer.MAX_VALUE);
+            returnHomeAllowAnchors = wrapper
+                    .builder("returnHomeCharm.allowAnchors")
+                    .comment("Allow return home charms to be bound to teleporter anchors")
+                    .define(true);
+            returnHomeMatchGems = wrapper
+                    .builder("returnHomeCharm.sameGemOnly")
+                    .comment("Only allow return home charms to be bound to teleporters made with the same gem")
+                    .define(false);
+            returnHomeMaxUses = wrapper
+                    .builder("returnHomeCharm.maxUses")
+                    .comment("Durability of return home charms. 0 means unlimited. Charms with durability will still generate chaos when used.")
+                    .defineInRange(0, 0, Integer.MAX_VALUE);
             returnHomeUseTime = wrapper
                     .builder("returnHomeCharm.useTime")
                     .comment("The time (in ticks) the player must use a return home charm to activate it")

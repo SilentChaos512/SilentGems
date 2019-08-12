@@ -37,6 +37,11 @@ public class GemTeleporterBlock extends Block implements ITileEntityProvider {
     }
 
     @Nullable
+    public Gems getGem() {
+        return gem;
+    }
+
+    @Nullable
     @Override
     public TileEntity createNewTileEntity(IBlockReader worldIn) {
         return new GemTeleporterTileEntity(this.isAnchor);

@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.block.teleporter;
 
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.command.ICommandSource;
 import net.minecraft.entity.Entity;
@@ -23,9 +24,11 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.chaos.Chaos;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.GemsTileEntities;
 import net.silentchaos512.gems.item.ReturnHomeCharmItem;
 import net.silentchaos512.gems.item.TeleporterLinkerItem;
+import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.util.TeleportUtil;
 import net.silentchaos512.lib.util.DimPos;
 import org.apache.logging.log4j.Marker;
@@ -176,8 +179,25 @@ public class GemTeleporterTileEntity extends TileEntity {
         }
     }
 
-    private static boolean linkReturnHomeCharm(PlayerEntity player, World world, BlockPos pos, ItemStack heldItem, Hand hand) {
+    private boolean linkReturnHomeCharm(PlayerEntity player, World world, BlockPos pos, ItemStack heldItem, Hand hand) {
         if (world.isRemote) return true;
+
+        // Restriction configs
+        if (this.isAnchor && !GemsConfig.COMMON.returnHomeAllowAnchors.get()) {
+            player.sendMessage(new TranslationTextComponent("teleporter.silentgems.anchorBanned"));
+            return false;
+        }
+        if (!this.isAnchor && GemsConfig.COMMON.returnHomeMatchGems.get()) {
+            Block block = world.getBlockState(pos).getBlock();
+            if (block instanceof GemTeleporterBlock && heldItem.getItem() instanceof ReturnHomeCharmItem) {
+                Gems teleporterGem = ((GemTeleporterBlock) block).getGem();
+                Gems charmGem = ((ReturnHomeCharmItem) heldItem.getItem()).getGem();
+                if (teleporterGem != charmGem) {
+                    player.sendMessage(new TranslationTextComponent("teleporter.silentgems.gemsMustMatch"));
+                    return false;
+                }
+            }
+        }
 
         DimPos position = DimPos.of(pos, player.dimension.getId());
         position.write(heldItem.getOrCreateTag());
