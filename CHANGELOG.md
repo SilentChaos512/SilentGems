@@ -3,7 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.3.4] - 2019-08-11
+### Fixed
+- Crash when breaking soul urns [#391]
+
+## [3.3.3] - 2019-08-11
 ### Added
 - Recipe for perfect chaos orb (may still change, feedback would be appreciated)
 - Recipes for most vacuum and planter soul urn upgrades

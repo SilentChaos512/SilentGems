@@ -68,6 +68,7 @@ public class SoulUrnTileEntity extends LockableLootTileEntity implements ITickab
     private int color;
     private Gems gem = null;
     private boolean sizeUpgrade;
+    private boolean lidded = true;
 
     private int transferCooldown = -1;
 
@@ -280,6 +281,7 @@ public class SoulUrnTileEntity extends LockableLootTileEntity implements ITickab
 
         loadColorFromNBT(compound);
         loadGemFromNBT(compound);
+        this.lidded = !compound.contains(UrnConst.NBT_LIDDED) || compound.getBoolean(UrnConst.NBT_LIDDED);
     }
 
     CompoundNBT saveToNBT(CompoundNBT compound) {
@@ -290,8 +292,7 @@ public class SoulUrnTileEntity extends LockableLootTileEntity implements ITickab
             compound.putInt(UrnConst.NBT_COLOR, this.color);
         if (this.gem != null)
             compound.putString(UrnConst.NBT_GEM, this.gem.getName());
-        if (this.world != null)
-            compound.putBoolean(UrnConst.NBT_LIDDED, this.world.getBlockState(this.pos).get(SoulUrnBlock.LID).hasLid());
+        compound.putBoolean(UrnConst.NBT_LIDDED, this.lidded);
 
         UrnUpgrade.ListHelper.save(this.upgrades, compound);
 
