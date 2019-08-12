@@ -2,6 +2,7 @@ package net.silentchaos512.gems.chaos;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
@@ -16,7 +17,7 @@ import org.apache.logging.log4j.MarkerManager;
 @Mod.EventBusSubscriber(modid = SilentGems.MOD_ID)
 public final class ChaosHandler {
     // TODO: Add configs!
-    private static final int ENTITY_TO_WORLD_RATE = 250;
+    private static final int ENTITY_TO_WORLD_RATE = 200;
     private static final Marker MARKER = MarkerManager.getMarker("ChaosHandler");
 
     private ChaosHandler() {}
@@ -58,9 +59,8 @@ public final class ChaosHandler {
         });
 
         // Try chaos events
-        if (world.getGameTime() % 100 == 0) {
-            IChaosSource worldSource = world.getCapability(ChaosSourceCapability.INSTANCE).orElse(new ChaosSourceCapability());
-            ChaosEvents.tryChaosEvents(entity, world, source.getChaos() + worldSource.getChaos());
+        if (world.getGameTime() % 20 == 0 && entity instanceof PlayerEntity) {
+            ChaosEvents.tryChaosEvents((PlayerEntity) entity, world, source.getChaos());
         }
     }
 

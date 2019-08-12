@@ -53,7 +53,7 @@ public class LightningWispShotEntity extends AbstractWispShotEntity {
 
     @Override
     protected void onBlockImpact(BlockPos pos, Direction side) {
-        if (MathUtils.tryPercentage(0.25)) {
+        if (MathUtils.tryPercentage(0.05)) {
             BlockPos blockPos = pos.offset(side);
             if (this.world.isAirBlock(blockPos)) {
                 this.world.setBlockState(blockPos, Blocks.FIRE.getDefaultState());

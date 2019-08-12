@@ -9,6 +9,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.lib.WispTypes;
+import net.silentchaos512.utils.MathUtils;
 
 public class FireWispShotEntity extends AbstractWispShotEntity {
     public FireWispShotEntity(World worldIn) {
@@ -43,9 +44,11 @@ public class FireWispShotEntity extends AbstractWispShotEntity {
 
     @Override
     protected void onBlockImpact(BlockPos pos, Direction side) {
-        BlockPos blockPos = pos.offset(side);
-        if (this.world.isAirBlock(blockPos)) {
-            this.world.setBlockState(blockPos, Blocks.FIRE.getDefaultState());
+        if (MathUtils.tryPercentage(0.25)) {
+            BlockPos blockPos = pos.offset(side);
+            if (this.world.isAirBlock(blockPos)) {
+                this.world.setBlockState(blockPos, Blocks.FIRE.getDefaultState());
+            }
         }
     }
 }

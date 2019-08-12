@@ -3,6 +3,18 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Cooldown timers to chaos events. Varies by event, from around 30 seconds to 20 minutes. Once an event is triggered for a player, the same event cannot trigger again until the cooldown expires. These timers are not stored in NBT, so they will reset when the game/server is restarted.
+### Changed
+- Rebalanced some chaos-related stuff again
+    - Wisps should be less common (min chaos 200k)
+    - Corrupted blocks should be slightly more common (min chaos 750k)
+    - Events are now rolled every second (up from every 5), makes cooldown times more sensible
+- Reduced chance of fire/lightning wisp shots lighting blocks on fires
+### Fixed
+- World chaos affecting chaos events for all players
+
 ## [3.3.4] - 2019-08-11
 ### Fixed
 - Crash when breaking soul urns [#391]

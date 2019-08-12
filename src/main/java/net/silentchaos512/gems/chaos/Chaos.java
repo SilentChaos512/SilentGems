@@ -106,6 +106,13 @@ public final class Chaos {
         }
     }
 
+    public static void dissipate(PlayerEntity player, int amount) {
+        if (amount <= 0) return;
+        IChaosSource source = player.getCapability(ChaosSourceCapability.INSTANCE).orElseThrow(IllegalStateException::new);
+        int amountLeft = source.dissipateChaos(amount);
+        dissipate(player.world, amountLeft);
+    }
+
     /**
      * Dissipate chaos from the world. If the world's chaos is drained, it dissipates chaos from all
      * players instead.
