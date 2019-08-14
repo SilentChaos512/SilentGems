@@ -3,6 +3,7 @@ package net.silentchaos512.gems.chaos;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -15,9 +16,9 @@ import net.silentchaos512.lib.util.DimPos;
 import net.silentchaos512.lib.util.TimeUtils;
 import net.silentchaos512.lib.util.WorldUtils;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public final class Chaos {
     // Rate of natural dissipation
@@ -85,7 +86,7 @@ public final class Chaos {
         if (sendToPedestals && obj instanceof World) {
             // Search for pedestals with chaos orbs to send chaos to
             World world = (World) obj;
-            Collection<PedestalTileEntity> pedestals = getNearbyPedestals(world, pos);
+            Collection<PedestalTileEntity> pedestals = getNearbyPedestalsWithOrbs(world, pos);
 
             if (!pedestals.isEmpty()) {
                 // Divide evenly between pedestals
@@ -163,15 +164,20 @@ public final class Chaos {
      * @param pos   The center point
      * @return List of pedestals holding chaos orbs
      */
-    private static Collection<PedestalTileEntity> getNearbyPedestals(World world, BlockPos pos) {
-        Collection<PedestalTileEntity> list = new ArrayList<>();
+    private static Collection<PedestalTileEntity> getNearbyPedestalsWithOrbs(World world, BlockPos pos) {
         int xMin = pos.getX() - PEDESTAL_SEARCH_RADIUS;
         int xMax = pos.getX() + PEDESTAL_SEARCH_RADIUS;
         int yMin = pos.getY() - PEDESTAL_SEARCH_RADIUS;
         int yMax = pos.getY() + PEDESTAL_SEARCH_RADIUS;
         int zMin = pos.getZ() - PEDESTAL_SEARCH_RADIUS;
         int zMax = pos.getZ() + PEDESTAL_SEARCH_RADIUS;
-        return WorldUtils.getTileEntities(PedestalTileEntity.class, world, xMin, yMin, zMin, xMax, yMax, zMax).values();
+        //noinspection OverlyLongLambda
+        return WorldUtils.getBlocks(world, xMin, yMin, zMin, xMax, yMax, zMax, (w, p) -> {
+            TileEntity te = w.getTileEntity(p);
+            if (te instanceof PedestalTileEntity && ((PedestalTileEntity) te).getItem().getItem() instanceof ChaosOrbItem)
+                return Optional.of((PedestalTileEntity) te);
+            return Optional.empty();
+        }).values();
     }
 
     /**
