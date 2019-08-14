@@ -3,7 +3,9 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.3.6] - 2019-08-13
+### Changed
+- Rebalanced chaos values for events. World chaos is once again added to player chaos, but with some exceptions. If player chaos is low and world chaos is high, the world chaos is replaced with the current equilibrium level. This should allow wisps to spawn rarely for players who are not producing chaos. Most events have too high of a minimum to trigger on the equilibrium level alone.
 ### Fixed
 - Chaos rune recipes not producing valid runes
 - Empty pedestals absorbing chaos

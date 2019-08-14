@@ -33,13 +33,13 @@ public final class ChaosEvents {
     private static final int MAX_CHAOS = 5_000_000;
 
     static {
-        addChaosEvent(SilentGems.getId("chaos_lightning"), new ChaosEvent(0.25f, 30, 250_000, MAX_CHAOS, 25_000, (player, chaos) ->
+        addChaosEvent(SilentGems.getId("chaos_lightning"), new ChaosEvent(0.2f, 30, 250_000, MAX_CHAOS, 25_000, (player, chaos) ->
                 spawnLightningBolt(player, player.world)
         ));
-        addChaosEvent(SilentGems.getId("corrupt_blocks"), new ChaosEvent(0.25f, 600, 750_000, MAX_CHAOS, 100_000, (player, chaos) ->
+        addChaosEvent(SilentGems.getId("corrupt_blocks"), new ChaosEvent(0.2f, 600, 750_000, MAX_CHAOS, 100_000, (player, chaos) ->
                 corruptBlocks(player, player.world)
         ));
-        addChaosEvent(SilentGems.getId("spawn_chaos_wisps"), new ChaosEvent(0.2f, 300, 200_000, MAX_CHAOS / 4, 20_000,
+        addChaosEvent(SilentGems.getId("spawn_chaos_wisps"), new ChaosEvent(0.1f, 600, 200_000, MAX_CHAOS / 4, 20_000,
                 WispSpawner::spawnWisps
         ));
         addChaosEvent(SilentGems.getId("thunderstorm"), new ChaosEvent(0.05f, 1200, 1_000_000, MAX_CHAOS, 200_000, (player, chaos) -> {

@@ -2,6 +2,7 @@ package net.silentchaos512.gems.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.silentchaos512.gems.chaos.ChaosEvents;
+import net.silentchaos512.gems.chaos.ChaosHandler;
 import net.silentchaos512.gems.client.ClientPlayerInfo;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.lib.client.gui.DebugRenderOverlay;
@@ -19,6 +20,8 @@ public class DebugOverlay extends DebugRenderOverlay {
         list.add("- Player=" + String.format("%,d", ClientPlayerInfo.playerChaos));
         list.add("- World=" + String.format("%,d", ClientPlayerInfo.worldChaos));
         list.add("- Equilibrium=" + String.format("%,d", ClientPlayerInfo.equilibriumChaos));
+        int eventChaos = ChaosHandler.getEffectiveChaosForEvents(ClientPlayerInfo.playerChaos, ClientPlayerInfo.worldChaos, ClientPlayerInfo.equilibriumChaos);
+        list.add("- Event=" + String.format("%,d", eventChaos));
         list.add("- Cooldown Timers");
         ChaosEvents.getCooldownTimersDebugText(Minecraft.getInstance().player).forEach(s -> list.add("    - " + s));
         return list;

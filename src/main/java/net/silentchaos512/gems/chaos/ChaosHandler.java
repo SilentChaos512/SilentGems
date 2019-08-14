@@ -16,8 +16,6 @@ import org.apache.logging.log4j.MarkerManager;
 
 @Mod.EventBusSubscriber(modid = SilentGems.MOD_ID)
 public final class ChaosHandler {
-    // TODO: Add configs!
-    private static final int ENTITY_TO_WORLD_RATE = 200;
     private static final Marker MARKER = MarkerManager.getMarker("ChaosHandler");
 
     private ChaosHandler() {}
@@ -53,15 +51,31 @@ public final class ChaosHandler {
     private static void entitySourceTick(Entity entity, World world, IChaosSource source) {
         // Transfer chaos to world
         world.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(worldSource -> {
-            int amount = Math.min(source.getChaos(), ENTITY_TO_WORLD_RATE);
+            int amount = Math.min(source.getChaos(), Chaos.ENTITY_TO_WORLD_RATE);
             worldSource.addChaos(amount);
             source.addChaos(-amount);
         });
 
         // Try chaos events
         if (world.getGameTime() % 20 == 0 && entity instanceof PlayerEntity) {
-            ChaosEvents.tryChaosEvents((PlayerEntity) entity, world, source.getChaos());
+            final int chaos = getEffectiveChaosForEvents(source, world);
+            ChaosEvents.tryChaosEvents((PlayerEntity) entity, world, chaos);
         }
+    }
+
+    private static int getEffectiveChaosForEvents(IChaosSource player, World world) {
+        IChaosSource worldSource = world.getCapability(ChaosSourceCapability.INSTANCE).orElseThrow(IllegalStateException::new);
+        int equilibriumPoint = Chaos.getEquilibriumPoint(world);
+        return getEffectiveChaosForEvents(player.getChaos(), worldSource.getChaos(), equilibriumPoint);
+    }
+
+    public static int getEffectiveChaosForEvents(int playerChaos, int worldChaos, int equilibrium) {
+        // If player's chaos is low and world is high, do not subject the player to all the world's
+        // chaos. Just base them on the equilibrium point instead.
+        if (playerChaos < 50_000 && worldChaos > 2 * equilibrium)
+            return playerChaos + equilibrium;
+        // Player gets all the chaos!
+        return playerChaos + worldChaos;
     }
 
     @SubscribeEvent

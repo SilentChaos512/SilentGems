@@ -21,8 +21,10 @@ import java.util.List;
 import java.util.Optional;
 
 public final class Chaos {
-    // Rate of natural dissipation
+    // Rate of natural dissipation (per player)
     private static final int DISSIPATION_SCALE = 20;
+    // Rate of player to world transfer
+    static final int ENTITY_TO_WORLD_RATE = 50;
     // Chaos will balance out to certain levels, which will vary slightly over time
     private static final int EQUILIBRIUM_BASE = 150_000;
     private static final int EQUILIBRIUM_VARIATION = 100_000;
