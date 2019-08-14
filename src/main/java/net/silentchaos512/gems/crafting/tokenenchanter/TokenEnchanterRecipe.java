@@ -3,6 +3,7 @@ package net.silentchaos512.gems.crafting.tokenenchanter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import lombok.Getter;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.IInventory;
@@ -17,8 +18,6 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.ChaosRuneItem;
 import net.silentchaos512.gems.item.EnchantmentTokenItem;
-import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
-import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
 import net.silentchaos512.gems.util.InventoryUtils;
 import net.silentchaos512.lib.collection.StackList;
 
@@ -149,11 +148,10 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
             if (recipe.result.getItem() instanceof ChaosRuneItem) {
                 JsonElement elem1 = resultJson.get("buff");
                 if (elem1 != null) {
-                    String str = elem1.getAsString();
-                    IChaosBuff buff = ChaosBuffManager.get(str);
-                    if (buff != null) {
-                        recipe.result = ChaosRuneItem.getStack(buff);
-                    }
+                    ResourceLocation buffId = new ResourceLocation(elem1.getAsString());
+                    recipe.result = ChaosRuneItem.getStack(buffId);
+                } else {
+                    throw new JsonSyntaxException("Chaos rune recipe is missing 'buff' string");
                 }
             }
 

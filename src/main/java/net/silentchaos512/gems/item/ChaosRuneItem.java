@@ -6,6 +6,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -32,9 +33,14 @@ public final class ChaosRuneItem extends Item {
         super(new Properties().group(GemsItemGroups.UTILITY));
     }
 
+    @Deprecated
     public static ItemStack getStack(IChaosBuff buff) {
+        return getStack(buff.getId());
+    }
+
+    public static ItemStack getStack(ResourceLocation buffId) {
         ItemStack result = new ItemStack(INSTANCE.get());
-        result.getOrCreateTag().putString(NBT_KEY, buff.getId().toString());
+        result.getOrCreateTag().putString(NBT_KEY, buffId.toString());
         return result;
     }
 
@@ -87,7 +93,7 @@ public final class ChaosRuneItem extends Item {
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
         if (!isInGroup(group)) return;
         for (IChaosBuff buff : ChaosBuffManager.getValues()) {
-            items.add(getStack(buff));
+            items.add(getStack(buff.getId()));
         }
     }
 }
