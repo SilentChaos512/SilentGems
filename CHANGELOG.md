@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Chaos rune recipes not producing valid runes
 - Empty pedestals absorbing chaos
+- Crash when placing soul urns in place of tall grass
 
 ## [3.3.5] - 2019-08-12
 ### Added

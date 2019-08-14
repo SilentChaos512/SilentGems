@@ -99,7 +99,9 @@ public class SoulUrnBlock extends ContainerBlock {
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         if (context.replacingClickedOnBlock()) {
             BlockState currentState = context.getWorld().getBlockState(context.getPos());
-            return toggleLid(currentState);
+            if (currentState.getBlock() == this) {
+                return toggleLid(currentState);
+            }
         }
         return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
     }
