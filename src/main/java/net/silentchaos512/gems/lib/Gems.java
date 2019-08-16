@@ -22,6 +22,7 @@ import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.item.GemShardItem;
 import net.silentchaos512.gems.item.ReturnHomeCharmItem;
 import net.silentchaos512.lib.block.IBlockProvider;
+import net.silentchaos512.utils.Color;
 import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
@@ -81,7 +82,7 @@ public enum Gems implements IStringSerializable {
     PEARL(Set.LIGHT, 0xE2E8F1);
 
     final Set set;
-    final int color;
+    final Color color;
 
     // Blocks
     final Lazy<GemOreBlock> ore;
@@ -112,7 +113,7 @@ public enum Gems implements IStringSerializable {
     Gems(Set set, int color) {
         this.set = set;
         this.set.gems.add(this);
-        this.color = color;
+        this.color = new Color(color);
 
         // Blocks
         this.ore = Lazy.of(() -> new GemOreBlock(this));
@@ -150,7 +151,15 @@ public enum Gems implements IStringSerializable {
     }
 
     public int getColor() {
+        return color.getColor();
+    }
+
+    public Color getColorObj() {
         return color;
+    }
+
+    public float[] getColorArray() {
+        return new float[]{color.getRed(), color.getGreen(), color.getBlue()};
     }
 
     public ITextComponent getDisplayName() {

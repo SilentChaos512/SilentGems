@@ -18,14 +18,17 @@
 
 package net.silentchaos512.gems.block;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.GlassBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.silentchaos512.gems.lib.Gems;
 
 import javax.annotation.Nullable;
@@ -49,5 +52,11 @@ public class GemGlassBlock extends GlassBlock {
     @Override
     public ITextComponent getNameTextComponent() {
         return new TranslationTextComponent("block.silentgems.gem_glass", this.gem.getDisplayName());
+    }
+
+    @Nullable
+    @Override
+    public float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos) {
+        return this.gem.getColorArray();
     }
 }
