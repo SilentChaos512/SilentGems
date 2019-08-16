@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Gem glass can now color beacon beams
+### Changed
+- Nerfed persistence trait (it was ticking much more often than intended)
 
 ## [3.3.6] - 2019-08-13
 ### Changed
