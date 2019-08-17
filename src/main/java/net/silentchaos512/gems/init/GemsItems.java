@@ -11,6 +11,8 @@ import net.silentchaos512.gems.block.CorruptedBlocks;
 import net.silentchaos512.gems.block.FluffyPuffPlant;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.item.*;
+import net.silentchaos512.gems.item.container.GemBagItem;
+import net.silentchaos512.gems.item.container.GlowroseBasketItem;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.WispTypes;
 
@@ -70,6 +72,8 @@ public final class GemsItems {
         register("purifying_powder", PatchBlockChangerItem.PURIFYING_POWDER.get());
 
         register("chaos_meter", ChaosMeterItem.INSTANCE.get());
+        register("gem_bag", new GemBagItem());
+        register("glowrose_basket", new GlowroseBasketItem());
 
         for (ModFoods food : ModFoods.values()) {
             register(food.getName(), food.asItem());

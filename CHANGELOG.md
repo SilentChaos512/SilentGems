@@ -5,8 +5,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Gem bag item. Stores anything in the `forge:gems` tag (all gems and such). Items picked up off the ground will be placed in bags first.
+- Glowrose basket item. Stores glowroses (`silentgems:glowroses`). Works the same way as gem bags.
 - Gem glass can now color beacon beams
 - Proper model for token enchanter (just a recolored supercharger for now)
+- Textures for insulated and grounded effects (by starmute)
 ### Changed
 - Nerfed persistence trait (it was ticking much more often than intended)
 

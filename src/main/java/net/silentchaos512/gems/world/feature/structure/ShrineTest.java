@@ -14,7 +14,7 @@ import net.silentchaos512.gems.SilentGems;
 
 public class ShrineTest {
     public static void init() {
-        JigsawManager.field_214891_a.register(new JigsawPattern(SilentGems.getId("shrine"), SilentGems.getId("shrine/test"),
+        JigsawManager.REGISTRY.register(new JigsawPattern(SilentGems.getId("shrine"), SilentGems.getId("shrine/test"),
                 ImmutableList.of(
                         new Pair<>(new SingleJigsawPiece("silentgems:shrine", ImmutableList.of(
                                 new RuleStructureProcessor(ImmutableList.of(

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "#forge:gems/chaos",
     "#forge:gems/ruby",
     "#forge:gems/garnet",
     "#forge:gems/topaz",

@@ -35,6 +35,7 @@ public class GemsTags {
         public static final Tag<Item> CHARGING_AGENT_TIER3 = tag("charging_agents/tier3");
         public static final Tag<Item> CHARGING_AGENTS = tag("charging_agents");
         public static final Tag<Item> GEMS_CHAOS = tag("forge", "gems/chaos");
+        public static final Tag<Item> GLOWROSES = tag("glowroses");
         public static final Tag<Item> MOD_GEMS = tag("gems");
         public static final Tag<Item> MOD_SHARDS = tag("shards");
         public static final Tag<Item> RODS_ORNATE_GOLD = tag("forge", "rods/ornate_gold");

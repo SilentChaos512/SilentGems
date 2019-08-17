@@ -17,11 +17,16 @@ import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterContainer;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterScreen;
 import net.silentchaos512.gems.block.urn.SoulUrnContainer;
 import net.silentchaos512.gems.block.urn.SoulUrnScreen;
+import net.silentchaos512.gems.item.container.GemBagContainer;
+import net.silentchaos512.gems.item.container.GemContainerScreen;
+import net.silentchaos512.gems.item.container.GlowroseBasketContainer;
 import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
 
 public enum GemsContainers {
+    GEM_BAG(GemBagContainer::new),
+    GLOWROSE_BASKET(GlowroseBasketContainer::new),
     SOUL_URN(SoulUrnContainer::new),
     SUPERCHARGER(SuperchargerContainer::new),
     TOKEN_ENCHANTER(TokenEnchanterContainer::new),
@@ -46,6 +51,8 @@ public enum GemsContainers {
     @SuppressWarnings("unchecked")
     @OnlyIn(Dist.CLIENT)
     public static void registerScreens(FMLClientSetupEvent event) {
+        ScreenManager.registerFactory((ContainerType<? extends GemBagContainer>) GEM_BAG.type(), GemContainerScreen::new);
+        ScreenManager.registerFactory((ContainerType<? extends GlowroseBasketContainer>) GLOWROSE_BASKET.type(), GemContainerScreen::new);
         ScreenManager.registerFactory((ContainerType<? extends SoulUrnContainer>) SOUL_URN.type(), SoulUrnScreen::new);
         ScreenManager.registerFactory((ContainerType<? extends SuperchargerContainer>) SUPERCHARGER.type(), SuperchargerScreen::new);
         ScreenManager.registerFactory((ContainerType<? extends TokenEnchanterContainer>) TOKEN_ENCHANTER.type(), TokenEnchanterScreen::new);

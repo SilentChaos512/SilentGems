@@ -1,0 +1,22 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "sss",
+    "#g#",
+    "###"
+  ],
+  "key": {
+    "s": {
+      "item": "silentgems:gilded_string"
+    },
+    "g": {
+      "tag": "forge:gems"
+    },
+    "#": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "result": {
+    "item": "silentgems:gem_bag"
+  }
+}
