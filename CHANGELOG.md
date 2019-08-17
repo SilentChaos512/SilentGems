@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Gem glass can now color beacon beams
+- Proper model for token enchanter (just a recolored supercharger for now)
 ### Changed
 - Nerfed persistence trait (it was ticking much more often than intended)
 

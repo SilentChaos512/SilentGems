@@ -1,8 +1,7 @@
 package net.silentchaos512.gems.block.tokenenchanter;
 
-import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,12 +12,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.silentchaos512.utils.Lazy;
 
-public final class TokenEnchanterBlock extends ContainerBlock {
+public final class TokenEnchanterBlock extends Block {
     public static final Lazy<TokenEnchanterBlock> INSTANCE = Lazy.of(TokenEnchanterBlock::new);
+
+    private static final VoxelShape SHAPE = Block.makeCuboidShape(0, 0, 0, 16, 12, 16);
 
     private TokenEnchanterBlock() {
         super(Properties.create(Material.IRON)
@@ -27,7 +30,12 @@ public final class TokenEnchanterBlock extends ContainerBlock {
     }
 
     @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TokenEnchanterTileEntity();
     }
 
@@ -58,7 +66,7 @@ public final class TokenEnchanterBlock extends ContainerBlock {
 
     @SuppressWarnings("deprecation")
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return SHAPE;
     }
 }
