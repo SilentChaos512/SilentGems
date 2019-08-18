@@ -1,0 +1,29 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "silents_mechanisms"
+    }
+  ],
+  "type": "silents_mechanisms:crushing",
+  "process_time": 400,
+  "ingredient": {
+    "tag": "forge:ores/moonstone"
+  },
+  "results": [
+    {
+      "item": "silentgems:moonstone",
+      "count": 2
+    },
+    {
+      "item": "silentgems:moonstone",
+      "count": 1,
+      "chance": 0.1
+    },
+    {
+      "item": "minecraft:netherrack",
+      "count": 1,
+      "chance": 0.1
+    }
+  ]
+}

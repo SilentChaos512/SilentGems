@@ -112,6 +112,8 @@ dependencies {
     if (project.hasProperty("sgear_version")) {
         compile "net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}"
     }
+    // Mech
+    runtimeOnly "net.silentchaos512:silents-mechanisms-${project.mc_version}:0.+"
 
     // JEI
     if (project.hasProperty("jei_version")) {

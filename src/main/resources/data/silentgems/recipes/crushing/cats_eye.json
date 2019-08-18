@@ -1,0 +1,29 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "silents_mechanisms"
+    }
+  ],
+  "type": "silents_mechanisms:crushing",
+  "process_time": 400,
+  "ingredient": {
+    "tag": "forge:ores/cats_eye"
+  },
+  "results": [
+    {
+      "item": "silentgems:cats_eye",
+      "count": 2
+    },
+    {
+      "item": "silentgems:cats_eye",
+      "count": 1,
+      "chance": 0.1
+    },
+    {
+      "item": "minecraft:end_stone",
+      "count": 1,
+      "chance": 0.1
+    }
+  ]
+}

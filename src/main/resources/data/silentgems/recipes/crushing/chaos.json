@@ -1,0 +1,29 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "silents_mechanisms"
+    }
+  ],
+  "type": "silents_mechanisms:crushing",
+  "process_time": 400,
+  "ingredient": {
+    "item": "silentgems:chaos_ore"
+  },
+  "results": [
+    {
+      "item": "silentgems:chaos_crystal",
+      "count": 2
+    },
+    {
+      "item": "silentgems:chaos_crystal",
+      "count": 1,
+      "chance": 0.5
+    },
+    {
+      "item": "minecraft:stone",
+      "count": 1,
+      "chance": 0.1
+    }
+  ]
+}

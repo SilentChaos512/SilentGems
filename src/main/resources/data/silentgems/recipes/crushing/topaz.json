@@ -1,0 +1,29 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "silents_mechanisms"
+    }
+  ],
+  "type": "silents_mechanisms:crushing",
+  "process_time": 400,
+  "ingredient": {
+    "tag": "forge:ores/topaz"
+  },
+  "results": [
+    {
+      "item": "silentgems:topaz",
+      "count": 2
+    },
+    {
+      "item": "silentgems:topaz",
+      "count": 1,
+      "chance": 0.1
+    },
+    {
+      "item": "minecraft:stone",
+      "count": 1,
+      "chance": 0.1
+    }
+  ]
+}

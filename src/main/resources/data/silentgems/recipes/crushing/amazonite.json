@@ -1,0 +1,33 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "silents_mechanisms"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "slurpiesdongles"
+    }
+  ],
+  "type": "silents_mechanisms:crushing",
+  "process_time": 400,
+  "ingredient": {
+    "tag": "forge:ores/amazonite"
+  },
+  "results": [
+    {
+      "item": "slurpiesdongles:amazonite",
+      "count": 2
+    },
+    {
+      "item": "slurpiesdongles:amazonite",
+      "count": 1,
+      "chance": 0.1
+    },
+    {
+      "item": "minecraft:cobblestone",
+      "count": 1,
+      "chance": 0.1
+    }
+  ]
+}

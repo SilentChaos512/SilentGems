@@ -5,6 +5,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Crusher recipes for gem ores (Silent's Mechanisms)
+    - Recipe for amazonite also included (Slurpie's Dongles)
+    - Recipes will load only if relevant mods are installed.
+
+## [3.3.7] - 2019-08-17
+### Added
 - Gem bag item. Stores anything in the `forge:gems` tag (all gems and such). Items picked up off the ground will be placed in bags first.
 - Glowrose basket item. Stores glowroses (`silentgems:glowroses`). Works the same way as gem bags.
 - Gem glass can now color beacon beams
