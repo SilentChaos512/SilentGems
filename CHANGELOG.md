@@ -4,6 +4,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+Requires Silent Gear 1.3.9 or higher
+### Added
+- Gear items crafted with supercharged parts will receive a "Supercharged" name prefix
+
+## [3.3.8] - 2019-08-18
 ### Added
 - Crusher recipes for gem ores (Silent's Mechanisms)
     - Recipe for amazonite also included (Slurpie's Dongles)

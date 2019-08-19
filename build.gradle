@@ -110,7 +110,10 @@ dependencies {
         compile "net.silentchaos512:silent-lib-${project.mc_version}:${project.sl_version}"
     }
     if (project.hasProperty("sgear_version")) {
-        compile "net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}"
+        compile("net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}") {
+            exclude module: 'mine-and-slash-1.14.4'
+            exclude module: 'curios'
+        }
     }
     // Mech
     runtimeOnly "net.silentchaos512:silents-mechanisms-${project.mc_version}:0.+"
@@ -129,7 +132,8 @@ dependencies {
     }
 
     // Curios
-    //compile fg.deobf("top.theillusivec4.curios:curios:FORGE-${project.mc_version}-{$project.curios_version}")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios:${project.curios_version}")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios:${project.curios_version}:api")
 
     // Other mods
     //compile "net.silentchaos512:treasure-bags:1.+"
