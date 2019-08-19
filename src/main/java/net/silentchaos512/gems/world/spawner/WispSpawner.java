@@ -7,6 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.Heightmap;
@@ -28,7 +29,13 @@ public final class WispSpawner {
         WispTypes type = WispTypes.selectRandom(SilentGems.random);
         int count = MathUtils.nextIntInclusive(SilentGems.random, MIN_GROUP_COUNT, MAX_GROUP_COUNT);
         BlockPos pos = getRandomHeight(player.world, player.world.getChunk(player.getPosition()));
-        return spawnWispGroup(type.getEntityType(), count, player.world, player.getPosition());
+
+        for (int i = 0; i < 4; ++i) {
+            if (spawnWispGroup(type.getEntityType(), count, player.world, player.getPosition())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static <T extends AbstractWispEntity> boolean spawnWispGroup(EntityType<T> type, int count, World world, BlockPos pos) {
@@ -52,7 +59,7 @@ public final class WispSpawner {
 
             DifficultyInstance difficultyInstance = world.getDifficultyForLocation(blockPos);
 
-            if (WorldEntitySpawner.isSpawnableSpace(world, blockPos, world.getBlockState(blockPos), world.getFluidState(blockPos))) {
+            if (canSpawnAt(world, blockPos)) {
                 T wisp = type.create(world);
                 if (wisp != null) {
                     wisp.moveToBlockPosAndAngles(blockPos, 0f, 0f);
@@ -64,6 +71,11 @@ public final class WispSpawner {
         }
 
         return spawned > 0;
+    }
+
+    private static boolean canSpawnAt(World world, BlockPos pos) {
+        final boolean isSpawnableSpace = WorldEntitySpawner.isSpawnableSpace(world, pos, world.getBlockState(pos), world.getFluidState(pos));
+        return isSpawnableSpace && (world.getLightFor(LightType.BLOCK, pos) < 9 || world.canBlockSeeSky(pos));
     }
 
     private static BlockPos getRandomHeight(World worldIn, IChunk chunkIn) {

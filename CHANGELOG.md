@@ -11,6 +11,7 @@ Requires Silent Gear 1.3.9 or higher (if installed)
 - Gear souls can now affect other stats, including repair efficiency and ranged damage/speed
 ### Fixed
 - Gear souls not saving their data in some cases
+- Wisps spawning indoors (maybe?)
 
 ## [3.3.8] - 2019-08-18
 ### Added
