@@ -23,6 +23,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.FakePlayer;
+import net.silentchaos512.gear.api.stats.ItemStat;
 import net.silentchaos512.gear.util.GearData;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -254,125 +255,25 @@ public class GearSoul {
                 String.format("%,d", getXpToNextLevel()))
                 .applyTextStyle(TextFormatting.GREEN));
 
-        boolean skillsKeyDown = true; //Keyboard.isKeyDown(Keyboard.KEY_S);
-
-        if (skillsKeyDown || stack.getItem() instanceof GearSoulItem) {
+        if (stack.getItem() instanceof GearSoulItem) {
             // Display elements
-            if (secondaryElement != SoulElement.NONE) {
-                list.add(2, new TranslationTextComponent("misc.silentgems.gear_soul.elements.pair",
-                        primaryElement.getDisplayName(),
-                        secondaryElement.getDisplayName()));
-            } else {
-                list.add(2, new TranslationTextComponent("misc.silentgems.gear_soul.elements.single",
-                        primaryElement.getDisplayName()));
-            }
+            list.add(2, getElementPairText());
         }
-//        if (skillsKeyDown) {
-//            // Display stat modifiers.
-//            color = "  " + TextFormatting.YELLOW;
-//            float durability = getDurabilityModifierForDisplay(this);
-//            float harvestSpeed = getHarvestSpeedModifierForDisplay(this);
-//            float meleeDamage = getMeleeDamageModifierForDisplay(this);
-//            float magicDamage = getMagicDamageModifierForDisplay(this);
-//            float protection = getProtectionModifierForDisplay(this);
-//            if (durability != 0f)
-//                list.add(color + TooltipHelper.getAsColoredPercentage("Durability", durability, 0, true));
-//            if (harvestSpeed != 0f)
-//                list.add(
-//                        color + TooltipHelper.getAsColoredPercentage("HarvestSpeed", harvestSpeed, 0, true));
-//            if (meleeDamage != 0f)
-//                list.add(color + TooltipHelper.getAsColoredPercentage("MeleeDamage", meleeDamage, 0, true));
-//            if (magicDamage != 0f)
-//                list.add(color + TooltipHelper.getAsColoredPercentage("MagicDamage", magicDamage, 0, true));
-//            if (protection != 0f)
-//                list.add(color + TooltipHelper.getAsColoredPercentage("Protection", protection, 0, true));
-//        } else {
-//            list.add(TextFormatting.GOLD + SilentGems.i18n.miscText("tooltip.keyForSkills"));
-//        }
     }
 
-    protected float getDurabilityModifier() {
-        return primaryElement.durabilityModifier + secondaryElement.durabilityModifier / 2f;
+    float getStatModifier(ItemStat stat) {
+        String statName = stat.getName().getPath();
+        return primaryElement.getStatModifier(statName) + secondaryElement.getStatModifier(statName) / 2f;
     }
 
-    protected float getHarvestSpeedModifier() {
-        return primaryElement.harvestSpeedModifier + secondaryElement.harvestSpeedModifier / 2f;
+    private ITextComponent getElementPairText() {
+        if (secondaryElement != SoulElement.NONE)
+            return new TranslationTextComponent("misc.silentgems.gear_soul.elements.pair",
+                    primaryElement.getDisplayName(),
+                    secondaryElement.getDisplayName());
+        return new TranslationTextComponent("misc.silentgems.gear_soul.elements.single",
+                primaryElement.getDisplayName());
     }
-
-    protected float getMeleeDamageModifier() {
-        return primaryElement.meleeDamageModifier + secondaryElement.meleeDamageModifier / 2f;
-    }
-
-    protected float getMagicDamageModifier() {
-        return primaryElement.magicDamageModifier + secondaryElement.magicDamageModifier / 2f;
-    }
-
-    protected float getArmorModifier() {
-        return primaryElement.protectionModifier + secondaryElement.protectionModifier / 2f;
-    }
-
-//    public static float getDurabilityModifierForDisplay(@Nullable GearSoul soul) {
-//        if (soul == null)
-//            return 0f;
-//
-//        float val = soul.getDurabilityModifier();
-//        SoulSkill skill = SoulSkill.DURABILITY_BOOST;
-//        val = getSkillStatModifier(soul, val, skill);
-//
-//        return val - 1f;
-//    }
-//
-//    public static float getHarvestSpeedModifierForDisplay(@Nullable GearSoul soul) {
-//        if (soul == null)
-//            return 0f;
-//
-//        float val = soul.getHarvestSpeedModifier();
-//        SoulSkill skill = SoulSkill.HARVEST_SPEED_BOOST;
-//        val = getSkillStatModifier(soul, val, skill);
-//
-//        return val - 1f;
-//    }
-//
-//    public static float getMeleeDamageModifierForDisplay(@Nullable GearSoul soul) {
-//        if (soul == null)
-//            return 0f;
-//
-//        float val = soul.getMeleeDamageModifier();
-//        SoulSkill skill = SoulSkill.MELEE_DAMAGE_BOOST;
-//        val = getSkillStatModifier(soul, val, skill);
-//
-//        return val - 1f;
-//    }
-//
-//    public static float getMagicDamageModifierForDisplay(@Nullable GearSoul soul) {
-//        if (soul == null)
-//            return 0f;
-//
-//        float val = soul.getMagicDamageModifier();
-//        SoulSkill skill = SoulSkill.MAGIC_DAMAGE_BOOST;
-//        val = getSkillStatModifier(soul, val, skill);
-//
-//        return val - 1f;
-//    }
-//
-//    public static float getProtectionModifierForDisplay(@Nullable GearSoul soul) {
-//        if (soul == null)
-//            return 0f;
-//
-//        float val = soul.getProtectionModifier();
-//        SoulSkill skill = SoulSkill.PROTECTION_BOOST;
-//        val = getSkillStatModifier(soul, val, skill);
-//
-//        return val - 1f;
-//    }
-//
-//    private static float getSkillStatModifier(GearSoul soul, float val, SoulSkill skill) {
-//        if (skill != null && soul.skills != null && soul.skills.containsKey(skill)) {
-//            int lvl = soul.skills.get(skill);
-//            val += skill.getStatBoostMulti() * lvl;
-//        }
-//        return val;
-//    }
 
     public static GearSoul construct(Iterable<Soul> souls) {
         // Soul weight map

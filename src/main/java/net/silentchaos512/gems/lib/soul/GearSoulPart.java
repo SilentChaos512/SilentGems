@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gear.api.parts.*;
 import net.silentchaos512.gear.api.stats.ItemStat;
-import net.silentchaos512.gear.api.stats.ItemStats;
 import net.silentchaos512.gear.api.stats.StatInstance;
 import net.silentchaos512.gear.parts.AbstractGearPart;
 import net.silentchaos512.gear.parts.PartData;
@@ -71,12 +70,7 @@ public class GearSoulPart extends AbstractGearPart implements IUpgradePart {
     }
 
     private static float getSoulStatModifier(GearSoul soul, ItemStat stat) {
-        if (stat == ItemStats.ARMOR) return soul.getArmorModifier();
-        if (stat == ItemStats.DURABILITY) return soul.getDurabilityModifier();
-        if (stat == ItemStats.HARVEST_SPEED) return soul.getHarvestSpeedModifier();
-        if (stat == ItemStats.MAGIC_DAMAGE) return soul.getMagicDamageModifier();
-        if (stat == ItemStats.MELEE_DAMAGE) return soul.getMeleeDamageModifier();
-        return 0;
+        return soul.getStatModifier(stat);
     }
 
     private static StatInstance getSoulBoostedModifier(ItemStat stat, float value) {
