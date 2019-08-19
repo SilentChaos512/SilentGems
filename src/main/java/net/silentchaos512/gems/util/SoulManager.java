@@ -103,6 +103,6 @@ public final class SoulManager {
                 ++count;
             }
         }
-        SilentGems.LOGGER.info("Saved {} gear souls for {}", count, player.getScoreboardName());
+        SilentGems.LOGGER.debug("Saved {} gear souls for {}", count, player.getScoreboardName());
     }
 }

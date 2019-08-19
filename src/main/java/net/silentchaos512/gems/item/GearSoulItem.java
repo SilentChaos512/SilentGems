@@ -1,12 +1,10 @@
 package net.silentchaos512.gems.item;
 
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.lib.soul.GearSoul;
@@ -14,9 +12,6 @@ import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.lib.event.ClientTicks;
 import net.silentchaos512.utils.Color;
 import net.silentchaos512.utils.Lazy;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public final class GearSoulItem extends Item {
     public static final Lazy<GearSoulItem> INSTANCE = Lazy.of(GearSoulItem::new);
@@ -27,14 +22,6 @@ public final class GearSoulItem extends Item {
                 .rarity(Rarity.RARE)
                 .maxStackSize(1)
         );
-    }
-
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        GearSoul soul = SoulManager.getSoul(stack);
-        if (soul != null) {
-            soul.addInformation(stack, worldIn, tooltip, canRepair);
-        }
     }
 
     @Override

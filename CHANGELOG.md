@@ -3,10 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-Requires Silent Gear 1.3.9 or higher
+## [3.3.9]
+Requires Silent Gear 1.3.9 or higher (if installed)
 ### Added
 - Gear items crafted with supercharged parts will receive a "Supercharged" name prefix
+### Changed
+- Gear souls can now affect other stats, including repair efficiency and ranged damage/speed
+### Fixed
+- Gear souls not saving their data in some cases
 
 ## [3.3.8] - 2019-08-18
 ### Added

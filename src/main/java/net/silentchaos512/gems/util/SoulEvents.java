@@ -125,8 +125,9 @@ public final class SoulEvents {
             });
         }
 
-        if (ticks % SOUL_WRITE_DELAY == 0) {
+        if (!player.world.isRemote && player.ticksExisted % SOUL_WRITE_DELAY == 0) {
             SoulManager.queueSoulsForWrite(player);
+            SoulManager.writeSoulsToNBT(player, false);
         }
 
         // TODO: Maybe make this less frequent? Or avoid using PlayerUtils.
