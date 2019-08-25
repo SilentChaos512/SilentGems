@@ -46,22 +46,22 @@ public final class EnchantmentTokenItem extends Item {
     private static final String NBT_ENCHANTMENTS = "TokenEnchantments";
 
     private static final Map<Enchantment, Integer> OUTLINE_COLOR_MAP = new HashMap<>();
-    private static final Map<EnchantmentType, Icon> MODELS_BY_TYPE = new EnumMap<>(EnchantmentType.class);
+    private static final Map<String, Icon> MODELS_BY_TYPE = new HashMap<>();
 
     static {
-        MODELS_BY_TYPE.put(EnchantmentType.ALL, Icon.ANY);
-        MODELS_BY_TYPE.put(EnchantmentType.BREAKABLE, Icon.ANY);
-        MODELS_BY_TYPE.put(EnchantmentType.ARMOR, Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnchantmentType.ARMOR_CHEST, Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnchantmentType.ARMOR_FEET, Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnchantmentType.ARMOR_HEAD, Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnchantmentType.ARMOR_LEGS, Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnchantmentType.WEARABLE, Icon.ARMOR);
-        MODELS_BY_TYPE.put(EnchantmentType.BOW, Icon.BOW);
-        MODELS_BY_TYPE.put(EnchantmentType.DIGGER, Icon.TOOL);
-        MODELS_BY_TYPE.put(EnchantmentType.FISHING_ROD, Icon.FISHING_ROD);
-        MODELS_BY_TYPE.put(EnchantmentType.TRIDENT, Icon.TRIDENT);
-        MODELS_BY_TYPE.put(EnchantmentType.WEAPON, Icon.SWORD);
+        MODELS_BY_TYPE.put(EnchantmentType.ALL.toString(), Icon.ANY);
+        MODELS_BY_TYPE.put(EnchantmentType.BREAKABLE.toString(), Icon.ANY);
+        MODELS_BY_TYPE.put(EnchantmentType.ARMOR.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnchantmentType.ARMOR_CHEST.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnchantmentType.ARMOR_FEET.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnchantmentType.ARMOR_HEAD.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnchantmentType.ARMOR_LEGS.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnchantmentType.WEARABLE.toString(), Icon.ARMOR);
+        MODELS_BY_TYPE.put(EnchantmentType.BOW.toString(), Icon.BOW);
+        MODELS_BY_TYPE.put(EnchantmentType.DIGGER.toString(), Icon.TOOL);
+        MODELS_BY_TYPE.put(EnchantmentType.FISHING_ROD.toString(), Icon.FISHING_ROD);
+        MODELS_BY_TYPE.put(EnchantmentType.TRIDENT.toString(), Icon.TRIDENT);
+        MODELS_BY_TYPE.put(EnchantmentType.WEAPON.toString(), Icon.SWORD);
     }
 
     public static final Lazy<EnchantmentTokenItem> INSTANCE = Lazy.of(EnchantmentTokenItem::new);
@@ -334,7 +334,11 @@ public final class EnchantmentTokenItem extends Item {
     private static Icon getModelIcon(ItemStack stack) {
         Map<Enchantment, Integer> map = getEnchantmentMap(stack);
         if (map.isEmpty()) return Icon.EMPTY;
-        return MODELS_BY_TYPE.getOrDefault(map.keySet().iterator().next().type, Icon.UNKNOWN);
+
+        EnchantmentType type = map.keySet().iterator().next().type;
+        if (type == null) return Icon.UNKNOWN;
+
+        return MODELS_BY_TYPE.getOrDefault(type.toString(), Icon.UNKNOWN);
     }
 
     private String getEnchantmentDebugInfo(Enchantment ench) {
