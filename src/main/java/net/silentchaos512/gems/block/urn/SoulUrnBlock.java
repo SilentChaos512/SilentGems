@@ -158,7 +158,7 @@ public class SoulUrnBlock extends ContainerBlock {
         TileEntity tile = builder.get(LootParameters.BLOCK_ENTITY);
         if (tile instanceof SoulUrnTileEntity) {
             IInventory soulUrn = (SoulUrnTileEntity) tile;
-            builder = builder.withDynamicDrop(ShulkerBoxBlock.field_220169_b, (context, consumer) -> {
+            builder = builder.withDynamicDrop(ShulkerBoxBlock.CONTENTS, (context, consumer) -> {
                 for (int i = 0; i < soulUrn.getSizeInventory(); ++i) {
                     consumer.accept(soulUrn.getStackInSlot(i));
                 }
@@ -435,7 +435,7 @@ public class SoulUrnBlock extends ContainerBlock {
 
                 SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(UrnConst.UNDYED_COLOR, Gems.selectRandom()));
                 for (DyeColor color : DyeColor.values()) {
-                    SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(color.func_196057_c(), Gems.selectRandom()));
+                    SAMPLE_SUB_ITEMS.add(this.blockSoulUrn.getStack(color.getFireworkColor(), Gems.selectRandom()));
                 }
             }
 

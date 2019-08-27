@@ -43,4 +43,9 @@ public class EnchantmentSupercharged extends Enchantment {
     protected boolean canApplyTogether(Enchantment ench) {
         return false;
     }
+
+    @Override
+    public boolean isAllowedOnBooks() {
+        return false;
+    }
 }

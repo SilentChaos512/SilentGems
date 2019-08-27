@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.GemsBlocks;
-import net.silentchaos512.gems.item.GemItem;
+import net.silentchaos512.gems.init.GemsTags;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.urn.UrnConst;
 import net.silentchaos512.lib.collection.StackList;
@@ -39,7 +39,7 @@ public final class SoulUrnRecipe extends ExtendedShapedRecipe {
     @Override
     public ItemStack getCraftingResult(CraftingInventory inv) {
         StackList list = StackList.from(inv);
-        ItemStack gemStack = list.firstOfType(GemItem.class);
+        ItemStack gemStack = list.firstMatch(s -> s.getItem().isIn(GemsTags.Items.MOD_GEMS));
         Gems gem = Gems.from(gemStack);
         return GemsBlocks.soulUrn.getStack(this.color, gem);
     }

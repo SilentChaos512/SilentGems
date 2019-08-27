@@ -5,11 +5,13 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.common.util.LazyOptional;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.chaos.IChaosSource;
+import net.silentchaos512.gems.config.GemsConfig;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,8 +34,7 @@ public class ChaosSourceCapability implements IChaosSource, ICapabilitySerializa
 
     @Override
     public void setChaos(int amount) {
-        chaos = amount;
-        if (chaos < 0) chaos = 0;
+        chaos = MathHelper.clamp(amount, 0, GemsConfig.COMMON.chaosMaxValue.get());
     }
 
     @Nonnull

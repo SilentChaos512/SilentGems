@@ -15,6 +15,7 @@ public final class GemsConfig {
     public static class Common {
         public final StringValue baseBiomeSeedOverride;
         public final IntValue chaosCoalBurnTime;
+        public final IntValue chaosMaxValue;
         public final BooleanValue debugMasterSwitch;
         public final Supplier<Boolean> debugShowOverlay;
         public final Supplier<Boolean> debugExtraTooltipInfo;
@@ -51,6 +52,10 @@ public final class GemsConfig {
                     .builder("general.chaosCoalBurnTime")
                     .comment("The burn time (in ticks) of chaos coal (normal coal is 1600)")
                     .defineInRange(6400, 0, Integer.MAX_VALUE);
+            chaosMaxValue = wrapper
+                    .builder("chaos.maxValue")
+                    .comment("The most chaos the any source (player or world) can accumulate")
+                    .defineInRange(10_000_000, 0, Integer.MAX_VALUE);
             debugMasterSwitch = wrapper
                     .builder("debug.masterSwitch")
                     .comment("Must be true for any other debug settings to take effect")

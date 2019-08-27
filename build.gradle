@@ -111,6 +111,7 @@ dependencies {
     }
     if (project.hasProperty("sgear_version")) {
         compile("net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}") {
+            exclude module: 'jei-1.14.4'
             exclude module: 'mine-and-slash-1.14.4'
             exclude module: 'curios'
         }

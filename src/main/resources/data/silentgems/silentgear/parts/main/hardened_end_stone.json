@@ -1,0 +1,96 @@
+{
+    "availability": {
+        "tier": 3
+    },
+    "crafting_items": {
+        "normal": {
+            "item": "silentgems:hardened_end_stone"
+        }
+    },
+    "name": {
+        "name": "part.silentgems.main.hardened_end_stone",
+        "translate": true
+    },
+    "stats": [
+        {
+            "name": "durability",
+            "value": 3072
+        },
+        {
+            "name": "armor_durability",
+            "value": 31
+        },
+        {
+            "name": "enchantability",
+            "value": 9
+        },
+        {
+            "name": "harvest_level",
+            "value": 3
+        },
+        {
+            "name": "harvest_speed",
+            "value": 6
+        },
+        {
+            "name": "melee_damage",
+            "value": 2
+        },
+        {
+            "name": "magic_damage",
+            "value": 3
+        },
+        {
+            "name": "attack_speed",
+            "value": -0.3
+        },
+        {
+            "name": "armor",
+            "value": 20
+        },
+        {
+            "name": "armor_toughness",
+            "value": 4
+        },
+        {
+            "name": "magic_armor",
+            "value": 8
+        },
+        {
+            "name": "ranged_damage",
+            "value": 0
+        },
+        {
+            "name": "ranged_speed",
+            "value": -0.3
+        },
+        {
+            "name": "chargeability",
+            "value": 0.8
+        },
+        {
+            "name": "rarity",
+            "value": 34
+        }
+    ],
+    "textures": {
+        "all": {
+            "lite_texture": "low_contrast",
+            "highlight": false,
+            "normal_color": "#98A05E",
+            "texture_domain": "silentgear",
+            "texture_suffix": "generic_hc"
+        }
+    },
+    "traits": [
+        {
+            "name": "silentgear:chipping",
+            "level": 4
+        },
+        {
+            "name": "silentgear:synergistic",
+            "level": 1
+        }
+    ],
+    "type": "silentgear:main"
+}
