@@ -15,6 +15,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.chaos.ChaosEvent;
 import net.silentchaos512.gems.block.CorruptedBlocks;
+import net.silentchaos512.gems.world.spawner.CorruptedSlimeSpawner;
 import net.silentchaos512.gems.world.spawner.WispSpawner;
 import net.silentchaos512.lib.util.TimeUtils;
 import net.silentchaos512.utils.MathUtils;
@@ -39,7 +40,10 @@ public final class ChaosEvents {
         addChaosEvent(SilentGems.getId("corrupt_blocks"), new ChaosEvent(0.2f, 600, 750_000, MAX_CHAOS, 100_000, (player, chaos) ->
                 corruptBlocks(player, player.world)
         ));
-        addChaosEvent(SilentGems.getId("spawn_chaos_wisps"), new ChaosEvent(0.1f, 600, 200_000, MAX_CHAOS / 4, 20_000,
+        addChaosEvent(SilentGems.getId("corrupted_slimes"), new ChaosEvent(0.1f, 300, 180_000, MAX_CHAOS / 3, 15_000,
+                CorruptedSlimeSpawner::spawnSlimes
+        ));
+        addChaosEvent(SilentGems.getId("spawn_wisps"), new ChaosEvent(0.1f, 600, 220_000, MAX_CHAOS / 4, 25_000,
                 WispSpawner::spawnWisps
         ));
         addChaosEvent(SilentGems.getId("thunderstorm"), new ChaosEvent(0.05f, 1200, 1_000_000, MAX_CHAOS, 200_000, (player, chaos) -> {

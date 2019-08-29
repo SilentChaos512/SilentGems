@@ -56,6 +56,7 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
     ULTRA_CHARGING_AGENT,
     CHAOS_COAL,
     ENDER_SLIMEBALL,
+    CORRUPTED_SLIMEBALL,
     FLUFFY_PUFF,
     ORNATE_GOLD_ROD,
     ORNATE_SILVER_ROD,

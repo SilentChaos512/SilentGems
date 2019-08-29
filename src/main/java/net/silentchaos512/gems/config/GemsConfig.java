@@ -38,6 +38,7 @@ public final class GemsConfig {
         public final IntValue teleporterChaosPerBlock;
         public final IntValue teleporterFreeRange;
         public final IntValue teleporterSearchRadius;
+        public final BooleanValue wispsCauseFire;
         public final IntValue worldGenNetherGemsRegionSize;
         public final IntValue worldGenEndGemsRegionSize;
         public final IntValue worldGenOtherDimensionGemsRegionSize;
@@ -154,6 +155,10 @@ public final class GemsConfig {
                     .comment("All entities within this distance of a redstone teleporter will teleport when activated with redstone.",
                             "Default is 2 blocks, restricted to [1,16]")
                     .defineInRange(2, 1, 16);
+            wispsCauseFire = wrapper
+                    .builder("mob.wisp.canCauseFire")
+                    .comment("Fire and lightning wisps can light blocks on fire")
+                    .define(true);
 
             wrapper.comment("world.generation",
                     "World generation settings (ores, etc.) Most of these REQUIRE A RESTART!");

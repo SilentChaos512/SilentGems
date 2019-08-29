@@ -1,0 +1,11 @@
+{
+  "type": "crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "silentgems:slimeballs"
+    }
+  ],
+  "result": {
+    "item": "minecraft:slime_ball"
+  }
+}

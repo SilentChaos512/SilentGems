@@ -13,6 +13,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.client.render.entity.CorruptedSlimeRenderer;
 import net.silentchaos512.gems.client.render.entity.EnderSlimeRenderer;
 import net.silentchaos512.gems.client.render.entity.WispRenderer;
 import net.silentchaos512.gems.client.render.entity.WispShotRenderer;
@@ -26,7 +27,8 @@ import java.util.Locale;
 import java.util.function.Supplier;
 
 public enum GemsEntities {
-    ENDER_SLIME(() -> EntityType.Builder.create(EnderSlimeEntity::new, EntityClassification.MONSTER), 0x003333, 0xAA00AA);
+    ENDER_SLIME(() -> EntityType.Builder.create(EnderSlimeEntity::new, EntityClassification.MONSTER), 0x003333, 0xAA00AA),
+    CORRUPTED_SLIME(() -> EntityType.Builder.create(CorruptedSlimeEntity::new, EntityClassification.MONSTER), 0x8B008B, 0x9932CC);
 
     private final Lazy<EntityType<?>> entityType;
     private final Lazy<SpawnEggItem> spawnEgg;
@@ -72,6 +74,7 @@ public enum GemsEntities {
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderers(FMLClientSetupEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(EnderSlimeEntity.class, EnderSlimeRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(CorruptedSlimeEntity.class, CorruptedSlimeRenderer::new);
 
         RenderingRegistry.registerEntityRenderingHandler(ChaosWispEntity.class, WispRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(FireWispEntity.class, WispRenderer::new);

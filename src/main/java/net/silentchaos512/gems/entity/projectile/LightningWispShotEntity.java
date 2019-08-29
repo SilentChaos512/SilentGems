@@ -8,6 +8,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.GemsEffects;
 import net.silentchaos512.gems.lib.WispTypes;
 import net.silentchaos512.gems.util.ModDamageSource;
@@ -53,7 +54,7 @@ public class LightningWispShotEntity extends AbstractWispShotEntity {
 
     @Override
     protected void onBlockImpact(BlockPos pos, Direction side) {
-        if (MathUtils.tryPercentage(0.05)) {
+        if (GemsConfig.COMMON.wispsCauseFire.get() && MathUtils.tryPercentage(0.05)) {
             BlockPos blockPos = pos.offset(side);
             if (this.world.isAirBlock(blockPos)) {
                 this.world.setBlockState(blockPos, Blocks.FIRE.getDefaultState());

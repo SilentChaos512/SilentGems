@@ -2,12 +2,12 @@ package net.silentchaos512.gems.world.spawner;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.Heightmap;
@@ -15,32 +15,30 @@ import net.minecraft.world.spawner.WorldEntitySpawner;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.eventbus.api.Event;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.entity.AbstractWispEntity;
-import net.silentchaos512.gems.lib.WispTypes;
+import net.silentchaos512.gems.init.GemsEntities;
 import net.silentchaos512.utils.MathUtils;
 
-public final class WispSpawner {
-    private static final int MIN_GROUP_COUNT = 2;
-    private static final int MAX_GROUP_COUNT = 4;
+public final class CorruptedSlimeSpawner {
+    private static final int MIN_GROUP_COUNT = 3;
+    private static final int MAX_GROUP_COUNT = 6;
 
-    private WispSpawner() {}
+    private CorruptedSlimeSpawner() {}
 
-    public static boolean spawnWisps(Entity player, int chaos) {
+    public static boolean spawnSlimes(Entity player, int chaos) {
         if (player.world.getDifficulty() == Difficulty.PEACEFUL) return false;
 
-        WispTypes type = WispTypes.selectRandom(SilentGems.random);
         int count = MathUtils.nextIntInclusive(SilentGems.random, MIN_GROUP_COUNT, MAX_GROUP_COUNT);
         BlockPos pos = getRandomHeight(player.world, player.world.getChunk(player.getPosition()));
 
         for (int i = 0; i < 4; ++i) {
-            if (spawnWispGroup(type.getEntityType(), count, player.world, player.getPosition())) {
+            if (spawnGroup(GemsEntities.CORRUPTED_SLIME.type(), count, player.world, player.getPosition())) {
                 return true;
             }
         }
         return false;
     }
 
-    private static <T extends AbstractWispEntity> boolean spawnWispGroup(EntityType<T> type, int count, World world, BlockPos pos) {
+    private static boolean spawnGroup(EntityType<?> type, int count, World world, BlockPos pos) {
         int areaX = pos.getX() + 16 * MathUtils.nextIntInclusive(-2, 2);
         int areaZ = pos.getZ() + 16 * MathUtils.nextIntInclusive(-2, 2);
 
@@ -62,16 +60,19 @@ public final class WispSpawner {
             DifficultyInstance difficultyInstance = world.getDifficultyForLocation(blockPos);
 
             if (canSpawnAt(world, blockPos)) {
-                T wisp = type.create(world);
-                if (wisp != null) {
-                    if (ForgeEventFactory.canEntitySpawn(wisp, world, posX, posY, posZ, null) != Event.Result.DENY) {
-                        wisp.moveToBlockPosAndAngles(blockPos, 0f, 0f);
-                        wisp.onInitialSpawn(world, difficultyInstance, SpawnReason.NATURAL, null, null);
-                        world.addEntity(wisp);
+                Entity entity = type.create(world);
+                if (entity != null && entity instanceof MobEntity) {
+                    MobEntity mobEntity = (MobEntity) entity;
+                    if (ForgeEventFactory.canEntitySpawn(mobEntity, world, posX, posY, posZ, null) != Event.Result.DENY) {
+                        mobEntity.moveToBlockPosAndAngles(blockPos, 0f, 0f);
+                        mobEntity.onInitialSpawn(world, difficultyInstance, SpawnReason.NATURAL, null, null);
+                        world.addEntity(mobEntity);
                         ++spawned;
                     } else {
-                        wisp.remove();
+                        entity.remove();
                     }
+                } else {
+                    throw new IllegalArgumentException("Entity type is not MobEntity? " + type);
                 }
             }
         }
@@ -81,7 +82,7 @@ public final class WispSpawner {
 
     private static boolean canSpawnAt(World world, BlockPos pos) {
         final boolean isSpawnableSpace = WorldEntitySpawner.isSpawnableSpace(world, pos, world.getBlockState(pos), world.getFluidState(pos));
-        return isSpawnableSpace && (world.getLightFor(LightType.BLOCK, pos) < 7 || world.canBlockSeeSky(pos));
+        return isSpawnableSpace && world.canBlockSeeSky(pos);
     }
 
     private static BlockPos getRandomHeight(World worldIn, IChunk chunkIn) {
