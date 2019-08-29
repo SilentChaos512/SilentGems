@@ -3,16 +3,12 @@ package net.silentchaos512.gems.block.altar;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.silentchaos512.gems.block.AbstractChaosMachineTileEntity;
 import net.silentchaos512.gems.crafting.recipe.AltarTransmutationRecipe;
 import net.silentchaos512.gems.init.GemsTileEntities;
-import net.silentchaos512.lib.tile.SyncVariable;
 
 import javax.annotation.Nullable;
 
@@ -80,31 +76,5 @@ public class AltarTileEntity extends AbstractChaosMachineTileEntity<AltarTransmu
     @Override
     protected ItemStack getProcessResult(AltarTransmutationRecipe recipe) {
         return recipe.getCraftingResult(this);
-    }
-
-    @Override
-    public void read(CompoundNBT tags) {
-        super.read(tags);
-        SyncVariable.Helper.readSyncVars(this, tags);
-    }
-
-    @Override
-    public CompoundNBT write(CompoundNBT tags) {
-        super.write(tags);
-        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
-        return tags;
-    }
-
-    @Override
-    public CompoundNBT getUpdateTag() {
-        CompoundNBT tags = super.getUpdateTag();
-        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.PACKET);
-        return tags;
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-        super.onDataPacket(net, packet);
-        SyncVariable.Helper.readSyncVars(this, packet.getNbtCompound());
     }
 }

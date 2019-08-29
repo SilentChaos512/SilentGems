@@ -2,32 +2,25 @@ package net.silentchaos512.gems.block.tokenenchanter;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.RecipeBookContainer;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.RecipeItemHelper;
-import net.minecraft.world.World;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.IntArray;
+import net.silentchaos512.gems.block.AbstractChaosMachineContainer;
 import net.silentchaos512.gems.init.GemsContainers;
 import net.silentchaos512.lib.inventory.SlotOutputOnly;
 import net.silentchaos512.lib.util.InventoryUtils;
 
 import javax.annotation.Nonnull;
 
-public class TokenEnchanterContainer extends RecipeBookContainer<IInventory> {
-    final TokenEnchanterTileEntity tileEntity;
-    private final World world;
-
+public class TokenEnchanterContainer extends AbstractChaosMachineContainer<TokenEnchanterTileEntity> {
     public TokenEnchanterContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new TokenEnchanterTileEntity());
+        this(id, playerInventory, new TokenEnchanterTileEntity(), new IntArray(4));
     }
 
     @SuppressWarnings("OverridableMethodCallDuringObjectConstruction")
-    public TokenEnchanterContainer(int id, PlayerInventory playerInventory, TokenEnchanterTileEntity tileEntity) {
-        super(GemsContainers.TOKEN_ENCHANTER.type(), id);
-        this.tileEntity = tileEntity;
-        this.world = playerInventory.player.world;
+    public TokenEnchanterContainer(int id, PlayerInventory playerInventory, TokenEnchanterTileEntity tileEntity, IIntArray fields) {
+        super(GemsContainers.TOKEN_ENCHANTER.type(), id, tileEntity, fields);
 
         // Token slot
         this.addSlot(new Slot(this.tileEntity, 0, 22, 35));
@@ -42,8 +35,6 @@ public class TokenEnchanterContainer extends RecipeBookContainer<IInventory> {
         this.addSlot(new SlotOutputOnly(this.tileEntity, 7, 132, 35));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
-
-        trackIntArray(this.tileEntity.fields);
     }
 
     @Override
@@ -111,40 +102,5 @@ public class TokenEnchanterContainer extends RecipeBookContainer<IInventory> {
         }
 
         return stack;
-    }
-
-    @Override
-    public void func_201771_a(RecipeItemHelper helper) {
-        tileEntity.fillStackedContents(helper);
-    }
-
-    @Override
-    public void clear() {
-        tileEntity.clear();
-    }
-
-    @Override
-    public boolean matches(IRecipe<? super IInventory> recipeIn) {
-        return recipeIn.matches(tileEntity, world);
-    }
-
-    @Override
-    public int getOutputSlot() {
-        return TokenEnchanterTileEntity.INVENTORY_SIZE - 1;
-    }
-
-    @Override
-    public int getWidth() {
-        return 3;
-    }
-
-    @Override
-    public int getHeight() {
-        return 3;
-    }
-
-    @Override
-    public int getSize() {
-        return TokenEnchanterTileEntity.INVENTORY_SIZE;
     }
 }

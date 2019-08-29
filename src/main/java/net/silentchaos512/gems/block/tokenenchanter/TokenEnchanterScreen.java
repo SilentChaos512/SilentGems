@@ -33,8 +33,8 @@ public class TokenEnchanterScreen extends ContainerScreen<TokenEnchanterContaine
         blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         // Progress arrow
-        int progress = container.tileEntity.getProgress();
-        int cost = container.tileEntity.getProcessTime();
+        int progress = container.getProgress();
+        int cost = container.getProcessTime();
         int length = cost > 0 && progress > 0 && progress < cost ? progress * 24 / cost : 0;
         blit(xPos + 102, yPos + 34, 176, 14, length + 1, 16);
     }
@@ -42,7 +42,7 @@ public class TokenEnchanterScreen extends ContainerScreen<TokenEnchanterContaine
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         // Chaos generated
-        int chaosGenerated = container.tileEntity.getChaosGenerated();
+        int chaosGenerated = container.getChaosGenerated();
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaosGenerated);
         String text = emissionRate.getEmissionText(chaosGenerated).getFormattedText();
         font.drawString(text, 5, 5, Color.BLACK.getColor());

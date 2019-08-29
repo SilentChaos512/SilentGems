@@ -1,158 +1,54 @@
 package net.silentchaos512.gems.block.tokenenchanter;
 
-import lombok.Getter;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IRecipeHelperPopulator;
-import net.minecraft.inventory.IRecipeHolder;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.RecipeItemHelper;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.silentchaos512.gems.chaos.Chaos;
+import net.silentchaos512.gems.block.AbstractChaosMachineTileEntity;
 import net.silentchaos512.gems.crafting.recipe.TokenEnchanterRecipe;
 import net.silentchaos512.gems.init.GemsTileEntities;
-import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
-import net.silentchaos512.lib.tile.SyncVariable;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.IntStream;
 
-// TODO: Can we implement IRecipeHolder, IRecipeHelperPopulator?
-public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity implements IRecipeHolder, IRecipeHelperPopulator, ITickableTileEntity {
-    static final int INVENTORY_SIZE = 1 + 6 + 1;
+public class TokenEnchanterTileEntity extends AbstractChaosMachineTileEntity<TokenEnchanterRecipe> {
+    private static final int INVENTORY_SIZE = 1 + 6 + 1;
     private static final int[] SLOTS_INPUT = IntStream.range(0, 7).toArray();
     private static final int[] SLOTS_OUTPUT = {7};
     private static final int[] SLOTS_ALL = IntStream.range(0, 8).toArray();
-
-    @Getter
-    @SyncVariable(name = "Progress")
-    private int progress;
-    @Getter
-    @SyncVariable(name = "ProcessTime")
-    private int processTime;
-    @Getter
-    @SyncVariable(name = "ChaosGenerated")
-    private int chaosGenerated;
-    private int chaosBuffer;
-
-    private final Map<ResourceLocation, Integer> recipeUsedCount = new HashMap<>();
-
-    final IIntArray fields = new IIntArray() {
-        @Override
-        public int get(int index) {
-            switch (index) {
-                case 0:
-                    return TokenEnchanterTileEntity.this.progress;
-                case 1:
-                    return TokenEnchanterTileEntity.this.processTime;
-                case 2:
-                    return TokenEnchanterTileEntity.this.chaosGenerated;
-                default:
-                    return 0;
-            }
-        }
-
-        @Override
-        public void set(int index, int value) {
-            switch (index) {
-                case 0:
-                    progress = value;
-                    break;
-                case 1:
-                    processTime = value;
-                    break;
-                case 2:
-                    chaosGenerated = value;
-                    break;
-            }
-        }
-
-        @Override
-        public int size() {
-            return 3;
-        }
-    };
 
     public TokenEnchanterTileEntity() {
         super(GemsTileEntities.TOKEN_ENCHANTER.type(), INVENTORY_SIZE);
     }
 
     @Override
-    public void tick() {
-        if (world == null || world.isRemote) return;
-
-        TokenEnchanterRecipe recipe = world.getRecipeManager().getRecipe(TokenEnchanterRecipe.RECIPE_TYPE, this, world).orElse(null);
-        if (recipe != null && hasRoomInOutput(recipe)) {
-            // Process
-            ++this.progress;
-            this.chaosGenerated = recipe.getChaosGenerated();
-            this.processTime = recipe.getProcessTime();
-            this.chaosBuffer += this.chaosGenerated;
-
-            if (this.progress >= this.processTime) {
-                // Create result
-                placeResultInOutput(recipe);
-                recipe.consumeIngredients(this);
-                this.progress = 0;
-            }
-            sendUpdate();
-        } else {
-            setNeutralState();
-        }
-
-        if (this.chaosBuffer > 0 && this.world.getGameTime() % 20 == 0) {
-            Chaos.generate(this.world, this.chaosBuffer, this.pos);
-            this.chaosBuffer = 0;
-        }
+    protected int[] getOutputSlots() {
+        //noinspection AssignmentOrReturnOfFieldWithMutableType
+        return SLOTS_OUTPUT;
     }
 
-    private void sendUpdate() {
-        if (world != null) {
-            BlockState state = world.getBlockState(pos);
-            world.notifyBlockUpdate(pos, state, state, 3);
-        }
+    @Nullable
+    @Override
+    protected TokenEnchanterRecipe getRecipe() {
+        if (world == null) return null;
+        return world.getRecipeManager().getRecipe(TokenEnchanterRecipe.RECIPE_TYPE, this, world).orElse(null);
     }
 
-    private void setNeutralState() {
-        boolean update = false;
-        if (progress > 0) {
-            progress = 0;
-            update = true;
-        }
-        if (chaosGenerated > 0) {
-            chaosGenerated = 0;
-            update = true;
-        }
-        if (update) {
-            sendUpdate();
-        }
+    @Override
+    protected int getChaosGenerated(TokenEnchanterRecipe recipe) {
+        return recipe.getChaosGenerated();
     }
 
-    private boolean hasRoomInOutput(TokenEnchanterRecipe recipe) {
-        ItemStack output = getStackInSlot(INVENTORY_SIZE - 1);
-        return output.isEmpty() || ItemHandlerHelper.canItemStacksStack(output, recipe.getResult());
+    @Override
+    protected int getProcessTime(TokenEnchanterRecipe recipe) {
+        return recipe.getProcessTime();
     }
 
-    private void placeResultInOutput(TokenEnchanterRecipe recipe) {
-        ItemStack output = getStackInSlot(INVENTORY_SIZE - 1);
-        if (output.isEmpty()) {
-            setInventorySlotContents(INVENTORY_SIZE - 1, recipe.getResult().copy());
-        } else {
-            output.setCount(output.getCount() + recipe.getResult().getCount());
-        }
+    @Override
+    protected ItemStack getProcessResult(TokenEnchanterRecipe recipe) {
+        return recipe.getCraftingResult(this);
     }
 
     @Override
@@ -162,7 +58,7 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
 
     @Override
     protected Container createMenu(int p_213906_1_, PlayerInventory p_213906_2_) {
-        return new TokenEnchanterContainer(p_213906_1_, p_213906_2_, this);
+        return new TokenEnchanterContainer(p_213906_1_, p_213906_2_, this, this.fields);
     }
 
     @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
@@ -186,51 +82,5 @@ public class TokenEnchanterTileEntity extends LockableSidedInventoryTileEntity i
     @Override
     public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
         return index == INVENTORY_SIZE - 1;
-    }
-
-    @Override
-    public void read(CompoundNBT tags) {
-        super.read(tags);
-        SyncVariable.Helper.readSyncVars(this, tags);
-    }
-
-    @Override
-    public CompoundNBT write(CompoundNBT tags) {
-        super.write(tags);
-        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
-        return tags;
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-        super.onDataPacket(net, packet);
-        SyncVariable.Helper.readSyncVars(this, packet.getNbtCompound());
-    }
-
-    @Override
-    public CompoundNBT getUpdateTag() {
-        CompoundNBT tags = super.getUpdateTag();
-        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.PACKET);
-        return tags;
-    }
-
-    @Override
-    public void fillStackedContents(RecipeItemHelper helper) {
-        for (ItemStack stack : this.items) {
-            helper.accountStack(stack);
-        }
-    }
-
-    @Override
-    public void setRecipeUsed(@Nullable IRecipe<?> recipe) {
-        if (recipe != null) {
-            recipeUsedCount.compute(recipe.getId(), (id, count) -> 1 + (count == null ? 0 : count));
-        }
-    }
-
-    @Nullable
-    @Override
-    public IRecipe<?> getRecipeUsed() {
-        return null;
     }
 }

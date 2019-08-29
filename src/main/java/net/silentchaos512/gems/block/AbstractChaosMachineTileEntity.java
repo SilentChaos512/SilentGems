@@ -10,6 +10,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
 import net.minecraftforge.items.ItemHandlerHelper;
+import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
 
 import javax.annotation.Nullable;
@@ -114,6 +115,11 @@ public abstract class AbstractChaosMachineTileEntity<R extends IRecipe<?>> exten
             }
         } else {
             setNeutralState();
+        }
+
+        if (this.chaosBuffer > 0 && this.world.getGameTime() % 20 == 0) {
+            Chaos.generate(this.world, this.chaosBuffer, this.pos);
+            this.chaosBuffer = 0;
         }
     }
 
