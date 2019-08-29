@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cdc",
+    "cgc",
+    "###"
+  ],
+  "key": {
+    "c": {
+      "item": "silentgems:enriched_chaos_crystal"
+    },
+    "d": {
+      "tag": "forge:gems/diamond"
+    },
+    "g": {
+      "item": "minecraft:glowstone"
+    },
+    "#": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "silentgems:transmutation_altar"
+  }
+}

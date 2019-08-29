@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Transmutation altar. Processes recipes that take one input, one catalyst (not consumed), and produces one output. Generates chaos when working. Recipes can be added with data packs.
+### Changed
+- Nether star shards are produced in the transmutation altar now (resolves potential conflicts)
 ### Fixed
 - Enchantment token crash with mod-added enchantment types [#394]
 

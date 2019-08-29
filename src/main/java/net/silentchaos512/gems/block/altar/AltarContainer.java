@@ -2,42 +2,37 @@ package net.silentchaos512.gems.block.altar;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.IntArray;
+import net.silentchaos512.gems.block.AbstractChaosMachineContainer;
 import net.silentchaos512.gems.init.GemsContainers;
 import net.silentchaos512.lib.inventory.SlotOutputOnly;
+import net.silentchaos512.lib.util.InventoryUtils;
 
 import javax.annotation.Nonnull;
 
-public class AltarContainer extends Container {
-    final AltarTileEntity tileEntity;
-
+public class AltarContainer extends AbstractChaosMachineContainer<AltarTileEntity> {
     public AltarContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new AltarTileEntity());
+        this(id, playerInventory, new AltarTileEntity(), new IntArray(4));
     }
 
-    public AltarContainer(int id, PlayerInventory playerInventory, AltarTileEntity altar) {
-        super(GemsContainers.TRANSMUTATION_ALTAR.type(), id);
-        this.tileEntity = altar;
+    public AltarContainer(int id, PlayerInventory playerInventory, AltarTileEntity altar, IIntArray fields) {
+        super(GemsContainers.TRANSMUTATION_ALTAR.type(), id, altar, fields);
         this.setupSlots(playerInventory);
     }
 
     private void setupSlots(PlayerInventory playerInventory) {
         this.addSlot(new Slot(this.tileEntity, 0, 56, 25));
-        this.addSlot(new Slot(this.tileEntity, 1, 56, 45));
-        this.addSlot(new SlotOutputOnly(this.tileEntity, 2, 115, 35));
-
-        int i;
-        for (i = 0; i < 3; ++i) {
-            for (int j = 0; j < 9; ++j) {
-                this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+        this.addSlot(new Slot(this.tileEntity, 1, 56, 45) {
+            @Override
+            public int getSlotStackLimit() {
+                return 1;
             }
-        }
-
-        for (i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
-        }
+        });
+        this.addSlot(new SlotOutputOnly(this.tileEntity, 2, 115, 35));
+        InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package net.silentchaos512.gems.crafting.tokenenchanter;
+package net.silentchaos512.gems.crafting.recipe;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

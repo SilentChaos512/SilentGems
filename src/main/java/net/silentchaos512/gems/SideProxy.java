@@ -120,7 +120,6 @@ class SideProxy implements IProxy {
 
         IReloadableResourceManager resourceManager = event.getServer().getResourceManager();
         resourceManager.addReloadListener(ChaosBuffManager.INSTANCE);
-//        resourceManager.addReloadListener(AltarRecipeManager.INSTANCE);
 
         CommandDispatcher<CommandSource> dispatcher = event.getServer().getCommandManager().getDispatcher();
         ChaosCommand.register(dispatcher);

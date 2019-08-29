@@ -1,0 +1,15 @@
+{
+  "type": "silentgems:altar_transmutation",
+  "chaosGenerated": 5000,
+  "processTime": 200,
+  "ingredient": {
+    "item": "minecraft:nether_star"
+  },
+  "catalyst": {
+    "tag": "forge:gems/diamond"
+  },
+  "result": {
+    "item": "silentgems:nether_star_shard",
+    "count": 9
+  }
+}

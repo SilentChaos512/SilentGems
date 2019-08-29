@@ -35,8 +35,8 @@ public class AltarScreen extends ContainerScreen<AltarContainer> {
         this.blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         // Progress arrow
-        int progress = container.tileEntity.getProgress();
-        int cost = container.tileEntity.getProcessTime();
+        int progress = container.getProgress();
+        int cost = container.getProcessTime();
         int length = cost != 0 && progress > 0 && progress < cost ? progress * 24 / cost : 0;
         blit(xPos + 79, yPos + 34, 176, 14, length + 1, 16);
     }
@@ -47,7 +47,7 @@ public class AltarScreen extends ContainerScreen<AltarContainer> {
         this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, (float)(this.ySize - 96 + 2), 4210752);
 
         // Chaos generated
-        int chaosGenerated = container.tileEntity.getChaosGenerated();
+        int chaosGenerated = container.getChaosGenerated();
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaosGenerated);
         String text = emissionRate.getEmissionText(chaosGenerated).getFormattedText();
         font.drawString(text, 5, 7 + font.FONT_HEIGHT, 4210752);

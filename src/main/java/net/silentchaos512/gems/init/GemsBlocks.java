@@ -11,6 +11,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
+import net.silentchaos512.gems.block.altar.AltarBlock;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightBlock;
 import net.silentchaos512.gems.block.pedestal.PedestalBlock;
@@ -84,8 +85,7 @@ public final class GemsBlocks {
 
         register("supercharger", SuperchargerBlock.INSTANCE.get());
         register("token_enchanter", TokenEnchanterBlock.INSTANCE.get());
-        // TODO: uncomment
-//        register("transmutation_altar", AltarBlock.INSTANCE.get());
+        register("transmutation_altar", AltarBlock.INSTANCE.get());
 
         registerPedestal("stone_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));
         registerPedestal("granite_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));

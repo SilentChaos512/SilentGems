@@ -7,10 +7,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.crafting.recipe.AltarTransmutationRecipe;
 import net.silentchaos512.gems.crafting.ingredient.SoulElementIngredient;
 import net.silentchaos512.gems.crafting.ingredient.SoulGemIngredient;
 import net.silentchaos512.gems.crafting.recipe.*;
-import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipe;
+import net.silentchaos512.gems.crafting.recipe.TokenEnchanterRecipe;
 
 public final class GemsRecipeInit {
 
@@ -20,7 +21,9 @@ public final class GemsRecipeInit {
         SoulElementIngredient.Serializer.register();
         SoulGemIngredient.Serializer.register();
 
+        registerRecipeType("altar_transmutation", AltarTransmutationRecipe.RECIPE_TYPE);
         registerRecipeType("token_enchanting", TokenEnchanterRecipe.RECIPE_TYPE);
+        registerSerializer(SilentGems.getId("altar_transmutation"), AltarTransmutationRecipe.SERIALIZER);
         registerSerializer(SilentGems.getId("token_enchanting"), TokenEnchanterRecipe.SERIALIZER);
 
         registerSerializer(ApplyChaosRuneRecipe.NAME, ApplyChaosRuneRecipe.SERIALIZER);

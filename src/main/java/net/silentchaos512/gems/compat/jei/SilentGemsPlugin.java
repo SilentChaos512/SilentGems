@@ -15,6 +15,8 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gear.parts.PartManager;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.altar.AltarBlock;
+import net.silentchaos512.gems.block.altar.AltarScreen;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerPillarStructure;
@@ -22,7 +24,8 @@ import net.silentchaos512.gems.block.supercharger.SuperchargerScreen;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterScreen;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
-import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipe;
+import net.silentchaos512.gems.crafting.recipe.AltarTransmutationRecipe;
+import net.silentchaos512.gems.crafting.recipe.TokenEnchanterRecipe;
 import net.silentchaos512.gems.init.GemsTags;
 import net.silentchaos512.gems.item.ChaosRuneItem;
 import net.silentchaos512.gems.item.CraftingItems;
@@ -42,6 +45,7 @@ import java.util.stream.Stream;
 @JeiPlugin
 public class SilentGemsPlugin implements IModPlugin {
     private static final ResourceLocation PLUGIN_UID = SilentGems.getId("plugin/main");
+    static final ResourceLocation ALTAR_TRANSMUTATION = SilentGems.getId("category/altar_transmutation");
     static final ResourceLocation SUPERCHARGER_PILLAR = SilentGems.getId("category/supercharger_pillar");
     static final ResourceLocation SUPERCHARGING = SilentGems.getId("category/supercharging");
     static final ResourceLocation TOKEN_ENCHANTING = SilentGems.getId("category/token_enchanting");
@@ -64,7 +68,8 @@ public class SilentGemsPlugin implements IModPlugin {
 
         IGuiHelper guiHelper = reg.getJeiHelpers().getGuiHelper();
         reg.addRecipeCategories(
-                new TokenEnchanterRecipeCategoryJei(guiHelper)
+                new TokenEnchanterRecipeCategoryJei(guiHelper),
+                new TransmutationAltarRecipeCategoryJei(guiHelper)
         );
         if (SGearProxy.isLoaded()) {
             reg.addRecipeCategories(
@@ -81,6 +86,7 @@ public class SilentGemsPlugin implements IModPlugin {
         initFailed = true;
 
         reg.addRecipes(getRecipesOfType(TokenEnchanterRecipe.RECIPE_TYPE), TOKEN_ENCHANTING);
+        reg.addRecipes(getRecipesOfType(AltarTransmutationRecipe.RECIPE_TYPE), ALTAR_TRANSMUTATION);
 
         if (SGearProxy.isLoaded()) {
             // Supercharger pillars
@@ -134,12 +140,14 @@ public class SilentGemsPlugin implements IModPlugin {
     public void registerRecipeCatalysts(IRecipeCatalystRegistration reg) {
         reg.addRecipeCatalyst(new ItemStack(SuperchargerBlock.INSTANCE.get()), SUPERCHARGING, SUPERCHARGER_PILLAR);
         reg.addRecipeCatalyst(new ItemStack(TokenEnchanterBlock.INSTANCE.get()), TOKEN_ENCHANTING);
+        reg.addRecipeCatalyst(new ItemStack(AltarBlock.INSTANCE.get()), ALTAR_TRANSMUTATION);
     }
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration reg) {
         reg.addRecipeClickArea(SuperchargerScreen.class, 79, 32, 24, 23, SUPERCHARGING, SUPERCHARGER_PILLAR);
         reg.addRecipeClickArea(TokenEnchanterScreen.class, 102, 32, 24, 23, TOKEN_ENCHANTING);
+        reg.addRecipeClickArea(AltarScreen.class, 80, 32, 24, 23, ALTAR_TRANSMUTATION);
     }
 
     @Override

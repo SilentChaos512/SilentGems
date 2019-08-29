@@ -15,7 +15,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
-import net.silentchaos512.gems.crafting.tokenenchanter.TokenEnchanterRecipe;
+import net.silentchaos512.gems.crafting.recipe.TokenEnchanterRecipe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
