@@ -26,7 +26,7 @@ public class RedstoneGemTeleporterBlock extends GemTeleporterBlock {
     @Override
     public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
         GemTeleporterTileEntity tile = (GemTeleporterTileEntity) world.getTileEntity(pos);
-        if (tile == null) return;
+        if (tile == null || tile.getDestination() == null) return;
 
         if (!world.isRemote && world.getRedstonePowerFromNeighbors(pos) != 0) {
             final int searchRadius = GemsConfig.COMMON.teleporterSearchRadius.get();

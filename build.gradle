@@ -111,13 +111,18 @@ dependencies {
     }
     if (project.hasProperty("sgear_version")) {
         compile("net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}") {
+            exclude module: 'curios'
             exclude module: 'jei-1.14.4'
             exclude module: 'mine-and-slash-1.14.4'
-            exclude module: 'curios'
+            exclude module: 'silents-mechanisms-1.14.4'
         }
     }
     // Mech
-    runtimeOnly "net.silentchaos512:silents-mechanisms-${project.mc_version}:0.+"
+    runtimeOnly("net.silentchaos512:silents-mechanisms-${project.mc_version}:0.+") {
+        exclude module: 'cc-tweaked-1.14.4'
+        exclude module: 'jei-1.14.4'
+        exclude module: 'silent-gear-1.14.4'
+    }
 
     // JEI
     if (project.hasProperty("jei_version")) {

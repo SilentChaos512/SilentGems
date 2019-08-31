@@ -51,6 +51,7 @@ public class GemTeleporterTileEntity extends TileEntity {
         this.isAnchor = isAnchor;
     }
 
+    @Nullable
     public DimPos getDestination() {
         return destination;
     }
@@ -167,6 +168,8 @@ public class GemTeleporterTileEntity extends TileEntity {
     }
 
     public void playSound() {
+        if (world == null || destination == null) return;
+
         float pitch = 0.7f + 0.3f * SilentGems.random.nextFloat();
         world.playSound(null, this.pos, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0f, pitch);
         world.playSound(null, this.destination.getPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1.0f, pitch);

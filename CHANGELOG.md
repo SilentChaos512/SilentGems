@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Gem glass on wrong render layer
+- Unlinked redstone teleporters throwing an exception when powered [#395]
 
 ## [3.3.10]
 ### Added
