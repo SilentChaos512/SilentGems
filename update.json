@@ -10,6 +10,7 @@
         "3.3.4": "Fix crash when breaking soul urns",
         "3.3.3": "https://github.com/SilentChaos512/SilentGems/blob/1.14/CHANGELOG.md",
         "3.3.2": "Update for Forge 28.0.45, fix gems generation in non-vanilla dimensions, fix recipe book crash",
+        "3.3.10": "https://github.com/SilentChaos512/SilentGems/blob/1.14/CHANGELOG.md",
         "3.3.1": "See changelog on GitHub",
         "3.3.0": "See changelog on GitHub"
     },
@@ -19,7 +20,7 @@
     "promos": {
         "1.14.3-latest": "3.2.2",
         "1.14.3-recommended": "3.2.2",
-        "1.14.4-latest": "3.3.9",
-        "1.14.4-recommended": "3.3.9"
+        "1.14.4-latest": "3.3.10",
+        "1.14.4-recommended": "3.3.10"
     }
 }

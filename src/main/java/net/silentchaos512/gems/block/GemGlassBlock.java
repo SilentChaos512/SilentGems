@@ -24,6 +24,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -52,6 +53,11 @@ public class GemGlassBlock extends GlassBlock {
     @Override
     public ITextComponent getNameTextComponent() {
         return new TranslationTextComponent("block.silentgems.gem_glass", this.gem.getDisplayName());
+    }
+
+    @Override
+    public BlockRenderLayer getRenderLayer() {
+        return BlockRenderLayer.TRANSLUCENT;
     }
 
     @Nullable
