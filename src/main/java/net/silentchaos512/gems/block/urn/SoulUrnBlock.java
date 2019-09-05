@@ -71,7 +71,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SoulUrnBlock extends ContainerBlock {
+public class SoulUrnBlock extends Block {
     public static final Lazy<SoulUrnBlock> INSTANCE = Lazy.of(SoulUrnBlock::new);
 
     private static final VoxelShape SHAPE_CLOSED = Block.makeCuboidShape(1, 0, 1, 15, 15, 15);
@@ -106,9 +106,13 @@ public class SoulUrnBlock extends ContainerBlock {
         return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
     }
 
-    @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new SoulUrnTileEntity();
     }
 

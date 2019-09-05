@@ -22,7 +22,6 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -43,7 +42,7 @@ import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 
-public class LuminousFlowerPotBlock extends ContainerBlock {
+public class LuminousFlowerPotBlock extends Block {
     public static final Lazy<LuminousFlowerPotBlock> INSTANCE = Lazy.of(LuminousFlowerPotBlock::new);
 
     private LuminousFlowerPotBlock() {
@@ -52,6 +51,7 @@ public class LuminousFlowerPotBlock extends ContainerBlock {
                 .lightValue(2));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         ItemStack heldItem = player.getHeldItem(hand);
@@ -98,6 +98,7 @@ public class LuminousFlowerPotBlock extends ContainerBlock {
         return true;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return 0;
@@ -116,6 +117,7 @@ public class LuminousFlowerPotBlock extends ContainerBlock {
 //        return FLOWER_POT_AABB;
 //    }
 
+    @SuppressWarnings("deprecation")
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
@@ -126,6 +128,7 @@ public class LuminousFlowerPotBlock extends ContainerBlock {
         return BlockRenderLayer.CUTOUT;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
         return super.isValidPosition(state, worldIn, pos);
@@ -140,15 +143,14 @@ public class LuminousFlowerPotBlock extends ContainerBlock {
 //        }
 //    }
 
-    @Nullable
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new LuminousFlowerPotTileEntity();
-    }
-
-    @Nullable
-    @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
-        return createTileEntity(getDefaultState(), worldIn);
     }
 }

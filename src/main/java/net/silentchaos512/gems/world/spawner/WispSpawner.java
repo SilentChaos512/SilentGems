@@ -64,7 +64,7 @@ public final class WispSpawner {
             if (canSpawnAt(world, blockPos)) {
                 T wisp = type.create(world);
                 if (wisp != null) {
-                    if (ForgeEventFactory.canEntitySpawn(wisp, world, posX, posY, posZ, null) != Event.Result.DENY) {
+                    if (ForgeEventFactory.canEntitySpawn(wisp, world, posX, posY, posZ, null, SpawnReason.NATURAL) != Event.Result.DENY) {
                         wisp.moveToBlockPosAndAngles(blockPos, 0f, 0f);
                         wisp.onInitialSpawn(world, difficultyInstance, SpawnReason.NATURAL, null, null);
                         world.addEntity(wisp);

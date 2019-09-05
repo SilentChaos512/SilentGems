@@ -16,7 +16,7 @@ import net.silentchaos512.lib.event.ClientTicks;
 public class PedestalRenderer extends TileEntityRenderer<PedestalTileEntity> {
     @Override
     public void render(PedestalTileEntity te, double x, double y, double z, float partialTicks, int destroyStage) {
-        if (te.getWorld() == null || !te.getWorld().isBlockLoaded(te.getPos())) return;
+        if (te.getWorld() == null || !te.getWorld().isAreaLoaded(te.getPos(), 1)) return;
 
         ItemStack stack = te.getItem();
         if (stack.isEmpty()) return;

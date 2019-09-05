@@ -2,7 +2,6 @@ package net.silentchaos512.gems.block.teleporter;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
@@ -24,7 +23,7 @@ import net.silentchaos512.gems.lib.Gems;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class GemTeleporterBlock extends Block implements ITileEntityProvider {
+public class GemTeleporterBlock extends Block {
     @Nullable final Gems gem;
     private final boolean isAnchor;
 
@@ -41,9 +40,13 @@ public class GemTeleporterBlock extends Block implements ITileEntityProvider {
         return gem;
     }
 
-    @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new GemTeleporterTileEntity(this.isAnchor);
     }
 

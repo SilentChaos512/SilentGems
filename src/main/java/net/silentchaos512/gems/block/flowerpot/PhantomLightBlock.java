@@ -3,7 +3,6 @@ package net.silentchaos512.gems.block.flowerpot;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -14,10 +13,9 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.silentchaos512.utils.Lazy;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
-public class PhantomLightBlock extends Block implements ITileEntityProvider {
+public class PhantomLightBlock extends Block {
     public static final Lazy<PhantomLightBlock> INSTANCE = Lazy.of(PhantomLightBlock::new);
 
     private PhantomLightBlock() {
@@ -26,9 +24,13 @@ public class PhantomLightBlock extends Block implements ITileEntityProvider {
                 .lightValue(15));
     }
 
-    @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new PhantomLightTileEntity();
     }
 

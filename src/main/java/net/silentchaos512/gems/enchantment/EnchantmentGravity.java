@@ -32,7 +32,7 @@ public class EnchantmentGravity extends Enchantment {
     public void onGetBreakSpeed(PlayerEvent.BreakSpeed event, ItemStack tool, int enchLevel) {
         if (tool.isEmpty() || enchLevel <= 0) return;
 
-        PlayerEntity player = event.getEntityPlayer();
+        PlayerEntity player = event.getPlayer();
         float speedMulti = 5f / (getMaxLevel() - enchLevel + 1);
 
         // In air or flying?

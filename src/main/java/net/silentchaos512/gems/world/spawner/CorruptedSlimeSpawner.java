@@ -63,7 +63,7 @@ public final class CorruptedSlimeSpawner {
                 Entity entity = type.create(world);
                 if (entity != null && entity instanceof MobEntity) {
                     MobEntity mobEntity = (MobEntity) entity;
-                    if (ForgeEventFactory.canEntitySpawn(mobEntity, world, posX, posY, posZ, null) != Event.Result.DENY) {
+                    if (ForgeEventFactory.canEntitySpawn(mobEntity, world, posX, posY, posZ, null, SpawnReason.NATURAL) != Event.Result.DENY) {
                         mobEntity.moveToBlockPosAndAngles(blockPos, 0f, 0f);
                         mobEntity.onInitialSpawn(world, difficultyInstance, SpawnReason.NATURAL, null, null);
                         world.addEntity(mobEntity);

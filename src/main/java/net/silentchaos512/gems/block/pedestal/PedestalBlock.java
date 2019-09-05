@@ -4,7 +4,6 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
@@ -21,7 +20,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.silentchaos512.lib.util.PlayerUtils;
 
-public class PedestalBlock extends ContainerBlock {
+public class PedestalBlock extends Block {
     private static final VoxelShape SHAPE_PILLAR = Block.makeCuboidShape(5, 2, 5, 11, 14, 11);
     private static final VoxelShape SHAPE_BOTTOM1 = Block.makeCuboidShape(1, 0, 1, 15, 1, 15);
     private static final VoxelShape SHAPE_BOTTOM2 = Block.makeCuboidShape(3, 1, 3, 13, 2, 13);
@@ -42,7 +41,12 @@ public class PedestalBlock extends ContainerBlock {
     }
 
     @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new PedestalTileEntity();
     }
 

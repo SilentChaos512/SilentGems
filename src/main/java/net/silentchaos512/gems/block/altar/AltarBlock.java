@@ -1,6 +1,9 @@
 package net.silentchaos512.gems.block.altar;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
@@ -16,7 +19,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.silentchaos512.utils.Lazy;
 
-public final class AltarBlock extends ContainerBlock {
+public final class AltarBlock extends Block {
     public static final Lazy<AltarBlock> INSTANCE = Lazy.of(AltarBlock::new);
 
     private static final VoxelShape SHAPE = Block.makeCuboidShape(0, 0, 0, 16, 12, 16);
@@ -28,7 +31,12 @@ public final class AltarBlock extends ContainerBlock {
     }
 
     @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new AltarTileEntity();
     }
 

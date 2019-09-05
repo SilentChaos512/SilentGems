@@ -45,7 +45,7 @@ import net.silentchaos512.utils.Lazy;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public final class SuperchargerBlock extends ContainerBlock {
+public final class SuperchargerBlock extends Block {
     public static final Lazy<SuperchargerBlock> INSTANCE = Lazy.of(SuperchargerBlock::new);
 
     private static final VoxelShape SHAPE = Block.makeCuboidShape(0, 0, 0, 16, 12, 16);
@@ -57,7 +57,12 @@ public final class SuperchargerBlock extends ContainerBlock {
     }
 
     @Override
-    public TileEntity createNewTileEntity(IBlockReader world) {
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new SuperchargerTileEntity();
     }
 

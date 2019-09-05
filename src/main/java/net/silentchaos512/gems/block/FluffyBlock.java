@@ -77,9 +77,9 @@ public class FluffyBlock extends Block {
     }
 
     private static void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
-        ItemStack mainHand = event.getEntityPlayer().getHeldItem(Hand.MAIN_HAND);
+        ItemStack mainHand = event.getPlayer().getHeldItem(Hand.MAIN_HAND);
         if (!mainHand.isEmpty() && mainHand.getItem() instanceof ShearsItem) {
-            int efficiency = EnchantmentHelper.getEfficiencyModifier(event.getEntityPlayer());
+            int efficiency = EnchantmentHelper.getEfficiencyModifier(event.getPlayer());
 
             float speed = event.getNewSpeed() * 4;
             if (efficiency > 0) {
