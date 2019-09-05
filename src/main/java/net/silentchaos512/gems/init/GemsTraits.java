@@ -10,6 +10,7 @@ public final class GemsTraits {
     public static final ResourceLocation CHAOTIC = SilentGems.getId("chaotic");
     public static final ResourceLocation CRITICAL = SilentGems.getId("critical");
     public static final ResourceLocation ENTROPY = SilentGems.getId("entropy");
+    public static final ResourceLocation IMPERIAL = SilentGems.getId("imperial");
     public static final ResourceLocation LUNA = SilentGems.getId("luna");
     public static final ResourceLocation RUNIC = SilentGems.getId("runic");
     public static final ResourceLocation SOL = SilentGems.getId("sol");
