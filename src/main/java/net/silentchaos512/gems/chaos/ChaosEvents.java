@@ -12,41 +12,59 @@ import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.chaos.ChaosEvent;
 import net.silentchaos512.gems.block.CorruptedBlocks;
+import net.silentchaos512.gems.entity.ChaosLightningBoltEntity;
 import net.silentchaos512.gems.world.spawner.CorruptedSlimeSpawner;
 import net.silentchaos512.gems.world.spawner.WispSpawner;
 import net.silentchaos512.lib.util.TimeUtils;
 import net.silentchaos512.utils.MathUtils;
+import net.silentchaos512.utils.config.BooleanValue;
+import net.silentchaos512.utils.config.ConfigSpecWrapper;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+@Mod.EventBusSubscriber(modid = SilentGems.MOD_ID)
 public final class ChaosEvents {
     private static final Map<ResourceLocation, ChaosEvent> EVENTS = new HashMap<>();
+    private static final Map<ResourceLocation, BooleanValue> EVENT_CONFIGS = new HashMap<>();
     private static final Map<UUID, Map<ResourceLocation, Integer>> COOLDOWN_TIMERS = new HashMap<>();
+
+    private static final Queue<Supplier<LightningBoltEntity>> LIGHTNING_QUEUE = new ArrayDeque<>();
+    private static final int LIGHTNING_TICK_FREQUENCY = 10;
+    private static int tickTimer = 0;
+
     private static final Marker MARKER = MarkerManager.getMarker("ChaosEvents");
 
     // Not an actual cap on the value, just used for event probability
     private static final int MAX_CHAOS = 5_000_000;
 
     static {
-        addChaosEvent(SilentGems.getId("chaos_lightning"), new ChaosEvent(0.2f, 30, 250_000, MAX_CHAOS, 25_000, (player, chaos) ->
+        addChaosEvent(SilentGems.getId("lightning"), new ChaosEvent(0.1f, 60, 500_000, MAX_CHAOS, 50_000, "Spawn a regular lightning bolt (can cause fire)", (player, chaos) ->
                 spawnLightningBolt(player, player.world)
         ));
-        addChaosEvent(SilentGems.getId("corrupt_blocks"), new ChaosEvent(0.2f, 600, 750_000, MAX_CHAOS, 100_000, (player, chaos) ->
+        addChaosEvent(SilentGems.getId("chaos_lightning"), new ChaosEvent(0.3f, 30, 300_000, MAX_CHAOS, 30_000, "Spawn several lightning bolts that do not cause fire", (player, chaos) -> {
+            int boltCount = 5 + SilentGems.random.nextInt(6);
+            return spawnChaosLightningBolts(player, player.world, boltCount);
+        }));
+        addChaosEvent(SilentGems.getId("corrupt_blocks"), new ChaosEvent(0.2f, 600, 750_000, MAX_CHAOS, 100_000, "Create a patch of corrupted blocks", (player, chaos) ->
                 corruptBlocks(player, player.world)
         ));
-        addChaosEvent(SilentGems.getId("corrupted_slimes"), new ChaosEvent(0.1f, 300, 180_000, MAX_CHAOS / 3, 15_000,
+        addChaosEvent(SilentGems.getId("corrupted_slimes"), new ChaosEvent(0.1f, 300, 180_000, MAX_CHAOS / 3, 15_000, "Spawn a group of corrupted slimes",
                 CorruptedSlimeSpawner::spawnSlimes
         ));
-        addChaosEvent(SilentGems.getId("spawn_wisps"), new ChaosEvent(0.1f, 600, 220_000, MAX_CHAOS / 4, 25_000,
+        addChaosEvent(SilentGems.getId("spawn_wisps"), new ChaosEvent(0.1f, 600, 220_000, MAX_CHAOS / 4, 25_000, "Spawn a group of wisps (random element)",
                 WispSpawner::spawnWisps
         ));
-        addChaosEvent(SilentGems.getId("thunderstorm"), new ChaosEvent(0.05f, 1200, 1_000_000, MAX_CHAOS, 200_000, (player, chaos) -> {
+        addChaosEvent(SilentGems.getId("thunderstorm"), new ChaosEvent(0.05f, 1200, 1_000_000, MAX_CHAOS, 200_000, "Changes the weather to a thunderstorm", (player, chaos) -> {
             int time = TimeUtils.ticksFromMinutes(MathUtils.nextIntInclusive(7, 15));
             return setThunderstorm(player.world, time);
         }));
@@ -54,7 +72,16 @@ public final class ChaosEvents {
 
     private ChaosEvents() {throw new IllegalAccessError("Utility class");}
 
+    /**
+     * Register a new chaos event. Mods should use their own mod ID for the namespace.
+     *
+     * @param id    The event ID
+     * @param event The event
+     * @throws IllegalStateException if an event with the same ID already exists
+     */
     public static void addChaosEvent(ResourceLocation id, ChaosEvent event) {
+        if (EVENTS.containsKey(id))
+            throw new IllegalStateException("Duplicate chaos event ID: " + id);
         EVENTS.put(id, event);
     }
 
@@ -91,6 +118,12 @@ public final class ChaosEvents {
         return EVENTS.keySet();
     }
 
+    /**
+     * Trigger a chaos event, regardless of chaos levels or config settings.
+     *
+     * @param eventId The event ID
+     * @param player  The player to target
+     */
     public static void triggerEvent(ResourceLocation eventId, PlayerEntity player) {
         player.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {
             ChaosEvent event = EVENTS.get(eventId);
@@ -100,6 +133,42 @@ public final class ChaosEvents {
         });
     }
 
+    /**
+     * Checks whether or not the event is allowed in the config file. If the config is missing for
+     * some reason, this will return {@code true}.
+     *
+     * @param eventId The ID of the chaos event
+     * @return True if the event is allowed to trigger randomly
+     */
+    public static boolean checkConfig(ResourceLocation eventId) {
+        if (EVENT_CONFIGS.containsKey(eventId))
+            return EVENT_CONFIGS.get(eventId).get();
+        return true;
+    }
+
+    /**
+     * Load configs for chaos events, DO NOT CALL.
+     *
+     * @param wrapper Config wrapper
+     */
+    public static void loadConfigs(ConfigSpecWrapper wrapper) {
+        wrapper.comment("chaos.events",
+                "Allows individual events to be disabled.",
+                "Note that disabling events will likely increase the frequency of other events.");
+        EVENTS.forEach((id, event) -> EVENT_CONFIGS.put(id, wrapper.builder("chaos.events." + id).comment(event.getConfigComment()).define(true)));
+    }
+
+    @SubscribeEvent
+    public static void onServerTick(TickEvent.ServerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
+
+        ++tickTimer;
+        if (!LIGHTNING_QUEUE.isEmpty() && tickTimer % LIGHTNING_TICK_FREQUENCY == 0) {
+            LightningBoltEntity bolt = LIGHTNING_QUEUE.remove().get();
+            ((ServerWorld) bolt.world).addLightningBolt(bolt);
+        }
+    }
+
     private static boolean spawnLightningBolt(Entity entity, World world) {
         if (world instanceof ServerWorld && canSpawnLightningIn(world.dimension.getType())) {
             double posX = entity.posX + MathUtils.nextIntInclusive(-64, 64);
@@ -107,6 +176,19 @@ public final class ChaosEvents {
             int height = world.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) posX, (int) posZ);
             LightningBoltEntity bolt = new LightningBoltEntity(world, posX, height, posZ, false);
             ((ServerWorld) world).addLightningBolt(bolt);
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean spawnChaosLightningBolts(Entity entity, World world, int count) {
+        if (world instanceof ServerWorld && canSpawnLightningIn(world.dimension.getType())) {
+            for (int i = 0; i < count; ++i) {
+                double posX = entity.posX + MathUtils.nextIntInclusive(-64, 64);
+                double posZ = entity.posZ + MathUtils.nextIntInclusive(-64, 64);
+                int height = world.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) posX, (int) posZ);
+                LIGHTNING_QUEUE.add(() -> new ChaosLightningBoltEntity(world, posX, height, posZ));
+            }
             return true;
         }
         return false;

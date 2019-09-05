@@ -2,6 +2,7 @@ package net.silentchaos512.gems.config;
 
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.chaos.ChaosEvents;
 import net.silentchaos512.utils.config.*;
 
 import java.util.function.Supplier;
@@ -180,6 +181,8 @@ public final class GemsConfig {
                             "Each 'size x size' chunk area is a 'region', which contains a couple types of gems.",
                             "Larger regions will make finding many types of gems more difficult.")
                     .defineInRange(4, 1, Integer.MAX_VALUE);
+
+            ChaosEvents.loadConfigs(wrapper);
         }
 
         private Supplier<Boolean> debugConfig(BooleanValue config) {

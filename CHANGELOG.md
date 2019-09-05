@@ -4,6 +4,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Configs to disable individual chaos events. Note that disabling events will likely increase the odds of other events occurring. Does not effect events triggered by commands.
+- New lightning event which spawns a series of lightning bolts which do NOT ignite fires. ID is `silentgems:chaos_lightning`. The old event has been renamed to `silentgems:lightning`.
 ### Fixed
 - Gem glass on wrong render layer
 - Unlinked redstone teleporters throwing an exception when powered [#395]
