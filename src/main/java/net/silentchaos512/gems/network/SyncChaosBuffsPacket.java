@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.network;
 
 import net.minecraft.network.PacketBuffer;
+import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
 import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffSerializers;
 import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
 
@@ -8,15 +9,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Used to send soul data (soul gems) to the client. Since the information is based on the world
- * seed, it is generated when the server is started. So for dedicated servers, we need to send this
- * information to the client.
- */
-public class SyncChaosBuffsPacket {
+public class SyncChaosBuffsPacket extends LoginPacket {
     private List<IChaosBuff> buffs;
 
     public SyncChaosBuffsPacket() {
+        this(ChaosBuffManager.getValues());
     }
 
     public SyncChaosBuffsPacket(Collection<IChaosBuff> buffsIn) {

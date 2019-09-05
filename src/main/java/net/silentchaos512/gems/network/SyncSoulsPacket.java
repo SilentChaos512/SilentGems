@@ -12,10 +12,11 @@ import java.util.List;
  * seed, it is generated when the server is started. So for dedicated servers, we need to send this
  * information to the client.
  */
-public class SyncSoulsPacket {
+public class SyncSoulsPacket extends LoginPacket {
     private List<Soul> souls;
 
     public SyncSoulsPacket() {
+        this(Soul.getValues());
     }
 
     public SyncSoulsPacket(Collection<Soul> soulsIn) {

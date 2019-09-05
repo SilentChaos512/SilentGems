@@ -4,21 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.NetworkManager;
 import net.minecraft.resources.IResource;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourceManagerReloadListener;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.network.Network;
 import net.silentchaos512.gems.network.SyncChaosBuffsPacket;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.Marker;
@@ -102,21 +94,5 @@ public final class ChaosBuffManager implements IResourceManagerReloadListener {
         MAP.clear();
         packet.getBuffs().forEach(buff -> MAP.put(buff.getId(), buff));
         SilentGems.LOGGER.info("Received {} chaos buffs from server", MAP.size());
-    }
-
-    @Mod.EventBusSubscriber(modid = SilentGems.MOD_ID)
-    public static final class EventHandler {
-        @SubscribeEvent
-        public static void onPlayerJoinedServer(PlayerEvent.PlayerLoggedInEvent event) {
-            PlayerEntity player = event.getPlayer();
-            if (player instanceof ServerPlayerEntity) {
-                Collection<IChaosBuff> buffs = ChaosBuffManager.getValues();
-                SilentGems.LOGGER.info("Sending {} chaos buffs to {}", buffs.size(), player.getScoreboardName());
-
-                SyncChaosBuffsPacket message = new SyncChaosBuffsPacket(buffs);
-                NetworkManager netManager = ((ServerPlayerEntity) player).connection.netManager;
-                Network.channel.sendTo(message, netManager, NetworkDirection.PLAY_TO_CLIENT);
-            }
-        }
     }
 }
