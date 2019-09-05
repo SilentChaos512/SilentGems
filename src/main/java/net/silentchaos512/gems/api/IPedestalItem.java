@@ -5,7 +5,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
- * An item which can be ticked when placed on a pedestal (example: chaos gems).
+ * An item which can be ticked when placed on a pedestal (example: chaos gems). This can either be
+ * implemented on the item (only if Gems is a hard dependency) or attached to {@link ItemStack}s as
+ * a capability.
+ * <p>
+ * Also see: {@link net.silentchaos512.gems.capability.PedestalItemCapability}
  */
 public interface IPedestalItem {
     /**

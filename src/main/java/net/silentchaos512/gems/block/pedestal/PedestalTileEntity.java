@@ -11,7 +11,9 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.common.util.LazyOptional;
 import net.silentchaos512.gems.api.IPedestalItem;
+import net.silentchaos512.gems.capability.PedestalItemCapability;
 import net.silentchaos512.gems.init.GemsTileEntities;
 import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
 
@@ -27,21 +29,25 @@ public class PedestalTileEntity extends LockableSidedInventoryTileEntity impleme
 
     @Override
     public void tick() {
+        if (world == null) return;
+
         ItemStack stack = getItem();
         boolean sendUpdate = false;
 
         // Tick items with pedestal support
-        if (!stack.isEmpty() && stack.getItem() instanceof IPedestalItem) {
-            IPedestalItem pedestalItem = (IPedestalItem) stack.getItem();
+        if (!stack.isEmpty()) {
+            IPedestalItem pedestalItem = getPedestalItemCap(stack);
 
-            final boolean powered = this.world.isBlockPowered(this.pos);
-            if (powered != this.poweredLastTick) {
-                // Redstone power change
-                sendUpdate = pedestalItem.pedestalPowerChange(stack, this.world, this.pos, powered);
-                this.poweredLastTick = powered;
+            if (pedestalItem != null) {
+                final boolean powered = this.world.isBlockPowered(this.pos);
+                if (powered != this.poweredLastTick) {
+                    // Redstone power change
+                    sendUpdate = pedestalItem.pedestalPowerChange(stack, this.world, this.pos, powered);
+                    this.poweredLastTick = powered;
+                }
+
+                pedestalItem.pedestalTick(stack, this.world, this.pos);
             }
-
-            pedestalItem.pedestalTick(stack, this.world, this.pos);
         }
 
         ++timer;
@@ -52,6 +58,16 @@ public class PedestalTileEntity extends LockableSidedInventoryTileEntity impleme
         if (sendUpdate) {
             sendUpdate();
         }
+    }
+
+    @Nullable
+    private static IPedestalItem getPedestalItemCap(ItemStack stack) {
+        LazyOptional<IPedestalItem> lazyOptional = stack.getCapability(PedestalItemCapability.INSTANCE);
+        if (lazyOptional.isPresent())
+            return lazyOptional.orElseThrow(IllegalThreadStateException::new);
+        if (stack.getItem() instanceof IPedestalItem)
+            return (IPedestalItem) stack.getItem();
+        return null;
     }
 
     public ItemStack getItem() {

@@ -12,6 +12,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -20,8 +21,12 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
 import net.silentchaos512.gems.api.IPedestalItem;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
+import net.silentchaos512.gems.capability.PedestalItemCapability;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.lib.Gems;
@@ -29,6 +34,7 @@ import net.silentchaos512.gems.lib.IGem;
 import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
 import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -58,6 +64,20 @@ public class ChaosGemItem extends Item implements IGem, IPedestalItem {
     @Override
     public Gems getGem() {
         return this.gem;
+    }
+
+    @Nullable
+    @Override
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
+        return new ICapabilityProvider() {
+            @Nonnull
+            @Override
+            public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+                if (cap == PedestalItemCapability.INSTANCE)
+                    return LazyOptional.of(stack::getItem).cast();
+                return LazyOptional.empty();
+            }
+        };
     }
 
     //region Buffs and chaos
