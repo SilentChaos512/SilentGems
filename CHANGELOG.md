@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - (API) IPedestalItem is now a capability
+### Fixed
+- Sound type of fluffy puff plants
 
 ## [3.3.11] - 2019-09-05
 ### Added

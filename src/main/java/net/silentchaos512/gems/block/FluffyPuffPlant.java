@@ -38,7 +38,7 @@ public final class FluffyPuffPlant extends CropsBlock {
                 .tickRandomly()
                 .hardnessAndResistance(0) // was 0.1
                 .doesNotBlockMovement()
-                .sound(SoundType.PLANT)
+                .sound(SoundType.CROP)
         );
         this.wild = wild;
     }
