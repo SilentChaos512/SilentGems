@@ -21,7 +21,7 @@ authors="SilentChaos512"
 [[dependencies.silentgems]]
     modId="forge"
     mandatory=true
-    versionRange="[28.0.83,)"
+    versionRange="[28.0.92,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.silentgems]]
