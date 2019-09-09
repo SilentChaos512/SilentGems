@@ -58,10 +58,10 @@ public final class ChaosEvents {
         addChaosEvent(SilentGems.getId("corrupt_blocks"), new ChaosEvent(0.2f, 600, 750_000, MAX_CHAOS, 100_000, "Create a patch of corrupted blocks", (player, chaos) ->
                 corruptBlocks(player, player.world)
         ));
-        addChaosEvent(SilentGems.getId("corrupted_slimes"), new ChaosEvent(0.1f, 300, 180_000, MAX_CHAOS / 3, 15_000, "Spawn a group of corrupted slimes",
+        addChaosEvent(SilentGems.getId("corrupted_slimes"), new ChaosEvent(0.1f, 600, 180_000, MAX_CHAOS / 3, 15_000, "Spawn a group of corrupted slimes",
                 CorruptedSlimeSpawner::spawnSlimes
         ));
-        addChaosEvent(SilentGems.getId("spawn_wisps"), new ChaosEvent(0.1f, 600, 220_000, MAX_CHAOS / 4, 25_000, "Spawn a group of wisps (random element)",
+        addChaosEvent(SilentGems.getId("spawn_wisps"), new ChaosEvent(0.1f, 900, 220_000, MAX_CHAOS / 4, 25_000, "Spawn a group of wisps (random element)",
                 WispSpawner::spawnWisps
         ));
         addChaosEvent(SilentGems.getId("thunderstorm"), new ChaosEvent(0.05f, 1200, 1_000_000, MAX_CHAOS, 200_000, "Changes the weather to a thunderstorm", (player, chaos) -> {
@@ -94,7 +94,7 @@ public final class ChaosEvents {
         //noinspection OverlyLongLambda
         EVENTS.forEach((id, event) -> {
             int cooldown = getAndDecrementTimer(id, cooldownTimers);
-            if (cooldown <= 0 && event.tryActivate(player, chaos)) {
+            if (cooldown <= 0 && checkConfig(id) && event.tryActivate(player, chaos)) {
                 SilentGems.LOGGER.info(MARKER, "Activate {} @ {}", id, player.getScoreboardName());
                 cooldownTimers.put(id, event.getCooldownTime());
             }
