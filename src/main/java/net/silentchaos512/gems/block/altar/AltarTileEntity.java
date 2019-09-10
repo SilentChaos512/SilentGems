@@ -77,4 +77,9 @@ public class AltarTileEntity extends AbstractChaosMachineTileEntity<AltarTransmu
     protected ItemStack getProcessResult(AltarTransmutationRecipe recipe) {
         return recipe.getCraftingResult(this);
     }
+
+    @Override
+    protected void consumeIngredients(AltarTransmutationRecipe recipe) {
+        decrStackSize(0, 1);
+    }
 }

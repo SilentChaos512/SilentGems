@@ -167,9 +167,7 @@ public abstract class AbstractChaosMachineTileEntity<R extends IRecipe<?>> exten
         }
     }
 
-    protected void consumeIngredients(R recipe) {
-        decrStackSize(0, 1);
-    }
+    protected abstract void consumeIngredients(R recipe);
 
     @Override
     public void read(CompoundNBT tags) {

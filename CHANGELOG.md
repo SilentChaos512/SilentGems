@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - (API) IPedestalItem is now a capability
 ### Fixed
+- Token enchanter not consuming ingredients [#403]
 - Chaos event configs being ignored [#402]
 - Sound type of fluffy puff plants
 - Required Forge version range (92+)

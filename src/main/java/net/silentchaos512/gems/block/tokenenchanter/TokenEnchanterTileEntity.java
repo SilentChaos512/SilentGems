@@ -52,6 +52,11 @@ public class TokenEnchanterTileEntity extends AbstractChaosMachineTileEntity<Tok
     }
 
     @Override
+    protected void consumeIngredients(TokenEnchanterRecipe recipe) {
+        recipe.consumeIngredients(this);
+    }
+
+    @Override
     protected ITextComponent getDefaultName() {
         return new TranslationTextComponent("container.silentgems.token_enchanter");
     }
