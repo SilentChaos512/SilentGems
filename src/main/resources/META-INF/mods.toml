@@ -33,7 +33,7 @@ authors="SilentChaos512"
 [[dependencies.silentgems]]
     modId="silentlib"
     mandatory=true
-    versionRange="[4,)"
+    versionRange="[4.3.2,)"
     ordering = "NONE"
     side = "BOTH"
 [[dependencies.silentgems]]

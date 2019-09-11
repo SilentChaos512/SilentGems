@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.13] - 2019-09-11
+### Changed
+- Adds a more helpful message to the ChaosSourceCapability crash, which should help point users in the correct direction. This is usually caused by client-side mods on the server.
+- Update required version of Silent Lib to 4.3.2 in mods.toml
+
 ## [3.3.12] - 2019-09-10
 ### Changed
 - (API) IPedestalItem is now a capability

@@ -40,6 +40,12 @@ public class ChaosSourceCapability implements IChaosSource, ICapabilitySerializa
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        if (INSTANCE == null) {
+            SilentGems.LOGGER.fatal("ChaosSourceCapability.INSTANCE is null!");
+            String message = "This is most likely caused by another mod failing to load. Please check your mods folder for client-only mods, although this could be the result of other errors as well.";
+            SilentGems.LOGGER.fatal(message);
+            throw new IllegalStateException("Capabilities failed to initialize? " + message);
+        }
         return INSTANCE.orEmpty(cap, holder);
     }
 
