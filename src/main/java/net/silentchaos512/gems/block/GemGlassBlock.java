@@ -35,7 +35,7 @@ import net.silentchaos512.gems.lib.Gems;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class GemGlassBlock extends GlassBlock {
+public class GemGlassBlock extends GlassBlock implements IGemBlock {
     private final Gems gem;
 
     public GemGlassBlock(Gems gem) {
@@ -46,13 +46,23 @@ public class GemGlassBlock extends GlassBlock {
     }
 
     @Override
+    public Gems getGem() {
+        return gem;
+    }
+
+    @Override
+    public ITextComponent getGemBlockName() {
+        return new TranslationTextComponent("block.silentgems.gem_glass", this.gem.getDisplayName());
+    }
+
+    @Override
     public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         tooltip.add(gem.getSet().getDisplayName());
     }
 
     @Override
     public ITextComponent getNameTextComponent() {
-        return new TranslationTextComponent("block.silentgems.gem_glass", this.gem.getDisplayName());
+        return getGemBlockName();
     }
 
     @Override

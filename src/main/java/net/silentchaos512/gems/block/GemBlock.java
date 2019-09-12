@@ -34,7 +34,7 @@ import net.silentchaos512.gems.lib.Gems;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class GemBlock extends Block {
+public class GemBlock extends Block implements IGemBlock {
     private final Gems gem;
 
     public GemBlock(Gems gem) {
@@ -42,6 +42,16 @@ public class GemBlock extends Block {
                 .hardnessAndResistance(3, 30)
                 .sound(SoundType.METAL));
         this.gem = gem;
+    }
+
+    @Override
+    public Gems getGem() {
+        return gem;
+    }
+
+    @Override
+    public ITextComponent getGemBlockName() {
+        return new TranslationTextComponent("block.silentgems.gem_block", this.gem.getDisplayName());
     }
 
     @Override
@@ -56,6 +66,6 @@ public class GemBlock extends Block {
 
     @Override
     public ITextComponent getNameTextComponent() {
-        return new TranslationTextComponent("block.silentgems.gem_block", this.gem.getDisplayName());
+        return getGemBlockName();
     }
 }

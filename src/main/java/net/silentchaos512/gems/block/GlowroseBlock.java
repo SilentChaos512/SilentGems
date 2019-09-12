@@ -29,12 +29,11 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.gems.lib.IGem;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class GlowroseBlock extends FlowerBlock implements IGem {
+public class GlowroseBlock extends FlowerBlock implements IGemBlock {
     private final Gems gem;
 
     public GlowroseBlock(Gems gem) {
@@ -76,6 +75,11 @@ public class GlowroseBlock extends FlowerBlock implements IGem {
 
     @Override
     public ITextComponent getNameTextComponent() {
+        return getGemBlockName();
+    }
+
+    @Override
+    public ITextComponent getGemBlockName() {
         return new TranslationTextComponent("block.silentgems.glowrose", this.gem.getDisplayName());
     }
 }

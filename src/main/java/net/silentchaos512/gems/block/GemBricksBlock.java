@@ -30,7 +30,7 @@ import net.silentchaos512.gems.lib.Gems;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class GemBricksBlock extends Block {
+public class GemBricksBlock extends Block implements IGemBlock {
     private final Gems gem;
 
     public GemBricksBlock(Gems gem) {
@@ -40,12 +40,22 @@ public class GemBricksBlock extends Block {
     }
 
     @Override
+    public Gems getGem() {
+        return gem;
+    }
+
+    @Override
+    public ITextComponent getGemBlockName() {
+        return new TranslationTextComponent("block.silentgems.gem_bricks", this.gem.getDisplayName());
+    }
+
+    @Override
     public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         tooltip.add(gem.getSet().getDisplayName());
     }
 
     @Override
     public ITextComponent getNameTextComponent() {
-        return new TranslationTextComponent("block.silentgems.gem_bricks", this.gem.getDisplayName());
+        return getGemBlockName();
     }
 }

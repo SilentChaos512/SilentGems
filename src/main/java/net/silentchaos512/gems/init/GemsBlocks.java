@@ -16,8 +16,7 @@ import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightBlock;
 import net.silentchaos512.gems.block.pedestal.PedestalBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
-import net.silentchaos512.gems.block.teleporter.GemTeleporterBlock;
-import net.silentchaos512.gems.block.teleporter.TeleporterAnchorBlock;
+import net.silentchaos512.gems.block.teleporter.TeleporterBaseBlock;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
 import net.silentchaos512.gems.block.urn.SoulUrnBlock;
 import net.silentchaos512.gems.item.GemBlockItem;
@@ -31,7 +30,7 @@ import java.util.function.Function;
 
 public final class GemsBlocks {
     public static final List<PedestalBlock> pedestals = new ArrayList<>();
-    public static final List<GemTeleporterBlock> teleporters = new ArrayList<>();
+    public static final List<TeleporterBaseBlock> teleporters = new ArrayList<>();
     public static SoulUrnBlock soulUrn;
 
     private GemsBlocks() {}
@@ -55,7 +54,7 @@ public final class GemsBlocks {
 
         registerGemBlocks(Gems::getTeleporter, gem -> gem.getName() + "_teleporter", teleporters::add);
         registerGemBlocks(Gems::getRedstoneTeleporter, gem -> gem.getName() + "_redstone_teleporter", teleporters::add);
-        teleporters.add(register("teleporter_anchor", TeleporterAnchorBlock.INSTANCE.get()));
+        teleporters.add(register("teleporter_anchor", new TeleporterBaseBlock(true)));
 
         register("multi_ore_classic", Gems.Set.CLASSIC.getMultiOre());
         register("multi_ore_dark", Gems.Set.DARK.getMultiOre());

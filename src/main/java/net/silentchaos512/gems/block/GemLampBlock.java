@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class GemLampBlock extends Block {
+public class GemLampBlock extends Block implements IGemBlock {
     public enum State {
         UNLIT(false, false, ""),
         LIT(true, false, "_lit"),
@@ -84,6 +84,17 @@ public class GemLampBlock extends Block {
 
         this.gem = gem;
         this.lampState = lampState;
+    }
+
+    @Override
+    public Gems getGem() {
+        return gem;
+    }
+
+    @Override
+    public ITextComponent getGemBlockName() {
+        String translationKey = "block.silentgems.gem_lamp" + (this.lampState.inverted ? "_inverted" : "");
+        return new TranslationTextComponent(translationKey, this.gem.getDisplayName());
     }
 
     public static String nameFor(Gems gem, State lampState) {
@@ -137,8 +148,7 @@ public class GemLampBlock extends Block {
 
     @Override
     public ITextComponent getNameTextComponent() {
-        String translationKey = "block.silentgems.gem_lamp" + (this.lampState.inverted ? "_inverted" : "");
-        return new TranslationTextComponent(translationKey, this.gem.getDisplayName());
+        return getGemBlockName();
     }
 
 //    @Override
