@@ -12,12 +12,14 @@ import net.silentchaos512.gems.potion.BaseEffect;
 import net.silentchaos512.gems.potion.FreezingEffect;
 import net.silentchaos512.gems.potion.ShockingEffect;
 import net.silentchaos512.lib.util.TimeUtils;
+import net.silentchaos512.utils.Color;
 
 public final class GemsEffects {
     public static FreezingEffect freezing;
     public static ShockingEffect shocking;
     public static Effect insulated;
     public static Effect grounded;
+    public static Effect chaosSickness;
 
     private GemsEffects() {}
 
@@ -26,13 +28,10 @@ public final class GemsEffects {
         shocking = registerEffect("shocking", new ShockingEffect());
         insulated = registerEffect("insulated", new BaseEffect(EffectType.BENEFICIAL, 0x009499));
         grounded = registerEffect("grounded", new BaseEffect(EffectType.BENEFICIAL, 0x919900));
+        chaosSickness = registerEffect("chaos_sickness", new BaseEffect(EffectType.HARMFUL, Color.MEDIUMPURPLE.getColor()));
     }
 
     public static void registerPotions(RegistryEvent.Register<Potion> event) {
-        if (!event.getRegistry().getRegistryName().equals(ForgeRegistries.POTION_TYPES.getRegistryName())) {
-            return;
-        }
-
         registerPotion("insulating", new Potion(new EffectInstance(insulated, TimeUtils.ticksFromMinutes(3))));
         registerPotion("grounding", new Potion(new EffectInstance(grounded, TimeUtils.ticksFromMinutes(3))));
     }

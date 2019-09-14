@@ -5,6 +5,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
@@ -19,6 +21,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.chaos.ChaosEvent;
 import net.silentchaos512.gems.block.CorruptedBlocks;
 import net.silentchaos512.gems.entity.ChaosLightningBoltEntity;
+import net.silentchaos512.gems.init.GemsEffects;
 import net.silentchaos512.gems.world.spawner.CorruptedSlimeSpawner;
 import net.silentchaos512.gems.world.spawner.WispSpawner;
 import net.silentchaos512.lib.util.TimeUtils;
@@ -68,6 +71,9 @@ public final class ChaosEvents {
             int time = TimeUtils.ticksFromMinutes(MathUtils.nextIntInclusive(7, 15));
             return setThunderstorm(player.world, time);
         }));
+        addChaosEvent(SilentGems.getId("chaos_sickness"), new ChaosEvent(0.1f, 1200, 900_000, MAX_CHAOS, 200_000, "Applies negative potion effects to the player",
+                ChaosEvents::applyChaosSickness
+        ));
     }
 
     private ChaosEvents() {throw new IllegalAccessError("Utility class");}
@@ -245,6 +251,16 @@ public final class ChaosEvents {
         world.getWorldInfo().setThunderTime(time);
         world.getWorldInfo().setRaining(true);
         world.getWorldInfo().setThundering(true);
+        return true;
+    }
+
+    private static boolean applyChaosSickness(PlayerEntity player, Integer chaos) {
+        player.addPotionEffect(new EffectInstance(GemsEffects.chaosSickness, TimeUtils.ticksFromMinutes(10)));
+        player.addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, TimeUtils.ticksFromMinutes(5)));
+        if (chaos > 2_000_000)
+            player.addPotionEffect(new EffectInstance(Effects.HUNGER, TimeUtils.ticksFromMinutes(5)));
+        if (chaos > 4_000_000)
+            player.addPotionEffect(new EffectInstance(Effects.WEAKNESS, TimeUtils.ticksFromMinutes(5)));
         return true;
     }
 
