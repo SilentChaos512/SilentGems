@@ -6,7 +6,7 @@
     "item": "minecraft:nether_star"
   },
   "catalyst": {
-    "tag": "forge:gems/diamond"
+    "tag": "forge:storage_blocks/diamond"
   },
   "result": {
     "item": "silentgems:nether_star_shard",

@@ -1,0 +1,19 @@
+{
+  "type": "silentgems:altar_transmutation",
+  "chaosGenerated": 150,
+  "processTime": 60,
+  "ingredient": [
+    {
+      "tag": "forge:ores/topaz"
+    },
+    {
+      "tag": "forge:ores/citrine"
+    }
+  ],
+  "catalyst": {
+    "item": "silentgems:ender_slime_crystal"
+  },
+  "result": {
+    "item": "silentgems:sunstone"
+  }
+}

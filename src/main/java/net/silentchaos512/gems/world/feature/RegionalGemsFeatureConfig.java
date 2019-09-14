@@ -39,7 +39,7 @@ public class RegionalGemsFeatureConfig implements IFeatureConfig {
         long regionId = ((long) regionX << 32) + regionZ;
         Random regionRand = new Random(regionId + world.getSeed());
 
-        int gemCount = 2 + regionRand.nextInt(3);
+        int gemCount = 4 + regionRand.nextInt(3);
         int index = random.nextInt(gemCount);
         Gems gem = gemSet.selectRandom(regionRand);
         for (int i = 0; i < index; ++i) {

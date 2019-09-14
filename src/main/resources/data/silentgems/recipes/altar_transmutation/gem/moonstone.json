@@ -1,0 +1,19 @@
+{
+  "type": "silentgems:altar_transmutation",
+  "chaosGenerated": 150,
+  "processTime": 60,
+  "ingredient": [
+    {
+      "tag": "forge:ores/opal"
+    },
+    {
+      "tag": "forge:ores/pearl"
+    }
+  ],
+  "catalyst": {
+    "item": "silentgems:magma_cream_crystal"
+  },
+  "result": {
+    "item": "silentgems:moonstone"
+  }
+}

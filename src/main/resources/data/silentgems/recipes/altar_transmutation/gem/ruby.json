@@ -1,0 +1,19 @@
+{
+  "type": "silentgems:altar_transmutation",
+  "chaosGenerated": 150,
+  "processTime": 60,
+  "ingredient": [
+    {
+      "tag": "forge:ores/carnelian"
+    },
+    {
+      "tag": "forge:ores/pyrope"
+    }
+  ],
+  "catalyst": {
+    "item": "silentgems:slime_crystal"
+  },
+  "result": {
+    "item": "silentgems:ruby"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "silentgems:altar_transmutation",
+  "chaosGenerated": 150,
+  "processTime": 60,
+  "ingredient": [
+    {
+      "tag": "forge:ores/aquamarine"
+    },
+    {
+      "tag": "forge:ores/fluorite"
+    }
+  ],
+  "catalyst": {
+    "item": "silentgems:magma_cream_crystal"
+  },
+  "result": {
+    "item": "silentgems:euclase"
+  }
+}

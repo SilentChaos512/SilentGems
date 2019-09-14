@@ -1,0 +1,19 @@
+{
+  "type": "silentgems:altar_transmutation",
+  "chaosGenerated": 150,
+  "processTime": 60,
+  "ingredient": [
+    {
+      "tag": "forge:ores/tanzanite"
+    },
+    {
+      "tag": "forge:ores/sodalite"
+    }
+  ],
+  "catalyst": {
+    "item": "silentgems:magma_cream_crystal"
+  },
+  "result": {
+    "item": "silentgems:iolite"
+  }
+}
