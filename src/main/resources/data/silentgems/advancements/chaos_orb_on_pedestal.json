@@ -1,14 +1,14 @@
 {
     "display": {
         "icon": {
-            "item": "silentgems:chaos_sapphire"
+            "item": "silentgems:perfect_chaos_orb"
         },
         "frame": "goal",
         "title": {
-            "translate": "advancements.silentgems.chaos_gem_on_pedestal.title"
+            "translate": "advancements.silentgems.chaos_orb_on_pedestal.title"
         },
         "description": {
-            "translate": "advancements.silentgems.chaos_gem_on_pedestal.description"
+            "translate": "advancements.silentgems.chaos_orb_on_pedestal.description"
         }
     },
     "parent": "silentgems:pedestal",
@@ -17,7 +17,7 @@
             "trigger": "minecraft:placed_block",
             "conditions": {
                 "item": {
-                    "tag": "silentgems:chaos_gems"
+                    "tag": "silentgems:chaos_orbs"
                 }
             }
         }

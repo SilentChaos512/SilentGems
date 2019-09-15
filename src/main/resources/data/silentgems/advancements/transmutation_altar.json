@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "silentgems:transmutation_altar"
+        },
+        "title": {
+            "translate": "advancements.silentgems.transmutation_altar.title"
+        },
+        "description": {
+            "translate": "advancements.silentgems.transmutation_altar.description"
+        }
+    },
+    "parent": "silentgems:enriched_chaos",
+    "criteria": {
+        "get_item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "silentgems:transmutation_altar"
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,6 +1,14 @@
 {
     "displayName": "Dark Gems Bag",
     "lootTable": "silentgems:bags/dark_gems",
+    "rarity": "uncommon",
+    "drops": [
+        {
+            "type": "treasurebags:entity_group",
+            "group": "hostile"
+        }
+    ],
     "bagColor": "crimson",
-    "bagOverlayColor": "gold"
+    "bagOverlayColor": "gold",
+    "bagStringColor": "gold"
 }

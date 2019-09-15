@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Gem transmutation recipes are back, but with some changes. These require ore blocks now, but produce a full gem from another set (set depends on the catalyst).
 - Slime crystal, magma cream crystal, and ender slime crystal (catalyst for gem transmutations)
 - Transmutation altar textures
+- More advancements!
 - Chaos sickness chaos event. Applies some negative effects based on chaos levels, as well as a "chaos sickness" effect which just serves as an indicator.
 ### Changed
 - Increase regional gem types from 2-4 to 4-6 (should make finding Nether/End gems a bit easier)
