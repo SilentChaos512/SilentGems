@@ -3,7 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.4.1] - 2019-09-16
+### Changed
+- Corrupted slime attack strength reduced by 1 (same as vanilla slimes now)
+### Fixed
+- Corrupted slimes always rendering as small slimes [#404]
+- Corrupted slimes ignoring light levels
+
+## [3.4.0] - 2019-09-15
 ### Added
 - Gem transmutation recipes are back, but with some changes. These require ore blocks now, but produce a full gem from another set (set depends on the catalyst).
 - Slime crystal, magma cream crystal, and ender slime crystal (catalyst for gem transmutations)
