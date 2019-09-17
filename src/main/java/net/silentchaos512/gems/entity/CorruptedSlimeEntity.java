@@ -28,6 +28,6 @@ public class CorruptedSlimeEntity extends SlimeEntity {
 
     @Override
     protected int getAttackStrength() {
-        return super.getAttackStrength() + 1;
+        return super.getAttackStrength();
     }
 }

@@ -2,12 +2,12 @@ package net.silentchaos512.gems.world.spawner;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.Heightmap;
@@ -15,6 +15,7 @@ import net.minecraft.world.spawner.WorldEntitySpawner;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.eventbus.api.Event;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.entity.CorruptedSlimeEntity;
 import net.silentchaos512.gems.init.GemsEntities;
 import net.silentchaos512.utils.MathUtils;
 
@@ -61,18 +62,18 @@ public final class CorruptedSlimeSpawner {
 
             if (canSpawnAt(world, blockPos)) {
                 Entity entity = type.create(world);
-                if (entity != null && entity instanceof MobEntity) {
-                    MobEntity mobEntity = (MobEntity) entity;
-                    if (ForgeEventFactory.canEntitySpawn(mobEntity, world, posX, posY, posZ, null, SpawnReason.NATURAL) != Event.Result.DENY) {
-                        mobEntity.moveToBlockPosAndAngles(blockPos, 0f, 0f);
-                        mobEntity.onInitialSpawn(world, difficultyInstance, SpawnReason.NATURAL, null, null);
-                        world.addEntity(mobEntity);
+                if (entity != null && entity instanceof CorruptedSlimeEntity) {
+                    CorruptedSlimeEntity slime = (CorruptedSlimeEntity) entity;
+                    if (ForgeEventFactory.canEntitySpawn(slime, world, posX, posY, posZ, null, SpawnReason.NATURAL) != Event.Result.DENY) {
+                        slime.moveToBlockPosAndAngles(blockPos, 0f, 0f);
+                        slime.onInitialSpawn(world, difficultyInstance, SpawnReason.NATURAL, null, null);
+                        world.addEntity(slime);
                         ++spawned;
                     } else {
                         entity.remove();
                     }
                 } else {
-                    throw new IllegalArgumentException("Entity type is not MobEntity? " + type);
+                    throw new IllegalArgumentException("Entity type is not CorruptedSlimeEntity? " + type);
                 }
             }
         }
@@ -82,7 +83,7 @@ public final class CorruptedSlimeSpawner {
 
     private static boolean canSpawnAt(World world, BlockPos pos) {
         final boolean isSpawnableSpace = WorldEntitySpawner.isSpawnableSpace(world, pos, world.getBlockState(pos), world.getFluidState(pos));
-        return isSpawnableSpace && world.canBlockSeeSky(pos);
+        return isSpawnableSpace && (world.getLightFor(LightType.BLOCK, pos) < 7 || world.canBlockSeeSky(pos));
     }
 
     private static BlockPos getRandomHeight(World worldIn, IChunk chunkIn) {
