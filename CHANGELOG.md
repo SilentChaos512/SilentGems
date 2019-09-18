@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Config to restrict teleporters to linking to the same gem only (similar to return home charms)
+- Config to prevent teleporters linking to teleporter anchors
+
 ## [3.4.1] - 2019-09-16
 ### Changed
 - Corrupted slime attack strength reduced by 1 (same as vanilla slimes now)

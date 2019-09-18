@@ -29,6 +29,7 @@ import net.silentchaos512.gems.init.GemsTileEntities;
 import net.silentchaos512.gems.item.ReturnHomeCharmItem;
 import net.silentchaos512.gems.item.TeleporterLinkerItem;
 import net.silentchaos512.gems.lib.Gems;
+import net.silentchaos512.gems.lib.IGem;
 import net.silentchaos512.gems.util.TeleportUtil;
 import net.silentchaos512.lib.util.DimPos;
 import org.apache.logging.log4j.Marker;
@@ -212,9 +213,7 @@ public class GemTeleporterTileEntity extends TileEntity {
     }
 
     private static boolean linkTeleporters(PlayerEntity player, World world, BlockPos pos, ItemStack heldItem, Hand hand) {
-        if (world.isRemote) {
-            return true;
-        }
+        if (world.isRemote) return true;
 
         if (heldItem.isEmpty() || heldItem.getItem() != TeleporterLinkerItem.INSTANCE.get()) {
             SilentGems.LOGGER.warn("GemTeleporterTileEntity.linkTeleporters: heldItem is not a linker?");
@@ -243,6 +242,22 @@ public class GemTeleporterTileEntity extends TileEntity {
                 TeleporterLinkerItem.setLinked(heldItem, false);
                 return false;
             }
+            if (tile1.isAnchor && tile2.isAnchor) {
+                sendMessage(player, "bothAreAnchors");
+                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1f, 1f);
+                TeleporterLinkerItem.setLinked(heldItem, false);
+                return true;
+            }
+
+            // Restriction configs
+            if ((tile1.isAnchor || tile2.isAnchor) && !GemsConfig.COMMON.teleporterAllowAnchors.get()) {
+                sendMessage(player, "anchorBanned");
+                return false;
+            }
+            if (!gemsMatch(tile1, tile2) && GemsConfig.COMMON.teleporterMatchGems.get()) {
+                sendMessage(player, "gemsMustMatch");
+                return false;
+            }
 
             // Create "link"
             tile1.destination = position2;
@@ -253,6 +268,7 @@ public class GemTeleporterTileEntity extends TileEntity {
             tile1.markDirty();
             tile2.markDirty();
             sendMessage(player, "linkSuccess");
+            world.playSound(null, pos, SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.BLOCKS, 1f, 1f);
 
             if (player instanceof ServerPlayerEntity) {
                 CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayerEntity) player, pos, heldItem);
@@ -262,9 +278,17 @@ public class GemTeleporterTileEntity extends TileEntity {
             TeleporterLinkerItem.setLinkedPosition(heldItem, DimPos.of(pos, player.dimension.getId()));
             TeleporterLinkerItem.setLinked(heldItem, true);
             sendMessage(player, "linkStart");
+            world.playSound(null, pos, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.BLOCKS, 1f, 1f);
         }
 
         return true;
+    }
+
+    private static boolean gemsMatch(GemTeleporterTileEntity t1, GemTeleporterTileEntity t2) {
+        // Determine if either is an anchor (no gem) or if both are the same gem
+        if (t1.isAnchor || t2.isAnchor || !(t1.getBlockState().getBlock() instanceof IGem) || !(t2.getBlockState().getBlock() instanceof IGem))
+            return true;
+        return ((IGem) t1.getBlockState().getBlock()).getGem() == ((IGem) t2.getBlockState().getBlock()).getGem();
     }
 
     @Nullable

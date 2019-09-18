@@ -35,9 +35,11 @@ public final class GemsConfig {
         public final DoubleValue soulGemDropRateAverage;
         public final DoubleValue soulGemDropRateBoss;
         public final DoubleValue soulGemDropRateDeviation;
+        public final BooleanValue teleporterAllowAnchors;
         public final IntValue teleporterChaosCrossDimension;
         public final IntValue teleporterChaosPerBlock;
         public final IntValue teleporterFreeRange;
+        public final BooleanValue teleporterMatchGems;
         public final IntValue teleporterSearchRadius;
         public final BooleanValue wispsCauseFire;
         public final IntValue worldGenNetherGemsRegionSize;
@@ -156,6 +158,14 @@ public final class GemsConfig {
                     .comment("All entities within this distance of a redstone teleporter will teleport when activated with redstone.",
                             "Default is 2 blocks, restricted to [1,16]")
                     .defineInRange(2, 1, 16);
+            teleporterAllowAnchors = wrapper
+                    .builder("teleporter.allowAnchors")
+                    .comment("Allow teleporters to link to teleporter anchors")
+                    .define(true);
+            teleporterMatchGems = wrapper
+                    .builder("teleporter.sameGemOnly")
+                    .comment("Only allow teleporters to be linked to teleporters made with the same gem")
+                    .define(false);
             wispsCauseFire = wrapper
                     .builder("mob.wisp.canCauseFire")
                     .comment("Fire and lightning wisps can light blocks on fire")
@@ -186,7 +196,7 @@ public final class GemsConfig {
         }
 
         private Supplier<Boolean> debugConfig(BooleanValue config) {
-            return () -> debugMasterSwitch.get() && config.get();
+            return () -> debugMasterSwitch != null && config != null && debugMasterSwitch.get() && config.get();
         }
     }
 
