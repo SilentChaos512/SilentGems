@@ -1,0 +1,17 @@
+{
+    "type": "silentgems:potion",
+    "effect": "silentgems:grounded",
+    "maxLevel": 1,
+    "displayName": {
+        "translate": true,
+        "name": "effect.silentgems.grounded"
+    },
+    "slots": 8,
+    "cost": {
+        "inactive": 5,
+        "active": 200,
+        "conditions": [
+            "shocking"
+        ]
+    }
+}

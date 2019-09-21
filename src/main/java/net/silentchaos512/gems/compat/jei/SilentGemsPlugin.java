@@ -3,6 +3,7 @@ package net.silentchaos512.gems.compat.jei;
 import com.google.common.collect.ImmutableList;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.VanillaRecipeCategoryUid;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.*;
@@ -11,8 +12,12 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.util.IItemProvider;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.silentchaos512.gear.api.parts.IGearPart;
 import net.silentchaos512.gear.parts.PartManager;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.altar.AltarBlock;
@@ -27,10 +32,7 @@ import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.crafting.recipe.AltarTransmutationRecipe;
 import net.silentchaos512.gems.crafting.recipe.TokenEnchanterRecipe;
 import net.silentchaos512.gems.init.GemsTags;
-import net.silentchaos512.gems.item.ChaosRuneItem;
-import net.silentchaos512.gems.item.CraftingItems;
-import net.silentchaos512.gems.item.EnchantmentTokenItem;
-import net.silentchaos512.gems.item.SoulGemItem;
+import net.silentchaos512.gems.item.*;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
 import net.silentchaos512.gems.lib.soul.Soul;
@@ -112,6 +114,7 @@ public class SilentGemsPlugin implements IModPlugin {
             // Supercharging
             IntStream.rangeClosed(1, 3).forEach(tier -> reg.addRecipes(
                     PartManager.getMains().stream()
+                            .filter(IGearPart::isVisible)
                             .map(part -> new SuperchargingRecipeCategoryJei.Recipe(part, tier))
                             .collect(Collectors.toList()),
                     SUPERCHARGING
@@ -126,6 +129,18 @@ public class SilentGemsPlugin implements IModPlugin {
 
         // Soul urn modify hints
 //        reg.addRecipes(RecipeSoulUrnModify.getExampleRecipes(), VanillaRecipeCategoryUid.CRAFTING);
+
+        // Chaos rune hints
+        reg.addRecipes(Arrays.stream(Gems.values()).map(gem ->
+                new ShapedRecipe(
+                        SilentGems.getId("rune_example_" + gem.getName()), "", 2, 1,
+                        NonNullList.from(Ingredient.EMPTY,
+                                Ingredient.fromItems(gem.getChaosGem()),
+                                Ingredient.fromItems(ChaosRuneItem.INSTANCE.get())
+                        ),
+                        new ItemStack(gem.getChaosGem())
+                )).collect(Collectors.toList()), VanillaRecipeCategoryUid.CRAFTING
+        );
 
         initFailed = false;
     }
@@ -162,13 +177,13 @@ public class SilentGemsPlugin implements IModPlugin {
         // Chaos Runes
         reg.registerSubtypeInterpreter(ChaosRuneItem.INSTANCE.get(), stack -> {
             IChaosBuff buff = ChaosRuneItem.getBuff(stack);
-            return buff != null ? buff.getId().toString() : "none";
+            return buff != null ? buff.getId().toString() : "";
         });
 
         // Soul Gems
         reg.registerSubtypeInterpreter(SoulGemItem.INSTANCE.get(), stack -> {
             Soul soul = SoulGemItem.getSoul(stack);
-            return soul != null ? soul.getId().toString() : "none";
+            return soul != null ? soul.getId().toString() : "";
         });
 
         // Soul Urns

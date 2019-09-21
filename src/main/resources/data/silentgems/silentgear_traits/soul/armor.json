@@ -1,0 +1,19 @@
+{
+    "type": "silentgear:stat_modifier_trait",
+    "max_level": 10,
+    "cancels_with": [],
+    "stats": [
+        {
+            "name": "armor",
+            "value": 0.05,
+            "factor_damage": false,
+            "factor_value": true
+        }
+    ],
+    "name": {
+        "translate": "trait.silentgems.soul.armor"
+    },
+    "description": {
+        "translate": "trait.silentgems.soul.armor.desc"
+    }
+}

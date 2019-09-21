@@ -1,0 +1,11 @@
+{
+    "type": "silentgear:simple_trait",
+    "max_level": 3,
+    "cancels_with": [],
+    "name": {
+        "translate": "trait.silentgems.chill"
+    },
+    "description": {
+        "translate": "trait.silentgems.chill.desc"
+    }
+}

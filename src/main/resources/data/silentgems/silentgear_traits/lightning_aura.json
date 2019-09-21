@@ -1,0 +1,20 @@
+{
+    "type": "silentgear:potion_effect_trait",
+    "max_level": 1,
+    "cancels_with": [],
+    "potion_effects": {
+        "armor": [
+            {
+                "full_set": true,
+                "effect": "silentgems:grounded",
+                "level": 1
+            }
+        ]
+    },
+    "name": {
+        "translate": "trait.silentgems.lightning_aura"
+    },
+    "description": {
+        "translate": "trait.silentgems.lightning_aura.desc"
+    }
+}

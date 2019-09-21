@@ -9,6 +9,7 @@ import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourceManagerReloadListener;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.network.SyncChaosBuffsPacket;
@@ -30,7 +31,7 @@ public final class ChaosBuffManager implements IResourceManagerReloadListener {
 
     public static final Marker MARKER = MarkerManager.getMarker("ChaosBuffManager");
 
-    private static final String DATA_PATH = "silentgems/chaos_buffs/";
+    private static final String DATA_PATH = "silentgems_chaos_buffs";
     private static final Map<ResourceLocation, IChaosBuff> MAP = new LinkedHashMap<>();
 
     private ChaosBuffManager() { }
@@ -47,7 +48,7 @@ public final class ChaosBuffManager implements IResourceManagerReloadListener {
 
         for (ResourceLocation id : resources) {
             try (IResource iresource = resourceManager.getResource(id)) {
-                String path = id.getPath().substring(DATA_PATH.length(), id.getPath().length() - ".json".length());
+                String path = id.getPath().substring(DATA_PATH.length() + 1, id.getPath().length() - ".json".length());
                 ResourceLocation name = new ResourceLocation(id.getNamespace(), path);
                 if (SilentGems.LOGGER.isTraceEnabled()) {
                     SilentGems.LOGGER.trace(MARKER, "Found likely chaos buff file: {}, trying to read as {}", id, name);
@@ -56,6 +57,8 @@ public final class ChaosBuffManager implements IResourceManagerReloadListener {
                 JsonObject json = JSONUtils.fromJson(gson, IOUtils.toString(iresource.getInputStream(), StandardCharsets.UTF_8), JsonObject.class);
                 if (json == null) {
                     SilentGems.LOGGER.error(MARKER, "could not load chaos buff {} as it's null or empty", name);
+                } else if (!CraftingHelper.processConditions(json, "conditions")) {
+                    SilentGems.LOGGER.info("Skipping loading chaos buff {} as it's conditions were not met", name);
                 } else {
                     addBuff(ChaosBuffSerializers.deserialize(name, json));
                 }

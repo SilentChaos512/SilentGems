@@ -6,7 +6,7 @@
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "name": "silentgems:chaos_crystal_shard",
+                    "name": "silentgems:chaos_wisp_essence",
                     "functions": [
                         {
                             "function": "minecraft:set_count",

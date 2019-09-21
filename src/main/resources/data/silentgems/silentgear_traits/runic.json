@@ -1,0 +1,11 @@
+{
+    "type": "silentgems:runic",
+    "max_level": 1,
+    "cancels_with": [],
+    "name": {
+        "translate": "trait.silentgems.runic"
+    },
+    "description": {
+        "translate": "trait.silentgems.runic.desc"
+    }
+}

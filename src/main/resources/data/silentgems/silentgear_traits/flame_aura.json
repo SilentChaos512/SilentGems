@@ -1,0 +1,20 @@
+{
+    "type": "silentgear:potion_effect_trait",
+    "max_level": 1,
+    "cancels_with": [],
+    "potion_effects": {
+        "armor": [
+            {
+                "full_set": true,
+                "effect": "minecraft:fire_resistance",
+                "level": 1
+            }
+        ]
+    },
+    "name": {
+        "translate": "trait.silentgems.flame_aura"
+    },
+    "description": {
+        "translate": "trait.silentgems.flame_aura.desc"
+    }
+}

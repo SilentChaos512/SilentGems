@@ -1,0 +1,23 @@
+{
+  "type": "silentgems:token_enchanting",
+  "chaosGenerated": 150,
+  "processTime": 20,
+  "ingredients": {
+    "token": {
+      "item": "minecraft:blue_ice"
+    },
+    "others": [
+      {
+        "item": "silentgems:ender_crystal",
+        "count": 4
+      },
+      {
+        "tag": "forge:gems/lapis",
+        "count": 8
+      }
+    ]
+  },
+  "result": {
+    "item": "silentgems:ender_frost"
+  }
+}

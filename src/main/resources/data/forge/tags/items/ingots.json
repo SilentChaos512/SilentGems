@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:ingots/silver"
+    "#forge:ingots/silver",
+    "silentgems:chaos_iron"
   ]
 }

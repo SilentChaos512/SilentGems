@@ -5,10 +5,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Wisp essence items, dropped by wisps (expect these to be worked into some existing recipes)
+- Chaos runes for insulated and grounded effects
+- Chaos buffs now accept conditions (like recipes)
+- Missing enchantment token and spawn egg recipes
 - Config to restrict teleporters to linking to the same gem only (similar to return home charms)
 - Config to prevent teleporters linking to teleporter anchors
 - Config to control silver ore vein count (set 0 to disable). [#411]
     - Defaults to 0 if Silent's Mechanisms is loaded when the config is created, 2 otherwise
+### Changed
+- Slightly increased chaos crystal drops
+- Chaos buff data path from `silentgems/chaos_buffs` to `silentgems_chaos_buffs`
+- Updated Silent Gear part and trait files to new data path
 ### Fixed
 - New soul urn colors being wrong
 
