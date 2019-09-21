@@ -19,7 +19,7 @@ public final class SoulUrnRecipe extends ExtendedShapedRecipe {
     public static final ResourceLocation NAME = new ResourceLocation(SilentGems.MOD_ID, "soul_urn");
     public static final ExtendedShapedRecipe.Serializer<SoulUrnRecipe> SERIALIZER = new ExtendedShapedRecipe.Serializer<>(
             SoulUrnRecipe::new,
-            (json, recipe) -> recipe.color = Color.from(json, "urn_clay_color", UrnConst.UNDYED_COLOR).getColor(),
+            (json, recipe) -> recipe.color = Color.from(json, "urn_clay_color", UrnConst.UNDYED_COLOR).getColor() & 0xFFFFFF,
             (buffer, recipe) -> recipe.color = buffer.readVarInt(),
             (buffer, recipe) -> buffer.writeVarInt(recipe.color)
     );
