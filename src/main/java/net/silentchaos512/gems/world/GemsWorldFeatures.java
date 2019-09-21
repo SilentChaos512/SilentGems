@@ -191,7 +191,7 @@ public final class GemsWorldFeatures {
     }
 
     private static void addSilverOre(Biome biome, Random random) {
-        addOre(biome, MiscOres.SILVER.asBlock(), 6, 2, 6, 28, d -> true);
+        addOre(biome, MiscOres.SILVER.asBlock(), 6, GemsConfig.COMMON.worldGenSilverVeinCount.get(), 6, 28, d -> true);
     }
 
     private static void addGemOre(Biome biome, Gems gem, Random random, DimensionType dimension) {

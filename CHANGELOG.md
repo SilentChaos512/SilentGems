@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Config to restrict teleporters to linking to the same gem only (similar to return home charms)
 - Config to prevent teleporters linking to teleporter anchors
+- Config to control silver ore vein count (set 0 to disable). [#411]
+    - Defaults to 0 if Silent's Mechanisms is loaded when the config is created, 2 otherwise
 
 ## [3.4.1] - 2019-09-16
 ### Changed

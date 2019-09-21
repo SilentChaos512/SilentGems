@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.config;
 
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.chaos.ChaosEvents;
@@ -45,6 +46,7 @@ public final class GemsConfig {
         public final IntValue worldGenNetherGemsRegionSize;
         public final IntValue worldGenEndGemsRegionSize;
         public final IntValue worldGenOtherDimensionGemsRegionSize;
+        public final IntValue worldGenSilverVeinCount;
 
         Common(ConfigSpecWrapper wrapper) {
             baseBiomeSeedOverride = wrapper
@@ -191,6 +193,11 @@ public final class GemsConfig {
                             "Each 'size x size' chunk area is a 'region', which contains a couple types of gems.",
                             "Larger regions will make finding many types of gems more difficult.")
                     .defineInRange(4, 1, Integer.MAX_VALUE);
+            worldGenSilverVeinCount = wrapper
+                    .builder("world.generation.ores.silver.veinCount")
+                    .comment("Number of veins of silver ore per chunk. Set 0 to disable.",
+                            "Default: 0 if Silent's Mechanisms is installed when config is created, 2 otherwise")
+                    .defineInRange(ModList.get().isLoaded("silents_mechanisms") ? 0 : 2, 0, Integer.MAX_VALUE);
 
             ChaosEvents.loadConfigs(wrapper);
         }
