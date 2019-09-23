@@ -185,6 +185,7 @@
     "death.attack.silentgems.freezing.player": "%1$s was frozen solid whilst fighting %2$s",
     "death.attack.silentgems.shocking": "%1$s was electrocuted",
     "death.attack.silentgems.shocking.player": "%1$s was electrocuted whilst fighting %2$s",
+    "death.attack.wisp": "%1$s was killed by wisp",
     "donut.silentgems.1": "You feel sad and empty.",
     "donut.silentgems.2": "You're on fire! But not literally this time.",
     "donut.silentgems.3": "Somehow, every bite is a different flavor.",
