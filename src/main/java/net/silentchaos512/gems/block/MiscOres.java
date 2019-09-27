@@ -19,6 +19,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.ModList;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.lib.block.IBlockProvider;
@@ -35,7 +36,7 @@ public enum MiscOres implements IBlockProvider, IStringSerializable {
             return MathHelper.nextInt(RANDOM, 2, 7);
         }
     }),
-    ENDER(() -> new MiscOreBlock(CraftingItems.ENDER_CRYSTAL, 4, Block.Properties.create(Material.ROCK).tickRandomly().hardnessAndResistance(4, 20)) {
+    ENDER(() -> new MiscOreBlock(CraftingItems.ENDER_CRYSTAL, ModList.get().isLoaded("silentgear") ? 4 : 3, Block.Properties.create(Material.ROCK).tickRandomly().hardnessAndResistance(4, 20)) {
         @Override
         public int getExpRandom() {
             return MathHelper.nextInt(RANDOM, 4, 8);

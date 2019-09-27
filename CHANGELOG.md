@@ -3,6 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Tooltip to ender crystals describing how to get them
+- Ender crystals can now appear in some loot chests (somewhat rare)
+- Harvest level tooltips to ores
+- Silent's Mechanisms crusher recipe for ender ore
+### Changed
+- Ender ore will be changed to harvest level 3 if Silent Gear is not installed (4 otherwise, as before)
+
 ## [3.4.2] - 2019-09-21
 ### Added
 - Wisp essence items, dropped by wisps (expect these to be worked into some existing recipes)

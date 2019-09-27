@@ -1,4 +1,10 @@
 {
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "silentgear"
+    }
+  ],
   "type": "crafting_shapeless",
   "group": "silentgear:bowstrings",
   "ingredients": [

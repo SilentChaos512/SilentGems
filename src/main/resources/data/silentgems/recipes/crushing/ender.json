@@ -1,0 +1,29 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "silents_mechanisms"
+    }
+  ],
+  "type": "silents_mechanisms:crushing",
+  "process_time": 400,
+  "ingredient": {
+    "item": "silentgems:ender_ore"
+  },
+  "results": [
+    {
+      "item": "silentgems:ender_crystal",
+      "count": 2
+    },
+    {
+      "item": "silentgems:ender_crystal",
+      "count": 1,
+      "chance": 0.5
+    },
+    {
+      "item": "minecraft:end_stone",
+      "count": 1,
+      "chance": 0.1
+    }
+  ]
+}

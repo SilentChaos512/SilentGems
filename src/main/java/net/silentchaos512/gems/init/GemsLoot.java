@@ -11,6 +11,7 @@ import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.PatchBlockChangerItem;
 import net.silentchaos512.gems.loot.functions.SetSoulFunction;
 
@@ -88,6 +89,10 @@ public final class GemsLoot {
                 .addEntry(ItemLootEntry.builder(PatchBlockChangerItem.PURIFYING_POWDER.get())
                         .weight(1)
                         .acceptFunction(SetCount.func_215932_a(new RandomValueRange(1, 2)))
+                )
+                .addEntry(ItemLootEntry.builder(CraftingItems.ENDER_CRYSTAL)
+                        .weight(1)
+                        .acceptFunction(SetCount.func_215932_a(new RandomValueRange(2, 4)))
                 )
                 .addEntry(EmptyLootEntry.func_216167_a()
                         .weight(3)
