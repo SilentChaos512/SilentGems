@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.4.3] - 2019-09-27
 ### Added
 - Chaos Purifier, consumes purifying powder to remove chaos from the world. Will not reduce chaos below the equilibrium level. Useful if you accidentally leaked a lot of chaos into the world.
 - Tooltip to ender crystals describing how to get them
