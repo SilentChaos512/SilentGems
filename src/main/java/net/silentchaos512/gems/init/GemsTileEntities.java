@@ -18,6 +18,8 @@ import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotTileEntity;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightBlock;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightTileEntity;
 import net.silentchaos512.gems.block.pedestal.PedestalTileEntity;
+import net.silentchaos512.gems.block.purifier.PurifierBlock;
+import net.silentchaos512.gems.block.purifier.PurifierTileEntity;
 import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerTileEntity;
 import net.silentchaos512.gems.block.teleporter.GemTeleporterTileEntity;
@@ -37,6 +39,7 @@ public enum GemsTileEntities {
     CHAOS_FLOWER_POT(LuminousFlowerPotTileEntity::new, LuminousFlowerPotBlock.INSTANCE::get),
     PEDESTAL(PedestalTileEntity::new, GemsBlocks.pedestals),
     PHANTOM_LIGHT(PhantomLightTileEntity::new, PhantomLightBlock.INSTANCE::get),
+    PURIFIER(PurifierTileEntity::new, PurifierBlock.INSTANCE::get),
     SOUL_URN(SoulUrnTileEntity::new, SoulUrnBlock.INSTANCE::get),
     SUPERCHARGER(SuperchargerTileEntity::new, SuperchargerBlock.INSTANCE::get),
     TELEPORTER(GemTeleporterTileEntity::new, GemsBlocks.teleporters),

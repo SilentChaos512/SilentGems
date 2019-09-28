@@ -23,6 +23,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.altar.AltarBlock;
 import net.silentchaos512.gems.block.altar.AltarScreen;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
+import net.silentchaos512.gems.block.purifier.PurifierBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerPillarStructure;
 import net.silentchaos512.gems.block.supercharger.SuperchargerScreen;
@@ -38,6 +39,7 @@ import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
 import net.silentchaos512.gems.lib.soul.Soul;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -48,6 +50,7 @@ import java.util.stream.Stream;
 public class SilentGemsPlugin implements IModPlugin {
     private static final ResourceLocation PLUGIN_UID = SilentGems.getId("plugin/main");
     static final ResourceLocation ALTAR_TRANSMUTATION = SilentGems.getId("category/altar_transmutation");
+    static final ResourceLocation PURIFIER = SilentGems.getId("category/purifier");
     static final ResourceLocation SUPERCHARGER_PILLAR = SilentGems.getId("category/supercharger_pillar");
     static final ResourceLocation SUPERCHARGING = SilentGems.getId("category/supercharging");
     static final ResourceLocation TOKEN_ENCHANTING = SilentGems.getId("category/token_enchanting");
@@ -70,6 +73,7 @@ public class SilentGemsPlugin implements IModPlugin {
 
         IGuiHelper guiHelper = reg.getJeiHelpers().getGuiHelper();
         reg.addRecipeCategories(
+                new PurifierRecipeCategoryJei(guiHelper),
                 new TokenEnchanterRecipeCategoryJei(guiHelper),
                 new TransmutationAltarRecipeCategoryJei(guiHelper)
         );
@@ -89,6 +93,7 @@ public class SilentGemsPlugin implements IModPlugin {
 
         reg.addRecipes(getRecipesOfType(TokenEnchanterRecipe.RECIPE_TYPE), TOKEN_ENCHANTING);
         reg.addRecipes(getRecipesOfType(AltarTransmutationRecipe.RECIPE_TYPE), ALTAR_TRANSMUTATION);
+        reg.addRecipes(Collections.singletonList(new PurifierRecipeCategoryJei.Recipe(Ingredient.fromItems(PatchBlockChangerItem.PURIFYING_POWDER.get()))), PURIFIER);
 
         if (SGearProxy.isLoaded()) {
             // Supercharger pillars
@@ -156,6 +161,7 @@ public class SilentGemsPlugin implements IModPlugin {
         reg.addRecipeCatalyst(new ItemStack(SuperchargerBlock.INSTANCE.get()), SUPERCHARGING, SUPERCHARGER_PILLAR);
         reg.addRecipeCatalyst(new ItemStack(TokenEnchanterBlock.INSTANCE.get()), TOKEN_ENCHANTING);
         reg.addRecipeCatalyst(new ItemStack(AltarBlock.INSTANCE.get()), ALTAR_TRANSMUTATION);
+        reg.addRecipeCatalyst(new ItemStack(PurifierBlock.INSTANCE.get()), PURIFIER);
     }
 
     @Override

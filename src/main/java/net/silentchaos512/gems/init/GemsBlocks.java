@@ -15,6 +15,7 @@ import net.silentchaos512.gems.block.altar.AltarBlock;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
 import net.silentchaos512.gems.block.flowerpot.PhantomLightBlock;
 import net.silentchaos512.gems.block.pedestal.PedestalBlock;
+import net.silentchaos512.gems.block.purifier.PurifierBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
 import net.silentchaos512.gems.block.teleporter.TeleporterBaseBlock;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
@@ -85,6 +86,7 @@ public final class GemsBlocks {
         register("supercharger", SuperchargerBlock.INSTANCE.get());
         register("token_enchanter", TokenEnchanterBlock.INSTANCE.get());
         register("transmutation_altar", AltarBlock.INSTANCE.get());
+        register("purifier", PurifierBlock.INSTANCE.get());
 
         registerPedestal("stone_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));
         registerPedestal("granite_pedestal", new PedestalBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(4, 5).sound(SoundType.STONE)));

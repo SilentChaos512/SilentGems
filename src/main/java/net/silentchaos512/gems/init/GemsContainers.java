@@ -11,6 +11,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.altar.AltarContainer;
 import net.silentchaos512.gems.block.altar.AltarScreen;
+import net.silentchaos512.gems.block.purifier.PurifierContainer;
+import net.silentchaos512.gems.block.purifier.PurifierScreen;
 import net.silentchaos512.gems.block.supercharger.SuperchargerContainer;
 import net.silentchaos512.gems.block.supercharger.SuperchargerScreen;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterContainer;
@@ -27,6 +29,7 @@ import java.util.Locale;
 public enum GemsContainers {
     GEM_BAG(GemBagContainer::new),
     GLOWROSE_BASKET(GlowroseBasketContainer::new),
+    PURIFIER(PurifierContainer::new),
     SOUL_URN(SoulUrnContainer::new),
     SUPERCHARGER(SuperchargerContainer::new),
     TOKEN_ENCHANTER(TokenEnchanterContainer::new),
@@ -53,6 +56,7 @@ public enum GemsContainers {
     public static void registerScreens(FMLClientSetupEvent event) {
         ScreenManager.registerFactory((ContainerType<? extends GemBagContainer>) GEM_BAG.type(), GemContainerScreen::new);
         ScreenManager.registerFactory((ContainerType<? extends GlowroseBasketContainer>) GLOWROSE_BASKET.type(), GemContainerScreen::new);
+        ScreenManager.registerFactory((ContainerType<? extends PurifierContainer>) PURIFIER.type(), PurifierScreen::new);
         ScreenManager.registerFactory((ContainerType<? extends SoulUrnContainer>) SOUL_URN.type(), SoulUrnScreen::new);
         ScreenManager.registerFactory((ContainerType<? extends SuperchargerContainer>) SUPERCHARGER.type(), SuperchargerScreen::new);
         ScreenManager.registerFactory((ContainerType<? extends TokenEnchanterContainer>) TOKEN_ENCHANTER.type(), TokenEnchanterScreen::new);

@@ -5,6 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Chaos Purifier, consumes purifying powder to remove chaos from the world. Will not reduce chaos below the equilibrium level. Useful if you accidentally leaked a lot of chaos into the world.
 - Tooltip to ender crystals describing how to get them
 - Ender crystals can now appear in some loot chests (somewhat rare)
 - Harvest level tooltips to ores
