@@ -68,7 +68,7 @@ public class GearSoul {
     // = XP and Levels =
     // =================
 
-    public void addXp(int amount, ItemStack tool, PlayerEntity player) {
+    public void addXp(int amount, ItemStack tool, @Nullable PlayerEntity player) {
         if (!GemsConfig.COMMON.gearSoulsGetXpFromFakePlayers.get() && player instanceof FakePlayer) {
             return;
         }
@@ -79,12 +79,14 @@ public class GearSoul {
             SoulTraits skillLearned = levelUp(tool, player);
             if (skillLearned != null) {
                 Integer skillLevel = getSkillLevel(skillLearned);
-                sendUpdatePacket(tool, player, skillLearned, skillLevel);
-                packetSent = true;
+                if (player != null) {
+                    sendUpdatePacket(tool, player, skillLearned, skillLevel);
+                    packetSent = true;
+                }
             }
         }
 
-        if (!packetSent) {
+        if (!packetSent && player != null) {
             sendUpdatePacket(tool, player, null, 0);
         }
     }
@@ -135,12 +137,14 @@ public class GearSoul {
     }
 
     @Nullable
-    private SoulTraits levelUp(ItemStack tool, PlayerEntity player) {
-        if (player == null || player.world.isRemote) return null;
+    private SoulTraits levelUp(ItemStack tool, @Nullable PlayerEntity player) {
+        if (player != null && player.world.isRemote) return null;
 
         ++level;
-        player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.levelUp", getName(tool), level));
-        player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1.0f, 1.0f);
+        if (player != null) {
+            player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.levelUp", getName(tool), level));
+            player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1.0f, 1.0f);
+        }
 
         // Learn new skill?
         SoulTraits toLearn = SoulTraits.selectTraitToLearn(this, tool);
@@ -194,7 +198,7 @@ public class GearSoul {
     // = Skills =
     // ==========
 
-    public boolean addOrLevelSkill(SoulTraits skill, ItemStack tool, PlayerEntity player) {
+    public boolean addOrLevelSkill(SoulTraits skill, ItemStack tool, @Nullable PlayerEntity player) {
         if (skills.containsKey(skill)) {
             // Has skill already.
             int level = skills.get(skill);
@@ -202,8 +206,9 @@ public class GearSoul {
                 // Can be leveled up.
                 ++level;
                 skills.put(skill, level);
-                player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.skillLearned", skill.getDisplayName(level)));
-
+                if (player != null) {
+                    player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.skillLearned", skill.getDisplayName(level)));
+                }
                 return true;
             } else {
                 // Already max level
@@ -212,7 +217,9 @@ public class GearSoul {
         }
 
         skills.put(skill, 1);
-        player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.skillLearned", skill.getDisplayName(1)));
+        if (player != null) {
+            player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.skillLearned", skill.getDisplayName(1)));
+        }
 
         return true;
     }

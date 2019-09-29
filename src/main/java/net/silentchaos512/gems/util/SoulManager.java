@@ -77,7 +77,7 @@ public final class SoulManager {
         gear.getOrCreateTag().put(NBT_SOUL, tags);
     }
 
-    public static void addSoulXp(int amount, ItemStack tool, PlayerEntity player) {
+    public static void addSoulXp(int amount, ItemStack tool, @Nullable PlayerEntity player) {
         GearSoul soul = getSoul(tool);
         if (soul != null && amount > 0) {
             soul.addXp(amount, tool, player);

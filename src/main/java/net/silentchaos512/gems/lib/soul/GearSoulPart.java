@@ -102,4 +102,12 @@ public class GearSoulPart extends AbstractGearPart implements IUpgradePart {
         }
         SoulManager.setSoul(gear, soul);
     }
+
+    @Override
+    public void onGearDamaged(PartData part, ItemStack gear, int amount) {
+        SilentGems.LOGGER.debug("Soul onGearDamaged");
+        // Unfortunately no way to get the player, is there?
+        // This means no level-up notifications for armor, for gear souls should work now
+        SoulManager.addSoulXp((int) (GearSoul.XP_FACTOR_ARMOR_DAMAGED * amount), gear, null);
+    }
 }
