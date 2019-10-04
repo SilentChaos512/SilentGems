@@ -60,6 +60,11 @@ public class AltarTransmutationRecipe extends SingleItemRecipe {
         return processTime;
     }
 
+    @Override
+    public boolean isDynamic() {
+        return true;
+    }
+
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<AltarTransmutationRecipe> {
         @Override
         public AltarTransmutationRecipe read(ResourceLocation recipeId, JsonObject json) {

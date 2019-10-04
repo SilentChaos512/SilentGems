@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- Non-crafting recipes (token enchanter, transmutation altar) showing in the recipe book [#416]
+
+## [3.4.4] - 2019-09-29
+### Fixed
+- Gear souls not gaining XP on armor. Unfortunately, you will not get level up messages with gear souls on armor. That requires a player reference and there is no way to get one here.
+
 ## [3.4.3] - 2019-09-27
 ### Added
 - Chaos Purifier, consumes purifying powder to remove chaos from the world. Will not reduce chaos below the equilibrium level. Useful if you accidentally leaked a lot of chaos into the world.

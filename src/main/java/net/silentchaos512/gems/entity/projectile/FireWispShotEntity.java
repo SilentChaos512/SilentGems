@@ -32,13 +32,13 @@ public class FireWispShotEntity extends AbstractWispShotEntity {
     @Override
     protected void onEntityImpact(Entity entityIn) {
         if (!entityIn.isImmuneToFire()) {
-            int i = entityIn.func_223314_ad();
+            int i = entityIn.getFireTimer();
             entityIn.setFire(5);
             boolean flag = entityIn.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 4f);
             if (flag) {
                 this.applyEnchantments(this.shootingEntity, entityIn);
             } else {
-                entityIn.func_223308_g(i);
+                entityIn.setFireTimer(i);
             }
         }
     }
