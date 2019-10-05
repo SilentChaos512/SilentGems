@@ -1,8 +1,6 @@
 package net.silentchaos512.gems.entity;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.particles.IParticleData;
@@ -21,7 +19,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.silentchaos512.gems.SilentGems;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class EnderSlimeEntity extends SlimeEntity {
     private static final ResourceLocation LOOT_TABLE = SilentGems.getId("ender_slime");
@@ -37,12 +34,15 @@ public class EnderSlimeEntity extends SlimeEntity {
     }
 
     @Override
-    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
-        return worldIn.getDifficulty() != Difficulty.PEACEFUL;
+    public EntitySize getSize(Pose poseIn) {
+        // Fix the hit box. Not sure why this happens.
+        EntitySize size = super.getSize(poseIn);
+        return size.scale(1.1f * size.height / size.width, 1.1f);
     }
 
-    public static boolean canSpawnAt(EntityType<EnderSlimeEntity> entityType, IWorld world, SpawnReason reason, BlockPos pos, Random random) {
-        return world.getDifficulty() != Difficulty.PEACEFUL;
+    @Override
+    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
+        return worldIn.getDifficulty() != Difficulty.PEACEFUL;
     }
 
     @Override
