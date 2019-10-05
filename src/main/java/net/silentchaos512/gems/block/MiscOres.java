@@ -19,6 +19,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.ModList;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.item.CraftingItems;
@@ -80,7 +81,7 @@ public enum MiscOres implements IBlockProvider, IStringSerializable {
         static final BooleanProperty LIT = BlockStateProperties.LIT;
 
         MiscOreBlock(IItemProvider droppedItem, int harvestLevel, Properties builder) {
-            super(droppedItem, harvestLevel, builder);
+            super(droppedItem, harvestLevel, builder.harvestTool(ToolType.PICKAXE));
             setDefaultState(getDefaultState().with(LIT, false));
         }
 

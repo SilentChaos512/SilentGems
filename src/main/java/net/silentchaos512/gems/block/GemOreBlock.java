@@ -25,6 +25,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.ToolType;
 import net.silentchaos512.gems.lib.Gems;
 
 import javax.annotation.Nullable;
@@ -35,7 +36,9 @@ public class GemOreBlock extends OreBlockSG implements IGemBlock {
 
     public GemOreBlock(Gems gem) {
         super(gem.getItem(), 2, Properties.create(Material.ROCK)
-                .hardnessAndResistance(3, 4));
+                .hardnessAndResistance(3, 4)
+                .harvestTool(ToolType.PICKAXE)
+        );
         this.gem = gem;
     }
 

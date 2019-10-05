@@ -3,13 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.4.5] - 2019-10-05
 ### Changed
 - Ender slimes now only spawn below Y 65 [#415]
 ### Fixed
-- Ender slime and corrupted slime hitboxes being much small than intended
+- Ender slime and corrupted slime hitboxes being much smaller than intended
 - Ender slimes spawning over the void [#415]
 - Non-crafting recipes (token enchanter, transmutation altar) showing in the recipe book [#416]
+- Might fix Minecolonies miner not knowing how to mine ores
 
 ## [3.4.4] - 2019-09-29
 ### Fixed

@@ -23,6 +23,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.util.IStringSerializable;
+import net.minecraftforge.common.ToolType;
 import net.silentchaos512.lib.block.IBlockProvider;
 import net.silentchaos512.utils.Lazy;
 
@@ -54,7 +55,9 @@ public enum HardenedRock implements IBlockProvider, IStringSerializable {
     public static class HardenedRockBlock extends Block {
         HardenedRockBlock() {
             super(Properties.create(Material.ROCK)
-                    .hardnessAndResistance(50, 2000));
+                    .hardnessAndResistance(50, 2000)
+                    .harvestTool(ToolType.PICKAXE)
+            );
         }
 
         @Override
