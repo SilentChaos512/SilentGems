@@ -32,7 +32,7 @@ public final class CorruptedSlimeSpawner {
         BlockPos pos = getRandomHeight(player.world, player.world.getChunk(player.getPosition()));
 
         for (int i = 0; i < 4; ++i) {
-            if (spawnGroup(GemsEntities.CORRUPTED_SLIME.type(), count, player.world, player.getPosition())) {
+            if (spawnGroup(GemsEntities.CORRUPTED_SLIME.get(), count, player.world, player.getPosition())) {
                 return true;
             }
         }

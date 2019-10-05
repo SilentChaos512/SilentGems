@@ -1,11 +1,11 @@
 package net.silentchaos512.gems.init;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
@@ -22,53 +22,22 @@ import net.silentchaos512.gems.entity.projectile.*;
 import net.silentchaos512.gems.lib.WispTypes;
 import net.silentchaos512.utils.Lazy;
 
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.function.Supplier;
+public final class GemsEntities {
+    public static final Lazy<EntityType<EnderSlimeEntity>> ENDER_SLIME = makeType("ender_slime", EnderSlimeEntity::new);
+    public static final Lazy<EntityType<CorruptedSlimeEntity>> CORRUPTED_SLIME = makeType("corrupted_slime", CorruptedSlimeEntity::new);
 
-public enum GemsEntities {
-    ENDER_SLIME(() -> EntityType.Builder.create(EnderSlimeEntity::new, EntityClassification.MONSTER), 0x003333, 0xAA00AA),
-    CORRUPTED_SLIME(() -> EntityType.Builder.create(CorruptedSlimeEntity::new, EntityClassification.MONSTER), 0x8B008B, 0x9932CC);
+    private GemsEntities() {}
 
-    private final Lazy<EntityType<?>> entityType;
-    private final Lazy<SpawnEggItem> spawnEgg;
-
-    GemsEntities(Supplier<EntityType.Builder<?>> factory, int eggPrimaryColor, int eggSecondaryColor) {
-        this.entityType = Lazy.of(() -> {
-            ResourceLocation id = SilentGems.getId(this.getName());
-            return factory.get().build(id.toString());
-        });
-        this.spawnEgg = Lazy.of(() -> {
-            Item.Properties props = new Item.Properties().group(ItemGroup.MISC);
-            return new SpawnEggItem(this.type(), eggPrimaryColor, eggSecondaryColor, props);
-        });
-    }
-
-    public EntityType<?> type() {
-        return this.entityType.get();
-    }
-
-    public SpawnEggItem getSpawnEgg() {
-        return this.spawnEgg.get();
-    }
-
-    public String getName() {
-        return this.name().toLowerCase(Locale.ROOT);
-    }
-
-    public static void registerAll(RegistryEvent.Register<EntityType<?>> event) {
-        Arrays.stream(values()).forEach(e -> registerType(e.getName(), e.type()));
+    public static void registerTypes(RegistryEvent.Register<EntityType<?>> event) {
+        registerType("ender_slime", ENDER_SLIME.get());
+        registerType("corrupted_slime", CORRUPTED_SLIME.get());
 
         for (WispTypes wispType : WispTypes.values()) {
             registerType(wispType.getName(), wispType.getEntityType());
             registerType(wispType.getName() + "_shot", wispType.getShotType());
         }
-    }
 
-    private static void registerType(String name, EntityType<?> type) {
-        ResourceLocation id = SilentGems.getId(name);
-        type.setRegistryName(id);
-        ForgeRegistries.ENTITIES.register(type);
+        EntitySpawnPlacementRegistry.register(ENDER_SLIME.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EnderSlimeEntity::canSpawnAt);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -87,5 +56,15 @@ public enum GemsEntities {
         RenderingRegistry.registerEntityRenderingHandler(IceWispShotEntity.class, WispShotRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(LightningWispShotEntity.class, WispShotRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(WaterWispShotEntity.class, WispShotRenderer::new);
+    }
+
+    private static <T extends Entity> Lazy<EntityType<T>> makeType(String name, EntityType.IFactory<T> factory) {
+        return Lazy.of(() -> EntityType.Builder.create(factory, EntityClassification.MONSTER).build(SilentGems.getId(name).toString()));
+    }
+
+    private static void registerType(String name, EntityType<?> type) {
+        ResourceLocation id = SilentGems.getId(name);
+        type.setRegistryName(id);
+        ForgeRegistries.ENTITIES.register(type);
     }
 }

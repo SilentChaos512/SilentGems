@@ -68,7 +68,7 @@ class SideProxy implements IProxy {
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Block.class, GemsBlocks::registerAll);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(ContainerType.class, GemsContainers::registerAll);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Enchantment.class, GemsEnchantments::registerAll);
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(EntityType.class, GemsEntities::registerAll);
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(EntityType.class, GemsEntities::registerTypes);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, GemsItems::registerAll);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Effect.class, GemsEffects::registerEffects);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Potion.class, GemsEffects::registerPotions);

@@ -1,8 +1,6 @@
 package net.silentchaos512.gems.init;
 
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BlockNamedItem;
-import net.minecraft.item.Item;
+import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -82,7 +80,8 @@ public final class GemsItems {
         summonKitty = register("summon_kitty", new PetSummonerItem(PetSummonerItem::getCat));
         summonPuppy = register("summon_puppy", new PetSummonerItem(PetSummonerItem::getDog));
 
-        Arrays.stream(GemsEntities.values()).forEach(entity -> register(entity.getName() + "_spawn_egg", entity.getSpawnEgg()));
+        register("ender_slime_spawn_egg", new SpawnEggItem(GemsEntities.ENDER_SLIME.get(), 0x003333, 0xAA00AA, new Item.Properties().group(ItemGroup.MISC)));
+        register("corrupted_slime_spawn_egg", new SpawnEggItem(GemsEntities.CORRUPTED_SLIME.get(), 0x8B008B, 0x9932CC, new Item.Properties().group(ItemGroup.MISC)));
         Arrays.stream(WispTypes.values()).forEach(entity -> register(entity.getName() + "_spawn_egg", entity.getSpawnEgg()));
     }
 

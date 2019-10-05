@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
@@ -22,7 +21,6 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.FluffyPuffPlant;
 import net.silentchaos512.gems.block.MiscOres;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.entity.EnderSlimeEntity;
 import net.silentchaos512.gems.init.GemsEntities;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.world.feature.*;
@@ -241,11 +239,9 @@ public final class GemsWorldFeatures {
         ));
     }
 
-    @SuppressWarnings("unchecked") // cast to EntityType<EnderSlimeEntity> is valid
     private static void addEnderSlimeSpawns(Biome biome) {
-        EntityType<EnderSlimeEntity> type = (EntityType<EnderSlimeEntity>) GemsEntities.ENDER_SLIME.type();
         biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(
-                type,
+                GemsEntities.ENDER_SLIME.get(),
                 GemsConfig.COMMON.enderSlimeSpawnWeight.get(),
                 GemsConfig.COMMON.enderSlimeGroupSizeMin.get(),
                 GemsConfig.COMMON.enderSlimeGroupSizeMax.get()
