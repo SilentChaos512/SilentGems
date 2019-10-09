@@ -13,7 +13,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.silentchaos512.gems.init.ModBlocks;
 import net.silentchaos512.gems.lib.Names;
 
@@ -21,7 +20,6 @@ public class ItemFluffyPuffSeeds extends ItemSeeds {
     public ItemFluffyPuffSeeds() {
         super(ModBlocks.fluffyPuffPlant, Blocks.FARMLAND);
         setTranslationKey(Names.FLUFFY_PUFF_SEEDS);
-        MinecraftForge.addGrassSeed(new ItemStack(this), 2);
     }
 
     @Override

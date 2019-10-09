@@ -76,6 +76,10 @@ public class GemsCommonProxy implements IProxy {
         }
 
         UpgradePlanter.init();
+
+        if (GemsConfig.FLUFFY_PUFF_SEED_WEIGHT > 0) {
+            MinecraftForge.addGrassSeed(new ItemStack(ModItems.fluffyPuffSeeds), GemsConfig.FLUFFY_PUFF_SEED_WEIGHT);
+        }
     }
 
     @Override

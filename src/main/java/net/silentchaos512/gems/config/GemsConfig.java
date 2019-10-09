@@ -53,6 +53,8 @@ public class GemsConfig extends AdaptiveConfig {
     public static int RETURN_HOME_USE_COST = 10000;
     public static int RETURN_HOME_MAX_CHARGE = 100000;
 
+    public static int FLUFFY_PUFF_SEED_WEIGHT = 2;
+
     /*
      * Tools
      */
@@ -302,6 +304,8 @@ public class GemsConfig extends AdaptiveConfig {
             RETURN_HOME_MAX_CHARGE = loadInt("Max Charge", catReturnHome,
                     RETURN_HOME_MAX_CHARGE, 0, Integer.MAX_VALUE,
                     "The maximum amount of Chaos a charm can hold.");
+
+            FLUFFY_PUFF_SEED_WEIGHT = loadInt("Fluffy Puff Seeds Weight", CAT_ITEM, 2, "Chance of fluffy puff seeds dropping from tall grass (larger number = more likely). Wheat seeds are 10. Set to zero to disable. (requires restart)");
 
             /*
              * Tools

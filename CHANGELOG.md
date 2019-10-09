@@ -1,6 +1,8 @@
 # Changelog
 
-## [Unreleased]
+## [2.8.22] - 2019-10-09
+### Added
+- Config to set fluffy puff seed drop weight (set zero to disable) [#419]
 ### Fixed
 - Material grader losing inventory when broken [#417]
 - Possible crash in PlayerDataHandler [#392]
