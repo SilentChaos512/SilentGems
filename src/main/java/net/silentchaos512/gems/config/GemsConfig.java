@@ -43,6 +43,7 @@ public final class GemsConfig {
         public final BooleanValue teleporterMatchGems;
         public final IntValue teleporterSearchRadius;
         public final BooleanValue wispsCauseFire;
+        public final BooleanValue worldGenWildFluffyPuffs;
         public final IntValue worldGenNetherGemsRegionSize;
         public final IntValue worldGenEndGemsRegionSize;
         public final IntValue worldGenOtherDimensionGemsRegionSize;
@@ -175,6 +176,10 @@ public final class GemsConfig {
 
             wrapper.comment("world.generation",
                     "World generation settings (ores, etc.) Most of these REQUIRE A RESTART!");
+            worldGenWildFluffyPuffs = wrapper
+                    .builder("world.generation.plants.wildFluffyPuffs")
+                    .comment("Generate wild fluffy puff plants. If disabled, you will need to add some other way to obtain fluffy puff seeds.")
+                    .define(true);
             worldGenNetherGemsRegionSize = wrapper
                     .builder("world.generation.nether.gems.regionSize")
                     .comment("The region size for gems in the Nether.",

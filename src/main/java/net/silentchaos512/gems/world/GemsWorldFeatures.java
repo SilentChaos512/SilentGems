@@ -78,7 +78,7 @@ public final class GemsWorldFeatures {
                 addChaosOre(biome, random);
                 addSilverOre(biome, random);
 
-                if (biome.getDownfall() > 0.4f) {
+                if (biome.getDownfall() > 0.4f && GemsConfig.COMMON.worldGenWildFluffyPuffs.get()) {
                     addWildFluffyPuffs(biome);
                 }
 
@@ -231,6 +231,7 @@ public final class GemsWorldFeatures {
     }
 
     private static void addWildFluffyPuffs(Biome biome) {
+        SilentGems.LOGGER.debug("Add wild fluffy puffs to {}", biome.getRegistryName());
         biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(
                 new PlantFeature(FluffyPuffPlant.WILD.get().getMaturePlant(), 32, 6),
                 NoFeatureConfig.NO_FEATURE_CONFIG,

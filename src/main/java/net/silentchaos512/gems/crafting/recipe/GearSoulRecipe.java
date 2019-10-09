@@ -49,9 +49,4 @@ public class GearSoulRecipe extends ExtendedShapedRecipe {
     public IRecipeSerializer<?> getSerializer() {
         return SERIALIZER;
     }
-
-    @Override
-    public boolean isDynamic() {
-        return true;
-    }
 }
