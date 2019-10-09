@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 ### Fixed
+- Material grader losing inventory when broken [#417]
 - Possible crash in PlayerDataHandler [#392]
 
 ## [2.8.21] - 2019-07-31

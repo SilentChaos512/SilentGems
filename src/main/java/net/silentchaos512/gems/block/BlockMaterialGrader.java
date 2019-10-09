@@ -25,6 +25,8 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -135,5 +137,15 @@ public class BlockMaterialGrader extends BlockContainer implements ITileEntityBl
     @Override
     public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face) {
         return face == EnumFacing.DOWN;
+    }
+
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if (tileEntity instanceof IInventory) {
+            IInventory inventory = (IInventory) tileEntity;
+            InventoryHelper.dropInventoryItems(worldIn, pos, inventory);
+        }
+        super.breakBlock(worldIn, pos, state);
     }
 }
