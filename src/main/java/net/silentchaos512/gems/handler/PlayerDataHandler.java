@@ -19,6 +19,7 @@ import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.gems.util.ToolHelper;
 import net.silentchaos512.lib.tile.SyncVariable;
 
+import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.Map.Entry;
@@ -26,12 +27,12 @@ import java.util.Map.Entry;
 // Lots of inspiration from Psi here. Previous version of the mod used IExtendedEntityProperties,
 // but that doesn't seem to work in 1.9.
 public class PlayerDataHandler {
-    public static final String NBT_ROOT = SilentGems.MODID_NBT + "Data";
+    private static final String NBT_ROOT = SilentGems.MODID_NBT + "Data";
+    private static final PlayerData EMPTY = new PlayerData(null);
 
-    private static Map<Integer, PlayerData> playerData = new HashMap();
+    private static final Map<Integer, PlayerData> playerData = new HashMap<>();
 
     public static PlayerData get(EntityPlayer player) {
-
         int key = getKey(player);
         if (!playerData.containsKey(key)) {
             playerData.put(key, new PlayerData(player));
@@ -43,14 +44,16 @@ public class PlayerDataHandler {
             data.writeToNBT(tags);
             playerData.remove(key);
             data = get(player);
-            data.readFromNBT(tags);
+            if (data != null) {
+                data.readFromNBT(tags);
+            }
         }
 
-        return data;
+        return data != null ? data : EMPTY;
     }
 
     public static void cleanup() {
-        List<Integer> remove = new ArrayList();
+        List<Integer> remove = new ArrayList<>();
         Iterator<Entry<Integer, PlayerData>> iter = playerData.entrySet().iterator();
         while (iter.hasNext()) {
             Entry<Integer, PlayerData> item = iter.next();
@@ -91,8 +94,8 @@ public class PlayerDataHandler {
             }
         }
 
-        final int SOUL_TICK_DELAY = 600;
-        final int SOUL_TICK_SALT = 10 + SilentGems.random.nextInt(60);
+        static final int SOUL_TICK_DELAY = 600;
+        static final int SOUL_TICK_SALT = 10 + SilentGems.random.nextInt(60);
 
         @SubscribeEvent
         public void onPlayerTick(LivingUpdateEvent event) {
@@ -141,15 +144,16 @@ public class PlayerDataHandler {
         public WeakReference<EntityPlayer> playerWR;
         private final boolean client;
 
-        public PlayerData(EntityPlayer player) {
-            playerWR = new WeakReference<EntityPlayer>(player);
-            client = player.world.isRemote;
+        public PlayerData(@Nullable EntityPlayer player) {
+            playerWR = new WeakReference<>(player);
+            client = player != null && player.world.isRemote;
 
             load();
         }
 
         public void tick() {
             EntityPlayer player = playerWR.get();
+            if (player == null) return;
 
             if (maxChaos == 0) {
                 maxChaos = 10000;
@@ -222,8 +226,10 @@ public class PlayerDataHandler {
         private void sendUpdateMessage() {
             if (!client) {
                 EntityPlayer player = playerWR.get();
-                MessageDataSync message = new MessageDataSync(get(player));
-                NetworkHandler.INSTANCE.sendTo(message, (EntityPlayerMP) player);
+                if (player != null) {
+                    MessageDataSync message = new MessageDataSync(get(player));
+                    NetworkHandler.INSTANCE.sendTo(message, (EntityPlayerMP) player);
+                }
             }
         }
 
@@ -237,14 +243,16 @@ public class PlayerDataHandler {
 
         public int getChaosChargeSpeed() {
             EntityPlayer player = playerWR.get();
+            if (player == null) return 0;
+
             ItemStack mainHand = player.getHeldItem(EnumHand.MAIN_HAND);
             ItemStack offHand = player.getHeldItem(EnumHand.OFF_HAND);
 
             float multi = 0.0f;
-            if (mainHand != null && mainHand.getItem() instanceof ITool) {
+            if (mainHand.getItem() instanceof ITool) {
                 multi += ToolHelper.getChargeSpeed(mainHand);
             }
-            if (offHand != null && offHand.getItem() instanceof ITool) {
+            if (offHand.getItem() instanceof ITool) {
                 multi += ToolHelper.getChargeSpeed(offHand);
             }
             if (multi == 0.0f) {
