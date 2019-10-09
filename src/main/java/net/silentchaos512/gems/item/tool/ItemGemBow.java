@@ -151,7 +151,8 @@ public class ItemGemBow extends ItemBow implements ITool, IAddRecipes, ICustomMo
         return (2f + getArrowDamage(meleeDamage)) / 2f;
     }
 
-    private ItemStack findAmmo(EntityPlayer player) {
+    @Override
+    protected ItemStack findAmmo(EntityPlayer player) {
         if (this.isArrow(player.getHeldItem(EnumHand.OFF_HAND))) {
             return player.getHeldItem(EnumHand.OFF_HAND);
         } else if (this.isArrow(player.getHeldItem(EnumHand.MAIN_HAND))) {
