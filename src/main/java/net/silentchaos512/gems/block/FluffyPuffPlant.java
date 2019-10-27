@@ -28,32 +28,15 @@ import net.silentchaos512.gems.init.GemsItems;
 import net.silentchaos512.utils.Lazy;
 
 public final class FluffyPuffPlant extends CropsBlock {
-    public static final Lazy<FluffyPuffPlant> NORMAL = Lazy.of(() -> new FluffyPuffPlant(false));
-    public static final Lazy<FluffyPuffPlant> WILD = Lazy.of(() -> new FluffyPuffPlant(true));
+    public static final Lazy<FluffyPuffPlant> INSTANCE = Lazy.of(FluffyPuffPlant::new);
 
-    private final boolean wild;
-
-    private FluffyPuffPlant(boolean wild) {
+    private FluffyPuffPlant() {
         super(Properties.create(Material.PLANTS)
                 .tickRandomly()
                 .hardnessAndResistance(0) // was 0.1
                 .doesNotBlockMovement()
                 .sound(SoundType.CROP)
         );
-        this.wild = wild;
-    }
-
-    public BlockState getMaturePlant() {
-        return withAge(getMaxAge());
-    }
-
-    @Override
-    protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        if (wild) {
-            Block block = state.getBlock();
-            return block == Blocks.GRASS_BLOCK || block == Blocks.DIRT || block == Blocks.COARSE_DIRT || block == Blocks.PODZOL;
-        }
-        return super.isValidGround(state, worldIn, pos);
     }
 
     @Override

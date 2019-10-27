@@ -97,8 +97,8 @@ public final class GemsBlocks {
         register("luminous_flower_pot", LuminousFlowerPotBlock.INSTANCE.get());
         register("phantom_light", PhantomLightBlock.INSTANCE.get(), null);
 
-        register("fluffy_puff_plant", FluffyPuffPlant.NORMAL.get(), null);
-        register("wild_fluffy_puff_plant", FluffyPuffPlant.WILD.get(), null);
+        register("fluffy_puff_plant", FluffyPuffPlant.INSTANCE.get(), null);
+        register("wild_fluffy_puff_plant", WildFluffyPuffPlant.INSTANCE.get(), null);
     }
 
     private static void registerPedestal(String name, PedestalBlock block) {

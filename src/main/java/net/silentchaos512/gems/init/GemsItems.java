@@ -55,7 +55,7 @@ public final class GemsItems {
         register("refined_chaos_orb", new ChaosOrbItem(4, 1_000_000, 0.1f));
         register("perfect_chaos_orb", new ChaosOrbItem(4, 10_000_000, 0.05f));
 
-        fluffyPuffSeeds = register("fluffy_puff_seeds", new BlockNamedItem(FluffyPuffPlant.NORMAL.get(), new Item.Properties().group(GemsItemGroups.MATERIALS)));
+        fluffyPuffSeeds = register("fluffy_puff_seeds", new BlockNamedItem(FluffyPuffPlant.INSTANCE.get(), new Item.Properties().group(GemsItemGroups.MATERIALS)));
         register("glowrose_fertilizer", GlowroseFertilizerItem.INSTANCE.get());
 
         for (SoulUrnUpgrades upgrade : SoulUrnUpgrades.values()) {

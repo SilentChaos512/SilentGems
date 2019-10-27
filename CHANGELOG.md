@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Increased harvest levels of a few gems, notably black and yellow diamonds
+### Fixed
+- Wild fluffy puffs responded to right-click harvest mods [#423]
+- Fluffy puffs dropping from immature plants [#422]
 
 ## [3.4.6] - 209-10-09
 ### Added

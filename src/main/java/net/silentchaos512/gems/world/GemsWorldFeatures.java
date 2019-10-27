@@ -18,8 +18,8 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.FluffyPuffPlant;
 import net.silentchaos512.gems.block.MiscOres;
+import net.silentchaos512.gems.block.WildFluffyPuffPlant;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.GemsEntities;
 import net.silentchaos512.gems.lib.Gems;
@@ -233,7 +233,7 @@ public final class GemsWorldFeatures {
     private static void addWildFluffyPuffs(Biome biome) {
         SilentGems.LOGGER.debug("Add wild fluffy puffs to {}", biome.getRegistryName());
         biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(
-                new PlantFeature(FluffyPuffPlant.WILD.get().getMaturePlant(), 32, 6),
+                new PlantFeature(WildFluffyPuffPlant.INSTANCE.get().getDefaultState(), 32, 6),
                 NoFeatureConfig.NO_FEATURE_CONFIG,
                 Placement.COUNT_HEIGHTMAP_32,
                 new FrequencyConfig(1)
