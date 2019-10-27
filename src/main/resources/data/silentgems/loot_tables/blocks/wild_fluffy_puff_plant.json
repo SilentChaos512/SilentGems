@@ -15,6 +15,27 @@
         }
       ],
       "name": "pool0"
+    },
+	{
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "silentgems:fluffy_puff"
+        }
+      ],
+      "name": "pool1",
+	  "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "silentgems:wild_fluffy_puff_plant",
+          "properties": {
+            "age": "7"
+          }
+        }
+      ]
     }
+	
+	
   ]
 }
