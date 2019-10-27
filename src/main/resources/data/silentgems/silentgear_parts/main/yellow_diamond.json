@@ -18,11 +18,11 @@
     "stats": [
         {
             "name": "durability",
-            "value": 1536
+            "value": 1792
         },
         {
             "name": "armor_durability",
-            "value": 32
+            "value": 42
         },
         {
             "name": "enchantability",
@@ -30,7 +30,7 @@
         },
         {
             "name": "harvest_level",
-            "value": 2
+            "value": 4
         },
         {
             "name": "harvest_speed",
