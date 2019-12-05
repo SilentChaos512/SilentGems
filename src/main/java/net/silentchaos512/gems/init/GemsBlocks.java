@@ -1,12 +1,19 @@
 package net.silentchaos512.gems.init;
 
+import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.loot.LootTableManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
@@ -25,6 +32,7 @@ import net.silentchaos512.gems.lib.Gems;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -140,5 +148,30 @@ public final class GemsBlocks {
         for (Gems gem : Gems.values()) {
             register(name.apply(gem), factory.apply(gem), null);
         }
+    }
+
+    @Nullable
+    public static ITextComponent checkForMissingLootTables(PlayerEntity player) {
+        // Checks for missing block loot tables, but only in dev
+        if (!(player.world instanceof ServerWorld) || !SilentGems.isDevBuild()) return null;
+
+        LootTableManager lootTableManager = ((ServerWorld) player.world).getServer().getLootTableManager();
+        Collection<String> missing = new ArrayList<>();
+
+        for (Block block : ForgeRegistries.BLOCKS.getValues()) {
+            ResourceLocation lootTable = block.getLootTable();
+            // The AirBlock check filters out removed blocks
+            if (lootTable.getNamespace().equals(SilentGems.MOD_ID) && !(block instanceof AirBlock) && !lootTableManager.getLootTableKeys().contains(lootTable)) {
+                SilentGems.LOGGER.error("Missing block loot table '{}' for {}", lootTable, block.getRegistryName());
+                missing.add(lootTable.toString());
+            }
+        }
+
+        if (!missing.isEmpty()) {
+            String list = String.join(", ", missing);
+            return new StringTextComponent("The following block loot tables are missing: " + list).applyTextStyle(TextFormatting.RED);
+        }
+
+        return null;
     }
 }

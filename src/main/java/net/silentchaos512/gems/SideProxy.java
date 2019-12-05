@@ -42,6 +42,7 @@ import net.silentchaos512.gems.network.Network;
 import net.silentchaos512.gems.util.SoulEvents;
 import net.silentchaos512.gems.world.GemsWorldFeatures;
 import net.silentchaos512.gems.world.feature.structure.ShrineTest;
+import net.silentchaos512.lib.event.Greetings;
 import net.silentchaos512.lib.util.LibHooks;
 
 import javax.annotation.Nullable;
@@ -86,6 +87,7 @@ class SideProxy implements IProxy {
 
         if (SilentGems.isDevBuild()) {
             SilentGems.LOGGER.info("Silent's Gems (version {}) detected as a dev build. If this is not a development environment, this is a bug!", SilentGems.getVersion());
+            Greetings.addMessage(GemsBlocks::checkForMissingLootTables);
             ShrineTest.init();
         }
     }

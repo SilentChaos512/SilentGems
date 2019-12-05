@@ -4,6 +4,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Missing block loot tables, including transmutation altar and purifier [#431]
+    - Copied the checker function from Silent's Mechanisms. It's dev-only, but will prevent this issue in the future :)
 ### Changed
 - Increased harvest levels of a few gems, notably black and yellow diamonds
 ### Fixed
