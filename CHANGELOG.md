@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Missing block loot tables, including transmutation altar and purifier [#431]
     - Copied the checker function from Silent's Mechanisms. It's dev-only, but will prevent this issue in the future :)
+- Warning message on login when chaos buffs (used by chaos runes) fail to load for some reason [#430]
 ### Changed
 - Increased harvest levels of a few gems, notably black and yellow diamonds
 ### Fixed

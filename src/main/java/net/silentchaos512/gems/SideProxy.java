@@ -85,6 +85,8 @@ class SideProxy implements IProxy {
         GemsConfig.init();
         Network.init();
 
+        Greetings.addMessage(ChaosBuffManager::getGreetingErrorMessage);
+
         if (SilentGems.isDevBuild()) {
             SilentGems.LOGGER.info("Silent's Gems (version {}) detected as a dev build. If this is not a development environment, this is a bug!", SilentGems.getVersion());
             Greetings.addMessage(GemsBlocks::checkForMissingLootTables);

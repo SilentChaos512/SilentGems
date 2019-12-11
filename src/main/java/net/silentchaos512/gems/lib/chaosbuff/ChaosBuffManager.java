@@ -4,11 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resources.IResource;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourceManagerReloadListener;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.silentchaos512.gems.SilentGems;
@@ -97,5 +100,14 @@ public final class ChaosBuffManager implements IResourceManagerReloadListener {
         MAP.clear();
         packet.getBuffs().forEach(buff -> MAP.put(buff.getId(), buff));
         SilentGems.LOGGER.info("Received {} chaos buffs from server", MAP.size());
+    }
+
+    @Nullable
+    public static ITextComponent getGreetingErrorMessage(PlayerEntity player) {
+        if (MAP.isEmpty()) {
+            SilentGems.LOGGER.error("Something went wrong with chaos buff loading! This may be caused by another broken mod, even those not related to Silent's Gems.");
+            return new StringTextComponent("[Silent's Gems] No chaos buffs are loaded! This means chaos gems and runes will not work. This can be caused by a broken mod.");
+        }
+        return null;
     }
 }
