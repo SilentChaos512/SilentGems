@@ -33,6 +33,8 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.IWorldReader;
@@ -42,8 +44,10 @@ import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 
-public class LuminousFlowerPotBlock extends Block {
+public final class LuminousFlowerPotBlock extends Block {
     public static final Lazy<LuminousFlowerPotBlock> INSTANCE = Lazy.of(LuminousFlowerPotBlock::new);
+
+    private static final VoxelShape SHAPE = Block.makeCuboidShape(5.0D, 0.0D, 5.0D, 11.0D, 6.0D, 11.0D);
 
     private LuminousFlowerPotBlock() {
         super(Properties.create(Material.MISCELLANEOUS)
@@ -152,5 +156,11 @@ public class LuminousFlowerPotBlock extends Block {
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new LuminousFlowerPotTileEntity();
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return SHAPE;
     }
 }

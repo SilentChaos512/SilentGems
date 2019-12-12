@@ -5,9 +5,12 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -17,6 +20,8 @@ import java.util.Random;
 
 public class PhantomLightBlock extends Block {
     public static final Lazy<PhantomLightBlock> INSTANCE = Lazy.of(PhantomLightBlock::new);
+
+    private static final VoxelShape SHAPE = Block.makeCuboidShape(5, 5, 5, 11, 11, 11);
 
     private PhantomLightBlock() {
         super(Properties.create(Material.MISCELLANEOUS)
@@ -47,8 +52,20 @@ public class PhantomLightBlock extends Block {
 //        }
     }
 
+    @SuppressWarnings("deprecation")
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return SHAPE;
+    }
+
     @Override
     public boolean canBeReplacedByLeaves(BlockState state, IWorldReader world, BlockPos pos) {
+        return true;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
         return true;
     }
 
@@ -60,6 +77,7 @@ public class PhantomLightBlock extends Block {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.INVISIBLE;

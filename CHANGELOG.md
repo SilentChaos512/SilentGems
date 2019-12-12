@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.4.7] - 2019-12-11
 ### Added
 - Missing block loot tables, including transmutation altar and purifier [#431]
     - Copied the checker function from Silent's Mechanisms. It's dev-only, but will prevent this issue in the future :)
@@ -11,10 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Increased harvest levels of a few gems, notably black and yellow diamonds
 ### Fixed
+- Bounding box for luminous flower pot and phantom light [#429]
 - Wild fluffy puffs responded to right-click harvest mods [#423]
 - Fluffy puffs dropping from immature plants [#422]
 
-## [3.4.6] - 209-10-09
+## [3.4.6] - 2019-10-09
 ### Added
 - Config to disable wild fluffy puffs [#419]
 ### Fixed
