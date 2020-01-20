@@ -111,7 +111,7 @@ public class SpawnEntityPacket {
                 return;
             }
 
-            e.func_213312_b(msg.posX, msg.posY, msg.posZ);
+            e.setPacketCoordinates(msg.posX, msg.posY, msg.posZ);
             e.setPositionAndRotation(msg.posX, msg.posY, msg.posZ, (msg.yaw * 360) / 256.0F, (msg.pitch * 360) / 256.0F);
             e.setRotationYawHead((msg.headYaw * 360) / 256.0F);
             e.setRenderYawOffset((msg.headYaw * 360) / 256.0F);
