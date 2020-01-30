@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.4.8] - 2020-01-29
 ### Added
 - Enabled new April Fools prank (will activate on April 1st only)
+### Changed
+- Corrupted slimes and wisps will now only spawn if block light is less than 7. They no longer spawn anywhere the sky is visible.
 
 ## [3.4.7] - 2019-12-11
 ### Added

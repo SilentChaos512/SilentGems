@@ -83,7 +83,7 @@ public final class CorruptedSlimeSpawner {
 
     private static boolean canSpawnAt(World world, BlockPos pos) {
         final boolean isSpawnableSpace = WorldEntitySpawner.isSpawnableSpace(world, pos, world.getBlockState(pos), world.getFluidState(pos));
-        return isSpawnableSpace && (world.getLightFor(LightType.BLOCK, pos) < 7 || world.canBlockSeeSky(pos));
+        return isSpawnableSpace && world.getLightFor(LightType.BLOCK, pos) < 7;
     }
 
     private static BlockPos getRandomHeight(World worldIn, IChunk chunkIn) {

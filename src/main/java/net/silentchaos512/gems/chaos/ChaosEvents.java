@@ -131,6 +131,7 @@ public final class ChaosEvents {
      * @param player  The player to target
      */
     public static void triggerEvent(ResourceLocation eventId, PlayerEntity player) {
+        SilentGems.LOGGER.debug("Triggering event {}", eventId);
         player.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {
             ChaosEvent event = EVENTS.get(eventId);
             if (event != null) {
