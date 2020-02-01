@@ -112,24 +112,24 @@ dependencies {
     if (project.hasProperty("sgear_version")) {
         compile("net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}") {
             exclude module: 'curios'
-            exclude module: 'jei-1.14.4'
-            exclude module: 'mine-and-slash-1.14.4'
-            exclude module: 'silents-mechanisms-1.14.4'
+            exclude module: 'jei-1.15.2'
+            exclude module: 'mine-and-slash-1.15.2'
+            exclude module: 'silents-mechanisms-1.15.2'
         }
     }
     // Mech
-    runtimeOnly("net.silentchaos512:silents-mechanisms-${project.mc_version}:0.+") {
-        exclude module: 'cc-tweaked-1.14.4'
-        exclude module: 'jei-1.14.4'
-        exclude module: 'silent-gear-1.14.4'
-    }
+//    runtimeOnly("net.silentchaos512:silents-mechanisms-${project.mc_version}:0.+") {
+//        exclude module: 'cc-tweaked-1.14.4'
+//        exclude module: 'jei-1.14.4'
+//        exclude module: 'silent-gear-1.14.4'
+//    }
 
     // JEI
     if (project.hasProperty("jei_version")) {
         // compile against the JEI API but do not include it at runtime
-        compileOnly fg.deobf("mezz.jei:jei-1.14.4:${project.jei_version}:api")
+        compileOnly fg.deobf("mezz.jei:jei-${project.jei_version}:api")
         // at runtime, use the full JEI jar
-        runtimeOnly fg.deobf("mezz.jei:jei-1.14.4:${project.jei_version}")
+        runtimeOnly fg.deobf("mezz.jei:jei-${project.jei_version}")
     }
 
     // HWYLA
@@ -138,8 +138,8 @@ dependencies {
     }
 
     // Curios
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios:${project.curios_version}")
-    compileOnly fg.deobf("top.theillusivec4.curios:curios:${project.curios_version}:api")
+//    runtimeOnly fg.deobf("top.theillusivec4.curios:curios:${project.curios_version}")
+//    compileOnly fg.deobf("top.theillusivec4.curios:curios:${project.curios_version}:api")
 
     // Other mods
     //compile "net.silentchaos512:treasure-bags:1.+"

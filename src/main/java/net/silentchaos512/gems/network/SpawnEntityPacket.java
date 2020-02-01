@@ -34,9 +34,9 @@ public class SpawnEntityPacket {
         this.typeId = Registry.ENTITY_TYPE.getId(e.getType());
         this.entityId = e.getEntityId();
         this.uuid = e.getUniqueID();
-        this.posX = e.posX;
-        this.posY = e.posY;
-        this.posZ = e.posZ;
+        this.posX = e.getPosX();
+        this.posY = e.getPosY();
+        this.posZ = e.getPosZ();
         this.pitch = (byte) MathHelper.floor(e.rotationPitch * 256.0F / 360.0F);
         this.yaw = (byte) MathHelper.floor(e.rotationYaw * 256.0F / 360.0F);
         this.headYaw = (byte) (e.getRotationYawHead() * 256.0F / 360.0F);

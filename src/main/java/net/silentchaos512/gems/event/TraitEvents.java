@@ -76,9 +76,9 @@ public final class TraitEvents {
     }
 
     private static void knockback(LivingEntity attacker, LivingEntity target, float strength) {
-        double x = attacker.posX - target.posX;
+        double x = attacker.getPosX() - target.getPosX();
         double z;
-        for(z = attacker.posZ - target.posZ; x * x + z * z < 1.0E-4D; z = (Math.random() - Math.random()) * 0.01D) {
+        for(z = attacker.getPosZ() - target.getPosZ(); x * x + z * z < 1.0E-4D; z = (Math.random() - Math.random()) * 0.01D) {
             x = (Math.random() - Math.random()) * 0.01D;
         }
         target.knockBack(attacker, strength, x, z);

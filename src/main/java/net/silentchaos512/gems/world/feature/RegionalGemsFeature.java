@@ -57,7 +57,7 @@ public class RegionalGemsFeature extends Feature<RegionalGemsFeatureConfig> {
     protected boolean func_207803_a(IWorld world, Random random, BlockState oreBlock, RegionalGemsFeatureConfig config, double p_207803_4_, double p_207803_6_, double p_207803_8_, double p_207803_10_, double p_207803_12_, double p_207803_14_, int p_207803_16_, int p_207803_17_, int p_207803_18_, int p_207803_19_, int p_207803_20_) {
         int i = 0;
         BitSet bitset = new BitSet(p_207803_19_ * p_207803_20_ * p_207803_19_);
-        BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos();
+        BlockPos.Mutable blockPos = new BlockPos.Mutable();
         double[] adouble = new double[config.size * 4];
 
         for (int j = 0; j < config.size; ++j) {

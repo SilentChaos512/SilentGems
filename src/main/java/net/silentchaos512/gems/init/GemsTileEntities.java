@@ -70,8 +70,8 @@ public enum GemsTileEntities {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderers(FMLClientSetupEvent event) {
-        ClientRegistry.bindTileEntitySpecialRenderer(PedestalTileEntity.class, new PedestalRenderer());
-        ClientRegistry.bindTileEntitySpecialRenderer(SoulUrnTileEntity.class, new SoulUrnRenderer());
+        ClientRegistry.bindTileEntityRenderer(PedestalTileEntity.class, new PedestalRenderer());
+        ClientRegistry.bindTileEntityRenderer(SoulUrnTileEntity.class, new SoulUrnRenderer());
     }
 
     private static <T extends TileEntity> void register(String name, TileEntityType<T> type) {

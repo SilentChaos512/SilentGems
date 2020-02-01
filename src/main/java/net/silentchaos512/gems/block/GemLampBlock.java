@@ -31,6 +31,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.silentchaos512.gems.lib.Gems;
 
 import javax.annotation.Nullable;
@@ -127,7 +128,7 @@ public class GemLampBlock extends Block implements IGemBlock {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
             checkAndUpdateState(world, pos);
     }
 

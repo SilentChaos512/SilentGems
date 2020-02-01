@@ -8,7 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.init.GemsTags;
 import net.silentchaos512.lib.block.IBlockProvider;
@@ -73,9 +73,9 @@ public enum CorruptedBlocks implements IBlockProvider {
 
         @SuppressWarnings("deprecation")
         @Override
-        public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
+        public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
             // Small chance of turning back
-            if (MathUtils.tryPercentage(random, 0.01)) {
+            if (MathUtils.tryPercentage(rand, 0.01)) {
                 worldIn.setBlockState(pos, CorruptedBlocks.this.purifyBlock.getDefaultState(), 3);
             }
         }

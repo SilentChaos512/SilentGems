@@ -10,15 +10,13 @@ import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IEnviromentBlockReader;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.ModList;
 import net.silentchaos512.gems.chaos.Chaos;
@@ -86,7 +84,7 @@ public enum MiscOres implements IBlockProvider, IStringSerializable {
         }
 
         @Override
-        public int getLightValue(BlockState state, IEnviromentBlockReader world, BlockPos pos) {
+        public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
             return state.get(LIT) ? 9 : 0;
         }
 
@@ -105,7 +103,7 @@ public enum MiscOres implements IBlockProvider, IStringSerializable {
 
         @SuppressWarnings("deprecation")
         @Override
-        public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
             activate(state, worldIn, pos);
             return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
         }
@@ -123,7 +121,7 @@ public enum MiscOres implements IBlockProvider, IStringSerializable {
 
         @SuppressWarnings("deprecation")
         @Override
-        public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
+        public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
             if (state.get(LIT)) {
                 worldIn.setBlockState(pos, state.with(LIT, false), 3);
             }

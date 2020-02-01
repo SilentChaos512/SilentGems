@@ -76,15 +76,15 @@ public final class TeleporterLinkerItem extends Item {
 
         if (heldItem.getItem() == INSTANCE.get()) {
             FontRenderer fontRender = mc.fontRenderer;
-            int width = mc.mainWindow.getScaledWidth();
-            int height = mc.mainWindow.getScaledHeight();
+            int width = mc.getMainWindow().getScaledWidth();
+            int height = mc.getMainWindow().getScaledHeight();
 
             String str;
             if (isLinked(heldItem)) {
                 DimPos pos = getLinkedPosition(heldItem);
 //                if (pos == null) return;
-                double x = pos.getX() - player.posX;
-                double z = pos.getZ() - player.posZ;
+                double x = pos.getX() - player.getPosX();
+                double z = pos.getZ() - player.getPosZ();
                 int distance = (int) Math.sqrt(x * x + z * z);
                 str = I18n.format("item.silentgems.teleporter_linker.distance", distance);
 

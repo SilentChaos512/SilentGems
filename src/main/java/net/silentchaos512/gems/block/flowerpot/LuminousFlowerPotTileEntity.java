@@ -9,7 +9,6 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LightType;
 import net.silentchaos512.gems.SilentGems;
@@ -72,7 +71,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
         y += 2; // rand.nextInt(5) - 2;
         z += Math.round(vec.z);
 
-        MutableBlockPos tryPos = new MutableBlockPos(x, y, z);
+        BlockPos.Mutable tryPos = new BlockPos.Mutable(x, y, z);
 
         // Debug particles
 //        if (SilentGems.proxy.isClientPlayerHoldingDebugItem()) {

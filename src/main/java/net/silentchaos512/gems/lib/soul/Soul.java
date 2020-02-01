@@ -224,7 +224,7 @@ public final class Soul {
 
             if (soul != null && shouldDropSoulGem(event, entity, soul)) {
                 ItemStack soulGem = soul.getSoulGem();
-                ItemEntity entityItem = new ItemEntity(entity.world, entity.posX, entity.posY + entity.getHeight() / 2, entity.posZ, soulGem);
+                ItemEntity entityItem = new ItemEntity(entity.world, entity.getPosX(), entity.getPosY() + entity.getHeight() / 2, entity.getPosZ(), soulGem);
                 event.getDrops().add(entityItem);
             }
         }

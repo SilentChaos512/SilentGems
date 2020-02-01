@@ -51,7 +51,7 @@ public class ChaosMeterItem extends Item {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         ItemStack heldItem = playerIn.getHeldItem(handIn);
 
-        if (playerIn.isSneaking()) {
+        if (playerIn.isCrouching()) {
             boolean playerMode = isPlayerMode(heldItem);
             setPlayerMode(heldItem, !playerMode);
         }

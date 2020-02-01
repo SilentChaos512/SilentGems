@@ -15,8 +15,6 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.silentchaos512.gems.SilentGems;
 
 import javax.annotation.Nonnull;
@@ -53,19 +51,13 @@ public class EnderSlimeEntity extends SlimeEntity {
 
     @Override
     public boolean isNotColliding(IWorldReader worldIn) {
-        return worldIn.checkNoEntityCollision(this) && !worldIn.containsAnyLiquid(this.getBoundingBox());
+        return worldIn.func_226668_i_(this) && !worldIn.containsAnyLiquid(this.getBoundingBox());
     }
 
     @Override
     protected void setSlimeSize(int size, boolean resetHealth) {
         super.setSlimeSize(size, resetHealth);
         this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue((double) (size * 3));
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public int getBrightnessForRender() {
-        return 15728880;
     }
 
     @Override
@@ -114,7 +106,8 @@ public class EnderSlimeEntity extends SlimeEntity {
     }
 
     @Override
-    public void fall(float distance, float damageMultiplier) {
+    public boolean onLivingFall(float distance, float damageMultiplier) {
+        return false;
     }
 
     @Override
@@ -123,8 +116,8 @@ public class EnderSlimeEntity extends SlimeEntity {
     }
 
     @Override
-    protected int getAttackStrength() {
-        return super.getAttackStrength() + 2;
+    protected float func_225512_er_() {
+        return super.func_225512_er_() + 2;
     }
 
     @Override
@@ -152,14 +145,14 @@ public class EnderSlimeEntity extends SlimeEntity {
     //region Teleport code copied from EntityEnderman
 
     protected boolean teleportRandomly() {
-        double d0 = this.posX + (this.rand.nextDouble() - 0.5D) * 64.0D;
-        double d1 = this.posY + (double) (this.rand.nextInt(64) - 32);
-        double d2 = this.posZ + (this.rand.nextDouble() - 0.5D) * 64.0D;
+        double d0 = this.getPosX() + (this.rand.nextDouble() - 0.5D) * 64.0D;
+        double d1 = this.getPosY() + (double) (this.rand.nextInt(64) - 32);
+        double d2 = this.getPosZ() + (this.rand.nextDouble() - 0.5D) * 64.0D;
         return this.teleportTo(d0, d1, d2);
     }
 
     private boolean teleportTo(double x, double y, double z) {
-        BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos(x, y, z);
+        BlockPos.Mutable blockPos = new BlockPos.Mutable(x, y, z);
 
         while(blockPos.getY() > 0 && !this.world.getBlockState(blockPos).getMaterial().blocksMovement()) {
             blockPos.move(Direction.DOWN);

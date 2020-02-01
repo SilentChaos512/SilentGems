@@ -51,8 +51,6 @@ class SideProxy implements IProxy {
     private MinecraftServer server = null;
 
     SideProxy() {
-        SilentGems.LOGGER.debug("Gems SideProxy init");
-
         // Detect Silent Gear and load anything needed for compatibility
         SGearProxy.detectSilentGear();
         if (SGearProxy.isLoaded()) {
@@ -95,7 +93,6 @@ class SideProxy implements IProxy {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        SilentGems.LOGGER.debug("Gems commonSetup");
 
         ChaosSourceCapability.register();
         UpgradePlanter.init();
@@ -112,11 +109,9 @@ class SideProxy implements IProxy {
     }
 
     private void imcEnqueue(InterModEnqueueEvent event) {
-        SilentGems.LOGGER.debug("Gems imcEnqueue");
     }
 
     private void imcProcess(InterModProcessEvent event) {
-        SilentGems.LOGGER.debug("Gems imcProcess");
     }
 
     private void serverAboutToStart(FMLServerAboutToStartEvent event) {
@@ -140,7 +135,6 @@ class SideProxy implements IProxy {
 
     static class Client extends SideProxy {
         Client() {
-            SilentGems.LOGGER.debug("Gems SideProxy.Client init");
             FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 
             FMLJavaModLoadingContext.get().getModEventBus().addListener(ColorHandlers::onBlockColors);
@@ -162,7 +156,7 @@ class SideProxy implements IProxy {
         }
 
         private void clientSetup(FMLClientSetupEvent event) {
-            SilentGems.LOGGER.debug("Gems clientSetup");
+            GemsBlocks.registerRenderTypes(event);
             GemsEntities.registerRenderers(event);
             GemsTileEntities.registerRenderers(event);
             GemsContainers.registerScreens(event);
@@ -177,12 +171,10 @@ class SideProxy implements IProxy {
 
     static class Server extends SideProxy {
         Server() {
-            SilentGems.LOGGER.debug("Gems SideProxy.Server init");
             FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverSetup);
         }
 
         private void serverSetup(FMLDedicatedServerSetupEvent event) {
-            SilentGems.LOGGER.debug("Gems serverSetup");
         }
     }
 }

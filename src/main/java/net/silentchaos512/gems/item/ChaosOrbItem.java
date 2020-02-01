@@ -101,7 +101,7 @@ public class ChaosOrbItem extends Item {
         // Display name will be Air after we shrink, so get it now
         ITextComponent displayName = stack.getDisplayName();
 //        entity.renderBrokenItemStack(stack);
-        entity.world.playSound(entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_ITEM_BREAK, entity.getSoundCategory(), 0.8F, 0.8F + entity.world.rand.nextFloat() * 0.4F, false);
+        entity.world.playSound(entity.getPosX(), entity.getPosY(), entity.getPosZ(), SoundEvents.ENTITY_ITEM_BREAK, entity.getSoundCategory(), 0.8F, 0.8F + entity.world.rand.nextFloat() * 0.4F, false);
         if (entity instanceof PlayerEntity) {
             ((PlayerEntity) entity).addStat(Stats.ITEM_BROKEN.get(stack.getItem()));
         }

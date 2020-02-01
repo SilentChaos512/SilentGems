@@ -53,9 +53,9 @@ public class UpgradeVacuum extends UrnUpgrade {
                 // Accelerate to target point
                 Vec3d vec = entity.getPositionVector().subtractReverse(target);
                 vec = vec.normalize().scale(0.05);
-                if (entity.posY < target.y) {
-                    double xzDistanceSq = (entity.posX - target.x) * (entity.posX - target.x)
-                            + (entity.posZ - target.z) * (entity.posZ - target.z);
+                if (entity.getPosY() < target.y) {
+                    double xzDistanceSq = (entity.getPosX() - target.x) * (entity.getPosX() - target.x)
+                            + (entity.getPosZ() - target.z) * (entity.getPosZ() - target.z);
                     vec = vec.add(0, 0.01 + xzDistanceSq / 250, 0);
                 }
                 entity.addVelocity(vec.x, vec.y, vec.z);

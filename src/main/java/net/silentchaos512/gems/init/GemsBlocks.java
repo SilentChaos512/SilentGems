@@ -1,8 +1,6 @@
 package net.silentchaos512.gems.init;
 
-import net.minecraft.block.AirBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
@@ -14,7 +12,10 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootTableManager;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
@@ -31,9 +32,7 @@ import net.silentchaos512.gems.item.GemBlockItem;
 import net.silentchaos512.gems.lib.Gems;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -60,6 +59,10 @@ public final class GemsBlocks {
         }
         registerGemBlocks(Gems::getGlowrose, gem -> gem.getName() + "_glowrose");
         registerGemBlocksNoItem(Gems::getPottedGlowrose, gem -> "potted_" + gem.getName() + "_glowrose");
+        Arrays.stream(Gems.values()).forEach(gem -> {
+            ResourceLocation flowerId = Objects.requireNonNull(gem.getGlowrose().getRegistryName());
+            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(flowerId, gem::getPottedGlowrose);
+        });
 
         registerGemBlocks(Gems::getTeleporter, gem -> gem.getName() + "_teleporter", teleporters::add);
         registerGemBlocks(Gems::getRedstoneTeleporter, gem -> gem.getName() + "_redstone_teleporter", teleporters::add);
@@ -107,6 +110,11 @@ public final class GemsBlocks {
 
         register("fluffy_puff_plant", FluffyPuffPlant.INSTANCE.get(), null);
         register("wild_fluffy_puff_plant", WildFluffyPuffPlant.INSTANCE.get(), null);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void registerRenderTypes(FMLClientSetupEvent event) {
+        // TODO
     }
 
     private static void registerPedestal(String name, PedestalBlock block) {

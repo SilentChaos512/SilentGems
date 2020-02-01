@@ -75,10 +75,10 @@ public abstract class AbstractWispEntity extends MonsterEntity {
         return super.getDeathSound();
     }
 
-    @Override
+    /*@Override
     public int getBrightnessForRender() {
         return 15728880;
-    }
+    }*/
 
     @Override
     public float getBrightness() {
@@ -113,7 +113,7 @@ public abstract class AbstractWispEntity extends MonsterEntity {
         }
 
         LivingEntity target = this.getAttackTarget();
-        if (target != null && target.posY + (double)target.getEyeHeight() > this.posY + (double)this.getEyeHeight() + (double)this.heightOffset && this.canAttack(target)) {
+        if (target != null && target.getPosY() + (double)target.getEyeHeight() > this.getPosY() + (double)this.getEyeHeight() + (double)this.heightOffset && this.canAttack(target)) {
             Vec3d vec3d = this.getMotion();
             this.setMotion(this.getMotion().add(0.0D, ((double)0.3F - vec3d.y) * (double)0.3F, 0.0D));
             this.isAirBorne = true;
@@ -122,9 +122,9 @@ public abstract class AbstractWispEntity extends MonsterEntity {
         super.updateAITasks();
     }
 
-    @SuppressWarnings("NoopMethodInAbstractClass")
     @Override
-    public void fall(float distance, float damageMultiplier) {
+    public boolean onLivingFall(float distance, float damageMultiplier) {
+        return false;
     }
 
     @Override
@@ -183,11 +183,11 @@ public abstract class AbstractWispEntity extends MonsterEntity {
                         this.wisp.attackEntityAsMob(target);
                     }
 
-                    this.wisp.getMoveHelper().setMoveTo(target.posX, target.posY, target.posZ, 1.0D);
+                    this.wisp.getMoveHelper().setMoveTo(target.getPosX(), target.getPosY(), target.getPosZ(), 1.0D);
                 } else if (distanceSq < this.getFollowDistance() * this.getFollowDistance() && canSeeTarget) {
-                    double dx = target.posX - this.wisp.posX;
-                    double dy = target.getBoundingBox().minY + (double)(target.getHeight() / 2.0F) - (this.wisp.posY + (double)(this.wisp.getHeight() / 2.0F));
-                    double dz = target.posZ - this.wisp.posZ;
+                    double dx = target.getPosX() - this.wisp.getPosX();
+                    double dy = target.getBoundingBox().minY + (double)(target.getHeight() / 2.0F) - (this.wisp.getPosY() + (double)(this.wisp.getHeight() / 2.0F));
+                    double dz = target.getPosZ() - this.wisp.getPosZ();
                     if (this.attackTime <= 0) {
                         ++this.attackStep;
                         if (this.attackStep == 1) {
@@ -208,11 +208,11 @@ public abstract class AbstractWispEntity extends MonsterEntity {
                             for(int i = 0; i < 1; ++i) {
                                 AbstractWispShotEntity shot = this.wisp.getProjectile(this.wisp, dx + this.wisp.getRNG().nextGaussian() * (double)f, dy, dz + this.wisp.getRNG().nextGaussian() * (double)f);
                                 shot.setColor(this.wisp.getWispType().getColor().getColor());
-                                shot.posY = this.wisp.posY + this.wisp.getHeight() / 2 + 0.5;
+                                shot.setPosition(shot.getPosX(), this.wisp.getPosYEye(), shot.getPosZ());
                                 this.wisp.world.addEntity(shot);
 
                                 // Need to manually spawn this on the client... because vanilla
-                                Supplier<PacketDistributor.TargetPoint> p = PacketDistributor.TargetPoint.p(this.wisp.posX, this.wisp.posY, this.wisp.posZ, 4096, this.wisp.dimension);
+                                Supplier<PacketDistributor.TargetPoint> p = PacketDistributor.TargetPoint.p(this.wisp.getPosX(), this.wisp.getPosY(), this.wisp.getPosZ(), 4096, this.wisp.dimension);
                                 Network.channel.send(PacketDistributor.NEAR.with(p), new SpawnEntityPacket(shot));
                             }
                         }
@@ -220,7 +220,7 @@ public abstract class AbstractWispEntity extends MonsterEntity {
 
                     this.wisp.getLookController().setLookPositionWithEntity(target, 10.0F, 10.0F);
                 } else if (this.field_223527_d < 5) {
-                    this.wisp.getMoveHelper().setMoveTo(target.posX, target.posY, target.posZ, 1.0D);
+                    this.wisp.getMoveHelper().setMoveTo(target.getPosX(), target.getPosY(), target.getPosZ(), 1.0D);
                 }
 
                 super.tick();

@@ -138,7 +138,7 @@ public class DrawingCompass extends Item {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand hand) {
         ItemStack stack = playerIn.getHeldItem(hand);
-        if (hand == Hand.MAIN_HAND && playerIn.isSneaking() && !worldIn.isRemote) {
+        if (hand == Hand.MAIN_HAND && playerIn.isCrouching() && !worldIn.isRemote) {
             clearBlocks(stack);
             return new ActionResult<>(ActionResultType.SUCCESS, stack);
         }

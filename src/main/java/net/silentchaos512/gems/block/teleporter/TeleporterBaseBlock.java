@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -38,20 +39,20 @@ public class TeleporterBaseBlock extends Block {
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         ItemStack heldItem = player.getHeldItem(hand);
         boolean holdingLinker = !heldItem.isEmpty() && heldItem.getItem() == TeleporterLinkerItem.INSTANCE.get();
         boolean holdingReturnHome = !heldItem.isEmpty() && heldItem.getItem() instanceof ReturnHomeCharmItem;
 
         if (world.isRemote)
-            return (holdingLinker || holdingReturnHome) || !isAnchor;
+            return (holdingLinker || holdingReturnHome) || !isAnchor ? ActionResultType.SUCCESS : ActionResultType.PASS;
 
         GemTeleporterTileEntity tile = (GemTeleporterTileEntity) world.getTileEntity(pos);
         if (tile == null) {
             SilentGems.LOGGER.warn("Teleporter tile at {} not found!", pos);
-            return false;
+            return ActionResultType.PASS;
         }
 
-        return tile.interact(player, heldItem, hand);
+        return tile.interact(player, heldItem, hand) ? ActionResultType.SUCCESS : ActionResultType.PASS;
     }
 }

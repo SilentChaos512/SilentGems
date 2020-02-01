@@ -34,9 +34,4 @@ public class CorruptedSlimeEntity extends SlimeEntity {
     protected IParticleData getSquishParticle() {
         return super.getSquishParticle();
     }
-
-    @Override
-    protected int getAttackStrength() {
-        return super.getAttackStrength();
-    }
 }

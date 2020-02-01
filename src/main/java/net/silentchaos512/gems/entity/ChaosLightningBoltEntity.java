@@ -23,9 +23,9 @@ public class ChaosLightningBoltEntity extends LightningBoltEntity {
 
         if (this.lightningState >= 0) {
             if (this.world.isRemote) {
-                this.world.setLastLightningBolt(2);
+                this.world.setTimeLightningFlash(2);
             } else {
-                List<Entity> list = this.world.getEntitiesInAABBexcluding(this, new AxisAlignedBB(this.posX - 3.0D, this.posY - 3.0D, this.posZ - 3.0D, this.posX + 3.0D, this.posY + 6.0D + 3.0D, this.posZ + 3.0D), Entity::isAlive);
+                List<Entity> list = this.world.getEntitiesInAABBexcluding(this, new AxisAlignedBB(this.getPosX() - 3.0D, this.getPosY() - 3.0D, this.getPosZ() - 3.0D, this.getPosX() + 3.0D, this.getPosY() + 6.0D + 3.0D, this.getPosZ() + 3.0D), Entity::isAlive);
 
                 for(Entity entity : list) {
                     if (!net.minecraftforge.event.ForgeEventFactory.onEntityStruckByLightning(entity, this))

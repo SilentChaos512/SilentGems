@@ -29,14 +29,13 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Stats;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.block.GlowroseBlock;
@@ -57,7 +56,7 @@ public final class LuminousFlowerPotBlock extends Block {
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         ItemStack heldItem = player.getHeldItem(hand);
 
         if (!heldItem.isEmpty() && heldItem.getItem() instanceof BlockItem) {
@@ -83,16 +82,16 @@ public final class LuminousFlowerPotBlock extends Block {
                         heldItem.shrink(1);
                     }
 
-                    return true;
+                    return ActionResultType.SUCCESS;
                 }
             }
         }
 
-        return false;
+        return ActionResultType.PASS;
     }
 
     @Override
-    public int getLightValue(BlockState state, IEnviromentBlockReader world, BlockPos pos) {
+    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
         LuminousFlowerPotTileEntity tile = getTileEntity(world, pos);
         return tile != null && !tile.getFlower().isEmpty() ? 15 : lightValue;
     }
@@ -125,11 +124,6 @@ public final class LuminousFlowerPotBlock extends Block {
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
-    }
-
-    @Override
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.CUTOUT;
     }
 
     @SuppressWarnings("deprecation")

@@ -178,8 +178,8 @@ public final class ChaosEvents {
 
     private static boolean spawnLightningBolt(Entity entity, World world) {
         if (world instanceof ServerWorld && canSpawnLightningIn(world.dimension.getType())) {
-            double posX = entity.posX + MathUtils.nextIntInclusive(-64, 64);
-            double posZ = entity.posZ + MathUtils.nextIntInclusive(-64, 64);
+            double posX = entity.getPosX() + MathUtils.nextIntInclusive(-64, 64);
+            double posZ = entity.getPosZ() + MathUtils.nextIntInclusive(-64, 64);
             int height = world.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) posX, (int) posZ);
             LightningBoltEntity bolt = new LightningBoltEntity(world, posX, height, posZ, false);
             ((ServerWorld) world).addLightningBolt(bolt);
@@ -191,8 +191,8 @@ public final class ChaosEvents {
     private static boolean spawnChaosLightningBolts(Entity entity, World world, int count) {
         if (world instanceof ServerWorld && canSpawnLightningIn(world.dimension.getType())) {
             for (int i = 0; i < count; ++i) {
-                double posX = entity.posX + MathUtils.nextIntInclusive(-64, 64);
-                double posZ = entity.posZ + MathUtils.nextIntInclusive(-64, 64);
+                double posX = entity.getPosX() + MathUtils.nextIntInclusive(-64, 64);
+                double posZ = entity.getPosZ() + MathUtils.nextIntInclusive(-64, 64);
                 int height = world.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) posX, (int) posZ);
                 LIGHTNING_QUEUE.add(() -> new ChaosLightningBoltEntity(world, posX, height, posZ));
             }
@@ -206,8 +206,8 @@ public final class ChaosEvents {
     }
 
     private static boolean corruptBlocks(Entity entity, World world) {
-        int posX = (int) entity.posX + MathUtils.nextIntInclusive(-128, 128);
-        int posZ = (int) entity.posZ + MathUtils.nextIntInclusive(-128, 128);
+        int posX = (int) entity.getPosX() + MathUtils.nextIntInclusive(-128, 128);
+        int posZ = (int) entity.getPosZ() + MathUtils.nextIntInclusive(-128, 128);
         int posY = 64 + MathUtils.nextIntInclusive(-32, 64);
 
         BlockPos pos = new BlockPos(posX, posY, posZ);

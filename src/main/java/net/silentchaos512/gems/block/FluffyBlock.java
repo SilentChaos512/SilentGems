@@ -73,7 +73,7 @@ public class FluffyBlock extends Block {
         // Reduce fall distance by 10 blocks per stacked block
         distance -= Math.min(10 * stackedBlocks, distance);
         entity.fallDistance = 0f;
-        entity.fall(distance, 1f);
+        entity.onLivingFall(distance, 1f);
     }
 
     private static void onGetBreakSpeed(PlayerEvent.BreakSpeed event) {
