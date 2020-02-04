@@ -1,45 +1,40 @@
 package net.silentchaos512.gems.client.render.entity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.RendererModel;
+import com.google.common.collect.ImmutableList;
+import net.minecraft.client.renderer.entity.model.SegmentedModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 import net.silentchaos512.gems.entity.AbstractWispEntity;
-import net.silentchaos512.utils.Color;
 
-public class WispModel<T extends AbstractWispEntity> extends EntityModel<T> {
-    private final RendererModel[] satellites = new RendererModel[12];
-    private final RendererModel mainBody;
+import java.util.Arrays;
+
+public class WispModel<T extends AbstractWispEntity> extends SegmentedModel<T> {
+    private final ModelRenderer[] satellites = new ModelRenderer[12];
+    private final ModelRenderer mainBody;
+    private final ImmutableList<ModelRenderer> modelParts;
 
     public WispModel() {
         for (int i = 0; i < this.satellites.length; ++i) {
-            this.satellites[i] = new RendererModel(this, 0, 16);
+            this.satellites[i] = new ModelRenderer(this, 0, 16);
             this.satellites[i].addBox(0f, 0f, 0f, 2, 2, 2);
         }
 
-        this.mainBody = new RendererModel(this, 0, 0);
+        this.mainBody = new ModelRenderer(this, 0, 0);
         this.mainBody.addBox(-4f, -1f, -4f, 8, 8, 8);
+
+        ImmutableList.Builder<ModelRenderer> builder = ImmutableList.builder();
+        builder.add(this.mainBody);
+        builder.addAll(Arrays.asList(this.satellites));
+        this.modelParts = builder.build();
     }
 
     @Override
-    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        GlStateManager.pushMatrix();
-
-        Color color = entityIn.getWispType().getColor();
-        GlStateManager.color3f(color.getRed(), color.getGreen(), color.getBlue());
-
-        this.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-        this.mainBody.render(scale);
-
-        for (RendererModel model : this.satellites) {
-            model.render(scale);
-        }
-
-        GlStateManager.popMatrix();
+    public Iterable<ModelRenderer> getParts() {
+        return this.modelParts;
     }
 
     @Override
-    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float f = ((float)Math.PI / 4F) + ageInTicks * (float)Math.PI * 0.03F;
 
         for (int i = 0; i < this.satellites.length; ++i) {

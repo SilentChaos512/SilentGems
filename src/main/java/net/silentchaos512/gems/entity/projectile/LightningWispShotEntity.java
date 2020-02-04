@@ -35,6 +35,11 @@ public class LightningWispShotEntity extends AbstractWispShotEntity {
     }
 
     @Override
+    public WispTypes getWispType() {
+        return WispTypes.LIGHTNING;
+    }
+
+    @Override
     protected void onEntityImpact(Entity entityIn) {
         if (entityIn instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity) entityIn;

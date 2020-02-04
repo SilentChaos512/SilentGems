@@ -28,6 +28,11 @@ public class ChaosWispShotEntity extends AbstractWispShotEntity {
     }
 
     @Override
+    public WispTypes getWispType() {
+        return WispTypes.CHAOS;
+    }
+
+    @Override
     protected void onEntityImpact(Entity entityIn) {
         if (entityIn.attackEntityFrom(ModDamageSource.causeWispShotDamage(this, this.shootingEntity), 4f)) {
             entityIn.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {

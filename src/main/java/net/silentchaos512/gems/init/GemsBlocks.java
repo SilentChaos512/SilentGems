@@ -2,6 +2,8 @@ package net.silentchaos512.gems.init;
 
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
@@ -114,7 +116,12 @@ public final class GemsBlocks {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderTypes(FMLClientSetupEvent event) {
-        // TODO
+        for (Gems gem : Gems.values()) {
+            RenderTypeLookup.setRenderLayer(gem.getGlass(), RenderType.translucent());
+            RenderTypeLookup.setRenderLayer(gem.getGlowrose(), RenderType.cutout());
+        }
+        RenderTypeLookup.setRenderLayer(FluffyPuffPlant.INSTANCE.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(WildFluffyPuffPlant.INSTANCE.get(), RenderType.cutout());
     }
 
     private static void registerPedestal(String name, PedestalBlock block) {

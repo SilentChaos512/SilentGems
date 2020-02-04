@@ -48,7 +48,7 @@ public class GemTeleporterTileEntity extends TileEntity {
     }
 
     public GemTeleporterTileEntity(boolean isAnchor) {
-        super(GemsTileEntities.TELEPORTER.type());
+        super(GemsTileEntities.TELEPORTER);
         this.isAnchor = isAnchor;
     }
 

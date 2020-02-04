@@ -20,7 +20,7 @@ public class TokenEnchanterTileEntity extends AbstractChaosMachineTileEntity<Tok
     private static final int[] SLOTS_ALL = IntStream.range(0, 8).toArray();
 
     public TokenEnchanterTileEntity() {
-        super(GemsTileEntities.TOKEN_ENCHANTER.type(), INVENTORY_SIZE);
+        super(GemsTileEntities.TOKEN_ENCHANTER, INVENTORY_SIZE);
     }
 
     @Override

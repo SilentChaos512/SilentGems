@@ -33,6 +33,11 @@ public class IceWispShotEntity extends AbstractWispShotEntity {
     }
 
     @Override
+    public WispTypes getWispType() {
+        return WispTypes.ICE;
+    }
+
+    @Override
     protected void onEntityImpact(Entity entityIn) {
         if (entityIn instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity) entityIn;

@@ -1,62 +1,62 @@
 package net.silentchaos512.gems.client.render.tile;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.block.pedestal.PedestalTileEntity;
 import net.silentchaos512.lib.event.ClientTicks;
 
 public class PedestalRenderer extends TileEntityRenderer<PedestalTileEntity> {
+    public PedestalRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
+        super(rendererDispatcherIn);
+    }
+
     @Override
-    public void render(PedestalTileEntity te, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(PedestalTileEntity te, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         if (te.getWorld() == null || !te.getWorld().isAreaLoaded(te.getPos(), 1)) return;
 
         ItemStack stack = te.getItem();
         if (stack.isEmpty()) return;
 
-        GlStateManager.pushMatrix();
-        GlStateManager.translated(x + 0.5, y + 1.1, z + 0.5);
         Minecraft.getInstance().textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-        double worldTime = ClientTicks.ticksInGame() + partialTicks + (te.getPos().hashCode() % 360);
+        float worldTime = ClientTicks.ticksInGame() + partialTicks + (te.getPos().hashCode() % 360);
 
 //        GlStateManager.translated(0, 0.05f * Math.sin(worldTime / 15), 0);
-        GlStateManager.rotated(worldTime * 2, 0, 1, 0);
+        matrixStackIn.rotate(new Quaternion(Vector3f.YP, worldTime * 2f, true));
 
-        renderItem(te.getWorld(), stack, partialTicks);
-
-        GlStateManager.popMatrix();
+        renderItem(te.getWorld(), stack, matrixStackIn, bufferIn, combinedLightIn, partialTicks);
     }
 
-    private static void renderItem(World world, ItemStack stack, float partialTicks) {
+    private static void renderItem(World world, ItemStack stack, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, float partialTicks) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         if (stack != null) {
             ItemStack itemStack = stack.copy();
             itemStack.setCount(1);
-            GlStateManager.pushMatrix();
-            GlStateManager.disableLighting();
+            matrixStack.push();
+            RenderSystem.disableLighting();
 
             float rotation = (float) (720.0 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
-            GlStateManager.rotatef(rotation, 0.0F, 1.0F, 0);
-            Vec3d vec = new Vec3d(0.0, 0.25, 0.0);
-            GlStateManager.translated(vec.x, vec.y, vec.z);
+            matrixStack.rotate(new Quaternion(Vector3f.YP, rotation, true));
+            matrixStack.translate(0.5, 1.35, 0.5);
 
             float scale = 0.5f;
-            GlStateManager.scalef(scale, scale, scale);
-            GlStateManager.pushLightingAttributes();
+            matrixStack.scale(scale, scale, scale);
+            RenderSystem.pushLightingAttributes();
             RenderHelper.enableStandardItemLighting();
-            itemRenderer.renderItem(itemStack, ItemCameraTransforms.TransformType.FIXED);
+            itemRenderer.renderItem(itemStack, ItemCameraTransforms.TransformType.FIXED, combinedLight, OverlayTexture.DEFAULT_LIGHT, matrixStack, buffer);
             RenderHelper.disableStandardItemLighting();
-            GlStateManager.popAttributes();
+            RenderSystem.popAttributes();
 
-            GlStateManager.enableLighting();
-            GlStateManager.popMatrix();
+            RenderSystem.enableLighting();
+            matrixStack.pop();
         }
     }
 }

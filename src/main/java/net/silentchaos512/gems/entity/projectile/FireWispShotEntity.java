@@ -30,6 +30,11 @@ public class FireWispShotEntity extends AbstractWispShotEntity {
     }
 
     @Override
+    public WispTypes getWispType() {
+        return WispTypes.FIRE;
+    }
+
+    @Override
     protected void onEntityImpact(Entity entityIn) {
         if (!entityIn.isImmuneToFire()) {
             int i = entityIn.getFireTimer();

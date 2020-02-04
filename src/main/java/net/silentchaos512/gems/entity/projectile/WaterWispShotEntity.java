@@ -27,6 +27,11 @@ public class WaterWispShotEntity extends AbstractWispShotEntity {
     }
 
     @Override
+    public WispTypes getWispType() {
+        return WispTypes.WATER;
+    }
+
+    @Override
     protected void onEntityImpact(Entity entityIn) {
         if (entityIn.attackEntityFrom(ModDamageSource.causeWispShotDamage(this, this.shootingEntity), 4f)) {
             entityIn.setAir(entityIn.getAir() - 60);

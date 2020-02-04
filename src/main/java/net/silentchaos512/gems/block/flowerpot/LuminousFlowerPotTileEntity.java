@@ -29,7 +29,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
     private boolean plantedGlowrose = false;
 
     public LuminousFlowerPotTileEntity() {
-        super(GemsTileEntities.CHAOS_FLOWER_POT.type());
+        super(GemsTileEntities.CHAOS_FLOWER_POT);
     }
 
     @Override

@@ -56,7 +56,7 @@ public class PurifierTileEntity extends LockableSidedInventoryTileEntity impleme
     };
 
     public PurifierTileEntity() {
-        super(GemsTileEntities.PURIFIER.type(), 1);
+        super(GemsTileEntities.PURIFIER, 1);
     }
 
     public static boolean isPurifyingCatalyst(ItemStack stack) {

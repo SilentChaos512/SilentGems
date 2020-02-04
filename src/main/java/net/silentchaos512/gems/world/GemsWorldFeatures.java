@@ -5,11 +5,16 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
+import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.blockstateprovider.WeightedBlockStateProvider;
+import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.placement.ChanceRangeConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
@@ -24,9 +29,6 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.GemsEntities;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.world.feature.*;
-import net.silentchaos512.gems.world.placement.NetherFloorWithExtra;
-import net.silentchaos512.gems.world.placement.NetherFloorWithExtraConfig;
-import net.silentchaos512.lib.world.feature.PlantFeature;
 import net.silentchaos512.utils.MathUtils;
 
 import java.util.*;
@@ -68,12 +70,17 @@ public final class GemsWorldFeatures {
                 }
 
                 // Spawn glowroses of same type
-                biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(
-                        new GlowroseFeature(toAdd),
-                        NoFeatureConfig.NO_FEATURE_CONFIG,
-                        Placement.COUNT_HEIGHTMAP_32,
-                        new FrequencyConfig(2)
-                ));
+                biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.FLOWER
+                        .withConfiguration((new BlockClusterFeatureConfig.Builder(Util.make(() -> {
+                            WeightedBlockStateProvider p = new WeightedBlockStateProvider();
+                            toAdd.forEach(g -> p.func_227407_a_(g.getGlowrose().getDefaultState(), 1));
+                            return p;
+                        }), new SimpleBlockPlacer())
+                                .func_227315_a_(GemsConfig.COMMON.glowroseSpawnTryCount.get())
+                                .func_227322_d_()
+                        ))
+                        .func_227228_a_(Placement.COUNT_HEIGHTMAP_32.func_227446_a_(new FrequencyConfig(2)))
+                );
 
                 addChaosOre(biome, random);
                 addSilverOre(biome, random);
@@ -88,12 +95,10 @@ public final class GemsWorldFeatures {
 
                 // Add regional gems for non-overworld dimensions
                 int regionSize = GemsConfig.COMMON.worldGenOtherDimensionGemsRegionSize.get();
-                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
-                        RegionalGemsFeature.INSTANCE,
-                        new RegionalGemsFeatureConfig(Gems.Set.CLASSIC, 8, regionSize, state -> state.isIn(Tags.Blocks.STONE), d -> d.getId() != DimensionType.OVERWORLD.getId()),
-                        Placement.COUNT_RANGE,
-                        new CountRangeConfig(10, 10, 0, 50)
-                ));
+                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, RegionalGemsFeature.INSTANCE
+                        .withConfiguration(new RegionalGemsFeatureConfig(Gems.Set.CLASSIC, 8, regionSize, state -> state.isIn(Tags.Blocks.STONE), d -> d.getId() != DimensionType.OVERWORLD.getId()))
+                        .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(new CountRangeConfig(10, 10, 0, 50)))
+                );
             }
         }
 
@@ -124,43 +129,49 @@ public final class GemsWorldFeatures {
 
     private static void addNetherFeatures(Biome biome) {
         int regionSize = GemsConfig.COMMON.worldGenNetherGemsRegionSize.get();
-        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
-                RegionalGemsFeature.INSTANCE,
-                new RegionalGemsFeatureConfig(Gems.Set.DARK, 10, regionSize, state -> state.getBlock() == Blocks.NETHERRACK, DimensionType.THE_NETHER),
-                Placement.COUNT_RANGE,
-                new CountRangeConfig(12, 25, 0, 95)
-        ));
+        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, RegionalGemsFeature.INSTANCE
+                .withConfiguration(new RegionalGemsFeatureConfig(Gems.Set.DARK, 10, regionSize, state -> state.getBlock() == Blocks.NETHERRACK, DimensionType.THE_NETHER))
+                .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(new CountRangeConfig(12, 25, 0, 95)))
+        );
 
         //addOre(biome, Gems.Set.DARK.getMultiOre(), 8, 12, 25, 95, state -> state.getBlock() == Blocks.NETHERRACK);
 
-        biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(
-                new GlowroseFeature(Gems.Set.DARK),
-                NoFeatureConfig.NO_FEATURE_CONFIG,
-                NetherFloorWithExtra.INSTANCE,
-                new NetherFloorWithExtraConfig(0, 0.25f, 1, 32, 96)
-        ));
+        biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.FLOWER
+                .withConfiguration((new BlockClusterFeatureConfig.Builder(Util.make(() -> {
+                    WeightedBlockStateProvider p = new WeightedBlockStateProvider();
+                    Gems.Set.DARK.iterator().forEachRemaining(g -> p.func_227407_a_(g.getGlowrose().getDefaultState(), 1));
+                    return p;
+                }), new SimpleBlockPlacer())
+                        .func_227315_a_(GemsConfig.COMMON.glowroseSpawnTryCount.get())
+                        .func_227322_d_()
+                ))
+                .func_227228_a_(Placement.COUNT_HEIGHTMAP_32.func_227446_a_(new FrequencyConfig(2)))
+        );
     }
 
     private static void addTheEndFeatures(Biome biome, Random random) {
         int regionSize = GemsConfig.COMMON.worldGenEndGemsRegionSize.get();
-        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
-                RegionalGemsFeature.INSTANCE,
-                new RegionalGemsFeatureConfig(Gems.Set.LIGHT, 10, regionSize, state -> state.getBlock() == Blocks.END_STONE, DimensionType.THE_END),
-                Placement.COUNT_RANGE,
-                new CountRangeConfig(12, 16, 0, 72)
-        ));
+        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, RegionalGemsFeature.INSTANCE
+                .withConfiguration(new RegionalGemsFeatureConfig(Gems.Set.LIGHT, 10, regionSize, state -> state.getBlock() == Blocks.END_STONE, DimensionType.THE_END))
+                .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(new CountRangeConfig(12, 16, 0, 72)))
+        );
 
         //addOre(biome, Gems.Set.LIGHT.getMultiOre(), 8, 12, 16, 64, state -> state.getBlock() == Blocks.END_STONE);
 
         addEnderOre(biome, random);
         addEnderSlimeSpawns(biome);
 
-        biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(
-                new GlowroseFeature(Gems.Set.LIGHT),
-                NoFeatureConfig.NO_FEATURE_CONFIG,
-                Placement.COUNT_HEIGHTMAP_32,
-                new FrequencyConfig(1)
-        ));
+        biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.FLOWER
+                .withConfiguration((new BlockClusterFeatureConfig.Builder(Util.make(() -> {
+                    WeightedBlockStateProvider p = new WeightedBlockStateProvider();
+                    Gems.Set.LIGHT.iterator().forEachRemaining(g -> p.func_227407_a_(g.getGlowrose().getDefaultState(), 1));
+                    return p;
+                }), new SimpleBlockPlacer())
+                        .func_227315_a_(GemsConfig.COMMON.glowroseSpawnTryCount.get())
+                        .func_227322_d_()
+                ))
+                .func_227228_a_(Placement.COUNT_HEIGHTMAP_32.func_227446_a_(new FrequencyConfig(2)))
+        );
     }
 
     private static void logGemBiomes() {
@@ -207,37 +218,28 @@ public final class GemsWorldFeatures {
     }
 
     private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight, Predicate<BlockState> blockToReplace, Predicate<DimensionType> dimension) {
-        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
-                SGOreFeature.INSTANCE,
-                new SGOreFeatureConfig(
-                        block.getDefaultState(),
-                        size,
-                        blockToReplace,
-                        dimension
-                ),
-                Placement.COUNT_RANGE,
-                new CountRangeConfig(count, minHeight, 0, maxHeight)
-        ));
+        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, SGOreFeature.INSTANCE
+                .withConfiguration(new SGOreFeatureConfig(block.getDefaultState(), size, blockToReplace, dimension))
+                .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(new CountRangeConfig(count, minHeight, 0, maxHeight)))
+        );
     }
 
     private static void addGemGeode(Biome biome, Gems.Set gemSet, Random random) {
         float chance = 0.05f + 0.0025f * (float) random.nextGaussian();
-        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
-                GemGeodeFeature.INSTANCE,
-                new GemGeodeFeatureConfig(gemSet, gemSet.getGeodeShell().asBlockState(), s -> s.isIn(Tags.Blocks.STONE)),
-                Placement.CHANCE_RANGE,
-                new ChanceRangeConfig(chance, 20, 0, 40)
-        ));
+        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GemGeodeFeature.INSTANCE
+                .withConfiguration(new GemGeodeFeatureConfig(gemSet, gemSet.getGeodeShell().asBlockState(), s -> s.isIn(Tags.Blocks.STONE)))
+                .func_227228_a_(Placement.CHANCE_RANGE.func_227446_a_(new ChanceRangeConfig(chance, 20, 0, 40)))
+        );
     }
 
     private static void addWildFluffyPuffs(Biome biome) {
-        SilentGems.LOGGER.debug("Add wild fluffy puffs to {}", biome.getRegistryName());
-        biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(
-                new PlantFeature(WildFluffyPuffPlant.INSTANCE.get().getDefaultState(), 32, 6),
-                NoFeatureConfig.NO_FEATURE_CONFIG,
-                Placement.COUNT_HEIGHTMAP_32,
-                new FrequencyConfig(1)
-        ));
+        biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.FLOWER
+                .withConfiguration((new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(WildFluffyPuffPlant.INSTANCE.get().getDefaultState()), new SimpleBlockPlacer())
+                        .func_227315_a_(12)
+                        .func_227322_d_()
+                ))
+                .func_227228_a_(Placement.COUNT_HEIGHTMAP_32.func_227446_a_(new FrequencyConfig(1)))
+        );
     }
 
     private static void addEnderSlimeSpawns(Biome biome) {

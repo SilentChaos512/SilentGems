@@ -1,31 +1,29 @@
 package net.silentchaos512.gems.client.render.tile;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotTileEntity;
 import net.silentchaos512.gems.lib.Gems;
+
+import java.util.Arrays;
 
 public class RenderTileLuminousFlowerPot extends TileEntityRenderer<LuminousFlowerPotTileEntity> {
     // Was "F", has something to do with vertex positions, I think?
     private static final double POORLY_NAMED_CONSTANT = 0.4 * (1 - Math.sqrt(2) / 2);
 
-    private static final ResourceLocation[] TEXTURES = new ResourceLocation[Gems.values().length];
+    private static final ResourceLocation[] TEXTURES = Arrays.stream(Gems.values()).map(g -> SilentGems.getId("textures/blocks/glowrose/" + g.getName())).toArray(ResourceLocation[]::new);
 
-    public RenderTileLuminousFlowerPot() {
-        for (int i = 0; i < TEXTURES.length; ++i) {
-            Gems gem = Gems.values()[i];
-            TEXTURES[i] = new ResourceLocation("silentgems:textures/blocks/glowrose/" + gem.getName() + ".png");
-        }
+    public RenderTileLuminousFlowerPot(TileEntityRendererDispatcher rendererDispatcherIn) {
+        super(rendererDispatcherIn);
     }
 
     @Override
-    public void render(LuminousFlowerPotTileEntity te, double x, double y, double z, float partialTicks, int destroyStage) {
-        Tessellator tess = Tessellator.getInstance();
+    public void render(LuminousFlowerPotTileEntity te, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+        /*Tessellator tess = Tessellator.getInstance();
         BufferBuilder buff = tess.getBuffer();
 
         int flowerId = te.getFlowerId();
@@ -73,6 +71,6 @@ public class RenderTileLuminousFlowerPot extends TileEntityRenderer<LuminousFlow
         buff.pos(x2, y2, z1).tex(0, 0).endVertex();
         tess.draw();
 
-        GlStateManager.popMatrix();
+        GlStateManager.popMatrix();*/
     }
 }

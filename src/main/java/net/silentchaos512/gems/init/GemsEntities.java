@@ -17,8 +17,8 @@ import net.silentchaos512.gems.client.render.entity.CorruptedSlimeRenderer;
 import net.silentchaos512.gems.client.render.entity.EnderSlimeRenderer;
 import net.silentchaos512.gems.client.render.entity.WispRenderer;
 import net.silentchaos512.gems.client.render.entity.WispShotRenderer;
-import net.silentchaos512.gems.entity.*;
-import net.silentchaos512.gems.entity.projectile.*;
+import net.silentchaos512.gems.entity.CorruptedSlimeEntity;
+import net.silentchaos512.gems.entity.EnderSlimeEntity;
 import net.silentchaos512.gems.lib.WispTypes;
 import net.silentchaos512.utils.Lazy;
 
@@ -42,20 +42,20 @@ public final class GemsEntities {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderers(FMLClientSetupEvent event) {
-        RenderingRegistry.registerEntityRenderingHandler(EnderSlimeEntity.class, EnderSlimeRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(CorruptedSlimeEntity.class, CorruptedSlimeRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ENDER_SLIME.get(), EnderSlimeRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(CORRUPTED_SLIME.get(), CorruptedSlimeRenderer::new);
 
-        RenderingRegistry.registerEntityRenderingHandler(ChaosWispEntity.class, WispRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(FireWispEntity.class, WispRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(IceWispEntity.class, WispRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(LightningWispEntity.class, WispRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(WaterWispEntity.class, WispRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(WispTypes.CHAOS.getEntityType(), WispRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(WispTypes.FIRE.getEntityType(), WispRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(WispTypes.ICE.getEntityType(), WispRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(WispTypes.LIGHTNING.getEntityType(), WispRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(WispTypes.WATER.getEntityType(), WispRenderer::new);
 
-        RenderingRegistry.registerEntityRenderingHandler(ChaosWispShotEntity.class, WispShotRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(FireWispShotEntity.class, WispShotRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(IceWispShotEntity.class, WispShotRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(LightningWispShotEntity.class, WispShotRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(WaterWispShotEntity.class, WispShotRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(WispTypes.CHAOS.getShotType(), WispShotRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(WispTypes.FIRE.getShotType(), WispShotRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(WispTypes.ICE.getShotType(), WispShotRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(WispTypes.LIGHTNING.getShotType(), WispShotRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(WispTypes.WATER.getShotType(), WispShotRenderer::new);
     }
 
     private static <T extends Entity> Lazy<EntityType<T>> makeType(String name, EntityType.IFactory<T> factory) {

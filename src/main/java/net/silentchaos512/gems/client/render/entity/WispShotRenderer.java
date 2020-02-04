@@ -1,66 +1,52 @@
 package net.silentchaos512.gems.client.render.entity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.entity.projectile.AbstractWispShotEntity;
+import net.silentchaos512.gems.lib.WispTypes;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class WispShotRenderer extends EntityRenderer<AbstractWispShotEntity> {
-    private static final ResourceLocation DRAGON_FIREBALL_TEXTURE = SilentGems.getId("textures/entity/wisp_shot.png");
+    private static final Map<WispTypes, RenderType> RENDER_TYPE_MAP = Arrays.stream(WispTypes.values())
+            .collect(Collectors.toMap(t -> t, t -> RenderType.entityCutoutNoCull(t.getShotTexture())));
 
     public WispShotRenderer(EntityRendererManager renderManagerIn) {
         super(renderManagerIn);
     }
 
     @Override
-    public void doRender(AbstractWispShotEntity entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        GlStateManager.pushMatrix();
-        this.bindEntityTexture(entity);
-        int color = entity.getColor();
-        GlStateManager.color3f(
-                ((color >> 16) & 0xFF) / 255f,
-                ((color >> 8) & 0xFF) / 255f,
-                (color & 0xFF) / 255f
-        );
-        GlStateManager.translatef((float)x, (float)y, (float)z);
-        GlStateManager.enableRescaleNormal();
+    public void render(AbstractWispShotEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+        matrixStackIn.push();
         float scale = 0.5f;
-        GlStateManager.scalef(scale, scale, scale);
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferbuilder = tessellator.getBuffer();
-        float f = 1.0F;
-        float f1 = 0.5F;
-        float f2 = 0.25F;
-        GlStateManager.rotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotatef((float)(this.renderManager.options.thirdPersonView == 2 ? -1 : 1) * -this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-        if (this.renderOutlines) {
-            GlStateManager.enableColorMaterial();
-            GlStateManager.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
-        }
+        matrixStackIn.scale(scale, scale, scale);
+        matrixStackIn.rotate(this.renderManager.getCameraOrientation());
+        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(180.0F));
+        MatrixStack.Entry matrixstack$entry = matrixStackIn.getLast();
+        Matrix4f matrix4f = matrixstack$entry.getPositionMatrix();
+        Matrix3f matrix3f = matrixstack$entry.getNormalMatrix();
+        IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RENDER_TYPE_MAP.get(entity.getWispType()));
+        func_229045_a_(ivertexbuilder, matrix4f, matrix3f, packedLightIn, 0.0F, 0, 0, 1);
+        func_229045_a_(ivertexbuilder, matrix4f, matrix3f, packedLightIn, 1.0F, 0, 1, 1);
+        func_229045_a_(ivertexbuilder, matrix4f, matrix3f, packedLightIn, 1.0F, 1, 1, 0);
+        func_229045_a_(ivertexbuilder, matrix4f, matrix3f, packedLightIn, 0.0F, 1, 0, 0);
+        matrixStackIn.pop();
+        super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+    }
 
-        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_NORMAL);
-        bufferbuilder.pos(-0.5D, -0.25D, 0.0D).tex(0.0D, 1.0D).normal(0.0F, 1.0F, 0.0F).endVertex();
-        bufferbuilder.pos(0.5D, -0.25D, 0.0D).tex(1.0D, 1.0D).normal(0.0F, 1.0F, 0.0F).endVertex();
-        bufferbuilder.pos(0.5D, 0.75D, 0.0D).tex(1.0D, 0.0D).normal(0.0F, 1.0F, 0.0F).endVertex();
-        bufferbuilder.pos(-0.5D, 0.75D, 0.0D).tex(0.0D, 0.0D).normal(0.0F, 1.0F, 0.0F).endVertex();
-        tessellator.draw();
-        if (this.renderOutlines) {
-            GlStateManager.tearDownSolidRenderingTextureCombine();
-            GlStateManager.disableColorMaterial();
-        }
-
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.popMatrix();
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+    private static void func_229045_a_(IVertexBuilder p_229045_0_, Matrix4f p_229045_1_, Matrix3f p_229045_2_, int p_229045_3_, float p_229045_4_, int p_229045_5_, int p_229045_6_, int p_229045_7_) {
+        p_229045_0_.pos(p_229045_1_, p_229045_4_ - 0.5F, (float)p_229045_5_ - 0.25F, 0.0F).color(255, 255, 255, 255).tex((float)p_229045_6_, (float)p_229045_7_).overlay(OverlayTexture.DEFAULT_LIGHT).lightmap(p_229045_3_).normal(p_229045_2_, 0.0F, 1.0F, 0.0F).endVertex();
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(AbstractWispShotEntity entity) {
-        return DRAGON_FIREBALL_TEXTURE;
+    public ResourceLocation getEntityTexture(AbstractWispShotEntity entity) {
+        return entity.getWispType().getShotTexture();
     }
 }

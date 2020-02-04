@@ -109,7 +109,7 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
     };
 
     public SuperchargerTileEntity() {
-        super(GemsTileEntities.SUPERCHARGER.type(), INVENTORY_SIZE);
+        super(GemsTileEntities.SUPERCHARGER, INVENTORY_SIZE);
     }
 
     @Override

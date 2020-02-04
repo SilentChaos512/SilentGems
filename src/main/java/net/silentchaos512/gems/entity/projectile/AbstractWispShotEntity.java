@@ -19,6 +19,7 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.silentchaos512.gems.lib.WispTypes;
 
 public abstract class AbstractWispShotEntity extends DamagingProjectileEntity implements IEntityAdditionalSpawnData {
     private static final DataParameter<Integer> COLOR = EntityDataManager.createKey(AbstractWispShotEntity.class, DataSerializers.VARINT);
@@ -37,6 +38,8 @@ public abstract class AbstractWispShotEntity extends DamagingProjectileEntity im
     public AbstractWispShotEntity(EntityType<? extends AbstractWispShotEntity> typeIn, LivingEntity shooterIn, double accelX, double accelY, double accelZ, World worldIn) {
         super(typeIn, shooterIn, accelX, accelY, accelZ, worldIn);
     }
+
+    public abstract WispTypes getWispType();
 
     protected abstract void onEntityImpact(Entity entityIn);
 

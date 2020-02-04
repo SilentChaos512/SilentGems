@@ -24,7 +24,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -41,7 +40,9 @@ public class GemGlassBlock extends GlassBlock implements IGemBlock {
     public GemGlassBlock(Gems gem) {
         super(Properties.create(Material.GLASS)
                 .hardnessAndResistance(0.3f, 5)
-                .sound(SoundType.GLASS));
+                .sound(SoundType.GLASS)
+                .notSolid()
+        );
         this.gem = gem;
     }
 
@@ -63,11 +64,6 @@ public class GemGlassBlock extends GlassBlock implements IGemBlock {
     @Override
     public ITextComponent getNameTextComponent() {
         return getGemBlockName();
-    }
-
-    @Override
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
     }
 
     @Nullable

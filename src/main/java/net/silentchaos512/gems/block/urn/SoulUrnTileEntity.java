@@ -73,7 +73,7 @@ public class SoulUrnTileEntity extends LockableLootTileEntity implements ITickab
     private int transferCooldown = -1;
 
     public SoulUrnTileEntity() {
-        super(GemsTileEntities.SOUL_URN.type());
+        super(GemsTileEntities.SOUL_URN);
         this.items = NonNullList.withSize(9 * INVENTORY_ROWS_BASE, ItemStack.EMPTY);
     }
 

@@ -29,54 +29,46 @@ import net.silentchaos512.gems.block.urn.SoulUrnBlock;
 import net.silentchaos512.gems.block.urn.SoulUrnTileEntity;
 import net.silentchaos512.gems.client.render.tile.PedestalRenderer;
 import net.silentchaos512.gems.client.render.tile.SoulUrnRenderer;
-import net.silentchaos512.utils.Lazy;
 
-import java.util.List;
-import java.util.Locale;
 import java.util.function.Supplier;
 
-public enum GemsTileEntities {
-    CHAOS_FLOWER_POT(LuminousFlowerPotTileEntity::new, LuminousFlowerPotBlock.INSTANCE::get),
-    PEDESTAL(PedestalTileEntity::new, GemsBlocks.pedestals),
-    PHANTOM_LIGHT(PhantomLightTileEntity::new, PhantomLightBlock.INSTANCE::get),
-    PURIFIER(PurifierTileEntity::new, PurifierBlock.INSTANCE::get),
-    SOUL_URN(SoulUrnTileEntity::new, SoulUrnBlock.INSTANCE::get),
-    SUPERCHARGER(SuperchargerTileEntity::new, SuperchargerBlock.INSTANCE::get),
-    TELEPORTER(GemTeleporterTileEntity::new, GemsBlocks.teleporters),
-    TOKEN_ENCHANTER(TokenEnchanterTileEntity::new, TokenEnchanterBlock.INSTANCE::get),
-    TRANSMUTATION_ALTAR(AltarTileEntity::new, AltarBlock.INSTANCE::get);
+public final class GemsTileEntities {
+    public static TileEntityType<LuminousFlowerPotTileEntity> CHAOS_FLOWER_POT;
+    public static TileEntityType<PedestalTileEntity> PEDESTAL;
+    public static TileEntityType<PhantomLightTileEntity> PHANTOM_LIGHT;
+    public static TileEntityType<PurifierTileEntity> PURIFIER;
+    public static TileEntityType<SoulUrnTileEntity> SOUL_URN;
+    public static TileEntityType<SuperchargerTileEntity> SUPERCHARGER;
+    public static TileEntityType<GemTeleporterTileEntity> TELEPORTER;
+    public static TileEntityType<TokenEnchanterTileEntity> TOKEN_ENCHANTER;
+    public static TileEntityType<AltarTileEntity> TRANSMUTATION_ALTAR;
 
-    private final Lazy<TileEntityType<?>> type;
-
-    GemsTileEntities(Supplier<TileEntity> factory, Supplier<? extends Block> block) {
-        //noinspection ConstantConditions -- null parameter in build
-        this.type = Lazy.of(() -> TileEntityType.Builder.create(factory, block.get()).build(null));
-    }
-
-    GemsTileEntities(Supplier<TileEntity> factory, List<? extends Block> blocks) {
-        //noinspection ConstantConditions -- null parameter in build
-        this.type = Lazy.of(() -> TileEntityType.Builder.create(factory, blocks.toArray(new Block[0])).build(null));
-    }
-
-    public TileEntityType<?> type() {
-        return type.get();
-    }
+    private GemsTileEntities() {throw new IllegalAccessError("Utility class");}
 
     public static void registerAll(RegistryEvent.Register<TileEntityType<?>> event) {
-        for (GemsTileEntities tileEnum : values()) {
-            register(tileEnum.name().toLowerCase(Locale.ROOT), tileEnum.type());
-        }
+        CHAOS_FLOWER_POT = register("luminous_flower_pot", LuminousFlowerPotTileEntity::new, LuminousFlowerPotBlock.INSTANCE.get());
+        PEDESTAL = register("pedestal", PedestalTileEntity::new, GemsBlocks.pedestals.toArray(new Block[0]));
+        PHANTOM_LIGHT = register("phantom_light", PhantomLightTileEntity::new, PhantomLightBlock.INSTANCE.get());
+        PURIFIER = register("purifier", PurifierTileEntity::new, PurifierBlock.INSTANCE.get());
+        SOUL_URN = register("soul_urn", SoulUrnTileEntity::new, SoulUrnBlock.INSTANCE.get());
+        SUPERCHARGER = register("supercharger", SuperchargerTileEntity::new, SuperchargerBlock.INSTANCE.get());
+        TELEPORTER = register("teleporter", GemTeleporterTileEntity::new, GemsBlocks.teleporters.toArray(new Block[0]));
+        TOKEN_ENCHANTER = register("token_enchanter", TokenEnchanterTileEntity::new, TokenEnchanterBlock.INSTANCE.get());
+        TRANSMUTATION_ALTAR = register("transmutation_altar", AltarTileEntity::new, AltarBlock.INSTANCE.get());
     }
 
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderers(FMLClientSetupEvent event) {
-        ClientRegistry.bindTileEntityRenderer(PedestalTileEntity.class, new PedestalRenderer());
-        ClientRegistry.bindTileEntityRenderer(SoulUrnTileEntity.class, new SoulUrnRenderer());
+        ClientRegistry.bindTileEntityRenderer(PEDESTAL, PedestalRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(SOUL_URN, SoulUrnRenderer::new);
     }
 
-    private static <T extends TileEntity> void register(String name, TileEntityType<T> type) {
-        ResourceLocation id = new ResourceLocation(SilentGems.MOD_ID, name);
+    private static <T extends TileEntity> TileEntityType<T> register(String name, Supplier<T> factoryIn, Block... validBlocks) {
+        //noinspection ConstantConditions -- null parameter in builder
+        TileEntityType<T> type = TileEntityType.Builder.create(factoryIn, validBlocks).build(null);
+        ResourceLocation id = SilentGems.getId(name);
         type.setRegistryName(id);
         ForgeRegistries.TILE_ENTITIES.register(type);
+        return type;
     }
 }

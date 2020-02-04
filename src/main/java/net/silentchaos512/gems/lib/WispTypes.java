@@ -4,6 +4,7 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.entity.*;
 import net.silentchaos512.gems.entity.projectile.*;
@@ -19,7 +20,7 @@ public enum WispTypes {
             EntityType.Builder.create(ChaosWispEntity::new, EntityClassification.MONSTER),
             EntityType.Builder.<AbstractWispShotEntity>create(ChaosWispShotEntity::new, EntityClassification.MISC)
                     .setCustomClientFactory((spawnEntity, world) -> new ChaosWispShotEntity(world)),
-            Color.LAVENDER
+            Color.DARKVIOLET
     ),
     FIRE(
             EntityType.Builder.create(FireWispEntity::new, EntityClassification.MONSTER)
@@ -51,15 +52,20 @@ public enum WispTypes {
     private final EntityType<? extends AbstractWispShotEntity> shotType;
     private final Lazy<SpawnEggItem> spawnEgg;
     private final Color color;
+    private final ResourceLocation entityTexture;
+    private final ResourceLocation shotTexture;
 
     WispTypes(EntityType.Builder<? extends AbstractWispEntity> entityBuilder, EntityType.Builder<? extends AbstractWispShotEntity> shotBuilder, Color color) {
-        this.type = entityBuilder.build(SilentGems.getId(getName()).toString());
-        this.shotType = shotBuilder.build(SilentGems.getId(getName() + "_shot").toString());
+        String name = getName();
+        this.type = entityBuilder.build(SilentGems.getId(name).toString());
+        this.shotType = shotBuilder.build(SilentGems.getId(name + "_shot").toString());
         this.spawnEgg = Lazy.of(() -> {
             Item.Properties properties = new Item.Properties().group(GemsItemGroups.UTILITY);
             return new SpawnEggItem(this.type, color.getColor(), Color.DARKVIOLET.getColor(), properties);
         });
         this.color = color;
+        this.entityTexture = SilentGems.getId(String.format("textures/entity/%s.png", name));
+        this.shotTexture = SilentGems.getId(String.format("textures/entity/%s_shot.png", name));
     }
 
     public String getName() {
@@ -80,6 +86,14 @@ public enum WispTypes {
 
     public Color getColor() {
         return this.color;
+    }
+
+    public ResourceLocation getEntityTexture() {
+        return entityTexture;
+    }
+
+    public ResourceLocation getShotTexture() {
+        return shotTexture;
     }
 
     public static WispTypes selectRandom(Random random) {

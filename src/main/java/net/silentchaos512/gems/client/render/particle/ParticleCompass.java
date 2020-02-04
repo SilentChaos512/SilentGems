@@ -1,9 +1,9 @@
 package net.silentchaos512.gems.client.render.particle;
 
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.TexturedParticle;
 import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.world.World;
 
 public class ParticleCompass extends TexturedParticle {
@@ -47,7 +47,8 @@ public class ParticleCompass extends TexturedParticle {
     }
 
     @Override
-    public void renderParticle(BufferBuilder buffer, ActiveRenderInfo entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+    public void renderParticle(IVertexBuilder buffer, ActiveRenderInfo renderInfo, float partialTicks) {
+        super.renderParticle(buffer, renderInfo, partialTicks);
 /*        float uMin = (float) this.particleTextureIndexX / 16.0F;
         float uMax = uMin + .0625f;
         float vMin = (float) this.particleTextureIndexY / 16.0F;

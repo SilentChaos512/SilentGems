@@ -24,7 +24,7 @@ public class PedestalTileEntity extends LockableSidedInventoryTileEntity impleme
     private boolean poweredLastTick;
 
     public PedestalTileEntity() {
-        super(GemsTileEntities.PEDESTAL.type(), 1);
+        super(GemsTileEntities.PEDESTAL, 1);
     }
 
     @Override

@@ -134,7 +134,7 @@ dependencies {
 
     // HWYLA
     if (project.hasProperty("hwyla_version")) {
-        compile "mcp.mobius.waila:Hwyla:${project.hwyla_version}"
+        compileOnly "mcp.mobius.waila:Hwyla:${project.hwyla_version}"
     }
 
     // Curios
