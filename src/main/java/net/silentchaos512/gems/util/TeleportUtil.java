@@ -27,7 +27,7 @@ public final class TeleportUtil {
         if (world == null) return false;
 
         BlockPos headLevel = destination.getPos().up(Math.round(entity.getEyeHeight()));
-        return !world.getBlockState(headLevel).causesSuffocation(world, destination.getPos());
+        return !world.getBlockState(headLevel).isSuffocating(world, destination.getPos());
     }
 
     @Nullable
