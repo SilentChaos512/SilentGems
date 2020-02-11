@@ -5,7 +5,7 @@ labels: bug
 ---
 
 ## Versions
-<!-- Include versions affected by the issue (actual version number, do not use "latest"). -->
+<!-- Include versions affected by the issue (actual version number, do not use "latest"). Pasting the name of the JAR file is acceptable. -->
 
 - **Silent's Gems**: x.x.x
 - **Silent Gear**: x.x.x <!-- if installed or N/A -->
