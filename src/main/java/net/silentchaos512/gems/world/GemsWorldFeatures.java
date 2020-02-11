@@ -76,10 +76,10 @@ public final class GemsWorldFeatures {
                             toAdd.forEach(g -> p.func_227407_a_(g.getGlowrose().getDefaultState(), 1));
                             return p;
                         }), new SimpleBlockPlacer())
-                                .func_227315_a_(GemsConfig.COMMON.glowroseSpawnTryCount.get())
-                                .func_227322_d_()
+                                .tries(GemsConfig.COMMON.glowroseSpawnTryCount.get())
+                                .build()
                         ))
-                        .func_227228_a_(Placement.COUNT_HEIGHTMAP_32.func_227446_a_(new FrequencyConfig(2)))
+                        .withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(2)))
                 );
 
                 addChaosOre(biome, random);
@@ -97,7 +97,7 @@ public final class GemsWorldFeatures {
                 int regionSize = GemsConfig.COMMON.worldGenOtherDimensionGemsRegionSize.get();
                 biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, RegionalGemsFeature.INSTANCE
                         .withConfiguration(new RegionalGemsFeatureConfig(Gems.Set.CLASSIC, 8, regionSize, state -> state.isIn(Tags.Blocks.STONE), d -> d.getId() != DimensionType.OVERWORLD.getId()))
-                        .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(new CountRangeConfig(10, 10, 0, 50)))
+                        .withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(10, 10, 0, 50)))
                 );
             }
         }
@@ -131,7 +131,7 @@ public final class GemsWorldFeatures {
         int regionSize = GemsConfig.COMMON.worldGenNetherGemsRegionSize.get();
         biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, RegionalGemsFeature.INSTANCE
                 .withConfiguration(new RegionalGemsFeatureConfig(Gems.Set.DARK, 10, regionSize, state -> state.getBlock() == Blocks.NETHERRACK, DimensionType.THE_NETHER))
-                .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(new CountRangeConfig(12, 25, 0, 95)))
+                .withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(12, 25, 0, 95)))
         );
 
         //addOre(biome, Gems.Set.DARK.getMultiOre(), 8, 12, 25, 95, state -> state.getBlock() == Blocks.NETHERRACK);
@@ -142,10 +142,10 @@ public final class GemsWorldFeatures {
                     Gems.Set.DARK.iterator().forEachRemaining(g -> p.func_227407_a_(g.getGlowrose().getDefaultState(), 1));
                     return p;
                 }), new SimpleBlockPlacer())
-                        .func_227315_a_(GemsConfig.COMMON.glowroseSpawnTryCount.get())
-                        .func_227322_d_()
+                        .tries(GemsConfig.COMMON.glowroseSpawnTryCount.get())
+                        .build()
                 ))
-                .func_227228_a_(Placement.COUNT_HEIGHTMAP_32.func_227446_a_(new FrequencyConfig(2)))
+                .withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(2)))
         );
     }
 
@@ -153,7 +153,7 @@ public final class GemsWorldFeatures {
         int regionSize = GemsConfig.COMMON.worldGenEndGemsRegionSize.get();
         biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, RegionalGemsFeature.INSTANCE
                 .withConfiguration(new RegionalGemsFeatureConfig(Gems.Set.LIGHT, 10, regionSize, state -> state.getBlock() == Blocks.END_STONE, DimensionType.THE_END))
-                .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(new CountRangeConfig(12, 16, 0, 72)))
+                .withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(12, 16, 0, 72)))
         );
 
         //addOre(biome, Gems.Set.LIGHT.getMultiOre(), 8, 12, 16, 64, state -> state.getBlock() == Blocks.END_STONE);
@@ -167,10 +167,10 @@ public final class GemsWorldFeatures {
                     Gems.Set.LIGHT.iterator().forEachRemaining(g -> p.func_227407_a_(g.getGlowrose().getDefaultState(), 1));
                     return p;
                 }), new SimpleBlockPlacer())
-                        .func_227315_a_(GemsConfig.COMMON.glowroseSpawnTryCount.get())
-                        .func_227322_d_()
+                        .tries(GemsConfig.COMMON.glowroseSpawnTryCount.get())
+                        .build()
                 ))
-                .func_227228_a_(Placement.COUNT_HEIGHTMAP_32.func_227446_a_(new FrequencyConfig(2)))
+                .withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(2)))
         );
     }
 
@@ -220,7 +220,7 @@ public final class GemsWorldFeatures {
     private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight, Predicate<BlockState> blockToReplace, Predicate<DimensionType> dimension) {
         biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, SGOreFeature.INSTANCE
                 .withConfiguration(new SGOreFeatureConfig(block.getDefaultState(), size, blockToReplace, dimension))
-                .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(new CountRangeConfig(count, minHeight, 0, maxHeight)))
+                .withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(count, minHeight, 0, maxHeight)))
         );
     }
 
@@ -228,17 +228,17 @@ public final class GemsWorldFeatures {
         float chance = 0.05f + 0.0025f * (float) random.nextGaussian();
         biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GemGeodeFeature.INSTANCE
                 .withConfiguration(new GemGeodeFeatureConfig(gemSet, gemSet.getGeodeShell().asBlockState(), s -> s.isIn(Tags.Blocks.STONE)))
-                .func_227228_a_(Placement.CHANCE_RANGE.func_227446_a_(new ChanceRangeConfig(chance, 20, 0, 40)))
+                .withPlacement(Placement.CHANCE_RANGE.configure(new ChanceRangeConfig(chance, 20, 0, 40)))
         );
     }
 
     private static void addWildFluffyPuffs(Biome biome) {
         biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.FLOWER
                 .withConfiguration((new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(WildFluffyPuffPlant.INSTANCE.get().getDefaultState()), new SimpleBlockPlacer())
-                        .func_227315_a_(12)
-                        .func_227322_d_()
+                        .tries(12)
+                        .build()
                 ))
-                .func_227228_a_(Placement.COUNT_HEIGHTMAP_32.func_227446_a_(new FrequencyConfig(1)))
+                .withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(1)))
         );
     }
 

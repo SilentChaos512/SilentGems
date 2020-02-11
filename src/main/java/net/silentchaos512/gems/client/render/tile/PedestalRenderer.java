@@ -35,6 +35,7 @@ public class PedestalRenderer extends TileEntityRenderer<PedestalTileEntity> {
         renderItem(te.getWorld(), stack, matrixStackIn, bufferIn, combinedLightIn, partialTicks);
     }
 
+    @SuppressWarnings("deprecation")
     private static void renderItem(World world, ItemStack stack, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, float partialTicks) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         if (stack != null) {
