@@ -119,6 +119,7 @@ public final class GemsBlocks {
         for (Gems gem : Gems.values()) {
             RenderTypeLookup.setRenderLayer(gem.getGlass(), RenderType.translucent());
             RenderTypeLookup.setRenderLayer(gem.getGlowrose(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(gem.getPottedGlowrose(), RenderType.cutout());
         }
         RenderTypeLookup.setRenderLayer(FluffyPuffPlant.INSTANCE.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(WildFluffyPuffPlant.INSTANCE.get(), RenderType.cutout());
