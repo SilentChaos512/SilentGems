@@ -28,15 +28,11 @@ public class PedestalRenderer extends TileEntityRenderer<PedestalTileEntity> {
 
         Minecraft.getInstance().textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
         float worldTime = ClientTicks.ticksInGame() + partialTicks + (te.getPos().hashCode() % 360);
-
-//        GlStateManager.translated(0, 0.05f * Math.sin(worldTime / 15), 0);
-        matrixStackIn.rotate(new Quaternion(Vector3f.YP, worldTime * 2f, true));
-
-        renderItem(te.getWorld(), stack, matrixStackIn, bufferIn, combinedLightIn, partialTicks);
+        renderItem(te.getWorld(), stack, matrixStackIn, bufferIn, combinedLightIn, partialTicks, worldTime);
     }
 
     @SuppressWarnings("deprecation")
-    private static void renderItem(World world, ItemStack stack, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, float partialTicks) {
+    private static void renderItem(World world, ItemStack stack, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, float partialTicks, float worldTime) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         if (stack != null) {
             ItemStack itemStack = stack.copy();
@@ -44,12 +40,12 @@ public class PedestalRenderer extends TileEntityRenderer<PedestalTileEntity> {
             matrixStack.push();
             RenderSystem.disableLighting();
 
-            float rotation = (float) (720.0 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
-            matrixStack.rotate(new Quaternion(Vector3f.YP, rotation, true));
-            matrixStack.translate(0.5, 1.35, 0.5);
-
+            matrixStack.translate(0.5, 1.35 + 0.05f * Math.sin(worldTime / 15), 0.5);
+            float rotation = (float) (720.0 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL) + worldTime * 2f;
+            matrixStack.rotate(new Quaternion(0, rotation, 0, true));
             float scale = 0.5f;
             matrixStack.scale(scale, scale, scale);
+
             RenderSystem.pushLightingAttributes();
             RenderHelper.enableStandardItemLighting();
             itemRenderer.renderItem(itemStack, ItemCameraTransforms.TransformType.FIXED, combinedLight, OverlayTexture.DEFAULT_LIGHT, matrixStack, buffer);
