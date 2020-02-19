@@ -23,7 +23,7 @@ public class RegionalGemsFeature extends Feature<RegionalGemsFeatureConfig> {
 
     @Override
     public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, RegionalGemsFeatureConfig config) {
-        if (!config.dimension.test(worldIn.getDimension().getType())) return false;
+        if (!config.dimension.test(worldIn.getDimension().getType()) || config.regionSize < 1) return false;
 
         float f = rand.nextFloat() * (float) Math.PI;
         float f1 = (float) config.size / 8.0F;

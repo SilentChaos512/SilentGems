@@ -34,8 +34,9 @@ public class RegionalGemsFeatureConfig implements IFeatureConfig {
     }
 
     public Gems selectGem(IWorld world, BlockPos pos, Random random) {
-        int regionX = pos.getX() / (16 * regionSize);
-        int regionZ = pos.getZ() / (16 * regionSize);
+        int regionSizeNonZero = regionSize > 0 ? regionSize : 1;
+        int regionX = pos.getX() / (16 * regionSizeNonZero);
+        int regionZ = pos.getZ() / (16 * regionSizeNonZero);
         long regionId = ((long) regionX << 32) + regionZ;
         Random regionRand = new Random(regionId + world.getSeed());
 
@@ -62,6 +63,6 @@ public class RegionalGemsFeatureConfig implements IFeatureConfig {
         int size = dynamic.get("size").asInt(0);
         int regionSize = dynamic.get("region_size").asInt(0);
         int dimensionId = dynamic.get("dimension").asInt(0);
-        return new RegionalGemsFeatureConfig(gemSet, size, regionSize, s -> s.getBlock() == Blocks.STONE, d -> d.getId() == DimensionType.OVERWORLD.getId());
+        return new RegionalGemsFeatureConfig(gemSet, size, regionSize, s -> s.getBlock() == Blocks.STONE, d -> d.getId() == dimensionId);
     }
 }

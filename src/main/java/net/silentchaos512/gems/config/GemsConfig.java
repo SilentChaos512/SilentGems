@@ -44,10 +44,14 @@ public final class GemsConfig {
         public final IntValue teleporterSearchRadius;
         public final BooleanValue wispsCauseFire;
         public final BooleanValue worldGenWildFluffyPuffs;
+        public final IntValue worldGenOverworldMinGemsPerBiome;
+        public final IntValue worldGenOverworldMaxGemsPerBiome;
         public final IntValue worldGenNetherGemsRegionSize;
         public final IntValue worldGenEndGemsRegionSize;
         public final IntValue worldGenOtherDimensionGemsRegionSize;
         public final IntValue worldGenSilverVeinCount;
+        public final DoubleValue worldGenGeodeBaseChance;
+        public final DoubleValue worldGenGeodeChanceVariation;
 
         Common(ConfigSpecWrapper wrapper) {
             baseBiomeSeedOverride = wrapper
@@ -180,29 +184,53 @@ public final class GemsConfig {
                     .builder("world.generation.plants.wildFluffyPuffs")
                     .comment("Generate wild fluffy puff plants. If disabled, you will need to add some other way to obtain fluffy puff seeds.")
                     .define(true);
+            worldGenOverworldMinGemsPerBiome = wrapper
+                    .builder("world.generation.overworld.gems.minTypePerBiome")
+                    .comment("The fewest number of gem types to select per biome. Should be no bigger than the max value.",
+                            "Setting both min and max to zero will disable normal gem generation in the overworld, but not in other dimensions.")
+                    .defineInRange(2, 0, 16);
+            worldGenOverworldMaxGemsPerBiome = wrapper
+                    .builder("world.generation.overworld.gems.maxTypePerBiome")
+                    .comment("The most gem types to select per biome. Should be at least the same as the min value.",
+                            "Setting both min and max to zero will disable normal gem generation in the overworld, but not in other dimensions.")
+                    .defineInRange(5, 0, 16);
             worldGenNetherGemsRegionSize = wrapper
                     .builder("world.generation.nether.gems.regionSize")
                     .comment("The region size for gems in the Nether.",
                             "Each 'size x size' chunk area is a 'region', which contains a couple types of gems.",
-                            "Larger regions will make finding many types of gems more difficult.")
-                    .defineInRange(8, 1, Integer.MAX_VALUE);
+                            "Larger regions will make finding many types of gems more difficult.",
+                            "Setting to zero will disable gem generation in this dimension.")
+                    .defineInRange(8, 0, Integer.MAX_VALUE);
             worldGenEndGemsRegionSize = wrapper
                     .builder("world.generation.end.gems.regionSize")
                     .comment("The region size for gems in The End.",
                             "Each 'size x size' chunk area is a 'region', which contains a couple types of gems.",
-                            "Larger regions will make finding many types of gems more difficult.")
-                    .defineInRange(6, 1, Integer.MAX_VALUE);
+                            "Larger regions will make finding many types of gems more difficult.",
+                            "Setting to zero will disable gem generation in this dimension.")
+                    .defineInRange(6, 0, Integer.MAX_VALUE);
             worldGenOtherDimensionGemsRegionSize = wrapper
                     .builder("world.generation.other.gems.regionSize")
                     .comment("The region size for gems in non-vanilla dimensions.",
                             "Each 'size x size' chunk area is a 'region', which contains a couple types of gems.",
-                            "Larger regions will make finding many types of gems more difficult.")
-                    .defineInRange(4, 1, Integer.MAX_VALUE);
+                            "Larger regions will make finding many types of gems more difficult.",
+                            "Setting to zero will disable gem generation in these dimensions (does not include overworld).")
+                    .defineInRange(4, 0, Integer.MAX_VALUE);
             worldGenSilverVeinCount = wrapper
                     .builder("world.generation.ores.silver.veinCount")
                     .comment("Number of veins of silver ore per chunk. Set 0 to disable.",
                             "Default: 0 if Silent's Mechanisms is installed when config is created, 2 otherwise")
                     .defineInRange(ModList.get().isLoaded("silents_mechanisms") ? 0 : 2, 0, Integer.MAX_VALUE);
+            worldGenGeodeBaseChance = wrapper
+                    .builder("world.generation.overworld.geode.baseChance")
+                    .comment("The base chance of a chunk having a gem geode.",
+                            " Setting to zero will disable geodes. A value of one would make every chunk have a geode.")
+                    .defineInRange(0.05, 0.0, 1.0);
+            worldGenGeodeChanceVariation = wrapper
+                    .builder("world.generation.overworld.geode.chanceVariation")
+                    .comment("Max variation in geode chance. The final chance is a normal distribution, with this being the standard deviation.",
+                            "This will tend to be close to the base chance, but could be more/less by several times this value.",
+                            "The chance is rolled separately for each biome.")
+                    .defineInRange(0.0025, 0.0, 1.0);
 
             ChaosEvents.loadConfigs(wrapper);
         }
