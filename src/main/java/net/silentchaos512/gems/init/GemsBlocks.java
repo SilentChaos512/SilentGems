@@ -117,12 +117,12 @@ public final class GemsBlocks {
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderTypes(FMLClientSetupEvent event) {
         for (Gems gem : Gems.values()) {
-            RenderTypeLookup.setRenderLayer(gem.getGlass(), RenderType.translucent());
-            RenderTypeLookup.setRenderLayer(gem.getGlowrose(), RenderType.cutout());
-            RenderTypeLookup.setRenderLayer(gem.getPottedGlowrose(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(gem.getGlass(), RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(gem.getGlowrose(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(gem.getPottedGlowrose(), RenderType.getCutout());
         }
-        RenderTypeLookup.setRenderLayer(FluffyPuffPlant.INSTANCE.get(), RenderType.cutout());
-        RenderTypeLookup.setRenderLayer(WildFluffyPuffPlant.INSTANCE.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(FluffyPuffPlant.INSTANCE.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(WildFluffyPuffPlant.INSTANCE.get(), RenderType.getCutout());
     }
 
     private static void registerPedestal(String name, PedestalBlock block) {

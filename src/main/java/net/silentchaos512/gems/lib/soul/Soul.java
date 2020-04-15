@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.lib.soul;
 
-import lombok.Getter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -42,15 +41,13 @@ import java.util.*;
 import java.util.function.Supplier;
 
 public final class Soul {
-    @Getter private final ResourceLocation id;
-    @Getter private final SoulElement primaryElement;
-    @Getter private final SoulElement secondaryElement;
-    @Getter private final int primaryColor;
-    @Getter private final int secondaryColor;
+    private final ResourceLocation id;
+    private final SoulElement primaryElement;
+    private final SoulElement secondaryElement;
+    private final int primaryColor;
+    private final int secondaryColor;
     private final float dropRate;
-    @Nullable
-    @Getter
-    private final EntityType<?> entityType;
+    @Nullable private final EntityType<?> entityType;
 
     private static final Marker MARKER = MarkerManager.getMarker("Souls");
     private static final Map<EntityType<?>, Soul> MAP = new HashMap<>();
@@ -80,6 +77,35 @@ public final class Soul {
                     this.id, Color.format(this.primaryColor), Color.format(this.secondaryColor));
         }
     }
+
+    //region Getters
+
+    public ResourceLocation getId() {
+        return id;
+    }
+
+    public SoulElement getPrimaryElement() {
+        return primaryElement;
+    }
+
+    public SoulElement getSecondaryElement() {
+        return secondaryElement;
+    }
+
+    public int getPrimaryColor() {
+        return primaryColor;
+    }
+
+    public int getSecondaryColor() {
+        return secondaryColor;
+    }
+
+    @Nullable
+    public EntityType<?> getEntityType() {
+        return entityType;
+    }
+
+    //endregion
 
     //region Network
 
@@ -132,11 +158,13 @@ public final class Soul {
     }
 
     private static int getEggPrimaryColor(SpawnEggItem egg) {
-        return ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "field_195988_c");
+        Integer i = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "field_195988_c");
+        return i != null ? i : 0xFF00FF;
     }
 
     private static int getEggSecondaryColor(SpawnEggItem egg) {
-        return ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "field_195989_d");
+        Integer i = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "field_195989_d");
+        return i != null ? i : 0x0;
     }
 
     public float getDropRate(LivingEntity entity) {

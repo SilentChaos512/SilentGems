@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.lib.soul;
 
-import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -48,15 +47,15 @@ public class GearSoul {
     boolean readyToSave = false;
 
     // Experience and levels
-    @Getter private int xp = 0;
-    @Getter private int level = 1;
+    private int xp = 0;
+    private int level = 1;
 
     // Elements
-    @Getter private SoulElement primaryElement = SoulElement.NONE;
-    @Getter private SoulElement secondaryElement = SoulElement.NONE;
+    private SoulElement primaryElement = SoulElement.NONE;
+    private SoulElement secondaryElement = SoulElement.NONE;
 
     // Skills
-    @Getter private final Map<SoulTraits, Integer> skills = new HashMap<>();
+    final Map<SoulTraits, Integer> skills = new HashMap<>();
 
     // Temporary variables NOT saved to NBT
     public int climbTimer = 0;
@@ -64,9 +63,44 @@ public class GearSoul {
     // Variables used by updateTick
     private int ticksExisted = 0;
 
-    // =================
-    // = XP and Levels =
-    // =================
+    //region Getters and Setters
+
+    public int getXp() {
+        return xp;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public SoulElement getPrimaryElement() {
+        return primaryElement;
+    }
+
+    public SoulElement getSecondaryElement() {
+        return secondaryElement;
+    }
+
+    public Map<SoulTraits, Integer> getSkills() {
+        return Collections.unmodifiableMap(skills);
+    }
+
+    public ITextComponent getName(ItemStack tool) {
+        if (name.isEmpty()) {
+            if (!tool.isEmpty()) {
+                return tool.getDisplayName();
+            }
+        }
+        return new StringTextComponent(name);
+    }
+
+    public void setName(String value) {
+        this.name = value;
+    }
+
+    //endregion
+
+    //region XP and Levels
 
     public void addXp(int amount, ItemStack tool, @Nullable PlayerEntity player) {
         if (!GemsConfig.COMMON.gearSoulsGetXpFromFakePlayers.get() && player instanceof FakePlayer) {
@@ -119,21 +153,26 @@ public class GearSoul {
         this.level = packetAmount;
     }
 
-    public ITextComponent getName(ItemStack tool) {
-        if (name.isEmpty()) {
-            if (!tool.isEmpty()) {
-                return tool.getDisplayName();
-            }
+    public int getXpForBlockHarvest(IBlockReader world, BlockPos pos, BlockState state) {
+        float hardness = state.getBlockHardness(world, pos);
+        if (hardness < XP_MIN_BLOCK_HARDNESS) {
+            return 0;
         }
-        return new StringTextComponent(name);
-    }
 
-    public void setName(String value) {
-        this.name = value;
-    }
+        // Bonus XP for ores and logs
+        int oreBonus = 0;
+        Block block = state.getBlock();
+        if (BlockTags.LOGS.contains(block) || Tags.Blocks.ORES.contains(block)) {
+            oreBonus = this.level / 2;
+        }
 
-    public boolean hasName() {
-        return !name.isEmpty();
+        // Wood gives less XP.
+        if (state.getMaterial() == Material.WOOD) {
+            hardness /= 2;
+        }
+
+        int clamp = MathHelper.clamp(Math.round(XP_FACTOR_BLOCK_MINED * hardness), 1, XP_MAX_PER_BLOCK);
+        return oreBonus + clamp;
     }
 
     @Nullable
@@ -161,28 +200,6 @@ public class GearSoul {
         return toLearn;
     }
 
-    public int getXpForBlockHarvest(IBlockReader world, BlockPos pos, BlockState state) {
-        float hardness = state.getBlockHardness(world, pos);
-        if (hardness < XP_MIN_BLOCK_HARDNESS) {
-            return 0;
-        }
-
-        // Bonus XP for ores and logs
-        int oreBonus = 0;
-        Block block = state.getBlock();
-        if (BlockTags.LOGS.contains(block) || Tags.Blocks.ORES.contains(block)) {
-            oreBonus = this.level / 2;
-        }
-
-        // Wood gives less XP.
-        if (state.getMaterial() == Material.WOOD) {
-            hardness /= 2;
-        }
-
-        int clamp = MathHelper.clamp(Math.round(XP_FACTOR_BLOCK_MINED * hardness), 1, XP_MAX_PER_BLOCK);
-        return oreBonus + clamp;
-    }
-
     public void onBreakBlock(PlayerEntity player, ItemStack gear, IBlockReader world, BlockPos pos, BlockState blockState) {
         int xp = getXpForBlockHarvest(world, pos, blockState);
         this.addXp(xp, gear, player);
@@ -193,10 +210,9 @@ public class GearSoul {
         xp = MathHelper.clamp(xp, 1, 1000);
         this.addXp(xp, gear, player);
     }
+    //endregion
 
-    // ==========
-    // = Skills =
-    // ==========
+    //region Skills
 
     public boolean addOrLevelSkill(SoulTraits skill, ItemStack tool, @Nullable PlayerEntity player) {
         if (skills.containsKey(skill)) {
@@ -252,6 +268,8 @@ public class GearSoul {
             return 0;
         return skills.get(skill);
     }
+
+    //endregion
 
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, boolean advanced) {
         // Level, XP

@@ -18,7 +18,6 @@
 
 package net.silentchaos512.gems.block.supercharger;
 
-import lombok.Getter;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerInventory;
@@ -51,16 +50,12 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
     private static final int INVENTORY_SIZE = 3;
     private static final int UPDATE_FREQUENCY = TimeUtils.ticksFromSeconds(15);
 
-    @Getter
     @SyncVariable(name = "Progress")
     private int progress;
-    @Getter
     @SyncVariable(name = "ProcessTime")
     private int processTime;
-    @Getter
     @SyncVariable(name = "StructureLevel")
     private int structureLevel;
-    @Getter
     @SyncVariable(name = "ChaosGenerated")
     private int chaosGenerated;
     private int chaosBuffer;
@@ -110,6 +105,22 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
 
     public SuperchargerTileEntity() {
         super(GemsTileEntities.SUPERCHARGER, INVENTORY_SIZE);
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
+    public int getProcessTime() {
+        return processTime;
+    }
+
+    public int getStructureLevel() {
+        return structureLevel;
+    }
+
+    public int getChaosGenerated() {
+        return chaosGenerated;
     }
 
     @Override

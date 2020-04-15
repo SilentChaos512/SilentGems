@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.lib.chaosbuff;
 
-import lombok.Getter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
@@ -31,11 +30,15 @@ public class PotionChaosBuff extends SimpleChaosBuff {
             }
     );
 
-    @Getter private Effect effect;
+    private Effect effect;
     private int effectDuration;
 
     public PotionChaosBuff(ResourceLocation id) {
         super(id);
+    }
+
+    public Effect getEffect() {
+        return effect;
     }
 
     @Override

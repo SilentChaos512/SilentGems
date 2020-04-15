@@ -145,9 +145,7 @@ class SideProxy implements IProxy {
                 MinecraftForge.EVENT_BUS.register(SoulEvents.Client.INSTANCE);
             }
 
-            if (SilentGems.isDevBuild()) {
-                MinecraftForge.EVENT_BUS.register(new DebugOverlay());
-            }
+            MinecraftForge.EVENT_BUS.register(new DebugOverlay());
 
             if (AprilFools.isRightDay()) {
                 SilentGems.LOGGER.info("Registered April Fools Day events");

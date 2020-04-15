@@ -18,7 +18,6 @@
 
 package net.silentchaos512.gems.lib.urn;
 
-import lombok.Getter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -64,7 +63,6 @@ public class UrnUpgrade {
     }
 
     public static class Serializer<T extends UrnUpgrade> {
-        @Getter
         private final ResourceLocation id;
         private final Supplier<T> constructor;
 
@@ -75,6 +73,11 @@ public class UrnUpgrade {
             SERIALIZERS.put(id, this);
         }
 
+        public ResourceLocation getId() {
+            return id;
+        }
+
+        @SuppressWarnings("MethodMayBeStatic")
         public CompoundNBT serialize() {
             return new CompoundNBT();
         }

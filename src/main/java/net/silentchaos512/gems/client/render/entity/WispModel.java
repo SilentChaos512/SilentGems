@@ -1,6 +1,8 @@
 package net.silentchaos512.gems.client.render.entity;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.SegmentedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
@@ -34,7 +36,7 @@ public class WispModel<T extends AbstractWispEntity> extends SegmentedModel<T> {
     }
 
     @Override
-    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float f = ((float)Math.PI / 4F) + ageInTicks * (float)Math.PI * 0.03F;
 
         for (int i = 0; i < this.satellites.length; ++i) {

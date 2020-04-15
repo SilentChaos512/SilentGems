@@ -48,7 +48,7 @@ public class PedestalRenderer extends TileEntityRenderer<PedestalTileEntity> {
 
             RenderSystem.pushLightingAttributes();
             RenderHelper.enableStandardItemLighting();
-            itemRenderer.renderItem(itemStack, ItemCameraTransforms.TransformType.FIXED, combinedLight, OverlayTexture.DEFAULT_LIGHT, matrixStack, buffer);
+            itemRenderer.renderItem(itemStack, ItemCameraTransforms.TransformType.FIXED, combinedLight, OverlayTexture.NO_OVERLAY, matrixStack, buffer);
             RenderHelper.disableStandardItemLighting();
             RenderSystem.popAttributes();
 

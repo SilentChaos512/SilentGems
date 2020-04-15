@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import lombok.Getter;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -21,6 +20,7 @@ import net.silentchaos512.gems.item.EnchantmentTokenItem;
 import net.silentchaos512.gems.util.InventoryUtils;
 import net.silentchaos512.lib.collection.StackList;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -33,16 +33,41 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
     };
     public static final Serializer SERIALIZER = new Serializer();
 
-    @Getter private final ResourceLocation id;
-    @Getter private int chaosGenerated;
-    @Getter private int processTime;
-    @Getter private ItemStack result;
-    @Getter private Ingredient token;
-    @Getter private final Map<Ingredient, Integer> ingredientMap = new LinkedHashMap<>();
+    private final ResourceLocation id;
+    private int chaosGenerated;
+    private int processTime;
+    private ItemStack result;
+    private Ingredient token;
+    private final Map<Ingredient, Integer> ingredientMap = new LinkedHashMap<>();
     private boolean valid = true;
 
     public TokenEnchanterRecipe(ResourceLocation id) {
         this.id = id;
+    }
+
+    @Override
+    public ResourceLocation getId() {
+        return id;
+    }
+
+    public int getChaosGenerated() {
+        return chaosGenerated;
+    }
+
+    public int getProcessTime() {
+        return processTime;
+    }
+
+    public ItemStack getResult() {
+        return result;
+    }
+
+    public Ingredient getToken() {
+        return token;
+    }
+
+    public Map<Ingredient, Integer> getIngredientMap() {
+        return Collections.unmodifiableMap(ingredientMap);
     }
 
     public void consumeIngredients(IInventory inv) {

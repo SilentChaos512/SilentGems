@@ -13,7 +13,7 @@ plugins {
     id 'io.franzbecker.gradle-lombok' version '2.0'
     id 'maven'
     id 'maven-publish'
-    id "com.jfrog.bintray" version "1.8.4"
+    id "com.jfrog.bintray" version "1.8.5"
     id "com.matthewprenger.cursegradle" version "1.2.0"
 }
 
@@ -52,32 +52,33 @@ def build_num = getBuildNumber()
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: project.mcp_channel.toString(), version: project.mcp_mappings.toString();
+    mappings channel: project.mcp_channel.toString(), version: project.mcp_mappings.toString()
 
     runs {
-        client = {
-            // Removes some logging data from the default configuration
-            // Run clientVerbose to print the extra info
-            properties 'forge.logging.markers': ''
-            properties 'forge.logging.console.level': 'debug'
-            workingDirectory project.file('run').canonicalPath
-            source sourceSets.main
+        client {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                silentgems {
+                    source sourceSets.main
+                }
+            }
         }
-        clientVerbose = {
-            // recommended logging data for a userdev environment
-            properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
-            // recommended logging level for the console
-            properties 'forge.logging.console.level': 'debug'
-            workingDirectory project.file('run').canonicalPath
-            source sourceSets.main
-        }
-        server = {
-            // recommended logging data for a userdev environment
-            properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
-            // recommended logging level for the console
-            properties 'forge.logging.console.level': 'debug'
-            workingDirectory project.file('run').canonicalPath
-            source sourceSets.main
+
+        server {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                silentgems {
+                    source sourceSets.main
+                }
+            }
         }
     }
 }
@@ -85,6 +86,14 @@ minecraft {
 repositories {
     jcenter()
     mavenLocal()
+    // Silent Lib
+    maven {
+        url "https://dl.bintray.com/silentchaos512/silent-lib"
+    }
+    // Silent Gear
+    maven {
+        url "https://dl.bintray.com/silentchaos512/silent-gear"
+    }
     maven {
         // location of the maven that hosts JEI files
         name = "Progwml6 maven"
@@ -95,54 +104,55 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.k-4u.nl"
     }
+    // Curios
     maven {
-        // Curios
         url = "https://maven.theillusivec4.top/"
     }
-    maven { url 'https://jitpack.io' }
+    maven {
+        url 'https://jitpack.io'
+    }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${project.forge_version}"
 
-    // Lib/Gear
-    if (project.hasProperty("sl_version")) {
-        compile "net.silentchaos512:silent-lib-${project.mc_version}:${project.sl_version}"
+    compile fg.deobf("net.silentchaos512:silent-lib-${project.mc_version}:${project.sl_version}") {
+        exclude module: "forge"
     }
-    if (project.hasProperty("sgear_version")) {
-        compile("net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}") {
-            exclude module: 'curios'
-            exclude module: 'jei-1.15.2'
-            exclude module: 'mine-and-slash-1.15.2'
-            exclude module: 'silents-mechanisms-1.15.2'
-        }
+    compile("net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}") {
+        exclude module: 'forge'
+        exclude module: 'jei-1.15.2'
+        exclude module: 'silent-lib-1.15.2'
     }
-    // Mech
-//    runtimeOnly("net.silentchaos512:silents-mechanisms-${project.mc_version}:0.+") {
-//        exclude module: 'cc-tweaked-1.14.4'
-//        exclude module: 'jei-1.14.4'
-//        exclude module: 'silent-gear-1.14.4'
-//    }
 
     // JEI
-    if (project.hasProperty("jei_version")) {
+    if (project.hasProperty('jei_version')) {
         // compile against the JEI API but do not include it at runtime
         compileOnly fg.deobf("mezz.jei:jei-${project.jei_version}:api")
         // at runtime, use the full JEI jar
         runtimeOnly fg.deobf("mezz.jei:jei-${project.jei_version}")
     }
 
+    // runtimeOnly("net.silentchaos512:silents-mechanisms-${project.mc_version}:0.+") {
+    //     exclude module: "cc-tweaked-${project.mc_version}"
+    //     exclude module: "silent-gear-${project.mc_version}"
+    // }
+//    runtimeOnly 'net.silentchaos512:wit:1.+'
+
     // HWYLA
-    if (project.hasProperty("hwyla_version")) {
+    if (project.hasProperty('hwyla_version')) {
         compileOnly "mcp.mobius.waila:Hwyla:${project.hwyla_version}"
     }
 
     // Curios
-//    runtimeOnly fg.deobf("top.theillusivec4.curios:curios:${project.curios_version}")
-//    compileOnly fg.deobf("top.theillusivec4.curios:curios:${project.curios_version}:api")
+    if (project.hasProperty('curios_version')) {
+        runtimeOnly fg.deobf("top.theillusivec4.curios:curios:${project.curios_version}")
+        compileOnly fg.deobf("top.theillusivec4.curios:curios:${project.curios_version}:api")
+    }
 
-    // Other mods
-    //compile "net.silentchaos512:treasure-bags:1.+"
+    // compile('com.robertx22:mine-and-slash-1.14.4:2.+') {
+    //     exclude module: 'curios'
+    // }
 }
 
 jar {
@@ -150,7 +160,7 @@ jar {
     manifest {
         attributes(["Specification-Title"     : project.mod_id,
                     "Specification-Vendor"    : "SilentChaos512",
-                    "Specification-Version"   : "3.2",
+                    "Specification-Version"   : "1.2",
                     "Implementation-Title"    : project.name,
                     "Implementation-Version"  : "${version}",
                     "Implementation-Vendor"   : "SilentChaos512",
@@ -181,7 +191,7 @@ artifacts {
         archives deobfJar
     }
     if (project.hasProperty('doSourceJar')) {
-        archives sourceJar
+        archives sourcesJar
     }
     if (project.hasProperty('doJavadocJar')) {
         archives javadocJar
@@ -195,6 +205,7 @@ class Secrets {
         return data ? data[key] : ''
     }
 }
+
 
 import groovy.json.JsonSlurper
 
@@ -418,7 +429,7 @@ def writeUpdateJson() {
     // TODO: Maybe add something to create an abbreviated changelog? May not be useful...
     if (!json[project.mc_version].containsKey(version.toString()))
         json[project.mc_version][version.toString()] = project.changelogUrl
-    json[project.mc_version] = json[project.mc_version].sort([compare: {a, b -> b.compareTo(a)}] as Comparator)
+    json[project.mc_version] = json[project.mc_version].sort([compare: { a, b -> b.compareTo(a) }] as Comparator)
     json['promos']["${project.mc_version}-latest"] = version
     json['promos']["${project.mc_version}-recommended"] = version
 

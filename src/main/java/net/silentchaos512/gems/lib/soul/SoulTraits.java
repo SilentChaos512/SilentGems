@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.lib.soul;
 
-import lombok.Getter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -24,7 +23,6 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Getter
 public class SoulTraits {
     private static final Map<ResourceLocation, SoulTraits> SOUL_TRAITS = new ConcurrentHashMap<>();
 
@@ -135,6 +133,14 @@ public class SoulTraits {
         this.lockedToFavoredGearType = builder.lockedToFavoredGearType;
         this.favoredWeightMulti = builder.favoredWeightMulti;
         this.favoredGearType = builder.favoredGearType;
+    }
+
+    public ResourceLocation getTraitId() {
+        return traitId;
+    }
+
+    public int getMaxLevel() {
+        return maxLevel;
     }
 
     @Nullable
@@ -249,8 +255,8 @@ public class SoulTraits {
                 }
 
                 // If a lower level of the skill is already known, reduce the weight.
-                if (soul.getSkills().containsKey(skill)) {
-                    weight -= 2.5 * soul.getSkills().get(skill);
+                if (soul.skills.containsKey(skill)) {
+                    weight -= 2.5 * soul.skills.get(skill);
                 }
 
                 // Base weight diff, favors multiplier

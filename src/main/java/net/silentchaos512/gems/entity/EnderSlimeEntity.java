@@ -51,7 +51,7 @@ public class EnderSlimeEntity extends SlimeEntity {
 
     @Override
     public boolean isNotColliding(IWorldReader worldIn) {
-        return worldIn.func_226668_i_(this) && !worldIn.containsAnyLiquid(this.getBoundingBox());
+        return worldIn.checkNoEntityCollision(this) && !worldIn.containsAnyLiquid(this.getBoundingBox());
     }
 
     @Override
