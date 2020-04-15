@@ -81,6 +81,7 @@
         "all": {
             "lite_texture": "high_contrast",
             "highlight": true,
+            "armor_color": "#FFFFFF",
             "broken_color": "#A3E61D",
             "normal_color": "#FFFFFF",
             "texture_domain": "silentgems",
