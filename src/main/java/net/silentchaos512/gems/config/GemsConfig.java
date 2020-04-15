@@ -52,6 +52,9 @@ public final class GemsConfig {
         public final IntValue worldGenSilverVeinCount;
         public final DoubleValue worldGenGeodeBaseChance;
         public final DoubleValue worldGenGeodeChanceVariation;
+        public final IntValue worldGenChaosOreMinCount;
+        public final IntValue worldGenChaosOreMaxCount;
+        public final IntValue worldGenEnderOreCount;
 
         Common(ConfigSpecWrapper wrapper) {
             baseBiomeSeedOverride = wrapper
@@ -231,6 +234,17 @@ public final class GemsConfig {
                             "This will tend to be close to the base chance, but could be more/less by several times this value.",
                             "The chance is rolled separately for each biome.")
                     .defineInRange(0.0025, 0.0, 1.0);
+            wrapper.comment("world.generation.ores.chaos.veinCount", "Number of chaos ore veins per chunk, selected randomly per biome. Set min and max to zero to disable.");
+            worldGenChaosOreMinCount = wrapper
+                    .builder("world.generation.ores.chaos.veinCount.min")
+                    .defineInRange(1, 0, 1000);
+            worldGenChaosOreMaxCount = wrapper
+                    .builder("world.generation.ores.chaos.veinCount.max")
+                    .defineInRange(2, 0, 1000);
+            worldGenEnderOreCount = wrapper
+                    .builder("world.generation.ores.ender.veinCount")
+                    .comment("Number of ender ore veins per chunk in The End. Set zero to disable.")
+                    .defineInRange(1, 0, 1000);
 
             ChaosEvents.loadConfigs(wrapper);
         }

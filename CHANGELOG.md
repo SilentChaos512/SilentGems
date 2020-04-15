@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 Please also update Silent Gear to 1.5.8+, contains armor color fixes
+### Added
+- Configs to control chaos ore and ender ore spawns
 ### Changed
 - (API) Replace Lombok getters with normal getters, removed some less useful getters
 ### Fixed
