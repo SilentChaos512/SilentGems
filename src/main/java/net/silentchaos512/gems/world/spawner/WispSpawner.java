@@ -55,7 +55,7 @@ public final class WispSpawner {
         for (int i = 0; i < count; ++i) {
             int posX = areaX + MathUtils.nextIntInclusive(-8, 8);
             int posZ = areaZ + MathUtils.nextIntInclusive(-8, 8);
-            int posY = world.getChunk(posX, posZ).getTopBlockY(Heightmap.Type.WORLD_SURFACE, posX, posZ) + 1;
+            int posY = world.getChunk(posX / 16, posZ / 16).getTopBlockY(Heightmap.Type.WORLD_SURFACE, posX, posZ) + 1;
             BlockPos blockPos = new BlockPos(posX, posY, posZ);
             SilentGems.LOGGER.debug("{}: {}", type.getRegistryName(), blockPos);
 
