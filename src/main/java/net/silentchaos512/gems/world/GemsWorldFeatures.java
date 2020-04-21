@@ -272,12 +272,15 @@ public final class GemsWorldFeatures {
     }
 
     private static void addEnderSlimeSpawns(Biome biome) {
-        biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(
-                GemsEntities.ENDER_SLIME.get(),
-                GemsConfig.COMMON.enderSlimeSpawnWeight.get(),
-                GemsConfig.COMMON.enderSlimeGroupSizeMin.get(),
-                GemsConfig.COMMON.enderSlimeGroupSizeMax.get()
-        ));
+        int spawnWeight = GemsConfig.COMMON.enderSlimeSpawnWeight.get();
+        if (spawnWeight > 0) {
+            biome.getSpawns(EntityClassification.MONSTER).add(new Biome.SpawnListEntry(
+                    GemsEntities.ENDER_SLIME.get(),
+                    spawnWeight,
+                    GemsConfig.COMMON.enderSlimeGroupSizeMin.get(),
+                    GemsConfig.COMMON.enderSlimeGroupSizeMax.get()
+            ));
+        }
     }
 
     private static long getBaseSeed() {
