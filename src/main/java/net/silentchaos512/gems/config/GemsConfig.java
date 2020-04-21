@@ -18,6 +18,7 @@ public final class GemsConfig {
         public final StringValue baseBiomeSeedOverride;
         public final IntValue chaosCoalBurnTime;
         public final IntValue chaosMaxValue;
+        public final BooleanValue chaosNoEventsUntilHasBed;
         public final BooleanValue debugMasterSwitch;
         public final Supplier<Boolean> debugShowOverlay;
         public final Supplier<Boolean> debugExtraTooltipInfo;
@@ -70,6 +71,10 @@ public final class GemsConfig {
                     .builder("chaos.maxValue")
                     .comment("The most chaos the any source (player or world) can accumulate")
                     .defineInRange(10_000_000, 0, Integer.MAX_VALUE);
+            chaosNoEventsUntilHasBed = wrapper
+                    .builder("chaos.noEventsUntilPlayerHasBed")
+                    .comment("If true, players will not experience chaos events until they have used a bed (set a respawn point)")
+                    .define(true);
             debugMasterSwitch = wrapper
                     .builder("debug.masterSwitch")
                     .comment("Must be true for any other debug settings to take effect")

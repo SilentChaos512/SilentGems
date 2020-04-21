@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.api.chaos.ChaosEvent;
 import net.silentchaos512.gems.block.CorruptedBlocks;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.entity.ChaosLightningBoltEntity;
 import net.silentchaos512.gems.init.GemsEffects;
 import net.silentchaos512.gems.world.spawner.CorruptedSlimeSpawner;
@@ -51,27 +52,27 @@ public final class ChaosEvents {
     private static final int MAX_CHAOS = 5_000_000;
 
     static {
-        addChaosEvent(SilentGems.getId("lightning"), new ChaosEvent(0.1f, 60, 500_000, MAX_CHAOS, 50_000, "Spawn a regular lightning bolt (can cause fire)", (player, chaos) ->
+        addChaosEvent(SilentGems.getId("lightning"), new ChaosEvent(0.1f, 120, 500_000, MAX_CHAOS, 50_000, "Spawn a regular lightning bolt (can cause fire)", (player, chaos) ->
                 spawnLightningBolt(player, player.world)
         ));
-        addChaosEvent(SilentGems.getId("chaos_lightning"), new ChaosEvent(0.3f, 30, 300_000, MAX_CHAOS, 30_000, "Spawn several lightning bolts that do not cause fire", (player, chaos) -> {
+        addChaosEvent(SilentGems.getId("chaos_lightning"), new ChaosEvent(0.3f, 60, 300_000, MAX_CHAOS, 30_000, "Spawn several lightning bolts that do not cause fire", (player, chaos) -> {
             int boltCount = 5 + SilentGems.random.nextInt(6);
             return spawnChaosLightningBolts(player, player.world, boltCount);
         }));
-        addChaosEvent(SilentGems.getId("corrupt_blocks"), new ChaosEvent(0.2f, 600, 750_000, MAX_CHAOS, 100_000, "Create a patch of corrupted blocks", (player, chaos) ->
+        addChaosEvent(SilentGems.getId("corrupt_blocks"), new ChaosEvent(0.2f, 300, 750_000, MAX_CHAOS, 100_000, "Create a patch of corrupted blocks", (player, chaos) ->
                 corruptBlocks(player, player.world)
         ));
-        addChaosEvent(SilentGems.getId("corrupted_slimes"), new ChaosEvent(0.1f, 600, 180_000, MAX_CHAOS / 3, 15_000, "Spawn a group of corrupted slimes",
+        addChaosEvent(SilentGems.getId("corrupted_slimes"), new ChaosEvent(0.1f, 1200, 180_000, MAX_CHAOS / 3, 15_000, "Spawn a group of corrupted slimes",
                 CorruptedSlimeSpawner::spawnSlimes
         ));
-        addChaosEvent(SilentGems.getId("spawn_wisps"), new ChaosEvent(0.1f, 900, 220_000, MAX_CHAOS / 4, 25_000, "Spawn a group of wisps (random element)",
+        addChaosEvent(SilentGems.getId("spawn_wisps"), new ChaosEvent(0.1f, 1800, 220_000, MAX_CHAOS / 4, 25_000, "Spawn a group of wisps (random element)",
                 WispSpawner::spawnWisps
         ));
-        addChaosEvent(SilentGems.getId("thunderstorm"), new ChaosEvent(0.05f, 1200, 1_000_000, MAX_CHAOS, 200_000, "Changes the weather to a thunderstorm", (player, chaos) -> {
+        addChaosEvent(SilentGems.getId("thunderstorm"), new ChaosEvent(0.05f, 2400, 1_000_000, MAX_CHAOS, 200_000, "Changes the weather to a thunderstorm", (player, chaos) -> {
             int time = TimeUtils.ticksFromMinutes(MathUtils.nextIntInclusive(7, 15));
             return setThunderstorm(player.world, time);
         }));
-        addChaosEvent(SilentGems.getId("chaos_sickness"), new ChaosEvent(0.1f, 1200, 900_000, MAX_CHAOS, 200_000, "Applies negative potion effects to the player",
+        addChaosEvent(SilentGems.getId("chaos_sickness"), new ChaosEvent(0.15f, 1200, 900_000, MAX_CHAOS, 200_000, "Applies negative potion effects to the player",
                 ChaosEvents::applyChaosSickness
         ));
     }
@@ -92,7 +93,7 @@ public final class ChaosEvents {
     }
 
     static void tryChaosEvents(PlayerEntity player, World world, int chaos) {
-        if (player == null || !player.isAlive())
+        if (player == null || !player.isAlive() || (GemsConfig.COMMON.chaosNoEventsUntilHasBed.get() && !hasBed(player)))
             return;
 
         Map<ResourceLocation, Integer> cooldownTimers = COOLDOWN_TIMERS.computeIfAbsent(player.getUniqueID(), uuid -> new HashMap<>());
@@ -118,6 +119,11 @@ public final class ChaosEvents {
             timers.put(id, time);
 
         return time;
+    }
+
+    @SuppressWarnings("ConstantConditions") // Bed location is nullable
+    private static boolean hasBed(PlayerEntity player) {
+        return player.getBedLocation(DimensionType.OVERWORLD) != null;
     }
 
     public static Collection<ResourceLocation> getEventIds() {

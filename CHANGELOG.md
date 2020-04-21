@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Glowroses and fluffy puff plants to some vanilla tags [#435]
+- Config to disable chaos events for players until they get a bed [#434]
+### Changed
+- Doubled the cooldown of most chaos events [#434]
 ### Fixed
 - Chaos slime and wisp spawners checking the incorrect chunk, should fix [#445] and [#450]
 - Chaos meter not working correctly on servers [#436]
