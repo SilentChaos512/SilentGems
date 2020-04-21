@@ -4,6 +4,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Glowroses and fluffy puff plants to some vanilla tags [#435]
 ### Fixed
 - Chaos slime and wisp spawners checking the incorrect chunk, should fix [#445] and [#450]
 - Chaos meter not working correctly on servers [#436]
