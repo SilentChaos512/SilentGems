@@ -4,13 +4,19 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.network.play.server.SCooldownPacket;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.api.chaos.IChaosSource;
+import net.silentchaos512.gems.chaos.ChaosSourceCapability;
 import net.silentchaos512.gems.client.ClientPlayerInfo;
 import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.utils.Lazy;
@@ -33,6 +39,14 @@ public class ChaosMeterItem extends Item {
         return isPlayerMode(stack) ? ClientPlayerInfo.playerChaos : ClientPlayerInfo.worldChaos;
     }
 
+    private static int getChaosLevelServer(ItemStack stack, ICapabilityProvider chaosSource) {
+        LazyOptional<IChaosSource> optional = chaosSource.getCapability(ChaosSourceCapability.INSTANCE);
+        if (optional.isPresent()) {
+            return optional.orElseGet(ChaosSourceCapability::new).getChaos();
+        }
+        return -1;
+    }
+
     private static boolean isPlayerMode(ItemStack stack) {
         return stack.getOrCreateTag().getBoolean(NBT_PLAYER_MODE);
     }
@@ -51,13 +65,19 @@ public class ChaosMeterItem extends Item {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         ItemStack heldItem = playerIn.getHeldItem(handIn);
 
-        if (playerIn.isCrouching()) {
-            boolean playerMode = isPlayerMode(heldItem);
-            setPlayerMode(heldItem, !playerMode);
-        }
+        if (!worldIn.isRemote) {
+            if (playerIn.isCrouching()) {
+                boolean playerMode = isPlayerMode(heldItem);
+                setPlayerMode(heldItem, !playerMode);
+            }
 
-        int chaos = getChaosLevel(heldItem);
-        playerIn.sendStatusMessage(formatValue(chaos, isPlayerMode(heldItem)), true);
+            boolean playerMode = isPlayerMode(heldItem);
+            int chaos = getChaosLevelServer(heldItem, playerMode ? playerIn : worldIn);
+            if (chaos > -1) {
+                playerIn.sendStatusMessage(formatValue(chaos, playerMode), true);
+                playerIn.getCooldownTracker().setCooldown(this, 20);
+            }
+        }
 
         return new ActionResult<>(ActionResultType.PASS, heldItem);
     }
