@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Chaos slime and wisp spawners checking the incorrect chunk, should fix [#445] and [#450]
 - Chaos meter not working correctly on servers [#436]
+- Enchantment tokens duplicating stackable items [#428]
 
 ## [3.5.2] - 2020-04-15
 Please also update Silent Gear to 1.5.8+, contains armor color fixes

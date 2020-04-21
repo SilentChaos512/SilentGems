@@ -50,6 +50,7 @@ public class ApplyEnchantmentTokenRecipe implements ICraftingRecipe {
         }
 
         ItemStack result = tool.copy();
+        result.setCount(1);
         for (ItemStack token : tokens) {
             if (!EnchantmentTokenItem.applyTokenToTool(token, result)) {
                 return ItemStack.EMPTY;
