@@ -22,6 +22,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
 
 public class EnchantmentSupercharged extends Enchantment {
     public EnchantmentSupercharged() {
@@ -30,17 +31,16 @@ public class EnchantmentSupercharged extends Enchantment {
 
     @Override
     public int getMaxLevel() {
-        // TODO: Add a config, with ability to specify charging material?
         return 3;
     }
 
     @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        return false;
+    public boolean canApply(ItemStack stack) {
+        return SGearProxy.isMainPart(stack);
     }
 
     @Override
-    protected boolean canApplyTogether(Enchantment ench) {
+    public boolean canApplyAtEnchantingTable(ItemStack stack) {
         return false;
     }
 
