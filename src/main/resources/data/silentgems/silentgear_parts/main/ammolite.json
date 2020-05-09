@@ -90,8 +90,12 @@
     },
     "traits": [
         {
-            "level": 1,
-            "name": "silentgear:brittle"
+            "level": 4,
+            "name": "silentgear:ancient"
+        },
+        {
+            "name": "silentgear:brittle",
+            "level": 2
         }
     ],
     "type": "silentgear:main"

@@ -19,9 +19,11 @@
 package net.silentchaos512.gems.compat.gear;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gear.api.parts.MaterialGrade;
 import net.silentchaos512.gear.api.parts.PartType;
 import net.silentchaos512.gear.parts.PartData;
+import net.silentchaos512.gear.util.TraitHelper;
 
 public final class SGearCompat {
     private SGearCompat() {
@@ -41,5 +43,9 @@ public final class SGearCompat {
     public static boolean isMainPart(ItemStack stack) {
         PartData part = PartData.fromStackFast(stack);
         return part != null && part.getType() == PartType.MAIN;
+    }
+
+    public static int getTraitLevel(ItemStack stack, ResourceLocation traitId) {
+        return TraitHelper.getTraitLevel(stack, traitId);
     }
 }

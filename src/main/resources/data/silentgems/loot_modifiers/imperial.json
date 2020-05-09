@@ -1,0 +1,9 @@
+{
+    "conditions": [
+        {
+            "condition": "silentgear:has_trait",
+            "trait": "silentgems:imperial"
+        }
+    ],
+    "function": "silentgems:imperial"
+}

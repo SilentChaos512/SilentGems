@@ -19,6 +19,7 @@
 package net.silentchaos512.gems.compat.gear;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.silentchaos512.gems.SilentGems;
@@ -55,5 +56,10 @@ public final class SGearProxy {
     public static boolean isMainPart(ItemStack stack) {
         if (modLoaded) return SGearCompat.isMainPart(stack);
         return false;
+    }
+
+    public static int getTraitLevel(ItemStack stack, ResourceLocation traitId) {
+        if (modLoaded) return SGearCompat.getTraitLevel(stack, traitId);
+        return 0;
     }
 }

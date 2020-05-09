@@ -7,13 +7,17 @@ import net.minecraft.world.storage.loot.*;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraft.world.storage.loot.functions.SetCount;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.PatchBlockChangerItem;
 import net.silentchaos512.gems.loot.functions.SetSoulFunction;
+import net.silentchaos512.gems.loot.modifier.ImperialTraitLootModifier;
 
 import java.util.List;
 import java.util.Map;
@@ -49,6 +53,16 @@ public final class GemsLoot {
         LootFunctionManager.registerFunction(SetSoulFunction.SERIALIZER);
 
         MinecraftForge.EVENT_BUS.addListener(GemsLoot::onLootTableLoad);
+    }
+
+    public static void registerGlobalModifiers(RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
+        register("imperial", new ImperialTraitLootModifier.Serializer());
+    }
+
+    private static <T extends GlobalLootModifierSerializer<?>> void register(String name, T serializer) {
+        ResourceLocation id = SilentGems.getId(name);
+        serializer.setRegistryName(id);
+        ForgeRegistries.LOOT_MODIFIER_SERIALIZERS.register(serializer);
     }
 
     @SubscribeEvent

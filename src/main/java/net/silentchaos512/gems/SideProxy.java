@@ -16,6 +16,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
@@ -70,6 +71,7 @@ class SideProxy implements IProxy {
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(EntityType.class, GemsEntities::registerTypes);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, GemsItems::registerAll);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Effect.class, GemsEffects::registerEffects);
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(GlobalLootModifierSerializer.class, GemsLoot::registerGlobalModifiers);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Potion.class, GemsEffects::registerPotions);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(SoundEvent.class, GemsSounds::registerAll);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(TileEntityType.class, GemsTileEntities::registerAll);

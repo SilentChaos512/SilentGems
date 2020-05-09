@@ -90,7 +90,11 @@
     },
     "traits": [
         {
-            "level": 1,
+            "level": 4,
+            "name": "silentgems:imperial"
+        },
+        {
+            "level": 3,
             "name": "silentgear:brittle"
         }
     ],
