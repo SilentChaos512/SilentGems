@@ -5,10 +5,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.spawner.WorldEntitySpawner;
@@ -26,7 +23,8 @@ public final class WispSpawner {
     private WispSpawner() {}
 
     public static boolean spawnWisps(Entity player, int chaos) {
-        if (player.world.getDifficulty() == Difficulty.PEACEFUL) return false;
+        if (player.world.getDifficulty() == Difficulty.PEACEFUL || !player.world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING))
+            return false;
 
         WispTypes type = WispTypes.selectRandom(SilentGems.random);
         int count = MathUtils.nextIntInclusive(SilentGems.random, MIN_GROUP_COUNT, MAX_GROUP_COUNT);

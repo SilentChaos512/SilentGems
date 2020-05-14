@@ -8,6 +8,8 @@ Note: In order for the skull collector trait to work, you need Silent Gear 1.6.5
 ### Added
 - Imperial trait now works. Sometimes doubles gem drops when mining, chance based on trait level.
 - Skull Collector trait now works. Certain mobs and players have a chance to drop their skull when killed.
+### Fixed
+- Corrupted slimes and wisps spawning when doMobSpawning game rule is disabled [#457]
 
 ## [3.5.3] - 2020-04-25
 ### Added
