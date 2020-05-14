@@ -18,6 +18,7 @@ import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.PatchBlockChangerItem;
 import net.silentchaos512.gems.loot.functions.SetSoulFunction;
 import net.silentchaos512.gems.loot.modifier.ImperialTraitLootModifier;
+import net.silentchaos512.gems.loot.modifier.SkullCollectorTraitLootModifier;
 
 import java.util.List;
 import java.util.Map;
@@ -57,6 +58,7 @@ public final class GemsLoot {
 
     public static void registerGlobalModifiers(RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
         register("imperial", new ImperialTraitLootModifier.Serializer());
+        register("skull_collector", new SkullCollectorTraitLootModifier.Serializer());
     }
 
     private static <T extends GlobalLootModifierSerializer<?>> void register(String name, T serializer) {
