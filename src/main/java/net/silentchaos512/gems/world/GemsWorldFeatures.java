@@ -135,7 +135,7 @@ public final class GemsWorldFeatures {
         biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.FLOWER
                 .withConfiguration((new BlockClusterFeatureConfig.Builder(Util.make(() -> {
                     WeightedBlockStateProvider p = new WeightedBlockStateProvider();
-                    toAdd.forEach(g -> p.func_227407_a_(g.getGlowrose().getDefaultState(), 1));
+                    toAdd.forEach(g -> p.addWeightedBlockstate(g.getGlowrose().getDefaultState(), 1));
                     return p;
                 }), new SimpleBlockPlacer())
                         .tries(GemsConfig.COMMON.glowroseSpawnTryCount.get())
@@ -157,7 +157,7 @@ public final class GemsWorldFeatures {
         biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.FLOWER
                 .withConfiguration((new BlockClusterFeatureConfig.Builder(Util.make(() -> {
                     WeightedBlockStateProvider p = new WeightedBlockStateProvider();
-                    Gems.Set.DARK.iterator().forEachRemaining(g -> p.func_227407_a_(g.getGlowrose().getDefaultState(), 1));
+                    Gems.Set.DARK.iterator().forEachRemaining(g -> p.addWeightedBlockstate(g.getGlowrose().getDefaultState(), 1));
                     return p;
                 }), new SimpleBlockPlacer())
                         .tries(GemsConfig.COMMON.glowroseSpawnTryCount.get())
@@ -182,7 +182,7 @@ public final class GemsWorldFeatures {
         biome.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.FLOWER
                 .withConfiguration((new BlockClusterFeatureConfig.Builder(Util.make(() -> {
                     WeightedBlockStateProvider p = new WeightedBlockStateProvider();
-                    Gems.Set.LIGHT.iterator().forEachRemaining(g -> p.func_227407_a_(g.getGlowrose().getDefaultState(), 1));
+                    Gems.Set.LIGHT.iterator().forEachRemaining(g -> p.addWeightedBlockstate(g.getGlowrose().getDefaultState(), 1));
                     return p;
                 }), new SimpleBlockPlacer())
                         .tries(GemsConfig.COMMON.glowroseSpawnTryCount.get())
