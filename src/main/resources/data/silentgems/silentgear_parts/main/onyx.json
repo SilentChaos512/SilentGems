@@ -15,68 +15,23 @@
         "name": "part.silentgems.main.onyx",
         "translate": true
     },
-    "stats": [
-        {
-            "name": "durability",
-            "value": 256
-        },
-        {
-            "name": "armor_durability",
-            "value": 5
-        },
-        {
-            "name": "enchantability",
-            "value": 8
-        },
-        {
-            "name": "harvest_level",
-            "value": 2
-        },
-        {
-            "name": "harvest_speed",
-            "value": 8
-        },
-        {
-            "name": "melee_damage",
-            "value": 6
-        },
-        {
-            "name": "magic_damage",
-            "value": 2
-        },
-        {
-            "name": "attack_speed",
-            "value": -0.4
-        },
-        {
-            "name": "armor",
-            "value": 12
-        },
-        {
-            "name": "armor_toughness",
-            "value": 0
-        },
-        {
-            "name": "magic_armor",
-            "value": 4
-        },
-        {
-            "name": "ranged_damage",
-            "value": 0
-        },
-        {
-            "name": "ranged_speed",
-            "value": -0.2
-        },
-        {
-            "name": "chargeability",
-            "value": 1.0
-        },
-        {
-            "name": "rarity",
-            "value": 25
-        }
-    ],
+    "stats": {
+        "durability": 256,
+        "armor_durability": 5,
+        "enchantability": 8,
+        "harvest_level": 2,
+        "harvest_speed": 8,
+        "melee_damage": 6,
+        "magic_damage": 2,
+        "attack_speed": -0.4,
+        "armor": 12,
+        "armor_toughness": 0,
+        "magic_armor": 4,
+        "ranged_damage": 0,
+        "ranged_speed": -0.2,
+        "rarity": 25,
+        "silentgems:chargeability": 1.0
+    },
     "textures": {
         "all": {
             "lite_texture": "high_contrast",
@@ -90,16 +45,16 @@
     },
     "traits": [
         {
-            "level": 3,
-            "name": "silentgear:brittle"
+            "name": "silentgear:brittle",
+            "level": 3
         },
         {
-            "level": 1,
-            "name": "silentgear:eroded"
+            "name": "silentgear:eroded",
+            "level": 1
         },
         {
-            "level": 1,
-            "name": "silentgems:chaotic"
+            "name": "silentgems:chaotic",
+            "level": 1
         }
     ],
     "type": "silentgear:main"

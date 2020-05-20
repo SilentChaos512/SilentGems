@@ -21,6 +21,7 @@ import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.silentchaos512.gear.api.stats.ItemStat;
 import net.silentchaos512.gems.chaos.ChaosSourceCapability;
 import net.silentchaos512.gems.client.gui.DebugOverlay;
 import net.silentchaos512.gems.command.ChaosCommand;
@@ -59,6 +60,7 @@ class SideProxy implements IProxy {
             GemsTraits.registerSerializers();
             MinecraftForge.EVENT_BUS.register(SoulEvents.INSTANCE);
             MinecraftForge.EVENT_BUS.register(TraitEvents.INSTANCE);
+            FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(ItemStat.class, SGearStatHandler::registerStats);
         }
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);

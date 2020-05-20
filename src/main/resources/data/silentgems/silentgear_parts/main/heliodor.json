@@ -15,68 +15,23 @@
         "name": "part.silentgems.main.heliodor",
         "translate": true
     },
-    "stats": [
-        {
-            "name": "durability",
-            "value": 384
-        },
-        {
-            "name": "armor_durability",
-            "value": 9
-        },
-        {
-            "name": "enchantability",
-            "value": 10
-        },
-        {
-            "name": "harvest_level",
-            "value": 2
-        },
-        {
-            "name": "harvest_speed",
-            "value": 12
-        },
-        {
-            "name": "melee_damage",
-            "value": 4
-        },
-        {
-            "name": "magic_damage",
-            "value": 3
-        },
-        {
-            "name": "attack_speed",
-            "value": 0
-        },
-        {
-            "name": "armor",
-            "value": 12
-        },
-        {
-            "name": "armor_toughness",
-            "value": 0
-        },
-        {
-            "name": "magic_armor",
-            "value": 6
-        },
-        {
-            "name": "ranged_damage",
-            "value": 0
-        },
-        {
-            "name": "ranged_speed",
-            "value": 0.2
-        },
-        {
-            "name": "chargeability",
-            "value": 1.3
-        },
-        {
-            "name": "rarity",
-            "value": 25
-        }
-    ],
+    "stats": {
+        "durability": 384,
+        "armor_durability": 9,
+        "enchantability": 10,
+        "harvest_level": 2,
+        "harvest_speed": 12,
+        "melee_damage": 4,
+        "magic_damage": 3,
+        "attack_speed": 0.0,
+        "armor": 12,
+        "armor_toughness": 0,
+        "magic_armor": 6,
+        "ranged_damage": 0,
+        "ranged_speed": 0.2,
+        "rarity": 25,
+        "silentgems:chargeability": 1.3
+    },
     "textures": {
         "all": {
             "lite_texture": "high_contrast",
@@ -90,12 +45,12 @@
     },
     "traits": [
         {
-            "level": 2,
-            "name": "silentgear:chipping"
+            "name": "silentgear:chipping",
+            "level": 2
         },
         {
-            "level": 2,
-            "name": "silentgear:brittle"
+            "name": "silentgear:brittle",
+            "level": 2
         }
     ],
     "type": "silentgear:main"

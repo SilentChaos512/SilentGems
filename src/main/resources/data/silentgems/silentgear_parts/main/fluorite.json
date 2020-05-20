@@ -15,68 +15,23 @@
         "name": "part.silentgems.main.fluorite",
         "translate": true
     },
-    "stats": [
-        {
-            "name": "durability",
-            "value": 768
-        },
-        {
-            "name": "armor_durability",
-            "value": 15
-        },
-        {
-            "name": "enchantability",
-            "value": 12
-        },
-        {
-            "name": "harvest_level",
-            "value": 2
-        },
-        {
-            "name": "harvest_speed",
-            "value": 8
-        },
-        {
-            "name": "melee_damage",
-            "value": 3
-        },
-        {
-            "name": "magic_damage",
-            "value": 6
-        },
-        {
-            "name": "attack_speed",
-            "value": -0.1
-        },
-        {
-            "name": "armor",
-            "value": 24
-        },
-        {
-            "name": "armor_toughness",
-            "value": 6
-        },
-        {
-            "name": "magic_armor",
-            "value": 10
-        },
-        {
-            "name": "ranged_damage",
-            "value": 1
-        },
-        {
-            "name": "ranged_speed",
-            "value": 0.1
-        },
-        {
-            "name": "chargeability",
-            "value": 1.3
-        },
-        {
-            "name": "rarity",
-            "value": 35
-        }
-    ],
+    "stats": {
+        "durability": 768,
+        "armor_durability": 15,
+        "enchantability": 12,
+        "harvest_level": 2,
+        "harvest_speed": 8,
+        "melee_damage": 3,
+        "magic_damage": 6,
+        "attack_speed": -0.1,
+        "armor": 24,
+        "armor_toughness": 6,
+        "magic_armor": 10,
+        "ranged_damage": 1,
+        "ranged_speed": 0.1,
+        "rarity": 35,
+        "silentgems:chargeability": 1.3
+    },
     "textures": {
         "all": {
             "lite_texture": "high_contrast",
@@ -90,12 +45,12 @@
     },
     "traits": [
         {
-            "level": 1,
-            "name": "silentgems:ice_aura"
+            "name": "silentgems:ice_aura",
+            "level": 1
         },
         {
-            "level": 2,
-            "name": "silentgear:brittle"
+            "name": "silentgear:brittle",
+            "level": 2
         }
     ],
     "type": "silentgear:main"

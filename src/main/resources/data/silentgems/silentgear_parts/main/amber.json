@@ -15,68 +15,23 @@
         "name": "part.silentgems.main.amber",
         "translate": true
     },
-    "stats": [
-        {
-            "name": "durability",
-            "value": 256
-        },
-        {
-            "name": "armor_durability",
-            "value": 6
-        },
-        {
-            "name": "enchantability",
-            "value": 18
-        },
-        {
-            "name": "harvest_level",
-            "value": 2
-        },
-        {
-            "name": "harvest_speed",
-            "value": 5
-        },
-        {
-            "name": "melee_damage",
-            "value": 2
-        },
-        {
-            "name": "magic_damage",
-            "value": 4
-        },
-        {
-            "name": "attack_speed",
-            "value": 0.1
-        },
-        {
-            "name": "armor",
-            "value": 12
-        },
-        {
-            "name": "armor_toughness",
-            "value": 0
-        },
-        {
-            "name": "magic_armor",
-            "value": 12
-        },
-        {
-            "name": "ranged_damage",
-            "value": 0
-        },
-        {
-            "name": "ranged_speed",
-            "value": 0.4
-        },
-        {
-            "name": "chargeability",
-            "value": 1.5
-        },
-        {
-            "name": "rarity",
-            "value": 25
-        }
-    ],
+    "stats": {
+        "durability": 256,
+        "armor_durability": 6,
+        "enchantability": 18,
+        "harvest_level": 2,
+        "harvest_speed": 5,
+        "melee_damage": 2,
+        "magic_damage": 4,
+        "attack_speed": 0.1,
+        "armor": 12,
+        "armor_toughness": 0,
+        "magic_armor": 12,
+        "ranged_damage": 0,
+        "ranged_speed": 0.4,
+        "rarity": 25,
+        "silentgems:chargeability": 1.5
+    },
     "textures": {
         "all": {
             "lite_texture": "high_contrast",
@@ -90,12 +45,12 @@
     },
     "traits": [
         {
-            "level": 1,
-            "name": "silentgems:runic"
+            "name": "silentgems:runic",
+            "level": 1
         },
         {
-            "level": 4,
-            "name": "silentgear:brittle"
+            "name": "silentgear:brittle",
+            "level": 4
         }
     ],
     "type": "silentgear:main"

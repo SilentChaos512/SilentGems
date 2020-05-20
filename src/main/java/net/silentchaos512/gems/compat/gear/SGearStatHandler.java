@@ -23,6 +23,8 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.GenericEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.silentchaos512.gear.api.event.GetStatModifierEvent;
 import net.silentchaos512.gear.api.stats.ItemStat;
@@ -39,8 +41,7 @@ import java.util.function.ToDoubleFunction;
  * Supercharged enchantment.
  */
 public class SGearStatHandler {
-    public static final ItemStat CHARGEABILITY = new ItemStat(new ResourceLocation(SilentGems.MOD_ID, "chargeability"),
-            1f, 0f, 100f, false, TextFormatting.GOLD).setSynergyApplies(false).setAffectedByGrades(false).setHidden(true);
+    public static final ItemStat CHARGEABILITY = new ItemStat(1f, 0f, 100f, TextFormatting.GOLD, new ItemStat.Properties().hidden());
 
     private static final Map<ItemStat, ToDoubleFunction<ChargedProperties>> BOOSTED_STATS =
             ImmutableMap.<ItemStat, ToDoubleFunction<ChargedProperties>>builder()
@@ -56,9 +57,13 @@ public class SGearStatHandler {
                     .put(ItemStats.RANGED_DAMAGE,     prop -> prop.originalStat + prop.chargeValue)
                     .put(ItemStats.ARMOR,             prop -> prop.originalStat + prop.chargeValue)
                     .put(ItemStats.ARMOR_TOUGHNESS,   prop -> prop.originalStat + prop.chargeValue / 2)
-                    .put(ItemStats.MAGIC_ARMOR, prop -> prop.originalStat + prop.chargeValue)
+                    .put(ItemStats.MAGIC_ARMOR,       prop -> prop.originalStat + prop.chargeValue)
                     //@formatter:on
                     .build();
+
+    public static void registerStats(RegistryEvent.Register<ItemStat> event) {
+        event.getRegistry().register(CHARGEABILITY.setRegistryName(SilentGems.getId("chargeability")));
+    }
 
     @SubscribeEvent
     public void onGetPartStats(GetStatModifierEvent event) {
@@ -75,9 +80,8 @@ public class SGearStatHandler {
                 if (instance.getOp() == StatInstance.Operation.AVG || instance.getOp() == StatInstance.Operation.MAX) {
                     // Replace instance with a modified one
                     ChargedProperties chargedProperties = new ChargedProperties(supercharged, chargeLevel, instance.getValue());
-                    StatInstance replacement = new StatInstance(instance.getId() + "_supercharged_" + supercharged,
-                            (float) BOOSTED_STATS.get(event.getStat()).applyAsDouble(chargedProperties),
-                            instance.getOp());
+                    float statValue = (float) BOOSTED_STATS.get(event.getStat()).applyAsDouble(chargedProperties);
+                    StatInstance replacement = new StatInstance(statValue, instance.getOp());
                     event.getModifiers().remove(instance);
                     event.getModifiers().add(replacement);
                 }

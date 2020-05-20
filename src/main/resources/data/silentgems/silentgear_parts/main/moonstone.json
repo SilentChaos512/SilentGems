@@ -15,68 +15,23 @@
         "name": "part.silentgems.main.moonstone",
         "translate": true
     },
-    "stats": [
-        {
-            "name": "durability",
-            "value": 768
-        },
-        {
-            "name": "armor_durability",
-            "value": 16
-        },
-        {
-            "name": "enchantability",
-            "value": 20
-        },
-        {
-            "name": "harvest_level",
-            "value": 2
-        },
-        {
-            "name": "harvest_speed",
-            "value": 8
-        },
-        {
-            "name": "melee_damage",
-            "value": 3
-        },
-        {
-            "name": "magic_damage",
-            "value": 3
-        },
-        {
-            "name": "attack_speed",
-            "value": -0.2
-        },
-        {
-            "name": "armor",
-            "value": 14
-        },
-        {
-            "name": "armor_toughness",
-            "value": 0
-        },
-        {
-            "name": "magic_armor",
-            "value": 10
-        },
-        {
-            "name": "ranged_damage",
-            "value": 3
-        },
-        {
-            "name": "ranged_speed",
-            "value": 0.1
-        },
-        {
-            "name": "chargeability",
-            "value": 1.1
-        },
-        {
-            "name": "rarity",
-            "value": 30
-        }
-    ],
+    "stats": {
+        "durability": 768,
+        "armor_durability": 16,
+        "enchantability": 20,
+        "harvest_level": 2,
+        "harvest_speed": 8,
+        "melee_damage": 3,
+        "magic_damage": 3,
+        "attack_speed": -0.2,
+        "armor": 14,
+        "armor_toughness": 0,
+        "magic_armor": 10,
+        "ranged_damage": 3,
+        "ranged_speed": 0.1,
+        "rarity": 30,
+        "silentgems:chargeability": 1.1
+    },
     "textures": {
         "all": {
             "lite_texture": "high_contrast",
@@ -90,12 +45,12 @@
     },
     "traits": [
         {
-            "level": 4,
-            "name": "silentgems:luna"
+            "name": "silentgems:luna",
+            "level": 4
         },
         {
-            "level": 2,
-            "name": "silentgear:brittle"
+            "name": "silentgear:brittle",
+            "level": 2
         }
     ],
     "type": "silentgear:main"

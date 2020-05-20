@@ -15,68 +15,23 @@
         "name": "part.silentgems.main.moldavite",
         "translate": true
     },
-    "stats": [
-        {
-            "name": "durability",
-            "value": 384
-        },
-        {
-            "name": "armor_durability",
-            "value": 7
-        },
-        {
-            "name": "enchantability",
-            "value": 16
-        },
-        {
-            "name": "harvest_level",
-            "value": 2
-        },
-        {
-            "name": "harvest_speed",
-            "value": 6
-        },
-        {
-            "name": "melee_damage",
-            "value": 5
-        },
-        {
-            "name": "magic_damage",
-            "value": 2
-        },
-        {
-            "name": "attack_speed",
-            "value": -0.2
-        },
-        {
-            "name": "armor",
-            "value": 16
-        },
-        {
-            "name": "armor_toughness",
-            "value": 2
-        },
-        {
-            "name": "magic_armor",
-            "value": 8
-        },
-        {
-            "name": "ranged_damage",
-            "value": 3
-        },
-        {
-            "name": "ranged_speed",
-            "value": 0
-        },
-        {
-            "name": "chargeability",
-            "value": 1.4
-        },
-        {
-            "name": "rarity",
-            "value": 30
-        }
-    ],
+    "stats": {
+        "durability": 512,
+        "armor_durability": 14,
+        "enchantability": 14,
+        "harvest_level": 2,
+        "harvest_speed": 8,
+        "melee_damage": 4,
+        "magic_damage": 2,
+        "attack_speed": 0.3,
+        "armor": 18,
+        "armor_toughness": 2,
+        "magic_armor": 8,
+        "ranged_damage": 3,
+        "ranged_speed": 0.0,
+        "rarity": 30,
+        "silentgems:chargeability": 1.4
+    },
     "textures": {
         "all": {
             "lite_texture": "high_contrast",
@@ -90,12 +45,12 @@
     },
     "traits": [
         {
-            "level": 2,
-            "name": "silentgems:sol"
+            "name": "silentgems:sol",
+            "level": 2
         },
         {
-            "level": 3,
-            "name": "silentgear:brittle"
+            "name": "silentgear:brittle",
+            "level": 3
         }
     ],
     "type": "silentgear:main"

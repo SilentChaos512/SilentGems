@@ -11,68 +11,23 @@
         "name": "part.silentgems.main.hardened_stone",
         "translate": true
     },
-    "stats": [
-        {
-            "name": "durability",
-            "value": 3072
-        },
-        {
-            "name": "armor_durability",
-            "value": 31
-        },
-        {
-            "name": "enchantability",
-            "value": 9
-        },
-        {
-            "name": "harvest_level",
-            "value": 3
-        },
-        {
-            "name": "harvest_speed",
-            "value": 6
-        },
-        {
-            "name": "melee_damage",
-            "value": 2
-        },
-        {
-            "name": "magic_damage",
-            "value": 3
-        },
-        {
-            "name": "attack_speed",
-            "value": -0.3
-        },
-        {
-            "name": "armor",
-            "value": 20
-        },
-        {
-            "name": "armor_toughness",
-            "value": 4
-        },
-        {
-            "name": "magic_armor",
-            "value": 8
-        },
-        {
-            "name": "ranged_damage",
-            "value": 0
-        },
-        {
-            "name": "ranged_speed",
-            "value": -0.3
-        },
-        {
-            "name": "chargeability",
-            "value": 0.8
-        },
-        {
-            "name": "rarity",
-            "value": 34
-        }
-    ],
+    "stats": {
+        "durability": 3072,
+        "armor_durability": 31,
+        "enchantability": 9,
+        "harvest_level": 3,
+        "harvest_speed": 6,
+        "melee_damage": 2,
+        "magic_damage": 3,
+        "attack_speed": -0.3,
+        "armor": 20,
+        "armor_toughness": 4,
+        "magic_armor": 8,
+        "ranged_damage": 0,
+        "ranged_speed": -0.3,
+        "rarity": 34,
+        "silentgems:chargeability": 0.8
+    },
     "textures": {
         "all": {
             "lite_texture": "low_contrast",

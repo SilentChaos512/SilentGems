@@ -15,68 +15,23 @@
         "name": "part.silentgems.main.tektite",
         "translate": true
     },
-    "stats": [
-        {
-            "name": "durability",
-            "value": 768
-        },
-        {
-            "name": "armor_durability",
-            "value": 18
-        },
-        {
-            "name": "enchantability",
-            "value": 13
-        },
-        {
-            "name": "harvest_level",
-            "value": 2
-        },
-        {
-            "name": "harvest_speed",
-            "value": 9
-        },
-        {
-            "name": "melee_damage",
-            "value": 5
-        },
-        {
-            "name": "magic_damage",
-            "value": 4
-        },
-        {
-            "name": "attack_speed",
-            "value": 0
-        },
-        {
-            "name": "armor",
-            "value": 22
-        },
-        {
-            "name": "armor_toughness",
-            "value": 4
-        },
-        {
-            "name": "magic_armor",
-            "value": 8
-        },
-        {
-            "name": "ranged_damage",
-            "value": 3
-        },
-        {
-            "name": "ranged_speed",
-            "value": 0
-        },
-        {
-            "name": "chargeability",
-            "value": 1.3
-        },
-        {
-            "name": "rarity",
-            "value": 35
-        }
-    ],
+    "stats": {
+        "durability": 768,
+        "armor_durability": 18,
+        "enchantability": 13,
+        "harvest_level": 2,
+        "harvest_speed": 9,
+        "melee_damage": 5,
+        "magic_damage": 4,
+        "attack_speed": 0.0,
+        "armor": 22,
+        "armor_toughness": 4,
+        "magic_armor": 8,
+        "ranged_damage": 3,
+        "ranged_speed": 0.0,
+        "rarity": 35,
+        "silentgems:chargeability": 1.3
+    },
     "textures": {
         "all": {
             "lite_texture": "high_contrast",
@@ -90,12 +45,12 @@
     },
     "traits": [
         {
-            "level": 4,
-            "name": "silentgear:jagged"
+            "name": "silentgear:jagged",
+            "level": 4
         },
         {
-            "level": 3,
-            "name": "silentgear:brittle"
+            "name": "silentgear:brittle",
+            "level": 3
         }
     ],
     "type": "silentgear:main"

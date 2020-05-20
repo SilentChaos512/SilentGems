@@ -15,68 +15,23 @@
         "name": "part.silentgems.main.sunstone",
         "translate": true
     },
-    "stats": [
-        {
-            "name": "durability",
-            "value": 768
-        },
-        {
-            "name": "armor_durability",
-            "value": 15
-        },
-        {
-            "name": "enchantability",
-            "value": 16
-        },
-        {
-            "name": "harvest_level",
-            "value": 3
-        },
-        {
-            "name": "harvest_speed",
-            "value": 8
-        },
-        {
-            "name": "melee_damage",
-            "value": 6
-        },
-        {
-            "name": "magic_damage",
-            "value": 6
-        },
-        {
-            "name": "attack_speed",
-            "value": -0.1
-        },
-        {
-            "name": "armor",
-            "value": 14
-        },
-        {
-            "name": "armor_toughness",
-            "value": 2
-        },
-        {
-            "name": "magic_armor",
-            "value": 8
-        },
-        {
-            "name": "ranged_damage",
-            "value": 3
-        },
-        {
-            "name": "ranged_speed",
-            "value": 0.1
-        },
-        {
-            "name": "chargeability",
-            "value": 1.1
-        },
-        {
-            "name": "rarity",
-            "value": 35
-        }
-    ],
+    "stats": {
+        "durability": 768,
+        "armor_durability": 15,
+        "enchantability": 16,
+        "harvest_level": 3,
+        "harvest_speed": 8,
+        "melee_damage": 6,
+        "magic_damage": 6,
+        "attack_speed": -0.1,
+        "armor": 14,
+        "armor_toughness": 2,
+        "magic_armor": 8,
+        "ranged_damage": 3,
+        "ranged_speed": 0.1,
+        "rarity": 35,
+        "silentgems:chargeability": 1.1
+    },
     "textures": {
         "all": {
             "lite_texture": "high_contrast",
@@ -90,16 +45,16 @@
     },
     "traits": [
         {
-            "level": 4,
-            "name": "silentgems:sol"
+            "name": "silentgems:sol",
+            "level": 4
         },
         {
-            "level": 2,
-            "name": "silentgear:lustrous"
+            "name": "silentgear:lustrous",
+            "level": 2
         },
         {
-            "level": 2,
-            "name": "silentgear:brittle"
+            "name": "silentgear:brittle",
+            "level": 2
         }
     ],
     "type": "silentgear:main"

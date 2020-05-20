@@ -15,68 +15,23 @@
         "name": "part.silentgems.main.phosphophyllite",
         "translate": true
     },
-    "stats": [
-        {
-            "name": "durability",
-            "value": 384
-        },
-        {
-            "name": "armor_durability",
-            "value": 6
-        },
-        {
-            "name": "enchantability",
-            "value": 20
-        },
-        {
-            "name": "harvest_level",
-            "value": 2
-        },
-        {
-            "name": "harvest_speed",
-            "value": 11
-        },
-        {
-            "name": "melee_damage",
-            "value": 2
-        },
-        {
-            "name": "magic_damage",
-            "value": 5
-        },
-        {
-            "name": "attack_speed",
-            "value": 0.3
-        },
-        {
-            "name": "armor",
-            "value": 10
-        },
-        {
-            "name": "armor_toughness",
-            "value": 0
-        },
-        {
-            "name": "magic_armor",
-            "value": 8
-        },
-        {
-            "name": "ranged_damage",
-            "value": 2
-        },
-        {
-            "name": "ranged_speed",
-            "value": 0.3
-        },
-        {
-            "name": "chargeability",
-            "value": 1.2
-        },
-        {
-            "name": "rarity",
-            "value": 25
-        }
-    ],
+    "stats": {
+        "durability": 384,
+        "armor_durability": 6,
+        "enchantability": 20,
+        "harvest_level": 2,
+        "harvest_speed": 11,
+        "melee_damage": 2,
+        "magic_damage": 5,
+        "attack_speed": 0.3,
+        "armor": 10,
+        "armor_toughness": 0,
+        "magic_armor": 8,
+        "ranged_damage": 2,
+        "ranged_speed": 0.3,
+        "rarity": 25,
+        "silentgems:chargeability": 1.2
+    },
     "textures": {
         "all": {
             "lite_texture": "high_contrast",
@@ -90,12 +45,12 @@
     },
     "traits": [
         {
-            "level": 3,
-            "name": "silentgear:synergistic"
+            "name": "silentgear:synergistic",
+            "level": 3
         },
         {
-            "level": 4,
-            "name": "silentgear:brittle"
+            "name": "silentgear:brittle",
+            "level": 4
         }
     ],
     "type": "silentgear:main"

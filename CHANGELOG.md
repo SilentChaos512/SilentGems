@@ -3,8 +3,8 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-Note: In order for the skull collector trait to work, you need Silent Gear 1.6.5
+## [3.5.4] - 2020-05-20
+Note: Requires Silent Gear 1.7.0+. Not compatible with older versions.
 ### Added
 - Imperial trait now works. Sometimes doubles gem drops when mining, chance based on trait level.
 - Skull Collector trait now works. Certain mobs and players have a chance to drop their skull when killed.

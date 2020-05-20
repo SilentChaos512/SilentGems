@@ -15,68 +15,23 @@
         "name": "part.silentgems.main.alexandrite",
         "translate": true
     },
-    "stats": [
-        {
-            "name": "durability",
-            "value": 1024
-        },
-        {
-            "name": "armor_durability",
-            "value": 20
-        },
-        {
-            "name": "enchantability",
-            "value": 18
-        },
-        {
-            "name": "harvest_level",
-            "value": 2
-        },
-        {
-            "name": "harvest_speed",
-            "value": 8
-        },
-        {
-            "name": "melee_damage",
-            "value": 4
-        },
-        {
-            "name": "magic_damage",
-            "value": 3
-        },
-        {
-            "name": "attack_speed",
-            "value": 0
-        },
-        {
-            "name": "armor",
-            "value": 14
-        },
-        {
-            "name": "armor_toughness",
-            "value": 0
-        },
-        {
-            "name": "magic_armor",
-            "value": 6
-        },
-        {
-            "name": "ranged_damage",
-            "value": 4
-        },
-        {
-            "name": "ranged_speed",
-            "value": -0.1
-        },
-        {
-            "name": "chargeability",
-            "value": 1.2
-        },
-        {
-            "name": "rarity",
-            "value": 30
-        }
-    ],
+    "stats": {
+        "durability": 1024,
+        "armor_durability": 20,
+        "enchantability": 18,
+        "harvest_level": 2,
+        "harvest_speed": 8,
+        "melee_damage": 4,
+        "magic_damage": 3,
+        "attack_speed": 0.0,
+        "armor": 14,
+        "armor_toughness": 0,
+        "magic_armor": 6,
+        "ranged_damage": 4,
+        "ranged_speed": -0.1,
+        "rarity": 30,
+        "silentgems:chargeability": 1.2
+    },
     "textures": {
         "all": {
             "lite_texture": "high_contrast",
@@ -90,12 +45,12 @@
     },
     "traits": [
         {
-            "level": 4,
-            "name": "silentgems:imperial"
+            "name": "silentgems:imperial",
+            "level": 4
         },
         {
-            "level": 1,
-            "name": "silentgear:brittle"
+            "name": "silentgear:brittle",
+            "level": 1
         }
     ],
     "type": "silentgear:main"

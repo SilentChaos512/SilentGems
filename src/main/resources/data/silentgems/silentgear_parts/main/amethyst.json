@@ -15,68 +15,23 @@
         "name": "part.silentgems.main.amethyst",
         "translate": true
     },
-    "stats": [
-        {
-            "name": "durability",
-            "value": 512
-        },
-        {
-            "name": "armor_durability",
-            "value": 10
-        },
-        {
-            "name": "enchantability",
-            "value": 12
-        },
-        {
-            "name": "harvest_level",
-            "value": 2
-        },
-        {
-            "name": "harvest_speed",
-            "value": 9
-        },
-        {
-            "name": "melee_damage",
-            "value": 3
-        },
-        {
-            "name": "magic_damage",
-            "value": 3
-        },
-        {
-            "name": "attack_speed",
-            "value": -0.1
-        },
-        {
-            "name": "armor",
-            "value": 18
-        },
-        {
-            "name": "armor_toughness",
-            "value": 2
-        },
-        {
-            "name": "magic_armor",
-            "value": 8
-        },
-        {
-            "name": "ranged_damage",
-            "value": 0
-        },
-        {
-            "name": "ranged_speed",
-            "value": 0.2
-        },
-        {
-            "name": "chargeability",
-            "value": 1.3
-        },
-        {
-            "name": "rarity",
-            "value": 25
-        }
-    ],
+    "stats": {
+        "durability": 512,
+        "armor_durability": 10,
+        "enchantability": 12,
+        "harvest_level": 2,
+        "harvest_speed": 9,
+        "melee_damage": 3,
+        "magic_damage": 3,
+        "attack_speed": -0.1,
+        "armor": 18,
+        "armor_toughness": 2,
+        "magic_armor": 8,
+        "ranged_damage": 0,
+        "ranged_speed": 0.2,
+        "rarity": 25,
+        "silentgems:chargeability": 1.3
+    },
     "textures": {
         "all": {
             "lite_texture": "high_contrast",
@@ -90,8 +45,16 @@
     },
     "traits": [
         {
-            "level": 1,
-            "name": "silentgear:brittle"
+            "name": "silentgems:imperial",
+            "level": 1
+        },
+        {
+            "name": "silentgear:lucky",
+            "level": 2
+        },
+        {
+            "name": "silentgear:brittle",
+            "level": 2
         }
     ],
     "type": "silentgear:main"

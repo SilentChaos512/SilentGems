@@ -15,68 +15,23 @@
         "name": "part.silentgems.main.iolite",
         "translate": true
     },
-    "stats": [
-        {
-            "name": "durability",
-            "value": 768
-        },
-        {
-            "name": "armor_durability",
-            "value": 20
-        },
-        {
-            "name": "enchantability",
-            "value": 11
-        },
-        {
-            "name": "harvest_level",
-            "value": 2
-        },
-        {
-            "name": "harvest_speed",
-            "value": 6
-        },
-        {
-            "name": "melee_damage",
-            "value": 2
-        },
-        {
-            "name": "magic_damage",
-            "value": 4
-        },
-        {
-            "name": "attack_speed",
-            "value": 0
-        },
-        {
-            "name": "armor",
-            "value": 20
-        },
-        {
-            "name": "armor_toughness",
-            "value": 4
-        },
-        {
-            "name": "magic_armor",
-            "value": 6
-        },
-        {
-            "name": "ranged_damage",
-            "value": 0
-        },
-        {
-            "name": "ranged_speed",
-            "value": 0
-        },
-        {
-            "name": "chargeability",
-            "value": 1.0
-        },
-        {
-            "name": "rarity",
-            "value": 30
-        }
-    ],
+    "stats": {
+        "durability": 768,
+        "armor_durability": 20,
+        "enchantability": 11,
+        "harvest_level": 2,
+        "harvest_speed": 6,
+        "melee_damage": 2,
+        "magic_damage": 4,
+        "attack_speed": 0.0,
+        "armor": 20,
+        "armor_toughness": 4,
+        "magic_armor": 6,
+        "ranged_damage": 0,
+        "ranged_speed": 0.0,
+        "rarity": 30,
+        "silentgems:chargeability": 1.0
+    },
     "textures": {
         "all": {
             "lite_texture": "high_contrast",
@@ -90,12 +45,12 @@
     },
     "traits": [
         {
-            "level": 3,
-            "name": "silentgear:stellar"
+            "name": "silentgear:stellar",
+            "level": 3
         },
         {
-            "level": 1,
-            "name": "silentgear:brittle"
+            "name": "silentgear:brittle",
+            "level": 1
         }
     ],
     "type": "silentgear:main"
