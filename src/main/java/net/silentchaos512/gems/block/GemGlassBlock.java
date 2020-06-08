@@ -21,8 +21,10 @@ package net.silentchaos512.gems.block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.GlassBlock;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.StainedGlassBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -34,11 +36,11 @@ import net.silentchaos512.gems.lib.Gems;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class GemGlassBlock extends GlassBlock implements IGemBlock {
+public class GemGlassBlock extends StainedGlassBlock implements IGemBlock {
     private final Gems gem;
 
     public GemGlassBlock(Gems gem) {
-        super(Properties.create(Material.GLASS)
+        super(DyeColor.WHITE, Properties.create(Material.GLASS)
                 .hardnessAndResistance(0.3f, 5)
                 .sound(SoundType.GLASS)
                 .notSolid()

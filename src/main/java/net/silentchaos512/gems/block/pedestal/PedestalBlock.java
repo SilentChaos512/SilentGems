@@ -4,11 +4,17 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -21,7 +27,9 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.silentchaos512.lib.util.PlayerUtils;
 
-public class PedestalBlock extends Block {
+import javax.annotation.Nullable;
+
+public class PedestalBlock extends Block implements IWaterLoggable {
     private static final VoxelShape SHAPE_PILLAR = Block.makeCuboidShape(5, 2, 5, 11, 14, 11);
     private static final VoxelShape SHAPE_BOTTOM1 = Block.makeCuboidShape(1, 0, 1, 15, 1, 15);
     private static final VoxelShape SHAPE_BOTTOM2 = Block.makeCuboidShape(3, 1, 3, 13, 2, 13);
@@ -39,6 +47,7 @@ public class PedestalBlock extends Block {
 
     public PedestalBlock(Properties properties) {
         super(properties);
+        setDefaultState(getDefaultState().with(BlockStateProperties.WATERLOGGED, false));
     }
 
     @Override
@@ -49,6 +58,24 @@ public class PedestalBlock extends Block {
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new PedestalTileEntity();
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(BlockStateProperties.WATERLOGGED);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public IFluidState getFluidState(BlockState state) {
+        return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        IFluidState fluidState = context.getWorld().getFluidState(context.getPos());
+        return getDefaultState().with(BlockStateProperties.WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
     }
 
     @SuppressWarnings("deprecation")

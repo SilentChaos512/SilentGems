@@ -26,12 +26,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
@@ -70,15 +73,15 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SoulUrnBlock extends Block {
+public class SoulUrnBlock extends Block implements IWaterLoggable {
     public static final Lazy<SoulUrnBlock> INSTANCE = Lazy.of(SoulUrnBlock::new);
 
     private static final VoxelShape SHAPE_CLOSED = Block.makeCuboidShape(1, 0, 1, 15, 15, 15);
     private static final VoxelShape SHAPE_OPEN = Block.makeCuboidShape(1, 0, 1, 15, 14, 15);
 
     static final EnumProperty<LidState> LID = EnumProperty.create("lid", LidState.class);
-
     private static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public SoulUrnBlock() {
         super(Properties.create(Material.ROCK)
@@ -87,12 +90,13 @@ public class SoulUrnBlock extends Block {
         );
         this.setDefaultState(this.getDefaultState()
                 .with(FACING, Direction.SOUTH)
-                .with(LID, LidState.CLOSED));
+                .with(LID, LidState.CLOSED)
+                .with(WATERLOGGED, false));
     }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(FACING, LID);
+        builder.add(FACING, LID, WATERLOGGED);
     }
 
     @Nullable
@@ -104,7 +108,17 @@ public class SoulUrnBlock extends Block {
                 return toggleLid(currentState);
             }
         }
-        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
+
+        IFluidState fluidState = context.getWorld().getFluidState(context.getPos());
+        return this.getDefaultState()
+                .with(FACING, context.getPlacementHorizontalFacing())
+                .with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public IFluidState getFluidState(BlockState state) {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 
     @Override
