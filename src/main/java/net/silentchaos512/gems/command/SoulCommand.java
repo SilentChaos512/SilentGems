@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
@@ -18,8 +19,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.silentchaos512.gear.util.GearData;
 import net.silentchaos512.gems.item.SoulGemItem;
+import net.silentchaos512.gems.lib.soul.GearSoul;
 import net.silentchaos512.gems.lib.soul.Soul;
+import net.silentchaos512.gems.util.SoulManager;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -33,6 +37,10 @@ public final class SoulCommand {
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         LiteralArgumentBuilder<CommandSource> builder = Commands.literal("sg_soul")
                 .requires(source -> source.hasPermissionLevel(2));
+
+        builder.then(Commands.literal("add_level")
+                .executes(SoulCommand::runAddLevel)
+        );
 
         builder.then(Commands.literal("give_gem")
                 .then(Commands.argument("players", EntityArgument.players())
@@ -103,5 +111,17 @@ public final class SoulCommand {
         }
 
         return count;
+    }
+
+    private static int runAddLevel(CommandContext<CommandSource> context) throws CommandSyntaxException {
+        ServerPlayerEntity player = context.getSource().asPlayer();
+        ItemStack stack = player.getHeldItemMainhand();
+        GearSoul soul = SoulManager.getSoul(stack);
+        if (soul != null) {
+            int amount = soul.getXpToNextLevel() - soul.getXp();
+            soul.addXp(amount, stack, player);
+            GearData.recalculateStats(stack, player);
+        }
+        return 1;
     }
 }

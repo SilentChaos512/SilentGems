@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - No drops or crash when killing mobs with an Imperial weapon [#464]
+- Game crashing when trying to determine if some entities can have a soul gem
 
 ## [3.5.4] - 2020-05-20
 Note: Requires Silent Gear 1.7.0+. Not compatible with older versions.

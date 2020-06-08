@@ -1,9 +1,6 @@
 package net.silentchaos512.gems.lib.soul;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -230,16 +227,7 @@ public final class Soul {
         }
 
         private static boolean canHaveSoulGem(EntityType<?> type, World world) {
-            try {
-                Entity entity = type.create(world);
-                boolean result = entity instanceof MobEntity || entity instanceof PlayerEntity;
-                if (entity != null) entity.remove();
-                return result;
-            } catch (Exception ex) {
-                SilentGems.LOGGER.debug(MARKER, "Could not verify type of {}", type.getRegistryName());
-                SilentGems.LOGGER.catching(ex);
-                return false;
-            }
+            return type.getClassification() != EntityClassification.MISC;
         }
 
         @SubscribeEvent
