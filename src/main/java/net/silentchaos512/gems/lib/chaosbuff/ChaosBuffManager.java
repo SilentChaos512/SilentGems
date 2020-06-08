@@ -24,6 +24,7 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -35,7 +36,7 @@ public final class ChaosBuffManager implements IResourceManagerReloadListener {
     public static final Marker MARKER = MarkerManager.getMarker("ChaosBuffManager");
 
     private static final String DATA_PATH = "silentgems_chaos_buffs";
-    private static final Map<ResourceLocation, IChaosBuff> MAP = new LinkedHashMap<>();
+    private static final Map<ResourceLocation, IChaosBuff> MAP = Collections.synchronizedMap(new LinkedHashMap<>());
 
     private ChaosBuffManager() { }
 
@@ -46,33 +47,35 @@ public final class ChaosBuffManager implements IResourceManagerReloadListener {
                 DATA_PATH, s -> s.endsWith(".json"));
         if (resources.isEmpty()) return;
 
-        MAP.clear();
-        SilentGems.LOGGER.info(MARKER, "Reloading chaos buff files");
+        synchronized (MAP) {
+            MAP.clear();
+            SilentGems.LOGGER.info(MARKER, "Reloading chaos buff files");
 
-        for (ResourceLocation id : resources) {
-            try (IResource iresource = resourceManager.getResource(id)) {
-                String path = id.getPath().substring(DATA_PATH.length() + 1, id.getPath().length() - ".json".length());
-                ResourceLocation name = new ResourceLocation(id.getNamespace(), path);
-                if (SilentGems.LOGGER.isTraceEnabled()) {
-                    SilentGems.LOGGER.trace(MARKER, "Found likely chaos buff file: {}, trying to read as {}", id, name);
-                }
+            for (ResourceLocation id : resources) {
+                try (IResource iresource = resourceManager.getResource(id)) {
+                    String path = id.getPath().substring(DATA_PATH.length() + 1, id.getPath().length() - ".json".length());
+                    ResourceLocation name = new ResourceLocation(id.getNamespace(), path);
+                    if (SilentGems.LOGGER.isTraceEnabled()) {
+                        SilentGems.LOGGER.trace(MARKER, "Found likely chaos buff file: {}, trying to read as {}", id, name);
+                    }
 
-                JsonObject json = JSONUtils.fromJson(gson, IOUtils.toString(iresource.getInputStream(), StandardCharsets.UTF_8), JsonObject.class);
-                if (json == null) {
-                    SilentGems.LOGGER.error(MARKER, "could not load chaos buff {} as it's null or empty", name);
-                } else if (!CraftingHelper.processConditions(json, "conditions")) {
-                    SilentGems.LOGGER.info("Skipping loading chaos buff {} as it's conditions were not met", name);
-                } else {
-                    addBuff(ChaosBuffSerializers.deserialize(name, json));
+                    JsonObject json = JSONUtils.fromJson(gson, IOUtils.toString(iresource.getInputStream(), StandardCharsets.UTF_8), JsonObject.class);
+                    if (json == null) {
+                        SilentGems.LOGGER.error(MARKER, "could not load chaos buff {} as it's null or empty", name);
+                    } else if (!CraftingHelper.processConditions(json, "conditions")) {
+                        SilentGems.LOGGER.info("Skipping loading chaos buff {} as it's conditions were not met", name);
+                    } else {
+                        addBuff(ChaosBuffSerializers.deserialize(name, json));
+                    }
+                } catch (IllegalArgumentException | JsonParseException ex) {
+                    SilentGems.LOGGER.error(MARKER, "Parsing error loading chaos buff {}", id, ex);
+                } catch (IOException ex) {
+                    SilentGems.LOGGER.error(MARKER, "Could not read chaos buff {}", id, ex);
                 }
-            } catch (IllegalArgumentException | JsonParseException ex) {
-                SilentGems.LOGGER.error(MARKER, "Parsing error loading chaos buff {}", id, ex);
-            } catch (IOException ex) {
-                SilentGems.LOGGER.error(MARKER, "Could not read chaos buff {}", id, ex);
             }
-        }
 
-        SilentGems.LOGGER.info(MARKER, "Finished! Registered {} chaos buffs", MAP.size());
+            SilentGems.LOGGER.info(MARKER, "Finished! Registered {} chaos buffs", MAP.size());
+        }
     }
 
     private static void addBuff(IChaosBuff buff) {
@@ -84,7 +87,9 @@ public final class ChaosBuffManager implements IResourceManagerReloadListener {
 
     @Nullable
     public static IChaosBuff get(ResourceLocation id) {
-        return MAP.get(id);
+        synchronized (MAP) {
+            return MAP.get(id);
+        }
     }
 
     @Nullable
@@ -93,21 +98,28 @@ public final class ChaosBuffManager implements IResourceManagerReloadListener {
     }
 
     public static Collection<IChaosBuff> getValues() {
-        return MAP.values();
+        synchronized (MAP) {
+            return MAP.values();
+        }
     }
 
     public static void handlePacket(SyncChaosBuffsPacket packet, Supplier<NetworkEvent.Context> context) {
-        MAP.clear();
-        packet.getBuffs().forEach(buff -> MAP.put(buff.getId(), buff));
-        SilentGems.LOGGER.info("Received {} chaos buffs from server", MAP.size());
+        synchronized (MAP) {
+            MAP.clear();
+            packet.getBuffs().forEach(buff -> MAP.put(buff.getId(), buff));
+            SilentGems.LOGGER.info("Received {} chaos buffs from server", MAP.size());
+            context.get().setPacketHandled(true);
+        }
     }
 
     @Nullable
     public static ITextComponent getGreetingErrorMessage(PlayerEntity player) {
-        if (MAP.isEmpty()) {
-            SilentGems.LOGGER.error("Something went wrong with chaos buff loading! This may be caused by another broken mod, even those not related to Silent's Gems.");
-            return new StringTextComponent("[Silent's Gems] No chaos buffs are loaded! This means chaos gems and runes will not work. This can be caused by a broken mod.");
+        synchronized (MAP) {
+            if (MAP.isEmpty()) {
+                SilentGems.LOGGER.error("Something went wrong with chaos buff loading! This may be caused by another broken mod, even those not related to Silent's Gems.");
+                return new StringTextComponent("[Silent's Gems] No chaos buffs are loaded! This means chaos gems and runes will not work. This can be caused by a broken mod.");
+            }
+            return null;
         }
-        return null;
     }
 }

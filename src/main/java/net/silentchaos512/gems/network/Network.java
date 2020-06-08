@@ -37,8 +37,10 @@ public final class Network {
                 }))
                 .add();
         channel.messageBuilder(SyncChaosBuffsPacket.class, 3)
+                .loginIndex(LoginPacket::getLoginIndex, LoginPacket::setLoginIndex)
                 .decoder(SyncChaosBuffsPacket::fromBytes)
                 .encoder(SyncChaosBuffsPacket::toBytes)
+                .markAsLoginPacket()
                 .consumer(FMLHandshakeHandler.biConsumerFor((hh, msg, ctx) -> {
                     ChaosBuffManager.handlePacket(msg, ctx);
                     channel.reply(new LoginPacket.Reply(), ctx.get());

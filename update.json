@@ -2,6 +2,7 @@
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/silents-gems",
     "changelog": "https://github.com/SilentChaos512/SilentGems/blob/1.14/CHANGELOG.md",
     "1.15.2": {
+        "3.5.5": "https://github.com/SilentChaos512/SilentGems/blob/1.15/CHANGELOG.md",
         "3.5.4": "https://github.com/SilentChaos512/SilentGems/blob/1.15/CHANGELOG.md",
         "3.5.3": "https://github.com/SilentChaos512/SilentGems/blob/1.15/CHANGELOG.md",
         "3.5.2": "https://github.com/SilentChaos512/SilentGems/blob/1.15/CHANGELOG.md",
@@ -41,7 +42,7 @@
         "1.14.3-recommended": "3.2.2",
         "1.14.4-latest": "3.4.8",
         "1.14.4-recommended": "3.4.8",
-        "1.15.2-latest": "3.5.4",
-        "1.15.2-recommended": "3.5.4"
+        "1.15.2-latest": "3.5.5",
+        "1.15.2-recommended": "3.5.5"
     }
 }

@@ -3,11 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.5.5] - 2020-06-08
 ### Changed
 - Pedestals and soul urns can now be waterlogged [#420]
 ### Fixed
 - No drops or crash when killing mobs with an Imperial weapon [#464]
+- Chaos buffs (runes) not syncing their data when playing on a server [#462]
 - Gem glass rendering incorrectly underwater [#420]
 - Game crashing when trying to determine if some entities can have a soul gem
 
