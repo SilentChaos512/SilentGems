@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- No drops or crash when killing mobs with an Imperial weapon [#464]
+
 ## [3.5.4] - 2020-05-20
 Note: Requires Silent Gear 1.7.0+. Not compatible with older versions.
 ### Added

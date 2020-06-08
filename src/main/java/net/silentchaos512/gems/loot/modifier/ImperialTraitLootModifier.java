@@ -28,15 +28,19 @@ public class ImperialTraitLootModifier extends LootModifier {
     @Nonnull
     @Override
     protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
-        ItemStack tool = context.get(LootParameters.TOOL);
-        int traitLevel = TraitHelper.getTraitLevel(tool, GemsTraits.IMPERIAL);
         List<ItemStack> ret = new ArrayList<>(generatedLoot);
-        generatedLoot.forEach(s -> {
-            ItemStack stack = tryApply(s, traitLevel);
-            if (!stack.isEmpty()) {
-                ret.add(stack);
-            }
-        });
+        ItemStack tool = context.get(LootParameters.TOOL);
+
+        if (tool != null) {
+            int traitLevel = TraitHelper.getTraitLevel(tool, GemsTraits.IMPERIAL);
+            generatedLoot.forEach(s -> {
+                ItemStack stack = tryApply(s, traitLevel);
+                if (!stack.isEmpty()) {
+                    ret.add(stack);
+                }
+            });
+        }
+
         return ret;
     }
 
