@@ -58,6 +58,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootParameters;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.init.GemsSounds;
 import net.silentchaos512.gems.lib.Gems;
@@ -105,6 +106,9 @@ public class SoulUrnBlock extends Block implements IWaterLoggable {
         if (context.replacingClickedOnBlock()) {
             BlockState currentState = context.getWorld().getBlockState(context.getPos());
             if (currentState.getBlock() == this) {
+//                if (!currentState.get(LID).isOpen()) {
+//                    Chaos.generate(context.getPlayer());
+//                }
                 return toggleLid(currentState);
             }
         }

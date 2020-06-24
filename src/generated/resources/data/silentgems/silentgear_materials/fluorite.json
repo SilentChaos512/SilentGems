@@ -1,0 +1,52 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/fluorite"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.fluorite"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#45D1FF"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 512.0,
+      "armor_durability": 12.0,
+      "enchantability": 12.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 9.0,
+      "melee_damage": 2.0,
+      "magic_damage": 3.0,
+      "attack_speed": 0.0,
+      "armor": 16.0,
+      "armor_toughness": 2.0,
+      "magic_armor": 4.0,
+      "ranged_damage": 4.0,
+      "ranged_speed": 0.0,
+      "rarity": 60.0,
+      "silentgems:chargeability": 1.1
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgems:icy",
+        "level": 2
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 3
+      }
+    ]
+  }
+}

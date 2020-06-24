@@ -1,0 +1,52 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/ametrine"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.ametrine"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#A30052"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 512.0,
+      "armor_durability": 10.0,
+      "enchantability": 15.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 8.0,
+      "melee_damage": 4.0,
+      "magic_damage": 2.0,
+      "attack_speed": -0.3,
+      "armor": 16.0,
+      "armor_toughness": 4.0,
+      "magic_armor": 12.0,
+      "ranged_damage": 3.0,
+      "ranged_speed": 0.2,
+      "rarity": 45.0,
+      "silentgems:chargeability": 1.3
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgems:critical",
+        "level": 2
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 2
+      }
+    ]
+  }
+}

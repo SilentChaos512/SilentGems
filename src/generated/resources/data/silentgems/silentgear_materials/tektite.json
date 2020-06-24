@@ -1,0 +1,52 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/tektite"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.tektite"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#8F7C6B"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 768.0,
+      "armor_durability": 18.0,
+      "enchantability": 13.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 9.0,
+      "melee_damage": 5.0,
+      "magic_damage": 4.0,
+      "attack_speed": 0.0,
+      "armor": 22.0,
+      "armor_toughness": 4.0,
+      "magic_armor": 8.0,
+      "ranged_damage": 3.0,
+      "ranged_speed": 0.0,
+      "rarity": 60.0,
+      "silentgems:chargeability": 1.1
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:jagged",
+        "level": 4
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 3
+      }
+    ]
+  }
+}

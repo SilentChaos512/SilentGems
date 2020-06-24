@@ -1,0 +1,58 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/garnet"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.garnet"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#E64F1D"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 512.0,
+      "armor_durability": 12.0,
+      "enchantability": 12.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 7.0,
+      "melee_damage": 4.0,
+      "magic_damage": 3.0,
+      "attack_speed": -0.1,
+      "armor": 16.0,
+      "armor_toughness": 2.0,
+      "magic_armor": 6.0,
+      "ranged_damage": 1.0,
+      "ranged_speed": -0.1,
+      "rarity": 30.0,
+      "silentgems:chargeability": 1.2
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:fiery",
+        "level": 2,
+        "conditions": [
+          {
+            "type": "silentgear:gear_type",
+            "gear_type": "weapon"
+          }
+        ]
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 1
+      }
+    ]
+  }
+}

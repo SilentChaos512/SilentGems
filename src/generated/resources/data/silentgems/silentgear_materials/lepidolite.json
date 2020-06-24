@@ -1,0 +1,52 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/lepidolite"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.lepidolite"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#A3007A"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 256.0,
+      "armor_durability": 6.0,
+      "enchantability": 14.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 4.0,
+      "melee_damage": 3.0,
+      "magic_damage": 7.0,
+      "attack_speed": 0.1,
+      "armor": 20.0,
+      "armor_toughness": 4.0,
+      "magic_armor": 10.0,
+      "ranged_damage": 2.0,
+      "ranged_speed": 0.0,
+      "rarity": 45.0,
+      "silentgems:chargeability": 1.3
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgems:runic",
+        "level": 1
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 4
+      }
+    ]
+  }
+}

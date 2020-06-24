@@ -1,0 +1,52 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/coral"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.coral"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#FF5545"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 512.0,
+      "armor_durability": 9.0,
+      "enchantability": 10.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 10.0,
+      "melee_damage": 4.0,
+      "magic_damage": 6.0,
+      "attack_speed": 0.2,
+      "armor": 12.0,
+      "armor_toughness": 0.0,
+      "magic_armor": 12.0,
+      "ranged_damage": 1.0,
+      "ranged_speed": 0.2,
+      "rarity": 60.0,
+      "silentgems:chargeability": 1.4
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:ancient",
+        "level": 4
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 2
+      }
+    ]
+  }
+}

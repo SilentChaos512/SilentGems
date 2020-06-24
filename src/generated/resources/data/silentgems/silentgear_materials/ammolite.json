@@ -1,0 +1,52 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/ammolite"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.ammolite"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#E045FF"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 512.0,
+      "armor_durability": 18.0,
+      "enchantability": 11.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 12.0,
+      "melee_damage": 4.0,
+      "magic_damage": 7.0,
+      "attack_speed": 0.3,
+      "armor": 20.0,
+      "armor_toughness": 4.0,
+      "magic_armor": 14.0,
+      "ranged_damage": 2.0,
+      "ranged_speed": 0.3,
+      "rarity": 60.0,
+      "silentgems:chargeability": 1.5
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:ancient",
+        "level": 4
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 1
+      }
+    ]
+  }
+}

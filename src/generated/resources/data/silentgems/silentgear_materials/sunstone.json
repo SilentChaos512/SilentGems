@@ -1,0 +1,62 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/sunstone"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.sunstone"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#FF7445"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 768.0,
+      "armor_durability": 15.0,
+      "enchantability": 16.0,
+      "harvest_level": 3.0,
+      "harvest_speed": 8.0,
+      "melee_damage": 6.0,
+      "magic_damage": 6.0,
+      "attack_speed": -0.1,
+      "armor": 14.0,
+      "armor_toughness": 2.0,
+      "magic_armor": 8.0,
+      "ranged_damage": 3.0,
+      "ranged_speed": 0.1,
+      "rarity": 60.0,
+      "silentgems:chargeability": 1.1
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgems:sol",
+        "level": 4,
+        "conditions": [
+          {
+            "type": "silentgear:gear_type",
+            "gear_type": "weapon"
+          }
+        ]
+      },
+      {
+        "name": "silentgear:lustrous",
+        "level": 2
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 2
+      }
+    ]
+  }
+}

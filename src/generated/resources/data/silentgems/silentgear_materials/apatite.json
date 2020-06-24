@@ -1,0 +1,52 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/apatite"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.apatite"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#45FFD1"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 512.0,
+      "armor_durability": 8.0,
+      "enchantability": 11.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 10.0,
+      "melee_damage": 3.0,
+      "magic_damage": 5.0,
+      "attack_speed": 0.0,
+      "armor": 12.0,
+      "armor_toughness": 0.0,
+      "magic_armor": 10.0,
+      "ranged_damage": 3.0,
+      "ranged_speed": 0.1,
+      "rarity": 60.0,
+      "silentgems:chargeability": 1.4
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgems:imperial",
+        "level": 4
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 3
+      }
+    ]
+  }
+}

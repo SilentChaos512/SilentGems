@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,6 +23,7 @@ import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silentchaos512.gear.api.stats.ItemStat;
+import net.silentchaos512.gear.data.material.MaterialsProvider;
 import net.silentchaos512.gems.chaos.ChaosSourceCapability;
 import net.silentchaos512.gems.client.gui.DebugOverlay;
 import net.silentchaos512.gems.command.ChaosCommand;
@@ -30,6 +32,7 @@ import net.silentchaos512.gems.command.SoulCommand;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.data.GemsMaterialsProvider;
 import net.silentchaos512.gems.event.TraitEvents;
 import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.item.CraftingItems;
@@ -63,6 +66,7 @@ class SideProxy implements IProxy {
             FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(ItemStat.class, SGearStatHandler::registerStats);
         }
 
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherData);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcEnqueue);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcProcess);
@@ -94,6 +98,12 @@ class SideProxy implements IProxy {
             Greetings.addMessage(GemsBlocks::checkForMissingLootTables);
             ShrineTest.init();
         }
+    }
+
+    private void gatherData(GatherDataEvent event) {
+        DataGenerator gen = event.getGenerator();
+
+        gen.addProvider(new GemsMaterialsProvider(gen));
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

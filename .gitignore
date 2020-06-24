@@ -37,3 +37,4 @@ scripts/output
 .DS_Store
 
 version.properties
+src/generated/resources/.cache/

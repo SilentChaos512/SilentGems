@@ -1,0 +1,58 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/malachite"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.malachite"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#00A336"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 512.0,
+      "armor_durability": 14.0,
+      "enchantability": 14.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 8.0,
+      "melee_damage": 4.0,
+      "magic_damage": 2.0,
+      "attack_speed": 0.3,
+      "armor": 18.0,
+      "armor_toughness": 2.0,
+      "magic_armor": 8.0,
+      "ranged_damage": 2.0,
+      "ranged_speed": 0.2,
+      "rarity": 45.0,
+      "silentgems:chargeability": 1.2
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgems:critical",
+        "level": 3,
+        "conditions": [
+          {
+            "type": "silentgear:gear_type",
+            "gear_type": "weapon"
+          }
+        ]
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 3
+      }
+    ]
+  }
+}

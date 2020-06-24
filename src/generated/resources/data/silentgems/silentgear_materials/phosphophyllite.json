@@ -1,0 +1,52 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/phosphophyllite"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.phosphophyllite"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#1DE682"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 384.0,
+      "armor_durability": 6.0,
+      "enchantability": 20.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 11.0,
+      "melee_damage": 2.0,
+      "magic_damage": 5.0,
+      "attack_speed": 0.3,
+      "armor": 10.0,
+      "armor_toughness": 0.0,
+      "magic_armor": 8.0,
+      "ranged_damage": 2.0,
+      "ranged_speed": 0.3,
+      "rarity": 30.0,
+      "silentgems:chargeability": 1.2
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:synergistic",
+        "level": 4
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 4
+      }
+    ]
+  }
+}

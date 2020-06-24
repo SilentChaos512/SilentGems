@@ -1,0 +1,58 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/pearl"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.pearl"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#E2E8F1"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 512.0,
+      "armor_durability": 14.0,
+      "enchantability": 17.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 8.0,
+      "melee_damage": 4.0,
+      "magic_damage": 5.0,
+      "attack_speed": 0.3,
+      "armor": 26.0,
+      "armor_toughness": 4.0,
+      "magic_armor": 10.0,
+      "ranged_damage": 2.0,
+      "ranged_speed": 0.2,
+      "rarity": 60.0,
+      "silentgems:chargeability": 1.4
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgems:ironclad",
+        "level": 1,
+        "conditions": [
+          {
+            "type": "silentgear:gear_type",
+            "gear_type": "armor"
+          }
+        ]
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 3
+      }
+    ]
+  }
+}

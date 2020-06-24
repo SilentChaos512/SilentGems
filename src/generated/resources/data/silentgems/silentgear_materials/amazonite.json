@@ -1,0 +1,61 @@
+{
+  "conditions": [
+    {
+      "value": {
+        "tag": "forge:gems/amazonite",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ],
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/amazonite"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.amazonite"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#28BEE0"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 1949.0,
+      "armor_durability": 94.0,
+      "enchantability": 37.0,
+      "harvest_level": 3.0,
+      "harvest_speed": 9.0,
+      "melee_damage": 4.0,
+      "magic_damage": 6.0,
+      "attack_speed": 0.0,
+      "armor": 17.0,
+      "armor_toughness": 2.0,
+      "magic_armor": 7.0,
+      "ranged_damage": 2.0,
+      "ranged_speed": 0.0,
+      "rarity": 40.0,
+      "silentgems:chargeability": 0.8
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgems:critical",
+        "level": 4
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 2
+      }
+    ]
+  }
+}

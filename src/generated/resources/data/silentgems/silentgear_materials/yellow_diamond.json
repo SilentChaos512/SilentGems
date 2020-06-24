@@ -1,0 +1,58 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/yellow_diamond"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.yellow_diamond"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#FFFF45"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 1792.0,
+      "armor_durability": 42.0,
+      "enchantability": 18.0,
+      "harvest_level": 4.0,
+      "harvest_speed": 9.0,
+      "melee_damage": 5.0,
+      "magic_damage": 4.0,
+      "attack_speed": 0.2,
+      "armor": 20.0,
+      "armor_toughness": 4.0,
+      "magic_armor": 6.0,
+      "ranged_damage": 3.0,
+      "ranged_speed": 0.0,
+      "rarity": 60.0,
+      "silentgems:chargeability": 1.1
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgems:lightning_aura",
+        "level": 1,
+        "conditions": [
+          {
+            "type": "silentgear:gear_type",
+            "gear_type": "armor"
+          }
+        ]
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 1
+      }
+    ]
+  }
+}

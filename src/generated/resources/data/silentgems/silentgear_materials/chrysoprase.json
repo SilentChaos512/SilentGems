@@ -1,0 +1,58 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/chrysoprase"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.chrysoprase"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#64FF45"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 768.0,
+      "armor_durability": 13.0,
+      "enchantability": 10.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 8.0,
+      "melee_damage": 4.0,
+      "magic_damage": 3.0,
+      "attack_speed": 0.1,
+      "armor": 15.0,
+      "armor_toughness": 2.0,
+      "magic_armor": 8.0,
+      "ranged_damage": 4.0,
+      "ranged_speed": -0.1,
+      "rarity": 60.0,
+      "silentgems:chargeability": 1.2
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:terminus",
+        "level": 1,
+        "conditions": [
+          {
+            "type": "silentgear:gear_type",
+            "gear_type": "tool"
+          }
+        ]
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 2
+      }
+    ]
+  }
+}

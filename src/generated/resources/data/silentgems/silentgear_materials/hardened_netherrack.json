@@ -1,0 +1,26 @@
+{
+  "parent": "silentgems:hardened_stone",
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "item": "silentgems:hardened_netherrack"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.hardened_netherrack"
+  },
+  "display": {
+    "main/all": {
+      "texture": "low_contrast",
+      "color": "#561616"
+    },
+    "rod/all": {
+      "texture": "low_contrast",
+      "color": "#561616"
+    }
+  }
+}

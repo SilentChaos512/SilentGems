@@ -1,0 +1,52 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/kyanite"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.kyanite"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#4583FF"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 1536.0,
+      "armor_durability": 28.0,
+      "enchantability": 14.0,
+      "harvest_level": 3.0,
+      "harvest_speed": 14.0,
+      "melee_damage": 5.0,
+      "magic_damage": 7.0,
+      "attack_speed": 0.3,
+      "armor": 17.0,
+      "armor_toughness": 2.0,
+      "magic_armor": 8.0,
+      "ranged_damage": 2.0,
+      "ranged_speed": 0.2,
+      "rarity": 60.0,
+      "silentgems:chargeability": 1.2
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:stellar",
+        "level": 3
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 2
+      }
+    ]
+  }
+}

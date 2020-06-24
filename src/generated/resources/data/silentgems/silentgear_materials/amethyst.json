@@ -1,0 +1,56 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/amethyst"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.amethyst"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#A31DE6"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 512.0,
+      "armor_durability": 10.0,
+      "enchantability": 12.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 9.0,
+      "melee_damage": 3.0,
+      "magic_damage": 3.0,
+      "attack_speed": -0.1,
+      "armor": 18.0,
+      "armor_toughness": 2.0,
+      "magic_armor": 8.0,
+      "ranged_damage": 0.0,
+      "ranged_speed": 0.2,
+      "rarity": 30.0,
+      "silentgems:chargeability": 1.3
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgems:imperial",
+        "level": 1
+      },
+      {
+        "name": "silentgear:lucky",
+        "level": 2
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 2
+      }
+    ]
+  }
+}

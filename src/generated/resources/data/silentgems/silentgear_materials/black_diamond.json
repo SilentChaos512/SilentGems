@@ -1,0 +1,52 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/black_diamond"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.black_diamond"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#1E1E1E"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 1792.0,
+      "armor_durability": 42.0,
+      "enchantability": 12.0,
+      "harvest_level": 3.0,
+      "harvest_speed": 10.0,
+      "melee_damage": 3.0,
+      "magic_damage": 4.0,
+      "attack_speed": -0.2,
+      "armor": 18.0,
+      "armor_toughness": 2.0,
+      "magic_armor": 6.0,
+      "ranged_damage": 2.0,
+      "ranged_speed": -0.2,
+      "rarity": 45.0,
+      "silentgems:chargeability": 1.0
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:crushing",
+        "level": 3
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 1
+      }
+    ]
+  }
+}

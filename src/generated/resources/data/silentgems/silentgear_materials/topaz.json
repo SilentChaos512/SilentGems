@@ -1,0 +1,77 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/topaz"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.topaz"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#E6711D"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 768.0,
+      "armor_durability": 21.0,
+      "enchantability": 10.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 9.0,
+      "melee_damage": 4.0,
+      "magic_damage": 2.0,
+      "attack_speed": -0.1,
+      "armor": 20.0,
+      "armor_toughness": 4.0,
+      "magic_armor": 6.0,
+      "ranged_damage": 2.0,
+      "ranged_speed": -0.1,
+      "rarity": 30.0,
+      "silentgems:chargeability": 1.1
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:lustrous",
+        "level": 2,
+        "conditions": [
+          {
+            "type": "silentgear:gear_type",
+            "gear_type": "tool"
+          }
+        ]
+      },
+      {
+        "name": "silentgear:refractive",
+        "level": 1,
+        "conditions": [
+          {
+            "type": "silentgear:or",
+            "values": [
+              {
+                "type": "silentgear:material_count",
+                "count": 3
+              },
+              {
+                "type": "silentgear:material_ratio",
+                "ratio": 0.5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 1
+      }
+    ]
+  }
+}

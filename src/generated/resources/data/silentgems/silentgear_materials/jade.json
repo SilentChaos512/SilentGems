@@ -1,0 +1,56 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/jade"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.jade"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#A2FF45"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 512.0,
+      "armor_durability": 17.0,
+      "enchantability": 14.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 7.0,
+      "melee_damage": 5.0,
+      "magic_damage": 5.0,
+      "attack_speed": 0.0,
+      "armor": 18.0,
+      "armor_toughness": 4.0,
+      "magic_armor": 14.0,
+      "ranged_damage": 1.0,
+      "ranged_speed": 0.3,
+      "rarity": 60.0,
+      "silentgems:chargeability": 1.3
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:crushing",
+        "level": 3
+      },
+      {
+        "name": "silentgear:jagged",
+        "level": 2
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 2
+      }
+    ]
+  }
+}

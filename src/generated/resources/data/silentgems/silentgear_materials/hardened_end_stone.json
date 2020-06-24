@@ -1,0 +1,26 @@
+{
+  "parent": "silentgems:hardened_stone",
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "item": "silentgems:hardened_end_stone"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.hardened_end_stone"
+  },
+  "display": {
+    "main/all": {
+      "texture": "low_contrast",
+      "color": "#98A05E"
+    },
+    "rod/all": {
+      "texture": "low_contrast",
+      "color": "#98A05E"
+    }
+  }
+}

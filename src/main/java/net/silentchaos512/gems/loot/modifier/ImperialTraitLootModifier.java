@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImperialTraitLootModifier extends LootModifier {
-    private static final float BASE_CHANCE = 0.2f;
+    private static final float BASE_CHANCE = 0.1f;
 
     public ImperialTraitLootModifier(ILootCondition[] conditionsIn) {
         super(conditionsIn);

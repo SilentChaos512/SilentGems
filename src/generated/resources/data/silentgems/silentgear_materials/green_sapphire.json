@@ -1,0 +1,58 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/green_sapphire"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.green_sapphire"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#1DE61D"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 1024.0,
+      "armor_durability": 24.0,
+      "enchantability": 16.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 10.0,
+      "melee_damage": 2.0,
+      "magic_damage": 2.0,
+      "attack_speed": 0.1,
+      "armor": 14.0,
+      "armor_toughness": 2.0,
+      "magic_armor": 8.0,
+      "ranged_damage": 2.0,
+      "ranged_speed": 0.0,
+      "rarity": 30.0,
+      "silentgems:chargeability": 1.1
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:fiery",
+        "level": 2,
+        "conditions": [
+          {
+            "type": "silentgear:gear_type",
+            "gear_type": "weapon"
+          }
+        ]
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 1
+      }
+    ]
+  }
+}

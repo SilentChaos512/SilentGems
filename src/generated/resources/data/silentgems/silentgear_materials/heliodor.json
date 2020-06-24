@@ -1,0 +1,52 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/heliodor"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.heliodor"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#E6C51D"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 384.0,
+      "armor_durability": 9.0,
+      "enchantability": 10.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 12.0,
+      "melee_damage": 4.0,
+      "magic_damage": 3.0,
+      "attack_speed": 0.0,
+      "armor": 12.0,
+      "armor_toughness": 0.0,
+      "magic_armor": 6.0,
+      "ranged_damage": 0.0,
+      "ranged_speed": 0.2,
+      "rarity": 30.0,
+      "silentgems:chargeability": 1.3
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:chipping",
+        "level": 2
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 2
+      }
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/spinel"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.spinel"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#A34400"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 1024.0,
+      "armor_durability": 26.0,
+      "enchantability": 18.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 8.0,
+      "melee_damage": 5.0,
+      "magic_damage": 2.0,
+      "attack_speed": -0.3,
+      "armor": 20.0,
+      "armor_toughness": 4.0,
+      "magic_armor": 6.0,
+      "ranged_damage": 2.0,
+      "ranged_speed": -0.2,
+      "rarity": 45.0,
+      "silentgems:chargeability": 1.2
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:crushing",
+        "level": 3
+      },
+      {
+        "name": "silentgear:eroded",
+        "level": 2
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 2
+      }
+    ]
+  }
+}

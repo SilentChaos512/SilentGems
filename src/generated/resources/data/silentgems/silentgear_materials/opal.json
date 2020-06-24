@@ -1,0 +1,58 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/opal"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.opal"
+  },
+  "display": {
+    "main/all": {
+      "texture": "high_contrast_with_highlight",
+      "color": "#E4E4E4"
+    }
+  },
+  "stats": {
+    "main": {
+      "durability": 384.0,
+      "armor_durability": 9.0,
+      "enchantability": 13.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 8.0,
+      "melee_damage": 3.0,
+      "magic_damage": 5.0,
+      "attack_speed": -0.3,
+      "armor": 16.0,
+      "armor_toughness": 2.0,
+      "magic_armor": 10.0,
+      "ranged_damage": 0.0,
+      "ranged_speed": 0.3,
+      "rarity": 30.0,
+      "silentgems:chargeability": 1.1
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgems:critical",
+        "level": 3,
+        "conditions": [
+          {
+            "type": "silentgear:gear_type",
+            "gear_type": "weapon"
+          }
+        ]
+      },
+      {
+        "name": "silentgear:brittle",
+        "level": 2
+      }
+    ]
+  }
+}

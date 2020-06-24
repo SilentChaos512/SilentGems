@@ -10,10 +10,16 @@ public final class GemsTraits {
     public static final ResourceLocation CHAOTIC = SilentGems.getId("chaotic");
     public static final ResourceLocation CRITICAL = SilentGems.getId("critical");
     public static final ResourceLocation ENTROPY = SilentGems.getId("entropy");
+    public static final ResourceLocation ICE_AURA = SilentGems.getId("ice_aura");
+    public static final ResourceLocation ICY = SilentGems.getId("icy");
     public static final ResourceLocation IMPERIAL = SilentGems.getId("imperial");
+    public static final ResourceLocation IRONCLAD = SilentGems.getId("ironclad");
+    public static final ResourceLocation LIGHTNING_AURA = SilentGems.getId("lightning_aura");
     public static final ResourceLocation LUNA = SilentGems.getId("luna");
+    public static final ResourceLocation RACKER = SilentGems.getId("racker");
     public static final ResourceLocation RUNIC = SilentGems.getId("runic");
     public static final ResourceLocation SOL = SilentGems.getId("sol");
+    public static final ResourceLocation SPARKING = SilentGems.getId("sparking");
 
     private GemsTraits() {}
 
