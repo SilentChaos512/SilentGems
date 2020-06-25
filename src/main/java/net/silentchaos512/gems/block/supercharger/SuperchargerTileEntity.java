@@ -104,7 +104,7 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
     };
 
     public SuperchargerTileEntity() {
-        super(GemsTileEntities.SUPERCHARGER, INVENTORY_SIZE);
+        super(GemsTileEntities.SUPERCHARGER.get(), INVENTORY_SIZE);
     }
 
     public int getProgress() {

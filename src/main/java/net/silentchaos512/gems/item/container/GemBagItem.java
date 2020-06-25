@@ -1,10 +1,12 @@
 package net.silentchaos512.gems.item.container;
 
+import io.netty.buffer.Unpooled;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -40,7 +42,7 @@ public class GemBagItem extends GemContainerItem {
 
                 @Override
                 public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity player) {
-                    return new GemBagContainer(id, playerInventory);
+                    return new GemBagContainer(id, playerInventory, new PacketBuffer(Unpooled.buffer()));
                 }
             });
         }

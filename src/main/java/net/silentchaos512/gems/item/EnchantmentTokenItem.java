@@ -26,8 +26,8 @@ import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.GemsItemGroups;
+import net.silentchaos512.gems.init.GemsItems;
 import net.silentchaos512.lib.event.ClientTicks;
-import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -64,9 +64,7 @@ public final class EnchantmentTokenItem extends Item {
         MODELS_BY_TYPE.put(EnchantmentType.WEAPON.toString(), Icon.SWORD);
     }
 
-    public static final Lazy<EnchantmentTokenItem> INSTANCE = Lazy.of(EnchantmentTokenItem::new);
-
-    private EnchantmentTokenItem() {
+    public EnchantmentTokenItem() {
         super(new Properties().group(GemsItemGroups.UTILITY));
         addPropertyOverride(new ResourceLocation("model_index"), EnchantmentTokenItem::getModel);
     }
@@ -76,7 +74,7 @@ public final class EnchantmentTokenItem extends Item {
     // ==============================================
 
     public static ItemStack construct(EnchantmentData data) {
-        ItemStack stack = new ItemStack(INSTANCE.get());
+        ItemStack stack = new ItemStack(GemsItems.ENCHANTMENT_TOKEN);
         addEnchantment(stack, data);
         return stack;
     }

@@ -18,19 +18,17 @@
 
 package net.silentchaos512.gems.block;
 
-import net.minecraft.block.*;
+import net.minecraft.block.CropsBlock;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.PlantType;
 import net.silentchaos512.gems.init.GemsItems;
-import net.silentchaos512.utils.Lazy;
 
-public final class FluffyPuffPlant extends CropsBlock {
-    public static final Lazy<FluffyPuffPlant> INSTANCE = Lazy.of(FluffyPuffPlant::new);
-
-    private FluffyPuffPlant() {
+public class FluffyPuffPlant extends CropsBlock {
+    public FluffyPuffPlant() {
         super(Properties.create(Material.PLANTS)
                 .tickRandomly()
                 .hardnessAndResistance(0) // was 0.1
@@ -41,7 +39,7 @@ public final class FluffyPuffPlant extends CropsBlock {
 
     @Override
     protected IItemProvider getSeedsItem() {
-        return GemsItems.fluffyPuffSeeds;
+        return GemsItems.FLUFFY_PUFF_SEEDS;
     }
 
     @Override

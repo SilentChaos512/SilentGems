@@ -16,18 +16,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.GemsItemGroups;
+import net.silentchaos512.gems.init.GemsItems;
 import net.silentchaos512.lib.util.DimPos;
-import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public final class TeleporterLinkerItem extends Item {
-    public static final Lazy<TeleporterLinkerItem> INSTANCE = Lazy.of(TeleporterLinkerItem::new);
-
     private static final String NBT_LINKED = "Linked";
 
-    private TeleporterLinkerItem() {
+    public TeleporterLinkerItem() {
         super(new Properties().maxStackSize(1).group(GemsItemGroups.UTILITY));
     }
 
@@ -74,7 +72,7 @@ public final class TeleporterLinkerItem extends Item {
             heldItem = player.getHeldItem(Hand.OFF_HAND);
         }
 
-        if (heldItem.getItem() == INSTANCE.get()) {
+        if (heldItem.getItem() == GemsItems.TELEPORTER_LINKER.get()) {
             FontRenderer fontRender = mc.fontRenderer;
             int width = mc.getMainWindow().getScaledWidth();
             int height = mc.getMainWindow().getScaledHeight();

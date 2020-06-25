@@ -1,20 +1,16 @@
 package net.silentchaos512.gems;
 
 import com.mojang.brigadier.CommandDispatcher;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.Item;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.Potion;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
@@ -23,7 +19,6 @@ import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silentchaos512.gear.api.stats.ItemStat;
-import net.silentchaos512.gear.data.material.MaterialsProvider;
 import net.silentchaos512.gems.chaos.ChaosSourceCapability;
 import net.silentchaos512.gems.client.gui.DebugOverlay;
 import net.silentchaos512.gems.command.ChaosCommand;
@@ -66,21 +61,19 @@ class SideProxy implements IProxy {
             FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(ItemStat.class, SGearStatHandler::registerStats);
         }
 
+        Registration.register();
+
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherData);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcEnqueue);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcProcess);
 
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Block.class, GemsBlocks::registerAll);
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(ContainerType.class, GemsContainers::registerAll);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Enchantment.class, GemsEnchantments::registerAll);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(EntityType.class, GemsEntities::registerTypes);
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, GemsItems::registerAll);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Effect.class, GemsEffects::registerEffects);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(GlobalLootModifierSerializer.class, GemsLoot::registerGlobalModifiers);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Potion.class, GemsEffects::registerPotions);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(SoundEvent.class, GemsSounds::registerAll);
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(TileEntityType.class, GemsTileEntities::registerAll);
 
         MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStart);
         MinecraftForge.EVENT_BUS.register(Soul.Events.INSTANCE);
@@ -111,7 +104,7 @@ class SideProxy implements IProxy {
         ChaosSourceCapability.register();
         UpgradePlanter.init();
 
-        LibHooks.registerCompostable(0.3f, GemsItems.fluffyPuffSeeds);
+        LibHooks.registerCompostable(0.3f, GemsItems.FLUFFY_PUFF_SEEDS);
         LibHooks.registerCompostable(0.5f, CraftingItems.FLUFFY_PUFF);
 
         if (SGearProxy.isLoaded()) {

@@ -15,7 +15,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.CraftingItems;
-import net.silentchaos512.gems.item.PatchBlockChangerItem;
 import net.silentchaos512.gems.loot.functions.SetSoulFunction;
 import net.silentchaos512.gems.loot.modifier.ImperialTraitLootModifier;
 import net.silentchaos512.gems.loot.modifier.SkullCollectorTraitLootModifier;
@@ -98,11 +97,11 @@ public final class GemsLoot {
         SilentGems.LOGGER.info("Add 'rare' items to loot table {}", event.getName());
         event.getTable().addPool((new LootPool.Builder())
                 .name("silentgems_rare_items")
-                .addEntry(ItemLootEntry.builder(PatchBlockChangerItem.CORRUPTING_POWDER.get())
+                .addEntry(ItemLootEntry.builder(GemsItems.CORRUPTING_POWDER)
                         .weight(1)
                         .acceptFunction(SetCount.builder(new RandomValueRange(1, 2)))
                 )
-                .addEntry(ItemLootEntry.builder(PatchBlockChangerItem.PURIFYING_POWDER.get())
+                .addEntry(ItemLootEntry.builder(GemsItems.PURIFYING_POWDER)
                         .weight(1)
                         .acceptFunction(SetCount.builder(new RandomValueRange(1, 2)))
                 )

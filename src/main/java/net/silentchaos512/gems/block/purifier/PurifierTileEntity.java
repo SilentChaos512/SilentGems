@@ -9,8 +9,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.gems.chaos.Chaos;
+import net.silentchaos512.gems.init.GemsItems;
 import net.silentchaos512.gems.init.GemsTileEntities;
-import net.silentchaos512.gems.item.PatchBlockChangerItem;
 import net.silentchaos512.gems.util.TextUtil;
 import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
 
@@ -56,11 +56,12 @@ public class PurifierTileEntity extends LockableSidedInventoryTileEntity impleme
     };
 
     public PurifierTileEntity() {
-        super(GemsTileEntities.PURIFIER, 1);
+        super(GemsTileEntities.PURIFIER.get(), 1);
     }
 
     public static boolean isPurifyingCatalyst(ItemStack stack) {
-        return stack.getItem() == PatchBlockChangerItem.PURIFYING_POWDER.get();
+        // TODO: Create a tag for this!
+        return stack.getItem() == GemsItems.PURIFYING_POWDER.get();
     }
 
     @Override
@@ -91,7 +92,7 @@ public class PurifierTileEntity extends LockableSidedInventoryTileEntity impleme
 
     @Override
     public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
-        return itemStackIn.getItem() == PatchBlockChangerItem.PURIFYING_POWDER.get();
+        return itemStackIn.getItem() == GemsItems.PURIFYING_POWDER.get();
     }
 
     @Override

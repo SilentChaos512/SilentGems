@@ -14,8 +14,8 @@ import java.util.List;
 public class GemTeleporterBlock extends TeleporterBaseBlock implements IGemBlock {
     final Gems gem;
 
-    public GemTeleporterBlock(Gems gem, boolean isAnchor) {
-        super(isAnchor);
+    public GemTeleporterBlock(Gems gem) {
+        super(false);
         this.gem = gem;
     }
 

@@ -20,18 +20,15 @@ import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gear.api.parts.IGearPart;
 import net.silentchaos512.gear.parts.PartManager;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.altar.AltarBlock;
 import net.silentchaos512.gems.block.altar.AltarScreen;
-import net.silentchaos512.gems.block.flowerpot.LuminousFlowerPotBlock;
-import net.silentchaos512.gems.block.purifier.PurifierBlock;
-import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerPillarStructure;
 import net.silentchaos512.gems.block.supercharger.SuperchargerScreen;
-import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
 import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterScreen;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.crafting.recipe.AltarTransmutationRecipe;
 import net.silentchaos512.gems.crafting.recipe.TokenEnchanterRecipe;
+import net.silentchaos512.gems.init.GemsBlocks;
+import net.silentchaos512.gems.init.GemsItems;
 import net.silentchaos512.gems.init.GemsTags;
 import net.silentchaos512.gems.item.*;
 import net.silentchaos512.gems.lib.Gems;
@@ -89,11 +86,13 @@ public class SilentGemsPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration reg) {
+        // TODO: Add block corruption hints?
+
         initFailed = true;
 
         reg.addRecipes(getRecipesOfType(TokenEnchanterRecipe.RECIPE_TYPE), TOKEN_ENCHANTING);
         reg.addRecipes(getRecipesOfType(AltarTransmutationRecipe.RECIPE_TYPE), ALTAR_TRANSMUTATION);
-        reg.addRecipes(Collections.singletonList(new PurifierRecipeCategoryJei.Recipe(Ingredient.fromItems(PatchBlockChangerItem.PURIFYING_POWDER.get()))), PURIFIER);
+        reg.addRecipes(Collections.singletonList(new PurifierRecipeCategoryJei.Recipe(Ingredient.fromItems(GemsItems.PURIFYING_POWDER))), PURIFIER);
 
         if (SGearProxy.isLoaded()) {
             // Supercharger pillars
@@ -128,7 +127,7 @@ public class SilentGemsPlugin implements IModPlugin {
 
         addInfoPage(reg, CraftingItems.ENDER_SLIMEBALL);
         addInfoPage(reg, "glowrose", Arrays.stream(Gems.values()).map(gem -> new ItemStack(gem.getGlowrose())));
-        addInfoPage(reg, LuminousFlowerPotBlock.INSTANCE.get());
+        addInfoPage(reg, GemsBlocks.LUMINOUS_FLOWER_POT);
         // FIXME: Fails on servers
 //        addInfoPage(reg, SoulGemItem.INSTANCE.get(), Soul.getValues().stream().map(Soul::getSoulGem));
 
@@ -141,7 +140,7 @@ public class SilentGemsPlugin implements IModPlugin {
                         SilentGems.getId("rune_example_" + gem.getName()), "", 2, 1,
                         NonNullList.from(Ingredient.EMPTY,
                                 Ingredient.fromItems(gem.getChaosGem()),
-                                Ingredient.fromItems(ChaosRuneItem.INSTANCE.get())
+                                Ingredient.fromItems(GemsItems.CHAOS_RUNE)
                         ),
                         new ItemStack(gem.getChaosGem())
                 )).collect(Collectors.toList()), VanillaRecipeCategoryUid.CRAFTING
@@ -158,10 +157,10 @@ public class SilentGemsPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration reg) {
-        reg.addRecipeCatalyst(new ItemStack(SuperchargerBlock.INSTANCE.get()), SUPERCHARGING, SUPERCHARGER_PILLAR);
-        reg.addRecipeCatalyst(new ItemStack(TokenEnchanterBlock.INSTANCE.get()), TOKEN_ENCHANTING);
-        reg.addRecipeCatalyst(new ItemStack(AltarBlock.INSTANCE.get()), ALTAR_TRANSMUTATION);
-        reg.addRecipeCatalyst(new ItemStack(PurifierBlock.INSTANCE.get()), PURIFIER);
+        reg.addRecipeCatalyst(new ItemStack(GemsBlocks.SUPERCHARGER), SUPERCHARGING, SUPERCHARGER_PILLAR);
+        reg.addRecipeCatalyst(new ItemStack(GemsBlocks.TOKEN_ENCHANTER), TOKEN_ENCHANTING);
+        reg.addRecipeCatalyst(new ItemStack(GemsBlocks.TRANSMUTATION_ALTAR), ALTAR_TRANSMUTATION);
+        reg.addRecipeCatalyst(new ItemStack(GemsBlocks.PURIFIER), PURIFIER);
     }
 
     @Override
@@ -175,19 +174,19 @@ public class SilentGemsPlugin implements IModPlugin {
     public void registerItemSubtypes(ISubtypeRegistration reg) {
         initFailed = true;
         // Enchantment tokens
-        reg.registerSubtypeInterpreter(EnchantmentTokenItem.INSTANCE.get(), stack -> {
+        reg.registerSubtypeInterpreter(GemsItems.ENCHANTMENT_TOKEN.get(), stack -> {
             Enchantment enchantment = EnchantmentTokenItem.getSingleEnchantment(stack);
             return enchantment != null ? enchantment.getName() : "none";
         });
 
         // Chaos Runes
-        reg.registerSubtypeInterpreter(ChaosRuneItem.INSTANCE.get(), stack -> {
+        reg.registerSubtypeInterpreter(GemsItems.CHAOS_RUNE.get(), stack -> {
             IChaosBuff buff = ChaosRuneItem.getBuff(stack);
             return buff != null ? buff.getId().toString() : "";
         });
 
         // Soul Gems
-        reg.registerSubtypeInterpreter(SoulGemItem.INSTANCE.get(), stack -> {
+        reg.registerSubtypeInterpreter(GemsItems.SOUL_GEM.get(), stack -> {
             Soul soul = SoulGemItem.getSoul(stack);
             return soul != null ? soul.getId().toString() : "";
         });

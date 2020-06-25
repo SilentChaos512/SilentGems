@@ -9,8 +9,9 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.entity.*;
 import net.silentchaos512.gems.entity.projectile.*;
 import net.silentchaos512.gems.init.GemsItemGroups;
+import net.silentchaos512.gems.init.Registration;
+import net.silentchaos512.lib.registry.ItemRegistryObject;
 import net.silentchaos512.utils.Color;
-import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
 import java.util.Random;
@@ -50,7 +51,8 @@ public enum WispTypes {
 
     private final EntityType<? extends AbstractWispEntity> type;
     private final EntityType<? extends AbstractWispShotEntity> shotType;
-    private final Lazy<SpawnEggItem> spawnEgg;
+    @SuppressWarnings("NonFinalFieldInEnum")
+    private ItemRegistryObject<SpawnEggItem> spawnEgg;
     private final Color color;
     private final ResourceLocation entityTexture;
     private final ResourceLocation shotTexture;
@@ -59,13 +61,16 @@ public enum WispTypes {
         String name = getName();
         this.type = entityBuilder.build(SilentGems.getId(name).toString());
         this.shotType = shotBuilder.build(SilentGems.getId(name + "_shot").toString());
-        this.spawnEgg = Lazy.of(() -> {
-            Item.Properties properties = new Item.Properties().group(GemsItemGroups.UTILITY);
-            return new SpawnEggItem(this.type, color.getColor(), Color.DARKVIOLET.getColor(), properties);
-        });
         this.color = color;
         this.entityTexture = SilentGems.getId(String.format("textures/entity/%s.png", name));
         this.shotTexture = SilentGems.getId(String.format("textures/entity/%s_shot.png", name));
+    }
+
+    public static void registerItems() {
+        for (WispTypes wispType : values()) {
+            wispType.spawnEgg = new ItemRegistryObject<>(Registration.ITEMS.register(wispType.getName() + "_spawn_egg", () ->
+                    new SpawnEggItem(wispType.type, wispType.color.getColor(), Color.DARKVIOLET.getColor(), new Item.Properties().group(GemsItemGroups.UTILITY))));
+        }
     }
 
     public String getName() {

@@ -35,7 +35,7 @@ public class GemOreBlock extends OreBlockSG implements IGemBlock {
     private final Gems gem;
 
     public GemOreBlock(Gems gem) {
-        super(gem.getItem(), 2, Properties.create(Material.ROCK)
+        super(gem::getItem, 2, Properties.create(Material.ROCK)
                 .hardnessAndResistance(3, 4)
                 .harvestTool(ToolType.PICKAXE)
         );

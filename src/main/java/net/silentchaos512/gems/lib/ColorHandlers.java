@@ -9,6 +9,9 @@ import net.minecraft.util.IItemProvider;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.urn.SoulUrnBlock;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
+import net.silentchaos512.gems.init.GemsBlocks;
+import net.silentchaos512.gems.init.GemsItems;
 import net.silentchaos512.gems.item.*;
 
 import java.util.Arrays;
@@ -24,7 +27,7 @@ public final class ColorHandlers {
             return;
         }
 
-        registerBlocks(colors, SoulUrnBlock::getBlockColor, SoulUrnBlock.INSTANCE.get());
+        registerBlocks(colors, SoulUrnBlock::getBlockColor, GemsBlocks.SOUL_URN.get());
     }
 
     public static void onItemColors(ColorHandlerEvent.Item event) {
@@ -35,14 +38,16 @@ public final class ColorHandlers {
             return;
         }
 
-        registerItems(colors, SoulUrnBlock::getItemColor, SoulUrnBlock.INSTANCE.get());
-        registerItems(colors, EnchantmentTokenItem::getItemColor, EnchantmentTokenItem.INSTANCE.get());
+        registerItems(colors, SoulUrnBlock::getItemColor, GemsBlocks.SOUL_URN.get());
+        registerItems(colors, EnchantmentTokenItem::getItemColor, GemsItems.ENCHANTMENT_TOKEN);
         registerItems(colors, ReturnHomeCharmItem::getColor, Arrays.stream(Gems.values())
                 .map(Gems::getReturnHomeCharm)
                 .toArray(IItemProvider[]::new));
-        registerItems(colors, ChaosRuneItem::getColor, ChaosRuneItem.INSTANCE.get());
-        registerItems(colors, SoulGemItem::getColor, SoulGemItem.INSTANCE.get());
-        registerItems(colors, GearSoulItem::getColor, GearSoulItem.INSTANCE.get());
+        registerItems(colors, ChaosRuneItem::getColor, GemsItems.CHAOS_RUNE);
+        registerItems(colors, SoulGemItem::getColor, GemsItems.SOUL_GEM);
+        if (SGearProxy.isLoaded()) {
+            registerItems(colors, GearSoulItem::getColor, GemsItems.GEAR_SOUL);
+        }
 
         // Drawing Compass
 //        itemColors.register((stack, tintIndex) -> tintIndex == 0 ? GemsItems.drawingCompass.getColor(stack).getColor() : 0xFFFFFF, GemsItems.drawingCompass);

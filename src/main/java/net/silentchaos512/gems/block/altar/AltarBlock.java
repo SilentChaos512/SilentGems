@@ -18,16 +18,11 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.silentchaos512.utils.Lazy;
 
-import javax.swing.*;
-
-public final class AltarBlock extends Block {
-    public static final Lazy<AltarBlock> INSTANCE = Lazy.of(AltarBlock::new);
-
+public class AltarBlock extends Block {
     private static final VoxelShape SHAPE = Block.makeCuboidShape(0, 0, 0, 16, 12, 16);
 
-    private AltarBlock() {
+    public AltarBlock() {
         super(Properties.create(Material.IRON)
                 .hardnessAndResistance(5, 50)
                 .sound(SoundType.METAL));

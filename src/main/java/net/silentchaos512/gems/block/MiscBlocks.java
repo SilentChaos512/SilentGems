@@ -13,20 +13,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.IItemProvider;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.GemsItemGroups;
+import net.silentchaos512.gems.init.Registration;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.lib.advancements.LibTriggers;
-import net.silentchaos512.utils.Lazy;
+import net.silentchaos512.lib.block.IBlockProvider;
+import net.silentchaos512.lib.registry.BlockRegistryObject;
 
 import java.util.Locale;
 
-public enum MiscBlocks implements IItemProvider, IStringSerializable {
+public enum MiscBlocks implements IBlockProvider {
     CHAOS_CRYSTAL(
             CraftingItems.CHAOS_CRYSTAL,
             builder(Material.IRON)
@@ -53,12 +54,14 @@ public enum MiscBlocks implements IItemProvider, IStringSerializable {
             builder(Material.IRON)
     );
 
-    private final Lazy<MiscBlock> block;
+    private final Block.Properties builder;
+    @SuppressWarnings("NonFinalFieldInEnum")
+    private BlockRegistryObject<MiscBlock> block;
     // The item this block is made from
     private final IItemProvider storedItem;
 
     MiscBlocks(IItemProvider storedItem, Block.Properties builder) {
-        block = Lazy.of(() -> new MiscBlock(this, builder));
+        this.builder = builder;
         this.storedItem = storedItem;
     }
 
@@ -68,20 +71,20 @@ public enum MiscBlocks implements IItemProvider, IStringSerializable {
                 .sound(SoundType.METAL);
     }
 
-    public MiscBlock getBlock() {
+    public static void registerBlocks() {
+        for (MiscBlocks block : values()) {
+            block.block = new BlockRegistryObject<>(Registration.BLOCKS.register(block.getName(), () ->
+                    new MiscBlock(block, block.builder)));
+            Registration.ITEMS.register(block.getName(), () ->
+                    new MiscBlockItem(block, new Item.Properties().group(GemsItemGroups.BLOCKS)));
+        }
+    }
+
+    @Override
+    public MiscBlock asBlock() {
         return block.get();
     }
 
-    public MiscBlockItem getBlockItem() {
-        return new MiscBlockItem(this, new Item.Properties().group(GemsItemGroups.BLOCKS));
-    }
-
-    @Override
-    public Item asItem() {
-        return getBlock().asItem();
-    }
-
-    @Override
     public String getName() {
         return name().toLowerCase(Locale.ROOT) + "_block";
     }
@@ -139,7 +142,7 @@ public enum MiscBlocks implements IItemProvider, IStringSerializable {
         private final MiscBlocks type;
 
         MiscBlockItem(MiscBlocks type, Properties builder) {
-            super(type.getBlock(), builder);
+            super(type.block.get(), builder);
             this.type = type;
         }
 

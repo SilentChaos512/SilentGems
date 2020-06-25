@@ -17,9 +17,10 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.GemsItemGroups;
+import net.silentchaos512.gems.init.Registration;
+import net.silentchaos512.lib.registry.ItemRegistryObject;
 import net.silentchaos512.lib.util.PlayerUtils;
 import net.silentchaos512.lib.util.TimeUtils;
-import net.silentchaos512.utils.Lazy;
 import net.silentchaos512.utils.MathUtils;
 
 import javax.annotation.Nullable;
@@ -67,10 +68,19 @@ public enum ModFoods implements IItemProvider, IStringSerializable {
             .addEffect(Effects.HASTE, TimeUtils.ticksFromSeconds(30))
     );
 
-    private final Lazy<SGFoodItem> item;
+    private final SGFoodItem.Builder builder;
+    @SuppressWarnings("NonFinalFieldInEnum")
+    private ItemRegistryObject<SGFoodItem> item;
 
     ModFoods(SGFoodItem.Builder builder) {
-        this.item = Lazy.of(() -> new SGFoodItem(this, builder));
+        this.builder = builder;
+    }
+
+    public static void registerItems() {
+        for (ModFoods food : values()) {
+            food.item = new ItemRegistryObject<>(Registration.ITEMS.register(food.getName(), () ->
+                    new SGFoodItem(food, food.builder)));
+        }
     }
 
     @Override
@@ -146,7 +156,6 @@ public enum ModFoods implements IItemProvider, IStringSerializable {
         );
         private static final float SECRET_DONUT_EFFECT_CHANCE = 0.33f;
         private static final float SECRET_DONUT_TEXT_CHANCE = 0.66f;
-        private static int donutMessageCount;
 
         private final ModFoods foodType;
         private final UseAction useAction;

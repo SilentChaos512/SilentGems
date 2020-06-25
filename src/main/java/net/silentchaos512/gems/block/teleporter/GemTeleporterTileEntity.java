@@ -25,6 +25,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.init.GemsItems;
 import net.silentchaos512.gems.init.GemsTileEntities;
 import net.silentchaos512.gems.item.ReturnHomeCharmItem;
 import net.silentchaos512.gems.item.TeleporterLinkerItem;
@@ -48,7 +49,7 @@ public class GemTeleporterTileEntity extends TileEntity {
     }
 
     public GemTeleporterTileEntity(boolean isAnchor) {
-        super(GemsTileEntities.TELEPORTER);
+        super(GemsTileEntities.TELEPORTER.get());
         this.isAnchor = isAnchor;
     }
 
@@ -118,7 +119,7 @@ public class GemTeleporterTileEntity extends TileEntity {
 
     public boolean interact(PlayerEntity player, ItemStack heldItem, Hand hand) {
         // Link teleporters
-        if (!heldItem.isEmpty() && heldItem.getItem() == TeleporterLinkerItem.INSTANCE.get()) {
+        if (!heldItem.isEmpty() && heldItem.getItem() == GemsItems.TELEPORTER_LINKER.get()) {
             return linkTeleporters(player, this.world, this.pos, heldItem, hand);
         }
         // Link a return home charm
@@ -215,7 +216,7 @@ public class GemTeleporterTileEntity extends TileEntity {
     private static boolean linkTeleporters(PlayerEntity player, World world, BlockPos pos, ItemStack heldItem, Hand hand) {
         if (world.isRemote) return true;
 
-        if (heldItem.isEmpty() || heldItem.getItem() != TeleporterLinkerItem.INSTANCE.get()) {
+        if (heldItem.isEmpty() || heldItem.getItem() != GemsItems.TELEPORTER_LINKER.get()) {
             SilentGems.LOGGER.warn("GemTeleporterTileEntity.linkTeleporters: heldItem is not a linker?");
             return false;
         }

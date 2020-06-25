@@ -14,16 +14,13 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.silentchaos512.utils.Lazy;
 
 import java.util.Random;
 
 public class PhantomLightBlock extends Block {
-    public static final Lazy<PhantomLightBlock> INSTANCE = Lazy.of(PhantomLightBlock::new);
-
     private static final VoxelShape SHAPE = Block.makeCuboidShape(5, 5, 5, 11, 11, 11);
 
-    private PhantomLightBlock() {
+    public PhantomLightBlock() {
         super(Properties.create(Material.MISCELLANEOUS)
                 .hardnessAndResistance(0.5f, 6000000)
                 .lightValue(15));

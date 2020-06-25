@@ -10,7 +10,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
-import net.silentchaos512.gems.block.purifier.PurifierBlock;
+import net.silentchaos512.gems.init.GemsBlocks;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,7 +27,7 @@ public class PurifierRecipeCategoryJei implements IRecipeCategory<PurifierRecipe
 
     public PurifierRecipeCategoryJei(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(SilentGemsPlugin.GUI_TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(PurifierBlock.INSTANCE.get()));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(GemsBlocks.PURIFIER));
         localizedName = I18n.format("category.silentgems.purifier");
     }
 

@@ -1,31 +1,23 @@
 package net.silentchaos512.gems.data;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.item.Item;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
-import net.silentchaos512.gear.SilentGear;
 import net.silentchaos512.gear.api.item.GearType;
 import net.silentchaos512.gear.api.parts.PartType;
 import net.silentchaos512.gear.api.stats.ItemStats;
 import net.silentchaos512.gear.api.stats.StatInstance;
-import net.silentchaos512.gear.api.traits.ITraitCondition;
 import net.silentchaos512.gear.data.material.MaterialBuilder;
 import net.silentchaos512.gear.data.material.MaterialsProvider;
 import net.silentchaos512.gear.parts.PartTextureType;
 import net.silentchaos512.gear.traits.TraitConst;
 import net.silentchaos512.gear.traits.conditions.GearTypeTraitCondition;
-import net.silentchaos512.gear.traits.conditions.MaterialCountTraitCondition;
-import net.silentchaos512.gear.traits.conditions.MaterialRatioTraitCondition;
-import net.silentchaos512.gear.traits.conditions.OrTraitCondition;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.HardenedRock;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
-import net.silentchaos512.gems.init.GemsBlocks;
 import net.silentchaos512.gems.init.GemsTraits;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.lib.Gems;
+import net.silentchaos512.lib.block.IBlockProvider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1064,8 +1056,15 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .trait(PartType.MAIN, GemsTraits.ENTROPY, 2)
                 .display(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, 0xCEBEB1)
         );
-        ResourceLocation sgHardenedStone = SilentGems.getId("hardened_stone");
-        ret.add(new MaterialBuilder(sgHardenedStone, 3, HardenedRock.STONE.asBlock())
+        ret.add(hardenedStone("hardened_stone", HardenedRock.STONE, 0x4D4D4D));
+        ret.add(hardenedStone("hardened_netherrack", HardenedRock.NETHERRACK, 0x561616));
+        ret.add(hardenedStone("hardened_end_stone", HardenedRock.END_STONE, 0x98A05E));
+
+        return ret;
+    }
+
+    private static MaterialBuilder hardenedStone(String name, IBlockProvider block, int color) {
+        return new MaterialBuilder(SilentGems.getId(name), 3, block.asBlock())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 3072)
                 .stat(PartType.MAIN, ItemStats.ARMOR_DURABILITY, 37)
                 .stat(PartType.MAIN, ItemStats.ENCHANTABILITY, 7)
@@ -1085,19 +1084,6 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.ROD, ItemStats.RARITY, 5)
                 .trait(PartType.MAIN, TraitConst.CHIPPING, 4)
                 .trait(PartType.MAIN, TraitConst.SYNERGISTIC, 1)
-                .display(PartTextureType.LOW_CONTRAST, 0x4D4D4D)
-        );
-        ret.add(new MaterialBuilder(SilentGems.getId("hardened_netherrack"), 3, HardenedRock.NETHERRACK.asBlock())
-                .parent(sgHardenedStone)
-                .display(PartType.MAIN, PartTextureType.LOW_CONTRAST, 0x561616)
-                .display(PartType.ROD, PartTextureType.LOW_CONTRAST, 0x561616)
-        );
-        ret.add(new MaterialBuilder(SilentGems.getId("hardened_end_stone"), 3, HardenedRock.END_STONE.asBlock())
-                .parent(sgHardenedStone)
-                .display(PartType.MAIN, PartTextureType.LOW_CONTRAST, 0x98A05E)
-                .display(PartType.ROD, PartTextureType.LOW_CONTRAST, 0x98A05E)
-        );
-
-        return ret;
+                .display(PartTextureType.LOW_CONTRAST, color);
     }
 }

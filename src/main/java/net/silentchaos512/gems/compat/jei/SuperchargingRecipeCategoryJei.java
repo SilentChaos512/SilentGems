@@ -17,8 +17,8 @@ import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gear.api.parts.IGearPart;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
-import net.silentchaos512.gems.block.supercharger.SuperchargerBlock;
 import net.silentchaos512.gems.block.supercharger.SuperchargerTileEntity;
+import net.silentchaos512.gems.init.GemsBlocks;
 import net.silentchaos512.gems.init.GemsEnchantments;
 import net.silentchaos512.gems.init.GemsTags;
 
@@ -41,7 +41,7 @@ public class SuperchargingRecipeCategoryJei implements IRecipeCategory<Superchar
 
     public SuperchargingRecipeCategoryJei(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(SilentGemsPlugin.GUI_TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(SuperchargerBlock.INSTANCE.get()));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(GemsBlocks.SUPERCHARGER));
         arrow = guiHelper.drawableBuilder(SilentGemsPlugin.GUI_TEXTURE, 73, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
         localizedName = I18n.format("category.silentgems.supercharging");

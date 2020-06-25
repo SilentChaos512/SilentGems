@@ -12,8 +12,8 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Gems;
 
 public class RedstoneGemTeleporterBlock extends GemTeleporterBlock {
-    public RedstoneGemTeleporterBlock(Gems gem, boolean isAnchor) {
-        super(gem, isAnchor);
+    public RedstoneGemTeleporterBlock(Gems gem) {
+        super(gem);
     }
 
     @Override

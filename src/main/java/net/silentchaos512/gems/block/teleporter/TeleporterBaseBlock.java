@@ -14,8 +14,8 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.init.GemsItems;
 import net.silentchaos512.gems.item.ReturnHomeCharmItem;
-import net.silentchaos512.gems.item.TeleporterLinkerItem;
 
 public class TeleporterBaseBlock extends Block {
     private final boolean isAnchor;
@@ -41,7 +41,7 @@ public class TeleporterBaseBlock extends Block {
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         ItemStack heldItem = player.getHeldItem(hand);
-        boolean holdingLinker = !heldItem.isEmpty() && heldItem.getItem() == TeleporterLinkerItem.INSTANCE.get();
+        boolean holdingLinker = !heldItem.isEmpty() && heldItem.getItem() == GemsItems.TELEPORTER_LINKER.get();
         boolean holdingReturnHome = !heldItem.isEmpty() && heldItem.getItem() instanceof ReturnHomeCharmItem;
 
         if (world.isRemote)

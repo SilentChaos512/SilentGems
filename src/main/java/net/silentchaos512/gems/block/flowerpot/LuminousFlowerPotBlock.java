@@ -39,16 +39,13 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.block.GlowroseBlock;
-import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 
-public final class LuminousFlowerPotBlock extends Block {
-    public static final Lazy<LuminousFlowerPotBlock> INSTANCE = Lazy.of(LuminousFlowerPotBlock::new);
-
+public class LuminousFlowerPotBlock extends Block {
     private static final VoxelShape SHAPE = Block.makeCuboidShape(5.0D, 0.0D, 5.0D, 11.0D, 6.0D, 11.0D);
 
-    private LuminousFlowerPotBlock() {
+    public LuminousFlowerPotBlock() {
         super(Properties.create(Material.MISCELLANEOUS)
                 .hardnessAndResistance(1, 30)
                 .lightValue(2));

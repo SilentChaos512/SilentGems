@@ -4,6 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
 import net.silentchaos512.gems.block.AbstractChaosMachineContainer;
@@ -14,13 +15,13 @@ import net.silentchaos512.lib.util.InventoryUtils;
 import javax.annotation.Nonnull;
 
 public class TokenEnchanterContainer extends AbstractChaosMachineContainer<TokenEnchanterTileEntity> {
-    public TokenEnchanterContainer(int id, PlayerInventory playerInventory) {
+    public TokenEnchanterContainer(int id, PlayerInventory playerInventory, PacketBuffer buffer) {
         this(id, playerInventory, new TokenEnchanterTileEntity(), new IntArray(4));
     }
 
     @SuppressWarnings("OverridableMethodCallDuringObjectConstruction")
     public TokenEnchanterContainer(int id, PlayerInventory playerInventory, TokenEnchanterTileEntity tileEntity, IIntArray fields) {
-        super(GemsContainers.TOKEN_ENCHANTER.type(), id, tileEntity, fields);
+        super(GemsContainers.TOKEN_ENCHANTER.get(), id, tileEntity, fields);
 
         // Token slot
         this.addSlot(new Slot(this.tileEntity, 0, 22, 35));

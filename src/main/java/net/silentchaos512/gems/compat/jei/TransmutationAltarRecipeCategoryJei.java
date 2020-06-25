@@ -14,8 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
-import net.silentchaos512.gems.block.altar.AltarBlock;
 import net.silentchaos512.gems.crafting.recipe.AltarTransmutationRecipe;
+import net.silentchaos512.gems.init.GemsBlocks;
 import net.silentchaos512.gems.util.TextUtil;
 import net.silentchaos512.lib.util.TextRenderUtils;
 
@@ -36,7 +36,7 @@ public class TransmutationAltarRecipeCategoryJei implements IRecipeCategory<Alta
 
     public TransmutationAltarRecipeCategoryJei(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(SilentGemsPlugin.GUI_TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(AltarBlock.INSTANCE.get()));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(GemsBlocks.TRANSMUTATION_ALTAR));
         arrow = guiHelper.drawableBuilder(SilentGemsPlugin.GUI_TEXTURE, 73, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
         localizedName = I18n.format("category.silentgems.altar_transmutation");

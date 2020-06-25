@@ -2,7 +2,9 @@ package net.silentchaos512.gems.lib;
 
 import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerPotBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
@@ -17,17 +19,20 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.block.teleporter.GemTeleporterBlock;
 import net.silentchaos512.gems.block.teleporter.RedstoneGemTeleporterBlock;
-import net.silentchaos512.gems.item.ChaosGemItem;
-import net.silentchaos512.gems.item.GemItem;
-import net.silentchaos512.gems.item.GemShardItem;
-import net.silentchaos512.gems.item.ReturnHomeCharmItem;
+import net.silentchaos512.gems.init.GemsItemGroups;
+import net.silentchaos512.gems.init.Registration;
+import net.silentchaos512.gems.item.*;
 import net.silentchaos512.lib.block.IBlockProvider;
+import net.silentchaos512.lib.registry.BlockRegistryObject;
+import net.silentchaos512.lib.registry.ItemRegistryObject;
 import net.silentchaos512.utils.Color;
-import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
+@SuppressWarnings("NonFinalFieldInEnum")
 public enum Gems implements IStringSerializable {
     // Classic Gems
     RUBY(Set.CLASSIC, 0xE61D1D),
@@ -85,24 +90,24 @@ public enum Gems implements IStringSerializable {
     final Color color;
 
     // Blocks
-    final Lazy<GemOreBlock> ore;
-    final Lazy<GemBlock> block;
-    final Lazy<GemBricksBlock> bricks;
-    final Lazy<GemGlassBlock> glass;
-    final Lazy<GemLampBlock> lampUnlit;
-    final Lazy<GemLampBlock> lampLit;
-    final Lazy<GemLampBlock> lampInvertedLit;
-    final Lazy<GemLampBlock> lampInvertedUnlit;
-    final Lazy<GemTeleporterBlock> teleporter;
-    final Lazy<RedstoneGemTeleporterBlock> redstoneTeleporter;
-    final Lazy<GlowroseBlock> glowrose;
-    final Lazy<FlowerPotBlock> pottedGlowrose;
+    BlockRegistryObject<GemOreBlock> ore;
+    BlockRegistryObject<GemBlock> block;
+    BlockRegistryObject<GemBricksBlock> bricks;
+    BlockRegistryObject<GemGlassBlock> glass;
+    BlockRegistryObject<GemLampBlock> lampUnlit;
+    BlockRegistryObject<GemLampBlock> lampLit;
+    BlockRegistryObject<GemLampBlock> lampInvertedLit;
+    BlockRegistryObject<GemLampBlock> lampInvertedUnlit;
+    BlockRegistryObject<GemTeleporterBlock> teleporter;
+    BlockRegistryObject<RedstoneGemTeleporterBlock> redstoneTeleporter;
+    BlockRegistryObject<GlowroseBlock> glowrose;
+    BlockRegistryObject<FlowerPotBlock> pottedGlowrose;
 
     // Items
-    final Lazy<GemItem> item;
-    final Lazy<GemShardItem> shard;
-    final Lazy<ReturnHomeCharmItem> returnHomeCharm;
-    final Lazy<ChaosGemItem> chaosGem;
+    ItemRegistryObject<GemItem> item;
+    ItemRegistryObject<GemShardItem> shard;
+    ItemRegistryObject<ReturnHomeCharmItem> returnHomeCharm;
+    ItemRegistryObject<ChaosGemItem> chaosGem;
 
     // Tags
     final Tag<Block> blockTag;
@@ -115,31 +120,72 @@ public enum Gems implements IStringSerializable {
         this.set.gems.add(this);
         this.color = new Color(color);
 
-        // Blocks
-        this.ore = Lazy.of(() -> new GemOreBlock(this));
-        this.block = Lazy.of(() -> new GemBlock(this));
-        this.bricks = Lazy.of(() -> new GemBricksBlock(this));
-        this.glass = Lazy.of(() -> new GemGlassBlock(this));
-        this.lampUnlit = Lazy.of(() -> new GemLampBlock(this, GemLampBlock.State.UNLIT));
-        this.lampLit = Lazy.of(() -> new GemLampBlock(this, GemLampBlock.State.LIT));
-        this.lampInvertedLit = Lazy.of(() -> new GemLampBlock(this, GemLampBlock.State.INVERTED_LIT));
-        this.lampInvertedUnlit = Lazy.of(() -> new GemLampBlock(this, GemLampBlock.State.INVERTED_UNLIT));
-        this.teleporter = Lazy.of(() -> new GemTeleporterBlock(this, false));
-        this.redstoneTeleporter = Lazy.of(() -> new RedstoneGemTeleporterBlock(this, false));
-        this.glowrose = Lazy.of(() -> new GlowroseBlock(this));
-        this.pottedGlowrose = Lazy.of(() -> new PottedGlowroseBlock(this.glowrose.get()));
-
-        // Items
-        this.item = Lazy.of(() -> new GemItem(this));
-        this.shard = Lazy.of(() -> new GemShardItem(this));
-        this.returnHomeCharm = Lazy.of(() -> new ReturnHomeCharmItem(this));
-        this.chaosGem = Lazy.of(() -> new ChaosGemItem(this));
-
-        // Tags
         this.blockTag = new BlockTags.Wrapper(new ResourceLocation("forge", "storage_blocks/" + this.getName()));
         this.glowroseTag = new BlockTags.Wrapper(new ResourceLocation(SilentGems.MOD_ID, "glowroses/" + this.getName()));
         this.itemTag = new ItemTags.Wrapper(new ResourceLocation("forge", "gems/" + this.getName()));
         this.shardTag = new ItemTags.Wrapper(new ResourceLocation("forge", "nuggets/" + this.getName()));
+    }
+
+    public static void registerBlocks() {
+        for (Gems gem : values())
+            gem.ore = registerBlock(gem.getName() + "_ore", () -> new GemOreBlock(gem));
+        for (Gems gem : values())
+            gem.block = registerBlock(gem.getName() + "_block", () -> new GemBlock(gem));
+        for (Gems gem : values())
+            gem.bricks = registerBlock(gem.getName() + "_bricks", () -> new GemBricksBlock(gem));
+        for (Gems gem : values())
+            gem.glass = registerBlock(gem.getName() + "_glass", () -> new GemGlassBlock(gem));
+        for (Gems gem : values())
+            gem.lampUnlit = registerBlock(gem.getName() + "_lamp", () -> new GemLampBlock(gem, GemLampBlock.State.UNLIT));
+        for (Gems gem : values())
+            gem.lampLit = registerBlockNoItem(gem.getName() + "_lamp_lit", () -> new GemLampBlock(gem, GemLampBlock.State.LIT));
+        for (Gems gem : values())
+            gem.lampInvertedLit = registerBlock(gem.getName() + "_lamp_inverted_lit", () -> new GemLampBlock(gem, GemLampBlock.State.INVERTED_LIT));
+        for (Gems gem : values())
+            gem.lampInvertedUnlit = registerBlockNoItem(gem.getName() + "_lamp_inverted", () -> new GemLampBlock(gem, GemLampBlock.State.INVERTED_UNLIT));
+        for (Gems gem : values())
+            gem.glowrose = registerBlock(gem.getName() + "_glowrose", () -> new GlowroseBlock(gem));
+        for (Gems gem : values()) {
+            gem.pottedGlowrose = registerBlockNoItem("potted_" + gem.getName() + "_glowrose", () -> new PottedGlowroseBlock(gem, gem.glowrose));
+            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(SilentGems.getId(gem.getName() + "_glowrose"), gem.pottedGlowrose);
+        }
+        for (Gems gem : values())
+            gem.teleporter = registerBlock(gem.getName() + "_teleporter", () -> new GemTeleporterBlock(gem));
+        for (Gems gem : values())
+            gem.redstoneTeleporter = registerBlock(gem.getName() + "_redstone_teleporter", () -> new RedstoneGemTeleporterBlock(gem));
+    }
+
+    public static void registerItems() {
+        for (Gems gem : values())
+            gem.item = registerItem(gem.getName(), () -> new GemItem(gem));
+        for (Gems gem : values())
+            gem.shard = registerItem(gem.getName() + "_shard", () -> new GemShardItem(gem));
+        for (Gems gem : values())
+            gem.returnHomeCharm = registerItem(gem.getName() + "_return_home_charm", () -> new ReturnHomeCharmItem(gem));
+        for (Gems gem : values())
+            gem.chaosGem = registerItem("chaos_" + gem.getName(), () -> new ChaosGemItem(gem));
+    }
+
+    private static <T extends Block> BlockRegistryObject<T> registerBlockNoItem(String name, Supplier<T> block) {
+        return new BlockRegistryObject<>(Registration.BLOCKS.register(name, block));
+    }
+
+    private static <T extends Block> BlockRegistryObject<T> registerBlock(String name, Supplier<T> block) {
+        return registerBlock(name, block, Gems::defaultBlockItem);
+    }
+
+    private static <T extends Block> BlockRegistryObject<T> registerBlock(String name, Supplier<T> block, Function<BlockRegistryObject<T>, Supplier<BlockItem>> item) {
+        BlockRegistryObject<T> ret = registerBlockNoItem(name, block);
+        Registration.ITEMS.register(name, item.apply(ret));
+        return ret;
+    }
+
+    private static <T extends Item> ItemRegistryObject<T> registerItem(String name, Supplier<T> item) {
+        return new ItemRegistryObject<>(Registration.ITEMS.register(name, item));
+    }
+
+    private static Supplier<BlockItem> defaultBlockItem(BlockRegistryObject<?> block) {
+        return () -> new GemBlockItem(block.get(), new Item.Properties().group(GemsItemGroups.BLOCKS));
     }
 
     /**
@@ -324,13 +370,11 @@ public enum Gems implements IStringSerializable {
         LIGHT(32, HardenedRock.END_STONE); // The End
 
         private final int startMeta; // TODO: Should probably do away with this... but works for now
-        private final MultiGemOreBlock multiOre;
         private final IBlockProvider geodeShell;
         private final Collection<Gems> gems = new ArrayList<>();
 
         Set(int startMeta, IBlockProvider geodeShell) {
             this.startMeta = startMeta;
-            multiOre = new MultiGemOreBlock(this);
             this.geodeShell = geodeShell;
         }
 
@@ -343,10 +387,6 @@ public enum Gems implements IStringSerializable {
         public static Set deserialize(Dynamic<?> dynamic) {
             String setName = dynamic.get("gem_set").asString("classic");
             return "light".equals(setName) ? Gems.Set.LIGHT : "dark".equals(setName) ? Gems.Set.DARK : Gems.Set.CLASSIC;
-        }
-
-        public MultiGemOreBlock getMultiOre() {
-            return multiOre;
         }
 
         public IBlockProvider getGeodeShell() {

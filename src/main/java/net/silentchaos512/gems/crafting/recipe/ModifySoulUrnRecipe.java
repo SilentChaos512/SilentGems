@@ -72,7 +72,7 @@ public class ModifySoulUrnRecipe implements ICraftingRecipe {
     }
 
     private static boolean isSoulUrn(ItemStack stack) {
-        return stack.getItem() == GemsBlocks.soulUrn.asItem();
+        return stack.getItem() == GemsBlocks.SOUL_URN.asItem();
     }
 
     private static boolean isModifierItem(ItemStack stack) {
@@ -156,7 +156,7 @@ public class ModifySoulUrnRecipe implements ICraftingRecipe {
 
     @Override
     public ItemStack getRecipeOutput() {
-        return new ItemStack(GemsBlocks.soulUrn);
+        return new ItemStack(GemsBlocks.SOUL_URN);
     }
 
     @Override

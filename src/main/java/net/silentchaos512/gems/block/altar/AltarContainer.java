@@ -4,6 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
 import net.silentchaos512.gems.block.AbstractChaosMachineContainer;
@@ -14,12 +15,12 @@ import net.silentchaos512.lib.util.InventoryUtils;
 import javax.annotation.Nonnull;
 
 public class AltarContainer extends AbstractChaosMachineContainer<AltarTileEntity> {
-    public AltarContainer(int id, PlayerInventory playerInventory) {
+    public AltarContainer(int id, PlayerInventory playerInventory, PacketBuffer buffer) {
         this(id, playerInventory, new AltarTileEntity(), new IntArray(4));
     }
 
     public AltarContainer(int id, PlayerInventory playerInventory, AltarTileEntity altar, IIntArray fields) {
-        super(GemsContainers.TRANSMUTATION_ALTAR.type(), id, altar, fields);
+        super(GemsContainers.TRANSMUTATION_ALTAR.get(), id, altar, fields);
         this.setupSlots(playerInventory);
     }
 

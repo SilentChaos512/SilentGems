@@ -32,31 +32,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
-import java.util.EnumMap;
-import java.util.Map;
-
 public class FluffyBlock extends Block {
-    private static final Map<DyeColor, FluffyBlock> MAP = new EnumMap<>(DyeColor.class);
-
-    private final DyeColor color;
-
     static {
         MinecraftForge.EVENT_BUS.addListener(FluffyBlock::onGetBreakSpeed);
     }
 
-    private FluffyBlock(DyeColor color) {
+    public FluffyBlock(DyeColor color) {
         super(Properties.create(Material.WOOL)
                 .hardnessAndResistance(0.8f, 3)
                 .sound(SoundType.CLOTH));
-        this.color = color;
-    }
-
-    public static FluffyBlock get(DyeColor color) {
-        if (!MAP.containsKey(color)) {
-            FluffyBlock block = new FluffyBlock(color);
-            MAP.put(color, block);
-        }
-        return MAP.get(color);
     }
 
     @Override

@@ -16,7 +16,7 @@ public class AltarTileEntity extends AbstractChaosMachineTileEntity<AltarTransmu
     private static final int INVENTORY_SIZE = 3;
 
     public AltarTileEntity() {
-        super(GemsTileEntities.TRANSMUTATION_ALTAR, INVENTORY_SIZE);
+        super(GemsTileEntities.TRANSMUTATION_ALTAR.get(), INVENTORY_SIZE);
     }
 
     @Override

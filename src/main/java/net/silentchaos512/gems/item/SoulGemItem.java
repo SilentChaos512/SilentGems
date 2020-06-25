@@ -13,17 +13,15 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.GemsItemGroups;
+import net.silentchaos512.gems.init.GemsItems;
 import net.silentchaos512.gems.lib.soul.Soul;
 import net.silentchaos512.gems.lib.soul.SoulElement;
 import net.silentchaos512.utils.Color;
-import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class SoulGemItem extends Item {
-    public static final Lazy<SoulGemItem> INSTANCE = Lazy.of(SoulGemItem::new);
-
     private static final String NBT_KEY = "SGems_SoulGem";
 
     public SoulGemItem() {
@@ -50,7 +48,7 @@ public class SoulGemItem extends Item {
      * @return A stack of {@code count} soul gems with the given soul
      */
     public static ItemStack getStack(Soul soul, int count) {
-        ItemStack result = new ItemStack(INSTANCE.get(), count);
+        ItemStack result = new ItemStack(GemsItems.SOUL_GEM, count);
         setSoul(result, soul);
         return result;
     }
@@ -63,7 +61,7 @@ public class SoulGemItem extends Item {
      * @return A stack of a single soul gem with the given soul
      */
     public static ItemStack getStack(ResourceLocation soulId) {
-        ItemStack result = new ItemStack(INSTANCE.get());
+        ItemStack result = new ItemStack(GemsItems.SOUL_GEM);
         result.getOrCreateTag().putString(NBT_KEY, soulId.toString());
         return result;
     }

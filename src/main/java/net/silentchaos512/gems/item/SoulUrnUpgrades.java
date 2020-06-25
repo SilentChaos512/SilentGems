@@ -23,10 +23,12 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.GemsItemGroups;
+import net.silentchaos512.gems.init.Registration;
 import net.silentchaos512.gems.lib.urn.IUrnUpgradeItem;
 import net.silentchaos512.gems.lib.urn.UpgradePlanter;
 import net.silentchaos512.gems.lib.urn.UpgradeVacuum;
 import net.silentchaos512.gems.lib.urn.UrnUpgrade;
+import net.silentchaos512.lib.registry.ItemRegistryObject;
 
 import java.util.Locale;
 import java.util.function.Supplier;
@@ -37,12 +39,18 @@ public enum SoulUrnUpgrades implements IItemProvider {
     PLANTER(basicSerializer("planter", UpgradePlanter::new));
     ;
 
-    private final UpgradeItem item;
+    @SuppressWarnings("NonFinalFieldInEnum")
+    private ItemRegistryObject<UpgradeItem> item;
     private final UrnUpgrade.Serializer<? extends UrnUpgrade> serializer;
 
     SoulUrnUpgrades(UrnUpgrade.Serializer<? extends UrnUpgrade> serializer) {
-        this.item = new UpgradeItem();
         this.serializer = serializer;
+    }
+
+    public static void registerItems() {
+        for (SoulUrnUpgrades upgrade : values()) {
+            upgrade.item = new ItemRegistryObject<>(Registration.ITEMS.register(upgrade.getName(), () -> new UpgradeItem(upgrade)));
+        }
     }
 
     public String getName() {
@@ -51,7 +59,7 @@ public enum SoulUrnUpgrades implements IItemProvider {
 
     @Override
     public UpgradeItem asItem() {
-        return this.item;
+        return this.item.get();
     }
 
     public UrnUpgrade.Serializer<? extends UrnUpgrade> getSerializer() {
@@ -62,14 +70,17 @@ public enum SoulUrnUpgrades implements IItemProvider {
         return new UrnUpgrade.Serializer<>(new ResourceLocation(SilentGems.MOD_ID, name), constructor);
     }
 
-    public class UpgradeItem extends Item implements IUrnUpgradeItem {
-        UpgradeItem() {
+    public static class UpgradeItem extends Item implements IUrnUpgradeItem {
+        private final SoulUrnUpgrades type;
+
+        UpgradeItem(SoulUrnUpgrades type) {
             super(new Properties().group(GemsItemGroups.UTILITY));
+            this.type = type;
         }
 
         @Override
         public UrnUpgrade.Serializer<? extends UrnUpgrade> getSerializer() {
-            return serializer;
+            return type.serializer;
         }
 
 //        @Override

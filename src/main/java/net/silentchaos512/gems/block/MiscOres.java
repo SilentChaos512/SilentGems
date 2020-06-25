@@ -20,9 +20,11 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.ModList;
 import net.silentchaos512.gems.chaos.Chaos;
+import net.silentchaos512.gems.init.GemsBlocks;
+import net.silentchaos512.gems.init.Registration;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.lib.block.IBlockProvider;
-import net.silentchaos512.utils.Lazy;
+import net.silentchaos512.lib.registry.BlockRegistryObject;
 
 import java.util.Locale;
 import java.util.Random;
@@ -48,10 +50,19 @@ public enum MiscOres implements IBlockProvider, IStringSerializable {
         }
     });
 
-    private final Lazy<OreBlockSG> block;
+    private final Supplier<OreBlockSG> blockSupplier;
+    @SuppressWarnings("NonFinalFieldInEnum")
+    private BlockRegistryObject<OreBlockSG> block;
 
     MiscOres(Supplier<OreBlockSG> blockSupplier) {
-        this.block = Lazy.of(blockSupplier);
+        this.blockSupplier = blockSupplier;
+    }
+
+    public static void registerBlocks() {
+        for (MiscOres ore : values()) {
+            ore.block = new BlockRegistryObject<>(Registration.BLOCKS.register(ore.getName(), ore.blockSupplier));
+            Registration.ITEMS.register(ore.getName(), GemsBlocks.defaultItem(ore.block));
+        }
     }
 
     public OreBlockSG getBlock() {

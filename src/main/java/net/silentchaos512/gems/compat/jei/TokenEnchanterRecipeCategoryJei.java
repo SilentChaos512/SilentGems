@@ -14,8 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
-import net.silentchaos512.gems.block.tokenenchanter.TokenEnchanterBlock;
 import net.silentchaos512.gems.crafting.recipe.TokenEnchanterRecipe;
+import net.silentchaos512.gems.init.GemsBlocks;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +34,7 @@ public class TokenEnchanterRecipeCategoryJei implements IRecipeCategory<TokenEnc
 
     public TokenEnchanterRecipeCategoryJei(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(SilentGemsPlugin.GUI_TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(TokenEnchanterBlock.INSTANCE.get()));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(GemsBlocks.TOKEN_ENCHANTER));
         arrow = guiHelper.drawableBuilder(SilentGemsPlugin.GUI_TEXTURE, 73, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
         localizedName = I18n.format("category.silentgems.token_enchanting");

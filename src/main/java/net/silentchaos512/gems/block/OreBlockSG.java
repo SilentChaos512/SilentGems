@@ -17,7 +17,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public abstract class OreBlockSG extends OreBlock {
-    // FIXME: droppedItem is meaningless because of loot tables
     @Nullable private final IItemProvider droppedItem;
     private final int harvestLevel;
 

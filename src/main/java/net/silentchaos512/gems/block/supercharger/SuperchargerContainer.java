@@ -23,6 +23,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
 import net.silentchaos512.gems.init.GemsContainers;
 import net.silentchaos512.lib.inventory.SlotOutputOnly;
 import net.silentchaos512.lib.util.InventoryUtils;
@@ -32,13 +33,13 @@ import javax.annotation.Nonnull;
 public class SuperchargerContainer extends Container {
     final SuperchargerTileEntity tileEntity;
 
-    public SuperchargerContainer(int id, PlayerInventory playerInventory) {
+    public SuperchargerContainer(int id, PlayerInventory playerInventory, PacketBuffer buffer) {
         this(id, playerInventory, new SuperchargerTileEntity());
     }
 
     @SuppressWarnings("OverridableMethodCallDuringObjectConstruction")
     public SuperchargerContainer(int id, PlayerInventory playerInventory, SuperchargerTileEntity tileEntity) {
-        super(GemsContainers.SUPERCHARGER.type(), id);
+        super(GemsContainers.SUPERCHARGER.get(), id);
         this.tileEntity = tileEntity;
 
         this.addSlot(new Slot(this.tileEntity, 0, 56, 25));

@@ -10,18 +10,12 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.block.CorruptedBlocks;
 import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.lib.util.WorldUtils;
-import net.silentchaos512.utils.Lazy;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
 public class PatchBlockChangerItem extends Item {
-    public static final Lazy<PatchBlockChangerItem> CORRUPTING_POWDER = Lazy.of(() ->
-            new PatchBlockChangerItem(2, PatchBlockChangerItem::corruptBlock));
-    public static final Lazy<PatchBlockChangerItem> PURIFYING_POWDER = Lazy.of(() ->
-            new PatchBlockChangerItem(4, PatchBlockChangerItem::purifyBlock));
-
     private final int range;
     private final Function<Block, Block> replaceFunction;
 

@@ -15,21 +15,19 @@ import net.minecraft.world.World;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.GemsItemGroups;
+import net.silentchaos512.gems.init.GemsItems;
 import net.silentchaos512.gems.lib.chaosbuff.ChaosBuffManager;
 import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
 import net.silentchaos512.gems.lib.chaosbuff.PotionChaosBuff;
 import net.silentchaos512.utils.Color;
-import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public final class ChaosRuneItem extends Item {
-    public static final Lazy<ChaosRuneItem> INSTANCE = Lazy.of(ChaosRuneItem::new);
-
     private static final String NBT_KEY = "SGems_BuffRune";
 
-    private ChaosRuneItem() {
+    public ChaosRuneItem() {
         super(new Properties().group(GemsItemGroups.UTILITY));
     }
 
@@ -39,7 +37,7 @@ public final class ChaosRuneItem extends Item {
     }
 
     public static ItemStack getStack(ResourceLocation buffId) {
-        ItemStack result = new ItemStack(INSTANCE.get());
+        ItemStack result = new ItemStack(GemsItems.CHAOS_RUNE);
         result.getOrCreateTag().putString(NBT_KEY, buffId.toString());
         return result;
     }

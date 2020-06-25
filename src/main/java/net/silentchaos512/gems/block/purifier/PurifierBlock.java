@@ -19,14 +19,11 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.silentchaos512.lib.util.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class PurifierBlock extends Block {
-    public static final Lazy<PurifierBlock> INSTANCE = Lazy.of(PurifierBlock::new);
-
     public PurifierBlock() {
         super(Properties.create(Material.IRON).hardnessAndResistance(4, 20).sound(SoundType.METAL));
     }

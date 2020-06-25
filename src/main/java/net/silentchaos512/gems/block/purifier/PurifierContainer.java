@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
 import net.silentchaos512.gems.init.GemsContainers;
@@ -15,12 +16,12 @@ import javax.annotation.Nonnull;
 public class PurifierContainer extends Container {
     private final IIntArray fields;
 
-    public PurifierContainer(int id, PlayerInventory playerInventory) {
+    public PurifierContainer(int id, PlayerInventory playerInventory, PacketBuffer buffer) {
         this(id, playerInventory, new PurifierTileEntity(), new IntArray(2));
     }
 
     public PurifierContainer(int id, PlayerInventory playerInventory, PurifierTileEntity tileEntity, IIntArray fields) {
-        super(GemsContainers.PURIFIER.type(), id);
+        super(GemsContainers.PURIFIER.get(), id);
         this.fields = fields;
 
         trackIntArray(this.fields);

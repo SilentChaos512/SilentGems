@@ -32,7 +32,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.GemsItemGroups;
-import net.silentchaos512.utils.Lazy;
+import net.silentchaos512.gems.init.Registration;
+import net.silentchaos512.lib.registry.ItemRegistryObject;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -79,7 +80,8 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
     URN_UPGRADE_BASE,
     LOLINOMICON(false);
 
-    private final Lazy<ItemCrafting> item;
+    @SuppressWarnings("NonFinalFieldInEnum")
+    private ItemRegistryObject<ItemCrafting> item;
     private final boolean shownInGroup;
 
     CraftingItems() {
@@ -87,8 +89,13 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
     }
 
     CraftingItems(boolean shownInGroup) {
-        this.item = Lazy.of(ItemCrafting::new);
         this.shownInGroup = shownInGroup;
+    }
+
+    public static void registerItems() {
+        for (CraftingItems item : values()) {
+            item.item = new ItemRegistryObject<>(Registration.ITEMS.register(item.getName(), () -> new ItemCrafting(item)));
+        }
     }
 
     @Override
@@ -109,9 +116,12 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
         return new ItemStack(this, count);
     }
 
-    final class ItemCrafting extends Item {
-        private ItemCrafting() {
+    static final class ItemCrafting extends Item {
+        CraftingItems type;
+
+        private ItemCrafting(CraftingItems type) {
             super(new Item.Properties().group(GemsItemGroups.MATERIALS));
+            this.type = type;
         }
 
         @Override
@@ -135,7 +145,7 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
 
         @Override
         public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-            if (!shownInGroup || !isInGroup(group)) return;
+            if (!type.shownInGroup || !isInGroup(group)) return;
             super.fillItemGroup(group, items);
         }
     }

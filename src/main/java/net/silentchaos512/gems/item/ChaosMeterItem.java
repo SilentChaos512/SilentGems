@@ -4,8 +4,6 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.network.play.server.SCooldownPacket;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -19,14 +17,11 @@ import net.silentchaos512.gems.api.chaos.IChaosSource;
 import net.silentchaos512.gems.chaos.ChaosSourceCapability;
 import net.silentchaos512.gems.client.ClientPlayerInfo;
 import net.silentchaos512.gems.init.GemsItemGroups;
-import net.silentchaos512.utils.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class ChaosMeterItem extends Item {
-    public static final Lazy<ChaosMeterItem> INSTANCE = Lazy.of(ChaosMeterItem::new);
-
     private static final String NBT_PLAYER_MODE = "ChaosMeter.PlayerMode";
 
     public ChaosMeterItem() {

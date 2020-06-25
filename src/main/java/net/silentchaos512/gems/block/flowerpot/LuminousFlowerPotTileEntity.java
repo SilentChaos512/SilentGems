@@ -13,6 +13,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LightType;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GlowroseBlock;
+import net.silentchaos512.gems.init.GemsBlocks;
 import net.silentchaos512.gems.init.GemsTileEntities;
 import net.silentchaos512.lib.util.TimeUtils;
 
@@ -29,7 +30,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
     private boolean plantedGlowrose = false;
 
     public LuminousFlowerPotTileEntity() {
-        super(GemsTileEntities.CHAOS_FLOWER_POT);
+        super(GemsTileEntities.CHAOS_FLOWER_POT.get());
     }
 
     @Override
@@ -150,7 +151,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
     }
 
     private static BlockState getLightBlock() {
-        return PhantomLightBlock.INSTANCE.get().getDefaultState();
+        return GemsBlocks.PHANTOM_LIGHT.get().getDefaultState();
     }
 
     @Deprecated

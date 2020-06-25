@@ -15,7 +15,7 @@ public class PhantomLightTileEntity extends TileEntity implements ITickableTileE
     private int ticksExisted = 0;
 
     public PhantomLightTileEntity() {
-        super(GemsTileEntities.PHANTOM_LIGHT);
+        super(GemsTileEntities.PHANTOM_LIGHT.get());
     }
 
     @Override

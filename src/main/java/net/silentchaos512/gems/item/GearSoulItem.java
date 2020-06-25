@@ -6,17 +6,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.lib.soul.GearSoul;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.lib.event.ClientTicks;
 import net.silentchaos512.utils.Color;
-import net.silentchaos512.utils.Lazy;
 
 public final class GearSoulItem extends Item {
-    public static final Lazy<GearSoulItem> INSTANCE = Lazy.of(GearSoulItem::new);
-
-    private GearSoulItem() {
+    public GearSoulItem() {
         super(new Properties()
                 .group(GemsItemGroups.UTILITY)
                 .rarity(Rarity.RARE)
@@ -26,7 +24,7 @@ public final class GearSoulItem extends Item {
 
     @Override
     public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        if (!stack.isEmpty() && !stack.hasTag()) {
+        if (SGearProxy.isLoaded() && !stack.isEmpty() && !stack.hasTag()) {
             GearSoul soul = GearSoul.randomSoul();
             SoulManager.setSoul(stack, soul);
         }

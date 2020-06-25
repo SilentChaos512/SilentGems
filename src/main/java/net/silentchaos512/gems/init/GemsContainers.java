@@ -1,14 +1,14 @@
 package net.silentchaos512.gems.init;
 
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.silentchaos512.gems.SilentGems;
+import net.minecraftforge.fml.network.IContainerFactory;
 import net.silentchaos512.gems.block.altar.AltarContainer;
 import net.silentchaos512.gems.block.altar.AltarScreen;
 import net.silentchaos512.gems.block.purifier.PurifierContainer;
@@ -22,50 +22,30 @@ import net.silentchaos512.gems.block.urn.SoulUrnScreen;
 import net.silentchaos512.gems.item.container.GemBagContainer;
 import net.silentchaos512.gems.item.container.GemContainerScreen;
 import net.silentchaos512.gems.item.container.GlowroseBasketContainer;
-import net.silentchaos512.utils.Lazy;
 
-import java.util.Locale;
+public final class GemsContainers {
+    public static final RegistryObject<ContainerType<GemBagContainer>> GEM_BAG = register("gem_bag", GemBagContainer::new);
+    public static final RegistryObject<ContainerType<GlowroseBasketContainer>> GLOWROSE_BASKET = register("glowrose_basket", GlowroseBasketContainer::new);
+    public static final RegistryObject<ContainerType<PurifierContainer>> PURIFIER = register("purifier", PurifierContainer::new);
+    public static final RegistryObject<ContainerType<SoulUrnContainer>> SOUL_URN = register("soul_urn", SoulUrnContainer::new);
+    public static final RegistryObject<ContainerType<SuperchargerContainer>> SUPERCHARGER = register("supercharger", SuperchargerContainer::new);
+    public static final RegistryObject<ContainerType<TokenEnchanterContainer>> TOKEN_ENCHANTER = register("token_enchanter", TokenEnchanterContainer::new);
+    public static final RegistryObject<ContainerType<AltarContainer>> TRANSMUTATION_ALTAR = register("transmutation_altar", AltarContainer::new);
 
-public enum GemsContainers {
-    GEM_BAG(GemBagContainer::new),
-    GLOWROSE_BASKET(GlowroseBasketContainer::new),
-    PURIFIER(PurifierContainer::new),
-    SOUL_URN(SoulUrnContainer::new),
-    SUPERCHARGER(SuperchargerContainer::new),
-    TOKEN_ENCHANTER(TokenEnchanterContainer::new),
-    TRANSMUTATION_ALTAR(AltarContainer::new);
+    static void register() {}
 
-    private final Lazy<ContainerType<?>> type;
-
-    GemsContainers(ContainerType.IFactory<?> factory) {
-        this.type = Lazy.of(() -> new ContainerType<>(factory));
-    }
-
-    public ContainerType<?> type() {
-        return type.get();
-    }
-
-    public static void registerAll(RegistryEvent.Register<ContainerType<?>> event) {
-        for (GemsContainers container : values()) {
-            register(container.name().toLowerCase(Locale.ROOT), container.type());
-        }
-    }
-
-    @SuppressWarnings("unchecked")
     @OnlyIn(Dist.CLIENT)
     public static void registerScreens(FMLClientSetupEvent event) {
-        ScreenManager.registerFactory((ContainerType<? extends GemBagContainer>) GEM_BAG.type(), GemContainerScreen::new);
-        ScreenManager.registerFactory((ContainerType<? extends GlowroseBasketContainer>) GLOWROSE_BASKET.type(), GemContainerScreen::new);
-        ScreenManager.registerFactory((ContainerType<? extends PurifierContainer>) PURIFIER.type(), PurifierScreen::new);
-        ScreenManager.registerFactory((ContainerType<? extends SoulUrnContainer>) SOUL_URN.type(), SoulUrnScreen::new);
-        ScreenManager.registerFactory((ContainerType<? extends SuperchargerContainer>) SUPERCHARGER.type(), SuperchargerScreen::new);
-        ScreenManager.registerFactory((ContainerType<? extends TokenEnchanterContainer>) TOKEN_ENCHANTER.type(), TokenEnchanterScreen::new);
-        ScreenManager.registerFactory((ContainerType<? extends AltarContainer>) TRANSMUTATION_ALTAR.type(), AltarScreen::new);
+        ScreenManager.registerFactory(GEM_BAG.get(), GemContainerScreen::new);
+        ScreenManager.registerFactory(GLOWROSE_BASKET.get(), GemContainerScreen::new);
+        ScreenManager.registerFactory(PURIFIER.get(), PurifierScreen::new);
+        ScreenManager.registerFactory(SOUL_URN.get(), SoulUrnScreen::new);
+        ScreenManager.registerFactory(SUPERCHARGER.get(), SuperchargerScreen::new);
+        ScreenManager.registerFactory(TOKEN_ENCHANTER.get(), TokenEnchanterScreen::new);
+        ScreenManager.registerFactory(TRANSMUTATION_ALTAR.get(), AltarScreen::new);
     }
 
-    private static void register(String name, ContainerType<?> type) {
-        ResourceLocation id = SilentGems.getId(name);
-        type.setRegistryName(id);
-        ForgeRegistries.CONTAINERS.register(type);
+    private static <T extends Container> RegistryObject<ContainerType<T>> register(String name, IContainerFactory<T> factory) {
+        return Registration.CONTAINERS.register(name, () -> IForgeContainerType.create(factory));
     }
 }
