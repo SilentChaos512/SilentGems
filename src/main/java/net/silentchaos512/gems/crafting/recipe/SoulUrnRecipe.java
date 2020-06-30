@@ -39,7 +39,7 @@ public final class SoulUrnRecipe extends ExtendedShapedRecipe {
     @Override
     public ItemStack getCraftingResult(CraftingInventory inv) {
         StackList list = StackList.from(inv);
-        ItemStack gemStack = list.firstMatch(s -> s.getItem().isIn(GemsTags.Items.MOD_GEMS));
+        ItemStack gemStack = list.firstMatch(s -> s.getItem().isIn(GemsTags.Items.GEMS));
         Gems gem = Gems.from(gemStack);
         return GemsBlocks.SOUL_URN.get().getStack(this.color, gem);
     }

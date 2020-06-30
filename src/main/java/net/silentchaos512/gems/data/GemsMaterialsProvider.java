@@ -32,6 +32,11 @@ public class GemsMaterialsProvider extends MaterialsProvider {
     }
 
     @Override
+    public String getName() {
+        return "Silent's Gems - SGear Materials";
+    }
+
+    @Override
     protected Collection<MaterialBuilder> getMaterials() {
         Collection<MaterialBuilder> ret = new ArrayList<>();
 

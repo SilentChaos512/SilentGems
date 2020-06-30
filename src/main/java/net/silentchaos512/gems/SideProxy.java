@@ -27,6 +27,8 @@ import net.silentchaos512.gems.command.SoulCommand;
 import net.silentchaos512.gems.compat.gear.SGearProxy;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.data.GemsBlockTagsProvider;
+import net.silentchaos512.gems.data.GemsItemTagsProvider;
 import net.silentchaos512.gems.data.GemsMaterialsProvider;
 import net.silentchaos512.gems.event.TraitEvents;
 import net.silentchaos512.gems.init.*;
@@ -97,6 +99,8 @@ class SideProxy implements IProxy {
         DataGenerator gen = event.getGenerator();
 
         gen.addProvider(new GemsMaterialsProvider(gen));
+        gen.addProvider(new GemsBlockTagsProvider(gen));
+        gen.addProvider(new GemsItemTagsProvider(gen));
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

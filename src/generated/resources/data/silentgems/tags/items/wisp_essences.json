@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "silentgems:chaos_wisp_essence",
+    "silentgems:fire_wisp_essence",
+    "silentgems:water_wisp_essence",
+    "silentgems:ice_wisp_essence",
+    "silentgems:lightning_wisp_essence"
+  ]
+}

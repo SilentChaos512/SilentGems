@@ -1,5 +1,4 @@
 {
-  "parent": "silentgems:hardened_stone",
   "availability": {
     "tier": 3,
     "visible": true,
@@ -22,5 +21,42 @@
       "texture": "low_contrast",
       "color": "#98A05E"
     }
+  },
+  "stats": {
+    "main": {
+      "durability": 3072.0,
+      "armor_durability": 37.0,
+      "enchantability": 7.0,
+      "harvest_level": 3.0,
+      "harvest_speed": 6.0,
+      "melee_damage": 2.0,
+      "magic_damage": 3.0,
+      "attack_speed": -0.3,
+      "armor": 20.0,
+      "armor_toughness": 4.0,
+      "magic_armor": 10.0,
+      "ranged_damage": 0.0,
+      "ranged_speed": -0.3,
+      "rarity": 20.0,
+      "silentgems:chargeability": 0.7
+    },
+    "rod": {
+      "harvest_speed": {
+        "mul2": -0.1
+      },
+      "rarity": 5.0
+    }
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:chipping",
+        "level": 4
+      },
+      {
+        "name": "silentgear:synergistic",
+        "level": 1
+      }
+    ]
   }
 }
