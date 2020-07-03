@@ -18,16 +18,12 @@
 
 package net.silentchaos512.gems.init;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.fml.RegistryObject;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
 
@@ -35,7 +31,7 @@ public enum GemsSounds {
     SOUL_URN_LID(0.6f, 0, 1.1f, 0.05f),
     SOUL_URN_OPEN(0.6f, 0, 1.1f, 0.05f);
 
-    final Lazy<SoundEvent> sound;
+    @SuppressWarnings("NonFinalFieldInEnum") RegistryObject<SoundEvent> sound;
     final float volume;
     final float volumeVariation;
     final float pitch;
@@ -46,11 +42,13 @@ public enum GemsSounds {
         this.volumeVariation = volumeVariation;
         this.pitch = pitch;
         this.pitchVariation = pitchVariation;
+    }
 
-        sound = Lazy.of(() -> {
-            ResourceLocation id = new ResourceLocation(SilentGems.MOD_ID, getName());
-            return new SoundEvent(id);
-        });
+    static void register() {
+        for (GemsSounds sound : GemsSounds.values()) {
+            sound.sound = Registration.SOUND_EVENTS.register(sound.getName(), () ->
+                    new SoundEvent(SilentGems.getId(sound.getName())));
+        }
     }
 
     public SoundEvent get() {
@@ -85,26 +83,5 @@ public enum GemsSounds {
      */
     public void play(IWorld world, BlockPos pos, float volume, float pitch) {
         world.playSound(null, pos, this.get(), SoundCategory.PLAYERS, volume, pitch);
-    }
-
-    public static void registerAll(RegistryEvent.Register<SoundEvent> event) {
-        for (GemsSounds sound : values()) {
-            register(sound.getName(), sound.get());
-        }
-    }
-
-    private static void register(String name, SoundEvent sound) {
-        ResourceLocation id = new ResourceLocation(SilentGems.MOD_ID, name);
-        sound.setRegistryName(id);
-        ForgeRegistries.SOUND_EVENTS.register(sound);
-    }
-
-    public static void playAllHotswapFix(PlayerEntity player) {
-        // Hotswapping code before certain resources are used causes them to not load. In the case
-        // of SoundEvents, this causes the game to freeze. Obviously not an issue outside of an
-        // IDE, but playing all the sounds here should ensure I don't crash more than necessary...
-        for (GemsSounds sound : values()) {
-            player.world.playSound(null, player.getPosition(), sound.get(), SoundCategory.PLAYERS, 0.05f, 1f);
-        }
     }
 }

@@ -4,9 +4,8 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.init.GemsRecipeInit;
 import net.silentchaos512.gems.item.SoulGemItem;
 import net.silentchaos512.gems.lib.soul.GearSoul;
 import net.silentchaos512.gems.lib.soul.Soul;
@@ -18,9 +17,6 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class GearSoulRecipe extends ExtendedShapedRecipe {
-    public static final ResourceLocation NAME = SilentGems.getId("gear_soul");
-    public static final ExtendedShapedRecipe.Serializer<GearSoulRecipe> SERIALIZER = ExtendedShapedRecipe.Serializer.basic(GearSoulRecipe::new);
-
     public GearSoulRecipe(ShapedRecipe recipe) {
         super(recipe);
     }
@@ -47,6 +43,6 @@ public class GearSoulRecipe extends ExtendedShapedRecipe {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
+        return GemsRecipeInit.GEAR_SOUL_RECIPE.get();
     }
 }

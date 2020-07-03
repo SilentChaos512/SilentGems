@@ -45,14 +45,14 @@ public class LightningWispShotEntity extends AbstractWispShotEntity {
             LivingEntity livingEntity = (LivingEntity) entityIn;
 
             if (attackEntity(livingEntity)) {
-                EffectInstance effect = new EffectInstance(GemsEffects.shocking, SHOCK_DURATION, 0, false, false);
+                EffectInstance effect = new EffectInstance(GemsEffects.SHOCKING.get(), SHOCK_DURATION, 0, false, false);
                 livingEntity.addPotionEffect(effect);
             }
         }
     }
 
     private boolean attackEntity(LivingEntity entity) {
-        if (entity.getActivePotionEffect(GemsEffects.grounded) != null)
+        if (entity.getActivePotionEffect(GemsEffects.GROUNDED.get()) != null)
             return false;
         return entity.attackEntityFrom(ModDamageSource.causeWispShotDamage(this, this.shootingEntity), 4f);
     }

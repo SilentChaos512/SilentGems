@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.init.GemsRecipeInit;
 import net.silentchaos512.gems.item.ChaosRuneItem;
 import net.silentchaos512.gems.item.EnchantmentTokenItem;
 import net.silentchaos512.gems.util.InventoryUtils;
@@ -31,7 +32,6 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
             return "silentgems:token_enchanting";
         }
     };
-    public static final Serializer SERIALIZER = new Serializer();
 
     private final ResourceLocation id;
     private int chaosGenerated;
@@ -121,7 +121,7 @@ public class TokenEnchanterRecipe implements IRecipe<IInventory> {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
+        return GemsRecipeInit.TOKEN_ENCHANTING.get();
     }
 
     @Override

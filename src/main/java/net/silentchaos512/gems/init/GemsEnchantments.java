@@ -1,34 +1,23 @@
 package net.silentchaos512.gems.init;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.silentchaos512.gems.SilentGems;
+import net.minecraftforge.fml.RegistryObject;
 import net.silentchaos512.gems.enchantment.*;
 
+import java.util.function.Supplier;
+
 public final class GemsEnchantments {
-    public static EnchantmentGravity gravity;
-    public static EnchantmentLifeSteal lifeSteal;
-    public static EnchantmentIceAspect iceAspect;
-    public static EnchantmentLightningAspect lightningAspect;
-    public static EnchantmentSupercharged supercharged;
+    public static final RegistryObject<EnchantmentGravity> GRAVITY = register("gravity", EnchantmentGravity::new);
+    public static final RegistryObject<EnchantmentLifeSteal> LIFE_STEAL = register("life_steal", EnchantmentLifeSteal::new);
+    public static final RegistryObject<EnchantmentIceAspect> ICE_ASPECT = register("ice_aspect", EnchantmentIceAspect::new);
+    public static final RegistryObject<EnchantmentLightningAspect> LIGHTNING_ASPECT = register("lightning_aspect", EnchantmentLightningAspect::new);
+    public static final RegistryObject<EnchantmentSupercharged> SUPERCHARGED = register("supercharged", EnchantmentSupercharged::new);
 
     private GemsEnchantments() {}
 
-    public static void registerAll(RegistryEvent.Register<Enchantment> event) {
-        lifeSteal = register("life_steal", new EnchantmentLifeSteal());
-        gravity = register("gravity", new EnchantmentGravity());
-        iceAspect = register("ice_aspect", new EnchantmentIceAspect());
-        lightningAspect = register("lightning_aspect", new EnchantmentLightningAspect());
-        supercharged = register("supercharged", new EnchantmentSupercharged());
-    }
+    static void register() {}
 
-    private static <T extends Enchantment> T register(String name, T enchantment) {
-        ResourceLocation id = new ResourceLocation(SilentGems.MOD_ID, name);
-        enchantment.setRegistryName(id);
-        ForgeRegistries.ENCHANTMENTS.register(enchantment);
-
-        return enchantment;
+    private static <T extends Enchantment> RegistryObject<T> register(String name, Supplier<T> enchantment) {
+        return Registration.ENCHANTMENTS.register(name, enchantment);
     }
 }

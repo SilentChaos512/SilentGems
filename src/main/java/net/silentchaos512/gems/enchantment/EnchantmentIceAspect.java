@@ -50,7 +50,7 @@ public class EnchantmentIceAspect extends Enchantment {
     public static void applyTo(LivingEntity entityLiving, int enchLevel) {
         int duration = getEffectDuration(entityLiving, enchLevel);
         int amplifier = enchLevel - 1;
-        entityLiving.addPotionEffect(new EffectInstance(GemsEffects.freezing, duration, amplifier, true, false));
+        entityLiving.addPotionEffect(new EffectInstance(GemsEffects.FREEZING.get(), duration, amplifier, true, false));
     }
 
     private static int getEffectDuration(LivingEntity entityLiving, int enchLevel) {

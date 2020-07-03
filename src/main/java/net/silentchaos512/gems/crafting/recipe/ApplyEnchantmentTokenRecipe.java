@@ -1,23 +1,21 @@
 package net.silentchaos512.gems.crafting.recipe;
 
-import com.google.gson.JsonObject;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.ICraftingRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.item.crafting.SpecialRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.init.GemsRecipeInit;
 import net.silentchaos512.gems.item.EnchantmentTokenItem;
 
 import java.util.List;
 
-public class ApplyEnchantmentTokenRecipe implements ICraftingRecipe {
-    public static final ResourceLocation NAME = SilentGems.getId("apply_enchantment_token");
-    public static final Serializer SERIALIZER = new Serializer();
+public class ApplyEnchantmentTokenRecipe extends SpecialRecipe {
+    public ApplyEnchantmentTokenRecipe(ResourceLocation idIn) {
+        super(idIn);
+    }
 
     @Override
     public boolean matches(CraftingInventory inv, World worldIn) {
@@ -65,46 +63,7 @@ public class ApplyEnchantmentTokenRecipe implements ICraftingRecipe {
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
-        // Could be anything
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return NAME;
-    }
-
-    @Override
     public IRecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
-    }
-
-    @Override
-    public String getGroup() {
-        return SilentGems.MOD_ID;
-    }
-
-    @Override
-    public boolean isDynamic() {
-        // Don't show in recipe book
-        return true;
-    }
-
-    public static final class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<ApplyEnchantmentTokenRecipe> {
-        private Serializer() {}
-
-        @Override
-        public ApplyEnchantmentTokenRecipe read(ResourceLocation recipeId, JsonObject json) {
-            return new ApplyEnchantmentTokenRecipe();
-        }
-
-        @Override
-        public ApplyEnchantmentTokenRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
-            return new ApplyEnchantmentTokenRecipe();
-        }
-
-        @Override
-        public void write(PacketBuffer buffer, ApplyEnchantmentTokenRecipe recipe) {}
+        return GemsRecipeInit.APPLY_ENCHANTMENT_TOKEN.get();
     }
 }

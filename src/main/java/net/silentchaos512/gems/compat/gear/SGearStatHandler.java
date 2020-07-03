@@ -21,10 +21,8 @@ package net.silentchaos512.gems.compat.gear;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.GenericEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.silentchaos512.gear.api.event.GetStatModifierEvent;
 import net.silentchaos512.gear.api.stats.ItemStat;
@@ -68,7 +66,7 @@ public class SGearStatHandler {
     @SubscribeEvent
     public void onGetPartStats(GetStatModifierEvent event) {
         ItemStack stack = event.getPart().getCraftingItem();
-        int supercharged = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.supercharged, stack);
+        int supercharged = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.SUPERCHARGED.get(), stack);
 
         if (supercharged > 0 && BOOSTED_STATS.containsKey(event.getStat())) {
             float chargeability = CHARGEABILITY.compute(0, event.getPart().getStatModifiers(ItemStack.EMPTY, CHARGEABILITY));

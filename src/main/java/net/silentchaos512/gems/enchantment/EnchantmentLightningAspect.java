@@ -49,7 +49,7 @@ public class EnchantmentLightningAspect extends Enchantment {
      */
     public static void applyTo(LivingEntity entityLiving, int enchLevel, int duration) {
         int amplifier = enchLevel - 1;
-        entityLiving.addPotionEffect(new EffectInstance(GemsEffects.shocking, duration, amplifier, true, false));
+        entityLiving.addPotionEffect(new EffectInstance(GemsEffects.SHOCKING.get(), duration, amplifier, true, false));
     }
 
     public static void applyTo(LivingEntity entityLiving, int enchLevel) {

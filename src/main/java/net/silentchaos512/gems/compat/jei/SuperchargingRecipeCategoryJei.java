@@ -84,7 +84,7 @@ public class SuperchargingRecipeCategoryJei implements IRecipeCategory<Superchar
         List<ItemStack> outputs = new ArrayList<>();
         Arrays.stream(partMaterial.getMatchingStacks()).forEach(stack -> {
             ItemStack copy = stack.copy();
-            copy.addEnchantment(GemsEnchantments.supercharged, recipe.tier);
+            copy.addEnchantment(GemsEnchantments.SUPERCHARGED.get(), recipe.tier);
             outputs.add(copy);
         });
         ingredients.setOutputLists(VanillaTypes.ITEM, Collections.singletonList(outputs));

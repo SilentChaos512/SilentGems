@@ -25,9 +25,9 @@ public final class EnchantmentEvents {
 
         if (!mainHand.isEmpty()) {
             // Gravity enchantment.
-            int gravityLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.gravity, mainHand);
+            int gravityLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.GRAVITY.get(), mainHand);
             if (gravityLevel > 0) {
-                GemsEnchantments.gravity.onGetBreakSpeed(event, mainHand, gravityLevel);
+                GemsEnchantments.GRAVITY.get().onGetBreakSpeed(event, mainHand, gravityLevel);
             }
         }
     }
@@ -45,14 +45,14 @@ public final class EnchantmentEvents {
 
             // Get levels of relevant enchantments.
             if (!mainHand.isEmpty()) {
-                lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.lifeSteal, mainHand);
-                iceAspectLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.iceAspect, mainHand);
+                lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.LIFE_STEAL.get(), mainHand);
+                iceAspectLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.ICE_ASPECT.get(), mainHand);
                 lightningAspectLevel = EnchantmentHelper
-                        .getEnchantmentLevel(GemsEnchantments.lightningAspect, mainHand);
+                        .getEnchantmentLevel(GemsEnchantments.LIGHTNING_ASPECT.get(), mainHand);
             }
             // If not, is it on off hand?
             if (lifeStealLevel < 1 && !offHand.isEmpty()) {
-                lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.lifeSteal, offHand);
+                lifeStealLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.LIFE_STEAL.get(), offHand);
             }
 
             // Do life steal?

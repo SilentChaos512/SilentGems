@@ -10,8 +10,8 @@ import java.util.function.Predicate;
 public enum CostConditions {
     NO_CONDITION(p -> true),
     BURNING(Entity::isBurning),
-    FREEZING(p -> p.getActivePotionEffect(GemsEffects.freezing) != null),
-    SHOCKING(p -> p.getActivePotionEffect(GemsEffects.shocking) != null),
+    FREEZING(p -> p.getActivePotionEffect(GemsEffects.FREEZING.get()) != null),
+    SHOCKING(p -> p.getActivePotionEffect(GemsEffects.SHOCKING.get()) != null),
     FLYING(p -> p.abilities.isFlying),
     HURT(p -> p.getHealth() < p.getMaxHealth() - 0.5f),
     IN_AIR(p -> !p.onGround),

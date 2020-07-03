@@ -1,19 +1,17 @@
 package net.silentchaos512.gems.crafting.recipe;
 
-import com.google.gson.JsonObject;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.ICraftingRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.SpecialRecipe;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.GemsBlocks;
+import net.silentchaos512.gems.init.GemsRecipeInit;
 import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.urn.IUrnUpgradeItem;
@@ -26,9 +24,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class ModifySoulUrnRecipe implements ICraftingRecipe {
-    public static final ResourceLocation NAME = SilentGems.getId("modify_soul_urn");
-    public static final Serializer SERIALIZER = new Serializer();
+public class ModifySoulUrnRecipe extends SpecialRecipe {
+    public ModifySoulUrnRecipe(ResourceLocation idIn) {
+        super(idIn);
+    }
 
     @Override
     public boolean matches(CraftingInventory inv, World worldIn) {
@@ -160,41 +159,7 @@ public class ModifySoulUrnRecipe implements ICraftingRecipe {
     }
 
     @Override
-    public boolean isDynamic() {
-        // Don't show in recipe book
-        return true;
-    }
-
-    @Override
-    public String getGroup() {
-        return SilentGems.MOD_ID;
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return NAME;
-    }
-
-    @Override
     public IRecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
-    }
-
-    public static final class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<ModifySoulUrnRecipe> {
-
-        private Serializer() {}
-
-        @Override
-        public ModifySoulUrnRecipe read(ResourceLocation recipeId, JsonObject json) {
-            return new ModifySoulUrnRecipe();
-        }
-
-        @Override
-        public ModifySoulUrnRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
-            return new ModifySoulUrnRecipe();
-        }
-
-        @Override
-        public void write(PacketBuffer buffer, ModifySoulUrnRecipe recipe) {}
+        return GemsRecipeInit.MODIFY_SOUL_URN.get();
     }
 }

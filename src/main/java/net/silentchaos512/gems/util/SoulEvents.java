@@ -52,7 +52,7 @@ public final class SoulEvents {
         ItemStack mainHand = player.getHeldItemMainhand();
 
         // Overridden by the Gravity enchantment.
-        if (EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.gravity, mainHand) > 0) {
+        if (EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.GRAVITY.get(), mainHand) > 0) {
             return;
         }
 

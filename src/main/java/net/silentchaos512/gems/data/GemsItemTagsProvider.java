@@ -84,7 +84,10 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
         // Mod tags
         builder(GemsTags.Items.CHAOS_GEMS, Registration.getItems(ChaosGemItem.class));
         builder(GemsTags.Items.CHAOS_ORBS, Registration.getItems(ChaosOrbItem.class));
-        getBuilder(GemsTags.Items.CHARGING_AGENTS ).add(
+        builder(GemsTags.Items.CHARGING_AGENT_TIER1, CraftingItems.CHARGING_AGENT);
+        builder(GemsTags.Items.CHARGING_AGENT_TIER2, CraftingItems.SUPER_CHARGING_AGENT);
+        builder(GemsTags.Items.CHARGING_AGENT_TIER3, CraftingItems.ULTRA_CHARGING_AGENT);
+        getBuilder(GemsTags.Items.CHARGING_AGENTS).add(
                 GemsTags.Items.CHARGING_AGENT_TIER1,
                 GemsTags.Items.CHARGING_AGENT_TIER2,
                 GemsTags.Items.CHARGING_AGENT_TIER3);
@@ -103,6 +106,11 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
                 .add(Items.COD, Items.SALMON);
         getBuilder(GemsTags.Items.STEW_MEAT)
                 .add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT);
+        copy(GemsTags.Blocks.HARDENED_ROCKS, GemsTags.Items.HARDENED_ROCKS);
+        copy(GemsTags.Blocks.SUPERCHARGER_PILLAR_CAP, GemsTags.Items.SUPERCHARGER_PILLAR_CAP);
+        copy(GemsTags.Blocks.SUPERCHARGER_PILLAR_LEVEL1, GemsTags.Items.SUPERCHARGER_PILLAR_LEVEL1);
+        copy(GemsTags.Blocks.SUPERCHARGER_PILLAR_LEVEL2, GemsTags.Items.SUPERCHARGER_PILLAR_LEVEL2);
+        copy(GemsTags.Blocks.SUPERCHARGER_PILLAR_LEVEL3, GemsTags.Items.SUPERCHARGER_PILLAR_LEVEL3);
         builder(GemsTags.Items.TELEPORTER_CATALYST, CraftingItems.ENDER_CRYSTAL);
         gemBuilderItem(GemsTags.Items.TELEPORTERS, Gems::getTeleporter);
         getBuilder(GemsTags.Items.WISP_ESSENCES)

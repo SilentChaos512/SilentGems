@@ -262,7 +262,7 @@ public final class ChaosEvents {
     }
 
     private static boolean applyChaosSickness(PlayerEntity player, Integer chaos) {
-        player.addPotionEffect(new EffectInstance(GemsEffects.chaosSickness, TimeUtils.ticksFromMinutes(10)));
+        player.addPotionEffect(new EffectInstance(GemsEffects.CHAOS_SICKNESS.get(), TimeUtils.ticksFromMinutes(10)));
         player.addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, TimeUtils.ticksFromMinutes(5)));
         if (chaos > 2_000_000)
             player.addPotionEffect(new EffectInstance(Effects.HUNGER, TimeUtils.ticksFromMinutes(5)));

@@ -10,6 +10,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.silentchaos512.gems.init.GemsRecipeInit;
 
 public class AltarTransmutationRecipe extends SingleItemRecipe {
     public static final IRecipeType<AltarTransmutationRecipe> RECIPE_TYPE = new IRecipeType<AltarTransmutationRecipe>() {
@@ -18,14 +19,13 @@ public class AltarTransmutationRecipe extends SingleItemRecipe {
             return "silentgems:altar_transmutation";
         }
     };
-    public static final Serializer SERIALIZER = new Serializer();
 
     private final Ingredient catalyst;
     private int chaosGenerated = 5000;
     private int processTime = 200;
 
     public AltarTransmutationRecipe(ResourceLocation id, Ingredient ingredient, Ingredient catalyst, ItemStack result) {
-        super(RECIPE_TYPE, SERIALIZER, id, "", ingredient, result);
+        super(RECIPE_TYPE, GemsRecipeInit.ALTAR_TRANSMUTATION.get(), id, "", ingredient, result);
         this.catalyst = catalyst;
     }
 

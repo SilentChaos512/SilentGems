@@ -5,12 +5,14 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ICraftingRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.SpecialRecipe;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.init.GemsRecipeInit;
 import net.silentchaos512.gems.item.ChaosGemItem;
 import net.silentchaos512.gems.item.ChaosRuneItem;
 import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
@@ -18,9 +20,10 @@ import net.silentchaos512.lib.collection.StackList;
 
 import java.util.List;
 
-public class ApplyChaosRuneRecipe implements ICraftingRecipe {
-    public static final ResourceLocation NAME = SilentGems.getId("apply_chaos_rune");
-    public static final Serializer SERIALIZER = new Serializer();
+public class ApplyChaosRuneRecipe extends SpecialRecipe {
+    public ApplyChaosRuneRecipe(ResourceLocation idIn) {
+        super(idIn);
+    }
 
     @Override
     public boolean matches(CraftingInventory inv, World worldIn) {
@@ -73,41 +76,7 @@ public class ApplyChaosRuneRecipe implements ICraftingRecipe {
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
-        // Cannot determine
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return NAME;
-    }
-
-    @Override
     public IRecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
-    }
-
-    @Override
-    public boolean isDynamic() {
-        // Don't show in recipe book
-        return true;
-    }
-
-    public static final class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<ApplyChaosRuneRecipe> {
-        private Serializer() {}
-
-        @Override
-        public ApplyChaosRuneRecipe read(ResourceLocation recipeId, JsonObject json) {
-            return new ApplyChaosRuneRecipe();
-        }
-
-        @Override
-        public ApplyChaosRuneRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
-            return new ApplyChaosRuneRecipe();
-        }
-
-        @Override
-        public void write(PacketBuffer buffer, ApplyChaosRuneRecipe recipe) {}
+        return GemsRecipeInit.APPLY_CHAOS_RUNE.get();
     }
 }

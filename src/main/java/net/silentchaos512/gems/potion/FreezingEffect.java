@@ -62,7 +62,7 @@ public class FreezingEffect extends Effect {
     }
 
     private static boolean isInsulated(LivingEntity entity) {
-        return entity.getActivePotionEffect(GemsEffects.insulated) != null;
+        return entity.getActivePotionEffect(GemsEffects.INSULATED.get()) != null;
     }
 
     @Override

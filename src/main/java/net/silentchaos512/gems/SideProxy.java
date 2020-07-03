@@ -4,16 +4,11 @@ import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.Potion;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
@@ -70,18 +65,9 @@ class SideProxy implements IProxy {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcEnqueue);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcProcess);
 
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Enchantment.class, GemsEnchantments::registerAll);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(EntityType.class, GemsEntities::registerTypes);
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Effect.class, GemsEffects::registerEffects);
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(GlobalLootModifierSerializer.class, GemsLoot::registerGlobalModifiers);
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Potion.class, GemsEffects::registerPotions);
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(SoundEvent.class, GemsSounds::registerAll);
-
         MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStart);
         MinecraftForge.EVENT_BUS.register(Soul.Events.INSTANCE);
-
-        GemsLoot.init();
-        GemsRecipeInit.init();
 
         GemsConfig.init();
         Network.init();
@@ -104,7 +90,6 @@ class SideProxy implements IProxy {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-
         ChaosSourceCapability.register();
         UpgradePlanter.init();
 

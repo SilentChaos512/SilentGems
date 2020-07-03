@@ -9,10 +9,9 @@ import net.minecraft.world.storage.loot.functions.SetCount;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.loot.functions.SetSoulFunction;
@@ -21,11 +20,16 @@ import net.silentchaos512.gems.loot.modifier.SkullCollectorTraitLootModifier;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = SilentGems.MOD_ID)
 public final class GemsLoot {
+    public static final RegistryObject<GlobalLootModifierSerializer<?>> IMPERIAL = register("imperial", ImperialTraitLootModifier.Serializer::new);
+    public static final RegistryObject<GlobalLootModifierSerializer<?>> SKULL_COLLECTOR = register("skull_collector", SkullCollectorTraitLootModifier.Serializer::new);
+
     public static final ResourceLocation RANDOM_GEMS = SilentGems.getId("random_gems");
 
+    //region
     // Maps to max rolls for that table
     private static final Map<ResourceLocation, Integer> ADD_GEMS_TO = ImmutableMap.<ResourceLocation, Integer>builder()
             .put(LootTables.CHESTS_ABANDONED_MINESHAFT, 2)
@@ -46,30 +50,24 @@ public final class GemsLoot {
             LootTables.CHESTS_STRONGHOLD_CROSSING,
             LootTables.CHESTS_PILLAGER_OUTPOST
     );
+    //endregion
 
     private GemsLoot() {}
 
-    public static void init() {
+    static void register() {
         LootFunctionManager.registerFunction(SetSoulFunction.SERIALIZER);
 
         MinecraftForge.EVENT_BUS.addListener(GemsLoot::onLootTableLoad);
     }
 
-    public static void registerGlobalModifiers(RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
-        register("imperial", new ImperialTraitLootModifier.Serializer());
-        register("skull_collector", new SkullCollectorTraitLootModifier.Serializer());
-    }
-
-    private static <T extends GlobalLootModifierSerializer<?>> void register(String name, T serializer) {
-        ResourceLocation id = SilentGems.getId(name);
-        serializer.setRegistryName(id);
-        ForgeRegistries.LOOT_MODIFIER_SERIALIZERS.register(serializer);
+    private static <T extends GlobalLootModifierSerializer<?>> RegistryObject<T> register(String name, Supplier<T> serializer) {
+        return Registration.LOOT_MODIFIERS.register(name, serializer);
     }
 
     @SubscribeEvent
     public static void onLootTableLoad(LootTableLoadEvent event) {
         ResourceLocation tableName = event.getName();
-        if (ADD_GEMS_TO.keySet().contains(tableName)) {
+        if (ADD_GEMS_TO.containsKey(tableName)) {
             addGemsToTable(event, ADD_GEMS_TO.get(tableName));
         }
         if (ADD_RARE_ITEMS_TO.contains(tableName)) {

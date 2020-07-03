@@ -4,48 +4,39 @@ import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.silentchaos512.gems.SilentGems;
+import net.minecraftforge.fml.RegistryObject;
 import net.silentchaos512.gems.potion.BaseEffect;
 import net.silentchaos512.gems.potion.FreezingEffect;
 import net.silentchaos512.gems.potion.ShockingEffect;
 import net.silentchaos512.lib.util.TimeUtils;
 import net.silentchaos512.utils.Color;
 
+import java.util.function.Supplier;
+
 public final class GemsEffects {
-    public static FreezingEffect freezing;
-    public static ShockingEffect shocking;
-    public static Effect insulated;
-    public static Effect grounded;
-    public static Effect chaosSickness;
+    public static final RegistryObject<FreezingEffect> FREEZING = registerEffect("freezing", FreezingEffect::new);
+    public static final RegistryObject<ShockingEffect> SHOCKING = registerEffect("shocking", ShockingEffect::new);
+    public static final RegistryObject<Effect> INSULATED = registerEffect("insulated", () ->
+            new BaseEffect(EffectType.BENEFICIAL, 0x009499));
+    public static final RegistryObject<Effect> GROUNDED = registerEffect("grounded", () ->
+            new BaseEffect(EffectType.BENEFICIAL, 0x919900));
+    public static final RegistryObject<Effect> CHAOS_SICKNESS = registerEffect("chaos_sickness", () ->
+            new BaseEffect(EffectType.HARMFUL, Color.MEDIUMPURPLE.getColor()));
+
+    public static final RegistryObject<Potion> INSULATING_POTION = registerPotion("insulating", () ->
+            new Potion(new EffectInstance(INSULATED.get(), TimeUtils.ticksFromMinutes(3))));
+    public static final RegistryObject<Potion> GROUNDING_POTION = registerPotion("grounding", () ->
+            new Potion(new EffectInstance(GROUNDED.get(), TimeUtils.ticksFromMinutes(3))));
 
     private GemsEffects() {}
 
-    public static void registerEffects(RegistryEvent.Register<Effect> event) {
-        freezing = registerEffect("freezing", new FreezingEffect());
-        shocking = registerEffect("shocking", new ShockingEffect());
-        insulated = registerEffect("insulated", new BaseEffect(EffectType.BENEFICIAL, 0x009499));
-        grounded = registerEffect("grounded", new BaseEffect(EffectType.BENEFICIAL, 0x919900));
-        chaosSickness = registerEffect("chaos_sickness", new BaseEffect(EffectType.HARMFUL, Color.MEDIUMPURPLE.getColor()));
+    static void register() {}
+
+    private static <T extends Effect> RegistryObject<T> registerEffect(String name, Supplier<T> effect) {
+        return Registration.EFFECTS.register(name, effect);
     }
 
-    public static void registerPotions(RegistryEvent.Register<Potion> event) {
-        registerPotion("insulating", new Potion(new EffectInstance(insulated, TimeUtils.ticksFromMinutes(3))));
-        registerPotion("grounding", new Potion(new EffectInstance(grounded, TimeUtils.ticksFromMinutes(3))));
-    }
-
-    private static <T extends Effect> T registerEffect(String name, T potion) {
-        ResourceLocation id = SilentGems.getId(name);
-        potion.setRegistryName(id);
-        ForgeRegistries.POTIONS.register(potion);
-        return potion;
-    }
-
-    private static <T extends Potion> void registerPotion(String name, T potionType) {
-        ResourceLocation id = SilentGems.getId(name);
-        potionType.setRegistryName(id);
-        ForgeRegistries.POTION_TYPES.register(potionType);
+    private static <T extends Potion> RegistryObject<T> registerPotion(String name, Supplier<T> potion) {
+        return Registration.POTIONS.register(name, potion);
     }
 }

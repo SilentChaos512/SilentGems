@@ -140,7 +140,7 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
 
         ItemStack input = getInputItem();
         ItemStack catalyst = getCatalystItem();
-        int superchargedLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.supercharged, input);
+        int superchargedLevel = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.SUPERCHARGED.get(), input);
 
         if (!input.isEmpty() && !catalyst.isEmpty() && superchargedLevel < 1) {
             handleCharging(input, catalyst);
@@ -167,7 +167,7 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
                     if (getStackInSlot(2).isEmpty()) {
                         ItemStack output = input.copy();
                         output.setCount(1);
-                        output.addEnchantment(GemsEnchantments.supercharged, chargeTier);
+                        output.addEnchantment(GemsEnchantments.SUPERCHARGED.get(), chargeTier);
                         setInventorySlotContents(2, output);
                     } else {
                         getStackInSlot(2).grow(1);
@@ -256,7 +256,7 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
         if (output.isEmpty()) return true;
         return output.getCount() < output.getMaxStackSize()
                 && input.isItemEqual(output)
-                && EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.supercharged, output) == chargeTier
+                && EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.SUPERCHARGED.get(), output) == chargeTier
                 && SGearProxy.getGradeString(input).equalsIgnoreCase(SGearProxy.getGradeString(output));
     }
 

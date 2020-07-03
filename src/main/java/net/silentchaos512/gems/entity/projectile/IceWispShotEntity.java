@@ -43,14 +43,14 @@ public class IceWispShotEntity extends AbstractWispShotEntity {
             LivingEntity livingEntity = (LivingEntity) entityIn;
 
             if (attackEntity(livingEntity)) {
-                EffectInstance effect = new EffectInstance(GemsEffects.freezing, FREEZE_DURATION, 0, false, false);
+                EffectInstance effect = new EffectInstance(GemsEffects.FREEZING.get(), FREEZE_DURATION, 0, false, false);
                 livingEntity.addPotionEffect(effect);
             }
         }
     }
 
     private boolean attackEntity(LivingEntity entity) {
-        if (entity.getActivePotionEffect(GemsEffects.insulated) != null)
+        if (entity.getActivePotionEffect(GemsEffects.INSULATED.get()) != null)
             return false;
         return entity.attackEntityFrom(ModDamageSource.causeWispShotDamage(this, this.shootingEntity), 4f);
     }

@@ -88,7 +88,7 @@ public class ShockingEffect extends Effect {
     }
 
     private static boolean isGrounded(LivingEntity entity) {
-        return entity.getActivePotionEffect(GemsEffects.grounded) != null;
+        return entity.getActivePotionEffect(GemsEffects.GROUNDED.get()) != null;
     }
 
     @Override
