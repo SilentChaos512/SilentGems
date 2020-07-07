@@ -8,21 +8,16 @@
     },
     "others": [
       {
-        "item": "minecraft:dirt",
-        "count": 10
-      },
-      {
-        "item": "minecraft:bone_meal",
-        "count": 30
-      },
-      {
-        "tag": "silentgems:glowroses",
+        "item": "minecraft:ender_eye",
         "count": 2
+      },
+      {
+        "item": "minecraft:hopper",
+        "count": 1
       }
     ]
   },
   "result": {
-    "item": "silentgems:planter_urn_upgrade",
-    "count": 1
+    "item": "silentgems:vacuum_urn_upgrade"
   }
 }

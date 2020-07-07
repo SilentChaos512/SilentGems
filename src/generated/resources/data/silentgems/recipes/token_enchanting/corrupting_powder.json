@@ -12,13 +12,13 @@
         "count": 2
       },
       {
-        "tag": "forge:dusts/glowstone",
+        "tag": "forge:dusts/redstone",
         "count": 2
       }
     ]
   },
   "result": {
-    "item": "silentgems:purifying_powder",
+    "item": "silentgems:corrupting_powder",
     "count": 4
   }
 }

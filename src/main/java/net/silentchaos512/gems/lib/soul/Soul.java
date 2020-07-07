@@ -75,6 +75,10 @@ public final class Soul {
         }
     }
 
+    public static boolean canHaveSoulGem(EntityType<?> type) {
+        return type.getClassification() != EntityClassification.MISC;
+    }
+
     //region Getters
 
     public ResourceLocation getId() {
@@ -217,17 +221,13 @@ public final class Soul {
             long seed = calculateSeed(event);
             World world = event.getServer().getWorld(DimensionType.OVERWORLD);
             for (EntityType<?> entityType : ForgeRegistries.ENTITIES.getValues()) {
-                if (canHaveSoulGem(entityType, world)) {
+                if (canHaveSoulGem(entityType)) {
                     Soul soul = new Soul(seed, entityType);
                     MAP.put(entityType, soul);
                     ResourceLocation id = Objects.requireNonNull(entityType.getRegistryName());
                     MAP_BY_ID.put(id.toString(), soul);
                 }
             }
-        }
-
-        private static boolean canHaveSoulGem(EntityType<?> type, World world) {
-            return type.getClassification() != EntityClassification.MISC;
         }
 
         @SubscribeEvent

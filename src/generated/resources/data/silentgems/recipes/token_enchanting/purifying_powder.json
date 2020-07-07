@@ -1,23 +1,24 @@
 {
   "type": "silentgems:token_enchanting",
-  "chaosGenerated": 150,
+  "chaosGenerated": 50,
   "processTime": 20,
   "ingredients": {
     "token": {
-      "item": "minecraft:quartz"
+      "item": "silentgems:chaos_dust"
     },
     "others": [
       {
-        "tag": "forge:gems/chaos",
-        "count": 4
+        "tag": "silentgems:corrupted_dusts",
+        "count": 2
       },
       {
         "tag": "forge:dusts/glowstone",
-        "count": 4
+        "count": 2
       }
     ]
   },
   "result": {
-    "item": "silentgems:enriched_chaos_crystal"
+    "item": "silentgems:purifying_powder",
+    "count": 4
   }
 }

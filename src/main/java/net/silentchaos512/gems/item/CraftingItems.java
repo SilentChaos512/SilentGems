@@ -56,8 +56,8 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
     SUPER_CHARGING_AGENT,
     ULTRA_CHARGING_AGENT,
     CHAOS_COAL,
-    ENDER_SLIMEBALL,
-    CORRUPTED_SLIMEBALL,
+    ENDER_SLIMEBALL, // FIXME: Should be "slime_ball"?
+    CORRUPTED_SLIMEBALL, // FIXME: Should be "slime_ball"?
     SLIME_CRYSTAL,
     MAGMA_CREAM_CRYSTAL,
     ENDER_SLIME_CRYSTAL,

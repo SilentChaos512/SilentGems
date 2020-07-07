@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.crafting.ingredient;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -24,6 +25,10 @@ public class SoulGemIngredient extends Ingredient {
         this.soulId = soulId;
     }
 
+    public static SoulGemIngredient of(ResourceLocation soulId) {
+        return new SoulGemIngredient(soulId);
+    }
+
     @Override
     public boolean test(@Nullable ItemStack stack) {
         if (stack == null || stack.isEmpty()) return false;
@@ -34,6 +39,14 @@ public class SoulGemIngredient extends Ingredient {
     @Override
     public IIngredientSerializer<? extends Ingredient> getSerializer() {
         return Serializer.INSTANCE;
+    }
+
+    @Override
+    public JsonElement serialize() {
+        JsonObject json = new JsonObject();
+        json.addProperty("type", Serializer.NAME.toString());
+        json.addProperty("soul", this.soulId.toString());
+        return json;
     }
 
     public static final class Serializer implements IIngredientSerializer<SoulGemIngredient> {

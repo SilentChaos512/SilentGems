@@ -9,7 +9,7 @@
     "others": [
       {
         "type": "silentgems:soul_gem",
-        "soul": "minecraft:villager",
+        "soul": "minecraft:wandering_trader",
         "count": 4
       },
       {
@@ -19,6 +19,6 @@
     ]
   },
   "result": {
-    "item": "minecraft:villager_spawn_egg"
+    "item": "minecraft:wandering_trader_spawn_egg"
   }
 }

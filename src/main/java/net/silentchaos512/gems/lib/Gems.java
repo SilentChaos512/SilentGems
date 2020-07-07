@@ -113,6 +113,7 @@ public enum Gems implements IStringSerializable {
     final Tag<Block> blockTag;
     final Tag<Block> glowroseTag;
     final Tag<Block> oreTag;
+    final Tag<Item> blockItemTag;
     final Tag<Item> itemTag;
     final Tag<Item> shardTag;
 
@@ -124,6 +125,7 @@ public enum Gems implements IStringSerializable {
         this.blockTag = new BlockTags.Wrapper(new ResourceLocation("forge", "storage_blocks/" + this.getName()));
         this.glowroseTag = new BlockTags.Wrapper(new ResourceLocation(SilentGems.MOD_ID, "glowroses/" + this.getName()));
         this.oreTag = new BlockTags.Wrapper(new ResourceLocation("forge", "ores/" + this.getName()));
+        this.blockItemTag = new ItemTags.Wrapper(new ResourceLocation("forge", "storage_blocks/" + this.getName()));
         this.itemTag = new ItemTags.Wrapper(new ResourceLocation("forge", "gems/" + this.getName()));
         this.shardTag = new ItemTags.Wrapper(new ResourceLocation("forge", "nuggets/" + this.getName()));
     }
@@ -337,6 +339,10 @@ public enum Gems implements IStringSerializable {
 
     public Tag<Block> getBlockTag() {
         return blockTag;
+    }
+
+    public Tag<Item> getBlockItemTag() {
+        return blockItemTag;
     }
 
     public Tag<Block> getGlowroseTag() {

@@ -1,0 +1,24 @@
+{
+  "type": "silentgems:token_enchanting",
+  "chaosGenerated": 1000,
+  "processTime": 200,
+  "ingredients": {
+    "token": {
+      "item": "minecraft:egg"
+    },
+    "others": [
+      {
+        "type": "silentgems:soul_gem",
+        "soul": "minecraft:panda",
+        "count": 4
+      },
+      {
+        "item": "silentgems:enriched_chaos_crystal",
+        "count": 4
+      }
+    ]
+  },
+  "result": {
+    "item": "minecraft:panda_spawn_egg"
+  }
+}
