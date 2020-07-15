@@ -24,7 +24,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IItemProvider;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -39,7 +38,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
 
-public enum CraftingItems implements IItemProvider, IStringSerializable {
+public enum CraftingItems implements IItemProvider {
     CHAOS_CRYSTAL,
     ENRICHED_CHAOS_CRYSTAL,
     CHAOS_CRYSTAL_SHARD,
@@ -103,7 +102,6 @@ public enum CraftingItems implements IItemProvider, IStringSerializable {
         return item.get();
     }
 
-    @Override
     public String getName() {
         return name().toLowerCase(Locale.ROOT);
     }

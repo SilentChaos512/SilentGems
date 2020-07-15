@@ -57,6 +57,7 @@ public final class Registration {
         GemsContainers.register();
         GemsEffects.register();
         GemsEnchantments.register();
+        //GemsEntities.register();
         GemsItems.register();
         GemsLoot.register();
         GemsRecipeInit.register();

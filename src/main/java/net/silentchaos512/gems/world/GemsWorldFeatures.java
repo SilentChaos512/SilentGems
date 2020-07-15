@@ -213,7 +213,7 @@ public final class GemsWorldFeatures {
         }
         if (maxCount > 0) {
             int count = MathUtils.nextIntInclusive(random, minCount, maxCount);
-            int size = MathUtils.nextIntInclusive(random, 12, 18);
+            int size = MathUtils.nextIntInclusive(random, 6, 9);
             int maxHeight = MathUtils.nextIntInclusive(random, 15, 25);
             //SilentGems.LOGGER.debug("    Biome {}: add chaos ore (size {}, count {}, maxHeight {})", biome, size, count, maxHeight);
             addOre(biome, MiscOres.CHAOS.asBlock(), size, count, 5, maxHeight, d -> true);
@@ -221,7 +221,7 @@ public final class GemsWorldFeatures {
     }
 
     private static void addEnderOre(Biome biome, Random random) {
-        addOre(biome, MiscOres.ENDER.asBlock(), 32, GemsConfig.COMMON.worldGenEnderOreCount.get(), 10, 70, state -> state.getBlock() == Blocks.END_STONE, d -> true);
+        addOre(biome, MiscOres.ENDER.asBlock(), 16, GemsConfig.COMMON.worldGenEnderOreCount.get(), 10, 70, state -> state.getBlock() == Blocks.END_STONE, d -> true);
     }
 
     private static void addSilverOre(Biome biome, Random random) {

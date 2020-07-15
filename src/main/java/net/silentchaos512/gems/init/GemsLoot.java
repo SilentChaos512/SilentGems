@@ -27,8 +27,6 @@ public final class GemsLoot {
     public static final RegistryObject<GlobalLootModifierSerializer<?>> IMPERIAL = register("imperial", ImperialTraitLootModifier.Serializer::new);
     public static final RegistryObject<GlobalLootModifierSerializer<?>> SKULL_COLLECTOR = register("skull_collector", SkullCollectorTraitLootModifier.Serializer::new);
 
-    public static final ResourceLocation RANDOM_GEMS = SilentGems.getId("random_gems");
-
     //region
     // Maps to max rolls for that table
     private static final Map<ResourceLocation, Integer> ADD_GEMS_TO = ImmutableMap.<ResourceLocation, Integer>builder()
@@ -82,7 +80,7 @@ public final class GemsLoot {
         event.getTable().addPool((new LootPool.Builder())
                 .name("silentgems_added_gems")
                 .rolls(new RandomValueRange(1, maxRolls))
-                .addEntry(TableLootEntry.builder(RANDOM_GEMS)
+                .addEntry(TableLootEntry.builder(GemsLootTables.GEMS)
                         .weight(10)
                         .acceptFunction(SetCount.builder(new RandomValueRange(2, 5)))
                 )

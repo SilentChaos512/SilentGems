@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:gift",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "weight": 15,
+          "name": "silentgems:classic_gems"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "weight": 5,
+          "name": "silentgems:dark_gems"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "silentgems:light_gems"
+        }
+      ]
+    }
+  ]
+}

@@ -118,6 +118,10 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
                         .filter(item -> item.getName().endsWith("wisp_essence"))
                         .map(IItemProvider::asItem)
                         .toArray(Item[]::new));
+
+        gemSetBuilder(GemsTags.Items.GEMS_CLASSIC, Gems.Set.CLASSIC, Gems::getItemTag);
+        gemSetBuilder(GemsTags.Items.GEMS_DARK, Gems.Set.DARK, Gems::getItemTag);
+        gemSetBuilder(GemsTags.Items.GEMS_LIGHT, Gems.Set.LIGHT, Gems::getItemTag);
     }
 
     private void builder(Tag<Item> tag, IItemProvider item) {
@@ -142,6 +146,11 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
             Item item = gemTagGetter.apply(gems).asItem();
             builder.add(item);
         }
+    }
+
+    private void gemSetBuilder(Tag<Item> tag, Gems.Set set, Function<Gems, Tag<Item>> gemTagGetter) {
+        Tag.Builder<Item> builder = getBuilder(tag);
+        set.iterator().forEachRemaining(gem -> builder.add(gemTagGetter.apply(gem)));
     }
 
     private void copyBlock(Tag<Block> tag) {

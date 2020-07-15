@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:gift",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:tag",
+          "name": "silentgems:gems/dark",
+          "expand": true
+        }
+      ]
+    }
+  ]
+}

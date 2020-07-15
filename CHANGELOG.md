@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Changed
+- Chaos and ender ores spawn smaller veins, but drop more per block
+- Ender slime loot table moved to `silentgems:entities/ender_slime`
+
 ## [3.5.6] - 2020-07-02
 ### Added
 - Generated files for Silent Gear's new WIP material system (only main stats for now)

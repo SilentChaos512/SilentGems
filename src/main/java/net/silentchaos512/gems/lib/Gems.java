@@ -4,6 +4,7 @@ import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerPotBlock;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -140,13 +141,27 @@ public enum Gems implements IStringSerializable {
         for (Gems gem : values())
             gem.glass = registerBlock(gem.getName() + "_glass", () -> new GemGlassBlock(gem));
         for (Gems gem : values())
-            gem.lampUnlit = registerBlock(gem.getName() + "_lamp", () -> new GemLampBlock(gem, GemLampBlock.State.UNLIT));
+            gem.lampUnlit = registerBlock(gem.getName() + "_lamp", () ->
+                    new GemLampBlock(gem, GemLampBlock.State.UNLIT, Block.Properties.create(Material.REDSTONE_LIGHT)
+                            .hardnessAndResistance(0.3f, 15)
+                            .lightValue(0)));
         for (Gems gem : values())
-            gem.lampLit = registerBlockNoItem(gem.getName() + "_lamp_lit", () -> new GemLampBlock(gem, GemLampBlock.State.LIT));
+            gem.lampLit = registerBlockNoItem(gem.getName() + "_lamp_lit", () ->
+                    new GemLampBlock(gem, GemLampBlock.State.LIT, Block.Properties.create(Material.REDSTONE_LIGHT)
+                            .hardnessAndResistance(0.3f, 15)
+                            .lightValue(15)
+                            .lootFrom(gem.getLamp(GemLampBlock.State.UNLIT))));
         for (Gems gem : values())
-            gem.lampInvertedLit = registerBlock(gem.getName() + "_lamp_inverted_lit", () -> new GemLampBlock(gem, GemLampBlock.State.INVERTED_LIT));
+            gem.lampInvertedLit = registerBlock(gem.getName() + "_lamp_inverted_lit", () ->
+                    new GemLampBlock(gem, GemLampBlock.State.INVERTED_LIT, Block.Properties.create(Material.REDSTONE_LIGHT)
+                            .hardnessAndResistance(0.3f, 15)
+                            .lightValue(15)));
         for (Gems gem : values())
-            gem.lampInvertedUnlit = registerBlockNoItem(gem.getName() + "_lamp_inverted", () -> new GemLampBlock(gem, GemLampBlock.State.INVERTED_UNLIT));
+            gem.lampInvertedUnlit = registerBlockNoItem(gem.getName() + "_lamp_inverted", () ->
+                    new GemLampBlock(gem, GemLampBlock.State.INVERTED_UNLIT, Block.Properties.create(Material.REDSTONE_LIGHT)
+                            .hardnessAndResistance(0.3f, 15)
+                            .lightValue(0)
+                            .lootFrom(gem.getLamp(GemLampBlock.State.INVERTED_LIT))));
         for (Gems gem : values())
             gem.glowrose = registerBlock(gem.getName() + "_glowrose", () -> new GlowroseBlock(gem));
         for (Gems gem : values()) {

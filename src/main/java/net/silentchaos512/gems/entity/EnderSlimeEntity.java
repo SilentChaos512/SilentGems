@@ -15,14 +15,11 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.SilentGems;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class EnderSlimeEntity extends SlimeEntity {
-    private static final ResourceLocation LOOT_TABLE = SilentGems.getId("ender_slime");
-
     public EnderSlimeEntity(EntityType<? extends EnderSlimeEntity> typeIn, World worldIn) {
         super(typeIn, worldIn);
     }
@@ -69,11 +66,6 @@ public class EnderSlimeEntity extends SlimeEntity {
     @Override
     protected IParticleData getSquishParticle() {
         return ParticleTypes.DRAGON_BREATH;
-    }
-
-    @Override
-    protected ResourceLocation getLootTable() {
-        return LOOT_TABLE;
     }
 
     @Override

@@ -20,7 +20,6 @@ package net.silentchaos512.gems.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -78,10 +77,8 @@ public class GemLampBlock extends Block implements IGemBlock {
     private final Gems gem;
     private final State lampState;
 
-    public GemLampBlock(Gems gem, State lampState) {
-        super(Properties.create(Material.REDSTONE_LIGHT)
-                .hardnessAndResistance(0.3f, 15)
-                .lightValue(lampState.lit ? 15 : 0));
+    public GemLampBlock(Gems gem, State lampState, Properties properties) {
+        super(properties);
 
         this.gem = gem;
         this.lampState = lampState;

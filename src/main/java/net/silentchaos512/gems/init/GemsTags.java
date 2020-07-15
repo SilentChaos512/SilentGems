@@ -69,6 +69,9 @@ public class GemsTags {
         public static final Tag<Item> FLUFFY_BLOCKS = gems("fluffy_blocks");
         public static final Tag<Item> GEM_BLOCKS = gems("gem_blocks");
         public static final Tag<Item> GEMS = gems("gems");
+        public static final Tag<Item> GEMS_CLASSIC = gems("gems/classic");
+        public static final Tag<Item> GEMS_DARK = gems("gems/dark");
+        public static final Tag<Item> GEMS_LIGHT = gems("gems/light");
         public static final Tag<Item> GLOWROSES = gems("glowroses");
         public static final Tag<Item> HARDENED_ROCKS = gems("hardened_rocks");
         public static final Tag<Item> PEDESTALS = gems("pedestals");
