@@ -1,18 +1,24 @@
 package net.silentchaos512.gems.data.recipe;
 
 import net.minecraft.block.Blocks;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.RecipeProvider;
+import net.minecraft.data.*;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.Tag;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.fml.RegistryObject;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.block.MiscOres;
 import net.silentchaos512.gems.crafting.ingredient.SoulGemIngredient;
 import net.silentchaos512.gems.init.GemsItems;
+import net.silentchaos512.gems.init.GemsRecipeInit;
 import net.silentchaos512.gems.init.GemsTags;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.SoulUrnUpgrades;
@@ -34,7 +40,47 @@ public class GemsRecipeProvider extends RecipeProvider {
 
     @Override
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
+        registerGemRecipes(consumer);
+        registerSpecialRecipes(consumer);
         registerTokenEnchanting(consumer);
+
+        smeltingAndBlasting(consumer, "chaos_ore", MiscOres.CHAOS, CraftingItems.CHAOS_CRYSTAL);
+        smeltingAndBlasting(consumer, "ender_ore", MiscOres.ENDER, CraftingItems.ENDER_CRYSTAL);
+        smeltingAndBlasting(consumer, "silver_ore", MiscOres.SILVER, CraftingItems.SILVER_INGOT);
+    }
+
+    private void registerGemRecipes(Consumer<IFinishedRecipe> consumer) {
+        for (Gems gem : Gems.values()) {
+            smeltingAndBlasting(consumer, NameUtils.from(gem.getOre()).getPath(), gem.getOreItemTag(), gem.getItem());
+        }
+    }
+
+    private void smeltingAndBlasting(Consumer<IFinishedRecipe> consumer, String id, IItemProvider ingredientItem, IItemProvider result) {
+        Ingredient ingredientIn = Ingredient.fromItems(ingredientItem);
+        smeltingAndBlasting(consumer, id, ingredientIn, result);
+    }
+
+    private void smeltingAndBlasting(Consumer<IFinishedRecipe> consumer, String id, Tag<Item> ingredientTag, IItemProvider result) {
+        Ingredient ingredientIn = Ingredient.fromTag(ingredientTag);
+        smeltingAndBlasting(consumer, id, ingredientIn, result);
+    }
+
+    private void smeltingAndBlasting(Consumer<IFinishedRecipe> consumer, String id, Ingredient ingredientIn, IItemProvider result) {
+        // FIXME: Don't want advancements here...
+//        CookingRecipeBuilder.blastingRecipe(ingredientIn, result, 1.0f, 100)
+//                .build(consumer, SilentGems.getId("blasting/" + id));
+//        CookingRecipeBuilder.smeltingRecipe(ingredientIn, result, 1.0f, 200)
+//                .build(consumer, SilentGems.getId("smelting/" + id));
+    }
+
+    private static void registerSpecialRecipes(Consumer<IFinishedRecipe> consumer) {
+        customRecipe(consumer, GemsRecipeInit.APPLY_CHAOS_RUNE);
+        customRecipe(consumer, GemsRecipeInit.APPLY_ENCHANTMENT_TOKEN);
+        customRecipe(consumer, GemsRecipeInit.MODIFY_SOUL_URN);
+    }
+
+    private static void customRecipe(Consumer<IFinishedRecipe> consumer, RegistryObject<SpecialRecipeSerializer<?>> serializer) {
+        CustomRecipeBuilder.customRecipe(serializer.get()).build(consumer, serializer.getId().toString());
     }
 
     private void registerTokenEnchanting(Consumer<IFinishedRecipe> consumer) {

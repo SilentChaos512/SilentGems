@@ -16,13 +16,13 @@ import java.util.function.Supplier;
 
 public final class GemsRecipeInit {
     public static final RegistryObject<AltarTransmutationRecipe.Serializer> ALTAR_TRANSMUTATION = registerSerializer("altar_transmutation", AltarTransmutationRecipe.Serializer::new);
-    public static final RegistryObject<IRecipeSerializer<?>> APPLY_CHAOS_RUNE = registerSerializer("apply_chaos_rune", () ->
+    public static final RegistryObject<SpecialRecipeSerializer<?>> APPLY_CHAOS_RUNE = registerSerializer("apply_chaos_rune", () ->
             new SpecialRecipeSerializer<>(ApplyChaosRuneRecipe::new));
-    public static final RegistryObject<IRecipeSerializer<?>> APPLY_ENCHANTMENT_TOKEN = registerSerializer("apply_enchantment_token", () ->
+    public static final RegistryObject<SpecialRecipeSerializer<?>> APPLY_ENCHANTMENT_TOKEN = registerSerializer("apply_enchantment_token", () ->
             new SpecialRecipeSerializer<>(ApplyEnchantmentTokenRecipe::new));
     public static final RegistryObject<IRecipeSerializer<?>> GEAR_SOUL_RECIPE = registerSerializer("gear_soul", () ->
             ExtendedShapedRecipe.Serializer.basic(GearSoulRecipe::new));
-    public static final RegistryObject<IRecipeSerializer<?>> MODIFY_SOUL_URN = registerSerializer("modify_soul_urn", () ->
+    public static final RegistryObject<SpecialRecipeSerializer<?>> MODIFY_SOUL_URN = registerSerializer("modify_soul_urn", () ->
             new SpecialRecipeSerializer<>(ModifySoulUrnRecipe::new));
     public static final RegistryObject<SoulUrnRecipe.Serializer> SOUL_URN = registerSerializer("soul_urn", SoulUrnRecipe.Serializer::new);
     public static final RegistryObject<TokenEnchanterRecipe.Serializer> TOKEN_ENCHANTING = registerSerializer("token_enchanting", TokenEnchanterRecipe.Serializer::new);
