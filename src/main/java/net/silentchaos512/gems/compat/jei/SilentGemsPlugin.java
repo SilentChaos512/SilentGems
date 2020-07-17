@@ -17,8 +17,8 @@ import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.silentchaos512.gear.api.parts.IGearPart;
-import net.silentchaos512.gear.parts.PartManager;
+import net.silentchaos512.gear.api.parts.PartType;
+import net.silentchaos512.gear.gear.material.MaterialManager;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.altar.AltarScreen;
 import net.silentchaos512.gems.block.supercharger.SuperchargerPillarStructure;
@@ -30,7 +30,10 @@ import net.silentchaos512.gems.crafting.recipe.TokenEnchanterRecipe;
 import net.silentchaos512.gems.init.GemsBlocks;
 import net.silentchaos512.gems.init.GemsItems;
 import net.silentchaos512.gems.init.GemsTags;
-import net.silentchaos512.gems.item.*;
+import net.silentchaos512.gems.item.ChaosRuneItem;
+import net.silentchaos512.gems.item.CraftingItems;
+import net.silentchaos512.gems.item.EnchantmentTokenItem;
+import net.silentchaos512.gems.item.SoulGemItem;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.chaosbuff.IChaosBuff;
 import net.silentchaos512.gems.lib.soul.Soul;
@@ -117,9 +120,9 @@ public class SilentGemsPlugin implements IModPlugin {
 
             // Supercharging
             IntStream.rangeClosed(1, 3).forEach(tier -> reg.addRecipes(
-                    PartManager.getMains().stream()
-                            .filter(IGearPart::isVisible)
-                            .map(part -> new SuperchargingRecipeCategoryJei.Recipe(part, tier))
+                    MaterialManager.getValues().stream()
+                            .filter(mat -> mat.isVisible(PartType.MAIN))
+                            .map(mat -> new SuperchargingRecipeCategoryJei.Recipe(mat, tier))
                             .collect(Collectors.toList()),
                     SUPERCHARGING
             ));

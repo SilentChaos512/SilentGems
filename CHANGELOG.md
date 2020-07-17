@@ -3,10 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.5.7] - 2020-07-17
+- Requires Silent Gear 1.9.5
 ### Changed
 - Chaos and ender ores spawn smaller veins, but drop more per block
 - Ender slime loot table moved to `silentgems:entities/ender_slime`
+### Fixed
+- Supercharging not working on new materials [#472]
 
 ## [3.5.6] - 2020-07-02
 ### Added

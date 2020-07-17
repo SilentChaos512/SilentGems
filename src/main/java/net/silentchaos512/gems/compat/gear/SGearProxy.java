@@ -62,4 +62,14 @@ public final class SGearProxy {
         if (modLoaded) return SGearCompat.getTraitLevel(stack, traitId);
         return 0;
     }
+
+    public static boolean isMaterial(ItemStack stack) {
+        if (modLoaded) return SGearCompat.isMaterial(stack);
+        return false;
+    }
+
+    public static int getMaterialTier(ItemStack stack) {
+        if (modLoaded) return SGearCompat.getMaterialTier(stack);
+        return -1;
+    }
 }

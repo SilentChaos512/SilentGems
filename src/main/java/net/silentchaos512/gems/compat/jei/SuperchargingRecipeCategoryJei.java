@@ -15,7 +15,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
-import net.silentchaos512.gear.api.parts.IGearPart;
+import net.silentchaos512.gear.api.material.IMaterial;
+import net.silentchaos512.gear.api.parts.PartType;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 import net.silentchaos512.gems.block.supercharger.SuperchargerTileEntity;
 import net.silentchaos512.gems.init.GemsBlocks;
@@ -76,13 +77,13 @@ public class SuperchargingRecipeCategoryJei implements IRecipeCategory<Superchar
     public void setIngredients(SuperchargingRecipeCategoryJei.Recipe recipe, IIngredients ingredients) {
         Tag<Item> catalystTag = recipe.getCatalystTag();
         if (catalystTag == null) return;
-        Ingredient partMaterial = recipe.part.getMaterials().getNormal();
+        Ingredient ingredient = recipe.material.getIngredient(PartType.MAIN);
         ingredients.setInputIngredients(Arrays.asList(
-                partMaterial,
+                ingredient,
                 Ingredient.fromTag(catalystTag)
         ));
         List<ItemStack> outputs = new ArrayList<>();
-        Arrays.stream(partMaterial.getMatchingStacks()).forEach(stack -> {
+        Arrays.stream(ingredient.getMatchingStacks()).forEach(stack -> {
             ItemStack copy = stack.copy();
             copy.addEnchantment(GemsEnchantments.SUPERCHARGED.get(), recipe.tier);
             outputs.add(copy);
@@ -113,11 +114,11 @@ public class SuperchargingRecipeCategoryJei implements IRecipeCategory<Superchar
     }
 
     static final class Recipe {
-        final IGearPart part;
+        final IMaterial material;
         final int tier;
 
-        Recipe(IGearPart part, int tier) {
-            this.part = part;
+        Recipe(IMaterial material, int tier) {
+            this.material = material;
             this.tier = tier;
         }
 

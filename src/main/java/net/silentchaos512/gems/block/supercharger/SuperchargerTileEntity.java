@@ -155,7 +155,7 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
     private void handleCharging(ItemStack input, ItemStack catalyst) {
         int chargeTier = getChargingAgentTier(catalyst);
         if (chargeTier > 0 && chargeTier <= this.structureLevel) {
-            int partTier = SGearProxy.getPartTier(input);
+            int partTier = SGearProxy.getMaterialTier(input);
             chaosGenerated = getEmissionRate(partTier, chargeTier);
             chaosBuffer += chaosGenerated;
 
@@ -197,7 +197,7 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
 
     private ItemStack getInputItem() {
         ItemStack stack = getStackInSlot(0);
-        return SGearProxy.isMainPart(stack) ? stack : ItemStack.EMPTY;
+        return SGearProxy.isMaterial(stack) ? stack : ItemStack.EMPTY;
     }
 
     private ItemStack getCatalystItem() {
@@ -272,7 +272,7 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
 
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
-        if (index == 0) return SGearProxy.isMainPart(stack);
+        if (index == 0) return SGearProxy.isMaterial(stack);
         if (index == 1) return stack.getItem().isIn(GemsTags.Items.CHARGING_AGENTS);
         return false;
     }

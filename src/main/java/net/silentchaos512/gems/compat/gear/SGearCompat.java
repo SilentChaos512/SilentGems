@@ -20,8 +20,10 @@ package net.silentchaos512.gems.compat.gear;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.silentchaos512.gear.api.material.IMaterial;
 import net.silentchaos512.gear.api.parts.MaterialGrade;
 import net.silentchaos512.gear.api.parts.PartType;
+import net.silentchaos512.gear.gear.material.MaterialManager;
 import net.silentchaos512.gear.parts.PartData;
 import net.silentchaos512.gear.util.TraitHelper;
 
@@ -47,5 +49,14 @@ public final class SGearCompat {
 
     public static int getTraitLevel(ItemStack stack, ResourceLocation traitId) {
         return TraitHelper.getTraitLevel(stack, traitId);
+    }
+
+    public static boolean isMaterial(ItemStack stack) {
+        return MaterialManager.from(stack) != null;
+    }
+
+    public static int getMaterialTier(ItemStack stack) {
+        IMaterial material = MaterialManager.from(stack);
+        return material != null ? material.getTier(PartType.MAIN) : -1;
     }
 }
