@@ -167,7 +167,7 @@ public class ReturnHomeCharmItem extends Item implements IGem /*implements IBaub
                 tryTeleportPlayer(stack, player);
 
                 if (this.isDamageable() && player instanceof ServerPlayerEntity) {
-                    stack.attemptDamageItem(1, SilentGems.random, (ServerPlayerEntity) player);
+                    stack.damageItem(1, player, p -> p.sendBreakAnimation(p.getActiveHand()));
                 }
             }
         }
