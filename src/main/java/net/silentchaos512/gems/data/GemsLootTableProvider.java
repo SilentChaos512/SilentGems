@@ -181,7 +181,8 @@ public class GemsLootTableProvider extends LootTableProvider {
             registerDropSelfLootTable(MiscOres.SILVER.asBlock());
 
             for (CorruptedBlocks block : CorruptedBlocks.values()) {
-                registerDropSelfLootTable(block.asBlock());
+                registerLootTable(block.asBlock(), b ->
+                        droppingWithSilkTouchOrRandomly(b, block.getPile(), ConstantRange.of(4)));
             }
             for (HardenedRock block : HardenedRock.values()) {
                 registerDropSelfLootTable(block.asBlock());
