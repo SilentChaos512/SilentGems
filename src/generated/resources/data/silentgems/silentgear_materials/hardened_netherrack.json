@@ -13,14 +13,24 @@
     "translate": "material.silentgems.hardened_netherrack"
   },
   "display": {
-    "main/all": {
-      "texture": "low_contrast",
-      "color": "#561616"
-    },
-    "rod/all": {
-      "texture": "low_contrast",
-      "color": "#561616"
-    }
+    "main/all": [
+      {
+        "texture": "silentgear:main_generic_lc",
+        "color": "#561616"
+      }
+    ],
+    "main/armor": [
+      {
+        "texture": "silentgear:main_generic_lc",
+        "color": "#561616"
+      }
+    ],
+    "rod/all": [
+      {
+        "texture": "silentgear:rod_generic_lc",
+        "color": "#561616"
+      }
+    ]
   },
   "stats": {
     "main": {

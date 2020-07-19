@@ -13,10 +13,24 @@
     "translate": "material.silentgems.turquoise"
   },
   "display": {
-    "main/all": {
-      "texture": "high_contrast_with_highlight",
-      "color": "#00A388"
-    }
+    "main/all": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#FF00A388"
+      },
+      {
+        "texture": "silentgear:_highlight"
+      }
+    ],
+    "main/armor": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#FF00A388"
+      },
+      {
+        "texture": "silentgear:_highlight"
+      }
+    ]
   },
   "stats": {
     "main": {

@@ -13,10 +13,24 @@
     "translate": "material.silentgems.spinel"
   },
   "display": {
-    "main/all": {
-      "texture": "high_contrast_with_highlight",
-      "color": "#A34400"
-    }
+    "main/all": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#FFA34400"
+      },
+      {
+        "texture": "silentgear:_highlight"
+      }
+    ],
+    "main/armor": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#FFA34400"
+      },
+      {
+        "texture": "silentgear:_highlight"
+      }
+    ]
   },
   "stats": {
     "main": {

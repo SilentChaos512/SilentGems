@@ -13,14 +13,24 @@
     "translate": "material.silentgems.hardened_end_stone"
   },
   "display": {
-    "main/all": {
-      "texture": "low_contrast",
-      "color": "#98A05E"
-    },
-    "rod/all": {
-      "texture": "low_contrast",
-      "color": "#98A05E"
-    }
+    "main/all": [
+      {
+        "texture": "silentgear:main_generic_lc",
+        "color": "#98A05E"
+      }
+    ],
+    "main/armor": [
+      {
+        "texture": "silentgear:main_generic_lc",
+        "color": "#98A05E"
+      }
+    ],
+    "rod/all": [
+      {
+        "texture": "silentgear:rod_generic_lc",
+        "color": "#98A05E"
+      }
+    ]
   },
   "stats": {
     "main": {

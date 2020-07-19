@@ -13,10 +13,24 @@
     "translate": "material.silentgems.tektite"
   },
   "display": {
-    "main/all": {
-      "texture": "high_contrast_with_highlight",
-      "color": "#8F7C6B"
-    }
+    "main/all": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#FF8F7C6B"
+      },
+      {
+        "texture": "silentgear:_highlight"
+      }
+    ],
+    "main/armor": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#FF8F7C6B"
+      },
+      {
+        "texture": "silentgear:_highlight"
+      }
+    ]
   },
   "stats": {
     "main": {

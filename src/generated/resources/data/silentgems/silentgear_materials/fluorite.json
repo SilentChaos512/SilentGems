@@ -13,10 +13,24 @@
     "translate": "material.silentgems.fluorite"
   },
   "display": {
-    "main/all": {
-      "texture": "high_contrast_with_highlight",
-      "color": "#45D1FF"
-    }
+    "main/all": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#FF45D1FF"
+      },
+      {
+        "texture": "silentgear:_highlight"
+      }
+    ],
+    "main/armor": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#FF45D1FF"
+      },
+      {
+        "texture": "silentgear:_highlight"
+      }
+    ]
   },
   "stats": {
     "main": {

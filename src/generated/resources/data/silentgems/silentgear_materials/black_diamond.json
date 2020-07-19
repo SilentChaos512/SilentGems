@@ -13,10 +13,24 @@
     "translate": "material.silentgems.black_diamond"
   },
   "display": {
-    "main/all": {
-      "texture": "high_contrast_with_highlight",
-      "color": "#1E1E1E"
-    }
+    "main/all": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#FF1E1E1E"
+      },
+      {
+        "texture": "silentgear:_highlight"
+      }
+    ],
+    "main/armor": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#FF1E1E1E"
+      },
+      {
+        "texture": "silentgear:_highlight"
+      }
+    ]
   },
   "stats": {
     "main": {

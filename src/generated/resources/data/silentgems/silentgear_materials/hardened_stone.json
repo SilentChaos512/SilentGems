@@ -13,14 +13,24 @@
     "translate": "material.silentgems.hardened_stone"
   },
   "display": {
-    "main/all": {
-      "texture": "low_contrast",
-      "color": "#4D4D4D"
-    },
-    "rod/all": {
-      "texture": "low_contrast",
-      "color": "#4D4D4D"
-    }
+    "main/all": [
+      {
+        "texture": "silentgear:main_generic_lc",
+        "color": "#4D4D4D"
+      }
+    ],
+    "main/armor": [
+      {
+        "texture": "silentgear:main_generic_lc",
+        "color": "#4D4D4D"
+      }
+    ],
+    "rod/all": [
+      {
+        "texture": "silentgear:rod_generic_lc",
+        "color": "#4D4D4D"
+      }
+    ]
   },
   "stats": {
     "main": {

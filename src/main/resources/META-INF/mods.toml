@@ -39,6 +39,6 @@ authors="SilentChaos512"
 [[dependencies.silentgems]]
     modId="silentgear"
     mandatory=false
-    versionRange="[1.9.5,)"
+    versionRange="[1.10,)"
     ordering="AFTER"
     side="BOTH"
