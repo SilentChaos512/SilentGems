@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:cats_eye_shard"
+    }
+  },
+  "result": {
+    "item": "silentgems:cats_eye"
+  }
+}

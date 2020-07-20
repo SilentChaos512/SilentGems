@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:chaos_iron_unfired"
-  },
-  "result": "silentgems:chaos_iron",
-  "experience": 0.8,
-  "cookingtime": 200
-}

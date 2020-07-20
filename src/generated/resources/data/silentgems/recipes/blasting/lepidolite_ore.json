@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "tag": "forge:ores/lepidolite"
+  },
+  "result": "silentgems:lepidolite",
+  "experience": 1.0,
+  "cookingtime": 100
+}

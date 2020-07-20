@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "tag": "forge:ores/chrysoprase"
+  },
+  "result": "silentgems:chrysoprase",
+  "experience": 1.0,
+  "cookingtime": 100
+}

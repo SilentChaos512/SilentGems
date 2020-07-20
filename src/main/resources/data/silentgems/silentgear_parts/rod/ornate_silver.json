@@ -16,9 +16,7 @@
         "rarity": 15
     },
     "crafting_items": {
-        "normal": {
-            "tag": "forge:rods/ornate_silver"
-        }
+        "uncraftable": {}
     },
     "name": {
         "translate": true,

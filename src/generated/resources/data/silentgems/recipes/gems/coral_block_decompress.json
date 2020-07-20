@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:coral_block"
+    }
+  ],
+  "result": {
+    "item": "silentgems:coral",
+    "count": 9
+  }
+}

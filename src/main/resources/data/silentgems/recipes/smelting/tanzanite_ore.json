@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:tanzanite_ore"
-  },
-  "result": "silentgems:tanzanite",
-  "experience": 0.75,
-  "cookingtime": 200
-}

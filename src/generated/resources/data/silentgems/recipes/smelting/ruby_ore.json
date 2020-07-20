@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "forge:ores/ruby"
+  },
+  "result": "silentgems:ruby",
+  "experience": 1.0,
+  "cookingtime": 200
+}

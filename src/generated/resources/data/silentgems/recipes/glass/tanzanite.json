@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "classic_gem_glass",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "/": {
+      "tag": "forge:nuggets/tanzanite"
+    },
+    "#": {
+      "tag": "forge:glass"
+    }
+  },
+  "result": {
+    "item": "silentgems:tanzanite_glass",
+    "count": 5
+  }
+}

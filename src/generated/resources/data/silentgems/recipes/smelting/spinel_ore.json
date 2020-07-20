@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "forge:ores/spinel"
+  },
+  "result": "silentgems:spinel",
+  "experience": 1.0,
+  "cookingtime": 200
+}

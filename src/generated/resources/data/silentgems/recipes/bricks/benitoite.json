@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "dark_gem_bricks",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "/": {
+      "tag": "forge:nuggets/benitoite"
+    },
+    "#": {
+      "item": "minecraft:stone_bricks"
+    }
+  },
+  "result": {
+    "item": "silentgems:benitoite_bricks",
+    "count": 5
+  }
+}

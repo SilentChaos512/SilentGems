@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:turquoise_ore"
-  },
-  "result": "silentgems:turquoise",
-  "experience": 0.75,
-  "cookingtime": 200
-}

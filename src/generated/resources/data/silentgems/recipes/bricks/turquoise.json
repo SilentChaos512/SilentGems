@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "dark_gem_bricks",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "/": {
+      "tag": "forge:nuggets/turquoise"
+    },
+    "#": {
+      "item": "minecraft:stone_bricks"
+    }
+  },
+  "result": {
+    "item": "silentgems:turquoise_bricks",
+    "count": 5
+  }
+}

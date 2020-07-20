@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "light_gem_glass",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "/": {
+      "tag": "forge:nuggets/kunzite"
+    },
+    "#": {
+      "tag": "forge:glass"
+    }
+  },
+  "result": {
+    "item": "silentgems:kunzite_glass",
+    "count": 5
+  }
+}

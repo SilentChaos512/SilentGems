@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:black_diamond"
+    }
+  ],
+  "result": {
+    "item": "silentgems:black_diamond_shard",
+    "count": 9
+  }
+}

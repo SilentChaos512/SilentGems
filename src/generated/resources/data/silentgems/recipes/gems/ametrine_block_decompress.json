@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:ametrine_block"
+    }
+  ],
+  "result": {
+    "item": "silentgems:ametrine",
+    "count": 9
+  }
+}

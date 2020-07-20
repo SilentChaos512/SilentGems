@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:alexandrite_shard"
+    }
+  },
+  "result": {
+    "item": "silentgems:alexandrite"
+  }
+}

@@ -27,13 +27,7 @@
         }
     ],
     "crafting_items": {
-        "normal": {
-            "item": "silentgems:gilded_bowstring"
-        },
-        "small": {
-            "item": "silentgems:gilded_string",
-            "size": 3
-        }
+        "uncraftable": {}
     },
     "name": {
         "translate": true,

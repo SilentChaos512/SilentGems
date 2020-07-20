@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:chrysoprase_block"
+    }
+  ],
+  "result": {
+    "item": "silentgems:chrysoprase",
+    "count": 9
+  }
+}

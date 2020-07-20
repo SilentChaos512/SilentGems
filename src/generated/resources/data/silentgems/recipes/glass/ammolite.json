@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "light_gem_glass",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "/": {
+      "tag": "forge:nuggets/ammolite"
+    },
+    "#": {
+      "tag": "forge:glass"
+    }
+  },
+  "result": {
+    "item": "silentgems:ammolite_glass",
+    "count": 5
+  }
+}

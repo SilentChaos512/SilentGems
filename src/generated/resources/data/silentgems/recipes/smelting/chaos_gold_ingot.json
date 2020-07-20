@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "silentgems:chaos_gold_dust"
+  },
+  "result": "silentgems:chaos_gold_ingot",
+  "experience": 1.0,
+  "cookingtime": 200
+}

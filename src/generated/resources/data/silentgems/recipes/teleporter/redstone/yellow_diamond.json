@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "light_gem_redstone_teleporters",
+  "ingredients": [
+    {
+      "item": "silentgems:yellow_diamond_teleporter"
+    },
+    {
+      "tag": "forge:dusts/redstone"
+    }
+  ],
+  "result": {
+    "item": "silentgems:yellow_diamond_redstone_teleporter"
+  }
+}

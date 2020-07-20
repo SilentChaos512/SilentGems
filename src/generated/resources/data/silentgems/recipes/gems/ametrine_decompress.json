@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:ametrine"
+    }
+  ],
+  "result": {
+    "item": "silentgems:ametrine_shard",
+    "count": 9
+  }
+}

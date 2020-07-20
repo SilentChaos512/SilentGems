@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:iolite_block"
+    }
+  ],
+  "result": {
+    "item": "silentgems:iolite",
+    "count": 9
+  }
+}

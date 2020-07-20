@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "dark_gem_bricks",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "/": {
+      "tag": "forge:nuggets/carnelian"
+    },
+    "#": {
+      "item": "minecraft:stone_bricks"
+    }
+  },
+  "result": {
+    "item": "silentgems:carnelian_bricks",
+    "count": 5
+  }
+}

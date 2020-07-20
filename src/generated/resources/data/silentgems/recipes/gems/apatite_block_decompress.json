@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:apatite_block"
+    }
+  ],
+  "result": {
+    "item": "silentgems:apatite",
+    "count": 9
+  }
+}

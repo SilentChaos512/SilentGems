@@ -4,8 +4,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Chaos gold and chaos silver
+### Removed
+- Ornate rod and gilded bowstring recipes
+- (1.16.1) Ornate rods and gilded bowstring
 ### Changed
+- Most recipes redone with data generators, better tag support
+- Soul urns crafted with colored terracotta now match the actual terracotta color 
 - Corrupted stone and dirt can now be silk touched
+- You can now eat iron potatoes
+- Teleporter linker recipe
 ### Fixed
 - Corrupted stone and dirt dropping self instead of piles [#477]
 

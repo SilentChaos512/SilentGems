@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:tanzanite"
+    }
+  ],
+  "result": {
+    "item": "silentgems:tanzanite_shard",
+    "count": 9
+  }
+}

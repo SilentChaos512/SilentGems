@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:spinel_block"
+    }
+  ],
+  "result": {
+    "item": "silentgems:spinel",
+    "count": 9
+  }
+}

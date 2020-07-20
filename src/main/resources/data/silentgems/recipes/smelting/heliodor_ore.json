@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:heliodor_ore"
-  },
-  "result": "silentgems:heliodor",
-  "experience": 0.75,
-  "cookingtime": 200
-}

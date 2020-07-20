@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cec",
+    " # ",
+    "cec"
+  ],
+  "key": {
+    "c": {
+      "item": "silentgems:enriched_chaos_crystal"
+    },
+    "e": {
+      "tag": "forge:ender_pearls"
+    },
+    "#": {
+      "tag": "forge:storage_blocks/iron"
+    }
+  },
+  "result": {
+    "item": "silentgems:teleporter_anchor",
+    "count": 4
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:fluffy_puff"
+    },
+    {
+      "item": "silentgems:fluffy_puff"
+    }
+  ],
+  "result": {
+    "item": "minecraft:string"
+  }
+}

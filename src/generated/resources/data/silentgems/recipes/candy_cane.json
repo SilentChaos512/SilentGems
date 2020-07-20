@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ss",
+    "rs",
+    " s"
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:sugar"
+    },
+    "r": {
+      "tag": "forge:dyes/red"
+    }
+  },
+  "result": {
+    "item": "silentgems:candy_cane",
+    "count": 8
+  }
+}

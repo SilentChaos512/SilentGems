@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:sodalite"
+    }
+  ],
+  "result": {
+    "item": "silentgems:sodalite_shard",
+    "count": 9
+  }
+}

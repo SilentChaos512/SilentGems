@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "light_gem_bricks",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "/": {
+      "tag": "forge:nuggets/coral"
+    },
+    "#": {
+      "item": "minecraft:stone_bricks"
+    }
+  },
+  "result": {
+    "item": "silentgems:coral_bricks",
+    "count": 5
+  }
+}

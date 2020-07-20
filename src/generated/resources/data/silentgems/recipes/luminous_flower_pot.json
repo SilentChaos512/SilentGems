@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "c",
+    "#"
+  ],
+  "key": {
+    "c": {
+      "item": "silentgems:enriched_chaos_crystal"
+    },
+    "#": {
+      "item": "minecraft:flower_pot"
+    }
+  },
+  "result": {
+    "item": "silentgems:luminous_flower_pot"
+  }
+}

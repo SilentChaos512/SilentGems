@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:garnet_block"
+    }
+  ],
+  "result": {
+    "item": "silentgems:garnet",
+    "count": 9
+  }
+}

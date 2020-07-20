@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "///",
+    "clc",
+    "///"
+  ],
+  "key": {
+    "/": {
+      "tag": "forge:ingots/gold"
+    },
+    "c": {
+      "tag": "forge:gems/chaos"
+    },
+    "l": {
+      "tag": "forge:gems/lapis"
+    }
+  },
+  "result": {
+    "item": "silentgems:blank_token",
+    "count": 12
+  }
+}

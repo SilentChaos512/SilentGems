@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:ametrine"
+    }
+  },
+  "result": {
+    "item": "silentgems:ametrine_block"
+  }
+}

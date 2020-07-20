@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:carnelian_ore"
-  },
-  "result": "silentgems:carnelian",
-  "experience": 0.75,
-  "cookingtime": 200
-}

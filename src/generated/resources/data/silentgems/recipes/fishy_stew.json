@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "silentgems:uncooked_fishy_stew"
+  },
+  "result": "silentgems:fishy_stew",
+  "experience": 0.45,
+  "cookingtime": 200
+}

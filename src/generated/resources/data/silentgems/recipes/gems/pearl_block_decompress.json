@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:pearl_block"
+    }
+  ],
+  "result": {
+    "item": "silentgems:pearl",
+    "count": 9
+  }
+}

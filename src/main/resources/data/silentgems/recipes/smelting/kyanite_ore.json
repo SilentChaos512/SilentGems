@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:kyanite_ore"
-  },
-  "result": "silentgems:kyanite",
-  "experience": 0.75,
-  "cookingtime": 200
-}

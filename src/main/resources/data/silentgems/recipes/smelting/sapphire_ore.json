@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:sapphire_ore"
-  },
-  "result": "silentgems:sapphire",
-  "experience": 0.75,
-  "cookingtime": 200
-}

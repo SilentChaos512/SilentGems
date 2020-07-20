@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "classic_inverted_gem_lamps",
+  "ingredients": [
+    {
+      "item": "silentgems:opal_lamp"
+    },
+    {
+      "item": "minecraft:redstone_torch"
+    }
+  ],
+  "result": {
+    "item": "silentgems:opal_lamp_inverted_lit"
+  }
+}

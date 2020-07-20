@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "forge:ores/yellow_diamond"
+  },
+  "result": "silentgems:yellow_diamond",
+  "experience": 1.0,
+  "cookingtime": 200
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:silver_ingot"
+    }
+  ],
+  "result": {
+    "item": "silentgems:silver_nugget",
+    "count": 9
+  }
+}

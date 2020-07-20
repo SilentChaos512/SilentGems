@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#",
+    "/",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:chaos_dust"
+    },
+    "/": {
+      "tag": "forge:ingots/silver"
+    }
+  },
+  "result": {
+    "item": "silentgems:chaos_silver_dust"
+  }
+}

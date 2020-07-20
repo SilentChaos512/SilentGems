@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:lepidolite"
+    }
+  ],
+  "result": {
+    "item": "silentgems:lepidolite_shard",
+    "count": 9
+  }
+}

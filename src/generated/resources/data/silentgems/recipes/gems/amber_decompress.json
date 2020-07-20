@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:amber"
+    }
+  ],
+  "result": {
+    "item": "silentgems:amber_shard",
+    "count": 9
+  }
+}

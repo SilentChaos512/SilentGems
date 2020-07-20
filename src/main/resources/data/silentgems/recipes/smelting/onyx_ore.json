@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:onyx_ore"
-  },
-  "result": "silentgems:onyx",
-  "experience": 0.75,
-  "cookingtime": 200
-}

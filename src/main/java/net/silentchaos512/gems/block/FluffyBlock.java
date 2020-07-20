@@ -37,10 +37,17 @@ public class FluffyBlock extends Block {
         MinecraftForge.EVENT_BUS.addListener(FluffyBlock::onGetBreakSpeed);
     }
 
+    private final DyeColor dyeColor;
+
     public FluffyBlock(DyeColor color) {
         super(Properties.create(Material.WOOL)
                 .hardnessAndResistance(0.8f, 3)
                 .sound(SoundType.CLOTH));
+        this.dyeColor = color;
+    }
+
+    public DyeColor getDyeColor() {
+        return dyeColor;
     }
 
     @Override

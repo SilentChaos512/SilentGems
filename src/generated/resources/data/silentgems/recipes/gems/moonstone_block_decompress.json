@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:moonstone_block"
+    }
+  ],
+  "result": {
+    "item": "silentgems:moonstone",
+    "count": 9
+  }
+}

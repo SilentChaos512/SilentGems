@@ -66,16 +66,12 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
         builder(GemsTags.Items.NUGGETS_SILVER, CraftingItems.SILVER_NUGGET);
         builder(Tags.Items.INGOTS, CraftingItems.SILVER_INGOT);
         builder(Tags.Items.NUGGETS, CraftingItems.SILVER_NUGGET);
-        builder(GemsTags.Items.RODS_ORNATE_GOLD, CraftingItems.ORNATE_GOLD_ROD);
-        builder(GemsTags.Items.RODS_ORNATE_SILVER, CraftingItems.ORNATE_SILVER_ROD);
 
         builder(Tags.Items.CROPS, CraftingItems.FLUFFY_PUFF);
         getBuilder(Tags.Items.DUSTS)
                 .add(GemsTags.Items.CORRUPTED_DUSTS)
                 .add(CraftingItems.CHAOS_DUST.asItem());
         builder(ModTags.Items.PAPER, CraftingItems.FLUFFY_FABRIC);
-        getBuilder(Tags.Items.RODS)
-                .add(GemsTags.Items.RODS_ORNATE_GOLD, GemsTags.Items.RODS_ORNATE_SILVER);
         getBuilder(Tags.Items.SEEDS)
                 .add(GemsItems.FLUFFY_PUFF_SEEDS.asItem());
         getBuilder(Tags.Items.SLIMEBALLS)

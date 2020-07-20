@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:sunstone"
+    }
+  ],
+  "result": {
+    "item": "silentgems:sunstone_shard",
+    "count": 9
+  }
+}

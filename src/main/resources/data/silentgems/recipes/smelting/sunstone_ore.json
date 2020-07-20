@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:sunstone_ore"
-  },
-  "result": "silentgems:sunstone",
-  "experience": 0.75,
-  "cookingtime": 200
-}

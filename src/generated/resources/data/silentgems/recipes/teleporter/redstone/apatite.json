@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "light_gem_redstone_teleporters",
+  "ingredients": [
+    {
+      "item": "silentgems:apatite_teleporter"
+    },
+    {
+      "tag": "forge:dusts/redstone"
+    }
+  ],
+  "result": {
+    "item": "silentgems:apatite_redstone_teleporter"
+  }
+}

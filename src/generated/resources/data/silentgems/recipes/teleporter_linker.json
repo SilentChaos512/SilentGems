@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#",
+    "/",
+    "/"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:enriched_chaos_crystal"
+    },
+    "/": {
+      "tag": "forge:ingots/gold"
+    }
+  },
+  "result": {
+    "item": "silentgems:teleporter_linker"
+  }
+}

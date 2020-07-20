@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:moldavite_ore"
-  },
-  "result": "silentgems:moldavite",
-  "experience": 0.75,
-  "cookingtime": 200
-}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:amber"
+    }
+  },
+  "result": {
+    "item": "silentgems:amber_block"
+  }
+}

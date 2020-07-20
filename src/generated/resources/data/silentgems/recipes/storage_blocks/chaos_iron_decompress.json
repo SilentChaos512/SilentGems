@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:chaos_iron_block"
+    }
+  ],
+  "result": {
+    "item": "silentgems:chaos_iron",
+    "count": 9
+  }
+}

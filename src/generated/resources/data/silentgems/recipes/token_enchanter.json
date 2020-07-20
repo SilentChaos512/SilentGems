@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "oeo",
+    "clc",
+    "###"
+  ],
+  "key": {
+    "o": {
+      "item": "silentgems:blank_token"
+    },
+    "e": {
+      "tag": "forge:gems/emerald"
+    },
+    "c": {
+      "item": "silentgems:chaos_iron"
+    },
+    "l": {
+      "tag": "forge:storage_blocks/lapis"
+    },
+    "#": {
+      "tag": "forge:obsidian"
+    }
+  },
+  "result": {
+    "item": "silentgems:token_enchanter"
+  }
+}

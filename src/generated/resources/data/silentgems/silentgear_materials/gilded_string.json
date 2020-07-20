@@ -1,0 +1,75 @@
+{
+  "availability": {
+    "tier": 3,
+    "visible": true,
+    "gear_blacklist": []
+  },
+  "crafting_items": {
+    "main": {
+      "item": "silentgems:gilded_string"
+    }
+  },
+  "name": {
+    "translate": "material.silentgems.gilded_string"
+  },
+  "display": {
+    "binding/all": [
+      {
+        "texture": "silentgear:binding_generic",
+        "color": "#FFDE5E"
+      }
+    ],
+    "bowstring/all": [
+      {
+        "texture": "silentgear:bowstring_string",
+        "color": "#FFDE5E"
+      }
+    ]
+  },
+  "stats": {
+    "binding": {
+      "durability": [
+        {
+          "mul1": 0.1
+        },
+        {
+          "add": 32.0
+        }
+      ],
+      "harvest_speed": {
+        "mul1": 0.1
+      },
+      "rarity": {
+        "add": 9.0
+      }
+    },
+    "bowstring": {
+      "durability": {
+        "mul1": 0.1
+      },
+      "enchantability": {
+        "mul1": 0.1
+      },
+      "ranged_damage": {
+        "mul1": 0.3
+      },
+      "rarity": {
+        "add": 18.0
+      }
+    }
+  },
+  "traits": {
+    "binding": [
+      {
+        "name": "silentgear:flexible",
+        "level": 1
+      }
+    ],
+    "bowstring": [
+      {
+        "name": "silentgear:flexible",
+        "level": 2
+      }
+    ]
+  }
+}

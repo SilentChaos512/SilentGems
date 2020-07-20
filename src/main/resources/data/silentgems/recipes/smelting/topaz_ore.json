@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:topaz_ore"
-  },
-  "result": "silentgems:topaz",
-  "experience": 0.75,
-  "cookingtime": 200
-}

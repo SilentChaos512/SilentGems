@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:phosphophyllite_ore"
-  },
-  "result": "silentgems:phosphophyllite",
-  "experience": 0.75,
-  "cookingtime": 200
-}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:ammolite"
+    }
+  ],
+  "result": {
+    "item": "silentgems:ammolite_shard",
+    "count": 9
+  }
+}

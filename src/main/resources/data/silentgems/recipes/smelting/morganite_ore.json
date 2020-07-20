@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:morganite_ore"
-  },
-  "result": "silentgems:morganite",
-  "experience": 0.75,
-  "cookingtime": 200
-}

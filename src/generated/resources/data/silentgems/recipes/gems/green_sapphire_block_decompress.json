@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:green_sapphire_block"
+    }
+  ],
+  "result": {
+    "item": "silentgems:green_sapphire",
+    "count": 9
+  }
+}

@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:amethyst_ore"
-  },
-  "result": "silentgems:amethyst",
-  "experience": 0.75,
-  "cookingtime": 200
-}

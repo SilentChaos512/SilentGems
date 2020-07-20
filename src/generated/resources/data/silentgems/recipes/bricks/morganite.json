@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "classic_gem_bricks",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "/": {
+      "tag": "forge:nuggets/morganite"
+    },
+    "#": {
+      "item": "minecraft:stone_bricks"
+    }
+  },
+  "result": {
+    "item": "silentgems:morganite_bricks",
+    "count": 5
+  }
+}

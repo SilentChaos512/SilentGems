@@ -28,30 +28,30 @@ import net.silentchaos512.lib.registry.BlockRegistryObject;
 import java.util.Locale;
 
 public enum MiscBlocks implements IBlockProvider {
-    CHAOS_CRYSTAL(
-            CraftingItems.CHAOS_CRYSTAL,
+    CHAOS_CRYSTAL(CraftingItems.CHAOS_CRYSTAL,
             builder(Material.IRON)
     ),
-    ENRICHED_CHAOS_CRYSTAL(
-            CraftingItems.ENRICHED_CHAOS_CRYSTAL,
+    ENRICHED_CHAOS_CRYSTAL(CraftingItems.ENRICHED_CHAOS_CRYSTAL,
             builder(Material.IRON)
     ),
-    ENDER_CRYSTAL(
-            CraftingItems.ENDER_CRYSTAL,
+    ENDER_CRYSTAL(CraftingItems.ENDER_CRYSTAL,
             builder(Material.IRON)
     ),
-    CHAOS_COAL(
-            CraftingItems.CHAOS_COAL,
+    CHAOS_COAL(CraftingItems.CHAOS_COAL,
             builder(Material.ROCK)
                     .sound(SoundType.STONE)
     ),
-    SILVER(
-            CraftingItems.SILVER_INGOT,
+    SILVER(CraftingItems.SILVER_INGOT,
             builder(Material.IRON)
     ),
-    CHAOS_IRON(
-            CraftingItems.CHAOS_IRON,
+    CHAOS_IRON(CraftingItems.CHAOS_IRON,
             builder(Material.IRON)
+    ),
+    CHAOS_GOLD(CraftingItems.CHAOS_GOLD_INGOT,
+            builder(Material.IRON)
+    ),
+    CHAOS_SILVER(CraftingItems.CHAOS_SILVER_INGOT,
+               builder(Material.IRON)
     );
 
     private final Block.Properties builder;

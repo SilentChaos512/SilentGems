@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "dark_inverted_gem_lamps",
+  "ingredients": [
+    {
+      "item": "silentgems:euclase_lamp"
+    },
+    {
+      "item": "minecraft:redstone_torch"
+    }
+  ],
+  "result": {
+    "item": "silentgems:euclase_lamp_inverted_lit"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " / ",
+    "/#/",
+    " / "
+  ],
+  "key": {
+    "/": {
+      "item": "silentgems:chaos_crystal_shard"
+    },
+    "#": {
+      "item": "minecraft:potato"
+    }
+  },
+  "result": {
+    "item": "silentgems:chaos_potato"
+  }
+}

@@ -57,6 +57,12 @@ public enum ModFoods implements IItemProvider, IStringSerializable {
             .food(new Food.Builder().hunger(10).saturation(1.2f).build())
             .setReturnItem(Items.BOWL)
     ),
+    IRON_POTATO(SGFoodItem.Builder.create()
+            .food(new Food.Builder().hunger(9).saturation(0.9f).setAlwaysEdible().build())
+            .addEffect(Effects.ABSORPTION, TimeUtils.ticksFromMinutes(10), 4)
+            .addEffect(Effects.RESISTANCE, TimeUtils.ticksFromMinutes(5), 0)
+            .addEffect(Effects.STRENGTH, TimeUtils.ticksFromMinutes(5), 1)
+    ),
     CANDY_CANE(SGFoodItem.Builder.create()
             .food(new Food.Builder().hunger(2).saturation(0.2f).fastToEat().setAlwaysEdible().build())
             .addEffect(Effects.REGENERATION, TimeUtils.ticksFromSeconds(5))
@@ -122,7 +128,12 @@ public enum ModFoods implements IItemProvider, IStringSerializable {
 
             @SuppressWarnings("SameParameterValue")
             private Builder addEffect(Effect effect, int duration) {
-                this.potionEffects.add(new EffectInstance(effect, duration, 0));
+                return addEffect(effect, duration, 0);
+            }
+
+            @SuppressWarnings("SameParameterValue")
+            private Builder addEffect(Effect effect, int duration, int amplifier) {
+                this.potionEffects.add(new EffectInstance(effect, duration, amplifier));
                 return this;
             }
         }

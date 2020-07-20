@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:tektite_ore"
-  },
-  "result": "silentgems:tektite",
-  "experience": 0.75,
-  "cookingtime": 200
-}

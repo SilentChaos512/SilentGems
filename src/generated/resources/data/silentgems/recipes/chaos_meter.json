@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#c#",
+    "#/#",
+    "d d"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:ingots/gold"
+    },
+    "c": {
+      "item": "silentgems:enriched_chaos_crystal"
+    },
+    "/": {
+      "tag": "forge:ingots/iron"
+    },
+    "d": {
+      "tag": "silentgems:corrupted_dusts"
+    }
+  },
+  "result": {
+    "item": "silentgems:chaos_meter"
+  }
+}

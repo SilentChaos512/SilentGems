@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "forge:ores/moldavite"
+  },
+  "result": "silentgems:moldavite",
+  "experience": 1.0,
+  "cookingtime": 200
+}

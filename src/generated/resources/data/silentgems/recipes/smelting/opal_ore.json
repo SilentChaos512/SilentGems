@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "forge:ores/opal"
+  },
+  "result": "silentgems:opal",
+  "experience": 1.0,
+  "cookingtime": 200
+}

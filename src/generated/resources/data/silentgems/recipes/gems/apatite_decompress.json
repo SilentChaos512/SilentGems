@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:apatite"
+    }
+  ],
+  "result": {
+    "item": "silentgems:apatite_shard",
+    "count": 9
+  }
+}

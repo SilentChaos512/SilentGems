@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:phosphophyllite_block"
+    }
+  ],
+  "result": {
+    "item": "silentgems:phosphophyllite",
+    "count": 9
+  }
+}

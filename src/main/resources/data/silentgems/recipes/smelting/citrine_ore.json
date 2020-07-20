@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:citrine_ore"
-  },
-  "result": "silentgems:citrine",
-  "experience": 0.75,
-  "cookingtime": 200
-}

@@ -1,9 +1,0 @@
-{
-  "type": "smelting",
-  "ingredient": {
-    "item": "silentgems:spinel_ore"
-  },
-  "result": "silentgems:spinel",
-  "experience": 0.75,
-  "cookingtime": 200
-}

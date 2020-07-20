@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:pyrope"
+    }
+  ],
+  "result": {
+    "item": "silentgems:pyrope_shard",
+    "count": 9
+  }
+}

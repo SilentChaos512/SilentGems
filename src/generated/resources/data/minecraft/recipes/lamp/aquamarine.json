@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "classic_gem_lamps",
+  "pattern": [
+    "rgr",
+    "g#g",
+    "rgr"
+  ],
+  "key": {
+    "r": {
+      "tag": "forge:dusts/redstone"
+    },
+    "g": {
+      "tag": "forge:dusts/glowstone"
+    },
+    "#": {
+      "tag": "forge:gems/aquamarine"
+    }
+  },
+  "result": {
+    "item": "silentgems:aquamarine_lamp"
+  }
+}

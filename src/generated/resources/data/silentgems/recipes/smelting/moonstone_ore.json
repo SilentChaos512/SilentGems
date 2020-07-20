@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "forge:ores/moonstone"
+  },
+  "result": "silentgems:moonstone",
+  "experience": 1.0,
+  "cookingtime": 200
+}

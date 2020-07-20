@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:enriched_chaos_crystal_block"
+    }
+  ],
+  "result": {
+    "item": "silentgems:enriched_chaos_crystal",
+    "count": 9
+  }
+}

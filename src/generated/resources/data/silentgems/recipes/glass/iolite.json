@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "dark_gem_glass",
+  "pattern": [
+    "/#/",
+    "###",
+    "/#/"
+  ],
+  "key": {
+    "/": {
+      "tag": "forge:nuggets/iolite"
+    },
+    "#": {
+      "tag": "forge:glass"
+    }
+  },
+  "result": {
+    "item": "silentgems:iolite_glass",
+    "count": 5
+  }
+}

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "silentgems:silver_ore"
-  },
-  "result": "silentgems:silver_ingot",
-  "experience": 1.0,
-  "cookingTime": 100
-}

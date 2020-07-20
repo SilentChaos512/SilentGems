@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:turquoise"
+    }
+  ],
+  "result": {
+    "item": "silentgems:turquoise_shard",
+    "count": 9
+  }
+}

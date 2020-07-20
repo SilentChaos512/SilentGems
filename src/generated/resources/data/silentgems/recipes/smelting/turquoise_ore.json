@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "forge:ores/turquoise"
+  },
+  "result": "silentgems:turquoise",
+  "experience": 1.0,
+  "cookingtime": 200
+}

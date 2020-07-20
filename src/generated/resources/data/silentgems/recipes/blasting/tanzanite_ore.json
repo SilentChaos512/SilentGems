@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "tag": "forge:ores/tanzanite"
+  },
+  "result": "silentgems:tanzanite",
+  "experience": 1.0,
+  "cookingtime": 100
+}

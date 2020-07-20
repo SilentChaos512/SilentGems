@@ -51,8 +51,6 @@ public class GemsTags {
         public static final Tag<Item> INGOTS_SILVER = forge("ingots/silver");
         public static final Tag<Item> NUGGETS_SILVER = forge("nuggets/silver");
         public static final Tag<Item> ORES_SILVER = forge("ores/silver");
-        public static final Tag<Item> RODS_ORNATE_GOLD = forge("rods/ornate_gold");
-        public static final Tag<Item> RODS_ORNATE_SILVER = forge("rods/ornate_silver");
         public static final Tag<Item> STORAGE_BLOCKS_CHAOS = forge("storage_blocks/chaos");
         public static final Tag<Item> STORAGE_BLOCKS_CHAOS_COAL = forge("storage_blocks/chaos_coal");
         public static final Tag<Item> STORAGE_BLOCKS_CHAOS_IRON = forge("storage_blocks/chaos_iron");

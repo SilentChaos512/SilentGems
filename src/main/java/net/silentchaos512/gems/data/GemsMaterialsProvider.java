@@ -36,10 +36,12 @@ public class GemsMaterialsProvider extends MaterialsProvider {
         return "Silent's Gems - SGear Materials";
     }
 
+    @SuppressWarnings("OverlyLongMethod")
     @Override
     protected Collection<MaterialBuilder> getMaterials() {
         Collection<MaterialBuilder> ret = new ArrayList<>();
 
+        //region Gems
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.AGATE.getName()), 3, Gems.AGATE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 384)
                 .stat(PartType.MAIN, ItemStats.ARMOR_DURABILITY, 14)
@@ -1039,6 +1041,7 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
                 .display(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.ZIRCON.getColor())
         );
+        //endregion
 
         ret.add(new MaterialBuilder(SilentGems.getId("chaos_iron"), 3, CraftingItems.CHAOS_IRON)
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -1061,6 +1064,21 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .trait(PartType.MAIN, GemsTraits.ENTROPY, 2)
                 .display(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, 0xCEBEB1)
         );
+
+        ret.add(new MaterialBuilder(SilentGems.getId("gilded_string"), 3, CraftingItems.GILDED_STRING)
+                .stat(PartType.BINDING, ItemStats.DURABILITY, 0.1f, StatInstance.Operation.MUL1)
+                .stat(PartType.BINDING, ItemStats.DURABILITY, 32, StatInstance.Operation.ADD)
+                .stat(PartType.BINDING, ItemStats.HARVEST_SPEED, 0.1f, StatInstance.Operation.MUL1)
+                .stat(PartType.BINDING, ItemStats.RARITY, 9, StatInstance.Operation.ADD)
+                .trait(PartType.BINDING, TraitConst.FLEXIBLE, 1)
+                .stat(PartType.BOWSTRING, ItemStats.DURABILITY, 0.1f, StatInstance.Operation.MUL1)
+                .stat(PartType.BOWSTRING, ItemStats.ENCHANTABILITY, 0.1f, StatInstance.Operation.MUL1)
+                .stat(PartType.BOWSTRING, ItemStats.RANGED_DAMAGE, 0.3f, StatInstance.Operation.MUL1)
+                .stat(PartType.BOWSTRING, ItemStats.RARITY, 18, StatInstance.Operation.ADD)
+                .trait(PartType.BOWSTRING, TraitConst.FLEXIBLE, 2)
+                .display(PartTextureType.HIGH_CONTRAST, 0xFFDE5E)
+        );
+
         ret.add(hardenedStone("hardened_stone", HardenedRock.STONE, 0x4D4D4D));
         ret.add(hardenedStone("hardened_netherrack", HardenedRock.NETHERRACK, 0x561616));
         ret.add(hardenedStone("hardened_end_stone", HardenedRock.END_STONE, 0x98A05E));
