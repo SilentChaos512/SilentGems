@@ -1,0 +1,43 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "bottom": "silentgems:block/purifier_bottom",
+    "side": "silentgems:block/purifier_side",
+    "top": "silentgems:block/purifier_top",
+    "particle": "silentgems:block/purifier_bottom"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        12,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#bottom"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "north": {
+          "texture": "#side"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "west": {
+          "texture": "#side"
+        },
+        "east": {
+          "texture": "#side"
+        }
+      }
+    }
+  ]
+}

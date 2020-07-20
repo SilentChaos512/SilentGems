@@ -1,0 +1,6 @@
+{
+  "parent": "block/crop",
+  "textures": {
+    "crop": "silentgems:block/fluffy_plant3"
+  }
+}

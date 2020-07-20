@@ -1,0 +1,6 @@
+{
+  "parent": "silentgems:block/pedestal",
+  "textures": {
+    "stone": "block/andesite"
+  }
+}

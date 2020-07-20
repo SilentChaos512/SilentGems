@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "silentgems:item/urn_upgrade_vacuum"
-  }
-}
-

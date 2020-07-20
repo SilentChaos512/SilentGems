@@ -7,6 +7,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -22,6 +23,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ChaosOrbItem extends Item {
+    public static final ResourceLocation CRACK_STAGE = SilentGems.getId("crack_stage");
+
     private final int maxAbsorb;
     private final int crackStages;
     private final float leakage;
@@ -39,7 +42,7 @@ public class ChaosOrbItem extends Item {
         this.leakage = leakage;
 
         // Not strictly necessary, but will allow durability to change without editing models.
-        this.addPropertyOverride(SilentGems.getId("crack_stage"), (stack, world, entity) -> getCrackStage(stack));
+        this.addPropertyOverride(CRACK_STAGE, (stack, world, entity) -> getCrackStage(stack));
     }
 
     public static int absorbChaos(LivingEntity entity, ItemStack stack, int amount) {

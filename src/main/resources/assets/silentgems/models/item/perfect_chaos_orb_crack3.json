@@ -1,7 +1,0 @@
-{
-    "parent": "silentgems:item/perfect_chaos_orb",
-    "textures": {
-        "layer0": "silentgems:item/perfect_chaos_orb",
-        "layer1": "silentgems:item/chaos_orb_crack3"
-    }
-}

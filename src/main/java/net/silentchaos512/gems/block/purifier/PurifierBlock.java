@@ -15,6 +15,8 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
@@ -24,8 +26,12 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class PurifierBlock extends Block {
+    private static final VoxelShape SHAPE = Block.makeCuboidShape(0, 0, 0, 16, 12, 16);
+
     public PurifierBlock() {
-        super(Properties.create(Material.IRON).hardnessAndResistance(4, 20).sound(SoundType.METAL));
+        super(Properties.create(Material.IRON)
+                .hardnessAndResistance(5, 50)
+                .sound(SoundType.METAL));
     }
 
     @Override
@@ -37,6 +43,12 @@ public class PurifierBlock extends Block {
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new PurifierTileEntity();
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return SHAPE;
     }
 
     @SuppressWarnings("deprecation")

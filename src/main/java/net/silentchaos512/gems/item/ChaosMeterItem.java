@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -22,11 +23,13 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ChaosMeterItem extends Item {
+    public static final ResourceLocation CHAOS_LEVEL = SilentGems.getId("chaos_level");
+
     private static final String NBT_PLAYER_MODE = "ChaosMeter.PlayerMode";
 
     public ChaosMeterItem() {
         super(new Properties().group(GemsItemGroups.UTILITY).maxStackSize(1));
-        addPropertyOverride(SilentGems.getId("chaos_level"), (stack, world, entity) -> getChaosLevel(stack));
+        addPropertyOverride(CHAOS_LEVEL, (stack, world, entity) -> getChaosLevel(stack));
     }
 
     private static int getChaosLevel(ItemStack stack) {

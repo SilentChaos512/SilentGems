@@ -1,0 +1,43 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "bottom": "silentgems:block/supercharger_bottom",
+    "side": "silentgems:block/supercharger_side",
+    "top": "silentgems:block/supercharger_top",
+    "particle": "silentgems:block/supercharger_bottom"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        12,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#bottom"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "north": {
+          "texture": "#side"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "west": {
+          "texture": "#side"
+        },
+        "east": {
+          "texture": "#side"
+        }
+      }
+    }
+  ]
+}

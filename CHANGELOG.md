@@ -3,13 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.6.0] - 2020-07-20
 ### Added
 - Chaos gold and chaos silver
+- Model for purifier
 ### Removed
 - Ornate rod and gilded bowstring recipes
 - (1.16.1) Ornate rods and gilded bowstring
 ### Changed
+- Update material files for Silent Gear 1.10.0 [#479]
 - Most recipes redone with data generators, better tag support
 - Soul urns crafted with colored terracotta now match the actual terracotta color 
 - Corrupted stone and dirt can now be silk touched

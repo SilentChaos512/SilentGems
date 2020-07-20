@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.client.key.KeyTracker;
 import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.init.GemsItems;
@@ -43,6 +44,7 @@ public final class EnchantmentTokenItem extends Item {
         }
     }
 
+    public static final ResourceLocation MODEL_INDEX = SilentGems.getId("model_index");
     private static final String NBT_ENCHANTMENTS = "TokenEnchantments";
 
     private static final Map<Enchantment, Integer> OUTLINE_COLOR_MAP = new HashMap<>();
@@ -66,7 +68,7 @@ public final class EnchantmentTokenItem extends Item {
 
     public EnchantmentTokenItem() {
         super(new Properties().group(GemsItemGroups.UTILITY));
-        addPropertyOverride(new ResourceLocation("model_index"), EnchantmentTokenItem::getModel);
+        addPropertyOverride(MODEL_INDEX, EnchantmentTokenItem::getModel);
     }
 
     // ==============================================
