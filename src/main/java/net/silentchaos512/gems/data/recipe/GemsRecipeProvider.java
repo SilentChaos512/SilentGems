@@ -11,8 +11,8 @@ import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
@@ -188,7 +188,7 @@ public class GemsRecipeProvider extends RecipeProvider {
                 .patternLine("###")
                 .key('a', GemsItems.PURIFYING_POWDER)
                 .key('d', Tags.Items.GEMS_DIAMOND)
-                .key('c', CraftingItems.CHAOS_IRON)
+                .key('c', CraftingItems.CHAOS_IRON_INGOT)
                 .key('l', Items.GLOWSTONE)
                 .key('#', Tags.Items.OBSIDIAN)
                 .addCriterion("has_item", hasItem(CraftingItems.ENRICHED_CHAOS_CRYSTAL))
@@ -199,10 +199,10 @@ public class GemsRecipeProvider extends RecipeProvider {
                 .patternLine("###")
                 .key('a', GemsTags.Items.INGOTS_SILVER)
                 .key('d', Tags.Items.GEMS_DIAMOND)
-                .key('c', CraftingItems.CHAOS_IRON)
+                .key('c', CraftingItems.CHAOS_IRON_INGOT)
                 .key('l', Tags.Items.STORAGE_BLOCKS_LAPIS)
                 .key('#', Tags.Items.OBSIDIAN)
-                .addCriterion("has_item", hasItem(CraftingItems.CHAOS_IRON))
+                .addCriterion("has_item", hasItem(CraftingItems.CHAOS_IRON_INGOT))
                 .build(consumer);
         ShapedRecipeBuilder.shapedRecipe(GemsBlocks.TOKEN_ENCHANTER)
                 .patternLine("oeo")
@@ -210,10 +210,10 @@ public class GemsRecipeProvider extends RecipeProvider {
                 .patternLine("###")
                 .key('o', CraftingItems.BLANK_TOKEN)
                 .key('e', Tags.Items.GEMS_EMERALD)
-                .key('c', CraftingItems.CHAOS_IRON)
+                .key('c', CraftingItems.CHAOS_IRON_INGOT)
                 .key('l', Tags.Items.STORAGE_BLOCKS_LAPIS)
                 .key('#', Tags.Items.OBSIDIAN)
-                .addCriterion("has_item", hasItem(CraftingItems.CHAOS_IRON))
+                .addCriterion("has_item", hasItem(CraftingItems.CHAOS_IRON_INGOT))
                 .build(consumer);
         ShapedRecipeBuilder.shapedRecipe(GemsBlocks.TRANSMUTATION_ALTAR)
                 .patternLine("cdc")
@@ -310,11 +310,11 @@ public class GemsRecipeProvider extends RecipeProvider {
         compression(consumer, MiscBlocks.ENRICHED_CHAOS_CRYSTAL, CraftingItems.ENRICHED_CHAOS_CRYSTAL, "storage_blocks/enriched_chaos_crystal");
         compression(consumer, MiscBlocks.ENDER_CRYSTAL, CraftingItems.ENDER_CRYSTAL, "storage_blocks/ender_crystal");
         compression(consumer, MiscBlocks.SILVER, CraftingItems.SILVER_INGOT, "storage_blocks/silver");
-        compression(consumer, MiscBlocks.CHAOS_IRON, CraftingItems.CHAOS_IRON, "storage_blocks/chaos_iron");
+        compression(consumer, MiscBlocks.CHAOS_IRON, CraftingItems.CHAOS_IRON_INGOT, "storage_blocks/chaos_iron");
         compression(consumer, MiscBlocks.CHAOS_GOLD, CraftingItems.CHAOS_GOLD_INGOT, "storage_blocks/chaos_gold");
         compression(consumer, MiscBlocks.CHAOS_SILVER, CraftingItems.CHAOS_SILVER_INGOT, "storage_blocks/chaos_silver");
 
-        chaosMetalDust(consumer, CraftingItems.CHAOS_IRON_UNFIRED, CraftingItems.CHAOS_IRON, Tags.Items.INGOTS_IRON);
+        chaosMetalDust(consumer, CraftingItems.CHAOS_IRON_DUST, CraftingItems.CHAOS_IRON_INGOT, Tags.Items.INGOTS_IRON);
         chaosMetalDust(consumer, CraftingItems.CHAOS_GOLD_DUST, CraftingItems.CHAOS_GOLD_INGOT, Tags.Items.INGOTS_GOLD);
         chaosMetalDust(consumer, CraftingItems.CHAOS_SILVER_DUST, CraftingItems.CHAOS_SILVER_INGOT, GemsTags.Items.INGOTS_SILVER);
 
@@ -407,7 +407,7 @@ public class GemsRecipeProvider extends RecipeProvider {
                 .patternLine("/#/")
                 .patternLine("#p#")
                 .patternLine("/#/")
-                .key('/', CraftingItems.CHAOS_IRON)
+                .key('/', CraftingItems.CHAOS_IRON_INGOT)
                 .key('#', Tags.Items.STORAGE_BLOCKS_IRON)
                 .key('p', Items.POTATO)
                 .addCriterion("has_item", hasItem(Items.POTATO))
@@ -519,7 +519,7 @@ public class GemsRecipeProvider extends RecipeProvider {
         smeltingAndBlasting(consumer, id, ingredientIn, result);
     }
 
-    private void smeltingAndBlasting(Consumer<IFinishedRecipe> consumer, String id, Tag<Item> ingredientTag, IItemProvider result) {
+    private void smeltingAndBlasting(Consumer<IFinishedRecipe> consumer, String id, ITag<Item> ingredientTag, IItemProvider result) {
         Ingredient ingredientIn = Ingredient.fromTag(ingredientTag);
         smeltingAndBlasting(consumer, id, ingredientIn, result);
     }
@@ -551,7 +551,7 @@ public class GemsRecipeProvider extends RecipeProvider {
                 .build(consumer, SilentGems.getId(path + "_decompress"));
     }
 
-    private void chaosMetalDust(Consumer<IFinishedRecipe> consumer, IItemProvider dust, IItemProvider ingot, Tag<Item> baseMetal) {
+    private void chaosMetalDust(Consumer<IFinishedRecipe> consumer, IItemProvider dust, IItemProvider ingot, ITag<Item> baseMetal) {
         ShapedRecipeBuilder.shapedRecipe(dust, 1)
                 .patternLine("#")
                 .patternLine("/")
@@ -653,7 +653,7 @@ public class GemsRecipeProvider extends RecipeProvider {
                 .build(consumer);
         TokenEnchantingRecipeBuilder.builder(CraftingItems.ENDER_SLIME_CRYSTAL, 1, 250, 100)
                 .token(Tags.Items.GEMS_DIAMOND)
-                .addIngredient(CraftingItems.ENDER_SLIMEBALL, 6)
+                .addIngredient(CraftingItems.ENDER_SLIME_BALL, 6)
                 .addIngredient(CraftingItems.ENRICHED_CHAOS_CRYSTAL, 2)
                 .build(consumer);
         TokenEnchantingRecipeBuilder.builder(CraftingItems.ENRICHED_CHAOS_CRYSTAL, 1, 150, 20)
@@ -747,7 +747,7 @@ public class GemsRecipeProvider extends RecipeProvider {
                 .build(consumer, SilentGems.getId("fluffy_wool"));
     }
 
-    private void dyeFluffyBlock(Consumer<IFinishedRecipe> consumer, IItemProvider block, Tag<Item> dye) {
+    private void dyeFluffyBlock(Consumer<IFinishedRecipe> consumer, IItemProvider block, ITag<Item> dye) {
         ShapedRecipeBuilder.shapedRecipe(block, 8)
                 .patternLine("###")
                 .patternLine("#d#")

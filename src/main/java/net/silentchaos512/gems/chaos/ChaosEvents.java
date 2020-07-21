@@ -3,17 +3,20 @@ package net.silentchaos512.gems.chaos;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.IServerWorldInfo;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -121,9 +124,8 @@ public final class ChaosEvents {
         return time;
     }
 
-    @SuppressWarnings("ConstantConditions") // Bed location is nullable
     private static boolean hasBed(PlayerEntity player) {
-        return player.getBedLocation(DimensionType.OVERWORLD) != null;
+        return player.getBedPosition().isPresent();
     }
 
     public static Collection<ResourceLocation> getEventIds() {
@@ -178,24 +180,25 @@ public final class ChaosEvents {
         ++tickTimer;
         if (!LIGHTNING_QUEUE.isEmpty() && tickTimer % LIGHTNING_TICK_FREQUENCY == 0) {
             LightningBoltEntity bolt = LIGHTNING_QUEUE.remove().get();
-            ((ServerWorld) bolt.world).addLightningBolt(bolt);
+            bolt.world.addEntity(bolt);
         }
     }
 
     private static boolean spawnLightningBolt(Entity entity, World world) {
-        if (world instanceof ServerWorld && canSpawnLightningIn(world.dimension.getType())) {
+        if (world instanceof ServerWorld && canSpawnLightningIn(world.func_230315_m_())) {
             double posX = entity.getPosX() + MathUtils.nextIntInclusive(-64, 64);
             double posZ = entity.getPosZ() + MathUtils.nextIntInclusive(-64, 64);
             int height = world.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) posX, (int) posZ);
-            LightningBoltEntity bolt = new LightningBoltEntity(world, posX, height, posZ, false);
-            ((ServerWorld) world).addLightningBolt(bolt);
+            LightningBoltEntity bolt = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, world);
+            bolt.func_233576_c_(new Vector3d(posX, height, posZ));
+            world.addEntity(bolt);
             return true;
         }
         return false;
     }
 
     private static boolean spawnChaosLightningBolts(Entity entity, World world, int count) {
-        if (world instanceof ServerWorld && canSpawnLightningIn(world.dimension.getType())) {
+        if (world instanceof ServerWorld && canSpawnLightningIn(world.func_230315_m_())) {
             for (int i = 0; i < count; ++i) {
                 double posX = entity.getPosX() + MathUtils.nextIntInclusive(-64, 64);
                 double posZ = entity.getPosZ() + MathUtils.nextIntInclusive(-64, 64);
@@ -208,7 +211,9 @@ public final class ChaosEvents {
     }
 
     private static boolean canSpawnLightningIn(DimensionType dimensionType) {
-        return dimensionType.getId() != DimensionType.THE_NETHER.getId() && dimensionType.getId() != DimensionType.THE_END.getId();
+        // FIXME
+//        return dimensionType.getId() != DimensionType.THE_NETHER.getId() && dimensionType.getId() != DimensionType.THE_END.getId();
+        return true;
     }
 
     private static boolean corruptBlocks(Entity entity, World world) {
@@ -250,14 +255,15 @@ public final class ChaosEvents {
     }
 
     private static boolean setThunderstorm(World world, int time) {
-        if (!world.getGameRules().getBoolean(GameRules.DO_WEATHER_CYCLE) || world.getWorldInfo().isThundering())
+        if (!world.getGameRules().getBoolean(GameRules.DO_WEATHER_CYCLE) || world.getWorldInfo().isThundering() || !(world instanceof ServerWorld))
             return false;
 
-        world.getWorldInfo().setClearWeatherTime(0);
-        world.getWorldInfo().setRainTime(time);
-        world.getWorldInfo().setThunderTime(time);
-        world.getWorldInfo().setRaining(true);
-        world.getWorldInfo().setThundering(true);
+        IServerWorldInfo info = ((ServerWorld) world).getServer().func_240793_aU_().func_230407_G_();
+        //info.setClearWeatherTime(0);
+        info.setRainTime(time);
+        info.setThunderTime(time);
+        info.setRaining(true);
+        info.setThundering(true);
         return true;
     }
 

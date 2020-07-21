@@ -1043,7 +1043,7 @@ public class GemsMaterialsProvider extends MaterialsProvider {
         );
         //endregion
 
-        ret.add(new MaterialBuilder(SilentGems.getId("chaos_iron"), 3, CraftingItems.CHAOS_IRON)
+        ret.add(new MaterialBuilder(SilentGems.getId("chaos_iron"), 3, CraftingItems.CHAOS_IRON_INGOT)
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
                 .stat(PartType.MAIN, ItemStats.ARMOR_DURABILITY, 24)
                 .stat(PartType.MAIN, ItemStats.ENCHANTABILITY, 21)

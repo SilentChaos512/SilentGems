@@ -23,7 +23,7 @@ public class PhantomLightBlock extends Block {
     public PhantomLightBlock() {
         super(Properties.create(Material.MISCELLANEOUS)
                 .hardnessAndResistance(0.5f, 6000000)
-                .lightValue(15)
+                .setLightLevel(state -> 15)
                 .noDrops());
     }
 

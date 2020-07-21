@@ -170,8 +170,8 @@ public abstract class AbstractChaosMachineTileEntity<R extends IRecipe<?>> exten
     protected abstract void consumeIngredients(R recipe);
 
     @Override
-    public void read(CompoundNBT tags) {
-        super.read(tags);
+    public void read(BlockState state, CompoundNBT tags) {
+        super.read(state, tags);
         readData(tags);
     }
 

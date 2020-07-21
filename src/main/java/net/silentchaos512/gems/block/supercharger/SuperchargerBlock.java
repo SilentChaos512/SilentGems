@@ -69,8 +69,8 @@ public class SuperchargerBlock extends Block {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(new TranslationTextComponent(this.getTranslationKey() + ".desc1").applyTextStyle(TextFormatting.ITALIC));
-        tooltip.add(new TranslationTextComponent(this.getTranslationKey() + ".desc2").applyTextStyle(TextFormatting.ITALIC));
+        tooltip.add(new TranslationTextComponent(this.getTranslationKey() + ".desc1").func_240699_a_(TextFormatting.ITALIC));
+        tooltip.add(new TranslationTextComponent(this.getTranslationKey() + ".desc2").func_240699_a_(TextFormatting.ITALIC));
     }
 
     @Override

@@ -10,12 +10,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.loot.LootTableManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootTableManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -130,7 +130,7 @@ public final class GemsBlocks {
     }
 
     private static BlockRegistryObject<FluffyBlock> registerFluffyBlock(DyeColor color) {
-        return register(color.getName() + "_fluffy_block", () -> new FluffyBlock(color));
+        return register(color.getTranslationKey() + "_fluffy_block", () -> new FluffyBlock(color));
     }
 
     public static <T extends Block> Supplier<BlockItem> defaultItem(BlockRegistryObject<T> block) {
@@ -156,7 +156,7 @@ public final class GemsBlocks {
 
         if (!missing.isEmpty()) {
             String list = String.join(", ", missing);
-            return new StringTextComponent("The following block loot tables are missing: " + list).applyTextStyle(TextFormatting.RED);
+            return new StringTextComponent("The following block loot tables are missing: " + list).func_240699_a_(TextFormatting.RED);
         }
 
         return null;

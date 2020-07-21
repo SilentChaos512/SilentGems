@@ -10,11 +10,11 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.LootTableProvider;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EntityType;
+import net.minecraft.loot.*;
+import net.minecraft.loot.conditions.BlockStateProperty;
+import net.minecraft.loot.conditions.RandomChanceWithLooting;
+import net.minecraft.loot.functions.*;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.*;
-import net.minecraft.world.storage.loot.conditions.BlockStateProperty;
-import net.minecraft.world.storage.loot.conditions.RandomChanceWithLooting;
-import net.minecraft.world.storage.loot.functions.*;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
@@ -100,11 +100,11 @@ public class GemsLootTableProvider extends LootTableProvider {
         protected void addTables() {
             registerLootTable(GemsEntities.CORRUPTED_SLIME.get(), LootTable.builder()
                     .addLootPool(LootPool.builder()
-                            .addEntry(ItemLootEntry.builder(CraftingItems.CORRUPTED_SLIMEBALL)
+                            .addEntry(ItemLootEntry.builder(CraftingItems.CORRUPTED_SLIME_BALL)
                                     .acceptCondition(RandomChanceWithLooting.builder(0.15f, 0.05f)))));
             registerLootTable(GemsEntities.ENDER_SLIME.get(), LootTable.builder()
                     .addLootPool(LootPool.builder()
-                            .addEntry(ItemLootEntry.builder(CraftingItems.ENDER_SLIMEBALL)
+                            .addEntry(ItemLootEntry.builder(CraftingItems.ENDER_SLIME_BALL)
                                     .acceptCondition(RandomChanceWithLooting.builder(0.075f, 0.025f)))));
 
             registerLootTable(WispTypes.CHAOS.getEntityType(), LootTable.builder()
@@ -218,8 +218,8 @@ public class GemsLootTableProvider extends LootTableProvider {
                                             .replaceOperation("Color", "BlockEntityTag.Color")
                                             .replaceOperation("Gem", "BlockEntityTag.Gem")
                                             .replaceOperation("Upgrades", "BlockEntityTag.Upgrades"))
-                                    .acceptFunction(SetContents.builder()
-                                            .addLootEntry(DynamicLootEntry.func_216162_a(ShulkerBoxBlock.CONTENTS)))))));
+                                    .acceptFunction(SetContents.func_215920_b()
+                                            .func_216075_a(DynamicLootEntry.func_216162_a(ShulkerBoxBlock.CONTENTS)))))));
 
             registerDropSelfLootTable(GemsBlocks.SUPERCHARGER.get());
             registerDropSelfLootTable(GemsBlocks.TOKEN_ENCHANTER.get());

@@ -49,18 +49,18 @@ public enum CraftingItems implements IItemProvider {
     NETHER_STAR_SHARD,
     SILVER_INGOT,
     SILVER_NUGGET,
-    CHAOS_IRON_UNFIRED, // FIXME: rename to CHAOS_IRON_DUST
+    CHAOS_IRON_DUST,
     CHAOS_GOLD_DUST,
     CHAOS_SILVER_DUST,
-    CHAOS_IRON, // FIXME: rename to CHAOS_IRON_INGOT
+    CHAOS_IRON_INGOT,
     CHAOS_GOLD_INGOT,
     CHAOS_SILVER_INGOT,
     CHARGING_AGENT,
     SUPER_CHARGING_AGENT,
     ULTRA_CHARGING_AGENT,
     CHAOS_COAL,
-    ENDER_SLIMEBALL, // FIXME: Should be "slime_ball"?
-    CORRUPTED_SLIMEBALL, // FIXME: Should be "slime_ball"?
+    ENDER_SLIME_BALL,
+    CORRUPTED_SLIME_BALL,
     SLIME_CRYSTAL,
     MAGMA_CREAM_CRYSTAL,
     ENDER_SLIME_CRYSTAL,
@@ -70,10 +70,7 @@ public enum CraftingItems implements IItemProvider {
     ICE_WISP_ESSENCE,
     LIGHTNING_WISP_ESSENCE,
     FLUFFY_PUFF,
-    @Deprecated ORNATE_GOLD_ROD,
-    @Deprecated ORNATE_SILVER_ROD,
     GILDED_STRING,
-    @Deprecated GILDED_BOWSTRING,
     BLANK_TOKEN,
     RUNE_SLATE,
     SOUL_SHELL,
@@ -127,12 +124,12 @@ public enum CraftingItems implements IItemProvider {
 
         @Override
         public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-            tooltip.add(new TranslationTextComponent("item.silentgems.crafting_material.desc")
-                    .applyTextStyle(TextFormatting.GOLD));
+//            tooltip.add(new TranslationTextComponent("item.silentgems.crafting_material.desc")
+//                    .func_240699_a_(TextFormatting.GOLD));
 
             String descKey = this.getTranslationKey() + ".desc";
             if (I18n.hasKey(descKey)) {
-                tooltip.add(new TranslationTextComponent(descKey).applyTextStyle(TextFormatting.ITALIC));
+                tooltip.add(new TranslationTextComponent(descKey).func_240699_a_(TextFormatting.ITALIC));
             }
         }
 

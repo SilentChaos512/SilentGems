@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,6 +18,7 @@ import net.silentchaos512.gems.client.render.entity.CorruptedSlimeRenderer;
 import net.silentchaos512.gems.client.render.entity.EnderSlimeRenderer;
 import net.silentchaos512.gems.client.render.entity.WispRenderer;
 import net.silentchaos512.gems.client.render.entity.WispShotRenderer;
+import net.silentchaos512.gems.entity.AbstractWispEntity;
 import net.silentchaos512.gems.entity.CorruptedSlimeEntity;
 import net.silentchaos512.gems.entity.EnderSlimeEntity;
 import net.silentchaos512.gems.lib.WispTypes;
@@ -35,6 +37,8 @@ public final class GemsEntities {
         for (WispTypes wispType : WispTypes.values()) {
             registerType(wispType.getName(), wispType.getEntityType());
             registerType(wispType.getName() + "_shot", wispType.getShotType());
+
+            GlobalEntityTypeAttributes.put(wispType.getEntityType(), AbstractWispEntity.registerAttributes().func_233813_a_());
         }
 
         EntitySpawnPlacementRegistry.register(ENDER_SLIME.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EnderSlimeEntity::canSpawnAt);

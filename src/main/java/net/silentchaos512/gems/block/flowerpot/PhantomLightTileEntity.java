@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.block.flowerpot;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -44,8 +45,8 @@ public class PhantomLightTileEntity extends TileEntity implements ITickableTileE
     }
 
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void read(BlockState state, CompoundNBT compound) {
+        super.read(state, compound);
         spawnerPos = new BlockPos(
                 compound.getInt("spawnerX"),
                 compound.getInt("spawnerY"),

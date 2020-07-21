@@ -52,7 +52,7 @@ public class IceWispShotEntity extends AbstractWispShotEntity {
     private boolean attackEntity(LivingEntity entity) {
         if (entity.getActivePotionEffect(GemsEffects.INSULATED.get()) != null)
             return false;
-        return entity.attackEntityFrom(ModDamageSource.causeWispShotDamage(this, this.shootingEntity), 4f);
+        return entity.attackEntityFrom(ModDamageSource.causeWispShotDamage(this, this.func_234616_v_()), 4f);
     }
 
     @Override

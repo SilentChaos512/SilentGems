@@ -78,11 +78,11 @@ public final class ChaosRuneItem extends Item {
 
         // Debug
         if (KeyTracker.isAltDown()) {
-            tooltip.add(new StringTextComponent(String.format("Buff ID: %s", buff.getId())).applyTextStyle(TextFormatting.DARK_GRAY));
-            tooltip.add(new StringTextComponent(String.format("Color: %X", buff.getRuneColor())).applyTextStyle(TextFormatting.DARK_GRAY));
+            tooltip.add(new StringTextComponent(String.format("Buff ID: %s", buff.getId())).func_240699_a_(TextFormatting.DARK_GRAY));
+            tooltip.add(new StringTextComponent(String.format("Color: %X", buff.getRuneColor())).func_240699_a_(TextFormatting.DARK_GRAY));
             if (buff instanceof PotionChaosBuff) {
                 Effect effect = ((PotionChaosBuff) buff).getEffect();
-                tooltip.add(new StringTextComponent(String.format("Effect: %s", effect)).applyTextStyle(TextFormatting.DARK_GRAY));
+                tooltip.add(new StringTextComponent(String.format("Effect: %s", effect)).func_240699_a_(TextFormatting.DARK_GRAY));
             }
         }
     }

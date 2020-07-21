@@ -27,10 +27,10 @@ public final class CorruptedSlimeSpawner {
             return false;
 
         int count = MathUtils.nextIntInclusive(SilentGems.random, MIN_GROUP_COUNT, MAX_GROUP_COUNT);
-        BlockPos pos = getRandomHeight(player.world, player.world.getChunk(player.getPosition()));
+        BlockPos pos = getRandomHeight(player.world, player.world.getChunk(player.func_233580_cy_()));
 
         for (int i = 0; i < 4; ++i) {
-            if (spawnGroup(GemsEntities.CORRUPTED_SLIME.get(), count, player.world, player.getPosition())) {
+            if (spawnGroup(GemsEntities.CORRUPTED_SLIME.get(), count, player.world, player.func_233580_cy_())) {
                 return true;
             }
         }
@@ -58,7 +58,7 @@ public final class CorruptedSlimeSpawner {
 
             DifficultyInstance difficultyInstance = world.getDifficultyForLocation(blockPos);
 
-            if (canSpawnAt(world, blockPos)) {
+            if (canSpawnAt(world, blockPos, type)) {
                 Entity entity = type.create(world);
                 if (entity != null && entity instanceof CorruptedSlimeEntity) {
                     CorruptedSlimeEntity slime = (CorruptedSlimeEntity) entity;
@@ -79,8 +79,8 @@ public final class CorruptedSlimeSpawner {
         return spawned > 0;
     }
 
-    private static boolean canSpawnAt(World world, BlockPos pos) {
-        final boolean isSpawnableSpace = WorldEntitySpawner.isSpawnableSpace(world, pos, world.getBlockState(pos), world.getFluidState(pos));
+    private static boolean canSpawnAt(World world, BlockPos pos, EntityType<?> type) {
+        final boolean isSpawnableSpace = WorldEntitySpawner.func_234968_a_(world, pos, world.getBlockState(pos), world.getFluidState(pos), type);
         return isSpawnableSpace && world.getLightFor(LightType.BLOCK, pos) < 7;
     }
 

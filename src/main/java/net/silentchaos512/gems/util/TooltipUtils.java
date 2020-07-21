@@ -14,7 +14,7 @@ public final class TooltipUtils {
     public static void addDescLineIfPresent(ItemStack stack, List<ITextComponent> tooltip) {
         String key = stack.getTranslationKey() + ".desc";
         if (I18n.hasKey(key)) {
-            tooltip.add(new TranslationTextComponent(key).applyTextStyle(TextFormatting.ITALIC));
+            tooltip.add(new TranslationTextComponent(key).func_240699_a_(TextFormatting.ITALIC));
         }
     }
 }

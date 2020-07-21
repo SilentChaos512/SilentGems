@@ -26,13 +26,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.*;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameters;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
@@ -40,23 +42,15 @@ import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.*;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootParameters;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.init.GemsSounds;
@@ -80,6 +74,7 @@ public class SoulUrnBlock extends Block implements IWaterLoggable {
     static final EnumProperty<LidState> LID = EnumProperty.create("lid", LidState.class);
     private static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final ResourceLocation LIDLESS = SilentGems.getId("lidless");
 
     public SoulUrnBlock() {
         super(Properties.create(Material.ROCK)
@@ -110,7 +105,7 @@ public class SoulUrnBlock extends Block implements IWaterLoggable {
             }
         }
 
-        IFluidState fluidState = context.getWorld().getFluidState(context.getPos());
+        FluidState fluidState = context.getWorld().getFluidState(context.getPos());
         return this.getDefaultState()
                 .with(FACING, context.getPlacementHorizontalFacing())
                 .with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
@@ -118,7 +113,7 @@ public class SoulUrnBlock extends Block implements IWaterLoggable {
 
     @SuppressWarnings("deprecation")
     @Override
-    public IFluidState getFluidState(BlockState state) {
+    public FluidState getFluidState(BlockState state) {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 
@@ -264,18 +259,6 @@ public class SoulUrnBlock extends Block implements IWaterLoggable {
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean causesSuffocation(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return false;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean isNormalCube(BlockState state, IBlockReader world, BlockPos pos) {
-        return false;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
     public boolean hasComparatorInputOverride(BlockState state) {
         return true;
     }
@@ -350,14 +333,14 @@ public class SoulUrnBlock extends Block implements IWaterLoggable {
         }
 
         if (InputUtils.isControlDown()) {
-            tooltip.add(translate("upgrades").applyTextStyle(TextFormatting.YELLOW));
+            tooltip.add(translate("upgrades").func_240699_a_(TextFormatting.YELLOW));
             List<UrnUpgrade> upgrades = UrnUpgrade.ListHelper.load(stack);
             for (UrnUpgrade upgrade : upgrades) {
                 tooltip.add(translate("upgrade_list", upgrade.getDisplayName()));
             }
         } else {
-            ITextComponent pressCtrl = new TranslationTextComponent("misc.silentgems.pressCtrl").applyTextStyle(TextFormatting.DARK_GRAY);
-            tooltip.add(translate("upgrades", pressCtrl).applyTextStyle(TextFormatting.YELLOW));
+            ITextComponent pressCtrl = new TranslationTextComponent("misc.silentgems.pressCtrl").func_240699_a_(TextFormatting.DARK_GRAY);
+            tooltip.add(translate("upgrades", pressCtrl).func_240699_a_(TextFormatting.YELLOW));
 
             addInventoryInformation(stack, worldIn, tooltip, flagIn);
         }
@@ -382,21 +365,21 @@ public class SoulUrnBlock extends Block implements IWaterLoggable {
                         ++j;
                         if (i <= 4) {
                             ++i;
-                            ITextComponent text = itemstack.getDisplayName().deepCopy();
-                            text.appendText(" x").appendText(String.valueOf(itemstack.getCount()));
+                            IFormattableTextComponent text = itemstack.getDisplayName().deepCopy();
+                            text.func_240702_b_(" x").func_240702_b_(String.valueOf(itemstack.getCount()));
                             tooltip.add(text);
                         }
                     }
                 }
 
                 if (j - i > 0) {
-                    tooltip.add((new TranslationTextComponent("container.shulkerBox.more", j - i)).applyTextStyle(TextFormatting.ITALIC));
+                    tooltip.add((new TranslationTextComponent("container.shulkerBox.more", j - i)).func_240699_a_(TextFormatting.ITALIC));
                 }
             }
         }
     }
 
-    private static ITextComponent translate(String key, Object... args) {
+    private static IFormattableTextComponent translate(String key, Object... args) {
         return new TranslationTextComponent("block.silentgems.soul_urn." + key, args);
     }
 
@@ -411,8 +394,6 @@ public class SoulUrnBlock extends Block implements IWaterLoggable {
                     .group(GemsItemGroups.BLOCKS));
 
             this.blockSoulUrn = block;
-
-            addPropertyOverride(SilentGems.getId("lidless"), (stack, world, entity) -> UrnHelper.hasLid(stack) ? 0 : 1);
         }
 
         @Override

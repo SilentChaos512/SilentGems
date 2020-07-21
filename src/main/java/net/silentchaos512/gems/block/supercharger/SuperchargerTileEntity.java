@@ -310,8 +310,8 @@ public class SuperchargerTileEntity extends LockableSidedInventoryTileEntity imp
     }
 
     @Override
-    public void read(CompoundNBT tags) {
-        super.read(tags);
+    public void read(BlockState state, CompoundNBT tags) {
+        super.read(state, tags);
         SyncVariable.Helper.readSyncVars(this, tags);
     }
 

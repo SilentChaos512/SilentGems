@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.block.pedestal.PedestalTileEntity;
 import net.silentchaos512.lib.event.ClientTicks;

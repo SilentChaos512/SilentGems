@@ -10,6 +10,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
@@ -40,9 +41,6 @@ public class ChaosOrbItem extends Item {
         this.maxAbsorb = maxAbsorb;
         this.crackStages = crackStages;
         this.leakage = leakage;
-
-        // Not strictly necessary, but will allow durability to change without editing models.
-        this.addPropertyOverride(CRACK_STAGE, (stack, world, entity) -> getCrackStage(stack));
     }
 
     public static int absorbChaos(LivingEntity entity, ItemStack stack, int amount) {
@@ -96,8 +94,8 @@ public class ChaosOrbItem extends Item {
     }
 
     private static void notifyOrbCracked(LivingEntity entity, ItemStack stack) {
-        entity.sendMessage(new TranslationTextComponent("item.silentgems.chaos_orb.crack", stack.getDisplayName()));
-        playCrackSound(entity.world, entity.getPosition());
+        entity.sendMessage(new TranslationTextComponent("item.silentgems.chaos_orb.crack", stack.getDisplayName()), Util.DUMMY_UUID);
+        playCrackSound(entity.world, entity.func_233580_cy_());
     }
 
     private static void destroyOrb(LivingEntity entity, ItemStack stack) {
@@ -108,11 +106,11 @@ public class ChaosOrbItem extends Item {
         if (entity instanceof PlayerEntity) {
             ((PlayerEntity) entity).addStat(Stats.ITEM_BROKEN.get(stack.getItem()));
         }
-        destroyOrb(entity.world, entity.getPosition(), stack);
+        destroyOrb(entity.world, entity.func_233580_cy_(), stack);
 
         int pieceCount = entity.getRNG().nextInt(99000) + 1000;
         String piecesFormatted = String.format("%,d", pieceCount);
-        entity.sendMessage(new TranslationTextComponent("item.silentgems.chaos_orb.break", displayName, piecesFormatted));
+        entity.sendMessage(new TranslationTextComponent("item.silentgems.chaos_orb.break", displayName, piecesFormatted), Util.DUMMY_UUID);
     }
 
     private static void destroyOrb(IWorld world, BlockPos pos, ItemStack stack) {

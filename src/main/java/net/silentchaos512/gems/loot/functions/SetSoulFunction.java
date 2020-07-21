@@ -4,26 +4,29 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootFunction;
+import net.minecraft.loot.LootFunctionType;
+import net.minecraft.loot.conditions.ILootCondition;
+import net.minecraft.loot.functions.ILootFunction;
 import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.functions.ILootFunction;
-import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.init.GemsLoot;
 import net.silentchaos512.gems.item.SoulGemItem;
 import net.silentchaos512.gems.lib.soul.Soul;
 
-public class SetSoulFunction implements ILootFunction {
-    public static final Serializer SERIALIZER = new Serializer(SilentGems.getId("set_soul"), SetSoulFunction.class);
+public class SetSoulFunction extends LootFunction {
+    public static final Serializer SERIALIZER = new Serializer();
 
     private final String soulId;
 
-    public SetSoulFunction(String soulId) {
+    protected SetSoulFunction(ILootCondition[] conditionsIn, String soulId) {
+        super(conditionsIn);
         this.soulId = soulId;
     }
 
     @Override
-    public ItemStack apply(ItemStack itemStack, LootContext lootContext) {
-        ItemStack result = itemStack.copy();
+    protected ItemStack doApply(ItemStack stack, LootContext context) {
+        ItemStack result = stack.copy();
         Soul soul = Soul.from(soulId);
         if (soul != null) {
             SoulGemItem.setSoul(result, soul);
@@ -32,23 +35,24 @@ public class SetSoulFunction implements ILootFunction {
     }
 
     public static ILootFunction.IBuilder builder(Soul soul) {
-        return () -> new SetSoulFunction(soul.getId().toString());
+        return builder(conditions -> new SetSoulFunction(conditions, soul.getId().toString()));
     }
 
-    public static class Serializer extends ILootFunction.Serializer<SetSoulFunction> {
-        protected Serializer(ResourceLocation location, Class<SetSoulFunction> clazz) {
-            super(location, clazz);
-        }
+    @Override
+    public LootFunctionType func_230425_b_() {
+        return GemsLoot.SET_SOUL;
+    }
 
+    public static class Serializer extends LootFunction.Serializer<SetSoulFunction> {
         @Override
-        public void serialize(JsonObject json, SetSoulFunction value, JsonSerializationContext serializationContext) {
+        public void func_230424_a_(JsonObject json, SetSoulFunction value, JsonSerializationContext serializationContext) {
             json.addProperty("soul", value.soulId);
         }
 
         @Override
-        public SetSoulFunction deserialize(JsonObject json, JsonDeserializationContext context) {
+        public SetSoulFunction deserialize(JsonObject json, JsonDeserializationContext deserializationContext, ILootCondition[] conditionsIn) {
             String soulId = JSONUtils.getString(json, "soul");
-            return new SetSoulFunction(soulId);
+            return new SetSoulFunction(conditionsIn, soulId);
         }
     }
 }

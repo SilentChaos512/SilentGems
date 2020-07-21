@@ -26,7 +26,7 @@ import net.silentchaos512.gems.compat.gear.SGearProxy;
 
 public class EnchantmentSupercharged extends Enchantment {
     public EnchantmentSupercharged() {
-        super(Rarity.VERY_RARE, EnchantmentType.ALL, new EquipmentSlotType[0]);
+        super(Rarity.VERY_RARE, EnchantmentType.VANISHABLE, new EquipmentSlotType[0]);
     }
 
     @Override

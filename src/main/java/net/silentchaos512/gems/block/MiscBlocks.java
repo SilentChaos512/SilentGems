@@ -44,7 +44,7 @@ public enum MiscBlocks implements IBlockProvider {
     SILVER(CraftingItems.SILVER_INGOT,
             builder(Material.IRON)
     ),
-    CHAOS_IRON(CraftingItems.CHAOS_IRON,
+    CHAOS_IRON(CraftingItems.CHAOS_IRON_INGOT,
             builder(Material.IRON)
     ),
     CHAOS_GOLD(CraftingItems.CHAOS_GOLD_INGOT,

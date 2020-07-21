@@ -10,7 +10,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IItemProvider;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Consumer;
 
-public enum ModFoods implements IItemProvider, IStringSerializable {
+public enum ModFoods implements IItemProvider {
     POTATO_ON_A_STICK(SGFoodItem.Builder.create()
             .food(new Food.Builder().hunger(8).saturation(0.8f).build())
             .setReturnItem(Items.STICK)
@@ -94,7 +94,6 @@ public enum ModFoods implements IItemProvider, IStringSerializable {
         return item.get();
     }
 
-    @Override
     public String getName() {
         return name().toLowerCase(Locale.ROOT);
     }
@@ -225,7 +224,7 @@ public enum ModFoods implements IItemProvider, IStringSerializable {
             // Add chat message
             if (MathUtils.tryPercentage(random, SECRET_DONUT_TEXT_CHANCE)) {
                 String key = "donut.silentgems." + MathUtils.nextIntInclusive(1, 8);
-                player.sendMessage(new TranslationTextComponent(key));
+                player.sendMessage(new TranslationTextComponent(key), Util.DUMMY_UUID);
             }
         }
 
@@ -240,7 +239,7 @@ public enum ModFoods implements IItemProvider, IStringSerializable {
 
         @Override
         public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-            tooltip.add(new TranslationTextComponent(this.getTranslationKey() + ".desc").applyTextStyle(TextFormatting.ITALIC));
+            tooltip.add(new TranslationTextComponent(this.getTranslationKey() + ".desc").func_240699_a_(TextFormatting.ITALIC));
         }
     }
 }

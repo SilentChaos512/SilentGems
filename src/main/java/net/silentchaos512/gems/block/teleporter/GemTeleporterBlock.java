@@ -2,6 +2,7 @@ package net.silentchaos512.gems.block.teleporter;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
@@ -25,7 +26,7 @@ public class GemTeleporterBlock extends TeleporterBaseBlock implements IGemBlock
     }
 
     @Override
-    public ITextComponent getGemBlockName() {
+    public IFormattableTextComponent getGemBlockName() {
         return new TranslationTextComponent("block.silentgems.teleporter", this.gem.getDisplayName());
     }
 
@@ -36,7 +37,7 @@ public class GemTeleporterBlock extends TeleporterBaseBlock implements IGemBlock
     }
 
     @Override
-    public ITextComponent getNameTextComponent() {
+    public IFormattableTextComponent getTranslatedName() {
         return getGemBlockName();
     }
 }

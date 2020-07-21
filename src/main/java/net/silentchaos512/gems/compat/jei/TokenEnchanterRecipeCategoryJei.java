@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.compat.jei;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -100,14 +101,14 @@ public class TokenEnchanterRecipeCategoryJei implements IRecipeCategory<TokenEnc
     }
 
     @Override
-    public void draw(TokenEnchanterRecipe recipe, double mouseX, double mouseY) {
-        arrow.draw(81, 11);
+    public void draw(TokenEnchanterRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
+        arrow.draw(matrixStack, 81, 11);
 
         Minecraft mc = Minecraft.getInstance();
         // Chaos emission rate
         int chaos = recipe.getChaosGenerated();
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaos);
-        String str = emissionRate.getEmissionText(chaos).getFormattedText();
-        mc.fontRenderer.drawStringWithShadow(str, 1, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT - 1, -1);
+        String str = emissionRate.getEmissionText(chaos).getString();
+        mc.fontRenderer.drawStringWithShadow(matrixStack, str, 1, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT - 1, -1);
     }
 }

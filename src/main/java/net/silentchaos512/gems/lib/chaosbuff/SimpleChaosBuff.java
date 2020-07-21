@@ -87,8 +87,8 @@ public class SimpleChaosBuff implements IChaosBuff {
             return displayName.get();
         }
         return displayName.get()
-                .appendText(" ")
-                .appendSibling(new TranslationTextComponent("enchantment.level." + level));
+                .copyRaw().func_240702_b_(" ")
+                .func_230529_a_(new TranslationTextComponent("enchantment.level." + level));
     }
 
     @Override

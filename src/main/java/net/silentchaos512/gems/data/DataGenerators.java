@@ -14,8 +14,9 @@ public final class DataGenerators {
         DataGenerator gen = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-        gen.addProvider(new GemsBlockTagsProvider(gen));
-        gen.addProvider(new GemsItemTagsProvider(gen));
+        GemsBlockTagsProvider blockTags = new GemsBlockTagsProvider(gen);
+        gen.addProvider(blockTags);
+        gen.addProvider(new GemsItemTagsProvider(gen, blockTags));
         gen.addProvider(new GemsRecipeProvider(gen));
         gen.addProvider(new GemsLootTableProvider(gen));
 

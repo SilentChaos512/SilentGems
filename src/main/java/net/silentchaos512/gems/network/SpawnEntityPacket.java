@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.LogicalSidedProvider;
@@ -40,7 +40,7 @@ public class SpawnEntityPacket {
         this.pitch = (byte) MathHelper.floor(e.rotationPitch * 256.0F / 360.0F);
         this.yaw = (byte) MathHelper.floor(e.rotationYaw * 256.0F / 360.0F);
         this.headYaw = (byte) (e.getRotationYawHead() * 256.0F / 360.0F);
-        Vec3d vec3d = e.getMotion();
+        Vector3d vec3d = e.getMotion();
         double d1 = MathHelper.clamp(vec3d.x, -3.9D, 3.9D);
         double d2 = MathHelper.clamp(vec3d.y, -3.9D, 3.9D);
         double d3 = MathHelper.clamp(vec3d.z, -3.9D, 3.9D);

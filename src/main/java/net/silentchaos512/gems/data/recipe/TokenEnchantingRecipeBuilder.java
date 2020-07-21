@@ -6,7 +6,7 @@ import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gems.init.GemsRecipeInit;
@@ -17,7 +17,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class TokenEnchantingRecipeBuilder {
+@SuppressWarnings("WeakerAccess")
+public final class TokenEnchantingRecipeBuilder {
     private final Item result;
     private final int count;
     private final int chaosGenerated;
@@ -40,7 +41,7 @@ public class TokenEnchantingRecipeBuilder {
         return token(Ingredient.fromItems(item));
     }
 
-    public TokenEnchantingRecipeBuilder token(Tag<Item> tag) {
+    public TokenEnchantingRecipeBuilder token(ITag<Item> tag) {
         return token(Ingredient.fromTag(tag));
     }
 
@@ -53,7 +54,7 @@ public class TokenEnchantingRecipeBuilder {
         return addIngredient(Ingredient.fromItems(item), count);
     }
 
-    public TokenEnchantingRecipeBuilder addIngredient(Tag<Item> tag, int count) {
+    public TokenEnchantingRecipeBuilder addIngredient(ITag<Item> tag, int count) {
         return addIngredient(Ingredient.fromTag(tag), count);
     }
 

@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.compat.jei;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -13,6 +14,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextProperties;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 import net.silentchaos512.gems.crafting.recipe.AltarTransmutationRecipe;
 import net.silentchaos512.gems.init.GemsBlocks;
@@ -89,18 +91,18 @@ public class TransmutationAltarRecipeCategoryJei implements IRecipeCategory<Alta
     }
 
     @Override
-    public void draw(AltarTransmutationRecipe recipe, double mouseX, double mouseY) {
-        arrow.draw(43, 128 - GUI_START_Y);
+    public void draw(AltarTransmutationRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
+        arrow.draw(matrixStack, 43, 128 - GUI_START_Y);
 
         Minecraft mc = Minecraft.getInstance();
         // Chaos emission rate
         int chaos = recipe.getChaosGenerated();
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaos);
-        String str = emissionRate.getEmissionText(chaos).getFormattedText();
-        TextRenderUtils.renderScaled(mc.fontRenderer, str, 1, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT + 2, 0.8f, -1, true);
+        ITextProperties str = emissionRate.getEmissionText(chaos);
+        TextRenderUtils.renderScaled(matrixStack, mc.fontRenderer, str, 1, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT + 2, 0.8f, -1, true);
 
         // Catalyst label
-        String catalystText = TextUtil.translate("jei", "recipe.altar.catalystNotConsumed").getFormattedText();
-        TextRenderUtils.renderScaled(mc.fontRenderer, catalystText, 38, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT - 5, 0.5f, -1, true);
+        ITextProperties catalystText = TextUtil.translate("jei", "recipe.altar.catalystNotConsumed");
+        TextRenderUtils.renderScaled(matrixStack, mc.fontRenderer, catalystText, 38, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT - 5, 0.5f, -1, true);
     }
 }

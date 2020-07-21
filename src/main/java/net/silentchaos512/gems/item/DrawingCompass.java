@@ -8,7 +8,7 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
@@ -23,8 +23,8 @@ public class DrawingCompass extends Item {
 
     public DrawingCompass() {
         super(new Properties().maxStackSize(1));
-        addPropertyOverride(new ResourceLocation("state"),
-                (stack, worldIn, entityIn) -> getState(stack).ordinal());
+//        addPropertyOverride(new ResourceLocation("state"),
+//                (stack, worldIn, entityIn) -> getState(stack).ordinal());
     }
 
     @Override
@@ -121,7 +121,7 @@ public class DrawingCompass extends Item {
 //            String str = SilentGems.i18n.subText(this, "radius", radius);
 //            ChatHelper.sendMessage(playerIn, str);
             if (player != null) {
-                player.sendMessage(new StringTextComponent("radius = " + radius)); // FIXME
+                player.sendMessage(new StringTextComponent("radius = " + radius), Util.DUMMY_UUID); // FIXME
             }
         } else if (state == State.EMPTY) {
             // Set block 1
@@ -129,7 +129,7 @@ public class DrawingCompass extends Item {
         } else if (player != null) {
 //            String str = SilentGems.i18n.subText(this, "howToReset");
 //            ChatHelper.sendMessage(playerIn, str);
-            player.sendMessage(new StringTextComponent("howToReset")); // FIXME
+            player.sendMessage(new StringTextComponent("howToReset"), Util.DUMMY_UUID); // FIXME
         }
 
         return ActionResultType.PASS;
@@ -162,9 +162,9 @@ public class DrawingCompass extends Item {
         float increment = (float) (2 * Math.PI / count);
         float start = increment * (world.getGameTime() % 30) / 30f;
 
-        Vec3d vec;
+        Vector3d vec;
         for (float angle = start; angle < 2 * Math.PI + start; angle += increment) {
-            vec = new Vec3d(radius, 0, 0).rotateYaw(angle);
+            vec = new Vector3d(radius, 0, 0).rotateYaw(angle);
             particle(player, world, color, center.getX() + 0.5 + vec.x, center.getY() + 0.5 + vec.y, center.getZ() + 0.5 + vec.z);
         }
 
@@ -176,7 +176,7 @@ public class DrawingCompass extends Item {
         double dz = (double) (pos2.getZ() - pos1.getZ()) / count;
 
         for (int i = 0; i < count; ++i) {
-            vec = new Vec3d(pos1.getX() + 0.5 + i * dx, pos1.getY() + 0.5 + i * dy, pos1.getZ() + 0.5 + i * dz);
+            vec = new Vector3d(pos1.getX() + 0.5 + i * dx, pos1.getY() + 0.5 + i * dy, pos1.getZ() + 0.5 + i * dz);
             particle(player, world, color, vec.x, vec.y, vec.z);
         }
 

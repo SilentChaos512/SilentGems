@@ -2,10 +2,10 @@ package net.silentchaos512.gems.init;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.loot.*;
+import net.minecraft.loot.functions.SetCount;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.*;
-import net.minecraft.world.storage.loot.functions.LootFunctionManager;
-import net.minecraft.world.storage.loot.functions.SetCount;
+import net.minecraft.util.registry.Registry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.LootTableLoadEvent;
@@ -24,6 +24,8 @@ import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = SilentGems.MOD_ID)
 public final class GemsLoot {
+    public static final LootFunctionType SET_SOUL = new LootFunctionType(SetSoulFunction.SERIALIZER);
+
     public static final RegistryObject<GlobalLootModifierSerializer<?>> IMPERIAL = register("imperial", ImperialTraitLootModifier.Serializer::new);
     public static final RegistryObject<GlobalLootModifierSerializer<?>> SKULL_COLLECTOR = register("skull_collector", SkullCollectorTraitLootModifier.Serializer::new);
 
@@ -53,7 +55,7 @@ public final class GemsLoot {
     private GemsLoot() {}
 
     static void register() {
-        LootFunctionManager.registerFunction(SetSoulFunction.SERIALIZER);
+        Registry.register(Registry.field_239694_aZ_, SilentGems.getId("set_soul"), SET_SOUL);
 
         MinecraftForge.EVENT_BUS.addListener(GemsLoot::onLootTableLoad);
     }

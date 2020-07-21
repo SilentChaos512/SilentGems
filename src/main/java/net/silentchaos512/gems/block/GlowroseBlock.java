@@ -24,6 +24,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
@@ -39,7 +40,7 @@ public class GlowroseBlock extends FlowerBlock implements IGemBlock {
     public GlowroseBlock(Gems gem) {
         super(Effects.GLOWING, 8, Properties.create(Material.PLANTS)
                 .sound(SoundType.PLANT)
-                .lightValue(GemsConfig.COMMON.glowroseNormalLight.get())
+                .setLightLevel(state -> GemsConfig.COMMON.glowroseNormalLight.get())
                 .hardnessAndResistance(0)
                 .doesNotBlockMovement()
         );
@@ -74,12 +75,12 @@ public class GlowroseBlock extends FlowerBlock implements IGemBlock {
     }
 
     @Override
-    public ITextComponent getNameTextComponent() {
+    public IFormattableTextComponent getTranslatedName() {
         return getGemBlockName();
     }
 
     @Override
-    public ITextComponent getGemBlockName() {
+    public IFormattableTextComponent getGemBlockName() {
         return new TranslationTextComponent("block.silentgems.glowrose", this.gem.getDisplayName());
     }
 }

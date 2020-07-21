@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.compat.jei;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -85,11 +86,11 @@ public class SuperchargerPillarCategory implements IRecipeCategory<SuperchargerP
     }
 
     @Override
-    public void draw(SuperchargerPillarStructure recipe, double mouseX, double mouseY) {
+    public void draw(SuperchargerPillarStructure recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
         Minecraft mc = Minecraft.getInstance();
         // Tier
         int tier = recipe.getTier();
         String str = I18n.format("block.silentgems.supercharger.tier", String.valueOf(tier));
-        mc.fontRenderer.drawStringWithShadow(str, 2, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT - 1, -1);
+        mc.fontRenderer.drawStringWithShadow(matrixStack, str, 2, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT - 1, -1);
     }
 }

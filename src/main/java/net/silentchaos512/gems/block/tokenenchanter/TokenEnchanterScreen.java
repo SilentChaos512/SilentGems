@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.block.tokenenchanter;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -17,34 +18,34 @@ public class TokenEnchanterScreen extends ContainerScreen<TokenEnchanterContaine
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground();
-        super.render(mouseX, mouseY, partialTicks);
-        this.renderHoveredToolTip(mouseX, mouseY);
+    public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(matrix);
+        super.render(matrix, mouseX, mouseY, partialTicks);
+        this.func_230459_a_(matrix, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+    protected void func_230450_a_(MatrixStack matrix, float partialTicks, int mouseX, int mouseY) {
         if (minecraft == null) return;
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         minecraft.getTextureManager().bindTexture(TEXTURE);
         int xPos = (this.width - this.xSize) / 2;
         int yPos = (this.height - this.ySize) / 2;
-        blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
+        blit(matrix, xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         // Progress arrow
         int progress = container.getProgress();
         int cost = container.getProcessTime();
         int length = cost > 0 && progress > 0 && progress < cost ? progress * 24 / cost : 0;
-        blit(xPos + 102, yPos + 34, 176, 14, length + 1, 16);
+        blit(matrix, xPos + 102, yPos + 34, 176, 14, length + 1, 16);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+    protected void func_230451_b_(MatrixStack matrix, int mouseX, int mouseY) {
         // Chaos generated
         int chaosGenerated = container.getChaosGenerated();
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaosGenerated);
-        String text = emissionRate.getEmissionText(chaosGenerated).getFormattedText();
-        font.drawString(text, 5, 5, Color.BLACK.getColor());
+        String text = emissionRate.getEmissionText(chaosGenerated).getString();
+        font.drawString(matrix, text, 5, 5, Color.BLACK.getColor());
     }
 }

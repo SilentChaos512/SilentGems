@@ -1,16 +1,18 @@
 package net.silentchaos512.gems.entity;
 
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
@@ -24,10 +26,9 @@ public class EnderSlimeEntity extends SlimeEntity {
         super(typeIn, worldIn);
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue((double) 0.2F);
+    public static AttributeModifierMap.MutableAttribute registerAttributes() {
+        return MobEntity.func_233666_p_()
+                .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.2);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class EnderSlimeEntity extends SlimeEntity {
     @Override
     protected void setSlimeSize(int size, boolean resetHealth) {
         super.setSlimeSize(size, resetHealth);
-        this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue((double) (size * 3));
+        this.getAttribute(Attributes.ARMOR).setBaseValue(size * 3);
     }
 
     @Override
@@ -80,20 +81,20 @@ public class EnderSlimeEntity extends SlimeEntity {
 
     @Override
     protected void jump() {
-        Vec3d vec3d = this.getMotion();
+        Vector3d vec3d = this.getMotion();
         this.setMotion(vec3d.x, (double)(0.42F + (float)this.getSlimeSize() * 0.1F), vec3d.z);
         this.isAirBorne = true;
         net.minecraftforge.common.ForgeHooks.onLivingJump(this);
     }
 
     @Override
-    protected void handleFluidJump(Tag<Fluid> p_180466_1_) {
-        if (p_180466_1_ == FluidTags.LAVA) {
-            Vec3d vec3d = this.getMotion();
-            this.setMotion(vec3d.x, (double)(0.22F + (float)this.getSlimeSize() * 0.05F), vec3d.z);
+    protected void handleFluidJump(ITag<Fluid> tag) {
+        if (tag == FluidTags.LAVA) {
+            Vector3d vec3d = this.getMotion();
+            this.setMotion(vec3d.x, 0.22F + this.getSlimeSize() * 0.05F, vec3d.z);
             this.isAirBorne = true;
         } else {
-            super.handleFluidJump(p_180466_1_);
+            super.handleFluidJump(tag);
         }
     }
 

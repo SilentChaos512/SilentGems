@@ -21,7 +21,7 @@ package net.silentchaos512.gems.lib.urn;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.block.urn.SoulUrnTileEntity;
 
@@ -32,7 +32,7 @@ public class UpgradeVacuum extends UrnUpgrade {
     public void tickTile(SoulUrnTileEntity.SoulUrnState state, World world, BlockPos pos) {
         if (!state.getLidState().isOpen()) return;
 
-        Vec3d target = new Vec3d(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5);
+        Vector3d target = new Vector3d(pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5);
         AxisAlignedBB axisAlignedBB = new AxisAlignedBB(
                 pos.getX() - RANGE, pos.getY() - RANGE, pos.getZ() - RANGE,
                 pos.getX() + RANGE + 1, pos.getY() + RANGE, pos.getZ() + RANGE + 1
@@ -51,7 +51,7 @@ public class UpgradeVacuum extends UrnUpgrade {
                 }
             } else {
                 // Accelerate to target point
-                Vec3d vec = entity.getPositionVector().subtractReverse(target);
+                Vector3d vec = entity.func_241205_ce_().subtractReverse(target);
                 vec = vec.normalize().scale(0.05);
                 if (entity.getPosY() < target.y) {
                     double xzDistanceSq = (entity.getPosX() - target.x) * (entity.getPosX() - target.x)

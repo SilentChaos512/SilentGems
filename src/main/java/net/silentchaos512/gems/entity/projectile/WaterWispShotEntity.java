@@ -33,7 +33,7 @@ public class WaterWispShotEntity extends AbstractWispShotEntity {
 
     @Override
     protected void onEntityImpact(Entity entityIn) {
-        if (entityIn.attackEntityFrom(ModDamageSource.causeWispShotDamage(this, this.shootingEntity), 4f)) {
+        if (entityIn.attackEntityFrom(ModDamageSource.causeWispShotDamage(this, this.func_234616_v_()), 4f)) {
             entityIn.setAir(entityIn.getAir() - 60);
         }
     }

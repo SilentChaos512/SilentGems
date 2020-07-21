@@ -1,40 +1,35 @@
 package net.silentchaos512.gems.world.feature;
 
-import com.google.common.collect.ImmutableMap;
-import com.mojang.datafixers.Dynamic;
-import com.mojang.datafixers.types.DynamicOps;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.tags.ITag;
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
 import net.silentchaos512.gems.lib.Gems;
 
-import java.util.function.Predicate;
-
 public class GemGeodeFeatureConfig implements IFeatureConfig {
+    public static final Codec<GemGeodeFeatureConfig> CODEC = RecordCodecBuilder.create(instance ->
+        instance.group(
+                Gems.Set.CODEC.fieldOf("gem_set").forGetter(config -> config.gemSet),
+                BlockState.field_235877_b_.fieldOf("shell_block").forGetter(config -> config.shellBlock),
+                TagMatchRuleTest.field_237161_a_.fieldOf("target_block").forGetter(config -> config.target)
+        ).apply(instance, (GemGeodeFeatureConfig::new)));
+
     public final Gems.Set gemSet;
     public final BlockState shellBlock;
-    public final Predicate<BlockState> target;
+    public final TagMatchRuleTest target;
     public final boolean replaceAir = true;
     public final float gemDensity = 0.75f;
 
-    public GemGeodeFeatureConfig(Gems.Set gemSet, BlockState shellBlock, Predicate<BlockState> target) {
+    public GemGeodeFeatureConfig(Gems.Set gemSet, BlockState shellBlock, ITag<Block> target) {
+        this(gemSet, shellBlock, new TagMatchRuleTest(target));
+    }
+
+    public GemGeodeFeatureConfig(Gems.Set gemSet, BlockState shellBlock, TagMatchRuleTest target) {
         this.gemSet = gemSet;
         this.shellBlock = shellBlock;
         this.target = target;
-    }
-
-    @Override
-    public <T> Dynamic<T> serialize(DynamicOps<T> ops) {
-        return new Dynamic<>(ops, ops.createMap(ImmutableMap.of(
-                ops.createString("gem_set"), ops.createString(gemSet.getName()),
-                ops.createString("shell_block"), BlockState.serialize(ops, shellBlock).getValue()
-        )));
-    }
-
-    public static GemGeodeFeatureConfig deserialize(Dynamic<?> dynamic) {
-        Gems.Set gemSet = Gems.Set.deserialize(dynamic);
-        BlockState shellBlock = dynamic.get("shell_block").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
-        // TODO: How to handle target? What even is this Dynamic stuff anyway?
-        return new GemGeodeFeatureConfig(gemSet, shellBlock, s -> s.getBlock() == Blocks.STONE);
     }
 }

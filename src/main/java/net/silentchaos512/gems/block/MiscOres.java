@@ -30,7 +30,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.function.Supplier;
 
-public enum MiscOres implements IBlockProvider, IStringSerializable {
+public enum MiscOres implements IBlockProvider {
     CHAOS(() -> new MiscOreBlock(CraftingItems.CHAOS_CRYSTAL, 3, Block.Properties.create(Material.ROCK).tickRandomly().hardnessAndResistance(4, 20)) {
         @Override
         public int getExpRandom() {
@@ -79,7 +79,6 @@ public enum MiscOres implements IBlockProvider, IStringSerializable {
         return asBlock().asItem();
     }
 
-    @Override
     public String getName() {
         return name().toLowerCase(Locale.ROOT) + "_ore";
     }

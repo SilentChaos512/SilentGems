@@ -3,6 +3,9 @@
   "values": [
     "silentgems:hardened_stone",
     "silentgems:hardened_netherrack",
+    "silentgems:hardened_end_stone",
+    "silentgems:hardened_stone",
+    "silentgems:hardened_netherrack",
     "silentgems:hardened_end_stone"
   ]
 }

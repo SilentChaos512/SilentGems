@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.silentchaos512.lib.util.DimPos;
 import net.silentchaos512.lib.util.TeleporterSL;
@@ -35,9 +34,11 @@ public final class TeleportUtil {
         MinecraftServer server = entity.getServer();
         if (server == null) return null;
 
-        DimensionType dimensionType = DimensionType.getById(pos.getDimension());
-        if (dimensionType == null) return null;
-
-        return server.getWorld(dimensionType);
+        // FIXME
+//        DimensionType dimensionType = DimensionType.getById(pos.getDimension());
+//        if (dimensionType == null) return null;
+//
+//        return server.getWorld(dimensionType);
+        return null;
     }
 }

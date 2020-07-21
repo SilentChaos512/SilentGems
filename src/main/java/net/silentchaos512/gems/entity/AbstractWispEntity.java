@@ -2,16 +2,16 @@ package net.silentchaos512.gems.entity;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.silentchaos512.gems.entity.projectile.AbstractWispShotEntity;
@@ -46,12 +46,11 @@ public abstract class AbstractWispEntity extends MonsterEntity {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue((double)0.25F);
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(48.0D);
+    public static AttributeModifierMap.MutableAttribute registerAttributes() {
+        return MobEntity.func_233666_p_()
+                .func_233815_a_(Attributes.ATTACK_DAMAGE, 4.0)
+                .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.25)
+                .func_233815_a_(Attributes.FOLLOW_RANGE, 48.0);
     }
 
     @Override
@@ -109,13 +108,13 @@ public abstract class AbstractWispEntity extends MonsterEntity {
         --this.heightOffsetUpdateTime;
         if (this.heightOffsetUpdateTime <= 0) {
             this.heightOffsetUpdateTime = 100;
-            this.heightOffset = 0.5F + (float)this.rand.nextGaussian() * 3.0F;
+            this.heightOffset = 0.5F + (float) this.rand.nextGaussian() * 3.0F;
         }
 
         LivingEntity target = this.getAttackTarget();
-        if (target != null && target.getPosY() + (double)target.getEyeHeight() > this.getPosY() + (double)this.getEyeHeight() + (double)this.heightOffset && this.canAttack(target)) {
-            Vec3d vec3d = this.getMotion();
-            this.setMotion(this.getMotion().add(0.0D, ((double)0.3F - vec3d.y) * (double)0.3F, 0.0D));
+        if (target != null && target.getPosY() + (double) target.getEyeHeight() > this.getPosY() + (double) this.getEyeHeight() + (double) this.heightOffset && this.canAttack(target)) {
+            Vector3d vec3d = this.getMotion();
+            this.setMotion(this.getMotion().add(0.0D, ((double) 0.3F - vec3d.y) * (double) 0.3F, 0.0D));
             this.isAirBorne = true;
         }
 
@@ -186,7 +185,7 @@ public abstract class AbstractWispEntity extends MonsterEntity {
                     this.wisp.getMoveHelper().setMoveTo(target.getPosX(), target.getPosY(), target.getPosZ(), 1.0D);
                 } else if (distanceSq < this.getFollowDistance() * this.getFollowDistance() && canSeeTarget) {
                     double dx = target.getPosX() - this.wisp.getPosX();
-                    double dy = target.getBoundingBox().minY + (double)(target.getHeight() / 2.0F) - (this.wisp.getPosY() + (double)(this.wisp.getHeight() / 2.0F));
+                    double dy = target.getBoundingBox().minY + (double) (target.getHeight() / 2.0F) - (this.wisp.getPosY() + (double) (this.wisp.getHeight() / 2.0F));
                     double dz = target.getPosZ() - this.wisp.getPosZ();
                     if (this.attackTime <= 0) {
                         ++this.attackStep;
@@ -203,16 +202,16 @@ public abstract class AbstractWispEntity extends MonsterEntity {
 
                         if (this.attackStep > 1) {
                             float f = MathHelper.sqrt(MathHelper.sqrt(distanceSq)) * 0.5F;
-                            this.wisp.world.playEvent(null, 1018, new BlockPos(this.wisp), 0);
+                            this.wisp.world.playEvent(null, 1018, this.wisp.func_233580_cy_(), 0);
 
-                            for(int i = 0; i < 1; ++i) {
-                                AbstractWispShotEntity shot = this.wisp.getProjectile(this.wisp, dx + this.wisp.getRNG().nextGaussian() * (double)f, dy, dz + this.wisp.getRNG().nextGaussian() * (double)f);
+                            for (int i = 0; i < 1; ++i) {
+                                AbstractWispShotEntity shot = this.wisp.getProjectile(this.wisp, dx + this.wisp.getRNG().nextGaussian() * (double) f, dy, dz + this.wisp.getRNG().nextGaussian() * (double) f);
                                 shot.setColor(this.wisp.getWispType().getColor().getColor());
                                 shot.setPosition(shot.getPosX(), this.wisp.getPosYEye(), shot.getPosZ());
                                 this.wisp.world.addEntity(shot);
 
                                 // Need to manually spawn this on the client... because vanilla
-                                Supplier<PacketDistributor.TargetPoint> p = PacketDistributor.TargetPoint.p(this.wisp.getPosX(), this.wisp.getPosY(), this.wisp.getPosZ(), 4096, this.wisp.dimension);
+                                Supplier<PacketDistributor.TargetPoint> p = PacketDistributor.TargetPoint.p(this.wisp.getPosX(), this.wisp.getPosY(), this.wisp.getPosZ(), 4096, this.wisp.world.func_234923_W_());
                                 Network.channel.send(PacketDistributor.NEAR.with(p), new SpawnEntityPacket(shot));
                             }
                         }
@@ -228,12 +227,7 @@ public abstract class AbstractWispEntity extends MonsterEntity {
         }
 
         private double getFollowDistance() {
-            return this.wisp.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getValue();
+            return this.wisp.getAttribute(Attributes.FOLLOW_RANGE).getValue();
         }
-    }
-
-    @Override
-    protected ResourceLocation getLootTable() {
-        return super.getLootTable();
     }
 }

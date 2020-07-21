@@ -25,6 +25,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -90,7 +91,7 @@ public class GemLampBlock extends Block implements IGemBlock {
     }
 
     @Override
-    public ITextComponent getGemBlockName() {
+    public IFormattableTextComponent getGemBlockName() {
         String translationKey = "block.silentgems.gem_lamp" + (this.lampState.inverted ? "_inverted" : "");
         return new TranslationTextComponent(translationKey, this.gem.getDisplayName());
     }
@@ -145,7 +146,7 @@ public class GemLampBlock extends Block implements IGemBlock {
     }
 
     @Override
-    public ITextComponent getNameTextComponent() {
+    public IFormattableTextComponent getTranslatedName() {
         return getGemBlockName();
     }
 

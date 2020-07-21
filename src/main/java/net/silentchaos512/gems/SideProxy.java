@@ -5,15 +5,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.event.lifecycle.*;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silentchaos512.gear.api.stats.ItemStat;
 import net.silentchaos512.gems.chaos.ChaosSourceCapability;
+import net.silentchaos512.gems.client.GemsModelProperties;
 import net.silentchaos512.gems.client.gui.DebugOverlay;
 import net.silentchaos512.gems.command.ChaosCommand;
 import net.silentchaos512.gems.command.HungryCommand;
@@ -35,7 +36,6 @@ import net.silentchaos512.gems.lib.urn.UpgradePlanter;
 import net.silentchaos512.gems.network.Network;
 import net.silentchaos512.gems.util.SoulEvents;
 import net.silentchaos512.gems.world.GemsWorldFeatures;
-import net.silentchaos512.gems.world.feature.structure.ShrineTest;
 import net.silentchaos512.lib.event.Greetings;
 import net.silentchaos512.lib.util.LibHooks;
 
@@ -63,7 +63,8 @@ class SideProxy implements IProxy {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcProcess);
 
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(EntityType.class, GemsEntities::registerTypes);
-        MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStart);
+        MinecraftForge.EVENT_BUS.addListener(this::addReloadListener);
+        MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
         MinecraftForge.EVENT_BUS.register(Soul.Events.INSTANCE);
 
         GemsConfig.init();
@@ -74,7 +75,6 @@ class SideProxy implements IProxy {
         if (SilentGems.isDevBuild()) {
             SilentGems.LOGGER.info("Silent's Gems (version {}) detected as a dev build. If this is not a development environment, this is a bug!", SilentGems.getVersion());
             Greetings.addMessage(GemsBlocks::checkForMissingLootTables);
-            ShrineTest.init();
         }
     }
 
@@ -99,13 +99,12 @@ class SideProxy implements IProxy {
     private void imcProcess(InterModProcessEvent event) {
     }
 
-    private void serverAboutToStart(FMLServerAboutToStartEvent event) {
-        server = event.getServer();
+    private void addReloadListener(AddReloadListenerEvent event) {
+        event.addListener(ChaosBuffManager.INSTANCE);
+    }
 
-        IReloadableResourceManager resourceManager = event.getServer().getResourceManager();
-        resourceManager.addReloadListener(ChaosBuffManager.INSTANCE);
-
-        CommandDispatcher<CommandSource> dispatcher = event.getServer().getCommandManager().getDispatcher();
+    private void registerCommands(RegisterCommandsEvent event) {
+        CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
         ChaosCommand.register(dispatcher);
         SoulCommand.register(dispatcher);
         if (SilentGems.isDevBuild()) {
@@ -143,6 +142,7 @@ class SideProxy implements IProxy {
             GemsEntities.registerRenderers(event);
             GemsTileEntities.registerRenderers(event);
             GemsContainers.registerScreens(event);
+            GemsModelProperties.register(event);
         }
 
         @Nullable

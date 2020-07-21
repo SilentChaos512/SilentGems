@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.entity;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -11,7 +12,7 @@ public class ChaosLightningBoltEntity extends LightningBoltEntity {
     private int lightningState;
 
     public ChaosLightningBoltEntity(World worldIn, double x, double y, double z) {
-        super(worldIn, x, y, z, true);
+        super(EntityType.LIGHTNING_BOLT, worldIn);
         this.lightningState = 2;
     }
 

@@ -4,13 +4,13 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.TexturedParticle;
 import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.world.World;
+import net.minecraft.client.world.ClientWorld;
 
 public class ParticleCompass extends TexturedParticle {
     private static final int MAX_AGE = 5;
     private static final int MAX_SCALE = 1;
 
-    private ParticleCompass(World world, double posX, double posY, double posZ, double motionX, double motionY, double motionZ, float scale, int maxAge, float red, float green, float blue) {
+    private ParticleCompass(ClientWorld world, double posX, double posY, double posZ, double motionX, double motionY, double motionZ, float scale, int maxAge, float red, float green, float blue) {
         super(world, posX, posY, posZ, 0, 0, 0);
         this.motionX = motionX;
         this.motionY = motionY;

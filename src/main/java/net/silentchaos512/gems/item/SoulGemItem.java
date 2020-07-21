@@ -111,7 +111,7 @@ public class SoulGemItem extends Item {
             }
 
             if (flagIn.isAdvanced()) {
-                tooltip.add(new StringTextComponent("Soul ID: " + soul.getId()).applyTextStyle(TextFormatting.DARK_GRAY));
+                tooltip.add(new StringTextComponent("Soul ID: " + soul.getId()).func_240699_a_(TextFormatting.DARK_GRAY));
             }
 
             if (GemsConfig.COMMON.debugExtraTooltipInfo.get()) {

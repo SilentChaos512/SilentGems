@@ -1,29 +1,29 @@
 package net.silentchaos512.gems.world.feature;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 
 import java.util.BitSet;
 import java.util.Random;
-import java.util.function.Function;
 
 public class RegionalGemsFeature extends Feature<RegionalGemsFeatureConfig> {
-    public static final RegionalGemsFeature INSTANCE = new RegionalGemsFeature(RegionalGemsFeatureConfig::deserialize);
+    public static final RegionalGemsFeature INSTANCE = new RegionalGemsFeature(RegionalGemsFeatureConfig.CODEC);
 
-    public RegionalGemsFeature(Function<Dynamic<?>, ? extends RegionalGemsFeatureConfig> configFactoryIn) {
-        super(configFactoryIn);
+    public RegionalGemsFeature(Codec<RegionalGemsFeatureConfig> codec) {
+        super(codec);
     }
 
     @Override
-    public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, RegionalGemsFeatureConfig config) {
-        if (!config.dimension.test(worldIn.getDimension().getType()) || config.regionSize < 1) return false;
+    public boolean func_230362_a_(ISeedReader worldIn, StructureManager p_230362_2_, ChunkGenerator generator, Random rand, BlockPos pos, RegionalGemsFeatureConfig config) {
+        if (config.regionSize < 1) return false;
 
         float f = rand.nextFloat() * (float) Math.PI;
         float f1 = (float) config.size / 8.0F;
@@ -119,7 +119,7 @@ public class RegionalGemsFeature extends Feature<RegionalGemsFeatureConfig> {
                                         if (!bitset.get(k2)) {
                                             bitset.set(k2);
                                             blockPos.setPos(x, y, z);
-                                            if (config.target.test(world.getBlockState(blockPos))) {
+                                            if (config.target.test(world.getBlockState(blockPos), random)) {
                                                 world.setBlockState(blockPos, oreBlock, 2);
                                                 ++i;
                                             }

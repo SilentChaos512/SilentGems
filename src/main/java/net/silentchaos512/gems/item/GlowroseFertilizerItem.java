@@ -28,7 +28,7 @@ public class GlowroseFertilizerItem extends Item {
 
         if (world.isAirBlock(center)) {
             // Always one at position used.
-            Gems gem = Gems.Set.forDimension(world.dimension.getType().getId()).selectRandom(random);
+            Gems gem = Gems.Set.forDimension(world.func_234923_W_()).selectRandom(random);
             GlowroseBlock blockGlowrose = gem.getGlowrose();
             BlockState stateToPlace = blockGlowrose.getDefaultState();
 
@@ -65,7 +65,7 @@ public class GlowroseFertilizerItem extends Item {
                     y,
                     center.getZ() + MathHelper.nextInt(random, -SPREAD, SPREAD));
 
-            Gems gem = Gems.Set.forDimension(world.dimension.getType().getId()).selectRandom(random);
+            Gems gem = Gems.Set.forDimension(world.func_234923_W_()).selectRandom(random);
             GlowroseBlock block = gem.getGlowrose();
             BlockState state = block.getDefaultState();
 

@@ -1,6 +1,8 @@
 package net.silentchaos512.gems.lib.soul;
 
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,8 +17,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldSettings;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -219,7 +219,7 @@ public final class Soul {
         public void onServerAboutToStart(FMLServerStartingEvent event) {
             MAP.clear();
             long seed = calculateSeed(event);
-            World world = event.getServer().getWorld(DimensionType.OVERWORLD);
+            World world = event.getServer().getWorld(World.field_234918_g_);
             for (EntityType<?> entityType : ForgeRegistries.ENTITIES.getValues()) {
                 if (canHaveSoulGem(entityType)) {
                     Soul soul = new Soul(seed, entityType);
@@ -256,17 +256,16 @@ public final class Soul {
             // Have to get the seed before the world actually exists...
             MinecraftServer server = event.getServer();
 
+            // This doesn't necessarily need to match the actual world seed. Just need some constant
+            // value to use as a seed.
+
             //noinspection ChainOfInstanceofChecks
             if (server instanceof DedicatedServer) {
                 IServer dedicatedServer = (DedicatedServer) server;
-                // Not sure how dedicated server actually computes the seed
-                // All that matters is we get a consistent result
-                return dedicatedServer.getServerProperties().worldSeed.hashCode();
+                return dedicatedServer.getServerProperties().field_241082_U_.func_236221_b_();
             } else if (server instanceof IntegratedServer) {
                 IntegratedServer integratedServer = (IntegratedServer) server;
-                WorldSettings settings = ObfuscationReflectionHelper.getPrivateValue(
-                        IntegratedServer.class, integratedServer, "field_71350_m"); // worldSettings
-                return settings.getSeed();
+                integratedServer.func_240793_aU_().func_230418_z_().func_236221_b_();
             }
 
             return 0;

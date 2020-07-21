@@ -85,7 +85,7 @@ minecraft {
             workingDirectory project.file('run')
 
             // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+//            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
@@ -146,10 +146,10 @@ dependencies {
     }
     compile("net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}") {
         exclude module: 'forge'
-        exclude module: 'jei-1.15.2'
-        exclude module: 'silent-lib-1.15.2'
-        exclude module: 'Bookshelf-1.15.2'
-        exclude module: 'GameStages-1.15.2'
+        exclude module: 'jei-1.16.1'
+        exclude module: 'silent-lib-1.16.1'
+        exclude module: 'Bookshelf-1.16.1'
+        exclude module: 'GameStages-1.16.1'
     }
 
     // JEI

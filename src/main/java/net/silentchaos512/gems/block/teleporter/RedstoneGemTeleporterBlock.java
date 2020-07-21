@@ -5,7 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -17,8 +17,8 @@ public class RedstoneGemTeleporterBlock extends GemTeleporterBlock {
     }
 
     @Override
-    public ITextComponent getNameTextComponent() {
-        if (this.gem == null) return super.getNameTextComponent();
+    public IFormattableTextComponent getTranslatedName() {
+        if (this.gem == null) return super.getTranslatedName();
         return new TranslationTextComponent("block.silentgems.redstone_teleporter", this.gem.getDisplayName());
     }
 

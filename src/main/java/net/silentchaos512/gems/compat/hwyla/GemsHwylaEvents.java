@@ -19,7 +19,7 @@ public class GemsHwylaEvents {
         if (block instanceof IGemBlock) {
             // For blocks from this mod, we need to correct the object name
             ITaggableList<ResourceLocation, ITextComponent> tooltip = (ITaggableList<ResourceLocation, ITextComponent>) event.getCurrentTip();
-            tooltip.setTag(OBJECT_NAME_TAG, ((IGemBlock) block).getGemBlockName().applyTextStyle(TextFormatting.WHITE));
+            tooltip.setTag(OBJECT_NAME_TAG, ((IGemBlock) block).getGemBlockName().func_240699_a_(TextFormatting.WHITE));
         }
     }
 }

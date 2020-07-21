@@ -1,10 +1,10 @@
 package net.silentchaos512.gems.potion;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.ai.attributes.AttributeModifierManager;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
@@ -39,7 +39,7 @@ public class FreezingEffect extends Effect {
 
             int damageDelay = CONTINUOUS_DAMAGE_DELAY;
             // Extra damage for mobs immune to fire (like blazes)
-            if (entityLiving.isImmuneToFire())
+            if (entityLiving.isWaterSensitive())
                 damageDelay /= 4;
 
             if (effect.getDuration() % damageDelay == 0) {
@@ -72,10 +72,10 @@ public class FreezingEffect extends Effect {
     }
 
     @Override
-    public void applyAttributesModifiersToEntity(LivingEntity entity, AbstractAttributeMap attributeMap, int amplifier) {
+    public void applyAttributesModifiersToEntity(LivingEntity entity, AttributeModifierManager attributeMap, int amplifier) {
         if (isInsulated(entity)) return;
 
-        IAttributeInstance iattributeinstance = attributeMap.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
+        ModifiableAttributeInstance iattributeinstance = attributeMap.func_233779_a_(Attributes.MOVEMENT_SPEED);
 
         if (iattributeinstance != null) {
             double amount = modifier.getAmount() * (amplifier + 1);
@@ -83,14 +83,14 @@ public class FreezingEffect extends Effect {
             if (entity instanceof PlayerEntity)
                 amount /= 2.0;
             iattributeinstance.removeModifier(modifier);
-            iattributeinstance.applyModifier(new AttributeModifier(modifier.getID(),
+            iattributeinstance.func_233769_c_(new AttributeModifier(modifier.getID(),
                     this.getName() + " " + amplifier, amount, modifier.getOperation()));
         }
     }
 
     @Override
-    public void removeAttributesModifiersFromEntity(LivingEntity entity, AbstractAttributeMap attributeMap, int amplifier) {
-        IAttributeInstance iattributeinstance = attributeMap.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED);
+    public void removeAttributesModifiersFromEntity(LivingEntity entity, AttributeModifierManager attributeMap, int amplifier) {
+        ModifiableAttributeInstance iattributeinstance = attributeMap.func_233779_a_(Attributes.MOVEMENT_SPEED);
 
         if (iattributeinstance != null) {
             iattributeinstance.removeModifier(modifier);

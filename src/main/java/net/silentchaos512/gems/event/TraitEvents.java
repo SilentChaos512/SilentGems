@@ -81,7 +81,7 @@ public final class TraitEvents {
         for(z = attacker.getPosZ() - target.getPosZ(); x * x + z * z < 1.0E-4D; z = (Math.random() - Math.random()) * 0.01D) {
             x = (Math.random() - Math.random()) * 0.01D;
         }
-        target.knockBack(attacker, strength, x, z);
+        target.applyKnockback(strength, x, z);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

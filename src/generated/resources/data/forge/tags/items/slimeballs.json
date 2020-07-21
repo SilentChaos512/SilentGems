@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "silentgems:corrupted_slimeball",
-    "silentgems:ender_slimeball"
+    "silentgems:corrupted_slime_ball",
+    "silentgems:ender_slime_ball"
   ]
 }

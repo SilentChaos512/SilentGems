@@ -128,7 +128,7 @@ public class SilentGemsPlugin implements IModPlugin {
             ));
         }
 
-        addInfoPage(reg, CraftingItems.ENDER_SLIMEBALL);
+        addInfoPage(reg, CraftingItems.ENDER_SLIME_BALL);
         addInfoPage(reg, "glowrose", Arrays.stream(Gems.values()).map(gem -> new ItemStack(gem.getGlowrose())));
         addInfoPage(reg, GemsBlocks.LUMINOUS_FLOWER_POT);
         // FIXME: Fails on servers

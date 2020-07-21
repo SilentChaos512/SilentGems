@@ -24,6 +24,6 @@ public class GemBlockItem extends BlockItem {
 
     @Override
     public ITextComponent getName() {
-        return block.getNameTextComponent();
+        return block.getTranslatedName();
     }
 }

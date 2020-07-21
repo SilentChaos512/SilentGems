@@ -25,9 +25,9 @@ public final class AprilFools {
     public void onTooltip(ItemTooltipEvent event) {
         for (int i = 0; i < event.getToolTip().size(); ++i) {
             ITextComponent text = event.getToolTip().get(i);
-            String str = text.getFormattedText();
+            String str = text.getString();
             if (str.contains("Silent's Gems 3")) {
-                event.getToolTip().set(i, text.appendSibling(new StringTextComponent(" & Knuckles")));
+                event.getToolTip().set(i, text.copyRaw().func_230529_a_(new StringTextComponent(" & Knuckles")));
             }
         }
     }

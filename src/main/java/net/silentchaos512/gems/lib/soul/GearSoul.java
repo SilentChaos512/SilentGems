@@ -12,6 +12,7 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
@@ -181,8 +182,8 @@ public class GearSoul {
 
         ++level;
         if (player != null) {
-            player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.levelUp", getName(tool), level));
-            player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1.0f, 1.0f);
+            player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.levelUp", getName(tool), level), Util.DUMMY_UUID);
+            player.world.playSound(null, player.func_233580_cy_(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1.0f, 1.0f);
         }
 
         // Learn new skill?
@@ -223,7 +224,7 @@ public class GearSoul {
                 ++level;
                 skills.put(skill, level);
                 if (player != null) {
-                    player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.skillLearned", skill.getDisplayName(level)));
+                    player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.skillLearned", skill.getDisplayName(level)), Util.DUMMY_UUID);
                 }
                 return true;
             } else {
@@ -234,7 +235,7 @@ public class GearSoul {
 
         skills.put(skill, 1);
         if (player != null) {
-            player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.skillLearned", skill.getDisplayName(1)));
+            player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.skillLearned", skill.getDisplayName(1)), Util.DUMMY_UUID);
         }
 
         return true;
@@ -278,7 +279,7 @@ public class GearSoul {
                 String.valueOf(level),
                 String.format("%,d", xp),
                 String.format("%,d", getXpToNextLevel()))
-                .applyTextStyle(TextFormatting.GREEN));
+                .func_240699_a_(TextFormatting.GREEN));
 
         if (stack.getItem() instanceof GearSoulItem) {
             // Display elements

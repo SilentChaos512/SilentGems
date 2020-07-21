@@ -64,7 +64,7 @@ public final class SoulEvents {
                 if (aquatic > 0) {
                     event.setNewSpeed(event.getNewSpeed() * (5f / (5 - aquatic + 1)));
                 }
-            } else if (!player.onGround || player.abilities.isFlying) {
+            } else if (!player.func_233570_aj_() || player.abilities.isFlying) {
                 int aerial = TraitHelper.getTraitLevel(mainHand, SoulTraits.AERIAL);
                 if (aerial > 0) {
                     event.setNewSpeed(event.getNewSpeed() * (5f / (5 - aerial + 1)));
@@ -121,7 +121,7 @@ public final class SoulEvents {
                 int amountToRestore = 60 * level;
                 player.setAir(player.getAir() + amountToRestore);
                 GearHelper.attemptDamage(stack, 2, player, hand);
-                player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_HURT_DROWN, SoundCategory.PLAYERS, 1f, 1f);
+                player.world.playSound(null, player.func_233580_cy_(), SoundEvents.ENTITY_PLAYER_HURT_DROWN, SoundCategory.PLAYERS, 1f, 1f);
             });
         }
 

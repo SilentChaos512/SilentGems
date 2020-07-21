@@ -12,7 +12,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -35,10 +34,9 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public final class EnchantmentTokenItem extends Item {
-    public enum Icon implements IStringSerializable {
+    public enum Icon {
         ANY, ARMOR, BOW, EMPTY, FISHING_ROD, SWORD, TOOL, TRIDENT, UNKNOWN;
 
-        @Override
         public String getName() {
             return name().toLowerCase(Locale.ROOT);
         }
@@ -51,7 +49,7 @@ public final class EnchantmentTokenItem extends Item {
     private static final Map<String, Icon> MODELS_BY_TYPE = new HashMap<>();
 
     static {
-        MODELS_BY_TYPE.put(EnchantmentType.ALL.toString(), Icon.ANY);
+        MODELS_BY_TYPE.put(EnchantmentType.VANISHABLE.toString(), Icon.ANY);
         MODELS_BY_TYPE.put(EnchantmentType.BREAKABLE.toString(), Icon.ANY);
         MODELS_BY_TYPE.put(EnchantmentType.ARMOR.toString(), Icon.ARMOR);
         MODELS_BY_TYPE.put(EnchantmentType.ARMOR_CHEST.toString(), Icon.ARMOR);
@@ -68,7 +66,6 @@ public final class EnchantmentTokenItem extends Item {
 
     public EnchantmentTokenItem() {
         super(new Properties().group(GemsItemGroups.UTILITY));
-        addPropertyOverride(MODEL_INDEX, EnchantmentTokenItem::getModel);
     }
 
     // ==============================================
@@ -225,7 +222,7 @@ public final class EnchantmentTokenItem extends Item {
             if (KeyTracker.isAltDown()) {
                 ResourceLocation registryName = Objects.requireNonNull(ench.getRegistryName());
                 list.add(new StringTextComponent(registryName.toString())
-                        .applyTextStyle(TextFormatting.DARK_GRAY));
+                        .func_240699_a_(TextFormatting.DARK_GRAY));
             }
         }
 
@@ -244,7 +241,7 @@ public final class EnchantmentTokenItem extends Item {
             list.add(subText("enchNameWithMod", enchName, modName));
             String descKey = enchantment.getName() + ".desc";
             if (I18n.hasKey(descKey)) {
-                list.add(new TranslationTextComponent(descKey).applyTextStyle(TextFormatting.ITALIC));
+                list.add(new TranslationTextComponent(descKey).func_240699_a_(TextFormatting.ITALIC));
             }
         }
     }
@@ -279,7 +276,7 @@ public final class EnchantmentTokenItem extends Item {
                 // If this crashes the enchantment is at fault, nothing should be done about it.
                 ITextComponent name1 = ench1.getDisplayName(1);
                 ITextComponent name2 = ench2.getDisplayName(1);
-                return name1.getFormattedText().compareTo(name2.getFormattedText());
+                return name1.getString().compareTo(name2.getString());
             }
         }
         return k;
@@ -327,7 +324,7 @@ public final class EnchantmentTokenItem extends Item {
         OUTLINE_COLOR_MAP.put(enchantment, color);
     }
 
-    private static float getModel(ItemStack stack, World world, LivingEntity entity) {
+    public static float getModel(ItemStack stack, World world, LivingEntity entity) {
         return getModelIcon(stack).ordinal();
     }
 

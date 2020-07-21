@@ -8,7 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -40,7 +40,7 @@ public enum CorruptedBlocks implements IBlockProvider {
     private final Block purifyBlock;
     private final Predicate<Block> canReplace;
 
-    CorruptedBlocks(Block purifyBlock, Tag<Block> replaces) {
+    CorruptedBlocks(Block purifyBlock, ITag<Block> replaces) {
         this.purifyBlock = purifyBlock;
         this.canReplace = block -> block.isIn(replaces);
     }
@@ -93,7 +93,7 @@ public enum CorruptedBlocks implements IBlockProvider {
             super(Block.Properties.create(Material.CLAY)
                     .hardnessAndResistance(1)
                     .sound(SoundType.GROUND)
-                    .lightValue(7)
+                    .setLightLevel(state -> 7)
                     .tickRandomly()
             );
             this.type = type;

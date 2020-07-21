@@ -18,6 +18,7 @@
 
 package net.silentchaos512.gems.block.supercharger;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.resources.I18n;
@@ -35,41 +36,41 @@ public class SuperchargerScreen extends ContainerScreen<SuperchargerContainer> {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground();
-        super.render(mouseX, mouseY, partialTicks);
-        this.renderHoveredToolTip(mouseX, mouseY);
+    public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(matrix);
+        super.render(matrix, mouseX, mouseY, partialTicks);
+        this.func_230459_a_(matrix, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+    protected void func_230451_b_(MatrixStack matrix, int mouseX, int mouseY) {
         int color = -1;
 
         // Structure tier
         int tier = container.tileEntity.getStructureLevel();
         String textTier = I18n.format("block.silentgems.supercharger.tier", String.valueOf(tier));
-        font.drawStringWithShadow(textTier, 5, 5, color);
+        font.drawStringWithShadow(matrix, textTier, 5, 5, color);
 
         // Chaos generated
         int chaosGenerated = container.tileEntity.getChaosGenerated();
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaosGenerated);
-        String text = emissionRate.getEmissionText(chaosGenerated).getFormattedText();
-        font.drawStringWithShadow(text, 5, 15, color);
+        String text = emissionRate.getEmissionText(chaosGenerated).getString();
+        font.drawStringWithShadow(matrix, text, 5, 15, color);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+    protected void func_230450_a_(MatrixStack matrix, float partialTicks, int mouseX, int mouseY) {
         if (minecraft == null) return;
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         minecraft.getTextureManager().bindTexture(TEXTURE);
         int xPos = (this.width - this.xSize) / 2;
         int yPos = (this.height - this.ySize) / 2;
-        blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
+        blit(matrix, xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         // Progress arrow
         int progress = container.tileEntity.getProgress();
         int cost = container.tileEntity.getProcessTime();
         int length = cost > 0 && progress > 0 && progress < cost ? progress * 24 / cost : 0;
-        blit(xPos + 79, yPos + 34, 176, 14, length + 1, 16);
+        blit(matrix, xPos + 79, yPos + 34, 176, 14, length + 1, 16);
     }
 }

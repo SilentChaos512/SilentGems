@@ -18,6 +18,7 @@
 
 package net.silentchaos512.gems.block.urn;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -39,26 +40,26 @@ public class SoulUrnScreen extends ContainerScreen<SoulUrnContainer> {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground();
-        super.render(mouseX, mouseY, partialTicks);
-        this.renderHoveredToolTip(mouseX, mouseY);
+    public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(matrix);
+        super.render(matrix, mouseX, mouseY, partialTicks);
+        this.func_230459_a_(matrix, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        this.font.drawString(title.getFormattedText(), 8, 6, 4210752);
-        this.font.drawString(playerInventory.getDisplayName().getFormattedText(), 8, this.ySize - 96 + 2, 4210752);
+    protected void func_230451_b_(MatrixStack matrix, int mouseX, int mouseY) {
+        this.font.drawString(matrix, title.getString(), 8, 6, 4210752);
+        this.font.drawString(matrix, playerInventory.getDisplayName().getString(), 8, this.ySize - 96 + 2, 4210752);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+    protected void func_230450_a_(MatrixStack matrix, float partialTicks, int mouseX, int mouseY) {
         if (minecraft == null) return;
         RenderSystem.color4f(1, 1, 1, 1);
         minecraft.getTextureManager().bindTexture(TEXTURE);
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
-        blit(i, j, 0, 0, this.xSize, this.inventoryRows * 18 + 17);
-        blit(i, j + this.inventoryRows * 18 + 17, 0, 126, this.xSize, 96);
+        blit(matrix, i, j, 0, 0, this.xSize, this.inventoryRows * 18 + 17);
+        blit(matrix, i, j + this.inventoryRows * 18 + 17, 0, 126, this.xSize, 96);
     }
 }

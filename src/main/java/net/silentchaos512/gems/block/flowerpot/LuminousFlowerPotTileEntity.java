@@ -9,7 +9,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.LightType;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GlowroseBlock;
@@ -63,7 +63,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
         // Select a random angle to rotate target position around center.
         final int k = longRange ? 8 : 4;
         final int angleFactor = rand.nextInt(2 * k);
-        Vec3d vec = new Vec3d(dist, 0, 0);
+        Vector3d vec = new Vector3d(dist, 0, 0);
         // vec = vec.rotateYaw(rand.nextInt(2 * k) / (float) k * (float) Math.PI);
         // final int angleFactor = step - (longRange ? 8 : 0);
         vec = vec.rotateYaw(angleFactor / (float) k * (float) Math.PI);
@@ -85,7 +85,7 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
 //            }
 //            // Debug particles: ring
 //            for (float f = 0; f < 2 * Math.PI; f += Math.PI / 32) {
-//                Vec3d v = new Vec3d(dist, 0, 0).rotateYaw(f);
+//                Vector3d v = new Vector3d(dist, 0, 0).rotateYaw(f);
 //                SilentGems.proxy.spawnParticles(EnumModParticles.CHAOS, debugColor, world,
 //                        pos.getX() + 0.5 + v.x, pos.getY() + 0.5, pos.getZ() + 0.5 + v.z, 0, 0, 0);
 //            }
@@ -176,11 +176,11 @@ public class LuminousFlowerPotTileEntity extends TileEntity implements ITickable
     }
 
     @Override
-    public void read(CompoundNBT tags) {
+    public void read(BlockState state, CompoundNBT tags) {
         if (tags.contains(NBT_FLOWER)) {
             this.flower = ItemStack.read(tags.getCompound(NBT_FLOWER));
         }
-        super.read(tags);
+        super.read(state, tags);
     }
 
     @Override

@@ -1,10 +1,10 @@
 package net.silentchaos512.gems.potion;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.ai.attributes.AttributeModifierManager;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
@@ -82,8 +82,8 @@ public class ShockingEffect extends Effect {
 
     private static List<LivingEntity> getChainableEntities(LivingEntity source) {
         AxisAlignedBB box = new AxisAlignedBB(
-                source.getPosition().add(-CHAIN_DISTANCE, -CHAIN_DISTANCE, -CHAIN_DISTANCE),
-                source.getPosition().add(CHAIN_DISTANCE, CHAIN_DISTANCE, CHAIN_DISTANCE));
+                source.func_233580_cy_().add(-CHAIN_DISTANCE, -CHAIN_DISTANCE, -CHAIN_DISTANCE),
+                source.func_233580_cy_().add(CHAIN_DISTANCE, CHAIN_DISTANCE, CHAIN_DISTANCE));
         return source.world.getEntitiesWithinAABB(LivingEntity.class, box, e1 -> e1 != source && !(e1 instanceof PlayerEntity));
     }
 
@@ -97,10 +97,10 @@ public class ShockingEffect extends Effect {
     }
 
     @Override
-    public void applyAttributesModifiersToEntity(LivingEntity entity, AbstractAttributeMap attributeMap, int amplifier) {
+    public void applyAttributesModifiersToEntity(LivingEntity entity, AttributeModifierManager attributeMap, int amplifier) {
         if (isGrounded(entity)) return;
 
-        IAttributeInstance iattributeinstance = attributeMap.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
+        ModifiableAttributeInstance iattributeinstance = attributeMap.func_233779_a_(Attributes.ATTACK_DAMAGE);
 
         if (iattributeinstance != null) {
             double amount = modifier.getAmount() * (amplifier + 1);
@@ -108,14 +108,14 @@ public class ShockingEffect extends Effect {
             if (entity instanceof PlayerEntity)
                 amount /= 2.0;
             iattributeinstance.removeModifier(modifier);
-            iattributeinstance.applyModifier(new AttributeModifier(modifier.getID(),
+            iattributeinstance.func_233769_c_(new AttributeModifier(modifier.getID(),
                     this.getName() + " " + amplifier, amount, modifier.getOperation()));
         }
     }
 
     @Override
-    public void removeAttributesModifiersFromEntity(LivingEntity entity, AbstractAttributeMap attributeMap, int amplifier) {
-        IAttributeInstance iattributeinstance = attributeMap.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE);
+    public void removeAttributesModifiersFromEntity(LivingEntity entity, AttributeModifierManager attributeMap, int amplifier) {
+        ModifiableAttributeInstance iattributeinstance = attributeMap.func_233779_a_(Attributes.ATTACK_DAMAGE);
 
         if (iattributeinstance != null) {
             iattributeinstance.removeModifier(modifier);

@@ -28,10 +28,10 @@ public final class WispSpawner {
 
         WispTypes type = WispTypes.selectRandom(SilentGems.random);
         int count = MathUtils.nextIntInclusive(SilentGems.random, MIN_GROUP_COUNT, MAX_GROUP_COUNT);
-        BlockPos pos = getRandomHeight(player.world, player.world.getChunk(player.getPosition()));
+        BlockPos pos = getRandomHeight(player.world, player.world.getChunk(player.func_233580_cy_()));
 
         for (int i = 0; i < 4; ++i) {
-            if (spawnWispGroup(type.getEntityType(), count, player.world, player.getPosition())) {
+            if (spawnWispGroup(type.getEntityType(), count, player.world, player.func_233580_cy_())) {
                 return true;
             }
         }
@@ -59,7 +59,7 @@ public final class WispSpawner {
 
             DifficultyInstance difficultyInstance = world.getDifficultyForLocation(blockPos);
 
-            if (canSpawnAt(world, blockPos)) {
+            if (canSpawnAt(world, blockPos, type)) {
                 T wisp = type.create(world);
                 if (wisp != null) {
                     if (ForgeEventFactory.canEntitySpawn(wisp, world, posX, posY, posZ, null, SpawnReason.NATURAL) != Event.Result.DENY) {
@@ -77,8 +77,8 @@ public final class WispSpawner {
         return spawned > 0;
     }
 
-    private static boolean canSpawnAt(World world, BlockPos pos) {
-        final boolean isSpawnableSpace = WorldEntitySpawner.isSpawnableSpace(world, pos, world.getBlockState(pos), world.getFluidState(pos));
+    private static boolean canSpawnAt(World world, BlockPos pos, EntityType<?> type) {
+        final boolean isSpawnableSpace = WorldEntitySpawner.func_234968_a_(world, pos, world.getBlockState(pos), world.getFluidState(pos), type);
         return isSpawnableSpace && world.getLightFor(LightType.BLOCK, pos) < 7;
     }
 

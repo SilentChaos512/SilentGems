@@ -1,21 +1,24 @@
 package net.silentchaos512.gems.lib;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerPotBlock;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.block.teleporter.GemTeleporterBlock;
@@ -33,8 +36,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-@SuppressWarnings("NonFinalFieldInEnum")
-public enum Gems implements IStringSerializable {
+@SuppressWarnings({"NonFinalFieldInEnum", "OverlyCoupledClass"})
+public enum Gems {
     // Classic Gems
     RUBY(Set.CLASSIC, 0xE61D1D),
     GARNET(Set.CLASSIC, 0xE64F1D),
@@ -111,28 +114,28 @@ public enum Gems implements IStringSerializable {
     ItemRegistryObject<ChaosGemItem> chaosGem;
 
     // Tags
-    final Tag<Block> blockTag;
-    final Tag<Block> glowroseTag;
-    final Tag<Block> oreTag;
-    final Tag<Item> blockItemTag;
-    final Tag<Item> glowroseItemTag;
-    final Tag<Item> oreItemTag;
-    final Tag<Item> itemTag;
-    final Tag<Item> shardTag;
+    final ITag.INamedTag<Block> blockTag;
+    final ITag.INamedTag<Block> glowroseTag;
+    final ITag.INamedTag<Block> oreTag;
+    final ITag.INamedTag<Item> blockItemTag;
+    final ITag.INamedTag<Item> glowroseItemTag;
+    final ITag.INamedTag<Item> oreItemTag;
+    final ITag.INamedTag<Item> itemTag;
+    final ITag.INamedTag<Item> shardTag;
 
     Gems(Set set, int color) {
         this.set = set;
         this.set.gems.add(this);
         this.color = new Color(color);
 
-        this.blockTag = new BlockTags.Wrapper(new ResourceLocation("forge", "storage_blocks/" + this.getName()));
-        this.glowroseTag = new BlockTags.Wrapper(SilentGems.getId("glowroses/" + this.getName()));
-        this.oreTag = new BlockTags.Wrapper(new ResourceLocation("forge", "ores/" + this.getName()));
-        this.blockItemTag = new ItemTags.Wrapper(new ResourceLocation("forge", "storage_blocks/" + this.getName()));
-        this.glowroseItemTag = new ItemTags.Wrapper(SilentGems.getId("glowroses/" + this.getName()));
-        this.oreItemTag = new ItemTags.Wrapper(new ResourceLocation("forge", "ores/" + this.getName()));
-        this.itemTag = new ItemTags.Wrapper(new ResourceLocation("forge", "gems/" + this.getName()));
-        this.shardTag = new ItemTags.Wrapper(new ResourceLocation("forge", "nuggets/" + this.getName()));
+        this.blockTag = BlockTags.makeWrapperTag(new ResourceLocation("forge", "storage_blocks/" + this.getName()).toString());
+        this.glowroseTag = BlockTags.makeWrapperTag(SilentGems.getId("glowroses/" + this.getName()).toString());
+        this.oreTag = BlockTags.makeWrapperTag(new ResourceLocation("forge", "ores/" + this.getName()).toString());
+        this.blockItemTag = ItemTags.makeWrapperTag(new ResourceLocation("forge", "storage_blocks/" + this.getName()).toString());
+        this.glowroseItemTag = ItemTags.makeWrapperTag(SilentGems.getId("glowroses/" + this.getName()).toString());
+        this.oreItemTag = ItemTags.makeWrapperTag(new ResourceLocation("forge", "ores/" + this.getName()).toString());
+        this.itemTag = ItemTags.makeWrapperTag(new ResourceLocation("forge", "gems/" + this.getName()).toString());
+        this.shardTag = ItemTags.makeWrapperTag(new ResourceLocation("forge", "nuggets/" + this.getName()).toString());
     }
 
     public static void registerBlocks() {
@@ -148,23 +151,23 @@ public enum Gems implements IStringSerializable {
             gem.lampUnlit = registerBlock(gem.getName() + "_lamp", () ->
                     new GemLampBlock(gem, GemLampBlock.State.UNLIT, Block.Properties.create(Material.REDSTONE_LIGHT)
                             .hardnessAndResistance(0.3f, 15)
-                            .lightValue(0)));
+                            .setLightLevel(state -> 0)));
         for (Gems gem : values())
             gem.lampLit = registerBlockNoItem(gem.getName() + "_lamp_lit", () ->
                     new GemLampBlock(gem, GemLampBlock.State.LIT, Block.Properties.create(Material.REDSTONE_LIGHT)
                             .hardnessAndResistance(0.3f, 15)
-                            .lightValue(15)
+                            .setLightLevel(state -> 15)
                             .lootFrom(gem.getLamp(GemLampBlock.State.UNLIT))));
         for (Gems gem : values())
             gem.lampInvertedLit = registerBlock(gem.getName() + "_lamp_inverted_lit", () ->
                     new GemLampBlock(gem, GemLampBlock.State.INVERTED_LIT, Block.Properties.create(Material.REDSTONE_LIGHT)
                             .hardnessAndResistance(0.3f, 15)
-                            .lightValue(15)));
+                            .setLightLevel(state -> 15)));
         for (Gems gem : values())
             gem.lampInvertedUnlit = registerBlockNoItem(gem.getName() + "_lamp_inverted", () ->
                     new GemLampBlock(gem, GemLampBlock.State.INVERTED_UNLIT, Block.Properties.create(Material.REDSTONE_LIGHT)
                             .hardnessAndResistance(0.3f, 15)
-                            .lightValue(0)
+                            .setLightLevel(state -> 0)
                             .lootFrom(gem.getLamp(GemLampBlock.State.INVERTED_LIT))));
         for (Gems gem : values())
             gem.glowrose = registerBlock(gem.getName() + "_glowrose", () -> new GlowroseBlock(gem));
@@ -211,10 +214,6 @@ public enum Gems implements IStringSerializable {
         return () -> new GemBlockItem(block.get(), new Item.Properties().group(GemsItemGroups.BLOCKS));
     }
 
-    /**
-     * @return The IStringSerializable name: All lowercase with underscores, good for block states.
-     */
-    @Override
     public String getName() {
         return name().toLowerCase(Locale.ROOT);
     }
@@ -356,35 +355,35 @@ public enum Gems implements IStringSerializable {
         return new ItemStack(this.item.get());
     }
 
-    public Tag<Block> getBlockTag() {
+    public ITag.INamedTag<Block> getBlockTag() {
         return blockTag;
     }
 
-    public Tag<Item> getBlockItemTag() {
+    public ITag.INamedTag<Item> getBlockItemTag() {
         return blockItemTag;
     }
 
-    public Tag<Block> getGlowroseTag() {
+    public ITag.INamedTag<Block> getGlowroseTag() {
         return glowroseTag;
     }
 
-    public Tag<Item> getGlowroseItemTag() {
+    public ITag.INamedTag<Item> getGlowroseItemTag() {
         return glowroseItemTag;
     }
 
-    public Tag<Block> getOreTag() {
+    public ITag.INamedTag<Block> getOreTag() {
         return oreTag;
     }
 
-    public Tag<Item> getOreItemTag() {
+    public ITag.INamedTag<Item> getOreItemTag() {
         return oreItemTag;
     }
 
-    public Tag<Item> getItemTag() {
+    public ITag.INamedTag<Item> getItemTag() {
         return itemTag;
     }
 
-    public Tag<Item> getShardTag() {
+    public ITag.INamedTag<Item> getShardTag() {
         return shardTag;
     }
 
@@ -412,6 +411,8 @@ public enum Gems implements IStringSerializable {
         DARK(16, HardenedRock.NETHERRACK), // Nether
         LIGHT(32, HardenedRock.END_STONE); // The End
 
+        public static final Codec<Set> CODEC = Codec.INT.comapFlatMap(Set::decode, Enum::ordinal);
+
         private final int startMeta; // TODO: Should probably do away with this... but works for now
         private final IBlockProvider geodeShell;
         private final Collection<Gems> gems = new ArrayList<>();
@@ -421,15 +422,22 @@ public enum Gems implements IStringSerializable {
             this.geodeShell = geodeShell;
         }
 
-        public static Set forDimension(int dimension) {
-            if (dimension == -1) return DARK;
-            if (dimension == 1) return LIGHT;
+        public static Set forDimension(RegistryKey<World> dimension) {
+            if (dimension == World.field_234919_h_) return DARK;
+            if (dimension == World.field_234920_i_) return LIGHT;
             return CLASSIC;
         }
 
-        public static Set deserialize(Dynamic<?> dynamic) {
-            String setName = dynamic.get("gem_set").asString("classic");
-            return "light".equals(setName) ? Gems.Set.LIGHT : "dark".equals(setName) ? Gems.Set.DARK : Gems.Set.CLASSIC;
+        public SoundType getOreSoundType() {
+            if (this == DARK)
+                return SoundType.field_235592_N_;
+            return SoundType.STONE;
+        }
+
+        private static DataResult<Set> decode(int encodedIn) {
+            if (encodedIn >= 0 && encodedIn < Set.values().length)
+                return DataResult.success(Set.values()[encodedIn]);
+            return DataResult.error("Not a valid gem set index: " + encodedIn);
         }
 
         public IBlockProvider getGeodeShell() {
@@ -447,7 +455,7 @@ public enum Gems implements IStringSerializable {
 
         public ITextComponent getDisplayName() {
             TranslationTextComponent textSet = new TranslationTextComponent("gem.silentgems.set." + getName());
-            return new TranslationTextComponent("gem.silentgems.set", textSet).applyTextStyle(TextFormatting.ITALIC);
+            return new TranslationTextComponent("gem.silentgems.set", textSet).func_240699_a_(TextFormatting.ITALIC);
         }
 
         @Override

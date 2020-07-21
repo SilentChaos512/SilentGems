@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.init.GemsItems;
 import net.silentchaos512.lib.util.DimPos;
@@ -90,13 +89,14 @@ public final class TeleporterLinkerItem extends Item {
                 int textY = height * 3 / 5;
                 // Text colored differently depending on situation.
                 int color = 0xffff00; // Outside free range, same dimension
-                if (pos.getDimension() != player.dimension.getId()) {
+                // FIXME
+                /*if (pos.getDimension() != player.world.func_230315_m_().func_241513_m_()) {
                     color = 0xff6600; // Different dimension
                     str = I18n.format("item.silentgems.teleporter_linker.differentDimension");
                 } else if (distance < GemsConfig.COMMON.teleporterFreeRange.get()) {
                     color = 0x00aaff; // Inside free range
-                }
-                fontRender.drawStringWithShadow(str, textX, textY, color);
+                }*/
+                fontRender.drawStringWithShadow(event.getMatrixStack(), str, textX, textY, color);
             }
         }
     }

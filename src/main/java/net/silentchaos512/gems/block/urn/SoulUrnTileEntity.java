@@ -19,6 +19,7 @@
 package net.silentchaos512.gems.block.urn;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -260,9 +261,9 @@ public class SoulUrnTileEntity extends LockableLootTileEntity implements ITickab
     //region NBT and data
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(BlockState state, CompoundNBT compound) {
         this.loadFromNBT(compound);
-        super.read(compound);
+        super.read(state, compound);
     }
 
     @Override

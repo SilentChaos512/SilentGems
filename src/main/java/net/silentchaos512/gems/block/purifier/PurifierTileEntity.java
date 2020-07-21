@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.block.purifier;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
@@ -111,10 +112,10 @@ public class PurifierTileEntity extends LockableSidedInventoryTileEntity impleme
     }
 
     @Override
-    public void read(CompoundNBT tags) {
+    public void read(BlockState state, CompoundNBT tags) {
         this.burnTime = tags.getInt("BurnTime");
         this.totalBurnTime = tags.getInt("TotalBurnTime");
-        super.read(tags);
+        super.read(state, tags);
     }
 
     @Override

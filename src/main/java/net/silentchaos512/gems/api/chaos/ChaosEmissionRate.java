@@ -44,11 +44,11 @@ public enum ChaosEmissionRate {
 
         if (chaos > (previous.maxValue + 2 * diff / 3)) {
             ITextComponent text = new TranslationTextComponent("chaos.silentgems.emissionRate.plus2");
-            return getDisplayName().appendSibling(text);
+            return getDisplayName().copyRaw().func_230529_a_(text);
         }
         if (chaos > (previous.maxValue + diff / 3)) {
             ITextComponent text = new TranslationTextComponent("chaos.silentgems.emissionRate.plus1");
-            return getDisplayName().appendSibling(text);
+            return getDisplayName().copyRaw().func_230529_a_(text);
         }
 
         return getDisplayName();

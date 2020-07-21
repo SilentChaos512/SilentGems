@@ -1,27 +1,27 @@
 package net.silentchaos512.gems.world.feature;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.silentchaos512.gems.lib.Gems;
 
 import java.util.Random;
-import java.util.function.Function;
 
 public class GemGeodeFeature extends Feature<GemGeodeFeatureConfig> {
-    public static final GemGeodeFeature INSTANCE = new GemGeodeFeature(GemGeodeFeatureConfig::deserialize);
+    public static final GemGeodeFeature INSTANCE = new GemGeodeFeature(GemGeodeFeatureConfig.CODEC);
 
-    public GemGeodeFeature(Function<Dynamic<?>, ? extends GemGeodeFeatureConfig> configFactoryIn) {
-        super(configFactoryIn);
+    public GemGeodeFeature(Codec<GemGeodeFeatureConfig> codec) {
+        super(codec);
     }
 
     @Override
-    public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos pos, GemGeodeFeatureConfig config) {
-        if (config.target.test(worldIn.getBlockState(pos))) {
+    public boolean func_230362_a_(ISeedReader worldIn, StructureManager p_230362_2_, ChunkGenerator generator, Random random, BlockPos pos, GemGeodeFeatureConfig config) {
+        if (config.target.test(worldIn.getBlockState(pos), random)) {
             float diameterXZ = 2f * random.nextFloat() + 5;
             float diameterY = 3f * random.nextFloat() + 7;
             generateShell(worldIn, random, pos, diameterXZ, diameterY, config);
@@ -49,7 +49,7 @@ public class GemGeodeFeature extends Feature<GemGeodeFeatureConfig> {
                         BlockPos blockpos = new BlockPos(x, y, z);
 
                         BlockState state = worldIn.getBlockState(blockpos);
-                        if (config.target.test(state) || (config.replaceAir && state.isAir(worldIn, blockpos))) {
+                        if (config.target.test(state, rand) || (config.replaceAir && state.isAir(worldIn, blockpos))) {
                             worldIn.setBlockState(blockpos, config.shellBlock, 2);
                         }
                     }

@@ -3,7 +3,6 @@ package net.silentchaos512.gems.entity.projectile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.projectile.DamagingProjectileEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
@@ -64,7 +63,7 @@ public abstract class AbstractWispShotEntity extends DamagingProjectileEntity im
             if (result.getType() == RayTraceResult.Type.ENTITY) {
                 Entity entity = ((EntityRayTraceResult) result).getEntity();
                 onEntityImpact(entity);
-            } else if (this.shootingEntity == null || !(this.shootingEntity instanceof MobEntity) || net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.shootingEntity)) {
+            } else if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.func_234616_v_())) {
                 BlockRayTraceResult blockraytraceresult = (BlockRayTraceResult) result;
                 onBlockImpact(blockraytraceresult.getPos(), blockraytraceresult.getFace());
             }

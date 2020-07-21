@@ -34,7 +34,7 @@ public class ChaosWispShotEntity extends AbstractWispShotEntity {
 
     @Override
     protected void onEntityImpact(Entity entityIn) {
-        if (entityIn.attackEntityFrom(ModDamageSource.causeWispShotDamage(this, this.shootingEntity), 4f)) {
+        if (entityIn.attackEntityFrom(ModDamageSource.causeWispShotDamage(this, this.func_234616_v_()), 4f)) {
             entityIn.getCapability(ChaosSourceCapability.INSTANCE).ifPresent(source -> {
                 source.addChaos(500);
             });

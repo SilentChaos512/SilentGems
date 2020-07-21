@@ -12,7 +12,6 @@ import net.minecraft.util.*;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.chaos.Chaos;
 import net.silentchaos512.gems.client.key.KeyTracker;
@@ -129,7 +128,7 @@ public class ReturnHomeCharmItem extends Item implements IGem /*implements IBaub
             player.setActiveHand(hand);
             return new ActionResult<>(ActionResultType.SUCCESS, stack);
         } else {
-            player.sendMessage(new TranslationTextComponent("item.silentgems.return_home_charm.notBound"));
+            player.sendMessage(new TranslationTextComponent("item.silentgems.return_home_charm.notBound"), Util.DUMMY_UUID);
             return new ActionResult<>(ActionResultType.PASS, stack);
         }
     }
@@ -178,21 +177,21 @@ public class ReturnHomeCharmItem extends Item implements IGem /*implements IBaub
         if (pos == null || !(player instanceof ServerPlayerEntity)) return;
 
         // Dimension valid?
-        DimensionType dimensionType = DimensionType.getById(pos.getDimension());
+        /*DimensionType dimensionType = DimensionType.getById(pos.getDimension());
         if (dimensionType == null) {
-            player.sendMessage(new TranslationTextComponent("teleporter.silentgems.invalidDimension"));
+            player.sendMessage(new TranslationTextComponent("teleporter.silentgems.invalidDimension"), Util.DUMMY_UUID);
             return;
-        }
+        }*/
 
         // Is the destination sane? (ie, y > 0)
         if (pos.getY() <= 0) {
-            player.sendMessage(new TranslationTextComponent("teleporter.silentgems.notSane"));
+            player.sendMessage(new TranslationTextComponent("teleporter.silentgems.notSane"), Util.DUMMY_UUID);
             return;
         }
 
         // Is the destination safe? (ie, no solid block at head level)
         if (!TeleportUtil.isDestinationSafe(player, pos)) {
-            player.sendMessage(new TranslationTextComponent("teleporter.silentgems.notSafe"));
+            player.sendMessage(new TranslationTextComponent("teleporter.silentgems.notSafe"), Util.DUMMY_UUID);
             return;
         }
 
@@ -201,7 +200,7 @@ public class ReturnHomeCharmItem extends Item implements IGem /*implements IBaub
         player.fallDistance = 0;
         float soundPitch = 0.8f + 0.3f * SilentGems.random.nextFloat();
         // Sound at source
-        player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0f, soundPitch);
+        player.world.playSound(null, player.func_233580_cy_(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0f, soundPitch);
         if (TeleportUtil.teleport(player, pos)) {
             Chaos.generate(player, getTeleportCost(stack, player), true);
         }

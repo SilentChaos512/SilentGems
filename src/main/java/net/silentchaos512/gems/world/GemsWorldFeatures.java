@@ -1,14 +1,12 @@
 package net.silentchaos512.gems.world;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
@@ -32,7 +30,6 @@ import net.silentchaos512.gems.world.feature.*;
 import net.silentchaos512.utils.MathUtils;
 
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -66,7 +63,7 @@ public final class GemsWorldFeatures {
                 }
 
                 for (Gems gem : toAdd) {
-                    addGemOre(biome, gem, random, DimensionType.OVERWORLD);
+                    addGemOre(biome, gem, random);
                     selected.add(gem);
                 }
 
@@ -83,13 +80,13 @@ public final class GemsWorldFeatures {
                 }
 
                 for (Gems.Set gemSet : Gems.Set.values()) {
-                    addGemGeode(biome, gemSet, random);
+                    addGemGeode(biome, gemSet, random, Tags.Blocks.STONE);
                 }
 
                 // Add regional gems for non-overworld dimensions
                 int regionSize = GemsConfig.COMMON.worldGenOtherDimensionGemsRegionSize.get();
                 biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, RegionalGemsFeature.INSTANCE
-                        .withConfiguration(new RegionalGemsFeatureConfig(Gems.Set.CLASSIC, 8, regionSize, state -> state.isIn(Tags.Blocks.STONE), d -> d.getId() != DimensionType.OVERWORLD.getId()))
+                        .withConfiguration(new RegionalGemsFeatureConfig(Gems.Set.CLASSIC, 8, regionSize))
                         .withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(regionSize > 0 ? 10 : 0, 10, 0, 50)))
                 );
             }
@@ -111,7 +108,7 @@ public final class GemsWorldFeatures {
                     // Make sure it's not Nether or End
                     // Theoretically, this could leave out gems, but the chance is negligible.
                     if (biome.getCategory() != Biome.Category.NETHER && biome.getCategory() != Biome.Category.THEEND) {
-                        addGemOre(biome, gem, random, DimensionType.OVERWORLD);
+                        addGemOre(biome, gem, random);
                     }
                 }
             }
@@ -148,7 +145,7 @@ public final class GemsWorldFeatures {
     private static void addNetherFeatures(Biome biome) {
         int regionSize = GemsConfig.COMMON.worldGenNetherGemsRegionSize.get();
         biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, RegionalGemsFeature.INSTANCE
-                .withConfiguration(new RegionalGemsFeatureConfig(Gems.Set.DARK, 10, regionSize, state -> state.getBlock() == Blocks.NETHERRACK, DimensionType.THE_NETHER))
+                .withConfiguration(new RegionalGemsFeatureConfig(Gems.Set.DARK, 10, regionSize))
                 .withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(regionSize > 0 ? 12 : 0, 25, 0, 95)))
         );
 
@@ -170,7 +167,7 @@ public final class GemsWorldFeatures {
     private static void addTheEndFeatures(Biome biome, Random random) {
         int regionSize = GemsConfig.COMMON.worldGenEndGemsRegionSize.get();
         biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, RegionalGemsFeature.INSTANCE
-                .withConfiguration(new RegionalGemsFeatureConfig(Gems.Set.LIGHT, 10, regionSize, state -> state.getBlock() == Blocks.END_STONE, DimensionType.THE_END))
+                .withConfiguration(new RegionalGemsFeatureConfig(Gems.Set.LIGHT, 10, regionSize))
                 .withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(regionSize > 0 ? 12 : 0, 16, 0, 72)))
         );
 
@@ -216,46 +213,50 @@ public final class GemsWorldFeatures {
             int size = MathUtils.nextIntInclusive(random, 6, 9);
             int maxHeight = MathUtils.nextIntInclusive(random, 15, 25);
             //SilentGems.LOGGER.debug("    Biome {}: add chaos ore (size {}, count {}, maxHeight {})", biome, size, count, maxHeight);
-            addOre(biome, MiscOres.CHAOS.asBlock(), size, count, 5, maxHeight, d -> true);
+            addOre(biome, MiscOres.CHAOS.asBlock(), size, count, 5, maxHeight, Tags.Blocks.STONE);
         }
     }
 
     private static void addEnderOre(Biome biome, Random random) {
-        addOre(biome, MiscOres.ENDER.asBlock(), 16, GemsConfig.COMMON.worldGenEnderOreCount.get(), 10, 70, state -> state.getBlock() == Blocks.END_STONE, d -> true);
+        addOre(biome, MiscOres.ENDER.asBlock(), 16, GemsConfig.COMMON.worldGenEnderOreCount.get(), 10, 70, Tags.Blocks.END_STONES);
     }
 
     private static void addSilverOre(Biome biome, Random random) {
-        addOre(biome, MiscOres.SILVER.asBlock(), 6, GemsConfig.COMMON.worldGenSilverVeinCount.get(), 6, 28, d -> true);
+        addOre(biome, MiscOres.SILVER.asBlock(), 6, GemsConfig.COMMON.worldGenSilverVeinCount.get(), 6, 28, Tags.Blocks.STONE);
     }
 
-    private static void addGemOre(Biome biome, Gems gem, Random random, DimensionType dimension) {
+    private static void addGemOre(Biome biome, Gems gem, Random random) {
         int size = MathHelper.nextInt(random, 6, 8);
         int count = MathHelper.nextInt(random, 2, 4);
         int minHeight = random.nextInt(8);
         int maxHeight = random.nextInt(40) + 30;
         //SilentGems.LOGGER.debug("    Biome {}: add gem {} (size {}, count {}, height [{}, {}])", biome, gem, size, count, minHeight, maxHeight);
-        addOre(biome, gem.getOre(), size, count, minHeight, maxHeight, d -> d.getId() == dimension.getId());
+        addOre(biome, gem.getOre(), size, count, minHeight, maxHeight, getOreGenTargetBlock(gem.getSet()));
         GEM_BIOMES.computeIfAbsent(gem, g -> new HashSet<>()).add(biome.getRegistryName());
     }
 
-    private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight, Predicate<DimensionType> dimension) {
-        addOre(biome, block, size, count, minHeight, maxHeight, s -> s.isIn(Tags.Blocks.STONE), dimension);
+    public static ITag<Block> getOreGenTargetBlock(Gems.Set gemSet) {
+        if (gemSet == Gems.Set.DARK)
+            return Tags.Blocks.NETHERRACK;
+        if (gemSet == Gems.Set.LIGHT)
+            return Tags.Blocks.END_STONES;
+        return Tags.Blocks.STONE;
     }
 
-    private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight, Predicate<BlockState> blockToReplace, Predicate<DimensionType> dimension) {
+    private static void addOre(Biome biome, Block block, int size, int count, int minHeight, int maxHeight, ITag<Block> blockToReplace) {
         biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, SGOreFeature.INSTANCE
-                .withConfiguration(new SGOreFeatureConfig(block.getDefaultState(), size, blockToReplace, dimension))
+                .withConfiguration(new SGOreFeatureConfig(block.getDefaultState(), size, blockToReplace))
                 .withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(count, minHeight, 0, maxHeight)))
         );
     }
 
-    private static void addGemGeode(Biome biome, Gems.Set gemSet, Random random) {
+    private static void addGemGeode(Biome biome, Gems.Set gemSet, Random random, ITag.INamedTag<Block> target) {
         double baseChance = GemsConfig.COMMON.worldGenGeodeBaseChance.get();
         double variation = GemsConfig.COMMON.worldGenGeodeChanceVariation.get();
         float chance = (float) (baseChance + variation * random.nextGaussian());
         if (chance > 0 && baseChance > 0) {
             biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, GemGeodeFeature.INSTANCE
-                    .withConfiguration(new GemGeodeFeatureConfig(gemSet, gemSet.getGeodeShell().asBlockState(), s -> s.isIn(Tags.Blocks.STONE)))
+                    .withConfiguration(new GemGeodeFeatureConfig(gemSet, gemSet.getGeodeShell().asBlockState(), target))
                     .withPlacement(Placement.CHANCE_RANGE.configure(new ChanceRangeConfig(chance, 20, 0, 40)))
             );
         }

@@ -22,6 +22,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
@@ -38,6 +39,7 @@ public class GemOreBlock extends OreBlockSG implements IGemBlock {
         super(gem::getItem, 2, Properties.create(Material.ROCK)
                 .hardnessAndResistance(3, 4)
                 .harvestTool(ToolType.PICKAXE)
+                .sound(gem.getSet().getOreSoundType())
         );
         this.gem = gem;
     }
@@ -48,7 +50,7 @@ public class GemOreBlock extends OreBlockSG implements IGemBlock {
     }
 
     @Override
-    public ITextComponent getGemBlockName() {
+    public IFormattableTextComponent getGemBlockName() {
         return new TranslationTextComponent("block.silentgems.gem_ore", this.gem.getDisplayName());
     }
 
@@ -64,7 +66,7 @@ public class GemOreBlock extends OreBlockSG implements IGemBlock {
     }
 
     @Override
-    public ITextComponent getNameTextComponent() {
+    public IFormattableTextComponent getTranslatedName() {
         return getGemBlockName();
     }
 }

@@ -1,29 +1,27 @@
 package net.silentchaos512.gems.world.feature;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 
 import java.util.BitSet;
 import java.util.Random;
-import java.util.function.Function;
 
 public class SGOreFeature extends Feature<SGOreFeatureConfig> {
-    public static final SGOreFeature INSTANCE = new SGOreFeature(SGOreFeatureConfig::deserialize);
+    public static final SGOreFeature INSTANCE = new SGOreFeature(SGOreFeatureConfig.CODEC);
 
-    public SGOreFeature(Function<Dynamic<?>, ? extends SGOreFeatureConfig> configFactoryIn) {
-        super(configFactoryIn);
+    public SGOreFeature(Codec<SGOreFeatureConfig> codec) {
+        super(codec);
     }
 
     @Override
-    public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, SGOreFeatureConfig config) {
-        if (!config.dimension.test(worldIn.getDimension().getType())) return false;
-
+    public boolean func_230362_a_(ISeedReader worldIn, StructureManager p_230362_2_, ChunkGenerator generator, Random rand, BlockPos pos, SGOreFeatureConfig config) {
         float f = rand.nextFloat() * (float) Math.PI;
         float f1 = (float) config.size / 8.0F;
         int i = MathHelper.ceil(((float) config.size / 16.0F * 2.0F + 1.0F) / 2.0F);
@@ -116,7 +114,7 @@ public class SGOreFeature extends Feature<SGOreFeatureConfig> {
                                         if (!bitset.get(k2)) {
                                             bitset.set(k2);
                                             blockPos.setPos(l1, i2, j2);
-                                            if (p_207803_3_.target.test(p_207803_1_.getBlockState(blockPos))) {
+                                            if (p_207803_3_.target.test(p_207803_1_.getBlockState(blockPos), p_207803_2_)) {
                                                 p_207803_1_.setBlockState(blockPos, p_207803_3_.state, 2);
                                                 ++i;
                                             }

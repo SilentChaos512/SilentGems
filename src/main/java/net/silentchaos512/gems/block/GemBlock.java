@@ -19,16 +19,14 @@
 package net.silentchaos512.gems.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
 import net.silentchaos512.gems.lib.Gems;
 
 import javax.annotation.Nullable;
@@ -50,13 +48,8 @@ public class GemBlock extends Block implements IGemBlock {
     }
 
     @Override
-    public ITextComponent getGemBlockName() {
+    public IFormattableTextComponent getGemBlockName() {
         return new TranslationTextComponent("block.silentgems.gem_block", this.gem.getDisplayName());
-    }
-
-    @Override
-    public boolean isBeaconBase(BlockState state, IWorldReader world, BlockPos pos, BlockPos beacon) {
-        return true;
     }
 
     @Override
@@ -65,7 +58,7 @@ public class GemBlock extends Block implements IGemBlock {
     }
 
     @Override
-    public ITextComponent getNameTextComponent() {
+    public IFormattableTextComponent getTranslatedName() {
         return getGemBlockName();
     }
 }

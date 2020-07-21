@@ -4,12 +4,12 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.WispTypes;
+import net.silentchaos512.gems.util.ModDamageSource;
 import net.silentchaos512.utils.MathUtils;
 
 public class FireWispShotEntity extends AbstractWispShotEntity {
@@ -36,14 +36,15 @@ public class FireWispShotEntity extends AbstractWispShotEntity {
 
     @Override
     protected void onEntityImpact(Entity entityIn) {
-        if (!entityIn.isImmuneToFire()) {
+        if (entityIn instanceof LivingEntity && !((LivingEntity) entityIn).isWaterSensitive()) {
             int i = entityIn.getFireTimer();
             entityIn.setFire(5);
-            boolean flag = entityIn.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 4f);
-            if (flag) {
-                this.applyEnchantments(this.shootingEntity, entityIn);
+            Entity shooter = this.func_234616_v_();
+            boolean flag = entityIn.attackEntityFrom(ModDamageSource.causeWispShotDamage(this, shooter), 4f);
+            if (flag && shooter != null) {
+                this.applyEnchantments((LivingEntity) shooter, entityIn);
             } else {
-                entityIn.setFireTimer(i);
+                entityIn.setFire(i);
             }
         }
     }

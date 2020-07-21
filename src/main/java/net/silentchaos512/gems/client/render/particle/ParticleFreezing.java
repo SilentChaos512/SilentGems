@@ -4,14 +4,14 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.TexturedParticle;
 import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 
 public class ParticleFreezing extends TexturedParticle {
     private static final int MAX_AGE = 40;
     private static final int MAX_SCALE = 1;
 
-    private ParticleFreezing(World world, double posX, double posY, double posZ, double motionX, double motionY, double motionZ, float scale, int maxAge, float red, float green, float blue) {
+    private ParticleFreezing(ClientWorld world, double posX, double posY, double posZ, double motionX, double motionY, double motionZ, float scale, int maxAge, float red, float green, float blue) {
         super(world, posX, posY, posZ, 0, 0, 0);
         this.motionX = motionX;
         this.motionY = motionY;

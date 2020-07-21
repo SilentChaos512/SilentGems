@@ -27,7 +27,7 @@ public final class Skulls {
     private static final List<SkullInfo> playerSkulls = new ArrayList<>();
 
     public static ItemStack getPlayerSkull(PlayerEntity player) {
-        return getPlayerSkull(player.getName().getFormattedText());
+        return getPlayerSkull(player.getName().getString());
     }
 
     public static ItemStack getPlayerSkull(String playerName) {

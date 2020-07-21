@@ -27,8 +27,10 @@ public enum LidState implements IStringSerializable {
         return this != NO_LID;
     }
 
+
+
     @Override
-    public String getName() {
+    public String getString() {
         return name().toLowerCase(Locale.ROOT);
     }
 

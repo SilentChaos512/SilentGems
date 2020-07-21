@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.compat.jei;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -13,7 +14,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gear.api.material.IMaterial;
 import net.silentchaos512.gear.api.parts.PartType;
@@ -75,7 +76,7 @@ public class SuperchargingRecipeCategoryJei implements IRecipeCategory<Superchar
 
     @Override
     public void setIngredients(SuperchargingRecipeCategoryJei.Recipe recipe, IIngredients ingredients) {
-        Tag<Item> catalystTag = recipe.getCatalystTag();
+        ITag<Item> catalystTag = recipe.getCatalystTag();
         if (catalystTag == null) return;
         Ingredient ingredient = recipe.material.getIngredient(PartType.MAIN);
         ingredients.setInputIngredients(Arrays.asList(
@@ -102,15 +103,15 @@ public class SuperchargingRecipeCategoryJei implements IRecipeCategory<Superchar
     }
 
     @Override
-    public void draw(SuperchargingRecipeCategoryJei.Recipe recipe, double mouseX, double mouseY) {
-        arrow.draw(43, 10);
+    public void draw(Recipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
+        arrow.draw(matrixStack, 43, 10);
 
         Minecraft mc = Minecraft.getInstance();
         // Chaos emission rate
         int chaos = SuperchargerTileEntity.getEmissionRate(3, recipe.tier);
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaos);
-        String str = emissionRate.getEmissionText(chaos).getFormattedText();
-        mc.fontRenderer.drawStringWithShadow(str, 1, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT + 1, -1);
+        String str = emissionRate.getEmissionText(chaos).getString();
+        mc.fontRenderer.drawStringWithShadow(matrixStack, str, 1, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT + 1, -1);
     }
 
     static final class Recipe {
@@ -123,7 +124,7 @@ public class SuperchargingRecipeCategoryJei implements IRecipeCategory<Superchar
         }
 
         @Nullable
-        Tag<Item> getCatalystTag() {
+        ITag<Item> getCatalystTag() {
             if (tier == 1) return GemsTags.Items.CHARGING_AGENT_TIER1;
             if (tier == 2) return GemsTags.Items.CHARGING_AGENT_TIER2;
             if (tier == 3) return GemsTags.Items.CHARGING_AGENT_TIER3;

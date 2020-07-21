@@ -29,10 +29,9 @@ public class ChaosMeterItem extends Item {
 
     public ChaosMeterItem() {
         super(new Properties().group(GemsItemGroups.UTILITY).maxStackSize(1));
-        addPropertyOverride(CHAOS_LEVEL, (stack, world, entity) -> getChaosLevel(stack));
     }
 
-    private static int getChaosLevel(ItemStack stack) {
+    public static int getChaosLevel(ItemStack stack) {
         // Pulls values from ClientPlayerInfo, since caps don't exist on the client
         return isPlayerMode(stack) ? ClientPlayerInfo.playerChaos : ClientPlayerInfo.worldChaos;
     }

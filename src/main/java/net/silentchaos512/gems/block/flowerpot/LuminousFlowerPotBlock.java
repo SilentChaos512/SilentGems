@@ -48,7 +48,7 @@ public class LuminousFlowerPotBlock extends Block {
     public LuminousFlowerPotBlock() {
         super(Properties.create(Material.MISCELLANEOUS)
                 .hardnessAndResistance(1, 30)
-                .lightValue(2));
+                .setLightLevel(state -> 2));
     }
 
     @SuppressWarnings("deprecation")
@@ -90,7 +90,7 @@ public class LuminousFlowerPotBlock extends Block {
     @Override
     public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
         LuminousFlowerPotTileEntity tile = getTileEntity(world, pos);
-        return tile != null && !tile.getFlower().isEmpty() ? 15 : lightValue;
+        return tile != null && !tile.getFlower().isEmpty() ? 15 : 2;
     }
 
     @Override
