@@ -7,6 +7,7 @@ import net.minecraft.item.SpawnEggItem;
 import net.silentchaos512.gems.block.CorruptedBlocks;
 import net.silentchaos512.gems.item.*;
 import net.silentchaos512.gems.item.container.GemBagItem;
+import net.silentchaos512.gems.item.container.GlowroseBasketItem;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.WispTypes;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
@@ -24,7 +25,7 @@ public final class GemsItems {
 
     // Utility
     public static final ItemRegistryObject<GemBagItem> GEM_BAG = register("gem_bag", GemBagItem::new);
-    public static final ItemRegistryObject<GemBagItem> GLOWROSE_BASKET = register("glowrose_basket", GemBagItem::new);
+    public static final ItemRegistryObject<GlowroseBasketItem> GLOWROSE_BASKET = register("glowrose_basket", GlowroseBasketItem::new);
     public static final ItemRegistryObject<SoulGemItem> SOUL_GEM = register("soul_gem", SoulGemItem::new);
     public static final ItemRegistryObject<GearSoulItem> GEAR_SOUL = register("gear_soul", GearSoulItem::new);
     public static final ItemRegistryObject<EnchantmentTokenItem> ENCHANTMENT_TOKEN = register("enchantment_token", EnchantmentTokenItem::new);
