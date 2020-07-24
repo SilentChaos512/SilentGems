@@ -524,7 +524,7 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, -0.1f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.2f)
-                .trait(PartType.MAIN, GemsTraits.RACKER, 1, new GearTypeTraitCondition(GearType.TOOL))
+                .trait(PartType.MAIN, TraitConst.RACKER, 1, new GearTypeTraitCondition(GearType.TOOL))
                 .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
                 .display(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.JASPER.getColor())
         );

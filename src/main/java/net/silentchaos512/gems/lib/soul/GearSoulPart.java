@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class GearSoulPart extends AbstractGearPart implements IUpgradePart {
+public class GearSoulPart extends AbstractGearPart {
     private static final ResourceLocation TYPE_ID = SilentGems.getId("gear_soul");
     public static final PartType TYPE = PartType.create(
             TYPE_ID,
@@ -101,10 +101,10 @@ public class GearSoulPart extends AbstractGearPart implements IUpgradePart {
     }
 
     @Override
-    public void onAddToGear(ItemStack gear, ItemStack part) {
-        GearSoul soul = SoulManager.getSoul(part);
+    public void onAddToGear(ItemStack gear, PartData part) {
+        GearSoul soul = SoulManager.getSoul(part.getCraftingItem());
         if (soul == null) {
-            SilentGems.LOGGER.warn("Gear soul is missing soul data: {}", part);
+            SilentGems.LOGGER.warn("Gear soul is missing soul data: {}", part.getCraftingItem());
             return;
         }
         SoulManager.setSoul(gear, soul);
@@ -116,5 +116,10 @@ public class GearSoulPart extends AbstractGearPart implements IUpgradePart {
         // Unfortunately no way to get the player, is there?
         // This means no level-up notifications for armor, for gear souls should work now
         SoulManager.addSoulXp((int) (GearSoul.XP_FACTOR_ARMOR_DAMAGED * amount), gear, null);
+    }
+
+    @Override
+    public boolean canAddToGear(ItemStack gear, PartData part) {
+        return true;
     }
 }
