@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- Blocks being placed in the Silent Gear item group (and crashing when Gear is not installed) [#481]
+
 ## [3.6.0] - 2020-07-20
 ### Added
 - Chaos gold and chaos silver

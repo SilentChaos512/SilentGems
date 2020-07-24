@@ -20,7 +20,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.silentchaos512.gear.SilentGear;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.block.altar.AltarBlock;
@@ -134,7 +133,7 @@ public final class GemsBlocks {
     }
 
     public static <T extends Block> Supplier<BlockItem> defaultItem(BlockRegistryObject<T> block) {
-        return () -> new BlockItem(block.get(), new Item.Properties().group(SilentGear.ITEM_GROUP));
+        return () -> new BlockItem(block.get(), new Item.Properties().group(GemsItemGroups.BLOCKS));
     }
 
     @Nullable
