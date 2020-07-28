@@ -12,26 +12,6 @@
   "name": {
     "translate": "material.silentgems.moldavite"
   },
-  "display": {
-    "main/all": [
-      {
-        "texture": "silentgear:main_generic_hc",
-        "color": "#FF88A300"
-      },
-      {
-        "texture": "silentgear:_highlight"
-      }
-    ],
-    "main/armor": [
-      {
-        "texture": "silentgear:main_generic_hc",
-        "color": "#FF88A300"
-      },
-      {
-        "texture": "silentgear:_highlight"
-      }
-    ]
-  },
   "stats": {
     "main": {
       "durability": 512.0,

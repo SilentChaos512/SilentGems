@@ -12,26 +12,6 @@
   "name": {
     "translate": "material.silentgems.yellow_diamond"
   },
-  "display": {
-    "main/all": [
-      {
-        "texture": "silentgear:main_generic_hc",
-        "color": "#FFFFFF45"
-      },
-      {
-        "texture": "silentgear:_highlight"
-      }
-    ],
-    "main/armor": [
-      {
-        "texture": "silentgear:main_generic_hc",
-        "color": "#FFFFFF45"
-      },
-      {
-        "texture": "silentgear:_highlight"
-      }
-    ]
-  },
   "stats": {
     "main": {
       "durability": 1792.0,

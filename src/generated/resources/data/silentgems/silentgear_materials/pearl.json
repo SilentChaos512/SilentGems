@@ -12,26 +12,6 @@
   "name": {
     "translate": "material.silentgems.pearl"
   },
-  "display": {
-    "main/all": [
-      {
-        "texture": "silentgear:main_generic_hc",
-        "color": "#FFE2E8F1"
-      },
-      {
-        "texture": "silentgear:_highlight"
-      }
-    ],
-    "main/armor": [
-      {
-        "texture": "silentgear:main_generic_hc",
-        "color": "#FFE2E8F1"
-      },
-      {
-        "texture": "silentgear:_highlight"
-      }
-    ]
-  },
   "stats": {
     "main": {
       "durability": 512.0,

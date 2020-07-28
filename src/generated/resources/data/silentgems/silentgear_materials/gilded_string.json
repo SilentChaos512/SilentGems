@@ -12,20 +12,6 @@
   "name": {
     "translate": "material.silentgems.gilded_string"
   },
-  "display": {
-    "binding/all": [
-      {
-        "texture": "silentgear:binding_generic",
-        "color": "#FFDE5E"
-      }
-    ],
-    "bowstring/all": [
-      {
-        "texture": "silentgear:bowstring_string",
-        "color": "#FFDE5E"
-      }
-    ]
-  },
   "stats": {
     "binding": {
       "durability": [

@@ -12,26 +12,6 @@
   "name": {
     "translate": "material.silentgems.heliodor"
   },
-  "display": {
-    "main/all": [
-      {
-        "texture": "silentgear:main_generic_hc",
-        "color": "#FFE6C51D"
-      },
-      {
-        "texture": "silentgear:_highlight"
-      }
-    ],
-    "main/armor": [
-      {
-        "texture": "silentgear:main_generic_hc",
-        "color": "#FFE6C51D"
-      },
-      {
-        "texture": "silentgear:_highlight"
-      }
-    ]
-  },
   "stats": {
     "main": {
       "durability": 384.0,

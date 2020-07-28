@@ -12,26 +12,6 @@
   "name": {
     "translate": "material.silentgems.kyanite"
   },
-  "display": {
-    "main/all": [
-      {
-        "texture": "silentgear:main_generic_hc",
-        "color": "#FF4583FF"
-      },
-      {
-        "texture": "silentgear:_highlight"
-      }
-    ],
-    "main/armor": [
-      {
-        "texture": "silentgear:main_generic_hc",
-        "color": "#FF4583FF"
-      },
-      {
-        "texture": "silentgear:_highlight"
-      }
-    ]
-  },
   "stats": {
     "main": {
       "durability": 1536.0,
