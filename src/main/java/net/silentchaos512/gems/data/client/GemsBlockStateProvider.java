@@ -85,11 +85,11 @@ public class GemsBlockStateProvider extends BlockStateProvider {
         getVariantBuilder(GemsBlocks.FLUFFY_PUFF_PLANT.get()).forAllStates(state -> {
             int i = cropAgeToIndex(state.get(FluffyPuffPlant.AGE));
             return ConfiguredModel.builder()
-                    .modelFile(models().crop("fluffy_puff_plant" + i, modLoc("block/fluffy_plant" + i)))
+                    .modelFile(models().cross("fluffy_puff_plant" + i, modLoc("block/fluffy_plant" + i)))
                     .build();
         });
         simpleBlock(GemsBlocks.WILD_FLUFFY_PUFF_PLANT.get(), models()
-                .crop(NameUtils.from(GemsBlocks.WILD_FLUFFY_PUFF_PLANT.get()).getPath(),
+                .cross(NameUtils.from(GemsBlocks.WILD_FLUFFY_PUFF_PLANT.get()).getPath(),
                         modLoc("block/fluffy_plant3")));
     }
 
