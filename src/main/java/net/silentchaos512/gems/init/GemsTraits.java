@@ -7,6 +7,7 @@ import net.silentchaos512.gems.trait.PersistenceTrait;
 import net.silentchaos512.gems.trait.RunicTrait;
 
 public final class GemsTraits {
+    public static final ResourceLocation AERIAL = SilentGems.getId("aerial");
     public static final ResourceLocation CHAOTIC = SilentGems.getId("chaotic");
     public static final ResourceLocation CRITICAL = SilentGems.getId("critical");
     public static final ResourceLocation ENTROPY = SilentGems.getId("entropy");
