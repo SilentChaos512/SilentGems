@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "silentgems:fluffy_puff"
+          "name": "silentgems:fluffy_puff_seeds"
         }
       ],
       "conditions": [
