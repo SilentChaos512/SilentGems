@@ -1,9 +1,8 @@
 package net.silentchaos512.gems.entity;
 
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.world.Difficulty;
@@ -15,6 +14,11 @@ import javax.annotation.Nonnull;
 public class CorruptedSlimeEntity extends SlimeEntity {
     public CorruptedSlimeEntity(EntityType<? extends CorruptedSlimeEntity> typeIn, World worldIn) {
         super(typeIn, worldIn);
+    }
+
+    public static AttributeModifierMap.MutableAttribute registerAttributes() {
+        return MobEntity.func_233666_p_()
+                .func_233814_a_(Attributes.ATTACK_DAMAGE);
     }
 
     @Override

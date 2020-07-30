@@ -28,6 +28,7 @@ public class EnderSlimeEntity extends SlimeEntity {
 
     public static AttributeModifierMap.MutableAttribute registerAttributes() {
         return MobEntity.func_233666_p_()
+                .func_233814_a_(Attributes.ATTACK_DAMAGE)
                 .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.2);
     }
 

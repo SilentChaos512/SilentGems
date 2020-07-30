@@ -1,9 +1,7 @@
 package net.silentchaos512.gems.init;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntitySpawnPlacementRegistry;
-import net.minecraft.entity.EntityType;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.Heightmap;
@@ -31,14 +29,12 @@ public final class GemsEntities {
     private GemsEntities() {}
 
     public static void registerTypes(RegistryEvent.Register<EntityType<?>> event) {
-        registerType("ender_slime", ENDER_SLIME.get());
-        registerType("corrupted_slime", CORRUPTED_SLIME.get());
+        registerType("ender_slime", ENDER_SLIME.get(), EnderSlimeEntity.registerAttributes().func_233813_a_());
+        registerType("corrupted_slime", CORRUPTED_SLIME.get(), CorruptedSlimeEntity.registerAttributes().func_233813_a_());
 
         for (WispTypes wispType : WispTypes.values()) {
-            registerType(wispType.getName(), wispType.getEntityType());
+            registerType(wispType.getName(), wispType.getEntityType(), AbstractWispEntity.registerAttributes().func_233813_a_());
             registerType(wispType.getName() + "_shot", wispType.getShotType());
-
-            GlobalEntityTypeAttributes.put(wispType.getEntityType(), AbstractWispEntity.registerAttributes().func_233813_a_());
         }
 
         EntitySpawnPlacementRegistry.register(ENDER_SLIME.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EnderSlimeEntity::canSpawnAt);
@@ -70,5 +66,10 @@ public final class GemsEntities {
         ResourceLocation id = SilentGems.getId(name);
         type.setRegistryName(id);
         ForgeRegistries.ENTITIES.register(type);
+    }
+
+    private static void registerType(String name, EntityType<? extends LivingEntity> type, AttributeModifierMap modifierMap) {
+        registerType(name, type);
+        GlobalEntityTypeAttributes.put(type, modifierMap);
     }
 }
