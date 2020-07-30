@@ -243,7 +243,7 @@ public class GemsLootTableProvider extends LootTableProvider {
                                         .acceptCondition(fluffyPuffMatureCondition)
                                         .acceptFunction(ApplyBonus.binomialWithBonusCount(Enchantments.FORTUNE, 0.5714286f, 3))));
             });
-            registerDropping(GemsBlocks.WILD_FLUFFY_PUFF_PLANT.get(), CraftingItems.FLUFFY_PUFF);
+            registerDropping(GemsBlocks.WILD_FLUFFY_PUFF_PLANT.get(), GemsItems.FLUFFY_PUFF_SEEDS);
         }
 
         @Override
