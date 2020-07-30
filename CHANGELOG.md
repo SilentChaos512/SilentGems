@@ -3,6 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.2] - 2020-07-29
+- Updated for Silent Gear 1.11.0 (required)
+### Fixed
+- Wild fluffy puff plants dropping puffs instead of seeds [#489]
+- Fluffy puff plants using incorrect model [#488]
+- Missing textures for Silent Gear items made of gems
+
 ## [3.6.1] - 2020-07-23
 - Updated for Silent Gear 1.10.2 (required)
 ### Fixed
