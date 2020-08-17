@@ -48,16 +48,16 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
         // Minecraft tags
         builder(BlockTags.CROPS, GemsBlocks.FLUFFY_PUFF_PLANT);
         getBuilder(BlockTags.ENDERMAN_HOLDABLE)
-                .func_240532_a_(CorruptedBlocks.STONE.asBlock())
-                .func_240532_a_(CorruptedBlocks.DIRT.asBlock())
-                .func_240531_a_(GemsTags.Blocks.GLOWROSES);
+                .add(CorruptedBlocks.STONE.asBlock())
+                .add(CorruptedBlocks.DIRT.asBlock())
+                .addTag(GemsTags.Blocks.GLOWROSES);
         getBuilder(BlockTags.FLOWER_POTS)
-                .func_240534_a_(Registration.getBlocks(FlowerPotBlock.class).toArray(new Block[0]));
-        getBuilder(BlockTags.SMALL_FLOWERS).func_240531_a_(GemsTags.Blocks.GLOWROSES);
+                .add(Registration.getBlocks(FlowerPotBlock.class).toArray(new Block[0]));
+        getBuilder(BlockTags.SMALL_FLOWERS).addTag(GemsTags.Blocks.GLOWROSES);
 
         getBuilder(BlockTags.BEACON_BASE_BLOCKS)
-                .func_240534_a_(Registration.getBlocks(GemBlock.class).toArray(new Block[0]))
-                .func_240534_a_(
+                .add(Registration.getBlocks(GemBlock.class).toArray(new Block[0]))
+                .add(
                         MiscBlocks.SILVER.asBlock(),
                         MiscBlocks.CHAOS_IRON.asBlock(),
                         MiscBlocks.CHAOS_GOLD.asBlock(),
@@ -82,52 +82,52 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
 
         // Group tags
         Builder<Block> oresBuilder = getBuilder(Tags.Blocks.ORES)
-                .func_240532_a_(GemsBlocks.MULTI_ORE_CLASSIC.get())
-                .func_240532_a_(GemsBlocks.MULTI_ORE_DARK.get())
-                .func_240532_a_(GemsBlocks.MULTI_ORE_LIGHT.get())
-                .func_240532_a_(MiscOres.CHAOS.asBlock())
-                .func_240532_a_(MiscOres.ENDER.asBlock())
-                .func_240531_a_(GemsTags.Blocks.ORES_SILVER);
-        Arrays.stream(Gems.values()).forEach(gem -> oresBuilder.func_240531_a_(gem.getOreTag()));
+                .add(GemsBlocks.MULTI_ORE_CLASSIC.get())
+                .add(GemsBlocks.MULTI_ORE_DARK.get())
+                .add(GemsBlocks.MULTI_ORE_LIGHT.get())
+                .add(MiscOres.CHAOS.asBlock())
+                .add(MiscOres.ENDER.asBlock())
+                .addTag(GemsTags.Blocks.ORES_SILVER);
+        Arrays.stream(Gems.values()).forEach(gem -> oresBuilder.addTag(gem.getOreTag()));
 
         Builder<Block> storageBlocksBuilder = getBuilder(Tags.Blocks.STORAGE_BLOCKS)
-                .func_240531_a_(GemsTags.Blocks.STORAGE_BLOCKS_CHAOS)
-                .func_240531_a_(GemsTags.Blocks.STORAGE_BLOCKS_CHAOS_COAL)
-                .func_240531_a_(GemsTags.Blocks.STORAGE_BLOCKS_CHAOS_IRON)
-                .func_240531_a_(GemsTags.Blocks.STORAGE_BLOCKS_SILVER);
-        Arrays.stream(Gems.values()).forEach(gem -> storageBlocksBuilder.func_240531_a_(gem.getBlockTag()));
+                .addTag(GemsTags.Blocks.STORAGE_BLOCKS_CHAOS)
+                .addTag(GemsTags.Blocks.STORAGE_BLOCKS_CHAOS_COAL)
+                .addTag(GemsTags.Blocks.STORAGE_BLOCKS_CHAOS_IRON)
+                .addTag(GemsTags.Blocks.STORAGE_BLOCKS_SILVER);
+        Arrays.stream(Gems.values()).forEach(gem -> storageBlocksBuilder.addTag(gem.getBlockTag()));
 
         Builder<Block> glowrosesBuilder = getBuilder(GemsTags.Blocks.GLOWROSES);
-        Arrays.stream(Gems.values()).forEach(gem -> glowrosesBuilder.func_240531_a_(gem.getGlowroseTag()));
+        Arrays.stream(Gems.values()).forEach(gem -> glowrosesBuilder.addTag(gem.getGlowroseTag()));
 
         getBuilder(GemsTags.Blocks.FLUFFY_BLOCKS)
-                .func_240534_a_(Registration.getBlocks(FluffyBlock.class).toArray(new Block[0]));
+                .add(Registration.getBlocks(FluffyBlock.class).toArray(new Block[0]));
         getBuilder(GemsTags.Blocks.HARDENED_ROCKS)
-                .func_240534_a_(Registration.getBlocks(HardenedRock.HardenedRockBlock.class).toArray(new Block[0]));
+                .add(Registration.getBlocks(HardenedRock.HardenedRockBlock.class).toArray(new Block[0]));
 
         getBuilder(GemsTags.Blocks.CORRUPTABLE_DIRT)
-                .func_240531_a_(Tags.Blocks.DIRT)
-                .func_240532_a_(Blocks.GRASS);
+                .addTag(Tags.Blocks.DIRT)
+                .add(Blocks.GRASS);
         getBuilder(GemsTags.Blocks.CORRUPTABLE_STONE)
-                .func_240531_a_(Tags.Blocks.STONE);
+                .addTag(Tags.Blocks.STONE);
 
         getBuilder(GemsTags.Blocks.PEDESTALS)
-                .func_240534_a_(Registration.getBlocks(PedestalBlock.class).toArray(new Block[0]));
+                .add(Registration.getBlocks(PedestalBlock.class).toArray(new Block[0]));
 
         // Supercharger
         getBuilder(GemsTags.Blocks.SUPERCHARGER_PILLAR_CAP)
-                .func_240531_a_(GemsTags.Blocks.GEM_BLOCKS)
-                .func_240531_a_(GemsTags.Blocks.STORAGE_BLOCKS_SILVER);
+                .addTag(GemsTags.Blocks.GEM_BLOCKS)
+                .addTag(GemsTags.Blocks.STORAGE_BLOCKS_SILVER);
         getBuilder(GemsTags.Blocks.SUPERCHARGER_PILLAR_LEVEL1)
-                .func_240531_a_(GemsTags.Blocks.STORAGE_BLOCKS_CHAOS_IRON);
+                .addTag(GemsTags.Blocks.STORAGE_BLOCKS_CHAOS_IRON);
         getBuilder(GemsTags.Blocks.SUPERCHARGER_PILLAR_LEVEL2)
-                .func_240532_a_(MiscBlocks.ENRICHED_CHAOS_CRYSTAL.asBlock());
+                .add(MiscBlocks.ENRICHED_CHAOS_CRYSTAL.asBlock());
         getBuilder(GemsTags.Blocks.SUPERCHARGER_PILLAR_LEVEL3)
-                .func_240532_a_(MiscBlocks.ENDER_CRYSTAL.asBlock());
+                .add(MiscBlocks.ENDER_CRYSTAL.asBlock());
     }
 
     private Builder<Block> getBuilder(ITag.INamedTag<Block> tag) {
-        return func_240522_a_(tag);
+        return getOrCreateBuilder(tag);
     }
 
     private void builder(ITag.INamedTag<Block> tag, IBlockProvider block) {
@@ -135,12 +135,12 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
     }
 
     private void builder(ITag.INamedTag<Block> tag, Collection<? extends IBlockProvider> blocks) {
-        getBuilder(tag).func_240534_a_(blocks.stream().map(IBlockProvider::asBlock).toArray(Block[]::new));
+        getBuilder(tag).add(blocks.stream().map(IBlockProvider::asBlock).toArray(Block[]::new));
     }
 
     private void gemBuilder(ITag.INamedTag<Block> tag, Function<Gems, ITag.INamedTag<Block>> gemTagGetter) {
         Builder<Block> builder = getBuilder(tag);
-        Arrays.stream(Gems.values()).map(gemTagGetter).forEach(builder::func_240531_a_);
+        Arrays.stream(Gems.values()).map(gemTagGetter).forEach(builder::addTag);
     }
 
     private static final Logger LOGGER = LogManager.getLogger();

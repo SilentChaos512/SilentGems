@@ -430,7 +430,7 @@ public enum Gems {
 
         public SoundType getOreSoundType() {
             if (this == DARK)
-                return SoundType.field_235592_N_;
+                return SoundType.NETHER_ORE;
             return SoundType.STONE;
         }
 
@@ -455,7 +455,7 @@ public enum Gems {
 
         public ITextComponent getDisplayName() {
             TranslationTextComponent textSet = new TranslationTextComponent("gem.silentgems.set." + getName());
-            return new TranslationTextComponent("gem.silentgems.set", textSet).func_240699_a_(TextFormatting.ITALIC);
+            return new TranslationTextComponent("gem.silentgems.set", textSet).mergeStyle(TextFormatting.ITALIC);
         }
 
         @Override

@@ -262,10 +262,10 @@ public final class Soul {
             //noinspection ChainOfInstanceofChecks
             if (server instanceof DedicatedServer) {
                 IServer dedicatedServer = (DedicatedServer) server;
-                return dedicatedServer.getServerProperties().field_241082_U_.func_236221_b_();
+                return dedicatedServer.getServerProperties().field_241082_U_.getSeed();
             } else if (server instanceof IntegratedServer) {
                 IntegratedServer integratedServer = (IntegratedServer) server;
-                integratedServer.func_240793_aU_().func_230418_z_().func_236221_b_();
+                integratedServer.func_240793_aU_().getDimensionGeneratorSettings().getSeed();
             }
 
             return 0;

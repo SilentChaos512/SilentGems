@@ -43,34 +43,34 @@ public class SuperchargerScreen extends ContainerScreen<SuperchargerContainer> {
     }
 
     @Override
-    protected void func_230451_b_(MatrixStack matrix, int mouseX, int mouseY) {
+    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
         int color = -1;
 
         // Structure tier
         int tier = container.tileEntity.getStructureLevel();
         String textTier = I18n.format("block.silentgems.supercharger.tier", String.valueOf(tier));
-        font.drawStringWithShadow(matrix, textTier, 5, 5, color);
+        font.drawStringWithShadow(matrixStack, textTier, 5, 5, color);
 
         // Chaos generated
         int chaosGenerated = container.tileEntity.getChaosGenerated();
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaosGenerated);
         String text = emissionRate.getEmissionText(chaosGenerated).getString();
-        font.drawStringWithShadow(matrix, text, 5, 15, color);
+        font.drawStringWithShadow(matrixStack, text, 5, 15, color);
     }
 
     @Override
-    protected void func_230450_a_(MatrixStack matrix, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
         if (minecraft == null) return;
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         minecraft.getTextureManager().bindTexture(TEXTURE);
         int xPos = (this.width - this.xSize) / 2;
         int yPos = (this.height - this.ySize) / 2;
-        blit(matrix, xPos, yPos, 0, 0, this.xSize, this.ySize);
+        blit(matrixStack, xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         // Progress arrow
         int progress = container.tileEntity.getProgress();
         int cost = container.tileEntity.getProcessTime();
         int length = cost > 0 && progress > 0 && progress < cost ? progress * 24 / cost : 0;
-        blit(matrix, xPos + 79, yPos + 34, 176, 14, length + 1, 16);
+        blit(matrixStack, xPos + 79, yPos + 34, 176, 14, length + 1, 16);
     }
 }

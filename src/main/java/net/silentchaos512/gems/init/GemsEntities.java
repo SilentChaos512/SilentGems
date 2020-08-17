@@ -29,11 +29,11 @@ public final class GemsEntities {
     private GemsEntities() {}
 
     public static void registerTypes(RegistryEvent.Register<EntityType<?>> event) {
-        registerType("ender_slime", ENDER_SLIME.get(), EnderSlimeEntity.registerAttributes().func_233813_a_());
-        registerType("corrupted_slime", CORRUPTED_SLIME.get(), CorruptedSlimeEntity.registerAttributes().func_233813_a_());
+        registerType("ender_slime", ENDER_SLIME.get(), EnderSlimeEntity.registerAttributes().create());
+        registerType("corrupted_slime", CORRUPTED_SLIME.get(), CorruptedSlimeEntity.registerAttributes().create());
 
         for (WispTypes wispType : WispTypes.values()) {
-            registerType(wispType.getName(), wispType.getEntityType(), AbstractWispEntity.registerAttributes().func_233813_a_());
+            registerType(wispType.getName(), wispType.getEntityType(), AbstractWispEntity.registerAttributes().create());
             registerType(wispType.getName() + "_shot", wispType.getShotType());
         }
 

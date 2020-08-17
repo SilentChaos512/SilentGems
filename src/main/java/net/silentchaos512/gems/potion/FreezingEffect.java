@@ -75,7 +75,7 @@ public class FreezingEffect extends Effect {
     public void applyAttributesModifiersToEntity(LivingEntity entity, AttributeModifierManager attributeMap, int amplifier) {
         if (isInsulated(entity)) return;
 
-        ModifiableAttributeInstance iattributeinstance = attributeMap.func_233779_a_(Attributes.MOVEMENT_SPEED);
+        ModifiableAttributeInstance iattributeinstance = attributeMap.createInstanceIfAbsent(Attributes.MOVEMENT_SPEED);
 
         if (iattributeinstance != null) {
             double amount = modifier.getAmount() * (amplifier + 1);
@@ -83,14 +83,14 @@ public class FreezingEffect extends Effect {
             if (entity instanceof PlayerEntity)
                 amount /= 2.0;
             iattributeinstance.removeModifier(modifier);
-            iattributeinstance.func_233769_c_(new AttributeModifier(modifier.getID(),
+            iattributeinstance.applyPersistentModifier(new AttributeModifier(modifier.getID(),
                     this.getName() + " " + amplifier, amount, modifier.getOperation()));
         }
     }
 
     @Override
     public void removeAttributesModifiersFromEntity(LivingEntity entity, AttributeModifierManager attributeMap, int amplifier) {
-        ModifiableAttributeInstance iattributeinstance = attributeMap.func_233779_a_(Attributes.MOVEMENT_SPEED);
+        ModifiableAttributeInstance iattributeinstance = attributeMap.createInstanceIfAbsent(Attributes.MOVEMENT_SPEED);
 
         if (iattributeinstance != null) {
             iattributeinstance.removeModifier(modifier);

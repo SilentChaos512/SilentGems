@@ -218,8 +218,8 @@ public class GemsLootTableProvider extends LootTableProvider {
                                             .replaceOperation("Color", "BlockEntityTag.Color")
                                             .replaceOperation("Gem", "BlockEntityTag.Gem")
                                             .replaceOperation("Upgrades", "BlockEntityTag.Upgrades"))
-                                    .acceptFunction(SetContents.func_215920_b()
-                                            .func_216075_a(DynamicLootEntry.func_216162_a(ShulkerBoxBlock.CONTENTS)))))));
+                                    .acceptFunction(SetContents.builderIn()
+                                            .addLootEntry(DynamicLootEntry.func_216162_a(ShulkerBoxBlock.CONTENTS)))))));
 
             registerDropSelfLootTable(GemsBlocks.SUPERCHARGER.get());
             registerDropSelfLootTable(GemsBlocks.TOKEN_ENCHANTER.get());

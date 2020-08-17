@@ -27,7 +27,7 @@ public final class AprilFools {
             ITextComponent text = event.getToolTip().get(i);
             String str = text.getString();
             if (str.contains("Silent's Gems 3")) {
-                event.getToolTip().set(i, text.copyRaw().func_230529_a_(new StringTextComponent(" & Knuckles")));
+                event.getToolTip().set(i, text.deepCopy().append(new StringTextComponent(" & Knuckles")));
             }
         }
     }

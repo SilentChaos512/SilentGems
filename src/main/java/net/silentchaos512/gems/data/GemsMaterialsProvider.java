@@ -3,14 +3,14 @@ package net.silentchaos512.gems.data;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gear.api.item.GearType;
-import net.silentchaos512.gear.api.parts.PartType;
+import net.silentchaos512.gear.api.part.PartType;
 import net.silentchaos512.gear.api.stats.ItemStats;
 import net.silentchaos512.gear.api.stats.StatInstance;
 import net.silentchaos512.gear.data.material.MaterialBuilder;
 import net.silentchaos512.gear.data.material.MaterialsProvider;
-import net.silentchaos512.gear.parts.PartTextureType;
-import net.silentchaos512.gear.traits.TraitConst;
-import net.silentchaos512.gear.traits.conditions.GearTypeTraitCondition;
+import net.silentchaos512.gear.gear.part.PartTextureSet;
+import net.silentchaos512.gear.gear.trait.condition.GearTypeTraitCondition;
+import net.silentchaos512.gear.util.Const;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.HardenedRock;
 import net.silentchaos512.gems.compat.gear.SGearStatHandler;
@@ -58,9 +58,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.1f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.4f)
-                .trait(PartType.MAIN, TraitConst.SILKY, 1)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 5)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.AGATE.getColor())
+                .trait(PartType.MAIN, Const.Traits.SILKY, 1)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 5)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.AGATE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.ALEXANDRITE.getName()), 3, Gems.ALEXANDRITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 1024)
@@ -79,8 +79,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.2f)
                 .trait(PartType.MAIN, GemsTraits.IMPERIAL, 4)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.ALEXANDRITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.ALEXANDRITE.getColor())
         );
         ResourceLocation gemsAmazonite = new ResourceLocation("forge", "gems/amazonite");
         ret.add(new MaterialBuilder(SilentGems.getId("amazonite"), 3, gemsAmazonite)
@@ -101,8 +101,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, 40)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 0.8f)
                 .trait(PartType.MAIN, GemsTraits.CRITICAL, 4)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, 0x28BEE0)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, 0x28BEE0)
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.AMBER.getName()), 3, Gems.AMBER.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 256)
@@ -121,8 +121,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.5f)
                 .trait(PartType.MAIN, GemsTraits.RUNIC, 1)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 4)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.AMBER.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 4)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.AMBER.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.AMETHYST.getName()), 3, Gems.AMETHYST.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -141,9 +141,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.3f)
                 .trait(PartType.MAIN, GemsTraits.IMPERIAL, 1)
-                .trait(PartType.MAIN, TraitConst.LUCKY, 2)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.AMETHYST.getColor())
+                .trait(PartType.MAIN, Const.Traits.LUCKY, 2)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.AMETHYST.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.AMETRINE.getName()), 3, Gems.AMETRINE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -162,8 +162,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.3f)
                 .trait(PartType.MAIN, GemsTraits.CRITICAL, 2)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.AMETRINE.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.AMETRINE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.AMMOLITE.getName()), 3, Gems.AMMOLITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -181,9 +181,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.3f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.5f)
-                .trait(PartType.MAIN, TraitConst.ANCIENT, 4)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.AMMOLITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.ANCIENT, 4)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.AMMOLITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.APATITE.getName()), 3, Gems.APATITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -202,8 +202,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.4f)
                 .trait(PartType.MAIN, GemsTraits.IMPERIAL, 4)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 3)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.APATITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.APATITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.AQUAMARINE.getName()), 3, Gems.AQUAMARINE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -221,9 +221,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, -0.1f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.3f)
-                .trait(PartType.MAIN, TraitConst.AQUATIC, 4)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.AQUAMARINE.getColor())
+                .trait(PartType.MAIN, Const.Traits.AQUATIC, 4)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.AQUAMARINE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.BENITOITE.getName()), 3, Gems.BENITOITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 768)
@@ -241,9 +241,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.1f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.2f)
-                .trait(PartType.MAIN, TraitConst.CHIPPING, 4)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.BENITOITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.CHIPPING, 4)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.BENITOITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.BLACK_DIAMOND.getName()), 3, Gems.BLACK_DIAMOND.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 1792)
@@ -261,9 +261,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, -0.2f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.0f)
-                .trait(PartType.MAIN, TraitConst.CRUSHING, 3)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.BLACK_DIAMOND.getColor())
+                .trait(PartType.MAIN, Const.Traits.CRUSHING, 3)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.BLACK_DIAMOND.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.CARNELIAN.getName()), 3, Gems.CARNELIAN.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -282,9 +282,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
                 .trait(PartType.MAIN, GemsTraits.SOL, 3)
-                .trait(PartType.MAIN, TraitConst.FIERY, 1, new GearTypeTraitCondition(GearType.WEAPON))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.CARNELIAN.getColor())
+                .trait(PartType.MAIN, Const.Traits.FIERY, 1, new GearTypeTraitCondition(GearType.WEAPON))
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.CARNELIAN.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.CATS_EYE.getName()), 3, Gems.CATS_EYE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 1280)
@@ -304,8 +304,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
                 .trait(PartType.MAIN, GemsTraits.LUNA, 3)
                 // Cat Vision
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.CATS_EYE.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.CATS_EYE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.CHRYSOPRASE.getName()), 3, Gems.CHRYSOPRASE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 768)
@@ -323,9 +323,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, -0.1f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.2f)
-                .trait(PartType.MAIN, TraitConst.TERMINUS, 1, new GearTypeTraitCondition(GearType.TOOL))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.CHRYSOPRASE.getColor())
+                .trait(PartType.MAIN, Const.Traits.TERMINUS, 1, new GearTypeTraitCondition(GearType.TOOL))
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.CHRYSOPRASE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.CITRINE.getName()), 3, Gems.CITRINE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 768)
@@ -344,8 +344,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
                 .trait(PartType.MAIN, GemsTraits.ENTROPY, 3)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.CITRINE.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.CITRINE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.CORAL.getName()), 3, Gems.CORAL.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -363,9 +363,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.2f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.4f)
-                .trait(PartType.MAIN, TraitConst.ANCIENT, 4)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.CORAL.getColor())
+                .trait(PartType.MAIN, Const.Traits.ANCIENT, 4)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.CORAL.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.EUCLASE.getName()), 3, Gems.EUCLASE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 1024)
@@ -384,8 +384,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.4f)
                 // Maybe something that increases magic damage with damage
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.EUCLASE.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.EUCLASE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.FLUORITE.getName()), 3, Gems.FLUORITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -404,8 +404,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
                 .trait(PartType.MAIN, GemsTraits.ICY, 2)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 3)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.FLUORITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.FLUORITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.GARNET.getName()), 3, Gems.GARNET.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -423,9 +423,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, -0.1f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.2f)
-                .trait(PartType.MAIN, TraitConst.FIERY, 2, new GearTypeTraitCondition(GearType.WEAPON))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.GARNET.getColor())
+                .trait(PartType.MAIN, Const.Traits.FIERY, 2, new GearTypeTraitCondition(GearType.WEAPON))
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.GARNET.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.GREEN_SAPPHIRE.getName()), 3, Gems.GREEN_SAPPHIRE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 1024)
@@ -443,9 +443,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.0f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
-                .trait(PartType.MAIN, TraitConst.FIERY, 2, new GearTypeTraitCondition(GearType.WEAPON))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.GREEN_SAPPHIRE.getColor())
+                .trait(PartType.MAIN, Const.Traits.FIERY, 2, new GearTypeTraitCondition(GearType.WEAPON))
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.GREEN_SAPPHIRE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.HELIODOR.getName()), 3, Gems.HELIODOR.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 384)
@@ -463,9 +463,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.2f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.3f)
-                .trait(PartType.MAIN, TraitConst.CHIPPING, 2)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.HELIODOR.getColor())
+                .trait(PartType.MAIN, Const.Traits.CHIPPING, 2)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.HELIODOR.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.IOLITE.getName()), 3, Gems.IOLITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 768)
@@ -483,9 +483,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.0f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.0f)
-                .trait(PartType.MAIN, TraitConst.STELLAR, 2)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.IOLITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.STELLAR, 2)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.IOLITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.JADE.getName()), 3, Gems.JADE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -503,10 +503,10 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.3f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.3f)
-                .trait(PartType.MAIN, TraitConst.CRUSHING, 3)
-                .trait(PartType.MAIN, TraitConst.JAGGED, 2)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.JADE.getColor())
+                .trait(PartType.MAIN, Const.Traits.CRUSHING, 3)
+                .trait(PartType.MAIN, Const.Traits.JAGGED, 2)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.JADE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.JASPER.getName()), 3, Gems.JASPER.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -524,9 +524,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, -0.1f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.2f)
-                .trait(PartType.MAIN, TraitConst.RACKER, 1, new GearTypeTraitCondition(GearType.TOOL))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.JASPER.getColor())
+                .trait(PartType.MAIN, Const.Traits.RACKER, 1, new GearTypeTraitCondition(GearType.TOOL))
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.JASPER.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.KUNZITE.getName()), 3, Gems.KUNZITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 768)
@@ -544,9 +544,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.1f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.2f)
-                .trait(PartType.MAIN, TraitConst.SILKY, 1, new GearTypeTraitCondition(GearType.HARVEST_TOOL))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.KUNZITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.SILKY, 1, new GearTypeTraitCondition(GearType.HARVEST_TOOL))
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.KUNZITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.KYANITE.getName()), 3, Gems.KYANITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 1536)
@@ -564,9 +564,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.2f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.2f)
-                .trait(PartType.MAIN, TraitConst.STELLAR, 3)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.KYANITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.STELLAR, 3)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.KYANITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.LEPIDOLITE.getName()), 3, Gems.LEPIDOLITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 256)
@@ -585,8 +585,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.3f)
                 .trait(PartType.MAIN, GemsTraits.RUNIC, 1)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 4)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.LEPIDOLITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 4)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.LEPIDOLITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.MALACHITE.getName()), 3, Gems.MALACHITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -605,8 +605,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.2f)
                 .trait(PartType.MAIN, GemsTraits.CRITICAL, 3, new GearTypeTraitCondition(GearType.WEAPON))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 3)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.MALACHITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.MALACHITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.MOLDAVITE.getName()), 3, Gems.MOLDAVITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -625,8 +625,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.4f)
                 .trait(PartType.MAIN, GemsTraits.SOL, 2, new GearTypeTraitCondition(GearType.WEAPON))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 3)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.MOLDAVITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.MOLDAVITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.MOONSTONE.getName()), 3, Gems.MOONSTONE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 768)
@@ -645,8 +645,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
                 .trait(PartType.MAIN, GemsTraits.LUNA, 4, new GearTypeTraitCondition(GearType.WEAPON))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.MOONSTONE.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.MOONSTONE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.MORGANITE.getName()), 3, Gems.MORGANITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -664,10 +664,10 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.1f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.3f)
-                .trait(PartType.MAIN, TraitConst.CHIPPING, 2)
-                .trait(PartType.MAIN, TraitConst.LUCKY, 2)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.MORGANITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.CHIPPING, 2)
+                .trait(PartType.MAIN, Const.Traits.LUCKY, 2)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.MORGANITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.ONYX.getName()), 3, Gems.ONYX.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 256)
@@ -685,10 +685,10 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, -0.2f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.0f)
-                .trait(PartType.MAIN, TraitConst.ERODED, 1)
+                .trait(PartType.MAIN, Const.Traits.ERODED, 1)
                 .trait(PartType.MAIN, GemsTraits.CHAOTIC, 1)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 3)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.ONYX.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.ONYX.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.OPAL.getName()), 3, Gems.OPAL.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 384)
@@ -707,8 +707,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
                 .trait(PartType.MAIN, GemsTraits.CRITICAL, 3, new GearTypeTraitCondition(GearType.WEAPON))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.OPAL.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.OPAL.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.PEARL.getName()), 3, Gems.PEARL.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -727,8 +727,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.4f)
                 .trait(PartType.MAIN, GemsTraits.IRONCLAD, 1, new GearTypeTraitCondition(GearType.ARMOR))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 3)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.PEARL.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.PEARL.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.PERIDOT.getName()), 3, Gems.PERIDOT.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -746,12 +746,12 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, -0.2f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.2f)
-                .trait(PartType.MAIN, TraitConst.TERMINUS, 1,
+                .trait(PartType.MAIN, Const.Traits.TERMINUS, 1,
                         new GearTypeTraitCondition(GearType.TOOL),
                         materialCountOrRatio(2, 0.5f)
                 )
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.PERIDOT.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.PERIDOT.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.PHOSPHOPHYLLITE.getName()), 3, Gems.PHOSPHOPHYLLITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 384)
@@ -769,9 +769,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.3f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.2f)
-                .trait(PartType.MAIN, TraitConst.SYNERGISTIC, 4)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 4)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.PHOSPHOPHYLLITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.SYNERGISTIC, 4)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 4)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.PHOSPHOPHYLLITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.PYROPE.getName()), 3, Gems.PYROPE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 1024)
@@ -789,12 +789,12 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.0f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.2f)
-                .trait(PartType.MAIN, TraitConst.FLAME_WARD, 1,
+                .trait(PartType.MAIN, Const.Traits.FLAME_WARD, 1,
                         new GearTypeTraitCondition(GearType.ARMOR),
                         materialCountOrRatio(3, 0.33f)
                 )
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.PYROPE.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.PYROPE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.ROSE_QUARTZ.getName()), 3, Gems.ROSE_QUARTZ.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 1024)
@@ -812,10 +812,10 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, -0.1f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.2f)
-                .trait(PartType.MAIN, TraitConst.LUSTROUS, 3, new GearTypeTraitCondition(GearType.HARVEST_TOOL))
-                .trait(PartType.MAIN, TraitConst.CHIPPING, 1)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.ROSE_QUARTZ.getColor())
+                .trait(PartType.MAIN, Const.Traits.LUSTROUS, 3, new GearTypeTraitCondition(GearType.HARVEST_TOOL))
+                .trait(PartType.MAIN, Const.Traits.CHIPPING, 1)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.ROSE_QUARTZ.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.RUBY.getName()), 3, Gems.RUBY.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 1024)
@@ -834,8 +834,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
                 .trait(PartType.MAIN, GemsTraits.IMPERIAL, 3, new GearTypeTraitCondition(GearType.TOOL))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.RUBY.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.RUBY.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.SAPPHIRE.getName()), 3, Gems.SAPPHIRE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 1024)
@@ -854,8 +854,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
                 .trait(PartType.MAIN, GemsTraits.IMPERIAL, 3, new GearTypeTraitCondition(GearType.TOOL))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.SAPPHIRE.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.SAPPHIRE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.SODALITE.getName()), 3, Gems.SODALITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 768)
@@ -873,9 +873,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, -0.1f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.3f)
-                .trait(PartType.MAIN, TraitConst.CHILLED, 4, new GearTypeTraitCondition(GearType.WEAPON))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.SODALITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.CHILLED, 4, new GearTypeTraitCondition(GearType.WEAPON))
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.SODALITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.SPINEL.getName()), 3, Gems.SPINEL.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 1024)
@@ -893,10 +893,10 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, -0.2f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.2f)
-                .trait(PartType.MAIN, TraitConst.CRUSHING, 3)
-                .trait(PartType.MAIN, TraitConst.ERODED, 2)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.SPINEL.getColor())
+                .trait(PartType.MAIN, Const.Traits.CRUSHING, 3)
+                .trait(PartType.MAIN, Const.Traits.ERODED, 2)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.SPINEL.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.SUNSTONE.getName()), 3, Gems.SUNSTONE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 768)
@@ -915,9 +915,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
                 .trait(PartType.MAIN, GemsTraits.SOL, 4, new GearTypeTraitCondition(GearType.WEAPON))
-                .trait(PartType.MAIN, TraitConst.LUSTROUS, 2)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.SUNSTONE.getColor())
+                .trait(PartType.MAIN, Const.Traits.LUSTROUS, 2)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.SUNSTONE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.TANZANITE.getName()), 3, Gems.TANZANITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -935,10 +935,10 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.3f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.3f)
-                .trait(PartType.MAIN, TraitConst.ADAMANT, 1)
-                .trait(PartType.MAIN, TraitConst.RUSTIC, 3)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.TANZANITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.ADAMANT, 1)
+                .trait(PartType.MAIN, Const.Traits.RUSTIC, 3)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.TANZANITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.TEKTITE.getName()), 3, Gems.TEKTITE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 768)
@@ -956,9 +956,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.0f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
-                .trait(PartType.MAIN, TraitConst.JAGGED, 4)
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 3)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.TEKTITE.getColor())
+                .trait(PartType.MAIN, Const.Traits.JAGGED, 4)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.TEKTITE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.TOPAZ.getName()), 3, Gems.TOPAZ.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 768)
@@ -976,10 +976,10 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, -0.1f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
-                .trait(PartType.MAIN, TraitConst.LUSTROUS, 2, new GearTypeTraitCondition(GearType.TOOL))
-                .trait(PartType.MAIN, TraitConst.REFRACTIVE, 1, materialCountOrRatio(3, 0.5f))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.TOPAZ.getColor())
+                .trait(PartType.MAIN, Const.Traits.LUSTROUS, 2, new GearTypeTraitCondition(GearType.TOOL))
+                .trait(PartType.MAIN, Const.Traits.REFRACTIVE, 1, materialCountOrRatio(3, 0.5f))
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.TOPAZ.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.TURQUOISE.getName()), 3, Gems.TURQUOISE.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 512)
@@ -997,9 +997,9 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.3f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
-                .trait(PartType.MAIN, TraitConst.CHILLED, 2, new GearTypeTraitCondition(GearType.WEAPON))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 3)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.TURQUOISE.getColor())
+                .trait(PartType.MAIN, Const.Traits.CHILLED, 2, new GearTypeTraitCondition(GearType.WEAPON))
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.TURQUOISE.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.YELLOW_DIAMOND.getName()), 3, Gems.YELLOW_DIAMOND.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 1792)
@@ -1018,8 +1018,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_LIGHT)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
                 .trait(PartType.MAIN, GemsTraits.LIGHTNING_AURA, 1, new GearTypeTraitCondition(GearType.ARMOR))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 1)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.YELLOW_DIAMOND.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.YELLOW_DIAMOND.getColor())
         );
         ret.add(new MaterialBuilder(SilentGems.getId(Gems.ZIRCON.getName()), 3, Gems.ZIRCON.getItemTag())
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 768)
@@ -1038,8 +1038,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_DARK)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.3f)
                 .trait(PartType.MAIN, GemsTraits.SPARKING, 2, new GearTypeTraitCondition(GearType.WEAPON))
-                .trait(PartType.MAIN, TraitConst.BRITTLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.ZIRCON.getColor())
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.ZIRCON.getColor())
         );
         //endregion
 
@@ -1059,10 +1059,10 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.3f)
                 .stat(PartType.MAIN, ItemStats.RARITY, 36)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.25f)
-                .trait(PartType.MAIN, TraitConst.MALLEABLE, 3)
+                .trait(PartType.MAIN, Const.Traits.MALLEABLE, 3)
                 .trait(PartType.MAIN, GemsTraits.CHAOTIC, 3)
                 .trait(PartType.MAIN, GemsTraits.ENTROPY, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, 0xCEBEB1)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, 0xCEBEB1)
         );
         ret.add(new MaterialBuilder(SilentGems.getId("chaos_gold"), 3, CraftingItems.CHAOS_GOLD_INGOT)
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 128)
@@ -1080,10 +1080,10 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.2f)
                 .stat(PartType.MAIN, ItemStats.RARITY, 52)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.35f)
-                .trait(PartType.MAIN, TraitConst.MALLEABLE, 2)
+                .trait(PartType.MAIN, Const.Traits.MALLEABLE, 2)
                 .trait(PartType.MAIN, GemsTraits.CHAOTIC, 4)
-                .trait(PartType.MAIN, TraitConst.SOFT, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, 0xF5C245)
+                .trait(PartType.MAIN, Const.Traits.SOFT, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, 0xF5C245)
         );
         ret.add(new MaterialBuilder(SilentGems.getId("chaos_silver"), 3, CraftingItems.CHAOS_SILVER_INGOT)
                 .stat(PartType.MAIN, ItemStats.DURABILITY, 256)
@@ -1101,10 +1101,10 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.3f)
                 .stat(PartType.MAIN, ItemStats.RARITY, 47)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.3f)
-                .trait(PartType.MAIN, TraitConst.MALLEABLE, 3)
+                .trait(PartType.MAIN, Const.Traits.MALLEABLE, 3)
                 .trait(PartType.MAIN, GemsTraits.CHAOTIC, 4)
-                .trait(PartType.MAIN, TraitConst.SOFT, 3)
-                .displayAll(PartTextureType.HIGH_CONTRAST_WITH_HIGHLIGHT, 0xACADCF)
+                .trait(PartType.MAIN, Const.Traits.SOFT, 3)
+                .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, 0xACADCF)
         );
 
         ret.add(new MaterialBuilder(SilentGems.getId("gilded_string"), 3, CraftingItems.GILDED_STRING)
@@ -1112,13 +1112,13 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.BINDING, ItemStats.DURABILITY, 32, StatInstance.Operation.ADD)
                 .stat(PartType.BINDING, ItemStats.HARVEST_SPEED, 0.1f, StatInstance.Operation.MUL1)
                 .stat(PartType.BINDING, ItemStats.RARITY, 9, StatInstance.Operation.ADD)
-                .trait(PartType.BINDING, TraitConst.FLEXIBLE, 1)
+                .trait(PartType.BINDING, Const.Traits.FLEXIBLE, 1)
                 .stat(PartType.BOWSTRING, ItemStats.DURABILITY, 0.1f, StatInstance.Operation.MUL1)
                 .stat(PartType.BOWSTRING, ItemStats.ENCHANTABILITY, 0.1f, StatInstance.Operation.MUL1)
                 .stat(PartType.BOWSTRING, ItemStats.RANGED_DAMAGE, 0.3f, StatInstance.Operation.MUL1)
                 .stat(PartType.BOWSTRING, ItemStats.RARITY, 18, StatInstance.Operation.ADD)
-                .trait(PartType.BOWSTRING, TraitConst.FLEXIBLE, 2)
-                .displayAll(PartTextureType.HIGH_CONTRAST, 0xFFDE5E)
+                .trait(PartType.BOWSTRING, Const.Traits.FLEXIBLE, 2)
+                .displayAll(PartTextureSet.HIGH_CONTRAST, 0xFFDE5E)
         );
 
         ret.add(hardenedStone("hardened_stone", HardenedRock.STONE, 0x4D4D4D));
@@ -1147,8 +1147,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 0.7f)
                 .stat(PartType.ROD, ItemStats.HARVEST_SPEED, -0.1f, StatInstance.Operation.MUL2)
                 .stat(PartType.ROD, ItemStats.RARITY, 5)
-                .trait(PartType.MAIN, TraitConst.CHIPPING, 4)
-                .trait(PartType.MAIN, TraitConst.SYNERGISTIC, 1)
-                .displayAll(PartTextureType.LOW_CONTRAST, color);
+                .trait(PartType.MAIN, Const.Traits.CHIPPING, 4)
+                .trait(PartType.MAIN, Const.Traits.SYNERGISTIC, 1)
+                .displayAll(PartTextureSet.LOW_CONTRAST, color);
     }
 }

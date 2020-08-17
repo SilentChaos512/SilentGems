@@ -48,9 +48,9 @@ public abstract class AbstractWispEntity extends MonsterEntity {
 
     public static AttributeModifierMap.MutableAttribute registerAttributes() {
         return MobEntity.func_233666_p_()
-                .func_233815_a_(Attributes.ATTACK_DAMAGE, 4.0)
-                .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.25)
-                .func_233815_a_(Attributes.FOLLOW_RANGE, 48.0);
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25)
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 48.0);
     }
 
     @Override
@@ -202,7 +202,7 @@ public abstract class AbstractWispEntity extends MonsterEntity {
 
                         if (this.attackStep > 1) {
                             float f = MathHelper.sqrt(MathHelper.sqrt(distanceSq)) * 0.5F;
-                            this.wisp.world.playEvent(null, 1018, this.wisp.func_233580_cy_(), 0);
+                            this.wisp.world.playEvent(null, 1018, this.wisp.getPosition(), 0);
 
                             for (int i = 0; i < 1; ++i) {
                                 AbstractWispShotEntity shot = this.wisp.getProjectile(this.wisp, dx + this.wisp.getRNG().nextGaussian() * (double) f, dy, dz + this.wisp.getRNG().nextGaussian() * (double) f);

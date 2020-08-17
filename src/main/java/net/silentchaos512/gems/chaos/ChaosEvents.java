@@ -190,7 +190,7 @@ public final class ChaosEvents {
             double posZ = entity.getPosZ() + MathUtils.nextIntInclusive(-64, 64);
             int height = world.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) posX, (int) posZ);
             LightningBoltEntity bolt = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, world);
-            bolt.func_233576_c_(new Vector3d(posX, height, posZ));
+            bolt.moveForced(new Vector3d(posX, height, posZ));
             world.addEntity(bolt);
             return true;
         }

@@ -53,8 +53,8 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
         copy(BlockTags.SMALL_FLOWERS, ItemTags.FLOWERS);
 
         getBuilder(ItemTags.field_232908_Z_)
-                .func_240534_a_(Arrays.stream(Gems.values()).map(Gems::getItem).toArray(Item[]::new))
-                .func_240534_a_(
+                .add(Arrays.stream(Gems.values()).map(Gems::getItem).toArray(Item[]::new))
+                .add(
                         CraftingItems.SILVER_INGOT.asItem(),
                         CraftingItems.CHAOS_IRON_INGOT.asItem(),
                         CraftingItems.CHAOS_GOLD_INGOT.asItem(),
@@ -64,8 +64,8 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
         // Forge tags
         builder(GemsTags.Items.GEMS_CHAOS, CraftingItems.CHAOS_CRYSTAL);
         for (Gems gem : Gems.values()) {
-            getBuilder(gem.getItemTag()).func_240532_a_(gem.getItem());
-            getBuilder(gem.getShardTag()).func_240532_a_(gem.getShard());
+            getBuilder(gem.getItemTag()).add(gem.getItem());
+            getBuilder(gem.getShardTag()).add(gem.getShard());
             copyBlock(gem.getOreTag());
             copyBlock(gem.getBlockTag());
             copyBlock(gem.getGlowroseTag());
@@ -90,13 +90,13 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
 
         builder(Tags.Items.CROPS, CraftingItems.FLUFFY_PUFF);
         getBuilder(Tags.Items.DUSTS)
-                .func_240531_a_(GemsTags.Items.CORRUPTED_DUSTS)
-                .func_240532_a_(CraftingItems.CHAOS_DUST.asItem());
+                .addTag(GemsTags.Items.CORRUPTED_DUSTS)
+                .add(CraftingItems.CHAOS_DUST.asItem());
         builder(ModTags.Items.PAPER, CraftingItems.FLUFFY_FABRIC);
         getBuilder(Tags.Items.SEEDS)
-                .func_240532_a_(GemsItems.FLUFFY_PUFF_SEEDS.asItem());
+                .add(GemsItems.FLUFFY_PUFF_SEEDS.asItem());
         getBuilder(Tags.Items.SLIMEBALLS)
-                .func_240534_a_(CraftingItems.CORRUPTED_SLIME_BALL.asItem(), CraftingItems.ENDER_SLIME_BALL.asItem());
+                .add(CraftingItems.CORRUPTED_SLIME_BALL.asItem(), CraftingItems.ENDER_SLIME_BALL.asItem());
 
         // Mod tags
         builder(GemsTags.Items.CHAOS_GEMS, Registration.getItems(ChaosGemItem.class));
@@ -105,11 +105,11 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
         builder(GemsTags.Items.CHARGING_AGENT_TIER2, CraftingItems.SUPER_CHARGING_AGENT);
         builder(GemsTags.Items.CHARGING_AGENT_TIER3, CraftingItems.ULTRA_CHARGING_AGENT);
         getBuilder(GemsTags.Items.CHARGING_AGENTS)
-                .func_240531_a_(GemsTags.Items.CHARGING_AGENT_TIER1)
-                .func_240531_a_(GemsTags.Items.CHARGING_AGENT_TIER2)
-                .func_240531_a_(GemsTags.Items.CHARGING_AGENT_TIER3);
+                .addTag(GemsTags.Items.CHARGING_AGENT_TIER1)
+                .addTag(GemsTags.Items.CHARGING_AGENT_TIER2)
+                .addTag(GemsTags.Items.CHARGING_AGENT_TIER3);
         getBuilder(GemsTags.Items.CORRUPTED_DUSTS)
-                .func_240534_a_(CorruptedBlocks.DIRT.getPile(), CorruptedBlocks.STONE.getPile());
+                .add(CorruptedBlocks.DIRT.getPile(), CorruptedBlocks.STONE.getPile());
 
         copy(GemsTags.Blocks.FLUFFY_BLOCKS, GemsTags.Items.FLUFFY_BLOCKS);
         copy(GemsTags.Blocks.GEM_BLOCKS, GemsTags.Items.GEM_BLOCKS);
@@ -120,9 +120,9 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
         gemBuilderItem(GemsTags.Items.RETURN_HOME_CHARMS, Gems::getReturnHomeCharm);
         gemBuilder(GemsTags.Items.SHARDS, Gems::getShardTag);
         getBuilder(GemsTags.Items.STEW_FISH)
-                .func_240534_a_(Items.COD, Items.SALMON);
+                .add(Items.COD, Items.SALMON);
         getBuilder(GemsTags.Items.STEW_MEAT)
-                .func_240534_a_(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT);
+                .add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT);
         copy(GemsTags.Blocks.HARDENED_ROCKS, GemsTags.Items.HARDENED_ROCKS);
         copy(GemsTags.Blocks.SUPERCHARGER_PILLAR_CAP, GemsTags.Items.SUPERCHARGER_PILLAR_CAP);
         copy(GemsTags.Blocks.SUPERCHARGER_PILLAR_LEVEL1, GemsTags.Items.SUPERCHARGER_PILLAR_LEVEL1);
@@ -131,7 +131,7 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
         builder(GemsTags.Items.TELEPORTER_CATALYST, CraftingItems.ENDER_CRYSTAL);
         gemBuilderItem(GemsTags.Items.TELEPORTERS, Gems::getTeleporter);
         getBuilder(GemsTags.Items.WISP_ESSENCES)
-                .func_240534_a_(Arrays.stream(CraftingItems.values())
+                .add(Arrays.stream(CraftingItems.values())
                         .filter(item -> item.getName().endsWith("wisp_essence"))
                         .map(IItemProvider::asItem)
                         .toArray(Item[]::new));
@@ -142,11 +142,7 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
     }
 
     private Builder<Item> getBuilder(ITag.INamedTag<Item> tag) {
-        return func_240522_a_(tag);
-    }
-
-    private void copy(ITag.INamedTag<Block> block, ITag.INamedTag<Item> item) {
-        func_240521_a_(block, item);
+        return getOrCreateBuilder(tag);
     }
 
     private void builder(ITag.INamedTag<Item> tag, IItemProvider item) {
@@ -154,14 +150,14 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
     }
 
     private void builder(ITag.INamedTag<Item> tag, Collection<? extends IItemProvider> items) {
-        getBuilder(tag).func_240534_a_(items.stream().map(IItemProvider::asItem).toArray(Item[]::new));
+        getBuilder(tag).add(items.stream().map(IItemProvider::asItem).toArray(Item[]::new));
     }
 
     private void gemBuilder(ITag.INamedTag<Item> tag, Function<Gems, ITag.INamedTag<Item>> gemTagGetter) {
         Builder<Item> builder = getBuilder(tag);
         for (Gems gems : Gems.values()) {
             ITag.INamedTag<Item> itemTag = gemTagGetter.apply(gems);
-            builder.func_240531_a_(itemTag);
+            builder.addTag(itemTag);
         }
     }
 
@@ -169,13 +165,13 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
         Builder<Item> builder = getBuilder(tag);
         for (Gems gems : Gems.values()) {
             Item item = gemTagGetter.apply(gems).asItem();
-            builder.func_240532_a_(item);
+            builder.add(item);
         }
     }
 
     private void gemSetBuilder(ITag.INamedTag<Item> tag, Gems.Set set, Function<Gems, ITag.INamedTag<Item>> gemTagGetter) {
         Builder<Item> builder = getBuilder(tag);
-        set.iterator().forEachRemaining(gem -> builder.func_240531_a_(gemTagGetter.apply(gem)));
+        set.iterator().forEachRemaining(gem -> builder.addTag(gemTagGetter.apply(gem)));
     }
 
     private void copyBlock(ITag.INamedTag<Block> tag) {

@@ -323,7 +323,7 @@ public class GemTeleporterTileEntity extends TileEntity {
         if (entity instanceof PlayerEntity) {
             Chaos.generate((PlayerEntity) entity, amount, true);
         } else {
-            Chaos.generate(entity.world, amount, entity.func_233580_cy_());
+            Chaos.generate(entity.world, amount, entity.getPosition());
         }
     }
 

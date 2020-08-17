@@ -27,10 +27,10 @@ public final class CorruptedSlimeSpawner {
             return false;
 
         int count = MathUtils.nextIntInclusive(SilentGems.random, MIN_GROUP_COUNT, MAX_GROUP_COUNT);
-        BlockPos pos = getRandomHeight(player.world, player.world.getChunk(player.func_233580_cy_()));
+        BlockPos pos = getRandomHeight(player.world, player.world.getChunk(player.getPosition()));
 
         for (int i = 0; i < 4; ++i) {
-            if (spawnGroup(GemsEntities.CORRUPTED_SLIME.get(), count, player.world, player.func_233580_cy_())) {
+            if (spawnGroup(GemsEntities.CORRUPTED_SLIME.get(), count, player.world, player.getPosition())) {
                 return true;
             }
         }

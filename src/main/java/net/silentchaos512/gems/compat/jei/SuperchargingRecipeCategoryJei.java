@@ -17,7 +17,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gear.api.material.IMaterial;
-import net.silentchaos512.gear.api.parts.PartType;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 import net.silentchaos512.gems.block.supercharger.SuperchargerTileEntity;
 import net.silentchaos512.gems.init.GemsBlocks;
@@ -78,7 +77,7 @@ public class SuperchargingRecipeCategoryJei implements IRecipeCategory<Superchar
     public void setIngredients(SuperchargingRecipeCategoryJei.Recipe recipe, IIngredients ingredients) {
         ITag<Item> catalystTag = recipe.getCatalystTag();
         if (catalystTag == null) return;
-        Ingredient ingredient = recipe.material.getIngredient(PartType.MAIN);
+        Ingredient ingredient = recipe.material.getIngredient();
         ingredients.setInputIngredients(Arrays.asList(
                 ingredient,
                 Ingredient.fromTag(catalystTag)

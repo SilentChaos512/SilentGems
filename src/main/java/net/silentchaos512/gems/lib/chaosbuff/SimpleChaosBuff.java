@@ -86,9 +86,9 @@ public class SimpleChaosBuff implements IChaosBuff {
         if (level < 1) {
             return displayName.get();
         }
-        return displayName.get()
-                .copyRaw().func_240702_b_(" ")
-                .func_230529_a_(new TranslationTextComponent("enchantment.level." + level));
+        return displayName.get().deepCopy()
+                .appendString(" ")
+                .append(new TranslationTextComponent("enchantment.level." + level));
     }
 
     @Override

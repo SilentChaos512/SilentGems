@@ -28,10 +28,10 @@ public final class WispSpawner {
 
         WispTypes type = WispTypes.selectRandom(SilentGems.random);
         int count = MathUtils.nextIntInclusive(SilentGems.random, MIN_GROUP_COUNT, MAX_GROUP_COUNT);
-        BlockPos pos = getRandomHeight(player.world, player.world.getChunk(player.func_233580_cy_()));
+        BlockPos pos = getRandomHeight(player.world, player.world.getChunk(player.getPosition()));
 
         for (int i = 0; i < 4; ++i) {
-            if (spawnWispGroup(type.getEntityType(), count, player.world, player.func_233580_cy_())) {
+            if (spawnWispGroup(type.getEntityType(), count, player.world, player.getPosition())) {
                 return true;
             }
         }

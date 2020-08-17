@@ -36,7 +36,7 @@ public class EnchantmentGravity extends Enchantment {
         float speedMulti = 5f / (getMaxLevel() - enchLevel + 1);
 
         // In air or flying?
-        if (!player.func_233570_aj_() || player.abilities.isFlying) {
+        if (!player.isOnGround() || player.abilities.isFlying) {
             event.setNewSpeed(event.getNewSpeed() * speedMulti);
         }
 

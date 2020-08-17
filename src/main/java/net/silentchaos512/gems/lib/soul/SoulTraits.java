@@ -9,7 +9,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.silentchaos512.gear.api.item.GearType;
 import net.silentchaos512.gear.api.item.ICoreItem;
 import net.silentchaos512.gear.api.traits.ITrait;
-import net.silentchaos512.gear.traits.TraitManager;
+import net.silentchaos512.gear.gear.trait.TraitManager;
 import net.silentchaos512.gear.util.GearData;
 import net.silentchaos512.gear.util.GearHelper;
 import net.silentchaos512.gear.util.TraitHelper;

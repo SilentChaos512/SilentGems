@@ -333,14 +333,14 @@ public class SoulUrnBlock extends Block implements IWaterLoggable {
         }
 
         if (InputUtils.isControlDown()) {
-            tooltip.add(translate("upgrades").func_240699_a_(TextFormatting.YELLOW));
+            tooltip.add(translate("upgrades").mergeStyle(TextFormatting.YELLOW));
             List<UrnUpgrade> upgrades = UrnUpgrade.ListHelper.load(stack);
             for (UrnUpgrade upgrade : upgrades) {
                 tooltip.add(translate("upgrade_list", upgrade.getDisplayName()));
             }
         } else {
-            ITextComponent pressCtrl = new TranslationTextComponent("misc.silentgems.pressCtrl").func_240699_a_(TextFormatting.DARK_GRAY);
-            tooltip.add(translate("upgrades", pressCtrl).func_240699_a_(TextFormatting.YELLOW));
+            ITextComponent pressCtrl = new TranslationTextComponent("misc.silentgems.pressCtrl").mergeStyle(TextFormatting.DARK_GRAY);
+            tooltip.add(translate("upgrades", pressCtrl).mergeStyle(TextFormatting.YELLOW));
 
             addInventoryInformation(stack, worldIn, tooltip, flagIn);
         }
@@ -366,14 +366,14 @@ public class SoulUrnBlock extends Block implements IWaterLoggable {
                         if (i <= 4) {
                             ++i;
                             IFormattableTextComponent text = itemstack.getDisplayName().deepCopy();
-                            text.func_240702_b_(" x").func_240702_b_(String.valueOf(itemstack.getCount()));
+                            text.appendString(" x").appendString(String.valueOf(itemstack.getCount()));
                             tooltip.add(text);
                         }
                     }
                 }
 
                 if (j - i > 0) {
-                    tooltip.add((new TranslationTextComponent("container.shulkerBox.more", j - i)).func_240699_a_(TextFormatting.ITALIC));
+                    tooltip.add((new TranslationTextComponent("container.shulkerBox.more", j - i)).mergeStyle(TextFormatting.ITALIC));
                 }
             }
         }

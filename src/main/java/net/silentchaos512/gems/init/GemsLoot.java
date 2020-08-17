@@ -55,7 +55,7 @@ public final class GemsLoot {
     private GemsLoot() {}
 
     static void register() {
-        Registry.register(Registry.field_239694_aZ_, SilentGems.getId("set_soul"), SET_SOUL);
+        Registry.register(Registry.LOOT_FUNCTION_TYPE, SilentGems.getId("set_soul"), SET_SOUL);
 
         MinecraftForge.EVENT_BUS.addListener(GemsLoot::onLootTableLoad);
     }

@@ -82,8 +82,8 @@ public class ShockingEffect extends Effect {
 
     private static List<LivingEntity> getChainableEntities(LivingEntity source) {
         AxisAlignedBB box = new AxisAlignedBB(
-                source.func_233580_cy_().add(-CHAIN_DISTANCE, -CHAIN_DISTANCE, -CHAIN_DISTANCE),
-                source.func_233580_cy_().add(CHAIN_DISTANCE, CHAIN_DISTANCE, CHAIN_DISTANCE));
+                source.getPosition().add(-CHAIN_DISTANCE, -CHAIN_DISTANCE, -CHAIN_DISTANCE),
+                source.getPosition().add(CHAIN_DISTANCE, CHAIN_DISTANCE, CHAIN_DISTANCE));
         return source.world.getEntitiesWithinAABB(LivingEntity.class, box, e1 -> e1 != source && !(e1 instanceof PlayerEntity));
     }
 
@@ -100,7 +100,7 @@ public class ShockingEffect extends Effect {
     public void applyAttributesModifiersToEntity(LivingEntity entity, AttributeModifierManager attributeMap, int amplifier) {
         if (isGrounded(entity)) return;
 
-        ModifiableAttributeInstance iattributeinstance = attributeMap.func_233779_a_(Attributes.ATTACK_DAMAGE);
+        ModifiableAttributeInstance iattributeinstance = attributeMap.createInstanceIfAbsent(Attributes.ATTACK_DAMAGE);
 
         if (iattributeinstance != null) {
             double amount = modifier.getAmount() * (amplifier + 1);
@@ -108,14 +108,14 @@ public class ShockingEffect extends Effect {
             if (entity instanceof PlayerEntity)
                 amount /= 2.0;
             iattributeinstance.removeModifier(modifier);
-            iattributeinstance.func_233769_c_(new AttributeModifier(modifier.getID(),
+            iattributeinstance.applyPersistentModifier(new AttributeModifier(modifier.getID(),
                     this.getName() + " " + amplifier, amount, modifier.getOperation()));
         }
     }
 
     @Override
     public void removeAttributesModifiersFromEntity(LivingEntity entity, AttributeModifierManager attributeMap, int amplifier) {
-        ModifiableAttributeInstance iattributeinstance = attributeMap.func_233779_a_(Attributes.ATTACK_DAMAGE);
+        ModifiableAttributeInstance iattributeinstance = attributeMap.createInstanceIfAbsent(Attributes.ATTACK_DAMAGE);
 
         if (iattributeinstance != null) {
             iattributeinstance.removeModifier(modifier);

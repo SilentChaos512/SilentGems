@@ -26,13 +26,13 @@ public class PurifierScreen extends ContainerScreen<PurifierContainer> {
     }
 
     @Override
-    protected void func_230450_a_(MatrixStack matrix, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
         if (minecraft == null) return;
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         minecraft.getTextureManager().bindTexture(TEXTURE);
         int xPos = (this.width - this.xSize) / 2;
         int yPos = (this.height - this.ySize) / 2;
-        this.blit(matrix, xPos, yPos, 0, 0, this.xSize, this.ySize);
+        this.blit(matrixStack, xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         // Progress arrow
         int time = container.getRemainingBurnTime();
@@ -40,12 +40,12 @@ public class PurifierScreen extends ContainerScreen<PurifierContainer> {
         int height = totalTime != 0 && time > 0 && time < totalTime ? time * 23 / totalTime : 0;
         // 76, 31
         // 199, 23
-        blit(matrix, xPos + 76, yPos + 31 + 23 - height, 176, 23 - height, 24, height);
+        blit(matrixStack, xPos + 76, yPos + 31 + 23 - height, 176, 23 - height, 24, height);
     }
 
     @Override
-    protected void func_230451_b_(MatrixStack matrix, int mouseX, int mouseY) {
-        this.font.drawString(matrix, title.getString(), (float)(this.xSize / 2 - this.font.getStringWidth(title.getString()) / 2), 6.0F, 4210752);
-        this.font.drawString(matrix, this.playerInventory.getDisplayName().getString(), 8.0F, (float)(this.ySize - 96 + 2), 4210752);
+    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
+        this.font.drawString(matrixStack, title.getString(), (float)(this.xSize / 2 - this.font.getStringWidth(title.getString()) / 2), 6.0F, 4210752);
+        this.font.drawString(matrixStack, this.playerInventory.getDisplayName().getString(), 8.0F, (float)(this.ySize - 96 + 2), 4210752);
     }
 }

@@ -95,7 +95,7 @@ public class ChaosOrbItem extends Item {
 
     private static void notifyOrbCracked(LivingEntity entity, ItemStack stack) {
         entity.sendMessage(new TranslationTextComponent("item.silentgems.chaos_orb.crack", stack.getDisplayName()), Util.DUMMY_UUID);
-        playCrackSound(entity.world, entity.func_233580_cy_());
+        playCrackSound(entity.world, entity.getPosition());
     }
 
     private static void destroyOrb(LivingEntity entity, ItemStack stack) {
@@ -106,7 +106,7 @@ public class ChaosOrbItem extends Item {
         if (entity instanceof PlayerEntity) {
             ((PlayerEntity) entity).addStat(Stats.ITEM_BROKEN.get(stack.getItem()));
         }
-        destroyOrb(entity.world, entity.func_233580_cy_(), stack);
+        destroyOrb(entity.world, entity.getPosition(), stack);
 
         int pieceCount = entity.getRNG().nextInt(99000) + 1000;
         String piecesFormatted = String.format("%,d", pieceCount);

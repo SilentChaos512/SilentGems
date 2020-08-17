@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.api.chaos;
 
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
@@ -29,12 +30,12 @@ public enum ChaosEmissionRate {
         return EXTREME;
     }
 
-    public ITextComponent getDisplayName() {
+    public IFormattableTextComponent getDisplayName() {
         String name = name().toLowerCase(Locale.ROOT);
         return new TranslationTextComponent("chaos.silentgems.emissionRate." + name);
     }
 
-    public ITextComponent getDisplayName(int chaos) {
+    public IFormattableTextComponent getDisplayName(int chaos) {
         if (this == NONE || this == MINIMAL) {
             return getDisplayName();
         }
@@ -44,11 +45,11 @@ public enum ChaosEmissionRate {
 
         if (chaos > (previous.maxValue + 2 * diff / 3)) {
             ITextComponent text = new TranslationTextComponent("chaos.silentgems.emissionRate.plus2");
-            return getDisplayName().copyRaw().func_230529_a_(text);
+            return getDisplayName().append(text);
         }
         if (chaos > (previous.maxValue + diff / 3)) {
             ITextComponent text = new TranslationTextComponent("chaos.silentgems.emissionRate.plus1");
-            return getDisplayName().copyRaw().func_230529_a_(text);
+            return getDisplayName().append(text);
         }
 
         return getDisplayName();

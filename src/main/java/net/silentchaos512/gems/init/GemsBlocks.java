@@ -155,7 +155,7 @@ public final class GemsBlocks {
 
         if (!missing.isEmpty()) {
             String list = String.join(", ", missing);
-            return new StringTextComponent("The following block loot tables are missing: " + list).func_240699_a_(TextFormatting.RED);
+            return new StringTextComponent("The following block loot tables are missing: " + list).mergeStyle(TextFormatting.RED);
         }
 
         return null;

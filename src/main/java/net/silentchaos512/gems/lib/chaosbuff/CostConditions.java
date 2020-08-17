@@ -14,7 +14,7 @@ public enum CostConditions {
     SHOCKING(p -> p.getActivePotionEffect(GemsEffects.SHOCKING.get()) != null),
     FLYING(p -> p.abilities.isFlying),
     HURT(p -> p.getHealth() < p.getMaxHealth() - 0.5f),
-    IN_AIR(p -> !p.func_233570_aj_()),
+    IN_AIR(p -> !p.isOnGround()),
     MOVING(CostConditions::hasMoved),
     UNDERWATER(Entity::isInWater);
 

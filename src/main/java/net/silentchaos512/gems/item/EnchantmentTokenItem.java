@@ -222,7 +222,7 @@ public final class EnchantmentTokenItem extends Item {
             if (KeyTracker.isAltDown()) {
                 ResourceLocation registryName = Objects.requireNonNull(ench.getRegistryName());
                 list.add(new StringTextComponent(registryName.toString())
-                        .func_240699_a_(TextFormatting.DARK_GRAY));
+                        .mergeStyle(TextFormatting.DARK_GRAY));
             }
         }
 
@@ -241,7 +241,7 @@ public final class EnchantmentTokenItem extends Item {
             list.add(subText("enchNameWithMod", enchName, modName));
             String descKey = enchantment.getName() + ".desc";
             if (I18n.hasKey(descKey)) {
-                list.add(new TranslationTextComponent(descKey).func_240699_a_(TextFormatting.ITALIC));
+                list.add(new TranslationTextComponent(descKey).mergeStyle(TextFormatting.ITALIC));
             }
         }
     }

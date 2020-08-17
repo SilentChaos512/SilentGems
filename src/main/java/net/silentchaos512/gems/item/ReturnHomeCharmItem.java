@@ -200,7 +200,7 @@ public class ReturnHomeCharmItem extends Item implements IGem /*implements IBaub
         player.fallDistance = 0;
         float soundPitch = 0.8f + 0.3f * SilentGems.random.nextFloat();
         // Sound at source
-        player.world.playSound(null, player.func_233580_cy_(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0f, soundPitch);
+        player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0f, soundPitch);
         if (TeleportUtil.teleport(player, pos)) {
             Chaos.generate(player, getTeleportCost(stack, player), true);
         }

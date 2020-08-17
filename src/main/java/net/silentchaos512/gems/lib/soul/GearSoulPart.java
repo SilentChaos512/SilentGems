@@ -1,15 +1,18 @@
 package net.silentchaos512.gems.lib.soul;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.silentchaos512.gear.api.parts.*;
+import net.silentchaos512.gear.api.part.IPartPosition;
+import net.silentchaos512.gear.api.part.IPartSerializer;
+import net.silentchaos512.gear.api.part.PartType;
 import net.silentchaos512.gear.api.stats.ItemStat;
 import net.silentchaos512.gear.api.stats.StatInstance;
-import net.silentchaos512.gear.parts.AbstractGearPart;
-import net.silentchaos512.gear.parts.PartData;
+import net.silentchaos512.gear.api.traits.TraitInstance;
+import net.silentchaos512.gear.gear.part.AbstractGearPart;
+import net.silentchaos512.gear.gear.part.PartData;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.util.SoulManager;
+import net.silentchaos512.utils.Color;
 import net.silentchaos512.utils.MathUtils;
 
 import javax.annotation.Nullable;
@@ -21,20 +24,9 @@ public class GearSoulPart extends AbstractGearPart {
     private static final ResourceLocation TYPE_ID = SilentGems.getId("gear_soul");
     public static final PartType TYPE = PartType.create(
             TYPE_ID,
-            "S",
             new AbstractGearPart.Serializer<>(TYPE_ID, GearSoulPart::new)
     );
-    private static final IPartPosition POSITION = new IPartPosition() {
-        @Override
-        public String getTexturePrefix() {
-            return "soul";
-        }
-
-        @Override
-        public String getModelIndex() {
-            return "soul";
-        }
-    };
+    private static final IPartPosition POSITION = new IPartPosition() {};
 
     public GearSoulPart(ResourceLocation id) {
         super(id);
@@ -56,8 +48,8 @@ public class GearSoulPart extends AbstractGearPart {
     }
 
     @Override
-    public Collection<StatInstance> getStatModifiers(ItemStack gear, ItemStat stat, PartData part) {
-        Collection<StatInstance> mods = super.getStatModifiers(gear, stat, part);
+    public Collection<StatInstance> getStatModifiers(ItemStat stat, PartData part, ItemStack gear) {
+        Collection<StatInstance> mods = super.getStatModifiers(stat, part, gear);
 
         GearSoul soul = getSoul(gear, part);
         if (soul != null) {
@@ -79,14 +71,14 @@ public class GearSoulPart extends AbstractGearPart {
     }
 
     @Override
-    public List<PartTraitInstance> getTraits(ItemStack gear, PartData part) {
-        List<PartTraitInstance> traits = new ArrayList<>(super.getTraits(gear, part));
+    public List<TraitInstance> getTraits(PartData part, ItemStack gear) {
+        List<TraitInstance> traits = new ArrayList<>(super.getTraits(part, gear));
 
         GearSoul soul = getSoul(gear, part);
         if (soul != null) {
             soul.getSkills().forEach((skill, level) -> {
                 if (skill.getTrait() != null) {
-                    traits.add(new PartTraitInstance(skill.getTrait(), level, ImmutableList.of()));
+                    traits.add(TraitInstance.of(skill.getTrait(), level));
                 }
             });
         }
@@ -116,6 +108,11 @@ public class GearSoulPart extends AbstractGearPart {
         // Unfortunately no way to get the player, is there?
         // This means no level-up notifications for armor, for gear souls should work now
         SoulManager.addSoulXp((int) (GearSoul.XP_FACTOR_ARMOR_DAMAGED * amount), gear, null);
+    }
+
+    @Override
+    public int getColor(PartData part, ItemStack gear, int layer, int animationFrame) {
+        return Color.VALUE_WHITE;
     }
 
     @Override

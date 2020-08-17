@@ -29,6 +29,7 @@ import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.GearSoulItem;
 import net.silentchaos512.gems.util.SoulManager;
+import net.silentchaos512.lib.util.NameUtils;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -183,7 +184,7 @@ public class GearSoul {
         ++level;
         if (player != null) {
             player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.levelUp", getName(tool), level), Util.DUMMY_UUID);
-            player.world.playSound(null, player.func_233580_cy_(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1.0f, 1.0f);
+            player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1.0f, 1.0f);
         }
 
         // Learn new skill?
@@ -279,7 +280,7 @@ public class GearSoul {
                 String.valueOf(level),
                 String.format("%,d", xp),
                 String.format("%,d", getXpToNextLevel()))
-                .func_240699_a_(TextFormatting.GREEN));
+                .mergeStyle(TextFormatting.GREEN));
 
         if (stack.getItem() instanceof GearSoulItem) {
             // Display elements
@@ -288,7 +289,7 @@ public class GearSoul {
     }
 
     float getStatModifier(ItemStat stat) {
-        String statName = stat.getName().getPath();
+        String statName = NameUtils.from(stat).getPath();
         return primaryElement.getStatModifier(statName) + secondaryElement.getStatModifier(statName) / 2f;
     }
 

@@ -60,7 +60,7 @@ public abstract class OreBlockSG extends OreBlock {
     public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         ITextComponent itemName = this.getDroppedItem().asItem().getName();
         tooltip.add(new TranslationTextComponent("misc.silentgems.dropFromOre", itemName)
-                .func_240699_a_(TextFormatting.GRAY));
+                .mergeStyle(TextFormatting.GRAY));
         // Harvest level tips
         ITextComponent harvestLevelName = TextUtil.translate("misc", "harvestLevel." + this.harvestLevel);
         tooltip.add(TextUtil.translate("misc", "harvestLevel", this.harvestLevel, harvestLevelName));

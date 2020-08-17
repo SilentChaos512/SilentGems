@@ -110,7 +110,7 @@ public enum SoulElement {
 
     public ITextComponent getDisplayName() {
         String translationKey = "soul.silentgems.element." + this.name().toLowerCase(Locale.ROOT);
-        return new TranslationTextComponent(translationKey).func_240699_a_(this.textColor);
+        return new TranslationTextComponent(translationKey).mergeStyle(this.textColor);
     }
 
     public static SoulElement selectRandom(Random random) {

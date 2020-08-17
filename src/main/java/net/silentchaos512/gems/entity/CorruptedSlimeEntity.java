@@ -18,7 +18,7 @@ public class CorruptedSlimeEntity extends SlimeEntity {
 
     public static AttributeModifierMap.MutableAttribute registerAttributes() {
         return MobEntity.func_233666_p_()
-                .func_233814_a_(Attributes.ATTACK_DAMAGE);
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE);
     }
 
     @Override

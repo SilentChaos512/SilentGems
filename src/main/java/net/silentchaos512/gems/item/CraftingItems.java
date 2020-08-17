@@ -129,7 +129,7 @@ public enum CraftingItems implements IItemProvider {
 
             String descKey = this.getTranslationKey() + ".desc";
             if (I18n.hasKey(descKey)) {
-                tooltip.add(new TranslationTextComponent(descKey).func_240699_a_(TextFormatting.ITALIC));
+                tooltip.add(new TranslationTextComponent(descKey).mergeStyle(TextFormatting.ITALIC));
             }
         }
 

@@ -57,7 +57,7 @@ public final class Chaos {
             }
         }
 
-        generate(player, amountLeft, player.func_233580_cy_(), false);
+        generate(player, amountLeft, player.getPosition(), false);
     }
 
     /**
@@ -194,7 +194,7 @@ public final class Chaos {
         // Free for creative players
         if (entity instanceof PlayerEntity && ((PlayerEntity) entity).abilities.isCreativeMode)
             return 0;
-        DimPos source = DimPos.of(entity.func_233580_cy_(), entity.world.func_230315_m_());
+        DimPos source = DimPos.of(entity.getPosition(), entity.world.func_230315_m_());
         return getChaosGeneratedByTeleport(source, destination);
     }
 
