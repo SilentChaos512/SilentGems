@@ -16,7 +16,6 @@ import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -219,7 +218,6 @@ public final class Soul {
         public void onServerAboutToStart(FMLServerStartingEvent event) {
             MAP.clear();
             long seed = calculateSeed(event);
-            World world = event.getServer().getWorld(World.field_234918_g_);
             for (EntityType<?> entityType : ForgeRegistries.ENTITIES.getValues()) {
                 if (canHaveSoulGem(entityType)) {
                     Soul soul = new Soul(seed, entityType);

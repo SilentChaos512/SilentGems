@@ -58,13 +58,13 @@ public final class CorruptedSlimeSpawner {
 
             DifficultyInstance difficultyInstance = world.getDifficultyForLocation(blockPos);
 
-            if (canSpawnAt(world, blockPos, type)) {
+            if (world instanceof IServerWorld && canSpawnAt(world, blockPos, type)) {
                 Entity entity = type.create(world);
                 if (entity != null && entity instanceof CorruptedSlimeEntity) {
                     CorruptedSlimeEntity slime = (CorruptedSlimeEntity) entity;
                     if (ForgeEventFactory.canEntitySpawn(slime, world, posX, posY, posZ, null, SpawnReason.NATURAL) != Event.Result.DENY) {
                         slime.moveToBlockPosAndAngles(blockPos, 0f, 0f);
-                        slime.onInitialSpawn(world, difficultyInstance, SpawnReason.NATURAL, null, null);
+                        slime.onInitialSpawn((IServerWorld) world, difficultyInstance, SpawnReason.NATURAL, null, null);
                         world.addEntity(slime);
                         ++spawned;
                     } else {

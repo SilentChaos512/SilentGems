@@ -423,8 +423,8 @@ public enum Gems {
         }
 
         public static Set forDimension(RegistryKey<World> dimension) {
-            if (dimension == World.field_234919_h_) return DARK;
-            if (dimension == World.field_234920_i_) return LIGHT;
+            if (dimension == World.THE_NETHER) return DARK;
+            if (dimension == World.THE_END) return LIGHT;
             return CLASSIC;
         }
 

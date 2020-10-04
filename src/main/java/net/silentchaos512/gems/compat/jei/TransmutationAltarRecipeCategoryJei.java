@@ -14,7 +14,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.gems.api.chaos.ChaosEmissionRate;
 import net.silentchaos512.gems.crafting.recipe.AltarTransmutationRecipe;
 import net.silentchaos512.gems.init.GemsBlocks;
@@ -98,11 +98,11 @@ public class TransmutationAltarRecipeCategoryJei implements IRecipeCategory<Alta
         // Chaos emission rate
         int chaos = recipe.getChaosGenerated();
         ChaosEmissionRate emissionRate = ChaosEmissionRate.fromAmount(chaos);
-        ITextProperties str = emissionRate.getEmissionText(chaos);
-        TextRenderUtils.renderScaled(matrixStack, mc.fontRenderer, str, 1, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT + 2, 0.8f, -1, true);
+        ITextComponent str = emissionRate.getEmissionText(chaos);
+        TextRenderUtils.renderScaled(matrixStack, mc.fontRenderer, str.func_241878_f(), 1, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT + 2, 0.8f, -1, true);
 
         // Catalyst label
-        ITextProperties catalystText = TextUtil.translate("jei", "recipe.altar.catalystNotConsumed");
-        TextRenderUtils.renderScaled(matrixStack, mc.fontRenderer, catalystText, 38, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT - 5, 0.5f, -1, true);
+        ITextComponent catalystText = TextUtil.translate("jei", "recipe.altar.catalystNotConsumed");
+        TextRenderUtils.renderScaled(matrixStack, mc.fontRenderer, catalystText.func_241878_f(), 38, GUI_HEIGHT - mc.fontRenderer.FONT_HEIGHT - 5, 0.5f, -1, true);
     }
 }

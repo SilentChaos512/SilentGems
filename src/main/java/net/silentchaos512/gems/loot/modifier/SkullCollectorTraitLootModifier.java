@@ -58,5 +58,10 @@ public class SkullCollectorTraitLootModifier extends LootModifier {
         public SkullCollectorTraitLootModifier read(ResourceLocation name, JsonObject json, ILootCondition[] conditionsIn) {
             return new SkullCollectorTraitLootModifier(conditionsIn);
         }
+
+        @Override
+        public JsonObject write(SkullCollectorTraitLootModifier instance) {
+            return new JsonObject();
+        }
     }
 }

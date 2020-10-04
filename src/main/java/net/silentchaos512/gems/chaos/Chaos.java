@@ -194,7 +194,7 @@ public final class Chaos {
         // Free for creative players
         if (entity instanceof PlayerEntity && ((PlayerEntity) entity).abilities.isCreativeMode)
             return 0;
-        DimPos source = DimPos.of(entity.getPosition(), entity.world.func_230315_m_());
+        DimPos source = DimPos.of(entity.getPosition(), entity.world.getDimensionKey());
         return getChaosGeneratedByTeleport(source, destination);
     }
 

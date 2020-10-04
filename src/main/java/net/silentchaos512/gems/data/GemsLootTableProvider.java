@@ -53,7 +53,7 @@ public class GemsLootTableProvider extends LootTableProvider {
 
     @Override
     protected void validate(Map<ResourceLocation, LootTable> map, ValidationTracker validationtracker) {
-        map.forEach((p_218436_2_, p_218436_3_) -> LootTableManager.func_227508_a_(validationtracker, p_218436_2_, p_218436_3_));
+        map.forEach((p_218436_2_, p_218436_3_) -> LootTableManager.validateLootTable(validationtracker, p_218436_2_, p_218436_3_));
     }
 
     private static final class GiftLootTables extends net.minecraft.data.loot.GiftLootTables {
@@ -61,13 +61,13 @@ public class GemsLootTableProvider extends LootTableProvider {
         public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
             consumer.accept(GemsLootTables.CLASSIC_GEMS, LootTable.builder()
                     .addLootPool(LootPool.builder()
-                            .addEntry(TagLootEntry.func_216176_b(GemsTags.Items.GEMS_CLASSIC))));
+                            .addEntry(TagLootEntry.getBuilder(GemsTags.Items.GEMS_CLASSIC))));
             consumer.accept(GemsLootTables.DARK_GEMS, LootTable.builder()
                     .addLootPool(LootPool.builder()
-                            .addEntry(TagLootEntry.func_216176_b(GemsTags.Items.GEMS_DARK))));
+                            .addEntry(TagLootEntry.getBuilder(GemsTags.Items.GEMS_DARK))));
             consumer.accept(GemsLootTables.LIGHT_GEMS, LootTable.builder()
                     .addLootPool(LootPool.builder()
-                            .addEntry(TagLootEntry.func_216176_b(GemsTags.Items.GEMS_LIGHT))));
+                            .addEntry(TagLootEntry.getBuilder(GemsTags.Items.GEMS_LIGHT))));
             consumer.accept(GemsLootTables.GEMS, LootTable.builder()
                     .addLootPool(LootPool.builder()
                             .addEntry(TableLootEntry.builder(GemsLootTables.CLASSIC_GEMS)

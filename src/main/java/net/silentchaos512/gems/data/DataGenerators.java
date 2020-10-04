@@ -1,7 +1,7 @@
 package net.silentchaos512.gems.data;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraftforge.client.model.generators.ExistingFileHelper;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.silentchaos512.gems.data.client.GemsBlockStateProvider;
 import net.silentchaos512.gems.data.client.GemsItemModelProvider;
@@ -14,9 +14,9 @@ public final class DataGenerators {
         DataGenerator gen = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-        GemsBlockTagsProvider blockTags = new GemsBlockTagsProvider(gen);
+        GemsBlockTagsProvider blockTags = new GemsBlockTagsProvider(gen, existingFileHelper);
         gen.addProvider(blockTags);
-        gen.addProvider(new GemsItemTagsProvider(gen, blockTags));
+        gen.addProvider(new GemsItemTagsProvider(gen, blockTags, existingFileHelper));
         gen.addProvider(new GemsRecipeProvider(gen));
         gen.addProvider(new GemsLootTableProvider(gen));
 

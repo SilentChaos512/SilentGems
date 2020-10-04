@@ -211,7 +211,7 @@ public abstract class AbstractWispEntity extends MonsterEntity {
                                 this.wisp.world.addEntity(shot);
 
                                 // Need to manually spawn this on the client... because vanilla
-                                Supplier<PacketDistributor.TargetPoint> p = PacketDistributor.TargetPoint.p(this.wisp.getPosX(), this.wisp.getPosY(), this.wisp.getPosZ(), 4096, this.wisp.world.func_234923_W_());
+                                Supplier<PacketDistributor.TargetPoint> p = PacketDistributor.TargetPoint.p(this.wisp.getPosX(), this.wisp.getPosY(), this.wisp.getPosZ(), 4096, this.wisp.world.getDimensionKey());
                                 Network.channel.send(PacketDistributor.NEAR.with(p), new SpawnEntityPacket(shot));
                             }
                         }

@@ -9,7 +9,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.structure.StructureManager;
 
 import java.util.BitSet;
 import java.util.Random;
@@ -22,7 +21,7 @@ public class RegionalGemsFeature extends Feature<RegionalGemsFeatureConfig> {
     }
 
     @Override
-    public boolean func_230362_a_(ISeedReader worldIn, StructureManager p_230362_2_, ChunkGenerator generator, Random rand, BlockPos pos, RegionalGemsFeatureConfig config) {
+    public boolean func_241855_a(ISeedReader worldIn, ChunkGenerator generator, Random rand, BlockPos pos, RegionalGemsFeatureConfig config) {
         if (config.regionSize < 1) return false;
 
         float f = rand.nextFloat() * (float) Math.PI;

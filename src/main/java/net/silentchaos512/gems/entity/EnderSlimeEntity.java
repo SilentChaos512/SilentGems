@@ -13,10 +13,7 @@ import net.minecraft.tags.ITag;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -44,7 +41,7 @@ public class EnderSlimeEntity extends SlimeEntity {
         return worldIn.getDifficulty() != Difficulty.PEACEFUL;
     }
 
-    public static boolean canSpawnAt(EntityType<EnderSlimeEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random random) {
+    public static boolean canSpawnAt(EntityType<EnderSlimeEntity> type, IServerWorld world, SpawnReason reason, BlockPos pos, Random random) {
         return world.getDifficulty() != Difficulty.PEACEFUL && pos.getY() < 65 && MonsterEntity.isValidLightLevel(world, pos, random);
     }
 

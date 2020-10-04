@@ -55,5 +55,10 @@ public class ImperialTraitLootModifier extends LootModifier {
         public ImperialTraitLootModifier read(ResourceLocation name, JsonObject json, ILootCondition[] conditionsIn) {
             return new ImperialTraitLootModifier(conditionsIn);
         }
+
+        @Override
+        public JsonObject write(ImperialTraitLootModifier instance) {
+            return new JsonObject();
+        }
     }
 }

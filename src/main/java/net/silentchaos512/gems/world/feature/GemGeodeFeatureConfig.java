@@ -13,7 +13,7 @@ public class GemGeodeFeatureConfig implements IFeatureConfig {
     public static final Codec<GemGeodeFeatureConfig> CODEC = RecordCodecBuilder.create(instance ->
         instance.group(
                 Gems.Set.CODEC.fieldOf("gem_set").forGetter(config -> config.gemSet),
-                BlockState.BLOCKSTATE_CODEC.fieldOf("shell_block").forGetter(config -> config.shellBlock),
+                BlockState.CODEC.fieldOf("shell_block").forGetter(config -> config.shellBlock),
                 TagMatchRuleTest.field_237161_a_.fieldOf("target_block").forGetter(config -> config.target)
         ).apply(instance, (GemGeodeFeatureConfig::new)));
 

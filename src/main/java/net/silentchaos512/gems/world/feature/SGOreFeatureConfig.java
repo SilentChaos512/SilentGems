@@ -11,7 +11,7 @@ import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
 public class SGOreFeatureConfig implements IFeatureConfig {
     public static final Codec<SGOreFeatureConfig> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    BlockState.BLOCKSTATE_CODEC.fieldOf("block").forGetter(config -> config.state),
+                    BlockState.CODEC.fieldOf("block").forGetter(config -> config.state),
                     Codec.INT.fieldOf("size").forGetter(config -> config.size),
                     TagMatchRuleTest.field_237161_a_.fieldOf("target_block").forGetter(config -> config.target)
             ).apply(instance, (SGOreFeatureConfig::new)));

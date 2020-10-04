@@ -38,3 +38,5 @@ scripts/output
 
 version.properties
 src/generated/resources/.cache/
+
+logs/

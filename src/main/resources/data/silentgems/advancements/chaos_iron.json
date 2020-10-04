@@ -27,7 +27,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "silentgems:chaos_iron"
+                        "item": "silentgems:chaos_iron_ingot"
                     }
                 ]
             }

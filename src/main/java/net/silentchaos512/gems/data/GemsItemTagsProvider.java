@@ -15,7 +15,9 @@ import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.IItemProvider;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.gear.init.ModTags;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.CorruptedBlocks;
 import net.silentchaos512.gems.init.GemsItems;
 import net.silentchaos512.gems.init.GemsTags;
@@ -38,8 +40,8 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public class GemsItemTagsProvider extends ItemTagsProvider {
-    public GemsItemTagsProvider(DataGenerator generatorIn, GemsBlockTagsProvider blocks) {
-        super(generatorIn, blocks);
+    public GemsItemTagsProvider(DataGenerator generatorIn, GemsBlockTagsProvider blocks, ExistingFileHelper existingFileHelper) {
+        super(generatorIn, blocks, SilentGems.MOD_ID, existingFileHelper);
     }
 
     @Override
@@ -52,7 +54,7 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
         // Minecraft tags
         copy(BlockTags.SMALL_FLOWERS, ItemTags.FLOWERS);
 
-        getBuilder(ItemTags.field_232908_Z_)
+        getBuilder(ItemTags.BEACON_PAYMENT_ITEMS)
                 .add(Arrays.stream(Gems.values()).map(Gems::getItem).toArray(Item[]::new))
                 .add(
                         CraftingItems.SILVER_INGOT.asItem(),

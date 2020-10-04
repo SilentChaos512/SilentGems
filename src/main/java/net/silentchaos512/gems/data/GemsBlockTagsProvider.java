@@ -13,6 +13,8 @@ import net.minecraft.data.DirectoryCache;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.block.pedestal.PedestalBlock;
 import net.silentchaos512.gems.init.GemsBlocks;
@@ -34,8 +36,8 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public class GemsBlockTagsProvider extends BlockTagsProvider {
-    public GemsBlockTagsProvider(DataGenerator generatorIn) {
-        super(generatorIn);
+    public GemsBlockTagsProvider(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
+        super(generatorIn, SilentGems.MOD_ID, existingFileHelper);
     }
 
     @Override

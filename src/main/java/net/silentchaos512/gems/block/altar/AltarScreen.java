@@ -23,7 +23,7 @@ public class AltarScreen extends ContainerScreen<AltarContainer> {
     public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrix);
         super.render(matrix, mouseX, mouseY, partialTicks);
-        this.func_230459_a_(matrix, mouseX, mouseY);
+        this.renderHoveredTooltip(matrix, mouseX, mouseY);
     }
 
     @Override

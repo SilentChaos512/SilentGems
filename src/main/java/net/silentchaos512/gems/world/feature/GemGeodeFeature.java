@@ -7,7 +7,6 @@ import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.silentchaos512.gems.lib.Gems;
 
 import java.util.Random;
@@ -20,7 +19,7 @@ public class GemGeodeFeature extends Feature<GemGeodeFeatureConfig> {
     }
 
     @Override
-    public boolean func_230362_a_(ISeedReader worldIn, StructureManager p_230362_2_, ChunkGenerator generator, Random random, BlockPos pos, GemGeodeFeatureConfig config) {
+    public boolean func_241855_a(ISeedReader worldIn, ChunkGenerator generator, Random random, BlockPos pos, GemGeodeFeatureConfig config) {
         if (config.target.test(worldIn.getBlockState(pos), random)) {
             float diameterXZ = 2f * random.nextFloat() + 5;
             float diameterY = 3f * random.nextFloat() + 7;

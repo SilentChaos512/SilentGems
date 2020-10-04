@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class ChaosLightningBoltEntity extends LightningBoltEntity {
 
                 for(Entity entity : list) {
                     if (!net.minecraftforge.event.ForgeEventFactory.onEntityStruckByLightning(entity, this))
-                        entity.onStruckByLightning(this);
+                        entity.func_241841_a((ServerWorld) this.world, this);
                 }
             }
         }

@@ -9,7 +9,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silentchaos512.gear.api.stats.ItemStat;
@@ -90,7 +89,7 @@ class SideProxy implements IProxy {
             MinecraftForge.EVENT_BUS.register(new SGearStatHandler());
         }
 
-        DeferredWorkQueue.runLater(GemsWorldFeatures::addFeaturesToBiomes);
+        GemsWorldFeatures.logGemBiomes();
     }
 
     private void imcEnqueue(InterModEnqueueEvent event) {

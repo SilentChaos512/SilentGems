@@ -39,13 +39,13 @@ public class SetSoulFunction extends LootFunction {
     }
 
     @Override
-    public LootFunctionType func_230425_b_() {
+    public LootFunctionType getFunctionType() {
         return GemsLoot.SET_SOUL;
     }
 
     public static class Serializer extends LootFunction.Serializer<SetSoulFunction> {
         @Override
-        public void func_230424_a_(JsonObject json, SetSoulFunction value, JsonSerializationContext serializationContext) {
+        public void serialize(JsonObject json, SetSoulFunction value, JsonSerializationContext serializationContext) {
             json.addProperty("soul", value.soulId);
         }
 

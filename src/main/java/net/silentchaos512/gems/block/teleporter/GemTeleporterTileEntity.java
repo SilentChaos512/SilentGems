@@ -20,7 +20,6 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.silentchaos512.gems.SilentGems;
@@ -208,7 +207,7 @@ public class GemTeleporterTileEntity extends TileEntity {
             }
         }
 
-        DimPos position = DimPos.of(pos, player.world.func_230315_m_());
+        DimPos position = DimPos.of(pos, player.world.getDimensionKey());
         position.write(heldItem.getOrCreateTag());
         sendMessage(player, "returnHomeBound");
         if (player instanceof ServerPlayerEntity) {
@@ -228,7 +227,7 @@ public class GemTeleporterTileEntity extends TileEntity {
         if (TeleporterLinkerItem.isLinked(heldItem)) {
             // Active state: link teleporters and set inactive.
             DimPos position1 = TeleporterLinkerItem.getLinkedPosition(heldItem);
-            DimPos position2 = DimPos.of(pos, player.world.func_230315_m_());
+            DimPos position2 = DimPos.of(pos, player.world.getDimensionKey());
 
             if (DimPos.ZERO.equals(position1)) {
                 SilentGems.LOGGER.warn("Teleporter linker tried to link with no position set?");
@@ -280,7 +279,7 @@ public class GemTeleporterTileEntity extends TileEntity {
             }
         } else {
             // Inactive state: set active and location.
-            TeleporterLinkerItem.setLinkedPosition(heldItem, DimPos.of(pos, player.world.func_230315_m_()));
+            TeleporterLinkerItem.setLinkedPosition(heldItem, DimPos.of(pos, player.world.getDimensionKey()));
             TeleporterLinkerItem.setLinked(heldItem, true);
             sendMessage(player, "linkStart");
             world.playSound(null, pos, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.BLOCKS, 1f, 1f);
@@ -307,8 +306,6 @@ public class GemTeleporterTileEntity extends TileEntity {
     private static ServerWorld getServerWorld(PlayerEntity player, DimPos pos) {
         MinecraftServer server = player.getServer();
         if (server == null) return null;
-
-        DimensionType dimensionType = pos.getDimension();
 
 //        return server.getWorld(dimensionType.);
         // FIXME

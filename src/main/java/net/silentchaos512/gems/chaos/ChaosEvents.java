@@ -8,10 +8,10 @@ import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap;
@@ -185,7 +185,7 @@ public final class ChaosEvents {
     }
 
     private static boolean spawnLightningBolt(Entity entity, World world) {
-        if (world instanceof ServerWorld && canSpawnLightningIn(world.func_230315_m_())) {
+        if (world instanceof ServerWorld && canSpawnLightningIn(world.getDimensionKey())) {
             double posX = entity.getPosX() + MathUtils.nextIntInclusive(-64, 64);
             double posZ = entity.getPosZ() + MathUtils.nextIntInclusive(-64, 64);
             int height = world.getHeight(Heightmap.Type.MOTION_BLOCKING, (int) posX, (int) posZ);
@@ -198,7 +198,7 @@ public final class ChaosEvents {
     }
 
     private static boolean spawnChaosLightningBolts(Entity entity, World world, int count) {
-        if (world instanceof ServerWorld && canSpawnLightningIn(world.func_230315_m_())) {
+        if (world instanceof ServerWorld && canSpawnLightningIn(world.getDimensionKey())) {
             for (int i = 0; i < count; ++i) {
                 double posX = entity.getPosX() + MathUtils.nextIntInclusive(-64, 64);
                 double posZ = entity.getPosZ() + MathUtils.nextIntInclusive(-64, 64);
@@ -210,10 +210,8 @@ public final class ChaosEvents {
         return false;
     }
 
-    private static boolean canSpawnLightningIn(DimensionType dimensionType) {
-        // FIXME
-//        return dimensionType.getId() != DimensionType.THE_NETHER.getId() && dimensionType.getId() != DimensionType.THE_END.getId();
-        return true;
+    private static boolean canSpawnLightningIn(RegistryKey<World> dimension) {
+        return dimension != World.THE_NETHER && dimension != World.THE_END;
     }
 
     private static boolean corruptBlocks(Entity entity, World world) {
@@ -258,7 +256,7 @@ public final class ChaosEvents {
         if (!world.getGameRules().getBoolean(GameRules.DO_WEATHER_CYCLE) || world.getWorldInfo().isThundering() || !(world instanceof ServerWorld))
             return false;
 
-        IServerWorldInfo info = ((ServerWorld) world).getServer().func_240793_aU_().func_230407_G_();
+        IServerWorldInfo info = ((ServerWorld) world).getServer().func_240793_aU_().getServerWorldInfo();
         //info.setClearWeatherTime(0);
         info.setRainTime(time);
         info.setThunderTime(time);
