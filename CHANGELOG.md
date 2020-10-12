@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.1] - 2020-10-12
+- Updated for Silent Gear 2.3.1
+### Fixed
+- Gravity enchantment giving a speed boost when player is not fully submerged [#501]
+
 ## [3.7.0] - 2020-10-04
 - Updated for Minecraft 1.16.3
 

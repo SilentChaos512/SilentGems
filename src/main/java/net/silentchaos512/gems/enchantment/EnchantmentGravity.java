@@ -41,7 +41,7 @@ public class EnchantmentGravity extends Enchantment {
         }
 
         // Underwater?
-        if (player.isInWater()) {
+        if (player.canSwim()) {
             event.setNewSpeed(event.getNewSpeed() * speedMulti);
         }
     }
