@@ -40,6 +40,6 @@ authors="SilentChaos512"
 [[dependencies.silentgems]]
     modId="silentgear"
     mandatory=false
-    versionRange="[2.2,)"
+    versionRange="[2.3.1,)"
     ordering="AFTER"
     side="BOTH"

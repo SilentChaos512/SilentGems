@@ -1,20 +1,11 @@
 {
-  "availability": {
-    "tier": 3
-  },
+  "type": "silentgems:gear_soul",
   "crafting_item": {
     "item": "silentgems:gear_soul"
   },
   "name": {
-    "name": "part.silentgems.gear_soul",
-    "translate": true
+    "translate": "part.silentgems.gear_soul"
   },
   "stats": [],
-  "textures": {
-    "all": {
-      "normal_color": "#FFFFFF"
-    }
-  },
-  "traits": [],
-  "type": "silentgems:gear_soul"
+  "traits": []
 }

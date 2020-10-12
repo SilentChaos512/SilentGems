@@ -2,7 +2,6 @@ package net.silentchaos512.gems.lib.soul;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.silentchaos512.gear.api.part.IPartPosition;
 import net.silentchaos512.gear.api.part.IPartSerializer;
 import net.silentchaos512.gear.api.part.PartType;
 import net.silentchaos512.gear.api.stats.ItemStat;
@@ -10,6 +9,7 @@ import net.silentchaos512.gear.api.stats.StatInstance;
 import net.silentchaos512.gear.api.traits.TraitInstance;
 import net.silentchaos512.gear.gear.part.AbstractGearPart;
 import net.silentchaos512.gear.gear.part.PartData;
+import net.silentchaos512.gear.gear.part.PartSerializers;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.util.SoulManager;
 import net.silentchaos512.utils.Color;
@@ -22,11 +22,12 @@ import java.util.List;
 
 public class GearSoulPart extends AbstractGearPart {
     private static final ResourceLocation TYPE_ID = SilentGems.getId("gear_soul");
-    public static final PartType TYPE = PartType.create(
-            TYPE_ID,
-            new AbstractGearPart.Serializer<>(TYPE_ID, GearSoulPart::new)
-    );
-    private static final IPartPosition POSITION = new IPartPosition() {};
+    public static final IPartSerializer<GearSoulPart> SERIALIZER = new AbstractGearPart.Serializer<>(TYPE_ID, GearSoulPart::new);
+    public static final PartType TYPE = PartType.create(PartType.Builder.builder(TYPE_ID));
+
+    static {
+        PartSerializers.register(SERIALIZER);
+    }
 
     public GearSoulPart(ResourceLocation id) {
         super(id);
@@ -38,13 +39,8 @@ public class GearSoulPart extends AbstractGearPart {
     }
 
     @Override
-    public IPartPosition getPartPosition() {
-        return POSITION;
-    }
-
-    @Override
     public IPartSerializer<?> getSerializer() {
-        return TYPE.getSerializer();
+        return SERIALIZER;
     }
 
     @Override
@@ -67,7 +63,7 @@ public class GearSoulPart extends AbstractGearPart {
     }
 
     private static StatInstance getSoulBoostedModifier(ItemStat stat, float value) {
-        return new StatInstance(value, StatInstance.Operation.MUL1);
+        return StatInstance.of(value, StatInstance.Operation.MUL1);
     }
 
     @Override
