@@ -7,7 +7,6 @@ import net.silentchaos512.gear.api.item.ICoreItem;
 import net.silentchaos512.gear.gear.part.PartData;
 import net.silentchaos512.gear.util.GearData;
 import net.silentchaos512.gear.util.GearHelper;
-import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.GearSoulItem;
 import net.silentchaos512.gems.lib.soul.GearSoul;
 import net.silentchaos512.gems.lib.soul.GearSoulPart;
@@ -95,14 +94,11 @@ public final class SoulManager {
 
     static void writeSoulsToNBT(PlayerEntity player, boolean forceAll) {
         // Find all the players tools. Find the matching souls in the map.
-        int count = 0;
         for (ItemStack tool : PlayerUtils.getNonEmptyStacks(player, true, true, true, s -> s.getItem() instanceof ICoreItem)) {
             GearSoul soul = getSoul(tool);
             if (soul != null && (forceAll || soul.isReadyToSave())) {
                 setSoul(tool, soul);
-                ++count;
             }
         }
-        SilentGems.LOGGER.debug("Saved {} gear souls for {}", count, player.getScoreboardName());
     }
 }
