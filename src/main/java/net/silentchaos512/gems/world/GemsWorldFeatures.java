@@ -258,6 +258,7 @@ public final class GemsWorldFeatures {
         biome.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, SGOreFeature.INSTANCE
                 .withConfiguration(new SGOreFeatureConfig(block.getDefaultState(), size, blockToReplace))
                 .withPlacement(Placement.field_242907_l.configure(new TopSolidRangeConfig(minHeight, 0, maxHeight)))
+                .func_242728_a()
                 .func_242731_b(count)
         );
     }
