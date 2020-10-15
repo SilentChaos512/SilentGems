@@ -39,6 +39,7 @@ public class GemOreBlock extends OreBlockSG implements IGemBlock {
         super(gem::getItem, 2, Properties.create(Material.ROCK)
                 .hardnessAndResistance(3, 4)
                 .harvestTool(ToolType.PICKAXE)
+                .setRequiresTool()
                 .sound(gem.getSet().getOreSoundType())
         );
         this.gem = gem;
