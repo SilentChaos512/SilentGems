@@ -6,6 +6,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -41,9 +42,13 @@ import net.silentchaos512.lib.util.LibHooks;
 import javax.annotation.Nullable;
 
 class SideProxy implements IProxy {
-    private MinecraftServer server = null;
+    private final MinecraftServer server = null;
 
     SideProxy() {
+        Registration.register();
+        GemsConfig.init();
+        Network.init();
+
         // Detect Silent Gear and load anything needed for compatibility
         SGearProxy.detectSilentGear();
         if (SGearProxy.isLoaded()) {
@@ -54,20 +59,16 @@ class SideProxy implements IProxy {
             FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(ItemStat.class, SGearStatHandler::registerStats);
         }
 
-        Registration.register();
-
         FMLJavaModLoadingContext.get().getModEventBus().addListener(DataGenerators::gatherData);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcEnqueue);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcProcess);
 
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(EntityType.class, GemsEntities::registerTypes);
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Feature.class, GemsWorldFeatures::registerFeatures);
         MinecraftForge.EVENT_BUS.addListener(this::addReloadListener);
         MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
         MinecraftForge.EVENT_BUS.register(Soul.Events.INSTANCE);
-
-        GemsConfig.init();
-        Network.init();
 
         Greetings.addMessage(ChaosBuffManager::getGreetingErrorMessage);
 

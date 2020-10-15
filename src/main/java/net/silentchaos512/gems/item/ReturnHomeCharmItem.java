@@ -107,12 +107,12 @@ public class ReturnHomeCharmItem extends Item implements IGem /*implements IBaub
 
     @Override
     public int getMaxDamage(ItemStack stack) {
-        return GemsConfig.COMMON.returnHomeMaxUses.get();
+        return GemsConfig.Common.returnHomeMaxUses.get();
     }
 
     @Override
     public boolean isDamageable() {
-        return GemsConfig.COMMON.returnHomeMaxUses.get() > 0;
+        return GemsConfig.Common.returnHomeMaxUses.get() > 0;
     }
 
     @Override
@@ -137,7 +137,7 @@ public class ReturnHomeCharmItem extends Item implements IGem /*implements IBaub
     public void onUsingTick(ItemStack stack, LivingEntity player, int count) {
         if (player.world.isRemote) {
             int timeUsed = getUseDuration(stack) - count;
-            if (timeUsed >= GemsConfig.COMMON.returnHomeUseTime.get()) {
+            if (timeUsed >= GemsConfig.Common.returnHomeUseTime.get()) {
                 stack.getOrCreateTag().putBoolean(NBT_READY, true);
             }
         }
@@ -162,7 +162,7 @@ public class ReturnHomeCharmItem extends Item implements IGem /*implements IBaub
         } else {
             // Did player use item long enough?
             int timeUsed = getUseDuration(stack) - timeLeft;
-            if (timeUsed >= GemsConfig.COMMON.returnHomeUseTime.get()) {
+            if (timeUsed >= GemsConfig.Common.returnHomeUseTime.get()) {
                 tryTeleportPlayer(stack, player);
 
                 if (this.isDamageable() && player instanceof ServerPlayerEntity) {

@@ -40,7 +40,7 @@ public class GlowroseBlock extends FlowerBlock implements IGemBlock {
     public GlowroseBlock(Gems gem) {
         super(Effects.GLOWING, 8, Properties.create(Material.PLANTS)
                 .sound(SoundType.PLANT)
-                .setLightLevel(state -> GemsConfig.COMMON.glowroseNormalLight.get())
+                .setLightLevel(state -> GemsConfig.Common.glowroseNormalLight.get())
                 .hardnessAndResistance(0)
                 .doesNotBlockMovement()
         );

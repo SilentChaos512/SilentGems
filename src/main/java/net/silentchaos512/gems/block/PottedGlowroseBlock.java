@@ -20,7 +20,7 @@ public class PottedGlowroseBlock extends FlowerPotBlock {
     public PottedGlowroseBlock(Gems gem, Supplier<GlowroseBlock> flower) {
         super(() -> (FlowerPotBlock) Blocks.FLOWER_POT, flower, Block.Properties
                 .create(Material.MISCELLANEOUS)
-                .setLightLevel(state -> GemsConfig.COMMON.glowrosePottedLight.get())
+                .setLightLevel(state -> GemsConfig.Common.glowrosePottedLight.get())
                 .hardnessAndResistance(0)
         );
         this.gem = gem;

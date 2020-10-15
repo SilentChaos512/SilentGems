@@ -114,7 +114,7 @@ public class SoulGemItem extends Item {
                 tooltip.add(new StringTextComponent("Soul ID: " + soul.getId()).mergeStyle(TextFormatting.DARK_GRAY));
             }
 
-            if (GemsConfig.COMMON.debugExtraTooltipInfo.get()) {
+            if (GemsConfig.Common.debugExtraTooltipInfo.get()) {
                 tooltip.add(new StringTextComponent("DEBUG:"));
                 tooltip.add(new StringTextComponent(String.format("- Base drop rate: %.4f", soul.getBaseDropRate())));
             }

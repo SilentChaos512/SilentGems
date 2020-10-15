@@ -34,6 +34,6 @@ public class DebugOverlay extends DebugRenderOverlay {
 
     @Override
     public boolean isHidden() {
-        return !GemsConfig.COMMON.debugShowOverlay.get();
+        return !GemsConfig.Common.debugShowOverlay.get();
     }
 }

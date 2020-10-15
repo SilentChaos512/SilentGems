@@ -195,7 +195,7 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
                 return; //Forge: Allow running this data provider without writing it. Recipe provider needs valid tags.
 
             try {
-                String s = GSON.toJson((JsonElement) jsonobject);
+                String s = GSON.toJson(jsonobject);
                 String s1 = HASH_FUNCTION.hashUnencodedChars(s).toString();
                 if (!Objects.equals(cache.getPreviousHash(path), s1) || !Files.exists(path)) {
                     Files.createDirectories(path.getParent());

@@ -51,7 +51,7 @@ public class FireWispShotEntity extends AbstractWispShotEntity {
 
     @Override
     protected void onBlockImpact(BlockPos pos, Direction side) {
-        if (GemsConfig.COMMON.wispsCauseFire.get() && MathUtils.tryPercentage(0.25)) {
+        if (GemsConfig.Common.wispsCauseFire.get() && MathUtils.tryPercentage(0.25)) {
             BlockPos blockPos = pos.offset(side);
             if (this.world.isAirBlock(blockPos)) {
                 this.world.setBlockState(blockPos, Blocks.FIRE.getDefaultState());

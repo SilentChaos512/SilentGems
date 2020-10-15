@@ -29,7 +29,7 @@ public class RedstoneGemTeleporterBlock extends GemTeleporterBlock {
         if (tile == null || tile.getDestination() == null) return;
 
         if (!world.isRemote && world.getRedstonePowerFromNeighbors(pos) != 0) {
-            final int searchRadius = GemsConfig.COMMON.teleporterSearchRadius.get();
+            final int searchRadius = GemsConfig.Common.teleporterSearchRadius.get();
             boolean playSound = false;
 
             // Check all entities, teleport those close to the teleporter.

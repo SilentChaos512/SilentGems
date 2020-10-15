@@ -136,7 +136,7 @@ public enum CraftingItems implements IItemProvider {
         @Override
         public int getBurnTime(ItemStack itemStack) {
             if (itemStack.getItem() == CHAOS_COAL.asItem()) {
-                return GemsConfig.COMMON.chaosCoalBurnTime.get();
+                return GemsConfig.Common.chaosCoalBurnTime.get();
             }
             return 0;
         }

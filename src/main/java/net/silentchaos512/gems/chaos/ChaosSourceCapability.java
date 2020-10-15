@@ -34,7 +34,7 @@ public class ChaosSourceCapability implements IChaosSource, ICapabilitySerializa
 
     @Override
     public void setChaos(int amount) {
-        chaos = MathHelper.clamp(amount, 0, GemsConfig.COMMON.chaosMaxValue.get());
+        chaos = MathHelper.clamp(amount, 0, GemsConfig.Common.chaosMaxValue.get());
     }
 
     @Nonnull

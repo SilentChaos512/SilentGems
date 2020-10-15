@@ -59,8 +59,8 @@ public final class Soul {
         SoulElement element2 = SoulElement.selectRandom(random, 0.2f);
         this.secondaryElement = element2 != this.primaryElement ? element2 : SoulElement.NONE;
         // Drop rate = average + deviation * randomGaussian
-        this.dropRate = (float) (GemsConfig.COMMON.soulGemDropRateAverage.get()
-                + GemsConfig.COMMON.soulGemDropRateDeviation.get() * random.nextGaussian());
+        this.dropRate = (float) (GemsConfig.Common.soulGemDropRateAverage.get()
+                + GemsConfig.Common.soulGemDropRateDeviation.get() * random.nextGaussian());
 
         SpawnEggItem egg = getSpawnEggForType(entityType);
         if (egg != null) {
@@ -170,7 +170,7 @@ public final class Soul {
     public float getDropRate(LivingEntity entity) {
         // Separate rate for bosses (default is 100%)
         if (!entity.isNonBoss())
-            return GemsConfig.COMMON.soulGemDropRateBoss.get().floatValue();
+            return GemsConfig.Common.soulGemDropRateBoss.get().floatValue();
         // Half rate for slimes
         if (entity instanceof SlimeEntity)
             return this.dropRate / 2;

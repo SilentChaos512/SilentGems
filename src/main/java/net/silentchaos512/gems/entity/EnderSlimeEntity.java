@@ -80,7 +80,7 @@ public class EnderSlimeEntity extends SlimeEntity {
     @Override
     protected void jump() {
         Vector3d vec3d = this.getMotion();
-        this.setMotion(vec3d.x, (double)(0.42F + (float)this.getSlimeSize() * 0.1F), vec3d.z);
+        this.setMotion(vec3d.x, 0.42F + (float)this.getSlimeSize() * 0.1F, vec3d.z);
         this.isAirBorne = true;
         net.minecraftforge.common.ForgeHooks.onLivingJump(this);
     }

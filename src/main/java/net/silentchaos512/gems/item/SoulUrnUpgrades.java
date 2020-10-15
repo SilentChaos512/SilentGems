@@ -37,7 +37,6 @@ public enum SoulUrnUpgrades implements IItemProvider {
     EXTRA_STORAGE(basicSerializer("extra_storage", UrnUpgrade::new)),
     VACUUM(basicSerializer("vacuum", UpgradeVacuum::new)),
     PLANTER(basicSerializer("planter", UpgradePlanter::new));
-    ;
 
     @SuppressWarnings("NonFinalFieldInEnum")
     private ItemRegistryObject<UpgradeItem> item;

@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.IServerWorldInfo;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -30,8 +31,6 @@ import net.silentchaos512.gems.world.spawner.CorruptedSlimeSpawner;
 import net.silentchaos512.gems.world.spawner.WispSpawner;
 import net.silentchaos512.lib.util.TimeUtils;
 import net.silentchaos512.utils.MathUtils;
-import net.silentchaos512.utils.config.BooleanValue;
-import net.silentchaos512.utils.config.ConfigSpecWrapper;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
@@ -42,7 +41,7 @@ import java.util.stream.Collectors;
 @Mod.EventBusSubscriber(modid = SilentGems.MOD_ID)
 public final class ChaosEvents {
     private static final Map<ResourceLocation, ChaosEvent> EVENTS = new HashMap<>();
-    private static final Map<ResourceLocation, BooleanValue> EVENT_CONFIGS = new HashMap<>();
+    private static final Map<ResourceLocation, ForgeConfigSpec.BooleanValue> EVENT_CONFIGS = new HashMap<>();
     private static final Map<UUID, Map<ResourceLocation, Integer>> COOLDOWN_TIMERS = new HashMap<>();
 
     private static final Queue<Supplier<LightningBoltEntity>> LIGHTNING_QUEUE = new ArrayDeque<>();
@@ -96,7 +95,7 @@ public final class ChaosEvents {
     }
 
     static void tryChaosEvents(PlayerEntity player, World world, int chaos) {
-        if (player == null || !player.isAlive() || (GemsConfig.COMMON.chaosNoEventsUntilHasBed.get() && !hasBed(player)))
+        if (player == null || !player.isAlive() || (GemsConfig.Common.chaosNoEventsUntilHasBed.get() && !hasBed(player)))
             return;
 
         Map<ResourceLocation, Integer> cooldownTimers = COOLDOWN_TIMERS.computeIfAbsent(player.getUniqueID(), uuid -> new HashMap<>());
@@ -164,13 +163,13 @@ public final class ChaosEvents {
     /**
      * Load configs for chaos events, DO NOT CALL.
      *
-     * @param wrapper Config wrapper
+     * @param builder Config wrapper
      */
-    public static void loadConfigs(ConfigSpecWrapper wrapper) {
-        wrapper.comment("chaos.events",
+    public static void loadConfigs(ForgeConfigSpec.Builder builder) {
+        builder.comment("chaos.events",
                 "Allows individual events to be disabled.",
                 "Note that disabling events will likely increase the frequency of other events.");
-        EVENTS.forEach((id, event) -> EVENT_CONFIGS.put(id, wrapper.builder("chaos.events." + id).comment(event.getConfigComment()).define(true)));
+        EVENTS.forEach((id, event) -> EVENT_CONFIGS.put(id, builder.comment(event.getConfigComment()).define("chaos.events." + id, true)));
     }
 
     @SubscribeEvent

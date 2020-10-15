@@ -298,7 +298,7 @@ public final class EnchantmentTokenItem extends Item {
         return false;
     }
 
-    private static float OUTLINE_PULSATE_SPEED = 1f / (3f * (float) Math.PI);
+    private static final float OUTLINE_PULSATE_SPEED = 1f / (3f * (float) Math.PI);
 
     public static int getItemColor(ItemStack stack, int tintIndex) {
         if (tintIndex != 1) return 0xFFFFFF;

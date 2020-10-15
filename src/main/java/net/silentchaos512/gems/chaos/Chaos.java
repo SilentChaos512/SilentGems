@@ -201,7 +201,7 @@ public final class Chaos {
     public static int getChaosGeneratedByTeleport(DimPos source, DimPos destination) {
         // Crossing dimensions is a fixed cost
         if (source.getDimension() != destination.getDimension()) {
-            return GemsConfig.COMMON.teleporterChaosCrossDimension.get();
+            return GemsConfig.Common.teleporterChaosCrossDimension.get();
         }
 
         // Calculate distance (ignore Y-axis)
@@ -210,7 +210,7 @@ public final class Chaos {
         double distance = Math.sqrt(x * x + z * z);
 
         // Free for short teleports
-        if (distance < GemsConfig.COMMON.teleporterFreeRange.get()) return 0;
-        return (int) (GemsConfig.COMMON.teleporterChaosPerBlock.get() * distance);
+        if (distance < GemsConfig.Common.teleporterFreeRange.get()) return 0;
+        return (int) (GemsConfig.Common.teleporterChaosPerBlock.get() * distance);
     }
 }

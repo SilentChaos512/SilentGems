@@ -27,13 +27,13 @@ public class RegionalGemsFeature extends Feature<RegionalGemsFeatureConfig> {
         float f = rand.nextFloat() * (float) Math.PI;
         float f1 = (float) config.size / 8.0F;
         int i = MathHelper.ceil(((float) config.size / 16.0F * 2.0F + 1.0F) / 2.0F);
-        double d0 = (double) ((float) pos.getX() + MathHelper.sin(f) * f1);
-        double d1 = (double) ((float) pos.getX() - MathHelper.sin(f) * f1);
-        double d2 = (double) ((float) pos.getZ() + MathHelper.cos(f) * f1);
-        double d3 = (double) ((float) pos.getZ() - MathHelper.cos(f) * f1);
+        double d0 = (float) pos.getX() + MathHelper.sin(f) * f1;
+        double d1 = (float) pos.getX() - MathHelper.sin(f) * f1;
+        double d2 = (float) pos.getZ() + MathHelper.cos(f) * f1;
+        double d3 = (float) pos.getZ() - MathHelper.cos(f) * f1;
         int j = 2;
-        double d4 = (double) (pos.getY() + rand.nextInt(3) - 2);
-        double d5 = (double) (pos.getY() + rand.nextInt(3) - 2);
+        double d4 = pos.getY() + rand.nextInt(3) - 2;
+        double d5 = pos.getY() + rand.nextInt(3) - 2;
         int k = pos.getX() - MathHelper.ceil(f1) - i;
         int l = pos.getY() - 2 - i;
         int i1 = pos.getZ() - MathHelper.ceil(f1) - i;
@@ -61,9 +61,9 @@ public class RegionalGemsFeature extends Feature<RegionalGemsFeatureConfig> {
 
         for (int j = 0; j < config.size; ++j) {
             float f = (float) j / (float) config.size;
-            double d0 = MathHelper.lerp((double) f, p_207803_4_, p_207803_6_);
-            double d2 = MathHelper.lerp((double) f, p_207803_12_, p_207803_14_);
-            double d4 = MathHelper.lerp((double) f, p_207803_8_, p_207803_10_);
+            double d0 = MathHelper.lerp(f, p_207803_4_, p_207803_6_);
+            double d2 = MathHelper.lerp(f, p_207803_12_, p_207803_14_);
+            double d4 = MathHelper.lerp(f, p_207803_8_, p_207803_10_);
             double d6 = random.nextDouble() * (double) config.size / 16.0D;
             double d7 = ((double) (MathHelper.sin((float) Math.PI * f) + 1.0F) * d6 + 1.0D) / 2.0D;
             adouble[j * 4 + 0] = d0;

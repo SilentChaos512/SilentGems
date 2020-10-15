@@ -156,7 +156,7 @@ public class SoulUrnBlock extends Block implements IWaterLoggable {
                     itemstack.setDisplayName(soulUrn.getCustomName());
                 }
 
-                ItemEntity itementity = new ItemEntity(worldIn, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), itemstack);
+                ItemEntity itementity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), itemstack);
                 itementity.setDefaultPickupDelay();
                 worldIn.addEntity(itementity);
             } else {

@@ -191,11 +191,11 @@ public class GemTeleporterTileEntity extends TileEntity {
         if (world.isRemote) return true;
 
         // Restriction configs
-        if (this.isAnchor && !GemsConfig.COMMON.returnHomeAllowAnchors.get()) {
+        if (this.isAnchor && !GemsConfig.Common.returnHomeAllowAnchors.get()) {
             sendMessage(player, "anchorBanned");
             return false;
         }
-        if (!this.isAnchor && GemsConfig.COMMON.returnHomeMatchGems.get()) {
+        if (!this.isAnchor && GemsConfig.Common.returnHomeMatchGems.get()) {
             Block block = world.getBlockState(pos).getBlock();
             if (block instanceof GemTeleporterBlock && heldItem.getItem() instanceof ReturnHomeCharmItem) {
                 Gems teleporterGem = ((GemTeleporterBlock) block).getGem();
@@ -254,11 +254,11 @@ public class GemTeleporterTileEntity extends TileEntity {
             }
 
             // Restriction configs
-            if ((tile1.isAnchor || tile2.isAnchor) && !GemsConfig.COMMON.teleporterAllowAnchors.get()) {
+            if ((tile1.isAnchor || tile2.isAnchor) && !GemsConfig.Common.teleporterAllowAnchors.get()) {
                 sendMessage(player, "anchorBanned");
                 return false;
             }
-            if (!gemsMatch(tile1, tile2) && GemsConfig.COMMON.teleporterMatchGems.get()) {
+            if (!gemsMatch(tile1, tile2) && GemsConfig.Common.teleporterMatchGems.get()) {
                 sendMessage(player, "gemsMustMatch");
                 return false;
             }

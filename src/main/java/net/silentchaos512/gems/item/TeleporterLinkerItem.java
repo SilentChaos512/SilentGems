@@ -93,7 +93,7 @@ public final class TeleporterLinkerItem extends Item {
                 /*if (pos.getDimension() != player.world.func_230315_m_().func_241513_m_()) {
                     color = 0xff6600; // Different dimension
                     str = I18n.format("item.silentgems.teleporter_linker.differentDimension");
-                } else if (distance < GemsConfig.COMMON.teleporterFreeRange.get()) {
+                } else if (distance < GemsConfig.Common.teleporterFreeRange.get()) {
                     color = 0x00aaff; // Inside free range
                 }*/
                 fontRender.drawStringWithShadow(event.getMatrixStack(), str, textX, textY, color);

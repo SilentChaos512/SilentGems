@@ -105,7 +105,7 @@ public class GearSoul {
     //region XP and Levels
 
     public void addXp(int amount, ItemStack tool, @Nullable PlayerEntity player) {
-        if (!GemsConfig.COMMON.gearSoulsGetXpFromFakePlayers.get() && player instanceof FakePlayer) {
+        if (!GemsConfig.Common.gearSoulsGetXpFromFakePlayers.get() && player instanceof FakePlayer) {
             return;
         }
 
