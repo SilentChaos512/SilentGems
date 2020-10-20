@@ -45,17 +45,15 @@ public final class GemsConfig {
         public static final ForgeConfigSpec.IntValue teleporterSearchRadius;
         public static final ForgeConfigSpec.BooleanValue wispsCauseFire;
         public static final ForgeConfigSpec.BooleanValue worldGenWildFluffyPuffs;
-        public static final ForgeConfigSpec.IntValue worldGenOverworldMinGemsPerBiome;
-        public static final ForgeConfigSpec.IntValue worldGenOverworldMaxGemsPerBiome;
-        public static final ForgeConfigSpec.IntValue worldGenNetherGemsRegionSize;
-        public static final ForgeConfigSpec.IntValue worldGenEndGemsRegionSize;
-        public static final ForgeConfigSpec.IntValue worldGenOtherDimensionGemsRegionSize;
         public static final ForgeConfigSpec.IntValue worldGenSilverVeinCount;
         public static final ForgeConfigSpec.DoubleValue worldGenGeodeBaseChance;
         public static final ForgeConfigSpec.DoubleValue worldGenGeodeChanceVariation;
-        public static final ForgeConfigSpec.IntValue worldGenChaosOreMinCount;
-        public static final ForgeConfigSpec.IntValue worldGenChaosOreMaxCount;
+        public static final ForgeConfigSpec.IntValue worldGenChaosOreVeinCount;
         public static final ForgeConfigSpec.IntValue worldGenEnderOreCount;
+        public static final ForgeConfigSpec.IntValue regionSizeOverworld;
+        public static final ForgeConfigSpec.IntValue regionSizeNether;
+        public static final ForgeConfigSpec.IntValue regionSizeEnd;
+        public static final ForgeConfigSpec.IntValue regionSizeOthers;
 
         static {
             ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -209,32 +207,6 @@ public final class GemsConfig {
                 worldGenWildFluffyPuffs = builder
                         .comment("Generate wild fluffy puff plants. If disabled, you will need to add some other way to obtain fluffy puff seeds.")
                         .define("plants.wildFluffyPuffs", true);
-                worldGenOverworldMinGemsPerBiome = builder
-                        .comment("The fewest number of gem types to select per biome. Should be no bigger than the max value.",
-                                "Setting both min and max to zero will disable normal gem generation in the overworld, but not in other dimensions.")
-                        .defineInRange("overworld.gems.minTypePerBiome", 2, 0, 16);
-                worldGenOverworldMaxGemsPerBiome = builder
-                        .comment("The most gem types to select per biome. Should be at least the same as the min value.",
-                                "Setting both min and max to zero will disable normal gem generation in the overworld, but not in other dimensions.")
-                        .defineInRange("overworld.gems.maxTypePerBiome", 5, 0, 16);
-                worldGenNetherGemsRegionSize = builder
-                        .comment("The region size for gems in the Nether.",
-                                "Each 'size x size' chunk area is a 'region', which contains a couple types of gems.",
-                                "Larger regions will make finding many types of gems more difficult.",
-                                "Setting to zero will disable gem generation in this dimension.")
-                        .defineInRange("nether.gems.regionSize", 8, 0, Integer.MAX_VALUE);
-                worldGenEndGemsRegionSize = builder
-                        .comment("The region size for gems in The End.",
-                                "Each 'size x size' chunk area is a 'region', which contains a couple types of gems.",
-                                "Larger regions will make finding many types of gems more difficult.",
-                                "Setting to zero will disable gem generation in this dimension.")
-                        .defineInRange("end.gems.regionSize", 6, 0, Integer.MAX_VALUE);
-                worldGenOtherDimensionGemsRegionSize = builder
-                        .comment("The region size for gems in non-vanilla dimensions.",
-                                "Each 'size x size' chunk area is a 'region', which contains a couple types of gems.",
-                                "Larger regions will make finding many types of gems more difficult.",
-                                "Setting to zero will disable gem generation in these dimensions (does not include overworld).")
-                        .defineInRange("other.gems.regionSize", 4, 0, Integer.MAX_VALUE);
                 worldGenSilverVeinCount = builder
                         .comment("Number of veins of silver ore per chunk. Set 0 to disable.",
                                 "Default: 0 if Silent's Mechanisms is installed when config is created, 2 otherwise")
@@ -248,14 +220,33 @@ public final class GemsConfig {
                                 "This will tend to be close to the base chance, but could be more/less by several times this value.",
                                 "The chance is rolled separately for each biome.")
                         .defineInRange("overworld.geode.chanceVariation", 0.0025, 0.0, 1.0);
-                worldGenChaosOreMinCount = builder
-                        .defineInRange("ores.chaos.veinCount.min", 1, 0, 1000);
-                worldGenChaosOreMaxCount = builder
-                        .defineInRange("ores.chaos.veinCount.max", 2, 0, 1000);
+                worldGenChaosOreVeinCount = builder
+                        .comment("Number of chaos ore veins per chunk (overworld and mod dimensions)")
+                        .defineInRange("ores.chaos.veinCount", 2, 0, 1000);
                 worldGenEnderOreCount = builder
                         .comment("Number of ender ore veins per chunk in The End. Set zero to disable.")
-                        .defineInRange("ores.ender.veinCount", 1, 0, 1000);
-                builder.pop(2);
+                        .defineInRange("ores.ender.veinCount", 2, 0, 1000);
+                builder.comment("Region sizes for gem generation. Each 'size x size' chunk area is a 'region', which will contain a couple types of gems.",
+                        "A size of '10' would make each region 10x10 chunks, or 160x160 blocks",
+                        "Setting to zero will disable gem and glowrose generation for that dimension.",
+                        "Larger regions will make finding many types of gems more difficult.",
+                        "Keeping the region size for The Nether/End lower is recommended, as they are more difficult to navigate.",
+                        "Glowroses in the region will also match the gems that can be found there.");
+                builder.push("regionSize");
+                regionSizeOverworld = builder
+                        .comment("Region size for the overworld only (not modded dimensions)")
+                        .defineInRange("overworld", 10, 0, Integer.MAX_VALUE);
+                regionSizeNether = builder
+                        .comment("Region size for The Nether dimension")
+                        .defineInRange("the_nether", 6, 0, Integer.MAX_VALUE);
+                regionSizeEnd = builder
+                        .comment("Region size for The End dimension")
+                        .defineInRange("the_end", 6, 0, Integer.MAX_VALUE);
+                regionSizeOthers = builder
+                        .comment("Region size for non-vanilla dimensions.",
+                                "Overworld gems will attempt to spawn, but may be unable to depending on the stone in the world.")
+                        .defineInRange("others", 8, 0, Integer.MAX_VALUE);
+                builder.pop(3);
             }
 
             ChaosEvents.loadConfigs(builder);
@@ -277,6 +268,7 @@ public final class GemsConfig {
     }
 
     public static void sync() {
+        SilentGems.LOGGER.debug("sync config");
     }
 
     @SubscribeEvent

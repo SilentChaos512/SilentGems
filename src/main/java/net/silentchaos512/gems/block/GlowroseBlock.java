@@ -23,11 +23,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Effects;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.Tags;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.lib.Gems;
 
@@ -56,12 +58,12 @@ public class GlowroseBlock extends FlowerBlock implements IGemBlock {
     protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
         if (gem.getSet() == Gems.Set.DARK) {
             Block block = state.getBlock();
-            if (block == Blocks.NETHERRACK || block == Blocks.NETHER_QUARTZ_ORE) {
+            if (block.isIn(BlockTags.BASE_STONE_NETHER) || block == Blocks.NETHER_QUARTZ_ORE || block.isIn(BlockTags.NYLIUM)) {
                 return true;
             }
         } else if (gem.getSet() == Gems.Set.LIGHT) {
             Block block = state.getBlock();
-            if (block == Blocks.END_STONE) {
+            if (block.isIn(Tags.Blocks.END_STONES)) {
                 return true;
             }
         }

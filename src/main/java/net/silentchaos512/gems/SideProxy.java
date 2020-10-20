@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -66,6 +67,7 @@ class SideProxy implements IProxy {
 
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(EntityType.class, GemsEntities::registerTypes);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Feature.class, GemsWorldFeatures::registerFeatures);
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Placement.class, GemsWorldFeatures::registerPlacements);
         MinecraftForge.EVENT_BUS.addListener(this::addReloadListener);
         MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
         MinecraftForge.EVENT_BUS.register(Soul.Events.INSTANCE);
@@ -89,8 +91,6 @@ class SideProxy implements IProxy {
             // Register new stats
             MinecraftForge.EVENT_BUS.register(new SGearStatHandler());
         }
-
-        GemsWorldFeatures.logGemBiomes();
     }
 
     private void imcEnqueue(InterModEnqueueEvent event) {

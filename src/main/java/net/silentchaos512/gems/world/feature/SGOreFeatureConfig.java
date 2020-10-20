@@ -5,28 +5,23 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.tags.ITag;
-import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
 
-public class SGOreFeatureConfig implements IFeatureConfig {
+public class SGOreFeatureConfig extends OreFeatureConfig {
     public static final Codec<SGOreFeatureConfig> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    BlockState.CODEC.fieldOf("block").forGetter(config -> config.state),
-                    Codec.INT.fieldOf("size").forGetter(config -> config.size),
-                    TagMatchRuleTest.field_237161_a_.fieldOf("target_block").forGetter(config -> config.target)
-            ).apply(instance, (SGOreFeatureConfig::new)));
+                    RuleTest.field_237127_c_.fieldOf("target").forGetter(config -> config.target),
+                    BlockState.CODEC.fieldOf("state").forGetter(config -> config.state),
+                    Codec.INT.fieldOf("size").forGetter(config -> config.size)
+            ).apply(instance, SGOreFeatureConfig::new));
 
-    public final BlockState state;
-    public final int size;
-    public final TagMatchRuleTest target;
-
-    public SGOreFeatureConfig(BlockState state, int size, ITag<Block> target) {
-        this(state, size, new TagMatchRuleTest(target));
+    public SGOreFeatureConfig(ITag<Block> target, BlockState state, int size) {
+        this(new TagMatchRuleTest(target), state, size);
     }
 
-    public SGOreFeatureConfig(BlockState state, int size, TagMatchRuleTest target) {
-        this.state = state;
-        this.size = size;
-        this.target = target;
+    public SGOreFeatureConfig(RuleTest target, BlockState state, int size) {
+        super(target, state, size);
     }
 }
