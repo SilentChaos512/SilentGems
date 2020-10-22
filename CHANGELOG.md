@@ -3,6 +3,21 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.2] - 2020-10-22
+- Major rewrite of world generations to fix several bugs (#484, #500)
+### Removed
+- Biome-based overworld gem spawns. Uses the "regional" type for all dimensions now. Related to [#500]
+- Biome-based variations in chaos ore spawns. All overworld biomes will have the same distribution (related to #500)
+### Changed
+- Glowroses in all dimensions match the regional gems and should be easier to find
+- Dark glowroses can now spawn or be placed on nylium
+- Changed/renamed most world generation configs. If you made changes, you will need to re-edit your config file!
+### Fixed
+- Ores spawning in columns on the corners of chunks [#502]
+- Improper use of configured features [#500]
+- Disabling gem spawns in the overworld being impossible [#484]
+- Ores being harvestable by hand [#484]
+
 ## [3.7.1] - 2020-10-12
 - Updated for Silent Gear 2.3.1
 ### Fixed

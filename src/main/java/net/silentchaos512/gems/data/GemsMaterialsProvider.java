@@ -443,7 +443,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, ItemStats.RANGED_SPEED, 0.0f)
                 .stat(PartType.MAIN, ItemStats.RARITY, RARITY_CLASSIC)
                 .stat(PartType.MAIN, SGearStatHandler.CHARGEABILITY, 1.1f)
-                .trait(PartType.MAIN, Const.Traits.FIERY, 2, new GearTypeTraitCondition(GearType.WEAPON))
+                // FIXME
+                //.trait(PartType.MAIN, Const.Traits.FIERY, 2, new GearTypeTraitCondition(GearType.WEAPON))
                 .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
                 .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, Gems.GREEN_SAPPHIRE.getColor())
         );
