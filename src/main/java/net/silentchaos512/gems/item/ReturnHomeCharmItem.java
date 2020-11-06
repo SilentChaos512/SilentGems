@@ -19,8 +19,8 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.init.GemsItemGroups;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.lib.IGem;
-import net.silentchaos512.gems.util.TeleportUtil;
 import net.silentchaos512.lib.util.DimPos;
+import net.silentchaos512.lib.util.TeleportUtils;
 import net.silentchaos512.utils.Color;
 
 import javax.annotation.Nullable;
@@ -190,20 +190,23 @@ public class ReturnHomeCharmItem extends Item implements IGem /*implements IBaub
         }
 
         // Is the destination safe? (ie, no solid block at head level)
-        if (!TeleportUtil.isDestinationSafe(player, pos)) {
+        /*if (!TeleportUtil.isDestinationSafe(player, pos)) {
             player.sendMessage(new TranslationTextComponent("teleporter.silentgems.notSafe"), Util.DUMMY_UUID);
             return;
-        }
+        }*/
 
         // It should be safe to teleport.
         // Reset fall distance then teleport.
         player.fallDistance = 0;
         float soundPitch = 0.8f + 0.3f * SilentGems.random.nextFloat();
+
         // Sound at source
         player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0f, soundPitch);
-        if (TeleportUtil.teleport(player, pos)) {
-            Chaos.generate(player, getTeleportCost(stack, player), true);
-        }
+
+        // Teleport
+        TeleportUtils.teleport(player, pos.offset(Direction.UP, 1), null);
+        Chaos.generate(player, getTeleportCost(stack, player), true);
+
         // Sound at destination
         player.world.playSound(null, pos.getPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0f, soundPitch);
     }

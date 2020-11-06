@@ -28,13 +28,13 @@ authors="SilentChaos512"
 [[dependencies.silentgems]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.3]"
+    versionRange="[1.16.3,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.silentgems]]
     modId="silentlib"
     mandatory=true
-    versionRange="[4.8,)"
+    versionRange="[4.9,)"
     ordering = "NONE"
     side = "BOTH"
 [[dependencies.silentgems]]

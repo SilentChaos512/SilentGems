@@ -30,15 +30,13 @@ import net.silentchaos512.gems.init.GemsBlocks;
 import net.silentchaos512.gems.init.GemsEntities;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.world.feature.*;
-import net.silentchaos512.gems.world.placement.DimensionFilterConfig;
-import net.silentchaos512.gems.world.placement.DimensionFilterPlacement;
+import net.silentchaos512.lib.world.placement.DimensionFilterConfig;
+import net.silentchaos512.lib.world.placement.LibPlacements;
 import net.silentchaos512.utils.Lazy;
 
 @Mod.EventBusSubscriber(modid = SilentGems.MOD_ID)
 public final class GemsWorldFeatures {
     public static final Feature<RegionalGlowrosesFeatureConfig> REGIONAL_GLOWROSES = new RegionalGlowrosesFeature(RegionalGlowrosesFeatureConfig.CODEC);
-
-    public static final Placement<DimensionFilterConfig> DIMENSION_FILTER = new DimensionFilterPlacement(DimensionFilterConfig.CODEC);
 
     //region ConfiguredFeatures
 
@@ -58,25 +56,25 @@ public final class GemsWorldFeatures {
     private static final Lazy<ConfiguredFeature<?, ?>> OVERWORLD_GEMS = Lazy.of(() -> RegionalGemsFeature.INSTANCE
             .withConfiguration(OVERWORLD_REGIONAL_GEMS_CONFIG.get())
             .withPlacement(Placement.field_242907_l.configure(new TopSolidRangeConfig(8, 0, 48)))
-            .withPlacement(DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.OVERWORLD)))
+            .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.OVERWORLD)))
             .func_242728_a()
             .func_242731_b(10));
     private static final Lazy<ConfiguredFeature<?, ?>> NETHER_GEMS = Lazy.of(() -> RegionalGemsFeature.INSTANCE
             .withConfiguration(NETHER_REGIONAL_GEMS_CONFIG.get())
             .withPlacement(Placement.field_242907_l.configure(new TopSolidRangeConfig(25, 0, 95)))
-            .withPlacement(DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_NETHER)))
+            .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_NETHER)))
             .func_242728_a()
             .func_242731_b(10));
     private static final Lazy<ConfiguredFeature<?, ?>> END_GEMS = Lazy.of(() -> RegionalGemsFeature.INSTANCE
             .withConfiguration(END_REGIONAL_GEMS_CONFIG.get())
             .withPlacement(Placement.field_242907_l.configure(new TopSolidRangeConfig(16, 0, 72)))
-            .withPlacement(DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_END)))
+            .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_END)))
             .func_242728_a()
             .func_242731_b(10));
     private static final Lazy<ConfiguredFeature<?, ?>> MOD_DIM_GEMS = Lazy.of(() -> RegionalGemsFeature.INSTANCE
             .withConfiguration(MOD_DIM_REGIONAL_GEMS_CONFIG.get())
             .withPlacement(Placement.field_242907_l.configure(new TopSolidRangeConfig(8, 0, 48)))
-            .withPlacement(DIMENSION_FILTER.configure(DimensionFilterConfig.blacklist(World.OVERWORLD, World.THE_NETHER, World.THE_END)))
+            .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.blacklist(World.OVERWORLD, World.THE_NETHER, World.THE_END)))
             .func_242728_a()
             .func_242731_b(10));
 
@@ -84,26 +82,26 @@ public final class GemsWorldFeatures {
     private static final Lazy<ConfiguredFeature<?, ?>> OVERWORLD_GLOWROSES = Lazy.of(() -> REGIONAL_GLOWROSES
             .withConfiguration(new RegionalGlowrosesFeatureConfig(Gems.Set.CLASSIC, GemsConfig.Common.regionSizeOverworld.get()))
             .withPlacement(Placement.field_242897_C.configure(new FeatureSpreadConfig(2)))
-            .withPlacement(DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.OVERWORLD)))
+            .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.OVERWORLD)))
             .func_242733_d(128)
             .func_242729_a(16));
     private static final Lazy<ConfiguredFeature<?, ?>> NETHER_GLOWROSES = Lazy.of(() -> REGIONAL_GLOWROSES
             .withConfiguration(new RegionalGlowrosesFeatureConfig(Gems.Set.DARK, GemsConfig.Common.regionSizeNether.get(), 48))
             .withPlacement(Features.Placements.VEGETATION_PLACEMENT)
             .withPlacement(Placement.field_242897_C.configure(new FeatureSpreadConfig(2)))
-            .withPlacement(DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_NETHER)))
+            .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_NETHER)))
             .func_242733_d(128)
             .func_242729_a(4));
     private static final Lazy<ConfiguredFeature<?, ?>> END_GLOWROSES = Lazy.of(() -> REGIONAL_GLOWROSES
             .withConfiguration(new RegionalGlowrosesFeatureConfig(Gems.Set.LIGHT, GemsConfig.Common.regionSizeEnd.get()))
             .withPlacement(Placement.field_242897_C.configure(new FeatureSpreadConfig(2)))
-            .withPlacement(DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_END)))
+            .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_END)))
             .func_242733_d(128)
             .func_242729_a(8));
     private static final Lazy<ConfiguredFeature<?, ?>> MOD_DIM_GLOWROSES = Lazy.of(() -> REGIONAL_GLOWROSES
             .withConfiguration(new RegionalGlowrosesFeatureConfig(Gems.Set.CLASSIC, GemsConfig.Common.regionSizeOthers.get(), 24))
             .withPlacement(Placement.field_242897_C.configure(new FeatureSpreadConfig(2)))
-            .withPlacement(DIMENSION_FILTER.configure(DimensionFilterConfig.blacklist(World.OVERWORLD, World.THE_NETHER, World.THE_END)))
+            .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.blacklist(World.OVERWORLD, World.THE_NETHER, World.THE_END)))
             .func_242733_d(128)
             .func_242729_a(8));
 
@@ -182,7 +180,6 @@ public final class GemsWorldFeatures {
     }
 
     public static void registerPlacements(RegistryEvent.Register<Placement<?>> event) {
-        registerPlacement(event, DIMENSION_FILTER, "dimension_filter");
     }
 
     private static void registerFeature(RegistryEvent.Register<Feature<?>> event, Feature<?> feature, String name) {
@@ -310,7 +307,7 @@ public final class GemsWorldFeatures {
                 .withConfiguration(new GemGeodeFeatureConfig(gemSet, gemSet.getGeodeShell().asBlockState(), target))
                 .withPlacement(Placement.field_242908_m.configure(new TopSolidRangeConfig(20, 0, 40)))
                 .withPlacement(Placement.field_242898_b.configure(new ChanceConfig((int) (baseChance / GemsConfig.Common.worldGenGeodeBaseChance.get()))))
-                .withPlacement(DIMENSION_FILTER.configure(dimensionFilter));
+                .withPlacement(LibPlacements.DIMENSION_FILTER.configure(dimensionFilter));
     }
 
     private static void addEnderSlimeSpawns(BiomeLoadingEvent biome) {

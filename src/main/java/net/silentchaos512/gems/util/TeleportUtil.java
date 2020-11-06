@@ -10,6 +10,7 @@ import net.silentchaos512.lib.util.TeleporterSL;
 
 import javax.annotation.Nullable;
 
+@Deprecated
 public final class TeleportUtil {
     private TeleportUtil() {throw new IllegalAccessError("Utility class");}
 
