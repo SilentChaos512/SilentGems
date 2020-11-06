@@ -23,7 +23,10 @@ import java.util.List;
 public class GearSoulPart extends AbstractGearPart {
     private static final ResourceLocation TYPE_ID = SilentGems.getId("gear_soul");
     public static final IPartSerializer<GearSoulPart> SERIALIZER = new AbstractGearPart.Serializer<>(TYPE_ID, GearSoulPart::new);
-    public static final PartType TYPE = PartType.create(PartType.Builder.builder(TYPE_ID));
+    public static final PartType TYPE = PartType.create(PartType.Builder.builder(TYPE_ID)
+            .isRemovable(true)
+            .isUpgrade(true)
+    );
 
     static {
         PartSerializers.register(SERIALIZER);
