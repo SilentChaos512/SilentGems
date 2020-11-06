@@ -3,8 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.7.3] - 2020-11-06
 - Requires Silent Lib 4.9.x
+- May run on 1.16.4
+### Changed
+- Marked gear soul part type as a removable upgrade (can now be removed with a mod kit)
+### Fixed
+- Teleporters and return home charms not working or crashing [#506, #497]
 
 ## [3.7.2] - 2020-10-22
 - Major rewrite of world generations to fix several bugs (#484, #500)
