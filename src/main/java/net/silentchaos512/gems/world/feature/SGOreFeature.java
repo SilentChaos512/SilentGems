@@ -20,7 +20,7 @@ public class SGOreFeature extends Feature<SGOreFeatureConfig> {
     }
 
     @Override
-    public boolean func_241855_a(ISeedReader worldIn, ChunkGenerator generator, Random rand, BlockPos pos, SGOreFeatureConfig config) {
+    public boolean generate(ISeedReader worldIn, ChunkGenerator generator, Random rand, BlockPos pos, SGOreFeatureConfig config) {
         float f = rand.nextFloat() * (float) Math.PI;
         float f1 = (float) config.size / 8.0F;
         int i = MathHelper.ceil(((float) config.size / 16.0F * 2.0F + 1.0F) / 2.0F);

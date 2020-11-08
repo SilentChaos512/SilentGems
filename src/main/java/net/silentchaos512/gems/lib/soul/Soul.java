@@ -263,7 +263,7 @@ public final class Soul {
                 return dedicatedServer.getServerProperties().field_241082_U_.getSeed();
             } else if (server instanceof IntegratedServer) {
                 IntegratedServer integratedServer = (IntegratedServer) server;
-                integratedServer.func_240793_aU_().getDimensionGeneratorSettings().getSeed();
+                integratedServer.getServerConfiguration().getDimensionGeneratorSettings().getSeed();
             }
 
             return 0;

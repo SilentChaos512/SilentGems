@@ -19,7 +19,7 @@ public class GemGeodeFeature extends Feature<GemGeodeFeatureConfig> {
     }
 
     @Override
-    public boolean func_241855_a(ISeedReader worldIn, ChunkGenerator generator, Random random, BlockPos pos, GemGeodeFeatureConfig config) {
+    public boolean generate(ISeedReader worldIn, ChunkGenerator generator, Random random, BlockPos pos, GemGeodeFeatureConfig config) {
         if (config.target.test(worldIn.getBlockState(pos), random)) {
             float diameterXZ = 2f * random.nextFloat() + 5;
             float diameterY = 3f * random.nextFloat() + 7;

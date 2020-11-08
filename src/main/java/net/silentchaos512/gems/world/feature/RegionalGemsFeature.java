@@ -21,7 +21,7 @@ public class RegionalGemsFeature extends Feature<RegionalGemsFeatureConfig> {
     }
 
     @Override
-    public boolean func_241855_a(ISeedReader worldIn, ChunkGenerator generator, Random rand, BlockPos pos, RegionalGemsFeatureConfig config) {
+    public boolean generate(ISeedReader worldIn, ChunkGenerator generator, Random rand, BlockPos pos, RegionalGemsFeatureConfig config) {
         if (config.regionSize < 1) return false;
 
         float f = rand.nextFloat() * (float) Math.PI;

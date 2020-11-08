@@ -17,7 +17,7 @@ public class RegionalGlowrosesFeature extends FlowersFeature<RegionalGlowrosesFe
     }
 
     @Override
-    public boolean func_241855_a(ISeedReader worldIn, ChunkGenerator chunkGenerator, Random random, BlockPos pos, RegionalGlowrosesFeatureConfig config) {
+    public boolean generate(ISeedReader worldIn, ChunkGenerator chunkGenerator, Random random, BlockPos pos, RegionalGlowrosesFeatureConfig config) {
         if (config.regionSize < 1) return false;
 
         BlockState blockstate = this.getFlowerToPlace(worldIn, random, pos, config);

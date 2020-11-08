@@ -255,7 +255,7 @@ public final class ChaosEvents {
         if (!world.getGameRules().getBoolean(GameRules.DO_WEATHER_CYCLE) || world.getWorldInfo().isThundering() || !(world instanceof ServerWorld))
             return false;
 
-        IServerWorldInfo info = ((ServerWorld) world).getServer().func_240793_aU_().getServerWorldInfo();
+        IServerWorldInfo info = ((ServerWorld) world).getServer().getServerConfiguration().getServerWorldInfo();
         //info.setClearWeatherTime(0);
         info.setRainTime(time);
         info.setThunderTime(time);

@@ -142,15 +142,15 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${project.forge_version}"
 
-    compile fg.deobf("net.silentchaos512:silent-lib-${project.mc_version}:${project.sl_version}") {
+    compile fg.deobf("net.silentchaos512:silent-lib-${project.sl_version}") {
         exclude module: "forge"
     }
     compile("net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}") {
         exclude module: 'forge'
-        exclude module: 'jei-1.16.1'
-        exclude module: 'silent-lib-1.16.1'
-        exclude module: 'Bookshelf-1.16.1'
-        exclude module: 'GameStages-1.16.1'
+        exclude module: 'jei-1.16.3'
+        exclude module: 'silent-lib-1.16.3'
+        exclude module: 'Bookshelf-1.16.3'
+        exclude module: 'GameStages-1.16.3'
     }
 
     // JEI
