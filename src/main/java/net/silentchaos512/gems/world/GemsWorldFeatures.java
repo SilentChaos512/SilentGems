@@ -34,11 +34,18 @@ import net.silentchaos512.lib.world.placement.DimensionFilterConfig;
 import net.silentchaos512.lib.world.placement.LibPlacements;
 import net.silentchaos512.utils.Lazy;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
 @Mod.EventBusSubscriber(modid = SilentGems.MOD_ID)
 public final class GemsWorldFeatures {
     public static final Feature<RegionalGlowrosesFeatureConfig> REGIONAL_GLOWROSES = new RegionalGlowrosesFeature(RegionalGlowrosesFeatureConfig.CODEC);
 
     //region ConfiguredFeatures
+
+    private static boolean configuredFeaturesRegistered = false;
+    private static final Map<ResourceLocation, Lazy<ConfiguredFeature<?, ?>>> CONFIGURED_FEATURES = new LinkedHashMap<>();
 
     // Regional Gems
     private static final Lazy<RegionalGemsFeatureConfig> OVERWORLD_REGIONAL_GEMS_CONFIG = Lazy.of(() -> new RegionalGemsFeatureConfig(Gems.Set.CLASSIC,
@@ -53,25 +60,25 @@ public final class GemsWorldFeatures {
     private static final Lazy<RegionalGemsFeatureConfig> MOD_DIM_REGIONAL_GEMS_CONFIG = Lazy.of(() -> new RegionalGemsFeatureConfig(Gems.Set.CLASSIC,
             8,
             GemsConfig.Common.regionSizeOthers.get()));
-    private static final Lazy<ConfiguredFeature<?, ?>> OVERWORLD_GEMS = Lazy.of(() -> RegionalGemsFeature.INSTANCE
+    private static final Lazy<ConfiguredFeature<?, ?>> OVERWORLD_GEMS = configuredFeature("overworld_gems", () -> RegionalGemsFeature.INSTANCE
             .withConfiguration(OVERWORLD_REGIONAL_GEMS_CONFIG.get())
             .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(8, 0, 48)))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.OVERWORLD)))
             .square()
             .func_242731_b(10));
-    private static final Lazy<ConfiguredFeature<?, ?>> NETHER_GEMS = Lazy.of(() -> RegionalGemsFeature.INSTANCE
+    private static final Lazy<ConfiguredFeature<?, ?>> NETHER_GEMS = configuredFeature("nether_gems", () -> RegionalGemsFeature.INSTANCE
             .withConfiguration(NETHER_REGIONAL_GEMS_CONFIG.get())
             .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(25, 0, 95)))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_NETHER)))
             .square()
             .func_242731_b(10));
-    private static final Lazy<ConfiguredFeature<?, ?>> END_GEMS = Lazy.of(() -> RegionalGemsFeature.INSTANCE
+    private static final Lazy<ConfiguredFeature<?, ?>> END_GEMS = configuredFeature("end_gems", () -> RegionalGemsFeature.INSTANCE
             .withConfiguration(END_REGIONAL_GEMS_CONFIG.get())
             .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(16, 0, 72)))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_END)))
             .square()
             .func_242731_b(10));
-    private static final Lazy<ConfiguredFeature<?, ?>> MOD_DIM_GEMS = Lazy.of(() -> RegionalGemsFeature.INSTANCE
+    private static final Lazy<ConfiguredFeature<?, ?>> MOD_DIM_GEMS = configuredFeature("mod_dim_gems", () -> RegionalGemsFeature.INSTANCE
             .withConfiguration(MOD_DIM_REGIONAL_GEMS_CONFIG.get())
             .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(8, 0, 48)))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.blacklist(World.OVERWORLD, World.THE_NETHER, World.THE_END)))
@@ -79,26 +86,26 @@ public final class GemsWorldFeatures {
             .func_242731_b(10));
 
     // Regional glowroses
-    private static final Lazy<ConfiguredFeature<?, ?>> OVERWORLD_GLOWROSES = Lazy.of(() -> REGIONAL_GLOWROSES
+    private static final Lazy<ConfiguredFeature<?, ?>> OVERWORLD_GLOWROSES = configuredFeature("overworld_glowroses", () -> REGIONAL_GLOWROSES
             .withConfiguration(new RegionalGlowrosesFeatureConfig(Gems.Set.CLASSIC, GemsConfig.Common.regionSizeOverworld.get()))
             .withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(2)))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.OVERWORLD)))
             .range(128)
             .chance(16));
-    private static final Lazy<ConfiguredFeature<?, ?>> NETHER_GLOWROSES = Lazy.of(() -> REGIONAL_GLOWROSES
+    private static final Lazy<ConfiguredFeature<?, ?>> NETHER_GLOWROSES = configuredFeature("nether_glowroses", () -> REGIONAL_GLOWROSES
             .withConfiguration(new RegionalGlowrosesFeatureConfig(Gems.Set.DARK, GemsConfig.Common.regionSizeNether.get(), 48))
             .withPlacement(Features.Placements.VEGETATION_PLACEMENT)
             .withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(2)))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_NETHER)))
             .range(128)
             .chance(4));
-    private static final Lazy<ConfiguredFeature<?, ?>> END_GLOWROSES = Lazy.of(() -> REGIONAL_GLOWROSES
+    private static final Lazy<ConfiguredFeature<?, ?>> END_GLOWROSES = configuredFeature("end_glowroses", () -> REGIONAL_GLOWROSES
             .withConfiguration(new RegionalGlowrosesFeatureConfig(Gems.Set.LIGHT, GemsConfig.Common.regionSizeEnd.get()))
             .withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(2)))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_END)))
             .range(128)
             .chance(8));
-    private static final Lazy<ConfiguredFeature<?, ?>> MOD_DIM_GLOWROSES = Lazy.of(() -> REGIONAL_GLOWROSES
+    private static final Lazy<ConfiguredFeature<?, ?>> MOD_DIM_GLOWROSES = configuredFeature("mod_dim_glowroses", () -> REGIONAL_GLOWROSES
             .withConfiguration(new RegionalGlowrosesFeatureConfig(Gems.Set.CLASSIC, GemsConfig.Common.regionSizeOthers.get(), 24))
             .withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(2)))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.blacklist(World.OVERWORLD, World.THE_NETHER, World.THE_END)))
@@ -106,19 +113,19 @@ public final class GemsWorldFeatures {
             .chance(8));
 
     // Other Ores
-    private static final Lazy<ConfiguredFeature<?, ?>> CHAOS_ORE = Lazy.of(() -> createOre(MiscOres.CHAOS.asBlock(),
+    private static final Lazy<ConfiguredFeature<?, ?>> CHAOS_ORE = configuredFeature("chaos_ore", () -> createOre(MiscOres.CHAOS.asBlock(),
             9,
             GemsConfig.Common.worldGenChaosOreVeinCount.get(),
             0,
             20,
             Tags.Blocks.STONE));
-    private static final Lazy<ConfiguredFeature<?, ?>> SILVER_ORE = Lazy.of(() -> createOre(MiscOres.SILVER.asBlock(),
+    private static final Lazy<ConfiguredFeature<?, ?>> SILVER_ORE = configuredFeature("silver_ore", () -> createOre(MiscOres.SILVER.asBlock(),
             6,
             GemsConfig.Common.worldGenSilverVeinCount.get(),
             6,
             28,
             Tags.Blocks.STONE));
-    private static final Lazy<ConfiguredFeature<?, ?>> ENDER_ORE = Lazy.of(() -> createOre(MiscOres.ENDER.asBlock(),
+    private static final Lazy<ConfiguredFeature<?, ?>> ENDER_ORE = configuredFeature("ender_ore", () -> createOre(MiscOres.ENDER.asBlock(),
             16,
             GemsConfig.Common.worldGenEnderOreCount.get(),
             10,
@@ -126,41 +133,41 @@ public final class GemsWorldFeatures {
             Tags.Blocks.END_STONES));
 
     // Geodes
-    private static final Lazy<ConfiguredFeature<?, ?>> OVERWORLD_CLASSIC_GEODE = Lazy.of(() -> createGeodeFeature(Gems.Set.CLASSIC,
+    private static final Lazy<ConfiguredFeature<?, ?>> OVERWORLD_CLASSIC_GEODE = configuredFeature("overworld_classic_geode", () -> createGeodeFeature(Gems.Set.CLASSIC,
             1f,
             BlockTags.BASE_STONE_OVERWORLD,
             DimensionFilterConfig.whitelist(World.OVERWORLD)));
-    private static final Lazy<ConfiguredFeature<?, ?>> OVERWORLD_DARK_GEODE = Lazy.of(() -> createGeodeFeature(Gems.Set.DARK,
+    private static final Lazy<ConfiguredFeature<?, ?>> OVERWORLD_DARK_GEODE = configuredFeature("overworld_dark_geode", () -> createGeodeFeature(Gems.Set.DARK,
             2f,
             BlockTags.BASE_STONE_OVERWORLD,
             DimensionFilterConfig.whitelist(World.OVERWORLD)));
-    private static final Lazy<ConfiguredFeature<?, ?>> OVERWORLD_LIGHT_GEODE = Lazy.of(() -> createGeodeFeature(Gems.Set.LIGHT,
+    private static final Lazy<ConfiguredFeature<?, ?>> OVERWORLD_LIGHT_GEODE = configuredFeature("overworld_light_geode", () -> createGeodeFeature(Gems.Set.LIGHT,
             3f,
             BlockTags.BASE_STONE_OVERWORLD,
             DimensionFilterConfig.whitelist(World.OVERWORLD)));
-    private static final Lazy<ConfiguredFeature<?, ?>> NETHER_DARK_GEODE = Lazy.of(() -> createGeodeFeature(Gems.Set.DARK,
+    private static final Lazy<ConfiguredFeature<?, ?>> NETHER_DARK_GEODE = configuredFeature("nether_dark_geode", () -> createGeodeFeature(Gems.Set.DARK,
             1f,
             BlockTags.BASE_STONE_NETHER,
             DimensionFilterConfig.whitelist(World.THE_NETHER)));
-    private static final Lazy<ConfiguredFeature<?, ?>> END_LIGHT_GEODE = Lazy.of(() -> createGeodeFeature(Gems.Set.LIGHT,
+    private static final Lazy<ConfiguredFeature<?, ?>> END_LIGHT_GEODE = configuredFeature("end_light_geode", () -> createGeodeFeature(Gems.Set.LIGHT,
             1f,
             Tags.Blocks.END_STONES,
             DimensionFilterConfig.whitelist(World.THE_END)));
-    private static final Lazy<ConfiguredFeature<?, ?>> MOD_DIM_CLASSIC_GEODE = Lazy.of(() -> createGeodeFeature(Gems.Set.CLASSIC,
+    private static final Lazy<ConfiguredFeature<?, ?>> MOD_DIM_CLASSIC_GEODE = configuredFeature("mod_dim_classic_geode", () -> createGeodeFeature(Gems.Set.CLASSIC,
             1f,
             BlockTags.BASE_STONE_OVERWORLD,
             DimensionFilterConfig.blacklist(World.OVERWORLD, World.THE_NETHER, World.THE_END)));
-    private static final Lazy<ConfiguredFeature<?, ?>> MOD_DIM_DARK_GEODE = Lazy.of(() -> createGeodeFeature(Gems.Set.DARK,
+    private static final Lazy<ConfiguredFeature<?, ?>> MOD_DIM_DARK_GEODE = configuredFeature("mod_dim_dark_geode", () -> createGeodeFeature(Gems.Set.DARK,
             2f,
             BlockTags.BASE_STONE_OVERWORLD,
             DimensionFilterConfig.blacklist(World.OVERWORLD, World.THE_NETHER, World.THE_END)));
-    private static final Lazy<ConfiguredFeature<?, ?>> MOD_DIM_LIGHT_GEODE = Lazy.of(() -> createGeodeFeature(Gems.Set.LIGHT,
+    private static final Lazy<ConfiguredFeature<?, ?>> MOD_DIM_LIGHT_GEODE = configuredFeature("mod_dim_light_geode", () -> createGeodeFeature(Gems.Set.LIGHT,
             3f,
             BlockTags.BASE_STONE_OVERWORLD,
             DimensionFilterConfig.blacklist(World.OVERWORLD, World.THE_NETHER, World.THE_END)));
 
     // Other plants
-    private static final Lazy<ConfiguredFeature<?, ?>> WILD_FLUFFY_PUFFS = Lazy.of(() -> Feature.FLOWER
+    private static final Lazy<ConfiguredFeature<?, ?>> WILD_FLUFFY_PUFFS = configuredFeature("wild_fluffy_puffs", () -> Feature.FLOWER
             .withConfiguration((new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(GemsBlocks.WILD_FLUFFY_PUFF_PLANT.get().getDefaultState()), new SimpleBlockPlacer())
                     .tries(12)
                     .build()
@@ -190,42 +197,23 @@ public final class GemsWorldFeatures {
         event.getRegistry().register(placement.setRegistryName(SilentGems.getId(name)));
     }
 
-    private static boolean configuredFeaturesRegistered = false;
-
     private static void registerConfiguredFeatures() {
         if (configuredFeaturesRegistered) return;
 
         configuredFeaturesRegistered = true;
 
-        // Regional Gems
-        registerConfiguredFeature("overworld_gems", OVERWORLD_GEMS.get());
-        registerConfiguredFeature("nether_gems", NETHER_GEMS.get());
-        registerConfiguredFeature("end_gems", END_GEMS.get());
-        registerConfiguredFeature("mod_dim_gems", MOD_DIM_GEMS.get());
-        // Regional Glowroses
-        registerConfiguredFeature("overworld_glowroses", OVERWORLD_GLOWROSES.get());
-        registerConfiguredFeature("nether_glowroses", NETHER_GLOWROSES.get());
-        registerConfiguredFeature("end_glowroses", END_GLOWROSES.get());
-        registerConfiguredFeature("mod_dim_glowroses", MOD_DIM_GLOWROSES.get());
-        // Other Ores
-        registerConfiguredFeature("chaos_ore", CHAOS_ORE.get());
-        registerConfiguredFeature("silver_ore", SILVER_ORE.get());
-        registerConfiguredFeature("ender_ore", ENDER_ORE.get());
-        //Geodes
-        registerConfiguredFeature("overworld_classic_geode", OVERWORLD_CLASSIC_GEODE.get());
-        registerConfiguredFeature("overworld_dark_geode", OVERWORLD_DARK_GEODE.get());
-        registerConfiguredFeature("overworld_light_geode", OVERWORLD_LIGHT_GEODE.get());
-        registerConfiguredFeature("nether_dark_geode", NETHER_DARK_GEODE.get());
-        registerConfiguredFeature("end_light_geode", END_LIGHT_GEODE.get());
-        registerConfiguredFeature("mod_dim_classic_geode", MOD_DIM_CLASSIC_GEODE.get());
-        registerConfiguredFeature("mod_dim_dark_geode", MOD_DIM_DARK_GEODE.get());
-        registerConfiguredFeature("mod_dim_light_geode", MOD_DIM_LIGHT_GEODE.get());
+        CONFIGURED_FEATURES.forEach((name, lazy) -> registerConfiguredFeature(name, lazy.get()));
     }
 
-    private static void registerConfiguredFeature(String name, ConfiguredFeature<?, ?> configuredFeature) {
-        ResourceLocation id = SilentGems.getId(name);
-        SilentGems.LOGGER.debug("Register configured feature '{}'", id);
-        Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, id, configuredFeature);
+    private static Lazy<ConfiguredFeature<?, ?>> configuredFeature(String name, Supplier<ConfiguredFeature<?, ?>> configuredFeature) {
+        Lazy<ConfiguredFeature<?, ?>> lazy = Lazy.of(configuredFeature);
+        CONFIGURED_FEATURES.put(SilentGems.getId(name), lazy);
+        return lazy;
+    }
+
+    private static void registerConfiguredFeature(ResourceLocation name, ConfiguredFeature<?, ?> configuredFeature) {
+        SilentGems.LOGGER.debug("Register configured feature '{}'", name);
+        Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, name, configuredFeature);
     }
 
     @SubscribeEvent
