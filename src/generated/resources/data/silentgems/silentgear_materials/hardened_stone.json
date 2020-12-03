@@ -1,8 +1,12 @@
 {
   "availability": {
     "tier": 3,
+    "categories": [
+      "rock"
+    ],
     "visible": true,
-    "gear_blacklist": []
+    "gear_blacklist": [],
+    "can_salvage": true
   },
   "crafting_items": {
     "main": {

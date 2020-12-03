@@ -1,8 +1,13 @@
 {
   "availability": {
     "tier": 3,
+    "categories": [
+      "gem",
+      "organic"
+    ],
     "visible": true,
-    "gear_blacklist": []
+    "gear_blacklist": [],
+    "can_salvage": true
   },
   "crafting_items": {
     "main": {
@@ -29,7 +34,8 @@
       "ranged_speed": 0.2,
       "rarity": 60.0,
       "silentgems:chargeability": 1.4
-    }
+    },
+    "adornment": {}
   },
   "traits": {
     "main": [

@@ -8,6 +8,12 @@
       "texture": "silentgear:_highlight"
     }
   ],
+  "main/fragment": [
+    {
+      "texture": "silentgear:metal",
+      "color": "#FF2F2F2F"
+    }
+  ],
   "main/armor": [
     {
       "texture": "silentgear:main_generic_hc",
@@ -15,6 +21,21 @@
     },
     {
       "texture": "silentgear:_highlight"
+    }
+  ],
+  "adornment/all": [
+    {
+      "texture": "silentgear:adornment_generic",
+      "color": "#FF2F2F2F"
+    }
+  ],
+  "adornment/part": [
+    {
+      "texture": "silentgear:adornment",
+      "color": "#FF2F2F2F"
+    },
+    {
+      "texture": "silentgear:adornment_highlight"
     }
   ]
 }
