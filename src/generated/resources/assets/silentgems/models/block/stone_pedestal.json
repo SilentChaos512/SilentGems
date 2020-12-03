@@ -1,6 +1,6 @@
 {
   "parent": "silentgems:block/pedestal",
   "textures": {
-    "stone": "block/stone"
+    "stone": "minecraft:block/stone"
   }
 }

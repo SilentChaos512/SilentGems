@@ -149,6 +149,7 @@ dependencies {
         exclude module: 'forge'
         exclude module: 'jei-1.16.3'
         exclude module: 'silent-lib-1.16.3'
+        exclude module: 'curios-forge'
         exclude module: 'Bookshelf-1.16.3'
         exclude module: 'GameStages-1.16.3'
     }
@@ -174,8 +175,8 @@ dependencies {
 
     // Curios
     if (project.hasProperty('curios_version')) {
-        runtimeOnly fg.deobf("top.theillusivec4.curios:curios:${project.curios_version}")
-        compileOnly fg.deobf("top.theillusivec4.curios:curios:${project.curios_version}:api")
+        runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${project.curios_version}")
+        compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${project.curios_version}:api")
     }
 
     // compile('com.robertx22:mine-and-slash-1.14.4:2.+') {

@@ -1,5 +1,5 @@
 {
-  "parent": "block/block",
+  "parent": "minecraft:block/block",
   "textures": {
     "bottom": "silentgems:block/purifier_bottom",
     "side": "silentgems:block/purifier_side",
