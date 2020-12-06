@@ -1,0 +1,35 @@
+{
+  "parent": "silentgems:root",
+  "display": {
+    "icon": {
+      "item": "silentgems:ruby"
+    },
+    "title": {
+      "translate": "advancements.silentgems.gem.title"
+    },
+    "description": {
+      "translate": "advancements.silentgems.gem.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "silentgems:gems"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_item"
+    ]
+  ]
+}

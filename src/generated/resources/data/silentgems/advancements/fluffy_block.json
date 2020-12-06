@@ -1,0 +1,35 @@
+{
+  "parent": "silentgems:grow_fluffy_puffs",
+  "display": {
+    "icon": {
+      "item": "silentgems:white_fluffy_block"
+    },
+    "title": {
+      "translate": "advancements.silentgems.fluffy_block.title"
+    },
+    "description": {
+      "translate": "advancements.silentgems.fluffy_block.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "silentgems:fluffy_blocks"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_item"
+    ]
+  ]
+}

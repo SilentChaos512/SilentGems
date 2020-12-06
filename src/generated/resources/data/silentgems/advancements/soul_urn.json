@@ -1,0 +1,35 @@
+{
+  "parent": "silentgems:soul_gem",
+  "display": {
+    "icon": {
+      "item": "silentgems:soul_urn"
+    },
+    "title": {
+      "translate": "advancements.silentgems.soul_urn.title"
+    },
+    "description": {
+      "translate": "advancements.silentgems.soul_urn.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "silentgems:soul_urn"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_item"
+    ]
+  ]
+}

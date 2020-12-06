@@ -434,6 +434,13 @@ public enum Gems {
             return SoundType.STONE;
         }
 
+        public Gems getSetIcon() {
+            if (this == CLASSIC) return Gems.PHOSPHOPHYLLITE;
+            if (this == DARK) return Gems.CITRINE;
+            if (this == LIGHT) return Gems.KYANITE;
+            throw new NullPointerException("Non-existent Gems.Set, wat?");
+        }
+
         private static DataResult<Set> decode(int encodedIn) {
             if (encodedIn >= 0 && encodedIn < Set.values().length)
                 return DataResult.success(Set.values()[encodedIn]);

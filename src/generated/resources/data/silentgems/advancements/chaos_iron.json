@@ -1,0 +1,48 @@
+{
+  "parent": "silentgems:chaos_crystal",
+  "display": {
+    "icon": {
+      "item": "silentgems:chaos_iron_ingot"
+    },
+    "title": {
+      "translate": "advancements.silentgems.chaos_iron.title"
+    },
+    "description": {
+      "translate": "advancements.silentgems.chaos_iron.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_dust": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "silentgems:chaos_iron_dust"
+          }
+        ]
+      }
+    },
+    "get_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "silentgems:chaos_iron_ingot"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_dust"
+    ],
+    [
+      "get_ingot"
+    ]
+  ]
+}

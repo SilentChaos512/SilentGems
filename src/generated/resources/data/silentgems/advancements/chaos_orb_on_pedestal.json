@@ -1,0 +1,34 @@
+{
+  "parent": "silentgems:pedestal",
+  "display": {
+    "icon": {
+      "item": "silentgems:perfect_chaos_orb",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "advancements.silentgems.chaos_orb_on_pedestal.title"
+    },
+    "description": {
+      "translate": "advancements.silentgems.chaos_orb_on_pedestal.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "place": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "item": {
+          "tag": "silentgems:chaos_orbs"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "place"
+    ]
+  ]
+}

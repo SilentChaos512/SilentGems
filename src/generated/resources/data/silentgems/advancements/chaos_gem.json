@@ -1,0 +1,48 @@
+{
+  "parent": "silentgems:enriched_chaos",
+  "display": {
+    "icon": {
+      "item": "silentgems:chaos_green_sapphire"
+    },
+    "title": {
+      "translate": "advancements.silentgems.chaos_gem.title"
+    },
+    "description": {
+      "translate": "advancements.silentgems.chaos_gem.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_gem": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "silentgems:chaos_gems"
+          }
+        ]
+      }
+    },
+    "get_rune": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "silentgems:chaos_rune"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_gem"
+    ],
+    [
+      "get_rune"
+    ]
+  ]
+}

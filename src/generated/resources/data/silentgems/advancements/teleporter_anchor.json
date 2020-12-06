@@ -1,0 +1,35 @@
+{
+  "parent": "silentgems:chaos_crystal",
+  "display": {
+    "icon": {
+      "item": "silentgems:teleporter_anchor"
+    },
+    "title": {
+      "translate": "advancements.silentgems.teleporter_anchor.title"
+    },
+    "description": {
+      "translate": "advancements.silentgems.teleporter_anchor.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "silentgems:teleporter_anchor"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_item"
+    ]
+  ]
+}

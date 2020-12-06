@@ -19,6 +19,7 @@ public final class DataGenerators {
         gen.addProvider(new GemsItemTagsProvider(gen, blockTags, existingFileHelper));
         gen.addProvider(new GemsRecipeProvider(gen));
         gen.addProvider(new GemsLootTableProvider(gen));
+        gen.addProvider(new GemsAdvancementProvider(gen));
 
         gen.addProvider(new GemsMaterialsProvider(gen));
 

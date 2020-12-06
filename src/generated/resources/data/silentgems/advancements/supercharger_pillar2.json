@@ -1,0 +1,51 @@
+{
+  "parent": "silentgems:supercharger_pillar1",
+  "display": {
+    "icon": {
+      "item": "silentgems:super_charging_agent"
+    },
+    "title": {
+      "translate": "advancements.silentgems.supercharger_pillar2.title"
+    },
+    "description": {
+      "translate": "advancements.silentgems.supercharger_pillar2.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_charging_agent": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "silentgems:super_charging_agent"
+          }
+        ]
+      }
+    },
+    "get_bases": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "silentgems:supercharger_pillar/level2",
+            "count": {
+              "min": 4
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_charging_agent"
+    ],
+    [
+      "get_bases"
+    ]
+  ]
+}

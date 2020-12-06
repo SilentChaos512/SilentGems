@@ -1,0 +1,35 @@
+{
+  "parent": "silentgems:root",
+  "display": {
+    "icon": {
+      "item": "silentgems:ender_crystal"
+    },
+    "title": {
+      "translate": "advancements.silentgems.ender_crystal.title"
+    },
+    "description": {
+      "translate": "advancements.silentgems.ender_crystal.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "silentgems:ender_crystal"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_item"
+    ]
+  ]
+}

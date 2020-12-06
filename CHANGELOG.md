@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Configs to adjust the weights of or completely disable generation of specific gem ores [#491]
+### Fixed
+- Broken advancements (also switched to data generator)
 
 ## [3.7.4] - 2020-12-03
 - Requires Silent Gear 2.4.x

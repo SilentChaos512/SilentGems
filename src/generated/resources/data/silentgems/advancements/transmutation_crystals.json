@@ -1,0 +1,61 @@
+{
+  "parent": "silentgems:transmutation_altar",
+  "display": {
+    "icon": {
+      "item": "silentgems:magma_cream_crystal"
+    },
+    "title": {
+      "translate": "advancements.silentgems.transmutation_crystals.title"
+    },
+    "description": {
+      "translate": "advancements.silentgems.transmutation_crystals.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "slime": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "silentgems:slime_crystal"
+          }
+        ]
+      }
+    },
+    "magma": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "silentgems:magma_cream_crystal"
+          }
+        ]
+      }
+    },
+    "ender": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "silentgems:ender_slime_crystal"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "slime"
+    ],
+    [
+      "magma"
+    ],
+    [
+      "ender"
+    ]
+  ]
+}
