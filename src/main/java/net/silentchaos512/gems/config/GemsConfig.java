@@ -1,5 +1,8 @@
 package net.silentchaos512.gems.config;
 
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.WeightedList;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -8,7 +11,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.chaos.ChaosEvents;
+import net.silentchaos512.gems.lib.Gems;
 
+import javax.annotation.Nullable;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Random;
 import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = SilentGems.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -54,6 +62,10 @@ public final class GemsConfig {
         public static final ForgeConfigSpec.IntValue regionSizeNether;
         public static final ForgeConfigSpec.IntValue regionSizeEnd;
         public static final ForgeConfigSpec.IntValue regionSizeOthers;
+        private static final Map<Gems, ForgeConfigSpec.IntValue> worldGenOverworldGemWeights = new EnumMap<>(Gems.class);
+        private static final Map<Gems, ForgeConfigSpec.IntValue> worldGenNetherGemWeights = new EnumMap<>(Gems.class);
+        private static final Map<Gems, ForgeConfigSpec.IntValue> worldGenEndGemWeights = new EnumMap<>(Gems.class);
+        private static final Map<Gems, ForgeConfigSpec.IntValue> worldGenModDimGemWeights = new EnumMap<>(Gems.class);
 
         static {
             ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -246,7 +258,34 @@ public final class GemsConfig {
                         .comment("Region size for non-vanilla dimensions.",
                                 "Overworld gems will attempt to spawn, but may be unable to depending on the stone in the world.")
                         .defineInRange("others", 8, 0, Integer.MAX_VALUE);
-                builder.pop(3);
+                builder.pop();
+                builder.comment("Gem weights control how frequently certain gems are selected over others when generating ores.",
+                        "Higher values increase the chances of that gem being selecting, lower values decrease chances.",
+                        "Changing weights has no affect on the total number of gems that will generate.",
+                        "Setting the weight of a gem to zero (0) will stop that gem from being chosen at all.");
+                builder.push("gemWeights");
+                builder.push("overworld");
+                for (Gems gem : Gems.Set.CLASSIC) {
+                    worldGenOverworldGemWeights.put(gem, builder.defineInRange(gem.getName(), 10, 0, Integer.MAX_VALUE));
+                }
+                builder.pop();
+                builder.push("the_nether");
+                for (Gems gem : Gems.Set.DARK) {
+                    worldGenNetherGemWeights.put(gem, builder.defineInRange(gem.getName(), 10, 0, Integer.MAX_VALUE));
+                }
+                builder.pop();
+                builder.push("the_end");
+                for (Gems gem : Gems.Set.LIGHT) {
+                    worldGenEndGemWeights.put(gem, builder.defineInRange(gem.getName(), 10, 0, Integer.MAX_VALUE));
+                }
+                builder.pop();
+                builder.comment("All non-vanilla dimensions. Gems will only replace stone.");
+                builder.push("mod_dims");
+                for (Gems gem : Gems.Set.CLASSIC) {
+                    worldGenModDimGemWeights.put(gem, builder.defineInRange(gem.getName(), 10, 0, Integer.MAX_VALUE));
+                }
+                builder.pop();
+                builder.pop(2);
             }
 
             ChaosEvents.loadConfigs(builder);
@@ -258,6 +297,34 @@ public final class GemsConfig {
 
         private static Supplier<Boolean> debugConfig(ForgeConfigSpec.BooleanValue config) {
             return () -> debugMasterSwitch != null && config != null && debugMasterSwitch.get() && config.get();
+        }
+
+        @Nullable
+        public static Gems selectOre(RegistryKey<World> dimension, Random random) {
+            Map<Gems, ForgeConfigSpec.IntValue> map;
+            if (dimension == World.OVERWORLD) map = worldGenOverworldGemWeights;
+            else if (dimension == World.THE_NETHER) map = worldGenNetherGemWeights;
+            else if (dimension == World.THE_END) map = worldGenEndGemWeights;
+            else map = worldGenModDimGemWeights;
+
+            WeightedList<Gems> weightedList = new WeightedList<>();
+            boolean anyGems = false;
+
+            for (Map.Entry<Gems, ForgeConfigSpec.IntValue> entry : map.entrySet()) {
+                Gems gem = entry.getKey();
+                ForgeConfigSpec.IntValue config = entry.getValue();
+                int value = config.get();
+
+                if (value > 0) {
+                    weightedList.func_226313_a_(gem, value);
+                    anyGems = true;
+                }
+            }
+
+            if (anyGems) {
+                return weightedList.func_226318_b_(random);
+            }
+            return null;
         }
     }
 

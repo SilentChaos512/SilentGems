@@ -10,6 +10,7 @@ import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
 import net.silentchaos512.gems.lib.Gems;
 import net.silentchaos512.gems.world.GemsWorldFeatures;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class RegionalGemsFeatureConfig implements IFeatureConfig, IRegionalGemsConfig {
@@ -37,6 +38,7 @@ public class RegionalGemsFeatureConfig implements IFeatureConfig, IRegionalGemsC
         this.target = target;
     }
 
+    @Nullable
     public Gems selectGem(ISeedReader world, BlockPos pos, Random random) {
         return selectGem(world, pos, random, gemSet, regionSize);
     }

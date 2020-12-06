@@ -9,6 +9,7 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.FlowersFeature;
 import net.silentchaos512.gems.lib.Gems;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class RegionalGlowrosesFeature extends FlowersFeature<RegionalGlowrosesFeatureConfig> {
@@ -23,11 +24,13 @@ public class RegionalGlowrosesFeature extends FlowersFeature<RegionalGlowrosesFe
         BlockState blockstate = this.getFlowerToPlace(worldIn, random, pos, config);
         int i = 0;
 
-        for (int j = 0; j < this.getFlowerCount(config); ++j) {
-            BlockPos blockpos = this.getNearbyPos(random, pos, config);
-            if (worldIn.isAirBlock(blockpos) && blockpos.getY() < 255 && blockstate.isValidPosition(worldIn, blockpos) && this.isValidPosition(worldIn, blockpos, config)) {
-                worldIn.setBlockState(blockpos, blockstate, 2);
-                ++i;
+        if (blockstate != null) {
+            for (int j = 0; j < this.getFlowerCount(config); ++j) {
+                BlockPos blockpos = this.getNearbyPos(random, pos, config);
+                if (worldIn.isAirBlock(blockpos) && blockpos.getY() < 255 && blockstate.isValidPosition(worldIn, blockpos) && this.isValidPosition(worldIn, blockpos, config)) {
+                    worldIn.setBlockState(blockpos, blockstate, 2);
+                    ++i;
+                }
             }
         }
 
@@ -56,8 +59,12 @@ public class RegionalGlowrosesFeature extends FlowersFeature<RegionalGlowrosesFe
         throw new IllegalAccessError("call to incorrect getFlowerToPlace");
     }
 
+    @Nullable
     public BlockState getFlowerToPlace(ISeedReader world, Random rand, BlockPos pos, RegionalGlowrosesFeatureConfig config) {
         Gems gem = config.selectGem(world, pos, rand);
-        return gem.getGlowrose().getDefaultState();
+        if (gem != null) {
+            return gem.getGlowrose().getDefaultState();
+        }
+        return null;
     }
 }

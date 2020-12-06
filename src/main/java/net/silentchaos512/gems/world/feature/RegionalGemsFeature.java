@@ -9,6 +9,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
+import net.silentchaos512.gems.lib.Gems;
 
 import java.util.BitSet;
 import java.util.Random;
@@ -40,12 +41,15 @@ public class RegionalGemsFeature extends Feature<RegionalGemsFeatureConfig> {
         int j1 = 2 * (MathHelper.ceil(f1) + i);
         int k1 = 2 * (2 + i);
 
-        BlockState oreBlock = config.selectGem(worldIn, new BlockPos(k, l, i1), rand).getOre().getDefaultState();
+        Gems gem = config.selectGem(worldIn, new BlockPos(k, l, i1), rand);
+        if (gem != null) {
+            BlockState oreBlock = gem.getOre().getDefaultState();
 
-        for (int l1 = k; l1 <= k + j1; ++l1) {
-            for (int i2 = i1; i2 <= i1 + j1; ++i2) {
-                if (l <= worldIn.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, l1, i2)) {
-                    return this.func_207803_a(worldIn, rand, oreBlock, config, d0, d1, d2, d3, d4, d5, k, l, i1, j1, k1);
+            for (int l1 = k; l1 <= k + j1; ++l1) {
+                for (int i2 = i1; i2 <= i1 + j1; ++i2) {
+                    if (l <= worldIn.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, l1, i2)) {
+                        return this.func_207803_a(worldIn, rand, oreBlock, config, d0, d1, d2, d3, d4, d5, k, l, i1, j1, k1);
+                    }
                 }
             }
         }
