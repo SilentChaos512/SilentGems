@@ -13,14 +13,5 @@
       "texture": "silentgear:metal",
       "color": "#F5C245"
     }
-  ],
-  "main/armor": [
-    {
-      "texture": "silentgear:main_generic_hc",
-      "color": "#F5C245"
-    },
-    {
-      "texture": "silentgear:_highlight"
-    }
   ]
 }

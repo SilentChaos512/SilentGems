@@ -48,6 +48,10 @@
       {
         "name": "silentgear:soft",
         "level": 2
+      },
+      {
+        "name": "silentgear:brilliant",
+        "level": 1
       }
     ]
   }

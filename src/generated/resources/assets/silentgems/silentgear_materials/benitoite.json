@@ -14,15 +14,6 @@
       "color": "#FF001BA3"
     }
   ],
-  "main/armor": [
-    {
-      "texture": "silentgear:main_generic_hc",
-      "color": "#FF001BA3"
-    },
-    {
-      "texture": "silentgear:_highlight"
-    }
-  ],
   "adornment/all": [
     {
       "texture": "silentgear:adornment_generic",

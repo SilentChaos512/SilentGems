@@ -11,12 +11,6 @@
       "color": "#4D4D4D"
     }
   ],
-  "main/armor": [
-    {
-      "texture": "silentgear:main_generic_lc",
-      "color": "#4D4D4D"
-    }
-  ],
   "rod/all": [
     {
       "texture": "silentgear:rod_generic_lc",

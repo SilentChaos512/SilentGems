@@ -1185,6 +1185,7 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .trait(PartType.MAIN, Const.Traits.MALLEABLE, 2)
                 .trait(PartType.MAIN, GemsTraits.CHAOTIC, 4)
                 .trait(PartType.MAIN, Const.Traits.SOFT, 2)
+                .trait(PartType.MAIN, Const.Traits.BRILLIANT, 1)
                 .displayAll(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, 0xF5C245)
         );
         ret.add(new MaterialBuilder(SilentGems.getId("chaos_silver"), 3, CraftingItems.CHAOS_SILVER_INGOT)
