@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Chaos rune and enchantment token recipes are now created with data gens (should have no changes)
 ### Fixed
+- Chaos gems with regeneration healing every tick [#516]
 - Gear souls on armor not gaining XP in some cases [#412]
 
 ## [3.7.5] - 2020-12-06

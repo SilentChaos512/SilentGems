@@ -3,6 +3,7 @@ package net.silentchaos512.gems.lib.chaosbuff;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -43,7 +44,9 @@ public class PotionChaosBuff extends SimpleChaosBuff {
 
     @Override
     public void applyTo(PlayerEntity player, int level) {
-        player.addPotionEffect(new EffectInstance(this.effect, this.effectDuration, level - 1, true, false));
+        if (this.effect == Effects.NIGHT_VISION || player.getActivePotionEffect(this.effect) == null) {
+            player.addPotionEffect(new EffectInstance(this.effect, this.effectDuration, level - 1, true, false));
+        }
     }
 
     @Override
