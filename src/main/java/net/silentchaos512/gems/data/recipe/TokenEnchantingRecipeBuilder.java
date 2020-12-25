@@ -3,6 +3,7 @@ package net.silentchaos512.gems.data.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.data.IFinishedRecipe;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
@@ -26,6 +27,9 @@ public final class TokenEnchantingRecipeBuilder {
     private Ingredient token;
     private final Map<Ingredient, Integer> ingredients = new LinkedHashMap<>();
 
+    @Nullable private ResourceLocation chaosBuff = null;
+    private final Map<Enchantment, Integer> enchantments = new LinkedHashMap<>();
+
     private TokenEnchantingRecipeBuilder(IItemProvider result, int count, int chaosGenerated, int processTime) {
         this.result = result.asItem();
         this.count = count;
@@ -35,6 +39,16 @@ public final class TokenEnchantingRecipeBuilder {
 
     public static TokenEnchantingRecipeBuilder builder(IItemProvider result, int count, int chaosGenerated, int processTime) {
         return new TokenEnchantingRecipeBuilder(result, count, chaosGenerated, processTime);
+    }
+
+    public TokenEnchantingRecipeBuilder chaosBuff(ResourceLocation buff) {
+        this.chaosBuff = buff;
+        return this;
+    }
+
+    public TokenEnchantingRecipeBuilder enchantment(Enchantment enchantment, int level) {
+        this.enchantments.put(enchantment, level);
+        return this;
     }
 
     public TokenEnchantingRecipeBuilder token(IItemProvider item) {
@@ -83,8 +97,6 @@ public final class TokenEnchantingRecipeBuilder {
 
         @Override
         public void serialize(JsonObject json) {
-            // TODO: Change to camel_case?
-            // TODO: Maybe rename chaos_generated to chaos_per_tick?
             json.addProperty("chaosGenerated", builder.chaosGenerated);
             json.addProperty("processTime", builder.processTime);
 
@@ -105,6 +117,20 @@ public final class TokenEnchantingRecipeBuilder {
             result.addProperty("item", NameUtils.from(builder.result).toString());
             if (builder.count > 1) {
                 result.addProperty("count", builder.count);
+            }
+            if (builder.chaosBuff != null) {
+                result.addProperty("buff", builder.chaosBuff.toString());
+            }
+            if (!builder.enchantments.isEmpty()) {
+                JsonArray array = new JsonArray();
+                //noinspection OverlyLongLambda
+                builder.enchantments.forEach((enchantment, level) -> {
+                    JsonObject obj = new JsonObject();
+                    obj.addProperty("name", NameUtils.from(enchantment).toString());
+                    obj.addProperty("level", level);
+                    array.add(obj);
+                });
+                result.add("enchantments", array);
             }
             json.add("result", result);
         }

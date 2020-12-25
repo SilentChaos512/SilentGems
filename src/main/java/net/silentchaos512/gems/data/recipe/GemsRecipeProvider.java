@@ -4,6 +4,8 @@ import com.google.gson.JsonObject;
 import net.minecraft.advancements.criterion.ImpossibleTrigger;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.*;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -23,10 +25,7 @@ import net.silentchaos512.gems.block.GemLampBlock;
 import net.silentchaos512.gems.block.MiscBlocks;
 import net.silentchaos512.gems.block.MiscOres;
 import net.silentchaos512.gems.crafting.ingredient.SoulGemIngredient;
-import net.silentchaos512.gems.init.GemsBlocks;
-import net.silentchaos512.gems.init.GemsItems;
-import net.silentchaos512.gems.init.GemsRecipeInit;
-import net.silentchaos512.gems.init.GemsTags;
+import net.silentchaos512.gems.init.*;
 import net.silentchaos512.gems.item.CraftingItems;
 import net.silentchaos512.gems.item.ModFoods;
 import net.silentchaos512.gems.item.SoulUrnUpgrades;
@@ -676,6 +675,186 @@ public class GemsRecipeProvider extends RecipeProvider {
                 .addIngredient(Items.SLIME_BALL, 6)
                 .addIngredient(CraftingItems.ENRICHED_CHAOS_CRYSTAL, 2)
                 .build(consumer);
+
+        registerChaosRunes(consumer);
+        registerEnchantmentTokens(consumer);
+    }
+
+    private void registerChaosRunes(Consumer<IFinishedRecipe> consumer) {
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("dolphins_grace"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(Items.HEART_OF_THE_SEA, 1)
+                .build(consumer, idTokenEnchanting("chaos_runes/dolphins_grace"));
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("fire_resistance"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(Items.MAGMA_CREAM, 6)
+                .build(consumer, idTokenEnchanting("chaos_runes/fire_resistance"));
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("grounded"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(CraftingItems.LIGHTNING_WISP_ESSENCE, 4)
+                .build(consumer, idTokenEnchanting("chaos_runes/grounded"));
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("haste"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(Tags.Items.DUSTS_GLOWSTONE, 16)
+                .build(consumer, idTokenEnchanting("chaos_runes/haste"));
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("insulated"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(CraftingItems.ICE_WISP_ESSENCE, 4)
+                .build(consumer, idTokenEnchanting("chaos_runes/insulated"));
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("invisibility"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(Items.FERMENTED_SPIDER_EYE, 4)
+                .build(consumer, idTokenEnchanting("chaos_runes/invisibility"));
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("jump_boost"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(Items.RABBIT_FOOT, 1)
+                .build(consumer, idTokenEnchanting("chaos_runes/jump_boost"));
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("levitation"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(Items.ENDER_EYE, 2)
+                .build(consumer, idTokenEnchanting("chaos_runes/levitation"));
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("night_vision"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(Items.GOLDEN_CARROT, 3)
+                .build(consumer, idTokenEnchanting("chaos_runes/night_vision"));
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("regeneration"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(Items.GHAST_TEAR, 4)
+                .build(consumer, idTokenEnchanting("chaos_runes/regeneration"));
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("resistance"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(Tags.Items.STORAGE_BLOCKS_IRON, 2)
+                .build(consumer, idTokenEnchanting("chaos_runes/resistance"));
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("slow_falling"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(Items.FEATHER, 24)
+                .build(consumer, idTokenEnchanting("chaos_runes/slow_falling"));
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("speed"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(Items.SUGAR, 10)
+                .build(consumer, idTokenEnchanting("chaos_runes/speed"));
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("strength"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(Items.BLAZE_POWDER, 24)
+                .addIngredient(Tags.Items.DUSTS_REDSTONE, 6)
+                .build(consumer, idTokenEnchanting("chaos_runes/strength"));
+        TokenEnchantingRecipeBuilder.builder(GemsItems.CHAOS_RUNE, 1, 250, 100)
+                .chaosBuff(SilentGems.getId("water_breathing"))
+                .token(CraftingItems.RUNE_SLATE)
+                .addIngredient(Tags.Items.STORAGE_BLOCKS_LAPIS, 2)
+                .addIngredient(Items.PUFFERFISH, 1)
+                .build(consumer, idTokenEnchanting("chaos_runes/water_breathing"));
+    }
+
+    private void registerEnchantmentTokens(Consumer<IFinishedRecipe> c) {
+        enchantedTokenRecipe(c, Enchantments.AQUA_AFFINITY, 200, 50, Gems.BENITOITE, Tags.Items.STORAGE_BLOCKS_LAPIS, 1);
+        enchantedTokenRecipe(c, Enchantments.BANE_OF_ARTHROPODS, 200, 50, Gems.AMETHYST, Items.SPIDER_EYE, 4);
+        enchantedTokenRecipe(c, Enchantments.BLAST_PROTECTION, 100, 50, Gems.ONYX, Items.GUNPOWDER, 5);
+        enchantedTokenRecipe(c, Enchantments.CHANNELING, 200, 50, Gems.YELLOW_DIAMOND, b -> b
+                .addIngredient(Tags.Items.INGOTS_GOLD, 10)
+                .addIngredient(Items.NAUTILUS_SHELL, 1));
+        enchantedTokenRecipe(c, Enchantments.DEPTH_STRIDER, 300, 100, Gems.EUCLASE, Items.CLAY, 3);
+        enchantedTokenRecipe(c, Enchantments.EFFICIENCY, 100, 50, Gems.GREEN_SAPPHIRE, Tags.Items.DUSTS_GLOWSTONE, 4);
+        enchantedTokenRecipe(c, Enchantments.FEATHER_FALLING, 100, 50, Gems.MALACHITE, GemsTags.Items.FLUFFY_BLOCKS, 2);
+        enchantedTokenRecipe(c, Enchantments.FIRE_ASPECT, 200, 100, Gems.GARNET, Items.BLAZE_POWDER, 8);
+        enchantedTokenRecipe(c, Enchantments.FIRE_PROTECTION, 100, 50, Gems.CITRINE, Items.MAGMA_CREAM, 2);
+        enchantedTokenRecipe(c, Enchantments.FLAME, 200, 100, Gems.SPINEL, Tags.Items.RODS_BLAZE, 2);
+        enchantedTokenRecipe(c, Enchantments.FORTUNE, 300, 100, Gems.ZIRCON, Tags.Items.GEMS_DIAMOND, 3);
+        enchantedTokenRecipe(c, Enchantments.FROST_WALKER, 500, 200, Gems.MOONSTONE, b -> b
+                .addIngredient(CraftingItems.ENDER_FROST, 4)
+                .addIngredient(Items.BLUE_ICE, 2));
+        enchantedTokenRecipe(c, Enchantments.IMPALING, 200, 50, Gems.PYROPE, b -> b
+                .addIngredient(Items.IRON_SWORD, 1)
+                .addIngredient(Items.NAUTILUS_SHELL, 1));
+        enchantedTokenRecipe(c, Enchantments.INFINITY, 400, 100, Gems.AMETRINE, b -> b
+                .addIngredient(Items.ENDER_EYE, 6)
+                .addIngredient(Items.ARROW, 64));
+        enchantedTokenRecipe(c, Enchantments.KNOCKBACK, 200, 50, Gems.AQUAMARINE, Tags.Items.FEATHERS, 10);
+        enchantedTokenRecipe(c, Enchantments.LOOTING, 300, 100, Gems.TURQUOISE, Tags.Items.GEMS_EMERALD, 2);
+        enchantedTokenRecipe(c, Enchantments.LOYALTY, 200, 50, Gems.KYANITE, b -> b
+                .addIngredient(GemsTags.Items.WISP_ESSENCES, 4)
+                .addIngredient(Items.NAUTILUS_SHELL, 1));
+        enchantedTokenRecipe(c, Enchantments.LUCK_OF_THE_SEA, 300, 100, Gems.AQUAMARINE, GemsTags.Items.STEW_FISH, 5);
+        enchantedTokenRecipe(c, Enchantments.LURE, 100, 50, Gems.PHOSPHOPHYLLITE, Items.TRIPWIRE_HOOK, 4);
+        enchantedTokenRecipe(c, Enchantments.MENDING, 500, 200, Gems.BLACK_DIAMOND, b -> b
+                .addIngredient(Items.NETHER_STAR, 1)
+                .addIngredient(CraftingItems.MYSTERY_GOO, 2));
+        enchantedTokenRecipe(c, Enchantments.MULTISHOT, 200, 50, Gems.PEARL, b -> b
+                .addIngredient(Items.TRIPWIRE_HOOK, 12)
+                .addIngredient(Items.CROSSBOW, 1));
+        enchantedTokenRecipe(c, Enchantments.PIERCING, 200, 50, Gems.TEKTITE, b -> b
+                .addIngredient(Items.IRON_BARS, 16)
+                .addIngredient(Items.CROSSBOW, 1));
+        enchantedTokenRecipe(c, Enchantments.POWER, 200, 50, Gems.CARNELIAN, Items.ARROW, 5);
+        enchantedTokenRecipe(c, Enchantments.PROJECTILE_PROTECTION, 100, 50, Gems.AGATE, Items.ARROW, 4);
+        enchantedTokenRecipe(c, Enchantments.PROTECTION, 100, 50, Gems.TANZANITE, Items.IRON_BARS, 4);
+        enchantedTokenRecipe(c, Enchantments.PUNCH, 200, 50, Gems.JASPER, Items.PISTON, 2);
+        enchantedTokenRecipe(c, Enchantments.QUICK_CHARGE, 200, 50, Gems.ROSE_QUARTZ, b -> b
+                .addIngredient(CraftingItems.GILDED_STRING, 12)
+                .addIngredient(Items.CROSSBOW, 1));
+        enchantedTokenRecipe(c, Enchantments.RESPIRATION, 300, 50, Gems.IOLITE, Items.PUFFERFISH, 1);
+        enchantedTokenRecipe(c, Enchantments.RIPTIDE, 200, 50, Gems.APATITE, b -> b
+                .addIngredient(Tags.Items.FEATHERS, 20)
+                .addIngredient(Items.NAUTILUS_SHELL, 1));
+        enchantedTokenRecipe(c, Enchantments.SHARPNESS, 200, 50, Gems.RUBY, Items.FLINT, 5);
+        enchantedTokenRecipe(c, Enchantments.SILK_TOUCH, 500, 100, Gems.ALEXANDRITE, Tags.Items.GEMS_EMERALD, 3);
+        enchantedTokenRecipe(c, Enchantments.SMITE, 200, 50, Gems.PERIDOT, Items.ROTTEN_FLESH, 12);
+        enchantedTokenRecipe(c, Enchantments.SOUL_SPEED, 300, 100, Gems.EUCLASE, Items.SOUL_SOIL, 20);
+        enchantedTokenRecipe(c, Enchantments.SWEEPING, 100, 50, Gems.MOLDAVITE, Items.SUGAR_CANE, 5);
+        enchantedTokenRecipe(c, Enchantments.THORNS, 250, 100, Gems.TOPAZ, Items.ROSE_BUSH, 7);
+        enchantedTokenRecipe(c, Enchantments.UNBREAKING, 100, 50, Gems.SAPPHIRE, Tags.Items.INGOTS_IRON, 5);
+
+        enchantedTokenRecipe(c, GemsEnchantments.GRAVITY.get(), 250, 100, Gems.AMBER, CraftingItems.NETHER_STAR_SHARD, 1);
+        enchantedTokenRecipe(c, GemsEnchantments.ICE_ASPECT.get(), 200, 100, Gems.OPAL, Items.ICE, 8);
+        enchantedTokenRecipe(c, GemsEnchantments.LIFE_STEAL.get(), 300, 100, Gems.MORGANITE, Items.GOLDEN_APPLE, 3);
+        enchantedTokenRecipe(c, GemsEnchantments.LIGHTNING_ASPECT.get(), 200, 100, Gems.HELIODOR, Tags.Items.DUSTS_GLOWSTONE, 4);
+    }
+
+    private static void enchantedTokenRecipe(Consumer<IFinishedRecipe> consumer, Enchantment enchantment, int chaosGenerated, int processTime,
+                                             Gems gem, IItemProvider other, int otherCount) {
+        ResourceLocation id = NameUtils.from(enchantment);
+        TokenEnchantingRecipeBuilder.builder(GemsItems.ENCHANTMENT_TOKEN, 1, chaosGenerated, processTime)
+                .enchantment(enchantment, 1)
+                .token(CraftingItems.BLANK_TOKEN)
+                .addIngredient(gem.getItemTag(), 2)
+                .addIngredient(other, otherCount)
+                .build(consumer, idTokenEnchanting("enchantment/" + id.getNamespace() + "." + id.getPath()));
+    }
+
+    private static void enchantedTokenRecipe(Consumer<IFinishedRecipe> consumer, Enchantment enchantment, int chaosGenerated, int processTime,
+                                             Gems gem, ITag<Item> other, int otherCount) {
+        ResourceLocation id = NameUtils.from(enchantment);
+        TokenEnchantingRecipeBuilder.builder(GemsItems.ENCHANTMENT_TOKEN, 1, chaosGenerated, processTime)
+                .enchantment(enchantment, 1)
+                .token(CraftingItems.BLANK_TOKEN)
+                .addIngredient(gem.getItemTag(), 2)
+                .addIngredient(other, otherCount)
+                .build(consumer, idTokenEnchanting("enchantment/" + id.getNamespace() + "." + id.getPath()));
+    }
+
+    private static void enchantedTokenRecipe(Consumer<IFinishedRecipe> consumer, Enchantment enchantment, int chaosGenerated, int processTime,
+                                             Gems gem, Consumer<TokenEnchantingRecipeBuilder> otherIngredients) {
+        ResourceLocation id = NameUtils.from(enchantment);
+        TokenEnchantingRecipeBuilder builder = TokenEnchantingRecipeBuilder.builder(GemsItems.ENCHANTMENT_TOKEN, 1, chaosGenerated, processTime)
+                .enchantment(enchantment, 1)
+                .token(CraftingItems.BLANK_TOKEN)
+                .addIngredient(gem.getItemTag(), 2);
+        otherIngredients.accept(builder);
+        builder.build(consumer, idTokenEnchanting("enchantment/" + id.getNamespace() + "." + id.getPath()));
     }
 
     private static ResourceLocation idTokenEnchanting(String path) {

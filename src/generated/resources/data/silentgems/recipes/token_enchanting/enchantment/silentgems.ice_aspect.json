@@ -1,0 +1,29 @@
+{
+  "type": "silentgems:token_enchanting",
+  "chaosGenerated": 200,
+  "processTime": 100,
+  "ingredients": {
+    "token": {
+      "item": "silentgems:blank_token"
+    },
+    "others": [
+      {
+        "tag": "forge:gems/opal",
+        "count": 2
+      },
+      {
+        "item": "minecraft:ice",
+        "count": 8
+      }
+    ]
+  },
+  "result": {
+    "item": "silentgems:enchantment_token",
+    "enchantments": [
+      {
+        "name": "silentgems:ice_aspect",
+        "level": 1
+      }
+    ]
+  }
+}
