@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Brilliant trait to chaos gold
 ### Changed
 - Chaos rune and enchantment token recipes are now created with data gens (should have no changes)
+### Fixed
+- Gear souls on armor not gaining XP in some cases [#412]
 
 ## [3.7.5] - 2020-12-06
 ### Added

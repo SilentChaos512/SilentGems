@@ -38,7 +38,7 @@ public class GearSoul {
     public static final float XP_FACTOR_KILLS = 0.35f;
     public static final float XP_FACTOR_TILLING = 4.0f;
     public static final float XP_FACTOR_BLOCK_MINED = 1.0f;
-    public static final float XP_FACTOR_ARMOR_DAMAGED = 3.0f;
+    public static final float XP_FACTOR_DAMAGE_TAKEN = 50f;
     public static final int XP_MAX_PER_BLOCK = 20;
     public static final float XP_MIN_BLOCK_HARDNESS = 0.5f;
 
