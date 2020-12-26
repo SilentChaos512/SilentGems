@@ -1,4 +1,7 @@
 {
+  "block.silentgems.gem_end_ore": "%s End Ore",
+  "block.silentgems.gem_nether_ore": "%s Nether Ore",
+  "block.silentgems.gem_ore": "%s Ore",
   "gem.silentgems.alexandrite": "Alexandrite",
   "gem.silentgems.ammolite": "Ammolite",
   "gem.silentgems.black_diamond": "Black Diamond",
@@ -15,5 +18,10 @@
   "gem.silentgems.topaz": "Topaz",
   "gem.silentgems.turquoise": "Turquoise",
   "gem.silentgems.white_diamond": "White Diamond",
-  "item.silentgems.gem": "%s"
+  "item.silentgems.gem": "%s",
+  "misc.silentgems.dropFromOre": "Yields: %s",
+  "misc.silentgems.harvestLevel": "Harvest Level: %d (%s)",
+  "misc.silentgems.harvestLevel.2": "Iron",
+  "misc.silentgems.harvestLevel.3": "Diamond",
+  "misc.silentgems.harvestLevel.4": "Crimson Steel"
 }

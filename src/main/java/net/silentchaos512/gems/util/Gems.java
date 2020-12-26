@@ -255,21 +255,21 @@ public enum Gems {
     public static void registerBlocks() {
         for (Gems gem : values())
             gem.ore = registerBlock(gem.getName() + "_ore", () ->
-                    new GemOreBlock(gem, 2, AbstractBlock.Properties.create(Material.ROCK)
+                    new GemOreBlock(gem, 2, "gem_ore", AbstractBlock.Properties.create(Material.ROCK)
                             .hardnessAndResistance(3)
                             .harvestTool(ToolType.PICKAXE)
                             .setRequiresTool()
                             .sound(SoundType.STONE)));
         for (Gems gem : values())
             gem.netherOre = registerBlock(gem.getName() + "_nether_ore", () ->
-                    new GemOreBlock(gem, 3, AbstractBlock.Properties.create(Material.ROCK)
+                    new GemOreBlock(gem, 3, "gem_nether_ore", AbstractBlock.Properties.create(Material.ROCK)
                             .hardnessAndResistance(4)
                             .harvestTool(ToolType.PICKAXE)
                             .setRequiresTool()
                             .sound(SoundType.NETHER_ORE)));
         for (Gems gem : values())
             gem.endOre = registerBlock(gem.getName() + "_end_ore", () ->
-                    new GemOreBlock(gem, 4, AbstractBlock.Properties.create(Material.ROCK)
+                    new GemOreBlock(gem, 4, "gem_end_ore", AbstractBlock.Properties.create(Material.ROCK)
                             .hardnessAndResistance(6)
                             .harvestTool(ToolType.PICKAXE)
                             .setRequiresTool()

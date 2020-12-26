@@ -25,10 +25,12 @@ import net.silentchaos512.gems.util.Gems;
 
 public class GemOreBlock extends OreBlockSG implements IGemBlock {
     private final Gems gem;
+    private final String translationKey;
 
-    public GemOreBlock(Gems gem, int harvestLevelIn, Properties properties) {
+    public GemOreBlock(Gems gem, int harvestLevelIn, String translationKey, Properties properties) {
         super(gem::getItem, harvestLevelIn, properties.harvestLevel(harvestLevelIn));
         this.gem = gem;
+        this.translationKey = translationKey;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class GemOreBlock extends OreBlockSG implements IGemBlock {
 
     @Override
     public IFormattableTextComponent getGemBlockName() {
-        return new TranslationTextComponent("block.silentgems.gem_ore", this.gem.getDisplayName());
+        return new TranslationTextComponent("block.silentgems." + this.translationKey, this.gem.getDisplayName());
     }
 
     @Override

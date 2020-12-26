@@ -1,0 +1,23 @@
+{
+  "availability": {
+    "tier": 3,
+    "categories": [
+      "gem"
+    ],
+    "visible": true,
+    "gear_blacklist": [],
+    "can_salvage": true
+  },
+  "crafting_items": {
+    "main": {
+      "tag": "forge:gems/ammolite"
+    }
+  },
+  "name": {
+    "translate": "gem.silentgems.ammolite"
+  },
+  "stats": {
+    "main": {},
+    "adornment": {}
+  }
+}
