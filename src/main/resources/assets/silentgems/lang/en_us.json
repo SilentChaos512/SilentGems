@@ -1,0 +1,19 @@
+{
+  "gem.silentgems.alexandrite": "Alexandrite",
+  "gem.silentgems.ammolite": "Ammolite",
+  "gem.silentgems.black_diamond": "Black Diamond",
+  "gem.silentgems.carnelian": "Carnelian",
+  "gem.silentgems.citrine": "Citrine",
+  "gem.silentgems.heliodor": "Heliodor",
+  "gem.silentgems.iolite": "Iolite",
+  "gem.silentgems.kyanite": "Kyanite",
+  "gem.silentgems.moldavite": "Moldavite",
+  "gem.silentgems.peridot": "Peridot",
+  "gem.silentgems.rose_quartz": "Rose Quartz",
+  "gem.silentgems.ruby": "Ruby",
+  "gem.silentgems.sapphire": "Sapphire",
+  "gem.silentgems.topaz": "Topaz",
+  "gem.silentgems.turquoise": "Turquoise",
+  "gem.silentgems.white_diamond": "White Diamond",
+  "item.silentgems.gem": "%s"
+}

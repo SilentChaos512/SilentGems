@@ -8,6 +8,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.setup.GemsClientProxy;
 import net.silentchaos512.gems.setup.Registration;
 import net.silentchaos512.gems.util.Gems;
@@ -27,6 +28,7 @@ public class GemsBase {
 
     public GemsBase() {
         Registration.register();
+        GemsConfig.init();
 
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> GemsClientProxy::register);
     }
