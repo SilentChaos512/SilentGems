@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "silentgems:ammolite_ore"
+    "silentgems:ammolite_ore",
+    "silentgems:ammolite_nether_ore",
+    "silentgems:ammolite_end_ore"
   ]
 }

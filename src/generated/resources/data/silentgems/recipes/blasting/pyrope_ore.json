@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "tag": "forge:ores/pyrope"
-  },
-  "result": "silentgems:pyrope",
-  "experience": 1.0,
-  "cookingtime": 100
-}

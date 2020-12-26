@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:ores/tektite"
-  },
-  "result": "silentgems:tektite",
-  "experience": 1.0,
-  "cookingtime": 200
-}

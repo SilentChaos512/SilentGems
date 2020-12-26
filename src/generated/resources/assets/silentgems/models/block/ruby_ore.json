@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "silentgems:block/ore/gem/ruby"
+    "all": "silentgems:block/ruby_ore"
   }
 }

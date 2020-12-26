@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:ores/iolite"
-  },
-  "result": "silentgems:iolite",
-  "experience": 1.0,
-  "cookingtime": 200
-}

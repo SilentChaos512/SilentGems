@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:ores/amethyst"
-  },
-  "result": "silentgems:amethyst",
-  "experience": 1.0,
-  "cookingtime": 200
-}

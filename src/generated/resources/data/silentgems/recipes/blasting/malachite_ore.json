@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "tag": "forge:ores/malachite"
-  },
-  "result": "silentgems:malachite",
-  "experience": 1.0,
-  "cookingtime": 100
-}

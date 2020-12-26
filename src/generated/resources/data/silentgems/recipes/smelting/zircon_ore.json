@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:ores/zircon"
-  },
-  "result": "silentgems:zircon",
-  "experience": 1.0,
-  "cookingtime": 200
-}

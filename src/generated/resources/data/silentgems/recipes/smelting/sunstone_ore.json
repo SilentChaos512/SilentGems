@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:ores/sunstone"
-  },
-  "result": "silentgems:sunstone",
-  "experience": 1.0,
-  "cookingtime": 200
-}

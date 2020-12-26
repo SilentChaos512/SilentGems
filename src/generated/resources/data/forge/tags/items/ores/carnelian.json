@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "silentgems:carnelian_ore"
+    "silentgems:carnelian_ore",
+    "silentgems:carnelian_nether_ore",
+    "silentgems:carnelian_end_ore"
   ]
 }

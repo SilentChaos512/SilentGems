@@ -1,9 +1,0 @@
-{
-    "conditions": [
-        {
-            "condition": "silentgear:has_trait",
-            "trait": "silentgems:soul/skull_collector"
-        }
-    ],
-    "function": "silentgems:skull_collector"
-}

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:ores/rose_quartz"
-  },
-  "result": "silentgems:rose_quartz",
-  "experience": 1.0,
-  "cookingtime": 200
-}

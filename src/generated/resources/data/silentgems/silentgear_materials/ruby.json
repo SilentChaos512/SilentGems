@@ -39,16 +39,6 @@
   "traits": {
     "main": [
       {
-        "name": "silentgems:imperial",
-        "level": 3,
-        "conditions": [
-          {
-            "type": "silentgear:gear_type",
-            "gear_type": "tool"
-          }
-        ]
-      },
-      {
         "name": "silentgear:brittle",
         "level": 1
       }

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:ores/sodalite"
-  },
-  "result": "silentgems:sodalite",
-  "experience": 1.0,
-  "cookingtime": 200
-}

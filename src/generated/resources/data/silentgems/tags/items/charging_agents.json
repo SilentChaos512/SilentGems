@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "#silentgems:charging_agents/tier1",
-    "#silentgems:charging_agents/tier2",
-    "#silentgems:charging_agents/tier3"
-  ]
-}

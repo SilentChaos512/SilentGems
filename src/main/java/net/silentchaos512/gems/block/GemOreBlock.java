@@ -18,30 +18,16 @@
 
 package net.silentchaos512.gems.block;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraftforge.common.ToolType;
-import net.silentchaos512.gems.lib.Gems;
-
-import javax.annotation.Nullable;
-import java.util.List;
+import net.silentchaos512.gems.util.Gems;
 
 public class GemOreBlock extends OreBlockSG implements IGemBlock {
     private final Gems gem;
 
-    public GemOreBlock(Gems gem) {
-        super(gem::getItem, 2, Properties.create(Material.ROCK)
-                .hardnessAndResistance(3, 4)
-                .harvestTool(ToolType.PICKAXE)
-                .setRequiresTool()
-                .sound(gem.getSet().getOreSoundType())
-        );
+    public GemOreBlock(Gems gem, int harvestLevelIn, Properties properties) {
+        super(gem::getItem, harvestLevelIn, properties.harvestLevel(harvestLevelIn));
         this.gem = gem;
     }
 
@@ -58,12 +44,6 @@ public class GemOreBlock extends OreBlockSG implements IGemBlock {
     @Override
     public int getExpRandom() {
         return MathHelper.nextInt(RANDOM, 1, 5);
-    }
-
-    @Override
-    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(gem.getSet().getDisplayName());
-        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
     @Override

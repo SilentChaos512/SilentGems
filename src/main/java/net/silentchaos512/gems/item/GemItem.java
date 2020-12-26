@@ -3,32 +3,29 @@ package net.silentchaos512.gems.item;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.init.GemsItemGroups;
-import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.gems.lib.IGem;
+import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.gems.util.IGem;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class GemItem extends Item implements IGem {
     private final Gems gem;
+    private final String translationKey;
 
-    public GemItem(Gems gem) {
-        super(new Properties().group(GemsItemGroups.MATERIALS));
+    public GemItem(Gems gem, String translationKey, Properties properties) {
+        super(properties);
         this.gem = gem;
+        this.translationKey = translationKey;
     }
 
     @Override
     public Gems getGem() {
         return this.gem;
-    }
-
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
-        list.add(gem.getSet().getDisplayName());
     }
 
     @Override
@@ -38,6 +35,6 @@ public class GemItem extends Item implements IGem {
 
     @Override
     public ITextComponent getName() {
-        return new TranslationTextComponent("item.silentgems.gem", this.gem.getDisplayName());
+        return new TranslationTextComponent("item.silentgems." + this.translationKey, this.gem.getDisplayName());
     }
 }

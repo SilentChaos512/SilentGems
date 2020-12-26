@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:ores/pearl"
-  },
-  "result": "silentgems:pearl",
-  "experience": 1.0,
-  "cookingtime": 200
-}

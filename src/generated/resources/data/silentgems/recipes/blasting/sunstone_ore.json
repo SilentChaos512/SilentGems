@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "tag": "forge:ores/sunstone"
-  },
-  "result": "silentgems:sunstone",
-  "experience": 1.0,
-  "cookingtime": 100
-}

@@ -10,7 +10,7 @@ authors="SilentChaos512"
 [[mods]]
     modId="silentgems"
     version="${file.jarVersion}"
-    displayName="Silent's Gems 3"
+    displayName="Silent's Gems: Base"
     updateJSONURL="https://raw.githubusercontent.com/SilentChaos512/SilentGems/1.16.x/update.json"
     description='''
     Downloads: https://www.curseforge.com/minecraft/mc-mods/silents-gems (I do not upload anywhere else)

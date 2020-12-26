@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:ores/fluorite"
-  },
-  "result": "silentgems:fluorite",
-  "experience": 1.0,
-  "cookingtime": 200
-}

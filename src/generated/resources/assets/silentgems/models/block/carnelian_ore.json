@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "silentgems:block/ore/gem/carnelian"
+    "all": "silentgems:block/carnelian_ore"
   }
 }

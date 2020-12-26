@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "tag": "forge:ores/opal"
-  },
-  "result": "silentgems:opal",
-  "experience": 1.0,
-  "cookingtime": 100
-}

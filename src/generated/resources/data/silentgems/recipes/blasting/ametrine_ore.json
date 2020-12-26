@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "tag": "forge:ores/ametrine"
-  },
-  "result": "silentgems:ametrine",
-  "experience": 1.0,
-  "cookingtime": 100
-}

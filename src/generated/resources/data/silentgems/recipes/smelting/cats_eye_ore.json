@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:ores/cats_eye"
-  },
-  "result": "silentgems:cats_eye",
-  "experience": 1.0,
-  "cookingtime": 200
-}

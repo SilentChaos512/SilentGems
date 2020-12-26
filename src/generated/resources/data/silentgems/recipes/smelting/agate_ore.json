@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:ores/agate"
-  },
-  "result": "silentgems:agate",
-  "experience": 1.0,
-  "cookingtime": 200
-}

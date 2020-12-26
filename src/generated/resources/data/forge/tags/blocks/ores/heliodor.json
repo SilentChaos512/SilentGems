@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "silentgems:heliodor_ore"
+    "silentgems:heliodor_ore",
+    "silentgems:heliodor_nether_ore",
+    "silentgems:heliodor_end_ore"
   ]
 }
