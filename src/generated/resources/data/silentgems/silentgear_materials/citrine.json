@@ -42,6 +42,12 @@
         "name": "silentgear:brittle",
         "level": 4
       }
+    ],
+    "adornment": [
+      {
+        "name": "silentgems:booster",
+        "level": 1
+      }
     ]
   }
 }

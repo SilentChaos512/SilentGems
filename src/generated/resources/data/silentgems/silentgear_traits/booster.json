@@ -1,0 +1,25 @@
+{
+  "type": "silentgear:potion_effect_trait",
+  "max_level": 5,
+  "name": {
+    "translate": "trait.silentgems.booster"
+  },
+  "description": {
+    "translate": "trait.silentgems.booster.desc"
+  },
+  "potion_effects": {
+    "curio": [
+      {
+        "type": "trait_level",
+        "effect": "minecraft:speed",
+        "level": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    ]
+  }
+}

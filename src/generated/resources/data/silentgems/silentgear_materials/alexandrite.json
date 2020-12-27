@@ -22,7 +22,7 @@
       "armor_durability": 29.0,
       "enchantability": 15.0,
       "rarity": 45.0,
-      "harvest_level": 2.0,
+      "harvest_level": 3.0,
       "harvest_speed": 9.0,
       "melee_damage": 3.0,
       "attack_speed": 0.0,
@@ -39,7 +39,17 @@
   "traits": {
     "main": [
       {
+        "name": "silentgear:imperial",
+        "level": 5
+      },
+      {
         "name": "silentgear:brittle",
+        "level": 1
+      }
+    ],
+    "adornment": [
+      {
+        "name": "silentgems:cloaking",
         "level": 1
       }
     ]

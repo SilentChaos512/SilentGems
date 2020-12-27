@@ -35,5 +35,13 @@
     },
     "rod": {},
     "adornment": {}
+  },
+  "traits": {
+    "adornment": [
+      {
+        "name": "silentgear:cure_wither",
+        "level": 1
+      }
+    ]
   }
 }

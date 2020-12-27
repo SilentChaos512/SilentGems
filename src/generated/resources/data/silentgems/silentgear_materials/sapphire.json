@@ -39,6 +39,10 @@
   "traits": {
     "main": [
       {
+        "name": "silentgear:aquatic",
+        "level": 2
+      },
+      {
         "name": "silentgear:brittle",
         "level": 2
       }

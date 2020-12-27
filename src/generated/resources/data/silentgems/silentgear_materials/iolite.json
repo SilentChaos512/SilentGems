@@ -39,8 +39,18 @@
   "traits": {
     "main": [
       {
+        "name": "silentgear:crushing",
+        "level": 3
+      },
+      {
         "name": "silentgear:brittle",
         "level": 2
+      }
+    ],
+    "adornment": [
+      {
+        "name": "silentgear:cure_poison",
+        "level": 1
       }
     ]
   }

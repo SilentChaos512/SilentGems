@@ -22,7 +22,7 @@
       "armor_durability": 34.0,
       "enchantability": 10.0,
       "rarity": 60.0,
-      "harvest_level": 2.0,
+      "harvest_level": 3.0,
       "harvest_speed": 14.0,
       "melee_damage": 2.0,
       "attack_speed": 0.0,
@@ -39,8 +39,18 @@
   "traits": {
     "main": [
       {
+        "name": "silentgear:chipping",
+        "level": 4
+      },
+      {
         "name": "silentgear:brittle",
-        "level": 1
+        "level": 3
+      }
+    ],
+    "adornment": [
+      {
+        "name": "silentgear:mighty",
+        "level": 4
       }
     ]
   }

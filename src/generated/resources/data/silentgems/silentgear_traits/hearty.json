@@ -1,0 +1,26 @@
+{
+  "type": "silentgear:attribute_trait",
+  "max_level": 6,
+  "name": {
+    "translate": "trait.silentgems.hearty"
+  },
+  "description": {
+    "translate": "trait.silentgems.hearty.desc"
+  },
+  "attribute_modifiers": {
+    "curio": [
+      {
+        "attribute": "minecraft:generic.max_health",
+        "operation": 0,
+        "value": [
+          1.0,
+          2.0,
+          3.0,
+          4.0,
+          5.0,
+          6.0
+        ]
+      }
+    ]
+  }
+}

@@ -18,12 +18,12 @@
   },
   "stats": {
     "main": {
-      "durability": 768.0,
+      "durability": 512.0,
       "armor_durability": 26.0,
       "enchantability": 10.0,
       "rarity": 45.0,
       "harvest_level": 2.0,
-      "harvest_speed": 7.0,
+      "harvest_speed": 6.0,
       "melee_damage": 4.0,
       "attack_speed": 0.0,
       "ranged_damage": 3.0,
@@ -38,6 +38,10 @@
   },
   "traits": {
     "main": [
+      {
+        "name": "silentgear:sharp",
+        "level": 3
+      },
       {
         "name": "silentgear:brittle",
         "level": 3

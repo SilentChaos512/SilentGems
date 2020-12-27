@@ -1,17 +1,12 @@
 package net.silentchaos512.gems.item;
 
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Util;
+import net.minecraft.item.Rarity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.gems.util.IGem;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class GemItem extends Item implements IGem {
     private final Gems gem;
@@ -36,5 +31,10 @@ public class GemItem extends Item implements IGem {
     @Override
     public ITextComponent getName() {
         return new TranslationTextComponent("item.silentgems." + this.translationKey, this.gem.getDisplayName());
+    }
+
+    @Override
+    public Rarity getRarity(ItemStack stack) {
+        return gem.getRarity();
     }
 }

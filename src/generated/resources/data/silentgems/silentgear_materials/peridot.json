@@ -39,8 +39,18 @@
   "traits": {
     "main": [
       {
+        "name": "silentgear:jagged",
+        "level": 2
+      },
+      {
         "name": "silentgear:brittle",
         "level": 3
+      }
+    ],
+    "adornment": [
+      {
+        "name": "silentgems:hearty",
+        "level": 2
       }
     ]
   }

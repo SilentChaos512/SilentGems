@@ -7,6 +7,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.Rarity;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
@@ -45,71 +46,88 @@ import java.util.function.Supplier;
 @SuppressWarnings("NonFinalFieldInEnum")
 public enum Gems {
     RUBY(0xE61D1D,
+            Rarity.COMMON,
             OreConfig.defaults(3, 8, 1, 5, 40),
             OreConfig.empty(),
             OreConfig.empty()),
     CARNELIAN(0xE4331D,
+            Rarity.UNCOMMON,
             OreConfig.empty(),
             OreConfig.defaults(5, 12, 1, 25, 110),
             OreConfig.empty()),
     TOPAZ(0xE6711D,
+            Rarity.COMMON,
             OreConfig.defaults(3, 8, 1, 15, 50),
             OreConfig.empty(),
             OreConfig.empty()),
     CITRINE(0xC78B03,
+            Rarity.UNCOMMON,
             OreConfig.empty(),
             OreConfig.defaults(5, 12, 1, 25, 110),
             OreConfig.empty()),
     HELIODOR(0xE6C51D,
+            Rarity.COMMON,
             OreConfig.defaults(2, 6, 4, 0, 15),
             OreConfig.empty(),
             OreConfig.defaults(5, 10, 1, 16, 72)),
     MOLDAVITE(0xA6D923,
+            Rarity.UNCOMMON,
             OreConfig.empty(),
             OreConfig.defaults(5, 12, 1, 25, 110),
             OreConfig.empty()),
     PERIDOT(0x29DB18,
+            Rarity.COMMON,
             OreConfig.defaults(3, 8, 1, 15, 50),
             OreConfig.empty(),
             OreConfig.empty()),
     TURQUOISE(0x3DF4BD,
+            Rarity.RARE,
             OreConfig.defaults(2, 6, 4, 0, 15),
             OreConfig.empty(),
             OreConfig.defaults(5, 10, 1, 16, 72)),
     KYANITE(0x41C4F3,
+            Rarity.RARE,
             OreConfig.empty(),
             OreConfig.empty(),
             OreConfig.defaults(5, 10, 1, 16, 72)),
     SAPPHIRE(0x1D1DE6,
+            Rarity.COMMON,
             OreConfig.defaults(3, 8, 1, 5, 40),
             OreConfig.empty(),
             OreConfig.empty()),
     IOLITE(0x7543F5,
+            Rarity.UNCOMMON,
             OreConfig.defaults(2, 6, 4, 0, 15),
             OreConfig.defaults(4, 10, 1, 20, 80),
             OreConfig.empty()),
     ALEXANDRITE(0xBE36E8,
+            Rarity.UNCOMMON,
             OreConfig.defaults(2, 6, 4, 0, 15),
             OreConfig.defaults(4, 10, 1, 20, 80),
             OreConfig.empty()),
     AMMOLITE(0xDB2BFF,
+            Rarity.RARE,
             OreConfig.empty(),
             OreConfig.empty(),
             OreConfig.defaults(5, 10, 1, 16, 72)),
     ROSE_QUARTZ(0xFF4EAB,
+            Rarity.RARE,
             OreConfig.empty(),
             OreConfig.empty(),
             OreConfig.defaults(5, 10, 1, 16, 72)),
     BLACK_DIAMOND(0x5F524C,
+            Rarity.EPIC,
             OreConfig.empty(),
             OreConfig.defaults(2, 8, 2, 10, 50),
             OreConfig.empty()),
     WHITE_DIAMOND(0xD1C1CE,
+            Rarity.EPIC,
             OreConfig.empty(),
             OreConfig.empty(),
             OreConfig.defaults(2, 8, 2, 10, 50));
 
     private final Color color;
+    private final Rarity rarity;
 
     // Ore generation
     private final Map<RegistryKey<World>, OreConfig.Defaults> oreConfigDefaults = new HashMap<>();
@@ -120,7 +138,7 @@ public enum Gems {
     BlockRegistryObject<GemOreBlock> ore;
     BlockRegistryObject<GemOreBlock> netherOre;
     BlockRegistryObject<GemOreBlock> endOre;
-//    BlockRegistryObject<GemBlock> block;
+    //    BlockRegistryObject<GemBlock> block;
 //    BlockRegistryObject<GlowroseBlock> glowrose;
     BlockRegistryObject<FlowerPotBlock> pottedGlowrose;
 
@@ -132,14 +150,15 @@ public enum Gems {
 //    final ITag.INamedTag<Block> blockTag;
 //    final ITag.INamedTag<Block> glowroseTag;
     final ITag.INamedTag<Block> oreTag;
-//    final ITag.INamedTag<Item> blockItemTag;
+    //    final ITag.INamedTag<Item> blockItemTag;
 //    final ITag.INamedTag<Item> glowroseItemTag;
     final ITag.INamedTag<Item> oreItemTag;
     final ITag.INamedTag<Item> itemTag;
 //    final ITag.INamedTag<Item> shardTag;
 
-    Gems(int colorIn, OreConfig.Defaults overworldOres, OreConfig.Defaults netherOres, OreConfig.Defaults endOres) {
+    Gems(int colorIn, Rarity rarity, OreConfig.Defaults overworldOres, OreConfig.Defaults netherOres, OreConfig.Defaults endOres) {
         this.color = new Color(colorIn);
+        this.rarity = rarity;
 
         this.oreConfigDefaults.put(World.OVERWORLD, overworldOres);
         this.oreConfigDefaults.put(World.THE_NETHER, netherOres);
@@ -172,6 +191,10 @@ public enum Gems {
 
     public float[] getColorArray() {
         return new float[]{color.getRed(), color.getGreen(), color.getBlue()};
+    }
+
+    public Rarity getRarity() {
+        return rarity;
     }
 
     public ITextComponent getDisplayName() {

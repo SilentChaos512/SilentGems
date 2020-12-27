@@ -1,0 +1,28 @@
+{
+  "type": "silentgear:potion_effect_trait",
+  "max_level": 1,
+  "name": {
+    "translate": "trait.silentgems.cloaking"
+  },
+  "description": {
+    "translate": "trait.silentgems.cloaking.desc"
+  },
+  "potion_effects": {
+    "curio": [
+      {
+        "type": "trait_level",
+        "effect": "minecraft:invisibility",
+        "level": [
+          1
+        ]
+      },
+      {
+        "type": "trait_level",
+        "effect": "minecraft:hunger",
+        "level": [
+          2
+        ]
+      }
+    ]
+  }
+}
