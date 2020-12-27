@@ -17,7 +17,31 @@
     "translate": "gem.silentgems.moldavite"
   },
   "stats": {
-    "main": {},
+    "main": {
+      "durability": 768.0,
+      "armor_durability": 26.0,
+      "enchantability": 10.0,
+      "rarity": 45.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 7.0,
+      "melee_damage": 4.0,
+      "attack_speed": 0.0,
+      "ranged_damage": 3.0,
+      "ranged_speed": 0.0,
+      "armor": 16.0,
+      "armor_toughness": 4.0,
+      "magic_armor": 8.0,
+      "silentgems:chargeability": 1.2
+    },
+    "rod": {},
     "adornment": {}
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:brittle",
+        "level": 3
+      }
+    ]
   }
 }

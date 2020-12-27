@@ -2,7 +2,6 @@ package net.silentchaos512.gems.data;
 
 import net.minecraft.data.DataGenerator;
 import net.silentchaos512.gear.api.part.PartType;
-import net.silentchaos512.gear.api.stats.ItemStats;
 import net.silentchaos512.gear.data.material.MaterialBuilder;
 import net.silentchaos512.gear.data.material.MaterialsProvider;
 import net.silentchaos512.gear.gear.material.MaterialCategories;
@@ -24,92 +23,187 @@ public class GemsMaterialsProvider extends MaterialsProvider {
     protected Collection<MaterialBuilder> getMaterials() {
         Collection<MaterialBuilder> ret = new ArrayList<>();
 
-        ret.add(gem(Gems.RUBY)
-                .stat(PartType.MAIN, ItemStats.DURABILITY, 1024)
-                .stat(PartType.MAIN, ItemStats.ARMOR_DURABILITY, 24)
-                .stat(PartType.MAIN, ItemStats.ENCHANTABILITY, 10)
-                .stat(PartType.MAIN, ItemStats.HARVEST_LEVEL, 2)
-                .stat(PartType.MAIN, ItemStats.HARVEST_SPEED, 8)
-                .stat(PartType.MAIN, ItemStats.MELEE_DAMAGE, 5)
-                .stat(PartType.MAIN, ItemStats.MAGIC_DAMAGE, 2)
-                .stat(PartType.MAIN, ItemStats.ATTACK_SPEED, -0.2f)
-                .stat(PartType.MAIN, ItemStats.ARMOR, 14)
-                .stat(PartType.MAIN, ItemStats.ARMOR_TOUGHNESS, 2)
-                .stat(PartType.MAIN, ItemStats.MAGIC_ARMOR, 4)
-                .stat(PartType.MAIN, ItemStats.RANGED_DAMAGE, 1)
-                .stat(PartType.MAIN, ItemStats.RANGED_SPEED, -0.2f)
-                .stat(PartType.MAIN, ItemStats.RARITY, 30)
-                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.1f)
+        ret.add(gem(Gems.RUBY, 3) // durability
+                .mainStatsCommon(1024, 34, 12, 30)
+                .mainStatsHarvest(2, 6)
+                .mainStatsMelee(2, 0, 0)
+                .mainStatsRanged(1, 0)
+                .mainStatsArmor(15, 4, 6)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.3f)
+                .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
                 .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
         );
-        ret.add(gem(Gems.CARNELIAN)
-                .noStats(PartType.MAIN)
+        ret.add(gem(Gems.CARNELIAN, 3) // durability
+                .mainStatsCommon(1280, 37, 10, 45)
+                .mainStatsHarvest(2, 7)
+                .mainStatsMelee(3, 0, 0)
+                .mainStatsRanged(2, 0)
+                .mainStatsArmor(16, 4, 8)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
+                .noStats(PartType.ROD)
+                .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+        );
+        ret.add(gem(Gems.TOPAZ, 3) // speed
+                .mainStatsCommon(512, 21, 12, 30)
+                .mainStatsHarvest(2, 8)
+                .mainStatsMelee(2, 0, 0)
+                .mainStatsRanged(1, 0)
+                .mainStatsArmor(15, 4, 6)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.3f)
+                .noStats(PartType.ROD)
+                .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+        );
+        ret.add(gem(Gems.CITRINE, 3) // speed
+                .mainStatsCommon(768, 26, 10, 45)
+                .mainStatsHarvest(2, 10)
+                .mainStatsMelee(3, 0, 0)
+                .mainStatsRanged(2, 0)
+                .mainStatsArmor(16, 4, 8)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
+                .noStats(PartType.ROD)
+                .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 4)
+        );
+        ret.add(gem(Gems.HELIODOR, 4) // speed
+                .mainStatsCommon(1024, 34, 10, 60)
+                .mainStatsHarvest(2, 14)
+                .mainStatsMelee(2, 0, 0)
+                .mainStatsRanged(1, 0)
+                .mainStatsArmor(16, 4, 8)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
+                .noStats(PartType.ROD)
+                .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+        );
+        ret.add(gem(Gems.MOLDAVITE, 3) // damage
+                .mainStatsCommon(768, 26, 10, 45)
+                .mainStatsHarvest(2, 7)
+                .mainStatsMelee(4, 0, 0)
+                .mainStatsRanged(3, 0)
+                .mainStatsArmor(16, 4, 8)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
+                .noStats(PartType.ROD)
+                .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+        );
+        ret.add(gem(Gems.PERIDOT, 3) // damage
+                .mainStatsCommon(512, 21, 12, 30)
+                .mainStatsHarvest(2, 6)
+                .mainStatsMelee(3, 0, 0)
+                .mainStatsRanged(2, 0)
+                .mainStatsArmor(15, 4, 6)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.3f)
+                .noStats(PartType.ROD)
+                .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+        );
+        ret.add(gem(Gems.TURQUOISE, 4) // all-rounder, magic armor
+                .mainStatsCommon(1536, 40, 15, 45)
+                .mainStatsHarvest(2, 8)
+                .mainStatsMelee(3, 0, 0)
+                .mainStatsRanged(2, 0)
+                .mainStatsArmor(18, 6, 18)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
+                .noStats(PartType.ROD)
+                .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+        );
+        ret.add(gem(Gems.KYANITE, 4) // all-rounder
+                .mainStatsCommon(1280, 38, 17, 60)
+                .mainStatsHarvest(2, 12)
+                .mainStatsMelee(4, 0, 0)
+                .mainStatsRanged(2, 0)
+                .mainStatsArmor(20, 8, 14)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
+                .noStats(PartType.ROD)
+                .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+        );
+        ret.add(gem(Gems.SAPPHIRE, 3) // armor
+                .mainStatsCommon(512, 28, 12, 30)
+                .mainStatsHarvest(2, 6)
+                .mainStatsMelee(2, 0, 0)
+                .mainStatsRanged(1, 0)
+                .mainStatsArmor(18, 6, 10)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.3f)
+                .noStats(PartType.ROD)
+                .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+        );
+        ret.add(gem(Gems.IOLITE, 3) // armor
+                .mainStatsCommon(768, 32, 10, 45)
+                .mainStatsHarvest(2, 7)
+                .mainStatsMelee(3, 0, 0)
+                .mainStatsRanged(2, 0)
+                .mainStatsArmor(20, 6, 14)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
+                .noStats(PartType.ROD)
+                .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
+        );
+        ret.add(gem(Gems.ALEXANDRITE, 3) // all-rounder
+                .mainStatsCommon(1024, 29, 15, 45)
+                .mainStatsHarvest(2, 9)
+                .mainStatsMelee(3, 0, 0)
+                .mainStatsRanged(2, 0)
+                .mainStatsArmor(18, 5, 10)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
+                .noStats(PartType.ROD)
+                .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+        );
+        ret.add(gem(Gems.AMMOLITE, 4) // armor
+                .mainStatsCommon(1024, 40, 12, 60)
+                .mainStatsHarvest(2, 8)
+                .mainStatsMelee(2, 0, 0)
+                .mainStatsRanged(1, 0)
+                .mainStatsArmor(22, 12, 16)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
+                .noStats(PartType.ROD)
+                .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+        );
+        ret.add(gem(Gems.ROSE_QUARTZ, 4) // damage
+                .mainStatsCommon(1024, 34, 12, 60)
+                .mainStatsHarvest(2, 14)
+                .mainStatsMelee(6, 0, 0)
+                .mainStatsRanged(3, 0)
+                .mainStatsArmor(16, 4, 8)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
+                .noStats(PartType.ROD)
+                .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+        );
+        ret.add(gem(Gems.BLACK_DIAMOND, 4) // super
+                .mainStatsCommon(1792, 39, 12, 55)
+                .mainStatsHarvest(4, 9)
+                .mainStatsMelee(4, 0, 0)
+                .mainStatsRanged(3, 0)
+                .mainStatsArmor(20, 8, 10)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.1f)
+                .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
         );
-        ret.add(gem(Gems.TOPAZ)
-                .noStats(PartType.MAIN)
-                .noStats(PartType.ADORNMENT)
-        );
-        ret.add(gem(Gems.CITRINE)
-                .noStats(PartType.MAIN)
-                .noStats(PartType.ADORNMENT)
-        );
-        ret.add(gem(Gems.HELIODOR)
-                .noStats(PartType.MAIN)
-                .noStats(PartType.ADORNMENT)
-        );
-        ret.add(gem(Gems.MOLDAVITE)
-                .noStats(PartType.MAIN)
-                .noStats(PartType.ADORNMENT)
-        );
-        ret.add(gem(Gems.PERIDOT)
-                .noStats(PartType.MAIN)
-                .noStats(PartType.ADORNMENT)
-        );
-        ret.add(gem(Gems.TURQUOISE)
-                .noStats(PartType.MAIN)
-                .noStats(PartType.ADORNMENT)
-        );
-        ret.add(gem(Gems.KYANITE)
-                .noStats(PartType.MAIN)
-                .noStats(PartType.ADORNMENT)
-        );
-        ret.add(gem(Gems.SAPPHIRE)
-                .noStats(PartType.MAIN)
-                .noStats(PartType.ADORNMENT)
-        );
-        ret.add(gem(Gems.IOLITE)
-                .noStats(PartType.MAIN)
-                .noStats(PartType.ADORNMENT)
-        );
-        ret.add(gem(Gems.ALEXANDRITE)
-                .noStats(PartType.MAIN)
-                .noStats(PartType.ADORNMENT)
-        );
-        ret.add(gem(Gems.AMMOLITE)
-                .noStats(PartType.MAIN)
-                .noStats(PartType.ADORNMENT)
-        );
-        ret.add(gem(Gems.ROSE_QUARTZ)
-                .noStats(PartType.MAIN)
-                .noStats(PartType.ADORNMENT)
-        );
-        ret.add(gem(Gems.BLACK_DIAMOND)
-                .noStats(PartType.MAIN)
-                .noStats(PartType.ADORNMENT)
-        );
-        ret.add(gem(Gems.WHITE_DIAMOND)
-                .noStats(PartType.MAIN)
+        ret.add(gem(Gems.WHITE_DIAMOND, 4) // super
+                .mainStatsCommon(2048, 44, 14, 70)
+                .mainStatsHarvest(4, 12)
+                .mainStatsMelee(5, 0, 0)
+                .mainStatsRanged(3, 0)
+                .mainStatsArmor(24, 16, 20)
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.1f)
+                .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
         );
 
         return ret;
     }
 
-    private static MaterialBuilder gem(Gems gem) {
+    private static MaterialBuilder gem(Gems gem, int tier) {
         int color = gem.getColor();
-        return new MaterialBuilder(GemsBase.getId(gem.getName()), 3, gem.getItemTag())
+        return new MaterialBuilder(GemsBase.getId(gem.getName()), tier, gem.getItemTag())
                 .categories(MaterialCategories.GEM)
                 .name(gem.getDisplayName())
                 .display(PartType.MAIN, PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, color)

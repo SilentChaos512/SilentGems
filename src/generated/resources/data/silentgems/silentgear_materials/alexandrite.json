@@ -17,7 +17,31 @@
     "translate": "gem.silentgems.alexandrite"
   },
   "stats": {
-    "main": {},
+    "main": {
+      "durability": 1024.0,
+      "armor_durability": 29.0,
+      "enchantability": 15.0,
+      "rarity": 45.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 9.0,
+      "melee_damage": 3.0,
+      "attack_speed": 0.0,
+      "ranged_damage": 2.0,
+      "ranged_speed": 0.0,
+      "armor": 18.0,
+      "armor_toughness": 5.0,
+      "magic_armor": 10.0,
+      "silentgems:chargeability": 1.2
+    },
+    "rod": {},
     "adornment": {}
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:brittle",
+        "level": 1
+      }
+    ]
   }
 }

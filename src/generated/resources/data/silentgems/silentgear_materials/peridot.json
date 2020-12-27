@@ -17,7 +17,31 @@
     "translate": "gem.silentgems.peridot"
   },
   "stats": {
-    "main": {},
+    "main": {
+      "durability": 512.0,
+      "armor_durability": 21.0,
+      "enchantability": 12.0,
+      "rarity": 30.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 6.0,
+      "melee_damage": 3.0,
+      "attack_speed": 0.0,
+      "ranged_damage": 2.0,
+      "ranged_speed": 0.0,
+      "armor": 15.0,
+      "armor_toughness": 4.0,
+      "magic_armor": 6.0,
+      "silentgems:chargeability": 1.3
+    },
+    "rod": {},
     "adornment": {}
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:brittle",
+        "level": 3
+      }
+    ]
   }
 }

@@ -17,7 +17,31 @@
     "translate": "gem.silentgems.iolite"
   },
   "stats": {
-    "main": {},
+    "main": {
+      "durability": 768.0,
+      "armor_durability": 32.0,
+      "enchantability": 10.0,
+      "rarity": 45.0,
+      "harvest_level": 2.0,
+      "harvest_speed": 7.0,
+      "melee_damage": 3.0,
+      "attack_speed": 0.0,
+      "ranged_damage": 2.0,
+      "ranged_speed": 0.0,
+      "armor": 20.0,
+      "armor_toughness": 6.0,
+      "magic_armor": 14.0,
+      "silentgems:chargeability": 1.2
+    },
+    "rod": {},
     "adornment": {}
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:brittle",
+        "level": 2
+      }
+    ]
   }
 }

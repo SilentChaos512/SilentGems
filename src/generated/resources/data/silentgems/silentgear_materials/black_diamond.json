@@ -1,6 +1,6 @@
 {
   "availability": {
-    "tier": 3,
+    "tier": 4,
     "categories": [
       "gem"
     ],
@@ -17,7 +17,23 @@
     "translate": "gem.silentgems.black_diamond"
   },
   "stats": {
-    "main": {},
+    "main": {
+      "durability": 1792.0,
+      "armor_durability": 39.0,
+      "enchantability": 12.0,
+      "rarity": 55.0,
+      "harvest_level": 4.0,
+      "harvest_speed": 9.0,
+      "melee_damage": 4.0,
+      "attack_speed": 0.0,
+      "ranged_damage": 3.0,
+      "ranged_speed": 0.0,
+      "armor": 20.0,
+      "armor_toughness": 8.0,
+      "magic_armor": 10.0,
+      "silentgems:chargeability": 1.1
+    },
+    "rod": {},
     "adornment": {}
   }
 }
