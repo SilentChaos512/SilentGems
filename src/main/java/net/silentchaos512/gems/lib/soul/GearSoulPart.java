@@ -2,6 +2,7 @@ package net.silentchaos512.gems.lib.soul;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.silentchaos512.gear.api.item.GearType;
 import net.silentchaos512.gear.api.part.IPartSerializer;
 import net.silentchaos512.gear.api.part.PartType;
 import net.silentchaos512.gear.api.stats.ItemStat;
@@ -47,8 +48,8 @@ public class GearSoulPart extends AbstractGearPart {
     }
 
     @Override
-    public Collection<StatInstance> getStatModifiers(ItemStat stat, PartData part, ItemStack gear) {
-        Collection<StatInstance> mods = super.getStatModifiers(stat, part, gear);
+    public Collection<StatInstance> getStatModifiers(ItemStat stat, PartData part, GearType gearType, ItemStack gear) {
+        Collection<StatInstance> mods = super.getStatModifiers(stat, part, gearType, gear);
 
         GearSoul soul = getSoul(gear, part);
         if (soul != null) {
