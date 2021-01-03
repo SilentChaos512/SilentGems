@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- Crash when taking damage without Silent Gear installed [#520]
+
 ## [3.7.6] - 2020-12-25
 ### Added
 - Soul speed enchantment token recipe

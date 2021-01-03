@@ -116,6 +116,9 @@ repositories {
     maven {
         url "https://dl.bintray.com/silentchaos512/silent-lib"
     }
+    maven {
+        url "https://dl.bintray.com/silentchaos512/silent-utils"
+    }
     // Silent Gear
     maven {
         url "https://dl.bintray.com/silentchaos512/silent-gear"
@@ -145,7 +148,7 @@ dependencies {
     compile fg.deobf("net.silentchaos512:silent-lib-${project.sl_version}") {
         exclude module: "forge"
     }
-    compile("net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}") {
+    compile fg.deobf("net.silentchaos512:silent-gear-${project.mc_version}:${project.sgear_version}") {
         exclude module: 'forge'
         exclude module: 'jei-1.16.3'
         exclude module: 'silent-lib-1.16.3'

@@ -4,6 +4,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
@@ -13,6 +14,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.silentchaos512.gear.api.item.ICoreItem;
 import net.silentchaos512.gear.util.GearHelper;
@@ -88,20 +90,43 @@ public final class SoulEvents {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
     public void onPlayerDamage(LivingHurtEvent event) {
-        // Aerial - fall damage protection
-        if (event.getSource() == DamageSource.FALL && event.getEntity() instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) event.getEntity();
-            SoulTraits.getHighestLevelEitherHand(player, SoulTraits.AERIAL).ifPresent(hand -> {
-                ItemStack stack = player.getHeldItem(hand);
-                int level = TraitHelper.getTraitLevel(stack, SoulTraits.AERIAL);
-                // Reduce by 2 + 2 * level, or 15% per level, whichever is greater
-                float amountToReduce = Math.max(2 + 2 * level, 0.15f * level * event.getAmount());
-                event.setAmount(event.getAmount() - amountToReduce);
-                GearHelper.attemptDamage(stack, 2, player, hand);
-            });
+        if (event.getEntityLiving() instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+
+            giveArmorXp(event, player);
+
+            if (event.getSource() == DamageSource.FALL) {
+                handleFallDamageWithAerial(event, player);
+            }
         }
+    }
+
+    private static void giveArmorXp(LivingHurtEvent event, PlayerEntity player) {
+        float amountPerPiece = event.getAmount() / 4f;
+        for (ItemStack gear : player.getEquipmentAndArmor()) {
+            if (gear.getItem() instanceof ArmorItem) {
+                GearSoul soul = SoulManager.getSoul(gear);
+
+                if (soul != null) {
+                    SoulManager.addSoulXp((int) (GearSoul.XP_FACTOR_DAMAGE_TAKEN * amountPerPiece), gear, null);
+                }
+            }
+        }
+    }
+
+    private static void handleFallDamageWithAerial(LivingHurtEvent event, PlayerEntity player) {
+        // Aerial - fall damage protection
+        //noinspection OverlyLongLambda
+        SoulTraits.getHighestLevelEitherHand(player, SoulTraits.AERIAL).ifPresent(hand -> {
+            ItemStack stack = player.getHeldItem(hand);
+            int level = TraitHelper.getTraitLevel(stack, SoulTraits.AERIAL);
+            // Reduce by 2 + 2 * level, or 15% per level, whichever is greater
+            float amountToReduce = Math.max(2 + 2 * level, 0.15f * level * event.getAmount());
+            event.setAmount(event.getAmount() - amountToReduce);
+            GearHelper.attemptDamage(stack, 2, player, hand);
+        });
     }
 
     @SubscribeEvent
