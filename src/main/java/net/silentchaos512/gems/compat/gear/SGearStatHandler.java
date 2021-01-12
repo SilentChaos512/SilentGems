@@ -25,10 +25,11 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.silentchaos512.gear.api.event.GetMaterialStatsEvent;
-import net.silentchaos512.gear.api.event.GetStatModifierEvent;
+import net.silentchaos512.gear.api.item.GearType;
 import net.silentchaos512.gear.api.stats.ItemStat;
 import net.silentchaos512.gear.api.stats.ItemStats;
 import net.silentchaos512.gear.api.stats.StatInstance;
+import net.silentchaos512.gear.api.util.StatGearKey;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.init.GemsEnchantments;
 
@@ -79,7 +80,8 @@ public class SGearStatHandler {
         int supercharged = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.SUPERCHARGED.get(), stack);
 
         if (supercharged > 0 && BOOSTED_STATS.containsKey(event.getStat())) {
-            float chargeability = CHARGEABILITY.compute(0, event.getMaterial().getStatModifiers(CHARGEABILITY, event.getPartType(), ItemStack.EMPTY));
+            StatGearKey key = StatGearKey.of(CHARGEABILITY, GearType.ALL);
+            float chargeability = CHARGEABILITY.compute(0, event.getMaterial().getStatModifiers(event.getPartType(), key));
             if (chargeability == 0) chargeability = 1;
             float chargeLevel = chargeability * supercharged;
 
@@ -89,7 +91,7 @@ public class SGearStatHandler {
                     // Replace instance with a modified one
                     ChargedProperties chargedProperties = new ChargedProperties(supercharged, chargeLevel, instance.getValue());
                     float statValue = (float) BOOSTED_STATS.get(event.getStat()).applyAsDouble(chargedProperties);
-                    StatInstance replacement = new StatInstance(statValue, instance.getOp());
+                    StatInstance replacement = StatInstance.of(statValue, instance.getOp());
                     event.getModifiers().remove(instance);
                     event.getModifiers().add(i, replacement);
                 }
@@ -99,31 +101,6 @@ public class SGearStatHandler {
 
     private static boolean isSupportedOp(StatInstance instance) {
         return SUPPORTED_OPS.contains(instance.getOp());
-    }
-
-    @SubscribeEvent
-    public void onGetPartStats(GetStatModifierEvent event) {
-        // TODO: Remove me! Left in for legacy simple mains
-        ItemStack stack = event.getPart().getCraftingItem();
-        int supercharged = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.SUPERCHARGED.get(), stack);
-
-        if (supercharged > 0 && BOOSTED_STATS.containsKey(event.getStat())) {
-            float chargeability = CHARGEABILITY.compute(0, event.getPart().getStatModifiers(ItemStack.EMPTY, CHARGEABILITY));
-            if (chargeability == 0) chargeability = 1;
-            float chargeLevel = chargeability * supercharged;
-
-            for (int i = 0; i < event.getModifiers().size(); ++i) {
-                StatInstance instance = event.getModifiers().get(i);
-                if (instance.getOp() == StatInstance.Operation.AVG || instance.getOp() == StatInstance.Operation.MAX) {
-                    // Replace instance with a modified one
-                    ChargedProperties chargedProperties = new ChargedProperties(supercharged, chargeLevel, instance.getValue());
-                    float statValue = (float) BOOSTED_STATS.get(event.getStat()).applyAsDouble(chargedProperties);
-                    StatInstance replacement = new StatInstance(statValue, instance.getOp());
-                    event.getModifiers().remove(instance);
-                    event.getModifiers().add(replacement);
-                }
-            }
-        }
     }
 
     private static final class ChargedProperties {

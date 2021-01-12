@@ -5,7 +5,7 @@ import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gear.api.stats.ItemStat;
 import net.silentchaos512.gear.api.stats.ItemStats;
 import net.silentchaos512.gear.api.traits.TraitActionContext;
-import net.silentchaos512.gear.traits.SimpleTrait;
+import net.silentchaos512.gear.gear.trait.SimpleTrait;
 import net.silentchaos512.gear.util.GearData;
 import net.silentchaos512.gems.SilentGems;
 

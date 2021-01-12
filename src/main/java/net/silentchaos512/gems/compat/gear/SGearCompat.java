@@ -38,12 +38,12 @@ public final class SGearCompat {
     }
 
     public static int getPartTier(ItemStack stack) {
-        PartData part = PartData.fromStackFast(stack);
-        return part != null ? part.getPart().getTier() : -1;
+        PartData part = PartData.from(stack);
+        return part != null ? part.getTier() : -1;
     }
 
     public static boolean isMainPart(ItemStack stack) {
-        PartData part = PartData.fromStackFast(stack);
+        PartData part = PartData.from(stack);
         return part != null && part.getType() == PartType.MAIN;
     }
 

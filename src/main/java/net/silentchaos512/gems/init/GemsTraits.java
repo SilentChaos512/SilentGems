@@ -1,7 +1,7 @@
 package net.silentchaos512.gems.init;
 
 import net.minecraft.util.ResourceLocation;
-import net.silentchaos512.gear.traits.TraitSerializers;
+import net.silentchaos512.gear.gear.trait.TraitSerializers;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.trait.PersistenceTrait;
 import net.silentchaos512.gems.trait.RunicTrait;

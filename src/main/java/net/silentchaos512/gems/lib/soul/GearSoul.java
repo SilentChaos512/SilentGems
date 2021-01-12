@@ -23,13 +23,12 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.FakePlayer;
-import net.silentchaos512.gear.api.stats.ItemStat;
+import net.silentchaos512.gear.api.stats.IItemStat;
 import net.silentchaos512.gear.util.GearData;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.GearSoulItem;
 import net.silentchaos512.gems.util.SoulManager;
-import net.silentchaos512.lib.util.NameUtils;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -288,8 +287,8 @@ public class GearSoul {
         }
     }
 
-    float getStatModifier(ItemStat stat) {
-        String statName = NameUtils.from(stat).getPath();
+    float getStatModifier(IItemStat stat) {
+        String statName = stat.getStatId().getPath();
         return primaryElement.getStatModifier(statName) + secondaryElement.getStatModifier(statName) / 2f;
     }
 

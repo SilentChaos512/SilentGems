@@ -3,11 +3,13 @@ package net.silentchaos512.gems.lib.soul;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gear.api.item.GearType;
+import net.silentchaos512.gear.api.part.IPartData;
 import net.silentchaos512.gear.api.part.IPartSerializer;
 import net.silentchaos512.gear.api.part.PartType;
-import net.silentchaos512.gear.api.stats.ItemStat;
+import net.silentchaos512.gear.api.stats.IItemStat;
 import net.silentchaos512.gear.api.stats.StatInstance;
 import net.silentchaos512.gear.api.traits.TraitInstance;
+import net.silentchaos512.gear.api.util.StatGearKey;
 import net.silentchaos512.gear.gear.part.AbstractGearPart;
 import net.silentchaos512.gear.gear.part.PartData;
 import net.silentchaos512.gear.gear.part.PartSerializers;
@@ -19,7 +21,6 @@ import net.silentchaos512.utils.MathUtils;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class GearSoulPart extends AbstractGearPart {
     private static final ResourceLocation TYPE_ID = SilentGems.getId("gear_soul");
@@ -48,31 +49,31 @@ public class GearSoulPart extends AbstractGearPart {
     }
 
     @Override
-    public Collection<StatInstance> getStatModifiers(ItemStat stat, PartData part, GearType gearType, ItemStack gear) {
-        Collection<StatInstance> mods = super.getStatModifiers(stat, part, gearType, gear);
+    public Collection<StatInstance> getStatModifiers(IPartData part, PartType partType, StatGearKey key, ItemStack gear) {
+        Collection<StatInstance> mods = super.getStatModifiers(part, partType, key, gear);
 
         GearSoul soul = getSoul(gear, part);
         if (soul != null) {
-            float amount = getSoulStatModifier(soul, stat);
+            float amount = getSoulStatModifier(soul, key.getStat());
             if (!MathUtils.doublesEqual(amount, 0)) {
-                mods.add(getSoulBoostedModifier(stat, amount));
+                mods.add(getSoulBoostedModifier(amount));
             }
         }
 
         return mods;
     }
 
-    private static float getSoulStatModifier(GearSoul soul, ItemStat stat) {
+    private static float getSoulStatModifier(GearSoul soul, IItemStat stat) {
         return soul.getStatModifier(stat);
     }
 
-    private static StatInstance getSoulBoostedModifier(ItemStat stat, float value) {
+    private static StatInstance getSoulBoostedModifier(float value) {
         return StatInstance.of(value, StatInstance.Operation.MUL1);
     }
 
     @Override
-    public List<TraitInstance> getTraits(PartData part, ItemStack gear) {
-        List<TraitInstance> traits = new ArrayList<>(super.getTraits(part, gear));
+    public Collection<TraitInstance> getTraits(IPartData part, PartType partType, GearType gearType, ItemStack gear) {
+        Collection<TraitInstance> traits = new ArrayList<>(super.getTraits(part, partType, gearType, gear));
 
         GearSoul soul = getSoul(gear, part);
         if (soul != null) {
@@ -87,16 +88,16 @@ public class GearSoulPart extends AbstractGearPart {
     }
 
     @Nullable
-    private static GearSoul getSoul(ItemStack gear, PartData part) {
+    private static GearSoul getSoul(ItemStack gear, IPartData part) {
         GearSoul soul = SoulManager.getSoul(gear);
-        return soul != null ? soul : SoulManager.getSoul(part.getCraftingItem());
+        return soul != null ? soul : SoulManager.getSoul(part.getItem());
     }
 
     @Override
     public void onAddToGear(ItemStack gear, PartData part) {
-        GearSoul soul = SoulManager.getSoul(part.getCraftingItem());
+        GearSoul soul = SoulManager.getSoul(part.getItem());
         if (soul == null) {
-            SilentGems.LOGGER.warn("Gear soul is missing soul data: {}", part.getCraftingItem());
+            SilentGems.LOGGER.warn("Gear soul is missing soul data: {}", part.getItem());
             return;
         }
         SoulManager.setSoul(gear, soul);

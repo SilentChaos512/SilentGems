@@ -4,7 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.gear.api.traits.TraitActionContext;
-import net.silentchaos512.gear.traits.SimpleTrait;
+import net.silentchaos512.gear.gear.trait.SimpleTrait;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.utils.MathUtils;
 
