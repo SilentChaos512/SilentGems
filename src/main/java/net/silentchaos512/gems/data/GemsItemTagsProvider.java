@@ -2,7 +2,6 @@ package net.silentchaos512.gems.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
@@ -116,7 +115,6 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
         copy(GemsTags.Blocks.FLUFFY_BLOCKS, GemsTags.Items.FLUFFY_BLOCKS);
         copy(GemsTags.Blocks.GEM_BLOCKS, GemsTags.Items.GEM_BLOCKS);
         gemBuilder(GemsTags.Items.GEMS, Gems::getItemTag);
-        gemBuilder(GemsTags.Items.GLOWROSES, Gems::getGlowroseItemTag);
         copy(GemsTags.Blocks.HARDENED_ROCKS, GemsTags.Items.HARDENED_ROCKS);
         copy(GemsTags.Blocks.PEDESTALS, GemsTags.Items.PEDESTALS);
         gemBuilderItem(GemsTags.Items.RETURN_HOME_CHARMS, Gems::getReturnHomeCharm);
