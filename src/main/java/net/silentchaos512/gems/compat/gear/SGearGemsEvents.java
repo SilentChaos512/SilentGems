@@ -12,7 +12,7 @@ public class SGearGemsEvents {
     @SubscribeEvent
     public void onGetNamePrefixes(GearNamePrefixesEvent event) {
         for (PartData part : event.getParts()) {
-            ItemStack craftingItem = part.getCraftingItem();
+            ItemStack craftingItem = part.getItem();
             int supercharged = EnchantmentHelper.getEnchantmentLevel(GemsEnchantments.SUPERCHARGED.get(), craftingItem);
             if (supercharged > 0) {
                 event.getPrefixes().add(new TranslationTextComponent("enchantment.silentgems.supercharged"));

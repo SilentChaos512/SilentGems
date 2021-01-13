@@ -1,11 +1,15 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://plugins.gradle.org/m2/' }
+        maven { url = 'https://dist.creeper.host/Sponge/maven' }
         jcenter()
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.4.0'
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 
@@ -13,11 +17,14 @@ plugins {
     id 'maven'
     id 'maven-publish'
     id "com.jfrog.bintray" version "1.8.5"
-    id "com.matthewprenger.cursegradle" version "1.2.0"
+    id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
+apply plugin: 'com.matthewprenger.cursegradle'
+apply plugin: 'maven-publish'
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'idea'
 
 repositories {
     flatDir {
@@ -109,6 +116,22 @@ sourceSets.main.resources {
     srcDir 'src/generated/resources'
 }
 
+import groovy.json.JsonSlurper
+
+def secretFile
+if (System.getenv().SECRET_FILE) {
+    secretFile = file System.getenv().SECRET_FILE
+} else {
+    secretFile = file 'secret.json'
+}
+
+project.ext.secret = new Secrets()
+if (secretFile.exists()) {
+    secretFile.withReader {
+        project.ext.secret.data = new JsonSlurper().parse it
+    }
+}
+
 repositories {
     jcenter()
     mavenLocal()
@@ -136,6 +159,14 @@ repositories {
     // Curios
     maven {
         url = "https://maven.theillusivec4.top/"
+    }
+    maven {
+        name = "WorldStripper"
+        url = uri("https://maven.pkg.github.com/ewyboy/world-stripper")
+        credentials {
+            username = secret.github_username ?: System.getenv('github_username')
+            password = secret.github_token ?: System.getenv('github_token')
+        }
     }
     maven {
         url 'https://jitpack.io'
@@ -170,7 +201,6 @@ dependencies {
     //     exclude module: "cc-tweaked-${project.mc_version}"
     //     exclude module: "silent-gear-${project.mc_version}"
     // }
-//    runtimeOnly 'net.silentchaos512:wit:1.+'
 
     // HWYLA
     if (project.hasProperty('hwyla_version')) {
@@ -183,9 +213,10 @@ dependencies {
         compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${project.curios_version}:api")
     }
 
-    // compile('com.robertx22:mine-and-slash-1.14.4:2.+') {
-    //     exclude module: 'curios'
-    // }
+    // World Stripper
+    if (project.hasProperty('world_stripper_version')) {
+        runtimeOnly fg.deobf("com.ewyboy.worldstripper:World-Stripper:${project.world_stripper_version}")
+    }
 }
 
 jar {
@@ -236,23 +267,6 @@ class Secrets {
 
     def getProperty(String key) {
         return data ? data[key] : ''
-    }
-}
-
-
-import groovy.json.JsonSlurper
-
-def secretFile
-if (System.getenv().SECRET_FILE) {
-    secretFile = file System.getenv().SECRET_FILE
-} else {
-    secretFile = file 'secret.json'
-}
-
-project.ext.secret = new Secrets()
-if (secretFile.exists()) {
-    secretFile.withReader {
-        project.ext.secret.data = new JsonSlurper().parse it
     }
 }
 

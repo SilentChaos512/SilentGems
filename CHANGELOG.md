@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.8] - 2021-01-12
+Requires Silent Gear 2.5+
+### Added
+- Config options to set number of gem veins per chunk (requires restart after editing, does not affect existing chunks) [#521]
+### Fixed
+- Crash caused by changes in Silent Gear 2.5.0
+- Glowroses listed twice in item tag [#522]
+
 ## [3.7.7] - 2021-01-03
 Requires Silent Gear version 2.4.10+ (if installed)
 ### Fixed
