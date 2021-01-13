@@ -65,25 +65,25 @@ public final class GemsWorldFeatures {
             .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(8, 0, 48)))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.OVERWORLD)))
             .square()
-            .func_242731_b(10));
+            .func_242731_b(GemsConfig.Common.gemCountOverworld.get()));
     private static final Lazy<ConfiguredFeature<?, ?>> NETHER_GEMS = configuredFeature("nether_gems", () -> RegionalGemsFeature.INSTANCE
             .withConfiguration(NETHER_REGIONAL_GEMS_CONFIG.get())
             .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(25, 0, 95)))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_NETHER)))
             .square()
-            .func_242731_b(10));
+            .func_242731_b(GemsConfig.Common.gemCountNether.get()));
     private static final Lazy<ConfiguredFeature<?, ?>> END_GEMS = configuredFeature("end_gems", () -> RegionalGemsFeature.INSTANCE
             .withConfiguration(END_REGIONAL_GEMS_CONFIG.get())
             .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(16, 0, 72)))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_END)))
             .square()
-            .func_242731_b(10));
+            .func_242731_b(GemsConfig.Common.gemCountEnd.get()));
     private static final Lazy<ConfiguredFeature<?, ?>> MOD_DIM_GEMS = configuredFeature("mod_dim_gems", () -> RegionalGemsFeature.INSTANCE
             .withConfiguration(MOD_DIM_REGIONAL_GEMS_CONFIG.get())
             .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(8, 0, 48)))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.blacklist(World.OVERWORLD, World.THE_NETHER, World.THE_END)))
             .square()
-            .func_242731_b(10));
+            .func_242731_b(GemsConfig.Common.gemCountOthers.get()));
 
     // Regional glowroses
     private static final Lazy<ConfiguredFeature<?, ?>> OVERWORLD_GLOWROSES = configuredFeature("overworld_glowroses", () -> REGIONAL_GLOWROSES

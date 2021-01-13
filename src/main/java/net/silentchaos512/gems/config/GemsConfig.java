@@ -62,6 +62,10 @@ public final class GemsConfig {
         public static final ForgeConfigSpec.IntValue regionSizeNether;
         public static final ForgeConfigSpec.IntValue regionSizeEnd;
         public static final ForgeConfigSpec.IntValue regionSizeOthers;
+        public static final ForgeConfigSpec.IntValue gemCountOverworld;
+        public static final ForgeConfigSpec.IntValue gemCountNether;
+        public static final ForgeConfigSpec.IntValue gemCountEnd;
+        public static final ForgeConfigSpec.IntValue gemCountOthers;
         private static final Map<Gems, ForgeConfigSpec.IntValue> worldGenOverworldGemWeights = new EnumMap<>(Gems.class);
         private static final Map<Gems, ForgeConfigSpec.IntValue> worldGenNetherGemWeights = new EnumMap<>(Gems.class);
         private static final Map<Gems, ForgeConfigSpec.IntValue> worldGenEndGemWeights = new EnumMap<>(Gems.class);
@@ -258,6 +262,13 @@ public final class GemsConfig {
                         .comment("Region size for non-vanilla dimensions.",
                                 "Overworld gems will attempt to spawn, but may be unable to depending on the stone in the world.")
                         .defineInRange("others", 8, 0, Integer.MAX_VALUE);
+                builder.pop();
+                builder.comment("Number of veins of gems to spawn per chunk, by dimension. 'others' is all non-vanilla dimensions.");
+                builder.push("veinCounts");
+                gemCountOverworld = builder.defineInRange("overworld", 10, 0, 100);
+                gemCountNether = builder.defineInRange("the_nether", 10, 0, 100);
+                gemCountEnd = builder.defineInRange("the_end", 10, 0, 100);
+                gemCountOthers = builder.defineInRange("others", 10, 0, 100);
                 builder.pop();
                 builder.comment("Gem weights control how frequently certain gems are selected over others when generating ores.",
                         "Higher values increase the chances of that gem being selecting, lower values decrease chances.",
