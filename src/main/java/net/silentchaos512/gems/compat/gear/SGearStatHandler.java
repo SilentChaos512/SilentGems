@@ -91,8 +91,8 @@ public class SGearStatHandler {
                     // Replace instance with a modified one
                     ChargedProperties chargedProperties = new ChargedProperties(supercharged, chargeLevel, instance.getValue());
                     float statValue = (float) BOOSTED_STATS.get(event.getStat()).applyAsDouble(chargedProperties);
-                    StatInstance replacement = StatInstance.of(statValue, instance.getOp());
-                    event.getModifiers().remove(instance);
+                    StatInstance replacement = instance.copySetValue(statValue);
+                    event.getModifiers().remove(i);
                     event.getModifiers().add(i, replacement);
                 }
             }
