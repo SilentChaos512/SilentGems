@@ -1,8 +1,8 @@
-itemGroup.tabSilentGems=Silent's Gems
-itemGroup.silentgems.blocks=Silent's Gems: Blocks
-itemGroup.silentgems.materials=Silent's Gems: Materials
-itemGroup.silentgems.tools=Silent's Gems: Tools & Armor
-itemGroup.silentgems.utility=Silent's Gems: Utility
+itemGroup.tabSilentGems=Самоцветы Безмолвия
+itemGroup.silentgems.blocks=Самоцветы Безмолвия: Блоки
+itemGroup.silentgems.materials=Самоцветы Безмолвия: Материалы
+itemGroup.silentgems.tools=Самоцветы Безмолвия: Инструменты и Броня
+itemGroup.silentgems.utility=Самоцветы Безмолвия: Полезное
 
 # Blocks
 
