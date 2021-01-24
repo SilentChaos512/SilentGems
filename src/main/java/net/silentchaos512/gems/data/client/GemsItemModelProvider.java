@@ -26,6 +26,7 @@ public class GemsItemModelProvider extends ItemModelProvider {
             blockBuilder(gem.getOre(World.OVERWORLD));
             blockBuilder(gem.getOre(World.THE_NETHER));
             blockBuilder(gem.getOre(World.THE_END));
+            blockBuilder(gem.getBlock());
 
             builder(gem.getItem(), itemGenerated);
 //            builder(gem.getShard(), itemGenerated);

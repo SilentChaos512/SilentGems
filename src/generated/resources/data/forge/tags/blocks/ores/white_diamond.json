@@ -1,8 +1,6 @@
 {
   "replace": false,
   "values": [
-    "silentgems:white_diamond_ore",
-    "silentgems:white_diamond_nether_ore",
-    "silentgems:white_diamond_end_ore"
+    "#silentgems:ores/white_diamond"
   ]
 }

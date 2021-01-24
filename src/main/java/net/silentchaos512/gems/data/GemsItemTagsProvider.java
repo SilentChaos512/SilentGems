@@ -20,7 +20,9 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
     protected void registerTags() {
         for (Gems gem : Gems.values()) {
             // Block copies
+            copy(gem.getModOresTag(), gem.getModOresItemTag());
             copy(gem.getOreTag(), gem.getOreItemTag());
+            copy(gem.getBlockTag(), gem.getBlockItemTag());
 
             // Items
             getOrCreateBuilder(gem.getItemTag()).add(gem.getItem());

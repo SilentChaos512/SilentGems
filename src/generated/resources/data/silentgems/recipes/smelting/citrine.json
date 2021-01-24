@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "silentgems:ores/citrine"
+  },
+  "result": "silentgems:citrine",
+  "experience": 1.0,
+  "cookingtime": 200
+}

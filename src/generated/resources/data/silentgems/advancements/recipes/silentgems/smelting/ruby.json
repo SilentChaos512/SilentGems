@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "silentgems:smelting/ruby"
+    ]
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "silentgems:smelting/ruby"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "impossible",
+      "has_the_recipe"
+    ]
+  ]
+}

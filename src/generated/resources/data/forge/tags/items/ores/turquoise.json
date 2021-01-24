@@ -1,8 +1,6 @@
 {
   "replace": false,
   "values": [
-    "silentgems:turquoise_ore",
-    "silentgems:turquoise_nether_ore",
-    "silentgems:turquoise_end_ore"
+    "#silentgems:ores/turquoise"
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "#silentgems:ores/ruby",
+    "#silentgems:ores/carnelian",
+    "#silentgems:ores/topaz",
+    "#silentgems:ores/citrine",
+    "#silentgems:ores/heliodor",
+    "#silentgems:ores/moldavite",
+    "#silentgems:ores/peridot",
+    "#silentgems:ores/turquoise",
+    "#silentgems:ores/kyanite",
+    "#silentgems:ores/sapphire",
+    "#silentgems:ores/iolite",
+    "#silentgems:ores/alexandrite",
+    "#silentgems:ores/ammolite",
+    "#silentgems:ores/rose_quartz",
+    "#silentgems:ores/black_diamond",
+    "#silentgems:ores/white_diamond"
+  ]
+}

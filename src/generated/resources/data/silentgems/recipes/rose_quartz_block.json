@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silentgems:rose_quartz_block"
+    }
+  ],
+  "result": {
+    "item": "silentgems:rose_quartz",
+    "count": 9
+  }
+}

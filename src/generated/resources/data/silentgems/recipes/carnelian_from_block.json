@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:carnelian"
+    }
+  },
+  "result": {
+    "item": "silentgems:carnelian_block"
+  }
+}

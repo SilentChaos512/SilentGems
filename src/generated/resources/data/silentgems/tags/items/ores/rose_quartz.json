@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "silentgems:rose_quartz_ore",
+    "silentgems:rose_quartz_nether_ore",
+    "silentgems:rose_quartz_end_ore"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "silentgems:ruby_block",
+    "silentgems:carnelian_block",
+    "silentgems:topaz_block",
+    "silentgems:citrine_block",
+    "silentgems:heliodor_block",
+    "silentgems:moldavite_block",
+    "silentgems:peridot_block",
+    "silentgems:turquoise_block",
+    "silentgems:kyanite_block",
+    "silentgems:sapphire_block",
+    "silentgems:iolite_block",
+    "silentgems:alexandrite_block",
+    "silentgems:ammolite_block",
+    "silentgems:rose_quartz_block",
+    "silentgems:black_diamond_block",
+    "silentgems:white_diamond_block"
+  ]
+}

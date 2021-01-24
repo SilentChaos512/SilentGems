@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "silentgems:kyanite_ore",
+    "silentgems:kyanite_nether_ore",
+    "silentgems:kyanite_end_ore"
+  ]
+}

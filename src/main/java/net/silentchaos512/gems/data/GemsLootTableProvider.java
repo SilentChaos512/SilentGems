@@ -43,6 +43,7 @@ public class GemsLootTableProvider extends LootTableProvider {
                 registerLootTable(gem.getOre(World.OVERWORLD), droppingItemWithFortune(gem.getOre(World.OVERWORLD), gem.getItem()));
                 registerLootTable(gem.getOre(World.THE_NETHER), droppingItemWithFortune(gem.getOre(World.THE_NETHER), gem.getItem()));
                 registerLootTable(gem.getOre(World.THE_END), droppingItemWithFortune(gem.getOre(World.THE_END), gem.getItem()));
+                registerDropSelfLootTable(gem.getBlock());
             }
         }
 

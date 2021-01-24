@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "silentgems:smelting/heliodor"
+    ]
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "silentgems:smelting/heliodor"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "impossible",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "tag": "silentgems:ores/rose_quartz"
+  },
+  "result": "silentgems:rose_quartz",
+  "experience": 1.0,
+  "cookingtime": 100
+}

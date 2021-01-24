@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "silentgems:ores/sapphire"
+  },
+  "result": "silentgems:sapphire",
+  "experience": 1.0,
+  "cookingtime": 200
+}

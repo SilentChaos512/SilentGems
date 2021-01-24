@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "tag": "silentgems:ores/ammolite"
+  },
+  "result": "silentgems:ammolite",
+  "experience": 1.0,
+  "cookingtime": 100
+}

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "tag": "silentgems:ores/ruby"
+  },
+  "result": "silentgems:ruby",
+  "experience": 1.0,
+  "cookingtime": 100
+}

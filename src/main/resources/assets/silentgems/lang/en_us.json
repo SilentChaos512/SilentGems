@@ -1,4 +1,5 @@
 {
+  "block.silentgems.gem_block": "Block of %s",
   "block.silentgems.gem_end_ore": "%s End Ore",
   "block.silentgems.gem_nether_ore": "%s Nether Ore",
   "block.silentgems.gem_ore": "%s Ore",

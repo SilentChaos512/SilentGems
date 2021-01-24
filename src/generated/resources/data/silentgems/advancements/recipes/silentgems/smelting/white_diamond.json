@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "silentgems:smelting/white_diamond"
+    ]
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "silentgems:smelting/white_diamond"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "impossible",
+      "has_the_recipe"
+    ]
+  ]
+}

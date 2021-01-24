@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "silentgems:topaz_ore",
+    "silentgems:topaz_nether_ore",
+    "silentgems:topaz_end_ore"
+  ]
+}

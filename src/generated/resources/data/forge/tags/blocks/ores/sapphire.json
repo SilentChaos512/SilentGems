@@ -1,8 +1,6 @@
 {
   "replace": false,
   "values": [
-    "silentgems:sapphire_ore",
-    "silentgems:sapphire_nether_ore",
-    "silentgems:sapphire_end_ore"
+    "#silentgems:ores/sapphire"
   ]
 }

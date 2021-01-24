@@ -1,8 +1,6 @@
 {
   "replace": false,
   "values": [
-    "silentgems:moldavite_ore",
-    "silentgems:moldavite_nether_ore",
-    "silentgems:moldavite_end_ore"
+    "#silentgems:ores/moldavite"
   ]
 }

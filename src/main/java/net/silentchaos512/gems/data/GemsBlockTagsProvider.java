@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.setup.GemsTags;
 import net.silentchaos512.gems.util.Gems;
 
 import javax.annotation.Nullable;
@@ -18,12 +19,14 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
     @Override
     protected void registerTags() {
         for (Gems gem : Gems.values()) {
-            getOrCreateBuilder(gem.getOreTag())
-                    .add(gem.getOre(World.OVERWORLD), gem.getOre(World.THE_NETHER), gem.getOre(World.THE_END));
+            getOrCreateBuilder(gem.getModOresTag()).add(gem.getOre(World.OVERWORLD), gem.getOre(World.THE_NETHER), gem.getOre(World.THE_END));
+            getOrCreateBuilder(gem.getOreTag()).addTag(gem.getModOresTag());
+            getOrCreateBuilder(gem.getBlockTag()).add(gem.getBlock());
 
             // Group tags
-            getOrCreateBuilder(Tags.Blocks.ORES)
-                    .add(gem.getOre(World.OVERWORLD), gem.getOre(World.THE_NETHER), gem.getOre(World.THE_END));
+            getOrCreateBuilder(GemsTags.Blocks.GEM_ORES).addTag(gem.getModOresTag());
+            getOrCreateBuilder(Tags.Blocks.ORES).addTag(gem.getOreTag());
+            getOrCreateBuilder(Tags.Blocks.STORAGE_BLOCKS).add(gem.getBlock());
         }
     }
 }

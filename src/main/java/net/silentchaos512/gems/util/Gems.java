@@ -26,6 +26,7 @@ import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ToolType;
 import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.block.GemBlock;
 import net.silentchaos512.gems.block.GemOreBlock;
 import net.silentchaos512.gems.config.OreConfig;
 import net.silentchaos512.gems.item.GemBlockItem;
@@ -45,82 +46,82 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("NonFinalFieldInEnum")
 public enum Gems {
-    RUBY(0xE61D1D,
+    RUBY(0xE61D1D, //hue=0
             Rarity.COMMON,
             OreConfig.defaults(3, 8, 1, 5, 40),
             OreConfig.empty(),
             OreConfig.empty()),
-    CARNELIAN(0xE4331D,
+    CARNELIAN(0xE23E1D, //10
             Rarity.UNCOMMON,
             OreConfig.empty(),
             OreConfig.defaults(5, 12, 1, 25, 110),
             OreConfig.empty()),
-    TOPAZ(0xE6711D,
+    TOPAZ(0xE6711D, //25
             Rarity.COMMON,
             OreConfig.defaults(3, 8, 1, 15, 50),
             OreConfig.empty(),
             OreConfig.empty()),
-    CITRINE(0xC78B03,
+    CITRINE(0xC78B03, //40
             Rarity.UNCOMMON,
             OreConfig.empty(),
             OreConfig.defaults(5, 12, 1, 25, 110),
             OreConfig.empty()),
-    HELIODOR(0xE6C51D,
+    HELIODOR(0xE6C51D, //50
             Rarity.COMMON,
             OreConfig.defaults(2, 6, 4, 0, 15),
             OreConfig.empty(),
             OreConfig.defaults(5, 10, 1, 16, 72)),
-    MOLDAVITE(0xA6D923,
+    MOLDAVITE(0xA6D923, //75
             Rarity.UNCOMMON,
             OreConfig.empty(),
             OreConfig.defaults(5, 12, 1, 25, 110),
             OreConfig.empty()),
-    PERIDOT(0x29DB18,
+    PERIDOT(0x29DB18, //115
             Rarity.COMMON,
             OreConfig.defaults(3, 8, 1, 15, 50),
             OreConfig.empty(),
             OreConfig.empty()),
-    TURQUOISE(0x3DF4BD,
+    TURQUOISE(0x3DF4BD, //160
             Rarity.RARE,
             OreConfig.defaults(2, 6, 4, 0, 15),
             OreConfig.empty(),
             OreConfig.defaults(5, 10, 1, 16, 72)),
-    KYANITE(0x41C4F3,
+    KYANITE(0x41C4F3, //195
             Rarity.RARE,
             OreConfig.empty(),
             OreConfig.empty(),
             OreConfig.defaults(5, 10, 1, 16, 72)),
-    SAPPHIRE(0x1D1DE6,
+    SAPPHIRE(0x1D1DE6, //240 (-120)
             Rarity.COMMON,
             OreConfig.defaults(3, 8, 1, 5, 40),
             OreConfig.empty(),
             OreConfig.empty()),
-    IOLITE(0x7543F5,
+    IOLITE(0x7543F5, //260 (-100)
             Rarity.UNCOMMON,
             OreConfig.defaults(2, 6, 4, 0, 15),
             OreConfig.defaults(4, 10, 1, 20, 80),
             OreConfig.empty()),
-    ALEXANDRITE(0xBE36E8,
+    ALEXANDRITE(0xAB37E5, //280 (-80)
             Rarity.UNCOMMON,
             OreConfig.defaults(2, 6, 4, 0, 15),
             OreConfig.defaults(4, 10, 1, 20, 80),
             OreConfig.empty()),
-    AMMOLITE(0xDB2BFF,
+    AMMOLITE(0xDB2BFF, //290 (-70)
             Rarity.RARE,
             OreConfig.empty(),
             OreConfig.empty(),
             OreConfig.defaults(5, 10, 1, 16, 72)),
-    ROSE_QUARTZ(0xFF4EAB,
+    ROSE_QUARTZ(0xFF4EAB, //330 (-30), B+30,C+40
             Rarity.RARE,
             OreConfig.empty(),
             OreConfig.empty(),
             OreConfig.defaults(5, 10, 1, 16, 72)),
-    BLACK_DIAMOND(0x5F524C,
+    BLACK_DIAMOND(0x5F524C, //20, Sat=20,Lit=-36
             Rarity.EPIC,
             OreConfig.empty(),
             OreConfig.defaults(2, 8, 2, 10, 50),
             OreConfig.empty()),
-    WHITE_DIAMOND(0xD1C1CE,
+    WHITE_DIAMOND(0xD5C1D2, //310 (-50), Sat=10, B+50,C+30
             Rarity.EPIC,
             OreConfig.empty(),
             OreConfig.empty(),
@@ -138,8 +139,8 @@ public enum Gems {
     BlockRegistryObject<GemOreBlock> ore;
     BlockRegistryObject<GemOreBlock> netherOre;
     BlockRegistryObject<GemOreBlock> endOre;
-    //    BlockRegistryObject<GemBlock> block;
-//    BlockRegistryObject<GlowroseBlock> glowrose;
+    BlockRegistryObject<GemBlock> block;
+    //    BlockRegistryObject<GlowroseBlock> glowrose;
     BlockRegistryObject<FlowerPotBlock> pottedGlowrose;
 
     // Items
@@ -147,12 +148,14 @@ public enum Gems {
     ItemRegistryObject<GemItem> shard;
 
     // Tags
-//    final ITag.INamedTag<Block> blockTag;
-//    final ITag.INamedTag<Block> glowroseTag;
+    final ITag.INamedTag<Block> blockTag;
+    //    final ITag.INamedTag<Block> glowroseTag;
     final ITag.INamedTag<Block> oreTag;
-    //    final ITag.INamedTag<Item> blockItemTag;
-//    final ITag.INamedTag<Item> glowroseItemTag;
+    final ITag.INamedTag<Block> modOresTag;
+    final ITag.INamedTag<Item> blockItemTag;
+    //    final ITag.INamedTag<Item> glowroseItemTag;
     final ITag.INamedTag<Item> oreItemTag;
+    final ITag.INamedTag<Item> modOresItemTag;
     final ITag.INamedTag<Item> itemTag;
 //    final ITag.INamedTag<Item> shardTag;
 
@@ -171,14 +174,30 @@ public enum Gems {
         this.oreConfiguredFeatures.put(World.THE_END, Lazy.of(() ->
                 createOreConfiguredFeature(World.THE_END, GemsWorldFeatures.BASE_STONE_END)));
 
-//        this.blockTag = BlockTags.makeWrapperTag(new ResourceLocation("forge", "storage_blocks/" + this.getName()).toString());
+        String name = this.getName();
+        this.blockTag = makeBlockTag(forgeId("storage_blocks/" + name));
 //        this.glowroseTag = BlockTags.makeWrapperTag(GemsBase.getId("glowroses/" + this.getName()).toString());
-        this.oreTag = BlockTags.makeWrapperTag(new ResourceLocation("forge", "ores/" + this.getName()).toString());
-//        this.blockItemTag = ItemTags.makeWrapperTag(new ResourceLocation("forge", "storage_blocks/" + this.getName()).toString());
+        this.oreTag = makeBlockTag(forgeId("ores/" + name));
+        this.modOresTag = makeBlockTag(GemsBase.getId("ores/" + name));
+
+        this.blockItemTag = makeItemTag(forgeId("storage_blocks/" + name));
 //        this.glowroseItemTag = ItemTags.makeWrapperTag(GemsBase.getId("glowroses/" + this.getName()).toString());
-        this.oreItemTag = ItemTags.makeWrapperTag(new ResourceLocation("forge", "ores/" + this.getName()).toString());
-        this.itemTag = ItemTags.makeWrapperTag(new ResourceLocation("forge", "gems/" + this.getName()).toString());
+        this.oreItemTag = makeItemTag(forgeId("ores/" + name));
+        this.modOresItemTag = makeItemTag(GemsBase.getId("ores/" + name));
+        this.itemTag = makeItemTag(forgeId("gems/" + name));
 //        this.shardTag = ItemTags.makeWrapperTag(new ResourceLocation("forge", "nuggets/" + this.getName()).toString());
+    }
+
+    private static ITag.INamedTag<Block> makeBlockTag(ResourceLocation name) {
+        return BlockTags.makeWrapperTag(name.toString());
+    }
+
+    private static ITag.INamedTag<Item> makeItemTag(ResourceLocation name) {
+        return ItemTags.makeWrapperTag(name.toString());
+    }
+
+    private static ResourceLocation forgeId(String path) {
+        return new ResourceLocation("forge", path);
     }
 
     public String getName() {
@@ -252,21 +271,41 @@ public enum Gems {
         return ore.get();
     }
 
+    public GemBlock getBlock() {
+        return block.get();
+    }
+
     public GemItem getItem() {
-        return this.item.get();
+        return item.get();
     }
 
     @Deprecated
     public GemItem getShard() {
-        return this.shard.get();
+        return shard.get();
     }
 
     public ITag.INamedTag<Block> getOreTag() {
         return oreTag;
     }
 
+    public ITag.INamedTag<Block> getModOresTag() {
+        return modOresTag;
+    }
+
+    public ITag.INamedTag<Block> getBlockTag() {
+        return blockTag;
+    }
+
     public ITag.INamedTag<Item> getOreItemTag() {
         return oreItemTag;
+    }
+
+    public ITag.INamedTag<Item> getModOresItemTag() {
+        return modOresItemTag;
+    }
+
+    public ITag.INamedTag<Item> getBlockItemTag() {
+        return blockItemTag;
     }
 
     public ITag.INamedTag<Item> getItemTag() {
@@ -297,6 +336,11 @@ public enum Gems {
                             .harvestTool(ToolType.PICKAXE)
                             .setRequiresTool()
                             .sound(SoundType.STONE)));
+        for (Gems gem : values())
+            gem.block = registerBlock(gem.getName() + "_block", () ->
+                    new GemBlock(gem, AbstractBlock.Properties.create(Material.IRON)
+                            .hardnessAndResistance(3, 30)
+                            .sound(SoundType.METAL)));
     }
 
     public static void registerItems() {

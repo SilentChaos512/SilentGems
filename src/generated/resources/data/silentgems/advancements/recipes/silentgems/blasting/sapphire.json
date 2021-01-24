@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "silentgems:blasting/sapphire"
+    ]
+  },
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "silentgems:blasting/sapphire"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "impossible",
+      "has_the_recipe"
+    ]
+  ]
+}
