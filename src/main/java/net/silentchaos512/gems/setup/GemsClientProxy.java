@@ -9,10 +9,10 @@ public class GemsClientProxy {
     }
 
     private static void clientSetup(FMLClientSetupEvent event) {
-//        GemsBlocks.registerRenderTypes(event);
+        GemsBlocks.registerRenderTypes(event);
 //        GemsEntities.registerRenderers(event);
 //        GemsTileEntities.registerRenderers(event);
-//        GemsContainers.registerScreens(event);
+        GemsContainers.registerScreens(event);
 //        GemsModelProperties.register(event);
     }
 }

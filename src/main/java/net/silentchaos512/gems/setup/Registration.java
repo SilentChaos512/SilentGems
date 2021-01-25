@@ -55,10 +55,10 @@ public class Registration {
         TILE_ENTITIES.register(modEventBus);
 
         GemsBlocks.register();
-//        GemsContainers.register();
+        GemsContainers.register();
 //        GemsEffects.register();
 //        GemsEnchantments.register();
-        //GemsEntities.register();
+//        GemsEntities.register();
         GemsItems.register();
 //        GemsLoot.register();
 //        GemsRecipeInit.register();

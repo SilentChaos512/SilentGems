@@ -9,6 +9,7 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.lib.block.IBlockProvider;
 import net.silentchaos512.lib.util.NameUtils;
@@ -31,6 +32,9 @@ public class GemsItemModelProvider extends ItemModelProvider {
             builder(gem.getItem(), itemGenerated);
 //            builder(gem.getShard(), itemGenerated);
         }
+
+        builder(GemsItems.GEM_BAG, itemGenerated);
+        builder(GemsItems.FLOWER_BASKET, itemGenerated);
     }
 
     private void blockBuilder(IBlockProvider block) {
