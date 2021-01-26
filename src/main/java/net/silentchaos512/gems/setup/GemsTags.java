@@ -28,7 +28,8 @@ public class GemsTags {
     }
 
     public static final class Items {
-        ;
+        public static final ITag.INamedTag<Item> STEW_FISH = gems("stew_fish");
+        public static final ITag.INamedTag<Item> STEW_MEAT = gems("stew_meat");
 
         private Items() {}
 

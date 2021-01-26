@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "silentgems:silver_ingot"
+    }
+  },
+  "result": {
+    "item": "silentgems:silver_block"
+  }
+}

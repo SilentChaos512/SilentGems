@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "silentgems:item/uncooked_fishy_stew"
+  }
+}

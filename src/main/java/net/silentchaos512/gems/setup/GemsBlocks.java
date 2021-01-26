@@ -1,15 +1,16 @@
 package net.silentchaos512.gems.setup;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.block.OreBlockSG;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.lib.registry.BlockRegistryObject;
 
@@ -20,6 +21,16 @@ public final class GemsBlocks {
     static {
         Gems.registerBlocks();
     }
+
+    public static final BlockRegistryObject<Block> SILVER_ORE = register("silver_ore", () ->
+            new OreBlockSG(null, 2, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3)) {
+                @Override
+                public int getExpRandom() {
+                    return 0;
+                }
+            });
+    public static final BlockRegistryObject<Block> SILVER_BLOCK = register("silver_block", () ->
+            new Block(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(4, 30).sound(SoundType.METAL)));
 
     private GemsBlocks() {}
 

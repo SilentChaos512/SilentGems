@@ -339,7 +339,7 @@ public enum Gems {
         for (Gems gem : values())
             gem.block = registerBlock(gem.getName() + "_block", () ->
                     new GemBlock(gem, AbstractBlock.Properties.create(Material.IRON)
-                            .hardnessAndResistance(3, 30)
+                            .hardnessAndResistance(4, 30)
                             .sound(SoundType.METAL)));
     }
 

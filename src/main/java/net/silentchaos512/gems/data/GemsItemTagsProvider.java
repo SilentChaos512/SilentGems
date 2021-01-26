@@ -3,10 +3,12 @@ package net.silentchaos512.gems.data;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
+import net.minecraft.item.Items;
 import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.setup.GemsTags;
 import net.silentchaos512.gems.util.Gems;
 
 import javax.annotation.Nullable;
@@ -37,5 +39,8 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
         }
 
         copy(Tags.Blocks.ORES, Tags.Items.ORES);
+
+        getOrCreateBuilder(GemsTags.Items.STEW_FISH).add(Items.COD, Items.SALMON);
+        getOrCreateBuilder(GemsTags.Items.STEW_MEAT).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT);
     }
 }

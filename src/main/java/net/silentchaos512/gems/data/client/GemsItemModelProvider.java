@@ -33,6 +33,8 @@ public class GemsItemModelProvider extends ItemModelProvider {
 //            builder(gem.getShard(), itemGenerated);
         }
 
+        GemsItems.getSimpleModelItems().forEach(iro -> builder(iro.get(), itemGenerated));
+
         builder(GemsItems.GEM_BAG, itemGenerated);
         builder(GemsItems.FLOWER_BASKET, itemGenerated);
     }

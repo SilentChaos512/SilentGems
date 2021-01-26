@@ -9,6 +9,7 @@ import net.minecraft.loot.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
+import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.Registration;
 import net.silentchaos512.gems.util.Gems;
 
@@ -45,6 +46,9 @@ public class GemsLootTableProvider extends LootTableProvider {
                 registerLootTable(gem.getOre(World.THE_END), droppingItemWithFortune(gem.getOre(World.THE_END), gem.getItem()));
                 registerDropSelfLootTable(gem.getBlock());
             }
+
+            registerDropSelfLootTable(GemsBlocks.SILVER_ORE.get());
+            registerDropSelfLootTable(GemsBlocks.SILVER_BLOCK.get());
         }
 
         @Override
