@@ -11,6 +11,8 @@ import net.silentchaos512.gems.util.Gems;
 @Mod.EventBusSubscriber(modid = GemsBase.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class GemsConfig {
     public static final class Common {
+        public static final OreConfig silverOres;
+
         static final ForgeConfigSpec spec;
 
         static {
@@ -27,6 +29,9 @@ public final class GemsConfig {
                 builder.push("ores");
 
                 Gems.buildOreConfigs(builder);
+
+                silverOres = new OreConfig(builder, "silver",
+                        OreConfig.defaults(1, 7, 1, 0, 35));
 
                 builder.pop(2);
             }

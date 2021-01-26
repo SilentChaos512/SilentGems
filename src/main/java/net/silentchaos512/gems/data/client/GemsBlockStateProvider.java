@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.lib.block.IBlockProvider;
 import net.silentchaos512.lib.util.NameUtils;
@@ -23,6 +24,9 @@ public class GemsBlockStateProvider extends BlockStateProvider {
             simpleBlock(gem.getOre(World.THE_END));
             simpleBlock(gem.getBlock());
         }
+
+        simpleBlock(GemsBlocks.SILVER_BLOCK);
+        simpleBlock(GemsBlocks.SILVER_ORE);
     }
 
     private void simpleBlock(IBlockProvider block) {

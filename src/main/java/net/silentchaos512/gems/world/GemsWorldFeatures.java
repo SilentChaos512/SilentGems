@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
 import net.minecraftforge.common.Tags;
@@ -14,6 +15,8 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.util.Gems;
 
 @Mod.EventBusSubscriber(modid = GemsBase.MOD_ID)
@@ -34,6 +37,8 @@ public final class GemsWorldFeatures {
             addGemOreFeatures(biome, World.THE_END);
         } else {
             addGemOreFeatures(biome, World.OVERWORLD);
+            biome.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
+                    GemsConfig.Common.silverOres.getConfiguredFeature());
         }
     }
 
@@ -46,6 +51,10 @@ public final class GemsWorldFeatures {
             registerConfiguredFeature(gem.getName() + "_nether", gem.getOreConfiguredFeature(World.THE_NETHER));
             registerConfiguredFeature(gem.getName() + "_end", gem.getOreConfiguredFeature(World.THE_END));
         }
+
+        registerConfiguredFeature("silver", GemsConfig.Common.silverOres.createConfiguredFeature(
+                OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD,
+                GemsBlocks.SILVER_ORE.asBlockState()));
     }
 
     private static void registerConfiguredFeature(String name, ConfiguredFeature<?, ?> configuredFeature) {
