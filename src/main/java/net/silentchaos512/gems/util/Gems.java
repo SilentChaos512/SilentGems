@@ -54,7 +54,7 @@ public enum Gems {
     CARNELIAN(0xE23E1D, //10
             Rarity.UNCOMMON,
             OreConfig.empty(),
-            OreConfig.defaults(5, 12, 1, 25, 110),
+            OreConfig.defaults(4, 8, 1, 25, 110),
             OreConfig.empty()),
     TOPAZ(0xE6711D, //25
             Rarity.COMMON,
@@ -64,17 +64,17 @@ public enum Gems {
     CITRINE(0xC78B03, //40
             Rarity.UNCOMMON,
             OreConfig.empty(),
-            OreConfig.defaults(5, 12, 1, 25, 110),
+            OreConfig.defaults(4, 8, 1, 25, 110),
             OreConfig.empty()),
     HELIODOR(0xE6C51D, //50
             Rarity.COMMON,
             OreConfig.defaults(2, 6, 4, 0, 15),
             OreConfig.empty(),
-            OreConfig.defaults(5, 10, 1, 16, 72)),
+            OreConfig.defaults(3, 9, 1, 16, 72)),
     MOLDAVITE(0xA6D923, //75
             Rarity.UNCOMMON,
             OreConfig.empty(),
-            OreConfig.defaults(5, 12, 1, 25, 110),
+            OreConfig.defaults(4, 8, 1, 25, 110),
             OreConfig.empty()),
     PERIDOT(0x29DB18, //115
             Rarity.COMMON,
@@ -85,12 +85,12 @@ public enum Gems {
             Rarity.RARE,
             OreConfig.defaults(2, 6, 4, 0, 15),
             OreConfig.empty(),
-            OreConfig.defaults(5, 10, 1, 16, 72)),
+            OreConfig.defaults(3, 9, 1, 16, 72)),
     KYANITE(0x41C4F3, //195
             Rarity.RARE,
             OreConfig.empty(),
             OreConfig.empty(),
-            OreConfig.defaults(5, 10, 1, 16, 72)),
+            OreConfig.defaults(3, 9, 1, 16, 72)),
     SAPPHIRE(0x1D1DE6, //240 (-120)
             Rarity.COMMON,
             OreConfig.defaults(3, 8, 1, 5, 40),
@@ -99,23 +99,23 @@ public enum Gems {
     IOLITE(0x7543F5, //260 (-100)
             Rarity.UNCOMMON,
             OreConfig.defaults(2, 6, 4, 0, 15),
-            OreConfig.defaults(4, 10, 1, 20, 80),
+            OreConfig.defaults(4, 8, 1, 20, 80),
             OreConfig.empty()),
     ALEXANDRITE(0xAB37E5, //280 (-80)
             Rarity.UNCOMMON,
             OreConfig.defaults(2, 6, 4, 0, 15),
-            OreConfig.defaults(4, 10, 1, 20, 80),
+            OreConfig.defaults(4, 8, 1, 20, 80),
             OreConfig.empty()),
     AMMOLITE(0xDB2BFF, //290 (-70)
             Rarity.RARE,
             OreConfig.empty(),
             OreConfig.empty(),
-            OreConfig.defaults(5, 10, 1, 16, 72)),
+            OreConfig.defaults(3, 9, 1, 16, 72)),
     ROSE_QUARTZ(0xFF4EAB, //330 (-30), B+30,C+40
             Rarity.RARE,
             OreConfig.empty(),
             OreConfig.empty(),
-            OreConfig.defaults(5, 10, 1, 16, 72)),
+            OreConfig.defaults(3, 9, 1, 16, 72)),
     BLACK_DIAMOND(0x5F524C, //20, Sat=20,Lit=-36
             Rarity.EPIC,
             OreConfig.empty(),
