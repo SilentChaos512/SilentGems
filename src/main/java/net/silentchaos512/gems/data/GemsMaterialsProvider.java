@@ -1,23 +1,26 @@
 package net.silentchaos512.gems.data;
 
 import net.minecraft.data.DataGenerator;
+import net.silentchaos512.gear.api.item.GearType;
 import net.silentchaos512.gear.api.part.PartType;
 import net.silentchaos512.gear.data.material.MaterialBuilder;
 import net.silentchaos512.gear.data.material.MaterialsProvider;
 import net.silentchaos512.gear.gear.material.MaterialCategories;
 import net.silentchaos512.gear.gear.part.PartTextureSet;
+import net.silentchaos512.gear.gear.trait.condition.GearTypeTraitCondition;
+import net.silentchaos512.gear.gear.trait.condition.MaterialRatioTraitCondition;
 import net.silentchaos512.gear.util.Const;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.setup.GemsStats;
+import net.silentchaos512.gems.setup.GemsTraits;
 import net.silentchaos512.gems.util.Gems;
-import net.silentchaos512.gems.util.GemsConst;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class GemsMaterialsProvider extends MaterialsProvider {
     public GemsMaterialsProvider(DataGenerator generator) {
-        super(generator);
+        super(generator, GemsBase.MOD_ID);
     }
 
     @Override
@@ -29,30 +32,29 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .mainStatsHarvest(2, 6)
                 .mainStatsMelee(2, 0, 0)
                 .mainStatsRanged(1, 0)
-                .mainStatsArmor(15, 4, 6)
+                .mainStatsArmor(2, 6, 5, 2, 4, 6) //15
                 .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.3f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
                 .trait(PartType.MAIN, Const.Traits.IMPERIAL, 2)
-                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
         );
         ret.add(gem(Gems.CARNELIAN, 3) // durability
                 .mainStatsCommon(1280, 37, 10, 45)
                 .mainStatsHarvest(2, 7)
                 .mainStatsMelee(3, 0, 0)
                 .mainStatsRanged(2, 0)
-                .mainStatsArmor(16, 4, 8)
+                .mainStatsArmor(3, 6, 5, 2, 4, 8) //16
                 .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
-                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+                .trait(PartType.MAIN, Const.Traits.GOLD_DIGGER, 2)
         );
         ret.add(gem(Gems.TOPAZ, 3) // speed
                 .mainStatsCommon(512, 21, 12, 30)
                 .mainStatsHarvest(2, 8)
                 .mainStatsMelee(2, 0, 0)
                 .mainStatsRanged(1, 0)
-                .mainStatsArmor(15, 4, 6)
+                .mainStatsArmor(2, 6, 5, 2, 4, 6) //15
                 .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.3f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
@@ -64,24 +66,25 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .mainStatsHarvest(2, 10)
                 .mainStatsMelee(3, 0, 0)
                 .mainStatsRanged(2, 0)
-                .mainStatsArmor(16, 4, 8)
+                .mainStatsArmor(3, 6, 5, 2, 4, 8) //16
                 .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
-                .trait(PartType.MAIN, Const.Traits.BRITTLE, 4)
-                .trait(PartType.ADORNMENT, GemsConst.Traits.BOOSTER, 1)
+                .trait(PartType.MAIN, Const.Traits.ANCIENT, 4)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+                .trait(PartType.ADORNMENT, GemsTraits.BOOSTER, 1)
         );
         ret.add(gem(Gems.HELIODOR, 4) // speed
                 .mainStatsCommon(1024, 34, 10, 60)
                 .mainStatsHarvest(3, 14)
                 .mainStatsMelee(2, 0, 0)
                 .mainStatsRanged(1, 0)
-                .mainStatsArmor(16, 4, 8)
+                .mainStatsArmor(3, 6, 5, 2, 4, 8) //16
                 .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
                 .trait(PartType.MAIN, Const.Traits.CHIPPING, 4)
-                .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
+                .trait(PartType.MAIN, Const.Traits.BRITTLE, 2)
                 .trait(PartType.ADORNMENT, Const.Traits.MIGHTY, 4)
         );
         ret.add(gem(Gems.MOLDAVITE, 3) // damage
@@ -89,7 +92,7 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .mainStatsHarvest(2, 6)
                 .mainStatsMelee(4, 0, 0)
                 .mainStatsRanged(3, 0)
-                .mainStatsArmor(16, 4, 8)
+                .mainStatsArmor(3, 6, 5, 2, 4, 8) //16
                 .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
@@ -101,36 +104,37 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .mainStatsHarvest(2, 6)
                 .mainStatsMelee(3, 0, 0)
                 .mainStatsRanged(2, 0)
-                .mainStatsArmor(15, 4, 6)
+                .mainStatsArmor(2, 6, 5, 2, 4, 6) //15
                 .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.3f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
                 .trait(PartType.MAIN, Const.Traits.JAGGED, 2)
                 .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
-                .trait(PartType.ADORNMENT, GemsConst.Traits.HEARTY, 2)
+                .trait(PartType.ADORNMENT, GemsTraits.HEARTY, 2)
         );
         ret.add(gem(Gems.TURQUOISE, 4) // all-rounder, magic armor
                 .mainStatsCommon(1536, 40, 15, 45)
                 .mainStatsHarvest(3, 8)
                 .mainStatsMelee(3, 0, 0)
                 .mainStatsRanged(2, 0)
-                .mainStatsArmor(15, 6, 20)
-                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
+                .mainStatsArmor(2, 6, 5, 2, 6, 20) //15
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.3f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
-                .trait(PartType.MAIN, GemsConst.Traits.BARRIER_JACKET, 1)
-                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
-                .trait(PartType.ADORNMENT, GemsConst.Traits.LEAPING, 3)
+                .trait(PartType.MAIN, Const.Traits.TURTLE, 1)
+                .trait(PartType.MAIN, GemsTraits.BARRIER_JACKET, 5)
+                .trait(PartType.ADORNMENT, GemsTraits.LEAPING, 3)
         );
         ret.add(gem(Gems.KYANITE, 4) // all-rounder
                 .mainStatsCommon(1280, 38, 17, 60)
                 .mainStatsHarvest(4, 12)
                 .mainStatsMelee(4, 0, 0)
                 .mainStatsRanged(2, 0)
-                .mainStatsArmor(20, 8, 14)
-                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
+                .mainStatsArmor(3, 8, 6, 3, 8, 14) //20
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.4f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.CHILLED, 4)
                 .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
         );
         ret.add(gem(Gems.SAPPHIRE, 3) // armor
@@ -138,7 +142,7 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .mainStatsHarvest(2, 6)
                 .mainStatsMelee(2, 0, 0)
                 .mainStatsRanged(1, 0)
-                .mainStatsArmor(18, 6, 10)
+                .mainStatsArmor(3, 8, 5, 2, 6, 10) //18
                 .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.3f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
@@ -150,7 +154,7 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .mainStatsHarvest(2, 7)
                 .mainStatsMelee(3, 0, 0)
                 .mainStatsRanged(2, 0)
-                .mainStatsArmor(20, 6, 14)
+                .mainStatsArmor(3, 8, 6, 3, 6, 14) //20
                 .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
@@ -163,23 +167,24 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .mainStatsHarvest(3, 9)
                 .mainStatsMelee(3, 0, 0)
                 .mainStatsRanged(2, 0)
-                .mainStatsArmor(18, 5, 10)
-                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
+                .mainStatsArmor(3, 8, 5, 2, 5, 10) //18
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.3f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
                 .trait(PartType.MAIN, Const.Traits.IMPERIAL, 5)
                 .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
-                .trait(PartType.ADORNMENT, GemsConst.Traits.CLOAKING, 1)
+                .trait(PartType.ADORNMENT, GemsTraits.CLOAKING, 1)
         );
         ret.add(gem(Gems.AMMOLITE, 4) // armor
                 .mainStatsCommon(1024, 40, 12, 60)
                 .mainStatsHarvest(3, 8)
                 .mainStatsMelee(2, 0, 0)
                 .mainStatsRanged(1, 0)
-                .mainStatsArmor(22, 12, 16)
+                .mainStatsArmor(4, 9, 6, 3, 12, 16) //22
                 .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, GemsTraits.FRACTAL, 4)
                 .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
         );
         ret.add(gem(Gems.ROSE_QUARTZ, 4) // damage
@@ -187,10 +192,11 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .mainStatsHarvest(4, 14)
                 .mainStatsMelee(6, 0, 0)
                 .mainStatsRanged(3, 0)
-                .mainStatsArmor(16, 4, 8)
+                .mainStatsArmor(3, 6, 5, 2, 4, 8) //16
                 .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.2f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, GemsTraits.CRITICAL_STRIKE, 1)
                 .trait(PartType.MAIN, Const.Traits.BRITTLE, 3)
         );
         ret.add(gem(Gems.BLACK_DIAMOND, 4) // super
@@ -198,10 +204,13 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .mainStatsHarvest(4, 9)
                 .mainStatsMelee(4, 0, 0)
                 .mainStatsRanged(3, 0)
-                .mainStatsArmor(20, 8, 10)
-                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.1f)
+                .mainStatsArmor(3, 8, 6, 3, 8, 10) //20
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.0f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.FLAME_WARD, 1,
+                        new GearTypeTraitCondition(GearType.ARMOR),
+                        new MaterialRatioTraitCondition(0.7f))
                 .trait(PartType.ADORNMENT, Const.Traits.CURE_WITHER, 1)
         );
         ret.add(gem(Gems.WHITE_DIAMOND, 4) // super
@@ -209,8 +218,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .mainStatsHarvest(4, 12)
                 .mainStatsMelee(5, 0, 0)
                 .mainStatsRanged(3, 0)
-                .mainStatsArmor(24, 16, 20)
-                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.1f)
+                .mainStatsArmor(4, 9, 7, 4, 16, 20) //24
+                .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.0f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
         );

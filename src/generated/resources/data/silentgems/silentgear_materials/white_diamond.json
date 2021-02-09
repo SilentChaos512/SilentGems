@@ -29,9 +29,13 @@
       "ranged_damage": 3.0,
       "ranged_speed": 0.0,
       "armor": 24.0,
+      "armor/helmet": 4.0,
+      "armor/chestplate": 9.0,
+      "armor/leggings": 7.0,
+      "armor/boots": 4.0,
       "armor_toughness": 16.0,
       "magic_armor": 20.0,
-      "silentgems:chargeability": 1.1
+      "silentgems:chargeability": 1.0
     },
     "rod": {},
     "adornment": {}

@@ -68,6 +68,7 @@ public class Registration {
         if (ModList.get().isLoaded("silentgear")) {
             GemsStats.REGISTER.register(modEventBus);
             GemsStats.register();
+            GemsTraits.register();
         }
     }
 

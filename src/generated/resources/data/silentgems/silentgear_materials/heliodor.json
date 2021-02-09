@@ -29,6 +29,10 @@
       "ranged_damage": 1.0,
       "ranged_speed": 0.0,
       "armor": 16.0,
+      "armor/helmet": 3.0,
+      "armor/chestplate": 6.0,
+      "armor/leggings": 5.0,
+      "armor/boots": 2.0,
       "armor_toughness": 4.0,
       "magic_armor": 8.0,
       "silentgems:chargeability": 1.2
@@ -44,7 +48,7 @@
       },
       {
         "name": "silentgear:brittle",
-        "level": 3
+        "level": 2
       }
     ],
     "adornment": [

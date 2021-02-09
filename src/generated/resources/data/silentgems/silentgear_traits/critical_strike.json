@@ -1,0 +1,12 @@
+{
+  "type": "silentgems:critical_strike",
+  "max_level": 1,
+  "name": {
+    "translate": "trait.silentgems.critical_strike"
+  },
+  "description": {
+    "translate": "trait.silentgems.critical_strike.desc"
+  },
+  "damage_multiplier": 0.5,
+  "activation_chance": 0.25
+}

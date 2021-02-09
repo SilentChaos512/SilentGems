@@ -29,14 +29,34 @@
       "ranged_damage": 3.0,
       "ranged_speed": 0.0,
       "armor": 20.0,
+      "armor/helmet": 3.0,
+      "armor/chestplate": 8.0,
+      "armor/leggings": 6.0,
+      "armor/boots": 3.0,
       "armor_toughness": 8.0,
       "magic_armor": 10.0,
-      "silentgems:chargeability": 1.1
+      "silentgems:chargeability": 1.0
     },
     "rod": {},
     "adornment": {}
   },
   "traits": {
+    "main": [
+      {
+        "name": "silentgear:flame_ward",
+        "level": 1,
+        "conditions": [
+          {
+            "type": "silentgear:gear_type",
+            "gear_type": "armor"
+          },
+          {
+            "type": "silentgear:material_ratio",
+            "ratio": 0.7
+          }
+        ]
+      }
+    ],
     "adornment": [
       {
         "name": "silentgear:cure_wither",

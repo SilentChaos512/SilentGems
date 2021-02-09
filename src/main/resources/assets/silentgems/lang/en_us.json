@@ -47,5 +47,19 @@
   "misc.silentgems.harvestLevel": "Harvest Level: %d (%s)",
   "misc.silentgems.harvestLevel.2": "Diamond",
   "misc.silentgems.harvestLevel.3": "Obsidian",
-  "misc.silentgems.harvestLevel.4": "Azure Silver"
+  "misc.silentgems.harvestLevel.4": "Azure Silver",
+  "trait.silentgems.barrier_jacket": "Barrier Jacket",
+  "trait.silentgems.barrier_jacket.desc": "Grants more magic armor at higher durability",
+  "trait.silentgems.booster": "Booster",
+  "trait.silentgems.booster.desc": "Gives a speed boost",
+  "trait.silentgems.cloaking": "Cloaking",
+  "trait.silentgems.cloaking.desc": "Grants invisibility",
+  "trait.silentgems.critical_strike": "Critical Strike",
+  "trait.silentgems.critical_strike.desc": "Sometimes deals significantly more damage than normal",
+  "trait.silentgems.fractal": "Fractal",
+  "trait.silentgems.fractal.desc": "Gains armor toughness, but loses magic armor as damaged",
+  "trait.silentgems.hearty": "Hearty",
+  "trait.silentgems.hearty.desc": "Gives extra health",
+  "trait.silentgems.leaping": "Leaping",
+  "trait.silentgems.leaping.desc": "Gives jump boost and slow falling"
 }
