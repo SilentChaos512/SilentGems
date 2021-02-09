@@ -8,6 +8,9 @@ import net.silentchaos512.gear.api.traits.TraitActionContext;
 import net.silentchaos512.gear.gear.trait.SimpleTrait;
 import net.silentchaos512.gems.GemsBase;
 
+import java.util.Collection;
+import java.util.Collections;
+
 public class CriticalStrikeTrait extends SimpleTrait {
     public static final ITraitSerializer<CriticalStrikeTrait> SERIALIZER = new Serializer<>(
             GemsBase.getId("critical_strike"),
@@ -40,6 +43,13 @@ public class CriticalStrikeTrait extends SimpleTrait {
             return baseValue * (1f + this.damageMulti) * context.getTraitLevel();
         }
         return baseValue;
+    }
+
+    @Override
+    public Collection<String> getExtraWikiLines() {
+        return Collections.singleton(String.format("Attacks deal %d%% more damage about %d%% of the time",
+                (int) (100 * this.damageMulti),
+                (int) (100 * this.activationChance)));
     }
 
     public static void serialize(JsonObject json, float damageMulti, float activationChance) {
