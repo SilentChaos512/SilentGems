@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#o#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "minecraft:stone_bricks"
+    },
+    "o": {
+      "tag": "forge:gems/alexandrite"
+    }
+  },
+  "result": {
+    "item": "silentgems:alexandrite_bricks",
+    "count": 12
+  }
+}

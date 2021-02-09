@@ -7,10 +7,12 @@ import net.silentchaos512.gems.util.Gems;
 
 public class GemBlock extends Block implements IGemBlock {
     private final Gems gem;
+    private final String translationKey;
 
-    public GemBlock(Gems gem, Properties properties) {
+    public GemBlock(Gems gem, String translationKey, Properties properties) {
         super(properties);
         this.gem = gem;
+        this.translationKey = translationKey;
     }
 
     @Override
@@ -20,7 +22,7 @@ public class GemBlock extends Block implements IGemBlock {
 
     @Override
     public IFormattableTextComponent getGemBlockName() {
-        return new TranslationTextComponent("block.silentgems.gem_block", this.gem.getDisplayName());
+        return new TranslationTextComponent("block.silentgems." + this.translationKey, this.gem.getDisplayName());
     }
 
     @Override

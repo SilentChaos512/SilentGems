@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ITag;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.IItemProvider;
 import net.minecraftforge.common.Tags;
 import net.silentchaos512.gems.GemsBase;
@@ -13,6 +14,7 @@ import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.setup.GemsTags;
 import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.lib.data.ExtendedShapedRecipeBuilder;
 import net.silentchaos512.lib.util.NameUtils;
 
 import javax.annotation.Nullable;
@@ -36,6 +38,15 @@ public class GemsRecipeProvider extends RecipeProvider {
 
             smeltingAndBlasting(consumer, name, gem.getModOresItemTag(), gem.getItem());
             compression(consumer, gem.getBlock(), gem.getItem(), null);
+
+            ExtendedShapedRecipeBuilder.vanillaBuilder(gem.getBricks(), 12)
+                    .patternLine("###")
+                    .patternLine("#o#")
+                    .patternLine("###")
+                    .key('#', ItemTags.STONE_BRICKS)
+                    .key('o', gem.getItemTag())
+                    .addCriterion("has_item", hasItem(gem.getItemTag()))
+                    .build(consumer);
         }
     }
 

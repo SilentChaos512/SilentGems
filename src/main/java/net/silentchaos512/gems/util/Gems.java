@@ -51,7 +51,7 @@ public enum Gems {
             OreConfig.defaults(3, 8, 1, 5, 40),
             OreConfig.empty(),
             OreConfig.empty()),
-    CARNELIAN(0xE23E1D, //10
+    CARNELIAN(0xE04D1D, //15
             Rarity.UNCOMMON,
             OreConfig.empty(),
             OreConfig.defaults(4, 8, 1, 25, 110),
@@ -91,7 +91,7 @@ public enum Gems {
             OreConfig.empty(),
             OreConfig.empty(),
             OreConfig.defaults(3, 9, 1, 16, 72)),
-    SAPPHIRE(0x1D1DE6, //240 (-120)
+    SAPPHIRE(0x1D60E5, //220 (-140)
             Rarity.COMMON,
             OreConfig.defaults(3, 8, 1, 5, 40),
             OreConfig.empty(),
@@ -140,6 +140,7 @@ public enum Gems {
     BlockRegistryObject<GemOreBlock> netherOre;
     BlockRegistryObject<GemOreBlock> endOre;
     BlockRegistryObject<GemBlock> block;
+    BlockRegistryObject<GemBlock> bricks;
     //    BlockRegistryObject<GlowroseBlock> glowrose;
     BlockRegistryObject<FlowerPotBlock> pottedGlowrose;
 
@@ -275,6 +276,10 @@ public enum Gems {
         return block.get();
     }
 
+    public GemBlock getBricks() {
+        return bricks.get();
+    }
+
     public GemItem getItem() {
         return item.get();
     }
@@ -338,9 +343,13 @@ public enum Gems {
                             .sound(SoundType.STONE)));
         for (Gems gem : values())
             gem.block = registerBlock(gem.getName() + "_block", () ->
-                    new GemBlock(gem, AbstractBlock.Properties.create(Material.IRON)
+                    new GemBlock(gem, "gem_block", AbstractBlock.Properties.create(Material.IRON)
                             .hardnessAndResistance(4, 30)
                             .sound(SoundType.METAL)));
+        for (Gems gem : values())
+            gem.bricks = registerBlock(gem.getName() + "_bricks", () ->
+                    new GemBlock(gem, "gem_bricks", AbstractBlock.Properties.create(Material.ROCK)
+                            .hardnessAndResistance(2f, 8f)));
     }
 
     public static void registerItems() {

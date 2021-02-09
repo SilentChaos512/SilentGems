@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#o#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "minecraft:stone_bricks"
+    },
+    "o": {
+      "tag": "forge:gems/ruby"
+    }
+  },
+  "result": {
+    "item": "silentgems:ruby_bricks",
+    "count": 12
+  }
+}

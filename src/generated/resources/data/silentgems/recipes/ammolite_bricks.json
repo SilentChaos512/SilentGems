@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#o#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "minecraft:stone_bricks"
+    },
+    "o": {
+      "tag": "forge:gems/ammolite"
+    }
+  },
+  "result": {
+    "item": "silentgems:ammolite_bricks",
+    "count": 12
+  }
+}
