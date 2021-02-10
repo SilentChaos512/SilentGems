@@ -16,8 +16,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.config.GemsConfig;
+import net.silentchaos512.gems.config.OreConfig;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.util.Gems;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = GemsBase.MOD_ID)
 public final class GemsWorldFeatures {
@@ -55,6 +59,8 @@ public final class GemsWorldFeatures {
         registerConfiguredFeature("silver", GemsConfig.Common.silverOres.createConfiguredFeature(
                 OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD,
                 GemsBlocks.SILVER_ORE.asBlockState()));
+
+        logOreConfigs();
     }
 
     private static void registerConfiguredFeature(String name, ConfiguredFeature<?, ?> configuredFeature) {
@@ -67,5 +73,62 @@ public final class GemsWorldFeatures {
             ConfiguredFeature<?, ?> feature = gem.getOreConfiguredFeature(world);
             biome.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, feature);
         }
+    }
+
+    private static final boolean LOG_ORE_CONFIGS = true;
+
+    private static void logOreConfigs() {
+        if (LOG_ORE_CONFIGS) {
+            GemsBase.LOGGER.info("# Ore Configs");
+
+            Map<Gems, OreConfig> overworldConfigs = new LinkedHashMap<>();
+            Map<Gems, OreConfig> netherConfigs = new LinkedHashMap<>();
+            Map<Gems, OreConfig> endConfigs = new LinkedHashMap<>();
+
+            for (Gems gem : Gems.values()) {
+                OreConfig overworld = gem.getOreConfig(World.OVERWORLD);
+                OreConfig nether = gem.getOreConfig(World.THE_NETHER);
+                OreConfig end = gem.getOreConfig(World.THE_END);
+
+                if (overworld.isEnabled()) {
+                    overworldConfigs.put(gem, overworld);
+                }
+                if (nether.isEnabled()) {
+                    netherConfigs.put(gem, nether);
+                }
+                if (end.isEnabled()) {
+                    endConfigs.put(gem, end);
+                }
+            }
+
+            logOreConfigsForDim("Overworld", overworldConfigs);
+            logOreConfigsForDim("The Nether", netherConfigs);
+            logOreConfigsForDim("The End", endConfigs);
+        }
+    }
+
+    private static void logOreConfigsForDim(String name, Map<Gems, OreConfig> configs) {
+        GemsBase.LOGGER.info("## {}", name);
+
+        double totalVeinsPerChunk = configs.values().stream().mapToDouble(c -> (double) c.getCount() / c.getRarity()).sum();
+        int totalVeinSize = configs.values().stream().mapToInt(OreConfig::getSize).sum();
+        GemsBase.LOGGER.info("Total veins per chunk: {}  ", totalVeinsPerChunk);
+        GemsBase.LOGGER.info("Average vein size: {}  ", (double) totalVeinSize / configs.size());
+
+        //noinspection OverlyLongLambda
+        configs.forEach((gem, config) -> {
+            float avgCount = (float) config.getCount() / config.getRarity();
+            String rarity = config.getRarity() > 1
+                    ? String.format(" in 1/%d of chunks (avg %.3f per chunk)", config.getRarity(), avgCount)
+                    : "";
+            GemsBase.LOGGER.info("- {}", gem.getDisplayName().getString());
+            GemsBase.LOGGER.info("  - {} veins of size {}{}",
+                    config.getCount(),
+                    config.getSize(),
+                    rarity);
+            GemsBase.LOGGER.info("  - at heights {} to {}",
+                    config.getMinHeight(),
+                    config.getMaxHeight());
+        });
     }
 }
