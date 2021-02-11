@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#o#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:glass/colorless"
+    },
+    "o": {
+      "tag": "forge:gems/alexandrite"
+    }
+  },
+  "result": {
+    "item": "silentgems:alexandrite_glass",
+    "count": 12
+  }
+}

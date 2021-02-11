@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#o#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:glass/colorless"
+    },
+    "o": {
+      "tag": "forge:gems/white_diamond"
+    }
+  },
+  "result": {
+    "item": "silentgems:white_diamond_glass",
+    "count": 12
+  }
+}

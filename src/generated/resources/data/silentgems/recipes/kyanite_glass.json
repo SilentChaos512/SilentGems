@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#o#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:glass/colorless"
+    },
+    "o": {
+      "tag": "forge:gems/kyanite"
+    }
+  },
+  "result": {
+    "item": "silentgems:kyanite_glass",
+    "count": 12
+  }
+}

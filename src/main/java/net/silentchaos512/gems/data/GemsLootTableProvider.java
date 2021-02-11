@@ -46,6 +46,7 @@ public class GemsLootTableProvider extends LootTableProvider {
                 registerLootTable(gem.getOre(World.THE_END), droppingItemWithFortune(gem.getOre(World.THE_END), gem.getItem()));
                 registerDropSelfLootTable(gem.getBlock());
                 registerDropSelfLootTable(gem.getBricks());
+                registerDropSelfLootTable(gem.getGlass());
             }
 
             registerDropSelfLootTable(GemsBlocks.SILVER_ORE.get());

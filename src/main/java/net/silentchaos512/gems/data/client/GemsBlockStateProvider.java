@@ -24,6 +24,7 @@ public class GemsBlockStateProvider extends BlockStateProvider {
             simpleBlock(gem.getOre(World.THE_END));
             simpleBlock(gem.getBlock());
             simpleBlock(gem.getBricks());
+            simpleBlock(gem.getGlass());
         }
 
         simpleBlock(GemsBlocks.SILVER_BLOCK);

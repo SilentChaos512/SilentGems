@@ -47,6 +47,15 @@ public class GemsRecipeProvider extends RecipeProvider {
                     .key('o', gem.getItemTag())
                     .addCriterion("has_item", hasItem(gem.getItemTag()))
                     .build(consumer);
+
+            ExtendedShapedRecipeBuilder.vanillaBuilder(gem.getGlass(), 12)
+                    .patternLine("###")
+                    .patternLine("#o#")
+                    .patternLine("###")
+                    .key('#', Tags.Items.GLASS_COLORLESS)
+                    .key('o', gem.getItemTag())
+                    .addCriterion("has_item", hasItem(gem.getItemTag()))
+                    .build(consumer);
         }
     }
 

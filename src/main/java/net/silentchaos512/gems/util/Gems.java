@@ -27,6 +27,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ToolType;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.block.GemBlock;
+import net.silentchaos512.gems.block.GemGlassBlock;
 import net.silentchaos512.gems.block.GemOreBlock;
 import net.silentchaos512.gems.config.OreConfig;
 import net.silentchaos512.gems.item.GemBlockItem;
@@ -86,7 +87,7 @@ public enum Gems {
             OreConfig.defaults(1, 6, 6, 0, 15),
             OreConfig.empty(),
             OreConfig.defaults(2, 9, 1, 16, 72)),
-    KYANITE(0x41C4F3, //195
+    KYANITE(0x41C4F3, //195 (-165)
             Rarity.RARE,
             OreConfig.empty(),
             OreConfig.empty(),
@@ -141,6 +142,7 @@ public enum Gems {
     BlockRegistryObject<GemOreBlock> endOre;
     BlockRegistryObject<GemBlock> block;
     BlockRegistryObject<GemBlock> bricks;
+    BlockRegistryObject<GemGlassBlock> glass;
     //    BlockRegistryObject<GlowroseBlock> glowrose;
     BlockRegistryObject<FlowerPotBlock> pottedGlowrose;
 
@@ -280,6 +282,10 @@ public enum Gems {
         return bricks.get();
     }
 
+    public GemGlassBlock getGlass() {
+        return glass.get();
+    }
+
     public GemItem getItem() {
         return item.get();
     }
@@ -327,6 +333,7 @@ public enum Gems {
                             .harvestTool(ToolType.PICKAXE)
                             .setRequiresTool()
                             .sound(SoundType.STONE)));
+
         for (Gems gem : values())
             gem.netherOre = registerBlock(gem.getName() + "_nether_ore", () ->
                     new GemOreBlock(gem, 3, "gem_nether_ore", AbstractBlock.Properties.create(Material.ROCK)
@@ -334,6 +341,7 @@ public enum Gems {
                             .harvestTool(ToolType.PICKAXE)
                             .setRequiresTool()
                             .sound(SoundType.NETHER_ORE)));
+
         for (Gems gem : values())
             gem.endOre = registerBlock(gem.getName() + "_end_ore", () ->
                     new GemOreBlock(gem, 4, "gem_end_ore", AbstractBlock.Properties.create(Material.ROCK)
@@ -341,15 +349,29 @@ public enum Gems {
                             .harvestTool(ToolType.PICKAXE)
                             .setRequiresTool()
                             .sound(SoundType.STONE)));
+
         for (Gems gem : values())
             gem.block = registerBlock(gem.getName() + "_block", () ->
                     new GemBlock(gem, "gem_block", AbstractBlock.Properties.create(Material.IRON)
                             .hardnessAndResistance(4, 30)
                             .sound(SoundType.METAL)));
+
         for (Gems gem : values())
             gem.bricks = registerBlock(gem.getName() + "_bricks", () ->
                     new GemBlock(gem, "gem_bricks", AbstractBlock.Properties.create(Material.ROCK)
                             .hardnessAndResistance(2f, 8f)));
+
+        AbstractBlock.IPositionPredicate isNotSolid = (state, world, pos) -> false;
+        for (Gems gem : values())
+            gem.glass = registerBlock(gem.getName() + "_glass", () ->
+                    new GemGlassBlock(gem, AbstractBlock.Properties.create(Material.GLASS)
+                            .hardnessAndResistance(1f, 5f)
+                            .sound(SoundType.GLASS)
+                            .notSolid()
+                            .setAllowsSpawn((state, world, pos, entityType) -> false)
+                            .setOpaque(isNotSolid)
+                            .setSuffocates(isNotSolid)
+                            .setBlocksVision(isNotSolid)));
     }
 
     public static void registerItems() {

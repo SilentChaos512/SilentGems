@@ -4,6 +4,8 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
@@ -37,12 +39,12 @@ public final class GemsBlocks {
     static void register() {}
 
     @OnlyIn(Dist.CLIENT)
-    public static void registerRenderTypes(FMLClientSetupEvent event) {
-//        for (Gems gem : Gems.values()) {
-//            RenderTypeLookup.setRenderLayer(gem.getGlass(), RenderType.getTranslucent());
+    static void registerRenderTypes(FMLClientSetupEvent event) {
+        for (Gems gem : Gems.values()) {
+            RenderTypeLookup.setRenderLayer(gem.getGlass(), RenderType.getTranslucent());
 //            RenderTypeLookup.setRenderLayer(gem.getGlowrose(), RenderType.getCutout());
 //            RenderTypeLookup.setRenderLayer(gem.getPottedGlowrose(), RenderType.getCutout());
-//        }
+        }
 //        RenderTypeLookup.setRenderLayer(FLUFFY_PUFF_PLANT.get(), RenderType.getCutout());
 //        RenderTypeLookup.setRenderLayer(WILD_FLUFFY_PUFF_PLANT.get(), RenderType.getCutout());
     }
