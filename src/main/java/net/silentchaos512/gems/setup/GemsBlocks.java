@@ -67,7 +67,7 @@ public final class GemsBlocks {
 //        return register(color.getTranslationKey() + "_fluffy_block", () -> new FluffyBlock(color));
 //    }
 
-    public static <T extends Block> Supplier<BlockItem> defaultItem(BlockRegistryObject<T> block) {
+    private static <T extends Block> Supplier<BlockItem> defaultItem(BlockRegistryObject<T> block) {
         return () -> new BlockItem(block.get(), new Item.Properties().group(GemsBase.ITEM_GROUP));
     }
 }

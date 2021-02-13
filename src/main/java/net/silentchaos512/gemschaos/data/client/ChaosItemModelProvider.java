@@ -1,45 +1,32 @@
-package net.silentchaos512.gems.data.client;
+package net.silentchaos512.gemschaos.data.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.RegistryObject;
-import net.silentchaos512.gems.GemsBase;
-import net.silentchaos512.gems.setup.GemsItems;
-import net.silentchaos512.gems.setup.Registration;
-import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.gemschaos.ChaosMod;
+import net.silentchaos512.gemschaos.setup.ChaosItems;
+import net.silentchaos512.gemschaos.setup.ChaosRegistration;
 import net.silentchaos512.lib.block.IBlockProvider;
 import net.silentchaos512.lib.util.NameUtils;
 
-public class GemsItemModelProvider extends ItemModelProvider {
-    public GemsItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, GemsBase.MOD_ID, existingFileHelper);
+public class ChaosItemModelProvider extends ItemModelProvider {
+    public ChaosItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+        super(generator, ChaosMod.MOD_ID, existingFileHelper);
     }
 
     @Override
     protected void registerModels() {
-        ModelFile itemGenerated = getExistingFile(new ResourceLocation("item/generated"));
+        ModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));
 
-        Registration.BLOCKS.getEntries().stream()
+        ChaosRegistration.BLOCKS.getEntries().stream()
                 .map(RegistryObject::get)
                 .forEach(this::blockBuilder);
 
-        GemsItems.getSimpleModelItems().forEach(iro -> builder(iro.get(), itemGenerated));
-
-        for (Gems gem : Gems.values()) {
-            builder(gem.getItem(), itemGenerated);
-        }
-
-        builder(GemsItems.GEM_BAG, itemGenerated);
-        builder(GemsItems.FLOWER_BASKET, itemGenerated);
-
-        getBuilder("soul_gem").parent(itemGenerated)
-                .texture("layer0", modLoc("item/soul_gem_back"))
-                .texture("layer1", modLoc("item/soul_gem_front"));
+        ChaosItems.getSimpleModelItems().forEach(iro -> builder(iro.get(), itemGenerated));
     }
 
     private void blockBuilder(IBlockProvider block) {

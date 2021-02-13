@@ -8,6 +8,7 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.IItemProvider;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.item.GemsFoodItem;
+import net.silentchaos512.gems.item.SoulGemItem;
 import net.silentchaos512.gems.item.container.FlowerBasketItem;
 import net.silentchaos512.gems.item.container.GemBagItem;
 import net.silentchaos512.gems.util.Gems;
@@ -20,7 +21,7 @@ import java.util.Collections;
 import java.util.function.Supplier;
 
 public final class GemsItems {
-    private static final Collection<ItemRegistryObject<Item>> SIMPLE_MODEL_ITEMS = new ArrayList<>();
+    private static final Collection<ItemRegistryObject<? extends Item>> SIMPLE_MODEL_ITEMS = new ArrayList<>();
 
     static {
         Gems.registerItems();
@@ -32,6 +33,9 @@ public final class GemsItems {
     public static final ItemRegistryObject<Item> FLUFFY_FABRIC = registerCraftingItem("fluffy_fabric");
     // fluffy puff seeds here
     public static final ItemRegistryObject<Item> LOLINOMICON = registerCraftingItem("lolinomicon");
+
+    public static final ItemRegistryObject<SoulGemItem> SOUL_GEM = register("soul_gem", () ->
+            new SoulGemItem(unstackableProps()));
 
     public static final ItemRegistryObject<GemBagItem> GEM_BAG = register("gem_bag", () ->
             new GemBagItem(unstackableProps()));
@@ -72,7 +76,7 @@ public final class GemsItems {
 
     static void register() {}
 
-    public static Collection<ItemRegistryObject<Item>> getSimpleModelItems() {
+    public static Collection<ItemRegistryObject<? extends Item>> getSimpleModelItems() {
         return Collections.unmodifiableCollection(SIMPLE_MODEL_ITEMS);
     }
 
@@ -80,12 +84,16 @@ public final class GemsItems {
         return new ItemRegistryObject<>(Registration.ITEMS.register(name, item));
     }
 
-    private static ItemRegistryObject<Item> registerCraftingItem(String silver_ingot) {
-        // Registers a generic, basic item with no special properties. Useful for items that are
-        // used primarily for crafting recipes.
-        ItemRegistryObject<Item> ret = register(silver_ingot, () -> new Item(baseProps()));
+    private static <T extends Item> ItemRegistryObject<T> registerSimpleModel(String name, Supplier<T> item) {
+        ItemRegistryObject<T> ret = register(name, item);
         SIMPLE_MODEL_ITEMS.add(ret);
         return ret;
+    }
+
+    private static ItemRegistryObject<Item> registerCraftingItem(String name) {
+        // Registers a generic, basic item with no special properties. Useful for items that are
+        // used primarily for crafting recipes.
+        return registerSimpleModel(name, () -> new Item(baseProps()));
     }
 
     private static ItemRegistryObject<Item> registerFood(String name, @Nullable IItemProvider returnItem, Food.Builder foodBuilder) {

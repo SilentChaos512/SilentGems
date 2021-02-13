@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "silentgems_chaos:item/chaos_linker"
+  }
+}
