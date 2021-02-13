@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.10] - 2021-02-13
+### Added
+- Russian translation (shikhtv) [#527]
+### Fixed
+- Missing lang keys for some materials [#528]
+
 ## [3.7.9] - 2021-01-15
 ### Fixed
 - Supercharged materials not functioning correctly [#523]
