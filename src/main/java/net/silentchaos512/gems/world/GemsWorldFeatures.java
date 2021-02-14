@@ -46,7 +46,7 @@ public final class GemsWorldFeatures {
         }
     }
 
-    public static void registerConfiguredFeatures() {
+    private static void registerConfiguredFeatures() {
         if (configuredFeaturesRegistered) return;
         configuredFeaturesRegistered = true;
 

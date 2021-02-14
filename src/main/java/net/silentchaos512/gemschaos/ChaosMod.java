@@ -11,6 +11,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.gems.util.TextUtil;
 import net.silentchaos512.gemschaos.chaos.ChaosSourceCapability;
+import net.silentchaos512.gemschaos.config.ChaosConfig;
 import net.silentchaos512.gemschaos.setup.ChaosRegistration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,6 +30,7 @@ public class ChaosMod {
     public static final TextUtil TEXT = new TextUtil(MOD_ID);
 
     public ChaosMod() {
+        ChaosConfig.init();
         ChaosRegistration.register();
     }
 

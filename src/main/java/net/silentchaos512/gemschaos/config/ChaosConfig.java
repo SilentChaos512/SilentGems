@@ -46,7 +46,7 @@ public final class ChaosConfig {
                     builder.push("ores");
 
                     chaosOres = new OreConfig(builder, "chaos",
-                            OreConfig.defaults(3, 10, 2, 6, 24));
+                            OreConfig.defaults(3, 9, 2, 6, 24));
 
                     builder.pop();
                 }
