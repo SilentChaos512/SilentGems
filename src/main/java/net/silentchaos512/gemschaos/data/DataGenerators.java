@@ -5,12 +5,12 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
-import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gemschaos.ChaosMod;
 import net.silentchaos512.gemschaos.data.client.ChaosBlockStateProvider;
 import net.silentchaos512.gemschaos.data.client.ChaosItemModelProvider;
 import net.silentchaos512.gemschaos.data.recipe.ChaosRecipeProvider;
 
-@Mod.EventBusSubscriber(modid = GemsBase.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ChaosMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class DataGenerators {
     private DataGenerators() {}
 

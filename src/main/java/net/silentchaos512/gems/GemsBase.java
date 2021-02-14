@@ -3,13 +3,11 @@ package net.silentchaos512.gems;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.setup.GemsClientProxy;
+import net.silentchaos512.gems.network.Network;
 import net.silentchaos512.gems.setup.Registration;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.gems.util.TextUtil;
@@ -30,9 +28,8 @@ public class GemsBase {
 
     public GemsBase() {
         Registration.register();
+        Network.init();
         GemsConfig.init();
-
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> GemsClientProxy::register);
     }
 
     public static String getVersion() {

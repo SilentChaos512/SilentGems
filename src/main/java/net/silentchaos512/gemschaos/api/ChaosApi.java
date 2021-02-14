@@ -16,15 +16,11 @@ public class ChaosApi {
     public static final class Chaos {
         // Rate of natural dissipation (per player)
         private static final int DISSIPATION_SCALE = 20;
-        // Rate of player to world transfer
-        public static final int ENTITY_TO_WORLD_RATE = 50;
         // Chaos will balance out to certain levels, which will vary slightly over time
         private static final int EQUILIBRIUM_BASE = 150_000;
         private static final int EQUILIBRIUM_VARIATION = 100_000;
         private static final int EQUILIBRIUM_CYCLE_LENGTH = TimeUtils.ticksFromHours(4);
         private static final double EQUILIBRIUM_CYCLE_CONSTANT = 2 * Math.PI / EQUILIBRIUM_CYCLE_LENGTH;
-        // Distance to search for pedestals with chaos orb
-        private static final int PEDESTAL_SEARCH_RADIUS = 6;
 
         private Chaos() {throw new IllegalAccessError("Utility class");}
 
