@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "silentgems_chaos:item/perfect_chaos_orb",
+    "layer1": "silentgems_chaos:item/chaos_orb_crack2"
+  }
+}

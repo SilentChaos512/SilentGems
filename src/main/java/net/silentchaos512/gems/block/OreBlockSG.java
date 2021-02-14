@@ -11,7 +11,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
-import net.silentchaos512.gems.util.TextUtil;
+import net.silentchaos512.gems.GemsBase;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -62,7 +62,7 @@ public abstract class OreBlockSG extends OreBlock {
         tooltip.add(new TranslationTextComponent("misc.silentgems.dropFromOre", itemName)
                 .mergeStyle(TextFormatting.GRAY));
         // Harvest level tips
-        ITextComponent harvestLevelName = TextUtil.translate("misc", "harvestLevel." + this.harvestLevel);
-        tooltip.add(TextUtil.translate("misc", "harvestLevel", this.harvestLevel, harvestLevelName));
+        ITextComponent harvestLevelName = GemsBase.TEXT.misc("harvestLevel." + this.harvestLevel);
+        tooltip.add(GemsBase.TEXT.misc("harvestLevel", this.harvestLevel, harvestLevelName));
     }
 }

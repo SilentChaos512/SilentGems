@@ -3,6 +3,7 @@ package net.silentchaos512.gemschaos.setup;
 import net.minecraft.item.Item;
 import net.silentchaos512.gemschaos.ChaosMod;
 import net.silentchaos512.gemschaos.item.ChaosLinkerItem;
+import net.silentchaos512.gemschaos.item.ChaosOrbItem;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
 
 import java.util.ArrayList;
@@ -18,6 +19,15 @@ public final class ChaosItems {
 
     public static final ItemRegistryObject<ChaosLinkerItem> CHAOS_LINKER = registerSimpleModel("chaos_linker", () ->
             new ChaosLinkerItem(unstackableProps()));
+
+    public static final ItemRegistryObject<ChaosOrbItem> CHAOS_POTATO = register("chaos_potato", () ->
+            new ChaosOrbItem(0, 5000, 0.5f));
+    public static final ItemRegistryObject<ChaosOrbItem> FRAGILE_CHAOS_ORB = register("fragile_chaos_orb", () ->
+            new ChaosOrbItem(2, 100_000, 0.2f));
+    public static final ItemRegistryObject<ChaosOrbItem> REFINED_CHAOS_ORB = register("refined_chaos_orb", () ->
+            new ChaosOrbItem(4, 1_000_000, 0.1f));
+    public static final ItemRegistryObject<ChaosOrbItem> PERFECT_CHAOS_ORB = register("perfect_chaos_orb", () ->
+            new ChaosOrbItem(4, 10_000_000, 0.05f));
 
     private ChaosItems() {}
 

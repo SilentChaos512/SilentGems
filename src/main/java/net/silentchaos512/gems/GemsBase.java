@@ -12,6 +12,7 @@ import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.setup.GemsClientProxy;
 import net.silentchaos512.gems.setup.Registration;
 import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.gems.util.TextUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,6 +26,7 @@ public class GemsBase {
 
     public static final Random RANDOM = new Random();
     public static final Logger LOGGER = LogManager.getLogger("Silent's Gems: Base");
+    public static final TextUtil TEXT = new TextUtil(MOD_ID);
 
     public GemsBase() {
         Registration.register();

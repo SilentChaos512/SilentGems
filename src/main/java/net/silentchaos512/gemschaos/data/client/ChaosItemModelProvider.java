@@ -3,11 +3,13 @@ package net.silentchaos512.gemschaos.data.client;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.IItemProvider;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.RegistryObject;
 import net.silentchaos512.gemschaos.ChaosMod;
+import net.silentchaos512.gemschaos.item.ChaosOrbItem;
 import net.silentchaos512.gemschaos.setup.ChaosItems;
 import net.silentchaos512.gemschaos.setup.ChaosRegistration;
 import net.silentchaos512.lib.block.IBlockProvider;
@@ -27,6 +29,11 @@ public class ChaosItemModelProvider extends ItemModelProvider {
                 .forEach(this::blockBuilder);
 
         ChaosItems.getSimpleModelItems().forEach(iro -> builder(iro.get(), itemGenerated));
+
+        builder(ChaosItems.CHAOS_POTATO, itemGenerated);
+        chaosOrb(ChaosItems.FRAGILE_CHAOS_ORB.get(), "crack2", "crack4");
+        chaosOrb(ChaosItems.REFINED_CHAOS_ORB.get(), "crack1", "crack2", "crack3", "crack4");
+        chaosOrb(ChaosItems.PERFECT_CHAOS_ORB.get(), "crack1", "crack2", "crack3", "crack4");
     }
 
     private void blockBuilder(IBlockProvider block) {
@@ -47,5 +54,28 @@ public class ChaosItemModelProvider extends ItemModelProvider {
         getBuilder(NameUtils.fromItem(item).getPath())
                 .parent(parent)
                 .texture("layer0", modLoc(texture));
+    }
+
+    private void chaosOrb(@SuppressWarnings("TypeMayBeWeakened") ChaosOrbItem item, String... crackTextures) {
+        String name = NameUtils.from(item).getPath();
+        ModelFile.ExistingModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));
+
+        for (int i = 0; i < crackTextures.length; ++i) {
+            getBuilder(name + "_crack" + (i + 1))
+                    .parent(itemGenerated)
+                    .texture("layer0", modLoc("item/" + name))
+                    .texture("layer1", modLoc("item/chaos_orb_" + crackTextures[i]));
+        }
+
+        ItemModelBuilder builder = getBuilder(name)
+                .parent(itemGenerated)
+                .texture("layer0", modLoc("item/" + name));
+        for (int i = 0; i < crackTextures.length; ++i) {
+            int stage = i + 1;
+            builder.override()
+                    .model(getExistingFile(modLoc("item/" + name + "_crack" + stage)))
+                    .predicate(ChaosOrbItem.CRACK_STAGE, stage)
+                    .end();
+        }
     }
 }

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "silentgems_chaos:item/perfect_chaos_orb"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "silentgems_chaos:crack_stage": 1.0
+      },
+      "model": "silentgems_chaos:item/perfect_chaos_orb_crack1"
+    },
+    {
+      "predicate": {
+        "silentgems_chaos:crack_stage": 2.0
+      },
+      "model": "silentgems_chaos:item/perfect_chaos_orb_crack2"
+    },
+    {
+      "predicate": {
+        "silentgems_chaos:crack_stage": 3.0
+      },
+      "model": "silentgems_chaos:item/perfect_chaos_orb_crack3"
+    },
+    {
+      "predicate": {
+        "silentgems_chaos:crack_stage": 4.0
+      },
+      "model": "silentgems_chaos:item/perfect_chaos_orb_crack4"
+    }
+  ]
+}
