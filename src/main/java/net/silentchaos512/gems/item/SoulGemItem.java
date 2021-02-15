@@ -12,10 +12,10 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.soul.Soul;
 import net.silentchaos512.gems.soul.SoulElement;
+import net.silentchaos512.gems.util.TextUtil;
 import net.silentchaos512.utils.Color;
 
 import javax.annotation.Nullable;
@@ -122,8 +122,8 @@ public class SoulGemItem extends Item {
             int soulValue = getSoulValue(stack);
             ITextComponent valueText = soulValue < Soul.MAX_VALUE
                     ? new StringTextComponent(String.format("%d", soulValue))
-                    : GemsBase.TEXT.itemSub(this, "full");
-            tooltip.add(GemsBase.TEXT.itemSub(this, "value", valueText));
+                    : TextUtil.itemSub(this, "full");
+            tooltip.add(TextUtil.itemSub(this, "value", valueText));
         }
     }
 

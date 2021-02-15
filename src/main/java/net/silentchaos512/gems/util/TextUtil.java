@@ -13,17 +13,17 @@ public final class TextUtil {
         this.modId = modId;
     }
 
-    public ITextComponent translate(String prefix, String suffix, Object... params) {
+    public IFormattableTextComponent translate(String prefix, String suffix, Object... params) {
         String key = String.format("%s.%s.%s", prefix, this.modId, suffix);
         return new TranslationTextComponent(key, params);
     }
 
-    public ITextComponent misc(String suffix, Object... params) {
+    public IFormattableTextComponent misc(String suffix, Object... params) {
         String key = String.format("misc.%s.%s", this.modId, suffix);
         return new TranslationTextComponent(key, params);
     }
 
-    public ITextComponent itemSub(IForgeRegistryEntry<Item> item, String suffix, Object... params) {
+    public static IFormattableTextComponent itemSub(IForgeRegistryEntry<Item> item, String suffix, Object... params) {
         String key = Util.makeTranslationKey("item", NameUtils.from(item));
         return new TranslationTextComponent(key + "." + suffix, params);
     }

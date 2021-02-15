@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 import net.silentchaos512.gemschaos.ChaosMod;
 import net.silentchaos512.gemschaos.item.ChaosLinkerItem;
 import net.silentchaos512.gemschaos.item.ChaosOrbItem;
+import net.silentchaos512.gemschaos.item.ChaosXpCrystalItem;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
 
 import java.util.ArrayList;
@@ -28,6 +29,9 @@ public final class ChaosItems {
             new ChaosOrbItem(4, 1_000_000, 0.1f));
     public static final ItemRegistryObject<ChaosOrbItem> PERFECT_CHAOS_ORB = register("perfect_chaos_orb", () ->
             new ChaosOrbItem(4, 10_000_000, 0.05f));
+
+    public static final ItemRegistryObject<ChaosXpCrystalItem> CHAOS_XP_CRYSTAL = registerSimpleModel("chaos_xp_crystal", () ->
+            new ChaosXpCrystalItem(unstackableProps()));
 
     private ChaosItems() {}
 

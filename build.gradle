@@ -140,6 +140,10 @@ repositories {
     maven {
         url 'https://jitpack.io'
     }
+    // Token Enchanter
+//    maven {
+//        url 'https://silentchaos.jfrog.io/artifactory/token-enchanter'
+//    }
 }
 
 dependencies {
@@ -158,6 +162,19 @@ dependencies {
         exclude module: 'World-Stripper'
     }
 
+    if (project.hasProperty('token_enchanter_version')) {
+        compileOnly fg.deobf("net.silentchaos512:token-enchanter-${project.token_enchanter_version}:api") {
+            exclude module: 'forge'
+            exclude module: 'jei-1.16.3'
+            exclude module: 'silent-lib-1.16.3'
+        }
+        runtimeOnly fg.deobf("net.silentchaos512:token-enchanter-${project.token_enchanter_version}") {
+            exclude module: 'forge'
+            exclude module: 'jei-1.16.3'
+            exclude module: 'silent-lib-1.16.3'
+        }
+    }
+
     // JEI
     if (project.hasProperty('jei_version')) {
         // compile against the JEI API but do not include it at runtime
@@ -170,7 +187,6 @@ dependencies {
     //     exclude module: "cc-tweaked-${project.mc_version}"
     //     exclude module: "silent-gear-${project.mc_version}"
     // }
-//    runtimeOnly 'net.silentchaos512:wit:1.+'
 
     // HWYLA
     if (project.hasProperty('hwyla_version')) {
@@ -179,13 +195,9 @@ dependencies {
 
     // Curios
     if (project.hasProperty('curios_version')) {
-        runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${project.curios_version}")
         compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${project.curios_version}:api")
+        runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${project.curios_version}")
     }
-
-    // compile('com.robertx22:mine-and-slash-1.14.4:2.+') {
-    //     exclude module: 'curios'
-    // }
 }
 
 jar {
@@ -271,6 +283,7 @@ curseforge {
                 relations {
                     requiredDependency 'silent-lib'
                     optionalDependency 'silent-gear'
+                    optionalDependency 'token-enchanter'
                 }
             }
 //            if (project.hasProperty('doAPIJar')) {

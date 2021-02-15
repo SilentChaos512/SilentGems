@@ -61,3 +61,9 @@ authors="SilentChaos512"
     versionRange="[4,)"
     ordering="AFTER"
     side="BOTH"
+[[dependencies.silentgems_chaos]]
+    modId="tokenenchanter"
+    mandatory=false
+    versionRange="[1.0.2,)"
+    ordering="AFTER"
+    side="BOTH"

@@ -1,91 +1,23 @@
 package net.silentchaos512.gemschaos.item;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.IEntityReader;
 import net.minecraft.world.World;
-import net.silentchaos512.gemschaos.ChaosMod;
-import net.silentchaos512.gemschaos.api.ChaosApi;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
 
-public class ChaosLinkerItem extends Item {
-    private static final String NBT_PLAYER = "Player";
+public class ChaosLinkerItem extends PlayerLinkedItem {
 
     public ChaosLinkerItem(Properties properties) {
         super(properties);
     }
 
-    @Nullable
-    public static PlayerEntity getOwner(ItemStack stack, IEntityReader world) {
-        UUID uuid = getOwnerUuid(stack);
-        if (uuid != null) {
-            return world.getPlayerByUuid(uuid);
-        }
-        return null;
-    }
-
-    @Nullable
-    public static UUID getOwnerUuid(ItemStack stack) {
-        if (stack.getOrCreateTag().contains(NBT_PLAYER)) {
-            return stack.getOrCreateTag().getUniqueId(NBT_PLAYER);
-        }
-        return null;
-    }
-
-    public static void setOwner(ItemStack stack, PlayerEntity player) {
-        stack.getOrCreateTag().putUniqueId(NBT_PLAYER, player.getUniqueID());
-    }
-
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        UUID ownerUuid = getOwnerUuid(stack);
+        super.addInformation(stack, worldIn, tooltip, flagIn);
 
-        if (worldIn != null) {
-            PlayerEntity owner = getOwner(stack, worldIn);
-
-            if (ownerUuid != null) {
-                tooltip.add(getOwnerText(ownerUuid, owner));
-            }
-
-            if (owner != null) {
-                String chaosStr = String.format("%,d", ChaosApi.Chaos.getChaos(owner));
-                tooltip.add(ChaosMod.TEXT.misc("chaos", chaosStr));
-            }
-        }
-    }
-
-    private ITextComponent getOwnerText(UUID ownerUuid, @Nullable PlayerEntity owner) {
-        ITextComponent text = owner != null
-                ? new StringTextComponent(owner.getScoreboardName()).mergeStyle(TextFormatting.GREEN)
-                : new StringTextComponent(ownerUuid.toString()).mergeStyle(TextFormatting.RED);
-        return ChaosMod.TEXT.itemSub(this, "owner", text);
-    }
-
-    @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        ItemStack stack = playerIn.getHeldItem(handIn);
-        UUID ownerUuid = getOwnerUuid(stack);
-
-        if (ownerUuid == null) {
-            if (playerIn.isSneaking()) {
-                setOwner(stack, playerIn);
-                return ActionResult.resultSuccess(stack);
-            } else {
-                playerIn.sendStatusMessage(ChaosMod.TEXT.itemSub(this, "notSneaking"), true);
-                return ActionResult.resultFail(stack);
-            }
-        }
-
-        return ActionResult.resultPass(stack);
+        // TODO: Display player's chaos? Need to sync values with client for that to work.
     }
 }
