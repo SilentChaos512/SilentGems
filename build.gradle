@@ -169,18 +169,18 @@ dependencies {
     }
 
     // JEI
-    if (project.hasProperty('jei_version')) {
+    if (project.hasProperty('JEI_VERSION')) {
         compileOnly fg.deobf("mezz.jei:jei-${JEI_VERSION}:api")
         runtimeOnly fg.deobf("mezz.jei:jei-${JEI_VERSION}")
     }
 
     // HWYLA
-    if (project.hasProperty('hwyla_version')) {
+    if (project.hasProperty('HWYLA_VERSION')) {
         compileOnly "mcp.mobius.waila:Hwyla:${project.hwyla_version}"
     }
 
     // Curios
-    if (project.hasProperty('curios_version')) {
+    if (project.hasProperty('CURIOS_VERSION')) {
         compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${project.curios_version}:api")
         runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${project.curios_version}")
     }
