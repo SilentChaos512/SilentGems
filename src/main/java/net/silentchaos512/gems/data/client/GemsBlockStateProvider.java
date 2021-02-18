@@ -2,6 +2,7 @@ package net.silentchaos512.gems.data.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -18,6 +19,8 @@ public class GemsBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
+        ResourceLocation flowerPotCross = mcLoc("block/flower_pot_cross");
+
         for (Gems gem : Gems.values()) {
             simpleBlock(gem.getOre(World.OVERWORLD));
             simpleBlock(gem.getOre(World.THE_NETHER));
@@ -25,6 +28,13 @@ public class GemsBlockStateProvider extends BlockStateProvider {
             simpleBlock(gem.getBlock());
             simpleBlock(gem.getBricks());
             simpleBlock(gem.getGlass());
+
+            String glowroseName = gem.getName() + "_glowrose";
+            simpleBlock(gem.getGlowrose(), models()
+                    .cross(glowroseName, modLoc("block/" + glowroseName)));
+            simpleBlock(gem.getPottedGlowrose(), models()
+                    .withExistingParent(NameUtils.from(gem.getPottedGlowrose()).getPath(), flowerPotCross)
+                    .texture("plant", modLoc("block/" + glowroseName)));
         }
 
         simpleBlock(GemsBlocks.SILVER_BLOCK);

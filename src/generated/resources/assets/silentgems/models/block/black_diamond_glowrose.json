@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "silentgems:block/black_diamond_glowrose"
+  }
+}

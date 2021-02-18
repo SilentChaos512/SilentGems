@@ -1,9 +1,6 @@
 package net.silentchaos512.gems.util;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.FlowerPotBlock;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -26,9 +23,8 @@ import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ToolType;
 import net.silentchaos512.gems.GemsBase;
-import net.silentchaos512.gems.block.GemBlock;
-import net.silentchaos512.gems.block.GemGlassBlock;
-import net.silentchaos512.gems.block.GemOreBlock;
+import net.silentchaos512.gems.block.*;
+import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.config.OreConfig;
 import net.silentchaos512.gems.item.GemBlockItem;
 import net.silentchaos512.gems.item.GemItem;
@@ -143,7 +139,7 @@ public enum Gems {
     BlockRegistryObject<GemBlock> block;
     BlockRegistryObject<GemBlock> bricks;
     BlockRegistryObject<GemGlassBlock> glass;
-    //    BlockRegistryObject<GlowroseBlock> glowrose;
+    BlockRegistryObject<GlowroseBlock> glowrose;
     BlockRegistryObject<FlowerPotBlock> pottedGlowrose;
 
     // Items
@@ -152,11 +148,11 @@ public enum Gems {
 
     // Tags
     final ITag.INamedTag<Block> blockTag;
-    //    final ITag.INamedTag<Block> glowroseTag;
+    final ITag.INamedTag<Block> glowroseTag;
     final ITag.INamedTag<Block> oreTag;
     final ITag.INamedTag<Block> modOresTag;
     final ITag.INamedTag<Item> blockItemTag;
-    //    final ITag.INamedTag<Item> glowroseItemTag;
+    final ITag.INamedTag<Item> glowroseItemTag;
     final ITag.INamedTag<Item> oreItemTag;
     final ITag.INamedTag<Item> modOresItemTag;
     final ITag.INamedTag<Item> itemTag;
@@ -179,12 +175,12 @@ public enum Gems {
 
         String name = this.getName();
         this.blockTag = makeBlockTag(forgeId("storage_blocks/" + name));
-//        this.glowroseTag = BlockTags.makeWrapperTag(GemsBase.getId("glowroses/" + this.getName()).toString());
+        this.glowroseTag = makeBlockTag(GemsBase.getId("glowroses/" + this.getName()));
         this.oreTag = makeBlockTag(forgeId("ores/" + name));
         this.modOresTag = makeBlockTag(GemsBase.getId("ores/" + name));
 
         this.blockItemTag = makeItemTag(forgeId("storage_blocks/" + name));
-//        this.glowroseItemTag = ItemTags.makeWrapperTag(GemsBase.getId("glowroses/" + this.getName()).toString());
+        this.glowroseItemTag = makeItemTag(GemsBase.getId("glowroses/" + this.getName()));
         this.oreItemTag = makeItemTag(forgeId("ores/" + name));
         this.modOresItemTag = makeItemTag(GemsBase.getId("ores/" + name));
         this.itemTag = makeItemTag(forgeId("gems/" + name));
@@ -286,6 +282,14 @@ public enum Gems {
         return glass.get();
     }
 
+    public GlowroseBlock getGlowrose() {
+        return glowrose.get();
+    }
+
+    public FlowerPotBlock getPottedGlowrose() {
+        return pottedGlowrose.get();
+    }
+
     public GemItem getItem() {
         return item.get();
     }
@@ -307,6 +311,10 @@ public enum Gems {
         return blockTag;
     }
 
+    public ITag.INamedTag<Block> getGlowroseTag() {
+        return glowroseTag;
+    }
+
     public ITag.INamedTag<Item> getOreItemTag() {
         return oreItemTag;
     }
@@ -317,6 +325,10 @@ public enum Gems {
 
     public ITag.INamedTag<Item> getBlockItemTag() {
         return blockItemTag;
+    }
+
+    public ITag.INamedTag<Item> getGlowroseItemTag() {
+        return glowroseItemTag;
     }
 
     public ITag.INamedTag<Item> getItemTag() {
@@ -372,6 +384,23 @@ public enum Gems {
                             .setOpaque(isNotSolid)
                             .setSuffocates(isNotSolid)
                             .setBlocksVision(isNotSolid)));
+
+        for (Gems gem : values())
+            gem.glowrose = registerBlock(gem.getName() + "_glowrose", () ->
+                    new GlowroseBlock(gem, AbstractBlock.Properties.create(Material.PLANTS)
+                            .sound(SoundType.PLANT)
+                            .setLightLevel(state -> GemsConfig.Common.glowroseNormalLight.get())
+                            .hardnessAndResistance(0)
+                            .doesNotBlockMovement()));
+
+        for (Gems gem : values()) {
+            gem.pottedGlowrose = registerBlockNoItem("potted_" + gem.getName() + "_glowrose", () ->
+                    new PottedGlowroseBlock(gem, gem.glowrose, AbstractBlock.Properties
+                            .create(Material.MISCELLANEOUS)
+                            .setLightLevel(state -> GemsConfig.Common.glowrosePottedLight.get())
+                            .hardnessAndResistance(0)));
+            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(GemsBase.getId(gem.getName() + "_glowrose"), gem.pottedGlowrose);
+        }
     }
 
     public static void registerItems() {

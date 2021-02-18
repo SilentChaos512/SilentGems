@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "silentgems:block/rose_quartz_glowrose"
+  }
+}

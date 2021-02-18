@@ -22,9 +22,11 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
             getOrCreateBuilder(gem.getModOresTag()).add(gem.getOre(World.OVERWORLD), gem.getOre(World.THE_NETHER), gem.getOre(World.THE_END));
             getOrCreateBuilder(gem.getOreTag()).addTag(gem.getModOresTag());
             getOrCreateBuilder(gem.getBlockTag()).add(gem.getBlock());
+            getOrCreateBuilder(gem.getGlowroseTag()).add(gem.getGlowrose());
 
             // Group tags
             getOrCreateBuilder(GemsTags.Blocks.GEM_ORES).addTag(gem.getModOresTag());
+            getOrCreateBuilder(GemsTags.Blocks.GLOWROSES).addTag(gem.getGlowroseTag());
             getOrCreateBuilder(Tags.Blocks.ORES).addTag(gem.getOreTag());
             getOrCreateBuilder(Tags.Blocks.STORAGE_BLOCKS).add(gem.getBlock());
         }

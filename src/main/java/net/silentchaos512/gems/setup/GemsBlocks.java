@@ -42,8 +42,8 @@ public final class GemsBlocks {
     static void registerRenderTypes(FMLClientSetupEvent event) {
         for (Gems gem : Gems.values()) {
             RenderTypeLookup.setRenderLayer(gem.getGlass(), RenderType.getTranslucent());
-//            RenderTypeLookup.setRenderLayer(gem.getGlowrose(), RenderType.getCutout());
-//            RenderTypeLookup.setRenderLayer(gem.getPottedGlowrose(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(gem.getGlowrose(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(gem.getPottedGlowrose(), RenderType.getCutout());
         }
 //        RenderTypeLookup.setRenderLayer(FLUFFY_PUFF_PLANT.get(), RenderType.getCutout());
 //        RenderTypeLookup.setRenderLayer(WILD_FLUFFY_PUFF_PLANT.get(), RenderType.getCutout());

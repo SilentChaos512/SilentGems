@@ -2,6 +2,7 @@ package net.silentchaos512.gems.data.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.item.Items;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -9,6 +10,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.RegistryObject;
 import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.block.GlowroseBlock;
 import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.setup.Registration;
 import net.silentchaos512.gems.util.Gems;
@@ -26,6 +28,7 @@ public class GemsItemModelProvider extends ItemModelProvider {
 
         Registration.BLOCKS.getEntries().stream()
                 .map(RegistryObject::get)
+                .filter(block -> block.asItem() != Items.AIR)
                 .forEach(this::blockBuilder);
 
         GemsItems.getSimpleModelItems().forEach(iro -> builder(iro.get(), itemGenerated));
@@ -48,7 +51,19 @@ public class GemsItemModelProvider extends ItemModelProvider {
 
     private void blockBuilder(Block block) {
         String name = NameUtils.from(block).getPath();
-        withExistingParent(name, modLoc("block/" + name));
+        if (!blockBuilderExceptions(block, name)) {
+            withExistingParent(name, modLoc("block/" + name));
+        }
+    }
+
+    private boolean blockBuilderExceptions(Block block, String name) {
+        // Overrides the default block item models for specific blocks
+        if (block instanceof GlowroseBlock) {
+            getBuilder(name).parent(getExistingFile(new ResourceLocation("item/generated")))
+                    .texture("layer0", modLoc("block/" + name));
+            return true;
+        }
+        return false;
     }
 
     private void builder(IItemProvider item, ModelFile parent) {

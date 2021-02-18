@@ -25,12 +25,15 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
             copy(gem.getModOresTag(), gem.getModOresItemTag());
             copy(gem.getOreTag(), gem.getOreItemTag());
             copy(gem.getBlockTag(), gem.getBlockItemTag());
+            copy(gem.getGlowroseTag(), gem.getGlowroseItemTag());
 
             // Items
             getOrCreateBuilder(gem.getItemTag()).add(gem.getItem());
 //            getOrCreateBuilder(gem.getShardTag()).add(gem.getShard());
 
             // Groups
+            getOrCreateBuilder(GemsTags.Items.GEM_ORES).addTag(gem.getModOresItemTag());
+            getOrCreateBuilder(GemsTags.Items.GLOWROSES).addTag(gem.getGlowroseItemTag());
             getOrCreateBuilder(Tags.Items.GEMS).add(gem.getItem());
 //            getOrCreateBuilder(Tags.Items.NUGGETS).add(gem.getShard());
 

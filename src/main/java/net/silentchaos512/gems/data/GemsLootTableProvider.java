@@ -47,6 +47,8 @@ public class GemsLootTableProvider extends LootTableProvider {
                 registerDropSelfLootTable(gem.getBlock());
                 registerDropSelfLootTable(gem.getBricks());
                 registerDropSelfLootTable(gem.getGlass());
+                registerDropSelfLootTable(gem.getGlowrose());
+                registerFlowerPot(gem.getPottedGlowrose());
             }
 
             registerDropSelfLootTable(GemsBlocks.SILVER_ORE.get());
