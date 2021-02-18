@@ -18,17 +18,6 @@ authors="SilentChaos512"
     Source: https://github.com/SilentChaos512/SilentGems/
     Issues: https://github.com/SilentChaos512/SilentGems/issues
     '''
-[[mods]]
-    modId="silentgems_chaos"
-    version="${file.jarVersion}"
-    displayName="Silent's Gems: Chaos"
-#    updateJSONURL="https://raw.githubusercontent.com/SilentChaos512/SilentGems/1.16.x/update.json"
-#    description='''
-#        Downloads: https://www.curseforge.com/minecraft/mc-mods/silents-gems (I do not upload anywhere else)
-#        Changelog: https://github.com/SilentChaos512/SilentGems/blob/1.16.x/CHANGELOG.md
-#        Source: https://github.com/SilentChaos512/SilentGems/
-#        Issues: https://github.com/SilentChaos512/SilentGems/issues
-#        '''
 
 [[dependencies.silentgems]]
     modId="forge"
@@ -52,18 +41,5 @@ authors="SilentChaos512"
     modId="silentgear"
     mandatory=false
     versionRange="[2.4,)"
-    ordering="AFTER"
-    side="BOTH"
-
-[[dependencies.silentgems_chaos]]
-    modId="silentgems"
-    mandatory=true
-    versionRange="[4,)"
-    ordering="AFTER"
-    side="BOTH"
-[[dependencies.silentgems_chaos]]
-    modId="tokenenchanter"
-    mandatory=false
-    versionRange="[1.0.2,)"
     ordering="AFTER"
     side="BOTH"
